@@ -86,18 +86,18 @@ theorem timeFourier_modulate {r : ℕ} (f : (Fin r → ℝ) → ℂ) (a : Fin r 
       ring
     rw [he]
 
-/-- Modulation changes a nonnegative weighted Fourier norm by at most the
-frequency weight of the modulation, up to the factor `2^θ`. -/
-theorem timeFourierNorm_modulate_le {r : ℕ} {θ : ℝ} (hθ : 0 ≤ θ)
+/-- Modulation changes a weighted Fourier norm by at most the modulation
+frequency weight at absolute regularity, up to the factor `2^|θ|`. -/
+theorem timeFourierNorm_modulate_le_abs {r : ℕ} (θ : ℝ)
     (f : (Fin r → ℝ) → ℂ) (a : Fin r → ℝ) :
     timeFourierNorm θ (fun t => Real.fourierChar (timePairing r t a) • f t) ≤
-      ENNReal.ofReal (2 ^ θ) * timeWeight θ a * timeFourierNorm θ f := by
+      ENNReal.ofReal (2 ^ |θ|) * timeWeight |θ| a * timeFourierNorm θ f := by
   classical
   have hi : Integrable (fun t => Real.fourierChar (timePairing r t a) • f t) ↔
       Integrable f := by
     simpa only [map_neg, neg_neg] using VectorFourier.fourierIntegral_convergent_iff
       Real.continuous_fourierChar (timePairing_continuous r) (-a) (f := f) (μ := volume)
-  have hK : ENNReal.ofReal (2 ^ θ) * timeWeight θ a ≠ 0 := by
+  have hK : ENNReal.ofReal (2 ^ |θ|) * timeWeight |θ| a ≠ 0 := by
     apply mul_ne_zero
     · exact ne_of_gt (ENNReal.ofReal_pos.mpr (Real.rpow_pos_of_pos (by norm_num) _))
     · exact ne_of_gt (ENNReal.ofReal_pos.mpr (Real.rpow_pos_of_pos (timeBracket_pos a) _))
@@ -110,14 +110,21 @@ theorem timeFourierNorm_modulate_le {r : ℕ} {θ : ℝ} (hθ : 0 ≤ θ)
     rw [← hs]
     simp only [add_sub_cancel_right]
     calc
-      _ ≤ ∫⁻ ξ, (ENNReal.ofReal (2 ^ θ) * timeWeight θ a) *
+      _ ≤ ∫⁻ ξ, (ENNReal.ofReal (2 ^ |θ|) * timeWeight |θ| a) *
           (timeWeight θ ξ * ‖timeFourier f ξ‖ₑ) := by
         apply lintegral_mono
         intro ξ
-        have h := mul_le_mul_left (timeWeight_add_le hθ ξ a) ‖timeFourier f ξ‖ₑ
+        have h := mul_le_mul_left (timeWeight_add_le_abs θ ξ a) ‖timeFourier f ξ‖ₑ
         simpa only [mul_assoc, mul_left_comm, mul_comm] using h
       _ = _ := lintegral_const_mul _ ((timeWeight_measurable θ).mul
         (timeFourier_continuous hf).measurable.enorm)
   · simp only [ENNReal.mul_top hK, le_refl]
+
+/-- Nonnegative-regularity specialization of the modulation estimate. -/
+theorem timeFourierNorm_modulate_le {r : ℕ} {θ : ℝ} (hθ : 0 ≤ θ)
+    (f : (Fin r → ℝ) → ℂ) (a : Fin r → ℝ) :
+    timeFourierNorm θ (fun t => Real.fourierChar (timePairing r t a) • f t) ≤
+      ENNReal.ofReal (2 ^ θ) * timeWeight θ a * timeFourierNorm θ f := by
+  simpa only [abs_of_nonneg hθ] using timeFourierNorm_modulate_le_abs θ f a
 
 end WaveTurbulence.Fourier
