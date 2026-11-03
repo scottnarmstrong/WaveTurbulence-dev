@@ -19,3 +19,10 @@ https://perso.univ-st-etienne.fr/rool6510/robert-2015-indag.pdf, has a main term
 Robert Section 5 explains the need for stable semi-monomial classes; the conventional
 model profile has decreasing first derivative `x^(-s)`, `s>0`, with controlled perturbations.
 A clarification was requested; generic analytic work continues independently.
+
+Further checks: `NonstationaryIdentity` passed (`Build completed successfully (3511 jobs).`)
+and `EulerCell` passed (`Build completed successfully (2789 jobs).`), without warnings.
+The nonstationary formula uses actual `deriv f` and `deriv (deriv f)` under C² smoothness
+and nonvanishing on the interval. Euler cell summation has the exact midpoint endpoint
+terms and handles the right-continuous sawtooth by null endpoint changes.
+The three packet goals are still in progress; these are proved ingredients only.
