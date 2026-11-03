@@ -9,6 +9,9 @@ public import WaveTurbulence.Foundations.VdCB.StationaryFrequencyCount
 public import WaveTurbulence.Foundations.VdCB.BProcessScaling
 public import WaveTurbulence.Foundations.VdCB.CircleWeightedStationary
 public import WaveTurbulence.Foundations.VdCB.CircleWeightedSum
+public import WaveTurbulence.Foundations.VdCB.CircleDualWeightedASum
+public import WaveTurbulence.Foundations.VdCB.CircleCriticalUniqueness
+public import WaveTurbulence.Foundations.VdCB.CircleFrequencyBounds
 
 /-!
 # Checked finite B-process and direct circle-family tools

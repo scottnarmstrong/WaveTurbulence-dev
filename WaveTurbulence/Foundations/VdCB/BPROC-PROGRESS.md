@@ -206,3 +206,27 @@ and merely C1 monotone-derivative regularity are not asserted.
 Combined interface `BProcess` builds (3893 jobs), without warnings.
 The three-result `SharpPoissonAxioms.lean` probe exited 0, with only
 `[propext, Classical.choice, Quot.sound]`.
+
+At the clean point after the Poisson-margin commit, merged `main` (then
+`10148c8`) successfully. This supplies wt-nt's actual A-process and circle
+quotient scale consumers. No other worker file was edited.
+
+`CircleDualTower` defines every entry by the actual iterated derivative,
+and proves the literal third/fourth/fifth quotient identities.
+`CircleDualASum` now discharges every premise of the landed
+`circle_dual_exp_sum_le_of_derivative_formulas` and proves the actual
+corrected-dual bound `17179869184*(R*h²/Y²)^(1/30)*Y^(26/30)`, uniform in
+additional real linear phases. `CircleDualWeightedASum` applies proved
+Abel summation and gives the weighted bound
+`17179869184*sqrt(R)*h*(R*h²/Y²)^(1/30)*Y^(-19/30)` on actual consecutive
+integer blocks of length at most 2Y. No exponential-sum estimate or
+calculus formula is an assumed input to these results.
+`CircleCriticalUniqueness` identifies actual roots selected by intermediate
+value with the explicit source critical point. `CircleFrequencyBounds`
+proves `h²R/(9U)≤(f'(u))²≤h²R/U` for `6U≤R`, `U≤u≤2U`, and the fixed
+endpoint frequency ratio bound.
+Combined `BProcess` target passed (3927 jobs); the four-result
+`ActualDualAxioms.lean` probe exited 0 with standard axioms only.
+Source-scale conversion and the remaining B-error estimates are in progress;
+no final circle source-frequency bound or general analytic exponent-pair
+closure is asserted yet.
