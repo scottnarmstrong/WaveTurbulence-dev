@@ -124,3 +124,23 @@ on the actual third derivative along its support segments, the error is
 `(pi*M/3)` times the cubic amplitude moment plus `pi/(q*sqrt q)` times the
 second Fourier moment. The main term is `e(f(0)+1/8)*a(0)/sqrt q`.
 General sharp-endpoint stationary phase and analytic B-closure remain open work.
+
+Sharp stationary-phase milestone: `StationarySum` builds (3828 jobs), with
+`SharpStationary` (3815 jobs), `SharpLocalStationary` (3813 jobs), and
+`FresnelInterval` (3793 jobs) checked along the way. `GaussianTail` proves a
+uniform damped tail; `DampedQuadratic` evaluates the total Gaussian and
+compares it with its sharp cutoff; dominated convergence then gives the
+bare sharp Fresnel coefficient with error `2/(pi*q*r)`. No absolute
+Lebesgue integrability of the bare Fresnel character is asserted.
+
+`norm_integral_stationary_sub_main_le` assumes global C3 smoothness, an
+actual critical point c, actual second derivative at least μ>0 on [a,b],
+[a,b] containing [c-r,c+r], and actual third derivative at most M on that
+central interval. Its error is
+`(2*pi/3)*M*r^4 + 2/(pi*f''(c)*r) + 2/(pi*μ*r)`.
+`norm_sum_integral_sub_stationary_dual_le` sums this estimate over actual
+critical points satisfying `f'(cν)=ν`, producing the actual Legendre phases
+and curvature weights. It does not yet handle selection of endpoint
+frequencies or analytic exponent-pair closure.
+The four-export `SharpAxioms.lean` probe exited 0; each result has only
+`[propext, Classical.choice, Quot.sound]`.
