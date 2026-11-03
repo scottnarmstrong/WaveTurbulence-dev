@@ -94,4 +94,39 @@ theorem integral_ball_inv_norm_le_pow {d : ℕ} (hd : 2 ≤ d) (a : Mom d) {R : 
     integral_nonneg fun _ => inv_nonneg.mpr (norm_nonneg _)
   exact add_le_add (le_mul_of_one_le_right hn hp) (le_of_eq (mul_comm _ _))
 
+/-- Local integrability at the origin also gives integrability on a ball with any center. -/
+theorem integrableOn_ball_inv_norm_center {d : ℕ} (hd : 2 ≤ d) (a : Mom d) (R : ℝ) :
+    IntegrableOn (fun x : Mom d => ‖x‖⁻¹) (Metric.ball a R) := by
+  have h0 : IntegrableOn (fun x : Mom d => ‖x‖⁻¹) (Metric.ball 0 (|R| + ‖a‖ + 1)) := by
+    refine integrableOn_ball_of_norm_le_rpow (C := 1) (α := 1)
+      (by rw [finrank_euclideanSpace_fin]; omega) ?_ ?_ ?_
+    · rw [finrank_euclideanSpace_fin]
+      exact_mod_cast (by omega : 1 < d)
+    · refine Filter.Eventually.of_forall fun x => ?_
+      rw [Real.rpow_neg_one, norm_inv, norm_norm, one_mul]
+    · exact measurable_norm.inv.aestronglyMeasurable
+  apply h0.mono_set
+  intro x hx
+  change dist x a < R at hx
+  rw [Metric.mem_ball, dist_zero_right]
+  calc
+    ‖x‖ ≤ dist x a + ‖a‖ := by
+      simpa only [dist_zero_right] using dist_triangle x a (0 : Mom d)
+    _ < R + ‖a‖ := by linarith only [hx]
+    _ ≤ |R| + ‖a‖ + 1 := by linarith [le_abs_self R]
+
+/-- Ball volume in momentum space. -/
+theorem real_volume_mom_ball_eq {d : ℕ} (hd : 0 < d) (a : Mom d) {R : ℝ} (hR : 0 ≤ R) :
+    volume.real (Metric.ball a R) = R ^ d * ballVolumeCoeff d := by
+  have : Nontrivial (Mom d) := Module.nontrivial_of_finrank_pos (R := ℝ) (by simpa using hd)
+  simpa only [finrank_euclideanSpace_fin] using real_volume_ball_eq a hR
+
+/-- Hyperplane ball volume is independent of the hyperplane's orientation. -/
+theorem real_volume_perp_ball_eq {d : ℕ} (hd : 2 ≤ d) {ℓ : Mom d} (hℓ : ℓ ≠ 0)
+    (c : ↥(ℝ ∙ ℓ)ᗮ) {R : ℝ} (hR : 0 ≤ R) :
+    volume.real (Metric.ball c R) = R ^ (d - 1) * ballVolumeCoeff (d - 1) := by
+  have : Nontrivial ↥(ℝ ∙ ℓ)ᗮ := Module.nontrivial_of_finrank_pos (R := ℝ)
+    (by rw [finrank_perp hℓ]; omega)
+  simpa only [finrank_perp hℓ] using real_volume_ball_eq c hR
+
 end WaveTurbulence
