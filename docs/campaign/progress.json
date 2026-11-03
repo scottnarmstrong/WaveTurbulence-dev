@@ -1,5 +1,5 @@
 {
- "assessed": "2026-11-03 23:20 UTC",
+ "assessed": "2026-11-04 00:35 UTC",
  "notes": "Lean work items = blueprint packets (docs/blueprint/GRAPH.md §E) with their difficulty weights (node weights L=1, M=2, H=4, VH=8 summed). Each frozen theorem anchor adds weight 1, credited when SEALED. Done fractions are the orchestrator's assessment, reviewed at integration rounds.",
  "lines_est_total": 273000,
  "parts": [
@@ -117,8 +117,8 @@
      "goal": "a-system LWP/persistence, inverse reduction, uniqueness of smooth solutions",
      "weight": 9.0,
      "lines_est": 3200,
-     "done": 0.9,
-     "note": "landed: LWP/persistence, inverse reduction, uniqueness"
+     "done": 1.0,
+     "note": "done: LWP/persistence, inverse reduction, uniqueness; NLS bridge helpers landed (4639fe2)"
     },
     {
      "id": "B3",
@@ -126,8 +126,8 @@
      "goal": "measurability, bridge, symmetries, gaugeinv",
      "weight": 10.0,
      "lines_est": 3000,
-     "done": 0.95,
-     "note": "measurability, symmetries, MAIN-GLUE observables"
+     "done": 1.0,
+     "note": "done: nlsAkBridge (all 4 conjuncts) proved at the exact snapshot-5 type (scratch, wt-l2s); moves to Foundations at the Wave B freeze"
     },
     {
      "id": "NT9",
@@ -198,8 +198,8 @@
      "goal": "Hausdorff–Young, DNY21 kernel (pin F29), TARGET Lemmas A.2, A.3",
      "weight": 10.0,
      "lines_est": 4500,
-     "done": 0.6,
-     "note": "Hausdorff–Young, DNY21 kernel, A.2/A.3 in progress"
+     "done": 1.0,
+     "note": "done: Hausdorff–Young, phase/time-integral bounds (TARGET A.2, A.3)"
     },
     {
      "id": "NT2",
@@ -243,8 +243,8 @@
      "goal": "DH21 Lemmas 9.13–9.14, DH23 §10.5 degenerate atoms",
      "weight": 4.0,
      "lines_est": 1400,
-     "done": 0.05,
-     "note": "DEGEN started"
+     "done": 0.9,
+     "note": "DEGEN done in scratch (DH21 Lemmas 9.13–9.14, DH23 §10.5, GAP.degenerate.tame, corrected remtame); moves to Foundations after the Wave B freeze"
     },
     {
      "id": "NT4",
@@ -288,8 +288,8 @@
      "goal": "DH23 Lemma A.2 with exponent 2/3 (F3), TARGET Lemma A.8",
      "weight": 7.0,
      "lines_est": 3050,
-     "done": 0.3,
-     "note": "COUNT in progress (wt-gausssum)"
+     "done": 1.0,
+     "note": "done: countLemma_bound exactly the audited B1.7 draft (landed f56f6bb)"
     },
     {
      "id": "C2",
@@ -333,8 +333,8 @@
      "goal": "DH23 Prop 6.4 and its extension to n≤N^4_{p+1} (F33); 2 days: split major arcs / minor arcs + large-order range",
      "weight": 12.0,
      "lines_est": 6200,
-     "done": 0.15,
-     "note": "APPROXNT in progress (wt-torus)"
+     "done": 1.0,
+     "note": "done: DH23 Prop 6.4 with the large-order extension (F33, F54)"
     },
     {
      "id": "C3",
@@ -351,8 +351,8 @@
      "goal": "DH23 Lemma A.3, 2-vector counts, TARGET Lemma A.9",
      "weight": 7.0,
      "lines_est": 3800,
-     "done": 0.3,
-     "note": "COUNT in progress"
+     "done": 1.0,
+     "note": "done: atomCountLemma_bound exactly the audited B1.8 draft + DH23 A.2(2) (landed f56f6bb)"
     },
     {
      "id": "M5",
@@ -784,7 +784,7 @@
      "weight": 3.0,
      "lines_est": 860,
      "done": 0.8,
-     "note": "main proved conditionally on propansatz + nlsAkBridge (main_of_propansatz_nlsAkBridge); glue G1–G11 done"
+     "note": "main proved from propansatz + nlsAkBridge; nlsAkBridge now proved (scratch) — main rests on propansatz alone"
     }
    ]
   },

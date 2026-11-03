@@ -194,3 +194,15 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   correspondence under root-pair compatibility (directly paired roots have equal prescribed values), which is exactly the
   indicator the garden sums carry. Found by wt-nt (MOLE), Lean counterexample in scratch
   (`mole/src/MoleculeDecorationEdgeCase.lean`). Status: candidate erratum (missing hypothesis; local).
+- F53 — Wave B2 draft `IsLadder` (`wt-scratch/waveb2/WaveB2-Molecules.lean` L305) vs TARGET L1384–L1386 / DH23
+  Def 5.1 L789–L808 (F37) — the draft requires the induced atom group of a ladder of length m to carry exactly 4m+2
+  bonds; this excludes maximal source ladders with an end-to-end chord. Kernel counterexample (wt-ansob, DEGEN):
+  `Degen.MaximalLadderDisjoint.chordLadder`, six atoms, eleven bonds, an actual nonsaturated molecule, whose two
+  overlapping four-atom induced B2 ladders are both maximal while the six-atom selected ladder fails the count (11 vs
+  10). DEGEN proved its results with the selected rung/rail reading (`SourceLadder`: double rungs, single opposite
+  rails, no induced-card clause). Status: **B2 draft defect** (ours, not the source's); fix `IsLadder` before the B2
+  freeze — queued for the B2 drafter after O-FK. Record: `wt-scratch/degen/ERRATUM-B2-LADDER.md`.
+- F54 — DH23 L1003, L1005 (Prop 6.4, (conclusion1), (intappr)) — the inner product `⟨x_j, y_j⟩_β` is carried over from
+  DH21; DH23 has no `β` (square torus). Read as `⟨·,·⟩`. Typo. Found by wt-torus (APPROXNT). Also (F33 addendum, same
+  packet): DH23 Prop 6.4 assumes `n ≤ (log L)^3` (L1002) but L1168 applies it to orders up to `N^3 ≈ (log L)^{12}`; the
+  landed extension holds for every fixed power of `log L`, so both F33 readings are covered.
