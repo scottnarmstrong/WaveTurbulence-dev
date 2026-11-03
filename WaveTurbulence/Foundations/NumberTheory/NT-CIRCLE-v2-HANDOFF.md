@@ -971,3 +971,33 @@ inputs into the uniform circle discrepancy and the complete source annulus
 minimum for the full half-radius thickness range.
 Checks: `CircleEndpointGeometry` passed (9061 jobs, 3.9s), and
 `CircleLocalizedEndpointTransfer` passed (9111 jobs, 5.0s), zero warnings.
+
+## Landed VdCB calculus consumed
+
+After merging main at `1043c2b`, the shared VdCB calculus and exponent-pair
+API became available. `NumberTheory/VdCBCircleDualAScale.lean` now proves
+`norm_sum_circleLatticeDualPhase_add_linear_le` for the actual shared
+`VdCB.circleLatticeDualPhase`, with arbitrary real linear coefficients.
+It internally supplies the genuine all-order derivative tower from the
+shared smoothness theorem and proves the actual third/fourth/fifth formulas
+from VdCB's checked calculus. Thus no derivative formula, exponential-sum
+estimate, or exponent-pair property remains as a premise of this direct A
+estimate. Only the explicit geometric scale and integer-window conditions
+remain. The bound is `17179869184*(R*h^2/Y^2)^(1/30)*Y^(26/30)`.
+Targeted `VdCBCircleDualAScale` passed (3582 jobs, own-file 4.1s), zero warnings.
+
+`ExponentPairApplications.lean` consumes the actual shared
+`VdCB.IsExponentPair`, defining no second notion. It proves positive
+frequency scaling of the literal `HasPowerProfile` class, uniform positive
+integer frequency estimates, and the exact optimized sawtooth exponent
+`(kappa+lambda)/(1+kappa)` on that actual shared phase class. All constants
+are chosen before scales, phase and interval, as in the shared API.
+It does not infer full-circle coverage from arbitrary bounded factors;
+the approved direct-circle family route remains separate. Targeted
+`ExponentPairApplications` passed (3725 jobs, 7.7s), zero warnings.
+
+Five further direct-consumer axiom probes passed with only the standard
+three axioms: concrete derivative-formula A estimate, exact weighted local
+power bound, full half-radius annulus comparison, localized circle transfer,
+and full localized annulus minimum. Check: targeted scratch
+`DirectCircleAxioms.lean` exited 0.
