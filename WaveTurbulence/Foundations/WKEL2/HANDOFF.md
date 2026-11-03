@@ -214,3 +214,33 @@ bridge and bounded weighted multiplication are still being checked.
 Proposition 6's two-axis geometry, transverse integral, no-atom surface
 lemma, and sine Schur bound are working files pending compilation.
 The full Theorem 7 and supporting blow-up obligations remain active.
+
+## Proposition 5 and the j = 2 case of Theorem 7
+
+`fbb8c41` proves `exists_uniform_lossTwo_signed`: signed Borel weighted-L²
+inputs give a genuinely integrable resonant kernel for every center and a
+uniform bound for the exact `deltaInt`, with its factor one half.
+`84834bc` proves `exists_collisionTerm_two_bound`: actual weighted `MemLp 2`
+membership and the trilinear bound in the exact frozen norm.
+`nice -n 5 lake build WaveTurbulence.Foundations.WKEL2.LossTwoTrilinear`
+exited 0 without warnings after the style cleanup.
+
+`nice -n 5 lake env lean /home/scott/wt-scratch/wke-l2s/LossTwoAxioms.lean`
+exited 0. All nine results audited (weighted norm bridge, radial energy,
+radial Cauchy–Schwarz, reference M₂, angular Schur energy, angular mass,
+signed Q₂, bounded multiplication, and the j = 2 trilinear estimate)
+depend exactly on `[propext, Classical.choice, Quot.sound]`.
+
+Merged `main` at `942e385`; the landed maximal-time API is
+`WaveTurbulence.WKE.tauMax` (`Foundations/WKE/Lifespan.lean`), so the final
+blow-up theorem will use that time, as required by the brief. The merge moved
+`deltaInt_smul` into `WaveTurbulence.WKE`; `09c15d4` adapts the reference.
+The same targeted j = 2 build passed again after this merge, without warnings.
+
+Proposition 6's infrastructure is being checked in the focused
+`LossOneInfrastructure` target. Its geometric route is two successive
+orthogonal slices, a positive scalar shear with Jacobian inverse sine,
+and the uniform affine codimension-two decay integral. Spherical averaging,
+Tonelli square expansion, and full-sphere M₁ Schur pairing are explicit.
+These working files are not yet certified as built; no completion claim for
+Proposition 6, Proposition 7, full Theorem 7, or the blow-up theorem is made.
