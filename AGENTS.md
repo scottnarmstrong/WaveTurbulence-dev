@@ -21,6 +21,12 @@ manifest, the findings ledger and landings. Workers own only the files named in 
   `WaveTurbulence/Foundations/<Area>/` (namespace `WaveTurbulence.<Area>` or `WaveTurbulence`), paper sections under
   `WaveTurbulence/Paper/<Section>/`. Frozen anchors under `WaveTurbulence/Frozen/`, providers under
   `WaveTurbulence/Provider/`.
+- **Namespaces (landing rule since 2026-11-03).** Put new declarations in your area's namespace
+  `WaveTurbulence.<Area>` (e.g. `WaveTurbulence.WKE`, `WaveTurbulence.NLS`, `WaveTurbulence.Torus`), or make small
+  helpers `private`. Generic helper names in the bare `WaveTurbulence` namespace collide across packets and fail the
+  landing duplicate scan (two landings failed this way). Only the frozen definitions live in bare `WaveTurbulence`.
+- **Smoothness.** In this Mathlib `ContDiff ℝ ⊤ f` means *real-analytic*. For C^∞ write `ContDiff ℝ (⊤ : ℕ∞) f`
+  (or `∞` with `open scoped ContDiff`); for C^k write `ContDiff ℝ k f` with `k : ℕ`. (FINDINGS F44.)
 - **Carriers.** Momentum space `ℝ^d` is `EuclideanSpace ℝ (Fin d)` (abbrev `Mom d`); physical space is `Fin d → ℝ`;
   lattice `ℤ_L^d` points are `n : Fin d → ℤ` with `k = n / L`. Expectations are Bochner integrals against a
   measure `P`; "taking expectations assuming an event F" means integrating against `P.restrict F` (no normalization).

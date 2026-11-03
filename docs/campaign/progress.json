@@ -1,5 +1,5 @@
 {
- "assessed": "2026-11-03 16:58 UTC",
+ "assessed": "2026-11-03 18:05 UTC",
  "notes": "Lean work items = blueprint packets (docs/blueprint/GRAPH.md §E) with their difficulty weights (node weights L=1, M=2, H=4, VH=8 summed). Each frozen theorem anchor adds weight 1, credited when SEALED. Done fractions are the orchestrator's assessment, reviewed at integration rounds.",
  "lines_est_total": 273000,
  "parts": [
@@ -14,8 +14,8 @@
    "part": "Exact Lean statements, frozen (P2)",
    "kind": "phase",
    "weight": 20,
-   "done": 0.25,
-   "note": "Wave A frozen (D6: 2 theorems, 13 definitions); Wave B (12 theorems + definitions) being drafted and audited"
+   "done": 0.4,
+   "note": "Wave A frozen (D6); Wave B drafted, independently audited (stage 1: 1 REQUIRED, stage 2: 3, stage 3: 9) — fixes being applied"
   },
   {
    "part": "Lean proofs (P4)",
@@ -54,8 +54,8 @@
      "goal": "Dirichlet approximation, quadratic Weyl/Gauss sum bound",
      "weight": 5.0,
      "lines_est": 2100,
-     "done": 0.4,
-     "note": "Dirichlet, Weyl differencing landed; Gauss sum bound in progress (wt-gausssum)"
+     "done": 1.0,
+     "note": "landed 59220dc: Dirichlet, sharp interval and log-free smooth Gauss sum bounds"
     },
     {
      "id": "R-NTC",
@@ -63,8 +63,8 @@
      "goal": "circle problem with exponent 2/3 (stepping stone, off-route), estcross",
      "weight": 6.0,
      "lines_est": 3300,
-     "done": 0.45,
-     "note": "sawtooth cancellation landed; circle 2/3 in progress (wt-nt)"
+     "done": 0.6,
+     "note": "Euler–Maclaurin + sawtooth; circle 2/3 in progress (wt-nt)"
     },
     {
      "id": "N4",
@@ -72,8 +72,8 @@
      "goal": "Sobolev/Morrey, simplex volumes, DH21 (10.5), DH21 Lemma 10.2",
      "weight": 7.0,
      "lines_est": 2700,
-     "done": 0.45,
-     "note": "interval/cube/radial Sobolev landed; simplex volumes, DH21 L10.2 in progress (wt-ansob)"
+     "done": 0.6,
+     "note": "Sobolev variants, (10.5) landed; DH21 L10.2 in progress"
     },
     {
      "id": "R-CUMUL",
@@ -99,8 +99,8 @@
      "goal": "collision operator, GIT20 trilinear (all d), LWP, wkelwp, tame estimate, Taylor expansion",
      "weight": 24.0,
      "lines_est": 9810,
-     "done": 0.5,
-     "note": "delta reading, slicing, Leibniz, tame trilinear, Schwartz closure, uniqueness landed; existence/τ_max/Taylor in progress (wt-wke)"
+     "done": 0.85,
+     "note": "landed: collision operator, delta reading, tame trilinear, Schwartz closure, uniqueness, existence, τ_max (wkelwp 1–2), Taylor bound F10; L²_s estimate in WKE-L2S"
     },
     {
      "id": "B1",
@@ -108,8 +108,8 @@
      "goal": "mass conservation, NLS→a-system reduction, a-system mass",
      "weight": 6.0,
      "lines_est": 1600,
-     "done": 0.6,
-     "note": "Fourier equation, mass conservation, a-system defs landed; reduction in progress (wt-torus)"
+     "done": 0.85,
+     "note": "landed: Fourier equation, mass, a-system defs, reduction (part)"
     },
     {
      "id": "B2",
@@ -117,8 +117,8 @@
      "goal": "a-system LWP/persistence, inverse reduction, uniqueness of smooth solutions",
      "weight": 9.0,
      "lines_est": 3200,
-     "done": 0.15,
-     "note": "uniqueness of smooth solutions landed"
+     "done": 0.4,
+     "note": "uniqueness, classed a-system, LWP in progress"
     },
     {
      "id": "B3",
@@ -135,8 +135,8 @@
      "goal": "TARGET Lemmas A.6 (finitelem), A.7 (lincomblem)",
      "weight": 4.0,
      "lines_est": 1400,
-     "done": 0.0,
-     "note": "started in MISC-A (wt-cumul)"
+     "done": 0.2,
+     "note": "MISC-A started (wt-cumul)"
     },
     {
      "id": "N5",
@@ -144,8 +144,8 @@
      "goal": "resonant measure δ(Σ)δ(Ω) and p.v.1/Ω on the collisionOp parametrization; DH21 Lemma 6.3",
      "weight": 6.0,
      "lines_est": 2800,
-     "done": 0.0,
-     "note": "started (wt-resonant)"
+     "done": 0.6,
+     "note": "resonant measure, p.v. slices landed; DH21 L6.3 in progress"
     },
     {
      "id": "D1",
@@ -153,8 +153,8 @@
      "goal": "general carriers (WAVE-B G-1: marked unpaired leaves with time nodes, irreducibility as a predicate) for trees, gardens, decorations, layerings, embedded objects; basic API",
      "weight": 8.0,
      "lines_est": 2020,
-     "done": 0.15,
-     "note": "Wave B core carriers being drafted (wt-gauss-hc)"
+     "done": 0.3,
+     "note": "Wave B core carriers drafted; under audit"
     },
     {
      "id": "N1",
@@ -162,8 +162,8 @@
      "goal": "cutoff χ_0 (Wave B definition), Gevrey bounds, 𝔛 time-Fourier norms and restriction norms, Fourier-L¹ product lemma",
      "weight": 9.0,
      "lines_est": 3500,
-     "done": 0.0,
-     "note": "started (wt-anfourier)"
+     "done": 1.0,
+     "note": "landed: χ₀ (Gevrey 2, F41), 𝔛 norms, restriction norms, Fourier-L¹ products"
     },
     {
      "id": "N2",
@@ -171,8 +171,8 @@
      "goal": "Poisson summation on ℤ_L^d, non-stationary and bilinear stationary phase",
      "weight": 5.0,
      "lines_est": 1700,
-     "done": 0.0,
-     "note": ""
+     "done": 0.05,
+     "note": "started (wt-anfourier)"
     },
     {
      "id": "D4",
@@ -199,7 +199,7 @@
      "weight": 10.0,
      "lines_est": 4500,
      "done": 0.0,
-     "note": ""
+     "note": "queued after N2 (wt-anfourier)"
     },
     {
      "id": "NT2",
@@ -207,8 +207,8 @@
      "goal": "DH21 Lemma A.5 (Hua L⁴, L⁶), shared reduction NT.weylReduction (review I17), L^{3d/2} moments of Weyl sums",
      "weight": 8.0,
      "lines_est": 3500,
-     "done": 0.0,
-     "note": ""
+     "done": 0.1,
+     "note": "started (wt-gausssum)"
     },
     {
      "id": "NT5",
@@ -306,8 +306,8 @@
      "goal": "parameter structure, norms 𝔛/𝔖/Z, a-system, K_G/K*_Q/K*_T with summability, 𝒥_𝒯, ℒ_j; time-parameter design (GAP.timeParam)",
      "weight": 14.0,
      "lines_est": 3400,
-     "done": 0.0,
-     "note": ""
+     "done": 0.25,
+     "note": "Wave B system objects drafted; under audit"
     },
     {
      "id": "M3",

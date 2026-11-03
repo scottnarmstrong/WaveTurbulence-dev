@@ -12,32 +12,32 @@
   "model": "Claude Opus",
   "account": "claude-10",
   "branch": "w/waveb-infra",
-  "packet": "WAVEB-DRAFT: exact Lean drafts of Wave B (critical path)",
-  "brief": "docs/campaign/briefs/WAVEB-DRAFT.md"
+  "packet": "WAVEB2-DRAFT: Wave B tier B2 drafts (B1 drafts under audit)",
+  "brief": "docs/campaign/briefs/WAVEB2-DRAFT.md"
  },
  {
   "tmux": "wt-torus",
   "model": "Claude Opus",
   "account": "claude-14",
-  "branch": "w/nls",
-  "packet": "NLS (B1–B3): smooth solutions, reduction to the a-system, measurability",
-  "brief": "docs/campaign/briefs/NLS.md"
+  "branch": "w/ntsp",
+  "packet": "NT5 NTSP: DH23 Lemmas 6.5, 6.7, TARGET Lemma 5.2 (NLS landed)",
+  "brief": "docs/campaign/briefs/NTSP.md"
  },
  {
   "tmux": "wt-wke",
   "model": "Claude Opus",
   "account": "claude-13",
-  "branch": "w/wke",
-  "packet": "WKE-TAYLOR: existence, τ_max (wkelwp 1–2), Taylor bound",
-  "brief": "docs/campaign/briefs/WKE-TAYLOR.md"
+  "branch": "w/jr-ops",
+  "packet": "JR-OPS: DH21 class J/R operators, Lemmas 5.3–5.8 (critical path; WKE + WKE-TAYLOR landed)",
+  "brief": "docs/campaign/briefs/JR-OPS.md"
  },
  {
   "tmux": "wt-cumul",
   "model": "GPT-6.1-Sol low",
   "account": "codex-3",
-  "branch": "w/misc-a",
-  "packet": "MISC-A: TARGET Lemmas A.6–A.7, DH21 A.4–A.5, probability helpers",
-  "brief": "docs/campaign/briefs/MISC-A.md"
+  "branch": "w/lemlin",
+  "packet": "NT10 LEMLIN: TARGET lemlin (+ F23 second bound), lemcubic0 (MISC-A landed)",
+  "brief": "docs/campaign/briefs/LEMLIN.md"
  },
  {
   "tmux": "wt-nt",
@@ -51,17 +51,17 @@
   "tmux": "wt-ansob",
   "model": "GPT-6.1-Sol low",
   "account": "codex-3",
-  "branch": "w/an-sob",
-  "packet": "N4 AN-SOB: Sobolev/Morrey, simplex volumes, DH21 Lemma 10.2",
-  "brief": "docs/campaign/briefs/AN-SOB.md"
+  "branch": "w/bproc",
+  "packet": "NT-BPROC: van der Corput B-process (for e < 2/3, F3) (AN-SOB landed)",
+  "brief": "docs/campaign/briefs/NT-BPROC.md"
  },
  {
   "tmux": "wt-gausssum",
   "model": "GPT-6.1-Sol low",
   "account": "codex-3",
-  "branch": "w/gausssum",
-  "packet": "NT1 GAUSSSUM: Dirichlet approximation, Weyl/Gauss sums",
-  "brief": "docs/campaign/briefs/GAUSSSUM.md"
+  "branch": "w/minor-arcs",
+  "packet": "NT4+NT11+NT3: DH23 Lemma 6.6, TARGET Lemma 5.3 and lemcubic (HUA landed)",
+  "brief": "docs/campaign/briefs/MINOR-ARCS.md"
  },
  {
   "tmux": "wt-resonant",
@@ -75,9 +75,9 @@
   "tmux": "wt-anfourier",
   "model": "GPT-6.1-Sol low",
   "account": "codex-3",
-  "branch": "w/an-fourier",
-  "packet": "N1 AN-FOURIER: Gevrey cutoff χ₀, time-Fourier norms",
-  "brief": "docs/campaign/briefs/AN-FOURIER.md"
+  "branch": "w/an-phase",
+  "packet": "N2+N3: Poisson summation, (non-)stationary phase, Hausdorff–Young, DNY21 kernel, TARGET Lemmas A.2–A.3 (AN-FOURIER landed)",
+  "brief": "docs/campaign/briefs/AN-PHASE-HY.md"
  },
  {
   "tmux": "wt-l2s",

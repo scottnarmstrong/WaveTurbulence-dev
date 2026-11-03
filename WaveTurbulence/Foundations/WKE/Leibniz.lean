@@ -28,7 +28,7 @@ public section
 open MeasureTheory Set Filter Topology Asymptotics
 open scoped InnerProductSpace SchwartzMap
 
-namespace WaveTurbulence
+namespace WaveTurbulence.WKE
 
 variable {d : ℕ}
 
@@ -242,7 +242,7 @@ theorem schwartz_taylor (φ : 𝓢(Mom d, ℝ)) {s : ℝ} (hs : 0 ≤ s) :
 theorem abs_add3_le (a b c : ℝ) : |a + b + c| ≤ |a| + |b| + |c| :=
   (abs_add_le _ _).trans (add_le_add (abs_add_le _ _) le_rfl)
 
-theorem DecayBound.zero_sub {N : ℝ} (f : Mom d → ℝ) : DecayBound 0 N (fun y => f y - f y) :=
+theorem _root_.WaveTurbulence.DecayBound.zero_sub {N : ℝ} (f : Mom d → ℝ) : DecayBound 0 N (fun y => f y - f y) :=
   fun y => by simp
 
 /-- The second-order remainder of `𝒦ⱼ` along a perturbation `a = b + D + O(t²)`:
@@ -453,4 +453,4 @@ theorem hasFDerivAt_collisionTerm (hd : 2 ≤ d) (φ₁ φ₂ φ₃ : 𝓢(Mom d
         - collisionTerm j φ₁ φ₂ φ₃ k - leibnizDir j φ₁ φ₂ φ₃ k h| := rfl
     _ ≤ 6 * trilinA d * B ^ 3 * ‖h‖ ^ 2 := key
 
-end WaveTurbulence
+end WaveTurbulence.WKE
