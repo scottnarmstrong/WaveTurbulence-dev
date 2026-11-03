@@ -19,6 +19,9 @@ public import WaveTurbulence.Foundations.Analysis.SquareMorrey
 public import WaveTurbulence.Foundations.Analysis.SquareMorreyPower
 public import WaveTurbulence.Foundations.Analysis.SquareMorreyReal
 public import WaveTurbulence.Foundations.Analysis.WeightedSobolev
+public import WaveTurbulence.Foundations.Combinatorics.BinomialConvolution
+public import WaveTurbulence.Foundations.Combinatorics.FactorialSplitting
+public import WaveTurbulence.Foundations.Combinatorics.MultiVandermonde
 public import WaveTurbulence.Foundations.Counting.CircleArc
 public import WaveTurbulence.Foundations.Counting.CircleAreaGeometry
 public import WaveTurbulence.Foundations.Counting.CircleBlockBounds
@@ -71,6 +74,8 @@ public import WaveTurbulence.Foundations.Gaussian.IsserlisPolynomial
 public import WaveTurbulence.Foundations.Gaussian.LargeDeviation
 public import WaveTurbulence.Foundations.Gaussian.MomentLimit
 public import WaveTurbulence.Foundations.Gaussian.TwoPoint
+public import WaveTurbulence.Foundations.LinAlg.BoundedSpanning
+public import WaveTurbulence.Foundations.LinAlg.MaxVolume
 public import WaveTurbulence.Foundations.NLS.AkSystem
 public import WaveTurbulence.Foundations.NLS.Energy
 public import WaveTurbulence.Foundations.NLS.FourierEquation
