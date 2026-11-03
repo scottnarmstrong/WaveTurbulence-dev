@@ -18,7 +18,10 @@ private def projectLeanOptions : Array LeanOption := #[
 /-- The frozen theorem anchors in state `DRAFT_SORRY` and their provider modules. The frozen-anchor
 quarantine forbids every other module, the root included, from importing them, so the library
 builds them as extra globs beside its root. -/
-private def quarantinedModules : Array Lean.Name := #[]
+private def quarantinedModules : Array Lean.Name := #[
+  `WaveTurbulence.Frozen.Theorems.Main, `WaveTurbulence.Provider.Main,
+  `WaveTurbulence.Frozen.Theorems.Wkelwp, `WaveTurbulence.Provider.Wkelwp
+]
 
 /-- The formalization of Deng–Hani, *Long time justification of wave turbulence theory*
 (arXiv:2311.10082v2). -/
