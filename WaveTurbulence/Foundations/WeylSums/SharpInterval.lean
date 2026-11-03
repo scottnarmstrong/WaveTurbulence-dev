@@ -76,8 +76,8 @@ theorem norm_gaussSum_sq_le_frequency_sum (s r : ℝ) (h : ℤ) (K : ℕ) :
 
 /-- **Quadratic interval Gauss bound**, DH23 L1127–L1129 (the Gauss lemma
 used in Lemma 6.6), and DH21 `GaussLem`. The logarithmic convention is
-`1 + log K`, equivalent up to an absolute constant to `log(2K)` and to the
-large-scale source convention. The estimate includes `K = 1`, both interval
+`1 + log K`, equivalent up to an absolute constant to `log(2K)`; the source
+writes the ambient factor `log L`. The estimate includes `K = 1`, both interval
 endpoints, and is uniform in the integer shift and real linear frequency. -/
 theorem norm_gaussSum_le_of_approx (s r : ℝ) (h a : ℤ) {q K : ℕ}
     (hK : 1 ≤ K) (hq : 1 ≤ q) (hqK : q ≤ K) (ha : a.natAbs.Coprime q)
