@@ -67,11 +67,17 @@ variable {P ι} [MeasurableSpace P] [Fintype ι]
 structure JSymP.Bound (R : JSymP P ι) (θ A N : ℝ) : Prop where
   bound : ∀ p, (R.get p).Bound θ A N
   meas : StronglyMeasurable fun x : P × ((ι → ℝ) × (ℝ × ℝ)) => R.m x.1 x.2.1 x.2.2
+  nonneg : 0 ≤ N
+  bundle : IsBundle R.y
 
 /-- Bounds uniform in the parameter, and joint measurability of the symbol. -/
 structure RSymP.Bound (R : RSymP P ι) (θ A N : ℝ) : Prop where
   bound : ∀ p, (R.get p).Bound θ A N
   meas : StronglyMeasurable fun x : P × ((ι → ℝ) × (ℝ × ℝ × ℝ)) => R.m x.1 x.2.1 x.2.2
+  nonneg : 0 ≤ N
+  sign : R.ε = 1 ∨ R.ε = -1
+  bundle₁ : IsBundle R.y₁
+  bundle₂ : IsBundle R.y₂
 
 /-- **Parametric class `J`** (DH21 Definition 5.2 with the parameters `μ[E]`). -/
 @[expose] def ClassJP (θ A N : ℝ) (T : P → (ι → ℝ) → ℝ → ℝ → ℂ) : Prop :=
@@ -169,8 +175,8 @@ theorem JSymP.ofGen {y : ι → ℤ} (hy : IsBundle y) {a : P → (ι → ℝ) �
       ∫ ζ, a p α ζ * jker (bundle y α) (ζ.1.1 + (b p ζ.2).1) (ζ.1.2 + (b p ζ.2).2) t s := by
   have hbp : ∀ p, Measurable (b p) := fun p => hb.comp (measurable_const.prodMk measurable_id)
   refine ⟨⟨y, fun p => pushSym (a p) (b p)⟩, rfl, ⟨fun p => ⟨hN, hy,
-    pushSym_symReg (hreg p) (hbp p), fun k => ?_⟩, stronglyMeasurable_pushSym_param hreg ha hb⟩,
-    fun p α t s => ?_⟩
+    pushSym_symReg (hreg p) (hbp p), fun k => ?_⟩, stronglyMeasurable_pushSym_param hreg ha hb,
+    hN, hy⟩, fun p α t s => ?_⟩
   · refine le_trans ?_ (hnorm p k)
     have := lintegral_weight_pushSym_le (hreg p) (hbp p) (measurable_wJ (ι := ι) θ) k
     simpa only [jNorm, JSymP.get, Prod.fst_add] using this
@@ -193,8 +199,8 @@ theorem RSymP.ofGen {ε : ℤ} (hε : ε = 1 ∨ ε = -1) {y₁ y₂ : ι → �
         (ζ.1.2.2 + (b p ζ.2).2.2) t s := by
   have hbp : ∀ p, Measurable (b p) := fun p => hb.comp (measurable_const.prodMk measurable_id)
   refine ⟨⟨ε, y₁, y₂, fun p => pushSym (a p) (b p)⟩, rfl, rfl, rfl, ⟨fun p => ⟨hN, hε, hy₁, hy₂,
-    pushSym_symReg (hreg p) (hbp p), fun k => ?_⟩, stronglyMeasurable_pushSym_param hreg ha hb⟩,
-    fun p α t s => ?_⟩
+    pushSym_symReg (hreg p) (hbp p), fun k => ?_⟩, stronglyMeasurable_pushSym_param hreg ha hb,
+    hN, hε, hy₁, hy₂⟩, fun p α t s => ?_⟩
   · refine le_trans ?_ (hnorm p k)
     have := lintegral_weight_pushSym_le (hreg p) (hbp p) (measurable_wR (ι := ι) θ) k
     simpa only [rNorm, RSymP.get, Prod.fst_add, Prod.snd_add] using this
