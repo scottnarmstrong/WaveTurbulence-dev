@@ -239,4 +239,178 @@ theorem JSymP.ofGenE {y : ι → ℤ} (hy : IsBundle y) {a : P → (ι → ℝ) 
 
 end Conv
 
+section ConvAny
+
+variable {P : Type*} [MeasurableSpace P] {ι : Type*} [Fintype ι]
+variable {Z : Type*} [MeasureSpace Z] [SFinite (volume : Measure Z)]
+
+/-- The weighted norm of the smoothed generalized symbol. -/
+theorem lintegral_smoothed_le {a : (ι → ℝ) → Z → ℂ} (ha : SymReg a) {c : Z → ℝ × ℝ}
+    (hc : Measurable c) {θ A N : ℝ} (h0 : 0 ≤ θ) (h1 : θ ≤ 1)
+    (hnorm : ∀ k, ∫⁻ α, ∫⁻ z, wJ θ α (c z).1 * dnorm k a α z ≤ gev N A k) (k : ℕ) :
+    ∫⁻ α, ∫⁻ ζ : (ℝ × ℝ) × Z, wJ θ α (ζ.1.1 + (c ζ.2).1) *
+      dnorm k (fun α (p : (ℝ × ℝ) × Z) => M00 p.1 * a α p.2) α ζ ≤ gev (CM0 * N) A k := by
+  have hmw : ∀ α, Measurable fun z => wJ θ α (c z).1 * dnorm k a α z := fun α =>
+    (measurable_wJ_comp (measurable_fst.comp hc) α).mul
+      (measurable_dnorm ha.smooth ha.meas k).of_uncurry_left
+  calc ∫⁻ α, ∫⁻ ζ : (ℝ × ℝ) × Z, wJ θ α (ζ.1.1 + (c ζ.2).1) *
+        dnorm k (fun α (p : (ℝ × ℝ) × Z) => M00 p.1 * a α p.2) α ζ
+      ≤ ∫⁻ α, ∫⁻ ζ : (ℝ × ℝ) × Z, ((1 + ‖ζ.1.1‖ₑ) * ‖M00 ζ.1‖ₑ) *
+          (wJ θ α (c ζ.2).1 * dnorm k a α ζ.2) := by
+        refine lintegral_mono fun α => lintegral_mono fun ζ => ?_
+        rw [dnorm_mul_fixed k M00 a ha.smooth]
+        calc wJ θ α (ζ.1.1 + (c ζ.2).1) * (‖M00 ζ.1‖ₑ * dnorm k a α ζ.2)
+            ≤ ((1 + ‖ζ.1.1‖ₑ) * wJ θ α (c ζ.2).1) * (‖M00 ζ.1‖ₑ * dnorm k a α ζ.2) := by
+              gcongr; exact wJ_shift_le h0 h1 α _ _
+          _ = _ := by ring
+    _ = ∫⁻ α, ENNReal.ofReal CM0 * ∫⁻ z, wJ θ α (c z).1 * dnorm k a α z := by
+        refine lintegral_congr fun α => ?_
+        rw [Measure.volume_eq_prod, lintegral_prod_mul
+          (f := fun u : ℝ × ℝ => (1 + ‖u.1‖ₑ) * ‖M00 u‖ₑ)
+          (g := fun z => wJ θ α (c z).1 * dnorm k a α z)
+          ((measurable_const.add measurable_fst.enorm).mul
+            continuous_M00.measurable.enorm).aemeasurable (hmw α).aemeasurable,
+          lintegral_M00_weight]
+    _ = ENNReal.ofReal CM0 * ∫⁻ α, ∫⁻ z, wJ θ α (c z).1 * dnorm k a α z :=
+        lintegral_const_mul' _ _ ENNReal.ofReal_ne_top
+    _ ≤ ENNReal.ofReal CM0 * gev N A k := mul_le_mul' le_rfl (hnorm k)
+    _ = gev (CM0 * N) A k := gev_mul_const _ CM0_nonneg k
+
+/-- **Parametric class `J` from superpositions with arbitrary coefficient maps.** -/
+theorem JSymP.ofAny {y : ι → ℤ} (hy : IsBundle y) {a : P → (ι → ℝ) → Z → ℂ}
+    (hreg : ∀ p, SymReg (a p))
+    (ha : StronglyMeasurable fun x : P × ((ι → ℝ) × Z) => a x.1 x.2.1 x.2.2)
+    {c : P → Z → ℝ × ℝ} (hc : Measurable (Function.uncurry c)) {θ A N : ℝ} (h0 : 0 ≤ θ)
+    (h1 : θ ≤ 1) (hN : 0 ≤ N)
+    (hnorm : ∀ p k, ∫⁻ α, ∫⁻ z, wJ θ α (c p z).1 * dnorm k (a p) α z ≤ gev N A k) :
+    ∃ R : JSymP P ι, R.y = y ∧ R.Bound θ A (CM0 * N) ∧ ∀ p α t s, t ∈ Icc (0 : ℝ) 1 →
+      s ∈ Icc (0 : ℝ) 1 → (R.get p).kernel α t s =
+        ∫ z, a p α z * jker (bundle y α) (c p z).1 (c p z).2 t s := by
+  have hcp : ∀ p, Measurable (c p) := fun p => hc.comp (measurable_const.prodMk measurable_id)
+  have ha' : StronglyMeasurable fun x : P × ((ι → ℝ) × ((ℝ × ℝ) × Z)) =>
+      M00 x.2.2.1 * a x.1 x.2.1 x.2.2.2 :=
+    (continuous_M00.stronglyMeasurable.comp_measurable
+      (measurable_fst.comp (measurable_snd.comp measurable_snd))).mul
+      (ha.comp_measurable (measurable_fst.prodMk ((measurable_fst.comp measurable_snd).prodMk
+        (measurable_snd.comp (measurable_snd.comp measurable_snd)))))
+  obtain ⟨R, hRy, hRb, hRk⟩ := JSymP.ofGen (θ := θ) (A := A) hy (fun p => (hreg p).smoothed) ha'
+    (b := c) hc (mul_nonneg CM0_nonneg hN)
+    (fun p k => lintegral_smoothed_le (hreg p) (hcp p) h0 h1 (hnorm p) k)
+  refine ⟨R, hRy, hRb, fun p α t s ht hs => ?_⟩
+  rw [hRk]
+  have := integral_smoothed ((hreg p).integrable α) (bundle y α) (hcp p) ht hs (fun _ => 1)
+    aestronglyMeasurable_const (C := 1) (fun _ => by simp)
+  simp only [one_mul] at this
+  rw [← this]
+
+end ConvAny
+
+section ConvAnyR
+
+variable {P : Type*} [MeasurableSpace P] {ι : Type*} [Fintype ι]
+variable {Q : Type*} [MeasureSpace Q] [SFinite (volume : Measure Q)]
+
+/-- **Parametric class `R` from superpositions with arbitrary coefficient maps.** -/
+theorem RSymP.ofAny {ε : ℤ} (hε : ε = 1 ∨ ε = -1) {y₁ y₂ : ι → ℤ} (hy₁ : IsBundle y₁)
+    (hy₂ : IsBundle y₂) {a : P → (ι → ℝ) → ℝ × Q → ℂ} (hreg : ∀ p, SymReg (a p))
+    (ha : StronglyMeasurable fun x : P × ((ι → ℝ) × (ℝ × Q)) => a x.1 x.2.1 x.2.2)
+    {c : P → ℝ × Q → ℝ × ℝ} (hc : Measurable (Function.uncurry c)) {θ A N : ℝ} (h0 : 0 ≤ θ)
+    (h1 : θ ≤ 1) (hN : 0 ≤ N)
+    (hnorm : ∀ p k, ∫⁻ α, ∫⁻ z, wR θ α (c p z).1 z.1 * dnorm k (a p) α z ≤ gev N A k) :
+    ∃ R : RSymP P ι, R.ε = ε ∧ R.y₁ = y₁ ∧ R.y₂ = y₂ ∧ R.Bound θ A (CM0 * N) ∧ ∀ p α t s,
+      t ∈ Icc (0 : ℝ) 1 → s ∈ Icc (0 : ℝ) 1 →
+      (R.get p).kernel α t s = ∫ z, a p (nsp α) z * rker (bundle y₁ (nsp α) + ε * α none)
+        (bundle y₂ (nsp α) + ε * α none) (c p z).1 (c p z).2 z.1 t s := by
+  have hcp : ∀ p, Measurable (c p) := fun p => hc.comp (measurable_const.prodMk measurable_id)
+  set E : P → (ℝ × ℝ) × (ℝ × Q) ≃ᵐ (ℝ × ℝ × ℝ) × Q := fun p =>
+    (shiftEquiv (c p) (hcp p)).trans reassocR with hEd
+  have hE : ∀ p, MeasurePreserving (E p) := fun p =>
+    measurePreserving_reassocR.comp (measurePreserving_shiftEquiv (c p) (hcp p))
+  have hEa : ∀ p ζ, E p ζ = ((ζ.1.1 + (c p ζ.2).1, (ζ.1.2 + (c p ζ.2).2, ζ.2.1)), ζ.2.2) :=
+    fun p ζ => rfl
+  have hEs : ∀ p ζ, (E p).symm ζ =
+      ((ζ.1.1 - (c p (ζ.1.2.2, ζ.2)).1, ζ.1.2.1 - (c p (ζ.1.2.2, ζ.2)).2), (ζ.1.2.2, ζ.2)) :=
+    fun p ζ => rfl
+  set a' : P → (ι → ℝ) → (ℝ × ℝ × ℝ) × Q → ℂ := fun p α ζ =>
+    M00 ((E p).symm ζ).1 * a p α ((E p).symm ζ).2 with ha'd
+  have hreg' : ∀ p, SymReg (a' p) := fun p =>
+    ((hreg p).smoothed).comp_equiv (E p).symm ((hE p).symm _)
+  have hcm : Measurable fun x : P × ((ι → ℝ) × ((ℝ × ℝ × ℝ) × Q)) =>
+      c x.1 (x.2.2.1.2.2, x.2.2.2) :=
+    hc.comp (measurable_fst.prodMk ((measurable_snd.comp (measurable_snd.comp
+      (measurable_fst.comp (measurable_snd.comp measurable_snd)))).prodMk
+        (measurable_snd.comp (measurable_snd.comp measurable_snd))))
+  have ha' : StronglyMeasurable fun x : P × ((ι → ℝ) × ((ℝ × ℝ × ℝ) × Q)) =>
+      a' x.1 x.2.1 x.2.2 := by
+    have hA : StronglyMeasurable fun x : P × ((ι → ℝ) × ((ℝ × ℝ × ℝ) × Q)) =>
+        a x.1 x.2.1 (x.2.2.1.2.2, x.2.2.2) :=
+      ha.comp_measurable (g := fun x : P × ((ι → ℝ) × ((ℝ × ℝ × ℝ) × Q)) =>
+        (x.1, (x.2.1, (x.2.2.1.2.2, x.2.2.2)))) (measurable_fst.prodMk
+          ((measurable_fst.comp measurable_snd).prodMk ((measurable_snd.comp (measurable_snd.comp
+            (measurable_fst.comp (measurable_snd.comp measurable_snd)))).prodMk
+              (measurable_snd.comp (measurable_snd.comp measurable_snd)))))
+    have hu : Measurable fun x : P × ((ι → ℝ) × ((ℝ × ℝ × ℝ) × Q)) =>
+        ((x.2.2.1.1 - (c x.1 (x.2.2.1.2.2, x.2.2.2)).1,
+          x.2.2.1.2.1 - (c x.1 (x.2.2.1.2.2, x.2.2.2)).2) : ℝ × ℝ) :=
+      ((measurable_fst.comp (measurable_fst.comp (measurable_snd.comp
+        measurable_snd))).sub (measurable_fst.comp hcm)).prodMk
+        ((measurable_fst.comp (measurable_snd.comp (measurable_fst.comp (measurable_snd.comp
+          measurable_snd)))).sub (measurable_snd.comp hcm))
+    have hM := continuous_M00.stronglyMeasurable.comp_measurable hu
+    exact hM.mul hA
+  obtain ⟨R, e1, e2, e3, hRb, hRk⟩ := RSymP.ofGen (θ := θ) (A := A) hε hy₁ hy₂ hreg' ha'
+    (b := fun _ _ => 0) measurable_const (mul_nonneg CM0_nonneg hN) (fun p k => by
+      have hmw : ∀ α, Measurable fun z => wR θ α (c p z).1 z.1 * dnorm k (a p) α z := fun α =>
+        (measurable_wR_comp (measurable_fst.comp (hcp p)) measurable_fst α).mul
+          (measurable_dnorm (hreg p).smooth (hreg p).meas k).of_uncurry_left
+      have hmov : ∀ α, ∫⁻ ζ : (ℝ × ℝ × ℝ) × Q, wR θ α (ζ.1.1 + (0 : ℝ × ℝ × ℝ).1)
+          (ζ.1.2.2 + (0 : ℝ × ℝ × ℝ).2.2) * dnorm k (a' p) α ζ =
+          ∫⁻ ζ : (ℝ × ℝ) × (ℝ × Q), wR θ α ((E p) ζ).1.1 ((E p) ζ).1.2.2 *
+            dnorm k (fun α (q : (ℝ × ℝ) × (ℝ × Q)) => M00 q.1 * a p α q.2) α ζ := fun α => by
+        rw [← (hE p).lintegral_comp_emb (E p).measurableEmbedding]
+        refine lintegral_congr fun ζ => ?_
+        have key : lift1 (a' p) (E p ζ) =
+            lift1 (fun α (q : (ℝ × ℝ) × (ℝ × Q)) => M00 q.1 * a p α q.2) ζ := by
+          funext β; simp [lift1, ha'd]
+        simp only [dnorm, key, Prod.fst_zero, Prod.snd_zero, add_zero]
+      simp_rw [hmov]
+      calc ∫⁻ α, ∫⁻ ζ : (ℝ × ℝ) × (ℝ × Q), wR θ α ((E p) ζ).1.1 ((E p) ζ).1.2.2 *
+            dnorm k (fun α (q : (ℝ × ℝ) × (ℝ × Q)) => M00 q.1 * a p α q.2) α ζ
+          ≤ ∫⁻ α, ∫⁻ ζ : (ℝ × ℝ) × (ℝ × Q), ((1 + ‖ζ.1.1‖ₑ) * ‖M00 ζ.1‖ₑ) *
+              (wR θ α (c p ζ.2).1 ζ.2.1 * dnorm k (a p) α ζ.2) := by
+            refine lintegral_mono fun α => lintegral_mono fun ζ => ?_
+            rw [dnorm_mul_fixed k M00 (a p) (hreg p).smooth, hEa]
+            calc wR θ α (ζ.1.1 + (c p ζ.2).1) ζ.2.1 * (‖M00 ζ.1‖ₑ * dnorm k (a p) α ζ.2)
+                ≤ ((1 + ‖ζ.1.1‖ₑ) * wR θ α (c p ζ.2).1 ζ.2.1) *
+                    (‖M00 ζ.1‖ₑ * dnorm k (a p) α ζ.2) := by
+                  gcongr; exact wR_shift_le h0 h1 α _ _ _
+              _ = _ := by ring
+        _ = ∫⁻ α, ENNReal.ofReal CM0 * ∫⁻ z, wR θ α (c p z).1 z.1 * dnorm k (a p) α z := by
+            refine lintegral_congr fun α => ?_
+            rw [Measure.volume_eq_prod, lintegral_prod_mul
+              (f := fun u : ℝ × ℝ => (1 + ‖u.1‖ₑ) * ‖M00 u‖ₑ)
+              (g := fun z => wR θ α (c p z).1 z.1 * dnorm k (a p) α z)
+              ((measurable_const.add measurable_fst.enorm).mul
+                continuous_M00.measurable.enorm).aemeasurable (hmw α).aemeasurable,
+              lintegral_M00_weight]
+        _ = ENNReal.ofReal CM0 * ∫⁻ α, ∫⁻ z, wR θ α (c p z).1 z.1 * dnorm k (a p) α z :=
+            lintegral_const_mul' _ _ ENNReal.ofReal_ne_top
+        _ ≤ ENNReal.ofReal CM0 * gev N A k := mul_le_mul' le_rfl (hnorm p k)
+        _ = gev (CM0 * N) A k := gev_mul_const _ CM0_nonneg k)
+  refine ⟨R, e1, e2, e3, hRb, fun p α t s ht hs => ?_⟩
+  rw [hRk, ← (hE p).integral_comp' (g := fun ζ => a' p (nsp α) ζ *
+    rker (bundle y₁ (nsp α) + ε * α none) (bundle y₂ (nsp α) + ε * α none)
+      (ζ.1.1 + (0 : ℝ × ℝ × ℝ).1) (ζ.1.2.1 + (0 : ℝ × ℝ × ℝ).2.1)
+      (ζ.1.2.2 + (0 : ℝ × ℝ × ℝ).2.2) t s)]
+  have hφ : Measurable fun z : ℝ × Q => (chiInvR (bundle y₁ (nsp α) + ε * α none + z.1) : ℂ) :=
+    contDiff_chiInvRc.continuous.measurable.comp (measurable_const.add measurable_fst)
+  have := integral_smoothed ((hreg p).integrable (nsp α)) (bundle y₂ (nsp α) + ε * α none)
+    (hcp p) ht hs (fun z => (chiInvR (bundle y₁ (nsp α) + ε * α none + z.1) : ℂ))
+    hφ.aestronglyMeasurable (C := CPhi) (fun z => norm_chiInvR_le _)
+  simp only [ha'd, MeasurableEquiv.symm_apply_apply]
+  simp only [hEa, Prod.fst_zero, Prod.snd_zero, add_zero, rker]
+  rw [← this]
+
+end ConvAnyR
+
 end WaveTurbulence.ClassJR
