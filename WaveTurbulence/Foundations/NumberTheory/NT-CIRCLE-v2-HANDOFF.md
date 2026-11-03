@@ -1069,3 +1069,19 @@ passed (3585 jobs; new modules 1.7s and 1.9s). Scratch
 `norm_sum_Ioc_smul_le_of_prefix_bound` and
 `norm_sum_weighted_circleLatticeDualPhase_le_endpoint` use only
 `propext`, `Classical.choice`, `Quot.sound`. No new errata or deviations.
+
+## Exact endpoint integer windows and the large-frequency range
+
+`Counting/CircleEndpointIntervals.lean` gives exposed exact left/right
+integer windows, their membership equivalences, disjointness and exact sum
+decomposition. All strict octant/dyadic boundaries and real translations
+are retained. `Counting/CircleEndpointTrivial.lean` proves each window has
+at most U+1 columns and proves the actual improved local circle sum estimate
+with constant 4 whenever `U² <= h sqrt(R)`.
+This discharges that frequency range unconditionally; only its complement
+needs the quantitative B-process application.
+
+Checks: targeted `CircleEndpointTrivial` build passed (9066 jobs; targets
+4.2s/5.4s), without warnings. Scratch `EndpointIntervalsAxioms.lean`
+passed with only `propext`, `Classical.choice`, `Quot.sound` for the exact
+union and actual large-frequency estimate. No new errata or deviations.
