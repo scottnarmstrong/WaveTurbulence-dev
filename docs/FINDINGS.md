@@ -206,3 +206,8 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   DH21; DH23 has no `β` (square torus). Read as `⟨·,·⟩`. Typo. Found by wt-torus (APPROXNT). Also (F33 addendum, same
   packet): DH23 Prop 6.4 assumes `n ≤ (log L)^3` (L1002) but L1168 applies it to orders up to `N^3 ≈ (log L)^{12}`; the
   landed extension holds for every fixed power of `log L`, so both F33 readings are covered.
+  F53 addendum (2026-11-04): the B2 fix is B2-CL-3 (wt-gauss-hc): `IsLadder` = wt-ansob's `Degen.SourceLadder` verbatim
+  (double rungs, rails of multiplicity exactly 1 and oppositely directed, no induced clause). An intermediate version
+  (B2-CL-2) had dropped the single-rail requirement, which admits a length-1 ladder with a double rail (wt-orch's
+  `dblRail` probe, audits/DEGEN-F53.md); B2-CL-3 restores it. Audits: NLS-BRIDGE PASS, APPROXNT PASS (η₀ ≤
+  min(1/20, (d−1)(1−γ), γ) inside Π; n ≤ (log L)^A with A = A(d, 𝔇) covers F33).
