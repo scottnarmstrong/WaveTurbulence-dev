@@ -23,7 +23,7 @@ public section
 open MeasureTheory Filter Topology
 open scoped InnerProductSpace ContDiff
 
-namespace WaveTurbulence
+namespace WaveTurbulence.Resonant
 
 variable {d : ℕ}
 
@@ -120,4 +120,4 @@ theorem contDiffOn_resonantIntegral_of_local_decay
     ContDiffOn ℝ ∞ (fun t => resonantIntegral (Ψ n t) k) U :=
   contDiffOn_deltaInt_of_local_decay hU hd hΨ (fun n t ht _ _ => hderiv n t ht _ _ _) n
 
-end WaveTurbulence
+end WaveTurbulence.Resonant

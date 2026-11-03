@@ -25,7 +25,7 @@ public section
 open MeasureTheory Filter Topology
 open scoped ContDiff
 
-namespace WaveTurbulence
+namespace WaveTurbulence.Resonant
 
 /-- The derivative of a smooth compactly supported scalar cutoff is integrable. -/
 theorem IsPVCutoff.integrable_deriv {χ : ℝ → ℝ} (hχ : IsPVCutoff χ)
@@ -62,4 +62,4 @@ theorem abs_integral_cutoff_sine_le {χ : ℝ → ℝ} (hχ : IsPVCutoff χ)
   refine ht.trans (mul_le_mul_of_nonneg_left ?_ (by norm_num))
   exact add_le_add ((abs_sub _ _).trans (by simpa using add_le_add_left (hC μ) 1)) hvar
 
-end WaveTurbulence
+end WaveTurbulence.Resonant

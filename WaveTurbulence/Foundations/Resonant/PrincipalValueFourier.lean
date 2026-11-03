@@ -24,7 +24,7 @@ public section
 open MeasureTheory Filter Topology Set
 open scoped NNReal ContDiff
 
-namespace WaveTurbulence
+namespace WaveTurbulence.Resonant
 
 /-- Uniform bound without differentiating the Fourier phase. -/
 theorem norm_pvFourierTruncation_le {χ : ℝ → ℝ} (hχ : IsPVCutoff χ)
@@ -90,4 +90,4 @@ theorem norm_pvFourierTruncation_le {χ : ℝ → ℝ} (hχ : IsPVCutoff χ)
     rw [norm_mul]
     exact mul_le_mul_of_nonneg_left (norm_integral_centralFourier_le hχ hs hC hμ η) (norm_nonneg _)))
 
-end WaveTurbulence
+end WaveTurbulence.Resonant

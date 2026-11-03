@@ -26,7 +26,7 @@ public section
 
 open MeasureTheory Filter Topology Set
 
-namespace WaveTurbulence
+namespace WaveTurbulence.Resonant
 
 /-- A scalar cutoff equal to one near zero. Smooth cutoffs of DH21 §2 satisfy
 these hypotheses; differentiability of the cutoff is unnecessary here. -/
@@ -213,4 +213,4 @@ theorem abs_principalValueOneDim_le {χ : ℝ → ℝ} (hχ : IsPVCutoff χ)
   rw [principalValueOneDim_eq_integral, ← Real.norm_eq_abs]
   exact norm_integral_le_integral_norm _
 
-end WaveTurbulence
+end WaveTurbulence.Resonant

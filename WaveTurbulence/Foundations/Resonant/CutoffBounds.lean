@@ -20,7 +20,7 @@ public section
 open MeasureTheory Set
 open scoped NNReal ContDiff
 
-namespace WaveTurbulence
+namespace WaveTurbulence.Resonant
 
 variable {d : ℕ}
 
@@ -55,4 +55,4 @@ theorem exists_support_radius_cutoff {f : Mom d → ℝ} (hc : HasCompactSupport
   have hn := hR z hm
   exact (not_le_of_gt hz) (hn.trans (le_max_left _ _))
 
-end WaveTurbulence
+end WaveTurbulence.Resonant
