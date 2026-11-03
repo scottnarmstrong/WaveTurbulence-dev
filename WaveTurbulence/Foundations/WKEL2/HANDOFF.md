@@ -147,3 +147,70 @@ the default heartbeat budget; after factoring the ambient graph and caching
 the reference measure instances, it totaled 455ms and the file exited 0.
 Profiles are `resonant-profile-before.log` and `resonant-profile-after.log`
 in the scratch directory. No elaboration budget was changed.
+
+## Active continuation: uniform M₂ proved
+
+- `2ed2b68`: near/far inverse-norm kernels, their actual Lᵖ membership,
+  conjugate-exponent selection, translation-uniform spatial convolution,
+  its transport to every moving hyperplane, and the polar mass identity.
+- `b2cdf72`: `M2.exists_uniform_M2` proves research-note Lemma 4(a), including
+  great-sphere integrability and a constant independent of the center and normal.
+- `7f38e97`: scalar/transverse norm-power integrability, the exact scalar slice
+  identity for M₁, cylindrical near-field integrability, cylindrical coordinate
+  isometries, homogeneity, and the M₁ exponent window.
+
+The M₂ measurable-sphere conversion initially exceeded the default budget.
+The passing proof derives measurability directly from the scalar radial
+integrand, rather than composing the ambient joint measurability theorem
+through two nested subtype coercions. No statement or budget was changed.
+The initial profile is `m2-profile-before.log` in scratch.
+
+M₁ remains under active construction: the spatial/angular polar identity
+already passed its target dependency build; the cylindrical far-field Lᵖ
+proof and transport are being checked. The near/far cutoff for this proof is
+an isometric cylindrical unit box rather than a Euclidean unit ball. This
+only changes allowed constants depending on dimension and exponent.
+
+`angularSineInv` uses the norm of orthogonal projection onto the normal's
+perpendicular hyperplane, equal to the absolute sine for unit vectors. As
+with existing inverse-norm definitions, the inverse is assigned zero at
+zero. No stronger weighted exponent or additional source premise is used.
+
+## Goal 2: both uniform bounds compiled
+
+`e28075c` proves `M1.exists_uniform_M1` throughout `d ≥ 3`, `s > d/2-1`.
+Together with `b2cdf72` (`M2.exists_uniform_M2`), this completes the two
+uniform bounds of research-note Lemma 4. The actual near/far integrability,
+far-field Lᵖ membership, axis transport, and polar identities are proved;
+none is passed as a source-result assumption. The M₁ and M₂ targeted builds
+both exited 0 without warnings. The combined axiom probe is
+`/home/scott/wt-scratch/wke-l2s/Lemma4Axioms.lean`.
+
+Goal 3 is now active: exact frozen weighted-L² membership/norm bridge,
+extended nonnegative ray Cauchy–Schwarz, angular Schur bounds, and the loss
+and gain estimates. Theorem 7 and the blow-up conjunct remain unproved.
+
+The combined Lemma 4 axiom probe exited 0: all ten main declarations,
+including both uniform M₁ and M₂ theorems, depend exactly on
+`[propext, Classical.choice, Quot.sound]`. No custom axiom or sorry was reported.
+
+## Goal 3 active: radial Cauchy–Schwarz and angular loss estimate
+
+- `88d4a56`: linear isometries preserve canonical spherical surface measure.
+- `ca7eb06`: exact frozen weighted norm equals the genuine weighted L² norm;
+  polar radial-density powers; nonnegative ray energies; their exact angular
+  integral; extended radial Cauchy–Schwarz (Lemma 3), with no finite-energy
+  assumption on individual rays; M₂ in fixed reference-sphere coordinates.
+- `daf9045`: angular Schur energy bound and exact second-loss polar
+  factorization, valid for nonnegative extended integrals.
+- `4ec7f9a`: uniform angular ray-mass estimate (the nonnegative-integral
+  core of Proposition 5).
+
+Passing focused builds: `RadialCauchyENN`, and the `AngularM2`,
+`AngularCauchyAlgebra`, `AngularProduct`, `AngularSchur`, `LossTwoPolar`,
+`AngularMassEstimate`, `LossTwoBound` prerequisites of `LossTwoTrilinear`.
+All passing modules above built without warnings. The signed delta-integral
+bridge and bounded weighted multiplication are still being checked.
+Proposition 6's two-axis geometry, transverse integral, no-atom surface
+lemma, and sine Schur bound are working files pending compilation.
+The full Theorem 7 and supporting blow-up obligations remain active.
