@@ -6,6 +6,12 @@ Authors: Scott Armstrong
 module
 
 public import Mathlib
+public import WaveTurbulence.Foundations.Torus.Basic
+public import WaveTurbulence.Foundations.Torus.Derivative
+public import WaveTurbulence.Foundations.Torus.Inversion
+public import WaveTurbulence.Foundations.Torus.Product
+public import WaveTurbulence.Foundations.Torus.Series
+public import WaveTurbulence.Foundations.Torus.TimeDerivative
 public import WaveTurbulence.Frozen.Defs.CollisionOp
 public import WaveTurbulence.Frozen.Defs.InitialCoeff
 public import WaveTurbulence.Frozen.Defs.IsSmoothNLSSolution
