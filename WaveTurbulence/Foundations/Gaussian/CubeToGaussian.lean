@@ -287,6 +287,7 @@ theorem charFun_gaussLaw (t : PiLp 2 (fun _ : ι => ℂ)) :
 @[expose] noncomputable def gaussPM : ProbabilityMeasure (PiLp 2 (fun _ : ι => ℂ)) :=
   ⟨gaussLaw, inferInstance⟩
 
+omit [DecidableEq ι] in
 /-- **Central limit theorem for the approximation**: the laws of `approxZ ι M` converge weakly to
 the law of a vector of independent standard complex Gaussians. -/
 theorem tendsto_approxPM :

@@ -55,6 +55,12 @@ theorem favg_add (f g : α → ℝ) : favg (fun x => f x + g x) = favg f + favg 
   simp only [favg, sum_add_distrib]
   ring
 
+omit [Fintype β] in
+theorem favg_sum {ι : Type*} (s : Finset ι) (f : ι → α → ℝ) :
+    favg (fun x => ∑ i ∈ s, f i x) = ∑ i ∈ s, favg (f i) := by
+  simp only [favg]
+  rw [sum_comm, mul_sum]
+
 theorem favg_prod (f : α × β → ℝ) : favg f = favg (fun x => favg (fun y => f (x, y))) := by
   simp only [favg, Fintype.card_prod, Nat.cast_mul, ← mul_sum, Fintype.sum_prod_type]
   ring
