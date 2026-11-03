@@ -23,7 +23,7 @@ public section
 open MeasureTheory Filter Topology
 open scoped InnerProductSpace
 
-namespace WaveTurbulence
+namespace WaveTurbulence.Resonant
 
 variable {d : ℕ}
 
@@ -121,4 +121,4 @@ theorem bilinearInvFourierInner_eq
   push_cast
   ring
 
-end WaveTurbulence
+end WaveTurbulence.Resonant

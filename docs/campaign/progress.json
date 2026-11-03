@@ -1,5 +1,5 @@
 {
- "assessed": "2026-11-03 18:05 UTC",
+ "assessed": "2026-11-03 20:25 UTC",
  "notes": "Lean work items = blueprint packets (docs/blueprint/GRAPH.md §E) with their difficulty weights (node weights L=1, M=2, H=4, VH=8 summed). Each frozen theorem anchor adds weight 1, credited when SEALED. Done fractions are the orchestrator's assessment, reviewed at integration rounds.",
  "lines_est_total": 273000,
  "parts": [
@@ -14,8 +14,8 @@
    "part": "Exact Lean statements, frozen (P2)",
    "kind": "phase",
    "weight": 20,
-   "done": 0.4,
-   "note": "Wave A frozen (D6); Wave B drafted, independently audited (stage 1: 1 REQUIRED, stage 2: 3, stage 3: 9) — fixes being applied"
+   "done": 0.5,
+   "note": "Wave A frozen (D6); Wave B tier B1 audited (3 audits + 2 deltas), final fix list being applied; tier B2 stage 1 drafted"
   },
   {
    "part": "Lean proofs (P4)",
@@ -63,8 +63,8 @@
      "goal": "circle problem with exponent 2/3 (stepping stone, off-route), estcross",
      "weight": 6.0,
      "lines_est": 3300,
-     "done": 0.6,
-     "note": "Euler–Maclaurin + sawtooth; circle 2/3 in progress (wt-nt)"
+     "done": 1.0,
+     "note": "landed: circle 2/3, elementary annulus, estcross"
     },
     {
      "id": "N4",
@@ -72,8 +72,8 @@
      "goal": "Sobolev/Morrey, simplex volumes, DH21 (10.5), DH21 Lemma 10.2",
      "weight": 7.0,
      "lines_est": 2700,
-     "done": 0.6,
-     "note": "Sobolev variants, (10.5) landed; DH21 L10.2 in progress"
+     "done": 1.0,
+     "note": "landed: Sobolev variants, (10.5), simplex volumes, DH21 L10.2"
     },
     {
      "id": "R-CUMUL",
@@ -90,8 +90,8 @@
      "goal": "van der Corput A/B processes, exponent pair, circle problem with e<2/3, annulus bound (F3 revised)",
      "weight": 14.0,
      "lines_est": 5300,
-     "done": 0.1,
-     "note": "A-process landed; B-process next (wt-nt)"
+     "done": 0.45,
+     "note": "A-process + B-process (VdCB) landed in part; exponent-pair transfer in progress"
     },
     {
      "id": "R-WKE",
@@ -99,8 +99,8 @@
      "goal": "collision operator, GIT20 trilinear (all d), LWP, wkelwp, tame estimate, Taylor expansion",
      "weight": 24.0,
      "lines_est": 9810,
-     "done": 0.85,
-     "note": "landed: collision operator, delta reading, tame trilinear, Schwartz closure, uniqueness, existence, τ_max (wkelwp 1–2), Taylor bound F10; L²_s estimate in WKE-L2S"
+     "done": 0.93,
+     "note": "all but the L²_s blow-up conjunct; WKE-L2S Theorem 7 in progress (35 commits landed)"
     },
     {
      "id": "B1",
@@ -108,8 +108,8 @@
      "goal": "mass conservation, NLS→a-system reduction, a-system mass",
      "weight": 6.0,
      "lines_est": 1600,
-     "done": 0.85,
-     "note": "landed: Fourier equation, mass, a-system defs, reduction (part)"
+     "done": 1.0,
+     "note": "landed: Fourier equation, mass, reduction"
     },
     {
      "id": "B2",
@@ -117,8 +117,8 @@
      "goal": "a-system LWP/persistence, inverse reduction, uniqueness of smooth solutions",
      "weight": 9.0,
      "lines_est": 3200,
-     "done": 0.4,
-     "note": "uniqueness, classed a-system, LWP in progress"
+     "done": 0.9,
+     "note": "landed: LWP/persistence, inverse reduction, uniqueness"
     },
     {
      "id": "B3",
@@ -126,8 +126,8 @@
      "goal": "measurability, bridge, symmetries, gaugeinv",
      "weight": 10.0,
      "lines_est": 3000,
-     "done": 0.05,
-     "note": ""
+     "done": 0.95,
+     "note": "measurability, symmetries, MAIN-GLUE observables"
     },
     {
      "id": "NT9",
@@ -135,8 +135,8 @@
      "goal": "TARGET Lemmas A.6 (finitelem), A.7 (lincomblem)",
      "weight": 4.0,
      "lines_est": 1400,
-     "done": 0.2,
-     "note": "MISC-A started (wt-cumul)"
+     "done": 1.0,
+     "note": "landed: TARGET Lemmas A.6, A.7 (MISC-A)"
     },
     {
      "id": "N5",
@@ -144,8 +144,8 @@
      "goal": "resonant measure δ(Σ)δ(Ω) and p.v.1/Ω on the collisionOp parametrization; DH21 Lemma 6.3",
      "weight": 6.0,
      "lines_est": 2800,
-     "done": 0.6,
-     "note": "resonant measure, p.v. slices landed; DH21 L6.3 in progress"
+     "done": 1.0,
+     "note": "landed: resonant measure, p.v. 1/Ω, DH21 Lemma 6.3"
     },
     {
      "id": "D1",
@@ -153,8 +153,8 @@
      "goal": "general carriers (WAVE-B G-1: marked unpaired leaves with time nodes, irreducibility as a predicate) for trees, gardens, decorations, layerings, embedded objects; basic API",
      "weight": 8.0,
      "lines_est": 2020,
-     "done": 0.3,
-     "note": "Wave B core carriers drafted; under audit"
+     "done": 0.35,
+     "note": "core carriers audited; API pre-freeze (wt-resonant)"
     },
     {
      "id": "N1",
@@ -171,8 +171,8 @@
      "goal": "Poisson summation on ℤ_L^d, non-stationary and bilinear stationary phase",
      "weight": 5.0,
      "lines_est": 1700,
-     "done": 0.05,
-     "note": "started (wt-anfourier)"
+     "done": 1.0,
+     "note": "landed: Poisson on ℤ_L^d, non-stationary and bilinear stationary phase"
     },
     {
      "id": "D4",
@@ -180,8 +180,8 @@
      "goal": "mini-couples/mini-trees/operations A,B (WAVE-B §3.2), legal partitions, regular chains (DH21 Props 4.5, 4.7)",
      "weight": 8.0,
      "lines_est": 2400,
-     "done": 0.0,
-     "note": ""
+     "done": 0.15,
+     "note": "B2 stage 1 drafted (regular couples), under audit"
     },
     {
      "id": "NT10",
@@ -189,8 +189,8 @@
      "goal": "TARGET lemlin, lemcubic0",
      "weight": 4.0,
      "lines_est": 1500,
-     "done": 0.0,
-     "note": ""
+     "done": 1.0,
+     "note": "landed: lemlin (+F23 second bound), lemcubic0"
     },
     {
      "id": "N3",
@@ -198,8 +198,8 @@
      "goal": "Hausdorff–Young, DNY21 kernel (pin F29), TARGET Lemmas A.2, A.3",
      "weight": 10.0,
      "lines_est": 4500,
-     "done": 0.0,
-     "note": "queued after N2 (wt-anfourier)"
+     "done": 0.5,
+     "note": "Hausdorff–Young, time-integral lemmas in progress"
     },
     {
      "id": "NT2",
@@ -207,8 +207,8 @@
      "goal": "DH21 Lemma A.5 (Hua L⁴, L⁶), shared reduction NT.weylReduction (review I17), L^{3d/2} moments of Weyl sums",
      "weight": 8.0,
      "lines_est": 3500,
-     "done": 0.1,
-     "note": "started (wt-gausssum)"
+     "done": 1.0,
+     "note": "landed: Hua L⁴/L⁶, Weyl reduction, L^{3d/2} moments"
     },
     {
      "id": "NT5",
@@ -216,8 +216,8 @@
      "goal": "DH23 Lemmas 6.5, 6.7; TARGET Lemma 5.2",
      "weight": 8.0,
      "lines_est": 4300,
-     "done": 0.0,
-     "note": ""
+     "done": 0.5,
+     "note": "NTSP in progress (11 commits landed)"
     },
     {
      "id": "M1",
@@ -252,8 +252,8 @@
      "goal": "DH23 Lemma 6.6(2), TARGET Lemma 5.3",
      "weight": 5.0,
      "lines_est": 3200,
-     "done": 0.0,
-     "note": ""
+     "done": 0.35,
+     "note": "MINOR-ARCS in progress"
     },
     {
      "id": "NT11",
@@ -262,7 +262,7 @@
      "weight": 6.0,
      "lines_est": 3000,
      "done": 0.0,
-     "note": ""
+     "note": "queued in MINOR-ARCS"
     },
     {
      "id": "NT3",
@@ -271,7 +271,7 @@
      "weight": 6.0,
      "lines_est": 2000,
      "done": 0.0,
-     "note": ""
+     "note": "queued in MINOR-ARCS"
     },
     {
      "id": "M2",
@@ -306,8 +306,8 @@
      "goal": "parameter structure, norms 𝔛/𝔖/Z, a-system, K_G/K*_Q/K*_T with summability, 𝒥_𝒯, ℒ_j; time-parameter design (GAP.timeParam)",
      "weight": 14.0,
      "lines_est": 3400,
-     "done": 0.25,
-     "note": "Wave B system objects drafted; under audit"
+     "done": 0.3,
+     "note": "system objects audited, final fixes"
     },
     {
      "id": "M3",
@@ -378,8 +378,8 @@
      "goal": "time coefficients ℬ_Q, recursions, class J/R operators (DH21 §5.1–Lemma 5.5)",
      "weight": 7.0,
      "lines_est": 3800,
-     "done": 0.0,
-     "note": ""
+     "done": 0.45,
+     "note": "class J/R operators (Lemmas 5.3–5.5) landed in part (wt-wke)"
     },
     {
      "id": "L1",
@@ -477,8 +477,8 @@
      "goal": "DH21 Lemmas 5.6–5.10",
      "weight": 8.0,
      "lines_est": 4000,
-     "done": 0.0,
-     "note": ""
+     "done": 0.15,
+     "note": "JR-OPS"
     },
     {
      "id": "L2",
@@ -783,8 +783,8 @@
      "goal": "proof of Theorem 1.1 from propansatz and the bridge",
      "weight": 3.0,
      "lines_est": 860,
-     "done": 0.0,
-     "note": ""
+     "done": 0.35,
+     "note": "MAIN-GLUE: G1, G2, G5–G7, G10 landed; G4, G8, G9, G11 after the Wave B freeze"
     }
    ]
   },

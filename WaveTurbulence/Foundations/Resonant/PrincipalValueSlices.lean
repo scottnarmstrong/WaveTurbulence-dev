@@ -21,7 +21,7 @@ public section
 open MeasureTheory Filter Topology Set
 open scoped InnerProductSpace
 
-namespace WaveTurbulence
+namespace WaveTurbulence.Resonant
 
 variable {d : ℕ}
 
@@ -54,7 +54,7 @@ end IsPVCutoff
   ∫ x : Mom d, F ℓ x * ((1 - χ (μ * (-(2 * ⟪ℓ, x⟫_ℝ)))) / (-(2 * ⟪ℓ, x⟫_ℝ)))
 
 /-- Every finite truncated inner integral is integrable. -/
-theorem DeltaKernel.integrable_energyInvInner
+theorem integrable_energyInvInner
     {F : Mom d → Mom d → ℝ} {A : Mom d → ℝ} {b : Mom d → Mom d} {M : ℝ}
     (hK : DeltaKernel F A b M) {χ : ℝ → ℝ} (hχ : IsPVCutoff χ) (μ : ℝ) (ℓ : Mom d) :
     Integrable (fun x : Mom d => F ℓ x *
@@ -68,13 +68,13 @@ theorem DeltaKernel.integrable_energyInvInner
 
 /-- Exact slice identity, including the sign and normalization of the frozen
 energy resonance. -/
-theorem DeltaKernel.energyInvInner_eq
+theorem energyInvInner_eq
     {F : Mom d → Mom d → ℝ} {A : Mom d → ℝ} {b : Mom d → Mom d} {M : ℝ}
     (hK : DeltaKernel F A b M) {χ : ℝ → ℝ} (hχ : IsPVCutoff χ) (μ : ℝ)
     {ℓ : Mom d} (hℓ : ℓ ≠ 0) :
     energyInvInner χ μ F ℓ = -(2 * ‖ℓ‖)⁻¹ *
       pvTruncation χ (μ * (2 * ‖ℓ‖)) (sliceInt F ℓ) := by
-  rw [energyInvInner, integral_eq_integral_slice hℓ (hK.integrable_energyInvInner hχ μ ℓ)]
+  rw [energyInvInner, integral_eq_integral_slice hℓ (integrable_energyInvInner hK hχ μ ℓ)]
   have hin : ∀ t (w : ↥(ℝ ∙ ℓ)ᗮ), ⟪ℓ, t • unitVec ℓ + (w : Mom d)⟫_ℝ = t * ‖ℓ‖ := by
     intro t w
     rw [inner_add_right, inner_smul_right, inner_unitVec_self, inner_eq_zero_of_mem_perp w,
@@ -87,4 +87,4 @@ theorem DeltaKernel.energyInvInner_eq
   simp only [div_eq_mul_inv, inv_neg, mul_inv_rev]
   ring_nf
 
-end WaveTurbulence
+end WaveTurbulence.Resonant
