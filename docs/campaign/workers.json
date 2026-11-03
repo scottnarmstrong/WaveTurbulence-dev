@@ -59,9 +59,9 @@
   "tmux": "wt-gausssum",
   "model": "GPT-6.1-Sol low",
   "account": "codex-3",
-  "branch": "w/hua",
-  "packet": "NT2 HUA: Hua L⁴/L⁶, Weyl-sum reduction, L^{3d/2} moments (GAUSSSUM landed)",
-  "brief": "docs/campaign/briefs/HUA.md"
+  "branch": "w/minor-arcs",
+  "packet": "NT4+NT11+NT3: DH23 Lemma 6.6, TARGET Lemma 5.3 and lemcubic (HUA landed)",
+  "brief": "docs/campaign/briefs/MINOR-ARCS.md"
  },
  {
   "tmux": "wt-resonant",
