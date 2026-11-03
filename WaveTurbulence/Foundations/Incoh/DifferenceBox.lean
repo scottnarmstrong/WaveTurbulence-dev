@@ -5,6 +5,7 @@ Authors: Scott Armstrong
 -/
 module
 
+public import WaveTurbulence.Foundations.Incoh.DifferenceScaling
 public import Mathlib.MeasureTheory.Group.Prod
 public import Mathlib.MeasureTheory.Measure.Lebesgue.Basic
 public import Mathlib.MeasureTheory.Integral.Prod
@@ -47,6 +48,19 @@ theorem volume_differenceFiber_le_abs {I J : Set ℝ} {q : ℝ}
       have hxq := hsep.1 x hx.1
       have hqy := hsep.2 (x + r) hx.2
       exact ⟨by linarith [le_abs_self r], hxq⟩
+    _ = _ := by rw [Real.volume_Icc]; congr 1; ring
+
+/-- The reverse separation has the same absolute-difference density bound. -/
+theorem volume_differenceFiber_le_abs_reverse {I J : Set ℝ} {q : ℝ}
+    (hsep : (∀ x ∈ I, q ≤ x) ∧ (∀ y ∈ J, y ≤ q)) (r : ℝ) :
+    volume (differenceFiber I J r) ≤ ENNReal.ofReal |r| := by
+  calc
+    _ ≤ volume (Icc q (q + |r|)) := by
+      apply measure_mono
+      intro x hx
+      have hqx := hsep.1 x hx.1
+      have hyq := hsep.2 (x + r) hx.2
+      exact ⟨hqx, by linarith [neg_le_abs r]⟩
     _ = _ := by rw [Real.volume_Icc]; congr 1; ring
 
 /-- The time-box integral disintegrates against the exact difference-fiber density. -/
@@ -98,5 +112,42 @@ theorem lintegral_difference_box_le_firstMoment {I J : Set ℝ} (hI : Measurable
       ∫⁻ r, f r * ENNReal.ofReal |r| := by
   rw [lintegral_difference_box hI hJ hf]
   exact lintegral_mono fun r => mul_le_mul' le_rfl (volume_differenceFiber_le_abs hsep r)
+
+/-- The first-moment gain holds for either fixed orientation of two separated intervals. -/
+theorem lintegral_difference_box_le_firstMoment_of_separated {I J : Set ℝ}
+    (hI : MeasurableSet I) (hJ : MeasurableSet J) {q : ℝ}
+    (hsep : ((∀ x ∈ I, x ≤ q) ∧ (∀ y ∈ J, q ≤ y)) ∨
+      ((∀ x ∈ I, q ≤ x) ∧ (∀ y ∈ J, y ≤ q)))
+    {f : ℝ → ℝ≥0∞} (hf : Measurable f) :
+    (∫⁻ z : ℝ × ℝ, (I ×ˢ J).indicator (fun z => f (z.2 - z.1)) z) ≤
+      ∫⁻ r, f r * ENNReal.ofReal |r| := by
+  rw [lintegral_difference_box hI hJ hf]
+  apply lintegral_mono
+  intro r
+  apply mul_le_mul' le_rfl
+  rcases hsep with hsep | hsep
+  · exact volume_differenceFiber_le_abs hsep r
+  · exact volume_differenceFiber_le_abs_reverse hsep r
+
+/-- The coherent box bound carries exactly one inverse frequency scale. -/
+theorem lintegral_scaled_difference_box_le {I J : Set ℝ} (hI : MeasurableSet I)
+    (hJ : MeasurableSet J) (hvol : volume I ≤ 1) {lam : ℝ} (hlam : 0 < lam)
+    {f : ℝ → ℝ≥0∞} (hf : Measurable f) :
+    (∫⁻ z : ℝ × ℝ, (I ×ˢ J).indicator (fun z => f (lam * (z.2 - z.1))) z) ≤
+      ENNReal.ofReal lam⁻¹ * ∫⁻ r, f r := by
+  exact (lintegral_difference_box_le hI hJ hvol
+    (hf.comp (measurable_const.mul measurable_id))).trans_eq (lintegral_comp_pos_mul hlam hf)
+
+/-- TARGET (incohproof15): separated boxes carry exactly two inverse frequency scales. -/
+theorem lintegral_scaled_difference_box_le_firstMoment {I J : Set ℝ}
+    (hI : MeasurableSet I) (hJ : MeasurableSet J) {q : ℝ}
+    (hsep : ((∀ x ∈ I, x ≤ q) ∧ (∀ y ∈ J, q ≤ y)) ∨
+      ((∀ x ∈ I, q ≤ x) ∧ (∀ y ∈ J, y ≤ q)))
+    {lam : ℝ} (hlam : 0 < lam) {f : ℝ → ℝ≥0∞} (hf : Measurable f) :
+    (∫⁻ z : ℝ × ℝ, (I ×ˢ J).indicator (fun z => f (lam * (z.2 - z.1))) z) ≤
+      (ENNReal.ofReal lam⁻¹) ^ 2 * ∫⁻ r, f r * ENNReal.ofReal |r| := by
+  exact (lintegral_difference_box_le_firstMoment_of_separated hI hJ hsep
+    (hf.comp (measurable_const.mul measurable_id))).trans_eq
+      (lintegral_firstMoment_comp_pos_mul hlam hf)
 
 end WaveTurbulence.Incoh
