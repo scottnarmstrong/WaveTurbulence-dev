@@ -303,6 +303,165 @@ theorem lintegral_special_le {F₁ : P → ℝ≥0∞} {F₂ : P' → ℝ≥0∞
         rw [lintegral_mul_const _ (h₁.mul_const _), lintegral_mul_const _ h₁]
         ring
 
+theorem measurable_enorm_iteratedFDeriv_K (hK : ∀ q, ContDiff ℝ ∞ fun x => K x q)
+    (hKm : StronglyMeasurable (Function.uncurry K)) (c : ℕ) :
+    Measurable fun p : (Fin n → ℝ) × Q => ‖iteratedFDeriv ℝ c (fun x => K x p.2) p.1‖ₑ :=
+  (stronglyMeasurable_uncurry_iteratedFDeriv_param (f := K) hK
+    (fun x => hKm.comp_measurable (measurable_const.prodMk measurable_id)) c).enorm
+
+theorem measurable_enorm_iteratedFDeriv_K_comp {X : Type*} [MeasurableSpace X]
+    (hK : ∀ q, ContDiff ℝ ∞ fun x => K x q) (hKm : StronglyMeasurable (Function.uncurry K))
+    (c : ℕ) {g : X → Fin n → ℝ} {h : X → Q} (hg : Measurable g) (hh : Measurable h) :
+    Measurable fun x => ‖iteratedFDeriv ℝ c (fun y => K y (h x)) (g x)‖ₑ := by
+  have := (stronglyMeasurable_uncurry_iteratedFDeriv_param (f := K) hK
+    (fun x => hKm.comp_measurable (measurable_const.prodMk measurable_id)) c).comp_measurable
+    (hg.prodMk hh)
+  exact this.enorm
+
+/-- **Weighted norms of product symbols with special variables factorize.** The special variables
+are integrated, together with the auxiliary variables `q`, against the fixed functions; this is
+the hypothesis `hΓ` (DH21 (uniformbound0) and its variants). -/
+theorem lintegral_tripleS_le (hL : ∀ r, IsBundle (Ls r)) (h₁ : SymReg m₁) (h₂ : SymReg m₂)
+    (hK : ∀ q, ContDiff ℝ ∞ fun x => K x q) (hKm : StronglyMeasurable (Function.uncurry K))
+    (hc : ∀ r, Measurable (cs r)) {np : ℕ}
+    (W : ((κ₁ ⊕ κ₂) ⊕ σ → ℝ) → P × (P' × Q) → ℝ≥0∞)
+    (w₁ : Fin np → (κ₁ → ℝ) → P → ℝ≥0∞) (w₂ : Fin np → (κ₂ → ℝ) → P' → ℝ≥0∞)
+    (w₃ : Fin np → (σ → ℝ) → (Fin n → ℝ) → Q → ℝ≥0∞)
+    (hw₁ : ∀ p, Measurable (Function.uncurry (w₁ p)))
+    (hw₂ : ∀ p, Measurable (Function.uncurry (w₂ p)))
+    (hw₃ : ∀ p, Measurable fun t : (σ → ℝ) × ((Fin n → ℝ) × Q) => w₃ p t.1 t.2.1 t.2.2)
+    (hW : ∀ α z, W α z ≤ ∑ p, w₁ p (vA α) z.1 * w₂ p (vB α) z.2.1 *
+      w₃ p (vS α) (formsV Ls cs α z) z.2.2)
+    (Γ : Fin np → ℕ → ℝ≥0∞)
+    (hΓ : ∀ p c (a : κ₁ ⊕ κ₂ → ℝ) (z₁ : P) (z₂ : P'), ∫⁻ q, ∫⁻ s : σ → ℝ,
+      w₃ p s (formsV Ls cs (Sum.elim a s) (z₁, (z₂, q))) q *
+        ‖iteratedFDeriv ℝ c (fun x => K x q) (formsV Ls cs (Sum.elim a s) (z₁, (z₂, q)))‖ₑ ≤
+          Γ p c)
+    (k : ℕ) :
+    ∫⁻ α, ∫⁻ z, W α z * dnorm k (tripleS m₁ m₂ K Ls cs) α z ≤
+      ∑ p, ∑ j ∈ range (k + 1), (k.choose j : ℝ≥0∞) *
+        (∫⁻ a, ∫⁻ z₁, w₁ p a z₁ * dnorm j m₁ a z₁) *
+        ∑ i ∈ range (k - j + 1), ((k - j).choose i : ℝ≥0∞) *
+          (∫⁻ b, ∫⁻ z₂, w₂ p b z₂ * dnorm i m₂ b z₂) * Γ p (k - j - i) := by
+  set F₁ : Fin np → ℕ → (κ₁ → ℝ) → P → ℝ≥0∞ := fun p j a z₁ => w₁ p a z₁ * dnorm j m₁ a z₁
+    with hF₁d
+  set F₂ : Fin np → ℕ → (κ₂ → ℝ) → P' → ℝ≥0∞ := fun p i b z₂ => w₂ p b z₂ * dnorm i m₂ b z₂
+    with hF₂d
+  set H : Fin np → ℕ → ((κ₁ ⊕ κ₂) ⊕ σ → ℝ) → P × (P' × Q) → ℝ≥0∞ := fun p c α z =>
+    w₃ p (vS α) (formsV Ls cs α z) z.2.2 *
+      ‖iteratedFDeriv ℝ c (fun x => K x z.2.2) (formsV Ls cs α z)‖ₑ with hHd
+  clear_value F₁ F₂ H
+  have hF₁ : ∀ p j, Measurable (Function.uncurry (F₁ p j)) := fun p j => by
+    rw [hF₁d]; exact (hw₁ p).mul (measurable_dnorm h₁.smooth h₁.meas j)
+  have hF₂ : ∀ p i, Measurable (Function.uncurry (F₂ p i)) := fun p i => by
+    rw [hF₂d]; exact (hw₂ p).mul (measurable_dnorm h₂.smooth h₂.meas i)
+  have hfz : Measurable fun q : ((κ₁ ⊕ κ₂) ⊕ σ → ℝ) × (P × (P' × Q)) =>
+      (formsV Ls cs q.1 q.2, q.2.2.2) :=
+    (measurable_formsV hc).prodMk (measurable_snd.comp (measurable_snd.comp measurable_snd))
+  have hHm : ∀ p c, Measurable (Function.uncurry (H p c)) := fun p c => by
+    have h3 : Measurable fun q : ((κ₁ ⊕ κ₂) ⊕ σ → ℝ) × (P × (P' × Q)) =>
+        w₃ p (vS q.1) (formsV Ls cs q.1 q.2) q.2.2.2 :=
+      (hw₃ p).comp ((measurable_vS.comp measurable_fst).prodMk hfz)
+    have h4 : Measurable fun q : ((κ₁ ⊕ κ₂) ⊕ σ → ℝ) × (P × (P' × Q)) =>
+        ‖iteratedFDeriv ℝ c (fun x => K x q.2.2.2) (formsV Ls cs q.1 q.2)‖ₑ :=
+      measurable_enorm_iteratedFDeriv_K_comp hK hKm c (measurable_formsV hc)
+        (measurable_snd.comp (measurable_snd.comp measurable_snd))
+    rw [hHd]
+    exact h3.mul h4
+  have hl : Measurable fun q : ((κ₁ ⊕ κ₂) ⊕ σ → ℝ) × (P × (P' × Q)) => (vA q.1, q.2.1) :=
+    (measurable_vA.comp measurable_fst).prodMk (measurable_fst.comp measurable_snd)
+  have hr : Measurable fun q : ((κ₁ ⊕ κ₂) ⊕ σ → ℝ) × (P × (P' × Q)) => (vB q.1, q.2.2.1) :=
+    (measurable_vB.comp measurable_fst).prodMk
+      (measurable_fst.comp (measurable_snd.comp measurable_snd))
+  set T : Fin np → ℕ → ℕ → ((κ₁ ⊕ κ₂) ⊕ σ → ℝ) → P × (P' × Q) → ℝ≥0∞ := fun p j i α z =>
+    ((k.choose j : ℝ≥0∞) * ((k - j).choose i : ℝ≥0∞)) *
+      (F₁ p j (vA α) z.1 * F₂ p i (vB α) z.2.1 * H p (k - j - i) α z)
+  have hTm : ∀ p j i, Measurable (Function.uncurry (T p j i)) := fun p j i =>
+    measurable_const.mul ((((hF₁ p j).comp hl).mul ((hF₂ p i).comp hr)).mul (hHm p _))
+  have hpt : ∀ α z, W α z * dnorm k (tripleS m₁ m₂ K Ls cs) α z ≤
+      ∑ p, ∑ j ∈ range (k + 1), ∑ i ∈ range (k - j + 1), T p j i α z := fun α z => by
+    calc W α z * dnorm k (tripleS m₁ m₂ K Ls cs) α z
+        ≤ (∑ p, w₁ p (vA α) z.1 * w₂ p (vB α) z.2.1 * w₃ p (vS α) (formsV Ls cs α z) z.2.2) *
+          ∑ j ∈ range (k + 1), (k.choose j : ℝ≥0∞) * dnorm j m₁ (vA α) z.1 *
+            ∑ i ∈ range (k - j + 1), ((k - j).choose i : ℝ≥0∞) * dnorm i m₂ (vB α) z.2.1 *
+              ‖iteratedFDeriv ℝ (k - j - i) (fun x => K x z.2.2) (formsV Ls cs α z)‖ₑ :=
+          mul_le_mul' (hW α z) (dnorm_tripleS_le hL h₁.smooth h₂.smooth hK k α z)
+      _ = ∑ p, ∑ j ∈ range (k + 1), ∑ i ∈ range (k - j + 1), T p j i α z := by
+          rw [Finset.sum_mul]
+          refine Finset.sum_congr rfl fun p _ => ?_
+          rw [Finset.mul_sum]
+          refine Finset.sum_congr rfl fun j _ => ?_
+          rw [Finset.mul_sum, Finset.mul_sum]
+          refine Finset.sum_congr rfl fun i _ => ?_
+          simp only [T, hF₁d, hF₂d, hHd]
+          ring
+  calc ∫⁻ α, ∫⁻ z, W α z * dnorm k (tripleS m₁ m₂ K Ls cs) α z
+      ≤ ∫⁻ α, ∫⁻ z, ∑ p, ∑ j ∈ range (k + 1), ∑ i ∈ range (k - j + 1), T p j i α z :=
+        lintegral_mono fun α => lintegral_mono fun z => hpt α z
+    _ = ∑ p, ∑ j ∈ range (k + 1), ∑ i ∈ range (k - j + 1), ∫⁻ α, ∫⁻ z, T p j i α z := by
+        rw [lintegral_lintegral_finsetSum _ fun p _ => Finset.measurable_sum _ fun j _ =>
+          Finset.measurable_sum _ fun i _ => hTm p j i]
+        refine Finset.sum_congr rfl fun p _ => ?_
+        rw [lintegral_lintegral_finsetSum _ fun j _ => Finset.measurable_sum _ fun i _ =>
+          hTm p j i]
+        refine Finset.sum_congr rfl fun j _ => ?_
+        exact lintegral_lintegral_finsetSum _ fun i _ => hTm p j i
+    _ ≤ _ := by
+        refine Finset.sum_le_sum fun p _ => Finset.sum_le_sum fun j _ => ?_
+        rw [Finset.mul_sum]
+        refine Finset.sum_le_sum fun i _ => ?_
+        have hc' : ((k.choose j : ℝ≥0∞) * ((k - j).choose i : ℝ≥0∞)) ≠ ⊤ :=
+          ENNReal.mul_ne_top (by simp) (by simp)
+        simp only [T]
+        simp_rw [lintegral_const_mul' _ _ hc']
+        have hinner : ∫⁻ α, ∫⁻ z, F₁ p j (vA α) z.1 * F₂ p i (vB α) z.2.1 *
+              H p (k - j - i) α z ≤
+            Γ p (k - j - i) * ((∫⁻ a, ∫⁻ z₁, F₁ p j a z₁) * ∫⁻ b, ∫⁻ z₂, F₂ p i b z₂) := by
+          have hG : Measurable fun α : (κ₁ ⊕ κ₂) ⊕ σ → ℝ => ∫⁻ z,
+              F₁ p j (vA α) z.1 * F₂ p i (vB α) z.2.1 * H p (k - j - i) α z :=
+            ((((hF₁ p j).comp hl).mul ((hF₂ p i).comp hr)).mul (hHm p _)).lintegral_prod_right'
+          rw [lintegral_split_special hG]
+          calc ∫⁻ a : κ₁ ⊕ κ₂ → ℝ, ∫⁻ s : σ → ℝ, ∫⁻ z, F₁ p j (vA (Sum.elim a s)) z.1 *
+                F₂ p i (vB (Sum.elim a s)) z.2.1 * H p (k - j - i) (Sum.elim a s) z
+              ≤ ∫⁻ a : κ₁ ⊕ κ₂ → ℝ, Γ p (k - j - i) *
+                  (∫⁻ z₁, F₁ p j (fun i => a (Sum.inl i)) z₁) *
+                  ∫⁻ z₂, F₂ p i (fun i => a (Sum.inr i)) z₂ := by
+                refine lintegral_mono fun a => ?_
+                have hHa : Measurable (Function.uncurry fun s z => H p (k - j - i)
+                    (Sum.elim a s) z) := by
+                  have hel : Measurable fun q : (σ → ℝ) × (P × (P' × Q)) =>
+                      (Sum.elim a q.1 : (κ₁ ⊕ κ₂) ⊕ σ → ℝ) := by
+                    refine Measurable.of_eval fun i => ?_
+                    cases i with
+                    | inl j => exact measurable_const
+                    | inr j => exact (measurable_pi_apply j).comp measurable_fst
+                  have : Measurable fun q : (σ → ℝ) × (P × (P' × Q)) =>
+                      ((Sum.elim a q.1 : (κ₁ ⊕ κ₂) ⊕ σ → ℝ), q.2) :=
+                    hel.prodMk measurable_snd
+                  exact (hHm p _).comp this
+                exact lintegral_special_le (F₁ := F₁ p j (fun i => a (Sum.inl i)))
+                  (F₂ := F₂ p i (fun i => a (Sum.inr i)))
+                  ((hF₁ p j).of_uncurry_left) ((hF₂ p i).of_uncurry_left) hHa
+                  (fun z₁ z₂ => by rw [hHd]; exact hΓ p (k - j - i) a z₁ z₂)
+            _ = Γ p (k - j - i) * ((∫⁻ a, ∫⁻ z₁, F₁ p j a z₁) * ∫⁻ b, ∫⁻ z₂, F₂ p i b z₂) := by
+                have hm1 : Measurable fun a : κ₁ → ℝ => ∫⁻ z₁, F₁ p j a z₁ :=
+                  (hF₁ p j).lintegral_prod_right'
+                have hm2 : Measurable fun b : κ₂ → ℝ => ∫⁻ z₂, F₂ p i b z₂ :=
+                  (hF₂ p i).lintegral_prod_right'
+                have hmeas : Measurable fun a : κ₁ ⊕ κ₂ → ℝ =>
+                    (∫⁻ z₁, F₁ p j (fun i => a (Sum.inl i)) z₁) *
+                      ∫⁻ z₂, F₂ p i (fun i => a (Sum.inr i)) z₂ :=
+                  (hm1.comp (Measurable.of_eval fun i => measurable_pi_apply (Sum.inl i))).mul
+                    (hm2.comp (Measurable.of_eval fun i => measurable_pi_apply (Sum.inr i)))
+                simp_rw [mul_assoc]
+                rw [lintegral_const_mul _ hmeas, lintegral_sumPi hm1 hm2]
+        calc ((k.choose j : ℝ≥0∞) * ((k - j).choose i : ℝ≥0∞)) *
+              ∫⁻ α, ∫⁻ z, F₁ p j (vA α) z.1 * F₂ p i (vB α) z.2.1 * H p (k - j - i) α z
+            ≤ ((k.choose j : ℝ≥0∞) * ((k - j).choose i : ℝ≥0∞)) *
+              (Γ p (k - j - i) * ((∫⁻ a, ∫⁻ z₁, F₁ p j a z₁) * ∫⁻ b, ∫⁻ z₂, F₂ p i b z₂)) :=
+              mul_le_mul' le_rfl hinner
+          _ = _ := by simp only [hF₁d, hF₂d]; ring
+
 end Norms
 
 end WaveTurbulence.ClassJR
