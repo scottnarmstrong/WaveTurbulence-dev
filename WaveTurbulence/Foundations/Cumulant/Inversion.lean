@@ -182,3 +182,36 @@ theorem integral_prod_eq_sum_cumulant {Ω ι : Type*} [MeasurableSpace Ω] [Deci
   exact h.symm
 
 end WaveTurbulence
+
+namespace WaveTurbulence.CumulantPartitions
+lemma partitionExp_injective_nonempty {ι : Type*} [DecidableEq ι] (L K : Finset ι → ℂ)
+    (h : ∀ s : Finset ι, s.Nonempty → partitionExp L s = partitionExp K s)
+    (s : Finset ι) (hs : s.Nonempty) : L s = K s := by
+  revert hs
+  induction s using Finset.strongInduction with
+  | H s ih =>
+    intro hs
+    obtain ⟨i, hi⟩ := hs
+    have he := h s ⟨i, hi⟩
+    rw [partitionExp_recurrence L s i hi, partitionExp_recurrence K s i hi] at he
+    have hc : (∑ B : SelectedBlock s (fun B => i ∉ B),
+        L (s \ B.1.1) * partitionExp L B.1.1) =
+        ∑ B : SelectedBlock s (fun B => i ∉ B), K (s \ B.1.1) * partitionExp K B.1.1 := by
+      apply Finset.sum_congr rfl
+      intro B _
+      have hsub : s \ B.1.1 ⊂ s := by
+        apply lt_of_le_of_ne Finset.sdiff_subset
+        intro heq
+        obtain ⟨b, hb⟩ := B.property.1
+        have hbs := Finset.mem_powerset.mp B.1.property hb
+        have hc := Finset.mem_sdiff.mp (heq.symm ▸ hbs)
+        exact hc.2 hb
+      rw [ih _ hsub ⟨i, Finset.mem_sdiff.mpr ⟨hi, B.property.2⟩⟩, h _ B.property.1]
+    rw [hc] at he
+    exact add_right_cancel he
+
+lemma partitionLog_partitionExp {ι : Type*} [DecidableEq ι] (L : Finset ι → ℂ)
+    (s : Finset ι) (hs : s.Nonempty) : partitionLog (partitionExp L) s = L s :=
+  partitionExp_injective_nonempty (partitionLog (partitionExp L)) L
+    (fun t ht => partitionExp_partitionLog (partitionExp L) t ht) s hs
+end WaveTurbulence.CumulantPartitions

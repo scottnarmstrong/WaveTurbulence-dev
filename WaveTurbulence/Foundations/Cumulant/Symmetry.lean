@@ -6,6 +6,7 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.Cumulant.Basic
+public import WaveTurbulence.Frozen.Defs.Mom
 import Mathlib.Analysis.SpecialFunctions.Complex.Circle
 import Mathlib.MeasureTheory.Integral.Bochner.ContinuousLinearMap
 
@@ -162,5 +163,41 @@ theorem cumulant_eq_zero_of_translation_invariant {Ω ι : Type*} [MeasurableSpa
   obtain ⟨l, hl⟩ := exists_nonzero_charge_coordinate s q hq
   exact cumulant_eq_zero_of_gauge_invariant hX (fun j => q j l)
     (map_coordinate_gauge_invariant q hinv l) s hl
+
+end WaveTurbulence
+
+namespace WaveTurbulence
+open MeasureTheory
+
+private theorem nonzero_mom_sum_coordinates {ι : Type*} {d : ℕ}
+    (s : Finset ι) (q : ι → Mom d) (hq : (∑ j ∈ s, q j) ≠ 0) :
+    (∑ j ∈ s, fun l : Fin d => q j l) ≠ 0 := by
+  intro h
+  apply hq
+  ext l
+  have hl := congrFun h l
+  simpa using hl
+
+/-- Translation symmetry in the campaign's frozen momentum carrier `Mom d` forces
+moments of nonzero total signed momentum to vanish (TARGET `gaugeinv`). -/
+theorem integral_prod_eq_zero_of_translation_invariant_mom {Ω ι : Type*} [MeasurableSpace Ω]
+    {d : ℕ} {μ : Measure Ω} {X : ι → Ω → ℂ} (hX : ∀ j, Measurable (X j))
+    (q : ι → Mom d)
+    (hinv : ∀ x : Fin d → ℝ, μ.map (fun ω j => X j ω) =
+      μ.map (fun ω j => Complex.exp (Complex.ofReal (∑ l, q j l * x l) * Complex.I) * X j ω))
+    (s : Finset ι) (hq : (∑ j ∈ s, q j) ≠ 0) :
+    (∫ ω, ∏ j ∈ s, X j ω ∂μ) = 0 :=
+  integral_prod_eq_zero_of_translation_invariant hX (fun j l => q j l) hinv s
+    (nonzero_mom_sum_coordinates s q hq)
+
+/-- The same translation symmetry in `Mom d` forces the corresponding cumulant to vanish. -/
+theorem cumulant_eq_zero_of_translation_invariant_mom {Ω ι : Type*} [MeasurableSpace Ω]
+    [DecidableEq ι] {d : ℕ} {μ : Measure Ω} {X : ι → Ω → ℂ} (hX : ∀ j, Measurable (X j))
+    (q : ι → Mom d)
+    (hinv : ∀ x : Fin d → ℝ, μ.map (fun ω j => X j ω) =
+      μ.map (fun ω j => Complex.exp (Complex.ofReal (∑ l, q j l * x l) * Complex.I) * X j ω))
+    (s : Finset ι) (hq : (∑ j ∈ s, q j) ≠ 0) : cumulant μ X s = 0 :=
+  cumulant_eq_zero_of_translation_invariant hX (fun j l => q j l) hinv s
+    (nonzero_mom_sum_coordinates s q hq)
 
 end WaveTurbulence
