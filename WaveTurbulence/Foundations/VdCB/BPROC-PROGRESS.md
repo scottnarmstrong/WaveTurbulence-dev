@@ -144,3 +144,108 @@ and curvature weights. It does not yet handle selection of endpoint
 frequencies or analytic exponent-pair closure.
 The four-export `SharpAxioms.lean` probe exited 0; each result has only
 `[propext, Classical.choice, Quot.sound]`.
+
+`BProcessFinite` builds (3855 jobs): actual source sum to actual Legendre
+sum, with explicit Poisson, stationary and nonstationary-complement errors.
+The complement has an actual derivative-distance premise; no exponential-sum
+estimate is assumed. `TruncatedPoissonShift` builds (3823 jobs), normalizing
+an arbitrary integer-translated derivative range without changing the samples.
+
+Circle-family coverage is now analytic, not just formal calculus:
+`CircleSourceCalculus`, `CircleLocalization`, `CircleSourceBounds`,
+`CircleStationary`, and `CircleColumnStationary` build. A concrete bump
+extension is globally smooth, agrees locally with the original phase on
+[U,2U], and preserves every actual derivative there. The condition `3U≤R`
+covers the octant blocks in the user requirement. Curvature and third
+source derivatives have explicit O(1)-variation dyadic bounds.
+`norm_integral_circleColumnPhase_sub_main_le` proves the actual sharp
+stationary integral formula on `[R-2U,R-U]`, with the corrected lattice
+dual `R*sqrt(h²+ν²)` and quarter phase `-1/8`. The source-domain endpoint
+singularities are not assumed smooth. Latest target passed: 3838 jobs.
+`CircleWeight` also builds (2325 jobs): its explicit weight is decreasing
+and bounded by `sqrt(R)*h*Y^(-3/2)` on ν≥Y>0.
+The six-result `CircleAxioms.lean` probe exited 0, each export with only
+`[propext, Classical.choice, Quot.sound]`.
+
+The exact circle curvature identity and explicit stationary weight now build
+in `CircleCurvature`. `CircleWeightedStationary` (3843 jobs) exports the
+original-column stationary formula with explicit weight
+`sqrt(R)*h*(h²+ν²)^(-3/4)`. `AbelWeight` and `CircleWeightedSum` prove the
+partial-summation transfer from actual initial partial sums; this is a
+conditional elementary transfer, not an exponent-pair closure claim.
+
+The uniform second-derivative integral estimate is proved by splitting at
+actual derivative levels ±t, with bound `2t/μ+2/(pi*t)`.
+`BProcessUniform` therefore removes the derivative-distance premise from
+the omitted frequencies. `StationaryFrequencies` defines the actual central
+frequency set and proves existence of critical points by intermediate value.
+`BProcessSelected.exists_BProcess_selected` now requires only actual source
+smoothness, derivative range, curvature and third-derivative bounds, plus
+radius geometry. `StationaryFrequencyCount` bounds the omitted cardinality
+by `2*(Λ*r+3)` under an actual upper curvature bound Λ and normalized
+endpoint derivative values. All these targets pass.
+
+The combined interface target
+`nice -n 5 lake build WaveTurbulence.Foundations.VdCB.BProcess`
+returned `Build completed successfully (3885 jobs).`, without warnings.
+The nine-result `WeightAxioms.lean` probe exited 0 with only
+`[propext, Classical.choice, Quot.sound]` for every export checked.
+`bProcess_scaling` verifies the exact powers `(λ-1/2,κ+1/2)` but is still
+only algebraic; analytic `IsExponentPair` B-closure remains outstanding.
+
+Goal 1 now has its standard adjustable-margin/width form in `SharpPoisson`:
+`norm_sum_sub_poisson_derivative_range_le` proves error
+`10*(η⁻¹+log(β-α+2))` for `0<η≤1`, global C2 source phase, natural endpoints,
+actual derivative range `[α,β]`, and actual `f''≤0`. Its frequency set is
+exactly the integers satisfying both strict inequalities
+`α-η<ν<β+η`; canonical floor/ceiling normalization is internal.
+`PoissonMargin`, `PoissonMarginShift`, `PoissonMarginNegative`, `OpenFrequencies`,
+`FrequencyNormalization`, and `PoissonError` prove all steps.
+The version is explicitly natural-endpoint/C2; arbitrary real endpoints
+and merely C1 monotone-derivative regularity are not asserted.
+Combined interface `BProcess` builds (3893 jobs), without warnings.
+The three-result `SharpPoissonAxioms.lean` probe exited 0, with only
+`[propext, Classical.choice, Quot.sound]`.
+
+At the clean point after the Poisson-margin commit, merged `main` (then
+`10148c8`) successfully. This supplies wt-nt's actual A-process and circle
+quotient scale consumers. No other worker file was edited.
+
+`CircleDualTower` defines every entry by the actual iterated derivative,
+and proves the literal third/fourth/fifth quotient identities.
+`CircleDualASum` now discharges every premise of the landed
+`circle_dual_exp_sum_le_of_derivative_formulas` and proves the actual
+corrected-dual bound `17179869184*(R*h²/Y²)^(1/30)*Y^(26/30)`, uniform in
+additional real linear phases. `CircleDualWeightedASum` applies proved
+Abel summation and gives the weighted bound
+`17179869184*sqrt(R)*h*(R*h²/Y²)^(1/30)*Y^(-19/30)` on actual consecutive
+integer blocks of length at most 2Y. No exponential-sum estimate or
+calculus formula is an assumed input to these results.
+`CircleCriticalUniqueness` identifies actual roots selected by intermediate
+value with the explicit source critical point. `CircleFrequencyBounds`
+proves `h²R/(9U)≤(f'(u))²≤h²R/U` for `6U≤R`, `U≤u≤2U`, and the fixed
+endpoint frequency ratio bound.
+Combined `BProcess` target passed (3927 jobs); the four-result
+`ActualDualAxioms.lean` probe exited 0 with standard axioms only.
+Source-scale conversion and the remaining B-error estimates are in progress;
+no final circle source-frequency bound or general analytic exponent-pair
+closure is asserted yet.
+
+## Actual source estimate with explicit errors
+
+`CircleBPreEstimate.norm_sum_circleColumnPhase_le_BScale_add_error`
+now combines the actual negative-curvature B-process, explicit critical
+point identification, octant frequency comparisons, and the landed
+A-process bound. It bounds the actual translated circle source sum by
+`154618822665 * circleBScale R h U + circleBError R h U r t`.
+The radius and splitting threshold are free positive numbers; absorbing
+the explicit errors and exposing the integer-block counting interface
+remain work in progress. Clipped octant blocks are covered without
+assuming that their full ambient dyadic block lies in the octant.
+
+Checked: `nice -n 5 lake build WaveTurbulence.Foundations.VdCB.CircleBPreEstimate`
+completed successfully (3929 jobs). Scratch `SourceBProcessAxioms.lean`
+exited 0: this theorem, `exists_BProcess_negative`, and
+`norm_circle_selected_main_le` depend only on `propext`,
+`Classical.choice`, and `Quot.sound`. No general analytic closure of
+`IsExponentPair` under B is claimed.
