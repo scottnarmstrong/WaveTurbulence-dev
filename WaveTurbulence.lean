@@ -123,11 +123,13 @@ public import WaveTurbulence.Foundations.LinAlg.LatticeObservations
 public import WaveTurbulence.Foundations.LinAlg.LatticeRepresentatives
 public import WaveTurbulence.Foundations.LinAlg.MaxVolume
 public import WaveTurbulence.Foundations.NLS.AkClass
+public import WaveTurbulence.Foundations.NLS.AkFlow
 public import WaveTurbulence.Foundations.NLS.AkGronwall
 public import WaveTurbulence.Foundations.NLS.AkMass
 public import WaveTurbulence.Foundations.NLS.AkPersistence
 public import WaveTurbulence.Foundations.NLS.AkSystem
 public import WaveTurbulence.Foundations.NLS.AkUnique
+public import WaveTurbulence.Foundations.NLS.Backward
 public import WaveTurbulence.Foundations.NLS.Convolution
 public import WaveTurbulence.Foundations.NLS.Energy
 public import WaveTurbulence.Foundations.NLS.FourierEquation
