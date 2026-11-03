@@ -1,8 +1,17 @@
 # NT-CIRCLE-v2 progress and handoff
 
-Goal 1 complete. Goal 2 is incomplete; goals 3–5 have not been started. No circle discrepancy, annulus count,
-`estcross`, B-process, or improved exponent-pair theorem is claimed.
-The earlier numerical obstruction and handoff remain valid.
+Current status: **goals 1–3 are complete**. The uniform closed-disc two-thirds
+bound, both elementary annulus forms, and the full Euclidean-ball estcross
+estimate are proved and committed. **Goal 4 is in progress**: the direct-circle
+A side is proved through the actual landed VdCB integer-column dual, and the
+localized endpoint-to-circle/full-annulus transfer is proved as a distinct
+conditional helper. The analytic transformed circle-frequency estimate is
+still required; no unconditional exponent below two thirds is claimed yet.
+**Goal 5's numerical audit is checked** for 35/53 and every smaller exponent,
+including the candidate 27/41, but final source closure awaits the actual
+improved circle estimate. No competing exponent-pair predicate is defined.
+The previously accepted numerical obstruction to using only two thirds, and
+its source typo report, remain valid. Details and exact checks follow.
 
 ## Files and exact exports (goal 1)
 
@@ -1014,3 +1023,12 @@ critical point at either endpoint, without an endpoint-frequency gap.
 Targeted build passed (3514 jobs, own-file 4.2s), zero warnings. The full
 uniform positive/negative curvature integral test is being assembled to
 handle near-endpoint frequencies in a finite B-process application.
+
+
+`IntegralSecondDerivative.lean` now proves the uniform curvature integral
+bound `4/sqrt(mu)` for both signs, including arbitrary real Poisson
+frequencies. It has no derivative gap, critical-point location, or endpoint
+separation premise. The proof splits at an actual derivative zero when
+needed and uses the proved one-sided bounds. This covers frequencies
+coinciding with endpoint derivatives in the finite B-process application.
+Targeted `IntegralSecondDerivative` passed (3543 jobs, 3.1s), zero warnings.
