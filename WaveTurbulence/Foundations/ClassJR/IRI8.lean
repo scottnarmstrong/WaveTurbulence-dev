@@ -74,7 +74,7 @@ theorem iri_aa_eq :
   rw [integral_prod_unitProd, integral_assoc_prod]
   refine integral_congr_ae (Eventually.of_forall fun p => ?_)
   simp only [tripleS, oneSym, prod3, formsV_IRI_zero, formsV_IRI_one, formsV_IRI_two, vA_eIRI, eIRI_zero,
-    eIRI_one, bundle_zero_fun, bundle_y4, rcoef, sub_zero, zero_add, jker, KRaa]
+    eIRI_one, bundle_zero_fun, rcoef, sub_zero, jker, KRaa]
   push_cast
   ring_nf
 
@@ -105,7 +105,7 @@ theorem iri_ac_eq :
   rw [integral_prod_unitProd]
   refine integral_congr_ae (Eventually.of_forall fun p => ?_)
   simp only [tripleS, oneSym, prod3, formsV_IRI_zero, formsV_IRI_one, formsV_IRI_two, vA_eIRI, eIRI_zero,
-    eIRI_one, bundle_zero_fun, bundle_y4, rcoef, sub_zero, zero_add, jker, KRab]
+    eIRI_one, bundle_zero_fun, rcoef, sub_zero, jker, KRab]
   push_cast
   ring_nf
 
@@ -121,8 +121,8 @@ theorem iri_ba_eq :
         jker (bundle R.y₂ (nsp (nsp α)) + R.ε * nsp α none) ((ε * α none) + p.1.1 + p.2.1) (p.1.2.1 + (μ - (ε * α none)) - p.2.1) t s := by
   rw [integral_prod_unitProd]
   refine integral_congr_ae (Eventually.of_forall fun p => ?_)
-  simp only [tripleS, oneSym, KMR, KPR, prod2, formsV_IRIR_zero, formsV_IRIR_one, vA_nsp_eIJI,
-    nsp_eIJI_inr, bundle_zero_fun, bundle_y3, rcoef, rker, phiR, Prod.mk.eta, jker, KRV]
+  simp only [tripleS, oneSym, KMR, formsV_IRIR_zero, formsV_IRIR_one, vA_nsp_eIJI,
+    nsp_eIJI_inr, bundle_zero_fun, bundle_y3, rcoef, rker, phiR, jker, KRV]
   push_cast
   ring_nf
 
@@ -137,8 +137,8 @@ theorem iri_bb_eq :
         jker 0 ((ε * α none) + z.1 + z.2.1) (μ - (ε * α none)) t s := by
   rw [integral_prod_unitProd, integral_prodUnit']
   refine integral_congr_ae (Eventually.of_forall fun p => ?_)
-  simp only [tripleS, oneSym, KMR, KPR, prod2, formsV_IRIR_zero, formsV_IRIR_one, vA_nsp_eIJI,
-    nsp_eIJI_inr, bundle_zero_fun, bundle_y3, rcoef, rker, phiR, Prod.mk.eta, jker, KRVI]
+  simp only [tripleS, oneSym, KPR, formsV_IRIR_zero, formsV_IRIR_one, vA_nsp_eIJI,
+    nsp_eIJI_inr, bundle_zero_fun, bundle_y3, rcoef, rker, phiR, jker, KRVI]
   push_cast
   ring_nf
 
@@ -153,8 +153,8 @@ theorem iri_bc_eq :
         jker (bundle R.y₂ (nsp (nsp α)) + R.ε * nsp α none) ((ε * α none) + z.1) (z.2.1 + (μ - (ε * α none))) t s := by
   rw [integral_prod_unitProd, integral_prodUnit']
   refine integral_congr_ae (Eventually.of_forall fun p => ?_)
-  simp only [tripleS, oneSym, KMR, KPR, prod2, formsV_IRIR_zero, formsV_IRIR_one, vA_nsp_eIJI,
-    nsp_eIJI_inr, bundle_zero_fun, bundle_y3, rcoef, rker, phiR, Prod.mk.eta, jker, KRVI]
+  simp only [tripleS, oneSym, KPR, formsV_IRIR_zero, formsV_IRIR_one, vA_nsp_eIJI,
+    nsp_eIJI_inr, bundle_zero_fun, bundle_y3, rcoef, rker, phiR, jker, KRVI]
   push_cast
   ring_nf
 
@@ -170,7 +170,7 @@ theorem iri_ca_eq :
   rw [integral_prod_unitProd]
   refine integral_congr_ae (Eventually.of_forall fun p => ?_)
   simp only [tripleS, oneSym, prod3, formsV_IRI_zero, formsV_IRI_one, formsV_IRI_two, vA_eIRI, eIRI_zero,
-    eIRI_one, bundle_zero_fun, bundle_y4, rcoef, sub_zero, zero_add, jker, KRca]
+    eIRI_one, bundle_zero_fun, rcoef, sub_zero, zero_add, jker, KRca]
   push_cast
   ring_nf
 
@@ -198,7 +198,7 @@ theorem iri_cc_eq :
   rw [integral_prod_unitProd, integral_prodUnit']
   refine integral_congr_ae (Eventually.of_forall fun p => ?_)
   simp only [tripleS, oneSym, prod3, formsV_IRI_zero, formsV_IRI_one, formsV_IRI_two, vA_eIRI, eIRI_zero,
-    eIRI_one, bundle_zero_fun, bundle_y4, rcoef, sub_zero, zero_add, jker, KRcb]
+    eIRI_one, bundle_zero_fun, rcoef, sub_zero, jker, KRcb]
   push_cast
   ring_nf
 

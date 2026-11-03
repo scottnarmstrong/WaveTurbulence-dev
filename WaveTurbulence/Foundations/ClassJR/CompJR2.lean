@@ -353,8 +353,7 @@ theorem norm_piece_JR_M (h0 : 0 ≤ θ) (h1 : θ ≤ 1) (hA : A0 ≤ A) (h₁ : 
       exact mul_le_mul' (le_add_right (le_add_right le_rfl)) le_rfl
     · simp only [Matrix.cons_val, Fin.mk_one]
       exact mul_le_mul' (le_add_right (le_add_right le_rfl)) le_rfl
-    · simp only [Matrix.cons_val]
-      exact le_rfl
+    · exact le_rfl
   have key := lintegral_tripleS_le (m₁ := R₁.m) (m₂ := R₂.m) (K := KMR) (Ls := LsJR R₁ R₂)
     (cs := csJR (ℝ × ℝ)) (isBundle_LsJR h₁ h₂) h₁.reg h₂.reg
     (fun q => (contDiff_prod2 (contDiff_kerM q) contDiff_chiInvRc))
@@ -406,7 +405,7 @@ theorem measurable_w3P (θ : ℝ) : ∀ p, Measurable fun t : (Unit → ℝ) × 
   intro p; fin_cases p
   · exact measurable_const
   · exact measurable_const
-  · simp only [w3P, Matrix.cons_val]
+  · simp only [w3P]
     exact (((measurable_const.add ((measurable_pi_apply 0).comp
       (measurable_fst.comp measurable_snd)).enorm).pow_const _).add
         (measurable_const.mul ((measurable_const.add ((measurable_pi_apply 1).comp

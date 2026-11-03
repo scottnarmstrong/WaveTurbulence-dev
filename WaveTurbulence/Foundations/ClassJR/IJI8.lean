@@ -61,7 +61,7 @@ theorem kcomp_sp_iker_split {f : Z → ℂ} (hf : Integrable f) (L : ℝ) {u v :
     have e2 : u z + v z + 0 = u z + v z := by ring
     have e3 : v z + 0 + b = v z + b := by ring
     have e4 : ∀ q : ℝ × ℝ, v z + 0 + b - q.1 = v z + b - q.1 := fun q => by ring
-    simp only [e1, e2, e3, e4]
+    simp only [e1, e2, e3]
     ring
   simp_rw [key]
   have hJa : AEStronglyMeasurable fun p : Z × (ℝ × ℝ) =>
