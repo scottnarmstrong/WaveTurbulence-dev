@@ -211,3 +211,10 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   (B2-CL-2) had dropped the single-rail requirement, which admits a length-1 ladder with a double rail (wt-orch's
   `dblRail` probe, audits/DEGEN-F53.md); B2-CL-3 restores it. Audits: NLS-BRIDGE PASS, APPROXNT PASS (η₀ ≤
   min(1/20, (d−1)(1−γ), γ) inside Π; n ≤ (log L)^A with A = A(d, 𝔇) covers F33).
+- F55 — DH21 Cor 4.9 (proof; counting of regular couples) — the proof miscounts the choices for double chains; the
+  corollary (≤ C₀^m regular couples of order 2m) still holds, and REG-STRUCT's proof (C₀ = 12^9, codes and actual
+  couples/trees) does not use the faulty step. Found by wt-orch (Task 15, audits/REG-STRUCT-prefreeze.md R15-4).
+  Status: erratum in a proof, statement unaffected. Related B2 drafting items (R15-1, R15-2): add the count
+  obligation (couples and trees, tree count with the root sign fixed — it fails at m = 0 otherwise) to the B2 §4
+  statements before the B2 freeze; R15-3: the general-couple skeleton uniqueness (DH21 L833, GAP.skeletonUniq) is
+  packet C3's, not discharged by REG-STRUCT.
