@@ -24,7 +24,7 @@ public section
 open MeasureTheory Set Filter Topology
 open scoped InnerProductSpace SchwartzMap LineDeriv
 
-namespace WaveTurbulence
+namespace WaveTurbulence.WKE
 
 variable {d : ℕ}
 
@@ -213,4 +213,4 @@ theorem coe_collisionOpSchwartz (hd : 2 ≤ d) (φ₁ φ₂ φ₃ : 𝓢(Mom d, 
   rw [collisionOp_eq_sum hC hd k]
   simp [collisionOpSchwartz]
 
-end WaveTurbulence
+end WaveTurbulence.WKE

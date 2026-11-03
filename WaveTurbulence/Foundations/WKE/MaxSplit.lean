@@ -29,7 +29,7 @@ public section
 open MeasureTheory Set Filter Topology
 open scoped InnerProductSpace
 
-namespace WaveTurbulence
+namespace WaveTurbulence.WKE
 
 variable {d : ℕ}
 
@@ -361,4 +361,4 @@ theorem abs_collisionTerm_le_weighted (hd : 2 ≤ d) (hs₀ : 2 * (d : ℝ) < s�
 
 end Weighted
 
-end WaveTurbulence
+end WaveTurbulence.WKE

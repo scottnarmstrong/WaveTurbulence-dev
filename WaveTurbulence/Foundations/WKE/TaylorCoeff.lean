@@ -26,7 +26,7 @@ public section
 open MeasureTheory Set Filter Topology Finset
 open scoped InnerProductSpace SchwartzMap LineDeriv
 
-namespace WaveTurbulence
+namespace WaveTurbulence.WKE
 
 variable {d : ℕ}
 
@@ -314,4 +314,4 @@ theorem multBound_taylorCoeff (hd : 2 ≤ d) {R W : ℕ} {s₀ Y X₀ : ℝ} (hs
       rw [abs_of_pos (by positivity)]
       exact taylor_scalar_step d s₀ hX₀ n
 
-end WaveTurbulence
+end WaveTurbulence.WKE

@@ -26,7 +26,7 @@ public section
 open MeasureTheory Set Filter Topology Finset
 open scoped InnerProductSpace SchwartzMap
 
-namespace WaveTurbulence
+namespace WaveTurbulence.WKE
 
 variable {d : ℕ}
 
@@ -135,7 +135,7 @@ theorem abs_collisionOp_le_sup (hd : 2 ≤ d) {f g h : Mom d → ℝ} {C₁ C₂
 
 /-! ### A bounded additive functional commutes with weighted-sup series -/
 
-theorem DecayBound.of_tsum {f : ℕ → 𝓢(Mom d, ℝ)} {C : ℕ → ℝ} {N : ℝ}
+theorem _root_.WaveTurbulence.DecayBound.of_tsum {f : ℕ → 𝓢(Mom d, ℝ)} {C : ℕ → ℝ} {N : ℝ}
     (hf : ∀ n, DecayBound (C n) N (f n)) (hC : Summable C) {F : 𝓢(Mom d, ℝ)}
     (hF : ∀ y, F y = ∑' n, f n y) (M : ℕ) :
     DecayBound (∑' n, C (n + M)) N (F - ∑ n ∈ range M, f n) := by
@@ -193,4 +193,4 @@ theorem tsum_of_bounded_additive (L : 𝓢(Mom d, ℝ) →+ ℝ) {K N : ℝ} (hK
       _ = ε := by field_simp
   exact tendsto_nhds_unique h2 h1
 
-end WaveTurbulence
+end WaveTurbulence.WKE

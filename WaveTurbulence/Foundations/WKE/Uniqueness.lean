@@ -27,7 +27,7 @@ public section
 open MeasureTheory Set Filter Topology
 open scoped InnerProductSpace SchwartzMap
 
-namespace WaveTurbulence
+namespace WaveTurbulence.WKE
 
 variable {d : ℕ}
 
@@ -75,7 +75,7 @@ theorem exists_uniform_decayBound {φ : ℝ → 𝓢(Mom d, ℝ)} {T : ℝ} (hφ
 
 /-! ### Lipschitz bound for `𝒦` in the weighted sup norm -/
 
-theorem DecayBound.of_schwartz (φ : 𝓢(Mom d, ℝ)) (N : ℝ) : ∃ C, DecayBound C N φ := by
+theorem _root_.WaveTurbulence.DecayBound.of_schwartz (φ : 𝓢(Mom d, ℝ)) (N : ℝ) : ∃ C, DecayBound C N φ := by
   obtain ⟨C, -, hC⟩ := exists_norm_le_of_schwartz φ N
   exact ⟨C, fun y => by rw [← Real.norm_eq_abs]; exact hC y⟩
 
@@ -253,4 +253,4 @@ theorem isWKESolution_unique (hd : 2 ≤ d) {φin : 𝓢(Mom d, ℝ)} {T : ℝ}
   have := glob n τ ⟨hτ.1, by rw [hmin]; exact hτ.2⟩ k
   exact sub_eq_zero.mp this
 
-end WaveTurbulence
+end WaveTurbulence.WKE

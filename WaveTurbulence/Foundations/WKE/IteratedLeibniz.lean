@@ -26,7 +26,7 @@ public section
 open MeasureTheory Set Filter Topology
 open scoped InnerProductSpace SchwartzMap LineDeriv Finset
 
-namespace WaveTurbulence
+namespace WaveTurbulence.WKE
 
 variable {d : ℕ}
 
@@ -255,4 +255,4 @@ theorem multBound_ktriple (hd : 2 ≤ d) {R W : ℕ} {s₀ Y : ℝ} (hs₀ : 2 *
         simp only [B, μs, mul_pow, pow_add]
         ring
 
-end WaveTurbulence
+end WaveTurbulence.WKE

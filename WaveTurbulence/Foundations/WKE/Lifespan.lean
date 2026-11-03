@@ -12,8 +12,8 @@ public import WaveTurbulence.Frozen.Defs.IsWKESolution
 
 * `WaveTurbulence.WKE.tauMax φin := sup {τ★ > 0 : (WKE) has a Schwartz solution on [0, τ★]}`
   (in `ℝ≥0∞`), the `τ_max` of TARGET Prop `wkelwp` (L598–L601).
-* `IsWKESolution.mono`: restriction of a solution to a shorter interval.
-* `IsWKESolution.glue`: a solution on `[0, T]` followed by a solution on `[0, ε]` with data
+* `isWKESolution_mono`: restriction of a solution to a shorter interval.
+* `isWKESolution_glue`: a solution on `[0, T]` followed by a solution on `[0, ε]` with data
   `φ(T)` gives a solution on `[0, T + ε]`.
 * `WKE.exists_isWKESolution_of_lt_tauMax`: the `→` direction of `wkelwp` conjunct 1.
 
@@ -26,12 +26,12 @@ public section
 open Set
 open scoped SchwartzMap ENNReal
 
-namespace WaveTurbulence
+namespace WaveTurbulence.WKE
 
 variable {d : ℕ}
 
 /-- Restriction of a Schwartz solution to a shorter interval. -/
-theorem IsWKESolution.mono {φin : 𝓢(Mom d, ℝ)} {T T' : ℝ} {φ : ℝ → 𝓢(Mom d, ℝ)}
+theorem isWKESolution_mono {φin : 𝓢(Mom d, ℝ)} {T T' : ℝ} {φ : ℝ → 𝓢(Mom d, ℝ)}
     (h : IsWKESolution φin T' φ) (hT : T ≤ T') : IsWKESolution φin T φ := by
   have hsub : Icc 0 T ⊆ Icc 0 T' := Icc_subset_Icc le_rfl hT
   exact ⟨h.1.mono hsub, h.2.1, fun τ hτ k => (h.2.2 τ (hsub hτ) k).mono hsub⟩
@@ -41,7 +41,7 @@ theorem IsWKESolution.mono {φin : 𝓢(Mom d, ℝ)} {T T' : ℝ} {φ : ℝ → 
   if τ ≤ T then φ τ else ψ (τ - T)
 
 /-- **Gluing** two Schwartz solutions. -/
-theorem IsWKESolution.glue {φin : 𝓢(Mom d, ℝ)} {T ε : ℝ} {φ ψ : ℝ → 𝓢(Mom d, ℝ)}
+theorem isWKESolution_glue {φin : 𝓢(Mom d, ℝ)} {T ε : ℝ} {φ ψ : ℝ → 𝓢(Mom d, ℝ)}
     (hT : 0 ≤ T) (hε : 0 ≤ ε) (hφ : IsWKESolution φin T φ) (hψ : IsWKESolution (φ T) ε ψ) :
     IsWKESolution φin (T + ε) (glueSol T φ ψ) := by
   have hsplit : Icc 0 (T + ε) = Icc 0 T ∪ Icc T (T + ε) :=
@@ -78,7 +78,6 @@ theorem IsWKESolution.glue {φin : 𝓢(Mom d, ℝ)} {T ε : ℝ} {φ ψ : ℝ �
       · have : τ ∉ closure (Icc T (T + ε)) := by rwa [closure_Icc]
         exact hasDerivWithinAt_iff_hasFDerivWithinAt.mpr (HasFDerivWithinAt.of_notMem_closure this)
 
-namespace WKE
 
 /-- **`τ_max`** of TARGET Prop `wkelwp` (L598–L601): the supremum (in `ℝ≥0∞`) of the `τ★ > 0` such
 that (WKE) has a Schwartz-class solution (`IsWKESolution`) on `[0, τ★]` with data `φin`. -/
@@ -96,9 +95,8 @@ theorem exists_isWKESolution_of_lt_tauMax {φin : 𝓢(Mom d, ℝ)} {τstar : �
     ∃ φ : ℝ → 𝓢(Mom d, ℝ), IsWKESolution φin τstar φ := by
   obtain ⟨τ', hτ'⟩ := lt_iSup_iff.mp h
   obtain ⟨⟨hτ'0, φ, hφ⟩, hlt⟩ := lt_iSup_iff.mp hτ'
-  refine ⟨φ, hφ.mono ?_⟩
+  refine ⟨φ, isWKESolution_mono hφ ?_⟩
   exact ((ENNReal.ofReal_lt_ofReal_iff hτ'0).mp hlt).le
 
-end WKE
 
-end WaveTurbulence
+end WaveTurbulence.WKE
