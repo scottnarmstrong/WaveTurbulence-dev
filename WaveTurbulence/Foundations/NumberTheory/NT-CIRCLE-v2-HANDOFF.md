@@ -536,3 +536,37 @@ Quot.sound]`. The expanded annulus theorem and its real-power identity also
 passed the same axiom check. No provider, draft frozen theorem, custom axiom
 or budget override is used. Goal 3 is complete and work proceeds directly
 to goal 4.
+
+## Revised goal 4 coordination and general smoothing milestone
+
+The orchestrator split the B-process into NT-BPROC (wt-ansob), owning
+`Foundations/VdCB/**`, including the Graham–Kolesnik phase-class predicate
+and `IsExponentPair`. This packet defines no competing exponent-pair notion.
+It now supplies the A-process side, distinct conditional transfer helpers,
+and the general-exponent annulus bound, then will plug in VdCB's proved pair
+and finish goal 5. Coordination is only through the orchestrator.
+
+New proved files: `NumberTheory/PhaseCalculus.lean`, `FractionalPowerSums.lean`,
+`FractionalSmoothing.lean`, `ExponentPairSmoothing.lean`.
+For `0 < kappa < 1`, the exact weight bounds are
+`sum_{n<=H} n^(kappa-1) <= H^kappa/kappa` and
+`sum_{n>H} n^(kappa-2) <= H^(kappa-1)/(1-kappa)`.
+Consequently the sawtooth sum is bounded by
+`card/(2H) + ((pi/kappa+1/(1-kappa))/pi^2)*A*H^kappa`
+under the explicit actual frequency estimate `norm(S_n) <= A*n^kappa`.
+`abs_sum_sawtooth_le_of_frequency_scale` optimizes the actual natural cutoff
+`ceil(Q^((1-lambda)/(1+kappa)))`, for `lambda <= 1`, and proves the exact
+exponent `(kappa+lambda)/(1+kappa)`, with no logarithmic or epsilon loss.
+It assumes an actual finite phase family's frequency estimate and is named
+and documented as a conditional numerical helper. No improved exponent pair
+or improved unconditional circle estimate is claimed at this stage.
+
+Checks: targeted `ExponentPairSmoothing` build passed (3718 jobs; supporting
+own-file builds 70s and 64s) and `PhaseCalculus` passed (3256 jobs, 61s), no
+warnings or overrides. All five corresponding axiom probes passed with only
+`[propext, Classical.choice, Quot.sound]`.
+The unfinished Poisson and oscillatory-integral drafts were preserved under
+`/home/scott/wt-scratch/nt-circle/bproc-drafts/`, outside the repository, after
+the B-process was reassigned. The completed phase-calculus identities remain
+available as reusable character calculus; no B-process source theorem is
+being implemented in this packet in parallel with NT-BPROC.
