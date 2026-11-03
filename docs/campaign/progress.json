@@ -1,5 +1,5 @@
 {
- "assessed": "2026-11-04 00:45 UTC",
+ "assessed": "2026-11-04 00:55 UTC",
  "notes": "Lean work items = blueprint packets (docs/blueprint/GRAPH.md §E) with their difficulty weights (node weights L=1, M=2, H=4, VH=8 summed). Each frozen theorem anchor adds weight 1, credited when SEALED. Done fractions are the orchestrator's assessment, reviewed at integration rounds.",
  "lines_est_total": 273000,
  "parts": [
@@ -513,8 +513,8 @@
      "goal": "flower trees/gardens as instances of the general carriers (G-1), kernels (F25), parametrix and operator identities (F26, F39)",
      "weight": 10.0,
      "lines_est": 3100,
-     "done": 0.85,
-     "note": "FLOWER-DEF in scratch: classes, kernels, parametrix identities, O-FK, B1.12 redraft (audited faithful; F1/F2 edits pending)"
+     "done": 0.95,
+     "note": "FLOWER-DEF done in scratch: classes, kernels, identities, O-FK; B1.12 final (audited, F1/F2 applied) proposed for the freeze"
     },
     {
      "id": "G5",

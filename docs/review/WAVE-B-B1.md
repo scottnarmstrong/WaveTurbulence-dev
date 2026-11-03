@@ -1,5 +1,8 @@
 # Wave B (tier B1) — freeze candidate for author approval
 
+> **Addendum (2026-11-04):** B1.12 `layergardenFlower` is redrafted, audited and proposed for this freeze. See
+> [`WAVE-B-B1-B112.md`](WAVE-B-B1-B112.md), which has three decisions.
+
 Snapshot `waveb-snap-5` · prepared 2026-11-03. **This is the exact Lean to be frozen** (one declaration per file under
 `WaveTurbulence/Frozen/`, theorems with body `by sorry` as `DRAFT_SORRY` anchors, definitions sealed), exactly as for
 Wave A (D6). File hashes: `WaveB1-Core.lean` 0b8477d9943a…, `WaveB1-System.lean` 59365906b84a…, `WaveB1-Statements.lean` e72e32df7fa0…, `WaveB1-Sumint.lean` 8863d8fa5e5c….
