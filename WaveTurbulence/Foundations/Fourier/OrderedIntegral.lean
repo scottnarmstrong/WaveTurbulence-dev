@@ -100,4 +100,24 @@ theorem orderedIntegral_translate (n : ℕ) (F : (Fin n → ℝ) → ℂ) (t s c
     funext j
     refine Fin.cases ?_ (fun i => ?_) j <;> rfl
 
+/-- The vector constructor is smooth in its head and tail. -/
+theorem contDiff_fin_cons (n : ℕ) :
+    ContDiff ℝ ∞ (fun p : ℝ × (Fin n → ℝ) => (Fin.cons p.1 p.2 : Fin (n + 1) → ℝ)) := by
+  apply contDiff_pi.mpr
+  intro j
+  refine Fin.cases ?_ (fun i => ?_) j
+  · exact contDiff_fst
+  · simp only [Fin.cons_succ]; fun_prop
+
+/-- A nonempty ordered integral vanishes when the two endpoints coincide. -/
+@[simp] theorem orderedIntegral_self (n : ℕ) (F : (Fin (n + 1) → ℝ) → ℂ) (t : ℝ) :
+    orderedIntegral (n + 1) F t t = 0 := by simp [orderedIntegral]
+
+/-- Negation commutes with ordered integration, with no integrability side conditions. -/
+theorem orderedIntegral_neg (n : ℕ) (F : (Fin n → ℝ) → ℂ) (t s : ℝ) :
+    orderedIntegral n (fun v => -F v) t s = -orderedIntegral n F t s := by
+  induction n generalizing t s with
+  | zero => rfl
+  | succ n ih => simp only [orderedIntegral, ih, intervalIntegral.integral_neg]
+
 end WaveTurbulence.Fourier
