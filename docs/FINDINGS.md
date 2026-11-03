@@ -9,14 +9,16 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   [0,T]"; the proof computes E(1_F |û|²) with F the solvability event (not the conditional expectation). Draft Lean
   statement follows the proof (indicator, unconditional). Status: reading choice, to rule.
 - F3 — DH23 L2027–L2037 (Lemma `basiccount0pre`(1)) — "using the error term bound of Huxley [Hux93] for counting the
-  number of lattice points inside a disc" giving `Q ρ + Q^{7/11}`. Scope risk under D1: Huxley's exponential-sum bound
-  is deep. **Preliminary analysis (orchestrator, 2026-11-03):** (1) is used only in Lemma `basiccount0` (1)–(3) and
-  `basiccount`(5) (L2076–L2117), each time inside a `min(Q-branch, 1/Q-branch)` that must beat a power of `L`. With the
-  classical Sierpiński–van der Corput exponent 2/3 instead of 7/11: in (2) the min is ≲ L^{16/25} < L^{4/5−10^{-4}};
-  in (1),(3) the gain becomes ≈ L^{-(2γ−1)/3} instead of L^{-min(10^{-3}, 2γ−1)}, which still beats the needed
-  L^{-10η} because η ≪ γ − 1/2. The trivial exponent 1 would fail for 1/2 < γ ≤ 2/3. Planned route: prove the
-  circle-problem bound with exponent 2/3 and adapt the constants. Status: open, route proposed; to be confirmed by the
-  blueprint review.
+  number of lattice points inside a disc" giving `Q ρ + Q^{7/11}`. Scope risk under D1 (Huxley is deep).
+  **Revised 2026-11-03 (wt-nt audit, commit 3229554 on w/nt-circle, `ExponentAudit.lean`):** the orchestrator's first
+  analysis (exponent 2/3 suffices everywhere) was wrong for `basiccount0`(2): it used the printed three-entry min at
+  L2082, but (disclattice) is a two-branch min whose second branch is a *sum* (F31). With discrepancy exponent `e`,
+  the uses (1), (3) and `basiccount`(5) work for `e = 2/3` (saving L^{-(2γ−1)/3} ≫ L^{-10η}); use (2) (γ > 4/5 − 10η)
+  needs `e < 2/3` strictly (at γ = 4/5, Q = L^{6/5} the 2/3 bound gives exactly L^{4/5}); any fixed `e < 2/3` suffices
+  once η is small. Exponent-pair calculus: circle error `Q^{(κ+λ)/(1+κ)}`; the A-process alone (pair (1/6,2/3)) does
+  not beat 2/3; the classical pair (11/30, 16/30) (A- and B-processes) gives `e = 27/41 ≈ 0.659`. **Route:** prove a
+  circle-problem bound with some `e < 2/3` by van der Corput's method (Weyl differencing + Poisson/stationary-phase
+  B-process), not Huxley. Status: route set; packet NT-EXPSUM.
 - F4 — DH23 map (maps/DH23.md, open questions) lists candidate typos: flower-tree formulas with γ=1 normalization
   (L1996–L1999), `brprop` "Δν = 2" vs computed −2, undefined `⟨x_j,y_j⟩_β` in `approxnt`, a (Cρ)! vs (Cρ)^C slip.
   Status: candidates, to verify.
@@ -88,3 +90,7 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   the union of some of the sets B ∈ 𝒫": read literally, A = ∅ always qualifies (empty union of blocks), so no
   partition would be admissible; the intended condition is "no nonempty proper subset". Found by wt-cumul; adopted in
   the Lean statement. Status: candidate (wording).
+- F31 — DH23 L2082 — "min(L^{2/5}+Q^{7/11}, L^{1/5}+L^{8/5}Q^{-1}, L^{6/5}Q^{-1/3})": the comma before the last
+  term should be "+" (deduced from the two-branch (disclattice) L2029). With Huxley's 7/11 the argument still works
+  (split at Q = L^{99/80}: 63/80 < 4/5 − 10^{-4}). Also L2077 "with ρ ∼ L^{2−2γ}" should be Qρ ∼ L^{2−2γ}.
+  Found by wt-nt. Status: candidate typos.
