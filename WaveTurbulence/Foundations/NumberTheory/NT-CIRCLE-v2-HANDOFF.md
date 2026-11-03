@@ -679,3 +679,9 @@ Check: `nice -n 5 lake build
 WaveTurbulence.Foundations.Counting.CircleOctantTransfer` passed (9090 jobs;
 final own-file build 15s), with zero warnings after cleanup. No budgets or
 extra assumptions about integer endpoints or the center are used.
+
+`CircleOctantAnnulus.lean` also compiles: the uniform outer-cap frequency
+hypothesis supplies both the general-exponent annulus branch and its minimum
+with the proved elementary geometric branch. The actual closed annulus and
+containing disc are unchanged. Targeted `CircleOctantAnnulus` build passed
+(9103 jobs; own-file build 5.2s), zero warnings.
