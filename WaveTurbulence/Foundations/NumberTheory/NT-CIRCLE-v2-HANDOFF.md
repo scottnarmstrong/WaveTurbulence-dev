@@ -1105,3 +1105,21 @@ and `PoissonStationaryGuards` builds passed (3826/3259/3857 jobs;
 new targets 4.2s/3.4s/2.3s), without warnings. Scratch
 `PoissonErrorAxioms.lean` checks all four main results with only
 `propext`, `Classical.choice`, `Quot.sound`. No new errata or deviations.
+
+## Actual guard geometry, integer count and complete scalar guard cost
+
+`FrequencyGuardGeometry.lean` obtains actual interior critical points by
+IVT and proves separation outside the stationary range and endpoint guard
+intervals from actual upper/lower second-derivative bounds.
+`Counting/FrequencyGuardCount.lean` bounds any selected integer guard set
+by 4D+2 for two endpoint neighborhoods of radius D.
+`CircleGuardErrorScale.lean` bounds count times uniform integral cost at
+the actual radius by 512 times the improved local power. Together with
+5a1969e, all three quantitative B-error scales fit the desired powers.
+Actual source-frequency selection and application remain to be assembled.
+
+Checks: targeted `FrequencyGuardCount` and `CircleGuardErrorScale` builds
+passed (9058/3259 jobs, new targets 1.8s/2.6s/2.5s), without warnings.
+`GuardGeometryAxioms.lean` checked IVT, separation, guard count and total
+guard cost with only `propext`, `Classical.choice`, `Quot.sound`.
+No new errata or deviations.
