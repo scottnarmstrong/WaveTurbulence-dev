@@ -77,4 +77,18 @@ theorem hasFDerivAt_intervalIntegral {G : E × ℝ → H} {a b : E → ℝ}
       ContinuousLinearMap.id_apply, ContinuousLinearMap.fst, ContinuousLinearMap.snd]
     abel
 
+omit [CompleteSpace H] in
+/-- Scalar parameter derivative under a fixed interval, in directional form. -/
+theorem hasDerivAt_fixed_interval {G : ℝ × ℝ → H} (hG : ContDiff ℝ ∞ G)
+    (w a b : ℝ) :
+    HasDerivAt (fun z => ∫ u in a..b, G (z, u))
+      (∫ u in a..b, fderiv ℝ G (w, u) (1, 0)) w := by
+  have h := (hasFDerivAt_fixed_interval hG w a b).hasDerivAt
+  have hc : Continuous (fun u => (fderiv ℝ G (w, u)).comp
+      (ContinuousLinearMap.inl ℝ ℝ ℝ)) :=
+    ((hG.continuous_fderiv (by simp)).comp
+      (continuous_const.prodMk continuous_id)).clm_comp continuous_const
+  rw [ContinuousLinearMap.intervalIntegral_apply (hc.intervalIntegrable a b)] at h
+  exact h
+
 end WaveTurbulence.Fourier
