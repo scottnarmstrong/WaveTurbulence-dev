@@ -168,7 +168,8 @@ theorem W_eq_sum_appFac {lt : Fin n → Fin n → Prop} [IsStrictOrder (Fin n) l
   have h := multiAmp_cellData pq τ (fun j => (x j, y j))
   have hprod : ∏ j, appFac J 0 pq τ x y j = multiAmp (cellData pq τ).p (cellData pq τ).q
       (cellData pq τ).ξ (cellData pq τ).ζ (fun j => (x j, y j)) := by
-    simp only [appFac, Nat.not_lt_zero, ↓reduceIte, multiAmp, cellFn, cellData]
+    have hj : ∀ j : Fin n, ¬ (n ≤ (j : ℕ) + 0) := fun j => by have := j.isLt; omega
+    simp only [appFac, hj, ↓reduceIte, multiAmp, cellFn, cellData]
   simp only at h ⊢
   rw [hprod, h, mul_assoc]
 
@@ -178,9 +179,10 @@ box sizes `λ_j ≥ 1` (FINDINGS F33, `GAP.largeOrder.nt`).
 
 `I_app` is `approxApp L δ γ J Ψ₁ W` (DH23 (intappr): `p.v.` as the limit of the `χ_∞(ν⟨x,y⟩)`
 truncations, `δ(⟨x,y⟩)` in the hyperplane reading of ruling D6, integrated one pair `(x_j, y_j)`
-at a time). Hypotheses as in `approxnt_conclusion1`, plus the second half of (propertypsi2),
-`‖max_{j∈J^c} ⟨Ω_j⟩^{1-η/2} Ψ₁‖_{L¹} ≤ C₀^n`; the source's `δ` is a fixed constant as `L → ∞`,
-made quantitative here by `L^{-η/2} ≤ δ ≤ 1`; and `η ≤ γ` (part of "`η` small"). -/
+at a time, backwards from `j = n-1` as in DH21 L1636). Hypotheses as in `approxnt_conclusion1`,
+plus the second half of (propertypsi2), `‖max_{j∈J^c} ⟨Ω_j⟩^{1-η/2} Ψ₁‖_{L¹} ≤ C₀^n`; the source's
+`δ` is a fixed constant and `L` is large depending on `δ` (DH23 L438), made quantitative here by
+`L^{-η/2} ≤ δ ≤ 1`; and `η ≤ γ` (part of "`η ≪_{d,γ} 1`", DH23 L438). -/
 theorem approxnt_conclusion2 (hd : 3 ≤ d) {γ : ℝ} (hγ : γ ∈ Set.Ioo (0 : ℝ) 1) {η : ℝ}
     (hη0 : 0 < η) (hη : η ≤ 1 / 20) (hηγ : η ≤ ((d : ℝ) - 1) * (1 - γ)) (hηγ' : η ≤ γ) {C₀ : ℝ}
     (hC₀ : 1 ≤ C₀) :

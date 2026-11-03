@@ -13,13 +13,14 @@ public import WaveTurbulence.Foundations.ApproxNT.CellSplit
 
 DH23 (intappr): `I_app = (L^{2d-2γ}δ⁻¹)^n ∫Ψ₁ · ∫ W ∏_{j∈J} p.v. 1/⟨x_j,y_j⟩ ∏_{j∉J} δ(⟨x_j,y_j⟩)`.
 The singular integral is read as iterated integration in the pairs `(x_j, y_j)` (`singInt`, built
-from `appStep`, innermost `j = 0`): the principal value is `pvOp`, the limit of the
+from `appStep`, innermost `j = n-1`, as in DH21 L1636 "backwards in `n` starting with the
+`dx_n dy_n` integral"): the principal value is `pvOp`, the limit of the
 `χ_∞(ν⟨x,y⟩)/⟨x,y⟩` truncations (DH21 Lemma 6.3's `μ`-regularization), and `δ(⟨x,y⟩)` is the
 hyperplane reading `NTSP.deltaInner` of ruling D6.
 
 Representation (`appIter_eq`): with the cell partition and Fourier inversion of `W`, after the
-pairs `j < k` have been integrated,
-`appIter k W (x,y) = ∑_{cells} ∫ Ŵ(τ) ∏_{j<k} cellOp_j(τ) ∏_{j≥k} P_j(τ; x_j, y_j) dτ`,
+pairs `j ≥ n - k` have been integrated,
+`appIter k W (x,y) = ∑_{cells} ∫ Ŵ(τ) ∏_{j≥n-k} cellOp_j(τ) ∏_{j<n-k} P_j(τ; x_j, y_j) dτ`,
 by the exchange lemmas of `AppExchange`. In particular `singInt J W = ∑ ∫ Ŵ ∏_j cellOp_j`.
 -/
 
@@ -126,14 +127,14 @@ variable {n : ℕ}
   if j ∈ J then pvOp (fun x' y' => G (update x j x') (update y j y'))
   else NTSP.deltaInner (fun x' y' => G (update x j x') (update y j y'))
 
-/-- The factors `j < k` applied to `G` (innermost `j = 0`). -/
+/-- The factors `j ≥ n - k` applied to `G`, backwards from `j = n - 1` (the innermost). -/
 @[expose] def appIter (J : Finset (Fin n)) (G : (Fin n → Mom d) → (Fin n → Mom d) → ℂ) :
     ℕ → (Fin n → Mom d) → (Fin n → Mom d) → ℂ
   | 0 => G
-  | k + 1 => if hk : k < n then appStep J ⟨k, hk⟩ (appIter J G k) else appIter J G k
+  | k + 1 => if hk : k < n then appStep J ⟨n - 1 - k, by omega⟩ (appIter J G k) else appIter J G k
 
 /-- `∫_{(ℝ^d)^{2n}} W ∏_{j∈J} p.v. 1/⟨x_j,y_j⟩ ∏_{j∉J} δ(⟨x_j,y_j⟩)`, integrating one pair
-`(x_j, y_j)` at a time. -/
+`(x_j, y_j)` at a time, `j = n-1` first. -/
 @[expose] def singInt (J : Finset (Fin n)) (W : (Fin n → Mom d) → (Fin n → Mom d) → ℂ) : ℂ :=
   appIter J W n 0 0
 
@@ -145,10 +146,10 @@ variable {n : ℕ}
 
 /-! ### The cell representation -/
 
-/-- The factors of one product of cells after the pairs `j < k` have been integrated. -/
+/-- The factors of one product of cells after the pairs `j ≥ n - k` have been integrated. -/
 @[expose] def appFac (J : Finset (Fin n)) (k : ℕ) (pq : Fin n → (Fin d → ℤ) × (Fin d → ℤ))
     (τ : (Fin n → Mom d) × (Fin n → Mom d)) (x y : Fin n → Mom d) (j : Fin n) : ℂ :=
-  if (j : ℕ) < k then cellOp J j (NTSP.intVec (pq j).1) (NTSP.intVec (pq j).2) (τ.1 j) (τ.2 j)
+  if n ≤ (j : ℕ) + k then cellOp J j (NTSP.intVec (pq j).1) (NTSP.intVec (pq j).2) (τ.1 j) (τ.2 j)
   else cellFn (NTSP.intVec (pq j).1) (NTSP.intVec (pq j).2) (τ.1 j) (τ.2 j) (x j) (y j)
 
 theorem aestronglyMeasurable_appFac (hd : 3 ≤ d) (J : Finset (Fin n)) (k : ℕ)
@@ -191,7 +192,7 @@ theorem appIter_eq (hd : 3 ≤ d) (J : Finset (Fin n)) {W : (Fin n → Mom d) �
   | succ k ih =>
     intro hk x y
     have hkn : k < n := by omega
-    set jk : Fin n := ⟨k, hkn⟩
+    set jk : Fin n := ⟨n - 1 - k, by omega⟩
     have hIH := ih hkn.le
     -- the weights
     set hw : (Fin n → (Fin d → ℤ) × (Fin d → ℤ)) → (Fin n → Mom d) × (Fin n → Mom d) → ℂ :=
@@ -215,7 +216,8 @@ theorem appIter_eq (hd : 3 ≤ d) (J : Finset (Fin n)) {W : (Fin n → Mom d) �
       rw [← mul_prod_erase univ _ (mem_univ jk)]
       have hjk : appFac J k pq τ (update x jk x') (update y jk y') jk =
           cellFn (NTSP.intVec (pq jk).1) (NTSP.intVec (pq jk).2) (τ.1 jk) (τ.2 jk) x' y' := by
-        simp only [appFac, jk, lt_irrefl, ↓reduceIte, update_self]
+        have hc : ¬ (n ≤ (jk : ℕ) + k) := by simp only [jk]; omega
+        simp only [appFac, hc, ↓reduceIte, update_self]
       have hrest : ∏ j ∈ univ.erase jk, appFac J k pq τ (update x jk x') (update y jk y') j =
           ∏ j ∈ univ.erase jk, appFac J k pq τ x y j :=
         prod_congr rfl fun j hj => by
@@ -240,12 +242,13 @@ theorem appIter_eq (hd : 3 ≤ d) (J : Finset (Fin n)) {W : (Fin n → Mom d) �
       rw [← mul_prod_erase univ (fun j => appFac J (k + 1) pq τ x y j) (mem_univ jk)]
       have hjk : appFac J (k + 1) pq τ x y jk =
           cellOp J jk (NTSP.intVec (pq jk).1) (NTSP.intVec (pq jk).2) (τ.1 jk) (τ.2 jk) := by
-        simp only [appFac, jk, Nat.lt_succ_self, ↓reduceIte]
+        have hc : n ≤ (jk : ℕ) + (k + 1) := by simp only [jk]; omega
+        simp only [appFac, hc, ↓reduceIte]
       have hrest : ∏ j ∈ univ.erase jk, appFac J (k + 1) pq τ x y j =
           ∏ j ∈ univ.erase jk, appFac J k pq τ x y j :=
         prod_congr rfl fun j hj => by
-          have hne : (j : ℕ) ≠ k := fun h => ne_of_mem_erase hj (Fin.ext h)
-          have hiff : (j : ℕ) < k + 1 ↔ (j : ℕ) < k := by omega
+          have hne : (j : ℕ) ≠ n - 1 - k := fun h => ne_of_mem_erase hj (Fin.ext h)
+          have hiff : n ≤ (j : ℕ) + (k + 1) ↔ n ≤ (j : ℕ) + k := by omega
           simp only [appFac, hiff]
       rw [hjk, hrest]
       ring
@@ -273,6 +276,6 @@ theorem singInt_eq (hd : 3 ≤ d) (J : Finset (Fin n)) {W : (Fin n → Mom d) �
       ∏ j, cellOp J j (NTSP.intVec (pq j).1) (NTSP.intVec (pq j).2) (τ.1 j) (τ.2 j) := by
   rw [singInt, appIter_eq hd J Q hF h0 n le_rfl]
   refine sum_congr rfl fun pq _ => integral_congr_ae (Eventually.of_forall fun τ => ?_)
-  simp only [appFac, Fin.is_lt, ↓reduceIte]
+  simp only [appFac, Nat.le_add_left, ↓reduceIte]
 
 end WaveTurbulence.ApproxNT
