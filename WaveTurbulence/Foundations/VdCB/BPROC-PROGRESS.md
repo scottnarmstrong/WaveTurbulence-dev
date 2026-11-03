@@ -108,3 +108,19 @@ The cutoff-to-limit assembly is being implemented; the full unnormalized
 truncation statement and B-process are not claimed yet.
 `QuadraticTail` also builds (3513 jobs), with the sharp positive quadratic
 tail bound `1/(pi*q*a)` for `q,a>0`.
+
+The normalized sharp truncated Poisson theorem now builds in `TruncatedPoisson`
+(target 3822 jobs). On natural endpoints, `0≤f'≤N`, `f''≥0`, its half-open sum
+minus the integrals over `ν∈Icc 0 N` has norm at most
+`(2*(1+log N)+4*log(N+1))/(2*pi)+1`. The midpoint version omits the final one.
+`FrequencyLimit`, `FrequencyPartition`, and `PoissonShiftedLimit` provide the
+fully proved cutoff change; no summability of the absolute frequency series
+is used. The four-export `TruncationAxioms.lean` scratch probe exited 0 with
+only `[propext, Classical.choice, Quot.sound]`.
+
+`WeightedStationary` builds (3805 jobs): for a Schwartz amplitude, an actual
+stationary point at zero, positive actual second derivative q, and a bound M
+on the actual third derivative along its support segments, the error is
+`(pi*M/3)` times the cubic amplitude moment plus `pi/(q*sqrt q)` times the
+second Fourier moment. The main term is `e(f(0)+1/8)*a(0)/sqrt q`.
+General sharp-endpoint stationary phase and analytic B-closure remain open work.
