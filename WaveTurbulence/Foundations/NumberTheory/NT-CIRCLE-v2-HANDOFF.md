@@ -842,3 +842,24 @@ WaveTurbulence.Foundations.NumberTheory.FifthDerivative` passed (3566 jobs;
 own-file builds 2.5s, 2.9s, 4.1s), zero warnings. The source for the A
 iteration is the proved Weyl inequality, real mean-value theorem, and the
 licensed third-difference base already recorded above.
+
+## Pure dual-curve A-scale bound compiled
+
+`PowerScaleComparison.lean` proves upper/lower scale monomial comparisons
+and exact derivative-scale normalization. `FifthDerivativeScale.lean`
+combines the actual third/fourth/fifth tests in the three ranges
+`T<=Y^(5/2)`, `Y^(5/2)<=T<=Y^(25/8)`, `T>=Y^(25/8)`.
+The result `norm_exp_sum_le_of_three_signed_derivative_scales` is
+`16384*sqrt(c)*T^(1/30)*Y^(5/6)`, for `Y>=1`, `T>=Y^(5/6)`, and any actual
+integer subwindow length N<=Y. Its premises are an actual derivative tower
+through order five and the signed scale intervals for derivatives three,
+four and five (negative, positive, negative), exactly the circle dual's
+pattern. It assumes no exponential-sum estimate and no exponent-pair
+predicate. Additive linear terms are unrestricted through the actual tower.
+
+This is the pure `(1/30,26/30)` A-scale, since
+`T^(1/30)*Y^(5/6) = (T/Y)^(1/30)*Y^(26/30)`. It can supply the direct circle
+B-route once the actual dual derivative estimates and stationary-phase
+transform land. The B-transform itself remains assigned to NT-BPROC.
+Check: targeted `PowerScaleComparison` passed (3137 jobs, 3.5s), and
+`FifthDerivativeScale` passed (3568 jobs, 4.6s), zero warnings.
