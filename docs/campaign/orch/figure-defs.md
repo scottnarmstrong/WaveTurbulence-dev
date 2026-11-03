@@ -575,3 +575,55 @@ Both definitions are textual, and the figures are a worked example. I verified t
 No discrepancies and no figure-dependent content.
 
 ---
+## §9. F14 — DH21-2 Prop 6.3 (`basemol`: χ ≤ m − R/2 for mixed gardens)
+
+**Sources.** DH21-2 `WKE_Hierarchy-Revised.tex`: Def `defgarden` (L606–L609, "multi-couple", "mixed"), Def
+`gardenmol` (L809–L817), Prop `basemol` (L818–L823), Prop `reconstruction` (L824). DH21 map E5.
+
+### Verdict: the counterexample is invalid; Prop 6.3 is true; TARGET does not depend on it
+
+**1. The map's counterexample is not a mixed garden.** The example is:
+
+- T₁(+) with leaves (a, b, c), pairs `a–b` and `c–(root of the trivial tree T₂(−))`;
+- T₄(−) with leaves (d, e, f), pairs `e–f` and `d–(root of the trivial tree T₃(+))`.
+
+The leaf set of T₁ ∪ T₂, namely `{a, b, c, r₂}`, is closed under the pairing. So (T₁, T₂) is a **couple** (a width-2
+garden; couples may pair siblings), and likewise (T₄, T₃). The garden is therefore a **multi-couple**, and DH21-2
+L609 defines mixed as "no two trees `𝒯_j`, `𝒯_{j′}` have all their leaves paired with each other". The computation
+χ = 2 > 1 is correct, but the hypothesis "mixed" fails.
+
+**2. Prop 6.3 is true as stated**, including when trivial trees are present. The proof's sentence "any connected
+component must be the union of at least four `S_j`" is loose, because `S_j = ∅` for trivial trees, but it repairs
+directly:
+
+- For a component C, let `A_C` contain:
+  - the non-trivial trees whose atoms lie in C (each `S_j ≠ ∅` is connected, so it lies in one component);
+  - the trivial trees whose root is paired with a leaf of one of those trees.
+- Mixedness forbids two trivial roots from being paired with each other, so every tree belongs to exactly one `A_C`.
+- The leaves of `A_C` are closed under pairing. An LP partner of an atom-leaf is either in an atom of C or a trivial
+  root assigned to C.
+- So `|A_C|` is even, since each tree has an odd number of leaves. It is not 2, since that would be two trees "with all
+  their leaves paired with each other", contradicting mixedness. Hence `|A_C| ≥ 4`, and `F ≤ 2R/4 = R/2`.
+- I also re-derived `E = 2m − R` with trivial trees. There are `m − R_nt` non-root branching nodes and
+  `(m + R) − R_t` LP bonds with both leaves non-root, where `R_t = 2R − R_nt`. Hence `χ ≤ m − R/2`. ∎
+
+**3. TARGET does not use Prop 6.3.** I checked every `[DH21-2]` citation (L268–L669 introduction and set-up, L848,
+L872, L1294–L1308, L2630 bibliography):
+
+- **Substantive uses:**
+  - L872 `propstructure2` (skeleton decomposition of gardens) uses DH21-2 Props 4.4–4.6;
+  - L1306 `propcplmol` (number of gardens with a given molecule ≤ `(C₀R)!C₀^n`) uses DH21-2 Prop 6.4
+    (`reconstruction`), whose proof (an encoding by position codes 0–3) does not use 6.3.
+- **Definitions only:** L1294–L1308 (molecules, decorations; TARGET gives self-contained definitions).
+- **Introduction only:** L370 ("it follows from the proof in [DH21-2] that |(introcm)| ≤ L^{−cr}") is motivation,
+  and the next sentence calls it "too weak". TARGET proves its own cumulant bounds (`propansatz`).
+- **Not part of Theorem 1.1:** L327 (Remark `suppresult`: higher statistics "using the same arguments in [DH21-2]").
+- TARGET's own χ statement for irreducible gardens (`propcplmol`: `χ = n − R + 1`, connected) is proved in TARGET
+  (L1304–L1306). TARGET's irreducible gardens of width ≥ 4 are mixed anyway.
+
+**Consequences.**
+
+- F14 can be closed as **not a defect** of DH21-2 Prop 6.3 and **not a dependency** of TARGET.
+- The other half of E5, about DH21-2's (contribution1) summation range, concerns DH21-2's own proof of its Theorem
+  1.3 and is likewise outside TARGET's dependency graph.
+- E10 (mixed versus irreducible) is moot for TARGET for the same reason: L370 is motivational.
