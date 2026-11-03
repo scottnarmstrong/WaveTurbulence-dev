@@ -12,6 +12,7 @@ public import WaveTurbulence.Foundations.WKEL2.MaximalTimeEquality
 public import WaveTurbulence.Foundations.WKEL2.JetClosedIdentity
 public import WaveTurbulence.Foundations.WKEL2.CanonicalJetEquivalence
 public import WaveTurbulence.Foundations.WKEL2.SolutionEquivalence
+public import WaveTurbulence.Foundations.WKEL2.SchwartzPicard
 
 /-!
 # WKE-L2S: general-dimensional weighted L² estimates and the full blow-up criterion
