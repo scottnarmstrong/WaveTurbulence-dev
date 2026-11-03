@@ -685,3 +685,17 @@ hypothesis supplies both the general-exponent annulus branch and its minimum
 with the proved elementary geometric branch. The actual closed annulus and
 containing disc are unchanged. Targeted `CircleOctantAnnulus` build passed
 (9103 jobs; own-file build 5.2s), zero warnings.
+
+`NumberTheory/AProcessAllRegimes.lean` removes the artificial cutoff regime
+from the numerical A-process helper when `Y>=1`, `0<=kappa<=lambda` and
+`N>0`. The optimal cutoff is automatically <=N; if it is <1, the actual
+trivial finite exponential-sum bound suffices. It proves the A-transformed
+coordinates from actual differenced sums, with no phase-class predicate
+introduced. Targeted `AProcessAllRegimes` build passed (3264 jobs, own-file
+4.0s), zero warnings.
+
+The merged independent infrastructure audit's L1 notes a registry omission:
+`Counting/MonotoneIntervals.lean` is salt-adapted with its required per-file
+attribution and license pointer, but the orchestrator-owned
+`docs/THIRD-PARTY.md` list omits it. That registry still needs its file list
+extended. No out-of-ownership documentation edit was made here.
