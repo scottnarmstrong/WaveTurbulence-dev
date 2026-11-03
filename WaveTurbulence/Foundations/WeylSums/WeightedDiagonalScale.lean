@@ -1,8 +1,7 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 
-public import WaveTurbulence.Foundations.WeylSums.BilinearAmplitudeFourier
-public import WaveTurbulence.Foundations.WeylSums.ParityLatticeBound
+public import WaveTurbulence.Foundations.WeylSums.WeightedDiagonalBound
 
 /-! # Auxiliary-scale versions of the weighted diagonal bound -/
 
@@ -10,20 +9,6 @@ public section
 open MeasureTheory Finset
 open scoped BigOperators ContDiff
 namespace WaveTurbulence.WeylSums
-
-/-- Support of the localized amplitude, with explicit width dependence. -/
-theorem weightedDiagonalAmplitude_support {d : ℕ}
-    (Φ : EuclideanSpace ℝ (Fin d × Fin 2) → ℂ) {width : ℝ} (hw : 0 < width)
-    (c z : EuclideanSpace ℝ (Fin d × Fin 2))
-    (hz : weightedDiagonalAmplitude Φ width c z ≠ 0) (i : Fin d × Fin 2) :
-    |z i-c i| ≤ 2*width := by
-  have hκ : bilinearJointCutoff d (width⁻¹ • (z-c)) ≠ 0 := by
-    intro hzero
-    exact hz (by simp [weightedDiagonalAmplitude, scaledTranslatedCutoff, hzero])
-  have hh := bilinearJointCutoff_support _ hκ i
-  change |width⁻¹*(z i-c i)| ≤ 2 at hh
-  rw [abs_mul, abs_inv, abs_of_pos hw, ← div_eq_inv_mul] at hh
-  exact (div_le_iff₀ hw).mp hh
 
 /-- The joint amplitude version of the pointwise Weyl reduction. All
 spatial centers, linear frequencies and amplitudes are uniform; `C` depends
