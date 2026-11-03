@@ -37,3 +37,4 @@ SEALED: 0
 
 - [docs/DECISIONS.md](docs/DECISIONS.md) — rulings.
 - [docs/FINDINGS.md](docs/FINDINGS.md) — source findings and candidate errata.
+- [docs/campaign/PLAN.md](docs/campaign/PLAN.md) — phases, infrastructure packets, fleet.
