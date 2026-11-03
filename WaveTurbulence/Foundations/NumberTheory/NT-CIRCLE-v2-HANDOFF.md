@@ -1001,3 +1001,16 @@ three axioms: concrete derivative-formula A estimate, exact weighted local
 power bound, full half-radius annulus comparison, localized circle transfer,
 and full localized annulus minimum. Check: targeted scratch
 `DirectCircleAxioms.lean` exited 0.
+
+The landed-API axiom probe passed: the actual shared integer-column dual A
+estimate, frequency application of `VdCB.IsExponentPair`, and exact shared-
+class sawtooth transfer each have only `[propext, Classical.choice,
+Quot.sound]`. Check: targeted scratch `SharedAPIAxioms.lean` exited 0.
+
+`IntegralSecondDerivativeSide.lean` additionally compiles the one-sided
+curvature integral estimate `1/sqrt(mu)+1/(pi*sqrt(mu))`, reusing the shared
+proved nonstationary bounds and actual derivative growth. It covers a
+critical point at either endpoint, without an endpoint-frequency gap.
+Targeted build passed (3514 jobs, own-file 4.2s), zero warnings. The full
+uniform positive/negative curvature integral test is being assembled to
+handle near-endpoint frequencies in a finite B-process application.
