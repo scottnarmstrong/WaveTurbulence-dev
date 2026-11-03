@@ -146,3 +146,36 @@ It asks only for **some** bond on each rail, so rails of multiplicity 2 are admi
 
 It also prints the axioms of Degen's `chordLadder_isMolecule`, `maximalLadders_not_pairwiseDisjoint`,
 `chordLadder_source_full_mem_maximal` and `sourceMaximalLadders_pairwiseDisjoint_of_degree_le_four`. All are standard.
+
+## Re-check against B2-CL-3, 2026-11-03 (late)
+
+**Correction to the inputs above.** My `IsLadder` reading (the dart form, "L305–L309") was taken **before**
+wt-gauss-hc's 23:32 rewrite. The hash I recorded for the file, `c39be9dc3954…`, was taken **after** it, so that hash
+is of the B2-CL-3 file, not of the text I audited. The dart-form finding stands for the version it describes.
+
+**Current file.**
+- `wt-scratch/waveb2/WaveB2-Molecules.lean` `c39be9dc3954…` (23:32): B2-CL-3, `IsLadder` at L309–L314.
+- A later docstring-only edit, `608b74282334…` (23:38:59), changes only the `maximalLadders` docstring (L326–L327).
+- I compiled `c39be9dc…` and its `WaveB2-Regular.lean` (`ad72ce4be39e…`) **from source** on my snapshot-5 `WaveBDraft`
+  modules: 0 errors. The only `sorry`s are the draft's registered obligations: 5 in Regular, and one in Molecules,
+  `Garden.isMolecule_molecule` at L228.
+- I ran `scratch/Task14c-cl3-probe.lean` (`46ff6dad8161…`) against these **actual** B2 definitions, not a copy. All
+  results use `[propext, Classical.choice, Quot.sound]`.
+
+| Check | Result |
+|---|---|
+| `IsLadder` body vs `Degen.SourceLadder` body | **identical** after whitespace normalization, conjunct for conjunct, including `bondsBetween … = 1` on both rails and the `Directed ↔` clause |
+| The rest of the molecule definitions vs DEGEN's `MoleculeDefs` | The only code differences are the deleted `groupBonds` conjunct and the omitted §3. All other diffs are docstrings. So DEGEN's theorems are about exactly these definitions. |
+| `dblRail` rejected | `dblRail_not_ladder : ∀ m u v, ¬ dblRail.IsLadder u v`, and `dblRail.maximalLadders = ∅`. `dblRail` is an actual molecule (`dblRail_isMolecule`). ✓ |
+| `chordLadder`: the whole molecule is the unique maximal ladder | `chord_maximalLadders : chordLadder.maximalLadders = {univ}`. The old overlapping pair `{0,1,3,4}`, `{1,2,4,5}` is not maximal. `chordLadder_isMolecule` holds. ✓ |
+| Disjointness in every molecule | `Degen.sourceMaximalLadders_pairwiseDisjoint (M) (hM : M.IsMolecule)` (`MaximalLadderDisjoint.lean` L724), standard axioms in my build (`scratch/Task14c-disjoint-axioms.lean`). Since the bodies are identical, it is a statement about B2's `maximalLadders`. |
+
+**R1: CONFIRMED adopted.** B2-CL-3 `IsLadder` is `SourceLadder` verbatim, and the rail-multiplicity regression is
+gone. R2 is moot. R4 is not yet in `WaveB2-Molecules-probes.lean` (23:34), so add `dblRail` there or in the
+probe-adjacent ladder file.
+
+**R3.** wt-gauss-hc's new `WaveB2-Ladders.lean` (B2-CL-4, 23:38:37, 737 lines, no `sorry` text) ports the theorem as
+`Molecule.maximalLadders_pairwiseDisjoint (M) (hM : M.IsMolecule)`, with the same statement shape as DEGEN's, via
+`_of_degree_le_four` and `deg_le_four`. I read only the statement; I have **not** compiled or audited that file.
+
+F53 can be marked resolved once B2-CL-3 lands in the next snapshot.
