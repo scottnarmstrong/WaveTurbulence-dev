@@ -1163,3 +1163,21 @@ a scratch-only symlink overlay; no dependency artifacts are modified or
 rebuilt. These actual-circle consumers are not yet committed because their
 shared source modules are not yet landed on main. This pending-API probe
 is supplementary, not a claim that the final circle bound is proved.
+
+## Optimized exact direct-circle B error
+
+`CircleOptimizedBError.lean` bounds the exact error expression in BPROC's
+new direct-circle pre-estimate after choosing the balanced radius and
+threshold sqrt(mu), by 4000 times the improved local power.
+`CirclePoissonErrorScale.lean` adds the four-times-width logarithm case.
+`CircleDualWeightScale.lean` and `CircleWeightedDual.lean` now allow any
+fixed endpoint scale comparison factor. `CircleWeightedDualIntervals.lean`
+exposes the actual weighted bound on closed integer windows of admissible
+length, deriving all scale restrictions from the source-frequency upper bound.
+
+Checks: targeted `CircleOptimizedBError` and `CircleWeightedDualIntervals`
+builds passed (3829/3586 jobs; final targets 17s/8.9s), without warnings.
+`OptimizedBErrorAxioms.lean` checked both main results with standard axioms.
+The BPROC direct pre-estimate is f613e01 on w/bproc and is not yet on main;
+its final optimized consumers are being checked in scratch pending landing.
+No new errata or deviations.

@@ -42,6 +42,26 @@ theorem log_le_local_circle_scale {w U x : ℝ} (hw : 1 ≤ w) (hU : 1 ≤ U)
   have hlog := Real.log_le_rpow_div hx (by norm_num : (0:ℝ) < 1/4)
   linarith only [hlog,hp,hlocal]
 
+/-- A width bounded by four times the frequency scale has the same local power. -/
+theorem log_le_local_circle_scale_four {w U x : ℝ} (hw : 1 ≤ w) (hU : 1 ≤ U)
+    (hx : 0 ≤ x) (hxw : x ≤ 4*w) :
+    Real.log x ≤ 16*(w^((11:ℝ)/30)*U^((7:ℝ)/20)) := by
+  have hwp : 0 < w := zero_lt_one.trans_le hw
+  have hp : x^((1:ℝ)/4) ≤ 4*w^((1:ℝ)/4) := by
+    calc
+      _ ≤ (4*w)^((1:ℝ)/4) := Real.rpow_le_rpow hx hxw (by norm_num)
+      _ = (4:ℝ)^((1:ℝ)/4)*w^((1:ℝ)/4) := Real.mul_rpow (by norm_num) hwp.le
+      _ ≤ _ := mul_le_mul_of_nonneg_right
+        (Real.rpow_le_self_of_one_le (by norm_num : (1:ℝ) ≤ 4) (by norm_num : (1:ℝ)/4 ≤ 1))
+        (Real.rpow_nonneg hwp.le _)
+  have hpw : w^((1:ℝ)/4) ≤ w^((11:ℝ)/30) := Real.rpow_le_rpow_of_exponent_le hw (by norm_num)
+  have hpu : 1 ≤ U^((7:ℝ)/20) := Real.one_le_rpow hU (by norm_num)
+  have hlocal : w^((1:ℝ)/4) ≤ w^((11:ℝ)/30)*U^((7:ℝ)/20) :=
+    hpw.trans (by simpa only [mul_one] using (mul_le_mul_of_nonneg_left hpu
+      (Real.rpow_nonneg hwp.le ((11:ℝ)/30))))
+  have hlog := Real.log_le_rpow_div hx (by norm_num : (0:ℝ) < 1/4)
+  linarith only [hlog,hp,hlocal]
+
 /-- The precise error of the landed sharp truncated Poisson theorem fits
 one fixed multiple of the local improved circle scale. -/
 theorem truncated_poisson_error_le_local_circle_scale {w U : ℝ} (hw : 1 ≤ w)

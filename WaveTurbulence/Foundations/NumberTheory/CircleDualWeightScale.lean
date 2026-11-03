@@ -89,4 +89,30 @@ theorem circle_dual_weight_endpoint_bound {R h Y U : ℝ}
     _ = 4*(R^((8:ℝ)/15)*h^((16:ℝ)/15)*B^(-((7:ℝ)/10))) := by ring
     _ = _ := by rw [circle_dual_endpoint_scale_identity hR hh hU]
 
+/-- The same endpoint conversion with any fixed scale comparison factor. -/
+theorem circle_dual_weight_endpoint_bound_factor {R h Y U K : ℝ}
+    (hR : 0 < R) (hh : 0 < h) (hY : 0 < Y) (hU : 0 < U)
+    (hK : 1 ≤ K) (hscale : (h*Real.sqrt (R/U))/K ≤ Y) :
+    (Real.sqrt R*h/Y^((3:ℝ)/2))*((R*h^2/Y^2)^((1:ℝ)/30)*Y^((26:ℝ)/30)) ≤
+      K*(h^((11:ℝ)/30)*R^((11:ℝ)/60)*U^((7:ℝ)/20)) := by
+  have hKp : 0 < K := zero_lt_one.trans_le hK
+  let B : ℝ := h*Real.sqrt (R/U)
+  have hB : 0 < B := mul_pos hh (Real.sqrt_pos.mpr (div_pos hR hU))
+  have hpow : Y^(-((7:ℝ)/10)) ≤ K*B^(-((7:ℝ)/10)) := by
+    calc
+      _ ≤ (B/K)^(-((7:ℝ)/10)) := Real.rpow_le_rpow_of_nonpos (by positivity) hscale (by norm_num)
+      _ = (K:ℝ)^((7:ℝ)/10)*B^(-((7:ℝ)/10)) := by
+        rw [Real.div_rpow hB.le hKp.le,Real.rpow_neg hKp.le,div_inv_eq_mul]
+        ring
+      _ ≤ _ := mul_le_mul_of_nonneg_right
+        (Real.rpow_le_self_of_one_le hK (by norm_num : (7:ℝ)/10 ≤ 1))
+        (Real.rpow_nonneg hB.le _)
+  calc
+    _ = R^((8:ℝ)/15)*h^((16:ℝ)/15)*Y^(-((7:ℝ)/10)) :=
+      circle_dual_weight_fifth_scale_identity hR hh hY
+    _ ≤ R^((8:ℝ)/15)*h^((16:ℝ)/15)*(K*B^(-((7:ℝ)/10))) :=
+      mul_le_mul_of_nonneg_left hpow (by positivity)
+    _ = K*(R^((8:ℝ)/15)*h^((16:ℝ)/15)*B^(-((7:ℝ)/10))) := by ring
+    _ = _ := by rw [circle_dual_endpoint_scale_identity hR hh hU]
+
 end WaveTurbulence.NumberTheory

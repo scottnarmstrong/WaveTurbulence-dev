@@ -86,4 +86,18 @@ theorem norm_sum_weighted_circleLatticeDualPhase_le_endpoint (a : ℤ) (N : ℕ)
   have hsecond := circle_dual_weight_endpoint_bound hR hh (zero_lt_one.trans_le hY) hU hscale
   exact hfirst.trans ((mul_le_mul_of_nonneg_left hsecond (by norm_num)).trans_eq (by ring))
 
+/-- Actual weighted endpoint estimate with a general fixed comparison factor. -/
+theorem norm_sum_weighted_circleLatticeDualPhase_le_endpoint_factor (a : ℤ) (N : ℕ) (p q : ℝ)
+    {R h Y U K : ℝ} (hR : 0 < R) (hh : 0 < h) (hY : 1 ≤ Y) (hU : 0 < U)
+    (hhY : h ≤ Y) (hRY : Y^2 ≤ R*h^2) (ha : Y ≤ (a:ℝ)+1)
+    (hb : (a:ℝ)+N+2 ≤ 4*Y) (hNY : (N:ℝ) ≤ 2*Y)
+    (hK : 1 ≤ K) (hscale : (h*Real.sqrt (R/U))/K ≤ Y) :
+    ‖∑ n ∈ Finset.Ioc a (a+N),
+      (Real.sqrt R*h*(h^2+(n:ℝ)^2)^(-((3:ℝ)/4))) •
+        expPhase (VdCB.circleLatticeDualPhase R h n+p*(n:ℝ)+q)‖ ≤
+      (17179869184*K)*(h^((11:ℝ)/30)*R^((11:ℝ)/60)*U^((7:ℝ)/20)) := by
+  have hfirst := norm_sum_weighted_circleLatticeDualPhase_le a N p q hR hh hY hhY hRY ha hb hNY
+  have hsecond := circle_dual_weight_endpoint_bound_factor hR hh (zero_lt_one.trans_le hY) hU hK hscale
+  exact hfirst.trans ((mul_le_mul_of_nonneg_left hsecond (by norm_num)).trans_eq (by ring))
+
 end WaveTurbulence.NumberTheory
