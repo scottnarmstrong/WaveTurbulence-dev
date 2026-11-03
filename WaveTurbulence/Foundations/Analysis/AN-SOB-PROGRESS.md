@@ -112,3 +112,9 @@ completed successfully (3256 jobs), without warnings. `nice -n 5 lake env lean
 /home/scott/wt-scratch/an-sob/FinalAxioms.lean` exited 0: exact-type consumption examples passed,
 and all fifteen checked exports have only `[propext, Classical.choice, Quot.sound]`.
 No graph/manifest promotion or frozen-anchor sealing is claimed by this worker handoff.
+
+Post-closeout integration: `git merge main` succeeded at `6a5f625`, changing no Analysis files
+or frozen `Mom` dependency. The post-merge targeted `PaperTimeIntegral` build again completed
+successfully (3256 jobs), without warnings. Detailed final handoff: `AN-SOB-HANDOFF.md`.
+
+READY an-sob

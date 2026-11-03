@@ -159,3 +159,14 @@ Final commands:
 No mathematical uncertainty remains in these proved local statements. Transport to the future
 frozen tree API, source-facing anchor selection and independent frozen statement audits belong
 to the orchestrator's next campaign phase; this packet does not claim those are done.
+
+## Integration closeout
+
+Committed the source-convention implementation and handoff at `78cb9c8`, then merged `main`
+cleanly at `6a5f625`. The merge changed neither the owned Analysis files nor their frozen
+`Mom` dependency. Re-read the updated `AGENTS.md`; the area namespaces and C∞ notation
+already comply. Post-merge command
+`nice -n 5 lake build WaveTurbulence.Foundations.Analysis.PaperTimeIntegral` returned
+`Build completed successfully (3256 jobs).` No warnings. The worktree was clean after the merge.
+
+READY an-sob
