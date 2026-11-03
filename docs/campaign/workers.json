@@ -68,8 +68,8 @@
   "model": "GPT-6.1-Sol low",
   "account": "codex-3",
   "branch": "w/resonant",
-  "packet": "N5 RESONANT: resonant measure, p.v. 1/Ω, DH21 Lemma 6.3",
-  "brief": "docs/campaign/briefs/RESONANT.md"
+  "packet": "D1 COMB-CORE (pre-freeze, scratch): API for trees, gardens, decorations, layerings (RESONANT done)",
+  "brief": "docs/campaign/briefs/COMB-CORE.md"
  },
  {
   "tmux": "wt-anfourier",
