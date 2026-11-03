@@ -71,6 +71,10 @@ theorem _root_.WaveTurbulence.IsRapidDecay.summable_norm_weightUp {c : (Fin d �
   simp_rw [norm_weightUp, flowWeight]
   exact (hc.summable_norm_mul_pow (d + 1)).congr fun n => mul_comm _ _
 
+theorem weightUp_unweight (y : (Fin d → ℤ) → ℂ) : weightUp (unweight y) = y := by
+  funext n
+  rw [weightUp, unweight, mul_div_cancel₀ _ (ofReal_ne_zero.2 (flowWeight_pos n).ne')]
+
 theorem unweight_ofFun_weightUp {c : (Fin d → ℤ) → ℂ} (hc : Summable fun n => ‖weightUp c n‖) :
     unweight (L1.ofFun (weightUp c) : (Fin d → ℤ) → ℂ) = c := by
   rw [L1.coe_ofFun hc, unweight_weightUp]
@@ -90,21 +94,31 @@ theorem IsAkBounded.of_flowWeight_mul_le {L 𝔇 C : ℝ} (hL : 0 < L) {a : ℝ 
 
 variable {L γ δ R 𝔇 : ℝ}
 
-theorem isAkSolution_unweight_truncFlow (hL : 0 < L) (hR : 0 ≤ R) (x : L1 d)
-    (hball : ∀ t ∈ Icc 0 𝔇, ‖truncFlow L γ δ R 𝔇 x t‖ ≤ R) :
-    IsAkSolution L γ δ 𝔇 (unweight x) fun t => unweight (truncFlow L γ δ R 𝔇 x t) := by
-  refine ⟨by simp, IsAkBounded.of_flowWeight_mul_le hL (C := R) fun t ht n => ?_,
+/-- A solution `z` on `[0, 𝔇]` of the truncated system that stays in the ball of radius `R`
+gives, unweighted, a classed solution of (akeqn). -/
+theorem isAkSolution_unweight_of_hasDerivWithinAt (hL : 0 < L) {z : ℝ → L1 d} {x : L1 d}
+    (hz0 : z 0 = x)
+    (hz : ∀ t ∈ Icc 0 𝔇, HasDerivWithinAt z (truncField L γ δ R t (z t)) (Icc 0 𝔇) t)
+    (hball : ∀ t ∈ Icc 0 𝔇, ‖z t‖ ≤ R) :
+    IsAkSolution L γ δ 𝔇 (unweight x) fun t => unweight (z t) := by
+  refine ⟨by subst hz0; rfl, IsAkBounded.of_flowWeight_mul_le hL (C := R) fun t ht n => ?_,
     fun t ht n => ?_⟩
   · rw [flowWeight_mul_norm_unweight]
     exact (lp.norm_apply_le_norm (by norm_num) _ n).trans (hball t ht)
   · have h := (((lp.evalCLM ℝ (fun _ : Fin d → ℤ => ℂ) 1 n).hasFDerivAt).comp_hasDerivWithinAt
-      t (hasDerivWithinAt_truncFlow (L := L) (γ := γ) (δ := δ) hR x ht)).div_const (flowWeight n : ℂ)
+      t (hz t ht)).div_const (flowWeight n : ℂ)
     rw [truncField_of_norm_le L γ δ t (hball t ht)] at h
     convert h using 1
     · funext s
       rfl
     · change aNonlin L γ δ 1 t _ _ _ n = flowTerm L γ δ t _ n / _
       rw [flowTerm, mul_div_cancel_left₀ _ (ofReal_ne_zero.2 (flowWeight_pos n).ne')]
+
+theorem isAkSolution_unweight_truncFlow (hL : 0 < L) (hR : 0 ≤ R) (x : L1 d)
+    (hball : ∀ t ∈ Icc 0 𝔇, ‖truncFlow L γ δ R 𝔇 x t‖ ≤ R) :
+    IsAkSolution L γ δ 𝔇 (unweight x) fun t => unweight (truncFlow L γ δ R 𝔇 x t) :=
+  isAkSolution_unweight_of_hasDerivWithinAt hL (truncFlow_zero L γ δ R 𝔇 x)
+    (fun _ ht => hasDerivWithinAt_truncFlow hR x ht) hball
 
 /-! ### A classed solution is a differentiable `ℓ¹`-valued solution -/
 
