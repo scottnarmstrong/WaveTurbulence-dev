@@ -35,9 +35,9 @@
   "tmux": "wt-cumul",
   "model": "GPT-6.1-Sol low",
   "account": "codex-3",
-  "branch": "w/main-glue",
-  "packet": "MAIN-GLUE: glue lemmas G1, G2, G5–G7, G10 for sealing Theorem 1.1 (LEMLIN done)",
-  "brief": "docs/campaign/briefs/MAIN-GLUE.md"
+  "branch": "w/norm-bridge",
+  "packet": "NORM-BRIDGE: Wave B norms = Foundations norms; mixedFourierNorm00 over V (MAIN-GLUE done)",
+  "brief": "docs/campaign/briefs/NORM-BRIDGE.md"
  },
  {
   "tmux": "wt-nt",
