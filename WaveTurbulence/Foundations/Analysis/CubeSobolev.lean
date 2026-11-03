@@ -35,7 +35,7 @@ make the definition meaningful without integrability assumptions. -/
       ∫⁻ t in Icc (0 : ℝ) 1,
         cubeSobolevL1 n (fun x => deriv (fun s => f (Fin.cons s x)) t)
 
-private theorem contDiff_cons_const {n : ℕ} (t : ℝ) :
+theorem contDiff_cons_const {n : ℕ} (t : ℝ) :
     ContDiff ℝ ∞ (fun x : Fin n → ℝ => (Fin.cons t x : Fin (n + 1) → ℝ)) := by
   apply contDiff_pi.2
   intro i
@@ -43,7 +43,7 @@ private theorem contDiff_cons_const {n : ℕ} (t : ℝ) :
   · simpa only [Fin.cons_zero] using (contDiff_const : ContDiff ℝ ∞ (fun _ : Fin n → ℝ => t))
   · simpa only [Fin.cons_succ] using contDiff_apply ℝ (fun _ : Fin n => ℝ) j
 
-private theorem contDiff_cons_curve {n : ℕ} (x : Fin n → ℝ) :
+theorem contDiff_cons_curve {n : ℕ} (x : Fin n → ℝ) :
     ContDiff ℝ ∞ (fun t : ℝ => (Fin.cons t x : Fin (n + 1) → ℝ)) := by
   apply contDiff_pi.2
   intro i
@@ -54,7 +54,7 @@ private theorem contDiff_cons_curve {n : ℕ} (x : Fin n → ℝ) :
   · simpa only [Fin.cons_succ] using
       (contDiff_const : ContDiff ℝ ∞ (fun _ : ℝ => x j))
 
-private theorem contDiff_deriv_cons {n : ℕ} {f : (Fin (n + 1) → ℝ) → E}
+theorem contDiff_deriv_cons {n : ℕ} {f : (Fin (n + 1) → ℝ) → E}
     (hf : ContDiff ℝ ∞ f) (t : ℝ) :
     ContDiff ℝ ∞ (fun x : Fin n → ℝ => deriv (fun s => f (Fin.cons s x)) t) := by
   have hc : ContDiff ℝ ∞ (fun p : (Fin n → ℝ) × ℝ => (Fin.cons p.2 p.1 : Fin (n + 1) → ℝ)) := by
