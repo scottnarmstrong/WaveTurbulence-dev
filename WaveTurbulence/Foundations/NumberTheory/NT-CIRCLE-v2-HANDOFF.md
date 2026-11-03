@@ -699,3 +699,27 @@ The merged independent infrastructure audit's L1 notes a registry omission:
 attribution and license pointer, but the orchestrator-owned
 `docs/THIRD-PARTY.md` list omits it. That registry still needs its file list
 extended. No out-of-ownership documentation edit was made here.
+
+## Proposed 35/53 exponent: numerical audit checked
+
+`Counting/ImprovedExponentAudit.lean` proves the scalar `BAABAAB` chain
+coordinates `(13/40,11/20)`, the resulting exponent `35/53`, and its strict
+`1/159` improvement over `2/3`. These scalar identities do not assert that
+the analytic exponent-pair closure has landed.
+
+For DH23 `basiccount0` (1), L2077, and (3), L2088, the complete two-branch
+expression with exponent `35/53` is <=
+`1-min(1/1000,2*gamma-1)` for every `gamma>=1/2` and every q. Thus it retains
+the exact fixed saving stated in the source even near `gamma=1/2`.
+For (2), L2082, the correctly summed branches are <=`63/79=4/5-1/395`, split
+at `q=477/395`. An explicit eta-margin lemma proves
+`63/79+D*eta <= gamma-20*eta` whenever
+`gamma>=4/5-10*eta` and `(D+30)*eta<=1/395`. This allows the source's fixed
+`O(eta)` losses for sufficiently small eta. For `basiccount` (5), L2117,
+the previously proved geometric-branch comparison is unchanged and does
+not depend on the circle exponent. The former two-thirds comparisons for
+(1),(3) also follow monotonically whenever q>=0.
+
+Check: targeted `ImprovedExponentAudit` build passed (3138 jobs, 2.9s), zero
+warnings. Goal 5's numerical work is ready for specialization, but its final
+claim still requires an actually proved exponent pair and its application.
