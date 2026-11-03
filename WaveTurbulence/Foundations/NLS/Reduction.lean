@@ -19,8 +19,9 @@ Let `u` be a smooth solution of (NLS) with `α = L^{-γ}` and `M = ⨍|u|²` its
   `∂ₜ v̂(t,n) = i (2π|k|² v̂(t,n) + α wickConv L v̂(t) n)`;
 * `reducedCoeff L γ δ u` is `a_k(t) = e^{-πiδL^{2γ}|k|²t} v̂(δ T_kin t, k)` of (reducedcoef), L543,
   `T_kin = kineticTime α`;
-* `IsSmoothNLSSolution.isAkSolution`: if `T = δ T_kin 𝔇` then `a` solves (akeqn)–(akeqn2) on
-  `[0, 𝔇]` with `a(0) = c` (L545–L554);
+* `IsSmoothNLSSolution.hasDerivWithinAt_reducedCoeff`, `IsSmoothNLSSolution.reducedCoeff_zero`: if
+  `T = δ T_kin 𝔇` then `a` satisfies (akeqn)–(akeqn2) on `[0, 𝔇]` with `a(0) = c` (L545–L554);
+  the classed statement `IsSmoothNLSSolution.isAkSolution` is in `NLS/UniformDecay`;
 * `norm_reducedCoeff`: `|a_k(t)| = |û(δ T_kin t, k)|`.
 -/
 
@@ -226,19 +227,25 @@ theorem norm_reducedCoeff (L γ δ : ℝ) (u : ℝ → (Fin d → ℝ) → ℂ) 
   simp only [reducedCoeff, torusFourierCoeff_wickGauge, norm_mul, Complex.norm_exp_ofReal_mul_I,
     one_mul]
 
-/-- **The first reduction** (TARGET L540–L566, forward direction): if `u` is a smooth solution of
-(NLS) with `α = L^{-γ}` on `[0, T]`, `T = δ T_kin 𝔇`, then the reduced coefficients
-`a_k(t) = e^{-πiδL^{2γ}|k|²t} v̂(δ T_kin t, k)` solve (akeqn)–(akeqn2) on `[0, 𝔇]` with
-`a(0) = c`. -/
-theorem IsSmoothNLSSolution.isAkSolution {γ δ 𝔇 : ℝ} (hL : 0 < L) (hδ : 0 ≤ δ)
-    (hT : T = δ * kineticTime (L ^ (-γ)) * 𝔇) (hu : IsSmoothNLSSolution L (L ^ (-γ)) T c u) :
-    IsAkSolution L γ δ 𝔇 c (reducedCoeff L γ δ u) := by
+theorem IsSmoothNLSSolution.reducedCoeff_zero (hu : IsSmoothNLSSolution L α T c u) (γ δ : ℝ)
+    (hα : α = L ^ (-γ)) : reducedCoeff L γ δ u 0 = c := by
+  subst hα
+  funext n
+  simp [reducedCoeff, torusFourierCoeff_wickGauge, hu.2.2.1]
+
+/-- **The first reduction**, equation part (TARGET L540–L566, forward direction): if `u` is a smooth
+solution of (NLS) with `α = L^{-γ}` on `[0, T]`, `T = δ T_kin 𝔇`, then the reduced coefficients
+`a_k(t) = e^{-πiδL^{2γ}|k|²t} v̂(δ T_kin t, k)` satisfy `∂ₜ aₖ = 𝒞₊(a, ā, a)ₖ(t)` within
+`[0, 𝔇]` (L545–L554). See `IsSmoothNLSSolution.isAkSolution` for the full statement. -/
+theorem IsSmoothNLSSolution.hasDerivWithinAt_reducedCoeff {γ δ 𝔇 : ℝ} (hL : 0 < L)
+    (hδ : 0 ≤ δ) (hT : T = δ * kineticTime (L ^ (-γ)) * 𝔇)
+    (hu : IsSmoothNLSSolution L (L ^ (-γ)) T c u) {t : ℝ} (ht : t ∈ Icc 0 𝔇) (n : Fin d → ℤ) :
+    HasDerivWithinAt (fun s => reducedCoeff L γ δ u s n)
+      (aNonlin L γ δ 1 t (reducedCoeff L γ δ u t)
+        (fun m => (starRingEnd ℂ) (reducedCoeff L γ δ u t m)) (reducedCoeff L γ δ u t) n)
+      (Icc 0 𝔇) t := by
   have hkt : kineticTime (L ^ (-γ)) = L ^ (2 * γ) / 2 := kineticTime_rpow_neg hL γ
   have hσ0 : 0 ≤ δ * kineticTime (L ^ (-γ)) := by rw [hkt]; positivity
-  refine ⟨fun t ht n => ?_, ?_⟩
-  swap
-  · funext n
-    simp [reducedCoeff, torusFourierCoeff_wickGauge, hu.2.2.1]
   have hmaps : MapsTo (fun r => δ * kineticTime (L ^ (-γ)) * r) (Icc 0 𝔇) (Icc 0 T) :=
     fun r hr => ⟨mul_nonneg hσ0 hr.1, by rw [hT]; exact mul_le_mul_of_nonneg_left hr.2 hσ0⟩
   have hV := hu.hasDerivWithinAt_wickGauge hL (hmaps ht) n

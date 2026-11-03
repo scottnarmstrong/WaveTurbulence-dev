@@ -18,7 +18,9 @@ Definitions (candidate drafts, not frozen; lattice points `k = n / L` are indexe
 * `resonance L n₁ n₂ n₃ n` — `Ω(k₁,k₂,k₃,k) = |k₁|² - |k₂|² + |k₃|² - |k|²` of (res), L563;
 * `aNonlin L γ δ ζ t f g h n` — `𝒞_ζ(f,g,h)_k(t)` of (akeqn2), L553–L554, the sum over
   `{(n₁,n₂,n₃) : n₁ - n₂ + n₃ = n}`;
-* `IsAkSolution L γ δ 𝔇 c a` — `a` solves (akeqn), L545–L551, on `[0, 𝔇]` with `a(0) = c`;
+* `IsAkBounded L 𝔇 a` — the solution class `sup_{t,n} ⟨n/L⟩^{d+1} |aₙ(t)| < ∞`;
+* `IsAkSolution L γ δ 𝔇 c a` — `a` solves (akeqn), L545–L551, on `[0, 𝔇]` in that class with
+  `a(0) = c`;
 * `wickConv L b n` — `L^{-d} ∑ ε b(n₁) conj b(n₂) b(n₃)`, the Fourier side of the Wick-ordered
   nonlinearity `|v|²v - 2 ⨍|v|² v`.
 
@@ -64,13 +66,21 @@ variable {d : ℕ}
         exp (((ζ * Real.pi * δ * L ^ (2 * γ) * resonance L p.1.1 p.1.2.1 p.1.2.2 n * t : ℝ) : ℂ) *
           I) * f p.1.1 * g p.1.2.1 * h p.1.2.2
 
-/-- `a` solves (akeqn) (TARGET L545–L551) on `[0, 𝔇]` with initial data `c`:
-`∂ₜ aₖ = 𝒞₊(a, ā, a)ₖ(t)` (one-sided at the endpoints) and `aₖ(0) = cₖ`. -/
+/-- The solution class `Z^{d+1}([0, 𝔇])` of (akeqn) (Wave B proposal §2.3.2):
+`sup_{t ∈ [0,𝔇]} sup_n ⟨n/L⟩^{d+1} |aₙ(t)| < ∞`, with `⟨k⟩ = (1 + |k|²)^{1/2}`. It makes the sums
+in `aNonlin` absolutely convergent. -/
+@[expose] def IsAkBounded (L 𝔇 : ℝ) (a : ℝ → (Fin d → ℤ) → ℂ) : Prop :=
+  ∃ C, ∀ t ∈ Icc 0 𝔇, ∀ n,
+    (1 + ‖latticePoint L n‖ ^ 2) ^ (((d : ℝ) + 1) / 2) * ‖a t n‖ ≤ C
+
+/-- `a` solves (akeqn) (TARGET L545–L551) on `[0, 𝔇]` with initial data `c`, in the class
+`IsAkBounded` (Wave B proposal §2.3.2): `aₖ(0) = cₖ`, `sup ⟨k⟩^{d+1}|aₖ(t)| < ∞`, and
+`∂ₜ aₖ = 𝒞₊(a, ā, a)ₖ(t)` within `[0, 𝔇]` at every `t ∈ [0, 𝔇]` (one-sided at the endpoints). -/
 @[expose] def IsAkSolution (L γ δ 𝔇 : ℝ) (c : (Fin d → ℤ) → ℂ)
     (a : ℝ → (Fin d → ℤ) → ℂ) : Prop :=
-  (∀ t ∈ Icc 0 𝔇, ∀ n, HasDerivWithinAt (fun s => a s n)
-    (aNonlin L γ δ 1 t (a t) (fun m => (starRingEnd ℂ) (a t m)) (a t) n) (Icc 0 𝔇) t) ∧
-  a 0 = c
+  a 0 = c ∧ IsAkBounded L 𝔇 a ∧
+    ∀ t ∈ Icc 0 𝔇, ∀ n, HasDerivWithinAt (fun s => a s n)
+      (aNonlin L γ δ 1 t (a t) (fun m => (starRingEnd ℂ) (a t m)) (a t) n) (Icc 0 𝔇) t
 
 /-- The Fourier side of the Wick-ordered nonlinearity `|v|²v - 2⨍|v|² v`:
 `L^{-d} ∑_{(n₁, n₂)} ε_{n₁ n₂ n₃} b(n₁) conj b(n₂) b(n₃)`, `n₃ = n - n₁ + n₂`. -/
