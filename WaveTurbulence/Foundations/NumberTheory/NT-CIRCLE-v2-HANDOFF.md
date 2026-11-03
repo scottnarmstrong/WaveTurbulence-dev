@@ -334,4 +334,45 @@ and committed; the substantial circle ingredients above are separate milestones.
 Goals 2–5 are not claimed done, and no improved discrepancy exponent is reported
 as proved. The old exponent audit remains a numerical audit, not goal 5.
 
-STOPPED nt-circle: goal 2 still needs the uniform height-sum/area estimate; goal 1 and the global sawtooth cancellation estimate are proved.
+The preceding STOPPED status is superseded by the continued work below.
+
+## Continued work: goal 2 completed (2026-11-03)
+
+The orchestrator clarified that routine long proofs are not stop conditions.
+The Euler–Maclaurin route is implemented without additional mathematical assumptions.
+
+Files: `Counting/EulerMaclaurin.lean`, `CircleAreaGeometry.lean`,
+`CircleQuadrature.lean`, `IntegerSampling.lean`, `CircleHeightSum.lean`,
+`CircleIntegerSawtooth.lean`, `CircleDiscrepancy.lean`.
+
+Approach: twice integrate by parts on each unit interval against
+`(x-a)*(x-a-1)/2`, whose absolute value is at most `1/8`. For a concave
+function the remainder is bounded by the decrease of the first derivative,
+which telescopes. Circular slopes after removing unit tip regions are at
+most `sqrt R`. Tip heights and tip integrals cost `O(sqrt R)`. Scaling
+Mathlib's exact unit semicircle integral gives `pi*R^2/2`. The actual closed
+integer height sum differs from this area by at most `15*sqrt R` for all
+`R >= 1` (the small-radius case is handled directly). Exact reindexing
+transfers the global sawtooth estimate to the same integer columns.
+
+Main result: `abs_card_latticeDisc_sub_area_le`, for every `Q >= 1` and
+`c : EuclideanSpace ℝ (Fin 2)`,
+`abs (card(latticeDisc c Q) - pi*Q^2) <= 1334*Q^(2/3)`.
+`mem_latticeDisc` identifies this finite set exactly with the closed norm
+condition using the canonical frozen `WaveTurbulence.latticePoint 1`.
+No boundary points or exceptional centers are omitted.
+
+Checks: targeted `nice -n 5 lake build
+WaveTurbulence.Foundations.Counting.CircleDiscrepancy` completed successfully
+(9074 jobs, final own-file build 8.6s), with no warnings and default budgets.
+The intermediate quadrature build and its five axiom checks passed; their
+axioms are only `[propext, Classical.choice, Quot.sound]`.
+
+Commits: `3037cae` (integral remainder and slopes), `9e336c7` (full circular
+quadrature); main merged at the clean milestone. Goal 2 is now proved;
+goals 3–5 remain in progress. No new suspected errata or deviations.
+
+The final discrepancy axiom probe `CircleDiscrepancyAxioms.lean` passed for
+both discrepancy forms, the actual integer height and sawtooth sums, and
+`mem_latticeDisc`: all have only `[propext, Classical.choice, Quot.sound]`.
+The module-shape check passes for all 33 owned Lean modules.
