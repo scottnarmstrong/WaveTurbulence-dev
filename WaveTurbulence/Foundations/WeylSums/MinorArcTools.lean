@@ -1,6 +1,7 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 
+public import WaveTurbulence.Foundations.WeylSums.ThreeVectorCount
 public import WaveTurbulence.Foundations.WeylSums.QuadExpSum3
 public import WaveTurbulence.Foundations.WeylSums.CubicStarPointwise
 public import WaveTurbulence.Foundations.WeylSums.CubicStarWeylIntegralThree
