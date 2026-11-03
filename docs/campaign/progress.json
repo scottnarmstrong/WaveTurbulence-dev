@@ -1,5 +1,5 @@
 {
- "assessed": "2026-11-03 17:20 UTC",
+ "assessed": "2026-11-03 17:50 UTC",
  "notes": "Lean work items = blueprint packets (docs/blueprint/GRAPH.md §E) with their difficulty weights (node weights L=1, M=2, H=4, VH=8 summed). Each frozen theorem anchor adds weight 1, credited when SEALED. Done fractions are the orchestrator's assessment, reviewed at integration rounds.",
  "lines_est_total": 273000,
  "parts": [
@@ -99,8 +99,8 @@
      "goal": "collision operator, GIT20 trilinear (all d), LWP, wkelwp, tame estimate, Taylor expansion",
      "weight": 24.0,
      "lines_est": 9810,
-     "done": 0.5,
-     "note": "delta reading, slicing, Leibniz, tame trilinear, Schwartz closure, uniqueness landed; existence/τ_max/Taylor in progress (wt-wke)"
+     "done": 0.85,
+     "note": "landed: collision operator, delta reading, tame trilinear, Schwartz closure, uniqueness, existence, τ_max (wkelwp 1–2), Taylor bound F10; L²_s estimate in WKE-L2S"
     },
     {
      "id": "B1",
@@ -108,8 +108,8 @@
      "goal": "mass conservation, NLS→a-system reduction, a-system mass",
      "weight": 6.0,
      "lines_est": 1600,
-     "done": 0.6,
-     "note": "Fourier equation, mass conservation, a-system defs landed; reduction in progress (wt-torus)"
+     "done": 0.85,
+     "note": "landed: Fourier equation, mass, a-system defs, reduction (part)"
     },
     {
      "id": "B2",
@@ -117,8 +117,8 @@
      "goal": "a-system LWP/persistence, inverse reduction, uniqueness of smooth solutions",
      "weight": 9.0,
      "lines_est": 3200,
-     "done": 0.15,
-     "note": "uniqueness of smooth solutions landed"
+     "done": 0.4,
+     "note": "uniqueness, classed a-system, LWP in progress"
     },
     {
      "id": "B3",
@@ -144,8 +144,8 @@
      "goal": "resonant measure δ(Σ)δ(Ω) and p.v.1/Ω on the collisionOp parametrization; DH21 Lemma 6.3",
      "weight": 6.0,
      "lines_est": 2800,
-     "done": 0.3,
-     "note": "resonant measure parametrization landed; p.v. and DH21 L6.3 in progress"
+     "done": 0.6,
+     "note": "resonant measure, p.v. slices landed; DH21 L6.3 in progress"
     },
     {
      "id": "D1",
@@ -162,8 +162,8 @@
      "goal": "cutoff χ_0 (Wave B definition), Gevrey bounds, 𝔛 time-Fourier norms and restriction norms, Fourier-L¹ product lemma",
      "weight": 9.0,
      "lines_est": 3500,
-     "done": 0.3,
-     "note": "χ₀ (Gevrey 2, F41) landed; 𝔛 norms in progress"
+     "done": 1.0,
+     "note": "landed: χ₀ (Gevrey 2, F41), 𝔛 norms, restriction norms, Fourier-L¹ products"
     },
     {
      "id": "N2",
@@ -171,8 +171,8 @@
      "goal": "Poisson summation on ℤ_L^d, non-stationary and bilinear stationary phase",
      "weight": 5.0,
      "lines_est": 1700,
-     "done": 0.0,
-     "note": ""
+     "done": 0.05,
+     "note": "started (wt-anfourier)"
     },
     {
      "id": "D4",
@@ -199,7 +199,7 @@
      "weight": 10.0,
      "lines_est": 4500,
      "done": 0.0,
-     "note": ""
+     "note": "queued after N2 (wt-anfourier)"
     },
     {
      "id": "NT2",
@@ -207,8 +207,8 @@
      "goal": "DH21 Lemma A.5 (Hua L⁴, L⁶), shared reduction NT.weylReduction (review I17), L^{3d/2} moments of Weyl sums",
      "weight": 8.0,
      "lines_est": 3500,
-     "done": 0.0,
-     "note": ""
+     "done": 0.1,
+     "note": "started (wt-gausssum)"
     },
     {
      "id": "NT5",

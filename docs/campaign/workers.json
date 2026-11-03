@@ -27,9 +27,9 @@
   "tmux": "wt-wke",
   "model": "Claude Opus",
   "account": "claude-13",
-  "branch": "w/wke",
-  "packet": "WKE-TAYLOR: existence, τ_max (wkelwp 1–2), Taylor bound",
-  "brief": "docs/campaign/briefs/WKE-TAYLOR.md"
+  "branch": "w/jr-ops",
+  "packet": "JR-OPS: DH21 class J/R operators, Lemmas 5.3–5.8 (critical path; WKE + WKE-TAYLOR landed)",
+  "brief": "docs/campaign/briefs/JR-OPS.md"
  },
  {
   "tmux": "wt-cumul",
