@@ -208,6 +208,9 @@ public import WaveTurbulence.Foundations.WeylSums.GaussianLattice
 public import WaveTurbulence.Foundations.WeylSums.GaussianPoisson
 public import WaveTurbulence.Foundations.WeylSums.GaussianSuperposition
 public import WaveTurbulence.Foundations.WeylSums.Geometric
+public import WaveTurbulence.Foundations.WeylSums.HuaEnergy
+public import WaveTurbulence.Foundations.WeylSums.HuaOrthogonality
+public import WaveTurbulence.Foundations.WeylSums.PositiveMoments
 public import WaveTurbulence.Foundations.WeylSums.RationalCompletion
 public import WaveTurbulence.Foundations.WeylSums.RationalCounting
 public import WaveTurbulence.Foundations.WeylSums.RationalResidues
