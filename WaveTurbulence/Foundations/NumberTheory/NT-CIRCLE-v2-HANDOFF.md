@@ -125,3 +125,65 @@ the midpoint convention.
 
 Goal 2 is next. Goals 3–5 have not been skipped or represented by conditional
 statements. No changes to frozen files, shared APIs, root, manifest, or ledger.
+
+## Goal 2: proved ingredients, not completion
+
+After the goal-1 commit, the following additional modules were proved and
+checked. The uniform disc discrepancy estimate remains open.
+
+- `SawtoothSmoothing.lean`: exposed `periodicBernoulliTwo x =
+  fract(x)^2-fract(x)+1/6`; pointwise lower and upper envelopes
+  `(B(x+h)-B(x))/(2h)-h/2 <= psi(x) <= (B(x)-B(x-h))/(2h)+h/2`
+  for every h>0, including integer x; and the absolutely convergent identity
+  `HasSum (cos(2*pi*n*x)/n^2) (pi^2*B(x))` for every real x.
+- `SmoothingFourier.lean`: proves summability and the unconditional bound
+
+      |sum_i psi(f_i)| <= #s*h/2 +
+        (sum'_{n>=0} |e(nh)-1| |sum_i e(n*f_i)| / n^2)/(2h*pi^2).
+
+  The n=0 summand is zero. No exponential-sum bound is a premise. Both chord
+  bounds `|e(x)-1| <= 2` and `|e(x)-1| <= 2*pi*|x|` are proved.
+- `Counting/CircleArc.lean`: the two actual derivatives of the square-root
+  circle height; curvature ratio eight on height blocks `[H,2H]`; and
+  `circle_arc_exp_sum_le`, applying the continuous second-derivative theorem
+  to a translated arc with arbitrary horizontal and vertical shifts. Its
+  geometric height-block hypothesis does not assume an exponential estimate.
+- `Counting/LatticeDisc.lean`: an actual finite enumeration on `Fin 2 -> Z`,
+  `mem_latticeDisc` characterizing the closed Euclidean disc for every
+  nonnegative radius and every center in `EuclideanSpace R (Fin 2)`, and an
+  exact vertical-slicing formula. In that formula each column contributes
+  `2*height - psi(c_1+height) - psi(height-c_1)`. No boundary points are dropped.
+- `HalfPowerSums.lean`: finite head bound `sum_{i<H} 1/sqrt(i+1) <= 2sqrt(H)`
+  and finite/infinite tail bounds `sum_{n>H} 1/(n*sqrt(n)) <= 2/sqrt(H)`, H>0.
+
+Successful targeted checks, sequential through wt-throttled, without warnings:
+
+    nice -n 5 lake build WaveTurbulence.Foundations.NumberTheory.SawtoothSmoothing
+    # Built ...SawtoothSmoothing (4.7s); completed successfully (3671 jobs).
+    nice -n 5 lake build WaveTurbulence.Foundations.NumberTheory.SmoothingFourier
+    # Built ...SmoothingFourier (4.1s); completed successfully (3685 jobs).
+    nice -n 5 lake build WaveTurbulence.Foundations.Counting.CircleArc
+    # Built ...CircleArc (8.4s); completed successfully (3259 jobs).
+    nice -n 5 lake build WaveTurbulence.Foundations.Counting.LatticeDisc
+    # Built ...LatticeDisc (6.9s); completed successfully (3310 jobs).
+    nice -n 5 lake build WaveTurbulence.Foundations.NumberTheory.HalfPowerSums
+    # Built ...HalfPowerSums (4.4s); completed successfully (3137 jobs).
+
+The source for the head half-power proof is identified in its module header;
+the other goal-2 proofs are new local proofs using Mathlib. A scalar module
+diamond in the circle derivative calculation was resolved with `using!`, as
+in Mathlib's derivative API; no budget change or new instance was introduced.
+
+The exact axiom check is
+`nice -n 5 lake env lean /home/scott/wt-scratch/nt-circle/CircleIngredientsAxioms.lean`,
+with output at `/home/scott/wt-scratch/nt-circle/circle-ingredients-axioms.log`.
+It checks the disc characterization, slicing, arc estimate, smoothing envelopes,
+Bernoulli series, summed smoothing bound, and all three half-power bounds.
+Exit 0: all ten results report exactly `[propext, Classical.choice, Quot.sound]`.
+Module checks pass for all 17 Lean files under the packet's owned directories;
+`git diff --cached --check` is clean.
+
+Remaining goal-2 work: combine the frequency head/tail estimates with the arc
+bound, prove the global arc-block decomposition uniformly in the horizontal
+center, and control the height-sum/area error. None is assumed in a purported
+circle theorem. Goals 3–5 still remain open.
