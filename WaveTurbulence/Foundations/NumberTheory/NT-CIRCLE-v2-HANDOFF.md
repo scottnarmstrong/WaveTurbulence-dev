@@ -918,3 +918,25 @@ The `[Y,4Y]` interval leaves room for the two extra derivative sample units
 on integer subwindows. The calculus identities themselves remain VdCB's.
 Targeted `CircleDualDerivativeNumerics` passed (3215 jobs; supporting 7.8s,
 consumer 16s), zero warnings.
+
+## Complete direct-circle dual A consumer compiled
+
+`CircleDualScaleNormalization.lean` puts all three derivative magnitudes
+at the same phase scale `T=R*h^2/(32768Y)`, length scale `2Y`, derivative
+comparison `c=4294967296`, frequency comparison `K=65536`.
+`CircleDualAScale.lean` exports
+`circle_dual_exp_sum_le_of_derivative_formulas`: from an actual derivative
+tower and the literal third/fourth/fifth quotient formulas on `[Y,4Y]`,
+it proves the pure bound
+`17179869184*(R*h^2/Y^2)^(1/30)*Y^(26/30)`.
+It is uniform in added real linear coefficients p,q and actual integer
+subwindows N<=2Y whose derivative sample interval stays in `[Y,4Y]`.
+Standing range conditions are `h<=Y`, `Y>=1`, `Y^2<=R*h^2`, R,h>0.
+No exponential-sum estimate, exponent-pair predicate, stationary phase or
+B-process theorem is assumed. The actual calculus formulas are VdCB's
+remaining input to this distinct conditional helper.
+
+Checks: targeted `CircleDualAScale` passed (3575 jobs; final own-file 27s),
+zero warnings. Thus the direct-circle A side is ready to consume the VdCB
+calculus and B-transform once landed. The earlier scalar audits cover the
+resulting `27/41` circle exponent if that direct route is used.
