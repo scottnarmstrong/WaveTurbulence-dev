@@ -29,6 +29,27 @@ listed in the sections.
   rails have opposite directions", both follow from the block axioms inside a vine (2-cut lemma, §0). A vine
   predicate therefore needs only *block + undirected template isomorphism*. This removes the map's Q1 worry about
   the directions of the dashed bonds.
+- **T (§3; F20).** The unit twist is one uniform operation in all six core cases. It swaps the slot of 𝔲₂ with the
+  slot of the leaf 𝔲₀. 𝔲₂₃ keeps its position, while 𝒯₁ and 𝒯₂ keep their root signs and so swap positions. The case
+  table (`P_A`, `P_B`) and lemmas (i)–(iv) replace "exactly two options". `twist_dec.png` confirms the
+  `k_{𝔲₂} ↔ k_{𝔲₂₃}` swap. The canonicity check of `lftwistprop` becomes case-free.
+- **T-LF (§3).** The map's "LF twist must include 'or none'" is already explicit in TARGET ("starting from either
+  𝒢_sk or 𝒢_sk′", L1473). Twist families and the claim that congruence is an equivalence relation still need three
+  stated lemmas (T1, T3). For vine (I) the LF layer assumption is vacuous (T2).
+- **G1 (§2).** (II-a) versus (II-b) is only a labelling convention (v₃ ↔ v₄). Use one class "(II-ab)", or fix v₃
+  by bond direction.
+- **C1 (§4).** Cutting at an atom with a self-loop (such loops occur when siblings are paired) is ambiguous. Encode
+  molecules with half-edges.
+- **M1 (§5).** The mini-couple and mini-tree codes and colours are now an explicit table, verified against DH21's
+  and TARGET's figures and against TARGET's own formula `regref3-4`. The only convention left open is which tree of a
+  (1,1)-mini-couple is "first"; recommend the + tree.
+- **F (§7, outside figure scope).** `𝒳`'s kernel requires flower trees of order ≥ 1, so `(1−ℒ₁)𝒳 = 1+𝒴` (L2271)
+  needs an identity term from somewhere. Check this against DH21 §11 for F26.
+- **F14 (§9).** The DH21 map's counterexample to DH21-2 Prop 6.3 is **not a mixed garden**: it is a multi-couple of
+  two couples. Prop 6.3 is true, with a one-line repair of its proof for trivial trees, and TARGET does not depend on
+  it.
+- **No change needed.** (CL)/(CN) blocks and splicing, regular chains, flower trees and gardens, and
+  layered/canonical gardens are all defined in the text. Their figures are consistent illustrations (§2, §6–§8).
 
 ---
 
