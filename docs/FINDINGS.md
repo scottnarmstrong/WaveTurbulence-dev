@@ -88,8 +88,10 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   (replaced by our own hypercontractivity proof), quadratic Weyl sum bounds and their L^p moments (p = 3d/2). To pin.
 - F30 — TARGET Lemma `propertycm` (L2343–L2346) — "there is no proper subset A ⊂ {1,…,r} such that ∪_{i∈A} S_i equals
   the union of some of the sets B ∈ 𝒫": read literally, A = ∅ always qualifies (empty union of blocks), so no
-  partition would be admissible; the intended condition is "no nonempty proper subset". Found by wt-cumul; adopted in
-  the Lean statement. Status: candidate (wording).
+  partition would be admissible; the intended condition is "no nonempty proper subset". Also the groups S_i must be
+  nonempty: for an unnormalized measure (expectations "assuming F", mass m ≠ 1), S₁ = ∅, S₂ = {j} gives
+  κ(1, X_j) = (1 − m)∫X_j while the irreducible sum is empty (all TARGET uses have nonempty S_i). Found by wt-cumul;
+  both adopted in the Lean statement. Status: candidate (wording).
 - F31 — DH23 L2082 — "min(L^{2/5}+Q^{7/11}, L^{1/5}+L^{8/5}Q^{-1}, L^{6/5}Q^{-1/3})": the comma before the last
   term should be "+" (deduced from the two-branch (disclattice) L2029). With Huxley's 7/11 the argument still works
   (split at Q = L^{99/80}: 63/80 < 4/5 − 10^{-4}). Also L2077 "with ρ ∼ L^{2−2γ}" should be Qρ ∼ L^{2−2γ}.
