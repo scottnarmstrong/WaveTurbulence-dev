@@ -298,3 +298,50 @@ exact norm equality, and norm continuity on frozen Schwartz solutions.
 weighted solution curve in the Banach model. The weighted encode/decode
 model and its linear algebra are being checked. The final blow-up theorem
 will use the landed `WaveTurbulence.WKE.tauMax`.
+
+## Goal 4 in progress: exact weighted Banach field and quantitative Picard
+
+- `3735d3d`: full frozen collision decomposition almost everywhere on the
+  actual Borel weighted-L² domain, and its genuine membership and norm bound.
+- `9c6ce78`: norm-preserving bounds for dense linear and trilinear extensions,
+  with exact agreement on the dense core.
+- `e3686ea`: the actual Schwartz collision map, transported through the
+  faithful weighted Schwartz image and extended to the L² Banach model.
+- `b84ccca`: quantitative cubic Picard existence with lifespan
+  `[8 (‖T‖ + 1) ‖u₀‖²]⁻¹` for nonzero data.
+- `a8e819b`: uniqueness on a common compact interval, the global zero
+  solution, differential/mild equivalence including endpoints, and local
+  existence and uniqueness for the completed weighted collision field.
+  The Schwartz-data lifespan uses the exact frozen weighted norm.
+
+Checks: targeted `CollisionBanach`, `CubicPicard`, `CubicUniqueness`,
+`CubicMild`, and `CollisionPicard` builds exited 0 without warnings in their
+final versions. `nice -n 5 lake env lean
+/home/scott/wt-scratch/wke-l2s/BanachAxioms.lean` exited 0. Its eight results
+(full collision bound, Schwartz agreement, cubic existence and uniqueness,
+both mild/differential directions, weighted mild existence and uniqueness)
+all depend exactly on `[propext, Classical.choice, Quot.sound]`.
+
+`4151cc6` constructs actual finite weighted Schwartz jet maps and their
+Banach completions; `2fb7ad1` proves the faithful isometric realization in
+finite L² coordinates, exact one-letter Leibniz/weight identities, and
+first-order weighted bounds. The final targeted `JetEstimates` build exited
+0 without warnings. The ordered-word convention retains all distribution
+multiplicities; comparison with the source multi-index supremum norm is
+still a remaining obligation, not a claimed result.
+
+Elaboration checks: `collision-banach-before.log` located a default-budget
+failure in a rewrite chain (3.29s tactic execution). Applying the dense-core
+agreement theorem directly reduced tactics to about 0.20s; the final build
+passed. `weighted-coordinates-before.log` located a default-budget failure
+in the native isometric extension application (11.2s elaboration). An
+abstract dense-isometry extension, explicit carrier arguments, and an
+explicit unfolding in the agreement lemma passed at the default budget
+(`weighted-coordinates-after2.log`: 0.217s elaboration, 0.243s tactics).
+No budgets were changed.
+
+Remaining: the finite-order jet trilinear bounds and their density
+extensions, tame Gronwall persistence, identification with the source
+weighted Sobolev spaces and equivalent Schwartz topology, equivalence with
+the frozen pointwise Schwartz solution class, and the full blow-up conjunct
+relative to `WKE.tauMax`. No completion or READY claim is made yet.
