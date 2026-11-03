@@ -651,3 +651,31 @@ proved equal to their clipped height sums minus the flat central count.
 Check: `nice -n 5 lake build
 WaveTurbulence.Foundations.Counting.CircleOctantCounting` passed (9067 jobs;
 final own-file build 60s), no warnings.
+
+## Outer-octant transfer compiled
+
+`CircleOctantArea.lean` proves the central arc area
+`R^2*(pi/4+1/2)` and central excess area `R^2*(pi/4-1/2)` by actual sine
+substitution. `CircleOctantError.lean` unconditionally bounds the translated
+closed-disc discrepancy by four actual outer-cap sawtooth sums plus
+`60*sqrt(R)+17`. `CircleCapSmoothing.lean` handles the actual cap filters
+and arbitrary vertical phase shifts. `CircleOctantTransfer.lean` proves the
+conditional general-exponent transfer using only the outer-cap frequency
+hypothesis, uniformly in both center coordinates:
+
+`forall j : Fin 2, forall n>0,
+ norm(sum_{x in integerInterval(c_j-R,c_j+R), R/sqrt(2)<abs(x-c_j)}
+      expPhase(n*circleHeight R c_j x)) <= C*R^lambda*n^kappa`.
+
+For `0<kappa<1`, `1/2<=lambda<=1`, the resulting circle exponent is exactly
+`(kappa+lambda)/(1+kappa)`. The constant is
+`83+8*((pi/kappa+1/(1-kappa))/pi^2)*C` for `R>=2`, or the harmless uniform
+`2668+8*((pi/kappa+1/(1-kappa))/pi^2)*C` for every `R>=1`. This is a distinct
+conditional helper, not a claim that the exponent pair is already proved.
+It replaces the earlier all-column input with the exact outer-octant input
+needed by the coordinated square-root power-profile class.
+
+Check: `nice -n 5 lake build
+WaveTurbulence.Foundations.Counting.CircleOctantTransfer` passed (9090 jobs;
+final own-file build 15s), with zero warnings after cleanup. No budgets or
+extra assumptions about integer endpoints or the center are used.
