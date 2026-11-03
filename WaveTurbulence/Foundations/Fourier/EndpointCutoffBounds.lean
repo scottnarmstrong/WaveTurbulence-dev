@@ -19,12 +19,10 @@ open Set Function
 
 namespace WaveTurbulence.Fourier
 
-/-- Support and first-derivative bounds for one output cutoff. -/
+/-- Support and absolute-value bounds for one output cutoff factor. -/
 structure EndpointCutoffBounds (a : ℝ → ℝ) (R C : ℝ) : Prop where
   eq_zero : ∀ t, R < |t| → a t = 0
-  deriv_eq_zero : ∀ t, R < |t| → deriv a t = 0
   abs_le : ∀ t, |a t| ≤ C
-  abs_deriv_le : ∀ t, |deriv a t| ≤ C
 
 /-- The topological support lies in the declared cutoff interval. -/
 theorem CutoffControl.tsupport_subset {χ : ℝ → ℝ} (h : CutoffControl χ) :
@@ -54,11 +52,16 @@ theorem CutoffControl.second_deriv_eq_zero {χ : ℝ → ℝ} (h : CutoffControl
 /-- Endpoint bounds for the original cutoff. -/
 theorem CutoffControl.endpointBounds {χ : ℝ → ℝ} (h : CutoffControl χ) :
     EndpointCutoffBounds χ h.radius h.bound :=
-  ⟨h.eq_zero, h.deriv_eq_zero, h.abs_le, h.abs_deriv_le⟩
+  ⟨h.eq_zero, h.abs_le⟩
 
 /-- Endpoint bounds for the first derivative cutoff use only scalar derivatives through order two. -/
 theorem CutoffControl.deriv_endpointBounds {χ : ℝ → ℝ} (h : CutoffControl χ) :
     EndpointCutoffBounds (deriv χ) h.radius h.bound :=
-  ⟨h.deriv_eq_zero, h.second_deriv_eq_zero, h.abs_deriv_le, h.abs_second_deriv_le⟩
+  ⟨h.deriv_eq_zero, h.abs_deriv_le⟩
+
+/-- The second derivative cutoff obeys the same scalar support and size bounds. -/
+theorem CutoffControl.second_deriv_endpointBounds {χ : ℝ → ℝ} (h : CutoffControl χ) :
+    EndpointCutoffBounds (deriv (deriv χ)) h.radius h.bound :=
+  ⟨h.second_deriv_eq_zero, h.abs_second_deriv_le⟩
 
 end WaveTurbulence.Fourier
