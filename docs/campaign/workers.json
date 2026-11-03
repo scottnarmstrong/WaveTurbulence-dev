@@ -12,8 +12,8 @@
   "model": "Claude Opus",
   "account": "claude-10",
   "branch": "w/waveb-infra",
-  "packet": "WAVEB2-DRAFT: Wave B tier B2 drafts (B1 drafts under audit)",
-  "brief": "docs/campaign/briefs/WAVEB2-DRAFT.md"
+  "packet": "D3 CANON (pre-freeze): prove canonicalCharacterization (B1.11), truncation bridges; Wave B drafts done (B1 final check running, B2 drafted)",
+  "brief": "docs/campaign/briefs/CANON.md"
  },
  {
   "tmux": "wt-torus",
