@@ -139,13 +139,16 @@ public import WaveTurbulence.Foundations.CountLemmas.BroadBand
 public import WaveTurbulence.Foundations.CountLemmas.CoefficientGap
 public import WaveTurbulence.Foundations.CountLemmas.ComplexBandKernel
 public import WaveTurbulence.Foundations.CountLemmas.CountLemma
+public import WaveTurbulence.Foundations.CountLemmas.CountTools
 public import WaveTurbulence.Foundations.CountLemmas.CoupledSets
 public import WaveTurbulence.Foundations.CountLemmas.CubicFrequencies
+public import WaveTurbulence.Foundations.CountLemmas.DH23Second
 public import WaveTurbulence.Foundations.CountLemmas.DensePairGrowth
 public import WaveTurbulence.Foundations.CountLemmas.DenseStripCount
 public import WaveTurbulence.Foundations.CountLemmas.DotStrip
 public import WaveTurbulence.Foundations.CountLemmas.DoubleBandCount
 public import WaveTurbulence.Foundations.CountLemmas.DoubleBandUpper
+public import WaveTurbulence.Foundations.CountLemmas.DyadicDensity
 public import WaveTurbulence.Foundations.CountLemmas.DyadicPacking
 public import WaveTurbulence.Foundations.CountLemmas.FullMinimum
 public import WaveTurbulence.Foundations.CountLemmas.FullSquare
@@ -158,6 +161,13 @@ public import WaveTurbulence.Foundations.CountLemmas.HighPairSelectors
 public import WaveTurbulence.Foundations.CountLemmas.HighPairSum
 public import WaveTurbulence.Foundations.CountLemmas.HighPairTarget
 public import WaveTurbulence.Foundations.CountLemmas.HighPairX
+public import WaveTurbulence.Foundations.CountLemmas.ImprovedAnnulusThreshold
+public import WaveTurbulence.Foundations.CountLemmas.ImprovedPairSumStrip
+public import WaveTurbulence.Foundations.CountLemmas.ImprovedPositiveShellThreshold
+public import WaveTurbulence.Foundations.CountLemmas.ImprovedShellPower
+public import WaveTurbulence.Foundations.CountLemmas.ImprovedShellThresholdLift
+public import WaveTurbulence.Foundations.CountLemmas.ImprovedSquaredShellThreshold
+public import WaveTurbulence.Foundations.CountLemmas.ImprovedSumFiberPower
 public import WaveTurbulence.Foundations.CountLemmas.IntegerEnergy
 public import WaveTurbulence.Foundations.CountLemmas.LargeCoordinate
 public import WaveTurbulence.Foundations.CountLemmas.LatticeSets
@@ -174,6 +184,7 @@ public import WaveTurbulence.Foundations.CountLemmas.PairCoarse
 public import WaveTurbulence.Foundations.CountLemmas.PairCount
 public import WaveTurbulence.Foundations.CountLemmas.PairDense
 public import WaveTurbulence.Foundations.CountLemmas.PairEstimates
+public import WaveTurbulence.Foundations.CountLemmas.PairFiberCap
 public import WaveTurbulence.Foundations.CountLemmas.PairMajorantBounds
 public import WaveTurbulence.Foundations.CountLemmas.PairMajorants
 public import WaveTurbulence.Foundations.CountLemmas.PairShell
@@ -181,6 +192,7 @@ public import WaveTurbulence.Foundations.CountLemmas.PairShellAlgebra
 public import WaveTurbulence.Foundations.CountLemmas.PairSmallBall
 public import WaveTurbulence.Foundations.CountLemmas.PairSumCoarse
 public import WaveTurbulence.Foundations.CountLemmas.PairSumStrip
+public import WaveTurbulence.Foundations.CountLemmas.PairWeakDensity
 public import WaveTurbulence.Foundations.CountLemmas.PlanarShell
 public import WaveTurbulence.Foundations.CountLemmas.PlanarSquaredShell
 public import WaveTurbulence.Foundations.CountLemmas.PolynomialGrowth
@@ -188,6 +200,10 @@ public import WaveTurbulence.Foundations.CountLemmas.PositiveAtom
 public import WaveTurbulence.Foundations.CountLemmas.PositiveAtomReduction
 public import WaveTurbulence.Foundations.CountLemmas.PositiveShellThreshold
 public import WaveTurbulence.Foundations.CountLemmas.PowerAbsorption
+public import WaveTurbulence.Foundations.CountLemmas.SecondPairChoice
+public import WaveTurbulence.Foundations.CountLemmas.SecondPairSelectors
+public import WaveTurbulence.Foundations.CountLemmas.SecondPairSum
+public import WaveTurbulence.Foundations.CountLemmas.SecondPairX
 public import WaveTurbulence.Foundations.CountLemmas.ShellPower
 public import WaveTurbulence.Foundations.CountLemmas.ShellThresholdLift
 public import WaveTurbulence.Foundations.CountLemmas.SmallPairGrowth
@@ -208,6 +224,8 @@ public import WaveTurbulence.Foundations.CountLemmas.SumTripleTarget
 public import WaveTurbulence.Foundations.CountLemmas.TripleCount
 public import WaveTurbulence.Foundations.CountLemmas.TripleWeight
 public import WaveTurbulence.Foundations.CountLemmas.TwoBranchGain
+public import WaveTurbulence.Foundations.CountLemmas.WeakPairGrowth
+public import WaveTurbulence.Foundations.CountLemmas.WeakPairMajorantBound
 public import WaveTurbulence.Foundations.Counting.AnnulusCellWidth
 public import WaveTurbulence.Foundations.Counting.AnnulusChartCounting
 public import WaveTurbulence.Foundations.Counting.AnnulusCoverGeometry
@@ -1146,7 +1164,6 @@ public import WaveTurbulence.Frozen.Defs.SolvableEvent
 public import WaveTurbulence.Frozen.Defs.StdComplexGaussian
 public import WaveTurbulence.Frozen.Defs.TorusFourierCoeff
 public import WaveTurbulence.Frozen.Defs.WeightedL2Norm
-public import WaveTurbulence.Frozen.Theorems.Wkelwp
 
 /-!
 # WaveTurbulence

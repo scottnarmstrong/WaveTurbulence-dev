@@ -72,4 +72,12 @@ theorem growth_eventually_le_div_log_sq {f : ℝ → ℝ} {a b : ℝ}
   exact (le_abs_self (f L)).trans (by simpa only [Real.norm_eq_abs] using hn) |>.trans
     (by simpa only [pow_zero,mul_one] using hcomp)
 
+/-- A strict polynomial growth gap also gives the unweighted eventual bound. -/
+theorem growth_eventually_le {f : ℝ → ℝ} {a b : ℝ}
+    (hf : f =O[atTop] fun L => L^a) (hab : a < b) :
+    ∀ᶠ L : ℝ in atTop, f L ≤ L^b := by
+  filter_upwards [growth_eventually_le_div_log_sq hf hab,
+    Real.tendsto_log_atTop.eventually_ge_atTop 1,eventually_ge_atTop (1 : ℝ)] with L hb hlog hL
+  exact hb.trans (div_le_self (by positivity) (by nlinarith only [hlog] : 1 ≤ (Real.log L)^2))
+
 end WaveTurbulence.CountLemmas
