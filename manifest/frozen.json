@@ -578,7 +578,7 @@
         "mode": "NOT_SPLIT",
         "ruling_ref": "docs/DECISIONS.md#D6"
       },
-      "abi_sha256": "5e8b4769f8919e47f9c9adc4ac2007cda45921d19d7bed19e707e2b17eb1f566",
+      "abi_sha256": "07e3ec1e8b0da1002ccf3deab0e32a2702eb7ef232a84d0dca27c3e7608a281f",
       "definition_closure": [
         {
           "path": "WaveTurbulence/Frozen/Defs/Mom.lean",
@@ -597,7 +597,7 @@
           "sha256": "92726d25128176c80d96bd3c18b475967dc900fdcec08f9cf5df71c9550fc52f"
         }
       ],
-      "state": "DRAFT_SORRY",
+      "state": "SEALED",
       "prefix_sha256": "85a090253baf3c29e0d339ef77d76a78218e0f93c2fc40b097e895a1415c7c5f",
       "suffix_sha256": "9f48199048606af986e4911abed0172f6e65c9c8c91f1c2874961ad85a7ea8d0",
       "draft_allowlist": {

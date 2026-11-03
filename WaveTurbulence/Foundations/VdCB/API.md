@@ -53,7 +53,8 @@ proves the actual critical point and Legendre identity for `h*sqrt(2Ru-u²)`.
 The change `u=R-n` shifts the lattice; its Poisson factor cancels the linear
 term `-Rν` in the uncorrected Legendre phase. These direct-family results do
 not assert a small first-derivative perturbation for the full dual.
-The B-transform/weight estimates are still in progress.
+The weighted actual dual estimates and the direct-family source estimate
+are now proved; see the exact counting interface below.
 
 `StationaryTools` additionally exports the exact Schwartz-amplitude quadratic
 Fourier identity `integral_schwartz_mul_quadratic`, with coefficient
@@ -64,3 +65,86 @@ Verification: targeted `nice -n 5 lake build WaveTurbulence.Foundations.VdCB.Bas
 `Build completed successfully (3808 jobs).`, without warnings. The scratch consumer and
 axiom probe `/home/scott/wt-scratch/bproc/BasicAxioms.lean` exited 0; its five checked exports
 have only `[propext, Classical.choice, Quot.sound]`.
+
+Additional checked analytic interfaces (import the named module):
+
+- `TruncatedPoisson.norm_sum_sub_truncated_poisson_le` (declaration namespace
+  remains `WaveTurbulence.VdCB`): natural endpoints `a≤b`, global C² phase,
+  actual `0≤f'≤N` and `f''≥0` on `[a,b]`. The half-open source sum minus the
+  actual integrals for `ν∈Icc 0 N` is bounded by
+  `(2*(1+log N)+4*log(N+1))/(2*pi)+1`.
+- `SharpStationary.norm_integral_stationary_sub_main_le`: global C³ phase,
+  actual `f'(c)=0`, `f''≥μ>0` on `[a,b]`, a central interval `[c-r,c+r]`
+  contained in `[a,b]`, and `|f'''|≤M` there. The main term is
+  `e(f(c)+1/8)/sqrt(f''(c))`; the error is
+  `(2*pi/3)*M*r^4 + 2/(pi*f''(c)*r) + 2/(pi*μ*r)`.
+- `SharpStationaryNegative.norm_integral_stationary_neg_sub_main_le`:
+  the corresponding negative-curvature formula has `-1/8` and `sqrt(-f'')`.
+- `BProcessFinite.norm_exponential_sum_sub_BProcess_le`: combines the sharp
+  Poisson formula and stationary estimates for a finite set `S⊆Icc 0 N` of
+  actual critical frequencies. Its nonstationary complement must have an
+  actual derivative distance `ρ>0`. The error is the above Poisson error,
+  `card(complement)/(pi*ρ)`, and the sum of the explicit stationary errors.
+  This is an analytic finite B-process formula. **Analytic closure of
+  `IsExponentPair` under `bTransform` remains unproved.**
+
+These theorems currently assume global smoothness; the circle source phase
+is smooth only on its open arc. Local source derivatives and localization
+are proved separately by the localization modules. No global smoothness assertion for that
+square-root phase is intended.
+
+The circle localization and direct sharp stationary estimate are now proved:
+
+- `CircleLocalization` supplies `circleSourceExtension` and proves global
+  smoothness when `U>0` and `3U≤R`. It agrees on a neighborhood of every point
+  of `[U,2U]` with `h*sqrt(2Ru-u²)`, preserving all actual derivatives.
+- `CircleSourceBounds` gives the actual negative curvature between
+  `h R² (4RU)^(-3/2)` and `h R² (RU)^(-3/2)` and the actual third derivative
+  bound `3h R³ (RU)^(-5/2)` on the block.
+- `CircleStationary.norm_integral_circlePhase_sub_main_le` applies the sharp
+  negative-curvature stationary estimate to the original circle phase,
+  using the explicit critical point. The radius must remain inside the block.
+- `CircleColumnStationary.norm_integral_circleColumnPhase_sub_main_le`
+  returns the same bound in the original column variable, with the corrected
+  lattice dual `R*sqrt(h²+ν²)` and quarter phase `-1/8`.
+
+Thus the approved direct-family option covers the circle's full multiplicative
+arc factor, without a small-perturbation assumption. The optimized estimate
+and counting interface are described below. General analytic closure of
+`IsExponentPair` under B is not claimed.
+
+
+## Completed direct circle-family B-process
+
+Import `WaveTurbulence.Foundations.VdCB.CircleCountingBridge` (or `BProcess`).
+All declaration names below are in `WaveTurbulence.VdCB`.
+
+- `norm_sum_circle_endpoint_block_le`: for every real center `c`, radius
+  `R≥1`, block scale `U≥1`, and natural harmonic `n>0`, the **actual** sum
+  over `Counting.integerInterval (c-R) (c+R)`, filtered by
+  `R/sqrt 2 < |x-c|`, `U < R-|x-c|`, and `R-|x-c| ≤ 2U`, is bounded by
+  `circleEndpointConstant * n^(11/30) * R^(11/60) * U^(7/20)`.
+  The phase is exactly `NumberTheory.expPhase (n * Counting.circleHeight R c x)`.
+- `norm_sum_circle_endpoint_dyadic_le`: the exact `hblock` type consumed by
+  `Counting.abs_card_latticeDisc_sub_area_le_of_endpoint_power_bounds`,
+  specialized to `κ=11/30`, `λ=16/30`. It handles the exact strict block
+  boundaries and any clipping by the octant cutoff.
+- `abs_card_latticeDisc_sub_area_le`: unconditional uniform translated
+  closed-disc discrepancy `≤ circleDiscrepancyConstant * R^(27/41)` for
+  `R≥1`; the center carrier is `EuclideanSpace ℝ (Fin 2)`.
+- `card_annulus_le`: unconditional annulus input with area term
+  `6*pi*Q*rho` and error `3*circleDiscrepancyConstant*Q^(27/41)`, under
+  `Q≥2`, `0<rho≤Q/4`, and actual lattice-point membership in that annulus.
+
+`circleEndpointConstant = 2*(154618824001 + 16*pi)` is uniform in every
+scale, center, harmonic and block. Constants are deliberately generous.
+These are actual source sums, not conditional helpers assuming cancellation.
+The proof consumes the landed fifth-derivative/A-process estimates of the
+actual circle dual, then the negative-curvature B-process, and optimizes
+all Poisson, omitted-frequency and stationary errors. Very short intervals
+use the actual second-derivative test; very high harmonics use counting.
+
+No assertion that the full circle factor lies in a small-perturbation
+`HasPowerProfile` is used. The shared decreasing-power API remains available
+with its proved trivial pair and coordinate transforms. Its **generic
+analytic** A/B closure is outside this direct-family completion claim.

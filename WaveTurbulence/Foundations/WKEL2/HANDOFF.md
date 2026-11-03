@@ -1,272 +1,112 @@
-# WKE-L2S progress ledger — active
+# WKE-L2S handoff — complete
 
-Branch: `w/wke-l2s`. All work is confined to `Foundations/WKEL2/**`.
-No frozen definition, provider, shared WKE file, root import, manifest, or
-findings ledger was edited. No push or landing was performed.
+Branch: `w/wke-l2s`. Integration target:
+`WaveTurbulence.Foundations.WKEL2.Packet` (`Packet.lean`). All worker changes
+are confined to `WaveTurbulence/Foundations/WKEL2/**`. No push or landing was
+performed. The root import, frozen files, shared WKE modules, providers,
+manifest, and findings ledger were not edited.
 
-## Status
+## Files and results
 
-- **Goal 1 complete:** research-note Lemma 1 and Corollary 2, including all
-  nonnegative Borel kernels, infinite integrals, angular-first integration,
-  and symmetry of the angular measure.
-- **Goal 2 active:** radial weight A_k is defined, nonnegative, jointly
-  measurable, and its defining integral is integrable for unit θ throughout
-  `d ≥ 3`, `s > d/2-1`. Radial Cauchy–Schwarz, the two Hölder exponent windows,
-  translation-uniform Hölder, and the nonsingular kernel's Lᵖ membership are
-  proved. **Uniform M₁ and M₂ bounds are not yet proved.**
-- **Goals 3 and 4 unproved:** Propositions 5–7, Theorem 7, the signed extension,
-  audit §3's supporting lemmas, Picard existence/persistence, and
-  `wkelwp_blowup`. No maximal-time name has been introduced.
+All four brief goals are proved. The packet contains 182 focused Lean
+modules; the longest is 137 lines. `Packet.lean` imports the principal exports.
 
-There is no claimed mathematical obstruction. The orchestrator accepted the
-initial partial work and directed continuation; the earlier stopped status
-has been superseded.
+| Goal | Main implementation files / exports |
+|---|---|
+| Lemma 1, Corollary 2 | `ResonantSymmetry.lean`, `ResonantPolarFull.lean`, `AngularCoordinates.lean`: all nonnegative Borel kernels, infinite integrals, polar densities, angular swap |
+| Lemmas 3–4 | `RadialCauchyENN.lean`, `M1.lean`, `M2.lean`: radial Cauchy–Schwarz and `M1.exists_uniform_M1`, `M2.exists_uniform_M2` for every d≥3, s>d/2−1 |
+| Propositions 5–7, Theorem 7 | `LossTwoTrilinear.lean`, `LossOneTrilinear.lean`, `LossThreeTrilinear.lean`, `GainTrilinear.lean`, `Trilinear.lean`: `exists_collisionTerm_bound` for all four terms, signed Borel inputs with actual weighted `MemLp 2` membership and the exact frozen norm |
+| Full collision bound | `CollisionBound.lean`: `exists_collisionOp_bound` for the actual frozen signed collision operator |
+| Picard LWP | `CollisionPicard.lean`, `SchwartzPicard.lean`: inverse-square exact weighted-norm lifespan, uniqueness, mild/differential equivalence, zero trajectory |
+| Finite weighted jets | `WeightedSobolevModel.lean`, `JetWordBound.lean`, `JetCollisionBanach.lean`: faithful dense Schwartz cores, actual Banach completions, all-order trilinear bounds |
+| Gronwall and persistence | `JetTameCompleted.lean`, `JetAPriori.lean`, `CubicContinuation.lean`, `JetPersistence.lean`: order-independent highest-order coefficient, uniform bounds on all shorter intervals, full-base-interval persistence |
+| Supporting fact 1 | `WeightedSobolevLetter.lean`, `JetClosedIdentity.lean`: exact Leibniz and weight identities for completed inputs |
+| Supporting fact 2 | `SchwartzSolutionMild.lean`, `SolutionEquivalence.lean`: `isWKESolution_iff_weightedL2Mild` and equality of the reconstructed source and given Banach trajectories |
+| Supporting fact 3 | `SchwartzSeminormJetBound.lean`, `SchwartzJetTopology.lean`, `SchwartzReconstruction.lean`: actual Schwartz topology, both convergence directions, reconstruction from all compatible completed jets |
+| Canonical norm comparison | `JetCommutator.lean`, `JetNormalOrdering.lean`, `CanonicalJetEquivalence.lean`: same-order bounds between ordered jets and the paper's moment-before-derivative convention, with constants one and `(m+1)!` |
+| Maximal-time equality | `MaximalTimeEquality.lean`: `weightedL2TauMax_eq_tauMax`, `weightedSobolevTauMax_eq_tauMax`, both relative to landed `WKE.tauMax` |
+| Full blow-up conjunct | `Blowup.lean`: `WaveTurbulence.WKEL2.wkelwp_blowup`, exactly frozen conjunct 3 relative to landed `WKE.tauMax`, including every threshold and every later source solution |
 
-## Files and approach
+The exact Theorem 7 binder/definition comparison is in `THEOREM7-CHECK.md`.
+The blow-up binder, carrier, definition-body, consumption, and supporting-fact
+comparison is in `BLOWUP-CHECK.md`. These are worker checks, not an independent
+manifest or frozen-anchor promotion.
 
-- `Symmetry.lean`: the initial continuous-decaying-kernel symmetry using a
-  nonnegative mollifier, Fubini before taking its limit, and uniqueness of
-  limits; gain-input reversal and equivalence of the two asymmetric loss terms.
-- `HyperplaneChart.lean`: the Householder reflection perpendicular to
-  `e - unitVec a`; its measurable formula, restriction to a linear isometric
-  equivalence between hyperplanes, and volume preservation. The chart is
-  measurable everywhere; continuity at its exceptional direction is not claimed.
-- `ResonantMeasure.lean`: pushforward of weighted product measure; intrinsic
-  hyperplane integration and measurability for all nonnegative Borel kernels.
-  Cached reference-hyperplane measure instances avoid expensive conversion
-  between the induced measurable space and its Haar-measure projection.
-- `ResonantLocalFinite.lean`: local integrability of inverse norm, exact ball
-  masses, and finiteness on compacts in dimension at least two.
-- `ResonantIntegral.lean`: signed integral formula, with precisely the factor
-  two relative to existing `deltaInt`.
-- `CompactKernel.lean`: compactly supported continuous test kernels satisfy
-  the existing `DeltaKernel` hypotheses.
-- `ResonantSymmetry.lean`: locally finite Borel measures are determined by
-  integrals of C_c test functions; the initial symmetry proves swap invariance.
-  `lintegral_inv_norm_hyperplane_swap` has no reference-vector hypothesis.
-- `Polar.lean`, `PolarRadial.lean`, `HyperplaneScaling.lean`,
-  `ResonantPolar.lean`, `ResonantPolarFull.lean`, `ResonantPolarOrder.lean`:
-  general nonnegative polar integration, lowering radial density by inverse
-  radius, radial invariance of charts, and the full Corollary 2 formula with
-  both radial exponents exactly `d-2`.
-- `AngularMeasure.lean`, `RadialCutoff.lean`, `AngularCoordinates.lean`:
-  angular measure defined using the radial cutoff and normalized by `(d-1)^2`;
-  identification with the two sphere integrals and their symmetry. The two
-  radial cutoff masses are each `1/(d-1)` and cancel the normalization exactly.
-  Sphere coordinates use the fixed reference hyperplane's isometric chart.
-- `Weight.lean`: energy identity and weight transfer with the exact frozen
-  `weightedL2Norm` multiplier, constant `2^(s/2)`.
-- `Radial.lean`: radial Cauchy–Schwarz for a general positive weight, assuming
-  membership of its two factors in L². Membership is not hidden in a norm.
-- `Exponents.lean`: the two conjugate-exponent windows from Lemma 4.
-- `RadialWeight.lean`: A_k; centered integrability by polar integration in
-  dimension `d-2`, shifted integrability by a scalar Peetre inequality, and
-  joint measurability.
-- `HolderTranslation.lean`: integrability and a translation-independent
-  Hölder bound for functions in conjugate Lebesgue spaces.
-- `WeightedKernelLp.lean`: Japanese-bracket decay kernel membership whenever
-  `a*p > d`, with the actual membership proof, not an assumed estimate.
+## Approach
 
-## Commits
+The resonant measure is defined through a measurable hyperplane chart.
+Locally finite measure uniqueness promotes compact continuous kernel
+symmetry to every Borel kernel. Tonelli and polar integration give the
+angular representation. Uniform kernel bounds, Hölder, Cauchy–Schwarz,
+Schur estimates and weight transfer prove all four trilinear estimates;
+signed absolute convergence and genuine L² membership are retained.
 
-- `16bd608`, `3cce822`: initial accepted partial work.
-- `4abc2b6`: measurable hyperplane charts and Borel resonant measure.
-- `1f17b9e`: Lemma 1 for arbitrary nonnegative Borel kernels.
-- `c028a91`: polar formula and normalized angular-measure symmetry.
-- Subsequent milestone: radial-weight integrability and Hölder inputs.
+The exact weighted Schwartz image is dense in the base L² Banach space.
+Collision extends continuously from that core; quantitative cubic Picard
+and uniqueness apply. Ordered derivative/moment jets retain every Leibniz
+multiplicity. Tame bounds extend by density; a Gronwall induction bounds
+all orders whenever the base norm is bounded. Uniform positive Picard steps
+then cover the full base interval in finitely many steps.
 
-## Checks
+A whole-space Sobolev bound controls actual Schwartz seminorms. Compatible
+completed jets reconstruct an actual Schwartz function using absolutely
+summable seminorm series, without assuming Schwartz completeness. This
+proves the exact source/mild correspondence and equality of all maximal
+times. Uniform continuation from a bounded endpoint proves the full
+`∀M ∃τ₀` limit in `Blowup.lean`.
 
-All compilation commands were sequential through `wt-throttled`, with no
-budget overrides. Each final targeted build below exited 0 without warnings:
+## Commits and checks
 
-```
-nice -n 5 lake build WaveTurbulence.Foundations.WKEL2.Symmetry
-nice -n 5 lake build WaveTurbulence.Foundations.WKEL2.Weight
-nice -n 5 lake build WaveTurbulence.Foundations.WKEL2.Polar
-nice -n 5 lake build WaveTurbulence.Foundations.WKEL2.Radial
-nice -n 5 lake build WaveTurbulence.Foundations.WKEL2.Exponents
-nice -n 5 lake build WaveTurbulence.Foundations.WKEL2.HyperplaneChart
-nice -n 5 lake build WaveTurbulence.Foundations.WKEL2.ResonantMeasure
-nice -n 5 lake build WaveTurbulence.Foundations.WKEL2.ResonantLocalFinite
-nice -n 5 lake build WaveTurbulence.Foundations.WKEL2.ResonantIntegral
-nice -n 5 lake build WaveTurbulence.Foundations.WKEL2.CompactKernel
-nice -n 5 lake build WaveTurbulence.Foundations.WKEL2.ResonantSymmetry
-nice -n 5 lake build WaveTurbulence.Foundations.WKEL2.ResonantPolarOrder
-nice -n 5 lake build WaveTurbulence.Foundations.WKEL2.AngularCoordinates
-nice -n 5 lake build WaveTurbulence.Foundations.WKEL2.RadialWeight
-nice -n 5 lake build WaveTurbulence.Foundations.WKEL2.HolderTranslation
-nice -n 5 lake build WaveTurbulence.Foundations.WKEL2.WeightedKernelLp
-```
+Milestones were committed throughout. Recent principal commits:
+`d875a8b` (Gronwall), `538312e` (Schwartz reconstruction), `0f11081`
+(source-to-mild), `13b112f` (finite-step continuation), `7d44269` (uniform
+shorter intervals), `6ddcd07` (persistence), `b3603ff` (exact blow-up),
+`f35a344` (completed identities), `82fc4ac` (maximal-time equality),
+`7043f80` (normal ordering), `493cc00` (exact solution equivalence),
+`686b82b` (canonical comparison and packet), `6fc93fa` (source Picard lifespan).
+Main had landed through `864e5e5`; current main `430d637` was merged at
+`c312872`. No frozen or shared WKE API changed in that merge.
 
-The polar and angular targets also checked their focused prerequisites. No
-Mathlib recompilation was reported. Earlier elaboration errors and style
-warnings were repaired before the final successful builds.
+All builds used the compile gate, one targeted command at a time. Final checks:
 
-Axiom probes are in `/home/scott/wt-scratch/wke-l2s/Axioms.lean` (initial
-results) and `ResonantAxioms.lean` (continuation results). Exact command:
+- `nice -n 5 lake build WaveTurbulence.Foundations.WKEL2.Packet`
+  exited 0: `Build completed successfully (9247 jobs).` No warnings in the
+  final changed modules. Log: `/home/scott/wt-scratch/wke-l2s/packet.log`.
+- `nice -n 5 lake env lean /home/scott/wt-scratch/wke-l2s/BlowupAxioms.lean`
+  exited 0: thirteen main blow-up/persistence/topology declarations audited.
+- `nice -n 5 lake env lean /home/scott/wt-scratch/wke-l2s/FinalAxioms.lean`
+  exited 0: eleven final declarations, including Theorem 7, full collision,
+  completed identities, solution equivalence, canonical norm comparison,
+  maximal-time equality, source lifespan and the exact blow-up theorem.
+- Earlier focused Lemma 4, loss-term, Theorem 7, Banach and jet axiom probes
+  also exited 0; their details are preserved in branch history and scratch.
+- Every printed main result depends exactly on
+  `[propext, Classical.choice, Quot.sound]`. No `sorryAx` or custom axiom.
+- `git diff --check` passed. Static scans found no forbidden declaration,
+  budget override, quarantined import, oversized file, or missing module shape.
+  The diff since the integration merge contains only owned WKEL2 paths.
 
-```
-nice -n 5 lake env lean /home/scott/wt-scratch/wke-l2s/ResonantAxioms.lean
-```
+No whole-library build, dependency rebuild, or cleaning command was run.
 
-The probes check the main symmetry, polar, angular-coordinate, radial-weight,
-and Hölder/kernel-membership results. All 17 continuation declarations printed exactly the axiom set
-`[propext, Classical.choice, Quot.sound]` (exit 0). The initial probe returned
-the same set for its nine main declarations. No custom axiom or sorry was
-reported.
+## Suspected errata, conventions, and uncertainties
 
-Banned-token search in new Lean modules and `git diff --check` returned no
-matches/errors. Every new Lean module is below 1500 lines.
+TARGET L2522–L2523, (schappend11), says `ι ∈ {−1,0,1}` for a sum indexed by
+collected multi-index decompositions. This omits multinomial multiplicities:
+two derivatives split between two factors already give coefficient 2.
+The implementation indexes ordered histories, retaining every term, and
+uses the lower-order count `4*3^m` in place of the printed polynomial count.
+The unspecified persistence constant is allowed to depend on m. No source
+file or shared findings entry was changed.
 
-## Suspected source erratum and deviations
+The finite-order norm is the supremum over all ordered words; its same-order
+comparison with the canonical source convention is proved. Pointwise
+collision continuity is obtained from the proved higher-jet Sobolev
+estimate instead of the audit's suggested weighted-L∞ route. Neither choice
+adds a source premise or changes the claimed result. The frozen norm and
+solution definition remain unchanged.
 
-TARGET L2522–L2523, (schappend11): “ι ∈ {−1,0,1}” omits multinomial
-coefficients in the displayed sum over multi-index decompositions. Already
-two derivatives split between two factors produce coefficient 2. Indexing by
-ordered differentiation histories could retain unit coefficients, but the
-printed sum does not use that indexing. The subsequent lower-order constant
-must absorb the actual multiplicities. This has not been formalized and no
-source or shared findings file was changed.
+No remaining packet proof obligation or mathematical obstruction is known.
+Independent statement/manifest promotion and the root import belong to the
+orchestrator; no such promotion is claimed here.
 
-No mathematical deviation was introduced. For general measurable inputs,
-real-valued Bochner expressions alone do not express L² membership;
-integrability/MemLp must accompany them. The frozen norm remains unchanged.
-
-## Next proof frontier
-
-Prove Lᵖ membership for the singular far-field kernels and the near-field
-integrability bounds, then use the translation Hölder lemma for uniform M₂
-and M₁. Their already-proved exponent windows cover exactly `2s > d-2`.
-Continue to Propositions 5–7 and Theorem 7, then the blow-up argument.
-
-The measurable-chart elaboration refactor was profiled with
-`nice -n 5 lake env lean --profile WaveTurbulence/Foundations/WKEL2/ResonantMeasure.lean`.
-Before refactoring the failing proof, tactic execution totaled 15.5s and hit
-the default heartbeat budget; after factoring the ambient graph and caching
-the reference measure instances, it totaled 455ms and the file exited 0.
-Profiles are `resonant-profile-before.log` and `resonant-profile-after.log`
-in the scratch directory. No elaboration budget was changed.
-
-## Active continuation: uniform M₂ proved
-
-- `2ed2b68`: near/far inverse-norm kernels, their actual Lᵖ membership,
-  conjugate-exponent selection, translation-uniform spatial convolution,
-  its transport to every moving hyperplane, and the polar mass identity.
-- `b2cdf72`: `M2.exists_uniform_M2` proves research-note Lemma 4(a), including
-  great-sphere integrability and a constant independent of the center and normal.
-- `7f38e97`: scalar/transverse norm-power integrability, the exact scalar slice
-  identity for M₁, cylindrical near-field integrability, cylindrical coordinate
-  isometries, homogeneity, and the M₁ exponent window.
-
-The M₂ measurable-sphere conversion initially exceeded the default budget.
-The passing proof derives measurability directly from the scalar radial
-integrand, rather than composing the ambient joint measurability theorem
-through two nested subtype coercions. No statement or budget was changed.
-The initial profile is `m2-profile-before.log` in scratch.
-
-M₁ remains under active construction: the spatial/angular polar identity
-already passed its target dependency build; the cylindrical far-field Lᵖ
-proof and transport are being checked. The near/far cutoff for this proof is
-an isometric cylindrical unit box rather than a Euclidean unit ball. This
-only changes allowed constants depending on dimension and exponent.
-
-`angularSineInv` uses the norm of orthogonal projection onto the normal's
-perpendicular hyperplane, equal to the absolute sine for unit vectors. As
-with existing inverse-norm definitions, the inverse is assigned zero at
-zero. No stronger weighted exponent or additional source premise is used.
-
-## Goal 2: both uniform bounds compiled
-
-`e28075c` proves `M1.exists_uniform_M1` throughout `d ≥ 3`, `s > d/2-1`.
-Together with `b2cdf72` (`M2.exists_uniform_M2`), this completes the two
-uniform bounds of research-note Lemma 4. The actual near/far integrability,
-far-field Lᵖ membership, axis transport, and polar identities are proved;
-none is passed as a source-result assumption. The M₁ and M₂ targeted builds
-both exited 0 without warnings. The combined axiom probe is
-`/home/scott/wt-scratch/wke-l2s/Lemma4Axioms.lean`.
-
-Goal 3 is now active: exact frozen weighted-L² membership/norm bridge,
-extended nonnegative ray Cauchy–Schwarz, angular Schur bounds, and the loss
-and gain estimates. Theorem 7 and the blow-up conjunct remain unproved.
-
-The combined Lemma 4 axiom probe exited 0: all ten main declarations,
-including both uniform M₁ and M₂ theorems, depend exactly on
-`[propext, Classical.choice, Quot.sound]`. No custom axiom or sorry was reported.
-
-## Goal 3 active: radial Cauchy–Schwarz and angular loss estimate
-
-- `88d4a56`: linear isometries preserve canonical spherical surface measure.
-- `ca7eb06`: exact frozen weighted norm equals the genuine weighted L² norm;
-  polar radial-density powers; nonnegative ray energies; their exact angular
-  integral; extended radial Cauchy–Schwarz (Lemma 3), with no finite-energy
-  assumption on individual rays; M₂ in fixed reference-sphere coordinates.
-- `daf9045`: angular Schur energy bound and exact second-loss polar
-  factorization, valid for nonnegative extended integrals.
-- `4ec7f9a`: uniform angular ray-mass estimate (the nonnegative-integral
-  core of Proposition 5).
-
-Passing focused builds: `RadialCauchyENN`, and the `AngularM2`,
-`AngularCauchyAlgebra`, `AngularProduct`, `AngularSchur`, `LossTwoPolar`,
-`AngularMassEstimate`, `LossTwoBound` prerequisites of `LossTwoTrilinear`.
-All passing modules above built without warnings. The signed delta-integral
-bridge and bounded weighted multiplication are still being checked.
-Proposition 6's two-axis geometry, transverse integral, no-atom surface
-lemma, and sine Schur bound are working files pending compilation.
-The full Theorem 7 and supporting blow-up obligations remain active.
-
-## Proposition 5 and the j = 2 case of Theorem 7
-
-`fbb8c41` proves `exists_uniform_lossTwo_signed`: signed Borel weighted-L²
-inputs give a genuinely integrable resonant kernel for every center and a
-uniform bound for the exact `deltaInt`, with its factor one half.
-`84834bc` proves `exists_collisionTerm_two_bound`: actual weighted `MemLp 2`
-membership and the trilinear bound in the exact frozen norm.
-`nice -n 5 lake build WaveTurbulence.Foundations.WKEL2.LossTwoTrilinear`
-exited 0 without warnings after the style cleanup.
-
-`nice -n 5 lake env lean /home/scott/wt-scratch/wke-l2s/LossTwoAxioms.lean`
-exited 0. All nine results audited (weighted norm bridge, radial energy,
-radial Cauchy–Schwarz, reference M₂, angular Schur energy, angular mass,
-signed Q₂, bounded multiplication, and the j = 2 trilinear estimate)
-depend exactly on `[propext, Classical.choice, Quot.sound]`.
-
-Merged `main` at `942e385`; the landed maximal-time API is
-`WaveTurbulence.WKE.tauMax` (`Foundations/WKE/Lifespan.lean`), so the final
-blow-up theorem will use that time, as required by the brief. The merge moved
-`deltaInt_smul` into `WaveTurbulence.WKE`; `09c15d4` adapts the reference.
-The same targeted j = 2 build passed again after this merge, without warnings.
-
-Proposition 6's infrastructure is being checked in the focused
-`LossOneInfrastructure` target. Its geometric route is two successive
-orthogonal slices, a positive scalar shear with Jacobian inverse sine,
-and the uniform affine codimension-two decay integral. Spherical averaging,
-Tonelli square expansion, and full-sphere M₁ Schur pairing are explicit.
-These working files are not yet certified as built; no completion claim for
-Proposition 6, Proposition 7, full Theorem 7, or the blow-up theorem is made.
-
-## Proposition 6 active: geometry and spherical representation
-
-- `7d2e76b`: nonnegative weighted-square Tonelli expansion, orthogonality
-  almost everywhere on resonant measure, and the inverse-sine pairing algebra.
-- `31dd94b`: uniform affine codimension-two decay integral, nonnegative
-  scalar dilation/shear identities, sine-kernel symmetry and measurability,
-  and nullity of proper-subspace directions for spherical surface measure.
-- `a9711ea`: positive-ray density, two-axis volume coordinates and inner-product
-  identities, and the M₁ sine Schur energy bound.
-- `434acb4`: positive angular slicing, full-sphere sine mass estimate,
-  and identification of positive-ray samples with radial masses.
-- `8789fd2`: the null exceptional second-axis set and the extended
-  nonnegative codimension-two slice bound.
-- `8e3bf74`: spatial weighted Cauchy–Schwarz in the exact frozen norm.
-
-The spherical-average representation initially reached the default heartbeat
-budget. Warm profiles (`loss-one-spherical-before.log`, then focused traces
-and `loss-one-spherical-after5.log`, all in the scratch directory) located
-the cost in composing the joint integrand measurability theorem with a
-fixed-parameter embedding through the Euclidean-space/sphere coercions.
-A direct measurability proof from the continuous fixed-parameter sphere
-map passes. The warm `--profile -D profiler.threshold=1` source check exited
-0 with no warnings. Cumulative tactic execution fell from 11.7s (failure)
-to 247ms (passing); no heartbeat or other budget was changed. The complete
-`LossOneBound` target is being checked next; Proposition 6 is not yet closed.
+READY wke-l2s

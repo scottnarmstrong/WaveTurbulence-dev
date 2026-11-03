@@ -1,8 +1,16 @@
 # NT-CIRCLE-v2 progress and handoff
 
-Goal 1 complete. Goal 2 is incomplete; goals 3–5 have not been started. No circle discrepancy, annulus count,
-`estcross`, B-process, or improved exponent-pair theorem is claimed.
-The earlier numerical obstruction and handoff remain valid.
+Current status: the orchestrator closed NT-EXPSUM and reassigned this worker
+to MOLE. Goals 1–3 and the A-process infrastructure are complete. The
+unconditional actual closed-disc estimate with exponent **27/41 < 2/3**
+is also proved here in `Counting/CircleImprovedDiscrepancy.lean`, uniformly
+in all real centers, consuming the landed shared VdCB direct-circle B API.
+The orchestrator reports the final annulus theorem completed by wt-ansob
+in VdCB. The existing numerical audit covers 35/53 and every smaller
+exponent (q>=0), including the proved 27/41. Earlier progress entries below
+are chronological and may describe formerly pending work. No competing
+exponent-pair predicate was introduced. The duplicate phase-negation lemma
+was removed in cd59217, reusing `DerivativeTests.lean`.
 
 ## Files and exact exports (goal 1)
 
@@ -940,3 +948,267 @@ Checks: targeted `CircleDualAScale` passed (3575 jobs; final own-file 27s),
 zero warnings. Thus the direct-circle A side is ready to consume the VdCB
 calculus and B-transform once landed. The earlier scalar audits cover the
 resulting `27/41` circle exponent if that direct route is used.
+
+`CircleDualWeightScale.lean` proves exact scalar curvature-weight identities:
+the weighted `(1/30,26/30)` dual scale is
+`R^(8/15)*h^(16/15)*Y^(-7/10)`. At endpoint-distance dual scale
+`Y=h*sqrt(R/U)` this is exactly `h^(11/30)*R^(11/60)*U^(7/20)`.
+If Y is only bounded below by a quarter of that scale, the same local powers
+hold with factor four. These are scalar statements; no stationary-phase or
+B-process estimate is asserted. They match precisely the local powers
+consumed by `CircleEndpointTransfer` for `(kappa,lambda)=(11/30,16/30)`.
+Targeted `CircleDualWeightScale` passed (3214 jobs, 4.3s), zero warnings.
+
+`Counting/AnnulusHalfRadius.lean` removes the earlier quarter-radius
+restriction: for the exact source elementary assumptions Q>0,
+0<rho<=Q/2, Q*rho>=1, the general circle-error annulus branch is
+`9*pi*Q*rho+3*C*Q^e`. For rho>=Q/4 the outer-disc area is absorbed by
+Q*rho; below that threshold Q>=2 follows from the source scale assumption,
+so the strict-inner-disc subtraction applies. The minimum with all three
+terms of the proved elementary branch is included. Closed boundaries and
+both arbitrary real centers are retained.
+Targeted `AnnulusHalfRadius` passed (9087 jobs, 3.7s), zero warnings.
+
+`CircleEndpointGeometry.lean` proves that every nonempty actual outer-octant
+dyadic block satisfies `3U<=R`, since its endpoint distance is <R/3. It also
+proves the exact circle height formula in unsigned endpoint distance.
+`CircleLocalizedEndpointTransfer.lean` therefore requires local analytic
+estimates only when `U>=1` and `3U<=R`, matching the shared circle-source
+localization API; all other blocks are proved empty. It composes these
+inputs into the uniform circle discrepancy and the complete source annulus
+minimum for the full half-radius thickness range.
+Checks: `CircleEndpointGeometry` passed (9061 jobs, 3.9s), and
+`CircleLocalizedEndpointTransfer` passed (9111 jobs, 5.0s), zero warnings.
+
+## Landed VdCB calculus consumed
+
+After merging main at `1043c2b`, the shared VdCB calculus and exponent-pair
+API became available. `NumberTheory/VdCBCircleDualAScale.lean` now proves
+`norm_sum_circleLatticeDualPhase_add_linear_le` for the actual shared
+`VdCB.circleLatticeDualPhase`, with arbitrary real linear coefficients.
+It internally supplies the genuine all-order derivative tower from the
+shared smoothness theorem and proves the actual third/fourth/fifth formulas
+from VdCB's checked calculus. Thus no derivative formula, exponential-sum
+estimate, or exponent-pair property remains as a premise of this direct A
+estimate. Only the explicit geometric scale and integer-window conditions
+remain. The bound is `17179869184*(R*h^2/Y^2)^(1/30)*Y^(26/30)`.
+Targeted `VdCBCircleDualAScale` passed (3582 jobs, own-file 4.1s), zero warnings.
+
+`ExponentPairApplications.lean` consumes the actual shared
+`VdCB.IsExponentPair`, defining no second notion. It proves positive
+frequency scaling of the literal `HasPowerProfile` class, uniform positive
+integer frequency estimates, and the exact optimized sawtooth exponent
+`(kappa+lambda)/(1+kappa)` on that actual shared phase class. All constants
+are chosen before scales, phase and interval, as in the shared API.
+It does not infer full-circle coverage from arbitrary bounded factors;
+the approved direct-circle family route remains separate. Targeted
+`ExponentPairApplications` passed (3725 jobs, 7.7s), zero warnings.
+
+Five further direct-consumer axiom probes passed with only the standard
+three axioms: concrete derivative-formula A estimate, exact weighted local
+power bound, full half-radius annulus comparison, localized circle transfer,
+and full localized annulus minimum. Check: targeted scratch
+`DirectCircleAxioms.lean` exited 0.
+
+The landed-API axiom probe passed: the actual shared integer-column dual A
+estimate, frequency application of `VdCB.IsExponentPair`, and exact shared-
+class sawtooth transfer each have only `[propext, Classical.choice,
+Quot.sound]`. Check: targeted scratch `SharedAPIAxioms.lean` exited 0.
+
+`IntegralSecondDerivativeSide.lean` additionally compiles the one-sided
+curvature integral estimate `1/sqrt(mu)+1/(pi*sqrt(mu))`, reusing the shared
+proved nonstationary bounds and actual derivative growth. It covers a
+critical point at either endpoint, without an endpoint-frequency gap.
+Targeted build passed (3514 jobs, own-file 4.2s), zero warnings. The full
+uniform positive/negative curvature integral test is being assembled to
+handle near-endpoint frequencies in a finite B-process application.
+
+
+`IntegralSecondDerivative.lean` now proves the uniform curvature integral
+bound `4/sqrt(mu)` for both signs, including arbitrary real Poisson
+frequencies. It has no derivative gap, critical-point location, or endpoint
+separation premise. The proof splits at an actual derivative zero when
+needed and uses the proved one-sided bounds. This covers frequencies
+coinciding with endpoint derivatives in the finite B-process application.
+Targeted `IntegralSecondDerivative` passed (3543 jobs, 3.1s), zero warnings.
+
+## Balanced stationary errors (resumed work)
+
+`StationaryRadius.lean` defines the actual positive radius
+`U^(4/5) w^(-2/5)/4`, proves it lies in a quarter block, and proves
+its exact cubic and reciprocal-curvature identities.
+`StationaryErrorBounds.lean` bounds the explicit sharp stationary errors
+by `256 w^(-3/5) U^(7/10)`. It also proves the summed stationary and
+endpoint guard scales fit `w^(11/30) U^(7/20)` in the complementary
+frequency range; the large-frequency range admits the trivial length bound.
+These scalar results do not assert the outstanding B-transformed sum.
+
+Checks: `nice -n 5 lake build WaveTurbulence.Foundations.NumberTheory.StationaryErrorBounds`
+passed (3258 jobs, target 1.9s). `nice -n 5 lake env lean
+/home/scott/wt-scratch/nt-circle/StationaryAxioms.lean` passed;
+`stationary_radius_error_le`, `stationary_error_scales_le_local_circle_scale`
+and `norm_integral_expPhase_le_of_second_deriv_pos` use only
+`propext`, `Classical.choice`, `Quot.sound`. No new errata or deviations.
+
+## Actual weighted circle dual A-bound
+
+`MonotoneWeightedSums.lean` proves finite Abel summation in a real normed
+space, including exact integer-interval reindexing. `CircleWeightedDual.lean`
+applies it to the actual shared `VdCB.circleLatticeDualPhase`, with arbitrary
+linear translation, and the explicit stationary amplitude
+`sqrt(R)*h*(h^2+nu^2)^(-3/4)`. Its endpoint-scale estimate has constant
+68719476736 and powers `h^(11/30) R^(11/60) U^(7/20)`.
+No derivative or exponential-sum bound is an input of these actual dual
+estimates. The outstanding step is the Poisson/stationary transfer from the
+original circle columns to these weighted dual sums, including guard modes.
+
+Checks: `nice -n 5 lake build WaveTurbulence.Foundations.NumberTheory.CircleWeightedDual`
+passed (3585 jobs; new modules 1.7s and 1.9s). Scratch
+`WeightedDualAxioms.lean` passed under `nice -n 5 lake env lean`;
+`norm_sum_Ioc_smul_le_of_prefix_bound` and
+`norm_sum_weighted_circleLatticeDualPhase_le_endpoint` use only
+`propext`, `Classical.choice`, `Quot.sound`. No new errata or deviations.
+
+## Exact endpoint integer windows and the large-frequency range
+
+`Counting/CircleEndpointIntervals.lean` gives exposed exact left/right
+integer windows, their membership equivalences, disjointness and exact sum
+decomposition. All strict octant/dyadic boundaries and real translations
+are retained. `Counting/CircleEndpointTrivial.lean` proves each window has
+at most U+1 columns and proves the actual improved local circle sum estimate
+with constant 4 whenever `U² <= h sqrt(R)`.
+This discharges that frequency range unconditionally; only its complement
+needs the quantitative B-process application.
+
+Checks: targeted `CircleEndpointTrivial` build passed (9066 jobs; targets
+4.2s/5.4s), without warnings. Scratch `EndpointIntervalsAxioms.lean`
+passed with only `propext`, `Classical.choice`, `Quot.sound` for the exact
+union and actual large-frequency estimate. No new errata or deviations.
+
+## Poisson logarithm, summed errors and endpoint guards
+
+`CirclePoissonErrorScale.lean` absorbs the exact landed truncated-Poisson
+logarithmic error into 80 times the local circle power.
+`CircleSummedStationaryScale.lean` proves the exact natural-frequency-width
+identity and bounds the total stationary and separated-frequency costs by
+512K and 64K times that power, respectively.
+`PoissonStationaryGuards.lean` proves a finite B transfer with three actual
+frequency parts: interior stationary modes, endpoint guards, and separated
+modes. The explicit guard cost is `card(G)*4/sqrt(mu)`; all inputs are
+actual calculus, critical-point equations, and finite-frequency geometry.
+This supplies a guard version of the shared finite stationary transfer,
+without assuming any oscillatory conclusion.
+
+Checks: targeted `CirclePoissonErrorScale`, `CircleSummedStationaryScale`,
+and `PoissonStationaryGuards` builds passed (3826/3259/3857 jobs;
+new targets 4.2s/3.4s/2.3s), without warnings. Scratch
+`PoissonErrorAxioms.lean` checks all four main results with only
+`propext`, `Classical.choice`, `Quot.sound`. No new errata or deviations.
+
+## Actual guard geometry, integer count and complete scalar guard cost
+
+`FrequencyGuardGeometry.lean` obtains actual interior critical points by
+IVT and proves separation outside the stationary range and endpoint guard
+intervals from actual upper/lower second-derivative bounds.
+`Counting/FrequencyGuardCount.lean` bounds any selected integer guard set
+by 4D+2 for two endpoint neighborhoods of radius D.
+`CircleGuardErrorScale.lean` bounds count times uniform integral cost at
+the actual radius by 512 times the improved local power. Together with
+5a1969e, all three quantitative B-error scales fit the desired powers.
+Actual source-frequency selection and application remain to be assembled.
+
+Checks: targeted `FrequencyGuardCount` and `CircleGuardErrorScale` builds
+passed (9058/3259 jobs, new targets 1.8s/2.6s/2.5s), without warnings.
+`GuardGeometryAxioms.lean` checked IVT, separation, guard count and total
+guard cost with only `propext`, `Classical.choice`, `Quot.sound`.
+No new errata or deviations.
+
+## Automatic quantitative source transfer, including short windows
+
+`Counting/CurvaturePoissonTransfer.lean` selects the interior stationary
+frequencies from actual endpoint derivatives, constructs their critical
+points by IVT, constructs/discharges the guard partition, and proves a
+finite stationary dual approximation solely from actual derivative bounds.
+`CircleTotalPoissonErrorScale.lean` combines all explicit errors into
+2320 times the local improved power. `Counting/CircleScalePoissonTransfer.lean`
+consumes that bound at the circle source scales.
+`Counting/ShortCircleScalePoisson.lean` proves the same power bound for the
+entire original sum on short windows, without any dual estimate or third
+derivative bound. The actual source application consequently need not
+assume a minimum interval length. `FrequencyGuardGeometry.lean` now also
+proves the short-window guard separation result.
+
+Checks: targeted `CircleScalePoissonTransfer` and `ShortCircleScalePoisson`
+builds passed (9111 jobs each), without warnings. The four-result scratch
+`AutomaticPoissonAxioms.lean` passed with only `propext`, `Classical.choice`,
+`Quot.sound`. No new errata or deviations. The remaining actual circle
+application must identify the selected duals and estimate their integer
+windows; the earlier actual weighted A estimate is ready for that step.
+
+## Reflection and exact source scale normalization
+
+`ReflectedNegativePhase.lean` proves the actual first/second/third
+calculus identities for `-f(D-x)`, retaining arbitrary real D, and proves
+finite-sum norm invariance under phase negation.
+`CircleSourceScale.lean` gives exact first/second/third derivative scale
+identities with `w=h sqrt(R)`, including the lower-curvature factor 1/8.
+Targeted builds passed (3257/3214 jobs), without warnings. Scratch
+`ReflectionAxioms.lean` passed for four main results with standard axioms.
+
+A separate scratch probe `CircleColumnExtensionProbe.lean` also checks the
+actual reflected shared circle extension against all three needed source
+derivative bounds. This probe reads the **pending** BPROC artifacts using
+a scratch-only symlink overlay; no dependency artifacts are modified or
+rebuilt. These actual-circle consumers are not yet committed because their
+shared source modules are not yet landed on main. This pending-API probe
+is supplementary, not a claim that the final circle bound is proved.
+
+## Optimized exact direct-circle B error
+
+`CircleOptimizedBError.lean` bounds the exact error expression in BPROC's
+new direct-circle pre-estimate after choosing the balanced radius and
+threshold sqrt(mu), by 4000 times the improved local power.
+`CirclePoissonErrorScale.lean` adds the four-times-width logarithm case.
+`CircleDualWeightScale.lean` and `CircleWeightedDual.lean` now allow any
+fixed endpoint scale comparison factor. `CircleWeightedDualIntervals.lean`
+exposes the actual weighted bound on closed integer windows of admissible
+length, deriving all scale restrictions from the source-frequency upper bound.
+
+Checks: targeted `CircleOptimizedBError` and `CircleWeightedDualIntervals`
+builds passed (3829/3586 jobs; final targets 17s/8.9s), without warnings.
+`OptimizedBErrorAxioms.lean` checked both main results with standard axioms.
+The BPROC direct pre-estimate is f613e01 on w/bproc and is not yet on main;
+its final optimized consumers are being checked in scratch pending landing.
+No new errata or deviations.
+
+## Landing duplicate correction
+
+Removed the duplicate public `norm_sum_expPhase_neg` from
+`ReflectedNegativePhase.lean`; that module now publicly imports the
+existing declaration from `DerivativeTests.lean`. The targeted
+`CircleSourceWindow` build, including the reflected calculus and short
+source consumers, passed (9188 jobs), without warnings. This fixes the
+orchestrator's duplicate-name landing report; the mathematical statement
+is unchanged. Continued directly with the actual circle endpoint transfer.
+
+## Final infrastructure commit before MOLE reassignment
+
+The actual circle consumers are now repository modules against landed main:
+`CircleColumnSourceCalculus`, `CircleOptimizedSource`, `CircleShortSource`,
+`CircleSourceWindow`, `CircleIntegerSourceWindow`, `Counting/CircleEndpointBound`
+and `Counting/CircleImprovedDiscrepancy`. All integer frequencies >=1,
+short/long windows, large frequencies, both caps, strict artificial edges
+and arbitrary centers are covered internally. The resulting actual disc
+bound is `circleImprovedConstant * Q^(27/41)` for Q>=1. Its constant is
+explicit, positive, and independent of the center and radius.
+
+Exact final check: `nice -n 5 lake build
+WaveTurbulence.Foundations.Counting.CircleImprovedDiscrepancy` returned
+`Build completed successfully (9247 jobs).`, final target 5.5s, zero warnings.
+`nice -n 5 lake env lean /home/scott/wt-scratch/nt-circle/ActualCircleAxioms.lean`
+returned standard axioms `[propext, Classical.choice, Quot.sound]` for the
+actual natural-window, integer-window, endpoint-block and final disc results.
+`git diff --check` passed. No new mathematical errata or deviations.
+Existing source errata F31 and the license-registry follow-up above remain
+part of this handoff. No further NT-CIRCLE work is being claimed after the
+orchestrator's explicit switch to MOLE.

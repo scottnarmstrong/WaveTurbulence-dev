@@ -165,3 +165,40 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   harmless (null endpoint). Found by wt-gausssum (HUA). Status: candidate typos.
 - F47 — TARGET L1541–L1542 (proof of `lemlin`) — after the Poisson identity with prefactor L^d, the displayed majorant
   (lemlin3) omits that factor; needed to recover (lemlin2). Typo. Found by wt-cumul (LEMLIN). Status: candidate.
+- F3 (RESOLVED, 2026-11-03 ~21:30) — wt-ansob (packet NT-BPROC, `Foundations/VdCB/**`, commit ca5a6f6) proved the
+  B-process for the actual circle family and the exponent pair (11/30, 16/30), giving unconditional circle-problem
+  discrepancy and annulus bounds with exponent 27/41 < 2/3. Huxley's 7/11 is not needed; DH23 Lemma A.2(2) can be proved
+  with 27/41 (packet COUNT).
+- F48 — TARGET L2152 (`remtame`) — "some component contains exactly one atom adjacent to v" is used to conclude that all
+  labels incident to a removed tame atom v are fixed; false: explicit prime 4-tree garden counterexample (two residual
+  components, each with one atom adjacent to v but two opposite-oriented crossing bonds with equal labels that cancel in the
+  cut identity, so the label varies over ≳ L choices). Correction adopted: replace both occurrences by "exactly one bond
+  connecting the component to v" (the bridge criterion of DH21 Lemmas 9.13–9.14 and DH23 §10.5(4)); case (ii) negated
+  consistently. Found by wt-ansob (DEGEN), confirmed by its independent reviewer; write-up docs/research/erratum-remtame.md;
+  independent check by wt-orch pending. Status: candidate erratum (substantive; local fix).
+- F49 — TARGET Appendix A.2–A.3 proofs (L2370, L2392–L2394, L2417–L2419) — (i) the convolution step at L2370 (proofichi-2)
+  suppresses a logarithm (map Q13a); (ii) "a simple calculation yields" uniform low-frequency Fourier decay (weakdecay) is
+  false before localization; (iii) "bounded in Schwartz class ... uniformly in ξ and k" (timeintproof2-4) is false globally
+  (at Γ₁(k) = ξ the tail integral of χ² is nonzero). All three were repaired in the Lean proofs without changing the lemma
+  statements (beyond F42). Found by wt-anfourier (AN-PHASE-HY). Status: candidate errata (expository).
+- F48 (CONFIRMED by wt-orch, docs/campaign/orch/audits/F48-check.md): counterexample verified mechanically (valid prime
+  garden, ε = −1, c_v/Γ_v fixed, k free over L/4+1 values, Δχ = −2); the bridge correction is exactly what remtame (i)/(ii),
+  remtame2 and DH21 increF/cutlem need; no B1/B2 statement affected.
+- F50 — DH23 L1147–L1155 (Lemma 6.7, `NTintlem`) — `μ⁻¹∫ψ(μΩ)…` should be `μ∫ψ(μΩ)…` in (1) and (2); the error
+  `μ^{1−2η}` in (2) should be `μ^{−(1−2η)}` (cf. DH21 Lemma 6.5); the bound is bilinear in the Φ- and ψ-norms. Corrected
+  in the Lean statements (wt-torus, NTSP). Source: wt-orch Infra-review-3 R1(a). Status: candidate errata.
+- F51 — DH23 L2040 — `#(A ∩ ℤ^d)` should be `#(A ∩ ℤ²)`. Typo. Found by wt-nt (NT-CIRCLE v2). Source: Infra-review-3 R1(b).
+- F52 — TARGET L1308–L1325 (decorations of molecules ↔ decorations of gardens) — the correspondence fails for gardens
+  with directly paired trivial roots: e.g. four trivial trees, signs (+,−,+,−), root values (0,1,1,0) satisfy global
+  conservation but admit no garden decoration, while the (empty) molecule admits one. Correction adopted: state the
+  correspondence under root-pair compatibility (directly paired roots have equal prescribed values), which is exactly the
+  indicator the garden sums carry. Found by wt-nt (MOLE), Lean counterexample in scratch
+  (`mole/src/MoleculeDecorationEdgeCase.lean`). Status: candidate erratum (missing hypothesis; local).
+- F53 — Wave B2 draft `IsLadder` (`wt-scratch/waveb2/WaveB2-Molecules.lean` L305) vs TARGET L1384–L1386 / DH23
+  Def 5.1 L789–L808 (F37) — the draft requires the induced atom group of a ladder of length m to carry exactly 4m+2
+  bonds; this excludes maximal source ladders with an end-to-end chord. Kernel counterexample (wt-ansob, DEGEN):
+  `Degen.MaximalLadderDisjoint.chordLadder`, six atoms, eleven bonds, an actual nonsaturated molecule, whose two
+  overlapping four-atom induced B2 ladders are both maximal while the six-atom selected ladder fails the count (11 vs
+  10). DEGEN proved its results with the selected rung/rail reading (`SourceLadder`: double rungs, single opposite
+  rails, no induced-card clause). Status: **B2 draft defect** (ours, not the source's); fix `IsLadder` before the B2
+  freeze — queued for the B2 drafter after O-FK. Record: `wt-scratch/degen/ERRATUM-B2-LADDER.md`.

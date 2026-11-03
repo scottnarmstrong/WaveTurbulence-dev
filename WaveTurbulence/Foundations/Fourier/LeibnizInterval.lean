@@ -91,4 +91,20 @@ theorem hasDerivAt_fixed_interval {G : ℝ × ℝ → H} (hG : ContDiff ℝ ∞ 
   rw [ContinuousLinearMap.intervalIntegral_apply (hc.intervalIntegrable a b)] at h
   exact h
 
+/-- Scalar Leibniz rule for simultaneous amplitude and endpoint variation. -/
+theorem hasDerivAt_intervalIntegral {G : ℝ × ℝ → H} {a b : ℝ → ℝ}
+    (hG : ContDiff ℝ ∞ G) (ha : ContDiff ℝ ∞ a) (hb : ContDiff ℝ ∞ b) (w : ℝ) :
+    HasDerivAt (fun z => ∫ u in a z..b z, G (z, u))
+      ((∫ u in a w..b w, fderiv ℝ G (w, u) (1, 0)) +
+        deriv b w • G (w, b w) - deriv a w • G (w, a w)) w := by
+  have h := (hasFDerivAt_intervalIntegral hG ha hb w).hasDerivAt
+  have hc : Continuous (fun u => (fderiv ℝ G (w, u)).comp
+      (ContinuousLinearMap.inl ℝ ℝ ℝ)) :=
+    ((hG.continuous_fderiv (by simp)).comp
+      (continuous_const.prodMk continuous_id)).clm_comp continuous_const
+  simp only [sub_apply, add_apply, ContinuousLinearMap.smulRight_apply,
+    fderiv_apply_one_eq_deriv] at h
+  rw [ContinuousLinearMap.intervalIntegral_apply (hc.intervalIntegrable (a w) (b w))] at h
+  exact h
+
 end WaveTurbulence.Fourier
