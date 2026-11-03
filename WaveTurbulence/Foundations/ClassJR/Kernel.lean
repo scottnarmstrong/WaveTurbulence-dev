@@ -74,7 +74,7 @@ theorem KEqOn.trans {K L N : ℝ → ℝ → ℂ} (h : KEqOn K L) (h' : KEqOn L 
 /-- `jker` is a product of exponentials. -/
 theorem jker_eq (ℓ γ₁ γ₂ t s : ℝ) :
     jker ℓ γ₁ γ₂ t s = cexp (π * I * (ℓ * (t - s))) * cexp (π * I * (γ₁ * t + γ₂ * s)) := by
-  rw [jker, ← Complex.exp_add]; congr 1; push_cast; ring
+  rw [jker, ← Complex.exp_add]; congr 1; ring
 
 /-- `E(x, v) = (e^{πixv} - 1)/(πix)` for `x ≠ 0`. -/
 theorem eInt_eq_of_ne {x : ℝ} (hx : x ≠ 0) (v : ℝ) :
@@ -85,8 +85,8 @@ theorem eInt_eq_of_ne {x : ℝ} (hx : x ≠ 0) (v : ℝ) :
   simp only [eInt]
   rw [show (fun u : ℝ => cexp (π * I * (x * u))) = fun u : ℝ => cexp (π * I * x * u) by
     funext u; ring_nf]
-  rw [h]; push_cast
-  simp only [mul_zero, Complex.exp_zero]
+  rw [h]
+  simp only [Complex.ofReal_zero, mul_zero, Complex.exp_zero]
   rw [show (π : ℂ) * I * x * v = π * I * (x * v) by ring]
 
 /-- **The composition `J_{ℓ₁;γ₁,γ₂} J_{ℓ₂;γ₃,γ₄}`** (DH21 L971–L975). -/
