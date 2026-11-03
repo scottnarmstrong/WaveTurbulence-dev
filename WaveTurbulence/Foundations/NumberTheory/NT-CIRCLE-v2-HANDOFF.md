@@ -823,3 +823,22 @@ Checks: targeted `AProcessTwoPowersCutoff` passed (3557 jobs, 2.3s), and
 These are actual finite-sum A-process implications, with no phase-class or
 exponent-pair predicate added. Continuous fourth/fifth derivative tests are
 being assembled from this step and actual shifted derivative towers.
+
+## Continuous fourth and fifth derivative tests compiled
+
+`DerivativeTowerShift.lean` proves the exact positive-shift overlap and
+transfers an actual derivative tower to that overlap, including signed
+last-derivative bounds multiplied by h. `FourthDerivative.lean` proves
+`256*sqrt(c)*(N*lambda^(1/14)+N^(3/4)*lambda^(-1/14))`.
+`FifthDerivative.lean` proves
+`8192*sqrt(c)*(N*lambda^(1/30)+N^(7/8)*lambda^(-1/30))`.
+Both have positive and negative final-derivative variants, actual exponential
+sums, and explicit derivative towers through order four/five on
+`[a+1,a+N+2]`. Every cutoff regime and all boundary samples are included.
+No exponent-pair class or B-process theorem is assumed in these tests.
+
+Check: `nice -n 5 lake build
+WaveTurbulence.Foundations.NumberTheory.FifthDerivative` passed (3566 jobs;
+own-file builds 2.5s, 2.9s, 4.1s), zero warnings. The source for the A
+iteration is the proved Weyl inequality, real mean-value theorem, and the
+licensed third-difference base already recorded above.
