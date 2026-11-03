@@ -48,9 +48,10 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   Wave B. Sources: T-part1 Q9–Q10, DH23 map Q2, DH21 map E9.
 - F13 — DH21 (genericity) — DH21 Secs 6, 8, 9 are for γ = 1 / generic tori; the claimed extension to γ < 1 holds only
   near 1. Route: use DH21 Secs 4, 5, 7 (γ-free) and the DH23/TARGET versions of Secs 6, 8, 9. Source: DH21 map E2.
-- F14 — DH21-2 Prop 6.3 — claims χ ≤ m − R/2 for mixed gardens; the DH21 map agent reports a width-4, scale-2
-  counterexample with χ = 2 > 1 (trivial trees have no atoms). To check whether TARGET uses this (L370 uses DH21-2 for
-  cumulant vanishing). Status: candidate, unverified. Source: DH21 map E5.
+- F14 — DH21-2 Prop 6.3 — **WITHDRAWN** (wt-orch, docs/campaign/orch/figure-defs.md §9): the DH21 map's
+  "counterexample" is a multi-couple (two couples), not a mixed garden; Prop 6.3 is true (one-line repair of its proof
+  for trivial trees), and TARGET does not depend on it (L370 is motivational; substantive DH21-2 uses are Props
+  4.4–4.6 and 6.4). Status: withdrawn.
 - F15 — DH21-2 Prop 3.8 — extends DH21 Props 6.7/6.10 from n ≤ N³ to n ≤ (log L)^{50} citing only "n ≪ L^{δ²}",
   no proof. Status: candidate gap. Source: DH21 map E6.
 - F16 — TARGET `deflink` (L874–L881) attributes {x_n′, y_n′} = {±x_n, ±y_n} to DH21 Prop 4.3, which states only
@@ -88,8 +89,10 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   (replaced by our own hypercontractivity proof), quadratic Weyl sum bounds and their L^p moments (p = 3d/2). To pin.
 - F30 — TARGET Lemma `propertycm` (L2343–L2346) — "there is no proper subset A ⊂ {1,…,r} such that ∪_{i∈A} S_i equals
   the union of some of the sets B ∈ 𝒫": read literally, A = ∅ always qualifies (empty union of blocks), so no
-  partition would be admissible; the intended condition is "no nonempty proper subset". Found by wt-cumul; adopted in
-  the Lean statement. Status: candidate (wording).
+  partition would be admissible; the intended condition is "no nonempty proper subset". Also the groups S_i must be
+  nonempty: for an unnormalized measure (expectations "assuming F", mass m ≠ 1), S₁ = ∅, S₂ = {j} gives
+  κ(1, X_j) = (1 − m)∫X_j while the irreducible sum is empty (all TARGET uses have nonempty S_i). Found by wt-cumul;
+  both adopted in the Lean statement. Status: candidate (wording).
 - F31 — DH23 L2082 — "min(L^{2/5}+Q^{7/11}, L^{1/5}+L^{8/5}Q^{-1}, L^{6/5}Q^{-1/3})": the comma before the last
   term should be "+" (deduced from the two-branch (disclattice) L2029). With Huxley's 7/11 the argument still works
   (split at Q = L^{99/80}: 63/80 < 4/5 − 10^{-4}). Also L2077 "with ρ ∼ L^{2−2γ}" should be Qρ ∼ L^{2−2γ}.
@@ -97,3 +100,26 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
 - F32 — GIT20 Remark 2.6 (Kin8.tex L592–L594) — the d-dimensional trilinear estimate (s > (d−2)/2) is asserted without
   proof; GIT20 proves only d = 3, and TARGET (L2516) relies on the remark for all d ≥ 3. Confirms F18. Under D1 the
   d ≥ 4 case is new work in packet WKE. Source: wt-orch delta audit Q5. Status: gap (external).
+- F33 — TARGET L949 vs DH23 L1168 — regular-couple asymptotics are used for orders up to N_{p+1}^4 = (log L)^{C(𝔇)},
+  but DH21/DH23 prove them only for n ≤ N³ = (log L)^{12} (`approxnt` with λ_j ≤ (log L)^4). Same nature as F15.
+  Gap: the extension must be proved. Source: blueprint GRAPH §F.2a (GAP.largeOrder).
+- F34 — Route: TARGET never uses Gaussian hypercontractivity; its large-deviation bounds (fixedest1–3) come from
+  2P-th moments computed with the cumulant ansatz plus Chebyshev (L2306–L2335). Packet GAUSS-HC (DH21 Lemma A.3, done)
+  is off-route; landed as infrastructure only. Source: blueprint GRAPH §F.2a, verified by the orchestrator.
+- F35 — TARGET Prop `canonequiv` (L889) condition (ii) must be read for incomparable nodes (nested/equal nodes can
+  never be completely paired); the Lean definition states it. Source: blueprint.
+- F36 — TARGET (atomcountbd3) (L2474) is unused in L1293–L2339; `layergarden`'s proof uses the induction hypothesis
+  only through R_q and (ansatz2) (L949–L951), so it can be frozen deterministically. Source: blueprint.
+- F37 — TARGET L1384 vs DH23 L790 (ladders in vines) — TARGET requires every ladder to have ≥ 2 rungs while DH23
+  defines length = #rungs − 1 with no lower bound; with the figure's insertion rule TARGET's literal vine family misses
+  every vine in which a dashed pair carries exactly one extra rung (DH23's family includes them). Reading adopted for
+  Wave B: "each dashed pair carries k ≥ 0 extra rungs" (DH23's family); "length ≥ 1" only for standalone ladders.
+  Source: wt-orch figure-defs §1 (V1). Status: candidate erratum.
+- F38 — TARGET §7.3 (L1427–L1434) — the unit twist is one uniform operation in all six core cases (swap the slot of
+  𝔲₂ with the leaf 𝔲₀; 𝔲₂₃ keeps its position; 𝒯₁, 𝒯₂ keep root signs and swap positions); this replaces "exactly two
+  options" (F20); congruence being an equivalence relation still needs three stated lemmas. Source: wt-orch
+  figure-defs §3. Status: resolution of F20 (definition), lemmas to prove.
+- F39 — TARGET L2271 — 𝒳's kernel uses flower trees of order ≥ 1, so (1−ℒ₁)𝒳 = 1+𝒴 needs an identity term from
+  somewhere; check against DH21 §11 (part of F26). Source: wt-orch figure-defs §7. Status: open.
+- F40 — Cutting at an atom with a self-loop (paired siblings) is ambiguous (TARGET L2118–L2127); encode molecules with
+  half-edges. (II-a) vs (II-b) is a labelling convention only. Source: wt-orch figure-defs §2, §4. Status: design notes.

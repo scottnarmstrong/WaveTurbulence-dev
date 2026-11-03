@@ -29,12 +29,16 @@ SEALED THEOREMS: 0
 
 | tmux | model / account | packet | brief |
 |---|---|---|---|
-| wt-orch | Claude Opus / claude-1 | statement audits, blueprint review | [orch/BRIEF.md](docs/campaign/orch/BRIEF.md) |
-| wt-gauss-hc | Claude Opus / claude-10 | Gaussian hypercontractivity, large deviations (DH21 Lemma A.3) | [GAUSS-HC](docs/campaign/briefs/GAUSS-HC.md) |
-| wt-torus | Claude Opus / claude-14 | Fourier series on the torus | [TORUS-FOURIER](docs/campaign/briefs/TORUS-FOURIER.md) |
-| wt-wke | Claude Opus / claude-13 | collision operator, GIT20 trilinear estimate, Prop `wkelwp`, WKE Taylor bounds | [WKE](docs/campaign/briefs/WKE.md) |
-| wt-cumul | GPT-6.1-Sol low / codex-3 | complex Gaussians, Isserlis, cumulants | [CUMUL](docs/campaign/briefs/CUMUL.md) |
-| wt-nt | GPT-6.1-Sol low / codex-3 | circle problem (exponent 2/3), annulus counting | [NT-CIRCLE](docs/campaign/briefs/NT-CIRCLE.md) |
+| wt-orch | Claude Opus / claude-1 | audits: Wave A freeze check, figure-only definitions, F14 | [orch/TASK3.md](docs/campaign/orch/TASK3.md) |
+| wt-gauss-hc | Claude Opus / claude-10 | **Wave B drafts** (critical path): core carriers, system objects, B1 statements (GAUSS-HC landed f986d35) | [WAVEB-DRAFT](docs/campaign/briefs/WAVEB-DRAFT.md) |
+| wt-torus | Claude Opus / claude-14 | NLS smooth-solution theory, reduction to the a_k system (TORUS-FOURIER landed 5beb902) | [NLS](docs/campaign/briefs/NLS.md) |
+| wt-wke | Claude Opus / claude-13 | collision operator, GIT20 trilinear estimate (all d), Prop `wkelwp`, WKE Taylor bounds | [WKE](docs/campaign/briefs/WKE.md) |
+| wt-cumul | GPT-6.1-Sol low / codex-3 | complex Gaussians, Isserlis, cumulants, `propertycm` | [CUMUL](docs/campaign/briefs/CUMUL.md) |
+| wt-nt | GPT-6.1-Sol low / codex-3 | van der Corput: circle problem with exponent < 2/3 (F3) | [NT-CIRCLE-v2](docs/campaign/briefs/NT-CIRCLE-v2.md) |
+| wt-ansob | GPT-6.1-Sol low / codex-3 | N4: Sobolev/Morrey, simplex volumes, DH21 (10.5), DH21 Lemma 10.2 | [AN-SOB](docs/campaign/briefs/AN-SOB.md) |
+| wt-gausssum | GPT-6.1-Sol low / codex-3 | NT1: Dirichlet approximation, quadratic Weyl/Gauss sums | [GAUSSSUM](docs/campaign/briefs/GAUSSSUM.md) |
+
+Landed: TORUS-FOURIER (5beb902), GAUSS-HC (f986d35, off-route infrastructure, F34).
 
 ## Papers
 
@@ -52,3 +56,4 @@ SEALED THEOREMS: 0
 - [docs/DECISIONS.md](docs/DECISIONS.md) — rulings.
 - [docs/FINDINGS.md](docs/FINDINGS.md) — source findings and candidate errata.
 - [docs/campaign/PLAN.md](docs/campaign/PLAN.md) — phases, infrastructure packets, fleet.
+- [docs/blueprint/GRAPH.md](docs/blueprint/GRAPH.md) — node-level dependency graph (264 nodes, 76 packets, ≈266k lines est.); [docs/blueprint/WAVE-B.md](docs/blueprint/WAVE-B.md) — Wave B proposal.
