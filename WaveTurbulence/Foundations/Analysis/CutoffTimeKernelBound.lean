@@ -25,7 +25,8 @@ theorem cutoffFourierConstant_nonneg (χ : ℝ → ℂ) : 0 ≤ cutoffFourierCon
   unfold cutoffFourierConstant
   positivity
 
-private theorem norm_fourier_cutoff_le {χ : ℝ → ℂ} (hχ : ContDiff ℝ ∞ χ)
+/-- Quadratic Fourier decay of a smooth compactly supported cutoff. -/
+theorem norm_fourier_cutoff_le {χ : ℝ → ℂ} (hχ : ContDiff ℝ ∞ χ)
     (hs : HasCompactSupport χ) (t : ℝ) : ‖𝓕 χ t‖ ≤ cutoffFourierConstant χ * cauchyWeight t := by
   have hi (k : ℕ) : Integrable (iteratedDeriv k χ) :=
     (hχ.continuous_iteratedDeriv k (by simp)).integrable_of_hasCompactSupport

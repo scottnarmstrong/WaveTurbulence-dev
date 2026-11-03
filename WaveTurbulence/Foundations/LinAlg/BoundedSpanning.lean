@@ -18,7 +18,7 @@ Natural subtraction in that bound also covers `d = 0` (the selection is empty).
 
 public section
 
-namespace WaveTurbulence
+namespace WaveTurbulence.LinAlg
 
 /-- TARGET Lemma A.7: select at most `d` vectors of a finite set spanning it
 with coefficients bounded by `2^(d-1)`. -/
@@ -26,11 +26,11 @@ theorem exists_bounded_spanning_selection {d : ℕ} (S : Finset (Mom d)) :
     ∃ q ≤ d, ∃ X : Fin q → Mom d,
       (∀ i, X i ∈ S) ∧ ∀ Y ∈ S, ∃ c : Fin q → ℝ,
         (∀ i, |c i| ≤ (2 : ℝ) ^ (d - 1)) ∧ (∑ i, c i • X i) = Y := by
-  obtain ⟨q, hq, X, hX, hspan⟩ := LinAlg.exists_spanning_selection S
+  obtain ⟨q, hq, X, hX, hspan⟩ := exists_spanning_selection S
   refine ⟨q, ?_, X, hX, ?_⟩
   · simpa [Mom] using hq
   intro Y hY
   obtain ⟨c, hc, hsum⟩ := hspan Y hY
   exact ⟨c, fun i => (hc i).trans (one_le_pow₀ (by norm_num)), hsum⟩
 
-end WaveTurbulence
+end WaveTurbulence.LinAlg
