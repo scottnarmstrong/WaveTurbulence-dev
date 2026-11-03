@@ -570,3 +570,29 @@ The unfinished Poisson and oscillatory-integral drafts were preserved under
 the B-process was reassigned. The completed phase-calculus identities remain
 available as reusable character calculus; no B-process source theorem is
 being implemented in this packet in parallel with NT-BPROC.
+
+## Conditional circle and annulus transfer
+
+`Counting/CircleExponentTransfer.lean`, `AnnulusDiscrepancy.lean`, and
+`CircleExponentAnnulus.lean` compile. The explicit actual column-frequency
+hypothesis implies discrepancy at exponent `(kappa+lambda)/(1+kappa)` with
+constant `33+4*((pi/kappa+1/(1-kappa))/pi^2)*C`, for `0<kappa<1` and
+`1/2<=lambda<=1`. No exponent-pair predicate is defined and no improved
+unconditional discrepancy is claimed. The annulus comparison, independently
+of this hypothesis, gives `6*pi*Q*rho+3*C*Q^e` from a circle error `C*R^e`,
+for `Q>=2`, `0<rho<=Q/4`, `0<=e<=1`. The inner disc has radius `Q-2*rho`, so
+closed radial boundaries introduce no subtraction error. Specialization to
+the proved two-thirds theorem gives `6*pi*Q*rho+4002*Q^(2/3)` unconditionally.
+The minimum with the full elementary branch is also proved.
+
+Check: `nice -n 5 lake build
+WaveTurbulence.Foundations.Counting.CircleExponentAnnulus` passed (9092 jobs;
+final own-file builds 89s and 81s), no warnings or budget overrides.
+
+The orchestrator's new proposed chain `BAABAAB` from `(0,1)` has coordinates
+`(1/2,1/2)`, `(1/6,2/3)`, `(1/14,11/14)`, `(2/7,4/7)`,
+`(1/9,13/18)`, `(1/20,33/40)`, `(13/40,11/20)`.
+Its circle exponent is exactly `35/53`, with gap `1/159` below `2/3`.
+The numerical DH23 critical-gamma branch optimization gives `63/79`, a gain
+`1/395` below `4/5`, splitting at `q=477/395`. These numerical comparisons
+are separate from the still-required proof and application of the pair.
