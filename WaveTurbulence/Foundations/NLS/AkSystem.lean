@@ -79,7 +79,7 @@ variable {d : ℕ}
     (epsCoef p.1 p.2 (n - p.1 + p.2) : ℂ) * (b p.1 * (starRingEnd ℂ) (b p.2) * b (n - p.1 + p.2))
 
 /-- The resonant set `{(n₁, n₂, n₃) : n₁ - n₂ + n₃ = n}` parametrized by `(n₁, n₂)`. -/
-def resonantEquiv (n : Fin d → ℤ) : (Fin d → ℤ) × (Fin d → ℤ) ≃
+@[expose] def resonantEquiv (n : Fin d → ℤ) : (Fin d → ℤ) × (Fin d → ℤ) ≃
     {p : (Fin d → ℤ) × (Fin d → ℤ) × (Fin d → ℤ) // p.1 - p.2.1 + p.2.2 = n} where
   toFun q := ⟨(q.1, q.2, n - q.1 + q.2), by dsimp only; abel⟩
   invFun p := (p.1.1, p.1.2.1)
