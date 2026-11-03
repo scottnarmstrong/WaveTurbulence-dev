@@ -32,4 +32,11 @@ theorem lintegral_sq_eq_ofReal_weightedL2Norm_zero {f : Mom d → ℝ} (hf : Mem
   have hi : MemLp (weightedFunction 0 f) 2 := by rw [weightedFunction_zero]; exact hf
   simpa only [weightedFunction_zero] using (ofReal_weightedL2Norm_sq 0 f hi).symm
 
+/-- Removing a weight already absorbed into the function leaves the frozen norm unchanged. -/
+theorem weightedL2Norm_zero_weightedFunction (s : ℝ) (f : Mom d → ℝ) :
+    weightedL2Norm 0 (weightedFunction s f) = weightedL2Norm s f := by
+  change Real.sqrt (∫ k, (weightedFunction 0 (weightedFunction s f) k) ^ 2) =
+    Real.sqrt (∫ k, (weightedFunction s f k) ^ 2)
+  rw [weightedFunction_zero]
+
 end WaveTurbulence.WKEL2
