@@ -872,3 +872,13 @@ third/fourth/fifth derivative tower. The lower-scale case uses only the
 trivial actual finite-sum estimate; no extra derivative input or epsilon
 loss is hidden. The exact identity with `T^(1/30)*Y^(5/6)` is proved too.
 Targeted `FifthDerivativeScaleConstants` passed (3569 jobs, 4.5s), zero warnings.
+
+`LinearPhaseTower.lean` proves that adding arbitrary real `p*x+q` preserves
+all actual derivative-tower relations and every derivative of order >=2.
+`FifthDerivativeLinearPhase.lean` exports
+`norm_exp_sum_add_linear_le_of_signed_derivative_scales`: the complete pure
+`(1/30,26/30)` bound, with fixed comparison constants, uniformly in both
+real coefficients p,q. This explicitly handles the translated-circle dual
+Poisson factor without assuming the center or radius is integral.
+Targeted `FifthDerivativeLinearPhase` passed (3571 jobs; supporting 5.9s,
+consumer 2.4s), zero warnings.
