@@ -117,4 +117,44 @@ theorem timeWeight_add_le {r : ℕ} {θ : ℝ} (hθ : 0 ≤ θ) (ξ η : Fin r �
       rw [Real.mul_rpow (mul_nonneg (by norm_num) (timeBracket_pos ξ).le) (timeBracket_pos _).le,
         Real.mul_rpow (by norm_num) (timeBracket_pos _).le]
 
+@[simp] theorem timeBracket_neg {r : ℕ} (ξ : Fin r → ℝ) : timeBracket (-ξ) = timeBracket ξ := by
+  simp only [timeBracket, Pi.neg_apply, neg_sq]
+
+/-- The relative weight estimate for cutoff multiplication, valid also at
+negative regularity. Only the cutoff factor pays the absolute exponent. -/
+theorem timeWeight_add_le_abs {r : ℕ} (θ : ℝ) (ξ η : Fin r → ℝ) :
+    timeWeight θ (ξ + η) ≤ ENNReal.ofReal (2 ^ |θ|) *
+      timeWeight θ ξ * timeWeight |θ| η := by
+  by_cases hθ : 0 ≤ θ
+  · simpa only [abs_of_nonneg hθ] using timeWeight_add_le hθ ξ η
+  have hp : 0 ≤ -θ := le_of_lt (neg_pos.mpr (lt_of_not_ge hθ))
+  have hr := timeBracket_add_le_mul (ξ + η) (-η)
+  simp only [add_neg_cancel_right, timeBracket_neg] at hr
+  have hbpos := timeBracket_pos ξ
+  have htpos := timeBracket_pos (ξ + η)
+  have hcpos := timeBracket_pos η
+  have hpow : timeBracket ξ ^ (-θ) ≤
+      (2 ^ (-θ) * timeBracket η ^ (-θ)) * timeBracket (ξ + η) ^ (-θ) := by
+    have hh := Real.rpow_le_rpow hbpos.le hr hp
+    rw [Real.mul_rpow (mul_nonneg (by norm_num) htpos.le) hcpos.le,
+      Real.mul_rpow (by norm_num) htpos.le] at hh
+    simpa only [mul_assoc, mul_left_comm, mul_comm] using hh
+  have hnum : timeBracket (ξ + η) ^ θ ≤
+      (2 ^ (-θ) * timeBracket η ^ (-θ)) * timeBracket ξ ^ θ := by
+    have hbp := Real.rpow_pos_of_pos hbpos (-θ)
+    have htp := Real.rpow_pos_of_pos htpos (-θ)
+    have hinv : (timeBracket (ξ + η) ^ (-θ))⁻¹ ≤
+        (2 ^ (-θ) * timeBracket η ^ (-θ)) * (timeBracket ξ ^ (-θ))⁻¹ := by
+      rw [← one_div, ← div_eq_mul_inv]
+      apply (div_le_div_iff₀ htp hbp).mpr
+      simpa only [one_mul] using hpow
+    simpa only [Real.rpow_neg htpos.le, Real.rpow_neg hbpos.le, inv_inv] using hinv
+  unfold timeWeight
+  rw [abs_of_neg (lt_of_not_ge hθ),
+    ← ENNReal.ofReal_mul (Real.rpow_nonneg (by norm_num) _),
+    ← ENNReal.ofReal_mul (mul_nonneg (Real.rpow_nonneg (by norm_num) _)
+      (Real.rpow_nonneg hbpos.le _))]
+  apply ENNReal.ofReal_le_ofReal
+  simpa only [mul_assoc, mul_left_comm, mul_comm] using hnum
+
 end WaveTurbulence.Fourier
