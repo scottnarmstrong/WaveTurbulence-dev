@@ -20,7 +20,7 @@ public section
 open MeasureTheory Filter Topology
 open scoped InnerProductSpace NNReal
 
-namespace WaveTurbulence
+namespace WaveTurbulence.Resonant
 
 variable {d : ℕ}
 variable {F : Mom d → Mom d → ℝ} {D : Mom d → Mom d → Mom d →L[ℝ] ℝ}
@@ -52,7 +52,7 @@ theorem integrable_energyInvSliceLimit (hd : 0 < d) {χ : ℝ → ℝ} (hχ : Is
     Integrable (energyInvSliceLimit F) := by
   have hm : AEStronglyMeasurable (energyInvSliceLimit F) :=
     aestronglyMeasurable_of_tendsto_ae atTop
-      (fun μ => (hF.stronglyMeasurable_energyInvInner hχ μ).aestronglyMeasurable)
+      (fun μ => (stronglyMeasurable_energyInvInner hF hχ μ).aestronglyMeasurable)
       ((DeltaKernel.ae_ne_zero hd).mono fun ℓ hℓ =>
         tendsto_energyInvInner hF hgrad hDc hD hs hχ hℓ)
   refine (hgrad.integrable.const_mul (R * hypConst d M)).mono' hm ?_
@@ -78,4 +78,4 @@ theorem energyPrincipalValue_cutoff_independent (hd : 0 < d) {χ ψ : ℝ → �
       energyPrincipalValue F D hd hF hgrad hDc hD hR hs ψ hψ := by
   rw [energyPrincipalValue_eq_integral, energyPrincipalValue_eq_integral]
 
-end WaveTurbulence
+end WaveTurbulence.Resonant
