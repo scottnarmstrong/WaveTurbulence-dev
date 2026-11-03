@@ -87,4 +87,39 @@ theorem timeFourier_word_moment_le_integral {r : ℕ} {f : (Fin r → ℝ) → �
   (timeFourier_word_moment_le hf hc w ξ).trans
     (VectorFourier.norm_fourierIntegral_le_integral_norm _ _ _ _ _)
 
+/-- Coordinate directional derivatives agree with the frozen partial derivative. -/
+theorem timeDirectionalDerivative_single {r : ℕ} {f : (Fin r → ℝ) → ℂ}
+    (hf : Differentiable ℝ f) (j : Fin r) :
+    timeDirectionalDerivative (Pi.single j 1) f = WaveTurbulence.partialDeriv j f :=
+  (WaveTurbulence.partialDeriv_eq_fderiv_fun hf j).symm
+
+/-- The diagonal derivative is the sum of the two frozen time partials. -/
+theorem timeDirectionalDerivative_diagonal_eq_partials {f : (Fin 2 → ℝ) → ℂ}
+    (hf : Differentiable ℝ f) (t : Fin 2 → ℝ) :
+    timeDirectionalDerivative (fun _ => 1) f t =
+      WaveTurbulence.partialDeriv 0 f t + WaveTurbulence.partialDeriv 1 f t := by
+  rw [WaveTurbulence.partialDeriv_eq_fderiv_fun hf 0,
+    WaveTurbulence.partialDeriv_eq_fderiv_fun hf 1]
+  have hv : (fun _ : Fin 2 => (1 : ℝ)) = Pi.single 0 1 + Pi.single 1 1 := by
+    ext j
+    fin_cases j <;> simp
+  change fderiv ℝ f t (fun _ => 1) = fderiv ℝ f t (Pi.single 0 1) + fderiv ℝ f t (Pi.single 1 1)
+  rw [hv, map_add]
+
+/-- Simultaneous translation has the all-ones tangent vector. -/
+theorem hasDerivAt_time_translation {r : ℕ} (v : Fin r → ℝ) (c : ℝ) :
+    HasDerivAt (fun u : ℝ => fun j : Fin r => v j + u) (fun _ => 1) c := by
+  apply hasDerivAt_pi.mpr
+  intro j
+  exact (hasDerivAt_id c).const_add (v j)
+
+/-- The diagonal directional derivative is the derivative of simultaneous translation. -/
+theorem hasDerivAt_diagonal_translation {r : ℕ} {f : (Fin r → ℝ) → ℂ}
+    (hf : Differentiable ℝ f) (v : Fin r → ℝ) :
+    HasDerivAt (fun c : ℝ => f (fun j => v j + c))
+      (timeDirectionalDerivative (fun _ => 1) f v) 0 := by
+  have h := (hf (fun j => v j + (0 : ℝ))).hasFDerivAt.comp_hasDerivAt 0
+    (hasDerivAt_time_translation v 0)
+  simpa only [Function.comp_def, add_zero, timeDirectionalDerivative] using h
+
 end WaveTurbulence.Fourier
