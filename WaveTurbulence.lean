@@ -29,6 +29,9 @@ public import WaveTurbulence.Foundations.Gaussian.IsserlisPolynomial
 public import WaveTurbulence.Foundations.Gaussian.LargeDeviation
 public import WaveTurbulence.Foundations.Gaussian.MomentLimit
 public import WaveTurbulence.Foundations.Gaussian.TwoPoint
+public import WaveTurbulence.Foundations.NLS.AkSystem
+public import WaveTurbulence.Foundations.NLS.Energy
+public import WaveTurbulence.Foundations.NLS.FourierEquation
 public import WaveTurbulence.Foundations.NumberTheory.DerivativeTests
 public import WaveTurbulence.Foundations.NumberTheory.Differencing
 public import WaveTurbulence.Foundations.NumberTheory.ExponentialSums
