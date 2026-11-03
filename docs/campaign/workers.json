@@ -44,16 +44,16 @@
   "model": "GPT-6.1-Sol low",
   "account": "codex-3",
   "branch": "w/nt-circle",
-  "packet": "NT-EXPSUM: circle problem with exponent < 2/3 (van der Corput)",
-  "brief": "docs/campaign/briefs/NT-CIRCLE-v2.md"
+  "packet": "M1+M2 MOLE (pre-freeze): molecules, decorations, reconstruction, blocks, cuts, 𝔈/𝔄/𝔇𝔢𝔳 (circle e<2/3 done by wt-ansob)",
+  "brief": "docs/campaign/briefs/MOLE.md"
  },
  {
   "tmux": "wt-ansob",
   "model": "GPT-6.1-Sol low",
   "account": "codex-3",
   "branch": "w/bproc",
-  "packet": "NT-BPROC: van der Corput B-process (for e < 2/3, F3) (AN-SOB landed)",
-  "brief": "docs/campaign/briefs/NT-BPROC.md"
+  "packet": "G0 DEGEN (pre-freeze): DH21 Lemmas 9.13–9.14, DH23 §10.5, GAP.degenerate.tame (F21) (BPROC: circle 27/41 done)",
+  "brief": "docs/campaign/briefs/DEGEN.md"
  },
  {
   "tmux": "wt-gausssum",
