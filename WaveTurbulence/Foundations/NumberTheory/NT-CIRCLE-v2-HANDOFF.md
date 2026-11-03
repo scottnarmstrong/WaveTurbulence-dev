@@ -723,3 +723,30 @@ not depend on the circle exponent. The former two-thirds comparisons for
 Check: targeted `ImprovedExponentAudit` build passed (3138 jobs, 2.9s), zero
 warnings. Goal 5's numerical work is ready for specialization, but its final
 claim still requires an actually proved exponent pair and its application.
+
+## Endpoint dyadic bridge compiled
+
+`Counting/DyadicPowerBlocks.lean` extends the exact dyadic partition to any
+additive commutative monoid, including complex sums, and proves the finite
+geometric tail bound. `CircleEndpointBlocks.lean` proves the unit-scale
+cutoff and an absolute bound of six terminal columns. It derives the global
+sum bound from actual local complex block estimates.
+`CircleEndpointFrequency.lean` normalizes the endpoint power scale
+`n^kappa*R^(kappa/2)*U^(lambda-kappa/2)` and proves the global outer-cap
+frequency estimate with constant
+`6+C/(2^(lambda-kappa/2)-1)` multiplying `R^lambda*n^kappa`, for
+`0<=kappa<1`, `lambda>=1/2`, natural n>0, and R>=1. No logarithm, epsilon,
+phase-class definition or hidden endpoint estimate is introduced.
+The local block premise is explicit and named as a conditional helper.
+
+Check: `nice -n 5 lake build
+WaveTurbulence.Foundations.Counting.CircleEndpointFrequency` passed (9060
+jobs, final own-file build 5.7s), zero warnings.
+
+Read-only inspection of VdCB's current API confirms that analytic A/B
+closure is still in progress. Its generic decreasing-power class is not
+claimed to contain every circle block with arbitrarily small perturbation;
+its documented direct-circle route uses the actual Legendre dual and a
+uniform fifth-derivative estimate. Our outer-cap and block consumers make
+no unsupported inference from the generic predicate. They can consume the
+proved direct-family bound as soon as it lands, preserving arbitrary centers.
