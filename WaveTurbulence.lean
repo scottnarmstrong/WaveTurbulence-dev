@@ -191,6 +191,7 @@ public import WaveTurbulence.Foundations.WKE.MaxSplit
 public import WaveTurbulence.Foundations.WKE.Multilinear
 public import WaveTurbulence.Foundations.WKE.SchwartzValued
 public import WaveTurbulence.Foundations.WKE.SeriesTools
+public import WaveTurbulence.Foundations.WKE.Taylor
 public import WaveTurbulence.Foundations.WKE.TaylorCoeff
 public import WaveTurbulence.Foundations.WKE.TaylorSeries
 public import WaveTurbulence.Foundations.WKE.Trilinear

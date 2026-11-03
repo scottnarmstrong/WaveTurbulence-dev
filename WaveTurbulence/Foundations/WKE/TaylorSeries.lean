@@ -44,17 +44,35 @@ section Constants
 
 variable (φ₀ : 𝓢(Mom d, ℝ))
 
-/-- A positive bound for the low norm `sup (1 + |y|)^{2d+1} |φ₀(y)|`. -/
+/-- The low norm `sup_y (1 + |y|)^{2d+1} |φ₀(y)|`, plus one (so that it is positive). -/
 @[expose] noncomputable def lowConst : ℝ :=
-  (exists_weighted_bound φ₀ 0 (2 * d + 1)).choose + 1
+  sSup (Set.range fun y : Mom d => (1 + ‖y‖) ^ (2 * (d : ℝ) + 1) * ‖iteratedFDeriv ℝ 0 φ₀ y‖) + 1
 
-theorem lowConst_pos : 0 < lowConst φ₀ := by
-  have := (exists_weighted_bound φ₀ 0 (2 * d + 1)).choose_spec.1
-  unfold lowConst; linarith
+theorem bddAbove_lowNorm :
+    BddAbove (Set.range fun y : Mom d => (1 + ‖y‖) ^ (2 * (d : ℝ) + 1) *
+      ‖iteratedFDeriv ℝ 0 φ₀ y‖) := by
+  obtain ⟨C, -, hC⟩ := exists_weighted_bound φ₀ 0 (2 * d + 1)
+  exact ⟨C, by rintro _ ⟨y, rfl⟩; exact hC y⟩
 
 theorem lowConst_bound (y : Mom d) :
     (1 + ‖y‖) ^ (2 * (d : ℝ) + 1) * ‖iteratedFDeriv ℝ 0 φ₀ y‖ ≤ lowConst φ₀ := by
-  have := (exists_weighted_bound φ₀ 0 (2 * d + 1)).choose_spec.2 y
+  have := le_csSup (bddAbove_lowNorm φ₀) (Set.mem_range_self y)
+  unfold lowConst; linarith
+
+theorem lowConst_pos : 0 < lowConst φ₀ := by
+  have h := lowConst_bound φ₀ 0
+  have : 0 ≤ (1 + ‖(0 : Mom d)‖) ^ (2 * (d : ℝ) + 1) * ‖iteratedFDeriv ℝ 0 φ₀ 0‖ := by positivity
+  have h1 := le_csSup (bddAbove_lowNorm φ₀) (Set.mem_range_self 0)
+  unfold lowConst; linarith
+
+/-- If the low norm is at most `B`, then `lowConst φ₀ ≤ B + 1`. -/
+theorem lowConst_le {B : ℝ} (hB : ∀ y, (1 + ‖y‖) ^ (2 * (d : ℝ) + 1) * |φ₀ y| ≤ B) :
+    lowConst φ₀ ≤ B + 1 := by
+  have : sSup (Set.range fun y : Mom d => (1 + ‖y‖) ^ (2 * (d : ℝ) + 1) *
+      ‖iteratedFDeriv ℝ 0 φ₀ y‖) ≤ B := by
+    refine csSup_le (Set.range_nonempty _) ?_
+    rintro _ ⟨y, rfl⟩
+    simpa [norm_iteratedFDeriv_zero, Real.norm_eq_abs] using hB y
   unfold lowConst; linarith
 
 /-- The geometric rate of the Taylor coefficients of the solution with data `φ₀`. -/
