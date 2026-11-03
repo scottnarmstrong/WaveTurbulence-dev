@@ -106,6 +106,31 @@ theorem GevreyTwoBound.mul {f g : ℝ → ℝ} {C D A B : ℝ}
       intro i _
       ring
 
+/-- Finite products preserve quantitative Gevrey-2 bounds, multiplying the
+prefactors and adding the exponential constants. -/
+theorem GevreyTwoBound.finset_prod {ι : Type*} (s : Finset ι)
+    (f : ι → ℝ → ℝ) (C A : ι → ℝ)
+    (hf : ∀ i ∈ s, GevreyTwoBound (f i) (C i) (A i))
+    (hs : ∀ i ∈ s, ContDiff ℝ ∞ (f i))
+    (hC : ∀ i ∈ s, 0 ≤ C i) (hA : ∀ i ∈ s, 0 ≤ A i) :
+    GevreyTwoBound (fun x => ∏ i ∈ s, f i x) (∏ i ∈ s, C i) (∑ i ∈ s, A i) := by
+  classical
+  induction s using Finset.induction_on with
+  | empty => simpa using gevreyTwoBound_const 1
+  | insert i s hi ih =>
+    have ht := ih (fun j hj => hf j (Finset.mem_insert_of_mem hj))
+      (fun j hj => hs j (Finset.mem_insert_of_mem hj))
+      (fun j hj => hC j (Finset.mem_insert_of_mem hj))
+      (fun j hj => hA j (Finset.mem_insert_of_mem hj))
+    have hp := (hf i (Finset.mem_insert_self _ _)).mul ht
+      (hs i (Finset.mem_insert_self _ _))
+      (contDiff_prod (fun j hj => hs j (Finset.mem_insert_of_mem hj)))
+      (hC i (Finset.mem_insert_self _ _))
+      (Finset.prod_nonneg (fun j hj => hC j (Finset.mem_insert_of_mem hj)))
+      (hA i (Finset.mem_insert_self _ _))
+      (Finset.sum_nonneg (fun j hj => hA j (Finset.mem_insert_of_mem hj)))
+    simpa only [Finset.prod_insert hi, Finset.sum_insert hi] using hp
+
 /-- Affine precomposition preserves the bound, multiplying the exponential
 constant by the absolute value of the slope. -/
 theorem GevreyTwoBound.comp_affine {f : ℝ → ℝ} {C A : ℝ}
