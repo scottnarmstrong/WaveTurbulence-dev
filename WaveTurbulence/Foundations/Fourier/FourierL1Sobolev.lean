@@ -29,7 +29,7 @@ The estimates using it explicitly assume these derivatives are integrable. -/
 @[expose] noncomputable def derivativeL1Sum (N : ℕ) (f : V → ℂ) : ℝ :=
   ∑ j ∈ Finset.range (N + 1), ∫ x, ‖iteratedFDeriv ℝ j f x‖
 
-private theorem derivativeL1Sum_nonneg (N : ℕ) (f : V → ℂ) :
+theorem derivativeL1Sum_nonneg (N : ℕ) (f : V → ℂ) :
     0 ≤ derivativeL1Sum N f :=
   Finset.sum_nonneg fun _ _ => integral_nonneg fun _ => norm_nonneg _
 
@@ -77,6 +77,10 @@ It is finite whenever `N > dim V`. -/
     [NormedAddCommGroup V] [InnerProductSpace ℝ V] [FiniteDimensional ℝ V]
     [MeasurableSpace V] [BorelSpace V] (N : ℕ) : ℝ :=
   (2 : ℝ) ^ (N - 1) * (1 + 2 ^ N) * ∫ ξ : V, (1 + ‖ξ‖) ^ (-(N : ℝ))
+
+/-- Nonnegativity of the dimension-dependent Fourier-L¹ constant. -/
+theorem fourierL1Constant_nonneg (N : ℕ) : 0 ≤ fourierL1Constant V N :=
+  mul_nonneg (by positivity) (integral_nonneg fun ξ => Real.rpow_nonneg (by positivity) _)
 
 /-- `W^{N,1}` controls the Fourier-L¹ norm when `N` exceeds the dimension.
 All constants depend only on the ambient space and derivative order. -/
