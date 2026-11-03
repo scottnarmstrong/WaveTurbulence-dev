@@ -6,8 +6,18 @@ Authors: Scott Armstrong
 module
 
 public import Mathlib
+public import WaveTurbulence.Foundations.Analysis.CovariantCubeSobolev
 public import WaveTurbulence.Foundations.Analysis.CubeSobolev
 public import WaveTurbulence.Foundations.Analysis.IntervalSobolev
+public import WaveTurbulence.Foundations.Analysis.MorreyPotential
+public import WaveTurbulence.Foundations.Analysis.MorreyScaling
+public import WaveTurbulence.Foundations.Analysis.RadialIntegrability
+public import WaveTurbulence.Foundations.Analysis.RieszKernel
+public import WaveTurbulence.Foundations.Analysis.SmoothRiesz
+public import WaveTurbulence.Foundations.Analysis.SquareGeometry
+public import WaveTurbulence.Foundations.Analysis.SquareMorrey
+public import WaveTurbulence.Foundations.Analysis.SquareMorreyPower
+public import WaveTurbulence.Foundations.Analysis.SquareMorreyReal
 public import WaveTurbulence.Foundations.Analysis.WeightedSobolev
 public import WaveTurbulence.Foundations.Counting.CircleArc
 public import WaveTurbulence.Foundations.Counting.CircleAreaGeometry
