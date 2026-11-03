@@ -80,4 +80,41 @@ theorem deltaInt_swap_of_decay {F : Mom d → Mom d → ℝ}
   rw [integral_integral_swap (integrable_mollified_kernel h' hd hψ hψpos hε)]
   simp only [real_inner_comm]
 
+/-- Reversing the first and third inputs preserves the standing decay data. -/
+theorem collisionInputs_reverse {f g h : Mom d → ℝ} {C N : ℝ}
+    (hi : CollisionInputs f g h C N) : CollisionInputs h g f C N :=
+  ⟨hi.cont₃, hi.cont₂, hi.cont₁, hi.decay₃, hi.decay₂, hi.decay₁, hi.two_d_lt⟩
+
+/-- Gain-term symmetry used in the weight-transfer argument of §5, for
+continuous decaying inputs (in particular, Schwartz inputs). -/
+theorem collisionTerm_zero_reverse {f g h : Mom d → ℝ} {C N : ℝ}
+    (hi : CollisionInputs f g h C N) (hd : 2 ≤ d) (k : Mom d) :
+    collisionTerm 0 f g h k = collisionTerm 0 h g f k := by
+  have he : (fun a x => collisionKernel 0 f g h k x a) =
+      collisionKernel 0 h g f k := by
+    funext a x
+    simp only [collisionKernel]
+    rw [show k + x + a = k + a + x by abel]
+    ring
+  have hr := (collisionInputs_reverse hi).deltaKernel hd 0 k
+  rw [← he] at hr
+  exact (deltaInt_swap_of_decay (hi.deltaKernel hd 0 k) hr (by omega)).trans
+    (congrArg deltaInt he)
+
+/-- The two asymmetric loss terms differ by reversing the inputs, as in
+TARGET (C.2), (C.4) and research-note §0. -/
+theorem collisionTerm_three_eq_one_reverse {f g h : Mom d → ℝ} {C N : ℝ}
+    (hi : CollisionInputs f g h C N) (hd : 2 ≤ d) (k : Mom d) :
+    collisionTerm 3 f g h k = collisionTerm 1 h g f k := by
+  have he : (fun a x => collisionKernel 3 f g h k x a) =
+      collisionKernel 1 h g f k := by
+    funext a x
+    simp only [collisionKernel]
+    rw [show k + x + a = k + a + x by abel]
+    ring
+  have hr := (collisionInputs_reverse hi).deltaKernel hd 1 k
+  rw [← he] at hr
+  exact (deltaInt_swap_of_decay (hi.deltaKernel hd 3 k) hr (by omega)).trans
+    (congrArg deltaInt he)
+
 end WaveTurbulence.WKEL2
