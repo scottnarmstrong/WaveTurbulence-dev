@@ -439,3 +439,34 @@ conventions rather than changes to the asymptotic claim.
 All six annulus-elementary axiom probes passed, each with only
 `[propext, Classical.choice, Quot.sound]`. The module-shape check passes
 for all 45 owned Lean files currently present.
+
+## Goal 3: estcross density and separable-counting milestone
+
+Files: `Counting/DenseStrip.lean`, `DenseProductStrip.lean`, `LatticeBox.lean`,
+`FiniteFibers.lean`, `LinearStrip.lean`, `SeparableStrips.lean`.
+
+The planar short-relation pigeonhole step is proved with explicit constants:
+if a strip has at least `L/theta` samples, `L >= 16*theta`, the first coefficient
+has absolute value greater than `2*rho` and dominates the second, then there
+is an actual nonzero second integer coefficient of magnitude at most `8*theta`,
+a first coefficient of magnitude at most `9*theta`, and linear error at most
+`2*rho`. The higher-dimensional product version proves the coordinate-fixing
+step via actual finite fibers, with theta enlarged by `3^d` for `d` remaining
+coordinates. No planar density is assumed without proving it from the full
+family's density.
+
+Integer boxes have proved cardinal bound `(2L+1)^d`, uniformly in real centers.
+One-dimensional linear strips have bound `2*rho/abs a + 1` and, when the
+coefficient is dominated by the width, `3*rho/abs a`. The independent pair
+of linear constraints is counted after fixing the other coordinates in
+`card_separable_strips_le`. These are generic geometric/counting helpers;
+they do not stand in for the source `estcross` theorem. Summing over short
+relations and discharging their witnesses for the full exceptional set remain.
+
+Checks: targeted `DenseProductStrip` build passed (9061 jobs, final own file
+8.6s); targeted `SeparableStrips` build passed (9060 jobs, final own file 3.3s).
+All supporting files compile without warnings, default budgets. No new source
+erratum or deviation has been found.
+
+The five estcross-ingredient axiom probes passed, all with only
+`[propext, Classical.choice, Quot.sound]`.
