@@ -125,3 +125,9 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   somewhere; check against DH21 §11 (part of F26). Source: wt-orch figure-defs §7. Status: open.
 - F40 — Cutting at an atom with a self-loop (paired siblings) is ambiguous (TARGET L2118–L2127); encode molecules with
   half-edges. (II-a) vs (II-b) is a labelling convention only. Source: wt-orch figure-defs §2, §4. Status: design notes.
+- F32 (update, wt-wke 2026-11-03) — failing step located: in GIT20 Lemma 4.2, inequality (bil7), the radial
+  Cauchy–Schwarz step becomes sup_p ∫₀^∞ ⟨rθ+p⟩^{-2s} r^{d−3} dr, which grows like R^{d−3} at p = −Rθ for d ≥ 4; Lemma
+  4.3(ii) transfers for 2s > d−2; Lemma 4.1 needs an unproved d-dimensional dispersive bound. Consequence: the frozen
+  `wkelwp` conjunct 3 (L²_s blow-up for every s > d/2−1, d ≥ 4) has no written proof. TARGET never uses the blow-up
+  criterion after Prop `wkelwp`; Theorem 1.1 (`main`) does not depend on it. Author decision pending; research agent
+  investigating the general-d estimate.
