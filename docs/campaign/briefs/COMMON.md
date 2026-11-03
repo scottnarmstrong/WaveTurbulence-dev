@@ -33,6 +33,8 @@ Working practice:
 - Definitions marked DRAFT below are the orchestrator's exact current drafts of source-facing definitions, pending
   author approval: copy them verbatim into the file named; if the approved version differs, the orchestrator will tell
   you and you adapt. Never change a DRAFT body yourself; if one looks wrong, say so in your handoff.
+- Namespaces: new declarations go in `WaveTurbulence.<Area>` (your packet area) or are `private`; never add helpers to the
+  bare `WaveTurbulence` namespace (landing duplicate scan; see AGENTS.md).
 - Docstrings: each main result names its source (`DH21 Lemma A.3 (L2808)` etc.).
 - Conventions are yours to decide: endpoint cases, constants, `log(2K)` vs `log K`, the exact form of an
   inequality's error term, carrier choices for your own (non-frozen) helpers. Choose, document it in the docstring and
