@@ -249,3 +249,37 @@ exited 0: this theorem, `exists_BProcess_negative`, and
 `norm_circle_selected_main_le` depend only on `propext`,
 `Classical.choice`, and `Quot.sound`. No general analytic closure of
 `IsExponentPair` under B is claimed.
+
+## Direct circle-family completion
+
+The approved direct-family route is now complete. `CircleErrorOptimization`
+chooses radius `U/F^(2/5)` and threshold `sqrt(mu)`, where `F=h*sqrt(R*U)`,
+and proves the full explicit error bound. `CircleScaleComparison` absorbs
+both error monomials; short intervals use `SecondDerivativeSum`, and the
+very-high-frequency regime uses the trivial sample count. `CircleSourceBound`
+therefore bounds the actual source sum without any free error parameters.
+`CircleIntegerSource` removes the natural-endpoint restriction by integer
+translation. `CircleEndpointBlock` handles exact clipped blocks, their first
+sample, both signs, and arbitrary real centers.
+
+`CircleCountingBridge.norm_sum_circle_endpoint_dyadic_le` directly supplies
+the exact landed `Counting.CircleEndpointTransfer` premise with
+`kappa=11/30`, `lambda=16/30`. The same file proves unconditional uniform
+translated closed-disc discrepancy and annulus bounds with exponent `27/41`.
+All constants are global numeric expressions; no cancellation estimates are
+assumed. The public `BProcess` aggregator imports this bridge.
+
+Validation: `nice -n 5 lake build WaveTurbulence.Foundations.VdCB.BProcess`
+completed successfully (9237 jobs), without warnings. Independent read-only
+statement review passed: exact closed counting interval, strict octant/lower
+block boundaries, closed upper block boundary, correct actual phase and
+uniform constant scope, no excess premises. This is not a frozen-manifest
+promotion and does not claim generic analytic `IsExponentPair` B-closure.
+
+Final axiom probe `CompletedCircleAxioms.lean` exited 0: all ten main
+exports (sharp Poisson, both stationary signs, negative B, optimized source,
+actual endpoint block, exact dyadic counting input, disc, annulus, trivial
+pair) use only `[propext, Classical.choice, Quot.sound]`. Merged main
+`430d637` with merge `e09211d`; post-merge `BProcess` build completed
+successfully (9237 jobs). `git diff main --check` passed; no forbidden
+proof placeholders or budget overrides were found. See `BPROC-HANDOFF.md`.

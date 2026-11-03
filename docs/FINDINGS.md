@@ -169,3 +169,15 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   B-process for the actual circle family and the exponent pair (11/30, 16/30), giving unconditional circle-problem
   discrepancy and annulus bounds with exponent 27/41 < 2/3. Huxley's 7/11 is not needed; DH23 Lemma A.2(2) can be proved
   with 27/41 (packet COUNT).
+- F48 — TARGET L2152 (`remtame`) — "some component contains exactly one atom adjacent to v" is used to conclude that all
+  labels incident to a removed tame atom v are fixed; false: explicit prime 4-tree garden counterexample (two residual
+  components, each with one atom adjacent to v but two opposite-oriented crossing bonds with equal labels that cancel in the
+  cut identity, so the label varies over ≳ L choices). Correction adopted: replace both occurrences by "exactly one bond
+  connecting the component to v" (the bridge criterion of DH21 Lemmas 9.13–9.14 and DH23 §10.5(4)); case (ii) negated
+  consistently. Found by wt-ansob (DEGEN), confirmed by its independent reviewer; write-up docs/research/erratum-remtame.md;
+  independent check by wt-orch pending. Status: candidate erratum (substantive; local fix).
+- F49 — TARGET Appendix A.2–A.3 proofs (L2370, L2392–L2394, L2417–L2419) — (i) the convolution step at L2370 (proofichi-2)
+  suppresses a logarithm (map Q13a); (ii) "a simple calculation yields" uniform low-frequency Fourier decay (weakdecay) is
+  false before localization; (iii) "bounded in Schwartz class ... uniformly in ξ and k" (timeintproof2-4) is false globally
+  (at Γ₁(k) = ξ the tail integral of χ² is nonzero). All three were repaired in the Lean proofs without changing the lemma
+  statements (beyond F42). Found by wt-anfourier (AN-PHASE-HY). Status: candidate errata (expository).

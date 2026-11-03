@@ -93,4 +93,48 @@ theorem norm_prod_sub_prod_le {ι R : Type*} [DecidableEq ι] [NormedCommRing R]
           _ = ∑ l ∈ s, ‖a l - b l‖ * ((‖a j‖ + ‖b j‖) * ∏ i ∈ s.erase l, (‖a i‖ + ‖b i‖)) := by
               rw [mul_sum]; exact sum_congr rfl fun _ _ => by ring
 
+theorem enorm_finset_prod {ι : Type*} (s : Finset ι) (b : ι → ℂ) :
+    ‖∏ i ∈ s, b i‖ₑ = ∏ i ∈ s, ‖b i‖ₑ := by
+  simp only [enorm, nnnorm_prod, ENNReal.ofNNReal_finsetProd]
+
+/-- The telescoping bound in extended nonnegative reals. -/
+theorem enorm_prod_sub_prod_le {ι : Type*} [DecidableEq ι] (s : Finset ι) (a b : ι → ℂ) :
+    ‖∏ i ∈ s, a i - ∏ i ∈ s, b i‖ₑ ≤
+      ∑ l ∈ s, ‖a l - b l‖ₑ * ∏ i ∈ s.erase l, (‖a i‖ₑ + ‖b i‖ₑ) := by
+  have h := norm_prod_sub_prod_le s a b
+  rw [← ofReal_norm]
+  calc ENNReal.ofReal ‖∏ i ∈ s, a i - ∏ i ∈ s, b i‖
+      ≤ ENNReal.ofReal (∑ l ∈ s, ‖a l - b l‖ * ∏ i ∈ s.erase l, (‖a i‖ + ‖b i‖)) :=
+        ENNReal.ofReal_le_ofReal h
+    _ = _ := by
+        rw [ENNReal.ofReal_sum_of_nonneg fun l _ => mul_nonneg (norm_nonneg _)
+          (prod_nonneg fun _ _ => add_nonneg (norm_nonneg _) (norm_nonneg _))]
+        refine sum_congr rfl fun l _ => ?_
+        rw [ENNReal.ofReal_mul (norm_nonneg _), ofReal_norm,
+          ENNReal.ofReal_prod_of_nonneg fun _ _ => add_nonneg (norm_nonneg _) (norm_nonneg _)]
+        congr 1
+        refine prod_congr rfl fun i _ => ?_
+        rw [ENNReal.ofReal_add (norm_nonneg _) (norm_nonneg _), ofReal_norm, ofReal_norm]
+
+/-- Expansion of a product of sums, minus its leading term. -/
+theorem enorm_prod_add_sub_prod_le {ι : Type*} [Fintype ι] [DecidableEq ι] (a b : ι → ℂ) :
+    ‖∏ i, (a i + b i) - ∏ i, a i‖ₑ ≤
+      ∑ F ∈ (univ : Finset ι).powerset.erase ∅, (∏ i ∈ F, ‖b i‖ₑ) * ∏ i ∈ univ \ F, ‖a i‖ₑ := by
+  have hexp : ∏ i, (a i + b i) = ∑ F ∈ (univ : Finset ι).powerset,
+      (∏ i ∈ F, b i) * ∏ i ∈ univ \ F, a i := by
+    rw [← prod_add (f := b) (g := a)]
+    exact prod_congr rfl fun i _ => add_comm _ _
+  have h0 : (∏ i ∈ (∅ : Finset ι), b i) * ∏ i ∈ univ \ ∅, a i = ∏ i, a i := by simp
+  rw [hexp, ← sum_erase_add _ _ (empty_mem_powerset _), h0, add_sub_cancel_right]
+  refine (enorm_sum_le _ _).trans (sum_le_sum fun F _ => ?_)
+  rw [enorm_mul, enorm_finset_prod, enorm_finset_prod]
+
+/-- A product of sums, expanded. -/
+theorem prod_enorm_add_le {ι : Type*} [Fintype ι] [DecidableEq ι] (a b : ι → ℂ) :
+    ∏ i, ‖a i + b i‖ₑ ≤
+      ∑ F ∈ (univ : Finset ι).powerset, (∏ i ∈ F, ‖b i‖ₑ) * ∏ i ∈ univ \ F, ‖a i‖ₑ := by
+  calc ∏ i, ‖a i + b i‖ₑ ≤ ∏ i, (‖b i‖ₑ + ‖a i‖ₑ) :=
+        Finset.prod_le_prod fun i _ => (enorm_add_le _ _).trans (le_of_eq (add_comm _ _))
+    _ = _ := prod_add _ _ _
+
 end WaveTurbulence.ApproxNT
