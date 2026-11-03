@@ -62,6 +62,11 @@ theorem denseRange_weightedJetCoreInclusion (s : ℝ) (m : ℕ) :
     𝓢(Mom d, ℝ) →L[ℝ] WeightedSobolevSpace d s m :=
   (weightedJetCoreInclusion s m).toContinuousLinearMap.comp (weightedJetCoreCLM s m)
 
+/-- The Schwartz embedding is the canonical inclusion applied to its core representative. -/
+theorem schwartzToWeightedSobolevCLM_eq_inclusion (s : ℝ) (m : ℕ) (f : 𝓢(Mom d, ℝ)) :
+    schwartzToWeightedSobolevCLM s m f =
+      weightedJetCoreInclusion s m (weightedJetCoreEquiv s m f) := rfl
+
 /-- Schwartz density is part of the completion construction, not an additional assumption. -/
 theorem denseRange_schwartzToWeightedSobolevCLM (s : ℝ) (m : ℕ) :
     DenseRange (schwartzToWeightedSobolevCLM (d := d) s m) := by
@@ -80,5 +85,16 @@ theorem norm_schwartzToWeightedSobolevCLM (s : ℝ) (m : ℕ) (f : 𝓢(Mom d, �
 /-- Recover the unique Schwartz representative of a core jet. -/
 @[expose] def weightedJetCoreDecode (s : ℝ) (m : ℕ) :
     WeightedJetCore d s m →ₗ[ℝ] 𝓢(Mom d, ℝ) := (weightedJetCoreEquiv s m).symm.toLinearMap
+
+/-- Decoding a core element recovers exactly its original weighted jet. -/
+theorem weightedJetCLM_coreDecode (s : ℝ) (m : ℕ) (u : WeightedJetCore d s m) :
+    weightedJetCLM s m (weightedJetCoreDecode s m u) = u.val := by
+  exact congrArg Subtype.val ((weightedJetCoreEquiv s m).apply_symm_apply u)
+
+/-- The core norm is precisely the finite weighted jet norm of its decoded function. -/
+theorem norm_weightedJetCLM_coreDecode (s : ℝ) (m : ℕ) (u : WeightedJetCore d s m) :
+    ‖weightedJetCLM s m (weightedJetCoreDecode s m u)‖ = ‖u‖ := by
+  rw [weightedJetCLM_coreDecode]
+  rfl
 
 end WaveTurbulence.WKEL2
