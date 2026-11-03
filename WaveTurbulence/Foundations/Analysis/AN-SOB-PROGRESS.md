@@ -71,3 +71,10 @@ The actual spectral operator is integrable and synthesizes to the cutoff oriente
 The complete envelope integral gains `⟨q⟩⁻¹` and has constant `12π` with output centres `0,q`.
 Targeted builds of `TimeSynthesisFubini` and `ResonantKernelEnvelope` pass without warnings.
 Still remaining: finite envelope assembly, tree induction and feasible endpoint/domain bridge.
+
+Checked finite-packet layer: `FrequencyEnvelope`, `EnvelopeConvolution`, `SpectralPacket`,
+`SmoothCutoffPacket`. Packet multiplication uses the actual convolution with added centres;
+time translation preserves weights; modulation translates centres; cutoff integration creates
+exactly the two endpoint choices. The leaf is the Fourier transform of the actual cutoff.
+Targeted `lake build WaveTurbulence.Foundations.Analysis.SmoothCutoffPacket` completed successfully
+(3243 jobs), without warnings. `norm_fourier_cutoff_le` is now public for this reuse.
