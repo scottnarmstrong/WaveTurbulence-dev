@@ -6,6 +6,7 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.NumberTheory.PhaseCalculus
+public import WaveTurbulence.Foundations.NumberTheory.DerivativeTests
 public import Mathlib.Analysis.Calculus.ContDiff.Deriv
 public import Mathlib.Analysis.Calculus.IteratedDeriv.Lemmas
 import Mathlib.Tactic
@@ -54,16 +55,5 @@ theorem iteratedDeriv_three_neg_comp_sub_const {f : ℝ → ℝ} (hf : ContDiff 
       (fun y => -deriv (deriv f) (D-y)) := funext (deriv_deriv_neg_comp_sub_const hf2 D)
   simp only [iteratedDeriv_succ,iteratedDeriv_zero]
   rw [heq,deriv_neg_comp_sub_const (hfdd.differentiable (by norm_num))]
-
-/-- Negating a real phase preserves the norm of its actual finite sum. -/
-theorem norm_sum_expPhase_neg {α : Type*} (s : Finset α) (f : α → ℝ) :
-    ‖∑ x ∈ s, expPhase (-f x)‖ = ‖∑ x ∈ s, expPhase (f x)‖ := by
-  have heq : (∑ x ∈ s, expPhase (-f x)) = starRingEnd ℂ (∑ x ∈ s, expPhase (f x)) := by
-    rw [map_sum]
-    apply Finset.sum_congr rfl
-    intro x _hx
-    exact (conj_expPhase (f x)).symm
-  rw [heq]
-  exact RCLike.norm_conj _
 
 end WaveTurbulence.NumberTheory

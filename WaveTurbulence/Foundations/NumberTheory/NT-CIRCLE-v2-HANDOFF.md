@@ -1181,3 +1181,13 @@ builds passed (3829/3586 jobs; final targets 17s/8.9s), without warnings.
 The BPROC direct pre-estimate is f613e01 on w/bproc and is not yet on main;
 its final optimized consumers are being checked in scratch pending landing.
 No new errata or deviations.
+
+## Landing duplicate correction
+
+Removed the duplicate public `norm_sum_expPhase_neg` from
+`ReflectedNegativePhase.lean`; that module now publicly imports the
+existing declaration from `DerivativeTests.lean`. The targeted
+`CircleSourceWindow` build, including the reflected calculus and short
+source consumers, passed (9188 jobs), without warnings. This fixes the
+orchestrator's duplicate-name landing report; the mathematical statement
+is unchanged. Continued directly with the actual circle endpoint transfer.
