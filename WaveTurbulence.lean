@@ -63,6 +63,9 @@ public import WaveTurbulence.Foundations.Analysis.TwoChainBound
 public import WaveTurbulence.Foundations.Analysis.UnitTimeCutoff
 public import WaveTurbulence.Foundations.Analysis.WeightedSobolev
 public import WaveTurbulence.Foundations.ApproxNT.AppCell
+public import WaveTurbulence.Foundations.ApproxNT.AppCellBound
+public import WaveTurbulence.Foundations.ApproxNT.AppExchange
+public import WaveTurbulence.Foundations.ApproxNT.AppRep
 public import WaveTurbulence.Foundations.ApproxNT.AppSplit
 public import WaveTurbulence.Foundations.ApproxNT.AppTools
 public import WaveTurbulence.Foundations.ApproxNT.Cell
@@ -73,6 +76,7 @@ public import WaveTurbulence.Foundations.ApproxNT.CellOps
 public import WaveTurbulence.Foundations.ApproxNT.CellSplit
 public import WaveTurbulence.Foundations.ApproxNT.Cells
 public import WaveTurbulence.Foundations.ApproxNT.Conclusion1
+public import WaveTurbulence.Foundations.ApproxNT.Conclusion2
 public import WaveTurbulence.Foundations.ApproxNT.Core
 public import WaveTurbulence.Foundations.ApproxNT.CoreBound
 public import WaveTurbulence.Foundations.ApproxNT.CoreTheorem
@@ -86,6 +90,7 @@ public import WaveTurbulence.Foundations.ApproxNT.Partition
 public import WaveTurbulence.Foundations.ApproxNT.PoissonPair
 public import WaveTurbulence.Foundations.ApproxNT.Products
 public import WaveTurbulence.Foundations.ApproxNT.Profile
+public import WaveTurbulence.Foundations.ApproxNT.Prop64
 public import WaveTurbulence.Foundations.ApproxNT.PsiOne
 public import WaveTurbulence.Foundations.ApproxNT.Statement
 public import WaveTurbulence.Foundations.ClassJR.Bump
