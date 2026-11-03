@@ -149,3 +149,7 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   inputs; equivalence of `IsWKESolution` with the Z_s mild solution; 𝒮 = ⋂ Z_{s,m}). **The frozen `wkelwp` stays
   unchanged; no owner decision needed.** Formalization: packet WKE-L2S. Erratum for the authors: GIT20 Remark 2.6 is
   unproved as written for d ≥ 4 (one radial Cauchy–Schwarz step fails; fixed by Theorem 7) and false for d = 2 (§8.3).
+- F42 — TARGET Lemma A.3 (L2380–L2420, `timeintlem2`) — the printed bound ‖𝒰_χF‖_{𝔛^{1/4,0,0}} ≲ ‖∂∂F‖_{L^∞_kL¹} is false for
+  arbitrary F (F ≡ 1: right side 0, while 𝒰_χF(t,0) = t²/2 on (0,1/2) for χ = χ₀); the proof uses smooth compactly
+  supported F, which is the class at the use site (T.pl1.S4). Lean statement takes that hypothesis. Found by wt-anfourier.
+  Status: candidate erratum (missing hypothesis).
