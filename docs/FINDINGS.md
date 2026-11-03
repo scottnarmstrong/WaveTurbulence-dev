@@ -94,3 +94,6 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   term should be "+" (deduced from the two-branch (disclattice) L2029). With Huxley's 7/11 the argument still works
   (split at Q = L^{99/80}: 63/80 < 4/5 − 10^{-4}). Also L2077 "with ρ ∼ L^{2−2γ}" should be Qρ ∼ L^{2−2γ}.
   Found by wt-nt. Status: candidate typos.
+- F32 — GIT20 Remark 2.6 (Kin8.tex L592–L594) — the d-dimensional trilinear estimate (s > (d−2)/2) is asserted without
+  proof; GIT20 proves only d = 3, and TARGET (L2516) relies on the remark for all d ≥ 3. Confirms F18. Under D1 the
+  d ≥ 4 case is new work in packet WKE. Source: wt-orch delta audit Q5. Status: gap (external).
