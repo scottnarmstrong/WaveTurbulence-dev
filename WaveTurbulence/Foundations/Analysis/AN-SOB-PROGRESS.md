@@ -86,3 +86,13 @@ feasible threshold. With nonnegative gaps (and zero leaf-edge gaps), feasible un
 with the cutoff tree with threshold lower endpoints. Targeted build of `FeasibleIntegrationTree`
 completed successfully (3246 jobs), without warnings. The source integral/resonance-product
 estimate still awaits the weight/cost identification and final assembly.
+
+Checked the assembled estimate `TreeIntegralBound.norm_causalValue_le_paper_choice_sum`:
+for a labelled ternary tree with nonnegative gaps, zero leaf gaps and `t∈[0,1]`,
+its actual causal integral with phase `2π i α s` is bounded by `C^n` times the
+binary-choice product sum with paper resonances `q=2*choiceResonance`.
+`TreeResonanceWeights`, `TreePacketCost`, `TreeChoices`, `FrequencyScale`,
+`FeasibleTreeChoices`, `RealTreeWeights`, `UnitTimeCutoff`, `TreeIntegralBound` all build;
+the final targeted build completed successfully (3254 jobs), without warnings.
+The pure choice carrier has one Boolean per branch and no cutoff/endpoints in its frequencies.
+A final source-convention wrapper using phase `π i α s` is being checked before handoff.
