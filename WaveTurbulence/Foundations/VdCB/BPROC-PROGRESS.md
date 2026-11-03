@@ -55,3 +55,15 @@ The shared interface and current tools now pass targeted `VdCB.Basic` (3808 jobs
 warnings. The scratch `BasicAxioms.lean` consumer exited 0; trivial pair, Euler summation,
 smooth Poisson, nonstationary bound and harmonic block bound all have only the standard
 three axioms. See `API.md` for the exact exported contracts and remaining closure work.
+
+Checked direct circle-family modules: `CircleDualCalculus`, `CircleDualBounds`,
+`CircleLegendre`, `CircleLatticeDual`. The actual stationary point solves the derivative
+equation, and its Legendre value is proved. The `u=R-n` shifted lattice is retained:
+the original integer-column dual is `R sqrt(h²+ν²)`, not `R(sqrt(h²+ν²)-ν)` when `R`
+is nonintegral. The linear correction changes no fifth derivative. On `[Y,2Y]`, `Y≥h>0`,
+its magnitude lies between `Rh²/(125Y⁶)` and `480Rh²/Y⁶`, with no small-perturbation
+hypothesis. These modules passed as dependencies of targeted `StationaryTools` checks;
+that aggregate target is still being repaired in its separate Gaussian-boundary dependency.
+Also checked: `MonotoneAmplitude` (uniform tail integration-by-parts estimate) and
+`GaussianPairing` (exact regularized Fourier identity for a Schwartz amplitude).
+No complete B-process or full finite-interval stationary-phase result is yet claimed.
