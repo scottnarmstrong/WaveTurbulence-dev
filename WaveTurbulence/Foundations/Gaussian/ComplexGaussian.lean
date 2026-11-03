@@ -6,6 +6,7 @@ Authors: Scott Armstrong
 module
 
 public import Mathlib.Probability.Distributions.Gaussian.Real
+import WaveTurbulence.Foundations.Gaussian.IsserlisPolynomial
 public import Mathlib.Probability.Independence.InfinitePi
 import Mathlib.MeasureTheory.Function.LpSeminorm.Prod
 import Mathlib.MeasureTheory.Function.LpSpace.Basic
@@ -115,5 +116,110 @@ theorem integral_norm_sq_stdComplexGaussian :
     simp [Complex.equivRealProd_symm_apply, pow_two]
   rw [he, integral_add hf hs, integral_prod _ hf, integral_prod _ hs]
   norm_num [integral_sq_halfGaussian]
+
+private lemma charFunDual_halfGaussian (L : StrongDual ℝ ℝ) :
+    charFunDual (gaussianReal 0 (1 / 2)) L = Complex.exp (- (L 1 : ℂ) ^ 2 / 4) := by
+  rw [charFunDual_eq_charFun_map_one, gaussianReal_map_continuousLinearMap]
+  simp only [charFun_gaussianReal, map_zero, Complex.ofReal_zero, Complex.ofReal_one,
+    one_pow, mul_one]
+  congr 1
+  simp only [NNReal.coe_mul, NNReal.coe_div, NNReal.coe_one,
+    Real.coe_toNNReal', max_eq_left (sq_nonneg (L 1))]
+  push_cast
+  ring
+
+/-- Characteristic function of the normalized complex Gaussian on the real dual. -/
+theorem charFunDual_stdComplexGaussian (L : StrongDual ℝ ℂ) :
+    charFunDual stdComplexGaussian L =
+      Complex.exp (- ((L 1 : ℂ) ^ 2 + (L Complex.I : ℂ) ^ 2) / 4) := by
+  rw [stdComplexGaussian]
+  change charFunDual (((gaussianReal 0 (1 / 2)).prod (gaussianReal 0 (1 / 2))).map
+    Complex.equivRealProdCLM.symm.toContinuousLinearMap) L = _
+  rw [charFunDual_map, charFunDual_prod, charFunDual_halfGaussian,
+    charFunDual_halfGaussian, ← Complex.exp_add]
+  congr 1
+  simp only [ContinuousLinearMap.comp_apply, ContinuousLinearEquiv.coe_coe,
+    ContinuousLinearMap.inl_apply, ContinuousLinearMap.inr_apply,
+    Complex.equivRealProdCLM_symm_apply]
+  norm_num
+  ring
+private lemma real_dual_complex (L : StrongDual ℝ ℂ) (z : ℂ) :
+    L z = z.re * L 1 + z.im * L Complex.I := by
+  have hz : z = z.re • (1 : ℂ) + z.im • Complex.I := by
+    simp [Complex.real_smul, Complex.re_add_im]
+  conv_lhs => rw [hz]
+  simp only [map_add, map_smul, smul_eq_mul]
+
+/-- Multiplication by a complex number of norm one preserves the law (DH21 Lemma A.2). -/
+theorem map_mul_stdComplexGaussian (c : ℂ) (hc : ‖c‖ = 1) :
+    stdComplexGaussian.map (fun z => c * z) = stdComplexGaussian := by
+  apply Measure.ext_of_charFunDual
+  funext L
+  change charFunDual (stdComplexGaussian.map (ContinuousLinearMap.mul ℝ ℂ c)) L = _
+  rw [charFunDual_map, charFunDual_stdComplexGaussian, charFunDual_stdComplexGaussian]
+  have hn : c.re ^ 2 + c.im ^ 2 = 1 := by
+    calc
+      _ = Complex.normSq c := by simp only [Complex.normSq_apply, pow_two]
+      _ = ‖c‖ ^ 2 := Complex.normSq_eq_norm_sq c
+      _ = 1 := by rw [hc]; norm_num
+  have he : (L (c * 1)) ^ 2 + (L (c * Complex.I)) ^ 2 = (L 1) ^ 2 + (L Complex.I) ^ 2 := by
+    rw [real_dual_complex L (c * 1), real_dual_complex L (c * Complex.I)]
+    simp only [mul_one, Complex.mul_re, Complex.mul_im, Complex.I_re, Complex.I_im,
+      mul_zero, mul_one, zero_sub]
+    calc
+      _ = (c.re ^ 2 + c.im ^ 2) * ((L 1) ^ 2 + (L Complex.I) ^ 2) := by ring
+      _ = _ := by rw [hn, one_mul]
+  congr 1
+  simp only [ContinuousLinearMap.comp_apply]
+  norm_cast
+  change -(L (c * 1) ^ 2 + L (c * Complex.I) ^ 2) / 4 = _
+  rw [he]
+
+/-- Circular symmetry of the normalized complex Gaussian. -/
+theorem map_rotation_stdComplexGaussian (θ : ℝ) :
+    stdComplexGaussian.map (fun z => Complex.exp (θ * Complex.I) * z) =
+      stdComplexGaussian := by
+  apply map_mul_stdComplexGaussian
+  simp
+
+/-- Mixed moments of the centered normalized complex Gaussian (DH21 Lemma A.2).
+In particular the covariance is one and all unbalanced moments vanish. -/
+theorem integral_monomial_stdComplexGaussian (a b : ℕ) :
+    (∫ z : ℂ, z ^ a * star z ^ b ∂stdComplexGaussian) =
+      if a = b then (a.factorial : ℂ) else 0 := by
+  rw [stdComplexGaussian, integral_map measurable_complexFromPair.aemeasurable (by fun_prop)]
+  have h := ComplexGaussianPolynomial.expectation_mixed a b
+  change (∫ x : ℝ × ℝ,
+    MvPolynomial.eval (fun j : Fin 2 => if j = 0 then (x.1 : ℂ) else (x.2 : ℂ))
+      (ComplexGaussianPolynomial.coordinate ^ a * ComplexGaussianPolynomial.conjugateCoordinate ^ b)
+      ∂((gaussianReal 0 (1 / 2)).prod (gaussianReal 0 (1 / 2)))) = _ at h
+  rw [← h]
+  apply integral_congr_ae
+  exact Filter.Eventually.of_forall fun x => by
+    simp [ComplexGaussianPolynomial.coordinate, ComplexGaussianPolynomial.conjugateCoordinate,
+      Complex.equivRealProd_symm_apply, mul_comm, sub_eq_add_neg]
+
+/-- DH21 Lemma A.2's scalar moment identity for a variable with the specified law. -/
+theorem integral_monomial_of_hasLaw_stdComplexGaussian {Ω : Type*} [MeasurableSpace Ω]
+    {P : Measure Ω} {g : Ω → ℂ} (hg : HasLaw g stdComplexGaussian P) (a b : ℕ) :
+    (∫ ω, g ω ^ a * star (g ω) ^ b ∂P) =
+      if a = b then (a.factorial : ℂ) else 0 := by
+  have h := hg.integral_comp (f := fun z : ℂ => z ^ a * star z ^ b) (by fun_prop)
+  exact h.trans (integral_monomial_stdComplexGaussian a b)
+
+/-- Integrability of mixed monomials transfers along the complex Gaussian law. -/
+theorem integrable_monomial_of_hasLaw_stdComplexGaussian {Ω : Type*} [MeasurableSpace Ω]
+    {P : Measure Ω} {g : Ω → ℂ} (hg : HasLaw g stdComplexGaussian P) (a b : ℕ) :
+    Integrable (fun ω => g ω ^ a * star (g ω) ^ b) P :=
+  hg.integrable_comp (integrable_monomial_stdComplexGaussian a b)
+
+/-- Rotation of any variable with the normalized complex Gaussian law preserves its law. -/
+theorem hasLaw_rotation_stdComplexGaussian {Ω : Type*} [MeasurableSpace Ω]
+    {P : Measure Ω} {g : Ω → ℂ} (hg : HasLaw g stdComplexGaussian P) (θ : ℝ) :
+    HasLaw (fun ω => Complex.exp (θ * Complex.I) * g ω) stdComplexGaussian P := by
+  have hr : HasLaw (fun z : ℂ => Complex.exp (θ * Complex.I) * z)
+      stdComplexGaussian stdComplexGaussian :=
+    ⟨by fun_prop, map_rotation_stdComplexGaussian θ⟩
+  exact hr.comp hg
 
 end WaveTurbulence
