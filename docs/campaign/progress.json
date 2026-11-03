@@ -1,5 +1,5 @@
 {
- "assessed": "2026-11-04 00:05 UTC",
+ "assessed": "2026-11-04 00:20 UTC",
  "notes": "Lean work items = blueprint packets (docs/blueprint/GRAPH.md §E) with their difficulty weights (node weights L=1, M=2, H=4, VH=8 summed). Each frozen theorem anchor adds weight 1, credited when SEALED. Done fractions are the orchestrator's assessment, reviewed at integration rounds.",
  "lines_est_total": 273000,
  "parts": [
@@ -117,8 +117,8 @@
      "goal": "a-system LWP/persistence, inverse reduction, uniqueness of smooth solutions",
      "weight": 9.0,
      "lines_est": 3200,
-     "done": 0.9,
-     "note": "landed: LWP/persistence, inverse reduction, uniqueness"
+     "done": 1.0,
+     "note": "done: LWP/persistence, inverse reduction, uniqueness; NLS bridge helpers landed (4639fe2)"
     },
     {
      "id": "B3",
@@ -126,8 +126,8 @@
      "goal": "measurability, bridge, symmetries, gaugeinv",
      "weight": 10.0,
      "lines_est": 3000,
-     "done": 0.95,
-     "note": "measurability, symmetries, MAIN-GLUE observables"
+     "done": 1.0,
+     "note": "done: nlsAkBridge (all 4 conjuncts) proved at the exact snapshot-5 type (scratch, wt-l2s); moves to Foundations at the Wave B freeze"
     },
     {
      "id": "NT9",
@@ -784,7 +784,7 @@
      "weight": 3.0,
      "lines_est": 860,
      "done": 0.8,
-     "note": "main proved conditionally on propansatz + nlsAkBridge (main_of_propansatz_nlsAkBridge); glue G1–G11 done"
+     "note": "main proved from propansatz + nlsAkBridge; nlsAkBridge now proved (scratch) — main rests on propansatz alone"
     }
    ]
   },
