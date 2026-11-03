@@ -33,11 +33,11 @@ private theorem source_first_sq {R h u : ℝ} (hR : 0 < R) (hu : u ∈ Ioo 0 R) 
     Real.sq_sqrt (by nlinarith only [hR, hu.1, hu.2])]
 
 /-- Exact squared dual-frequency comparison on a dyadic block. -/
-theorem circleSourceFirst_sq_bounds {R h U u : ℝ} (hU : 0 < U) (hUR : 6 * U ≤ R)
-    (hu : u ∈ Icc U (2 * U)) :
+theorem circleSourceFirst_sq_bounds_of_arc {R h U u : ℝ} (hU : 0 < U) (hUR : 3 * U ≤ R)
+    (hu : u ∈ Icc U (2 * U)) (hu3 : 3 * u ≤ R) :
     h ^ 2 * R / (9 * U) ≤ (circleSourceFirst R h u) ^ 2 ∧
       (circleSourceFirst R h u) ^ 2 ≤ h ^ 2 * R / U := by
-  have hR : 0 < R := (by positivity : 0 < 6 * U).trans_le hUR
+  have hR : 0 < R := (by positivity : 0 < 3 * U).trans_le hUR
   have huarc : u ∈ Ioo 0 R := ⟨hU.trans_le hu.1, by linarith [hu.2]⟩
   have hD : 0 < 2 * R * u - u ^ 2 := by nlinarith only [hR, huarc.1, huarc.2]
   have hDlo : R * U ≤ 2 * R * u - u ^ 2 := by
@@ -51,7 +51,7 @@ theorem circleSourceFirst_sq_bounds {R h U u : ℝ} (hU : 0 < U) (hUR : 6 * U �
   constructor
   · apply (div_le_div_iff₀ (by positivity : 0 < 9 * U) hD).mpr
     have hlo : (2 * R / 3) ^ 2 ≤ (R - u) ^ 2 :=
-      pow_le_pow_left₀ (by positivity) (by linarith [hu.2]) 2
+      pow_le_pow_left₀ (by positivity) (by linarith only [hu3]) 2
     have h1 := mul_le_mul_of_nonneg_left hDhi hR.le
     have h2 := mul_le_mul_of_nonneg_left hlo (by positivity : 0 ≤ 9 * U)
     have hbase : R * (2 * R * u - u ^ 2) ≤ (9 * U) * (R - u) ^ 2 := by
@@ -64,6 +64,14 @@ theorem circleSourceFirst_sq_bounds {R h U u : ℝ} (hU : 0 < U) (hUR : 6 * U �
     have h2 := mul_le_mul_of_nonneg_left hDlo hR.le
     have hbase : (R - u) ^ 2 * U ≤ R * (2 * R * u - u ^ 2) := by nlinarith only [h1, h2]
     convert mul_le_mul_of_nonneg_left hbase (sq_nonneg h) using 1 <;> ring
+
+/-- The full dyadic-block version follows from `6U≤R`. -/
+theorem circleSourceFirst_sq_bounds {R h U u : ℝ} (hU : 0 < U) (hUR : 6 * U ≤ R)
+    (hu : u ∈ Icc U (2 * U)) :
+    h ^ 2 * R / (9 * U) ≤ (circleSourceFirst R h u) ^ 2 ∧
+      (circleSourceFirst R h u) ^ 2 ≤ h ^ 2 * R / U := by
+  exact circleSourceFirst_sq_bounds_of_arc hU (by linarith only [hUR, hU]) hu
+    (by linarith only [hUR, hu.2])
 
 /-- Only a fixed number of dual dyadic blocks is needed for one source block. -/
 theorem circleSourceFirst_U_le_three_twoU {R h U : ℝ} (hU : 0 < U)

@@ -230,3 +230,22 @@ Combined `BProcess` target passed (3927 jobs); the four-result
 Source-scale conversion and the remaining B-error estimates are in progress;
 no final circle source-frequency bound or general analytic exponent-pair
 closure is asserted yet.
+
+## Actual source estimate with explicit errors
+
+`CircleBPreEstimate.norm_sum_circleColumnPhase_le_BScale_add_error`
+now combines the actual negative-curvature B-process, explicit critical
+point identification, octant frequency comparisons, and the landed
+A-process bound. It bounds the actual translated circle source sum by
+`154618822665 * circleBScale R h U + circleBError R h U r t`.
+The radius and splitting threshold are free positive numbers; absorbing
+the explicit errors and exposing the integer-block counting interface
+remain work in progress. Clipped octant blocks are covered without
+assuming that their full ambient dyadic block lies in the octant.
+
+Checked: `nice -n 5 lake build WaveTurbulence.Foundations.VdCB.CircleBPreEstimate`
+completed successfully (3929 jobs). Scratch `SourceBProcessAxioms.lean`
+exited 0: this theorem, `exists_BProcess_negative`, and
+`norm_circle_selected_main_le` depend only on `propext`,
+`Classical.choice`, and `Quot.sound`. No general analytic closure of
+`IsExponentPair` under B is claimed.
