@@ -596,3 +596,18 @@ Its circle exponent is exactly `35/53`, with gap `1/159` below `2/3`.
 The numerical DH23 critical-gamma branch optimization gives `63/79`, a gain
 `1/395` below `4/5`, splitting at `q=477/395`. These numerical comparisons
 are separate from the still-required proof and application of the pair.
+
+## Quantitative A-process side
+
+`NumberTheory/AProcessBounds.lean` reduces the actual integer-window Weyl
+inequality to `2*N^2/H+4*N*A*H^kappa`, chooses the integer cutoff `floor X`,
+and proves norm at most `3*N/sqrt X` under the explicit balancing condition.
+`AProcessOptimization.lean` proves the scalar A-coordinate transformation
+`(kappa/(2*kappa+2),(kappa+lambda+1)/(2*kappa+2))`, with coefficient
+`Y^kappa*N^(lambda-kappa)`, in the explicitly stated balanced-cutoff regime.
+These are numerical helpers for actual finite differenced sums, with all
+cutoff restrictions visible. They do not claim the full shared phase-class
+A-closure theorem or define a second exponent-pair notion.
+Check: `nice -n 5 lake build
+WaveTurbulence.Foundations.NumberTheory.AProcessOptimization` passed (3263
+jobs, own-file builds 45s and 25s), no warnings or budget overrides.
