@@ -7,6 +7,7 @@ module
 
 public import WaveTurbulence.Foundations.Counting.CircleArc
 public import WaveTurbulence.Foundations.NumberTheory.Sawtooth
+public import WaveTurbulence.Frozen.Defs.LatticePoint
 public import Mathlib.Analysis.InnerProductSpace.PiL2
 public import Mathlib.Data.Int.Interval
 import Mathlib.Algebra.BigOperators.Group.Finset.Basic
@@ -63,10 +64,6 @@ theorem card_integerInterval_eq_sawtooth {l u : ℝ} (h : l ≤ u) :
     (integerInterval (c 1 - circleHeight R (c 0) x)
       (c 1 + circleHeight R (c 0) x)).map (columnEmbedding x)
 
-/-- Real Euclidean realization of an integer point. -/
-@[expose] noncomputable def latticePoint (n : Fin 2 → ℤ) : EuclideanSpace ℝ (Fin 2) :=
-  WithLp.toLp 2 fun i => (n i : ℝ)
-
 theorem mem_latticeDisc_iff_intervals (n : Fin 2 → ℤ) (c : EuclideanSpace ℝ (Fin 2)) (R : ℝ) :
     n ∈ latticeDisc c R ↔
       (n 0) ∈ integerInterval (c 0 - R) (c 0 + R) ∧
@@ -109,11 +106,11 @@ private theorem sum_sq_le_iff {x y R : ℝ} (hR : 0 ≤ R) :
 /-- The enumeration includes exactly the integer points of the closed
 Euclidean disc, for an arbitrary real center and nonnegative radius. -/
 theorem mem_latticeDisc {n : Fin 2 → ℤ} {c : EuclideanSpace ℝ (Fin 2)} {R : ℝ}
-    (hR : 0 ≤ R) : n ∈ latticeDisc c R ↔ ‖latticePoint n - c‖ ≤ R := by
-  have hnorm : ‖latticePoint n - c‖ ^ 2 =
+    (hR : 0 ≤ R) : n ∈ latticeDisc c R ↔ ‖WaveTurbulence.latticePoint 1 n - c‖ ≤ R := by
+  have hnorm : ‖WaveTurbulence.latticePoint 1 n - c‖ ^ 2 =
       ((n 0 : ℝ) - c 0) ^ 2 + ((n 1 : ℝ) - c 1) ^ 2 := by
     rw [EuclideanSpace.real_norm_sq_eq]
-    simp [latticePoint, Fin.sum_univ_two]
+    simp [WaveTurbulence.latticePoint, Fin.sum_univ_two]
   rw [← sq_le_sq₀ (norm_nonneg _) hR, hnorm, sum_sq_le_iff hR]
   rw [mem_latticeDisc_iff_intervals]
   simp only [mem_integerInterval, abs_le, circleHeight]

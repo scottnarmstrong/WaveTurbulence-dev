@@ -1,6 +1,6 @@
 # NT-CIRCLE-v2 progress and handoff
 
-Goal 1 complete. Goals 2–5 remain open; no circle discrepancy, annulus count,
+Goal 1 complete. Goal 2 is incomplete; goals 3–5 have not been started. No circle discrepancy, annulus count,
 `estcross`, B-process, or improved exponent-pair theorem is claimed.
 The earlier numerical obstruction and handoff remain valid.
 
@@ -231,3 +231,107 @@ The next missing steps are the exact disjoint integer-block covering (including
 the endpoint discarded to meet the derivative test's extra endpoint) and the
 height-sum/area comparison. The global uniform circle bound remains unproved;
 goals 3–5 have not been claimed complete.
+
+## Final goal-2 progress: global sawtooth estimate, area comparison open
+
+Integration: after the orchestrator's landing notice, committed the optimized
+block milestone as `6e8de12`, then ran `git merge main`. Merge `2f0477f` includes
+main `00d139a`, without conflicts. Read the updated COMMON, D6, and findings.
+`LatticeDisc.lean` now imports the sealed frozen definition and characterizes
+membership using **`WaveTurbulence.latticePoint 1 n`**. Its former local unit
+embedding was removed; no frozen declaration was edited. All new changes are
+inside the packet's owned directories.
+
+The following additional steps are proved:
+
+- `Counting/MonotoneIntervals.lean`: an exact half-open height filter of a
+  monotone natural sequence on `(a,b]` is another natural interval.
+- `Counting/DyadicBlocks.lean`: existence and uniqueness of the dyadic height
+  index, the exact finite-sum partition into low heights and disjoint blocks,
+  `sum_{j<J} R/2^(j+1) <= R`, and a terminal cutoff in `[r^2,2r^2)` for radius `r^3`.
+- `Counting/CircleBlockIntervals.lean`: the actual filtered integer block has
+  sawtooth sum at most `323H/r`. Its last point is included separately, so the
+  derivative test's extra real endpoint is fully accounted for.
+- `Counting/CircleLowHeights.lean`: low-height columns have cardinality at most
+  `L^2/R+1`; at cutoff `L<=2r^2`, their sawtooth contribution is at most `3r^2`.
+- `Counting/CircleSemicircle.lean`: actual left and right semicircle sums are
+  bounded by `326r^2`, and their combined bound is `652r^2`.
+
+The complete strongest global statement is `circle_sawtooth_sum_le`:
+
+    forall {r c t d : R} {a b : N},
+      1 <= r -> c-r^3 <= a+1+t -> b+t <= c+r^3 ->
+      |sum_{k in Ioc a b} sawtooth(circleHeight (r^3) c (k+t) + d)| <= 652*r^2.
+
+There is no premise asserting any exponential sum, sawtooth estimate, count,
+or discrepancy bound. The four real parameters are arbitrary apart from
+the radius and geometric interval conditions. Reflection uses an exact
+permutation of the integer indices. Constants do not depend on either shift.
+
+Final focused successful checks (default budgets, sequential wt-throttled):
+
+    nice -n 5 lake build WaveTurbulence.Foundations.Counting.LatticeDisc
+    # Built Frozen.Defs.Mom (5.8s), Frozen.Defs.LatticePoint (3.0s),
+    # ...LatticeDisc (6.5s); completed successfully (9055 cached/project jobs).
+    nice -n 5 lake build WaveTurbulence.Foundations.Counting.MonotoneIntervals
+    # Built ...MonotoneIntervals (7.5s); completed successfully (3137 jobs).
+    nice -n 5 lake build WaveTurbulence.Foundations.Counting.DyadicBlocks
+    # Built ...DyadicBlocks (14s); completed successfully (3137 jobs).
+    nice -n 5 lake build WaveTurbulence.Foundations.Counting.CircleBlockIntervals
+    # Built ...CircleBlockIntervals (29s); completed successfully (3697 jobs).
+    nice -n 5 lake build WaveTurbulence.Foundations.Counting.CircleLowHeights
+    # Built ...CircleLowHeights (21s); completed successfully (3262 jobs).
+    nice -n 5 lake build WaveTurbulence.Foundations.Counting.CircleSemicircle
+    # Built ...CircleSemicircle (8.3s); completed successfully (3700 jobs).
+
+All final builds above have zero warnings. The newly compiled frozen modules
+are sealed definitions, not draft theorems/providers. No Mathlib module was
+compiled, no root build was run, and no dependency artifacts were deleted.
+
+    nice -n 5 lake env lean /home/scott/wt-scratch/nt-circle/GlobalArcAxioms.lean
+    # exit 0; /home/scott/wt-scratch/nt-circle/global-arc-axioms.log
+
+Eight axiom checks cover filtered blocks, low heights, exact dyadic partition,
+cutoff existence, left/right/global arc sums, and the canonical disc membership
+characterization. Every check reports exactly
+`[propext, Classical.choice, Quot.sound]`. The probe also prints the two main
+statement types, confirming their geometric premises and canonical lattice use.
+
+The module checker passes for all 26 packet Lean files at the 1500-line cap.
+Whitespace checks are clean. A scan of the owned `.lean` files finds no
+`sorry`, `axiom`, `admit`, `unsafe`, `opaque`, or option overrides.
+
+### Exact remaining mathematical obligation and proposed route
+
+The circle discrepancy theorem has **not** been proved. After approximately an
+hour on goal 2, the remaining analytic estimate is the following uniform
+height-sum/area comparison, stated here as an obligation, not as a hypothesis
+of any claimed circle theorem:
+
+    exists C, forall r>=1 and c in R,
+      |2 * sum_{x in integerInterval (c-r^3) (c+r^3)} circleHeight (r^3) c x
+           - pi*r^6| <= C*r^2.
+
+The exact disc formula in `LatticeDisc.lean` already isolates this term and
+two sawtooth sums. The latter are controlled by the proved global arc estimate
+after reindexing the integer interval by naturals. That interval reindexing,
+the area estimate, and the final `Q=r^3` reparameterization still need to be
+installed in Lean; none is silently discharged by the local/global arc results.
+
+Proposed continuation: use a trapezoidal estimate on the truncated smooth
+arc, with the height cutoff of order `r^2`, and monotone endpoint estimates
+for the two tips. Mathlib's
+`MeasureTheory/Integral/IntervalIntegral/TrapezoidalRule.lean` has
+`trapezoidal_error_le` and `trapezoidal_error_le_of_c2`; the local derivative
+and dyadic geometry bounds needed to apply them are proved in this packet.
+The circular area integral can be obtained by scaling/translating Mathlib's
+`intervalIntegral.integral_sqrt_one_sub_sq` (check the exact export namespace
+when implementing). This is a proposed proof route, not a completed Lean proof.
+
+No new suspected source errata or counterexample to revision 2 was found.
+The deviation is a partial handoff at its goal-2 stop condition: goal 1 is done
+and committed; the substantial circle ingredients above are separate milestones.
+Goals 2–5 are not claimed done, and no improved discrepancy exponent is reported
+as proved. The old exponent audit remains a numerical audit, not goal 5.
+
+STOPPED nt-circle: goal 2 still needs the uniform height-sum/area estimate; goal 1 and the global sawtooth cancellation estimate are proved.
