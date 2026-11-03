@@ -30,6 +30,7 @@ SEALED: 0
 | wt-orch | Claude Opus / claude-1 | statement audits, blueprint review | [orch/BRIEF.md](docs/campaign/orch/BRIEF.md) |
 | wt-gauss-hc | Claude Opus / claude-10 | Gaussian hypercontractivity, large deviations (DH21 Lemma A.3) | [GAUSS-HC](docs/campaign/briefs/GAUSS-HC.md) |
 | wt-torus | Claude Opus / claude-14 | Fourier series on the torus | [TORUS-FOURIER](docs/campaign/briefs/TORUS-FOURIER.md) |
+| wt-wke | Claude Opus / claude-13 | collision operator, GIT20 trilinear estimate, Prop `wkelwp`, WKE Taylor bounds | [WKE](docs/campaign/briefs/WKE.md) |
 | wt-cumul | GPT-6.1-Sol low / codex-3 | complex Gaussians, Isserlis, cumulants | [CUMUL](docs/campaign/briefs/CUMUL.md) |
 | wt-nt | GPT-6.1-Sol low / codex-3 | circle problem (exponent 2/3), annulus counting | [NT-CIRCLE](docs/campaign/briefs/NT-CIRCLE.md) |
 
