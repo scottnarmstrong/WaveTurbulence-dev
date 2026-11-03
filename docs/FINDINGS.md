@@ -102,7 +102,9 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   d ≥ 4 case is new work in packet WKE. Source: wt-orch delta audit Q5. Status: gap (external).
 - F33 — TARGET L949 vs DH23 L1168 — regular-couple asymptotics are used for orders up to N_{p+1}^4 = (log L)^{C(𝔇)},
   but DH21/DH23 prove them only for n ≤ N³ = (log L)^{12} (`approxnt` with λ_j ≤ (log L)^4). Same nature as F15.
-  Gap: the extension must be proved. Source: blueprint GRAPH §F.2a (GAP.largeOrder).
+  Gap: the extension must be proved. Source: blueprint GRAPH §F.2a (GAP.largeOrder). wt-orch topology review I13: a
+  crude bound absorbed by δⁿ is not available (the trivial bound on K_Q loses ≈ L^γ per order), so the regular-couple
+  asymptotics must genuinely be extended to orders up to N_{p+1}^4 (route R14 decided).
 - F34 — Route: TARGET never uses Gaussian hypercontractivity; its large-deviation bounds (fixedest1–3) come from
   2P-th moments computed with the cumulant ansatz plus Chebyshev (L2306–L2335). Packet GAUSS-HC (DH21 Lemma A.3, done)
   is off-route; landed as infrastructure only. Source: blueprint GRAPH §F.2a, verified by the orchestrator.
@@ -123,3 +125,9 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   somewhere; check against DH21 §11 (part of F26). Source: wt-orch figure-defs §7. Status: open.
 - F40 — Cutting at an atom with a self-loop (paired siblings) is ambiguous (TARGET L2118–L2127); encode molecules with
   half-edges. (II-a) vs (II-b) is a labelling convention only. Source: wt-orch figure-defs §2, §4. Status: design notes.
+- F32 (update, wt-wke 2026-11-03) — failing step located: in GIT20 Lemma 4.2, inequality (bil7), the radial
+  Cauchy–Schwarz step becomes sup_p ∫₀^∞ ⟨rθ+p⟩^{-2s} r^{d−3} dr, which grows like R^{d−3} at p = −Rθ for d ≥ 4; Lemma
+  4.3(ii) transfers for 2s > d−2; Lemma 4.1 needs an unproved d-dimensional dispersive bound. Consequence: the frozen
+  `wkelwp` conjunct 3 (L²_s blow-up for every s > d/2−1, d ≥ 4) has no written proof. TARGET never uses the blow-up
+  criterion after Prop `wkelwp`; Theorem 1.1 (`main`) does not depend on it. Author decision pending; research agent
+  investigating the general-d estimate.
