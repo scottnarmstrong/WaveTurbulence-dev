@@ -376,3 +376,25 @@ The final discrepancy axiom probe `CircleDiscrepancyAxioms.lean` passed for
 both discrepancy forms, the actual integer height and sawtooth sums, and
 `mem_latticeDisc`: all have only `[propext, Classical.choice, Quot.sound]`.
 The module-shape check passes for all 33 owned Lean modules.
+
+## Goal 3: elementary geometry milestone (in progress)
+
+Files: `Counting/LatticeTriangle.lean`, `QuadraticStrip.lean`, `AnnulusLine.lean`.
+The thin-frame determinant criterion is proved by integrality of the doubled
+lattice-triangle area. Degenerate planar lattice sets have an injective
+coordinate projection, and nonvertical ones have the actual affine graph
+through two distinct points. Quadratic-strip counting handles both branches
+and proves `card_collinear_radial_annulus_le`: every collinear finite lattice
+subset of the actual radial annulus has at most `8*sqrt(Q*rho)` points when
+`0 <= rho <= Q` and `Q*rho >= 1`. Vertical lines, singletons and empty sets
+are included. This is the line-counting step of DH23 L2042, not yet the full
+elementary branch: its thin-section covering remains to be assembled.
+
+Checks: targeted `nice -n 5 lake build
+WaveTurbulence.Foundations.Counting.AnnulusLine` completed successfully
+(3216 jobs; final own-file build 34s), no warnings or budget overrides.
+No additional source defect or deviation was found. Goal 3 remains active;
+goals 4–5 are not claimed complete.
+
+The four main elementary-geometry axiom probes also passed, all with only
+`[propext, Classical.choice, Quot.sound]`.
