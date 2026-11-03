@@ -60,4 +60,27 @@ theorem frequency_decay_two (z : ℂ) (x y C : ℝ)
   have hz := mul_le_mul_of_nonneg_left hb (norm_nonneg z)
   nlinarith
 
+/-- Three-frequency specialization for the eight square-free directional moments. -/
+theorem frequency_decay_three (z : ℂ) (x y w C : ℝ)
+    (h0 : ‖z‖ ≤ C) (hx : |x| * ‖z‖ ≤ C) (hy : |y| * ‖z‖ ≤ C)
+    (hw : |w| * ‖z‖ ≤ C) (hxy : (|x| * |y|) * ‖z‖ ≤ C)
+    (hxw : (|x| * |w|) * ‖z‖ ≤ C) (hyw : (|y| * |w|) * ‖z‖ ≤ C)
+    (hxyw : (|x| * |y| * |w|) * ‖z‖ ≤ C) :
+    ‖z‖ ≤ 8 * C /
+      (Real.sqrt (1 + x ^ 2) * Real.sqrt (1 + y ^ 2) * Real.sqrt (1 + w ^ 2)) := by
+  have hp : 0 < Real.sqrt (1 + x ^ 2) * Real.sqrt (1 + y ^ 2) *
+      Real.sqrt (1 + w ^ 2) := by positivity
+  apply (le_div_iff₀ hp).mpr
+  have hxyb := mul_le_mul (japaneseBracket_le_one_add_abs x)
+    (japaneseBracket_le_one_add_abs y) (Real.sqrt_nonneg _) (by positivity : 0 ≤ 1 + |x|)
+  have hprod := mul_le_mul hxyb (japaneseBracket_le_one_add_abs w)
+    (Real.sqrt_nonneg _) (by positivity : 0 ≤ (1 + |x|) * (1 + |y|))
+  calc
+    _ ≤ ‖z‖ * ((1 + |x|) * (1 + |y|) * (1 + |w|)) :=
+      mul_le_mul_of_nonneg_left hprod (norm_nonneg _)
+    _ = ‖z‖ + |x| * ‖z‖ + |y| * ‖z‖ + |w| * ‖z‖ +
+        (|x| * |y|) * ‖z‖ + (|x| * |w|) * ‖z‖ + (|y| * |w|) * ‖z‖ +
+        (|x| * |y| * |w|) * ‖z‖ := by ring
+    _ ≤ _ := by linarith
+
 end WaveTurbulence.Fourier
