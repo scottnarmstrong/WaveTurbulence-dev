@@ -635,3 +635,10 @@ the full octant transfer is not yet claimed.
 
 The four circle/annulus transfer axiom probes passed with only
 `[propext, Classical.choice, Quot.sound]`.
+
+The next compiled octant ingredients are `CircleOctantGeometry.lean`
+(exact finite square/cap partition, central square product count, residual
+square correction <=1) and `CircleClippedHeight.lean` (exact subtraction of
+the central integer excess and clipped quadrature error <=15*sqrt(R)+4).
+The targeted `CircleOctantCounting` build compiled them in 68s each, without
+warnings. Subsequent cap-slice and assembly modules are being checked.
