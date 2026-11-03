@@ -244,3 +244,29 @@ and the uniform affine codimension-two decay integral. Spherical averaging,
 Tonelli square expansion, and full-sphere M₁ Schur pairing are explicit.
 These working files are not yet certified as built; no completion claim for
 Proposition 6, Proposition 7, full Theorem 7, or the blow-up theorem is made.
+
+## Proposition 6 active: geometry and spherical representation
+
+- `7d2e76b`: nonnegative weighted-square Tonelli expansion, orthogonality
+  almost everywhere on resonant measure, and the inverse-sine pairing algebra.
+- `31dd94b`: uniform affine codimension-two decay integral, nonnegative
+  scalar dilation/shear identities, sine-kernel symmetry and measurability,
+  and nullity of proper-subspace directions for spherical surface measure.
+- `a9711ea`: positive-ray density, two-axis volume coordinates and inner-product
+  identities, and the M₁ sine Schur energy bound.
+- `434acb4`: positive angular slicing, full-sphere sine mass estimate,
+  and identification of positive-ray samples with radial masses.
+- `8789fd2`: the null exceptional second-axis set and the extended
+  nonnegative codimension-two slice bound.
+- `8e3bf74`: spatial weighted Cauchy–Schwarz in the exact frozen norm.
+
+The spherical-average representation initially reached the default heartbeat
+budget. Warm profiles (`loss-one-spherical-before.log`, then focused traces
+and `loss-one-spherical-after5.log`, all in the scratch directory) located
+the cost in composing the joint integrand measurability theorem with a
+fixed-parameter embedding through the Euclidean-space/sphere coercions.
+A direct measurability proof from the continuous fixed-parameter sphere
+map passes. The warm `--profile -D profiler.threshold=1` source check exited
+0 with no warnings. Cumulative tactic execution fell from 11.7s (failure)
+to 247ms (passing); no heartbeat or other budget was changed. The complete
+`LossOneBound` target is being checked next; Proposition 6 is not yet closed.
