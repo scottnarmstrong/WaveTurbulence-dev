@@ -59,9 +59,9 @@
   "tmux": "wt-gausssum",
   "model": "GPT-6.1-Sol low",
   "account": "codex-3",
-  "branch": "w/minor-arcs",
-  "packet": "NT4+NT11+NT3: DH23 Lemma 6.6, TARGET Lemma 5.3 and lemcubic (HUA landed)",
-  "brief": "docs/campaign/briefs/MINOR-ARCS.md"
+  "branch": "w/count",
+  "packet": "NT7+NT8 COUNT: countLemma, atomCountLemma (DH23 A.2, A.3) (MINOR-ARCS done)",
+  "brief": "docs/campaign/briefs/COUNT.md"
  },
  {
   "tmux": "wt-resonant",
