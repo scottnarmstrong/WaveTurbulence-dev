@@ -6,7 +6,7 @@ Lean 4 formalization of
 > [arXiv:2311.10082v2](https://arxiv.org/abs/2311.10082) (2024).
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-11-03 22:57 UTC** · **estimated completion 36.0 %** (Lean proofs 33.6 %) · frozen theorems sealed: 1 / 2 (+ 13 frozen definitions) · **122,959 lines of Lean on main** (1163 files) + 3,098 unlanded on worker branches · blueprint estimate ≈ 273,000 lines
+> **Last updated: 2026-11-03 23:09 UTC** · **estimated completion 36.5 %** (Lean proofs 34.1 %) · frozen theorems sealed: 1 / 2 (+ 13 frozen definitions) · **122,959 lines of Lean on main** (1163 files) + 3,837 unlanded on worker branches · blueprint estimate ≈ 273,000 lines
 <!-- /AUTO:updated -->
 
 **Scope (D1):** everything proved in Lean, no black boxes. That covers the target paper and the results it uses from
@@ -32,20 +32,20 @@ DRAFT_IMPORT_VIOLATIONS: 0
 ## Progress
 
 <!-- AUTO:progress -->
-### Estimated completion: **36.0 %**
+### Estimated completion: **36.5 %**
 
-`███████████░░░░░░░░░░░░░░░░░░░` 36.0 %
+`███████████░░░░░░░░░░░░░░░░░░░` 36.5 %
 
 | Part of the project | Items | Weight | Done | Completion |
 |---|---|---|---|---|
 | Sources, paper maps, blueprint (P0–P1) | 1 | 30 | 27.0 | `█████████░` 90 % |
 | Exact Lean statements, frozen (P2) | 1 | 20 | 13.0 | `██████░░░░` 65 % |
-| Lean proofs (P4) | 85 | 681 | 228.7 | `███░░░░░░░` 34 % |
+| Lean proofs (P4) | 85 | 681 | 232.1 | `███░░░░░░░` 34 % |
 | Frozen theorems sealed | 2 | 2 | 1.0 | `█████░░░░░` 50 % |
 | Release (P5) | 1 | 15 | 0.0 | `░░░░░░░░░░` 0 % |
-| **Total** | | 748 | 269.6 | **36.0 %** |
+| **Total** | | 748 | 273.1 | **36.5 %** |
 
-Lean lines: 122,959 on main + 3,098 on branches, of ≈ 273,000 estimated by the blueprint (`█████████░░░░░░░░░░░` 46.2 % of the estimate).
+Lean lines: 122,959 on main + 3,837 on branches, of ≈ 273,000 estimated by the blueprint (`█████████░░░░░░░░░░░` 46.4 % of the estimate).
 
 <details><summary>All Lean work packets (blueprint §E) with weight and status</summary>
 
@@ -76,6 +76,7 @@ Lean lines: 122,959 on main + 3,098 on branches, of ≈ 273,000 estimated by the
 | WA | Wave A definitions | 5 | ≈230 | ✅ 100 % | frozen D6 |
 | B3 | NLS-C | 10 | ≈3,000 | 🟡 95 % | measurability, symmetries, MAIN-GLUE observables |
 | B2 | NLS-B | 9 | ≈3,200 | 🟡 90 % | landed: LWP/persistence, inverse reduction, uniqueness |
+| G0 | MOLE-COUNT-BASICS | 4 | ≈1,400 | 🟡 90 % | DEGEN done in scratch (DH21 Lemmas 9.13–9.14, DH23 §10.5, GAP.degenerate.tame, corrected remtame); moves to Foundations after the Wave B freeze |
 | D3 | CANON | 9 | ≈3,950 | 🟡 80 % | canonicalCharacterization proved (scratch, pre-freeze) |
 | Z1 | MAIN | 3 | ≈860 | 🟡 80 % | main proved conditionally on propansatz + nlsAkBridge (main_of_propansatz_nlsAkBridge); glue G1–G11 done |
 | D1 | COMB-CORE | 8 | ≈2,020 | 🟡 60 % | COMB-CORE API done (scratch, pre-freeze) |
@@ -88,7 +89,6 @@ Lean lines: 122,959 on main + 3,098 on branches, of ≈ 273,000 estimated by the
 | NT6 | APPROXNT | 12 | ≈6,200 | 🟡 15 % | APPROXNT in progress (wt-torus) |
 | I2 | INDUCT-B | 10 | ≈3,050 | 🟡 10 % | INDUCT |
 | M1 | MOLE | 15 | ≈4,900 | 🟡 10 % | MOLE started (scratch) |
-| G0 | MOLE-COUNT-BASICS | 4 | ≈1,400 | 🟡 5 % | DEGEN started |
 | C2 | LINKS | 11 | ≈3,000 | ⬜ 0 % |  |
 | C3 | SKELETON | 15 | ≈5,200 | ⬜ 0 % |  |
 | C4 | LAYERREG | 8 | ≈4,000 | ⬜ 0 % |  |
@@ -139,7 +139,7 @@ Lean lines: 122,959 on main + 3,098 on branches, of ≈ 273,000 estimated by the
 
 </details>
 
-Done fractions last reviewed: **2026-11-03 23:40 UTC**. Source: [`docs/campaign/progress.json`](docs/campaign/progress.json); history: [`docs/campaign/history.csv`](docs/campaign/history.csv).
+Done fractions last reviewed: **2026-11-04 00:05 UTC**. Source: [`docs/campaign/progress.json`](docs/campaign/progress.json); history: [`docs/campaign/history.csv`](docs/campaign/history.csv).
 <!-- /AUTO:progress -->
 
 ## Workers
@@ -147,17 +147,17 @@ Done fractions last reviewed: **2026-11-03 23:40 UTC**. Source: [`docs/campaign/
 <!-- AUTO:workers -->
 | tmux | model / account | packet | branch: last commit | brief |
 |---|---|---|---|---|
-| wt-orch | Claude Opus / claude-1 | audits: Task 12 seal audit wkelwp, Task 13 FLOWER redraft (done: Task 11 pre-freeze review) | `w/orch`: 2 min ago | [brief](docs/campaign/orch/TASK4.md) |
+| wt-orch | Claude Opus / claude-1 | audits: Task 12 seal audit wkelwp, Task 13 FLOWER redraft (done: Task 11 pre-freeze review) | `w/orch`: 14 min ago | [brief](docs/campaign/orch/TASK4.md) |
 | wt-gauss-hc | Claude Opus / claude-10 | O-FK (pre-freeze): flower kernel-operator identity for X2 (FLOWER redraft + B1.12 done, awaiting audit) | `w/waveb-infra`: — | [brief](docs/campaign/briefs/FLOWER.md) |
-| wt-torus | Claude Opus / claude-14 | NT6 APPROXNT: DH23 Prop 6.4 + large-order extension (F33) (NTSP done) | `w/approxnt`: 17 min ago | [brief](docs/campaign/briefs/APPROXNT.md) |
-| wt-wke | Claude Opus / claude-13 | JR-OPS: DH21 class J/R operators, Lemmas 5.3–5.8 (critical path; WKE + WKE-TAYLOR landed) | `w/jr-ops`: 6 min ago, 3 unlanded | [brief](docs/campaign/briefs/JR-OPS.md) |
+| wt-torus | Claude Opus / claude-14 | NT6 APPROXNT: DH23 Prop 6.4 + large-order extension (F33) (NTSP done) | `w/approxnt`: 29 min ago | [brief](docs/campaign/briefs/APPROXNT.md) |
+| wt-wke | Claude Opus / claude-13 | JR-OPS: DH21 class J/R operators, Lemmas 5.3–5.8 (critical path; WKE + WKE-TAYLOR landed) | `w/jr-ops`: 7 min ago, 5 unlanded | [brief](docs/campaign/briefs/JR-OPS.md) |
 | wt-cumul | GPT-6.1-Sol low / codex-3 | I1+I2 INDUCT (pre-freeze, conditional): propansatz from layergarden/fixedpoint/wkeTaylor; main assembly done | `w/norm-bridge`: 2 h ago | [brief](docs/campaign/briefs/INDUCT.md) |
-| wt-nt | GPT-6.1-Sol low / codex-3 | M1+M2 MOLE (pre-freeze): molecules, decorations, reconstruction, blocks, cuts, 𝔈/𝔄/𝔇𝔢𝔳 (circle e<2/3 done by wt-ansob) | `w/nt-circle`: 64 min ago | [brief](docs/campaign/briefs/MOLE.md) |
-| wt-ansob | GPT-6.1-Sol low / codex-3 | G0 DEGEN (pre-freeze): DH21 Lemmas 9.13–9.14, DH23 §10.5, GAP.degenerate.tame (F21) (BPROC: circle 27/41 done) | `w/bproc`: 85 min ago | [brief](docs/campaign/briefs/DEGEN.md) |
-| wt-gausssum | GPT-6.1-Sol low / codex-3 | M4 VINES (pre-freeze), then M9 VINEPARAM (COUNT done, landed) | `w/count`: 6 min ago | [brief](docs/campaign/briefs/VINES.md) |
+| wt-nt | GPT-6.1-Sol low / codex-3 | M1+M2 MOLE (pre-freeze): molecules, decorations, reconstruction, blocks, cuts, 𝔈/𝔄/𝔇𝔢𝔳 (circle e<2/3 done by wt-ansob) | `w/nt-circle`: 75 min ago | [brief](docs/campaign/briefs/MOLE.md) |
+| wt-ansob | GPT-6.1-Sol low / codex-3 | G6 MOLEPROP13 (pre-freeze): DH23 Props 10.1, 10.3, then G4 APPB-OPS (DEGEN done) | `w/bproc`: 11 min ago | [brief](docs/campaign/briefs/MOLEPROP13.md) |
+| wt-gausssum | GPT-6.1-Sol low / codex-3 | M4 VINES (pre-freeze), then M9 VINEPARAM (COUNT done, landed) | `w/count`: 6 min ago, 1 unlanded | [brief](docs/campaign/briefs/VINES.md) |
 | wt-resonant | GPT-6.1-Sol low / codex-3 | D4+C1 REG-STRUCT (pre-freeze): regular chains, DH21 Props 4.5–4.10, structure theorem, counting (COMB-CORE done in scratch) | `w/resonant`: 3 h ago | [brief](docs/campaign/briefs/REG-STRUCT.md) |
-| wt-anfourier | GPT-6.1-Sol low / codex-3 | V1+V2 SUMINT (pre-freeze): prove the Wave B statement sumint (N2+N3 done) | `w/an-phase`: 42 min ago | [brief](docs/campaign/briefs/SUMINT.md) |
-| wt-l2s | GPT-6.1-Sol low / codex-3 | NLS-BRIDGE (pre-freeze): prove the Wave B gate nlsAkBridge from the landed NLS theory (WKE-L2S done; wkelwp sealed) | `w/wke-l2s`: 0 min ago | [brief](docs/campaign/briefs/NLS-BRIDGE.md) |
+| wt-anfourier | GPT-6.1-Sol low / codex-3 | V1+V2 SUMINT (pre-freeze): prove the Wave B statement sumint (N2+N3 done) | `w/an-phase`: 54 min ago | [brief](docs/campaign/briefs/SUMINT.md) |
+| wt-l2s | GPT-6.1-Sol low / codex-3 | NLS-BRIDGE (pre-freeze): prove the Wave B gate nlsAkBridge from the landed NLS theory (WKE-L2S done; wkelwp sealed) | `w/wke-l2s`: 4 min ago, 3 unlanded | [brief](docs/campaign/briefs/NLS-BRIDGE.md) |
 <!-- /AUTO:workers -->
 
 ## Papers
