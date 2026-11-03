@@ -78,4 +78,11 @@ theorem mixedFourierNorm00_equiv {r : ℕ} {V W : Type*} (θ : ℝ) (e : V ≃ W
     exact e.iSup_comp (g := fun w => ‖timeFourier (fun t => F t w) ξ‖ₑ)
   · rfl
 
+/-- On momentum space, the restricted norm is the landed mixed restriction at orders zero. -/
+theorem mixedRestrictionNorm00_eq_mixedRestrictionNorm {r d : ℕ} (θ : ℝ)
+    (B : Set (Fin r → ℝ)) (K : Set (Mom d)) (F : B → K → ℂ) :
+    mixedRestrictionNorm00 θ B K F = mixedRestrictionNorm θ 0 0 B K F := by
+  unfold mixedRestrictionNorm00 mixedRestrictionNorm
+  simp only [mixedFourierNorm00_eq_mixedFourierNorm]
+
 end WaveTurbulence.Fourier
