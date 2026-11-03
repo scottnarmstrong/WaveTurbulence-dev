@@ -43,4 +43,21 @@ theorem mixedFourierNorm_zero_le_majorant {r d : ℕ}
       exact mul_le_mul_right (iSup_le (hb ξ)) _
     _ = _ := lintegral_mul_const M ((timeWeight_measurable θ).mul hB)
 
+/-- A majorant that already includes the time-frequency weight closes the mixed norm. -/
+theorem mixedFourierNorm_zero_le_weighted_majorant {r d : ℕ}
+    (θ : ℝ) {F : (Fin r → ℝ) → Mom d → ℂ}
+    (hF : ∀ k, Integrable (fun t => F t k))
+    {B : (Fin r → ℝ) → ℝ≥0∞} (hB : Measurable B) (M : ℝ≥0∞)
+    (hb : ∀ ξ k, timeWeight θ ξ * ‖mixedTimeFourier F ξ k‖ₑ ≤ B ξ * M) :
+    mixedFourierNorm θ 0 0 F ≤ (∫⁻ ξ, B ξ) * M := by
+  rw [mixedFourierNorm_zero_order θ 0 F hF]
+  calc
+    _ ≤ ∫⁻ ξ, B ξ * M := by
+      apply lintegral_mono
+      intro ξ
+      change timeWeight θ ξ * momentumSupNorm 0 (mixedTimeFourier F ξ) ≤ B ξ * M
+      rw [momentumSupNorm_zero, ENNReal.mul_iSup]
+      exact iSup_le (hb ξ)
+    _ = _ := lintegral_mul_const M hB
+
 end WaveTurbulence.Fourier

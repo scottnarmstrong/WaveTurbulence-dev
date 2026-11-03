@@ -34,6 +34,14 @@ theorem jointFrequencyEnvelope_nonneg (z : ℝ × ℝ) : 0 ≤ jointFrequencyEnv
   unfold jointFrequencyEnvelope
   positivity
 
+/-- Measurability of the explicit envelope. -/
+@[fun_prop] theorem jointFrequencyEnvelope_measurable : Measurable jointFrequencyEnvelope := by
+  have hp : Measurable (inverseBracketPower (9 / 8)) := by
+    unfold inverseBracketPower
+    fun_prop
+  unfold jointFrequencyEnvelope
+  fun_prop
+
 /-- The joint envelope is integrable over the two real frequency coordinates. -/
 theorem jointFrequencyEnvelope_integrable : Integrable jointFrequencyEnvelope := by
   have hbase := integrable_inverseBracketPower_product (p := (9 / 8 : ℝ))
