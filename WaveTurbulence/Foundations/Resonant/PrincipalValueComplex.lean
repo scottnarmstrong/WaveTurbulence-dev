@@ -20,7 +20,7 @@ public section
 
 open MeasureTheory Filter Topology
 
-namespace WaveTurbulence
+namespace WaveTurbulence.Resonant
 
 /-- Complex-valued finite truncation of `1/u`. -/
 @[expose] noncomputable def pvTruncationComplex (χ : ℝ → ℝ) (μ : ℝ) (f : ℝ → ℂ) : ℂ :=
@@ -54,4 +54,4 @@ theorem tendsto_pvTruncationComplex {χ : ℝ → ℝ} (hχ : IsPVCutoff χ)
   exact (hr'.add (hi'.mul_const Complex.I)).congr fun μ =>
     (pvTruncationComplex_eq_parts hχ hc hf μ).symm
 
-end WaveTurbulence
+end WaveTurbulence.Resonant

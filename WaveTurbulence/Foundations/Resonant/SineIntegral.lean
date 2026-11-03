@@ -22,7 +22,7 @@ public section
 open MeasureTheory Set
 open scoped Topology
 
-namespace WaveTurbulence
+namespace WaveTurbulence.Resonant
 
 /-- Dirichlet tail bound away from the singularity. -/
 theorem abs_integral_sin_div_le {a b : ℝ} (ha : 0 < a) (hab : a ≤ b) :
@@ -133,4 +133,4 @@ theorem abs_sinePrimitive_le (x : ℝ) : |sinePrimitive x| ≤ 3 := by
       _ ≤ 1 + 2 * (1 : ℝ)⁻¹ := add_le_add (hsmall 1 (by norm_num) le_rfl) hbound
       _ = 3 := by norm_num
 
-end WaveTurbulence
+end WaveTurbulence.Resonant

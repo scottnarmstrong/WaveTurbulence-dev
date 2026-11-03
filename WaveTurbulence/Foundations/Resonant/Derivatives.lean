@@ -22,7 +22,7 @@ public section
 open MeasureTheory Filter Topology
 open scoped InnerProductSpace
 
-namespace WaveTurbulence
+namespace WaveTurbulence.Resonant
 
 variable {d : ℕ}
 
@@ -86,4 +86,4 @@ theorem hasDerivAt_resonantIntegral_of_decay
     HasDerivAt (fun s => resonantIntegral (Ψ s) k) (resonantIntegral (Ψ' t) k) t :=
   hasDerivAt_deltaInt_of_decay hd hΨ hΨ' (fun u _ _ => hderiv u _ _ _) t
 
-end WaveTurbulence
+end WaveTurbulence.Resonant
