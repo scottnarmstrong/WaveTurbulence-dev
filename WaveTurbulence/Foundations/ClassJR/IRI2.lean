@@ -315,4 +315,365 @@ theorem lintegral_GRaa_ne_top (k : ℕ) : ∫⁻ q, GRaa k q ≠ ⊤ := by
 
 end TermI
 
+section TermII
+
+/-- The coupling of DH21 term II for Lemma 5.7: `kerM(x₀, q) Φ(x₁ - σ₁) χ_∞(x₂)/x₂`. -/
+@[expose] noncomputable def KRab (x : Fin 3 → ℝ) (q : ℝ × ℝ) : ℂ :=
+  prod3 (fun y => kerM y q) (fun y => phiR (y - q.1)) (fun y => (chiInvR y : ℂ)) x
+
+/-- The weight of term II: `2⟨x₀⟩^θ + ⟨x₁⟩^θ + 3⟨x₂⟩^θ + ⟨σ₁⟩`. -/
+@[expose] noncomputable def wRab (θ : ℝ) (x : Fin 3 → ℝ) (q : ℝ × ℝ) : ℝ≥0∞ :=
+  2 * (1 + ‖x 0‖ₑ) ^ θ + (1 + ‖x 1‖ₑ) ^ θ + 3 * (1 + ‖x 2‖ₑ) ^ θ + (1 + ‖q.1‖ₑ)
+
+/-- The constant of `gamma_KRab_le`. -/
+@[expose] noncomputable def NRab (θ : ℝ) : ℝ := D3 θ * (16 * (16 * (CkM * IM)) * CPhi * CPhi)
+
+theorem contDiff_KRab (q : ℝ × ℝ) : ContDiff ℝ ∞ fun x => KRab x q :=
+  contDiff_prod3 (contDiff_kerM _) (contDiff_phiR_sub _) contDiff_chiInvRc
+
+theorem wRab_le {θ : ℝ} (h0 : 0 ≤ θ) (h1 : θ ≤ 1) (x : Fin 3 → ℝ) (q : ℝ × ℝ) :
+    wRab θ x q ≤ 8 * (1 + ‖q.1‖ₑ) *
+      ((1 + ‖x 0 - 0‖ₑ) ^ θ + (1 + ‖x 1 - q.1‖ₑ) ^ θ + (1 + ‖x 2‖ₑ) ^ θ) := by
+  rw [sub_zero]
+  set V := (1 + ‖x 0‖ₑ) ^ θ + (1 + ‖x 1 - q.1‖ₑ) ^ θ + (1 + ‖x 2‖ₑ) ^ θ with hV
+  set P := 1 + ‖q.1‖ₑ with hP
+  have hV1 : 1 ≤ V := le_add_left (one_le_one_add_rpow h0 _)
+  have hP1 : 1 ≤ P := le_self_add
+  have h0' : (1 + ‖x 0‖ₑ) ^ θ ≤ V := le_add_right le_self_add
+  have h1' : (1 + ‖x 1‖ₑ) ^ θ ≤ V + P := by
+    calc (1 + ‖x 1‖ₑ) ^ θ ≤ ((1 + ‖x 1 - q.1‖ₑ) + ‖q.1‖ₑ) ^ θ := by
+          refine rpow_mono' h0 ?_
+          rw [add_assoc]
+          refine add_le_add le_rfl ?_
+          calc ‖x 1‖ₑ = ‖(x 1 - q.1) + q.1‖ₑ := by rw [sub_add_cancel]
+            _ ≤ _ := enorm_add_le _ _
+      _ ≤ (1 + ‖x 1 - q.1‖ₑ) ^ θ + ‖q.1‖ₑ ^ θ := rpow_add_le h0 h1 _ _
+      _ ≤ V + P := add_le_add (le_add_right (le_add_left le_rfl)) (rpow_le_one_add h0 h1 _)
+  have h2' : (1 + ‖x 2‖ₑ) ^ θ ≤ V := le_add_left le_rfl
+  have hPV : V ≤ P * V := le_mul_of_one_le_left bot_le hP1
+  have hPV' : P ≤ P * V := le_mul_of_one_le_right bot_le hV1
+  unfold wRab
+  calc 2 * (1 + ‖x 0‖ₑ) ^ θ + (1 + ‖x 1‖ₑ) ^ θ + 3 * (1 + ‖x 2‖ₑ) ^ θ + (1 + ‖q.1‖ₑ)
+      ≤ 2 * (P * V) + (P * V + P * V) + 3 * (P * V) + P * V := by
+        gcongr
+        · exact h0'.trans hPV
+        · exact h1'.trans (add_le_add hPV hPV')
+        · exact h2'.trans hPV
+    _ = 8 * P * V := by ring
+
+theorem lintegral_gMw_II (j i : ℕ) :
+    ∫⁻ q : ℝ × ℝ, 8 * (1 + ‖q.1‖ₑ) * (2 * gM j q) * gev CPhi Achi i =
+      16 * gev (CkM * IM) AkM j * gev CPhi Achi i := by
+  have e : ∀ q : ℝ × ℝ, 8 * (1 + ‖q.1‖ₑ) * (2 * gM j q) * gev CPhi Achi i =
+      (16 * gev CPhi Achi i) * ((1 + ‖q.1‖ₑ) * gM j q) := fun q => by ring
+  simp_rw [e]
+  rw [lintegral_const_mul _ (measurable_gMw j), lintegral_gM_weight]
+  ring
+
+theorem measurable_KRab : Measurable (Function.uncurry KRab) := by
+  have g1 : Measurable fun p : (Fin 3 → ℝ) × (ℝ × ℝ) => ((p.1 0, p.2) : ℝ × (ℝ × ℝ)) :=
+    ((measurable_pi_apply 0).comp measurable_fst).prodMk measurable_snd
+  have g2 : Measurable fun p : (Fin 3 → ℝ) × (ℝ × ℝ) => p.1 1 - p.2.1 :=
+    ((measurable_pi_apply 1).comp measurable_fst).sub (measurable_fst.comp measurable_snd)
+  have g3 : Measurable fun p : (Fin 3 → ℝ) × (ℝ × ℝ) => p.1 2 :=
+    (measurable_pi_apply 2).comp measurable_fst
+  have h1 := measurable_kerM.comp g1
+  have h2 := contDiff_phiR.continuous.measurable.comp g2
+  have h3 := contDiff_chiInvRc.continuous.measurable.comp g3
+  exact h1.mul (h2.mul h3)
+
+/-- The uniform derivative bound of the term II coupling. -/
+@[expose] noncomputable def GRab (k : ℕ) (q : ℝ × ℝ) : ℝ≥0∞ :=
+  lsum3 (fun j => 2 * gM j q) (gev CPhi Achi) (gev CPhi Achi) k
+
+theorem enorm_KRab_le_G (k : ℕ) (x : Fin 3 → ℝ) (q : ℝ × ℝ) :
+    ‖iteratedFDeriv ℝ k (fun x => KRab x q) x‖ₑ ≤ GRab k q := by
+  have hK : (fun x => KRab x q) =
+      prod3 (fun y => kerM y q) (fun y => phiR (y - q.1)) (fun y => (chiInvR y : ℂ)) := rfl
+  rw [hK]
+  exact enorm_prod3_le_lsum3 (contDiff_kerM _) (contDiff_phiR_sub _) contDiff_chiInvRc
+    (fun j y => kerM_rho_le j q y) (fun j y => phiR_sub_rho_le j q.1 y)
+    enorm_iteratedDeriv_chiInvRc_le k x
+
+theorem measurable_GRab (k : ℕ) : Measurable (GRab k) :=
+  measurable_lsum3 (Ff := fun q j => 2 * gM j q) (Fg := fun _ i => gev CPhi Achi i)
+    (fun j => (measurable_gM j).const_mul _) (fun _ => measurable_const) _ k
+
+theorem measurable_WRab (j i : ℕ) : Measurable fun q : ℝ × ℝ =>
+    8 * (1 + ‖q.1‖ₑ) * (2 * gM j q) * gev CPhi Achi i :=
+  (((measurable_const.add measurable_fst.enorm).const_mul _).mul
+    ((measurable_gM j).const_mul _)).mul_const _
+
+theorem lintegral_GRab_ne_top (k : ℕ) : ∫⁻ q, GRab k q ≠ ⊤ := by
+  refine ne_top_of_le_ne_top ?_ ((lintegral_mono fun q => le_mul_of_one_le_left bot_le
+    (one_le_mul_of_one_le_of_one_le (by norm_num : (1 : ℝ≥0∞) ≤ 8) le_self_add)).trans
+    (lintegral_lsum3_le (W := fun q : ℝ × ℝ => 8 * (1 + ‖q.1‖ₑ))
+      (Ff := fun q j => 2 * gM j q) (Fg := fun _ i => gev CPhi Achi i) (Fh := gev CPhi Achi)
+      measurable_WRab (S₁ := fun j => 16 * gev (CkM * IM) AkM j) (S₂ := gev CPhi Achi)
+      (fun j i => (lintegral_gMw_II j i).le) k))
+  refine ne_top_of_le_ne_top (gev_lt_top _ A0 k).ne
+    (lsum3_le_gev (N₁ := 16 * (CkM * IM)) (N₂ := CPhi) (N₃ := CPhi)
+      (by have := mul_nonneg kerM_bound.1 IM_nonneg; positivity) CPhi_nonneg CPhi_nonneg
+      A0_nonneg (fun j => ?_) (gev_Achi_le le_rfl) (gev_Achi_le le_rfl) k)
+  simpa using gev_AkM_le le_rfl (c := 16) (by norm_num) j
+
+/-- **`Γ` for DH21 term II of Lemma 5.7.** -/
+theorem gamma_KRab_le {θ : ℝ} (h0 : 0 ≤ θ) (h1 : θ < 1) {ε ε₂ : ℝ} (hε : ε = 1 ∨ ε = -1)
+    (hε₂ : ε₂ = 1 ∨ ε₂ = -1) (X₀ X₁ X₂ : ℝ) (v : (Fin 2 → ℝ) → ℝ × ℝ → Fin 3 → ℝ)
+    (hv0 : ∀ s q, v s q 0 = X₀ + ε * s 0 + ε₂ * s 1) (hv1 : ∀ s q, v s q 1 = X₁ + ε * s 0)
+    (hv2 : ∀ s q, v s q 2 = X₂ + ε₂ * s 1) (c : ℕ) {A : ℝ} (hA : A0 ≤ A) :
+    ∫⁻ q, ∫⁻ s, wRab θ (v s q) q * ‖iteratedFDeriv ℝ c (fun x => KRab x q) (v s q)‖ₑ ≤
+      gev (NRab θ) A c := by
+  have hA0 : 0 ≤ A := A0_nonneg.trans hA
+  have hK : ∀ q : ℝ × ℝ, (fun x => KRab x q) =
+      prod3 (fun y => kerM y q) (fun y => phiR (y - q.1)) (fun y => (chiInvR y : ℂ)) :=
+    fun q => rfl
+  simp_rw [hK]
+  have hW : ∀ q : ℝ × ℝ, 8 * (1 + ‖q.1‖ₑ) ≠ ⊤ := fun q =>
+    ENNReal.mul_ne_top (by simp) (one_add_enorm_ne_top _)
+  have key := gamma_IRI_generic h0 h1 hε hε₂ (Q := ℝ × ℝ)
+    (f := fun q y => kerM y q) (g := fun q y => phiR (y - q.1))
+    (h := fun y => (chiInvR y : ℂ)) (fun q => contDiff_kerM q)
+    (fun q => contDiff_phiR_sub q.1) contDiff_chiInvRc
+    (b := fun q => q.1) (Ff := fun q j => 2 * gM j q) (Fg := fun _ i => gev CPhi Achi i)
+    (fun q j y => kerM_rho_le j q y) (fun q j y => phiR_sub_rho_le j q.1 y)
+    enorm_iteratedDeriv_chiInvRc_le hW (wc := wRab θ) (fun x q => wRab_le h0 h1.le x q)
+    measurable_WRab (S₁ := fun j => 16 * gev (CkM * IM) AkM j) (S₂ := gev CPhi Achi)
+    (fun j i => (lintegral_gMw_II j i).le) X₀ X₁ X₂ v hv0 hv1 hv2 c
+  refine key.trans ?_
+  rw [NRab, ← gev_mul_const _ (D3_nonneg θ)]
+  refine mul_le_mul' le_rfl (lsum3_le_gev (N₁ := 16 * (CkM * IM)) (N₂ := CPhi) (N₃ := CPhi)
+    (by have := mul_nonneg kerM_bound.1 IM_nonneg; positivity) CPhi_nonneg CPhi_nonneg hA0
+    (fun j => ?_) (gev_Achi_le hA) (gev_Achi_le hA) c)
+  simpa using gev_AkM_le hA (c := 16) (by norm_num) j
+
+end TermII
+
+section TermIII
+
+/-- The coupling of DH21 term III for Lemma 5.7: `Φ(x₀) kerM(x₁, q) χ_∞(x₂)/x₂`. -/
+@[expose] noncomputable def KRca (x : Fin 3 → ℝ) (q : ℝ × ℝ) : ℂ :=
+  prod3 phiR (fun y => kerM y q) (fun y => (chiInvR y : ℂ)) x
+
+/-- The weight of term III: `⟨x₀⟩^θ + 2⟨x₂⟩^θ + ⟨σ⟩`. -/
+@[expose] noncomputable def wRca (θ : ℝ) (x : Fin 3 → ℝ) (q : ℝ × ℝ) : ℝ≥0∞ :=
+  (1 + ‖x 0‖ₑ) ^ θ + 2 * (1 + ‖x 2‖ₑ) ^ θ + (1 + ‖q.1‖ₑ)
+
+/-- The constant of `gamma_KRca_le`. -/
+@[expose] noncomputable def NRca (θ : ℝ) : ℝ := D3 θ * (16 * CPhi * (8 * (CkM * IM)) * CPhi)
+
+theorem contDiff_KRca (q : ℝ × ℝ) : ContDiff ℝ ∞ fun x => KRca x q :=
+  contDiff_prod3 contDiff_phiR (contDiff_kerM _) contDiff_chiInvRc
+
+theorem wRca_le {θ : ℝ} (h0 : 0 ≤ θ) (x : Fin 3 → ℝ) (q : ℝ × ℝ) :
+    wRca θ x q ≤ 4 * (1 + ‖q.1‖ₑ) *
+      ((1 + ‖x 0 - 0‖ₑ) ^ θ + (1 + ‖x 1 - 0‖ₑ) ^ θ + (1 + ‖x 2‖ₑ) ^ θ) := by
+  rw [sub_zero, sub_zero]
+  set V := (1 + ‖x 0‖ₑ) ^ θ + (1 + ‖x 1‖ₑ) ^ θ + (1 + ‖x 2‖ₑ) ^ θ with hV
+  set P := 1 + ‖q.1‖ₑ with hP
+  have hV1 : 1 ≤ V := le_add_left (one_le_one_add_rpow h0 _)
+  have hP1 : 1 ≤ P := le_self_add
+  have hPV : V ≤ P * V := le_mul_of_one_le_left bot_le hP1
+  unfold wRca
+  calc (1 + ‖x 0‖ₑ) ^ θ + 2 * (1 + ‖x 2‖ₑ) ^ θ + (1 + ‖q.1‖ₑ) ≤ P * V + 2 * (P * V) + P * V := by
+        gcongr
+        · exact (le_add_right le_self_add).trans hPV
+        · exact (le_add_left le_rfl).trans hPV
+        · exact le_mul_of_one_le_right bot_le hV1
+    _ = 4 * P * V := by ring
+
+theorem lintegral_gMw_III (j i : ℕ) :
+    ∫⁻ q : ℝ × ℝ, 4 * (1 + ‖q.1‖ₑ) * gev CPhi Achi j * (2 * gM i q) =
+      gev CPhi Achi j * (8 * gev (CkM * IM) AkM i) := by
+  have e : ∀ q : ℝ × ℝ, 4 * (1 + ‖q.1‖ₑ) * gev CPhi Achi j * (2 * gM i q) =
+      (8 * gev CPhi Achi j) * ((1 + ‖q.1‖ₑ) * gM i q) := fun q => by ring
+  simp_rw [e]
+  rw [lintegral_const_mul _ (measurable_gMw i), lintegral_gM_weight]
+  ring
+
+theorem measurable_KRca : Measurable (Function.uncurry KRca) := by
+  have g1 : Measurable fun p : (Fin 3 → ℝ) × (ℝ × ℝ) => p.1 0 :=
+    (measurable_pi_apply 0).comp measurable_fst
+  have g2 : Measurable fun p : (Fin 3 → ℝ) × (ℝ × ℝ) => ((p.1 1, p.2) : ℝ × (ℝ × ℝ)) :=
+    ((measurable_pi_apply 1).comp measurable_fst).prodMk measurable_snd
+  have g3 : Measurable fun p : (Fin 3 → ℝ) × (ℝ × ℝ) => p.1 2 :=
+    (measurable_pi_apply 2).comp measurable_fst
+  have h1 := contDiff_phiR.continuous.measurable.comp g1
+  have h2 := measurable_kerM.comp g2
+  have h3 := contDiff_chiInvRc.continuous.measurable.comp g3
+  exact h1.mul (h2.mul h3)
+
+/-- The uniform derivative bound of the term III coupling. -/
+@[expose] noncomputable def GRca (k : ℕ) (q : ℝ × ℝ) : ℝ≥0∞ :=
+  lsum3 (gev CPhi Achi) (fun i => 2 * gM i q) (gev CPhi Achi) k
+
+theorem enorm_KRca_le_G (k : ℕ) (x : Fin 3 → ℝ) (q : ℝ × ℝ) :
+    ‖iteratedFDeriv ℝ k (fun x => KRca x q) x‖ₑ ≤ GRca k q := by
+  have hK : (fun x => KRca x q) = prod3 phiR (fun y => kerM y q) (fun y => (chiInvR y : ℂ)) :=
+    rfl
+  rw [hK]
+  exact enorm_prod3_le_lsum3 contDiff_phiR (contDiff_kerM _) contDiff_chiInvRc
+    (fun j y => phiR_rho_le j y) (fun j y => kerM_rho_le j q y)
+    enorm_iteratedDeriv_chiInvRc_le k x
+
+theorem measurable_GRca (k : ℕ) : Measurable (GRca k) :=
+  measurable_lsum3 (Ff := fun _ j => gev CPhi Achi j) (Fg := fun q i => 2 * gM i q)
+    (fun _ => measurable_const) (fun i => (measurable_gM i).const_mul _) _ k
+
+theorem measurable_WRca (j i : ℕ) : Measurable fun q : ℝ × ℝ =>
+    4 * (1 + ‖q.1‖ₑ) * gev CPhi Achi j * (2 * gM i q) :=
+  (((measurable_const.add measurable_fst.enorm).const_mul _).mul_const _).mul
+    ((measurable_gM i).const_mul _)
+
+theorem lintegral_GRca_ne_top (k : ℕ) : ∫⁻ q, GRca k q ≠ ⊤ := by
+  refine ne_top_of_le_ne_top ?_ ((lintegral_mono fun q => le_mul_of_one_le_left bot_le
+    (one_le_mul_of_one_le_of_one_le (by norm_num : (1 : ℝ≥0∞) ≤ 4) le_self_add)).trans
+    (lintegral_lsum3_le (W := fun q : ℝ × ℝ => 4 * (1 + ‖q.1‖ₑ))
+      (Ff := fun _ j => gev CPhi Achi j) (Fg := fun q i => 2 * gM i q) (Fh := gev CPhi Achi)
+      measurable_WRca (S₁ := gev CPhi Achi) (S₂ := fun i => 8 * gev (CkM * IM) AkM i)
+      (fun j i => (lintegral_gMw_III j i).le) k))
+  refine ne_top_of_le_ne_top (gev_lt_top _ A0 k).ne
+    (lsum3_le_gev (N₁ := CPhi) (N₂ := 8 * (CkM * IM)) (N₃ := CPhi) CPhi_nonneg
+      (by have := mul_nonneg kerM_bound.1 IM_nonneg; positivity) CPhi_nonneg
+      A0_nonneg (gev_Achi_le le_rfl) (fun j => ?_) (gev_Achi_le le_rfl) k)
+  simpa using gev_AkM_le le_rfl (c := 8) (by norm_num) j
+
+/-- **`Γ` for DH21 term III of Lemma 5.7.** -/
+theorem gamma_KRca_le {θ : ℝ} (h0 : 0 ≤ θ) (h1 : θ < 1) {ε ε₂ : ℝ} (hε : ε = 1 ∨ ε = -1)
+    (hε₂ : ε₂ = 1 ∨ ε₂ = -1) (X₀ X₁ X₂ : ℝ) (v : (Fin 2 → ℝ) → ℝ × ℝ → Fin 3 → ℝ)
+    (hv0 : ∀ s q, v s q 0 = X₀ + ε * s 0 + ε₂ * s 1) (hv1 : ∀ s q, v s q 1 = X₁ + ε * s 0)
+    (hv2 : ∀ s q, v s q 2 = X₂ + ε₂ * s 1) (c : ℕ) {A : ℝ} (hA : A0 ≤ A) :
+    ∫⁻ q, ∫⁻ s, wRca θ (v s q) q * ‖iteratedFDeriv ℝ c (fun x => KRca x q) (v s q)‖ₑ ≤
+      gev (NRca θ) A c := by
+  have hA0 : 0 ≤ A := A0_nonneg.trans hA
+  have hK : ∀ q : ℝ × ℝ, (fun x => KRca x q) =
+      prod3 phiR (fun y => kerM y q) (fun y => (chiInvR y : ℂ)) := fun q => rfl
+  simp_rw [hK]
+  have hW : ∀ q : ℝ × ℝ, 4 * (1 + ‖q.1‖ₑ) ≠ ⊤ := fun q =>
+    ENNReal.mul_ne_top (by simp) (one_add_enorm_ne_top _)
+  have key := gamma_IRI_generic h0 h1 hε hε₂ (Q := ℝ × ℝ)
+    (f := fun _ y => phiR y) (g := fun q y => kerM y q)
+    (h := fun y => (chiInvR y : ℂ)) (fun _ => contDiff_phiR)
+    (fun q => contDiff_kerM q) contDiff_chiInvRc
+    (b := fun _ => 0) (Ff := fun _ j => gev CPhi Achi j) (Fg := fun q i => 2 * gM i q)
+    (fun _ j y => phiR_rho_le j y) (fun q j y => kerM_rho_le j q y)
+    enorm_iteratedDeriv_chiInvRc_le hW (wc := wRca θ) (fun x q => wRca_le h0 x q)
+    measurable_WRca (S₁ := gev CPhi Achi) (S₂ := fun i => 8 * gev (CkM * IM) AkM i)
+    (fun j i => (lintegral_gMw_III j i).le) X₀ X₁ X₂ v hv0 hv1 hv2 c
+  refine key.trans ?_
+  rw [NRca, ← gev_mul_const _ (D3_nonneg θ)]
+  refine mul_le_mul' le_rfl (lsum3_le_gev (N₁ := CPhi) (N₂ := 8 * (CkM * IM)) (N₃ := CPhi)
+    CPhi_nonneg (by have := mul_nonneg kerM_bound.1 IM_nonneg; positivity) CPhi_nonneg hA0
+    (gev_Achi_le hA) (fun j => ?_) (gev_Achi_le hA) c)
+  simpa using gev_AkM_le hA (c := 8) (by norm_num) j
+
+end TermIII
+
+section TermIV
+
+/-- The coupling of DH21 term IV for Lemma 5.7: `Φ(x₀) Φ(x₁) χ_∞(x₂)/x₂`. -/
+@[expose] noncomputable def KRcb (x : Fin 3 → ℝ) (_ : Unit) : ℂ :=
+  prod3 phiR phiR (fun y => (chiInvR y : ℂ)) x
+
+/-- The weight of term IV: `2⟨x₀⟩^θ + ⟨x₁⟩^θ + 3⟨x₂⟩^θ`. -/
+@[expose] noncomputable def wRcb (θ : ℝ) (x : Fin 3 → ℝ) (_ : Unit) : ℝ≥0∞ :=
+  2 * (1 + ‖x 0‖ₑ) ^ θ + (1 + ‖x 1‖ₑ) ^ θ + 3 * (1 + ‖x 2‖ₑ) ^ θ
+
+/-- The constant of `gamma_KRcb_le`. -/
+@[expose] noncomputable def NRcb (θ : ℝ) : ℝ := D3 θ * (16 * (6 * CPhi) * CPhi * CPhi)
+
+theorem contDiff_KRcb (q : Unit) : ContDiff ℝ ∞ fun x => KRcb x q :=
+  contDiff_prod3 contDiff_phiR contDiff_phiR contDiff_chiInvRc
+
+theorem wRcb_le {θ : ℝ} (x : Fin 3 → ℝ) (q : Unit) :
+    wRcb θ x q ≤ 6 * ((1 + ‖x 0 - 0‖ₑ) ^ θ + (1 + ‖x 1 - 0‖ₑ) ^ θ + (1 + ‖x 2‖ₑ) ^ θ) := by
+  rw [sub_zero, sub_zero]
+  unfold wRcb
+  calc 2 * (1 + ‖x 0‖ₑ) ^ θ + (1 + ‖x 1‖ₑ) ^ θ + 3 * (1 + ‖x 2‖ₑ) ^ θ
+      ≤ 6 * (1 + ‖x 0‖ₑ) ^ θ + 6 * (1 + ‖x 1‖ₑ) ^ θ + 6 * (1 + ‖x 2‖ₑ) ^ θ :=
+        add_le_add (add_le_add (mul_le_mul' (by norm_num) le_rfl)
+          (le_mul_of_one_le_left bot_le (by norm_num))) (mul_le_mul' (by norm_num) le_rfl)
+    _ = _ := by ring
+
+theorem measurable_KRcb : Measurable (Function.uncurry KRcb) := by
+  have g0 : Measurable fun p : (Fin 3 → ℝ) × Unit => p.1 0 :=
+    (measurable_pi_apply 0).comp measurable_fst
+  have g1 : Measurable fun p : (Fin 3 → ℝ) × Unit => p.1 1 :=
+    (measurable_pi_apply 1).comp measurable_fst
+  have g2 : Measurable fun p : (Fin 3 → ℝ) × Unit => p.1 2 :=
+    (measurable_pi_apply 2).comp measurable_fst
+  have h1 := contDiff_phiR.continuous.measurable.comp g0
+  have h2 := contDiff_phiR.continuous.measurable.comp g1
+  have h3 := contDiff_chiInvRc.continuous.measurable.comp g2
+  exact h1.mul (h2.mul h3)
+
+/-- The uniform derivative bound of the term IV coupling. -/
+@[expose] noncomputable def GRcb (k : ℕ) (_ : Unit) : ℝ≥0∞ :=
+  lsum3 (gev CPhi Achi) (gev CPhi Achi) (gev CPhi Achi) k
+
+theorem enorm_KRcb_le_G (k : ℕ) (x : Fin 3 → ℝ) (q : Unit) :
+    ‖iteratedFDeriv ℝ k (fun x => KRcb x q) x‖ₑ ≤ GRcb k q := by
+  have hK : (fun x => KRcb x q) = prod3 phiR phiR (fun y => (chiInvR y : ℂ)) := rfl
+  rw [hK]
+  exact enorm_prod3_le_lsum3 contDiff_phiR contDiff_phiR contDiff_chiInvRc
+    (fun j y => phiR_rho_le j y) (fun j y => phiR_rho_le j y)
+    enorm_iteratedDeriv_chiInvRc_le k x
+
+theorem lsum3_cb_le (k : ℕ) {A : ℝ} (hA : A0 ≤ A) (C : ℝ) (hC : 0 ≤ C) :
+    ENNReal.ofReal C * lsum3 (gev CPhi Achi) (gev CPhi Achi) (gev CPhi Achi) k ≤
+      gev (16 * (C * CPhi) * CPhi * CPhi) A k := by
+  have hA0 : 0 ≤ A := A0_nonneg.trans hA
+  have e : ENNReal.ofReal C * lsum3 (gev CPhi Achi) (gev CPhi Achi) (gev CPhi Achi) k =
+      lsum3 (fun j => ENNReal.ofReal C * gev CPhi Achi j) (gev CPhi Achi) (gev CPhi Achi) k := by
+    unfold lsum3
+    rw [Finset.mul_sum]
+    refine Finset.sum_congr rfl fun j _ => ?_
+    ring
+  rw [e]
+  refine lsum3_le_gev (mul_nonneg hC CPhi_nonneg) CPhi_nonneg CPhi_nonneg hA0 (fun j => ?_)
+    (gev_Achi_le hA) (gev_Achi_le hA) k
+  rw [gev_mul_const _ hC]
+  exact gev_mono le_rfl Achi_nonneg (Achi_le_A0.trans hA) (mul_nonneg hC CPhi_nonneg) j
+
+theorem lintegral_GRcb_ne_top (k : ℕ) : ∫⁻ q, GRcb k q ≠ ⊤ := by
+  rw [lintegral_unit]
+  refine ne_top_of_le_ne_top (gev_lt_top (16 * (1 * CPhi) * CPhi * CPhi) A0 k).ne ?_
+  have := lsum3_cb_le k le_rfl 1 zero_le_one
+  rw [ENNReal.ofReal_one, one_mul] at this
+  exact this
+
+/-- **`Γ` for DH21 term IV of Lemma 5.7.** -/
+theorem gamma_KRcb_le {θ : ℝ} (h0 : 0 ≤ θ) (h1 : θ < 1) {ε ε₂ : ℝ} (hε : ε = 1 ∨ ε = -1)
+    (hε₂ : ε₂ = 1 ∨ ε₂ = -1) (X₀ X₁ X₂ : ℝ) (v : (Fin 2 → ℝ) → Unit → Fin 3 → ℝ)
+    (hv0 : ∀ s q, v s q 0 = X₀ + ε * s 0 + ε₂ * s 1) (hv1 : ∀ s q, v s q 1 = X₁ + ε * s 0)
+    (hv2 : ∀ s q, v s q 2 = X₂ + ε₂ * s 1) (c : ℕ) {A : ℝ} (hA : A0 ≤ A) :
+    ∫⁻ q, ∫⁻ s, wRcb θ (v s q) q * ‖iteratedFDeriv ℝ c (fun x => KRcb x q) (v s q)‖ₑ ≤
+      gev (NRcb θ) A c := by
+  have hK : ∀ q : Unit, (fun x => KRcb x q) = prod3 phiR phiR (fun y => (chiInvR y : ℂ)) :=
+    fun q => rfl
+  simp_rw [hK]
+  have key := gamma_IRI_generic h0 h1 hε hε₂ (Q := Unit)
+    (f := fun _ y => phiR y) (g := fun _ y => phiR y)
+    (h := fun y => (chiInvR y : ℂ)) (fun _ => contDiff_phiR) (fun _ => contDiff_phiR)
+    contDiff_chiInvRc (b := fun _ => 0) (Ff := fun _ j => gev CPhi Achi j)
+    (Fg := fun _ i => gev CPhi Achi i)
+    (fun _ j y => phiR_rho_le j y) (fun _ j y => phiR_rho_le j y)
+    enorm_iteratedDeriv_chiInvRc_le (W := fun _ => 6) (fun _ => by simp) (wc := wRcb θ)
+    (fun x q => wRcb_le x q) (fun _ _ => measurable_const)
+    (S₁ := fun j => 6 * gev CPhi Achi j) (S₂ := gev CPhi Achi)
+    (fun j i => by rw [lintegral_unit]) X₀ X₁ X₂ v hv0 hv1 hv2 c
+  refine key.trans ?_
+  rw [NRcb, ← gev_mul_const _ (D3_nonneg θ)]
+  refine mul_le_mul' le_rfl ?_
+  have e : lsum3 (fun j => 6 * gev CPhi Achi j) (gev CPhi Achi) (gev CPhi Achi) c =
+      ENNReal.ofReal 6 * lsum3 (gev CPhi Achi) (gev CPhi Achi) (gev CPhi Achi) c := by
+    unfold lsum3
+    rw [Finset.mul_sum, show ENNReal.ofReal 6 = 6 by norm_num]
+    refine Finset.sum_congr rfl fun j _ => ?_
+    ring
+  rw [e]
+  exact lsum3_cb_le c hA 6 (by norm_num)
+
+end TermIV
+
 end WaveTurbulence.ClassJR
