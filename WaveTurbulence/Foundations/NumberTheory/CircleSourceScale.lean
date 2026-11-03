@@ -72,4 +72,19 @@ theorem circle_source_local_power_identity {R : ℝ} (hR : 0 < R) {h : ℝ} (hh 
   rw [Real.mul_rpow hh.le (Real.sqrt_nonneg R),Real.sqrt_eq_rpow,← Real.rpow_mul hR.le]
   norm_num
 
+/-- Integer frequencies at least one and the localized source geometry
+supply the standing scale assumptions of the quantitative transfer. -/
+theorem circle_source_frequency_regime {R h U : ℝ} (hU : 1 ≤ U)
+    (hUR : 3*U ≤ R) (hh : 1 ≤ h) :
+    1 ≤ h*Real.sqrt R ∧ U ≤ (h*Real.sqrt R)^2 := by
+  have hR : 1 ≤ R := by linarith only [hU,hUR]
+  have hs : 1 ≤ Real.sqrt R := Real.one_le_sqrt.mpr hR
+  have hprod := one_le_mul_of_one_le_of_one_le hh hs
+  have hh2 : 1 ≤ h^2 := by nlinarith only [hh]
+  have hm := mul_le_mul_of_nonneg_right hh2 (le_trans zero_le_one hR)
+  rw [mul_pow,Real.sq_sqrt (le_trans zero_le_one hR)]
+  constructor
+  · exact hprod
+  · nlinarith only [hm,hU,hUR]
+
 end WaveTurbulence.NumberTheory

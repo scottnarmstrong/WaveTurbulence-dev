@@ -1,17 +1,16 @@
 # NT-CIRCLE-v2 progress and handoff
 
-Current status: **goals 1–3 are complete**. The uniform closed-disc two-thirds
-bound, both elementary annulus forms, and the full Euclidean-ball estcross
-estimate are proved and committed. **Goal 4 is in progress**: the direct-circle
-A side is proved through the actual landed VdCB integer-column dual, and the
-localized endpoint-to-circle/full-annulus transfer is proved as a distinct
-conditional helper. The analytic transformed circle-frequency estimate is
-still required; no unconditional exponent below two thirds is claimed yet.
-**Goal 5's numerical audit is checked** for 35/53 and every smaller exponent,
-including the candidate 27/41, but final source closure awaits the actual
-improved circle estimate. No competing exponent-pair predicate is defined.
-The previously accepted numerical obstruction to using only two thirds, and
-its source typo report, remain valid. Details and exact checks follow.
+Current status: the orchestrator closed NT-EXPSUM and reassigned this worker
+to MOLE. Goals 1–3 and the A-process infrastructure are complete. The
+unconditional actual closed-disc estimate with exponent **27/41 < 2/3**
+is also proved here in `Counting/CircleImprovedDiscrepancy.lean`, uniformly
+in all real centers, consuming the landed shared VdCB direct-circle B API.
+The orchestrator reports the final annulus theorem completed by wt-ansob
+in VdCB. The existing numerical audit covers 35/53 and every smaller
+exponent (q>=0), including the proved 27/41. Earlier progress entries below
+are chronological and may describe formerly pending work. No competing
+exponent-pair predicate was introduced. The duplicate phase-negation lemma
+was removed in cd59217, reusing `DerivativeTests.lean`.
 
 ## Files and exact exports (goal 1)
 
@@ -1191,3 +1190,25 @@ existing declaration from `DerivativeTests.lean`. The targeted
 source consumers, passed (9188 jobs), without warnings. This fixes the
 orchestrator's duplicate-name landing report; the mathematical statement
 is unchanged. Continued directly with the actual circle endpoint transfer.
+
+## Final infrastructure commit before MOLE reassignment
+
+The actual circle consumers are now repository modules against landed main:
+`CircleColumnSourceCalculus`, `CircleOptimizedSource`, `CircleShortSource`,
+`CircleSourceWindow`, `CircleIntegerSourceWindow`, `Counting/CircleEndpointBound`
+and `Counting/CircleImprovedDiscrepancy`. All integer frequencies >=1,
+short/long windows, large frequencies, both caps, strict artificial edges
+and arbitrary centers are covered internally. The resulting actual disc
+bound is `circleImprovedConstant * Q^(27/41)` for Q>=1. Its constant is
+explicit, positive, and independent of the center and radius.
+
+Exact final check: `nice -n 5 lake build
+WaveTurbulence.Foundations.Counting.CircleImprovedDiscrepancy` returned
+`Build completed successfully (9247 jobs).`, final target 5.5s, zero warnings.
+`nice -n 5 lake env lean /home/scott/wt-scratch/nt-circle/ActualCircleAxioms.lean`
+returned standard axioms `[propext, Classical.choice, Quot.sound]` for the
+actual natural-window, integer-window, endpoint-block and final disc results.
+`git diff --check` passed. No new mathematical errata or deviations.
+Existing source errata F31 and the license-registry follow-up above remain
+part of this handoff. No further NT-CIRCLE work is being claimed after the
+orchestrator's explicit switch to MOLE.
