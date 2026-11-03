@@ -142,3 +142,10 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   then follows through Appendix C unchanged; GIT20's (bil7) is true in all d ≥ 3 and only the preceding radial
   Cauchy–Schwarz step needs replacing. Status: claimed; independent refute-first audit by wt-orch pending. If it
   survives, the frozen `wkelwp` stays unchanged (no owner decision needed) and a packet formalizes Theorem 7.
+- F32 (resolved on the mathematics, 2026-11-03 ~17:20) — wt-orch's refute-first audit
+  (`docs/campaign/orch/audits/GIT20-general-d.md`) finds Theorem 7 of `docs/research/git20-general-d.md` CORRECT: the
+  L²_s trilinear estimate holds for all d ≥ 3, s > d/2 − 1, j = 0..3; every condition reduces to 2s > d − 2; the blow-up
+  passage through Appendix C goes through with three routine supporting lemmas (Leibniz/weight identities for Z_{s,m}
+  inputs; equivalence of `IsWKESolution` with the Z_s mild solution; 𝒮 = ⋂ Z_{s,m}). **The frozen `wkelwp` stays
+  unchanged; no owner decision needed.** Formalization: packet WKE-L2S. Erratum for the authors: GIT20 Remark 2.6 is
+  unproved as written for d ≥ 4 (one radial Cauchy–Schwarz step fails; fixed by Theorem 7) and false for d = 2 (§8.3).
