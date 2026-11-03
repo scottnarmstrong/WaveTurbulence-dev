@@ -19,9 +19,9 @@
   "tmux": "wt-torus",
   "model": "Claude Opus",
   "account": "claude-14",
-  "branch": "w/ntsp",
-  "packet": "NT5 NTSP: DH23 Lemmas 6.5, 6.7, TARGET Lemma 5.2 (NLS landed)",
-  "brief": "docs/campaign/briefs/NTSP.md"
+  "branch": "w/approxnt",
+  "packet": "NT6 APPROXNT: DH23 Prop 6.4 + large-order extension (F33) (NTSP done)",
+  "brief": "docs/campaign/briefs/APPROXNT.md"
  },
  {
   "tmux": "wt-wke",
