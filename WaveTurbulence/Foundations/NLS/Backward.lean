@@ -199,6 +199,165 @@ theorem hasDerivWithinAt_backCoeff (hL : 0 < L) (hδ : 0 < δ) {T : ℝ}
     push_cast
     ring
 
+/-- The time derivative of `backCoeff` given by the Fourier-side NLS system. -/
+@[expose] def backDeriv (L γ δ : ℝ) (c : (Fin d → ℤ) → ℂ) (a : ℝ → (Fin d → ℤ) → ℂ) (s : ℝ)
+    (n : Fin d → ℤ) : ℂ :=
+  (I * ((2 * Real.pi * ‖latticePoint L n‖ ^ 2 : ℝ) : ℂ)) * backCoeff L γ δ c a s n +
+    (I * ((L ^ (-γ) : ℝ) : ℂ) * ((L ^ d : ℝ) : ℂ)⁻¹) *
+      cubicCurve (backCoeff L γ δ c a) (fun t m => (starRingEnd ℂ) (backCoeff L γ δ c a t m))
+        (backCoeff L γ δ c a) s n
+
+theorem hasDerivWithinAt_backCoeff' (hL : 0 < L) (hδ : 0 < δ) {T : ℝ}
+    (hT : T = δ * kineticTime (L ^ (-γ)) * 𝔇) (ha : IsAkSolution L γ δ 𝔇 c a) {s : ℝ}
+    (hs : s ∈ Icc 0 T) (n : Fin d → ℤ) :
+    HasDerivWithinAt (fun r => backCoeff L γ δ c a r n) (backDeriv L γ δ c a s n) (Icc 0 T) s := by
+  refine (hasDerivWithinAt_backCoeff hL hδ hT ha hs n).congr_deriv ?_
+  simp only [backDeriv, cubicConv, cubicCurve]
+  ring
+
+theorem norm_two_pi_latticePoint_sq_le {L : ℝ} (hL : 0 < L) (n : Fin d → ℤ) :
+    ‖I * ((2 * Real.pi * ‖latticePoint L n‖ ^ 2 : ℝ) : ℂ)‖ ≤
+      (2 * Real.pi * (1 + d / L ^ 2)) * (1 + ‖n‖) ^ 2 := by
+  rw [norm_mul, norm_I, one_mul, Complex.norm_real, Real.norm_of_nonneg (by positivity)]
+  have h := one_add_norm_latticePoint_sq_le hL n
+  have : ‖latticePoint L n‖ ^ 2 ≤ (1 + d / L ^ 2) * (1 + ‖n‖) ^ 2 := by linarith
+  calc 2 * Real.pi * ‖latticePoint L n‖ ^ 2 ≤ 2 * Real.pi * ((1 + d / L ^ 2) * (1 + ‖n‖) ^ 2) := by
+        gcongr
+    _ = _ := by ring
+
+/-- The coefficient curve built from an `a`-system solution with rapidly decreasing data has
+uniformly rapidly decaying time derivatives of every order. -/
+theorem goodCurve_backCoeff (hL : 0 < L) (hδ : 0 < δ) {T : ℝ}
+    (hT : T = δ * kineticTime (L ^ (-γ)) * 𝔇) (hc : IsRapidDecay c)
+    (ha : IsAkSolution L γ δ 𝔇 c a) : ∀ m, GoodCurve T m (backCoeff L γ δ c a) := by
+  have hkt : kineticTime (L ^ (-γ)) = L ^ (2 * γ) / 2 := kineticTime_rpow_neg hL γ
+  have hσ0 : 0 < δ * kineticTime (L ^ (-γ)) := by rw [hkt]; positivity
+  have hmaps : ∀ s ∈ Icc 0 T, s / (δ * kineticTime (L ^ (-γ))) ∈ Icc 0 𝔇 := fun r hr =>
+    ⟨div_nonneg hr.1 hσ0.le, by
+      rw [div_le_iff₀ hσ0, mul_comm]; rw [hT] at hr; exact hr.2⟩
+  have hcont : ∀ n, ContinuousOn (fun s => backCoeff L γ δ c a s n) (Icc 0 T) := fun n s hs =>
+    (hasDerivWithinAt_backCoeff' hL hδ hT ha hs n).continuousWithinAt
+  have hrap : UnifRapid T (backCoeff L γ δ c a) := by
+    intro N
+    obtain ⟨C, hC⟩ := ha.exists_uniform_decay hL hc N
+    exact ⟨C, fun s hs n => by rw [norm_backCoeff]; exact hC _ (hmaps s hs) n⟩
+  have hstep : ∀ m, GoodCurve T m (backCoeff L γ δ c a) →
+      GoodCurve T m (backDeriv L γ δ c a) := by
+    intro m hb
+    have h1 := hb.weight (fun n => I * ((2 * Real.pi * ‖latticePoint L n‖ ^ 2 : ℝ) : ℂ))
+      (norm_two_pi_latticePoint_sq_le hL)
+    have h2 := (hb.cubicCurve hb.conj hb).const_mul (I * ((L ^ (-γ) : ℝ) : ℂ) *
+      ((L ^ d : ℝ) : ℂ)⁻¹)
+    exact h1.add h2
+  intro m
+  induction m with
+  | zero => exact ⟨hcont, hrap⟩
+  | succ m ih =>
+    exact ⟨hcont, hrap, backDeriv L γ δ c a, hstep m ih,
+      fun n s hs => hasDerivWithinAt_backCoeff' hL hδ hT ha hs n⟩
+
+/-- The NLS solution built from an `a`-system solution:
+`u(s, x) = L^{-d/2} ∑ₙ ûₙ(s) e^{2πi (n/L)·x}` with `û = backCoeff`. -/
+@[expose] def backSolution (L γ δ : ℝ) (c : (Fin d → ℤ) → ℂ) (a : ℝ → (Fin d → ℤ) → ℂ) (s : ℝ)
+    (x : Fin d → ℝ) : ℂ :=
+  torusSeries L (backCoeff L γ δ c a s) x
+
+theorem UnifRapid.isRapidDecay {T : ℝ} {b : ℝ → (Fin d → ℤ) → ℂ} (hb : UnifRapid T b) {t : ℝ}
+    (ht : t ∈ Icc 0 T) : IsRapidDecay (b t) := fun N => by
+  obtain ⟨C, hC⟩ := hb N
+  exact ⟨C, fun n => hC t ht n⟩
+
+theorem goodCurve_backDeriv (hL : 0 < L) (hδ : 0 < δ) {T : ℝ}
+    (hT : T = δ * kineticTime (L ^ (-γ)) * 𝔇) (hc : IsRapidDecay c)
+    (ha : IsAkSolution L γ δ 𝔇 c a) (m : ℕ) : GoodCurve T m (backDeriv L γ δ c a) := by
+  have hb := goodCurve_backCoeff hL hδ hT hc ha m
+  have h1 := hb.weight (fun n => I * ((2 * Real.pi * ‖latticePoint L n‖ ^ 2 : ℝ) : ℂ))
+    (norm_two_pi_latticePoint_sq_le hL)
+  have h2 := (hb.cubicCurve hb.conj hb).const_mul (I * ((L ^ (-γ) : ℝ) : ℂ) *
+    ((L ^ d : ℝ) : ℂ)⁻¹)
+  exact h1.add h2
+
+/-- **The first reduction, backward direction** (TARGET L540–L566; FINDINGS F8; Wave B proposal
+B1.4 item 2): a solution of (akeqn)–(akeqn2) on `[0, 𝔇]` in the class `Z^{d+1}` with rapidly
+decreasing data `c` gives a smooth solution of (NLS) on `[0, T]`, `T = δ T_kin 𝔇`, `α = L^{-γ}`,
+with the same data and `|û(t, n)| = |aₙ(t / (δ T_kin))|`. -/
+theorem IsAkSolution.isSmoothNLSSolution (hL : 0 < L) (hδ : 0 < δ) (h𝔇 : 0 < 𝔇) {T : ℝ}
+    (hT : T = δ * kineticTime (L ^ (-γ)) * 𝔇) (hc : IsRapidDecay c)
+    (ha : IsAkSolution L γ δ 𝔇 c a) :
+    IsSmoothNLSSolution L (L ^ (-γ)) T c (backSolution L γ δ c a) ∧
+      ∀ t ∈ Icc 0 T, ∀ n, ‖torusFourierCoeff L (backSolution L γ δ c a t) n‖ =
+        ‖a (t / (δ * kineticTime (L ^ (-γ)))) n‖ := by
+  have hkt : kineticTime (L ^ (-γ)) = L ^ (2 * γ) / 2 := kineticTime_rpow_neg hL γ
+  have hT0 : 0 < T := by rw [hT, hkt]; positivity
+  have hgood := goodCurve_backCoeff hL hδ hT hc ha
+  have hb : UnifRapid T (backCoeff L γ δ c a) := (hgood 0).unifRapid
+  have hb' : UnifRapid T (backDeriv L γ δ c a) :=
+    (goodCurve_backDeriv hL hδ hT hc ha 0).unifRapid
+  have hdb : ∀ n, ∀ t ∈ Icc 0 T, HasDerivWithinAt (fun s => backCoeff L γ δ c a s n)
+      (backDeriv L γ δ c a t n) (Icc 0 T) t :=
+    fun n t ht => hasDerivWithinAt_backCoeff' hL hδ hT ha ht n
+  have hcoef : ∀ t ∈ Icc 0 T, ∀ n,
+      torusFourierCoeff L (backSolution L γ δ c a t) n = backCoeff L γ δ c a t n :=
+    fun t ht n => torusFourierCoeff_torusSeries hL (hb.isRapidDecay ht).summable_norm n
+  have h0 : (0 : ℝ) ∈ Icc 0 T := ⟨le_rfl, hT0.le⟩
+  have hb0 : backCoeff L γ δ c a 0 = c := by
+    funext n
+    simp [backCoeff, congrFun ha.1 n]
+  refine ⟨⟨?_, fun t ht x j => isTorusPeriodic_torusSeries hL.ne' _ j x,
+    fun n => by rw [hcoef 0 h0 n, hb0], fun t ht x => ?_⟩,
+    fun t ht n => by rw [hcoef t ht n, norm_backCoeff]⟩
+  · -- smoothness on `[0, T] × ℝ^d`
+    show ContDiffOn ℝ _ (fun p : ℝ × (Fin d → ℝ) =>
+      ((L ^ ((d : ℝ) / 2) : ℝ) : ℂ)⁻¹ * stSeries L (backCoeff L γ δ c a) p) _
+    exact contDiffOn_const.mul (contDiffOn_stSeries_infty hL hT0 hgood)
+  · -- the equation
+    set f := backSolution L γ δ c a t with hfdef
+    set g := torusSeries L (backDeriv L γ δ c a t) with hgdef
+    have hderiv : derivWithin (fun s => backSolution L γ δ c a s x) (Icc 0 T) t = g x := by
+      have h := (hasDerivWithinAt_stSeries_time (L := L) hL hb hb' hdb ht x).const_mul
+        (((L ^ ((d : ℝ) / 2) : ℝ) : ℂ)⁻¹)
+      exact h.derivWithin (uniqueDiffOn_Icc hT0 t ht)
+    have hfs : ContDiff ℝ ∞ f := contDiff_torusSeries hL (hb.isRapidDecay ht)
+    have hf2 : ContDiff ℝ 2 f := hfs.of_le (by norm_cast)
+    have hfp : IsTorusPeriodic L f := isTorusPeriodic_torusSeries hL.ne' _
+    have hgc : Continuous g := continuous_torusSeries (hb'.isRapidDecay ht).summable_norm
+    have hgp : IsTorusPeriodic L g := isTorusPeriodic_torusSeries hL.ne' _
+    have hfc : Continuous f := hfs.continuous
+    have hc1 : Continuous fun y => I * g y - normLaplacian f y :=
+      (continuous_const.mul hgc).sub (continuous_normLaplacian hf2)
+    have hc2 : Continuous fun y => ((L ^ (-γ) : ℝ) : ℂ) * (((‖f y‖ ^ 2 : ℝ) : ℂ) * f y) := by
+      fun_prop
+    have hE : (fun y => I * g y - normLaplacian f y +
+        ((L ^ (-γ) : ℝ) : ℂ) * (((‖f y‖ ^ 2 : ℝ) : ℂ) * f y)) = fun _ => 0 := by
+      refine eq_of_torusFourierCoeff_eq hL (hc1.add hc2) continuous_const ?_
+        (IsTorusPeriodic.const 0) fun n => ?_
+      · intro j y
+        simp only [hfp j y, hgp j y, (hfp.normLaplacian) j y]
+      · have hfcoef : torusFourierCoeff L f = backCoeff L γ δ c a t := funext (hcoef t ht)
+        rw [torusFourierCoeff_add hc1.integrableOn_Icc hc2.integrableOn_Icc,
+          torusFourierCoeff_sub (f := fun y => I * g y) (g := normLaplacian f)
+            (continuous_const.mul hgc).integrableOn_Icc
+            (continuous_normLaplacian hf2).integrableOn_Icc,
+          torusFourierCoeff_const_mul, torusFourierCoeff_const_mul,
+          torusFourierCoeff_torusSeries hL (hb'.isRapidDecay ht).summable_norm,
+          torusFourierCoeff_normLaplacian' hL hf2 hfp, ← cubicConv_torusFourierCoeff hL hfs hfp,
+          hfcoef]
+        have hzero : torusFourierCoeff L (fun _ : Fin d → ℝ => (0 : ℂ)) n = 0 := by
+          simp [torusFourierCoeff_eq_integral]
+        rw [hzero]
+        have hcc : cubicConv L (backCoeff L γ δ c a t) n = ((L ^ d : ℝ) : ℂ)⁻¹ *
+            cubicCurve (backCoeff L γ δ c a)
+              (fun t m => (starRingEnd ℂ) (backCoeff L γ δ c a t m)) (backCoeff L γ δ c a) t n :=
+          rfl
+        rw [hcc, backDeriv]
+        linear_combination (((2 * Real.pi * ‖latticePoint L n‖ ^ 2 : ℝ) : ℂ) *
+          backCoeff L γ δ c a t n +
+          ((L ^ (-γ) : ℝ) : ℂ) * (((L ^ d : ℝ) : ℂ)⁻¹ * cubicCurve (backCoeff L γ δ c a)
+            (fun t m => (starRingEnd ℂ) (backCoeff L γ δ c a t m)) (backCoeff L γ δ c a) t n)) *
+          I_sq
+    rw [hderiv]
+    linear_combination congrFun hE x
+
 end Solutions
 
 end WaveTurbulence.NLS
