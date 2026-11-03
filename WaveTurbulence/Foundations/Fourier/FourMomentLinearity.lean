@@ -81,4 +81,16 @@ theorem fourTimeMomentNorm_add_le {f g : (Fin 2 → ℝ) → ℂ}
       exact lintegral_enorm_add_le (fourTimeDerivatives_contDiff hf j).continuous.measurable
     _ = _ := Finset.sum_add_distrib
 
+/-- Four-term triangle inequality for the mixed endpoint product rule. -/
+theorem lintegral_enorm_add_sub_sub_le {α : Type*} [MeasurableSpace α] {μ : Measure α}
+    {f g h k : α → ℂ} (hf : Measurable f) (hg : Measurable g) (hh : Measurable h) :
+    (∫⁻ t, ‖f t + g t - h t - k t‖ₑ ∂μ) ≤
+      ((∫⁻ t, ‖f t‖ₑ ∂μ) + (∫⁻ t, ‖g t‖ₑ ∂μ) + (∫⁻ t, ‖h t‖ₑ ∂μ)) + ∫⁻ t, ‖k t‖ₑ ∂μ := by
+  calc
+    _ ≤ (∫⁻ t, ‖f t + g t - h t‖ₑ ∂μ) + ∫⁻ t, ‖k t‖ₑ ∂μ :=
+      lintegral_enorm_sub_le ((hf.add hg).sub hh)
+    _ ≤ ((∫⁻ t, ‖f t + g t‖ₑ ∂μ) + ∫⁻ t, ‖h t‖ₑ ∂μ) + ∫⁻ t, ‖k t‖ₑ ∂μ :=
+      add_le_add (lintegral_enorm_sub_le (hf.add hg)) le_rfl
+    _ ≤ _ := add_le_add (add_le_add (lintegral_enorm_add_le hf) le_rfl) le_rfl
+
 end WaveTurbulence.Fourier
