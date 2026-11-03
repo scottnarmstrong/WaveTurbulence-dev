@@ -48,4 +48,16 @@ theorem frequency_decay_of_moments {ι : Type*} [Fintype ι]
       simpa only [mul_comm] using h s
     _ = _ := by simp
 
+/-- Two-frequency specialization, with separate moment hypotheses for convenient use. -/
+theorem frequency_decay_two (z : ℂ) (x y C : ℝ)
+    (h0 : ‖z‖ ≤ C) (hx : |x| * ‖z‖ ≤ C) (hy : |y| * ‖z‖ ≤ C)
+    (hxy : (|x| * |y|) * ‖z‖ ≤ C) :
+    ‖z‖ ≤ 4 * C / (Real.sqrt (1 + x ^ 2) * Real.sqrt (1 + y ^ 2)) := by
+  have hp : 0 < Real.sqrt (1 + x ^ 2) * Real.sqrt (1 + y ^ 2) := by positivity
+  apply (le_div_iff₀ hp).mpr
+  have hb := mul_le_mul (japaneseBracket_le_one_add_abs x)
+    (japaneseBracket_le_one_add_abs y) (Real.sqrt_nonneg _) (by positivity : 0 ≤ 1 + |x|)
+  have hz := mul_le_mul_of_nonneg_left hb (norm_nonneg z)
+  nlinarith
+
 end WaveTurbulence.Fourier
