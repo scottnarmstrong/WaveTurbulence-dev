@@ -40,6 +40,11 @@ theorem coordinateWeightCLM_apply (i : Fin d) (f : 𝓢(Mom d, ℝ)) (k : Mom d)
   rw [coordinateWeightCLM, SchwartzMap.bilinLeftCLM_apply]
   rfl
 
+/-- Function-level coordinate multiplier formula, including inside collision inputs. -/
+theorem coe_coordinateWeightCLM (i : Fin d) (f : 𝓢(Mom d, ℝ)) :
+    ⇑(coordinateWeightCLM i f) = fun k => k i * f k :=
+  funext (coordinateWeightCLM_apply i f)
+
 /-- The Schwartz operator associated to one coordinate letter. -/
 @[expose] def jetLetterCLM : JetLetter d → 𝓢(Mom d, ℝ) →L[ℝ] 𝓢(Mom d, ℝ)
   | .inl i => coordinateWeightCLM i
