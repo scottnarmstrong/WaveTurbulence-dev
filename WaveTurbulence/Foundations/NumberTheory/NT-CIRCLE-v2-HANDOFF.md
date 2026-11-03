@@ -187,3 +187,47 @@ Remaining goal-2 work: combine the frequency head/tail estimates with the arc
 bound, prove the global arc-block decomposition uniformly in the horizontal
 center, and control the height-sum/area error. None is assumed in a purported
 circle theorem. Goals 3–5 still remain open.
+
+## Goal 2: quantitative block milestone
+
+The frequency head/tail combination above is now proved, together with its
+application to actual circular height blocks:
+
+- `SmoothingBounds.lean` gives a distinctly named conditional Fourier
+  inequality: an `A sqrt(n)` positive-frequency bound implies
+  `|sum psi(f_i)| <= #s/(2K) + ((2*pi+2)/pi^2)*A*sqrt(K)`.
+  The underlying majorant series is bounded by `(4*pi+4)*A/sqrt(K)`.
+  These generic numerical lemmas are not circle theorems.
+- `Counting/CircleSawtooth.lean` discharges that frequency premise for the
+  actual translated arc, giving the displayed local bound with
+  `A = 8*(8*(b-a)*sqrt(R^2/(8H^3)) + 1/sqrt(R^2/(8H^3)))`.
+- `Counting/CircleBlockGeometry.lean` proves monotonicity on each semicircle
+  and width bounds `4H^2/R` from actual geometric endpoint conditions.
+- `Counting/CircleBlockBounds.lean` bounds the local amplitude by `160sqrt(H)`
+  and optimizes the natural cutoff. Its main result
+  `circle_left_block_sawtooth_sum_le_optimized` has radius `r^3`, height
+  `r^2 <= H <= r^3`, arbitrary translations, and conclusion `|sum psi| <= 322H/r`.
+  It assumes a genuine height block on the full real interval required by
+  the derivative test. No exponential or sawtooth estimate is a premise.
+
+Final targeted builds, all warning-free:
+
+    nice -n 5 lake build WaveTurbulence.Foundations.Counting.CircleSawtooth
+    # Built ...SmoothingBounds (4.9s), ...CircleSawtooth (3.7s).
+    nice -n 5 lake build WaveTurbulence.Foundations.Counting.CircleBlockGeometry
+    # Built ...CircleBlockGeometry (2.6s); completed successfully (3260 jobs).
+    nice -n 5 lake build WaveTurbulence.Foundations.Counting.CircleBlockBounds
+    # Built ...CircleBlockBounds (8.1s); completed successfully (3695 jobs).
+
+`nice -n 5 lake env lean /home/scott/wt-scratch/nt-circle/BlockAxioms.lean`
+checks both generic Fourier inequalities, the actual frequency and sawtooth
+arc bounds, both geometric widths, and both local block bounds. The log is
+`/home/scott/wt-scratch/nt-circle/block-axioms.log`.
+Exit 0; all eight results use exactly `[propext, Classical.choice, Quot.sound]`.
+Module checks pass for all 21 packet Lean files at the 1500-line cap; staged
+whitespace checks pass.
+
+The next missing steps are the exact disjoint integer-block covering (including
+the endpoint discarded to meet the derivative test's extra endpoint) and the
+height-sum/area comparison. The global uniform circle bound remains unproved;
+goals 3–5 have not been claimed complete.
