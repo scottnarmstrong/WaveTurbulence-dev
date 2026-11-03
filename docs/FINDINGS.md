@@ -153,3 +153,10 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   arbitrary F (F ≡ 1: right side 0, while 𝒰_χF(t,0) = t²/2 on (0,1/2) for χ = χ₀); the proof uses smooth compactly
   supported F, which is the class at the use site (T.pl1.S4). Lean statement takes that hypothesis. Found by wt-anfourier.
   Status: candidate erratum (missing hypothesis).
+- F43 — TARGET (atomcountbd) L2472 (Lemma `atomcountlem`) — the first bound is stated without k ≠ 0; it is false at k = 0
+  with signs (+,−) and γ > 1/2 (≈ L^d solutions vs. the claimed C·L^{d+1−2γ}); DH23 Lemma A.3(1) has |k₁−k₂| ∼ R ≥ L⁻¹,
+  i.e. k ≠ 0. Consumers (degenerate atoms, F21) must exclude or handle k = 0. Found by the independent Wave B stage-3
+  auditor (docs/campaign/orch/audits/WaveB-stage3.md R4). Status: candidate erratum (missing hypothesis).
+- F44 — Lean pitfall (not a source issue): in this Mathlib `ContDiff ℝ ⊤` means real-analytic (`ω`); C^∞ is
+  `ContDiff ℝ (⊤ : ℕ∞)` / `∞`. Wave A uses `(⊤ : ℕ∞)` (correct); the Wave B drafts used `⊤` (R1). Every brief and audit
+  must check this.
