@@ -1,0 +1,803 @@
+{
+ "assessed": "2026-11-03 16:58 UTC",
+ "notes": "Lean work items = blueprint packets (docs/blueprint/GRAPH.md §E) with their difficulty weights (node weights L=1, M=2, H=4, VH=8 summed). Each frozen theorem anchor adds weight 1, credited when SEALED. Done fractions are the orchestrator's assessment, reviewed at integration rounds.",
+ "lines_est_total": 273000,
+ "parts": [
+  {
+   "part": "Sources, paper maps, blueprint (P0–P1)",
+   "kind": "phase",
+   "weight": 30,
+   "done": 0.9,
+   "note": "4 maps; blueprint v2 (275 nodes, 84 packets) after independent topology review; author sign-off pending"
+  },
+  {
+   "part": "Exact Lean statements, frozen (P2)",
+   "kind": "phase",
+   "weight": 20,
+   "done": 0.25,
+   "note": "Wave A frozen (D6: 2 theorems, 13 definitions); Wave B (12 theorems + definitions) being drafted and audited"
+  },
+  {
+   "part": "Lean proofs (P4)",
+   "kind": "items",
+   "items": [
+    {
+     "id": "R-GAUSS",
+     "item": "GAUSS-HC",
+     "goal": "DH21 Lemma A.3 hypercontractivity; off the TARGET route (§B R6, F34): infrastructure only",
+     "weight": 4.0,
+     "lines_est": 2500,
+     "done": 1.0,
+     "note": "landed f986d35 (off-route, F34)"
+    },
+    {
+     "id": "R-TF",
+     "item": "TORUS-FOURIER",
+     "goal": "Fourier series on 𝕋_L^d",
+     "weight": 4.0,
+     "lines_est": 2500,
+     "done": 1.0,
+     "note": "landed 5beb902"
+    },
+    {
+     "id": "WA",
+     "item": "Wave A definitions",
+     "goal": "frozen 2026-11-03",
+     "weight": 5.0,
+     "lines_est": 230,
+     "done": 1.0,
+     "note": "frozen D6"
+    },
+    {
+     "id": "NT1",
+     "item": "GAUSSSUM",
+     "goal": "Dirichlet approximation, quadratic Weyl/Gauss sum bound",
+     "weight": 5.0,
+     "lines_est": 2100,
+     "done": 0.4,
+     "note": "Dirichlet, Weyl differencing landed; Gauss sum bound in progress (wt-gausssum)"
+    },
+    {
+     "id": "R-NTC",
+     "item": "NT-CIRCLE",
+     "goal": "circle problem with exponent 2/3 (stepping stone, off-route), estcross",
+     "weight": 6.0,
+     "lines_est": 3300,
+     "done": 0.45,
+     "note": "sawtooth cancellation landed; circle 2/3 in progress (wt-nt)"
+    },
+    {
+     "id": "N4",
+     "item": "AN-SOB",
+     "goal": "Sobolev/Morrey, simplex volumes, DH21 (10.5), DH21 Lemma 10.2",
+     "weight": 7.0,
+     "lines_est": 2700,
+     "done": 0.45,
+     "note": "interval/cube/radial Sobolev landed; simplex volumes, DH21 L10.2 in progress (wt-ansob)"
+    },
+    {
+     "id": "R-CUMUL",
+     "item": "CUMUL",
+     "goal": "complex Gaussians, Isserlis, cumulants, Leonov–Shiryaev, symmetry vanishing",
+     "weight": 13.0,
+     "lines_est": 3560,
+     "done": 1.0,
+     "note": "landed fea3516"
+    },
+    {
+     "id": "NT-EXPSUM",
+     "item": "NT-EXPSUM",
+     "goal": "van der Corput A/B processes, exponent pair, circle problem with e<2/3, annulus bound (F3 revised)",
+     "weight": 14.0,
+     "lines_est": 5300,
+     "done": 0.1,
+     "note": "A-process landed; B-process next (wt-nt)"
+    },
+    {
+     "id": "R-WKE",
+     "item": "WKE",
+     "goal": "collision operator, GIT20 trilinear (all d), LWP, wkelwp, tame estimate, Taylor expansion",
+     "weight": 24.0,
+     "lines_est": 9810,
+     "done": 0.5,
+     "note": "delta reading, slicing, Leibniz, tame trilinear, Schwartz closure, uniqueness landed; existence/τ_max/Taylor in progress (wt-wke)"
+    },
+    {
+     "id": "B1",
+     "item": "NLS-A",
+     "goal": "mass conservation, NLS→a-system reduction, a-system mass",
+     "weight": 6.0,
+     "lines_est": 1600,
+     "done": 0.6,
+     "note": "Fourier equation, mass conservation, a-system defs landed; reduction in progress (wt-torus)"
+    },
+    {
+     "id": "B2",
+     "item": "NLS-B",
+     "goal": "a-system LWP/persistence, inverse reduction, uniqueness of smooth solutions",
+     "weight": 9.0,
+     "lines_est": 3200,
+     "done": 0.15,
+     "note": "uniqueness of smooth solutions landed"
+    },
+    {
+     "id": "B3",
+     "item": "NLS-C",
+     "goal": "measurability, bridge, symmetries, gaugeinv",
+     "weight": 10.0,
+     "lines_est": 3000,
+     "done": 0.05,
+     "note": ""
+    },
+    {
+     "id": "NT9",
+     "item": "LINALG",
+     "goal": "TARGET Lemmas A.6 (finitelem), A.7 (lincomblem)",
+     "weight": 4.0,
+     "lines_est": 1400,
+     "done": 0.0,
+     "note": "started in MISC-A (wt-cumul)"
+    },
+    {
+     "id": "N5",
+     "item": "RESONANT",
+     "goal": "resonant measure δ(Σ)δ(Ω) and p.v.1/Ω on the collisionOp parametrization; DH21 Lemma 6.3",
+     "weight": 6.0,
+     "lines_est": 2800,
+     "done": 0.0,
+     "note": "started (wt-resonant)"
+    },
+    {
+     "id": "D1",
+     "item": "COMB-CORE",
+     "goal": "general carriers (WAVE-B G-1: marked unpaired leaves with time nodes, irreducibility as a predicate) for trees, gardens, decorations, layerings, embedded objects; basic API",
+     "weight": 8.0,
+     "lines_est": 2020,
+     "done": 0.15,
+     "note": "Wave B core carriers being drafted (wt-gauss-hc)"
+    },
+    {
+     "id": "N1",
+     "item": "AN-FOURIER",
+     "goal": "cutoff χ_0 (Wave B definition), Gevrey bounds, 𝔛 time-Fourier norms and restriction norms, Fourier-L¹ product lemma",
+     "weight": 9.0,
+     "lines_est": 3500,
+     "done": 0.0,
+     "note": "started (wt-anfourier)"
+    },
+    {
+     "id": "N2",
+     "item": "AN-PHASE",
+     "goal": "Poisson summation on ℤ_L^d, non-stationary and bilinear stationary phase",
+     "weight": 5.0,
+     "lines_est": 1700,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "D4",
+     "item": "REG-DEFS",
+     "goal": "mini-couples/mini-trees/operations A,B (WAVE-B §3.2), legal partitions, regular chains (DH21 Props 4.5, 4.7)",
+     "weight": 8.0,
+     "lines_est": 2400,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "NT10",
+     "item": "LEMLIN",
+     "goal": "TARGET lemlin, lemcubic0",
+     "weight": 4.0,
+     "lines_est": 1500,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "N3",
+     "item": "AN-HY",
+     "goal": "Hausdorff–Young, DNY21 kernel (pin F29), TARGET Lemmas A.2, A.3",
+     "weight": 10.0,
+     "lines_est": 4500,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "NT2",
+     "item": "HUA",
+     "goal": "DH21 Lemma A.5 (Hua L⁴, L⁶), shared reduction NT.weylReduction (review I17), L^{3d/2} moments of Weyl sums",
+     "weight": 8.0,
+     "lines_est": 3500,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "NT5",
+     "item": "NTSP",
+     "goal": "DH23 Lemmas 6.5, 6.7; TARGET Lemma 5.2",
+     "weight": 8.0,
+     "lines_est": 4300,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "M1",
+     "item": "MOLE",
+     "goal": "molecules (half-edge encoding, F40), molecules of gardens and their decorations, cuts, counting quantities MOL.countq (review I9), propcplmol, DH21-2 Prop 6.4",
+     "weight": 15.0,
+     "lines_est": 4900,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "C1",
+     "item": "REG-STRUCT",
+     "goal": "structure theorem of regular couples with uniqueness, counting (DH21 4.8–4.10, Cor 4.9, F12)",
+     "weight": 11.0,
+     "lines_est": 4000,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "G0",
+     "item": "MOLE-COUNT-BASICS",
+     "goal": "DH21 Lemmas 9.13–9.14, DH23 §10.5 degenerate atoms",
+     "weight": 4.0,
+     "lines_est": 1400,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "NT4",
+     "item": "MINOR2",
+     "goal": "DH23 Lemma 6.6(2), TARGET Lemma 5.3",
+     "weight": 5.0,
+     "lines_est": 3200,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "NT11",
+     "item": "LEMCUBIC",
+     "goal": "TARGET lemcubic (Weyl moments, Dirichlet), reductions of DH23 6.6",
+     "weight": 6.0,
+     "lines_est": 3000,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "NT3",
+     "item": "MINOR1",
+     "goal": "DH23 Lemma 6.6(1), 3-vector count δ^{−1}L^{2(d−γ)}",
+     "weight": 6.0,
+     "lines_est": 2000,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "M2",
+     "item": "BLOCKS",
+     "goal": "blocks, hyper-blocks, disjointlem, realizations",
+     "weight": 6.0,
+     "lines_est": 1600,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "NT7",
+     "item": "COUNT0",
+     "goal": "DH23 Lemma A.2 with exponent 2/3 (F3), TARGET Lemma A.8",
+     "weight": 7.0,
+     "lines_est": 3050,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "C2",
+     "item": "LINKS",
+     "goal": "links (DH21 Prop 4.3 + (x,y) relation F16), coherence, auxlem, tree localization lemma",
+     "weight": 11.0,
+     "lines_est": 3000,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "D2",
+     "item": "SYS-DEFS",
+     "goal": "parameter structure, norms 𝔛/𝔖/Z, a-system, K_G/K*_Q/K*_T with summability, 𝒥_𝒯, ℒ_j; time-parameter design (GAP.timeParam)",
+     "weight": 14.0,
+     "lines_est": 3400,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "M3",
+     "item": "CLCN",
+     "goal": "(CL)/(CN) dichotomy and splicing, blockchainprop, cnblock",
+     "weight": 10.0,
+     "lines_est": 3500,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "M4",
+     "item": "VINES",
+     "goal": "vine/ladder templates (WAVE-B §3.4, F19), groups/coherence, subsetvc",
+     "weight": 10.0,
+     "lines_est": 3300,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "NT6",
+     "item": "APPROXNT",
+     "goal": "DH23 Prop 6.4 and its extension to n≤N^4_{p+1} (F33); 2 days: split major arcs / minor arcs + large-order range",
+     "weight": 12.0,
+     "lines_est": 6200,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "C3",
+     "item": "SKELETON",
+     "goal": "prime skeletons of couples and gardens with uniqueness (DH21 4.13–4.16, DH21-2 4.4–4.6, E4)",
+     "weight": 15.0,
+     "lines_est": 5200,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "NT8",
+     "item": "COUNT",
+     "goal": "DH23 Lemma A.3, 2-vector counts, TARGET Lemma A.9",
+     "weight": 7.0,
+     "lines_est": 3800,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "M5",
+     "item": "MOLECPL",
+     "goal": "DH23 Prop 5.3 for gardens ((I-a,b), (II-a..e))",
+     "weight": 4.0,
+     "lines_est": 1500,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "M9",
+     "item": "VINEPARAM",
+     "goal": "molecule-level vine parametrizations (I)–(VIII) with ladders (F22; review I3, I19), before V4 and G2",
+     "weight": 4.0,
+     "lines_est": 1500,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "J1",
+     "item": "BCOEF",
+     "goal": "time coefficients ℬ_Q, recursions, class J/R operators (DH21 §5.1–Lemma 5.5)",
+     "weight": 7.0,
+     "lines_est": 3800,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "L1",
+     "item": "PL1A",
+     "goal": "Prop 5.1 steps 1–2 (unimodular change of variables, localization)",
+     "weight": 7.0,
+     "lines_est": 2800,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "V1",
+     "item": "SUMINT-A",
+     "goal": "sumint Steps 1–2 (+F23)",
+     "weight": 7.0,
+     "lines_est": 4200,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "C5",
+     "item": "ENHANCED",
+     "goal": "dominant/enhanced dominant couples and trees, equivalence classes, encoded trees (freeze if regref1 is frozen)",
+     "weight": 9.0,
+     "lines_est": 3150,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "D3",
+     "item": "CANON",
+     "goal": "canonical layered gardens (criterion form), canonequiv + characterization (mandatory gate, G-2), unique construction data and expansion bijection, truncation",
+     "weight": 9.0,
+     "lines_est": 3950,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "G6",
+     "item": "MOLEPROP13",
+     "goal": "DH23 Props 10.1, 10.3",
+     "weight": 6.0,
+     "lines_est": 2400,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "V3",
+     "item": "REGRED",
+     "goal": "skeleton reduction of K_𝒢, VC-local expressions",
+     "weight": 6.0,
+     "lines_est": 1900,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "G4",
+     "item": "APPB-OPS",
+     "goal": "DH23 App B operations TB…2R (figure-defined groups must be transcribed first); 2 days",
+     "weight": 8.0,
+     "lines_est": 4000,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "V2",
+     "item": "SUMINT-B",
+     "goal": "sumint Step 3 and assembly",
+     "weight": 5.0,
+     "lines_est": 2200,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "M6",
+     "item": "TWIST",
+     "goal": "unit twist case table (F20), twists, twist facts",
+     "weight": 8.0,
+     "lines_est": 2800,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "V4",
+     "item": "VINEEST-S2",
+     "goal": "vineest Step 2: garden-level re-parametrization into sumint form",
+     "weight": 4.0,
+     "lines_est": 2500,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "J2",
+     "item": "CLASSJR2",
+     "goal": "DH21 Lemmas 5.6–5.10",
+     "weight": 8.0,
+     "lines_est": 4000,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "L2",
+     "item": "PL1B",
+     "goal": "Prop 5.1 steps 3–4 and assembly",
+     "weight": 9.0,
+     "lines_est": 4650,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "C4",
+     "item": "LAYERREG",
+     "goal": "coherent layered regular objects and layering counts (Props 4.9, 4.10)",
+     "weight": 8.0,
+     "lines_est": 4000,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "J3",
+     "item": "MAINCOEF",
+     "goal": "DH21 Prop 5.1 (with DH23 weights)",
+     "weight": 4.0,
+     "lines_est": 3000,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "X1",
+     "item": "FLOWER-DEF",
+     "goal": "flower trees/gardens as instances of the general carriers (G-1), kernels (F25), parametrix and operator identities (F26, F39)",
+     "weight": 10.0,
+     "lines_est": 3100,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "G5",
+     "item": "APPB-ALG",
+     "goal": "App B algorithm, DH23 Prop 10.2",
+     "weight": 8.0,
+     "lines_est": 4000,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "G7",
+     "item": "MOLEPROP4",
+     "goal": "DH23 Lemmas ylem1/2, Prop 10.4",
+     "weight": 12.0,
+     "lines_est": 4500,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "J4",
+     "item": "CANCEL7",
+     "goal": "DH21 Lemmas 7.1–7.3, Props 7.4, 7.5",
+     "weight": 6.0,
+     "lines_est": 3400,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "M7",
+     "item": "LFTWIST",
+     "goal": "induced pre-layering, LF twists, lftwistprop with all cases (F20)",
+     "weight": 13.0,
+     "lines_est": 4200,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "J5",
+     "item": "MEXP",
+     "goal": "DH21 Props 7.7, 7.8 (momentum factors, class cancellation)",
+     "weight": 6.0,
+     "lines_est": 2700,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "I1",
+     "item": "INDUCT-A",
+     "goal": "expansion of truncated cumulants into canonical gardens; errors E^{(1)}, E^{(2)}; moment inequalities",
+     "weight": 10.0,
+     "lines_est": 4000,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "J7",
+     "item": "REGCANCEL",
+     "goal": "DH23 Prop 6.3 (single-layer realness)",
+     "weight": 4.0,
+     "lines_est": 2000,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "RA1",
+     "item": "REGASYMP",
+     "goal": "DH23 Prop 6.1 (couples and trees) for orders n≤N^4_{p+1} (F33, route R14 (a)); 2 days: split couples / trees+derivatives",
+     "weight": 10.0,
+     "lines_est": 5800,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "M8",
+     "item": "LAYERCNT",
+     "goal": "layering counts of ladders and vines",
+     "weight": 6.0,
+     "lines_est": 2100,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "J6",
+     "item": "WKE-ID",
+     "goal": "DH21 Props 7.9, 7.10; DH23 Prop 6.2 (Σ app = 𝒰_n)",
+     "weight": 6.0,
+     "lines_est": 2800,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "S1",
+     "item": "STAGE1-COMB",
+     "goal": "vinechainlem, 𝒱, congruence (equivalence, F20), gaps",
+     "weight": 7.0,
+     "lines_est": 2400,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "S2a",
+     "item": "REDSPLICE-DEF",
+     "goal": "Stage 1 construction: congruence classes, 𝒱_0, splicing, 𝒢_sb, 𝕄_sb, hinge atoms (review I1)",
+     "weight": 2.0,
+     "lines_est": 800,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "S4",
+     "item": "SUBPRO",
+     "goal": "properties of 𝕄_sb (DH23 Prop 9.1), non-hinge ZG atoms tame (F21, review I2)",
+     "weight": 8.0,
+     "lines_est": 3000,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "RA2",
+     "item": "REGREF",
+     "goal": "TARGET Props 6.6–6.8 (norm translation F11, corrected regref1-5, dominant trees)",
+     "weight": 13.0,
+     "lines_est": 4100,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "L3",
+     "item": "PL23",
+     "goal": "Props 6.1, 6.2",
+     "weight": 4.0,
+     "lines_est": 1700,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "G1",
+     "item": "STAGE2-DEF",
+     "goal": "the Stage-2 counting problem (requirements (a)–(f)), Operations 1–4, ι_v, tame-atom removal",
+     "weight": 10.0,
+     "lines_est": 2600,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "L4",
+     "item": "PL4",
+     "goal": "Prop 6.3 (layered realness)",
+     "weight": 4.0,
+     "lines_est": 2500,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "G2",
+     "item": "EXCESS-DH23",
+     "goal": "DH23 Prop 9.4 (case analysis of cut deviations)",
+     "weight": 8.0,
+     "lines_est": 3500,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "V5",
+     "item": "VINEEST",
+     "goal": "vineest Steps 3–4 and degenerate decorations (F21)",
+     "weight": 13.0,
+     "lines_est": 5100,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "G3",
+     "item": "EXCESS-T",
+     "goal": "TARGET excessprop1, DH23 Prop 9.5, finalmol",
+     "weight": 10.0,
+     "lines_est": 3500,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "S2",
+     "item": "REDSPLICE",
+     "goal": "Stage 1 analytic reduction (redvine2) and molecular form (redvine3)",
+     "weight": 6.0,
+     "lines_est": 2400,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "G8",
+     "item": "RIGID",
+     "goal": "DH23 Prop 9.6, TARGET lgmolect (F24)",
+     "weight": 10.0,
+     "lines_est": 4600,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "S3",
+     "item": "LADDER",
+     "goal": "ladder L^∞ and L¹ time-integral bounds",
+     "weight": 8.0,
+     "lines_est": 4200,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "F1",
+     "item": "FINAL-RED",
+     "goal": "redcount0, l1reduction estimates (finalsbest1, reduction of finalsbest2)",
+     "weight": 4.0,
+     "lines_est": 1200,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "F3",
+     "item": "FINAL-COUNT",
+     "goal": "finalcount1, remtame2, interpolation",
+     "weight": 4.0,
+     "lines_est": 900,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "F2",
+     "item": "PLG",
+     "goal": "terms (a)–(d), counting of classes and layerings, proof of layergarden",
+     "weight": 12.0,
+     "lines_est": 4150,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "X2",
+     "item": "FLOWEREST",
+     "goal": "flower adjustments on the general carriers (WAVE-B G-1, F26), deterministic flower bound (gate B1.12), flowerest1, ∂_t bounds; 2–3 days: split",
+     "weight": 16.0,
+     "lines_est": 8900,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "X3",
+     "item": "FIXEDPT",
+     "goal": "fixedest1–4 and fixedpoint",
+     "weight": 9.0,
+     "lines_est": 3400,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "I2",
+     "item": "INDUCT-B",
+     "goal": "base case, statements (1)–(4) at p+1, propansatz",
+     "weight": 10.0,
+     "lines_est": 3050,
+     "done": 0.0,
+     "note": ""
+    },
+    {
+     "id": "Z1",
+     "item": "MAIN",
+     "goal": "proof of Theorem 1.1 from propansatz and the bridge",
+     "weight": 3.0,
+     "lines_est": 860,
+     "done": 0.0,
+     "note": ""
+    }
+   ]
+  },
+  {
+   "part": "Frozen theorems sealed",
+   "kind": "sealing"
+  },
+  {
+   "part": "Release (P5)",
+   "kind": "phase",
+   "weight": 15,
+   "done": 0.0,
+   "note": "errata ledger, public repo, Comparator"
+  }
+ ]
+}
