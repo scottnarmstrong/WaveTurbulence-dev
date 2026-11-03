@@ -16,9 +16,9 @@ Mathlib's explicit `expNegInvGlue` transition. It is even, smooth, valued in
 
 Erratum F41 (owner ruling): the literal derivative bound `(2m)!` in L623 is
 impossible for this plateau and support. The intended quantitative bound is
-`C * A^m * (2*m)!`, for fixed absolute constants. The quantitative estimate
-is a separate proof obligation; the results below establish the geometric
-and smoothness properties only.
+`C * A^m * (2*m)!`. The explicit absolute constants are `C = exp 4` and
+`A = 16 + 16 * exp 2`; their proof is in `Chi0Gevrey.lean`. The results
+below establish the geometric and smoothness properties.
 -/
 
 public section
@@ -28,7 +28,8 @@ open Set
 namespace WaveTurbulence.Fourier
 
 /-- TARGET L617–L623: a concrete cutoff, expressed using the standard
-`exp(-1/x)` smooth transition. See the module docstring for erratum F41. -/
+`exp(-1/x)` smooth transition. Erratum F41 uses the absolute Gevrey
+constants `C = exp 4`, `A = 16 + 16 * exp 2`; see `chi0_gevreyTwoBound`. -/
 @[expose] noncomputable def chi0 (x : ℝ) : ℝ :=
   Real.smoothTransition (2 - 2 * x) * Real.smoothTransition (2 + 2 * x)
 

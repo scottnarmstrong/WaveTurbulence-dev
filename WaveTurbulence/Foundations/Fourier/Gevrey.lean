@@ -23,6 +23,26 @@ separately when needed; this predicate only records the numerical estimates. -/
 @[expose] def GevreyTwoBound (f : ℝ → ℝ) (C A : ℝ) : Prop :=
   ∀ (m : ℕ) (x : ℝ), |iteratedDeriv m f x| ≤ C * A ^ m * (Nat.factorial (2 * m) : ℝ)
 
+/-- Increasing either nonnegative constant preserves a Gevrey bound. -/
+theorem GevreyTwoBound.mono {f : ℝ → ℝ} {C D A B : ℝ}
+    (hf : GevreyTwoBound f C A) (hC : 0 ≤ C) (hA : 0 ≤ A)
+    (hCD : C ≤ D) (hAB : A ≤ B) : GevreyTwoBound f D B := by
+  intro m x
+  apply (hf m x).trans
+  exact mul_le_mul_of_nonneg_right
+    (mul_le_mul hCD (pow_le_pow_left₀ hA hAB m) (pow_nonneg hA m) (hC.trans hCD))
+    (Nat.cast_nonneg _)
+
+/-- Addition with a common exponential constant adds the prefactors. -/
+theorem GevreyTwoBound.add {f g : ℝ → ℝ} {C D A : ℝ}
+    (hf : GevreyTwoBound f C A) (hg : GevreyTwoBound g D A)
+    (hfs : ContDiff ℝ ∞ f) (hgs : ContDiff ℝ ∞ g) :
+    GevreyTwoBound (fun x => f x + g x) (C + D) A := by
+  intro m x
+  rw [iteratedDeriv_fun_add (hfs.of_le (by simp)).contDiffAt
+    (hgs.of_le (by simp)).contDiffAt]
+  exact (abs_add_le _ _).trans ((add_le_add (hf m x) (hg m x)).trans_eq (by ring))
+
 private theorem factorial_pair_le {m i : ℕ} (hi : i ≤ m) :
     (Nat.factorial (2 * i) : ℝ) * Nat.factorial (2 * (m - i)) ≤
       Nat.factorial (2 * m) := by
