@@ -102,7 +102,9 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   d ≥ 4 case is new work in packet WKE. Source: wt-orch delta audit Q5. Status: gap (external).
 - F33 — TARGET L949 vs DH23 L1168 — regular-couple asymptotics are used for orders up to N_{p+1}^4 = (log L)^{C(𝔇)},
   but DH21/DH23 prove them only for n ≤ N³ = (log L)^{12} (`approxnt` with λ_j ≤ (log L)^4). Same nature as F15.
-  Gap: the extension must be proved. Source: blueprint GRAPH §F.2a (GAP.largeOrder).
+  Gap: the extension must be proved. Source: blueprint GRAPH §F.2a (GAP.largeOrder). wt-orch topology review I13: a
+  crude bound absorbed by δⁿ is not available (the trivial bound on K_Q loses ≈ L^γ per order), so the regular-couple
+  asymptotics must genuinely be extended to orders up to N_{p+1}^4 (route R14 decided).
 - F34 — Route: TARGET never uses Gaussian hypercontractivity; its large-deviation bounds (fixedest1–3) come from
   2P-th moments computed with the cumulant ansatz plus Chebyshev (L2306–L2335). Packet GAUSS-HC (DH21 Lemma A.3, done)
   is off-route; landed as infrastructure only. Source: blueprint GRAPH §F.2a, verified by the orchestrator.
