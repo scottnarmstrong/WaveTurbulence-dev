@@ -611,3 +611,27 @@ A-closure theorem or define a second exponent-pair notion.
 Check: `nice -n 5 lake build
 WaveTurbulence.Foundations.NumberTheory.AProcessOptimization` passed (3263
 jobs, own-file builds 45s and 25s), no warnings or budget overrides.
+
+## Octant integration in progress
+
+To apply the newly coordinated square-root power-profile class uniformly in
+the real center, the improved circle route now uses the central inscribed
+square plus four outer caps. The caps have strict artificial cuts; their
+circular boundaries stay closed. Clipping each semicircle at `T=R/sqrt 2`
+absorbs the square's terms linear in R. The remaining square correction is
+a product of two sums of sawtooth values, hence bounded by one. The central
+excess removed by clipping has slope at most one and quadrature error at
+most four, so clipping preserves the proved square-root quadrature error.
+
+Compiled ingredients: `Counting/CircleCentralArc.lean` (bounded slope,
+Lipschitz estimate, central trapezoidal error <=1/4),
+`CircleCentralQuadrature.lean` (central excess sample error <=4), and
+`LatticeCoordinateSwap.lean` (actual frozen embedding, Euclidean center,
+exact interchange of horizontal and vertical cap counts). Targeted
+`CircleOctantCounting` builds compiled these supporting modules in 73s,
+55s, and 57s respectively, no warnings. The target's subsequent errors
+were local endpoint and finite-sum elaboration issues in other modules;
+the full octant transfer is not yet claimed.
+
+The four circle/annulus transfer axiom probes passed with only
+`[propext, Classical.choice, Quot.sound]`.
