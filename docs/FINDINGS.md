@@ -125,3 +125,27 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   somewhere; check against DH21 §11 (part of F26). Source: wt-orch figure-defs §7. Status: open.
 - F40 — Cutting at an atom with a self-loop (paired siblings) is ambiguous (TARGET L2118–L2127); encode molecules with
   half-edges. (II-a) vs (II-b) is a labelling convention only. Source: wt-orch figure-defs §2, §4. Status: design notes.
+- F32 (update, wt-wke 2026-11-03) — failing step located: in GIT20 Lemma 4.2, inequality (bil7), the radial
+  Cauchy–Schwarz step becomes sup_p ∫₀^∞ ⟨rθ+p⟩^{-2s} r^{d−3} dr, which grows like R^{d−3} at p = −Rθ for d ≥ 4; Lemma
+  4.3(ii) transfers for 2s > d−2; Lemma 4.1 needs an unproved d-dimensional dispersive bound. Consequence: the frozen
+  `wkelwp` conjunct 3 (L²_s blow-up for every s > d/2−1, d ≥ 4) has no written proof. TARGET never uses the blow-up
+  criterion after Prop `wkelwp`; Theorem 1.1 (`main`) does not depend on it. Author decision pending; research agent
+  investigating the general-d estimate.
+- F41 — TARGET L617–L623 — "χ_0 … in Gevrey class 2 (i.e. the m-th order derivatives are bounded by (2m)!)": the
+  literal bound is impossible for a cutoff equal to 1 on [−1/2,1/2] and 0 off (−1,1) (m = 1: |χ₀′| ≤ 2 forces slope
+  −2 on all of (1/2,1), contradicting smoothness at 1/2). Reading adopted: |χ₀^{(m)}| ≤ C·A^m·(2m)! with absolute
+  constants (Gevrey 2). Found by wt-anfourier. Status: candidate erratum (wording); also affects WAVE-B §2.6.
+- F32 (update 2, 2026-11-03 ~17:15) — research note `docs/research/git20-general-d.md` (Opus research agent) claims a
+  complete proof of (schappend8) for every d ≥ 3, s > d/2 − 1, j = 0..3 (Theorem 7: Tonelli, polar coordinates, one
+  linear change of variables, Hölder, a weighted Schur/AM–GM step that moves the radial weight A_k(θ) onto the
+  integrated variable, and the ℓ₁ ↔ ℓ₃ symmetry of the resonant measure); sharpness for s < d/2 − 1; blow-up criterion
+  then follows through Appendix C unchanged; GIT20's (bil7) is true in all d ≥ 3 and only the preceding radial
+  Cauchy–Schwarz step needs replacing. Status: claimed; independent refute-first audit by wt-orch pending. If it
+  survives, the frozen `wkelwp` stays unchanged (no owner decision needed) and a packet formalizes Theorem 7.
+- F32 (resolved on the mathematics, 2026-11-03 ~17:20) — wt-orch's refute-first audit
+  (`docs/campaign/orch/audits/GIT20-general-d.md`) finds Theorem 7 of `docs/research/git20-general-d.md` CORRECT: the
+  L²_s trilinear estimate holds for all d ≥ 3, s > d/2 − 1, j = 0..3; every condition reduces to 2s > d − 2; the blow-up
+  passage through Appendix C goes through with three routine supporting lemmas (Leibniz/weight identities for Z_{s,m}
+  inputs; equivalence of `IsWKESolution` with the Z_s mild solution; 𝒮 = ⋂ Z_{s,m}). **The frozen `wkelwp` stays
+  unchanged; no owner decision needed.** Formalization: packet WKE-L2S. Erratum for the authors: GIT20 Remark 2.6 is
+  unproved as written for d ≥ 4 (one radial Cauchy–Schwarz step fails; fixed by Theorem 7) and false for d = 2 (§8.3).
