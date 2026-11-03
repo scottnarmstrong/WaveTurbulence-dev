@@ -20,7 +20,7 @@ public section
 open MeasureTheory Set
 open scoped NNReal
 
-namespace WaveTurbulence
+namespace WaveTurbulence.Resonant
 
 variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
 
@@ -78,4 +78,4 @@ theorem integral_norm_pvRemainder_le {f : ℝ → E} {K : ℝ≥0}
     Real.volume_Icc]
   norm_num
 
-end WaveTurbulence
+end WaveTurbulence.Resonant

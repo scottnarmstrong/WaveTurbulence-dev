@@ -22,7 +22,7 @@ public section
 open MeasureTheory Filter Topology Set
 open scoped InnerProductSpace NNReal
 
-namespace WaveTurbulence
+namespace WaveTurbulence.Resonant
 
 variable {d : ℕ}
 
@@ -128,4 +128,4 @@ theorem lipschitzWith_sliceInt
   rw [(hasDerivAt_sliceInt hF hgrad hDc hD hℓ t).deriv]
   exact_mod_cast abs_normalDeriv_sliceInt_le hgrad hℓ t
 
-end WaveTurbulence
+end WaveTurbulence.Resonant

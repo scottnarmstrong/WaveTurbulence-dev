@@ -21,7 +21,7 @@ public section
 open MeasureTheory Filter Topology Set
 open scoped InnerProductSpace NNReal ContDiff
 
-namespace WaveTurbulence
+namespace WaveTurbulence.Resonant
 
 variable {d : ℕ}
 
@@ -115,4 +115,4 @@ theorem norm_bilinearFourierTruncation_le
   rw [mul_pow, show 2 * d = d + d by omega, pow_add]
   ring
 
-end WaveTurbulence
+end WaveTurbulence.Resonant

@@ -1,8 +1,16 @@
 # NT-CIRCLE-v2 progress and handoff
 
-Goal 1 complete. Goal 2 is incomplete; goals 3–5 have not been started. No circle discrepancy, annulus count,
-`estcross`, B-process, or improved exponent-pair theorem is claimed.
-The earlier numerical obstruction and handoff remain valid.
+Current status: the orchestrator closed NT-EXPSUM and reassigned this worker
+to MOLE. Goals 1–3 and the A-process infrastructure are complete. The
+unconditional actual closed-disc estimate with exponent **27/41 < 2/3**
+is also proved here in `Counting/CircleImprovedDiscrepancy.lean`, uniformly
+in all real centers, consuming the landed shared VdCB direct-circle B API.
+The orchestrator reports the final annulus theorem completed by wt-ansob
+in VdCB. The existing numerical audit covers 35/53 and every smaller
+exponent (q>=0), including the proved 27/41. Earlier progress entries below
+are chronological and may describe formerly pending work. No competing
+exponent-pair predicate was introduced. The duplicate phase-negation lemma
+was removed in cd59217, reusing `DerivativeTests.lean`.
 
 ## Files and exact exports (goal 1)
 
@@ -439,3 +447,768 @@ conventions rather than changes to the asymptotic claim.
 All six annulus-elementary axiom probes passed, each with only
 `[propext, Classical.choice, Quot.sound]`. The module-shape check passes
 for all 45 owned Lean files currently present.
+
+## Goal 3: estcross density and separable-counting milestone
+
+Files: `Counting/DenseStrip.lean`, `DenseProductStrip.lean`, `LatticeBox.lean`,
+`FiniteFibers.lean`, `LinearStrip.lean`, `SeparableStrips.lean`.
+
+The planar short-relation pigeonhole step is proved with explicit constants:
+if a strip has at least `L/theta` samples, `L >= 16*theta`, the first coefficient
+has absolute value greater than `2*rho` and dominates the second, then there
+is an actual nonzero second integer coefficient of magnitude at most `8*theta`,
+a first coefficient of magnitude at most `9*theta`, and linear error at most
+`2*rho`. The higher-dimensional product version proves the coordinate-fixing
+step via actual finite fibers, with theta enlarged by `3^d` for `d` remaining
+coordinates. No planar density is assumed without proving it from the full
+family's density.
+
+Integer boxes have proved cardinal bound `(2L+1)^d`, uniformly in real centers.
+One-dimensional linear strips have bound `2*rho/abs a + 1` and, when the
+coefficient is dominated by the width, `3*rho/abs a`. The independent pair
+of linear constraints is counted after fixing the other coordinates in
+`card_separable_strips_le`. These are generic geometric/counting helpers;
+they do not stand in for the source `estcross` theorem. Summing over short
+relations and discharging their witnesses for the full exceptional set remain.
+
+Checks: targeted `DenseProductStrip` build passed (9061 jobs, final own file
+8.6s); targeted `SeparableStrips` build passed (9060 jobs, final own file 3.3s).
+All supporting files compile without warnings, default budgets. No new source
+erratum or deviation has been found.
+
+The five estcross-ingredient axiom probes passed, all with only
+`[propext, Classical.choice, Quot.sound]`.
+
+## Goal 3 completed: full estcross and source-form annulus bound
+
+Additional files: `Counting/RelationIndices.lean`, `ShortRelationCounting.lean`,
+`LatticeCoordinates.lean`, `DenseVectorStrip.lean`, `DenseRelationIndices.lean`,
+`EstcrossBudget.lean`, `EstcrossDominant.lean`, `Estcross.lean`, `EstcrossBalls.lean`.
+The expanded elementary annulus form was added to `AnnulusElementary.lean`.
+
+Main result `card_dense_dot_product_strips_in_balls_le` states estcross for
+actual Euclidean balls and the actual inner product of frozen
+`WaveTurbulence.latticePoint 1` values. It covers every dimension `D=d+3`.
+The source's global standing dimension assumption is explicit at DH23 TeX
+L252 and L438: `d >= 3`. The ball centers and levels of the dense strips may
+depend arbitrarily on the exceptional vector; no center is bounded or rounded.
+The density condition is an actual finite subset of the ball with actual
+strip membership and at least `L^(D-1)/theta` points. It is exactly the
+property being counted, not an intermediate short-relation hypothesis.
+
+The proved bound is
+`C_D * (rho^D + L^(D-2)*rho^2*theta^2*(1+log L)^2)` with
+`C_D = 5^D + D*129600*(3^(D-2))^3`.
+Explicit scale convention: `rho >= 0`, `theta >= 1`,
+`16*3^(D-2)*theta <= rho <= L`. This fixes constants in the source's
+`1 << rho << L`, `1 <= theta << rho`. The dense-count threshold is normalized
+to `L^(D-1)/theta`; other fixed implicit constants can be absorbed into theta
+and the corresponding scale constants. The theorem does not require dyadic
+parameters and its explicit logarithmic loss is only two powers.
+
+Approach: the actual coordinate dot product and its remaining-coordinate
+fibers provide each of the two short integer relations. Signed nonzero
+coefficients are enumerated by their actual sign and positive natural
+magnitude. Counting the two remaining independent coordinates gives reciprocal
+weights; their exact sum is a harmonic number, bounded by Mathlib's
+`harmonic_le_one_add_log`. The actual coefficient budget is the natural ceiling
+of `9*3^(D-2)*theta`, bounded by `10*3^(D-2)*theta`. The dominant-coordinate
+restriction is removed by actual coordinate permutations and a finite cover.
+Small vectors contribute the `rho^D` term. No short-relation witnesses or
+coefficient-sum estimates are left as premises of estcross.
+
+`card_annulus_disc_le_expanded` now states the elementary annulus branch with
+exactly the three printed geometric terms, using a proved identity between
+the factored expression and real powers. It retains the closed radial annulus
+and closed Euclidean containing disc, uniformly in both centers.
+
+Checks: targeted `nice -n 5 lake build
+WaveTurbulence.Foundations.Counting.EstcrossBalls` passed (9072 jobs, final
+own-file build 16s) and targeted `AnnulusElementary` passed (9059 jobs, final
+own-file build 26s), both with no warnings or budget overrides. The module
+shape/line-limit check passes for all 59 owned Lean modules. `git diff --check`
+is clean. All short-relation, scalar-budget and coordinate modules compiled
+through these exact targets. Goals 1–3 are proved; goal 4 is next, and goal 5
+still depends on its improved exponent.
+
+New minor source erratum: DH23 `Revision_Submit.tex` L2040 prints
+`\#(A\cap \Zb^d)` in the elementary planar-annulus proof. The lemma begins with
+`A\subset\Rb^2` (L2028), so that display should read `Z^2`. The formalization
+uses `Fin 2 -> Z` throughout this argument. This is a dimensional typo and
+does not affect the estimate. The previously accepted F31 numerical defect
+and the requirement for an exponent strictly below `2/3` remain unchanged.
+
+Final goal-3 checks: the six estcross axiom probes, including the full
+Euclidean-ball theorem, passed, all with only `[propext, Classical.choice,
+Quot.sound]`. The expanded annulus theorem and its real-power identity also
+passed the same axiom check. No provider, draft frozen theorem, custom axiom
+or budget override is used. Goal 3 is complete and work proceeds directly
+to goal 4.
+
+## Revised goal 4 coordination and general smoothing milestone
+
+The orchestrator split the B-process into NT-BPROC (wt-ansob), owning
+`Foundations/VdCB/**`, including the Graham–Kolesnik phase-class predicate
+and `IsExponentPair`. This packet defines no competing exponent-pair notion.
+It now supplies the A-process side, distinct conditional transfer helpers,
+and the general-exponent annulus bound, then will plug in VdCB's proved pair
+and finish goal 5. Coordination is only through the orchestrator.
+
+New proved files: `NumberTheory/PhaseCalculus.lean`, `FractionalPowerSums.lean`,
+`FractionalSmoothing.lean`, `ExponentPairSmoothing.lean`.
+For `0 < kappa < 1`, the exact weight bounds are
+`sum_{n<=H} n^(kappa-1) <= H^kappa/kappa` and
+`sum_{n>H} n^(kappa-2) <= H^(kappa-1)/(1-kappa)`.
+Consequently the sawtooth sum is bounded by
+`card/(2H) + ((pi/kappa+1/(1-kappa))/pi^2)*A*H^kappa`
+under the explicit actual frequency estimate `norm(S_n) <= A*n^kappa`.
+`abs_sum_sawtooth_le_of_frequency_scale` optimizes the actual natural cutoff
+`ceil(Q^((1-lambda)/(1+kappa)))`, for `lambda <= 1`, and proves the exact
+exponent `(kappa+lambda)/(1+kappa)`, with no logarithmic or epsilon loss.
+It assumes an actual finite phase family's frequency estimate and is named
+and documented as a conditional numerical helper. No improved exponent pair
+or improved unconditional circle estimate is claimed at this stage.
+
+Checks: targeted `ExponentPairSmoothing` build passed (3718 jobs; supporting
+own-file builds 70s and 64s) and `PhaseCalculus` passed (3256 jobs, 61s), no
+warnings or overrides. All five corresponding axiom probes passed with only
+`[propext, Classical.choice, Quot.sound]`.
+The unfinished Poisson and oscillatory-integral drafts were preserved under
+`/home/scott/wt-scratch/nt-circle/bproc-drafts/`, outside the repository, after
+the B-process was reassigned. The completed phase-calculus identities remain
+available as reusable character calculus; no B-process source theorem is
+being implemented in this packet in parallel with NT-BPROC.
+
+## Conditional circle and annulus transfer
+
+`Counting/CircleExponentTransfer.lean`, `AnnulusDiscrepancy.lean`, and
+`CircleExponentAnnulus.lean` compile. The explicit actual column-frequency
+hypothesis implies discrepancy at exponent `(kappa+lambda)/(1+kappa)` with
+constant `33+4*((pi/kappa+1/(1-kappa))/pi^2)*C`, for `0<kappa<1` and
+`1/2<=lambda<=1`. No exponent-pair predicate is defined and no improved
+unconditional discrepancy is claimed. The annulus comparison, independently
+of this hypothesis, gives `6*pi*Q*rho+3*C*Q^e` from a circle error `C*R^e`,
+for `Q>=2`, `0<rho<=Q/4`, `0<=e<=1`. The inner disc has radius `Q-2*rho`, so
+closed radial boundaries introduce no subtraction error. Specialization to
+the proved two-thirds theorem gives `6*pi*Q*rho+4002*Q^(2/3)` unconditionally.
+The minimum with the full elementary branch is also proved.
+
+Check: `nice -n 5 lake build
+WaveTurbulence.Foundations.Counting.CircleExponentAnnulus` passed (9092 jobs;
+final own-file builds 89s and 81s), no warnings or budget overrides.
+
+The orchestrator's new proposed chain `BAABAAB` from `(0,1)` has coordinates
+`(1/2,1/2)`, `(1/6,2/3)`, `(1/14,11/14)`, `(2/7,4/7)`,
+`(1/9,13/18)`, `(1/20,33/40)`, `(13/40,11/20)`.
+Its circle exponent is exactly `35/53`, with gap `1/159` below `2/3`.
+The numerical DH23 critical-gamma branch optimization gives `63/79`, a gain
+`1/395` below `4/5`, splitting at `q=477/395`. These numerical comparisons
+are separate from the still-required proof and application of the pair.
+
+## Quantitative A-process side
+
+`NumberTheory/AProcessBounds.lean` reduces the actual integer-window Weyl
+inequality to `2*N^2/H+4*N*A*H^kappa`, chooses the integer cutoff `floor X`,
+and proves norm at most `3*N/sqrt X` under the explicit balancing condition.
+`AProcessOptimization.lean` proves the scalar A-coordinate transformation
+`(kappa/(2*kappa+2),(kappa+lambda+1)/(2*kappa+2))`, with coefficient
+`Y^kappa*N^(lambda-kappa)`, in the explicitly stated balanced-cutoff regime.
+These are numerical helpers for actual finite differenced sums, with all
+cutoff restrictions visible. They do not claim the full shared phase-class
+A-closure theorem or define a second exponent-pair notion.
+Check: `nice -n 5 lake build
+WaveTurbulence.Foundations.NumberTheory.AProcessOptimization` passed (3263
+jobs, own-file builds 45s and 25s), no warnings or budget overrides.
+
+## Octant integration in progress
+
+To apply the newly coordinated square-root power-profile class uniformly in
+the real center, the improved circle route now uses the central inscribed
+square plus four outer caps. The caps have strict artificial cuts; their
+circular boundaries stay closed. Clipping each semicircle at `T=R/sqrt 2`
+absorbs the square's terms linear in R. The remaining square correction is
+a product of two sums of sawtooth values, hence bounded by one. The central
+excess removed by clipping has slope at most one and quadrature error at
+most four, so clipping preserves the proved square-root quadrature error.
+
+Compiled ingredients: `Counting/CircleCentralArc.lean` (bounded slope,
+Lipschitz estimate, central trapezoidal error <=1/4),
+`CircleCentralQuadrature.lean` (central excess sample error <=4), and
+`LatticeCoordinateSwap.lean` (actual frozen embedding, Euclidean center,
+exact interchange of horizontal and vertical cap counts). Targeted
+`CircleOctantCounting` builds compiled these supporting modules in 73s,
+55s, and 57s respectively, no warnings. The target's subsequent errors
+were local endpoint and finite-sum elaboration issues in other modules;
+the full octant transfer is not yet claimed.
+
+The four circle/annulus transfer axiom probes passed with only
+`[propext, Classical.choice, Quot.sound]`.
+
+The next compiled octant ingredients are `CircleOctantGeometry.lean`
+(exact finite square/cap partition, central square product count, residual
+square correction <=1) and `CircleClippedHeight.lean` (exact subtraction of
+the central integer excess and clipped quadrature error <=15*sqrt(R)+4).
+The targeted `CircleOctantCounting` build compiled them in 68s each, without
+warnings. Subsequent cap-slice and assembly modules are being checked.
+
+`CircleCapCounting.lean` and `CircleOctantCounting.lean` now compile too:
+the exact closed-disc cardinality is the central integer-rectangle product
+plus the two vertical and two horizontal cap sums. Each slice is exactly
+`2*height-psi(height+c_other)-psi(height-c_other)`. Both cap height sums are
+proved equal to their clipped height sums minus the flat central count.
+Check: `nice -n 5 lake build
+WaveTurbulence.Foundations.Counting.CircleOctantCounting` passed (9067 jobs;
+final own-file build 60s), no warnings.
+
+## Outer-octant transfer compiled
+
+`CircleOctantArea.lean` proves the central arc area
+`R^2*(pi/4+1/2)` and central excess area `R^2*(pi/4-1/2)` by actual sine
+substitution. `CircleOctantError.lean` unconditionally bounds the translated
+closed-disc discrepancy by four actual outer-cap sawtooth sums plus
+`60*sqrt(R)+17`. `CircleCapSmoothing.lean` handles the actual cap filters
+and arbitrary vertical phase shifts. `CircleOctantTransfer.lean` proves the
+conditional general-exponent transfer using only the outer-cap frequency
+hypothesis, uniformly in both center coordinates:
+
+`forall j : Fin 2, forall n>0,
+ norm(sum_{x in integerInterval(c_j-R,c_j+R), R/sqrt(2)<abs(x-c_j)}
+      expPhase(n*circleHeight R c_j x)) <= C*R^lambda*n^kappa`.
+
+For `0<kappa<1`, `1/2<=lambda<=1`, the resulting circle exponent is exactly
+`(kappa+lambda)/(1+kappa)`. The constant is
+`83+8*((pi/kappa+1/(1-kappa))/pi^2)*C` for `R>=2`, or the harmless uniform
+`2668+8*((pi/kappa+1/(1-kappa))/pi^2)*C` for every `R>=1`. This is a distinct
+conditional helper, not a claim that the exponent pair is already proved.
+It replaces the earlier all-column input with the exact outer-octant input
+needed by the coordinated square-root power-profile class.
+
+Check: `nice -n 5 lake build
+WaveTurbulence.Foundations.Counting.CircleOctantTransfer` passed (9090 jobs;
+final own-file build 15s), with zero warnings after cleanup. No budgets or
+extra assumptions about integer endpoints or the center are used.
+
+`CircleOctantAnnulus.lean` also compiles: the uniform outer-cap frequency
+hypothesis supplies both the general-exponent annulus branch and its minimum
+with the proved elementary geometric branch. The actual closed annulus and
+containing disc are unchanged. Targeted `CircleOctantAnnulus` build passed
+(9103 jobs; own-file build 5.2s), zero warnings.
+
+`NumberTheory/AProcessAllRegimes.lean` removes the artificial cutoff regime
+from the numerical A-process helper when `Y>=1`, `0<=kappa<=lambda` and
+`N>0`. The optimal cutoff is automatically <=N; if it is <1, the actual
+trivial finite exponential-sum bound suffices. It proves the A-transformed
+coordinates from actual differenced sums, with no phase-class predicate
+introduced. Targeted `AProcessAllRegimes` build passed (3264 jobs, own-file
+4.0s), zero warnings.
+
+The merged independent infrastructure audit's L1 notes a registry omission:
+`Counting/MonotoneIntervals.lean` is salt-adapted with its required per-file
+attribution and license pointer, but the orchestrator-owned
+`docs/THIRD-PARTY.md` list omits it. That registry still needs its file list
+extended. No out-of-ownership documentation edit was made here.
+
+## Proposed 35/53 exponent: numerical audit checked
+
+`Counting/ImprovedExponentAudit.lean` proves the scalar `BAABAAB` chain
+coordinates `(13/40,11/20)`, the resulting exponent `35/53`, and its strict
+`1/159` improvement over `2/3`. These scalar identities do not assert that
+the analytic exponent-pair closure has landed.
+
+For DH23 `basiccount0` (1), L2077, and (3), L2088, the complete two-branch
+expression with exponent `35/53` is <=
+`1-min(1/1000,2*gamma-1)` for every `gamma>=1/2` and every q. Thus it retains
+the exact fixed saving stated in the source even near `gamma=1/2`.
+For (2), L2082, the correctly summed branches are <=`63/79=4/5-1/395`, split
+at `q=477/395`. An explicit eta-margin lemma proves
+`63/79+D*eta <= gamma-20*eta` whenever
+`gamma>=4/5-10*eta` and `(D+30)*eta<=1/395`. This allows the source's fixed
+`O(eta)` losses for sufficiently small eta. For `basiccount` (5), L2117,
+the previously proved geometric-branch comparison is unchanged and does
+not depend on the circle exponent. The former two-thirds comparisons for
+(1),(3) also follow monotonically whenever q>=0.
+
+Check: targeted `ImprovedExponentAudit` build passed (3138 jobs, 2.9s), zero
+warnings. Goal 5's numerical work is ready for specialization, but its final
+claim still requires an actually proved exponent pair and its application.
+
+## Endpoint dyadic bridge compiled
+
+`Counting/DyadicPowerBlocks.lean` extends the exact dyadic partition to any
+additive commutative monoid, including complex sums, and proves the finite
+geometric tail bound. `CircleEndpointBlocks.lean` proves the unit-scale
+cutoff and an absolute bound of six terminal columns. It derives the global
+sum bound from actual local complex block estimates.
+`CircleEndpointFrequency.lean` normalizes the endpoint power scale
+`n^kappa*R^(kappa/2)*U^(lambda-kappa/2)` and proves the global outer-cap
+frequency estimate with constant
+`6+C/(2^(lambda-kappa/2)-1)` multiplying `R^lambda*n^kappa`, for
+`0<=kappa<1`, `lambda>=1/2`, natural n>0, and R>=1. No logarithm, epsilon,
+phase-class definition or hidden endpoint estimate is introduced.
+The local block premise is explicit and named as a conditional helper.
+
+Check: `nice -n 5 lake build
+WaveTurbulence.Foundations.Counting.CircleEndpointFrequency` passed (9060
+jobs, final own-file build 5.7s), zero warnings.
+
+Read-only inspection of VdCB's current API confirms that analytic A/B
+closure is still in progress. Its generic decreasing-power class is not
+claimed to contain every circle block with arbitrarily small perturbation;
+its documented direct-circle route uses the actual Legendre dual and a
+uniform fifth-derivative estimate. Our outer-cap and block consumers make
+no unsupported inference from the generic predicate. They can consume the
+proved direct-family bound as soon as it lands, preserving arbitrary centers.
+
+`CircleOctantPhase.lean` compiles: both actual endpoint formulas,
+`circleHeight R c (c+R-u) = sqrt(2R)*sqrt(u)*sqrt(1-u/(2R))`
+and its left reflection, hold for R>0,u>=0. The factor has all finite
+smoothness orders on t<2 and lies in [1/2,1] on [0,1]. These identities do
+not assert arbitrary-small perturbation membership in the generic profile
+class. Targeted `CircleOctantPhase` passed (3260 jobs, 2.2s), zero warnings.
+
+Seven new main axiom probes passed: all-regime A optimization, central
+quadrature, exact cap count, central area, outer-sawtooth reduction,
+outer-frequency circle transfer, and complete annulus minimum. Each has
+only `[propext, Classical.choice, Quot.sound]`. Exact check:
+`nice -n 5 lake env lean /home/scott/wt-scratch/nt-circle/OctantAxioms.lean`
+exited 0.
+
+`NumberTheory/PhaseDifferences.lean` compiles: actual finite differences
+commute with first and higher derivatives at the two evaluation points,
+and the real mean-value theorem transfers absolute derivative bounds with
+the exact shift factor. No sign hypothesis or exponent-pair definition is
+introduced. Targeted `PhaseDifferences` build passed (3231 jobs, 3.6s), zero
+warnings. Further A-iterations are being prepared using the already mined
+salt third-difference proof and our existing character/Weyl toolkit.
+
+## Analytic A-iteration: third differences and both power terms
+
+`NumberTheory/ThirdDifference.lean` adapts the already pinned, licensed salt
+`Salt/ExpSum/DerivTest.lean` proof to the existing `expPhase`, second-difference
+and exact Weyl modules. It proves the third finite-difference test
+`12*sqrt(c)*(N*lambda^(1/6)+N^(1/2)*lambda^(-1/6))`, including every lambda
+regime and actual integer overlap. It also exports the integer-indexed
+second-difference wrapper, exact symmetric integer shift summation, and
+negative-shift conjugation symmetry. The only change in the Weyl invocation
+uses our stronger all-N,H theorem instead of salt's extra cutoff arguments.
+Headers and source commit attribution are retained; no budgets were changed.
+The orchestrator-owned third-party registry should additionally list this
+salt-derived `NumberTheory/ThirdDifference.lean` file (same existing license).
+
+`AProcessTwoPowers.lean` proves the general actual-shift bound
+`|S|^2 <= 2*N^2/H+4*N*A*H^alpha+
+ (4*N*B/(1-alpha))*H^(-alpha)` for `0<alpha<1`, `1<=H<=N`, from the two
+actual shift terms `A*h^alpha+B*h^(-alpha)`. The negative powers use the
+proved fractional integral estimate, and both shift signs are included by
+exact conjugation. This supports further A-iterations without discarding
+the negative-power error term.
+
+Check: targeted `AProcessTwoPowers` build passed (3556 jobs; own-file builds
+13s and 2.4s), zero warnings. These are actual derivative/difference tests
+and distinct numerical A-process helpers; no shared phase class is redefined.
+
+`FiniteDifferenceMeanValue.lean` proves, for every natural n, that the actual
+n-fold unit finite difference equals the n-th member of an actual derivative
+tower at some point in the full sample interval `[x,x+n]`. It also proves
+commutation with derivatives and the explicit second/third formulas.
+`ThirdDerivative.lean` applies this to the proved third-difference test,
+including the negative-third-derivative case via exact phase conjugation.
+Its source interval includes the two extra right-hand sample units, so no
+off-interval derivative values are assumed silently. Targeted
+`FiniteDifferenceMeanValue` passed (3232 jobs, 2.2s), and `ThirdDerivative`
+passed (3268 jobs, 1.8s), zero warnings.
+
+`AProcessTwoPowersCutoff.lean`, `AProcessDerivativeBalance.lean`, and
+`AProcessDerivativeStep.lean` complete the numerical induction for higher
+derivative tests. From actual positive-shift estimates
+`D*(N*(lambda*h)^alpha+N^b*(lambda*h)^(-alpha))`, the proved A-step gives
+`(16*D/(1-alpha))*(N*lambda^beta+N^((b+1)/2)*lambda^(-beta))`,
+`beta=alpha/(2*alpha+2)`, for `0<alpha<1`, `b>=0`, `D>=1`.
+The empty window and both trivial cutoff regimes are included. Both shift
+signs and both derivative-test error terms are retained throughout.
+Checks: targeted `AProcessTwoPowersCutoff` passed (3557 jobs, 2.3s), and
+`AProcessDerivativeStep` passed (3559 jobs, final own-file 4.7s), zero warnings.
+These are actual finite-sum A-process implications, with no phase-class or
+exponent-pair predicate added. Continuous fourth/fifth derivative tests are
+being assembled from this step and actual shifted derivative towers.
+
+## Continuous fourth and fifth derivative tests compiled
+
+`DerivativeTowerShift.lean` proves the exact positive-shift overlap and
+transfers an actual derivative tower to that overlap, including signed
+last-derivative bounds multiplied by h. `FourthDerivative.lean` proves
+`256*sqrt(c)*(N*lambda^(1/14)+N^(3/4)*lambda^(-1/14))`.
+`FifthDerivative.lean` proves
+`8192*sqrt(c)*(N*lambda^(1/30)+N^(7/8)*lambda^(-1/30))`.
+Both have positive and negative final-derivative variants, actual exponential
+sums, and explicit derivative towers through order four/five on
+`[a+1,a+N+2]`. Every cutoff regime and all boundary samples are included.
+No exponent-pair class or B-process theorem is assumed in these tests.
+
+Check: `nice -n 5 lake build
+WaveTurbulence.Foundations.NumberTheory.FifthDerivative` passed (3566 jobs;
+own-file builds 2.5s, 2.9s, 4.1s), zero warnings. The source for the A
+iteration is the proved Weyl inequality, real mean-value theorem, and the
+licensed third-difference base already recorded above.
+
+## Pure dual-curve A-scale bound compiled
+
+`PowerScaleComparison.lean` proves upper/lower scale monomial comparisons
+and exact derivative-scale normalization. `FifthDerivativeScale.lean`
+combines the actual third/fourth/fifth tests in the three ranges
+`T<=Y^(5/2)`, `Y^(5/2)<=T<=Y^(25/8)`, `T>=Y^(25/8)`.
+The result `norm_exp_sum_le_of_three_signed_derivative_scales` is
+`16384*sqrt(c)*T^(1/30)*Y^(5/6)`, for `Y>=1`, `T>=Y^(5/6)`, and any actual
+integer subwindow length N<=Y. Its premises are an actual derivative tower
+through order five and the signed scale intervals for derivatives three,
+four and five (negative, positive, negative), exactly the circle dual's
+pattern. It assumes no exponential-sum estimate and no exponent-pair
+predicate. Additive linear terms are unrestricted through the actual tower.
+
+This is the pure `(1/30,26/30)` A-scale, since
+`T^(1/30)*Y^(5/6) = (T/Y)^(1/30)*Y^(26/30)`. It can supply the direct circle
+B-route once the actual dual derivative estimates and stationary-phase
+transform land. The B-transform itself remains assigned to NT-BPROC.
+Check: targeted `PowerScaleComparison` passed (3137 jobs, 3.5s), and
+`FifthDerivativeScale` passed (3568 jobs, 4.6s), zero warnings.
+
+`FifthDerivativeScaleConstants.lean` allows fixed comparison losses in the
+frequency scale: `Y<=K*T`, `K>=1`, `T>0`, rather than requiring normalized
+`T>=Y`. It proves the actual bound
+`(K^2+16384*sqrt(c))*(T/Y)^(1/30)*Y^(26/30)` from the same actual signed
+third/fourth/fifth derivative tower. The lower-scale case uses only the
+trivial actual finite-sum estimate; no extra derivative input or epsilon
+loss is hidden. The exact identity with `T^(1/30)*Y^(5/6)` is proved too.
+Targeted `FifthDerivativeScaleConstants` passed (3569 jobs, 4.5s), zero warnings.
+
+`LinearPhaseTower.lean` proves that adding arbitrary real `p*x+q` preserves
+all actual derivative-tower relations and every derivative of order >=2.
+`FifthDerivativeLinearPhase.lean` exports
+`norm_exp_sum_add_linear_le_of_signed_derivative_scales`: the complete pure
+`(1/30,26/30)` bound, with fixed comparison constants, uniformly in both
+real coefficients p,q. This explicitly handles the translated-circle dual
+Poisson factor without assuming the center or radius is integral.
+Targeted `FifthDerivativeLinearPhase` passed (3571 jobs; supporting 5.9s,
+consumer 2.4s), zero warnings.
+
+`Counting/CircleEndpointTransfer.lean` now composes the entire local-to-global
+chain: actual dyadic endpoint power estimates imply the exact general
+circle exponent and the annulus error branch, with all constants explicit.
+The sole local hypothesis is the actual filtered dyadic exponential sum,
+at scale `C*n^kappa*R^(kappa/2)*U^(lambda-kappa/2)`. Every cutoff, terminal
+sample, sum over blocks, sawtooth approximation, square cancellation,
+closed boundary, and area comparison is proved downstream.
+Targeted `CircleEndpointTransfer` passed (9107 jobs, 17s), zero warnings.
+
+Nine further axiom probes passed, including third-difference test, arbitrary
+finite-difference mean value, complete derivative A-step, fourth/fifth
+continuous tests, fixed-constant pure A-scale, arbitrary linear phases,
+endpoint-frequency bridge and actual endpoint formula. Each has only
+`[propext, Classical.choice, Quot.sound]`. Exact check:
+`nice -n 5 lake env lean /home/scott/wt-scratch/nt-circle/HigherDerivativeAxioms.lean`
+exited 0. The current 103 owned Lean modules pass module shape, line limit,
+no-sorry and no-budget scans; `git diff --check` is clean.
+
+The numerical audit now also proves that any exponent <=35/53 retains both
+the exact source saving for (1),(3) and the critical-gamma saving for (2),
+when q>=0. In particular the direct B-after-A^3 candidate `(11/30,16/30)`
+has numerical circle exponent `27/41<=35/53`, so the checked margins apply
+without redoing the source optimization. This is arithmetic only, pending
+the actual B-process frequency estimate. Targeted `ImprovedExponentAudit`
+passed again after this extension (3138 jobs, 20s), zero warnings.
+
+`SqrtQuadraticBounds.lean` and `CircleDualDerivativeNumerics.lean` prove only
+scalar comparisons for the explicit dual-derivative quotients; no VdCB
+phase or class is duplicated. On `h<=Y<=x<=4Y`, the magnitudes of the
+third/fourth/fifth rational square-root formulas have common bounds
+`R*h^2/(32768*Y^(r+1))` and `3840*R*h^2/Y^(r+1)`, for r=3,4,5.
+The `[Y,4Y]` interval leaves room for the two extra derivative sample units
+on integer subwindows. The calculus identities themselves remain VdCB's.
+Targeted `CircleDualDerivativeNumerics` passed (3215 jobs; supporting 7.8s,
+consumer 16s), zero warnings.
+
+## Complete direct-circle dual A consumer compiled
+
+`CircleDualScaleNormalization.lean` puts all three derivative magnitudes
+at the same phase scale `T=R*h^2/(32768Y)`, length scale `2Y`, derivative
+comparison `c=4294967296`, frequency comparison `K=65536`.
+`CircleDualAScale.lean` exports
+`circle_dual_exp_sum_le_of_derivative_formulas`: from an actual derivative
+tower and the literal third/fourth/fifth quotient formulas on `[Y,4Y]`,
+it proves the pure bound
+`17179869184*(R*h^2/Y^2)^(1/30)*Y^(26/30)`.
+It is uniform in added real linear coefficients p,q and actual integer
+subwindows N<=2Y whose derivative sample interval stays in `[Y,4Y]`.
+Standing range conditions are `h<=Y`, `Y>=1`, `Y^2<=R*h^2`, R,h>0.
+No exponential-sum estimate, exponent-pair predicate, stationary phase or
+B-process theorem is assumed. The actual calculus formulas are VdCB's
+remaining input to this distinct conditional helper.
+
+Checks: targeted `CircleDualAScale` passed (3575 jobs; final own-file 27s),
+zero warnings. Thus the direct-circle A side is ready to consume the VdCB
+calculus and B-transform once landed. The earlier scalar audits cover the
+resulting `27/41` circle exponent if that direct route is used.
+
+`CircleDualWeightScale.lean` proves exact scalar curvature-weight identities:
+the weighted `(1/30,26/30)` dual scale is
+`R^(8/15)*h^(16/15)*Y^(-7/10)`. At endpoint-distance dual scale
+`Y=h*sqrt(R/U)` this is exactly `h^(11/30)*R^(11/60)*U^(7/20)`.
+If Y is only bounded below by a quarter of that scale, the same local powers
+hold with factor four. These are scalar statements; no stationary-phase or
+B-process estimate is asserted. They match precisely the local powers
+consumed by `CircleEndpointTransfer` for `(kappa,lambda)=(11/30,16/30)`.
+Targeted `CircleDualWeightScale` passed (3214 jobs, 4.3s), zero warnings.
+
+`Counting/AnnulusHalfRadius.lean` removes the earlier quarter-radius
+restriction: for the exact source elementary assumptions Q>0,
+0<rho<=Q/2, Q*rho>=1, the general circle-error annulus branch is
+`9*pi*Q*rho+3*C*Q^e`. For rho>=Q/4 the outer-disc area is absorbed by
+Q*rho; below that threshold Q>=2 follows from the source scale assumption,
+so the strict-inner-disc subtraction applies. The minimum with all three
+terms of the proved elementary branch is included. Closed boundaries and
+both arbitrary real centers are retained.
+Targeted `AnnulusHalfRadius` passed (9087 jobs, 3.7s), zero warnings.
+
+`CircleEndpointGeometry.lean` proves that every nonempty actual outer-octant
+dyadic block satisfies `3U<=R`, since its endpoint distance is <R/3. It also
+proves the exact circle height formula in unsigned endpoint distance.
+`CircleLocalizedEndpointTransfer.lean` therefore requires local analytic
+estimates only when `U>=1` and `3U<=R`, matching the shared circle-source
+localization API; all other blocks are proved empty. It composes these
+inputs into the uniform circle discrepancy and the complete source annulus
+minimum for the full half-radius thickness range.
+Checks: `CircleEndpointGeometry` passed (9061 jobs, 3.9s), and
+`CircleLocalizedEndpointTransfer` passed (9111 jobs, 5.0s), zero warnings.
+
+## Landed VdCB calculus consumed
+
+After merging main at `1043c2b`, the shared VdCB calculus and exponent-pair
+API became available. `NumberTheory/VdCBCircleDualAScale.lean` now proves
+`norm_sum_circleLatticeDualPhase_add_linear_le` for the actual shared
+`VdCB.circleLatticeDualPhase`, with arbitrary real linear coefficients.
+It internally supplies the genuine all-order derivative tower from the
+shared smoothness theorem and proves the actual third/fourth/fifth formulas
+from VdCB's checked calculus. Thus no derivative formula, exponential-sum
+estimate, or exponent-pair property remains as a premise of this direct A
+estimate. Only the explicit geometric scale and integer-window conditions
+remain. The bound is `17179869184*(R*h^2/Y^2)^(1/30)*Y^(26/30)`.
+Targeted `VdCBCircleDualAScale` passed (3582 jobs, own-file 4.1s), zero warnings.
+
+`ExponentPairApplications.lean` consumes the actual shared
+`VdCB.IsExponentPair`, defining no second notion. It proves positive
+frequency scaling of the literal `HasPowerProfile` class, uniform positive
+integer frequency estimates, and the exact optimized sawtooth exponent
+`(kappa+lambda)/(1+kappa)` on that actual shared phase class. All constants
+are chosen before scales, phase and interval, as in the shared API.
+It does not infer full-circle coverage from arbitrary bounded factors;
+the approved direct-circle family route remains separate. Targeted
+`ExponentPairApplications` passed (3725 jobs, 7.7s), zero warnings.
+
+Five further direct-consumer axiom probes passed with only the standard
+three axioms: concrete derivative-formula A estimate, exact weighted local
+power bound, full half-radius annulus comparison, localized circle transfer,
+and full localized annulus minimum. Check: targeted scratch
+`DirectCircleAxioms.lean` exited 0.
+
+The landed-API axiom probe passed: the actual shared integer-column dual A
+estimate, frequency application of `VdCB.IsExponentPair`, and exact shared-
+class sawtooth transfer each have only `[propext, Classical.choice,
+Quot.sound]`. Check: targeted scratch `SharedAPIAxioms.lean` exited 0.
+
+`IntegralSecondDerivativeSide.lean` additionally compiles the one-sided
+curvature integral estimate `1/sqrt(mu)+1/(pi*sqrt(mu))`, reusing the shared
+proved nonstationary bounds and actual derivative growth. It covers a
+critical point at either endpoint, without an endpoint-frequency gap.
+Targeted build passed (3514 jobs, own-file 4.2s), zero warnings. The full
+uniform positive/negative curvature integral test is being assembled to
+handle near-endpoint frequencies in a finite B-process application.
+
+
+`IntegralSecondDerivative.lean` now proves the uniform curvature integral
+bound `4/sqrt(mu)` for both signs, including arbitrary real Poisson
+frequencies. It has no derivative gap, critical-point location, or endpoint
+separation premise. The proof splits at an actual derivative zero when
+needed and uses the proved one-sided bounds. This covers frequencies
+coinciding with endpoint derivatives in the finite B-process application.
+Targeted `IntegralSecondDerivative` passed (3543 jobs, 3.1s), zero warnings.
+
+## Balanced stationary errors (resumed work)
+
+`StationaryRadius.lean` defines the actual positive radius
+`U^(4/5) w^(-2/5)/4`, proves it lies in a quarter block, and proves
+its exact cubic and reciprocal-curvature identities.
+`StationaryErrorBounds.lean` bounds the explicit sharp stationary errors
+by `256 w^(-3/5) U^(7/10)`. It also proves the summed stationary and
+endpoint guard scales fit `w^(11/30) U^(7/20)` in the complementary
+frequency range; the large-frequency range admits the trivial length bound.
+These scalar results do not assert the outstanding B-transformed sum.
+
+Checks: `nice -n 5 lake build WaveTurbulence.Foundations.NumberTheory.StationaryErrorBounds`
+passed (3258 jobs, target 1.9s). `nice -n 5 lake env lean
+/home/scott/wt-scratch/nt-circle/StationaryAxioms.lean` passed;
+`stationary_radius_error_le`, `stationary_error_scales_le_local_circle_scale`
+and `norm_integral_expPhase_le_of_second_deriv_pos` use only
+`propext`, `Classical.choice`, `Quot.sound`. No new errata or deviations.
+
+## Actual weighted circle dual A-bound
+
+`MonotoneWeightedSums.lean` proves finite Abel summation in a real normed
+space, including exact integer-interval reindexing. `CircleWeightedDual.lean`
+applies it to the actual shared `VdCB.circleLatticeDualPhase`, with arbitrary
+linear translation, and the explicit stationary amplitude
+`sqrt(R)*h*(h^2+nu^2)^(-3/4)`. Its endpoint-scale estimate has constant
+68719476736 and powers `h^(11/30) R^(11/60) U^(7/20)`.
+No derivative or exponential-sum bound is an input of these actual dual
+estimates. The outstanding step is the Poisson/stationary transfer from the
+original circle columns to these weighted dual sums, including guard modes.
+
+Checks: `nice -n 5 lake build WaveTurbulence.Foundations.NumberTheory.CircleWeightedDual`
+passed (3585 jobs; new modules 1.7s and 1.9s). Scratch
+`WeightedDualAxioms.lean` passed under `nice -n 5 lake env lean`;
+`norm_sum_Ioc_smul_le_of_prefix_bound` and
+`norm_sum_weighted_circleLatticeDualPhase_le_endpoint` use only
+`propext`, `Classical.choice`, `Quot.sound`. No new errata or deviations.
+
+## Exact endpoint integer windows and the large-frequency range
+
+`Counting/CircleEndpointIntervals.lean` gives exposed exact left/right
+integer windows, their membership equivalences, disjointness and exact sum
+decomposition. All strict octant/dyadic boundaries and real translations
+are retained. `Counting/CircleEndpointTrivial.lean` proves each window has
+at most U+1 columns and proves the actual improved local circle sum estimate
+with constant 4 whenever `U² <= h sqrt(R)`.
+This discharges that frequency range unconditionally; only its complement
+needs the quantitative B-process application.
+
+Checks: targeted `CircleEndpointTrivial` build passed (9066 jobs; targets
+4.2s/5.4s), without warnings. Scratch `EndpointIntervalsAxioms.lean`
+passed with only `propext`, `Classical.choice`, `Quot.sound` for the exact
+union and actual large-frequency estimate. No new errata or deviations.
+
+## Poisson logarithm, summed errors and endpoint guards
+
+`CirclePoissonErrorScale.lean` absorbs the exact landed truncated-Poisson
+logarithmic error into 80 times the local circle power.
+`CircleSummedStationaryScale.lean` proves the exact natural-frequency-width
+identity and bounds the total stationary and separated-frequency costs by
+512K and 64K times that power, respectively.
+`PoissonStationaryGuards.lean` proves a finite B transfer with three actual
+frequency parts: interior stationary modes, endpoint guards, and separated
+modes. The explicit guard cost is `card(G)*4/sqrt(mu)`; all inputs are
+actual calculus, critical-point equations, and finite-frequency geometry.
+This supplies a guard version of the shared finite stationary transfer,
+without assuming any oscillatory conclusion.
+
+Checks: targeted `CirclePoissonErrorScale`, `CircleSummedStationaryScale`,
+and `PoissonStationaryGuards` builds passed (3826/3259/3857 jobs;
+new targets 4.2s/3.4s/2.3s), without warnings. Scratch
+`PoissonErrorAxioms.lean` checks all four main results with only
+`propext`, `Classical.choice`, `Quot.sound`. No new errata or deviations.
+
+## Actual guard geometry, integer count and complete scalar guard cost
+
+`FrequencyGuardGeometry.lean` obtains actual interior critical points by
+IVT and proves separation outside the stationary range and endpoint guard
+intervals from actual upper/lower second-derivative bounds.
+`Counting/FrequencyGuardCount.lean` bounds any selected integer guard set
+by 4D+2 for two endpoint neighborhoods of radius D.
+`CircleGuardErrorScale.lean` bounds count times uniform integral cost at
+the actual radius by 512 times the improved local power. Together with
+5a1969e, all three quantitative B-error scales fit the desired powers.
+Actual source-frequency selection and application remain to be assembled.
+
+Checks: targeted `FrequencyGuardCount` and `CircleGuardErrorScale` builds
+passed (9058/3259 jobs, new targets 1.8s/2.6s/2.5s), without warnings.
+`GuardGeometryAxioms.lean` checked IVT, separation, guard count and total
+guard cost with only `propext`, `Classical.choice`, `Quot.sound`.
+No new errata or deviations.
+
+## Automatic quantitative source transfer, including short windows
+
+`Counting/CurvaturePoissonTransfer.lean` selects the interior stationary
+frequencies from actual endpoint derivatives, constructs their critical
+points by IVT, constructs/discharges the guard partition, and proves a
+finite stationary dual approximation solely from actual derivative bounds.
+`CircleTotalPoissonErrorScale.lean` combines all explicit errors into
+2320 times the local improved power. `Counting/CircleScalePoissonTransfer.lean`
+consumes that bound at the circle source scales.
+`Counting/ShortCircleScalePoisson.lean` proves the same power bound for the
+entire original sum on short windows, without any dual estimate or third
+derivative bound. The actual source application consequently need not
+assume a minimum interval length. `FrequencyGuardGeometry.lean` now also
+proves the short-window guard separation result.
+
+Checks: targeted `CircleScalePoissonTransfer` and `ShortCircleScalePoisson`
+builds passed (9111 jobs each), without warnings. The four-result scratch
+`AutomaticPoissonAxioms.lean` passed with only `propext`, `Classical.choice`,
+`Quot.sound`. No new errata or deviations. The remaining actual circle
+application must identify the selected duals and estimate their integer
+windows; the earlier actual weighted A estimate is ready for that step.
+
+## Reflection and exact source scale normalization
+
+`ReflectedNegativePhase.lean` proves the actual first/second/third
+calculus identities for `-f(D-x)`, retaining arbitrary real D, and proves
+finite-sum norm invariance under phase negation.
+`CircleSourceScale.lean` gives exact first/second/third derivative scale
+identities with `w=h sqrt(R)`, including the lower-curvature factor 1/8.
+Targeted builds passed (3257/3214 jobs), without warnings. Scratch
+`ReflectionAxioms.lean` passed for four main results with standard axioms.
+
+A separate scratch probe `CircleColumnExtensionProbe.lean` also checks the
+actual reflected shared circle extension against all three needed source
+derivative bounds. This probe reads the **pending** BPROC artifacts using
+a scratch-only symlink overlay; no dependency artifacts are modified or
+rebuilt. These actual-circle consumers are not yet committed because their
+shared source modules are not yet landed on main. This pending-API probe
+is supplementary, not a claim that the final circle bound is proved.
+
+## Optimized exact direct-circle B error
+
+`CircleOptimizedBError.lean` bounds the exact error expression in BPROC's
+new direct-circle pre-estimate after choosing the balanced radius and
+threshold sqrt(mu), by 4000 times the improved local power.
+`CirclePoissonErrorScale.lean` adds the four-times-width logarithm case.
+`CircleDualWeightScale.lean` and `CircleWeightedDual.lean` now allow any
+fixed endpoint scale comparison factor. `CircleWeightedDualIntervals.lean`
+exposes the actual weighted bound on closed integer windows of admissible
+length, deriving all scale restrictions from the source-frequency upper bound.
+
+Checks: targeted `CircleOptimizedBError` and `CircleWeightedDualIntervals`
+builds passed (3829/3586 jobs; final targets 17s/8.9s), without warnings.
+`OptimizedBErrorAxioms.lean` checked both main results with standard axioms.
+The BPROC direct pre-estimate is f613e01 on w/bproc and is not yet on main;
+its final optimized consumers are being checked in scratch pending landing.
+No new errata or deviations.
+
+## Landing duplicate correction
+
+Removed the duplicate public `norm_sum_expPhase_neg` from
+`ReflectedNegativePhase.lean`; that module now publicly imports the
+existing declaration from `DerivativeTests.lean`. The targeted
+`CircleSourceWindow` build, including the reflected calculus and short
+source consumers, passed (9188 jobs), without warnings. This fixes the
+orchestrator's duplicate-name landing report; the mathematical statement
+is unchanged. Continued directly with the actual circle endpoint transfer.
+
+## Final infrastructure commit before MOLE reassignment
+
+The actual circle consumers are now repository modules against landed main:
+`CircleColumnSourceCalculus`, `CircleOptimizedSource`, `CircleShortSource`,
+`CircleSourceWindow`, `CircleIntegerSourceWindow`, `Counting/CircleEndpointBound`
+and `Counting/CircleImprovedDiscrepancy`. All integer frequencies >=1,
+short/long windows, large frequencies, both caps, strict artificial edges
+and arbitrary centers are covered internally. The resulting actual disc
+bound is `circleImprovedConstant * Q^(27/41)` for Q>=1. Its constant is
+explicit, positive, and independent of the center and radius.
+
+Exact final check: `nice -n 5 lake build
+WaveTurbulence.Foundations.Counting.CircleImprovedDiscrepancy` returned
+`Build completed successfully (9247 jobs).`, final target 5.5s, zero warnings.
+`nice -n 5 lake env lean /home/scott/wt-scratch/nt-circle/ActualCircleAxioms.lean`
+returned standard axioms `[propext, Classical.choice, Quot.sound]` for the
+actual natural-window, integer-window, endpoint-block and final disc results.
+`git diff --check` passed. No new mathematical errata or deviations.
+Existing source errata F31 and the license-registry follow-up above remain
+part of this handoff. No further NT-CIRCLE work is being claimed after the
+orchestrator's explicit switch to MOLE.

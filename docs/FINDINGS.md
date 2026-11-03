@@ -149,3 +149,35 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   inputs; equivalence of `IsWKESolution` with the Z_s mild solution; 𝒮 = ⋂ Z_{s,m}). **The frozen `wkelwp` stays
   unchanged; no owner decision needed.** Formalization: packet WKE-L2S. Erratum for the authors: GIT20 Remark 2.6 is
   unproved as written for d ≥ 4 (one radial Cauchy–Schwarz step fails; fixed by Theorem 7) and false for d = 2 (§8.3).
+- F42 — TARGET Lemma A.3 (L2380–L2420, `timeintlem2`) — the printed bound ‖𝒰_χF‖_{𝔛^{1/4,0,0}} ≲ ‖∂∂F‖_{L^∞_kL¹} is false for
+  arbitrary F (F ≡ 1: right side 0, while 𝒰_χF(t,0) = t²/2 on (0,1/2) for χ = χ₀); the proof uses smooth compactly
+  supported F, which is the class at the use site (T.pl1.S4). Lean statement takes that hypothesis. Found by wt-anfourier.
+  Status: candidate erratum (missing hypothesis).
+- F43 — TARGET (atomcountbd) L2472 (Lemma `atomcountlem`) — the first bound is stated without k ≠ 0; it is false at k = 0
+  with signs (+,−) and γ > 1/2 (≈ L^d solutions vs. the claimed C·L^{d+1−2γ}); DH23 Lemma A.3(1) has |k₁−k₂| ∼ R ≥ L⁻¹,
+  i.e. k ≠ 0. Consumers (degenerate atoms, F21) must exclude or handle k = 0. Found by the independent Wave B stage-3
+  auditor (docs/campaign/orch/audits/WaveB-stage3.md R4). Status: candidate erratum (missing hypothesis).
+- F44 — Lean pitfall (not a source issue): in this Mathlib `ContDiff ℝ ⊤` means real-analytic (`ω`); C^∞ is
+  `ContDiff ℝ (⊤ : ℕ∞)` / `∞`. Wave A uses `(⊤ : ℕ∞)` (correct); the Wave B drafts used `⊤` (R1). Every brief and audit
+  must check this.
+- F45 — DH23 L1099 — after the change to (p,q) variables the phase is written `p·ξ + y·ζ`; it must be `p·ξ + q·ζ`. Typo.
+  TARGET L1567 — "|t′| ≥ L⁻¹ forces a ≠ 0": at the boundary t′ = L⁻¹, a = 0, q = 1 satisfies the weak Dirichlet error;
+  harmless (null endpoint). Found by wt-gausssum (HUA). Status: candidate typos.
+- F47 — TARGET L1541–L1542 (proof of `lemlin`) — after the Poisson identity with prefactor L^d, the displayed majorant
+  (lemlin3) omits that factor; needed to recover (lemlin2). Typo. Found by wt-cumul (LEMLIN). Status: candidate.
+- F3 (RESOLVED, 2026-11-03 ~21:30) — wt-ansob (packet NT-BPROC, `Foundations/VdCB/**`, commit ca5a6f6) proved the
+  B-process for the actual circle family and the exponent pair (11/30, 16/30), giving unconditional circle-problem
+  discrepancy and annulus bounds with exponent 27/41 < 2/3. Huxley's 7/11 is not needed; DH23 Lemma A.2(2) can be proved
+  with 27/41 (packet COUNT).
+- F48 — TARGET L2152 (`remtame`) — "some component contains exactly one atom adjacent to v" is used to conclude that all
+  labels incident to a removed tame atom v are fixed; false: explicit prime 4-tree garden counterexample (two residual
+  components, each with one atom adjacent to v but two opposite-oriented crossing bonds with equal labels that cancel in the
+  cut identity, so the label varies over ≳ L choices). Correction adopted: replace both occurrences by "exactly one bond
+  connecting the component to v" (the bridge criterion of DH21 Lemmas 9.13–9.14 and DH23 §10.5(4)); case (ii) negated
+  consistently. Found by wt-ansob (DEGEN), confirmed by its independent reviewer; write-up docs/research/erratum-remtame.md;
+  independent check by wt-orch pending. Status: candidate erratum (substantive; local fix).
+- F49 — TARGET Appendix A.2–A.3 proofs (L2370, L2392–L2394, L2417–L2419) — (i) the convolution step at L2370 (proofichi-2)
+  suppresses a logarithm (map Q13a); (ii) "a simple calculation yields" uniform low-frequency Fourier decay (weakdecay) is
+  false before localization; (iii) "bounded in Schwartz class ... uniformly in ξ and k" (timeintproof2-4) is false globally
+  (at Γ₁(k) = ξ the tail integral of χ² is nonzero). All three were repaired in the Lean proofs without changing the lemma
+  statements (beyond F42). Found by wt-anfourier (AN-PHASE-HY). Status: candidate errata (expository).

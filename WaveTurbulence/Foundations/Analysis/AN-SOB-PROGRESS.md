@@ -45,9 +45,9 @@ The exponential bound includes the necessary range `d≤z`; the all-index versio
 - The factorial/exponential formula is not true for arbitrary `z<d`, `0<x<1` if `(z-d)!` is read with
   truncated natural subtraction; its true ranges are explicit in the Lean statements.
 
-## Remaining
+## Historical tree milestones (now completed; see closeout below)
 
-The DH21 Lemma 10.2 resonance-decay estimate is still unproved.
+At the following milestone the DH21 Lemma 10.2 estimate was still unproved.
 Checked: `OscillatoryInterval`, `TimeForest`, `TimeForestVolume`, `CauchyConvolution`,
 `CauchyResonance`, `ResonantConvolution`.
 The forest representation uses parent-first indices, ≤3 branching children, actual Bochner
@@ -64,3 +64,57 @@ axiom checks showing only the three standard axioms (probe `KernelAxioms.lean` i
 Remaining: spectral/Fubini assembly and the tree induction, including the feasible lower-endpoint
 construction for gapped domains.
 No completion or `READY` claim is made for the packet.
+
+Checked further: `FrequencyWeights`, `SpectralSynthesis`, `CutoffKernelIntegrability`,
+`CutoffKernelL1`, `CutoffSpectralOperator`, `TimeSynthesisFubini`, `ResonantKernelEnvelope`.
+The actual spectral operator is integrable and synthesizes to the cutoff oriented time integral.
+The complete envelope integral gains `⟨q⟩⁻¹` and has constant `12π` with output centres `0,q`.
+Targeted builds of `TimeSynthesisFubini` and `ResonantKernelEnvelope` pass without warnings.
+Still remaining: finite envelope assembly, tree induction and feasible endpoint/domain bridge.
+
+Checked finite-packet layer: `FrequencyEnvelope`, `EnvelopeConvolution`, `SpectralPacket`,
+`SmoothCutoffPacket`. Packet multiplication uses the actual convolution with added centres;
+time translation preserves weights; modulation translates centres; cutoff integration creates
+exactly the two endpoint choices. The leaf is the Fourier transform of the actual cutoff.
+Targeted `lake build WaveTurbulence.Foundations.Analysis.SmoothCutoffPacket` completed successfully
+(3243 jobs), without warnings. `norm_fourier_cutoff_le` is now public for this reuse.
+
+Checked `IntegrationTree`, `CausalIntegrationTree`, `FeasibleIntegrationTree`.
+`IntegrationTree.packet` recursively constructs the density and reconstructs its actual cutoff
+iterated integral. The causal version clips at zero. It is continuous and vanishes before its
+feasible threshold. With nonnegative gaps (and zero leaf-edge gaps), feasible unit times agree
+with the cutoff tree with threshold lower endpoints. Targeted build of `FeasibleIntegrationTree`
+completed successfully (3246 jobs), without warnings. The source integral/resonance-product
+estimate still awaits the weight/cost identification and final assembly.
+
+Checked the assembled estimate `TreeIntegralBound.norm_causalValue_le_paper_choice_sum`:
+for a labelled ternary tree with nonnegative gaps, zero leaf gaps and `t∈[0,1]`,
+its actual causal integral with phase `2π i α s` is bounded by `C^n` times the
+binary-choice product sum with paper resonances `q=2*choiceResonance`.
+`TreeResonanceWeights`, `TreePacketCost`, `TreeChoices`, `FrequencyScale`,
+`FeasibleTreeChoices`, `RealTreeWeights`, `UnitTimeCutoff`, `TreeIntegralBound` all build;
+the final targeted build completed successfully (3254 jobs), without warnings.
+The pure choice carrier has one Boolean per branch and no cutoff/endpoints in its frequencies.
+A final source-convention wrapper using phase `π i α s` is being checked before handoff.
+
+
+## Closeout
+
+All four packet goals have checked local infrastructure implementations. The final source-convention
+entry point is `IntegrationTree.norm_paperTimeIntegral_le` in `PaperTimeIntegral.lean`, with phase
+`exp(π i α s)`, a fixed positive `timeIntegralConstant`, and the pure binary resonance-product sum.
+`paperTimeIntegral_node` proves its complete causal branch equation, and `card_choice` proves
+exactly `2^n` assignments. See `AN-SOB-HANDOFF.md` for the exact public statements, regularity/range
+qualifications, source comparison, errata and the remaining future combinatorial-carrier bridge.
+
+Final targeted build `nice -n 5 lake build WaveTurbulence.Foundations.Analysis.PaperTimeIntegral`
+completed successfully (3256 jobs), without warnings. `nice -n 5 lake env lean
+/home/scott/wt-scratch/an-sob/FinalAxioms.lean` exited 0: exact-type consumption examples passed,
+and all fifteen checked exports have only `[propext, Classical.choice, Quot.sound]`.
+No graph/manifest promotion or frozen-anchor sealing is claimed by this worker handoff.
+
+Post-closeout integration: `git merge main` succeeded at `6a5f625`, changing no Analysis files
+or frozen `Mom` dependency. The post-merge targeted `PaperTimeIntegral` build again completed
+successfully (3256 jobs), without warnings. Detailed final handoff: `AN-SOB-HANDOFF.md`.
+
+READY an-sob

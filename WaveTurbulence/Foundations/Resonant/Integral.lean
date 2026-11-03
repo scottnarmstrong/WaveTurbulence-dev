@@ -22,7 +22,7 @@ public section
 open MeasureTheory Filter Topology
 open scoped InnerProductSpace
 
-namespace WaveTurbulence
+namespace WaveTurbulence.Resonant
 
 variable {d : ℕ}
 
@@ -158,4 +158,4 @@ theorem integrable_resonantIntegral_outer
       ∫ w : ↥(ℝ ∙ ℓ)ᗮ, Ψ (k + ℓ) (k + ℓ + w) (k + w)) :=
   hK.integrable_outer hd
 
-end WaveTurbulence
+end WaveTurbulence.Resonant
