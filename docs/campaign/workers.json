@@ -19,9 +19,9 @@
   "tmux": "wt-torus",
   "model": "Claude Opus",
   "account": "claude-14",
-  "branch": "w/nls",
-  "packet": "NLS (B1–B3): smooth solutions, reduction to the a-system, measurability",
-  "brief": "docs/campaign/briefs/NLS.md"
+  "branch": "w/ntsp",
+  "packet": "NT5 NTSP: DH23 Lemmas 6.5, 6.7, TARGET Lemma 5.2 (NLS landed)",
+  "brief": "docs/campaign/briefs/NTSP.md"
  },
  {
   "tmux": "wt-wke",
@@ -35,9 +35,9 @@
   "tmux": "wt-cumul",
   "model": "GPT-6.1-Sol low",
   "account": "codex-3",
-  "branch": "w/misc-a",
-  "packet": "MISC-A: TARGET Lemmas A.6–A.7, DH21 A.4, probability helpers (Hua moved to NT2)",
-  "brief": "docs/campaign/briefs/MISC-A.md"
+  "branch": "w/lemlin",
+  "packet": "NT10 LEMLIN: TARGET lemlin (+ F23 second bound), lemcubic0 (MISC-A landed)",
+  "brief": "docs/campaign/briefs/LEMLIN.md"
  },
  {
   "tmux": "wt-nt",
@@ -51,17 +51,17 @@
   "tmux": "wt-ansob",
   "model": "GPT-6.1-Sol low",
   "account": "codex-3",
-  "branch": "w/an-sob",
-  "packet": "N4 AN-SOB: Sobolev/Morrey, simplex volumes, DH21 Lemma 10.2",
-  "brief": "docs/campaign/briefs/AN-SOB.md"
+  "branch": "w/bproc",
+  "packet": "NT-BPROC: van der Corput B-process (for e < 2/3, F3) (AN-SOB landed)",
+  "brief": "docs/campaign/briefs/NT-BPROC.md"
  },
  {
   "tmux": "wt-gausssum",
   "model": "GPT-6.1-Sol low",
   "account": "codex-3",
-  "branch": "w/hua",
-  "packet": "NT2 HUA: Hua L⁴/L⁶, Weyl-sum reduction, L^{3d/2} moments (GAUSSSUM landed)",
-  "brief": "docs/campaign/briefs/HUA.md"
+  "branch": "w/minor-arcs",
+  "packet": "NT4+NT11+NT3: DH23 Lemma 6.6, TARGET Lemma 5.3 and lemcubic (HUA landed)",
+  "brief": "docs/campaign/briefs/MINOR-ARCS.md"
  },
  {
   "tmux": "wt-resonant",

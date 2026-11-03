@@ -136,4 +136,36 @@ theorem card_annulus_disc_le (s : Finset (Fin 2 → ℤ))
     rw [← norm_latticePoint_one_sub_eq_sqrt]
     exact hann n hn
 
+/-- The factored geometric bound is exactly the sum of the three elementary
+terms printed in DH23 `disclattice`. -/
+theorem annulus_elementary_terms_eq {Q rho L : ℝ} (hQ : 0 < Q) (hprod : 0 < Q*rho) :
+    (1+L*rho+L/Q^((1:ℝ)/3))*Real.sqrt (Q*rho) =
+      Real.sqrt (Q*rho)+L*(Q*rho)^((3:ℝ)/2)/Q+
+        L*Real.sqrt (Q*rho)*Q^(-((1:ℝ)/3)) := by
+  have hp : (Q*rho)^((3:ℝ)/2) = (Q*rho)*Real.sqrt (Q*rho) := by
+    calc
+      _ = (Q*rho)^((1:ℝ)+(1:ℝ)/2) := by congr 1; norm_num
+      _ = (Q*rho)^((1:ℝ))*(Q*rho)^((1:ℝ)/2) := Real.rpow_add hprod _ _
+      _ = _ := by rw [Real.rpow_one,Real.sqrt_eq_rpow]
+  have hm : L*((Q*rho)*Real.sqrt (Q*rho))/Q = L*rho*Real.sqrt (Q*rho) := by
+    field_simp
+  rw [hp,hm,Real.rpow_neg hQ.le]
+  ring
+
+/-- DH23 `basiccount0pre` (1), elementary branch, with the three terms in
+exactly the source's expanded form and all inputs proved in Lean. -/
+theorem card_annulus_disc_le_expanded (s : Finset (Fin 2 → ℤ))
+    (c d : EuclideanSpace ℝ (Fin 2)) {Q rho L : ℝ}
+    (hQ : 0 < Q) (hrho : 0 ≤ rho) (hrhoQ : rho ≤ Q/2)
+    (hscale : 1 ≤ Q*rho) (hL : 0 ≤ L)
+    (hann : ∀ n ∈ s, |‖WaveTurbulence.latticePoint 1 n-c‖-Q| ≤ rho)
+    (hdisc : ∀ n ∈ s, ‖WaveTurbulence.latticePoint 1 n-d‖ ≤ L) :
+    (s.card:ℝ) ≤ 640000*(Real.sqrt (Q*rho)+L*(Q*rho)^((3:ℝ)/2)/Q+
+      L*Real.sqrt (Q*rho)*Q^(-((1:ℝ)/3))) := by
+  have he := annulus_elementary_terms_eq (L := L) hQ (lt_of_lt_of_le zero_lt_one hscale)
+  calc
+    _ ≤ 640000*(1+L*rho+L/Q^((1:ℝ)/3))*Real.sqrt (Q*rho) :=
+      card_annulus_disc_le s c d hQ hrho hrhoQ hscale hL hann hdisc
+    _ = _ := by rw [← he]; ring
+
 end WaveTurbulence.Counting

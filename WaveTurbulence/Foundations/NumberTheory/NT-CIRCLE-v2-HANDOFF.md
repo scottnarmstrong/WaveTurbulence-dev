@@ -470,3 +470,103 @@ erratum or deviation has been found.
 
 The five estcross-ingredient axiom probes passed, all with only
 `[propext, Classical.choice, Quot.sound]`.
+
+## Goal 3 completed: full estcross and source-form annulus bound
+
+Additional files: `Counting/RelationIndices.lean`, `ShortRelationCounting.lean`,
+`LatticeCoordinates.lean`, `DenseVectorStrip.lean`, `DenseRelationIndices.lean`,
+`EstcrossBudget.lean`, `EstcrossDominant.lean`, `Estcross.lean`, `EstcrossBalls.lean`.
+The expanded elementary annulus form was added to `AnnulusElementary.lean`.
+
+Main result `card_dense_dot_product_strips_in_balls_le` states estcross for
+actual Euclidean balls and the actual inner product of frozen
+`WaveTurbulence.latticePoint 1` values. It covers every dimension `D=d+3`.
+The source's global standing dimension assumption is explicit at DH23 TeX
+L252 and L438: `d >= 3`. The ball centers and levels of the dense strips may
+depend arbitrarily on the exceptional vector; no center is bounded or rounded.
+The density condition is an actual finite subset of the ball with actual
+strip membership and at least `L^(D-1)/theta` points. It is exactly the
+property being counted, not an intermediate short-relation hypothesis.
+
+The proved bound is
+`C_D * (rho^D + L^(D-2)*rho^2*theta^2*(1+log L)^2)` with
+`C_D = 5^D + D*129600*(3^(D-2))^3`.
+Explicit scale convention: `rho >= 0`, `theta >= 1`,
+`16*3^(D-2)*theta <= rho <= L`. This fixes constants in the source's
+`1 << rho << L`, `1 <= theta << rho`. The dense-count threshold is normalized
+to `L^(D-1)/theta`; other fixed implicit constants can be absorbed into theta
+and the corresponding scale constants. The theorem does not require dyadic
+parameters and its explicit logarithmic loss is only two powers.
+
+Approach: the actual coordinate dot product and its remaining-coordinate
+fibers provide each of the two short integer relations. Signed nonzero
+coefficients are enumerated by their actual sign and positive natural
+magnitude. Counting the two remaining independent coordinates gives reciprocal
+weights; their exact sum is a harmonic number, bounded by Mathlib's
+`harmonic_le_one_add_log`. The actual coefficient budget is the natural ceiling
+of `9*3^(D-2)*theta`, bounded by `10*3^(D-2)*theta`. The dominant-coordinate
+restriction is removed by actual coordinate permutations and a finite cover.
+Small vectors contribute the `rho^D` term. No short-relation witnesses or
+coefficient-sum estimates are left as premises of estcross.
+
+`card_annulus_disc_le_expanded` now states the elementary annulus branch with
+exactly the three printed geometric terms, using a proved identity between
+the factored expression and real powers. It retains the closed radial annulus
+and closed Euclidean containing disc, uniformly in both centers.
+
+Checks: targeted `nice -n 5 lake build
+WaveTurbulence.Foundations.Counting.EstcrossBalls` passed (9072 jobs, final
+own-file build 16s) and targeted `AnnulusElementary` passed (9059 jobs, final
+own-file build 26s), both with no warnings or budget overrides. The module
+shape/line-limit check passes for all 59 owned Lean modules. `git diff --check`
+is clean. All short-relation, scalar-budget and coordinate modules compiled
+through these exact targets. Goals 1–3 are proved; goal 4 is next, and goal 5
+still depends on its improved exponent.
+
+New minor source erratum: DH23 `Revision_Submit.tex` L2040 prints
+`\#(A\cap \Zb^d)` in the elementary planar-annulus proof. The lemma begins with
+`A\subset\Rb^2` (L2028), so that display should read `Z^2`. The formalization
+uses `Fin 2 -> Z` throughout this argument. This is a dimensional typo and
+does not affect the estimate. The previously accepted F31 numerical defect
+and the requirement for an exponent strictly below `2/3` remain unchanged.
+
+Final goal-3 checks: the six estcross axiom probes, including the full
+Euclidean-ball theorem, passed, all with only `[propext, Classical.choice,
+Quot.sound]`. The expanded annulus theorem and its real-power identity also
+passed the same axiom check. No provider, draft frozen theorem, custom axiom
+or budget override is used. Goal 3 is complete and work proceeds directly
+to goal 4.
+
+## Revised goal 4 coordination and general smoothing milestone
+
+The orchestrator split the B-process into NT-BPROC (wt-ansob), owning
+`Foundations/VdCB/**`, including the Graham–Kolesnik phase-class predicate
+and `IsExponentPair`. This packet defines no competing exponent-pair notion.
+It now supplies the A-process side, distinct conditional transfer helpers,
+and the general-exponent annulus bound, then will plug in VdCB's proved pair
+and finish goal 5. Coordination is only through the orchestrator.
+
+New proved files: `NumberTheory/PhaseCalculus.lean`, `FractionalPowerSums.lean`,
+`FractionalSmoothing.lean`, `ExponentPairSmoothing.lean`.
+For `0 < kappa < 1`, the exact weight bounds are
+`sum_{n<=H} n^(kappa-1) <= H^kappa/kappa` and
+`sum_{n>H} n^(kappa-2) <= H^(kappa-1)/(1-kappa)`.
+Consequently the sawtooth sum is bounded by
+`card/(2H) + ((pi/kappa+1/(1-kappa))/pi^2)*A*H^kappa`
+under the explicit actual frequency estimate `norm(S_n) <= A*n^kappa`.
+`abs_sum_sawtooth_le_of_frequency_scale` optimizes the actual natural cutoff
+`ceil(Q^((1-lambda)/(1+kappa)))`, for `lambda <= 1`, and proves the exact
+exponent `(kappa+lambda)/(1+kappa)`, with no logarithmic or epsilon loss.
+It assumes an actual finite phase family's frequency estimate and is named
+and documented as a conditional numerical helper. No improved exponent pair
+or improved unconditional circle estimate is claimed at this stage.
+
+Checks: targeted `ExponentPairSmoothing` build passed (3718 jobs; supporting
+own-file builds 70s and 64s) and `PhaseCalculus` passed (3256 jobs, 61s), no
+warnings or overrides. All five corresponding axiom probes passed with only
+`[propext, Classical.choice, Quot.sound]`.
+The unfinished Poisson and oscillatory-integral drafts were preserved under
+`/home/scott/wt-scratch/nt-circle/bproc-drafts/`, outside the repository, after
+the B-process was reassigned. The completed phase-calculus identities remain
+available as reusable character calculus; no B-process source theorem is
+being implemented in this packet in parallel with NT-BPROC.

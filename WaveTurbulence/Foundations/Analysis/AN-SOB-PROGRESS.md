@@ -45,9 +45,9 @@ The exponential bound includes the necessary range `d≤z`; the all-index versio
 - The factorial/exponential formula is not true for arbitrary `z<d`, `0<x<1` if `(z-d)!` is read with
   truncated natural subtraction; its true ranges are explicit in the Lean statements.
 
-## Remaining
+## Historical tree milestones (now completed; see closeout below)
 
-The DH21 Lemma 10.2 resonance-decay estimate is still unproved.
+At the following milestone the DH21 Lemma 10.2 estimate was still unproved.
 Checked: `OscillatoryInterval`, `TimeForest`, `TimeForestVolume`, `CauchyConvolution`,
 `CauchyResonance`, `ResonantConvolution`.
 The forest representation uses parent-first indices, ≤3 branching children, actual Bochner
@@ -96,3 +96,25 @@ binary-choice product sum with paper resonances `q=2*choiceResonance`.
 the final targeted build completed successfully (3254 jobs), without warnings.
 The pure choice carrier has one Boolean per branch and no cutoff/endpoints in its frequencies.
 A final source-convention wrapper using phase `π i α s` is being checked before handoff.
+
+
+## Closeout
+
+All four packet goals have checked local infrastructure implementations. The final source-convention
+entry point is `IntegrationTree.norm_paperTimeIntegral_le` in `PaperTimeIntegral.lean`, with phase
+`exp(π i α s)`, a fixed positive `timeIntegralConstant`, and the pure binary resonance-product sum.
+`paperTimeIntegral_node` proves its complete causal branch equation, and `card_choice` proves
+exactly `2^n` assignments. See `AN-SOB-HANDOFF.md` for the exact public statements, regularity/range
+qualifications, source comparison, errata and the remaining future combinatorial-carrier bridge.
+
+Final targeted build `nice -n 5 lake build WaveTurbulence.Foundations.Analysis.PaperTimeIntegral`
+completed successfully (3256 jobs), without warnings. `nice -n 5 lake env lean
+/home/scott/wt-scratch/an-sob/FinalAxioms.lean` exited 0: exact-type consumption examples passed,
+and all fifteen checked exports have only `[propext, Classical.choice, Quot.sound]`.
+No graph/manifest promotion or frozen-anchor sealing is claimed by this worker handoff.
+
+Post-closeout integration: `git merge main` succeeded at `6a5f625`, changing no Analysis files
+or frozen `Mom` dependency. The post-merge targeted `PaperTimeIntegral` build again completed
+successfully (3256 jobs), without warnings. Detailed final handoff: `AN-SOB-HANDOFF.md`.
+
+READY an-sob
