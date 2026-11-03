@@ -339,10 +339,15 @@ public import WaveTurbulence.Foundations.WeylSums.ArcAlgebra
 public import WaveTurbulence.Foundations.WeylSums.ArcIntegration
 public import WaveTurbulence.Foundations.WeylSums.ArcProfile
 public import WaveTurbulence.Foundations.WeylSums.Basic
+public import WaveTurbulence.Foundations.WeylSums.CompactFourier
+public import WaveTurbulence.Foundations.WeylSums.CompactLatticeReduction
 public import WaveTurbulence.Foundations.WeylSums.CompleteGauss
 public import WaveTurbulence.Foundations.WeylSums.CutoffFourier
 public import WaveTurbulence.Foundations.WeylSums.Differencing
 public import WaveTurbulence.Foundations.WeylSums.Dirichlet
+public import WaveTurbulence.Foundations.WeylSums.FourierTails
+public import WaveTurbulence.Foundations.WeylSums.FourierTensorReduction
+public import WaveTurbulence.Foundations.WeylSums.FourierTranslations
 public import WaveTurbulence.Foundations.WeylSums.GaussAlgebra
 public import WaveTurbulence.Foundations.WeylSums.GaussianBound
 public import WaveTurbulence.Foundations.WeylSums.GaussianCompletion
@@ -356,9 +361,12 @@ public import WaveTurbulence.Foundations.WeylSums.HuaCutoff
 public import WaveTurbulence.Foundations.WeylSums.HuaEnergy
 public import WaveTurbulence.Foundations.WeylSums.HuaMajorization
 public import WaveTurbulence.Foundations.WeylSums.HuaOrthogonality
+public import WaveTurbulence.Foundations.WeylSums.HuaPacket
+public import WaveTurbulence.Foundations.WeylSums.LatticeBoxes
 public import WaveTurbulence.Foundations.WeylSums.LocalArcCover
 public import WaveTurbulence.Foundations.WeylSums.LocalArcIntegration
 public import WaveTurbulence.Foundations.WeylSums.PositiveMoments
+public import WaveTurbulence.Foundations.WeylSums.QuadraticDiagonalization
 public import WaveTurbulence.Foundations.WeylSums.RationalArcCover
 public import WaveTurbulence.Foundations.WeylSums.RationalCompletion
 public import WaveTurbulence.Foundations.WeylSums.RationalCounting
@@ -366,6 +374,7 @@ public import WaveTurbulence.Foundations.WeylSums.RationalResidues
 public import WaveTurbulence.Foundations.WeylSums.RationalSpacing
 public import WaveTurbulence.Foundations.WeylSums.RealArcCover
 public import WaveTurbulence.Foundations.WeylSums.ReciprocalCounting
+public import WaveTurbulence.Foundations.WeylSums.Reduction
 public import WaveTurbulence.Foundations.WeylSums.ResidueBlocks
 public import WaveTurbulence.Foundations.WeylSums.ResidueLattice
 public import WaveTurbulence.Foundations.WeylSums.SharpCounting
@@ -379,6 +388,8 @@ public import WaveTurbulence.Foundations.WeylSums.WeylLocalMoment
 public import WaveTurbulence.Foundations.WeylSums.WeylMoments
 public import WaveTurbulence.Foundations.WeylSums.WeylSupremum
 public import WaveTurbulence.Foundations.WeylSums.WeylSupremumArcs
+public import WaveTurbulence.Foundations.WeylSums.WeylSymmetry
+public import WaveTurbulence.Foundations.WeylSums.WeylTensorFactors
 public import WaveTurbulence.Frozen.Defs.CollisionOp
 public import WaveTurbulence.Frozen.Defs.InitialCoeff
 public import WaveTurbulence.Frozen.Defs.IsSmoothNLSSolution
