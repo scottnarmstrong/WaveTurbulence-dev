@@ -34,6 +34,7 @@ public import WaveTurbulence.Foundations.Analysis.MorreyScaling
 public import WaveTurbulence.Foundations.Analysis.OrderChambers
 public import WaveTurbulence.Foundations.Analysis.OrderedSimplex
 public import WaveTurbulence.Foundations.Analysis.OscillatoryInterval
+public import WaveTurbulence.Foundations.Analysis.PaperTimeIntegral
 public import WaveTurbulence.Foundations.Analysis.PermutationChambers
 public import WaveTurbulence.Foundations.Analysis.RadialIntegrability
 public import WaveTurbulence.Foundations.Analysis.RealTreeWeights
@@ -54,6 +55,7 @@ public import WaveTurbulence.Foundations.Analysis.TimeForestVolume
 public import WaveTurbulence.Foundations.Analysis.TimePrimitive
 public import WaveTurbulence.Foundations.Analysis.TimeSynthesisFubini
 public import WaveTurbulence.Foundations.Analysis.TreeChoices
+public import WaveTurbulence.Foundations.Analysis.TreeFrequencyScaling
 public import WaveTurbulence.Foundations.Analysis.TreeIntegralBound
 public import WaveTurbulence.Foundations.Analysis.TreePacketCost
 public import WaveTurbulence.Foundations.Analysis.TreeResonanceWeights
