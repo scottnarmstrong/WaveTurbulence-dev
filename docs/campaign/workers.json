@@ -35,9 +35,9 @@
   "tmux": "wt-cumul",
   "model": "GPT-6.1-Sol low",
   "account": "codex-3",
-  "branch": "w/lemlin",
-  "packet": "NT10 LEMLIN: TARGET lemlin (+ F23 second bound), lemcubic0 (MISC-A landed)",
-  "brief": "docs/campaign/briefs/LEMLIN.md"
+  "branch": "w/main-glue",
+  "packet": "MAIN-GLUE: glue lemmas G1, G2, G5–G7, G10 for sealing Theorem 1.1 (LEMLIN done)",
+  "brief": "docs/campaign/briefs/MAIN-GLUE.md"
  },
  {
   "tmux": "wt-nt",

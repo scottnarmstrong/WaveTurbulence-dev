@@ -163,3 +163,5 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
 - F45 — DH23 L1099 — after the change to (p,q) variables the phase is written `p·ξ + y·ζ`; it must be `p·ξ + q·ζ`. Typo.
   TARGET L1567 — "|t′| ≥ L⁻¹ forces a ≠ 0": at the boundary t′ = L⁻¹, a = 0, q = 1 satisfies the weak Dirichlet error;
   harmless (null endpoint). Found by wt-gausssum (HUA). Status: candidate typos.
+- F47 — TARGET L1541–L1542 (proof of `lemlin`) — after the Poisson identity with prefactor L^d, the displayed majorant
+  (lemlin3) omits that factor; needed to recover (lemlin2). Typo. Found by wt-cumul (LEMLIN). Status: candidate.
