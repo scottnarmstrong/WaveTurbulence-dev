@@ -46,12 +46,12 @@ theorem IsWKESolution.glue {φin : 𝓢(Mom d, ℝ)} {T ε : ℝ} {φ ψ : ℝ �
     IsWKESolution φin (T + ε) (glueSol T φ ψ) := by
   have hsplit : Icc 0 (T + ε) = Icc 0 T ∪ Icc T (T + ε) :=
     (Icc_union_Icc_eq_Icc hT (by linarith)).symm
-  have e1 : ∀ τ ∈ Icc 0 T, glueSol T φ ψ τ = φ τ := fun τ hτ => if_pos hτ.2
+  have e1 : ∀ τ ∈ Icc 0 T, glueSol T φ ψ τ = φ τ := fun τ hτ => ite_eq_left hτ.2
   have e2 : ∀ τ ∈ Icc T (T + ε), glueSol T φ ψ τ = ψ (τ - T) := by
     intro τ hτ
     rcases eq_or_lt_of_le hτ.1 with h | h
     · subst h; simp [glueSol, hψ.2.1]
-    · exact if_neg (not_le.mpr h)
+    · exact ite_eq_right (not_le.mpr h)
   have hmaps : MapsTo (fun τ => τ - T) (Icc T (T + ε)) (Icc 0 ε) := fun τ hτ =>
     ⟨by linarith [hτ.1], by linarith [hτ.2]⟩
   refine ⟨?_, ?_, ?_⟩
@@ -91,7 +91,7 @@ theorem ofReal_le_tauMax {φin : 𝓢(Mom d, ℝ)} {τ : ℝ} (hτ : 0 < τ) {φ
     ENNReal.ofReal τ) τ ⟨hτ, φ, hφ⟩ le_rfl
 
 /-- `wkelwp` conjunct 1, `→`: below `τ_max` there is a Schwartz solution. -/
-theorem exists_isWKESolution_of_lt_tauMax {φin : 𝓢(Mom d, ℝ)} {τstar : ℝ} (hτ : 0 < τstar)
+theorem exists_isWKESolution_of_lt_tauMax {φin : 𝓢(Mom d, ℝ)} {τstar : ℝ}
     (h : ENNReal.ofReal τstar < tauMax φin) :
     ∃ φ : ℝ → 𝓢(Mom d, ℝ), IsWKESolution φin τstar φ := by
   obtain ⟨τ', hτ'⟩ := lt_iSup_iff.mp h
