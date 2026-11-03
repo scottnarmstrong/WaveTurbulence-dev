@@ -374,6 +374,176 @@ theorem norm_piece_JR_M (h0 : 0 ≤ θ) (h1 : θ ≤ 1) (hA : A0 ≤ A) (h₁ : 
     · simpa using (RS_bounds h0 h₂ j 3).2
     · exact (RS_bounds h0 h₂ j 3).1.trans (gev_le_mul hN₂ hA0 (by norm_num) j)
 
+theorem KPRn_iteratedFDeriv (c : ℕ) (x : Fin 2 → ℝ) (q : Unit) :
+    ‖iteratedFDeriv ℝ c (fun x => KPRn x q) x‖ₑ = ‖iteratedFDeriv ℝ c (fun x => KPR x q) x‖ₑ := by
+  rw [KPRn_eq, show (fun x => -prod2 phiR (fun y => (chiInvR y : ℂ)) x) =
+    -(prod2 phiR fun y => (chiInvR y : ℂ)) from rfl, iteratedFDeriv_neg, Pi.neg_apply,
+    enorm_neg, KPR_eq]
+
+theorem measurable_KPR : Measurable (Function.uncurry KPR) := by
+  have h' : Measurable fun y : ℝ => (chiInvR y : ℂ) := contDiff_chiInvRc.continuous.measurable
+  have hp : Measurable phiR := contDiff_phiR.continuous.measurable
+  have e : Function.uncurry KPR = fun p : (Fin 2 → ℝ) × Unit =>
+      phiR (p.1 0) * (chiInvR (p.1 1) : ℂ) := by
+    funext p; simp only [Function.uncurry, KPR]
+  rw [e]
+  exact (hp.comp ((measurable_pi_apply 0).comp measurable_fst)).mul
+    (h'.comp ((measurable_pi_apply 1).comp measurable_fst))
+
+theorem measurable_KPRn : Measurable (Function.uncurry KPRn) := by
+  have e : Function.uncurry KPRn = fun p : (Fin 2 → ℝ) × Unit => -Function.uncurry KPR p := by
+    funext p; simp only [Function.uncurry, KPRn, KPR]
+  rw [e]
+  exact measurable_KPR.neg
+
+/-- The `χ_∞` weight family of `J R` (pieces `p0`, `p1`, `p2`). -/
+@[expose] noncomputable def w3P (θ : ℝ) : Fin 3 → (Unit → ℝ) → (Fin 2 → ℝ) → Unit → ℝ≥0∞ :=
+  ![fun _ _ _ => 1, fun _ _ _ => 1,
+    fun _ x _ => (1 + ‖x 0‖ₑ) ^ θ + 2 * (1 + ‖x 1‖ₑ) ^ θ + 1]
+
+theorem measurable_w3P (θ : ℝ) : ∀ p, Measurable fun t : (Unit → ℝ) × ((Fin 2 → ℝ) × Unit) =>
+    w3P θ p t.1 t.2.1 t.2.2 := by
+  intro p; fin_cases p
+  · exact measurable_const
+  · exact measurable_const
+  · simp only [w3P, Matrix.cons_val]
+    exact (((measurable_const.add ((measurable_pi_apply 0).comp
+      (measurable_fst.comp measurable_snd)).enorm).pow_const _).add
+        (measurable_const.mul ((measurable_const.add ((measurable_pi_apply 1).comp
+          (measurable_fst.comp measurable_snd)).enorm).pow_const _))).add measurable_const
+
+theorem w3P_le (θ : ℝ) (p : Fin 3) (s : Unit → ℝ) (x : Fin 2 → ℝ) (q : Unit) :
+    w3P θ p s x q ≤ (1 + ‖x 0‖ₑ) ^ θ + 2 * (1 + ‖x 1‖ₑ) ^ θ + 1 := by
+  fin_cases p
+  · exact le_add_self
+  · exact le_add_self
+  · exact le_rfl
+
+/-- `Γ` for the `χ_∞` pieces, uniformly in the weight piece. -/
+theorem gamma_P_JR (h0 : 0 ≤ θ) (h1 : θ < 1) (hA : A0 ≤ A) (h₂ : R₂.Bound θ A N₂)
+    (K : (Fin 2 → ℝ) → Unit → ℂ)
+    (hK : ∀ c x q, ‖iteratedFDeriv ℝ c (fun x => K x q) x‖ₑ =
+      ‖iteratedFDeriv ℝ c (fun x => KPR x q) x‖ₑ) :
+    ∀ p c (a : ι₁ ⊕ ι₂ → ℝ) (z₁ : ℝ × ℝ) (z₂ : ℝ × (ℝ × ℝ)), ∫⁻ q, ∫⁻ s : Unit → ℝ,
+      w3P θ p s (formsV (LsJR R₁ R₂) (csJR Unit) (Sum.elim a s) (z₁, (z₂, q))) q *
+        ‖iteratedFDeriv ℝ c (fun x => K x q)
+          (formsV (LsJR R₁ R₂) (csJR Unit) (Sum.elim a s) (z₁, (z₂, q)))‖ₑ ≤
+          gev (16 * Cθ θ * (CPhi * CPhi)) A c := by
+  intro p c a z₁ z₂
+  have hg := gamma_KPR_le h0 h1 h₂.sign
+    (bundle R₂.y₂ (fun i => a (Sum.inr i)) - bundle R₁.y (fun i => a (Sum.inl i)) +
+      (z₁.2 + z₂.1)) (bundle R₂.y₁ (fun i => a (Sum.inr i)) + z₂.2.2)
+    (fun s q => formsV (LsJR R₁ R₂) (csJR Unit) (Sum.elim a s) (z₁, (z₂, q)))
+    (fun s q => by rw [formsV_JR_zero]; rfl) (fun s q => by rw [formsV_JR_one]; rfl) c hA
+  refine le_trans (lintegral_mono fun q => lintegral_mono fun s => ?_) hg
+  rw [hK]
+  exact mul_le_mul' (w3P_le θ p _ _ _) le_rfl
+
+/-- **The first `χ_∞` piece of `J R`: weighted Gevrey bounds** (DH21 L1014–L1017). -/
+theorem norm_piece_JR_P1 (h0 : 0 ≤ θ) (h1 : θ < 1) (hA : A0 ≤ A) (h₁ : R₁.Bound θ A N₁)
+    (h₂ : R₂.Bound θ A N₂) (k : ℕ) :
+    ∫⁻ α, ∫⁻ z, wJ θ α ((eJR Unit z).1.1 + (bP1R (eJR Unit z).2).1) *
+      dnorm k (tripleS R₁.m R₂.m KPR (LsJR R₁ R₂) (csJR Unit)) α z ≤
+        gev (3 * (16 * (2 * N₁) * (6 * N₂) * (16 * Cθ θ * (CPhi * CPhi)))) A k := by
+  have hA0 : 0 ≤ A := A0_nonneg.trans hA
+  have hN₁ := h₁.nonneg
+  have hN₂ := h₂.nonneg
+  have hC : 0 ≤ 16 * Cθ θ * (CPhi * CPhi) := by
+    have := Cθ_nonneg h0 h1; have := CPhi_nonneg; positivity
+  set w₁ : Fin 3 → (ι₁ → ℝ) → ℝ × ℝ → ℝ≥0∞ :=
+    ![fun a γ => 2 * wJ θ a γ.1, fun _ _ => 1, fun _ _ => 1] with hw₁d
+  set w₂ : Fin 3 → (ι₂ → ℝ) → ℝ × (ℝ × ℝ) → ℝ≥0∞ :=
+    ![fun _ _ => 1, fun b γ => (6 : ℕ) * wR θ b γ.1 γ.2.2, fun _ _ => 1] with hw₂d
+  clear_value w₁ w₂
+  have hw₁ : ∀ p, Measurable (Function.uncurry (w₁ p)) := by
+    intro p; subst hw₁d; fin_cases p
+    · exact measurable_const.mul (measurable_wJ θ)
+    · exact measurable_const
+    · exact measurable_const
+  have hw₂ : ∀ p, Measurable (Function.uncurry (w₂ p)) := by
+    intro p; subst hw₂d; fin_cases p
+    · exact measurable_const
+    · exact measurable_const.mul (measurable_wR θ)
+    · exact measurable_const
+  have hW : ∀ α z, wJ θ α ((eJR Unit z).1.1 + (bP1R (eJR Unit z).2).1) ≤
+      ∑ p, w₁ p (vA α) z.1 * w₂ p (vB α) z.2.1 *
+        w3P θ p (vS α) (formsV (LsJR R₁ R₂) (csJR Unit) α z) z.2.2 := fun α z => by
+    simp only [eJR_apply, bP1R, Fin.sum_univ_three, hw₁d, hw₂d, w3P, Matrix.cons_val, mul_one,
+      one_mul, formsV_JR_zero, formsV_JR_one, Nat.cast_ofNat]
+    exact wJ_split_JR_P1 h0 h1.le h₂.sign h₁.bundle h₂.bundle₁ h₂.bundle₂ α z.1.1 z.1.2
+      z.2.1.1 z.2.1.2.2
+  have key := lintegral_tripleS_le (m₁ := R₁.m) (m₂ := R₂.m) (K := KPR) (Ls := LsJR R₁ R₂)
+    (cs := csJR Unit) (isBundle_LsJR h₁ h₂) h₁.reg h₂.reg
+    (fun q => (contDiff_prod2 contDiff_phiR contDiff_chiInvRc))
+    (measurable_KPR.stronglyMeasurable) (measurable_csJR _)
+    (fun α z => wJ θ α ((eJR Unit z).1.1 + (bP1R (eJR Unit z).2).1))
+    w₁ w₂ (w3P θ) hw₁ hw₂ (measurable_w3P θ) hW (fun _ c => gev (16 * Cθ θ * (CPhi * CPhi)) A c)
+    (gamma_P_JR h0 h1 hA h₂ KPR (fun _ _ _ => rfl)) k
+  refine key.trans (sum_conv3_le (S₁ := fun p j => ∫⁻ a, ∫⁻ z₁, w₁ p a z₁ * dnorm j R₁.m a z₁)
+    (S₂ := fun p j => ∫⁻ b, ∫⁻ z₂, w₂ p b z₂ * dnorm j R₂.m b z₂)
+    (S₃ := fun _ j => gev (16 * Cθ θ * (CPhi * CPhi)) A j) (by positivity) (by positivity) hC hA0
+    (fun p j => ?_) (fun p j => ?_) (fun _ j => le_rfl) k)
+  · subst hw₁d; fin_cases p
+    · exact (S_bounds h0 h₁ j).2.2
+    · exact (S_bounds h0 h₁ j).2.1.trans (gev_le_mul hN₁ hA0 (by norm_num) j)
+    · exact (S_bounds h0 h₁ j).2.1.trans (gev_le_mul hN₁ hA0 (by norm_num) j)
+  · subst hw₂d; fin_cases p
+    · exact (RS_bounds h0 h₂ j 6).1.trans (gev_le_mul hN₂ hA0 (by norm_num) j)
+    · simpa using (RS_bounds h0 h₂ j 6).2
+    · exact (RS_bounds h0 h₂ j 6).1.trans (gev_le_mul hN₂ hA0 (by norm_num) j)
+
+/-- **The second `χ_∞` piece of `J R`: weighted Gevrey bounds.** -/
+theorem norm_piece_JR_P2 (h0 : 0 ≤ θ) (h1 : θ < 1) (hA : A0 ≤ A) (h₁ : R₁.Bound θ A N₁)
+    (h₂ : R₂.Bound θ A N₂) (k : ℕ) :
+    ∫⁻ α, ∫⁻ z, wJ θ α ((eJR Unit z).1.1 + (bP2R (eJR Unit z).2).1) *
+      dnorm k (tripleS R₁.m R₂.m KPRn (LsJR R₁ R₂) (csJR Unit)) α z ≤
+        gev (3 * (16 * N₁ * (3 * N₂) * (16 * Cθ θ * (CPhi * CPhi)))) A k := by
+  have hA0 : 0 ≤ A := A0_nonneg.trans hA
+  have hN₁ := h₁.nonneg
+  have hN₂ := h₂.nonneg
+  have hC : 0 ≤ 16 * Cθ θ * (CPhi * CPhi) := by
+    have := Cθ_nonneg h0 h1; have := CPhi_nonneg; positivity
+  set w₁ : Fin 3 → (ι₁ → ℝ) → ℝ × ℝ → ℝ≥0∞ :=
+    ![fun a γ => wJ θ a γ.1, fun _ _ => 1, fun _ _ => 1] with hw₁d
+  set w₂ : Fin 3 → (ι₂ → ℝ) → ℝ × (ℝ × ℝ) → ℝ≥0∞ :=
+    ![fun _ _ => 1, fun b γ => (3 : ℕ) * wR θ b γ.1 γ.2.2, fun _ _ => 1] with hw₂d
+  clear_value w₁ w₂
+  have hw₁ : ∀ p, Measurable (Function.uncurry (w₁ p)) := by
+    intro p; subst hw₁d; fin_cases p
+    · exact measurable_wJ θ
+    · exact measurable_const
+    · exact measurable_const
+  have hw₂ : ∀ p, Measurable (Function.uncurry (w₂ p)) := by
+    intro p; subst hw₂d; fin_cases p
+    · exact measurable_const
+    · exact measurable_const.mul (measurable_wR θ)
+    · exact measurable_const
+  have hW : ∀ α z, wJ θ α ((eJR Unit z).1.1 + (bP2R (eJR Unit z).2).1) ≤
+      ∑ p, w₁ p (vA α) z.1 * w₂ p (vB α) z.2.1 *
+        w3P θ p (vS α) (formsV (LsJR R₁ R₂) (csJR Unit) α z) z.2.2 := fun α z => by
+    simp only [eJR_apply, bP2R, Fin.sum_univ_three, hw₁d, hw₂d, w3P, Matrix.cons_val, mul_one,
+      one_mul, formsV_JR_one, Nat.cast_ofNat, add_zero]
+    exact wJ_split_JR_P2 h0 h1.le h₂.sign h₂.bundle₁ α z.1.1 z.2.1.1 z.2.1.2.2 _
+  have key := lintegral_tripleS_le (m₁ := R₁.m) (m₂ := R₂.m) (K := KPRn) (Ls := LsJR R₁ R₂)
+    (cs := csJR Unit) (isBundle_LsJR h₁ h₂) h₁.reg h₂.reg
+    (fun q => (contDiff_prod2 contDiff_phiR contDiff_chiInvRc).neg)
+    (measurable_KPRn.stronglyMeasurable) (measurable_csJR _)
+    (fun α z => wJ θ α ((eJR Unit z).1.1 + (bP2R (eJR Unit z).2).1))
+    w₁ w₂ (w3P θ) hw₁ hw₂ (measurable_w3P θ) hW (fun _ c => gev (16 * Cθ θ * (CPhi * CPhi)) A c)
+    (gamma_P_JR h0 h1 hA h₂ KPRn KPRn_iteratedFDeriv) k
+  refine key.trans (sum_conv3_le (S₁ := fun p j => ∫⁻ a, ∫⁻ z₁, w₁ p a z₁ * dnorm j R₁.m a z₁)
+    (S₂ := fun p j => ∫⁻ b, ∫⁻ z₂, w₂ p b z₂ * dnorm j R₂.m b z₂)
+    (S₃ := fun _ j => gev (16 * Cθ θ * (CPhi * CPhi)) A j) hN₁ (by positivity) hC hA0
+    (fun p j => ?_) (fun p j => ?_) (fun _ j => le_rfl) k)
+  · subst hw₁d; fin_cases p
+    · exact (S_bounds h0 h₁ j).1
+    · exact (S_bounds h0 h₁ j).2.1
+    · exact (S_bounds h0 h₁ j).2.1
+  · subst hw₂d; fin_cases p
+    · exact (RS_bounds h0 h₂ j 3).1.trans (gev_le_mul hN₂ hA0 (by norm_num) j)
+    · simpa using (RS_bounds h0 h₂ j 3).2
+    · exact (RS_bounds h0 h₂ j 3).1.trans (gev_le_mul hN₂ hA0 (by norm_num) j)
+
 end Norms
 
 end WaveTurbulence.ClassJR
