@@ -6,7 +6,7 @@ Lean 4 formalization of
 > [arXiv:2311.10082v2](https://arxiv.org/abs/2311.10082) (2024).
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-11-03 20:22 UTC** · **estimated completion 23.3 %** (Lean proofs 20.1 %) · frozen theorems sealed: 0 / 2 (+ 13 frozen definitions) · **78,396 lines of Lean on main** (716 files) + 2,474 unlanded on worker branches · blueprint estimate ≈ 273,000 lines
+> **Last updated: 2026-11-03 20:22 UTC** · **estimated completion 25.9 %** (Lean proofs 22.9 %) · frozen theorems sealed: 0 / 2 (+ 13 frozen definitions) · **78,396 lines of Lean on main** (716 files) + 2,633 unlanded on worker branches · blueprint estimate ≈ 273,000 lines
 <!-- /AUTO:updated -->
 
 **Scope (D1):** everything proved in Lean, no black boxes. That covers the target paper and the results it uses from
@@ -32,20 +32,20 @@ DRAFT_IMPORT_VIOLATIONS: 0
 ## Progress
 
 <!-- AUTO:progress -->
-### Estimated completion: **23.3 %**
+### Estimated completion: **25.9 %**
 
-`███████░░░░░░░░░░░░░░░░░░░░░░░` 23.3 %
+`████████░░░░░░░░░░░░░░░░░░░░░░` 25.9 %
 
 | Part of the project | Items | Weight | Done | Completion |
 |---|---|---|---|---|
 | Sources, paper maps, blueprint (P0–P1) | 1 | 30 | 27.0 | `█████████░` 90 % |
 | Exact Lean statements, frozen (P2) | 1 | 20 | 10.0 | `█████░░░░░` 50 % |
-| Lean proofs (P4) | 85 | 681 | 136.9 | `██░░░░░░░░` 20 % |
+| Lean proofs (P4) | 85 | 681 | 156.6 | `██░░░░░░░░` 23 % |
 | Frozen theorems sealed | 2 | 2 | 0.0 | `░░░░░░░░░░` 0 % |
 | Release (P5) | 1 | 15 | 0.0 | `░░░░░░░░░░` 0 % |
-| **Total** | | 748 | 173.9 | **23.3 %** |
+| **Total** | | 748 | 193.6 | **25.9 %** |
 
-Lean lines: 78,396 on main + 2,474 on branches, of ≈ 273,000 estimated by the blueprint (`██████░░░░░░░░░░░░░░` 29.6 % of the estimate).
+Lean lines: 78,396 on main + 2,633 on branches, of ≈ 273,000 estimated by the blueprint (`██████░░░░░░░░░░░░░░` 29.7 % of the estimate).
 
 <details><summary>All Lean work packets (blueprint §E) with weight and status</summary>
 
@@ -55,28 +55,29 @@ Lean lines: 78,396 on main + 2,474 on branches, of ≈ 273,000 estimated by the 
 | N1 | AN-FOURIER | 9 | ≈3,500 | ✅ 100 % | landed: χ₀ (Gevrey 2, F41), 𝔛 norms, restriction norms, Fourier-L¹ products |
 | N2 | AN-PHASE | 5 | ≈1,700 | ✅ 100 % | landed: Poisson on ℤ_L^d, non-stationary and bilinear stationary phase |
 | N4 | AN-SOB | 7 | ≈2,700 | ✅ 100 % | landed: Sobolev variants, (10.5), simplex volumes, DH21 L10.2 |
+| N5 | RESONANT | 6 | ≈2,800 | ✅ 100 % | landed: resonant measure, p.v. 1/Ω, DH21 Lemma 6.3 |
 | NT1 | GAUSSSUM | 5 | ≈2,100 | ✅ 100 % | landed 59220dc: Dirichlet, sharp interval and log-free smooth Gauss sum bounds |
+| NT10 | LEMLIN | 4 | ≈1,500 | ✅ 100 % | landed: lemlin (+F23 second bound), lemcubic0 |
 | NT2 | HUA | 8 | ≈3,500 | ✅ 100 % | landed: Hua L⁴/L⁶, Weyl reduction, L^{3d/2} moments |
 | NT9 | LINALG | 4 | ≈1,400 | ✅ 100 % | landed: TARGET Lemmas A.6, A.7 (MISC-A) |
 | R-CUMUL | CUMUL | 13 | ≈3,560 | ✅ 100 % | landed fea3516 |
 | R-GAUSS | GAUSS-HC | 4 | ≈2,500 | ✅ 100 % | landed f986d35 (off-route, F34) |
+| R-NTC | NT-CIRCLE | 6 | ≈3,300 | ✅ 100 % | landed: circle 2/3, elementary annulus, estcross |
 | R-TF | TORUS-FOURIER | 4 | ≈2,500 | ✅ 100 % | landed 5beb902 |
 | WA | Wave A definitions | 5 | ≈230 | ✅ 100 % | frozen D6 |
+| B3 | NLS-C | 10 | ≈3,000 | 🟡 95 % | measurability, symmetries, MAIN-GLUE observables |
+| R-WKE | WKE | 24 | ≈9,810 | 🟡 93 % | all but the L²_s blow-up conjunct; WKE-L2S Theorem 7 in progress (35 commits landed) |
 | B2 | NLS-B | 9 | ≈3,200 | 🟡 90 % | landed: LWP/persistence, inverse reduction, uniqueness |
-| N5 | RESONANT | 6 | ≈2,800 | 🟡 90 % | landed except final branch (merge repair in progress) |
-| R-NTC | NT-CIRCLE | 6 | ≈3,300 | 🟡 90 % | landed: circle 2/3, elementary annulus bound, estcross |
-| R-WKE | WKE | 24 | ≈9,810 | 🟡 90 % | landed: collision operator, trilinear (weighted L∞), Schwartz closure, uniqueness, existence, τ_max, wkelwp conj 1–2, Taylor bound F10; L²_s estimate in WKE-L2S |
-| B3 | NLS-C | 10 | ≈3,000 | 🟡 85 % | landed: measurability of solvableEvent, symmetries; glue G1–G11 per SEAL-PLAN |
+| N3 | AN-HY | 10 | ≈4,500 | 🟡 50 % | Hausdorff–Young, time-integral lemmas in progress |
+| NT5 | NTSP | 8 | ≈4,300 | 🟡 50 % | NTSP in progress (11 commits landed) |
+| J1 | BCOEF | 7 | ≈3,800 | 🟡 45 % | class J/R operators (Lemmas 5.3–5.5) landed in part (wt-wke) |
+| NT-EXPSUM | NT-EXPSUM | 14 | ≈5,300 | 🟡 45 % | A-process + B-process (VdCB) landed in part; exponent-pair transfer in progress |
 | D1 | COMB-CORE | 8 | ≈2,020 | 🟡 35 % | core carriers audited; API pre-freeze (wt-resonant) |
+| NT4 | MINOR2 | 5 | ≈3,200 | 🟡 35 % | MINOR-ARCS in progress |
+| Z1 | MAIN | 3 | ≈860 | 🟡 35 % | MAIN-GLUE: G1, G2, G5–G7, G10 landed; G4, G8, G9, G11 after the Wave B freeze |
 | D2 | SYS-DEFS | 14 | ≈3,400 | 🟡 30 % | system objects audited, final fixes |
-| N3 | AN-HY | 10 | ≈4,500 | 🟡 30 % | in progress (wt-anfourier) |
-| NT-EXPSUM | NT-EXPSUM | 14 | ≈5,300 | 🟡 25 % | A-process, toolkit landed; B-process (wt-ansob, NT-BPROC) and exponent-pair transfer (wt-nt) in progress |
-| J1 | BCOEF | 7 | ≈3,800 | 🟡 20 % | class J/R operators started (wt-wke, JR-OPS) |
 | D4 | REG-DEFS | 8 | ≈2,400 | 🟡 15 % | B2 stage 1 drafted (regular couples), under audit |
-| NT10 | LEMLIN | 4 | ≈1,500 | 🟡 10 % | started (wt-cumul) |
-| NT5 | NTSP | 8 | ≈4,300 | 🟡 10 % | started (wt-torus) |
-| J2 | CLASSJR2 | 8 | ≈4,000 | 🟡 5 % | JR-OPS |
-| NT4 | MINOR2 | 5 | ≈3,200 | 🟡 5 % | started (wt-gausssum, MINOR-ARCS) |
+| J2 | CLASSJR2 | 8 | ≈4,000 | 🟡 15 % | JR-OPS |
 | C1 | REG-STRUCT | 11 | ≈4,000 | ⬜ 0 % |  |
 | C2 | LINKS | 11 | ≈3,000 | ⬜ 0 % |  |
 | C3 | SKELETON | 15 | ≈5,200 | ⬜ 0 % |  |
@@ -135,11 +136,10 @@ Lean lines: 78,396 on main + 2,474 on branches, of ≈ 273,000 estimated by the 
 | X1 | FLOWER-DEF | 10 | ≈3,100 | ⬜ 0 % |  |
 | X2 | FLOWEREST | 16 | ≈8,900 | ⬜ 0 % |  |
 | X3 | FIXEDPT | 9 | ≈3,400 | ⬜ 0 % |  |
-| Z1 | MAIN | 3 | ≈860 | ⬜ 0 % |  |
 
 </details>
 
-Done fractions last reviewed: **2026-11-03 19:30 UTC**. Source: [`docs/campaign/progress.json`](docs/campaign/progress.json); history: [`docs/campaign/history.csv`](docs/campaign/history.csv).
+Done fractions last reviewed: **2026-11-03 20:25 UTC**. Source: [`docs/campaign/progress.json`](docs/campaign/progress.json); history: [`docs/campaign/history.csv`](docs/campaign/history.csv).
 <!-- /AUTO:progress -->
 
 ## Workers
@@ -150,14 +150,14 @@ Done fractions last reviewed: **2026-11-03 19:30 UTC**. Source: [`docs/campaign/
 | wt-orch | Claude Opus / claude-1 | audits (Wave B stage audits; done: freeze check, figure defs, topology review, infra review) | `w/orch`: 9 min ago, 3 unlanded | [brief](docs/campaign/orch/TASK4.md) |
 | wt-gauss-hc | Claude Opus / claude-10 | D3 CANON (pre-freeze): prove canonicalCharacterization (B1.11), truncation bridges; Wave B drafts done (B1 final check running, B2 drafted) | `w/waveb-infra`: — | [brief](docs/campaign/briefs/CANON.md) |
 | wt-torus | Claude Opus / claude-14 | NT5 NTSP: DH23 Lemmas 6.5, 6.7, TARGET Lemma 5.2 (NLS landed) | `w/ntsp`: 1 min ago, 1 unlanded | [brief](docs/campaign/briefs/NTSP.md) |
-| wt-wke | Claude Opus / claude-13 | JR-OPS: DH21 class J/R operators, Lemmas 5.3–5.8 (critical path; WKE + WKE-TAYLOR landed) | `w/jr-ops`: 6 min ago, 1 unlanded | [brief](docs/campaign/briefs/JR-OPS.md) |
+| wt-wke | Claude Opus / claude-13 | JR-OPS: DH21 class J/R operators, Lemmas 5.3–5.8 (critical path; WKE + WKE-TAYLOR landed) | `w/jr-ops`: 0 min ago, 2 unlanded | [brief](docs/campaign/briefs/JR-OPS.md) |
 | wt-cumul | GPT-6.1-Sol low / codex-3 | NORM-BRIDGE: Wave B norms = Foundations norms; mixedFourierNorm00 over V (MAIN-GLUE done) | `w/norm-bridge`: 4 min ago, 3 unlanded | [brief](docs/campaign/briefs/NORM-BRIDGE.md) |
 | wt-nt | GPT-6.1-Sol low / codex-3 | NT-EXPSUM: circle problem with exponent < 2/3 (van der Corput) | `w/nt-circle`: 2 min ago | [brief](docs/campaign/briefs/NT-CIRCLE-v2.md) |
 | wt-ansob | GPT-6.1-Sol low / codex-3 | NT-BPROC: van der Corput B-process (for e < 2/3, F3) (AN-SOB landed) | `w/bproc`: 1 min ago, 1 unlanded | [brief](docs/campaign/briefs/NT-BPROC.md) |
 | wt-gausssum | GPT-6.1-Sol low / codex-3 | NT4+NT11+NT3: DH23 Lemma 6.6, TARGET Lemma 5.3 and lemcubic (HUA landed) | `w/minor-arcs`: 1 min ago, 1 unlanded | [brief](docs/campaign/briefs/MINOR-ARCS.md) |
-| wt-resonant | GPT-6.1-Sol low / codex-3 | D1 COMB-CORE (pre-freeze, scratch): API for trees, gardens, decorations, layerings (RESONANT done) | `w/resonant`: 46 min ago | [brief](docs/campaign/briefs/COMB-CORE.md) |
+| wt-resonant | GPT-6.1-Sol low / codex-3 | D1 COMB-CORE (pre-freeze, scratch): API for trees, gardens, decorations, layerings (RESONANT done) | `w/resonant`: 47 min ago | [brief](docs/campaign/briefs/COMB-CORE.md) |
 | wt-anfourier | GPT-6.1-Sol low / codex-3 | N2+N3: Poisson summation, (non-)stationary phase, Hausdorff–Young, DNY21 kernel, TARGET Lemmas A.2–A.3 (AN-FOURIER landed) | `w/an-phase`: 1 min ago, 1 unlanded | [brief](docs/campaign/briefs/AN-PHASE-HY.md) |
-| wt-l2s | GPT-6.1-Sol low / codex-3 | WKE-L2S: general-d L²_s trilinear estimate (Theorem 7), wkelwp blow-up conjunct | `w/wke-l2s`: 0 min ago, 2 unlanded | [brief](docs/campaign/briefs/WKE-L2S.md) |
+| wt-l2s | GPT-6.1-Sol low / codex-3 | WKE-L2S: general-d L²_s trilinear estimate (Theorem 7), wkelwp blow-up conjunct | `w/wke-l2s`: 1 min ago, 2 unlanded | [brief](docs/campaign/briefs/WKE-L2S.md) |
 <!-- /AUTO:workers -->
 
 ## Papers
