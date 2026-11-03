@@ -1085,3 +1085,23 @@ Checks: targeted `CircleEndpointTrivial` build passed (9066 jobs; targets
 4.2s/5.4s), without warnings. Scratch `EndpointIntervalsAxioms.lean`
 passed with only `propext`, `Classical.choice`, `Quot.sound` for the exact
 union and actual large-frequency estimate. No new errata or deviations.
+
+## Poisson logarithm, summed errors and endpoint guards
+
+`CirclePoissonErrorScale.lean` absorbs the exact landed truncated-Poisson
+logarithmic error into 80 times the local circle power.
+`CircleSummedStationaryScale.lean` proves the exact natural-frequency-width
+identity and bounds the total stationary and separated-frequency costs by
+512K and 64K times that power, respectively.
+`PoissonStationaryGuards.lean` proves a finite B transfer with three actual
+frequency parts: interior stationary modes, endpoint guards, and separated
+modes. The explicit guard cost is `card(G)*4/sqrt(mu)`; all inputs are
+actual calculus, critical-point equations, and finite-frequency geometry.
+This supplies a guard version of the shared finite stationary transfer,
+without assuming any oscillatory conclusion.
+
+Checks: targeted `CirclePoissonErrorScale`, `CircleSummedStationaryScale`,
+and `PoissonStationaryGuards` builds passed (3826/3259/3857 jobs;
+new targets 4.2s/3.4s/2.3s), without warnings. Scratch
+`PoissonErrorAxioms.lean` checks all four main results with only
+`propext`, `Classical.choice`, `Quot.sound`. No new errata or deviations.
