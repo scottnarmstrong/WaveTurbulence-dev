@@ -102,4 +102,15 @@ theorem cutoffKernelIntegral_sub {χ : ℝ → ℝ}
   simp only [cutoffKernelIntegral, mul_sub, integral_sub
     (integrable_timeKernel_mul hK hKn hA t) (integrable_timeKernel_mul hK hKn hB t)]
 
+/-- The kernel `L¹` estimate in the guarded norm used for approximation. -/
+theorem eLpNorm_cutoffKernelIntegral_one_le {χ : ℝ → ℝ} (hχ : Continuous χ) (h : CutoffControl χ)
+    {K : (Fin 2 → ℝ) → (Fin 2 → ℝ) → ℂ}
+    (hK : Measurable (fun p : (Fin 2 → ℝ) × (Fin 2 → ℝ) => K p.1 p.2))
+    (hKn : ∀ t v, ‖K t v‖ ≤ 1) {A : (Fin 2 → ℝ) → ℂ} (hA : Integrable A) :
+    eLpNorm (cutoffKernelIntegral χ K A) 1 ≤ cutoffKernelL1Factor h.radius h.bound * eLpNorm A 1 := by
+  rw [eLpNorm_one_eq_lintegral_enorm
+    (cutoffKernelIntegral_aestronglyMeasurable hχ hK hA.aestronglyMeasurable),
+    eLpNorm_one_eq_lintegral_enorm hA.aestronglyMeasurable]
+  exact lintegral_enorm_cutoffKernelIntegral_le h hKn A
+
 end WaveTurbulence.Fourier
