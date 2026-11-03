@@ -49,14 +49,14 @@ theorem dnorm_symR_le {m : (ι → ℝ) → ℝ × ℝ → ℂ} (hm : ∀ γ, Co
   have e : lift1 (symR m y F) z = fun β => lift1 m (z.1, z.2.1) β *
       (fun x => F x z.2.2) ((-bundleL y) β + z.2.1) := by
     funext β
-    simp only [lift1, symR, ContinuousLinearMap.neg_apply, bundleL_apply, neg_add_eq_sub]
+    simp only [lift1, symR, neg_apply, bundleL_apply, neg_add_eq_sub]
   rw [e]
   refine (enorm_iteratedFDeriv_mul_le (contDiff_lift1 (hm _))
     ((hF _).comp ((-bundleL y).contDiff.add contDiff_const)) _ k).trans ?_
   refine Finset.sum_le_sum fun j _ => mul_le_mul' le_rfl ?_
   refine (enorm_iteratedFDeriv_affine_le (hF z.2.2) (-bundleL y) hL z.2.1 _ (k - j)).trans_eq ?_
   rw [← ofReal_norm, ← ofReal_norm, norm_iteratedFDeriv_eq_norm_iteratedDeriv]
-  simp only [ContinuousLinearMap.neg_apply, bundleL_apply, neg_add_eq_sub]
+  simp only [neg_apply, bundleL_apply, neg_add_eq_sub]
 
 theorem lintegral_assoc_mul {f : ℝ × ℝ → ℝ≥0∞} {g : Q → ℝ≥0∞} (hf : Measurable f)
     (hg : Measurable g) : ∫⁻ z : ℝ × (ℝ × Q), f (z.1, z.2.1) * g z.2.2 =
@@ -213,5 +213,202 @@ theorem exists_piece_IJI_R {θ A N : ℝ} (h0 : 0 ≤ θ) (h1 : θ ≤ 1) (hA : 
   exact ⟨S, hS, hk⟩
 
 end Generic
+
+section RPieces
+
+variable {θ A N : ℝ} {R : JSym ι} {ε : ℤ}
+
+theorem two_add_le_mul {W X : ℝ≥0∞} (hW : 1 ≤ W) (hX : 1 ≤ X) (n : ℕ) :
+    (n : ℝ≥0∞) * W + X ≤ ((n + 1 : ℕ) : ℝ≥0∞) * W * X := by
+  calc (n : ℝ≥0∞) * W + X ≤ (n : ℝ≥0∞) * W * X + W * X :=
+        add_le_add (le_mul_of_one_le_right bot_le hX) (le_mul_of_one_le_left bot_le hW)
+    _ = ((n + 1 : ℕ) : ℝ≥0∞) * W * X := by push_cast; ring
+
+theorem rho_le_one (x : ℝ) : ENNReal.ofReal ((1 + |x|)⁻¹) ≤ 1 := by
+  rw [← ENNReal.ofReal_one]
+  exact ENNReal.ofReal_le_ofReal (inv_le_one_of_one_le₀ (by linarith [abs_nonneg x]))
+
+theorem one_le_wJ' {θ : ℝ} (h0 : 0 ≤ θ) (α : ι → ℝ) (γ : ℝ) : 1 ≤ wJ θ α γ :=
+  one_le_one_add_rpow h0 _ |>.trans_eq (by rw [wJ, add_assoc])
+
+/-- Split of DH21 term V (`γ₁' = γ₁ + σ`, `γ₃' = γ₁`). -/
+theorem split_R_ba (h0 : 0 ≤ θ) (h1 : θ ≤ 1) (α : ι → ℝ) (γ₁ σ : ℝ) :
+    wR θ α (γ₁ + σ) γ₁ ≤ ((3 : ℕ) : ℝ≥0∞) * wJ θ α γ₁ * (1 + ‖σ‖ₑ) := by
+  set a := ∑ j, ‖α j‖ₑ
+  have hW : (1 + a + ‖γ₁‖ₑ) ^ θ = wJ θ α γ₁ := rfl
+  have hg : ‖γ₁‖ₑ ^ θ ≤ wJ θ α γ₁ := rpow_mono' h0 le_add_self
+  calc wR θ α (γ₁ + σ) γ₁ ≤ ((1 + a + ‖γ₁‖ₑ) + ‖γ₁‖ₑ + ‖σ‖ₑ) ^ θ := by
+        refine rpow_mono' h0 ?_
+        calc 1 + a + ‖γ₁ + σ‖ₑ + ‖γ₁‖ₑ ≤ 1 + a + (‖γ₁‖ₑ + ‖σ‖ₑ) + ‖γ₁‖ₑ := by
+              gcongr; exact enorm_add_le _ _
+          _ = _ := by ring
+    _ ≤ (1 + a + ‖γ₁‖ₑ) ^ θ + ‖γ₁‖ₑ ^ θ + ‖σ‖ₑ ^ θ := rpow_add3_le h0 h1 _ _ _
+    _ ≤ (2 : ℕ) * wJ θ α γ₁ + (1 + ‖σ‖ₑ) := by
+        rw [hW]
+        calc wJ θ α γ₁ + ‖γ₁‖ₑ ^ θ + ‖σ‖ₑ ^ θ ≤ wJ θ α γ₁ + wJ θ α γ₁ + (1 + ‖σ‖ₑ) :=
+              add_le_add (add_le_add le_rfl hg) (rpow_le_one_add h0 h1 _)
+          _ = _ := by push_cast; ring
+    _ ≤ _ := two_add_le_mul (one_le_wJ' h0 α γ₁) le_self_add 2
+
+/-- Split of DH21 term VI (`γ₁' = γ₁ + γ₂` or `γ₁`, `γ₃' = γ₁`). -/
+theorem split_R_bb (h0 : 0 ≤ θ) (h1 : θ ≤ 1) {y : ι → ℤ} (hy : IsBundle y) (α : ι → ℝ)
+    (γ₁ γ₂ : ℝ) :
+    wR θ α (γ₁ + γ₂) γ₁ ≤ ((4 : ℕ) : ℝ≥0∞) * wJ θ α γ₁ * (1 + ‖γ₂ - bundle y α‖ₑ) ^ θ := by
+  set a := ∑ j, ‖α j‖ₑ
+  set u := γ₂ - bundle y α
+  have hW : (1 + a + ‖γ₁‖ₑ) ^ θ = wJ θ α γ₁ := rfl
+  have hg : ‖γ₁‖ₑ ^ θ ≤ wJ θ α γ₁ := rpow_mono' h0 le_add_self
+  have ha : a ^ θ ≤ wJ θ α γ₁ := sum_rpow_le_wJ h0 α γ₁
+  have h2 : ‖γ₂‖ₑ ≤ ‖u‖ₑ + a := by
+    rw [show γ₂ = u + bundle y α by simp only [u]; ring]
+    exact (enorm_add_le _ _).trans (add_le_add le_rfl (abs_bundle_le hy α))
+  calc wR θ α (γ₁ + γ₂) γ₁ ≤ ((1 + a + ‖γ₁‖ₑ) + ‖γ₁‖ₑ + a + ‖u‖ₑ) ^ θ := by
+        refine rpow_mono' h0 ?_
+        calc 1 + a + ‖γ₁ + γ₂‖ₑ + ‖γ₁‖ₑ ≤ 1 + a + (‖γ₁‖ₑ + (‖u‖ₑ + a)) + ‖γ₁‖ₑ := by
+              gcongr; exact (enorm_add_le _ _).trans (add_le_add le_rfl h2)
+          _ = _ := by ring
+    _ ≤ (1 + a + ‖γ₁‖ₑ) ^ θ + ‖γ₁‖ₑ ^ θ + a ^ θ + ‖u‖ₑ ^ θ := rpow_add4_le h0 h1 _ _ _ _
+    _ ≤ (3 : ℕ) * wJ θ α γ₁ + (1 + ‖u‖ₑ) ^ θ := by
+        rw [hW]
+        calc wJ θ α γ₁ + ‖γ₁‖ₑ ^ θ + a ^ θ + ‖u‖ₑ ^ θ ≤
+              wJ θ α γ₁ + wJ θ α γ₁ + wJ θ α γ₁ + (1 + ‖u‖ₑ) ^ θ :=
+              add_le_add (add_le_add (add_le_add le_rfl hg) ha) (rpow_mono' h0 le_add_self)
+          _ = _ := by push_cast; ring
+    _ ≤ _ := two_add_le_mul (one_le_wJ' h0 α γ₁) (one_le_one_add_rpow h0 _) 3
+
+theorem split_R_bc (h0 : 0 ≤ θ) (h1 : θ ≤ 1) {y : ι → ℤ} (α : ι → ℝ) (γ₁ γ₂ : ℝ) :
+    wR θ α γ₁ γ₁ ≤ ((4 : ℕ) : ℝ≥0∞) * wJ θ α γ₁ * (1 + ‖γ₂ - bundle y α‖ₑ) ^ θ := by
+  set a := ∑ j, ‖α j‖ₑ
+  have hW : (1 + a + ‖γ₁‖ₑ) ^ θ = wJ θ α γ₁ := rfl
+  have hg : ‖γ₁‖ₑ ^ θ ≤ wJ θ α γ₁ := rpow_mono' h0 le_add_self
+  calc wR θ α γ₁ γ₁ ≤ (1 + a + ‖γ₁‖ₑ) ^ θ + ‖γ₁‖ₑ ^ θ := rpow_add_le h0 h1 _ _
+    _ ≤ (3 : ℕ) * wJ θ α γ₁ + (1 + ‖γ₂ - bundle y α‖ₑ) ^ θ := by
+        rw [hW]
+        calc wJ θ α γ₁ + ‖γ₁‖ₑ ^ θ ≤ wJ θ α γ₁ + wJ θ α γ₁ + wJ θ α γ₁ +
+              (1 + ‖γ₂ - bundle y α‖ₑ) ^ θ := by
+              rw [add_assoc, add_assoc]
+              exact add_le_add le_rfl (hg.trans le_self_add)
+          _ = _ := by push_cast; ring
+    _ ≤ _ := two_add_le_mul (one_le_wJ' h0 α γ₁) (one_le_one_add_rpow h0 _) 3
+
+/-- The coupling `(πi)⁻¹ kerM` of DH21 term V. -/
+@[expose] noncomputable def FV (x : ℝ) (q : ℝ × ℝ) : ℂ := ((π : ℂ) * I)⁻¹ * kerM x q
+
+/-- The coupling `(πi)⁻¹ Φ` of DH21 term VI. -/
+@[expose] noncomputable def FVI (x : ℝ) (_ : Unit) : ℂ := ((π : ℂ) * I)⁻¹ * phiR x
+
+theorem enorm_iteratedDeriv_FV (k : ℕ) (x : ℝ) (q : ℝ × ℝ) :
+    ‖iteratedDeriv k (fun x => FV x q) x‖ₑ ≤ gM k q := by
+  have e : (fun x => FV x q) = fun x => ((π : ℂ) * I)⁻¹ • kerM x q := rfl
+  rw [e, iteratedDeriv_fun_const_smul_field, enorm_smul]
+  refine (mul_le_of_le_one_left bot_le ?_).trans ((enorm_iteratedDeriv_kerM_le_ind k x q).trans
+    (mul_le_of_le_one_left bot_le (ind_le_one _)))
+  rw [← ofReal_norm, ← ENNReal.ofReal_one]
+  exact ENNReal.ofReal_le_ofReal norm_pi_I_inv_le
+
+theorem enorm_iteratedDeriv_FVI (k : ℕ) (x : ℝ) (q : Unit) :
+    ‖iteratedDeriv k (fun x => FVI x q) x‖ₑ ≤
+      gev CPhi Achi k * ENNReal.ofReal ((1 + |x|)⁻¹) := by
+  have e : (fun x => FVI x q) = fun x => ((π : ℂ) * I)⁻¹ • phiR x := rfl
+  rw [e, iteratedDeriv_fun_const_smul_field, enorm_smul]
+  refine (mul_le_of_le_one_left bot_le ?_).trans (enorm_iteratedDeriv_phiR_le' k x)
+  rw [← ofReal_norm, ← ENNReal.ofReal_one]
+  exact ENNReal.ofReal_le_ofReal norm_pi_I_inv_le
+
+theorem contDiff_FV (q : ℝ × ℝ) : ContDiff ℝ ∞ fun x => FV x q :=
+  contDiff_const.mul (contDiff_kerM q)
+
+theorem contDiff_FVI (q : Unit) : ContDiff ℝ ∞ fun x => FVI x q :=
+  contDiff_const.mul contDiff_phiR
+
+theorem measurable_FV : Measurable (Function.uncurry FV) :=
+  measurable_const.mul measurable_kerM
+
+theorem measurable_FVI : Measurable (Function.uncurry FVI) :=
+  measurable_const.mul (contDiff_phiR.continuous.measurable.comp measurable_fst)
+
+theorem enorm_rho_rpow_le {θ : ℝ} (h0 : 0 ≤ θ) (h1 : θ ≤ 1) (x : ℝ) :
+    (1 + ‖x‖ₑ) ^ θ * ENNReal.ofReal ((1 + |x|)⁻¹) ≤ 1 := by
+  rw [one_add_enorm_eq, ENNReal.ofReal_rpow_of_nonneg (by positivity) h0,
+    ← ENNReal.ofReal_mul (by positivity), ← ENNReal.ofReal_one]
+  refine ENNReal.ofReal_le_ofReal ?_
+  have hp : 0 < 1 + |x| := by positivity
+  calc (1 + |x|) ^ θ * (1 + |x|)⁻¹ ≤ (1 + |x|) ^ (1 : ℝ) * (1 + |x|)⁻¹ := by
+        gcongr
+        · linarith [abs_nonneg x]
+    _ = 1 := by rw [Real.rpow_one, mul_inv_cancel₀ hp.ne']
+
+/-- **DH21 term V** as a basic class `R` operator. -/
+theorem exists_piece_IJI_ba (h0 : 0 ≤ θ) (h1 : θ ≤ 1) (hA : A0 ≤ A) (hR : R.Bound θ A N)
+    (hε : ε = 1 ∨ ε = -1) (μ : ℝ) :
+    ∃ S : RSym ι, S.Bound θ A (CM0 * (4 * ((3 : ℕ) * N) * (CkM * IM))) ∧ ∀ α t s,
+      t ∈ Icc (0 : ℝ) 1 → s ∈ Icc (0 : ℝ) 1 → S.kernel α t s =
+        ∫ z : ℝ × (ℝ × (ℝ × ℝ)), symR R.m R.y FV (nsp α) z *
+          rker (bundle R.y (nsp α) + ε * α none) (bundle R.y (nsp α) + ε * α none)
+            (z.1 + z.2.2.1) (z.2.1 + μ - z.2.2.1) z.1 t s := by
+  have hC := nonneg_CkMIM
+  exact exists_piece_IJI_R h0 h1 (A0_nonneg.trans hA) hR hε hR.bundle contDiff_FV
+    measurable_FV.stronglyMeasurable gM measurable_gM enorm_iteratedDeriv_FV
+    (fun k => ne_top_of_le_ne_top (gev_lt_top _ _ _).ne (lintegral_gM_le k))
+    (c := fun z => (z.1 + z.2.2.1, z.2.1 + μ - z.2.2.1)) (by fun_prop) (Cw := 3) (by norm_num)
+    (wc := fun _ q => 1 + ‖q.1‖ₑ) (by fun_prop)
+    (fun α z => split_R_ba h0 h1 α z.1 z.2.2.1) hC
+    (fun k x => by
+      calc ∫⁻ q, (1 + ‖q.1‖ₑ) * ‖iteratedDeriv k (fun x => FV x q) x‖ₑ
+          ≤ ∫⁻ q, (1 + ‖q.1‖ₑ) * gM k q :=
+            lintegral_mono fun q => mul_le_mul' le_rfl (enorm_iteratedDeriv_FV k x q)
+        _ = gev (CkM * IM) AkM k := lintegral_gM_weight k
+        _ ≤ gev (CkM * IM) A k := gev_mono le_rfl kerM_bound.2.1 (AkM_le_A0.trans hA) hC k)
+
+theorem gamma_FVI (h0 : 0 ≤ θ) (h1 : θ ≤ 1) (hA : A0 ≤ A) (k : ℕ) (x : ℝ) :
+    ∫⁻ q : Unit, (1 + ‖x‖ₑ) ^ θ * ‖iteratedDeriv k (fun x => FVI x q) x‖ₑ ≤ gev CPhi A k := by
+  rw [lintegral_unit]
+  calc (1 + ‖x‖ₑ) ^ θ * ‖iteratedDeriv k (fun x => FVI x ()) x‖ₑ
+      ≤ (1 + ‖x‖ₑ) ^ θ * (gev CPhi Achi k * ENNReal.ofReal ((1 + |x|)⁻¹)) :=
+        mul_le_mul' le_rfl (enorm_iteratedDeriv_FVI k x ())
+    _ = ((1 + ‖x‖ₑ) ^ θ * ENNReal.ofReal ((1 + |x|)⁻¹)) * gev CPhi Achi k := by ring
+    _ ≤ 1 * gev CPhi Achi k := mul_le_mul' (enorm_rho_rpow_le h0 h1 x) le_rfl
+    _ ≤ gev CPhi A k := by
+        rw [one_mul]; exact gev_mono le_rfl Achi_nonneg (Achi_le_A0.trans hA) CPhi_nonneg k
+
+/-- **DH21 term VI, first part** (phase `εα₁`, `γ' = (γ₁ + γ₂, μ, γ₁)`). -/
+theorem exists_piece_IJI_bb (h0 : 0 ≤ θ) (h1 : θ ≤ 1) (hA : A0 ≤ A) (hR : R.Bound θ A N)
+    (hε : ε = 1 ∨ ε = -1) (μ : ℝ) :
+    ∃ S : RSym ι, S.Bound θ A (CM0 * (4 * ((4 : ℕ) * N) * CPhi)) ∧ ∀ α t s,
+      t ∈ Icc (0 : ℝ) 1 → s ∈ Icc (0 : ℝ) 1 → S.kernel α t s =
+        ∫ z : ℝ × (ℝ × Unit), symR R.m R.y FVI (nsp α) z *
+          rker (bundle R.y (nsp α) + ε * α none) (bundle (0 : ι → ℤ) (nsp α) + ε * α none)
+            (z.1 + z.2.1) μ z.1 t s := by
+  have := CPhi_nonneg
+  exact exists_piece_IJI_R h0 h1 (A0_nonneg.trans hA) hR hε isBundle_zero contDiff_FVI
+    measurable_FVI.stronglyMeasurable (fun k _ => gev CPhi Achi k) (fun _ => measurable_const)
+    (fun k x q => (enorm_iteratedDeriv_FVI k x q).trans
+      (mul_le_of_le_one_right bot_le (rho_le_one x)))
+    (fun k => by rw [lintegral_unit]; exact (gev_lt_top _ _ _).ne)
+    (c := fun z => (z.1 + z.2.1, μ)) (by fun_prop) (Cw := 4) (by norm_num)
+    (wc := fun x _ => (1 + ‖x‖ₑ) ^ θ) (by fun_prop)
+    (fun α z => split_R_bb h0 h1 hR.bundle α z.1 z.2.1) CPhi_nonneg
+    (fun k x => gamma_FVI h0 h1 hA k x)
+
+/-- **DH21 term VI, second part** (phase `ℓ + εα₁`, `γ' = (γ₁, γ₂ + μ, γ₁)`). -/
+theorem exists_piece_IJI_bc (h0 : 0 ≤ θ) (h1 : θ ≤ 1) (hA : A0 ≤ A) (hR : R.Bound θ A N)
+    (hε : ε = 1 ∨ ε = -1) (μ : ℝ) :
+    ∃ S : RSym ι, S.Bound θ A (CM0 * (4 * ((4 : ℕ) * N) * CPhi)) ∧ ∀ α t s,
+      t ∈ Icc (0 : ℝ) 1 → s ∈ Icc (0 : ℝ) 1 → S.kernel α t s =
+        ∫ z : ℝ × (ℝ × Unit), symR R.m R.y FVI (nsp α) z *
+          rker (bundle R.y (nsp α) + ε * α none) (bundle R.y (nsp α) + ε * α none)
+            z.1 (z.2.1 + μ) z.1 t s := by
+  have := CPhi_nonneg
+  exact exists_piece_IJI_R h0 h1 (A0_nonneg.trans hA) hR hε hR.bundle contDiff_FVI
+    measurable_FVI.stronglyMeasurable (fun k _ => gev CPhi Achi k) (fun _ => measurable_const)
+    (fun k x q => (enorm_iteratedDeriv_FVI k x q).trans
+      (mul_le_of_le_one_right bot_le (rho_le_one x)))
+    (fun k => by rw [lintegral_unit]; exact (gev_lt_top _ _ _).ne)
+    (c := fun z => (z.1, z.2.1 + μ)) (by fun_prop) (Cw := 4) (by norm_num)
+    (wc := fun x _ => (1 + ‖x‖ₑ) ^ θ) (by fun_prop)
+    (fun α z => split_R_bc h0 h1 α z.1 z.2.1) CPhi_nonneg
+    (fun k x => gamma_FVI h0 h1 hA k x)
+
+end RPieces
 
 end WaveTurbulence.ClassJR
