@@ -1,5 +1,35 @@
 # N5 RESONANT handoff
 
+## Landing repair against current main
+
+Merged main `abd80f7d70983a11bb29c142b75a2d6390eb2810` (merge `50791f9`).
+Kept the newer Resonant definitions and their packet namespace. The merged
+principal-value files elaborate with `Resonant.energyInvInner`, `pvQuotient`,
+`IsPVCutoff` and the explicit `energyInvInner_eq` helper. The remaining stale
+reference in `SchwartzSmooth` is now explicitly `WKE.deltaInt_congr`, matching
+the namespace of the landed `WKE.Multilinear` API. No WKE files were edited.
+
+Post-merge checks, all successful:
+
+- `nice -n 5 lake build WaveTurbulence.Foundations.Resonant.Basic`:
+  `Build completed successfully (9097 jobs).`
+- Every one of the 43 Resonant Lean files was then freshly elaborated,
+  sequentially in dependency order, using
+  `nice -n 5 lake env lean WaveTurbulence/Foundations/Resonant/<Module>.lean`.
+  Result: `PASS: 43 individual Resonant module checks`; no warnings or errors.
+  Exact ordered module list, per-file output, timings and exit codes are in
+  `/home/scott/wt-scratch/resonant/repair-validation/` (`modules.txt`,
+  `check_all.py`, `results.json`, and one log per module).
+- `nice -n 5 lake env lean /home/scott/wt-scratch/resonant/FinalAxioms.lean`:
+  exit 0; all sixteen main exports still have only the standard three axioms.
+  Output: `repair-validation/axioms.log`. The repository axiom checker reports
+  sixteen `ok` lines and `16 declarations audited`.
+- `python3 scripts/check_lean_modules.py --root . --max-lines 1500 --files WaveTurbulence/Foundations/Resonant/*.lean`:
+  `check_lean_modules: PASS (43 Lean files, 0 comparator configurations)`.
+
+No mathematical changes, new premises, deviations or errata were introduced
+by this repair. The source-convention notes below remain applicable.
+
 Branch: `w/resonant`. Verified implementation snapshot: `5a7f74c`.
 All declarations are in `WaveTurbulence.Resonant`; the import interface is
 `WaveTurbulence.Foundations.Resonant.Basic`.

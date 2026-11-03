@@ -53,7 +53,7 @@ theorem hasFDerivAt_schwartzResonant
     congr 1
     rw [deltaFDerivIntegral_apply hGk hc (by omega : 0 < d) (b j)]
     unfold schwartzResonant resonantIntegral
-    apply deltaInt_congr
+    apply WKE.deltaInt_congr
     intro ℓ x
     simp only [schwartzResonantDeriv, ContinuousLinearMap.comp_apply, schwartzDirectionalTest,
       SchwartzMap.lineDerivOp_apply_eq_fderiv, resonantKernel, triplePoint,
