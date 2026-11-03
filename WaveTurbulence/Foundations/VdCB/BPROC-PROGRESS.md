@@ -67,3 +67,11 @@ that aggregate target is still being repaired in its separate Gaussian-boundary 
 Also checked: `MonotoneAmplitude` (uniform tail integration-by-parts estimate) and
 `GaussianPairing` (exact regularized Fourier identity for a Schwartz amplitude).
 No complete B-process or full finite-interval stationary-phase result is yet claimed.
+
+The exact Schwartz-amplitude quadratic Fourier identity now builds, including
+its principal-branch coefficient `expPhase (1/8) / sqrt q`. The Gaussian
+pairing identity extends to imaginary parameters by dominated convergence.
+`CircleLatticeRegularity` exports global smoothness and actual within-interval
+fifth-derivative bounds for the corrected integer-column dual. Checked target:
+`nice -n 5 lake build WaveTurbulence.Foundations.VdCB.StationaryTools`:
+`Build completed successfully (3813 jobs).` No warnings.
