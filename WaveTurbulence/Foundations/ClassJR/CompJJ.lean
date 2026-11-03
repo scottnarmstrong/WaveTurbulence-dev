@@ -270,4 +270,142 @@ theorem wJ_split_P2 {θ : ℝ} (h0 : 0 ≤ θ) (h1 : θ ≤ 1) (α : ι₁ ⊕ �
 
 end WeightSplit
 
+section GevAux
+
+theorem gev_add3 {a b c A : ℝ} (ha : 0 ≤ a) (hb : 0 ≤ b) (hc : 0 ≤ c) (hA : 0 ≤ A) (k : ℕ) :
+    gev a A k + gev b A k + gev c A k = gev (a + b + c) A k := by
+  unfold gev
+  rw [← ENNReal.ofReal_add (by positivity) (by positivity),
+    ← ENNReal.ofReal_add (by positivity) (by positivity)]
+  congr 1
+  ring
+
+theorem gev_two_mul (N A : ℝ) (k : ℕ) : 2 * gev N A k = gev (2 * N) A k := by
+  rw [show (2 : ℝ≥0∞) = ENNReal.ofReal 2 by simp, gev_mul_const 2 (by norm_num)]
+
+variable {ι : Type*} [Fintype ι]
+
+theorem lintegral_one_dnorm_le {θ : ℝ} (h0 : 0 ≤ θ) (m : (ι → ℝ) → ℝ × ℝ → ℂ) (j : ℕ) :
+    ∫⁻ a, ∫⁻ γ : ℝ × ℝ, 1 * dnorm j m a γ ≤ jNorm θ j m :=
+  lintegral_mono fun a => lintegral_mono fun γ =>
+    mul_le_mul' (one_le_wJ h0 a γ.1) le_rfl
+
+theorem lintegral_two_wJ_dnorm (θ : ℝ) (m : (ι → ℝ) → ℝ × ℝ → ℂ) (j : ℕ) :
+    ∫⁻ a, ∫⁻ γ : ℝ × ℝ, 2 * wJ θ a γ.1 * dnorm j m a γ = 2 * jNorm θ j m := by
+  unfold jNorm
+  simp_rw [mul_assoc]
+  rw [← lintegral_const_mul' _ _ (by simp)]
+  refine lintegral_congr fun a => ?_
+  rw [lintegral_const_mul' _ _ (by simp)]
+
+end GevAux
+
+section Pieces
+
+variable {ι₁ ι₂ : Type*} [Fintype ι₁] [Fintype ι₂]
+
+/-- `γ₂ + γ₃` in the natural layout. -/
+@[expose] def cJJ {Q : Type*} (z : (ℝ × ℝ) × ((ℝ × ℝ) × Q)) : ℝ := z.1.2 + z.2.1.1
+
+theorem measurable_cJJ {Q : Type*} [MeasurableSpace Q] : Measurable (cJJ (Q := Q)) := by
+  unfold cJJ; fun_prop
+
+/-- The shift of the `χ₀` piece: `γ' = (γ₁ + σ, γ₄ + γ₂ + γ₃ - σ)`. -/
+@[expose] def bM (η : (ℝ × ℝ) × (ℝ × ℝ)) : ℝ × ℝ := (η.2.1, η.1.1 + η.1.2 - η.2.1)
+
+/-- The shift of the first `χ_∞` piece: `γ' = (γ₁ + γ₂ + γ₃, γ₄)`. -/
+@[expose] def bP1 (η : (ℝ × ℝ) × Unit) : ℝ × ℝ := (η.1.1 + η.1.2, 0)
+
+/-- The shift of the second `χ_∞` piece: `γ' = (γ₁, γ₄ + γ₂ + γ₃)`. -/
+@[expose] def bP2 (η : (ℝ × ℝ) × Unit) : ℝ × ℝ := (0, η.1.1 + η.1.2)
+
+theorem measurable_bM : Measurable bM := by unfold bM; fun_prop
+theorem measurable_bP1 : Measurable bP1 := by unfold bP1; fun_prop
+theorem measurable_bP2 : Measurable bP2 := by unfold bP2; fun_prop
+
+variable {θ A N₁ N₂ : ℝ} {R₁ : JSym ι₁} {R₂ : JSym ι₂}
+
+/-- Bounds for the three factors of a product symbol from the class `J` bounds. -/
+theorem S_bounds (h0 : 0 ≤ θ) (h₁ : R₁.Bound θ A N₁) (j : ℕ) :
+    (∫⁻ a, ∫⁻ γ : ℝ × ℝ, wJ θ a γ.1 * dnorm j R₁.m a γ ≤ gev N₁ A j) ∧
+    (∫⁻ a, ∫⁻ γ : ℝ × ℝ, 1 * dnorm j R₁.m a γ ≤ gev N₁ A j) ∧
+    (∫⁻ a, ∫⁻ γ : ℝ × ℝ, 2 * wJ θ a γ.1 * dnorm j R₁.m a γ ≤ gev (2 * N₁) A j) := by
+  refine ⟨h₁.norm j, (lintegral_one_dnorm_le h0 _ j).trans (h₁.norm j), ?_⟩
+  rw [lintegral_two_wJ_dnorm, ← gev_two_mul]
+  exact mul_le_mul' le_rfl (h₁.norm j)
+
+/-- Summing three Gevrey bounds of a common profile. -/
+theorem sum_fin3_le_gev {T : Fin 3 → ℝ≥0∞} {N A : ℝ} (hN : 0 ≤ N) (hA : 0 ≤ A) {k : ℕ}
+    (hT : ∀ p, T p ≤ gev N A k) : ∑ p, T p ≤ gev (3 * N) A k := by
+  rw [Fin.sum_univ_three, show 3 * N = N + N + N by ring, ← gev_add3 hN hN hN hA]
+  exact add_le_add (add_le_add (hT 0) (hT 1)) (hT 2)
+
+/-- **The `χ₀` piece of `J^{(1)} J^{(2)}`: weighted Gevrey bounds** (DH21 L987–L996). -/
+theorem norm_piece_M (h0 : 0 ≤ θ) (h1 : θ ≤ 1) (hA : A0 ≤ A) (h₁ : R₁.Bound θ A N₁)
+    (h₂ : R₂.Bound θ A N₂) (k : ℕ) :
+    ∫⁻ α, ∫⁻ z, wJ θ α ((eJJ (ℝ × ℝ) z).1.1 + (bM (eJJ (ℝ × ℝ) z).2).1) *
+      dnorm k (triple R₁.m R₂.m kerM (yDiff R₁.y R₂.y) cJJ) α z ≤
+        gev (3 * (16 * N₁ * N₂ * (CkM * IM))) A k := by
+  have hA0 : 0 ≤ A := A0_nonneg.trans hA
+  have hC : 0 ≤ CkM * IM := mul_nonneg kerM_bound.1 IM_nonneg
+  set w₁ : Fin 3 → (ι₁ → ℝ) → ℝ × ℝ → ℝ≥0∞ :=
+    ![fun a γ => wJ θ a γ.1, fun _ _ => 1, fun _ _ => 1] with hw₁d
+  set w₂ : Fin 3 → (ι₂ → ℝ) → ℝ × ℝ → ℝ≥0∞ :=
+    ![fun _ _ => 1, fun b γ => wJ θ b γ.1, fun _ _ => 1] with hw₂d
+  set w₃ : Fin 3 → ℝ → ℝ × ℝ → ℝ≥0∞ :=
+    ![fun _ _ => 1, fun _ _ => 1, fun _ q => 1 + ‖q.1‖ₑ] with hw₃d
+  set G : Fin 3 → ℕ → ℝ × ℝ → ℝ≥0∞ := ![gM, gM, fun c q => (1 + ‖q.1‖ₑ) * gM c q] with hGd
+  clear_value w₁ w₂ w₃ G
+  have hw₁ : ∀ p, Measurable (Function.uncurry (w₁ p)) := by
+    intro p; subst hw₁d; fin_cases p
+    · exact measurable_wJ θ
+    · exact measurable_const
+    · exact measurable_const
+  have hw₂ : ∀ p, Measurable (Function.uncurry (w₂ p)) := by
+    intro p; subst hw₂d; fin_cases p
+    · exact measurable_const
+    · exact measurable_wJ θ
+    · exact measurable_const
+  have hGm : ∀ p c, Measurable (G p c) := by
+    intro p c; subst hGd; fin_cases p
+    · exact measurable_gM c
+    · exact measurable_gM c
+    · exact (measurable_const.add (measurable_fst.enorm)).mul (measurable_gM c)
+  have hW : ∀ α z, wJ θ α ((eJJ (ℝ × ℝ) z).1.1 + (bM (eJJ (ℝ × ℝ) z).2).1) ≤
+      ∑ p, w₁ p (fun i => α (Sum.inl i)) z.1 * w₂ p (fun i => α (Sum.inr i)) z.2.1 *
+        w₃ p (bundle (yDiff R₁.y R₂.y) α + cJJ z) z.2.2 := fun α z => by
+    simp only [eJJ_apply, bM, Fin.sum_univ_three, hw₁d, hw₂d, hw₃d, Matrix.cons_val, mul_one,
+      one_mul]
+    exact wJ_split_M h0 h1 α z.1.1 z.2.1.1 z.2.2.1
+  have hG : ∀ p c x q, w₃ p x q * ‖iteratedDeriv c (fun x => kerM x q) x‖ₑ ≤ G p c q := by
+    intro p c x q; subst hw₃d hGd; fin_cases p
+    · simpa using enorm_iteratedDeriv_kerM_le c x q
+    · simpa using enorm_iteratedDeriv_kerM_le c x q
+    · simpa using mul_le_mul' le_rfl (enorm_iteratedDeriv_kerM_le c x q)
+  have hN₁ := h₁.nonneg
+  have hN₂ := h₂.nonneg
+  have key := lintegral_triple_le (m₁ := R₁.m) (m₂ := R₂.m) (K := kerM)
+    (y := yDiff R₁.y R₂.y) (c := cJJ) (isBundle_yDiff h₁.bundle h₂.bundle) h₁.reg h₂.reg
+    contDiff_kerM (fun α z => wJ θ α ((eJJ (ℝ × ℝ) z).1.1 + (bM (eJJ (ℝ × ℝ) z).2).1))
+    w₁ w₂ w₃ hw₁ hw₂ hW G hGm hG k
+  refine key.trans (sum_fin3_le_gev (by positivity) hA0 fun p => ?_)
+  refine gev_conv3_le (S₁ := fun j => ∫⁻ a, ∫⁻ z₁, w₁ p a z₁ * dnorm j R₁.m a z₁)
+    (S₂ := fun j => ∫⁻ b, ∫⁻ z₂, w₂ p b z₂ * dnorm j R₂.m b z₂)
+    (S₃ := fun j => ∫⁻ q, G p j q) hN₁ hN₂ hC hA0 (fun j => ?_) (fun j => ?_) (fun j => ?_) k
+  · subst hw₁d; fin_cases p
+    · exact (S_bounds h0 h₁ j).1
+    · exact (S_bounds h0 h₁ j).2.1
+    · exact (S_bounds h0 h₁ j).2.1
+  · subst hw₂d; fin_cases p
+    · exact (S_bounds h0 h₂ j).2.1
+    · exact (S_bounds h0 h₂ j).1
+    · exact (S_bounds h0 h₂ j).2.1
+  · have hmono := gev_mono (le_refl (CkM * IM)) kerM_bound.2.1 (AkM_le_A0.trans hA) hC j
+    subst hGd; fin_cases p
+    · exact (lintegral_gM_le j).trans hmono
+    · exact (lintegral_gM_le j).trans hmono
+    · exact (lintegral_gM_weight j).le.trans hmono
+
+end Pieces
+
 end WaveTurbulence.ClassJR
