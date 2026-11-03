@@ -26,3 +26,11 @@ The nonstationary formula uses actual `deriv f` and `deriv (deriv f)` under C² 
 and nonvanishing on the interval. Euler cell summation has the exact midpoint endpoint
 terms and handles the right-continuous sawtooth by null endpoint changes.
 The three packet goals are still in progress; these are proved ingredients only.
+
+Checked `QuadraticTaylor` and `LocalStationary`: actual third-derivative bounds yield
+`|f(x)-Q₂(x)|≤M |x-c|³/6` and the radius-`r` oscillatory comparison error
+`(2π/3) M r⁴`, including factorization at a critical point. Targeted
+`nice -n 5 lake build WaveTurbulence.Foundations.VdCB.LocalStationary` returned
+`Build completed successfully (3528 jobs).`, no warnings. The Fresnel constant and
+complementary nonstationary tails remain to be assembled; no full stationary-phase
+or B-process theorem is claimed yet.
