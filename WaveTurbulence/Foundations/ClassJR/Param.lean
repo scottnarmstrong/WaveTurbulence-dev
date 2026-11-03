@@ -152,4 +152,91 @@ theorem stronglyMeasurable_pushSym_param {a : P → (ι → ℝ) → Γ × Q →
 
 end PushParam
 
+
+section Conv
+
+variable {P : Type*} [MeasurableSpace P] {ι : Type*} [Fintype ι]
+variable {Q : Type*} [MeasureSpace Q] [SFinite (volume : Measure Q)]
+
+/-- **Parametric generalized class `J` representations.** -/
+theorem JSymP.ofGen {y : ι → ℤ} (hy : IsBundle y) {a : P → (ι → ℝ) → (ℝ × ℝ) × Q → ℂ}
+    (hreg : ∀ p, SymReg (a p))
+    (ha : StronglyMeasurable fun x : P × ((ι → ℝ) × ((ℝ × ℝ) × Q)) => a x.1 x.2.1 x.2.2)
+    {b : P → Q → ℝ × ℝ} (hb : Measurable (Function.uncurry b)) {θ A N : ℝ} (hN : 0 ≤ N)
+    (hnorm : ∀ p k, ∫⁻ α, ∫⁻ ζ, wJ θ α (ζ.1.1 + (b p ζ.2).1) * dnorm k (a p) α ζ ≤
+      gev N A k) :
+    ∃ R : JSymP P ι, R.y = y ∧ R.Bound θ A N ∧ ∀ p α t s, (R.get p).kernel α t s =
+      ∫ ζ, a p α ζ * jker (bundle y α) (ζ.1.1 + (b p ζ.2).1) (ζ.1.2 + (b p ζ.2).2) t s := by
+  have hbp : ∀ p, Measurable (b p) := fun p => hb.comp (measurable_const.prodMk measurable_id)
+  refine ⟨⟨y, fun p => pushSym (a p) (b p)⟩, rfl, ⟨fun p => ⟨hN, hy,
+    pushSym_symReg (hreg p) (hbp p), fun k => ?_⟩, stronglyMeasurable_pushSym_param hreg ha hb⟩,
+    fun p α t s => ?_⟩
+  · refine le_trans ?_ (hnorm p k)
+    have := lintegral_weight_pushSym_le (hreg p) (hbp p) (measurable_wJ (ι := ι) θ) k
+    simpa only [jNorm, JSymP.get, Prod.fst_add] using this
+  · have hcont : Continuous fun γ : ℝ × ℝ => jker (bundle y α) γ.1 γ.2 t s := by
+      unfold jker; fun_prop
+    have := integral_pushSym_mul (hreg p) (hbp p) α hcont.aestronglyMeasurable (C := 1)
+      (fun γ => (norm_jker _ _ _ _ _).le)
+    simpa only [JSymP.get, JSym.kernel, Prod.fst_add, Prod.snd_add] using this
+
+/-- **Parametric generalized class `R` representations.** -/
+theorem RSymP.ofGen {ε : ℤ} (hε : ε = 1 ∨ ε = -1) {y₁ y₂ : ι → ℤ} (hy₁ : IsBundle y₁)
+    (hy₂ : IsBundle y₂) {a : P → (ι → ℝ) → (ℝ × ℝ × ℝ) × Q → ℂ} (hreg : ∀ p, SymReg (a p))
+    (ha : StronglyMeasurable fun x : P × ((ι → ℝ) × ((ℝ × ℝ × ℝ) × Q)) => a x.1 x.2.1 x.2.2)
+    {b : P → Q → ℝ × ℝ × ℝ} (hb : Measurable (Function.uncurry b)) {θ A N : ℝ} (hN : 0 ≤ N)
+    (hnorm : ∀ p k, ∫⁻ α, ∫⁻ ζ, wR θ α (ζ.1.1 + (b p ζ.2).1) (ζ.1.2.2 + (b p ζ.2).2.2) *
+      dnorm k (a p) α ζ ≤ gev N A k) :
+    ∃ R : RSymP P ι, R.ε = ε ∧ R.y₁ = y₁ ∧ R.y₂ = y₂ ∧ R.Bound θ A N ∧ ∀ p α t s,
+      (R.get p).kernel α t s = ∫ ζ, a p (nsp α) ζ * rker (bundle y₁ (nsp α) + ε * α none)
+        (bundle y₂ (nsp α) + ε * α none) (ζ.1.1 + (b p ζ.2).1) (ζ.1.2.1 + (b p ζ.2).2.1)
+        (ζ.1.2.2 + (b p ζ.2).2.2) t s := by
+  have hbp : ∀ p, Measurable (b p) := fun p => hb.comp (measurable_const.prodMk measurable_id)
+  refine ⟨⟨ε, y₁, y₂, fun p => pushSym (a p) (b p)⟩, rfl, rfl, rfl, ⟨fun p => ⟨hN, hε, hy₁, hy₂,
+    pushSym_symReg (hreg p) (hbp p), fun k => ?_⟩, stronglyMeasurable_pushSym_param hreg ha hb⟩,
+    fun p α t s => ?_⟩
+  · refine le_trans ?_ (hnorm p k)
+    have := lintegral_weight_pushSym_le (hreg p) (hbp p) (measurable_wR (ι := ι) θ) k
+    simpa only [rNorm, RSymP.get, Prod.fst_add, Prod.snd_add] using this
+  · have := integral_pushSym_mul (hreg p) (hbp p) (nsp α)
+      (continuous_rker_coeff (bundle y₁ (nsp α) + ε * α none) (bundle y₂ (nsp α) + ε * α none)
+        t s).aestronglyMeasurable (C := CPhi) (fun γ => norm_rker_le _ _ _ _ _ _ _)
+    simpa only [RSymP.get, RSym.kernel, Prod.fst_add, Prod.snd_add] using this
+
+variable {Z : Type*} [MeasureSpace Z]
+
+/-- **Parametric generalized class `J` representations through an equivalence.** -/
+theorem JSymP.ofGenE {y : ι → ℤ} (hy : IsBundle y) {a : P → (ι → ℝ) → Z → ℂ}
+    (hreg : ∀ p, SymReg (a p))
+    (ha : StronglyMeasurable fun x : P × ((ι → ℝ) × Z) => a x.1 x.2.1 x.2.2)
+    (E : Z ≃ᵐ (ℝ × ℝ) × Q) (hE : MeasurePreserving E) {b : Q → ℝ × ℝ} (hb : Measurable b)
+    {θ A N : ℝ} (hN : 0 ≤ N)
+    (hnorm : ∀ p k, ∫⁻ α, ∫⁻ z, wJ θ α ((E z).1.1 + (b (E z).2).1) * dnorm k (a p) α z ≤
+      gev N A k) :
+    ∃ R : JSymP P ι, R.y = y ∧ R.Bound θ A N ∧ ∀ p α t s, (R.get p).kernel α t s =
+      ∫ z, a p α z * jker (bundle y α) ((E z).1.1 + (b (E z).2).1) ((E z).1.2 + (b (E z).2).2)
+        t s := by
+  have hreg' : ∀ p, SymReg fun α ζ => a p α (E.symm ζ) := fun p =>
+    (hreg p).comp_equiv E.symm (hE.symm E)
+  have ha' : StronglyMeasurable fun x : P × ((ι → ℝ) × ((ℝ × ℝ) × Q)) =>
+      a x.1 x.2.1 (E.symm x.2.2) :=
+    ha.comp_measurable (measurable_fst.prodMk ((measurable_fst.comp measurable_snd).prodMk
+      (E.symm.measurable.comp (measurable_snd.comp measurable_snd))))
+  obtain ⟨R, hRy, hRb, hRk⟩ := JSymP.ofGen (θ := θ) (A := A) hy hreg' ha'
+    (b := fun _ => b) (hb.comp measurable_snd) hN (fun p k => by
+      refine le_trans (le_of_eq ?_) (hnorm p k)
+      refine lintegral_congr fun α => ?_
+      rw [← hE.lintegral_comp_emb E.measurableEmbedding]
+      refine lintegral_congr fun z => ?_
+      have key : lift1 (fun α ζ => a p α (E.symm ζ)) (E z) = lift1 (a p) z := by
+        funext β
+        simp [lift1]
+      simp only [dnorm, key])
+  refine ⟨R, hRy, hRb, fun p α t s => ?_⟩
+  rw [hRk, ← hE.integral_comp' (g := fun ζ => a p α (E.symm ζ) *
+    jker (bundle y α) (ζ.1.1 + (b ζ.2).1) (ζ.1.2 + (b ζ.2).2) t s)]
+  simp only [MeasurableEquiv.symm_apply_apply]
+
+end Conv
+
 end WaveTurbulence.ClassJR
