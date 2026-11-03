@@ -10,17 +10,35 @@ Deng–Hani's earlier papers (DH21, DH23, parts of DH21-2 and DH19), the triline
 (GIT20), smooth-solution theory for cubic NLS on the torus, and the Gaussian/cumulant facts.
 **Main theorem (D2):** Theorem 1.1 for `0 < γ < 1` on the square torus `[0,L]^d`, `d ≥ 3`.
 
-## Status (2026-11-03)
+## Status (2026-11-03 16:05 UTC)
 
-Phase P0/P1: sources pinned, paper maps in progress, frozen-surface selection and exact statement drafts next.
-No frozen statements yet.
+Phase P1/P2: sources pinned; paper maps of DH21/DH21-2 and DH23 done, target-paper maps in progress; exact Lean draft
+**Wave A frozen (D6, 2026-11-03):** Theorem 1.1 (`WaveTurbulence.main`) and Prop 3.2 (`WaveTurbulence.wkelwp`) as
+`DRAFT_SORRY` anchors in `WaveTurbulence/Frozen/Theorems/`, 13 sealed definitions in `WaveTurbulence/Frozen/Defs/`,
+manifest `manifest/frozen.json`. Route-independent infrastructure packets running (PLAN.md).
 
 ```text
-DRAFT_ANCHORS: 0
+DRAFT_ANCHORS: 2 (WaveTurbulence/Frozen/Theorems/Main.lean, WaveTurbulence/Frozen/Theorems/Wkelwp.lean)
+SEALED DEFINITIONS: 13
 UNREGISTERED_SORRIES: 0
 DRAFT_IMPORT_VIOLATIONS: 0
-SEALED: 0
+SEALED THEOREMS: 0
 ```
+
+### Workers
+
+| tmux | model / account | packet | brief |
+|---|---|---|---|
+| wt-orch | Claude Opus / claude-1 | audits: Wave A freeze check, figure-only definitions, F14 | [orch/TASK3.md](docs/campaign/orch/TASK3.md) |
+| wt-gauss-hc | Claude Opus / claude-10 | **Wave B drafts** (critical path): core carriers, system objects, B1 statements (GAUSS-HC landed f986d35) | [WAVEB-DRAFT](docs/campaign/briefs/WAVEB-DRAFT.md) |
+| wt-torus | Claude Opus / claude-14 | NLS smooth-solution theory, reduction to the a_k system (TORUS-FOURIER landed 5beb902) | [NLS](docs/campaign/briefs/NLS.md) |
+| wt-wke | Claude Opus / claude-13 | collision operator, GIT20 trilinear estimate (all d), Prop `wkelwp`, WKE Taylor bounds | [WKE](docs/campaign/briefs/WKE.md) |
+| wt-cumul | GPT-6.1-Sol low / codex-3 | complex Gaussians, Isserlis, cumulants, `propertycm` | [CUMUL](docs/campaign/briefs/CUMUL.md) |
+| wt-nt | GPT-6.1-Sol low / codex-3 | van der Corput: circle problem with exponent < 2/3 (F3) | [NT-CIRCLE-v2](docs/campaign/briefs/NT-CIRCLE-v2.md) |
+| wt-ansob | GPT-6.1-Sol low / codex-3 | N4: Sobolev/Morrey, simplex volumes, DH21 (10.5), DH21 Lemma 10.2 | [AN-SOB](docs/campaign/briefs/AN-SOB.md) |
+| wt-gausssum | GPT-6.1-Sol low / codex-3 | NT1: Dirichlet approximation, quadratic Weyl/Gauss sums | [GAUSSSUM](docs/campaign/briefs/GAUSSSUM.md) |
+
+Landed: TORUS-FOURIER (5beb902), GAUSS-HC (f986d35, off-route infrastructure, F34).
 
 ## Papers
 
@@ -38,3 +56,4 @@ SEALED: 0
 - [docs/DECISIONS.md](docs/DECISIONS.md) — rulings.
 - [docs/FINDINGS.md](docs/FINDINGS.md) — source findings and candidate errata.
 - [docs/campaign/PLAN.md](docs/campaign/PLAN.md) — phases, infrastructure packets, fleet.
+- [docs/blueprint/GRAPH.md](docs/blueprint/GRAPH.md) — node-level dependency graph (264 nodes, 76 packets, ≈266k lines est.); [docs/blueprint/WAVE-B.md](docs/blueprint/WAVE-B.md) — Wave B proposal.
