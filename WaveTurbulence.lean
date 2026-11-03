@@ -323,7 +323,10 @@ public import WaveTurbulence.Foundations.NTSP.LatticeSums
 public import WaveTurbulence.Foundations.NTSP.Lemma65One
 public import WaveTurbulence.Foundations.NTSP.Lemma65Pointwise
 public import WaveTurbulence.Foundations.NTSP.Lemma65Two
+public import WaveTurbulence.Foundations.NTSP.Lemma67Final
+public import WaveTurbulence.Foundations.NTSP.Lemma67One
 public import WaveTurbulence.Foundations.NTSP.Lemma67Slices
+public import WaveTurbulence.Foundations.NTSP.Lemma67Two
 public import WaveTurbulence.Foundations.NTSP.NearModes
 public import WaveTurbulence.Foundations.NTSP.NearTerms
 public import WaveTurbulence.Foundations.NTSP.SingularInt
