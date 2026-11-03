@@ -197,9 +197,9 @@ theorem enorm_iteratedFDeriv_KMR_le (c : ℕ) (x : Fin 2 → ℝ) (q : ℝ × �
         exact mul_le_mul' le_rfl (mul_le_mul' (mul_le_mul' le_rfl key) le_rfl)
 
 /-- **`Γ` for the `χ₀` piece of `J R`** (DH21 (uniformbound0), L1012). -/
-theorem gamma_KMR_le {ε : ℤ} (hε : ε = 1 ∨ ε = -1) (X₀ X₁ : ℝ)
+theorem gamma_KMR_le {ε : ℤ} (hε : ε = 1 ∨ ε = -1) (X₀ : ℝ)
     (v : (Unit → ℝ) → ℝ × ℝ → Fin 2 → ℝ) (hv0 : ∀ s q, v s q 0 = X₀ + ε * s ())
-    (hv1 : ∀ s q, v s q 1 = X₁ + ε * s ()) (c : ℕ) {A : ℝ} (hA : A0 ≤ A) :
+    (c : ℕ) {A : ℝ} (hA : A0 ≤ A) :
     ∫⁻ q : ℝ × ℝ, ∫⁻ s : Unit → ℝ, ((1 + ‖v s q 1‖ₑ) + (1 + ‖q.1‖ₑ)) *
       ‖iteratedFDeriv ℝ c (fun x => KMR x q) (v s q)‖ₑ ≤ gev (16 * (CkM * IM) * CPhi) A c := by
   have hA0 : 0 ≤ A := A0_nonneg.trans hA
@@ -340,39 +340,41 @@ theorem enorm_iteratedFDeriv_KPR_le {θ : ℝ} (h0 : 0 ≤ θ) (c : ℕ) (x : Fi
         exact ENNReal.ofReal_le_ofReal (weight_decay_le h0 (x 0) (x 1))
 
 /-- **`Γ` for the `χ_∞` pieces of `J R`** (DH21 L1014; DH23 L966–L969). -/
-theorem gamma_KPR_le {θ : ℝ} (h0 : 0 ≤ θ) (h1 : θ < 1) {ε : ℤ} (hε : ε = 1 ∨ ε = -1)
-    (X₀ X₁ : ℝ) (v : (Unit → ℝ) → Unit → Fin 2 → ℝ) (hv0 : ∀ s q, v s q 0 = X₀ + ε * s ())
-    (hv1 : ∀ s q, v s q 1 = X₁ + ε * s ()) (c : ℕ) {A : ℝ} (hA : A0 ≤ A) :
+theorem gamma_KPR_le {θ : ℝ} (h0 : 0 ≤ θ) (h1 : θ < 1) {ε₀ ε₁ : ℤ} (hε₀ : ε₀ = 1 ∨ ε₀ = -1)
+    (hε₁ : ε₁ = 1 ∨ ε₁ = -1)
+    (X₀ X₁ : ℝ) (v : (Unit → ℝ) → Unit → Fin 2 → ℝ) (hv0 : ∀ s q, v s q 0 = X₀ + ε₀ * s ())
+    (hv1 : ∀ s q, v s q 1 = X₁ + ε₁ * s ()) (c : ℕ) {A : ℝ} (hA : A0 ≤ A) :
     ∫⁻ q : Unit, ∫⁻ s : Unit → ℝ, ((1 + ‖v s q 0‖ₑ) ^ θ + 2 * (1 + ‖v s q 1‖ₑ) ^ θ + 1) *
       ‖iteratedFDeriv ℝ c (fun x => KPR x q) (v s q)‖ₑ ≤
         gev (16 * Cθ θ * (CPhi * CPhi)) A c := by
   have hA0 : 0 ≤ A := A0_nonneg.trans hA
-  have hε' : (ε : ℝ) = 1 ∨ (ε : ℝ) = -1 := by rcases hε with rfl | rfl <;> simp
+  have hε₀' : (ε₀ : ℝ) = 1 ∨ (ε₀ : ℝ) = -1 := by rcases hε₀ with rfl | rfl <;> simp
+  have hε₁' : (ε₁ : ℝ) = 1 ∨ (ε₁ : ℝ) = -1 := by rcases hε₁ with rfl | rfl <;> simp
   have hC := Cθ_nonneg h0 h1
   set D : ℝ → ℝ → ℝ := fun a b => (1 + |a|) ^ (θ - 1) * (1 + |b|) ^ (-1 : ℝ) with hD
   have hDm : Measurable fun p : ℝ × ℝ => ENNReal.ofReal (D p.1 p.2) :=
     ENNReal.measurable_ofReal.comp
       (((measurable_const.add (continuous_abs.measurable.comp measurable_fst)).pow_const _).mul
         ((measurable_const.add (continuous_abs.measurable.comp measurable_snd)).pow_const _))
-  have hint : ∀ Y₀ Y₁ : ℝ, ∫⁻ s : Unit → ℝ, ENNReal.ofReal (D (Y₀ + ε * s ()) (Y₁ + ε * s ())) ≤
-      ENNReal.ofReal (Cθ θ) := fun Y₀ Y₁ => by
-    rw [lintegral_unitFun (G := fun t => ENNReal.ofReal (D (Y₀ + ε * t) (Y₁ + ε * t))),
-      lintegral_affine_pair (F := fun a b => ENNReal.ofReal (D a b)) hε' Y₀ Y₁]
-    exact lintegral_decay_pair_le h0 h1 (Y₁ - Y₀)
-  have hlin : ∀ Y : ℝ, Measurable fun s : Unit → ℝ => (1 + |Y + ε * s ()|) :=
-    fun Y => measurable_const.add (continuous_abs.measurable.comp
+  have hint : ∀ (Y₀ Y₁ : ℝ) {a b : ℝ}, (a = 1 ∨ a = -1) → (b = 1 ∨ b = -1) →
+      ∫⁻ s : Unit → ℝ, ENNReal.ofReal (D (Y₀ + a * s ()) (Y₁ + b * s ())) ≤
+        ENNReal.ofReal (Cθ θ) := fun Y₀ Y₁ a b ha hb => by
+    rw [lintegral_unitFun (G := fun t => ENNReal.ofReal (D (Y₀ + a * t) (Y₁ + b * t)))]
+    exact lintegral_decay_signs h0 h1 ha hb Y₀ Y₁
+  have hlin : ∀ (Y : ℝ) (a : ℝ), Measurable fun s : Unit → ℝ => (1 + |Y + a * s ()|) :=
+    fun Y a => measurable_const.add (continuous_abs.measurable.comp
       (measurable_const.add (measurable_const.mul (measurable_pi_apply ()))))
-  have hmD : ∀ Y₀ Y₁ : ℝ, Measurable fun s : Unit → ℝ =>
-      ENNReal.ofReal (D (Y₀ + ε * s ()) (Y₁ + ε * s ())) := fun Y₀ Y₁ => by
+  have hmD : ∀ (Y₀ Y₁ a b : ℝ), Measurable fun s : Unit → ℝ =>
+      ENNReal.ofReal (D (Y₀ + a * s ()) (Y₁ + b * s ())) := fun Y₀ Y₁ a b => by
     simp only [hD]
     exact ENNReal.measurable_ofReal.comp
-      (((hlin Y₀).pow_const _).mul ((hlin Y₁).pow_const _))
+      (((hlin Y₀ a).pow_const _).mul ((hlin Y₁ b).pow_const _))
   calc ∫⁻ q : Unit, ∫⁻ s : Unit → ℝ, ((1 + ‖v s q 0‖ₑ) ^ θ + 2 * (1 + ‖v s q 1‖ₑ) ^ θ + 1) *
         ‖iteratedFDeriv ℝ c (fun x => KPR x q) (v s q)‖ₑ
       ≤ ∫⁻ q : Unit, ∫⁻ s : Unit → ℝ, ∑ j ∈ range (c + 1), (c.choose j : ℝ≥0∞) *
           (gev CPhi Achi j * gev CPhi Achi (c - j) *
-            (2 * ENNReal.ofReal (D (X₀ + ε * s ()) (X₁ + ε * s ())) +
-              2 * ENNReal.ofReal (D (X₁ + ε * s ()) (X₀ + ε * s ())))) := by
+            (2 * ENNReal.ofReal (D (X₀ + ε₀ * s ()) (X₁ + ε₁ * s ())) +
+              2 * ENNReal.ofReal (D (X₁ + ε₁ * s ()) (X₀ + ε₀ * s ())))) := by
         refine lintegral_mono fun q => lintegral_mono fun s => ?_
         have := enorm_iteratedFDeriv_KPR_le h0 c (v s q) q
         rw [hv0, hv1] at this
@@ -382,17 +384,17 @@ theorem gamma_KPR_le {θ : ℝ} (h0 : 0 ≤ θ) (h1 : θ < 1) {ε : ℤ} (hε : 
           (gev CPhi Achi j * gev CPhi Achi (c - j) * (4 * ENNReal.ofReal (Cθ θ))) := by
         rw [show (volume : Measure Unit) = Measure.dirac () from rfl, lintegral_dirac]
         have hm2 : Measurable fun s : Unit → ℝ =>
-            2 * ENNReal.ofReal (D (X₀ + ε * s ()) (X₁ + ε * s ())) +
-              2 * ENNReal.ofReal (D (X₁ + ε * s ()) (X₀ + ε * s ())) :=
-          ((hmD _ _).const_mul 2).add ((hmD _ _).const_mul 2)
+            2 * ENNReal.ofReal (D (X₀ + ε₀ * s ()) (X₁ + ε₁ * s ())) +
+              2 * ENNReal.ofReal (D (X₁ + ε₁ * s ()) (X₀ + ε₀ * s ())) :=
+          ((hmD _ _ _ _).const_mul 2).add ((hmD _ _ _ _).const_mul 2)
         rw [lintegral_finsetSum _ fun j _ => (hm2.const_mul _).const_mul _]
         refine Finset.sum_le_sum fun j _ => ?_
         rw [lintegral_const_mul _ (hm2.const_mul _), lintegral_const_mul _ hm2,
-          lintegral_add_left ((hmD _ _).const_mul 2),
-          lintegral_const_mul _ (hmD _ _), lintegral_const_mul _ (hmD _ _)]
+          lintegral_add_left ((hmD _ _ _ _).const_mul 2),
+          lintegral_const_mul _ (hmD _ _ _ _), lintegral_const_mul _ (hmD _ _ _ _)]
         gcongr
-        exact (add_le_add (mul_le_mul' le_rfl (hint _ _)) (mul_le_mul' le_rfl (hint _ _))).trans_eq
-          (by ring)
+        exact (add_le_add (mul_le_mul' le_rfl (hint _ _ hε₀' hε₁'))
+          (mul_le_mul' le_rfl (hint _ _ hε₁' hε₀'))).trans_eq (by ring)
     _ ≤ gev (16 * Cθ θ * (CPhi * CPhi)) A c := by
         have h2 : ∀ j, gev CPhi Achi j ≤ gev CPhi A j := fun j =>
           gev_mono le_rfl Achi_nonneg (Achi_le_A0.trans hA) CPhi_nonneg j

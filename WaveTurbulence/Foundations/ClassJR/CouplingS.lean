@@ -190,6 +190,38 @@ theorem lintegral_decay_pair_le {θ : ℝ} (h0 : 0 ≤ θ) (h1 : θ < 1) (Z : �
           ← ENNReal.ofReal_add (by positivity) (by positivity)]
         rfl
 
+/-- **The decay-pair integral with independent signs** of the special variable. -/
+theorem lintegral_decay_signs {θ : ℝ} (h0 : 0 ≤ θ) (h1 : θ < 1) {e₀ e₁ : ℝ}
+    (he₀ : e₀ = 1 ∨ e₀ = -1) (he₁ : e₁ = 1 ∨ e₁ = -1) (X Y : ℝ) :
+    ∫⁻ s : ℝ, ENNReal.ofReal ((1 + |X + e₀ * s|) ^ (θ - 1) * (1 + |Y + e₁ * s|) ^ (-1 : ℝ)) ≤
+      ENNReal.ofReal (Cθ θ) := by
+  have same : ∀ {e : ℝ}, (e = 1 ∨ e = -1) → ∫⁻ s : ℝ,
+      ENNReal.ofReal ((1 + |X + e * s|) ^ (θ - 1) * (1 + |Y + e * s|) ^ (-1 : ℝ)) ≤
+        ENNReal.ofReal (Cθ θ) := fun {e} he => by
+    rw [lintegral_affine_pair (F := fun a b => ENNReal.ofReal ((1 + |a|) ^ (θ - 1) *
+      (1 + |b|) ^ (-1 : ℝ))) he X Y]
+    exact lintegral_decay_pair_le h0 h1 (Y - X)
+  have opp : ∀ {e : ℝ}, (e = 1 ∨ e = -1) → ∫⁻ s : ℝ,
+      ENNReal.ofReal ((1 + |X + e * s|) ^ (θ - 1) * (1 + |Y + -e * s|) ^ (-1 : ℝ)) ≤
+        ENNReal.ofReal (Cθ θ) := fun {e} he => by
+    have key : ∀ s : ℝ, ENNReal.ofReal ((1 + |X + e * s|) ^ (θ - 1) *
+        (1 + |Y + -e * s|) ^ (-1 : ℝ)) =
+        (fun u => ENNReal.ofReal ((1 + |u|) ^ (θ - 1) * (1 + |u + -(X + Y)|) ^ (-1 : ℝ)))
+          (X + e * s) := fun s => by
+      simp only
+      congr 4
+      rw [show X + e * s + -(X + Y) = -(Y + -e * s) by ring, abs_neg]
+    simp_rw [key]
+    have := lintegral_affine_pair (F := fun u _ => ENNReal.ofReal ((1 + |u|) ^ (θ - 1) *
+      (1 + |u + -(X + Y)|) ^ (-1 : ℝ))) he X 0
+    rw [this]
+    exact lintegral_decay_pair_le h0 h1 (-(X + Y))
+  rcases he₀ with rfl | rfl <;> rcases he₁ with rfl | rfl
+  · exact same (Or.inl rfl)
+  · simpa using opp (e := 1) (Or.inl rfl)
+  · simpa using opp (e := -1) (Or.inr rfl)
+  · exact same (Or.inr rfl)
+
 theorem Cθ_nonneg {θ : ℝ} (h0 : 0 ≤ θ) (h1 : θ < 1) : 0 ≤ Cθ θ := by
   unfold Cθ
   have hI2 : 0 ≤ Ir 2 := ENNReal.toReal_nonneg

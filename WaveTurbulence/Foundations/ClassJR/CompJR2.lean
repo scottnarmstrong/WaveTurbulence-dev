@@ -343,9 +343,9 @@ theorem norm_piece_JR_M (h0 : 0 ≤ θ) (h1 : θ ≤ 1) (hA : A0 ≤ A) (h₁ : 
     intro p c a z₁ z₂
     have hg := gamma_KMR_le h₂.sign
       (bundle R₂.y₂ (fun i => a (Sum.inr i)) - bundle R₁.y (fun i => a (Sum.inl i)) +
-        (z₁.2 + z₂.1)) (bundle R₂.y₁ (fun i => a (Sum.inr i)) + z₂.2.2)
+        (z₁.2 + z₂.1))
       (fun s q => formsV (LsJR R₁ R₂) (csJR (ℝ × ℝ)) (Sum.elim a s) (z₁, (z₂, q)))
-      (fun s q => by rw [formsV_JR_zero]; rfl) (fun s q => by rw [formsV_JR_one]; rfl) c hA
+      (fun s q => by rw [formsV_JR_zero]; rfl) c hA
     refine le_trans (lintegral_mono fun q => lintegral_mono fun s => ?_) hg
     subst hw₃d
     fin_cases p
@@ -430,7 +430,7 @@ theorem gamma_P_JR (h0 : 0 ≤ θ) (h1 : θ < 1) (hA : A0 ≤ A) (h₂ : R₂.Bo
           (formsV (LsJR R₁ R₂) (csJR Unit) (Sum.elim a s) (z₁, (z₂, q)))‖ₑ ≤
           gev (16 * Cθ θ * (CPhi * CPhi)) A c := by
   intro p c a z₁ z₂
-  have hg := gamma_KPR_le h0 h1 h₂.sign
+  have hg := gamma_KPR_le h0 h1 h₂.sign h₂.sign
     (bundle R₂.y₂ (fun i => a (Sum.inr i)) - bundle R₁.y (fun i => a (Sum.inl i)) +
       (z₁.2 + z₂.1)) (bundle R₂.y₁ (fun i => a (Sum.inr i)) + z₂.2.2)
     (fun s q => formsV (LsJR R₁ R₂) (csJR Unit) (Sum.elim a s) (z₁, (z₂, q)))
