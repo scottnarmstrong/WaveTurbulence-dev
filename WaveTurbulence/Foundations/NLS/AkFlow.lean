@@ -91,7 +91,7 @@ theorem wnorm_unweight (y : L1 d) : wnorm (d + 1) (unweight y) = ENNReal.ofReal 
   exact L1.tsum_enorm y
 
 theorem summable_norm_unweight (y : L1 d) : Summable fun n => ‖unweight y n‖ :=
-  Summable.of_nonneg_of_le (fun n => norm_nonneg _) (norm_unweight_le y) (L1.summable y)
+  Summable.of_nonneg_of_le (fun _ => norm_nonneg _) (norm_unweight_le y) (L1.summable y)
 
 /-! ### The vector field -/
 
@@ -200,5 +200,57 @@ theorem norm_flowField_sub_le (L γ δ t : ℝ) (y y' : L1 d) :
           ENNReal.ofReal_add (by positivity) (by positivity), ENNReal.ofReal_pow (norm_nonneg _),
           ENNReal.ofReal_pow (norm_nonneg _), ENNReal.ofReal_mul (norm_nonneg _)]
         ring
+
+/-! ### Continuity in time -/
+
+theorem continuous_aNonlin_time (L γ δ : ℝ) {f : (Fin d → ℤ) → ℂ}
+    (hf : Summable fun m => ‖f m‖) (n : Fin d → ℤ) :
+    Continuous fun t => aNonlin L γ δ 1 t f (fun m => (starRingEnd ℂ) (f m)) f n := by
+  simp_rw [aNonlin_eq_tsum_pairs]
+  refine continuous_const.mul (continuous_tsum (fun q => by fun_prop)
+    (summable_norm_cubic_terms hf n) (fun q t => ?_))
+  simp only [norm_mul, Complex.norm_real, Real.norm_eq_abs, Complex.norm_exp_ofReal_mul_I,
+    mul_one, Complex.norm_conj]
+  calc |epsCoef q.1 q.2 (n - q.1 + q.2)| * ‖f q.1‖ * ‖f q.2‖ * ‖f (n - q.1 + q.2)‖
+      ≤ 1 * ‖f q.1‖ * ‖f q.2‖ * ‖f (n - q.1 + q.2)‖ := by gcongr; exact abs_epsCoef_le _ _ _
+    _ = _ := by ring
+
+theorem continuous_flowTerm_time (L γ δ : ℝ) (y : L1 d) (n : Fin d → ℤ) :
+    Continuous fun t => flowTerm L γ δ t y n :=
+  continuous_const.mul (continuous_aNonlin_time L γ δ (summable_norm_unweight y) n)
+
+/-- For fixed `y`, the field `t ↦ flowField L γ δ t y` is continuous in `ℓ¹`. -/
+theorem continuous_flowField (L γ δ : ℝ) (y : L1 d) :
+    Continuous fun t => flowField L γ δ t y := by
+  set κ := ENNReal.ofReal |δ / (2 * L ^ ((d : ℝ) - γ))|
+  set B : (Fin d → ℤ) → ℝ≥0∞ := fun n => κ * (wt (d + 1) n *
+    tripleAbs (unweight y) (fun m => (starRingEnd ℂ) (unweight y m)) (unweight y) n)
+  have hle : ∑' n, B n ≤ κ * ENNReal.ofReal ‖y‖ ^ 3 := by
+    calc ∑' n, B n = κ * ∑' n, wt (d + 1) n *
+          tripleAbs (unweight y) (fun m => (starRingEnd ℂ) (unweight y m)) (unweight y) n :=
+          ENNReal.tsum_mul_left
+      _ ≤ κ * (wnorm (d + 1) (unweight y) *
+            wnorm (d + 1) (fun m => (starRingEnd ℂ) (unweight y m)) *
+            wnorm (d + 1) (unweight y)) := by
+          gcongr
+          exact tsum_wt_mul_tripleAbs_le _ _ _ _
+      _ = κ * ENNReal.ofReal ‖y‖ ^ 3 := by
+          have hc : wnorm (d + 1) (fun m => (starRingEnd ℂ) (unweight y m)) =
+              wnorm (d + 1) (unweight y) := by
+            simp only [wnorm, ← ofReal_norm, Complex.norm_conj]
+          rw [hc, wnorm_unweight]
+          ring
+  have hB : ∑' n, B n ≠ ∞ := ne_top_of_le_ne_top
+    (ENNReal.mul_ne_top ENNReal.ofReal_ne_top (ENNReal.pow_ne_top ENNReal.ofReal_ne_top)) hle
+  have h : (fun t => flowField L γ δ t y) =
+      fun t => ∑' n, lp.single 1 n (flowTerm L γ δ t y n) := by
+    funext t
+    exact ((lp.hasSum_single ENNReal.one_ne_top (flowField L γ δ t y)).tsum_eq).symm
+  rw [h]
+  refine continuous_tsum (fun n => (lp.isometry_single n).continuous.comp
+    (continuous_flowTerm_time L γ δ y n)) (ENNReal.summable_toReal hB) (fun n t => ?_)
+  rw [lp.norm_single (by norm_num), ← toReal_enorm]
+  exact ENNReal.toReal_mono (ne_top_of_le_ne_top hB (ENNReal.le_tsum n))
+    (enorm_flowTerm_le L γ δ t y n)
 
 end WaveTurbulence.NLS
