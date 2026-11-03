@@ -80,4 +80,38 @@ theorem frequency_outside_stationary_and_guards_separated {f : ℝ → ℝ}
     have hxhi := hlow x hx b hb hx.2
     linarith only [hsep,hxhi]
 
+/-- On a source interval shorter than two spatial radii, the endpoint
+guards cover its entire stationary range. All remaining modes are separated. -/
+theorem frequency_outside_guards_separated_of_short_interval {f : ℝ → ℝ}
+    (hf : ContDiff ℝ 2 f) {a b r Lam nu : ℝ} (hab : a ≤ b) (hLam : 0 ≤ Lam)
+    (hwidth : b-a ≤ 2*r)
+    (hcurv : ∀ x ∈ Icc a b, 0 ≤ deriv (deriv f) x ∧ deriv (deriv f) x ≤ Lam)
+    (hga : Lam*r < |nu-deriv f a|) (hgb : Lam*r < |nu-deriv f b|) :
+    (∀ x ∈ Icc a b, deriv f x ≤ nu-Lam*r) ∨
+      (∀ x ∈ Icc a b, nu+Lam*r ≤ deriv f x) := by
+  have ha : a ∈ Icc a b := ⟨le_rfl,hab⟩
+  have hb : b ∈ Icc a b := ⟨hab,le_rfl⟩
+  have hf1 : ContDiff ℝ 1 (deriv f) := hf.deriv'
+  have hlow := (convex_Icc a b).mul_sub_le_image_sub_of_le_deriv
+    hf1.continuous.continuousOn (hf1.differentiable (by norm_num)).differentiableOn
+    (fun x hx => (hcurv x (interior_subset hx)).1)
+  have hhigh := (convex_Icc a b).image_sub_le_mul_sub_of_deriv_le
+    hf1.continuous.continuousOn (hf1.differentiable (by norm_num)).differentiableOn
+    (fun x hx => (hcurv x (interior_subset hx)).2) a ha b hb hab
+  have hvar : deriv f b-deriv f a ≤ 2*(Lam*r) := by
+    have hh := mul_le_mul_of_nonneg_left hwidth hLam
+    nlinarith only [hhigh,hh]
+  rcases lt_abs.mp hga with hpos | hneg
+  · rcases lt_abs.mp hgb with hposb | hnegb
+    · left
+      intro x hx
+      have hh := hlow x hx b hb hx.2
+      linarith only [hposb,hh]
+    · exfalso
+      linarith only [hpos,hnegb,hvar]
+  · right
+    intro x hx
+    have hh := hlow a ha x hx hx.1
+    linarith only [hneg,hh]
+
 end WaveTurbulence.NumberTheory

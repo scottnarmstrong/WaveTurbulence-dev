@@ -1123,3 +1123,25 @@ passed (9058/3259 jobs, new targets 1.8s/2.6s/2.5s), without warnings.
 `GuardGeometryAxioms.lean` checked IVT, separation, guard count and total
 guard cost with only `propext`, `Classical.choice`, `Quot.sound`.
 No new errata or deviations.
+
+## Automatic quantitative source transfer, including short windows
+
+`Counting/CurvaturePoissonTransfer.lean` selects the interior stationary
+frequencies from actual endpoint derivatives, constructs their critical
+points by IVT, constructs/discharges the guard partition, and proves a
+finite stationary dual approximation solely from actual derivative bounds.
+`CircleTotalPoissonErrorScale.lean` combines all explicit errors into
+2320 times the local improved power. `Counting/CircleScalePoissonTransfer.lean`
+consumes that bound at the circle source scales.
+`Counting/ShortCircleScalePoisson.lean` proves the same power bound for the
+entire original sum on short windows, without any dual estimate or third
+derivative bound. The actual source application consequently need not
+assume a minimum interval length. `FrequencyGuardGeometry.lean` now also
+proves the short-window guard separation result.
+
+Checks: targeted `CircleScalePoissonTransfer` and `ShortCircleScalePoisson`
+builds passed (9111 jobs each), without warnings. The four-result scratch
+`AutomaticPoissonAxioms.lean` passed with only `propext`, `Classical.choice`,
+`Quot.sound`. No new errata or deviations. The remaining actual circle
+application must identify the selected duals and estimate their integer
+windows; the earlier actual weighted A estimate is ready for that step.
