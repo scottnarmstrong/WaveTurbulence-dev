@@ -1,0 +1,20 @@
+/- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
+module
+
+public import WaveTurbulence.Foundations.WeylSums.RefinedMomentPowers
+public import WaveTurbulence.Foundations.WeylSums.QuadExpSum2
+public import WaveTurbulence.Foundations.WeylSums.SobolevFourierRepresentation
+public import WaveTurbulence.Foundations.WeylSums.WeightedCutoffFourier
+public import WaveTurbulence.Foundations.WeylSums.MinorArcExponents
+public import WaveTurbulence.Foundations.WeylSums.WindowScaling
+public import WaveTurbulence.Foundations.WeylSums.CubicMinima
+public import WaveTurbulence.Foundations.WeylSums.CubicYoung
+public import WaveTurbulence.Foundations.WeylSums.CoordinateBoxSupport
+public import WaveTurbulence.Foundations.WeylSums.TranslatedLatticeBound
+public import WaveTurbulence.Foundations.WeylSums.BilinearShape
+public import WaveTurbulence.Foundations.WeylSums.ParitySeries
+public import WaveTurbulence.Foundations.WeylSums.CompactLatticeSupport
+
+/-! # Tools for minor-arc lattice sums -/
+
+public section
