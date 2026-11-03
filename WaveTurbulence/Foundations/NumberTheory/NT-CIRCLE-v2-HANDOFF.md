@@ -764,3 +764,11 @@ outer-frequency circle transfer, and complete annulus minimum. Each has
 only `[propext, Classical.choice, Quot.sound]`. Exact check:
 `nice -n 5 lake env lean /home/scott/wt-scratch/nt-circle/OctantAxioms.lean`
 exited 0.
+
+`NumberTheory/PhaseDifferences.lean` compiles: actual finite differences
+commute with first and higher derivatives at the two evaluation points,
+and the real mean-value theorem transfers absolute derivative bounds with
+the exact shift factor. No sign hypothesis or exponent-pair definition is
+introduced. Targeted `PhaseDifferences` build passed (3231 jobs, 3.6s), zero
+warnings. Further A-iterations are being prepared using the already mined
+salt third-difference proof and our existing character/Weyl toolkit.
