@@ -809,3 +809,17 @@ Its source interval includes the two extra right-hand sample units, so no
 off-interval derivative values are assumed silently. Targeted
 `FiniteDifferenceMeanValue` passed (3232 jobs, 2.2s), and `ThirdDerivative`
 passed (3268 jobs, 1.8s), zero warnings.
+
+`AProcessTwoPowersCutoff.lean`, `AProcessDerivativeBalance.lean`, and
+`AProcessDerivativeStep.lean` complete the numerical induction for higher
+derivative tests. From actual positive-shift estimates
+`D*(N*(lambda*h)^alpha+N^b*(lambda*h)^(-alpha))`, the proved A-step gives
+`(16*D/(1-alpha))*(N*lambda^beta+N^((b+1)/2)*lambda^(-beta))`,
+`beta=alpha/(2*alpha+2)`, for `0<alpha<1`, `b>=0`, `D>=1`.
+The empty window and both trivial cutoff regimes are included. Both shift
+signs and both derivative-test error terms are retained throughout.
+Checks: targeted `AProcessTwoPowersCutoff` passed (3557 jobs, 2.3s), and
+`AProcessDerivativeStep` passed (3559 jobs, final own-file 4.7s), zero warnings.
+These are actual finite-sum A-process implications, with no phase-class or
+exponent-pair predicate added. Continuous fourth/fifth derivative tests are
+being assembled from this step and actual shifted derivative towers.
