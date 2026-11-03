@@ -24,7 +24,7 @@ public section
 open MeasureTheory Filter Topology Set
 open scoped InnerProductSpace NNReal
 
-namespace WaveTurbulence
+namespace WaveTurbulence.Resonant
 
 variable {d : ℕ}
 
@@ -36,7 +36,7 @@ variable {d : ℕ}
 @[expose] noncomputable def energyInvSliceLimit (F : Mom d → Mom d → ℝ) (ℓ : Mom d) : ℝ :=
   -(2 * ‖ℓ‖)⁻¹ * ∫ t, pvQuotient (sliceInt F ℓ) t
 
-theorem DeltaKernel.stronglyMeasurable_energyInvInner
+theorem stronglyMeasurable_energyInvInner
     {F : Mom d → Mom d → ℝ} {A : Mom d → ℝ} {a : Mom d → Mom d} {N : ℝ}
     (hF : DeltaKernel F A a N) {χ : ℝ → ℝ} (hχ : IsPVCutoff χ) (μ : ℝ) :
     StronglyMeasurable (energyInvInner χ μ F) := by
@@ -61,7 +61,7 @@ theorem tendsto_energyInvInner
   have hscale : Tendsto (fun μ : ℝ => μ * (2 * ‖ℓ‖)) atTop atTop :=
     Tendsto.atTop_mul_const ha tendsto_id
   exact ((ht.comp hscale).const_mul (-(2 * ‖ℓ‖)⁻¹)).congr
-    (fun μ => (hF.energyInvInner_eq hχ μ hℓ).symm)
+    (fun μ => (energyInvInner_eq hF hχ μ hℓ).symm)
 
 /-- A scale-uniform integrable bound for the outer integral. -/
 theorem abs_energyInvInner_le
@@ -74,7 +74,7 @@ theorem abs_energyInvInner_le
     (μ : ℝ) {ℓ : Mom d} (hℓ : ℓ ≠ 0) :
     |energyInvInner χ μ F ℓ| ≤
       (R * (1 + C) * hypConst d M) * (‖ℓ‖⁻¹ * B ℓ) := by
-  rw [hF.energyInvInner_eq hχ μ hℓ, abs_mul, abs_neg, abs_of_nonneg (by positivity)]
+  rw [energyInvInner_eq hF hχ μ hℓ, abs_mul, abs_neg, abs_of_nonneg (by positivity)]
   have hb := abs_pvTruncation_le_radius hχ (hF.continuous_sliceInt hℓ)
     (hasDerivAt_sliceInt hF hgrad hDc hD hℓ 0).differentiableAt
     (hasCompactSupport_sliceInt hs hℓ) (lipschitzWith_sliceInt hF hgrad hDc hD hℓ)
@@ -100,7 +100,7 @@ theorem tendsto_energyInvIntegral
   apply tendsto_integral_filter_of_dominated_convergence
     (fun ℓ => (R * (1 + C) * hypConst d M) * (‖ℓ‖⁻¹ * B ℓ))
   · exact Eventually.of_forall fun μ =>
-      (hF.stronglyMeasurable_energyInvInner hχ μ).aestronglyMeasurable
+      (stronglyMeasurable_energyInvInner hF hχ μ).aestronglyMeasurable
   · refine Eventually.of_forall fun μ => ?_
     filter_upwards [DeltaKernel.ae_ne_zero hd] with ℓ hℓ
     rw [Real.norm_eq_abs]
@@ -110,7 +110,7 @@ theorem tendsto_energyInvIntegral
     exact tendsto_energyInvInner hF hgrad hDc hD hs hχ hℓ
 
 /-- The outer integral at each finite scale is also integrable. -/
-theorem integrable_energyInvInner
+theorem integrable_energyInvIntegral
     {F : Mom d → Mom d → ℝ} {D : Mom d → Mom d → Mom d →L[ℝ] ℝ}
     {A B : Mom d → ℝ} {a b : Mom d → Mom d} {N M R : ℝ} (hd : 0 < d)
     (hF : DeltaKernel F A a N) (hgrad : DeltaKernel (fun ℓ x => ‖D ℓ x‖) B b M)
@@ -121,7 +121,7 @@ theorem integrable_energyInvInner
   obtain ⟨C, hC⟩ := hχ.cont.bounded_above_of_compact_support hχ.compact
   have hCa : ∀ u, |χ u| ≤ C := by simpa only [Real.norm_eq_abs] using hC
   refine (hgrad.integrable.const_mul (R * (1 + C) * hypConst d M)).mono'
-    (hF.stronglyMeasurable_energyInvInner hχ μ).aestronglyMeasurable ?_
+    (stronglyMeasurable_energyInvInner hF hχ μ).aestronglyMeasurable ?_
   filter_upwards [DeltaKernel.ae_ne_zero hd] with ℓ hℓ
   rw [Real.norm_eq_abs]
   exact abs_energyInvInner_le hF hgrad hDc hD hR hs hχ hCa μ hℓ
@@ -173,4 +173,4 @@ theorem energyPrincipalValue_eq_integral
   tendsto_nhds_unique (energyPrincipalValue_spec hd hF hgrad hDc hD hR hs hχ)
     (tendsto_energyInvIntegral hd hF hgrad hDc hD hR hs hχ)
 
-end WaveTurbulence
+end WaveTurbulence.Resonant

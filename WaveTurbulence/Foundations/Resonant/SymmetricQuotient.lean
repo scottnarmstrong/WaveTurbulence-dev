@@ -20,7 +20,7 @@ public section
 open MeasureTheory Filter Topology Set
 open scoped NNReal
 
-namespace WaveTurbulence
+namespace WaveTurbulence.Resonant
 
 /-- The symmetric cancellation quotient, interpreted by the displayed algebraic formula. -/
 @[expose] noncomputable def symmetricQuotient (f : ℝ → ℂ) (u : ℝ) : ℂ :=
@@ -166,4 +166,4 @@ theorem norm_pvTruncationComplex_error_le {χ : ℝ → ℝ} (hχ : IsPVCutoff �
         smul_eq_mul, abs_of_pos (inv_pos.mpr hμ)]
       ring
 
-end WaveTurbulence
+end WaveTurbulence.Resonant

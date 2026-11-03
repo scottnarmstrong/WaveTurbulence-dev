@@ -185,6 +185,15 @@ theorem norm_restrInr_le : ‖(restrInr : L1 (ι ⊕ ι') →L[ℝ] L1 ι')‖ �
 theorem norm_restrSome_le : ‖(restrSome : L1 (Option ι) →L[ℝ] L1 ι)‖ ≤ 1 :=
   LinearMap.mkContinuous_norm_le _ zero_le_one _
 
+@[simp] theorem restrInl_toLp (α : ι ⊕ ι' → ℝ) :
+    restrInl (WithLp.toLp 1 α) = WithLp.toLp 1 (fun i => α (Sum.inl i)) := rfl
+
+@[simp] theorem restrInr_toLp (α : ι ⊕ ι' → ℝ) :
+    restrInr (WithLp.toLp 1 α) = WithLp.toLp 1 (fun i => α (Sum.inr i)) := rfl
+
+@[simp] theorem restrSome_toLp (α : Option ι → ℝ) :
+    restrSome (WithLp.toLp 1 α) = WithLp.toLp 1 (fun i => α (some i)) := rfl
+
 /-- A bundle `y·α = Σ_j y_j α_j` (DH21 L954, with integer coefficients). -/
 @[expose] def bundle (y : ι → ℤ) (α : ι → ℝ) : ℝ := ∑ j, (y j : ℝ) * α j
 
@@ -262,6 +271,20 @@ theorem continuous_dnorm {m : (ι → ℝ) → Γ → ℂ} {γ : Γ} (h : ContDi
 theorem dnorm_le_supD (k : ℕ) (m : (ι → ℝ) → Γ → ℂ) (α : ι → ℝ) (γ : Γ) :
     dnorm k m α γ ≤ supD k m γ :=
   le_iSup (fun α => dnorm k m α γ) α
+
+/-- The derivative of order zero is the value. -/
+theorem dnorm_zero (m : (ι → ℝ) → Γ → ℂ) (α : ι → ℝ) (γ : Γ) :
+    dnorm 0 m α γ = ‖m α γ‖ₑ := by
+  rw [dnorm, ← ofReal_norm, ← ofReal_norm, norm_iteratedFDeriv_zero]
+  rfl
+
+/-- A regular symbol is integrable in `γ` for each `α`. -/
+theorem SymReg.integrable {Z : Type*} [MeasureSpace Z] {m : (ι → ℝ) → Z → ℂ} (h : SymReg m)
+    (α : ι → ℝ) : Integrable (m α) := by
+  refine ⟨(h.meas.comp_measurable measurable_prodMk_left).aestronglyMeasurable, ?_⟩
+  refine lt_of_le_of_lt (lintegral_mono fun ζ => ?_) (lt_top_iff_ne_top.2 (h.dom 0))
+  rw [← dnorm_zero]
+  exact dnorm_le_supD 0 m α ζ
 
 variable [MeasurableSpace Γ]
 

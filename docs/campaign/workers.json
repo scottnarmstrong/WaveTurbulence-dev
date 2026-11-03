@@ -12,16 +12,16 @@
   "model": "Claude Opus",
   "account": "claude-10",
   "branch": "w/waveb-infra",
-  "packet": "WAVEB2-DRAFT: Wave B tier B2 drafts (B1 drafts under audit)",
-  "brief": "docs/campaign/briefs/WAVEB2-DRAFT.md"
+  "packet": "D3 CANON (pre-freeze): prove canonicalCharacterization (B1.11), truncation bridges; Wave B drafts done (B1 final check running, B2 drafted)",
+  "brief": "docs/campaign/briefs/CANON.md"
  },
  {
   "tmux": "wt-torus",
   "model": "Claude Opus",
   "account": "claude-14",
-  "branch": "w/ntsp",
-  "packet": "NT5 NTSP: DH23 Lemmas 6.5, 6.7, TARGET Lemma 5.2 (NLS landed)",
-  "brief": "docs/campaign/briefs/NTSP.md"
+  "branch": "w/approxnt",
+  "packet": "NT6 APPROXNT: DH23 Prop 6.4 + large-order extension (F33) (NTSP done)",
+  "brief": "docs/campaign/briefs/APPROXNT.md"
  },
  {
   "tmux": "wt-wke",
@@ -35,9 +35,9 @@
   "tmux": "wt-cumul",
   "model": "GPT-6.1-Sol low",
   "account": "codex-3",
-  "branch": "w/lemlin",
-  "packet": "NT10 LEMLIN: TARGET lemlin (+ F23 second bound), lemcubic0 (MISC-A landed)",
-  "brief": "docs/campaign/briefs/LEMLIN.md"
+  "branch": "w/norm-bridge",
+  "packet": "I1+I2 INDUCT (pre-freeze, conditional): propansatz from layergarden/fixedpoint/wkeTaylor; main assembly done",
+  "brief": "docs/campaign/briefs/INDUCT.md"
  },
  {
   "tmux": "wt-nt",
@@ -59,17 +59,17 @@
   "tmux": "wt-gausssum",
   "model": "GPT-6.1-Sol low",
   "account": "codex-3",
-  "branch": "w/minor-arcs",
-  "packet": "NT4+NT11+NT3: DH23 Lemma 6.6, TARGET Lemma 5.3 and lemcubic (HUA landed)",
-  "brief": "docs/campaign/briefs/MINOR-ARCS.md"
+  "branch": "w/count",
+  "packet": "NT7+NT8 COUNT: countLemma, atomCountLemma (DH23 A.2, A.3) (MINOR-ARCS done)",
+  "brief": "docs/campaign/briefs/COUNT.md"
  },
  {
   "tmux": "wt-resonant",
   "model": "GPT-6.1-Sol low",
   "account": "codex-3",
   "branch": "w/resonant",
-  "packet": "N5 RESONANT: resonant measure, p.v. 1/Ω, DH21 Lemma 6.3",
-  "brief": "docs/campaign/briefs/RESONANT.md"
+  "packet": "D4+C1 REG-STRUCT (pre-freeze): regular chains, DH21 Props 4.5–4.10, structure theorem, counting (COMB-CORE done in scratch)",
+  "brief": "docs/campaign/briefs/REG-STRUCT.md"
  },
  {
   "tmux": "wt-anfourier",

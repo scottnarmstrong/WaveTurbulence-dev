@@ -22,7 +22,7 @@ public section
 open MeasureTheory Filter Topology
 open scoped InnerProductSpace NNReal ContDiff
 
-namespace WaveTurbulence
+namespace WaveTurbulence.Resonant
 
 variable {d : ℕ}
 
@@ -110,4 +110,31 @@ theorem exists_bilinearFourierTruncation_limit
   ⟨_, tendsto_bilinearFourierTruncation hd hχ hχs hC hR hA hL hb hsx hsy ξ η,
     norm_bilinearFourierLimitFormula_le hd hχ hχs hC hR hA hL hb hsx hsy ξ η⟩
 
-end WaveTurbulence
+/-- The cutoff-independent limit formula has an integrable outer integrand. -/
+theorem integrable_bilinearFourierLimit_integrand
+    (hd : 2 ≤ d) {χ : ℝ → ℝ} (hχ : IsPVCutoff χ) (hχs : ContDiff ℝ 1 χ)
+    {C R : ℝ} {D : ℝ≥0} (hC : ∀ t, |χ t| ≤ C) (hR : 1 ≤ R)
+    {A : Mom d → Mom d → ℂ} {a b : Mom d} (hA : Continuous (Function.uncurry A))
+    (hL : ∀ x, LipschitzWith D (A x)) (hb : ∀ x y, ‖A x y‖ ≤ D)
+    (hsx : ∀ x y, R < ‖x - a‖ → A x y = 0)
+    (hsy : ∀ x y, R < ‖y - b‖ → A x y = 0) (ξ η : Mom d) :
+    Integrable (fun x : Mom d => unitPhase 1 ⟪ξ, x⟫_ℝ * bilinearSliceLimitFormula (A x) x η) := by
+  have ht : ∀ᵐ x : Mom d, Tendsto
+      (fun μ => unitPhase 1 ⟪ξ, x⟫_ℝ * bilinearInvFourierInner χ μ (A x) x η) atTop
+      (𝓝 (unitPhase 1 ⟪ξ, x⟫_ℝ * bilinearSliceLimitFormula (A x) x η)) := by
+    filter_upwards [DeltaKernel.ae_ne_zero (by omega : 0 < d)] with x hx
+    exact (tendsto_bilinearInvFourierInner hχ (by linarith : 0 < R) (hL x) (hsy x) (hb x) hx η).const_mul _
+  have hm : AEStronglyMeasurable (fun x : Mom d =>
+      unitPhase 1 ⟪ξ, x⟫_ℝ * bilinearSliceLimitFormula (A x) x η) :=
+    aestronglyMeasurable_of_tendsto_ae atTop (fun μ =>
+      (((continuous_unitPhase 1).comp
+        (continuous_const.inner continuous_id)).stronglyMeasurable.mul
+          (stronglyMeasurable_bilinearFourierInner hA hχ μ η)).aestronglyMeasurable) ht
+  have hi := (integrableOn_ball_inv_norm_center hd a (2 * R)).integrable_indicator measurableSet_ball
+  refine (hi.const_mul ((D : ℝ) * bilinearSliceBoundConst d χ C * R ^ d)).mono' hm ?_
+  filter_upwards [ht, DeltaKernel.ae_ne_zero (by omega : 0 < d)] with x htx hx
+  apply le_of_tendsto htx.norm
+  filter_upwards [eventually_gt_atTop (0 : ℝ)] with μ hμ
+  exact norm_bilinearFourierIntegrand_le hd hχ hχs hC hμ hR hL hb hsx hsy ξ η hx
+
+end WaveTurbulence.Resonant
