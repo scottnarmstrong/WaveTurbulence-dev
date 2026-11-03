@@ -1145,3 +1145,21 @@ builds passed (9111 jobs each), without warnings. The four-result scratch
 `Quot.sound`. No new errata or deviations. The remaining actual circle
 application must identify the selected duals and estimate their integer
 windows; the earlier actual weighted A estimate is ready for that step.
+
+## Reflection and exact source scale normalization
+
+`ReflectedNegativePhase.lean` proves the actual first/second/third
+calculus identities for `-f(D-x)`, retaining arbitrary real D, and proves
+finite-sum norm invariance under phase negation.
+`CircleSourceScale.lean` gives exact first/second/third derivative scale
+identities with `w=h sqrt(R)`, including the lower-curvature factor 1/8.
+Targeted builds passed (3257/3214 jobs), without warnings. Scratch
+`ReflectionAxioms.lean` passed for four main results with standard axioms.
+
+A separate scratch probe `CircleColumnExtensionProbe.lean` also checks the
+actual reflected shared circle extension against all three needed source
+derivative bounds. This probe reads the **pending** BPROC artifacts using
+a scratch-only symlink overlay; no dependency artifacts are modified or
+rebuilt. These actual-circle consumers are not yet committed because their
+shared source modules are not yet landed on main. This pending-API probe
+is supplementary, not a claim that the final circle bound is proved.
