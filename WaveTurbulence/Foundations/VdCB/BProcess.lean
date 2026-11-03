@@ -3,6 +3,7 @@ module
 
 public import WaveTurbulence.Foundations.VdCB.Basic
 public import WaveTurbulence.Foundations.VdCB.TruncatedPoissonShift
+public import WaveTurbulence.Foundations.VdCB.SharpPoisson
 public import WaveTurbulence.Foundations.VdCB.BProcessSelected
 public import WaveTurbulence.Foundations.VdCB.StationaryFrequencyCount
 public import WaveTurbulence.Foundations.VdCB.BProcessScaling

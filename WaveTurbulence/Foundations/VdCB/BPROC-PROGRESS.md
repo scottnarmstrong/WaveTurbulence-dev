@@ -192,3 +192,17 @@ The nine-result `WeightAxioms.lean` probe exited 0 with only
 `[propext, Classical.choice, Quot.sound]` for every export checked.
 `bProcess_scaling` verifies the exact powers `(λ-1/2,κ+1/2)` but is still
 only algebraic; analytic `IsExponentPair` B-closure remains outstanding.
+
+Goal 1 now has its standard adjustable-margin/width form in `SharpPoisson`:
+`norm_sum_sub_poisson_derivative_range_le` proves error
+`10*(η⁻¹+log(β-α+2))` for `0<η≤1`, global C2 source phase, natural endpoints,
+actual derivative range `[α,β]`, and actual `f''≤0`. Its frequency set is
+exactly the integers satisfying both strict inequalities
+`α-η<ν<β+η`; canonical floor/ceiling normalization is internal.
+`PoissonMargin`, `PoissonMarginShift`, `PoissonMarginNegative`, `OpenFrequencies`,
+`FrequencyNormalization`, and `PoissonError` prove all steps.
+The version is explicitly natural-endpoint/C2; arbitrary real endpoints
+and merely C1 monotone-derivative regularity are not asserted.
+Combined interface `BProcess` builds (3893 jobs), without warnings.
+The three-result `SharpPoissonAxioms.lean` probe exited 0, with only
+`[propext, Classical.choice, Quot.sound]`.
