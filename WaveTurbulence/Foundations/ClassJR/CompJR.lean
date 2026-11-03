@@ -266,6 +266,149 @@ theorem gamma_KMR_le {ε : ℤ} (hε : ε = 1 ∨ ε = -1) (X₀ X₁ : ℝ)
               rw [show (4 : ℝ≥0∞) = ENNReal.ofReal 4 by simp, gev_mul_const 4 (by norm_num)]
               ring_nf
 
+/-- `(A^θ + 2B^θ + 1) A⁻¹ B⁻¹ ≤ 2 A^{θ-1} B⁻¹ + 2 B^{θ-1} A⁻¹` for `A, B ≥ 1`. -/
+theorem weight_decay_le {θ : ℝ} (h0 : 0 ≤ θ) (a b : ℝ) :
+    ((1 + |a|) ^ θ + 2 * (1 + |b|) ^ θ + 1) * ((1 + |a|)⁻¹ * (1 + |b|)⁻¹) ≤
+      2 * ((1 + |a|) ^ (θ - 1) * (1 + |b|) ^ (-1 : ℝ)) +
+        2 * ((1 + |b|) ^ (θ - 1) * (1 + |a|) ^ (-1 : ℝ)) := by
+  have hA : 1 ≤ 1 + |a| := by linarith [abs_nonneg a]
+  have hB : 1 ≤ 1 + |b| := by linarith [abs_nonneg b]
+  have hA0 : 0 < 1 + |a| := by linarith
+  have hB0 : 0 < 1 + |b| := by linarith
+  have eA : (1 + |a|) ^ θ * (1 + |a|)⁻¹ = (1 + |a|) ^ (θ - 1) := by
+    rw [Real.rpow_sub_one hA0.ne']; field_simp
+  have eB : (1 + |b|) ^ θ * (1 + |b|)⁻¹ = (1 + |b|) ^ (θ - 1) := by
+    rw [Real.rpow_sub_one hB0.ne']; field_simp
+  have iA : (1 + |a|)⁻¹ = (1 + |a|) ^ (-1 : ℝ) := (Real.rpow_neg_one _).symm
+  have iB : (1 + |b|)⁻¹ = (1 + |b|) ^ (-1 : ℝ) := (Real.rpow_neg_one _).symm
+  have hle : (1 + |a|) ^ (-1 : ℝ) ≤ (1 + |a|) ^ (θ - 1) :=
+    Real.rpow_le_rpow_of_exponent_le hA (by linarith)
+  have hBpos : 0 ≤ (1 + |b|) ^ (-1 : ℝ) := by positivity
+  calc ((1 + |a|) ^ θ + 2 * (1 + |b|) ^ θ + 1) * ((1 + |a|)⁻¹ * (1 + |b|)⁻¹)
+      = ((1 + |a|) ^ θ * (1 + |a|)⁻¹) * (1 + |b|)⁻¹ +
+          2 * (((1 + |b|) ^ θ * (1 + |b|)⁻¹) * (1 + |a|)⁻¹) +
+            (1 + |a|)⁻¹ * (1 + |b|)⁻¹ := by ring
+    _ = (1 + |a|) ^ (θ - 1) * (1 + |b|) ^ (-1 : ℝ) +
+          2 * ((1 + |b|) ^ (θ - 1) * (1 + |a|) ^ (-1 : ℝ)) +
+            (1 + |a|) ^ (-1 : ℝ) * (1 + |b|) ^ (-1 : ℝ) := by rw [eA, eB, ← iA, ← iB]
+    _ ≤ (1 + |a|) ^ (θ - 1) * (1 + |b|) ^ (-1 : ℝ) +
+          2 * ((1 + |b|) ^ (θ - 1) * (1 + |a|) ^ (-1 : ℝ)) +
+            (1 + |a|) ^ (θ - 1) * (1 + |b|) ^ (-1 : ℝ) := by gcongr
+    _ ≤ _ := by
+        have : 0 ≤ (1 + |a|) ^ (θ - 1) * (1 + |b|) ^ (-1 : ℝ) := by positivity
+        linarith
+
+/-- The pointwise bound of the `χ_∞` couplings of `J R`. -/
+theorem enorm_iteratedFDeriv_KPR_le {θ : ℝ} (h0 : 0 ≤ θ) (c : ℕ) (x : Fin 2 → ℝ) (q : Unit) :
+    ((1 + ‖x 0‖ₑ) ^ θ + 2 * (1 + ‖x 1‖ₑ) ^ θ + 1) *
+      ‖iteratedFDeriv ℝ c (fun x => KPR x q) x‖ₑ ≤
+      ∑ j ∈ range (c + 1), (c.choose j : ℝ≥0∞) * (gev CPhi Achi j * gev CPhi Achi (c - j) *
+        (2 * ENNReal.ofReal ((1 + |x 0|) ^ (θ - 1) * (1 + |x 1|) ^ (-1 : ℝ)) +
+          2 * ENNReal.ofReal ((1 + |x 1|) ^ (θ - 1) * (1 + |x 0|) ^ (-1 : ℝ)))) := by
+  rw [KPR_eq]
+  refine (mul_le_mul' le_rfl (enorm_iteratedFDeriv_prod2_le contDiff_phiR
+    contDiff_chiInvRc c x)).trans ?_
+  rw [Finset.mul_sum]
+  refine Finset.sum_le_sum fun j _ => ?_
+  have h1 := enorm_iteratedDeriv_phiR_le' j (x 0)
+  have h2 := enorm_iteratedDeriv_chiInvRc_le (c - j) (x 1)
+  have hw : (1 + ‖x 0‖ₑ) ^ θ + 2 * (1 + ‖x 1‖ₑ) ^ θ + 1 =
+      ENNReal.ofReal ((1 + |x 0|) ^ θ + 2 * (1 + |x 1|) ^ θ + 1) := by
+    have e : ∀ y : ℝ, (1 : ℝ≥0∞) + ‖y‖ₑ = ENNReal.ofReal (1 + |y|) := fun y => by
+      rw [ENNReal.ofReal_add zero_le_one (abs_nonneg _), ENNReal.ofReal_one, ← Real.norm_eq_abs,
+        ofReal_norm]
+    rw [e, e, ENNReal.ofReal_rpow_of_nonneg (by positivity) h0,
+      ENNReal.ofReal_rpow_of_nonneg (by positivity) h0, ENNReal.ofReal_add (by positivity)
+        zero_le_one, ENNReal.ofReal_add (by positivity) (by positivity), ENNReal.ofReal_one,
+      ENNReal.ofReal_mul (by norm_num)]
+    simp
+  calc ((1 + ‖x 0‖ₑ) ^ θ + 2 * (1 + ‖x 1‖ₑ) ^ θ + 1) * ((c.choose j : ℝ≥0∞) *
+        ‖iteratedDeriv j phiR (x 0)‖ₑ * ‖iteratedDeriv (c - j) (fun y => (chiInvR y : ℂ)) (x 1)‖ₑ)
+      ≤ ((1 + ‖x 0‖ₑ) ^ θ + 2 * (1 + ‖x 1‖ₑ) ^ θ + 1) * ((c.choose j : ℝ≥0∞) *
+          (gev CPhi Achi j * ENNReal.ofReal ((1 + |x 0|)⁻¹)) *
+          (gev CPhi Achi (c - j) * ENNReal.ofReal ((1 + |x 1|)⁻¹))) := by gcongr
+    _ = (c.choose j : ℝ≥0∞) * (gev CPhi Achi j * gev CPhi Achi (c - j) *
+          ENNReal.ofReal (((1 + |x 0|) ^ θ + 2 * (1 + |x 1|) ^ θ + 1) *
+            ((1 + |x 0|)⁻¹ * (1 + |x 1|)⁻¹))) := by
+        rw [hw, ENNReal.ofReal_mul (by positivity), ENNReal.ofReal_mul (by positivity)]
+        ring
+    _ ≤ _ := by
+        gcongr
+        rw [← ENNReal.ofReal_ofNat 2, ← ENNReal.ofReal_mul (by norm_num),
+          ← ENNReal.ofReal_mul (by norm_num), ← ENNReal.ofReal_add (by positivity)
+            (by positivity)]
+        exact ENNReal.ofReal_le_ofReal (weight_decay_le h0 (x 0) (x 1))
+
+/-- **`Γ` for the `χ_∞` pieces of `J R`** (DH21 L1014; DH23 L966–L969). -/
+theorem gamma_KPR_le {θ : ℝ} (h0 : 0 ≤ θ) (h1 : θ < 1) {ε : ℤ} (hε : ε = 1 ∨ ε = -1)
+    (X₀ X₁ : ℝ) (v : (Unit → ℝ) → Unit → Fin 2 → ℝ) (hv0 : ∀ s q, v s q 0 = X₀ + ε * s ())
+    (hv1 : ∀ s q, v s q 1 = X₁ + ε * s ()) (c : ℕ) {A : ℝ} (hA : A0 ≤ A) :
+    ∫⁻ q : Unit, ∫⁻ s : Unit → ℝ, ((1 + ‖v s q 0‖ₑ) ^ θ + 2 * (1 + ‖v s q 1‖ₑ) ^ θ + 1) *
+      ‖iteratedFDeriv ℝ c (fun x => KPR x q) (v s q)‖ₑ ≤
+        gev (16 * Cθ θ * (CPhi * CPhi)) A c := by
+  have hA0 : 0 ≤ A := A0_nonneg.trans hA
+  have hε' : (ε : ℝ) = 1 ∨ (ε : ℝ) = -1 := by rcases hε with rfl | rfl <;> simp
+  have hC := Cθ_nonneg h0 h1
+  set D : ℝ → ℝ → ℝ := fun a b => (1 + |a|) ^ (θ - 1) * (1 + |b|) ^ (-1 : ℝ) with hD
+  have hDm : Measurable fun p : ℝ × ℝ => ENNReal.ofReal (D p.1 p.2) :=
+    ENNReal.measurable_ofReal.comp
+      (((measurable_const.add (continuous_abs.measurable.comp measurable_fst)).pow_const _).mul
+        ((measurable_const.add (continuous_abs.measurable.comp measurable_snd)).pow_const _))
+  have hint : ∀ Y₀ Y₁ : ℝ, ∫⁻ s : Unit → ℝ, ENNReal.ofReal (D (Y₀ + ε * s ()) (Y₁ + ε * s ())) ≤
+      ENNReal.ofReal (Cθ θ) := fun Y₀ Y₁ => by
+    rw [lintegral_unitFun (G := fun t => ENNReal.ofReal (D (Y₀ + ε * t) (Y₁ + ε * t))),
+      lintegral_affine_pair (F := fun a b => ENNReal.ofReal (D a b)) hε' Y₀ Y₁]
+    exact lintegral_decay_pair_le h0 h1 (Y₁ - Y₀)
+  have hlin : ∀ Y : ℝ, Measurable fun s : Unit → ℝ => (1 + |Y + ε * s ()|) :=
+    fun Y => measurable_const.add (continuous_abs.measurable.comp
+      (measurable_const.add (measurable_const.mul (measurable_pi_apply ()))))
+  have hmD : ∀ Y₀ Y₁ : ℝ, Measurable fun s : Unit → ℝ =>
+      ENNReal.ofReal (D (Y₀ + ε * s ()) (Y₁ + ε * s ())) := fun Y₀ Y₁ => by
+    simp only [hD]
+    exact ENNReal.measurable_ofReal.comp
+      (((hlin Y₀).pow_const _).mul ((hlin Y₁).pow_const _))
+  calc ∫⁻ q : Unit, ∫⁻ s : Unit → ℝ, ((1 + ‖v s q 0‖ₑ) ^ θ + 2 * (1 + ‖v s q 1‖ₑ) ^ θ + 1) *
+        ‖iteratedFDeriv ℝ c (fun x => KPR x q) (v s q)‖ₑ
+      ≤ ∫⁻ q : Unit, ∫⁻ s : Unit → ℝ, ∑ j ∈ range (c + 1), (c.choose j : ℝ≥0∞) *
+          (gev CPhi Achi j * gev CPhi Achi (c - j) *
+            (2 * ENNReal.ofReal (D (X₀ + ε * s ()) (X₁ + ε * s ())) +
+              2 * ENNReal.ofReal (D (X₁ + ε * s ()) (X₀ + ε * s ())))) := by
+        refine lintegral_mono fun q => lintegral_mono fun s => ?_
+        have := enorm_iteratedFDeriv_KPR_le h0 c (v s q) q
+        rw [hv0, hv1] at this
+        rw [hv0, hv1]
+        simpa only [hD] using this
+    _ ≤ ∑ j ∈ range (c + 1), (c.choose j : ℝ≥0∞) *
+          (gev CPhi Achi j * gev CPhi Achi (c - j) * (4 * ENNReal.ofReal (Cθ θ))) := by
+        rw [show (volume : Measure Unit) = Measure.dirac () from rfl, lintegral_dirac]
+        have hm2 : Measurable fun s : Unit → ℝ =>
+            2 * ENNReal.ofReal (D (X₀ + ε * s ()) (X₁ + ε * s ())) +
+              2 * ENNReal.ofReal (D (X₁ + ε * s ()) (X₀ + ε * s ())) :=
+          ((hmD _ _).const_mul 2).add ((hmD _ _).const_mul 2)
+        rw [lintegral_finsetSum _ fun j _ => (hm2.const_mul _).const_mul _]
+        refine Finset.sum_le_sum fun j _ => ?_
+        rw [lintegral_const_mul _ (hm2.const_mul _), lintegral_const_mul _ hm2,
+          lintegral_add_left ((hmD _ _).const_mul 2),
+          lintegral_const_mul _ (hmD _ _), lintegral_const_mul _ (hmD _ _)]
+        gcongr
+        exact (add_le_add (mul_le_mul' le_rfl (hint _ _)) (mul_le_mul' le_rfl (hint _ _))).trans_eq
+          (by ring)
+    _ ≤ gev (16 * Cθ θ * (CPhi * CPhi)) A c := by
+        have h2 : ∀ j, gev CPhi Achi j ≤ gev CPhi A j := fun j =>
+          gev_mono le_rfl Achi_nonneg (Achi_le_A0.trans hA) CPhi_nonneg j
+        have hconv := gev_conv_le CPhi_nonneg CPhi_nonneg hA0 h2 h2 c
+        calc ∑ j ∈ range (c + 1), (c.choose j : ℝ≥0∞) *
+              (gev CPhi Achi j * gev CPhi Achi (c - j) * (4 * ENNReal.ofReal (Cθ θ)))
+            = ENNReal.ofReal (4 * Cθ θ) * ∑ j ∈ range (c + 1), (c.choose j : ℝ≥0∞) *
+                gev CPhi Achi j * gev CPhi Achi (c - j) := by
+              rw [Finset.mul_sum, ENNReal.ofReal_mul (by norm_num), ENNReal.ofReal_ofNat]
+              refine Finset.sum_congr rfl fun j _ => ?_
+              ring
+          _ ≤ ENNReal.ofReal (4 * Cθ θ) * gev (4 * CPhi * CPhi) A c := mul_le_mul' le_rfl hconv
+          _ = gev (16 * Cθ θ * (CPhi * CPhi)) A c := by
+              rw [gev_mul_const _ (by positivity)]
+              ring_nf
+
 end Gamma
 
 end WaveTurbulence.ClassJR
