@@ -1032,3 +1032,21 @@ separation premise. The proof splits at an actual derivative zero when
 needed and uses the proved one-sided bounds. This covers frequencies
 coinciding with endpoint derivatives in the finite B-process application.
 Targeted `IntegralSecondDerivative` passed (3543 jobs, 3.1s), zero warnings.
+
+## Balanced stationary errors (resumed work)
+
+`StationaryRadius.lean` defines the actual positive radius
+`U^(4/5) w^(-2/5)/4`, proves it lies in a quarter block, and proves
+its exact cubic and reciprocal-curvature identities.
+`StationaryErrorBounds.lean` bounds the explicit sharp stationary errors
+by `256 w^(-3/5) U^(7/10)`. It also proves the summed stationary and
+endpoint guard scales fit `w^(11/30) U^(7/20)` in the complementary
+frequency range; the large-frequency range admits the trivial length bound.
+These scalar results do not assert the outstanding B-transformed sum.
+
+Checks: `nice -n 5 lake build WaveTurbulence.Foundations.NumberTheory.StationaryErrorBounds`
+passed (3258 jobs, target 1.9s). `nice -n 5 lake env lean
+/home/scott/wt-scratch/nt-circle/StationaryAxioms.lean` passed;
+`stationary_radius_error_le`, `stationary_error_scales_le_local_circle_scale`
+and `norm_integral_expPhase_le_of_second_deriv_pos` use only
+`propext`, `Classical.choice`, `Quot.sound`. No new errata or deviations.
