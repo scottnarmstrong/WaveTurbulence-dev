@@ -6,7 +6,7 @@ Lean 4 formalization of
 > [arXiv:2311.10082v2](https://arxiv.org/abs/2311.10082) (2024).
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-11-03 17:49 UTC** · **estimated completion 16.7 %** (Lean proofs 13.2 %) · frozen theorems sealed: 0 / 2 (+ 13 frozen definitions) · **34,577 lines of Lean on main** (245 files) + 2,347 unlanded on worker branches · blueprint estimate ≈ 273,000 lines
+> **Last updated: 2026-11-03 17:53 UTC** · **estimated completion 16.7 %** (Lean proofs 13.2 %) · frozen theorems sealed: 0 / 2 (+ 13 frozen definitions) · **34,577 lines of Lean on main** (245 files) + 3,342 unlanded on worker branches · blueprint estimate ≈ 273,000 lines
 <!-- /AUTO:updated -->
 
 **Scope (D1):** everything proved in Lean, no black boxes. That covers the target paper and the results it uses from
@@ -45,7 +45,7 @@ DRAFT_IMPORT_VIOLATIONS: 0
 | Release (P5) | 1 | 15 | 0.0 | `░░░░░░░░░░` 0 % |
 | **Total** | | 748 | 125.1 | **16.7 %** |
 
-Lean lines: 34,577 on main + 2,347 on branches, of ≈ 273,000 estimated by the blueprint (`███░░░░░░░░░░░░░░░░░` 13.5 % of the estimate).
+Lean lines: 34,577 on main + 3,342 on branches, of ≈ 273,000 estimated by the blueprint (`███░░░░░░░░░░░░░░░░░` 13.9 % of the estimate).
 
 <details><summary>All Lean work packets (blueprint §E) with weight and status</summary>
 
@@ -147,17 +147,17 @@ Done fractions last reviewed: **2026-11-03 18:05 UTC**. Source: [`docs/campaign/
 <!-- AUTO:workers -->
 | tmux | model / account | packet | branch: last commit | brief |
 |---|---|---|---|---|
-| wt-orch | Claude Opus / claude-1 | audits (Wave B stage audits; done: freeze check, figure defs, topology review, infra review) | `w/orch`: 5 min ago | [brief](docs/campaign/orch/TASK4.md) |
+| wt-orch | Claude Opus / claude-1 | audits (Wave B stage audits; done: freeze check, figure defs, topology review, infra review) | `w/orch`: 2 min ago | [brief](docs/campaign/orch/TASK4.md) |
 | wt-gauss-hc | Claude Opus / claude-10 | WAVEB2-DRAFT: Wave B tier B2 drafts (B1 drafts under audit) | `w/waveb-infra`: — | [brief](docs/campaign/briefs/WAVEB2-DRAFT.md) |
-| wt-torus | Claude Opus / claude-14 | NLS (B1–B3): smooth solutions, reduction to the a-system, measurability | `w/nls`: 6 min ago, 2 unlanded | [brief](docs/campaign/briefs/NLS.md) |
-| wt-wke | Claude Opus / claude-13 | JR-OPS: DH21 class J/R operators, Lemmas 5.3–5.8 (critical path; WKE + WKE-TAYLOR landed) | `w/jr-ops`: 3 min ago | [brief](docs/campaign/briefs/JR-OPS.md) |
-| wt-cumul | GPT-6.1-Sol low / codex-3 | MISC-A: TARGET Lemmas A.6–A.7, DH21 A.4, probability helpers (Hua moved to NT2) | `w/misc-a`: 30 min ago | [brief](docs/campaign/briefs/MISC-A.md) |
-| wt-nt | GPT-6.1-Sol low / codex-3 | NT-EXPSUM: circle problem with exponent < 2/3 (van der Corput) | `w/nt-circle`: 2 min ago, 1 unlanded | [brief](docs/campaign/briefs/NT-CIRCLE-v2.md) |
-| wt-ansob | GPT-6.1-Sol low / codex-3 | N4 AN-SOB: Sobolev/Morrey, simplex volumes, DH21 Lemma 10.2 | `w/an-sob`: 6 min ago, 1 unlanded | [brief](docs/campaign/briefs/AN-SOB.md) |
-| wt-gausssum | GPT-6.1-Sol low / codex-3 | NT2 HUA: Hua L⁴/L⁶, Weyl-sum reduction, L^{3d/2} moments (GAUSSSUM landed) | `w/hua`: 3 min ago, 1 unlanded | [brief](docs/campaign/briefs/HUA.md) |
-| wt-resonant | GPT-6.1-Sol low / codex-3 | N5 RESONANT: resonant measure, p.v. 1/Ω, DH21 Lemma 6.3 | `w/resonant`: 7 min ago, 1 unlanded | [brief](docs/campaign/briefs/RESONANT.md) |
-| wt-anfourier | GPT-6.1-Sol low / codex-3 | N2+N3: Poisson summation, (non-)stationary phase, Hausdorff–Young, DNY21 kernel, TARGET Lemmas A.2–A.3 (AN-FOURIER landed) | `w/an-phase`: 4 min ago | [brief](docs/campaign/briefs/AN-PHASE-HY.md) |
-| wt-l2s | GPT-6.1-Sol low / codex-3 | WKE-L2S: general-d L²_s trilinear estimate (Theorem 7), wkelwp blow-up conjunct | `w/wke-l2s`: 4 min ago, 1 unlanded | [brief](docs/campaign/briefs/WKE-L2S.md) |
+| wt-torus | Claude Opus / claude-14 | NLS (B1–B3): smooth solutions, reduction to the a-system, measurability | `w/nls`: 2 min ago, 3 unlanded | [brief](docs/campaign/briefs/NLS.md) |
+| wt-wke | Claude Opus / claude-13 | JR-OPS: DH21 class J/R operators, Lemmas 5.3–5.8 (critical path; WKE + WKE-TAYLOR landed) | `w/jr-ops`: 6 min ago | [brief](docs/campaign/briefs/JR-OPS.md) |
+| wt-cumul | GPT-6.1-Sol low / codex-3 | MISC-A: TARGET Lemmas A.6–A.7, DH21 A.4, probability helpers (Hua moved to NT2) | `w/misc-a`: 33 min ago | [brief](docs/campaign/briefs/MISC-A.md) |
+| wt-nt | GPT-6.1-Sol low / codex-3 | NT-EXPSUM: circle problem with exponent < 2/3 (van der Corput) | `w/nt-circle`: 5 min ago, 1 unlanded | [brief](docs/campaign/briefs/NT-CIRCLE-v2.md) |
+| wt-ansob | GPT-6.1-Sol low / codex-3 | N4 AN-SOB: Sobolev/Morrey, simplex volumes, DH21 Lemma 10.2 | `w/an-sob`: 1 min ago, 2 unlanded | [brief](docs/campaign/briefs/AN-SOB.md) |
+| wt-gausssum | GPT-6.1-Sol low / codex-3 | NT2 HUA: Hua L⁴/L⁶, Weyl-sum reduction, L^{3d/2} moments (GAUSSSUM landed) | `w/hua`: 6 min ago, 1 unlanded | [brief](docs/campaign/briefs/HUA.md) |
+| wt-resonant | GPT-6.1-Sol low / codex-3 | N5 RESONANT: resonant measure, p.v. 1/Ω, DH21 Lemma 6.3 | `w/resonant`: 2 min ago, 2 unlanded | [brief](docs/campaign/briefs/RESONANT.md) |
+| wt-anfourier | GPT-6.1-Sol low / codex-3 | N2+N3: Poisson summation, (non-)stationary phase, Hausdorff–Young, DNY21 kernel, TARGET Lemmas A.2–A.3 (AN-FOURIER landed) | `w/an-phase`: 7 min ago | [brief](docs/campaign/briefs/AN-PHASE-HY.md) |
+| wt-l2s | GPT-6.1-Sol low / codex-3 | WKE-L2S: general-d L²_s trilinear estimate (Theorem 7), wkelwp blow-up conjunct | `w/wke-l2s`: 1 min ago, 2 unlanded | [brief](docs/campaign/briefs/WKE-L2S.md) |
 <!-- /AUTO:workers -->
 
 ## Papers
