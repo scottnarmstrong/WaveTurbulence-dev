@@ -96,7 +96,7 @@ theorem abs_pow_mul_norm_le_of_iterate {L : ℝ} (hL : 0 < L) {f : (Fin d → �
 
 /-- The spatial partial derivative `∂ⱼ` of `G : ℝ × ℝ^d → ℂ` as a within-derivative on
 `[0, T] × ℝ^d`. -/
-def spaceDeriv (T : ℝ) (j : Fin d) (G : ℝ × (Fin d → ℝ) → ℂ) (p : ℝ × (Fin d → ℝ)) : ℂ :=
+@[expose] def spaceDeriv (T : ℝ) (j : Fin d) (G : ℝ × (Fin d → ℝ) → ℂ) (p : ℝ × (Fin d → ℝ)) : ℂ :=
   fderivWithin ℝ G (Icc 0 T ×ˢ univ) p (0, Pi.single j 1)
 
 theorem partialDeriv_slice_eq {T : ℝ} {G : ℝ × (Fin d → ℝ) → ℂ}

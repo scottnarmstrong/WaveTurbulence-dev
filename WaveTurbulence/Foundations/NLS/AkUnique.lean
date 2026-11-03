@@ -55,7 +55,7 @@ theorem tripleAbs_mono {f g h f' g' h' : (Fin d → ℤ) → ℂ} (hf : ∀ m, �
     · exact enorm_le_iff_norm_le.2 (hh _)
 
 /-- The majorant family `m ↦ C (1 + ‖m‖)^{-(d+1)}`. -/
-def majorant (C : ℝ) (m : Fin d → ℤ) : ℂ := ((C * ((1 + ‖m‖) ^ (d + 1))⁻¹ : ℝ) : ℂ)
+@[expose] def majorant (C : ℝ) (m : Fin d → ℤ) : ℂ := ((C * ((1 + ‖m‖) ^ (d + 1))⁻¹ : ℝ) : ℂ)
 
 theorem norm_majorant {C : ℝ} (hC : 0 ≤ C) (m : Fin d → ℤ) :
     ‖majorant C m‖ = C * ((1 + ‖m‖) ^ (d + 1))⁻¹ := by

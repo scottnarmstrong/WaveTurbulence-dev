@@ -35,19 +35,19 @@ namespace WaveTurbulence.NLS
 variable {d : ℕ}
 
 /-- Uniform rapid decay on `[0, T]`. -/
-def UnifRapid (T : ℝ) (b : ℝ → (Fin d → ℤ) → ℂ) : Prop :=
+@[expose] def UnifRapid (T : ℝ) (b : ℝ → (Fin d → ℤ) → ℂ) : Prop :=
   ∀ N : ℕ, ∃ C, ∀ t ∈ Icc 0 T, ∀ n, ‖b t n‖ ≤ C * (1 + ‖n‖) ^ (-(N : ℤ))
 
 /-- Coefficient curves whose first `m` time derivatives exist and decay rapidly, uniformly on
 `[0, T]`. -/
-def GoodCurve (T : ℝ) : ℕ → (ℝ → (Fin d → ℤ) → ℂ) → Prop
+@[expose] def GoodCurve (T : ℝ) : ℕ → (ℝ → (Fin d → ℤ) → ℂ) → Prop
   | 0, b => (∀ n, ContinuousOn (fun t => b t n) (Icc 0 T)) ∧ UnifRapid T b
   | m + 1, b => (∀ n, ContinuousOn (fun t => b t n) (Icc 0 T)) ∧ UnifRapid T b ∧
       ∃ b', GoodCurve T m b' ∧
         ∀ n, ∀ t ∈ Icc 0 T, HasDerivWithinAt (fun s => b s n) (b' t n) (Icc 0 T) t
 
 /-- The cubic convolution of coefficient curves (no conjugation, no normalization). -/
-def cubicCurve (f g h : ℝ → (Fin d → ℤ) → ℂ) (t : ℝ) (n : Fin d → ℤ) : ℂ :=
+@[expose] def cubicCurve (f g h : ℝ → (Fin d → ℤ) → ℂ) (t : ℝ) (n : Fin d → ℤ) : ℂ :=
   ∑' q : (Fin d → ℤ) × (Fin d → ℤ), f t q.1 * g t q.2 * h t (n - q.1 + q.2)
 
 variable {T : ℝ}

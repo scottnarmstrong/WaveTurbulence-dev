@@ -97,7 +97,7 @@ theorem one_add_norm_sub_add_pow_le (s : ℕ) (n₁ n₂ n₃ : Fin d → ℤ) :
     _ ≤ _ := by gcongr
 
 /-- The truncated weight `min((1 + ‖n‖)^s, M)`. -/
-def truncWeight (s : ℕ) (M : ℝ) (n : Fin d → ℤ) : ℝ := min ((1 + ‖n‖) ^ s) M
+@[expose] def truncWeight (s : ℕ) (M : ℝ) (n : Fin d → ℤ) : ℝ := min ((1 + ‖n‖) ^ s) M
 
 theorem truncWeight_nonneg (s : ℕ) {M : ℝ} (hM : 0 ≤ M) (n : Fin d → ℤ) :
     0 ≤ truncWeight s M n :=
