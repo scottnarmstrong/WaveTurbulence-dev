@@ -32,7 +32,7 @@ noncomputable section
 open MeasureTheory Complex Set Filter Topology
 open scoped ContDiff
 
-namespace WaveTurbulence
+namespace WaveTurbulence.NLS
 
 variable {d : ℕ}
 
@@ -81,19 +81,19 @@ section Solutions
 
 variable {L α T : ℝ} {c : (Fin d → ℤ) → ℂ} {u : ℝ → (Fin d → ℝ) → ℂ}
 
-theorem IsSmoothNLSSolution.massAvg_eq (hL : 0 < L) (hu : IsSmoothNLSSolution L α T c u)
+theorem _root_.WaveTurbulence.IsSmoothNLSSolution.massAvg_eq (hL : 0 < L) (hu : IsSmoothNLSSolution L α T c u)
     (h0 : (0 : ℝ) ∈ Icc 0 T) : massAvg L (u 0) = (L ^ d)⁻¹ * ∑' m, ‖c m‖ ^ 2 := by
   have hs0 := hasSum_sq_torusFourierCoeff hL (hu.contDiff h0).continuous (hu.isTorusPeriodic h0)
   simp only [hu.2.2.1] at hs0
   rw [massAvg, hs0.tsum_eq]
 
-theorem IsSmoothNLSSolution.massAvg_eq_of_mem (hL : 0 < L) (hu : IsSmoothNLSSolution L α T c u)
+theorem _root_.WaveTurbulence.IsSmoothNLSSolution.massAvg_eq_of_mem (hL : 0 < L) (hu : IsSmoothNLSSolution L α T c u)
     {s : ℝ} (hs : s ∈ Icc 0 T) : massAvg L (u s) = massAvg L (u 0) := by
   rw [massAvg, massAvg, hu.integral_normSq_eq hL hs]
 
 /-- The Fourier side of the Wick-ordered equation:
 `∂ₜ v̂(t,n) = i (2π|k|² v̂(t,n) + α L^{-d} ∑ ε v̂ conj v̂ v̂)` (TARGET L541–L566). -/
-theorem IsSmoothNLSSolution.hasDerivWithinAt_wickGauge (hL : 0 < L)
+theorem _root_.WaveTurbulence.IsSmoothNLSSolution.hasDerivWithinAt_wickGauge (hL : 0 < L)
     (hu : IsSmoothNLSSolution L α T c u) {s : ℝ} (hs : s ∈ Icc 0 T) (n : Fin d → ℤ) :
     HasDerivWithinAt (fun r => torusFourierCoeff L (wickGauge L α u r) n)
       (I * (((2 * Real.pi * ‖latticePoint L n‖ ^ 2 : ℝ) : ℂ) *
@@ -130,7 +130,7 @@ theorem IsSmoothNLSSolution.hasDerivWithinAt_wickGauge (hL : 0 < L)
 
 /-- `v = e^{-2iαMt}u` solves the Wick-ordered equation `(i∂ₜ - Δ)v + α(|v|²v - 2⨍|v|²·v) = 0`
 on `[0, T]` (TARGET L540–L541). -/
-theorem IsSmoothNLSSolution.wickGauge_eq (hL : 0 < L) (hT : 0 < T)
+theorem _root_.WaveTurbulence.IsSmoothNLSSolution.wickGauge_eq (hL : 0 < L) (hT : 0 < T)
     (hu : IsSmoothNLSSolution L α T c u) {s : ℝ} (hs : s ∈ Icc 0 T) (x : Fin d → ℝ) :
     I * derivWithin (fun r => wickGauge L α u r x) (Icc 0 T) s -
         normLaplacian (wickGauge L α u s) x +
@@ -227,7 +227,7 @@ theorem norm_reducedCoeff (L γ δ : ℝ) (u : ℝ → (Fin d → ℝ) → ℂ) 
   simp only [reducedCoeff, torusFourierCoeff_wickGauge, norm_mul, Complex.norm_exp_ofReal_mul_I,
     one_mul]
 
-theorem IsSmoothNLSSolution.reducedCoeff_zero (hu : IsSmoothNLSSolution L α T c u) (γ δ : ℝ)
+theorem _root_.WaveTurbulence.IsSmoothNLSSolution.reducedCoeff_zero (hu : IsSmoothNLSSolution L α T c u) (γ δ : ℝ)
     (hα : α = L ^ (-γ)) : reducedCoeff L γ δ u 0 = c := by
   subst hα
   funext n
@@ -237,7 +237,7 @@ theorem IsSmoothNLSSolution.reducedCoeff_zero (hu : IsSmoothNLSSolution L α T c
 solution of (NLS) with `α = L^{-γ}` on `[0, T]`, `T = δ T_kin 𝔇`, then the reduced coefficients
 `a_k(t) = e^{-πiδL^{2γ}|k|²t} v̂(δ T_kin t, k)` satisfy `∂ₜ aₖ = 𝒞₊(a, ā, a)ₖ(t)` within
 `[0, 𝔇]` (L545–L554). See `IsSmoothNLSSolution.isAkSolution` for the full statement. -/
-theorem IsSmoothNLSSolution.hasDerivWithinAt_reducedCoeff {γ δ 𝔇 : ℝ} (hL : 0 < L)
+theorem _root_.WaveTurbulence.IsSmoothNLSSolution.hasDerivWithinAt_reducedCoeff {γ δ 𝔇 : ℝ} (hL : 0 < L)
     (hδ : 0 ≤ δ) (hT : T = δ * kineticTime (L ^ (-γ)) * 𝔇)
     (hu : IsSmoothNLSSolution L (L ^ (-γ)) T c u) {t : ℝ} (ht : t ∈ Icc 0 𝔇) (n : Fin d → ℤ) :
     HasDerivWithinAt (fun s => reducedCoeff L γ δ u s n)
@@ -307,4 +307,4 @@ theorem IsSmoothNLSSolution.hasDerivWithinAt_reducedCoeff {γ δ 𝔇 : ℝ} (hL
 
 end Solutions
 
-end WaveTurbulence
+end WaveTurbulence.NLS

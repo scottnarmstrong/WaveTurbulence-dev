@@ -27,7 +27,7 @@ noncomputable section
 open MeasureTheory Complex Set Filter Topology
 open scoped ENNReal
 
-namespace WaveTurbulence
+namespace WaveTurbulence.NLS
 
 variable {d : ℕ}
 
@@ -197,4 +197,4 @@ theorem IsAkSolution.eq_add_integral (hL : 0 < L) (ha : IsAkSolution L γ δ �
 
 end Solutions
 
-end WaveTurbulence
+end WaveTurbulence.NLS

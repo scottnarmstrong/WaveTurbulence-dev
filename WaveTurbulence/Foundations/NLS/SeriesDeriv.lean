@@ -27,6 +27,8 @@ noncomputable section
 
 open Set Filter Topology
 
+namespace WaveTurbulence.NLS
+
 variable {α E F : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [NormedAddCommGroup F]
   [NormedSpace ℝ F]
 
@@ -84,3 +86,5 @@ theorem hasFDerivWithinAt_tsum_of_convex {s : Set E} (hs : Convex ℝ s) {T : α
           nlinarith
         · exact hN.le
     _ = ε * ‖y - x‖ := by ring
+
+end WaveTurbulence.NLS

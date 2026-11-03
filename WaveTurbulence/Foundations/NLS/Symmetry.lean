@@ -33,7 +33,7 @@ noncomputable section
 open MeasureTheory Complex Set Filter Topology
 open scoped ContDiff
 
-namespace WaveTurbulence
+namespace WaveTurbulence.NLS
 
 variable {d : ℕ}
 
@@ -78,7 +78,7 @@ section Solutions
 variable {L α T : ℝ} {c : (Fin d → ℤ) → ℂ} {u : ℝ → (Fin d → ℝ) → ℂ}
 
 /-- Gauge invariance: `e^{iθ} u` solves (NLS) with data `e^{iθ} c`. -/
-theorem IsSmoothNLSSolution.gauge (hu : IsSmoothNLSSolution L α T c u) (θ : ℝ) :
+theorem _root_.WaveTurbulence.IsSmoothNLSSolution.gauge (hu : IsSmoothNLSSolution L α T c u) (θ : ℝ) :
     IsSmoothNLSSolution L α T (fun n => exp ((θ : ℂ) * I) * c n)
       (fun t x => exp ((θ : ℂ) * I) * u t x) := by
   set z := exp ((θ : ℂ) * I) with hz
@@ -91,7 +91,7 @@ theorem IsSmoothNLSSolution.gauge (hu : IsSmoothNLSSolution L α T c u) (θ : �
 
 /-- Space translation invariance: `u(· - x₀)` solves (NLS) with data
 `e^{-2πi⟨n/L, x₀⟩} cₙ = torusChar L n (-x₀) cₙ`. -/
-theorem IsSmoothNLSSolution.translate (hL : 0 < L) (hT : 0 ≤ T)
+theorem _root_.WaveTurbulence.IsSmoothNLSSolution.translate (hL : 0 < L) (hT : 0 ≤ T)
     (hu : IsSmoothNLSSolution L α T c u) (x₀ : Fin d → ℝ) :
     IsSmoothNLSSolution L α T (fun n => torusChar L n (-x₀) * c n)
       (fun t x => u t (x - x₀)) := by
@@ -208,4 +208,4 @@ theorem reducedCoeff_translate {L : ℝ} (hL : 0 < L) (γ δ : ℝ) {u : ℝ →
   rw [h]
   ring
 
-end WaveTurbulence
+end WaveTurbulence.NLS

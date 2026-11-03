@@ -29,7 +29,7 @@ noncomputable section
 open MeasureTheory Complex Set Filter Topology
 open scoped ContDiff
 
-namespace WaveTurbulence
+namespace WaveTurbulence.NLS
 
 variable {d : ℕ}
 
@@ -190,7 +190,7 @@ variable {L α T : ℝ} {c : (Fin d → ℤ) → ℂ} {u : ℝ → (Fin d → �
 
 /-- **Uniform rapid decay**: the coefficients of a smooth NLS solution decay faster than any power
 of `1 + ‖n‖`, uniformly in `t ∈ [0, T]`. -/
-theorem IsSmoothNLSSolution.exists_uniform_decay (hL : 0 < L)
+theorem _root_.WaveTurbulence.IsSmoothNLSSolution.exists_uniform_decay (hL : 0 < L)
     (hu : IsSmoothNLSSolution L α T c u) (N : ℕ) :
     ∃ C, ∀ t ∈ Icc 0 T, ∀ n, ‖torusFourierCoeff L (u t) n‖ ≤ C * (1 + ‖n‖) ^ (-(N : ℤ)) := by
   rcases lt_or_ge 0 T with hT | hT
@@ -228,7 +228,7 @@ theorem IsSmoothNLSSolution.exists_uniform_decay (hL : 0 < L)
 
 /-- The reduced coefficients of a smooth NLS solution decay rapidly, uniformly on `[0, 𝔇]`:
 `a ∈ Z^Λ([0, 𝔇])` for every `Λ`. -/
-theorem IsSmoothNLSSolution.exists_uniform_decay_reducedCoeff {γ δ 𝔇 : ℝ} (hL : 0 < L)
+theorem _root_.WaveTurbulence.IsSmoothNLSSolution.exists_uniform_decay_reducedCoeff {γ δ 𝔇 : ℝ} (hL : 0 < L)
     (hδ : 0 ≤ δ) (hT : T = δ * kineticTime (L ^ (-γ)) * 𝔇)
     (hu : IsSmoothNLSSolution L (L ^ (-γ)) T c u) (N : ℕ) :
     ∃ C, ∀ t ∈ Icc 0 𝔇, ∀ n, ‖reducedCoeff L γ δ u t n‖ ≤ C * (1 + ‖n‖) ^ (-(N : ℤ)) := by
@@ -243,7 +243,7 @@ theorem IsSmoothNLSSolution.exists_uniform_decay_reducedCoeff {γ δ 𝔇 : ℝ}
 if `u` is a smooth solution of (NLS) with `α = L^{-γ}` on `[0, T]`, `T = δ T_kin 𝔇`, then the
 reduced coefficients `a_k(t) = e^{-πiδL^{2γ}|k|²t} v̂(δ T_kin t, k)` solve (akeqn)–(akeqn2) on
 `[0, 𝔇]` in the class `Z^{d+1}`, with `a(0) = c`. -/
-theorem IsSmoothNLSSolution.isAkSolution {γ δ 𝔇 : ℝ} (hL : 0 < L) (hδ : 0 ≤ δ)
+theorem _root_.WaveTurbulence.IsSmoothNLSSolution.isAkSolution {γ δ 𝔇 : ℝ} (hL : 0 < L) (hδ : 0 ≤ δ)
     (hT : T = δ * kineticTime (L ^ (-γ)) * 𝔇) (hu : IsSmoothNLSSolution L (L ^ (-γ)) T c u) :
     IsAkSolution L γ δ 𝔇 c (reducedCoeff L γ δ u) := by
   refine ⟨hu.reducedCoeff_zero γ δ rfl, ?_,
@@ -261,4 +261,4 @@ theorem IsSmoothNLSSolution.isAkSolution {γ δ 𝔇 : ℝ} (hL : 0 < L) (hδ : 
 
 end Solutions
 
-end WaveTurbulence
+end WaveTurbulence.NLS

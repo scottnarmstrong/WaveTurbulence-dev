@@ -30,7 +30,7 @@ noncomputable section
 open MeasureTheory Complex Set Filter Topology
 open scoped ENNReal
 
-namespace WaveTurbulence
+namespace WaveTurbulence.NLS
 
 variable {d : ℕ}
 
@@ -127,8 +127,8 @@ theorem UnifRapid.cubicCurve {f g h : ℝ → (Fin d → ℤ) → ℂ} (hf : Uni
   refine ⟨B.toReal, fun t ht n => ?_⟩
   have hpos : 0 < (1 + ‖n‖) ^ N := by positivity
   rw [zpow_neg, zpow_natCast, ← div_eq_mul_inv, le_div_iff₀ hpos, mul_comm]
-  have hE : wt N n * ‖WaveTurbulence.cubicCurve f g h t n‖ₑ ≤ B := by
-    calc wt N n * ‖WaveTurbulence.cubicCurve f g h t n‖ₑ ≤ wt N n * tripleAbs (f t) (g t) (h t) n := by
+  have hE : wt N n * ‖WaveTurbulence.NLS.cubicCurve f g h t n‖ₑ ≤ B := by
+    calc wt N n * ‖WaveTurbulence.NLS.cubicCurve f g h t n‖ₑ ≤ wt N n * tripleAbs (f t) (g t) (h t) n := by
           gcongr
           refine enorm_tsum_le_tsum_enorm.trans (ENNReal.tsum_le_tsum fun q => ?_)
           simp only [enorm_mul, le_refl]
@@ -325,7 +325,7 @@ theorem hasDerivWithinAt_cubicCurve {f g h f' g' h' : ℝ → (Fin d → ℤ) �
 /-- `GoodCurve` is closed under the cubic convolution. -/
 theorem GoodCurve.cubicCurve {m : ℕ} {f g h : ℝ → (Fin d → ℤ) → ℂ} (hf : GoodCurve T m f)
     (hg : GoodCurve T m g) (hh : GoodCurve T m h) :
-    GoodCurve T m (WaveTurbulence.cubicCurve f g h) := by
+    GoodCurve T m (WaveTurbulence.NLS.cubicCurve f g h) := by
   induction m generalizing f g h with
   | zero =>
     exact ⟨continuousOn_cubicCurve hf.1 hg.1 hh.1 hf.2 hg.2 hh.2, hf.2.cubicCurve hg.2 hh.2⟩
@@ -340,10 +340,10 @@ theorem GoodCurve.cubicCurve {m : ℕ} {f g h : ℝ → (Fin d → ℤ) → ℂ}
     have hhm : GoodCurve T m h := GoodCurve.mono (show GoodCurve T (m + 1) h from
       ⟨hch, hrh, h', hh', hdh⟩)
     refine ⟨continuousOn_cubicCurve hcf hcg hch hrf hrg hrh, hrf.cubicCurve hrg hrh,
-      fun t n => WaveTurbulence.cubicCurve f' g h t n + WaveTurbulence.cubicCurve f g' h t n +
-        WaveTurbulence.cubicCurve f g h' t n,
+      fun t n => WaveTurbulence.NLS.cubicCurve f' g h t n + WaveTurbulence.NLS.cubicCurve f g' h t n +
+        WaveTurbulence.NLS.cubicCurve f g h' t n,
       ((ih hf' hgm hhm).add (ih hfm hg' hhm)).add (ih hfm hgm hh'),
       fun n t ht => hasDerivWithinAt_cubicCurve hrf hrg hrh hf'.unifRapid hg'.unifRapid
         hh'.unifRapid hdf hdg hdh ht n⟩
 
-end WaveTurbulence
+end WaveTurbulence.NLS

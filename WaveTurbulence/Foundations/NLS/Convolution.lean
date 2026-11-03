@@ -34,7 +34,7 @@ noncomputable section
 open MeasureTheory Complex Set
 open scoped ENNReal
 
-namespace WaveTurbulence
+namespace WaveTurbulence.NLS
 
 variable {d : ℕ}
 
@@ -192,4 +192,4 @@ theorem enorm_aNonlin_le (L γ δ t : ℝ) (f g h : (Fin d → ℤ) → ℂ) (n 
         ≤ 1 * ‖f q.1‖ₑ * ‖g q.2‖ₑ * ‖h (n - q.1 + q.2)‖ₑ := by gcongr
       _ = ‖f q.1‖ₑ * ‖g q.2‖ₑ * ‖h (n - q.1 + q.2)‖ₑ := by rw [one_mul]
 
-end WaveTurbulence
+end WaveTurbulence.NLS

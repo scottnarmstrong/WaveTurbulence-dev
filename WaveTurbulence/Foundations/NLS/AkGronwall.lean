@@ -26,7 +26,7 @@ noncomputable section
 open MeasureTheory Complex Set Filter Topology
 open scoped ENNReal
 
-namespace WaveTurbulence
+namespace WaveTurbulence.NLS
 
 /-- The integral Gronwall inequality on `[0, T]`. -/
 theorem le_mul_exp_of_le_add_integral {φ : ℝ → ℝ} {A K T : ℝ} (hA : 0 ≤ A) (hK : 0 ≤ K)
@@ -132,4 +132,4 @@ theorem tsum_weighted_le_exp {ψ G : ι → ℝ → ℂ} {w : ι → ℝ} {T K :
           fun s hs => hbound s (hsub hs)
     _ = φ 0 + K * ∫ s in (0 : ℝ)..t, φ s := by rw [intervalIntegral.integral_const_mul]
 
-end WaveTurbulence
+end WaveTurbulence.NLS

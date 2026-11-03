@@ -40,7 +40,7 @@ noncomputable section
 open MeasureTheory Complex Set
 open scoped ContDiff InnerProductSpace
 
-namespace WaveTurbulence
+namespace WaveTurbulence.NLS
 
 variable {d : ℕ}
 
@@ -247,4 +247,4 @@ theorem resonance_eq_inner (L : ℝ) {n₁ n₂ n₃ n : Fin d → ℤ} (h : n�
   simp only [Pi.sub_apply, Pi.add_apply, Int.cast_sub, Int.cast_add]
   ring
 
-end WaveTurbulence
+end WaveTurbulence.NLS
