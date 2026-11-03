@@ -131,3 +131,7 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   `wkelwp` conjunct 3 (L²_s blow-up for every s > d/2−1, d ≥ 4) has no written proof. TARGET never uses the blow-up
   criterion after Prop `wkelwp`; Theorem 1.1 (`main`) does not depend on it. Author decision pending; research agent
   investigating the general-d estimate.
+- F41 — TARGET L617–L623 — "χ_0 … in Gevrey class 2 (i.e. the m-th order derivatives are bounded by (2m)!)": the
+  literal bound is impossible for a cutoff equal to 1 on [−1/2,1/2] and 0 off (−1,1) (m = 1: |χ₀′| ≤ 2 forces slope
+  −2 on all of (1/2,1), contradicting smoothness at 1/2). Reading adopted: |χ₀^{(m)}| ≤ C·A^m·(2m)! with absolute
+  constants (Gevrey 2). Found by wt-anfourier. Status: candidate erratum (wording); also affects WAVE-B §2.6.
