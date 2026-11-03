@@ -153,4 +153,70 @@ theorem kcomp_basic_eq (R₁ : JSym ι₁) (R₂ : JSym ι₂) {θ A N₁ N₂ :
   rw [MeasureTheory.integral_const_mul, MeasureTheory.integral_const_mul]
   ring
 
+/-- The constant of DH21 Lemma 5.3. -/
+@[expose] noncomputable def CJJ : ℝ := 48 * (CkM * IM) + 192 * CPhi + 48 * CPhi
+
+theorem CJJ_nonneg : 0 ≤ CJJ := by
+  have := kerM_bound.1; have := IM_nonneg; have := CPhi_nonneg
+  unfold CJJ; positivity
+
+/-- **DH21 Lemma 5.3 for basic operators.** -/
+theorem jsym_comp {θ A N₁ N₂ : ℝ} (h0 : 0 ≤ θ) (h1 : θ ≤ 1) (hA : A0 ≤ A) {R₁ : JSym ι₁}
+    {R₂ : JSym ι₂} (h₁ : R₁.Bound θ A N₁) (h₂ : R₂.Bound θ A N₂) :
+    ∃ (S : Fin 3 → JSym (ι₁ ⊕ ι₂)) (c : Fin 3 → ℝ), (∀ p, (S p).Bound θ A (c p)) ∧
+      ∑ p, c p = CJJ * N₁ * N₂ ∧
+      ∀ α, KEqOn (kcomp (R₁.kernel fun i => α (Sum.inl i)) (R₂.kernel fun i => α (Sum.inr i)))
+        fun t s => ∑ p, (S p).kernel α t s := by
+  obtain ⟨SM, hSM, hkM⟩ := exists_piece_M h0 h1 hA h₁ h₂
+  obtain ⟨S1, hS1, hk1⟩ := exists_piece_P1 h0 h1 hA h₁ h₂
+  obtain ⟨S2, hS2, hk2⟩ := exists_piece_P2 h0 h1 hA h₁ h₂
+  refine ⟨![SM, S1, S2], ![3 * (16 * N₁ * N₂ * (CkM * IM)),
+    3 * (16 * (2 * N₁) * (2 * N₂) * CPhi), 3 * (16 * N₁ * N₂ * CPhi)], ?_, ?_, ?_⟩
+  · intro p; fin_cases p
+    · exact hSM
+    · exact hS1
+    · exact hS2
+  · simp only [Fin.sum_univ_three, Matrix.cons_val, CJJ]
+    ring
+  · intro α t s _ hst ht1
+    simp only [Fin.sum_univ_three, Matrix.cons_val]
+    rw [hkM, hk1, hk2]
+    exact kcomp_basic_eq R₁ R₂ h₁ h₂ α hst (by linarith)
+
+/-- **DH21 Lemma 5.3** (L966–L1003): the composition of two class `J` operators is of class `J`,
+and `‖𝒥^{(1)} 𝒥^{(2)}‖ ≤ CJJ ‖𝒥^{(1)}‖ ‖𝒥^{(2)}‖`, for every weight exponent `0 ≤ θ ≤ 1` and Gevrey
+radius `A ≥ A0`. -/
+theorem ClassJ.comp {θ A N₁ N₂ : ℝ} (h0 : 0 ≤ θ) (h1 : θ ≤ 1) (hA : A0 ≤ A)
+    {T₁ : (ι₁ → ℝ) → ℝ → ℝ → ℂ} {T₂ : (ι₂ → ℝ) → ℝ → ℝ → ℂ} (hT₁ : ClassJ θ A N₁ T₁)
+    (hT₂ : ClassJ θ A N₂ T₂) :
+    ClassJ θ A (CJJ * N₁ * N₂) fun α =>
+      kcomp (T₁ fun i => α (Sum.inl i)) (T₂ fun i => α (Sum.inr i)) := by
+  obtain ⟨n₁, Ra, ca, hba, hsa, hea⟩ := hT₁
+  obtain ⟨n₂, Rb, cb, hbb, hsb, heb⟩ := hT₂
+  choose S c hSb hcs hSk using fun i j => jsym_comp h0 h1 hA (hba i) (hbb j)
+  have hca : 0 ≤ ∑ i, ca i := Finset.sum_nonneg fun i _ => (hba i).nonneg
+  have hcb : 0 ≤ ∑ j, cb j := Finset.sum_nonneg fun j _ => (hbb j).nonneg
+  refine ClassJ.of_fintype (B := Fin n₁ × Fin n₂ × Fin 3) (fun b => S b.1 b.2.1 b.2.2)
+    (fun b => c b.1 b.2.1 b.2.2) (fun b => hSb _ _ _) ?_ _ ?_
+  · simp_rw [Fintype.sum_prod_type, hcs]
+    calc ∑ i, ∑ j, CJJ * ca i * cb j = CJJ * (∑ i, ca i) * ∑ j, cb j := by
+          rw [mul_assoc, Finset.sum_mul_sum, Finset.mul_sum]
+          refine Finset.sum_congr rfl fun i _ => ?_
+          rw [Finset.mul_sum]
+          refine Finset.sum_congr rfl fun j _ => ?_
+          ring
+      _ ≤ CJJ * N₁ * N₂ :=
+          mul_le_mul (mul_le_mul_of_nonneg_left hsa CJJ_nonneg) hsb hcb
+            (mul_nonneg CJJ_nonneg (hca.trans hsa))
+  · intro α t s h0' hst ht1
+    rw [KEqOn.kcomp (hea _) (heb _) t s h0' hst ht1,
+      kcomp_finsetSum _ _ (fun i => JSym.continuous_kernel _ (hba i).reg _)
+        (fun j => JSym.continuous_kernel _ (hbb j).reg _)]
+    beta_reduce
+    rw [Fintype.sum_prod_type]
+    refine Finset.sum_congr rfl fun i _ => ?_
+    rw [Fintype.sum_prod_type]
+    refine Finset.sum_congr rfl fun j _ => ?_
+    exact hSk i j α t s h0' hst ht1
+
 end WaveTurbulence.ClassJR
