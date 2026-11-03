@@ -21,7 +21,7 @@ public section
 open MeasureTheory Filter Topology
 open scoped InnerProductSpace NNReal ContDiff
 
-namespace WaveTurbulence
+namespace WaveTurbulence.Resonant
 
 variable {d : ℕ}
 
@@ -73,4 +73,4 @@ theorem dh21_inverse_resonance_bound_of_coordinate_derivatives
     ring
   exact ⟨fun μ hμ => (hfinite μ hμ).trans_eq he, z, hz, hzb.trans_eq he⟩
 
-end WaveTurbulence
+end WaveTurbulence.Resonant

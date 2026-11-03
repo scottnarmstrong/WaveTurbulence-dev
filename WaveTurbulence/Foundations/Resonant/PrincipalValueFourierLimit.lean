@@ -24,7 +24,7 @@ public section
 open MeasureTheory Filter Topology Set
 open scoped NNReal ContDiff
 
-namespace WaveTurbulence
+namespace WaveTurbulence.Resonant
 
 /-- Exact remainder-plus-central-term decomposition. -/
 theorem pvFourierTruncation_eq {χ : ℝ → ℝ} (hχ : IsPVCutoff χ)
@@ -136,4 +136,4 @@ theorem tendsto_pvFourierTruncation_of_lipschitz {χ : ℝ → ℝ} (hχ : IsPVC
   exact (hr.add (hc.const_mul (f 0))).congr fun μ =>
     (pvFourierTruncation_eq hχ hf hL μ η).symm
 
-end WaveTurbulence
+end WaveTurbulence.Resonant
