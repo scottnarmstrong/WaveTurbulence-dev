@@ -22,7 +22,7 @@ public section
 open MeasureTheory Set Metric
 open scoped ENNReal
 
-namespace WaveTurbulence
+namespace WaveTurbulence.Resonant
 
 /-- The dimension-dependent coefficient of Euclidean ball volume. The `toReal`
 form keeps nonnegativity available without separate Gamma-function estimates. -/
@@ -129,4 +129,15 @@ theorem real_volume_perp_ball_eq {d : ℕ} (hd : 2 ≤ d) {ℓ : Mom d} (hℓ : 
     (by rw [finrank_perp hℓ]; omega)
   simpa only [finrank_perp hℓ] using real_volume_ball_eq c hR
 
-end WaveTurbulence
+/-- A convenient common `R^d` upper bound for a hyperplane support ball. -/
+theorem real_volume_perp_ball_two_mul_le {d : ℕ} (hd : 2 ≤ d) {ℓ : Mom d}
+    (hℓ : ℓ ≠ 0) (c : ↥(ℝ ∙ ℓ)ᗮ) {R : ℝ} (hR : 1 ≤ R) :
+    volume.real (Metric.ball c (2 * R)) ≤
+      (2 ^ (d - 1) * ballVolumeCoeff (d - 1)) * R ^ d := by
+  have hp := ballVolumeCoeff_nonneg (d - 1)
+  have hpow : R ^ (d - 1) ≤ R ^ d := pow_le_pow_right₀ hR (Nat.sub_le d 1)
+  rw [real_volume_perp_ball_eq hd hℓ c (by linarith), mul_pow]
+  exact (mul_le_mul_of_nonneg_right
+    (mul_le_mul_of_nonneg_left hpow (by positivity)) hp).trans_eq (by ring)
+
+end WaveTurbulence.Resonant
