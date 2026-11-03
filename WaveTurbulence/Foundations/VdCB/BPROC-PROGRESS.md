@@ -166,3 +166,29 @@ singularities are not assumed smooth. Latest target passed: 3838 jobs.
 and bounded by `sqrt(R)*h*Y^(-3/2)` on ν≥Y>0.
 The six-result `CircleAxioms.lean` probe exited 0, each export with only
 `[propext, Classical.choice, Quot.sound]`.
+
+The exact circle curvature identity and explicit stationary weight now build
+in `CircleCurvature`. `CircleWeightedStationary` (3843 jobs) exports the
+original-column stationary formula with explicit weight
+`sqrt(R)*h*(h²+ν²)^(-3/4)`. `AbelWeight` and `CircleWeightedSum` prove the
+partial-summation transfer from actual initial partial sums; this is a
+conditional elementary transfer, not an exponent-pair closure claim.
+
+The uniform second-derivative integral estimate is proved by splitting at
+actual derivative levels ±t, with bound `2t/μ+2/(pi*t)`.
+`BProcessUniform` therefore removes the derivative-distance premise from
+the omitted frequencies. `StationaryFrequencies` defines the actual central
+frequency set and proves existence of critical points by intermediate value.
+`BProcessSelected.exists_BProcess_selected` now requires only actual source
+smoothness, derivative range, curvature and third-derivative bounds, plus
+radius geometry. `StationaryFrequencyCount` bounds the omitted cardinality
+by `2*(Λ*r+3)` under an actual upper curvature bound Λ and normalized
+endpoint derivative values. All these targets pass.
+
+The combined interface target
+`nice -n 5 lake build WaveTurbulence.Foundations.VdCB.BProcess`
+returned `Build completed successfully (3885 jobs).`, without warnings.
+The nine-result `WeightAxioms.lean` probe exited 0 with only
+`[propext, Classical.choice, Quot.sound]` for every export checked.
+`bProcess_scaling` verifies the exact powers `(λ-1/2,κ+1/2)` but is still
+only algebraic; analytic `IsExponentPair` B-closure remains outstanding.
