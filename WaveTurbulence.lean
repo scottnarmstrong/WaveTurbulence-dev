@@ -46,6 +46,13 @@ public import WaveTurbulence.Foundations.Torus.Inversion
 public import WaveTurbulence.Foundations.Torus.Product
 public import WaveTurbulence.Foundations.Torus.Series
 public import WaveTurbulence.Foundations.Torus.TimeDerivative
+public import WaveTurbulence.Foundations.WKE.Characterization
+public import WaveTurbulence.Foundations.WKE.CollisionOp
+public import WaveTurbulence.Foundations.WKE.DeltaReading
+public import WaveTurbulence.Foundations.WKE.Hyperplane
+public import WaveTurbulence.Foundations.WKE.Leibniz
+public import WaveTurbulence.Foundations.WKE.Multilinear
+public import WaveTurbulence.Foundations.WKE.Trilinear
 public import WaveTurbulence.Foundations.WeylSums.Basic
 public import WaveTurbulence.Foundations.WeylSums.Differencing
 public import WaveTurbulence.Foundations.WeylSums.Dirichlet
