@@ -324,6 +324,16 @@ theorem tameA_eq (k : Mom d) (s M H₁ H₂ H₃ L₁ L₂ L₃ : ℝ) (i : Fin 
 @[expose] noncomputable def tameConst (d : ℕ) (s₀ : ℝ) : ℝ :=
   hypConst d (s₀ / 2) / 2 * invNormConst d (s₀ / 2)
 
+theorem invNormConst_nonneg (d : ℕ) (M : ℝ) : 0 ≤ invNormConst d M := by
+  unfold invNormConst
+  exact add_nonneg (setIntegral_nonneg measurableSet_ball fun x _ => by positivity)
+    (integral_nonneg fun x => by positivity)
+
+theorem tameConst_nonneg (d : ℕ) (s₀ : ℝ) : 0 ≤ tameConst d s₀ := by
+  unfold tameConst
+  have := hypConst_nonneg d (s₀ / 2); have := invNormConst_nonneg d (s₀ / 2)
+  positivity
+
 theorem integrable_inv_norm_mul_wt (hd : 2 ≤ d) {M : ℝ} (hM : (d : ℝ) < M) (c : Mom d) :
     Integrable (fun ℓ : Mom d => ‖ℓ‖⁻¹ * wt M (c + ℓ)) :=
   integrable_inv_norm_mul_one_add_norm hd hM c
