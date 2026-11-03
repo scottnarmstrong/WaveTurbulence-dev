@@ -707,6 +707,7 @@ public import WaveTurbulence.Foundations.WKEL2.DenseLinearExtension
 public import WaveTurbulence.Foundations.WKEL2.DenseTrilinearExtension
 public import WaveTurbulence.Foundations.WKEL2.DenseTripleEquality
 public import WaveTurbulence.Foundations.WKEL2.Exponents
+public import WaveTurbulence.Foundations.WKEL2.FiniteProductIntegration
 public import WaveTurbulence.Foundations.WKEL2.GainAbs
 public import WaveTurbulence.Foundations.WKEL2.GainCauchyAlgebra
 public import WaveTurbulence.Foundations.WKEL2.GainDiagonal
@@ -716,6 +717,7 @@ public import WaveTurbulence.Foundations.WKEL2.GainShift
 public import WaveTurbulence.Foundations.WKEL2.GainSquareBound
 public import WaveTurbulence.Foundations.WKEL2.GainSwap
 public import WaveTurbulence.Foundations.WKEL2.GainTrilinear
+public import WaveTurbulence.Foundations.WKEL2.GronwallUniform
 public import WaveTurbulence.Foundations.WKEL2.HolderTranslation
 public import WaveTurbulence.Foundations.WKEL2.HyperplaneChart
 public import WaveTurbulence.Foundations.WKEL2.HyperplaneInverseBound
@@ -724,12 +726,18 @@ public import WaveTurbulence.Foundations.WKEL2.HyperplaneScaling
 public import WaveTurbulence.Foundations.WKEL2.InverseConvolution
 public import WaveTurbulence.Foundations.WKEL2.InverseExponent
 public import WaveTurbulence.Foundations.WKEL2.InverseKernelLp
+public import WaveTurbulence.Foundations.WKEL2.JetAPriori
 public import WaveTurbulence.Foundations.WKEL2.JetCollisionBanach
 public import WaveTurbulence.Foundations.WKEL2.JetCollisionCore
 public import WaveTurbulence.Foundations.WKEL2.JetDistribution
+public import WaveTurbulence.Foundations.WKEL2.JetDistributionOrder
 public import WaveTurbulence.Foundations.WKEL2.JetEstimates
+public import WaveTurbulence.Foundations.WKEL2.JetGronwallConstant
 public import WaveTurbulence.Foundations.WKEL2.JetIdentity
 public import WaveTurbulence.Foundations.WKEL2.JetIntertwining
+public import WaveTurbulence.Foundations.WKEL2.JetPicard
+public import WaveTurbulence.Foundations.WKEL2.JetTameBound
+public import WaveTurbulence.Foundations.WKEL2.JetTameCompleted
 public import WaveTurbulence.Foundations.WKEL2.JetWordBound
 public import WaveTurbulence.Foundations.WKEL2.KernelIntegrability
 public import WaveTurbulence.Foundations.WKEL2.L2DualTruncation
@@ -745,6 +753,7 @@ public import WaveTurbulence.Foundations.WKEL2.LossTwoBound
 public import WaveTurbulence.Foundations.WKEL2.LossTwoPolar
 public import WaveTurbulence.Foundations.WKEL2.LossTwoSigned
 public import WaveTurbulence.Foundations.WKEL2.LossTwoTrilinear
+public import WaveTurbulence.Foundations.WKEL2.LowerJets
 public import WaveTurbulence.Foundations.WKEL2.M1
 public import WaveTurbulence.Foundations.WKEL2.M2
 public import WaveTurbulence.Foundations.WKEL2.NonnegativeIntegral
@@ -789,6 +798,7 @@ public import WaveTurbulence.Foundations.WKEL2.SineCauchyAlgebra
 public import WaveTurbulence.Foundations.WKEL2.SineKernel
 public import WaveTurbulence.Foundations.WKEL2.SineMassEstimate
 public import WaveTurbulence.Foundations.WKEL2.SineSchurEnergy
+public import WaveTurbulence.Foundations.WKEL2.SobolevL2ENN
 public import WaveTurbulence.Foundations.WKEL2.SpatialCauchyENN
 public import WaveTurbulence.Foundations.WKEL2.SphereMeasureIsometry
 public import WaveTurbulence.Foundations.WKEL2.SphereNoAtoms
