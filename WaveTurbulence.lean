@@ -6,6 +6,19 @@ Authors: Scott Armstrong
 module
 
 public import Mathlib
+public import WaveTurbulence.Frozen.Defs.CollisionOp
+public import WaveTurbulence.Frozen.Defs.InitialCoeff
+public import WaveTurbulence.Frozen.Defs.IsSmoothNLSSolution
+public import WaveTurbulence.Frozen.Defs.IsWKESolution
+public import WaveTurbulence.Frozen.Defs.KineticTime
+public import WaveTurbulence.Frozen.Defs.LatticePoint
+public import WaveTurbulence.Frozen.Defs.Mom
+public import WaveTurbulence.Frozen.Defs.NormLaplacian
+public import WaveTurbulence.Frozen.Defs.PartialDeriv
+public import WaveTurbulence.Frozen.Defs.SolvableEvent
+public import WaveTurbulence.Frozen.Defs.StdComplexGaussian
+public import WaveTurbulence.Frozen.Defs.TorusFourierCoeff
+public import WaveTurbulence.Frozen.Defs.WeightedL2Norm
 
 /-!
 # WaveTurbulence

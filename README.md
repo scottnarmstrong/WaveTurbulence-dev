@@ -13,14 +13,16 @@ Deng–Hani's earlier papers (DH21, DH23, parts of DH21-2 and DH19), the triline
 ## Status (2026-11-03 16:05 UTC)
 
 Phase P1/P2: sources pinned; paper maps of DH21/DH21-2 and DH23 done, target-paper maps in progress; exact Lean draft
-of Theorem 1.1 and its definitions elaborates and is under independent audit (wt-orch). No frozen statements yet.
-Route-independent infrastructure packets started (PLAN.md).
+**Wave A frozen (D6, 2026-11-03):** Theorem 1.1 (`WaveTurbulence.main`) and Prop 3.2 (`WaveTurbulence.wkelwp`) as
+`DRAFT_SORRY` anchors in `WaveTurbulence/Frozen/Theorems/`, 13 sealed definitions in `WaveTurbulence/Frozen/Defs/`,
+manifest `manifest/frozen.json`. Route-independent infrastructure packets running (PLAN.md).
 
 ```text
-DRAFT_ANCHORS: 0
+DRAFT_ANCHORS: 2 (WaveTurbulence/Frozen/Theorems/Main.lean, WaveTurbulence/Frozen/Theorems/Wkelwp.lean)
+SEALED DEFINITIONS: 13
 UNREGISTERED_SORRIES: 0
 DRAFT_IMPORT_VIOLATIONS: 0
-SEALED: 0
+SEALED THEOREMS: 0
 ```
 
 ### Workers
