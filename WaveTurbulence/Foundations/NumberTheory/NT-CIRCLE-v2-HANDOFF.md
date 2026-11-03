@@ -950,3 +950,13 @@ hold with factor four. These are scalar statements; no stationary-phase or
 B-process estimate is asserted. They match precisely the local powers
 consumed by `CircleEndpointTransfer` for `(kappa,lambda)=(11/30,16/30)`.
 Targeted `CircleDualWeightScale` passed (3214 jobs, 4.3s), zero warnings.
+
+`Counting/AnnulusHalfRadius.lean` removes the earlier quarter-radius
+restriction: for the exact source elementary assumptions Q>0,
+0<rho<=Q/2, Q*rho>=1, the general circle-error annulus branch is
+`9*pi*Q*rho+3*C*Q^e`. For rho>=Q/4 the outer-disc area is absorbed by
+Q*rho; below that threshold Q>=2 follows from the source scale assumption,
+so the strict-inner-disc subtraction applies. The minimum with all three
+terms of the proved elementary branch is included. Closed boundaries and
+both arbitrary real centers are retained.
+Targeted `AnnulusHalfRadius` passed (9087 jobs, 3.7s), zero warnings.
