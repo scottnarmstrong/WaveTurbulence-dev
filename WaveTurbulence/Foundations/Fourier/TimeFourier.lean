@@ -37,10 +37,10 @@ namespace WaveTurbulence.Fourier
 /-- The largest Japanese bracket of the time frequencies. The zero-dimensional
 convention is one, so that every real power is meaningful. -/
 @[expose] noncomputable def timeBracket {r : ℕ} (ξ : Fin r → ℝ) : ℝ :=
-  1 + (Finset.univ.sup' (Finset.univ_nonempty) fun i : Option (Fin r) =>
+  Finset.univ.sup' Finset.univ_nonempty fun i : Option (Fin r) =>
     match i with
-    | none => 0
-    | some j => Real.sqrt (1 + ξ j ^ 2) - 1)
+    | none => 1
+    | some j => Real.sqrt (1 + ξ j ^ 2)
 
 /-- The weight in TARGET `(normX1)`; `θ` may be negative. -/
 @[expose] noncomputable def timeWeight {r : ℕ} (θ : ℝ) (ξ : Fin r → ℝ) : ℝ≥0∞ :=
