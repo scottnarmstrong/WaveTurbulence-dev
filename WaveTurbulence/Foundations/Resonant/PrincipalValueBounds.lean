@@ -22,7 +22,7 @@ public section
 open MeasureTheory Filter Topology Set
 open scoped NNReal
 
-namespace WaveTurbulence
+namespace WaveTurbulence.Resonant
 
 /-- Cancellation removes the singularity, with the Lipschitz constant as bound. -/
 theorem abs_pvQuotient_le {f : ℝ → ℝ} {K : ℝ≥0} (hL : LipschitzWith K f)
@@ -102,4 +102,4 @@ theorem abs_pvTruncation_le_radius {χ : ℝ → ℝ} (hχ : IsPVCutoff χ)
   exact hnorm.trans (mul_le_mul_of_nonneg_left
     (integral_abs_pvQuotient_le hc hd hf hL hR hs) (by positivity))
 
-end WaveTurbulence
+end WaveTurbulence.Resonant

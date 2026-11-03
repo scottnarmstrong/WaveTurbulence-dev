@@ -164,4 +164,95 @@ theorem finite_bilinear_interpolation {n m : ℕ}
     ⟨hFd.differentiableOn, hFd.continuous.continuousOn⟩ hBdd hleft hright
   simpa only [F, hAe, hCe, Real.one_rpow, one_mul] using hh
 
+/-- The unnormalized finite bilinear interpolation estimate when both
+weighted input norms are positive. Zero norms can be handled directly by
+the `L¹` endpoint. -/
+theorem finite_bilinear_interpolation_pos {n m : ℕ}
+    (B : (Fin n → ℂ) →L[ℂ] (Fin m → ℂ) →L[ℂ] ℂ)
+    (w : Fin n → ℝ) (v : Fin m → ℝ)
+    (hw : ∀ i, 0 ≤ w i) (hv : ∀ j, 0 ≤ v j)
+    (h1 : ∀ a b, ‖B a b‖ ≤ (∑ i, w i * ‖a i‖) * (∑ j, v j * ‖b j‖))
+    (h2 : ∀ a b, ‖B a b‖ ≤ Real.sqrt (∑ i, w i * ‖a i‖ ^ 2) *
+      Real.sqrt (∑ j, v j * ‖b j‖ ^ 2))
+    {p : ℝ} (hp1 : 1 ≤ p) (hp2 : p ≤ 2)
+    (a : Fin n → ℂ) (b : Fin m → ℂ)
+    (ha : 0 < ∑ i, w i * ‖a i‖ ^ p) (hb : 0 < ∑ j, v j * ‖b j‖ ^ p) :
+    ‖B a b‖ ≤ (∑ i, w i * ‖a i‖ ^ p) ^ p⁻¹ *
+      (∑ j, v j * ‖b j‖ ^ p) ^ p⁻¹ := by
+  have hp : 0 < p := zero_lt_one.trans_le hp1
+  let A := (∑ i, w i * ‖a i‖ ^ p) ^ p⁻¹
+  let D := (∑ j, v j * ‖b j‖ ^ p) ^ p⁻¹
+  have hA : 0 < A := Real.rpow_pos_of_pos ha _
+  have hD : 0 < D := Real.rpow_pos_of_pos hb _
+  have hAp : A ^ p = ∑ i, w i * ‖a i‖ ^ p := by
+    dsimp [A]
+    rw [← Real.rpow_mul ha.le, inv_mul_cancel₀ hp.ne', Real.rpow_one]
+  have hDp : D ^ p = ∑ j, v j * ‖b j‖ ^ p := by
+    dsimp [D]
+    rw [← Real.rpow_mul hb.le, inv_mul_cancel₀ hp.ne', Real.rpow_one]
+  have hnorm {k : ℕ} (u : Fin k → ℝ) (c : Fin k → ℂ) {R : ℝ} (hR : 0 < R)
+      (hRp : R ^ p = ∑ i, u i * ‖c i‖ ^ p) :
+      ∑ i, u i * ‖((R⁻¹ : ℝ) : ℂ) • c i‖ ^ p = 1 := by
+    simp only [norm_smul, Complex.norm_real, Real.norm_of_nonneg (inv_nonneg.mpr hR.le),
+      Real.mul_rpow (inv_nonneg.mpr hR.le) (norm_nonneg _)]
+    simp_rw [← mul_assoc, mul_comm (u _) (R⁻¹ ^ p), mul_assoc]
+    rw [← Finset.mul_sum, ← hRp, Real.inv_rpow hR.le, inv_mul_cancel₀ (Real.rpow_pos_of_pos hR p).ne']
+  have hB := finite_bilinear_interpolation B w v hw hv h1 h2 hp1 hp2
+    (((A⁻¹ : ℝ) : ℂ) • a) (((D⁻¹ : ℝ) : ℂ) • b)
+    (hnorm w a hA hAp) (hnorm v b hD hDp)
+  have he : ‖B (((A⁻¹ : ℝ) : ℂ) • a) (((D⁻¹ : ℝ) : ℂ) • b)‖ =
+      A⁻¹ * D⁻¹ * ‖B a b‖ := by
+    simp only [map_smul, smul_apply, norm_smul, Complex.norm_real,
+      Real.norm_of_nonneg (inv_nonneg.mpr hA.le), Real.norm_of_nonneg (inv_nonneg.mpr hD.le)]
+    ring
+  calc
+    ‖B a b‖ = (A * D) * ‖B (((A⁻¹ : ℝ) : ℂ) • a) (((D⁻¹ : ℝ) : ℂ) • b)‖ := by
+      rw [he]
+      field_simp [hA.ne', hD.ne']
+    _ ≤ A * D := by
+      simpa only [mul_one] using mul_le_mul_of_nonneg_left hB (mul_nonneg hA.le hD.le)
+
+private theorem weighted_norm_sum_eq_zero {n : ℕ} (w : Fin n → ℝ)
+    (hw : ∀ i, 0 ≤ w i) (a : Fin n → ℂ) {p : ℝ} (hp : 0 < p)
+    (ha : ∑ i, w i * ‖a i‖ ^ p = 0) : ∑ i, w i * ‖a i‖ = 0 := by
+  apply Finset.sum_eq_zero
+  intro i hi
+  have ht := (Finset.sum_eq_zero_iff_of_nonneg
+    (fun j _ => mul_nonneg (hw j) (Real.rpow_nonneg (norm_nonneg _) p))).mp ha i hi
+  rcases mul_eq_zero.mp ht with hwi | hai
+  · simp [hwi]
+  · have hz := (Real.rpow_eq_zero (norm_nonneg (a i)) hp.ne').mp hai
+    simp [hz]
+
+/-- Finite weighted bilinear Riesz–Thorin interpolation, including zero
+weights and zero input norms. -/
+theorem finite_bilinear_interpolation_bound {n m : ℕ}
+    (B : (Fin n → ℂ) →L[ℂ] (Fin m → ℂ) →L[ℂ] ℂ)
+    (w : Fin n → ℝ) (v : Fin m → ℝ)
+    (hw : ∀ i, 0 ≤ w i) (hv : ∀ j, 0 ≤ v j)
+    (h1 : ∀ a b, ‖B a b‖ ≤ (∑ i, w i * ‖a i‖) * (∑ j, v j * ‖b j‖))
+    (h2 : ∀ a b, ‖B a b‖ ≤ Real.sqrt (∑ i, w i * ‖a i‖ ^ 2) *
+      Real.sqrt (∑ j, v j * ‖b j‖ ^ 2))
+    {p : ℝ} (hp1 : 1 ≤ p) (hp2 : p ≤ 2) (a : Fin n → ℂ) (b : Fin m → ℂ) :
+    ‖B a b‖ ≤ (∑ i, w i * ‖a i‖ ^ p) ^ p⁻¹ *
+      (∑ j, v j * ‖b j‖ ^ p) ^ p⁻¹ := by
+  have hp : 0 < p := zero_lt_one.trans_le hp1
+  have hnonneg : 0 ≤ (∑ i, w i * ‖a i‖ ^ p) ^ p⁻¹ *
+      (∑ j, v j * ‖b j‖ ^ p) ^ p⁻¹ :=
+    mul_nonneg (Real.rpow_nonneg (Finset.sum_nonneg fun i _ =>
+      mul_nonneg (hw i) (Real.rpow_nonneg (norm_nonneg _) p)) _)
+      (Real.rpow_nonneg (Finset.sum_nonneg fun j _ =>
+        mul_nonneg (hv j) (Real.rpow_nonneg (norm_nonneg _) p)) _)
+  by_cases ha : ∑ i, w i * ‖a i‖ ^ p = 0
+  · have hz := weighted_norm_sum_eq_zero w hw a hp ha
+    exact (by simpa only [hz, zero_mul] using h1 a b : ‖B a b‖ ≤ 0).trans hnonneg
+  by_cases hb : ∑ j, v j * ‖b j‖ ^ p = 0
+  · have hz := weighted_norm_sum_eq_zero v hv b hp hb
+    exact (by simpa only [hz, mul_zero] using h1 a b : ‖B a b‖ ≤ 0).trans hnonneg
+  exact finite_bilinear_interpolation_pos B w v hw hv h1 h2 hp1 hp2 a b
+    (lt_of_le_of_ne (Finset.sum_nonneg fun i _ =>
+      mul_nonneg (hw i) (Real.rpow_nonneg (norm_nonneg _) p)) (Ne.symm ha))
+    (lt_of_le_of_ne (Finset.sum_nonneg fun j _ =>
+      mul_nonneg (hv j) (Real.rpow_nonneg (norm_nonneg _) p)) (Ne.symm hb))
+
 end WaveTurbulence.Fourier

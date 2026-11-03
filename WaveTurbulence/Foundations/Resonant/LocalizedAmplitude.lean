@@ -20,7 +20,7 @@ public section
 open MeasureTheory Filter Topology
 open scoped InnerProductSpace NNReal ContDiff
 
-namespace WaveTurbulence
+namespace WaveTurbulence.Resonant
 
 variable {d : ℕ}
 
@@ -147,4 +147,4 @@ theorem localizedAmplitude_eq_zero_right
     exact (lt_div_iff₀ hscale).mpr hy
   simp only [localizedAmplitude, hσ _ hz, Complex.ofReal_zero, zero_mul, mul_zero]
 
-end WaveTurbulence
+end WaveTurbulence.Resonant
