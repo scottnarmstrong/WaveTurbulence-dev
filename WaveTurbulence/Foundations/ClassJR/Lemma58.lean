@@ -295,4 +295,190 @@ theorem exists_piece_58_M (h0 : 0 ≤ θ) (h1 : θ ≤ 1) (hA : A0 ≤ A) {ε : 
 
 end PieceLemmas
 
+section PieceLemmas2
+
+variable {θ A : ℝ}
+
+attribute [local instance] isFiniteMeasure_volume_unit
+
+/-- **The class `R` part of piece III**: `∫ ρ(g)/(πi) χ_∞(εα₁+g)/(εα₁+g) J_{εα₁;0,μ} dg`. -/
+theorem exists_piece_58_R (h0 : 0 ≤ θ) (h1 : θ ≤ 1) {ε : ℤ} (hε : ε = 1 ∨ ε = -1) (μ : ℝ) :
+    ∃ S : RSym Empty, S.Bound θ A (CM0 * 2) ∧ ∀ α t s, t ∈ Icc (0 : ℝ) 1 →
+      s ∈ Icc (0 : ℝ) 1 → S.kernel α t s =
+        ∫ g, rhoc g * ((chiInvR (ε * α none + g) : ℂ) * jker (ε * α none) 0 μ t s) := by
+  have hint : Integrable fun z : ℝ × Unit => rhoc z.1 := by
+    rw [Measure.volume_eq_prod]; exact integrable_rhoc.comp_fst _
+  obtain ⟨S, -, -, -, hS, hk⟩ := RSym.ofAny (ι := Empty) (Q := Unit) (θ := θ) (A := A)
+    (N := 2) hε (y₁ := 0) (y₂ := 0) isBundle_zero isBundle_zero
+    (a := fun _ (z : ℝ × Unit) => rhoc z.1)
+    (SymReg.const hint (measurable_rhoc.comp measurable_fst).stronglyMeasurable)
+    (c := fun _ => ((0 : ℝ), μ)) measurable_const h0 h1 zero_le_two (fun k => by
+      rw [lintegral_emptyFun, lintegral_prodUnit]
+      by_cases hk : k = 0
+      · subst hk
+        calc ∫⁻ g : ℝ, wR θ isEmptyElim ((0 : ℝ), μ).1 (g, ()).1 *
+              dnorm 0 (fun _ (z : ℝ × Unit) => rhoc z.1) isEmptyElim (g, ())
+            ≤ ∫⁻ g : ℝ, 2 * ‖rhoc g‖ₑ := by
+              refine lintegral_mono fun g => ?_
+              refine (mul_le_mul' le_rfl (dnorm_const_le 0 _ _ _)).trans ?_
+              simp only [if_true, wR_emptyFun]
+              by_cases hg : g ∈ Icc (-1 : ℝ) 1
+              · gcongr
+                calc (1 + ‖((0 : ℝ), μ).1‖ₑ + ‖(g, ()).1‖ₑ) ^ θ
+                    ≤ 1 + ‖((0 : ℝ), μ).1‖ₑ + ‖(g, ()).1‖ₑ := by
+                      rw [add_assoc]; exact one_add_rpow_le_self h1 _
+                  _ ≤ 2 := by
+                      have : ‖g‖ₑ ≤ 1 := by
+                        rw [← ofReal_norm, Real.norm_eq_abs, ← ENNReal.ofReal_one]
+                        exact ENNReal.ofReal_le_ofReal (abs_le.2 hg)
+                      simp only [enorm_zero, add_zero]
+                      calc 1 + ‖g‖ₑ ≤ 1 + 1 := by gcongr
+                        _ = 2 := one_add_one_eq_two
+              · rw [show rhoc g = 0 by simp [rhoc, Set.indicator_of_notMem hg]]; simp
+          _ = 2 * ∫⁻ g : ℝ, ‖rhoc g‖ₑ := lintegral_const_mul _ measurable_rhoc.enorm
+          _ ≤ 2 * 1 := by gcongr; exact lintegral_rhoc_le
+          _ = gev 2 A 0 := by rw [gev_zero_eq]; simp
+      · calc ∫⁻ g : ℝ, wR θ isEmptyElim ((0 : ℝ), μ).1 (g, ()).1 *
+              dnorm k (fun _ (z : ℝ × Unit) => rhoc z.1) isEmptyElim (g, ())
+            ≤ ∫⁻ g : ℝ, 0 := by
+              refine lintegral_mono fun g => ?_
+              refine (mul_le_mul' le_rfl (dnorm_const_le k _ _ _)).trans ?_
+              simp [hk]
+          _ ≤ gev 2 A k := by simp)
+  refine ⟨S, hS, fun α t s ht hs => ?_⟩
+  rw [hk α t s ht hs, integral_prodUnit]
+  simp only [rker, bundle_emptyFun, zero_add]
+
+/-- The averaging error `χ_∞(x)/x - χ_∞(x+g)/(x+g)`. -/
+@[expose] noncomputable def errE (x g : ℝ) : ℝ := chiInvR x - chiInvR (x + g)
+
+theorem contDiff_errE (g : ℝ) : ContDiff ℝ ∞ fun x => errE x g :=
+  contDiff_chiInvR.sub (contDiff_chiInvR.comp (contDiff_id.add contDiff_const))
+
+theorem iteratedDeriv_errE (k : ℕ) (x g : ℝ) :
+    iteratedDeriv k (fun x => errE x g) x =
+      iteratedDeriv k chiInvR x - iteratedDeriv k chiInvR (x + g) := by
+  have h1 : ContDiffAt ℝ k chiInvR x :=
+    contDiff_chiInvR.contDiffAt.of_le (by exact_mod_cast le_top)
+  have h2 : ContDiffAt ℝ k (fun x => chiInvR (x + g)) x :=
+    (contDiff_chiInvR.comp (contDiff_id.add contDiff_const)).contDiffAt.of_le
+      (by exact_mod_cast le_top)
+  rw [show (fun x => errE x g) = chiInvR - fun x => chiInvR (x + g) from rfl,
+    iteratedDeriv_sub h1 h2, iteratedDeriv_comp_add_const]
+
+/-- The symbol of the error piece. -/
+@[expose] noncomputable def FE (x g : ℝ) : ℂ := rhoc g * ((errE x g : ℝ) : ℂ)
+
+theorem contDiff_FE (g : ℝ) : ContDiff ℝ ∞ fun x => FE x g :=
+  contDiff_const.mul (Complex.ofRealCLM.contDiff.comp (contDiff_errE g))
+
+theorem enorm_iteratedDeriv_FE (k : ℕ) (x g : ℝ) :
+    ‖iteratedDeriv k (fun x => FE x g) x‖ₑ =
+      ‖rhoc g‖ₑ * ENNReal.ofReal ‖iteratedDeriv k chiInvR x - iteratedDeriv k chiInvR (x + g)‖ := by
+  have e : (fun x => FE x g) = fun x => rhoc g • ((errE x g : ℝ) : ℂ) := rfl
+  rw [e, iteratedDeriv_fun_const_smul_field, enorm_smul, ← ofReal_norm (iteratedDeriv _ _ _),
+    norm_iteratedDeriv_ofReal (contDiff_errE g), iteratedDeriv_errE]
+
+theorem exists_errE_bound (k : ℕ) (x g : ℝ) :
+    ENNReal.ofReal ‖iteratedDeriv k chiInvR x - iteratedDeriv k chiInvR (x + g)‖ ≤
+      ENNReal.ofReal (2 * CPhi * Achi ^ k * ((2 * k).factorial : ℝ)) := by
+  refine ENNReal.ofReal_le_ofReal ((norm_sub_le _ _).trans ?_)
+  have := norm_iteratedDeriv_chiInvR_le k x
+  have := norm_iteratedDeriv_chiInvR_le k (x + g)
+  linarith
+
+theorem rpow_mul_inv_sq {θ : ℝ} (t : ℝ) :
+    (1 + |t|) ^ θ * ((1 + |t|) ^ 2)⁻¹ = (1 + |t|) ^ (-(2 - θ)) := by
+  have hp : 0 < 1 + |t| := by positivity
+  rw [show -(2 - θ) = θ - 2 by ring, Real.rpow_sub hp, Real.rpow_two, div_eq_mul_inv]
+
+/-- **The class `J` error of piece III.** -/
+theorem exists_piece_58_E (h0 : 0 ≤ θ) (h1 : θ < 1) (hA : A0 ≤ A) {ε : ℤ}
+    (hε : ε = 1 ∨ ε = -1) (μ : ℝ) :
+    ∃ S : JSym (Option Empty), S.Bound θ A (CM0 * ((32 * CPhi + 8) * Ir (2 - θ))) ∧
+      ∀ α t s, t ∈ Icc (0 : ℝ) 1 → s ∈ Icc (0 : ℝ) 1 → S.kernel α t s =
+        ∫ g, rhoc g * (((chiInvR (ε * α none) : ℂ) - chiInvR (ε * α none + g)) *
+          jker (ε * α none) 0 μ t s) := by
+  have hb := isBundle_yE hε
+  have hCP := CPhi_nonneg
+  have hI : 0 ≤ Ir (2 - θ) := ENNReal.toReal_nonneg
+  have hd : ∀ k (α : Option Empty → ℝ) (g : ℝ),
+      dnorm k (fun α g => FE (bundle (yE ε) α) g) α g ≤ ‖rhoc g‖ₑ *
+        ENNReal.ofReal ‖iteratedDeriv k chiInvR (ε * α none) -
+          iteratedDeriv k chiInvR (ε * α none + g)‖ := fun k α g => by
+    have := dnorm_comp_bundle_le hb (F := FE) contDiff_FE k α g
+    rwa [enorm_iteratedDeriv_FE, bundle_yE] at this
+  have hcb : Continuous (bundle (yE ε)) := (contDiff_bundle _).continuous
+  have hce : Continuous fun p : (Option Empty → ℝ) × ℝ => errE (bundle (yE ε) p.1) p.2 :=
+    (contDiff_chiInvR.continuous.comp (hcb.comp continuous_fst)).sub
+      (contDiff_chiInvR.continuous.comp ((hcb.comp continuous_fst).add continuous_snd))
+  have hreg : SymReg fun (α : Option Empty → ℝ) (g : ℝ) => FE (bundle (yE ε) α) g :=
+    { smooth := fun g => (contDiff_FE g).comp (contDiff_bundle (yE ε))
+      meas := ((measurable_rhoc.comp measurable_snd).mul
+        (Complex.continuous_ofReal.comp hce).measurable).stronglyMeasurable
+      dom := fun k => by
+        refine ne_top_of_le_ne_top (b := (∫⁻ g, ‖rhoc g‖ₑ) *
+          ENNReal.ofReal (2 * CPhi * Achi ^ k * ((2 * k).factorial : ℝ))) ?_ ?_
+        · exact ENNReal.mul_ne_top (ne_top_of_le_ne_top ENNReal.one_ne_top lintegral_rhoc_le)
+            ENNReal.ofReal_ne_top
+        · rw [← lintegral_mul_const _ measurable_rhoc.enorm]
+          exact lintegral_mono fun g => iSup_le fun α => (hd k α g).trans
+            (mul_le_mul' le_rfl (exists_errE_bound k _ _)) }
+  have hN : 0 ≤ (32 * CPhi + 8) * Ir (2 - θ) := by positivity
+  obtain ⟨S, -, hS, hk⟩ := JSym.ofAny (y := yE ε) (θ := θ) (A := A)
+    (N := (32 * CPhi + 8) * Ir (2 - θ)) hb hreg (c := fun _ : ℝ => ((0 : ℝ), μ))
+    measurable_const h0 h1.le hN (fun k => by
+      have hK0 : 0 ≤ (32 * CPhi + 8) * (Achi ^ k * ((2 * k).factorial : ℝ)) :=
+        mul_nonneg (by linarith) (mul_nonneg (pow_nonneg Achi_nonneg k) (by positivity))
+      set C := ENNReal.ofReal ((32 * CPhi + 8) * (Achi ^ k * ((2 * k).factorial : ℝ)))
+      have hw : Measurable fun α : Option Empty → ℝ =>
+          ENNReal.ofReal ((1 + |α none|) ^ (-(2 - θ))) := by fun_prop
+      calc ∫⁻ α, ∫⁻ g, wJ θ α ((fun _ : ℝ => ((0 : ℝ), μ)) g).1 *
+            dnorm k (fun α g => FE (bundle (yE ε) α) g) α g
+          ≤ ∫⁻ α : Option Empty → ℝ, ∫⁻ g : ℝ, ‖rhoc g‖ₑ *
+              (C * ENNReal.ofReal ((1 + |α none|) ^ (-(2 - θ)))) := by
+            refine lintegral_mono fun α => lintegral_mono fun g => ?_
+            refine (mul_le_mul' le_rfl (hd k α g)).trans ?_
+            rw [wJ_optE, enorm_zero, add_zero, one_add_enorm_eq,
+              ENNReal.ofReal_rpow_of_nonneg (by positivity) h0]
+            by_cases hg : g ∈ Icc (-1 : ℝ) 1
+            · have hdiff := norm_chiInvR_diff_le k (ε * α none) g (abs_le.2 hg)
+              rw [abs_sign_mul hε] at hdiff
+              calc ENNReal.ofReal ((1 + |α none|) ^ θ) * (‖rhoc g‖ₑ * ENNReal.ofReal
+                    ‖iteratedDeriv k chiInvR (ε * α none) -
+                      iteratedDeriv k chiInvR (ε * α none + g)‖)
+                  ≤ ENNReal.ofReal ((1 + |α none|) ^ θ) * (‖rhoc g‖ₑ * ENNReal.ofReal
+                    ((32 * CPhi + 8) * (Achi ^ k * ((2 * k).factorial : ℝ)) *
+                      ((1 + |α none|) ^ 2)⁻¹)) := by
+                    gcongr
+                _ = ‖rhoc g‖ₑ * (C * ENNReal.ofReal ((1 + |α none|) ^ (-(2 - θ)))) := by
+                    rw [← rpow_mul_inv_sq, ENNReal.ofReal_mul hK0,
+                      ENNReal.ofReal_mul (show 0 ≤ (1 + |α none|) ^ θ by positivity),
+                      show C = ENNReal.ofReal ((32 * CPhi + 8) *
+                        (Achi ^ k * ((2 * k).factorial : ℝ))) from rfl]
+                    ring
+            · rw [show rhoc g = 0 by simp [rhoc, Set.indicator_of_notMem hg]]; simp
+        _ = ∫⁻ α : Option Empty → ℝ, (∫⁻ g : ℝ, ‖rhoc g‖ₑ) *
+              (C * ENNReal.ofReal ((1 + |α none|) ^ (-(2 - θ)))) :=
+            lintegral_congr fun α => lintegral_mul_const _ measurable_rhoc.enorm
+        _ ≤ ∫⁻ α : Option Empty → ℝ, C * ENNReal.ofReal ((1 + |α none|) ^ (-(2 - θ))) :=
+            lintegral_mono fun α => (mul_le_mul' lintegral_rhoc_le le_rfl).trans_eq (one_mul _)
+        _ = C * ENNReal.ofReal (Ir (2 - θ)) := by
+            rw [lintegral_const_mul _ hw,
+              lintegral_optE (G := fun t => ENNReal.ofReal ((1 + |t|) ^ (-(2 - θ)))),
+              lintegral_Ir_eq (by linarith)]
+        _ = gev ((32 * CPhi + 8) * Ir (2 - θ)) Achi k := by
+            rw [← ENNReal.ofReal_mul hK0, gev]
+            congr 1; ring
+        _ ≤ gev ((32 * CPhi + 8) * Ir (2 - θ)) A k :=
+            gev_mono le_rfl Achi_nonneg (Achi_le_A0.trans hA) hN k)
+  refine ⟨S, hS, fun α t s ht hs => ?_⟩
+  rw [hk α t s ht hs]
+  simp only [FE, errE, bundle_yE]
+  push_cast
+  refine integral_congr_ae (Eventually.of_forall fun g => ?_)
+  ring
+
+end PieceLemmas2
+
 end WaveTurbulence.ClassJR
