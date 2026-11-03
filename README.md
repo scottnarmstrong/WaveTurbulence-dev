@@ -6,7 +6,7 @@ Lean 4 formalization of
 > [arXiv:2311.10082v2](https://arxiv.org/abs/2311.10082) (2024).
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-11-03 21:26 UTC** · **estimated completion 25.9 %** (Lean proofs 22.9 %) · frozen theorems sealed: 0 / 2 (+ 13 frozen definitions) · **94,064 lines of Lean on main** (858 files) + 10,795 unlanded on worker branches · blueprint estimate ≈ 273,000 lines
+> **Last updated: 2026-11-03 21:42 UTC** · **estimated completion 25.9 %** (Lean proofs 22.9 %) · frozen theorems sealed: 0 / 2 (+ 13 frozen definitions) · **105,748 lines of Lean on main** (987 files) + 0 unlanded on worker branches · blueprint estimate ≈ 273,000 lines
 <!-- /AUTO:updated -->
 
 **Scope (D1):** everything proved in Lean, no black boxes. That covers the target paper and the results it uses from
@@ -45,7 +45,7 @@ DRAFT_IMPORT_VIOLATIONS: 0
 | Release (P5) | 1 | 15 | 0.0 | `░░░░░░░░░░` 0 % |
 | **Total** | | 748 | 193.6 | **25.9 %** |
 
-Lean lines: 94,064 on main + 10,795 on branches, of ≈ 273,000 estimated by the blueprint (`████████░░░░░░░░░░░░` 38.4 % of the estimate).
+Lean lines: 105,748 on main + 0 on branches, of ≈ 273,000 estimated by the blueprint (`████████░░░░░░░░░░░░` 38.7 % of the estimate).
 
 <details><summary>All Lean work packets (blueprint §E) with weight and status</summary>
 
@@ -147,17 +147,17 @@ Done fractions last reviewed: **2026-11-03 20:25 UTC**. Source: [`docs/campaign/
 <!-- AUTO:workers -->
 | tmux | model / account | packet | branch: last commit | brief |
 |---|---|---|---|---|
-| wt-orch | Claude Opus / claude-1 | audits (Wave B stage audits; done: freeze check, figure defs, topology review, infra review) | `w/orch`: 9 min ago | [brief](docs/campaign/orch/TASK4.md) |
+| wt-orch | Claude Opus / claude-1 | audits (Wave B stage audits; done: freeze check, figure defs, topology review, infra review) | `w/orch`: 0 min ago | [brief](docs/campaign/orch/TASK4.md) |
 | wt-gauss-hc | Claude Opus / claude-10 | D3 CANON (pre-freeze): prove canonicalCharacterization (B1.11), truncation bridges; Wave B drafts done (B1 final check running, B2 drafted) | `w/waveb-infra`: — | [brief](docs/campaign/briefs/CANON.md) |
-| wt-torus | Claude Opus / claude-14 | NT6 APPROXNT: DH23 Prop 6.4 + large-order extension (F33) (NTSP done) | `w/approxnt`: 11 min ago | [brief](docs/campaign/briefs/APPROXNT.md) |
-| wt-wke | Claude Opus / claude-13 | JR-OPS: DH21 class J/R operators, Lemmas 5.3–5.8 (critical path; WKE + WKE-TAYLOR landed) | `w/jr-ops`: 3 min ago, 1 unlanded | [brief](docs/campaign/briefs/JR-OPS.md) |
-| wt-cumul | GPT-6.1-Sol low / codex-3 | I1+I2 INDUCT (pre-freeze, conditional): propansatz from layergarden/fixedpoint/wkeTaylor; main assembly done | `w/norm-bridge`: 55 min ago | [brief](docs/campaign/briefs/INDUCT.md) |
-| wt-nt | GPT-6.1-Sol low / codex-3 | NT-EXPSUM: circle problem with exponent < 2/3 (van der Corput) | `w/nt-circle`: 0 min ago, 20 unlanded | [brief](docs/campaign/briefs/NT-CIRCLE-v2.md) |
-| wt-ansob | GPT-6.1-Sol low / codex-3 | NT-BPROC: van der Corput B-process (for e < 2/3, F3) (AN-SOB landed) | `w/bproc`: 6 min ago | [brief](docs/campaign/briefs/NT-BPROC.md) |
-| wt-gausssum | GPT-6.1-Sol low / codex-3 | NT7+NT8 COUNT: countLemma, atomCountLemma (DH23 A.2, A.3) (MINOR-ARCS done) | `w/count`: 4 min ago, 11 unlanded | [brief](docs/campaign/briefs/COUNT.md) |
-| wt-resonant | GPT-6.1-Sol low / codex-3 | D4+C1 REG-STRUCT (pre-freeze): regular chains, DH21 Props 4.5–4.10, structure theorem, counting (COMB-CORE done in scratch) | `w/resonant`: 111 min ago | [brief](docs/campaign/briefs/REG-STRUCT.md) |
-| wt-anfourier | GPT-6.1-Sol low / codex-3 | N2+N3: Poisson summation, (non-)stationary phase, Hausdorff–Young, DNY21 kernel, TARGET Lemmas A.2–A.3 (AN-FOURIER landed) | `w/an-phase`: 0 min ago, 3 unlanded | [brief](docs/campaign/briefs/AN-PHASE-HY.md) |
-| wt-l2s | GPT-6.1-Sol low / codex-3 | WKE-L2S: general-d L²_s trilinear estimate (Theorem 7), wkelwp blow-up conjunct | `w/wke-l2s`: 1 min ago, 4 unlanded | [brief](docs/campaign/briefs/WKE-L2S.md) |
+| wt-torus | Claude Opus / claude-14 | NT6 APPROXNT: DH23 Prop 6.4 + large-order extension (F33) (NTSP done) | `w/approxnt`: 9 min ago | [brief](docs/campaign/briefs/APPROXNT.md) |
+| wt-wke | Claude Opus / claude-13 | JR-OPS: DH21 class J/R operators, Lemmas 5.3–5.8 (critical path; WKE + WKE-TAYLOR landed) | `w/jr-ops`: 6 min ago | [brief](docs/campaign/briefs/JR-OPS.md) |
+| wt-cumul | GPT-6.1-Sol low / codex-3 | I1+I2 INDUCT (pre-freeze, conditional): propansatz from layergarden/fixedpoint/wkeTaylor; main assembly done | `w/norm-bridge`: 71 min ago | [brief](docs/campaign/briefs/INDUCT.md) |
+| wt-nt | GPT-6.1-Sol low / codex-3 | M1+M2 MOLE (pre-freeze): molecules, decorations, reconstruction, blocks, cuts, 𝔈/𝔄/𝔇𝔢𝔳 (circle e<2/3 done by wt-ansob) | `w/nt-circle`: 8 min ago | [brief](docs/campaign/briefs/MOLE.md) |
+| wt-ansob | GPT-6.1-Sol low / codex-3 | G0 DEGEN (pre-freeze): DH21 Lemmas 9.13–9.14, DH23 §10.5, GAP.degenerate.tame (F21) (BPROC: circle 27/41 done) | `w/bproc`: 10 min ago | [brief](docs/campaign/briefs/DEGEN.md) |
+| wt-gausssum | GPT-6.1-Sol low / codex-3 | NT7+NT8 COUNT: countLemma, atomCountLemma (DH23 A.2, A.3) (MINOR-ARCS done) | `w/count`: 8 min ago | [brief](docs/campaign/briefs/COUNT.md) |
+| wt-resonant | GPT-6.1-Sol low / codex-3 | D4+C1 REG-STRUCT (pre-freeze): regular chains, DH21 Props 4.5–4.10, structure theorem, counting (COMB-CORE done in scratch) | `w/resonant`: 2 h ago | [brief](docs/campaign/briefs/REG-STRUCT.md) |
+| wt-anfourier | GPT-6.1-Sol low / codex-3 | N2+N3: Poisson summation, (non-)stationary phase, Hausdorff–Young, DNY21 kernel, TARGET Lemmas A.2–A.3 (AN-FOURIER landed) | `w/an-phase`: 5 min ago | [brief](docs/campaign/briefs/AN-PHASE-HY.md) |
+| wt-l2s | GPT-6.1-Sol low / codex-3 | WKE-L2S: general-d L²_s trilinear estimate (Theorem 7), wkelwp blow-up conjunct | `w/wke-l2s`: 2 min ago | [brief](docs/campaign/briefs/WKE-L2S.md) |
 <!-- /AUTO:workers -->
 
 ## Papers
