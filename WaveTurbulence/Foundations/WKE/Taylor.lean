@@ -185,6 +185,17 @@ theorem exists_uniform_weighted_bound {φ : ℝ → 𝓢(Mom d, ℝ)} {T : ℝ}
         refine mul_le_mul_of_nonneg_left ?_ (by positivity)
         exact (by simpa using hsup : _ ≤ _).trans hAτ
 
+/-- Every Schwartz solution on `[0, T]` has a uniform low-norm bound `B > 0` (the hypothesis of
+`wketaylor` and `taylorbound`). -/
+theorem exists_lowNorm_bound {φin : 𝓢(Mom d, ℝ)} {T : ℝ} {φ : ℝ → 𝓢(Mom d, ℝ)}
+    (hφ : IsWKESolution φin T φ) :
+    ∃ B, 0 < B ∧ ∀ τ ∈ Icc 0 T, ∀ y, (1 + ‖y‖) ^ (2 * (d : ℝ) + 1) * |φ τ y| ≤ B := by
+  obtain ⟨C, hC0, hC⟩ := exists_uniform_weighted_bound hφ.1 0 (2 * d + 1)
+  refine ⟨C + 1, by linarith, fun τ hτ y => ?_⟩
+  have := hC τ hτ y
+  rw [norm_iteratedFDeriv_zero, Real.norm_eq_abs] at this
+  linarith
+
 theorem exists_uniform_multBound_base {φ : ℝ → 𝓢(Mom d, ℝ)} {T : ℝ}
     (hφ : ContinuousOn φ (Icc 0 T)) {B : ℝ} (hB0 : 0 < B)
     (hB : ∀ τ ∈ Icc 0 T, ∀ y, (1 + ‖y‖) ^ (2 * (d : ℝ) + 1) * |φ τ y| ≤ B) (R W : ℕ) :
