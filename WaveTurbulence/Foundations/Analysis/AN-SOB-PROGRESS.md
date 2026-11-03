@@ -56,5 +56,11 @@ The absolute-volume bound is separate from the unproved resonance-decay claim.
 The convolution estimate preserves the two output centres `0,q` and the factor `⟨q⟩⁻¹`.
 Next: smooth-cutoff Duhamel Fourier kernel; then connect the recursive analytic model to the actual
 heap domain (nonnegative gaps require the feasible lower-endpoint construction).
-Current uncommitted work: `TimePrimitive.lean`.
+Checked: `TimePrimitive`, `CutoffPrimitive`, `CutoffPrimitiveBounds`, `CutoffFourierDecay`,
+`CutoffFourierFormula`, `CutoffTimeKernelBound`. The complete kernel bound is
+`‖Kχ(a,τ,q)‖ ≤ Cχ ⟨q⟩⁻¹ (W(τ)+W(τ-q))`, `W(s)=(1+s²)⁻¹`, uniform `a∈[0,1]`.
+Kernel, resonance convolution, forest frequency characterization and absolute-volume bound have
+axiom checks showing only the three standard axioms (probe `KernelAxioms.lean` in scratch).
+Remaining: spectral/Fubini assembly and the tree induction, including the feasible lower-endpoint
+construction for gapped domains.
 No completion or `READY` claim is made for the packet.
