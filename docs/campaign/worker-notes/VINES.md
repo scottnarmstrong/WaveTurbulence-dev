@@ -10,3 +10,8 @@ The checked scratch interface now includes expanded atom/bond/group counts,
 degree profiles, sigma, group partition, template and actual-vine connectivity,
 ladder length, coherence index, and boundary conservation. The 12-result axiom
 probe reports only standard axioms. `subsetvc` remains in progress.
+
+The exhaustive block/hyper-block degree-mask checks now pass for all eight
+base cores. The larger cores are split by joint pair to stay within default
+budgets. Applying the tables to arbitrary rung expansions remains in progress;
+this checkpoint does not claim `subsetvc`.
