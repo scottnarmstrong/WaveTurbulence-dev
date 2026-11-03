@@ -1,5 +1,5 @@
 {
- "assessed": "2026-11-03 23:20 UTC",
+ "assessed": "2026-11-03 23:40 UTC",
  "notes": "Lean work items = blueprint packets (docs/blueprint/GRAPH.md §E) with their difficulty weights (node weights L=1, M=2, H=4, VH=8 summed). Each frozen theorem anchor adds weight 1, credited when SEALED. Done fractions are the orchestrator's assessment, reviewed at integration rounds.",
  "lines_est_total": 273000,
  "parts": [
@@ -198,8 +198,8 @@
      "goal": "Hausdorff–Young, DNY21 kernel (pin F29), TARGET Lemmas A.2, A.3",
      "weight": 10.0,
      "lines_est": 4500,
-     "done": 0.6,
-     "note": "Hausdorff–Young, DNY21 kernel, A.2/A.3 in progress"
+     "done": 1.0,
+     "note": "done: Hausdorff–Young, phase/time-integral bounds (TARGET A.2, A.3)"
     },
     {
      "id": "NT2",
@@ -288,8 +288,8 @@
      "goal": "DH23 Lemma A.2 with exponent 2/3 (F3), TARGET Lemma A.8",
      "weight": 7.0,
      "lines_est": 3050,
-     "done": 0.3,
-     "note": "COUNT in progress (wt-gausssum)"
+     "done": 1.0,
+     "note": "done: countLemma_bound exactly the audited B1.7 draft (landed f56f6bb)"
     },
     {
      "id": "C2",
@@ -351,8 +351,8 @@
      "goal": "DH23 Lemma A.3, 2-vector counts, TARGET Lemma A.9",
      "weight": 7.0,
      "lines_est": 3800,
-     "done": 0.3,
-     "note": "COUNT in progress"
+     "done": 1.0,
+     "note": "done: atomCountLemma_bound exactly the audited B1.8 draft + DH23 A.2(2) (landed f56f6bb)"
     },
     {
      "id": "M5",
