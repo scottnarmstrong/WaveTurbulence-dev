@@ -64,3 +64,35 @@ axiom checks showing only the three standard axioms (probe `KernelAxioms.lean` i
 Remaining: spectral/Fubini assembly and the tree induction, including the feasible lower-endpoint
 construction for gapped domains.
 No completion or `READY` claim is made for the packet.
+
+Checked further: `FrequencyWeights`, `SpectralSynthesis`, `CutoffKernelIntegrability`,
+`CutoffKernelL1`, `CutoffSpectralOperator`, `TimeSynthesisFubini`, `ResonantKernelEnvelope`.
+The actual spectral operator is integrable and synthesizes to the cutoff oriented time integral.
+The complete envelope integral gains `⟨q⟩⁻¹` and has constant `12π` with output centres `0,q`.
+Targeted builds of `TimeSynthesisFubini` and `ResonantKernelEnvelope` pass without warnings.
+Still remaining: finite envelope assembly, tree induction and feasible endpoint/domain bridge.
+
+Checked finite-packet layer: `FrequencyEnvelope`, `EnvelopeConvolution`, `SpectralPacket`,
+`SmoothCutoffPacket`. Packet multiplication uses the actual convolution with added centres;
+time translation preserves weights; modulation translates centres; cutoff integration creates
+exactly the two endpoint choices. The leaf is the Fourier transform of the actual cutoff.
+Targeted `lake build WaveTurbulence.Foundations.Analysis.SmoothCutoffPacket` completed successfully
+(3243 jobs), without warnings. `norm_fourier_cutoff_le` is now public for this reuse.
+
+Checked `IntegrationTree`, `CausalIntegrationTree`, `FeasibleIntegrationTree`.
+`IntegrationTree.packet` recursively constructs the density and reconstructs its actual cutoff
+iterated integral. The causal version clips at zero. It is continuous and vanishes before its
+feasible threshold. With nonnegative gaps (and zero leaf-edge gaps), feasible unit times agree
+with the cutoff tree with threshold lower endpoints. Targeted build of `FeasibleIntegrationTree`
+completed successfully (3246 jobs), without warnings. The source integral/resonance-product
+estimate still awaits the weight/cost identification and final assembly.
+
+Checked the assembled estimate `TreeIntegralBound.norm_causalValue_le_paper_choice_sum`:
+for a labelled ternary tree with nonnegative gaps, zero leaf gaps and `t∈[0,1]`,
+its actual causal integral with phase `2π i α s` is bounded by `C^n` times the
+binary-choice product sum with paper resonances `q=2*choiceResonance`.
+`TreeResonanceWeights`, `TreePacketCost`, `TreeChoices`, `FrequencyScale`,
+`FeasibleTreeChoices`, `RealTreeWeights`, `UnitTimeCutoff`, `TreeIntegralBound` all build;
+the final targeted build completed successfully (3254 jobs), without warnings.
+The pure choice carrier has one Boolean per branch and no cutoff/endpoints in its frequencies.
+A final source-convention wrapper using phase `π i α s` is being checked before handoff.
