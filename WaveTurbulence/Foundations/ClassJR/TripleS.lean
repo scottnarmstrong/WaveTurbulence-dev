@@ -307,7 +307,7 @@ theorem measurable_enorm_iteratedFDeriv_K (hK : ∀ q, ContDiff ℝ ∞ fun x =>
     (hKm : StronglyMeasurable (Function.uncurry K)) (c : ℕ) :
     Measurable fun p : (Fin n → ℝ) × Q => ‖iteratedFDeriv ℝ c (fun x => K x p.2) p.1‖ₑ :=
   (stronglyMeasurable_uncurry_iteratedFDeriv_param (f := K) hK
-    (fun x => hKm.comp_measurable (measurable_const.prodMk measurable_id)) c).enorm
+    (fun _ => hKm.comp_measurable (measurable_const.prodMk measurable_id)) c).enorm
 
 theorem measurable_enorm_iteratedFDeriv_K_comp {X : Type*} [MeasurableSpace X]
     (hK : ∀ q, ContDiff ℝ ∞ fun x => K x q) (hKm : StronglyMeasurable (Function.uncurry K))
