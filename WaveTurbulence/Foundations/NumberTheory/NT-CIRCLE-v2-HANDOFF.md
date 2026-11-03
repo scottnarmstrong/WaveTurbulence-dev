@@ -863,3 +863,12 @@ B-route once the actual dual derivative estimates and stationary-phase
 transform land. The B-transform itself remains assigned to NT-BPROC.
 Check: targeted `PowerScaleComparison` passed (3137 jobs, 3.5s), and
 `FifthDerivativeScale` passed (3568 jobs, 4.6s), zero warnings.
+
+`FifthDerivativeScaleConstants.lean` allows fixed comparison losses in the
+frequency scale: `Y<=K*T`, `K>=1`, `T>0`, rather than requiring normalized
+`T>=Y`. It proves the actual bound
+`(K^2+16384*sqrt(c))*(T/Y)^(1/30)*Y^(26/30)` from the same actual signed
+third/fourth/fifth derivative tower. The lower-scale case uses only the
+trivial actual finite-sum estimate; no extra derivative input or epsilon
+loss is hidden. The exact identity with `T^(1/30)*Y^(5/6)` is proved too.
+Targeted `FifthDerivativeScaleConstants` passed (3569 jobs, 4.5s), zero warnings.
