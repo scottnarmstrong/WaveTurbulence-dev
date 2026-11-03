@@ -147,6 +147,8 @@ theorem approxInt_cell (μ : ℝ) {W : (Fin n → Mom d) → (Fin n → Mom d) �
       cellWeight pq z.1 z.2 * Ψ (fun j => μ * inner ℝ (z.1 j) (z.2 j))))
     (hhm : Continuous (fun z : (Fin n → Mom d) × (Fin n → Mom d) =>
       cellWeight pq z.1 z.2 * Ψ (fun j => μ * inner ℝ (z.1 j) (z.2 j)))) :
+    Integrable (fun τ : (Fin n → Mom d) × (Fin n → Mom d) => fourierW W τ.1 τ.2 *
+      multiInt μ Ψ (cellData pq τ).p (cellData pq τ).q (cellData pq τ).ξ (cellData pq τ).ζ) ∧
     approxInt μ (fun x y => W x y * cellWeight pq x y) Ψ =
       ∫ τ, fourierW W τ.1 τ.2 * multiInt μ Ψ (cellData pq τ).p (cellData pq τ).q
         (cellData pq τ).ξ (cellData pq τ).ζ := by
@@ -171,6 +173,21 @@ theorem approxInt_cell (μ : ℝ) {W : (Fin n → Mom d) → (Fin n → Mom d) �
       simp only [Function.uncurry_apply_pair, norm_mul]
       have h1 : ‖wPhase z.1 z.2 τ‖ = 1 := by simp [wPhase]
       rw [h1]; ring_nf; exact le_rfl
+  have hmarg : ∀ τ : (Fin n → Mom d) × (Fin n → Mom d),
+      (∫ z : (Fin n → Mom d) × (Fin n → Mom d), fourierW W τ.1 τ.2 *
+        (wPhase z.1 z.2 τ * (cellWeight pq z.1 z.2 * Ψ (fun j => μ * inner ℝ (z.1 j) (z.2 j))))) =
+      fourierW W τ.1 τ.2 * multiInt μ Ψ (cellData pq τ).p (cellData pq τ).q
+        (cellData pq τ).ξ (cellData pq τ).ζ := by
+    intro τ
+    rw [integral_const_mul, multiInt]
+    congr 1
+    rw [← measurePreserving_unzipW.integral_comp
+      (MeasurableEquiv.arrowProdEquivProdArrow (Mom d) (Mom d) (Fin n)).measurableEmbedding]
+    refine integral_congr_ae (Filter.Eventually.of_forall fun w => ?_)
+    simp only [unzipW_eq, unzipW, multiAmp_cellData]
+    rw [mul_assoc]
+    rfl
+  refine ⟨hjoint.integral_prod_right.congr (Filter.Eventually.of_forall hmarg), ?_⟩
   calc approxInt μ (fun x y => W x y * cellWeight pq x y) Ψ
       = ∫ z : (Fin n → Mom d) × (Fin n → Mom d), ∫ τ, fourierW W τ.1 τ.2 *
           (wPhase z.1 z.2 τ * (cellWeight pq z.1 z.2 * Ψ (fun j => μ * inner ℝ (z.1 j) (z.2 j)))) := by
@@ -183,17 +200,59 @@ theorem approxInt_cell (μ : ℝ) {W : (Fin n → Mom d) → (Fin n → Mom d) �
     _ = ∫ τ, ∫ z : (Fin n → Mom d) × (Fin n → Mom d), fourierW W τ.1 τ.2 *
           (wPhase z.1 z.2 τ * (cellWeight pq z.1 z.2 * Ψ (fun j => μ * inner ℝ (z.1 j) (z.2 j)))) :=
         integral_integral_swap hjoint
-    _ = _ := by
-        refine integral_congr_ae (Filter.Eventually.of_forall fun τ => ?_)
-        simp only
-        rw [integral_const_mul, multiInt]
-        congr 1
-        rw [← measurePreserving_unzipW.integral_comp
-          (MeasurableEquiv.arrowProdEquivProdArrow (Mom d) (Mom d) (Fin n)).measurableEmbedding]
-        refine integral_congr_ae (Filter.Eventually.of_forall fun w => ?_)
-        simp only [unzipW_eq, unzipW, multiAmp_cellData]
-        rw [mul_assoc]
-        rfl
+    _ = _ := integral_congr_ae (Filter.Eventually.of_forall hmarg)
+
+/-- Integrability of the Fourier-side lattice integrand of one cell. -/
+theorem integrable_fourierW_mul_multiSum {L : ℝ} (hL : 0 < L) (μ : ℝ)
+    {W : (Fin n → Mom d) → (Fin n → Mom d) → ℂ}
+    (hF : Integrable (fun τ : (Fin n → Mom d) × (Fin n → Mom d) => fourierW W τ.1 τ.2))
+    (Ψ : (Fin n → ℝ) → ℂ) (pq : Fin n → (Fin d → ℤ) × (Fin d → ℤ)) :
+    Integrable (fun τ : (Fin n → Mom d) × (Fin n → Mom d) => fourierW W τ.1 τ.2 *
+      multiSum L μ Ψ (cellData pq τ).p (cellData pq τ).q (cellData pq τ).ξ (cellData pq τ).ζ) := by
+  set G : Finset (Fin n → (Fin d → ℤ) × (Fin d → ℤ)) :=
+    Fintype.piFinset fun j => cellIndex hL (NTSP.intVec (pq j).1) (NTSP.intVec (pq j).2)
+  have hcw : ∀ g ∉ G, cellWeight pq (fun j => latticePoint L (g j).1)
+      (fun j => latticePoint L (g j).2) = 0 := by
+    intro g hg
+    rw [Fintype.mem_piFinset] at hg
+    simp only [not_forall] at hg
+    obtain ⟨j, hj⟩ := hg
+    exact prod_eq_zero (mem_univ j) (cellAmp_lattice_eq_zero hL hj)
+  have hS : ∀ τ, multiSum L μ Ψ (cellData pq τ).p (cellData pq τ).q (cellData pq τ).ξ
+      (cellData pq τ).ζ = ∑ g ∈ G, wPhase (fun j => latticePoint L (g j).1)
+        (fun j => latticePoint L (g j).2) τ * cellWeight pq (fun j => latticePoint L (g j).1)
+          (fun j => latticePoint L (g j).2) *
+          Ψ (fun j => μ * inner ℝ (latticePoint L (g j).1) (latticePoint L (g j).2)) := by
+    intro τ
+    rw [multiSum, tsum_eq_sum (s := G) fun g hg => ?_]
+    · refine sum_congr rfl fun g _ => ?_
+      rw [multiAmp_cellData]
+      rfl
+    · rw [multiAmp_cellData]
+      simp only [latPair]
+      rw [hcw g hg, mul_zero, zero_mul]
+  have hph : ∀ g : Fin n → (Fin d → ℤ) × (Fin d → ℤ), Continuous (fun τ : (Fin n → Mom d) ×
+      (Fin n → Mom d) => wPhase (fun j => latticePoint L (g j).1)
+        (fun j => latticePoint L (g j).2) τ) := fun g =>
+    (continuous_subtype_val.comp Real.continuous_fourierChar).comp
+      (continuous_finsetSum _ fun j _ =>
+        ((continuous_const.inner ((continuous_apply j).comp continuous_fst)).add
+          (continuous_const.inner ((continuous_apply j).comp continuous_snd))))
+  have hint := hF.mul_bdd (g := fun τ => ∑ g ∈ G, wPhase (fun j => latticePoint L (g j).1)
+      (fun j => latticePoint L (g j).2) τ * cellWeight pq (fun j => latticePoint L (g j).1)
+        (fun j => latticePoint L (g j).2) *
+        Ψ (fun j => μ * inner ℝ (latticePoint L (g j).1) (latticePoint L (g j).2)))
+    (c := ∑ g ∈ G, ‖cellWeight pq (fun j => latticePoint L (g j).1)
+      (fun j => latticePoint L (g j).2) *
+      Ψ (fun j => μ * inner ℝ (latticePoint L (g j).1) (latticePoint L (g j).2))‖)
+    ((continuous_finsetSum _ fun g _ => ((hph g).mul continuous_const).mul
+      continuous_const).aestronglyMeasurable)
+    (Filter.Eventually.of_forall fun τ => (norm_sum_le _ _).trans (sum_le_sum fun g _ => by
+      rw [mul_assoc, norm_mul]
+      simp [wPhase]))
+  refine hint.congr (Filter.Eventually.of_forall fun τ => ?_)
+  simp only
+  rw [hS]
 
 /-- The truncation levels of a cell configuration. -/
 @[expose] def cellLevels (μ : ℝ) (pq : Fin n → (Fin d → ℤ) × (Fin d → ℤ)) (j : Fin n) : ℕ :=
