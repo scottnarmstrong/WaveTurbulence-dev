@@ -13,8 +13,15 @@ public import WaveTurbulence.Foundations.Counting.CircleArc
 public import WaveTurbulence.Foundations.Counting.ExponentAudit
 public import WaveTurbulence.Foundations.Counting.LatticeDisc
 public import WaveTurbulence.Foundations.Cumulant.Basic
+public import WaveTurbulence.Foundations.Cumulant.Coarsening
+public import WaveTurbulence.Foundations.Cumulant.CoarseningWeight
+public import WaveTurbulence.Foundations.Cumulant.Gaussian
 public import WaveTurbulence.Foundations.Cumulant.Inversion
+public import WaveTurbulence.Foundations.Cumulant.PartitionLift
 public import WaveTurbulence.Foundations.Cumulant.PartitionRecursion
+public import WaveTurbulence.Foundations.Cumulant.Products
+public import WaveTurbulence.Foundations.Cumulant.ProductsFormula
+public import WaveTurbulence.Foundations.Cumulant.Refinement
 public import WaveTurbulence.Foundations.Cumulant.Symmetry
 public import WaveTurbulence.Foundations.Gaussian.BooleanCube
 public import WaveTurbulence.Foundations.Gaussian.ComplexGaussian

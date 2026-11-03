@@ -12,6 +12,7 @@ Deng–Hani's earlier papers (DH21, DH23, parts of DH21-2 and DH19), the triline
 
 ## Status (2026-11-03 16:05 UTC)
 
+Blueprint v2 (after independent topology review): 275 nodes, 84 packets, ≈273k lines estimated, critical path weight 99.
 Phase P1/P2: sources pinned; paper maps of DH21/DH21-2 and DH23 done, target-paper maps in progress; exact Lean draft
 **Wave A frozen (D6, 2026-11-03):** Theorem 1.1 (`WaveTurbulence.main`) and Prop 3.2 (`WaveTurbulence.wkelwp`) as
 `DRAFT_SORRY` anchors in `WaveTurbulence/Frozen/Theorems/`, 13 sealed definitions in `WaveTurbulence/Frozen/Defs/`,
@@ -29,14 +30,16 @@ SEALED THEOREMS: 0
 
 | tmux | model / account | packet | brief |
 |---|---|---|---|
-| wt-orch | Claude Opus / claude-1 | audits: Wave A freeze check, figure-only definitions, F14 | [orch/TASK3.md](docs/campaign/orch/TASK3.md) |
+| wt-orch | Claude Opus / claude-1 | audits: Wave B stage audits (Task 4b); done: freeze check, figure defs, topology review, infra review | [orch/TASK4.md](docs/campaign/orch/TASK4.md) |
 | wt-gauss-hc | Claude Opus / claude-10 | **Wave B drafts** (critical path): core carriers, system objects, B1 statements (GAUSS-HC landed f986d35) | [WAVEB-DRAFT](docs/campaign/briefs/WAVEB-DRAFT.md) |
 | wt-torus | Claude Opus / claude-14 | NLS smooth-solution theory, reduction to the a_k system (TORUS-FOURIER landed 5beb902) | [NLS](docs/campaign/briefs/NLS.md) |
-| wt-wke | Claude Opus / claude-13 | collision operator, GIT20 trilinear estimate (all d), Prop `wkelwp`, WKE Taylor bounds | [WKE](docs/campaign/briefs/WKE.md) |
+| wt-wke | Claude Opus / claude-13 | WKE-TAYLOR: power-series existence, τ_max characterization (`wkelwp` conjuncts 1–2), Taylor bound F10 | [WKE-TAYLOR](docs/campaign/briefs/WKE-TAYLOR.md) |
 | wt-cumul | GPT-6.1-Sol low / codex-3 | complex Gaussians, Isserlis, cumulants, `propertycm` | [CUMUL](docs/campaign/briefs/CUMUL.md) |
 | wt-nt | GPT-6.1-Sol low / codex-3 | van der Corput: circle problem with exponent < 2/3 (F3) | [NT-CIRCLE-v2](docs/campaign/briefs/NT-CIRCLE-v2.md) |
 | wt-ansob | GPT-6.1-Sol low / codex-3 | N4: Sobolev/Morrey, simplex volumes, DH21 (10.5), DH21 Lemma 10.2 | [AN-SOB](docs/campaign/briefs/AN-SOB.md) |
 | wt-gausssum | GPT-6.1-Sol low / codex-3 | NT1: Dirichlet approximation, quadratic Weyl/Gauss sums | [GAUSSSUM](docs/campaign/briefs/GAUSSSUM.md) |
+| wt-resonant | GPT-6.1-Sol low / codex-3 | N5: resonant measure, p.v. 1/Ω, DH21 Lemma 6.3 | [RESONANT](docs/campaign/briefs/RESONANT.md) |
+| wt-anfourier | GPT-6.1-Sol low / codex-3 | N1: Gevrey cutoff χ₀, time-Fourier norms 𝔛, restriction norms | [AN-FOURIER](docs/campaign/briefs/AN-FOURIER.md) |
 
 Landed: TORUS-FOURIER (5beb902), GAUSS-HC (f986d35, off-route infrastructure, F34).
 
