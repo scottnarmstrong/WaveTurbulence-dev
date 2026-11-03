@@ -900,3 +900,11 @@ endpoint-frequency bridge and actual endpoint formula. Each has only
 `nice -n 5 lake env lean /home/scott/wt-scratch/nt-circle/HigherDerivativeAxioms.lean`
 exited 0. The current 103 owned Lean modules pass module shape, line limit,
 no-sorry and no-budget scans; `git diff --check` is clean.
+
+The numerical audit now also proves that any exponent <=35/53 retains both
+the exact source saving for (1),(3) and the critical-gamma saving for (2),
+when q>=0. In particular the direct B-after-A^3 candidate `(11/30,16/30)`
+has numerical circle exponent `27/41<=35/53`, so the checked margins apply
+without redoing the source optimization. This is arithmetic only, pending
+the actual B-process frequency estimate. Targeted `ImprovedExponentAudit`
+passed again after this extension (3138 jobs, 20s), zero warnings.

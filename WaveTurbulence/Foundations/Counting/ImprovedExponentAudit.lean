@@ -91,4 +91,29 @@ theorem annulus_thirty_five_fifty_thirds_eta_margin {γ η D : ℝ}
     (63:ℝ)/79+D*η ≤ γ-20*η := by
   nlinarith only [hγ,hsmall]
 
+/-- Every exponent below the audited `35/53` retains the exact source
+saving for (1) and (3), when `Q=L^q >= 1` and hence q is nonnegative. -/
+theorem annulus_source_saving_of_exponent_le_thirty_five_fifty_thirds {e γ q : ℝ}
+    (he : e ≤ (35:ℝ)/53) (hq : 0 ≤ q) (hγ : (1:ℝ)/2 ≤ γ) :
+    min (max (2-2*γ) (e*q))
+      (max (1-γ) (max (4-3*γ-q) (2-γ-q/3))) ≤
+        1-min ((1:ℝ)/1000) (2*γ-1) := by
+  apply le_trans (min_le_min (max_le_max le_rfl ?_) le_rfl)
+    (annulus_thirty_five_fifty_thirds_source_saving hγ)
+  nlinarith only [mul_le_mul_of_nonneg_right he hq]
+
+/-- Monotonicity also retains the critical-gamma margin for use (2). -/
+theorem annulus_critical_saving_of_exponent_le_thirty_five_fifty_thirds {e q : ℝ}
+    (he : e ≤ (35:ℝ)/53) (hq : 0 ≤ q) :
+    min (max ((2:ℝ)/5) (e*q))
+      (max ((1:ℝ)/5) (max (8/5-q) (6/5-q/3))) ≤ (63:ℝ)/79 := by
+  apply le_trans (min_le_min (max_le_max le_rfl ?_) le_rfl)
+    (annulus_thirty_five_fifty_thirds_exponent_le q)
+  nlinarith only [mul_le_mul_of_nonneg_right he hq]
+
+/-- Numerical audit for the alternative direct-circle B route. This is
+coordinate arithmetic only; no analytic B-transform is asserted here. -/
+theorem circle_exponent_eleven_thirtieths :
+    (((11:ℝ)/30)+16/30)/(1+11/30) = (27:ℝ)/41 ∧ (27:ℝ)/41 ≤ 35/53 := by norm_num
+
 end WaveTurbulence.Counting
