@@ -52,3 +52,4 @@ SEALED THEOREMS: 0
 - [docs/DECISIONS.md](docs/DECISIONS.md) — rulings.
 - [docs/FINDINGS.md](docs/FINDINGS.md) — source findings and candidate errata.
 - [docs/campaign/PLAN.md](docs/campaign/PLAN.md) — phases, infrastructure packets, fleet.
+- [docs/blueprint/GRAPH.md](docs/blueprint/GRAPH.md) — node-level dependency graph (264 nodes, 76 packets, ≈266k lines est.); [docs/blueprint/WAVE-B.md](docs/blueprint/WAVE-B.md) — Wave B proposal.
