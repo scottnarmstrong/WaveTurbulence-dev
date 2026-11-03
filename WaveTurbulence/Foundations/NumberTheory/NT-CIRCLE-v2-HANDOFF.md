@@ -750,3 +750,17 @@ its documented direct-circle route uses the actual Legendre dual and a
 uniform fifth-derivative estimate. Our outer-cap and block consumers make
 no unsupported inference from the generic predicate. They can consume the
 proved direct-family bound as soon as it lands, preserving arbitrary centers.
+
+`CircleOctantPhase.lean` compiles: both actual endpoint formulas,
+`circleHeight R c (c+R-u) = sqrt(2R)*sqrt(u)*sqrt(1-u/(2R))`
+and its left reflection, hold for R>0,u>=0. The factor has all finite
+smoothness orders on t<2 and lies in [1/2,1] on [0,1]. These identities do
+not assert arbitrary-small perturbation membership in the generic profile
+class. Targeted `CircleOctantPhase` passed (3260 jobs, 2.2s), zero warnings.
+
+Seven new main axiom probes passed: all-regime A optimization, central
+quadrature, exact cap count, central area, outer-sawtooth reduction,
+outer-frequency circle transfer, and complete annulus minimum. Each has
+only `[propext, Classical.choice, Quot.sound]`. Exact check:
+`nice -n 5 lake env lean /home/scott/wt-scratch/nt-circle/OctantAxioms.lean`
+exited 0.
