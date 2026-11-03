@@ -57,3 +57,30 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
 - F17 — DH21 L380 — "κ < L^{d/2}" should be κ < d/2. Typo. Source: DH21 map E1.
 - F18 — TARGET Appendix C / GIT20 — GIT20 is written in d = 3; TARGET applies its trilinear estimate (Lemmas 4.1–4.3,
   Remark 2.6) for all d ≥ 3 and s > d/2 − 1. To check in GIT20. Status: open.
+- F19 — TARGET §7–§8 (L1326–L1530) — vines (I)–(VIII), ladders (insertion rules), vine positions and cuts are defined
+  only by figures (Vines.png, Block_Mole.png, Cut.png). The T-part2 map transcribes them "[from figure]"; textual
+  definitions must be fixed (and checked) before Wave B. Source: T-part2 Q1.
+- F20 — TARGET §7.3–§7.4 (L1427–L1488) — twists: "exactly two options to insert u₂" (L1431) needs a full case table;
+  `lftwistprop` (L1487) checks only (II-a)→(II-b); congruence being an equivalence relation is asserted. Gap.
+  Source: T-part2 Q2.
+- F21 — TARGET `vineest` Step 3, `subpro`(3) — degenerate decorations (k₁ = k₂ = k₃, self-loops, degree-2 atoms) are
+  handled in one sentence; "non-hinge zero-gap atoms are tame" is new and unproved; DH23 §10.5 (couples) applied to
+  gardens. Gap. Source: T-part2 Q3.
+- F22 — TARGET L1811–L1817 — parametrizations of vines (IV)–(VIII) only called "similar". Gap. Source: T-part2 Q4.
+- F23 — TARGET `sumint` — case (d) for γ > 8/9 needs an unstated second bound of `lemlin` (|r| ≥ L⁻¹); an extra
+  δ^{-1/2} per bad vine silently absorbed; extension behind 𝔛(ℬ) unspecified; typos L1615, L1687. Source: T-part2 Q5.
+- F24 — TARGET L2197 — "Lemma 10.2 of DH23" is Prop 10.2 (`moleprop2`), whose last clause assumes ≤ w small-gap atoms
+  (unchecked here); DH23 Props 9.4–9.6 "follow from exactly the same proof" for gardens — unverified; "at most R
+  imperfect components" affected by zero-gap removals (`remtame`(ii)). Gap. Source: T-part2 Q6.
+- F25 — TARGET L2264–L2265 (`jtflower`, `kqflower`) — prefactor (δ/(2L^{d−1}))ⁿ should be (δ/(2L^{d−γ}))ⁿ (as in
+  DH23 L1996–L1999, same slip). Typo. Sources: T-part2 Q7, DH23 map Q3.
+- F26 — TARGET `flowerest1` — flower gardens: extra degree deficits, Dirac time nodes, stem-in-layer-p rule not restated
+  for molecules/blocks/vines; operator identities (1−ℒ₁)𝒳 = 1+𝒴, 𝒳(1−ℒ₁) = 1+𝒲 asserted. Gap. Source: T-part2 Q8.
+- F27 — TARGET `layergarden` (L761) — stated at time p+1, used at every t ∈ [p, p+1] (L821, L2309); freeze with a time
+  parameter (cf. F7). The coherent-couple term (`finaltermd`) ignores the truncation of 𝒞^{tr}_{p+1} (negligible).
+  Source: T-part2 Q9.
+- F28 — TARGET typos with content: L1807 (ζΩ, not Ω), L1823 (u not w), L1909 (layerreg2 → sumint), L2082 (√δ → √η),
+  L1523 ("Vine (V) minus two joints" false for (VII); argument survives), L1505 (omitted bond factor, harmless).
+  Source: T-part2 Q10.
+- F29 — External inputs not among pinned sources: DNY21 Lemma 3.1 (kernel bound in `timeintlem`), Oh–Thomann Lemma 2.6
+  (replaced by our own hypercontractivity proof), quadratic Weyl sum bounds and their L^p moments (p = 3d/2). To pin.
