@@ -1,4 +1,4 @@
-# WKE-L2S handoff — incomplete
+# WKE-L2S progress ledger — active
 
 Branch: `w/wke-l2s`. No frozen file, provider, shared WKE file, root import,
 manifest, or findings ledger was edited. No push or landing was performed.
@@ -117,4 +117,21 @@ must be accompanied by integrability/MemLp for general measurable inputs;
 mere finiteness of a real expression is not a membership condition. The
 frozen definition is left intact.
 
-STOPPED wke-l2s: general Borel resonant-measure extension remains unproved; Theorem 7 and the blow-up conjunct are unfinished.
+## Continuation (orchestrator accepted partial work and directed continuation)
+
+The preceding sections record the initial partial handoff, not a current
+obstruction. Work is active. Commit `4abc2b6` resolves measurable dependence
+on the hyperplane:
+
+- `HyperplaneChart.lean`: a measurable Householder chart, its linear isometric
+  restriction, volume preservation, and the nonnegative change of variables.
+- `ResonantMeasure.lean`: resonant measure as a weighted-product pushforward;
+  its intrinsic hyperplane integral formula for every nonnegative Borel
+  kernel; measurability of the unweighted hyperplane integral including at zero.
+
+Both targeted builds exited 0 without warnings. The chart is measurable
+at the exceptional direction; it is not claimed continuous there.
+
+Next: local finiteness, compact-test uniqueness and swap invariance, then
+angular estimates and the remaining packet goals. Theorem 7 and the blow-up
+conjunct remain unproved. No mathematical obstruction is claimed.
