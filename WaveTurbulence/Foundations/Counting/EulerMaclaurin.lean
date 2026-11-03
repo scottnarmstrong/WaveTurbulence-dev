@@ -109,4 +109,73 @@ theorem sum_unit_derivative_variation (g : ℝ → ℝ) (a : ℝ) (N : ℕ) :
     push_cast
     ring
 
+/-- Summing the local Euler–Maclaurin errors costs only the total decrease
+of the first derivative. -/
+theorem sum_abs_unit_trapezoid_remainder_le (f g j : ℝ → ℝ) (a : ℝ) (N : ℕ)
+    (hf : ∀ x ∈ Icc a (a+N), HasDerivAt f (g x) x)
+    (hg : ∀ x ∈ Icc a (a+N), HasDerivAt g (j x) x)
+    (hi : ContinuousOn g (Icc a (a+N)))
+    (hj : ContinuousOn j (Icc a (a+N)))
+    (hn : ∀ x ∈ Icc a (a+N), j x ≤ 0) :
+    (∑ k ∈ Finset.range N,
+      |(f (a+k) + f (a+(k+1)))/2 - (∫ x in a+k..a+(k+1), f x)|) ≤
+      (g a - g (a+N))/8 := by
+  rw [← sum_unit_derivative_variation g a N]
+  apply Finset.sum_le_sum
+  intro k hk
+  have hkN : k+1 ≤ N := Nat.succ_le_of_lt (Finset.mem_range.mp hk)
+  have hsub : Icc (a+k) (a+k+1) ⊆ Icc a (a+N) := by
+    intro x hx
+    have hk0 : (0:ℝ) ≤ k := Nat.cast_nonneg k
+    have hkn : (k:ℝ)+1 ≤ N := by exact_mod_cast hkN
+    constructor <;> linarith only [hx.1, hx.2, hk0, hkn]
+  have hle : a+(k:ℝ) ≤ a+k+1 := by linarith
+  have hc : [[a+(k:ℝ),a+k+1]] = Icc (a+k) (a+k+1) := uIcc_of_le hle
+  have hh := abs_unit_trapezoid_remainder_le_of_nonpos f g j (a+k)
+    (fun x hx => hf x (hsub (hc ▸ hx)))
+    (fun x hx => hg x (hsub (hc ▸ hx)))
+    ((hi.mono hsub).intervalIntegrable_of_Icc hle)
+    ((hj.mono hsub).intervalIntegrable_of_Icc hle)
+    (fun x hx => hn x (hsub hx))
+  simpa only [Nat.cast_add, Nat.cast_one, add_assoc] using hh
+
+/-- The sum of unit trapezoids is the full sample sum with half endpoint
+weights removed. -/
+theorem sum_unit_trapezoids (f : ℝ → ℝ) (a : ℝ) (N : ℕ) :
+    (∑ k ∈ Finset.range N, (f (a+k) + f (a+(k+1)))/2) =
+      (∑ k ∈ Finset.range (N+1), f (a+k)) - (f a + f (a+N))/2 := by
+  induction N with
+  | zero => simp
+  | succ N ih =>
+    rw [Finset.sum_range_succ, Finset.sum_range_succ (n := N+1), ih]
+    push_cast
+    ring
+
+/-- Euler–Maclaurin on an integer-length interval, with the remainder bounded
+by the decrease of the first derivative of a concave function. -/
+theorem abs_trapezoid_sum_sub_integral_le (f g j : ℝ → ℝ) (a : ℝ) (N : ℕ)
+    (hf : ∀ x ∈ Icc a (a+N), HasDerivAt f (g x) x)
+    (hg : ∀ x ∈ Icc a (a+N), HasDerivAt g (j x) x)
+    (hi : ContinuousOn g (Icc a (a+N)))
+    (hj : ContinuousOn j (Icc a (a+N)))
+    (hn : ∀ x ∈ Icc a (a+N), j x ≤ 0) :
+    |(∑ k ∈ Finset.range (N+1), f (a+k)) - (f a + f (a+N))/2 -
+      (∫ x in a..a+N, f x)| ≤ (g a - g (a+N))/8 := by
+  have hint : ∀ k < N, IntervalIntegrable f volume (a+k) (a+(k+1)) := by
+    intro k hk
+    have hsub : Icc (a+(k:ℝ)) (a+(k+1)) ⊆ Icc a (a+N) := by
+      intro x hx
+      have hkn : (k:ℝ)+1 ≤ N := by exact_mod_cast Nat.succ_le_of_lt hk
+      have hk0 : (0:ℝ) ≤ k := Nat.cast_nonneg k
+      constructor <;> linarith only [hx.1, hx.2, hkn, hk0]
+    have hfc : ContinuousOn f (Icc a (a+N)) :=
+      fun x hx => (hf x hx).continuousAt.continuousWithinAt
+    exact (hfc.mono hsub).intervalIntegrable_of_Icc (by linarith)
+  have he := sum_integral_adjacent_intervals (a := fun k : ℕ => a+k) (n := N)
+    (fun k hk => by simpa only [Nat.cast_add, Nat.cast_one] using hint k hk)
+  simp only [Nat.cast_zero, Nat.cast_add, Nat.cast_one, add_zero] at he
+  rw [← sum_unit_trapezoids f a N, ← he, ← Finset.sum_sub_distrib]
+  exact (Finset.abs_sum_le_sum_abs _ _).trans
+    (sum_abs_unit_trapezoid_remainder_le f g j a N hf hg hi hj hn)
+
 end WaveTurbulence.Counting
