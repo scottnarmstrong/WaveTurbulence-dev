@@ -64,3 +64,10 @@ axiom checks showing only the three standard axioms (probe `KernelAxioms.lean` i
 Remaining: spectral/Fubini assembly and the tree induction, including the feasible lower-endpoint
 construction for gapped domains.
 No completion or `READY` claim is made for the packet.
+
+Checked further: `FrequencyWeights`, `SpectralSynthesis`, `CutoffKernelIntegrability`,
+`CutoffKernelL1`, `CutoffSpectralOperator`, `TimeSynthesisFubini`, `ResonantKernelEnvelope`.
+The actual spectral operator is integrable and synthesizes to the cutoff oriented time integral.
+The complete envelope integral gains `⟨q⟩⁻¹` and has constant `12π` with output centres `0,q`.
+Targeted builds of `TimeSynthesisFubini` and `ResonantKernelEnvelope` pass without warnings.
+Still remaining: finite envelope assembly, tree induction and feasible endpoint/domain bridge.
