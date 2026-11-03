@@ -321,7 +321,7 @@ theorem exists_piece_58_R (h0 : 0 ≤ θ) (h1 : θ ≤ 1) {ε : ℤ} (hε : ε =
             ≤ ∫⁻ g : ℝ, 2 * ‖rhoc g‖ₑ := by
               refine lintegral_mono fun g => ?_
               refine (mul_le_mul' le_rfl (dnorm_const_le 0 _ _ _)).trans ?_
-              simp only [if_true, wR_emptyFun]
+              simp only [ite_true, wR_emptyFun]
               by_cases hg : g ∈ Icc (-1 : ℝ) 1
               · gcongr
                 calc (1 + ‖((0 : ℝ), μ).1‖ₑ + ‖(g, ()).1‖ₑ) ^ θ
@@ -480,5 +480,93 @@ theorem exists_piece_58_E (h0 : 0 ≤ θ) (h1 : θ < 1) (hA : A0 ≤ A) {ε : �
   ring
 
 end PieceLemmas2
+
+section Assembly
+
+variable {θ A : ℝ}
+
+theorem iker_eq_jker (β : ℝ) : iker β = jker 0 0 β := by
+  funext t s; simp [iker, jker]
+
+/-- `Φ(εx) = χ_∞(x)/(επix)`, the factor of DH21 Lemma 5.8. -/
+theorem phiR_sign {ε : ℤ} (hε : ε = 1 ∨ ε = -1) (x : ℝ) :
+    phiR (ε * x) = (chiInfinity x : ℂ) / (ε * π * I * x) := by
+  have hc : chiInfinity (ε * x) = chiInfinity x := by
+    rcases hε with rfl | rfl
+    · simp
+    · simp [chiInfinity, chi0_even]
+  rw [phiR, chiInvR, hc, Complex.ofReal_div, div_div]
+  congr 1
+  push_cast
+  ring
+
+theorem phiR_jker_eq (x μ t s : ℝ) :
+    phiR x * jker 0 x (μ - x) t s =
+      (∫ g, rhoc g * (((chiInvR x : ℂ) - chiInvR (x + g)) * jker x 0 μ t s)) +
+        ∫ g, rhoc g * ((chiInvR (x + g) : ℂ) * jker x 0 μ t s) := by
+  have hJ : jker 0 x (μ - x) t s = jker x 0 μ t s := by
+    simp only [jker]; congr 1; push_cast; ring
+  have hc : Continuous fun g : ℝ => (chiInvR (x + g) : ℂ) :=
+    contDiff_chiInvRc.continuous.comp (continuous_const.add continuous_id)
+  have hi1 : Integrable fun g => rhoc g *
+      (((chiInvR x : ℂ) - chiInvR (x + g)) * jker x 0 μ t s) := by
+    refine (integrable_rhoc.norm.mul_const (2 * CPhi)).mono'
+      (integrable_rhoc.aestronglyMeasurable.mul
+        ((continuous_const.sub hc).mul continuous_const).aestronglyMeasurable)
+      (Eventually.of_forall fun g => ?_)
+    rw [norm_mul, norm_mul, norm_jker, mul_one]
+    refine mul_le_mul_of_nonneg_left ((norm_sub_le _ _).trans ?_) (norm_nonneg _)
+    linarith [norm_chiInvR_le x, norm_chiInvR_le (x + g)]
+  have hi2 : Integrable fun g => rhoc g * ((chiInvR (x + g) : ℂ) * jker x 0 μ t s) := by
+    refine (integrable_rhoc.norm.mul_const CPhi).mono'
+      (integrable_rhoc.aestronglyMeasurable.mul (hc.mul continuous_const).aestronglyMeasurable)
+      (Eventually.of_forall fun g => ?_)
+    rw [norm_mul, norm_mul, norm_jker, mul_one]
+    exact mul_le_mul_of_nonneg_left (norm_chiInvR_le _) (norm_nonneg _)
+  rw [← integral_add hi1 hi2]
+  have e : ∀ g, rhoc g * (((chiInvR x : ℂ) - chiInvR (x + g)) * jker x 0 μ t s) +
+      rhoc g * ((chiInvR (x + g) : ℂ) * jker x 0 μ t s) =
+        rhoc g * ((chiInvR x : ℂ) * jker x 0 μ t s) := fun g => by ring
+  simp_rw [e]
+  rw [MeasureTheory.integral_mul_const, integral_rhoc, phiR, hJ]
+  ring
+
+/-- The class `J` constant of Lemma 5.8. -/
+@[expose] noncomputable def C58J (θ : ℝ) : ℝ :=
+  CM0 * (4 * (CkM * IM)) + CM0 * ((32 * CPhi + 8) * Ir (2 - θ))
+
+/-- **DH21 Lemma 5.8** (L1086–L1106): `I_{εα₁} I_{μ₁-εα₁} = Φ(εα₁) 𝒥_{α[ ],μ₁} + 𝒥_{α₁,μ₁} +
+ℛ_{α₁,μ₁}` on the triangle, where `Φ(εα₁) = χ_∞(α₁)/(επiα₁)` (`phiR_sign`), `𝒥_{α[ ]}` has
+no variables, `𝒥_{α₁}` has the variable `α₁ = α none` and `ℛ_{α₁}` has the special variable
+`α₁`; the norms are bounded uniformly in `μ₁` (`0 ≤ θ < 1`, `A ≥ A0`). -/
+theorem iker_comp_decomp (h0 : 0 ≤ θ) (h1 : θ < 1) (hA : A0 ≤ A) {ε : ℤ}
+    (hε : ε = 1 ∨ ε = -1) (μ : ℝ) :
+    ∃ (T₀ : (Empty → ℝ) → ℝ → ℝ → ℂ) (TJ TR : (Option Empty → ℝ) → ℝ → ℝ → ℂ),
+      ClassJ θ A CM0 T₀ ∧ ClassJ θ A (C58J θ) TJ ∧ ClassR θ A (CM0 * 2) TR ∧
+      ∀ α : Option Empty → ℝ, KEqOn (kcomp (iker (ε * α none)) (iker (μ - ε * α none)))
+        fun t s => phiR (ε * α none) * T₀ isEmptyElim t s + TJ α t s + TR α t s := by
+  obtain ⟨S0, hS0, hk0⟩ := exists_piece_58_0 (A := A) h0 h1.le μ
+  obtain ⟨SM, hSM, hkM⟩ := exists_piece_58_M h0 h1.le hA hε μ
+  obtain ⟨SR, hSR, hkR⟩ := exists_piece_58_R (A := A) h0 h1.le hε μ
+  obtain ⟨SE, hSE, hkE⟩ := exists_piece_58_E h0 h1 hA hε μ
+  refine ⟨S0.kernel, fun α t s => SM.kernel α t s + SE.kernel α t s, SR.kernel,
+    ⟨1, ![S0], ![CM0], fun i => by fin_cases i; exact hS0, by simp,
+      fun α t s _ _ _ => by simp⟩,
+    ⟨2, ![SM, SE], ![CM0 * (4 * (CkM * IM)), CM0 * ((32 * CPhi + 8) * Ir (2 - θ))],
+      fun i => by fin_cases i; exacts [hSM, hSE], by simp [C58J, Fin.sum_univ_two],
+      fun α t s _ _ _ => by simp [Fin.sum_univ_two]⟩,
+    ⟨1, ![SR], ![CM0 * 2], fun i => by fin_cases i; exact hSR, by simp,
+      fun α t s _ _ _ => by simp⟩, ?_⟩
+  intro α t s hs0 hst ht1
+  have ht : t ∈ Icc (0 : ℝ) 1 := ⟨hs0.trans hst, ht1⟩
+  have hs : s ∈ Icc (0 : ℝ) 1 := ⟨hs0, hst.trans ht1⟩
+  rw [iker_eq_jker, iker_eq_jker, kcomp_jker_split _ _ _ _ _ _ (by linarith) (by linarith)]
+  beta_reduce
+  rw [hk0 _ t s ht hs, hkM α t s ht hs, hkE α t s ht hs, hkR α t s ht hs]
+  simp only [sub_self, zero_add, add_zero, add_sub_cancel]
+  rw [phiR_jker_eq]
+  ring
+
+end Assembly
 
 end WaveTurbulence.ClassJR
