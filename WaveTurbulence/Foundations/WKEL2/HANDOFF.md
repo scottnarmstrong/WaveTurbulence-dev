@@ -1,0 +1,149 @@
+# WKE-L2S progress ledger — active
+
+Branch: `w/wke-l2s`. All work is confined to `Foundations/WKEL2/**`.
+No frozen definition, provider, shared WKE file, root import, manifest, or
+findings ledger was edited. No push or landing was performed.
+
+## Status
+
+- **Goal 1 complete:** research-note Lemma 1 and Corollary 2, including all
+  nonnegative Borel kernels, infinite integrals, angular-first integration,
+  and symmetry of the angular measure.
+- **Goal 2 active:** radial weight A_k is defined, nonnegative, jointly
+  measurable, and its defining integral is integrable for unit θ throughout
+  `d ≥ 3`, `s > d/2-1`. Radial Cauchy–Schwarz, the two Hölder exponent windows,
+  translation-uniform Hölder, and the nonsingular kernel's Lᵖ membership are
+  proved. **Uniform M₁ and M₂ bounds are not yet proved.**
+- **Goals 3 and 4 unproved:** Propositions 5–7, Theorem 7, the signed extension,
+  audit §3's supporting lemmas, Picard existence/persistence, and
+  `wkelwp_blowup`. No maximal-time name has been introduced.
+
+There is no claimed mathematical obstruction. The orchestrator accepted the
+initial partial work and directed continuation; the earlier stopped status
+has been superseded.
+
+## Files and approach
+
+- `Symmetry.lean`: the initial continuous-decaying-kernel symmetry using a
+  nonnegative mollifier, Fubini before taking its limit, and uniqueness of
+  limits; gain-input reversal and equivalence of the two asymmetric loss terms.
+- `HyperplaneChart.lean`: the Householder reflection perpendicular to
+  `e - unitVec a`; its measurable formula, restriction to a linear isometric
+  equivalence between hyperplanes, and volume preservation. The chart is
+  measurable everywhere; continuity at its exceptional direction is not claimed.
+- `ResonantMeasure.lean`: pushforward of weighted product measure; intrinsic
+  hyperplane integration and measurability for all nonnegative Borel kernels.
+  Cached reference-hyperplane measure instances avoid expensive conversion
+  between the induced measurable space and its Haar-measure projection.
+- `ResonantLocalFinite.lean`: local integrability of inverse norm, exact ball
+  masses, and finiteness on compacts in dimension at least two.
+- `ResonantIntegral.lean`: signed integral formula, with precisely the factor
+  two relative to existing `deltaInt`.
+- `CompactKernel.lean`: compactly supported continuous test kernels satisfy
+  the existing `DeltaKernel` hypotheses.
+- `ResonantSymmetry.lean`: locally finite Borel measures are determined by
+  integrals of C_c test functions; the initial symmetry proves swap invariance.
+  `lintegral_inv_norm_hyperplane_swap` has no reference-vector hypothesis.
+- `Polar.lean`, `PolarRadial.lean`, `HyperplaneScaling.lean`,
+  `ResonantPolar.lean`, `ResonantPolarFull.lean`, `ResonantPolarOrder.lean`:
+  general nonnegative polar integration, lowering radial density by inverse
+  radius, radial invariance of charts, and the full Corollary 2 formula with
+  both radial exponents exactly `d-2`.
+- `AngularMeasure.lean`, `RadialCutoff.lean`, `AngularCoordinates.lean`:
+  angular measure defined using the radial cutoff and normalized by `(d-1)^2`;
+  identification with the two sphere integrals and their symmetry. The two
+  radial cutoff masses are each `1/(d-1)` and cancel the normalization exactly.
+  Sphere coordinates use the fixed reference hyperplane's isometric chart.
+- `Weight.lean`: energy identity and weight transfer with the exact frozen
+  `weightedL2Norm` multiplier, constant `2^(s/2)`.
+- `Radial.lean`: radial Cauchy–Schwarz for a general positive weight, assuming
+  membership of its two factors in L². Membership is not hidden in a norm.
+- `Exponents.lean`: the two conjugate-exponent windows from Lemma 4.
+- `RadialWeight.lean`: A_k; centered integrability by polar integration in
+  dimension `d-2`, shifted integrability by a scalar Peetre inequality, and
+  joint measurability.
+- `HolderTranslation.lean`: integrability and a translation-independent
+  Hölder bound for functions in conjugate Lebesgue spaces.
+- `WeightedKernelLp.lean`: Japanese-bracket decay kernel membership whenever
+  `a*p > d`, with the actual membership proof, not an assumed estimate.
+
+## Commits
+
+- `16bd608`, `3cce822`: initial accepted partial work.
+- `4abc2b6`: measurable hyperplane charts and Borel resonant measure.
+- `1f17b9e`: Lemma 1 for arbitrary nonnegative Borel kernels.
+- `c028a91`: polar formula and normalized angular-measure symmetry.
+- Subsequent milestone: radial-weight integrability and Hölder inputs.
+
+## Checks
+
+All compilation commands were sequential through `wt-throttled`, with no
+budget overrides. Each final targeted build below exited 0 without warnings:
+
+```
+nice -n 5 lake build WaveTurbulence.Foundations.WKEL2.Symmetry
+nice -n 5 lake build WaveTurbulence.Foundations.WKEL2.Weight
+nice -n 5 lake build WaveTurbulence.Foundations.WKEL2.Polar
+nice -n 5 lake build WaveTurbulence.Foundations.WKEL2.Radial
+nice -n 5 lake build WaveTurbulence.Foundations.WKEL2.Exponents
+nice -n 5 lake build WaveTurbulence.Foundations.WKEL2.HyperplaneChart
+nice -n 5 lake build WaveTurbulence.Foundations.WKEL2.ResonantMeasure
+nice -n 5 lake build WaveTurbulence.Foundations.WKEL2.ResonantLocalFinite
+nice -n 5 lake build WaveTurbulence.Foundations.WKEL2.ResonantIntegral
+nice -n 5 lake build WaveTurbulence.Foundations.WKEL2.CompactKernel
+nice -n 5 lake build WaveTurbulence.Foundations.WKEL2.ResonantSymmetry
+nice -n 5 lake build WaveTurbulence.Foundations.WKEL2.ResonantPolarOrder
+nice -n 5 lake build WaveTurbulence.Foundations.WKEL2.AngularCoordinates
+nice -n 5 lake build WaveTurbulence.Foundations.WKEL2.RadialWeight
+nice -n 5 lake build WaveTurbulence.Foundations.WKEL2.HolderTranslation
+nice -n 5 lake build WaveTurbulence.Foundations.WKEL2.WeightedKernelLp
+```
+
+The polar and angular targets also checked their focused prerequisites. No
+Mathlib recompilation was reported. Earlier elaboration errors and style
+warnings were repaired before the final successful builds.
+
+Axiom probes are in `/home/scott/wt-scratch/wke-l2s/Axioms.lean` (initial
+results) and `ResonantAxioms.lean` (continuation results). Exact command:
+
+```
+nice -n 5 lake env lean /home/scott/wt-scratch/wke-l2s/ResonantAxioms.lean
+```
+
+The probes check the main symmetry, polar, angular-coordinate, radial-weight,
+and Hölder/kernel-membership results. All 17 continuation declarations printed exactly the axiom set
+`[propext, Classical.choice, Quot.sound]` (exit 0). The initial probe returned
+the same set for its nine main declarations. No custom axiom or sorry was
+reported.
+
+Banned-token search in new Lean modules and `git diff --check` returned no
+matches/errors. Every new Lean module is below 1500 lines.
+
+## Suspected source erratum and deviations
+
+TARGET L2522–L2523, (schappend11): “ι ∈ {−1,0,1}” omits multinomial
+coefficients in the displayed sum over multi-index decompositions. Already
+two derivatives split between two factors produce coefficient 2. Indexing by
+ordered differentiation histories could retain unit coefficients, but the
+printed sum does not use that indexing. The subsequent lower-order constant
+must absorb the actual multiplicities. This has not been formalized and no
+source or shared findings file was changed.
+
+No mathematical deviation was introduced. For general measurable inputs,
+real-valued Bochner expressions alone do not express L² membership;
+integrability/MemLp must accompany them. The frozen norm remains unchanged.
+
+## Next proof frontier
+
+Prove Lᵖ membership for the singular far-field kernels and the near-field
+integrability bounds, then use the translation Hölder lemma for uniform M₂
+and M₁. Their already-proved exponent windows cover exactly `2s > d-2`.
+Continue to Propositions 5–7 and Theorem 7, then the blow-up argument.
+
+The measurable-chart elaboration refactor was profiled with
+`nice -n 5 lake env lean --profile WaveTurbulence/Foundations/WKEL2/ResonantMeasure.lean`.
+Before refactoring the failing proof, tactic execution totaled 15.5s and hit
+the default heartbeat budget; after factoring the ambient graph and caching
+the reference measure instances, it totaled 455ms and the file exited 0.
+Profiles are `resonant-profile-before.log` and `resonant-profile-after.log`
+in the scratch directory. No elaboration budget was changed.

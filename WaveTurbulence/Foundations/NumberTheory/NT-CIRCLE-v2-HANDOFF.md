@@ -1,6 +1,6 @@
 # NT-CIRCLE-v2 progress and handoff
 
-Goal 1 complete. Goals 2–5 remain open; no circle discrepancy, annulus count,
+Goal 1 complete. Goal 2 is incomplete; goals 3–5 have not been started. No circle discrepancy, annulus count,
 `estcross`, B-process, or improved exponent-pair theorem is claimed.
 The earlier numerical obstruction and handoff remain valid.
 
@@ -187,3 +187,386 @@ Remaining goal-2 work: combine the frequency head/tail estimates with the arc
 bound, prove the global arc-block decomposition uniformly in the horizontal
 center, and control the height-sum/area error. None is assumed in a purported
 circle theorem. Goals 3–5 still remain open.
+
+## Goal 2: quantitative block milestone
+
+The frequency head/tail combination above is now proved, together with its
+application to actual circular height blocks:
+
+- `SmoothingBounds.lean` gives a distinctly named conditional Fourier
+  inequality: an `A sqrt(n)` positive-frequency bound implies
+  `|sum psi(f_i)| <= #s/(2K) + ((2*pi+2)/pi^2)*A*sqrt(K)`.
+  The underlying majorant series is bounded by `(4*pi+4)*A/sqrt(K)`.
+  These generic numerical lemmas are not circle theorems.
+- `Counting/CircleSawtooth.lean` discharges that frequency premise for the
+  actual translated arc, giving the displayed local bound with
+  `A = 8*(8*(b-a)*sqrt(R^2/(8H^3)) + 1/sqrt(R^2/(8H^3)))`.
+- `Counting/CircleBlockGeometry.lean` proves monotonicity on each semicircle
+  and width bounds `4H^2/R` from actual geometric endpoint conditions.
+- `Counting/CircleBlockBounds.lean` bounds the local amplitude by `160sqrt(H)`
+  and optimizes the natural cutoff. Its main result
+  `circle_left_block_sawtooth_sum_le_optimized` has radius `r^3`, height
+  `r^2 <= H <= r^3`, arbitrary translations, and conclusion `|sum psi| <= 322H/r`.
+  It assumes a genuine height block on the full real interval required by
+  the derivative test. No exponential or sawtooth estimate is a premise.
+
+Final targeted builds, all warning-free:
+
+    nice -n 5 lake build WaveTurbulence.Foundations.Counting.CircleSawtooth
+    # Built ...SmoothingBounds (4.9s), ...CircleSawtooth (3.7s).
+    nice -n 5 lake build WaveTurbulence.Foundations.Counting.CircleBlockGeometry
+    # Built ...CircleBlockGeometry (2.6s); completed successfully (3260 jobs).
+    nice -n 5 lake build WaveTurbulence.Foundations.Counting.CircleBlockBounds
+    # Built ...CircleBlockBounds (8.1s); completed successfully (3695 jobs).
+
+`nice -n 5 lake env lean /home/scott/wt-scratch/nt-circle/BlockAxioms.lean`
+checks both generic Fourier inequalities, the actual frequency and sawtooth
+arc bounds, both geometric widths, and both local block bounds. The log is
+`/home/scott/wt-scratch/nt-circle/block-axioms.log`.
+Exit 0; all eight results use exactly `[propext, Classical.choice, Quot.sound]`.
+Module checks pass for all 21 packet Lean files at the 1500-line cap; staged
+whitespace checks pass.
+
+The next missing steps are the exact disjoint integer-block covering (including
+the endpoint discarded to meet the derivative test's extra endpoint) and the
+height-sum/area comparison. The global uniform circle bound remains unproved;
+goals 3–5 have not been claimed complete.
+
+## Final goal-2 progress: global sawtooth estimate, area comparison open
+
+Integration: after the orchestrator's landing notice, committed the optimized
+block milestone as `6e8de12`, then ran `git merge main`. Merge `2f0477f` includes
+main `00d139a`, without conflicts. Read the updated COMMON, D6, and findings.
+`LatticeDisc.lean` now imports the sealed frozen definition and characterizes
+membership using **`WaveTurbulence.latticePoint 1 n`**. Its former local unit
+embedding was removed; no frozen declaration was edited. All new changes are
+inside the packet's owned directories.
+
+The following additional steps are proved:
+
+- `Counting/MonotoneIntervals.lean`: an exact half-open height filter of a
+  monotone natural sequence on `(a,b]` is another natural interval.
+- `Counting/DyadicBlocks.lean`: existence and uniqueness of the dyadic height
+  index, the exact finite-sum partition into low heights and disjoint blocks,
+  `sum_{j<J} R/2^(j+1) <= R`, and a terminal cutoff in `[r^2,2r^2)` for radius `r^3`.
+- `Counting/CircleBlockIntervals.lean`: the actual filtered integer block has
+  sawtooth sum at most `323H/r`. Its last point is included separately, so the
+  derivative test's extra real endpoint is fully accounted for.
+- `Counting/CircleLowHeights.lean`: low-height columns have cardinality at most
+  `L^2/R+1`; at cutoff `L<=2r^2`, their sawtooth contribution is at most `3r^2`.
+- `Counting/CircleSemicircle.lean`: actual left and right semicircle sums are
+  bounded by `326r^2`, and their combined bound is `652r^2`.
+
+The complete strongest global statement is `circle_sawtooth_sum_le`:
+
+    forall {r c t d : R} {a b : N},
+      1 <= r -> c-r^3 <= a+1+t -> b+t <= c+r^3 ->
+      |sum_{k in Ioc a b} sawtooth(circleHeight (r^3) c (k+t) + d)| <= 652*r^2.
+
+There is no premise asserting any exponential sum, sawtooth estimate, count,
+or discrepancy bound. The four real parameters are arbitrary apart from
+the radius and geometric interval conditions. Reflection uses an exact
+permutation of the integer indices. Constants do not depend on either shift.
+
+Final focused successful checks (default budgets, sequential wt-throttled):
+
+    nice -n 5 lake build WaveTurbulence.Foundations.Counting.LatticeDisc
+    # Built Frozen.Defs.Mom (5.8s), Frozen.Defs.LatticePoint (3.0s),
+    # ...LatticeDisc (6.5s); completed successfully (9055 cached/project jobs).
+    nice -n 5 lake build WaveTurbulence.Foundations.Counting.MonotoneIntervals
+    # Built ...MonotoneIntervals (7.5s); completed successfully (3137 jobs).
+    nice -n 5 lake build WaveTurbulence.Foundations.Counting.DyadicBlocks
+    # Built ...DyadicBlocks (14s); completed successfully (3137 jobs).
+    nice -n 5 lake build WaveTurbulence.Foundations.Counting.CircleBlockIntervals
+    # Built ...CircleBlockIntervals (29s); completed successfully (3697 jobs).
+    nice -n 5 lake build WaveTurbulence.Foundations.Counting.CircleLowHeights
+    # Built ...CircleLowHeights (21s); completed successfully (3262 jobs).
+    nice -n 5 lake build WaveTurbulence.Foundations.Counting.CircleSemicircle
+    # Built ...CircleSemicircle (8.3s); completed successfully (3700 jobs).
+
+All final builds above have zero warnings. The newly compiled frozen modules
+are sealed definitions, not draft theorems/providers. No Mathlib module was
+compiled, no root build was run, and no dependency artifacts were deleted.
+
+    nice -n 5 lake env lean /home/scott/wt-scratch/nt-circle/GlobalArcAxioms.lean
+    # exit 0; /home/scott/wt-scratch/nt-circle/global-arc-axioms.log
+
+Eight axiom checks cover filtered blocks, low heights, exact dyadic partition,
+cutoff existence, left/right/global arc sums, and the canonical disc membership
+characterization. Every check reports exactly
+`[propext, Classical.choice, Quot.sound]`. The probe also prints the two main
+statement types, confirming their geometric premises and canonical lattice use.
+
+The module checker passes for all 26 packet Lean files at the 1500-line cap.
+Whitespace checks are clean. A scan of the owned `.lean` files finds no
+`sorry`, `axiom`, `admit`, `unsafe`, `opaque`, or option overrides.
+
+### Exact remaining mathematical obligation and proposed route
+
+The circle discrepancy theorem has **not** been proved. After approximately an
+hour on goal 2, the remaining analytic estimate is the following uniform
+height-sum/area comparison, stated here as an obligation, not as a hypothesis
+of any claimed circle theorem:
+
+    exists C, forall r>=1 and c in R,
+      |2 * sum_{x in integerInterval (c-r^3) (c+r^3)} circleHeight (r^3) c x
+           - pi*r^6| <= C*r^2.
+
+The exact disc formula in `LatticeDisc.lean` already isolates this term and
+two sawtooth sums. The latter are controlled by the proved global arc estimate
+after reindexing the integer interval by naturals. That interval reindexing,
+the area estimate, and the final `Q=r^3` reparameterization still need to be
+installed in Lean; none is silently discharged by the local/global arc results.
+
+Proposed continuation: use a trapezoidal estimate on the truncated smooth
+arc, with the height cutoff of order `r^2`, and monotone endpoint estimates
+for the two tips. Mathlib's
+`MeasureTheory/Integral/IntervalIntegral/TrapezoidalRule.lean` has
+`trapezoidal_error_le` and `trapezoidal_error_le_of_c2`; the local derivative
+and dyadic geometry bounds needed to apply them are proved in this packet.
+The circular area integral can be obtained by scaling/translating Mathlib's
+`intervalIntegral.integral_sqrt_one_sub_sq` (check the exact export namespace
+when implementing). This is a proposed proof route, not a completed Lean proof.
+
+No new suspected source errata or counterexample to revision 2 was found.
+The deviation is a partial handoff at its goal-2 stop condition: goal 1 is done
+and committed; the substantial circle ingredients above are separate milestones.
+Goals 2–5 are not claimed done, and no improved discrepancy exponent is reported
+as proved. The old exponent audit remains a numerical audit, not goal 5.
+
+The preceding STOPPED status is superseded by the continued work below.
+
+## Continued work: goal 2 completed (2026-11-03)
+
+The orchestrator clarified that routine long proofs are not stop conditions.
+The Euler–Maclaurin route is implemented without additional mathematical assumptions.
+
+Files: `Counting/EulerMaclaurin.lean`, `CircleAreaGeometry.lean`,
+`CircleQuadrature.lean`, `IntegerSampling.lean`, `CircleHeightSum.lean`,
+`CircleIntegerSawtooth.lean`, `CircleDiscrepancy.lean`.
+
+Approach: twice integrate by parts on each unit interval against
+`(x-a)*(x-a-1)/2`, whose absolute value is at most `1/8`. For a concave
+function the remainder is bounded by the decrease of the first derivative,
+which telescopes. Circular slopes after removing unit tip regions are at
+most `sqrt R`. Tip heights and tip integrals cost `O(sqrt R)`. Scaling
+Mathlib's exact unit semicircle integral gives `pi*R^2/2`. The actual closed
+integer height sum differs from this area by at most `15*sqrt R` for all
+`R >= 1` (the small-radius case is handled directly). Exact reindexing
+transfers the global sawtooth estimate to the same integer columns.
+
+Main result: `abs_card_latticeDisc_sub_area_le`, for every `Q >= 1` and
+`c : EuclideanSpace ℝ (Fin 2)`,
+`abs (card(latticeDisc c Q) - pi*Q^2) <= 1334*Q^(2/3)`.
+`mem_latticeDisc` identifies this finite set exactly with the closed norm
+condition using the canonical frozen `WaveTurbulence.latticePoint 1`.
+No boundary points or exceptional centers are omitted.
+
+Checks: targeted `nice -n 5 lake build
+WaveTurbulence.Foundations.Counting.CircleDiscrepancy` completed successfully
+(9074 jobs, final own-file build 8.6s), with no warnings and default budgets.
+The intermediate quadrature build and its five axiom checks passed; their
+axioms are only `[propext, Classical.choice, Quot.sound]`.
+
+Commits: `3037cae` (integral remainder and slopes), `9e336c7` (full circular
+quadrature); main merged at the clean milestone. Goal 2 is now proved;
+goals 3–5 remain in progress. No new suspected errata or deviations.
+
+The final discrepancy axiom probe `CircleDiscrepancyAxioms.lean` passed for
+both discrepancy forms, the actual integer height and sawtooth sums, and
+`mem_latticeDisc`: all have only `[propext, Classical.choice, Quot.sound]`.
+The module-shape check passes for all 33 owned Lean modules.
+
+## Goal 3: elementary geometry milestone (in progress)
+
+Files: `Counting/LatticeTriangle.lean`, `QuadraticStrip.lean`, `AnnulusLine.lean`.
+The thin-frame determinant criterion is proved by integrality of the doubled
+lattice-triangle area. Degenerate planar lattice sets have an injective
+coordinate projection, and nonvertical ones have the actual affine graph
+through two distinct points. Quadratic-strip counting handles both branches
+and proves `card_collinear_radial_annulus_le`: every collinear finite lattice
+subset of the actual radial annulus has at most `8*sqrt(Q*rho)` points when
+`0 <= rho <= Q` and `Q*rho >= 1`. Vertical lines, singletons and empty sets
+are included. This is the line-counting step of DH23 L2042, not yet the full
+elementary branch: its thin-section covering remains to be assembled.
+
+Checks: targeted `nice -n 5 lake build
+WaveTurbulence.Foundations.Counting.AnnulusLine` completed successfully
+(3216 jobs; final own-file build 34s), no warnings or budget overrides.
+No additional source defect or deviation was found. Goal 3 remains active;
+goals 4–5 are not claimed complete.
+
+The four main elementary-geometry axiom probes also passed, all with only
+`[propext, Classical.choice, Quot.sound]`.
+
+## Goal 3: elementary annulus branch completed
+
+Additional files: `Counting/AnnulusSectionGeometry.lean`, `IntervalCells.lean`,
+`AnnulusCellWidth.lean`, `AnnulusChartCounting.lean`, `LatticeRotations.lean`,
+`AnnulusRotatedCharts.lean`, `AnnulusCoverGeometry.lean`, `AnnulusElementary.lean`.
+
+Main result `card_annulus_disc_le` counts any finite subset of the actual
+annulus–disc intersection, using `WaveTurbulence.latticePoint 1` and the
+Euclidean carrier for both centers. The bound is
+`640000*(1 + L*rho + L/Q^(1/3))*sqrt(Q*rho)`.
+This is the factored form of DH23's three elementary terms:
+`sqrt(Q*rho) + L*(Q*rho)^(3/2)/Q + L*sqrt(Q*rho)/Q^(1/3)`.
+The explicit scale convention is `Q > 0`, `0 <= rho <= Q/2`, `Q*rho >= 1`,
+and `L >= 0`; `rho` is the annulus half-width. These fix constants in the
+source's `Q^(-1) << rho << Q` and its width convention. No exceptional
+centers or integer boundary points are discarded.
+
+Approach: use four Cartesian charts instead of angular sectors. On the
+upper chart `y >= Q/4`, a horizontal cell of width `T` has tangent-shear
+thickness at most `1000*(rho + T^2/Q)`. With radius `r^3`, the explicit
+choice `T = 1/(10000*(1/r+rho))` makes the determinant bound less than one.
+Every cell is therefore collinear. The previously proved line estimate and
+the actual floor-cell count `2L/T+2` give the upper-chart bound; exact lattice
+quarter-turn embeddings handle the other three charts. The four charts
+cover the whole annulus. The intermediate square version is stronger than
+the requested containing-disc version.
+
+Checks: targeted `nice -n 5 lake build
+WaveTurbulence.Foundations.Counting.AnnulusElementary` passed (9059 jobs,
+final own-file build 6.7s), zero warnings, default budgets. Each supporting
+module was also built narrowly. This completes only goal 3's elementary
+annulus branch. The `estcross` part remains active, starting with a direct
+floor-cell proof of the short-relation pigeonhole step in `DenseStrip.lean`.
+No new suspected source errata. The Cartesian subdivision is a proof-route
+choice, and the half-width and small-width constants above are explicit
+conventions rather than changes to the asymptotic claim.
+
+All six annulus-elementary axiom probes passed, each with only
+`[propext, Classical.choice, Quot.sound]`. The module-shape check passes
+for all 45 owned Lean files currently present.
+
+## Goal 3: estcross density and separable-counting milestone
+
+Files: `Counting/DenseStrip.lean`, `DenseProductStrip.lean`, `LatticeBox.lean`,
+`FiniteFibers.lean`, `LinearStrip.lean`, `SeparableStrips.lean`.
+
+The planar short-relation pigeonhole step is proved with explicit constants:
+if a strip has at least `L/theta` samples, `L >= 16*theta`, the first coefficient
+has absolute value greater than `2*rho` and dominates the second, then there
+is an actual nonzero second integer coefficient of magnitude at most `8*theta`,
+a first coefficient of magnitude at most `9*theta`, and linear error at most
+`2*rho`. The higher-dimensional product version proves the coordinate-fixing
+step via actual finite fibers, with theta enlarged by `3^d` for `d` remaining
+coordinates. No planar density is assumed without proving it from the full
+family's density.
+
+Integer boxes have proved cardinal bound `(2L+1)^d`, uniformly in real centers.
+One-dimensional linear strips have bound `2*rho/abs a + 1` and, when the
+coefficient is dominated by the width, `3*rho/abs a`. The independent pair
+of linear constraints is counted after fixing the other coordinates in
+`card_separable_strips_le`. These are generic geometric/counting helpers;
+they do not stand in for the source `estcross` theorem. Summing over short
+relations and discharging their witnesses for the full exceptional set remain.
+
+Checks: targeted `DenseProductStrip` build passed (9061 jobs, final own file
+8.6s); targeted `SeparableStrips` build passed (9060 jobs, final own file 3.3s).
+All supporting files compile without warnings, default budgets. No new source
+erratum or deviation has been found.
+
+The five estcross-ingredient axiom probes passed, all with only
+`[propext, Classical.choice, Quot.sound]`.
+
+## Goal 3 completed: full estcross and source-form annulus bound
+
+Additional files: `Counting/RelationIndices.lean`, `ShortRelationCounting.lean`,
+`LatticeCoordinates.lean`, `DenseVectorStrip.lean`, `DenseRelationIndices.lean`,
+`EstcrossBudget.lean`, `EstcrossDominant.lean`, `Estcross.lean`, `EstcrossBalls.lean`.
+The expanded elementary annulus form was added to `AnnulusElementary.lean`.
+
+Main result `card_dense_dot_product_strips_in_balls_le` states estcross for
+actual Euclidean balls and the actual inner product of frozen
+`WaveTurbulence.latticePoint 1` values. It covers every dimension `D=d+3`.
+The source's global standing dimension assumption is explicit at DH23 TeX
+L252 and L438: `d >= 3`. The ball centers and levels of the dense strips may
+depend arbitrarily on the exceptional vector; no center is bounded or rounded.
+The density condition is an actual finite subset of the ball with actual
+strip membership and at least `L^(D-1)/theta` points. It is exactly the
+property being counted, not an intermediate short-relation hypothesis.
+
+The proved bound is
+`C_D * (rho^D + L^(D-2)*rho^2*theta^2*(1+log L)^2)` with
+`C_D = 5^D + D*129600*(3^(D-2))^3`.
+Explicit scale convention: `rho >= 0`, `theta >= 1`,
+`16*3^(D-2)*theta <= rho <= L`. This fixes constants in the source's
+`1 << rho << L`, `1 <= theta << rho`. The dense-count threshold is normalized
+to `L^(D-1)/theta`; other fixed implicit constants can be absorbed into theta
+and the corresponding scale constants. The theorem does not require dyadic
+parameters and its explicit logarithmic loss is only two powers.
+
+Approach: the actual coordinate dot product and its remaining-coordinate
+fibers provide each of the two short integer relations. Signed nonzero
+coefficients are enumerated by their actual sign and positive natural
+magnitude. Counting the two remaining independent coordinates gives reciprocal
+weights; their exact sum is a harmonic number, bounded by Mathlib's
+`harmonic_le_one_add_log`. The actual coefficient budget is the natural ceiling
+of `9*3^(D-2)*theta`, bounded by `10*3^(D-2)*theta`. The dominant-coordinate
+restriction is removed by actual coordinate permutations and a finite cover.
+Small vectors contribute the `rho^D` term. No short-relation witnesses or
+coefficient-sum estimates are left as premises of estcross.
+
+`card_annulus_disc_le_expanded` now states the elementary annulus branch with
+exactly the three printed geometric terms, using a proved identity between
+the factored expression and real powers. It retains the closed radial annulus
+and closed Euclidean containing disc, uniformly in both centers.
+
+Checks: targeted `nice -n 5 lake build
+WaveTurbulence.Foundations.Counting.EstcrossBalls` passed (9072 jobs, final
+own-file build 16s) and targeted `AnnulusElementary` passed (9059 jobs, final
+own-file build 26s), both with no warnings or budget overrides. The module
+shape/line-limit check passes for all 59 owned Lean modules. `git diff --check`
+is clean. All short-relation, scalar-budget and coordinate modules compiled
+through these exact targets. Goals 1–3 are proved; goal 4 is next, and goal 5
+still depends on its improved exponent.
+
+New minor source erratum: DH23 `Revision_Submit.tex` L2040 prints
+`\#(A\cap \Zb^d)` in the elementary planar-annulus proof. The lemma begins with
+`A\subset\Rb^2` (L2028), so that display should read `Z^2`. The formalization
+uses `Fin 2 -> Z` throughout this argument. This is a dimensional typo and
+does not affect the estimate. The previously accepted F31 numerical defect
+and the requirement for an exponent strictly below `2/3` remain unchanged.
+
+Final goal-3 checks: the six estcross axiom probes, including the full
+Euclidean-ball theorem, passed, all with only `[propext, Classical.choice,
+Quot.sound]`. The expanded annulus theorem and its real-power identity also
+passed the same axiom check. No provider, draft frozen theorem, custom axiom
+or budget override is used. Goal 3 is complete and work proceeds directly
+to goal 4.
+
+## Revised goal 4 coordination and general smoothing milestone
+
+The orchestrator split the B-process into NT-BPROC (wt-ansob), owning
+`Foundations/VdCB/**`, including the Graham–Kolesnik phase-class predicate
+and `IsExponentPair`. This packet defines no competing exponent-pair notion.
+It now supplies the A-process side, distinct conditional transfer helpers,
+and the general-exponent annulus bound, then will plug in VdCB's proved pair
+and finish goal 5. Coordination is only through the orchestrator.
+
+New proved files: `NumberTheory/PhaseCalculus.lean`, `FractionalPowerSums.lean`,
+`FractionalSmoothing.lean`, `ExponentPairSmoothing.lean`.
+For `0 < kappa < 1`, the exact weight bounds are
+`sum_{n<=H} n^(kappa-1) <= H^kappa/kappa` and
+`sum_{n>H} n^(kappa-2) <= H^(kappa-1)/(1-kappa)`.
+Consequently the sawtooth sum is bounded by
+`card/(2H) + ((pi/kappa+1/(1-kappa))/pi^2)*A*H^kappa`
+under the explicit actual frequency estimate `norm(S_n) <= A*n^kappa`.
+`abs_sum_sawtooth_le_of_frequency_scale` optimizes the actual natural cutoff
+`ceil(Q^((1-lambda)/(1+kappa)))`, for `lambda <= 1`, and proves the exact
+exponent `(kappa+lambda)/(1+kappa)`, with no logarithmic or epsilon loss.
+It assumes an actual finite phase family's frequency estimate and is named
+and documented as a conditional numerical helper. No improved exponent pair
+or improved unconditional circle estimate is claimed at this stage.
+
+Checks: targeted `ExponentPairSmoothing` build passed (3718 jobs; supporting
+own-file builds 70s and 64s) and `PhaseCalculus` passed (3256 jobs, 61s), no
+warnings or overrides. All five corresponding axiom probes passed with only
+`[propext, Classical.choice, Quot.sound]`.
+The unfinished Poisson and oscillatory-integral drafts were preserved under
+`/home/scott/wt-scratch/nt-circle/bproc-drafts/`, outside the repository, after
+the B-process was reassigned. The completed phase-calculus identities remain
+available as reusable character calculus; no B-process source theorem is
+being implemented in this packet in parallel with NT-BPROC.
