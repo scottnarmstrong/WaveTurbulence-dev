@@ -1,0 +1,90 @@
+[
+ {
+  "tmux": "wt-orch",
+  "model": "Claude Opus",
+  "account": "claude-1",
+  "branch": "w/orch",
+  "packet": "audits (Wave B stage audits; done: freeze check, figure defs, topology review, infra review)",
+  "brief": "docs/campaign/orch/TASK4.md"
+ },
+ {
+  "tmux": "wt-gauss-hc",
+  "model": "Claude Opus",
+  "account": "claude-10",
+  "branch": "w/waveb-infra",
+  "packet": "WAVEB2-DRAFT: Wave B tier B2 drafts (B1 drafts under audit)",
+  "brief": "docs/campaign/briefs/WAVEB2-DRAFT.md"
+ },
+ {
+  "tmux": "wt-torus",
+  "model": "Claude Opus",
+  "account": "claude-14",
+  "branch": "w/nls",
+  "packet": "NLS (B1–B3): smooth solutions, reduction to the a-system, measurability",
+  "brief": "docs/campaign/briefs/NLS.md"
+ },
+ {
+  "tmux": "wt-wke",
+  "model": "Claude Opus",
+  "account": "claude-13",
+  "branch": "w/jr-ops",
+  "packet": "JR-OPS: DH21 class J/R operators, Lemmas 5.3–5.8 (critical path; WKE + WKE-TAYLOR landed)",
+  "brief": "docs/campaign/briefs/JR-OPS.md"
+ },
+ {
+  "tmux": "wt-cumul",
+  "model": "GPT-6.1-Sol low",
+  "account": "codex-3",
+  "branch": "w/misc-a",
+  "packet": "MISC-A: TARGET Lemmas A.6–A.7, DH21 A.4, probability helpers (Hua moved to NT2)",
+  "brief": "docs/campaign/briefs/MISC-A.md"
+ },
+ {
+  "tmux": "wt-nt",
+  "model": "GPT-6.1-Sol low",
+  "account": "codex-3",
+  "branch": "w/nt-circle",
+  "packet": "NT-EXPSUM: circle problem with exponent < 2/3 (van der Corput)",
+  "brief": "docs/campaign/briefs/NT-CIRCLE-v2.md"
+ },
+ {
+  "tmux": "wt-ansob",
+  "model": "GPT-6.1-Sol low",
+  "account": "codex-3",
+  "branch": "w/an-sob",
+  "packet": "N4 AN-SOB: Sobolev/Morrey, simplex volumes, DH21 Lemma 10.2",
+  "brief": "docs/campaign/briefs/AN-SOB.md"
+ },
+ {
+  "tmux": "wt-gausssum",
+  "model": "GPT-6.1-Sol low",
+  "account": "codex-3",
+  "branch": "w/hua",
+  "packet": "NT2 HUA: Hua L⁴/L⁶, Weyl-sum reduction, L^{3d/2} moments (GAUSSSUM landed)",
+  "brief": "docs/campaign/briefs/HUA.md"
+ },
+ {
+  "tmux": "wt-resonant",
+  "model": "GPT-6.1-Sol low",
+  "account": "codex-3",
+  "branch": "w/resonant",
+  "packet": "N5 RESONANT: resonant measure, p.v. 1/Ω, DH21 Lemma 6.3",
+  "brief": "docs/campaign/briefs/RESONANT.md"
+ },
+ {
+  "tmux": "wt-anfourier",
+  "model": "GPT-6.1-Sol low",
+  "account": "codex-3",
+  "branch": "w/an-phase",
+  "packet": "N2+N3: Poisson summation, (non-)stationary phase, Hausdorff–Young, DNY21 kernel, TARGET Lemmas A.2–A.3 (AN-FOURIER landed)",
+  "brief": "docs/campaign/briefs/AN-PHASE-HY.md"
+ },
+ {
+  "tmux": "wt-l2s",
+  "model": "GPT-6.1-Sol low",
+  "account": "codex-3",
+  "branch": "w/wke-l2s",
+  "packet": "WKE-L2S: general-d L²_s trilinear estimate (Theorem 7), wkelwp blow-up conjunct",
+  "brief": "docs/campaign/briefs/WKE-L2S.md"
+ }
+]

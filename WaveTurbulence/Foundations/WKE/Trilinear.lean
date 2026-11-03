@@ -324,6 +324,16 @@ theorem tameA_eq (k : Mom d) (s M H₁ H₂ H₃ L₁ L₂ L₃ : ℝ) (i : Fin 
 @[expose] noncomputable def tameConst (d : ℕ) (s₀ : ℝ) : ℝ :=
   hypConst d (s₀ / 2) / 2 * invNormConst d (s₀ / 2)
 
+theorem invNormConst_nonneg (d : ℕ) (M : ℝ) : 0 ≤ invNormConst d M := by
+  unfold invNormConst
+  exact add_nonneg (setIntegral_nonneg measurableSet_ball fun x _ => by positivity)
+    (integral_nonneg fun x => by positivity)
+
+theorem tameConst_nonneg (d : ℕ) (s₀ : ℝ) : 0 ≤ tameConst d s₀ := by
+  unfold tameConst
+  have := hypConst_nonneg d (s₀ / 2); have := invNormConst_nonneg d (s₀ / 2)
+  positivity
+
 theorem integrable_inv_norm_mul_wt (hd : 2 ≤ d) {M : ℝ} (hM : (d : ℝ) < M) (c : Mom d) :
     Integrable (fun ℓ : Mom d => ‖ℓ‖⁻¹ * wt M (c + ℓ)) :=
   integrable_inv_norm_mul_one_add_norm hd hM c
@@ -388,8 +398,9 @@ theorem abs_deltaInt_le_tame (hd : 2 ≤ d) (hs₀ : 2 * (d : ℝ) < s₀)
           (wt s k * (1 + ‖k‖) ^ s) := by rw [tameConst]; ring
     _ = _ := by rw [wt_mul_rpow, mul_one]
 
-/-- **Tame trilinear estimate for each term `𝒦ⱼ`** (weighted-`L^∞` form of TARGET (schappend8),
-L2513–L2516; cf. the `L^∞_s` estimate of GIT20 Prop. `PropLinfty`, Kin8.tex L571–L577).
+/-- **Tame trilinear estimate for each term `𝒦ⱼ`** in weighted sup norms. This is *not* TARGET
+(schappend8) (L2513–L2516), which is the `L²_s` estimate; it is a weighted-`L^∞` substitute used in
+its place (cf. the `L^∞_s` estimate of GIT20 Prop. `PropLinfty`, Kin8.tex L571–L577).
 For `d ≥ 2`, `s₀ > 2d`, `s ≥ 0`,
 `|fᵢ| ≤ Hᵢ (1+|y|)^{-s}` and `|fᵢ| ≤ Lᵢ (1+|y|)^{-s₀}`:
 `(1+|k|)^s |𝒦ⱼ(f₁,f₂,f₃)(k)| ≤ tameConst d s₀ · 3^s · (H₁L₂L₃ + L₁H₂L₃ + L₁L₂H₃)`. -/
@@ -414,7 +425,8 @@ theorem abs_sub_add_sub_le (a b c e : ℝ) : |a - b + c - e| ≤ |a| + |b| + |c|
   simp only [abs_neg, ← sub_eq_add_neg] at h1 h3
   linarith
 
-/-- **Tame trilinear estimate for `𝒦 = collisionOp`.** -/
+/-- **Tame trilinear estimate for `𝒦 = collisionOp`** in weighted sup norms (a weighted-`L^∞`
+substitute for, not a form of, the `L²_s` estimate TARGET (schappend8)). -/
 theorem abs_collisionOp_le_tame (hd : 2 ≤ d) (hs₀ : 2 * (d : ℝ) < s₀) (hs : 0 ≤ s)
     (hH₁ : DecayBound H₁ s f₁) (hH₂ : DecayBound H₂ s f₂) (hH₃ : DecayBound H₃ s f₃)
     (hL₁ : DecayBound L₁ s₀ f₁) (hL₂ : DecayBound L₂ s₀ f₂) (hL₃ : DecayBound L₃ s₀ f₃)
