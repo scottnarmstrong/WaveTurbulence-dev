@@ -545,6 +545,9 @@ public import WaveTurbulence.Foundations.NLS.AkSystem
 public import WaveTurbulence.Foundations.NLS.AkTruncFlow
 public import WaveTurbulence.Foundations.NLS.AkUnique
 public import WaveTurbulence.Foundations.NLS.Backward
+public import WaveTurbulence.Foundations.NLS.BridgeMeasurability
+public import WaveTurbulence.Foundations.NLS.BridgeReduction
+public import WaveTurbulence.Foundations.NLS.BridgeWeights
 public import WaveTurbulence.Foundations.NLS.Convolution
 public import WaveTurbulence.Foundations.NLS.Energy
 public import WaveTurbulence.Foundations.NLS.FourierEquation
