@@ -15,8 +15,8 @@ For `d ≥ 2` and Schwartz inputs, each term `𝒦ⱼ(φ₁, φ₂, φ₃)` and 
 function (`collisionTermSchwartz`, `collisionOpSchwartz`). Smoothness follows by iterating the
 Leibniz rule (`hasFDerivAt_collisionTerm`), whose derivative is again a sum of `𝒦ⱼ`'s of
 Schwartz functions; decay of every derivative follows from the weighted-sup trilinear estimate
-(`abs_collisionTerm_le`). This is the Schwartz-class version of the `Z_{s,m}` mapping property
-used in TARGET Appendix C (L2526: "the trilinear estimate (schappend8) holds for `Z_{s,m}`").
+(`abs_collisionTerm_le`, a weighted-`L^∞` estimate, not the `L²_s` estimate (schappend8)). This
+plays the role of the `Z_{s,m}` mapping property used in TARGET Appendix C (L2526).
 -/
 
 public section
