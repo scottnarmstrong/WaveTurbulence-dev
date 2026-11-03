@@ -6,6 +6,9 @@ Authors: Scott Armstrong
 module
 
 public import Mathlib
+public import WaveTurbulence.Foundations.Analysis.CubeSobolev
+public import WaveTurbulence.Foundations.Analysis.IntervalSobolev
+public import WaveTurbulence.Foundations.Analysis.WeightedSobolev
 public import WaveTurbulence.Foundations.Counting.CircleArc
 public import WaveTurbulence.Foundations.Counting.ExponentAudit
 public import WaveTurbulence.Foundations.Counting.LatticeDisc
