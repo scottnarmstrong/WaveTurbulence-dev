@@ -79,4 +79,11 @@ theorem chi0_gevreyTwoBound :
   · norm_num
     ring
 
+/-- The complementary cutoff is Gevrey 2 with the same exponential constant. -/
+theorem chiInfinity_gevreyTwoBound :
+    GevreyTwoBound chiInfinity (1 + Real.exp 4) (16 + 16 * Real.exp 2) := by
+  have hc := (gevreyTwoBound_const 1).mono (by norm_num) (by norm_num)
+    (show |(1 : ℝ)| ≤ 1 by norm_num) (show 0 ≤ 16 + 16 * Real.exp 2 by positivity)
+  exact hc.add chi0_gevreyTwoBound.neg contDiff_const chi0_contDiff.neg
+
 end WaveTurbulence.Fourier

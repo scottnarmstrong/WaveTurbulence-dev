@@ -23,6 +23,21 @@ separately when needed; this predicate only records the numerical estimates. -/
 @[expose] def GevreyTwoBound (f : ℝ → ℝ) (C A : ℝ) : Prop :=
   ∀ (m : ℕ) (x : ℝ), |iteratedDeriv m f x| ≤ C * A ^ m * (Nat.factorial (2 * m) : ℝ)
 
+/-- Constant functions satisfy the bound with exponential constant zero. -/
+theorem gevreyTwoBound_const (c : ℝ) : GevreyTwoBound (fun _ => c) |c| 0 := by
+  intro m x
+  cases m with
+  | zero => simp
+  | succ m => simp [iteratedDeriv_const]
+
+/-- Negation preserves the same constants. -/
+theorem GevreyTwoBound.neg {f : ℝ → ℝ} {C A : ℝ} (hf : GevreyTwoBound f C A) :
+    GevreyTwoBound (fun x => -f x) C A := by
+  intro m x
+  change |iteratedDeriv m (-f) x| ≤ _
+  rw [iteratedDeriv_neg, abs_neg]
+  exact hf m x
+
 /-- Increasing either nonnegative constant preserves a Gevrey bound. -/
 theorem GevreyTwoBound.mono {f : ℝ → ℝ} {C D A B : ℝ}
     (hf : GevreyTwoBound f C A) (hC : 0 ≤ C) (hA : 0 ≤ A)
