@@ -1,7 +1,8 @@
 # HUA handoff
 
 Branch: `w/hua`, created from main in the existing gausssum worktree.
-All changes are confined to `WaveTurbulence/Foundations/WeylSums/`.
+All worker-authored changes are confined to `WaveTurbulence/Foundations/WeylSums/`.
+Main was merged without conflicts at `6bee635` (integrated main `e247a1d`).
 
 ## Files and interfaces
 
@@ -116,6 +117,20 @@ Final combined axiom audit:
   Fourier representation, translated Fourier weights, all tail estimates,
   sign symmetry, and periodicity.
 
+Milestone commits:
+
+- `d57d826`: uniform sharp fourth and sixth Hua moments.
+- `b689773`: global and localized moments of the full supremum.
+- `0808740`: compact Fourier and lattice reductions, parity reindexing,
+  translations, quantitative tails, and packet interface.
+- `6bee635`: clean integration of main `e247a1d`.
+
+After merging main, the same targeted `HuaPacket` build again reported
+`Build completed successfully (3850 jobs).` The updated smoothness rule was
+checked: this packet uses scoped `∞`, with no untyped analytic `⊤` premise.
+The combined `AuditPacket.lean` command was rerun after the merge: exit 0,
+with the same standard axiom set for all 16 declarations.
+
 ## Uncertainties
 
 None in the proved statements. The shared reduction deliberately exposes
@@ -133,6 +148,6 @@ No application-specific estimate is assumed in place of a packet result.
   implication with strict inner inequality and recover the closed window
   by null endpoints. This does not change any integral or exponent.
 - No frozen declaration was changed. No source estimate was added as a
-  hypothesis. No changes outside the owned directory or root imports.
+  hypothesis. No worker-authored changes outside the owned directory or root imports.
 
 READY hua
