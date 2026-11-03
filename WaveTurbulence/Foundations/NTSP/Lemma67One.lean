@@ -66,6 +66,59 @@ theorem lintegral_slice_chi_le {lam : ℝ} (hlam : 0 < lam) (b : Mom d) {x : Mom
         gcongr
         exact integral_decay_slice_le hx b t
 
+/-- The sliced majorant: for `x ≠ 0`,
+`∫ M(μ⟨x,y⟩) |χ₀((x-a)/λ)| |χ₀((y-b)/λ)| dy ≤ |χ₀((x-a)/λ)| sliceConst (μ|x|)^{-1} ‖M‖_{L¹}`. -/
+theorem lintegral_majorant_le {lam μ : ℝ} (h0 : 0 < lam) (hμ : 0 < μ) {M : ℝ → ℝ}
+    (hMm : Measurable M) (hM : Integrable M) (hM0 : ∀ u, 0 ≤ M u) (a b : Mom d) {x : Mom d}
+    (hx : x ≠ 0) :
+    ∫⁻ y, ENNReal.ofReal (M (μ * inner ℝ x y) * ‖chiScaled lam (x - a)‖ *
+      ‖chiScaled lam (y - b)‖) ≤
+      ENNReal.ofReal (‖chiScaled lam (x - a)‖ * sliceConst d lam * ((μ * ‖x‖)⁻¹ * ∫ u, M u)) := by
+  have hxn : 0 < ‖x‖ := norm_pos_iff.2 hx
+  set K := sliceConst d lam
+  have hK : 0 ≤ K := sliceConst_nonneg d h0.le
+  set IM := ∫ u, M u
+  set g : Mom d → ℝ≥0∞ := fun y =>
+    ENNReal.ofReal (M (μ * inner ℝ x y) * ‖chiScaled lam (x - a)‖ * ‖chiScaled lam (y - b)‖)
+  have hgm : Measurable g := ENNReal.measurable_ofReal.comp
+    (((hMm.comp (measurable_const.mul (measurable_const.inner measurable_id))).mul
+      measurable_const).mul
+      ((contDiff_chiScaled lam).continuous.comp (continuous_id.sub continuous_const)).norm.measurable)
+  show ∫⁻ y, g y ≤ _
+  calc ∫⁻ y, g y
+    _ = ∫⁻ t : ℝ, ∫⁻ w : ↥(ℝ ∙ x)ᗮ, g (t • unitVec x + w) := lintegral_eq_lintegral_slice hx hgm
+    _ = ∫⁻ t : ℝ, ENNReal.ofReal (M (μ * ‖x‖ * t) * ‖chiScaled lam (x - a)‖) *
+          ∫⁻ w : ↥(ℝ ∙ x)ᗮ, ENNReal.ofReal ‖chiScaled lam (t • unitVec x + (w : Mom d) - b)‖ := by
+        refine lintegral_congr fun t => ?_
+        rw [← lintegral_const_mul' _ _ ENNReal.ofReal_ne_top]
+        refine lintegral_congr fun w => ?_
+        simp only [g, inner_slice]
+        rw [← ENNReal.ofReal_mul (mul_nonneg (hM0 _) (norm_nonneg _))]
+        congr 2
+        ring_nf
+    _ ≤ ∫⁻ t : ℝ, ENNReal.ofReal (M (μ * ‖x‖ * t) * ‖chiScaled lam (x - a)‖) *
+          ENNReal.ofReal K := by
+        gcongr with t
+        exact lintegral_slice_chi_le h0 b hx t
+    _ = ENNReal.ofReal (‖chiScaled lam (x - a)‖ * K) *
+          ∫⁻ t : ℝ, ENNReal.ofReal (M (0 + t * (μ * ‖x‖))) := by
+        rw [← lintegral_const_mul' _ _ ENNReal.ofReal_ne_top]
+        refine lintegral_congr fun t => ?_
+        rw [← ENNReal.ofReal_mul (mul_nonneg (hM0 _) (norm_nonneg _)),
+          ← ENNReal.ofReal_mul (mul_nonneg (norm_nonneg _) hK)]
+        congr 1
+        rw [zero_add]
+        ring_nf
+    _ = ENNReal.ofReal (‖chiScaled lam (x - a)‖ * K) *
+          (ENNReal.ofReal |μ * ‖x‖|⁻¹ * ENNReal.ofReal IM) := by
+        have haff := lintegral_comp_affine (f := fun v => ENNReal.ofReal (M v))
+          (β := μ * ‖x‖) (by positivity) 0 (ENNReal.measurable_ofReal.comp hMm)
+        rw [haff,
+          ← ofReal_integral_eq_lintegral_ofReal hM (Filter.Eventually.of_forall hM0)]
+    _ = ENNReal.ofReal (‖chiScaled lam (x - a)‖ * K * ((μ * ‖x‖)⁻¹ * IM)) := by
+        rw [abs_of_pos (by positivity), ← ENNReal.ofReal_mul (by positivity),
+          ← ENNReal.ofReal_mul (by positivity)]
+
 /-- The constant of DH23 Lemma 6.7 (1). -/
 @[expose] def intConst (d : ℕ) : ℝ :=
   (1 + Real.sqrt d) ^ (d : ℝ) * hypConst d d * singConst d 1 * (Real.sqrt d) ^ ((d : ℝ) - 1)
@@ -122,39 +175,8 @@ theorem ntintlem_one_gen (hd : 2 ≤ d) {lam μ : ℝ} (hlam : 1 ≤ lam) (hμ :
       calc ‖Ψ (μ * inner ℝ x y) x y‖ * (‖chiScaled lam (x - a)‖ * ‖chiScaled lam (y - b)‖)
           ≤ M (μ * inner ℝ x y) * (‖chiScaled lam (x - a)‖ * ‖chiScaled lam (y - b)‖) := by gcongr
         _ = _ := by ring
-    calc ∫⁻ y, ‖f x y‖ₑ ≤ ∫⁻ y, g y := lintegral_mono hfg
-      _ = ∫⁻ t : ℝ, ∫⁻ w : ↥(ℝ ∙ x)ᗮ, g (t • unitVec x + w) := lintegral_eq_lintegral_slice hx hgm
-      _ = ∫⁻ t : ℝ, ENNReal.ofReal (M (μ * ‖x‖ * t) * ‖chiScaled lam (x - a)‖) *
-            ∫⁻ w : ↥(ℝ ∙ x)ᗮ, ENNReal.ofReal ‖chiScaled lam (t • unitVec x + (w : Mom d) - b)‖ := by
-          refine lintegral_congr fun t => ?_
-          rw [← lintegral_const_mul' _ _ ENNReal.ofReal_ne_top]
-          refine lintegral_congr fun w => ?_
-          simp only [g, inner_slice]
-          rw [← ENNReal.ofReal_mul (mul_nonneg (hM0 _) (norm_nonneg _))]
-          congr 2
-          ring_nf
-      _ ≤ ∫⁻ t : ℝ, ENNReal.ofReal (M (μ * ‖x‖ * t) * ‖chiScaled lam (x - a)‖) *
-            ENNReal.ofReal K := by
-          gcongr with t
-          exact lintegral_slice_chi_le h0 b hx t
-      _ = ENNReal.ofReal (‖chiScaled lam (x - a)‖ * K) *
-            ∫⁻ t : ℝ, ENNReal.ofReal (M (0 + t * (μ * ‖x‖))) := by
-          rw [← lintegral_const_mul' _ _ ENNReal.ofReal_ne_top]
-          refine lintegral_congr fun t => ?_
-          rw [← ENNReal.ofReal_mul (mul_nonneg (hM0 _) (norm_nonneg _)),
-            ← ENNReal.ofReal_mul (mul_nonneg (norm_nonneg _) hK)]
-          congr 1
-          rw [zero_add]
-          ring_nf
-      _ = ENNReal.ofReal (‖chiScaled lam (x - a)‖ * K) *
-            (ENNReal.ofReal |μ * ‖x‖|⁻¹ * ENNReal.ofReal IM) := by
-          have haff := lintegral_comp_affine (f := fun v => ENNReal.ofReal (M v))
-            (β := μ * ‖x‖) (by positivity) 0 (ENNReal.measurable_ofReal.comp hMm)
-          rw [haff,
-            ← ofReal_integral_eq_lintegral_ofReal hM (Filter.Eventually.of_forall hM0)]
-      _ = ENNReal.ofReal (‖chiScaled lam (x - a)‖ * K * ((μ * ‖x‖)⁻¹ * IM)) := by
-          rw [abs_of_pos (by positivity), ← ENNReal.ofReal_mul (by positivity),
-            ← ENNReal.ofReal_mul (by positivity)]
+    refine (lintegral_mono hfg).trans ?_
+    exact lintegral_majorant_le h0 hμ hMm hM hM0 a b hx
   -- the outer integral
   have hsing := integral_indicator_norm_rpow_le (d := d) (p := 1) zero_le_one
     (by linarith) hr a
