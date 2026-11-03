@@ -270,3 +270,31 @@ map passes. The warm `--profile -D profiler.threshold=1` source check exited
 0 with no warnings. Cumulative tactic execution fell from 11.7s (failure)
 to 247ms (passing); no heartbeat or other budget was changed. The complete
 `LossOneBound` target is being checked next; Proposition 6 is not yet closed.
+
+## Goal 3 complete at implementation level: Theorem 7
+
+`420a7fb` proves the nonnegative first-loss bound; `6586e33` its signed
+version; `d6e2e05` the j = 1 bound; `7cf2b43` signed resonant symmetry and
+j = 3. Their axiom audit (`LossOneAxioms.lean`) exited 0, standard axioms only.
+
+`774bdbc` proves that gain recentering preserves dk dν; `9d01328` proves the
+gain Schur pairing; `073c0c4` proves the exact weighted gain pairing.
+`3350ffe` and `207ed18` establish genuine real L² tests and the extended
+nonnegative duality argument. `a0d684c` proves weighted squared integrability
+of the absolute gain output; `04fcda0` derives the signed j = 0 bound,
+actual membership, and the almost everywhere intrinsic delta reading.
+`ae6eadc` combines all four terms into `exists_collisionTerm_bound`.
+
+The final focused Trilinear build exited 0 without warnings. The six-result
+`Theorem7Axioms.lean` audit exited 0: standard axioms only for every result.
+The exact binders, frozen definition hashes, normalizations, source ranges,
+and scope of this worker implementation check are in `THEOREM7-CHECK.md`.
+No frozen anchor or manifest promotion was attempted.
+
+Goal 4 is active. `939aa54` constructs continuous weighted Schwartz-to-L²
+embeddings using the exact frozen multiplier and proves actual membership,
+exact norm equality, and norm continuity on frozen Schwartz solutions.
+`9e41b79` proves inverse weights, injectivity, density, and continuity of the
+weighted solution curve in the Banach model. The weighted encode/decode
+model and its linear algebra are being checked. The final blow-up theorem
+will use the landed `WaveTurbulence.WKE.tauMax`.
