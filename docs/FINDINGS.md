@@ -181,3 +181,10 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   false before localization; (iii) "bounded in Schwartz class ... uniformly in ξ and k" (timeintproof2-4) is false globally
   (at Γ₁(k) = ξ the tail integral of χ² is nonzero). All three were repaired in the Lean proofs without changing the lemma
   statements (beyond F42). Found by wt-anfourier (AN-PHASE-HY). Status: candidate errata (expository).
+- F48 (CONFIRMED by wt-orch, docs/campaign/orch/audits/F48-check.md): counterexample verified mechanically (valid prime
+  garden, ε = −1, c_v/Γ_v fixed, k free over L/4+1 values, Δχ = −2); the bridge correction is exactly what remtame (i)/(ii),
+  remtame2 and DH21 increF/cutlem need; no B1/B2 statement affected.
+- F50 — DH23 L1147–L1155 (Lemma 6.7, `NTintlem`) — `μ⁻¹∫ψ(μΩ)…` should be `μ∫ψ(μΩ)…` in (1) and (2); the error
+  `μ^{1−2η}` in (2) should be `μ^{−(1−2η)}` (cf. DH21 Lemma 6.5); the bound is bilinear in the Φ- and ψ-norms. Corrected
+  in the Lean statements (wt-torus, NTSP). Source: wt-orch Infra-review-3 R1(a). Status: candidate errata.
+- F51 — DH23 L2040 — `#(A ∩ ℤ^d)` should be `#(A ∩ ℤ²)`. Typo. Found by wt-nt (NT-CIRCLE v2). Source: Infra-review-3 R1(b).
