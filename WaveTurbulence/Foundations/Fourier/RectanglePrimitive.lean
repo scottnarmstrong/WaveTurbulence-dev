@@ -3,6 +3,7 @@ module
 
 public import WaveTurbulence.Foundations.Fourier.LeibnizInterval
 public import WaveTurbulence.Frozen.Defs.PartialDeriv
+public import WaveTurbulence.Foundations.Torus.Derivative
 import Mathlib.Tactic
 
 /-!
@@ -109,5 +110,23 @@ theorem partialDeriv_rectanglePrimitive_mixed {A : (Fin 2 → ℝ) → ℂ}
   have ht : ![t 0, t 1] = t := by ext j; fin_cases j <;> rfl
   simpa only [WaveTurbulence.partialDeriv, Function.update_self,
     Function.update_of_ne (show (1 : Fin 2) ≠ 0 by decide), ht] using hd.deriv
+
+/-- Smoothness of the exposed row primitive. -/
+theorem rectangle_row_contDiff {A : (Fin 2 → ℝ) → ℂ} (hA : ContDiff ℝ ∞ A) :
+    ContDiff ℝ ∞ (fun t : Fin 2 → ℝ => ∫ v in (0 : ℝ)..t 1, A ![t 0, v]) := by
+  have he : WaveTurbulence.partialDeriv 0 (rectanglePrimitive A) =
+      (fun t : Fin 2 → ℝ => ∫ v in (0 : ℝ)..t 1, A ![t 0, v]) :=
+    funext (partialDeriv_rectanglePrimitive_zero hA)
+  rw [← he]
+  exact WaveTurbulence.contDiff_infty_partialDeriv (rectanglePrimitive_contDiff hA) 0
+
+/-- Smoothness of the exposed column primitive. -/
+theorem rectangle_column_contDiff {A : (Fin 2 → ℝ) → ℂ} (hA : ContDiff ℝ ∞ A) :
+    ContDiff ℝ ∞ (fun t : Fin 2 → ℝ => ∫ u in (0 : ℝ)..t 0, A ![u, t 1]) := by
+  have he : WaveTurbulence.partialDeriv 1 (rectanglePrimitive A) =
+      (fun t : Fin 2 → ℝ => ∫ u in (0 : ℝ)..t 0, A ![u, t 1]) :=
+    funext (partialDeriv_rectanglePrimitive_one hA)
+  rw [← he]
+  exact WaveTurbulence.contDiff_infty_partialDeriv (rectanglePrimitive_contDiff hA) 1
 
 end WaveTurbulence.Fourier
