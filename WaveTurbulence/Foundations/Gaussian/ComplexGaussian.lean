@@ -5,7 +5,7 @@ Authors: Scott Armstrong
 -/
 module
 
-public import Mathlib.Probability.Distributions.Gaussian.Real
+public import WaveTurbulence.Frozen.Defs.StdComplexGaussian
 import WaveTurbulence.Foundations.Gaussian.IsserlisPolynomial
 public import Mathlib.Probability.Independence.InfinitePi
 import Mathlib.MeasureTheory.Function.LpSeminorm.Prod
@@ -25,11 +25,6 @@ open MeasureTheory ProbabilityTheory
 open scoped NNReal ENNReal
 
 namespace WaveTurbulence
-
-/-- The law of a centered normalized complex Gaussian `g` (`𝔼 g = 0`, `𝔼|g|² = 1`, circularly
-symmetric): real and imaginary parts independent `N(0, 1/2)`. -/
-@[expose] noncomputable def stdComplexGaussian : Measure ℂ :=
-  ((gaussianReal 0 (1 / 2)).prod (gaussianReal 0 (1 / 2))).map Complex.equivRealProd.symm
 
 private theorem measurable_complexFromPair : Measurable Complex.equivRealProd.symm :=
   Complex.equivRealProdCLM.symm.continuous.measurable
