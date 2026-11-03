@@ -84,3 +84,7 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   Source: T-part2 Q10.
 - F29 — External inputs not among pinned sources: DNY21 Lemma 3.1 (kernel bound in `timeintlem`), Oh–Thomann Lemma 2.6
   (replaced by our own hypercontractivity proof), quadratic Weyl sum bounds and their L^p moments (p = 3d/2). To pin.
+- F30 — TARGET Lemma `propertycm` (L2343–L2346) — "there is no proper subset A ⊂ {1,…,r} such that ∪_{i∈A} S_i equals
+  the union of some of the sets B ∈ 𝒫": read literally, A = ∅ always qualifies (empty union of blocks), so no
+  partition would be admissible; the intended condition is "no nonempty proper subset". Found by wt-cumul; adopted in
+  the Lean statement. Status: candidate (wording).
