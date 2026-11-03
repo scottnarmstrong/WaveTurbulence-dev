@@ -552,4 +552,87 @@ theorem norm_piece_P2 (h0 : 0 ≤ θ) (h1 : θ ≤ 1) (hA : A0 ≤ A) (h₁ : R�
 
 end Pieces
 
+section Regular
+
+variable {ι₁ ι₂ : Type*} [Fintype ι₁] [Fintype ι₂]
+variable {θ A N₁ N₂ : ℝ} {R₁ : JSym ι₁} {R₂ : JSym ι₂}
+
+theorem gev_ne_top (N A : ℝ) (k : ℕ) : gev N A k ≠ ⊤ := ENNReal.ofReal_ne_top
+
+theorem symReg_piece_M (h₁ : R₁.Bound θ A N₁) (h₂ : R₂.Bound θ A N₂) :
+    SymReg (triple R₁.m R₂.m kerM (yDiff R₁.y R₂.y) cJJ) :=
+  triple_symReg (isBundle_yDiff h₁.bundle h₂.bundle) h₁.reg h₂.reg contDiff_kerM
+    measurable_kerM.stronglyMeasurable measurable_cJJ gM measurable_gM
+    enorm_iteratedDeriv_kerM_le (fun k => ne_top_of_le_ne_top (gev_ne_top _ _ k) (lintegral_gM_le k))
+
+theorem stronglyMeasurable_kPhi : StronglyMeasurable (Function.uncurry kPhi) :=
+  (contDiff_phiR.continuous.comp continuous_fst).stronglyMeasurable
+
+theorem stronglyMeasurable_kPhiNeg : StronglyMeasurable (Function.uncurry kPhiNeg) :=
+  (contDiff_phiR.continuous.comp continuous_fst).neg.stronglyMeasurable
+
+theorem symReg_piece_P1 (h₁ : R₁.Bound θ A N₁) (h₂ : R₂.Bound θ A N₂) :
+    SymReg (triple R₁.m R₂.m kPhi (yDiff R₁.y R₂.y) cJJ) :=
+  triple_symReg (isBundle_yDiff h₁.bundle h₂.bundle) h₁.reg h₂.reg (fun _ => contDiff_phiR)
+    stronglyMeasurable_kPhi measurable_cJJ gPhi (fun _ => measurable_const)
+    (fun c x q => by simpa [kPhi] using enorm_iteratedDeriv_phiR_le_gPhi c x)
+    (fun k => by rw [lintegral_gPhi]; exact gev_ne_top _ _ k)
+
+theorem symReg_piece_P2 (h₁ : R₁.Bound θ A N₁) (h₂ : R₂.Bound θ A N₂) :
+    SymReg (triple R₁.m R₂.m kPhiNeg (yDiff R₁.y R₂.y) cJJ) :=
+  triple_symReg (isBundle_yDiff h₁.bundle h₂.bundle) h₁.reg h₂.reg
+    (fun _ => contDiff_phiR.neg) stronglyMeasurable_kPhiNeg measurable_cJJ gPhi
+    (fun _ => measurable_const)
+    (fun c x q => by
+      rw [iteratedDeriv_kPhiNeg]
+      exact enorm_iteratedDeriv_phiR_le_gPhi c x)
+    (fun k => by rw [lintegral_gPhi]; exact gev_ne_top _ _ k)
+
+/-- The basic class `J` operator of the `χ₀` piece. -/
+theorem exists_piece_M (h0 : 0 ≤ θ) (h1 : θ ≤ 1) (hA : A0 ≤ A) (h₁ : R₁.Bound θ A N₁)
+    (h₂ : R₂.Bound θ A N₂) :
+    ∃ S : JSym (ι₁ ⊕ ι₂), S.Bound θ A (3 * (16 * N₁ * N₂ * (CkM * IM))) ∧ ∀ α t s,
+      S.kernel α t s = ∫ z, triple R₁.m R₂.m kerM (yDiff R₁.y R₂.y) cJJ α z *
+        jker (bundle (yL R₁.y) α) ((eJJ (ℝ × ℝ) z).1.1 + (bM (eJJ (ℝ × ℝ) z).2).1)
+          ((eJJ (ℝ × ℝ) z).1.2 + (bM (eJJ (ℝ × ℝ) z).2).2) t s := by
+  have hN₁ := h₁.nonneg
+  have hN₂ := h₂.nonneg
+  have hC : 0 ≤ CkM * IM := mul_nonneg kerM_bound.1 IM_nonneg
+  obtain ⟨S, -, hS, hk⟩ := JSym.ofGenE (isBundle_yL h₁.bundle) (symReg_piece_M h₁ h₂)
+    (eJJ (ℝ × ℝ)) (measurePreserving_eJJ _) measurable_bM (by positivity)
+    (norm_piece_M h0 h1 hA h₁ h₂)
+  exact ⟨S, hS, hk⟩
+
+/-- The basic class `J` operator of the first `χ_∞` piece. -/
+theorem exists_piece_P1 (h0 : 0 ≤ θ) (h1 : θ ≤ 1) (hA : A0 ≤ A) (h₁ : R₁.Bound θ A N₁)
+    (h₂ : R₂.Bound θ A N₂) :
+    ∃ S : JSym (ι₁ ⊕ ι₂), S.Bound θ A (3 * (16 * (2 * N₁) * (2 * N₂) * CPhi)) ∧ ∀ α t s,
+      S.kernel α t s = ∫ z, triple R₁.m R₂.m kPhi (yDiff R₁.y R₂.y) cJJ α z *
+        jker (bundle (yR R₂.y) α) ((eJJ Unit z).1.1 + (bP1 (eJJ Unit z).2).1)
+          ((eJJ Unit z).1.2 + (bP1 (eJJ Unit z).2).2) t s := by
+  have hN₁ := h₁.nonneg
+  have hN₂ := h₂.nonneg
+  have hC := CPhi_nonneg
+  obtain ⟨S, -, hS, hk⟩ := JSym.ofGenE (isBundle_yR h₂.bundle) (symReg_piece_P1 h₁ h₂)
+    (eJJ Unit) (measurePreserving_eJJ _) measurable_bP1 (by positivity)
+    (norm_piece_P1 h0 h1 hA h₁ h₂)
+  exact ⟨S, hS, hk⟩
+
+/-- The basic class `J` operator of the second `χ_∞` piece. -/
+theorem exists_piece_P2 (h0 : 0 ≤ θ) (h1 : θ ≤ 1) (hA : A0 ≤ A) (h₁ : R₁.Bound θ A N₁)
+    (h₂ : R₂.Bound θ A N₂) :
+    ∃ S : JSym (ι₁ ⊕ ι₂), S.Bound θ A (3 * (16 * N₁ * N₂ * CPhi)) ∧ ∀ α t s,
+      S.kernel α t s = ∫ z, triple R₁.m R₂.m kPhiNeg (yDiff R₁.y R₂.y) cJJ α z *
+        jker (bundle (yL R₁.y) α) ((eJJ Unit z).1.1 + (bP2 (eJJ Unit z).2).1)
+          ((eJJ Unit z).1.2 + (bP2 (eJJ Unit z).2).2) t s := by
+  have hN₁ := h₁.nonneg
+  have hN₂ := h₂.nonneg
+  have hC := CPhi_nonneg
+  obtain ⟨S, -, hS, hk⟩ := JSym.ofGenE (isBundle_yL h₁.bundle) (symReg_piece_P2 h₁ h₂)
+    (eJJ Unit) (measurePreserving_eJJ _) measurable_bP2 (by positivity)
+    (norm_piece_P2 h0 h1 hA h₁ h₂)
+  exact ⟨S, hS, hk⟩
+
+end Regular
+
 end WaveTurbulence.ClassJR
