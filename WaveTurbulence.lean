@@ -62,6 +62,12 @@ public import WaveTurbulence.Foundations.Analysis.TreeResonanceWeights
 public import WaveTurbulence.Foundations.Analysis.TwoChainBound
 public import WaveTurbulence.Foundations.Analysis.UnitTimeCutoff
 public import WaveTurbulence.Foundations.Analysis.WeightedSobolev
+public import WaveTurbulence.Foundations.ApproxNT.Cell
+public import WaveTurbulence.Foundations.ApproxNT.CellBounds
+public import WaveTurbulence.Foundations.ApproxNT.CellMinor
+public import WaveTurbulence.Foundations.ApproxNT.Partition
+public import WaveTurbulence.Foundations.ApproxNT.PoissonPair
+public import WaveTurbulence.Foundations.ApproxNT.Products
 public import WaveTurbulence.Foundations.ClassJR.Bump
 public import WaveTurbulence.Foundations.ClassJR.ClassDef
 public import WaveTurbulence.Foundations.ClassJR.CompJJ
