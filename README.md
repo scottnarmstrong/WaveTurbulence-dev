@@ -13,14 +13,16 @@ Deng–Hani's earlier papers (DH21, DH23, parts of DH21-2 and DH19), the triline
 ## Status (2026-11-03 16:05 UTC)
 
 Phase P1/P2: sources pinned; paper maps of DH21/DH21-2 and DH23 done, target-paper maps in progress; exact Lean draft
-of Theorem 1.1 and its definitions elaborates and is under independent audit (wt-orch). No frozen statements yet.
-Route-independent infrastructure packets started (PLAN.md).
+**Wave A frozen (D6, 2026-11-03):** Theorem 1.1 (`WaveTurbulence.main`) and Prop 3.2 (`WaveTurbulence.wkelwp`) as
+`DRAFT_SORRY` anchors in `WaveTurbulence/Frozen/Theorems/`, 13 sealed definitions in `WaveTurbulence/Frozen/Defs/`,
+manifest `manifest/frozen.json`. Route-independent infrastructure packets running (PLAN.md).
 
 ```text
-DRAFT_ANCHORS: 0
+DRAFT_ANCHORS: 2 (WaveTurbulence/Frozen/Theorems/Main.lean, WaveTurbulence/Frozen/Theorems/Wkelwp.lean)
+SEALED DEFINITIONS: 13
 UNREGISTERED_SORRIES: 0
 DRAFT_IMPORT_VIOLATIONS: 0
-SEALED: 0
+SEALED THEOREMS: 0
 ```
 
 ### Workers
@@ -30,6 +32,7 @@ SEALED: 0
 | wt-orch | Claude Opus / claude-1 | statement audits, blueprint review | [orch/BRIEF.md](docs/campaign/orch/BRIEF.md) |
 | wt-gauss-hc | Claude Opus / claude-10 | Gaussian hypercontractivity, large deviations (DH21 Lemma A.3) | [GAUSS-HC](docs/campaign/briefs/GAUSS-HC.md) |
 | wt-torus | Claude Opus / claude-14 | Fourier series on the torus | [TORUS-FOURIER](docs/campaign/briefs/TORUS-FOURIER.md) |
+| wt-wke | Claude Opus / claude-13 | collision operator, GIT20 trilinear estimate, Prop `wkelwp`, WKE Taylor bounds | [WKE](docs/campaign/briefs/WKE.md) |
 | wt-cumul | GPT-6.1-Sol low / codex-3 | complex Gaussians, Isserlis, cumulants | [CUMUL](docs/campaign/briefs/CUMUL.md) |
 | wt-nt | GPT-6.1-Sol low / codex-3 | circle problem (exponent 2/3), annulus counting | [NT-CIRCLE](docs/campaign/briefs/NT-CIRCLE.md) |
 

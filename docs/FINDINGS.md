@@ -9,14 +9,16 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   [0,T]"; the proof computes E(1_F |û|²) with F the solvability event (not the conditional expectation). Draft Lean
   statement follows the proof (indicator, unconditional). Status: reading choice, to rule.
 - F3 — DH23 L2027–L2037 (Lemma `basiccount0pre`(1)) — "using the error term bound of Huxley [Hux93] for counting the
-  number of lattice points inside a disc" giving `Q ρ + Q^{7/11}`. Scope risk under D1: Huxley's exponential-sum bound
-  is deep. **Preliminary analysis (orchestrator, 2026-11-03):** (1) is used only in Lemma `basiccount0` (1)–(3) and
-  `basiccount`(5) (L2076–L2117), each time inside a `min(Q-branch, 1/Q-branch)` that must beat a power of `L`. With the
-  classical Sierpiński–van der Corput exponent 2/3 instead of 7/11: in (2) the min is ≲ L^{16/25} < L^{4/5−10^{-4}};
-  in (1),(3) the gain becomes ≈ L^{-(2γ−1)/3} instead of L^{-min(10^{-3}, 2γ−1)}, which still beats the needed
-  L^{-10η} because η ≪ γ − 1/2. The trivial exponent 1 would fail for 1/2 < γ ≤ 2/3. Planned route: prove the
-  circle-problem bound with exponent 2/3 and adapt the constants. Status: open, route proposed; to be confirmed by the
-  blueprint review.
+  number of lattice points inside a disc" giving `Q ρ + Q^{7/11}`. Scope risk under D1 (Huxley is deep).
+  **Revised 2026-11-03 (wt-nt audit, commit 3229554 on w/nt-circle, `ExponentAudit.lean`):** the orchestrator's first
+  analysis (exponent 2/3 suffices everywhere) was wrong for `basiccount0`(2): it used the printed three-entry min at
+  L2082, but (disclattice) is a two-branch min whose second branch is a *sum* (F31). With discrepancy exponent `e`,
+  the uses (1), (3) and `basiccount`(5) work for `e = 2/3` (saving L^{-(2γ−1)/3} ≫ L^{-10η}); use (2) (γ > 4/5 − 10η)
+  needs `e < 2/3` strictly (at γ = 4/5, Q = L^{6/5} the 2/3 bound gives exactly L^{4/5}); any fixed `e < 2/3` suffices
+  once η is small. Exponent-pair calculus: circle error `Q^{(κ+λ)/(1+κ)}`; the A-process alone (pair (1/6,2/3)) does
+  not beat 2/3; the classical pair (11/30, 16/30) (A- and B-processes) gives `e = 27/41 ≈ 0.659`. **Route:** prove a
+  circle-problem bound with some `e < 2/3` by van der Corput's method (Weyl differencing + Poisson/stationary-phase
+  B-process), not Huxley. Status: route set; packet NT-EXPSUM.
 - F4 — DH23 map (maps/DH23.md, open questions) lists candidate typos: flower-tree formulas with γ=1 normalization
   (L1996–L1999), `brprop` "Δν = 2" vs computed −2, undefined `⟨x_j,y_j⟩_β` in `approxnt`, a (Cρ)! vs (Cρ)^C slip.
   Status: candidates, to verify.
@@ -57,3 +59,41 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
 - F17 — DH21 L380 — "κ < L^{d/2}" should be κ < d/2. Typo. Source: DH21 map E1.
 - F18 — TARGET Appendix C / GIT20 — GIT20 is written in d = 3; TARGET applies its trilinear estimate (Lemmas 4.1–4.3,
   Remark 2.6) for all d ≥ 3 and s > d/2 − 1. To check in GIT20. Status: open.
+- F19 — TARGET §7–§8 (L1326–L1530) — vines (I)–(VIII), ladders (insertion rules), vine positions and cuts are defined
+  only by figures (Vines.png, Block_Mole.png, Cut.png). The T-part2 map transcribes them "[from figure]"; textual
+  definitions must be fixed (and checked) before Wave B. Source: T-part2 Q1.
+- F20 — TARGET §7.3–§7.4 (L1427–L1488) — twists: "exactly two options to insert u₂" (L1431) needs a full case table;
+  `lftwistprop` (L1487) checks only (II-a)→(II-b); congruence being an equivalence relation is asserted. Gap.
+  Source: T-part2 Q2.
+- F21 — TARGET `vineest` Step 3, `subpro`(3) — degenerate decorations (k₁ = k₂ = k₃, self-loops, degree-2 atoms) are
+  handled in one sentence; "non-hinge zero-gap atoms are tame" is new and unproved; DH23 §10.5 (couples) applied to
+  gardens. Gap. Source: T-part2 Q3.
+- F22 — TARGET L1811–L1817 — parametrizations of vines (IV)–(VIII) only called "similar". Gap. Source: T-part2 Q4.
+- F23 — TARGET `sumint` — case (d) for γ > 8/9 needs an unstated second bound of `lemlin` (|r| ≥ L⁻¹); an extra
+  δ^{-1/2} per bad vine silently absorbed; extension behind 𝔛(ℬ) unspecified; typos L1615, L1687. Source: T-part2 Q5.
+- F24 — TARGET L2197 — "Lemma 10.2 of DH23" is Prop 10.2 (`moleprop2`), whose last clause assumes ≤ w small-gap atoms
+  (unchecked here); DH23 Props 9.4–9.6 "follow from exactly the same proof" for gardens — unverified; "at most R
+  imperfect components" affected by zero-gap removals (`remtame`(ii)). Gap. Source: T-part2 Q6.
+- F25 — TARGET L2264–L2265 (`jtflower`, `kqflower`) — prefactor (δ/(2L^{d−1}))ⁿ should be (δ/(2L^{d−γ}))ⁿ (as in
+  DH23 L1996–L1999, same slip). Typo. Sources: T-part2 Q7, DH23 map Q3.
+- F26 — TARGET `flowerest1` — flower gardens: extra degree deficits, Dirac time nodes, stem-in-layer-p rule not restated
+  for molecules/blocks/vines; operator identities (1−ℒ₁)𝒳 = 1+𝒴, 𝒳(1−ℒ₁) = 1+𝒲 asserted. Gap. Source: T-part2 Q8.
+- F27 — TARGET `layergarden` (L761) — stated at time p+1, used at every t ∈ [p, p+1] (L821, L2309); freeze with a time
+  parameter (cf. F7). The coherent-couple term (`finaltermd`) ignores the truncation of 𝒞^{tr}_{p+1} (negligible).
+  Source: T-part2 Q9.
+- F28 — TARGET typos with content: L1807 (ζΩ, not Ω), L1823 (u not w), L1909 (layerreg2 → sumint), L2082 (√δ → √η),
+  L1523 ("Vine (V) minus two joints" false for (VII); argument survives), L1505 (omitted bond factor, harmless).
+  Source: T-part2 Q10.
+- F29 — External inputs not among pinned sources: DNY21 Lemma 3.1 (kernel bound in `timeintlem`), Oh–Thomann Lemma 2.6
+  (replaced by our own hypercontractivity proof), quadratic Weyl sum bounds and their L^p moments (p = 3d/2). To pin.
+- F30 — TARGET Lemma `propertycm` (L2343–L2346) — "there is no proper subset A ⊂ {1,…,r} such that ∪_{i∈A} S_i equals
+  the union of some of the sets B ∈ 𝒫": read literally, A = ∅ always qualifies (empty union of blocks), so no
+  partition would be admissible; the intended condition is "no nonempty proper subset". Found by wt-cumul; adopted in
+  the Lean statement. Status: candidate (wording).
+- F31 — DH23 L2082 — "min(L^{2/5}+Q^{7/11}, L^{1/5}+L^{8/5}Q^{-1}, L^{6/5}Q^{-1/3})": the comma before the last
+  term should be "+" (deduced from the two-branch (disclattice) L2029). With Huxley's 7/11 the argument still works
+  (split at Q = L^{99/80}: 63/80 < 4/5 − 10^{-4}). Also L2077 "with ρ ∼ L^{2−2γ}" should be Qρ ∼ L^{2−2γ}.
+  Found by wt-nt. Status: candidate typos.
+- F32 — GIT20 Remark 2.6 (Kin8.tex L592–L594) — the d-dimensional trilinear estimate (s > (d−2)/2) is asserted without
+  proof; GIT20 proves only d = 3, and TARGET (L2516) relies on the remark for all d ≥ 3. Confirms F18. Under D1 the
+  d ≥ 4 case is new work in packet WKE. Source: wt-orch delta audit Q5. Status: gap (external).

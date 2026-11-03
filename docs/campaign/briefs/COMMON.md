@@ -23,6 +23,13 @@ Working practice:
 - Do not edit `WaveTurbulence.lean` (the root), other workers' files, or anything outside your worktree.
 - Mathlib first (search `.lake/packages/mathlib`), then Scott's repos (clone into your scratch dir with
   `gh repo clone scottnarmstrong/<repo> /home/scott/wt-scratch/<name>/<repo> -- --depth 1`), then build.
+- **Update 2026-11-03 (D6): Wave A is frozen.** The source-facing definitions now live in
+  `WaveTurbulence/Frozen/Defs/` (one per file, read-only, namespace `WaveTurbulence`): `Mom`, `latticePoint`,
+  `collisionOp`, `IsWKESolution`, `partialDeriv`, `normLaplacian`, `torusFourierCoeff`, `IsSmoothNLSSolution`,
+  `stdComplexGaussian`, `initialCoeff`, `solvableEvent`, `kineticTime`, `weightedL2Norm`. Import them
+  (`public import WaveTurbulence.Frozen.Defs.<File>`) and never redefine them. The theorems `WaveTurbulence.main`
+  and `WaveTurbulence.wkelwp` are `DRAFT_SORRY` anchors: never import `WaveTurbulence.Frozen.Theorems.*` or
+  `WaveTurbulence.Provider.*`.
 - Definitions marked DRAFT below are the orchestrator's exact current drafts of source-facing definitions, pending
   author approval: copy them verbatim into the file named; if the approved version differs, the orchestrator will tell
   you and you adapt. Never change a DRAFT body yourself; if one looks wrong, say so in your handoff.
