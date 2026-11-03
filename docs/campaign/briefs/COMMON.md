@@ -34,5 +34,8 @@ Working practice:
   author approval: copy them verbatim into the file named; if the approved version differs, the orchestrator will tell
   you and you adapt. Never change a DRAFT body yourself; if one looks wrong, say so in your handoff.
 - Docstrings: each main result names its source (`DH21 Lemma A.3 (L2808)` etc.).
+- Conventions are yours to decide: endpoint cases, constants, `log(2K)` vs `log K`, the exact form of an
+  inequality's error term, carrier choices for your own (non-frozen) helpers. Choose, document it in the docstring and
+  handoff, and continue. Stop only for a genuine mathematical obstruction or a defect in a frozen statement.
 - When the packet is done, or you are blocked, end with a line `READY <packet>` or `STOPPED <packet>: <reason>`,
   after a handoff in the AGENTS.md format. Then wait for the next instruction.
