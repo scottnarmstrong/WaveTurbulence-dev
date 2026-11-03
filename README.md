@@ -147,17 +147,17 @@ Done fractions last reviewed: **2026-11-04 00:45 UTC**. Source: [`docs/campaign/
 <!-- AUTO:workers -->
 | tmux | model / account | packet | branch: last commit | brief |
 |---|---|---|---|---|
-| wt-orch | Claude Opus / claude-1 | audits: Task 14 (NLS-BRIDGE, APPROXNT parameters, F53 ladder reading); done: seal audit wkelwp PASS, FLOWER redraft | `w/orch`: 0 min ago, 3 unlanded | [brief](docs/campaign/orch/TASK4.md) |
+| wt-orch | Claude Opus / claude-1 | audits: Task 14 (NLS-BRIDGE, APPROXNT parameters, F53 ladder reading); done: seal audit wkelwp PASS, FLOWER redraft | `w/orch`: 0 min ago | [brief](docs/campaign/orch/TASK4.md) |
 | wt-gauss-hc | Claude Opus / claude-10 | B1.12 final (audit edits F1/F2, snapshot-6 delta), then B2 IsLadder fix (F53); X1 FLOWER + O-FK done | `w/waveb-infra`: — | [brief](docs/campaign/briefs/FLOWER.md) |
 | wt-torus | Claude Opus / claude-14 | C2 LINKS (pre-freeze): links, coherence, auxlem, treelemma (APPROXNT done) | `w/approxnt`: 1 min ago | [brief](docs/campaign/briefs/LINKS.md) |
 | wt-wke | Claude Opus / claude-13 | JR-OPS: DH21 class J/R operators, Lemmas 5.3–5.8 (critical path; WKE + WKE-TAYLOR landed) | `w/jr-ops`: 2 min ago, 9 unlanded | [brief](docs/campaign/briefs/JR-OPS.md) |
 | wt-cumul | GPT-6.1-Sol low / codex-3 | I1+I2 INDUCT (pre-freeze, conditional): propansatz from layergarden/fixedpoint/wkeTaylor; main assembly done | `w/norm-bridge`: 2 h ago | [brief](docs/campaign/briefs/INDUCT.md) |
 | wt-nt | GPT-6.1-Sol low / codex-3 | M1+M2 MOLE (pre-freeze): molecules, decorations, reconstruction, blocks, cuts, 𝔈/𝔄/𝔇𝔢𝔳 (circle e<2/3 done by wt-ansob) | `w/nt-circle`: 91 min ago | [brief](docs/campaign/briefs/MOLE.md) |
-| wt-ansob | GPT-6.1-Sol low / codex-3 | G6 MOLEPROP13 (pre-freeze): DH23 Props 10.1, 10.3, then G4 APPB-OPS (DEGEN done) | `w/bproc`: 26 min ago | [brief](docs/campaign/briefs/MOLEPROP13.md) |
+| wt-ansob | GPT-6.1-Sol low / codex-3 | G6 MOLEPROP13 (pre-freeze): DH23 Props 10.1, 10.3, then G4 APPB-OPS (DEGEN done) | `w/bproc`: 27 min ago | [brief](docs/campaign/briefs/MOLEPROP13.md) |
 | wt-gausssum | GPT-6.1-Sol low / codex-3 | M4 VINES (pre-freeze), then M9 VINEPARAM (COUNT done, landed) | `w/count`: 3 min ago, 2 unlanded | [brief](docs/campaign/briefs/VINES.md) |
 | wt-resonant | GPT-6.1-Sol low / codex-3 | D4+C1 REG-STRUCT (pre-freeze): regular chains, DH21 Props 4.5–4.10, structure theorem, counting (COMB-CORE done in scratch) | `w/resonant`: 3 h ago | [brief](docs/campaign/briefs/REG-STRUCT.md) |
 | wt-anfourier | GPT-6.1-Sol low / codex-3 | V1+V2 SUMINT (pre-freeze): prove the Wave B statement sumint (N2+N3 done) | `w/an-phase`: 69 min ago | [brief](docs/campaign/briefs/SUMINT.md) |
-| wt-l2s | GPT-6.1-Sol low / codex-3 | L1+L2 PL1: TARGET Prop 5.1 proplayer1 (NLS-BRIDGE done: nlsAkBridge proved) | `w/wke-l2s`: 0 min ago, 3 unlanded | [brief](docs/campaign/briefs/PL1.md) |
+| wt-l2s | GPT-6.1-Sol low / codex-3 | L1+L2 PL1: TARGET Prop 5.1 proplayer1 (NLS-BRIDGE done: nlsAkBridge proved) | `w/wke-l2s`: 1 min ago, 3 unlanded | [brief](docs/campaign/briefs/PL1.md) |
 <!-- /AUTO:workers -->
 
 ## Papers
