@@ -908,3 +908,13 @@ has numerical circle exponent `27/41<=35/53`, so the checked margins apply
 without redoing the source optimization. This is arithmetic only, pending
 the actual B-process frequency estimate. Targeted `ImprovedExponentAudit`
 passed again after this extension (3138 jobs, 20s), zero warnings.
+
+`SqrtQuadraticBounds.lean` and `CircleDualDerivativeNumerics.lean` prove only
+scalar comparisons for the explicit dual-derivative quotients; no VdCB
+phase or class is duplicated. On `h<=Y<=x<=4Y`, the magnitudes of the
+third/fourth/fifth rational square-root formulas have common bounds
+`R*h^2/(32768*Y^(r+1))` and `3840*R*h^2/Y^(r+1)`, for r=3,4,5.
+The `[Y,4Y]` interval leaves room for the two extra derivative sample units
+on integer subwindows. The calculus identities themselves remain VdCB's.
+Targeted `CircleDualDerivativeNumerics` passed (3215 jobs; supporting 7.8s,
+consumer 16s), zero warnings.
