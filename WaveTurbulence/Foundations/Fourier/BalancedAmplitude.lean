@@ -24,6 +24,17 @@ namespace WaveTurbulence.Fourier
     (a : Fin n → ℝ) (F : (Fin 2 → ℝ) → ℂ) (i j : Fin n) (v : Fin n → ℝ) : ℂ :=
   coordinateCutoff χ v * linearTimePhase a v * F ![v i, v j]
 
+/-- Selecting two time coordinates is a smooth map. -/
+theorem contDiff_coordinate_pair {n : ℕ} (i j : Fin n) :
+    ContDiff ℝ ∞ (fun v : Fin n → ℝ => ![v i, v j]) := by
+  apply contDiff_pi.mpr
+  intro k
+  fin_cases k
+  · change ContDiff ℝ ∞ (fun v : Fin n → ℝ => v i)
+    fun_prop
+  · change ContDiff ℝ ∞ (fun v : Fin n → ℝ => v j)
+    fun_prop
+
 /-- Smoothness of the amplitude for arbitrary real phase coefficients. -/
 theorem balancedCutoffAmplitude_contDiff {n : ℕ} {χ : ℝ → ℝ}
     {F : (Fin 2 → ℝ) → ℂ} (hχ : ContDiff ℝ ∞ χ) (hF : ContDiff ℝ ∞ F)
