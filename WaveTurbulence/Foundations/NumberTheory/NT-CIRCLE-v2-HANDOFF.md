@@ -1050,3 +1050,22 @@ passed (3258 jobs, target 1.9s). `nice -n 5 lake env lean
 `stationary_radius_error_le`, `stationary_error_scales_le_local_circle_scale`
 and `norm_integral_expPhase_le_of_second_deriv_pos` use only
 `propext`, `Classical.choice`, `Quot.sound`. No new errata or deviations.
+
+## Actual weighted circle dual A-bound
+
+`MonotoneWeightedSums.lean` proves finite Abel summation in a real normed
+space, including exact integer-interval reindexing. `CircleWeightedDual.lean`
+applies it to the actual shared `VdCB.circleLatticeDualPhase`, with arbitrary
+linear translation, and the explicit stationary amplitude
+`sqrt(R)*h*(h^2+nu^2)^(-3/4)`. Its endpoint-scale estimate has constant
+68719476736 and powers `h^(11/30) R^(11/60) U^(7/20)`.
+No derivative or exponential-sum bound is an input of these actual dual
+estimates. The outstanding step is the Poisson/stationary transfer from the
+original circle columns to these weighted dual sums, including guard modes.
+
+Checks: `nice -n 5 lake build WaveTurbulence.Foundations.NumberTheory.CircleWeightedDual`
+passed (3585 jobs; new modules 1.7s and 1.9s). Scratch
+`WeightedDualAxioms.lean` passed under `nice -n 5 lake env lean`;
+`norm_sum_Ioc_smul_le_of_prefix_bound` and
+`norm_sum_weighted_circleLatticeDualPhase_le_endpoint` use only
+`propext`, `Classical.choice`, `Quot.sound`. No new errata or deviations.
