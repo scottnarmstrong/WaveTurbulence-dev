@@ -64,3 +64,49 @@ Verification: targeted `nice -n 5 lake build WaveTurbulence.Foundations.VdCB.Bas
 `Build completed successfully (3808 jobs).`, without warnings. The scratch consumer and
 axiom probe `/home/scott/wt-scratch/bproc/BasicAxioms.lean` exited 0; its five checked exports
 have only `[propext, Classical.choice, Quot.sound]`.
+
+Additional checked analytic interfaces (import the named module):
+
+- `TruncatedPoisson.norm_sum_sub_truncated_poisson_le` (declaration namespace
+  remains `WaveTurbulence.VdCB`): natural endpoints `a≤b`, global C² phase,
+  actual `0≤f'≤N` and `f''≥0` on `[a,b]`. The half-open source sum minus the
+  actual integrals for `ν∈Icc 0 N` is bounded by
+  `(2*(1+log N)+4*log(N+1))/(2*pi)+1`.
+- `SharpStationary.norm_integral_stationary_sub_main_le`: global C³ phase,
+  actual `f'(c)=0`, `f''≥μ>0` on `[a,b]`, a central interval `[c-r,c+r]`
+  contained in `[a,b]`, and `|f'''|≤M` there. The main term is
+  `e(f(c)+1/8)/sqrt(f''(c))`; the error is
+  `(2*pi/3)*M*r^4 + 2/(pi*f''(c)*r) + 2/(pi*μ*r)`.
+- `SharpStationaryNegative.norm_integral_stationary_neg_sub_main_le`:
+  the corresponding negative-curvature formula has `-1/8` and `sqrt(-f'')`.
+- `BProcessFinite.norm_exponential_sum_sub_BProcess_le`: combines the sharp
+  Poisson formula and stationary estimates for a finite set `S⊆Icc 0 N` of
+  actual critical frequencies. Its nonstationary complement must have an
+  actual derivative distance `ρ>0`. The error is the above Poisson error,
+  `card(complement)/(pi*ρ)`, and the sum of the explicit stationary errors.
+  This is an analytic finite B-process formula. **Analytic closure of
+  `IsExponentPair` under `bTransform` remains unproved.**
+
+These theorems currently assume global smoothness; the circle source phase
+is smooth only on its open arc. Local source derivatives and localization
+are being supplied separately. No global smoothness assertion for that
+square-root phase is intended.
+
+The circle localization and direct sharp stationary estimate are now proved:
+
+- `CircleLocalization` supplies `circleSourceExtension` and proves global
+  smoothness when `U>0` and `3U≤R`. It agrees on a neighborhood of every point
+  of `[U,2U]` with `h*sqrt(2Ru-u²)`, preserving all actual derivatives.
+- `CircleSourceBounds` gives the actual negative curvature between
+  `h R² (4RU)^(-3/2)` and `h R² (RU)^(-3/2)` and the actual third derivative
+  bound `3h R³ (RU)^(-5/2)` on the block.
+- `CircleStationary.norm_integral_circlePhase_sub_main_le` applies the sharp
+  negative-curvature stationary estimate to the original circle phase,
+  using the explicit critical point. The radius must remain inside the block.
+- `CircleColumnStationary.norm_integral_circleColumnPhase_sub_main_le`
+  returns the same bound in the original column variable, with the corrected
+  lattice dual `R*sqrt(h²+ν²)` and quarter phase `-1/8`.
+
+Thus the direct-family option covers the circle's full multiplicative arc
+factor. Optimization, transformed weighted-sum estimates, and exponent-pair
+closure are still separate outstanding work.

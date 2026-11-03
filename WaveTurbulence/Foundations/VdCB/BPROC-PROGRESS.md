@@ -144,3 +144,25 @@ and curvature weights. It does not yet handle selection of endpoint
 frequencies or analytic exponent-pair closure.
 The four-export `SharpAxioms.lean` probe exited 0; each result has only
 `[propext, Classical.choice, Quot.sound]`.
+
+`BProcessFinite` builds (3855 jobs): actual source sum to actual Legendre
+sum, with explicit Poisson, stationary and nonstationary-complement errors.
+The complement has an actual derivative-distance premise; no exponential-sum
+estimate is assumed. `TruncatedPoissonShift` builds (3823 jobs), normalizing
+an arbitrary integer-translated derivative range without changing the samples.
+
+Circle-family coverage is now analytic, not just formal calculus:
+`CircleSourceCalculus`, `CircleLocalization`, `CircleSourceBounds`,
+`CircleStationary`, and `CircleColumnStationary` build. A concrete bump
+extension is globally smooth, agrees locally with the original phase on
+[U,2U], and preserves every actual derivative there. The condition `3U≤R`
+covers the octant blocks in the user requirement. Curvature and third
+source derivatives have explicit O(1)-variation dyadic bounds.
+`norm_integral_circleColumnPhase_sub_main_le` proves the actual sharp
+stationary integral formula on `[R-2U,R-U]`, with the corrected lattice
+dual `R*sqrt(h²+ν²)` and quarter phase `-1/8`. The source-domain endpoint
+singularities are not assumed smooth. Latest target passed: 3838 jobs.
+`CircleWeight` also builds (2325 jobs): its explicit weight is decreasing
+and bounded by `sqrt(R)*h*Y^(-3/2)` on ν≥Y>0.
+The six-result `CircleAxioms.lean` probe exited 0, each export with only
+`[propext, Classical.choice, Quot.sound]`.
