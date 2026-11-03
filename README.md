@@ -6,7 +6,7 @@ Lean 4 formalization of
 > [arXiv:2311.10082v2](https://arxiv.org/abs/2311.10082) (2024).
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-11-03 19:53 UTC** · **estimated completion 23.3 %** (Lean proofs 20.1 %) · frozen theorems sealed: 0 / 2 (+ 13 frozen definitions) · **48,888 lines of Lean on main** (402 files) + 21,942 unlanded on worker branches · blueprint estimate ≈ 273,000 lines
+> **Last updated: 2026-11-03 20:02 UTC** · **estimated completion 23.3 %** (Lean proofs 20.1 %) · frozen theorems sealed: 0 / 2 (+ 13 frozen definitions) · **48,888 lines of Lean on main** (402 files) + 26,460 unlanded on worker branches · blueprint estimate ≈ 273,000 lines
 <!-- /AUTO:updated -->
 
 **Scope (D1):** everything proved in Lean, no black boxes. That covers the target paper and the results it uses from
@@ -40,12 +40,12 @@ DRAFT_IMPORT_VIOLATIONS: 0
 |---|---|---|---|---|
 | Sources, paper maps, blueprint (P0–P1) | 1 | 30 | 27.0 | `█████████░` 90 % |
 | Exact Lean statements, frozen (P2) | 1 | 20 | 10.0 | `█████░░░░░` 50 % |
-| Lean proofs (P4) | 85 | 681 | 137.0 | `██░░░░░░░░` 20 % |
+| Lean proofs (P4) | 85 | 681 | 136.9 | `██░░░░░░░░` 20 % |
 | Frozen theorems sealed | 2 | 2 | 0.0 | `░░░░░░░░░░` 0 % |
 | Release (P5) | 1 | 15 | 0.0 | `░░░░░░░░░░` 0 % |
-| **Total** | | 748 | 174.0 | **23.3 %** |
+| **Total** | | 748 | 173.9 | **23.3 %** |
 
-Lean lines: 48,888 on main + 21,942 on branches, of ≈ 273,000 estimated by the blueprint (`█████░░░░░░░░░░░░░░░` 25.9 % of the estimate).
+Lean lines: 48,888 on main + 26,460 on branches, of ≈ 273,000 estimated by the blueprint (`██████░░░░░░░░░░░░░░` 27.6 % of the estimate).
 
 <details><summary>All Lean work packets (blueprint §E) with weight and status</summary>
 
@@ -147,17 +147,17 @@ Done fractions last reviewed: **2026-11-03 19:30 UTC**. Source: [`docs/campaign/
 <!-- AUTO:workers -->
 | tmux | model / account | packet | branch: last commit | brief |
 |---|---|---|---|---|
-| wt-orch | Claude Opus / claude-1 | audits (Wave B stage audits; done: freeze check, figure defs, topology review, infra review) | `w/orch`: 6 min ago, 3 unlanded | [brief](docs/campaign/orch/TASK4.md) |
+| wt-orch | Claude Opus / claude-1 | audits (Wave B stage audits; done: freeze check, figure defs, topology review, infra review) | `w/orch`: 16 min ago | [brief](docs/campaign/orch/TASK4.md) |
 | wt-gauss-hc | Claude Opus / claude-10 | D3 CANON (pre-freeze): prove canonicalCharacterization (B1.11), truncation bridges; Wave B drafts done (B1 final check running, B2 drafted) | `w/waveb-infra`: — | [brief](docs/campaign/briefs/CANON.md) |
-| wt-torus | Claude Opus / claude-14 | NT5 NTSP: DH23 Lemmas 6.5, 6.7, TARGET Lemma 5.2 (NLS landed) | `w/ntsp`: 1 min ago, 7 unlanded | [brief](docs/campaign/briefs/NTSP.md) |
-| wt-wke | Claude Opus / claude-13 | JR-OPS: DH21 class J/R operators, Lemmas 5.3–5.8 (critical path; WKE + WKE-TAYLOR landed) | `w/jr-ops`: 1 min ago, 7 unlanded | [brief](docs/campaign/briefs/JR-OPS.md) |
-| wt-cumul | GPT-6.1-Sol low / codex-3 | MAIN-GLUE: glue lemmas G1, G2, G5–G7, G10 for sealing Theorem 1.1 (LEMLIN done) | `w/main-glue`: 0 min ago, 1 unlanded | [brief](docs/campaign/briefs/MAIN-GLUE.md) |
-| wt-nt | GPT-6.1-Sol low / codex-3 | NT-EXPSUM: circle problem with exponent < 2/3 (van der Corput) | `w/nt-circle`: 3 min ago, 16 unlanded | [brief](docs/campaign/briefs/NT-CIRCLE-v2.md) |
-| wt-ansob | GPT-6.1-Sol low / codex-3 | NT-BPROC: van der Corput B-process (for e < 2/3, F3) (AN-SOB landed) | `w/bproc`: 1 min ago, 8 unlanded | [brief](docs/campaign/briefs/NT-BPROC.md) |
-| wt-gausssum | GPT-6.1-Sol low / codex-3 | NT4+NT11+NT3: DH23 Lemma 6.6, TARGET Lemma 5.3 and lemcubic (HUA landed) | `w/minor-arcs`: 5 min ago, 7 unlanded | [brief](docs/campaign/briefs/MINOR-ARCS.md) |
-| wt-resonant | GPT-6.1-Sol low / codex-3 | D1 COMB-CORE (pre-freeze, scratch): API for trees, gardens, decorations, layerings (RESONANT done) | `w/resonant`: 17 min ago, 15 unlanded | [brief](docs/campaign/briefs/COMB-CORE.md) |
-| wt-anfourier | GPT-6.1-Sol low / codex-3 | N2+N3: Poisson summation, (non-)stationary phase, Hausdorff–Young, DNY21 kernel, TARGET Lemmas A.2–A.3 (AN-FOURIER landed) | `w/an-phase`: 1 min ago, 11 unlanded | [brief](docs/campaign/briefs/AN-PHASE-HY.md) |
-| wt-l2s | GPT-6.1-Sol low / codex-3 | WKE-L2S: general-d L²_s trilinear estimate (Theorem 7), wkelwp blow-up conjunct | `w/wke-l2s`: 0 min ago, 29 unlanded | [brief](docs/campaign/briefs/WKE-L2S.md) |
+| wt-torus | Claude Opus / claude-14 | NT5 NTSP: DH23 Lemmas 6.5, 6.7, TARGET Lemma 5.2 (NLS landed) | `w/ntsp`: 0 min ago, 9 unlanded | [brief](docs/campaign/briefs/NTSP.md) |
+| wt-wke | Claude Opus / claude-13 | JR-OPS: DH21 class J/R operators, Lemmas 5.3–5.8 (critical path; WKE + WKE-TAYLOR landed) | `w/jr-ops`: 1 min ago, 11 unlanded | [brief](docs/campaign/briefs/JR-OPS.md) |
+| wt-cumul | GPT-6.1-Sol low / codex-3 | MAIN-GLUE: glue lemmas G1, G2, G5–G7, G10 for sealing Theorem 1.1 (LEMLIN done) | `w/main-glue`: 0 min ago, 8 unlanded | [brief](docs/campaign/briefs/MAIN-GLUE.md) |
+| wt-nt | GPT-6.1-Sol low / codex-3 | NT-EXPSUM: circle problem with exponent < 2/3 (van der Corput) | `w/nt-circle`: 1 min ago, 19 unlanded | [brief](docs/campaign/briefs/NT-CIRCLE-v2.md) |
+| wt-ansob | GPT-6.1-Sol low / codex-3 | NT-BPROC: van der Corput B-process (for e < 2/3, F3) (AN-SOB landed) | `w/bproc`: 6 min ago, 9 unlanded | [brief](docs/campaign/briefs/NT-BPROC.md) |
+| wt-gausssum | GPT-6.1-Sol low / codex-3 | NT4+NT11+NT3: DH23 Lemma 6.6, TARGET Lemma 5.3 and lemcubic (HUA landed) | `w/minor-arcs`: 5 min ago, 8 unlanded | [brief](docs/campaign/briefs/MINOR-ARCS.md) |
+| wt-resonant | GPT-6.1-Sol low / codex-3 | D1 COMB-CORE (pre-freeze, scratch): API for trees, gardens, decorations, layerings (RESONANT done) | `w/resonant`: 27 min ago, 15 unlanded | [brief](docs/campaign/briefs/COMB-CORE.md) |
+| wt-anfourier | GPT-6.1-Sol low / codex-3 | N2+N3: Poisson summation, (non-)stationary phase, Hausdorff–Young, DNY21 kernel, TARGET Lemmas A.2–A.3 (AN-FOURIER landed) | `w/an-phase`: 3 min ago, 16 unlanded | [brief](docs/campaign/briefs/AN-PHASE-HY.md) |
+| wt-l2s | GPT-6.1-Sol low / codex-3 | WKE-L2S: general-d L²_s trilinear estimate (Theorem 7), wkelwp blow-up conjunct | `w/wke-l2s`: 0 min ago, 33 unlanded | [brief](docs/campaign/briefs/WKE-L2S.md) |
 <!-- /AUTO:workers -->
 
 ## Papers
