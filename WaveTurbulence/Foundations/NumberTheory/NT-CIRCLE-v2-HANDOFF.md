@@ -960,3 +960,14 @@ so the strict-inner-disc subtraction applies. The minimum with all three
 terms of the proved elementary branch is included. Closed boundaries and
 both arbitrary real centers are retained.
 Targeted `AnnulusHalfRadius` passed (9087 jobs, 3.7s), zero warnings.
+
+`CircleEndpointGeometry.lean` proves that every nonempty actual outer-octant
+dyadic block satisfies `3U<=R`, since its endpoint distance is <R/3. It also
+proves the exact circle height formula in unsigned endpoint distance.
+`CircleLocalizedEndpointTransfer.lean` therefore requires local analytic
+estimates only when `U>=1` and `3U<=R`, matching the shared circle-source
+localization API; all other blocks are proved empty. It composes these
+inputs into the uniform circle discrepancy and the complete source annulus
+minimum for the full half-radius thickness range.
+Checks: `CircleEndpointGeometry` passed (9061 jobs, 3.9s), and
+`CircleLocalizedEndpointTransfer` passed (9111 jobs, 5.0s), zero warnings.
