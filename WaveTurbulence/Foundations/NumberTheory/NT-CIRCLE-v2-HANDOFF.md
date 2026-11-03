@@ -940,3 +940,13 @@ Checks: targeted `CircleDualAScale` passed (3575 jobs; final own-file 27s),
 zero warnings. Thus the direct-circle A side is ready to consume the VdCB
 calculus and B-transform once landed. The earlier scalar audits cover the
 resulting `27/41` circle exponent if that direct route is used.
+
+`CircleDualWeightScale.lean` proves exact scalar curvature-weight identities:
+the weighted `(1/30,26/30)` dual scale is
+`R^(8/15)*h^(16/15)*Y^(-7/10)`. At endpoint-distance dual scale
+`Y=h*sqrt(R/U)` this is exactly `h^(11/30)*R^(11/60)*U^(7/20)`.
+If Y is only bounded below by a quarter of that scale, the same local powers
+hold with factor four. These are scalar statements; no stationary-phase or
+B-process estimate is asserted. They match precisely the local powers
+consumed by `CircleEndpointTransfer` for `(kappa,lambda)=(11/30,16/30)`.
+Targeted `CircleDualWeightScale` passed (3214 jobs, 4.3s), zero warnings.
