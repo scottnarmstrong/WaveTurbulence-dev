@@ -6,6 +6,13 @@ Authors: Scott Armstrong
 module
 
 public import Mathlib
+public import WaveTurbulence.Foundations.Gaussian.BooleanCube
+public import WaveTurbulence.Foundations.Gaussian.CubeToGaussian
+public import WaveTurbulence.Foundations.Gaussian.FiniteAverage
+public import WaveTurbulence.Foundations.Gaussian.Hypercontractivity
+public import WaveTurbulence.Foundations.Gaussian.LargeDeviation
+public import WaveTurbulence.Foundations.Gaussian.MomentLimit
+public import WaveTurbulence.Foundations.Gaussian.TwoPoint
 public import WaveTurbulence.Foundations.Torus.Basic
 public import WaveTurbulence.Foundations.Torus.Derivative
 public import WaveTurbulence.Foundations.Torus.Inversion
