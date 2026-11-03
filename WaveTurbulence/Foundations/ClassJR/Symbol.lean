@@ -185,6 +185,15 @@ theorem norm_restrInr_le : ‖(restrInr : L1 (ι ⊕ ι') →L[ℝ] L1 ι')‖ �
 theorem norm_restrSome_le : ‖(restrSome : L1 (Option ι) →L[ℝ] L1 ι)‖ ≤ 1 :=
   LinearMap.mkContinuous_norm_le _ zero_le_one _
 
+@[simp] theorem restrInl_toLp (α : ι ⊕ ι' → ℝ) :
+    restrInl (WithLp.toLp 1 α) = WithLp.toLp 1 (fun i => α (Sum.inl i)) := rfl
+
+@[simp] theorem restrInr_toLp (α : ι ⊕ ι' → ℝ) :
+    restrInr (WithLp.toLp 1 α) = WithLp.toLp 1 (fun i => α (Sum.inr i)) := rfl
+
+@[simp] theorem restrSome_toLp (α : Option ι → ℝ) :
+    restrSome (WithLp.toLp 1 α) = WithLp.toLp 1 (fun i => α (some i)) := rfl
+
 /-- A bundle `y·α = Σ_j y_j α_j` (DH21 L954, with integer coefficients). -/
 @[expose] def bundle (y : ι → ℤ) (α : ι → ℝ) : ℝ := ∑ j, (y j : ℝ) * α j
 

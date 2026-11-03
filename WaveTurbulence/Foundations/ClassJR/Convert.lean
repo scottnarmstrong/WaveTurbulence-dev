@@ -194,6 +194,8 @@ theorem push_dom {γ : Γ} (hγ : γ ∈ goodSet a b) (k : ℕ) :
   rw [← toReal_enorm]
   exact ENNReal.toReal_mono hη.ne h
 
+omit [(volume : Measure Γ).IsAddRightInvariant] [SFinite (volume : Measure Γ)]
+  [SFinite (volume : Measure Q)] in
 /-- The pointwise derivative bound for the pushforward. -/
 theorem dnorm_pushSym_le (k : ℕ) (α : ι → ℝ) (γ : Γ) :
     dnorm k (pushSym a b) α γ ≤ ∫⁻ η, dnorm k a α (γ - b η, η) := by
