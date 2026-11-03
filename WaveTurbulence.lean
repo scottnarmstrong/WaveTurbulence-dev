@@ -6,6 +6,9 @@ Authors: Scott Armstrong
 module
 
 public import Mathlib
+public import WaveTurbulence.Foundations.Counting.CircleArc
+public import WaveTurbulence.Foundations.Counting.ExponentAudit
+public import WaveTurbulence.Foundations.Counting.LatticeDisc
 public import WaveTurbulence.Foundations.Gaussian.BooleanCube
 public import WaveTurbulence.Foundations.Gaussian.CubeToGaussian
 public import WaveTurbulence.Foundations.Gaussian.FiniteAverage
@@ -13,6 +16,20 @@ public import WaveTurbulence.Foundations.Gaussian.Hypercontractivity
 public import WaveTurbulence.Foundations.Gaussian.LargeDeviation
 public import WaveTurbulence.Foundations.Gaussian.MomentLimit
 public import WaveTurbulence.Foundations.Gaussian.TwoPoint
+public import WaveTurbulence.Foundations.NumberTheory.DerivativeTests
+public import WaveTurbulence.Foundations.NumberTheory.Differencing
+public import WaveTurbulence.Foundations.NumberTheory.ExponentialSums
+public import WaveTurbulence.Foundations.NumberTheory.HalfPowerSums
+public import WaveTurbulence.Foundations.NumberTheory.IntegerDistance
+public import WaveTurbulence.Foundations.NumberTheory.KusminLandau
+public import WaveTurbulence.Foundations.NumberTheory.Phase
+public import WaveTurbulence.Foundations.NumberTheory.Sawtooth
+public import WaveTurbulence.Foundations.NumberTheory.SawtoothFourier
+public import WaveTurbulence.Foundations.NumberTheory.SawtoothSmoothing
+public import WaveTurbulence.Foundations.NumberTheory.SecondDifference
+public import WaveTurbulence.Foundations.NumberTheory.SineSeries
+public import WaveTurbulence.Foundations.NumberTheory.SmoothingFourier
+public import WaveTurbulence.Foundations.NumberTheory.WeylDifferencing
 public import WaveTurbulence.Foundations.Torus.Basic
 public import WaveTurbulence.Foundations.Torus.Derivative
 public import WaveTurbulence.Foundations.Torus.Inversion
