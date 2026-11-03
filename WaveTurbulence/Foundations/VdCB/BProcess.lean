@@ -11,6 +11,7 @@ public import WaveTurbulence.Foundations.VdCB.CircleWeightedStationary
 public import WaveTurbulence.Foundations.VdCB.CircleWeightedSum
 public import WaveTurbulence.Foundations.VdCB.CircleDualWeightedASum
 public import WaveTurbulence.Foundations.VdCB.CircleCriticalUniqueness
+public import WaveTurbulence.Foundations.VdCB.CircleCountingBridge
 public import WaveTurbulence.Foundations.VdCB.CircleFrequencyBounds
 
 /-!
@@ -18,7 +19,8 @@ public import WaveTurbulence.Foundations.VdCB.CircleFrequencyBounds
 
 This interface exports sharp truncated Poisson, sharp stationary phase,
 the finite Legendre dual-sum estimate, actual stationary-frequency
-selection, and direct circle-family stationary weights and estimates.
+selection, and the unconditional actual circle endpoint-block estimate
+for `(11/30,16/30)`, including its counting-transfer application.
 
 The shared `IsExponentPair` predicate and its trivial pair are also
 exported. Analytic closure under `bTransform` is not asserted here;
