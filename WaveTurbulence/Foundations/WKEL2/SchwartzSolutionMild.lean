@@ -92,4 +92,31 @@ theorem IsWKESolution.isJetMild (hd : 3 ≤ d) (s : ℝ) (hs₀ : 0 ≤ s)
   rw [hfeq] at hf
   exact hf m
 
+/-- No Schwartz information is lost by completion at any finite jet order. -/
+theorem schwartzToWeightedSobolevCLM_injective (s : ℝ) (m : ℕ) :
+    Function.Injective (schwartzToWeightedSobolevCLM (d := d) s m) := by
+  intro f g h
+  rw [schwartzToWeightedSobolevCLM_eq_inclusion, schwartzToWeightedSobolevCLM_eq_inclusion] at h
+  exact (weightedJetCoreEquiv s m).injective ((weightedJetCoreInclusion s m).injective h)
+
+/-- All completed jet mild equations reconstruct exactly the source Schwartz solution notion. -/
+theorem isWKESolution_of_all_jetMild (hd : 3 ≤ d) (s : ℝ) (hs₀ : 0 ≤ s)
+    (hs : (d : ℝ) / 2 - 1 < s) {φin : 𝓢(Mom d, ℝ)} {b : ℝ} (hb : 0 ≤ b)
+    {φ : ℝ → 𝓢(Mom d, ℝ)}
+    (hφ : ∀ m, IsCubicMildSolution (jetCollisionBanach hd s hs m)
+      (schwartzToWeightedSobolevCLM s m φin) b (fun t => schwartzToWeightedSobolevCLM s m (φ t))) :
+    IsWKESolution φin b φ := by
+  refine ⟨?_, ?_, ?_⟩
+  · intro t ht
+    apply (tendsto_schwartz_iff_weightedSobolev s hs₀ φ (φ t)).2
+    intro m
+    exact (hφ m).1 t ht
+  · apply schwartzToWeightedSobolevCLM_injective s 0
+    simpa only [intervalIntegral.integral_same, add_zero] using (hφ 0).2 0 ⟨le_rfl, hb⟩
+  · intro t ht k
+    have H := (weightedSobolevEvaluationCLM s hs₀ (m := d) le_rfl k).hasFDerivAt.comp_hasDerivWithinAt t
+      ((hφ d).hasDerivWithinAt t ht)
+    simpa only [Function.comp_def, weightedSobolevEvaluationCLM_schwartz,
+      weightedSobolevEvaluationCLM_field] using H
+
 end WaveTurbulence.WKEL2

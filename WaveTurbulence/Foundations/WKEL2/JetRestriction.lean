@@ -76,4 +76,14 @@ theorem weightedSobolevForgetCLM_collision (hd : 3 ≤ d) (s : ℝ)
     have H₃ := jetCollisionBanach_schwartz hd s hs r f g h
     simpa only [weightedSobolevForgetCLM_schwartz] using (H₁.trans H₂).trans H₃.symm
 
+/-- Differentiable solutions restrict to the collision ODE at every lower order. -/
+theorem hasDerivWithinAt_weightedSobolevForget (hd : 3 ≤ d) (s : ℝ)
+    (hs : (d : ℝ) / 2 - 1 < s) {m r : ℕ} (hrm : r ≤ m)
+    {u : ℝ → WeightedSobolevSpace d s m} {S : Set ℝ} {t : ℝ}
+    (hu : HasDerivWithinAt u (cubicField (jetCollisionBanach hd s hs m) (u t)) S t) :
+    HasDerivWithinAt (fun z => weightedSobolevForgetCLM s m r hrm (u z))
+      (cubicField (jetCollisionBanach hd s hs r) (weightedSobolevForgetCLM s m r hrm (u t))) S t := by
+  have H := (weightedSobolevForgetCLM s m r hrm).hasFDerivAt.comp_hasDerivWithinAt t hu
+  simpa only [Function.comp_def, cubicField, weightedSobolevForgetCLM_collision] using H
+
 end WaveTurbulence.WKEL2
