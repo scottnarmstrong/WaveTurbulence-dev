@@ -188,3 +188,9 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   `μ^{1−2η}` in (2) should be `μ^{−(1−2η)}` (cf. DH21 Lemma 6.5); the bound is bilinear in the Φ- and ψ-norms. Corrected
   in the Lean statements (wt-torus, NTSP). Source: wt-orch Infra-review-3 R1(a). Status: candidate errata.
 - F51 — DH23 L2040 — `#(A ∩ ℤ^d)` should be `#(A ∩ ℤ²)`. Typo. Found by wt-nt (NT-CIRCLE v2). Source: Infra-review-3 R1(b).
+- F52 — TARGET L1308–L1325 (decorations of molecules ↔ decorations of gardens) — the correspondence fails for gardens
+  with directly paired trivial roots: e.g. four trivial trees, signs (+,−,+,−), root values (0,1,1,0) satisfy global
+  conservation but admit no garden decoration, while the (empty) molecule admits one. Correction adopted: state the
+  correspondence under root-pair compatibility (directly paired roots have equal prescribed values), which is exactly the
+  indicator the garden sums carry. Found by wt-nt (MOLE), Lean counterexample in scratch
+  (`mole/src/MoleculeDecorationEdgeCase.lean`). Status: candidate erratum (missing hypothesis; local).
