@@ -118,6 +118,9 @@ public import WaveTurbulence.Foundations.Gaussian.LargeDeviation
 public import WaveTurbulence.Foundations.Gaussian.MomentLimit
 public import WaveTurbulence.Foundations.Gaussian.TwoPoint
 public import WaveTurbulence.Foundations.LinAlg.BoundedSpanning
+public import WaveTurbulence.Foundations.LinAlg.FiniteRepresentatives
+public import WaveTurbulence.Foundations.LinAlg.LatticeObservations
+public import WaveTurbulence.Foundations.LinAlg.LatticeRepresentatives
 public import WaveTurbulence.Foundations.LinAlg.MaxVolume
 public import WaveTurbulence.Foundations.NLS.AkClass
 public import WaveTurbulence.Foundations.NLS.AkGronwall
