@@ -108,4 +108,16 @@ theorem contDiffOn_deltaInt_of_local_decay
       exact (hD n t ht).deriv
   exact contDiffOn_infty.mpr (fun m => hfinite m n)
 
+/-- Smooth dependence for scalar families of three-momentum test kernels.
+The zeroth member is the kernel and each next member is its parameter derivative. -/
+theorem contDiffOn_resonantIntegral_of_local_decay
+    {Ψ : ℕ → ℝ → Mom d → Mom d → Mom d → ℝ} {k : Mom d}
+    {A : ℕ → Mom d → ℝ} {b : ℕ → Mom d → Mom d} {M : ℕ → ℝ}
+    {U : Set ℝ} (hU : IsOpen U) (hd : 0 < d)
+    (hΨ : ∀ n t, t ∈ U → DeltaKernel (resonantKernel (Ψ n t) k) (A n) (b n) (M n))
+    (hderiv : ∀ n t, t ∈ U → ∀ k₁ k₂ k₃,
+      HasDerivAt (fun s => Ψ n s k₁ k₂ k₃) (Ψ (n + 1) t k₁ k₂ k₃) t) (n : ℕ) :
+    ContDiffOn ℝ ∞ (fun t => resonantIntegral (Ψ n t) k) U :=
+  contDiffOn_deltaInt_of_local_decay hU hd hΨ (fun n t ht _ _ => hderiv n t ht _ _ _) n
+
 end WaveTurbulence

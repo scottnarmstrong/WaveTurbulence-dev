@@ -12,8 +12,8 @@
   "model": "Claude Opus",
   "account": "claude-10",
   "branch": "w/waveb-infra",
-  "packet": "WAVEB-DRAFT: exact Lean drafts of Wave B (critical path)",
-  "brief": "docs/campaign/briefs/WAVEB-DRAFT.md"
+  "packet": "WAVEB2-DRAFT: Wave B tier B2 drafts (B1 drafts under audit)",
+  "brief": "docs/campaign/briefs/WAVEB2-DRAFT.md"
  },
  {
   "tmux": "wt-torus",
@@ -27,9 +27,9 @@
   "tmux": "wt-wke",
   "model": "Claude Opus",
   "account": "claude-13",
-  "branch": "w/wke",
-  "packet": "WKE-TAYLOR: existence, τ_max (wkelwp 1–2), Taylor bound",
-  "brief": "docs/campaign/briefs/WKE-TAYLOR.md"
+  "branch": "w/jr-ops",
+  "packet": "JR-OPS: DH21 class J/R operators, Lemmas 5.3–5.8 (critical path; WKE + WKE-TAYLOR landed)",
+  "brief": "docs/campaign/briefs/JR-OPS.md"
  },
  {
   "tmux": "wt-cumul",
@@ -75,9 +75,9 @@
   "tmux": "wt-anfourier",
   "model": "GPT-6.1-Sol low",
   "account": "codex-3",
-  "branch": "w/an-fourier",
-  "packet": "N1 AN-FOURIER: Gevrey cutoff χ₀, time-Fourier norms",
-  "brief": "docs/campaign/briefs/AN-FOURIER.md"
+  "branch": "w/an-phase",
+  "packet": "N2+N3: Poisson summation, (non-)stationary phase, Hausdorff–Young, DNY21 kernel, TARGET Lemmas A.2–A.3 (AN-FOURIER landed)",
+  "brief": "docs/campaign/briefs/AN-PHASE-HY.md"
  },
  {
   "tmux": "wt-l2s",

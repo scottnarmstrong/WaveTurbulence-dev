@@ -25,7 +25,7 @@ public section
 open MeasureTheory Set Filter Topology
 open scoped InnerProductSpace
 
-namespace WaveTurbulence
+namespace WaveTurbulence.WKE
 
 variable {d : ℕ}
 
@@ -37,7 +37,7 @@ structure DeltaIntegrable (F : Mom d → Mom d → ℝ) : Prop where
   perp : ∀ ℓ : Mom d, ℓ ≠ 0 → Integrable (fun w : ↥(ℝ ∙ ℓ)ᗮ => F ℓ w)
   outer : Integrable (fun ℓ : Mom d => (2 * ‖ℓ‖)⁻¹ * ∫ w : ↥(ℝ ∙ ℓ)ᗮ, F ℓ w)
 
-theorem DeltaKernel.deltaIntegrable {F : Mom d → Mom d → ℝ} {A : Mom d → ℝ}
+theorem _root_.WaveTurbulence.DeltaKernel.deltaIntegrable {F : Mom d → Mom d → ℝ} {A : Mom d → ℝ}
     {b : Mom d → Mom d} {M : ℝ} (hF : DeltaKernel F A b M) (hd : 0 < d) :
     DeltaIntegrable F :=
   ⟨fun _ hℓ => hF.integrable_perp hℓ, hF.integrable_outer hd⟩
@@ -94,7 +94,7 @@ theorem deltaInt_congr {F G : Mom d → Mom d → ℝ} (h : ∀ ℓ x, F ℓ x =
   have : F = G := funext fun ℓ => funext fun x => h ℓ x
   rw [this]
 
-theorem CollisionInputs.deltaIntegrable {φ₁ φ₂ φ₃ : Mom d → ℝ} {C N : ℝ}
+theorem _root_.WaveTurbulence.CollisionInputs.deltaIntegrable {φ₁ φ₂ φ₃ : Mom d → ℝ} {C N : ℝ}
     (h : CollisionInputs φ₁ φ₂ φ₃ C N) (hd : 2 ≤ d) (j : Fin 4) (k : Mom d) :
     DeltaIntegrable (collisionKernel j φ₁ φ₂ φ₃ k) :=
   (h.deltaKernel hd j k).deltaIntegrable (by omega)
@@ -164,11 +164,11 @@ theorem collisionKernel_weight (lam : Mom d →L[ℝ] ℝ) (k ℓ x : Mom d) :
   simp only [collisionKernel, map_add]
   ring
 
-theorem DecayBound.anti {C N N' : ℝ} {φ : Mom d → ℝ} (h : DecayBound C N φ) (hN : N' ≤ N) :
+theorem _root_.WaveTurbulence.DecayBound.anti {C N N' : ℝ} {φ : Mom d → ℝ} (h : DecayBound C N φ) (hN : N' ≤ N) :
     DecayBound C N' φ :=
   fun y => (h y).trans (mul_le_mul_of_nonneg_left (one_add_norm_rpow_neg_anti hN) h.C_nonneg)
 
-theorem DecayBound.clm_mul {C N : ℝ} {φ : Mom d → ℝ} (h : DecayBound C (N + 1) φ)
+theorem _root_.WaveTurbulence.DecayBound.clm_mul {C N : ℝ} {φ : Mom d → ℝ} (h : DecayBound C (N + 1) φ)
     (lam : Mom d →L[ℝ] ℝ) : DecayBound (‖lam‖ * C) N (fun y => lam y * φ y) := by
   intro y
   have hy : 0 < 1 + ‖y‖ := by positivity
@@ -185,7 +185,7 @@ theorem DecayBound.clm_mul {C N : ℝ} {φ : Mom d → ℝ} (h : DecayBound C (N
     _ = ‖lam‖ * C * ((1 + ‖y‖) * (1 + ‖y‖) ^ (-(N + 1))) := by ring
     _ = _ := by rw [e]
 
-theorem CollisionInputs.of {f₁ f₂ f₃ : Mom d → ℝ} {C₁ C₂ C₃ N : ℝ} (c₁ : Continuous f₁)
+theorem _root_.WaveTurbulence.CollisionInputs.of {f₁ f₂ f₃ : Mom d → ℝ} {C₁ C₂ C₃ N : ℝ} (c₁ : Continuous f₁)
     (c₂ : Continuous f₂) (c₃ : Continuous f₃) (h₁ : DecayBound C₁ N f₁)
     (h₂ : DecayBound C₂ N f₂) (h₃ : DecayBound C₃ N f₃) (hN : 2 * (d : ℝ) < N) :
     CollisionInputs f₁ f₂ f₃ (max C₁ (max C₂ C₃)) N :=
@@ -240,4 +240,4 @@ theorem weight_collisionTerm_three (lam : Mom d →L[ℝ] ℝ) (k : Mom d) :
 
 end Weight
 
-end WaveTurbulence
+end WaveTurbulence.WKE

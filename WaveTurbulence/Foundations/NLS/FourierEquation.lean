@@ -30,7 +30,7 @@ noncomputable section
 open MeasureTheory Complex Set
 open scoped ContDiff
 
-namespace WaveTurbulence
+namespace WaveTurbulence.NLS
 
 variable {d : ℕ}
 
@@ -77,7 +77,7 @@ theorem torusFourierCoeff_normLaplacian' {L : ℝ} (hL : 0 < L) {f : (Fin d → 
   rw [torusFourierCoeff_normLaplacian hL hf hp, norm_latticePoint_sq]
 
 /-- (NLS) solved for the time derivative: `∂ₜ u = -i (Δu - α|u|²u)` on `[0, T]`. -/
-theorem IsSmoothNLSSolution.derivWithin_eq {L α T : ℝ} {c : (Fin d → ℤ) → ℂ}
+theorem _root_.WaveTurbulence.IsSmoothNLSSolution.derivWithin_eq {L α T : ℝ} {c : (Fin d → ℤ) → ℂ}
     {u : ℝ → (Fin d → ℝ) → ℂ} (hu : IsSmoothNLSSolution L α T c u) {t : ℝ} (ht : t ∈ Icc 0 T)
     (x : Fin d → ℝ) :
     derivWithin (fun s => u s x) (Icc 0 T) t =
@@ -91,7 +91,7 @@ with `L > 0`, on `[0, T]`
 `∂ₜ û(t, n) = i (2π |k|² û(t, n) + α L^{-d} ∑_{n₁ - n₂ + n₃ = n} û(t,n₁) conj û(t,n₂) û(t,n₃))`,
 
 `k = latticePoint L n`, with the time derivative one-sided at `t = 0, T`. -/
-theorem IsSmoothNLSSolution.hasDerivWithinAt_torusFourierCoeff_eq {L α T : ℝ}
+theorem _root_.WaveTurbulence.IsSmoothNLSSolution.hasDerivWithinAt_torusFourierCoeff_eq {L α T : ℝ}
     {c : (Fin d → ℤ) → ℂ} {u : ℝ → (Fin d → ℝ) → ℂ} (hL : 0 < L)
     (hu : IsSmoothNLSSolution L α T c u) {t : ℝ} (ht : t ∈ Icc 0 T) (n : Fin d → ℤ) :
     HasDerivWithinAt (fun s => torusFourierCoeff L (u s) n)
@@ -112,4 +112,4 @@ theorem IsSmoothNLSSolution.hasDerivWithinAt_torusFourierCoeff_eq {L α T : ℝ}
     torusFourierCoeff_const_mul, torusFourierCoeff_normLaplacian' hL h2 hper, cubicConv_torusFourierCoeff hL hsm hper]
   ring
 
-end WaveTurbulence
+end WaveTurbulence.NLS
