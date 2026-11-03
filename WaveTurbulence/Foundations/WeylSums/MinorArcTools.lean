@@ -1,6 +1,7 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 
+public import WaveTurbulence.Foundations.WeylSums.CubicChainTarget
 public import WaveTurbulence.Foundations.WeylSums.CubicChainPointwise
 public import WaveTurbulence.Foundations.WeylSums.CubicYoungWindow
 public import WaveTurbulence.Foundations.WeylSums.WeylSymmetricMoment
