@@ -203,12 +203,15 @@ public import WaveTurbulence.Foundations.Cumulant.ProductsFormula
 public import WaveTurbulence.Foundations.Cumulant.Refinement
 public import WaveTurbulence.Foundations.Cumulant.Symmetry
 public import WaveTurbulence.Foundations.Fourier.BalancedAmplitude
+public import WaveTurbulence.Foundations.Fourier.BalancedAmplitudeBox
 public import WaveTurbulence.Foundations.Fourier.BalancedPhase
 public import WaveTurbulence.Foundations.Fourier.BilinearPhase
 public import WaveTurbulence.Foundations.Fourier.BlockCoordinates
 public import WaveTurbulence.Foundations.Fourier.BoxFaceMarginals
 public import WaveTurbulence.Foundations.Fourier.BoxIntegralAlgebra
+public import WaveTurbulence.Foundations.Fourier.BoxIntegralLinearity
 public import WaveTurbulence.Foundations.Fourier.BoxIntegralTonelli
+public import WaveTurbulence.Foundations.Fourier.BoxMiddleCoordinates
 public import WaveTurbulence.Foundations.Fourier.BracketIntegrability
 public import WaveTurbulence.Foundations.Fourier.Chi0
 public import WaveTurbulence.Foundations.Fourier.Chi0Gevrey
@@ -219,6 +222,7 @@ public import WaveTurbulence.Foundations.Fourier.CoordinateCutoffDerivative
 public import WaveTurbulence.Foundations.Fourier.CoordinateProducts
 public import WaveTurbulence.Foundations.Fourier.CoordinateSchwartz
 public import WaveTurbulence.Foundations.Fourier.CutoffControl
+public import WaveTurbulence.Foundations.Fourier.CutoffEightMoments
 public import WaveTurbulence.Foundations.Fourier.CutoffFourierDecay
 public import WaveTurbulence.Foundations.Fourier.CutoffMultiplication
 public import WaveTurbulence.Foundations.Fourier.CutoffOrderedIntegral
@@ -284,6 +288,9 @@ public import WaveTurbulence.Foundations.Fourier.OrderedMixedDerivative
 public import WaveTurbulence.Foundations.Fourier.OrderedParameterDerivative
 public import WaveTurbulence.Foundations.Fourier.PartialDerivativeSymmetry
 public import WaveTurbulence.Foundations.Fourier.Periodization
+public import WaveTurbulence.Foundations.Fourier.PhaseAmplitudeBounds
+public import WaveTurbulence.Foundations.Fourier.PhaseOperatorMoments
+public import WaveTurbulence.Foundations.Fourier.PhaseTimeIntegralBounds
 public import WaveTurbulence.Foundations.Fourier.PoissonBlocks
 public import WaveTurbulence.Foundations.Fourier.PoissonCoefficients
 public import WaveTurbulence.Foundations.Fourier.PoissonLattice
@@ -303,6 +310,7 @@ public import WaveTurbulence.Foundations.Fourier.TimeEuclidean
 public import WaveTurbulence.Foundations.Fourier.TimeFourier
 public import WaveTurbulence.Foundations.Fourier.TimeIntegralOperators
 public import WaveTurbulence.Foundations.Fourier.TimeInterpolation
+public import WaveTurbulence.Foundations.Fourier.TimeOperatorBalanced
 public import WaveTurbulence.Foundations.Fourier.TimeOperatorRegularity
 public import WaveTurbulence.Foundations.Fourier.TimeProduct
 public import WaveTurbulence.Foundations.Fourier.TimeSobolev

@@ -1,5 +1,5 @@
 {
- "assessed": "2026-11-03 20:25 UTC",
+ "assessed": "2026-11-03 21:45 UTC",
  "notes": "Lean work items = blueprint packets (docs/blueprint/GRAPH.md §E) with their difficulty weights (node weights L=1, M=2, H=4, VH=8 summed). Each frozen theorem anchor adds weight 1, credited when SEALED. Done fractions are the orchestrator's assessment, reviewed at integration rounds.",
  "lines_est_total": 273000,
  "parts": [
@@ -14,8 +14,8 @@
    "part": "Exact Lean statements, frozen (P2)",
    "kind": "phase",
    "weight": 20,
-   "done": 0.5,
-   "note": "Wave A frozen (D6); Wave B tier B1 audited (3 audits + 2 deltas), final fix list being applied; tier B2 stage 1 drafted"
+   "done": 0.65,
+   "note": "Wave A frozen (D6); Wave B tier B1 (11 theorems) audited and published for author approval (docs/review/WAVE-B-B1.md); tier B2 drafted and audited (deferred)"
   },
   {
    "part": "Lean proofs (P4)",
@@ -90,8 +90,8 @@
      "goal": "van der Corput A/B processes, exponent pair, circle problem with e<2/3, annulus bound (F3 revised)",
      "weight": 14.0,
      "lines_est": 5300,
-     "done": 0.45,
-     "note": "A-process + B-process (VdCB) landed in part; exponent-pair transfer in progress"
+     "done": 1.0,
+     "note": "landed: circle discrepancy + annulus with exponent 27/41 (B-process, pair (11/30,16/30)); F3 resolved"
     },
     {
      "id": "R-WKE",
@@ -153,8 +153,8 @@
      "goal": "general carriers (WAVE-B G-1: marked unpaired leaves with time nodes, irreducibility as a predicate) for trees, gardens, decorations, layerings, embedded objects; basic API",
      "weight": 8.0,
      "lines_est": 2020,
-     "done": 0.35,
-     "note": "core carriers audited; API pre-freeze (wt-resonant)"
+     "done": 0.6,
+     "note": "COMB-CORE API done (scratch, pre-freeze)"
     },
     {
      "id": "N1",
@@ -180,8 +180,8 @@
      "goal": "mini-couples/mini-trees/operations A,B (WAVE-B §3.2), legal partitions, regular chains (DH21 Props 4.5, 4.7)",
      "weight": 8.0,
      "lines_est": 2400,
-     "done": 0.15,
-     "note": "B2 stage 1 drafted (regular couples), under audit"
+     "done": 0.3,
+     "note": "REG-STRUCT in progress (scratch)"
     },
     {
      "id": "NT10",
@@ -198,8 +198,8 @@
      "goal": "Hausdorff–Young, DNY21 kernel (pin F29), TARGET Lemmas A.2, A.3",
      "weight": 10.0,
      "lines_est": 4500,
-     "done": 0.5,
-     "note": "Hausdorff–Young, time-integral lemmas in progress"
+     "done": 0.6,
+     "note": "Hausdorff–Young, DNY21 kernel, A.2/A.3 in progress"
     },
     {
      "id": "NT2",
@@ -216,8 +216,8 @@
      "goal": "DH23 Lemmas 6.5, 6.7; TARGET Lemma 5.2",
      "weight": 8.0,
      "lines_est": 4300,
-     "done": 0.5,
-     "note": "NTSP in progress (11 commits landed)"
+     "done": 1.0,
+     "note": "landed: TARGET 5.2, DH23 6.5, 6.7"
     },
     {
      "id": "M1",
@@ -225,8 +225,8 @@
      "goal": "molecules (half-edge encoding, F40), molecules of gardens and their decorations, cuts, counting quantities MOL.countq (review I9), propcplmol, DH21-2 Prop 6.4",
      "weight": 15.0,
      "lines_est": 4900,
-     "done": 0.0,
-     "note": ""
+     "done": 0.1,
+     "note": "MOLE started (scratch)"
     },
     {
      "id": "C1",
@@ -234,8 +234,8 @@
      "goal": "structure theorem of regular couples with uniqueness, counting (DH21 4.8–4.10, Cor 4.9, F12)",
      "weight": 11.0,
      "lines_est": 4000,
-     "done": 0.0,
-     "note": ""
+     "done": 0.15,
+     "note": "REG-STRUCT in progress"
     },
     {
      "id": "G0",
@@ -243,8 +243,8 @@
      "goal": "DH21 Lemmas 9.13–9.14, DH23 §10.5 degenerate atoms",
      "weight": 4.0,
      "lines_est": 1400,
-     "done": 0.0,
-     "note": ""
+     "done": 0.05,
+     "note": "DEGEN started"
     },
     {
      "id": "NT4",
@@ -252,8 +252,8 @@
      "goal": "DH23 Lemma 6.6(2), TARGET Lemma 5.3",
      "weight": 5.0,
      "lines_est": 3200,
-     "done": 0.35,
-     "note": "MINOR-ARCS in progress"
+     "done": 1.0,
+     "note": "landed: DH23 6.6(2), TARGET Lemma 5.3 (quadExpSum2 drafted form)"
     },
     {
      "id": "NT11",
@@ -261,8 +261,8 @@
      "goal": "TARGET lemcubic (Weyl moments, Dirichlet), reductions of DH23 6.6",
      "weight": 6.0,
      "lines_est": 3000,
-     "done": 0.0,
-     "note": "queued in MINOR-ARCS"
+     "done": 1.0,
+     "note": "landed: TARGET lemcubic (quadExpSum3 drafted form)"
     },
     {
      "id": "NT3",
@@ -270,8 +270,8 @@
      "goal": "DH23 Lemma 6.6(1), 3-vector count δ^{−1}L^{2(d−γ)}",
      "weight": 6.0,
      "lines_est": 2000,
-     "done": 0.0,
-     "note": "queued in MINOR-ARCS"
+     "done": 1.0,
+     "note": "landed: DH23 6.6(1), three-vector count"
     },
     {
      "id": "M2",
@@ -288,8 +288,8 @@
      "goal": "DH23 Lemma A.2 with exponent 2/3 (F3), TARGET Lemma A.8",
      "weight": 7.0,
      "lines_est": 3050,
-     "done": 0.0,
-     "note": ""
+     "done": 0.3,
+     "note": "COUNT in progress (wt-gausssum)"
     },
     {
      "id": "C2",
@@ -306,8 +306,8 @@
      "goal": "parameter structure, norms 𝔛/𝔖/Z, a-system, K_G/K*_Q/K*_T with summability, 𝒥_𝒯, ℒ_j; time-parameter design (GAP.timeParam)",
      "weight": 14.0,
      "lines_est": 3400,
-     "done": 0.3,
-     "note": "system objects audited, final fixes"
+     "done": 0.5,
+     "note": "SYS-DEFS API + Duhamel identity (scratch)"
     },
     {
      "id": "M3",
@@ -333,8 +333,8 @@
      "goal": "DH23 Prop 6.4 and its extension to n≤N^4_{p+1} (F33); 2 days: split major arcs / minor arcs + large-order range",
      "weight": 12.0,
      "lines_est": 6200,
-     "done": 0.0,
-     "note": ""
+     "done": 0.15,
+     "note": "APPROXNT in progress (wt-torus)"
     },
     {
      "id": "C3",
@@ -351,8 +351,8 @@
      "goal": "DH23 Lemma A.3, 2-vector counts, TARGET Lemma A.9",
      "weight": 7.0,
      "lines_est": 3800,
-     "done": 0.0,
-     "note": ""
+     "done": 0.3,
+     "note": "COUNT in progress"
     },
     {
      "id": "M5",
@@ -378,8 +378,8 @@
      "goal": "time coefficients ℬ_Q, recursions, class J/R operators (DH21 §5.1–Lemma 5.5)",
      "weight": 7.0,
      "lines_est": 3800,
-     "done": 0.45,
-     "note": "class J/R operators (Lemmas 5.3–5.5) landed in part (wt-wke)"
+     "done": 0.6,
+     "note": "class J/R operators landed in part"
     },
     {
      "id": "L1",
@@ -414,8 +414,8 @@
      "goal": "canonical layered gardens (criterion form), canonequiv + characterization (mandatory gate, G-2), unique construction data and expansion bijection, truncation",
      "weight": 9.0,
      "lines_est": 3950,
-     "done": 0.0,
-     "note": ""
+     "done": 0.8,
+     "note": "canonicalCharacterization proved (scratch, pre-freeze)"
     },
     {
      "id": "G6",
@@ -477,7 +477,7 @@
      "goal": "DH21 Lemmas 5.6–5.10",
      "weight": 8.0,
      "lines_est": 4000,
-     "done": 0.15,
+     "done": 0.3,
      "note": "JR-OPS"
     },
     {
@@ -567,8 +567,8 @@
      "goal": "expansion of truncated cumulants into canonical gardens; errors E^{(1)}, E^{(2)}; moment inequalities",
      "weight": 10.0,
      "lines_est": 4000,
-     "done": 0.0,
-     "note": ""
+     "done": 0.15,
+     "note": "INDUCT started (scratch)"
     },
     {
      "id": "J7",
@@ -774,8 +774,8 @@
      "goal": "base case, statements (1)–(4) at p+1, propansatz",
      "weight": 10.0,
      "lines_est": 3050,
-     "done": 0.0,
-     "note": ""
+     "done": 0.1,
+     "note": "INDUCT"
     },
     {
      "id": "Z1",
@@ -783,8 +783,8 @@
      "goal": "proof of Theorem 1.1 from propansatz and the bridge",
      "weight": 3.0,
      "lines_est": 860,
-     "done": 0.35,
-     "note": "MAIN-GLUE: G1, G2, G5–G7, G10 landed; G4, G8, G9, G11 after the Wave B freeze"
+     "done": 0.8,
+     "note": "main proved conditionally on propansatz + nlsAkBridge (main_of_propansatz_nlsAkBridge); glue G1–G11 done"
     }
    ]
   },

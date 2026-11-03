@@ -169,3 +169,10 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   B-process for the actual circle family and the exponent pair (11/30, 16/30), giving unconditional circle-problem
   discrepancy and annulus bounds with exponent 27/41 < 2/3. Huxley's 7/11 is not needed; DH23 Lemma A.2(2) can be proved
   with 27/41 (packet COUNT).
+- F48 — TARGET L2152 (`remtame`) — "some component contains exactly one atom adjacent to v" is used to conclude that all
+  labels incident to a removed tame atom v are fixed; false: explicit prime 4-tree garden counterexample (two residual
+  components, each with one atom adjacent to v but two opposite-oriented crossing bonds with equal labels that cancel in the
+  cut identity, so the label varies over ≳ L choices). Correction adopted: replace both occurrences by "exactly one bond
+  connecting the component to v" (the bridge criterion of DH21 Lemmas 9.13–9.14 and DH23 §10.5(4)); case (ii) negated
+  consistently. Found by wt-ansob (DEGEN), confirmed by its independent reviewer; write-up docs/research/erratum-remtame.md;
+  independent check by wt-orch pending. Status: candidate erratum (substantive; local fix).

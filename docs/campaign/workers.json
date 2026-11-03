@@ -12,8 +12,8 @@
   "model": "Claude Opus",
   "account": "claude-10",
   "branch": "w/waveb-infra",
-  "packet": "D3 CANON (pre-freeze): prove canonicalCharacterization (B1.11), truncation bridges; Wave B drafts done (B1 final check running, B2 drafted)",
-  "brief": "docs/campaign/briefs/CANON.md"
+  "packet": "X1 FLOWER-DEF (pre-freeze): flower classes/kernels, parametrix identities (F26, F39, F46), redraft B1.12 (Duhamel identity done)",
+  "brief": "docs/campaign/briefs/FLOWER.md"
  },
  {
   "tmux": "wt-torus",
