@@ -10,6 +10,7 @@ public import WaveTurbulence.Foundations.WeylSums.WindowScaling
 public import WaveTurbulence.Foundations.WeylSums.CubicMinima
 public import WaveTurbulence.Foundations.WeylSums.CubicYoung
 public import WaveTurbulence.Foundations.WeylSums.CoordinateBoxSupport
+public import WaveTurbulence.Foundations.WeylSums.MinorArcs2
 public import WaveTurbulence.Foundations.WeylSums.WeightedBilinearIntegral
 public import WaveTurbulence.Foundations.WeylSums.WeightedDiagonalBound
 public import WaveTurbulence.Foundations.WeylSums.ParityReindex
