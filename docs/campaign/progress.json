@@ -1,5 +1,5 @@
 {
- "assessed": "2026-11-03 21:45 UTC",
+ "assessed": "2026-11-03 23:20 UTC",
  "notes": "Lean work items = blueprint packets (docs/blueprint/GRAPH.md §E) with their difficulty weights (node weights L=1, M=2, H=4, VH=8 summed). Each frozen theorem anchor adds weight 1, credited when SEALED. Done fractions are the orchestrator's assessment, reviewed at integration rounds.",
  "lines_est_total": 273000,
  "parts": [
@@ -99,8 +99,8 @@
      "goal": "collision operator, GIT20 trilinear (all d), LWP, wkelwp, tame estimate, Taylor expansion",
      "weight": 24.0,
      "lines_est": 9810,
-     "done": 0.93,
-     "note": "all but the L²_s blow-up conjunct; WKE-L2S Theorem 7 in progress (35 commits landed)"
+     "done": 1.0,
+     "note": "done: WKE LWP, uniqueness, Taylor, general-d L²_s trilinear estimate (Theorem 7), blow-up; frozen wkelwp SEALED 2026-11-03"
     },
     {
      "id": "B1",
