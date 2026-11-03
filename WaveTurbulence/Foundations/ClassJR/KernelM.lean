@@ -186,4 +186,117 @@ theorem integral_kerM_mul_exp (x : ℝ) {v : ℝ} (hv : v ∈ Icc (0 : ℝ) 1) :
   push_cast
   ring
 
+/-- Derivatives of `y ↦ f(σ - τ y)` for `|τ| ≤ 1`. -/
+theorem norm_iteratedDeriv_comp_affine_le {f : ℝ → ℂ} (hf : ContDiff ℝ ∞ f) {τ : ℝ}
+    (hτ : |τ| ≤ 1) (σ x : ℝ) (m : ℕ) :
+    ‖iteratedDeriv m (fun y => f (σ - τ * y)) x‖ ≤ ‖iteratedDeriv m f (σ - τ * x)‖ := by
+  have hL : ‖(-τ) • ContinuousLinearMap.id ℝ ℝ‖ ≤ 1 := by
+    rw [norm_smul, norm_neg, Real.norm_eq_abs]
+    exact (mul_le_of_le_one_right (abs_nonneg _) ContinuousLinearMap.norm_id_le).trans hτ
+  have h := enorm_iteratedFDeriv_scalar_le hf ((-τ) • ContinuousLinearMap.id ℝ ℝ) hL σ x m
+  simp only [smul_apply, ContinuousLinearMap.id_apply, smul_eq_mul] at h
+  have e : (fun y => f (σ - τ * y)) = fun y => f (-τ * y + σ) := by
+    funext y; congr 1; ring
+  rw [e, show σ - τ * x = -τ * x + σ by ring, ← norm_iteratedFDeriv_eq_norm_iteratedDeriv]
+  exact enorm_le_iff_norm_le.1 h
+
+theorem norm_iteratedDeriv_chi0c_le (j : ℕ) (x : ℝ) :
+    ‖iteratedDeriv j (fun y => (chi0 y : ℂ)) x‖ ≤
+      Real.exp 4 * Achi ^ j * (Nat.factorial (2 * j) : ℝ) := by
+  rw [norm_iteratedDeriv_ofReal (chi0_contDiff (n := ⊤)), Real.norm_eq_abs]
+  exact chi0_gevreyTwoBound j x
+
+theorem iteratedDeriv_chi0c_eq_zero {x : ℝ} (hx : 1 < |x|) (j : ℕ) :
+    iteratedDeriv j (fun y => (chi0 y : ℂ)) x = 0 :=
+  iteratedDeriv_eq_zero_of_eventuallyEq_zero (by
+    filter_upwards [chi0_eventually_zero hx] with y hy
+    simp [hy]) j
+
+/-- **Derivative bounds for the `χ₀` kernel.** -/
+theorem exists_kerM_bound : ∃ C A : ℝ, 0 ≤ C ∧ 0 ≤ A ∧ ∀ (c : ℕ) (x : ℝ) (q : ℝ × ℝ),
+    ‖iteratedDeriv c (fun x => kerM x q) x‖ ≤
+      (Icc (0 : ℝ) 1).indicator (fun _ => (1 : ℝ)) q.2 *
+        (C * A ^ c * (Nat.factorial (2 * c) : ℝ)) / (1 + |q.1|) ^ 3 := by
+  obtain ⟨K, B, hK, hB, hF⟩ := exists_norm_iteratedDeriv_ftπ_le contDiff_phiM hasCompactSupport_phiM
+  set A := max Achi B
+  have hA : 0 ≤ A := le_max_of_le_left Achi_nonneg
+  have hFc : ContDiff ℝ ∞ (ftπ phiM) := contDiff_ftπ contDiff_phiM hasCompactSupport_phiM
+  refine ⟨32 * Real.exp 4 * K, A, by positivity, hA, fun c x q => ?_⟩
+  obtain ⟨σ, τ⟩ := q
+  by_cases hτ : τ ∈ Icc (0 : ℝ) 1
+  · simp only [Set.indicator_of_mem hτ, one_mul]
+    have hτ1 : |τ| ≤ 1 := by rw [abs_le]; constructor <;> linarith [hτ.1, hτ.2]
+    have hfun : (fun x => kerM x (σ, τ)) =
+        (fun y => (chi0 y : ℂ)) * fun y => ftπ phiM (σ - τ * y) := by
+      funext y
+      simp [kerM, Set.indicator_of_mem hτ]
+    have hc1 : ContDiff ℝ ∞ (fun y => (chi0 y : ℂ)) :=
+      Complex.ofRealCLM.contDiff.comp (chi0_contDiff (n := ⊤))
+    have hc2 : ContDiff ℝ ∞ (fun y => ftπ phiM (σ - τ * y)) :=
+      hFc.comp (contDiff_const.sub (contDiff_const.mul contDiff_id))
+    rw [hfun, iteratedDeriv_mul (hc1.of_le (by simp)).contDiffAt (hc2.of_le (by simp)).contDiffAt]
+    have hpos : 0 < (1 + |σ|) ^ 3 := by positivity
+    by_cases hx : 1 < |x|
+    · simp only [iteratedDeriv_chi0c_eq_zero hx, mul_zero, zero_mul, Finset.sum_const_zero,
+        norm_zero]
+      positivity
+    · push Not at hx
+      have hdecay : ∀ m : ℕ, ‖iteratedDeriv m (fun y => ftπ phiM (σ - τ * y)) x‖ ≤
+          8 * K * B ^ m / (1 + |σ|) ^ 3 := fun m => by
+        refine (norm_iteratedDeriv_comp_affine_le hFc hτ1 σ x m).trans ((hF m _).trans ?_)
+        have h1 : 1 + |σ| ≤ 2 * (1 + |σ - τ * x|) := by
+          have : |σ| ≤ |σ - τ * x| + |τ * x| := by
+            calc |σ| = |(σ - τ * x) + τ * x| := by ring_nf
+              _ ≤ _ := abs_add_le _ _
+          have h2 : |τ * x| ≤ 1 := by
+            rw [abs_mul]; exact (mul_le_mul hτ1 hx (abs_nonneg _) zero_le_one).trans_eq (one_mul 1)
+          linarith [abs_nonneg (σ - τ * x)]
+        have h3 : (1 + |σ|) ^ 3 ≤ 8 * (1 + |σ - τ * x|) ^ 3 := by
+          calc (1 + |σ|) ^ 3 ≤ (2 * (1 + |σ - τ * x|)) ^ 3 := by gcongr
+            _ = 8 * (1 + |σ - τ * x|) ^ 3 := by ring
+        rw [div_le_div_iff₀ (by positivity) hpos]
+        calc K * B ^ m * (1 + |σ|) ^ 3 ≤ K * B ^ m * (8 * (1 + |σ - τ * x|) ^ 3) := by gcongr
+          _ = 8 * K * B ^ m * (1 + |σ - τ * x|) ^ 3 := by ring
+      calc ‖∑ i ∈ Finset.range (c + 1), (c.choose i : ℂ) * iteratedDeriv i (fun y => (chi0 y : ℂ)) x *
+            iteratedDeriv (c - i) (fun y => ftπ phiM (σ - τ * y)) x‖
+          ≤ ∑ i ∈ Finset.range (c + 1), (c.choose i : ℝ) *
+              (Real.exp 4 * A ^ i * (Nat.factorial (2 * i) : ℝ)) *
+              (8 * K * (A ^ (c - i) * (Nat.factorial (2 * (c - i)) : ℝ)) / (1 + |σ|) ^ 3) := by
+            refine (norm_sum_le _ _).trans (Finset.sum_le_sum fun i _ => ?_)
+            rw [norm_mul, norm_mul, Complex.norm_natCast]
+            have h1 := norm_iteratedDeriv_chi0c_le i x
+            have h1' : Real.exp 4 * Achi ^ i * (Nat.factorial (2 * i) : ℝ) ≤
+                Real.exp 4 * A ^ i * (Nat.factorial (2 * i) : ℝ) := by
+              gcongr
+              · exact Achi_nonneg
+              · exact le_max_left _ _
+            have h2 := hdecay (c - i)
+            have h2' : 8 * K * B ^ (c - i) / (1 + |σ|) ^ 3 ≤
+                8 * K * (A ^ (c - i) * (Nat.factorial (2 * (c - i)) : ℝ)) / (1 + |σ|) ^ 3 := by
+              gcongr
+              calc B ^ (c - i) ≤ A ^ (c - i) := pow_le_pow_left₀ hB (le_max_right _ _) _
+                _ = A ^ (c - i) * 1 := (mul_one _).symm
+                _ ≤ _ := by gcongr; exact_mod_cast Nat.one_le_iff_ne_zero.mpr (Nat.factorial_ne_zero _)
+            gcongr
+            · exact h1.trans h1'
+            · exact h2.trans h2'
+        _ = 8 * Real.exp 4 * K * A ^ c / (1 + |σ|) ^ 3 * ∑ i ∈ Finset.range (c + 1),
+              ((c.choose i : ℝ) * (Nat.factorial (2 * i) : ℝ) *
+                (Nat.factorial (2 * (c - i)) : ℝ)) := by
+            rw [Finset.mul_sum]
+            refine Finset.sum_congr rfl fun i hi => ?_
+            have hic : i ≤ c := Nat.lt_succ_iff.mp (Finset.mem_range.mp hi)
+            have : A ^ c = A ^ i * A ^ (c - i) := by rw [← pow_add, Nat.add_sub_cancel' hic]
+            rw [this]
+            field_simp
+        _ ≤ 8 * Real.exp 4 * K * A ^ c / (1 + |σ|) ^ 3 * (4 * (Nat.factorial (2 * c) : ℝ)) := by
+            gcongr
+            exact Combinatorics.sum_choose_factorial_le c
+        _ = 32 * Real.exp 4 * K * A ^ c * (Nat.factorial (2 * c) : ℝ) / (1 + |σ|) ^ 3 := by ring
+  · have : (fun x => kerM x (σ, τ)) = fun _ => 0 := by
+      funext y
+      simp [kerM, Set.indicator_of_notMem hτ]
+    rw [this, iteratedDeriv_eq_zero_of_eventuallyEq_zero (Eventually.of_forall fun _ => rfl) c]
+    simp only [norm_zero, Set.indicator_of_notMem hτ, zero_mul, zero_div, le_refl]
+
 end WaveTurbulence.ClassJR
