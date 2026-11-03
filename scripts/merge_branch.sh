@@ -11,7 +11,7 @@ import pathlib,subprocess
 r=pathlib.Path("WaveTurbulence.lean"); t=r.read_text(); lines=t.split("\n")
 keep=[l for l in lines if not (l.startswith("public import WaveTurbulence.") or l.startswith(("<<<<<<<","=======",">>>>>>>")))]
 mods=set()
-for d in ("WaveTurbulence/Foundations","WaveTurbulence/Paper"):
+for d in ("WaveTurbulence/Frozen/Defs","WaveTurbulence/Foundations","WaveTurbulence/Paper"):
     for p in pathlib.Path(d).rglob("*.lean") if pathlib.Path(d).exists() else []:
         mods.add("public import "+str(p)[:-5].replace("/","."))
 i=max(j for j,l in enumerate(keep) if l.startswith("public import"))

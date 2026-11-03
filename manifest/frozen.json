@@ -1,6 +1,609 @@
 {
   "schema_version": 1,
   "manifest_state": "AUTHOR_APPROVED",
-  "seal_limits": { "max_body_lines": 3, "max_body_bytes": 240 },
-  "anchors": []
+  "seal_limits": {
+    "max_body_lines": 3,
+    "max_body_bytes": 240
+  },
+  "anchors": [
+    {
+      "id": "Mom_v1",
+      "kind": "definition",
+      "author_approval": {
+        "approved_by": "Scott Armstrong",
+        "approved_at": "2026-11-03",
+        "approval_ref": "docs/DECISIONS.md#D6",
+        "approval_version": "1"
+      },
+      "source": {
+        "revision": "arXiv:2311.10082v2, WKE-Longer_times_Final_arXiv.tex sha256 493eef6b7dec448bc5f9f1c3974c0cad7a85eca9bc428f5b35e968aad76727cb",
+        "range": "L308-L310 (inner product), L299-L307 (k in R^d)"
+      },
+      "contract": {
+        "id": "dh-long.momentum-space",
+        "version": "1"
+      },
+      "path": "WaveTurbulence/Frozen/Defs/Mom.lean",
+      "export": "WaveTurbulence.Mom",
+      "split_policy": {
+        "source_group": "dh-long.momentum-space",
+        "mode": "NOT_SPLIT",
+        "ruling_ref": "docs/DECISIONS.md#D6"
+      },
+      "abi_sha256": "7763dac3db44a9d5d4c3f4f8fd4ef84e899567692207e81c662d084f51a2d51c",
+      "definition_closure": [],
+      "state": "SEALED",
+      "full_file_sha256": "22aaac77bd1887265c3d8fec49f6975ae68311e18529151740ba0e74557e5d87"
+    },
+    {
+      "id": "latticePoint_v1",
+      "kind": "definition",
+      "author_approval": {
+        "approved_by": "Scott Armstrong",
+        "approved_at": "2026-11-03",
+        "approval_ref": "docs/DECISIONS.md#D6",
+        "approval_version": "1"
+      },
+      "source": {
+        "revision": "arXiv:2311.10082v2, WKE-Longer_times_Final_arXiv.tex sha256 493eef6b7dec448bc5f9f1c3974c0cad7a85eca9bc428f5b35e968aad76727cb",
+        "range": "L286"
+      },
+      "contract": {
+        "id": "dh-long.dual-lattice",
+        "version": "1"
+      },
+      "path": "WaveTurbulence/Frozen/Defs/LatticePoint.lean",
+      "export": "WaveTurbulence.latticePoint",
+      "split_policy": {
+        "source_group": "dh-long.dual-lattice",
+        "mode": "NOT_SPLIT",
+        "ruling_ref": "docs/DECISIONS.md#D6"
+      },
+      "abi_sha256": "329d165d27ec71bcbfb72d27f24861042cac8bda5c9b9f2d54e61040b82c6a7e",
+      "definition_closure": [
+        {
+          "path": "WaveTurbulence/Frozen/Defs/Mom.lean",
+          "sha256": "22aaac77bd1887265c3d8fec49f6975ae68311e18529151740ba0e74557e5d87"
+        }
+      ],
+      "state": "SEALED",
+      "full_file_sha256": "5012e349f1715c3f53042229cd33eba43acd02a5fe3de310c0f71569f5c24f2d"
+    },
+    {
+      "id": "collisionOp_v1",
+      "kind": "definition",
+      "author_approval": {
+        "approved_by": "Scott Armstrong",
+        "approved_at": "2026-11-03",
+        "approval_ref": "docs/DECISIONS.md#D6",
+        "approval_version": "1"
+      },
+      "source": {
+        "revision": "arXiv:2311.10082v2, WKE-Longer_times_Final_arXiv.tex sha256 493eef6b7dec448bc5f9f1c3974c0cad7a85eca9bc428f5b35e968aad76727cb",
+        "range": "L299-L307 (COL), L2503 (C.5)"
+      },
+      "contract": {
+        "id": "dh-long.collision-operator",
+        "version": "1"
+      },
+      "path": "WaveTurbulence/Frozen/Defs/CollisionOp.lean",
+      "export": "WaveTurbulence.collisionOp",
+      "split_policy": {
+        "source_group": "dh-long.collision-operator",
+        "mode": "NOT_SPLIT",
+        "ruling_ref": "docs/DECISIONS.md#D6"
+      },
+      "abi_sha256": "b681e425da73de72adbd6de6283a62c2bdc3b736291ec2aa7fd57280f7fc41eb",
+      "definition_closure": [
+        {
+          "path": "WaveTurbulence/Frozen/Defs/Mom.lean",
+          "sha256": "22aaac77bd1887265c3d8fec49f6975ae68311e18529151740ba0e74557e5d87"
+        }
+      ],
+      "state": "SEALED",
+      "full_file_sha256": "5246fe71b1082f7aa3f784220e77849dcb9a1debe013ebb06e7e489636a748c4"
+    },
+    {
+      "id": "IsWKESolution_v1",
+      "kind": "definition",
+      "author_approval": {
+        "approved_by": "Scott Armstrong",
+        "approved_at": "2026-11-03",
+        "approval_ref": "docs/DECISIONS.md#D6",
+        "approval_version": "1"
+      },
+      "source": {
+        "revision": "arXiv:2311.10082v2, WKE-Longer_times_Final_arXiv.tex sha256 493eef6b7dec448bc5f9f1c3974c0cad7a85eca9bc428f5b35e968aad76727cb",
+        "range": "L299-L301 (WKE), L598-L601"
+      },
+      "contract": {
+        "id": "dh-long.wke-solution",
+        "version": "1"
+      },
+      "path": "WaveTurbulence/Frozen/Defs/IsWKESolution.lean",
+      "export": "WaveTurbulence.IsWKESolution",
+      "split_policy": {
+        "source_group": "dh-long.wke-solution",
+        "mode": "NOT_SPLIT",
+        "ruling_ref": "docs/DECISIONS.md#D6"
+      },
+      "abi_sha256": "502f916e03bd5759160747f59bd8ea17ba86435c40a6f95061a440194a336a10",
+      "definition_closure": [
+        {
+          "path": "WaveTurbulence/Frozen/Defs/Mom.lean",
+          "sha256": "22aaac77bd1887265c3d8fec49f6975ae68311e18529151740ba0e74557e5d87"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/CollisionOp.lean",
+          "sha256": "5246fe71b1082f7aa3f784220e77849dcb9a1debe013ebb06e7e489636a748c4"
+        }
+      ],
+      "state": "SEALED",
+      "full_file_sha256": "2529844f73ade481a1295d3399c8f3967f98d290e54adb52f00fbf6908c2d178"
+    },
+    {
+      "id": "partialDeriv_v1",
+      "kind": "definition",
+      "author_approval": {
+        "approved_by": "Scott Armstrong",
+        "approved_at": "2026-11-03",
+        "approval_ref": "docs/DECISIONS.md#D6",
+        "approval_version": "1"
+      },
+      "source": {
+        "revision": "arXiv:2311.10082v2, WKE-Longer_times_Final_arXiv.tex sha256 493eef6b7dec448bc5f9f1c3974c0cad7a85eca9bc428f5b35e968aad76727cb",
+        "range": "L285"
+      },
+      "contract": {
+        "id": "dh-long.partial-derivative",
+        "version": "1"
+      },
+      "path": "WaveTurbulence/Frozen/Defs/PartialDeriv.lean",
+      "export": "WaveTurbulence.partialDeriv",
+      "split_policy": {
+        "source_group": "dh-long.partial-derivative",
+        "mode": "NOT_SPLIT",
+        "ruling_ref": "docs/DECISIONS.md#D6"
+      },
+      "abi_sha256": "053e93ae02316072419d4532d9cffa1fc25fefe706dab370b1629a24e19afc24",
+      "definition_closure": [],
+      "state": "SEALED",
+      "full_file_sha256": "d25dbe657bf661a6c3652459c35a705b563918b24fc47511af9ebdb85c4d3986"
+    },
+    {
+      "id": "normLaplacian_v1",
+      "kind": "definition",
+      "author_approval": {
+        "approved_by": "Scott Armstrong",
+        "approved_at": "2026-11-03",
+        "approval_ref": "docs/DECISIONS.md#D6",
+        "approval_version": "1"
+      },
+      "source": {
+        "revision": "arXiv:2311.10082v2, WKE-Longer_times_Final_arXiv.tex sha256 493eef6b7dec448bc5f9f1c3974c0cad7a85eca9bc428f5b35e968aad76727cb",
+        "range": "L285"
+      },
+      "contract": {
+        "id": "dh-long.normalized-laplacian",
+        "version": "1"
+      },
+      "path": "WaveTurbulence/Frozen/Defs/NormLaplacian.lean",
+      "export": "WaveTurbulence.normLaplacian",
+      "split_policy": {
+        "source_group": "dh-long.normalized-laplacian",
+        "mode": "NOT_SPLIT",
+        "ruling_ref": "docs/DECISIONS.md#D6"
+      },
+      "abi_sha256": "16890801b42d6526f0857f4d3d6c88d9aef9d0ab2dd0921071da048614294f2e",
+      "definition_closure": [
+        {
+          "path": "WaveTurbulence/Frozen/Defs/PartialDeriv.lean",
+          "sha256": "d25dbe657bf661a6c3652459c35a705b563918b24fc47511af9ebdb85c4d3986"
+        }
+      ],
+      "state": "SEALED",
+      "full_file_sha256": "4095143440579aa212b1e695bfc302c633da0c96616484002e62dc9fe6246d0c"
+    },
+    {
+      "id": "torusFourierCoeff_v1",
+      "kind": "definition",
+      "author_approval": {
+        "approved_by": "Scott Armstrong",
+        "approved_at": "2026-11-03",
+        "approval_ref": "docs/DECISIONS.md#D6",
+        "approval_version": "1"
+      },
+      "source": {
+        "revision": "arXiv:2311.10082v2, WKE-Longer_times_Final_arXiv.tex sha256 493eef6b7dec448bc5f9f1c3974c0cad7a85eca9bc428f5b35e968aad76727cb",
+        "range": "L286-L288 (fourier)"
+      },
+      "contract": {
+        "id": "dh-long.space-fourier-coefficient",
+        "version": "1"
+      },
+      "path": "WaveTurbulence/Frozen/Defs/TorusFourierCoeff.lean",
+      "export": "WaveTurbulence.torusFourierCoeff",
+      "split_policy": {
+        "source_group": "dh-long.space-fourier-coefficient",
+        "mode": "NOT_SPLIT",
+        "ruling_ref": "docs/DECISIONS.md#D6"
+      },
+      "abi_sha256": "b91562b10aee2c9c079d94020e2a209dd6d3640ae0f7bfa37e2b5e39cbe2f769",
+      "definition_closure": [],
+      "state": "SEALED",
+      "full_file_sha256": "2383c83cf3e2670f638855994438a43bafcfdf5ffc0c307e0f4b55348ef78432"
+    },
+    {
+      "id": "IsSmoothNLSSolution_v1",
+      "kind": "definition",
+      "author_approval": {
+        "approved_by": "Scott Armstrong",
+        "approved_at": "2026-11-03",
+        "approval_ref": "docs/DECISIONS.md#D6",
+        "approval_version": "1"
+      },
+      "source": {
+        "revision": "arXiv:2311.10082v2, WKE-Longer_times_Final_arXiv.tex sha256 493eef6b7dec448bc5f9f1c3974c0cad7a85eca9bc428f5b35e968aad76727cb",
+        "range": "L278-L283 (NLS), L292 (DAT), L314-L316"
+      },
+      "contract": {
+        "id": "dh-long.smooth-nls-solution",
+        "version": "1"
+      },
+      "path": "WaveTurbulence/Frozen/Defs/IsSmoothNLSSolution.lean",
+      "export": "WaveTurbulence.IsSmoothNLSSolution",
+      "split_policy": {
+        "source_group": "dh-long.smooth-nls-solution",
+        "mode": "NOT_SPLIT",
+        "ruling_ref": "docs/DECISIONS.md#D6"
+      },
+      "abi_sha256": "71e49b59c0991529e7512a011ec06c5e3758bcfb93d841f61af10879e9fb18bd",
+      "definition_closure": [
+        {
+          "path": "WaveTurbulence/Frozen/Defs/PartialDeriv.lean",
+          "sha256": "d25dbe657bf661a6c3652459c35a705b563918b24fc47511af9ebdb85c4d3986"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/NormLaplacian.lean",
+          "sha256": "4095143440579aa212b1e695bfc302c633da0c96616484002e62dc9fe6246d0c"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/TorusFourierCoeff.lean",
+          "sha256": "2383c83cf3e2670f638855994438a43bafcfdf5ffc0c307e0f4b55348ef78432"
+        }
+      ],
+      "state": "SEALED",
+      "full_file_sha256": "3e3bb13ef86166ea4a59a24e0d59a38db80acc7cfdc6bc3af6ad75a3682d5937"
+    },
+    {
+      "id": "stdComplexGaussian_v1",
+      "kind": "definition",
+      "author_approval": {
+        "approved_by": "Scott Armstrong",
+        "approved_at": "2026-11-03",
+        "approval_ref": "docs/DECISIONS.md#D6",
+        "approval_version": "1"
+      },
+      "source": {
+        "revision": "arXiv:2311.10082v2, WKE-Longer_times_Final_arXiv.tex sha256 493eef6b7dec448bc5f9f1c3974c0cad7a85eca9bc428f5b35e968aad76727cb",
+        "range": "L292-L294; DH21 L297; DH19 L140"
+      },
+      "contract": {
+        "id": "dh-long.normalized-complex-gaussian",
+        "version": "1"
+      },
+      "path": "WaveTurbulence/Frozen/Defs/StdComplexGaussian.lean",
+      "export": "WaveTurbulence.stdComplexGaussian",
+      "split_policy": {
+        "source_group": "dh-long.normalized-complex-gaussian",
+        "mode": "NOT_SPLIT",
+        "ruling_ref": "docs/DECISIONS.md#D6"
+      },
+      "abi_sha256": "396b29630c1788c5e495a9bfa3bbd8b1a3065710342a0d6627518c1a2ee46b8e",
+      "definition_closure": [],
+      "state": "SEALED",
+      "full_file_sha256": "a263feca6fa5ee445e57c1e7002a211b0bf14c090342ce59604d766956a398e2"
+    },
+    {
+      "id": "initialCoeff_v1",
+      "kind": "definition",
+      "author_approval": {
+        "approved_by": "Scott Armstrong",
+        "approved_at": "2026-11-03",
+        "approval_ref": "docs/DECISIONS.md#D6",
+        "approval_version": "1"
+      },
+      "source": {
+        "revision": "arXiv:2311.10082v2, WKE-Longer_times_Final_arXiv.tex sha256 493eef6b7dec448bc5f9f1c3974c0cad7a85eca9bc428f5b35e968aad76727cb",
+        "range": "L290-L293 (DAT)"
+      },
+      "contract": {
+        "id": "dh-long.random-data",
+        "version": "1"
+      },
+      "path": "WaveTurbulence/Frozen/Defs/InitialCoeff.lean",
+      "export": "WaveTurbulence.initialCoeff",
+      "split_policy": {
+        "source_group": "dh-long.random-data",
+        "mode": "NOT_SPLIT",
+        "ruling_ref": "docs/DECISIONS.md#D6"
+      },
+      "abi_sha256": "ae5222e5ba2e526d1c9ee096a8c23812fbf7d9bdf05f773a1805134ceb0344c7",
+      "definition_closure": [
+        {
+          "path": "WaveTurbulence/Frozen/Defs/Mom.lean",
+          "sha256": "22aaac77bd1887265c3d8fec49f6975ae68311e18529151740ba0e74557e5d87"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/LatticePoint.lean",
+          "sha256": "5012e349f1715c3f53042229cd33eba43acd02a5fe3de310c0f71569f5c24f2d"
+        }
+      ],
+      "state": "SEALED",
+      "full_file_sha256": "97b180a3f4664f00758ce3ad6f6f4009dcd74f7dd91058dd64fa1877ee9ed218"
+    },
+    {
+      "id": "solvableEvent_v1",
+      "kind": "definition",
+      "author_approval": {
+        "approved_by": "Scott Armstrong",
+        "approved_at": "2026-11-03",
+        "approval_ref": "docs/DECISIONS.md#D6",
+        "approval_version": "1"
+      },
+      "source": {
+        "revision": "arXiv:2311.10082v2, WKE-Longer_times_Final_arXiv.tex sha256 493eef6b7dec448bc5f9f1c3974c0cad7a85eca9bc428f5b35e968aad76727cb",
+        "range": "L316, L818"
+      },
+      "contract": {
+        "id": "dh-long.solvability-event",
+        "version": "1"
+      },
+      "path": "WaveTurbulence/Frozen/Defs/SolvableEvent.lean",
+      "export": "WaveTurbulence.solvableEvent",
+      "split_policy": {
+        "source_group": "dh-long.solvability-event",
+        "mode": "NOT_SPLIT",
+        "ruling_ref": "docs/DECISIONS.md#D6"
+      },
+      "abi_sha256": "3952dddb49f3f55abd5c7d6ed98850d2bc2664bf96532b47b875a5ff88451c41",
+      "definition_closure": [
+        {
+          "path": "WaveTurbulence/Frozen/Defs/Mom.lean",
+          "sha256": "22aaac77bd1887265c3d8fec49f6975ae68311e18529151740ba0e74557e5d87"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/LatticePoint.lean",
+          "sha256": "5012e349f1715c3f53042229cd33eba43acd02a5fe3de310c0f71569f5c24f2d"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/PartialDeriv.lean",
+          "sha256": "d25dbe657bf661a6c3652459c35a705b563918b24fc47511af9ebdb85c4d3986"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/NormLaplacian.lean",
+          "sha256": "4095143440579aa212b1e695bfc302c633da0c96616484002e62dc9fe6246d0c"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/TorusFourierCoeff.lean",
+          "sha256": "2383c83cf3e2670f638855994438a43bafcfdf5ffc0c307e0f4b55348ef78432"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/IsSmoothNLSSolution.lean",
+          "sha256": "3e3bb13ef86166ea4a59a24e0d59a38db80acc7cfdc6bc3af6ad75a3682d5937"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/InitialCoeff.lean",
+          "sha256": "97b180a3f4664f00758ce3ad6f6f4009dcd74f7dd91058dd64fa1877ee9ed218"
+        }
+      ],
+      "state": "SEALED",
+      "full_file_sha256": "bf677dd5cb9d60cf1efff7d716b9d7b106432b459721757af152be8831be6ced"
+    },
+    {
+      "id": "kineticTime_v1",
+      "kind": "definition",
+      "author_approval": {
+        "approved_by": "Scott Armstrong",
+        "approved_at": "2026-11-03",
+        "approval_ref": "docs/DECISIONS.md#D6",
+        "approval_version": "1"
+      },
+      "source": {
+        "revision": "arXiv:2311.10082v2, WKE-Longer_times_Final_arXiv.tex sha256 493eef6b7dec448bc5f9f1c3974c0cad7a85eca9bc428f5b35e968aad76727cb",
+        "range": "L297"
+      },
+      "contract": {
+        "id": "dh-long.kinetic-time",
+        "version": "1"
+      },
+      "path": "WaveTurbulence/Frozen/Defs/KineticTime.lean",
+      "export": "WaveTurbulence.kineticTime",
+      "split_policy": {
+        "source_group": "dh-long.kinetic-time",
+        "mode": "NOT_SPLIT",
+        "ruling_ref": "docs/DECISIONS.md#D6"
+      },
+      "abi_sha256": "b780a376bceb5fb6aaf4bc6e375f683cd279884fba0bb501d5d261c2993b6bc1",
+      "definition_closure": [],
+      "state": "SEALED",
+      "full_file_sha256": "d651332e8c2f769aa6d708f09ddcf0c3aa2df29905723b89bb1fc026fc4069c9"
+    },
+    {
+      "id": "weightedL2Norm_v1",
+      "kind": "definition",
+      "author_approval": {
+        "approved_by": "Scott Armstrong",
+        "approved_at": "2026-11-03",
+        "approval_ref": "docs/DECISIONS.md#D6",
+        "approval_version": "1"
+      },
+      "source": {
+        "revision": "arXiv:2311.10082v2, WKE-Longer_times_Final_arXiv.tex sha256 493eef6b7dec448bc5f9f1c3974c0cad7a85eca9bc428f5b35e968aad76727cb",
+        "range": "L599 (blowuptest), L2515 (Z_s); GIT20 L549"
+      },
+      "contract": {
+        "id": "dh-long.weighted-l2-norm",
+        "version": "1"
+      },
+      "path": "WaveTurbulence/Frozen/Defs/WeightedL2Norm.lean",
+      "export": "WaveTurbulence.weightedL2Norm",
+      "split_policy": {
+        "source_group": "dh-long.weighted-l2-norm",
+        "mode": "NOT_SPLIT",
+        "ruling_ref": "docs/DECISIONS.md#D6"
+      },
+      "abi_sha256": "827770c9a08e59a19d82e54b18870e61bdb7f951c67b3acb160083a07f5bbf98",
+      "definition_closure": [
+        {
+          "path": "WaveTurbulence/Frozen/Defs/Mom.lean",
+          "sha256": "22aaac77bd1887265c3d8fec49f6975ae68311e18529151740ba0e74557e5d87"
+        }
+      ],
+      "state": "SEALED",
+      "full_file_sha256": "92726d25128176c80d96bd3c18b475967dc900fdcec08f9cf5df71c9550fc52f"
+    },
+    {
+      "id": "main_v1",
+      "kind": "theorem",
+      "author_approval": {
+        "approved_by": "Scott Armstrong",
+        "approved_at": "2026-11-03",
+        "approval_ref": "docs/DECISIONS.md#D6",
+        "approval_version": "1"
+      },
+      "source": {
+        "revision": "arXiv:2311.10082v2, WKE-Longer_times_Final_arXiv.tex sha256 493eef6b7dec448bc5f9f1c3974c0cad7a85eca9bc428f5b35e968aad76727cb",
+        "range": "L314-L320 (Theorem 1.1, label main)"
+      },
+      "contract": {
+        "id": "dh-long.thm-main",
+        "version": "1"
+      },
+      "path": "WaveTurbulence/Frozen/Theorems/Main.lean",
+      "export": "WaveTurbulence.main",
+      "implementation": {
+        "module": "WaveTurbulence.Provider.Main",
+        "export": "WaveTurbulence.Provider.main"
+      },
+      "split_policy": {
+        "source_group": "dh-long.thm-main",
+        "mode": "NOT_SPLIT",
+        "ruling_ref": "docs/DECISIONS.md#D6"
+      },
+      "abi_sha256": "05d07e58bd43f9f500570d2d4993deec5442d73225ca0f6536ba2ba20c3e7f2c",
+      "definition_closure": [
+        {
+          "path": "WaveTurbulence/Frozen/Defs/Mom.lean",
+          "sha256": "22aaac77bd1887265c3d8fec49f6975ae68311e18529151740ba0e74557e5d87"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/LatticePoint.lean",
+          "sha256": "5012e349f1715c3f53042229cd33eba43acd02a5fe3de310c0f71569f5c24f2d"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/CollisionOp.lean",
+          "sha256": "5246fe71b1082f7aa3f784220e77849dcb9a1debe013ebb06e7e489636a748c4"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/IsWKESolution.lean",
+          "sha256": "2529844f73ade481a1295d3399c8f3967f98d290e54adb52f00fbf6908c2d178"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/PartialDeriv.lean",
+          "sha256": "d25dbe657bf661a6c3652459c35a705b563918b24fc47511af9ebdb85c4d3986"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/NormLaplacian.lean",
+          "sha256": "4095143440579aa212b1e695bfc302c633da0c96616484002e62dc9fe6246d0c"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/TorusFourierCoeff.lean",
+          "sha256": "2383c83cf3e2670f638855994438a43bafcfdf5ffc0c307e0f4b55348ef78432"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/IsSmoothNLSSolution.lean",
+          "sha256": "3e3bb13ef86166ea4a59a24e0d59a38db80acc7cfdc6bc3af6ad75a3682d5937"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/StdComplexGaussian.lean",
+          "sha256": "a263feca6fa5ee445e57c1e7002a211b0bf14c090342ce59604d766956a398e2"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/InitialCoeff.lean",
+          "sha256": "97b180a3f4664f00758ce3ad6f6f4009dcd74f7dd91058dd64fa1877ee9ed218"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/SolvableEvent.lean",
+          "sha256": "bf677dd5cb9d60cf1efff7d716b9d7b106432b459721757af152be8831be6ced"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/KineticTime.lean",
+          "sha256": "d651332e8c2f769aa6d708f09ddcf0c3aa2df29905723b89bb1fc026fc4069c9"
+        }
+      ],
+      "state": "DRAFT_SORRY",
+      "prefix_sha256": "fdb8acf38409984d9fa8347df988ef4f35df30b653f2bf940a2aaf243a6a7dc3",
+      "suffix_sha256": "9f48199048606af986e4911abed0172f6e65c9c8c91f1c2874961ad85a7ea8d0",
+      "draft_allowlist": {
+        "frozen_paths": [],
+        "audit_paths": []
+      }
+    },
+    {
+      "id": "wkelwp_v1",
+      "kind": "theorem",
+      "author_approval": {
+        "approved_by": "Scott Armstrong",
+        "approved_at": "2026-11-03",
+        "approval_ref": "docs/DECISIONS.md#D6",
+        "approval_version": "1"
+      },
+      "source": {
+        "revision": "arXiv:2311.10082v2, WKE-Longer_times_Final_arXiv.tex sha256 493eef6b7dec448bc5f9f1c3974c0cad7a85eca9bc428f5b35e968aad76727cb",
+        "range": "L598-L601 (Proposition 3.2, label wkelwp)"
+      },
+      "contract": {
+        "id": "dh-long.prop-wkelwp",
+        "version": "1"
+      },
+      "path": "WaveTurbulence/Frozen/Theorems/Wkelwp.lean",
+      "export": "WaveTurbulence.wkelwp",
+      "implementation": {
+        "module": "WaveTurbulence.Provider.Wkelwp",
+        "export": "WaveTurbulence.Provider.wkelwp"
+      },
+      "split_policy": {
+        "source_group": "dh-long.prop-wkelwp",
+        "mode": "NOT_SPLIT",
+        "ruling_ref": "docs/DECISIONS.md#D6"
+      },
+      "abi_sha256": "5e8b4769f8919e47f9c9adc4ac2007cda45921d19d7bed19e707e2b17eb1f566",
+      "definition_closure": [
+        {
+          "path": "WaveTurbulence/Frozen/Defs/Mom.lean",
+          "sha256": "22aaac77bd1887265c3d8fec49f6975ae68311e18529151740ba0e74557e5d87"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/CollisionOp.lean",
+          "sha256": "5246fe71b1082f7aa3f784220e77849dcb9a1debe013ebb06e7e489636a748c4"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/IsWKESolution.lean",
+          "sha256": "2529844f73ade481a1295d3399c8f3967f98d290e54adb52f00fbf6908c2d178"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/WeightedL2Norm.lean",
+          "sha256": "92726d25128176c80d96bd3c18b475967dc900fdcec08f9cf5df71c9550fc52f"
+        }
+      ],
+      "state": "DRAFT_SORRY",
+      "prefix_sha256": "85a090253baf3c29e0d339ef77d76a78218e0f93c2fc40b097e895a1415c7c5f",
+      "suffix_sha256": "9f48199048606af986e4911abed0172f6e65c9c8c91f1c2874961ad85a7ea8d0",
+      "draft_allowlist": {
+        "frozen_paths": [],
+        "audit_paths": []
+      }
+    }
+  ]
 }
