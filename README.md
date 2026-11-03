@@ -10,10 +10,11 @@ Deng–Hani's earlier papers (DH21, DH23, parts of DH21-2 and DH19), the triline
 (GIT20), smooth-solution theory for cubic NLS on the torus, and the Gaussian/cumulant facts.
 **Main theorem (D2):** Theorem 1.1 for `0 < γ < 1` on the square torus `[0,L]^d`, `d ≥ 3`.
 
-## Status (2026-11-03)
+## Status (2026-11-03 16:05 UTC)
 
-Phase P0/P1: sources pinned, paper maps in progress, frozen-surface selection and exact statement drafts next.
-No frozen statements yet.
+Phase P1/P2: sources pinned; paper maps of DH21/DH21-2 and DH23 done, target-paper maps in progress; exact Lean draft
+of Theorem 1.1 and its definitions elaborates and is under independent audit (wt-orch). No frozen statements yet.
+Route-independent infrastructure packets started (PLAN.md).
 
 ```text
 DRAFT_ANCHORS: 0
@@ -21,6 +22,16 @@ UNREGISTERED_SORRIES: 0
 DRAFT_IMPORT_VIOLATIONS: 0
 SEALED: 0
 ```
+
+### Workers
+
+| tmux | model / account | packet | brief |
+|---|---|---|---|
+| wt-orch | Claude Opus / claude-1 | statement audits, blueprint review | [orch/BRIEF.md](docs/campaign/orch/BRIEF.md) |
+| wt-gauss-hc | Claude Opus / claude-10 | Gaussian hypercontractivity, large deviations (DH21 Lemma A.3) | [GAUSS-HC](docs/campaign/briefs/GAUSS-HC.md) |
+| wt-torus | Claude Opus / claude-14 | Fourier series on the torus | [TORUS-FOURIER](docs/campaign/briefs/TORUS-FOURIER.md) |
+| wt-cumul | GPT-6.1-Sol low / codex-3 | complex Gaussians, Isserlis, cumulants | [CUMUL](docs/campaign/briefs/CUMUL.md) |
+| wt-nt | GPT-6.1-Sol low / codex-3 | circle problem (exponent 2/3), annulus counting | [NT-CIRCLE](docs/campaign/briefs/NT-CIRCLE.md) |
 
 ## Papers
 
