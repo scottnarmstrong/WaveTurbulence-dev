@@ -5,7 +5,7 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.WKE.Defs
+public import WaveTurbulence.Frozen.Defs.Mom
 public import Mathlib.Analysis.InnerProductSpace.ProdL2
 public import Mathlib.Analysis.SpecialFunctions.JapaneseBracket
 public import Mathlib.MeasureTheory.Integral.Prod

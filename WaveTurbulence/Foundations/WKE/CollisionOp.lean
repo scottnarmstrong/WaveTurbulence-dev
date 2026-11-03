@@ -6,6 +6,7 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.WKE.DeltaReading
+public import WaveTurbulence.Frozen.Defs.CollisionOp
 import Mathlib.Analysis.SpecialFunctions.Pow.Integral
 
 /-!
