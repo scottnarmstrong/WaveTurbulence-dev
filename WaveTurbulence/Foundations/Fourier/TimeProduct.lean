@@ -97,9 +97,9 @@ theorem integrable_timeFourier_of_norm_lt_top {r : ℕ} {θ : ℝ} (hθ : 0 ≤ 
       ENNReal.ofReal_le_ofReal (Real.one_le_rpow (one_le_timeBracket ξ) hθ)
   simpa only [one_mul] using mul_le_mul_left hw ‖timeFourier f ξ‖ₑ
 
-/-- Banach-algebra estimate on continuous representatives with finite norms.
-The loss is the explicit constant `2^θ`, independent of the number of time
-variables. Finiteness is the usual membership condition for this algebra. -/
+/-- Asymmetric multiplication estimate: the continuous multiplier carries
+absolute regularity `|θ|`. The loss is `2^|θ|`, independent of the number
+of time variables. Finiteness is the normed-space membership condition. -/
 theorem timeFourierNorm_mul_asymmetric_le {r : ℕ} (θ : ℝ)
     {f g : (Fin r → ℝ) → ℂ} (hgc : Continuous g)
     (hfn : timeFourierNorm θ f < ⊤) (hgn : timeFourierNorm |θ| g < ⊤) :
