@@ -114,38 +114,47 @@ theorem one_add_norm_rpow_neg_mul_le (a ℓ : Mom d) {N : ℝ} (hN : 0 ≤ N) :
         gcongr
     _ = _ := by ring
 
+theorem integrableOn_ball_inv_norm (hd : 2 ≤ d) :
+    IntegrableOn (fun x : Mom d => ‖x‖⁻¹) (Metric.ball 0 1) := by
+  have hfin : Module.finrank ℝ (Mom d) = d := finrank_euclideanSpace_fin
+  refine integrableOn_ball_of_norm_le_rpow (C := 1) (α := 1) (by omega) ?_ ?_ ?_
+  · rw [hfin]; exact_mod_cast (by omega : 1 < d)
+  · refine Eventually.of_forall fun x => ?_
+    rw [Real.rpow_neg_one, norm_inv, norm_norm, one_mul]
+  · exact (measurable_norm.inv).aestronglyMeasurable
+
+/-- `|ℓ|⁻¹ (1 + |c + ℓ|)^{-M} ≤ 1_{|ℓ| < 1} |ℓ|⁻¹ + (1 + |c + ℓ|)^{-M}` for `M ≥ 0`. -/
+theorem inv_norm_mul_one_add_norm_le {M : ℝ} (hM : 0 ≤ M) (c ℓ : Mom d) :
+    ‖ℓ‖⁻¹ * (1 + ‖c + ℓ‖) ^ (-M) ≤
+      (Metric.ball (0 : Mom d) 1).indicator (fun x => ‖x‖⁻¹) ℓ + (1 + ‖c + ℓ‖) ^ (-M) := by
+  have hr0 : 0 ≤ (1 + ‖c + ℓ‖) ^ (-M) := by positivity
+  have hr1 : (1 + ‖c + ℓ‖) ^ (-M) ≤ 1 := one_add_norm_rpow_neg_le_one hM
+  by_cases hℓ : ℓ ∈ Metric.ball (0 : Mom d) 1
+  · rw [indicator_of_mem hℓ]
+    have : ‖ℓ‖⁻¹ * (1 + ‖c + ℓ‖) ^ (-M) ≤ ‖ℓ‖⁻¹ :=
+      mul_le_of_le_one_right (by positivity) hr1
+    linarith
+  · rw [indicator_of_notMem hℓ, zero_add]
+    have h1 : 1 ≤ ‖ℓ‖ := by simpa using hℓ
+    have : ‖ℓ‖⁻¹ ≤ 1 := inv_le_one_of_one_le₀ h1
+    calc ‖ℓ‖⁻¹ * (1 + ‖c + ℓ‖) ^ (-M) ≤ 1 * (1 + ‖c + ℓ‖) ^ (-M) :=
+          mul_le_mul_of_nonneg_right this hr0
+      _ = _ := one_mul _
+
 /-- `ℓ ↦ |ℓ|⁻¹ (1 + |c + ℓ|)^{-M}` is integrable on `ℝ^d` for `d ≥ 2`, `M > d`. -/
 theorem integrable_inv_norm_mul_one_add_norm (hd : 2 ≤ d) {M : ℝ} (hM : (d : ℝ) < M)
     (c : Mom d) : Integrable (fun ℓ : Mom d => ‖ℓ‖⁻¹ * (1 + ‖c + ℓ‖) ^ (-M)) := by
   have hfin : Module.finrank ℝ (Mom d) = d := finrank_euclideanSpace_fin
-  have hball : IntegrableOn (fun x : Mom d => ‖x‖⁻¹) (Metric.ball 0 1) := by
-    refine integrableOn_ball_of_norm_le_rpow (C := 1) (α := 1) (by omega) ?_ ?_ ?_
-    · rw [hfin]; exact_mod_cast (by omega : 1 < d)
-    · refine Eventually.of_forall fun x => ?_
-      rw [Real.rpow_neg_one, norm_inv, norm_norm, one_mul]
-    · exact (measurable_norm.inv).aestronglyMeasurable
   have hfr : (Module.finrank ℝ (Mom d) : ℝ) < M := by rw [hfin]; exact hM
   have hdec := (integrable_one_add_norm (E := Mom d) (μ := volume) hfr).comp_add_left c
   have hdom : Integrable (fun ℓ : Mom d =>
       (Metric.ball (0 : Mom d) 1).indicator (fun x => ‖x‖⁻¹) ℓ + (1 + ‖c + ℓ‖) ^ (-M)) :=
-    (hball.integrable_indicator measurableSet_ball).add hdec
+    ((integrableOn_ball_inv_norm hd).integrable_indicator measurableSet_ball).add hdec
   refine hdom.mono' ?_ (Eventually.of_forall fun ℓ => ?_)
   · exact (measurable_norm.inv.mul (by fun_prop)).aestronglyMeasurable
-  · have hr0 : 0 ≤ (1 + ‖c + ℓ‖) ^ (-M) := by positivity
-    have hr1 : (1 + ‖c + ℓ‖) ^ (-M) ≤ 1 :=
-      one_add_norm_rpow_neg_le_one (le_trans (Nat.cast_nonneg d) hM.le)
-    rw [Real.norm_eq_abs, abs_of_nonneg (mul_nonneg (inv_nonneg.mpr (norm_nonneg _)) hr0)]
-    by_cases hℓ : ℓ ∈ Metric.ball (0 : Mom d) 1
-    · rw [indicator_of_mem hℓ]
-      have : ‖ℓ‖⁻¹ * (1 + ‖c + ℓ‖) ^ (-M) ≤ ‖ℓ‖⁻¹ :=
-        mul_le_of_le_one_right (by positivity) hr1
-      linarith
-    · rw [indicator_of_notMem hℓ, zero_add]
-      have h1 : 1 ≤ ‖ℓ‖ := by simpa using hℓ
-      have : ‖ℓ‖⁻¹ ≤ 1 := inv_le_one_of_one_le₀ h1
-      calc ‖ℓ‖⁻¹ * (1 + ‖c + ℓ‖) ^ (-M) ≤ 1 * (1 + ‖c + ℓ‖) ^ (-M) :=
-            mul_le_mul_of_nonneg_right this hr0
-        _ = _ := one_mul _
+  · rw [Real.norm_eq_abs, abs_of_nonneg (mul_nonneg (inv_nonneg.mpr (norm_nonneg _))
+      (by positivity))]
+    exact inv_norm_mul_one_add_norm_le (le_trans (Nat.cast_nonneg d) hM.le) c ℓ
 
 /-! ### Each kernel is a `DeltaKernel` -/
 
