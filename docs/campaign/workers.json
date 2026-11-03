@@ -68,8 +68,8 @@
   "model": "GPT-6.1-Sol low",
   "account": "codex-3",
   "branch": "w/resonant",
-  "packet": "D1 COMB-CORE (pre-freeze, scratch): API for trees, gardens, decorations, layerings (RESONANT done)",
-  "brief": "docs/campaign/briefs/COMB-CORE.md"
+  "packet": "D4+C1 REG-STRUCT (pre-freeze): regular chains, DH21 Props 4.5–4.10, structure theorem, counting (COMB-CORE done in scratch)",
+  "brief": "docs/campaign/briefs/REG-STRUCT.md"
  },
  {
   "tmux": "wt-anfourier",
