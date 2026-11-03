@@ -1,5 +1,5 @@
 {
- "assessed": "2026-11-04 00:20 UTC",
+ "assessed": "2026-11-04 00:35 UTC",
  "notes": "Lean work items = blueprint packets (docs/blueprint/GRAPH.md §E) with their difficulty weights (node weights L=1, M=2, H=4, VH=8 summed). Each frozen theorem anchor adds weight 1, credited when SEALED. Done fractions are the orchestrator's assessment, reviewed at integration rounds.",
  "lines_est_total": 273000,
  "parts": [
@@ -333,8 +333,8 @@
      "goal": "DH23 Prop 6.4 and its extension to n≤N^4_{p+1} (F33); 2 days: split major arcs / minor arcs + large-order range",
      "weight": 12.0,
      "lines_est": 6200,
-     "done": 0.15,
-     "note": "APPROXNT in progress (wt-torus)"
+     "done": 1.0,
+     "note": "done: DH23 Prop 6.4 with the large-order extension (F33, F54)"
     },
     {
      "id": "C3",

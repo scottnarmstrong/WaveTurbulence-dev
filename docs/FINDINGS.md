@@ -202,3 +202,7 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   10). DEGEN proved its results with the selected rung/rail reading (`SourceLadder`: double rungs, single opposite
   rails, no induced-card clause). Status: **B2 draft defect** (ours, not the source's); fix `IsLadder` before the B2
   freeze — queued for the B2 drafter after O-FK. Record: `wt-scratch/degen/ERRATUM-B2-LADDER.md`.
+- F54 — DH23 L1003, L1005 (Prop 6.4, (conclusion1), (intappr)) — the inner product `⟨x_j, y_j⟩_β` is carried over from
+  DH21; DH23 has no `β` (square torus). Read as `⟨·,·⟩`. Typo. Found by wt-torus (APPROXNT). Also (F33 addendum, same
+  packet): DH23 Prop 6.4 assumes `n ≤ (log L)^3` (L1002) but L1168 applies it to orders up to `N^3 ≈ (log L)^{12}`; the
+  landed extension holds for every fixed power of `log L`, so both F33 readings are covered.
