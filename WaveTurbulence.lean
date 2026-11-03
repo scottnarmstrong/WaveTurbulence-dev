@@ -189,6 +189,16 @@ public import WaveTurbulence.Foundations.LinAlg.LatticeRepresentatives
 public import WaveTurbulence.Foundations.LinAlg.LatticeRescaling
 public import WaveTurbulence.Foundations.LinAlg.MaxVolume
 public import WaveTurbulence.Foundations.LinAlg.OrthogonalResidualFamily
+public import WaveTurbulence.Foundations.MainGlue.Absorption
+public import WaveTurbulence.Foundations.MainGlue.DiscreteParameters
+public import WaveTurbulence.Foundations.MainGlue.GaussianLaw
+public import WaveTurbulence.Foundations.MainGlue.InductionParameters
+public import WaveTurbulence.Foundations.MainGlue.LatticeSum
+public import WaveTurbulence.Foundations.MainGlue.MassEvent
+public import WaveTurbulence.Foundations.MainGlue.Observable
+public import WaveTurbulence.Foundations.MainGlue.SchwartzMass
+public import WaveTurbulence.Foundations.MainGlue.SealInputs
+public import WaveTurbulence.Foundations.MainGlue.SmoothData
 public import WaveTurbulence.Foundations.NLS.AkClass
 public import WaveTurbulence.Foundations.NLS.AkFlow
 public import WaveTurbulence.Foundations.NLS.AkFlowLink
