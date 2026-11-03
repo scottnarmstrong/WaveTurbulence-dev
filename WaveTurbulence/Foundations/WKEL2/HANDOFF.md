@@ -345,3 +345,45 @@ extensions, tame Gronwall persistence, identification with the source
 weighted Sobolev spaces and equivalent Schwartz topology, equivalence with
 the frozen pointwise Schwartz solution class, and the full blow-up conjunct
 relative to `WKE.tauMax`. No completion or READY claim is made yet.
+
+## Completed finite-jet local theory and tame Gronwall induction
+
+- `7a952a0`: all finite orders satisfy the actual trilinear estimate, with
+  explicit ordered-word factor 3^m and no discarded multiplicities.
+- `232f828`: each term and the full signed collision field extend to every
+  completed weighted jet space, agreeing exactly with Schwartz collision.
+- `864e5e5`: the completed field projects to the base weighted L² field,
+  and differentiable solutions project to base solutions.
+- `532912f`: on Schwartz inputs only the three constant distributions
+  contain the highest-order input; the tame coefficient is the base norm
+  squared, independent of the order.
+- `bd02c34`: quantitative local mild existence and uniqueness at every
+  completed jet order, and projection of these mild solutions to the base.
+- `420119b`: all lower-order jets are bounded continuous linear coordinate
+  maps, the full jet is isometric, and order zero is exactly the base norm.
+- `159d1c6`: density extends the tame bound to completed inputs. The full
+  signed field has highest-order coefficient 12C, independent of order.
+- `0e3bb9d`: uniform closed-interval Gronwall and its recursive constants.
+- `d875a8b`: the actual completed-space a priori bound (schappend10), with
+  Q chosen before the solution and depending only on d,s,m,T,A,B.
+
+Final targeted builds for `JetWordBound`, `JetCollisionBanach`,
+`JetIntertwining`, `JetPicard`, `LowerJets`, `JetTameCompleted`,
+`JetGronwallConstant`, and `JetAPriori` all exited 0 without warnings.
+`nice -n 5 lake env lean /home/scott/wt-scratch/wke-l2s/JetAxioms.lean`
+exited 0: its ten declarations (finite-order estimate, term and full-field
+Schwartz agreement, projection identity, jet existence/uniqueness/projection,
+Schwartz and completed tame bounds, and the a priori theorem) all depend
+exactly on `[propext, Classical.choice, Quot.sound]`.
+
+Main had landed through `864e5e5`; merged current main `430d637` at `c312872`.
+No frozen definition or WKE source/API changed in that merge. The targeted
+`JetAPriori` check passed again after the merge (9205 jobs, exit 0).
+
+Still active, without a completion claim: identification of the ordered-word
+completion with the source multi-index weighted Sobolev spaces; equivalent
+Schwartz topology and projective-limit reconstruction; the full identity
+extensions for completed inputs; equivalence with the frozen pointwise
+Schwartz solution class; maximal-time equality and the full blow-up conjunct
+relative to `WKE.tauMax`. The next Sobolev embedding step uses the landed
+`Analysis.IntervalSobolev` and `Analysis.CubeSobolev` infrastructure.
