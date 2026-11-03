@@ -60,6 +60,9 @@ public import WaveTurbulence.Foundations.Analysis.TreeResonanceWeights
 public import WaveTurbulence.Foundations.Analysis.TwoChainBound
 public import WaveTurbulence.Foundations.Analysis.UnitTimeCutoff
 public import WaveTurbulence.Foundations.Analysis.WeightedSobolev
+public import WaveTurbulence.Foundations.ClassJR.Kernel
+public import WaveTurbulence.Foundations.ClassJR.ParamDeriv
+public import WaveTurbulence.Foundations.ClassJR.Symbol
 public import WaveTurbulence.Foundations.Combinatorics.BinomialConvolution
 public import WaveTurbulence.Foundations.Combinatorics.FactorialSplitting
 public import WaveTurbulence.Foundations.Combinatorics.MultiVandermonde
