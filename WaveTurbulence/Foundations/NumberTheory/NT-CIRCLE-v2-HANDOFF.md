@@ -398,3 +398,44 @@ goals 4–5 are not claimed complete.
 
 The four main elementary-geometry axiom probes also passed, all with only
 `[propext, Classical.choice, Quot.sound]`.
+
+## Goal 3: elementary annulus branch completed
+
+Additional files: `Counting/AnnulusSectionGeometry.lean`, `IntervalCells.lean`,
+`AnnulusCellWidth.lean`, `AnnulusChartCounting.lean`, `LatticeRotations.lean`,
+`AnnulusRotatedCharts.lean`, `AnnulusCoverGeometry.lean`, `AnnulusElementary.lean`.
+
+Main result `card_annulus_disc_le` counts any finite subset of the actual
+annulus–disc intersection, using `WaveTurbulence.latticePoint 1` and the
+Euclidean carrier for both centers. The bound is
+`640000*(1 + L*rho + L/Q^(1/3))*sqrt(Q*rho)`.
+This is the factored form of DH23's three elementary terms:
+`sqrt(Q*rho) + L*(Q*rho)^(3/2)/Q + L*sqrt(Q*rho)/Q^(1/3)`.
+The explicit scale convention is `Q > 0`, `0 <= rho <= Q/2`, `Q*rho >= 1`,
+and `L >= 0`; `rho` is the annulus half-width. These fix constants in the
+source's `Q^(-1) << rho << Q` and its width convention. No exceptional
+centers or integer boundary points are discarded.
+
+Approach: use four Cartesian charts instead of angular sectors. On the
+upper chart `y >= Q/4`, a horizontal cell of width `T` has tangent-shear
+thickness at most `1000*(rho + T^2/Q)`. With radius `r^3`, the explicit
+choice `T = 1/(10000*(1/r+rho))` makes the determinant bound less than one.
+Every cell is therefore collinear. The previously proved line estimate and
+the actual floor-cell count `2L/T+2` give the upper-chart bound; exact lattice
+quarter-turn embeddings handle the other three charts. The four charts
+cover the whole annulus. The intermediate square version is stronger than
+the requested containing-disc version.
+
+Checks: targeted `nice -n 5 lake build
+WaveTurbulence.Foundations.Counting.AnnulusElementary` passed (9059 jobs,
+final own-file build 6.7s), zero warnings, default budgets. Each supporting
+module was also built narrowly. This completes only goal 3's elementary
+annulus branch. The `estcross` part remains active, starting with a direct
+floor-cell proof of the short-relation pigeonhole step in `DenseStrip.lean`.
+No new suspected source errata. The Cartesian subdivision is a proof-route
+choice, and the half-width and small-width constants above are explicit
+conventions rather than changes to the asymptotic claim.
+
+All six annulus-elementary axiom probes passed, each with only
+`[propext, Classical.choice, Quot.sound]`. The module-shape check passes
+for all 45 owned Lean files currently present.
