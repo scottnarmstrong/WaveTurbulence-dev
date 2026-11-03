@@ -94,3 +94,17 @@ The scratch `StationaryAxioms.lean` probe (`nice -n 5 lake env lean ...`, exit 0
 printed only `[propext, Classical.choice, Quot.sound]` for the Fresnel coefficient,
 exact quadratic Fourier identity, circle within-interval fifth-derivative bounds,
 quadratic stationary estimate, sharp Poisson limit, and reciprocal block bound.
+
+The normalized finite outer-frequency tail now builds:
+`nice -n 5 lake build WaveTurbulence.Foundations.VdCB.NormalizedTail`
+returned `Build completed successfully (3570 jobs).` For integer `a≤b`, actual
+`0≤f'≤N` and `f''≥0`, it bounds the integrals over the two equally cut off
+outer ranges by `(2*(1+log N)+4*log(N+1))/(2*pi)`, uniformly in the cutoff.
+The proof preserves cancellation at integer endpoints and integrates the
+square kernel using its logarithmic primitive. Modules `FrequencyIntegration`,
+`FiniteFrequencyTail`, `OuterFrequencies`, `HarmonicTail`, `SquareKernel`, and
+`LogKernel` contain its actual calculus and finite-sum ingredients.
+The cutoff-to-limit assembly is being implemented; the full unnormalized
+truncation statement and B-process are not claimed yet.
+`QuadraticTail` also builds (3513 jobs), with the sharp positive quadratic
+tail bound `1/(pi*q*a)` for `q,a>0`.

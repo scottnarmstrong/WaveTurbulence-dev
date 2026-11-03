@@ -55,6 +55,23 @@ theorem norm_paired_reciprocal_sub_le {r j : ℝ} (hr : 0 ≤ r) (hj : 0 < j)
     _ ≤ 2 * r / j ^ 2 + 2 * r / j ^ 2 := add_le_add h1 h2
     _ = 4 * r / j ^ 2 := by ring
 
+/-- For frequencies beyond the derivative range, the paired endpoint
+kernel is dominated by a telescoping difference at the range endpoints. -/
+theorem abs_paired_reciprocal_le_range {r N j : ℝ} (hr : 0 ≤ r) (hrN : r ≤ N) (hNj : N < j) :
+    |1 / (r + j) + 1 / (r - j)| ≤ 1 / (j - N) - 1 / (j + N) := by
+  have hj : 0 < j := (hr.trans hrN).trans_lt hNj
+  have hjr : 0 < j - r := by linarith
+  have hjN : 0 < j - N := sub_pos.mpr hNj
+  have hpr : 0 < j + r := add_pos_of_pos_of_nonneg hj hr
+  have hpN : 0 < j + N := by linarith
+  have heq : 1 / (r + j) + 1 / (r - j) = -(1 / (j - r) - 1 / (j + r)) := by
+    rw [show r + j = j + r by ring, show r - j = -(j - r) by ring, div_neg]
+    ring
+  rw [heq, abs_neg, abs_of_nonneg (sub_nonneg.mpr (one_div_le_one_div_of_le hjr (by linarith)))]
+  exact sub_le_sub
+    (one_div_le_one_div_of_le hjN (by linarith))
+    (one_div_le_one_div_of_le hpr (by linarith))
+
 /-- The cancellation kernel over an arbitrary natural-frequency block. -/
 theorem norm_sum_Ioc_pairedHarmonic_le {K L : ℕ} (hKL : K ≤ L) (x : ℝ) :
     ‖∑ j ∈ Finset.Ioc K L,
