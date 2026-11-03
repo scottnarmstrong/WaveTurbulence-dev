@@ -882,3 +882,21 @@ real coefficients p,q. This explicitly handles the translated-circle dual
 Poisson factor without assuming the center or radius is integral.
 Targeted `FifthDerivativeLinearPhase` passed (3571 jobs; supporting 5.9s,
 consumer 2.4s), zero warnings.
+
+`Counting/CircleEndpointTransfer.lean` now composes the entire local-to-global
+chain: actual dyadic endpoint power estimates imply the exact general
+circle exponent and the annulus error branch, with all constants explicit.
+The sole local hypothesis is the actual filtered dyadic exponential sum,
+at scale `C*n^kappa*R^(kappa/2)*U^(lambda-kappa/2)`. Every cutoff, terminal
+sample, sum over blocks, sawtooth approximation, square cancellation,
+closed boundary, and area comparison is proved downstream.
+Targeted `CircleEndpointTransfer` passed (9107 jobs, 17s), zero warnings.
+
+Nine further axiom probes passed, including third-difference test, arbitrary
+finite-difference mean value, complete derivative A-step, fourth/fifth
+continuous tests, fixed-constant pure A-scale, arbitrary linear phases,
+endpoint-frequency bridge and actual endpoint formula. Each has only
+`[propext, Classical.choice, Quot.sound]`. Exact check:
+`nice -n 5 lake env lean /home/scott/wt-scratch/nt-circle/HigherDerivativeAxioms.lean`
+exited 0. The current 103 owned Lean modules pass module shape, line limit,
+no-sorry and no-budget scans; `git diff --check` is clean.
