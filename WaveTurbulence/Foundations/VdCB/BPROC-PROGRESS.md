@@ -34,3 +34,24 @@ Checked `QuadraticTaylor` and `LocalStationary`: actual third-derivative bounds 
 `Build completed successfully (3528 jobs).`, no warnings. The Fresnel constant and
 complementary nonstationary tails remain to be assembled; no full stationary-phase
 or B-process theorem is claimed yet.
+
+Orchestrator approved the decreasing-power profile on 2026-11-03 and additionally required
+coverage of the circle phase `h sqrt(2Ru-u²)` on dyadic octant blocks. Shared API draft is
+in `ModelPhase`, `ExponentPair`, with the broad derivative-comparability predicate retained
+separately in `DerivativeClass`. The quantifiers choose `(R,δ,C)` for each fixed `s>0`
+before `(N,F,f,a,b)`. The trivial pair uses the unconditional `2N` lattice-count estimate.
+No B-closure is encoded into either the phase-class or exponent-pair definitions.
+
+For the circle coverage, the direct-family option is being used. Its exact dual is
+`R(sqrt(h²+ν²)-ν)`; at order five its derivative is
+`15 R h² ν (3h²-4ν²) (h²+ν²)^(-9/2)`, nonzero for `ν≥h>0`.
+`CircleDualCalculus` contains these explicit formulas and their calculus proofs (not yet
+checked). This allows the repeated A-process/fifth-derivative estimate on the dual curve
+without claiming that arbitrary bounded multiplicative perturbations are B-stable.
+
+Uncommitted files are under targeted validation; source estimates are not yet complete.
+
+The shared interface and current tools now pass targeted `VdCB.Basic` (3808 jobs), without
+warnings. The scratch `BasicAxioms.lean` consumer exited 0; trivial pair, Euler summation,
+smooth Poisson, nonstationary bound and harmonic block bound all have only the standard
+three axioms. See `API.md` for the exact exported contracts and remaining closure work.
