@@ -165,3 +165,7 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   harmless (null endpoint). Found by wt-gausssum (HUA). Status: candidate typos.
 - F47 — TARGET L1541–L1542 (proof of `lemlin`) — after the Poisson identity with prefactor L^d, the displayed majorant
   (lemlin3) omits that factor; needed to recover (lemlin2). Typo. Found by wt-cumul (LEMLIN). Status: candidate.
+- F3 (RESOLVED, 2026-11-03 ~21:30) — wt-ansob (packet NT-BPROC, `Foundations/VdCB/**`, commit ca5a6f6) proved the
+  B-process for the actual circle family and the exponent pair (11/30, 16/30), giving unconditional circle-problem
+  discrepancy and annulus bounds with exponent 27/41 < 2/3. Huxley's 7/11 is not needed; DH23 Lemma A.2(2) can be proved
+  with 27/41 (packet COUNT).

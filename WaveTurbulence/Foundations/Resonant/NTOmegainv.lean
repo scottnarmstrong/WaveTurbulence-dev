@@ -26,7 +26,7 @@ public section
 open MeasureTheory Filter Topology
 open scoped InnerProductSpace NNReal ContDiff
 
-namespace WaveTurbulence
+namespace WaveTurbulence.Resonant
 
 variable {d : ℕ}
 
@@ -90,4 +90,4 @@ theorem dh21_inverse_resonance_bound
   · obtain ⟨v, hv, hvb⟩ := exists_bilinearFourierTruncation_limit hd hχ hχs hC hR hAc hAL hAb hAx hAy ξ η
     exact ⟨v, hv, hvb.trans hfinal⟩
 
-end WaveTurbulence
+end WaveTurbulence.Resonant

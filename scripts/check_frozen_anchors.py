@@ -461,8 +461,9 @@ class Guard:
         if actual_export != expected_export:
             self.fail(f"{label}: lexically resolved declaration name does not match fully qualified export")
         # WaveTurbulence (D6): `abbrev` is `@[reducible] def` and is accepted for definition anchors.
-        if expected_kind and actual_kind not in {expected_kind, "abbrev"}:
-            self.fail(f"{label}: definition anchor must use literal `def` or `abbrev`")
+        # WaveTurbulence: `abbrev` (D6), and `structure`/`inductive` (Wave B carriers) are definition anchors too.
+        if expected_kind and actual_kind not in {expected_kind, "abbrev", "structure", "inductive"}:
+            self.fail(f"{label}: definition anchor must use literal `def`, `abbrev`, `structure` or `inductive`")
         if kind == "theorem" and actual_kind not in {"theorem", "lemma"}:
             self.fail(f"{label}: theorem anchor must declare theorem or lemma")
 

@@ -20,7 +20,7 @@ public section
 open MeasureTheory Set
 open scoped Topology
 
-namespace WaveTurbulence
+namespace WaveTurbulence.Resonant
 
 /-- Differentiation of the primitive at an arbitrary Fourier frequency. -/
 theorem hasDerivAt_sinePrimitive_mul (η t : ℝ) :
@@ -63,4 +63,4 @@ theorem abs_integral_mul_sineKernel_le
       exact add_le_add (mul_le_mul_of_nonneg_left (abs_sinePrimitive_le η) (abs_nonneg _)) hrem
     _ = _ := by ring
 
-end WaveTurbulence
+end WaveTurbulence.Resonant

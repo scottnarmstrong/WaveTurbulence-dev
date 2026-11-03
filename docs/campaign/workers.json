@@ -19,9 +19,9 @@
   "tmux": "wt-torus",
   "model": "Claude Opus",
   "account": "claude-14",
-  "branch": "w/ntsp",
-  "packet": "NT5 NTSP: DH23 Lemmas 6.5, 6.7, TARGET Lemma 5.2 (NLS landed)",
-  "brief": "docs/campaign/briefs/NTSP.md"
+  "branch": "w/approxnt",
+  "packet": "NT6 APPROXNT: DH23 Prop 6.4 + large-order extension (F33) (NTSP done)",
+  "brief": "docs/campaign/briefs/APPROXNT.md"
  },
  {
   "tmux": "wt-wke",
@@ -35,41 +35,41 @@
   "tmux": "wt-cumul",
   "model": "GPT-6.1-Sol low",
   "account": "codex-3",
-  "branch": "w/main-glue",
-  "packet": "MAIN-GLUE: glue lemmas G1, G2, G5–G7, G10 for sealing Theorem 1.1 (LEMLIN done)",
-  "brief": "docs/campaign/briefs/MAIN-GLUE.md"
+  "branch": "w/norm-bridge",
+  "packet": "I1+I2 INDUCT (pre-freeze, conditional): propansatz from layergarden/fixedpoint/wkeTaylor; main assembly done",
+  "brief": "docs/campaign/briefs/INDUCT.md"
  },
  {
   "tmux": "wt-nt",
   "model": "GPT-6.1-Sol low",
   "account": "codex-3",
   "branch": "w/nt-circle",
-  "packet": "NT-EXPSUM: circle problem with exponent < 2/3 (van der Corput)",
-  "brief": "docs/campaign/briefs/NT-CIRCLE-v2.md"
+  "packet": "M1+M2 MOLE (pre-freeze): molecules, decorations, reconstruction, blocks, cuts, 𝔈/𝔄/𝔇𝔢𝔳 (circle e<2/3 done by wt-ansob)",
+  "brief": "docs/campaign/briefs/MOLE.md"
  },
  {
   "tmux": "wt-ansob",
   "model": "GPT-6.1-Sol low",
   "account": "codex-3",
   "branch": "w/bproc",
-  "packet": "NT-BPROC: van der Corput B-process (for e < 2/3, F3) (AN-SOB landed)",
-  "brief": "docs/campaign/briefs/NT-BPROC.md"
+  "packet": "G0 DEGEN (pre-freeze): DH21 Lemmas 9.13–9.14, DH23 §10.5, GAP.degenerate.tame (F21) (BPROC: circle 27/41 done)",
+  "brief": "docs/campaign/briefs/DEGEN.md"
  },
  {
   "tmux": "wt-gausssum",
   "model": "GPT-6.1-Sol low",
   "account": "codex-3",
-  "branch": "w/minor-arcs",
-  "packet": "NT4+NT11+NT3: DH23 Lemma 6.6, TARGET Lemma 5.3 and lemcubic (HUA landed)",
-  "brief": "docs/campaign/briefs/MINOR-ARCS.md"
+  "branch": "w/count",
+  "packet": "NT7+NT8 COUNT: countLemma, atomCountLemma (DH23 A.2, A.3) (MINOR-ARCS done)",
+  "brief": "docs/campaign/briefs/COUNT.md"
  },
  {
   "tmux": "wt-resonant",
   "model": "GPT-6.1-Sol low",
   "account": "codex-3",
   "branch": "w/resonant",
-  "packet": "D1 COMB-CORE (pre-freeze, scratch): API for trees, gardens, decorations, layerings (RESONANT done)",
-  "brief": "docs/campaign/briefs/COMB-CORE.md"
+  "packet": "D4+C1 REG-STRUCT (pre-freeze): regular chains, DH21 Props 4.5–4.10, structure theorem, counting (COMB-CORE done in scratch)",
+  "brief": "docs/campaign/briefs/REG-STRUCT.md"
  },
  {
   "tmux": "wt-anfourier",
