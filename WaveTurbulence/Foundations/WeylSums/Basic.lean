@@ -3,6 +3,7 @@ module
 
 public import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
 public import Mathlib.Analysis.Complex.Basic
+public import Mathlib.Analysis.SpecialFunctions.Log.Basic
 import Mathlib.Algebra.Field.GeomSum
 
 /-!
@@ -49,6 +50,20 @@ theorem e_nat_mul (t : ℝ) (n : ℕ) : e ((n : ℝ) * t) = e t ^ n := by
 /-- DH23 equation `huagausssum`, including both endpoints `h` and `h + n`. -/
 @[expose] noncomputable def gaussSum (s r : ℝ) (h : ℤ) (n : ℕ) : ℂ :=
   ∑ p ∈ range (n + 1), e (s * ((h : ℝ) + p) ^ 2 + r * ((h : ℝ) + p))
+
+/-- At zero frequency every summand is one, including both endpoints. -/
+theorem gaussSum_zero_phase (h : ℤ) (n : ℕ) :
+    gaussSum 0 0 h n = ((n + 1 : ℕ) : ℂ) := by
+  simp only [gaussSum, zero_mul, zero_add, e_zero, sum_const, card_range,
+    nsmul_eq_mul, mul_one]
+
+/-- The literal `K log K` bound cannot include `K = 1`, for any constant.
+The source uses `log L` at a large ambient scale instead. -/
+theorem not_gaussSum_bound_log_one (C : ℝ) :
+    ¬ ‖gaussSum 0 0 0 1‖ ≤ C * Real.log 1 := by
+  rw [gaussSum_zero_phase]
+  norm_num
+
 
 theorem norm_linearSum_le (t : ℝ) (N : ℕ) : ‖linearSum t N‖ ≤ N := by
   calc
