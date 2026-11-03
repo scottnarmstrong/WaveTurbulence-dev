@@ -3,6 +3,9 @@
 Target: Deng–Hani arXiv:2311.10082v2 (TARGET), Theorem 1.1 for 0<γ<1, square torus, d≥3 (D1, D2). Companion of
 `GRAPH.md` (node IDs `T.*`, `DH23.*`, … refer to its §A). Written 2026-11-03. Sources are cited as `T Lxxx` (TARGET
 TeX), `DH23 L…`, `DH21 L…`, `DH212 L…`; figures are the PNG files in `~/wave-turbulence/references/src-*/`.
+Revised the same day after the topology review `docs/campaign/orch/audits/GRAPH-topology.md` (§4 G-1…G-5, §5
+reconciliation with `docs/campaign/orch/figure-defs.md`); the changes are listed in §0.3. Finding numbers refer to
+`docs/FINDINGS.md`.
 
 Contents
 - §0 Summary, counting policy, tiers.
@@ -21,7 +24,7 @@ Contents
 
 ### 0.1 Counting policy
 
-Wave A (draft `~/WaveTurbulence-dev/scratch/Draft.lean`) already has 2 theorem anchors (`main`, `wkelwp`) and 13
+Wave A (frozen 2026-11-03, D6) has 2 theorem anchors (`main`, `wkelwp`) and 13
 supporting definitions (`Mom`, `latticePoint`, `collisionOp`, `IsWKESolution`, `partialDeriv`, `normLaplacian`,
 `torusFourierCoeff`, `IsSmoothNLSSolution`, `stdComplexGaussian`, `initialCoeff`, `solvableEvent`, `kineticTime`,
 `weightedL2Norm`). A surface of "at most ~20 declarations including definitions" therefore cannot contain any of
@@ -35,11 +38,11 @@ lemma that the statement audit checks (lean-statement-audit "characterization" i
 | tier | theorem anchors | count | cumulative (with Wave A) |
 |---|---|---|---|
 | Wave A | `main`, `wkelwp` | 2 | 2 |
-| **B1 (freeze now)** | `propansatz`, `layergarden`, `fixedpoint`, `nlsAkBridge`, `wkeTaylor`, `sumint`, `countLemma`, `atomCountLemma`, `quadExpSum2` (lemlayer2), `quadExpSum3` (lemcubic) | 10 | 12 |
-| **B2 (freeze once its definitions are validated by packets C1, C5, M1, M4)** | `regularAsymptotics` (regref1), `incoherentDecay` (proplayer1), `rigidity` (lgmolect), `canonicalCharacterization` (canonequiv + construction) | 4 | 16 |
-| optional | `trilinearZs` (GIT20), `leonovShiryaev` (propertycm) | 2 | 18 |
+| **B1 (freeze now)** | `propansatz`, `layergarden`, `fixedpoint`, `nlsAkBridge`, `wkeTaylor`, `sumint`, `countLemma`, `atomCountLemma`, `quadExpSum2` (lemlayer2), `quadExpSum3` (lemcubic), **`canonicalCharacterization`** (mandatory, G-2), **`layergardenFlower`** (companion gate, G-1) | 12 | 14 |
+| **B2 (freeze once its definitions are validated by packets C1, C5, M1, M4)** | `regularAsymptotics` (regref1), `incoherentDecay` (proplayer1), `rigidity` (lgmolect) | 3 | 17 |
+| optional | `trilinearZs` (GIT20), `leonovShiryaev` (propertycm), `cumulantExpansion` (cmattr, G-3) | 3 | 20 |
 
-New definition anchors: ≈24 for tier B1 (§2.1–§2.6, bundled into structures where possible) and ≈14 more for tier
+New definition anchors: ≈26 for tier B1 (§2.1–§2.6, bundled into structures where possible) and ≈14 more for tier
 B2 (§2.7–§2.9). If the author prefers to count definitions too, the fallback is: freeze only the def-light B1
 interfaces (`nlsAkBridge`, `wkeTaylor`, `sumint`, `countLemma`, `atomCountLemma`, `quadExpSum2`, `quadExpSum3`) and
 keep the gates as unfrozen targets — not recommended, because the gates are where statement drift is most likely.
@@ -57,7 +60,29 @@ keep the gates as unfrozen targets — not recommended, because the gates are wh
   and V packets can work against them immediately.
 - Tier B2: `regularAsymptotics` is the import boundary from DH21 §4–§7 / DH23 §6 (the longest chain of the
   campaign); `rigidity` is the import boundary from DH23 §9–§10 / App B; `incoherentDecay` is TARGET's main new
-  estimate on regular objects; `canonicalCharacterization` certifies the frozen definition of 𝒢_p against Def 3.7.
+  estimate on regular objects.
+- **`canonicalCharacterization` is mandatory in B1 (G-2):** B1.1 (3) and B1.2 quantify over `IsCanonG`, which is the
+  *criterion* form (route R12, F35); the faithfulness of both gates to TARGET's Def 3.7 rests on this theorem and on
+  the uniqueness of the construction data (GAP.cmattrBij).
+- **General carriers and `layergardenFlower` (G-1):** the garden carriers of §2.2 allow marked unpaired leaves, each
+  with a time-node constraint, and irreducibility is a predicate, not part of the carrier. Gardens, couples, paired
+  trees (one marked leaf, constraint t_{ℓ_lo^pr} > s) and flower gardens (marked flowers, t_{𝔣^pr} = s) are then
+  instances of one type, the §5–§11 pipeline is stated once for it, and the deterministic flower bound behind
+  `flowerest1` is frozen now as the companion gate B1.12 — otherwise `fixedpoint` would be reached only through an
+  unfrozen re-run of the whole pipeline (review I14, I15).
+
+### 0.3 Changes after the topology review (2026-11-03)
+
+- G-1: general carriers (§2.2.2, §2.4.1, §2.2.5 `IsCanonH`); companion gate B1.12 `layergardenFlower` (§4.15).
+- G-2: `canonicalCharacterization` moved from optional B2 to mandatory B1 (§4.14).
+- G-3: one shared definition `truncSum` of the truncated order-N sum (§2.4.3), used verbatim by B1.1 (3)–(4) and
+  B1.2; optional anchor `cumulantExpansion` (§4.16).
+- G-4: `sumint` gets the size hypothesis M ≤ N_1^4 (= max_{p<𝔇} N_{p+1}^4) (§4.6).
+- G-5: `countLemma` remark updated to the exponent e < 2/3 of F3 revised (§4.7).
+- §5 reconciliation: k ≥ 0 rungs per slot disclosed as a deviation from T L1384 (F37, §3.7); direction facts as
+  lemmas via the 2-cut lemma, no direction clauses (§3.6–§3.7); (VII) red slot is parallel (§3.6); (II-ab) single
+  class (§3.9, F40); unit twist = uniform slot swap with lemmas T1–T3 (§3.10, F38); cuts via half-edges (§3.11, §2.9,
+  F40); the parametrix identity issue F39 (§3.12, GRAPH GAP.operatorIdent).
 
 ---------------------------------------------------------------------------------------------------------------
 
@@ -93,7 +118,8 @@ the maximum); `X ≲_2 Y` ⇝ `X ≤ C₂·Y`; `≲_0` ⇝ a constant fixed afte
 allowed since C₁ ≥ C₀). Statements whose conclusions have explicit constants (the gates) do not use C₁, C₂; the
 existentials are then omitted. The composition of frozen statements is possible because every statement is
 "eventually true" along the same ordered sequence of choices (a gate's proof takes C₁ := max of the C₁'s of the
-lemmas it uses, then ν₀ := min of their ν₀'s, etc.). For Theorem 1.1, η := η₀(d,γ) and θ := η₀^{20} (T L612).
+lemmas it uses, then ν₀ := min of their ν₀'s, etc.). For Theorem 1.1, η := η₀(d,γ) and θ := η₀^{20} (T L612). Variant (Π_P) for B1.12: insert `∃ P ∈ ℕ` right after
+`∃ C₁ ≥ 1` (TARGET L2280: "P an integer large depending on C_1, δ small depending on P"; δ₀ then also depends on P).
 
 Derived parameters (frozen definitions `WTParam.*`, §2.1), all functions of (d, η, 𝔇, L) and the integer p:
 θ_p := η^{20}(1+2^{−p}); Λ_p := (40d)^{𝔇−p+1}; R_𝔇 := ⌊(log L)^{40d}⌋, N_p := R_p^{40d} (0≤p≤𝔇),
@@ -122,13 +148,18 @@ items are needed by tier B1 statements, "B2" items only by tier B2.
    addressed by paths `List (Fin 3)` (0=left, 1=mid, 2=right); `TTree.nodes`, `leaves`, `branching : Finset (List
    (Fin 3))`; order n(𝒯) = #branching; ∣leaves∣ = 2n+1 (lemma). Sign of the node at path π in a tree of sign ζ:
    ζ·(−1)^{#(1's in π)} (children of a node of sign ζ have signs (ζ,−ζ,ζ)). ζ(𝒯) := ∏_{𝔫 branching} (i·ζ_𝔫) ∈ ℂ.
-2. **Gardens** (T L632–L638; DH212 Def 4.1). For m ≥ 1 (width 2m): `structure Garden (m : ℕ)` with `sig : Fin (2m) →
-   Sign` (exactly m plus signs), `tree : Fin (2m) → TTree`, and `pair : Equiv.Perm (Leaf G)` on the leaf type
-   `Leaf G := Σ j, (tree j).leaves`, an involution without fixed points such that paired leaves have opposite signs
-   (the sign of a leaf is its node sign in its tree of sign `sig j`). Couple: m=1, sig=(+,−). Order n(G) = Σ n(𝒯_j).
-   **Irreducible**: no A ⊂ Fin (2m), A ≠ ∅, A ≠ univ, with `pair` mapping leaves of {𝒯_j : j∈A} into themselves.
-   Proper: m ≥ 2. A trivial tree's root is a leaf (it may be paired).
-   **Paired tree** (B2): a tree with a fixed-point-free sign-reversing involution on all leaves but one (the lone leaf).
+2. **Gardens — general carriers** (T L632–L638; DH212 Def 4.1; T L2259–L2262; review G-1). For m ≥ 1 (width 2m):
+   `structure Garden (m : ℕ)` with `sig : Fin (2m) → Sign` (exactly m plus signs), `tree : Fin (2m) → TTree`, a finite
+   set `marked ⊆ Leaf G` of **marked (unpaired) leaves**, each with a **time-node tag** `tag : marked → {lower, equal}`,
+   and `pair` a fixed-point-free involution on the unmarked leaves such that paired leaves have opposite signs (the sign
+   of a leaf is its node sign in its tree of sign `sig j`); `Leaf G := Σ j, (tree j).leaves`. Instances:
+   **garden** (no marked leaves); **couple** (m=1, sig=(+,−), no marked leaves); **paired tree** (one tree, one marked
+   leaf = the lone leaf, tag `lower`: t_{ℓ_lo^pr} > s, domain 𝒟* of T L682); **flower garden** (one marked leaf 𝔣 per
+   tree, tag `equal`: t_{𝔣^pr} := s, no integration, T L2264). Order n(G) = Σ n(𝒯_j).
+   **Irreducible** (a predicate, not part of the carrier): no A ⊂ Fin (2m), A ≠ ∅, A ≠ univ, with `pair` mapping the
+   unmarked leaves of {𝒯_j : j∈A} into themselves. Proper: m ≥ 2. A trivial tree's root is a leaf (it may be paired).
+   Flower gardens are in general **not** irreducible (T L2283); results about them factorize over irreducible
+   components.
 3. **Decorations** (T L639–L648). For a garden G and n⃗ : Fin (2m) → ℤ^d (lattice indices; vectors n/L): a
    (n⃗)-decoration is κ : Node G → ℤ^d with κ(𝔫) = κ(𝔫1) − κ(𝔫2) + κ(𝔫3) at every branching node (children
    left/mid/right), κ(ℓ) = κ(pair ℓ) for leaves, κ(root j) = n_j. For couples, decorations of root vector k ∈ ℝ^d are
@@ -145,8 +176,11 @@ items are needed by tier B1 statements, "B2" items only by tier B2.
    `IsCanonC q (Q,𝔏)` (couples, 𝒞_q): same with m = 1 (irreducibility vacuous). 𝒢_0 = ∅ (`IsCanonG 0` false).
    Remark: "incomparable" is implicit in the source (a subtree has an odd number of leaves, so nested or equal
    nodes can never be completely paired); stating it avoids a vacuous reading.
-   Characterization (tier B2 anchor `canonicalCharacterization`): equivalence with the inductive construction of
-   Def 3.7 and uniqueness of the construction data.
+   Characterization (mandatory B1 anchor B1.11 `canonicalCharacterization`, G-2): equivalence with the inductive
+   construction of Def 3.7 and uniqueness of the construction data.
+   `IsCanonH (p+1) (G,𝔏)` (flower class ℋ_{p+1}, T L2262): G a flower garden (no irreducibility), all layers ≤ p,
+   every stem node (root, …, 𝔣^pr, 𝔣) in layer p, and condition (ii) above for incomparable completely paired nodes
+   (unmarked leaves); `IsTruncH p` as in item 6 (T L2288).
 6. **Truncation** (T L731–L732, rewritten without construction data; agrees with L1483). For (G,𝔏) with
    `IsCanonG (p+1)` (or `IsCanonC (p+1)`): let 𝒰 := {𝔫 : 𝔏_𝔫 < p and (𝔫 is a root or 𝔏_{𝔫^pr} = p)}. The **top
    tree** of 𝒯_j consists of the nodes all of whose strict ancestors have layer p; its order is
@@ -175,15 +209,23 @@ items are needed by tier B1 statements, "B2" items only by tier B2.
    · ∏_{ℓ∈ℒ, ζ_ℓ=+} F_{𝔏_ℓ}(κ(ℓ)/L),
    ℐ(t) := {t[𝒩] : 𝔏_𝔫 < t_𝔫 < 𝔏_𝔫+1 for all 𝔫; t_𝔫 < t for all 𝔫; t_{𝔫′} < t_𝔫 whenever 𝔫′ is a branching child of 𝔫}
    (reading of (timegarden): the constraint t_𝔫 < t applies to every branching node). Sum = `tsum`; integral over a
-   bounded polytope in ℝ^{𝒩}.
+   bounded polytope in ℝ^{𝒩}. **General carriers (G-1):** for a marked leaf with tag `equal` (flower) the variable
+   t_{𝔣^pr} is set to s and not integrated, and the decoration prescribes k_𝔣 = k′ (T L2264–L2265, prefactor
+   (δ/(2L^{d−γ}))^n, F25); for tag `lower` (lone leaf) the domain adds t_{ℓ_lo^pr} > s and the leaf is excluded from
+   the input product (T L682); the product ∏ F runs over the + unmarked leaves. One definition `KG` covers K_G, K*_T
+   and the flower kernels 𝒦̃_𝒢.
 2. **K*_Q, K*_T** (T L678–L684): same expression with root vector k ∈ ℝ^d (decorations in k + ℤ_L^d) and domains
    ℐ* (t_𝔫 < t on 𝒯^+, t_𝔫 < s on 𝒯^−) resp. 𝒟* (t_𝔫 < t, child constraints, t_{(ℓ_lo)^pr} > s; product over +
    leaves other than the lone leaf). K_Q(t,k) := K*_Q(t,t,k).
-3. **Order-n sums** (T L762, L703): for a balanced signature ζ⃗ of width 2m,
-   𝒦^tr_{p+1,n}(t; ζ⃗, n⃗) := Σ_{(G,𝔏): IsCanonG (p+1), IsTrunc p, sig = ζ⃗, n(G) = n} K_G(t, n⃗) for m ≥ 2, and the same
-   with `IsCanonC (p+1)` for m = 1 (then also for k ∈ ℝ^d via K*_Q(t,t,k)); 𝒦_{p,n}(ζ⃗, n⃗) := Σ_{IsCanonG p,
-   sig = ζ⃗, n(G) = n} K_G(p, n⃗). Lean: `finsum` over `LayeredGarden m`, with a finiteness lemma (the set of layered
-   gardens of given width, order and maximal layer is finite) — audit item (otherwise `finsum` is 0).
+3. **The shared truncated order-N sum** (T L703, L731, L762; review G-3). One definition, used verbatim by B1.1 and
+   B1.2: for q ≥ 1, N ∈ ℕ, t ∈ ℝ, a balanced signature ζ⃗ of width 2m and n⃗,
+   `truncSum q N t ζ⃗ n⃗` := Σ_{(G,𝔏): IsCanonG q, IsTrunc (q−1), sig = ζ⃗, n(G) = N} K_G(t, n⃗) for m ≥ 2, and
+   `truncSumC q N t k` := Σ_{(Q,𝔏): IsCanonC q, IsTrunc (q−1), n(Q) = N} K_Q(t, k) for couples, k ∈ ℝ^d (via K*_Q(t,t,k)).
+   Then 𝒦^tr_{p+1,N}(t) = `truncSum (p+1) N t` (B1.2), and the untruncated sums of (ansatz3)–(ansatz5) equal
+   `truncSum p N p` for N ≤ N_p, because the truncation is void when the total order is ≤ N_q (top trees ≤ N_q,
+   attached gardens ≤ N_q < N_{q−1}) — an audit lemma. The flower analogue `truncSumH q N t s k k′` sums 𝒦̃_𝒢 over
+   `IsCanonH q`, `IsTruncH (q−1)`, width 2P. Lean: `finsum` over `LayeredGarden m`, with a finiteness lemma (layered
+   gardens of given width, order and maximal layer form a finite set) — audit item (otherwise `finsum` is 0).
 
 ### 2.5 Duhamel objects and the remainder space (B1; for `fixedpoint`)
 
@@ -249,10 +291,12 @@ regularization is an equivalent alternative; to be fixed by packet N5 with a cha
 
 ### 2.9 Molecules and counting (B2; for `rigidity`)
 
-Molecules (T L1295–L1296), molecules of gardens (L1297–L1302), (c_v)-decorations and restricted decorations
+Molecules (T L1295–L1296) as **half-edge (dart) structures** (F40: atoms, darts, an involution pairing darts into
+bonds, in/out orientation), molecules of gardens (L1297–L1302), (c_v)-decorations and restricted decorations
 (L1308–L1325), blocks (L1328–L1331), vines and ladders (§3.6–§3.7), gaps SG/LG/ZG (L1938–L1941), cuts (§3.10),
 α/β/ε atoms, maximal ladders and 𝔛_j = min((log L)², 1+δL^{2γ}P_j), ρ = q+m, 𝔈 and 𝔄 = 𝔈L^{−(d−γ)χ}(C₁^{−1}δ^{1/2})^χ
-∏𝔛_j^{z_j} (T L2129–L2137). The abstract hypotheses of `rigidity` are an open design item (§4.12, §6).
+∏𝔛_j^{z_j} (T L2129–L2137) — one generic definition `MOL.countq` (GRAPH §A.10, review I9) used by DH23 Props
+9.4–10.4, App B and TARGET's Stage 2. The abstract hypotheses of `rigidity` are an open design item (§4.13, §6).
 
 ---------------------------------------------------------------------------------------------------------------
 
@@ -357,27 +401,36 @@ which a ladder may be inserted; slots are listed with their colour in the figure
 
 Bad vines: (I), (II); normal: (III)–(VIII). σ(𝕍) (#bonds between the joints) = 2 for (I), 1 for (V), 0 otherwise.
 In every template each non-joint atom has degree 4 and each joint degree 2 (checked: 2E = 4(V−2)+4 in each row).
-**Directions**: the template is undirected except that, as for every block, at each joint the two vine bonds have
-opposite directions (one in, one out); every interior atom has in-degree 2 and out-degree 2 (molecule condition).
+**Directions**: no direction clause beyond the block axioms (joints in/out 1/1 inside the block, interior atoms
+2/2). That the two bonds of every slot, and the two rails between consecutive rungs, have opposite directions is a
+**lemma** (2-cut lemma, figure-defs §0.3: if exactly two bonds of a block join S to its complement, one leaves S and
+one enters S).
 **Check** (packet M4, GAP.vineDef): (i) the reading of every row against Vines.png (this reader's transcription;
-the T-part2 map's independent transcription agrees on all rows except the (VII) red slot, see (ii)); (ii) in (VII) the red slot is drawn crossed; the two
-readings {a⋯c, b⋯d} and {a⋯d, b⋯c} give isomorphic templates (swap a,b), so the choice is immaterial; (iii) atom
+the T-part2 map's independent transcription agrees on all rows except the (VII) red slot, see (ii)); (ii) in (VII) the red pair is **parallel** ({a⋯c, b⋯d}); at
+full resolution the drawn crossing is between the red and the cyan pairs (figure-defs §1; the T-part2 map reads it
+crossed, and the two readings are isomorphic anyway by swapping a, b); (iii) atom
 counts match T L1513 (bad: 2m+2, normal: 2m+5, m = number of double-bond rungs outside the special triangle/3-atom
 group, e.g. (VI): m = 5) and the parametrization counts n_i = 2m_i+1 (bad), 2m_i+4 (normal) of T L1753–L1825;
-(iv) whether the opposite-direction condition on every slot (§3.7) is implied by the degree condition (it is for
-(II): a forced computation) — if not, add it to the definition explicitly; (v) completeness of the list relative to
+(iv) resolved: the opposite-direction property of slots and rails follows from the block axioms (2-cut lemma), so
+no clause is added; (v) completeness of the list relative to
 DH23 Lemma ylem1 (DH23 map Q8: (VIII) never appears in that enumeration) — not needed for soundness of the
 definition, but needed for DH23 Prop 10.4 (packet G7).
 
 ### 3.7 Ladders and ladder insertion (T L1385–L1386; figure `Vines.png`, bottom right)
 
-A **ladder of length m ≥ 1** is the atomic group with atoms u_0,…,u_m, v_0,…,v_m, double bonds ("rungs") u_j = v_j,
-and single bonds ("rails") u_j − u_{j+1}, v_j − v_{j+1} (0 ≤ j < m), such that for each j the two rails between rung
-j and rung j+1 have **opposite directions** (one from rung j to rung j+1, the other from rung j+1 to rung j).
-**Insertion** of k ≥ 0 rungs at a slot {x⋯y, x′⋯y′}: replace the two bonds by x − w_1, x′ − w′_1, w_1 = w′_1,
-w_i − w_{i+1}, w′_i − w′_{i+1}, w_i = w′_i (i<k), w_k − y, w′_k − y′; each pair of parallel single bonds of the
-resulting chain from {x,x′} to {y,y′} has opposite directions. k = 0 leaves the slot as drawn (so the drawn
-configuration is itself a vine; T-part2 Q1). Each slot receives one (possibly empty) inserted ladder.
+A **standalone ladder of length m ≥ 1** (used in arbitrary molecules: layerlad, ladderl1new/old, DH23 §9) is the
+atomic group with atoms u_0,…,u_m, v_0,…,v_m, double bonds ("rungs") u_j = v_j and single bonds ("rails")
+u_j − u_{j+1}, v_j − v_{j+1} (0 ≤ j < m), such that for each j the two rails between rung j and rung j+1 have
+**opposite directions** (explicit clause: here the end atoms have bonds outside the ladder, so the 2-cut lemma does
+not apply).
+**Insertion in a vine** of k ≥ 0 rungs at a slot {x⋯y, x′⋯y′}: replace the two bonds by x − w_1, x′ − w′_1,
+w_1 = w′_1, w_i − w_{i+1}, w′_i − w′_{i+1}, w_i = w′_i (i<k), w_k − y, w′_k − y′; k = 0 leaves the slot as drawn (so
+the drawn configuration is itself a vine; T-part2 Q1); each slot receives one (possibly empty) insertion. The rail
+directions inside a vine are then a lemma (2-cut), not a clause.
+**Deviation (F37), to be approved by the author:** TARGET L1384 requires every ladder to have m+1 ≥ 2 rungs; with the
+figure's insertion rule its literal vine family would miss every vine in which a slot carries exactly one extra rung.
+We adopt DH23's family (DH23 L790: length = #rungs − 1, no lower bound), i.e. k ≥ 0 inserted rungs per slot; "length
+≥ 1" is kept only for standalone ladders.
 **Check**: (i) "inserted between each same-coloured pair of dashed parallel bonds" (DH23 Rem 5.2) = one insertion
 per slot (a second insertion at the same slot is the same as a longer one); (ii) the rails of an inserted ladder
 connect to the slot's end atoms as above (x to the w-side, x′ to the w′-side) — both choices give isomorphic results.
@@ -402,7 +455,12 @@ consists of one PC bond (P at v_3, C at v_4) and one LP bond, and v_2 is again j
 (II-e): v_3 = v_4 are two LP bonds and both bonds at v_2 are PC (C at v_2 towards v_3, P at v_2 towards v_4, since
 u_4 = u_23). Free children
 (white in the figure): u_21, u_22 (subtrees 𝒯_1, 𝒯_2) and the child of u_1 (I) or of u_4 ((II-c), (II-d)) carrying 𝒯_3.
-**Check**: the label pattern for (II-e) (top right of Block_Mole.png), read by this reader as stated above.
+**Check**: the label pattern for (II-e) (top right of Block_Mole.png), read by this reader as stated above
+(confirmed by figure-defs §2).
+**(II-a) vs (II-b) (F40, figure-defs G1):** "up to symmetry" (L1402) leaves v_3, v_4 unnamed, and swapping them turns
+(II-a) into (II-b); the distinction is only a labelling. Lean: one class **(II-ab)** ("𝔲_3 and 𝔲_4 incomparable");
+where a/b matters (as twist partners: explaintwist, lftwistprop) fix v_3 := the neighbour of v_2 whose bond points into
+v_2. "Exactly one of the five" (DH23 Prop 5.3) is a theorem (T.molecpl), not part of the definition.
 
 ### 3.10 Unit twist (T L1429–L1434; DH23 Def 5.5; figures `Block_Mole.png`, `twist_dec.png`) — case table (F20)
 
@@ -417,17 +475,23 @@ involution; decorations correspond with k_{u_2} and k_{u_23} exchanged (twistexp
 Verified by this reader on twist_dec.png ((II-c): a = u_3 with children (u_4 = b, c, y = u_0), u_2 = x the mid child
 of b with children (e, f, y = u_23); (II-d): u_2 = y the right child of a with children (f, e, x = u_23), u_0 = x the
 mid child of b) and on Block_Mole.png ((I-a)/(I-b), (II-a)/(II-b)).
-**Check**: (i) step (2) when u_23 is not the right child (the figures always draw it on the right; positions "may
-vary", DH23 L849–L857); (ii) that rule (1)–(3) coincides with DH23 Def 5.5's "exactly two ways to insert u_2" in
-every case, including (I) with u_2 at the left vs right of u_1; (iii) the LF-twist version (T L1466–L1480) replaces
-the attached 𝒯_(u_2), 𝒬_(u_23,u_0) as stated there — no further figure input.
+Adopted as the definition (F38: one uniform operation in all six core cases; confirmed independently by
+figure-defs §3). Former checks: (i) u_23 not the right child — resolved: u_23 keeps its position, signs place
+𝒯_1, 𝒯_2; (ii) agreement with "exactly two ways to insert u_2" — a lemma (figure-defs §3 (iii)).
+**Named lemmas to prove** (packets M6, M7, S1; GRAPH GAP.twistTable, GAP.congEquiv): **T1** unit twists at distinct
+vines of a family commute and preserve the core (CL) status of the other vines (the twist class is
+{τ_S(𝒢) : S ⊆ core vines of 𝒢}, core-ness evaluated in 𝒢); **T2** the LF assumption 𝔏_{u_2} ≤ min(𝔏_{u_3},𝔏_{u_4}) is
+vacuous for vine (I); **T3** congruence is an equivalence relation ((a) 𝒱 is determined by 𝕄(𝒢_sk) and data preserved
+by LF twists; (b) symmetry; (c) transitivity: two unit LF twists at one vine compose to one).
 
 ### 3.11 Cutting (T L2118–L2127; DH23 Def 9.3; figure `Cut.png`)
 
-Given an atom v and two bonds ℓ_1, ℓ_2 at v of opposite directions (one into v, one out of v): replace v by two atoms
-v_1, v_2; ℓ_1 and ℓ_2 get endpoint v_1 instead of v, all other bonds at v get endpoint v_2. α-cut if the number of
-connected components does not increase, β-cut otherwise; gap r := k_{ℓ_1} − k_{ℓ_2}. For deg v = 2 the cut produces
-an isolated atom v_2. The figure (in-bond ℓ_1, out-bond ℓ_2 moved to v_1) agrees. No further check needed.
+Molecules are encoded with **half-edges (darts)** (F40, figure-defs §4): a cut at v along (ℓ_1, ℓ_2), ℓ_1 into v and
+ℓ_2 out of v, replaces v by v_1, v_2 and moves **the incoming dart of ℓ_1 at v and the outgoing dart of ℓ_2 at v** to
+v_1; all other darts at v go to v_2. This is well defined when ℓ_1 or ℓ_2 is a self-loop (loops arise from paired
+siblings, L1297), where "the endpoint v of ℓ_1" is ambiguous; otherwise it agrees with Cut.png. α-cut if the number
+of connected components does not increase, β-cut otherwise; gap r := k_{ℓ_1} − k_{ℓ_2}; for deg v = 2 the cut
+produces an isolated atom v_2.
 
 ### 3.12 Flower trees and flower gardens (T L2259–L2265; DH21 Def 11.1; figure `Flowertree.png`) (F25, F26)
 
@@ -438,6 +502,10 @@ k_𝔯 = k and k_𝔣 = k′ in every tree. Kernels with δ(t_{𝔣^pr} − s) m
 prefactor (δ/(2L^{d−γ}))^n (F25: TARGET L2264–L2265 print L^{d−1}). The figure only illustrates the stem; no
 additional definition is figure-only. **Check**: the sign of 𝔣 (ζ) and the conjugation convention in (operatorx)
 (ζ = − acts on b̄), and the canonical class ℋ_{p+1} ("canonequiv holds for ℋ_{p+1}, same proof") — packet X1.
+**F39:** every flower tree in 𝒳 has order ≥ 1 (the kernel contains δ(t_{𝔣^pr} − s)), so 𝒳 has no identity term and
+(1−ℒ_1)𝒳 = 1+𝒴 (L2271) cannot hold literally; the parametrix is probably 1+𝒳. To be fixed against DH21 §11
+(Prop 11.2) and DH23 §11.1.1 before X1 (GRAPH GAP.operatorIdent). Under G-1, flower gardens are carriers with one
+marked leaf per tree, tag `equal` (§2.2.2).
 
 ### 3.13 Not proposed here (figure-only, outside Wave B)
 
@@ -476,11 +544,11 @@ such that for every integer 0 ≤ p ≤ 𝔇:
 2′. (two-point function at intermediate times; F7, F27) if p ≥ 1: for all t ∈ [p−1, p] and n:
    ∣∫_{F p} ∣a_n(t)∣² dP − φ(δt, n/L)∣ ≤ 2L^{−θ_p}.
 3. (higher cumulants) for 2 ≤ m ≤ R_p, balanced ζ⃗ of width 2m and n⃗ : Fin (2m) → ℤ^d:
-   `cumulant (P.restrict (F p)) (j ↦ a_{n_j}(p)^{ζ_j}) univ` = Σ_{(G,𝔏) : IsCanonG p, sig = ζ⃗, n(G) ≤ N_p} K_G(p, n⃗)
-   + Ẽ p m ζ⃗ n⃗, with K_G computed from the inputs F_q := φ(δq) + R q (q ≤ p−1); Ẽ p m ζ⃗ n⃗ = 0 unless
+   `cumulant (P.restrict (F p)) (j ↦ a_{n_j}(p)^{ζ_j}) univ` = Σ_{N ≤ N_p} `truncSum p N p ζ⃗ n⃗` + Ẽ p m ζ⃗ n⃗, with K_G
+   computed from the inputs F_q := φ(δq) + R q (q ≤ p−1); Ẽ p m ζ⃗ n⃗ = 0 unless
    Σ_j ζ_jn_j = 0; ∣Ẽ p m ζ⃗ n⃗∣ ≤ (∏_j⟨n_j⟩_L)^{−Λ_p}e^{−N_p}.
 4. (order-n bound) for the same (m, ζ⃗, n⃗) and every N ≤ N_p:
-   ∣Σ_{(G,𝔏): IsCanonG p, sig = ζ⃗, n(G) = N} K_G(p, n⃗)∣ ≤ (∏_j⟨n_j⟩_L)^{−Λ_p} L^{−(m−1)/6} δ^{νN}.
+   ∣`truncSum p N p ζ⃗ n⃗`∣ ≤ (∏_j⟨n_j⟩_L)^{−Λ_p} L^{−(m−1)/6} δ^{νN}.
 
 Constant dependence: none hidden (all bounds explicit); the thresholds η₀(d,γ), ν₀(d,γ,η,τ*,φ), δ₀(…,ν),
 L₀(…,δ,𝔇) are existential in (Π).
@@ -491,7 +559,9 @@ function with the infimum norm (locnorm), but L951 and L810 use the ℝ^d extens
 provides; (D2) ansatz1's cumulant 𝕂_p(a_k, ā_ℓ) is replaced by the moment (they agree since first moments vanish on
 symmetric events, T L567–L576); (D3) item 2′ is new (non-integer times, F7) and the constant 2 absorbs ∥R∥_∞ +
 ∣E∣; (D4) uniqueness is stated in the class of §2.3.2 (Q16); (D5) the measurability conjunct is added (needed for
-the integrals). Consumers: T.proofmain (main), T.fixedpoint (as hypothesis via `AnsatzAt`).
+the integrals); (D6, G-3) the sums of (3), (4) are written with the shared `truncSum`, equal to the source's
+untruncated sums because the truncation is void for orders ≤ N_p (audit lemma, §2.4.3). Consumers: T.proofmain
+(main), T.fixedpoint (as hypothesis via `AnsatzAt`).
 
 ### 4.2 B1.2 `layergarden` — GRAPH T.layergarden — T L761–L779 (deterministic; time parameter, F27)
 
@@ -499,15 +569,17 @@ the integrals). Consumers: T.proofmain (main), T.fixedpoint (as hypothesis via `
 q ≤ p, R q is C^∞ and real with ∥R q∥_{𝔖^{Λ_q,Λ_q}} ≤ L^{−θ_q}, with inputs F_q := φ(δq) + R q:
 for all t ∈ (p, p+1], 1 ≤ m ≤ 10R_{p+1} and N ≤ N_{p+1}^4:
 1. if m ≥ 2: for all balanced ζ⃗ of width 2m and n⃗ : Fin (2m) → ℤ^d,
-   ∣𝒦^tr_{p+1,N}(t; ζ⃗, n⃗)∣ ≤ (∏_j⟨n_j⟩_L)^{−4Λ_{p+1}} L^{−(m−1)/4} δ^{2νN};
-2. if m = 1: (a) 𝒦^tr_{p+1,N}(t; (+,−), (n_1,n_2)) = 0 for n_1 ≠ n_2; (b) the function on ℝ^d
-   k ↦ 𝒦^tr_{p+1,N}(t; k) − [N even]·𝒰^{(p)}_{N/2}(t, k) (couple sum with real root vector k, §2.4.3) is C^∞ and
+   ∣`truncSum (p+1) N t ζ⃗ n⃗`∣ ≤ (∏_j⟨n_j⟩_L)^{−4Λ_{p+1}} L^{−(m−1)/4} δ^{2νN};
+2. if m = 1: (a) the couple sum with lattice roots (n_1, n_2) vanishes for n_1 ≠ n_2 (no decoration); (b) the
+   function on ℝ^d k ↦ `truncSumC (p+1) N t k` − [N even]·𝒰^{(p)}_{N/2}(t, k) (§2.4.3) is C^∞ and
    its 𝔖^{4Λ_{p+1},4Λ_{p+1}} norm is ≤ L^{−(4θ_{p+1}+θ_p)/5} δ^{2νN}.
 
 Constant dependence: none hidden. Definitions: §2.1, §2.2 (1–6), §2.3.1, §2.4, §2.6 (1, 6). Deviations: (D1) the
 induction hypothesis is replaced by exactly what the proof uses (smooth real remainders with (ansatz2) bounds;
 T L949–L951, L2065–L2067); (D2) time t ∈ (p,p+1] instead of t = p+1 (F27; used at L821, L2309); (D3) (2)(b) merges
-(estcouple) and (estcouple2) by naming R_{p+1,N} explicitly. Consumers: T.step.S5, T.step.S6, T.fp.part1.
+(estcouple) and (estcouple2) by naming R_{p+1,N} explicitly; (D4, G-3) the sums are the shared `truncSum`/`truncSumC`;
+(D5, G-1) the carriers are the general ones of §2.2.2 (no marked leaves here), so the same proof objects serve
+B1.12. Consumers: T.step.S5, T.step.S6, T.fp.part1, GAP.flowerPipeline.
 
 ### 4.3 B1.3 `fixedpoint` — GRAPH T.fixedpoint — T L780–L794
 
@@ -556,7 +628,8 @@ parameter). Consumers: T.step.S5, T.fp.part1, DH21.wkeTaylorId. (Running packet 
 
 (Π) with one extra parameter A ≥ 1 quantified right after η (the bound ∏Λ_j^i ≤ A^M of hypothesis (ii)); C₁ may
 depend on A. Truncated after `∀ L ≥ L₀`. Then for every datum D consisting of:
-- I ≥ 1, a partition {1..I} = Nor ⊔ Bad, integers m_i ≥ 0, n_i := 2m_i + 1 + 3·1_{Nor}(i), M := Σn_i;
+- I ≥ 1, a partition {1..I} = Nor ⊔ Bad, integers m_i ≥ 0, n_i := 2m_i + 1 + 3·1_{Nor}(i), M := Σn_i, with the
+  **size hypothesis M ≤ N_1^4** (= max_{0≤p<𝔇} N_{p+1}^4; review G-4 — every consumer has M ≤ n ≤ N_{p+1}^4);
 - output time intervals [q,q+1], [q′,q′+1], [q″,q″+1] ⊆ [0,𝔇] (q,q′,q″ ∈ ℤ) and ℬ := {(t,t′,t″) in their product :
   t > max(t′,t″)}; unit balls B_e, B_f, B_g, B_h ⊂ ℝ^d; w̲ ∈ ℝ^d;
 - integer matrices T_1, T_2 (entries in {0,±1}, T_1 invertible with T_1^{−1} also with entries in {0,±1}) and affine
@@ -584,19 +657,23 @@ the norm taken in (t,t′,t″) with (e,f,g,h) as vector variables (sup inside),
 Definitions: §2.1, §2.6 (1–3), lattice. Deviations: (D1) weights are functions on ℝ^d with the ℝ^d 𝔖-norm (T:
 lattice functions, inf norm); (D2) A explicit (T: C_0^M); (D3) unit intervals inside [0,𝔇] (implicit in T; needed by
 lemlayer2's range); (D4) typo fixes (L1615 "A" = Nor; L1687 index j); (D5) F23: the proof must use the second bound
-of lemlin for γ > 8/9. Open: whether the proof needs M ≤ (log L)^C (check in packet V2). Consumers: T.vineest.S3,
+of lemlin for γ > 8/9; (D6, G-4) the size hypothesis M ≤ N_1^4 is added (a weaker statement than TARGET's, chosen so
+that a proof needing M ≤ (log L)^{C(𝔇)} is not blocked). Consumers: T.vineest.S3,
 T.vineest.S4, T.ladderl1new (Step 2 lemmas).
 
-### 4.7 B1.7 `countLemma` — GRAPH T.countlem — T L2459–L2466 (DH23 Lemma A.2, L2048–L2096; route F3)
+### 4.7 B1.7 `countLemma` — GRAPH T.countlem — T L2459–L2466 (DH23 Lemma A.2, L2048–L2096; route R1, F3 revised)
 
-∀ d ≥ 3, ∀ γ ∈ (0,1), ∀ c₀ ≥ 1, ∃ C, ∃ L₀, ∀ L ≥ L₀, ∀ δ ∈ (0,1], ∀ α, β ∈ ℝ, ∀ r, v ∈ ℤ_L^d, ∀ P ∈ [L^{−1},1] ∪ {0}
+∀ d ≥ 3, ∀ γ ∈ (0,1), ∃ η₀ > 0, ∀ η ∈ (0,η₀], ∀ c₀ ≥ 1, ∃ C, ∃ L₀, ∀ L ≥ L₀, ∀ δ ∈ (0,1], ∀ α, β ∈ ℝ, ∀ r, v ∈ ℤ_L^d, ∀ P ∈ [L^{−1},1] ∪ {0}
 with (P = 0 → r = 0), (0 < P < 1 → c₀^{−1}P ≤ ∣r∣ ≤ c₀P), (P = 1 → ∣r∣ ≥ c₀^{−1}), ∀ centres a_x, a_y, a_z ∈ ℝ^d,
 ∀ ξ ∈ {x, y, x+y}, ∀ ζ ∈ {x−v, x+y−v, x+y−v−z} (as linear forms), with 𝔛 := min((log L)², 1 + δL^{2γ}P):
 1. #{(x,y) ∈ (ℤ_L^d)² : ∣x−a_x∣,∣y−a_y∣ ≤ 1, ∣⟨x,y⟩−α∣ ≤ δ^{−1}L^{−2γ}, ∣⟨r,ξ⟩−β∣ ≤ δ^{−1}L^{−2γ}} ≤ C·δ^{−1}L^{2(d−γ)}𝔛^{−1};
 2. #{(x,y,z) ∈ (ℤ_L^d)³ : ∣x−a_x∣,∣y−a_y∣,∣z−a_z∣ ≤ 1, ∣⟨x,y⟩−α∣ ≤ δ^{−1}L^{−2γ}, ∣⟨ζ,z⟩−β∣ ≤ δ^{−1}L^{−2γ}} ≤ C·δ^{−2}L^{3(d−γ)−γ_0}.
 
-Constant dependence: C = C(d,γ,c₀) — stronger than T's "≲_1" (the counting involves no φ); if the 2/3-exponent
-proof needs η-dependence, weaken to C(d,γ,η,c₀). Definitions: lattice only. Deviation: "∣r∣ ∼_0 P" made explicit with
+Constant dependence (G-5, F3 revised): items 1 and 2 are DH23 Lemma A.2 (1) and (3), which work with the
+circle-problem exponent 2/3 (saving L^{−(2γ−1)/3}); the route nevertheless proves an exponent e < 2/3 (NT.circleE),
+which DH23 Lemma A.2 (2) needs (γ > 4/5 − 10η; it enters DH23 Lemma A.3 (3) and the rigidity chain, not this
+anchor). In both cases the saving must beat L^{−10η}, which holds only for η small: freeze with C = C(d,γ,η,c₀) and
+η ≤ η₀(d,γ) (prefix (Π) up to η); no φ dependence. Definitions: lattice only. Deviation: "∣r∣ ∼_0 P" made explicit with
 c₀. Consumers: T.excessprop1 (via DH23.excessprop1 also DH23.basiccount0).
 
 ### 4.8 B1.8 `atomCountLemma` — GRAPH T.atomcountlem — T L2467–L2478 (DH23 Lemma A.3 (1),(2); Q8b)
@@ -643,7 +720,7 @@ Definitions: §2.1, §2.2, §2.4.2, §2.6 (1–3, 6), §2.7 (all), §2.8, §3.1�
 the explicit recursions (route R4) — the source's "(regref1-3) where 𝒥ℬ* depends only on Q" is then a definition, and
 its agreement with DH21's construction is DH21 Props 7.5, 7.7; (D2) ℬ for trees as stated (T leaves ℬ implicit for
 the single-layer case; check, F11); (D3) item 4 corrected (app, not K*). Range n ≤ N_{p+1}^4: see GAP.largeOrder
-(route R14) — **the main proof risk of this anchor**. Consumers: T.proplayer2, T.proplayer3, T.proplayer4.
+(route R14, resolved to (a): extend to that range, F33) — **the main proof risk of this anchor**. Consumers: T.proplayer2, T.proplayer3, T.proplayer4.
 
 ### 4.12 B2.2 `incoherentDecay` (proplayer1) — GRAPH T.proplayer1 — T L953–L956
 
@@ -668,15 +745,42 @@ and κ_v ∈ {0,50}, satisfying the structural conclusions of `finalmol` (no tri
 (∣k_ℓ−k_ℓ^0∣ ≤ 1, ∣Γ_v−β_v∣ ≤ δ^{−1}L^{−2γ}) such that every ε-atom is LG or ZG-tame, every two-bond α-atom has
 ∣k_{ℓ1}−k_{ℓ2}∣ ∈ [c^{−1}Q_v, cQ_v], κ_v = 50 only if the given near-coincidence condition holds, and maximal ladders
 have gaps ∼ P_j; conclusion: 𝔄(𝒮) ≤ RHS with constants ≤ C₁. The inheritance requirements (a)–(f) of T L2101–L2107
-must be shown to imply (ii) (packet F1/G3). Definitions: §2.9. Deviation: abstraction of "inherited decorations".
+must be shown to imply (ii) (packets G1, G3: T.l1reduction.def, T.L2129). Definitions: §2.9 (`MOL.countq`, half-edge
+molecules). Deviation: abstraction of "inherited decorations".
 
-### 4.14 B2.4 `canonicalCharacterization` (optional) — GRAPH T.canonequiv, GAP.cmattrBij — T L657–L668, L888–L897
+### 4.14 B1.11 `canonicalCharacterization` (mandatory with B1, G-2) — GRAPH T.canonequiv, GAP.cmattrBij — T L657–L668, L888–L897
 
 For q ≥ 0: `IsCanonG (q+1) (G,𝔏)` ⇔ (G,𝔏) is produced by the inductive construction of Def 3.7 from top trees in
 layer q, a partition (B_i) of their leaves with the irreducibility condition, pairs for ∣B_i∣ = 2 and gardens of
 `IsCanonG q` for ∣B_i∣ ≥ 4; and the construction data are unique (the top trees, the partition and the attached
-gardens are determined by (G,𝔏) as in §2.2.6). Same for `IsCanonC (q+1)`. Purpose: certifies the frozen criterion
-definition against the source definition (route R12). Consumers: T.cmattr, T.defgtr.
+gardens are determined by (G,𝔏) as in §2.2.6). Same for `IsCanonC (q+1)`, and for `IsCanonH (q+1)` with the flower
+construction of T L2262 (no irreducibility, stems in layer q). Purpose: certifies the frozen criterion definition
+against the source definition (route R12); without it the audits of B1.1 (3) and B1.2 cannot certify faithfulness
+(review G-2). Consumers: T.cmattr, T.defgtr, T.flowerest1.
+
+### 4.15 B1.12 `layergardenFlower` (companion gate, G-1) — GRAPH T.flowerGardenBound — T L2279–L2305
+
+(Π_P) truncated after `∀ L ≥ L₀`. For every integer 0 ≤ p < 𝔇 and remainders R as in B1.2, inputs F_q := φ(δq) +
+R q: for all p ≤ s < t ≤ p+1, k, k′ ∈ ℤ_L^d, ζ ∈ {±} and N ∈ ℕ,
+1. ∣`truncSumH (p+1) N t s k k′`∣ ≤ ⟨k−ζk′⟩^{−4Λ_{p+1}P} L^{(100d)³P} δ^{2νN} (sum over flower gardens of width 2P
+   in ℋ^tr_{p+1}, flowers of sign ζ, (k,k′)-decorations);
+2. the same for the sub-sums defining the kernels of 𝒴 and 𝒲 ((Y-1),(Y-2),(W-1)–(W-3)), with an extra factor
+   e^{−100N_{p+1}};
+3. with a smooth cutoff max{∣k_ℓ∣ : ℓ ≠ 𝔣} ∼ M_1 (≲ if M_1 = L) the bound gains M_1^{−80dP}; if moreover ∣k∣ ≥ M_1^{10}
+   and a cutoff max_{𝔫∈𝒮}∣Ω_𝔫∣ ∼ M_2 (𝒮 = stem branching nodes other than 𝔣^pr; ≲ if M_2 = L) it gains M_2^{−P/9}.
+Definitions: as B1.2 plus §2.2.2 (marked leaves), §2.2.5 (`IsCanonH`), §2.4.1, §2.4.3 (`truncSumH`), §3.12.
+Deviations: (D1) the moment expansion E_p∣𝒳∣^{2P} = Σ 𝒦̃_𝒢 + errors (T L2287–L2290) is left to T.flowerest1; this
+gate is its deterministic core, the analogue of B1.2 for flower gardens; (D2) the exact cutoff functions of item 3
+and the form of 𝒳 (F39) are to be fixed by packet X1 before freezing. Consumers: T.flowerest1, T.fp.dtBound.
+
+### 4.16 optional `cumulantExpansion` (G-3) — GRAPH T.cmattr, T.step.S3 — T L727–L730, L798–L804
+
+(Π) truncated after `∀ L ≥ L₀`. For all probability data, every 0 ≤ p < 𝔇 and ansatz data with `AnsatzAt q` for all
+q ≤ p, for t ∈ [p,p+1], 1 ≤ m ≤ 10R_{p+1}, balanced ζ⃗ and n⃗:
+`cumulant (P.restrict (F p)) (j ↦ a^tr_{n_j}(t)^{ζ_j}) univ` = Σ_N `truncSum (p+1) N t ζ⃗ n⃗` + E^{(1)} with
+∣E^{(1)}∣ ≤ (∏_j⟨n_j⟩_L)^{−Λ_p/4} L^{C₀dR_{p+1}N_{p+1}} e^{−N_p} (couples: `truncSumC`). It fixes, at the hinge between
+B1.1 and B1.2, that both use the same `truncSum` (inputs F_q, time domain, truncation). Optional: freeze if the
+assembly risk (review G-3) is judged high.
 
 ---------------------------------------------------------------------------------------------------------------
 
@@ -703,28 +807,30 @@ gardens with all layers 0, `IsCanonC 1` = all couples with all layers 0 (T L664)
 
 1. **Counting policy** (§0.1): approve "≤ 20 theorem anchors; definitions frozen with their statements", or choose
    the def-light fallback.
-2. **Tier B2 timing**: freeze `regularAsymptotics` / `incoherentDecay` (import boundary DH21 §4–§7, DH23 §6) only after
-   packets C1, C2, C5 have validated the structure data and links; freeze `rigidity` only after the abstract
-   hypothesis set of §4.13 is designed (packet G8) — or decide to keep `rigidity` unfrozen.
-3. **GAP.largeOrder** (new finding, cf. F15): TARGET needs regular-couple asymptotics for orders up to
-   N_{p+1}^4 = (log L)^{C(𝔇)}, DH21/DH23 prove them for n ≤ N³ = (log L)^{12}. Choose route R14 (re-check vs crude bound).
-   Proposed FINDINGS entry F30.
-4. **Gaussian hypercontractivity is not used by TARGET** (route R6): its large deviations come from 2P-th moments via
-   the cumulant ansatz and Chebyshev (T L2306–L2335). The running packet GAUSS-HC (DH21 Lemma A.3) can be
-   deprioritized. Proposed FINDINGS entry F31.
-5. **Solution class (Q16)**: Z^{d+1} on [0,p] for the a-system (§2.3.2) and continuity in time for Z (§2.5.3): approve.
-6. **layergarden as a deterministic statement** (§4.2 D1): approve (it removes the probabilistic hypothesis).
-7. **Two-point function at intermediate times** (§4.1 item 2′): approve the form ∣∫_{F p}∣a_n(t)∣² − φ(δt)∣ ≤
-   2L^{−θ_p} for t ∈ [p−1,p] (sufficient for `main`).
-8. **Canonical gardens in criterion form** (route R12) with the "incomparable nodes" reading (§2.2.5): approve; the
-   characterization theorem B2.4 is then the audit link to Def 3.7.
-9. **Figure transcriptions** (§3.1–§3.10): a second independent reading of MiniCpl.png, MiniTree.png, OperAB.png,
-   Vines.png, Block_Mole.png, twist_dec.png before freezing; in particular the unit-twist rule (§3.10 check (i)) and
-   the direction conditions on vine slots (§3.6 check (iv)).
-10. **sumint**: whether M (number of input vectors) must be bounded by a power of log L (check in packet V2), and the
-    explicit extension behind 𝔛(ℬ) (F23).
-11. **countLemma / atomCountLemma constants**: the proposal uses C(d,γ,c₀) (no φ dependence); confirm with the NT
-    packets after GAP.circle23.
-12. **Unpinned sources** (F29): DNY21 Lemma 3.1 (used by T.timeintlem) and DH19 Prop 2.3 (DH21 Lemma 10.2's proof
+2. **General carriers (G-1)**: approve marked unpaired leaves with time-node tags and irreducibility as a predicate
+   (§2.2.2), and the companion gate B1.12 `layergardenFlower` (§4.15); its cutoff clause and the form of 𝒳 (F39) are
+   to be fixed by packet X1 first.
+3. **Tier B2 timing**: freeze `regularAsymptotics` / `incoherentDecay` only after packets C1, C2, C5 have validated
+   the structure data and links; freeze `rigidity` only after the abstract hypothesis set of §4.13 (on `MOL.countq`)
+   is designed (packet G8) — or keep `rigidity` unfrozen.
+4. **Order range (F33; route R14 resolved to (a))**: the regular-couple asymptotics must be extended to orders up to
+   N_{p+1}^4 = (log L)^{C(𝔇)} (GRAPH GAP.largeOrder.nt, GAP.largeOrder); the crude δ^n option is not available
+   (review I13). B2.1 is stated for that range.
+5. **Hypercontractivity off-route (F34)**: no Wave B statement uses it.
+6. **Solution class (Q16)**: Z^{d+1} on [0,p] for the a-system (§2.3.2) and continuity in time for Z (§2.5.3): approve.
+7. **layergarden as a deterministic statement** (F36; §4.2 D1): approve.
+8. **Two-point function at intermediate times** (§4.1 item 2′): approve ∣∫_{F p}∣a_n(t)∣² − φ(δt)∣ ≤ 2L^{−θ_p} for
+   t ∈ [p−1,p] (sufficient for `main`).
+9. **Canonical gardens in criterion form** (route R12, F35) with the mandatory characterization B1.11 (G-2): approve.
+10. **Shared truncated sum (G-3)**: approve `truncSum`/`truncSumC`/`truncSumH` as the one definition used by B1.1,
+    B1.2, B1.12, and decide whether to freeze the optional `cumulantExpansion` (§4.16).
+11. **Ladders in vines (F37)**: approve k ≥ 0 inserted rungs per slot (DH23's family) as a disclosed deviation from
+    T L1384 (§3.7).
+12. **Readings adopted from the reconciliation** (figure-defs): direction facts as lemmas (2-cut), (VII) red pair
+    parallel, (II-ab) single class, uniform slot-swap twist with lemmas T1–T3 (F38), half-edge cuts (F40). The App B
+    groups (3S3, 3D3, …) remain to be transcribed by packet G4.
+13. **sumint (G-4)**: size hypothesis M ≤ N_1^4 adopted; the explicit extension behind 𝔛(ℬ) (F23) remains for V2.
+14. **countLemma / atomCountLemma constants (G-5)**: C(d,γ,η,c₀) with η ≤ η₀(d,γ); no φ dependence.
+15. **Unpinned sources** (F29): DNY21 Lemma 3.1 (used by T.timeintlem) and DH19 Prop 2.3 (DH21 Lemma 10.2's proof
     source; DH19 TeX is pinned but the label must be located, candidate region DH19 L347–L407).
-13. **atomcountbd3** (T L2474) is not used anywhere in T L1293–L2339; it is left out of `atomCountLemma`.
+16. **atomcountbd3** (T L2474) is unused (F36) and left out of `atomCountLemma`.

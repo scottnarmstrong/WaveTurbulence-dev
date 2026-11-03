@@ -3,7 +3,8 @@
 Target: arXiv:2311.10082v2, Theorem 1.1 (`main`) for `0 < γ < 1`, square torus `𝕋_L^d = [0,L]^d`, `d ≥ 3`
 (rulings D1 "everything proved in Lean", D2 "0<γ<1, square torus"; `~/WaveTurbulence-dev/docs/DECISIONS.md`).
 
-Written 2026-11-03 from the maps `~/wave-turbulence/maps/{T-part1,T-part2,DH23,DH21}.md`, the TeX sources, the figures
+Written 2026-11-03 (revised the same day after the refute-first topology review
+`docs/campaign/orch/audits/GRAPH-topology.md`, see §G) from the maps `~/wave-turbulence/maps/{T-part1,T-part2,DH23,DH21}.md`, the TeX sources, the figures
 in `~/wave-turbulence/references/src-*/`, the Wave A draft `~/WaveTurbulence-dev/scratch/Draft.lean`, the findings
 ledger F1–F29 and the five running infrastructure briefs. Companion file: `WAVE-B.md` (frozen-statement proposal).
 
@@ -14,6 +15,7 @@ Contents
 - (d) Critical path and dependency-ready frontier (§D).
 - (e) Work packets with packet-level dependencies (§E).
 - (f) Totals and largest risks (§F).
+- (g) Changes after the topology review of 2026-11-03 (§G).
 
 The tables in §A are machine-checked (script in §F.4): every dependency ID exists, the graph is acyclic, and the
 totals, critical path and packet dependencies in §D–§F were computed from these tables.
@@ -29,16 +31,18 @@ totals, critical path and packet dependencies in §D–§F were computed from th
   column also cites the DH23 item); `GIT.` GIT20; `NT.` number theory and lattice counting; `NLS.` NLS / torus /
   `a`-system theory; `PROB.` probability; `AN.` harmonic-analysis infrastructure (Fourier norms, Poisson summation,
   stationary phase, Sobolev; an extra prefix, needed because these facts are used without a citable source);
-  `GAP.` an unwritten step that must be supplied (each cites its FINDINGS entry, or "new").
+  `MOL.` molecule-level counting definitions shared by TARGET and DH23 (review I9); `GAP.` an unwritten step that
+  must be supplied (each cites its FINDINGS entry, or "new").
 - **Kinds.** `def` (definition, possibly frozen), `thm` (source result), `step` (substantive proof step or unlabelled
   claim), `gap` (missing argument), `infra` (imported external / standard result, now an internal node to prove).
 - **Source.** `T Lxxx–Lyyy` = TARGET TeX lines; `DH23 L…`, `DH21 L…`, `DH212 L…`, `GIT20 L…` = lines of the pinned
   reference TeX; `F<n>` = `~/WaveTurbulence-dev/docs/FINDINGS.md` entry.
 - **deps** = direct dependencies (IDs; `—` none). Definitions a node merely mentions through a statement it uses are
   not repeated. **consumer** = the main TARGET-side node that consumes it (one representative).
-- **d** = difficulty, weight `L=1`, `M=2`, `H=4`, `VH=8`. **lines** = rough Lean size (proof + local API, not counting
-  shared infrastructure listed as separate nodes). **pkt** = work packet that owns the node (§E); `R-*` = one of the
-  five running infrastructure packets; `WA` = Wave A definitions (already drafted, freeze pending).
+- **d** = difficulty, weight `L=1`, `M=2`, `H=4`, `VH=8`; `0` = design note (weight 0). **lines** = rough Lean size (proof + local API, not counting
+  shared infrastructure listed as separate nodes). **pkt** = work packet that owns the node (§E); `R-*` = the first
+  five infrastructure packets (GAUSS-HC and TORUS-FOURIER landed; CUMUL, NT-CIRCLE, WKE running); `WA` = Wave A
+  definitions (frozen, D6). Status of every packet: §D, §E.
 - Absolute values are written `∣x∣`, norms `∥·∥` (the ASCII bar is reserved for table syntax).
 - Constants follow F5: `C_0(d,γ) → η → 𝔆 → C_1 → ν → δ (𝔇=τ*/δ ∈ ℤ) → C_2 → L`; `≲_j` = constant depending only on
   `C_j`.
@@ -347,7 +351,7 @@ totals, critical path and packet dependencies in §D–§F were computed from th
 | T.excessprop1 | thm | T L2154–L2180 | gardens: (1) = DH23 Prop 9.4 applied at molecule level to every operation creating no component (the DH23 proof relies on that, T L2165–L2166); (2) a component-creating Operation 1 costs L^{γ_0−η³}; (3) at most 2R−1 such operations (isolated β-atom if 2R−1) | DH23.excessprop1, T.cnblock, T.subsetvc, T.atomcountlem, T.countlem, T.remtame, T.L2129, T.remiota, GAP.vineParam | T.finalcount1 | H | 1500 | G3 |
 | DH23.finalmole | thm | DH23 L1806–L1817 (Prop 9.5) | structure of M_fin: degrees, α/β chains ending at distinct ε-atoms, no triple bonds, perfect cycles are double bonds / ≥4-cycles / triangles with ≤1 α-atom, vine components are LG | T.ops, DH23.subpro | T.finalmol | H | 1200 | G3 |
 | T.finalmol | thm | T L2182–L2190 | structure of 𝕄_fin for gardens; ≤R imperfect components via the invariant 4V−2E−2(V_α+V_β) (corrected for ZG removals, GAP.rigidityGardens) | DH23.finalmole, T.ops, T.remtame, T.subpro | T.lgmolect | M | 800 | G3 |
-| GAP.rigidityGardens | gap | GAP (F24; T L2187, L2197) | DH23 Props 9.4–9.6 'same proof' for gardens; the ≤w SG-atom hypothesis of DH23 Prop 10.2 ('Lemma 10.2'); imperfect-component count after ZG removals (+2 each) | T.finalmol, DH23.moleprop2 | T.lgmolect | H | 1500 | G8 |
+| GAP.rigidityGardens | gap | GAP (F24; T L2187, L2197) | DH23 Props 9.5–9.6 'same proof' for gardens (Prop 9.4 is handled at molecule level, review I16); the ≤w SG-atom hypothesis of DH23 Prop 10.2 ('Lemma 10.2'); imperfect-component count after ZG removals (+2 each) | T.finalmol, DH23.moleprop2 | T.lgmolect | H | 1500 | G8 |
 | DH23.appB.ops | thm | DH23 L2162–L2292 (Props tbprop, brprop, 3s3prop, 3d3prop, 3d4prop, 3s2prop, 3rprop, 2rprop; Figs 3S3.png, 3D3.png, …) | deviation bounds for the operations TB, BR, 3S3, 3D3, 3D4, 3S2, 3R, 2R (normal ≲(log L)^C, fine ≲L^{−η/2}, good ≲L^{−5γ_0/8}) | DH23.basiccount, DH21.cutlem, DH21.increF, T.defmol, MOL.countq | DH23.appB.alg | VH | 4000 | G4 |
 | DH23.appB.alg | thm | DH23 L2293–L2363 (DH21 §9.4–9.5 L2326–L2402) | the large-gap algorithm terminates; potentials ν=4V−2E−4F, V_3, special bonds give #normal steps ≤C(r_1+r_2) and ρ≤C(r_1+r_2) | DH23.appB.ops, DH21.increF | DH23.moleprop2 | H | 2500 | G5 |
 | DH23.moleprop1 | thm | DH23 L1832–L1850 (Prop 10.1) | every LG connected molecule: 𝔄≲1 | DH23.basiccount, DH21.cutlem, MOL.countq | DH23.lgmolect | M | 900 | G6 |
@@ -391,29 +395,30 @@ Each line: chosen route; alternative(s) recorded, **not** conjoined (no node dep
 
 | # | question | chosen route | alternative (recorded, not used) | nodes affected |
 |---|---|---|---|---|
-| R1 | lattice points in thin annuli (DH23 Lemma A.1(1)) | classical circle-problem exponent **2/3** (F3); re-derive every use with GAP.circle23 | Huxley's 7/11 [Hux93] as in DH23 L2028–L2037 (deep exponential-sum machinery; VH) | NT.circle23, NT.annulus, GAP.circle23, DH23.basiccount0, DH23.basiccount |
+| R1 | lattice points in thin annuli (DH23 Lemma A.1(1)) | **circle-problem exponent e < 2/3** by van der Corput's method (A- and B-processes, exponent pair (11/30,16/30) → e = 27/41), packet NT-EXPSUM (F3 revised): e = 2/3 suffices for basiccount0 (1), (3) and basiccount (5), but basiccount0 (2) (γ > 4/5−10η) needs e < 2/3 strictly; with the two-branch reading of (disclattice) (F31) | (i) exponent 2/3 (Sierpiński): insufficient for basiccount0 (2) — kept only as a stepping stone (`NT.circle23`, off-route); (ii) Huxley's 7/11 [Hux93] as in DH23 L2028–L2037 (VH, not needed) | NT.expPair, NT.circleE, NT.annulus, GAP.circle23, DH23.basiccount0, DH23.basiccount, WAVE-B B1.7 |
 | R2 | which version of DH21 (F13) | DH21 §4, §5, §7 (γ-free) + DH21 Lemmas 6.3, 6.6, 9.13–9.14, 10.2, (10.5), A.2, A.4, A.5, Cor 11.3; DH23 §4–§10, App A, App B; TARGET's own versions of everything layered | DH21 §6 (Prop 6.1, Lemmas 6.2, 6.4(2)), §8 (irregular chains), §9 (γ=1 algorithm, Lemmas A.7–A.9(3)–(7), genericity Lemma A.1): γ=1 / generic torus only, not used | all `DH21.*` nodes |
-| R3 | regular-couple asymptotics | DH23 Prop 6.1 (all γ∈(0,1), square torus) | DH21 Props 6.7, 6.10, 7.11 (γ near 1 only; TARGET L1171 mentions both) | DH23.regcpltreeasymp, T.regref1 |
-| R4 | definition of the leading terms (K*_Q)_app | **explicit recursions**: 𝒥ℬ* by (regref2-0)–(regref2-2), ℳ* by (regref3-0)–(regref3-4), summed over special Z (canonical, Z-independent 𝒥ℬ*) | the Z-decomposition of DH21 Prop 5.1 (depends on cutoff choices, not canonical); its agreement with the recursions is DH21 Props 7.5, 7.7 (nodes DH21.regcplcal, DH21.multiexp) | T.regref1, T.regref2, T.regref3, WAVE-B §2.5 |
+| R3 | regular-couple asymptotics | DH23 Prop 6.1 (all γ∈(0,1), square torus), extended to orders n ≤ N^4_{p+1} (R14) | DH21 Props 6.7, 6.10, 7.11 (γ near 1 only; TARGET L1171 mentions both) | DH23.regcpltreeasymp, T.regref1 |
+| R4 | definition of the leading terms (K*_Q)_app | **explicit recursions**: 𝒥ℬ* by (regref2-0)–(regref2-2), ℳ* by (regref3-0)–(regref3-4), summed over special Z (canonical, Z-independent 𝒥ℬ*) | the Z-decomposition of DH21 Prop 5.1 (depends on cutoff choices, not canonical); its agreement with the recursions is DH21 Props 7.5, 7.7 (nodes DH21.regcplcal, DH21.multiexp) | T.regref1, T.regref2, T.regref3, WAVE-B §2.7 |
 | R5 | bound (taylorbound) for 𝒰_n in 𝔖^{4Λ,4Λ} | direct tame estimate for 𝒦 (GAP.wkeTame, running packet WKE goal 5) | via (regref1-5)/DH23 Prop 6.2 with C_1^n bounds: only gives 𝔖^{30d,30d}, rejected | GAP.wkeTame, T.taylorbound |
-| R6 | large deviations / exceptional events | **2P-th moments computed from the cumulant ansatz + Chebyshev** (TARGET L2306–L2335; the data at time p is not Gaussian) | Gaussian hypercontractivity (DH21 Lemma A.3, Props 12.1–12.2; DH21-2 Prop 4.8): not used anywhere on the TARGET route ⇒ packet GAUSS-HC is off the critical path | T.fp.part1, T.fp.part2, DH21.largedev |
+| R6 | large deviations / exceptional events | **2P-th moments computed from the cumulant ansatz + Chebyshev** (TARGET L2306–L2335; the data at time p is not Gaussian) | Gaussian hypercontractivity (DH21 Lemma A.3, Props 12.1–12.2; DH21-2 Prop 4.8): not used on the TARGET route (F34); packet GAUSS-HC landed as infrastructure only | T.fp.part1, T.fp.part2, DH21.largedev |
 | R7 | NLS ↔ a-system | Fourier-side bridge: a-system ODE in Z^Λ, persistence of regularity, smoothness from rapid coefficient decay, inverse gauge | PDE energy methods on 𝕋_L^d | NLS.* |
 | R8 | iterated time-integral bound | DH21 Lemma 10.2 (= DH19 Prop 2.3), as TARGET L2029 cites | DH23 Lemma timeFourierlem (DH23 L2132) | DH21.timeintlemma, T.ladderl1old |
 | R9 | TARGET Lemma A.2 (timeintlem) | DNY21 kernel bound + Hausdorff–Young (as written, with the log fix Q13a) | Plancherel-only proof (loses L^d in Prop 5.1 Step 3, not affordable) | AN.dny21, AN.hausdorffYoung, T.timeintlem |
-| R10 | WKE local theory | GIT20 L² trilinear estimate in Z_s, s>d/2−1, all d≥3 (required by the blow-up criterion in Wave A `wkelwp`) | weighted-L^∞ (𝔖-norm) theory: enough for `main` (existence/uniqueness on [0,τ*], Schwartz persistence) but not for the stated criterion; fallback if F18 fails = author ruling on Wave A `wkelwp` | GIT.trilinear, T.appC.* |
+| R10 | WKE local theory | GIT20 L² trilinear estimate in Z_s, s>d/2−1, all d≥3 (required by the blow-up criterion of the frozen `wkelwp`; d≥4 is new work, F32) | weighted-L^∞ (𝔖-norm) theory: enough for `main` but not for the frozen criterion | GIT.trilinear, T.appC.* |
 | R11 | rigidity for imperfect components (R≥2) | interpolation of DH23 Prop 10.1 (𝔄≲1) and Prop 10.2 (TARGET L2197), with the F24 hypothesis check | re-run DH23 Prop 9.6's proof directly for imperfect components | T.lgmolect, GAP.rigidityGardens |
-| R12 | Lean definition of canonical gardens | freeze the **criterion** form (canonequiv (i)+(ii), irreducible proper) as the definition, and prove the inductive construction of Def 3.7 as a characterization theorem (needed anyway for GAP.cmattrBij) | freeze the inductive construction (closer to the text, but needs garden surgery inside the definition) | T.defcanon, T.canonequiv, WAVE-B §2.2 |
-| R13 | non-integer times (F7, F27) | freeze `layergarden` and the two-point part of `propansatz` with a time parameter t∈[p,p+1]; all steps written with t | prove the integer-time statements and re-derive the non-integer case afterwards | GAP.timeParam, T.layergarden, T.propansatz |
-| R14 | orders beyond DH23's range (GAP.largeOrder) | undecided: (a) re-check DH23 Prop 6.1/6.4 for n≤(log L)^{C(𝔇)}; (b) treat n≥(log L)² by a crude bound (C_1δ)^n·L^{O(1)} absorbed by δ^n | — | GAP.largeOrder |
-| R15 | vine catalogue (F19) | explicit adjacency templates for (I)–(VIII) + ladder insertion (WAVE-B §3.4), transcribed from Vines.png | characterize vines through DH23 Lemma ylem1's enumeration (incomplete for (VIII), DH23 map Q8) | GAP.vineDef, T.defvine |
+| R12 | Lean definition of canonical gardens | freeze the **criterion** form (canonequiv (i)+(ii) for incomparable nodes F35, irreducible proper) together with the **mandatory** characterization theorem linking it to Def 3.7 (WAVE-B G-2) | freeze the inductive construction (closer to the text, but needs garden surgery inside the definition) | T.defcanon, T.canonequiv, GAP.cmattrBij, WAVE-B §2.2, B1.11 |
+| R13 | non-integer times (F7, F27) | freeze `layergarden` and the two-point part of `propansatz` with a time parameter t∈[p,p+1]; all steps written with t from the start (GAP.timeParam is a weight-0 design note) | prove the integer-time statements and re-derive the non-integer case afterwards | GAP.timeParam, T.layergarden, T.propansatz |
+| R14 | orders beyond DH23's range (F33) | **resolved: (a)** extend the asymptotics to orders n ≤ N^4_{p+1} = (log L)^{C(𝔇)}: GAP.largeOrder.nt (approxnt in that range) and GAP.largeOrder (the regcpltreeasymp bookkeeping) | (b) crude bound absorbed by δ^n: **not available** — the trivial bound on K_Q loses about L^γ per order, not L^{O(1)} (review I13) | GAP.largeOrder.nt, GAP.largeOrder, DH23.regcpltreeasymp |
+| R15 | vine catalogue (F19, F37) | explicit adjacency templates for (I)–(VIII) + insertion of k ≥ 0 rungs per slot (F37: DH23 L790 family, deviation from T L1384 disclosed), vine = block undirected-isomorphic to a template; direction facts as lemmas (2-cut lemma) | characterize vines through DH23 Lemma ylem1's enumeration (incomplete for (VIII), DH23 map Q8); TARGET's literal "m+1 ≥ 2" ladders (misses one-rung insertions, F37) | GAP.vineDef, T.defvine |
+| R16 | flower gardens (G-1, F26) | general carriers from the start: gardens with marked unpaired leaves (flowers) each with a fixed time node, irreducibility a predicate; §5–§11 stated for this class; the flower case = adjustments + component factorization (GAP.flowerPipeline) + deterministic gate T.flowerGardenBound | separate flower re-run of the whole pipeline after the garden case (the source's "same proof"; review I14, I15) | D1, GAP.flowerPipeline, T.flowerGardenBound, X1, X2 |
 
-## C. Mermaid graph (top ~45 nodes)
+## C. Mermaid graph (top ~50 nodes)
 
 ```mermaid
 graph TD
   main[T.main] --> pm[T.proofmain]
   pm --> pa[T.propansatz]
-  pm --> br[NLS.bridge]
+  pm --> br[NLS.bridge - running NLS]
   pm --> lwp[T.wkelwp - running WKE]
   pa --> cm[T.cmattr]
   pa --> s1[T.step.S1]
@@ -426,7 +431,6 @@ graph TD
   cm --> cbij[GAP.cmattrBij / T.canonequiv]
   cm --> pcm[T.propertycm - running CUMUL]
   cm --> gi[T.gaugeinv]
-  br --> inv[NLS.inverse / measurable / uniqueSmooth]
   lg --> plg[T.proofLayergarden]
   plg --> plgab[T.plg.ab]
   plg --> plgd[T.plg.d]
@@ -435,27 +439,39 @@ graph TD
   fpr --> fc1[T.finalcount1]
   fpr --> l1r[T.l1reduction]
   l1r --> lad[T.ladderl1old / ladderl1new]
+  l1r --> l1d[T.l1reduction.def]
   fc1 --> lgm[T.lgmolect]
   fc1 --> ex[T.excessprop1]
+  ex --> l1d
   lgm --> dlgm[DH23.lgmolect]
   dlgm --> mp[DH23.moleprop1-4 / App B]
   ex --> dex[DH23.excessprop1]
+  dex --> vp[GAP.vineParam]
+  dex --> cq[MOL.countq]
+  mp --> cq
   dex --> bc[DH23.basiccount / basiccount0]
   mp --> bc
-  bc --> circ[NT.circle23 - running NT-CIRCLE]
+  bc --> circ[NT.circleE + NT.expPair - NT-EXPSUM]
+  l1d --> sp[T.subpro]
+  sp --> rsd[T.redsplice.def]
   plgab --> rs[T.redsplice]
+  l1r --> rs
+  rs --> rsd
   rs --> ve[T.vineest]
+  rsd --> lft[T.lftwistprop]
   ve --> si[T.sumint]
   si --> lcub[T.lemcubic]
   si --> ll2[T.lemlayer2]
   ve --> pl4[T.proplayer4]
-  ve --> lft[T.lftwistprop]
+  ve --> lft
+  ve --> vp
   lft --> vine[T.defvine / molecpl / twist]
   rs --> pl1[T.proplayer1]
   plgd --> pl2[T.proplayer2 / proplayer3]
+  pl4 --> pl2
   pl2 --> rr1[T.regref1]
-  pl4 --> rr1
   rr1 --> rca[DH23.regcpltreeasymp]
+  rca --> lo[GAP.largeOrder + .nt]
   rca --> ant[DH23.approxnt]
   rca --> mc[DH21.maincoef]
   rr1 --> d7[DH21 Props 7.4-7.10]
@@ -463,160 +479,172 @@ graph TD
   lr1 --> ps[T.propstructure]
   mc --> ps
   fp --> fp2[T.fp.part2]
+  fp --> fp1[T.fp.part1]
+  fp1 --> dtb[T.fp.dtBound]
   fp2 --> fe[T.flowerest1]
-  fe --> fpipe[GAP.flowerPipeline]
+  fe --> fgb[T.flowerGardenBound]
+  fgb --> fpipe[GAP.flowerPipeline]
+  dtb --> fpipe
   fpipe --> plg
   fp2 --> fin[T.finitelem]
   ant --> ma2[DH23.minorarcs2]
-  lcub --> gs[NT.gaussSum]
-  ma2 --> gs
+  ma2 --> wr[NT.weylReduction]
+  lcub --> wr
+  wr --> gs[NT.gaussSum - running GAUSSSUM]
   ll2 --> ma2
 ```
 
 ## D. Critical path and the dependency-ready frontier
 
+Status used (2026-11-03, after the topology review): **landed** = GAUSS-HC (R-GAUSS), TORUS-FOURIER (R-TF), Wave A
+definitions (frozen, D6); **running** = CUMUL (R-CUMUL), NT-CIRCLE v1 goals (R-NTC), NT-CIRCLE revision 2 (NT-EXPSUM),
+WKE (R-WKE), GAUSSSUM (NT1), AN-SOB (N4), NLS (B1–B3). Landed packets count with weight 0; running ones with their
+full weight (they are not finished).
+
 ### D.1 Critical path (node level, by difficulty weight)
 
-Longest weighted chain from `T.main` (computed from §A; weight 123 of 656, 43 nodes, ≈54k Lean lines along the
-path):
+Longest weighted chain to `T.main` (weight 99 of 681, 38 nodes, ≈47k Lean lines; before the review: 123, 43 nodes):
 
 `T.main` ← `T.proofmain` ← `T.propansatz` ← `T.step.S1` ← `T.fixedpoint` ← `T.fp.part2` ← `T.flowerest1` ←
-`GAP.flowerPipeline` ← `T.proofLayergarden` ← `T.plg.ab` ← `T.finalproof` ← `T.finalcount1` ← `T.lgmolect` ←
-`GAP.rigidityGardens` ← `T.finalmol` ← `DH23.finalmole` ← `DH23.excessprop1` ← `T.ops` ← `T.subpro` ←
-`T.redsplice` ← `T.vineest` ← `T.vineest.S4` ← `T.vineest.S3` ← `T.proplayer2` ← `T.regref1` ← `GAP.regrefNorm` ←
-`DH23.regcpltreeasymp` ← `DH21.maincancel` ← `DH21.maincoef` ← `DH21.Bcstruct` ← `T.deflink` ← `GAP.linkXY` ←
-`T.propstructure` ← `GAP.structUniq` ← `DH21.structure15` ← `DH21.structure1` ← `DH21.prop34` ←
+`T.flowerGardenBound` ← `GAP.flowerPipeline` ← `T.proofLayergarden` ← `T.plg.ab` ← `T.finalproof` ← `T.l1reduction` ←
+`T.ladderl1new` ← `T.redvine3` ← `T.redsplice` ← `T.vineest` ← `T.vineest.S4` ← `T.vineest.S3` ← `T.proplayer2` ←
+`T.regref1` ← `GAP.regrefNorm` ← `DH23.regcpltreeasymp` ← `DH21.maincancel` ← `DH21.maincoef` ← `DH21.Bcstruct` ←
+`DH21.defchoice` ← `T.propstructure` ← `GAP.structUniq` ← `DH21.structure15` ← `DH21.structure1` ← `DH21.prop34` ←
 `DH21.legalpair` ← `T.defregchain` ← `T.defreg` ← `T.subobject` ← `T.defgarden` ← `T.deftree`.
 
-Reading: the path is dominated by (i) the regular-couple theory of DH21 §4–§7 (structure theorem → time
-coefficients → cancellations → DH23 Prop 6.1 → regref1), (ii) the vine cancellation of §9 and Stage 1, (iii) the
-Stage 2 / rigidity chain of §11, and (iv) the flower-garden re-run of the whole pipeline for `fixedpoint`. None of the
-five running packets lies on it (GAUSS-HC is off-route, R6); the running WKE packet feeds the path only through
-`T.wketaylor`/`T.taylorbound` (slack).
+Reading: (i) the regular-couple theory of DH21 §4–§7 → DH23 Prop 6.1 → regref1; (ii) the vine cancellation and the
+analytic Stage 1 (vineest → redsplice → ladder bounds → l1reduction); (iii) the flower re-run behind `fixedpoint`. The
+Stage-2 counting chain (subpro → Operations → DH23 Props 9.4–9.6 → lgmolect → finalcount1) is now parallel to (ii)
+(review I1–I4, plus I1-bis, §G); `GAP.linkXY`/`T.deflink` and `GAP.degenerate.*` have left the path.
 
 ### D.2 Critical path (packet level)
 
-`D1(8) → D4(8) → C1(11) → C2(10) → J1(7) → J2(8) → J3(4) → J4(6) → J5(6) → J6(6) → RA2(13) → L3(4) → V5(13) →
-S2(6) → S4(6) → G1(8) → G2(8) → G3(10) → G8(10) → F3(4) → F2(12) → X2(14) → X3(9) → I2(10) → Z1(3)`
-(packet weights in parentheses; total 204 weight units along the chain, versus 598 for all new packets: the
-campaign is ≈2.9× parallelizable at the packet level). Packets with zero slack (any delay delays `main`): D1, D4,
-C1, C2, J1–J6, RA1, RA2, L3, L4, V5, S2, S4, G1, G2, G3, G8, F3, F2, X2, X3, I2, Z1. Largest slack: X1 (125),
-NT9 (115), B1–B3 and I1 (109), G6 (102), G5 (92), M8 (89), NT7, NT8, G4, G7 (88).
+`D1(8) → D4(8) → C1(11) → C2(11) → J1(7) → J2(8) → J3(4) → J4(6) → J5(6) → J6(6) → RA2(13) → L3(4) → L4(4) →
+V5(13) → S2(6) → S3(8) → F1(4) → F3(4) → F2(12) → X2(16) → X3(9) → I2(10) → Z1(3)` — 181 weight units (before: 204),
+versus 574 for all packets not yet started (≈3.2× parallelizable).
 
-### D.3 Dependency-ready frontier (beyond the five running packets)
+- **Zero slack:** D1, D4, C1, C2, J1–J6, RA2, L3, L4, V5, S2, S3, F1, F3, F2, X2, X3, I2, Z1.
+- **Near-critical (slack ≤ 4):** RA1 (2); D2, D3, C4, M7, S1, S2a, S4, G1, G2, G3, G8 and the running WKE packet (4) —
+  the Stage-2 chain and the combinatorial Stage-1 chain run 4 units behind the analytic chain.
+- **Large slack:** NT9 (111), CUMUL (101), X1 (86), NT-CIRCLE v1 (77), N4 (73), B1–B3 and I1 (70), NT-EXPSUM and G6
+  (69), N3 (68), NT10 (66), G5 (59), M8 (57), NT11 (56), G0, NT7, NT8, G4, G7 (54–55), M9 (49).
 
-Nodes whose dependencies are all proved or inside a running packet / Wave A (computed):
+### D.3 Dependency-ready frontier (beyond the landed and running packets)
 
-- **Definitions to freeze now (Wave B, see WAVE-B.md):** `T.deftree`, `T.params`, `T.norms`, `T.defmol`, and the
-  design node `GAP.timeParam`.
-- **Infrastructure with no dependencies:** `AN.gevrey`, `AN.timeFourier`, `AN.poisson`, `AN.hausdorffYoung`,
-  `AN.sobolev`, `AN.simplexVol`, `DH21.elemineq`, `AN.resonantMeasure` (uses only the Wave A `collisionOp`),
-  `NT.dirichlet`, `DH21.hua`, `NT.twoVec` (needs only NT-CIRCLE's annulus bound), `GAP.circle23` (idem),
-  `T.finitelem`, `T.lincomblem`, `DH21.combineq`, `PROB.condCS`, `PROB.chebyshev`, `PROB.smoothData`,
-  `NLS.massCons` (needs TORUS-FOURIER).
-- **Ready as soon as the Wave B definitions are frozen** (D1–D4, M1 definitions): `T.canonequiv`,
-  `T.defkg.sum`, `T.ansatzBase`, `NLS.akMass`, `NLS.akLWP`, `DH21.legalpair`, `DH21.branchpair`, `DH21.auxlem`,
-  `DH21.reduceprocess`, `DH21.encoded`, `T.propcplmol`, `DH212.reconstruction`, `T.disjointlem`, `T.block_clcn`,
-  `GAP.vineDef`, `T.subsetvc`, `T.twistexplain`, `T.redcount0`, `DH21.cutlem`, `DH21.increF`,
-  `GAP.operatorIdent`, `T.fp.part3`.
+Nodes whose dependencies all lie in landed or running packets or in Wave A (computed):
 
-Packet-level frontier: **ready now** D1, N1, N4, N5, NT1, NT9; **after D1 (and D2)**: D2, D3, D4, M1, B1;
-**next wave**: N2, N3, NT2, C1, M2, G0, X1. Recommended start order in §F.3.
+- **Definitions to freeze now (Wave B):** `T.deftree`, `T.params`, `T.norms`, `T.defmol` (and the weight-0 design note
+  `GAP.timeParam`).
+- **Infrastructure with no open dependency:** `AN.gevrey`, `AN.timeFourier`, `AN.poisson`, `AN.hausdorffYoung`,
+  `AN.resonantMeasure` (uses only Wave A `collisionOp`), `DH21.hua`, `DH21.combineq`, `T.finitelem`, `T.lincomblem`,
+  `PROB.condCS`, `PROB.chebyshev`; and, on NT-EXPSUM's annulus bound, `GAP.circle23`, `NT.twoVec`.
+- **Ready as soon as the Wave B definitions are frozen:** `T.canonequiv`, `T.defkg.sum`, `T.ansatzBase`,
+  `DH21.legalpair`, `DH21.branchpair`, `DH21.auxlem`, `DH21.reduceprocess`, `DH21.encoded`, `T.propcplmol`,
+  `DH212.reconstruction`, `T.disjointlem`, `T.block_clcn`, `GAP.vineDef`, `T.subsetvc`, `T.twistexplain`,
+  `T.redcount0`, `DH21.cutlem`, `DH21.increF`, `GAP.operatorIdent`, `DH21.extragaincor`, `T.fp.part3`.
+
+Packet waves: **ready now** D1, N1, N5, NT9; **wave 2** (after D1, N1) D2, D4, M1, N2, N3; **wave 3** D3, C1, M2, G0,
+NT2, NT5, NT10; **wave 4** I1, C2, C3, M3, M4, X1, NT3, NT4, NT11.
 
 ## E. Work packets
 
-76 new packets (plus the 5 running ones and the Wave A definitions), each sized for one strong prover for a few
-hours to a day (median weight 8 ≈ 3,100 Lean lines); four are marked as 2-day packets in their goal (NT6, RA1, G4,
-X2) and C3, V5 are also large (>5k lines): these may be split into a/b halves when assigned. "frozen def first?": `yes (defines)` =
-the packet implements Wave B definitions that must be frozen (author-approved) before provers build on them;
-`uses Wave B` = the packet's main statement is (or uses) a frozen Wave B statement; `—` = free-standing.
-"depth" = longest weighted packet chain ending at this packet (0 for running packets). Packet dependencies are
-derived from the node dependencies of §A (acyclic, checked).
+84 packets: 2 landed, 9 running, **73 not yet started**; each sized for one strong prover for a few hours to a day
+(median weight 8 ≈ 3,100 Lean lines). NT6, RA1, G4 and X2 are 2-day packets (X2, 8.9k lines, should be split into
+X2a = GAP.flowerPipeline and X2b = the rest when assigned); C3 and V5 are also large (>5k lines).
+"frozen def first?": `yes (defines)` = the packet implements Wave B definitions that must be frozen before provers
+build on them; `uses Wave B` = its main statement is (or uses) a frozen Wave B statement; `—` = free-standing.
+"depth" = longest weighted packet chain ending at this packet (landed packets weight 0). Packet dependencies are
+derived from the node dependencies of §A (acyclic, checked). New since the review: S2a (Stage 1 construction, I1),
+NT-EXPSUM (F3 revised, I12), M9 (molecule-level vine parametrization, I3/I19); G2 and G5–G8 now depend on M1, which
+defines MOL.countq (I9/I18); NT3, NT4 and NT11 share NT.weylReduction in NT2 (I17).
 
 | pkt | name | goal | nodes | weight | lines | packet deps | frozen def first? | depth |
 |---|---|---|---|---|---|---|---|---|
-| R-CUMUL | CUMUL (running) | complex Gaussians, Isserlis, cumulants, Leonov–Shiryaev, symmetry vanishing | T.defcm, PROB.cgauss, PROB.isserlis, PROB.cumulInv, T.propertycm, PROB.gaussCumulant, PROB.symmetryVanish | 13 | 3560 | — | — | 0 |
-| R-GAUSS | GAUSS-HC (running) | DH21 Lemma A.3 hypercontractivity; OFF the TARGET route (§B R6): deprioritize | DH21.largedev | 4 | 2500 | R-CUMUL | — | 0 |
-| R-NTC | NT-CIRCLE (running) | circle problem with exponent 2/3, annulus bound, estcross | NT.circle23, NT.annulus, DH23.estcross | 8 | 4100 | — | — | 0 |
-| R-TF | TORUS-FOURIER (running) | Fourier series on 𝕋_L^d | NLS.torusFourier | 4 | 2500 | — | — | 0 |
-| R-WKE | WKE (running) | collision operator, GIT20 trilinear (all d), LWP, wkelwp, tame estimate, Taylor expansion | T.wkelwp, T.appC.decomp, WKE.deltaChar, GIT.trilinear, T.appC.lwp, T.appC.apriori, T.appC.conclusion, T.defC, GAP.wkeTame, T.wketaylor, T.taylorbound | 24 | 9810 | WA | uses Wave B | 0 |
-| WA | Wave A definitions | drafted; freeze with Wave A | T.nls, T.fourier, T.data, T.Tkin, T.wke | 5 | 230 | — | yes (defines) | 0 |
+| R-GAUSS | GAUSS-HC (landed) | DH21 Lemma A.3 hypercontractivity; off the TARGET route (§B R6, F34): infrastructure only | DH21.largedev | 4 | 2500 | R-CUMUL | — | 13 |
+| R-TF | TORUS-FOURIER (landed) | Fourier series on 𝕋_L^d | NLS.torusFourier | 4 | 2500 | — | — | 0 |
+| WA | Wave A definitions (frozen, D6) | frozen 2026-11-03 | T.nls, T.fourier, T.data, T.Tkin, T.wke | 5 | 230 | — | — | 0 |
+| NT1 | GAUSSSUM (running) | Dirichlet approximation, quadratic Weyl/Gauss sum bound | NT.dirichlet, NT.gaussSum | 5 | 2100 | — | — | 5 |
+| R-NTC | NT-CIRCLE (running, v1 goals) | circle problem with exponent 2/3 (stepping stone, off-route), estcross | NT.circle23, DH23.estcross | 6 | 3300 | — | — | 6 |
+| N4 | AN-SOB (running) | Sobolev/Morrey, simplex volumes, DH21 (10.5), DH21 Lemma 10.2 | AN.sobolev, AN.simplexVol, DH21.elemineq, DH21.timeintlemma | 7 | 2700 | — | — | 7 |
+| R-CUMUL | CUMUL (running) | complex Gaussians, Isserlis, cumulants, Leonov–Shiryaev, symmetry vanishing | T.defcm, PROB.cgauss, PROB.isserlis, PROB.cumulInv, T.propertycm, PROB.gaussCumulant, PROB.symmetryVanish | 13 | 3560 | — | — | 13 |
+| NT-EXPSUM | NT-EXPSUM (running: NT-CIRCLE revision 2) | van der Corput A/B processes, exponent pair, circle problem with e<2/3, annulus bound (F3 revised) | NT.expPair, NT.circleE, NT.annulus | 14 | 5300 | — | — | 14 |
+| R-WKE | WKE (running) | collision operator, GIT20 trilinear (all d), LWP, wkelwp, tame estimate, Taylor expansion | T.wkelwp, T.appC.decomp, WKE.deltaChar, GIT.trilinear, T.appC.lwp, T.appC.apriori, T.appC.conclusion, T.defC, GAP.wkeTame, T.wketaylor, T.taylorbound | 24 | 9810 | WA | uses Wave B | 24 |
+| B1 | NLS-A (running: NLS) | mass conservation, NLS→a-system reduction, a-system mass | NLS.massCons, NLS.akReduction, NLS.akMass | 6 | 1600 | D2, R-TF, WA | — | 44 |
+| B2 | NLS-B (running: NLS) | a-system LWP/persistence, inverse reduction, uniqueness of smooth solutions | NLS.akLWP, PROB.smoothData, NLS.inverse, NLS.uniqueSmooth | 9 | 3200 | B1, D2, R-CUMUL, R-TF, WA | — | 53 |
+| B3 | NLS-C (running: NLS) | measurability, bridge, symmetries, gaugeinv | T.gaugeinv, NLS.measurable, NLS.symmetry, NLS.bridge | 10 | 3000 | B1, B2, D2, R-CUMUL | — | 63 |
 | NT9 | LINALG | TARGET Lemmas A.6 (finitelem), A.7 (lincomblem) | T.finitelem, T.lincomblem | 4 | 1400 | — | — | 4 |
-| NT1 | GAUSSSUM | Dirichlet approximation, quadratic Weyl/Gauss sum bound | NT.dirichlet, NT.gaussSum | 5 | 2100 | — | — | 5 |
 | N5 | RESONANT | resonant measure δ(Σ)δ(Ω) and p.v.1/Ω on the collisionOp parametrization; DH21 Lemma 6.3 | AN.resonantMeasure, DH21.NTOmegainv | 6 | 2800 | WA | uses Wave B | 6 |
-| N4 | AN-SOB | Sobolev/Morrey, simplex volumes, DH21 (10.5), DH21 Lemma 10.2 | AN.sobolev, AN.simplexVol, DH21.elemineq, DH21.timeintlemma | 7 | 2700 | — | — | 7 |
-| D1 | COMB-CORE | Lean carriers for trees, gardens, decorations, layerings, embedded objects; basic API (orders, leaf counts, components) | T.deftree, T.defgarden, T.defdec, T.deflayer, T.subobject | 8 | 2020 | — | yes (defines) | 8 |
-| N1 | AN-FOURIER | Gevrey cutoffs, 𝔛 time-Fourier norms and restriction norms, Fourier-L¹ product lemma | T.cutoffs, AN.gevrey, AN.timeFourier, AN.fourierL1Product | 9 | 3500 | — | yes (defines χ_0) | 9 |
-| NT2 | HUA | DH21 Lemma A.5 (Hua L⁴, L⁶), L^{3d/2} moments of Weyl sums | DH21.hua, NT.weylMoment | 6 | 2700 | NT1 | — | 11 |
+| D1 | COMB-CORE | general carriers (WAVE-B G-1: marked unpaired leaves with time nodes, irreducibility as a predicate) for trees, gardens, decorations, layerings, embedded objects; basic API | T.deftree, T.defgarden, T.defdec, T.deflayer, T.subobject | 8 | 2020 | — | yes (defines) | 8 |
+| N1 | AN-FOURIER | cutoff χ_0 (Wave B definition), Gevrey bounds, 𝔛 time-Fourier norms and restriction norms, Fourier-L¹ product lemma | T.cutoffs, AN.gevrey, AN.timeFourier, AN.fourierL1Product | 9 | 3500 | — | yes (defines) | 9 |
 | N2 | AN-PHASE | Poisson summation on ℤ_L^d, non-stationary and bilinear stationary phase | AN.poisson, AN.nonStat, AN.statPhase | 5 | 1700 | N1 | — | 14 |
 | D4 | REG-DEFS | mini-couples/mini-trees/operations A,B (WAVE-B §3.2), legal partitions, regular chains (DH21 Props 4.5, 4.7) | T.defreg, T.defregchain, DH21.legalpair, DH21.prop34 | 8 | 2400 | D1 | yes (defines) | 16 |
 | NT10 | LEMLIN | TARGET lemlin, lemcubic0 | T.lemlin, T.lemcubic0 | 4 | 1500 | N1, N2 | — | 18 |
 | N3 | AN-HY | Hausdorff–Young, DNY21 kernel (pin F29), TARGET Lemmas A.2, A.3 | AN.hausdorffYoung, AN.dny21, T.timeintlem, T.timeintlem2 | 10 | 4500 | N1 | — | 19 |
-| NT4 | MINOR2 | DH23 Lemma 6.6(2), TARGET Lemma 5.3 | DH23.minorarcs2, T.lemlayer2 | 5 | 3200 | N2, NT1 | — | 19 |
-| M1 | MOLE | molecules of gardens, decorations of molecules, propcplmol, DH21-2 Prop 6.4 | T.defmol, T.defcplmol, T.propcplmol, DH212.reconstruction, T.defdecmol | 12 | 4100 | D1 | yes (defines) | 20 |
-| NT11 | LEMCUBIC | TARGET lemcubic (Weyl moments, Dirichlet), reductions of DH23 6.6 | GAP.lemcubicRed, T.lemcubic | 6 | 3300 | N2, NT1, NT2 | — | 20 |
-| NT3 | MINOR1 | DH23 Lemma 6.6(1), 3-vector count δ^{−1}L^{2(d−γ)} | DH23.minorarcs1, NT.threeVec | 6 | 2000 | N1, N2, NT2 | — | 20 |
+| NT2 | HUA | DH21 Lemma A.5 (Hua L⁴, L⁶), shared reduction NT.weylReduction (review I17), L^{3d/2} moments of Weyl sums | DH21.hua, NT.weylReduction, NT.weylMoment | 8 | 3500 | N1, N2, NT1 | — | 22 |
 | NT5 | NTSP | DH23 Lemmas 6.5, 6.7; TARGET Lemma 5.2 | DH23.NTSP, T.lemlayer1, DH23.NTintlem | 8 | 4300 | N1, N2, N5 | — | 22 |
-| D2 | SYS-DEFS | parameter structure, norms 𝔛/𝔖/Z, a-system, K_G/K*_Q/K*_T with summability, 𝒥_𝒯, ℒ_j; time-parameter design (GAP.timeParam) | GAP.timeParam, T.params, T.norms, T.akeqn, T.defkg, T.defkg.sum, T.defjt, T.defbk | 16 | 3900 | D1, R-WKE, WA | yes (defines) | 24 |
-| G0 | MOLE-COUNT-BASICS | DH21 Lemmas 9.13–9.14, DH23 §10.5 degenerate atoms | DH21.cutlem, DH21.increF, DH23.extradegen | 4 | 1400 | M1 | — | 24 |
-| M2 | BLOCKS | blocks, hyper-blocks, disjointlem, realizations | T.defblock, T.disjointlem, T.rem_realiz | 6 | 1600 | M1 | yes (defines) | 26 |
+| M1 | MOLE | molecules (half-edge encoding, F40), molecules of gardens and their decorations, cuts, counting quantities MOL.countq (review I9), propcplmol, DH21-2 Prop 6.4 | T.defmol, T.defcplmol, T.propcplmol, DH212.reconstruction, T.defdecmol, MOL.countq, T.defcut | 15 | 4900 | D1 | yes (defines) | 23 |
 | C1 | REG-STRUCT | structure theorem of regular couples with uniqueness, counting (DH21 4.8–4.10, Cor 4.9, F12) | DH21.structure1, DH21.structure15, GAP.structUniq, DH21.countcouple1, T.propstructure | 11 | 4000 | D4 | uses Wave B | 27 |
-| NT7 | COUNT0 | DH23 Lemma A.2 with exponent 2/3 (F3), TARGET Lemma A.8 | GAP.circle23, DH23.basiccount0, T.countlem | 7 | 3050 | NT3, R-NTC | — | 27 |
-| B1 | NLS-A | mass conservation, NLS→a-system reduction, a-system mass | NLS.massCons, NLS.akReduction, NLS.akMass | 6 | 1600 | D2, R-TF, WA | — | 30 |
-| NT6 | APPROXNT | DH23 Prop 6.4 (lattice sum → integral); 2 days: split major arcs / minor arcs + I_app | DH23.approxnt | 8 | 5000 | N1, N2, N5, NT3, NT4, NT5 | — | 30 |
-| V1 | SUMINT-A | sumint Steps 1–2 (+F23) | T.sumint.S1, T.sumint.S2, GAP.sumintD | 7 | 4200 | D2, N1, NT10, NT11, NT4, NT5 | — | 31 |
-| D3 | CANON | canonical layered gardens: inductive definition, criterion canonequiv, unique construction data and the expansion bijection, truncation | T.defcanon, T.canonequiv, GAP.cmattrBij, T.defgtr | 9 | 3950 | D1, D2 | yes (defines) | 33 |
-| NT8 | COUNT | DH23 Lemma A.3, 2-vector counts, TARGET Lemma A.9 | NT.twoVec, DH23.basiccount, T.atomcountlem | 7 | 3800 | NT3, NT7, R-NTC | — | 34 |
-| M3 | CLCN | (CL)/(CN) dichotomy and splicing, blockchainprop, cnblock | T.block_clcn, T.blockchainprop, T.cnblock | 10 | 3500 | D1, M1, M2 | — | 36 |
-| M4 | VINES | vine/ladder templates (WAVE-B §3.4, F19), groups/coherence, subsetvc | GAP.vineDef, T.defvine, T.subsetvc, T.cohmol | 10 | 3300 | M1, M2 | yes (defines) | 36 |
-| V2 | SUMINT-B | sumint Step 3 and assembly | T.sumint.S3, T.sumint | 5 | 2200 | N1, V1 | — | 36 |
-| C2 | LINKS | links (DH21 Prop 4.3 + (x,y) relation F16), coherence, auxlem, tree localization lemma | DH21.branchpair, GAP.linkXY, T.deflink, T.defcoh, DH21.auxlem, DH23.explem, T.treelemma | 10 | 2700 | C1, D1, D4 | uses Wave B | 37 |
-| B2 | NLS-B | a-system LWP/persistence, inverse reduction, uniqueness of smooth solutions | NLS.akLWP, PROB.smoothData, NLS.inverse, NLS.uniqueSmooth | 9 | 3200 | B1, D2, R-CUMUL, R-TF, WA | — | 39 |
-| G6 | MOLEPROP13 | DH23 Props 10.1, 10.3 | DH23.moleprop1, DH23.moleprop3 | 6 | 2400 | G0, NT8 | — | 40 |
-| M5 | MOLECPL | DH23 Prop 5.3 for gardens ((I-a,b), (II-a..e)) | T.molecpl | 4 | 1500 | M3, M4 | — | 40 |
+| G0 | MOLE-COUNT-BASICS | DH21 Lemmas 9.13–9.14, DH23 §10.5 degenerate atoms | DH21.cutlem, DH21.increF, DH23.extradegen | 4 | 1400 | M1 | — | 27 |
+| NT4 | MINOR2 | DH23 Lemma 6.6(2), TARGET Lemma 5.3 | DH23.minorarcs2, T.lemlayer2 | 5 | 3200 | N2, NT1, NT2 | — | 27 |
+| NT11 | LEMCUBIC | TARGET lemcubic (Weyl moments, Dirichlet), reductions of DH23 6.6 | GAP.lemcubicRed, T.lemcubic | 6 | 3000 | N2, NT1, NT2 | — | 28 |
+| NT3 | MINOR1 | DH23 Lemma 6.6(1), 3-vector count δ^{−1}L^{2(d−γ)} | DH23.minorarcs1, NT.threeVec | 6 | 2000 | N1, N2, NT2 | — | 28 |
+| M2 | BLOCKS | blocks, hyper-blocks, disjointlem, realizations | T.defblock, T.disjointlem, T.rem_realiz | 6 | 1600 | M1 | yes (defines) | 29 |
+| NT7 | COUNT0 | DH23 Lemma A.2 with exponent 2/3 (F3), TARGET Lemma A.8 | GAP.circle23, DH23.basiccount0, T.countlem | 7 | 3050 | NT-EXPSUM, NT3, R-NTC | — | 35 |
+| C2 | LINKS | links (DH21 Prop 4.3 + (x,y) relation F16), coherence, auxlem, tree localization lemma | DH21.branchpair, DH21.defchoice, GAP.linkXY, T.deflink, T.defcoh, DH21.auxlem, DH23.explem, T.treelemma | 11 | 3000 | C1, D1, D4 | uses Wave B | 38 |
+| D2 | SYS-DEFS | parameter structure, norms 𝔛/𝔖/Z, a-system, K_G/K*_Q/K*_T with summability, 𝒥_𝒯, ℒ_j; time-parameter design (GAP.timeParam) | GAP.timeParam, T.params, T.norms, T.akeqn, T.defkg, T.defkg.sum, T.defjt, T.defbk | 14 | 3400 | D1, R-WKE, WA | yes (defines) | 38 |
+| M3 | CLCN | (CL)/(CN) dichotomy and splicing, blockchainprop, cnblock | T.block_clcn, T.blockchainprop, T.cnblock | 10 | 3500 | D1, M1, M2 | — | 39 |
+| M4 | VINES | vine/ladder templates (WAVE-B §3.4, F19), groups/coherence, subsetvc | GAP.vineDef, T.defvine, T.subsetvc, T.cohmol | 10 | 3300 | M1, M2 | yes (defines) | 39 |
+| NT6 | APPROXNT | DH23 Prop 6.4 and its extension to n≤N^4_{p+1} (F33); 2 days: split major arcs / minor arcs + large-order range | DH23.approxnt, GAP.largeOrder.nt | 12 | 6200 | N1, N2, N5, NT3, NT4, NT5 | — | 40 |
 | C3 | SKELETON | prime skeletons of couples and gardens with uniqueness (DH21 4.13–4.16, DH21-2 4.4–4.6, E4) | DH21.reduceprocess, GAP.skeletonUniq, DH21.structure2, DH21.corcpl, DH212.skeleton, T.propstructure2 | 15 | 5200 | C1, D1, D4 | uses Wave B | 42 |
-| G4 | APPB-OPS | DH23 App B operations TB…2R (figure-defined groups must be transcribed first); 2 days | DH23.appB.ops | 8 | 4000 | G0, M1, NT8 | yes (defines) | 42 |
-| X1 | FLOWER-DEF | flower trees/gardens, kernels (F25), parametrix and operator identities (F26) | T.defflower, T.flowerkernels, GAP.operatorIdent, T.operatorx | 10 | 3100 | D1, D2, D3 | yes (defines) | 43 |
-| J1 | BCOEF | time coefficients ℬ_Q, recursions, class J/R operators (DH21 §5.1–Lemma 5.5) | DH21.Bcstruct, DH21.combineq, DH21.classJR | 7 | 3800 | C1, C2, N1 | — | 44 |
-| L1 | PL1A | Prop 5.1 steps 1–2 (unimodular change of variables, localization) | T.standing5, T.pl1.S1, T.pl1.S2 | 7 | 2800 | C2, D2, N1, N4 | — | 44 |
-| C4 | LAYERREG | coherent layered regular objects and layering counts (Props 4.9, 4.10) | T.layerreg1, T.layerreg2 | 8 | 4000 | C1, C2, D3 | uses Wave B | 45 |
-| C5 | ENHANCED | dominant/enhanced dominant couples and trees, equivalence classes, encoded trees (freeze if regref1 is frozen) | DH21.defstd, DH21.equivcpl, T.defencpl, T.defentree, DH21.encoded | 9 | 3150 | C1, C2, D1 | yes (defines) | 46 |
-| M6 | TWIST | unit twist case table (F20), twists, twist facts | GAP.twistTable, T.twist, T.twistexplain | 8 | 2800 | M5 | yes (defines) | 48 |
+| NT8 | COUNT | DH23 Lemma A.3, 2-vector counts, TARGET Lemma A.9 | NT.twoVec, DH23.basiccount, T.atomcountlem | 7 | 3800 | NT-EXPSUM, NT3, NT7 | — | 42 |
+| M5 | MOLECPL | DH23 Prop 5.3 for gardens ((I-a,b), (II-a..e)) | T.molecpl | 4 | 1500 | M3, M4 | — | 43 |
+| M9 | VINEPARAM | molecule-level vine parametrizations (I)–(VIII) with ladders (F22; review I3, I19), before V4 and G2 | GAP.vineParam | 4 | 1500 | M1, M4 | — | 43 |
+| J1 | BCOEF | time coefficients ℬ_Q, recursions, class J/R operators (DH21 §5.1–Lemma 5.5) | DH21.Bcstruct, DH21.combineq, DH21.classJR | 7 | 3800 | C1, C2, N1 | — | 45 |
+| L1 | PL1A | Prop 5.1 steps 1–2 (unimodular change of variables, localization) | T.standing5, T.pl1.S1, T.pl1.S2 | 7 | 2800 | C2, D2, N1, N4 | — | 45 |
+| V1 | SUMINT-A | sumint Steps 1–2 (+F23) | T.sumint.S1, T.sumint.S2, GAP.sumintD | 7 | 4200 | D2, N1, NT10, NT11, NT4, NT5 | — | 45 |
+| C5 | ENHANCED | dominant/enhanced dominant couples and trees, equivalence classes, encoded trees (freeze if regref1 is frozen) | DH21.defstd, DH21.equivcpl, T.defencpl, T.defentree, DH21.encoded | 9 | 3150 | C1, C2, D1 | yes (defines) | 47 |
+| D3 | CANON | canonical layered gardens (criterion form), canonequiv + characterization (mandatory gate, G-2), unique construction data and expansion bijection, truncation | T.defcanon, T.canonequiv, GAP.cmattrBij, T.defgtr | 9 | 3950 | D1, D2 | yes (defines) | 47 |
+| G6 | MOLEPROP13 | DH23 Props 10.1, 10.3 | DH23.moleprop1, DH23.moleprop3 | 6 | 2400 | G0, M1, NT8 | — | 48 |
 | V3 | REGRED | skeleton reduction of K_𝒢, VC-local expressions | T.regred, T.vineest.S1 | 6 | 1900 | C3, D2, M2, M3 | — | 48 |
-| B3 | NLS-C | measurability, bridge, symmetries, gaugeinv | T.gaugeinv, NLS.measurable, NLS.symmetry, NLS.bridge | 10 | 3000 | B1, B2, D2, R-CUMUL | — | 49 |
-| G5 | APPB-ALG | App B algorithm, DH23 Prop 10.2 | DH23.appB.alg, DH23.moleprop2 | 8 | 4000 | G0, G4 | — | 50 |
-| J2 | CLASSJR2 | DH21 Lemmas 5.6–5.10 | DH21.classJR2, DH21.regchainlem | 8 | 4000 | D4, J1 | — | 52 |
-| L2 | PL1B | Prop 5.1 steps 3–4 and assembly | T.pl1.S3, T.pl1.S4, T.proplayer1 | 9 | 4650 | L1, N1, N2, N3, NT4, NT5 | — | 53 |
-| G7 | MOLEPROP4 | DH23 Lemmas ylem1/2, Prop 10.4 | DH23.ylem, DH23.moleprop4 | 12 | 4500 | G4, M4, NT8 | — | 54 |
-| J3 | MAINCOEF | DH21 Prop 5.1 (with DH23 weights) | DH21.maincoef | 4 | 3000 | J1, J2 | — | 56 |
-| V4 | VINEPARAM | vine parametrizations (I)–(VIII) (F22) | GAP.vineParam, T.vineest.S2 | 8 | 4000 | C2, M4, V3 | — | 56 |
-| I1 | INDUCT-A | expansion of truncated cumulants into canonical gardens; errors E^{(1)}, E^{(2)}; moment inequalities | T.cmattr, T.step.S3, T.step.S4, PROB.condCS | 10 | 4000 | B3, D2, D3, R-CUMUL | uses Wave B | 59 |
-| M7 | LFTWIST | induced pre-layering, LF twists, lftwistprop with all cases (F20) | T.L1463, T.sublayer, T.lftwist, GAP.lftwistCases, T.lftwistprop | 13 | 4200 | C2, C3, C4, D1, D3, M6 | — | 61 |
-| J4 | CANCEL7 | DH21 Lemmas 7.1–7.3, Props 7.4, 7.5 | DH21.regchaincancel, DH21.maincancel, DH21.regcplcal | 6 | 3400 | C5, J2, J3 | — | 62 |
-| M8 | LAYERCNT | layering counts of ladders and vines | T.layerlad, T.layervine | 6 | 2100 | D3, M3, M4, M7 | — | 67 |
-| J5 | MEXP | DH21 Props 7.7, 7.8 (momentum factors, class cancellation) | DH21.multiexp, DH21.nonemptyZ | 6 | 2700 | C5, J3, J4, N5 | — | 68 |
-| S1 | STAGE1-COMB | vinechainlem, 𝒱, congruence (equivalence, F20), gaps | T.vinechainlem, T.defcong, GAP.congEquiv, T.defdiff | 7 | 2400 | M1, M2, M3, M4, M6, M7 | — | 68 |
-| J7 | REGCANCEL | DH23 Prop 6.3 (single-layer realness) | DH23.regcpltreecancel | 4 | 2000 | C5, J4, J5 | — | 72 |
-| J6 | WKE-ID | DH21 Props 7.9, 7.10; DH23 Prop 6.2 (Σ app = 𝒰_n) | DH21.wkeTaylorId, DH21.emptyZ, DH23.regcpltreesum | 6 | 2800 | C5, J4, J5, R-WKE | — | 74 |
-| RA1 | REGASYMP | DH23 Prop 6.1 (couples and trees) + large-order range; 2 days: split couples / trees+derivatives | GAP.largeOrder, DH23.regcpltreeasymp | 12 | 6000 | C2, J3, J4, N1, NT6 | — | 74 |
-| RA2 | REGREF | TARGET Props 6.6–6.8 (norm translation F11, corrected regref1-5, dominant trees) | GAP.regrefNorm, GAP.regref5, GAP.domTree, T.regref1, T.regref2, T.regref3 | 13 | 4100 | C5, D2, J4, J5, J6, RA1 | uses Wave B | 87 |
-| L3 | PL23 | Props 6.1, 6.2 | T.proplayer2, T.proplayer3 | 4 | 1700 | C4, N1, R-WKE, RA2 | — | 91 |
-| L4 | PL4 | Prop 6.3 (layered realness) | T.proplayer4 | 4 | 2500 | C4, J7, RA2 | — | 91 |
-| V5 | VINEEST | vineest Steps 3–4 and degenerate decorations (F21) | GAP.degenerate, T.vineest.S3, T.vineest.S4, T.vineest | 13 | 5700 | G0, L2, L3, L4, M5, M6, M7, V2, V3, V4 | — | 104 |
-| S2 | REDSPLICE | Stage 1 reduction to 𝒢_sb and molecular form | T.redsplice, T.redvine3 | 6 | 3100 | C2, L2, L3, M1, M3, M6, M7, S1, V5 | — | 110 |
-| S4 | SUBPRO | properties of 𝕄_sb (DH23 Prop 9.1, F21) | DH23.subpro, T.subpro | 6 | 2400 | M1, M3, M4, S1, S2, V5 | — | 116 |
-| S3 | LADDER | ladder L^∞ and L¹ time-integral bounds | T.ladderl1new, T.ladderl1old | 8 | 4200 | M4, N4, NT9, S2, V1 | — | 118 |
-| G1 | CUT | cuts, Operations 1–4, ι_v, tame-atom removal | T.defcut, T.ops, T.remiota, T.remtame | 8 | 2100 | G0, M1, M4, S4 | — | 124 |
-| F1 | FINAL-RED | redcount0, l1reduction, counting quantities 𝔄 | T.redcount0, T.l1reduction, T.L2129 | 5 | 1700 | D2, D3, G1, L1, M1, S2, S3, S4 | — | 129 |
-| G2 | EXCESS-DH23 | DH23 Prop 9.4 (case analysis of cut deviations) | DH23.excessprop1 | 8 | 3500 | G1, NT7, NT8, V4 | — | 132 |
-| G3 | EXCESS-T | TARGET excessprop1, DH23 Prop 9.5, finalmol | T.excessprop1, DH23.finalmole, T.finalmol | 10 | 3500 | F1, G1, G2, M3, M4, NT7, NT8, S4 | — | 142 |
-| G8 | RIGID | DH23 Prop 9.6, TARGET lgmolect (F24) | GAP.rigidityGardens, DH23.lgmolect, T.lgmolect | 10 | 4600 | G3, G5, G6, G7, NT8 | uses Wave B | 152 |
-| F3 | FINAL-COUNT | finalcount1, remtame2, interpolation | T.finalcount1, T.remtame2, T.finalproof | 4 | 900 | F1, G1, G3, G8, S2 | — | 156 |
-| F2 | PLG | terms (a)–(d), counting of classes and layerings, proof of layergarden | T.layergarden, T.plg.c, GAP.finaltermdTrunc, T.plg.d, T.plg.ab, T.proofLayergarden | 12 | 4150 | C1, C3, C4, D2, D3, F1, F3, L2, L3, M1, M3, M8, S2 | uses Wave B | 168 |
-| X2 | FLOWEREST | flower-garden pipeline (F26) and flowerest1; 2–3 days: split restatement / proof | DH21.extragaincor, GAP.flowerPipeline, T.flowerest1 | 14 | 8500 | F2, I1, M7, N4, S3, X1 | — | 182 |
-| X3 | FIXEDPT | fixedest1–4 and fixedpoint | T.fixedpoint, PROB.chebyshev, T.fp.part1, T.fp.part2, T.fp.part3 | 9 | 3400 | D2, F2, I1, N4, NT9, R-WKE, X1, X2 | uses Wave B | 191 |
-| I2 | INDUCT-B | base case, statements (1)–(4) at p+1, propansatz | T.propansatz, T.ansatzBase, T.step.S1, T.step.S5, T.step.S6, T.step.S7 | 10 | 3050 | B2, D2, F2, I1, R-CUMUL, R-WKE, X3 | uses Wave B | 201 |
-| Z1 | MAIN | proof of Theorem 1.1 from propansatz and the bridge | T.main, T.proofmain | 3 | 860 | B1, B3, D2, I1, I2, R-CUMUL, R-WKE, WA | uses Wave B | 204 |
+| G4 | APPB-OPS | DH23 App B operations TB…2R (figure-defined groups must be transcribed first); 2 days | DH23.appB.ops | 8 | 4000 | G0, M1, NT8 | yes (defines) | 50 |
+| V2 | SUMINT-B | sumint Step 3 and assembly | T.sumint.S3, T.sumint | 5 | 2200 | N1, V1 | — | 50 |
+| M6 | TWIST | unit twist case table (F20), twists, twist facts | GAP.twistTable, T.twist, T.twistexplain | 8 | 2800 | M5 | yes (defines) | 51 |
+| V4 | VINEEST-S2 | vineest Step 2: garden-level re-parametrization into sumint form | T.vineest.S2 | 4 | 2500 | C2, M9, V3 | — | 52 |
+| J2 | CLASSJR2 | DH21 Lemmas 5.6–5.10 | DH21.classJR2, DH21.regchainlem | 8 | 4000 | D4, J1 | — | 53 |
+| L2 | PL1B | Prop 5.1 steps 3–4 and assembly | T.pl1.S3, T.pl1.S4, T.proplayer1 | 9 | 4650 | L1, N1, N2, N3, NT4, NT5 | — | 54 |
+| C4 | LAYERREG | coherent layered regular objects and layering counts (Props 4.9, 4.10) | T.layerreg1, T.layerreg2 | 8 | 4000 | C1, C2, D3 | uses Wave B | 55 |
+| J3 | MAINCOEF | DH21 Prop 5.1 (with DH23 weights) | DH21.maincoef | 4 | 3000 | J1, J2 | — | 57 |
+| X1 | FLOWER-DEF | flower trees/gardens as instances of the general carriers (G-1), kernels (F25), parametrix and operator identities (F26, F39) | T.defflower, T.flowerkernels, GAP.operatorIdent, T.operatorx | 10 | 3100 | D1, D2, D3 | yes (defines) | 57 |
+| G5 | APPB-ALG | App B algorithm, DH23 Prop 10.2 | DH23.appB.alg, DH23.moleprop2 | 8 | 4000 | G0, G4, M1 | — | 58 |
+| G7 | MOLEPROP4 | DH23 Lemmas ylem1/2, Prop 10.4 | DH23.ylem, DH23.moleprop4 | 12 | 4500 | G4, M1, M4, NT8 | — | 62 |
+| J4 | CANCEL7 | DH21 Lemmas 7.1–7.3, Props 7.4, 7.5 | DH21.regchaincancel, DH21.maincancel, DH21.regcplcal | 6 | 3400 | C5, J2, J3 | — | 63 |
+| M7 | LFTWIST | induced pre-layering, LF twists, lftwistprop with all cases (F20) | T.L1463, T.sublayer, T.lftwist, GAP.lftwistCases, T.lftwistprop | 13 | 4200 | C2, C3, C4, D1, D3, M6 | — | 68 |
+| J5 | MEXP | DH21 Props 7.7, 7.8 (momentum factors, class cancellation) | DH21.multiexp, DH21.nonemptyZ | 6 | 2700 | C5, J3, J4, N5 | — | 69 |
+| I1 | INDUCT-A | expansion of truncated cumulants into canonical gardens; errors E^{(1)}, E^{(2)}; moment inequalities | T.cmattr, T.step.S3, T.step.S4, PROB.condCS | 10 | 4000 | B3, D2, D3, R-CUMUL | uses Wave B | 73 |
+| J7 | REGCANCEL | DH23 Prop 6.3 (single-layer realness) | DH23.regcpltreecancel | 4 | 2000 | C5, J4, J5 | — | 73 |
+| RA1 | REGASYMP | DH23 Prop 6.1 (couples and trees) for orders n≤N^4_{p+1} (F33, route R14 (a)); 2 days: split couples / trees+derivatives | GAP.largeOrder, DH23.regcpltreeasymp | 10 | 5800 | C2, J3, J4, N1, NT6 | — | 73 |
+| M8 | LAYERCNT | layering counts of ladders and vines | T.layerlad, T.layervine | 6 | 2100 | D3, M3, M4, M7 | — | 74 |
+| J6 | WKE-ID | DH21 Props 7.9, 7.10; DH23 Prop 6.2 (Σ app = 𝒰_n) | DH21.wkeTaylorId, DH21.emptyZ, DH23.regcpltreesum | 6 | 2800 | C5, J4, J5, R-WKE | — | 75 |
+| S1 | STAGE1-COMB | vinechainlem, 𝒱, congruence (equivalence, F20), gaps | T.vinechainlem, T.defcong, GAP.congEquiv, T.defdiff | 7 | 2400 | M1, M2, M3, M4, M6, M7 | — | 75 |
+| S2a | REDSPLICE-DEF | Stage 1 construction: congruence classes, 𝒱_0, splicing, 𝒢_sb, 𝕄_sb, hinge atoms (review I1) | T.redsplice.def | 2 | 800 | M3, M6, M7, S1 | — | 77 |
+| S4 | SUBPRO | properties of 𝕄_sb (DH23 Prop 9.1), non-hinge ZG atoms tame (F21, review I2) | DH23.subpro, GAP.degenerate.tame, T.subpro | 8 | 3000 | G0, M1, M3, M4, S1, S2a | — | 85 |
+| RA2 | REGREF | TARGET Props 6.6–6.8 (norm translation F11, corrected regref1-5, dominant trees) | GAP.regrefNorm, GAP.regref5, GAP.domTree, T.regref1, T.regref2, T.regref3 | 13 | 4100 | C5, D2, J4, J5, J6, RA1 | uses Wave B | 88 |
+| L3 | PL23 | Props 6.1, 6.2 | T.proplayer2, T.proplayer3 | 4 | 1700 | C4, N1, R-WKE, RA2 | — | 92 |
+| G1 | STAGE2-DEF | the Stage-2 counting problem (requirements (a)–(f)), Operations 1–4, ι_v, tame-atom removal | T.l1reduction.def, T.L2129, T.ops, T.remiota, T.remtame | 10 | 2600 | G0, M1, M4, S4 | — | 95 |
+| L4 | PL4 | Prop 6.3 (layered realness) | T.proplayer4 | 4 | 2500 | C4, J7, L3, RA2 | — | 96 |
+| G2 | EXCESS-DH23 | DH23 Prop 9.4 (case analysis of cut deviations) | DH23.excessprop1 | 8 | 3500 | G1, M1, M9, NT7, NT8 | — | 103 |
+| V5 | VINEEST | vineest Steps 3–4 and degenerate decorations (F21) | GAP.degenerate.vine, T.vineest.S3, T.vineest.S4, T.vineest | 13 | 5100 | C4, G0, L2, L3, L4, M5, M6, M7, V2, V3, V4 | — | 109 |
+| G3 | EXCESS-T | TARGET excessprop1, DH23 Prop 9.5, finalmol | T.excessprop1, DH23.finalmole, T.finalmol | 10 | 3500 | G1, G2, M3, M4, M9, NT7, NT8, S4 | — | 113 |
+| S2 | REDSPLICE | Stage 1 analytic reduction (redvine2) and molecular form (redvine3) | T.redsplice, T.redvine3 | 6 | 2400 | C2, L2, L3, M1, S2a, V5 | — | 115 |
+| G8 | RIGID | DH23 Prop 9.6, TARGET lgmolect (F24) | GAP.rigidityGardens, DH23.lgmolect, T.lgmolect | 10 | 4600 | G3, G5, G6, G7, M1, NT8 | uses Wave B | 123 |
+| S3 | LADDER | ladder L^∞ and L¹ time-integral bounds | T.ladderl1new, T.ladderl1old | 8 | 4200 | M4, M9, N4, NT9, S2, V1 | — | 123 |
+| F1 | FINAL-RED | redcount0, l1reduction estimates (finalsbest1, reduction of finalsbest2) | T.redcount0, T.l1reduction | 4 | 1200 | D2, D3, G1, L1, M1, S2, S3 | — | 127 |
+| F3 | FINAL-COUNT | finalcount1, remtame2, interpolation | T.finalcount1, T.remtame2, T.finalproof | 4 | 900 | F1, G1, G3, G8, S2 | — | 131 |
+| F2 | PLG | terms (a)–(d), counting of classes and layerings, proof of layergarden | T.layergarden, T.plg.c, GAP.finaltermdTrunc, T.plg.d, T.plg.ab, T.proofLayergarden | 12 | 4150 | C1, C3, C4, D2, D3, F1, F3, L2, L3, M1, M3, M8, S2 | uses Wave B | 143 |
+| X2 | FLOWEREST | flower adjustments on the general carriers (WAVE-B G-1, F26), deterministic flower bound (gate B1.12), flowerest1, ∂_t bounds; 2–3 days: split | DH21.extragaincor, GAP.flowerPipeline, T.flowerGardenBound, T.flowerest1, T.fp.dtBound | 16 | 8900 | D2, D3, F2, G3, I1, M1, M3, M7, N4, R-WKE, S3, X1 | uses Wave B | 159 |
+| X3 | FIXEDPT | fixedest1–4 and fixedpoint | T.fixedpoint, PROB.chebyshev, T.fp.part1, T.fp.part2, T.fp.part3 | 9 | 3400 | D2, F2, I1, N4, NT9, R-WKE, X1, X2 | uses Wave B | 168 |
+| I2 | INDUCT-B | base case, statements (1)–(4) at p+1, propansatz | T.propansatz, T.ansatzBase, T.step.S1, T.step.S5, T.step.S6, T.step.S7 | 10 | 3050 | B2, D2, F2, I1, R-CUMUL, R-WKE, X3 | uses Wave B | 178 |
+| Z1 | MAIN | proof of Theorem 1.1 from propansatz and the bridge | T.main, T.proofmain | 3 | 860 | B1, B3, D2, I1, I2, R-CUMUL, R-WKE, WA | uses Wave B | 181 |
 
 ## F. Totals, risks, recommendations
 
@@ -624,92 +652,138 @@ derived from the node dependencies of §A (acyclic, checked).
 
 | quantity | value |
 |---|---|
-| nodes | **264** (thm 97, step 59, def 46, infra 39, gap 23) |
-| difficulty mix | L 52, M 134, H 72, VH 6 |
-| total weight (L=1, M=2, H=4, VH=8) | **656** (running packets 53 over 23 nodes; Wave A definitions 5; new work **598**) |
-| estimated Lean lines | **≈266,000** (running ≈22,500; new ≈243,000) |
-| packets | **76 new** + 5 running (+ Wave A definitions); median 8 weight units, 3,100 lines |
-| critical path | 43 nodes, weight 123 (node level); 25 packets, weight 204 (packet level) |
-| unwritten steps (GAP nodes) | 23: timeParam (F7/F27), cmattrBij (F12), circle23 (F3), lemcubicRed, structUniq (F12), linkXY (F16), skeletonUniq (F12/E4), largeOrder (new), regrefNorm, regref5 (F11), domTree, wkeTame (F10), vineDef (F19), twistTable, lftwistCases, congEquiv (F20), sumintD (F23), vineParam (F22), degenerate (F21), rigidityGardens (F24), finaltermdTrunc (F27), operatorIdent, flowerPipeline (F26) |
+| nodes | **275** (thm 98, step 61, def 49, infra 42, gap 25; one gap is the weight-0 design note GAP.timeParam) |
+| difficulty mix | L 53, M 142, H 72, VH 7, design note 1 |
+| total weight (L=1, M=2, H=4, VH=8) | **681** (landed 13; running 94; **not started 574**) |
+| estimated Lean lines | **≈273,000** (landed ≈5k; running ≈35k; not started ≈233k) |
+| packets | 84: 2 landed, 9 running, **73 not started**; median 8 weight units, 3,100 lines |
+| critical path | 38 nodes, weight 99 (node level); 23 packets, weight 181 (packet level) |
+| unwritten steps (GAP nodes) | 25: timeParam (design note, F7/F27), cmattrBij (F12), circle23 (F3, F31), lemcubicRed, structUniq (F12), linkXY (F16), skeletonUniq (F12/E4), largeOrder and largeOrder.nt (F33), regrefNorm, regref5 (F11), domTree, wkeTame (F10), vineDef (F19, F37), twistTable (F20, F38), lftwistCases, congEquiv (F20, F38), sumintD (F23), vineParam (F22), degenerate.vine and degenerate.tame (F21), rigidityGardens (F24), finaltermdTrunc (F27), operatorIdent (F26, F39), flowerPipeline (F26) |
 
-Weights (Lean lines) by area, new work: combinatorics of couples/gardens D, C: 94 (31k); regular-couple
-asymptotics J, RA, L: 90 (43k); molecules/vines/twists/Stage 1 M, V, S: 135 (53k); Stage 2 and rigidity G, F: 95
-(37k); number theory NT: 66 (32k); analysis infrastructure N: 37 (15k); flower gardens and fixed point X: 33 (15k);
-induction, NLS bridge, main I, B, Z: 48 (16k).
+Weights (Lean lines) by area, all packets not landed: combinatorics of couples/gardens D, C: 93 (31k); regular-couple
+asymptotics J, RA, L: 88 (43k); molecules/vines/twists/Stage 1 M, V, S: 142 (54k); Stage 2 and rigidity G, F: 96
+(37k); number theory NT (incl. NT-EXPSUM, GAUSSSUM): 86 (39k); analysis infrastructure N (incl. AN-SOB): 37 (15k);
+flower gardens and fixed point X: 35 (15k); induction, NLS bridge, main I, B, Z: 48 (16k).
 
 ### F.2 Largest risks
 
-1. **Flower-garden re-run (GAP.flowerPipeline, F26; VH, on the critical path).** `fixedpoint` needs §§5–11 for
-   flower gardens (unpaired flowers, extra degree deficits, Dirac time nodes, stems in layer p); TARGET gives a list
-   of adjustments only. Mitigation: design the D1/M1 carriers as "gardens with marked unpaired leaves" from day one
-   so that every §7–§11 statement is proved once, generically.
-2. **Rigidity theorem import (DH23 Prop 9.6 + §10 + App B; F24).** ≈24k lines (packets G0, G2, G4–G8) of graph-algorithm case analysis,
-   with the App B operation groups (3S3, 3D3, 3D4, 3S2, 3R) given **only by figures**; the garden extension
-   (imperfect components, ZG removals, the ≤w-SG hypothesis of DH23 Prop 10.2) is asserted. Has slack (G4–G7) but
-   G8 is critical.
-3. **Figure-only definitions** (F12, F19, F20): mini-couples/mini-trees, vines (I)–(VIII) and ladders, vine positions
-   (I-a)…(II-e), unit twists, groups of vines, App B groups. A wrong transcription silently invalidates vineest,
-   Stage 1/2 and the layering counts. WAVE-B §3 gives textual definitions with checks; they need a second, independent
-   reading of the PNGs before freezing.
-4. **DH21 §5 time-coefficient analysis and §7 cancellations** (class J/R operators with Gevrey weights, Prop 5.1,
-   Props 7.4–7.10): ≈22k lines (packets J1–J7) of heavy oscillatory-integral bookkeeping, entirely on the critical path, with "careful
-   inspection" improvements claimed by DH23 (L955–L969).
-5. **Range of orders (GAP.largeOrder, new finding; cf. F15).** TARGET uses the regular-couple asymptotics for orders
-   up to N^4_{p+1}=(log L)^{C(𝔇)}, while DH21/DH23 prove them for n≤N³=(log L)^{12} (DH23 L1168; approxnt with
-   λ_j≤(log L)⁴). Needs either a proof check or a crude large-order bound (R14).
-6. **Number theory** (DH23 Prop 6.4 approxnt, Lemma 6.6(2), Weyl/Gauss sums, Hua, L^{3d/2} moments in lemcubic, and
-   the 2/3-exponent replacement of Huxley, F3): ≈32k lines (NT packets) plus the running NT-CIRCLE packet; approxnt is VH and feeds the critical path.
-7. **Degenerate decorations (GAP.degenerate, F21).** TARGET keeps ε=−1, self-loops and degree-2 atoms and handles
-   them in one sentence; "non-hinge ZG atoms are tame" (subpro (3)) is new and unproved; DH23 §10.5 is for couples.
-8. **Wave A WKE theory (F18, F10).** GIT20's L² trilinear estimate is written for d=3; Wave A `wkelwp` needs it for
-   all d≥3 and s>d/2−1. The tame estimate behind taylorbound is unwritten. (Running packet WKE.)
-9. **NLS bridge and measurability (F8).** "Smooth solution", uniqueness, persistence and the measurability of the
-   solvability event are unwritten; Wave A's indicator/selection reading must be validated (wt-orch audit running).
-10. **Combinatorial foundations with unwritten uniqueness proofs** (F12/E4/F16): uniqueness in the structure theorem,
-    the "case-by-case" skeleton uniqueness, the (x,y) link relation, and the bijection between canonical gardens and
-    expansion data (GAP.cmattrBij). Everything downstream assumes them.
-11. **Constant hierarchy in frozen statements (F5).** ~14 frozen statements must agree on the nesting
-    η→C_1→ν→δ→C_2→L and on which bounds are ≲_1 versus ≲_2; a mistake makes a frozen statement false or vacuous.
-    WAVE-B §1 fixes one parameter structure shared by all of them.
-12. **Time-Fourier norms** (restriction norms "inf over extensions", Hausdorff–Young, unpinned DNY21 Lemma 3.1, F29)
-    — infrastructure absent from Mathlib, used by ~40 nodes.
+1. **Flower gardens (F26, review I14–I15; VH, on the critical path).** `fixedpoint` needs §§5–11 for flower gardens
+   (unpaired flowers, degree deficits, Dirac time nodes, stems in layer p) and flower gardens are not irreducible
+   (L2283). Mitigation adopted (route R16, WAVE-B G-1): general carriers from D1 on, §5–§11 stated for them, the
+   flower case reduced to the adjustments plus a component factorization (GAP.flowerPipeline) behind the deterministic
+   gate T.flowerGardenBound.
+2. **Rigidity theorem import (DH23 Prop 9.6 + §10 + App B; F24).** ≈24k lines of graph-algorithm case analysis, with
+   the App B operation groups given only by figures; garden extension asserted. Now near-critical (slack 4) rather
+   than critical.
+3. **Figure-only definitions** (F12, F19, F20, F37, F38, F40): mini pieces, vines and slots, vine positions, twists,
+   cuts, App B groups. Readings now fixed in WAVE-B §3 (k ≥ 0 rungs per slot disclosed as a deviation, F37; uniform
+   slot-swap twist, F38; half-edge cuts, F40; (II-ab) class), but the App B groups are still untranscribed (G4).
+4. **DH21 §5 and §7** (class J/R operators with Gevrey weights, Prop 5.1, Props 7.4–7.10): ≈22k lines (J1–J7), all on
+   the critical path.
+5. **Order range (F33; route R14 (a)).** The asymptotics must be extended to orders n ≤ N^4_{p+1} = (log L)^{C(𝔇)};
+   option (b) is not available (review I13). Nodes GAP.largeOrder.nt (NT6) and GAP.largeOrder (RA1), both near the
+   critical path.
+6. **Number theory** (approxnt, minor arcs, Weyl/Gauss sums, Hua, L^{3d/2} moments, and now van der Corput's B-process
+   with an exponent pair e < 2/3, F3 revised): ≈39k lines; NT-EXPSUM (VH) is running but large.
+7. **Degenerate decorations (F21)**, split into an analytic gap (vineest Step 3) and a combinatorial one (non-hinge ZG
+   atoms tame, subpro (3)); the latter is new and unproved.
+8. **WKE theory (F18, F32, F10).** GIT20's d-dimensional trilinear estimate is asserted without proof (F32: d ≥ 4 is new
+   work); the tame estimate behind taylorbound is unwritten. The WKE packet is now near-critical (slack 4) through
+   DH21 Prop 7.9.
+9. **NLS bridge and measurability (F8)** — running (NLS packet).
+10. **Combinatorial foundations with unwritten uniqueness proofs** (F12/E4/F16): structure-theorem and skeleton
+    uniqueness, the (x,y) link relation, the canonical-garden bijection (GAP.cmattrBij) and the now mandatory
+    characterization of the criterion definition (WAVE-B G-2).
+11. **Parametrix identity (F39).** 𝒳 as printed has no identity term, so (1−ℒ_1)𝒳 = 1+𝒴 cannot hold literally; the
+    parametrix (probably 1+𝒳) must be fixed against DH21 §11 before X1.
+12. **Constant hierarchy in frozen statements (F5)** and **time-Fourier norm infrastructure** (restriction norms,
+    Hausdorff–Young, unpinned DNY21 Lemma 3.1, F29).
 
-### F.2a New findings proposed for `docs/FINDINGS.md` (not edited here)
+### F.2a Findings that bear on nodes (ledger numbering, `docs/FINDINGS.md`)
 
-- **F30 (GAP.largeOrder)**: regular-couple asymptotics are used for orders up to N_{p+1}^4=(log L)^{C(𝔇)} (T L949),
-  but DH21/DH23 prove them for n≤N³=(log L)^{12} (DH23 L1168; approxnt with λ_j≤(log L)⁴); same nature as F15.
-- **F31 (route R6)**: TARGET never uses Gaussian hypercontractivity: its large-deviation bounds (fixedest1–3) come
-  from 2P-th moments computed with the cumulant ansatz plus Chebyshev (T L2306–L2335). Packet GAUSS-HC is off-route.
-- **F32 (canonequiv reading)**: condition (ii) of Prop 4.8 (T L889) must be read for incomparable nodes 𝔫, 𝔫′
-  (nested or equal nodes can never be completely paired, odd leaf counts); harmless, but the Lean definition must say it.
-- **F33**: (atomcountbd3) (T L2474) is not used in T L1293–L2339; `layergarden`'s proof uses the induction hypothesis
-  only through the remainders R_q and (ansatz2) (T L949–L951), so it can be frozen as a deterministic statement.
+| finding | nodes |
+|---|---|
+| F3 revised (exponent e < 2/3), F31 (two-branch disclattice) | NT.expPair, NT.circleE, NT.annulus, GAP.circle23, DH23.basiccount0 |
+| F30 (propertycm wording: nonempty A, nonempty S_i) | T.propertycm |
+| F32 (GIT20 general d asserted only) | GIT.trilinear |
+| F33 (orders up to N^4_{p+1}) | GAP.largeOrder.nt, GAP.largeOrder |
+| F34 (hypercontractivity off-route) | DH21.largedev, route R6 |
+| F35 (canonequiv for incomparable nodes) | T.canonequiv, T.defcanon |
+| F36 (layergarden deterministic; atomcountbd3 unused) | T.layergarden, T.atomcountlem |
+| F37 (ladders: k ≥ 0 rungs per slot vs L1384) | GAP.vineDef, T.defvine |
+| F38 (uniform slot-swap twist; lemmas T1–T3) | GAP.twistTable, T.twist, GAP.congEquiv |
+| F39 (parametrix without identity term) | GAP.operatorIdent, T.operatorx |
+| F40 (self-loops: half-edge cuts; (II-a)/(II-b) labelling) | T.defmol, T.defcut, T.molecpl |
 
-### F.3 Recommended next packets (beyond the five running ones)
+### F.3 Recommended next packets (beyond the landed and running ones)
 
-Prerequisite: author approval of the Wave B definitions (WAVE-B §2–§3); provers can start on DRAFT carriers in
-parallel, as done for Wave A.
+Prerequisite: author approval of the Wave B definitions (WAVE-B §2–§3, with G-1 carriers); provers can start on DRAFT
+carriers in parallel.
 
-1. **D1 COMB-CORE** — trees, gardens, decorations, layerings, embedded objects (zero slack; unblocks 169 nodes).
-2. **D4 REG-DEFS** — mini-couples/mini-trees/operations A, B, legal partitions, regular chains (zero slack; starts
-   on D1's DRAFT carriers).
-3. **D2 SYS-DEFS** — parameter structure, norms, a-system, K_G/K*, 𝒥_𝒯, ℒ_j, time-parameter design.
-4. **M1 MOLE** — molecules of gardens and their decorations; unblocks the large, high-slack rigidity cluster
-   (G0, G4–G7) so it can run in parallel with the regular-couple chain.
-5. **N1 AN-FOURIER** — Gevrey cutoffs, 𝔛 time-Fourier norms with restriction norms (used by ~40 nodes).
-6. **NT1 GAUSSSUM** — Dirichlet + quadratic Weyl/Gauss sum bound (root of approxnt, minorarcs2, lemcubic).
-7. **N5 RESONANT** — resonant measure and p.v.1/Ω on the `collisionOp` parametrization (coordinate with the WKE
-   packet; unblocks DH21 7.7 and DH23 6.7).
-8. **N4 AN-SOB** — Sobolev/Morrey, simplex volumes, DH21 (10.5) and Lemma 10.2 (all dependency-free).
-
-Also ready and cheap: NT9 LINALG (finitelem, lincomblem), DH21.hua (NT2). Deprioritize GAUSS-HC (off-route, R6).
+1. **D1 COMB-CORE** — general carriers (marked unpaired leaves with time nodes; irreducibility as a predicate):
+   trees, gardens, decorations, layerings, embedded objects (zero slack; root of the whole combinatorial side).
+2. **D4 REG-DEFS** — mini-couples/mini-trees/operations A, B, legal partitions, regular chains (zero slack).
+3. **D2 SYS-DEFS** — parameters, norms, a-system, K_G/K*, Duhamel terms, ℒ_j (slack 4).
+4. **M1 MOLE** — half-edge molecules, decorations, cuts, MOL.countq (unblocks the whole rigidity cluster G0, G4–G8).
+5. **N1 AN-FOURIER** — χ_0, Gevrey bounds, 𝔛 norms and restriction norms (used by ~40 nodes).
+6. **N5 RESONANT** — resonant measure and p.v.1/Ω on the `collisionOp` parametrization.
+7. **NT9 LINALG** — finitelem, lincomblem (dependency-free).
+8. **N2 AN-PHASE** (as soon as N1 lands) — Poisson summation, non-stationary and bilinear stationary phase, needed by
+   NT.weylReduction, NT5 and the minor arcs.
 
 ### F.4 How §D–§F were computed
 
-A checker (kept in the session scratchpad; ≈170 lines of standard-library Python, run with `python3 -I`) parses the
-§A tables (rows `| ID | kind | source | statement | deps | consumer | d | lines | pkt |`), checks that every
-dependency and consumer ID exists, that the node graph and the induced packet graph are acyclic, and computes:
-node/weight/line totals, the longest weighted path to `T.main` (node and packet level), packet weights, lines,
-packet dependencies, depths and slacks, and the frontier (nodes whose dependencies lie only in running packets or
-Wave A, before and after the definitions are frozen). Re-run it after any edit of §A; the packet table of §E is
-generated by it.
+A checker (kept in the session scratchpad; ≈180 lines of standard-library Python, run with `python3 -I`) parses the
+§A tables (rows `| ID | kind | source | statement | deps | consumer | d | lines | pkt |`, difficulty `0` = design note),
+checks that every dependency and consumer ID exists, that the node graph and the induced packet graph are acyclic,
+and computes: totals, the longest weighted path to `T.main` (landed packets weight 0), packet weights, lines,
+packet dependencies, depths and slacks, and the frontier relative to the landed and running packets listed in §D.
+The packet table of §E is generated by it. Re-run after any edit of §A.
+
+## G. Changes after the topology review (`docs/campaign/orch/audits/GRAPH-topology.md`, 2026-11-03)
+
+Applied as proposed:
+
+- **I1** `T.redsplice` split into `T.redsplice.def` (construction, new packet S2a) and `T.redsplice` (analytic);
+  `T.subpro` → `T.redsplice.def`.
+- **I2** `GAP.degenerate` split into `GAP.degenerate.vine` (→ `T.vineest.S3`, V5) and `GAP.degenerate.tame`
+  (→ `T.subpro`, S4).
+- **I3, I7, I19** `GAP.vineParam` is molecule-level (deps `GAP.vineDef`, `T.defdecmol`, `T.cohmol`), in the new packet
+  M9 before V4 and G2; `DH23.excessprop1`, `T.excessprop1`, `T.ladderl1new` depend on it; V4 now holds only
+  `T.vineest.S2`.
+- **I4** `DH23.finalmole` deps → `T.ops`, `DH23.subpro`.
+- **I5** new `T.fp.dtBound` (X2), a dep of `T.fp.part1`.
+- **I6, I8, I11** edges `T.vineest.S4` → `T.layerreg2`, `T.proplayer4` → `T.proplayer2`, `DH21.maincancel` →
+  `DH21.defstd`.
+- **I9, I18** new definition `MOL.countq` (M1), a dep of `T.lgmolect`, `DH23.lgmolect`, `DH23.moleprop1–4`,
+  `DH23.appB.ops`, `DH23.excessprop1`, `T.L2129`.
+- **I10** new definition `DH21.defchoice` (C2); `DH21.Bcstruct` deps → `DH21.branchpair`, `DH21.defchoice`,
+  `DH21.structure1`; `T.deflink` → `DH21.defchoice`.
+- **I12** route R1 updated to e < 2/3; new `NT.expPair`, `NT.circleE` (NT-EXPSUM); `NT.annulus` → `NT.circleE` (moved to
+  NT-EXPSUM); `NT.circle23` kept as an off-route stepping stone.
+- **I13** route R14 resolved to (a); new `GAP.largeOrder.nt` (NT6); `GAP.largeOrder` restated (RA1).
+- **I14, I15** `GAP.flowerPipeline` restated on the general carriers (G-1) with the component factorization, deps now
+  include the general-carrier versions of `propcplmol`, `cnblock`, `finalmol`, `excessprop1`, `canonequiv`; new
+  deterministic gate `T.flowerGardenBound` between it and `T.flowerest1`.
+- **I16** `DH23.excessprop1` stated at molecule level (operations creating no component); the garden adaptation is
+  the content of `T.excessprop1`.
+- **I17** new `NT.weylReduction`, consumed by `DH23.minorarcs1`, `DH23.minorarcs2`, `T.lemcubic`, `GAP.lemcubicRed`.
+- **I20** `GAP.timeParam` is a weight-0 design note (difficulty `0`, 0 lines).
+
+Additions not in the review, and disagreements:
+
+- **I1-bis (same issue as I1).** After I1–I4, `T.excessprop1 → T.L2129 → T.l1reduction` still serialized Stage 2 behind
+  the ladder bounds. T L2097–L2112 show that the requirements (a)–(f) and 𝔈_sb, 𝔄_sb (defcounta) are definitions,
+  separate from the estimates (redvine4)–(redvine5), (finalsbest1). New `T.l1reduction.def` (G1); `T.L2129` and
+  `T.finalcount1` depend on it; `T.l1reduction` keeps only the estimates.
+- **T.defcut moved to M1** (with MOL.countq, which depends on it): otherwise packets M1 and G1 would form a cycle.
+- **NT.expPair deps** are `—`, not `AN.poisson, AN.statPhase`. The B-process needs 1-D Poisson summation and the 1-D
+  stationary-phase lemma with explicit errors, which are goals 1 and 4 of the running NT-CIRCLE revision-2 brief;
+  `AN.statPhase` is the bilinear ℝ^{2d} computation (T L968) and `AN.poisson` the ℤ_L^d version, neither of which the
+  1-D toolkit uses.
+- **NT.weylReduction is in NT2**, not NT1: NT1 (GAUSSSUM) is running under a fixed brief. NT2 is the next packet of the
+  same chain, and NT3, NT4 and NT11 all depend on it, as I17 requires.
+- **I16 option**: molecule-level restatement chosen (no edge `T.excessprop1` → `GAP.rigidityGardens`, which would
+  serialize the cut deviations behind App B); `GAP.rigidityGardens` now covers DH23 Props 9.5–9.6 only.
+- **Running status** in §D–§E reflects the current briefs (NT-CIRCLE v2 = NT-EXPSUM, GAUSSSUM = NT1, AN-SOB = N4,
+  NLS = B1–B3; GAUSS-HC and TORUS-FOURIER landed).
