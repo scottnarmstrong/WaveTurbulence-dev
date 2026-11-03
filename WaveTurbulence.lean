@@ -79,6 +79,16 @@ public import WaveTurbulence.Foundations.NumberTheory.SineSeries
 public import WaveTurbulence.Foundations.NumberTheory.SmoothingBounds
 public import WaveTurbulence.Foundations.NumberTheory.SmoothingFourier
 public import WaveTurbulence.Foundations.NumberTheory.WeylDifferencing
+public import WaveTurbulence.Foundations.Resonant.Derivatives
+public import WaveTurbulence.Foundations.Resonant.Integral
+public import WaveTurbulence.Foundations.Resonant.LocalDerivatives
+public import WaveTurbulence.Foundations.Resonant.PrincipalValue
+public import WaveTurbulence.Foundations.Resonant.PrincipalValueBounds
+public import WaveTurbulence.Foundations.Resonant.PrincipalValueComplex
+public import WaveTurbulence.Foundations.Resonant.PrincipalValueEstimates
+public import WaveTurbulence.Foundations.Resonant.PrincipalValueOneDim
+public import WaveTurbulence.Foundations.Resonant.PrincipalValueSlices
+public import WaveTurbulence.Foundations.Resonant.SliceRegularity
 public import WaveTurbulence.Foundations.Torus.Basic
 public import WaveTurbulence.Foundations.Torus.Derivative
 public import WaveTurbulence.Foundations.Torus.Inversion
