@@ -546,4 +546,145 @@ theorem norm_piece_JR_P2 (h0 : 0 ≤ θ) (h1 : θ < 1) (hA : A0 ≤ A) (h₁ : R
 
 end Norms
 
+section Regular
+
+variable {θ A N₁ N₂ : ℝ} {R₁ : JSym ι₁} {R₂ : RSym ι₂}
+
+/-- A uniform bound for the derivatives of the `χ₀` coupling of `J R`. -/
+@[expose] noncomputable def GMR (c : ℕ) (q : ℝ × ℝ) : ℝ≥0∞ :=
+  ∑ j ∈ range (c + 1), (c.choose j : ℝ≥0∞) * gM j q * gev CPhi Achi (c - j)
+
+theorem measurable_GMR (c : ℕ) : Measurable (GMR c) :=
+  Finset.measurable_sum _ fun j _ => (measurable_const.mul (measurable_gM j)).mul measurable_const
+
+theorem enorm_iteratedFDeriv_KMR_le_GMR (c : ℕ) (x : Fin 2 → ℝ) (q : ℝ × ℝ) :
+    ‖iteratedFDeriv ℝ c (fun x => KMR x q) x‖ₑ ≤ GMR c q := by
+  rw [KMR_eq]
+  refine (enorm_iteratedFDeriv_prod2_le (contDiff_kerM q) contDiff_chiInvRc c x).trans
+    (Finset.sum_le_sum fun j _ => mul_le_mul' (mul_le_mul' le_rfl
+      (enorm_iteratedDeriv_kerM_le j _ q)) ?_)
+  refine (enorm_iteratedDeriv_chiInvRc_le (c - j) (x 1)).trans ?_
+  refine mul_le_of_le_one_right bot_le ?_
+  rw [← ENNReal.ofReal_one]
+  exact ENNReal.ofReal_le_ofReal (inv_le_one_of_one_le₀ (by linarith [abs_nonneg (x 1)]))
+
+theorem lintegral_GMR_ne_top (c : ℕ) : ∫⁻ q, GMR c q ≠ ⊤ := by
+  unfold GMR
+  rw [lintegral_finsetSum _ fun j _ => ((measurable_gM j).const_mul _).mul_const _]
+  refine (ENNReal.sum_lt_top.2 fun j _ => ?_).ne
+  rw [lintegral_mul_const _ ((measurable_gM j).const_mul _),
+    lintegral_const_mul _ (measurable_gM j)]
+  exact ENNReal.mul_lt_top (ENNReal.mul_lt_top (by simp)
+    (lt_of_le_of_lt (lintegral_gM_le j) (by simp [gev]))) (by simp [gev])
+
+/-- A uniform bound for the derivatives of the `χ_∞` couplings of `J R`. -/
+@[expose] noncomputable def GPR (c : ℕ) (_ : Unit) : ℝ≥0∞ :=
+  ∑ j ∈ range (c + 1), (c.choose j : ℝ≥0∞) * gev CPhi Achi j * gev CPhi Achi (c - j)
+
+theorem enorm_iteratedFDeriv_KPR_le_GPR (c : ℕ) (x : Fin 2 → ℝ) (q : Unit) :
+    ‖iteratedFDeriv ℝ c (fun x => KPR x q) x‖ₑ ≤ GPR c q := by
+  rw [KPR_eq]
+  have hle : ∀ y : ℝ, ENNReal.ofReal ((1 + |y|)⁻¹) ≤ 1 := fun y => by
+    rw [← ENNReal.ofReal_one]
+    exact ENNReal.ofReal_le_ofReal (inv_le_one_of_one_le₀ (by linarith [abs_nonneg y]))
+  refine (enorm_iteratedFDeriv_prod2_le contDiff_phiR contDiff_chiInvRc c x).trans
+    (Finset.sum_le_sum fun j _ => mul_le_mul' (mul_le_mul' le_rfl ?_) ?_)
+  · exact (enorm_iteratedDeriv_phiR_le' j _).trans (mul_le_of_le_one_right bot_le (hle _))
+  · exact (enorm_iteratedDeriv_chiInvRc_le _ _).trans
+      (mul_le_of_le_one_right bot_le (hle _))
+
+theorem lintegral_GPR_ne_top (c : ℕ) : ∫⁻ q, GPR c q ≠ ⊤ := by
+  rw [show (volume : Measure Unit) = Measure.dirac () from rfl, lintegral_dirac]
+  unfold GPR
+  exact (ENNReal.sum_lt_top.2 fun j _ => ENNReal.mul_lt_top (ENNReal.mul_lt_top (by simp)
+    (by simp [gev])) (by simp [gev])).ne
+
+theorem symReg_piece_JR_M (h₁ : R₁.Bound θ A N₁) (h₂ : R₂.Bound θ A N₂) :
+    SymReg (tripleS R₁.m R₂.m KMR (LsJR R₁ R₂) (csJR (ℝ × ℝ))) :=
+  tripleS_symReg (isBundle_LsJR h₁ h₂) h₁.reg h₂.reg
+    (fun q => contDiff_prod2 (contDiff_kerM q) contDiff_chiInvRc)
+    measurable_KMR.stronglyMeasurable (measurable_csJR _) GMR measurable_GMR
+    enorm_iteratedFDeriv_KMR_le_GMR lintegral_GMR_ne_top
+
+theorem symReg_piece_JR_P1 (h₁ : R₁.Bound θ A N₁) (h₂ : R₂.Bound θ A N₂) :
+    SymReg (tripleS R₁.m R₂.m KPR (LsJR R₁ R₂) (csJR Unit)) :=
+  tripleS_symReg (isBundle_LsJR h₁ h₂) h₁.reg h₂.reg
+    (fun _ => contDiff_prod2 contDiff_phiR contDiff_chiInvRc)
+    measurable_KPR.stronglyMeasurable (measurable_csJR _) GPR (fun _ => measurable_const)
+    enorm_iteratedFDeriv_KPR_le_GPR lintegral_GPR_ne_top
+
+theorem symReg_piece_JR_P2 (h₁ : R₁.Bound θ A N₁) (h₂ : R₂.Bound θ A N₂) :
+    SymReg (tripleS R₁.m R₂.m KPRn (LsJR R₁ R₂) (csJR Unit)) :=
+  tripleS_symReg (isBundle_LsJR h₁ h₂) h₁.reg h₂.reg
+    (fun _ => (contDiff_prod2 contDiff_phiR contDiff_chiInvRc).neg)
+    measurable_KPRn.stronglyMeasurable (measurable_csJR _) GPR (fun _ => measurable_const)
+    (fun c x q => by rw [KPRn_iteratedFDeriv]; exact enorm_iteratedFDeriv_KPR_le_GPR c x q)
+    lintegral_GPR_ne_top
+
+theorem measurable_bMR : Measurable bMR := by unfold bMR; fun_prop
+theorem measurable_bP1R : Measurable bP1R := by unfold bP1R; fun_prop
+theorem measurable_bP2R : Measurable bP2R := by unfold bP2R; fun_prop
+
+/-- The bundle `ℓ₁` of the `χ₀` and second `χ_∞` pieces of `J R`. -/
+@[expose] def yJRL (R₁ : JSym ι₁) : (ι₁ ⊕ ι₂) ⊕ Unit → ℤ := y3 R₁.y 0 0
+
+/-- The bundle `ℓ₃ + εα₁` of the first `χ_∞` piece of `J R`. -/
+@[expose] def yJRR (R₂ : RSym ι₂) : (ι₁ ⊕ ι₂) ⊕ Unit → ℤ := y3 0 R₂.y₂ R₂.ε
+
+theorem exists_piece_JR_M (h0 : 0 ≤ θ) (h1 : θ ≤ 1) (hA : A0 ≤ A) (h₁ : R₁.Bound θ A N₁)
+    (h₂ : R₂.Bound θ A N₂) :
+    ∃ S : JSym ((ι₁ ⊕ ι₂) ⊕ Unit),
+      S.Bound θ A (3 * (16 * N₁ * (3 * N₂) * (16 * (CkM * IM) * CPhi))) ∧ ∀ α t s,
+      S.kernel α t s = ∫ z, tripleS R₁.m R₂.m KMR (LsJR R₁ R₂) (csJR (ℝ × ℝ)) α z *
+        jker (bundle (yJRL (ι₂ := ι₂) R₁) α)
+          ((eJR (ℝ × ℝ) z).1.1 + (bMR (eJR (ℝ × ℝ) z).2).1)
+          ((eJR (ℝ × ℝ) z).1.2 + (bMR (eJR (ℝ × ℝ) z).2).2) t s := by
+  have hN₁ := h₁.nonneg
+  have hN₂ := h₂.nonneg
+  have hC : 0 ≤ 16 * (CkM * IM) * CPhi := by
+    have := kerM_bound.1; have := IM_nonneg; have := CPhi_nonneg; positivity
+  obtain ⟨S, -, hS, hk⟩ := JSym.ofGenE
+    (isBundle_y3 h₁.bundle isBundle_zero (show |(0 : ℤ)| ≤ 1 by simp)) (symReg_piece_JR_M h₁ h₂)
+    (eJR (ℝ × ℝ)) (measurePreserving_eJR _) measurable_bMR (by positivity)
+    (norm_piece_JR_M h0 h1 hA h₁ h₂)
+  exact ⟨S, hS, hk⟩
+
+theorem exists_piece_JR_P1 (h0 : 0 ≤ θ) (h1 : θ < 1) (hA : A0 ≤ A) (h₁ : R₁.Bound θ A N₁)
+    (h₂ : R₂.Bound θ A N₂) :
+    ∃ S : JSym ((ι₁ ⊕ ι₂) ⊕ Unit),
+      S.Bound θ A (3 * (16 * (2 * N₁) * (6 * N₂) * (16 * Cθ θ * (CPhi * CPhi)))) ∧ ∀ α t s,
+      S.kernel α t s = ∫ z, tripleS R₁.m R₂.m KPR (LsJR R₁ R₂) (csJR Unit) α z *
+        jker (bundle (yJRR (ι₁ := ι₁) R₂) α)
+          ((eJR Unit z).1.1 + (bP1R (eJR Unit z).2).1)
+          ((eJR Unit z).1.2 + (bP1R (eJR Unit z).2).2) t s := by
+  have hN₁ := h₁.nonneg
+  have hN₂ := h₂.nonneg
+  have hC : 0 ≤ 16 * Cθ θ * (CPhi * CPhi) := by
+    have := Cθ_nonneg h0 h1; have := CPhi_nonneg; positivity
+  obtain ⟨S, -, hS, hk⟩ := JSym.ofGenE
+    (isBundle_y3 isBundle_zero h₂.bundle₂ (abs_sign_le h₂.sign)) (symReg_piece_JR_P1 h₁ h₂)
+    (eJR Unit) (measurePreserving_eJR _) measurable_bP1R (by positivity)
+    (norm_piece_JR_P1 h0 h1 hA h₁ h₂)
+  exact ⟨S, hS, hk⟩
+
+theorem exists_piece_JR_P2 (h0 : 0 ≤ θ) (h1 : θ < 1) (hA : A0 ≤ A) (h₁ : R₁.Bound θ A N₁)
+    (h₂ : R₂.Bound θ A N₂) :
+    ∃ S : JSym ((ι₁ ⊕ ι₂) ⊕ Unit),
+      S.Bound θ A (3 * (16 * N₁ * (3 * N₂) * (16 * Cθ θ * (CPhi * CPhi)))) ∧ ∀ α t s,
+      S.kernel α t s = ∫ z, tripleS R₁.m R₂.m KPRn (LsJR R₁ R₂) (csJR Unit) α z *
+        jker (bundle (yJRL (ι₂ := ι₂) R₁) α)
+          ((eJR Unit z).1.1 + (bP2R (eJR Unit z).2).1)
+          ((eJR Unit z).1.2 + (bP2R (eJR Unit z).2).2) t s := by
+  have hN₁ := h₁.nonneg
+  have hN₂ := h₂.nonneg
+  have hC : 0 ≤ 16 * Cθ θ * (CPhi * CPhi) := by
+    have := Cθ_nonneg h0 h1; have := CPhi_nonneg; positivity
+  obtain ⟨S, -, hS, hk⟩ := JSym.ofGenE
+    (isBundle_y3 h₁.bundle isBundle_zero (show |(0 : ℤ)| ≤ 1 by simp)) (symReg_piece_JR_P2 h₁ h₂)
+    (eJR Unit) (measurePreserving_eJR _) measurable_bP2R (by positivity)
+    (norm_piece_JR_P2 h0 h1 hA h₁ h₂)
+  exact ⟨S, hS, hk⟩
+
+end Regular
+
 end WaveTurbulence.ClassJR
