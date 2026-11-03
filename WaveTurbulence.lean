@@ -91,6 +91,8 @@ public import WaveTurbulence.Foundations.ClassJR.KernelM
 public import WaveTurbulence.Foundations.ClassJR.Lemma53
 public import WaveTurbulence.Foundations.ClassJR.Lemma54a
 public import WaveTurbulence.Foundations.ClassJR.Lemma54b
+public import WaveTurbulence.Foundations.ClassJR.Lemma55
+public import WaveTurbulence.Foundations.ClassJR.OfAny
 public import WaveTurbulence.Foundations.ClassJR.ParamDeriv
 public import WaveTurbulence.Foundations.ClassJR.Reindex
 public import WaveTurbulence.Foundations.ClassJR.Symbol
