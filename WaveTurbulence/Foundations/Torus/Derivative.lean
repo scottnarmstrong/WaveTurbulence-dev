@@ -6,6 +6,8 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.Torus.Basic
+public import WaveTurbulence.Frozen.Defs.PartialDeriv
+public import WaveTurbulence.Frozen.Defs.NormLaplacian
 public import Mathlib.Analysis.Calculus.ParametricIntegral
 public import Mathlib.Analysis.SpecialFunctions.ExpDeriv
 public import Mathlib.Analysis.Calculus.ContDiff.Operations
@@ -14,14 +16,14 @@ public import Mathlib.Analysis.Calculus.Deriv.Prod
 /-!
 # Derivatives of torus Fourier coefficients and rapid decay
 
-For the coefficients `torusFourierCoeff L f n` of TARGET (1.2) (L299):
+For the coefficients `torusFourierCoeff L f n` of TARGET (1.2) (L286):
 
 * linearity (`torusFourierCoeff_add`, `torusFourierCoeff_const_mul`, `torusFourierCoeff_sum`);
-* the partial derivative `partialDeriv j f x = d/dr f (update x j r)` at `r = x j`, and
+* for the frozen partial derivative `partialDeriv j f x = d/dr f (update x j r)` at `r = x j`,
   `torusFourierCoeff_partialDeriv`: the coefficients of `∂ⱼ f` are `2πi (nⱼ / L) f̂(n)` for
   `C¹` periodic `f`;
-* `torusFourierCoeff_laplacian`: the coefficients of the normalized Laplacian
-  `Δ f = (2π)⁻¹ ∑ⱼ ∂ⱼ² f` (TARGET L282) are `-2π |n / L|² f̂(n)`;
+* `torusFourierCoeff_normLaplacian`: the coefficients of the frozen normalized Laplacian
+  `normLaplacian f = (2π)⁻¹ ∑ⱼ ∂ⱼ² f` (TARGET L285) are `-2π |n / L|² f̂(n)`;
 * `isRapidDecay_torusFourierCoeff`: the coefficients of a smooth periodic function decay faster
   than any power of `1 + ‖n‖`.
 
@@ -82,10 +84,6 @@ end Linear
 /-! ### Partial derivatives -/
 
 section PartialDeriv
-
-/-- The partial derivative `∂ⱼ f (x) = d/dr f (x₁, …, r, …, x_d)` at `r = xⱼ`. -/
-@[expose] def partialDeriv (j : Fin d) (f : (Fin d → ℝ) → ℂ) (x : Fin d → ℝ) : ℂ :=
-  deriv (fun r => f (Function.update x j r)) (x j)
 
 theorem hasDerivAt_update (x : Fin d → ℝ) (j : Fin d) (r : ℝ) :
     HasDerivAt (fun r => Function.update x j r) (Pi.single j 1) r := by
@@ -222,15 +220,16 @@ theorem torusFourierCoeff_partialDeriv (hL : 0 < L) {f : (Fin d → ℝ) → ℂ
   rw [torusFourierCoeff_eq_integral]
   exact h1.unique h2
 
-/-- The coefficients of the normalized Laplacian `(2π)⁻¹ ∑ⱼ ∂ⱼ² f` (TARGET L282) are
+/-- The coefficients of the normalized Laplacian `Δ f = (2π)⁻¹ ∑ⱼ ∂ⱼ² f` (TARGET L285) are
 `-2π |n / L|² f̂(n)`, for `C²` periodic `f`. -/
-theorem torusFourierCoeff_laplacian (hL : 0 < L) {f : (Fin d → ℝ) → ℂ} (hf : ContDiff ℝ 2 f)
+theorem torusFourierCoeff_normLaplacian (hL : 0 < L) {f : (Fin d → ℝ) → ℂ} (hf : ContDiff ℝ 2 f)
     (hp : IsTorusPeriodic L f) (n : Fin d → ℤ) :
-    torusFourierCoeff L (fun x => ((2 * Real.pi)⁻¹ : ℂ) * ∑ j, partialDeriv j (partialDeriv j f) x) n =
+    torusFourierCoeff L (normLaplacian f) n =
       -((2 * Real.pi * ∑ j, ((n j : ℝ) / L) ^ 2 : ℝ) : ℂ) * torusFourierCoeff L f n := by
   have h1 : ∀ j, ContDiff ℝ 1 (partialDeriv j f) := fun j =>
     contDiff_partialDeriv (n := 1) (by norm_num; exact hf) j
-  rw [torusFourierCoeff_const_mul,
+  rw [show normLaplacian f = fun x => ((2 * Real.pi : ℝ) : ℂ)⁻¹ *
+      ∑ j, partialDeriv j (partialDeriv j f) x from rfl, torusFourierCoeff_const_mul,
     torusFourierCoeff_sum _ (fun j _ => (continuous_partialDeriv (h1 j) j).integrableOn_Icc)]
   simp_rw [torusFourierCoeff_partialDeriv hL (h1 _) (hp.partialDeriv _),
     torusFourierCoeff_partialDeriv hL (hf.of_le (by norm_num)) hp]

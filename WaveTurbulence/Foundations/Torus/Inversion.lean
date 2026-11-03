@@ -11,7 +11,7 @@ public import Mathlib.Analysis.PSeries
 /-!
 # Fourier inversion, uniqueness and Parseval on `𝕋_L^d`
 
-For the coefficients `torusFourierCoeff L f n` of TARGET (1.2) (L299), transported from Mathlib's
+For the coefficients `torusFourierCoeff L f n` of TARGET (1.2) (L286), transported from Mathlib's
 `UnitAddTorus` theory through `torusFourierCoeff_eq_mFourierCoeff`:
 
 * `IsRapidDecay.summable_norm_mul_pow`: rapidly decaying families are absolutely summable against

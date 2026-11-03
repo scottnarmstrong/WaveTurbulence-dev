@@ -12,7 +12,7 @@ public import Mathlib.Analysis.Calculus.ContDiff.Bounds
 /-!
 # Smooth periodic functions from rapidly decaying coefficients
 
-The second identity of TARGET (1.2) (L299) synthesizes a function from coefficients:
+The second identity of TARGET (1.2) (L286) synthesizes a function from coefficients:
 `torusSeries L c x = L^{-d/2} ∑ₙ c(n) e^{2πi (n/L)·x}`.
 
 * `contDiff_torusSeries`: for rapidly decaying `c` the series is smooth;

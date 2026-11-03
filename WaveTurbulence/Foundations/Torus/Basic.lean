@@ -5,6 +5,7 @@ Authors: Scott Armstrong
 -/
 module
 
+public import WaveTurbulence.Frozen.Defs.TorusFourierCoeff
 public import Mathlib.Analysis.Fourier.AddCircleMulti
 public import Mathlib.MeasureTheory.Measure.Haar.NormedSpace
 public import Mathlib.MeasureTheory.Group.Integral
@@ -13,9 +14,10 @@ import Mathlib.MeasureTheory.Integral.Pi
 /-!
 # Fourier coefficients on the torus `𝕋_L^d = [0, L]^d`
 
-TARGET (1.2) (`fourier`, L299) fixes the space Fourier transform
+TARGET (1.2) (`fourier`, L286) fixes the space Fourier transform
 `û(k) = L^{-d/2} ∫_{𝕋_L^d} u(x) e^{-2πi k·x} dx` for `k ∈ ℤ_L^d = (L⁻¹ℤ)^d`. Lattice points are
-`n : Fin d → ℤ` with `k = n / L`; the coefficient is `torusFourierCoeff L f n`.
+`n : Fin d → ℤ` with `k = n / L`; the coefficient is the frozen `torusFourierCoeff L f n`
+(`WaveTurbulence.Frozen.Defs.TorusFourierCoeff`, ruling D6).
 
 This file bridges `torusFourierCoeff` to Mathlib's Fourier theory on `UnitAddTorus (Fin d)` by the
 rescaling `x ↦ x / L`. The function `torusLift L f` on the unit torus is `y ↦ f (L • ỹ)`, where
@@ -43,13 +45,6 @@ open MeasureTheory Complex Set
 open scoped Pointwise
 
 namespace WaveTurbulence
-
-/-- The space Fourier coefficient (DH (1.2)):
-`f̂(k) = L^{-d/2} ∫_{[0,L]^d} f(x) e^{-2πi k·x} dx` at `k = n / L ∈ ℤ_L^d`. -/
-@[expose] def torusFourierCoeff {d : ℕ} (L : ℝ) (f : (Fin d → ℝ) → ℂ) (n : Fin d → ℤ) : ℂ :=
-  ((L ^ ((d : ℝ) / 2) : ℝ) : ℂ)⁻¹ *
-    ∫ x in Icc (0 : Fin d → ℝ) (fun _ => L),
-      f x * exp (-(2 * Real.pi * ∑ j, (n j : ℝ) / L * x j : ℝ) * I)
 
 attribute [local instance] instMeasureSpaceUnitAddCircle instIsAddHaarMeasureUnitAddCircleVolume
   instIsProbabilityMeasureUnitAddCircleVolume
