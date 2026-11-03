@@ -772,3 +772,29 @@ the exact shift factor. No sign hypothesis or exponent-pair definition is
 introduced. Targeted `PhaseDifferences` build passed (3231 jobs, 3.6s), zero
 warnings. Further A-iterations are being prepared using the already mined
 salt third-difference proof and our existing character/Weyl toolkit.
+
+## Analytic A-iteration: third differences and both power terms
+
+`NumberTheory/ThirdDifference.lean` adapts the already pinned, licensed salt
+`Salt/ExpSum/DerivTest.lean` proof to the existing `expPhase`, second-difference
+and exact Weyl modules. It proves the third finite-difference test
+`12*sqrt(c)*(N*lambda^(1/6)+N^(1/2)*lambda^(-1/6))`, including every lambda
+regime and actual integer overlap. It also exports the integer-indexed
+second-difference wrapper, exact symmetric integer shift summation, and
+negative-shift conjugation symmetry. The only change in the Weyl invocation
+uses our stronger all-N,H theorem instead of salt's extra cutoff arguments.
+Headers and source commit attribution are retained; no budgets were changed.
+The orchestrator-owned third-party registry should additionally list this
+salt-derived `NumberTheory/ThirdDifference.lean` file (same existing license).
+
+`AProcessTwoPowers.lean` proves the general actual-shift bound
+`|S|^2 <= 2*N^2/H+4*N*A*H^alpha+
+ (4*N*B/(1-alpha))*H^(-alpha)` for `0<alpha<1`, `1<=H<=N`, from the two
+actual shift terms `A*h^alpha+B*h^(-alpha)`. The negative powers use the
+proved fractional integral estimate, and both shift signs are included by
+exact conjugation. This supports further A-iterations without discarding
+the negative-power error term.
+
+Check: targeted `AProcessTwoPowers` build passed (3556 jobs; own-file builds
+13s and 2.4s), zero warnings. These are actual derivative/difference tests
+and distinct numerical A-process helpers; no shared phase class is redefined.
