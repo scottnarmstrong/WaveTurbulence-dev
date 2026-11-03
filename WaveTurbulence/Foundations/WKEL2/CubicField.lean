@@ -6,6 +6,7 @@ Authors: Scott Armstrong
 module
 
 public import Mathlib.Analysis.Normed.Operator.NormedSpace
+public import Mathlib.Analysis.Normed.Operator.BoundedLinearMaps
 public import Mathlib.Topology.MetricSpace.Lipschitz
 
 /-!
@@ -30,6 +31,11 @@ local instance spaceOp₂ : NormedSpace ℝ (E →L[ℝ] E →L[ℝ] E) := infer
 
 /-- The diagonal cubic vector field of a continuous trilinear map. -/
 @[expose] def cubicField (T : E →L[ℝ] E →L[ℝ] E →L[ℝ] E) (x : E) : E := T x x x
+
+/-- A bounded trilinear map gives a continuous cubic field. -/
+theorem continuous_cubicField (T : E →L[ℝ] E →L[ℝ] E →L[ℝ] E) :
+    Continuous (cubicField T) :=
+  (T.continuous.clm_apply continuous_id).clm_apply continuous_id
 
 /-- The curried trilinear operator norm controls every value. -/
 theorem norm_trilinear_apply_le (T : E →L[ℝ] E →L[ℝ] E →L[ℝ] E) (x y z : E) :
