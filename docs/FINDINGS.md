@@ -102,7 +102,9 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   d ≥ 4 case is new work in packet WKE. Source: wt-orch delta audit Q5. Status: gap (external).
 - F33 — TARGET L949 vs DH23 L1168 — regular-couple asymptotics are used for orders up to N_{p+1}^4 = (log L)^{C(𝔇)},
   but DH21/DH23 prove them only for n ≤ N³ = (log L)^{12} (`approxnt` with λ_j ≤ (log L)^4). Same nature as F15.
-  Gap: the extension must be proved. Source: blueprint GRAPH §F.2a (GAP.largeOrder).
+  Gap: the extension must be proved. Source: blueprint GRAPH §F.2a (GAP.largeOrder). wt-orch topology review I13: a
+  crude bound absorbed by δⁿ is not available (the trivial bound on K_Q loses ≈ L^γ per order), so the regular-couple
+  asymptotics must genuinely be extended to orders up to N_{p+1}^4 (route R14 decided).
 - F34 — Route: TARGET never uses Gaussian hypercontractivity; its large-deviation bounds (fixedest1–3) come from
   2P-th moments computed with the cumulant ansatz plus Chebyshev (L2306–L2335). Packet GAUSS-HC (DH21 Lemma A.3, done)
   is off-route; landed as infrastructure only. Source: blueprint GRAPH §F.2a, verified by the orchestrator.
@@ -123,3 +125,38 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   somewhere; check against DH21 §11 (part of F26). Source: wt-orch figure-defs §7. Status: open.
 - F40 — Cutting at an atom with a self-loop (paired siblings) is ambiguous (TARGET L2118–L2127); encode molecules with
   half-edges. (II-a) vs (II-b) is a labelling convention only. Source: wt-orch figure-defs §2, §4. Status: design notes.
+- F32 (update, wt-wke 2026-11-03) — failing step located: in GIT20 Lemma 4.2, inequality (bil7), the radial
+  Cauchy–Schwarz step becomes sup_p ∫₀^∞ ⟨rθ+p⟩^{-2s} r^{d−3} dr, which grows like R^{d−3} at p = −Rθ for d ≥ 4; Lemma
+  4.3(ii) transfers for 2s > d−2; Lemma 4.1 needs an unproved d-dimensional dispersive bound. Consequence: the frozen
+  `wkelwp` conjunct 3 (L²_s blow-up for every s > d/2−1, d ≥ 4) has no written proof. TARGET never uses the blow-up
+  criterion after Prop `wkelwp`; Theorem 1.1 (`main`) does not depend on it. Author decision pending; research agent
+  investigating the general-d estimate.
+- F41 — TARGET L617–L623 — "χ_0 … in Gevrey class 2 (i.e. the m-th order derivatives are bounded by (2m)!)": the
+  literal bound is impossible for a cutoff equal to 1 on [−1/2,1/2] and 0 off (−1,1) (m = 1: |χ₀′| ≤ 2 forces slope
+  −2 on all of (1/2,1), contradicting smoothness at 1/2). Reading adopted: |χ₀^{(m)}| ≤ C·A^m·(2m)! with absolute
+  constants (Gevrey 2). Found by wt-anfourier. Status: candidate erratum (wording); also affects WAVE-B §2.6.
+- F32 (update 2, 2026-11-03 ~17:15) — research note `docs/research/git20-general-d.md` (Opus research agent) claims a
+  complete proof of (schappend8) for every d ≥ 3, s > d/2 − 1, j = 0..3 (Theorem 7: Tonelli, polar coordinates, one
+  linear change of variables, Hölder, a weighted Schur/AM–GM step that moves the radial weight A_k(θ) onto the
+  integrated variable, and the ℓ₁ ↔ ℓ₃ symmetry of the resonant measure); sharpness for s < d/2 − 1; blow-up criterion
+  then follows through Appendix C unchanged; GIT20's (bil7) is true in all d ≥ 3 and only the preceding radial
+  Cauchy–Schwarz step needs replacing. Status: claimed; independent refute-first audit by wt-orch pending. If it
+  survives, the frozen `wkelwp` stays unchanged (no owner decision needed) and a packet formalizes Theorem 7.
+- F32 (resolved on the mathematics, 2026-11-03 ~17:20) — wt-orch's refute-first audit
+  (`docs/campaign/orch/audits/GIT20-general-d.md`) finds Theorem 7 of `docs/research/git20-general-d.md` CORRECT: the
+  L²_s trilinear estimate holds for all d ≥ 3, s > d/2 − 1, j = 0..3; every condition reduces to 2s > d − 2; the blow-up
+  passage through Appendix C goes through with three routine supporting lemmas (Leibniz/weight identities for Z_{s,m}
+  inputs; equivalence of `IsWKESolution` with the Z_s mild solution; 𝒮 = ⋂ Z_{s,m}). **The frozen `wkelwp` stays
+  unchanged; no owner decision needed.** Formalization: packet WKE-L2S. Erratum for the authors: GIT20 Remark 2.6 is
+  unproved as written for d ≥ 4 (one radial Cauchy–Schwarz step fails; fixed by Theorem 7) and false for d = 2 (§8.3).
+- F42 — TARGET Lemma A.3 (L2380–L2420, `timeintlem2`) — the printed bound ‖𝒰_χF‖_{𝔛^{1/4,0,0}} ≲ ‖∂∂F‖_{L^∞_kL¹} is false for
+  arbitrary F (F ≡ 1: right side 0, while 𝒰_χF(t,0) = t²/2 on (0,1/2) for χ = χ₀); the proof uses smooth compactly
+  supported F, which is the class at the use site (T.pl1.S4). Lean statement takes that hypothesis. Found by wt-anfourier.
+  Status: candidate erratum (missing hypothesis).
+- F43 — TARGET (atomcountbd) L2472 (Lemma `atomcountlem`) — the first bound is stated without k ≠ 0; it is false at k = 0
+  with signs (+,−) and γ > 1/2 (≈ L^d solutions vs. the claimed C·L^{d+1−2γ}); DH23 Lemma A.3(1) has |k₁−k₂| ∼ R ≥ L⁻¹,
+  i.e. k ≠ 0. Consumers (degenerate atoms, F21) must exclude or handle k = 0. Found by the independent Wave B stage-3
+  auditor (docs/campaign/orch/audits/WaveB-stage3.md R4). Status: candidate erratum (missing hypothesis).
+- F44 — Lean pitfall (not a source issue): in this Mathlib `ContDiff ℝ ⊤` means real-analytic (`ω`); C^∞ is
+  `ContDiff ℝ (⊤ : ℕ∞)` / `∞`. Wave A uses `(⊤ : ℕ∞)` (correct); the Wave B drafts used `⊤` (R1). Every brief and audit
+  must check this.

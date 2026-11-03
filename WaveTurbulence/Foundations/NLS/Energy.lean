@@ -34,7 +34,7 @@ noncomputable section
 open MeasureTheory Complex Set Filter Topology
 open scoped ContDiff
 
-namespace WaveTurbulence
+namespace WaveTurbulence.NLS
 
 variable {d : ℕ}
 
@@ -180,7 +180,7 @@ theorem eq_zero_of_hasDerivWithinAt_Icc {f f' : ℝ → ℂ} {K T : ℝ}
     (fun t ht => (hf t (Ico_subset_Icc_self ht)).mono_of_mem_nhdsWithin
       (Icc_mem_nhdsGE_of_mem ht)) h0 (fun t ht => hb t (Ico_subset_Icc_self ht))
 
-theorem IsTorusPeriodic.normLaplacian {L : ℝ} {f : (Fin d → ℝ) → ℂ} (hp : IsTorusPeriodic L f) :
+theorem _root_.WaveTurbulence.IsTorusPeriodic.normLaplacian {L : ℝ} {f : (Fin d → ℝ) → ℂ} (hp : IsTorusPeriodic L f) :
     IsTorusPeriodic L (WaveTurbulence.normLaplacian f) := by
   intro j x
   have h : ∀ i, WaveTurbulence.partialDeriv i (WaveTurbulence.partialDeriv i f) (x + Pi.single j L) =
@@ -196,27 +196,27 @@ section Solutions
 
 variable {L α T : ℝ} {c : (Fin d → ℤ) → ℂ} {u : ℝ → (Fin d → ℝ) → ℂ}
 
-theorem IsSmoothNLSSolution.contDiffOn_one (hu : IsSmoothNLSSolution L α T c u) :
+theorem _root_.WaveTurbulence.IsSmoothNLSSolution.contDiffOn_one (hu : IsSmoothNLSSolution L α T c u) :
     ContDiffOn ℝ 1 (fun p : ℝ × (Fin d → ℝ) => u p.1 p.2) (Icc 0 T ×ˢ univ) :=
   hu.1.of_le (by exact_mod_cast le_top)
 
-theorem IsSmoothNLSSolution.differentiableWithinAt (hu : IsSmoothNLSSolution L α T c u)
+theorem _root_.WaveTurbulence.IsSmoothNLSSolution.differentiableWithinAt (hu : IsSmoothNLSSolution L α T c u)
     {t : ℝ} (ht : t ∈ Icc 0 T) (x : Fin d → ℝ) :
     DifferentiableWithinAt ℝ (fun s => u s x) (Icc 0 T) t :=
   ((hu.contDiffOn_one.differentiableOn one_ne_zero) (t, x) ⟨ht, mem_univ _⟩).comp t
     (differentiableWithinAt_id.prodMk (differentiableWithinAt_const x))
     (fun _ hr => Set.mk_mem_prod hr (mem_univ x))
 
-theorem IsSmoothNLSSolution.continuous_normLaplacian (hu : IsSmoothNLSSolution L α T c u)
+theorem _root_.WaveTurbulence.IsSmoothNLSSolution.continuous_normLaplacian (hu : IsSmoothNLSSolution L α T c u)
     {t : ℝ} (ht : t ∈ Icc 0 T) : Continuous (normLaplacian (u t)) :=
-  WaveTurbulence.continuous_normLaplacian ((hu.contDiff ht).of_le (by norm_cast))
+  WaveTurbulence.NLS.continuous_normLaplacian ((hu.contDiff ht).of_le (by norm_cast))
 
-theorem IsSmoothNLSSolution.continuous_cubic (hu : IsSmoothNLSSolution L α T c u)
+theorem _root_.WaveTurbulence.IsSmoothNLSSolution.continuous_cubic (hu : IsSmoothNLSSolution L α T c u)
     {t : ℝ} (ht : t ∈ Icc 0 T) : Continuous fun x => ((‖u t x‖ ^ 2 : ℝ) : ℂ) * u t x := by
   have hc : Continuous (u t) := (hu.contDiff ht).continuous
   fun_prop
 
-theorem IsSmoothNLSSolution.torusFourierCoeff_normLaplacian (hL : 0 < L)
+theorem _root_.WaveTurbulence.IsSmoothNLSSolution.torusFourierCoeff_normLaplacian (hL : 0 < L)
     (hu : IsSmoothNLSSolution L α T c u) {t : ℝ} (ht : t ∈ Icc 0 T) (n : Fin d → ℤ) :
     torusFourierCoeff L (normLaplacian (u t)) n =
       ((-(2 * Real.pi * ‖latticePoint L n‖ ^ 2) : ℝ) : ℂ) * torusFourierCoeff L (u t) n := by
@@ -225,7 +225,7 @@ theorem IsSmoothNLSSolution.torusFourierCoeff_normLaplacian (hL : 0 < L)
   push_cast
   ring
 
-theorem IsSmoothNLSSolution.exists_bound (hu : IsSmoothNLSSolution L α T c u) :
+theorem _root_.WaveTurbulence.IsSmoothNLSSolution.exists_bound (hu : IsSmoothNLSSolution L α T c u) :
     ∃ B, ∀ t ∈ Icc 0 T, ∀ x ∈ Icc (0 : Fin d → ℝ) (fun _ => L), ‖u t x‖ ≤ B := by
   obtain ⟨B, hB⟩ := (isCompact_Icc.prod (isCompact_Icc (a := (0 : Fin d → ℝ))
     (b := fun _ => L))).exists_bound_of_continuousOn
@@ -233,7 +233,7 @@ theorem IsSmoothNLSSolution.exists_bound (hu : IsSmoothNLSSolution L α T c u) :
   exact ⟨B, fun t ht x hx => hB (t, x) ⟨ht, hx⟩⟩
 
 /-- The mass `∫_{[0,L]^d} |u(t)|²` has zero derivative on `[0, T]`. -/
-theorem IsSmoothNLSSolution.hasDerivWithinAt_mass (hL : 0 < L)
+theorem _root_.WaveTurbulence.IsSmoothNLSSolution.hasDerivWithinAt_mass (hL : 0 < L)
     (hu : IsSmoothNLSSolution L α T c u) {t : ℝ} (ht : t ∈ Icc 0 T) :
     HasDerivWithinAt
       (fun s => ∫ x in Icc (0 : Fin d → ℝ) (fun _ => L), (starRingEnd ℂ) (u s x) * u s x)
@@ -259,7 +259,7 @@ theorem IsSmoothNLSSolution.hasDerivWithinAt_mass (hL : 0 < L)
   simpa using h
 
 /-- **Mass conservation** (TARGET L540, L818–L820): `∫_{[0,L]^d} |u(t)|² = ∫ |u(0)|²`. -/
-theorem IsSmoothNLSSolution.integral_normSq_eq (hL : 0 < L)
+theorem _root_.WaveTurbulence.IsSmoothNLSSolution.integral_normSq_eq (hL : 0 < L)
     (hu : IsSmoothNLSSolution L α T c u) {t : ℝ} (ht : t ∈ Icc 0 T) :
     ∫ x in Icc (0 : Fin d → ℝ) (fun _ => L), ‖u t x‖ ^ 2 =
       ∫ x in Icc (0 : Fin d → ℝ) (fun _ => L), ‖u 0 x‖ ^ 2 := by
@@ -273,7 +273,7 @@ theorem IsSmoothNLSSolution.integral_normSq_eq (hL : 0 < L)
   exact_mod_cast h'
 
 /-- Mass conservation on the Fourier side: `∑ₙ |û(t, n)|² = ∑ₙ |c n|²`. -/
-theorem IsSmoothNLSSolution.hasSum_normSq_torusFourierCoeff (hL : 0 < L)
+theorem _root_.WaveTurbulence.IsSmoothNLSSolution.hasSum_normSq_torusFourierCoeff (hL : 0 < L)
     (hu : IsSmoothNLSSolution L α T c u) {t : ℝ} (ht : t ∈ Icc 0 T) :
     HasSum (fun n => ‖torusFourierCoeff L (u t) n‖ ^ 2) (∑' n, ‖c n‖ ^ 2) := by
   have h0 : (0 : ℝ) ∈ Icc 0 T := ⟨le_rfl, ht.1.trans ht.2⟩
@@ -282,14 +282,14 @@ theorem IsSmoothNLSSolution.hasSum_normSq_torusFourierCoeff (hL : 0 < L)
   rw [hs0.tsum_eq, ← hu.integral_normSq_eq hL ht]
   exact hasSum_sq_torusFourierCoeff hL (hu.contDiff ht).continuous (hu.isTorusPeriodic ht)
 
-theorem IsSmoothNLSSolution.summable_normSq (hL : 0 < L) (hu : IsSmoothNLSSolution L α T c u)
+theorem _root_.WaveTurbulence.IsSmoothNLSSolution.summable_normSq (hL : 0 < L) (hu : IsSmoothNLSSolution L α T c u)
     (h0 : (0 : ℝ) ∈ Icc 0 T) : Summable fun n => ‖c n‖ ^ 2 := by
   have hs0 := hasSum_sq_torusFourierCoeff hL (hu.contDiff h0).continuous (hu.isTorusPeriodic h0)
   simp only [hu.2.2.1] at hs0
   exact hs0.summable
 
 /-- The bound used at TARGET L818–L820: `|û(t, n)|² ≤ ∑ₘ |c m|²`. -/
-theorem IsSmoothNLSSolution.norm_torusFourierCoeff_sq_le (hL : 0 < L)
+theorem _root_.WaveTurbulence.IsSmoothNLSSolution.norm_torusFourierCoeff_sq_le (hL : 0 < L)
     (hu : IsSmoothNLSSolution L α T c u) {t : ℝ} (ht : t ∈ Icc 0 T) (n : Fin d → ℤ) :
     ‖torusFourierCoeff L (u t) n‖ ^ 2 ≤ ∑' m, ‖c m‖ ^ 2 := by
   have h := hu.hasSum_normSq_torusFourierCoeff hL ht
@@ -298,7 +298,7 @@ theorem IsSmoothNLSSolution.norm_torusFourierCoeff_sq_le (hL : 0 < L)
 
 /-- **Uniqueness** of smooth solutions of (NLS) with the same data, by the `L²` energy estimate
 and Gronwall. -/
-theorem IsSmoothNLSSolution.eq_of_eq (hL : 0 < L) {w : ℝ → (Fin d → ℝ) → ℂ}
+theorem _root_.WaveTurbulence.IsSmoothNLSSolution.eq_of_eq (hL : 0 < L) {w : ℝ → (Fin d → ℝ) → ℂ}
     (hu : IsSmoothNLSSolution L α T c u) (hw : IsSmoothNLSSolution L α T c w) {t : ℝ}
     (ht : t ∈ Icc 0 T) : u t = w t := by
   have h0 : (0 : ℝ) ∈ Icc 0 T := ⟨le_rfl, ht.1.trans ht.2⟩
@@ -403,4 +403,4 @@ theorem eq_of_mem_solvableEvent {Ω : Type*} {L α T : ℝ} (hL : 0 < L) {φin :
     ∀ t ∈ Icc 0 T, ∀ x, U o t x = V o t x :=
   fun _ ht x => congrFun ((hU o ho).eq_of_eq hL (hV o ho) ht) x
 
-end WaveTurbulence
+end WaveTurbulence.NLS

@@ -22,7 +22,7 @@ namespace WaveTurbulence.GaussianPairings
 open scoped Classical
 
 /-- The two-element blocks associated to an opposite-sign pairing. -/
-@[expose] noncomputable def pairingParts {J : Type*} {s : Finset J} {ζ : J → Bool}
+@[expose] noncomputable def pairingParts {J : Type*} [DecidableEq J] {s : Finset J} {ζ : J → Bool}
     (e : SignedPairing s ζ) : Finset (Finset J) :=
   Finset.univ.image fun a : SignedPositions s ζ true => {a.1.1, (e a).1.1}
 
@@ -34,7 +34,7 @@ private theorem positive_ne_negative {J : Type*} {s : Finset J} {ζ : J → Bool
   exact Bool.noConfusion hh
 
 /-- A positive position belongs to exactly the pair indexed by itself. -/
-theorem positive_mem_pair_iff {J : Type*} {s : Finset J} {ζ : J → Bool}
+theorem positive_mem_pair_iff {J : Type*} [DecidableEq J] {s : Finset J} {ζ : J → Bool}
     (e : SignedPairing s ζ) (a p : SignedPositions s ζ true) :
     a.1.1 ∈ ({p.1.1, (e p).1.1} : Finset J) ↔ a = p := by
   simp only [Finset.mem_insert, Finset.mem_singleton]
@@ -46,7 +46,7 @@ theorem positive_mem_pair_iff {J : Type*} {s : Finset J} {ζ : J → Bool}
     exact Or.inl rfl
 
 /-- A negative position belongs to exactly the pair indexed by its inverse image. -/
-theorem negative_mem_pair_iff {J : Type*} {s : Finset J} {ζ : J → Bool}
+theorem negative_mem_pair_iff {J : Type*} [DecidableEq J] {s : Finset J} {ζ : J → Bool}
     (e : SignedPairing s ζ) (b : SignedPositions s ζ false) (p : SignedPositions s ζ true) :
     b.1.1 ∈ ({p.1.1, (e p).1.1} : Finset J) ↔ b = e p := by
   simp only [Finset.mem_insert, Finset.mem_singleton]
@@ -57,7 +57,7 @@ theorem negative_mem_pair_iff {J : Type*} {s : Finset J} {ζ : J → Bool}
   · rintro rfl
     exact Or.inr rfl
 
-theorem pairingParts_existsUnique {J : Type*} {s : Finset J} {ζ : J → Bool}
+theorem pairingParts_existsUnique {J : Type*} [DecidableEq J] {s : Finset J} {ζ : J → Bool}
     (e : SignedPairing s ζ) (j : J) (hj : j ∈ s) :
     ∃! B, B ∈ pairingParts e ∧ j ∈ B := by
   cases hz : ζ j with
@@ -79,7 +79,7 @@ theorem pairingParts_existsUnique {J : Type*} {s : Finset J} {ζ : J → Bool}
       rw [hb, e.symm_apply_apply]
 
 /-- The source set partition associated with a bijection pairing. -/
-@[expose] noncomputable def pairingPartition {J : Type*} {s : Finset J} {ζ : J → Bool}
+@[expose] noncomputable def pairingPartition {J : Type*} [DecidableEq J] {s : Finset J} {ζ : J → Bool}
     (e : SignedPairing s ζ) : Finpartition s :=
   Finpartition.ofExistsUnique (pairingParts e)
     (by
@@ -102,19 +102,19 @@ namespace WaveTurbulence.GaussianPairings
 open scoped Classical
 
 /-- A partition of the source kind: every block is one positive and one negative position. -/
-@[expose] def IsOppositeSignPartition {J : Type*} {s : Finset J} (ζ : J → Bool)
+@[expose] def IsOppositeSignPartition {J : Type*} [DecidableEq J] {s : Finset J} (ζ : J → Bool)
     (P : Finpartition s) : Prop :=
   ∀ B ∈ P.parts, ∃ a : SignedPositions s ζ true, ∃ b : SignedPositions s ζ false,
     B = {a.1.1, b.1.1}
 
 /-- Every bijection pairing gives a partition into opposite-sign pairs. -/
-theorem pairingPartition_isOppositeSign {J : Type*} {s : Finset J} {ζ : J → Bool}
+theorem pairingPartition_isOppositeSign {J : Type*} [DecidableEq J] {s : Finset J} {ζ : J → Bool}
     (e : SignedPairing s ζ) : IsOppositeSignPartition ζ (pairingPartition e) := by
   intro B hB
   obtain ⟨a, _, rfl⟩ := Finset.mem_image.mp hB
   exact ⟨a, e a, rfl⟩
 
-private theorem negative_partner_unique {J : Type*} {s : Finset J} {ζ : J → Bool}
+private theorem negative_partner_unique {J : Type*} [DecidableEq J] {s : Finset J} {ζ : J → Bool}
     (P : Finpartition s) (a : SignedPositions s ζ true) (b c : SignedPositions s ζ false)
     (hb : {a.1.1, b.1.1} ∈ P.parts) (hc : {a.1.1, c.1.1} ∈ P.parts) : b = c := by
   have he : ({a.1.1, b.1.1} : Finset J) = {a.1.1, c.1.1} :=
@@ -125,7 +125,7 @@ private theorem negative_partner_unique {J : Type*} {s : Finset J} {ζ : J → B
   · exact (positive_ne_negative a b h.symm).elim
   · exact Subtype.ext (Subtype.ext (Finset.mem_singleton.mp h))
 
-private theorem positive_partner_unique {J : Type*} {s : Finset J} {ζ : J → Bool}
+private theorem positive_partner_unique {J : Type*} [DecidableEq J] {s : Finset J} {ζ : J → Bool}
     (P : Finpartition s) (a c : SignedPositions s ζ true) (b : SignedPositions s ζ false)
     (ha : {a.1.1, b.1.1} ∈ P.parts) (hc : {c.1.1, b.1.1} ∈ P.parts) : a = c := by
   have he : ({a.1.1, b.1.1} : Finset J) = {c.1.1, b.1.1} :=
@@ -137,7 +137,7 @@ private theorem positive_partner_unique {J : Type*} {s : Finset J} {ζ : J → B
   · exact (positive_ne_negative a b (Finset.mem_singleton.mp h)).elim
 
 /-- Each positive position in a source pairing has exactly one negative partner. -/
-theorem existsUnique_negative_partner {J : Type*} {s : Finset J} {ζ : J → Bool}
+theorem existsUnique_negative_partner {J : Type*} [DecidableEq J] {s : Finset J} {ζ : J → Bool}
     (P : Finpartition s) (hP : IsOppositeSignPartition ζ P) (a : SignedPositions s ζ true) :
     ∃! b : SignedPositions s ζ false, {a.1.1, b.1.1} ∈ P.parts := by
   obtain ⟨p, b, he⟩ := hP (P.part a.1.1) (P.part_mem.mpr a.1.property)
@@ -152,7 +152,7 @@ theorem existsUnique_negative_partner {J : Type*} {s : Finset J} {ζ : J → Boo
   exact ⟨b, hb, fun c hc => negative_partner_unique P a c b hc hb⟩
 
 /-- Each negative position in a source pairing has exactly one positive partner. -/
-theorem existsUnique_positive_partner {J : Type*} {s : Finset J} {ζ : J → Bool}
+theorem existsUnique_positive_partner {J : Type*} [DecidableEq J] {s : Finset J} {ζ : J → Bool}
     (P : Finpartition s) (hP : IsOppositeSignPartition ζ P) (b : SignedPositions s ζ false) :
     ∃! a : SignedPositions s ζ true, {a.1.1, b.1.1} ∈ P.parts := by
   obtain ⟨a, q, he⟩ := hP (P.part b.1.1) (P.part_mem.mpr b.1.property)
@@ -172,7 +172,7 @@ namespace WaveTurbulence.GaussianPairings
 open scoped Classical
 
 /-- The bijection obtained by taking the unique opposite-sign partner in each source block. -/
-@[expose] noncomputable def pairingOfPartition {J : Type*} {s : Finset J} {ζ : J → Bool}
+@[expose] noncomputable def pairingOfPartition {J : Type*} [DecidableEq J] {s : Finset J} {ζ : J → Bool}
     (P : Finpartition s) (hP : IsOppositeSignPartition ζ P) : SignedPairing s ζ where
   toFun a := Classical.choose (existsUnique_negative_partner P hP a).exists
   invFun b := Classical.choose (existsUnique_positive_partner P hP b).exists
@@ -188,13 +188,13 @@ open scoped Classical
     · exact Classical.choose_spec (existsUnique_positive_partner P hP b).exists
 
 /-- The selected partner lies in the same two-element source block. -/
-theorem pairingOfPartition_mem {J : Type*} {s : Finset J} {ζ : J → Bool}
+theorem pairingOfPartition_mem {J : Type*} [DecidableEq J] {s : Finset J} {ζ : J → Bool}
     (P : Finpartition s) (hP : IsOppositeSignPartition ζ P) (a : SignedPositions s ζ true) :
     {a.1.1, (pairingOfPartition P hP a).1.1} ∈ P.parts :=
   Classical.choose_spec (existsUnique_negative_partner P hP a).exists
 
 /-- Passing from a source pair partition to a bijection and back preserves the partition. -/
-theorem pairingPartition_pairingOfPartition {J : Type*} {s : Finset J} {ζ : J → Bool}
+theorem pairingPartition_pairingOfPartition {J : Type*} [DecidableEq J] {s : Finset J} {ζ : J → Bool}
     (P : Finpartition s) (hP : IsOppositeSignPartition ζ P) :
     pairingPartition (pairingOfPartition P hP) = P := by
   apply Finpartition.ext
@@ -210,7 +210,7 @@ theorem pairingPartition_pairingOfPartition {J : Type*} {s : Finset J} {ζ : J �
     exact Finset.mem_image.mpr ⟨a, Finset.mem_univ _, by rw [hb]⟩
 
 /-- Passing from a bijection to its source pair partition and back preserves the bijection. -/
-theorem pairingOfPartition_pairingPartition {J : Type*} {s : Finset J} {ζ : J → Bool}
+theorem pairingOfPartition_pairingPartition {J : Type*} [DecidableEq J] {s : Finset J} {ζ : J → Bool}
     (e : SignedPairing s ζ) :
     pairingOfPartition (pairingPartition e) (pairingPartition_isOppositeSign e) = e := by
   apply Equiv.ext
@@ -221,7 +221,7 @@ theorem pairingOfPartition_pairingPartition {J : Type*} {s : Finset J} {ζ : J �
 
 /-- The bijection carrier for DH21 Lemma A.2 is equivalent to its source carrier:
 partitions of the positions into opposite-sign two-element blocks. -/
-@[expose] noncomputable def signedPairingEquivFinpartition {J : Type*} (s : Finset J) (ζ : J → Bool) :
+@[expose] noncomputable def signedPairingEquivFinpartition {J : Type*} [DecidableEq J] (s : Finset J) (ζ : J → Bool) :
     SignedPairing s ζ ≃ {P : Finpartition s // IsOppositeSignPartition ζ P} where
   toFun e := ⟨pairingPartition e, pairingPartition_isOppositeSign e⟩
   invFun P := pairingOfPartition P.1 P.2
@@ -235,7 +235,7 @@ open scoped Classical
 
 /-- A product over the source partition is the product over its positive positions,
 with each unordered pair counted exactly once. -/
-theorem prod_pairingPartition_parts {J M : Type*} [CommMonoid M]
+theorem prod_pairingPartition_parts {J M : Type*} [DecidableEq J] [CommMonoid M]
     {s : Finset J} {ζ : J → Bool} (e : SignedPairing s ζ) (w : Finset J → M) :
     (∏ B ∈ (pairingPartition e).parts, w B) =
       ∏ a : SignedPositions s ζ true, w {a.1.1, (e a).1.1} := by
