@@ -135,3 +135,10 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   literal bound is impossible for a cutoff equal to 1 on [−1/2,1/2] and 0 off (−1,1) (m = 1: |χ₀′| ≤ 2 forces slope
   −2 on all of (1/2,1), contradicting smoothness at 1/2). Reading adopted: |χ₀^{(m)}| ≤ C·A^m·(2m)! with absolute
   constants (Gevrey 2). Found by wt-anfourier. Status: candidate erratum (wording); also affects WAVE-B §2.6.
+- F32 (update 2, 2026-11-03 ~17:15) — research note `docs/research/git20-general-d.md` (Opus research agent) claims a
+  complete proof of (schappend8) for every d ≥ 3, s > d/2 − 1, j = 0..3 (Theorem 7: Tonelli, polar coordinates, one
+  linear change of variables, Hölder, a weighted Schur/AM–GM step that moves the radial weight A_k(θ) onto the
+  integrated variable, and the ℓ₁ ↔ ℓ₃ symmetry of the resonant measure); sharpness for s < d/2 − 1; blow-up criterion
+  then follows through Appendix C unchanged; GIT20's (bil7) is true in all d ≥ 3 and only the preceding radial
+  Cauchy–Schwarz step needs replacing. Status: claimed; independent refute-first audit by wt-orch pending. If it
+  survives, the frozen `wkelwp` stays unchanged (no owner decision needed) and a packet formalizes Theorem 7.
