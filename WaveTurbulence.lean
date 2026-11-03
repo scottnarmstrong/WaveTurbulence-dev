@@ -195,6 +195,17 @@ public import WaveTurbulence.Foundations.WKE.TaylorCoeff
 public import WaveTurbulence.Foundations.WKE.TaylorSeries
 public import WaveTurbulence.Foundations.WKE.Trilinear
 public import WaveTurbulence.Foundations.WKE.Uniqueness
+public import WaveTurbulence.Foundations.WKEL2.CompactKernel
+public import WaveTurbulence.Foundations.WKEL2.Exponents
+public import WaveTurbulence.Foundations.WKEL2.HyperplaneChart
+public import WaveTurbulence.Foundations.WKEL2.Polar
+public import WaveTurbulence.Foundations.WKEL2.Radial
+public import WaveTurbulence.Foundations.WKEL2.ResonantIntegral
+public import WaveTurbulence.Foundations.WKEL2.ResonantLocalFinite
+public import WaveTurbulence.Foundations.WKEL2.ResonantMeasure
+public import WaveTurbulence.Foundations.WKEL2.ResonantSymmetry
+public import WaveTurbulence.Foundations.WKEL2.Symmetry
+public import WaveTurbulence.Foundations.WKEL2.Weight
 public import WaveTurbulence.Foundations.WeylSums.Basic
 public import WaveTurbulence.Foundations.WeylSums.CompleteGauss
 public import WaveTurbulence.Foundations.WeylSums.CutoffFourier
