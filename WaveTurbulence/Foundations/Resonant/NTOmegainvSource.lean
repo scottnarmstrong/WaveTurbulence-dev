@@ -98,7 +98,6 @@ theorem dh21_lemma_6_3_square
       ((1 + 2 * Real.pi) * (1 + ‖ξ‖ + ‖η‖)) =
       P * (D : ℝ) * scale ^ (2 * d) * μ⁻¹ * (1 + ‖ξ‖ + ‖η‖) := by
     dsimp [P]
-    push_cast
     ring
   refine (mul_le_mul_of_nonneg_left hfreq hcoef).trans ?_
   rw [he]
