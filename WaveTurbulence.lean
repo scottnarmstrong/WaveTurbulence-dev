@@ -22,6 +22,13 @@ public import WaveTurbulence.Foundations.Analysis.WeightedSobolev
 public import WaveTurbulence.Foundations.Combinatorics.BinomialConvolution
 public import WaveTurbulence.Foundations.Combinatorics.FactorialSplitting
 public import WaveTurbulence.Foundations.Combinatorics.MultiVandermonde
+public import WaveTurbulence.Foundations.Counting.AnnulusCellWidth
+public import WaveTurbulence.Foundations.Counting.AnnulusChartCounting
+public import WaveTurbulence.Foundations.Counting.AnnulusCoverGeometry
+public import WaveTurbulence.Foundations.Counting.AnnulusElementary
+public import WaveTurbulence.Foundations.Counting.AnnulusLine
+public import WaveTurbulence.Foundations.Counting.AnnulusRotatedCharts
+public import WaveTurbulence.Foundations.Counting.AnnulusSectionGeometry
 public import WaveTurbulence.Foundations.Counting.CircleArc
 public import WaveTurbulence.Foundations.Counting.CircleAreaGeometry
 public import WaveTurbulence.Foundations.Counting.CircleBlockBounds
@@ -38,8 +45,12 @@ public import WaveTurbulence.Foundations.Counting.DyadicBlocks
 public import WaveTurbulence.Foundations.Counting.EulerMaclaurin
 public import WaveTurbulence.Foundations.Counting.ExponentAudit
 public import WaveTurbulence.Foundations.Counting.IntegerSampling
+public import WaveTurbulence.Foundations.Counting.IntervalCells
 public import WaveTurbulence.Foundations.Counting.LatticeDisc
+public import WaveTurbulence.Foundations.Counting.LatticeRotations
+public import WaveTurbulence.Foundations.Counting.LatticeTriangle
 public import WaveTurbulence.Foundations.Counting.MonotoneIntervals
+public import WaveTurbulence.Foundations.Counting.QuadraticStrip
 public import WaveTurbulence.Foundations.Cumulant.Basic
 public import WaveTurbulence.Foundations.Cumulant.Coarsening
 public import WaveTurbulence.Foundations.Cumulant.CoarseningWeight

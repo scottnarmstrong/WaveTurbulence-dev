@@ -376,3 +376,66 @@ The final discrepancy axiom probe `CircleDiscrepancyAxioms.lean` passed for
 both discrepancy forms, the actual integer height and sawtooth sums, and
 `mem_latticeDisc`: all have only `[propext, Classical.choice, Quot.sound]`.
 The module-shape check passes for all 33 owned Lean modules.
+
+## Goal 3: elementary geometry milestone (in progress)
+
+Files: `Counting/LatticeTriangle.lean`, `QuadraticStrip.lean`, `AnnulusLine.lean`.
+The thin-frame determinant criterion is proved by integrality of the doubled
+lattice-triangle area. Degenerate planar lattice sets have an injective
+coordinate projection, and nonvertical ones have the actual affine graph
+through two distinct points. Quadratic-strip counting handles both branches
+and proves `card_collinear_radial_annulus_le`: every collinear finite lattice
+subset of the actual radial annulus has at most `8*sqrt(Q*rho)` points when
+`0 <= rho <= Q` and `Q*rho >= 1`. Vertical lines, singletons and empty sets
+are included. This is the line-counting step of DH23 L2042, not yet the full
+elementary branch: its thin-section covering remains to be assembled.
+
+Checks: targeted `nice -n 5 lake build
+WaveTurbulence.Foundations.Counting.AnnulusLine` completed successfully
+(3216 jobs; final own-file build 34s), no warnings or budget overrides.
+No additional source defect or deviation was found. Goal 3 remains active;
+goals 4–5 are not claimed complete.
+
+The four main elementary-geometry axiom probes also passed, all with only
+`[propext, Classical.choice, Quot.sound]`.
+
+## Goal 3: elementary annulus branch completed
+
+Additional files: `Counting/AnnulusSectionGeometry.lean`, `IntervalCells.lean`,
+`AnnulusCellWidth.lean`, `AnnulusChartCounting.lean`, `LatticeRotations.lean`,
+`AnnulusRotatedCharts.lean`, `AnnulusCoverGeometry.lean`, `AnnulusElementary.lean`.
+
+Main result `card_annulus_disc_le` counts any finite subset of the actual
+annulus–disc intersection, using `WaveTurbulence.latticePoint 1` and the
+Euclidean carrier for both centers. The bound is
+`640000*(1 + L*rho + L/Q^(1/3))*sqrt(Q*rho)`.
+This is the factored form of DH23's three elementary terms:
+`sqrt(Q*rho) + L*(Q*rho)^(3/2)/Q + L*sqrt(Q*rho)/Q^(1/3)`.
+The explicit scale convention is `Q > 0`, `0 <= rho <= Q/2`, `Q*rho >= 1`,
+and `L >= 0`; `rho` is the annulus half-width. These fix constants in the
+source's `Q^(-1) << rho << Q` and its width convention. No exceptional
+centers or integer boundary points are discarded.
+
+Approach: use four Cartesian charts instead of angular sectors. On the
+upper chart `y >= Q/4`, a horizontal cell of width `T` has tangent-shear
+thickness at most `1000*(rho + T^2/Q)`. With radius `r^3`, the explicit
+choice `T = 1/(10000*(1/r+rho))` makes the determinant bound less than one.
+Every cell is therefore collinear. The previously proved line estimate and
+the actual floor-cell count `2L/T+2` give the upper-chart bound; exact lattice
+quarter-turn embeddings handle the other three charts. The four charts
+cover the whole annulus. The intermediate square version is stronger than
+the requested containing-disc version.
+
+Checks: targeted `nice -n 5 lake build
+WaveTurbulence.Foundations.Counting.AnnulusElementary` passed (9059 jobs,
+final own-file build 6.7s), zero warnings, default budgets. Each supporting
+module was also built narrowly. This completes only goal 3's elementary
+annulus branch. The `estcross` part remains active, starting with a direct
+floor-cell proof of the short-relation pigeonhole step in `DenseStrip.lean`.
+No new suspected source errata. The Cartesian subdivision is a proof-route
+choice, and the half-width and small-width constants above are explicit
+conventions rather than changes to the asymptotic claim.
+
+All six annulus-elementary axiom probes passed, each with only
+`[propext, Classical.choice, Quot.sound]`. The module-shape check passes
+for all 45 owned Lean files currently present.
