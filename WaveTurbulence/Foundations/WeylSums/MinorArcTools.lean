@@ -10,6 +10,11 @@ public import WaveTurbulence.Foundations.WeylSums.WindowScaling
 public import WaveTurbulence.Foundations.WeylSums.CubicMinima
 public import WaveTurbulence.Foundations.WeylSums.CubicYoung
 public import WaveTurbulence.Foundations.WeylSums.CoordinateBoxSupport
+public import WaveTurbulence.Foundations.WeylSums.BilinearAmplitudeFourier
+public import WaveTurbulence.Foundations.WeylSums.JointFourierFactors
+public import WaveTurbulence.Foundations.WeylSums.FiniteParityBlocks
+public import WaveTurbulence.Foundations.WeylSums.BilinearBlocks
+public import WaveTurbulence.Foundations.WeylSums.DerivativeContractions
 public import WaveTurbulence.Foundations.WeylSums.TranslatedLatticeBound
 public import WaveTurbulence.Foundations.WeylSums.BilinearShape
 public import WaveTurbulence.Foundations.WeylSums.ParitySeries
