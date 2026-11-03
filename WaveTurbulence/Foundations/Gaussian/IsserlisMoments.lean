@@ -8,6 +8,7 @@ module
 public import WaveTurbulence.Foundations.Gaussian.ComplexGaussian
 public import Mathlib.Probability.Independence.Integration
 import Mathlib.Algebra.BigOperators.Group.Finset.Piecewise
+import Mathlib.MeasureTheory.Function.LpSeminorm.CompareExp
 
 /-!
 # Factorization of signed Gaussian moments
@@ -77,5 +78,35 @@ theorem integral_signed_prod_eq_prod_factorial {Ω J ι : Type*} [MeasurableSpac
   apply Finset.prod_congr rfl
   intro i _
   exact integral_monomial_of_hasLaw_stdComplexGaussian (hlaw i) _ _
+
+/-- Every finite signed product is integrable; repeated indices cause no difficulty. -/
+theorem integrable_signed_prod {Ω J ι : Type*} [MeasurableSpace Ω]
+    {P : Measure Ω} {η : ι → Ω → ℂ} (hη : iIndepFun η P)
+    (hlaw : ∀ i, HasLaw (η i) stdComplexGaussian P)
+    (s : Finset J) (k : J → ι) (ζ : J → Bool) :
+    Integrable (fun ω => ∏ j ∈ s, if ζ j then η (k j) ω else star (η (k j) ω)) P := by
+  have := hη.isProbabilityMeasure
+  classical
+  by_cases hs : s = ∅
+  · subst s
+    simp only [Finset.prod_empty]
+    exact integrable_const _
+  have hcard : s.card ≠ 0 := Finset.card_ne_zero.mpr (Finset.nonempty_iff_ne_empty.mpr hs)
+  have hm (j : J) : MemLp (fun ω => if ζ j then η (k j) ω else star (η (k j) ω))
+      (s.card : ENNReal) P := by
+    have h := (hlaw (k j)).memLp (memLp_id_stdComplexGaussian (s.card : NNReal))
+    cases hz : ζ j
+    · simp only [Bool.false_eq_true, ↓reduceIte]
+      have hh : MemLp (η (k j)) (s.card : ENNReal) P := by
+        simpa only [ENNReal.coe_natCast] using h
+      exact MemLp.ae_eq (Filter.Eventually.of_forall (fun ω => Pi.star_apply _ ω)) hh.star
+    · simpa only [hz, ↓reduceIte, ENNReal.coe_natCast] using h
+  have hp := MemLp.fun_prod (p := fun _ : J => (s.card : ENNReal))
+    (s := s) (fun j _ => hm j)
+  have hexp : (∑ _j ∈ s, (s.card : ENNReal)⁻¹)⁻¹ = 1 := by
+    rw [Finset.sum_const, nsmul_eq_mul,
+      ENNReal.mul_inv_cancel (Nat.cast_ne_zero.mpr hcard) (by simp), inv_one]
+  rw [hexp] at hp
+  exact memLp_one_iff_integrable.mp hp
 
 end WaveTurbulence
