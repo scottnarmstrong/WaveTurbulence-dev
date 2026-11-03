@@ -642,3 +642,12 @@ square correction <=1) and `CircleClippedHeight.lean` (exact subtraction of
 the central integer excess and clipped quadrature error <=15*sqrt(R)+4).
 The targeted `CircleOctantCounting` build compiled them in 68s each, without
 warnings. Subsequent cap-slice and assembly modules are being checked.
+
+`CircleCapCounting.lean` and `CircleOctantCounting.lean` now compile too:
+the exact closed-disc cardinality is the central integer-rectangle product
+plus the two vertical and two horizontal cap sums. Each slice is exactly
+`2*height-psi(height+c_other)-psi(height-c_other)`. Both cap height sums are
+proved equal to their clipped height sums minus the flat central count.
+Check: `nice -n 5 lake build
+WaveTurbulence.Foundations.Counting.CircleOctantCounting` passed (9067 jobs;
+final own-file build 60s), no warnings.
