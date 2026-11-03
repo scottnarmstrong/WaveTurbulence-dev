@@ -12,8 +12,8 @@
   "model": "Claude Opus",
   "account": "claude-10",
   "branch": "w/waveb-infra",
-  "packet": "WAVEB-DRAFT: exact Lean drafts of Wave B (critical path)",
-  "brief": "docs/campaign/briefs/WAVEB-DRAFT.md"
+  "packet": "WAVEB2-DRAFT: Wave B tier B2 drafts (B1 drafts under audit)",
+  "brief": "docs/campaign/briefs/WAVEB2-DRAFT.md"
  },
  {
   "tmux": "wt-torus",
@@ -75,9 +75,9 @@
   "tmux": "wt-anfourier",
   "model": "GPT-6.1-Sol low",
   "account": "codex-3",
-  "branch": "w/an-fourier",
-  "packet": "N1 AN-FOURIER: Gevrey cutoff χ₀, time-Fourier norms",
-  "brief": "docs/campaign/briefs/AN-FOURIER.md"
+  "branch": "w/an-phase",
+  "packet": "N2+N3: Poisson summation, (non-)stationary phase, Hausdorff–Young, DNY21 kernel, TARGET Lemmas A.2–A.3 (AN-FOURIER landed)",
+  "brief": "docs/campaign/briefs/AN-PHASE-HY.md"
  },
  {
   "tmux": "wt-l2s",
