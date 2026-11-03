@@ -19,6 +19,11 @@ public import WaveTurbulence.Foundations.Torus.Inversion
 public import WaveTurbulence.Foundations.Torus.Product
 public import WaveTurbulence.Foundations.Torus.Series
 public import WaveTurbulence.Foundations.Torus.TimeDerivative
+public import WaveTurbulence.Foundations.WeylSums.Basic
+public import WaveTurbulence.Foundations.WeylSums.Differencing
+public import WaveTurbulence.Foundations.WeylSums.Dirichlet
+public import WaveTurbulence.Foundations.WeylSums.Geometric
+public import WaveTurbulence.Foundations.WeylSums.RationalSpacing
 public import WaveTurbulence.Frozen.Defs.CollisionOp
 public import WaveTurbulence.Frozen.Defs.InitialCoeff
 public import WaveTurbulence.Frozen.Defs.IsSmoothNLSSolution
