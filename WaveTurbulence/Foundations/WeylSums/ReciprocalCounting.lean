@@ -2,6 +2,8 @@
 module
 
 public import Mathlib.NumberTheory.Harmonic.Bounds
+public import Mathlib.Data.Int.Interval
+import Mathlib.Data.Int.Lemmas
 
 /-!
 # Reciprocal counting on arithmetic progressions
@@ -67,9 +69,88 @@ theorem sum_inv_distance_le (M a : ℕ) (ha : a < M) :
     (fun j => |(j : ℝ) - a|⁻¹)
   linarith only [hleft, hright, hsplit]
 
+/-- Integer reciprocal distances on a symmetric interval have harmonic mass. -/
+theorem sum_inv_int_Icc_le (R : ℕ) :
+    (∑ n ∈ Icc (-(R : ℤ)) R, |(n : ℝ)|⁻¹) ≤ 2 * (harmonic R : ℝ) := by
+  have hhalf (negative : Bool) :
+      (∑ n ∈ (Icc (-(R : ℤ)) R).filter
+        (fun n => if negative then n < 0 else 0 ≤ n), |(n : ℝ)|⁻¹) ≤
+      (harmonic R : ℝ) := by
+    rw [← sum_inv_range_succ]
+    refine sum_le_sum_of_injOn Int.natAbs ?_ ?_ ?_ ?_
+    · intro i hi j hj heq
+      simp only [mem_coe, mem_filter, mem_Icc] at hi hj
+      cases negative with
+      | false =>
+        exact (Int.natAbs_inj_of_nonneg_of_nonneg hi.2 hj.2).mp heq
+      | true =>
+        exact (Int.natAbs_inj_of_nonpos_of_nonpos hi.2.le hj.2.le).mp heq
+    · intro k hk
+      obtain ⟨n, hn, rfl⟩ := mem_image.mp hk
+      simp only [mem_filter, mem_Icc] at hn
+      rw [mem_range, Nat.lt_succ_iff]
+      rw [← Nat.cast_le (α := ℤ), Int.natCast_natAbs]
+      exact abs_le.mpr hn.1
+    · intro n _
+      rw [Nat.cast_natAbs, Int.cast_abs]
+    · intro n _ _
+      positivity
+  have hsplit := sum_filter_add_sum_filter_not (Icc (-(R : ℤ)) R) (fun n => n < 0)
+    (fun n => |(n : ℝ)|⁻¹)
+  have hl := hhalf true
+  have hr := hhalf false
+  simp only [ite_false, ite_true, Bool.false_eq_true] at hl hr
+  simp only [not_lt] at hsplit
+  linarith only [hl, hr, hsplit]
+
+
+/-- Sum an explicit envelope: seventeen near-integer terms and harmonic tails. -/
+theorem sum_int_envelope_le (R : ℕ) (A C : ℝ) (hA : 0 ≤ A) (hC : 0 ≤ C) :
+    (∑ n ∈ Icc (-(R : ℤ)) R, if |n| ≤ 8 then A else C / |(n : ℝ)|) ≤
+      17 * A + 2 * C * (harmonic R : ℝ) := by
+  classical
+  let S := Icc (-(R : ℤ)) R
+  have hsplit := sum_filter_add_sum_filter_not S (fun n : ℤ => |n| ≤ 8)
+    (fun n => if |n| ≤ 8 then A else C / |(n : ℝ)|)
+  have hcard : (((S.filter (fun n : ℤ => |n| ≤ 8)).card) : ℝ) ≤ 17 := by
+    have hsub : S.filter (fun n : ℤ => |n| ≤ 8) ⊆ Icc (-8 : ℤ) 8 := by
+      intro n hn
+      exact mem_Icc.mpr (abs_le.mp (mem_filter.mp hn).2)
+    have hc := card_le_card hsub
+    norm_num at hc
+    exact_mod_cast hc
+  have hnear : (∑ n ∈ S.filter (fun n : ℤ => |n| ≤ 8),
+      if |n| ≤ 8 then A else C / |(n : ℝ)|) ≤ 17 * A := by
+    calc
+      _ = ((S.filter (fun n : ℤ => |n| ≤ 8)).card : ℝ) * A := by
+        rw [← nsmul_eq_mul, ← sum_const]
+        apply sum_congr rfl
+        intro n hn
+        rw [ite_eq_left (mem_filter.mp hn).2]
+      _ ≤ _ := mul_le_mul_of_nonneg_right hcard hA
+  have hfar : (∑ n ∈ S.filter (fun n : ℤ => ¬|n| ≤ 8),
+      if |n| ≤ 8 then A else C / |(n : ℝ)|) ≤ 2 * C * (harmonic R : ℝ) := by
+    calc
+      _ = ∑ n ∈ S.filter (fun n : ℤ => ¬|n| ≤ 8), C / |(n : ℝ)| := by
+        apply sum_congr rfl
+        intro n hn
+        rw [ite_eq_right (mem_filter.mp hn).2]
+      _ ≤ ∑ n ∈ S, C / |(n : ℝ)| :=
+        sum_le_sum_of_subset_of_nonneg (filter_subset _ _) (fun n _ _ => div_nonneg hC (abs_nonneg _))
+      _ = C * ∑ n ∈ S, |(n : ℝ)|⁻¹ := by simp only [div_eq_mul_inv, mul_sum]
+      _ ≤ C * (2 * (harmonic R : ℝ)) :=
+        mul_le_mul_of_nonneg_left (sum_inv_int_Icc_le R) hC
+      _ = _ := by ring
+  linarith only [hnear, hfar, hsplit]
+
+
 /-- A capped reciprocal, taking the value `T` at zero as required for resonances. -/
 @[expose] noncomputable def cappedInv (T x : ℝ) : ℝ :=
   if x = 0 then T else min T |x|⁻¹
+
+@[simp] theorem cappedInv_abs (T x : ℝ) : cappedInv T |x| = cappedInv T x := by
+  simp only [cappedInv, abs_eq_zero, abs_abs]
+
 
 theorem cappedInv_le (T x : ℝ) : cappedInv T x ≤ T := by
   unfold cappedInv
