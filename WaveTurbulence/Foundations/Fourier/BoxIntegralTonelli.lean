@@ -18,11 +18,11 @@ open scoped ENNReal
 
 namespace WaveTurbulence.Fourier
 
-private theorem measurable_fin_cons (n : ℕ) :
+@[fun_prop] theorem measurable_fin_cons (n : ℕ) :
     Measurable (fun p : ℝ × (Fin n → ℝ) => (Fin.cons p.1 p.2 : Fin (n + 1) → ℝ)) :=
   (contDiff_fin_cons n).continuous.measurable
 
-private theorem measurable_fin_snoc (n : ℕ) :
+@[fun_prop] theorem measurable_fin_snoc (n : ℕ) :
     Measurable (fun p : (Fin n → ℝ) × ℝ => (Fin.snoc p.1 p.2 : Fin (n + 1) → ℝ)) := by
   apply Measurable.of_eval
   intro j
