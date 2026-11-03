@@ -36,7 +36,7 @@
   "model": "GPT-6.1-Sol low",
   "account": "codex-3",
   "branch": "w/misc-a",
-  "packet": "MISC-A: TARGET Lemmas A.6–A.7, DH21 A.4–A.5, probability helpers",
+  "packet": "MISC-A: TARGET Lemmas A.6–A.7, DH21 A.4, probability helpers (Hua moved to NT2)",
   "brief": "docs/campaign/briefs/MISC-A.md"
  },
  {
@@ -59,9 +59,9 @@
   "tmux": "wt-gausssum",
   "model": "GPT-6.1-Sol low",
   "account": "codex-3",
-  "branch": "w/gausssum",
-  "packet": "NT1 GAUSSSUM: Dirichlet approximation, Weyl/Gauss sums",
-  "brief": "docs/campaign/briefs/GAUSSSUM.md"
+  "branch": "w/hua",
+  "packet": "NT2 HUA: Hua L⁴/L⁶, Weyl-sum reduction, L^{3d/2} moments (GAUSSSUM landed)",
+  "brief": "docs/campaign/briefs/HUA.md"
  },
  {
   "tmux": "wt-resonant",
