@@ -65,6 +65,10 @@ public import WaveTurbulence.Foundations.Analysis.WeightedSobolev
 public import WaveTurbulence.Foundations.ApproxNT.Cell
 public import WaveTurbulence.Foundations.ApproxNT.CellBounds
 public import WaveTurbulence.Foundations.ApproxNT.CellMinor
+public import WaveTurbulence.Foundations.ApproxNT.Core
+public import WaveTurbulence.Foundations.ApproxNT.CoreBound
+public import WaveTurbulence.Foundations.ApproxNT.CoreTheorem
+public import WaveTurbulence.Foundations.ApproxNT.Factors
 public import WaveTurbulence.Foundations.ApproxNT.Partition
 public import WaveTurbulence.Foundations.ApproxNT.PoissonPair
 public import WaveTurbulence.Foundations.ApproxNT.Products
