@@ -75,7 +75,7 @@ theorem exists_collisionTerm_two_bound (hd : 3 ≤ d) (s : ℝ)
     change deltaInt (fun a b => f₁ (k + a) * f₂ k * f₃ (k + b)) = _
     rw [show (fun a b => f₁ (k + a) * f₂ k * f₃ (k + b)) =
       (fun a b => f₂ k * (f₁ (k + a) * f₃ (k + b))) by funext a b; ring,
-      deltaInt_smul]
+      WKE.deltaInt_smul]
   rw [heq]
   refine ⟨hprod.1, hprod.2.trans_eq ?_⟩
   ring
