@@ -798,3 +798,14 @@ the negative-power error term.
 Check: targeted `AProcessTwoPowers` build passed (3556 jobs; own-file builds
 13s and 2.4s), zero warnings. These are actual derivative/difference tests
 and distinct numerical A-process helpers; no shared phase class is redefined.
+
+`FiniteDifferenceMeanValue.lean` proves, for every natural n, that the actual
+n-fold unit finite difference equals the n-th member of an actual derivative
+tower at some point in the full sample interval `[x,x+n]`. It also proves
+commutation with derivatives and the explicit second/third formulas.
+`ThirdDerivative.lean` applies this to the proved third-difference test,
+including the negative-third-derivative case via exact phase conjugation.
+Its source interval includes the two extra right-hand sample units, so no
+off-interval derivative values are assumed silently. Targeted
+`FiniteDifferenceMeanValue` passed (3232 jobs, 2.2s), and `ThirdDerivative`
+passed (3268 jobs, 1.8s), zero warnings.
