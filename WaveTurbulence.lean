@@ -507,6 +507,7 @@ public import WaveTurbulence.Foundations.VdCB.CircleColumnCritical
 public import WaveTurbulence.Foundations.VdCB.CircleColumnJetBounds
 public import WaveTurbulence.Foundations.VdCB.CircleColumnLocalization
 public import WaveTurbulence.Foundations.VdCB.CircleColumnStationary
+public import WaveTurbulence.Foundations.VdCB.CircleCountingBridge
 public import WaveTurbulence.Foundations.VdCB.CircleCriticalUniqueness
 public import WaveTurbulence.Foundations.VdCB.CircleCurvature
 public import WaveTurbulence.Foundations.VdCB.CircleDualASum
@@ -516,13 +517,21 @@ public import WaveTurbulence.Foundations.VdCB.CircleDualEndpointASum
 public import WaveTurbulence.Foundations.VdCB.CircleDualTower
 public import WaveTurbulence.Foundations.VdCB.CircleDualWeightedASum
 public import WaveTurbulence.Foundations.VdCB.CircleDualWindow
+public import WaveTurbulence.Foundations.VdCB.CircleEndpointBlock
+public import WaveTurbulence.Foundations.VdCB.CircleErrorOptimization
 public import WaveTurbulence.Foundations.VdCB.CircleFrequencyBounds
+public import WaveTurbulence.Foundations.VdCB.CircleIntegerSource
 public import WaveTurbulence.Foundations.VdCB.CircleLatticeDual
 public import WaveTurbulence.Foundations.VdCB.CircleLatticeRegularity
 public import WaveTurbulence.Foundations.VdCB.CircleLegendre
 public import WaveTurbulence.Foundations.VdCB.CircleLocalization
 public import WaveTurbulence.Foundations.VdCB.CircleOctantFrequency
+public import WaveTurbulence.Foundations.VdCB.CircleRightBlock
+public import WaveTurbulence.Foundations.VdCB.CircleScaleComparison
+public import WaveTurbulence.Foundations.VdCB.CircleScaleIdentities
 public import WaveTurbulence.Foundations.VdCB.CircleSelectedMain
+public import WaveTurbulence.Foundations.VdCB.CircleShortScales
+public import WaveTurbulence.Foundations.VdCB.CircleSourceBound
 public import WaveTurbulence.Foundations.VdCB.CircleSourceBounds
 public import WaveTurbulence.Foundations.VdCB.CircleSourceCalculus
 public import WaveTurbulence.Foundations.VdCB.CircleSourceScales
@@ -575,6 +584,7 @@ public import WaveTurbulence.Foundations.VdCB.QuadraticTaylor
 public import WaveTurbulence.Foundations.VdCB.ReciprocalTail
 public import WaveTurbulence.Foundations.VdCB.SawtoothLimit
 public import WaveTurbulence.Foundations.VdCB.SecondDerivativeIntegral
+public import WaveTurbulence.Foundations.VdCB.SecondDerivativeSum
 public import WaveTurbulence.Foundations.VdCB.SharpLocalStationary
 public import WaveTurbulence.Foundations.VdCB.SharpPoisson
 public import WaveTurbulence.Foundations.VdCB.SharpStationary
