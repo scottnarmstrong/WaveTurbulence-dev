@@ -75,3 +75,22 @@ pairing identity extends to imaginary parameters by dominated convergence.
 fifth-derivative bounds for the corrected integer-column dual. Checked target:
 `nice -n 5 lake build WaveTurbulence.Foundations.VdCB.StationaryTools`:
 `Build completed successfully (3813 jobs).` No warnings.
+
+Checked sharp midpoint Poisson limit on natural endpoints:
+`nice -n 5 lake build WaveTurbulence.Foundations.VdCB.PoissonSymmetricLimit`
+returned `Build completed successfully (3541 jobs).` The proof uses the
+finite Dirichlet kernel primitive, Euler summation, and dominated convergence
+away from the null integer lattice. This is a limit, not yet the quantitative
+truncation theorem. The paired distant reciprocal block is bounded by
+`12*pi + 4*r/K` in `ReciprocalTail` (target passed, 3538 jobs).
+
+`QuadraticStationary` proves the quadratic stationary-phase main term
+`expPhase(1/8)*a(0)/sqrt(q)` with error bounded by
+`pi/(q*sqrt(q))` times the second Fourier moment of the Schwartz amplitude
+(target passed, 3786 jobs). This does not yet replace the general C3 stationary
+expansion requested by the packet.
+
+The scratch `StationaryAxioms.lean` probe (`nice -n 5 lake env lean ...`, exit 0)
+printed only `[propext, Classical.choice, Quot.sound]` for the Fresnel coefficient,
+exact quadratic Fourier identity, circle within-interval fifth-derivative bounds,
+quadratic stationary estimate, sharp Poisson limit, and reciprocal block bound.

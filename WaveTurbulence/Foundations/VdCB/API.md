@@ -44,10 +44,21 @@ Checked analytic tools:
 - `norm_integral_sub_stationary_quadratic_le` (import `LocalStationary`): the actual
   third-derivative bound gives local error `(2π/3) M r⁴`.
 
-Circle requirement: the generic power profile is not asserted to contain all circle blocks
-with arbitrarily small perturbation. The approved direct-family option is being implemented
-using dual phase `R(sqrt(h²+ν²)-ν)` and its uniformly nonzero fifth derivative on `ν≥h>0`.
-Its derivative calculation and subsequent B-transform/weight estimates are still in progress.
+Circle requirement (approved direct-family route): `CircleLatticeRegularity` exports
+`abs_iteratedDerivWithin_five_circleLatticeDualPhase_bounds`. For `R,h>0`,
+`h≤Y` and `Y≤ν≤2Y`, the fifth derivative of the **integer-column** dual
+`circleLatticeDualPhase R h ν = R*sqrt(h²+ν²)` has magnitude between
+`R*h²/(125*Y⁶)` and `480*R*h²/Y⁶`. Global smoothness is proved. `CircleLegendre`
+proves the actual critical point and Legendre identity for `h*sqrt(2Ru-u²)`.
+The change `u=R-n` shifts the lattice; its Poisson factor cancels the linear
+term `-Rν` in the uncorrected Legendre phase. These direct-family results do
+not assert a small first-derivative perturbation for the full dual.
+The B-transform/weight estimates are still in progress.
+
+`StationaryTools` additionally exports the exact Schwartz-amplitude quadratic
+Fourier identity `integral_schwartz_mul_quadratic`, with coefficient
+`expPhase (1/8)/sqrt q`. This is checked independently of a bare improper
+Fresnel integral or a general stationary-phase expansion.
 
 Verification: targeted `nice -n 5 lake build WaveTurbulence.Foundations.VdCB.Basic` returned
 `Build completed successfully (3808 jobs).`, without warnings. The scratch consumer and
