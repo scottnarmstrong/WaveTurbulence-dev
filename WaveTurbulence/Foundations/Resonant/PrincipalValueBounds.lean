@@ -81,4 +81,25 @@ theorem abs_principalValueOneDim_le_radius {χ : ℝ → ℝ} (hχ : IsPVCutoff 
   (abs_principalValueOneDim_le hχ hc hd hf).trans
     (integral_abs_pvQuotient_le hc hd hf hL hR hs)
 
+/-- Uniformity in the finite truncation scale. The constant depends on the cutoff
+and on the test function's Lipschitz bound. -/
+theorem abs_pvTruncation_le_radius {χ : ℝ → ℝ} (hχ : IsPVCutoff χ)
+    {f : ℝ → ℝ} {K : ℝ≥0} {R C : ℝ}
+    (hc : Continuous f) (hd : DifferentiableAt ℝ f 0) (hf : HasCompactSupport f)
+    (hL : LipschitzWith K f) (hR : 0 ≤ R) (hs : ∀ x, R < |x| → f x = 0)
+    (hC : ∀ x, |χ x| ≤ C) (μ : ℝ) :
+    |pvTruncation χ μ f| ≤ (1 + C) * (2 * R * K) := by
+  have hCn : 0 ≤ C := (abs_nonneg (χ 0)).trans (hC 0)
+  rw [hχ.pvTruncation_eq μ hc hf, ← Real.norm_eq_abs]
+  have hnorm : ‖∫ u, (1 - χ (μ * u)) * pvQuotient f u‖ ≤
+      (1 + C) * ∫ u, |pvQuotient f u| := by
+    rw [← integral_const_mul]
+    refine norm_integral_le_of_norm_le
+      ((integrable_pvQuotient hc hd hf).abs.const_mul _) (Eventually.of_forall fun u => ?_)
+    rw [Real.norm_eq_abs, abs_mul]
+    exact mul_le_mul_of_nonneg_right
+      ((abs_sub _ _).trans (by simpa using add_le_add_left (hC (μ * u)) 1)) (abs_nonneg _)
+  exact hnorm.trans (mul_le_mul_of_nonneg_left
+    (integral_abs_pvQuotient_le hc hd hf hL hR hs) (by positivity))
+
 end WaveTurbulence
