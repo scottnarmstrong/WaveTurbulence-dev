@@ -78,3 +78,11 @@ time translation preserves weights; modulation translates centres; cutoff integr
 exactly the two endpoint choices. The leaf is the Fourier transform of the actual cutoff.
 Targeted `lake build WaveTurbulence.Foundations.Analysis.SmoothCutoffPacket` completed successfully
 (3243 jobs), without warnings. `norm_fourier_cutoff_le` is now public for this reuse.
+
+Checked `IntegrationTree`, `CausalIntegrationTree`, `FeasibleIntegrationTree`.
+`IntegrationTree.packet` recursively constructs the density and reconstructs its actual cutoff
+iterated integral. The causal version clips at zero. It is continuous and vanishes before its
+feasible threshold. With nonnegative gaps (and zero leaf-edge gaps), feasible unit times agree
+with the cutoff tree with threshold lower endpoints. Targeted build of `FeasibleIntegrationTree`
+completed successfully (3246 jobs), without warnings. The source integral/resonance-product
+estimate still awaits the weight/cost identification and final assembly.
