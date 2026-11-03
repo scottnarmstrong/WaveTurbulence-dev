@@ -131,41 +131,58 @@ theorem sum_walsh_mul_walsh (S T : Finset K) :
       if S = T then (Fintype.card (K → Bool) : ℂ) else 0 := by
   simp only [walsh_mul, sum_walsh, symmDiff_eq_empty]
 
-/-- Parseval's identity for a Walsh expansion. -/
-theorem favg_norm_sq_walsh_sum (c : Finset K → ℂ) :
-    favg (fun x => ‖∑ S, c S * walsh S x‖ ^ 2) = ∑ S, ‖c S‖ ^ 2 := by
+/-- Parseval's identity for an expansion in an injectively indexed family of Walsh
+characters. -/
+theorem favg_norm_sq_walsh_sum' {J : Type*} [Fintype J] {T : J → Finset K}
+    (hT : Function.Injective T) (c : J → ℂ) :
+    favg (fun x => ‖∑ j, c j * walsh (T j) x‖ ^ 2) = ∑ j, ‖c j‖ ^ 2 := by
+  classical
   set N : ℝ := (Fintype.card (K → Bool) : ℝ) with hNdef
   have hN : N ≠ 0 := Nat.cast_ne_zero.2 Fintype.card_ne_zero
-  have key : ∀ x : K → Bool, ((‖∑ S, c S * walsh S x‖ ^ 2 : ℝ) : ℂ) =
-      ∑ S, ∑ T, c S * (starRingEnd ℂ) (c T) * (walsh S x * walsh T x) := by
+  have key : ∀ x : K → Bool, ((‖∑ j, c j * walsh (T j) x‖ ^ 2 : ℝ) : ℂ) =
+      ∑ j, ∑ j', c j * (starRingEnd ℂ) (c j') * (walsh (T j) x * walsh (T j') x) := by
     intro x
     rw [Complex.ofReal_pow, ← Complex.mul_conj', map_sum, sum_mul_sum]
-    refine sum_congr rfl fun S _ => sum_congr rfl fun T _ => ?_
+    refine sum_congr rfl fun j _ => sum_congr rfl fun j' _ => ?_
     rw [map_mul, conj_walsh]
     ring
-  have hsum : ((∑ x : K → Bool, ‖∑ S, c S * walsh S x‖ ^ 2 : ℝ) : ℂ) =
-      (N : ℂ) * ((∑ S, ‖c S‖ ^ 2 : ℝ) : ℂ) := by
+  have hsum : ((∑ x : K → Bool, ‖∑ j, c j * walsh (T j) x‖ ^ 2 : ℝ) : ℂ) =
+      (N : ℂ) * ((∑ j, ‖c j‖ ^ 2 : ℝ) : ℂ) := by
     rw [Complex.ofReal_sum]
     simp only [key]
-    calc ∑ x : K → Bool, ∑ S, ∑ T, c S * (starRingEnd ℂ) (c T) * (walsh S x * walsh T x)
-        = ∑ S, ∑ x : K → Bool, ∑ T, c S * (starRingEnd ℂ) (c T) * (walsh S x * walsh T x) :=
-          sum_comm
-      _ = ∑ S, ∑ T, ∑ x : K → Bool, c S * (starRingEnd ℂ) (c T) * (walsh S x * walsh T x) :=
-          sum_congr rfl fun S _ => sum_comm
-      _ = ∑ S, ∑ T, c S * (starRingEnd ℂ) (c T) *
-            ∑ x : K → Bool, walsh S x * walsh T x := by simp only [mul_sum]
-      _ = ∑ S, c S * (starRingEnd ℂ) (c S) * (N : ℂ) := by
-          simp only [sum_walsh_mul_walsh, mul_ite, mul_zero, sum_ite_eq, mem_univ, ite_true, hNdef,
-            Complex.ofReal_natCast]
-      _ = (N : ℂ) * ((∑ S, ‖c S‖ ^ 2 : ℝ) : ℂ) := by
+    calc ∑ x : K → Bool, ∑ j, ∑ j', c j * (starRingEnd ℂ) (c j') *
+          (walsh (T j) x * walsh (T j') x)
+        = ∑ j, ∑ x : K → Bool, ∑ j', c j * (starRingEnd ℂ) (c j') *
+            (walsh (T j) x * walsh (T j') x) := sum_comm
+      _ = ∑ j, ∑ j', ∑ x : K → Bool, c j * (starRingEnd ℂ) (c j') *
+            (walsh (T j) x * walsh (T j') x) := sum_congr rfl fun j _ => sum_comm
+      _ = ∑ j, ∑ j', c j * (starRingEnd ℂ) (c j') *
+            ∑ x : K → Bool, walsh (T j) x * walsh (T j') x := by simp only [mul_sum]
+      _ = ∑ j, c j * (starRingEnd ℂ) (c j) * (N : ℂ) := by
+          simp only [sum_walsh_mul_walsh, hT.eq_iff, mul_ite, mul_zero, sum_ite_eq, mem_univ,
+            ite_true, hNdef, Complex.ofReal_natCast]
+      _ = (N : ℂ) * ((∑ j, ‖c j‖ ^ 2 : ℝ) : ℂ) := by
           rw [Complex.ofReal_sum, mul_sum]
-          refine sum_congr rfl fun S _ => ?_
+          refine sum_congr rfl fun j _ => ?_
           rw [Complex.mul_conj', Complex.ofReal_pow]
           ring
-  have hR : (∑ x : K → Bool, ‖∑ S, c S * walsh S x‖ ^ 2 : ℝ) = N * ∑ S, ‖c S‖ ^ 2 := by
+  have hR : (∑ x : K → Bool, ‖∑ j, c j * walsh (T j) x‖ ^ 2 : ℝ) = N * ∑ j, ‖c j‖ ^ 2 := by
     exact_mod_cast hsum
   rw [favg, hR, ← hNdef]
   field_simp
+
+/-- Parseval's identity for a Walsh expansion. -/
+theorem favg_norm_sq_walsh_sum (c : Finset K → ℂ) :
+    favg (fun x => ‖∑ S, c S * walsh S x‖ ^ 2) = ∑ S, ‖c S‖ ^ 2 :=
+  favg_norm_sq_walsh_sum' Function.injective_id c
+
+/-- Parseval's identity for a linear combination of the coordinate signs. -/
+theorem favg_norm_sq_sum_bsign {J : Type*} [Fintype J] {k : J → K}
+    (hk : Function.Injective k) (c : J → ℂ) :
+    favg (fun x : K → Bool => ‖∑ j, c j * (bsign (x (k j)) : ℂ)‖ ^ 2) = ∑ j, ‖c j‖ ^ 2 := by
+  have h := favg_norm_sq_walsh_sum' (T := fun j => ({k j} : Finset K))
+    (fun a b hab => hk (Finset.singleton_injective hab)) c
+  simpa only [walsh_singleton] using h
 
 /-! ### The noise operator on complex functions -/
 
