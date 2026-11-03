@@ -275,3 +275,11 @@ statement review passed: exact closed counting interval, strict octant/lower
 block boundaries, closed upper block boundary, correct actual phase and
 uniform constant scope, no excess premises. This is not a frozen-manifest
 promotion and does not claim generic analytic `IsExponentPair` B-closure.
+
+Final axiom probe `CompletedCircleAxioms.lean` exited 0: all ten main
+exports (sharp Poisson, both stationary signs, negative B, optimized source,
+actual endpoint block, exact dyadic counting input, disc, annulus, trivial
+pair) use only `[propext, Classical.choice, Quot.sound]`. Merged main
+`430d637` with merge `e09211d`; post-merge `BProcess` build completed
+successfully (9237 jobs). `git diff main --check` passed; no forbidden
+proof placeholders or budget overrides were found. See `BPROC-HANDOFF.md`.

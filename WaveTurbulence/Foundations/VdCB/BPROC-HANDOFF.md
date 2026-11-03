@@ -86,3 +86,11 @@ exited 0. `#print axioms` for sharp Poisson, both sharp stationary signs,
 negative selected B-process, optimized actual source, actual endpoint block,
 exact dyadic counting input, unconditional disc and annulus bounds, and the
 trivial exponent pair reports only `[propext, Classical.choice, Quot.sound]`.
+
+Merged main `430d637` at clean point (merge commit `e09211d`). The post-merge
+public build again returned `Build completed successfully (9237 jobs).`
+`git diff main --check` passed. A scan of VdCB Lean files found no forbidden
+proof placeholders, custom axioms, unsafe/opaque declarations, or budget
+overrides; the largest VdCB Lean file has 143 lines. Independent review
+reported no statement defect. The working tree was clean before this final
+handoff-log update.
