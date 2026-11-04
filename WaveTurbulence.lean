@@ -1419,6 +1419,7 @@ public import WaveTurbulence.Frozen.Theorems.CanonicalCharacterization
 public import WaveTurbulence.Frozen.Theorems.CountLemma
 public import WaveTurbulence.Frozen.Theorems.NlsAkBridge
 public import WaveTurbulence.Frozen.Theorems.QuadExpSum2
+public import WaveTurbulence.Frozen.Theorems.QuadExpSum3
 public import WaveTurbulence.Frozen.Theorems.Wkelwp
 
 /-!

@@ -48,7 +48,7 @@ theorem quadExpSum3 :
                 inner ℝ ξ'' (latticePoint L q.2.2))‖ ≤
         C * L ^ (3 * (d : ℝ) + γ - 2 * min γ (1 - γ)) * Real.log L :=
 -- FROZEN_ANCHOR_PROOF_BEGIN
-  by sorry
+  by exact WaveTurbulence.Provider.quadExpSum3
 -- FROZEN_ANCHOR_PROOF_END
 -- FROZEN_ANCHOR_SUFFIX_BEGIN
 
