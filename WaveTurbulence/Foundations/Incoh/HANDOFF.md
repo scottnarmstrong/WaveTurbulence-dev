@@ -460,3 +460,26 @@ Tree parameter checks: targeted builds `ParameterTreeDecay` (`9410 jobs`),
 `SpectralTreeClocks` (`9187 jobs`) passed. Scratch `AxiomsParameterTree.lean`, log
 `axioms-parameter-tree.log`, audited five main norm, identity, measurability and mixture
 results: each uses exactly `[propext, Classical.choice, Quot.sound]`.
+
+## Actual moving-cell tree recombination estimate
+
+`UnrestrictedCellMeasure` fixes counting measure on all integer leaf/link cell pairs times
+spectral Lebesgue measure. The moving finite selection is an actual indicator in
+`MovingCellAmplitude`, whose uniform mass and integrability are proved from source spatial
+norms and the finite cardinal bound. No measurability of the selection in root momentum is
+needed at order zero. `MovingTreeFamily` proves joint spectral/time measurability and Fubini
+for the literal causal kernel using the independently proved root L¹ estimate.
+
+`MovingTreeDecay.exists_movingCellSourceTreeExtension_bound` proves `𝔛^{η,0,0}` decay of the
+actual moving-cell tree extension, with the same explicit localization coefficient as the
+couple estimate and exponent `γ₁−100dη`. The arbitrary-parameter tree core controls all centers
+and Fourier shifts simultaneously; the uniform-mass mixture inequality retains the momentum
+supremum inside the frequency integral. Original tree time fibers are transported exactly by
+`SpectralTreeClocks`. The original finite tree cover supplies the moving selection, including
+the root-valued lone leaf. No analytic estimate is assumed as a carrier field.
+
+Moving-tree checks: targeted build `MovingTreeDecay` passed (`9483 jobs`). Scratch
+`AxiomsMovingTree.lean`, log `axioms-moving-tree.log`, audited the final mixed norm bound,
+actual spectral Fubini, uniform actual amplitude mass, and fixed-measure indicator formula.
+All four use exactly `[propext, Classical.choice, Quot.sound]`. No weakened exponent or new
+source errata were introduced.
