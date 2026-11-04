@@ -95,6 +95,7 @@ public import WaveTurbulence.Foundations.ApproxNT.PsiOne
 public import WaveTurbulence.Foundations.ApproxNT.Statement
 public import WaveTurbulence.Foundations.Cancel.ApproxId
 public import WaveTurbulence.Foundations.Cancel.ChainK
+public import WaveTurbulence.Foundations.Cancel.CollisionLin
 public import WaveTurbulence.Foundations.Cancel.Cores
 public import WaveTurbulence.Foundations.Cancel.Gauss
 public import WaveTurbulence.Foundations.Cancel.Kernels
@@ -113,6 +114,7 @@ public import WaveTurbulence.Foundations.Cancel.RegSteps
 public import WaveTurbulence.Foundations.Cancel.RegType1
 public import WaveTurbulence.Foundations.Cancel.RegType2
 public import WaveTurbulence.Foundations.Cancel.RegW
+public import WaveTurbulence.Foundations.Cancel.TimeSplit
 public import WaveTurbulence.Foundations.Cancel.ZExtract
 public import WaveTurbulence.Foundations.ClassJR.Bump
 public import WaveTurbulence.Foundations.ClassJR.Chain
