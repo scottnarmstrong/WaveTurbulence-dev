@@ -10,8 +10,8 @@ public import WaveTurbulence.Foundations.WeylSums.BilinearPointwise
 /-!
 # Literal localized lattice link factors
 
-TARGET (incohproof10)–(incohproof12). The Wick coefficient removes the two
-coordinate axes, counting their intersection twice. No estimate is stored
+TARGET (incohproof10)–(incohproof12). F62: the per-link Wick coefficient is the square of the single-node
+coefficient. It removes the two punctured coordinate axes. No estimate is stored
 in the link data.
 -/
 
@@ -40,11 +40,24 @@ theorem abs_linkEpsilon_le (x y : Fin d → ℤ) : |linkEpsilon x y| ≤ 1 := by
   classical
   by_cases hx : x = 0 <;> by_cases hy : y = 0 <;> norm_num [linkEpsilon, hx, hy]
 
-/-- The coefficient agrees with the source's three-case definition. -/
+/-- The single-node coefficient has the source three cases; F62 requires its square per paired link. -/
 theorem linkEpsilon_eq_source (x y : Fin d → ℤ) :
     linkEpsilon x y = if x = 0 ∧ y = 0 then -1 else if x = 0 ∨ y = 0 then 0 else 1 := by
   classical
   by_cases hx : x = 0 <;> by_cases hy : y = 0 <;> norm_num [linkEpsilon, hx, hy]
+
+/-- F62: both branching endpoints contribute the same coefficient, so the literal link uses its square. -/
+@[expose] def linkWickFactor (x y : Fin d → ℤ) : ℝ := (linkEpsilon x y) ^ 2
+
+theorem abs_linkWickFactor_le (x y : Fin d → ℤ) : |linkWickFactor x y| ≤ 1 := by
+  classical
+  by_cases hx : x = 0 <;> by_cases hy : y = 0 <;> norm_num [linkWickFactor, linkEpsilon, hx, hy]
+
+/-- The true paired factor is `1,0,1`, including `1` at the double-zero lattice point. -/
+theorem linkWickFactor_eq_cases (x y : Fin d → ℤ) :
+    linkWickFactor x y = if x = 0 ∧ y = 0 then 1 else if x = 0 ∨ y = 0 then 0 else 1 := by
+  classical
+  by_cases hx : x = 0 <;> by_cases hy : y = 0 <;> norm_num [linkWickFactor, linkEpsilon, hx, hy]
 
 /-- The uncorrected compact lattice amplitude. -/
 @[expose] def cutoffAmplitude (L : ℝ) (A : LinkParameters d)
@@ -55,7 +68,7 @@ theorem linkEpsilon_eq_source (x y : Fin d → ℤ) :
 /-- The actual Wick-corrected compact amplitude. -/
 @[expose] def linkAmplitude (L : ℝ) (A : LinkParameters d)
     (p : (Fin d → ℤ) × (Fin d → ℤ)) : ℂ :=
-  (linkEpsilon p.1 p.2 : ℂ) * cutoffAmplitude L A p
+  (linkWickFactor p.1 p.2 : ℂ) * cutoffAmplitude L A p
 
 /-- The source's real bilinear phase, including both linear Fourier shifts. -/
 @[expose] def linkPhase (L s : ℝ) (A : LinkParameters d)

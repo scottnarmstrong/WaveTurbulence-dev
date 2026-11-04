@@ -59,7 +59,7 @@ theorem norm_linkTerm_le (L s : ℝ) (A : LinkParameters d)
     ‖linkAmplitude L A p * WeylSums.e (linkPhase L s A p)‖ ≤ ‖cutoffAmplitude L A p‖ := by
   rw [norm_mul, WeylSums.norm_e, mul_one, linkAmplitude, norm_mul,
     Complex.norm_real, Real.norm_eq_abs]
-  exact mul_le_of_le_one_left (norm_nonneg _) (abs_linkEpsilon_le _ _)
+  exact mul_le_of_le_one_left (norm_nonneg _) (abs_linkWickFactor_le _ _)
 
 theorem summable_norm_linkTerm {L : ℝ} (hL : 0 < L) (s : ℝ) (A : LinkParameters d) :
     Summable (fun p => ‖linkAmplitude L A p * WeylSums.e (linkPhase L s A p)‖) :=
