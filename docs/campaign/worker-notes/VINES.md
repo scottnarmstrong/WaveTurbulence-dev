@@ -561,3 +561,23 @@ in `validation/Axioms-OrdinarySingle.lean` use only standard axioms
 (`[propext, Classical.choice, Quot.sound]`), exit0, no errors/warnings
 (`validation/Axioms-OrdinarySingle.log`). Remaining: chain/DV assembly,
 hyper-adjoint combination, realization-independent coherence. Continuing.
+
+## Ordinary SG-family removal in an arbitrary VC proved
+
+`VineSGOrdinaryRemovalChain` assembles the single-vine theorem through
+the source ordered chain. `VineSGSplitJoint` derives junction avoidance
+from the actual gap norm; `VineOrdinarySplit` localizes each removed vine
+on one side, disjoint from the other. `VineRemovalLocalPaths` embeds the
+local surviving paths in the global removal graph. Prefix and terminal
+gaps are reconstructed from conserved flows; the retained shared junction
+glues the two sides.
+
+`VineSGOrdinaryRemovalVC.SG_ordinary_vines_removal_in_VC_connected` is the
+full ordinary source removal clause for an LG/ZG VC, with only source
+decoration, gap, actual removal and disjointness data. Focused compile
+exit0, no warnings. The four printed declarations in
+`validation/Axioms-OrdinaryVC.lean` passed with only standard axioms,
+no errors/warnings (`validation/Axioms-OrdinaryVC.log`).
+
+Continuing with the generic adjoint retraction after ordinary removals,
+then the remaining DV/HV/HVC ordinary cases and coherence independence.
