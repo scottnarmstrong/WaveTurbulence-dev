@@ -643,3 +643,26 @@ and mixed removal and the both-joint shape: only propext, Classical.choice,
 Quot.sound; exit0, no warnings (`Axioms-SubsetRemoval.log`).
 Scratch umbrella imports the completed removal theorem. Remaining M4:
 realization-independent coherence; intrinsic graph recognition is in progress.
+
+## M4 complete — final scratch delivery
+
+Realization-independent coherence is proved in `VineCoherenceIndependent`:
+`realizedGroupSets_eq`, `realizedIncoherencyIndex_eq`, `realized_coherent_iff`
+allow different template types, rung counts and labelings. The intrinsic
+recognition/connectedness argument includes type-II m=1.
+
+Together with `subsetvc_classification` and
+`subsetvc_simultaneous_removal_connected`, this completes M4 proof work.
+Final serial targeted build: 515 targets; 2 compiled, 513 current; exit0,
+no warnings. Consolidated `validation/Axioms-M4.lean` checked 358 declarations,
+all standard axioms only, exit0, no errors/warnings. No forbidden declarations
+or budget overrides; largest owned module 542 lines.
+
+Authoritative final handoff: `/home/scott/wt-scratch/vines/HANDOFF.md`.
+Module inventory: `validation/M4-FILES.txt`; source hashes:
+`validation/M4-SHA256.txt`. Earlier progress retained in HANDOFF-history.md.
+F71 designated-bond/compatible containment remains flagged for owner audit;
+F72 Q-block adaptation is fully checked. Lean stays scratch-only pending
+Wave B freeze; this is a packet delivery, not a sealed-anchor certification.
+
+READY vines
