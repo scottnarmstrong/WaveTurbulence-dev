@@ -269,3 +269,13 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   counts: a finite family of centres chosen per decoration and r. Found by wt-torus (LINKS, E3). Status: imprecision.
 - F65 — DH21 Def 4.11 — "if 𝒬 = × then 𝒩^ch contains the root of + sign" is a slip (the trivial couple has no
   branching nodes). Found by wt-torus (LINKS, E4). Status: typo.
+- F66 — Wave B2 draft `RegChain.JBtree` (`WaveB2-Regular.lean` L515–L517) vs TARGET (regref2-2) L1185 — **our statement
+  bug**: the tree approximation integrates down to `s`, but `K*_𝒯(t,s,k)` does not depend on `s` once `s ≤ r` (the time
+  constraint is implied by the layer bound); TARGET states (regref2-2) only for `s ∈ [r, r+1]`. So B2.1 item (2) and the
+  tree half of item (3) are false when `q' < r` (Lean probe `P5.lean` on the project's own `miniTree10LG`: `K*_𝒯` constant
+  in `s ≤ 1` while `app(t,s) − app(t,1) = (1−s)·c(k)` with `c(k)` independent of `L`). Fix: lower limit `max s r`
+  (`X.JBchain r (max s r) t fun _ => 1`). Found by the independent B2 audit
+  (`docs/campaign/orch/audits/WaveB2-independent-audit.md` F-1). Status: fix queued (B2-CL-13). The same audit reopens
+  stage-2/3 R1 (self-loop halves accepted as a bond pair in the B2.3 gap hypotheses: add `x₂ ≠ M.mate x₁`) and R2
+  (zero-gap tame ε-atoms, T L2183/L2152), keeps B2.3 out of the B2 freeze pending the author's ruling on DESIGN Q7, and
+  requires the p.v. characterization for decaying kernels (F-5) and named instances + a B2 freeze list (F-6).

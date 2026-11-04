@@ -1,5 +1,5 @@
 {
- "assessed": "2026-11-04 03:00 UTC",
+ "assessed": "2026-11-04 04:20 UTC",
  "notes": "Lean work items = blueprint packets (docs/blueprint/GRAPH.md §E) with their difficulty weights (node weights L=1, M=2, H=4, VH=8 summed). Each frozen theorem anchor adds weight 1, credited when SEALED. Done fractions are the orchestrator's assessment, reviewed at integration rounds.",
  "lines_est_total": 273000,
  "parts": [
@@ -315,8 +315,8 @@
      "goal": "(CL)/(CN) dichotomy and splicing, blockchainprop, cnblock",
      "weight": 10.0,
      "lines_est": 3500,
-     "done": 0.0,
-     "note": ""
+     "done": 0.9,
+     "note": "CLCN done in scratch: (CL)/(CN) dichotomy, splicing, blockchainprop, cnblock component bounds"
     },
     {
      "id": "M4",
@@ -387,8 +387,8 @@
      "goal": "Prop 5.1 steps 1–2 (unimodular change of variables, localization)",
      "weight": 7.0,
      "lines_est": 2800,
-     "done": 0.0,
-     "note": ""
+     "done": 0.6,
+     "note": "steps 1-2: carrier interface done (Incoh HANDOFF), unimodular change of variables in LINKS/ENHANCED scratch"
     },
     {
      "id": "V1",
@@ -405,8 +405,8 @@
      "goal": "dominant/enhanced dominant couples and trees, equivalence classes, encoded trees (freeze if regref1 is frozen)",
      "weight": 9.0,
      "lines_est": 3150,
-     "done": 0.0,
-     "note": ""
+     "done": 0.9,
+     "note": "ENHANCED done in scratch: dominant couples, special sets, equivalence (DH21 Def 4.18), encoded trees (Props 4.20, 4.23), net signs; + tree incohproof1"
     },
     {
      "id": "D3",
@@ -486,8 +486,8 @@
      "goal": "Prop 5.1 steps 3–4 and assembly",
      "weight": 9.0,
      "lines_est": 4650,
-     "done": 0.0,
-     "note": ""
+     "done": 0.5,
+     "note": "PL1 couple analytic core done (Foundations/Incoh, 101 files, landed 4ccbf19; F62 squared Wick factor adopted); tree case in progress"
     },
     {
      "id": "C4",

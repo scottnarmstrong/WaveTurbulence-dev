@@ -20,8 +20,8 @@
     "model": "Claude Opus",
     "account": "claude-14",
     "branch": "w/approxnt",
-    "packet": "C5 ENHANCED (pre-freeze): dominant/enhanced couples and trees, equivalence, encoded trees (LINKS C2 done)",
-    "brief": "docs/campaign/briefs/ENHANCED.md"
+    "packet": "C4 LAYERREG (pre-freeze): TARGET layerreg1/layerreg2 (C2 LINKS, C5 ENHANCED done)",
+    "brief": "docs/campaign/briefs/LAYERREG.md"
   },
   {
     "tmux": "wt-wke",
@@ -44,15 +44,15 @@
     "model": "GPT-6.1-Sol low",
     "account": "codex-3",
     "branch": "w/nt-circle",
-    "packet": "M3 CLCN (pre-freeze): (CL)/(CN), blockchainprop, cnblock (MOLE M1+M2 done)",
-    "brief": "docs/campaign/briefs/CLCN.md"
+    "packet": "G4 APPB-OPS then G5 APPB-ALG (pre-freeze): DH23 Appendix B (MOLE M1+M2, CLCN M3 done)",
+    "brief": "docs/campaign/briefs/APPB-OPS.md"
   },
   {
     "tmux": "wt-ansob",
     "model": "GPT-6.1-Sol low",
     "account": "codex-3",
     "branch": "w/bproc",
-    "packet": "G6 MOLEPROP13 (pre-freeze): DH23 Props 10.1, 10.3, then G4 APPB-OPS (DEGEN done)",
+    "packet": "G6 MOLEPROP13 (pre-freeze): DH23 Props 10.1, 10.3; then G7 MOLEPROP4 (DEGEN done)",
     "brief": "docs/campaign/briefs/MOLEPROP13.md"
   },
   {
