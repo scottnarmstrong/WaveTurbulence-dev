@@ -409,6 +409,10 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   (2u₁u₂, +2u₃(u₁+u₂−u₃), minus their sum) has a rank-3 third form (and the linear alternative has a common factor the
   actual triple lacks). Ruling: use explicit signed core normal forms with the corrected nonlinear sign, flagged for
   audit. Found by wt-gausssum (M9 VINEPARAM); kernel check in progress.
+  Consequence (2026-11-04): TARGET's `sumint` (B1.6, frozen candidate, faithful to TARGET's printed statement) uses two
+  positive core forms; if F79 holds, vineest Step 2 produces a signed nonlinear core, so the chain needs a signed
+  extension `SumintSigned` (orchestrator ruling: B1.6 unchanged; V4 uses `SumintSigned` as a named obligation; its proof,
+  generalizing the landed sumint proof, goes to wt-anfourier once the F79 kernel check confirms).
 - F80 — Wave B 𝔛-type restriction norms (B1 `WaveB1-System.lean`: XNorm/XNormRestr and relatives) — **open faithfulness
   question**: two provers independently found that at derivative order ≥ 1 the norm integrand need not be measurable, so
   the (lower) lintegral is not subadditive (wt-wke, `wt-scratch/pl234/ISSUE-XNORM.md`, Bernstein-set counterexample), and
