@@ -30,7 +30,7 @@ theorem lattice_scale_square {L : ℝ} (hL : 0 < L) (d : ℕ) (γ : ℝ) :
   ring
 
 /-- The normalized error has no positive power of L. -/
-theorem normalized_scale (n d : ℕ) {L δ : ℝ} (hL : 0 < L) (hδ : δ ≠ 0) (C : ℝ) :
+theorem normalized_scale (n d : ℕ) {L δ γ : ℝ} (hL : 0 < L) (hδ : δ ≠ 0) (C : ℝ) :
     (δ / (2 * L ^ ((d : ℝ) - γ))) ^ (2 * n) *
         (C * L ^ (2 * (d : ℝ) - 2 * γ) * δ⁻¹) ^ n = (C * δ / 4) ^ n := by
   rw [lattice_scale_square hL d γ]
