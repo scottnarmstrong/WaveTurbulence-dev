@@ -214,7 +214,14 @@ analytic estimate:
 - So they can be spliced in stage 1 as an enlarged vine family, after the combinatorial extensions of Lemma 8.1,
   `subsetvc`, Props 9.1, 9.5 and 9.6.
 
-This is under independent review.
+**Independent referee (2026-11-04, /home/scott/wt-scratch/research-gamma-half-referee/REPORT.md): the route is sound.**
+No counterexample was found.
+- **Analytic core: CONFIRMED.** T-vines meet the hypotheses of `sumintest2`/`sumintest3`/`sumint` literally:
+  8892/8892 cases up to 15 atoms and 14928/14928 at 17 atoms; 800/800 mixed chains.
+- **Combinatorial extensions:** confirmed on all data up to 19 atoms, heuristic beyond. A written rung-locality proof
+  is still needed.
+- **Still open:** TARGET with R ≥ 2 gardens, the flower/parametrix sections, and Prop 10.4(1) for T∖ℓ.
+- **The note's own errors (E1–E5 of the referee report)** do not affect the route.
 
 In the Lean development, the γ-sensitive input `FinalCountGate` (TARGET finalcount1) is a separate hypothesis of
 `layergarden_of_spine` and `layergardenFlower_of_spine`, and it is proved only under 1/2 < γ.
