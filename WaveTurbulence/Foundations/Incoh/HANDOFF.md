@@ -655,3 +655,28 @@ Remaining packet work: absorb the explicit order-dependent coefficients into `C1
 the proved final square-root eta loss, complete the tree's full `30d` spatial derivatives
 (the literal tree order-zero bound is already done), and package the abstract Prop 5.1
 couple/tree statement. The full Prop 5.1 packet is not yet claimed complete.
+
+Printed couple rate milestone (continuing tree assembly): `CouplePropositionRate` and
+`VertexClockPropositionRate` now prove the exact printed rate
+`(C1 delta)^n L^{-(gamma1-sqrt eta)g}` for the raw two-clock and intrinsic one-clock
+couple kernels in `X^{eta,30d,30d}`. They use actual `Sf^{40d,40d}` input bounds,
+the source finite root row, and the cardinal typing inequality `m≤3n` (in particular
+`m=2n+1`, since incoherence implies `n≥1`). The eta condition is explicitly
+`(100d)^2 eta≤1`, in addition to the analytic core's eta hypotheses.
+`ExponentialCoefficientAbsorption` absorbs every printed localization/spatial coefficient;
+`FinalExponentLoss` supplies the exact final exponent. The lattice threshold precedes every
+order, object, input function and root momentum set.
+
+Tree preparation: `MomentumTreeRootInput` appends the finite unit root row as one additional
+input, converting the lone leaf to an indexed input without changing any original node/link
+row. All source leaf-ball localization premises then apply. `RootInputSourceIdentity`
+proves the literal raw causal source kernel is multiplied exactly by the appended input's
+root value. This temporary input will be removed with the landed root partition of unity;
+no decay assumption has been added to the tree's lone leaf.
+
+Checks: focused couple rate build passed (`9454 jobs`), and root-input source identity
+build passed (`9500 jobs`). Scratch `AxiomsPropositionRates.lean` /
+`axioms-proposition-rates.log` audited both final printed couple rates, the coefficient
+absorption, the appended finite root-row certificate and its exact raw tree source identity.
+Each uses only `[propext, Classical.choice, Quot.sound]`. No new erratum or deviation.
+The packet still requires the tree's full spatial derivative bound and final joint packaging.
