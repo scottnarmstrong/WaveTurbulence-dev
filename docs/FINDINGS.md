@@ -312,3 +312,7 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   Y-exceptional, 𝔄₀ ≲ L^{−η²−η⁵ρ₀}. A partial route via operations (d)+(e) and (opere) L1871 when
   |r| ≳ L^{−γ−100η} is unverified and does not cover T-blocks, the Q-block or very small gaps. Status: research
   needed; escalated to the author (candidate DH23 erratum).
+- F70 — DH21 (integralK) L1782 — the weight `e^{−πθα²}` should be `e^{−πθ²α²}`. Minor typo. Found by wt-torus (CANCEL7),
+  which also implements the corrected F61 sign in DH21 Lemma 7.3 and Prop 7.5 (`𝒥B̃_{Q,Z} = (−1)^{|Z|}𝒥B̃_Q`); its route
+  (Gaussian-regularized limit of B̃_Q) shows the Z-component integral is the same for every expansion, stronger than
+  DH21, and does not need DH21's (additionvanish) step.
