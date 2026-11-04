@@ -6,7 +6,7 @@ Lean 4 formalization of
 > [arXiv:2311.10082v2](https://arxiv.org/abs/2311.10082) (2024).
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-11-04 02:11 UTC** · **estimated completion 47.7 %** (Lean proofs 46.2 %) · frozen theorems sealed: 1 / 2 (+ 13 frozen definitions) · **141,249 lines of Lean on main** (1301 files) + 1 unlanded on worker branches · blueprint estimate ≈ 273,000 lines
+> **Last updated: 2026-11-04 02:11 UTC** · **estimated completion 48.8 %** (Lean proofs 47.5 %) · frozen theorems sealed: 1 / 2 (+ 13 frozen definitions) · **141,249 lines of Lean on main** (1301 files) + 1 unlanded on worker branches · blueprint estimate ≈ 273,000 lines
 <!-- /AUTO:updated -->
 
 **Scope (D1):** everything proved in Lean, no black boxes. That covers the target paper and the results it uses from
@@ -32,18 +32,18 @@ DRAFT_IMPORT_VIOLATIONS: 0
 ## Progress
 
 <!-- AUTO:progress -->
-### Estimated completion: **47.7 %**
+### Estimated completion: **48.8 %**
 
-`██████████████░░░░░░░░░░░░░░░░` 47.7 %
+`███████████████░░░░░░░░░░░░░░░` 48.8 %
 
 | Part of the project | Items | Weight | Done | Completion |
 |---|---|---|---|---|
 | Sources, paper maps, blueprint (P0–P1) | 1 | 30 | 27.0 | `█████████░` 90 % |
 | Exact Lean statements, frozen (P2) | 1 | 20 | 14.0 | `███████░░░` 70 % |
-| Lean proofs (P4) | 85 | 681 | 314.6 | `█████░░░░░` 46 % |
+| Lean proofs (P4) | 85 | 681 | 323.4 | `█████░░░░░` 47 % |
 | Frozen theorems sealed | 2 | 2 | 1.0 | `█████░░░░░` 50 % |
 | Release (P5) | 1 | 15 | 0.0 | `░░░░░░░░░░` 0 % |
-| **Total** | | 748 | 356.6 | **47.7 %** |
+| **Total** | | 748 | 365.4 | **48.8 %** |
 
 Lean lines: 141,249 on main + 1 on branches, of ≈ 273,000 estimated by the blueprint (`██████████░░░░░░░░░░` 51.7 % of the estimate).
 
@@ -90,7 +90,9 @@ Lean lines: 141,249 on main + 1 on branches, of ≈ 273,000 estimated by the blu
 | D3 | CANON | 9 | ≈3,950 | 🟡 80 % | canonicalCharacterization proved (scratch, pre-freeze) |
 | Z1 | MAIN | 3 | ≈860 | 🟡 80 % | main proved from propansatz + nlsAkBridge; nlsAkBridge now proved (scratch) — main rests on propansatz alone |
 | D1 | COMB-CORE | 8 | ≈2,020 | 🟡 60 % | COMB-CORE API done (scratch, pre-freeze) |
+| L1 | PL1A | 7 | ≈2,800 | 🟡 60 % | steps 1-2: carrier interface done (Incoh HANDOFF), unimodular change of variables in LINKS/ENHANCED scratch |
 | D2 | SYS-DEFS | 14 | ≈3,400 | 🟡 50 % | SYS-DEFS API + Duhamel identity (scratch) |
+| L2 | PL1B | 9 | ≈4,650 | 🟡 50 % | PL1 couple analytic core done (Foundations/Incoh, 101 files, landed 4ccbf19; F62 squared Wick factor adopted); tree case in progress |
 | X2 | FLOWEREST | 16 | ≈8,900 | 🟡 25 % | X2 moment layer done in scratch (flowerest1/flowerest2 from B1.12, conditional on the named obligation O-X2-EXP = INDUCT graft bijection) |
 | I1 | INDUCT-A | 10 | ≈4,000 | 🟡 15 % | INDUCT started (scratch) |
 | I2 | INDUCT-B | 10 | ≈3,050 | 🟡 10 % | INDUCT |
@@ -113,8 +115,6 @@ Lean lines: 141,249 on main + 1 on branches, of ≈ 273,000 estimated by the blu
 | J5 | MEXP | 6 | ≈2,700 | ⬜ 0 % |  |
 | J6 | WKE-ID | 6 | ≈2,800 | ⬜ 0 % |  |
 | J7 | REGCANCEL | 4 | ≈2,000 | ⬜ 0 % |  |
-| L1 | PL1A | 7 | ≈2,800 | ⬜ 0 % |  |
-| L2 | PL1B | 9 | ≈4,650 | ⬜ 0 % |  |
 | L3 | PL23 | 4 | ≈1,700 | ⬜ 0 % |  |
 | L4 | PL4 | 4 | ≈2,500 | ⬜ 0 % |  |
 | M3 | CLCN | 10 | ≈3,500 | ⬜ 0 % |  |
@@ -139,7 +139,7 @@ Lean lines: 141,249 on main + 1 on branches, of ≈ 273,000 estimated by the blu
 
 </details>
 
-Done fractions last reviewed: **2026-11-04 03:20 UTC**. Source: [`docs/campaign/progress.json`](docs/campaign/progress.json); history: [`docs/campaign/history.csv`](docs/campaign/history.csv).
+Done fractions last reviewed: **2026-11-04 04:10 UTC**. Source: [`docs/campaign/progress.json`](docs/campaign/progress.json); history: [`docs/campaign/history.csv`](docs/campaign/history.csv).
 <!-- /AUTO:progress -->
 
 ## Workers
@@ -147,9 +147,9 @@ Done fractions last reviewed: **2026-11-04 03:20 UTC**. Source: [`docs/campaign/
 <!-- AUTO:workers -->
 | tmux | model / account | packet | branch: last commit | brief |
 |---|---|---|---|---|
-| wt-orch | Claude Opus / claude-1 | B2 drafting: CL-11 (F61 specialWeight sign), Task 20 B2 change list; done: B2 fixes CL-4..CL-10, snapshot-6 audit | `w/orch`: 50 min ago | [brief](docs/campaign/orch/TASK4.md) |
+| wt-orch | Claude Opus / claude-1 | B2 drafting: CL-11 (F61 specialWeight sign), Task 20 B2 change list; done: B2 fixes CL-4..CL-10, snapshot-6 audit | `w/orch`: 51 min ago | [brief](docs/campaign/orch/TASK4.md) |
 | wt-gauss-hc | Claude Opus / claude-10 | X2 moment expansion (flowerest1 probabilistic part), then X3 FIXEDPT (pre-freeze); X1 FLOWER, B1.12 final, B2 ladder fix done | `w/waveb-infra`: — | [brief](docs/campaign/briefs/FLOWER.md) |
-| wt-torus | Claude Opus / claude-14 | C4 LAYERREG (pre-freeze): TARGET layerreg1/layerreg2 (C2 LINKS, C5 ENHANCED done) | `w/approxnt`: 53 min ago | [brief](docs/campaign/briefs/LAYERREG.md) |
+| wt-torus | Claude Opus / claude-14 | C4 LAYERREG (pre-freeze): TARGET layerreg1/layerreg2 (C2 LINKS, C5 ENHANCED done) | `w/approxnt`: 54 min ago | [brief](docs/campaign/briefs/LAYERREG.md) |
 | wt-wke | Claude Opus / claude-13 | J2 rest (DH21 Lemmas 5.9-5.10) then J3 MAINCOEF (DH21 Prop 5.1); JR-OPS 5.3-5.8 done | `w/jr-ops`: 9 min ago | [brief](docs/campaign/briefs/JR2-MAINCOEF.md) |
 | wt-cumul | GPT-6.1-Sol low / codex-3 | I1+I2 INDUCT (pre-freeze, conditional): propansatz from layergarden/fixedpoint/wkeTaylor; main assembly done | `w/norm-bridge`: 5 h ago | [brief](docs/campaign/briefs/INDUCT.md) |
 | wt-nt | GPT-6.1-Sol low / codex-3 | M3 CLCN (pre-freeze): (CL)/(CN), blockchainprop, cnblock (MOLE M1+M2 done) | `w/nt-circle`: 18 min ago | [brief](docs/campaign/briefs/CLCN.md) |
