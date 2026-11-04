@@ -17,6 +17,8 @@ is the product over the pairs `j` of the pair symbols `𝒞_j(α_j, λ_j)`, time
 from `Z⁺` to `W⁺` (DH21 L1141–L1145), the difference `Φ(ε_jα_j + λ_{j,1}) - Φ(ε_jα_j)`. We attach the
 difference to the pair symbol (`pdC`). Then every pair symbol satisfies the interface `PBound`:
 Gevrey bounds, per-variable weighted bounds, and a frequency-weighted bound, with no `θ` weight.
+The product over the pairs of a code (`MzS`, on the recursive index type `ιT`) satisfies `TBound`
+(`tbound_MzS`), and `Mz = MzS ∘ fT` (`Mz_eq_MzS`).
 -/
 
 public section
@@ -321,5 +323,229 @@ theorem PBound.pd {θ a b A N : ℝ} {P : PSym V} (h : SRep θ a b A N P.C) (ha 
           rw [← ENNReal.ofReal_mul h.nonneg]; exact ENNReal.ofReal_le_ofReal hK1
 
 end PDPair
+
+section PProdZero
+
+variable {ι₁ ι₂ : Type*} [Fintype ι₁] [Fintype ι₂] {Z Q : Type*} [MeasureSpace Z] [MeasureSpace Q]
+  [SFinite (volume : Measure Z)] [SFinite (volume : Measure Q)]
+  {M : (ι₁ → ℝ) → Z → ℂ} {C : (ι₂ → ℝ) → Q → ℂ}
+
+/-- The `k = 0` case of `lintegral_pprod_le`. -/
+theorem lintegral_pprod_zero_le (hMs : ∀ z, ContDiff ℝ ∞ fun α => M α z)
+    (hMm : StronglyMeasurable (Function.uncurry M)) (hCs : ∀ q, ContDiff ℝ ∞ fun α => C α q)
+    (hCm : StronglyMeasurable (Function.uncurry C))
+    {wM : (ι₁ → ℝ) → Z → ℝ≥0∞} (hwM : Measurable (Function.uncurry wM))
+    {wC : (ι₂ → ℝ) → Q → ℝ≥0∞} (hwC : Measurable (Function.uncurry wC)) :
+    ∫⁻ α : ι₁ ⊕ ι₂ → ℝ, ∫⁻ p : Z × Q, wM (fun i => α (Sum.inl i)) p.1 *
+        wC (fun i => α (Sum.inr i)) p.2 * dnorm 0 (pprod M C) α p ≤
+      (∫⁻ α₁, ∫⁻ z, wM α₁ z * dnorm 0 M α₁ z) * ∫⁻ α₂, ∫⁻ q, wC α₂ q * dnorm 0 C α₂ q := by
+  have h := lintegral_pprod_le hMs hMm hCs hCm hwM hwC 0
+  simpa using h
+
+end PProdZero
+
+section Tree
+
+variable {V : Type} (P : ℕ → PSym V)
+
+/-- **The variables of the pair symbols of a code**, as an index type. -/
+@[expose] def ιT : LegalCode → ℕ → Type
+  | .nil, _ => Empty
+  | .node i r, q => (P q).ι ⊕ (ιT i (q + 1) ⊕ ιT r (q + i.size + 1))
+
+@[expose, instance_reducible] def ιT.instFintype : (c : LegalCode) → (q : ℕ) → Fintype (ιT P c q)
+  | .nil, _ => inferInstanceAs (Fintype Empty)
+  | .node i r, q => @instFintypeSum (P q).ι (ιT P i (q + 1) ⊕ ιT P r (q + i.size + 1)) (P q).fin
+      (@instFintypeSum (ιT P i (q + 1)) (ιT P r (q + i.size + 1)) (ιT.instFintype i (q + 1))
+        (ιT.instFintype r (q + i.size + 1)))
+
+attribute [instance] ιT.instFintype
+
+/-- The variable of each index of `ιT`. -/
+@[expose] def fT : (c : LegalCode) → (q : ℕ) → ιT P c q → V
+  | .nil, _ => fun e => Empty.elim e
+  | .node i r, q => Sum.elim (P q).f (Sum.elim (fT i (q + 1)) (fT r (q + i.size + 1)))
+
+/-- **The product of the pair symbols** `∏_j 𝒞_j(β_j, λ_j)` over a code, as a symbol. -/
+@[expose] noncomputable def MzS : (c : LegalCode) → (q : ℕ) → (ιT P c q → ℝ) → ZT c → ℂ
+  | .nil, _ => fun _ _ => 1
+  | .node i r, q => pprod (P q).C (pprod (MzS i (q + 1)) (MzS r (q + i.size + 1)))
+
+theorem MzS_node (i r : LegalCode) (q : ℕ) :
+    MzS P (.node i r) q = pprod (P q).C (pprod (MzS P i (q + 1)) (MzS P r (q + i.size + 1))) := rfl
+
+/-- `Mz` is `MzS` evaluated at `α ∘ fT`. -/
+theorem Mz_eq_MzS (α : V → ℝ) : ∀ (c : LegalCode) (q : ℕ) (z : ZT c),
+    Mz (fun j => (P j).C (α ∘ (P j).f)) c q z = MzS P c q (α ∘ fT P c q) z
+  | .nil, _, _ => rfl
+  | .node i r, q, z => by
+    have hi := Mz_eq_MzS α i (q + 1) z.2.1
+    have hr := Mz_eq_MzS α r (q + i.size + 1) z.2.2
+    simp only [Mz, hi, hr]
+    show _ = (P q).C _ z.1 * (MzS P i (q + 1) _ z.2.1 * MzS P r (q + i.size + 1) _ z.2.2)
+    rw [mul_assoc]
+    rfl
+
+/-- The constant of the product of the pair symbols. -/
+@[expose] noncomputable def NT (NP : ℕ → ℝ) : LegalCode → ℕ → ℝ
+  | .nil, _ => 1
+  | .node i r, q => 4 * NP q * (4 * NT NP i (q + 1) * NT NP r (q + i.size + 1))
+
+theorem NT_nonneg {NP : ℕ → ℝ} : ∀ (c : LegalCode) (q : ℕ),
+    (∀ j ∈ Set.Ico q (q + c.size), 0 ≤ NP j) → 0 ≤ NT NP c q
+  | .nil, _, _ => zero_le_one
+  | .node i r, q, h => by
+    have hsz : (LegalCode.node i r).size = i.size + r.size + 1 := rfl
+    have h1 := NT_nonneg i (q + 1) fun j hj => h j (by simp only [Set.mem_Ico] at hj ⊢; omega)
+    have h2 := NT_nonneg r (q + i.size + 1) fun j hj => h j (by simp only [Set.mem_Ico] at hj ⊢; omega)
+    have h3 := h q (by simp only [Set.mem_Ico]; omega)
+    simp only [NT]
+    positivity
+
+end Tree
+
+section TreeBound
+
+variable {V : Type} (P : ℕ → PSym V)
+
+/-- **The bounds of a product of pair symbols over a code**: Gevrey bounds, per-variable weighted
+bounds, and weighted bounds on the frequency of each pair. -/
+structure TBound (A N b : ℝ) (c : LegalCode) (q : ℕ) {ι : Type} [Fintype ι]
+    (M : (ι → ℝ) → ZT c → ℂ) : Prop where
+  nonneg : 0 ≤ N
+  smooth : ∀ z, ContDiff ℝ ∞ fun β => M β z
+  meas : StronglyMeasurable (Function.uncurry M)
+  norm : ∀ k, ∫⁻ β, ∫⁻ z, dnorm k M β z ≤ gev N A k
+  wvar : ∀ i, ∫⁻ β, ∫⁻ z, (1 + ‖β i‖ₑ) ^ b * dnorm 0 M β z ≤ ENNReal.ofReal N
+  wfreq : ∀ j, ∫⁻ β, ∫⁻ z, (1 + ‖(Λz c q z j).1‖ₑ) ^ b * dnorm 0 M β z ≤ ENNReal.ofReal N
+
+theorem dnorm_one_of_ne {ι Γ : Type*} [Fintype ι] {k : ℕ} (hk : k ≠ 0) (β : ι → ℝ) (γ : Γ) :
+    dnorm k (fun (_ : ι → ℝ) (_ : Γ) => (1 : ℂ)) β γ = 0 := by
+  simp only [dnorm]
+  rw [show lift1 (fun (_ : ι → ℝ) (_ : Γ) => (1 : ℂ)) γ = fun _ => 1 from rfl,
+    iteratedFDeriv_const_of_ne hk]
+  simp
+
+theorem volume_empty_pi_univ : (volume : Measure (Empty → ℝ)) Set.univ = 1 := by
+  rw [volume_pi, Measure.pi_univ]
+  simp
+
+theorem measurable_weight_Λz {X Y : Type*} [MeasurableSpace X] [MeasurableSpace Y]
+    (c : LegalCode) (q j : ℕ) (b : ℝ) {pr : Y → ZT c} (hpr : Measurable pr) :
+    Measurable (Function.uncurry fun (_ : X) (y : Y) => ((1 : ℝ≥0∞) + ‖(Λz c q (pr y) j).1‖ₑ) ^ b) :=
+  ((measurable_fst.comp ((continuous_Λz c q j).measurable.comp (hpr.comp measurable_snd))).enorm.const_add
+    1).pow_const b
+
+/-- **The bounds of the product of the pair symbols**, by induction on the code. -/
+theorem tbound_MzS {A b : ℝ} (hA : 0 ≤ A) {NP : ℕ → ℝ} : ∀ (c : LegalCode) (q : ℕ),
+    (∀ j ∈ Set.Ico q (q + c.size), PBound A (NP j) b (P j)) →
+    TBound A (NT NP c q) b c q (MzS P c q)
+  | .nil, q, _ => by
+    have hE : ∀ x : ℝ≥0∞, ∫⁻ _ : ιT P .nil q → ℝ, ∫⁻ _ : ZT .nil, x = x := fun x => by
+      rw [lintegral_const, lintegral_const, volume_ZT_nil_univ, mul_one]
+      change x * (volume : Measure (Empty → ℝ)) Set.univ = x
+      rw [volume_empty_pi_univ, mul_one]
+    refine ⟨zero_le_one, fun _ => contDiff_const, stronglyMeasurable_const, fun k => ?_,
+      fun i => Empty.elim i, fun j => ?_⟩
+    · rcases Nat.eq_zero_or_pos k with rfl | hk
+      · have e : ∀ (β : ιT P .nil q → ℝ) (z : ZT .nil), dnorm 0 (MzS P .nil q) β z = 1 :=
+          fun β z => by rw [dnorm_zero]; simp [MzS]
+        simp_rw [e]
+        rw [hE, NT, gev_zero_eq, ENNReal.ofReal_one]
+      · have e : ∀ (β : ιT P .nil q → ℝ) (z : ZT .nil), dnorm k (MzS P .nil q) β z = 0 :=
+          fun β z => dnorm_one_of_ne hk.ne' β z
+        simp_rw [e]
+        simp
+    · have e : ∀ (β : ιT P .nil q → ℝ) (z : ZT .nil),
+          (1 + ‖(Λz .nil q z j).1‖ₑ) ^ b * dnorm 0 (MzS P .nil q) β z = 1 :=
+        fun β z => by rw [dnorm_zero]; simp [MzS, Λz]
+      simp_rw [e]
+      rw [hE, NT, ENNReal.ofReal_one]
+  | .node i r, q, hP => by
+    have hsz : (LegalCode.node i r).size = i.size + r.size + 1 := rfl
+    have hi := tbound_MzS hA i (q + 1) fun j hj => hP j (by simp only [Set.mem_Ico] at hj ⊢; omega)
+    have hr := tbound_MzS hA r (q + i.size + 1)
+      fun j hj => hP j (by simp only [Set.mem_Ico] at hj ⊢; omega)
+    have hq := hP q (by simp only [Set.mem_Ico]; omega)
+    have hNi := hi.nonneg
+    have hNr := hr.nonneg
+    have hNq := hq.nonneg
+    set Ni := NT NP i (q + 1) with hNi_def
+    set Nr := NT NP r (q + i.size + 1) with hNr_def
+    have hNT : NT NP (.node i r) q = 4 * NP q * (4 * Ni * Nr) := rfl
+    have hirs := contDiff_pprod hi.smooth hr.smooth
+    have hirm := measurable_pprod hi.meas hr.meas
+    have hirn : ∀ k, ∫⁻ β, ∫⁻ p, dnorm k (pprod (MzS P i (q + 1)) (MzS P r (q + i.size + 1))) β p ≤
+        gev (4 * Ni * Nr) A k := fun k => by
+      have h := lintegral_pprod_gev_le hi.smooth hi.meas hr.smooth hr.meas (wM := fun _ _ => 1)
+        measurable_const (wC := fun _ _ => 1) measurable_const (N₁ := Ni) (N₂ := Nr) hNi hNr hA
+        (by simpa using hi.norm) (by simpa using hr.norm) k
+      simpa using h
+    obtain ⟨hir0, hirv⟩ := lintegral_pprod_var_le hi.smooth hi.meas hr.smooth hr.meas
+      ((hi.norm 0).trans_eq (gev_zero_eq _ _)) hi.wvar ((hr.norm 0).trans_eq (gev_zero_eq _ _))
+      hr.wvar
+    have hq0 := (hq.norm 0).trans_eq (gev_zero_eq _ _)
+    have hc1 : ENNReal.ofReal (NP q) * (ENNReal.ofReal Ni * ENNReal.ofReal Nr) ≤
+        ENNReal.ofReal (NT NP (.node i r) q) := by
+      rw [← ENNReal.ofReal_mul hNi, ← ENNReal.ofReal_mul hNq, hNT]
+      exact ENNReal.ofReal_le_ofReal (by nlinarith [mul_nonneg hNq (mul_nonneg hNi hNr)])
+    refine ⟨by rw [hNT]; positivity, contDiff_pprod hq.smooth hirs, measurable_pprod hq.meas hirm,
+      fun k => ?_, ?_, fun j => ?_⟩
+    · have h := lintegral_pprod_gev_le hq.smooth hq.meas hirs hirm (wM := fun _ _ => 1)
+        measurable_const (wC := fun _ _ => 1) measurable_const (N₁ := NP q) (N₂ := 4 * Ni * Nr)
+        hNq (by positivity) hA (by simpa using hq.norm) (by simpa using hirn) k
+      simp only [one_mul] at h
+      rw [MzS_node]
+      exact h
+    · obtain ⟨-, hv⟩ := lintegral_pprod_var_le hq.smooth hq.meas hirs hirm hq0 hq.wvar hir0 hirv
+      rw [MzS_node]
+      exact fun i => (hv i).trans hc1
+    · rw [MzS_node]
+      by_cases hjq : j = q
+      · subst hjq
+        have hw : Measurable (Function.uncurry fun (_ : (P j).ι → ℝ) (z : ℝ × ℝ) =>
+            ((1 : ℝ≥0∞) + ‖z.1‖ₑ) ^ b) := by
+          change Measurable fun x : ((P j).ι → ℝ) × (ℝ × ℝ) => ((1 : ℝ≥0∞) + ‖x.2.1‖ₑ) ^ b
+          fun_prop
+        have h := lintegral_pprod_zero_le hq.smooth hq.meas hirs hirm hw (wC := fun _ _ => 1)
+          measurable_const
+        simp only [mul_one, one_mul] at h
+        have e : ∀ z : ZT (.node i r), Λz (.node i r) j z j = z.1 := Λz_node_q i r j
+        simp_rw [e]
+        exact h.trans ((mul_le_mul' hq.wfreq hir0).trans hc1)
+      · by_cases hji : j < q + 1 + i.size
+        · have e : ∀ z : ZT (.node i r), Λz (.node i r) q z j = Λz i (q + 1) z.2.1 j := fun z => by
+            simp [Λz, hjq, hji]
+          have h1 := lintegral_pprod_zero_le hi.smooth hi.meas hr.smooth hr.meas
+            (wM := fun _ z => ((1 : ℝ≥0∞) + ‖(Λz i (q + 1) z j).1‖ₑ) ^ b)
+            (measurable_weight_Λz i (q + 1) j b (pr := fun z => z) measurable_id)
+            (wC := fun _ _ => 1) measurable_const
+          simp only [mul_one, one_mul] at h1
+          have h2 := lintegral_pprod_zero_le hq.smooth hq.meas hirs hirm (wM := fun _ _ => 1)
+            measurable_const
+            (wC := fun _ p => ((1 : ℝ≥0∞) + ‖(Λz i (q + 1) p.1 j).1‖ₑ) ^ b)
+            (measurable_weight_Λz i (q + 1) j b (pr := fun p : ZT i × ZT r => p.1) measurable_fst)
+          simp only [one_mul] at h2
+          simp_rw [e]
+          exact h2.trans ((mul_le_mul' hq0 (h1.trans (mul_le_mul' (hi.wfreq j)
+            ((hr.norm 0).trans_eq (gev_zero_eq _ _))))).trans hc1)
+        · have e : ∀ z : ZT (.node i r), Λz (.node i r) q z j = Λz r (q + i.size + 1) z.2.2 j :=
+            fun z => by simp [Λz, hjq, hji]
+          have h1 := lintegral_pprod_zero_le hi.smooth hi.meas hr.smooth hr.meas
+            (wM := fun _ _ => 1) measurable_const
+            (wC := fun _ z => ((1 : ℝ≥0∞) + ‖(Λz r (q + i.size + 1) z j).1‖ₑ) ^ b)
+            (measurable_weight_Λz r (q + i.size + 1) j b (pr := fun z => z) measurable_id)
+          simp only [one_mul] at h1
+          have h2 := lintegral_pprod_zero_le hq.smooth hq.meas hirs hirm (wM := fun _ _ => 1)
+            measurable_const
+            (wC := fun _ p => ((1 : ℝ≥0∞) + ‖(Λz r (q + i.size + 1) p.2 j).1‖ₑ) ^ b)
+            (measurable_weight_Λz r (q + i.size + 1) j b (pr := fun p : ZT i × ZT r => p.2)
+              measurable_snd)
+          simp only [one_mul] at h2
+          simp_rw [e]
+          exact h2.trans ((mul_le_mul' hq0 (h1.trans (mul_le_mul'
+            ((hi.norm 0).trans_eq (gev_zero_eq _ _)) (hr.wfreq j)))).trans hc1)
+
+end TreeBound
 
 end WaveTurbulence.ClassJR
