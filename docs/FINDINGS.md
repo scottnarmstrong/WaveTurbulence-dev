@@ -252,3 +252,13 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   unchanged) and define hyper-blocks through a connected adjoint block. F59 addendum: the deviation docstring fails in
   three ℝ≥0∞ cases (a, 0), (a, ⊤), (⊤, ⊤); state operation bounds directly as `𝔄_pre ≤ ℐ · 𝔄_pos`. F58: B2's
   `propcplmol` already requires positive order; fix its docstring ("connected" is not asserted by `IsMolecule`).
+- F62 — TARGET (incohproof10) L1019–L1058 (Wick factor per link) — TARGET writes a per-link factor `ε_𝔫 ∈ {1,0,−1}`,
+  but `ε_ℐ` is a product over all branching nodes and the two nodes of a link carry the same `ε`, so the true per-link
+  factor is `ε_𝔫² ∈ {1,0,1}` (proved: `epsDec_eq_prod_links`, LINKS scratch). Estimates unaffected; an exact
+  formalization needs the square. Found by wt-torus (LINKS, E1). Status: erratum (local).
+- F63 — TARGET `treelemma` (1) L2422 — "−" should be "±", and the first node has no earlier node to anchor to. Found by
+  wt-torus (LINKS, E2). Status: typo/precision.
+- F64 — DH23 Lemma A.4 (2) — "the interval does not depend on r" cannot hold literally; formalized as what the proof
+  counts: a finite family of centres chosen per decoration and r. Found by wt-torus (LINKS, E3). Status: imprecision.
+- F65 — DH21 Def 4.11 — "if 𝒬 = × then 𝒩^ch contains the root of + sign" is a slip (the trivial couple has no
+  branching nodes). Found by wt-torus (LINKS, E4). Status: typo.
