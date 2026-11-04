@@ -12,6 +12,8 @@ against the NT derivative denominator (4k)!.
 
 public section
 namespace WaveTurbulence.RegAsymp
+open MeasureTheory
+open scoped ENNReal
 
 /-- The factorial gap still dominates k! once k is above twice the shift. -/
 theorem shifted_gevrey_ratio_le {A : ℝ} (hA : 0 ≤ A) (s k : ℕ) (hk : 2*s ≤ k) :
@@ -35,5 +37,33 @@ theorem summable_shifted_gevrey_ratio (A : ℝ) (hA : 0 ≤ A) (s : ℕ) :
   filter_upwards [Filter.eventually_atTop.2 ⟨2*s,fun _ hk => hk⟩] with k hk
   rw [Real.norm_eq_abs,abs_of_nonneg (by positivity)]
   exact shifted_gevrey_ratio_le hA s k hk
+
+/-- Quantitative common envelope bound after a fixed derivative shift. -/
+theorem lintegral_shifted_gevrey_envelope_le {Λ : Type*} [MeasurableSpace Λ] {μ : Measure Λ}
+    (s : ℕ) (G : ℕ → Λ → ℝ≥0∞) (hGm : ∀ k, Measurable (G k)) {N A : ℝ}
+    (hN : 0 ≤ N)
+    (hG : ∀ k, ∫⁻ ω, G k ω ∂μ ≤ ENNReal.ofReal (N * A ^ (k+s) * (2*(k+s)).factorial)) :
+    ∫⁻ ω, (∑' k : ℕ, ENNReal.ofReal (1 / ((4*k).factorial : ℝ)) * G k ω) ∂μ ≤
+      ENNReal.ofReal N * ∑' k : ℕ, ENNReal.ofReal (A ^ (k+s) * ((2*(k+s)).factorial : ℝ) / (4*k).factorial) := by
+  rw [lintegral_tsum (fun k => ((hGm k).const_mul _).aemeasurable),← ENNReal.tsum_mul_left]
+  apply ENNReal.tsum_le_tsum
+  intro k
+  rw [lintegral_const_mul _ (hGm k)]
+  calc ENNReal.ofReal (1 / ((4*k).factorial : ℝ)) * (∫⁻ ω, G k ω ∂μ)
+      ≤ ENNReal.ofReal (1 / ((4*k).factorial : ℝ)) * ENNReal.ofReal (N * A ^ (k+s) * (2*(k+s)).factorial) :=
+        mul_le_mul_right (hG k) _
+    _ = ENNReal.ofReal N * ENNReal.ofReal (A ^ (k+s) * ((2*(k+s)).factorial : ℝ) / (4*k).factorial) := by
+      rw [← ENNReal.ofReal_mul (by positivity),← ENNReal.ofReal_mul hN]
+      congr 1
+      ring
+
+/-- Every fixed derivative shift has finite common weighted mass. -/
+theorem lintegral_shifted_gevrey_envelope_lt_top {Λ : Type*} [MeasurableSpace Λ] {μ : Measure Λ}
+    (s : ℕ) (G : ℕ → Λ → ℝ≥0∞) (hGm : ∀ k, Measurable (G k)) {N A : ℝ}
+    (hN : 0 ≤ N) (hA : 0 ≤ A)
+    (hG : ∀ k, ∫⁻ ω, G k ω ∂μ ≤ ENNReal.ofReal (N*A^(k+s)*(2*(k+s)).factorial)) :
+    ∫⁻ ω, (∑' k : ℕ, ENNReal.ofReal (1/((4*k).factorial:ℝ))*G k ω) ∂μ < ⊤ := by
+  exact (lintegral_shifted_gevrey_envelope_le s G hGm hN hG).trans_lt
+    (ENNReal.mul_lt_top ENNReal.ofReal_lt_top (summable_shifted_gevrey_ratio A hA s).tsum_ofReal_lt_top)
 
 end WaveTurbulence.RegAsymp
