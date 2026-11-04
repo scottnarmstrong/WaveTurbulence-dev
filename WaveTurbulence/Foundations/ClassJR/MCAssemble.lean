@@ -206,7 +206,7 @@ theorem srep_assemble {θ a b A NM NH : ℝ} (hθ : 0 ≤ θ) (ha : 0 ≤ a) (ha
     (hH : ∀ p L0, FRep θ a b A NH (fun ξ => ξ.1 + bfr ξ.2) (H p L0))
     (hHm : Measurable fun x : (W × ℝ) × ((ιH → ℝ) × (ℝ × Ξ)) => H x.1.1 x.1.2 x.2.1 x.2.2)
     (hsH : Measurable sH) (hsv : ∀ w i, (1 + ‖sH w i‖ₑ) ^ b ≤ vH i w) :
-    SRep θ a b A (4 * NM * NH) (Cassem M H bfr sH) ∧
+    SRep θ a b A (4 * NM * NH) (Cassem M H bfr sH) ∧ SymReg (kprod M (Kc H sH)) ∧
       ∀ β t s, ∫ lam, Cassem M H bfr sH β lam * e2 lam t s =
         ∫ x, kprod M (Kc H sH) β x * e2 (FrA bfr x) t s := by
   have hKs := contDiff_Kc (sH := sH) fun p L0 => (hH p L0).reg
@@ -317,7 +317,8 @@ theorem srep_assemble {θ a b A NM NH : ℝ} (hθ : 0 ≤ θ) (ha : 0 ≤ a) (ha
         le_mul_of_one_le_left bot_le (one_le_wL hθ _)).trans (hkn k))
   have hψ := measurePreserving_psiA W Ξ
   have hbA := measurable_bA (W := W) hbfr
-  refine ⟨⟨by positivity, pushF_symReg hreg hψ hbA, fun k => ?_, fun i => ?_⟩, fun β t s => ?_⟩
+  refine ⟨⟨by positivity, pushF_symReg hreg hψ hbA, fun k => ?_, fun i => ?_⟩, hreg,
+    fun β t s => ?_⟩
   · exact (lintegral_weight_pushF_le hreg hψ hbA (FrA_psiA bfr) (w := fun _ lam => wL θ lam)
       ((measurable_wL θ).comp measurable_snd) k).trans (hkn k)
   · have hw : Measurable (Function.uncurry fun (β : ιM ⊕ ιH → ℝ) (lam : ℝ × ℝ) =>
