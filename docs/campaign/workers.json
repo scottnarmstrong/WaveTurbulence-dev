@@ -4,7 +4,7 @@
   "model": "Claude Opus",
   "account": "claude-1",
   "branch": "w/orch",
-  "packet": "Task 27: B2 freeze candidate final + author review page WAVE-B-B2.md; done: B2 audits, PL1/DEGEN/LINKS/ENHANCED/LAYERREG/CLCN pre-freeze audits, B1 freeze branch",
+  "packet": "Task 32 (CL-22 O1-O5 anchors) + Task 33 audits (SKELETON, MAINCOEF-T, PL1 final); done: J5-J7, B̃ audits PASS",
   "brief": "docs/campaign/orch/TASK4.md"
  },
  {
@@ -20,16 +20,16 @@
   "model": "Claude Opus",
   "account": "claude-14",
   "branch": "w/approxnt",
-  "packet": "J5 MEXP, then J6 WKE-ID, J7 REGCANCEL (C2, C4, C5, J4 done)",
-  "brief": "docs/campaign/briefs/MEXP-T.md"
+  "packet": "A23-HALF: DH23 Lemma A.2(3) γ > 1/2 branch in Lean (RA2 REGREF done: B2.1 proved from RA1 obligations)",
+  "brief": "docs/campaign/briefs/A23-HALF.md"
  },
  {
   "tmux": "wt-wke",
   "model": "Claude Opus",
   "account": "claude-13",
   "branch": "w/jr-ops",
-  "packet": "MAINCOEF-T: DH21 Prop 5.1 for regular trees (B̃ bridge, J1-J3 done)",
-  "brief": "docs/campaign/briefs/BTILDE-MEXP.md"
+  "packet": "L3+L4: TARGET Props 6.1-6.3 (proplayer2-4); J1-J3, B̃ bridge, tree Prop 5.1 done",
+  "brief": "docs/campaign/briefs/PL234.md"
  },
  {
   "tmux": "wt-cumul",
@@ -42,7 +42,7 @@
  {
   "tmux": "wt-nt",
   "model": "GPT-6.1-Sol low",
-  "account": "codex-3",
+  "account": "codex-2",
   "branch": "w/nt-circle",
   "packet": "G4 APPB-OPS then G5 APPB-ALG (pre-freeze): DH23 Appendix B (MOLE M1+M2, CLCN M3 done)",
   "brief": "docs/campaign/briefs/APPB-OPS.md"
@@ -58,7 +58,7 @@
  {
   "tmux": "wt-gausssum",
   "model": "GPT-6.1-Sol low",
-  "account": "codex-3",
+  "account": "codex-2",
   "branch": "w/count",
   "packet": "M4 VINES (pre-freeze), then M9 VINEPARAM (COUNT done, landed)",
   "brief": "docs/campaign/briefs/VINES.md"
@@ -66,15 +66,15 @@
  {
   "tmux": "wt-resonant",
   "model": "GPT-6.1-Sol low",
-  "account": "codex-3",
+  "account": "codex-2",
   "branch": "w/resonant",
-  "packet": "C3 SKELETON (pre-freeze): prime skeletons with uniqueness (REG-STRUCT C1+D4 done)",
-  "brief": "docs/campaign/briefs/SKELETON.md"
+  "packet": "V3 REGRED (pre-freeze): skeleton reduction, vineest Step 1 (C1 REG-STRUCT, C3 SKELETON done)",
+  "brief": "docs/campaign/briefs/REGRED.md"
  },
  {
   "tmux": "wt-anfourier",
   "model": "GPT-6.1-Sol low",
-  "account": "codex-3",
+  "account": "codex-2",
   "branch": "w/an-phase",
   "packet": "V1+V2 SUMINT (pre-freeze): prove the Wave B statement sumint (N2+N3 done)",
   "brief": "docs/campaign/briefs/SUMINT.md"
@@ -82,9 +82,9 @@
  {
   "tmux": "wt-l2s",
   "model": "GPT-6.1-Sol low",
-  "account": "codex-3",
+  "account": "codex-2",
   "branch": "w/wke-l2s",
-  "packet": "L1+L2 PL1: TARGET Prop 5.1 proplayer1 (NLS-BRIDGE done: nlsAkBridge proved)",
-  "brief": "docs/campaign/briefs/PL1.md"
+  "packet": "INCOH-INST: prove B2.2 incoherentDecay at the exact type (PL1 abstract Prop 5.1 done)",
+  "brief": "docs/campaign/briefs/INCOH-INST.md"
  }
 ]

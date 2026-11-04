@@ -63,6 +63,28 @@ the twist cancellation go through at m = 1), which repairs the Q-bead failure fo
 T-bead necklace for **γ ≤ 1/2**; option (2) below needs only γ ∈ (1/2, 1) plus the m = 1 vine and the T-type counts
 for γ > 1/2 (no longer (2/3, 1)). FINDINGS F72.
 
+
+**Update 2 (2026-11-04, `docs/research/kqmainest1-necklace.txt`, FINDINGS F73):** the analytic per-class bound TARGET
+(finalsbest2) (and DH23 `kqmainest1` with its proof's ρ) also fails on the necklaces for γ ≤ 1/2: the time integrals
+give no gain per bead (explicit leading-order computation, high confidence, not a complete proof). TARGET's
+`layergarden` itself is not contradicted, but its proof breaks at the analytic level for γ ≤ 1/2, and any repair needs
+new analytic input (a log-free time bound for long chains or a Prop 7.6-type estimate). This strengthens option (3)
+(write to the authors). Independently of the decision, the case-(4) counts for γ ∈ (1/2, 1) (all T-type classes) are
+being researched now, since every option needs them.
+
+
+**Update 3 (2026-11-04, FINDINGS F75, `docs/research/case4-gamma-above-half.txt`):** for γ ∈ (1/2, 1) the gap is
+**closed** by a new uniform argument (Theorem A), resting on DH23 Lemma A.2(3)'s γ > 1/2 branch (sketched in DH23, to be
+proved in Lean) and ylem2; independent check commissioned. So option (2) — restrict the formal target to γ ∈ (1/2, 1) —
+now has a complete mathematical route. The threshold 1/2 is exactly A.2(3)'s branch point, matching the necklace.
+
+
+**Update 4 (2026-11-04):** an independent referee **confirmed** the γ ∈ (1/2, 1) argument (F75) and proved the one input
+it left open (DH23 Lemma A.2(3) for γ > 1/2). So restricting the formal target to γ ∈ (1/2, 1) has a complete,
+independently checked mathematical route (modulo DH23 material used as DH23 uses it). **Recommendation now: (2) + (3)** —
+version the frozen `main` to `γ ∈ Ioo (1/2) 1` (D2 amended; you approve the exact text) and write to Deng and Hani about
+γ ≤ 1/2. If the authors later supply a repair for γ ≤ 1/2, a second successor can widen it again.
+
 ## What it means for the formalization
 
 Ruling D2 sets the target as **0 < γ < 1**, and the frozen `main` (Wave A) quantifies over `γ ∈ Ioo 0 1`. The

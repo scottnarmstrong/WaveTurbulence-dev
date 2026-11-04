@@ -1,12 +1,12 @@
 # Wave B (tier B1) — freeze candidate for author approval
 
-Snapshot `/home/scott/wt-scratch/waveb-snap-6` · prepared 2026-11-04 (supersedes snapshot 5: FINDINGS F56 fix + B1.12). **This is the exact Lean to be frozen** (one declaration per file under
+Snapshot `/home/scott/wt-scratch/waveb-snap-7` · prepared 2026-11-04 (supersedes snapshots 5–6: FINDINGS F56 fix, B1.12, F68 dChild layer fix). **This is the exact Lean to be frozen** (one declaration per file under
 `WaveTurbulence/Frozen/`, theorems with body `by sorry` as `DRAFT_SORRY` anchors, definitions sealed), exactly as for
-Wave A (D6). File hashes: `WaveB1-Core.lean` 0b8477d9943a…, `WaveB1-System.lean` 59365906b84a…, `WaveB1-Statements.lean` e72e32df7fa0…, `WaveB1-Sumint.lean` 9750d760d676…, `WaveB1-Flower.lean` 026ac386b37e….
+Wave A (D6). File hashes: `WaveB1-Core.lean` 0b8477d9943a…, `WaveB1-System.lean` 59365906b84a…, `WaveB1-Statements.lean` e72e32df7fa0…, `WaveB1-Sumint.lean` 9750d760d676…, `WaveB1-Flower.lean` a7c15279f10b….
 
-> **Hold (2026-11-04, F68):** snapshot 6's B1.12 admits, through `PatValid (dChild i)`, gardens that TARGET's bound does
-> not cover. Snapshot 7 adds one conjunct (`LG.layer b.toNode = p`); nothing else changes. Please approve snapshot 7;
-> this page will be regenerated from it.
+> **Hold (2026-11-04, F78):** snapshot 7's B1.12 `coupleSum` ∂_t clause admits couples TARGET L2312 does not produce
+> (a ∂_t analogue of F68). Snapshot 8 adds one layer conjunct; nothing else changes. Please approve snapshot 8 (with the γ
+> range per your F69b decision); this page will be regenerated from it.
 
 ## 1. What is frozen
 
@@ -43,13 +43,14 @@ with source lines and dependencies: `FREEZE-LIST.md` of the snapshot, copied to 
 8. Freeze-set definitions are self-contained (depend only on frozen Wave A definitions and Mathlib); bridges to the
    landed Foundations objects (χ₀, the a-system, the Taylor terms) are proved; norm bridges are provider obligations.
 9. **Snapshot 6 fix (F56):** in `SumintDatum.phase` the normal-block product was inside the block product (Mathlib parses a `∏` body at precedence 67, `*` is 70); it is now `(∏ i, …) * ∏ i : Nor, …` as in TARGET (sumintI1). A sweep of every file found no other scope error (wt-gauss-hc; independently re-swept by wt-orch).
+10. **Snapshot 7 fix (F68):** B1.12's `PatValid` `dChild` clause now requires the designated child of `𝔣^pr` to be a layer-`p` branching node (`LG.layer b.toNode = p`); otherwise `flowerSum (dChild i)` contained gardens TARGET's bound (L2331) does not cover. `PatValid` takes `p` as an argument; the text of B1.12 itself is unchanged; `fixedpoint` uses only the `plain` and `dRoot` patterns.
 
 ## 3. Audit trail
 
 Stage audits: `docs/campaign/orch/audits/WaveB-stage1.md` (core definitions, wt-orch), `WaveB-stage2.md` (system objects,
 wt-orch), `WaveB-stage3.md` (statements, independent Opus auditor: 9 REQUIRED); deltas `WaveB-delta-1.md`,
 `WaveB-delta-stage3.md` (all closed; N1); `WaveB-final-check.md` (PASS); `WaveB-packaging-check.md` (packaging only).
-Snapshot 6: `FLOWER-redraft.md` (B1.12), `WaveB-snapshot6.md` (delta audit: B1.12, F56, sweep). Every REQUIRED item is closed; all files elaborate; the only `sorry`s are the 12 anchors.
+Snapshot 6: `FLOWER-redraft.md` (B1.12), `WaveB-snapshot6.md` (delta audit: B1.12, F56, sweep), `WaveB-snapshot7.md` (F68 delta, PASS). Every REQUIRED item is closed; all files elaborate; the only `sorry`s are the 12 anchors.
 
 ## 4. The exact Lean code
 
@@ -2193,13 +2194,17 @@ noncomputable def fixPat (pat : Fin w → FixPat) (t s : ℝ) (b : GBranch LG.ga
       b.1.2 = c.1.2 ++ [i] then some s else none
 
 /-- The pattern of tree `j` designates an existing node other than `𝔣^pr`. Without it the pattern's
-boundary term does not exist. -/
-def PatValid (j : Fin w) : FixPat → Prop
+boundary term does not exist.
+
+For `dChild i` the designated child of `𝔣^pr` is in layer `p` (F68). The boundary term `δ(t_𝔫 − s)` of `∂_s`
+(T L2331) is taken in the single-tree kernel `𝒥^†`, where a non-flower child of `𝔣^pr` is a top-layer branching
+node or a leaf. So the root of an attached lower-layer garden is excluded. -/
+def PatValid (p : ℕ) (j : Fin w) : FixPat → Prop
   | .plain => True
   | .dRoot => ∃ b : GBranch LG.garden.tree, b.1 = (j, []) ∧ ¬ LG.garden.IsFlowerParent b
   | .dParent => ∃ b c : GBranch LG.garden.tree, LG.garden.IsFlowerParent c ∧ c.1.1 = j ∧ c.IsChildOf b
   | .dChild i => ∃ b c : GBranch LG.garden.tree, LG.garden.IsFlowerParent c ∧ c.1.1 = j ∧
-      b.1.1 = j ∧ b.1.2 = c.1.2 ++ [i]
+      b.1.1 = j ∧ b.1.2 = c.1.2 ++ [i] ∧ LG.layer b.toNode = p
 
 variable {d : ℕ}
 
@@ -2296,7 +2301,7 @@ noncomputable def flowerSum (P : WTParams) (F : ℕ → Mom P.d → ℝ) (p N : 
       LG.FlowerKindOK p (P.N (p + 1)) kind ∧
       (∀ ℓ : GLeaf LG.garden.tree, LG.garden.IsFlower ℓ →
         LG.garden.sign ℓ.toNode = ζ * LG.garden.sig ℓ.1.1) ∧
-      ∀ j, LG.PatValid j (pat j)),
+      ∀ j, LG.PatValid p j (pat j)),
     kernelKgen P.L P.γ P.δ F LG (LG.fixPat pat t s)
       (if dagger.isSome then Finset.univ.filter LG.garden.IsFlowerParent else ∅)
       (fun k => (cut1.elim 1 fun j₁ => LG.cutWeight1 p P.L j₁ k) *

@@ -351,3 +351,55 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   omission is the m = 1 vine. Minor DH23 slips: L1481 cites Lemma A.2(2) outside its range (A.2(1) closes it); the
   δ-bookkeeping in (twoestbadv1) is off but absorbed by L^{−5η}. **B2 change required:** add the m = 1 instance to vine
   (II) (reverses R4 of the ylem1 investigation); re-run template enumerations (VINES, MOLEPROP13).
+- F73 — DH23 `kqmainest1` (L1632–L1640) and TARGET (finalsbest2) (L2078) — the analytic per-class bounds also fail on the
+  necklace couples for 0 < γ < 1/2 (and γ = 1/2 with δ small): research note `docs/research/kqmainest1-necklace.txt`
+  computes K_Q(t,t,k) = ζ(Q) 2^{−n} δ^{2m+2−d} L^{−γ(2d−1)} [A_m + o(1)], n = 4m+3, with A_m ≠ 0 for explicit data —
+  no gain per bead (each T-bead is exactly neutral; joint phases do not oscillate when |r| ≲ 1/λ, and there are
+  ≳ δ^{−d} such gaps exactly when γ ≤ 1/2). TARGET (finalsbest2) fails once η⁶(4m+3) > γ(2d−1) (its ρ is explicit);
+  DH23 kqmainest1 fails with its proof's ρ (literal "there exists ρ" form not refuted). TARGET `layergarden` itself is not
+  contradicted (necklace couples are ≤ C^n with a fixed L^{−γ(2d−1)} gain), but its proof is broken at the analytic
+  level for γ ≤ 1/2, and no counting-only repair works (ladder-style ρ needs a log-free time bound; splicing needs a
+  Prop 7.6-type estimate). Confidence: high; derived, not a full proof with explicit error terms. Also: small-gap
+  Q-beads lose L^γ analytically, so the m = 1 vine (II) (F72) is necessary.
+- F74 — TARGET L708 (`F₀ = Ω` in Prop `propansatz`) — proof-level reading, orchestrator ruling (recorded 2026-11-04 after
+  wt-orch's INDUCT audit I-1): INDUCT takes `Fev 0 = initialRapidEvent`, the measurable, symmetric event that the
+  initial coefficients decay rapidly, with `μ.real (Fev 0) = 1` and `μ.restrict (Fev 0) = μ`. So every level-0
+  expectation and cumulant is the full Gaussian one; the reading differs from L708 by a null set. It is needed because
+  the class condition is pointwise: for an arbitrary version of the Gaussian data, outcomes whose data do not decay have
+  no classed solution. No statement changes (the frozen statements are unaffected). Note: the approval recorded in
+  INDUCT's WORKLOG as the "user's" was the orchestrator's ruling, not the author's.
+- F75 — DH23 Prop 9.6 case (4) for γ ∈ (1/2, 1): **closed by new argument** (research note
+  `docs/research/case4-gamma-above-half.txt`, Theorem A; independent check commissioned). For a case-(4) component
+  whose closure 𝕄₁ (Y)-reduces to T: operation (c) on the first β-chain (Lemma A.3(1), cost L^{γ₀}), operation (d) on the
+  second (cost (log L)^C), at most two (Y) sequences (ylem2, + a not-removed variant) to T minus a bond, and Lemma
+  A.2(3)'s γ > 1/2 branch on the system {(1,2,3),(1,4,5)} gives L^{−γ₀−10η}; total 𝔄₀ ≲ δ⁻¹(log L)^C L^{−10η}. Only
+  η ≪ γ − 1/2 is needed (DH23 L438, L2076; TARGET L606); covers all orientations and gaps, and the drawn vines
+  (III)–(VIII). Parity: T-type = odd atom count; Q-type = vines (II), m ≥ 1 (F72). Checks: 8766/8766 directed classes
+  pass the structural steps; brute force agrees to 9 atoms. Rests on DH23 Lemma A.2(3) (γ > 1/2 branch, only sketched
+  at L2088–L2091; numerics support it) and ylem2. Lean needs: the γ > 1/2 refinement of (basiccount02), ylem2, the
+  operation (c)/(d) deviation lemmas, a few graph lemmas, and a γ > 1/2 hypothesis.
+  **CONFIRMED MODULO by an independent referee (2026-11-04, `docs/research/case4-gamma-above-half-referee.txt`):** every
+  step holds as a deduction from DH23's tools; the referee PROVED the γ > 1/2 branch of DH23 Lemma A.2(3) itself, with
+  saving κ(γ) = min((2γ−1)/3, 1−γ) up to logs (bilinear count + thin-annulus lattice bound, exponent 2/3, + estcross,
+  both already formalized). Remaining, all DH23 material used as DH23 uses it: ylem2's ladder sharpness, operation (d)'s
+  deviation and the O(1)-rung ladder-product changes, an η-independent constant in (roughbd); and, for case (4) as a
+  whole, (E0) (F72) and Prop 10.4(2)′. Note fixes: η ≪ 1−γ too (estcross; DH23 L438 covers it); ylem2 applies without
+  LG; 'T is not bad' should read 'T minus a bond is small'. Side finding: TARGET Lemma A.9's printed E₂ bound is false at
+  k = 0 with opposite signs for γ > 1/2 (the formalized `atomCountLemma_bound` carries k ≠ 0; cf. F43).
+- F76 — TARGET (regref2-2) "translate by r" for trees with the lone leaf in a lower layer (q' < r) — proof-level
+  precision: the B2 audit's reduction to the slice s = r holds pointwise, but at the norm level it is a trace
+  statement (the line s = r has measure zero, and the restriction norm requires extensions to agree pointwise), so it
+  needs continuity of K*_𝒯 − app on the closed box plus a slice lemma for the 𝔛 norm. B2.1 remains true; TARGET's
+  sentence does not cover this step. Found by wt-torus (RA2 REGREF); proved inside RA2 (route (a)).
+- F77 — DH21 Cor 4.16, proof L850/L852 — the displayed bound `Σ_{n_1+⋯+n_m≤n} C_0^{n_1}⋯C_0^{n_m} ≤ (2C_0)^n` fails as
+  written (even scales, m = n = 8: 330 terms at total scale 8 > 256). The exponential count itself is true and is proved in
+  SKELETON with larger explicit constants. Found by wt-resonant (C3 SKELETON), which also proves DH21 L833 / DH21-2 L641's
+  omitted E4 argument (general-couple skeleton uniqueness; R15-3). Status: minor erratum in a proof.
+- F78 — Wave B snapshot 7 B1.12, `coupleSum` with `dt = true` (∂_t clause) vs TARGET L2312 — **our statement defect** (∂_t
+  analogue of F68): the clause only asks each root to be a branching node (`∀ j, ∃ b, b.1 = (j, [])`), with no layer
+  condition. `IsCanonC (p+1)` forces only one root into layer p, so it admits a couple whose other top tree is the
+  single leaf • with a lower-layer garden attached at its root; that root's time is pinned at t and its kernel counted.
+  But ∂_t 𝒥_• = 0, so ∂_t a^tr involves only trees of order ≥ 1 and its second moment never produces these couples
+  (TARGET's δ(t_𝔯 − t) is the time derivative of the tree expansion, both roots top-layer branching nodes). So the
+  obligation O-X3-CPL for ∂_t a^tr is false as stated. Fix (snapshot 8): `∀ j, ∃ b, b.1 = (j, []) ∧ LG.layer b.toNode =
+  p` (equivalently: every top tree nontrivial). ∂_t ℒ₀ is unaffected. Found by wt-gauss-hc (CPL-3).

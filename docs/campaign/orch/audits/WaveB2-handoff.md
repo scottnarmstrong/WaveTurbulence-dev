@@ -605,3 +605,156 @@ reachable from a frozen consumer. Only the generator and the generated list chan
   - `DESIGN.md` `6463b5f0872c…` (changelog B2-CL-18, files table);
   - all Lean sources unchanged since snap-3 (`ce8f0a16…`, `89ff648e…`, `82e42b2b…`).
 - **Still open (REQUIRED):** F-5, the proof of `tendsto_pvResonantIntegral_of_decay`.
+
+## Addendum 4: B2-CL-19 (wt-orch, Task 27): F-5 closed; the final freeze candidate
+
+F-5 is proved by wt-ansob (PV-DECAY): the landed `Resonant.tendsto_energyInvIntegral_of_decay` in
+`Foundations/Resonant/PVDecay*.lean`, and the exact B2 wrapper in `/home/scott/wt-scratch/pv-decay/PVDecay.lean`.
+
+- **`WaveB2-Regular.lean`** (docstring only): `pvResonantIntegral` cites `tendsto_pvResonantIntegral_of_decay` and its
+  landed source.
+- **`WaveB2-Regular-probes.lean`:** the import `WaveTurbulence.Foundations.Resonant.PVDecay` and the wrapper
+  `tendsto_pvResonantIntegral_of_decay`, byte-for-byte wt-ansob's statement and proof (the statement written in
+  addendum 2).
+- **Checks.** All seven modules rebuild with 0 errors and the same 10 `sorry`s. The wrapper's axioms are
+  `[propext, Classical.choice, Quot.sound]`. `FREEZE-LIST.md` regenerated: the same 89 frozen and 76 held out,
+  byte-identical (`749daeb81908…`).
+- **Final freeze candidate** pinned read-only at `/home/scott/wt-scratch/waveb2-snap-final` (`SHA256SUMS`
+  `b2d8c4aafde9…`): `WaveB2-Regular.lean` `4d7f81efa32b…`,
+  `WaveB2-Molecules.lean` `89ff648ed5a3…`, `WaveB2-Statements.lean`
+  `82e42b2bfa16…`. Author review page: `docs/review/WAVE-B-B2.md`.
+
+## Addendum 5: B2-CL-20 (wt-orch, Task 27b): anchors B2.1 and B2.2 only
+
+Under the anchor-budget ruling, the only theorem anchors are B2.1 and B2.2 (total 2 + 12 + 2 = 16). The seven
+Regular/Molecules obligations become non-frozen characterization lemmas.
+
+- **Freeze set:** the closure of B2.1 and B2.2, **59 declarations** (Regular 53, Statements 6, Molecules 0).
+- **Moved out of the CL-18 set of 89 (30):** the 7 lemmas and 23 definitions.
+  - The molecule layer (11): `Molecule`, `dartsAt`, `deg`, `outdeg`, `indeg`, `Adj`, `SameComponent`, `IsMolecule`,
+    `GNode.parent`, `GardenDart`, `Garden.molecule`.
+  - TARGET's source-form regular objects (12): `IsRegularCouple`, `IsRegularTree`, `RawRegular`, `RawCpl.opA`,
+    `opB`, `orient`, `relocate`, `tree`, `mapTree`, `Garden.MatchesTreeCouple`, `TTree.setAt`, `TTree.subtreeAt`.
+- **Consequence (reading D4).** B2.1 and B2.2 speak about codes and decoded carriers. Their identification with
+  T Def `defreg` is carried by non-frozen lemmas (O2 proved; O1, O3, O4 open).
+- **Held out: 106.**
+- **No Lean source changed.** `gen_freeze.py`, `FREEZE-LIST.md` and `DESIGN.md` (CL-20) were updated in
+  `waveb2` and in `waveb2-snap-final` (new `SHA256SUMS` `be649b881fb1…`).
+- `docs/review/WAVE-B-B2.md` and `WAVE-B-B2-FREEZE-LIST.md` were regenerated.
+
+## Addendum 6: B2-CL-21 (wt-orch, Task 30): vine (II) includes `m = 1` (FINDINGS F72)
+
+**Source.** `docs/research/vine2-m1.txt` (sha256 `a9bea11f12c6…`) and FINDINGS F72.
+- DH23's vine (II) is two joints joined through a ladder of `m ≥ 1` rungs: L1421–L1449, and L1481 "`m ≥ 1` for
+  vines (II)".
+- `sumintest1` (L1280) is stated for `m ≥ 1`. TARGET treats vine (I) as `m = 0` of the same parametrization
+  (L1800), and its Def `cohmol` (L1489–L1492) groups each double bond.
+- Under F37's reading, B2's drawn template gave only `m ≥ 2`. This reverses R4 of `ylem1-investigation.md`.
+
+**The change** (`WaveB2-Molecules.lean` §6).
+- `VineType.template .II` is now the `m = 1` member, the 4-atom Q-block `J₁ - (a = b) - J₂`:
+  `⟨4, [(0,2), (0,3), (2,3), (2,3), (2,1), (3,1)], [((2,1), (3,1))], [[2,3]]⟩`.
+- Its slot is the pair of rails `a⋯J₂`, `b⋯J₂`. So `expand [k]` has `m = k + 1` rungs, `2k + 4` atoms (minimum 4)
+  and `4k + 6` bonds; the two-rung drawing is `expand [1]`.
+- Only docstrings change elsewhere: `VineTemplate`, `template`, `insertRungs`, `IsVine` and the module doc.
+  `insertRungs`, `expand`, `IsVine` and the other seven templates are unchanged.
+
+**Probes** (`WaveB2-Molecules-probes.lean`; sorry-free; axioms within [propext, Classical.choice, Quot.sound]).
+- **The sizes table.** `vineTemplate_counts` now has (II) = `(4, 6)`.
+- **`vineII_card`:** `n = 2k + 4` for every `k`.
+- **`vineII_sizes`:** the degree pattern, `2k + 4` atoms and `4k + 6` bonds for `k ≤ 3`. It replaces
+  `vineII_one_rung`.
+- **`vineII_family_shift`:** for `k ≤ 3`, an explicit bijection that fixes the joints carries the CL-20 (II)
+  template with `k` inserted rungs onto `expand [k + 1]`, bond multiset onto bond multiset. **The new family is the
+  old one plus exactly `m = 1`.**
+- **`qBlock`, `qBlock_block`, `qBlock_vine`:** a 4-atom molecule with an antiparallel rung is a block and a vine
+  (II) with `k = 0`. The new instance is realized.
+
+**Effect on B2.1, B2.2 and their closure: none.**
+- **Normalized dump.** I dumped all 365 constants of `WaveB2Draft.{Regular, Molecules, Statements}` before and
+  after, with matchers and auxiliaries expanded and proofs erased. **Exactly one differs: `VineType.template`.**
+- **Its transitive dependents** (from the generator's use graph) are `VineType.expand`, `Molecule.IsVine`,
+  `Molecule.DecorationHyp` (field `vineLG`) and B2.3 `rigidity`. **All are held out.**
+  - **`IsVine` is held out with B2.3:** it is in "used only by B2.3", reached only through `DecorationHyp.vineLG`.
+    B2.1 and B2.2 do not reach it.
+  - The other held-out vine declarations: `VineTemplate`, `VineType`, `insertRungs` and `railBonds` (used only by
+    B2.3); `VineType.IsBad` and `instDecidableEqVineType` (used by no theorem).
+  - `vineLG`, a hypothesis of the held-out B2.3, now also covers Q-block components. That is the source's own
+    claim: DH23 Prop 9.5 has a generic proof (F72, section E).
+- **`FREEZE-LIST.md` regenerates byte-identical to CL-20's:** 59 frozen; 106 held out, in the same classes.
+
+**Checks.**
+- All seven modules rebuilt, in order, at 06:19 UTC (dev build : `waveb/build` : `waveb2/build`).
+- 0 errors and no warnings besides the same 10 `sorry`s (Regular 6, Molecules 1, Statements 3).
+
+**Snapshot.**
+- `waveb2-snap-final` now holds the three changed files (`WaveB2-Molecules.lean` `5cc506118852…`, its probes,
+  `DESIGN.md`) and an updated README.
+- Its new `SHA256SUMS` is `d6dc5f2dd28e…`; it verifies, and the files are read-only again.
+- `docs/review/WAVE-B-B2.md` was updated: its header hashes, its CL range, and an audit-trail line.
+
+**Outside waveb2.** The template enumerations VINES, MOLEPROP13 and `prop96-case4/vinefree.py` must be re-run with
+the `m = 1` instance (F72). The independent B2 auditor re-checks this delta.
+
+## Addendum 7: B2-CL-22 (wt-orch, Task 32): O1–O5 are theorem anchors again (re-check 2, R2-1)
+
+**Ruling.** The decoding obligations O1–O5 go back into the B2 freeze set as theorem anchors, with the source-form
+definitions they use. That makes 7 B2 anchors; the total is 2 + 12 + 7 = 21.
+- R2-1 of the independent re-check 2 found that the meaning of B2.1 and B2.2 depends on O1–O5 (reading D4).
+- O6 `regular_count_le` and O7 `Garden.isMolecule_molecule` stay non-frozen.
+
+**Freeze set.** `gen_freeze.py`'s `ANCHORS` now lists the seven; there is no Lean source change.
+- **76 declarations** (was 59): 7 theorems, 62 defs, 2 abbrevs, 1 structure, 3 inductives, 1 instance; Regular 70,
+  Statements 6, Molecules 0.
+- **Moved in: the 5 theorems and 12 definitions.** These are exactly the source-form objects CL-20 moved out:
+  `IsRegularCouple`, `IsRegularTree`, `RawRegular`, `RawCpl.opA`, `opB`, `orient`, `relocate`, `tree`, `mapTree`,
+  `Garden.MatchesTreeCouple`, `TTree.setAt`, `TTree.subtreeAt`.
+- **The ruling's "15" is 12.** CL-20's other three lemma-only declarations, `GNode.parent`, `GardenDart` and
+  `Garden.molecule`, are reached only by O7 and stay held out.
+- **Held out: 89.** The B2.3 section (13); O6, O7 and the 3 above; 51 used only by B2.3; 20 unused. The generator
+  asserts the freeze set is closed.
+
+**The proofs hold on the final definitions.**
+- **The proofs.** They are wt-resonant's `/home/scott/wt-scratch/reg-struct/B2CharacterizationProofs.lean`
+  (`f2817fe8…`), thin wrappers over `Reg.*` theorems.
+- **Their environment.** They were checked against reg-struct's own `RegularDefs`, a copy of §1–§3 from before
+  CL-16. Apart from its header and imports, it differs from the final `WaveB2-Regular.lean` only in the names of
+  seven instances.
+- **My rebuild.**
+  - I pinned reg-struct (07:06 UTC; 205 files, list digest `0d7bb960c94d…`; unchanged at the end).
+  - I rebuilt the providers' whole import closure: 154 REG-STRUCT modules, through a `RegularDefs` shim to the
+    final `WaveB2-Regular.lean` (`4d7f81ef…`), on snapshot-7 B1 `Core`/`System` and dev's Wave A.
+  - The five theorems were placed in `WaveTurbulence.Provider` (§4 already declares their names).
+  - **161 modules, 0 errors.** The only warnings are the six `sorry`s of Regular §4 itself.
+- **Seal check** (`providers/SealCheck.lean`).
+  - Each of O1–O5 is restated verbatim from §4 and closed by the bare
+    `by exact WaveTurbulence.Provider.<export>`. The providers have implicit data binders and `by assumption`
+    autoParams (the B1 `wkelwp` pattern).
+  - Each restated type equals the §4 constant's type syntactically.
+  - Axioms of the five checks and the five providers: [propext, Classical.choice, Quot.sound]. There is no
+    `sorryAx`.
+
+**Seal providers.** `waveb2/providers/` and `waveb2-snap-final/providers/` hold:
+- the five provider files, named by B1's layout convention (stems `RegCplExists_decodes`,
+  `ExistsUnique_regCpl_decodes`, `RegChainExists_decodesTree`, `ExistsUnique_regChain_decodesTree`,
+  `RegCplSize_eq_order`; exports by the last name component);
+- the seal check;
+- the shim;
+- `REGSTRUCT-SHA256SUMS`, the 154 modules by hash;
+- a README with the landing recipe. The landing ports the REG-STRUCT library as non-frozen Foundations modules
+  (all are modules, all under 10,000 lines, no forbidden tokens), places the providers, and seals the five anchors
+  in the B1 pattern.
+
+**Updated.**
+- `DESIGN.md` (B2-CL-22, and the file table);
+- `FREEZE-LIST.md` and `gen_freeze.py`;
+- `waveb2-snap-final`: the README and `providers/`. The new `SHA256SUMS` is `b605320f7676…` (22 files); it
+  verifies, and the snapshot is read-only again;
+- `docs/review/WAVE-B-B2.md`:
+  - header hashes;
+  - §1: seven anchors, O1–O5 rows, 76 frozen, total 21;
+  - §2 items 3 and 8;
+  - §3: re-check 2 and CL-22;
+  - §4: re-rendered, 76 declarations verbatim;
+- `WAVE-B-B2-FREEZE-LIST.md`.
+

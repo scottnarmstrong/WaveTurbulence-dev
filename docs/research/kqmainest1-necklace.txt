@@ -1,0 +1,466 @@
+DO THE ANALYTIC ESTIMATES (DH23 kqmainest1, TARGET finalsbest2) FAIL ON NECKLACE COUPLES FOR gamma <= 1/2?
+==========================================================================================================
+Date: 2026-11-04.  Scope: open question (item 8) of docs/research/dh23-prop96-referee.txt; follow-up to
+docs/research/dh23-prop96-case4.md ("the note") and docs/review/ESCALATION-F69b.md.  No Lean.
+
+Sources (line numbers refer to these files):
+  DH23   = wave-turbulence/references/src-2301.07063/Revision_Submit.tex
+  TARGET = wave-turbulence/paper/source/WKE-Longer_times_Final_arXiv.tex
+Scripts in this directory (run with python3 -I): couple_phase_check.py, bead_constant.py, geometry_check.py;
+outputs out_*.txt.  Notation: lambda := delta L^{2 gamma}; n = 4m+3 is the order of the necklace couple; N_m, T-bead,
+joint w_i, odd bead {o1,o2} as in the note, Sec. 3.  Gamma_v = sum_{l~v} zeta_{v,l}|k_l|^2 (outgoing +), DH23 L657ff.
+
+
+0. VERDICT
+----------
+FAILS, as a derived result rather than a complete proof.  The time integration supplies no gain per bead.
+
+(a) The analytic size of the necklace couple.  For the couple Q*_m of Sec. 1.3 (molecule N_m) the following holds
+    as L -> infinity with m, delta and n_in fixed, for 0 < gamma < 1/2 (and for gamma = 1/2 when delta <= c(n_in)):
+
+        K_{Q*_m}(t,t,k) = zeta(Q*_m) 2^{-n} delta^{2m+2-d} L^{-gamma(2d-1)} [ A_m(t,k) + o(1) ].        (0.1)
+
+    Here A_m is an explicit finite-dimensional resonant integral (Sec. 2.3).  For an explicit admissible n_in (a sum
+    of narrow Gaussians, Sec. 3), A_m is not 0.
+    - The power of L does not depend on m.  Each T-bead contributes the factor
+          (delta/2L^{d-gamma})^4 . L^{4d} . lambda^{-2} . O(1) = O(delta^2) times an L-independent constant,
+      which is exactly neutral.  The only gain is one fixed power, from the single shared gap vector r.
+    - This agrees with the counting picture in the note.  It also confirms the referee's heuristic (item 4):
+      (C delta^{1/2})^n L^{-gamma(2d-1)}.
+(b) Consequences for the statements.
+    - DH23 kqmainest1 (L1632-L1640), with the rho its proof assigns (rho = rho_sub, L1692), fails once
+      eta^7 (3m+3) > gamma(2d-1).  This uses rho_sub >= 3m+3.
+    - TARGET (finalsbest2) (L2078) fails once eta^6 (4m+3) > gamma(2d-1); there rho_sb + q_sk = 4m+3.
+    - So do the per-class bounds (finalproof1) (L2221) and (finalproof2) (L2225) derived from it, for slightly
+      larger m.
+    - All of this is for 0 < gamma <= 1/2, i.e. the same range as the counting failure.
+(c) kqmainest1 read literally is NOT refuted.  As stated, it says "we can define a value rho(Q) ... such that
+    (i)-(iii)", so it is existential in rho.
+    - Necklace couples are few: at most C^n per order.
+    - Their size has a fixed L-power gain.
+    - So one may lower rho on them without violating (ii).
+    What fails is kqmainest1 with rho = rho_sub, which is the only rho DH23 provide, and TARGET's (finalsbest2),
+    whose rho_sb is explicit.
+(d) The main theorems and TARGET Prop layergarden (L761-L779) are NOT contradicted.
+    - The total necklace contribution is about C^n L^{-gamma(2d-1)}.  This is a heuristic upper bound (Sec. 5.1),
+      far below L^{-(4 theta_{p+1}+theta_p)/5} delta^{2 nu n}.
+    - But the proofs are broken at the ANALYTIC per-class level, not only in the counting reduction.  With the
+      papers' rho the analytic statement itself is false.
+    - A repair that changes rho (counting a small-gap T-chain as one unit, as ladders are counted) also needs new
+      analytic input: TARGET's time-integral bound (ladderl1) and DH23's (1stsumbound2) lose a factor C_0 log L
+      at every atom outside a ladder (Sec. 5.3).
+    - So either the time-integral bound gets a log-free T-chain version, or T-chains are spliced in stage 1 with a
+      Prop 7.6-type estimate (the note's (E1)).  A counting-only repair under the existing rho is impossible.
+
+Rigour.  Sec. 4.3 has the full status table.  In short:
+- Exact checks (verified by script):
+  - the couple and its time-order structure;
+  - the phase identities.
+- Elementary bound: the "frozen beta-atom phases" bound.
+- Standard but not written out in full:
+  - the lattice-to-continuum step;
+  - the iterated resonance asymptotics behind (0.1);
+  - the w -> 0 analysis of A_m.
+- Checked numerically by two independent methods: the non-vanishing input z_*.
+No step is known to fail.  A complete proof would need uniform error bounds in the asymptotics (Sec. 2.3, 3) and the
+lower-order estimate for degenerate decorations (Sec. 2.2).  I regard the failure as established with high
+confidence, not proved.
+
+
+1. THE STATEMENTS AND THE COUPLE
+--------------------------------
+1.1 DH23 kqmainest1 (L1632-L1640).
+    - The statement: there is rho(Q) in [1, n] such that
+        (i)  rho is constant on congruence classes;
+        (ii) #{Q of order n : rho(Q) = rho} <= (C rho)! C^n;
+        (iii) |sum_{Q' ~ Q} K_{Q'}(t,t,k)| <~ <k>^{-20d} (C^+ delta^{1/4})^n L^{-eta^7 rho(Q)}.
+    - The proof (L1692) sets rho(Q) = rho_sub = q_sub + m'_sub.
+    - It bounds |K| by (omegasum) (L1708): (sum over sigma of sup|B|) x (sup over sigma of the count).
+      - The first factor is (1stsumbound)/(1stsumbound2) (L1713, L1723).
+      - The second is kqmainest2 (L1681-L1690).
+    - For N_m the vine collection is empty (note, Lemma 3.3).  So the congruence class of a necklace couple is the
+      couple alone, and the left side of (iii) is |K_Q(t,t,k)|.
+    - rho_sub >= 3m+3: >= 3m+3 if single double bonds count as length-0 ladders, 4m+3 if not.  Referee, item 3.
+
+1.2 TARGET (finalsbest2) (L2078).
+    - The bound: |K_{G_sb}| <~_1 (C_1 delta^{-10 nu})^{n_sb} L^{-eta^6 (rho_sb + q_sk)} L^{-(R-1)(1/4+1/50)}.
+    - K_{G_sb} is (redvine2)/(redvine3) (L1962, L1973).
+    - rho_sb = q_sb + m_sb is explicit (Prop ladderl1old, L1994).
+    - For a necklace couple:
+      - q_sk = 0;
+      - rho_sb = 4m+3, since TARGET ladders need >= 2 double bonds (L1384) and e=g=f is not a ladder;
+      - R = 1, xi_v = 0, Z = 1, K^dagger = 1.
+    - Take the couple in C_1 with all nodes in layer 0 (referee, item 1) at p = 0, so the input is F_0 = phi_in.
+      Then K_{G_sb} is DH23's K_Q(1,1,k) with n_in = phi_in, cut into at most C^n unit-ball pieces (L1963ff).
+      A lower bound for |K_Q| therefore gives a lower bound C^{-n}|K_Q| for some piece.
+
+1.3 The couple Q*_m ("pattern P*").
+    - Any spanning forest of N_m with roots o1, o2 gives a couple (note, Lemma 3.2).  I fix this one:
+          tree 1, rooted at o1:  o1 -s'- w0;  w_{i-1} -x_i- e_i;  w_{i-1} -y_i- f_i;  e_i -x'_i- w_i;  f_i -q_i- g_i;
+          tree 2 = {o2}.
+    - So the PC bonds are s' and x_i, y_i, x'_i, q_i.  The LP bonds (each carrying n_in) are p_i, p'_i, q'_i, y'_i
+      and s, u, t, t'.
+    - couple_phase_check.py verifies, exactly, for m <= 20 and d = 3, 4:
+      - the couple axioms;
+      - DH23 Remark 4.4 non-degeneracy;
+      - M(Q*_m) = N_m as directed multisets;
+      - these time-order facts:
+          g_i is a child of f_i            (so t_g < t_f: one-sided);
+          e_i and g_i are incomparable     (so t_e - t_g takes both signs: two-sided);
+          e_i and f_i are incomparable;
+          w_{i-1} > e_i > w_i and w_{i-1} > f_i > g_i;
+          o1 and o2 are the two roots      (so t_{o1} - t_{o2} is two-sided).
+    - Every couple with molecule N_m gives the same power of L in (0.1); only the constant changes.  Pattern P* is
+      chosen because its bead time structure (one two-sided and one one-sided resonance per bead) makes the leading
+      constant visibly non-zero (Sec. 3).
+
+
+2. THE COMPUTATION
+------------------
+2.1 Parametrization and exact phase identities (all verified exactly by couple_phase_check.py).
+
+    Free variables:
+    - per bead: the LP vectors p, p', q', y';
+    - the gap r;
+    - the odd-bead vectors s, u;
+    - the root vector k.
+
+    The other bonds are determined:
+        x' = y' - r,  y = p + p' - y',  x = y + r,  q = p + p' - q',  s' = u - s + k,  t = s - r,  t' = s' + r.
+
+    With A_i := Gamma_{e_i}, B_i := Gamma_{e_i} + Gamma_{g_i} and S_i := Gamma_{e_i} + Gamma_{g_i} + Gamma_{f_i}:
+
+        A_i|_{r=0} = 2 (y'-p').(p-y'),        B_i|_{r=0} = 2 (y'-q').(p+p'-q'-y'),                       (2.1)
+        S_i = -2 r.(x_i - x'_i) + 2|r|^2,                                                                (2.2)
+        Gamma_{w_i} = 2 r.(x_{i+1} - y'_i)            (1 <= i <= m-1),                                   (2.3)
+        Gamma_{w_0} = 2 r.(x_1 - s') - 2|r|^2,        Gamma_{w_m} = 2 r.(s - x'_m) - 2|r|^2,             (2.4)
+        Gamma_{o1} + Gamma_{o2} = -2 r.(s-s') + 2|r|^2,      Gamma_{o1} + |k|^2 = 2 (s-k).(u-s).        (2.5)
+
+    The phase in K_Q is exp(i pi lambda sum_n zeta_n Omega_n t_n).  By DH23 (molegammav) this equals
+        exp(-i pi lambda [ sum_v Gamma_v t_v + |k|^2 (t_{o1} - t_{o2}) ])        (checked).
+    The exponent splits as
+
+        sum_v Gamma_v t_v = sum_i [ A_i (t_{e_i} - t_{g_i}) + B_i (t_{g_i} - t_{f_i}) + S_i t_{f_i} ]
+                            + sum_j Gamma_{w_j} t_{w_j} + Gamma_{o1}(t_{o1} - t_{o2}) + (Gamma_{o1}+Gamma_{o2}) t_{o2}.
+
+    Put t_{e_i} = t_{g_i} = t_{f_i} = T_i.  Then the r-linear part of sum_v Gamma_v t_v is exactly 2 r.V, with
+
+        V = sum_i [ x0_i (t_{w_{i-1}} - T_i) + y'_i (T_i - t_{w_i}) ] + s (t_{w_m} - t_{o2}) + s' (t_{o2} - t_{w_0}),
+        x0_i := p_i + p'_i - y'_i.                                                                        (2.6)
+
+    V = 0 whenever all times are equal (checked).  Writing Delta_j > 0 for the consecutive time increments along the
+    chain t_o > t_{w_0} > T_1 > t_{w_1} > ... > T_m > t_{w_m}, we get V = sum_j (v_j - s) Delta_j, where
+    v_j runs over s', x0_1, y'_1, ..., x0_m, y'_m.
+
+2.2 Lattice sums become integrals (gamma <= 1/2).
+    - K_Q is (delta/2L^{d-gamma})^n zeta(Q) times a lattice sum, over the n free vectors in Z_L^d, of
+          eps . prod_LP n_in(k_l) . (time integral).
+    - Take n_in Gaussian (or a finite sum of Gaussians), and use Poisson summation in all n vector variables at
+      fixed times.
+      - The phase gradient is at most C lambda (|k_l| <~ 1 on the bulk of the weight).
+      - This is < L/4 when gamma < 1/2, or when gamma = 1/2 and delta <= c(n_in).
+      - Then every non-zero Poisson mode is negligible.  Its stationary point lies at |z| ~ L/lambda, in the
+        Gaussian tail of the weight, so its relative size is about exp(-c L^2/(lambda w)^2).
+          - For gamma < 1/2 this is O(L^{-N}).
+          - At gamma = 1/2 (lambda = delta L) it is exp(-c/(delta w)^2), which is small once delta <= c w.
+    - So the lattice sum equals L^{dn} times the continuum integral, up to negligible errors, uniformly in the times.
+    - This is the only place where gamma <= 1/2 enters the bead analysis.  It enters the r-sum too (Sec. 2.5).
+    - Degenerate decorations (eps != 1, i.e. some k_{n2} in {k_{n1}, k_{n3}}) lie on codimension-d sublattices.
+      - A single degeneracy removes at most a bounded number c of resonance gains.
+      - So it contributes, relative to (0.1), O(L^{-d} lambda^{c}) = O(delta^c L^{-d+2 gamma c}).
+      - Example: p = x at e_i forces A_i == 0 (c = 1).  Example: r = 0 is one point out of (L/lambda)^d
+        (relative O((lambda/L)^d)).
+      - This is lower order for gamma < 1/2.  At gamma = 1/2 it is O(delta^c), which is small.
+      - I have not written out a uniform bound over all degeneracy patterns; DH23 treat such atoms in Sec. 10.5
+        (L1979).
+
+2.3 Leading-order asymptotics (DERIVED).
+    In the continuum integral I(lambda) the phase is -i pi lambda x (the expression of Sec. 2.1).  Integrate in three
+    groups, each by the standard resonance limit (stationary phase in the time variable, i.e. resonant-manifold
+    measures).
+
+    (i) Each bead.
+        - The variables are (p, q') together with s1 = t_e - t_g and s2 = t_g - t_f.
+        - s1 ranges over both signs near 0, by the incomparability of e_i and g_i.  So
+              int ds1 e^{-i pi lambda A s1} -> (2/lambda) delta(A).
+        - s2 < 0, since g_i is a child of f_i.  So
+              int_{s2<0} e^{-i pi lambda B s2} -> (1/lambda)[ delta(B) + (i/pi) PV(1/B) ].
+        - The r-dependence of A_i and B_i is O(lambda |r|) times O(|s1|, |s2|) = O(|r|), hence negligible after the
+          localization |s1|, |s2| <~ 1/lambda.
+        - Result: lambda^{-2} times the bead resonant measure, and the bead's three times merge into T_i.
+    (ii) Odd bead.
+        - t_{o1} - t_{o2} is two-sided, giving (2/lambda) delta(Gamma_{o1} + |k|^2) = (2/lambda) delta(2(s-k).(u-s)).
+    (iii) The gap r.
+        - r enters the phase only through e^{-2 pi i lambda r.V}, up to O(|r|^2) terms, and enters the weights only
+          through the LP bonds t = s - r and t' = s' + r.
+        - So int dr W(.., r) e^{-2 pi i lambda r.V} -> lambda^{-d} W(.., 0) delta^d(V).
+
+    Together, with n = 4m+3:
+
+        I(lambda) = lambda^{-(2m+1+d)} [ A_m + o(1) ],
+        A_m(t,k) = int dZ W(Z, r=0) int_{Sigma_t} dtau
+                   prod_{i=1}^m 2 delta(A_i)[delta(B_i) + (i/pi) PV(1/B_i)] . 2 delta(Gamma_{o1}+|k|^2) . delta^d(V),   (2.7)
+
+    - Sigma_t = { t > t_o > t_{w_0} > T_1 > t_{w_1} > ... > T_m > t_{w_m} > 0 } is the reduced simplex, of
+      dimension 2m+2.
+    - Z = (p_i, p'_i, q'_i, y'_i)_{i <= m}, s, u.
+    - W is the product of n_in over the LP bonds.
+
+    Multiplying by the prefactor gives (0.1):
+        (delta/2)^n L^{-(d-gamma)n} L^{dn} lambda^{-(2m+1+d)} = 2^{-n} delta^{2m+2-d} L^{gamma(1-2d)}.
+
+    Status.
+    - Each limit is standard.
+    - To make (2.7) a theorem one needs error bounds, uniform in the remaining variables, for the iterated limits.
+      This includes:
+        - the PV parts;
+        - transversality of the map (A_1, B_1, ..., A_m, B_m, Gamma_{o1}, V) on the support;
+        - the boundary layers of the simplex;
+        - the integrable singular points of the quadratic resonance functions.
+    - I have not written these out.
+
+2.4 Bookkeeping: why this is "no gain per bead".
+    - Neutral normalization (kqmainest2, finalcount1): about L^{(d-gamma)} times delta^{-1/2} per free vector or atom.
+    - A T-bead has 4 atoms (e, g, f, w), 4 free vectors and 2 resonances:
+          (delta/2L^{d-gamma})^4 L^{4d} lambda^{-2} = delta^2 / 16.
+      This is exactly neutral, with no L-power either way.  It is the analytic form of the note's Lemma 4.1
+      (A_0 >= c).
+    - The 3 remaining atoms (o1, o2, w_0) have 3 free vectors (s, s', r) and give
+          (delta/2L^{d-gamma})^3 L^{3d} lambda^{-1-d} = delta^{2-d} L^{-gamma(2d-1)} / 8,
+      the single fixed deficit.
+    - Equivalently, among the n-1 independent phase combinations:
+      - 2m are bead resonances, each worth lambda^{-1}, as the normalization assumes;
+      - 1 is the odd-bead resonance;
+      - 2m+1 are the beta-atom/joint combinations.  They are all of the form 2r.(...) and are controlled together
+        by the single vector r, which gives lambda^{-d} instead of lambda^{-(2m+1)}.
+    - kqmainest1 / (finalsbest2) need L^{-eta^7} / L^{-eta^6} per bead.  The analytic quantity provides L^0.
+
+2.5 Which gaps dominate.
+    - Tiny gap, |r| <~ 1/lambda = delta^{-1} L^{-2 gamma}.  By (2.3)-(2.4), |lambda Gamma_w tau| <= C lambda |r|:
+      every beta-atom phase is frozen (this estimate is elementary).  The time integrals at the joints are then
+      non-oscillatory, and the 1/Omega factors give nothing.
+    - For gamma <= 1/2 there are about (L/lambda)^d >= delta^{-d} non-zero lattice gaps in this ball.  This is
+      exactly where gamma <= 1/2 enters.
+    - For gamma > 1/2 only r = 0 qualifies, and that gap is degenerate.  Then every joint oscillates and gains,
+      consistent with the note's Lemma 5.1.
+    - Larger gaps, 1/lambda << |r| <~ 1.  The joint phases oscillate, and each of the 2m+1 independent increments
+      Delta_j is localized at scale 1/(lambda |r|).  The contribution is <~ (lambda|r|)^{-(2m+1)} relative to the
+      neutral one, a gain per joint.
+    - In (2.7) all scales of r are already included: the factor delta^d(V) is the exact r-integral.  So nothing at
+      larger gaps can cancel the tiny-gap part beyond what (2.7) records.
+
+2.6 Where a per-bead gain could have come from, and why it does not.
+    (a) Resonance factors 1/Omega at the beta-atoms.  These need lambda|Gamma_w| >> 1.  In the dominant region
+        lambda|Gamma_w| = O(lambda|r|) = O(1) or less (Sec. 2.5).
+    (b) Time-domain structure.
+        - The tree orders the joints, t_{w_0} > T_1 > t_{w_1} > ....  This yields the volume of Sigma_t cut by
+          delta^d(V): a constant of size about 1/(2m+2)!.
+        - Such factorial factors are not powers of L.  For m <= N^2 = (log L)^8 we have
+          log (2m+2)! = O(m log log L) = o(m log L), so 1/(2m+2)! = L^{-o(m)}.  This cannot supply L^{-eta^7} per
+          bead.  For fixed m it is just a constant.
+    (c) The bead resonances.  These give exactly lambda^{-1} each.  The counting normalization already credits this
+        (the delta^{-1} L^{-2 gamma} window per constraint).
+    (d) Cancellation in the r-sum.  This is computed exactly in (2.7) (delta^d(V)).  The leading constant is not 0
+        (Sec. 3).
+    (e) Cancellation inside the congruence class.  The class is {Q} (Sec. 1.1).  In TARGET there are no LF twists
+        either, since V_0 is empty.
+    (f) Layering (TARGET).  The single-layer necklace couple is canonical and coherent, so no incoherency gain is
+        available.  (finalsbest1) (L2076) is true but gives only L^{+80d rho} here.
+    In DH23's own terms: the time-integral factor (1stsumbound) carries no negative power of L, only
+    C^n delta^{-n/4} L^{C rho sqrt(delta)}.  In the necklace the true time factor is likewise of order L^0 per bead:
+    exactly lambda^{-1} per resonance, which the count already credits.  So the counting deficit of kqmainest2 passes
+    one-to-one to the analytic quantity.
+
+
+3. THE LEADING CONSTANT IS NOT ZERO
+-----------------------------------
+Since K_Q is oscillatory, (0.1) is only a lower bound if A_m != 0.  I show A_m != 0 for one admissible choice; the
+statements are claimed for every Schwartz n_in >= 0.
+
+3.1 The choice.
+    - n_in = sum_{P in Pset} exp(-|k - P|^2 / w^2), where Pset is a finite set of centers in general position, and
+      w is small but fixed while L -> infinity.
+    - The root vector k is chosen so that it is not a center and so that the odd bead has a non-degenerate resonant
+      configuration.  geometry_check.py, d = 3:
+      - (s0, u0, s'0) = (Pa, Pb, Pc), with a right angle at Pb and k = Pa + Pc - Pb (not in Pset).  The mirror
+        (Pc, Pb, Pa) is the only other triple.
+      - Four further centers Q1..Q4 surround Pa and Pc.
+      - Any d of the vectors P - s0 are independent (min |det| = 0.96).
+
+3.2 The limit w -> 0 of A_m(w).
+    - A configuration assigns a center to each LP bond, and A_m(w) is a sum over configurations.
+    - Bead i is "collapsed" when p, p', q', y' are all at the same center P.  Then every bond vector of the bead is
+      at P + O(w).
+    - In a collapsed bead, A_i = w^2 a(xi) and B_i = w^2 b(xi), with
+          a = 2(xi_y' - xi_p').(xi_p - xi_y'),    b = 2(xi_y' - xi_q').(xi_p + xi_p' - xi_q' - xi_y'),
+      where xi is the vector of Gaussian deviations.  So each resonance carries w^{-2}.
+    - In every other bead configuration at least one resonance is first order (w^{-1}) or non-resonant (O(1)).
+      Collapsed beads therefore dominate, by a factor >= w^{-1} per bead.
+    - The odd bead is first-order resonant (w^{-1}) in its two configurations; k is not a center, so it cannot
+      collapse.  Its factor is 2 delta(.) with a two-sided time variable, hence positive.
+    - General position matters here: V's vectors v_j - s0 are differences of centers.
+      - Any positive linear relation among them needs >= d+1 distinct vectors spanning R^d.
+      - So in every configuration either V0 = 0 is reached in the interior of Sigma_t, where Delta -> V0 is onto
+        R^d; or V0 never vanishes on the closed simplex (contribution e^{-c/w^2}); or only near Delta -> 0 (volume
+        O(w^{2m+1-d})).
+      - Therefore delta^d(V) gives NO w-enhancement.
+      - At leading order it is rho_V(0; config) >= 0, a constant that does not depend on the bead deviations.
+        It is > 0 for configurations whose bead centers surround s0; (G3) gives explicit positive increments.
+    - Result:
+          A_m(w) = w^{alpha_m} [ C_lead + O(m |Pset|^4 w) ],
+          C_lead = (positive) x z_*^m x sum_config rho_V(0; config),                                     (3.1)
+      where alpha_m is an explicit exponent and
+          z_* = 2 int G(xi) delta(a) [ delta(b) + (i/pi) PV(1/b) ] dxi,   G = exp(-|xi|^2).
+    - Re z_* = 2 int G delta(a) delta(b) > 0, since {a = b = 0} has transversal points (checked: rank 2).
+    - So C_lead != 0, and A_m(w) != 0 for w small enough, depending on m.
+
+3.3 Numerical check of z_* (bead_constant.py).
+    - Method: polar coordinates in (s1, s2), with the Gaussian xi-integral done in closed form.
+    - Results:
+          d = 3:  z_* = 41.28 + 20.14 i;   full-plane value F = 4 int G delta(a) delta(b) = 82.56 (real).
+                  Monte Carlo F = 78.3.
+          d = 4:  z_* = 199.7 + 115.2 i;   F = 399.5.   Monte Carlo F = 410.7.
+      In both dimensions 2 Re z_* / F = 1.000000.  The Monte Carlo values (smoothed deltas, 4e6 samples) agree to
+      about 5%, within the expected error.
+    - Im z_* != 0: the PV part is real.  It does not matter, because every collapsed bead carries the same z_*, and
+      z_*^m != 0.
+
+3.4 A pitfall.
+    - If k is one of the centers, or the centers are degenerate (for example collinear), some configurations have
+      V0 identically 0, or confined to a subspace.  Then delta^d(V) gains a factor w^{-(codim)}, and the leading
+      term couples the PV phases of different beads.
+    - The product structure (3.1) is then lost and non-vanishing is no longer evident.  General position avoids this.
+
+
+4. CONSEQUENCES FOR THE STATEMENTS
+----------------------------------
+4.1 DH23 kqmainest1 with rho = rho_sub.
+    - Fix d >= 3, 0 < gamma <= 1/2, eta, and delta (for gamma = 1/2 take delta <= c(n_in)).  Fix n_in and k as in
+      Sec. 3, and t in (0,1].  Take m > gamma(2d-1) / (3 eta^7).
+    - Then the left side of (iii) for Q*_m is >= c(m, delta, n_in, t) L^{-gamma(2d-1)} for large L.
+    - The right side is <= C (C^+ delta^{1/4})^{4m+3} L^{-eta^7 (3m+3)}.
+    - The ratio tends to infinity as L -> infinity, with n = 4m+3 fixed (so n << N^2).
+    - delta-powers are not the issue: delta^{2m+2-d} <= delta^{(4m+3)/4} once m >= d.
+    - m is astronomically large, about gamma(2d-1)/eta^7, but it is fixed.  The failure concerns the uniform
+      L-power claim, which is exactly what (suminrho1) (L1640) uses.
+
+4.2 TARGET.
+    - (finalsbest2) fails for the layer-0 couple Q*_m once eta^6 (4m+3) > gamma(2d-1).
+      - One piece of the unit-ball decomposition has |K_{G_sb}| >= C^{-n} |K_Q|.
+      - The constant (C_1 delta^{-10 nu})^n does not help against an L-power.
+    - (finalproof1) (L2221) needs L^{-eta^6 rho/2}, and (finalproof2) (L2225) needs L^{-eta^6 rho/4}, per class.
+      Both fail for correspondingly larger m.
+    - The step (finalprooffin) (L2252), which sums the per-class bounds against the class count
+      (C_0 rho)! C_2^{rho}, therefore has no valid input for necklace classes.
+
+4.3 Status of each ingredient.
+    EXACT (checked by script):
+      - the couple Q*_m: axioms, Remark 4.4, M = N_m, time-order facts;
+      - the phase identities (2.1)-(2.6).
+    ELEMENTARY:
+      - the frozen beta-atom phases for |r| <~ 1/lambda;
+      - the class of Q*_m is {Q*_m};
+      - the exponent bookkeeping.
+    STANDARD, NOT WRITTEN OUT:
+      - Poisson / continuum step (Sec. 2.2);
+      - the iterated resonance asymptotics (2.7);
+      - the w -> 0 analysis (3.1).
+    NUMERICAL (two independent methods):
+      - Re z_* > 0, d = 3, 4.
+    ARGUED, LOWER ORDER, NOT WRITTEN OUT:
+      - degenerate decorations (Sec. 2.2).
+    NOT PROVED HERE:
+      - a rigorous lower bound with explicit error terms.
+    - This is the remaining work to turn "fails" into a theorem.
+    - None of these steps is delicate in the way the counting problem was.  They are oscillatory-integral
+      asymptotics for a fixed finite diagram, of the same type DH23 use for regular couples (Prop regcpltreeasymp).
+
+
+5. IMPLICATIONS FOR TARGET'S MAIN ARGUMENT (Prop layergarden, L761-L779)
+------------------------------------------------------------------------
+5.1 The necklace family does not threaten the conclusion of layergarden.  This is heuristic, but consistent with
+    everything above.
+    - A molecule N_m has at most C^n couples (DH23 Prop recover; TARGET Prop propcplmol).
+    - With regular attachments it has at most C^n further couples.
+    - Each has |K| <~ (C delta^{1/2})^n L^{-gamma(2d-1)+o(1)}.
+    - This is an upper-bound version of (0.1), uniform in m <= N^4.  It is NOT proved here; it is what the
+      exponent count gives.
+    - The total is far below the R = 1 requirement L^{-(4 theta_{p+1}+theta_p)/5} delta^{2 nu n} (estcouple2, L776),
+      where theta ~ eta^20.  The same holds for the necklace parts of gardens against L^{-(R-1)/4} delta^{2 nu n}.
+    - Nothing else is needed to absorb them:
+      - no cancellation between couples (and none is available inside the class);
+      - no layering (single-layer copies gain nothing, and multi-layer copies only gain more).
+      The small NUMBER of such couples, together with the one fixed L-power, absorbs them.
+
+5.2 The proof of layergarden is broken for 0 < gamma <= 1/2.
+    - The proof needs a per-class gain proportional to rho-bar (L^{-eta^6 rho-bar/4}) to beat the (C_0 rho-bar)!
+      class count.
+    - Necklace classes have rho-bar = 4m+3 but only an O(1) L-power gain.  So the per-class input (finalproof2)
+      is false.
+    - This is a failure of an ANALYTIC statement, not only of the counting lemma (finalcount1) used to prove it.
+
+5.3 What a repair must contain.  It cannot be counting-only.
+    (i) Keep rho and re-prove the counting.  This is impossible: the analytic statement with that rho is false
+        (Sec. 4).
+    (ii) Change rho: count each maximal small-gap T-chain as one unit, as maximal ladders are counted.
+        - The class count is still (C rho')! C^n, provided T-type blocks of size s have <= C^s shapes.  That is true
+          for the T-bead and its (Y)-extensions; for the full T-type family of the note's (E1) it is unchecked.
+        - The necklace has rho' = O(1) and size L^{-gamma(2d-1)}, so it is consistent with an L^{-eta^6 rho'} bound.
+        - But the time-integral bound loses at every atom outside a ladder:
+            - TARGET (ladderl1) via (targettimeint2) (L2028): a factor C_0 log L per atom in Y, which includes
+              every atom not in a ladder;
+            - DH23 (1stsumbound2) (L1723-L1726): "each remaining atom causes a loss of log L".
+          These losses are absorbed now only because rho counts those atoms (L^{C sqrt(delta) rho}, resp.
+          L^{delta^{5 nu} rho}).
+        - With rho', the factor (log L)^{#atoms in T-chains} is uncovered once a chain has more than about
+          delta^{5 nu} log L / log log L beads, and n reaches N^4.
+        - So (ii) also needs a log-free time-integral bound for T-chains (an analogue of the ladder treatment,
+          DH21 Prop 10.1 / Steps 2-4 of TARGET Prop ladderl1old), together with a counting theorem with rho'.
+          This is new analytic input.
+    (iii) Splice small-gap T-chains in stage 1, the note's (E1).  This needs a Prop 7.6 / vineest-type analytic
+        bound for T-chains.
+        - The computation of Sec. 2.3 supports it: the exact bead integration is (C delta^2) per bead, log-free and
+          neutral, so a loss of at most L^{eta^4} per chain is plausible.
+        - It also needs the Lemma 8.1 / Prop 9.1 / Prop 9.5 extensions listed in the note.
+    In both (ii) and (iii) the needed analytic estimate is consistent with the true size of the necklace.  It is
+    not proved for the general T-type family.
+
+5.4 Residual risk to the conclusion of layergarden.
+    - To break it, one would need about (C rho)! many couples whose total L-gain stays bounded.
+    - In molecules made of T-type chains, each maximal small-gap chain has its own gap vector.  Chains whose gaps are
+      forced equal by conservation at a shared degree-4 joint are concatenations, i.e. one chain.
+    - So each such chain should cost its own gap restriction, a fixed power of L, as the necklace's single chain
+      does.
+    - I expect the conclusion to hold, but this per-chain gain is heuristic.  It is exactly what a repair along
+      (ii) or (iii) has to prove.
+
+
+6. SIDE REMARK: Q-BEADS (relevant to the note's (E0) and the gamma < 2/3 question)
+-----------------------------------------------------------------------------------
+- The same computation for a small-gap Q-bead (atoms s, t, with s=t a double bond; note, Lemma 4.6) gives:
+  - 3 atoms, 3 free vectors (x, x', u), and one resonance Gamma_s = 2(u-x).(u-x');
+  - per bead: (delta/2L^{d-gamma})^3 L^{3d} lambda^{-1} ~ delta^2 L^{gamma}.
+- So the per-bead LOSS L^{gamma} found by counting is also present in the analytic quantity (gamma <= 1/2).
+- If the Q-block were not a vine (the literal reading of Def 5.1), the class of a Q-necklace would be a single
+  couple, and |K| ~ L^{gamma m - gamma(2d-1)}.  That would violate even the trivial bound behind mainprop1.
+- Only cancellation against twisted couples can remove it.  So the Q-block must be treated as a bad vine (II) with
+  one double bond, whose twist cancellation is checked at m = 1.
+- This strengthens the note's "the reading is forced" and makes (E0) necessary, not optional.  (Heuristic, at the
+  level of Sec. 2.3.)
+
+
+7. FILES
+--------
+couple_phase_check.py -> out_couple_phase_check.txt
+    - Pattern-P* couple: axioms, Remark 4.4, M(Q) = N_m, time-order facts.
+    - Exact rational checks of (2.1)-(2.6), including the r-linear coefficient 2V and V = 0 at equal times.
+    - Scope: m in {1,2,3,4,8,20}, d in {3,4}, three seeds each.
+bead_constant.py -> out_bead_constant.txt
+    - z_* and F for d = 3, 4, by polar quadrature and closed-form Gaussian integrals.
+    - Monte Carlo cross-check.
+    - Transversality of {a = b = 0}.
+geometry_check.py -> out_geometry_check.txt
+    - The centers and root vector of Sec. 3.1.
+    - The odd-bead resonance.
+    - General position.
+    - Positive increments solving V0 = 0 (rank 3).
