@@ -150,3 +150,30 @@ retains the exact source coupling. All focused builds through `TreeCommonExtensi
 `AxiomsCommonExtension.lean` audited the full source phase formula, unnormalized and normalized
 source identities, reverse support and global extension equality: all five use exactly
 `[propext, Classical.choice, Quot.sound]`. The final norm interpolation and Stages 2–3 are pending.
+
+## Stage 1 analytic core complete
+
+`exists_treeCausalExtension_decay` (`TreeExtensionDecay.lean`) proves TARGET (incohproof24)
+for the actual common extension, with exponent `γ₁−100dη`, a dimensional base constant chosen
+before every analytic parameter, and a threshold chosen before `n`, `g`, all link data and time
+domains. It covers both `m=0` and `m=2` source cases (the theorem allows `m≤2`), arbitrary
+momentum-dependent link parameters and fiber endpoints, and `g≥1`, `0<η≤1/100`. The selected
+link set is structurally fixed across momentum. All source cutoffs are equal to one on the
+appropriate selected/root layer boxes. This is the literal source extension; no endpoint bound
+is a field of the carrier.
+
+The common negative endpoint retains bulk loss `2ηg`; the quarter endpoint pays only `L^{2d}`.
+The proved interpolation helper costs `16dη`, and one cutoff-prefactor absorption costs `ηg`.
+These fit the printed `100dηg` budget. The couple theorem remains
+`exists_cumulativeKernel_timeRestriction_bound` on the literal root box.
+
+Exact check: `nice -n 5 lake build WaveTurbulence.Foundations.Incoh.TreeExtensionDecay`:
+`Build completed successfully (9407 jobs)`. `AxiomsTreeCore.lean` audited the actual tree quarter
+bound, conditional interpolation inequality, final source tree decay, and couple restriction
+bound. Every result printed exactly `[propext, Classical.choice, Quot.sound]`. No whole-library
+build, dependency rebuild, or budget override was used.
+
+Stage 1 status: READY pl1-core. Stages 2–3 remain active. C2 still supplies the code-level
+instantiation of the listed finite structural fields and the null-boundary identification of
+its closed source time conventions. The only reported source erratum remains F62; the hard
+indicator derivative step was resolved by the documented uniform first-variation argument.
