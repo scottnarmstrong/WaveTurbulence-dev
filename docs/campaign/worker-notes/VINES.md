@@ -205,3 +205,36 @@ helper name, corrected to `capBonds_bondMultiset` before the successful rerun.
 Still required: source cap constructions V/VI/VIII, full hyper-object
 classification, chain/DV localization, ordinary simultaneous removal and
 realization-independent coherence. M4 is not complete. Continuing directly.
+
+## All-eight-types hyper-object containment checkpoint; F69 resolution
+
+`VineSideVData`, `VineSideVIData`, `VineSideVIIIData` construct their full
+actual cap frames, including the old doubled pairs. `VineHyperVCapData`,
+`VineHyperVICapData`, `VineHyperVIIICapData` construct selected cap prefixes
+from source containment, excluding unrelated slot allocations by the actual
+cut profile. Shared helpers: `VineSlotCoreSeparation`, `VineCapFamilyDistinct`,
+`VinePrependDistinct`, `VineCapPrefixConstruction`.
+
+`VineHyperSingleVine.hyperLike_in_single_vine_adjoint` now proves TARGET
+subsetvc's hyper-object structural clause inside **any** single vine of the
+eight types, for arbitrary inserted rung counts. The resulting designated
+adjoint is two double bonds or Vine V. No gap premise, cap/mask premise or
+realization-shaped auxiliary hypothesis occurs in this source theorem.
+
+Checks: every new focused module compiled with exit 0, zero warnings. The
+updated `VineTools` and `validation/Axioms.lean` both exited 0. The audit now
+prints 172 declarations, all with only subsets of `[propext, Classical.choice,
+Quot.sound]`.
+
+Owner resolution of F69 (2026-11-04): the B2 templates are correct, independently
+checked against all eight DH23 Vines.png templates and Remark 5.2(c); see
+`/home/scott/WaveTurbulence-dev/docs/research/ylem1-investigation.md` (read).
+The defect is DH23 ylem1, repaired as ylem1′ / Prop 10.4(2)′. No changes to
+`VineType.template`, `insertRungs`, `expand` or `IsVine` are authorized or
+needed. The earlier conditional warnings about possibly changing the family
+are superseded by this ruling. Short-cap exclusions remain explicit valid
+consequences of that confirmed family. This packet introduces no deviation.
+
+Still required: chain/DV localization using gap separation, full simultaneous
+ordinary/mixed removal, realization-independent coherence. M4 remains active;
+continuing directly after this commit.
