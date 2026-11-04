@@ -386,3 +386,31 @@ expanded Axioms.lean exit0. All 274 printed declarations use only subsets of
 `[propext, Classical.choice, Quot.sound]`. No pinned definition changed.
 Remaining M4: DV structural case, simultaneous ordinary/mixed removal,
 realization-independent coherence. Continuing directly.
+
+## Complete subsetvc structural classification, including DV
+
+`VineJointPairDegrees` transports exact two-joint degrees from the pinned
+expanded graph, including the shared type-V joint bond. `VineDVDegrees`
+proves DV joints have degree three and interiors degree four. The degree
+inclusion-exclusion and nested-block recognition helpers are listed in the
+new scratch module docstrings for deduplication.
+
+`VineVCInTypeV`, `VineTwoJointSeparator`, `VineDVMissingJoint`,
+`VineFullInteriorSelection`, `VineDVOrdinary` prove the full ordinary DV clause,
+without a gap assumption. `VineSameJointProfile` and `VineDVHyper` prove the
+hyper clause: a contained hyper-block selecting both DV joints would be the
+whole DV; but a whole DV cannot be HV/HVC, since the earlier both-joints lemma
+would force its type-V branch to have two atoms. Missing-joint cases localize
+to one actual type-V branch and use the checked single-vine classification.
+
+`VineSubsetVCClassification.subsetvc_classification` now proves TARGET
+subsetvc's **full structural clause**, for all allowed outer objects and all
+inner VC/HV/HVC forms, with source decoration, gap and compatible-containment
+premises. There are no finite masks, cap witnesses, bounded-rung assumptions
+or outcome hypotheses in that theorem. Simultaneous removal remains separate.
+
+Checks: every new focused module exit0, no final warnings. VineTools and the
+expanded Axioms.lean exit0; all299 printed declarations use only subsets of
+`[propext, Classical.choice, Quot.sound]`. No pinned definition changed.
+Remaining M4: simultaneous ordinary/mixed removal and realization-independent
+coherence. Continue directly; not READY yet.
