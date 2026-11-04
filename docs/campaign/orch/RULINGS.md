@@ -251,3 +251,17 @@ degenerate decorations — the analytic half of F21", with DH23 `extradegen` as 
 **New packet RA1-LEAFWISE.**
 - Prove RA1 (couples and trees) with per-leaf profiles, generalizing `regular_couple_asymptotics` and `ra1Tree`.
 - Then derive `LeafwiseRegularAsymptoticsGate` with REGREF's leafwise kernels (`Leafwise.lean`).
+
+## R15 — FLOWER-REG accepted; the leafwise B2.2 gate is an open node, 2026-11-04 ~22:45 UTC
+
+**FLOWER-REG.** `regularCouplesL0 : RegularAsymptoticsGate → LeafwiseRegularAsymptoticsGate →
+LeafwiseIncoherentDecayGate → WTPrefix RegularCouplesL0At`. It is accepted.
+
+**Its extra obligation is allowed.** `LeafwiseIncoherentDecayGate` (Prop 5.1 applied leafwise, TARGET L2062–L2067) is
+already LG-SPINE's `leafDecay` spine input. The weight `jbr k^{−4Λ_{p+1}}` (with 4Λ_{p+1} ≥ 160d) must be moved onto
+the individual leaves, and the common-profile B2.2 cannot do that.
+
+**The gate is proved nowhere.** INCOH-INST proved only the common-profile B2.2 `incoherentDecay`.
+
+**New packet INCOH-LEAFWISE.** It generalizes INCOH-INST's proof to per-leaf profiles and proves
+`LeafwiseIncoherentDecayGate` on snapshot 9. It runs alongside RA1-LEAFWISE (R14), which does the same for B2.1.
