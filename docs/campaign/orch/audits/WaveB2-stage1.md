@@ -170,3 +170,16 @@ Quot.sound]`.
   - `type1_isRegular`, by A at (•,•) and then A at the green pair ((1,[1]), (0,[1]));
   - `type1_order`;
   - `type1_specialSets = {∅}`.
+
+## Correction, 2026-11-04 (wt-orch, Task 23; FINDINGS F66)
+
+**The verdict on `RegChain.JBtree` was wrong.** This concerns the row for `RegCpl.JB`, `RegChain.JBchain` and
+`RegChain.JBtree` above ("Trees: the lower limit is s"; probe `JBtree_chain10` = `t − s`).
+- **What I missed.** I checked (regref2-2) only on its stated range `s ∈ [r, r+1]` (T L1185–L1188). B2.1 items (2)
+  and (3) evaluate the coefficient on the box `timeBoxGt r q'` with the lone leaf in a layer `q' < r`. There the
+  kernel's constraint `t_{m₀} > s` (T Def `defkg`, L682–L684) is implied by `t_{m₀} > r`, so the source
+  coefficient is `𝒥ℬ*_𝒯(t, max(s, r))`. With lower limit `s`, item (2) and the tree half of item (3) were false.
+- **Found by** the independent B2 audit (`WaveB2-independent-audit.md`, F-1, kernel-checked on `miniTree10LG`).
+- **Fixed by** B2-CL-13: lower limit `max s r`; the probe now reads `t − max s r`.
+- **Corrected verdict:** `RegChain.JBtree` was NOT FAITHFUL as audited. It is FAITHFUL after CL-13, subject to the
+  independent re-check.

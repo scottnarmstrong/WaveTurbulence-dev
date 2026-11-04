@@ -506,3 +506,149 @@ is not in this freeze.
 5. **F-5 REQUIRED.** The `pvResonantIntegral` characterization covers only compactly supported kernels. Extend it, or
    get a ruling.
 6. **F-6 REQUIRED.** Ten anonymous instances need B1-style names, and B2 needs a generated freeze list.
+
+---
+
+## Re-check, 2026-11-04 (delta audit of B2-CL-13 to B2-CL-17; snap-3)
+
+### Verdict for freezing Regular + Molecules + Statements without B2.3: PASS WITH REQUIRED FIXES
+
+No BLOCKER remains in this scope. One REQUIRED item is still open: **F-5**. Its lemma statement is correct, but it is
+not yet proved. B2.3 correctly stays out of the freeze: F-4, the missing author ruling on the abstract hypotheses,
+is still open.
+
+### Inputs
+
+**Snapshot.** I copied the current `/home/scott/wt-scratch/waveb2` into `/home/scott/wt-scratch/b2-audit/snap-3/` at
+2026-11-04 03:13 UTC and recorded its `SHA256SUMS`:
+- `WaveB2-Regular.lean` `ce8f0a1652ba…`;
+- `WaveB2-Molecules.lean` `89ff648ed5a3…`;
+- `WaveB2-Statements.lean` `82e42b2bfa16…`;
+- `WaveB2-Regular-probes.lean` `93b4f0bf808f…`;
+- `WaveB2-Statements-probes.lean` `16099cbd4f31…`;
+- `FREEZE-LIST.md` `349020959462…`;
+- `FreezeList.lean` `cba281b7a004…`.
+
+**Build match.** These are byte-identical to the sources in `waveb2/src/WaveB2Draft/`, which were built into
+`waveb2/build` at 03:02–03:03 UTC.
+
+**Change list.** Handoff addendum 2 (`w/orch` 9e10307).
+
+**Probes.** I ran them in the dev environment: `cd /home/scott/WaveTurbulence-dev && nice -n 5 lake env …`, with
+`LEAN_PATH` plus `waveb/build:waveb2/build`, one Lean process at a time.
+- `Q0.lean`: the elaborated `RegChain.JBtree`.
+- `Q1.lean`: the F-1 re-check.
+- `Q2.lean`: closure, instances, held-out use, `sorry` sweep.
+- `Q3.lean`: the F-5 statement and the relayering lemma.
+
+All probes use standard axioms; the only `sorry` is the transient F-5 statement in `Q3`.
+
+**Diff against snap-2.**
+- B2.1 and B2.2 statement texts: **unchanged**, checked by diff.
+- Regular changes only in `JBtree` (CL-13) and the ten instance headers (CL-16).
+- Molecules changes only in the two instance headers, `isMolecule_molecule` (CL-17) and `IsCutData` (CL-14).
+- Statements changes only in the B2.3 section: `IsTame`, `DecorationHyp` and `rigidity`.
+
+### Per change
+
+| CL | Verdict | Evidence |
+|---|---|---|
+| CL-13 (F-1) | **RESOLVED** | `JBtree r X t s = X.JBchain r (max s r) t (fun _ => 1)` (Q0). See the next section. |
+| CL-14 (F-2) | **RESOLVED (B2.3 draft)** | `x₂ ≠ M.mate x₁` appears in `epsLGTame`, `alphaGap`, `iota`, `abNonzero` and `IsCutData` (T `defdiff` L1938–L1941, `defcut` L2118: two bonds). See question 2. |
+| CL-15 (F-3) | **Faithful as a draft (B2.3, held out)** | `IsTame` transcribes T `subpro` (3) (L2044) exactly. See question 3. |
+| CL-16 (F-6) | **RESOLVED** | Q2 and the freeze list agree. See question 4. |
+| CL-17 (F-7) | **CORRECT** | `Garden.isMolecule_molecule (G : Garden w) : G.molecule.IsMolecule`. It holds for every garden (audit F-7 argument; MOLE `garden_isMolecule`). The F58 warning is kept. It is strictly stronger and has no consumer. |
+| F-9 | **RESOLVED** | Handoff §2, DESIGN §1.5 and the `sorry` inventory (10) are updated. |
+
+**Question 2 (CL-14): is the exclusion needed anywhere else?** No.
+- `IsBlockGap` is used only through `IsVine`, which is a connected `IsBlock`. A connected block cannot carry a loop at
+  a joint (audit F-2 / CL-5), so its two group darts at `j₁` lie on different bonds.
+- `IsLadderGap`'s darts have `ends = s(u 0, u 1)` and `s(v 0, v 1)` with `u 0 ≠ u 1`, so they are not loops and lie
+  on different bonds.
+- `vineLG` goes through `IsBlockGap`.
+
+**Question 3 (CL-15): is the `kFix` abstraction faithful?**
+- "LG or tame" is the right per-atom reading of `finalmol`'s "LG or ZG, and tame if ZG": ZG at one triple implies
+  tame, and tame forces all triples ZG.
+- `kFix` with `card ≤ 2R`, universally quantified, generalizes the root momenta `(k₁,…,k_{2R})` correctly. The
+  consumer takes `kFix := {k₁,…,k_{2R}}`.
+- Whether DH23 §10.5 needs anything beyond "fixed" is G8's question.
+
+**Question 4 (CL-16).** Q2 checks:
+- 12 named `@[instance_reducible, instance] def` instances, all `instanceReducible`; the other 8 registered
+  instances are auto-generated `_sizeOf_inst`;
+- no `instance` keyword left in the three files;
+- closure: the only project theorems used are the 7 structure-field projections (`Garden.pair_*`, `Molecule.*`),
+  0 others;
+- no listed declaration uses any of the 13 held-out B2.3 declarations;
+- `sorryAx` occurs in no definition, and in exactly 10 theorems (9 in scope, plus `rigidity`).
+
+`FREEZE-LIST.md` has 152 rows (9 theorems, 119 definitions, 3 abbrevs, 3 structures, 6 inductives, 12 instances),
+which matches its header. The scope "Statements minus the B2.3 section" is the right one. The instance names are
+Lean's former auto-names, consistent with B1, and can be final.
+
+### B2.1 items (2) and (3) for trees, re-derived with the lower limit `max(s, r)`
+
+- **`q' = r`.** On the box `s ≥ r`, so `max(s,r) = s`: this is (regref2-2) exactly (T L1185–L1188). Unchanged.
+- **`q' < r`.** On the box `s ≤ q'+1 ≤ r`.
+  - **Q1 proves, in general,** `KTstar(t,s) − app(t,s) = KTstar(t,r) − app(t,r)` (`B2Audit.item2_integrand_of_le`). It
+    holds for every layered paired tree whose branching nodes all lie in layer `r`, every code `X` and every `s ≤ r`.
+  - So item (2) on the `q' < r` box reduces to the slice `s = r`. That slice lies in the `q' = r` box, which is the
+    source's regref1 claim.
+  - **On the project's own instance `miniTree10LG`** (`r = 1`, `q' = 0`), `B2Audit.miniTree10_item2_const` proves
+    that `K*_𝒯 − app` is constant in `s` on the item-(2) box. The slope `c(k)` of `P5.chain10_app_diff` is gone, so
+    `P5` no longer refutes.
+  - `Q3.KTstar_relayer` (standard axioms) adds that `K*_𝒯` with input family `fun _ => F` depends on the layering only
+    through the branching nodes, so the lone leaf's layer does not enter. This covers TARGET's consumer case
+    (prooflayer1-2) (L1243). There `K*_{𝒯_[r]}(r+1, r, k)` is evaluated with `s = r`, while the lone leaf may lie in
+    layer `≤ r − 2`, outside `[q', q'+1]`.
+  - These helpers (`KTstar_indep_of_le`, `item2_integrand_of_le`, `KTstar_relayer`) are worth landing for the
+    proplayer2 packet (OPTIONAL).
+- **Item (3), trees.**
+  - On the `q' < r` box, `JBtree(t,s) = JBtree(t,r)` (the probe `JBtree_of_le`) is a bounded function of
+    `t ∈ [r, r+1]`.
+  - For the mini-tree it equals `t − 1 ∈ [0,1]` on `[1,2]×[0,1]` (Q1 `example`). The `≥ D − 1` growth is gone.
+- **Conclusion.** Items (1)–(4) of B2.1 now say what T (regref1)–(regref3) (with F11 and F61) say, as far as the
+  source proofs show.
+
+### F-5: the decaying-kernel lemma statement
+
+**Elaboration (Q3).** The drafter's `tendsto_pvResonantIntegral_of_decay` elaborates verbatim against the dev
+Foundations. Its conclusion is `Tendsto (fun μ => energyInvIntegral χ μ (resonantKernel Ψ k)) atTop
+(𝓝 (pvResonantIntegral Ψ k))`.
+- `energyInvIntegral χ μ (resonantKernel Ψ k)` is **by `rfl`** the integral
+  `∫_ℓ ∫_x Ψ(k+ℓ, k+ℓ+x, k+x)·(1 − χ(μΩ))/Ω` with `Ω = −2⟨ℓ,x⟩ = |k₁|²−|k₂|²+|k₃|²−|k|²`.
+- `IsPVCutoff` requires `χ` continuous, even, compactly supported and `= 1` near 0, so `1 − χ = χ_∞`.
+- So the lemma is exactly the Cauchy principal value of T (regref3-3) / DH21 (defintegral), in DH21's own cutoff
+  form `χ_∞(δL²Ω)/Ω`, with a cutoff-independent limit.
+- It implies the landed `tendsto_pvResonantIntegral`; the Q3 `example` drops `hR` and `hs`.
+
+**Does it cover B2's kernels?** The `Nstar` kernels are `Ψ = M_r(k_x)·M_g(k_y)` with `|M|, |∇M| ≲ ⟨k⟩^{-a}`. The
+bound `a = 30d` comes from B2.1 item (3) (`𝔖^{30d,·}`).
+- Placement `(k₁,k₂)`: `A(ℓ) = C⟨k+ℓ⟩^{-a}`, `b = k+ℓ`.
+- Placement `(k₁,k₃)`: `A(ℓ) = C⟨k+ℓ⟩^{-a}`, `b = k`.
+- Placement `(k₂,k₃)`: by Peetre, `⟨k+x⟩^{-a}⟨k+ℓ+x⟩^{-a} ≤ C⟨ℓ⟩^{-a/2}⟨k+x⟩^{-a/2}`, so
+  `A = C⟨ℓ⟩^{-a/2}`, `b = k`, `N = a/2`.
+
+In every case `N > d` and `∫|ℓ|^{-1}A < ∞` (since `a/2 > d − 1`), so they are `DeltaKernel`s, and the gradients
+likewise. The lemma therefore makes the characterization cover the decaying kernels B2 uses. The drafter's proof
+sketch is sound:
+- per slice, `pvQuotient(sliceInt)` is integrable: near 0 by the derivative bound (`M > d − 1`), for `|t| ≥ 1` by
+  hyperplane decay (`N > d`);
+- the outer domination is `|ℓ|^{-1}(A + B)`.
+
+**Status: the statement is CORRECT. F-5 stays REQUIRED until the lemma is proved `sorry`-free with standard
+axioms** and cited in `pvResonantIntegral`'s docstring. The alternative is author ruling F-5 (b). Discharging its
+hypotheses for B2's kernels is a proof obligation of B2.1's provers, not a freeze item.
+
+### Remaining items
+
+- **REQUIRED: F-5.** Prove `tendsto_pvResonantIntegral_of_decay`, or obtain the author ruling.
+- **OPTIONAL: freeze scope.** 63 listed declarations are consumed by no listed theorem. Most of them (`countA`,
+  `countE`, `IsLadder`, `maximalLadders`, `IsBlock`, `IsVine`, `cut`, `IsCutData`, `AtomLabel`, …) are used only by
+  the held-out B2.3, which is still being drafted: CL-14 already changed `IsCutData`. Freezing them now means any
+  G8 change needs a versioned successor. With the small-frozen-surface policy, consider holding out the
+  B2.3-only machinery with B2.3. This is a scope decision, not a defect.
+- **OPTIONAL: helpers.** Land `KTstar_indep_of_le`, `item2_integrand_of_le` and `KTstar_relayer` (`Q1`, `Q3`) for the
+  consumers.
+- **B2.3 (out of scope).** F-2 and F-3 are addressed in the draft; F-4 (author ruling on Q7) is still open.
