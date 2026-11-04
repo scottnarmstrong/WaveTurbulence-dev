@@ -33,7 +33,10 @@ subagents that continue those packets in the same worktrees and scratch director
 
 RA1-TREES (wt-l2s) was already READY and needed no takeover; its output feeds B21-SNAP9.
 
-| S3a LADDER-FOURIER | — | `an-sob` | `ladder` | agent 2 running. Core done: DH21 elemineq and time-integral lemma, `core1`. Remaining: the domain bridge, Γ-algebra, counting, localization, assembly. |
+| S3a LADDER-FOURIER | — | `an-sob` | `ladder` | **READY 21:1x**: `ladderFourier_prefix : WTPrefix LadderFourierAt` (= `LadderFourierGate`). Fresh 59-module rebuild, all exit 0; standard axioms; exact type against the pin `b8a8692f`, which equals the live lg-spine file (checked by wt-orch).
+  - Deviations: no integer-offset classes; end rungs not paired; presentation fixed by the (u₀,u₁) signature.
+  - Suspected errata: L2013–2014 (the double-bond Γ identity holds only at interior rungs); L2034/2036 (factorial exponent).
+  - Port note: `LadderDisj` is a copy of the B2 Ladders file. |
 | S3b LADDER-DECAY | — | `an-sob` | `ladder-decay` | running: ladder chart, then rung sums, then the different-layer gain |
 | S2a REDSPLICE-DEF (new, R7) | — | `an-sob` | `redsplice` | started 19:20: the Stage 1 construction, the bridge to the choice data, `hingeOutsideFirst` |
 | SUMINT-SIGNED | — | dev env | `sumint-signed` | **READY 21:0x**: `signed_of_sumint : VineEstS2.SumintSigned`. Fresh snapshot-9 build 407/407 OK (checked by wt-orch); standard axioms. The sign enters only through the affine time rescaling of the cubic Weyl sum; no reduction to the unsigned case exists, because the nonlinear determinant is not sign-invariant. Port note: this is a 404-module fork of Foundations/Sumint. At landing, prefer replacing Foundations/Sumint by the signed version and deriving `sumint` as the all-plus case, to avoid a second copy. |
