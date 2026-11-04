@@ -127,17 +127,20 @@ variable {ι₁ ι₂ : Type*} [Fintype ι₁] [Fintype ι₂]
 /-- The bundle `ℓ₂(α_B)` of `α ∈ ι₁ ⊕ ι₂ → ℝ`. -/
 @[expose] def yR (y₂ : ι₂ → ℤ) : ι₁ ⊕ ι₂ → ℤ := Sum.elim 0 y₂
 
+omit [Fintype ι₁] [Fintype ι₂] in
 theorem isBundle_yDiff {y₁ : ι₁ → ℤ} {y₂ : ι₂ → ℤ} (h₁ : IsBundle y₁) (h₂ : IsBundle y₂) :
     IsBundle (yDiff y₁ y₂) := by
   rintro (i | j)
   · simpa [yDiff] using h₁ i
   · simpa [yDiff] using h₂ j
 
+omit [Fintype ι₁] [Fintype ι₂] in
 theorem isBundle_yL {y₁ : ι₁ → ℤ} (h₁ : IsBundle y₁) : IsBundle (yL (ι₂ := ι₂) y₁) := by
   rintro (i | j)
   · simpa [yL] using h₁ i
   · simp [yL]
 
+omit [Fintype ι₁] [Fintype ι₂] in
 theorem isBundle_yR {y₂ : ι₂ → ℤ} (h₂ : IsBundle y₂) : IsBundle (yR (ι₁ := ι₁) y₂) := by
   rintro (i | j)
   · simp [yR]
