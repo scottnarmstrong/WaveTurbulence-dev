@@ -1,6 +1,6 @@
 # PL1 working handoff — carrier interface
 
-Status: **in progress**, 2026-11-04. This is the requested C2 instantiation interface, not a `READY pl1-core` claim. Stage 1 still needs the couple Fourier closure and the tree ordered-boundary/phase assembly; Stages 2–3 remain open.
+Status: **in progress**, 2026-11-04. This is the requested C2 instantiation interface, not a `READY pl1-core` claim. Stage 1 still needs the canonical source-agreement check and the tree ordered-boundary/phase assembly; Stages 2–3 remain open.
 
 ## Structural data
 
@@ -26,7 +26,7 @@ The layer-range premise is `∀ i, |((Q i).leftLayer : ℝ) - (Q i).rightLayer| 
 
 **The actual per-link coefficient is its square**, to match C2 `epsDec_eq_prod_links`: `linkWickFactor x y = (linkEpsilon x y)^2`, with values `1,0,1`. `linkAmplitude` uses this squared factor. The localized lattice factor is the literal sum of `linkAmplitude * WeylSums.e linkPhase` over the pair lattice. Its time frequency is `orientation * δ * L^(2γ) * (t_left-t_right)`.
 
-F62 is the source defect at TARGET `(incohproof10)`: the product over all branching nodes contributes both equal endpoint coefficients of every link. The squared factor is required for exact instantiation. Mask removal uses the two coordinate axes **with the origin omitted**, retaining an `O(L^d)` correction. The F62 correction and dependency rebuild are being checked now; do not use pre-correction build results as verification of the corrected body.
+F62 is the source defect at TARGET `(incohproof10)`: the product over all branching nodes contributes both equal endpoint coefficients of every link. The squared factor is required for exact instantiation. Mask removal uses the two coordinate axes **with the origin omitted**, retaining an `O(L^d)` correction. The F62 correction has been rebuilt through `CoupleExtension.lean` (`d240a9b`, corrected mask committed in `7943955`). The punctured-axis proof retains the same explicit `2(5L)^d` error bound.
 
 The source normalization is literal: `(δ / (2 * L^(d-γ)))^(2n)`. A global unit sign/phase of the garden is not stored in these analytic data and may multiply the kernel without changing the norm.
 
@@ -50,4 +50,4 @@ Before F62, focused gated builds passed for the literal short- and long-time bou
 
 The scratch audit `/home/scott/wt-scratch/wke-l2s/pl1/AxiomsFrequency.lean` printed exactly `[propext, Classical.choice, Quot.sound]` for `exists_shortTime_box_bounds`, `exists_longTime_box_bounds`, `mixedFourierNorm00_interpolate`, and `eLpNorm_le_of_one_and_pointwise`. This audit will be repeated after the F62 rebuild and for the final assembled results.
 
-The current `RootDensityLp.lean` interpolation proof is being finished. The full core theorem, tree Fourier/derivative assembly, localization, and abstract `proplayer1` are not yet claimed proved. No `READY` milestone is claimed by this working handoff.
+The corrected-mask `RootDensityLp.lean` and `CoupleExtension.lean` now build, proving the physical interpolation and positive couple Fourier estimate. `/home/scott/wt-scratch/wke-l2s/pl1/AxiomsSquared.lean` rechecked the corrected mask, both frequency box bounds, root endpoints, physical Lp bound, couple Fourier bound, and mixed interpolation: every result uses exactly `[propext, Classical.choice, Quot.sound]`. The source-agreement check for the canonical cutoff extension is underway. The full core theorem, tree Fourier/derivative assembly, localization, and abstract `proplayer1` are not yet claimed proved. No `READY` milestone is claimed by this working handoff.
