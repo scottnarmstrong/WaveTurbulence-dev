@@ -177,3 +177,37 @@ Stage 1 status: READY pl1-core. Stages 2–3 remain active. C2 still supplies th
 instantiation of the listed finite structural fields and the null-boundary identification of
 its closed source time conventions. The only reported source erratum remains F62; the hard
 indicator derivative step was resolved by the documented uniform first-variation argument.
+
+## Steps 1–2: integer coordinates, source input bounds, finite localization
+
+`IntegerLeafCoordinates n` is a local interface to C2 `incoh_unimodular`. Its fields are the
+`(2n+1)×(2n+1)` integer matrices `forward` and `backward`, their two inverse identities,
+`root_column : forward i 0 = 1`, and membership of the inverse root row in `{-1,0,1}`.
+These are finite coordinate data/certificates, not analytic estimates. C2 supplies them after
+enumerating plus leaves and placing its `none` root coordinate at `0`. `sigma` is defined to
+be the backward root row. Its sum is proved to be `1`. `LeafCoordinateRelation` proves root
+recovery, the translated leaf relation, the root-plus-link formula, and exact scalar/vector
+integer lattice equivalences and summation reindexing. `abs_det_blockMatrix` proves volume
+preservation in all spatial dimensions from the actual inverse matrices.
+
+`LocalizationTree` is an auxiliary ternary shape with computed `order`, `nodes`, `leaves` and
+`branching`; `IsDecoration` is the literal alternating parent/three-child relation. It has no
+bound fields. `TreeLocalization.exists_finite_localization` proves TARGET treelemma (2), using
+C2's statement-independent bottom-up finite-ball-cover proof. C2 maps its source shape to this
+auxiliary shape; no B1/B2 scratch module is imported.
+
+`LeafProductFourier` and `LeafFourierRepresentation` prove the Fourier-L¹ bound and exact
+pointwise Fourier inversion of the literal product in these coordinates, reusing the landed
+Fourier product theorem. `SpatialInputBounds` and `SpatialDerivativeIntegrals` derive all
+coordinate/operator derivative and derivative-integral bounds from the actual landed
+`Fourier.spatialNorm`. `LeafSpatialFourierBound.fourierL1_momentumLeafProduct_le` therefore
+assumes only those source spatial norms (finite smoothness order `K≥d+1`, decay order `M>d`).
+It does not assume a Fourier norm or extra smoothness as a carrier field.
+
+Focused builds passed for all modules above. Scratch `AxiomsLeafLocalization.lean` and
+`AxiomsSpatialLeaf.lean`, logs `axioms-leaf-localization.log` and `axioms-spatial-leaf.log`,
+audited twelve determinant/relation/lattice/Fourier/localization/spatial-input results.
+Every result printed exactly `[propext, Classical.choice, Quot.sound]`.
+
+Still pending: the smooth cell/center decomposition with summable coefficients, its insertion
+into the actual source lattice/time kernel, derivative/weight assembly, and abstract Prop 5.1.
