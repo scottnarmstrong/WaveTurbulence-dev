@@ -436,3 +436,27 @@ API refinement passed (`9388 jobs`). Scratch `AxiomsSourceAbsolute.lean`, log
 `axioms-source-absolute.log`, audited pointwise reconstruction, raw absolute convergence,
 full cell/lattice mass and uniform cutoff mass. All four results use only
 `[propext, Classical.choice, Quot.sound]`.
+
+## Tree source assembly: arbitrary parameters and moving cell support
+
+`GeneralTriangleNegativeNorm` reuses the landed scalar N3 pointwise Fourier bound and its
+integrable envelope for arbitrary parameter carriers. `ParameterTreeExtension` reuses the
+landed global common-extension identity slice by slice. `ParameterTreeNegativeBound`,
+`ParameterTreeQuarterBound`, and `ParameterTreeDecay` give the same actual tree extension
+bound with arbitrary vector/spectral/discrete parameters, with exact fixed selected-link data.
+The endpoint loss remains `L^(2d)` and the final exponent remains `γ₁−100dη`.
+
+`UniformParameterMixture` proves transport through a kernel family whose mixed Fourier
+supremum includes every vector and spectral parameter. Its uniform-mass version allows the
+amplitude localization support to move with root momentum; a common pointwise amplitude
+envelope is unnecessary. This is a conditional transport helper, not a source estimate.
+`ParametricTriangleIntegral` / `SpectralTreeMeasurability` prove actual causal-family strong
+measurability. `CutoffTriangleL1` reuses the landed physical bounded-kernel estimate.
+`SpectralTreeClocks` transports the actual tree clock data to the computed spectral link
+parameters while retaining the literal source time domain exactly (`rfl`).
+
+Tree parameter checks: targeted builds `ParameterTreeDecay` (`9410 jobs`),
+`UniformParameterMixture SpectralTreeMeasurability CutoffTriangleL1` (`9451 jobs`), and
+`SpectralTreeClocks` (`9187 jobs`) passed. Scratch `AxiomsParameterTree.lean`, log
+`axioms-parameter-tree.log`, audited five main norm, identity, measurability and mixture
+results: each uses exactly `[propext, Classical.choice, Quot.sound]`.
