@@ -56,3 +56,20 @@ Fourth checked milestone:
 - Scratch TreeHalfCellProfiles, TreeLeafFrequencyBudget and TreeCellCover strict PASS.
 - Expanded validation/axioms.log: 29 results strict PASS, only the standard three axioms.
 - Scalar NT/Wick application and the literal Nstar recursion/final assembly remain open.
+
+Fifth checked milestone:
+- TreeRootPairedProfile canonical targeted Lake PASS: common original-lambda envelope
+  gives the full literal tree spatial Fourier norm, with all typing/L1 premises proved.
+- Scratch TreeScalarProfile/Estimate and TreeNTSpatialEstimate strict PASS. The actual
+  SRep fields yield L^(-gamma1+2eta) for the root-localized tree NT spectral mixture,
+  Knt before Aorder; J+1 moments retain K>=d+2+J.
+- TreeRebasedChain, TreeShiftedCoefficients, TreeAtRebase, TreeCoefficientLimit and
+  TreeLimitRebase canonical targeted Lake PASS, zero warnings.
+- Scratch TreePairRegularization, TreeActualRegularizedLimit, TreeLeadingExpansion,
+  TreeLeadingChainJ, TreeJBCutoff, TreeLeadingClassification, TreeClassifiedExpansion
+  strict PASS, zero warnings. The original tree expansion now has fully proved J4:
+  all integrated components are zero off dominant/special, else (-1)^|Z|*literal JBtree,
+  with source lower clock s, both root signs and empty chain retained. No limit premise.
+- Expanded validation/axioms.log: 44 results strict PASS, standard three axioms only.
+Remaining: exact physical spectral/leading exchanges, Wick source application, literal
+Nstar recursion and its spatial bound, final constants and exact RA1Tree audit.
