@@ -35,3 +35,13 @@ Format: D<n> — date (UTC) — who — decision — reason.
   (semantics-neutral): one declaration per file under `WaveTurbulence/Frozen/`, as D6; the guard accepts Lean Unicode
   identifiers. Landed by wt-orch on Scott's instruction ("land the freeze branches yourself", 2026-11-04 ~18:15)
   with seven seals (B1.4 `nlsAkBridge`, B1.6 `sumint`, B1.7–B1.11), whose second-key audits are pending.
+- D8 — 2026-11-04 ~17:10 — Scott ("I approve all", same reply as D7; the complete Wave B tier-B2 code shown for
+  approval in `docs/review/WAVE-B-B2.md`: `/home/scott/wt-scratch/waveb2-snap-final`, SHA256SUMS `b3db9c43…`, on B1
+  snapshot 9) — **Wave B tier B2 approved and frozen**: 7 `DRAFT_SORRY` theorem anchors (B2.1 `regularAsymptotics`,
+  B2.2 `incoherentDecay`, and the decoding obligations O1 `RegCpl.exists_decodes`, O2 `existsUnique_regCpl_decodes`,
+  O3 `RegChain.exists_decodesTree`, O4 `existsUnique_regChain_decodesTree`, O5 `RegCpl.size_eq_order`) and 69 sealed
+  definitions (FREEZE-LIST.md, B2-CL-22; 89 declarations held out, B2.3 among them). Audits: `WaveB2-stage1.md`,
+  `WaveB2-stage23.md`, `WaveB2-handoff.md` (addenda 1–7), `WaveB2-independent-audit.md` (re-checks 1–3). Packaging
+  (semantics-neutral): one declaration per file under `WaveTurbulence/Frozen/`, except that each of nine `mutual`
+  blocks is one file shared by its members' entries (guard change `a013926`, signed off by Scott 2026-11-04). Landed
+  by wt-orch on Scott's instruction with six seals (O1–O5, B2.2), whose second-key audits are pending.
