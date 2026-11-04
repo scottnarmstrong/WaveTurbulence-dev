@@ -57,3 +57,17 @@ The expanded881-target serial check is running for all269 inverse,
 quadratic and source-binding certificates. Full actual-molecule and
 arbitrary-insertion assembly remain; no M9 completion claim yet.
 Scratch handoff and generators contain the exact commands and conventions.
+
+## Actual direction transport and cap composition
+
+`VineParamBondDegrees`, `VineParamRealizedDegrees`, and
+`VineParamRealizedOrientation` now transport source outgoing/incoming degrees
+through the actual multiplicity-preserving bond bijection to literal atom
+labels. `VineParamPortTransports` proves exact composition/inversion of cap
+translations and port swaps; `VineParamReducedDecoder` proves exact removal
+of the zero divergence columns. Focused run: 89 targets, final2 compiled/87
+current, exit0 and no warnings. These add no orientation assumptions.
+
+The all-profile check continues serially. Next are the weighted signed-dart
+bridge, concrete chart packaging, and arbitrary-insertion assembly. The
+packet remains in progress; no completion claim.
