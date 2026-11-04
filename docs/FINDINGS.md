@@ -243,8 +243,15 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   sign. Read literally, the `Z`-terms of the Prop 5.1 expansion pick up `(−1)^{|Z|}`, contradicting TARGET
   (regref1-3)'s claim that `𝒥ℬ*` does not depend on `Z` unless the per-node sign of `Ω = −2⟨k₁−k, k₃−k⟩` compensates.
   The final WKE identity is probably unaffected, but the Wave B2 per-couple bound B2.1(1) would be false with a wrong
-  sign. Found by wt-orch (Task 16, audits/JR-OPS.md W2). Status: **open — trace before the B2 freeze** (assigned to
-  wt-wke with J3).
+  sign. Found by wt-orch (Task 16, audits/JR-OPS.md W2). **Status: CONFIRMED source erratum (2026-11-04).** wt-wke's
+  trace (`wt-scratch/wke/F61-sign-trace.md`): the composition kernel `I_{εα}I_{μ−εα}` has `χ_∞` part
+  `−χ_∞(α)/(επiα)·I_μ` (DH21 Lemma 5.8's own term II; Lean `iker_comp_decompP`; checked by hand by the orchestrator),
+  so `𝒥B̃_{Q,Z} = (−1)^{|Z|}𝒥B̃_Q` (DH21 Prop 7.5 "independent of Z" is false), and the per-couple leading term of DH21
+  (reducedom) / TARGET (regref1-3) L1154 needs `∏_{𝔫∈Z} (−1)/(ζ_𝔫πi)`. The Ω convention does not compensate (same
+  `Ω_𝔫 = 2⟨x_𝔫,y_𝔫⟩` in (newsum1) and in `α_𝔫`). Unaffected: DH21 Props 7.8–7.10 and the main theorems (`|Z|` is
+  constant on equivalence classes; the `Z ≠ ∅` classes cancel either way); TARGET (regref2-3), (regref1-5). Affected:
+  TARGET's per-couple bound (regref1-1) as printed is false for dominant Q with odd |Z| terms. B2 fix (ruling,
+  orchestrator): `specialWeight σ Z := ∏_{z∈Z} (−ζ_z π i)⁻¹` for couples and trees (B2-CL-11).
   F57 addendum (2026-11-04, wt-orch Task 17, audits/MOLE-prefreeze.md): the same molecule satisfies every premise of
   TARGET `disjointlem` (DH23 Lemma 4.11: connected interiors, vertex deletion) while its only applicable alternative
   (b, concatenation) fails, so Lemma 4.11's premises do not make a block connected either. B2 fix: add a

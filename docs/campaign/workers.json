@@ -4,7 +4,7 @@
     "model": "Claude Opus",
     "account": "claude-1",
     "branch": "w/orch",
-    "packet": "Task 19: apply B2 draft fixes (F57 GroupConnected, F58, F59, R15-1/R15-2); done: snapshot-6 audit PASS, MOLE/COUNT/JR-OPS/NLS-BRIDGE/APPROXNT audits",
+    "packet": "B2 drafting: CL-11 (F61 specialWeight sign), Task 20 B2 change list; done: B2 fixes CL-4..CL-10, snapshot-6 audit",
     "brief": "docs/campaign/orch/TASK4.md"
   },
   {
@@ -20,8 +20,8 @@
     "model": "Claude Opus",
     "account": "claude-14",
     "branch": "w/approxnt",
-    "packet": "C2 LINKS (pre-freeze): links, coherence, auxlem, treelemma (APPROXNT done)",
-    "brief": "docs/campaign/briefs/LINKS.md"
+    "packet": "C5 ENHANCED (pre-freeze): dominant/enhanced couples and trees, equivalence, encoded trees (LINKS C2 done)",
+    "brief": "docs/campaign/briefs/ENHANCED.md"
   },
   {
     "tmux": "wt-wke",
@@ -68,8 +68,8 @@
     "model": "GPT-6.1-Sol low",
     "account": "codex-3",
     "branch": "w/resonant",
-    "packet": "D4+C1 REG-STRUCT (pre-freeze): regular chains, DH21 Props 4.5–4.10, structure theorem, counting (COMB-CORE done in scratch)",
-    "brief": "docs/campaign/briefs/REG-STRUCT.md"
+    "packet": "C3 SKELETON (pre-freeze): prime skeletons with uniqueness (REG-STRUCT C1+D4 done)",
+    "brief": "docs/campaign/briefs/SKELETON.md"
   },
   {
     "tmux": "wt-anfourier",

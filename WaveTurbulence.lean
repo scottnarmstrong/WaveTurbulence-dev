@@ -548,6 +548,7 @@ public import WaveTurbulence.Foundations.LinAlg.LatticeRepresentatives
 public import WaveTurbulence.Foundations.LinAlg.LatticeRescaling
 public import WaveTurbulence.Foundations.LinAlg.MaxVolume
 public import WaveTurbulence.Foundations.LinAlg.OrthogonalResidualFamily
+public import WaveTurbulence.Foundations.Links.Cover
 public import WaveTurbulence.Foundations.MainGlue.Absorption
 public import WaveTurbulence.Foundations.MainGlue.DiscreteParameters
 public import WaveTurbulence.Foundations.MainGlue.GaussianLaw
