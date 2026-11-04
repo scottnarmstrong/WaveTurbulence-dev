@@ -35,7 +35,7 @@ open TTree
 theorem existsUnique_regChain_decodesTree (G : Garden 1) (hG : IsRegularTree G) :
     ∃! X : RegChain, X.wf = true ∧ X.DecodesTree G :=
 -- FROZEN_ANCHOR_PROOF_BEGIN
-  by sorry
+  by exact WaveTurbulence.Provider.existsUnique_regChain_decodesTree
 -- FROZEN_ANCHOR_PROOF_END
 -- FROZEN_ANCHOR_SUFFIX_BEGIN
 
