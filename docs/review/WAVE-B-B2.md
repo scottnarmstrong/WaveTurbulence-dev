@@ -13,10 +13,12 @@ snap-2 and snap-3).
 - `WaveB2-Molecules.lean` 5cc506118852… (B2-CL-21; no frozen declaration);
 - `WaveB2-Statements.lean` 82e42b2bfa16…;
 - `FREEZE-LIST.md` 61f1be74590f…;
-- `SHA256SUMS` b605320f7676… (22 files, including `providers/`).
+- `SHA256SUMS` b3db9c4367a8… (22 files, including `providers/`).
 
-**B1 base:** snapshots 6 and 7 (identical in these files), `WaveB1-Core.lean` 0b8477d9943a… and
-`WaveB1-System.lean` 59365906b84a…; once D7 lands, these are the B1 frozen definitions.
+**B1 base:** snapshot 9, `WaveB1-Core.lean` 0b8477d9943a… and `WaveB1-System.lean` cc53aad3acd7…; once D7 lands,
+these are the B1 frozen definitions. Snapshot 9 fixed B1 `XNorm`'s guard (CL-23, F80: `C^{Λ₁}` slices for almost
+every frequency, TARGET's norm), so `XNormRestr` in B2.1 items (1)–(2) and B2.2 is TARGET's (locnorm); the B2 text
+is unchanged.
 
 ## 1. What is frozen
 
