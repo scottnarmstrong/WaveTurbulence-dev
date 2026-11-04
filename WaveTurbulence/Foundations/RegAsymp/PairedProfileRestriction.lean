@@ -38,4 +38,15 @@ theorem mixedRestrictionNorm00_pairedProfile_le {V : Type*} {η : ℝ} (hη : 0 
       exact iInf_le_of_le G (iInf_le_of_le hG le_rfl)
     _ ≤ _ := mixedFourierNorm00_pairedProfile_le hη integrable_unitSquareCutoff hA hB hbound
 
+/-- A finite weighted common envelope supplies the integrability needed by
+Fourier inversion. The exponent is nonnegative, so the weight dominates one. -/
+theorem integrable_of_wL_envelope {η : ℝ} (hη : 0 ≤ η)
+    {A : (ℝ × ℝ) → ℂ} (hA : AEStronglyMeasurable A)
+    {B : (ℝ × ℝ) → ℝ≥0∞} (hbound : ∀ᵐ lam : ℝ × ℝ, ‖A lam‖ₑ ≤ B lam)
+    (hfinite : (∫⁻ lam, wL η lam*B lam) < ⊤) : Integrable A := by
+  refine ⟨hA, hasFiniteIntegral_iff_enorm.mpr ?_⟩
+  apply lt_of_le_of_lt (lintegral_mono_ae hbound)
+  exact lt_of_le_of_lt (lintegral_mono fun lam =>
+    le_mul_of_one_le_left bot_le (one_le_wL hη lam)) hfinite
+
 end WaveTurbulence.RegAsymp
