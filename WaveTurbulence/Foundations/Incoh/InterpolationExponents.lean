@@ -67,4 +67,25 @@ theorem tree_interpolation_loss_budget {D η G a : ℝ} (hD : 0 ≤ D) (hη : 0 
   have H₃ := mul_le_mul_of_nonneg_left hG (mul_nonneg (by norm_num : (0 : ℝ) ≤ 32) (mul_nonneg hD hη))
   linarith only [H₀, H₁, H₂, H₃, hDG]
 
+/-- The physical interpolation exponent costs at most `3η` powers of the pointwise scale. -/
+theorem couple_interpolation_fraction_le {η : ℝ} (hη : 0 ≤ η) :
+    1 - 1 / (1 + 3 * η) ≤ 3 * η := by
+  have hp : 0 < 1 + 3 * η := by positivity
+  have heq : 1 - 1 / (1 + 3 * η) = (3 * η) / (1 + 3 * η) := by
+    field_simp
+    ring
+  rw [heq]
+  exact div_le_self (by positivity) (by linarith)
+
+/-- The L¹ loss and the physical interpolation loss together fit `8dηg`. -/
+theorem couple_interpolation_loss_budget {D η G : ℝ} (hD : 1 ≤ D) (hη : 0 ≤ η) (hG : 1 ≤ G) :
+    2 * η * G + (2 * D) * (1 - 1 / (1 + 3 * η)) ≤ 8 * D * η * G := by
+  have hD₀ := zero_le_one.trans hD
+  have hG₀ := zero_le_one.trans hG
+  have h₁ := mul_le_mul_of_nonneg_left (couple_interpolation_fraction_le hη)
+    (mul_nonneg (by norm_num : (0 : ℝ) ≤ 2) hD₀)
+  have h₂ := mul_le_mul_of_nonneg_left hG (by positivity : 0 ≤ 6 * D * η)
+  have h₃ := mul_le_mul_of_nonneg_right hD (mul_nonneg hη hG₀)
+  linarith only [h₁, h₂, h₃]
+
 end WaveTurbulence.Incoh
