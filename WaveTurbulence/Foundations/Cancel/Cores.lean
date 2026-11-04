@@ -29,7 +29,7 @@ that carry this through further Volterra operators.
 
 public section
 
-open MeasureTheory Set Filter Complex intervalIntegral
+open MeasureTheory Set Filter Complex intervalIntegral Function
 open scoped Real Topology
 
 namespace WaveTurbulence.Cancel
@@ -225,5 +225,33 @@ theorem regTo_sand {ε : ℤ} (hε : ε = 1 ∨ ε = -1) (μ : ℝ) {T : ℝ →
     exact kTriBdd_rsandK hθ μ hCT0 hTb
   · intro t z _ hzt _
     exact tendsto_rsandK μ hT hzt.le
+
+/-! ### Peeling one variable -/
+
+section Peel
+
+variable {V : Type*} [DecidableEq V]
+
+/-- **The integral vanishes if every integrable section in `v` integrates to `0`.** -/
+theorem mint_eq_zero_of_peel {W : Finset V} {v : V} (hv : v ∉ W) {F : (V → ℝ) → ℂ}
+    {α₀ : V → ℝ} (hF : MInt (W ∪ {v}) F α₀)
+    (h0 : ∀ α : V → ℝ, Integrable (fun x : ℝ => F (update α v x)) → ∫ x : ℝ, F (update α v x) = 0) :
+    mint (W ∪ {v}) F α₀ = 0 := by
+  rw [mint_union_singleton hv hF,
+    mint_congr_ae (G := fun _ => 0) ((hF.union_singleton hv).mono fun y hy => h0 _ hy)]
+  simp [mint]
+
+/-- Removing one point `j` from an injective image. -/
+theorem image_erase_union {σ : ℕ → V} {s : Finset ℕ} {j : ℕ} (hj : j ∈ s)
+    (hinj : Set.InjOn σ ↑s) :
+    s.image σ = (s.erase j).image σ ∪ {σ j} ∧ σ j ∉ (s.erase j).image σ := by
+  refine ⟨?_, ?_⟩
+  · rw [← Finset.image_singleton (f := σ), ← Finset.image_union, Finset.erase_union_eq j s hj]
+  · rw [Finset.mem_image]
+    rintro ⟨i, hi, hij⟩
+    have hi' := Finset.mem_erase.1 hi
+    exact hi'.1 (hinj (Finset.mem_coe.2 hi'.2) (Finset.mem_coe.2 hj) hij)
+
+end Peel
 
 end WaveTurbulence.Cancel
