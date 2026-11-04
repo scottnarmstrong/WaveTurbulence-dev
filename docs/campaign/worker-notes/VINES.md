@@ -88,3 +88,50 @@ lists). No new errata or deviations.
 M4 remains open: hyper-vine/HVC containment, localization across ingredients,
 DV, mixed ordinary-block simultaneous removal, and realization-independence
 of the coherence grouping. Continuing directly with those goals.
+
+## Arbitrary-rung hyper-block core classification and prefix/suffix checkpoint
+
+`hyperBlock_core_mask_exhaustive` now proves that every actual hyper-block
+subset of any expanded vine has exactly one of the nonempty finite hyper-core
+masks. This holds for all rung counts. It follows from the source two-boundary-
+bond bound, an exact boundary/cut-multiset bridge, and `expand_rawCut_le`: rung
+insertion cannot reduce the original core cut. `hyperBlock_has_core_label`
+excludes the empty mask by covering every fresh allocation interval and applying
+the proved absent-port sequence lemma. No cap-shape, cut-budget or incidence
+certificate is added as a source hypothesis.
+
+`noncap_vine_no_hyperBlock_subset` rules out every hyper-block subset inside
+types I--IV, independently of decorations and gap sizes. `hyperBlock_core_profile`
+identifies the old atoms in all remaining cases as the explicit cap cores of
+V, VI, VII and VIII. Fresh membership is still treated separately.
+
+`hyperBlock_absent_interval` and `hyperBlock_sequence_prefix`/`suffix` prove
+that an absent far port forces the actual selected rungs into one prefix or
+suffix, including empty selections and all endpoint cases. The nonempty prefix
+front is exactly the two hyper-block joints. The source type-II full-ladder
+construction and exclusion were also checked independently before the cut route.
+
+New source families: HyperJointExclusion, HyperEmptySequence, HyperExternalPairs,
+ExtendSequence/Edges, SlotBoundaryEdges, RailEndpointInjectivity, SlotFullDistinct,
+TypeIISequence, HyperBadTypes; CutWeights, RawCuts, ExpansionCuts, BinaryCuts,
+Core{I,...,VIII}Cut, CoreCutClassification, HyperCoreCut, FoldAllocationCover,
+HyperCoreNonempty, HyperCoreMasks, CoreMaskMembership, HyperCoreProfiles;
+SliceSequence, HyperGapInterval, HyperPrefixSuffix (all prefixed Vine).
+Every listed module compiled serially, exit0 zero warnings, without budget
+changes. VineTools and the143-declaration axiom probe also exit0 zero warnings;
+all complete parsed axiom lists contain only propext, Classical.choice, Quot.sound.
+A duplicate template_slot_endpoints introduced in ExpansionEndpoints was removed
+in favor of importing the existing declaration; affected consumers rebuilt cleanly.
+
+Finite cut certificates use explicit three-unit integer flows. Naive global
+arithmetic exceeded the default budget; a type-VI flow compile grew too large
+and was terminated. Applying the lean-elaboration skill, clean-context flow
+proofs reduced the one-declaration probe to2.35s and about1.9GB peak RSS versus
+an interrupted baseline over one minute and about10GB. Logs: validation/
+CutFlowBefore.log and CutFlowAfter.log. All eight final flow tables compile
+cleanly within defaults; the largest is538 lines. No mathematical statement
+changed, no new source erratum or deviation.
+
+Remaining M4: recognize the full hyper caps and their adjoints, localize across
+ingredients, handle DV, mixed ordinary-block simultaneous removal, and prove
+realization-independence of coherence grouping. M4 is not ready; continuing.
