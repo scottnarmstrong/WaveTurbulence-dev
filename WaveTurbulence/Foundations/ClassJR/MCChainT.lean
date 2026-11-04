@@ -273,6 +273,148 @@ theorem norm_chainT_le : ∀ (c : LegalCode) (q : ℕ) {F : ℕ → (V → ℝ) 
             mul_le_mul_of_nonneg_left ht.2 this
         _ = _ := by ring
 
+
 end Basic
+
+section Exp
+
+variable {V : Type} {σ : ℕ → V} {ε : ℕ → ℤ}
+
+theorem continuous_pchain {P : Type*} (μf : ℕ → P → ℝ) (p : P) (α : V → ℝ) :
+    ∀ (c : LegalCode) (q : ℕ), Continuous fun x : ℝ × ℝ => pchain σ ε μf c q p α x.1 x.2
+  | .nil, _ => continuous_const
+  | .node .nil .nil, q => continuous_sw0 q p α
+  | .node .nil (.node a b), q =>
+      continuous_kcomp (continuous_sw0 q p α) (continuous_pchain μf p α (.node a b) (q + 1))
+  | .node (.node a b) .nil, q =>
+      continuous_sandw (continuous_pchain μf p α (.node a b) (q + 1))
+  | .node (.node a b) (.node c d), q =>
+      continuous_kcomp (continuous_sandw (continuous_pchain μf p α (.node a b) (q + 1)))
+        (continuous_pchain μf p α (.node c d) (q + (LegalCode.node a b).size + 1))
+
+theorem cexp_mul_cexp (x y : ℂ) : cexp (π * I * x) * cexp (π * I * y) = cexp (π * I * (x + y)) := by
+  rw [← Complex.exp_add]; ring_nf
+
+/-- **One pair with an exponential coefficient** is the sandwich `I_a (·) I_b` with
+`a = ε_qα_q + λ_{q,1}` and `b = λ_{q,2} - ε_qα_q`. -/
+theorem chainT_node_exp (i r : LegalCode) (q : ℕ) (lam : ℕ → ℝ × ℝ) (α : V → ℝ) {a b : ℝ}
+    (ha : a = ε q * α (σ q) + (lam q).1) (hb : b = (lam q).2 - ε q * α (σ q)) (t : ℝ)
+    (g : ℝ → ℂ) :
+    chainT σ ε (.node i r) q (fun j _ => e2 (lam j)) α t g =
+      volterra (iker a) (fun ta => chainT σ ε i (q + 1) (fun j _ => e2 (lam j)) α ta
+        (volterra (iker b) (fun tb =>
+          chainT σ ε r (q + i.size + 1) (fun j _ => e2 (lam j)) α tb g))) t := by
+  rw [chainT_node]
+  unfold volterra
+  refine intervalIntegral.integral_congr fun ta _ => ?_
+  have e : (fun t' => ∫ tb in (0 : ℝ)..t', cexp (π * I * (-(ε q * α (σ q)) * tb)) *
+      e2 (lam q) ta tb * chainT σ ε r (q + i.size + 1) (fun j _ => e2 (lam j)) α tb g) =
+      fun t' => cexp (π * I * ((lam q).1 * ta)) * ∫ tb in (0 : ℝ)..t', iker b t' tb *
+        chainT σ ε r (q + i.size + 1) (fun j _ => e2 (lam j)) α tb g := by
+    funext t'
+    rw [← intervalIntegral.integral_const_mul]
+    refine intervalIntegral.integral_congr fun tb _ => ?_
+    simp only [e2_split, iker, hb]
+    have : cexp (π * I * (-(ε q * α (σ q)) * tb)) * cexp (π * I * ((lam q).2 * tb)) =
+        cexp (π * I * (((lam q).2 - ε q * α (σ q) : ℝ) * tb)) := by
+      rw [cexp_mul_cexp]; congr 2; push_cast; ring
+    rw [← this]
+    ring
+  rw [e, chainT_const_mul, ← mul_assoc]
+  congr 1
+  simp only [iker, ha]
+  rw [cexp_mul_cexp]
+  congr 2
+  push_cast
+  ring
+
+/-- **DH21 (kusingI), (translationk)**: with exponential pair coefficients
+`F_j(t_a, t_b) = e^{πi(λ_{j,1}t_a + λ_{j,2}t_b)}`, the chain integral is the Volterra operator of the
+pure chain `pchain` in the translated variables `α̃_j = α_j + ε_jλ_{j,1}` with
+`μ_j = λ_{j,1} + λ_{j,2}`, on `[0, 1]`. -/
+theorem chainT_exp (hε : ∀ j, ε j = 1 ∨ ε j = -1) {P : Type*} (μf : ℕ → P → ℝ) (p : P)
+    (lam : ℕ → ℝ × ℝ) {α α' : V → ℝ} :
+    ∀ (c : LegalCode) (q : ℕ), c ≠ .nil →
+      (∀ j ∈ Set.Ico q (q + c.size), α' (σ j) = α (σ j) + ε j * (lam j).1) →
+      (∀ j ∈ Set.Ico q (q + c.size), μf j p = (lam j).1 + (lam j).2) →
+      ∀ {g : ℝ → ℂ}, Continuous g → ∀ t ∈ Icc (0 : ℝ) 1,
+        chainT σ ε c q (fun j _ => e2 (lam j)) α t g = volterra (pchain σ ε μf c q p α') g t
+  | .nil, _, h, _, _, _, _, _, _ => absurd rfl h
+  | .node i r, q, _, hα, hμ, g, hg, t, ht => by
+    have hsz : (LegalCode.node i r).size = i.size + r.size + 1 := rfl
+    have hq : q ∈ Set.Ico q (q + (LegalCode.node i r).size) := by
+      simp only [Set.mem_Ico]; omega
+    have hεq : (ε q : ℝ) * ε q = 1 := by rcases hε q with h | h <;> simp [h]
+    set a := ε q * α' (σ q) with ha'
+    set b := μf q p - ε q * α' (σ q) with hb'
+    have ha : a = ε q * α (σ q) + (lam q).1 := by
+      rw [ha', hα q hq]
+      linear_combination (lam q).1 * hεq
+    have hb : b = (lam q).2 - ε q * α (σ q) := by
+      rw [hb', hα q hq, hμ q hq]
+      linear_combination (-(lam q).1) * hεq
+    rw [chainT_node_exp i r q lam α ha hb t g]
+    have hia : ∀ j ∈ Set.Ico (q + 1) (q + 1 + i.size), α' (σ j) = α (σ j) + ε j * (lam j).1 :=
+      fun j hj => hα j (by simp only [Set.mem_Ico] at hj ⊢; omega)
+    have hiμ : ∀ j ∈ Set.Ico (q + 1) (q + 1 + i.size), μf j p = (lam j).1 + (lam j).2 :=
+      fun j hj => hμ j (by simp only [Set.mem_Ico] at hj ⊢; omega)
+    have hra : ∀ j ∈ Set.Ico (q + i.size + 1) (q + i.size + 1 + r.size),
+        α' (σ j) = α (σ j) + ε j * (lam j).1 :=
+      fun j hj => hα j (by simp only [Set.mem_Ico] at hj ⊢; omega)
+    have hrμ : ∀ j ∈ Set.Ico (q + i.size + 1) (q + i.size + 1 + r.size),
+        μf j p = (lam j).1 + (lam j).2 :=
+      fun j hj => hμ j (by simp only [Set.mem_Ico] at hj ⊢; omega)
+    have hia' := continuous_iker a
+    have hib' := continuous_iker b
+    cases i with
+    | nil =>
+      cases r with
+      | nil =>
+        show volterra (iker a) (fun ta => volterra (iker b) g ta) t =
+          volterra (kcomp (iker a) (iker b)) g t
+        rw [volterra_kcomp hia' hib' hg ht.1]
+      | node c d =>
+        have hR := chainT_exp hε μf p lam (.node c d) (q + 1) (by simp) hra hrμ hg
+        have hPr := continuous_pchain (σ := σ) (ε := ε) μf p α' (.node c d) (q + 1)
+        show volterra (iker a) (fun ta => volterra (iker b) (fun tb =>
+            chainT σ ε (.node c d) (q + 0 + 1) (fun j _ => e2 (lam j)) α tb g) ta) t =
+          volterra (kcomp (kcomp (iker a) (iker b)) (pchain σ ε μf (.node c d) (q + 1) p α')) g t
+        rw [volterra_kcomp (continuous_kcomp hia' hib') hPr hg ht.1,
+          volterra_kcomp hia' hib' (continuous_volterra hPr hg) ht.1]
+        refine volterra_congr _ (fun s hs => ?_) ht
+        exact volterra_congr _ (fun u hu => hR u hu) hs
+    | node a' b'' =>
+      have hIi := continuous_pchain (σ := σ) (ε := ε) μf p α' (.node a' b'') (q + 1)
+      cases r with
+      | nil =>
+        have hI := chainT_exp hε μf p lam (.node a' b'') (q + 1) (by simp) hia hiμ
+          (continuous_volterra hib' hg)
+        show volterra (iker a) (fun ta => chainT σ ε (.node a' b'') (q + 1) (fun j _ => e2 (lam j)) α ta
+            (volterra (iker b) fun tb => g tb)) t =
+          volterra (kcomp (kcomp (iker a) (pchain σ ε μf (.node a' b'') (q + 1) p α')) (iker b)) g t
+        rw [volterra_kcomp (continuous_kcomp hia' hIi) hib' hg ht.1,
+          volterra_kcomp hia' hIi (continuous_volterra hib' hg) ht.1]
+        exact volterra_congr _ (fun s hs => hI s hs) ht
+      | node c d =>
+        have hPr := continuous_pchain (σ := σ) (ε := ε) μf p α' (.node c d)
+          (q + (LegalCode.node a' b'').size + 1)
+        have hR := chainT_exp hε μf p lam (.node c d) (q + (LegalCode.node a' b'').size + 1)
+          (by simp) hra hrμ hg
+        have hcv := continuous_volterra hib' (continuous_volterra hPr hg)
+        have hI := chainT_exp hε μf p lam (.node a' b'') (q + 1) (by simp) hia hiμ hcv
+        show volterra (iker a) (fun ta => chainT σ ε (.node a' b'') (q + 1) (fun j _ => e2 (lam j)) α ta
+            (volterra (iker b) fun tb => chainT σ ε (.node c d) (q + (LegalCode.node a' b'').size + 1)
+              (fun j _ => e2 (lam j)) α tb g)) t =
+          volterra (kcomp (kcomp (kcomp (iker a) (pchain σ ε μf (.node a' b'') (q + 1) p α'))
+            (iker b)) (pchain σ ε μf (.node c d) (q + (LegalCode.node a' b'').size + 1) p α')) g t
+        rw [volterra_kcomp (continuous_kcomp (continuous_kcomp hia' hIi) hib') hPr hg ht.1,
+          volterra_kcomp (continuous_kcomp hia' hIi) hib' (continuous_volterra hPr hg) ht.1,
+          volterra_kcomp hia' hIi hcv ht.1]
+        refine volterra_congr _ (fun s hs => ?_) ht
+        rw [← hI s hs]
+        refine chainT_congr _ _ α (fun _ _ _ _ _ => rfl) (fun u hu => ?_) s hs
+        exact volterra_congr _ (fun v hv => hR v hv) hu
+
+end Exp
 
 end WaveTurbulence.ClassJR
