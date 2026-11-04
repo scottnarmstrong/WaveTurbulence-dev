@@ -425,3 +425,9 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   `(∀ k, Integrable fun t => F t k) ∧ (Λ₁ = 0 ∨ ∀ᵐ lam, ContDiff ℝ Λ₁ (timeFT F lam))` with no per-frequency ⊤ —
   TARGET's (normX) and the landed `MixedFourierAdmissible`; conservative (`XNormRestr ≤` fixed, proved); no statement text
   changes; B2 freeze set unchanged.
+- F81 — DH23 Appendix B (L2162–L2292) — errata from APPB-OPS (wt-nt, `wt-scratch/appb/ERRATA.md`): (brprop) Δν sign
+  ("Δν = 2" vs the computed −2, as the map flagged); the 3D3-3G proof's opposite/same internal-direction typo;
+  basiccount(4)'s quadratic-defect sign; a missing C_pos factor in the 3D3-3G prose raw-count bound; typos (D_s/D_f,
+  bond/bound, tall bonds). Operation and proposition statements otherwise unchanged. The figure-defined atomic groups
+  (3S3, 3S3New, 3D3, 3D3New, 3D4, 3S2, 3RProof) are transcribed in `TRANSCRIPTIONS.md` and flagged for pre-freeze review,
+  together with the local-link invariant and an explicit component-hull relaxation.
