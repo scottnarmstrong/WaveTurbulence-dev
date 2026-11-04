@@ -26,7 +26,7 @@ The vectors `k₁,…,k₅ = n₀/L,…,n₄/L ∈ ℤ_L^d` lie in unit balls ar
   - `ncard_le_coupled_cyclic`: `k₁` odd in both, `ζ = x + y − v − z`;
   - `ncard_le_coupled_mixed`: `k₁` odd in exactly one, `ζ = x + y − v`;
   - `ncard_le_coupled_anti`: `k₁` odd in neither, `ζ = x − v`.
-* `system12345_bound`: `#{(1,2,3),(1,4,5)} ≤ C δ⁻² (1 + log L)² L^{3(d−γ) − γ₀ − κ(γ)}` for `1/2 < γ < 1`, for every
+* `system12345_bound`: `#{(1,2,3),(1,4,5)} ≤ C δ⁻² L^{3(d−γ) − γ₀ − κ(γ)}` for `1/2 < γ < 1`, for every
   pair of sign patterns without three equal signs in a tuple (36 pairs). DH23's rule that `k₁` carries opposite signs
   in `A` and `B` is not needed; the admissible pairs number 18 (`card_admissible12345`).
 -/
@@ -298,7 +298,7 @@ theorem ncard_le_coupled_anti {L : ℝ} (hL : 0 < L) (a : Fin 5 → Mom d) (i l 
 /-! ### The count -/
 
 /-- **DH23 Lemma A.3(4), `{(1,2,3),(1,4,5)}`, `γ > 1/2`**:
-`#{(1,2,3),(1,4,5)} ≤ C δ⁻² (1 + log L)² L^{3(d−γ) − γ₀ − κ(γ)}`, `γ₀ = 1 − γ`, `κ(γ) = min((2γ−1)/3, 1−γ)`, for all
+`#{(1,2,3),(1,4,5)} ≤ C δ⁻² L^{3(d−γ) − γ₀ − κ(γ)}`, `γ₀ = 1 − γ`, `κ(γ) = min((2γ−1)/3, 1−γ)`, for all
 sign patterns without three equal signs in a tuple (in particular the 18 admissible ones of L2096), all centers
 `a_j`, all right sides `k_A, k_B ∈ ℤ_L^d` and all `β_A, β_B`. `C` is independent of `δ`. -/
 theorem system12345_bound :
@@ -307,7 +307,7 @@ theorem system12345_bound :
         ¬ (εA 0 = εA 1 ∧ εA 1 = εA 2) → ¬ (εB 0 = εB 1 ∧ εB 1 = εB 2) →
         ∀ (nA nB : Fin d → ℤ) (βA βB : ℝ),
           ((system12345Set L a εA εB nA nB βA βB (δ⁻¹ * L ^ (-2 * γ))).ncard : ℝ) ≤
-            C * δ⁻¹ ^ 2 * (1 + Real.log L) ^ 2 * L ^ (3 * ((d : ℝ) - γ) - (1 - γ) - kappaHalf γ) := by
+            C * δ⁻¹ ^ 2 * L ^ (3 * ((d : ℝ) - γ) - (1 - γ) - kappaHalf γ) := by
   intro d hd γ hγ
   obtain ⟨C, hC, hbound⟩ := a23Half_bound d hd γ hγ
   refine ⟨C, hC, fun δ hδ => ?_⟩

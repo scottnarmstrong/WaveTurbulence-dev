@@ -17,7 +17,7 @@ DH23 (`Revision_Submit.tex`) L2050–L2091, (countc2-1) second line; the referee
 For the coupled-triple set `𝒞₂` of DH23 (basiccount02) — the landed `coupledTripleSet`, the second counting set of
 `countLemma_bound` — and **every** selector `ζ ∈ {x − v, x + y − v, x + y − v − z}`:
 
-`#𝒞₂ ≤ C δ⁻² (1 + log L)² L^{3(d−γ) − γ₀ − κ(γ)}`,   `γ₀ = 1 − γ`, for `1/2 < γ < 1`.
+`#𝒞₂ ≤ C δ⁻² L^{3(d−γ) − γ₀ − κ(γ)}`,   `γ₀ = 1 − γ`, for `1/2 < γ < 1` (no log factor).
 
 The landed `countLemma_bound` gives the exponent `3(d−γ) − γ₀`; the saving `κ(γ)` replaces DH23's `10η` (so the
 statement does not depend on `η`; DH23's `L^{-10η}` follows for `20η ≤ κ(γ)`). `C` is independent of `δ`; `L₀` depends
@@ -33,12 +33,12 @@ open Set
 
 namespace WaveTurbulence.CountLemmas
 
-/-- **DH23 Lemma A.2(3), `γ > 1/2`: `#𝒞₂ ≲ δ⁻² (log L)² L^{3(d−γ) − γ₀ − κ(γ)}` for all three selectors.** -/
+/-- **DH23 Lemma A.2(3), `γ > 1/2`: `#𝒞₂ ≲ δ⁻² L^{3(d−γ) − γ₀ − κ(γ)}` for all three selectors.** -/
 theorem a23Half_bound :
     ∀ d : ℕ, 3 ≤ d → ∀ γ : ℝ, γ ∈ Ioo (1 / 2 : ℝ) 1 → ∃ C : ℝ, 0 < C ∧ ∀ δ ∈ Ioc (0 : ℝ) 1,
       ∃ L₀ : ℝ, ∀ L ≥ L₀, ∀ ax ay az : Mom d, ∀ nv : Fin d → ℤ, ∀ α β : ℝ, ∀ ζsel : Fin 3,
         ((coupledTripleSet L ax ay az (latticePoint L nv) α β (δ⁻¹ * L ^ (-2 * γ)) ζsel).ncard : ℝ) ≤
-          C * δ⁻¹ ^ 2 * (1 + Real.log L) ^ 2 * L ^ (3 * ((d : ℝ) - γ) - (1 - γ) - kappaHalf γ) := by
+          C * δ⁻¹ ^ 2 * L ^ (3 * ((d : ℝ) - γ) - (1 - γ) - kappaHalf γ) := by
   intro d hd γ hγ
   obtain ⟨n, rfl⟩ : ∃ n, d = n + 3 := ⟨d - 3, by omega⟩
   obtain ⟨C₁, hC₁, hstar⟩ := coupledTriple_star_bound_half n γ hγ
@@ -49,39 +49,27 @@ theorem a23Half_bound :
   have hL1 : 1 ≤ L := (le_max_right _ _).trans hL
   have hLL₁ : L₁ ≤ L := (le_max_left _ _).trans ((le_max_left _ _).trans hL)
   have hLL₂ : L₂ ≤ L := (le_max_right _ _).trans ((le_max_left _ _).trans hL)
-  have hδi : 1 ≤ δ⁻¹ := (one_le_inv₀ hδ.1).mpr hδ.2
-  have hlg : 1 ≤ (1 + Real.log L) ^ 2 := one_le_pow₀ (by linarith only [Real.log_nonneg hL1])
-  have hpos : 0 ≤ δ⁻¹ ^ 2 * (1 + Real.log L) ^ 2 * L ^ (3 * (((n + 3 : ℕ) : ℝ) - γ) - (1 - γ) - kappaHalf γ) := by
-    positivity
-  -- the sum selectors, with the larger saving `(2γ−1)/3`
+  set P := δ⁻¹ ^ 2 * L ^ (3 * (((n + 3 : ℕ) : ℝ) - γ) - (1 - γ) - kappaHalf γ) with hP
+  have hpos : 0 ≤ P := by positivity
+  have hsplit : ∀ C : ℝ, C * δ⁻¹ ^ 2 * L ^ (3 * (((n + 3 : ℕ) : ℝ) - γ) - (1 - γ) - kappaHalf γ) = C * P := by
+    intro C; rw [hP]; ring
+  rw [hsplit]
+  -- the sum selectors, with the larger saving `(2γ−1)/3 ≥ κ(γ)`
   have hsel : ∀ sel : Bool,
       ((coupledTripleSet L ax ay az (latticePoint L nv) α β (δ⁻¹ * L ^ (-2 * γ)) (if sel then 2 else 1)).ncard : ℝ) ≤
-        (C₁ + C₂) * δ⁻¹ ^ 2 * (1 + Real.log L) ^ 2 *
-          L ^ (3 * (((n + 3 : ℕ) : ℝ) - γ) - (1 - γ) - kappaHalf γ) := by
+        (C₁ + C₂) * P := by
     intro sel
     refine (hsum L hLL₂ δ hδ ax ay az nv sel α β).trans ?_
     have hexp : L ^ (3 * (((n + 3 : ℕ) : ℝ) - γ) - (1 - γ) - (2 * γ - 1) / 3) ≤
         L ^ (3 * (((n + 3 : ℕ) : ℝ) - γ) - (1 - γ) - kappaHalf γ) :=
       Real.rpow_le_rpow_of_exponent_le hL1 (by linarith [kappaHalf_le_third γ])
-    calc C₂ * δ⁻¹ ^ 2 * L ^ (3 * (((n + 3 : ℕ) : ℝ) - γ) - (1 - γ) - (2 * γ - 1) / 3)
-        ≤ C₂ * (δ⁻¹ ^ 2 * (1 + Real.log L) ^ 2 * L ^ (3 * (((n + 3 : ℕ) : ℝ) - γ) - (1 - γ) - kappaHalf γ)) := by
-          rw [mul_assoc]
-          refine mul_le_mul_of_nonneg_left ?_ hC₂.le
-          calc δ⁻¹ ^ 2 * L ^ (3 * (((n + 3 : ℕ) : ℝ) - γ) - (1 - γ) - (2 * γ - 1) / 3)
-              ≤ δ⁻¹ ^ 2 * L ^ (3 * (((n + 3 : ℕ) : ℝ) - γ) - (1 - γ) - kappaHalf γ) := by gcongr
-            _ ≤ δ⁻¹ ^ 2 * (1 + Real.log L) ^ 2 *
-                L ^ (3 * (((n + 3 : ℕ) : ℝ) - γ) - (1 - γ) - kappaHalf γ) := by
-                have h := mul_le_mul_of_nonneg_left
-                  (le_mul_of_one_le_left (Real.rpow_nonneg (by linarith only [hL1])
-                    (3 * (((n + 3 : ℕ) : ℝ) - γ) - (1 - γ) - kappaHalf γ)) hlg)
-                  (by positivity : (0 : ℝ) ≤ δ⁻¹ ^ 2)
-                simpa only [mul_assoc] using h
-      _ ≤ _ := by nlinarith [hC₁, hpos]
+    have h2 : C₂ * δ⁻¹ ^ 2 * L ^ (3 * (((n + 3 : ℕ) : ℝ) - γ) - (1 - γ) - (2 * γ - 1) / 3) ≤ C₂ * P := by
+      rw [hP, ← mul_assoc]
+      exact mul_le_mul_of_nonneg_left hexp (by positivity)
+    nlinarith [hC₁, hpos, h2]
   fin_cases ζsel
-  · refine (hL₁ L hLL₁ ax ay az nv α β).trans ?_
-    have : C₁ * δ⁻¹ ^ 2 * (1 + Real.log L) ^ 2 * L ^ (3 * (((n + 3 : ℕ) : ℝ) - γ) - (1 - γ) - kappaHalf γ) =
-        C₁ * (δ⁻¹ ^ 2 * (1 + Real.log L) ^ 2 * L ^ (3 * (((n + 3 : ℕ) : ℝ) - γ) - (1 - γ) - kappaHalf γ)) := by ring
-    rw [this]
+  · -- `ζ = x − v`
+    refine ((hL₁ L hLL₁ ax ay az nv α β).trans_eq (hsplit C₁)).trans ?_
     nlinarith [hC₂, hpos]
   · exact hsel false
   · exact hsel true
