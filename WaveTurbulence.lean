@@ -139,6 +139,15 @@ public import WaveTurbulence.Foundations.ClassJR.Lemma55
 public import WaveTurbulence.Foundations.ClassJR.Lemma56
 public import WaveTurbulence.Foundations.ClassJR.Lemma57
 public import WaveTurbulence.Foundations.ClassJR.Lemma58
+public import WaveTurbulence.Foundations.ClassJR.MCCase1
+public import WaveTurbulence.Foundations.ClassJR.MCDefs
+public import WaveTurbulence.Foundations.ClassJR.MCE
+public import WaveTurbulence.Foundations.ClassJR.MCG
+public import WaveTurbulence.Foundations.ClassJR.MCK1
+public import WaveTurbulence.Foundations.ClassJR.MCProd
+public import WaveTurbulence.Foundations.ClassJR.MCReorder
+public import WaveTurbulence.Foundations.ClassJR.MCSRep
+public import WaveTurbulence.Foundations.ClassJR.MCSob
 public import WaveTurbulence.Foundations.ClassJR.Masked
 public import WaveTurbulence.Foundations.ClassJR.Masked2
 public import WaveTurbulence.Foundations.ClassJR.OfAny
