@@ -5,20 +5,24 @@ Authors: Scott Armstrong
 -/
 module
 
-public import Mathlib
-public import WaveTurbulence.Frozen.Defs.Garden
-public import WaveTurbulence.Frozen.Defs.GardenOrder
-public import WaveTurbulence.Frozen.Defs.RegCplDecodes
-public import WaveTurbulence.Frozen.Defs.RegCplRegChain
-public import WaveTurbulence.Frozen.Defs.RegCplSizeRegChainSize
-public import WaveTurbulence.Frozen.Defs.TTree
+public import WaveTurbulence.Foundations.RegStruct.CodeOrders
 
 /-!
-# Provider for `WaveTurbulence.RegCpl.size_eq_order`
+# Provider for `WaveTurbulence.RegCpl.size_eq_order` (B2 anchor O5, B2-CL-22)
 
-The proof of the frozen anchor `WaveTurbulence.RegCpl.size_eq_order` ((file) WAVE-B v2 §2.7; L826–L829; L848–L850) is assembled here under the export
-`WaveTurbulence.Provider.size_eq_order`. Quarantined while the anchor is `DRAFT_SORRY`:
-only the frozen anchor may import this module.
+The proof of the frozen anchor `WaveTurbulence.RegCpl.size_eq_order` (WaveB2-Regular.lean §4) is assembled here under the export
+`WaveTurbulence.Provider.size_eq_order`. The statement is the anchor's, with the data binders implicit and
+the hypotheses `by assumption` autoParams (the `wkelwp` pattern), so the anchor body is the bare
+`by exact WaveTurbulence.Provider.size_eq_order`. The proof is wt-resonant's REG-STRUCT
+(`/home/scott/wt-scratch/reg-struct/B2CharacterizationProofs.lean`, `f2817fe8…`). Quarantined while the anchor is
+`DRAFT_SORRY`: only the frozen anchor may import this module.
 -/
 
 public section
+
+namespace WaveTurbulence.Provider
+
+theorem size_eq_order {Q : RegCpl} {G : Garden 2} (h : Q.Decodes G := by assumption) : G.order = Q.size :=
+  Reg.size_eq_order h
+
+end WaveTurbulence.Provider

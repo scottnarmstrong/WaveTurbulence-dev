@@ -2041,6 +2041,7 @@ public import WaveTurbulence.Frozen.Theorems.QuadExpSum2
 public import WaveTurbulence.Frozen.Theorems.QuadExpSum3
 public import WaveTurbulence.Frozen.Theorems.RegChainExists_decodesTree
 public import WaveTurbulence.Frozen.Theorems.RegCplExists_decodes
+public import WaveTurbulence.Frozen.Theorems.RegCplSize_eq_order
 public import WaveTurbulence.Frozen.Theorems.Sumint
 public import WaveTurbulence.Frozen.Theorems.Wkelwp
 
