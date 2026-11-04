@@ -135,3 +135,45 @@ changed, no new source erratum or deviation.
 Remaining M4: recognize the full hyper caps and their adjoints, localize across
 ingredients, handle DV, mixed ordinary-block simultaneous removal, and prove
 realization-independence of coherence grouping. M4 is not ready; continuing.
+
+## F69: relevant VINES evidence and exact dependence on the current B2 family
+
+The orchestrator reports an independently checked Y2/ylem1 counterexample and
+is investigating the figure/template reading. VINES has the following related
+kernel-checked structural evidence; it does not settle which reading is correct.
+
+1. `typeVII_inner_full_side` and `typeVII_inner_side_card` identify the full
+   type-VII side as the triangle, its two old side joints, and kc full cyan
+   rungs. It has exactly5+2kc atoms. In particular the literal side graphs at
+   kc=0 and kc=1 have5 and7 atoms. `typeVII_selected_side_branches` proves two
+   distinct neighbors at both joints for all kc, including those short cases.
+   The graph definitions in VineSideBonds and the exact restriction theorem
+   typeVII_side_restrict_bonds apply uniformly at kc=0,1. Recognition as the
+   pinned type-V family is proved only for kc=m+2, i.e. at least9 atoms.
+2. The normal triangle cap has3+2r atoms and its designated adjoint has the
+   same atom set. With r=1 or2, these are five/seven-atom adjoint blocks with
+   branching joints (`CapPrefixData.erased_front_branches`). The generic cap
+   label/edge identities and actual bond-deletion identities include these
+   values; they do not require those graphs to be excluded or to be vines.
+3. Crucially, `typeVII_VC_side_length`, the short-cap exclusion
+   `CapPrefixData.short_prefix_not_hyperLike`, and the source VC classification
+   `SG_VC_in_single_vine` use `not_isVC_five_or_seven_of_branching`. That proof
+   uses the CURRENT B2 minimum sizes (typeII at least6, normal types at least9)
+   and chain-end counting. They are correct relative to the pinned B2 family;
+   they are not independent evidence that the paper excludes five/seven-atom
+   vines. If the approved family is enlarged, these exclusion theorems must
+   be replaced, and the containment classification revisited.
+
+A possible place to inspect is the distinction between the two fixed doubled
+pairs in the current type-V core and the optional rung insertion: the present
+expansion inserts extra pairs without removing or identifying either old pair,
+so its9-atom minimum is built into the draft. VINES has not independently
+resolved whether the source figure/Definition5.1 permits those pairs to vanish.
+No claim of a new source erratum is made here.
+
+Cheap parameterization is already retained: raw-cut monotonicity is for any
+VineTemplate and valid insertion instruction list; four-dart, sequence, finite
+label, cap-label, cap-edge and actual deletion lemmas are generic. Primitive
+CapPrefixData includes r=0,1,2. Template-specific finite tables and size-based
+recognition/exclusion results are kept separate. Continue pending the owner's
+F69 ruling; no pinned draft is changed.
