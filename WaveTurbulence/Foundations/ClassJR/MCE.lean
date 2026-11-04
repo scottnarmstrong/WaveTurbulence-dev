@@ -695,17 +695,16 @@ theorem measurable_gEDbd (j : ℕ) :
   unfold gEDbd
   fun_prop
 
-/-- **The weighted integral of the diagonal majorant** (Lemma G, DH21 (propertyG)):
-`∫ (1+|λ+g|)^a gEDbd ≤ 3 C_E Ir(2) A₁^j (2j)! (1+|u+g|)^a (1+|c-u|)^{a-1}`. -/
-theorem lintegral_gEDbd_le {a : ℝ} (h0 : 0 ≤ a) (h1 : a ≤ 1) (j : ℕ) (c u g : ℝ) :
+/-- The weighted integral of the diagonal majorant against any dominating constant `X`. -/
+theorem lintegral_gEDbd_le_X {a : ℝ} (h0 : 0 ≤ a) (h1 : a ≤ 1) (j : ℕ) (c u g X : ℝ)
+    (hX0 : 0 ≤ X) (hX1 : ∀ τ ∈ Icc (0 : ℝ) 1, (1 + |u + τ * (c - u) + g|) ^ a ≤ X)
+    (hX2 : (1 + |c + g|) ^ a ≤ X) (hX3 : (1 + |u + g|) ^ a ≤ X) :
     ∫⁻ q : ℝ × ℝ, ((1 : ℝ≥0∞) + ‖q.1 + g‖ₑ) ^ a * gEDbd j c u q ≤
-      ENNReal.ofReal (3 * CE * Ir 2 * A1 ^ j * (Nat.factorial (2 * j) : ℝ) *
-        ((1 + |u + g|) ^ a * (1 + |c - u|) ^ (a - 1))) := by
+      ENNReal.ofReal (CE * A1 ^ j * (Nat.factorial (2 * j) : ℝ) / (1 + |c - u|) *
+        (3 * Ir 2 * X)) := by
   set K : ℝ := CE * A1 ^ j * (Nat.factorial (2 * j) : ℝ) with hK
   have hK0 : 0 ≤ K := by have := CE_nonneg; have := A1_nonneg; positivity
   have hp : 0 < 1 + |c - u| := by positivity
-  set X : ℝ := (1 + |u + g|) ^ a * (1 + |c - u|) ^ a with hX
-  have hX0 : 0 ≤ X := by positivity
   -- the integrand bound
   set F : ℝ × ℝ → ℝ≥0∞ := fun q => ENNReal.ofReal (ind01r q.2) *
     (ENNReal.ofReal (K / (1 + |c - u|)) *
@@ -741,26 +740,10 @@ theorem lintegral_gEDbd_le {a : ℝ} (h0 : 0 ≤ a) (h1 : a ≤ 1) (j : ℕ) (c 
     rw [ENNReal.ofReal_mul (by positivity)]
     refine mul_le_mul' le_rfl ?_
     rw [lintegral_add_left (by fun_prop), lintegral_add_left (by fun_prop)]
-    have hτa : |τ * (c - u)| ≤ |c - u| := by
-      rw [abs_mul]
-      exact mul_le_of_le_one_left (abs_nonneg _) (by
-        rw [abs_le]; constructor <;> linarith [hτ.1, hτ.2])
-    have b1 : Ir 2 * (1 + |u + τ * (c - u) + g|) ^ a ≤ Ir 2 * X := by
-      refine mul_le_mul_of_nonneg_left ?_ Ir2_nonneg
-      have e : u + τ * (c - u) + g = (u + g) + τ * (c - u) := by ring
-      rw [e, hX]
-      refine (one_add_abs_add_rpow_le h0 _ _).trans ?_
-      gcongr
-    have b2 : Ir 2 * (1 + |c + g|) ^ a ≤ Ir 2 * X := by
-      refine mul_le_mul_of_nonneg_left ?_ Ir2_nonneg
-      have e : c + g = (u + g) + (c - u) := by ring
-      rw [e, hX]
-      exact one_add_abs_add_rpow_le h0 _ _
-    have b3 : Ir 2 * (1 + |u + g|) ^ a ≤ Ir 2 * X := by
-      refine mul_le_mul_of_nonneg_left ?_ Ir2_nonneg
-      rw [hX]
-      exact le_mul_of_one_le_right (by positivity)
-        (Real.one_le_rpow (by linarith [abs_nonneg (c - u)]) h0)
+    have b1 : Ir 2 * (1 + |u + τ * (c - u) + g|) ^ a ≤ Ir 2 * X :=
+      mul_le_mul_of_nonneg_left (hX1 τ hτ) Ir2_nonneg
+    have b2 : Ir 2 * (1 + |c + g|) ^ a ≤ Ir 2 * X := mul_le_mul_of_nonneg_left hX2 Ir2_nonneg
+    have b3 : Ir 2 * (1 + |u + g|) ^ a ≤ Ir 2 * X := mul_le_mul_of_nonneg_left hX3 Ir2_nonneg
     have hI := Ir2_nonneg
     calc (∫⁻ v : ℝ, ENNReal.ofReal ((1 + |v + g|) ^ a * (1 / (1 + |v - (u + τ * (c - u))|) ^ 3))) +
           (∫⁻ v : ℝ, ENNReal.ofReal ((1 + |v + g|) ^ a * (1 / (1 + |v - c|) ^ 3))) +
@@ -782,12 +765,81 @@ theorem lintegral_gEDbd_le {a : ℝ} (h0 : 0 ≤ a) (h1 : a ≤ 1) (j : ℕ) (c 
           ENNReal.ofReal (K / (1 + |c - u|) * (3 * Ir 2 * X)) := lintegral_mono hinner
     _ = ENNReal.ofReal (K / (1 + |c - u|) * (3 * Ir 2 * X)) := by
         rw [lintegral_mul_const _ measurable_ind01r.ennreal_ofReal, lintegral_ind01r, one_mul]
-    _ = _ := by
-        congr 1
-        have hsplit : (1 + |c - u|) ^ (a - 1) = (1 + |c - u|) ^ a / (1 + |c - u|) := by
-          rw [Real.rpow_sub hp, Real.rpow_one]
-        rw [hsplit, hX, hK]
-        field_simp
+
+/-- **The weighted integral of the diagonal majorant** (Lemma G, DH21 (propertyG)):
+`∫ (1+|λ+g|)^a gEDbd ≤ 3 C_E Ir(2) A₁^j (2j)! (1+|u+g|)^a (1+|c-u|)^{a-1}`. -/
+theorem lintegral_gEDbd_le {a : ℝ} (h0 : 0 ≤ a) (h1 : a ≤ 1) (j : ℕ) (c u g : ℝ) :
+    ∫⁻ q : ℝ × ℝ, ((1 : ℝ≥0∞) + ‖q.1 + g‖ₑ) ^ a * gEDbd j c u q ≤
+      ENNReal.ofReal (3 * CE * Ir 2 * A1 ^ j * (Nat.factorial (2 * j) : ℝ) *
+        ((1 + |u + g|) ^ a * (1 + |c - u|) ^ (a - 1))) := by
+  have hp : 0 < 1 + |c - u| := by positivity
+  set X : ℝ := (1 + |u + g|) ^ a * (1 + |c - u|) ^ a with hX
+  refine (lintegral_gEDbd_le_X h0 h1 j c u g X (by positivity) (fun τ hτ => ?_) ?_ ?_).trans_eq ?_
+  · have hτa : |τ * (c - u)| ≤ |c - u| := by
+      rw [abs_mul]
+      exact mul_le_of_le_one_left (abs_nonneg _) (by
+        rw [abs_le]; constructor <;> linarith [hτ.1, hτ.2])
+    have e : u + τ * (c - u) + g = (u + g) + τ * (c - u) := by ring
+    rw [e, hX]
+    refine (one_add_abs_add_rpow_le h0 _ _).trans ?_
+    gcongr
+  · have e : c + g = (u + g) + (c - u) := by ring
+    rw [e, hX]
+    exact one_add_abs_add_rpow_le h0 _ _
+  · rw [hX]
+    exact le_mul_of_one_le_right (by positivity)
+      (Real.one_le_rpow (by linarith [abs_nonneg (c - u)]) h0)
+  · congr 1
+    have hsplit : (1 + |c - u|) ^ (a - 1) = (1 + |c - u|) ^ a / (1 + |c - u|) := by
+      rw [Real.rpow_sub hp, Real.rpow_one]
+    rw [hsplit, hX]
+    field_simp
+
+/-- `(1 + |y + z|)^a ≤ (1 + |y|)^a + (1 + |z|)^a` for `0 ≤ a ≤ 1`. -/
+theorem one_add_abs_add_rpow_le_add {a : ℝ} (h0 : 0 ≤ a) (h1 : a ≤ 1) (y z : ℝ) :
+    (1 + |y + z|) ^ a ≤ (1 + |y|) ^ a + (1 + |z|) ^ a := by
+  calc (1 + |y + z|) ^ a ≤ ((1 + |y|) + (1 + |z|)) ^ a := by
+        refine Real.rpow_le_rpow (by positivity) ?_ h0
+        linarith [abs_add_le y z, abs_nonneg z]
+    _ ≤ (1 + |y|) ^ a + (1 + |z|) ^ a :=
+        Real.rpow_add_le_add_rpow (by positivity) (by positivity) h0 h1
+
+/-- **The split weighted integral of the diagonal majorant** (class `R` version of DH21 (propertyG)):
+`∫ (1+|λ+g|)^a gEDbd ≤ 6 C_E Ir(2) A₁^j (2j)! ((1+|u+g|)^a (1+|c-u|)^{-1} + (1+|c-u|)^{a-1})`; the weight
+falls on one denominator at a time (DH23 L966–L969). -/
+theorem lintegral_gEDbd_le_split {a : ℝ} (h0 : 0 ≤ a) (h1 : a ≤ 1) (j : ℕ) (c u g : ℝ) :
+    ∫⁻ q : ℝ × ℝ, ((1 : ℝ≥0∞) + ‖q.1 + g‖ₑ) ^ a * gEDbd j c u q ≤
+      ENNReal.ofReal (6 * CE * Ir 2 * A1 ^ j * (Nat.factorial (2 * j) : ℝ) *
+        ((1 + |u + g|) ^ a / (1 + |c - u|) + (1 + |c - u|) ^ (a - 1))) := by
+  have hp : 0 < 1 + |c - u| := by positivity
+  set X : ℝ := 2 * ((1 + |u + g|) ^ a + (1 + |c - u|) ^ a) with hX
+  have hY1 : (1 + |u + g|) ^ a ≤ X := by
+    have h2 := Real.rpow_nonneg (by positivity : (0 : ℝ) ≤ 1 + |c - u|) a
+    have h3 := Real.rpow_nonneg (by positivity : (0 : ℝ) ≤ 1 + |u + g|) a
+    rw [hX]; linarith
+  refine (lintegral_gEDbd_le_X h0 h1 j c u g X (by positivity) (fun τ hτ => ?_) ?_ hY1).trans_eq ?_
+  · have hτa : |τ * (c - u)| ≤ |c - u| := by
+      rw [abs_mul]
+      exact mul_le_of_le_one_left (abs_nonneg _) (by
+        rw [abs_le]; constructor <;> linarith [hτ.1, hτ.2])
+    have e : u + τ * (c - u) + g = (u + g) + τ * (c - u) := by ring
+    rw [e]
+    refine (one_add_abs_add_rpow_le_add h0 h1 _ _).trans ?_
+    have : (1 + |τ * (c - u)|) ^ a ≤ (1 + |c - u|) ^ a := by gcongr
+    have := Real.rpow_nonneg (by positivity : (0 : ℝ) ≤ 1 + |u + g|) a
+    rw [hX]; linarith
+  · have e : c + g = (u + g) + (c - u) := by ring
+    rw [e]
+    refine (one_add_abs_add_rpow_le_add h0 h1 _ _).trans ?_
+    have := Real.rpow_nonneg (by positivity : (0 : ℝ) ≤ 1 + |u + g|) a
+    have := Real.rpow_nonneg (by positivity : (0 : ℝ) ≤ 1 + |c - u|) a
+    rw [hX]; linarith
+  · congr 1
+    have hsplit : (1 + |c - u|) ^ (a - 1) = (1 + |c - u|) ^ a / (1 + |c - u|) := by
+      rw [Real.rpow_sub hp, Real.rpow_one]
+    rw [hsplit, hX]
+    field_simp
+    ring
 
 /-- **The weighted diagonal derivative bounds of `gE`** (Lemma G, DH21 (propertyG)):
 `∫ (1+|λ+g|)^a |∂_u^j gE(c-u; λ-u, τ)| dλ dτ ≤ 3 C_E Ir(2) A₁^j (2j)! (1+|u+g|)^a (1+|c-u|)^{a-1}`. -/
