@@ -1,5 +1,5 @@
 {
- "assessed": "2026-11-04 09:55 UTC",
+ "assessed": "2026-11-04 10:25 UTC",
  "notes": "Lean work items = blueprint packets (docs/blueprint/GRAPH.md §E) with their difficulty weights (node weights L=1, M=2, H=4, VH=8 summed). Each frozen theorem anchor adds weight 1, credited when SEALED. Done fractions are the orchestrator's assessment, reviewed at integration rounds.",
  "lines_est_total": 273000,
  "parts": [
@@ -387,8 +387,8 @@
      "goal": "Prop 5.1 steps 1–2 (unimodular change of variables, localization)",
      "weight": 7.0,
      "lines_est": 2800,
-     "done": 0.9,
-     "note": "steps 1-2 done in the abstract carrier; instantiation with LINKS in INCOH-INST"
+     "done": 1.0,
+     "note": "done: B2.2 incoherentDecay proved at the exact type (INCOH-INST, e77e692); seals at the B2 freeze"
     },
     {
      "id": "V1",
@@ -585,8 +585,8 @@
      "goal": "DH23 Prop 6.1 (couples and trees) for orders n≤N^4_{p+1} (F33, route R14 (a)); 2 days: split couples / trees+derivatives",
      "weight": 10.0,
      "lines_est": 5800,
-     "done": 0.0,
-     "note": ""
+     "done": 0.4,
+     "note": "RA1: foundations landed (sign, normalization, Prop 6.4 application, envelopes); couples (wt-ansob) and trees (wt-l2s) in progress"
     },
     {
      "id": "M8",
