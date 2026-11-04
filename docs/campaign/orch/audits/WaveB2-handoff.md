@@ -355,9 +355,13 @@ Degen/MOLE modules, not `WaveB2Draft`.
 - **Method.** For every non-theorem declaration of `WaveB2Draft.{Regular, Molecules, Statements}` (296 in all), I
   followed type, body, constructor types and auxiliary proofs and matchers transitively. Structure-field projections
   count as part of their structure.
-- **Before CL-12:** 16 hits. 7 were field projections, 3 were `_simp` auxiliaries of `GNode.parent`, which the checker
-  then expanded. The real hits were `TTree.dropLast_mem_branching` and its Lemmas dependency (counted via the first
-  run), plus the two derived `ofNat_ctorIdx`.
+- **First run** (mid-CL-12: after the inlining, before the `deriving` change): 16 hits.
+  - 11 were structure-field projections (`Garden.pair_sign`, `pair_eq_iff`, `pair_pair`; `Molecule.mate_mate`,
+    `atom_mem`, `mate_ne`, `out_mate` in `eraseBond` and `cut`).
+  - 3 were `_simp` auxiliaries of `GNode.parent`'s own proof, which the refined checker expands.
+  - 2 were the derived `ofNat_ctorIdx` theorems, which led to the `deriving` change.
+  - The checker was not run before the inlining. The `TTree.dropLast_mem_branching` → Lemmas dependency is known from
+    the source (CL-1).
 - **After CL-12: 0 uses of a proved theorem of the project.**
 
 **Checks.**
