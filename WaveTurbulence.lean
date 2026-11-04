@@ -94,6 +94,9 @@ public import WaveTurbulence.Foundations.ApproxNT.Prop64
 public import WaveTurbulence.Foundations.ApproxNT.PsiOne
 public import WaveTurbulence.Foundations.ApproxNT.Statement
 public import WaveTurbulence.Foundations.ClassJR.Bump
+public import WaveTurbulence.Foundations.ClassJR.Chain
+public import WaveTurbulence.Foundations.ClassJR.Chain2
+public import WaveTurbulence.Foundations.ClassJR.ChainPartition
 public import WaveTurbulence.Foundations.ClassJR.ClassDef
 public import WaveTurbulence.Foundations.ClassJR.CompJJ
 public import WaveTurbulence.Foundations.ClassJR.CompJJSetup
@@ -128,6 +131,7 @@ public import WaveTurbulence.Foundations.ClassJR.InvBounds
 public import WaveTurbulence.Foundations.ClassJR.JRChain
 public import WaveTurbulence.Foundations.ClassJR.Kernel
 public import WaveTurbulence.Foundations.ClassJR.KernelM
+public import WaveTurbulence.Foundations.ClassJR.LegalPartitions
 public import WaveTurbulence.Foundations.ClassJR.Lemma53
 public import WaveTurbulence.Foundations.ClassJR.Lemma54a
 public import WaveTurbulence.Foundations.ClassJR.Lemma54b
@@ -135,6 +139,8 @@ public import WaveTurbulence.Foundations.ClassJR.Lemma55
 public import WaveTurbulence.Foundations.ClassJR.Lemma56
 public import WaveTurbulence.Foundations.ClassJR.Lemma57
 public import WaveTurbulence.Foundations.ClassJR.Lemma58
+public import WaveTurbulence.Foundations.ClassJR.Masked
+public import WaveTurbulence.Foundations.ClassJR.Masked2
 public import WaveTurbulence.Foundations.ClassJR.OfAny
 public import WaveTurbulence.Foundations.ClassJR.Param
 public import WaveTurbulence.Foundations.ClassJR.ParamComp
