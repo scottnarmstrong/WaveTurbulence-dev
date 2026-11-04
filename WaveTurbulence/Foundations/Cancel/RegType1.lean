@@ -28,6 +28,7 @@ open WaveTurbulence.ClassJR
 
 variable {V : Type} [DecidableEq V]
 
+omit [DecidableEq V] in
 theorem nice_swapT {S : Finset V} {F : (V → ℝ) → ℝ → ℝ → ℂ} (h : NiceCoef S F) (b : Bool) :
     NiceCoef S (swapT b F) := by
   cases b
@@ -64,7 +65,7 @@ theorem RI_type1 {θ : ℝ} (hθ : 0 < θ) (ζ : V → ℤ) (Z : Finset V) {v : 
   set φ : (V → ℝ) → ℝ → ℝ → ℂ := fun α t₁ s₁ =>
     cexp (π * I * (α v * (t₁ - s₁))) * ∏ j, swapT (sw j) (F j) α t₁ s₁ with hφ
   have hφc : Continuous fun p : (V → ℝ) × ℝ × ℝ => φ p.1 p.2.1 p.2.2 := by
-    refine (Continuous.cexp (by fun_prop)).mul (continuous_finset_prod _ fun j _ => (hF' j).cont)
+    refine (Continuous.cexp (by fun_prop)).mul (continuous_finsetProd _ fun j _ => (hF' j).cont)
   have hφb : ∀ α, ∀ t₁ ∈ Icc (0 : ℝ) 1, ∀ s₁ ∈ Icc (0 : ℝ) 1, ‖φ α t₁ s₁‖ ≤ Bp := by
     intro α t₁ ht₁ s₁ hs₁
     simp only [hφ]
@@ -172,7 +173,7 @@ theorem nice_type1 (v : V) (sw : Fin 3 → Bool) {S : Fin 3 → Finset V}
   set φ : (V → ℝ) → ℝ → ℝ → ℂ := fun α t₁ s₁ =>
     cexp (π * I * (α v * (t₁ - s₁))) * ∏ j, swapT (sw j) (F j) α t₁ s₁ with hφ
   have hφc : Continuous fun p : (V → ℝ) × ℝ × ℝ => φ p.1 p.2.1 p.2.2 :=
-    (Continuous.cexp (by fun_prop)).mul (continuous_finset_prod _ fun j _ => (hF' j).cont)
+    (Continuous.cexp (by fun_prop)).mul (continuous_finsetProd _ fun j _ => (hF' j).cont)
   refine ⟨fun t s => ?_, ?_, ⟨∏ j, max (B j) 0, fun α t ht s hs => ?_⟩⟩
   · intro α α' h
     simp only [type1F]
