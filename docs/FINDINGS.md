@@ -403,3 +403,9 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   (TARGET's δ(t_𝔯 − t) is the time derivative of the tree expansion, both roots top-layer branching nodes). So the
   obligation O-X3-CPL for ∂_t a^tr is false as stated. Fix (snapshot 8): `∀ j, ∃ b, b.1 = (j, []) ∧ LG.layer b.toNode =
   p` (equivalently: every top tree nontrivial). ∂_t ℒ₀ is unaffected. Found by wt-gauss-hc (CPL-3).
+- F79 — TARGET Step 2(C-ii) L1813–L1817 (vine parametrization, nonlinear core alternative) — **candidate sign erratum**:
+  for the directed zero-gap triangle of Figure (D), conservation gives e = a+b−g, d = a+b−c; with g = 0 the three
+  molecular Γ factors are 2ab, −2(c−a)(c−b), 2c(c−a−b), each a rank-2 quadratic form, whereas the stated triple
+  (2u₁u₂, +2u₃(u₁+u₂−u₃), minus their sum) has a rank-3 third form (and the linear alternative has a common factor the
+  actual triple lacks). Ruling: use explicit signed core normal forms with the corrected nonlinear sign, flagged for
+  audit. Found by wt-gausssum (M9 VINEPARAM); kernel check in progress.
