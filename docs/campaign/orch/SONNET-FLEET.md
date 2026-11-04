@@ -128,3 +128,8 @@ Notes:
   - MOLEPROP4 internal-input defects: OpCAt, OpDAt.
   - Agent 4 is running.
 - **Research #2 (γ ≤ 1/2, closing gaps):** running.
+- **UNIVERSE: READY 01:1x.** L0–L5 in one universe.
+  - Fresh rebuilds: L4 845 modules and L5 521 modules (checked: ALL OK 521).
+  - Packet audits pass with standard axioms.
+  - Statement changes are only `IsBlockDeg` → `IsBlock` (×4) and one rename.
+- **LG-SPINE-REBASE (new):** port lg-spine onto the universe in `lg-spine-u`, then a fresh rebuild, the snapshot-9 type check and the `layergarden_v2` corollary.
