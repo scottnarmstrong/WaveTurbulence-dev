@@ -203,3 +203,51 @@ same shape as LG-SPINE's `Stage1ReductionGate`.
 
 **Request to LG-SPINE.** Expose `Stage1PieceD.gbar` and `rbar` (`@[expose]`), or factor out the integral part of
 `Represents`, so FLOWER-SPINE can drop its copies (`FStage1Data`, `FCounts`, `gbar'`, `rbar'`).
+
+## R12 — FLOWER-SPINE `regular` split (FLOWER-REG finding), 2026-11-04 ~22:00 UTC
+
+**Finding.** `RegularCouplesAt` is stronger than TARGET L2312 derives.
+- Its `dt = true` part (all of kind `tr`) consists of Dirac-root kernels `∂_t∂_s K*` at s = t. Prop 6.1/6.2,
+  `taylorbound` and the trace do not control these.
+- TARGET handles them "by the same arguments as flowerest1".
+
+**Ruling: split the input in two.**
+- **`RegularCouplesL0At`** (kind `L0`, `dt = false`): TARGET's "(taylorbound) and (estcouple2)" leg.
+  - Provider: FLOWER-REG.
+  - Inputs: the 30d gate, Prop 6.2, `taylorbound` and the trace, plus **B2.2 `incoherentDecay` (sealed on main)** for
+    the incoherent regular couples. B2.2 is now an allowed input.
+- **`RegularCouplesDtAt`** (`dt = true`, including kind `tr`): the Dirac-root regular couples.
+  - Provider: the flower Stage 1 machinery, i.e. S2a / S2 / S4 with flowerest1's adjustments, in the same shape as the
+    `gardens` and `couples` gates (R11).
+  - The exponents must be TARGET's: `δ^{νN}`, `L^{100d}` from B1.12(2). Sharper ones are allowed only where proved.
+- FLOWER-SPINE restates its `regular` input as the conjunction of the two and re-pins it.
+
+## R13 — V5 Step 3 endpoint and the degenerate decorations (ε, F21), 2026-11-04 ~22:00 UTC
+
+**Finding.** TARGET L1844–L1846 replaces ε by 1 "by trivial summation, gaining L^{−0.1γ₀}". For large M this does not
+work: trivial summation over the restricted subspace costs L^{(M−1)d} against L^{M(d−γ)}.
+
+The blueprint already lists this as a gap: GAP.degenerate.vine (F21), "the L^{−0.1γ₀} gain in vineest Step 3 for
+degenerate decorations — the analytic half of F21", with DH23 `extradegen` as its input.
+
+**Ruling.**
+- V5 Step 3's endpoint is stated for the ε ≡ 1 kernel (`clockedExpr`), the main term.
+- The degenerate decorations are a separate graph node, GAP.degenerate.vine. The new packet **DEGEN-VINE** proves it,
+  from DH23 `extradegen` / DH23 §10.5 and the DEGEN packet (G0, done in scratch).
+- The vineest assembly combines the two.
+- TARGET L1844–L1846 goes into the findings ledger as a CANDIDATE erratum ("trivial summation" is insufficient for
+  large M). It is confirmed or withdrawn once DEGEN-VINE's proof shows what is actually needed.
+
+## R14 — PL23-30D obligations, 2026-11-04 ~22:00 UTC
+
+**Accepted.** PL23-30D is READY: both Prop 6.1 gates are proved at 30d on snapshot 9. Its two obligations are B2.1
+`RegularAsymptoticsGate` and **`LeafwiseRegularAsymptoticsGate`**.
+
+**The leafwise gate is an open node, not proved anywhere.**
+- REGREF's handoff says the leafwise analytic estimate is RA1 work: DH23 Prop 6.1 with individually modified leaf
+  inputs, used at TARGET L2065–L2067.
+- RA1 couples and RA1-TREES proved only the common-profile form.
+
+**New packet RA1-LEAFWISE.**
+- Prove RA1 (couples and trees) with per-leaf profiles, generalizing `regular_couple_asymptotics` and `ra1Tree`.
+- Then derive `LeafwiseRegularAsymptoticsGate` with REGREF's leafwise kernels (`Leafwise.lean`).
