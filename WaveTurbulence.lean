@@ -573,6 +573,7 @@ public import WaveTurbulence.Foundations.Gaussian.TwoPoint
 public import WaveTurbulence.Foundations.Incoh.AbsorbedProductDecay
 public import WaveTurbulence.Foundations.Incoh.AbsorbedReplacementDecay
 public import WaveTurbulence.Foundations.Incoh.AllCellAmplitudeL1
+public import WaveTurbulence.Foundations.Incoh.AllCellCoupleCutoffUniformDecay
 public import WaveTurbulence.Foundations.Incoh.AllCellCoupleDecay
 public import WaveTurbulence.Foundations.Incoh.AllCellCoupleFubini
 public import WaveTurbulence.Foundations.Incoh.AllCellCouplePointwise
@@ -606,6 +607,7 @@ public import WaveTurbulence.Foundations.Incoh.CoordinateFactorDerivative
 public import WaveTurbulence.Foundations.Incoh.CoordinateFactorMass
 public import WaveTurbulence.Foundations.Incoh.CoordinateMultilinearBound
 public import WaveTurbulence.Foundations.Incoh.CountableSliceMeasurability
+public import WaveTurbulence.Foundations.Incoh.CoupleCutoffUniformDecay
 public import WaveTurbulence.Foundations.Incoh.CoupleExtension
 public import WaveTurbulence.Foundations.Incoh.CoupleExtensionAgreement
 public import WaveTurbulence.Foundations.Incoh.CoupleLinkCellLocalization
@@ -614,6 +616,8 @@ public import WaveTurbulence.Foundations.Incoh.CouplePhysicalL1
 public import WaveTurbulence.Foundations.Incoh.CouplePointwiseL1
 public import WaveTurbulence.Foundations.Incoh.CouplePropositionRate
 public import WaveTurbulence.Foundations.Incoh.CoupleSpectralMixtureDecay
+public import WaveTurbulence.Foundations.Incoh.CoupleUpperBoxAgreement
+public import WaveTurbulence.Foundations.Incoh.CoupleUpperPropositionRate
 public import WaveTurbulence.Foundations.Incoh.CouplingScale
 public import WaveTurbulence.Foundations.Incoh.CutoffCoupleSpectralMixtureDecay
 public import WaveTurbulence.Foundations.Incoh.CutoffDoubleL1
@@ -630,6 +634,7 @@ public import WaveTurbulence.Foundations.Incoh.FactoredLinkMass
 public import WaveTurbulence.Foundations.Incoh.FinalExponentLoss
 public import WaveTurbulence.Foundations.Incoh.FiniteCellProductFourier
 public import WaveTurbulence.Foundations.Incoh.FiniteClockFubini
+public import WaveTurbulence.Foundations.Incoh.FiniteLayerCutoff
 public import WaveTurbulence.Foundations.Incoh.FiniteLinkCellLocalization
 public import WaveTurbulence.Foundations.Incoh.FiniteSelectionIntegral
 public import WaveTurbulence.Foundations.Incoh.FiniteSpectralDecomposition
@@ -638,8 +643,11 @@ public import WaveTurbulence.Foundations.Incoh.FourierMixture
 public import WaveTurbulence.Foundations.Incoh.FrequencySplit
 public import WaveTurbulence.Foundations.Incoh.FrozenModulationMeasurable
 public import WaveTurbulence.Foundations.Incoh.FullRawCoupleRestrictionDecay
+public import WaveTurbulence.Foundations.Incoh.FullRawCoupleUpperRestrictionDecay
 public import WaveTurbulence.Foundations.Incoh.FullRawOneClockRestrictionDecay
+public import WaveTurbulence.Foundations.Incoh.FullRawOneClockUpperRestrictionDecay
 public import WaveTurbulence.Foundations.Incoh.FullRawTreeRestrictionDecay
+public import WaveTurbulence.Foundations.Incoh.FullRawTreeUpperRestrictionDecay
 public import WaveTurbulence.Foundations.Incoh.FullRawVertexClockRestrictionDecay
 public import WaveTurbulence.Foundations.Incoh.GardenSign
 public import WaveTurbulence.Foundations.Incoh.GeneralThreeMomentNorm
@@ -705,8 +713,11 @@ public import WaveTurbulence.Foundations.Incoh.MaskedCellEnvelope
 public import WaveTurbulence.Foundations.Incoh.MaskedCellFamily
 public import WaveTurbulence.Foundations.Incoh.MaskedCouplePointwise
 public import WaveTurbulence.Foundations.Incoh.MaskedRawCoupleAgreement
+public import WaveTurbulence.Foundations.Incoh.MaskedRawCoupleUpperAgreement
 public import WaveTurbulence.Foundations.Incoh.MaskedRawOneClockAgreement
+public import WaveTurbulence.Foundations.Incoh.MaskedRawOneClockUpperAgreement
 public import WaveTurbulence.Foundations.Incoh.MaskedRawTreeAgreement
+public import WaveTurbulence.Foundations.Incoh.MaskedRawTreeUpperAgreement
 public import WaveTurbulence.Foundations.Incoh.MaskedSourceAmplitude
 public import WaveTurbulence.Foundations.Incoh.MaskedSourceDerivativeBound
 public import WaveTurbulence.Foundations.Incoh.MaskedTreePointwise
@@ -736,6 +747,7 @@ public import WaveTurbulence.Foundations.Incoh.NormalizedReplacementDecay
 public import WaveTurbulence.Foundations.Incoh.OneClockCouple
 public import WaveTurbulence.Foundations.Incoh.OneClockCoupleDecay
 public import WaveTurbulence.Foundations.Incoh.OneClockSelection
+public import WaveTurbulence.Foundations.Incoh.OneClockUpperPropositionRate
 public import WaveTurbulence.Foundations.Incoh.OneClockVertexDecay
 public import WaveTurbulence.Foundations.Incoh.OneLinkDecay
 public import WaveTurbulence.Foundations.Incoh.OrderedClockDomain
@@ -771,6 +783,7 @@ public import WaveTurbulence.Foundations.Incoh.RawOneClockRestrictionDecay
 public import WaveTurbulence.Foundations.Incoh.RawSourceCellIntegral
 public import WaveTurbulence.Foundations.Incoh.RawSourceCellSeries
 public import WaveTurbulence.Foundations.Incoh.RawSourceIntegral
+public import WaveTurbulence.Foundations.Incoh.RawSourceTimeFubini
 public import WaveTurbulence.Foundations.Incoh.RawTreeAgreement
 public import WaveTurbulence.Foundations.Incoh.RawTreeRestrictionDecay
 public import WaveTurbulence.Foundations.Incoh.RawVertexClockRestrictionDecay
@@ -793,6 +806,7 @@ public import WaveTurbulence.Foundations.Incoh.RootAmplitudeMixture
 public import WaveTurbulence.Foundations.Incoh.RootBoxes
 public import WaveTurbulence.Foundations.Incoh.RootCausalSource
 public import WaveTurbulence.Foundations.Incoh.RootCoordinates
+public import WaveTurbulence.Foundations.Incoh.RootCoordinatesOfEmbedding
 public import WaveTurbulence.Foundations.Incoh.RootCumulative
 public import WaveTurbulence.Foundations.Incoh.RootCumulativeLocal
 public import WaveTurbulence.Foundations.Incoh.RootCutoff
@@ -905,9 +919,11 @@ public import WaveTurbulence.Foundations.Incoh.TreeRootSourceAgreement
 public import WaveTurbulence.Foundations.Incoh.TreeRootSpatialDecay
 public import WaveTurbulence.Foundations.Incoh.TreeRootSpectralFamily
 public import WaveTurbulence.Foundations.Incoh.TreeRootSpectralMass
+public import WaveTurbulence.Foundations.Incoh.TreeRootUpperAgreement
 public import WaveTurbulence.Foundations.Incoh.TreeScaleLoss
 public import WaveTurbulence.Foundations.Incoh.TreeSelectedSourceIntegral
 public import WaveTurbulence.Foundations.Incoh.TreeSourcePhaseFibers
+public import WaveTurbulence.Foundations.Incoh.TreeUpperBoxAgreement
 public import WaveTurbulence.Foundations.Incoh.TriangleSetIntegral
 public import WaveTurbulence.Foundations.Incoh.TwoTimeBoxIntegral
 public import WaveTurbulence.Foundations.Incoh.UniformDerivativeProduct
