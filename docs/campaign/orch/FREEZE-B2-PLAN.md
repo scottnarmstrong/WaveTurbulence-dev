@@ -10,7 +10,7 @@ Prepared by `wt-orch` (Task 36), 2026-11-04.
 
 | # | Commit | Content |
 |---|---|---|
-| 1 | `a013926` | **Guard: mutual blocks.** Definition anchors of one `mutual … end` block may share their file. **Needs your sign-off** (shared infrastructure). |
+| 1 | `a013926` | **Guard: mutual blocks.** Definition anchors of one `mutual … end` block may share their file. **Signed off** by the user, 2026-11-04 ("mutual-file guard change approved"). |
 | 2 | `cd422f2` | **The B2 freeze** from `waveb2-snap-final`: 69 definition anchors (60 files), 7 `DRAFT_SORRY` theorem anchors, 7 provider stubs, manifest, quarantine, root imports. |
 | 3 | `ae68961` | Seal O1 `RegCpl.exists_decodes`. Adds `Foundations/RegStruct` (151 modules) and the non-frozen `Foundations/WaveB/{FrozenB2, RegularHeldOut}`. |
 | 4 | `ce9f4ac` | Seal O2 `existsUnique_regCpl_decodes`. |
@@ -148,7 +148,7 @@ The B1 pattern:
 fix) must be on main before any branch with SEALED theorem anchors is merged.
 
 **B. Sign-off and approval.**
-1. Sign off commit 1 (the guard).
+1. ~~Sign off commit 1 (the guard).~~ Done: the user approved the mutual-file guard change on 2026-11-04.
 2. The author approves the B2 final candidate as **ruling D8**. Draft for `docs/DECISIONS.md`:
 
 > D8 — 2026-11-?? — Scott ("…", in reply to the complete Wave B tier-B2 code shown for approval:
@@ -236,7 +236,7 @@ SEALED_THIS_TURN: 6 on the branch, none landed (RegCpl.exists_decodes, existsUni
 
 ## 5. Caveats
 
-- **Commit 1 changes the guard.** It needs your sign-off. The alternative is in §1.
+- **Commit 1 changes the guard.** Signed off by the user on 2026-11-04 (design B; alternative A in §1 not taken).
 - **`RegularHeldOut` puts eight held-out draft declarations into Foundations**, non-frozen, under their draft names
   (`WaveTurbulence.instFintypeMiniTreeCode` and so on). A later freeze of any of them must move them, not copy them.
 - **Draft copies of other packets.** `Foundations/IncohInst/{Links, LayerReg, Enhanced, Regref}` are INCOH-INST's
