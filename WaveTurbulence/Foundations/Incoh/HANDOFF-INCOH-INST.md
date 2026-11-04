@@ -175,3 +175,20 @@ Complete original-couple checkpoint (continuing with tree and prefix assembly):
   and interval containment. Source-domain identification is still in progress.
 - Scratch `TreeSpineEndpoints` compiled its last-link membership and lone-parent identification;
   additional ancestor/existence lemmas are being checked.
+
+Tree graph comparison checkpoint:
+- `GraphClockCoordinates` (9137 jobs) reads actual remaining coordinates and proves selected/rest
+  vertices exhaust the source endpoints.
+- `GraphTreeDomain` (9139 jobs) identifies the computed fiber domain with the literal finite layer,
+  remaining-edge, mixed-edge and selected-order constraints.
+- `GraphTreeComparison` (9140 jobs) compares those intervals to strict graph constraints away from
+  coordinate equality hyperplanes; its edge orientation premise is finite source geometry.
+- `TreeUpperPropositionRate` (9567 jobs) gives the printed `30d,0` rate on arbitrary forward
+  external boxes covered by the cutoff, with constant before cutoff/total layer count.
+- `axioms-graph-fibers.log` audits the construction, comparison, null hyperplanes and printed tree
+  rate: all exactly `[propext, Classical.choice, Quot.sound]`.
+- `axioms-all-couple.log` audits the complete actual-couple estimate and one-root estimate:
+  all exactly `[propext, Classical.choice, Quot.sound]`.
+- Scratch `TreeSpineEndpoints`, `AncestorTimeOrder`, `TreeSpineSelection`, `TreeSourceGraph`
+  compile: actual last link membership and lone-parent path, strict ancestor clock order,
+  source link indices, parent-child graph and null graph-edge equality boundaries.
