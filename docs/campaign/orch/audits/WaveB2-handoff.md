@@ -696,3 +696,65 @@ Regular/Molecules obligations become non-frozen characterization lemmas.
 **Outside waveb2.** The template enumerations VINES, MOLEPROP13 and `prop96-case4/vinefree.py` must be re-run with
 the `m = 1` instance (F72). The independent B2 auditor re-checks this delta.
 
+## Addendum 7: B2-CL-22 (wt-orch, Task 32): O1–O5 are theorem anchors again (re-check 2, R2-1)
+
+**Ruling.** The decoding obligations O1–O5 go back into the B2 freeze set as theorem anchors, with the source-form
+definitions they use. That makes 7 B2 anchors; the total is 2 + 12 + 7 = 21.
+- R2-1 of the independent re-check 2 found that the meaning of B2.1 and B2.2 depends on O1–O5 (reading D4).
+- O6 `regular_count_le` and O7 `Garden.isMolecule_molecule` stay non-frozen.
+
+**Freeze set.** `gen_freeze.py`'s `ANCHORS` now lists the seven; there is no Lean source change.
+- **76 declarations** (was 59): 7 theorems, 62 defs, 2 abbrevs, 1 structure, 3 inductives, 1 instance; Regular 70,
+  Statements 6, Molecules 0.
+- **Moved in: the 5 theorems and 12 definitions.** These are exactly the source-form objects CL-20 moved out:
+  `IsRegularCouple`, `IsRegularTree`, `RawRegular`, `RawCpl.opA`, `opB`, `orient`, `relocate`, `tree`, `mapTree`,
+  `Garden.MatchesTreeCouple`, `TTree.setAt`, `TTree.subtreeAt`.
+- **The ruling's "15" is 12.** CL-20's other three lemma-only declarations, `GNode.parent`, `GardenDart` and
+  `Garden.molecule`, are reached only by O7 and stay held out.
+- **Held out: 89.** The B2.3 section (13); O6, O7 and the 3 above; 51 used only by B2.3; 20 unused. The generator
+  asserts the freeze set is closed.
+
+**The proofs hold on the final definitions.**
+- **The proofs.** They are wt-resonant's `/home/scott/wt-scratch/reg-struct/B2CharacterizationProofs.lean`
+  (`f2817fe8…`), thin wrappers over `Reg.*` theorems.
+- **Their environment.** They were checked against reg-struct's own `RegularDefs`, a copy of §1–§3 from before
+  CL-16. Apart from its header and imports, it differs from the final `WaveB2-Regular.lean` only in the names of
+  seven instances.
+- **My rebuild.**
+  - I pinned reg-struct (07:06 UTC; 205 files, list digest `0d7bb960c94d…`; unchanged at the end).
+  - I rebuilt the providers' whole import closure: 154 REG-STRUCT modules, through a `RegularDefs` shim to the
+    final `WaveB2-Regular.lean` (`4d7f81ef…`), on snapshot-7 B1 `Core`/`System` and dev's Wave A.
+  - The five theorems were placed in `WaveTurbulence.Provider` (§4 already declares their names).
+  - **161 modules, 0 errors.** The only warnings are the six `sorry`s of Regular §4 itself.
+- **Seal check** (`providers/SealCheck.lean`).
+  - Each of O1–O5 is restated verbatim from §4 and closed by the bare
+    `by exact WaveTurbulence.Provider.<export>`. The providers have implicit data binders and `by assumption`
+    autoParams (the B1 `wkelwp` pattern).
+  - Each restated type equals the §4 constant's type syntactically.
+  - Axioms of the five checks and the five providers: [propext, Classical.choice, Quot.sound]. There is no
+    `sorryAx`.
+
+**Seal providers.** `waveb2/providers/` and `waveb2-snap-final/providers/` hold:
+- the five provider files, named by B1's layout convention (stems `RegCplExists_decodes`,
+  `ExistsUnique_regCpl_decodes`, `RegChainExists_decodesTree`, `ExistsUnique_regChain_decodesTree`,
+  `RegCplSize_eq_order`; exports by the last name component);
+- the seal check;
+- the shim;
+- `REGSTRUCT-SHA256SUMS`, the 154 modules by hash;
+- a README with the landing recipe. The landing ports the REG-STRUCT library as non-frozen Foundations modules
+  (all are modules, all under 10,000 lines, no forbidden tokens), places the providers, and seals the five anchors
+  in the B1 pattern.
+
+**Updated.**
+- `DESIGN.md` (B2-CL-22, and the file table);
+- `FREEZE-LIST.md` and `gen_freeze.py`;
+- `waveb2-snap-final`: the README and `providers/`. The new `SHA256SUMS` is `b605320f7676…` (22 files); it
+  verifies, and the snapshot is read-only again;
+- `docs/review/WAVE-B-B2.md`:
+  - header hashes;
+  - §1: seven anchors, O1–O5 rows, 76 frozen, total 21;
+  - §2 items 3 and 8;
+  - §3: re-check 2 and CL-22;
+  - §4: re-rendered, 76 declarations verbatim;
+- `WAVE-B-B2-FREEZE-LIST.md`.
+

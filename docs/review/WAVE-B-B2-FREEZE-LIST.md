@@ -1,4 +1,4 @@
-# FREEZE-LIST: Wave B tier B2 (B2-CL-20: closure of B2.1 and B2.2; after CL-13 to CL-19)
+# FREEZE-LIST: Wave B tier B2 (B2-CL-22: closure of B2.1, B2.2 and O1–O5; after CL-13 to CL-21)
 
 Generated from the compiled modules `WaveB2Draft.{Regular, Molecules, Statements}` by the Lean metaprogram
 `FreezeList.lean` and `gen_freeze.py` (next to this file), adapted from B1's. Each row is one declaration of
@@ -6,20 +6,24 @@ the freeze set: its kind, the TARGET/DH source it cites, the other B2 declaratio
 auxiliary proofs use, and the B1 and Wave A owners they use (which its frozen file must import). The source
 comes from the docstring, else the enclosing section header `(section)`, else the module doc `(file)`.
 
-**Scope (B2-CL-20; orchestrator rulings of 2026-11-04: small frozen surface, ~20-anchor budget).** The only
-theorem anchors are B2.1 `regularAsymptotics` and B2.2 `incoherentDecay`. The freeze set is these two theorems
-and **exactly the B2 declarations they reach** (transitively, through types, bodies and auxiliary proofs).
-Everything else is held out (listed at the end, 106 declarations):
+**Scope (B2-CL-22; orchestrator rulings of 2026-11-04: small frozen surface).** The theorem anchors are B2.1
+`regularAsymptotics`, B2.2 `incoherentDecay` and the five decoding obligations of Regular §4 on which their
+meaning depends (reading D4; independent re-check 2, R2-1): O1 `RegCpl.exists_decodes`, O2
+`existsUnique_regCpl_decodes`, O3 `RegChain.exists_decodesTree`, O4 `existsUnique_regChain_decodesTree`, O5
+`RegCpl.size_eq_order`. All five are proved (wt-resonant's REG-STRUCT) and seal on landing. The freeze set is
+these seven theorems and **exactly the B2 declarations they reach** (transitively, through types, bodies and
+auxiliary proofs).
+Everything else is held out (listed at the end, 89 declarations):
 - the B2.3 section of `WaveB2-Statements.lean` (13: `rigidity` and its 12 helpers);
-- the 7 characterization lemmas of Regular §4 and Molecules (non-frozen, editable targets; CL-20) and the 15 declarations only they reach;
+- the 2 characterization lemmas `regular_count_le` and `Garden.isMolecule_molecule` (non-frozen, editable targets; CL-20, CL-22) and the 3 declarations only they reach;
 - 51 declarations used only by B2.3;
 - 20 declarations used by no theorem at all.
 
 Checked by the generator: the freeze set is closed (no frozen declaration uses a held-out one).
 
 **Counts.**
-- **2 theorems**: the anchors B2.1 `regularAsymptotics` and B2.2 `incoherentDecay`.
-- **51 definitions**, **2 abbrevs**, **1 structure**, **2 inductives**.
+- **7 theorems**: the anchors B2.1 `regularAsymptotics`, B2.2 `incoherentDecay` and O1–O5.
+- **62 definitions**, **2 abbrevs**, **1 structure**, **3 inductives**.
 - **1 instance**, a named `@[instance_reducible, instance] def` (B2-CL-16; B1 CL-16 convention). No `deriving` clause (B2-CL-12).
 
 **Closure.** No frozen definition uses a proved theorem of the project: structure projections, constructors
@@ -27,7 +31,7 @@ and recursors are folded into their structure or inductive, and auxiliary `proof
 their definition. The frozen declarations lie in `WaveB2-Regular.lean` and `WaveB2-Statements.lean`, which
 import only `WaveBDraft.System` (B1), `Mathlib.Analysis.Calculus.DSlope` and each other.
 
-## `WaveB2-Regular.lean` (53 declarations)
+## `WaveB2-Regular.lean` (70 declarations)
 
 | declaration | kind | TARGET / DH source | uses (B2) | uses (B1 / Wave A) |
 |---|---|---|---|---|
@@ -40,9 +44,21 @@ import only `WaveBDraft.System` (B1), `Mathlib.Analysis.Calculus.DSlope` and eac
 | `slotSign` | def | T L627 | — | — |
 | `node3` | def | (file) WAVE-B v2 §2.7; L826–L829; L848–L850 | — | `TTree` |
 | `addrExt` | def | (file) WAVE-B v2 §2.7; L826–L829; L848–L850 | — | `TTree.Path` |
+| `TTree.setAt` | def | (section) T Def `defreg`, L826–L829 | — | `TTree`, `TTree.Path` |
+| `TTree.subtreeAt` | def | (section) T Def `defreg`, L826–L829 | — | `TTree`, `TTree.Path` |
 | `RawCpl` | abbrev | (section) T Def `defreg`, L826–L829 | — | `TTree`, `TTree.Path` |
+| `RawCpl.tree` | def | (section) T Def `defreg`, L826–L829 | `RawCpl` | `TTree`, `TTree.Path` |
+| `RawCpl.mapTree` | def | (section) T Def `defreg`, L826–L829 | `RawCpl` | `TTree`, `TTree.Path` |
+| `RawCpl.opA` | def | T Def `defreg`; WAVE-B §3.3 | `MiniCplCode`, `MiniCplCode.partner`, `RawCpl`, `RawCpl.mapTree`, `TTree.setAt`, `addrExt` | `TTree`, `TTree.Path` |
+| `RawCpl.relocate` | def | (section) T Def `defreg`, L826–L829 | — | `TTree.Path` |
+| `RawCpl.orient` | def | (section) T Def `defreg`, L826–L829 | — | `TTree.Path` |
+| `RawCpl.opB` | def | T Def `defreg`; WAVE-B §3.3 | `MiniTreeCode`, `MiniTreeCode.green`, `MiniTreeCode.lone`, `MiniTreeCode.red`, `RawCpl`, `RawCpl.mapTree`, `RawCpl.orient`, `RawCpl.relocate`, `RawCpl.tree`, `TTree.setAt`, `TTree.subtreeAt`, `addrExt`, `node3`, `slotSign` | `TTree`, `TTree.Path`, `nodeSign` |
+| `RawRegular` | inductive | T Def `defreg` | `MiniCplCode`, `MiniTreeCode`, `RawCpl`, `RawCpl.opA`, `RawCpl.opB`, `RawCpl.tree` | `TTree`, `TTree.Path`, `TTree.nodes` |
 | `symmPairs` | def | (section) T Def `defreg`, L826–L829 | — | — |
 | `Garden.MatchesCouple` | def | (section) T Def `defreg`, L826–L829 | `symmPairs` | `GLeaf`, `Garden`, `IsCouple`, `TTree`, `TTree.Path`, `TTree.leaves` |
+| `Garden.MatchesTreeCouple` | def | (section) T Def `defreg`, L826–L829 | `RawCpl`, `RawCpl.tree`, `symmPairs` | `GLeaf`, `Garden`, `Garden.IsLone`, `Garden.instDecidableIsLone`, `TTree`, `TTree.Path`, `TTree.leaves` |
+| `IsRegularCouple` | def | T Def `defreg` | `Garden.MatchesCouple`, `RawCpl`, `RawRegular` | `Garden`, `TTree`, `TTree.Path` |
+| `IsRegularTree` | def | T Def `defreg` | `Garden.MatchesTreeCouple`, `RawCpl`, `RawRegular` | `Garden`, `IsPairedTree` |
 | `RegCpl` | inductive | T Prop `propstructure`; WAVE-B §2.7 | `MiniCplCode`, `MiniTreeCode`, `RegChain` | — |
 | `RegChain` | inductive | T Def `defregchain`; T L855 | `MiniCplCode`, `MiniTreeCode`, `RegCpl` | — |
 | `treeOfSign` | def | (file) WAVE-B v2 §2.7; L826–L829; L848–L850 | — | `TTree` |
@@ -61,6 +77,11 @@ import only `WaveBDraft.System` (B1), `Mathlib.Analysis.Calculus.DSlope` and eac
 | `RegChain.wf` | def | (file) WAVE-B v2 §2.7; L826–L829; L848–L850 | `MiniTreeCode`, `RegChain`, `RegCpl`, `RegCpl.wf` | — |
 | `RegCpl.size` | def | (file) WAVE-B v2 §2.7; L826–L829; L848–L850 | `MiniCplCode`, `RegChain`, `RegChain.size`, `RegCpl` | — |
 | `RegChain.size` | def | (file) WAVE-B v2 §2.7; L826–L829; L848–L850 | `MiniTreeCode`, `RegChain`, `RegCpl`, `RegCpl.size` | — |
+| `RegCpl.exists_decodes` | theorem | (file) WAVE-B v2 §2.7; L826–L829; L848–L850 | `IsRegularCouple`, `RegCpl`, `RegCpl.Decodes`, `RegCpl.wf` | `Garden` |
+| `existsUnique_regCpl_decodes` | theorem | T Prop `propstructure` | `IsRegularCouple`, `RegCpl`, `RegCpl.Decodes`, `RegCpl.wf` | `Garden` |
+| `RegChain.exists_decodesTree` | theorem | (file) WAVE-B v2 §2.7; L826–L829; L848–L850 | `IsRegularTree`, `RegChain`, `RegChain.DecodesTree`, `RegChain.wf` | `Garden` |
+| `existsUnique_regChain_decodesTree` | theorem | T Prop `propstructure` | `IsRegularTree`, `RegChain`, `RegChain.DecodesTree`, `RegChain.wf` | `Garden` |
+| `RegCpl.size_eq_order` | theorem | (file) WAVE-B v2 §2.7; L826–L829; L848–L850 | `RegCpl`, `RegCpl.Decodes`, `RegCpl.size` | `Garden`, `Garden.order` |
 | `RegCpl.linksAt` | def | T Prop `deflink`, L874–L882 | `MiniCplCode`, `MiniCplCode.partner`, `RegChain`, `RegChain.linksAt`, `RegChain.lonePath`, `RegCpl`, `addrExt` | `TTree.Path` |
 | `RegChain.linksAt` | def | (file) WAVE-B v2 §2.7; L826–L829; L848–L850 | `MiniTreeCode`, `MiniTreeCode.green`, `MiniTreeCode.lone`, `MiniTreeCode.red`, `RegChain`, `RegChain.lonePath`, `RegCpl`, `RegCpl.linksAt`, `addrExt`, `slotSign` | `TTree.Path` |
 | `RegCpl.links` | def | (file) WAVE-B v2 §2.7; L826–L829; L848–L850 | `RegCpl`, `RegCpl.linksAt` | `TTree.Path` |
@@ -98,13 +119,13 @@ import only `WaveBDraft.System` (B1), `Mathlib.Analysis.Calculus.DSlope` and eac
 | `regularAsymptotics` | theorem | L1145–L1232; WAVE-B v2 §4.11; T (regref1-3); DH21 Lemma 7.3 | `InputRemainder`, `RegChain`, `RegChain.DecodesTree`, `RegChain.JBtree`, `RegChain.Nstar`, `RegChain.app`, `RegChain.dominant`, `RegChain.lonePath`, `RegChain.size`, `RegChain.treeLinks`, `RegChain.wf`, `RegCpl`, `RegCpl.Decodes`, `RegCpl.JB`, `RegCpl.Mstar`, `RegCpl.app`, `RegCpl.dominant`, `RegCpl.links`, `RegCpl.size`, `RegCpl.wf`, `regBound`, `specialSets`, `timeBox`, `timeBoxGt` | `GNode`, `Garden`, `KQstar`, `KTstar`, `LayeredGarden`, `Mom`, `SNormR`, `TTree.Path`, `TTree.nodes`, `WTParams`, `WTParams.N`, `WTPrefix`, `XNorm00Restr`, `XNormRestr`, `wkeTaylorTerm` |
 | `incoherentDecay` | theorem | T Prop `proplayer1`, L953–L956; L946–L951; WAVE-B v2 §4.12; T Def `defkg` | `InputRemainder`, `LayeredGarden.incoherency`, `RegChain`, `RegChain.DecodesTree`, `RegChain.lonePath`, `RegChain.size`, `RegChain.treeLinks`, `RegChain.wf`, `RegCpl`, `RegCpl.Decodes`, `RegCpl.links`, `RegCpl.size`, `RegCpl.wf`, `regBound`, `timeBox`, `timeBoxGt` | `GNode`, `GNode.root`, `Garden`, `KQstar`, `KTstar`, `LayeredGarden`, `Mom`, `TTree.Path`, `TTree.nodes`, `WTParams`, `WTParams.N`, `WTPrefix`, `XNormRestr`, `inputsF` |
 
-## Held out (106 declarations; not in this freeze)
+## Held out (89 declarations; not in this freeze)
 
 **The B2.3 section of `WaveB2-Statements.lean`** (13): `AtomLabel.IsAlpha`, `Molecule.ABLinked`, `Molecule.DecorationHyp`, `Molecule.FinalShape`, `Molecule.IsConnected`, `Molecule.IsPerfect`, `Molecule.IsTame`, `Molecule.alphaFactor`, `Molecule.epsDefect`, `Molecule.numBeta`, `Molecule.perfectIndicator`, `Molecule.rigidityRHS`, `rigidity`.
 
-**Characterization lemmas (non-frozen, CL-20)** (7): `Garden.isMolecule_molecule`, `RegChain.exists_decodesTree`, `RegCpl.exists_decodes`, `RegCpl.size_eq_order`, `existsUnique_regChain_decodesTree`, `existsUnique_regCpl_decodes`, `regular_count_le`.
+**Characterization lemmas (non-frozen, CL-20, CL-22)** (2): `Garden.isMolecule_molecule`, `regular_count_le`.
 
-**Reached only by the characterization lemmas** (15): `GNode.parent`, `Garden.MatchesTreeCouple`, `Garden.molecule`, `GardenDart`, `IsRegularCouple`, `IsRegularTree`, `RawCpl.mapTree`, `RawCpl.opA`, `RawCpl.opB`, `RawCpl.orient`, `RawCpl.relocate`, `RawCpl.tree`, `RawRegular`, `TTree.setAt`, `TTree.subtreeAt`.
+**Reached only by the characterization lemmas** (3): `GNode.parent`, `Garden.molecule`, `GardenDart`.
 
 **Used only by B2.3** (51): `AtomLabel`, `Molecule`, `Molecule.Adj`, `Molecule.Directed`, `Molecule.Gamma`, `Molecule.GapKind`, `Molecule.GroupConnected`, `Molecule.InGroup`, `Molecule.IsBlock`, `Molecule.IsBlockGap`, `Molecule.IsDecoration`, `Molecule.IsLadder`, `Molecule.IsLadderGap`, `Molecule.IsLadderSet`, `Molecule.IsMolecule`, `Molecule.IsRestricted`, `Molecule.IsVine`, `Molecule.SameComponent`, `Molecule.bonds`, `Molecule.bondsBetween`, `Molecule.circuitRank`, `Molecule.countA`, `Molecule.countE`, `Molecule.dartSign`, `Molecule.dartsAt`, `Molecule.deg`, `Molecule.degIn`, `Molecule.ends`, `Molecule.gapAt`, `Molecule.gapKind`, `Molecule.groupBonds`, `Molecule.inIn`, `Molecule.indeg`, `Molecule.instDecidableInGroup`, `Molecule.kvec`, `Molecule.ladderAtoms`, `Molecule.ladderLength`, `Molecule.ladderWeight`, `Molecule.maximalLadders`, `Molecule.numComponents`, `Molecule.numFree`, `Molecule.numLadders`, `Molecule.outIn`, `Molecule.outdeg`, `Molecule.rho`, `VineTemplate`, `VineType`, `VineType.expand`, `VineType.template`, `insertRungs`, `railBonds`.
 
