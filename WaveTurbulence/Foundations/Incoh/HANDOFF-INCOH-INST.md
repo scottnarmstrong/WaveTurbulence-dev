@@ -152,3 +152,26 @@ Actual original-kernel estimate checkpoint:
   with the same passive-clock translation and cutoff-independent exponential constant.
 - The expanded `axioms-foundations.log` checks every new principal analytic upper-box and Fubini
   helper above and the root embedding helper: standard axioms only.
+
+The actual two-root source estimate has now been axiom-checked:
+`axioms-actual-couple.log` prints exactly `[propext, Classical.choice, Quot.sound]` for
+`exists_KQstar_twoRoot_decay`, both raw kernel identities, the exact source summand identity,
+the garden Circle construction and the root-layer bridge. `axioms-time-domains.log` likewise
+checks the source root-order, null-boundary and exact phase-integral transport results.
+
+Complete original-couple checkpoint (continuing with tree and prefix assembly):
+- `OneRootDecay.exists_KQstar_oneRoot_decay` and
+  `AllCoupleDecay.exists_KQstar_decay` compile in scratch. The latter covers every actual decoded
+  couple with positive incoherency, classifying the two source roots and deriving the one-clock
+  shape from the other tree being trivial. No additional root premise remains.
+- `OneClockUpperBox` and `SelectedClocksOfLinks` compile: actual shifted upper-box coverage and
+  complete selected endpoint pairs from any embedding of actual distinct links.
+- `ClockHyperplanes` builds (2597 jobs): distinct finite coordinate clocks are unequal almost
+  everywhere, by the null proper linear subspace theorem.
+- `GraphClockBounds` builds (9135 jobs): finite maxima/minima of actual layer and graph constraints,
+  measurability, exact interval characterizations, and empty inconsistent intervals.
+- `GraphTreeFibers` builds (9136 jobs): all rectangular-fiber carrier fields constructed from
+  selected actual links and a finite parent-child graph, including measurable remaining domain
+  and interval containment. Source-domain identification is still in progress.
+- Scratch `TreeSpineEndpoints` compiled its last-link membership and lone-parent identification;
+  additional ancestor/existence lemmas are being checked.
