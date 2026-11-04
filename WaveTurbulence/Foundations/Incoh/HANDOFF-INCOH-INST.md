@@ -152,3 +152,61 @@ Actual original-kernel estimate checkpoint:
   with the same passive-clock translation and cutoff-independent exponential constant.
 - The expanded `axioms-foundations.log` checks every new principal analytic upper-box and Fubini
   helper above and the root embedding helper: standard axioms only.
+
+The actual two-root source estimate has now been axiom-checked:
+`axioms-actual-couple.log` prints exactly `[propext, Classical.choice, Quot.sound]` for
+`exists_KQstar_twoRoot_decay`, both raw kernel identities, the exact source summand identity,
+the garden Circle construction and the root-layer bridge. `axioms-time-domains.log` likewise
+checks the source root-order, null-boundary and exact phase-integral transport results.
+
+Complete original-couple checkpoint (continuing with tree and prefix assembly):
+- `OneRootDecay.exists_KQstar_oneRoot_decay` and
+  `AllCoupleDecay.exists_KQstar_decay` compile in scratch. The latter covers every actual decoded
+  couple with positive incoherency, classifying the two source roots and deriving the one-clock
+  shape from the other tree being trivial. No additional root premise remains.
+- `OneClockUpperBox` and `SelectedClocksOfLinks` compile: actual shifted upper-box coverage and
+  complete selected endpoint pairs from any embedding of actual distinct links.
+- `ClockHyperplanes` builds (2597 jobs): distinct finite coordinate clocks are unequal almost
+  everywhere, by the null proper linear subspace theorem.
+- `GraphClockBounds` builds (9135 jobs): finite maxima/minima of actual layer and graph constraints,
+  measurability, exact interval characterizations, and empty inconsistent intervals.
+- `GraphTreeFibers` builds (9136 jobs): all rectangular-fiber carrier fields constructed from
+  selected actual links and a finite parent-child graph, including measurable remaining domain
+  and interval containment. Source-domain identification is still in progress.
+- Scratch `TreeSpineEndpoints` compiled its last-link membership and lone-parent identification;
+  additional ancestor/existence lemmas are being checked.
+
+Tree graph comparison checkpoint:
+- `GraphClockCoordinates` (9137 jobs) reads actual remaining coordinates and proves selected/rest
+  vertices exhaust the source endpoints.
+- `GraphTreeDomain` (9139 jobs) identifies the computed fiber domain with the literal finite layer,
+  remaining-edge, mixed-edge and selected-order constraints.
+- `GraphTreeComparison` (9140 jobs) compares those intervals to strict graph constraints away from
+  coordinate equality hyperplanes; its edge orientation premise is finite source geometry.
+- `TreeUpperPropositionRate` (9567 jobs) gives the printed `30d,0` rate on arbitrary forward
+  external boxes covered by the cutoff, with constant before cutoff/total layer count.
+- `axioms-graph-fibers.log` audits the construction, comparison, null hyperplanes and printed tree
+  rate: all exactly `[propext, Classical.choice, Quot.sound]`.
+- `axioms-all-couple.log` audits the complete actual-couple estimate and one-root estimate:
+  all exactly `[propext, Classical.choice, Quot.sound]`.
+- Scratch `TreeSpineEndpoints`, `AncestorTimeOrder`, `TreeSpineSelection`, `TreeSourceGraph`
+  compile: actual last link membership and lone-parent path, strict ancestor clock order,
+  source link indices, parent-child graph and null graph-edge equality boundaries.
+
+Complete original-tree checkpoint (continuing with exact prefix/type audit):
+- Scratch `TreeClockSelection`, `TreeTwoLinkSelection`, `ActualTreeSelection` construct the two
+  source cases, including all ancestor geometry, complete pair selection, root and lone-parent.
+- `TreeGraphDomain`, `TreeGraphBoundary` identify the actual internal source domain with computed
+  fibers almost everywhere; every layer/edge equality removed is proved null.
+- `TreeRootClocks`, `TreeLoneParent`, `TreeTimeBoundary`, `TreePhaseIntegral` prove exact root and
+  lone-parent coordinates, uniqueness of the original lone parent, external causal cuts and the
+  original phase integral identity.
+- `TreeSummandIdentity`, `TreeKernelIdentity`, `TreeKernelFromInputs` identify literal B1 `KTstar`
+  with the raw analytic source tree kernel; input summability is discharged.
+- `TreeSourceAbsoluteConvergence` builds (9514 jobs): choose a nonzero smooth root partition at
+  fixed root momentum, prove augmented absolute convergence, and cancel that scalar. This avoids
+  imposing decay on the omitted lone-leaf input.
+- `TreeExternalBox`, `TreeDecay.exists_KTstar_decay` compile: the exact B2 `30d,0` norm and
+  `timeBoxGt` with constants before total layer count and cutoff, for all decoded incoherent trees.
+- `axioms-actual-tree.log` checks the tree estimate, original kernel identity, internal-domain a.e.
+  identity, exact phase transport and convergence theorem: standard axioms only.
