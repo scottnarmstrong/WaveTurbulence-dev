@@ -188,10 +188,17 @@ public import WaveTurbulence.Foundations.ClassJR.MCOne
 public import WaveTurbulence.Foundations.ClassJR.MCPair
 public import WaveTurbulence.Foundations.ClassJR.MCProd
 public import WaveTurbulence.Foundations.ClassJR.MCProp51
+public import WaveTurbulence.Foundations.ClassJR.MCProp51T
 public import WaveTurbulence.Foundations.ClassJR.MCReorder
 public import WaveTurbulence.Foundations.ClassJR.MCSRep
 public import WaveTurbulence.Foundations.ClassJR.MCSob
 public import WaveTurbulence.Foundations.ClassJR.MCSum
+public import WaveTurbulence.Foundations.ClassJR.MCTBound
+public import WaveTurbulence.Foundations.ClassJR.MCTExp
+public import WaveTurbulence.Foundations.ClassJR.MCTMain
+public import WaveTurbulence.Foundations.ClassJR.MCTOne
+public import WaveTurbulence.Foundations.ClassJR.MCTShift
+public import WaveTurbulence.Foundations.ClassJR.MCTTerm
 public import WaveTurbulence.Foundations.ClassJR.MCType1
 public import WaveTurbulence.Foundations.ClassJR.MCType2
 public import WaveTurbulence.Foundations.ClassJR.Masked
