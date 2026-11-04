@@ -602,3 +602,27 @@ exit0 and no errors/warnings (`validation/Axioms-MixedVC.log`).
 
 Remaining outer DV/HV/HVC ordinary cases and coherence independence are
 not yet claimed. Continuing with type-V branch removal geometry.
+
+## Complete DV ordinary and mixed removal proved
+
+`VineTypeVBranchRemovalConnected.typeV_other_branch_typeI_removal_connected`
+constructs connectivity in the retained type-V branch after deleting the
+other branch and their common joint bond, together with disjoint double
+removals. `VineOtherBranchMembership`, the type-V protected slot/core/path
+modules, `VineProtectedPathMono` and `VineBlockTypeIExternalEdge` supply
+the source paths and center attachment.
+
+`VineDVOrdinaryShapes` and `VineDVBlockBranchEquality` identify actual
+branch atom sets. `VineDVTypeIRemoval` glues double-removal paths in the
+two branches. `VineDVOrdinaryRemoval.ordinary_vines_removal_in_DV_connected`
+then proves arbitrary ordinary vine-family removal, and
+`VineDVMixedRemoval.mixed_vines_removal_in_DV_connected` adds arbitrary
+disjoint actual adjoints. These stronger geometric results need no gap
+or decoration premise; source SG families are included.
+
+Focused serial rebuild passed all 492 targets, final `3 compiled;
+489 already current`, exit0, no final warnings. All six declarations in
+`validation/Axioms-DVRemoval.lean` use only standard axioms, with no
+errors/warnings (`validation/Axioms-DVRemoval.log`). Remaining: hyper-outer
+ordinary cases and realization-independent coherence. The hyper-outer
+missing-joint ordinary case has compiled; its both-joints case is next.
