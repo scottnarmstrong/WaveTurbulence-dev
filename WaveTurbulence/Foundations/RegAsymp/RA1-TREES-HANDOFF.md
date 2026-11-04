@@ -35,3 +35,24 @@ Second checked milestone:
 - Expanded validation/axioms.log: twelve checked results, standard three axioms only.
 Remaining list above is reduced by the completed time-factor bound. Physical remainder,
 Nstar identification/bound and final exact RA1Tree assembly remain unfinished.
+
+Third checked components (source wrappers are in scratch):
+- TreeFrequencyRows and TreeAugmentedFrequencyRows: actual source integer momentum rows,
+  including the temporary root input, have a linear-in-source-order frequency pullback.
+- TreePhysicalEnergy, TreeKernelReindex, TreePhysicalProfile: exact original KTstar finite
+  profile expansion inside its literal integer-decoration sum. Original squared Wick,
+  global garden.zeta, physical2delta and source leaf inputs are retained. Strict PASS.
+- TreeLeafProfiles canonical Lake PASS: leaf-only Fourier inversion, actual transposed
+  source phases, independent moment factorization, and translation-uniform appended root
+  input mass. Retains link cutoffs in physical space for the NT first-moment budget.
+The additional components' combined axiom audit is pending the next checkpoint.
+
+Fourth checked milestone:
+- TreeLeafCellMeasure, TreeRootLeafAmplitude, TreeRootLeafEnvelope and TreeRootLeafMixture
+  canonical targeted Lake PASS, zero warnings. Actual moving-root amplitudes have strongly
+  measurable derivative tensors and a uniform geometric derivative mass, using J+1 leaf
+  moments for J derivatives plus the NT shift. The original root partition remains inside
+  the amplitude, with the landed locally finite overlap bound.
+- Scratch TreeHalfCellProfiles, TreeLeafFrequencyBudget and TreeCellCover strict PASS.
+- Expanded validation/axioms.log: 29 results strict PASS, only the standard three axioms.
+- Scalar NT/Wick application and the literal Nstar recursion/final assembly remain open.
