@@ -264,3 +264,27 @@ results use only subsets of `[propext, Classical.choice, Quot.sound]`.
 Remaining: SG whole-chain localization/transport, hyper-chain and DV cases,
 simultaneous ordinary/mixed removal, realization-independent coherence.
 Continuing directly; this is a partial checkpoint, not READY.
+
+## Full inner-object classifications in an outer VC
+
+`VineChainFlows`, `VineChainJointNorm`, `VineVCLocalization` prove conserved
+flow transport through actual ingredient certificates. An inner VC meeting an
+outer chain junction has the same gap norm as the outer VC; consequently
+`SG_VC_in_VC_ingredient` localizes every SG inner VC in an LG/ZG outer VC.
+`VineBlockGapExists` constructs the actual outgoing/incoming gap darts.
+`VineSGVCInVC.SG_VC_in_VC` gives one double bond, two double bonds or Vine V.
+
+`VineChainEraseEndpoints` proves that every surviving chain atom reaches a
+surviving endpoint after any atom deletion. `VineHyperVertexConnected` uses
+the designated closing bond to prove vertex connectivity of every HV/HVC.
+`VineHyperInVC` then localizes any inner HV/HVC in one outer VC ingredient,
+and `hyperLike_in_VC_adjoint` gives the designated-adjoint classification
+(two double bonds or Vine V), with no gap premise needed for this clause.
+
+Checks: each named focused module compiled exit 0, no warnings in its final
+version, including rebuilds of flow consumers after removing an unnecessary
+instance parameter. `VineTools` and `validation/Axioms.lean` exited 0. All 209
+printed results use only subsets of `[propext, Classical.choice, Quot.sound]`.
+No source erratum or deviation introduced. Still required: outer HV/HVC and
+DV cases; full simultaneous ordinary/mixed removal; realization-independent
+coherence. Continue directly, M4 is not yet READY.
