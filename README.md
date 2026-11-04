@@ -6,7 +6,7 @@ Lean 4 formalization of
 > [arXiv:2311.10082v2](https://arxiv.org/abs/2311.10082) (2024).
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-11-04 11:59 UTC** · **estimated completion 70.5 %** (Lean proofs 71.2 %) · frozen theorems sealed: 1 / 2 (+ 13 frozen definitions) · **186,142 lines of Lean on main** (1748 files) + 119,430 unlanded on worker branches · blueprint estimate ≈ 273,000 lines
+> **Last updated: 2026-11-04 11:59 UTC** · **estimated completion 70.7 %** (Lean proofs 71.4 %) · frozen theorems sealed: 1 / 2 (+ 13 frozen definitions) · **186,142 lines of Lean on main** (1748 files) + 119,430 unlanded on worker branches · blueprint estimate ≈ 273,000 lines
 <!-- /AUTO:updated -->
 
 **Scope (D1):** everything proved in Lean, no black boxes. That covers the target paper and the results it uses from
@@ -32,18 +32,18 @@ DRAFT_IMPORT_VIOLATIONS: 0
 ## Progress
 
 <!-- AUTO:progress -->
-### Estimated completion: **70.5 %**
+### Estimated completion: **70.7 %**
 
-`█████████████████████░░░░░░░░░` 70.5 %
+`█████████████████████░░░░░░░░░` 70.7 %
 
 | Part of the project | Items | Weight | Done | Completion |
 |---|---|---|---|---|
 | Sources, paper maps, blueprint (P0–P1) | 1 | 30 | 27.0 | `█████████░` 90 % |
 | Exact Lean statements, frozen (P2) | 1 | 20 | 14.0 | `███████░░░` 70 % |
-| Lean proofs (P4) | 85 | 681 | 485.2 | `███████░░░` 71 % |
+| Lean proofs (P4) | 85 | 681 | 486.8 | `███████░░░` 71 % |
 | Frozen theorems sealed | 2 | 2 | 1.0 | `█████░░░░░` 50 % |
 | Release (P5) | 1 | 15 | 0.0 | `░░░░░░░░░░` 0 % |
-| **Total** | | 748 | 527.2 | **70.5 %** |
+| **Total** | | 748 | 528.8 | **70.7 %** |
 
 Lean lines: 186,142 on main + 119,430 on branches, of ≈ 273,000 estimated by the blueprint (`████████████████████` 111.9 % of the estimate).
 
@@ -91,6 +91,7 @@ Lean lines: 186,142 on main + 119,430 on branches, of ≈ 273,000 estimated by t
 | J5 | MEXP | 6 | ≈2,700 | 🟡 95 % | MEXP done: DH21 Props 7.7, 7.8 (corrected weight) |
 | J6 | WKE-ID | 6 | ≈2,800 | 🟡 95 % | WKE-ID done: Σ app = 𝒰_n (wke_identity), B2.1 item (4) proved; route avoids DH21 7.9/7.10 |
 | J7 | REGCANCEL | 4 | ≈2,000 | 🟡 95 % | REGCANCEL done: DH23 Prop 6.3 (statement form chosen over B2 objects, to audit) |
+| L3 | PL23 | 4 | ≈1,700 | 🟡 95 % | PL23 done: TARGET Props 6.1 (order-0 norm, F80), 6.2, leafwise Taylor identity |
 | X1 | FLOWER-DEF | 10 | ≈3,100 | 🟡 95 % | FLOWER-DEF done in scratch: classes, kernels, identities, O-FK; B1.12 final (audited, F1/F2 applied) proposed for the freeze |
 | C1 | REG-STRUCT | 11 | ≈4,000 | 🟡 90 % | REG-STRUCT done in scratch: structure theorem with uniqueness, decoding, legal/dominant chains, counts (C₀=12^9); F55 |
 | C2 | LINKS | 11 | ≈3,000 | 🟡 90 % | LINKS done in scratch: branchpair, defchoice, linkXY, deflink, defcoh, auxlem, explem, treelemma, incohproof1 (couples); F62-F65 |
@@ -112,11 +113,11 @@ Lean lines: 186,142 on main + 119,430 on branches, of ≈ 273,000 estimated by t
 | V3 | REGRED | 6 | ≈1,900 | 🟡 90 % | REGRED done in scratch: skeleton reduction, vineest Step 1 (ab8680f); nonzero-gap boundary case separate (F21) |
 | Z1 | MAIN | 3 | ≈860 | 🟡 90 % | main ⇐ propansatz + nlsAkBridge (proved); propansatz ⇐ layergarden + fixedpoint + wkeTaylor (proved); fixedpoint ⇐ B1.12 + layergarden + wkeTaylor + O-X2-EXP + O-X3-CPL (proved) ; wkeTaylor gate proved (38856ca) |
 | X3 | FIXEDPT | 9 | ≈3,400 | 🟡 85 % | FIXEDPT conditional on O-X2-EXP/O-X3-CPL; O-X3-CPL: CPL-1 (a^tr), CPL-2 (ℒ₀) done, CPL-3 in progress |
-| L3 | PL23 | 4 | ≈1,700 | 🟡 60 % | Prop 6.2 + leafwise Taylor identity proved; Prop 6.1 q>q' via order-0 norm (F80) in progress |
 | X2 | FLOWEREST | 16 | ≈8,900 | 🟡 45 % | moment layer done; O-X2-EXP via kernelKgen_graft (wt-gauss-hc) next |
 | RA1 | REGASYMP | 10 | ≈5,800 | 🟡 40 % | RA1: foundations landed (sign, normalization, Prop 6.4 application, envelopes); couples (wt-ansob) and trees (wt-l2s) in progress |
 | G7 | MOLEPROP4 | 12 | ≈4,500 | 🟡 15 % | MOLEPROP4 revived with repairs (ylem1′, Prop 10.4(2)′; F69/F72), wt-torus; wt-ansob's partial Y2 lemmas reused |
 | G5 | APPB-ALG | 8 | ≈4,000 | 🟡 5 % | APPB-ALG started (wt-nt) |
+| L4 | PL4 | 4 | ≈2,500 | 🟡 5 % | PL4 (Prop 6.3) started (wt-wke) |
 | M6 | TWIST | 8 | ≈2,800 | 🟡 5 % | TWIST started (wt-anfourier) |
 | F1 | FINAL-RED | 4 | ≈1,200 | ⬜ 0 % |  |
 | F2 | PLG | 12 | ≈4,150 | ⬜ 0 % |  |
@@ -125,7 +126,6 @@ Lean lines: 186,142 on main + 119,430 on branches, of ≈ 273,000 estimated by t
 | G2 | EXCESS-DH23 | 8 | ≈3,500 | ⬜ 0 % |  |
 | G3 | EXCESS-T | 10 | ≈3,500 | ⬜ 0 % |  |
 | G8 | RIGID | 10 | ≈4,600 | ⬜ 0 % |  |
-| L4 | PL4 | 4 | ≈2,500 | ⬜ 0 % |  |
 | M7 | LFTWIST | 13 | ≈4,200 | ⬜ 0 % |  |
 | M8 | LAYERCNT | 6 | ≈2,100 | ⬜ 0 % |  |
 | M9 | VINEPARAM | 4 | ≈1,500 | ⬜ 0 % |  |
@@ -139,7 +139,7 @@ Lean lines: 186,142 on main + 119,430 on branches, of ≈ 273,000 estimated by t
 
 </details>
 
-Done fractions last reviewed: **2026-11-04 11:15 UTC**. Source: [`docs/campaign/progress.json`](docs/campaign/progress.json); history: [`docs/campaign/history.csv`](docs/campaign/history.csv).
+Done fractions last reviewed: **2026-11-04 12:05 UTC**. Source: [`docs/campaign/progress.json`](docs/campaign/progress.json); history: [`docs/campaign/history.csv`](docs/campaign/history.csv).
 <!-- /AUTO:progress -->
 
 ## Workers
