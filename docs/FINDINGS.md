@@ -283,3 +283,18 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   by wt-ansob (MOLEPROP13). Also recorded (no erratum yet, check at the G-chain audit): DH23 Def 4.1 L633 forbids loops,
   while TARGET L1295 permits loops with a guarded large-gap convention; MOLEPROP13 proves DH23 Prop 10.1 on DH23's
   loop-free domain and claims no loop-counting extension for TARGET's use.
+- F68 — Wave B snapshot 6 B1.12 `layergardenFlower`, `LayeredGarden.PatValid` (`dChild i` clause) vs TARGET L2331 —
+  **our statement defect**: the clause only requires the `i`-th child of `𝔣^pr` to be a branching node, so under
+  `IsCanonH (p+1)` it may be the root of an attached lower-layer garden (layer `< p`); `fixPat` then designates that
+  root with time `s > p`. TARGET's `∂_s` boundary term (L2331) is taken in the single-tree kernel `𝒥^†`, where a
+  non-flower child of `𝔣^pr` is a top-layer branching node or a leaf. So `flowerSum (dChild i)` contains gardens the
+  moment expansion never produces, and B1.12's bound for them is not justified by TARGET. Fix (snapshot 7): add
+  `LG.layer b.toNode = p` to the `dChild` clause. `dParent` is fine (the parent of `𝔣^pr` is on the stem). The
+  consumer `fixedpoint` (X3) uses only `plain` and `dRoot`. Found by wt-gauss-hc (X2-HANDOFF FINDING).
+- F69 — DH23 §10.4 Lemma `ylem1` (L1937–L1942) vs our B2 vine family — **open**: wt-ansob (MOLEPROP4) gives a
+  kernel-checked 5-atom molecule (bonds 1→0, 1→2, 2→1, 2→0, 0→2, 0→3, 3→4, 3→4, 4→3, 4→1; 4-regular, loop-free,
+  one triple bundle) whose single (Y2) step at 3, 4 gives the doubled triangle, while no vine in our B2 family has 7
+  atoms (type I: 2, type II: even ≥ 6, others ≥ 9), so ylem1's conclusion fails for it
+  (`/home/scott/wt-scratch/moleprop4/src/MoleProp4/ShortYCounterexample.lean`). Either our vine templates are too
+  narrow (F19/F37 readings) or ylem1 misses a small case. Independent investigation commissioned
+  (`/home/scott/wt-scratch/ylem1-investigation/REPORT.md`). G7 MOLEPROP4 is paused on this.

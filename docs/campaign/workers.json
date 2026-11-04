@@ -12,7 +12,7 @@
   "model": "Claude Opus",
   "account": "claude-10",
   "branch": "w/waveb-infra",
-  "packet": "X2 moment expansion (flowerest1 probabilistic part), then X3 FIXEDPT (pre-freeze); X1 FLOWER, B1.12 final, B2 ladder fix done",
+  "packet": "Wave B snapshot 7 (F68 dChild fix), then kernelKgen_graft + discharge O-X2-EXP/O-X3-CPL; X3 FIXEDPT done (conditional on those two)",
   "brief": "docs/campaign/briefs/FLOWER.md"
  },
  {
@@ -52,8 +52,8 @@
   "model": "GPT-6.1-Sol low",
   "account": "codex-3",
   "branch": "w/bproc",
-  "packet": "G7 MOLEPROP4 (pre-freeze): DH23 ylem1/2, Prop 10.4 (PV-DECAY F-5, G6, DEGEN done)",
-  "brief": "docs/campaign/briefs/PV-DECAY.md"
+  "packet": "RA1 REGASYMP: DH23 Prop 6.1 couples then trees (G7 paused on F69 ylem1; PV-DECAY, G6, DEGEN done)",
+  "brief": "docs/campaign/briefs/REGASYMP.md"
  },
  {
   "tmux": "wt-gausssum",
