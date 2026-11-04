@@ -1,5 +1,5 @@
 {
- "assessed": "2026-11-04 19:36 UTC",
+ "assessed": "2026-11-04 23:04 UTC",
  "notes": "Lean work items = blueprint packets (docs/blueprint/GRAPH.md §E) with their difficulty weights (node weights L=1, M=2, H=4, VH=8 summed). Each frozen theorem anchor adds weight 1, credited when SEALED. Done fractions are the orchestrator's assessment, reviewed at integration rounds.",
  "lines_est_total": 273000,
  "parts": [
@@ -14,8 +14,8 @@
    "part": "Exact Lean statements, frozen (P2)",
    "kind": "phase",
    "weight": 20,
-   "done": 0.9,
-   "note": "Wave A frozen (D6); Wave B tier B1 (D7) and tier B2 (D8) approved and landed (cff2654, 3e2de9d); B2.3 rigidity held out; the gamma-range question (F69b) pending the author"
+   "done": 0.92,
+   "note": "Wave A (D6), Wave B tier B1 (D7) and tier B2 (D8) frozen on main; gamma in (1/2,1) successors of main, propansatz, layergarden, fixedpoint, layergardenFlower approved and frozen (D10); B2.3 held out"
   },
   {
    "part": "Lean proofs (P4)",
@@ -414,8 +414,8 @@
      "goal": "canonical layered gardens (criterion form), canonequiv + characterization (mandatory gate, G-2), unique construction data and expansion bijection, truncation",
      "weight": 9.0,
      "lines_est": 3950,
-     "done": 0.97,
-     "note": "CANON: canonicalCharacterization sealed on main (B1 freeze, cff2654); second-key seal audit pending"
+     "done": 1.0,
+     "note": "CANON: canonicalCharacterization sealed and second-key audited PROVED (audits/SEAL-B1-second-key.md)"
     },
     {
      "id": "G6",
@@ -522,8 +522,8 @@
      "goal": "App B algorithm, DH23 Prop 10.2",
      "weight": 8.0,
      "lines_est": 4000,
-     "done": 0.85,
-     "note": "APPB-ALG: DH23 Prop 10.2 proved in full (dh23_prop_10_2, all three bounds; GraphOk size deviation recorded); fresh 809-module rebuild running"
+     "done": 0.97,
+     "note": "APPB-ALG READY: DH23 Prop 10.2 in full (dh23_prop_10_2), fresh 809-module rebuild; GraphOk size deviation recorded"
     },
     {
      "id": "G7",
@@ -585,8 +585,8 @@
      "goal": "DH23 Prop 6.1 (couples and trees) for orders n≤N^4_{p+1} (F33, route R14 (a)); 2 days: split couples / trees+derivatives",
      "weight": 10.0,
      "lines_est": 5800,
-     "done": 0.95,
-     "note": "RA1 done: couples (regular_couple_asymptotics, F80 form, rebuilt on snapshot 9, b0d22a2) and trees (ra1Tree, wt-l2s); B2.1 composition on snapshot 9 in progress (B21-SNAP9)"
+     "done": 0.98,
+     "note": "RA1 done: couples and trees on snapshot 9, plus the leafwise version for per-leaf profiles (RA1-LEAFWISE)"
     },
     {
      "id": "M8",
@@ -594,8 +594,8 @@
      "goal": "layering counts of ladders and vines",
      "weight": 6.0,
      "lines_est": 2100,
-     "done": 0.6,
-     "note": "LAYERCNT: layerlad and layervine first bound proved; improved coherent bound conditional on the layer-range lower half (in progress)"
+     "done": 0.95,
+     "note": "LAYERCNT READY: layerlad, layervine (incl. the improved coherent bound) under TARGET's hypotheses; rebase onto the canonical universe pending"
     },
     {
      "id": "J6",
@@ -648,8 +648,8 @@
      "goal": "Props 6.1, 6.2",
      "weight": 4.0,
      "lines_est": 1700,
-     "done": 0.95,
-     "note": "PL23 done: TARGET Props 6.1 (order-0 norm, F80), 6.2, leafwise Taylor identity"
+     "done": 0.98,
+     "note": "PL23: Props 6.1 (now at the literal 30d norm, PL23-30D) and 6.2 proved; leafwise B2.1 and B2.2 proved (RA1-LEAFWISE, INCOH-LEAFWISE)"
     },
     {
      "id": "G1",
@@ -657,8 +657,8 @@
      "goal": "the Stage-2 counting problem (requirements (a)–(f)), Operations 1–4, ι_v, tame-atom removal",
      "weight": 10.0,
      "lines_est": 2600,
-     "done": 0.0,
-     "note": ""
+     "done": 0.2,
+     "note": "STAGE2-DEF: stage-2 operation datatype (Stage2Op) and TARGET's counting problem (lg-spine CountingChoices) defined"
     },
     {
      "id": "L4",
@@ -675,8 +675,8 @@
      "goal": "DH23 Prop 9.4 (case analysis of cut deviations)",
      "weight": 8.0,
      "lines_est": 3500,
-     "done": 0.0,
-     "note": ""
+     "done": 0.55,
+     "note": "EXCESS-DH23: DH23 Prop 9.4 single cuts and triangles proved for all gamma; vine step reduced to the count; assembly in progress"
     },
     {
      "id": "V5",
@@ -684,8 +684,8 @@
      "goal": "vineest Steps 3–4 and degenerate decorations (F21)",
      "weight": 13.0,
      "lines_est": 5100,
-     "done": 0.0,
-     "note": ""
+     "done": 0.5,
+     "note": "VINEEST: Step 3 engine (clocked sumint bound, Fourier-series route), SumintSigned, degenerate decorations (DEGEN-VINE, errata E4) proved; Step 3 assembly in progress; Step 4 (twists) after LFTWIST port"
     },
     {
      "id": "G3",
@@ -711,8 +711,8 @@
      "goal": "DH23 Prop 9.6, TARGET lgmolect (F24)",
      "weight": 10.0,
      "lines_est": 4600,
-     "done": 0.0,
-     "note": ""
+     "done": 0.3,
+     "note": "RIGID: DH23 Prop 9.6 restricted to gamma > 1/2 (D9): bridges and 3 of 7 operation inputs proved; one internal input repaired; in progress"
     },
     {
      "id": "S3",
@@ -720,8 +720,8 @@
      "goal": "ladder L^∞ and L¹ time-integral bounds",
      "weight": 8.0,
      "lines_est": 4200,
-     "done": 0.3,
-     "note": "LADDER: DH21 elemineq and timeintlemma (Lemma 10.2), core time-integral bound, ladder chart and decoupling proved; LadderFourierAt / LadderDecayAt assembly in progress"
+     "done": 0.95,
+     "note": "LADDER: all three spine inputs proved (LadderFourierAt, LadderDecayAt, CoarseSplicedAt); TARGET L2079 gap fixed (errata E5); snapshot-9 rebase pending"
     },
     {
      "id": "F1",
@@ -729,8 +729,8 @@
      "goal": "redcount0, l1reduction estimates (finalsbest1, reduction of finalsbest2)",
      "weight": 4.0,
      "lines_est": 1200,
-     "done": 0.0,
-     "note": ""
+     "done": 0.3,
+     "note": "FINAL-RED: finalsbest1/finalsbest2 consumed in LG-SPINE's assembly (counting cover, finalproof numerics) proved generically"
     },
     {
      "id": "F3",
@@ -738,8 +738,8 @@
      "goal": "finalcount1, remtame2, interpolation",
      "weight": 4.0,
      "lines_est": 900,
-     "done": 0.0,
-     "note": ""
+     "done": 0.1,
+     "note": "FINAL-COUNT: FinalCountGate stated (lg-spine); gamma > 1/2 chain (G2, G8) in progress"
     },
     {
      "id": "F2",
@@ -747,8 +747,8 @@
      "goal": "terms (a)–(d), counting of classes and layerings, proof of layergarden",
      "weight": 12.0,
      "lines_est": 4150,
-     "done": 0.35,
-     "note": "PLG = LG-SPINE: second collection settled (pair compatibility, canonical designation, restricted carrier, full pair table); counting cover and SpineInputs in progress"
+     "done": 0.6,
+     "note": "PLG = LG-SPINE: layergarden_of_spine compiles from SpineInputs + FinalCountGate; inputs: ladders proved, leafwise gates proved, Stage 1 (S2a/S2/S4) pending; universe rebase pending"
     },
     {
      "id": "X2",
@@ -756,8 +756,8 @@
      "goal": "flower adjustments on the general carriers (WAVE-B G-1, F26), deterministic flower bound (gate B1.12), flowerest1, ∂_t bounds; 2–3 days: split",
      "weight": 16.0,
      "lines_est": 8900,
-     "done": 0.65,
-     "note": "FLOWEREST: flower moments proved; FLOWER-SPINE flower-specific inputs (kernel bridge, F1, F4, decay comparison) proved; paused until LG-SPINE SpineInputs"
+     "done": 0.8,
+     "note": "FLOWEREST: layergardenFlower_of_spine proved (snapshot-7 universe) from FlowerSpineInputs; regular L0 leg proved (FLOWER-REG); flower Stage-1 and Dirac-root gates pending"
     },
     {
      "id": "X3",

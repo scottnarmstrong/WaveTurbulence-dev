@@ -275,6 +275,44 @@ literal form, using the corrected argument.
 
 ---
 
+## E5 — TARGET (finalsbest1), L2075–L2079: "very easy with Proposition `ladderl1new`" does not follow from that proposition as stated
+
+**Status:** CONFIRMED as a gap in the argument. The estimate itself is true, and a corrected proof is in Lean.
+- Found by the S3c COARSE-SPLICED prover.
+- Lean: `/home/scott/wt-scratch/coarse-spliced`:
+  - `coarseSplicedGate : WTPrefix CoarseSplicedAt`, via a verbatim copy that is checked against the pinned statement;
+  - `ladderL1Gate`, the intermediate bound described below.
+
+**Location.** TARGET L2075–L2079. Estimate (finalsbest1) is
+|K_{G_sb}| ≲₂ (C₁√δ)^{n_sb} L^{−η·g_sb + 80d(ρ_sb + q_sk)}.
+
+**Source text (L2079):**
+
+> The proof of (finalsbest1) is very easy with Proposition [ladderl1new], which we describe below.
+
+**What is wrong.**
+- Prop `ladderl1new` (redladder2, L1978–L1992) bounds a single ladder's local kernel. It holds with all outside times
+  and boundary data fixed, over the time-ordered domain, uniformly in the outside times.
+- Two ladders adjacent in the tree and lying in the same layer are coupled by the time-ordering indicator. So the
+  integrand of K_{G_sb} does not factor over the maximal ladders.
+- Hence a product of `ladderl1new` bounds, used as black boxes, does not bound K_{G_sb}. Fixing the outside times of
+  one ladder fixes times inside the other's ordering constraint, and the uniform bound gives no way to integrate them
+  out.
+
+**Correct argument (proved in Lean).**
+1. Use the intermediate quantity from inside the proof of `ladderl1new`: the integral over the unit time box, with the
+   ordering dropped, of the modulus of the finite lattice sum (S3b's `kernel_core`).
+2. Bound that quantity by the same right-hand side (`ladderL1Gate : WTPrefix LadderL1At`). It is multiplicative over
+   disjoint ladders, since dropping the ordering decouples them.
+3. Glue over disjoint, hinge-free maximal ladders (`splicedKernel_le_classes`), and count the classes.
+4. Select the ladders combinatorially (`selection_claim`). This uses the pairwise disjointness of distinct maximal
+   ladders under the B2 ladder definition.
+
+**Effect on the formalization.** None on any frozen statement. LG-SPINE's `CoarseSplicedGate` input is proved.
+`ladderL1Gate` should be merged with `ladderDecayGate` at the universe rebase.
+
+---
+
 ## E2 — further errata (to be transcribed before release)
 
 The remaining confirmed and candidate findings are in `docs/FINDINGS.md`:
