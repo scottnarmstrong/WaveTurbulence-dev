@@ -403,3 +403,35 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   (TARGET's δ(t_𝔯 − t) is the time derivative of the tree expansion, both roots top-layer branching nodes). So the
   obligation O-X3-CPL for ∂_t a^tr is false as stated. Fix (snapshot 8): `∀ j, ∃ b, b.1 = (j, []) ∧ LG.layer b.toNode =
   p` (equivalently: every top tree nontrivial). ∂_t ℒ₀ is unaffected. Found by wt-gauss-hc (CPL-3).
+- F79 — TARGET Step 2(C-ii) L1813–L1817 (vine parametrization, nonlinear core alternative) — **candidate sign erratum**:
+  for the directed zero-gap triangle of Figure (D), conservation gives e = a+b−g, d = a+b−c; with g = 0 the three
+  molecular Γ factors are 2ab, −2(c−a)(c−b), 2c(c−a−b), each a rank-2 quadratic form, whereas the stated triple
+  (2u₁u₂, +2u₃(u₁+u₂−u₃), minus their sum) has a rank-3 third form (and the linear alternative has a common factor the
+  actual triple lacks). Ruling: use explicit signed core normal forms with the corrected nonlinear sign, flagged for
+  audit. Found by wt-gausssum (M9 VINEPARAM); kernel check in progress.
+  Consequence (2026-11-04): TARGET's `sumint` (B1.6, frozen candidate, faithful to TARGET's printed statement) uses two
+  positive core forms; if F79 holds, vineest Step 2 produces a signed nonlinear core, so the chain needs a signed
+  extension `SumintSigned` (orchestrator ruling: B1.6 unchanged; V4 uses `SumintSigned` as a named obligation; its proof,
+  generalizing the landed sumint proof, goes to wt-anfourier once the F79 kernel check confirms).
+- F80 — Wave B 𝔛-type restriction norms (B1 `WaveB1-System.lean`: XNorm/XNormRestr and relatives) — **open faithfulness
+  question**: two provers independently found that at derivative order ≥ 1 the norm integrand need not be measurable, so
+  the (lower) lintegral is not subadditive (wt-wke, `wt-scratch/pl234/ISSUE-XNORM.md`, Bernstein-set counterexample), and
+  that B2's XNormRestr controls non-smooth frequencies only in inner measure (wt-torus, REGREF; it uses the landed
+  `Fourier.mixedRestrictionNorm` with `XNormRestr ≤ mixedRestrictionNorm` proved). Local fix adopted for the Prop 6.1
+  spine inputs (order-0 restriction norm of ⟨k⟩^{30d}(K − 𝒜)). Whether the frozen candidate norms are faithful to TARGET's
+  (and whether B1/B2 statements become weaker/stronger) is with the independent auditor before the freeze. Also: TARGET
+  Prop 6.2 "at most 2^n terms" is 2^{2n+1} − 1 (still ≤ C₁^n) (wt-wke).
+  **Resolved (2026-11-04, independent audit 'Norm measurability'):** no frozen statement is false; the sup norms and the
+  order-0 𝔛 norms are robust (all B1 statements, B2.1 item 3). The defect is B1 `XNorm` at derivative order ≥ 1 (and
+  `XNormRestr`): its integrand is ⊤ off a set of frequencies that need not be measurable, so `∫⁻` is a lower integral —
+  Lean norm ≤ TARGET's, no triangle inequality, no a.e. smoothness. Used only in conclusions (B2.1 items 1–2, B2.2), which
+  are therefore weaker than TARGET (still true). Fix (snapshot 9, REQUIRED before the freeze): `XNorm`'s guard becomes
+  `(∀ k, Integrable fun t => F t k) ∧ (Λ₁ = 0 ∨ ∀ᵐ lam, ContDiff ℝ Λ₁ (timeFT F lam))` with no per-frequency ⊤ —
+  TARGET's (normX) and the landed `MixedFourierAdmissible`; conservative (`XNormRestr ≤` fixed, proved); no statement text
+  changes; B2 freeze set unchanged.
+- F81 — DH23 Appendix B (L2162–L2292) — errata from APPB-OPS (wt-nt, `wt-scratch/appb/ERRATA.md`): (brprop) Δν sign
+  ("Δν = 2" vs the computed −2, as the map flagged); the 3D3-3G proof's opposite/same internal-direction typo;
+  basiccount(4)'s quadratic-defect sign; a missing C_pos factor in the 3D3-3G prose raw-count bound; typos (D_s/D_f,
+  bond/bound, tall bonds). Operation and proposition statements otherwise unchanged. The figure-defined atomic groups
+  (3S3, 3S3New, 3D3, 3D3New, 3D4, 3S2, 3RProof) are transcribed in `TRANSCRIPTIONS.md` and flagged for pre-freeze review,
+  together with the local-link invariant and an explicit component-hull relaxation.

@@ -6,7 +6,7 @@ Lean 4 formalization of
 > [arXiv:2311.10082v2](https://arxiv.org/abs/2311.10082) (2024).
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-11-04 08:53 UTC** · **estimated completion 63.0 %** (Lean proofs 63.0 %) · frozen theorems sealed: 1 / 2 (+ 13 frozen definitions) · **175,032 lines of Lean on main** (1613 files) + 31,477 unlanded on worker branches · blueprint estimate ≈ 273,000 lines
+> **Last updated: 2026-11-04 11:12 UTC** · **estimated completion 70.5 %** (Lean proofs 71.2 %) · frozen theorems sealed: 1 / 2 (+ 13 frozen definitions) · **185,879 lines of Lean on main** (1746 files) + 78,756 unlanded on worker branches · blueprint estimate ≈ 273,000 lines
 <!-- /AUTO:updated -->
 
 **Scope (D1):** everything proved in Lean, no black boxes. That covers the target paper and the results it uses from
@@ -32,20 +32,20 @@ DRAFT_IMPORT_VIOLATIONS: 0
 ## Progress
 
 <!-- AUTO:progress -->
-### Estimated completion: **63.0 %**
+### Estimated completion: **70.5 %**
 
-`███████████████████░░░░░░░░░░░` 63.0 %
+`█████████████████████░░░░░░░░░` 70.5 %
 
 | Part of the project | Items | Weight | Done | Completion |
 |---|---|---|---|---|
 | Sources, paper maps, blueprint (P0–P1) | 1 | 30 | 27.0 | `█████████░` 90 % |
 | Exact Lean statements, frozen (P2) | 1 | 20 | 14.0 | `███████░░░` 70 % |
-| Lean proofs (P4) | 85 | 681 | 429.0 | `██████░░░░` 63 % |
+| Lean proofs (P4) | 85 | 681 | 485.2 | `███████░░░` 71 % |
 | Frozen theorems sealed | 2 | 2 | 1.0 | `█████░░░░░` 50 % |
 | Release (P5) | 1 | 15 | 0.0 | `░░░░░░░░░░` 0 % |
-| **Total** | | 748 | 471.0 | **63.0 %** |
+| **Total** | | 748 | 527.2 | **70.5 %** |
 
-Lean lines: 175,032 on main + 31,477 on branches, of ≈ 273,000 estimated by the blueprint (`███████████████░░░░░` 75.6 % of the estimate).
+Lean lines: 185,879 on main + 78,756 on branches, of ≈ 273,000 estimated by the blueprint (`███████████████████░` 96.9 % of the estimate).
 
 <details><summary>All Lean work packets (blueprint §E) with weight and status</summary>
 
@@ -58,6 +58,7 @@ Lean lines: 175,032 on main + 31,477 on branches, of ≈ 273,000 estimated by th
 | J2 | CLASSJR2 | 8 | ≈4,000 | ✅ 100 % | done: DH21 Lemmas 5.6-5.10 (legal-partition induction, ≤ 2^m expansion); sign F61 open (traced in J3) |
 | J3 | MAINCOEF | 4 | ≈3,000 | ✅ 100 % | MAINCOEF done: DH21 Prop 5.1 for couples and trees (DH23 weights), garden↔code B̃ bridge |
 | J4 | CANCEL7 | 6 | ≈3,400 | ✅ 100 % | CANCEL7 done with the F61 correction; BtRec discharged by the B̃ bridge |
+| L1 | PL1A | 7 | ≈2,800 | ✅ 100 % | done: B2.2 incoherentDecay proved at the exact type (INCOH-INST, e77e692); seals at the B2 freeze |
 | L2 | PL1B | 9 | ≈4,650 | ✅ 100 % | PL1 done: abstract TARGET Prop 5.1 incl. one-clock case (541d4c8); garden instantiation = INCOH-INST |
 | N1 | AN-FOURIER | 9 | ≈3,500 | ✅ 100 % | landed: χ₀ (Gevrey 2, F41), 𝔛 norms, restriction norms, Fourier-L¹ products |
 | N2 | AN-PHASE | 5 | ≈1,700 | ✅ 100 % | landed: Poisson on ℤ_L^d, non-stationary and bilinear stationary phase |
@@ -81,7 +82,10 @@ Lean lines: 175,032 on main + 31,477 on branches, of ≈ 273,000 estimated by th
 | R-NTC | NT-CIRCLE | 6 | ≈3,300 | ✅ 100 % | landed: circle 2/3, elementary annulus, estcross |
 | R-TF | TORUS-FOURIER | 4 | ≈2,500 | ✅ 100 % | landed 5beb902 |
 | R-WKE | WKE | 24 | ≈9,810 | ✅ 100 % | done: WKE LWP, uniqueness, Taylor, general-d L²_s trilinear estimate (Theorem 7), blow-up; frozen wkelwp SEALED 2026-11-03 |
+| V1 | SUMINT-A | 7 | ≈4,200 | ✅ 100 % | sumint (B1.6) proved at the exact snapshot-8 type (wt-anfourier, 436 axiom checks); seals at the freeze |
+| V2 | SUMINT-B | 5 | ≈2,200 | ✅ 100 % | sumint (B1.6) proved at the exact snapshot-8 type (wt-anfourier, 436 axiom checks); seals at the freeze |
 | WA | Wave A definitions | 5 | ≈230 | ✅ 100 % | frozen D6 |
+| D3 | CANON | 9 | ≈3,950 | 🟡 95 % | CANON: canonicalCharacterization proved (seals at the freeze) |
 | I1 | INDUCT-A | 10 | ≈4,000 | 🟡 95 % | INDUCT done in scratch: propansatz_of_gates (from layergarden, fixedpoint, wkeTaylor; 465 modules); port to frozen names after the freeze |
 | I2 | INDUCT-B | 10 | ≈3,050 | 🟡 95 % | INDUCT done (see I1) |
 | J5 | MEXP | 6 | ≈2,700 | 🟡 95 % | MEXP done: DH21 Props 7.7, 7.8 (corrected weight) |
@@ -93,53 +97,49 @@ Lean lines: 175,032 on main + 31,477 on branches, of ≈ 273,000 estimated by th
 | C3 | SKELETON | 15 | ≈5,200 | 🟡 90 % | SKELETON done in scratch: prime skeletons with uniqueness (incl. DH21's omitted E4 argument), 194 declarations |
 | C4 | LAYERREG | 8 | ≈4,000 | 🟡 90 % | LAYERREG done in scratch: TARGET Props 4.9 (structure, replacement keeps canonicity) and 4.10 (layering count, stronger) |
 | C5 | ENHANCED | 9 | ≈3,150 | 🟡 90 % | ENHANCED done in scratch: dominant couples, special sets, equivalence (DH21 Def 4.18), encoded trees (Props 4.20, 4.23), net signs; + tree incohproof1 |
+| D1 | COMB-CORE | 8 | ≈2,020 | 🟡 90 % | COMB-CORE done in scratch; ports at the freeze |
+| D2 | SYS-DEFS | 14 | ≈3,400 | 🟡 90 % | SYS-DEFS + Duhamel identity done in scratch; ports at the freeze |
 | D4 | REG-DEFS | 8 | ≈2,400 | 🟡 90 % | REG-DEFS done (B2 draft + REG-STRUCT scratch) |
 | G0 | MOLE-COUNT-BASICS | 4 | ≈1,400 | 🟡 90 % | DEGEN done in scratch (DH21 Lemmas 9.13–9.14, DH23 §10.5, GAP.degenerate.tame, corrected remtame); moves to Foundations after the Wave B freeze |
+| G4 | APPB-OPS | 8 | ≈4,000 | 🟡 90 % | APPB-OPS done in scratch: DH23 App B operations, 73 audited results; figure transcriptions flagged for review; F81 |
 | G6 | MOLEPROP13 | 6 | ≈2,400 | 🟡 90 % | MOLEPROP13 done in scratch: DH23 Props 10.1, 10.3 (263 modules, against corrected B2) |
-| L1 | PL1A | 7 | ≈2,800 | 🟡 90 % | steps 1-2 done in the abstract carrier; instantiation with LINKS in INCOH-INST |
 | M1 | MOLE | 15 | ≈4,900 | 🟡 90 % | MOLE done in scratch: garden molecules, root-compatible decorations, reconstruction (C₀=20736), cuts; moves to Foundations at the freeze |
 | M2 | BLOCKS | 6 | ≈1,600 | 🟡 90 % | blocks, hyper-blocks, realizations, overlap classification (connected convention, F57) in scratch |
 | M3 | CLCN | 10 | ≈3,500 | 🟡 90 % | CLCN done in scratch: (CL)/(CN) dichotomy, splicing, blockchainprop, cnblock component bounds |
+| M4 | VINES | 10 | ≈3,300 | 🟡 90 % | VINES done in scratch: templates incl. m = 1 vine (II) (F72), groups/coherence, subsetvc, VC/HVC/DV/HV (F71 reading), 358 declarations |
+| M5 | MOLECPL | 4 | ≈1,500 | 🟡 90 % | MOLECPL done in scratch (DH23 Prop 5.3 for gardens; 2eacfc5) |
 | RA2 | REGREF | 13 | ≈4,100 | 🟡 90 % | REGREF done: B2.1 regularAsymptotics proved at exact type from RA1Couple/RA1Tree (trace argument F76; leafwise kernel layer) |
+| V3 | REGRED | 6 | ≈1,900 | 🟡 90 % | REGRED done in scratch: skeleton reduction, vineest Step 1 (ab8680f); nonzero-gap boundary case separate (F21) |
 | Z1 | MAIN | 3 | ≈860 | 🟡 90 % | main ⇐ propansatz + nlsAkBridge (proved); propansatz ⇐ layergarden + fixedpoint + wkeTaylor (proved); fixedpoint ⇐ B1.12 + layergarden + wkeTaylor + O-X2-EXP + O-X3-CPL (proved) ; wkeTaylor gate proved (38856ca) |
 | X3 | FIXEDPT | 9 | ≈3,400 | 🟡 85 % | FIXEDPT conditional on O-X2-EXP/O-X3-CPL; O-X3-CPL: CPL-1 (a^tr), CPL-2 (ℒ₀) done, CPL-3 in progress |
-| D3 | CANON | 9 | ≈3,950 | 🟡 80 % | canonicalCharacterization proved (scratch, pre-freeze) |
-| D1 | COMB-CORE | 8 | ≈2,020 | 🟡 60 % | COMB-CORE API done (scratch, pre-freeze) |
-| D2 | SYS-DEFS | 14 | ≈3,400 | 🟡 50 % | SYS-DEFS API + Duhamel identity (scratch) |
+| L3 | PL23 | 4 | ≈1,700 | 🟡 60 % | Prop 6.2 + leafwise Taylor identity proved; Prop 6.1 q>q' via order-0 norm (F80) in progress |
 | X2 | FLOWEREST | 16 | ≈8,900 | 🟡 45 % | moment layer done; O-X2-EXP via kernelKgen_graft (wt-gauss-hc) next |
-| L3 | PL23 | 4 | ≈1,700 | 🟡 2 % | PL23 started (wt-wke) |
+| RA1 | REGASYMP | 10 | ≈5,800 | 🟡 40 % | RA1: foundations landed (sign, normalization, Prop 6.4 application, envelopes); couples (wt-ansob) and trees (wt-l2s) in progress |
+| G7 | MOLEPROP4 | 12 | ≈4,500 | 🟡 15 % | MOLEPROP4 revived with repairs (ylem1′, Prop 10.4(2)′; F69/F72), wt-torus; wt-ansob's partial Y2 lemmas reused |
+| G5 | APPB-ALG | 8 | ≈4,000 | 🟡 5 % | APPB-ALG started (wt-nt) |
+| M6 | TWIST | 8 | ≈2,800 | 🟡 5 % | TWIST started (wt-anfourier) |
 | F1 | FINAL-RED | 4 | ≈1,200 | ⬜ 0 % |  |
 | F2 | PLG | 12 | ≈4,150 | ⬜ 0 % |  |
 | F3 | FINAL-COUNT | 4 | ≈900 | ⬜ 0 % |  |
 | G1 | STAGE2-DEF | 10 | ≈2,600 | ⬜ 0 % |  |
 | G2 | EXCESS-DH23 | 8 | ≈3,500 | ⬜ 0 % |  |
 | G3 | EXCESS-T | 10 | ≈3,500 | ⬜ 0 % |  |
-| G4 | APPB-OPS | 8 | ≈4,000 | ⬜ 0 % |  |
-| G5 | APPB-ALG | 8 | ≈4,000 | ⬜ 0 % |  |
-| G7 | MOLEPROP4 | 12 | ≈4,500 | ⬜ 0 % |  |
 | G8 | RIGID | 10 | ≈4,600 | ⬜ 0 % |  |
 | L4 | PL4 | 4 | ≈2,500 | ⬜ 0 % |  |
-| M4 | VINES | 10 | ≈3,300 | ⬜ 0 % |  |
-| M5 | MOLECPL | 4 | ≈1,500 | ⬜ 0 % |  |
-| M6 | TWIST | 8 | ≈2,800 | ⬜ 0 % |  |
 | M7 | LFTWIST | 13 | ≈4,200 | ⬜ 0 % |  |
 | M8 | LAYERCNT | 6 | ≈2,100 | ⬜ 0 % |  |
 | M9 | VINEPARAM | 4 | ≈1,500 | ⬜ 0 % |  |
-| RA1 | REGASYMP | 10 | ≈5,800 | ⬜ 0 % |  |
 | S1 | STAGE1-COMB | 7 | ≈2,400 | ⬜ 0 % |  |
 | S2 | REDSPLICE | 6 | ≈2,400 | ⬜ 0 % |  |
 | S2a | REDSPLICE-DEF | 2 | ≈800 | ⬜ 0 % |  |
 | S3 | LADDER | 8 | ≈4,200 | ⬜ 0 % |  |
 | S4 | SUBPRO | 8 | ≈3,000 | ⬜ 0 % |  |
-| V1 | SUMINT-A | 7 | ≈4,200 | ⬜ 0 % |  |
-| V2 | SUMINT-B | 5 | ≈2,200 | ⬜ 0 % |  |
-| V3 | REGRED | 6 | ≈1,900 | ⬜ 0 % |  |
 | V4 | VINEEST-S2 | 4 | ≈2,500 | ⬜ 0 % |  |
 | V5 | VINEEST | 13 | ≈5,100 | ⬜ 0 % |  |
 
 </details>
 
-Done fractions last reviewed: **2026-11-04 08:30 UTC**. Source: [`docs/campaign/progress.json`](docs/campaign/progress.json); history: [`docs/campaign/history.csv`](docs/campaign/history.csv).
+Done fractions last reviewed: **2026-11-04 11:15 UTC**. Source: [`docs/campaign/progress.json`](docs/campaign/progress.json); history: [`docs/campaign/history.csv`](docs/campaign/history.csv).
 <!-- /AUTO:progress -->
 
 ## Workers
@@ -147,17 +147,17 @@ Done fractions last reviewed: **2026-11-04 08:30 UTC**. Source: [`docs/campaign/
 <!-- AUTO:workers -->
 | tmux | model / account | packet | branch: last commit | brief |
 |---|---|---|---|---|
-| wt-orch | Claude Opus / claude-1 | Task 32 (CL-22 O1-O5 anchors) + Task 33 audits (SKELETON, MAINCOEF-T, PL1 final); done: J5-J7, B̃ audits PASS | `w/orch`: 17 min ago | [brief](docs/campaign/orch/TASK4.md) |
-| wt-gauss-hc | Claude Opus / claude-10 | Wave B snapshot 7 (F68 dChild fix), then kernelKgen_graft + discharge O-X2-EXP/O-X3-CPL; X3 FIXEDPT done (conditional on those two) | `w/waveb-infra`: — | [brief](docs/campaign/briefs/FLOWER.md) |
-| wt-torus | Claude Opus / claude-14 | A23-HALF: DH23 Lemma A.2(3) γ > 1/2 branch in Lean (RA2 REGREF done: B2.1 proved from RA1 obligations) | `w/approxnt`: 21 min ago, 2 unlanded | [brief](docs/campaign/briefs/A23-HALF.md) |
-| wt-wke | Claude Opus / claude-13 | L3+L4: TARGET Props 6.1-6.3 (proplayer2-4); J1-J3, B̃ bridge, tree Prop 5.1 done | `w/jr-ops`: 9 min ago, 4 unlanded | [brief](docs/campaign/briefs/PL234.md) |
-| wt-cumul | GPT-6.1-Sol low / codex-3 | LG-SPINE (pre-freeze): layergarden from named spine inputs (INDUCT, WKETAYLOR-GATE done) | `w/norm-bridge`: 3 h ago | [brief](docs/campaign/briefs/LG-SPINE.md) |
-| wt-nt | GPT-6.1-Sol low / codex-2 | G4 APPB-OPS then G5 APPB-ALG (pre-freeze): DH23 Appendix B (MOLE M1+M2, CLCN M3 done) | `w/nt-circle`: 6 h ago | [brief](docs/campaign/briefs/APPB-OPS.md) |
-| wt-ansob | GPT-6.1-Sol low / codex-3 | RA1 REGASYMP: DH23 Prop 6.1 couples then trees (G7 paused on F69 ylem1; PV-DECAY, G6, DEGEN done) | `w/bproc`: 15 min ago, 22 unlanded | [brief](docs/campaign/briefs/REGASYMP.md) |
-| wt-gausssum | GPT-6.1-Sol low / codex-2 | M4 VINES (pre-freeze), then M9 VINEPARAM (COUNT done, landed) | `w/count`: 4 min ago, 6 unlanded | [brief](docs/campaign/briefs/VINES.md) |
-| wt-resonant | GPT-6.1-Sol low / codex-2 | V3 REGRED (pre-freeze): skeleton reduction, vineest Step 1 (C1 REG-STRUCT, C3 SKELETON done) | `w/resonant`: 63 min ago | [brief](docs/campaign/briefs/REGRED.md) |
-| wt-anfourier | GPT-6.1-Sol low / codex-2 | V1+V2 SUMINT (pre-freeze): prove the Wave B statement sumint (N2+N3 done) | `w/an-phase`: 10 h ago | [brief](docs/campaign/briefs/SUMINT.md) |
-| wt-l2s | GPT-6.1-Sol low / codex-2 | INCOH-INST: prove B2.2 incoherentDecay at the exact type (PL1 abstract Prop 5.1 done) | `w/wke-l2s`: 32 min ago, 2 unlanded | [brief](docs/campaign/briefs/INCOH-INST.md) |
+| wt-orch | Claude Opus / claude-1 | Task 34: snapshot-8 delta audit + freeze branch rebuild; done: letter draft, many audits | `w/orch`: 2 h ago | [brief](docs/campaign/orch/TASK4.md) |
+| wt-gauss-hc | Claude Opus / claude-10 | O-X2-EXP stages X2E-1..5 (flower graft bijection), then x3-closed; CPL-1/2 done, CPL-3 in progress | `w/waveb-infra`: — | [brief](docs/campaign/briefs/FLOWER.md) |
+| wt-torus | Claude Opus / claude-14 | G7 MOLEPROP4 (revived, repaired): DH23 ylem1′, ylem2, Prop 10.4 (A23-HALF done) | `w/approxnt`: 108 min ago | [brief](docs/campaign/briefs/MOLEPROP4.md) |
+| wt-wke | Claude Opus / claude-13 | L3+L4: TARGET Props 6.1-6.3 (proplayer2-4); J1-J3, B̃ bridge, tree Prop 5.1 done | `w/jr-ops`: 62 min ago, 1 unlanded | [brief](docs/campaign/briefs/PL234.md) |
+| wt-cumul | GPT-6.1-Sol low / codex-3 | LG-SPINE (pre-freeze): layergarden from named spine inputs (INDUCT, WKETAYLOR-GATE done) | `w/norm-bridge`: 6 h ago | [brief](docs/campaign/briefs/LG-SPINE.md) |
+| wt-nt | GPT-6.1-Sol low / codex-2 | G4 APPB-OPS then G5 APPB-ALG (pre-freeze): DH23 Appendix B (MOLE M1+M2, CLCN M3 done) | `w/nt-circle`: 9 h ago | [brief](docs/campaign/briefs/APPB-OPS.md) |
+| wt-ansob | GPT-6.1-Sol low / codex-3 | RA1 couples (RA1Couple): DH23 Prop 6.1 for couples; trees moved to wt-l2s | `w/bproc`: 5 min ago, 8 unlanded | [brief](docs/campaign/briefs/REGASYMP.md) |
+| wt-gausssum | GPT-6.1-Sol low / codex-2 | M9 VINEPARAM (pre-freeze): molecule-level vine parametrizations (M4 VINES done) | `w/count`: 23 min ago, 1 unlanded | [brief](docs/campaign/briefs/VINES.md) |
+| wt-resonant | GPT-6.1-Sol low / codex-2 | V4 VINEEST-S2 (pre-freeze): vineest Step 2 into sumint form (V3 REGRED done) | `w/resonant`: 3 h ago | [brief](docs/campaign/briefs/VINEEST-S2.md) |
+| wt-anfourier | GPT-6.1-Sol low / codex-2 | M5 MOLECPL then M6 TWIST (pre-freeze); SUMINT (B1.6) proved | `w/an-phase`: 12 h ago | [brief](docs/campaign/briefs/MOLECPL-TWIST.md) |
+| wt-l2s | GPT-6.1-Sol low / codex-2 | RA1-TREES: DH23 Prop 6.1 for trees (RA1Tree); INCOH-INST done: B2.2 proved at exact type | `w/wke-l2s`: 6 min ago, 2 unlanded | [brief](docs/campaign/briefs/RA1-TREES.md) |
 <!-- /AUTO:workers -->
 
 ## Papers

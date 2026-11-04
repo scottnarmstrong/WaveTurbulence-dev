@@ -1,4 +1,4 @@
-# FREEZE-LIST: Wave B tier B1 (snapshot 7: freeze-ready packaging, DESIGN CL-16–CL-18, CL-20, CL-21)
+# FREEZE-LIST: Wave B tier B1 (snapshot 9: freeze-ready packaging, DESIGN CL-16–CL-18, CL-20–CL-23)
 
 Generated from the compiled modules `WaveBDraft.{Core, System, Statements, Sumint, Flower}` by the Lean metaprogram
 `FreezeList.lean` (next to this file) and `gen_freeze.py`. Each row is one declaration of the five frozen files:
@@ -273,7 +273,7 @@ enclosing section header, marked `(section)`, or else of the file's module docst
 | `LayeredGarden.FlowerKindOK` | def | T L2290 | `FlowerKind`, `GBranch`, `GBranch.child`, `GBranch.toNode`, `Garden`, `Garden.IsFlowerParent`, `LayeredGarden`, `LayeredGarden.IsFlowerNode`, `LayeredGarden.topCountBelow`, `LayeredGarden.topOrder`, `TTree.Path`, `TTree.branching` |
 | `LayeredGarden.TreeKindOK` | def | T L2312 | `GBranch`, `GBranch.child`, `Garden`, `LayeredGarden`, `LayeredGarden.topCountBelow`, `LayeredGarden.topOrder`, `TTree.Path`, `TTree.branching`, `TreeKind` |
 | `flowerSum` | def | T (flowerexp2), L2287–L2290 | `FixPat`, `FlowerKind`, `GBranch`, `GLeaf`, `GLeaf.toNode`, `GNode`, `Garden`, `Garden.IsFlower`, `Garden.IsFlowerParent`, `Garden.order`, `Garden.sign`, `IsCanonH`, `LayeredGarden`, `LayeredGarden.FlowerKindOK`, `LayeredGarden.PatValid`, `LayeredGarden.attachNodes`, `LayeredGarden.attachedOrder`, `LayeredGarden.cutWeight1`, `LayeredGarden.cutWeight2`, `LayeredGarden.fixPat`, `LayeredGarden.sibWeight`, `TTree.Path`, `TTree.leaves`, `WTParams`, `WTParams.N`, `instDecidableIsFlowerParent`, `instFintypeGBranch`, `kernelKgen` |
-| `coupleSum` | def | T L2312 | `GBranch`, `GNode`, `Garden`, `Garden.order`, `IsCanonC`, `LayeredGarden`, `LayeredGarden.TreeKindOK`, `LayeredGarden.attachNodes`, `LayeredGarden.attachedOrder`, `TTree.Path`, `TTree.branching`, `TreeKind`, `WTParams`, `WTParams.N`, `kernelKgen` |
+| `coupleSum` | def | T L2312 | `GBranch`, `GBranch.toNode`, `GNode`, `Garden`, `Garden.order`, `IsCanonC`, `LayeredGarden`, `LayeredGarden.TreeKindOK`, `LayeredGarden.attachNodes`, `LayeredGarden.attachedOrder`, `TTree.Path`, `TTree.branching`, `TreeKind`, `WTParams`, `WTParams.N`, `kernelKgen` |
 | `WTPrefixP` | def | T L2279–L2280 | `WTParams` |
 | `layergardenFlower` | theorem | T Prop `flowerest1`, L2279–L2305; T L2306–L2338; WAVE-B v2 §4.15; T L2280; T (flowerest2); T (newnormn); T L2331; T L2312; T L2290 | `FixPat`, `FlowerKind`, `RemainderBound`, `TreeKind`, `WTParams`, `WTParams.Lambda`, `WTParams.N`, `WTPrefixP`, `coupleSum`, `flowerSum`, `inputsF`, `instDecidableEqFixPat`, `jbr` |
 
