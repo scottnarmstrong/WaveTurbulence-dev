@@ -6,7 +6,7 @@ Lean 4 formalization of
 > [arXiv:2311.10082v2](https://arxiv.org/abs/2311.10082) (2024).
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-11-04 09:24 UTC** · **estimated completion 64.2 %** (Lean proofs 64.3 %) · frozen theorems sealed: 1 / 2 (+ 13 frozen definitions) · **184,289 lines of Lean on main** (1725 files) + 25,314 unlanded on worker branches · blueprint estimate ≈ 273,000 lines
+> **Last updated: 2026-11-04 09:24 UTC** · **estimated completion 64.4 %** (Lean proofs 64.5 %) · frozen theorems sealed: 1 / 2 (+ 13 frozen definitions) · **184,289 lines of Lean on main** (1725 files) + 25,314 unlanded on worker branches · blueprint estimate ≈ 273,000 lines
 <!-- /AUTO:updated -->
 
 **Scope (D1):** everything proved in Lean, no black boxes. That covers the target paper and the results it uses from
@@ -32,18 +32,18 @@ DRAFT_IMPORT_VIOLATIONS: 0
 ## Progress
 
 <!-- AUTO:progress -->
-### Estimated completion: **64.2 %**
+### Estimated completion: **64.4 %**
 
-`███████████████████░░░░░░░░░░░` 64.2 %
+`███████████████████░░░░░░░░░░░` 64.4 %
 
 | Part of the project | Items | Weight | Done | Completion |
 |---|---|---|---|---|
 | Sources, paper maps, blueprint (P0–P1) | 1 | 30 | 27.0 | `█████████░` 90 % |
 | Exact Lean statements, frozen (P2) | 1 | 20 | 14.0 | `███████░░░` 70 % |
-| Lean proofs (P4) | 85 | 681 | 438.0 | `██████░░░░` 64 % |
+| Lean proofs (P4) | 85 | 681 | 439.8 | `██████░░░░` 65 % |
 | Frozen theorems sealed | 2 | 2 | 1.0 | `█████░░░░░` 50 % |
 | Release (P5) | 1 | 15 | 0.0 | `░░░░░░░░░░` 0 % |
-| **Total** | | 748 | 480.0 | **64.2 %** |
+| **Total** | | 748 | 481.8 | **64.4 %** |
 
 Lean lines: 184,289 on main + 25,314 on branches, of ≈ 273,000 estimated by the blueprint (`███████████████░░░░░` 76.8 % of the estimate).
 
@@ -108,6 +108,7 @@ Lean lines: 184,289 on main + 25,314 on branches, of ≈ 273,000 estimated by th
 | D1 | COMB-CORE | 8 | ≈2,020 | 🟡 60 % | COMB-CORE API done (scratch, pre-freeze) |
 | D2 | SYS-DEFS | 14 | ≈3,400 | 🟡 50 % | SYS-DEFS API + Duhamel identity (scratch) |
 | X2 | FLOWEREST | 16 | ≈8,900 | 🟡 45 % | moment layer done; O-X2-EXP via kernelKgen_graft (wt-gauss-hc) next |
+| G7 | MOLEPROP4 | 12 | ≈4,500 | 🟡 15 % | MOLEPROP4 revived with repairs (ylem1′, Prop 10.4(2)′; F69/F72), wt-torus; wt-ansob's partial Y2 lemmas reused |
 | L3 | PL23 | 4 | ≈1,700 | 🟡 2 % | PL23 started (wt-wke) |
 | F1 | FINAL-RED | 4 | ≈1,200 | ⬜ 0 % |  |
 | F2 | PLG | 12 | ≈4,150 | ⬜ 0 % |  |
@@ -117,7 +118,6 @@ Lean lines: 184,289 on main + 25,314 on branches, of ≈ 273,000 estimated by th
 | G3 | EXCESS-T | 10 | ≈3,500 | ⬜ 0 % |  |
 | G4 | APPB-OPS | 8 | ≈4,000 | ⬜ 0 % |  |
 | G5 | APPB-ALG | 8 | ≈4,000 | ⬜ 0 % |  |
-| G7 | MOLEPROP4 | 12 | ≈4,500 | ⬜ 0 % |  |
 | G8 | RIGID | 10 | ≈4,600 | ⬜ 0 % |  |
 | L4 | PL4 | 4 | ≈2,500 | ⬜ 0 % |  |
 | M5 | MOLECPL | 4 | ≈1,500 | ⬜ 0 % |  |
@@ -139,7 +139,7 @@ Lean lines: 184,289 on main + 25,314 on branches, of ≈ 273,000 estimated by th
 
 </details>
 
-Done fractions last reviewed: **2026-11-04 09:10 UTC**. Source: [`docs/campaign/progress.json`](docs/campaign/progress.json); history: [`docs/campaign/history.csv`](docs/campaign/history.csv).
+Done fractions last reviewed: **2026-11-04 09:40 UTC**. Source: [`docs/campaign/progress.json`](docs/campaign/progress.json); history: [`docs/campaign/history.csv`](docs/campaign/history.csv).
 <!-- /AUTO:progress -->
 
 ## Workers
@@ -147,9 +147,9 @@ Done fractions last reviewed: **2026-11-04 09:10 UTC**. Source: [`docs/campaign/
 <!-- AUTO:workers -->
 | tmux | model / account | packet | branch: last commit | brief |
 |---|---|---|---|---|
-| wt-orch | Claude Opus / claude-1 | Task 32 (CL-22 O1-O5 anchors) + Task 33 audits (SKELETON, MAINCOEF-T, PL1 final); done: J5-J7, B̃ audits PASS | `w/orch`: 28 min ago | [brief](docs/campaign/orch/TASK4.md) |
-| wt-gauss-hc | Claude Opus / claude-10 | Wave B snapshot 7 (F68 dChild fix), then kernelKgen_graft + discharge O-X2-EXP/O-X3-CPL; X3 FIXEDPT done (conditional on those two) | `w/waveb-infra`: — | [brief](docs/campaign/briefs/FLOWER.md) |
-| wt-torus | Claude Opus / claude-14 | A23-HALF: DH23 Lemma A.2(3) γ > 1/2 branch in Lean (RA2 REGREF done: B2.1 proved from RA1 obligations) | `w/approxnt`: 2 min ago | [brief](docs/campaign/briefs/A23-HALF.md) |
+| wt-orch | Claude Opus / claude-1 | Task 34: snapshot-8 delta audit + freeze branch rebuild; done: letter draft, many audits | `w/orch`: 28 min ago | [brief](docs/campaign/orch/TASK4.md) |
+| wt-gauss-hc | Claude Opus / claude-10 | O-X2-EXP stages X2E-1..5 (flower graft bijection), then x3-closed; CPL-1/2 done, CPL-3 in progress | `w/waveb-infra`: — | [brief](docs/campaign/briefs/FLOWER.md) |
+| wt-torus | Claude Opus / claude-14 | G7 MOLEPROP4 (revived, repaired): DH23 ylem1′, ylem2, Prop 10.4 (A23-HALF done) | `w/approxnt`: 2 min ago | [brief](docs/campaign/briefs/MOLEPROP4.md) |
 | wt-wke | Claude Opus / claude-13 | L3+L4: TARGET Props 6.1-6.3 (proplayer2-4); J1-J3, B̃ bridge, tree Prop 5.1 done | `w/jr-ops`: 41 min ago | [brief](docs/campaign/briefs/PL234.md) |
 | wt-cumul | GPT-6.1-Sol low / codex-3 | LG-SPINE (pre-freeze): layergarden from named spine inputs (INDUCT, WKETAYLOR-GATE done) | `w/norm-bridge`: 4 h ago | [brief](docs/campaign/briefs/LG-SPINE.md) |
 | wt-nt | GPT-6.1-Sol low / codex-2 | G4 APPB-OPS then G5 APPB-ALG (pre-freeze): DH23 Appendix B (MOLE M1+M2, CLCN M3 done) | `w/nt-circle`: 7 h ago | [brief](docs/campaign/briefs/APPB-OPS.md) |

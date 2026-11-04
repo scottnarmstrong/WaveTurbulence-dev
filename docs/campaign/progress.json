@@ -1,5 +1,5 @@
 {
- "assessed": "2026-11-04 09:10 UTC",
+ "assessed": "2026-11-04 09:40 UTC",
  "notes": "Lean work items = blueprint packets (docs/blueprint/GRAPH.md §E) with their difficulty weights (node weights L=1, M=2, H=4, VH=8 summed). Each frozen theorem anchor adds weight 1, credited when SEALED. Done fractions are the orchestrator's assessment, reviewed at integration rounds.",
  "lines_est_total": 273000,
  "parts": [
@@ -531,8 +531,8 @@
      "goal": "DH23 Lemmas ylem1/2, Prop 10.4",
      "weight": 12.0,
      "lines_est": 4500,
-     "done": 0.0,
-     "note": ""
+     "done": 0.15,
+     "note": "MOLEPROP4 revived with repairs (ylem1′, Prop 10.4(2)′; F69/F72), wt-torus; wt-ansob's partial Y2 lemmas reused"
     },
     {
      "id": "J4",
