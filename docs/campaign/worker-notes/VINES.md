@@ -31,3 +31,12 @@ also derived from actual block degree balance. The expanded interface and
 50-result standard-axiom audit pass; subsetvc remains open, including the
 short-slot and simultaneous-removal arguments. See the scratch HANDOFF for
 exact checked modules and commands.
+
+The zero-extra-rung classification now proves that proper VC subsets in
+all eight cores are one/two concatenated double bonds; its decorated SG case
+derives properness from gap separation. The source removal operation keeps
+joints and removes non-joint atoms/bonds. Connectivity after any disjoint
+family of adjoint removals is now proved using retained actual added bonds.
+The interface and 74-result axiom audit pass with standard axioms only.
+Arbitrary-rung classification and ordinary-block removal remain open; M4
+continues. Main was merged at 1666da7.
