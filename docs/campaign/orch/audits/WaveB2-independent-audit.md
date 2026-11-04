@@ -787,3 +787,86 @@ sealed or counted source-faithful. It does not change any frozen text.
   Editing these non-frozen lemmas or definitions can then not silently change what the frozen anchors mean.
   REG-STRUCT's order-≤ 6 diagnostics (no collisions; source range = code range) make failure unlikely.
 - **OPTIONAL.** The F72 follow-ups outside B2: re-run VINES, MOLEPROP13 and `vinefree.py` with `m = 1` (addendum 6).
+
+---
+
+## Re-check 3, 2026-11-04 (CL-22: O1–O5 are anchors again; seal providers)
+
+### Verdict: PASS
+
+The 76-declaration freeze set (7 anchors) is exact and closed. The providers prove exactly O1–O5 on the snapshot's
+definitions, with standard axioms; I rebuilt every module independently. The review page shows all 76 declarations
+verbatim. **R2-1 is resolved.** There is no BLOCKER and no REQUIRED item.
+
+### Inputs
+
+- **Snapshot.** `/home/scott/wt-scratch/waveb2-snap-final`. `sha256sum SHA256SUMS` = `b605320f7676…`; all 22 entries
+  verify. My copy is in `b2-audit/snap-final3/`.
+- **Diff against re-check 2.** The Lean sources are byte-identical. The changes are `FREEZE-LIST.md`,
+  `gen_freeze.py`, `DESIGN.md`, `README.md` and the new `providers/`.
+- **Change list.** Handoff addendum 7: main `ad7cd70`. The orch worktree is the same.
+
+### (1) The freeze set is the closure of B2.1, B2.2 and O1–O5
+
+- **`Q8.lean`** (the Q5 traversal with seven roots, anchor types only; output `Q8.out`) reaches 78 owners. They are
+  exactly the 76 rows of `FREEZE-LIST.md` plus the two recursion auxiliaries `RegCpl.brecOn.go` and
+  `RegChain.brecOn.go`, which belong to their inductives.
+- **No project theorem is reached** (`non-projection project theorems reached: #[]`).
+- **Against the CL-20 set of 59, exactly 17 declarations were added:**
+  - the 5 theorems O1–O5;
+  - 12 definitions: `IsRegularCouple`, `IsRegularTree`, `RawRegular`, `RawCpl.{tree, mapTree, opA, relocate,
+    orient, opB}`, `Garden.MatchesTreeCouple` (now genuinely reached, through `IsRegularTree`), `TTree.setAt` and
+    `TTree.subtreeAt`.
+- **The ruling's "15" is 12, as addendum 7 says.** `GNode.parent`, `GardenDart` and `Garden.molecule` are reached
+  only by O7 and correctly stay out.
+- **Counts.** 7 theorems, 62 definitions, 2 abbrevs, 1 structure, 3 inductives (`RegCpl`, `RegChain`,
+  `RawRegular`), 1 instance (`instDecidableIsSpecialSet`). Regular 70, Statements 6, Molecules 0.
+- **Fidelity.** These five anchors are exactly R2-1's fidelity obligations of reading D4, and the source-form
+  definitions their statements use are now frozen with them. R2-1 is therefore resolved: the meaning of B2.1 and
+  B2.2 no longer rests on editable declarations.
+
+### (2) The providers prove exactly O1–O5
+
+**Independent rebuild** (`b2-audit/regbuild/`, my own script `build.sh`, log `build.log`).
+- Sources:
+  - the 154 REG-STRUCT modules, each copied from `/home/scott/wt-scratch/reg-struct`. All 154 match
+    `providers/REGSTRUCT-SHA256SUMS` and contain no `sorry`, `admit`, `axiom`, `native_decide`, `implemented_by` or
+    `extern`;
+  - `WaveBDraft.{Core, System}` from snapshot 6/7 (`0b8477d9…`, `59365906…`);
+  - the snapshot's `WaveB2-Regular.lean` as `WaveB2Draft.Regular` (`4d7f81ef…`);
+  - the shim `RegularDefs-shim.lean` as `WaveB2Draft.RegularDefs`. It contains only `public import WaveB2Draft.Regular`;
+  - the five provider files, byte-for-byte.
+- The build ran on dev's Mathlib and Wave A, in topological order, one `lean` at a time, `nice -n 5`, **with no other
+  B1/B2 build on the path**.
+- **Result: all 161 modules, 0 errors, in 1209 s.** The only warnings are the six `declaration uses 'sorry'` of
+  Regular §4 itself (L373–L407).
+
+**Seal check** (`Q9.lean`, my own, run on this build).
+- Each anchor statement, copied from §4, is closed by the bare `by exact WaveTurbulence.Provider.<export>`.
+- For all five: **`(seal).type == (§4 anchor).type`** (Expr equality).
+- The provider types, with `autoParam` wrappers and binder annotations stripped, are `==` to the anchor types. The
+  only differences are the B1 `wkelwp` pattern: implicit data binders and `by assumption` autoParams, in the same
+  binder order.
+- Axioms of all five seals: `[propext, Classical.choice, Quot.sound]`. There is no `sorryAx`, although the
+  `sorry`'d §4 constants are in the same environment.
+
+### (3) The review page shows all 76 verbatim
+
+`docs/review/WAVE-B-B2.md` (main `ad7cd70`; identical in the orch worktree, `8f2f476d…`):
+- **Lean blocks.** It has two `lean` blocks: Regular (600 lines, 7 held-out markers) and Statements (149 lines, 1
+  marker).
+  - Every segment between markers is a verbatim substring of the pinned file, in order.
+  - Every marker's names are exactly the declarations in its gap.
+  - The declarations shown are **exactly the 76** of `FREEZE-LIST.md`: none missing, none extra.
+- **Header hashes** match the snapshot:
+  - Regular `4d7f81ef…`;
+  - Molecules `5cc50611…`;
+  - Statements `82e42b2b…`;
+  - `FREEZE-LIST.md` `61f1be74…`, also equal to `WAVE-B-B2-FREEZE-LIST.md`;
+  - `SHA256SUMS` `b605320f7676…`.
+
+### Remaining
+
+**OPTIONAL: stale wording.** The page's L8 still says "the two theorems with body `by sorry`, as `DRAFT_SORRY`
+anchors". It should say: seven theorem anchors; B2.1 and B2.2 `DRAFT_SORRY`; O1–O5 sealed on landing by their
+providers.

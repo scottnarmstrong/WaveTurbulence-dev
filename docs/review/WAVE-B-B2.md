@@ -5,7 +5,8 @@ snap-2 and snap-3).
 
 **This is the exact Lean to be frozen**, exactly as for Wave A (D6) and as prepared for Wave B tier B1 (D7, pending):
 - one declaration per file under `WaveTurbulence/Frozen/`;
-- the two theorems with body `by sorry`, as `DRAFT_SORRY` anchors;
+- seven theorem anchors: B2.1 `regularAsymptotics` and B2.2 `incoherentDecay` with body `by sorry`, as `DRAFT_SORRY`
+  anchors, and the decoding obligations O1–O5, sealed on landing by their providers (already proved);
 - definitions sealed.
 
 **File hashes:**
