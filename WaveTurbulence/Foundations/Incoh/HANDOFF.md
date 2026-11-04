@@ -391,3 +391,27 @@ Actual couple milestone checks: targeted builds `SourceCoupleDecay CoupleLinkCel
 passed (`9381 jobs`). Scratch `AxiomsActualCoupleDecay.lean`, log
 `axioms-actual-couple-decay.log`, audited seven main results. Every result uses exactly
 `[propext, Classical.choice, Quot.sound]`. No new source errata or weakened decay estimates.
+
+## Stage 3: countable cell recombination estimate
+
+`SourceCellMeasure` defines the actual selected cell index as the discrete countable sigma
+family of leaf cells and finite selected link cells, with counting measure times spectral
+Lebesgue measure. It proves sigma-finiteness and the exact mass formula including the literal
+finite fiber cardinal. `SourceCellMassBound` bounds this full coefficient by
+`C_local^n (C_leaf B)^m C_half^(2n)` directly from the input spatial norms.
+`AllCellSourceFamily` proves amplitude and kernel joint measurability on this measure.
+`AllCellAmplitudeL1` proves full amplitude integrability. `AllCellCoupleFubini` discharges
+joint time/cell/spectral integrability from the proved uniform physical root bound.
+
+`AllCellCoupleDecay.exists_allCellSourceCoupleExtension_bound` proves the actual countable-cell
+spectral extension estimate with that explicit exponential coefficient and the decay exponent
+`γ₁−100dη`. No supremum/integral order is changed and no Fourier or Fubini premise is assumed.
+Its finite cell family is arbitrary subject to its cardinal bound; the previously proved
+momentum-uniform source cover supplies the appropriate family. Exact identification of this
+full countable integral with the unlocalized raw source lattice sum still needs the absolute
+convergence/recombination argument. The final spatial derivative/weight and actual tree source
+assembly remain open.
+
+Countable-cell estimate checks: targeted build `AllCellCoupleDecay` passed (`9384 jobs`).
+Scratch `AxiomsAllCellDecay.lean`, log `axioms-all-cell-decay.log`, audited five main mass,
+Fubini and decay results, each using exactly `[propext, Classical.choice, Quot.sound]`.
