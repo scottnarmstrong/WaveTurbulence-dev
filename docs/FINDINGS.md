@@ -218,3 +218,9 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   obligation (couples and trees, tree count with the root sign fixed — it fails at m = 0 otherwise) to the B2 §4
   statements before the B2 freeze; R15-3: the general-couple skeleton uniqueness (DH21 L833, GAP.skeletonUniq) is
   packet C3's, not discharged by REG-STRUCT.
+- F56 — Wave B snapshot 5 `WaveB1-Sumint.lean` `SumintDatum.phase` (L197–L215) vs TARGET (sumintI1) L1608–L1611 —
+  **our statement bug**: `∏ i, (…) * ∏ i : {i // D.S.nor i = true}, …` parses as `∏ i, ((…) * ∏ i' : Nor, …)`
+  (Mathlib's `∏ x, body` parses `body` at precedence 67, and `*` is 70), so the normal-block product is repeated `I`
+  times. Fix: `(∏ i, (…)) * ∏ i : Nor, …`, in snapshot 6 (with B1.12). Found by wt-anfourier (SUMINT). Lesson:
+  sweep every frozen candidate for big-operator scope errors (`∑`/`∏` bodies continuing past `*`, `•`, `^`); `∑`
+  stops before `+` (65 < 67) but not before `*`.
