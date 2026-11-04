@@ -1028,6 +1028,8 @@ public import WaveTurbulence.Foundations.WKE.SchwartzValued
 public import WaveTurbulence.Foundations.WKE.SeriesTools
 public import WaveTurbulence.Foundations.WKE.Taylor
 public import WaveTurbulence.Foundations.WKE.TaylorCoeff
+public import WaveTurbulence.Foundations.WKE.TaylorGateNorm
+public import WaveTurbulence.Foundations.WKE.TaylorGateSeries
 public import WaveTurbulence.Foundations.WKE.TaylorSeries
 public import WaveTurbulence.Foundations.WKE.Trilinear
 public import WaveTurbulence.Foundations.WKE.Uniqueness
