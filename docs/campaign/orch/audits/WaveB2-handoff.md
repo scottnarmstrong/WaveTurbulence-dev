@@ -605,3 +605,21 @@ reachable from a frozen consumer. Only the generator and the generated list chan
   - `DESIGN.md` `6463b5f0872c…` (changelog B2-CL-18, files table);
   - all Lean sources unchanged since snap-3 (`ce8f0a16…`, `89ff648e…`, `82e42b2b…`).
 - **Still open (REQUIRED):** F-5, the proof of `tendsto_pvResonantIntegral_of_decay`.
+
+## Addendum 4: B2-CL-19 (wt-orch, Task 27): F-5 closed; the final freeze candidate
+
+F-5 is proved by wt-ansob (PV-DECAY): the landed `Resonant.tendsto_energyInvIntegral_of_decay` in
+`Foundations/Resonant/PVDecay*.lean`, and the exact B2 wrapper in `/home/scott/wt-scratch/pv-decay/PVDecay.lean`.
+
+- **`WaveB2-Regular.lean`** (docstring only): `pvResonantIntegral` cites `tendsto_pvResonantIntegral_of_decay` and its
+  landed source.
+- **`WaveB2-Regular-probes.lean`:** the import `WaveTurbulence.Foundations.Resonant.PVDecay` and the wrapper
+  `tendsto_pvResonantIntegral_of_decay`, byte-for-byte wt-ansob's statement and proof (the statement written in
+  addendum 2).
+- **Checks.** All seven modules rebuild with 0 errors and the same 10 `sorry`s. The wrapper's axioms are
+  `[propext, Classical.choice, Quot.sound]`. `FREEZE-LIST.md` regenerated: the same 89 frozen and 76 held out,
+  byte-identical (`749daeb81908…`).
+- **Final freeze candidate** pinned read-only at `/home/scott/wt-scratch/waveb2-snap-final` (`SHA256SUMS`
+  `b2d8c4aafde9…`): `WaveB2-Regular.lean` `4d7f81efa32b…`,
+  `WaveB2-Molecules.lean` `89ff648ed5a3…`, `WaveB2-Statements.lean`
+  `82e42b2bfa16…`. Author review page: `docs/review/WAVE-B-B2.md`.
