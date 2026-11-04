@@ -325,3 +325,10 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   which also implements the corrected F61 sign in DH21 Lemma 7.3 and Prop 7.5 (`𝒥B̃_{Q,Z} = (−1)^{|Z|}𝒥B̃_Q`); its route
   (Gaussian-regularized limit of B̃_Q) shows the Z-component integral is the same for every expansion, stronger than
   DH21, and does not need DH21's (additionvanish) step.
+- F71 — TARGET `subsetvc` (hyper-blocks HV / vine-like containment) — reading (orchestrator ruling 2026-11-04, VINES):
+  a hyper-block is the pair (atom group, designated adjoint bond), as in B2 `IsHyperBlock` via `eraseBond`; its gap
+  and SG/LG class are those of that designated adjoint. On a triple bond, different valid adjoint deletions give
+  different gaps for the same atom group (wt-gausssum, kernel-checked), so containment of hyper-blocks with the same
+  atom group requires the same designated bond (up to mates); otherwise plain atom-set inclusion would make an inner
+  SG object whose adjoint is a single double bond — outside `subsetvc`'s case list. Status: reading, flagged for the
+  VINES audit (possible source imprecision).
