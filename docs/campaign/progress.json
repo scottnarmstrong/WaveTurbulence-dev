@@ -1,5 +1,5 @@
 {
- "assessed": "2026-11-04 05:25 UTC",
+ "assessed": "2026-11-04 05:45 UTC",
  "notes": "Lean work items = blueprint packets (docs/blueprint/GRAPH.md §E) with their difficulty weights (node weights L=1, M=2, H=4, VH=8 summed). Each frozen theorem anchor adds weight 1, credited when SEALED. Done fractions are the orchestrator's assessment, reviewed at integration rounds.",
  "lines_est_total": 273000,
  "parts": [
@@ -540,8 +540,8 @@
      "goal": "DH21 Lemmas 7.1–7.3, Props 7.4, 7.5",
      "weight": 6.0,
      "lines_est": 3400,
-     "done": 0.02,
-     "note": "CANCEL7 started (wt-torus), with the F61 correction"
+     "done": 0.9,
+     "note": "CANCEL7 done: DH21 Lemmas 7.1-7.3, Props 7.4-7.5 with the F61 correction (landed 5901134); BtRec via wt-wke's B̃ bridge"
     },
     {
      "id": "M7",
@@ -558,8 +558,8 @@
      "goal": "DH21 Props 7.7, 7.8 (momentum factors, class cancellation)",
      "weight": 6.0,
      "lines_est": 2700,
-     "done": 0.0,
-     "note": ""
+     "done": 0.02,
+     "note": "MEXP started (wt-torus)"
     },
     {
      "id": "I1",
@@ -784,7 +784,7 @@
      "weight": 3.0,
      "lines_est": 860,
      "done": 0.9,
-     "note": "main ⇐ propansatz + nlsAkBridge (proved); propansatz ⇐ layergarden + fixedpoint + wkeTaylor (proved); fixedpoint ⇐ B1.12 + layergarden + wkeTaylor + O-X2-EXP + O-X3-CPL (proved)"
+     "note": "main ⇐ propansatz + nlsAkBridge (proved); propansatz ⇐ layergarden + fixedpoint + wkeTaylor (proved); fixedpoint ⇐ B1.12 + layergarden + wkeTaylor + O-X2-EXP + O-X3-CPL (proved) ; wkeTaylor gate proved (38856ca)"
     }
    ]
   },
