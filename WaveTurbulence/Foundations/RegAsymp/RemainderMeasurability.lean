@@ -17,6 +17,21 @@ noncomputable section
 namespace WaveTurbulence.RegAsymp
 open MeasureTheory ApproxNT WithLp
 
+/-- Parameterwise measurability of the actual lattice expression, allowing
+both its compact amplitude and its coefficient to vary. -/
+theorem measurable_approxSum_parameter {P : Type*} [MeasurableSpace P] {d n : ℕ}
+    (L μ : ℝ) (J : Finset (Fin n))
+    {W : P → (Fin n → Mom d) → (Fin n → Mom d) → ℂ}
+    {C : ({j : Fin n // j ∉ J} → ℝ) → P → ℂ}
+    (hW : ∀ x y, Measurable (fun p => W p x y))
+    (hC : ∀ α, Measurable (C α)) :
+    Measurable (fun p => approxSum L μ (W p) (resProfile J (fun Ω => C (ofLp Ω) p))) := by
+  unfold approxSum
+  apply Measurable.tsum
+  intro g
+  unfold resProfile
+  exact (hW _ _).mul (measurable_const.mul (hC _))
+
 /-- The lattice expression is measurable in every measurable coefficient parameter. -/
 theorem measurable_approxSum_symbol {d n : ℕ} {L μ : ℝ}
     (W : (Fin n → Mom d) → (Fin n → Mom d) → ℂ) (J : Finset (Fin n))
