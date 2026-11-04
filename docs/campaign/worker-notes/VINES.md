@@ -581,3 +581,24 @@ no errors/warnings (`validation/Axioms-OrdinaryVC.log`).
 
 Continuing with the generic adjoint retraction after ordinary removals,
 then the remaining DV/HV/HVC ordinary cases and coherence independence.
+
+## Mixed ordinary/adjoint removal in an LG/ZG VC proved
+
+`VineMixedAdjointRetraction.ordinary_path_retract_adjoints` transports
+paths already surviving ordinary removals through every additional
+disjoint adjoint piece. The argument uses the original molecule for
+interior closure and keeps each actual designated added bond through
+both families (`VineMixedKeepAdded`, `VineMixedAdjointJoints`). It does
+not assume molecule axioms for the intermediate removal graph.
+
+`VineSGMixedRemovalVC.SG_mixed_removal_in_VC_connected` combines this
+with the checked ordinary SG-family theorem, giving the simultaneous
+mixed-removal clause for any LG/ZG outer VC. For connectivity the adjoint
+pieces may be arbitrary actual hyper-block adjoints; the source's more
+specific vine-adjoint selection is included without extra assumptions.
+Focused main theorem and retraction compiles exit0, no warnings. All four
+results in `validation/Axioms-MixedVC.lean` use only standard axioms,
+exit0 and no errors/warnings (`validation/Axioms-MixedVC.log`).
+
+Remaining outer DV/HV/HVC ordinary cases and coherence independence are
+not yet claimed. Continuing with type-V branch removal geometry.
