@@ -37,12 +37,22 @@ open WaveTurbulence.ClassJR
 /-- A jointly continuous kernel. -/
 @[expose] def KCont (K : ℝ → ℝ → ℂ) : Prop := Continuous fun p : ℝ × ℝ => K p.1 p.2
 
+/-- A parametric kernel bounded by `C` on the triangle `0 ≤ s ≤ t ≤ 1`, uniformly in the parameter. -/
+@[expose] def TriBdd (M : ℝ → ℝ → ℝ → ℂ) (C : ℝ) : Prop :=
+  ∀ x t s, 0 ≤ s → s ≤ t → t ≤ 1 → ‖M x t s‖ ≤ C
+
+/-- A kernel bounded by `C` on the triangle. -/
+@[expose] def KTriBdd (K : ℝ → ℝ → ℂ) (C : ℝ) : Prop := ∀ t s, 0 ≤ s → s ≤ t → t ≤ 1 → ‖K t s‖ ≤ C
+
 /-- The regularized kernel `gregK θ M t s = ∫ M x t s e^{-πθ²x²} dx`. -/
 @[expose] noncomputable def gregK (θ : ℝ) (M : ℝ → ℝ → ℝ → ℂ) (t s : ℝ) : ℂ :=
   greg θ fun x => M x t s
 
 theorem PCont.const {K : ℝ → ℝ → ℂ} (hK : KCont K) : PCont fun _ => K :=
   hK.comp (continuous_snd.fst.prodMk continuous_snd.snd)
+
+theorem PCont.at {M : ℝ → ℝ → ℝ → ℂ} (hM : PCont M) (t s : ℝ) : Continuous fun x => M x t s :=
+  hM.comp (continuous_id.prodMk (continuous_const : Continuous fun _ : ℝ => ((t, s) : ℝ × ℝ)))
 
 theorem PCont.apply {M : ℝ → ℝ → ℝ → ℂ} (hM : PCont M) (x : ℝ) : KCont (M x) :=
   hM.comp (continuous_const.prodMk (continuous_fst.prodMk continuous_snd))
@@ -80,11 +90,12 @@ theorem uIcc_subset_unit {s t : ℝ} (hs : s ∈ Icc (0 : ℝ) 1) (ht : t ∈ Ic
 
 /-- **`greg` through a composition with a fixed kernel on the left.** -/
 theorem greg_kcomp_left {θ : ℝ} (hθ : 0 < θ) {K : ℝ → ℝ → ℂ} (hK : KCont K)
-    {M : ℝ → ℝ → ℝ → ℂ} (hM : PCont M) {C : ℝ}
-    (hMb : ∀ x z s, z ∈ Icc (0 : ℝ) 1 → s ∈ Icc (0 : ℝ) 1 → ‖M x z s‖ ≤ C) {t s : ℝ}
-    (ht : t ∈ Icc (0 : ℝ) 1) (hs : s ∈ Icc (0 : ℝ) 1) :
+    {M : ℝ → ℝ → ℝ → ℂ} (hM : PCont M) {C : ℝ} (hMb : TriBdd M C) {t s : ℝ}
+    (hs0 : 0 ≤ s) (hst : s ≤ t) (ht1 : t ≤ 1) :
     greg θ (fun x => kcomp K (M x) t s) = kcomp K (gregK θ M) t s := by
   obtain ⟨CK, -, hCK⟩ := hK.exists_bound
+  have hs : s ∈ Icc (0 : ℝ) 1 := ⟨hs0, hst.trans ht1⟩
+  have ht : t ∈ Icc (0 : ℝ) 1 := ⟨hs0.trans hst, ht1⟩
   unfold kcomp gregK
   rw [greg_intervalIntegral hθ (C := CK * C)]
   · refine intervalIntegral.integral_congr fun z _ => ?_
@@ -92,18 +103,19 @@ theorem greg_kcomp_left {θ : ℝ} (hθ : 0 < θ) {K : ℝ → ℝ → ℂ} (hK 
   · exact (hK.comp (continuous_const.prodMk continuous_snd)).mul
       (hM.comp (continuous_fst.prodMk (continuous_snd.prodMk continuous_const)))
   · intro x z hz
-    have hz' := uIcc_subset_unit hs ht hz
+    rw [uIcc_of_le hst] at hz
+    have hz' : z ∈ Icc (0 : ℝ) 1 := ⟨hs0.trans hz.1, hz.2.trans ht1⟩
     rw [norm_mul]
-    exact mul_le_mul (hCK t z ht hz') (hMb x z s hz' hs) (norm_nonneg _)
+    exact mul_le_mul (hCK t z ht hz') (hMb x z s hs0 hz.1 hz'.2) (norm_nonneg _)
       ((norm_nonneg _).trans (hCK t z ht hz'))
 
 /-- **`greg` through a composition with a fixed kernel on the right.** -/
 theorem greg_kcomp_right {θ : ℝ} (hθ : 0 < θ) {L : ℝ → ℝ → ℂ} (hL : KCont L)
-    {M : ℝ → ℝ → ℝ → ℂ} (hM : PCont M) {C : ℝ}
-    (hMb : ∀ x t z, t ∈ Icc (0 : ℝ) 1 → z ∈ Icc (0 : ℝ) 1 → ‖M x t z‖ ≤ C) {t s : ℝ}
-    (ht : t ∈ Icc (0 : ℝ) 1) (hs : s ∈ Icc (0 : ℝ) 1) :
+    {M : ℝ → ℝ → ℝ → ℂ} (hM : PCont M) {C : ℝ} (hMb : TriBdd M C) {t s : ℝ}
+    (hs0 : 0 ≤ s) (hst : s ≤ t) (ht1 : t ≤ 1) :
     greg θ (fun x => kcomp (M x) L t s) = kcomp (gregK θ M) L t s := by
   obtain ⟨CL, -, hCL⟩ := hL.exists_bound
+  have hs : s ∈ Icc (0 : ℝ) 1 := ⟨hs0, hst.trans ht1⟩
   unfold kcomp gregK
   rw [greg_intervalIntegral hθ (C := C * CL)]
   · refine intervalIntegral.integral_congr fun z _ => ?_
@@ -111,29 +123,29 @@ theorem greg_kcomp_right {θ : ℝ} (hθ : 0 < θ) {L : ℝ → ℝ → ℂ} (hL
   · exact (hM.comp (continuous_fst.prodMk (continuous_const.prodMk continuous_snd))).mul
       (hL.comp (continuous_snd.prodMk continuous_const))
   · intro x z hz
-    have hz' := uIcc_subset_unit hs ht hz
+    rw [uIcc_of_le hst] at hz
+    have hz' : z ∈ Icc (0 : ℝ) 1 := ⟨hs0.trans hz.1, hz.2.trans ht1⟩
     rw [norm_mul]
-    exact mul_le_mul (hMb x t z ht hz') (hCL z s hz' hs) (norm_nonneg _)
-      ((norm_nonneg _).trans (hMb x t z ht hz'))
+    exact mul_le_mul (hMb x t z hz'.1 hz.2 ht1) (hCL z s hz' hs) (norm_nonneg _)
+      ((norm_nonneg _).trans (hMb x t z hz'.1 hz.2 ht1))
 
 /-- **`greg` through a Volterra operator.** -/
 theorem greg_volterra {θ : ℝ} (hθ : 0 < θ) {M : ℝ → ℝ → ℝ → ℂ} (hM : PCont M) {C : ℝ}
-    (hMb : ∀ x t s, t ∈ Icc (0 : ℝ) 1 → s ∈ Icc (0 : ℝ) 1 → ‖M x t s‖ ≤ C) {g : ℝ → ℂ}
-    (hg : Continuous g) {t : ℝ} (ht : t ∈ Icc (0 : ℝ) 1) :
+    (hMb : TriBdd M C) {g : ℝ → ℂ} (hg : Continuous g) {t : ℝ} (ht0 : 0 ≤ t) (ht1 : t ≤ 1) :
     greg θ (fun x => volterra (M x) g t) = volterra (gregK θ M) g t := by
   obtain ⟨Cg, hCg⟩ := isCompact_Icc.exists_bound_of_continuousOn (hg.continuousOn (s := Icc (0 : ℝ) 1))
   unfold volterra gregK
-  have h0 : (0 : ℝ) ∈ Icc (0 : ℝ) 1 := ⟨le_rfl, zero_le_one⟩
   rw [greg_intervalIntegral hθ (C := C * Cg)]
   · refine intervalIntegral.integral_congr fun z _ => ?_
     exact greg_mul_const θ _ _
   · exact (hM.comp (continuous_fst.prodMk (continuous_const.prodMk continuous_snd))).mul
       (hg.comp continuous_snd)
   · intro x z hz
-    have hz' := uIcc_subset_unit h0 ht hz
+    rw [uIcc_of_le ht0] at hz
+    have hz' : z ∈ Icc (0 : ℝ) 1 := ⟨hz.1, hz.2.trans ht1⟩
     rw [norm_mul]
-    exact mul_le_mul (hMb x t z ht hz') (hCg z hz') (norm_nonneg _)
-      ((norm_nonneg _).trans (hMb x t z ht hz'))
+    exact mul_le_mul (hMb x t z hz.1 hz.2 ht1) (hCg z hz') (norm_nonneg _)
+      ((norm_nonneg _).trans (hMb x t z hz.1 hz.2 ht1))
 
 /-! ### Dominated convergence -/
 
@@ -141,8 +153,7 @@ variable {ι : Type*} {l : Filter ι} [l.IsCountablyGenerated]
 
 /-- Kernels `R i → R₀` below the diagonal, uniformly bounded on the square: `K ∘ R i → K ∘ R₀`. -/
 theorem tendsto_kcomp_left {K : ℝ → ℝ → ℂ} (hK : KCont K) {R : ι → ℝ → ℝ → ℂ} {R₀ : ℝ → ℝ → ℂ}
-    (hR : ∀ᶠ i in l, KCont (R i)) {C : ℝ}
-    (hRb : ∀ᶠ i in l, ∀ z s, z ∈ Icc (0 : ℝ) 1 → s ∈ Icc (0 : ℝ) 1 → ‖R i z s‖ ≤ C)
+    (hR : ∀ᶠ i in l, KCont (R i)) {C : ℝ} (hRb : ∀ᶠ i in l, KTriBdd (R i) C)
     (hlim : ∀ z s, 0 ≤ s → s < z → z ≤ 1 → Tendsto (fun i => R i z s) l (𝓝 (R₀ z s)))
     {t s : ℝ} (hs0 : 0 ≤ s) (hst : s ≤ t) (ht1 : t ≤ 1) :
     Tendsto (fun i => kcomp K (R i) t s) l (𝓝 (kcomp K R₀ t s)) := by
@@ -157,9 +168,10 @@ theorem tendsto_kcomp_left {K : ℝ → ℝ → ℂ} (hK : KCont K) {R : ι → 
       (hi.comp (continuous_id.prodMk continuous_const))).aestronglyMeasurable
   · filter_upwards [hRb] with i hi
     refine Eventually.of_forall fun z hz => ?_
-    have hz' := uIcc_subset_unit hs ht (uIoc_subset_uIcc hz)
+    rw [uIoc_of_le hst] at hz
+    have hz' : z ∈ Icc (0 : ℝ) 1 := ⟨hs0.trans hz.1.le, hz.2.trans ht1⟩
     rw [norm_mul]
-    exact mul_le_mul (hCK t z ht hz') (hi z s hz' hs) (norm_nonneg _)
+    exact mul_le_mul (hCK t z ht hz') (hi z s hs0 hz.1.le hz'.2) (norm_nonneg _)
       ((norm_nonneg _).trans (hCK t z ht hz'))
   · refine Eventually.of_forall fun z hz => ?_
     rw [uIoc_of_le hst] at hz
@@ -167,8 +179,7 @@ theorem tendsto_kcomp_left {K : ℝ → ℝ → ℂ} (hK : KCont K) {R : ι → 
 
 /-- `R i ∘ L → R₀ ∘ L`. -/
 theorem tendsto_kcomp_right {L : ℝ → ℝ → ℂ} (hL : KCont L) {R : ι → ℝ → ℝ → ℂ} {R₀ : ℝ → ℝ → ℂ}
-    (hR : ∀ᶠ i in l, KCont (R i)) {C : ℝ}
-    (hRb : ∀ᶠ i in l, ∀ t z, t ∈ Icc (0 : ℝ) 1 → z ∈ Icc (0 : ℝ) 1 → ‖R i t z‖ ≤ C)
+    (hR : ∀ᶠ i in l, KCont (R i)) {C : ℝ} (hRb : ∀ᶠ i in l, KTriBdd (R i) C)
     (hlim : ∀ t z, 0 ≤ z → z < t → t ≤ 1 → Tendsto (fun i => R i t z) l (𝓝 (R₀ t z)))
     {t s : ℝ} (hs0 : 0 ≤ s) (hst : s ≤ t) (ht1 : t ≤ 1) :
     Tendsto (fun i => kcomp (R i) L t s) l (𝓝 (kcomp R₀ L t s)) := by
@@ -183,10 +194,11 @@ theorem tendsto_kcomp_right {L : ℝ → ℝ → ℂ} (hL : KCont L) {R : ι →
       (hL.comp (continuous_id.prodMk continuous_const))).aestronglyMeasurable
   · filter_upwards [hRb] with i hi
     refine Eventually.of_forall fun z hz => ?_
-    have hz' := uIcc_subset_unit hs ht (uIoc_subset_uIcc hz)
+    rw [uIoc_of_le hst] at hz
+    have hz' : z ∈ Icc (0 : ℝ) 1 := ⟨hs0.trans hz.1.le, hz.2.trans ht1⟩
     rw [norm_mul]
-    exact mul_le_mul (hi t z ht hz') (hCL z s hz' hs) (norm_nonneg _)
-      ((norm_nonneg _).trans (hi t z ht hz'))
+    exact mul_le_mul (hi t z hz'.1 hz.2 ht1) (hCL z s hz' hs) (norm_nonneg _)
+      ((norm_nonneg _).trans (hi t z hz'.1 hz.2 ht1))
   · have hnull : ∀ᵐ z ∂(volume : Measure ℝ), z ≠ t :=
       (measure_eq_zero_iff_ae_notMem.1 (measure_singleton t)).mono fun z hz => hz
     filter_upwards [hnull] with z hzt hz
@@ -195,8 +207,7 @@ theorem tendsto_kcomp_right {L : ℝ → ℝ → ℂ} (hL : KCont L) {R : ι →
 
 /-- `volterra (R i) g t → volterra R₀ g t`. -/
 theorem tendsto_volterra {R : ι → ℝ → ℝ → ℂ} {R₀ : ℝ → ℝ → ℂ}
-    (hR : ∀ᶠ i in l, KCont (R i)) {C : ℝ}
-    (hRb : ∀ᶠ i in l, ∀ t z, t ∈ Icc (0 : ℝ) 1 → z ∈ Icc (0 : ℝ) 1 → ‖R i t z‖ ≤ C)
+    (hR : ∀ᶠ i in l, KCont (R i)) {C : ℝ} (hRb : ∀ᶠ i in l, KTriBdd (R i) C)
     (hlim : ∀ t z, 0 ≤ z → z < t → t ≤ 1 → Tendsto (fun i => R i t z) l (𝓝 (R₀ t z)))
     {g : ℝ → ℂ} (hg : Continuous g) {t : ℝ} (ht0 : 0 ≤ t) (ht1 : t ≤ 1) :
     Tendsto (fun i => volterra (R i) g t) l (𝓝 (volterra R₀ g t)) := by
@@ -210,10 +221,11 @@ theorem tendsto_volterra {R : ι → ℝ → ℝ → ℂ} {R₀ : ℝ → ℝ �
     exact ((hi.comp (continuous_const.prodMk continuous_id)).mul hg).aestronglyMeasurable
   · filter_upwards [hRb] with i hi
     refine Eventually.of_forall fun z hz => ?_
-    have hz' := uIcc_subset_unit h0 ht (uIoc_subset_uIcc hz)
+    rw [uIoc_of_le ht0] at hz
+    have hz' : z ∈ Icc (0 : ℝ) 1 := ⟨hz.1.le, hz.2.trans ht1⟩
     rw [norm_mul]
-    exact mul_le_mul (hi t z ht hz') (hCg z hz') (norm_nonneg _)
-      ((norm_nonneg _).trans (hi t z ht hz'))
+    exact mul_le_mul (hi t z hz.1.le hz.2 ht1) (hCg z hz') (norm_nonneg _)
+      ((norm_nonneg _).trans (hi t z hz.1.le hz.2 ht1))
   · have hnull : ∀ᵐ z ∂(volume : Measure ℝ), z ≠ t :=
       (measure_eq_zero_iff_ae_notMem.1 (measure_singleton t)).mono fun z hz => hz
     filter_upwards [hnull] with z hzt hz
