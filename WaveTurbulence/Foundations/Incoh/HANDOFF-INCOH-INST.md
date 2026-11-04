@@ -1,212 +1,108 @@
-# INCOH-INST working handoff
+# INCOH-INST — complete
 
-Status: in progress. Main merged first to `7b8b80c`; PL1 landed.
+## Exact export and files
 
-Pinned exact target: `/home/scott/wt-scratch/waveb2-snap-final/WaveB2-Statements.lean`,
-`WaveTurbulence.incoherentDecay`, SHA256
+Scratch root: `/home/scott/wt-scratch/incoh-inst`.
+Final entry: `src/IncohInst/IncoherentDecay.lean`.
+Proved declaration: `WaveTurbulence.IncohInst.incoherentDecay`.
+Its entire declaration header matches the pinned B2 final candidate verbatim, and its elaborated
+Lean type is literally equal to `WaveTurbulence.incoherentDecay` in the reference environment.
+
+Pinned statement: `/home/scott/wt-scratch/waveb2-snap-final/WaveB2-Statements.lean`, SHA256
 `82e42b2bfa16289ef6fadc35f2fbc8375cf28eda18658b35faef2b89556d99a4`.
-Exact type saved as `/home/scott/wt-scratch/incoh-inst/anchor-type.txt`, type SHA256
-`767dcebdce1a275d9b8fa595c2ef42dc9ac7c58f6f6d9ced5f1156f8775c11b3`.
-B2 Regular is `4d7f81ef...`; B1 Core/System are `0b8477d9...` / `59365906...`.
-The existing MEXP base stack has byte-identical copies of these inputs, with LINKS,
-ENHANCED, LAYERREG and REG-STRUCT proofs available for reuse.
 
-Files/progress:
-- Scratch `/home/scott/wt-scratch/incoh-inst/src/IncohInst/TreeShape.lean`:
-  exact source ternary tree → analytic tree, preserving order/nodes/leaves/branching.
-- Scratch `CoupleRows.lean`: actual C2 integer node rows, exact evaluation against
-  `decOfParams` in every coefficient group, root/parent/pair/link coordinate identities.
-- Scratch `CoupleCarrier.lean`: every `MomentumTreeData` field constructed from the actual
-  decoded source couple, with exactly its positive input leaves and computed link count.
-- Scratch `CoupleRoot.lean`: C2's signed leaf relation gives `RootInputCoordinates`; all leaves
-  carry inputs and their number is exactly `2n+1`.
-- Scratch `TreeRows.lean`: actual ENHANCED tree rows and their root/parent/pair/link identities.
-- Tree lone-leaf assignment and full tree carrier are under construction.
+Principal scratch modules:
+- `AllCoupleDecay`: all actual decoded incoherent couples, including the one-clock case.
+- `TreeDecay`: all actual decoded incoherent regular trees.
+- `CoupleKernelFromInputs`, `OneRootKernelFromInputs`, `TreeKernelFromInputs`: exact original B1
+  kernel identities, with all lattice/time convergence discharged from actual input bounds.
+- `ActualTreeSelection`, `TreeGraphBoundary`, `TreePhaseIntegral`: actual complete source links,
+  computed clock fibers, null boundary changes and exact causal phase-integral transport.
+- `DecodingObligations`: exact O1–O5, proved from REG-STRUCT rather than unfinished anchors.
+- `InputBounds`, `PrefixBounds`, `PrefixAssembly`: uniform actual inputs, coefficient enlargement,
+  and the complete exact parameter prefix.
 
-Foundations additions:
-- `CoupleCutoffUniformDecay.lean`: the exponential constant is chosen before eta and the
-  arbitrary smooth compact clock cutoff. Its scalar time integration factor is kept outside
-  the order power and absorbed into the existing exponent slack via the lattice threshold.
-- `AllCellCoupleCutoffUniformDecay.lean`: the same uniformity after full actual spatial
-  differentiation and counted spectral mixture.
-This is needed because B2's external box can lie above its roots' actual layers. A cutoff
-spanning the finite layer range must affect the threshold, not the source exponential constant.
-No gamma restriction beyond `0<gamma<1` was introduced.
+The 264 scratch modules in the proof closure have local source copies under `src/`, with origin
+and SHA256 in `SOURCE-PROVENANCE.tsv`. `clean-build-order.txt` records their dependency order.
+`proof-imports.txt` records the source import closure; `SHA256SUMS` records all authored proof
+modules and the 26 reusable Foundations modules added by this packet.
 
-Checks so far:
-- Narrow scratch module builds passed for TreeShape, CoupleRows, CoupleCarrier, CoupleRoot,
-  TreeRows, using `nice -n 5 lake env bash .../build-one.sh <module>`.
-- `nice -n 5 lake build WaveTurbulence.Foundations.Incoh.CoupleCutoffUniformDecay`:
-  build completed successfully (9303 jobs).
-- `nice -n 5 lake build WaveTurbulence.Foundations.Incoh.AllCellCoupleCutoffUniformDecay`:
-  build completed successfully (9410 jobs).
-- `nice -n 5 lake env lean /home/scott/wt-scratch/incoh-inst/check-foundations.lean`:
-  both new main Foundations results use `[propext, Classical.choice, Quot.sound]` only.
+Reusable Foundations additions are committed on `w/wke-l2s` after the initial merge of main
+(`7b8b80c`): c96fd55, 72e8480, b56ab5a, d28aeb5, 4240fb2, 06e7ab4. They provide cutoff-independent
+couple coefficients, upper-box source agreement and printed rates for couples/one-clock/trees,
+actual finite cutoffs, exact raw-source Fubini, selected coordinate constructions, null clock
+hyperplanes, computed finite graph fibers, and convergence with the lone input omitted.
+The complete filename list is `git diff --name-only 7b8b80c..HEAD -- WaveTurbulence/Foundations/Incoh`.
+Root imports and frozen files were not edited.
 
-Remaining: full source tree carrier, layer/count and time-domain identities, exact original
-kernel equality (including lattice decoration equivalence, phase, squared Wick factor and
-normalization), upper external time boxes, uniform inputs and parameter prefix, exact anchor
-text/Expr comparison, final axiom check. No claim of anchor completion yet.
+## Approach
 
-No new source errata or deviations; F62's squared Wick factor remains in force.
+Construct all finite integer momentum fields from C2's actual link-coordinate equivalences.
+Prove the node/input rows, root relation, leaf coverage, exact incoherence count and layer span.
+Retain F62's squared per-link Wick factor and the original garden sign. Identify original
+integer decorations, coset decorations, phase products and actual leaf products exactly.
+The finite clock bijections preserve Lebesgue measure with unit Jacobian.
 
-Further structural checkpoint:
-- Scratch `TreeLeafRows`, `TreeCarrier`, `CoupleLinkCoordinates`, `CoupleLayers`,
-  `TreeLinkCoordinates`, `TreeLayers` all pass their focused scratch builds.
-- Both actual source carriers are now constructed, with the tree lone leaf represented
-  by `none` and proved to carry exactly the root row; source input counts are `2n+1` / `2n`.
-- Both link endpoint maps are proved bijections onto all source branching nodes.
-  The actual analytic layer families have exactly the source incoherence count and the
-  source layer-span bound. No decoding or analytic bound was assumed in place of these proofs.
-- `CoupleUpperBoxAgreement` builds (9308 jobs): scalar exact agreement above root layers.
-- `MaskedRawCoupleUpperAgreement` builds (9431 jobs): full counted, masked spectral extension
-  agrees with the raw source on the larger external box, using the actual cutoff.
-- The O1–O5 proofs are being checked from the final-candidate REG-STRUCT rebuild in
-  wt-orch's `t32/build`, after MEXP's byte-identical final definitions in the search path.
+For couples, classify both roots. A trivial other tree gives the actual one-clock source;
+the passive external clock is retained separately. For trees, select the root link and final
+top-level spine link (one or two complete links). Actual path geometry orders their endpoints.
+Compute interval fibers by finite maxima/minima of layer and parent-child constraints, proving
+all carrier fields. Strict/closed source domains agree off proved null coordinate hyperplanes.
+The extreme selected clocks are exactly the original root and the unique lone parent.
 
-Upper-box analytic checkpoint:
-- `TreeUpperBoxAgreement`, `MaskedRawTreeUpperAgreement`, `TreeRootUpperAgreement` build
-  successfully (9559 jobs). The external time condition is exactly forward clocks and cutoff
-  equal to one at the external endpoints; they need not lie in the selected internal root box.
-- `FullRawCoupleUpperRestrictionDecay` builds (9437 jobs): any external set above the actual
-  root layers and covered by the chosen cutoff, with the exponential constant before cutoff.
-- `FullRawTreeUpperRestrictionDecay` builds (9563 jobs): any external forward-clock set
-  covered by the chosen cutoff; all root-partition spatial derivatives are preserved.
-- Scratch `NormBridge` checks `XNormRestr ≤ mixedRestrictionNorm` at arbitrary spatial weight,
-  including the exact B2 smoothness guards; it does not change the restriction domain.
-- Scratch `DecorationEquivalences` checks exact bijections of the original B1 `GenDecoration`
-  subtypes with C2's couple/tree link-lattice coordinates. No convergence hypothesis enters
-  these finite-coordinate bijections.
-- `axioms-rows.log`: both source carriers, their root/count identities and the couple link
-  equivalence use only `[propext, Classical.choice, Quot.sound]` (8 results).
+Absolute convergence from actual spatial input bounds justifies exact lattice/time Fubini.
+For the omitted tree lone input, choose a nonzero smooth root partition value at fixed momentum,
+prove augmented convergence and cancel that scalar. Apply the accepted abstract Prop 5.1
+estimates on B2's exact external boxes. Choose a common C1 before nu, delta and D; use uniform
+Schwartz control plus the actual remainder estimate; convert link count to n using source size.
+The final coefficient includes the printed outside C1.
 
-`check-foundations.lean` / `axioms-foundations.log` now audits seven cutoff-uniform and
-upper-box results, including both full raw spatial restriction bounds. Every result uses
-only `[propext, Classical.choice, Quot.sound]`. No source estimate was weakened and no
-restriction on gamma was added. The exact B2 anchor is still not claimed proved.
+## Exact checks and outputs
 
-Kernel-identity checkpoint:
-- `ClockTransport` proves that the actual C2 endpoint reindexings preserve product Lebesgue
-  measure, and that each reindexed source endpoint reads exactly its original link clock.
-- `WickFactors` proves exact per-link squared Wick factors for BOTH couples and paired trees.
-  The tree result is proved from the actual endpoint partition and `tree_xy_link`, not assumed.
-- `PhaseIdentity.couple_phaseProd_eq_links` proves the exact source couple phase identity,
-  retaining B1's pi normalization and the analytic `e(z)=exp(2*pi*i*z)` convention.
-- `DecorationEquivalences` uses the actual no-flower constraints of each decoded object to
-  identify the literal `GenDecoration` subtype with the C2 integer link coordinates.
-- `RootCoordinatesOfEmbedding` constructs the analytic root-time permutation from any actual
-  embedding of selected source vertices; its computed root vertices equal the given vertices.
-  Narrow build succeeds (9132 jobs).
+All commands below ran from `/home/scott/WaveTurbulence-worktrees/wke-l2s`, serially through
+`wt-throttled`, without budget overrides or rebuilding Mathlib.
 
-Further exact identities checked:
-- `TreePhaseIdentity.tree_phaseProd_eq_links` now compiles as well.
-- `InputProductIdentity` proves the literal analytic input products equal the original B1
-  `inputLeaves` products, with every leaf's original layer; both couple and tree cases compile.
-- `CosetDecorationIdentity` proves that the C2 real decoration with root `k` and lattice link
-  parameters equals exactly B1's `cosetDecoration k` of the integer C2 decoration. It uses the
-  frozen `latticePoint` as an actual additive homomorphism, with no scale restrictions.
-- Remaining main assembly obligations are time-domain identities/fibers, exact lattice-sum /
-  integral interchange, one-clock upper-box transport, uniform inputs and WTPrefix assembly,
-  followed by the final type/axiom checks. No mathematical obstruction has been found.
+1. Targeted `nice -n 5 lake build WaveTurbulence.Foundations.Incoh.<Module>` for each new
+   Foundations milestone: PASS. Relevant logs/probes are retained in scratch.
+2. `nice -n 5 lake env bash /home/scott/wt-scratch/incoh-inst/rebuild-clean.sh`:
+   `CLEAN SCRATCH REBUILD: PASS` — all 264 scratch proof/dependency modules rebuilt serially
+   into the new packet-owned `build-clean`. Project and Mathlib artifacts were reused.
+3. `nice -n 5 lake env bash /home/scott/wt-scratch/incoh-inst/build-one.sh IncohInst.AuditFinal`:
+   `'WaveTurbulence.IncohInst.incoherentDecay' depends on axioms: [propext, Classical.choice, Quot.sound]`.
+4. `nice -n 5 lake env bash /home/scott/wt-scratch/incoh-inst/run-type-audit.sh`:
+   `ELABORATED EXPR CHECK: PASS (literal Expr equality in independent environments)`;
+   `REACHABLE SOURCE DEFINITION EXPR CHECK: PASS (214 declarations, types and values)`.
+5. `python3 /home/scott/wt-scratch/incoh-inst/verify_source.py`:
+   source-definition pin check PASS; complete theorem-header text check PASS;
+   proof import quarantine PASS (870 source modules); own-file hygiene PASS (109 modules).
+6. `git diff --check`: PASS.
 
-`TemporalSourceIdentity` now compiles for BOTH couples and trees: the original integer
-`epsDec` multiplied by the original phase at the original coset decoration is exactly the
-analytic `sourceTemporalPhase`, including squared Wick factors and unchanged normalization.
-`SourceTimeMeasurability` proves measurability of the original `kDomain` from its literal
-layer, parent-child and lone-parent constraints. These are source identities, not estimates.
+Final logs: `rebuild-clean.log`, `build-final.log`, `type-expr-audit.log`, `source-audit.log`.
+Component axiom logs: `axioms-all-couple.log`, `axioms-actual-tree.log`, `axioms-graph-fibers.log`,
+`axioms-kernel-ingredients.log`, `axioms-time-domains.log`, `axioms-foundations.log`.
+All audited results use only `[propext, Classical.choice, Quot.sound]`.
 
-The two-root source-domain reduction is now checked: `CoupleTimeBoundary` identifies the
-strict original domain with `internalTimeDomain ∩` the closed source root cuts almost
-everywhere, using `Measure.ae_eval_ne` for the two null root hyperplanes. The internal child
-inequalities imply every branch clock is at most its actual root (`TreeTimeOrder`,
-`ForestTimeOrder`). `CouplePhaseIntegral` then transports the original phase integral exactly
-to the computed analytic internal domain/root cut, by the proved measure-preserving clock map.
+## Import quarantine and source fidelity
 
-`RawSourceTimeFubini` builds (9207 jobs): actual raw leaf summability and finite source time-box
-volume prove literal lattice/time interchange. Its summability premise is a conditional helper
-premise, to be discharged by `SourceAbsoluteConvergence` at the final source input bounds.
+The initial proof did not use any unfinished theorem, as its axiom audit confirmed. The final
+source audit nevertheless found six unused draft theorem declarations bundled in the shared
+scratch `WaveB2Draft.Regular` module. The isolated local copy omits precisely that draft theorem
+section, preserving every source definition and carrier body. Exact O1–O5 are actually proved
+in `DecodingObligations`. The entire scratch proof closure was then rebuilt against this copy.
+The final scripts use only `build-clean` plus the project Lake path; old shared scratch builds
+are not used. See `CLEAN-DEFINITIONS.md` for the exact transformation and provenance.
 
-`CoupleKernelIdentity.KQstar_eq_raw_of_summable` now compiles: it identifies the literal B1
-`KQstar` with the actual analytic raw source kernel, including the original decoration sum,
-coupling power, global garden sign, Wick factor, phase integral and input product. The explicitly
-named conditional helper uses summability only for Fubini. `CoupleKernelFromInputs.KQstar_eq_raw`
-also compiles and discharges that summability from the actual source `40d,40d` input bounds.
-`GardenSign` checks the original garden sign has unit modulus and retains its exact value.
-`CoupleUpperPropositionRate` builds (9441 jobs): printed spatial order and square-root eta
-loss on upper boxes, with `C1` chosen before eta and the finite layer cutoff.
+The original draft Statements module is loaded only as the reference in the independent type
+audit environment. It is never a proof import. Its source is byte-identical to the pinned final
+candidate. Core/System copies are byte-identical to their pins; the complete Regular copy is
+textually identical apart from the omitted draft theorem section. The 214 reachable source
+declaration types and values also pass the elaborated comparison.
 
-`axioms-kernel-ingredients.log` checks 14 exact phase/Wick/clock/lattice/input/coset results;
-each uses only `[propext, Classical.choice, Quot.sound]`.
+## Uncertainties, errata and deviations
 
-Actual original-kernel estimate checkpoint:
-- Scratch `CoupleDecay.exists_KQstar_twoRoot_decay` compiles. This is the literal original B1
-  `KQstar` estimate on the EXACT B2 `timeBox q q'`, in the exact B2 weighted spatial restriction
-  norm, for every decoded couple with two branching roots. All finite carrier fields, lattice/time
-  summability, root box conditions and norm bridges are discharged. Its exponential constant is
-  chosen before eta, delta and the total number of layers. It remains a component theorem, not
-  the final exact B2 anchor (one-clock/tree/prefix assembly remain).
-- `FiniteLayerCutoff` is an actual smooth compact cutoff covering the whole finite source range;
-  its pointwise equality on the closed range is proved, not assumed.
-- `MaskedRawOneClockUpperAgreement`, `FullRawOneClockUpperRestrictionDecay` compile (9439 jobs).
-  `OneClockUpperPropositionRate` compiles (9442 jobs): the printed one-clock rate on upper boxes,
-  with the same passive-clock translation and cutoff-independent exponential constant.
-- The expanded `axioms-foundations.log` checks every new principal analytic upper-box and Fubini
-  helper above and the root embedding helper: standard axioms only.
+None outstanding. No new suspected source erratum. No extra hypothesis and no restriction beyond
+`0 < γ < 1` was introduced. F62's squared Wick factor is retained. Some component estimates are
+stronger than the source's layer/order assumptions; the exported anchor preserves every binder
+and premise verbatim. The largest scratch Lean module has 695 lines.
 
-The actual two-root source estimate has now been axiom-checked:
-`axioms-actual-couple.log` prints exactly `[propext, Classical.choice, Quot.sound]` for
-`exists_KQstar_twoRoot_decay`, both raw kernel identities, the exact source summand identity,
-the garden Circle construction and the root-layer bridge. `axioms-time-domains.log` likewise
-checks the source root-order, null-boundary and exact phase-integral transport results.
-
-Complete original-couple checkpoint (continuing with tree and prefix assembly):
-- `OneRootDecay.exists_KQstar_oneRoot_decay` and
-  `AllCoupleDecay.exists_KQstar_decay` compile in scratch. The latter covers every actual decoded
-  couple with positive incoherency, classifying the two source roots and deriving the one-clock
-  shape from the other tree being trivial. No additional root premise remains.
-- `OneClockUpperBox` and `SelectedClocksOfLinks` compile: actual shifted upper-box coverage and
-  complete selected endpoint pairs from any embedding of actual distinct links.
-- `ClockHyperplanes` builds (2597 jobs): distinct finite coordinate clocks are unequal almost
-  everywhere, by the null proper linear subspace theorem.
-- `GraphClockBounds` builds (9135 jobs): finite maxima/minima of actual layer and graph constraints,
-  measurability, exact interval characterizations, and empty inconsistent intervals.
-- `GraphTreeFibers` builds (9136 jobs): all rectangular-fiber carrier fields constructed from
-  selected actual links and a finite parent-child graph, including measurable remaining domain
-  and interval containment. Source-domain identification is still in progress.
-- Scratch `TreeSpineEndpoints` compiled its last-link membership and lone-parent identification;
-  additional ancestor/existence lemmas are being checked.
-
-Tree graph comparison checkpoint:
-- `GraphClockCoordinates` (9137 jobs) reads actual remaining coordinates and proves selected/rest
-  vertices exhaust the source endpoints.
-- `GraphTreeDomain` (9139 jobs) identifies the computed fiber domain with the literal finite layer,
-  remaining-edge, mixed-edge and selected-order constraints.
-- `GraphTreeComparison` (9140 jobs) compares those intervals to strict graph constraints away from
-  coordinate equality hyperplanes; its edge orientation premise is finite source geometry.
-- `TreeUpperPropositionRate` (9567 jobs) gives the printed `30d,0` rate on arbitrary forward
-  external boxes covered by the cutoff, with constant before cutoff/total layer count.
-- `axioms-graph-fibers.log` audits the construction, comparison, null hyperplanes and printed tree
-  rate: all exactly `[propext, Classical.choice, Quot.sound]`.
-- `axioms-all-couple.log` audits the complete actual-couple estimate and one-root estimate:
-  all exactly `[propext, Classical.choice, Quot.sound]`.
-- Scratch `TreeSpineEndpoints`, `AncestorTimeOrder`, `TreeSpineSelection`, `TreeSourceGraph`
-  compile: actual last link membership and lone-parent path, strict ancestor clock order,
-  source link indices, parent-child graph and null graph-edge equality boundaries.
-
-Complete original-tree checkpoint (continuing with exact prefix/type audit):
-- Scratch `TreeClockSelection`, `TreeTwoLinkSelection`, `ActualTreeSelection` construct the two
-  source cases, including all ancestor geometry, complete pair selection, root and lone-parent.
-- `TreeGraphDomain`, `TreeGraphBoundary` identify the actual internal source domain with computed
-  fibers almost everywhere; every layer/edge equality removed is proved null.
-- `TreeRootClocks`, `TreeLoneParent`, `TreeTimeBoundary`, `TreePhaseIntegral` prove exact root and
-  lone-parent coordinates, uniqueness of the original lone parent, external causal cuts and the
-  original phase integral identity.
-- `TreeSummandIdentity`, `TreeKernelIdentity`, `TreeKernelFromInputs` identify literal B1 `KTstar`
-  with the raw analytic source tree kernel; input summability is discharged.
-- `TreeSourceAbsoluteConvergence` builds (9514 jobs): choose a nonzero smooth root partition at
-  fixed root momentum, prove augmented absolute convergence, and cancel that scalar. This avoids
-  imposing decay on the omitted lone-leaf input.
-- `TreeExternalBox`, `TreeDecay.exists_KTstar_decay` compile: the exact B2 `30d,0` norm and
-  `timeBoxGt` with constants before total layer count and cutoff, for all decoded incoherent trees.
-- `axioms-actual-tree.log` checks the tree estimate, original kernel identity, internal-domain a.e.
-  identity, exact phase transport and convergence theorem: standard axioms only.
+READY incoh-inst
