@@ -211,3 +211,28 @@ Every result printed exactly `[propext, Classical.choice, Quot.sound]`.
 
 Still pending: the smooth cell/center decomposition with summable coefficients, its insertion
 into the actual source lattice/time kernel, derivative/weight assembly, and abstract Prop 5.1.
+
+## Smooth localization coefficients proved
+
+`SmoothLeafCells` uses the landed `ApproxNT.thetaMom` partition literally. `hasSum_leafCell`
+and `tsum_leafCell` recover the input pointwise; each cell retains the finite source smoothness
+and has actual compact support. No hard momentum indicator is used in Fourier inversion.
+`LeafCellProfile` proves the translated support and uniform derivative-integral bound.
+`SpatialCenterDecay` transfers the literal source Japanese-bracket decay to each cell center.
+The support-local extension `derivativeL1Sum_mul_le_on_support` of the landed product estimate
+preserves that decay. `LeafCellDerivativeDecay` and `LeafCellFourierDecay` prove the actual cell
+Sobolev and Fourier-L¹ bounds, with explicit constants independent of the center.
+
+`CellCenterSummability` proves summability of `1 / ⟨c⟩^M` for `M≥2d` from the landed lattice
+weight estimate. In particular `tsum_timeFourierNorm_leafCell_lt_top` proves a finite total
+Fourier coefficient over all cells directly from the source spatial norm, without assuming a
+Fourier norm bound. Focused build `LeafCellFourierDecay` passed (`9082 jobs`).
+`AxiomsSmoothCells.lean` audited exact cell recovery, support-local multiplication, actual cell
+Sobolev decay, center summability and both Fourier results: all six printed exactly
+`[propext, Classical.choice, Quot.sound]`.
+
+The existing `DominatedFourierMixture` API is the intended couple assembly tool: its amplitude
+envelope is pointwise in the spectral variable, so Tonelli keeps the momentum supremum in the
+correct order. No change of norm order is needed to recombine the scalar couple kernels.
+The source lattice/time identity for the fully recombined localized leaf product and the final
+momentum derivative/weight estimates remain open tasks.
