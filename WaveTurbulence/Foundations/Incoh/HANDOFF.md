@@ -300,3 +300,32 @@ passed. Scratch `AxiomsFiniteLocalization.lean`, log `axioms-finite-localization
 nine main results: each depends exactly on `[propext, Classical.choice, Quot.sound]`.
 No new source errata or weakened estimates were introduced. This is a stage-2 milestone,
 not completion of the source operator assembly.
+
+## Stage 2: literal signed spectral decomposition
+
+`HalfLinkCellFourier` proves smoothness, compact support, exact translation, finite Fourier
+norms and pointwise Fourier-amplitude invariance of the actual half-width profiles.
+`CellFourierInversion` uses finite source smoothness for actual leaf-cell inversion.
+`FiniteCellProductFourier` is the finite-product inversion/integrability transport helper;
+`LocalizedCellProfiles` discharges its continuity and Fourier integrability premises directly
+from the source spatial norm.
+
+`LocalizedSpectralIdentity` proves the exact signed Fourier integral identity for the actual
+localized input product times a link-cell array, and proves its spectral integrability.
+`LocalizedSpectralEnvelope` identifies its pointwise amplitude with an actual reference density
+independent of all momenta and all link-cell centers. `LocalizedSpectralMass` factors its mass
+into the actual one-cell norms. `LocalizedSpectralMassBound` proves the full countable
+leaf-array coefficient bound `C_half^(2n) (C_leaf B)^m`. These facts retain the source supremum
+order. `FiniteSpectralDecomposition` combines the actual finite localization with these literal
+spectral densities; the finite cover is chosen before the functions, sign and momentum variables.
+P-3's global sign is present in both this identity and its spectral integrands.
+
+The lattice/time interchange, identification of spectral shifts with the analytic link factors,
+and final spatial derivative/weight assembly remain to be completed. These modules do not
+claim the final Prop 5.1 estimate or assume it as an interface field.
+
+Spectral milestone checks: `nice -n 5 lake build
+WaveTurbulence.Foundations.Incoh.FiniteSpectralDecomposition` passed (`9181 jobs`).
+Scratch `AxiomsSpectralLocalization.lean`, log `axioms-spectral-localization.log`, audited
+seven main identities, integrability, envelope and total-mass results. Each prints exactly
+`[propext, Classical.choice, Quot.sound]`. No source errata or additional source hypotheses.
