@@ -1,6 +1,6 @@
 # PL1 working handoff — carrier interface
 
-Status: **in progress**, 2026-11-04. This is the requested C2 instantiation interface, not a `READY pl1-core` claim. Stage 1 still needs the canonical source-agreement check and the tree ordered-boundary/phase assembly; Stages 2–3 remain open.
+Status: **in progress**, 2026-11-04. This is the requested C2 instantiation interface, not a `READY pl1-core` claim. The couple analytic core, including canonical source agreement, is complete. Stage 1 still needs the tree ordered-boundary/phase assembly; Stages 2–3 remain open.
 
 ## Structural data
 
@@ -50,4 +50,4 @@ Before F62, focused gated builds passed for the literal short- and long-time bou
 
 The scratch audit `/home/scott/wt-scratch/wke-l2s/pl1/AxiomsFrequency.lean` printed exactly `[propext, Classical.choice, Quot.sound]` for `exists_shortTime_box_bounds`, `exists_longTime_box_bounds`, `mixedFourierNorm00_interpolate`, and `eLpNorm_le_of_one_and_pointwise`. This audit will be repeated after the F62 rebuild and for the final assembled results.
 
-The corrected-mask `RootDensityLp.lean` and `CoupleExtension.lean` now build, proving the physical interpolation and positive couple Fourier estimate. `/home/scott/wt-scratch/wke-l2s/pl1/AxiomsSquared.lean` rechecked the corrected mask, both frequency box bounds, root endpoints, physical Lp bound, couple Fourier bound, and mixed interpolation: every result uses exactly `[propext, Classical.choice, Quot.sound]`. The source-agreement check for the canonical cutoff extension is underway. The full core theorem, tree Fourier/derivative assembly, localization, and abstract `proplayer1` are not yet claimed proved. No `READY` milestone is claimed by this working handoff.
+The corrected-mask `RootDensityLp.lean` and `CoupleExtension.lean` now build, proving the physical interpolation and positive couple Fourier estimate. `/home/scott/wt-scratch/wke-l2s/pl1/AxiomsSquared.lean` rechecked the corrected mask, both frequency box bounds, root endpoints, physical Lp bound, couple Fourier bound, and mixed interpolation: every result uses exactly `[propext, Classical.choice, Quot.sound]`. Commit `88f1def` proves `cumulativeKernel_eq_setIntegral`, `cumulativeKernel_eq_localBoxIntegral`, `coupleExtension_agrees` on the full root box, and `exists_cumulativeKernel_timeRestriction_bound` with exponent `γ₁−100dη`. The focused `CoupleExtensionAgreement` build passed. The scratch audit `AxiomsCouple.lean` checked all four declarations: each uses exactly `[propext, Classical.choice, Quot.sound]`. The full core theorem, tree Fourier/derivative assembly, localization, and abstract `proplayer1` are not yet claimed proved. No `READY` milestone is claimed by this working handoff.
