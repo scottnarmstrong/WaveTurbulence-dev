@@ -355,3 +355,34 @@ Axioms.lean exit0; 261 printed declarations use only subsets of
 `[propext, Classical.choice, Quot.sound]`, including the audit example. No new
 Lean is committed to the repo (Wave B pre-freeze). Continuing independent
 transport/decoration work while the containment reading is pending.
+
+## All vine-like outer structural cases; compatible-containment ruling
+
+Owner ruling 2026-11-04 (flagged for audit): hyper-blocks are designated
+objects. For equal atom groups, containment requires the same deleted bond
+up to mates; different designations on the same group are distinct, non-nested
+objects. For different atom groups containment remains atom-set inclusion.
+`HyperLikeRealization.IsContained` implements exactly that reading. The
+kernel-checked triple-bond example explains why plain atom-set inclusion is
+insufficient; it is audit evidence, not a claimed template defect. This ruling
+supersedes the pending question in the preceding checkpoint.
+
+`VineLocalDartGaps` preserves exact gap darts; mate deletion is identified by
+`eraseBond_mate_local_embedding`. `VineEraseBondDecoration` constructs the
+restricted source decoration with adjusted endpoint defects and proves all
+full-degree defects remain zero. `VineHyperGapProperness` rules out equal
+SG/LG-ZG hyper groups under compatible containment and proves the full inner
+hyper-object clause for outer HV/HVC. `VineSGVCInHyperLike` proves the ordinary
+inner-VC clause, using the checked both-joints or external-deletion reductions.
+
+`VineLikeGapObjects` retains the source VC/hyper distinction and designation.
+`VineSubsetVCVineLike.subsetvc_vineLike_classification` now proves **all**
+structural classifications for an LG/ZG outer VC/HV/HVC and an SG contained
+VC/HV/HVC, with arbitrary rung counts and no conclusion-shaped assumptions.
+The separate DV and simultaneous-removal clauses are not yet claimed.
+
+Checks: all focused targets exit0 with no final warnings; VineTools and the
+expanded Axioms.lean exit0. All 274 printed declarations use only subsets of
+`[propext, Classical.choice, Quot.sound]`. No pinned definition changed.
+Remaining M4: DV structural case, simultaneous ordinary/mixed removal,
+realization-independent coherence. Continuing directly.
