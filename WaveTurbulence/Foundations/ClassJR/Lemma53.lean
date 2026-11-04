@@ -28,6 +28,7 @@ section Reassoc
 variable {P P' Q : Type*} [MeasureSpace P] [MeasureSpace P'] [MeasureSpace Q]
   [SFinite (volume : Measure P)] [SFinite (volume : Measure P')] [SFinite (volume : Measure Q)]
 
+omit [SFinite (volume : Measure P)] in
 theorem integrable_comp_prodAssoc {F : P × (P' × Q) → ℂ} (hF : Integrable F) :
     Integrable (F ∘ MeasurableEquiv.prodAssoc) :=
   ((volume_preserving_prodAssoc (α₁ := P) (β₁ := P') (γ₁ := Q)).integrable_comp_emb
@@ -43,6 +44,7 @@ theorem integral_reassoc {F : P × (P' × Q) → ℂ} (hF : Integrable F) :
   rw [hv] at hFc ⊢
   exact (integral_prod (fun x => F (MeasurableEquiv.prodAssoc x)) hFc).symm
 
+omit [SFinite (volume : Measure P)] in
 theorem integrable_reassoc {F : P × (P' × Q) → ℂ} (hF : Integrable F) :
     Integrable fun p : P × P' => ∫ q : Q, F (p.1, (p.2, q)) := by
   have hFc := integrable_comp_prodAssoc hF

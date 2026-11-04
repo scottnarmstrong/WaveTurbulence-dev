@@ -139,8 +139,10 @@ variable {ι₁ ι₂ : Type*} [Fintype ι₁] [Fintype ι₂]
 @[expose] def optB (β : (ι₁ ⊕ ι₂) ⊕ Unit → ℝ) : Option ι₂ → ℝ :=
   fun o => o.elim (β (Sum.inr ())) fun j => β (Sum.inl (Sum.inr j))
 
+omit [Fintype ι₁] [Fintype ι₂] in
 theorem nsp_optB (β : (ι₁ ⊕ ι₂) ⊕ Unit → ℝ) : nsp (optB β) = vB β := rfl
 
+omit [Fintype ι₁] [Fintype ι₂] in
 theorem optB_none (β : (ι₁ ⊕ ι₂) ⊕ Unit → ℝ) : optB β none = β (Sum.inr ()) := rfl
 
 /-- **The kernel identity of `J R`** for basic operators (DH21 L1009–L1017). -/
