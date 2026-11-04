@@ -441,3 +441,7 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   range N ≤ N_{p+1}^4. Ruling: option (a) — the error for cutoff variants is ⟨k−ζk'⟩^{−4Λ_{p+1}P}·e^{−101N_{p+1}} (no
   M₁/M₂ factors on the error), provided X3's fixedpoint proof uses the M-gains only on main terms (wt-gauss-hc to
   confirm by rebuilding X3). No frozen text changes (B1.12 unchanged). Found by wt-gauss-hc (X2E-4).
+  **Superseded (2026-11-04):** option (c) works — a single stem-node time integral with |Ω| > 2^{j₂−2}L gives
+  |fkCoef| ≤ 8/(πδL^{2γ}M₂) per tree on the cutoff's support, bounding the deterministic coefficient shared by main and
+  error terms, so O-X2-EXP holds as originally stated (M₁ from the leaf weights); X2 and X3 unchanged
+  (`wt-scratch/x2e/FINDING-X2E5.md`).
