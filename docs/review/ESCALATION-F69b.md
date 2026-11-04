@@ -72,6 +72,12 @@ new analytic input (a log-free time bound for long chains or a Prop 7.6-type est
 (write to the authors). Independently of the decision, the case-(4) counts for γ ∈ (1/2, 1) (all T-type classes) are
 being researched now, since every option needs them.
 
+
+**Update 3 (2026-11-04, FINDINGS F75, `docs/research/case4-gamma-above-half.txt`):** for γ ∈ (1/2, 1) the gap is
+**closed** by a new uniform argument (Theorem A), resting on DH23 Lemma A.2(3)'s γ > 1/2 branch (sketched in DH23, to be
+proved in Lean) and ylem2; independent check commissioned. So option (2) — restrict the formal target to γ ∈ (1/2, 1) —
+now has a complete mathematical route. The threshold 1/2 is exactly A.2(3)'s branch point, matching the necklace.
+
 ## What it means for the formalization
 
 Ruling D2 sets the target as **0 < γ < 1**, and the frozen `main` (Wave A) quantifies over `γ ∈ Ioo 0 1`. The

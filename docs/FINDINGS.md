@@ -368,3 +368,13 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   the class condition is pointwise: for an arbitrary version of the Gaussian data, outcomes whose data do not decay have
   no classed solution. No statement changes (the frozen statements are unaffected). Note: the approval recorded in
   INDUCT's WORKLOG as the "user's" was the orchestrator's ruling, not the author's.
+- F75 — DH23 Prop 9.6 case (4) for γ ∈ (1/2, 1): **closed by new argument** (research note
+  `docs/research/case4-gamma-above-half.txt`, Theorem A; independent check commissioned). For a case-(4) component
+  whose closure 𝕄₁ (Y)-reduces to T: operation (c) on the first β-chain (Lemma A.3(1), cost L^{γ₀}), operation (d) on the
+  second (cost (log L)^C), at most two (Y) sequences (ylem2, + a not-removed variant) to T minus a bond, and Lemma
+  A.2(3)'s γ > 1/2 branch on the system {(1,2,3),(1,4,5)} gives L^{−γ₀−10η}; total 𝔄₀ ≲ δ⁻¹(log L)^C L^{−10η}. Only
+  η ≪ γ − 1/2 is needed (DH23 L438, L2076; TARGET L606); covers all orientations and gaps, and the drawn vines
+  (III)–(VIII). Parity: T-type = odd atom count; Q-type = vines (II), m ≥ 1 (F72). Checks: 8766/8766 directed classes
+  pass the structural steps; brute force agrees to 9 atoms. Rests on DH23 Lemma A.2(3) (γ > 1/2 branch, only sketched
+  at L2088–L2091; numerics support it) and ylem2. Lean needs: the γ > 1/2 refinement of (basiccount02), ylem2, the
+  operation (c)/(d) deviation lemmas, a few graph lemmas, and a γ > 1/2 hypothesis.
