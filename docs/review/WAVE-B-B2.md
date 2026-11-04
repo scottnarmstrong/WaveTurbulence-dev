@@ -1,37 +1,43 @@
 # Wave B (tier B2) — freeze candidate for author approval
 
-Snapshot `/home/scott/wt-scratch/waveb2-snap-final` · prepared 2026-11-04 (B2-CL-1 to B2-CL-19; supersedes the audited
+Snapshot `/home/scott/wt-scratch/waveb2-snap-final` · prepared 2026-11-04 (B2-CL-1 to B2-CL-20; supersedes the audited
 snap-2 and snap-3).
 
 **This is the exact Lean to be frozen**, exactly as for Wave A (D6) and as prepared for Wave B tier B1 (D7, pending):
 - one declaration per file under `WaveTurbulence/Frozen/`;
-- theorems with body `by sorry`, as `DRAFT_SORRY` anchors;
+- the two theorems with body `by sorry`, as `DRAFT_SORRY` anchors;
 - definitions sealed.
 
 **File hashes:**
 - `WaveB2-Regular.lean` 4d7f81efa32b…;
 - `WaveB2-Molecules.lean` 89ff648ed5a3…;
 - `WaveB2-Statements.lean` 82e42b2bfa16…;
-- `FREEZE-LIST.md` 749daeb81908…;
-- `SHA256SUMS` b2d8c4aafde9….
+- `FREEZE-LIST.md` 8967e57cfa83…;
+- `SHA256SUMS` be649b881fb1….
 
 **B1 base:** snapshot 6, `WaveB1-Core.lean` 0b8477d9943a… and
 `WaveB1-System.lean` 59365906b84a…; once D7 lands, these are the B1 frozen definitions.
 
 ## 1. What is frozen
 
-**89 declarations.** These are the frozen consumers below and exactly the B2 declarations they reach (B2-CL-18):
-- 9 theorems, 71 defs, 3 abbrevs, 2 structures, 3 inductives, and 1 instance-def;
-- by file: Regular 71, Molecules 12, Statements 6.
+**Two theorem anchors, B2.1 and B2.2, and the 59 declarations they reach** (B2-CL-20):
+- 2 theorems, 51 defs, 2 abbrevs, 1 structure, 2 inductives, and 1 instance-def;
+- by file: Regular 53, Statements 6, Molecules none.
 
 The full list, with source citations and dependencies, is the snapshot's `FREEZE-LIST.md`, copied to
-[`WAVE-B-B2-FREEZE-LIST.md`](WAVE-B-B2-FREEZE-LIST.md). **76 further declarations stay in the files but are held out
-with B2.3** (§2 item 3).
+[`WAVE-B-B2-FREEZE-LIST.md`](WAVE-B-B2-FREEZE-LIST.md). **106 further declarations stay in the files but are not
+frozen** (§2 item 3). The anchor total is Wave A 2 + B1 12 + B2 2 = **16**.
 
 | # | Lean name | TARGET / DH source | what it says | proof status |
 |---|---|---|---|---|
 | B2.1 | `regularAsymptotics` | Props `regref1`–`regref3` L1145–L1232 (F11, F61, F66) | (1) A layered regular couple in one layer `r`: `K*_𝒬` equals its explicit leading term `(K*_𝒬)_app` up to `C₁(C₁δ)^n L^{−(γ₁−√η)}` in `𝔛^{η,30d,30d}`. (2) The same for regular trees, lone leaf in layer `q' ≤ r`. (3) `𝒥ℬ*` and `ℳ*` are bounded by `C₁C₁^n`. (4) At `r = p`, `R = 0`, the dominant leading terms sum to the WKE Taylor term `𝒰_n^{(p)}`. | open (the main analytic anchor of B2) |
 | B2.2 | `incoherentDecay` | Prop `proplayer1` L953–L956 (standing assumptions L946–L951) | Layered regular couples and trees with incoherency index `g ≥ 1` decay: `‖K*‖ ≤ C₁(C₁δ)^n L^{−(γ₁−√η)g}`. | the PL1 analytic core is proved (wt-l2s `Foundations/Incoh`, `fb174c5`; `PL1-core.md`, with P-1 open); assembly open |
+
+**Non-frozen characterization lemmas (CL-20).** These are editable targets that stay in the files. At freeze time
+they move to a non-frozen module, as B1's lemmas did. They say what the codes mean.
+
+| # | Lean name | TARGET / DH source | what it says | proof status |
+|---|---|---|---|---|
 | O1 | `RegCpl.exists_decodes` | Prop `propstructure` L851–L869, Def `defreg` | Decoding a well-formed couple code gives a regular couple. | open |
 | O2 | `existsUnique_regCpl_decodes` | `propstructure` (a),(b); DH21 Props 4.5, 4.7, 4.8 | Every regular couple has exactly one well-formed code. | **proved in scratch** (REG-STRUCT, `REG-STRUCT-prefreeze.md` S4) |
 | O3 | `RegChain.exists_decodesTree` | `propstructure`, last part | Decoding a well-formed chain code gives a regular tree of either root sign. | open |
@@ -57,12 +63,23 @@ with B2.3** (§2 item 3).
    - **F-5:** the principal value `pvResonantIntegral` is characterized for decaying, not compactly supported,
      kernels by `tendsto_pvResonantIntegral_of_decay`. It was proved by wt-ansob (PV-DECAY, landing as
      `Foundations/Resonant/PVDecay*`) and is cited in the docstring (B2-CL-19).
-3. **Scope: the consumer-reachable closure, and B2.3 held out** (B2-CL-18; the orchestrator's small-frozen-surface
-   ruling).
-   - Only declarations reachable from a frozen consumer are frozen.
-   - **B2.3 `rigidity` (T Prop `lgmolect`) stays unfrozen**, together with its 12 section helpers and the 63
-     declarations that no frozen theorem reaches: 43 used only by B2.3, such as `countA`, `IsLadder` and `IsBlock`,
-     and 20 used by no theorem.
+3. **Scope: the closure of B2.1 and B2.2, with B2.3 held out** (B2-CL-18, CL-20; the orchestrator's rulings: small
+   frozen surface, about 20 anchors).
+   - Only declarations reachable from B2.1 or B2.2 are frozen.
+   - **Not frozen (106):**
+     - the B2.3 section (13);
+     - the seven characterization lemmas O1–O7 and the 15 declarations only they reach;
+     - 51 declarations used only by B2.3, such as `countA`, `IsLadder`, `IsBlock` and the `Molecule` structure;
+     - 20 used by no theorem.
+   - **What this means for B2.1 and B2.2 (reading D4).** They speak about well-formed codes and the carriers they
+     decode.
+     - TARGET's source-form definition of regular couples and trees is **not frozen**: `IsRegularCouple`,
+       `IsRegularTree`, `RawRegular`, the operations A/B `RawCpl.opA`/`opB` and their helpers.
+     - Their identification with the codes is carried by the non-frozen lemmas O1–O4: O2 is proved; O1, O3 and O4 are
+       open.
+     - The whole molecule layer (`Molecule`, `Garden.molecule`, …) is unfrozen as well. Neither anchor uses it; it
+       returns with B2.3.
+   - **B2.3 `rigidity` (T Prop `lgmolect`) stays unfrozen.**
    - **Pending author question Q7:** do you approve B2.3's *abstract* hypothesis set (`FinalShape`, the structural
      conclusions of `finalmol`; `DecorationHyp`, what the cutting process guarantees), or should B2.3 wait for
      packet G8?
@@ -73,13 +90,13 @@ with B2.3** (§2 item 3).
    - `IsBlock` requires the atomic group to be connected; hyper-blocks go through a connected adjoint block.
    - The source's degree-only wording admits disconnected "blocks", for which its concatenation and disjointness
      claims fail (MOLE's counterexample).
-   - `IsBlock` itself is held out with B2.3. Approving the convention now keeps the CLCN and MOLE packets, which
-     already use it, on the same footing.
+   - `IsBlock` itself is not frozen (B2.3 machinery). Approving the convention now keeps the CLCN and MOLE packets,
+     which already use it, on the same footing.
 5. **F53: ladders are the source's** (B2-CL-3).
    - Selected double-bond rungs and single opposite rails; extra end chords are allowed.
    - The earlier induced definition made maximal ladders overlap (DEGEN's counterexample). With this one, maximal
      ladders are pairwise disjoint in every molecule (`maximalLadders_pairwiseDisjoint`, proved).
-   - Held out with B2.3, like item 4.
+   - Not frozen (B2.3 machinery), like item 4.
 6. **The B2.1 and B2.2 deviations**, as stated in their docstrings:
    - **B2.1:**
      - (D1) `(K*)_app` is defined by the explicit recursions of DH21 §7 (route R4);
@@ -95,16 +112,15 @@ with B2.3** (§2 item 3).
    - (Q2) the `+` tree is first in a mini-couple;
    - (Q3) chain pairs are ordered by increasing `a` (pair `j` gets time `t_j`);
    - (Q8) item (4) sums over codes of size `2n`, which is the order by O5.
-   - The counting obligation O6 fixes the root sign of trees (the two trivial trees would give `2 > C₀⁰`) and has
-     finiteness conjuncts (R15-2).
+   - In the non-frozen lemmas: the counting lemma O6 fixes the root sign of trees (the two trivial trees would give
+     `2 > C₀⁰`) and has finiteness conjuncts (R15-2).
    - O7 holds for every garden. Its earlier hypotheses were superfluous and are dropped (B2-CL-17; F58's warning
      about the bond counts is kept).
-8. **The theorem-anchor count.** Wave A 2 + B1 12 + B2 9 = **23**, above the ~20 budget noted for B1.
-   - Four B2 obligations (O2, O5, O6, O7) already have scratch proofs of these exact statements, so they can be
-     sealed as soon as they land, leaving 19 open anchors.
-   - Alternatively, approve the count as is.
+8. **The theorem-anchor count** (ruled; CL-20). Only B2.1 and B2.2 are anchors, so the total is 2 + 12 + 2 = **16**.
+   The seven obligations are non-frozen lemmas (§1).
 9. **The freeze set is self-contained.**
-   - The three files import only B1 `WaveBDraft.System`, `Mathlib.Analysis.Calculus.DSlope` and each other.
+   - The frozen declarations lie in `WaveB2-Regular.lean` and `WaveB2-Statements.lean`. These import only B1
+     `WaveBDraft.System`, `Mathlib.Analysis.Calculus.DSlope` and each other.
    - No frozen definition uses a proved theorem of the project (B2-CL-12; checked by the generator and by the
      independent audit).
    - All instances are named `@[instance_reducible, instance] def`s (B2-CL-16).
@@ -119,8 +135,8 @@ with B2.3** (§2 item 3).
   - `DEGEN-F53.md` (F53 → CL-3);
   - `MOLE-prefreeze.md` (F57 → CL-5; F58, F59 → CL-6, CL-7);
   - `REG-STRUCT-prefreeze.md` (R15-1, R15-2 → CL-8).
-- **Change list:** `WaveB2-handoff.md`, CL-1 to CL-12, with addenda 2 (CL-13 to CL-17) and 3 (CL-18). Authorship:
-  CL-1 to CL-4 wt-gauss-hc; CL-5 to CL-19 wt-orch, as drafter.
+- **Change list:** `WaveB2-handoff.md`, CL-1 to CL-12, with addenda 2 (CL-13 to CL-17), 3 (CL-18) and 4 (CL-19).
+  CL-20 is recorded in `DESIGN.md`. Authorship: CL-1 to CL-4 wt-gauss-hc; CL-5 to CL-20 wt-orch, as drafter.
 - **Independent audit** (a fresh auditor, `WaveB2-independent-audit.md`):
   - first pass FAIL: F-1 (= F66), with F-2 to F-4 (B2.3), F-5 and F-6 REQUIRED;
   - fixes CL-13 to CL-17;
@@ -129,17 +145,17 @@ with B2.3** (§2 item 3).
 - **State of the snapshot:**
   - Every REQUIRED item is closed.
   - All seven modules elaborate.
-  - The only `sorry`s are the 9 frozen anchors and the held-out `rigidity`.
+  - The only `sorry`s are the 2 anchors, the 7 non-frozen characterization lemmas and the held-out `rigidity`.
   - The probe files are `sorry`-free, with standard axioms.
 
 ## 4. The exact Lean code
 
-Each file is reproduced verbatim. Each held-out declaration (or run of consecutive ones) is replaced by a marker line
-`-- [held out with B2.3, not frozen: …]`; the B2.3 section of `WaveB2-Statements.lean` is replaced by one marker.
-Everything else is the text to be frozen. The probe files, `WaveB2-Ladders.lean` and the generators are in the
+Each file is reproduced verbatim. Each declaration that is not frozen (or run of consecutive ones) is replaced by a
+marker line `-- [held out, not frozen: …]`; the B2.3 section of `WaveB2-Statements.lean` is replaced by one marker.
+`WaveB2-Molecules.lean` has no frozen declarations. Everything else is the text to be frozen. The probe files, `WaveB2-Ladders.lean` and the generators are in the
 snapshot.
 
-### WaveB2-Regular.lean (71 frozen declarations)
+### WaveB2-Regular.lean (53 frozen declarations)
 
 ```lean
 /-
@@ -205,7 +221,7 @@ structure MiniTreeCode where
   /-- the second code digit -/
   b : Fin 2
 
--- [held out with B2.3, not frozen: MiniTreeCode.equiv, instDecidableEqMiniTreeCode, instFintypeMiniTreeCode]
+-- [held out, not frozen: MiniTreeCode.equiv, instDecidableEqMiniTreeCode, instFintypeMiniTreeCode]
 
 namespace MiniTreeCode
 
@@ -234,19 +250,7 @@ def addrExt {w : ℕ} (a : Fin w × Path) (p : Path) : Fin w × Path := (a.1, a.
 
 /-! ## §2 Regularity in source form: operations A and B (T Def `defreg`, L826–L829) -/
 
-/-- Replace the subtree at path `p` by `S` (unchanged if `p` is not a node; only used at nodes). -/
-def TTree.setAt : TTree → Path → TTree → TTree
-  | _, [], S => S
-  | .leaf, _ :: _, _ => .leaf
-  | .node l m r, i :: p, S =>
-    .node (if i = 0 then l.setAt p S else l) (if i = 1 then m.setAt p S else m)
-      (if i = 2 then r.setAt p S else r)
-
-/-- The subtree at path `p` (`•` if `p` is not a node; only used at nodes). -/
-def TTree.subtreeAt : TTree → Path → TTree
-  | T, [] => T
-  | .leaf, _ :: _ => .leaf
-  | .node l m r, i :: p => (![l, m, r] i).subtreeAt p
+-- [held out, not frozen: TTree.setAt, TTree.subtreeAt]
 
 /-- **Raw couple data**: the `+` tree, the `-` tree, and the leaf pairs as `(+ leaf, - leaf)` addresses
 (tree `0` = `𝒯⁺`, tree `1` = `𝒯⁻`). -/
@@ -254,55 +258,11 @@ abbrev RawCpl := (TTree × TTree) × List ((Fin 2 × Path) × (Fin 2 × Path))
 
 namespace RawCpl
 
-/-- The tree on side `j`. -/
-def tree (R : RawCpl) (j : Fin 2) : TTree := if j = 0 then R.1.1 else R.1.2
-
-/-- Apply `f` to the tree on side `j`. -/
-def mapTree (R : RawCpl) (j : Fin 2) (f : TTree → TTree) : TTree × TTree :=
-  if j = 0 then (f R.1.1, R.1.2) else (R.1.1, f R.1.2)
-
-/-- **Operation A** at the leaf pair `(x, y)` (`x` the `+` leaf) with mini-couple code `c`: both leaves
-become order-1 trees whose six leaves are paired as the mini-couple of code `c`, with `x` in the role
-of the `+` root (T Def `defreg`; WAVE-B §3.3). -/
-def opA (R : RawCpl) (x y : Fin 2 × Path) (c : MiniCplCode) : RawCpl :=
-  let t3 : TTree := .node .leaf .leaf .leaf
-  let R' : RawCpl := (R.mapTree x.1 (fun T => T.setAt x.2 t3), R.2)
-  ((R'.mapTree y.1 (fun T => T.setAt y.2 t3)),
-    R.2.erase (x, y) ++ [(addrExt x [0], addrExt y [c.partner 0]), (addrExt y [1], addrExt x [1]),
-      (addrExt x [2], addrExt y [c.partner 2])])
-
-/-- Relocate an address below `a` to below `a ++ [c, l]` (the old subtree is re-attached at the lone
-leaf of the new mini-tree). -/
-def relocate (a : Fin 2 × Path) (c l : Fin 3) (z : Fin 2 × Path) : Fin 2 × Path :=
-  if z.1 = a.1 ∧ a.2 <+: z.2 then (z.1, a.2 ++ [c, l] ++ z.2.drop a.2.length) else z
-
-/-- The oriented pair `(+ leaf, - leaf)` from a leaf `x` of sign `sx` and its partner `y`. -/
-def orient (x : Fin 2 × Path) (sx : ℤˣ) (y : Fin 2 × Path) : (Fin 2 × Path) × (Fin 2 × Path) :=
-  if sx = 1 then (x, y) else (y, x)
-
-/-- **Operation B** at the node `a` with mini-tree code `m`: the subtree `S` at `a` is detached, `a`
-becomes the root `ρ` of the mini-tree, `S` is re-attached at its lone leaf (keeping `a`'s sign), and
-the mini-tree's red and green leaf pairs are new pairs (T Def `defreg`; WAVE-B §3.3, figure-defs §5:
-B at a leaf keeps the leaf's pair). -/
-def opB (R : RawCpl) (a : Fin 2 × Path) (m : MiniTreeCode) : RawCpl :=
-  let S := (R.tree a.1).subtreeAt a.2
-  let mini := node3 fun i => if i = m.c then node3 (fun k => if k = m.lone then S else .leaf) else .leaf
-  let ζ : ℤˣ := nodeSign ![1, -1] a
-  (R.mapTree a.1 (fun T => T.setAt a.2 mini),
-    R.2.map (fun q => (relocate a m.c m.lone q.1, relocate a m.c m.lone q.2)) ++
-      [orient (addrExt a [m.red.1]) (slotSign ζ m.red.1) (addrExt a [m.c, m.red.2]),
-       orient (addrExt a [m.green.1]) (slotSign ζ m.green.1) (addrExt a [m.c, m.green.2])])
+-- [held out, not frozen: RawCpl.tree, RawCpl.mapTree, RawCpl.opA, RawCpl.relocate, RawCpl.orient, RawCpl.opB]
 
 end RawCpl
 
-/-- **Regular couples, source form** (T Def `defreg`): the raw data reachable from the trivial couple
-`(•, •)` by finitely many operations A (at a leaf pair) and B (at a node). -/
-inductive RawRegular : RawCpl → Prop
-  | triv : RawRegular ((.leaf, .leaf), [((0, []), (1, []))])
-  | opA {R : RawCpl} {x y : Fin 2 × Path} (c : MiniCplCode) :
-      RawRegular R → (x, y) ∈ R.2 → RawRegular (R.opA x y c)
-  | opB {R : RawCpl} {a : Fin 2 × Path} (m : MiniTreeCode) :
-      RawRegular R → a.2 ∈ (R.tree a.1).nodes → RawRegular (R.opB a m)
+-- [held out, not frozen: RawRegular]
 
 /-- A list of pairs together with the swapped pairs (pairs read as unordered). -/
 def symmPairs {α : Type*} (P : List (α × α)) : List (α × α) := P ++ P.map Prod.swap
@@ -313,27 +273,7 @@ def Garden.MatchesCouple (G : Garden 2) (T : TTree × TTree)
   IsCouple G ∧ G.tree 0 = T.1 ∧ G.tree 1 = T.2 ∧
     ∀ ℓ : GLeaf G.tree, (ℓ.1, (G.pair ℓ).1) ∈ symmPairs P
 
--- [held out with B2.3, not frozen: instDecidableMatchesCouple]
-
-/-- A paired tree `G` of sign `ζ` seen as the couple `(𝒯, •)` (sign `+`) or `(•, 𝒯)` (sign `-`), with
-the lone leaf paired with `•`, has the raw data `R`. -/
-def Garden.MatchesTreeCouple (G : Garden 1) (R : RawCpl) : Prop :=
-  let s : Fin 2 := if G.sig 0 = 1 then 0 else 1
-  R.tree s = G.tree 0 ∧ R.tree (1 - s) = .leaf ∧
-    ∀ ℓ : GLeaf G.tree,
-      let z : Fin 2 × Path := (s, ℓ.1.2)
-      let y : Fin 2 × Path := if G.IsLone ℓ then (1 - s, []) else (s, (G.pair ℓ).1.2)
-      (z, y) ∈ symmPairs R.2
-
--- [held out with B2.3, not frozen: instDecidableMatchesTreeCouple]
-
-/-- **A regular couple** (T Def `defreg`). -/
-def IsRegularCouple (G : Garden 2) : Prop := ∃ R : RawCpl, RawRegular R ∧ G.MatchesCouple R.1 R.2
-
-/-- **A regular tree** (T Def `defreg`): a paired tree `𝒯` such that `(𝒯, •)` (sign `+`; `(•, 𝒯)` for
-sign `-`) is a regular couple with the lone leaf paired with `•`. -/
-def IsRegularTree (G : Garden 1) : Prop :=
-  IsPairedTree G ∧ ∃ R : RawCpl, RawRegular R ∧ G.MatchesTreeCouple R
+-- [held out, not frozen: instDecidableMatchesCouple, Garden.MatchesTreeCouple, instDecidableMatchesTreeCouple, IsRegularCouple, IsRegularTree]
 
 /-! ## §3 Structure data: codes of regular couples, regular chains and regular trees -/
 
@@ -428,7 +368,7 @@ def RegCpl.raw (Q : RegCpl) : RawCpl := (Q.trees, Q.pairsAt (0, []) (1, []))
 /-- `Q` is the structure data of the couple carrier `G`. -/
 def RegCpl.Decodes (Q : RegCpl) (G : Garden 2) : Prop := G.MatchesCouple Q.trees Q.raw.2
 
--- [held out with B2.3, not frozen: instDecidableDecodes]
+-- [held out, not frozen: instDecidableDecodes]
 
 /-- A paired-tree carrier `G` has the tree `T`, lone leaf at `lp` (marked `lower`) and the other leaf
 pairs of the list `P`. -/
@@ -437,7 +377,7 @@ def Garden.MatchesPairedTree (G : Garden 1) (T : TTree) (lp : Path)
   G.tree 0 = T ∧ (∀ ℓ : GLeaf G.tree, G.mark ℓ = if ℓ.1.2 = lp then some .lower else none) ∧
     ∀ ℓ : GLeaf G.tree, ℓ.1.2 ≠ lp → (ℓ.1, (G.pair ℓ).1) ∈ symmPairs P
 
--- [held out with B2.3, not frozen: instDecidableMatchesPairedTree]
+-- [held out, not frozen: instDecidableMatchesPairedTree]
 
 /-- **Codes of regular trees** (T Prop `propstructure`, last part): a regular tree is coded by its
 regular chain `𝒳₀` with couples `𝒬_{j,0,ι}` (`nil` = the trivial tree `•`); the sign is that of the
@@ -445,7 +385,7 @@ carrier. `X` is the structure data of the paired-tree carrier `G`. -/
 def RegChain.DecodesTree (X : RegChain) (G : Garden 1) : Prop :=
   G.MatchesPairedTree (X.plug (G.sig 0) .leaf) X.lonePath (X.pairsAt (G.sig 0) (0, []))
 
--- [held out with B2.3, not frozen: instDecidableDecodesTree]
+-- [held out, not frozen: instDecidableDecodesTree]
 
 /-- Is the code of type 2? -/
 def RegCpl.isType2 : RegCpl → Bool
@@ -493,47 +433,7 @@ couple (T Prop `propstructure`; DH21 Props 4.5, 4.7, 4.8, Cor 4.9). The last obl
 sentence of `propstructure` (B2-CL-8). No `Classical.choose` is used: consumers quantify over pairs
 `(code, carrier)` with `Decodes`. -/
 
-/-- Decoding a well-formed code gives a regular couple carrier. -/
-theorem RegCpl.exists_decodes (Q : RegCpl) (hQ : Q.wf = true) :
-    ∃ G : Garden 2, Q.Decodes G ∧ IsRegularCouple G := by
-  sorry
-
-/-- **Structure theorem, couples** (T Prop `propstructure` (a), (b)): every regular couple has exactly
-one well-formed code. -/
-theorem existsUnique_regCpl_decodes (G : Garden 2) (hG : IsRegularCouple G) :
-    ∃! Q : RegCpl, Q.wf = true ∧ Q.Decodes G := by
-  sorry
-
-/-- Decoding a well-formed chain code gives a regular tree carrier of either sign. -/
-theorem RegChain.exists_decodesTree (X : RegChain) (hX : X.wf = true) (ζ : ℤˣ) :
-    ∃ G : Garden 1, G.sig 0 = ζ ∧ X.DecodesTree G ∧ IsRegularTree G := by
-  sorry
-
-/-- **Structure theorem, trees** (T Prop `propstructure`, last part). -/
-theorem existsUnique_regChain_decodesTree (G : Garden 1) (hG : IsRegularTree G) :
-    ∃! X : RegChain, X.wf = true ∧ X.DecodesTree G := by
-  sorry
-
-/-- The code size is the order of the decoded couple. -/
-theorem RegCpl.size_eq_order (Q : RegCpl) {G : Garden 2} (h : Q.Decodes G) : G.order = Q.size := by
-  sorry
-
-/-- **Counting** (T Prop `propstructure`, last sentence, L851–L869; DH21 Cor 4.9, whose proof needs F55;
-R15-1, R15-2, B2-CL-8). There is an absolute constant `C₀` such that, for every `m`:
-- the regular couples of order `2m` form a finite set of at most `C₀^m` carriers;
-- for each root sign `ζ`, so do the regular trees of order `2m` with root sign `ζ`.
-
-The finiteness conjuncts guard against `Nat.card = 0` on an infinite type. The root sign is fixed because the two
-trivial trees (`m = 0`) would otherwise give `2 > C₀⁰` (R15-2). This is the source-object form, with the same
-types as wt-resonant's REG-STRUCT, which proves it with `C₀ = 12^9` (`Reg.finite_sourceCouples`,
-`Reg.sourceCoupleCount_le_pow`, `Reg.finite_sourceTrees`, `Reg.sourceTreeCount_le_pow`). Consumers that sum over
-well-formed codes get the same bound for `{Q | Q.wf ∧ Q.size = 2m}` through the bijection of this section. -/
-theorem regular_count_le : ∃ C₀ : ℕ, ∀ m : ℕ,
-    (Finite {G : Garden 2 // IsRegularCouple G ∧ G.order = 2 * m} ∧
-      Nat.card {G : Garden 2 // IsRegularCouple G ∧ G.order = 2 * m} ≤ C₀ ^ m) ∧
-    ∀ ζ : ℤˣ, Finite {G : Garden 1 // IsRegularTree G ∧ G.sig 0 = ζ ∧ G.order = 2 * m} ∧
-      Nat.card {G : Garden 1 // IsRegularTree G ∧ G.sig 0 = ζ ∧ G.order = 2 * m} ≤ C₀ ^ m := by
-  sorry
+-- [held out, not frozen: RegCpl.exists_decodes, existsUnique_regCpl_decodes, RegChain.exists_decodesTree, existsUnique_regChain_decodesTree, RegCpl.size_eq_order, regular_count_le]
 
 /-! ## §5 Links, `𝒩^ch`, dominant codes, special subsets, coherence -/
 
@@ -759,256 +659,9 @@ noncomputable def RegChain.app {d : ℕ} (δ r : ℝ) (F : Mom d → ℝ) (X : R
 end WaveTurbulence
 ```
 
-### WaveB2-Molecules.lean (12 frozen declarations)
+### WaveB2-Molecules.lean (no frozen declarations)
 
-```lean
-/-
-Copyright (c) 2026 Scott Armstrong. All rights reserved.
-Released under Apache 2.0 license as described in the file LICENSE.
-Authors: Scott Armstrong
--/
-module
-
-public import WaveB2Draft.Regular
-
-/-!
-# Wave B, tier B2 — molecules and the counting quantities (DRAFT for author approval)
-
-Drafts of WAVE-B v2 §2.9 and §3.6–§3.11 (TARGET Def `defmol` L1295, Def `defcplmol` L1297–L1302,
-Def `defdecmol` L1308–L1325, Def `defblock` L1328–L1331, Def `defvine` L1384–L1394 with
-`Vines.png`, Def `defdiff` L1938–L1941, Def `defcut` L2117–L2127, (defcounta2) L2129–L2137, (defdev);
-figure-defs §0, §1, §4; review I9 / row P5 `MOL.countq`). Self-contained (freeze-set closure policy).
-
-* §1 Molecules as **half-edge (dart) structures** (F40): atoms, darts, the bond involution `mate`, the
-  orientation `out`; degrees, components, circuit rank `χ = E - V + F`; the molecule predicate.
-* §2 Atomic groups, blocks, `σ(𝔹)`.
-* §3 The molecule `𝕄(𝒢)` of a garden (PC and LP bonds, directions by signs).
-* §4 `(c_v)`-decorations, `Γ_v`, restricted decorations; gaps and their kinds SG/LG/ZG.
-* §5 Standalone ladders (explicit rail-direction clause), maximal ladders, `q`, `m`, `ρ`.
-* §6 Vines (I)–(VIII): templates with slots and groups, expansion by `k ≥ 0` rungs per slot (F37), the
-  vine predicate (block + undirected template isomorphism; no direction clause, figure-defs V2).
-* §7 Cuts (F40: the incoming dart of `ℓ₁` and the outgoing dart of `ℓ₂` stay at `v₁ = v`, all other
-  darts at `v` move to the new atom `v₂`); α- and β-cuts.
-* §8 The counting quantities `𝔈`, `𝔄` (T (defcounta2)) and the deviation `𝔇𝔢𝔳` (T (defdev)), generic
-  in the molecule; atom labels α/β/ε.
--/
-
-@[expose] public section
-
-open MeasureTheory Finset Set
-open scoped ENNReal
-
-namespace WaveTurbulence
-
-open TTree
-
-/-! ## §1 Molecules as half-edge structures -/
-
-/-- **A pre-molecule** (T Def `defmol`, L1295; half-edge encoding, review F40, figure-defs §4): a
-finite set of atoms (names in `V`), the darts `D` (half-edges; every element of the finite type `D` is
-a dart), the atom `atom x ∈ atoms` of each dart, the involution `mate` without fixed points pairing
-darts into bonds, and the orientation `out x` (`true`: the bond leaves its atom at `x`); the two darts
-of a bond have opposite orientations. A self-loop is two darts at the same atom (it counts as one
-outgoing and one incoming bond). The molecule axioms are `IsMolecule`. -/
-structure Molecule (V D : Type*) where
-  atoms : Finset V
-  atom : D → V
-  mate : D → D
-  out : D → Bool
-  atom_mem : ∀ x, atom x ∈ atoms
-  mate_mate : ∀ x, mate (mate x) = x
-  mate_ne : ∀ x, mate x ≠ x
-  out_mate : ∀ x, out (mate x) = !out x
-
-namespace Molecule
-
-variable {V D : Type*} [DecidableEq V] [Fintype D] [DecidableEq D] (M : Molecule V D)
-
-/-- The darts at the atom `v`. -/
-def dartsAt (v : V) : Finset D := Finset.univ.filter fun x => M.atom x = v
-
-/-- The degree `d(v)` (bonds of both directions; a self-loop counts twice). -/
-def deg (v : V) : ℕ := (M.dartsAt v).card
-
-/-- The out-degree. -/
-def outdeg (v : V) : ℕ := ((M.dartsAt v).filter fun x => M.out x = true).card
-
-/-- The in-degree. -/
-def indeg (v : V) : ℕ := ((M.dartsAt v).filter fun x => M.out x = false).card
-
--- [held out with B2.3, not frozen: Molecule.bonds, Molecule.ends]
-
-/-- Two atoms are adjacent (undirected) if a bond joins them. -/
-def Adj (u v : V) : Prop := ∃ x, M.atom x = u ∧ M.atom (M.mate x) = v
-
--- [held out with B2.3, not frozen: Molecule.numComponents, Molecule.circuitRank]
-
-/-- `u` and `v` lie in the same component. -/
-def SameComponent (u v : V) : Prop := Relation.EqvGen M.Adj u v
-
-/-- **The molecule axioms** (T Def `defmol`): (i) every atom has at most 2 outgoing and at most 2
-incoming bonds; (ii) no component is saturated (consists only of degree-4 atoms). -/
-def IsMolecule : Prop :=
-  (∀ v ∈ M.atoms, M.outdeg v ≤ 2 ∧ M.indeg v ≤ 2) ∧
-    ∀ v ∈ M.atoms, ∃ u ∈ M.atoms, M.SameComponent v u ∧ M.deg u ≠ 4
-
-/-! ## §2 Atomic groups and blocks (T Def `defmol`, last sentence; Def `defblock`) -/
-
--- [held out with B2.3, not frozen: Molecule.InGroup, Molecule.instDecidableInGroup, Molecule.degIn, Molecule.outIn, Molecule.inIn, Molecule.GroupConnected, Molecule.IsBlock, Molecule.eraseBond, Molecule.IsHyperBlock, Molecule.bondsBetween, Molecule.sigma, Molecule.Directed, Molecule.instDecidableDirected, Molecule.groupBonds]
-
-end Molecule
-
-/-! ## §3 The molecule of a garden (T Def `defcplmol`, L1297–L1302) -/
-
-section GardenMolecule
-
-variable {w : ℕ}
-
-/-- The parent of a non-root node (a branching node). The membership proof is inline (B2-CL-12, closure policy of
-B1 CL-17/CL-18: no frozen declaration uses a proved theorem of the project; cf. B1's `GBranch.child`). -/
-def GNode.parent {tree : Fin w → TTree} (a : GNode tree) (h : a.1.2 ≠ []) : GBranch tree :=
-  ⟨(a.1.1, a.1.2.dropLast), by
-    have cons_mem : ∀ (i j : Fin 3) (S : Finset TTree.Path) (q : TTree.Path),
-        j :: q ∈ TTree.pre i S ↔ i = j ∧ q ∈ S := by
-      intro i j S q
-      simp only [TTree.pre, Finset.mem_image, List.cons.injEq]
-      constructor
-      · rintro ⟨q', hq', rfl, rfl⟩
-        exact ⟨rfl, hq'⟩
-      · rintro ⟨rfl, hq⟩
-        exact ⟨q, hq, rfl, rfl⟩
-    have key : ∀ (t : TTree) (p : TTree.Path) (i : Fin 3), p ++ [i] ∈ t.nodes → p ∈ t.branching := by
-      intro t
-      induction t with
-      | leaf =>
-        intro p i hp
-        simp [TTree.nodes] at hp
-      | node l m r ihl ihm ihr =>
-        intro p i hp
-        rcases p with _ | ⟨j, p⟩
-        · simp [TTree.branching]
-        · simp only [List.cons_append, TTree.nodes, Finset.mem_insert, Finset.mem_union, cons_mem,
-            reduceCtorEq, false_or] at hp
-          simp only [TTree.branching, Finset.mem_insert, Finset.mem_union, cons_mem, reduceCtorEq,
-            false_or]
-          rcases hp with (⟨rfl, hq⟩ | ⟨rfl, hq⟩) | ⟨rfl, hq⟩
-          · exact Or.inl (Or.inl ⟨rfl, ihl p i hq⟩)
-          · exact Or.inl (Or.inr ⟨rfl, ihm p i hq⟩)
-          · exact Or.inr ⟨rfl, ihr p i hq⟩
-    have hp := a.2
-    have e : a.1.2.dropLast ++ [a.1.2.getLast h] = a.1.2 := List.dropLast_append_getLast h
-    rw [← e] at hp
-    exact key _ _ _ hp⟩
-
-/-- The darts of `𝕄(𝒢)`: two darts for each PC bond (a non-root branching node `c` and its parent;
-`true` = the dart at the parent), and one dart for each paired leaf `ℓ` with a parent whose partner
-also has a parent (the dart of the LP bond at the parent of `ℓ`; leaf pairs involving a root leaf give
-no bond, T L1316). -/
-abbrev GardenDart (G : Garden w) : Type :=
-  ({c : GBranch G.tree // c.1.2 ≠ []} × Bool) ⊕
-    {ℓ : GLeaf G.tree // G.mark ℓ = none ∧ ℓ.1.2 ≠ [] ∧ (G.pair ℓ).1.2 ≠ []}
-
-/-- **The molecule `𝕄(𝒢)` of a garden** (T Def `defcplmol`): atoms the branching nodes; a PC bond
-between a node and each branching child, directed towards the child iff the child has sign `-`; an LP
-bond between the parents of two paired leaves, directed from the parent whose paired child has sign
-`-` to the one whose paired child has sign `+`. The facts the body needs about the pairing (the partner of
-an unmarked leaf is unmarked and different) are proved inline (B2-CL-12). -/
-def Garden.molecule (G : Garden w) : Molecule (GBranch G.tree) (GardenDart G) where
-  atoms := Finset.univ
-  atom := fun x => match x with
-    | .inl (c, true) => GNode.parent c.1.toNode c.2
-    | .inl (c, false) => c.1
-    | .inr ℓ => GNode.parent ℓ.1.toNode ℓ.2.2.1
-  mate := fun x => match x with
-    | .inl (c, b) => .inl (c, !b)
-    | .inr ℓ => .inr ⟨G.pair ℓ.1, by
-          by_contra hm
-          have h1 := (G.pair_eq_iff (G.pair ℓ.1)).2 hm
-          rw [G.pair_pair] at h1
-          exact ((G.pair_eq_iff ℓ.1).1 h1.symm) ℓ.2.1,
-        ℓ.2.2.2, by rw [G.pair_pair]; exact ℓ.2.2.1⟩
-  out := fun x => match x with
-    | .inl (c, true) => decide (G.sign c.1.toNode ≠ 1)
-    | .inl (c, false) => decide (G.sign c.1.toNode = 1)
-    | .inr ℓ => decide (G.sign ℓ.1.toNode ≠ 1)
-  atom_mem := fun _ => Finset.mem_univ _
-  mate_mate := by
-    rintro (⟨c, b⟩ | ℓ)
-    · simp
-    · simp only [Sum.inr.injEq]
-      exact Subtype.ext (G.pair_pair ℓ.1)
-  mate_ne := by
-    rintro (⟨c, b⟩ | ℓ)
-    · simp
-    · simp only [ne_eq, Sum.inr.injEq]
-      intro h
-      exact ((G.pair_eq_iff ℓ.1).1 (congrArg Subtype.val h)) ℓ.2.1
-  out_mate := by
-    rintro (⟨c, _ | _⟩ | ℓ)
-    · simp
-    · simp
-    · have hs := G.pair_sign ℓ.1 (fun h' => ((G.pair_eq_iff ℓ.1).1 h') ℓ.2.1)
-      change decide (nodeSign G.sig (G.pair ℓ.1).1 ≠ 1) = !decide (nodeSign G.sig ℓ.1.1 ≠ 1)
-      rw [hs]
-      rcases Int.units_eq_one_or (nodeSign G.sig ℓ.1.1) with h | h <;> rw [h] <;> decide
-
-/-- **Characterization obligation** (T Prop `propcplmol`, L1303–L1306; packets M1/G0; F58, B2-CL-6): the
-molecule of a garden satisfies the molecule axioms `IsMolecule`: every atom has at most two outgoing and at
-most two incoming bonds, and every connected component contains an atom of degree `< 4` (no saturated
-component). T states this for nontrivial couples and irreducible plain gardens; it holds for **every** garden
-(each atom has at most two incoming and two outgoing bonds, and each component contains a branching root,
-which has no parent bond), so the hypotheses plain, couple-or-irreducible and `1 ≤ order` are not assumed
-(B2-CL-17, independent audit F-7; MOLE's `garden_isMolecule` proves this form). `IsMolecule` does **not**
-assert that the molecule is connected; connectedness is a separate claim of `propcplmol`, as are the counts
-(`n` atoms, `2n−1` resp. `2n−R` bonds, circuit rank `n` resp. `n−R+1`). Any statement of those counts must keep
-`1 ≤ order` in both the couple and the irreducible-garden sentence: T states "nontrivial" only for couples,
-and the trivial paired roots (`n = 0`, `R = 1`) violate `E = 2n − R` (F58). -/
-theorem Garden.isMolecule_molecule (G : Garden w) : G.molecule.IsMolecule := by
-  sorry
-
-end GardenMolecule
-
-/-! ## §4 Decorations of molecules, `Γ_v`, restrictions, gaps (T Def `defdecmol`, Def `defdiff`) -/
-
-namespace Molecule
-
-variable {V D : Type*} [DecidableEq V] [Fintype D] [DecidableEq D] (M : Molecule V D) {d : ℕ}
-
--- [held out with B2.3, not frozen: Molecule.kvec, Molecule.dartSign]
-
-
--- [held out with B2.3, not frozen: Molecule.IsDecoration, Molecule.Gamma, Molecule.IsRestricted, Molecule.GapKind, Molecule.instDecidableEqGapKind, Molecule.gapKind, Molecule.gapAt, Molecule.IsBlockGap]
-
-/-! ## §5 Standalone ladders (T Def `defvine`, ladder part; figure-defs §1, standalone ladders) -/
-
--- [held out with B2.3, not frozen: Molecule.IsLadder, Molecule.ladderAtoms, Molecule.IsLadderSet, Molecule.maximalLadders, Molecule.ladderLength, Molecule.numLadders, Molecule.numFree, Molecule.rho, Molecule.IsLadderGap]
-
-end Molecule
-
-/-! ## §6 Vines (I)–(VIII) (T Def `defvine`, L1384–L1394, `Vines.png`; figure-defs §1, WAVE-B §3.6) -/
-
--- [held out with B2.3, not frozen: VineType, instDecidableEqVineType, VineTemplate, VineType.template, VineType.IsBad, railBonds, insertRungs, VineType.expand]
-
-namespace Molecule
-
-variable {V D : Type*} [DecidableEq V] [Fintype D] [DecidableEq D] (M : Molecule V D)
-
--- [held out with B2.3, not frozen: Molecule.IsVine]
-
-/-! ## §7 Cuts (T Def `defcut`, L2117–L2127; F40, figure-defs §4) -/
-
--- [held out with B2.3, not frozen: Molecule.cut, Molecule.IsCutData, Molecule.IsAlphaCut]
-
-/-! ## §8 The counting quantities (T (defcounta2), (defdev); review I9, `MOL.countq`) -/
-
--- [held out with B2.3, not frozen: Molecule.countE, Molecule.ladderWeight, Molecule.countA]
-
-end Molecule
-
--- [held out with B2.3, not frozen: IsDeviation, deviation, AtomLabel]
-
-end WaveTurbulence
-```
+Every declaration of this file is held out (CL-20): the molecule layer and the characterization lemma `Garden.isMolecule_molecule` are not frozen.
 
 ### WaveB2-Statements.lean (6 frozen declarations)
 
@@ -1160,7 +813,7 @@ theorem incoherentDecay : WTPrefix fun P =>
           regBound P n (LG.incoherency (X.treeLinks (LG.garden.sig 0)))) := by
   sorry
 
--- [B2.3 section held out with B2.3, not frozen: AtomLabel.IsAlpha, Molecule.ABLinked, Molecule.DecorationHyp, Molecule.FinalShape, Molecule.IsConnected, Molecule.IsPerfect, Molecule.IsTame, Molecule.alphaFactor, Molecule.epsDefect, Molecule.numBeta, Molecule.perfectIndicator, Molecule.rigidityRHS, rigidity]
+-- [B2.3 section held out, not frozen: AtomLabel.IsAlpha, Molecule.ABLinked, Molecule.DecorationHyp, Molecule.FinalShape, Molecule.IsConnected, Molecule.IsPerfect, Molecule.IsTame, Molecule.alphaFactor, Molecule.epsDefect, Molecule.numBeta, Molecule.perfectIndicator, Molecule.rigidityRHS, rigidity]
 end WaveTurbulence
 ```
 

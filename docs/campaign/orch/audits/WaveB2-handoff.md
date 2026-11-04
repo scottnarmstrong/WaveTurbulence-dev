@@ -623,3 +623,21 @@ F-5 is proved by wt-ansob (PV-DECAY): the landed `Resonant.tendsto_energyInvInte
   `b2d8c4aafde9…`): `WaveB2-Regular.lean` `4d7f81efa32b…`,
   `WaveB2-Molecules.lean` `89ff648ed5a3…`, `WaveB2-Statements.lean`
   `82e42b2bfa16…`. Author review page: `docs/review/WAVE-B-B2.md`.
+
+## Addendum 5: B2-CL-20 (wt-orch, Task 27b): anchors B2.1 and B2.2 only
+
+Under the anchor-budget ruling, the only theorem anchors are B2.1 and B2.2 (total 2 + 12 + 2 = 16). The seven
+Regular/Molecules obligations become non-frozen characterization lemmas.
+
+- **Freeze set:** the closure of B2.1 and B2.2, **59 declarations** (Regular 53, Statements 6, Molecules 0).
+- **Moved out of the CL-18 set of 89 (30):** the 7 lemmas and 23 definitions.
+  - The molecule layer (11): `Molecule`, `dartsAt`, `deg`, `outdeg`, `indeg`, `Adj`, `SameComponent`, `IsMolecule`,
+    `GNode.parent`, `GardenDart`, `Garden.molecule`.
+  - TARGET's source-form regular objects (12): `IsRegularCouple`, `IsRegularTree`, `RawRegular`, `RawCpl.opA`,
+    `opB`, `orient`, `relocate`, `tree`, `mapTree`, `Garden.MatchesTreeCouple`, `TTree.setAt`, `TTree.subtreeAt`.
+- **Consequence (reading D4).** B2.1 and B2.2 speak about codes and decoded carriers. Their identification with
+  T Def `defreg` is carried by non-frozen lemmas (O2 proved; O1, O3, O4 open).
+- **Held out: 106.**
+- **No Lean source changed.** `gen_freeze.py`, `FREEZE-LIST.md` and `DESIGN.md` (CL-20) were updated in
+  `waveb2` and in `waveb2-snap-final` (new `SHA256SUMS` `be649b881fb1…`).
+- `docs/review/WAVE-B-B2.md` and `WAVE-B-B2-FREEZE-LIST.md` were regenerated.
