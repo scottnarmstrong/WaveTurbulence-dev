@@ -28,8 +28,8 @@
     "model": "Claude Opus",
     "account": "claude-13",
     "branch": "w/jr-ops",
-    "packet": "J2 rest (DH21 Lemmas 5.9-5.10) then J3 MAINCOEF (DH21 Prop 5.1); JR-OPS 5.3-5.8 done",
-    "brief": "docs/campaign/briefs/JR2-MAINCOEF.md"
+    "packet": "B̃ bridge (garden ↔ code), then J5 MEXP (DH21 Props 7.7, 7.8); J1-J3 done",
+    "brief": "docs/campaign/briefs/BTILDE-MEXP.md"
   },
   {
     "tmux": "wt-cumul",
@@ -52,8 +52,8 @@
     "model": "GPT-6.1-Sol low",
     "account": "codex-3",
     "branch": "w/bproc",
-    "packet": "G7 MOLEPROP4 (pre-freeze): DH23 ylem1/2, Prop 10.4 (PV-DECAY F-5, G6, DEGEN done)",
-    "brief": "docs/campaign/briefs/PV-DECAY.md"
+    "packet": "RA1 REGASYMP: DH23 Prop 6.1 couples then trees (G7 paused on F69 ylem1; PV-DECAY, G6, DEGEN done)",
+    "brief": "docs/campaign/briefs/REGASYMP.md"
   },
   {
     "tmux": "wt-gausssum",

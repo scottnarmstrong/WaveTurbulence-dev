@@ -291,3 +291,24 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   moment expansion never produces, and B1.12's bound for them is not justified by TARGET. Fix (snapshot 7): add
   `LG.layer b.toNode = p` to the `dChild` clause. `dParent` is fine (the parent of `𝔣^pr` is on the stem). The
   consumer `fixedpoint` (X3) uses only `plain` and `dRoot`. Found by wt-gauss-hc (X2-HANDOFF FINDING).
+- F69 — DH23 §10.4 Lemma `ylem1` (L1937–L1942) vs our B2 vine family — **open**: wt-ansob (MOLEPROP4) gives a
+  kernel-checked 5-atom molecule (bonds 1→0, 1→2, 2→1, 2→0, 0→2, 0→3, 3→4, 3→4, 4→3, 4→1; 4-regular, loop-free,
+  one triple bundle) whose single (Y2) step at 3, 4 gives the doubled triangle, while no vine in our B2 family has 7
+  atoms (type I: 2, type II: even ≥ 6, others ≥ 9), so ylem1's conclusion fails for it
+  (`/home/scott/wt-scratch/moleprop4/src/MoleProp4/ShortYCounterexample.lean`). Either our vine templates are too
+  narrow (F19/F37 readings) or ylem1 misses a small case. Independent investigation commissioned
+  (`docs/research/ylem1-investigation.md`). **Resolved (2026-11-04) as a DH23 erratum:** our eight vine templates match
+  `Vines.png` (DH23 L798–L800, Remark 5.2(c)); `ylem1` is false, missing Q and T themselves (zero sequences), the
+  5-atom T₁ (one sequence of length 1) and two infinite families with two triple bonds from the (VI) bullet (L1946);
+  the proof (L1939–L1948) never treats zero or one sequence and L1941, L1946, L586 over-claim. Exhaustive check: brute
+  force to 15 atoms, parametrised families to 27 atoms, 288 configurations, 0 mismatches. Repair: ylem1′ (explicit
+  exception list) and Prop 10.4(2)′ with hypothesis "not Y-exceptional" (proof L1963–L1977 then no longer uses
+  ylem1). No change to B2. Prop 10.4(1) (L1959) has the same length-1 omission.
+- **F69b — DH23 Prop 9.6 case (4), L1885 ("an enumeration shows 𝕄₀ must be a vine") — OPEN GAP inside TARGET's black box
+  (TARGET L2197 `lgmolect`).** The claim fails even for drawn vines (9-atom example in the report). The source argument
+  (vine ⇒ large gap ⇒ operation (c)) does not use the vine shape, so it covers every 𝕄₀ with a large β-gap; it does
+  NOT cover non-vine components whose two β-atoms both come from small-gap cuts (smallest: the 4-atom Q-block, three
+  5-atom T-blocks, five 7-atom T₁-blocks, the 9-atom block). Needed: for 𝕄₀ with V_α = 0, V_β = 2 and 𝕄₁
+  Y-exceptional, 𝔄₀ ≲ L^{−η²−η⁵ρ₀}. A partial route via operations (d)+(e) and (opere) L1871 when
+  |r| ≳ L^{−γ−100η} is unverified and does not cover T-blocks, the Q-block or very small gaps. Status: research
+  needed; escalated to the author (candidate DH23 erratum).
