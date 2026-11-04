@@ -540,3 +540,17 @@ couple compatibility target `RawCoupleRestrictionDecay` rebuilt successfully (`9
 Scratch `AxiomsRawTree.lean`, log `axioms-raw-tree.log`, audited five final raw restriction,
 exact recovery and finite-selection Fubini results. Each uses only
 `[propext, Classical.choice, Quot.sound]`.
+
+Finite spatial derivative milestone (continuing assembly): `NestedDerivativeNorm`,
+`CoordinateDerivativeComponent`, and `SpatialDerivativeInputBound` prove actual iterated
+coordinate derivatives retain the remaining finite smoothness and decay budget. Explicitly,
+`j + K ≤ N` and `M' ≤ M` imply an `Sf^{K,M'}` bound by
+`max(1,d)^N B` for the actual derivative input. No infinite smoothness is assumed.
+`FinalExponentLoss` proves `100d η ≤ sqrt η` under `(100d)^2 η ≤ 1`, and hence the
+printed final incoherence exponent from the analytic core's exponent.
+
+Checks: targeted build `SpatialDerivativeInputBound` passed (`9055 jobs`);
+`FinalExponentLoss` passed in the preceding targeted build. Scratch
+`AxiomsSpatialDerivative.lean` / `axioms-spatial-derivative.log` audited five results;
+all depend only on `[propext, Classical.choice, Quot.sound]`. No new source deviation.
+The full spatial mixed-norm assembly and raw one-clock assembly are still outstanding.
