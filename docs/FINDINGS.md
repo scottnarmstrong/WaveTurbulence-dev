@@ -340,3 +340,14 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   atom group requires the same designated bond (up to mates); otherwise plain atom-set inclusion would make an inner
   SG object whose adjoint is a single double bond — outside `subsetvc`'s case list. Status: reading, flagged for the
   VINES audit (possible source imprecision).
+- F72 — DH23 Def 5.1 / vine (II) (L1421, L1481) and our B2 template — vine (II) must include the **one-double-bond case
+  (m = 1)**, the 4-atom Q-block. Research check (2026-11-04, `docs/research/vine2-m1.txt`): every vine estimate and the
+  twist cancellation in DH23 and TARGET go through unchanged at m = 1 (DH23 itself notes "m ≥ 1 for vines (II)" at L1481;
+  `sumintest1` L1280 is stated for m ≥ 1; TARGET treats vine (I) as m = 0 at L1800); mechanical checks: all 1152 Q-block
+  placements fall into `molecpl`'s scenarios (II-a)–(II-e), twists are valid involutions, the Q-block is never a proper
+  sub-object of a vine. Consequence: Q-bead necklaces (which broke Prop 9.6 / kqmainest2 / finalcount1 for γ < 2/3
+  under the literal two-double-bond reading) are repaired for all γ ∈ (0,1); F69b remains only for the T-bead necklace
+  and γ ≤ 1/2. Also: `ylem1`'s quadruple-bond branch becomes exactly "vine (II), m ≥ 1", and Prop 10.4(1)'s length-1
+  omission is the m = 1 vine. Minor DH23 slips: L1481 cites Lemma A.2(2) outside its range (A.2(1) closes it); the
+  δ-bookkeeping in (twoestbadv1) is off but absorbed by L^{−5η}. **B2 change required:** add the m = 1 instance to vine
+  (II) (reverses R4 of the ylem1 investigation); re-run template enumerations (VINES, MOLEPROP13).

@@ -58,6 +58,11 @@ The scripts are in `/home/scott/wt-scratch/prop96-case4/` and `/home/scott/wt-sc
 - **Possibly more.** DH23 `kqmainest1` (L1633) and TARGET (finalsbest2) (L2078), which bound the actual oscillatory
   sums, may also fail. This is not established: it would need a lower bound on the time integrals.
 
+**Update (2026-11-04, `docs/research/vine2-m1.txt`):** vine (II) with one double bond works (every vine estimate and
+the twist cancellation go through at m = 1), which repairs the Q-bead failure for all γ. What remains false is only the
+T-bead necklace for **γ ≤ 1/2**; option (2) below needs only γ ∈ (1/2, 1) plus the m = 1 vine and the T-type counts
+for γ > 1/2 (no longer (2/3, 1)). FINDINGS F72.
+
 ## What it means for the formalization
 
 Ruling D2 sets the target as **0 < γ < 1**, and the frozen `main` (Wave A) quantifies over `γ ∈ Ioo 0 1`. The

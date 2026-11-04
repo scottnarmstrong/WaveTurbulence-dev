@@ -1,0 +1,276 @@
+VINE (II) WITH ONE DOUBLE BOND (m = 1, the 4-atom Q-block): DO DH23'S VINE ESTIMATES AND CANCELLATION HOLD?
+Date: 2026-11-04.  No Lean compiled.  Scripts and outputs are in this directory (Section 6).
+
+Sources and line numbers:
+  DH23   = /home/scott/wave-turbulence/references/src-2301.07063/Revision_Submit.tex
+  TARGET = /home/scott/wave-turbulence/paper/source/WKE-Longer_times_Final_arXiv.tex
+  NOTE   = /home/scott/WaveTurbulence-dev/docs/research/dh23-prop96-case4.md (the F69b note; Lemma 2.4, 4.6, (E0), (E1))
+Context: ESCALATION-F69b.md, dh23-prop96-referee.txt item 5, ylem1-investigation.md.
+
+=====================================================================================================================
+0. VERDICT: WORKS.
+=====================================================================================================================
+(a) Every vine-level argument of DH23 and TARGET goes through verbatim for vine (II) with m = 1 double bond.
+    - No step uses m >= 2 or "two double bonds".  The parametrization (DH23 L1421ff) is generic in m >= 1.  The
+      cancellation is local to the rung (v3,v4) next to the lower joint v2, and that rung exists at m = 1.
+    - The only place where m is a resource is Prop 7.5 Step 3 (counting branch).  There the single rung must pay for
+      the loss of the x0 count.  DH23 itself says "noticing that m >= 1 for vines (II)" (L1481), and m = 1 closes with
+      a margin of at least 3 eta.
+    - TARGET even treats vine (I) as the m_i = 0 case of the same parametrization (L1800), so m_i = 1 sits inside
+      the family it already handles.
+    - Mechanical checks (enum_m1.py): all 1152 realizations of a (CL) Q-block in a couple fall into DH23's five
+      scenarios (II-a)-(II-e).  Every unit twist is a valid realization of the paired class.  It is an involution, it
+      leaves the directed molecule unchanged, and it leaves all bond vectors and all phases zeta_n Omega_n unchanged.
+      The parametrization is unimodular in all 1152 realizations, and the Gamma/Omega identities of Step 2 hold.
+    - The combinatorial lemmas still hold (subobj_check.py).  A Q-block never occurs as a proper sub-object of any
+      vine (I)-(VIII), up to 3 rungs per slot.  Its only proper sub-block is the double bond s=t, which is already in
+      the subsetvc lists.
+(b) Yes.  Admitting it repairs the Q-bead failure for every gamma in (0,1).  That includes (1/2, 2/3) and gamma <= 1/2.
+    - SG Q-bead chains are spliced in stage 1, as bad (CL) vines with gain L^{-eta^2} each, and leave rho.  The at most
+      one remaining (CN) bead is removed in stage-2 Step 1 with the standard alpha-cut budget.
+    - Q-type case-(4) components are then necessarily vines (II), hence LG (Prop 9.5), and close by the sharp
+      operation (c) (NOTE Lemma 2.4).
+    - The Q-branch of ylem1 becomes exactly correct: Q-type closures = vine (II) with m >= 1.  The length-1 omission in
+      Prop 10.4(1) is also exactly the m = 1 vine (II).
+(c) Not applicable: no step fails.
+    - Caveat: this is a line-by-line audit plus finite checks, not an author confirmation.
+    - Two slips that are NOT specific to m = 1 were noticed (Section 2, C3).  Both are harmless at m = 1.
+
+Consequence for the gamma range:
+  - The Q-bead obstruction (literal reading: failure for all gamma < 2/3) disappears.
+  - DH23 Prop 9.6 / kqmainest2 and TARGET L2192-L2197 / (finalcount1) remain FALSE for 0 < gamma <= 1/2.  The cause is
+    the T-bead necklace, which (E0) does not touch: T-beads contain no Q-block and match no vine (prop96-case4
+    out_vinefree.txt).
+  - For gamma in (1/2, 1) no counterexample is known.  What remains open there is R3 for the T-type classes (NOTE §5.2,
+    (E2)); this is unchanged.
+  - ESCALATION-F69b option (2) therefore needs only gamma in (1/2,1) + (E0) + T-type counts, not a further restriction
+    to (2/3,1).
+
+=====================================================================================================================
+1. THE OBJECT
+=====================================================================================================================
+Q-block = DH23 Fig. VineAnnotated (A) (L1421-L1449) with m = 1:
+  - atoms v1, v2 (joints) and v3, v4 (one rung);
+  - bonds: double bond a1, b1 = v3-v4; c0 = v3-v2; d0 = v2-v4; c1 = c_m = v3-v1; d1 = d_m = v1-v4.
+  - The interior range "1 <= j <= m-1" of L1428 is empty; the rails are exactly (c0,d0) at v2 and (c_m,d_m) at v1.
+  - 2m+2 = 4 atoms, 4m+2 = 6 bonds, n1 = 2m+1 = 3 branching nodes (u2,u3,u4) and 3 leaf pairs.
+  - Both double-bond orientations occur: parallel (a1,b1 both v4->v3) and antiparallel.
+  - Under F37's reading (TARGET L1384 / DH23 L790, "k >= 0 extra rungs per dashed pair"), the drawn vine (II) gives
+    m >= 2.  (E0) means: vine (II) := joint + m >= 1 rungs + joint, with m = 1 as a new template.  Its hyper-vine
+    (adjoint) and its use as a VC/HVC ingredient come along automatically.
+
+=====================================================================================================================
+2. STEP-BY-STEP CHECK (part a)
+=====================================================================================================================
+A. Combinatorial layer (vine-like objects)
+ A1. Lemma disjointlem (L726) hypotheses (i)-(ii), asserted for vine-like objects at L792.  OK at m = 1:
+     - {s,t} = Q-block minus its joints is connected;
+     - removing s (or t) leaves w1-t-w2, which is connected;
+     - concatenations behave as before.
+ A2. Lemma 8.1 (vinechainlem, L1619-L1622).  OK.
+     - The proof uses only Lemma disjointlem and the fact that a block with sigma = 1 that is a single vine is a vine (V).
+     - The Q-block has sigma = 0 (no bond w1-w2).
+     - No vine template, Q-block included, has an interior cut atom (prop96-case4/vinefree.py, verified with the
+       Q-block), so scenario (c) still yields a larger VC.
+ A3. Prop subsetvc (L2128) and TARGET Lemma subsetvc (L2431).  OK (subobj_check.py, rungs 0..3 per slot, 186
+     templates).
+     - A Q-block occurs as a sub-block only as the whole Q-block template.
+     - The only proper sub-(hyper)block of the Q-block or of its adjoint is the double bond {s,t}.  This is vine (I)
+       when antiparallel, and it is already in both lists.
+     - Removing it leaves the 4-cycle w1-s-w2-t, which is connected.
+     - So the "U_2 stays connected" conclusions, and Step 1's use of subsetvc (L1797), are unchanged.
+ A4. Cor blockchainprop (L782) and Def defcong (L1623).  Generic, no vine shape used.
+
+B. Couple layer: scenarios and twists (all verified by enum_m1.py, out_enum_m1.txt)
+ B1. Prop 5.3 (molecpl, L810-L840; numbered 5.3 in NOTE/referee).
+     - Statement (1): "v2 is connected to v3, v4 by single bonds, v3=v4 double".  True at m = 1.
+     - The "simple enumeration" (L838) was redone mechanically.  All sign/position choices give 2304 tree
+       structures; 1152 of them give the Q-block molecule.
+     - Every one of the 1152 is exactly one of (II-a)/(II-b) [192], (II-c) [384], (II-d) [384], (II-e) [192].
+     - All five occur, each in both double-bond orientations.
+     - The block condition at v1 and v2 holds (one in-bond and one out-bond inside).
+     - New at m = 1: in (II-a)/(II-b), u3 and u4 are both children of u1.  In (II-c)/(II-d), the free child of u4
+       (Remark molecplrem(c), L846) is a leaf paired with a child of u1.  Both are allowed by the definitions; T3 = trivial
+       tree.
+ B2. Def twist (L852-L859) and Remark explaintwist (L861-L870).  For every core realization, the twist (u2 moved to the
+     slot of u0; the old slot becomes the leaf u0' paired with u23) is:
+     - a valid fragment (paired leaves have opposite signs; no sibling pairs);
+     - in the paired class: a<->b, c<->d;
+     - an involution;
+     - such that the directed molecule, including the external bond directions at v1 and v2, is unchanged
+       (Remark twistexplain(a), L874);
+     - such that zeta_u2 flips and every other sign is unchanged (Remark twistexplain(d)).
+ B3. Remark dectwist (L885-L887) and intro L605.
+     - Switching k_u2 <-> k_u23 gives identical bond vectors.
+     - The phases zeta_n Omega_n for n = u2, u3, u4 are identical, checked on 2880 random d = 3 decorations.
+     - zeta(Q) flips through zeta_u2.
+     - This is the "same molecule, same integrand, opposite sign" structure that the cancellation needs.
+ B4. Def twistrep (codes, L890-L901).
+     - At m = 1 in (II-a)/(II-b), flipping at u1 swaps the subtrees rooted at u3 and u4.  It keeps each subtree's sign
+       and keeps which of them is the parent of u2.  So a code still has exactly four elements (sgn, ind).
+     - Remark remkv (L1399) is generic.
+
+C. Analytic layer: DH23 Prop 7.5 (estbadvine, L1401-L1546)
+ C1. Step 1 (L1409-L1419).  Generic.
+ C2. Step 2 (L1421-L1449), parametrization.
+     - At m = 1, (zetaOmegasum) (L1434) reads
+         zeta Omega_u3 + zeta Omega_u4 = -Gamma_v3 - Gamma_v4 = +-2 r.(c0-c1 or c0-d1).
+     - Variables are x0 and (x1,y1) = differences of two of (a1,b1,c1,c0), with
+         Gamma_{rung atom} = -2 x1.y1  and  Gamma_v3 + Gamma_v4 = 2 r.(a x1 + b y1) + th|r|^2,  (a,b) != 0;
+       and
+         zeta Omega_u2 = r.mu0  with mu0 = a0 x0 + b0 y0 + th0 r,  y0 in {k_u21, k_u22}.
+     - Property (i) (T1 integer with integer inverse): the map (3 leaf vectors) <-> (x0,x1,y1) has |det| = 1 in all
+       1152 realizations.  Properties (ii), from DH21 L6.6, and (iii) are generic.
+     - "zeta_n Omega_n = -Gamma_v(n)" was checked numerically at u2, u3, u4.  All verified (enum_m1.py).
+ C3. Step 3 (L1451-L1483), the counting branch (gamma > 4/5 - eta or |r| > L^{-gamma-eta}).  This is the only place
+     where m is a resource; DH23 L1481 explicitly requires only "m >= 1 for vines (II)".
+     - gamma >= 4/5 - eta: x0 costs L^{1-gamma} more than L^{d-gamma} (Lemma A.3(1)).  The single rung gains
+       L^{-(1-gamma)-20eta} (Lemma A.2(2) = basiccount0(2), L2048, valid since gamma > 4/5 - 10eta).  Net L^{3(d-gamma)-20eta} <=
+       L^{3(d-gamma)-5eta}.  OK.
+     - |r| > L^{-gamma-eta}, gamma < 4/5 - eta: x0 costs at most L^{2eta}.
+       - DH23 L1481 (second sentence) cites Lemma A.2(2) for the rung, but A.2(2) needs gamma > 4/5 - 10eta.  This slip is generic
+         in m.
+       - The correct input is A.2(1): a gain (1+delta L^{2gamma}|r|)^{-1} <= delta^{-1} L^{-gamma+eta} if
+         gamma <= 1/2, and L^{-10eta} if gamma > 1/2.  The latter uses DH23's eta << gamma - 1/2.
+       - At m = 1 the net is <= L^{3(d-gamma)-8eta} <= L^{3(d-gamma)-5eta}.  OK; m = 1 is the tightest case, with a
+         margin of at least 3 eta.
+     - (twoestbadv2): the loss (log L)^{2m+1} is (log L)^3 at m = 1.
+     - Generic slip: (twoestbadv1) asks for delta^{-(m+1)}, while the counts give delta^{-(2m+1)}.  This is not
+       m-specific, and the L^{-5eta} slack absorbs it.
+ C4. Step 4 (L1484-L1534), the cancellation branch (gamma <= 4/5 - eta, |r| <= L^{-gamma-eta}).
+     - Lemma sumintest1 (L1280) is stated "for m >= 1".  Its gain comes only from the factor M_1 (L1342), i.e.
+       the rung j = 1 = (u3,u4) adjacent to v2.  The other M_j are bounded trivially, and at m = 1 there are none.
+     - (II-e) (L1486-L1495): u4 is a child of u2, which is a child of u3, so t_u4 < t_u2 < t_u3.  This is condition
+       (a) of Lemma sumintest1, verified for all 192 (II-e) realizations.
+     - (II-a)-(II-d) (L1497-L1532): E*[V], M^(a) - M^(b) and terms (1)-(5) involve only t_u2, t_u3, t_u4, the
+       regular objects at (u23,u0) and u2, and x0 - y0 = +-r.  These are rung-1 and v2 data, present at m = 1:
+       - (1) gives condition (a);
+       - (3) gives condition (c), the factor |t1 - s1|^{1-eta} = |t_u4 - t_u3|^{1-eta};
+       - (4) gives condition (b);
+       - (2) gives condition (d);
+       - (5) vanishes by Prop regcpltreecancel (L940), independently of m.
+     - New at m = 1: some leaf pairs are attached at v1, e.g. the LP bond v1-v4 in (II-c)/(II-d).  Their K_Q factors
+       depend on (t_u1, t_u4).  After the time-Fourier expansion they become e^{i lambda t_u1} (absorbed by the
+       weights, L1471) times a phase in s1 = t_u1 - t_u4 (a mu_1 parameter).  This is the same as for the v_{2m+2}
+       bonds when m >= 2.
+     - Bookkeeping: (delta L^{-(d-gamma)})^3 * L^d (x0 sum) * delta^{-1} L^{2(d-gamma)-gamma-eta^2} = delta^2
+       L^{-eta^2} <= (C+ sqrt delta)^{n2} L^{-eta^2} with n2 >= 3.  OK.
+ C5. Prop 7.6 (estnormalvine, L1547) is not used: the Q-block is a bad vine and forms its own unit in a VC
+     (L1648).  Remark extravar (L1612) is generic.
+
+D. Stage 1 (DH23 Section 8)
+     - Prop red1step (L1653-L1679): units, u1^j = u2^{j+1}, u11^j = u23^{j+1}, and Remark 7.2.  Generic.
+     - Proof of kqmainest1 from kqmainest2 (L1692-L1694): a VC of length m has C^m choices, and each vine has O(1) ladders and O(1)
+       extra atoms.  The Q-block has 4 atoms.  OK.
+
+E. Stage 2 and the final molecule (DH23 Sections 9-10)
+     - Prop 9.1 (subpro, L1731), Remark subcondition (L1747): generic.
+     - Step-1 deviation (L1797-L1802): a bad vine with m = 2m~+2 = 4 atoms, m~ = 1.  Then
+         F <~ L^d (RL)^d L^{2(d-gamma)} delta^{-2},  D <~ R^d L^{2gamma} (log L)^C <= L^{-eta^3} R^2 L^{gamma+3eta}.
+       OK.
+     - Prop 9.5 (finalmole, L1806-L1816): "a component that is a vine must be LG".  The proof is generic, so it now
+       also covers Q-blocks.
+     - Prop 9.6 case (4) (L1883-L1885): Q-type components become correct.
+       - The Q-branch of ylem1 (L1939-L1941) is exactly the set of vine (II) closures with m >= 1:
+         - zero (Y)-sequences gives M_1 = Q = the closure of the m = 1 block;
+         - one sequence gives m >= 2;
+         - a second (Z) would create a third triple bond.
+       - In case (4), Prop 9.5 forbids triple bonds in M_0.  So both closure bonds come from the two beta-chains,
+         one beta-atom each, and M_0 is a vine (II).
+       - Hence "M_0 must be a vine" is true for every Q-type M_1 (the T-type omissions of the investigation remain).
+       - An LG Q-block component closes: NOTE Lemma 2.4 gives A_0 <~ L^{gamma-1} + delta^{-1} L^{-eta}
+         (gamma <= 1 - 2eta).  A direct count gives A_0 <~ delta^{-3} L^{-2eta-gamma0}.
+     - Prop 9.6 case (5) (L1887-L1890) and Prop 10.4(1) (L1959): the exceptional "triple bond on two atoms"
+       (investigation, "length-1 omission") is the closure of the m = 1 vine (II).  So the source argument
+       "M_0 is a vine (II), hence LG, impossible with an alpha-joint" applies as written.
+
+F. TARGET (same machinery for layered gardens)
+     - Def defvine (L1384): needs the (E0) wording, plus the F37 reading.
+     - Prop molecpl (L1396): cites DH23 5.3 (B1).
+     - Def twist and Remarks explaintwist/twistexplain (L1429-L1459): see B2-B3.
+     - Def lftwist / Prop lftwistprop (L1466-L1488): the layer and coherence argument is generic.  The (II-a)
+       canonicity check (L1487) does not need u3, u4 to be non-children of u1.
+     - Def cohmol (L1489-L1492): one group {v3,v4}.
+     - Prop layervine (L1513-L1531): 2m+2 = 4 atoms, g <= m = 1, chain of groups G_1 = {v3,v4}.  Removing G_1
+       separates v1 from v2.  OK.
+     - Prop sumint (L1595-L1720): for i in Bad, conditions (a)-(d) (L1609-L1615) need only the rung j = 1.
+       The per-vine bound C^{m_i} delta^{-(m_i+1)} L^{(2m_i+1)(d-gamma)} L^{-0.1gamma0} holds for m_i >= 1.
+     - Prop vineest (L1742-L1924):
+       - Step 2(A) (L1775) at m_i = 1: same as C2.
+       - (B) (L1800) says vine (I) "corresponds to the case m_i = 0".
+       - Step 3 (L1841-L1850): (II-e) gives condition (a), as in C4.
+       - Step 4 (L1852-L1924): terms (a)-(d) (L1899-L1909) are rung-1 data, and the leading term is zero by
+         (layerregest10).  The L_u3 > L_u4 subcase (L1911-L1922) is generic.
+     - Lemma vinechainlem, Def defcong (L1930-L1937), Prop subpro (L2040), Lemma subsetvc (L2431): see A2-A4.
+     - Prop excessprop1(2) (L2154-L2179): F-count with m = 4 atoms.  OK.
+     - Prop finalmol (L2182) and L2192-L2197 (lgmolect) = DH23 9.5/9.6.
+
+=====================================================================================================================
+3. PART (b): Q-BEAD NECKLACES UNDER (E0)
+=====================================================================================================================
+Q-necklace N_m(Q) (NOTE Def 3.1 with Q-beads; same couple as in NOTE Lemma 3.2).
+  - Beads B_1..B_m are concatenated, so they share one gap r (L1627).
+  - The maximal VC B_1 u ... u B_m has joints w_0, w_m of degree 4, so it is not a root VC (L1623).
+SG gap (|r| <= L^{-gamma+eta}), including the NOTE's r = e1/L:
+  - All (CL) beads go into V_0.  All but at most one bead are (CL) (Cor blockchainprop).
+  - Each is a bad-vine unit, spliced with Delta_{j+1} - Delta_j = -eta^2 (red1step via Prop 7.5).  This holds for
+    every gamma in (0,1): Step 3 covers gamma > 4/5 - eta or |r| > L^{-gamma-eta}, and Step 4 covers the rest.
+  - The (CN) bead, if any, is an SG (CN) vine of M(Q_sub) (Prop 9.1(a)).  It is removed in stage-2 Step 1 with
+    D <= L^{-eta^3} R^2 L^{gamma+3eta}, giving two alpha-atoms.
+  - So M(Q_sub) = odd bead + hinge atom (+ that bead), and rho_sub = O(1).  kqmainest1 only claims L^{-eta^7 rho_sub}
+    (L1634), and the couple count is (C rho)! C^n (L1694).
+  - The obstruction L^{(2-3gamma)m} (1/2 < gamma <= 2/3) or L^{gamma m} (gamma <= 1/2) is gone.  It was the absolute
+    counting loss of a bad vine, which DH23 says is "a serious L^{1/2} power loss" per vine (I)/(II) (L588).  It is
+    cured by the twist cancellation at v2, exactly as for m >= 2.
+  - A tiny-gap Q-bead can no longer reach case (4).  Every SG Q-block is either removed (Prop 9.1(a),(e) + Step 1) or
+    destroyed by a hinge cut (Prop 9.1(f)), and Prop 9.5 makes vine components LG.
+LG gap: Q-beads are not spliced.
+  - Per bead the count gains (A_Q <~ delta^{-3} L^{-2eta-gamma0}), so no kqmainest2 problem arises.
+  - In case (4) they close by NOTE Lemma 2.4 for gamma <= 1 - 2eta.  The gamma = 1 endpoint is flagged as before.
+Hence the answer is yes, with the correct gain, uniformly in gamma, including gamma in (1/2,2/3) and gamma <= 1/2.
+Q-type exceptional components (closure reducing to the quadruple bond) are exactly the vines (II) with m >= 1 (Section 2, E), so
+no other Q-type class is left uncovered.
+
+=====================================================================================================================
+4. CONSEQUENCE FOR THE GAMMA RANGE
+=====================================================================================================================
+  - Literal reading (no m = 1 vine): the four statements fail for 0 < gamma < 2/3 (NOTE Lemma 4.6; referee (C)).
+  - With (E0): they still fail for 0 < gamma <= 1/2 because of the T-bead necklace (NOTE Prop 4.3/4.4), which (E0)
+    does not affect.  The failure caused by Q-beads is removed everywhere.
+  - (1/2, 1): no counterexample is known.  Still open: R3 for the T-type classes at gamma > 1/2 (the other
+    orientations of the T-bead, T_1, the 9-atom block, and the infinite families Z_m(T_n, l')).  Lemma 5.1 of the
+    NOTE covers only the parallel T-bead.
+  - Endpoint: gamma > 1 - 2eta (Lemma 2.4) remains flagged, as before.
+  - For ESCALATION-F69b option (2): gamma in (1/2,1) + (E0) + T-type counts suffice.  The extra restriction to
+    (2/3,1) is no longer needed.
+
+=====================================================================================================================
+5. WHAT (E0) REQUIRES IN PRACTICE
+=====================================================================================================================
+  - Definition: vine (II) := two joints joined through a ladder of m >= 1 rungs (DH23 Def 5.1, L790 / TARGET Def defvine,
+    L1384).  Everything else (HV, VC, HVC, bad/core/non-core) is inherited.
+  - No new estimate is needed.  Prop 7.5 / TARGET Prop vineest apply verbatim, and the m-dependent step (C3) closes at
+    m = 1.
+  - Lean (B2): add the m = 1 instance to the vine (II) template.  This reverses R4 of ylem1-investigation.md, as the
+    NOTE says.  The B2 lemmas that enumerate templates must be re-run.  In the formal Prop 7.5, the parametrization
+    must be stated for m >= 1, not m >= 2.
+  - Residual risk: this is an audit of the written proof (plus finite checks), not an independent proof of Lemma sumintest1
+    or an author confirmation.  It is as safe as Prop 7.5 for m >= 2, which uses identical text.
+
+=====================================================================================================================
+6. FILES (run as python3 -I <script>)
+=====================================================================================================================
+  enum_m1.py  -> out_enum_m1.txt
+    - Enumerates every (CL) realization of the Q-block in a couple: u1 sign, position of u11, position of u23,
+      placement of u2/u3/u4, leaf matching.  Molecule directions follow DH23 Def 4.2 (L637).
+    - Checks:
+      - the scenarios of Prop 5.3;
+      - twist validity, involution, invariance of the directed molecule, and the zeta_u2 flip;
+      - the dectwist decoration correspondence (bond vectors and phases);
+      - the (II-e) time order;
+      - unimodularity of the Step-2 parametrization;
+      - the Gamma/Omega identities (random d = 3 decorations).
+  subobj_check.py -> out_subobj_check.txt
+    - Q-block sub-blocks of all vine templates (copied from prop96-case4/vinefree.py, i.e. the B2 Lean templates),
+      with rungs 0..3 per slot.
+    - Proper sub-(hyper)blocks of the Q-block and of its adjoint.
