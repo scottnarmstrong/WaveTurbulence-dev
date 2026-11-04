@@ -1,4 +1,4 @@
-# FREEZE-LIST: Wave B tier B1 (snapshot 6: freeze-ready packaging, DESIGN CL-16–CL-18, CL-20)
+# FREEZE-LIST: Wave B tier B1 (snapshot 7: freeze-ready packaging, DESIGN CL-16–CL-18, CL-20, CL-21)
 
 Generated from the compiled modules `WaveBDraft.{Core, System, Statements, Sumint, Flower}` by the Lean metaprogram
 `FreezeList.lean` (next to this file) and `gen_freeze.py`. Each row is one declaration of the five frozen files:
@@ -264,7 +264,7 @@ enclosing section header, marked `(section)`, or else of the file's module docst
 | `LayeredGarden.IsFlowerNode` | def | (file) T L2327; T L2283–L2285; T L2331 | `GLeaf`, `GLeaf.toNode`, `GNode`, `Garden`, `Garden.IsFlower`, `LayeredGarden` |
 | `LayeredGarden.IsTopLeaf` | def | T L2283 | `GNode`, `Garden`, `LayeredGarden`, `LayeredGarden.parentLayer`, `TTree.Path`, `TTree.leaves`, `TTree.nodes` |
 | `LayeredGarden.fixPat` | def | T L2264 | `FixPat`, `GBranch`, `GBranch.IsChildOf`, `Garden`, `Garden.IsFlowerParent`, `LayeredGarden`, `TTree.Path`, `TTree.branching`, `instDecidableIsFlowerParent`, `instFintypeGBranch` |
-| `LayeredGarden.PatValid` | def | (file) T L2327; T L2283–L2285; T L2331 | `FixPat`, `GBranch`, `GBranch.IsChildOf`, `Garden`, `Garden.IsFlowerParent`, `LayeredGarden`, `TTree.Path`, `TTree.branching` |
+| `LayeredGarden.PatValid` | def | T L2331 | `FixPat`, `GBranch`, `GBranch.IsChildOf`, `GBranch.toNode`, `Garden`, `Garden.IsFlowerParent`, `LayeredGarden`, `TTree.Path`, `TTree.branching` |
 | `LayeredGarden.cutWeight1` | def | T L2283 | `GNode`, `Garden`, `LayeredGarden`, `LayeredGarden.IsFlowerNode`, `LayeredGarden.IsTopLeaf`, `TTree.Path`, `TTree.nodes`, `dyadicCut`, `instFintypeGNode` |
 | `LayeredGarden.cutWeight2` | def | T L2285 | `GBranch`, `GBranch.toNode`, `GNode`, `Garden`, `Garden.IsFlowerParent`, `LayeredGarden`, `LayeredGarden.OnStem`, `LayeredGarden.instDecidableOnStem`, `TTree.Path`, `TTree.branching`, `dyadicCut`, `instDecidableIsFlowerParent`, `instFintypeGBranch`, `omegaNode` |
 | `LayeredGarden.sibWeight` | def | T L2327 | `GBranch`, `GBranch.child`, `GNode`, `Garden`, `Garden.IsFlowerParent`, `LayeredGarden`, `LayeredGarden.IsFlowerNode`, `TTree.Path`, `TTree.branching`, `instDecidableIsFlowerParent`, `instFintypeGBranch` |
