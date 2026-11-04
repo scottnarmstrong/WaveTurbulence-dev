@@ -98,73 +98,154 @@ READY jr2
 
 ---
 
-## J3 MAINCOEF: the statement (in progress; for wt-torus / J4). Updated 2026-11-04, head 05f1b1a
+## J3 MAINCOEF: the statement (final; for wt-torus / J4). Updated 2026-11-04, head 80bab05
 
-The objects below are committed on `w/jr-ops` under `Foundations/ClassJR/` and will not change. Only the final
-code-level theorem name is still open; it lands with `MCB2.lean`.
+All objects are committed on `w/jr-ops` under `Foundations/ClassJR/`, namespace `WaveTurbulence.ClassJR`. The entry
+module is `MCProp51.lean`; it imports every other `MC*` module.
 
-**Definitions** (`MCDefs.lean`, a0d2a72). Variables are points of a type `V` with signs `ζ : V → ℤ`. For codes,
-`V = Fin 2 × Path` (node addresses).
+**Definitions** (`MCDefs.lean`).
 - `e2 λ t s = e^{πi(λ₁t+λ₂s)}`.
 - `wL a λ = (1+|λ₁|+|λ₂|)^a`, the stronger reading of DH23's `⟨max(λ₁,λ₂)⟩^a`.
-- `PhiZ ζ z x = phiR (ζ z * x)`, which equals `χ_∞(x)/(ζ_z π i x)` (`phiR_sign`).
-- `MCRep θ a b A N S F`: on `[0,1]²`, `F α t s = ∫ 𝒞(α∘f, λ) e2 λ t s dλ`, where `f : ι ↪ V` has range `S` and
+- `PhiZ ζ z x = phiR (ζ z * x) = χ_∞(x)/(ζ_z πi x)` (`phiR_sign`).
+- `MCRep θ a b A N S F`: on `[0,1]²`, `F α t s = ∫ 𝒞(α∘f, λ) e2 λ t s dλ`, where `f : ι ↪ V` has range `S`, and
   - `SymReg 𝒞` (audit W3);
-  - (maincoef2): `∀ k, ∫∫ wL θ ‖∂^k 𝒞‖ ≤ gev N A k`, where `gev N A k = N A^k (2k)!` (deviation D1 of JR-OPS);
-  - (maincoef2.5), per variable: `∀ i, ∫∫ wL a (1+|α_i|)^b ‖𝒞‖ ≤ N`. The max over variables follows with a
-    factor `|S| ≤ n`.
+  - (maincoef2): `∀ k, ∫∫ wL θ ‖∂^k 𝒞‖ ≤ gev N A k`, with `gev N A k = N A^k (2k)!`;
+  - (maincoef2.5), per variable: `∀ i, ∫∫ wL a (1+|α_i|)^b ‖𝒞‖ ≤ N`.
 - `MCExp θ a b A N ζ S F` is DH21 (maincoef3):
   `∃ G, (∀ Z ⊆ S, MCRep θ a b A N (S∖Z) (G Z)) ∧ ∀ α, ∀ t s ∈ [0,1], F α t s = Σ_{Z⊆S} (∏_{z∈Z} PhiZ ζ z (α z)) · G Z α t s`.
   `G Z` is DH21's `B̃_{Q,Z}`.
-- Recursions:
-  - `type1F v sw F` is (newexp1), with `swapT` for the `(t₁,s₁) ↔ (s₁,t₁)` swaps;
-  - `chainT` (`MCChainT.lean`) is (newexp2) in CPS form over Catalan codes.
-  - Type 2 is `fun α t s => chainT c⁺ 0 F⁺ α t (fun t' => chainT c⁻ 0 F⁻ α s (fun s' => F_lp α t' s'))`.
 
-**Planned statement.** Prop 5.1 for `B̃_Q`, defined on B2 codes (copied under ClassJR) by (newexp1)/(newexp2):
-`MCExp θ a b A (C^n) ζ (chosenSet Q.links) (B̃_Q)`, where
-- `n` is the half-scale;
-- `θ = 1 − η/8`, `a = η/4`, `b = 1 − η/2`; the proof only uses `0 ≤ θ < 1`, `0 ≤ a, b`, `a+b ≤ θ`, `a+b < 1`,
-  `b ≤ θ`;
-- `A ≥ A1`.
+**Codes** (`MCCodes.lean`). `RegCpl`, `RegChain`, `linksAt`, `links`, `chosenSet`, `wf`, `size` and the mini codes
+are copied verbatim from the B2 draft `wt-scratch/waveb2/WaveB2-Regular.lean` (sha256
+`4d7f81efa32b54e5720aac452ea7d5e458cf6ee3052b9378763d37437cc5d052`).
+- Variables: `Addr = Fin 2 × Path` (node addresses); node signs `nodeSgn`; `𝒩^ch = chosenSet Q.links`.
+- `RegCpl.Bt Q x y` is `B̃_Q` with `+` root `x` and `-` root `y`, defined by (newexp1)/(newexp2):
+  - type 1: `type1F x ![false, true, false] ![B̃_{Q₁}, B̃_{Q₂}, B̃_{Q₃}]` (the times of `Q₂` are swapped);
+  - type 2: `type2F` = `+` chain (`chainT`) in `t`, `-` chain in `s`, `B̃_{Q_lp}` at the last times;
+  - chain signs `ε_j = ζ_{𝔫_a}`.
+- `RegCpl.Btilde Q = Q.Bt (0, []) (1, [])`.
 
-The garden form goes through the named obligation `existsUnique_regCpl_decodes`.
+**The theorems** (`MCProp51.lean`).
+- `RegCpl.maincoef` (hθ0 : 0 ≤ θ) (hθ1 : θ < 1) (ha : 0 < a) (hb : 0 ≤ b) (hab1 : a + b < 1) (hab : a + b ≤ θ)
+  (hA : A1 ≤ A) (Q) (hQ : Q.wf = true) :
+  `MCExp θ a b A (C0 θ a b ^ (2 * Q.size + 1)) nodeSgn (chosenSet Q.links) Q.Btilde`.
+- `RegCpl.maincoef_DH23`: the same with `θ = 1 − η/8`, `a = η/4`, `b = 1 − η/2`, for `0 < η ≤ 2`.
+- `maincoef_of_structure` (IsReg) (Dec) (hstruct : ∀ G, IsReg G → ∃! Q : RegCpl, Q.wf = true ∧ Dec Q G) … (G) (hG) :
+  `∃! Q, (Q.wf = true ∧ Dec Q G) ∧ MCExp … Q.Btilde`.
+  With `Garden 2`, `IsRegularCouple` and `RegCpl.Decodes`, `hstruct` is REG-STRUCT's `existsUnique_regCpl_decodes`.
+- The intermediate steps are also usable on their own:
+  - `RegCpl.mcexp` (all codes, constant `Q.NB θ a b`);
+  - `MCExp.one`, `MCExp.type1`, `MCExp.type2`, `MCExp.chain`, `MCExp.mul`, `MCExp.swapTimes`.
 
 **F61, for J4.**
 - The factor in front of `B̃_{Q,Z}` is exactly DH21 (maincoef1): `∏_{n∈Z} χ_∞(α_n)/(ζ_n π i α_n)`.
-- The minus sign of Lemma 5.8's `T₀ = −I_μ` (`iker_comp_decompP`, conjunct `KEqOn (T₀ μ α) (−iker μ)`; Chain2's `T0`)
-  sits *inside* `B̃_{Q,Z}`.
-- So for dominant couples `B̃_{Q,Z} = (−1)^{|Z|} · 𝒥B̃_Q`. This sign is missing from DH21 (regchaincalref) and
-  Lemma 7.3.
+- The `−1` of Lemma 5.8's `T₀ = −I_μ` (`iker_comp_decompP`; Chain2's `T0`) is *inside* `B̃_{Q,Z}`.
+- So for dominant couples `𝒥B̃_{Q,Z} = (−1)^{|Z|} · 𝒥B̃_Q`. DH21 (regchaincalref) and Lemma 7.3 miss this sign.
 
-**Committed so far.**
+## HANDOFF — J3 MAINCOEF (DH21 Proposition 5.1 with the DH23 weights), branch w/jr-ops, head 80bab05
 
-| commit | module | content |
-|---|---|---|
-| — | MCE | gE |
-| — | MCSob | SymReg from integrated bounds |
-| — | MCG | Lemma G for class J |
-| — | MCProd, MCK1, MCReorder, MCSRep | products, the type-1 coupling, reorderings, `SRep` |
-| 0598ac3 | MCCase1 | `SRep.case1`, `integral_C1_e2` |
-| 0a64ebf | MCType1 | `MCExp.type1`: Case 1 done |
-| 7c20cae | MCGR | Lemma G for class R |
-| 301f4ba | MCDiff | (differenceloss): `log` replaced by `⟨λ⟩^δ` |
-| f706ad7, fe25d91 | MCChainT | `chainT`; `chainT_exp`: with exponential pair coefficients, `chainT` is the Volterra operator of `pchain` (DH21 kusingI) |
-| 3fedef3, 6a330cd | MCChainF | frequency space `ZT c`; `chainT_fubini` (DH21 L1121–L1124: fixing the pair frequencies); `chainT_exp_fubini` |
-| 30821e3 | MCGP | Lemma G for masked parametric class J + R (`MJR.lgpieces`, DH21 Cases 2.1/2.2) |
-| c0ba025 | MCPair | `MCRep.mul`, `MCExp.mul` (products: the pair coefficients of (newexp2)), `MCExp.swapTimes` |
-| 5fab1bd | MCChainX | `chainT_expand`: expansion of the chain integral over the pair masks (DH21 (newexp4)) |
-| 36987a8, 05f1b1a | MCChainM | pair symbols (`PBound`), the pair symbol with the difference `Φ(εα+λ₁)−Φ(εα)` (`PBound.pd`), the product over a code (`tbound_MzS`) |
+### Files
+All are in `WaveTurbulence/Foundations/ClassJR/`. There are 37 J3 commits from c63e90b to 80bab05; every module
+is ≤ 884 lines.
 
-**Next.**
-1. One-sided chain theorem (fixed masks): `(t,s) ↦ chainT c 0 R α t (t' ↦ G α t' s)` is `Σ_{Y'⊆adj} ∏_{j∈Y'} PhiZ · MCRep`.
-2. Type 2 from it: the − chain first (times swapped), then the + chain with that bottom coefficient; then masks.
-3. The `IsBC` induction (Prop 5.1 for the recursion).
-4. MCB2: `B̃_Q` on copied B2 codes; the garden statement through `existsUnique_regCpl_decodes`.
+| module | what it proves |
+|---|---|
+| MCE | `gE` |
+| MCSob | `SymReg.of_lintegral` |
+| MCG, MCGR | Lemma G for class J and for class R |
+| MCDefs | `MCRep`, `MCExp`, `type1F` |
+| MCProd, MCK1, MCReorder, MCSRep | products, the type-1 coupling, reorderings, `SRep` |
+| MCCase1, MCType1 | Case 1 |
+| MCDiff | the difference loss |
+| MCChainT | `chainT` |
+| MCChainF | the Fubini step over the pair frequencies |
+| MCGP | Lemma G for MJR |
+| MCPair | `MCExp.mul`, `MCExp.swapTimes` |
+| MCChainX | the mask expansion |
+| MCChainM | pair symbols and their products over a code |
+| MCAssemble | the shear pushforward and `srep_assemble` |
+| MCChain1 | chain-term bookkeeping |
+| MCChainId | the expansion identity |
+| MCSum | sums of `MCRep` |
+| MCChainTerm | one chain term |
+| MCChainOne | fixed masks |
+| MCChainExp | `MCExp.chain` |
+| MCOne | the trivial couple |
+| MCType2 | `MCExp.type2` |
+| MCCodes | the copied B2 codes and `B̃_Q` |
+| MCCodesVars | address regions and chain facts |
+| MCMain | the induction |
+| MCConst | `C₀^{2n+1}` |
+| MCProp51 | the statements |
 
-**Shape of the type 2 statement (planned, for J4).** For a type 2 couple with chains `c⁺, c⁻` (pairs `j`, variables
-`σ^± j`, signs `ε^± j`, required `ζ (σ^± j) = ε^± j`) and lone pair `lp`:
-`B̃_Q α t s = chainT σ⁺ ε⁺ c⁺ 0 F⁺ α t (fun t' => chainT σ⁻ ε⁻ c⁻ 0 F⁻ α s (fun s' => F_lp α t' s'))`, where `F^±_j` are the
-pair coefficients (products of the two subcouple coefficients, times swapped by the leaf signs) and the conclusion
-is `MCExp θ a b A N ζ S B̃_Q`. The `PhiZ` factors of the chain variables come only from adjacent pairs (`adjSet`,
-DH21 Lemma 5.10); the `T₀ = −I_μ` sign stays inside `G_Z`.
+**Landing.** Add `public import WaveTurbulence.Foundations.ClassJR.MCProp51` to the root. I did not edit the root.
+
+### Approach
+1. Induction on the code (DH21 L944).
+2. **Case 1** (`MCExp.type1`): the coupling `gE ⊗ gE`, pushed forward.
+3. **Case 2** goes through one-sided chains, `chainT c R α t (G α · s)`:
+   - Fubini over the pair and bottom frequencies (`chainT_fubini`, `chainT_exp_fubini`);
+   - `chainT_exp`, i.e. the Volterra operator of `pchain` at `α̃ = α + ελ₁`;
+   - Lemma 5.10 (`pchain_expand`, `lemma510`) over `Y ⊆ adj`;
+   - `Φ(εα̃) = Φ(εα) + D` (MCDiff) over `Y' ⊆ Y`;
+   - Lemma G (`MJR.lgpieces`);
+   - the coefficient is the pushforward of `(∏ pair symbols with D) ⊗ 𝒞_b ⊗ H(β + shift)` along a shear (`srep_assemble`);
+   - the masks are expanded (`chainT_expand`, `chainT_finsum`) and regrouped by `Z` (`MCExp.of_sum`).
+     For a fixed `Z` at most `2^{m+1}` terms remain, so the factor is local.
+4. **Type 2** is the `−` chain (with the times swapped), then the `+` chain with that bottom (`MCExp.type2`).
+5. **Distinct variables** come from address subtrees (`RegCpl.chosen_sub`, `ChainFacts`).
+6. **Constants** (`RegCpl.NB_le`): wf excludes two empty chains, and each chain pair pays `C₀²`.
+
+### Checks
+- `nice -n 5 lake build WaveTurbulence.Foundations.ClassJR.MCProp51` → `Build completed successfully (3812 jobs).`
+- `python3 dupscan.py` → `duplicate scan: OK`, `sorry scan: OK`.
+- `grep -rn "sorry|admit|maxHeartbeats|axiom|opaque|unsafe" ClassJR/MC*.lean` → none.
+- One `set_option linter.unusedSectionVars false in` on the mutual block of MCMain. It is a linter, not a budget.
+
+### Axioms (`#print axioms`)
+`RegCpl.maincoef`, `RegCpl.maincoef_DH23`, `maincoef_of_structure`, `RegCpl.mcexp`, `RegCpl.NB_le`,
+`MCExp.chain`, `MCExp.type2`, `MCExp.type1`, `MCExp.one`, `MCRep.chainOne`, `srep_assemble`:
+`[propext, Classical.choice, Quot.sound]`.
+
+### Named obligation
+`existsUnique_regCpl_decodes (G : Garden 2) (hG : IsRegularCouple G) : ∃! Q : RegCpl, Q.wf = true ∧ Q.Decodes G`
+(REG-STRUCT, audited PASS).
+- It enters as the hypothesis `hstruct` of `maincoef_of_structure`, over an abstract carrier type.
+- `Garden` (B1) is only on the unlanded `w/freeze-b1`, and `RegCpl.Decodes` and `IsRegularCouple` are only in the B2
+  draft, so the library cannot name them yet.
+- Instantiation is mechanical once B2 lands. The copied `RegCpl` must then be replaced by the landed one.
+
+### Uncertainties
+- **`B̃_Q` is defined on codes by (newexp1)/(newexp2)**, the same route as B2's `𝒥ℬ*`. DH21 "deduces" these
+  recursions from (defcoefb2)/(deftildeb) (L923–L937). Identifying them with a garden-level `B̃` is not in this
+  packet.
+- **Conventions** mirror B2's `linksAt`/`pairsAt`:
+  - the `+` root is the first argument;
+  - only `Q₂` is time-swapped in type 1;
+  - a chain couple is swapped iff `slotSign ζ red.1 ≠ 1`;
+  - `Q_lp` is not swapped, because a chain's lone leaf has the root's sign (checked on all 6 mini-tree codes).
+- **The type-1 phase** is `e^{πiα_x(t₁−s₁)}`, which assumes `ζ_x = +` for the `+` root, as in B2's codes.
+
+### Suspected errata and deviations
+1. **F61. QUESTION:** DH21 (regchaincalref) and Lemma 7.3 (L1732–L1746) use `+I_{μ_j}` for `j ∈ Z`, but Lemma 5.8 gives
+   `−I_{μ_j}`, so `𝒥B̃_{Q,Z} = (−1)^{|Z|} 𝒥B̃_Q` (Prop 7.5 "independent of Z" is false; (reducedom) and TARGET
+   (regref1-3) are off by `(−1)^{|Z|}` per term; Props 7.8–7.10 unaffected). See `wt-scratch/wke/F61-sign-trace.md`.
+   In Prop 5.1 the factor is exactly (maincoef1)'s; the sign is inside `B̃_{Q,Z}`.
+2. **Brief vs source:** the brief cites (maincoef2.5) weight `α^{1/8}`; DH23 L955–L969 has `max⟨α_𝔫⟩^{1−η/2}` and
+   `⟨max(λ₁,λ₂)⟩^{η/4}`, (maincoef2) `⟨max⟩^{1−η/8}`. I followed the source.
+3. **Trivial couple:** (maincoef1) for `Q` trivial needs `𝒞 = δ` (DH21 L937, `B̃ ≡ 1`). I use `1 = ∫∫ M₀⊗M₀ e2` on
+   `[0,1]²` (integrable symbol, constant `N1 θ`). Hence the constant is `C₀^{2n(Q)+1}` (`n(Q)` = order = `2n` for scale `2n`)
+   instead of `C^n`.
+4. **Deviations (harmless):**
+   - `⟨max(λ₁,λ₂)⟩` is read as `1+|λ₁|+|λ₂|`;
+   - Gevrey bounds are `N A^k (2k)!`;
+   - (maincoef2.5) is per variable, and the max costs a factor `|𝒩^ch| ≤ n`;
+   - `MCRep` carries `SymReg` (W3);
+   - the `λ₂` weight comes from the split (W4);
+   - the difference loss `log(2+|λ|)` is replaced by `C⟨λ⟩^δ` with `δ = a` (needs `a > 0`; DH23 `a = η/4`);
+   - (newexp2) is in CPS form (`chainT`);
+   - each `Ĩ_Y` is class J **plus** class R (as in J2);
+   - the constant needs `wf` (it excludes two empty chains); `RegCpl.mcexp` holds for all codes, with constant
+     `Q.NB θ a b`.
+
+READY maincoef
