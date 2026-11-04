@@ -2038,6 +2038,7 @@ public import WaveTurbulence.Frozen.Theorems.ExistsUnique_regCpl_decodes
 public import WaveTurbulence.Frozen.Theorems.NlsAkBridge
 public import WaveTurbulence.Frozen.Theorems.QuadExpSum2
 public import WaveTurbulence.Frozen.Theorems.QuadExpSum3
+public import WaveTurbulence.Frozen.Theorems.RegChainExists_decodesTree
 public import WaveTurbulence.Frozen.Theorems.RegCplExists_decodes
 public import WaveTurbulence.Frozen.Theorems.Sumint
 public import WaveTurbulence.Frozen.Theorems.Wkelwp
