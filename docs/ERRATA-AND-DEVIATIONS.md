@@ -209,6 +209,60 @@ In the Lean development, the γ-sensitive input `FinalCountGate` (TARGET finalco
 
 ---
 
+## E4 — TARGET `vineest` Step 3, L1846: replacing ε by 1 "by trivial summation" fails for long vine chains
+
+**Status:** CONFIRMED as a gap in the argument. The statement survives with a corrected argument, which is proved in
+Lean.
+- Found by the V5 vineest prover; confirmed by the DEGEN-VINE packet.
+- Ledger: GAP.degenerate.vine / FINDINGS F21.
+- Lean: `/home/scott/wt-scratch/degen-vine` (namespace `WaveTurbulence.DegenVine`, HANDOFF.md §6).
+
+**Location.** TARGET L1846, in Step 3 of the proof of Prop `vineest`, just after (tildeK2). DH23 L1448 and
+`extradegen` (DH23 L1979–L1989) make the same kind of claim: "treat the rest of the variables using the same arguments".
+
+**Source text (TARGET L1846):**
+
+> Here note that once we specify r = k_{u21} − k_{u22} = k_{u1} − k_{u11} ≠ 0, we may replace ε_x in (tildeK2) by 1,
+> since if any ε factor is not 1, this would imply some restrictions on the relevant variables (such as x_j^i = 0 or
+> y_j^i = 0, or u_1^i + u_2^i − u_3^i = 0 etc.), which allows us to sum over these variables trivially and gain an
+> extra power L^{−0.1γ₀}.
+
+**Why the stated argument fails.** Consider a vine chain with M vines, where some ε-factor equals 0 because one affine
+constraint holds.
+- Summing trivially (absolutely) over the remaining variables of the restricted subspace costs L^{(M−1)d}.
+- The budget of (vineest2) for these variables is L^{M(d−γ)}.
+- The trivial sum therefore exceeds the budget by L^{Mγ−d}, which grows once **M > d/γ**. For example, at d = 3 this
+  is M ≥ 7 for γ = 1/2 and M ≥ 4 for γ = 0.9.
+- Chains of this length do occur, since the vine-chain length M is up to order N_{p+1}^4.
+- The loss comes from summing absolutely: that gives up the oscillatory gain L^{−γ} per variable, which the `sumint`
+  bound needs.
+
+**The gap cannot be closed by quoting `sumint`.**
+- The indicator 1[x_v = 0] is not an admissible `sumint` weight: its S^{30d,30d} norm is about L^{31d}.
+- Deleting the restricted rung breaks the invertibility of T₁ and `Admissible` (ii)/(iii).
+
+**Correct argument (proved in Lean).**
+1. Write ε = 1 − 1[k₂ = k₁] − 1[k₂ = k₃].
+2. Each indicator of an affine constraint on the lattice ℤ_L^d is an average of characters (Fourier inversion on the
+   finite group), so it is a mixture of linear input phases with total mass 1. Over n nodes, ε is a mixture of mass at
+   most 3^n (`exists_eps_mix`).
+3. The `sumint` kernel bound is uniform in the linear input phases: `exists_source_static_power_bound` holds for all
+   p, ν, r. The norm `XNorm00` is a supremum over the output. So the recombination step of the `sumint` proof
+   applies, multiplied by the mixture mass (`sumintMixSignedDoubled`, unconditional).
+4. Conclusion (`clockedBoundEps_of_restr`): the Step 3 bound holds with ε, at a cost of a factor 3^{|I|} ≤ C^M. That
+   factor is absorbed into C₁.
+
+No L^{−0.1γ₀} gain is proved, and none is needed for (vineest2).
+
+**Suggested rewording of L1846.** "ε_x is a combination of at most 3^n indicators of affine constraints. Each indicator
+is an average of linear input phases, to which the proof of Proposition `sumint` applies verbatim, since its kernel
+bound is uniform in the linear phases. So ε may be replaced by 1 at the cost of the constant 3^n ≤ C^M."
+
+**Effect on the formalization.** None on any frozen statement. The V5 Step 3 endpoint is stated with ε, in the
+literal form, using the corrected argument.
+
+---
+
 ## E2 — further errata (to be transcribed before release)
 
 The remaining confirmed and candidate findings are in `docs/FINDINGS.md`:
