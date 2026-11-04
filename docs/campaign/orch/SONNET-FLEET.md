@@ -27,7 +27,10 @@ subagents that continue those packets in the same worktrees and scratch director
 | M7 LFTWIST | wt-anfourier | `an-fourier` / `w/lftwist` | `lftwist` | claimed READY. A stale olean graph was found (41 problems), so a fresh 777-module closure rebuild was ordered. |
 | B21-SNAP9 (new) | — | `wke-l2s` / `w/wke-l2s` (+ merge of `w/bproc`) | `b21-snap9` | running: RA2 + RA1-TREES on snapshot 9, the bridge `RA1CoupleF80 → RA1Couple`, and the composition at the B2.1 type (`audits/B21-CHAIN-prelim.md`) |
 
-| M8 LAYERCNT (new) | — | `an-sob` (shared, `lake env` only) | `layercnt` | started 18:45: TARGET layerlad and layervine (L1501–L1532) for LG-SPINE (T.plg.ab) |
+| M8 LAYERCNT | — | `an-sob` | `layercnt` | **READY 21:3x**: `layerlad`, `layervine_source` and `layervine_improved_source` under exactly TARGET's hypotheses (region-only coherence). Fresh 58-module rebuild into build-final2; standard axioms (checked).
+  - Reading to audit: the L1521 leaf-pair region.
+  - Suspected erratum: L1519 (C₂^{g+3}).
+  - Universe: built on the legacy lftwist closure; rebase onto UNIVERSE L4. |
 | S1 STAGE1-COMB (new) | — | `an-sob` (shared) | `stage1` | started 18:45: vinechainlem (DH23 Lemma 8.1), 𝒱 / congruence (equivalence; F20, F38), defdiff |
 | S3 LADDER (new) | — | `an-sob` (shared) | `ladder` | started 18:45: LG-SPINE spine inputs `LadderDecayAt`, `LadderFourierAt`, `CoarseSplicedAt`, word for word |
 | X2 FLOWER-SPINE (taken from wt-gauss-hc, never started) | wt-gauss-hc (Claude, waiting) | `an-sob` (shared) | `flower-spine` | **Restarted 21:20** (agent 2): `SpineInputs` is published, so this agent defines `FlowerSpineInputs` (shared fields word for word, plus the flower-specific adjustments) and does the flower assembly. |
