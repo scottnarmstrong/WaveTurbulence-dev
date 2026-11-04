@@ -860,6 +860,10 @@ public import WaveTurbulence.Foundations.Resonant.NTOmegainv
 public import WaveTurbulence.Foundations.Resonant.NTOmegainvCoordinate
 public import WaveTurbulence.Foundations.Resonant.NTOmegainvSmallEnergy
 public import WaveTurbulence.Foundations.Resonant.NTOmegainvSource
+public import WaveTurbulence.Foundations.Resonant.PVDecay
+public import WaveTurbulence.Foundations.Resonant.PVDecayBounds
+public import WaveTurbulence.Foundations.Resonant.PVDecayOneDim
+public import WaveTurbulence.Foundations.Resonant.PVDecaySlices
 public import WaveTurbulence.Foundations.Resonant.PrincipalValue
 public import WaveTurbulence.Foundations.Resonant.PrincipalValueBounds
 public import WaveTurbulence.Foundations.Resonant.PrincipalValueComplex
