@@ -119,3 +119,18 @@ from `TreeClockFibers`; its measurability is proved. The probes `AxiomsPhaseReco
 `AxiomsExpanded.lean` (scratch `pl1/`, logs `axioms-phase-recovery.log`, `axioms-expanded.log`)
 check twelve recovery, finite-pair, measure-split and fiber-interface results: all use exactly
 `[propext, Classical.choice, Quot.sound]`. Focused builds passed for all modules named above.
+
+`CausalAmplitudeSource` and `CausalKernelSource` prove exact hard-amplitude and forward kernel
+source-domain formulas. `SelectedClockDomain.mem_causalDomain_equiv_symm` identifies the full
+source causal domain with the remaining-clock domain and selected ordered fiber, assuming only
+that the external root/lone-parent vertices are the first/last selected vertices.
+`SelectedMixtureFactorization` proves the literal amplitude factorization and that integration of
+the dummy selected clocks contributes precisely one. `SelectedMixtureIntegral`,
+`SelectedClockIntegral`, and `SelectedPhaseMixture` prove the corresponding Fubini identities for
+arbitrary integrable clock amplitudes; their integrability premises are typing obligations on
+generic integral identities, not substitute decay estimates.
+
+Focused builds passed for all these modules. `AxiomsSelectedSource.lean` audited the amplitude,
+kernel and causal-domain identities, the selected factorization, unit dummy integral and full
+phase-mixture collapse: all six use exactly `[propext, Classical.choice, Quot.sound]`.
+The assembled common-extension and interpolation theorem is still pending.

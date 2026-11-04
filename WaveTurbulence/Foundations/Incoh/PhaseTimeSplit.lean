@@ -51,4 +51,23 @@ theorem integral_phaseTimeSplit {d n : ℕ} (J : Finset (Fin n))
       ((hp.symm e).integral_comp' F).symm
     _ = _ := integral_prod_symm _ hi
 
+/-- Fubini with the clocks integrated first, for eliminating the selected dummy clocks. -/
+theorem integral_phaseTimeSplit_clocksFirst {d n : ℕ} (J : Finset (Fin n))
+    (F : (Fin n → LinkMixturePoint d) → ℂ)
+    (hF : Integrable F (productLinkMixtureMeasure d n J)) :
+    (∫ z, F z ∂productLinkMixtureMeasure d n J) =
+      ∫ p : Fin n → ((Fin d → ℤ) × (Fin d → ℤ)),
+        (∫ t : Fin n → Fin 2 → ℝ, F (fun i => (p i, t i)))
+        ∂Measure.pi (fun i => phaseCoordinateMeasure d (decide (i ∈ J))) := by
+  let e := phaseTimeEquiv d n
+  have hp := measurePreserving_phaseTimeEquiv d n J
+  have hi : Integrable (fun z => F (e.symm z))
+      ((Measure.pi (fun i => phaseCoordinateMeasure d (decide (i ∈ J)))).prod volume) :=
+    (hp.symm e).integrable_comp_of_integrable hF
+  calc
+    _ = ∫ z, F (e.symm z)
+        ∂((Measure.pi (fun i => phaseCoordinateMeasure d (decide (i ∈ J)))).prod volume) :=
+      ((hp.symm e).integral_comp' F).symm
+    _ = _ := integral_prod _ hi
+
 end WaveTurbulence.Incoh
