@@ -417,3 +417,11 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   spine inputs (order-0 restriction norm of ⟨k⟩^{30d}(K − 𝒜)). Whether the frozen candidate norms are faithful to TARGET's
   (and whether B1/B2 statements become weaker/stronger) is with the independent auditor before the freeze. Also: TARGET
   Prop 6.2 "at most 2^n terms" is 2^{2n+1} − 1 (still ≤ C₁^n) (wt-wke).
+  **Resolved (2026-11-04, independent audit 'Norm measurability'):** no frozen statement is false; the sup norms and the
+  order-0 𝔛 norms are robust (all B1 statements, B2.1 item 3). The defect is B1 `XNorm` at derivative order ≥ 1 (and
+  `XNormRestr`): its integrand is ⊤ off a set of frequencies that need not be measurable, so `∫⁻` is a lower integral —
+  Lean norm ≤ TARGET's, no triangle inequality, no a.e. smoothness. Used only in conclusions (B2.1 items 1–2, B2.2), which
+  are therefore weaker than TARGET (still true). Fix (snapshot 9, REQUIRED before the freeze): `XNorm`'s guard becomes
+  `(∀ k, Integrable fun t => F t k) ∧ (Λ₁ = 0 ∨ ∀ᵐ lam, ContDiff ℝ Λ₁ (timeFT F lam))` with no per-frequency ⊤ —
+  TARGET's (normX) and the landed `MixedFourierAdmissible`; conservative (`XNormRestr ≤` fixed, proved); no statement text
+  changes; B2 freeze set unchanged.
