@@ -245,3 +245,10 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   The final WKE identity is probably unaffected, but the Wave B2 per-couple bound B2.1(1) would be false with a wrong
   sign. Found by wt-orch (Task 16, audits/JR-OPS.md W2). Status: **open — trace before the B2 freeze** (assigned to
   wt-wke with J3).
+  F57 addendum (2026-11-04, wt-orch Task 17, audits/MOLE-prefreeze.md): the same molecule satisfies every premise of
+  TARGET `disjointlem` (DH23 Lemma 4.11: connected interiors, vertex deletion) while its only applicable alternative
+  (b, concatenation) fails, so Lemma 4.11's premises do not make a block connected either. B2 fix: add a
+  `GroupConnected` conjunct to `IsBlock` (exact text in the audit; a one-line bridge to MOLE's definition; `IsVine`
+  unchanged) and define hyper-blocks through a connected adjoint block. F59 addendum: the deviation docstring fails in
+  three ℝ≥0∞ cases (a, 0), (a, ⊤), (⊤, ⊤); state operation bounds directly as `𝔄_pre ≤ ℐ · 𝔄_pos`. F58: B2's
+  `propcplmol` already requires positive order; fix its docstring ("connected" is not asserted by `IsMolecule`).
