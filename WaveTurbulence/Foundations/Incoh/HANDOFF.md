@@ -236,3 +236,26 @@ envelope is pointwise in the spectral variable, so Tonelli keeps the momentum su
 correct order. No change of norm order is needed to recombine the scalar couple kernels.
 The source lattice/time identity for the fully recombined localized leaf product and the final
 momentum derivative/weight estimates remain open tasks.
+
+## REQUIRED P-1: one-trivial-tree couple case
+
+`WideCoupleExtensionAgreement`, `OneClockCouple`, `OneClockCoupleDecay`, `OneClockSelection`,
+and `OneClockVertexDecay` add the missing degenerate source case of TARGET L1049.
+The final theorem `exists_vertexClockKernel_timeRestriction_bound` takes only the genuine
+root vertex `v : Fin n × Fin 2`, the active external coordinate `a : Fin 2` (either choice),
+and the passive unit-interval base. Its literal kernel is the normalized source product over
+`I ∩ {w | w v.1 v.2 ≤ t a}`. There is no second-root-clock premise in this final statement.
+The result is the full `𝔛^η` temporal restriction bound with exponent `γ₁−100dη`.
+
+The proof constructs a finite permutation putting `v` in the requested selected position.
+The other selected branching clock is auxiliary and need not be a root of any source tree.
+Nontrivial incoherence gives `n≥1`, so this completion is available. A passive external
+translation raises its upper limit above its whole source layer. A fixed wider cutoff,
+one on `[-2,2]`, then gives exact pointwise source agreement; temporal translation preserves
+the Fourier norm. The final source box uses the genuine root's actual layer and an arbitrary
+passive external unit interval. No artificial link or coupling factor is introduced.
+
+P-1 checks: `nice -n 5 lake build WaveTurbulence.Foundations.Incoh.OneClockVertexDecay` passed
+(`9312 jobs`). Scratch `AxiomsOneClock.lean`, log `axioms-one-clock.log`, audited selection,
+full auxiliary-clock reduction, exact extension agreement, norm translation and both final
+restriction bounds. All six printed exactly `[propext, Classical.choice, Quot.sound]`.
