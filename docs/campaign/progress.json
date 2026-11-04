@@ -1,5 +1,5 @@
 {
- "assessed": "2026-11-04 02:00 UTC",
+ "assessed": "2026-11-04 02:25 UTC",
  "notes": "Lean work items = blueprint packets (docs/blueprint/GRAPH.md §E) with their difficulty weights (node weights L=1, M=2, H=4, VH=8 summed). Each frozen theorem anchor adds weight 1, credited when SEALED. Done fractions are the orchestrator's assessment, reviewed at integration rounds.",
  "lines_est_total": 273000,
  "parts": [
@@ -14,8 +14,8 @@
    "part": "Exact Lean statements, frozen (P2)",
    "kind": "phase",
    "weight": 20,
-   "done": 0.65,
-   "note": "Wave A frozen (D6); Wave B tier B1 (11 theorems) audited and published for author approval (docs/review/WAVE-B-B1.md); tier B2 drafted and audited (deferred)"
+   "done": 0.7,
+   "note": "Wave A frozen (D6); Wave B tier B1 snapshot 6 (12 theorems, F56 fixed, B1.12 added) audited PASS and published for author approval (docs/review/WAVE-B-B1.md); tier B2 drafted, fixes F53/F57/F59/R15 in progress"
   },
   {
    "part": "Lean proofs (P4)",
