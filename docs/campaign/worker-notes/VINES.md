@@ -40,3 +40,11 @@ family of adjoint removals is now proved using retained actual added bonds.
 The interface and 74-result axiom audit pass with standard axioms only.
 Arbitrary-rung classification and ordinary-block removal remain open; M4
 continues. Main was merged at 1666da7.
+
+`SG_VC_in_nonVII` now proves the ordinary inner-VC source classification
+for seven outer vine types, with arbitrary rung counts and no extra witness
+premises. Empty-stem propagation covers k=0,1,2 as well as long ladders.
+Hyper-block full-rung masks have at most one transition. VineTools and the
+99-result axiom audit pass with standard axioms only. Type VII side-ladder
+recognition, hyper-vine/HVC containment, ingredient localization, DV and
+mixed block-removal connectivity remain open; work continues.
