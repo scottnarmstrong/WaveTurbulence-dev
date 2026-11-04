@@ -13313,7 +13313,7 @@
         "mode": "NOT_SPLIT",
         "ruling_ref": "docs/DECISIONS.md#D7"
       },
-      "abi_sha256": "2706776ee88f1c1a6d46230795f374dab91debc46ebd07ed9544ae3011cd9d20",
+      "abi_sha256": "b63860cb6e23936e61db1c1aeee997e37e5faabba691db37b53885870b8680cb",
       "definition_closure": [
         {
           "path": "WaveTurbulence/Frozen/Defs/LatticePoint.lean",
@@ -13328,7 +13328,7 @@
           "sha256": "32e208356681ece3b409efec7d3f9883336b153ac0719c14dab7dcecc6e233f4"
         }
       ],
-      "state": "DRAFT_SORRY",
+      "state": "SEALED",
       "prefix_sha256": "cb13966c8f5770beeb3345018851ab2c3b77f8574f70506141d6850a566fe3f8",
       "suffix_sha256": "9f48199048606af986e4911abed0172f6e65c9c8c91f1c2874961ad85a7ea8d0",
       "draft_allowlist": {

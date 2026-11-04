@@ -1406,6 +1406,7 @@ public import WaveTurbulence.Frozen.Defs.ZNorm
 public import WaveTurbulence.Frozen.Defs.ZNormOn
 public import WaveTurbulence.Frozen.Defs.ZSpace
 public import WaveTurbulence.Frozen.Defs.ZpowSign
+public import WaveTurbulence.Frozen.Theorems.AtomCountLemma
 public import WaveTurbulence.Frozen.Theorems.CountLemma
 public import WaveTurbulence.Frozen.Theorems.Wkelwp
 

@@ -54,7 +54,7 @@ theorem atomCountLemma :
       (L ^ (-γ + η) ≤ ‖k‖ → ((S₂ (-1)).ncard : ℝ) ≤ C * δ⁻¹ * L ^ ((d : ℝ) - γ - η)) ∧
       (S₃.Finite ∧ (S₃.ncard : ℝ) ≤ C * δ⁻¹ * L ^ (2 * ((d : ℝ) - γ))) :=
 -- FROZEN_ANCHOR_PROOF_BEGIN
-  by sorry
+  by exact WaveTurbulence.Provider.atomCountLemma
 -- FROZEN_ANCHOR_PROOF_END
 -- FROZEN_ANCHOR_SUFFIX_BEGIN
 
