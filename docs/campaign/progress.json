@@ -1,5 +1,5 @@
 {
- "assessed": "2026-11-04 11:15 UTC",
+ "assessed": "2026-11-04 12:05 UTC",
  "notes": "Lean work items = blueprint packets (docs/blueprint/GRAPH.md §E) with their difficulty weights (node weights L=1, M=2, H=4, VH=8 summed). Each frozen theorem anchor adds weight 1, credited when SEALED. Done fractions are the orchestrator's assessment, reviewed at integration rounds.",
  "lines_est_total": 273000,
  "parts": [
@@ -648,8 +648,8 @@
      "goal": "Props 6.1, 6.2",
      "weight": 4.0,
      "lines_est": 1700,
-     "done": 0.6,
-     "note": "Prop 6.2 + leafwise Taylor identity proved; Prop 6.1 q>q' via order-0 norm (F80) in progress"
+     "done": 0.95,
+     "note": "PL23 done: TARGET Props 6.1 (order-0 norm, F80), 6.2, leafwise Taylor identity"
     },
     {
      "id": "G1",
@@ -666,8 +666,8 @@
      "goal": "Prop 6.3 (layered realness)",
      "weight": 4.0,
      "lines_est": 2500,
-     "done": 0.0,
-     "note": ""
+     "done": 0.05,
+     "note": "PL4 (Prop 6.3) started (wt-wke)"
     },
     {
      "id": "G2",
