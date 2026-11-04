@@ -170,8 +170,10 @@ TARGET (finalcount1) at R = 1 fails the same way. It also asks for L^{−4η⁶p
 ### Scope
 
 - **Not refuted:** TARGET's main theorem, DH23's main theorem, and TARGET `layergarden` as a statement.
-- **Why the necklaces do not refute them:** these couples are few (C^n of them), and their contribution is
-  heuristically O(L^{γ−d}) per congruence class.
+- **Why the necklaces do not refute them:** these couples are few (C^n of them), and their contribution per couple,
+  hence per congruence class, is heuristically about (Cδ^{1/2})^n L^{−γ(2d−1)}. That is a fixed negative power of L.
+  (The research note's earlier O(L^{γ−d}) is right only at γ = 1/2; corrected by the γ ≤ 1/2 research packet,
+  /home/scott/wt-scratch/research-gamma-half/NOTES.md, Q1.)
 - **What is broken:** the proof chain, at the intermediate statements listed above.
 - **Why no repair inside stage 2 works:** the only slack in a necklace is that of the first α-cut, of size
   R^{d−2}L^{−3η}, and a necklace with ≫ η^{−6} beads exhausts it.
@@ -203,6 +205,16 @@ Scott chose to do both:
   statements, `main_v2` and the affected Wave B anchors. Their exact text is submitted for approval separately.
 - **Research the repair** for γ ≤ 1/2 in a separate research packet.
 - **Write to the authors.** The letter draft is `docs/review/LETTER-DENG-HANI-DRAFT.md`.
+
+**Repair route (research, not yet independently refereed).** The γ ≤ 1/2 research packet
+(/home/scott/wt-scratch/research-gamma-half/NOTES.md) proposes that the chain can be repaired without a new
+analytic estimate:
+- T-type blocks are exactly neutral and fit the hypotheses of the existing DH23 Cor `sumintest3` / TARGET Prop
+  `sumint` (Theorem N; checked on all 4446 directed T-type classes up to 15 atoms).
+- So they can be spliced in stage 1 as an enlarged vine family, after the combinatorial extensions of Lemma 8.1,
+  `subsetvc`, Props 9.1, 9.5 and 9.6.
+
+This is under independent review.
 
 In the Lean development, the γ-sensitive input `FinalCountGate` (TARGET finalcount1) is a separate hypothesis of
 `layergarden_of_spine` and `layergardenFlower_of_spine`, and it is proved only under 1/2 < γ.
