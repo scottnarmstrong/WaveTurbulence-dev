@@ -435,3 +435,9 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   bond/bound, tall bonds). Operation and proposition statements otherwise unchanged. The figure-defined atomic groups
   (3S3, 3S3New, 3D3, 3D3New, 3D4, 3S2, 3RProof) are transcribed in `TRANSCRIPTIONS.md` and flagged for pre-freeze review,
   together with the local-link invariant and an explicit component-hull relaxation.
+- F82 — internal obligation O-X2-EXP (X2 flower moments), cutoff variants — the M₂ cutoff (some stem node with |Ω| ~
+  2^{j₂}L) gives no decay on the expansion's error terms: with cut1 the leaves are small and k ≈ ζk', so Ω ranges over
+  all sizes including 0, the error terms bound the oscillating time integrals by 1, and the order tail lies outside B1.12's
+  range N ≤ N_{p+1}^4. Ruling: option (a) — the error for cutoff variants is ⟨k−ζk'⟩^{−4Λ_{p+1}P}·e^{−101N_{p+1}} (no
+  M₁/M₂ factors on the error), provided X3's fixedpoint proof uses the M-gains only on main terms (wt-gauss-hc to
+  confirm by rebuilding X3). No frozen text changes (B1.12 unchanged). Found by wt-gauss-hc (X2E-4).
