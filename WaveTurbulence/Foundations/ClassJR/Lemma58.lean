@@ -587,7 +587,8 @@ theorem iker_comp_decompP (h0 : 0 ≤ θ) (h1 : θ < 1) (hA : A0 ≤ A) {ε : �
       fun μ α t s _ _ _ => by simp [Fin.sum_univ_two]⟩,
     ⟨1, ![SR], ![CM0 * 2], fun i => by fin_cases i; exact hSR, by simp,
       fun μ α t s _ _ _ => by simp⟩, fun μ α t s hs0 hst ht1 => ?_, ?_⟩
-  · rw [hk0 μ α t s ⟨hs0.trans hst, ht1⟩ ⟨hs0, hst.trans ht1⟩, iker_eq_jker]
+  · show (S0.get μ).kernel α t s = -iker μ t s
+    rw [hk0 μ α t s ⟨hs0.trans hst, ht1⟩ ⟨hs0, hst.trans ht1⟩, iker_eq_jker]
   intro μ α t s hs0 hst ht1
   have ht : t ∈ Icc (0 : ℝ) 1 := ⟨hs0.trans hst, ht1⟩
   have hs : s ∈ Icc (0 : ℝ) 1 := ⟨hs0, hst.trans ht1⟩
