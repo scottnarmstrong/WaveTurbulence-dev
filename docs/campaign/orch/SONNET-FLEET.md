@@ -92,3 +92,17 @@ Not held by Sonnet agents:
 | S3c COARSE-SPLICED | `coarse-spliced` | **READY 23:2x**: `coarseSplicedGate` (via a verbatim copy, two-sided pin check against 38b56114) and `ladderL1Gate`. Fresh 28-module build2, all exit 0; axioms checked by wt-orch. TARGET L2079 gap → errata E5. All three LG-SPINE ladder inputs are now PROVED. |
 | INCOH-LEAFWISE | `incoh-leafwise` | **READY 23:3x**: `leafwiseIncoherentDecay : LeafwiseIncoherentDecayGate` on snapshot 9, for arbitrary per-leaf profiles (multilinearity plus homogeneity). Fresh 114-module build ALLOK; axioms checked. The leafwise B2.2 open node (R15) is closed. |
 | RA1-LEAFWISE | `ra1-leafwise` | **READY 23:4x**: `leafwiseRegularAsymptotics : LeafwiseRegularAsymptoticsGate` on snapshot 9 (couples and trees ported to per-leaf profiles; multilinearity). Fresh 213-module rebuild ALL OK; axioms checked. The leafwise B2.1 open node (R14) is closed. |
+
+## Overnight mode (from 2026-11-04 ~23:05 UTC)
+
+Running:
+- UNIVERSE: canonical port of molecule/CLCN/TWIST/LFTWIST/VINES. Gates S2a, S1's congruence and the LG-SPINE rebase.
+- FINALCOUNT G2 #3 (Prop 9.4), G3 (Prop 9.5, finalmol, new), G8 #2 (Prop 9.6 for γ > 1/2).
+- V5 Step 3 #4.
+- B21-SNAP9: the composition, restarted. The previous agent stopped silently after its closure build.
+- Referee of the γ ≤ 1/2 repair.
+- The VINEPARAM catalogue build (CanonicalMine.py, about 1040/1861 at 23:05).
+
+Notes:
+- The LFTWIST fresh rebuild never completed: its agent stopped at 17:12 after one module. M7 is therefore READY but unverified. Verification comes through UNIVERSE L4.
+- Waiting on S2a: REDSPLICE (S2), SUBPRO (S4), the flower Stage-1 gates, and the Dirac-root regular couples (R12).
