@@ -217,6 +217,14 @@ public import WaveTurbulence.Foundations.Combinatorics.BinomialConvolution
 public import WaveTurbulence.Foundations.Combinatorics.FactorialSplitting
 public import WaveTurbulence.Foundations.Combinatorics.MultiVandermonde
 public import WaveTurbulence.Foundations.Combinatorics.PartitionCount
+public import WaveTurbulence.Foundations.CountLemmas.A23Half
+public import WaveTurbulence.Foundations.CountLemmas.A23HalfAnti
+public import WaveTurbulence.Foundations.CountLemmas.A23HalfBig
+public import WaveTurbulence.Foundations.CountLemmas.A23HalfCyclic
+public import WaveTurbulence.Foundations.CountLemmas.A23HalfDense
+public import WaveTurbulence.Foundations.CountLemmas.A23HalfFibers
+public import WaveTurbulence.Foundations.CountLemmas.A23HalfShell
+public import WaveTurbulence.Foundations.CountLemmas.A23HalfStar
 public import WaveTurbulence.Foundations.CountLemmas.AnnulusThreshold
 public import WaveTurbulence.Foundations.CountLemmas.AtomCount
 public import WaveTurbulence.Foundations.CountLemmas.AtomProjection
@@ -1091,6 +1099,10 @@ public import WaveTurbulence.Foundations.Probability.RestrictedProducts
 public import WaveTurbulence.Foundations.Probability.SchwartzLattice
 public import WaveTurbulence.Foundations.Probability.SmoothData
 public import WaveTurbulence.Foundations.Probability.WeightedLatticeSummability
+public import WaveTurbulence.Foundations.Regref.FourierAE
+public import WaveTurbulence.Foundations.Regref.ParamDerivFin
+public import WaveTurbulence.Foundations.Regref.Trace00
+public import WaveTurbulence.Foundations.Regref.TraceDeriv
 public import WaveTurbulence.Foundations.Resonant.Basic
 public import WaveTurbulence.Foundations.Resonant.BilinearFourier
 public import WaveTurbulence.Foundations.Resonant.BilinearFourierBound
