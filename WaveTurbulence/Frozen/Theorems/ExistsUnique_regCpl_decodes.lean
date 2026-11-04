@@ -36,7 +36,7 @@ one well-formed code. -/
 theorem existsUnique_regCpl_decodes (G : Garden 2) (hG : IsRegularCouple G) :
     ∃! Q : RegCpl, Q.wf = true ∧ Q.Decodes G :=
 -- FROZEN_ANCHOR_PROOF_BEGIN
-  by sorry
+  by exact WaveTurbulence.Provider.existsUnique_regCpl_decodes
 -- FROZEN_ANCHOR_PROOF_END
 -- FROZEN_ANCHOR_SUFFIX_BEGIN
 
