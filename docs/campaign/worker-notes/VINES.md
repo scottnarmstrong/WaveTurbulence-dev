@@ -22,3 +22,12 @@ half-edge recurrence proves matched rung membership for arbitrary full-rung
 sequences of length >=3, and constant membership for connected blocks larger
 than a double bond. The 24-result axiom audit passes with standard axioms only.
 The final `subsetvc` classification/removal theorem remains in progress.
+
+The pinned realization now supplies actual full-rung sequences for every
+expanded slot, with exact labels and no extra incidence hypotheses. This
+proves constant membership/no fresh joints for connected blocks larger than
+a double bond on every slot of length >=3. The two-cut direction fact is
+also derived from actual block degree balance. The expanded interface and
+50-result standard-axiom audit pass; subsetvc remains open, including the
+short-slot and simultaneous-removal arguments. See the scratch HANDOFF for
+exact checked modules and commands.
