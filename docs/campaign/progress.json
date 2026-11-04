@@ -1,5 +1,5 @@
 {
- "assessed": "2026-11-04 10:25 UTC",
+ "assessed": "2026-11-04 10:35 UTC",
  "notes": "Lean work items = blueprint packets (docs/blueprint/GRAPH.md §E) with their difficulty weights (node weights L=1, M=2, H=4, VH=8 summed). Each frozen theorem anchor adds weight 1, credited when SEALED. Done fractions are the orchestrator's assessment, reviewed at integration rounds.",
  "lines_est_total": 273000,
  "parts": [
@@ -360,8 +360,8 @@
      "goal": "DH23 Prop 5.3 for gardens ((I-a,b), (II-a..e))",
      "weight": 4.0,
      "lines_est": 1500,
-     "done": 0.0,
-     "note": ""
+     "done": 0.9,
+     "note": "MOLECPL done in scratch (DH23 Prop 5.3 for gardens; 2eacfc5)"
     },
     {
      "id": "M9",
@@ -459,8 +459,8 @@
      "goal": "unit twist case table (F20), twists, twist facts",
      "weight": 8.0,
      "lines_est": 2800,
-     "done": 0.0,
-     "note": ""
+     "done": 0.05,
+     "note": "TWIST started (wt-anfourier)"
     },
     {
      "id": "V4",
