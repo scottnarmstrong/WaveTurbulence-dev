@@ -1,5 +1,5 @@
 {
- "assessed": "2026-11-04 02:25 UTC",
+ "assessed": "2026-11-04 02:40 UTC",
  "notes": "Lean work items = blueprint packets (docs/blueprint/GRAPH.md §E) with their difficulty weights (node weights L=1, M=2, H=4, VH=8 summed). Each frozen theorem anchor adds weight 1, credited when SEALED. Done fractions are the orchestrator's assessment, reviewed at integration rounds.",
  "lines_est_total": 273000,
  "parts": [
@@ -180,8 +180,8 @@
      "goal": "mini-couples/mini-trees/operations A,B (WAVE-B §3.2), legal partitions, regular chains (DH21 Props 4.5, 4.7)",
      "weight": 8.0,
      "lines_est": 2400,
-     "done": 0.3,
-     "note": "REG-STRUCT in progress (scratch)"
+     "done": 0.7,
+     "note": "REG-DEFS: mini-couples, operations, legal partitions, regular chains (B2 draft + REG-STRUCT scratch)"
     },
     {
      "id": "NT10",
@@ -234,8 +234,8 @@
      "goal": "structure theorem of regular couples with uniqueness, counting (DH21 4.8–4.10, Cor 4.9, F12)",
      "weight": 11.0,
      "lines_est": 4000,
-     "done": 0.15,
-     "note": "REG-STRUCT in progress"
+     "done": 0.5,
+     "note": "REG-STRUCT: couple structure theorem proved (audited PASS as statement); trees, reverse direction in progress"
     },
     {
      "id": "G0",
@@ -297,8 +297,8 @@
      "goal": "links (DH21 Prop 4.3 + (x,y) relation F16), coherence, auxlem, tree localization lemma",
      "weight": 11.0,
      "lines_est": 3000,
-     "done": 0.0,
-     "note": ""
+     "done": 0.9,
+     "note": "LINKS done in scratch: branchpair, defchoice, linkXY, deflink, defcoh, auxlem, explem, treelemma, incohproof1 (couples); F62-F65"
     },
     {
      "id": "D2",
