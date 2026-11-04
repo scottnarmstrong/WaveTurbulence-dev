@@ -514,3 +514,155 @@ the main result, use only `[propext, Classical.choice, Quot.sound]`
 
 Remaining M4: ordinary type-V and mixed removals, outer-chain/DV assembly,
 and realization-independent coherence. No new source deviation. Continuing.
+
+## Ordinary type-V side removal in VII proved with arbitrary double removals
+
+`VineVIISideRemovalConnected.typeVII_side_typeI_removal_connected` proves
+that deleting the complete actual VII side, retaining its two joints, and
+performing any family of complete type-I removals leaves a connected main
+body. The red, cyan and green counts are arbitrary, including zero; no
+path, side-classification, gap or counting conclusion is assumed. This is
+the geometric removal clause; the earlier source SG classification supplies
+the selected full side when the removed vine is type V.
+
+The protected single-bond relation tracks surviving atoms and edges outside
+the side. `VineSideInterior` identifies the deleted interior exactly with
+the selected triangle/cyan labels. `VineVIIRedProtectedData` and
+`VineVIIGreenProtectedData` derive rail avoidance from source ports and
+allocation arithmetic. Their path modules, `VineVIIProtectedCoreLabels`,
+`VineVIIProtectedCorePaths`, `VineVIIProtectedCoreLift` and
+`VineVIIExpandedProtectedBackbone` construct paths to every surviving old
+and fresh atom; `VineMixedSinglePaths` transports them through all removals.
+
+Focused serial rebuild: all 462 targets passed, final result `2 compiled;
+460 already current`, exit0, no warnings. The seven declarations in
+`validation/Axioms-VIISideRemoval.lean`, including the main theorem, passed
+with only `[propext, Classical.choice, Quot.sound]`, no errors/warnings
+(`validation/Axioms-VIISideRemoval.log`). No pinned definition changed.
+
+Remaining: assembly for ordinary SG families and chains, DV branch removal,
+combination with adjoint removals, and realization-independent coherence.
+Continuing directly; not READY.
+
+## Full ordinary SG-family removal inside one vine proved
+
+`VineSGOrdinaryRemovalSingle.SG_ordinary_vines_removal_in_single_vine_connected`
+now proves the ordinary source removal clause for an arbitrary disjoint
+family of actual SG vines inside one LG/ZG vine, from the source decoration,
+gap and containment premises. `VineSGOrdinaryVineShape` derives the type-I
+or complete-VII-side split. A second non-type-I piece is excluded by
+disjointness and the exact side atom set; family equivalence transports
+paths across repeated or reordered pieces and unordered joint choices.
+The outer type-I case has no SG sub-vine, proved by gap properness and
+cardinality; it is not silently omitted.
+
+Focused main-module compile exit0, no warnings. The four printed results
+in `validation/Axioms-OrdinarySingle.lean` use only standard axioms
+(`[propext, Classical.choice, Quot.sound]`), exit0, no errors/warnings
+(`validation/Axioms-OrdinarySingle.log`). Remaining: chain/DV assembly,
+hyper-adjoint combination, realization-independent coherence. Continuing.
+
+## Ordinary SG-family removal in an arbitrary VC proved
+
+`VineSGOrdinaryRemovalChain` assembles the single-vine theorem through
+the source ordered chain. `VineSGSplitJoint` derives junction avoidance
+from the actual gap norm; `VineOrdinarySplit` localizes each removed vine
+on one side, disjoint from the other. `VineRemovalLocalPaths` embeds the
+local surviving paths in the global removal graph. Prefix and terminal
+gaps are reconstructed from conserved flows; the retained shared junction
+glues the two sides.
+
+`VineSGOrdinaryRemovalVC.SG_ordinary_vines_removal_in_VC_connected` is the
+full ordinary source removal clause for an LG/ZG VC, with only source
+decoration, gap, actual removal and disjointness data. Focused compile
+exit0, no warnings. The four printed declarations in
+`validation/Axioms-OrdinaryVC.lean` passed with only standard axioms,
+no errors/warnings (`validation/Axioms-OrdinaryVC.log`).
+
+Continuing with the generic adjoint retraction after ordinary removals,
+then the remaining DV/HV/HVC ordinary cases and coherence independence.
+
+## Mixed ordinary/adjoint removal in an LG/ZG VC proved
+
+`VineMixedAdjointRetraction.ordinary_path_retract_adjoints` transports
+paths already surviving ordinary removals through every additional
+disjoint adjoint piece. The argument uses the original molecule for
+interior closure and keeps each actual designated added bond through
+both families (`VineMixedKeepAdded`, `VineMixedAdjointJoints`). It does
+not assume molecule axioms for the intermediate removal graph.
+
+`VineSGMixedRemovalVC.SG_mixed_removal_in_VC_connected` combines this
+with the checked ordinary SG-family theorem, giving the simultaneous
+mixed-removal clause for any LG/ZG outer VC. For connectivity the adjoint
+pieces may be arbitrary actual hyper-block adjoints; the source's more
+specific vine-adjoint selection is included without extra assumptions.
+Focused main theorem and retraction compiles exit0, no warnings. All four
+results in `validation/Axioms-MixedVC.lean` use only standard axioms,
+exit0 and no errors/warnings (`validation/Axioms-MixedVC.log`).
+
+Remaining outer DV/HV/HVC ordinary cases and coherence independence are
+not yet claimed. Continuing with type-V branch removal geometry.
+
+## Complete DV ordinary and mixed removal proved
+
+`VineTypeVBranchRemovalConnected.typeV_other_branch_typeI_removal_connected`
+constructs connectivity in the retained type-V branch after deleting the
+other branch and their common joint bond, together with disjoint double
+removals. `VineOtherBranchMembership`, the type-V protected slot/core/path
+modules, `VineProtectedPathMono` and `VineBlockTypeIExternalEdge` supply
+the source paths and center attachment.
+
+`VineDVOrdinaryShapes` and `VineDVBlockBranchEquality` identify actual
+branch atom sets. `VineDVTypeIRemoval` glues double-removal paths in the
+two branches. `VineDVOrdinaryRemoval.ordinary_vines_removal_in_DV_connected`
+then proves arbitrary ordinary vine-family removal, and
+`VineDVMixedRemoval.mixed_vines_removal_in_DV_connected` adds arbitrary
+disjoint actual adjoints. These stronger geometric results need no gap
+or decoration premise; source SG families are included.
+
+Focused serial rebuild passed all 492 targets, final `3 compiled;
+489 already current`, exit0, no final warnings. All six declarations in
+`validation/Axioms-DVRemoval.lean` use only standard axioms, with no
+errors/warnings (`validation/Axioms-DVRemoval.log`). Remaining: hyper-outer
+ordinary cases and realization-independent coherence. The hyper-outer
+missing-joint ordinary case has compiled; its both-joints case is next.
+
+## All subsetvc simultaneous-removal cases proved
+
+`VineSubsetVCRemoval.subsetvc_simultaneous_removal_connected` assembles
+VC, DV and designated-adjoint HV/HVC removal. `VineHyperOrdinaryRemoval`
+splits ordinary families according to whether one piece contains both
+outer joints: such a piece is precisely the joint double bond and the
+outer adjoint is type V; otherwise all pieces transfer to the adjoint VC.
+`VineHyperMixedRemoval` then applies the generic adjoint retraction.
+All type-II cases include m=1 (F72).
+
+Focused gated compile of VineSubsetVCRemoval passed, exit0, no warnings.
+`validation/Axioms-SubsetRemoval.lean` checked the assembly, hyper ordinary
+and mixed removal and the both-joint shape: only propext, Classical.choice,
+Quot.sound; exit0, no warnings (`Axioms-SubsetRemoval.log`).
+Scratch umbrella imports the completed removal theorem. Remaining M4:
+realization-independent coherence; intrinsic graph recognition is in progress.
+
+## M4 complete — final scratch delivery
+
+Realization-independent coherence is proved in `VineCoherenceIndependent`:
+`realizedGroupSets_eq`, `realizedIncoherencyIndex_eq`, `realized_coherent_iff`
+allow different template types, rung counts and labelings. The intrinsic
+recognition/connectedness argument includes type-II m=1.
+
+Together with `subsetvc_classification` and
+`subsetvc_simultaneous_removal_connected`, this completes M4 proof work.
+Final serial targeted build: 515 targets; 2 compiled, 513 current; exit0,
+no warnings. Consolidated `validation/Axioms-M4.lean` checked 358 declarations,
+all standard axioms only, exit0, no errors/warnings. No forbidden declarations
+or budget overrides; largest owned module 542 lines.
+
+Authoritative final handoff: `/home/scott/wt-scratch/vines/HANDOFF.md`.
+Module inventory: `validation/M4-FILES.txt`; source hashes:
+`validation/M4-SHA256.txt`. Earlier progress retained in HANDOFF-history.md.
+F71 designated-bond/compatible containment remains flagged for owner audit;
+F72 Q-block adaptation is fully checked. Lean stays scratch-only pending
+Wave B freeze; this is a packet delivery, not a sealed-anchor certification.
+
+READY vines

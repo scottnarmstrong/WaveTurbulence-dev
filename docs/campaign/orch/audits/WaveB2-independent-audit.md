@@ -870,3 +870,241 @@ verbatim. **R2-1 is resolved.** There is no BLOCKER and no REQUIRED item.
 **OPTIONAL: stale wording.** The page's L8 still says "the two theorems with body `by sorry`, as `DRAFT_SORRY`
 anchors". It should say: seven theorem anchors; B2.1 and B2.2 `DRAFT_SORRY`; O1–O5 sealed on landing by their
 providers.
+
+---
+
+## Norm measurability, 2026-11-04 (B1 snapshot 8 norms; B2 final)
+
+### Verdict
+
+**No frozen statement is false.** But **B2.1 items (1)–(2) and B2.2 are stated in a norm that is not TARGET's
+`𝔛^{θ,Λ₁,Λ₂}(ℬ)` at `Λ₁ = 30d`.**
+- The B1 definitions `XNorm` and `XNormRestr` integrate a possibly non-measurable integrand with `∫⁻`, which is a
+  lower integral. So the Lean norm is `≤` TARGET's.
+- Its two basic properties cannot be derived: the triangle inequality, and a.e. smoothness of the transformed
+  momentum slices.
+- This makes those conclusions weaker than TARGET's, and **not consumable by TARGET's own proof steps**. That is
+  what wt-wke and wt-torus each hit independently.
+
+Every other norm used by a frozen statement (`SNorm`/`SNormR`, `ZNorm`/`ZNormOn`, `XNorm00`/`XNorm00Restr`) is
+measurability-robust.
+
+**Fix (REQUIRED before the freeze): one guard in B1 `XNorm`.** Require `C^{Λ₁}` slices for almost every frequency,
+exactly the landed `Fourier.MixedFourierAdmissible`. No statement text changes.
+
+### Inputs
+
+- B1 `/home/scott/wt-scratch/waveb-snap-8`: its `SHA256SUMS` verify. `WaveB1-System.lean` is `59365906…`, the same
+  as snapshots 6 and 7; its Norms section (L327–L417) is unchanged.
+- B2 `waveb2-snap-final` (`b605320f…`).
+- TARGET §2.4.1 (L579–L594): (normX) L581, (normX1), (normX2) L585, (locnorm) L589, (defznorm) L594.
+- wt-wke `pl234/ISSUE-XNORM.md`; wt-torus `regref/HANDOFF.md` Part 2 and `regref/OBLIGATIONS.md`.
+- The landed `Foundations/Fourier/MixedNorm.lean` (`mixedFourierNorm`, `MixedFourierAdmissible`,
+  `mixedRestrictionNorm`).
+- Probe `N1.lean`: the fixed norm, and `XNorm ≤ XNormFix`, `XNormRestr ≤ XNormRestrFix`; standard axioms.
+
+### What TARGET defines
+
+- **(normX).** `‖F‖_{𝔛^{θ,Λ₁,Λ₂}} = max_{|ρ|≤Λ₁} ∫ ⟨λ⟩_max^θ ‖⟨k⟩^{Λ₂} ∂_k^ρ F̂(λ,k)‖_{L^∞_k} dλ`.
+  - This is a Lebesgue integral. It presupposes that `∂_k^ρ F̂(λ,·)` exists for a.e. `λ` and that the integrand is
+    measurable.
+  - Otherwise the norm is not finite (the standard convention, and the one adopted by WAVE-B §2.6 and the landed
+    `mixedFourierNorm`).
+- **(locnorm).** The restriction norm is the infimum of `‖G‖` over extensions `G` of `F` from `ℬ × K`. TARGET treats
+  it as a seminorm: (prooflayer1-1) (L1241–L1246) telescopes with the triangle inequality.
+- **(normX2) and (defznorm).** Weighted suprema; no integral.
+
+### Each Lean norm
+
+| norm (B1 System) | used by | measurability | relation to TARGET |
+|---|---|---|---|
+| `SNorm`, `SNormR` (L349–357) | B1.1 `propansatz` and B1.3 `fixedpoint` (`AnsatzAt`), B1.2 `layergarden` (hyp. `RemainderBound`, concl.), B1.5 `wkeTaylor` (concl.), B1.6 `sumint` (hyp. `Admissible` weights), B1.12 `layergardenFlower` (hyp.), B2.1 (hyp. `InputRemainder`, concl. item 3) | no integral: a pointwise supremum | `≥` TARGET's: pointwise sup vs `L^∞`, and `⊤` without classical `C^{Λ₁}`. **Equal** on `C^{Λ₁}` functions. Every use has `Λ₁ ≥ 1`. Prior ruling: stage-2 O5, WAVE-B §2.6. |
+| `ZNormOn`, `ZNorm`, `ZSpace` | B1.3 `fixedpoint`, B1.4 `nlsAkBridge` | supremum | **equal** to (defznorm) |
+| `XNorm00`, `XNorm00Restr` (L389–402) | B1.6 `sumint` (concl.), B2.1 item 3 (`𝒥ℬ*`, concl.) | **robust.** For each `v`, `λ ↦ timeFT F λ v` is continuous (FT of an `L¹` slice), so `λ ↦ ⨆_v ‖·‖` is lower semicontinuous, hence Borel. `∫⁻` is a genuine integral, and the infimum is a seminorm. | `≥` TARGET's: pointwise sup in `v`, and the slice-integrability guard. Equal on the relevant (continuous) functions. Prior rulings. |
+| `XNorm` at `Λ₁ = 0` | (through `XNormRestr`; no frozen use at order 0) | robust (lower semicontinuous, as above) | as `XNorm00` |
+| **`XNorm` at `Λ₁ ≥ 1`, `XNormRestr`** (L379–398) | **B2.1 items (1), (2); B2.2 (1), (2)**, all at `Λ₁ = 30d`, all in conclusions | **not robust.** See below. | **`≤` TARGET's.** Equal for every extension whose smooth-frequency set is measurable; possibly strictly smaller otherwise. No triangle inequality is derivable. |
+
+### The defect
+
+**Where the integrand can fail to be measurable.** `XNorm θ Λ₁ Λ₂ G` (guard: every time slice integrable) is
+`⨆_ρ ∫⁻ ⟨λ⟩^θ · g_ρ(λ)`, where `g_ρ(λ) = if ContDiff ℝ Λ₁ (Ĝ(λ,·)) then ⨆_k ⟨k⟩^{Λ₂}|∂^ρĜ(λ,k)| else ⊤`.
+- On `E_G = {λ | Ĝ(λ,·) ∈ C^{Λ₁}}`, `g_ρ` agrees with a Borel function `H_ρ`: iterated difference quotients of the
+  continuous `λ ↦ Ĝ(λ,k)`, with the supremum taken over a countable dense set of `k`.
+- Off `E_G`, `g_ρ = ⊤`.
+- `G` ranges over **arbitrary** extensions: no joint measurability, nothing tying different `k` together. So
+  `E_G` is an uncountable intersection of conditions and need not be measurable.
+- I did not construct an explicit `G` with non-measurable `E_G`. wt-wke asserts a Bernstein-type construction,
+  which I have not verified. Nothing in the definition excludes one.
+
+**What `∫⁻` then computes.** `∫⁻` is the supremum of integrals of measurable simple functions below `g_ρ`, so it sees
+`E_Gᶜ` only through its inner measure.
+- If `E_Gᶜ` has inner measure 0 but positive outer measure, then `∫⁻ g_ρ = ∫ H_ρ`. This can be finite, while
+  TARGET's norm is `∞`: `∂^ρĜ(λ,·)` fails to exist on a non-null set.
+- Hence `XNorm ≤ TARGET`, possibly strictly; this is wt-torus's "inner measure only".
+- Lower integrals are superadditive but not subadditive. So `XNormRestr(F₁+F₂) ≤ XNormRestr F₁ + XNormRestr F₂`
+  cannot be derived (wt-wke): the near-optimal extensions may have non-measurable integrands.
+
+**When the two agree** (`N1.XNorm_le_XNormFix`). If `E_Gᶜ` is null, the integrands agree a.e., and `∫⁻` is the true
+integral (`lintegral_congr_ae`). If `E_G` is measurable and `E_Gᶜ` is not null, both norms are `⊤`. So the frozen
+norm differs from TARGET's only on extensions with a non-measurable smooth-frequency set. But because the infimum
+ranges over all extensions, no lemma can exclude them.
+
+### Effect on each frozen statement
+
+| statement | norm and position | effect |
+|---|---|---|
+| B1.1 `propansatz`, B1.2 `layergarden`, B1.3 `fixedpoint`, B1.4 `nlsAkBridge`, B1.5 `wkeTaylor`, B1.12 `layergardenFlower` | sup norms (`SNorm`, `SNormR`, `ZNorm`), in hypotheses and conclusions | **none.** No integral is involved. The `SNorm` deviations (`≥` TARGET's; equal on `C^{Λ₁}`) are the previously ruled readings. |
+| B1.6 `sumint` | `XNorm00Restr` (conclusion); `SNorm` in `Admissible` (hypothesis) | **none.** The integrand is lower semicontinuous. |
+| B1.7–B1.11 | no norms | — |
+| B2.1 item (3) | `XNorm00Restr` (`𝒥ℬ*`), `SNormR` (`ℳ*`), conclusions | **none** |
+| B2.1 hypothesis `InputRemainder` | `SNormR` | **none** |
+| **B2.1 items (1), (2); B2.2 (1), (2)** | `XNormRestr η (30d) (30d or 0)`, **conclusions** | **Weaker than TARGET**, since a smaller norm `≤` bound is a weaker claim. **They are not false:** TARGET's bound implies them, and RA2 proves B2.1 through `XNormRestr ≤ mixedRestrictionNorm`. **They are unfaithful as consumable statements:** they do not give the seminorm bound TARGET's consumers use (prooflayer1-1/1-2 L1241–L1246; the trace for `q' < r`). wt-wke cannot assemble Prop 6.1 for `q > q'` from B2.1 for this reason. |
+
+No frozen statement has `XNorm` or `XNormRestr` in a hypothesis. So the smaller norm makes no statement stronger, and
+none false.
+
+### Fix
+
+**The fix (REQUIRED before the freeze).** In B1 `WaveB1-System.lean` L379–384, replace `XNorm` by the following (it
+elaborates; `N1.lean`, `XNormFix`):
+```lean
+noncomputable def XNorm {r : ℕ} (θ : ℝ) (Λ₁ Λ₂ : ℕ) (F : (Fin r → ℝ) → Mom d → ℂ) : ℝ≥0∞ :=
+  if (∀ k, Integrable fun t => F t k) ∧ (Λ₁ = 0 ∨ ∀ᵐ lam, ContDiff ℝ Λ₁ (timeFT F lam)) then
+    ⨆ (ρ : Fin d → ℕ) (_ : ∑ j, ρ j ≤ Λ₁), ∫⁻ lam : Fin r → ℝ, maxBracketPow θ lam *
+      ⨆ k, ENNReal.ofReal (jbr k ^ Λ₂ * ‖iterPartial ρ (timeFT F lam) k‖)
+  else ⊤
+```
+Keep the existing `open Classical in` on the definition, as `XNormFix` does with `classical`.
+
+**What the fix changes.**
+- The guard becomes TARGET's and the landed `MixedFourierAdmissible`: `C^{Λ₁}` slices for **almost every** `λ`.
+- The integrand is then a.e. equal to the Borel `H_ρ`, so `∫⁻` is a genuine integral. The triangle inequality and
+  differentiation under the integral become available.
+- `XNormRestr`, B2.1 and B2.2 keep their text. Their meaning becomes TARGET's (normX)/(locnorm), up to the existing
+  rulings: pointwise sup in `k`, integrable slices, classical derivatives.
+- The fixed `XNorm` equals the landed `mixedFourierNorm`, up to multi-indices versus derivative words, which agree on
+  `C^{Λ₁}`.
+
+**Conservative.** `N1.XNormRestr_le_XNormRestrFix` (standard axioms): any bound proved in the fixed norm implies the
+current one.
+
+**Cost.**
+- One B1 definition changes. No B1 theorem uses `XNorm` or `XNormRestr` (B1.6 uses `XNorm00Restr`). The B1 freeze
+  list keeps its entries; `XNorm` gets a new body hash.
+- B2's text and freeze set are unchanged; only the B1 base hash changes.
+- Prover impact:
+  - RA2 (`regref`) states `RA1Couple` in B2's `XNormRestr`; it should restate it in the fixed (equivalently, the
+    landed) norm, as wt-torus already offered. `RA1Tree` is already in the landed norm.
+  - `XNorm_le_mixedFourierNorm` becomes an equality.
+  - PL234 gets the triangle inequality, so its weighted-order-0 workaround is no longer needed for `q > q'`.
+
+**Why before the freeze.** After the freeze, this change needs versioned successors of `XNorm`, `XNormRestr`, B2.1 and
+B2.2. Before it, the change costs one guard.
+
+**Alternative (not recommended).** Restrict the infimum of `XNormRestr` to extensions satisfying the a.e. guard. This
+has the same effect on B2, but it leaves `XNorm` non-faithful as a standalone definition.
+
+**No action** for `SNorm`/`SNormR`, `ZNorm`/`ZNormOn`/`ZSpace` and `XNorm00`/`XNorm00Restr`.
+
+---
+
+## Snapshot 9, 2026-11-04 (B1 snapshot 9 = snapshot 8 + the `XNorm` fix; snapshot 8's delta; B2 rebased)
+
+### Verdict: PASS
+
+1. **Snapshot 8 → 9.** Exactly my `XNorm` replacement and its docstring. No other source or constant changes.
+2. **Snapshot 7 → 8.** Exactly the F78 clause, with its docstring and the matching probe updates. The fix is correct
+   against TARGET.
+3. **B2 rebased.** The B2 Lean files are byte-identical, the freeze set is unchanged, and all seven modules compile
+   on snapshot 9 with the same `sorry`s.
+4. **B2.1 (1)–(2) and B2.2.** They now say what TARGET (normX)/(locnorm) says, up to the earlier rulings. The
+   direction `old XNormRestr ≤ new XNormRestr` holds on the real definitions, with equality wherever TARGET's norm is
+   finite.
+
+### 1. Snapshot 8 → 9 (`/home/scott/wt-scratch/waveb-snap-9`)
+
+**Hashes.**
+- `SHA256SUMS` verifies; its digest is `30263a9921993f40…`.
+- Snapshot 8's `SHA256SUMS` (`138033c99cab…`) verifies too.
+
+**Source diff.** Of the 12 Lean files, **only `WaveB1-System.lean` differs** (`59365906…` → `cc53aad3…`). Its diff is:
+- the `XNorm` docstring (L372–377);
+- the guard
+  `if (∀ k, Integrable fun t => F t k) ∧ (Λ₁ = 0 ∨ ∀ᵐ lam, ContDiff ℝ Λ₁ (timeFT F lam)) then`;
+- the integrand `maxBracketPow θ lam * ⨆ k, ENNReal.ofReal (jbr k ^ Λ₂ * ‖iterPartial ρ (timeFT F lam) k‖)`.
+
+This is exactly the text recommended in "Norm measurability", and `open Classical in` is kept.
+
+**Constant diff** (`Dump.lean`, Expr hashes of every constant of `WaveBDraft.{Core, System}`).
+- Snapshot 8 (`waveb/build`, compiled from System `59365906…`) has 348 constants: `dump8.txt`.
+- Snapshot 9 (my build) has 349: `dump9.txt`.
+- **Exactly one constant changes:** `WaveTurbulence.XNorm` (value only; its type is unchanged).
+- **One constant is new:** the auxiliary `XNorm._proof_1 : OuterMeasureClass (Measure (Fin r → ℝ)) (Fin r → ℝ)`.
+  This is the instance proof that the `∀ᵐ` filter needs; it is auto-generated, folds into `XNorm`, and comes from
+  Mathlib.
+- The other B1 modules are byte-identical. No B1 theorem uses `XNorm` or `XNormRestr`.
+
+**Axioms.** `XNorm` and `XNormRestr`: `[propext, Classical.choice, Quot.sound]` (`Q10.lean`).
+
+### 2. Snapshot 7 → 8 (F78)
+
+**What changed.** Only `WaveB1-Flower.lean` and `WaveB1-Flower-probes.lean` differ.
+- In `coupleSum` (B1.12's couple sum), the `dt = true` clause
+  `∀ j : Fin 2, ∃ b : GBranch LG.garden.tree, b.1 = (j, [])` gains `∧ LG.layer b.toNode = p`.
+- The docstring is updated.
+- The two probe occurrences of the clause are updated identically.
+
+**Source.** TARGET L2312: `∂_t a^tr` "simply contains an extra `δ(t_𝔯 − t)` factor in `𝒥_𝒯`".
+- The trees of `a^tr` are top-layer trees, and `∂_t 𝒥_• = 0`. So both roots are top-layer (layer `p`) branching nodes.
+- The old clause admitted a trivial top tree with a lower-layer garden attached at its root, which F78 describes
+  correctly.
+- `IsCanonC (p+1)` already bounds every layer by `p`, so the new clause says exactly "both top trees are nontrivial".
+  It removes only the illegitimate terms. `dt = false` is unchanged.
+
+**Correct.** Since snapshot 8, no file but `System` changed (above).
+
+### 3. B2 rebased on snapshot 9 (`waveb2-snap-final`, `SHA256SUMS` `b3db9c4367a8…`)
+
+**Hashes.** All entries verify. The 7 B2 Lean files, the 7 provider files and `FREEZE-LIST.md` are **byte-identical**
+to my Re-check 3 copy (`snap-final3/`). So the 76-declaration freeze set is unchanged. Its closure contains no B1
+definition: the B1 owners, `XNormRestr` among them, are referenced by name, and the names are unchanged.
+
+**Independent build** (`b2-audit/s9build/`, my script; `build.log`). On dev's Mathlib and Wave A, one `lean` at a
+time, I built:
+- the 11 B1 modules of snapshot 9: Core, System, Statements, Lemmas, Sumint, Flower, Bridges, and the
+  Core/System/Statements/Flower probes;
+- the 7 B2 modules.
+
+**All 18: 0 errors.** The `sorry`s are:
+- B1: Statements 10, Sumint 1, Flower 1, which are the 12 anchors B1.1–B1.12;
+- B2: Regular 6, Molecules 1, Statements 3, the same as before.
+
+The probe files have no warnings. `regularAsymptotics` and `incoherentDecay` elaborate against the new `XNormRestr`
+with their text unchanged.
+
+### 4. What B2.1 (1)–(2) and B2.2 now say
+
+**The direction, on the real definitions** (`N2.lean`, standard axioms; the snapshot-8 body copied as `XNormOld`):
+- `XNormOld_le_XNorm`, and hence `XNormRestrOld_le_XNormRestr`: old `≤` new. **This is the direction proved in
+  "Norm measurability".**
+- `XNorm_eq_XNormOld_of_ae`: the two are equal whenever the slices are integrable and a.e. `C^{Λ₁}`. Nothing changes
+  on extensions that TARGET's norm accepts.
+
+**Faithfulness.** For every `G` the new `XNorm G` is TARGET's (normX) `‖G‖`.
+- Either the guard fails, and the norm is `⊤`. In TARGET, the derivatives then do not exist on a non-null set, or the
+  slices are not integrable (the stage-2 O1 reading for unbounded supports).
+- Or `G` passes the guard. On a co-null Borel set `Ĝ(λ,·)` is then `C^{Λ₁}`, and the integrand equals the Borel
+  function `sup_{k∈ℚ-dense} ⟨k⟩^{Λ₂}|∂^ρĜ(λ,k)|`. So `∫⁻` is the Lebesgue integral of TARGET's integrand.
+- Hence `XNormRestr` is TARGET's (locnorm), an infimum of genuine norms over extensions, and it is subadditive.
+- The remaining differences are the earlier rulings:
+  - pointwise sup in `k`, which equals `L^∞_k` for continuous slices;
+  - integrable time slices;
+  - classical derivatives.
+
+So **B2.1 items (1)–(2) and B2.2 now state TARGET's bounds in TARGET's norm.** They are stronger than under snapshot 8
+(old norm `≤` new), and true as far as the source shows.
+
+**OPTIONAL.** Land the triangle inequality for `XNormRestr` (the a.e.-measurability of the integrand under the new
+guard) as a Foundations lemma. PL234 needs it, and it is the analogue of the landed `mixedRestrictionNorm` calculus.
+RA2's bridge `XNormRestr_le_mixedRestrictionNorm` now holds as an equality up to representation, and `RA1Couple` can
+be restated in either norm.

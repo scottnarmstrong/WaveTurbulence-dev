@@ -4,7 +4,7 @@
   "model": "Claude Opus",
   "account": "claude-1",
   "branch": "w/orch",
-  "packet": "Task 32 (CL-22 O1-O5 anchors) + Task 33 audits (SKELETON, MAINCOEF-T, PL1 final); done: J5-J7, B̃ audits PASS",
+  "packet": "Task 34: snapshot-8 delta audit + freeze branch rebuild; done: letter draft, many audits",
   "brief": "docs/campaign/orch/TASK4.md"
  },
  {
@@ -12,7 +12,7 @@
   "model": "Claude Opus",
   "account": "claude-10",
   "branch": "w/waveb-infra",
-  "packet": "Wave B snapshot 7 (F68 dChild fix), then kernelKgen_graft + discharge O-X2-EXP/O-X3-CPL; X3 FIXEDPT done (conditional on those two)",
+  "packet": "O-X2-EXP stages X2E-1..5 (flower graft bijection), then x3-closed; CPL-1/2 done, CPL-3 in progress",
   "brief": "docs/campaign/briefs/FLOWER.md"
  },
  {
@@ -20,8 +20,8 @@
   "model": "Claude Opus",
   "account": "claude-14",
   "branch": "w/approxnt",
-  "packet": "A23-HALF: DH23 Lemma A.2(3) γ > 1/2 branch in Lean (RA2 REGREF done: B2.1 proved from RA1 obligations)",
-  "brief": "docs/campaign/briefs/A23-HALF.md"
+  "packet": "G7 MOLEPROP4 (revived, repaired): DH23 ylem1′, ylem2, Prop 10.4 (A23-HALF done)",
+  "brief": "docs/campaign/briefs/MOLEPROP4.md"
  },
  {
   "tmux": "wt-wke",
@@ -52,7 +52,7 @@
   "model": "GPT-6.1-Sol low",
   "account": "codex-3",
   "branch": "w/bproc",
-  "packet": "RA1 REGASYMP: DH23 Prop 6.1 couples then trees (G7 paused on F69 ylem1; PV-DECAY, G6, DEGEN done)",
+  "packet": "RA1 couples (RA1Couple): DH23 Prop 6.1 for couples; trees moved to wt-l2s",
   "brief": "docs/campaign/briefs/REGASYMP.md"
  },
  {
@@ -60,7 +60,7 @@
   "model": "GPT-6.1-Sol low",
   "account": "codex-2",
   "branch": "w/count",
-  "packet": "M4 VINES (pre-freeze), then M9 VINEPARAM (COUNT done, landed)",
+  "packet": "M9 VINEPARAM (pre-freeze): molecule-level vine parametrizations (M4 VINES done)",
   "brief": "docs/campaign/briefs/VINES.md"
  },
  {
@@ -76,15 +76,15 @@
   "model": "GPT-6.1-Sol low",
   "account": "codex-2",
   "branch": "w/an-phase",
-  "packet": "V1+V2 SUMINT (pre-freeze): prove the Wave B statement sumint (N2+N3 done)",
-  "brief": "docs/campaign/briefs/SUMINT.md"
+  "packet": "M5 MOLECPL then M6 TWIST (pre-freeze); SUMINT (B1.6) proved",
+  "brief": "docs/campaign/briefs/MOLECPL-TWIST.md"
  },
  {
   "tmux": "wt-l2s",
   "model": "GPT-6.1-Sol low",
   "account": "codex-2",
   "branch": "w/wke-l2s",
-  "packet": "INCOH-INST: prove B2.2 incoherentDecay at the exact type (PL1 abstract Prop 5.1 done)",
-  "brief": "docs/campaign/briefs/INCOH-INST.md"
+  "packet": "RA1-TREES: DH23 Prop 6.1 for trees (RA1Tree); INCOH-INST done: B2.2 proved at exact type",
+  "brief": "docs/campaign/briefs/RA1-TREES.md"
  }
 ]

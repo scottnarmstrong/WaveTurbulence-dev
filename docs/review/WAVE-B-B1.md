@@ -1,12 +1,8 @@
 # Wave B (tier B1) — freeze candidate for author approval
 
-Snapshot `/home/scott/wt-scratch/waveb-snap-7` · prepared 2026-11-04 (supersedes snapshots 5–6: FINDINGS F56 fix, B1.12, F68 dChild layer fix). **This is the exact Lean to be frozen** (one declaration per file under
+Snapshot `/home/scott/wt-scratch/waveb-snap-9` · prepared 2026-11-04 (supersedes snapshots 5–8: FINDINGS F56, B1.12, F68, F78, F80 fixes). **This is the exact Lean to be frozen** (one declaration per file under
 `WaveTurbulence/Frozen/`, theorems with body `by sorry` as `DRAFT_SORRY` anchors, definitions sealed), exactly as for
-Wave A (D6). File hashes: `WaveB1-Core.lean` 0b8477d9943a…, `WaveB1-System.lean` 59365906b84a…, `WaveB1-Statements.lean` e72e32df7fa0…, `WaveB1-Sumint.lean` 9750d760d676…, `WaveB1-Flower.lean` a7c15279f10b….
-
-> **Hold (2026-11-04, F78):** snapshot 7's B1.12 `coupleSum` ∂_t clause admits couples TARGET L2312 does not produce
-> (a ∂_t analogue of F68). Snapshot 8 adds one layer conjunct; nothing else changes. Please approve snapshot 8 (with the γ
-> range per your F69b decision); this page will be regenerated from it.
+Wave A (D6). File hashes: `WaveB1-Core.lean` 0b8477d9943a…, `WaveB1-System.lean` cc53aad3acd7…, `WaveB1-Statements.lean` e72e32df7fa0…, `WaveB1-Sumint.lean` 9750d760d676…, `WaveB1-Flower.lean` fd2b5e501d04….
 
 ## 1. What is frozen
 
@@ -44,13 +40,15 @@ with source lines and dependencies: `FREEZE-LIST.md` of the snapshot, copied to 
    landed Foundations objects (χ₀, the a-system, the Taylor terms) are proved; norm bridges are provider obligations.
 9. **Snapshot 6 fix (F56):** in `SumintDatum.phase` the normal-block product was inside the block product (Mathlib parses a `∏` body at precedence 67, `*` is 70); it is now `(∏ i, …) * ∏ i : Nor, …` as in TARGET (sumintI1). A sweep of every file found no other scope error (wt-gauss-hc; independently re-swept by wt-orch).
 10. **Snapshot 7 fix (F68):** B1.12's `PatValid` `dChild` clause now requires the designated child of `𝔣^pr` to be a layer-`p` branching node (`LG.layer b.toNode = p`); otherwise `flowerSum (dChild i)` contained gardens TARGET's bound (L2331) does not cover. `PatValid` takes `p` as an argument; the text of B1.12 itself is unchanged; `fixedpoint` uses only the `plain` and `dRoot` patterns.
+11. **Snapshot 8 fix (F78):** in B1.12's `coupleSum`, the `∂_t` clause requires both roots to be layer-`p` branching nodes (equivalently: both top trees nontrivial), matching TARGET L2312; it removes couples whose ∂_t contribution is zero in the source.
+12. **Snapshot 9 fix (F80):** `XNorm`'s guard is TARGET's (normX): integrable time slices and `C^{Λ₁}` slices for almost every frequency (the landed `MixedFourierAdmissible`), instead of a per-frequency `⊤`; so `XNorm` and `XNormRestr` are TARGET's (normX)/(locnorm), with the triangle inequality. No B1 theorem uses them; B2.1 items (1)–(2) and B2.2 become exactly TARGET's statements (independently audited, `WaveB2-independent-audit.md` §Snapshot 9).
 
 ## 3. Audit trail
 
 Stage audits: `docs/campaign/orch/audits/WaveB-stage1.md` (core definitions, wt-orch), `WaveB-stage2.md` (system objects,
 wt-orch), `WaveB-stage3.md` (statements, independent Opus auditor: 9 REQUIRED); deltas `WaveB-delta-1.md`,
 `WaveB-delta-stage3.md` (all closed; N1); `WaveB-final-check.md` (PASS); `WaveB-packaging-check.md` (packaging only).
-Snapshot 6: `FLOWER-redraft.md` (B1.12), `WaveB-snapshot6.md` (delta audit: B1.12, F56, sweep), `WaveB-snapshot7.md` (F68 delta, PASS). Every REQUIRED item is closed; all files elaborate; the only `sorry`s are the 12 anchors.
+Snapshot 6: `FLOWER-redraft.md` (B1.12), `WaveB-snapshot6.md` (delta audit: B1.12, F56, sweep), `WaveB-snapshot7.md` (F68 delta, PASS), independent audit §Snapshot 9 (F78, F80 deltas, PASS). Every REQUIRED item is closed; all files elaborate; the only `sorry`s are the 12 anchors.
 
 ## 4. The exact Lean code
 
@@ -1129,18 +1127,20 @@ noncomputable def maxBracketPow {r : ℕ} (θ : ℝ) (lam : Fin r → ℝ) : ℝ
 
 open Classical in
 /-- **`‖F‖_{𝔛^{θ,Λ₁,Λ₂}}`** (T (normX), L581) for `F(t₁,…,t_r, k)`: `max_{|ρ| ≤ Λ₁} ∫ max_i⟨λ_i⟩^θ
-‖⟨k⟩^{Λ₂} ∂_k^ρ F̂(λ, k)‖_{L^∞_k} dλ`; `⊤` unless every `t ↦ F(t,k)` is integrable, and, for
-`Λ₁ ≥ 1`, the integrand is `⊤` at `λ` where `k ↦ F̂(λ,k)` is not `C^{Λ₁}`. For `Λ₁ = 0` no momentum
-regularity is imposed (the source's `L^∞_k` needs none, and `k` often ranges over a lattice:
+‖⟨k⟩^{Λ₂} ∂_k^ρ F̂(λ, k)‖_{L^∞_k} dλ`; `⊤` unless every `t ↦ F(t,k)` is integrable and, for `Λ₁ ≥ 1`,
+`k ↦ F̂(λ,k)` is `C^{Λ₁}` for almost every `λ` (F80). This is the guard of TARGET's norm and of the landed
+`Fourier.MixedFourierAdmissible`. A per-frequency `⊤` inside the integral would make `∫⁻` a lower integral of a
+possibly non-measurable integrand: the norm could be smaller than TARGET's and would have no triangle inequality.
+With the a.e. guard the integrand is a.e. equal to a Borel function, so `∫⁻` is a genuine integral. For `Λ₁ = 0`
+no momentum regularity is imposed (the source's `L^∞_k` needs none, and `k` often ranges over a lattice:
 orchestrator ruling, fix list 3 item 2). Reading (stage-2 O1): the integrability
 guard makes the unrestricted norm `⊤` for some functions with finite source norm (e.g. `sinc`);
 the restricted norms over bounded `ℬ`, the only use, agree with TARGET's up to an absolute factor
 (multiply by a cutoff equal to `1` on `ℬ`; Peetre). -/
 noncomputable def XNorm {r : ℕ} (θ : ℝ) (Λ₁ Λ₂ : ℕ) (F : (Fin r → ℝ) → Mom d → ℂ) : ℝ≥0∞ :=
-  if ∀ k, Integrable fun t => F t k then
+  if (∀ k, Integrable fun t => F t k) ∧ (Λ₁ = 0 ∨ ∀ᵐ lam, ContDiff ℝ Λ₁ (timeFT F lam)) then
     ⨆ (ρ : Fin d → ℕ) (_ : ∑ j, ρ j ≤ Λ₁), ∫⁻ lam : Fin r → ℝ, maxBracketPow θ lam *
-      (if Λ₁ = 0 ∨ ContDiff ℝ Λ₁ (timeFT F lam) then
-        ⨆ k, ENNReal.ofReal (jbr k ^ Λ₂ * ‖iterPartial ρ (timeFT F lam) k‖) else ⊤)
+      ⨆ k, ENNReal.ofReal (jbr k ^ Λ₂ * ‖iterPartial ρ (timeFT F lam) k‖)
   else ⊤
 
 open Classical in
@@ -2310,15 +2310,19 @@ noncomputable def flowerSum (P : WTParams) (F : ℕ → Mom P.d → ℝ) (p N : 
 
 open Classical in
 /-- **The restricted couple sum** (T L2312). It sums over the couples `𝒬 ∈ 𝒞_{p+1}` of order `N`
-with attached gardens of order `≤ N_p` and trees of kind `kind`. With `dt`, the roots are branching
-and have time `t` (`δ(t_𝔯 − t)` of `∂_t`). The root vector is `k ∈ ℝ^d`, as in `KQ`. Without `dt`
-and with kind `tr` this is `truncSumC` (bridge in the probes). -/
+with attached gardens of order `≤ N_p` and trees of kind `kind`. With `dt`, the roots are layer-`p`
+branching nodes and have time `t` (`δ(t_𝔯 − t)` of `∂_t`). The root vector is `k ∈ ℝ^d`, as in `KQ`.
+Without `dt` and with kind `tr` this is `truncSumC` (bridge in the probes).
+
+The roots must be in layer `p` (F78). The term `δ(t_𝔯 − t)` comes from `∂_t` of the tree expansion, whose roots
+are top-layer branching nodes; `∂_t 𝒥_• = 0`. So a couple whose top tree is trivial, with a lower-layer garden
+attached at its root, is excluded. -/
 noncomputable def coupleSum (P : WTParams) (F : ℕ → Mom P.d → ℝ) (p N : ℕ) (kind : TreeKind)
     (dt : Bool) (t : ℝ) (k : Mom P.d) : ℂ :=
   ∑ᶠ (LG : LayeredGarden 2) (_ : IsCanonC (p + 1) LG ∧
       (∀ u ∈ LG.attachNodes p, LG.attachedOrder p u ≤ P.N p) ∧ LG.garden.order = N ∧
       LG.TreeKindOK p (P.N (p + 1)) kind ∧
-      (dt = true → ∀ j : Fin 2, ∃ b : GBranch LG.garden.tree, b.1 = (j, []))),
+      (dt = true → ∀ j : Fin 2, ∃ b : GBranch LG.garden.tree, b.1 = (j, []) ∧ LG.layer b.toNode = p)),
     kernelKgen P.L P.γ P.δ F LG (fun b => if dt = true ∧ b.1.2 = [] then some t else none) ∅
       (fun _ => 1) (fun _ => t) k (fun _ => 0) 0
 
