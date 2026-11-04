@@ -601,3 +601,57 @@ compiled successfully. Scratch `AxiomsSpatialAssemblyInputs.lean` / correspondin
 seven principal results; each uses only `[propext, Classical.choice, Quot.sound]`.
 Full spatial mixed-norm assembly remains outstanding; these are its proved inputs, not a
 claim that Proposition 5.1 is complete. No new source erratum or weakened estimate.
+
+Full raw couple spatial milestone (continuing):
+`FullRawCoupleRestrictionDecay.exists_rawCoupleKernel_fullRestriction_bound` proves actual
+`mixedRestrictionNorm eta J W` decay of the literal unlocalized couple kernel. The input
+conditions are `d+1+J ≤ K` and `W+2d ≤ M` on actual `Sf^{K,M}` input norms. Consequently
+`J=W=30d`, `K=M=40d` fits the source budget for `d≥3`. The constant is explicit:
+`C_mask(d,m,J,W) C_local^n (C_weighted_moment B)^m C_half^(2n)` times the analytic
+core's `(C0 delta)^n L^{-(gamma1-100d eta)g}`. No derivative identity, Fourier estimate,
+Fubini condition or analytic estimate is assumed by the final raw theorem.
+
+P-1 is also retained at full spatial order and weight:
+`FullRawVertexClockRestrictionDecay.exists_rawVertexClockKernel_fullRestriction_bound`
+selects only the genuine vertex, with literal domain `I ∩ {w | w v.1 v.2 ≤ t a}` and the
+genuine/passive unit box. Its second clock is constructed internally. The source norm has
+all the same spatial orders and input budgets as the two-clock result.
+
+Additional finite carrier data needed for the couple root weight, in `RootInputCoordinates P`:
+- `sigma : Fin m → Z`;
+- `abs_sigma_le : ∀ a, |sigma a| ≤ 1`;
+- `root_row : (sum a, sigma a • P.inputRow a) = momentumUnitRow none`.
+These are finite integer identities supplied by the source unimodular leaf coordinates.
+Evaluation proves the actual real root relation, and `sum_sigma=1` follows from P's
+existing input root columns. No analytic fields were added to `MomentumTreeData`.
+
+Approach: insert a smooth root mask fixed by each source leaf-center array, of width
+`2 (2+sqrt d)^m prod_a <c_a>`. The finite root row proves it is exactly one wherever the
+actual localized source can be nonzero. Its scale is independent of derivative order, so
+one actual extension controls all derivatives. The actual spectral amplitude derivatives
+are bounded by products of individual leaf Fourier moments. Paying the root weight at
+every center leaves exactly `M-W` powers of summable decay. The full spatial spectral
+transport theorem keeps the momentum supremum inside the time-frequency integral.
+`AllCellMaskedCoupleDecay` is uniform in an arbitrary common external time translation;
+this supplies P-1's passive-clock shift without any spatial norm translation assumption.
+The global garden sign is retained in every actual source and amplitude.
+
+Files added for this milestone: `ParameterIteratedDerivative`, `CountableSliceMeasurability`,
+`RootInputCoordinates`, `SourceRootMask`, `SourceRootMaskBounds`, `SourceRootMaskAgreement`,
+`SpectralMomentContinuity`, `SpectralMomentSummability`, `WeightedSpectralMomentMass`,
+`MaskedSourceAmplitude`, `MaskedSourceDerivativeBound`, `MaskedCellEnvelope`, `MaskedCellFamily`,
+`SpatialNormParameterIntegral`, `SpatialSpectralIntegral`, `MixedSpatialEnvelope`,
+`SpectralSpatialMixture`, `AllCellMaskedCoupleDecay`, `MaskedCouplePointwise`,
+`MaskedRawCoupleAgreement`, `MaskedRawOneClockAgreement`, `FullRawCoupleRestrictionDecay`,
+`FullRawOneClockRestrictionDecay`, `FullRawVertexClockRestrictionDecay`.
+
+Checks: focused build of `FullRawVertexClockRestrictionDecay` and
+`FullRawCoupleRestrictionDecay` passed (`9450 jobs`), including all dependencies above.
+`AxiomsFullCouple.lean` / `axioms-full-couple.log` audits eight principal results, including
+both final raw spatial bounds. All use only `[propext, Classical.choice, Quot.sound]`.
+No new erratum, hidden smoothness premise, changed Wick sign, or weakened source estimate.
+
+Remaining packet work: absorb the explicit order-dependent coefficients into `C1^n`, apply
+the proved final square-root eta loss, complete the tree's full `30d` spatial derivatives
+(the literal tree order-zero bound is already done), and package the abstract Prop 5.1
+couple/tree statement. The full Prop 5.1 packet is not yet claimed complete.
