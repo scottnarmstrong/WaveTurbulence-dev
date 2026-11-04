@@ -680,3 +680,39 @@ build passed (`9500 jobs`). Scratch `AxiomsPropositionRates.lean` /
 absorption, the appended finite root-row certificate and its exact raw tree source identity.
 Each uses only `[propext, Classical.choice, Quot.sound]`. No new erratum or deviation.
 The packet still requires the tree's full spatial derivative bound and final joint packaging.
+
+## Full tree spatial estimate and printed rate
+
+`TreePropositionRate.exists_rawTreeKernel_propositionRate` proves the raw tree term in
+`X^{eta,30d,0}`, from actual `Sf^{40d,40d}` bounds, with the exact printed square-root
+eta loss and `(C1 delta)^n`. Its constants precede every order and source object.
+The source leaf count `m=2n` implies the displayed typing condition `m+1≤3n` once
+incoherence gives `n≥1`. The endpoint/clock geometry and smooth cutoff requirements
+are the same finite source data already used by the accepted order-zero tree result.
+
+Approach: append the temporary root input, localize it with the actual smooth partition
+`treeRootPartition`, and multiply each spectral amplitude by a slightly larger translated
+root cutoff. A single finite cell cover then works for all root momenta and root partition
+indices. The translated root input has exactly translation-invariant Fourier-moment mass;
+its growing weighted spatial norm is used only to establish integrability, never in the
+uniform bound. `RootAmplitudeLocalModels` and `RootAmplitudeMixture` prove differentiation
+and Fourier transport for the locally finite root sum using actual finite neighborhood
+models. `TreeRootSourceAgreement` proves exact source recovery on the full forward domain,
+including equality of external clocks. No decay premise on the lone leaf was added.
+
+New modules: `SpatialOperatorBound`, `CompactSpatialNorm`, `TreeRootPartition`,
+`TreeRootCellSupport`, `LeafFourierMomentMass`, `TreeRootPartitionMoments`,
+`LocalModelParameterIntegral`, `LocalModelSpectralIntegral`, `LocalModelUniformMassMixture`,
+`RootAmplitudeLocalModels`, `RootAmplitudeMass`, `RootAmplitudeMixture`,
+`TreeAugmentedInputBounds`, `MaskedCellActualMomentMass`, `SmoothModulatedDerivative`,
+`UniformDerivativeProduct`, `SingleRootSpectralAmplitude`, `TreeRootSpectralFamily`,
+`TreeRootSpectralMass`, `AllCellTreeFamily`, `AllCellTreeDecay`, `MaskedTreePointwise`,
+`MaskedRawTreeAgreement`, `TreeRootSpatialDecay`, `TreeRootSourceAgreement`,
+`FullRawTreeRestrictionDecay`, `TreeCoefficientAbsorption`, `TreePropositionRate`.
+
+Checks: `nice -n 5 lake build WaveTurbulence.Foundations.Incoh.TreePropositionRate`
+passed (`9566 jobs`), with no warnings. `AxiomsFullTree.lean` / `axioms-full-tree.log`
+checks seven principal results, including the final printed rate, exact raw agreement,
+full derivative transport and uniform moment mass. Every result uses only
+`[propext, Classical.choice, Quot.sound]`. No new source errata or weakened estimate.
+Joint abstract Proposition 5.1 packaging is the remaining closeout step.
