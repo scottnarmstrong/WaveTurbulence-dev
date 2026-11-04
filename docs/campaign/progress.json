@@ -1,5 +1,5 @@
 {
- "assessed": "2026-11-04 08:30 UTC",
+ "assessed": "2026-11-04 09:10 UTC",
  "notes": "Lean work items = blueprint packets (docs/blueprint/GRAPH.md §E) with their difficulty weights (node weights L=1, M=2, H=4, VH=8 summed). Each frozen theorem anchor adds weight 1, credited when SEALED. Done fractions are the orchestrator's assessment, reviewed at integration rounds.",
  "lines_est_total": 273000,
  "parts": [
@@ -324,8 +324,8 @@
      "goal": "vine/ladder templates (WAVE-B §3.4, F19), groups/coherence, subsetvc",
      "weight": 10.0,
      "lines_est": 3300,
-     "done": 0.0,
-     "note": ""
+     "done": 0.9,
+     "note": "VINES done in scratch: templates incl. m = 1 vine (II) (F72), groups/coherence, subsetvc, VC/HVC/DV/HV (F71 reading), 358 declarations"
     },
     {
      "id": "NT6",
