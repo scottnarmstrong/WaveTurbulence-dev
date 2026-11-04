@@ -1,5 +1,5 @@
 {
- "assessed": "2026-11-04 04:30 UTC",
+ "assessed": "2026-11-04 05:05 UTC",
  "notes": "Lean work items = blueprint packets (docs/blueprint/GRAPH.md §E) with their difficulty weights (node weights L=1, M=2, H=4, VH=8 summed). Each frozen theorem anchor adds weight 1, credited when SEALED. Done fractions are the orchestrator's assessment, reviewed at integration rounds.",
  "lines_est_total": 273000,
  "parts": [
@@ -504,8 +504,8 @@
      "goal": "DH21 Prop 5.1 (with DH23 weights)",
      "weight": 4.0,
      "lines_est": 3000,
-     "done": 0.05,
-     "note": "MAINCOEF started (wt-wke): DH21 Prop 5.1 with DH23 weights"
+     "done": 0.9,
+     "note": "MAINCOEF done: DH21 Prop 5.1 with DH23 weights (code-defined B̃); garden bridge next"
     },
     {
      "id": "X1",
