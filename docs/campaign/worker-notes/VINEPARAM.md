@@ -41,3 +41,76 @@ inverse free-coordinate coefficients 0 or ±1 and the ruled signed core
 forms. This enumeration is exploratory, not a proof input. Continuing with
 kernel-checkable matrix/quadratic certificates, graph transport and
 arbitrary insertion assembly. M9 is not yet complete.
+
+## Exhaustive orientation coverage and source-bound chart checkpoint
+
+All eight profile-coverage theorems now follow from actual multiplicity
+bounds and outgoing degree equations, with no enumerator as a premise.
+Generic integer/quadratic evaluation, conservation-fiber reconstruction,
+actual bond matching and cap/rung translation tools are checked. The type
+II000 and VI000 inverse/resonance certificates are bound to literal source
+endpoints, normalized profiles and actual conservation rows.
+
+Focused build: 83 targets, final4 compiled/79 current, exit0/no warnings.
+The 89-declaration checkpoint axiom probe passes, standard axioms only.
+The expanded881-target serial check is running for all269 inverse,
+quadratic and source-binding certificates. Full actual-molecule and
+arbitrary-insertion assembly remain; no M9 completion claim yet.
+Scratch handoff and generators contain the exact commands and conventions.
+
+## Actual direction transport and cap composition
+
+`VineParamBondDegrees`, `VineParamRealizedDegrees`, and
+`VineParamRealizedOrientation` now transport source outgoing/incoming degrees
+through the actual multiplicity-preserving bond bijection to literal atom
+labels. `VineParamPortTransports` proves exact composition/inversion of cap
+translations and port swaps; `VineParamReducedDecoder` proves exact removal
+of the zero divergence columns. Focused run: 89 targets, final2 compiled/87
+current, exit0 and no warnings. These add no orientation assumptions.
+
+The all-profile check continues serially. Next are the weighted signed-dart
+bridge, concrete chart packaging, and arbitrary-insertion assembly. The
+packet remains in progress; no completion claim.
+
+## Actual resonances and full base conservation fibers
+
+The directed weighted-sum bridge now proves actual momentum transport and
+negative molecular Gamma transport on all full-degree realized vine atoms,
+for arbitrary insertions. Concrete type I/II catalogue lookups compile,
+and the generic matrix consumer is an equivalence on the entire fixed-gap,
+zero-interior-flow fiber, with both inverse directions proved.
+
+Focused run: 116 targets, final1 compiled/115 current, exit0/no warnings.
+Axiom checkpoint: 111 declarations, all matched, only standard axioms,
+no warnings/errors. Main merged again at clean point (F79 signed sumint
+extension is consistent with the signed-core ruling).
+
+The serial superset check now covers1175 targets including every concrete
+matrix package and all eight catalogue lookups. It replaces the previous
+queue at a clean boundary, retaining compiled artifacts. Full actual
+orientation normalization and arbitrary-insertion chart assembly remain.
+
+## Source orientation normalization and arbitrary ladder fiber checkpoint
+
+Actual direction counts now select a profile from source undirected shape
+and actual outgoing degrees, and the matching consumer preserves each
+oriented bond occurrence. The actual expanded-vine model is selected before
+all decorations. Source decoration conservation yields zero interior rows;
+the second joint gap is forced, and cap cut flow is zero or a signed root gap.
+
+Both forward and reverse charts work for arbitrary ladder length. The full
+rung/ladder conservation-fiber bijection, shared upper rail compatibility,
+and exact rung resonance formulas compile. The cap/reference correction has
+ternary coefficients in all12 local cases, and the pinned lattice embedding
+commutes with the integer charts and is injective for nonzero L. Outside
+insertions cannot create cap crossings, including arbitrary insertion folds.
+Caps may meet either end of the marked rails; this is documented and handled
+by the reverse charts (no source/template change).
+
+Focused check135 targets: final3 compiled/132 current, exit0/no warnings;
+then the137-target run compiled2, with a mechanically fixed unused-variable
+warning. A dynamic serial queue rechecked that fix and the axiom probe:
+151 declarations, mechanically matched, standard axioms only, no errors or
+warnings. It continues all-profile validation (currently through VI010,
+VI011 in progress). Concrete source-chart lookup and arbitrary-insertion
+chart assembly remain in progress; no M9 completion claim.
