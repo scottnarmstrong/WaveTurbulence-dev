@@ -4,6 +4,10 @@ Snapshot `/home/scott/wt-scratch/waveb-snap-7` · prepared 2026-11-04 (supersede
 `WaveTurbulence/Frozen/`, theorems with body `by sorry` as `DRAFT_SORRY` anchors, definitions sealed), exactly as for
 Wave A (D6). File hashes: `WaveB1-Core.lean` 0b8477d9943a…, `WaveB1-System.lean` 59365906b84a…, `WaveB1-Statements.lean` e72e32df7fa0…, `WaveB1-Sumint.lean` 9750d760d676…, `WaveB1-Flower.lean` a7c15279f10b….
 
+> **Hold (2026-11-04, F78):** snapshot 7's B1.12 `coupleSum` ∂_t clause admits couples TARGET L2312 does not produce
+> (a ∂_t analogue of F68). Snapshot 8 adds one layer conjunct; nothing else changes. Please approve snapshot 8 (with the γ
+> range per your F69b decision); this page will be regenerated from it.
+
 ## 1. What is frozen
 
 12 theorem anchors and their definitions (167 defs, 4 abbrevs, 5 structures, 5 inductives, 33 instance-defs; full list
