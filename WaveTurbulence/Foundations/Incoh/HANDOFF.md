@@ -579,3 +579,25 @@ WaveTurbulence.Foundations.Incoh.RawVertexClockRestrictionDecay` passed (`9409 j
 Scratch `AxiomsRawOneClock.lean` / `axioms-raw-one-clock.log` audits five results, including
 both final raw one-clock bounds and exact source recovery; every result uses only
 `[propext, Classical.choice, Quot.sound]`. No new erratum or source deviation.
+
+Spatial assembly inputs milestone (continuing): `RootInputWeight` proves the printed root-weight
+transfer directly from the finite integer root row. `WeightedFourierL1` and
+`LeafCellFourierMoment` prove actual degree-`J` Fourier moments using only `d+1+J` source
+derivatives, with the full summable localization-center decay retained. `SpectralMomentProfiles`
+and `SpectralMomentMass` factor the actual higher-moment reference density over its leaf/link
+profiles and prove its actual integrability and mass bound. Link profiles require no moments.
+`MomentumModulation`, `SourceRootFrequency`, `SourceAmplitudeDerivative`, and
+`SourceAmplitudeDerivativeMeasurable` prove actual source-amplitude derivatives and their spectral
+continuity. The root frequency is exactly the sum of leaf-profile frequencies; its `J`-th power
+is controlled by the product of the individual `(1+|ξ_a|)^J` moments. This spectral proof uses
+the available finite source smoothness budget and introduces no infinite-smoothness premise
+on the input functions. `SmoothParameterIntegral` and `IteratedDerivativeIntegral` provide
+conditional calculus transport for actual finite derivatives under integrable envelopes.
+
+Checks: focused targets `RootInputWeight` (`9053 jobs`), `LeafCellFourierMoment` (`9074 jobs`),
+`IteratedDerivativeIntegral` (`9049/9050` success in the focused modulation build),
+`SpectralMomentMass` (`9184 jobs`), and `SourceAmplitudeDerivativeMeasurable` (`9201 jobs`)
+compiled successfully. Scratch `AxiomsSpatialAssemblyInputs.lean` / corresponding log audits
+seven principal results; each uses only `[propext, Classical.choice, Quot.sound]`.
+Full spatial mixed-norm assembly remains outstanding; these are its proved inputs, not a
+claim that Proposition 5.1 is complete. No new source erratum or weakened estimate.
