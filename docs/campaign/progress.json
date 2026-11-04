@@ -1,5 +1,5 @@
 {
- "assessed": "2026-11-04 07:10 UTC",
+ "assessed": "2026-11-04 07:30 UTC",
  "notes": "Lean work items = blueprint packets (docs/blueprint/GRAPH.md §E) with their difficulty weights (node weights L=1, M=2, H=4, VH=8 summed). Each frozen theorem anchor adds weight 1, credited when SEALED. Done fractions are the orchestrator's assessment, reviewed at integration rounds.",
  "lines_est_total": 273000,
  "parts": [
@@ -639,8 +639,8 @@
      "goal": "TARGET Props 6.6–6.8 (norm translation F11, corrected regref1-5, dominant trees)",
      "weight": 13.0,
      "lines_est": 4100,
-     "done": 0.1,
-     "note": "REGREF started (wt-torus): B2.1 at exact type; item (4) done"
+     "done": 0.55,
+     "note": "REGREF: B2.1 couple items proved at exact type; trees (items 2, 3b, trace argument F76) in progress"
     },
     {
      "id": "L3",
@@ -765,8 +765,8 @@
      "goal": "fixedest1–4 and fixedpoint",
      "weight": 9.0,
      "lines_est": 3400,
-     "done": 0.8,
-     "note": "FIXEDPT: fixedpoint proved from B1.12, B1.2, B1.5 and the named obligations O-X2-EXP, O-X3-CPL (36 modules, scratch)"
+     "done": 0.85,
+     "note": "FIXEDPT conditional on O-X2-EXP/O-X3-CPL; O-X3-CPL: CPL-1 (a^tr), CPL-2 (ℒ₀) done, CPL-3 in progress"
     },
     {
      "id": "I2",

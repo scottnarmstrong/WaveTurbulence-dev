@@ -378,3 +378,8 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   pass the structural steps; brute force agrees to 9 atoms. Rests on DH23 Lemma A.2(3) (γ > 1/2 branch, only sketched
   at L2088–L2091; numerics support it) and ylem2. Lean needs: the γ > 1/2 refinement of (basiccount02), ylem2, the
   operation (c)/(d) deviation lemmas, a few graph lemmas, and a γ > 1/2 hypothesis.
+- F76 — TARGET (regref2-2) "translate by r" for trees with the lone leaf in a lower layer (q' < r) — proof-level
+  precision: the B2 audit's reduction to the slice s = r holds pointwise, but at the norm level it is a trace
+  statement (the line s = r has measure zero, and the restriction norm requires extensions to agree pointwise), so it
+  needs continuity of K*_𝒯 − app on the closed box plus a slice lemma for the 𝔛 norm. B2.1 remains true; TARGET's
+  sentence does not cover this step. Found by wt-torus (RA2 REGREF); proved inside RA2 (route (a)).
