@@ -514,3 +514,32 @@ the main result, use only `[propext, Classical.choice, Quot.sound]`
 
 Remaining M4: ordinary type-V and mixed removals, outer-chain/DV assembly,
 and realization-independent coherence. No new source deviation. Continuing.
+
+## Ordinary type-V side removal in VII proved with arbitrary double removals
+
+`VineVIISideRemovalConnected.typeVII_side_typeI_removal_connected` proves
+that deleting the complete actual VII side, retaining its two joints, and
+performing any family of complete type-I removals leaves a connected main
+body. The red, cyan and green counts are arbitrary, including zero; no
+path, side-classification, gap or counting conclusion is assumed. This is
+the geometric removal clause; the earlier source SG classification supplies
+the selected full side when the removed vine is type V.
+
+The protected single-bond relation tracks surviving atoms and edges outside
+the side. `VineSideInterior` identifies the deleted interior exactly with
+the selected triangle/cyan labels. `VineVIIRedProtectedData` and
+`VineVIIGreenProtectedData` derive rail avoidance from source ports and
+allocation arithmetic. Their path modules, `VineVIIProtectedCoreLabels`,
+`VineVIIProtectedCorePaths`, `VineVIIProtectedCoreLift` and
+`VineVIIExpandedProtectedBackbone` construct paths to every surviving old
+and fresh atom; `VineMixedSinglePaths` transports them through all removals.
+
+Focused serial rebuild: all 462 targets passed, final result `2 compiled;
+460 already current`, exit0, no warnings. The seven declarations in
+`validation/Axioms-VIISideRemoval.lean`, including the main theorem, passed
+with only `[propext, Classical.choice, Quot.sound]`, no errors/warnings
+(`validation/Axioms-VIISideRemoval.log`). No pinned definition changed.
+
+Remaining: assembly for ordinary SG families and chains, DV branch removal,
+combination with adjoint removals, and realization-independent coherence.
+Continuing directly; not READY.
