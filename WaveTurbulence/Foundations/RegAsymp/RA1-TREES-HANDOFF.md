@@ -23,3 +23,15 @@ Remaining: actual physical kernel minus app, Wick/source spectral exchanges, tre
 transport, Nstar identification and bound, time-factor bound, constant/type/axiom audits.
 No final RA1Tree claim. No suspected new source erratum or mathematical obstruction.
 Coordination is through the two PROGRESS.md files only; see scratch PROGRESS.md for current names.
+
+Second checked milestone:
+- TreePolynomialProfile and TreeTensorProfile canonical Lake PASS, zero warnings: actual
+  cutoff monomial Fourier inversion and geometric weighted tensor profile mass.
+- Scratch TimeDegree, TimeHomogeneity, TimePointwiseBound, TimeDiagonal, TimePolynomial,
+  TimePolynomialBudget, TimePolynomialProfile and TreeTimeFactor strict PASS, zero warnings.
+- exists_tree_JB_time_bound proves the required geometric literal JBtree norm bound on
+  the forward source triangle, with its constant before every code/order/exponent. It holds
+  even without dominance/well-formedness; all source integration endpoints are retained.
+- Expanded validation/axioms.log: twelve checked results, standard three axioms only.
+Remaining list above is reduced by the completed time-factor bound. Physical remainder,
+Nstar identification/bound and final exact RA1Tree assembly remain unfinished.
