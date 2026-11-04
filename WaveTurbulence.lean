@@ -223,6 +223,7 @@ public import WaveTurbulence.Foundations.CountLemmas.A23HalfBig
 public import WaveTurbulence.Foundations.CountLemmas.A23HalfCyclic
 public import WaveTurbulence.Foundations.CountLemmas.A23HalfDense
 public import WaveTurbulence.Foundations.CountLemmas.A23HalfFibers
+public import WaveTurbulence.Foundations.CountLemmas.A23HalfReparam
 public import WaveTurbulence.Foundations.CountLemmas.A23HalfShell
 public import WaveTurbulence.Foundations.CountLemmas.A23HalfStar
 public import WaveTurbulence.Foundations.CountLemmas.AnnulusThreshold

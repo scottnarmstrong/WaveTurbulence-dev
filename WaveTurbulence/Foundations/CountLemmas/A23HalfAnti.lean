@@ -15,7 +15,8 @@ public import WaveTurbulence.Foundations.CountLemmas.PowerAbsorption
 With `τ = δ⁻¹L^{-2γ}`, `ρ = δ⁻¹L^{2−2γ}`, `k₀ = ⌈L^{d−1−κ}⌉`, `κ = kappaHalf γ = min((2γ−1)/3, 1−γ)`, every term of
 `sum_star_le` except the sparse one is `O(L^{T − gap/2})`, `T = 3(d−γ) − (1−γ) − κ`
 (`gap = min(1−γ, (2γ−1)/3)`), and the sparse term is `≤ 4C δ⁻¹ L^T`.
-**`coupledTriple_star_bound_half`**: `#S ≤ C δ^{-2} (1 + log L)² L^T`, `C` independent of `δ`.
+**`coupledTriple_star_bound_half`**: `#S ≤ C δ^{-2} L^T`, `C` independent of `δ` (the `(1 + log L)²` of estcross is
+absorbed by the `L^{−gap/2}` margin).
 -/
 
 public section
@@ -53,13 +54,12 @@ theorem nat_ceil_le_two_mul {ρ : ℝ} (hρ : 1 ≤ ρ) : (⌈ρ⌉₊ : ℝ) �
   have := Nat.ceil_lt_add_one (show 0 ≤ ρ by linarith)
   linarith
 
-/-- **DH23 Lemma A.2(3), `γ > 1/2`, selector `ζ = x − v`** (`d = n + 3`): saving `κ(γ)` up to `(1 + log L)²`. -/
+/-- **DH23 Lemma A.2(3), `γ > 1/2`, selector `ζ = x − v`** (`d = n + 3`): saving `κ(γ)`, no log factor. -/
 theorem coupledTriple_star_bound_half (n : ℕ) (γ : ℝ) (hγ : γ ∈ Ioo (1 / 2 : ℝ) 1) :
     ∃ C : ℝ, 0 < C ∧ ∀ δ ∈ Ioc (0 : ℝ) 1, ∃ L₀ : ℝ, ∀ L ≥ L₀,
       ∀ (a b c : Mom (n + 3)) (nv : Fin (n + 3) → ℤ) (α β : ℝ),
         ((coupledTripleSet L a b c (latticePoint L nv) α β (δ⁻¹ * L ^ (-2 * γ)) 0).ncard : ℝ) ≤
-          C * δ⁻¹ ^ 2 * (1 + Real.log L) ^ 2 *
-            L ^ (3 * (((n + 3 : ℕ) : ℝ) - γ) - (1 - γ) - kappaHalf γ) := by
+          C * δ⁻¹ ^ 2 * L ^ (3 * (((n + 3 : ℕ) : ℝ) - γ) - (1 - γ) - kappaHalf γ) := by
   obtain ⟨Cs, hCs, hstar⟩ := sum_star_le n
   refine ⟨4 * Cs + 9, by positivity, fun δ hδ => ?_⟩
   have hδ0 := hδ.1
@@ -303,19 +303,16 @@ theorem coupledTriple_star_bound_half (n : ℕ) (γ : ℝ) (hγ : γ ∈ Ioo (1 
       abel
     rw [heq]
     exact add_le_add hGle hsp
-  have hlg : 1 ≤ (1 + Real.log L) ^ 2 :=
-    one_le_pow₀ (by linarith only [Real.log_nonneg hL1])
   have hδ2 : δ⁻¹ ≤ δ⁻¹ ^ 2 := le_self_pow₀ hδi (by norm_num)
   have hLT : 0 ≤ L ^ T := by positivity
   calc ((coupledTripleSet L a b c' (latticePoint L nv) α β (δ⁻¹ * L ^ (-2 * γ)) 0).ncard : ℝ)
       ≤ L ^ T + 4 * Cs * δ⁻¹ * L ^ T := hbound
-    _ ≤ (4 * Cs + 9) * δ⁻¹ ^ 2 * 1 * L ^ T := by
+    _ ≤ (4 * Cs + 9) * δ⁻¹ ^ 2 * L ^ T := by
         have h1 : 1 ≤ δ⁻¹ ^ 2 := one_le_pow₀ hδi
         have e1 : L ^ T ≤ δ⁻¹ ^ 2 * L ^ T := le_mul_of_one_le_left hLT h1
         have e2 : 4 * Cs * δ⁻¹ * L ^ T ≤ 4 * Cs * δ⁻¹ ^ 2 * L ^ T :=
           mul_le_mul_of_nonneg_right (mul_le_mul_of_nonneg_left hδ2 (by positivity)) hLT
         have e3 : 0 ≤ δ⁻¹ ^ 2 * L ^ T := by positivity
         linarith only [e1, e2, e3]
-    _ ≤ (4 * Cs + 9) * δ⁻¹ ^ 2 * (1 + Real.log L) ^ 2 * L ^ T := by gcongr
 
 end WaveTurbulence.CountLemmas
