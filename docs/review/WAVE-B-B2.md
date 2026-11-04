@@ -1,6 +1,6 @@
 # Wave B (tier B2) — freeze candidate for author approval
 
-Snapshot `/home/scott/wt-scratch/waveb2-snap-final` · prepared 2026-11-04 (B2-CL-1 to B2-CL-20; supersedes the audited
+Snapshot `/home/scott/wt-scratch/waveb2-snap-final` · prepared 2026-11-04 (B2-CL-1 to B2-CL-21; supersedes the audited
 snap-2 and snap-3).
 
 **This is the exact Lean to be frozen**, exactly as for Wave A (D6) and as prepared for Wave B tier B1 (D7, pending):
@@ -10,12 +10,12 @@ snap-2 and snap-3).
 
 **File hashes:**
 - `WaveB2-Regular.lean` 4d7f81efa32b…;
-- `WaveB2-Molecules.lean` 89ff648ed5a3…;
+- `WaveB2-Molecules.lean` 5cc506118852… (B2-CL-21; no frozen declaration);
 - `WaveB2-Statements.lean` 82e42b2bfa16…;
 - `FREEZE-LIST.md` 8967e57cfa83…;
-- `SHA256SUMS` be649b881fb1….
+- `SHA256SUMS` d6dc5f2dd28e….
 
-**B1 base:** snapshot 6, `WaveB1-Core.lean` 0b8477d9943a… and
+**B1 base:** snapshots 6 and 7 (identical in these files), `WaveB1-Core.lean` 0b8477d9943a… and
 `WaveB1-System.lean` 59365906b84a…; once D7 lands, these are the B1 frozen definitions.
 
 ## 1. What is frozen
@@ -135,8 +135,12 @@ they move to a non-frozen module, as B1's lemmas did. They say what the codes me
   - `DEGEN-F53.md` (F53 → CL-3);
   - `MOLE-prefreeze.md` (F57 → CL-5; F58, F59 → CL-6, CL-7);
   - `REG-STRUCT-prefreeze.md` (R15-1, R15-2 → CL-8).
-- **Change list:** `WaveB2-handoff.md`, CL-1 to CL-12, with addenda 2 (CL-13 to CL-17), 3 (CL-18) and 4 (CL-19).
-  CL-20 is recorded in `DESIGN.md`. Authorship: CL-1 to CL-4 wt-gauss-hc; CL-5 to CL-20 wt-orch, as drafter.
+- **Change list:** `WaveB2-handoff.md`, CL-1 to CL-12, with addenda 2 (CL-13 to CL-17), 3 (CL-18), 4 (CL-19),
+  5 (CL-20) and 6 (CL-21); each is also recorded in `DESIGN.md`. Authorship: CL-1 to CL-4 wt-gauss-hc; CL-5 to
+  CL-21 wt-orch, as drafter.
+- **CL-21 (F72):** vine (II) now includes `m = 1`, the 4-atom Q-block. It changes only held-out declarations
+  (`VineType.template` and, through it, `expand`, `IsVine`, `DecorationHyp`, B2.3 `rigidity`). The frozen 59 and
+  `FREEZE-LIST.md` are unchanged. To be re-checked by the independent B2 auditor.
 - **Independent audit** (a fresh auditor, `WaveB2-independent-audit.md`):
   - first pass FAIL: F-1 (= F66), with F-2 to F-4 (B2.3), F-5 and F-6 REQUIRED;
   - fixes CL-13 to CL-17;
@@ -661,7 +665,7 @@ end WaveTurbulence
 
 ### WaveB2-Molecules.lean (no frozen declarations)
 
-Every declaration of this file is held out (CL-20): the molecule layer and the characterization lemma `Garden.isMolecule_molecule` are not frozen.
+Every declaration of this file is held out (CL-20): the molecule layer and the characterization lemma `Garden.isMolecule_molecule` are not frozen. CL-21 (vine (II) from one rung, F72) changed only this file's `VineType.template`.
 
 ### WaveB2-Statements.lean (6 frozen declarations)
 

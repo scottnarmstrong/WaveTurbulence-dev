@@ -641,3 +641,58 @@ Regular/Molecules obligations become non-frozen characterization lemmas.
 - **No Lean source changed.** `gen_freeze.py`, `FREEZE-LIST.md` and `DESIGN.md` (CL-20) were updated in
   `waveb2` and in `waveb2-snap-final` (new `SHA256SUMS` `be649b881fb1…`).
 - `docs/review/WAVE-B-B2.md` and `WAVE-B-B2-FREEZE-LIST.md` were regenerated.
+
+## Addendum 6: B2-CL-21 (wt-orch, Task 30): vine (II) includes `m = 1` (FINDINGS F72)
+
+**Source.** `docs/research/vine2-m1.txt` (sha256 `a9bea11f12c6…`) and FINDINGS F72.
+- DH23's vine (II) is two joints joined through a ladder of `m ≥ 1` rungs: L1421–L1449, and L1481 "`m ≥ 1` for
+  vines (II)".
+- `sumintest1` (L1280) is stated for `m ≥ 1`. TARGET treats vine (I) as `m = 0` of the same parametrization
+  (L1800), and its Def `cohmol` (L1489–L1492) groups each double bond.
+- Under F37's reading, B2's drawn template gave only `m ≥ 2`. This reverses R4 of `ylem1-investigation.md`.
+
+**The change** (`WaveB2-Molecules.lean` §6).
+- `VineType.template .II` is now the `m = 1` member, the 4-atom Q-block `J₁ - (a = b) - J₂`:
+  `⟨4, [(0,2), (0,3), (2,3), (2,3), (2,1), (3,1)], [((2,1), (3,1))], [[2,3]]⟩`.
+- Its slot is the pair of rails `a⋯J₂`, `b⋯J₂`. So `expand [k]` has `m = k + 1` rungs, `2k + 4` atoms (minimum 4)
+  and `4k + 6` bonds; the two-rung drawing is `expand [1]`.
+- Only docstrings change elsewhere: `VineTemplate`, `template`, `insertRungs`, `IsVine` and the module doc.
+  `insertRungs`, `expand`, `IsVine` and the other seven templates are unchanged.
+
+**Probes** (`WaveB2-Molecules-probes.lean`; sorry-free; axioms within [propext, Classical.choice, Quot.sound]).
+- **The sizes table.** `vineTemplate_counts` now has (II) = `(4, 6)`.
+- **`vineII_card`:** `n = 2k + 4` for every `k`.
+- **`vineII_sizes`:** the degree pattern, `2k + 4` atoms and `4k + 6` bonds for `k ≤ 3`. It replaces
+  `vineII_one_rung`.
+- **`vineII_family_shift`:** for `k ≤ 3`, an explicit bijection that fixes the joints carries the CL-20 (II)
+  template with `k` inserted rungs onto `expand [k + 1]`, bond multiset onto bond multiset. **The new family is the
+  old one plus exactly `m = 1`.**
+- **`qBlock`, `qBlock_block`, `qBlock_vine`:** a 4-atom molecule with an antiparallel rung is a block and a vine
+  (II) with `k = 0`. The new instance is realized.
+
+**Effect on B2.1, B2.2 and their closure: none.**
+- **Normalized dump.** I dumped all 365 constants of `WaveB2Draft.{Regular, Molecules, Statements}` before and
+  after, with matchers and auxiliaries expanded and proofs erased. **Exactly one differs: `VineType.template`.**
+- **Its transitive dependents** (from the generator's use graph) are `VineType.expand`, `Molecule.IsVine`,
+  `Molecule.DecorationHyp` (field `vineLG`) and B2.3 `rigidity`. **All are held out.**
+  - **`IsVine` is held out with B2.3:** it is in "used only by B2.3", reached only through `DecorationHyp.vineLG`.
+    B2.1 and B2.2 do not reach it.
+  - The other held-out vine declarations: `VineTemplate`, `VineType`, `insertRungs` and `railBonds` (used only by
+    B2.3); `VineType.IsBad` and `instDecidableEqVineType` (used by no theorem).
+  - `vineLG`, a hypothesis of the held-out B2.3, now also covers Q-block components. That is the source's own
+    claim: DH23 Prop 9.5 has a generic proof (F72, section E).
+- **`FREEZE-LIST.md` regenerates byte-identical to CL-20's:** 59 frozen; 106 held out, in the same classes.
+
+**Checks.**
+- All seven modules rebuilt, in order, at 06:19 UTC (dev build : `waveb/build` : `waveb2/build`).
+- 0 errors and no warnings besides the same 10 `sorry`s (Regular 6, Molecules 1, Statements 3).
+
+**Snapshot.**
+- `waveb2-snap-final` now holds the three changed files (`WaveB2-Molecules.lean` `5cc506118852…`, its probes,
+  `DESIGN.md`) and an updated README.
+- Its new `SHA256SUMS` is `d6dc5f2dd28e…`; it verifies, and the files are read-only again.
+- `docs/review/WAVE-B-B2.md` was updated: its header hashes, its CL range, and an audit-trail line.
+
+**Outside waveb2.** The template enumerations VINES, MOLEPROP13 and `prop96-case4/vinefree.py` must be re-run with
+the `m = 1` instance (F72). The independent B2 auditor re-checks this delta.
+
