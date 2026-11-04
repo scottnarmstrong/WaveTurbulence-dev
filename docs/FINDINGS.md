@@ -395,3 +395,11 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   written (even scales, m = n = 8: 330 terms at total scale 8 > 256). The exponential count itself is true and is proved in
   SKELETON with larger explicit constants. Found by wt-resonant (C3 SKELETON), which also proves DH21 L833 / DH21-2 L641's
   omitted E4 argument (general-couple skeleton uniqueness; R15-3). Status: minor erratum in a proof.
+- F78 — Wave B snapshot 7 B1.12, `coupleSum` with `dt = true` (∂_t clause) vs TARGET L2312 — **our statement defect** (∂_t
+  analogue of F68): the clause only asks each root to be a branching node (`∀ j, ∃ b, b.1 = (j, [])`), with no layer
+  condition. `IsCanonC (p+1)` forces only one root into layer p, so it admits a couple whose other top tree is the
+  single leaf • with a lower-layer garden attached at its root; that root's time is pinned at t and its kernel counted.
+  But ∂_t 𝒥_• = 0, so ∂_t a^tr involves only trees of order ≥ 1 and its second moment never produces these couples
+  (TARGET's δ(t_𝔯 − t) is the time derivative of the tree expansion, both roots top-layer branching nodes). So the
+  obligation O-X3-CPL for ∂_t a^tr is false as stated. Fix (snapshot 8): `∀ j, ∃ b, b.1 = (j, []) ∧ LG.layer b.toNode =
+  p` (equivalently: every top tree nontrivial). ∂_t ℒ₀ is unaffected. Found by wt-gauss-hc (CPL-3).
