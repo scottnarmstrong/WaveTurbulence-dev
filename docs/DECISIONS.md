@@ -45,3 +45,9 @@ Format: D<n> — date (UTC) — who — decision — reason.
   (semantics-neutral): one declaration per file under `WaveTurbulence/Frozen/`, except that each of nine `mutual`
   blocks is one file shared by its members' entries (guard change `a013926`, signed off by Scott 2026-11-04). Landed
   by wt-orch on Scott's instruction with six seals (O1–O5, B2.2), whose second-key audits are pending.
+- D9 — 2026-11-04 ~21:50 — Scott (answer "Both (Recommended)" to wt-orch's question on the γ range, after FINDINGS
+  F69b/F73/F75 and docs/review/ESCALATION-F69b.md) — **γ ≤ 1/2: restrict and research.** (1) wt-orch drafts versioned
+  successors of the frozen statements restricted to γ ∈ (1/2, 1) (`main_v2` and the affected Wave B anchors) for
+  Scott's approval of the exact text; (2) a research packet works on a repair for 0 < γ ≤ 1/2 in parallel; (3) the
+  letter to Deng and Hani (draft `docs/review/LETTER-DENG-HANI-DRAFT.md`) is kept ready for Scott to send. The erratum
+  (DH23 Prop 9.6 false for γ ≤ 1/2, necklace counterexample) is recorded in docs/ERRATA-AND-DEVIATIONS.md (E1).
