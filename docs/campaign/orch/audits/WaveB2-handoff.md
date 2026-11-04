@@ -13,20 +13,21 @@ stage-2/3 audit (`WaveB2-stage23.md`, Task 9b), with before and after, for the i
 **Baseline.** `/home/scott/wt-scratch/waveb2-snap-1/stage23/`; its `SHA256SUMS` verify. It was audited in
 `WaveB2-stage23.md`; stage 1 in `WaveB2-stage1.md`.
 
-**Current.** `/home/scott/wt-scratch/waveb2/`, as of this file (2026-11-04, after B2-CL-11).
+**Current.** `/home/scott/wt-scratch/waveb2/`, as of this file (2026-11-04, after B2-CL-12; the table was updated
+for CL-12).
 
 **B1 base.** Wave B snapshot 6 (`/home/scott/wt-scratch/waveb-snap-6`, audited in `WaveB-snapshot6.md`).
 
 | File | Baseline sha256 | Current sha256 | Changed by |
 |---|---|---|---|
-| `WaveB2-Molecules.lean` | `cfd93a0842af…` | `abb6096ab73f…` | CL-1, CL-3 (via CL-2), CL-4, CL-5, CL-6, CL-7 |
-| `WaveB2-Molecules-probes.lean` | `d690f9deb83c…` | `5520df5fcdba…` | CL-3, CL-5, CL-7, CL-9 |
+| `WaveB2-Molecules.lean` | `cfd93a0842af…` | `58fe0545f105…` | CL-1 (undone by CL-12), CL-3 (via CL-2), CL-4, CL-5, CL-6, CL-7, CL-12 |
+| `WaveB2-Molecules-probes.lean` | `d690f9deb83c…` | `9f8aa52a3afa…` | CL-3, CL-5, CL-7, CL-9, CL-12 |
 | `WaveB2-Regular.lean` | `ad72ce4be39e…` | `6481afd99386…` | CL-8, CL-11 |
 | `WaveB2-Regular-probes.lean` | `0bfef42fd8ca…` | `84a2e952c52f…` | CL-10, CL-11 |
 | `WaveB2-Statements.lean` | `e50aaa9418da…` | `fcad6a08d100…` | CL-11 (docstring only) |
 | `WaveB2-Statements-probes.lean` | `3ab2ec2b60e1…` | `3ab2ec2b60e1…` | unchanged |
 | `WaveB2-Ladders.lean` | — | `1e5458ba0e9b…` | CL-4 (new file, not for freezing) |
-| `DESIGN.md` | `2d147042…` | `5d345c46e277…` | changelog CL-1 to CL-11; memo lines 126, 171–174, 189–192, 217–218 |
+| `DESIGN.md` | `2d147042…` | `3ed85d327bf3…` | changelog CL-1 to CL-12; memo lines 126, 171–174, 189–192, 217–218 |
 
 **Complete hunk map.** `diff` of baseline → current, every hunk attributed:
 - **Molecules:**
@@ -43,7 +44,13 @@ stage-2/3 audit (`WaveB2-stage23.md`, Task 9b), with before and after, for the i
 - **Regular-probes:** `35a36,37` → CL-10; `148a151,177` → CL-11.
 - **Statements:** `72c72,75` → CL-11 (B2.1 deviation (D7), docstring).
 
-**No hunk is unattributed.**
+**No hunk is unattributed.** CL-12 (§2 below) adds Molecules hunks:
+- the `8a9` import hunk disappears; Molecules no longer imports `WaveBDraft.Lemmas`;
+- `GNode.parent` gets its inline proof; the three helper theorems and `units_ne_one_iff_eq_neg_one` are removed;
+- `Garden.molecule` gets inline facts;
+- the two `deriving DecidableEq` clauses become explicit instances.
+
+It also adds the moved theorems to Molecules-probes.
 
 ## 2. The changes, one by one
 
@@ -294,13 +301,16 @@ Regular-probes, Molecules, Molecules-probes, Ladders, Statements, Statements-pro
   `isHyperBlock_iff_mole`, `deviation_le_iff_of_zero_compatible`, `deviation_top_top`,
   `specialWeight_eq_neg_one_pow_mul_old`, `specialWeight_ne_old_of_odd`, `app_triv`.
 
-**`/home/scott/wt-scratch/waveb2/build` was NOT rebuilt.** Its compiled files predate CL-5 to CL-11. Another agent
-(`moleprop13`) has that directory on its `LEAN_PATH`.
+**`/home/scott/wt-scratch/waveb2/build` was rebuilt in place** (Task 21, after CL-12), 2026-11-04 01:18–01:19 UTC.
+It was built from the current sources against `/home/scott/WaveTurbulence-dev/.lake/build` and
+`/home/scott/wt-scratch/waveb/build`, the `LEAN_PATH` of its readers: 0 errors, the same 10 `sorry`s. External
+importers of `WaveB2Draft.*` (links, reg-struct, skeleton) use their own local copies, and moleprop13 imports
+Degen/MOLE modules, not `WaveB2Draft`.
 
 ## 4. Open items for the independent auditor (beyond the per-CL questions)
 
-1. **CL-1 closure.** `GNode.parent` depends on a proved lemma through `TTree.dropLast_mem_branching`. It must be
-   inlined before B2 can freeze under B1's closure policy.
+1. **CL-1 closure: resolved by CL-12.** The closure check finds 0 uses of project theorems; see §2 B2-CL-12. The
+   auditor should re-run such a check independently.
 2. **Stage-1 OPTIONAL items O1–O6** (`WaveB2-stage1.md`): still not applied, per `WaveB2-stage23.md`. Decide whether
    any is needed for the freeze.
 3. **Findings to re-check against the final text:** F53 (CL-3), F57 (CL-5), F58 (CL-6), F59 (CL-7),
@@ -312,3 +322,57 @@ Regular-probes, Molecules, Molecules-probes, Ladders, Statements, Statements-pro
 5. **MOLE, DEGEN and REG-STRUCT results** were proved against older pins of these definitions. The CL-3 change was
    re-checked for MOLE (`MOLE-prefreeze.md`: 3 exports re-proved with the new `IsLadder`). The CL-5 block change
    affects MOLE's overlap results, which are bridged by `isBlock_iff_mole` and `isHyperBlock_iff_mole`.
+
+## Addendum: B2-CL-12 (wt-orch, Task 21): closure policy (B1 CL-17/CL-18); resolves the CL-1 blocker
+
+**`GNode.parent`.**
+- **Before:** `⟨(a.1.1, a.1.2.dropLast), TTree.dropLast_mem_branching a.2 h⟩`. The theorem `TTree.dropLast_mem_branching`
+  was in Molecules and called `TTree.branching_of_append_mem` from `WaveBDraft.Lemmas`.
+- **After:** the same value, `(a.1.1, a.1.2.dropLast)`, with the membership proof inline in the `by`-block. It is
+  the induction of `branching_of_append_mem`, written like B1's `GBranch.child`. The probe `GNode.parent_val`
+  (`rfl`) checks that the value is unchanged.
+
+**`Garden.molecule`.**
+- **Before:** it used the in-file theorems `Garden.pair_unmarked` and `Garden.pair_ne_of_unmarked`.
+- **After:** the same proofs inline, from the `Garden` fields `pair_eq_iff` and `pair_pair`. The data fields are
+  unchanged.
+
+**Imports.** Molecules no longer imports `WaveBDraft.Lemmas` (the CL-1 import is removed).
+
+**Moved to Molecules-probes,** unchanged, with the same names: `TTree.dropLast_mem_branching`,
+`Garden.pair_unmarked`, `Garden.pair_ne_of_unmarked`, `units_ne_one_iff_eq_neg_one` (unused anywhere).
+
+**`deriving DecidableEq` removed** for `Molecule.GapKind` and `VineType`.
+- **Before:** `deriving DecidableEq`.
+- **After:** explicit `@[instance_reducible, instance] def instDecidableEqGapKind` / `instDecidableEqVineType`, with
+  the same names as the derived instances.
+- They are case-by-case matches (`isTrue rfl` / `isFalse fun h => ….noConfusion h`), as for B1's `MarkTag` and
+  snapshot 6b's `FixPat`.
+- **Why.** The derived instances used the generated theorems `GapKind.ofNat_ctorIdx` and `VineType.ofNat_ctorIdx`,
+  and CL-17/CL-18 allows no `deriving` in the freeze set (the orchestrator's FixPat ruling).
+
+**Closure check** (`Closure.lean`, wt-orch, modelled on B1's `FreezeList.lean`).
+- **Method.** For every non-theorem declaration of `WaveB2Draft.{Regular, Molecules, Statements}` (296 in all), I
+  followed type, body, constructor types and auxiliary proofs and matchers transitively. Structure-field projections
+  count as part of their structure.
+- **First run** (mid-CL-12: after the inlining, before the `deriving` change): 16 hits.
+  - 11 were structure-field projections (`Garden.pair_sign`, `pair_eq_iff`, `pair_pair`; `Molecule.mate_mate`,
+    `atom_mem`, `mate_ne`, `out_mate` in `eraseBond` and `cut`).
+  - 3 were `_simp` auxiliaries of `GNode.parent`'s own proof, which the refined checker expands.
+  - 2 were the derived `ofNat_ctorIdx` theorems, which led to the `deriving` change.
+  - The checker was not run before the inlining. The `TTree.dropLast_mem_branching` → Lemmas dependency is known from
+    the source (CL-1).
+- **After CL-12: 0 uses of a proved theorem of the project.**
+
+**Checks.**
+- In my scratch root: all seven modules rebuild with 0 errors and the same 10 `sorry`s.
+- `waveb2/build` was rebuilt in place (see §3).
+
+**Hashes.** `WaveB2-Molecules.lean` `58fe0545f105…`, `WaveB2-Molecules-probes.lean` `9f8aa52a3afa…`, `DESIGN.md`
+`3ed85d327bf3…`. The other files are unchanged from the table.
+
+**Auditor:**
+1. Confirm that the inline proofs do not change any value: `GNode.parent_val`, and the `Garden.molecule` fields.
+2. Re-run a closure check.
+3. Check whether `Regular.lean` or `Statements.lean` also need the no-`deriving` sweep. Neither has `deriving`; I
+   checked.
