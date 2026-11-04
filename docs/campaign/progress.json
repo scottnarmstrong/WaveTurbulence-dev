@@ -1,5 +1,5 @@
 {
- "assessed": "2026-11-04 09:55 UTC",
+ "assessed": "2026-11-04 11:15 UTC",
  "notes": "Lean work items = blueprint packets (docs/blueprint/GRAPH.md §E) with their difficulty weights (node weights L=1, M=2, H=4, VH=8 summed). Each frozen theorem anchor adds weight 1, credited when SEALED. Done fractions are the orchestrator's assessment, reviewed at integration rounds.",
  "lines_est_total": 273000,
  "parts": [
@@ -360,8 +360,8 @@
      "goal": "DH23 Prop 5.3 for gardens ((I-a,b), (II-a..e))",
      "weight": 4.0,
      "lines_est": 1500,
-     "done": 0.0,
-     "note": ""
+     "done": 0.9,
+     "note": "MOLECPL done in scratch (DH23 Prop 5.3 for gardens; 2eacfc5)"
     },
     {
      "id": "M9",
@@ -387,8 +387,8 @@
      "goal": "Prop 5.1 steps 1–2 (unimodular change of variables, localization)",
      "weight": 7.0,
      "lines_est": 2800,
-     "done": 0.9,
-     "note": "steps 1-2 done in the abstract carrier; instantiation with LINKS in INCOH-INST"
+     "done": 1.0,
+     "note": "done: B2.2 incoherentDecay proved at the exact type (INCOH-INST, e77e692); seals at the B2 freeze"
     },
     {
      "id": "V1",
@@ -432,8 +432,8 @@
      "goal": "skeleton reduction of K_𝒢, VC-local expressions",
      "weight": 6.0,
      "lines_est": 1900,
-     "done": 0.0,
-     "note": ""
+     "done": 0.9,
+     "note": "REGRED done in scratch: skeleton reduction, vineest Step 1 (ab8680f); nonzero-gap boundary case separate (F21)"
     },
     {
      "id": "G4",
@@ -441,8 +441,8 @@
      "goal": "DH23 App B operations TB…2R (figure-defined groups must be transcribed first); 2 days",
      "weight": 8.0,
      "lines_est": 4000,
-     "done": 0.0,
-     "note": ""
+     "done": 0.9,
+     "note": "APPB-OPS done in scratch: DH23 App B operations, 73 audited results; figure transcriptions flagged for review; F81"
     },
     {
      "id": "V2",
@@ -459,8 +459,8 @@
      "goal": "unit twist case table (F20), twists, twist facts",
      "weight": 8.0,
      "lines_est": 2800,
-     "done": 0.0,
-     "note": ""
+     "done": 0.05,
+     "note": "TWIST started (wt-anfourier)"
     },
     {
      "id": "V4",
@@ -522,8 +522,8 @@
      "goal": "App B algorithm, DH23 Prop 10.2",
      "weight": 8.0,
      "lines_est": 4000,
-     "done": 0.0,
-     "note": ""
+     "done": 0.05,
+     "note": "APPB-ALG started (wt-nt)"
     },
     {
      "id": "G7",
@@ -585,8 +585,8 @@
      "goal": "DH23 Prop 6.1 (couples and trees) for orders n≤N^4_{p+1} (F33, route R14 (a)); 2 days: split couples / trees+derivatives",
      "weight": 10.0,
      "lines_est": 5800,
-     "done": 0.0,
-     "note": ""
+     "done": 0.4,
+     "note": "RA1: foundations landed (sign, normalization, Prop 6.4 application, envelopes); couples (wt-ansob) and trees (wt-l2s) in progress"
     },
     {
      "id": "M8",

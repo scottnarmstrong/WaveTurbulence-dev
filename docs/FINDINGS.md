@@ -409,6 +409,10 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   (2u₁u₂, +2u₃(u₁+u₂−u₃), minus their sum) has a rank-3 third form (and the linear alternative has a common factor the
   actual triple lacks). Ruling: use explicit signed core normal forms with the corrected nonlinear sign, flagged for
   audit. Found by wt-gausssum (M9 VINEPARAM); kernel check in progress.
+  Consequence (2026-11-04): TARGET's `sumint` (B1.6, frozen candidate, faithful to TARGET's printed statement) uses two
+  positive core forms; if F79 holds, vineest Step 2 produces a signed nonlinear core, so the chain needs a signed
+  extension `SumintSigned` (orchestrator ruling: B1.6 unchanged; V4 uses `SumintSigned` as a named obligation; its proof,
+  generalizing the landed sumint proof, goes to wt-anfourier once the F79 kernel check confirms).
 - F80 — Wave B 𝔛-type restriction norms (B1 `WaveB1-System.lean`: XNorm/XNormRestr and relatives) — **open faithfulness
   question**: two provers independently found that at derivative order ≥ 1 the norm integrand need not be measurable, so
   the (lower) lintegral is not subadditive (wt-wke, `wt-scratch/pl234/ISSUE-XNORM.md`, Bernstein-set counterexample), and
@@ -425,3 +429,9 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   `(∀ k, Integrable fun t => F t k) ∧ (Λ₁ = 0 ∨ ∀ᵐ lam, ContDiff ℝ Λ₁ (timeFT F lam))` with no per-frequency ⊤ —
   TARGET's (normX) and the landed `MixedFourierAdmissible`; conservative (`XNormRestr ≤` fixed, proved); no statement text
   changes; B2 freeze set unchanged.
+- F81 — DH23 Appendix B (L2162–L2292) — errata from APPB-OPS (wt-nt, `wt-scratch/appb/ERRATA.md`): (brprop) Δν sign
+  ("Δν = 2" vs the computed −2, as the map flagged); the 3D3-3G proof's opposite/same internal-direction typo;
+  basiccount(4)'s quadratic-defect sign; a missing C_pos factor in the 3D3-3G prose raw-count bound; typos (D_s/D_f,
+  bond/bound, tall bonds). Operation and proposition statements otherwise unchanged. The figure-defined atomic groups
+  (3S3, 3S3New, 3D3, 3D3New, 3D4, 3S2, 3RProof) are transcribed in `TRANSCRIPTIONS.md` and flagged for pre-freeze review,
+  together with the local-link invariant and an explicit component-hull relaxation.

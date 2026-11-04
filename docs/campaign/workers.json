@@ -52,7 +52,7 @@
     "model": "GPT-6.1-Sol low",
     "account": "codex-3",
     "branch": "w/bproc",
-    "packet": "RA1 REGASYMP: DH23 Prop 6.1 couples then trees (G7 paused on F69 ylem1; PV-DECAY, G6, DEGEN done)",
+    "packet": "RA1 couples (RA1Couple): DH23 Prop 6.1 for couples; trees moved to wt-l2s",
     "brief": "docs/campaign/briefs/REGASYMP.md"
   },
   {
@@ -68,8 +68,8 @@
     "model": "GPT-6.1-Sol low",
     "account": "codex-2",
     "branch": "w/resonant",
-    "packet": "V3 REGRED (pre-freeze): skeleton reduction, vineest Step 1 (C1 REG-STRUCT, C3 SKELETON done)",
-    "brief": "docs/campaign/briefs/REGRED.md"
+    "packet": "V4 VINEEST-S2 (pre-freeze): vineest Step 2 into sumint form (V3 REGRED done)",
+    "brief": "docs/campaign/briefs/VINEEST-S2.md"
   },
   {
     "tmux": "wt-anfourier",
@@ -84,7 +84,7 @@
     "model": "GPT-6.1-Sol low",
     "account": "codex-2",
     "branch": "w/wke-l2s",
-    "packet": "INCOH-INST: prove B2.2 incoherentDecay at the exact type (PL1 abstract Prop 5.1 done)",
-    "brief": "docs/campaign/briefs/INCOH-INST.md"
+    "packet": "RA1-TREES: DH23 Prop 6.1 for trees (RA1Tree); INCOH-INST done: B2.2 proved at exact type",
+    "brief": "docs/campaign/briefs/RA1-TREES.md"
   }
 ]

@@ -1005,3 +1005,106 @@ B2.2. Before it, the change costs one guard.
 has the same effect on B2, but it leaves `XNorm` non-faithful as a standalone definition.
 
 **No action** for `SNorm`/`SNormR`, `ZNorm`/`ZNormOn`/`ZSpace` and `XNorm00`/`XNorm00Restr`.
+
+---
+
+## Snapshot 9, 2026-11-04 (B1 snapshot 9 = snapshot 8 + the `XNorm` fix; snapshot 8's delta; B2 rebased)
+
+### Verdict: PASS
+
+1. **Snapshot 8 → 9.** Exactly my `XNorm` replacement and its docstring. No other source or constant changes.
+2. **Snapshot 7 → 8.** Exactly the F78 clause, with its docstring and the matching probe updates. The fix is correct
+   against TARGET.
+3. **B2 rebased.** The B2 Lean files are byte-identical, the freeze set is unchanged, and all seven modules compile
+   on snapshot 9 with the same `sorry`s.
+4. **B2.1 (1)–(2) and B2.2.** They now say what TARGET (normX)/(locnorm) says, up to the earlier rulings. The
+   direction `old XNormRestr ≤ new XNormRestr` holds on the real definitions, with equality wherever TARGET's norm is
+   finite.
+
+### 1. Snapshot 8 → 9 (`/home/scott/wt-scratch/waveb-snap-9`)
+
+**Hashes.**
+- `SHA256SUMS` verifies; its digest is `30263a9921993f40…`.
+- Snapshot 8's `SHA256SUMS` (`138033c99cab…`) verifies too.
+
+**Source diff.** Of the 12 Lean files, **only `WaveB1-System.lean` differs** (`59365906…` → `cc53aad3…`). Its diff is:
+- the `XNorm` docstring (L372–377);
+- the guard
+  `if (∀ k, Integrable fun t => F t k) ∧ (Λ₁ = 0 ∨ ∀ᵐ lam, ContDiff ℝ Λ₁ (timeFT F lam)) then`;
+- the integrand `maxBracketPow θ lam * ⨆ k, ENNReal.ofReal (jbr k ^ Λ₂ * ‖iterPartial ρ (timeFT F lam) k‖)`.
+
+This is exactly the text recommended in "Norm measurability", and `open Classical in` is kept.
+
+**Constant diff** (`Dump.lean`, Expr hashes of every constant of `WaveBDraft.{Core, System}`).
+- Snapshot 8 (`waveb/build`, compiled from System `59365906…`) has 348 constants: `dump8.txt`.
+- Snapshot 9 (my build) has 349: `dump9.txt`.
+- **Exactly one constant changes:** `WaveTurbulence.XNorm` (value only; its type is unchanged).
+- **One constant is new:** the auxiliary `XNorm._proof_1 : OuterMeasureClass (Measure (Fin r → ℝ)) (Fin r → ℝ)`.
+  This is the instance proof that the `∀ᵐ` filter needs; it is auto-generated, folds into `XNorm`, and comes from
+  Mathlib.
+- The other B1 modules are byte-identical. No B1 theorem uses `XNorm` or `XNormRestr`.
+
+**Axioms.** `XNorm` and `XNormRestr`: `[propext, Classical.choice, Quot.sound]` (`Q10.lean`).
+
+### 2. Snapshot 7 → 8 (F78)
+
+**What changed.** Only `WaveB1-Flower.lean` and `WaveB1-Flower-probes.lean` differ.
+- In `coupleSum` (B1.12's couple sum), the `dt = true` clause
+  `∀ j : Fin 2, ∃ b : GBranch LG.garden.tree, b.1 = (j, [])` gains `∧ LG.layer b.toNode = p`.
+- The docstring is updated.
+- The two probe occurrences of the clause are updated identically.
+
+**Source.** TARGET L2312: `∂_t a^tr` "simply contains an extra `δ(t_𝔯 − t)` factor in `𝒥_𝒯`".
+- The trees of `a^tr` are top-layer trees, and `∂_t 𝒥_• = 0`. So both roots are top-layer (layer `p`) branching nodes.
+- The old clause admitted a trivial top tree with a lower-layer garden attached at its root, which F78 describes
+  correctly.
+- `IsCanonC (p+1)` already bounds every layer by `p`, so the new clause says exactly "both top trees are nontrivial".
+  It removes only the illegitimate terms. `dt = false` is unchanged.
+
+**Correct.** Since snapshot 8, no file but `System` changed (above).
+
+### 3. B2 rebased on snapshot 9 (`waveb2-snap-final`, `SHA256SUMS` `b3db9c4367a8…`)
+
+**Hashes.** All entries verify. The 7 B2 Lean files, the 7 provider files and `FREEZE-LIST.md` are **byte-identical**
+to my Re-check 3 copy (`snap-final3/`). So the 76-declaration freeze set is unchanged. Its closure contains no B1
+definition: the B1 owners, `XNormRestr` among them, are referenced by name, and the names are unchanged.
+
+**Independent build** (`b2-audit/s9build/`, my script; `build.log`). On dev's Mathlib and Wave A, one `lean` at a
+time, I built:
+- the 11 B1 modules of snapshot 9: Core, System, Statements, Lemmas, Sumint, Flower, Bridges, and the
+  Core/System/Statements/Flower probes;
+- the 7 B2 modules.
+
+**All 18: 0 errors.** The `sorry`s are:
+- B1: Statements 10, Sumint 1, Flower 1, which are the 12 anchors B1.1–B1.12;
+- B2: Regular 6, Molecules 1, Statements 3, the same as before.
+
+The probe files have no warnings. `regularAsymptotics` and `incoherentDecay` elaborate against the new `XNormRestr`
+with their text unchanged.
+
+### 4. What B2.1 (1)–(2) and B2.2 now say
+
+**The direction, on the real definitions** (`N2.lean`, standard axioms; the snapshot-8 body copied as `XNormOld`):
+- `XNormOld_le_XNorm`, and hence `XNormRestrOld_le_XNormRestr`: old `≤` new. **This is the direction proved in
+  "Norm measurability".**
+- `XNorm_eq_XNormOld_of_ae`: the two are equal whenever the slices are integrable and a.e. `C^{Λ₁}`. Nothing changes
+  on extensions that TARGET's norm accepts.
+
+**Faithfulness.** For every `G` the new `XNorm G` is TARGET's (normX) `‖G‖`.
+- Either the guard fails, and the norm is `⊤`. In TARGET, the derivatives then do not exist on a non-null set, or the
+  slices are not integrable (the stage-2 O1 reading for unbounded supports).
+- Or `G` passes the guard. On a co-null Borel set `Ĝ(λ,·)` is then `C^{Λ₁}`, and the integrand equals the Borel
+  function `sup_{k∈ℚ-dense} ⟨k⟩^{Λ₂}|∂^ρĜ(λ,k)|`. So `∫⁻` is the Lebesgue integral of TARGET's integrand.
+- Hence `XNormRestr` is TARGET's (locnorm), an infimum of genuine norms over extensions, and it is subadditive.
+- The remaining differences are the earlier rulings:
+  - pointwise sup in `k`, which equals `L^∞_k` for continuous slices;
+  - integrable time slices;
+  - classical derivatives.
+
+So **B2.1 items (1)–(2) and B2.2 now state TARGET's bounds in TARGET's norm.** They are stronger than under snapshot 8
+(old norm `≤` new), and true as far as the source shows.
+
+**OPTIONAL.** Land the triangle inequality for `XNormRestr` (the a.e.-measurability of the integrand under the new
+guard) as a Foundations lemma. PL234 needs it, and it is the analogue of the landed `mixedRestrictionNorm` calculus.
+RA2's bridge `XNormRestr_le_mixedRestrictionNorm` now holds as an equality up to representation, and `RA1Couple` can
+be restated in either norm.
