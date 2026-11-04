@@ -89,3 +89,4 @@ Not held by Sonnet agents:
 | INCOH-LEAFWISE (R15) | `incoh-leafwise` | started 22:50 |
 | FINALCOUNT-G8 | `finalcount-g8` | agent 2 running. Done: bridges and 3 of the 7 inputs. `BiBridgeEqualInput` was false as stated and fixed with a good-cell hypothesis; PairGain/SmallGapPair need γ > 1/2. |
 | FINALCOUNT G2 | `finalcount` | agent 2 running. Done: single α/β cuts for all γ. Next: triangles, the operation datatype, vines, assembly. |
+| S3c COARSE-SPLICED | `coarse-spliced` | **READY 23:2x**: `coarseSplicedGate` (via a verbatim copy, two-sided pin check against 38b56114) and `ladderL1Gate`. Fresh 28-module build2, all exit 0; axioms checked by wt-orch. TARGET L2079 gap → errata E5. All three LG-SPINE ladder inputs are now PROVED. |
