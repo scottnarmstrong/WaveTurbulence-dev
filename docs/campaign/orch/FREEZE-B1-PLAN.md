@@ -1,5 +1,7 @@
 # Wave B tier-B1 freeze (ruling D7): landing plan
 
+> **LANDED 2026-11-04 18:54 UTC as main `cff2654`** (by wt-orch on Scott's instruction "land the freeze branches yourself"): full gate 11476 jobs OK, guard OK, ABI 241 OK; D7 recorded in docs/DECISIONS.md; approved_at 2026-11-04. Merged with the d36c45e merge script (run from a copy, avoiding the open-file issue of step A). Seal second-key audits still pending.
+
 Prepared by `wt-orch` (Task 22), 2026-11-04. **Rebuilt from snapshot 9 in Task 34b, with seven seals.**
 - Branch **`w/freeze-b1`**, worktree `/home/scott/WaveTurbulence-worktrees/freeze-b1`, based on main `1ecb500`.
 - Since that base, main has added Foundations modules and root imports, which `merge_branch.sh` regenerates. Main has

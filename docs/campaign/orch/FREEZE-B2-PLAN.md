@@ -1,5 +1,7 @@
 # Wave B tier-B2 freeze (ruling D8): landing plan
 
+> **LANDED 2026-11-04 19:35 UTC as main `3e2de9d`** (by wt-orch on Scott's instruction): the first gate failed on two auto-bound implicits in Foundations/IncohInst (the branch had been compiled without the package's `autoImplicit false`); fixed by `9755388` (explicit binders, statement-neutral); second gate 11807 jobs OK, guard OK, ABI 317 OK; D8 recorded. Seal second-key audits still pending.
+
 Prepared by `wt-orch` (Task 36), 2026-11-04.
 - Branch **`w/freeze-b2`**, worktree `/home/scott/WaveTurbulence-worktrees/freeze-b2`. It is stacked on
   **`w/freeze-b1`** (tip `1c6b8c8`, see `FREEZE-B1-PLAN.md`), whose base is main `1ecb500`.
