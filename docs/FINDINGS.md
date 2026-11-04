@@ -291,3 +291,10 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   moment expansion never produces, and B1.12's bound for them is not justified by TARGET. Fix (snapshot 7): add
   `LG.layer b.toNode = p` to the `dChild` clause. `dParent` is fine (the parent of `𝔣^pr` is on the stem). The
   consumer `fixedpoint` (X3) uses only `plain` and `dRoot`. Found by wt-gauss-hc (X2-HANDOFF FINDING).
+- F69 — DH23 §10.4 Lemma `ylem1` (L1937–L1942) vs our B2 vine family — **open**: wt-ansob (MOLEPROP4) gives a
+  kernel-checked 5-atom molecule (bonds 1→0, 1→2, 2→1, 2→0, 0→2, 0→3, 3→4, 3→4, 4→3, 4→1; 4-regular, loop-free,
+  one triple bundle) whose single (Y2) step at 3, 4 gives the doubled triangle, while no vine in our B2 family has 7
+  atoms (type I: 2, type II: even ≥ 6, others ≥ 9), so ylem1's conclusion fails for it
+  (`/home/scott/wt-scratch/moleprop4/src/MoleProp4/ShortYCounterexample.lean`). Either our vine templates are too
+  narrow (F19/F37 readings) or ylem1 misses a small case. Independent investigation commissioned
+  (`/home/scott/wt-scratch/ylem1-investigation/REPORT.md`). G7 MOLEPROP4 is paused on this.
