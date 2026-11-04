@@ -361,3 +361,10 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   level for γ ≤ 1/2, and no counting-only repair works (ladder-style ρ needs a log-free time bound; splicing needs a
   Prop 7.6-type estimate). Confidence: high; derived, not a full proof with explicit error terms. Also: small-gap
   Q-beads lose L^γ analytically, so the m = 1 vine (II) (F72) is necessary.
+- F74 — TARGET L708 (`F₀ = Ω` in Prop `propansatz`) — proof-level reading, orchestrator ruling (recorded 2026-11-04 after
+  wt-orch's INDUCT audit I-1): INDUCT takes `Fev 0 = initialRapidEvent`, the measurable, symmetric event that the
+  initial coefficients decay rapidly, with `μ.real (Fev 0) = 1` and `μ.restrict (Fev 0) = μ`. So every level-0
+  expectation and cumulant is the full Gaussian one; the reading differs from L708 by a null set. It is needed because
+  the class condition is pointwise: for an arbitrary version of the Gaussian data, outcomes whose data do not decay have
+  no classed solution. No statement changes (the frozen statements are unaffected). Note: the approval recorded in
+  INDUCT's WORKLOG as the "user's" was the orchestrator's ruling, not the author's.
