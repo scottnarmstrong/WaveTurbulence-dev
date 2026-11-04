@@ -395,3 +395,33 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   written (even scales, m = n = 8: 330 terms at total scale 8 > 256). The exponential count itself is true and is proved in
   SKELETON with larger explicit constants. Found by wt-resonant (C3 SKELETON), which also proves DH21 L833 / DH21-2 L641's
   omitted E4 argument (general-couple skeleton uniqueness; R15-3). Status: minor erratum in a proof.
+- F78 — Wave B snapshot 7 B1.12, `coupleSum` with `dt = true` (∂_t clause) vs TARGET L2312 — **our statement defect** (∂_t
+  analogue of F68): the clause only asks each root to be a branching node (`∀ j, ∃ b, b.1 = (j, [])`), with no layer
+  condition. `IsCanonC (p+1)` forces only one root into layer p, so it admits a couple whose other top tree is the
+  single leaf • with a lower-layer garden attached at its root; that root's time is pinned at t and its kernel counted.
+  But ∂_t 𝒥_• = 0, so ∂_t a^tr involves only trees of order ≥ 1 and its second moment never produces these couples
+  (TARGET's δ(t_𝔯 − t) is the time derivative of the tree expansion, both roots top-layer branching nodes). So the
+  obligation O-X3-CPL for ∂_t a^tr is false as stated. Fix (snapshot 8): `∀ j, ∃ b, b.1 = (j, []) ∧ LG.layer b.toNode =
+  p` (equivalently: every top tree nontrivial). ∂_t ℒ₀ is unaffected. Found by wt-gauss-hc (CPL-3).
+- F79 — TARGET Step 2(C-ii) L1813–L1817 (vine parametrization, nonlinear core alternative) — **candidate sign erratum**:
+  for the directed zero-gap triangle of Figure (D), conservation gives e = a+b−g, d = a+b−c; with g = 0 the three
+  molecular Γ factors are 2ab, −2(c−a)(c−b), 2c(c−a−b), each a rank-2 quadratic form, whereas the stated triple
+  (2u₁u₂, +2u₃(u₁+u₂−u₃), minus their sum) has a rank-3 third form (and the linear alternative has a common factor the
+  actual triple lacks). Ruling: use explicit signed core normal forms with the corrected nonlinear sign, flagged for
+  audit. Found by wt-gausssum (M9 VINEPARAM); kernel check in progress.
+- F80 — Wave B 𝔛-type restriction norms (B1 `WaveB1-System.lean`: XNorm/XNormRestr and relatives) — **open faithfulness
+  question**: two provers independently found that at derivative order ≥ 1 the norm integrand need not be measurable, so
+  the (lower) lintegral is not subadditive (wt-wke, `wt-scratch/pl234/ISSUE-XNORM.md`, Bernstein-set counterexample), and
+  that B2's XNormRestr controls non-smooth frequencies only in inner measure (wt-torus, REGREF; it uses the landed
+  `Fourier.mixedRestrictionNorm` with `XNormRestr ≤ mixedRestrictionNorm` proved). Local fix adopted for the Prop 6.1
+  spine inputs (order-0 restriction norm of ⟨k⟩^{30d}(K − 𝒜)). Whether the frozen candidate norms are faithful to TARGET's
+  (and whether B1/B2 statements become weaker/stronger) is with the independent auditor before the freeze. Also: TARGET
+  Prop 6.2 "at most 2^n terms" is 2^{2n+1} − 1 (still ≤ C₁^n) (wt-wke).
+  **Resolved (2026-11-04, independent audit 'Norm measurability'):** no frozen statement is false; the sup norms and the
+  order-0 𝔛 norms are robust (all B1 statements, B2.1 item 3). The defect is B1 `XNorm` at derivative order ≥ 1 (and
+  `XNormRestr`): its integrand is ⊤ off a set of frequencies that need not be measurable, so `∫⁻` is a lower integral —
+  Lean norm ≤ TARGET's, no triangle inequality, no a.e. smoothness. Used only in conclusions (B2.1 items 1–2, B2.2), which
+  are therefore weaker than TARGET (still true). Fix (snapshot 9, REQUIRED before the freeze): `XNorm`'s guard becomes
+  `(∀ k, Integrable fun t => F t k) ∧ (Λ₁ = 0 ∨ ∀ᵐ lam, ContDiff ℝ Λ₁ (timeFT F lam))` with no per-frequency ⊤ —
+  TARGET's (normX) and the landed `MixedFourierAdmissible`; conservative (`XNormRestr ≤` fixed, proved); no statement text
+  changes; B2 freeze set unchanged.
