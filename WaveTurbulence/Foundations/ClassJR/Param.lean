@@ -108,6 +108,7 @@ variable {Γ : Type*} [MeasureSpace Γ] [AddGroup Γ] [MeasurableAdd₂ Γ] [Mea
   [(volume : Measure Γ).IsAddRightInvariant] [SFinite (volume : Measure Γ)]
 variable {Q : Type*} [MeasureSpace Q] [SFinite (volume : Measure Q)]
 
+omit [MeasurableAdd₂ Γ] [(volume : Measure Γ).IsAddRightInvariant] [SFinite (volume : Measure Γ)] in
 /-- **The pushforward is jointly measurable in the parameters.** -/
 theorem stronglyMeasurable_pushSym_param {a : P → (ι → ℝ) → Γ × Q → ℂ}
     (hreg : ∀ p, SymReg (a p))

@@ -81,6 +81,7 @@ variable {ι₁ ι₂ : Type*} [Fintype ι₁] [Fintype ι₂]
 @[expose] def y3 (f : ι₁ → ℤ) (g : ι₂ → ℤ) (e : ℤ) : (ι₁ ⊕ ι₂) ⊕ Unit → ℤ :=
   Sum.elim (Sum.elim f g) fun _ => e
 
+omit [Fintype ι₁] [Fintype ι₂] in
 theorem isBundle_y3 {f : ι₁ → ℤ} {g : ι₂ → ℤ} {e : ℤ} (hf : IsBundle f) (hg : IsBundle g)
     (he : |e| ≤ 1) : IsBundle (y3 f g e) := by
   rintro ((i | i) | u)

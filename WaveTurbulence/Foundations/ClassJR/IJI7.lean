@@ -71,6 +71,7 @@ theorem norm_phiR_le (x : ℝ) : ‖phiR x‖ ≤ CPhi := by
 
 variable {Z : Type*} [MeasureSpace Z] [SFinite (volume : Measure Z)]
 
+omit [SFinite (volume : Measure Z)] in
 theorem integrable_mul_kerM {f : Z → ℂ} (hf : Integrable f) {X : Z → ℝ} (hX : Measurable X)
     {J : Z × (ℝ × ℝ) → ℂ} (hJ : AEStronglyMeasurable J) (hJ1 : ∀ p, ‖J p‖ ≤ 1) :
     Integrable fun p : Z × (ℝ × ℝ) => f p.1 * kerM (X p.1) p.2 * J p := by

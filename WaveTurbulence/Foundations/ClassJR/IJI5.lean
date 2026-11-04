@@ -13,7 +13,8 @@ public import WaveTurbulence.Foundations.ClassJR.IJI4
 The terms V and VI of DH21 L1053 carry the factor `Φ(y)`, `y = ℓ + εα₁ + γ₁`, which is kept as the
 denominator of a class `R` operator with special variable `α₁` and third coefficient `γ₁`; their
 symbols `m(α, γ) F(γ₂ - ℓ, q)` do not involve `α₁`. `exists_piece_IJI_R` converts such a
-symbol into a basic class `R` operator (`RSym.ofAny` on the layout `(γ₁, (γ₂, q))`).
+symbol into a basic class `R` operator (`RSymP.ofAny` on the layout `(γ₁, (γ₂, q))`), parametric in
+`(p, μ₁) ∈ P × ℝ` when the input operator is parametric in `p ∈ P`.
 -/
 
 public section
@@ -38,6 +39,7 @@ variable {Q : Type*} [MeasureSpace Q] [SFinite (volume : Measure Q)]
     (α : ι → ℝ) (z : ℝ × (ℝ × Q)) : ℂ :=
   m α (z.1, z.2.1) * F (z.2.1 - bundle y α) z.2.2
 
+omit [MeasureSpace Q] [SFinite (volume : Measure Q)] in
 theorem dnorm_symR_le {m : (ι → ℝ) → ℝ × ℝ → ℂ} (hm : ∀ γ, ContDiff ℝ ∞ fun α => m α γ)
     {y : ι → ℤ} (hy : IsBundle y) {F : ℝ → Q → ℂ} (hF : ∀ q, ContDiff ℝ ∞ fun x => F x q)
     (k : ℕ) (α : ι → ℝ) (z : ℝ × (ℝ × Q)) :
@@ -84,24 +86,13 @@ theorem lintegral_assoc_le {f : ℝ × ℝ → ℝ≥0∞} {g : ℝ → Q → �
     _ ≤ ∫⁻ γ, f γ * C := lintegral_mono fun γ => mul_le_mul' le_rfl (hC γ.2)
     _ = (∫⁻ γ, f γ) * C := lintegral_mul_const _ hf
 
-/-- **A class `R` piece of `I_{εα₁} 𝒥 I_{μ₁-εα₁}`.** -/
-theorem exists_piece_IJI_R {θ A N : ℝ} (h0 : 0 ≤ θ) (h1 : θ ≤ 1) (hA : 0 ≤ A) {R : JSym ι}
-    (hR : R.Bound θ A N) {ε : ℤ} (hε : ε = 1 ∨ ε = -1) {y₂ : ι → ℤ} (hy₂ : IsBundle y₂)
+/-- Regularity of the symbol `m(α, γ₁, γ₂) F(γ₂ - ℓ(α), q)`. -/
+theorem symReg_symR {θ A N : ℝ} {R : JSym ι} (hR : R.Bound θ A N)
     {F : ℝ → Q → ℂ} (hF : ∀ q, ContDiff ℝ ∞ fun x => F x q)
     (hFm : StronglyMeasurable (Function.uncurry F)) (G : ℕ → Q → ℝ≥0∞)
     (hGm : ∀ k, Measurable (G k))
     (hG : ∀ k x q, ‖iteratedDeriv k (fun x => F x q) x‖ₑ ≤ G k q)
-    (hGi : ∀ k, ∫⁻ q, G k q ≠ ⊤) {c : ℝ × (ℝ × Q) → ℝ × ℝ} (hc : Measurable c) {Cw : ℕ}
-    (hCw : 1 ≤ Cw) {wc : ℝ → Q → ℝ≥0∞} (hwc : Measurable (Function.uncurry wc))
-    (hW : ∀ α z, wR θ α (c z).1 z.1 ≤ (Cw : ℝ≥0∞) * wJ θ α (z.1, z.2.1).1 *
-      wc (z.2.1 - bundle R.y α) z.2.2)
-    {NK : ℝ} (hNK : 0 ≤ NK)
-    (hΓ : ∀ k x, ∫⁻ q, wc x q * ‖iteratedDeriv k (fun x => F x q) x‖ₑ ≤ gev NK A k) :
-    ∃ S : RSym ι, S.Bound θ A (CM0 * (4 * (Cw * N) * NK)) ∧ ∀ α t s,
-      t ∈ Icc (0 : ℝ) 1 → s ∈ Icc (0 : ℝ) 1 → S.kernel α t s =
-        ∫ z, symR R.m R.y F (nsp α) z * rker (bundle R.y (nsp α) + ε * α none)
-          (bundle y₂ (nsp α) + ε * α none) (c z).1 (c z).2 z.1 t s := by
-  have hN := hR.nonneg
+    (hGi : ∀ k, ∫⁻ q, G k q ≠ ⊤) : SymReg (symR R.m R.y F) := by
   have hm := hR.reg.smooth
   have hb : Continuous (bundle R.y) := (contDiff_bundle _).continuous
   have hmeas : Measurable fun p : (ι → ℝ) × (ℝ × (ℝ × Q)) =>
@@ -109,7 +100,7 @@ theorem exists_piece_IJI_R {θ A N : ℝ} (h0 : 0 ≤ θ) (h1 : θ ≤ 1) (hA : 
     ((measurable_fst.comp (measurable_snd.comp measurable_snd)).sub
       (hb.measurable.comp measurable_fst)).prodMk (measurable_snd.comp (measurable_snd.comp
         measurable_snd))
-  have hreg : SymReg (symR R.m R.y F) :=
+  exact
     { smooth := fun z => (hm _).mul ((hF _).comp (contDiff_const.sub (contDiff_bundle _)))
       meas := (hR.reg.meas.comp_measurable (measurable_fst.prodMk
         ((measurable_fst.comp measurable_snd).prodMk (measurable_fst.comp
@@ -142,81 +133,130 @@ theorem exists_piece_IJI_R {θ A N : ℝ} (h0 : 0 ≤ θ) (h1 : θ ≤ 1) (hA : 
                 rw [lintegral_finsetSum _ hF1]
                 refine Finset.sum_congr rfl fun j _ => ?_
                 rw [lintegral_const_mul _ (hF2 j), lintegral_assoc_mul (hsm j) (hGm _)] }
-  have hNt : 0 ≤ 4 * ((Cw : ℝ) * N) * NK := by positivity
-  have hCw' : (1 : ℝ) ≤ Cw := by exact_mod_cast hCw
-  have hnorm : ∀ k, ∫⁻ α, ∫⁻ z, wR θ α (c z).1 z.1 * dnorm k (symR R.m R.y F) α z ≤
+
+/-- The weighted norm of a class `R` piece of `I_{εα₁} 𝒥 I_{μ₁-εα₁}`. -/
+theorem lintegral_piece_IJI_R_le {θ A N : ℝ} (hA : 0 ≤ A) {R : JSym ι}
+    (hR : R.Bound θ A N) {F : ℝ → Q → ℂ} (hF : ∀ q, ContDiff ℝ ∞ fun x => F x q)
+    (hFm : StronglyMeasurable (Function.uncurry F)) {c : ℝ × (ℝ × Q) → ℝ × ℝ} {Cw : ℕ}
+    (hCw : 1 ≤ Cw) {wc : ℝ → Q → ℝ≥0∞} (hwc : Measurable (Function.uncurry wc))
+    (hW : ∀ α z, wR θ α (c z).1 z.1 ≤ (Cw : ℝ≥0∞) * wJ θ α (z.1, z.2.1).1 *
+      wc (z.2.1 - bundle R.y α) z.2.2)
+    {NK : ℝ} (hNK : 0 ≤ NK)
+    (hΓ : ∀ k x, ∫⁻ q, wc x q * ‖iteratedDeriv k (fun x => F x q) x‖ₑ ≤ gev NK A k) (k : ℕ) :
+    ∫⁻ α, ∫⁻ z, wR θ α (c z).1 z.1 * dnorm k (symR R.m R.y F) α z ≤
       gev (4 * ((Cw : ℝ) * N) * NK) A k := by
-    intro k
-    have hdm : ∀ j α, Measurable fun γ : ℝ × ℝ => (Cw : ℝ≥0∞) * wJ θ α γ.1 * dnorm j R.m α γ :=
-      fun j α => (measurable_const.mul (measurable_wJ_comp measurable_fst α)).mul
-        (measurable_dnorm hR.reg.smooth hR.reg.meas j).of_uncurry_left
-    have hgm : ∀ j α, Measurable (Function.uncurry fun (γ₂ : ℝ) (q : Q) =>
-        wc (γ₂ - bundle R.y α) q * ‖iteratedDeriv (k - j) (fun x => F x q)
-          (γ₂ - bundle R.y α)‖ₑ) := fun j α => by
-      have h1 : Measurable fun p : ℝ × Q => (p.1 - bundle R.y α, p.2) :=
-        (measurable_fst.sub measurable_const).prodMk measurable_snd
-      refine (hwc.comp h1).mul ?_
-      have hD0 := (stronglyMeasurable_uncurry_iteratedFDeriv_param (f := F) hF
-        (fun x => hFm.comp_measurable (measurable_const.prodMk measurable_id)) (k - j)).enorm
-      have e : (fun p : ℝ × Q => ‖iteratedDeriv (k - j) (fun x => F x p.2) p.1‖ₑ) =
-          fun p : ℝ × Q => ‖iteratedFDeriv ℝ (k - j) (fun x => F x p.2) p.1‖ₑ := by
-        funext p
-        rw [← ofReal_norm, ← ofReal_norm, norm_iteratedFDeriv_eq_norm_iteratedDeriv]
-      have hD : Measurable fun p : ℝ × Q =>
-          ‖iteratedDeriv (k - j) (fun x => F x p.2) p.1‖ₑ := by rw [e]; exact hD0
-      exact hD.comp h1
-    calc ∫⁻ α, ∫⁻ z, wR θ α (c z).1 z.1 * dnorm k (symR R.m R.y F) α z
-        ≤ ∫⁻ α, ∫⁻ z : ℝ × (ℝ × Q), ∑ j ∈ range (k + 1), (k.choose j : ℝ≥0∞) *
-            (((Cw : ℝ≥0∞) * wJ θ α (z.1, z.2.1).1 * dnorm j R.m α (z.1, z.2.1)) *
-              (wc (z.2.1 - bundle R.y α) z.2.2 *
-                ‖iteratedDeriv (k - j) (fun x => F x z.2.2) (z.2.1 - bundle R.y α)‖ₑ)) := by
-          refine lintegral_mono fun α => lintegral_mono fun z => ?_
-          refine (mul_le_mul' (hW α z) (dnorm_symR_le hm hR.bundle hF k α z)).trans_eq ?_
-          rw [Finset.mul_sum]
-          exact Finset.sum_congr rfl fun j _ => by ring
-      _ ≤ ∫⁻ α, ∑ j ∈ range (k + 1), (k.choose j : ℝ≥0∞) *
-            ((∫⁻ γ : ℝ × ℝ, (Cw : ℝ≥0∞) * wJ θ α γ.1 * dnorm j R.m α γ) *
-              gev NK A (k - j)) := by
-          refine lintegral_mono fun α => ?_
-          rw [lintegral_finsetSum _ fun j _ => by
-            exact measurable_const.mul (((hdm j α).comp (measurable_fst.prodMk
-              (measurable_fst.comp measurable_snd))).mul ((hgm j α).comp
-                ((measurable_fst.comp measurable_snd).prodMk
-                  (measurable_snd.comp measurable_snd))))]
-          refine Finset.sum_le_sum fun j _ => ?_
-          rw [lintegral_const_mul _ (by
-            exact ((hdm j α).comp (measurable_fst.prodMk (measurable_fst.comp measurable_snd))).mul
-              ((hgm j α).comp ((measurable_fst.comp measurable_snd).prodMk
+  have hN := hR.nonneg
+  have hm := hR.reg.smooth
+  have hCw' : (1 : ℝ) ≤ Cw := by exact_mod_cast hCw
+  have hdm : ∀ j α, Measurable fun γ : ℝ × ℝ => (Cw : ℝ≥0∞) * wJ θ α γ.1 * dnorm j R.m α γ :=
+    fun j α => (measurable_const.mul (measurable_wJ_comp measurable_fst α)).mul
+      (measurable_dnorm hR.reg.smooth hR.reg.meas j).of_uncurry_left
+  have hgm : ∀ j α, Measurable (Function.uncurry fun (γ₂ : ℝ) (q : Q) =>
+      wc (γ₂ - bundle R.y α) q * ‖iteratedDeriv (k - j) (fun x => F x q)
+        (γ₂ - bundle R.y α)‖ₑ) := fun j α => by
+    have h1 : Measurable fun p : ℝ × Q => (p.1 - bundle R.y α, p.2) :=
+      (measurable_fst.sub measurable_const).prodMk measurable_snd
+    refine (hwc.comp h1).mul ?_
+    have hD0 := (stronglyMeasurable_uncurry_iteratedFDeriv_param (f := F) hF
+      (fun x => hFm.comp_measurable (measurable_const.prodMk measurable_id)) (k - j)).enorm
+    have e : (fun p : ℝ × Q => ‖iteratedDeriv (k - j) (fun x => F x p.2) p.1‖ₑ) =
+        fun p : ℝ × Q => ‖iteratedFDeriv ℝ (k - j) (fun x => F x p.2) p.1‖ₑ := by
+      funext p
+      rw [← ofReal_norm, ← ofReal_norm, norm_iteratedFDeriv_eq_norm_iteratedDeriv]
+    have hD : Measurable fun p : ℝ × Q =>
+        ‖iteratedDeriv (k - j) (fun x => F x p.2) p.1‖ₑ := by rw [e]; exact hD0
+    exact hD.comp h1
+  calc ∫⁻ α, ∫⁻ z, wR θ α (c z).1 z.1 * dnorm k (symR R.m R.y F) α z
+      ≤ ∫⁻ α, ∫⁻ z : ℝ × (ℝ × Q), ∑ j ∈ range (k + 1), (k.choose j : ℝ≥0∞) *
+          (((Cw : ℝ≥0∞) * wJ θ α (z.1, z.2.1).1 * dnorm j R.m α (z.1, z.2.1)) *
+            (wc (z.2.1 - bundle R.y α) z.2.2 *
+              ‖iteratedDeriv (k - j) (fun x => F x z.2.2) (z.2.1 - bundle R.y α)‖ₑ)) := by
+        refine lintegral_mono fun α => lintegral_mono fun z => ?_
+        refine (mul_le_mul' (hW α z) (dnorm_symR_le hm hR.bundle hF k α z)).trans_eq ?_
+        rw [Finset.mul_sum]
+        exact Finset.sum_congr rfl fun j _ => by ring
+    _ ≤ ∫⁻ α, ∑ j ∈ range (k + 1), (k.choose j : ℝ≥0∞) *
+          ((∫⁻ γ : ℝ × ℝ, (Cw : ℝ≥0∞) * wJ θ α γ.1 * dnorm j R.m α γ) *
+            gev NK A (k - j)) := by
+        refine lintegral_mono fun α => ?_
+        rw [lintegral_finsetSum _ fun j _ => by
+          exact measurable_const.mul (((hdm j α).comp (measurable_fst.prodMk
+            (measurable_fst.comp measurable_snd))).mul ((hgm j α).comp
+              ((measurable_fst.comp measurable_snd).prodMk
                 (measurable_snd.comp measurable_snd))))]
-          exact mul_le_mul' le_rfl (lintegral_assoc_le (hdm j α) (hgm j α)
-            (fun x => hΓ (k - j) (x - bundle R.y α)))
-      _ = ∑ j ∈ range (k + 1), (k.choose j : ℝ≥0∞) *
-            (∫⁻ α, ∫⁻ γ : ℝ × ℝ, (Cw : ℝ≥0∞) * wJ θ α γ.1 * dnorm j R.m α γ) *
-              gev NK A (k - j) := by
-          rw [lintegral_finsetSum _ fun j _ => by
-            exact measurable_const.mul ((Measurable.lintegral_prod_right'
-              ((measurable_const.mul (measurable_wJ θ)).mul
-                (measurable_dnorm hR.reg.smooth hR.reg.meas j))).mul measurable_const)]
-          refine Finset.sum_congr rfl fun j _ => ?_
-          rw [lintegral_const_mul _ (by
-              exact (Measurable.lintegral_prod_right' ((measurable_const.mul (measurable_wJ θ)).mul
-                (measurable_dnorm hR.reg.smooth hR.reg.meas j))).mul measurable_const),
-            lintegral_mul_const _ (by
-              exact Measurable.lintegral_prod_right' ((measurable_const.mul (measurable_wJ θ)).mul
-                (measurable_dnorm hR.reg.smooth hR.reg.meas j)))]
-          ring
-      _ ≤ gev (4 * ((Cw : ℝ) * N) * NK) A k :=
-          gev_conv_le (by positivity) hNK hA (fun j => lintegral_wJ_dnorm_le hR Cw j)
-            (fun _ => le_rfl) k
-  obtain ⟨S, -, -, -, hS, hk⟩ := RSym.ofAny (θ := θ) (A := A) (N := 4 * ((Cw : ℝ) * N) * NK)
-    hε hR.bundle hy₂ hreg hc h0 h1 hNt hnorm
+        refine Finset.sum_le_sum fun j _ => ?_
+        rw [lintegral_const_mul _ (by
+          exact ((hdm j α).comp (measurable_fst.prodMk (measurable_fst.comp measurable_snd))).mul
+            ((hgm j α).comp ((measurable_fst.comp measurable_snd).prodMk
+              (measurable_snd.comp measurable_snd))))]
+        exact mul_le_mul' le_rfl (lintegral_assoc_le (hdm j α) (hgm j α)
+          (fun x => hΓ (k - j) (x - bundle R.y α)))
+    _ = ∑ j ∈ range (k + 1), (k.choose j : ℝ≥0∞) *
+          (∫⁻ α, ∫⁻ γ : ℝ × ℝ, (Cw : ℝ≥0∞) * wJ θ α γ.1 * dnorm j R.m α γ) *
+            gev NK A (k - j) := by
+        rw [lintegral_finsetSum _ fun j _ => by
+          exact measurable_const.mul ((Measurable.lintegral_prod_right'
+            ((measurable_const.mul (measurable_wJ θ)).mul
+              (measurable_dnorm hR.reg.smooth hR.reg.meas j))).mul measurable_const)]
+        refine Finset.sum_congr rfl fun j _ => ?_
+        rw [lintegral_const_mul _ (by
+            exact (Measurable.lintegral_prod_right' ((measurable_const.mul (measurable_wJ θ)).mul
+              (measurable_dnorm hR.reg.smooth hR.reg.meas j))).mul measurable_const),
+          lintegral_mul_const _ (by
+            exact Measurable.lintegral_prod_right' ((measurable_const.mul (measurable_wJ θ)).mul
+              (measurable_dnorm hR.reg.smooth hR.reg.meas j)))]
+        ring
+    _ ≤ gev (4 * ((Cw : ℝ) * N) * NK) A k :=
+        gev_conv_le (by positivity) hNK hA (fun j => lintegral_wJ_dnorm_le hR Cw j)
+          (fun _ => le_rfl) k
+
+/-- **A class `R` piece of `I_{εα₁} 𝒥 I_{μ₁-εα₁}`**, parametric in `(p, μ₁)`. -/
+theorem exists_piece_IJI_R {P : Type*} [MeasurableSpace P] {θ A N : ℝ} (h0 : 0 ≤ θ)
+    (h1 : θ ≤ 1) (hA : 0 ≤ A) {R : JSymP P ι}
+    (hR : R.Bound θ A N) {ε : ℤ} (hε : ε = 1 ∨ ε = -1) {y₂ : ι → ℤ} (hy₂ : IsBundle y₂)
+    {F : ℝ → Q → ℂ} (hF : ∀ q, ContDiff ℝ ∞ fun x => F x q)
+    (hFm : StronglyMeasurable (Function.uncurry F)) (G : ℕ → Q → ℝ≥0∞)
+    (hGm : ∀ k, Measurable (G k))
+    (hG : ∀ k x q, ‖iteratedDeriv k (fun x => F x q) x‖ₑ ≤ G k q)
+    (hGi : ∀ k, ∫⁻ q, G k q ≠ ⊤) {c : ℝ → ℝ × (ℝ × Q) → ℝ × ℝ}
+    (hc : Measurable fun x : ℝ × (ℝ × (ℝ × Q)) => c x.1 x.2) {Cw : ℕ}
+    (hCw : 1 ≤ Cw) {wc : ℝ → Q → ℝ≥0∞} (hwc : Measurable (Function.uncurry wc))
+    (hW : ∀ μ α z, wR θ α (c μ z).1 z.1 ≤ (Cw : ℝ≥0∞) * wJ θ α (z.1, z.2.1).1 *
+      wc (z.2.1 - bundle R.y α) z.2.2)
+    {NK : ℝ} (hNK : 0 ≤ NK)
+    (hΓ : ∀ k x, ∫⁻ q, wc x q * ‖iteratedDeriv k (fun x => F x q) x‖ₑ ≤ gev NK A k) :
+    ∃ S : RSymP (P × ℝ) ι, S.Bound θ A (CM0 * (4 * (Cw * N) * NK)) ∧ ∀ (p : P × ℝ) α t s,
+      t ∈ Icc (0 : ℝ) 1 → s ∈ Icc (0 : ℝ) 1 → (S.get p).kernel α t s =
+        ∫ z, symR (R.get p.1).m R.y F (nsp α) z * rker (bundle R.y (nsp α) + ε * α none)
+          (bundle y₂ (nsp α) + ε * α none) (c p.2 z).1 (c p.2 z).2 z.1 t s := by
+  have hN := hR.nonneg
+  have hNt : 0 ≤ 4 * ((Cw : ℝ) * N) * NK := by positivity
+  have hb : Continuous (bundle R.y) := (contDiff_bundle _).continuous
+  have hx1 : Measurable fun x : (P × ℝ) × ((ι → ℝ) × (ℝ × (ℝ × Q))) =>
+      ((x.1.1, (x.2.1, (x.2.2.1, x.2.2.2.1))) : P × ((ι → ℝ) × (ℝ × ℝ))) :=
+    (measurable_fst.comp measurable_fst).prodMk ((measurable_fst.comp measurable_snd).prodMk
+      ((measurable_fst.comp (measurable_snd.comp measurable_snd)).prodMk
+        (measurable_fst.comp (measurable_snd.comp (measurable_snd.comp measurable_snd)))))
+  have hx2 : Measurable fun x : (P × ℝ) × ((ι → ℝ) × (ℝ × (ℝ × Q))) =>
+      ((x.2.2.2.1 - bundle R.y x.2.1, x.2.2.2.2) : ℝ × Q) :=
+    ((measurable_fst.comp (measurable_snd.comp (measurable_snd.comp measurable_snd))).sub
+      (hb.measurable.comp (measurable_fst.comp measurable_snd))).prodMk
+      (measurable_snd.comp (measurable_snd.comp (measurable_snd.comp measurable_snd)))
+  have hm : StronglyMeasurable fun x : (P × ℝ) × ((ι → ℝ) × (ℝ × (ℝ × Q))) =>
+      symR (R.get x.1.1).m R.y F x.2.1 x.2.2 :=
+    (hR.meas.comp_measurable hx1).mul (hFm.comp_measurable hx2)
+  obtain ⟨S, -, -, -, hS, hk⟩ := RSymP.ofAny (P := P × ℝ) (θ := θ) (A := A)
+    (N := 4 * ((Cw : ℝ) * N) * NK) hε hR.bundle hy₂ (a := fun p => symR (R.get p.1).m R.y F)
+    (fun p => symReg_symR (hR.bound p.1) hF hFm G hGm hG hGi) hm (c := fun p z => c p.2 z)
+    (hc.comp ((measurable_snd.comp measurable_fst).prodMk measurable_snd)) h0 h1 hNt
+    (fun p k => lintegral_piece_IJI_R_le hA (hR.bound p.1) hF hFm hCw hwc (hW p.2) hNK hΓ k)
   exact ⟨S, hS, hk⟩
 
 end Generic
 
 section RPieces
 
-variable {θ A N : ℝ} {R : JSym ι} {ε : ℤ}
+variable {θ A N : ℝ} {P : Type*} [MeasurableSpace P] {R : JSymP P ι} {ε : ℤ}
 
 theorem two_add_le_mul {W X : ℝ≥0∞} (hW : 1 ≤ W) (hX : 1 ≤ X) (n : ℕ) :
     (n : ℝ≥0∞) * W + X ≤ ((n + 1 : ℕ) : ℝ≥0∞) * W * X := by
@@ -340,19 +380,19 @@ theorem enorm_rho_rpow_le {θ : ℝ} (h0 : 0 ≤ θ) (h1 : θ ≤ 1) (x : ℝ) :
 
 /-- **DH21 term V** as a basic class `R` operator. -/
 theorem exists_piece_IJI_ba (h0 : 0 ≤ θ) (h1 : θ ≤ 1) (hA : A0 ≤ A) (hR : R.Bound θ A N)
-    (hε : ε = 1 ∨ ε = -1) (μ : ℝ) :
-    ∃ S : RSym ι, S.Bound θ A (CM0 * (4 * ((3 : ℕ) * N) * (CkM * IM))) ∧ ∀ α t s,
-      t ∈ Icc (0 : ℝ) 1 → s ∈ Icc (0 : ℝ) 1 → S.kernel α t s =
-        ∫ z : ℝ × (ℝ × (ℝ × ℝ)), symR R.m R.y FV (nsp α) z *
+    (hε : ε = 1 ∨ ε = -1) :
+    ∃ S : RSymP (P × ℝ) ι, S.Bound θ A (CM0 * (4 * ((3 : ℕ) * N) * (CkM * IM))) ∧ ∀ (p : P × ℝ) α t s,
+      t ∈ Icc (0 : ℝ) 1 → s ∈ Icc (0 : ℝ) 1 → (S.get p).kernel α t s =
+        ∫ z : ℝ × (ℝ × (ℝ × ℝ)), symR (R.get p.1).m R.y FV (nsp α) z *
           rker (bundle R.y (nsp α) + ε * α none) (bundle R.y (nsp α) + ε * α none)
-            (z.1 + z.2.2.1) (z.2.1 + μ - z.2.2.1) z.1 t s := by
+            (z.1 + z.2.2.1) (z.2.1 + p.2 - z.2.2.1) z.1 t s := by
   have hC := nonneg_CkMIM
   exact exists_piece_IJI_R h0 h1 (A0_nonneg.trans hA) hR hε hR.bundle contDiff_FV
     measurable_FV.stronglyMeasurable gM measurable_gM enorm_iteratedDeriv_FV
     (fun k => ne_top_of_le_ne_top (gev_lt_top _ _ _).ne (lintegral_gM_le k))
-    (c := fun z => (z.1 + z.2.2.1, z.2.1 + μ - z.2.2.1)) (by fun_prop) (Cw := 3) (by norm_num)
+    (c := fun μ z => (z.1 + z.2.2.1, z.2.1 + μ - z.2.2.1)) (by fun_prop) (Cw := 3) (by norm_num)
     (wc := fun _ q => 1 + ‖q.1‖ₑ) (by fun_prop)
-    (fun α z => split_R_ba h0 h1 α z.1 z.2.2.1) hC
+    (fun _ α z => split_R_ba h0 h1 α z.1 z.2.2.1) hC
     (fun k x => by
       calc ∫⁻ q, (1 + ‖q.1‖ₑ) * ‖iteratedDeriv k (fun x => FV x q) x‖ₑ
           ≤ ∫⁻ q, (1 + ‖q.1‖ₑ) * gM k q :=
@@ -373,40 +413,40 @@ theorem gamma_FVI (h0 : 0 ≤ θ) (h1 : θ ≤ 1) (hA : A0 ≤ A) (k : ℕ) (x :
 
 /-- **DH21 term VI, first part** (phase `εα₁`, `γ' = (γ₁ + γ₂, μ, γ₁)`). -/
 theorem exists_piece_IJI_bb (h0 : 0 ≤ θ) (h1 : θ ≤ 1) (hA : A0 ≤ A) (hR : R.Bound θ A N)
-    (hε : ε = 1 ∨ ε = -1) (μ : ℝ) :
-    ∃ S : RSym ι, S.Bound θ A (CM0 * (4 * ((4 : ℕ) * N) * CPhi)) ∧ ∀ α t s,
-      t ∈ Icc (0 : ℝ) 1 → s ∈ Icc (0 : ℝ) 1 → S.kernel α t s =
-        ∫ z : ℝ × (ℝ × Unit), symR R.m R.y FVI (nsp α) z *
+    (hε : ε = 1 ∨ ε = -1) :
+    ∃ S : RSymP (P × ℝ) ι, S.Bound θ A (CM0 * (4 * ((4 : ℕ) * N) * CPhi)) ∧ ∀ (p : P × ℝ) α t s,
+      t ∈ Icc (0 : ℝ) 1 → s ∈ Icc (0 : ℝ) 1 → (S.get p).kernel α t s =
+        ∫ z : ℝ × (ℝ × Unit), symR (R.get p.1).m R.y FVI (nsp α) z *
           rker (bundle R.y (nsp α) + ε * α none) (bundle (0 : ι → ℤ) (nsp α) + ε * α none)
-            (z.1 + z.2.1) μ z.1 t s := by
+            (z.1 + z.2.1) p.2 z.1 t s := by
   have := CPhi_nonneg
   exact exists_piece_IJI_R h0 h1 (A0_nonneg.trans hA) hR hε isBundle_zero contDiff_FVI
     measurable_FVI.stronglyMeasurable (fun k _ => gev CPhi Achi k) (fun _ => measurable_const)
     (fun k x q => (enorm_iteratedDeriv_FVI k x q).trans
       (mul_le_of_le_one_right bot_le (rho_le_one x)))
     (fun k => by rw [lintegral_unit]; exact (gev_lt_top _ _ _).ne)
-    (c := fun z => (z.1 + z.2.1, μ)) (by fun_prop) (Cw := 4) (by norm_num)
+    (c := fun μ z => (z.1 + z.2.1, μ)) (by fun_prop) (Cw := 4) (by norm_num)
     (wc := fun x _ => (1 + ‖x‖ₑ) ^ θ) (by fun_prop)
-    (fun α z => split_R_bb h0 h1 hR.bundle α z.1 z.2.1) CPhi_nonneg
+    (fun _ α z => split_R_bb h0 h1 hR.bundle α z.1 z.2.1) CPhi_nonneg
     (fun k x => gamma_FVI h0 h1 hA k x)
 
 /-- **DH21 term VI, second part** (phase `ℓ + εα₁`, `γ' = (γ₁, γ₂ + μ, γ₁)`). -/
 theorem exists_piece_IJI_bc (h0 : 0 ≤ θ) (h1 : θ ≤ 1) (hA : A0 ≤ A) (hR : R.Bound θ A N)
-    (hε : ε = 1 ∨ ε = -1) (μ : ℝ) :
-    ∃ S : RSym ι, S.Bound θ A (CM0 * (4 * ((4 : ℕ) * N) * CPhi)) ∧ ∀ α t s,
-      t ∈ Icc (0 : ℝ) 1 → s ∈ Icc (0 : ℝ) 1 → S.kernel α t s =
-        ∫ z : ℝ × (ℝ × Unit), symR R.m R.y FVI (nsp α) z *
+    (hε : ε = 1 ∨ ε = -1) :
+    ∃ S : RSymP (P × ℝ) ι, S.Bound θ A (CM0 * (4 * ((4 : ℕ) * N) * CPhi)) ∧ ∀ (p : P × ℝ) α t s,
+      t ∈ Icc (0 : ℝ) 1 → s ∈ Icc (0 : ℝ) 1 → (S.get p).kernel α t s =
+        ∫ z : ℝ × (ℝ × Unit), symR (R.get p.1).m R.y FVI (nsp α) z *
           rker (bundle R.y (nsp α) + ε * α none) (bundle R.y (nsp α) + ε * α none)
-            z.1 (z.2.1 + μ) z.1 t s := by
+            z.1 (z.2.1 + p.2) z.1 t s := by
   have := CPhi_nonneg
   exact exists_piece_IJI_R h0 h1 (A0_nonneg.trans hA) hR hε hR.bundle contDiff_FVI
     measurable_FVI.stronglyMeasurable (fun k _ => gev CPhi Achi k) (fun _ => measurable_const)
     (fun k x q => (enorm_iteratedDeriv_FVI k x q).trans
       (mul_le_of_le_one_right bot_le (rho_le_one x)))
     (fun k => by rw [lintegral_unit]; exact (gev_lt_top _ _ _).ne)
-    (c := fun z => (z.1, z.2.1 + μ)) (by fun_prop) (Cw := 4) (by norm_num)
+    (c := fun μ z => (z.1, z.2.1 + μ)) (by fun_prop) (Cw := 4) (by norm_num)
     (wc := fun x _ => (1 + ‖x‖ₑ) ^ θ) (by fun_prop)
-    (fun α z => split_R_bc h0 h1 α z.1 z.2.1) CPhi_nonneg
+    (fun _ α z => split_R_bc h0 h1 α z.1 z.2.1) CPhi_nonneg
     (fun k x => gamma_FVI h0 h1 hA k x)
 
 end RPieces
