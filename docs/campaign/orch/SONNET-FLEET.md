@@ -22,7 +22,14 @@ subagents that continue those packets in the same worktrees and scratch director
 | M8 LAYERCNT (new) | — | `an-sob` (shared, `lake env` only) | `layercnt` | started 18:45: TARGET layerlad and layervine (L1501–L1532) for LG-SPINE (T.plg.ab) |
 | S1 STAGE1-COMB (new) | — | `an-sob` (shared) | `stage1` | started 18:45: vinechainlem (DH23 Lemma 8.1), 𝒱 / congruence (equivalence; F20, F38), defdiff |
 | S3 LADDER (new) | — | `an-sob` (shared) | `ladder` | started 18:45: LG-SPINE spine inputs `LadderDecayAt`, `LadderFourierAt`, `CoarseSplicedAt`, word for word |
-| X2 FLOWER-SPINE (taken from wt-gauss-hc, never started) | wt-gauss-hc (Claude, waiting) | `an-sob` (shared) | `flower-spine` | started 18:50: `layergardenFlower_of_spine`, sharing LG-SPINE's inputs; gauss-hc notified |
+| X2 FLOWER-SPINE (taken from wt-gauss-hc, never started) | wt-gauss-hc (Claude, waiting) | `an-sob` (shared) | `flower-spine` | **PAUSED 19:20 until LG-SPINE publishes `SpineInputs`.** Proved:
+  - `flowerSum_plain`, the kernel bridge;
+  - F4 `flower_below_excluded`;
+  - F1, the input-leaves reading;
+  - `decay_prod_transfer`;
+  - F3, in its one-variable form only. DH21 Cor 11.3 (`extragaincor`) is not a stand-alone proposition, so the gain is assembly through LG-SPINE's pipeline.
+
+  Finding: LG-SPINE's analytic gates quantify over `IsPlain` / `Irreducible` gardens, so flower-specific versions are needed (SPINE.md in flower-spine). |
 
 RA1-TREES (wt-l2s) was already READY and needed no takeover; its output feeds B21-SNAP9.
 
