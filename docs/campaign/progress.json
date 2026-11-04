@@ -1,5 +1,5 @@
 {
- "assessed": "2026-11-04 01:10 UTC",
+ "assessed": "2026-11-04 01:30 UTC",
  "notes": "Lean work items = blueprint packets (docs/blueprint/GRAPH.md §E) with their difficulty weights (node weights L=1, M=2, H=4, VH=8 summed). Each frozen theorem anchor adds weight 1, credited when SEALED. Done fractions are the orchestrator's assessment, reviewed at integration rounds.",
  "lines_est_total": 273000,
  "parts": [
@@ -225,8 +225,8 @@
      "goal": "molecules (half-edge encoding, F40), molecules of gardens and their decorations, cuts, counting quantities MOL.countq (review I9), propcplmol, DH21-2 Prop 6.4",
      "weight": 15.0,
      "lines_est": 4900,
-     "done": 0.1,
-     "note": "MOLE started (scratch)"
+     "done": 0.9,
+     "note": "MOLE done in scratch: garden molecules, root-compatible decorations, reconstruction (C₀=20736), cuts; moves to Foundations at the freeze"
     },
     {
      "id": "C1",
@@ -279,8 +279,8 @@
      "goal": "blocks, hyper-blocks, disjointlem, realizations",
      "weight": 6.0,
      "lines_est": 1600,
-     "done": 0.0,
-     "note": ""
+     "done": 0.9,
+     "note": "blocks, hyper-blocks, realizations, overlap classification (connected convention, F57) in scratch"
     },
     {
      "id": "NT7",
