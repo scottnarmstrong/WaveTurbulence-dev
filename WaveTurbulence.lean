@@ -559,6 +559,8 @@ public import WaveTurbulence.Foundations.MainGlue.Observable
 public import WaveTurbulence.Foundations.MainGlue.SchwartzMass
 public import WaveTurbulence.Foundations.MainGlue.SealInputs
 public import WaveTurbulence.Foundations.MainGlue.SmoothData
+public import WaveTurbulence.Foundations.NLS.AkBridge
+public import WaveTurbulence.Foundations.NLS.AkBridgeDefinitions
 public import WaveTurbulence.Foundations.NLS.AkClass
 public import WaveTurbulence.Foundations.NLS.AkFlow
 public import WaveTurbulence.Foundations.NLS.AkFlowLink
@@ -1031,6 +1033,7 @@ public import WaveTurbulence.Foundations.WKEL2.WeightedSobolevEvaluation
 public import WaveTurbulence.Foundations.WKEL2.WeightedSobolevForget
 public import WaveTurbulence.Foundations.WKEL2.WeightedSobolevLetter
 public import WaveTurbulence.Foundations.WKEL2.WeightedSobolevModel
+public import WaveTurbulence.Foundations.WaveB.FrozenB1
 public import WaveTurbulence.Foundations.WeylSums.ArcAlgebra
 public import WaveTurbulence.Foundations.WeylSums.ArcIntegration
 public import WaveTurbulence.Foundations.WeylSums.ArcProfile
@@ -1408,6 +1411,7 @@ public import WaveTurbulence.Frozen.Defs.ZSpace
 public import WaveTurbulence.Frozen.Defs.ZpowSign
 public import WaveTurbulence.Frozen.Theorems.AtomCountLemma
 public import WaveTurbulence.Frozen.Theorems.CountLemma
+public import WaveTurbulence.Frozen.Theorems.NlsAkBridge
 public import WaveTurbulence.Frozen.Theorems.Wkelwp
 
 /-!

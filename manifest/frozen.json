@@ -19226,7 +19226,7 @@
         "mode": "NOT_SPLIT",
         "ruling_ref": "docs/DECISIONS.md#D7"
       },
-      "abi_sha256": "14cbbd9388999543bb14f3212eca3fef8862cc74b6dac9892e333aa476b7c034",
+      "abi_sha256": "4dadbcf3d8d4aa14498b5fd8e5c5c09b5255ef7e46a51da1f28a77ee83f9a136",
       "definition_closure": [
         {
           "path": "WaveTurbulence/Frozen/Defs/ANonlin.lean",
@@ -19317,7 +19317,7 @@
           "sha256": "00c82a1478eb2af45cf3ce91422ff2fe32e626c0cabe50951f75576e4de720d8"
         }
       ],
-      "state": "DRAFT_SORRY",
+      "state": "SEALED",
       "prefix_sha256": "083e24d71727b9b5e3a968fbfb8908f8575ff5564c8c39317defa80992652044",
       "suffix_sha256": "9f48199048606af986e4911abed0172f6e65c9c8c91f1c2874961ad85a7ea8d0",
       "draft_allowlist": {

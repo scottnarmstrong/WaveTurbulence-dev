@@ -24,7 +24,6 @@ private def quarantinedModules : Array Lean.Name := #[
   `WaveTurbulence.Frozen.Theorems.Fixedpoint, `WaveTurbulence.Provider.Fixedpoint,
   `WaveTurbulence.Frozen.Theorems.Layergarden, `WaveTurbulence.Provider.Layergarden,
   `WaveTurbulence.Frozen.Theorems.LayergardenFlower, `WaveTurbulence.Provider.LayergardenFlower,
-  `WaveTurbulence.Frozen.Theorems.NlsAkBridge, `WaveTurbulence.Provider.NlsAkBridge,
   `WaveTurbulence.Frozen.Theorems.Propansatz, `WaveTurbulence.Provider.Propansatz,
   `WaveTurbulence.Frozen.Theorems.QuadExpSum2, `WaveTurbulence.Provider.QuadExpSum2,
   `WaveTurbulence.Frozen.Theorems.QuadExpSum3, `WaveTurbulence.Provider.QuadExpSum3,

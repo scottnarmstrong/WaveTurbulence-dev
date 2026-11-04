@@ -77,7 +77,7 @@ theorem nlsAkBridge {d : ℕ} (hd : 1 ≤ d) (L γ δ : ℝ) (hL : 0 < L) (hδ :
           {ω | ∃ v, IsSmoothNLSSolution L α T (c ω) v}.indicator
             (fun ω => ‖torusFourierCoeff L (U ω t) n‖ ^ 2) ω) :=
 -- FROZEN_ANCHOR_PROOF_BEGIN
-  by sorry
+  by exact WaveTurbulence.Provider.nlsAkBridge
 -- FROZEN_ANCHOR_PROOF_END
 -- FROZEN_ANCHOR_SUFFIX_BEGIN
 
