@@ -259,3 +259,44 @@ P-1 checks: `nice -n 5 lake build WaveTurbulence.Foundations.Incoh.OneClockVerte
 (`9312 jobs`). Scratch `AxiomsOneClock.lean`, log `axioms-one-clock.log`, audited selection,
 full auxiliary-clock reduction, exact extension agreement, norm translation and both final
 restriction bounds. All six printed exactly `[propext, Classical.choice, Quot.sound]`.
+
+## Stage 2: finite smooth link localization and C2 interface
+
+`MomentumTreeData n m w` is the additional local carrier for C2. Its fields are:
+`tree : Fin w → LocalizationTree`, total `order_eq : ∑ order = 2n`;
+integer `nodeRow` and `inputRow` over `Option (Fin n × Fin 2)` (root is `none`);
+`input_root_column = 1`; `leafInput` identifying each leaf with an input or the lone root;
+`root_row`, the alternating three-child `parent_row`, and `leaf_row`;
+`chosenTree`, `chosenPath`, membership of that node and its children 0 and 2;
+and `link_x_row`, `link_y_row` identifying child0−parent and parent−child2 with the two
+free coordinate rows. These are finite structural identities, with no analytic estimate fields.
+C2's `node_linear` and `linkCoords_surjective` should supply these rows and equalities.
+The already committed `IntegerLeafCoordinates` remains the unimodular input-coordinate carrier.
+
+The node decoration, actual input momenta, root coefficient one and link differences are
+computed and proved in `MomentumTreeData` / `MomentumTreeInputs`. `TreeLocalizationRadius`
+and `TreeForestLocalization` reuse the landed unit-radius tree localization at radius `sqrt d`.
+`MomentumTreeLocalization` then covers all link momenta by at most `C_d^(2n)` products of
+radius `2 sqrt d` balls whenever the actual leaf-cell product is nonzero.
+
+P-2 uses the literal smooth profiles `thetaMom (2x−z)` with half-integer centers.
+`HalfLinkCells` proves exact insertion of the analytic lattice cutoff, including zero cells
+and boundaries. `HalfLinkCellCover`, `HalfCellArrays`, and `FiniteLinkCellLocalization`
+produce a finite set of all active link-cell arrays, with cardinal at most `C_d^n`.
+`LocalizedLeafDecomposition.exists_localizedLeafWeight_decomposition` is the resulting exact
+finite decomposition of the actual localized source input product, everywhere in momentum.
+Thus the unit-ball versus cutoff-scale issue is resolved without a hard Fourier cutoff.
+
+`LeafLocalizationMass` and `LeafArrayLocalization` quantify the sum of actual cell Fourier
+norms, including the whole input-cell array sum. `CoupleSpectralMixtureDecay` is explicitly a
+conditional transport helper (joint measurability/integrability are typing premises), not the
+final source identity. `GardenSign` retains the literal global Circle factor and proves exact
+norm invariance; inserting it in the final source identity remains part of assembly.
+The final source lattice/time exchange and momentum derivative/weight estimates remain open.
+
+Checks for this localization milestone: targeted builds `LocalizedLeafDecomposition`
+(`9158 jobs`) and `CoupleSpectralMixtureDecay LeafArrayLocalization GardenSign` (`9329 jobs`)
+passed. Scratch `AxiomsFiniteLocalization.lean`, log `axioms-finite-localization.log`, prints
+nine main results: each depends exactly on `[propext, Classical.choice, Quot.sound]`.
+No new source errata or weakened estimates were introduced. This is a stage-2 milestone,
+not completion of the source operator assembly.
