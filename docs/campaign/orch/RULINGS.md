@@ -181,3 +181,25 @@ q ≠ q', to meet `sumint`'s `Admissible` (`SNorm 30d 30d`).
   - REGREF's `TraceDeriv` for the lower-layer trace.
 - LG-SPINE keeps consuming the order-0 consequence. It follows from the 30d gate by
   `XNorm00Restr_weight_le_XNormRestr`, so LG-SPINE does not change.
+
+## R11 — FLOWER-SPINE inputs: owners, 2026-11-04 ~21:45 UTC
+
+**Shared with LG-SPINE word for word.** `coarse` and `ladder`.
+
+**Flower Stage 1 gates.** `gardens` (`FlowerStage1At`, L2292–L2300) and `couples` (`CoupleStage1At`, L2312) have the
+same shape as LG-SPINE's `Stage1ReductionGate`.
+- They are LG-SPINE's own readings of "repeat the arguments", so they go on the audit list as readings.
+- Providers: the same Stage 1 packets, S2a (construction), S2 (`Represents`) and S4 (`subpro`), with TARGET's
+  flowerest1 adjustments (1)–(7).
+- If a Dirac factor `δ(t_{f^pr} − s)` cannot be absorbed into a plain `G_sb`, the provider stops and reports it. A gate
+  is never weakened.
+
+**`RegularCouplesAt`** (the regular-couple leg of clause (2), L2312 "using (taylorbound) and (estcouple2)").
+- It is a conclusion-shaped sub-sum bound, so it may stay a spine input only because it gets proved.
+- **New packet FLOWER-REG** derives it from the shared Props 6.1 (30d, R10) and 6.2, `taylorbound` (WKETAYLOR-GATE, done)
+  and a fixed-root-time trace. It uses REGREF's `TraceDeriv` and the snapshot-9 port in b21-snap9.
+
+**`FinalCountGate`** stays a separate hypothesis, as in `layergarden_of_spine` (γ-sensitive, F69b).
+
+**Request to LG-SPINE.** Expose `Stage1PieceD.gbar` and `rbar` (`@[expose]`), or factor out the integral part of
+`Represents`, so FLOWER-SPINE can drop its copies (`FStage1Data`, `FCounts`, `gbar'`, `rbar'`).
