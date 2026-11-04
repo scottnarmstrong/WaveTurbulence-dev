@@ -604,31 +604,42 @@ theorem Ir2_nonneg : 0 ≤ Ir 2 := ENNReal.toReal_nonneg
 @[fun_prop] theorem measurable_ind01r : Measurable ind01r :=
   measurable_const.indicator measurableSet_Icc
 
-/-- **The weighted `x`-derivative bounds of `gE`** (Case 1 of Proposition 5.1):
-`∫ (1+|λ|)^a |∂_x^j gE(x; λ, τ)| dλ dτ ≤ 2 C_E Ir(2) A₁^j (2j)! (1+|x|)^{a-1}`. -/
-theorem lintegral_gE_le {a : ℝ} (h0 : 0 ≤ a) (h1 : a ≤ 1) (j : ℕ) (x : ℝ) :
-    ∫⁻ q : ℝ × ℝ, ((1 : ℝ≥0∞) + ‖q.1‖ₑ) ^ a * ‖iteratedDeriv j (fun y => gE y q) x‖ₑ ≤
+/-- The explicit majorant of `|∂_x^j gE(x; q)|` (`norm_iteratedDeriv_gE_le`). -/
+@[expose] noncomputable def gEbd (j : ℕ) (x : ℝ) (q : ℝ × ℝ) : ℝ≥0∞ :=
+  ENNReal.ofReal (CE * A1 ^ j * (Nat.factorial (2 * j) : ℝ) * ind01r q.2 / (1 + |x|) *
+    (1 / (1 + |q.1|) ^ 3 + 1 / (1 + |q.1 - x|) ^ 3))
+
+theorem enorm_iteratedDeriv_gE_le_bd (j : ℕ) (x : ℝ) (q : ℝ × ℝ) :
+    ‖iteratedDeriv j (fun y => gE y q) x‖ₑ ≤ gEbd j x q := by
+  rw [← ofReal_norm, gEbd]
+  exact ENNReal.ofReal_le_ofReal (norm_iteratedDeriv_gE_le j x q)
+
+theorem measurable_gEbd (j : ℕ) : Measurable fun p : ℝ × (ℝ × ℝ) => gEbd j p.1 p.2 := by
+  unfold gEbd
+  fun_prop
+
+/-- **The weighted `x`-majorant of `gE`** (Case 1 of Proposition 5.1):
+`∫ (1+|λ|)^a gEbd ≤ 2 C_E Ir(2) A₁^j (2j)! (1+|x|)^{a-1}`. -/
+theorem lintegral_gEbd_le {a : ℝ} (h0 : 0 ≤ a) (h1 : a ≤ 1) (j : ℕ) (x : ℝ) :
+    ∫⁻ q : ℝ × ℝ, ((1 : ℝ≥0∞) + ‖q.1‖ₑ) ^ a * gEbd j x q ≤
       ENNReal.ofReal (2 * CE * Ir 2 * A1 ^ j * (Nat.factorial (2 * j) : ℝ) *
         (1 + |x|) ^ (a - 1)) := by
   set K : ℝ := CE * A1 ^ j * (Nat.factorial (2 * j) : ℝ) with hK
   have hK0 : 0 ≤ K := by have := CE_nonneg; have := A1_nonneg; positivity
   have hp : 0 < 1 + |x| := by positivity
-  have hpt : ∀ q : ℝ × ℝ, ((1 : ℝ≥0∞) + ‖q.1‖ₑ) ^ a * ‖iteratedDeriv j (fun y => gE y q) x‖ₑ ≤
+  have hpt : ∀ q : ℝ × ℝ, ((1 : ℝ≥0∞) + ‖q.1‖ₑ) ^ a * gEbd j x q ≤
       ENNReal.ofReal (K / (1 + |x|)) * (ENNReal.ofReal (ind01r q.2) *
         (ENNReal.ofReal ((1 + |q.1 + 0|) ^ a * (1 / (1 + |q.1 - 0|) ^ 3)) +
           ENNReal.ofReal ((1 + |q.1 + 0|) ^ a * (1 / (1 + |q.1 - x|) ^ 3)))) := fun q => by
-    rw [one_add_enorm_rpow_eq, ← ofReal_norm]
-    have hb := norm_iteratedDeriv_gE_le j x q
-    rw [← ENNReal.ofReal_add (by positivity) (by positivity),
-      ← ENNReal.ofReal_mul (ind01r_nonneg _), ← ENNReal.ofReal_mul (by positivity),
-      ← ENNReal.ofReal_mul (by positivity)]
-    refine ENNReal.ofReal_le_ofReal ?_
-    simp only [add_zero, sub_zero]
-    calc (1 + |q.1|) ^ a * ‖iteratedDeriv j (fun y => gE y q) x‖
-        ≤ (1 + |q.1|) ^ a * (K * ind01r q.2 / (1 + |x|) *
-            (1 / (1 + |q.1|) ^ 3 + 1 / (1 + |q.1 - x|) ^ 3)) := by
-          gcongr
-      _ = _ := by ring
+    rw [one_add_enorm_rpow_eq, gEbd]
+    have hi := ind01r_nonneg q.2
+    conv_rhs => rw [← ENNReal.ofReal_add (by positivity) (by positivity),
+      ← ENNReal.ofReal_mul hi, ← ENNReal.ofReal_mul (by positivity)]
+    rw [← ENNReal.ofReal_mul (by positivity)]
+    refine le_of_eq ?_
+    congr 1
+    simp only [add_zero, sub_zero, hK]
+    field_simp
   have hmeas : Measurable fun v : ℝ =>
       ENNReal.ofReal ((1 + |v + 0|) ^ a * (1 / (1 + |v - 0|) ^ 3)) +
         ENNReal.ofReal ((1 + |v + 0|) ^ a * (1 / (1 + |v - x|) ^ 3)) := by fun_prop
@@ -636,7 +647,7 @@ theorem lintegral_gE_le {a : ℝ} (h0 : 0 ≤ a) (h1 : a ≤ 1) (j : ℕ) (x : �
       (ENNReal.ofReal ((1 + |q.1 + 0|) ^ a * (1 / (1 + |q.1 - 0|) ^ 3)) +
         ENNReal.ofReal ((1 + |q.1 + 0|) ^ a * (1 / (1 + |q.1 - x|) ^ 3))) :=
     (measurable_ind01r.ennreal_ofReal.comp measurable_snd).mul (hmeas.comp measurable_fst)
-  calc ∫⁻ q : ℝ × ℝ, ((1 : ℝ≥0∞) + ‖q.1‖ₑ) ^ a * ‖iteratedDeriv j (fun y => gE y q) x‖ₑ
+  calc ∫⁻ q : ℝ × ℝ, ((1 : ℝ≥0∞) + ‖q.1‖ₑ) ^ a * gEbd j x q
       ≤ ∫⁻ q : ℝ × ℝ, ENNReal.ofReal (K / (1 + |x|)) * (ENNReal.ofReal (ind01r q.2) *
           (ENNReal.ofReal ((1 + |q.1 + 0|) ^ a * (1 / (1 + |q.1 - 0|) ^ 3)) +
             ENNReal.ofReal ((1 + |q.1 + 0|) ^ a * (1 / (1 + |q.1 - x|) ^ 3)))) :=
@@ -672,6 +683,15 @@ theorem lintegral_gE_le {a : ℝ} (h0 : 0 ≤ a) (h1 : a ≤ 1) (j : ℕ) (x : �
         have hA : 0 ≤ A1 ^ j * (Nat.factorial (2 * j) : ℝ) := by have := A1_nonneg; positivity
         rw [div_mul_eq_mul_div, mul_div_assoc', le_div_iff₀ hp, div_mul_cancel₀ _ hp.ne']
         nlinarith [mul_nonneg (mul_nonneg (mul_nonneg hC hA) hI) (sub_nonneg.2 hxa)]
+
+/-- **The weighted `x`-derivative bounds of `gE`** (Case 1 of Proposition 5.1):
+`∫ (1+|λ|)^a |∂_x^j gE(x; λ, τ)| dλ dτ ≤ 2 C_E Ir(2) A₁^j (2j)! (1+|x|)^{a-1}`. -/
+theorem lintegral_gE_le {a : ℝ} (h0 : 0 ≤ a) (h1 : a ≤ 1) (j : ℕ) (x : ℝ) :
+    ∫⁻ q : ℝ × ℝ, ((1 : ℝ≥0∞) + ‖q.1‖ₑ) ^ a * ‖iteratedDeriv j (fun y => gE y q) x‖ₑ ≤
+      ENNReal.ofReal (2 * CE * Ir 2 * A1 ^ j * (Nat.factorial (2 * j) : ℝ) *
+        (1 + |x|) ^ (a - 1)) :=
+  (lintegral_mono fun q => mul_le_mul' le_rfl (enorm_iteratedDeriv_gE_le_bd j x q)).trans
+    (lintegral_gEbd_le h0 h1 j x)
 
 end Integrated
 
