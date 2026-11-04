@@ -24,13 +24,13 @@ open scoped ENNReal
 namespace WaveTurbulence.Incoh
 
 /-- The source root density, formed as the actual normalized time marginal. -/
-@[expose] def RootCoordinates.linkDensity {d n : ℕ} (R : RootCoordinates n)
+@[expose] def RootCoordinates.linkDensity {d n : ℕ} {r : ℕ} (R : RootCoordinates n r)
     (L γ δ : ℝ) (Q : Fin n → LayerLink d) (I : Set (Fin n → Fin 2 → ℝ)) :
-    (Fin 2 → ℝ) → ℂ :=
+    (Fin r → ℝ) → ℂ :=
   R.density (normalizedLinkIntegrand L γ δ Q I)
 
 /-- Actual root densities are integrable for every measurable source time domain. -/
-theorem RootCoordinates.integrable_linkDensity {d n : ℕ} (R : RootCoordinates n)
+theorem RootCoordinates.integrable_linkDensity {d n : ℕ} {r : ℕ} (R : RootCoordinates n r)
     {L : ℝ} (hL : 0 < L) (γ δ : ℝ) (Q : Fin n → LayerLink d)
     {I : Set (Fin n → Fin 2 → ℝ)} (hI : MeasurableSet I)
     (hbox : I ⊆ univ.pi (fun i => linkBox (Q i))) :

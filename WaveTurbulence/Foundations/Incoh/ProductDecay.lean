@@ -23,7 +23,8 @@ open scoped ENNReal
 
 namespace WaveTurbulence.Incoh
 
-private theorem prod_link_weights {d n : ℕ} (Q : Fin n → LayerLink d) (A B : ℝ)
+/-- Multiplying the incoherence flags counts exactly the incoherent links. -/
+theorem prod_link_weights {d n : ℕ} (Q : Fin n → LayerLink d) (A B : ℝ)
     [DecidablePred (fun i => (Q i).IsIncoherent)] :
     (∏ i, A * if (Q i).IsIncoherent then B else 1) = A ^ n * B ^ incoherenceCount Q := by
   classical

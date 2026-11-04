@@ -23,11 +23,11 @@ open scoped ENNReal
 
 namespace WaveTurbulence.Incoh
 
-private def envelopeComplexFactor {d n : ℕ} (R : RootCoordinates n) (L γ δ : ℝ)
+private def envelopeComplexFactor {d n : ℕ} {r : ℕ} (R : RootCoordinates n r) (L γ δ : ℝ)
     (Q : Fin n → LayerLink d) (i : Fin n) (t : Fin 2 → ℝ) : ℂ :=
   if i ∈ R.rootLinks then (((5 * L) ^ (2 * d) : ℝ) : ℂ) else linkTimeFactor L γ δ (Q i) t
 
-private theorem enorm_envelopeComplexFactor {d n : ℕ} (R : RootCoordinates n) {L : ℝ}
+private theorem enorm_envelopeComplexFactor {d n : ℕ} {r : ℕ} (R : RootCoordinates n r) {L : ℝ}
     (hL : 1 ≤ L) (γ δ : ℝ) (Q : Fin n → LayerLink d) (i : Fin n) (t : Fin 2 → ℝ) :
     ‖envelopeComplexFactor R L γ δ Q i t‖ₑ = R.envelopeFactor L γ δ Q i t := by
   by_cases hi : i ∈ R.rootLinks
@@ -41,7 +41,7 @@ theorem volume_linkBox {d : ℕ} (Q : LayerLink d) : volume (linkBox Q) = 1 := b
     add_sub_cancel_left, ENNReal.ofReal_one, mul_one]
 
 /-- The root envelope has only the selected trivial masses, with all other link masses unchanged. -/
-theorem RootCoordinates.lintegral_envelope_le_replacedMass {d n : ℕ} (R : RootCoordinates n)
+theorem RootCoordinates.lintegral_envelope_le_replacedMass {d n : ℕ} {r : ℕ} (R : RootCoordinates n r)
     {L : ℝ} (hL : 1 ≤ L) (γ δ : ℝ) (Q : Fin n → LayerLink d) :
     (∫⁻ t, R.envelope L γ δ Q t) ≤ ∏ i, replacedLinkMass L γ δ Q R.rootLinks i := by
   have hLp := zero_lt_one.trans_le hL

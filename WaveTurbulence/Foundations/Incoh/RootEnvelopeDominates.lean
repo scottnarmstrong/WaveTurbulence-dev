@@ -24,7 +24,7 @@ open scoped ENNReal
 namespace WaveTurbulence.Incoh
 
 /-- Root-link removal dominates the literal indicator times the oscillatory product. -/
-theorem RootCoordinates.enorm_indicator_product_le_envelope {d n : ℕ} (R : RootCoordinates n)
+theorem RootCoordinates.enorm_indicator_product_le_envelope {d n : ℕ} {r : ℕ} (R : RootCoordinates n r)
     {L : ℝ} (hL : 1 ≤ L) (γ δ : ℝ) (Q : Fin n → LayerLink d)
     {I : Set (Fin n → Fin 2 → ℝ)} (hbox : I ⊆ univ.pi (fun i => linkBox (Q i)))
     (t : Fin n → Fin 2 → ℝ) :
@@ -43,10 +43,10 @@ theorem RootCoordinates.enorm_indicator_product_le_envelope {d n : ℕ} (R : Roo
     exact bot_le
 
 /-- The actual normalized root marginal is bounded by the integral of its root-link envelope. -/
-theorem RootCoordinates.enorm_linkDensity_le_envelope {d n : ℕ} (R : RootCoordinates n)
+theorem RootCoordinates.enorm_linkDensity_le_envelope {d n : ℕ} {r : ℕ} (R : RootCoordinates n r)
     {L δ : ℝ} (hL : 1 ≤ L) (hδ : 0 < δ) (γ : ℝ) (Q : Fin n → LayerLink d)
     {I : Set (Fin n → Fin 2 → ℝ)} (hbox : I ⊆ univ.pi (fun i => linkBox (Q i)))
-    (t : Fin 2 → ℝ) :
+    (t : Fin r → ℝ) :
     ‖R.linkDensity L γ δ Q I t‖ₑ ≤
       ENNReal.ofReal ((δ / (2 * L ^ ((d : ℝ) - γ))) ^ (2 * n)) * ∫⁻ v, R.envelope L γ δ Q v := by
   have hLp := zero_lt_one.trans_le hL

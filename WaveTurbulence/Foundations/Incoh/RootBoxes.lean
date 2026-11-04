@@ -27,13 +27,13 @@ namespace WaveTurbulence.Incoh
   ![(Q v.1).leftLayer, (Q v.1).rightLayer] v.2
 
 /-- The two root-time intervals in the permuted coordinates. -/
-@[expose] def RootCoordinates.rootBox {d n : ℕ} (R : RootCoordinates n) (Q : Fin n → LayerLink d) :
-    Set (Fin 2 → ℝ) :=
+@[expose] def RootCoordinates.rootBox {d n : ℕ} {r : ℕ} (R : RootCoordinates n r) (Q : Fin n → LayerLink d) :
+    Set (Fin r → ℝ) :=
   Icc (fun a => (vertexLayer Q (R.rootVertex a) : ℝ))
     (fun a => (vertexLayer Q (R.rootVertex a) : ℝ) + 1)
 
 /-- The internal-time intervals in the permuted coordinates. -/
-@[expose] def RootCoordinates.restBox {d n : ℕ} (R : RootCoordinates n) (Q : Fin n → LayerLink d) :
+@[expose] def RootCoordinates.restBox {d n : ℕ} {r : ℕ} (R : RootCoordinates n r) (Q : Fin n → LayerLink d) :
     Set (Fin R.restCount → ℝ) :=
   Icc (fun k => (vertexLayer Q (finProdFinEquiv.symm (R.permutation.symm (Sum.inr k))) : ℝ))
     (fun k => (vertexLayer Q (finProdFinEquiv.symm (R.permutation.symm (Sum.inr k))) : ℝ) + 1)
@@ -51,8 +51,8 @@ theorem mem_linkBoxes_iff {d n : ℕ} (Q : Fin n → LayerLink d) (t : Fin n →
   tauto
 
 /-- The root-coordinate reconstruction carries the full box exactly to a product box. -/
-theorem RootCoordinates.equiv_symm_mem_linkBoxes {d n : ℕ} (R : RootCoordinates n)
-    (Q : Fin n → LayerLink d) (t : Fin 2 → ℝ) (u : Fin R.restCount → ℝ) :
+theorem RootCoordinates.equiv_symm_mem_linkBoxes {d n : ℕ} {r : ℕ} (R : RootCoordinates n r)
+    (Q : Fin n → LayerLink d) (t : Fin r → ℝ) (u : Fin R.restCount → ℝ) :
     R.equiv.symm (t, u) ∈ univ.pi (fun i => linkBox (Q i)) ↔
       t ∈ R.rootBox Q ∧ u ∈ R.restBox Q := by
   rw [mem_linkBoxes_iff]
@@ -85,12 +85,12 @@ theorem RootCoordinates.equiv_symm_mem_linkBoxes {d n : ℕ} (R : RootCoordinate
         exact ⟨hu.1 k, hu.2 k⟩
 
 /-- Each root box has unit volume, with no restriction on the integer layer values. -/
-theorem RootCoordinates.volume_rootBox {d n : ℕ} (R : RootCoordinates n) (Q : Fin n → LayerLink d) :
+theorem RootCoordinates.volume_rootBox {d n : ℕ} {r : ℕ} (R : RootCoordinates n r) (Q : Fin n → LayerLink d) :
     volume (R.rootBox Q) = 1 := by
   simp only [rootBox, Real.volume_Icc_pi, add_sub_cancel_left, ENNReal.ofReal_one, Finset.prod_const_one]
 
 /-- The remaining internal box has unit volume as well. -/
-theorem RootCoordinates.volume_restBox {d n : ℕ} (R : RootCoordinates n) (Q : Fin n → LayerLink d) :
+theorem RootCoordinates.volume_restBox {d n : ℕ} {r : ℕ} (R : RootCoordinates n r) (Q : Fin n → LayerLink d) :
     volume (R.restBox Q) = 1 := by
   simp only [restBox, Real.volume_Icc_pi, add_sub_cancel_left, ENNReal.ofReal_one, Finset.prod_const_one]
 

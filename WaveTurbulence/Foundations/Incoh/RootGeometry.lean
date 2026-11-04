@@ -22,32 +22,32 @@ noncomputable section
 namespace WaveTurbulence.Incoh
 
 /-- Reconstructing an original time is just evaluating the finite coordinate permutation. -/
-@[simp] theorem RootCoordinates.equiv_symm_apply {n : ℕ} (R : RootCoordinates n)
-    (t : Fin 2 → ℝ) (u : Fin R.restCount → ℝ) (i : Fin n) (j : Fin 2) :
+@[simp] theorem RootCoordinates.equiv_symm_apply {n : ℕ} {r : ℕ} (R : RootCoordinates n r)
+    (t : Fin r → ℝ) (u : Fin R.restCount → ℝ) (i : Fin n) (j : Fin 2) :
     R.equiv.symm (t, u) i j = Sum.elim t u (R.permutation (finProdFinEquiv (i, j))) := by
   rfl
 
 /-- The original vertex occupied by a selected root time. -/
-@[expose] def RootCoordinates.rootVertex {n : ℕ} (R : RootCoordinates n) (a : Fin 2) : Fin n × Fin 2 :=
+@[expose] def RootCoordinates.rootVertex {n : ℕ} {r : ℕ} (R : RootCoordinates n r) (a : Fin r) : Fin n × Fin 2 :=
   finProdFinEquiv.symm (R.permutation.symm (Sum.inl a))
 
 /-- The finite set of links meeting either root time. -/
-@[expose] def RootCoordinates.rootLinks {n : ℕ} (R : RootCoordinates n) : Finset (Fin n) :=
-  Finset.univ.image (fun a : Fin 2 => (R.rootVertex a).1)
+@[expose] def RootCoordinates.rootLinks {n : ℕ} {r : ℕ} (R : RootCoordinates n r) : Finset (Fin n) :=
+  Finset.univ.image (fun a : Fin r => (R.rootVertex a).1)
 
-theorem RootCoordinates.card_rootLinks_le {n : ℕ} (R : RootCoordinates n) :
-    R.rootLinks.card ≤ 2 := by
+theorem RootCoordinates.card_rootLinks_le {n : ℕ} {r : ℕ} (R : RootCoordinates n r) :
+    R.rootLinks.card ≤ r := by
   exact Finset.card_image_le.trans_eq (by simp)
 
-@[simp] theorem RootCoordinates.equiv_symm_rootVertex {n : ℕ} (R : RootCoordinates n)
-    (t : Fin 2 → ℝ) (u : Fin R.restCount → ℝ) (a : Fin 2) :
+@[simp] theorem RootCoordinates.equiv_symm_rootVertex {n : ℕ} {r : ℕ} (R : RootCoordinates n r)
+    (t : Fin r → ℝ) (u : Fin R.restCount → ℝ) (a : Fin r) :
     R.equiv.symm (t, u) (R.rootVertex a).1 (R.rootVertex a).2 = t a := by
   rw [R.equiv_symm_apply]
   simp only [rootVertex, Prod.mk.eta, Equiv.apply_symm_apply, Sum.elim_inl]
 
 /-- Untouched links do not depend on either selected root time. -/
-theorem RootCoordinates.equiv_symm_eq_of_notMem_rootLinks {n : ℕ} (R : RootCoordinates n)
-    (t t' : Fin 2 → ℝ) (u : Fin R.restCount → ℝ) (i : Fin n) (hi : i ∉ R.rootLinks) :
+theorem RootCoordinates.equiv_symm_eq_of_notMem_rootLinks {n : ℕ} {r : ℕ} (R : RootCoordinates n r)
+    (t t' : Fin r → ℝ) (u : Fin R.restCount → ℝ) (i : Fin n) (hi : i ∉ R.rootLinks) :
     R.equiv.symm (t, u) i = R.equiv.symm (t', u) i := by
   funext j
   rw [R.equiv_symm_apply, R.equiv_symm_apply]

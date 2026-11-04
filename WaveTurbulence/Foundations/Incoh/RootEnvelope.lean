@@ -25,26 +25,26 @@ open scoped ENNReal
 namespace WaveTurbulence.Incoh
 
 /-- The envelope retains every link factor except those touched by the two roots. -/
-@[expose] def RootCoordinates.envelopeFactor {d n : ℕ} (R : RootCoordinates n)
+@[expose] def RootCoordinates.envelopeFactor {d n : ℕ} {r : ℕ} (R : RootCoordinates n r)
     (L γ δ : ℝ) (Q : Fin n → LayerLink d) (i : Fin n) (t : Fin 2 → ℝ) : ℝ≥0∞ :=
   if i ∈ R.rootLinks then ENNReal.ofReal ((5 * L) ^ (2 * d)) else ‖linkTimeFactor L γ δ (Q i) t‖ₑ
 
 /-- The literal root-link envelope on the source product of layer boxes. -/
-@[expose] def RootCoordinates.envelope {d n : ℕ} (R : RootCoordinates n)
+@[expose] def RootCoordinates.envelope {d n : ℕ} {r : ℕ} (R : RootCoordinates n r)
     (L γ δ : ℝ) (Q : Fin n → LayerLink d) (t : Fin n → Fin 2 → ℝ) : ℝ≥0∞ :=
   (univ.pi (fun i => linkBox (Q i))).indicator (fun t => ∏ i, R.envelopeFactor L γ δ Q i (t i)) t
 
 /-- The lower endpoints provide a canonical point of the unit root box. -/
-@[expose] def RootCoordinates.baseRootTimes {d n : ℕ} (R : RootCoordinates n)
-    (Q : Fin n → LayerLink d) (a : Fin 2) : ℝ := vertexLayer Q (R.rootVertex a)
+@[expose] def RootCoordinates.baseRootTimes {d n : ℕ} {r : ℕ} (R : RootCoordinates n r)
+    (Q : Fin n → LayerLink d) (a : Fin r) : ℝ := vertexLayer Q (R.rootVertex a)
 
-theorem RootCoordinates.baseRootTimes_mem {d n : ℕ} (R : RootCoordinates n)
+theorem RootCoordinates.baseRootTimes_mem {d n : ℕ} {r : ℕ} (R : RootCoordinates n r)
     (Q : Fin n → LayerLink d) : R.baseRootTimes Q ∈ R.rootBox Q := by
   constructor
   · intro a; exact le_rfl
   · intro a; change (vertexLayer Q (R.rootVertex a) : ℝ) ≤ (vertexLayer Q (R.rootVertex a) : ℝ) + 1; linarith
 
-theorem RootCoordinates.measurable_envelope {d n : ℕ} (R : RootCoordinates n)
+theorem RootCoordinates.measurable_envelope {d n : ℕ} {r : ℕ} (R : RootCoordinates n r)
     {L : ℝ} (hL : 0 < L) (γ δ : ℝ) (Q : Fin n → LayerLink d) :
     Measurable (R.envelope L γ δ Q) := by
   apply Measurable.indicator _ (MeasurableSet.univ_pi fun i => measurableSet_Icc)
@@ -57,8 +57,8 @@ theorem RootCoordinates.measurable_envelope {d n : ℕ} (R : RootCoordinates n)
     exact ((continuous_linkTimeFactor hL γ δ (Q i)).measurable.comp (measurable_pi_apply i)).enorm
 
 /-- The envelope is exactly independent of the roots on their unit box. -/
-theorem RootCoordinates.envelope_factorization {d n : ℕ} (R : RootCoordinates n)
-    (L γ δ : ℝ) (Q : Fin n → LayerLink d) (t : Fin 2 → ℝ) (u : Fin R.restCount → ℝ) :
+theorem RootCoordinates.envelope_factorization {d n : ℕ} {r : ℕ} (R : RootCoordinates n r)
+    (L γ δ : ℝ) (Q : Fin n → LayerLink d) (t : Fin r → ℝ) (u : Fin R.restCount → ℝ) :
     R.envelope L γ δ Q (R.equiv.symm (t, u)) =
       (R.rootBox Q).indicator (fun _ => R.envelope L γ δ Q (R.equiv.symm (R.baseRootTimes Q, u))) t := by
   by_cases ht : t ∈ R.rootBox Q
@@ -83,8 +83,8 @@ theorem RootCoordinates.envelope_factorization {d n : ℕ} (R : RootCoordinates 
     rw [envelope, Set.indicator_of_notMem hB, Set.indicator_of_notMem (s := R.rootBox Q) ht]
 
 /-- Each root fiber of the literal envelope is bounded by its full absolute integral. -/
-theorem RootCoordinates.lintegral_envelope_fiber_le {d n : ℕ} (R : RootCoordinates n)
-    {L : ℝ} (hL : 0 < L) (γ δ : ℝ) (Q : Fin n → LayerLink d) (t : Fin 2 → ℝ) :
+theorem RootCoordinates.lintegral_envelope_fiber_le {d n : ℕ} {r : ℕ} (R : RootCoordinates n r)
+    {L : ℝ} (hL : 0 < L) (γ δ : ℝ) (Q : Fin n → LayerLink d) (t : Fin r → ℝ) :
     (∫⁻ u, R.envelope L γ δ Q (R.equiv.symm (t, u))) ≤ ∫⁻ v, R.envelope L γ δ Q v := by
   have hG := (R.measurable_envelope hL γ δ Q).comp R.equiv.symm.measurable
   have h := lintegral_fiber_le_of_unit_box_factorization measurableSet_Icc (R.volume_rootBox Q)
