@@ -339,15 +339,16 @@ section Pieces
 variable {P : Type*} [MeasurableSpace P] {V : Type}
 
 /-- **One piece of Lemma G**: the function `G(p, λ₀, α, t)` is, for `t ∈ [0, 1]`,
-`∫ H(p, λ₀; α ∘ f, ξ) e^{πi fr(ξ) t} dξ` for a symbol `H` with `FRep` bounds uniform in `(p, λ₀)`. -/
+`∫ H(p, λ₀; α ∘ f, ξ) e^{πi fr(ξ) t} dξ` for a symbol `H` on `ℝ × Ξ` with `FRep` bounds uniform in
+`(p, λ₀)`, where the frequency is a shear `fr(u, η) = u + b(η)` (in Lemma G, `u = v` and `b(η) = γ₁`). -/
 @[expose] def LGPiece (θ a b A N : ℝ) (S : Set V) (G : P → ℝ → (V → ℝ) → ℝ → ℂ) : Prop :=
   ∃ (ι : Type) (_ : Fintype ι) (f : ι → V) (Ξ : Type) (_ : MeasureSpace Ξ)
-    (_ : SFinite (volume : Measure Ξ)) (fr : Ξ → ℝ) (H : P → ℝ → (ι → ℝ) → Ξ → ℂ),
-    Function.Injective f ∧ Set.range f = S ∧ Measurable fr ∧
-    (∀ p L0, FRep θ a b A N fr (H p L0)) ∧
-    Measurable (fun x : (P × ℝ) × ((ι → ℝ) × Ξ) => H x.1.1 x.1.2 x.2.1 x.2.2) ∧
+    (_ : SFinite (volume : Measure Ξ)) (bfr : Ξ → ℝ) (H : P → ℝ → (ι → ℝ) → ℝ × Ξ → ℂ),
+    Function.Injective f ∧ Set.range f = S ∧ Measurable bfr ∧
+    (∀ p L0, FRep θ a b A N (fun ξ => ξ.1 + bfr ξ.2) (H p L0)) ∧
+    Measurable (fun x : (P × ℝ) × ((ι → ℝ) × (ℝ × Ξ)) => H x.1.1 x.1.2 x.2.1 x.2.2) ∧
     ∀ p L0 α, ∀ t ∈ Icc (0 : ℝ) 1,
-      G p L0 α t = ∫ ξ, H p L0 (α ∘ f) ξ * cexp (π * I * (fr ξ * t))
+      G p L0 α t = ∫ ξ, H p L0 (α ∘ f) ξ * cexp (π * I * ((ξ.1 + bfr ξ.2) * t))
 
 variable {θ a b A N : ℝ} {S : Set V} {T : P → (V → ℝ) → ℝ → ℝ → ℂ}
 
@@ -360,7 +361,7 @@ theorem MJ.lgpiece (hT : MJ θ A N S T) (hθ0 : 0 ≤ θ) (hθ1 : θ ≤ 1) (ha 
   obtain ⟨n, R, c, hbd, hs, he'⟩ := hT'
   have hA0 : 0 ≤ A := A1_nonneg.trans hA
   have hK : 0 ≤ 12 * CE * Ir 2 := by have := CE_nonneg; have := Ir2_nonneg; positivity
-  refine ⟨ι, hι, f, ℝ × ((ℝ × ℝ) × ℝ), inferInstance, inferInstance, fun ζ => ζ.1 + ζ.2.1.1,
+  refine ⟨ι, hι, f, (ℝ × ℝ) × ℝ, inferInstance, inferInstance, fun η => η.1.1,
     fun p L0 => aGs R p L0, hf, hr, by fun_prop,
     fun p L0 => (frep_aGs hbd hθ0 hθ1 ha hb hab hA p L0).mono
       (mul_le_mul_of_nonneg_left hs hK) hA0, ?_, fun p L0 α t ht => ?_⟩
@@ -390,8 +391,6 @@ theorem MJ.lgpiece (hT : MJ θ A N S T) (hθ0 : 0 ≤ θ) (hθ1 : θ ≤ 1) (ha 
     rw [← integral_finsetSum _ fun i _ => ?_]
     · refine integral_congr_ae (Eventually.of_forall fun ζ => ?_)
       simp only [aGs, Finset.sum_mul]
-      push_cast
-      rfl
     · refine (integrable_aG _ ((hbd i).bound p).reg L0 _).mul_bdd (c := 1) (by fun_prop)
         (Eventually.of_forall fun ζ => ?_)
       rw [Complex.norm_exp]; simp
@@ -407,8 +406,8 @@ theorem MR0.lgpiece (hT : MR0 θ A N S T) (hθ0 : 0 ≤ θ) (hθ1 : θ < 1) (ha 
   · left
     obtain ⟨n, R, c, hbd, hs, he'⟩ := hT'
     have hA0 : 0 ≤ A := A1_nonneg.trans hA
-    refine ⟨Option ι, inferInstance, f, ℝ × ((ℝ × ℝ × ℝ) × ℝ), inferInstance, inferInstance,
-      fun ζ => ζ.1 + ζ.2.1.1, fun p L0 => aRs R p L0, hf, hr, by fun_prop,
+    refine ⟨Option ι, inferInstance, f, (ℝ × ℝ × ℝ) × ℝ, inferInstance, inferInstance,
+      fun η => η.1.1, fun p L0 => aRs R p L0, hf, hr, by fun_prop,
       fun p L0 => (frep_aRs hbd hθ0 hθ1 ha hb hab1 hab hA p L0).mono
         (mul_le_mul_of_nonneg_left hs (KRs_nonneg θ a b)) hA0, ?_, fun p L0 α t ht => ?_⟩
     · change Measurable fun x : (P × ℝ) × ((Option ι → ℝ) × (ℝ × ((ℝ × ℝ × ℝ) × ℝ))) =>
@@ -447,8 +446,6 @@ theorem MR0.lgpiece (hT : MR0 θ A N S T) (hθ0 : 0 ≤ θ) (hθ1 : θ < 1) (ha 
       rw [← integral_finsetSum _ fun i _ => ?_]
       · refine integral_congr_ae (Eventually.of_forall fun ζ => ?_)
         simp only [aRs, Finset.sum_mul]
-        push_cast
-        rfl
       · have hreg := aR_symReg hθ0 hA ((hbd i).bound p) L0
         refine (hreg.integrable _).mul_bdd (c := 1) (by fun_prop)
           (Eventually.of_forall fun ζ => ?_)
