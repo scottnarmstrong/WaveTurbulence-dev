@@ -218,3 +218,30 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   obligation (couples and trees, tree count with the root sign fixed — it fails at m = 0 otherwise) to the B2 §4
   statements before the B2 freeze; R15-3: the general-couple skeleton uniqueness (DH21 L833, GAP.skeletonUniq) is
   packet C3's, not discharged by REG-STRUCT.
+- F56 — Wave B snapshot 5 `WaveB1-Sumint.lean` `SumintDatum.phase` (L197–L215) vs TARGET (sumintI1) L1608–L1611 —
+  **our statement bug**: `∏ i, (…) * ∏ i : {i // D.S.nor i = true}, …` parses as `∏ i, ((…) * ∏ i' : Nor, …)`
+  (Mathlib's `∏ x, body` parses `body` at precedence 67, and `*` is 70), so the normal-block product is repeated `I`
+  times. Fix: `(∏ i, (…)) * ∏ i : Nor, …`, in snapshot 6 (with B1.12). Found by wt-anfourier (SUMINT). Lesson:
+  sweep every frozen candidate for big-operator scope errors (`∑`/`∏` bodies continuing past `*`, `•`, `^`); `∑`
+  stops before `+` (65 < 67) but not before `*`.
+- F57 — TARGET `defblock` L1328–L1331 and DH23 Def 4.10 (concatenation of blocks) — the claim that the concatenation
+  of two (degree-only) blocks sharing a joint is a block/hyper-block is false: kernel counterexample
+  `MoleculeBlockEdgeCase` (loops at atoms 0, 2, 4, opposite double bonds 1–2, 3–4; A = {0,1,2}, B = {0,3,4}). The
+  minimal correction is internal connectedness of each block/adjoint, used throughout MOLE's overlap proof. **B2
+  drafting item:** the B2 block definitions are degree-only and must add connectedness before the B2 freeze. Found by
+  wt-nt (MOLE). Status: candidate erratum (missing hypothesis).
+- F58 — TARGET `propcplmol` L1304–L1306 — the irreducible-garden sentence omits the qualifier "nontrivial" that the
+  couple sentence has; the trivial paired roots give n = E = 0, contradicting E = 2n − R at R = 1. The B2
+  characterization already assumes positive order. Found by wt-nt (MOLE). Status: minor erratum.
+- F59 — Wave B2 draft (deviation ratio docstring) — identifies the deviation ratio with a least operation bound with no
+  denominator condition; fails at (1, 0) (`deviation_zero_denominator_counterexample`). MOLE's cut API handles the
+  zero case. **B2 drafting item** (docstring/statement precision). Found by wt-nt (MOLE).
+- F60 — DH21-2 L830 (reconstruction proof) — "this does affect the result" should read "does not". Typo. Found by
+  wt-nt (MOLE).
+- F61 — DH21 Lemma 7.3 (L1737) vs DH21 Lemma 5.8 (proof) — Lemma 7.3 writes `+χ_∞(α)/(επiα)·I_μ`, while the proof of
+  Lemma 5.8 and the landed Lean identity (`ClassJR`, JR-OPS) give `−I_μ`, and DH21 sets `ε_j = ζ_n` with no extra
+  sign. Read literally, the `Z`-terms of the Prop 5.1 expansion pick up `(−1)^{|Z|}`, contradicting TARGET
+  (regref1-3)'s claim that `𝒥ℬ*` does not depend on `Z` unless the per-node sign of `Ω = −2⟨k₁−k, k₃−k⟩` compensates.
+  The final WKE identity is probably unaffected, but the Wave B2 per-couple bound B2.1(1) would be false with a wrong
+  sign. Found by wt-orch (Task 16, audits/JR-OPS.md W2). Status: **open — trace before the B2 freeze** (assigned to
+  wt-wke with J3).

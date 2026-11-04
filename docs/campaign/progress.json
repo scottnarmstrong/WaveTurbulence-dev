@@ -1,5 +1,5 @@
 {
- "assessed": "2026-11-04 01:10 UTC",
+ "assessed": "2026-11-04 02:00 UTC",
  "notes": "Lean work items = blueprint packets (docs/blueprint/GRAPH.md §E) with their difficulty weights (node weights L=1, M=2, H=4, VH=8 summed). Each frozen theorem anchor adds weight 1, credited when SEALED. Done fractions are the orchestrator's assessment, reviewed at integration rounds.",
  "lines_est_total": 273000,
  "parts": [
@@ -225,8 +225,8 @@
      "goal": "molecules (half-edge encoding, F40), molecules of gardens and their decorations, cuts, counting quantities MOL.countq (review I9), propcplmol, DH21-2 Prop 6.4",
      "weight": 15.0,
      "lines_est": 4900,
-     "done": 0.1,
-     "note": "MOLE started (scratch)"
+     "done": 0.9,
+     "note": "MOLE done in scratch: garden molecules, root-compatible decorations, reconstruction (C₀=20736), cuts; moves to Foundations at the freeze"
     },
     {
      "id": "C1",
@@ -279,8 +279,8 @@
      "goal": "blocks, hyper-blocks, disjointlem, realizations",
      "weight": 6.0,
      "lines_est": 1600,
-     "done": 0.0,
-     "note": ""
+     "done": 0.9,
+     "note": "blocks, hyper-blocks, realizations, overlap classification (connected convention, F57) in scratch"
     },
     {
      "id": "NT7",
@@ -378,8 +378,8 @@
      "goal": "time coefficients ℬ_Q, recursions, class J/R operators (DH21 §5.1–Lemma 5.5)",
      "weight": 7.0,
      "lines_est": 3800,
-     "done": 0.9,
-     "note": "time coefficients and class J/R operators, DH21 Lemmas 5.3-5.5 landed"
+     "done": 1.0,
+     "note": "done: time coefficients, class J/R operators, DH21 Lemmas 5.3-5.5"
     },
     {
      "id": "L1",
@@ -477,8 +477,8 @@
      "goal": "DH21 Lemmas 5.6–5.10",
      "weight": 8.0,
      "lines_est": 4000,
-     "done": 0.5,
-     "note": "DH21 Lemmas 5.6-5.8 and the 5.9 steps landed; 5.9 induction, 5.10 next (wt-wke)"
+     "done": 1.0,
+     "note": "done: DH21 Lemmas 5.6-5.10 (legal-partition induction, ≤ 2^m expansion); sign F61 open (traced in J3)"
     },
     {
      "id": "L2",
@@ -504,8 +504,8 @@
      "goal": "DH21 Prop 5.1 (with DH23 weights)",
      "weight": 4.0,
      "lines_est": 3000,
-     "done": 0.0,
-     "note": ""
+     "done": 0.05,
+     "note": "MAINCOEF started (wt-wke): DH21 Prop 5.1 with DH23 weights"
     },
     {
      "id": "X1",
@@ -756,8 +756,8 @@
      "goal": "flower adjustments on the general carriers (WAVE-B G-1, F26), deterministic flower bound (gate B1.12), flowerest1, ∂_t bounds; 2–3 days: split",
      "weight": 16.0,
      "lines_est": 8900,
-     "done": 0.0,
-     "note": ""
+     "done": 0.25,
+     "note": "X2 moment layer done in scratch (flowerest1/flowerest2 from B1.12, conditional on the named obligation O-X2-EXP = INDUCT graft bijection)"
     },
     {
      "id": "X3",
@@ -765,8 +765,8 @@
      "goal": "fixedest1–4 and fixedpoint",
      "weight": 9.0,
      "lines_est": 3400,
-     "done": 0.0,
-     "note": ""
+     "done": 0.05,
+     "note": "FIXEDPT started (wt-gauss-hc, /home/scott/wt-scratch/fixedpt)"
     },
     {
      "id": "I2",
