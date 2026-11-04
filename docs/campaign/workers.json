@@ -4,7 +4,7 @@
   "model": "Claude Opus",
   "account": "claude-1",
   "branch": "w/orch",
-  "packet": "B2 drafting: CL-11 (F61 specialWeight sign), Task 20 B2 change list; done: B2 fixes CL-4..CL-10, snapshot-6 audit",
+  "packet": "Task 27: B2 freeze candidate final + author review page WAVE-B-B2.md; done: B2 audits, PL1/DEGEN/LINKS/ENHANCED/LAYERREG/CLCN pre-freeze audits, B1 freeze branch",
   "brief": "docs/campaign/orch/TASK4.md"
  },
  {
@@ -52,8 +52,8 @@
   "model": "GPT-6.1-Sol low",
   "account": "codex-3",
   "branch": "w/bproc",
-  "packet": "G6 MOLEPROP13 (pre-freeze): DH23 Props 10.1, 10.3; then G7 MOLEPROP4 (DEGEN done)",
-  "brief": "docs/campaign/briefs/MOLEPROP13.md"
+  "packet": "G7 MOLEPROP4 (pre-freeze): DH23 ylem1/2, Prop 10.4 (PV-DECAY F-5, G6, DEGEN done)",
+  "brief": "docs/campaign/briefs/PV-DECAY.md"
  },
  {
   "tmux": "wt-gausssum",
