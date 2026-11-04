@@ -99,6 +99,7 @@ section Bundles
 @[expose] def y4 (f : ι₁ → ℤ) (g : ι₂ → ℤ) (e₀ e₁ : ℤ) : (ι₁ ⊕ ι₂) ⊕ Fin 2 → ℤ :=
   Sum.elim (Sum.elim f g) ![e₀, e₁]
 
+omit [Fintype ι₁] [Fintype ι₂] in
 theorem isBundle_y4 {f : ι₁ → ℤ} {g : ι₂ → ℤ} {e₀ e₁ : ℤ} (hf : IsBundle f) (hg : IsBundle g)
     (he₀ : |e₀| ≤ 1) (he₁ : |e₁| ≤ 1) : IsBundle (y4 f g e₀ e₁) := by
   rintro ((i | i) | r)
@@ -185,6 +186,7 @@ theorem formsV_RR_two {Q : Type*} (α : (ι₁ ⊕ ι₂) ⊕ Fin 2 → ℝ)
   push_cast
   ring
 
+omit [Fintype ι₁] [Fintype ι₂] in
 theorem vS_elim2 (a : ι₁ ⊕ ι₂ → ℝ) (s : Fin 2 → ℝ) (r : Fin 2) :
     (Sum.elim a s : (ι₁ ⊕ ι₂) ⊕ Fin 2 → ℝ) (Sum.inr r) = s r := rfl
 

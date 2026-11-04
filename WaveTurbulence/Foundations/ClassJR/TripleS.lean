@@ -171,12 +171,15 @@ theorem contDiff_vB : ContDiff ℝ ∞ (vB : ((κ₁ ⊕ κ₂) ⊕ σ → ℝ) 
   contDiff_pi.2 fun i => (ContinuousLinearMap.proj (R := ℝ)
     (φ := fun _ : (κ₁ ⊕ κ₂) ⊕ σ => ℝ) (Sum.inl (Sum.inr i))).contDiff
 
+omit [Fintype κ₁] [Fintype κ₂] [Fintype σ] in
 theorem measurable_vA : Measurable (vA : ((κ₁ ⊕ κ₂) ⊕ σ → ℝ) → κ₁ → ℝ) :=
   Measurable.of_eval fun _ => measurable_pi_apply _
 
+omit [Fintype κ₁] [Fintype κ₂] [Fintype σ] in
 theorem measurable_vB : Measurable (vB : ((κ₁ ⊕ κ₂) ⊕ σ → ℝ) → κ₂ → ℝ) :=
   Measurable.of_eval fun _ => measurable_pi_apply _
 
+omit [Fintype κ₁] [Fintype κ₂] [Fintype σ] in
 theorem measurable_vS : Measurable (vS : ((κ₁ ⊕ κ₂) ⊕ σ → ℝ) → σ → ℝ) :=
   Measurable.of_eval fun _ => measurable_pi_apply _
 
@@ -303,12 +306,14 @@ theorem lintegral_special_le {F₁ : P → ℝ≥0∞} {F₂ : P' → ℝ≥0∞
         rw [lintegral_mul_const _ (h₁.mul_const _), lintegral_mul_const _ h₁]
         ring
 
+omit [SFinite (volume : Measure Q)] in
 theorem measurable_enorm_iteratedFDeriv_K (hK : ∀ q, ContDiff ℝ ∞ fun x => K x q)
     (hKm : StronglyMeasurable (Function.uncurry K)) (c : ℕ) :
     Measurable fun p : (Fin n → ℝ) × Q => ‖iteratedFDeriv ℝ c (fun x => K x p.2) p.1‖ₑ :=
   (stronglyMeasurable_uncurry_iteratedFDeriv_param (f := K) hK
-    (fun x => hKm.comp_measurable (measurable_const.prodMk measurable_id)) c).enorm
+    (fun _ => hKm.comp_measurable (measurable_const.prodMk measurable_id)) c).enorm
 
+omit [SFinite (volume : Measure Q)] in
 theorem measurable_enorm_iteratedFDeriv_K_comp {X : Type*} [MeasurableSpace X]
     (hK : ∀ q, ContDiff ℝ ∞ fun x => K x q) (hKm : StronglyMeasurable (Function.uncurry K))
     (c : ℕ) {g : X → Fin n → ℝ} {h : X → Q} (hg : Measurable g) (hh : Measurable h) :

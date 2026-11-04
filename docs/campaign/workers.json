@@ -1,90 +1,90 @@
 [
- {
-  "tmux": "wt-orch",
-  "model": "Claude Opus",
-  "account": "claude-1",
-  "branch": "w/orch",
-  "packet": "audits: Task 12 seal audit wkelwp, Task 13 FLOWER redraft (done: Task 11 pre-freeze review)",
-  "brief": "docs/campaign/orch/TASK4.md"
- },
- {
-  "tmux": "wt-gauss-hc",
-  "model": "Claude Opus",
-  "account": "claude-10",
-  "branch": "w/waveb-infra",
-  "packet": "O-FK (pre-freeze): flower kernel-operator identity for X2 (FLOWER redraft + B1.12 done, awaiting audit)",
-  "brief": "docs/campaign/briefs/FLOWER.md"
- },
- {
-  "tmux": "wt-torus",
-  "model": "Claude Opus",
-  "account": "claude-14",
-  "branch": "w/approxnt",
-  "packet": "C2 LINKS (pre-freeze): links, coherence, auxlem, treelemma (APPROXNT done)",
-  "brief": "docs/campaign/briefs/LINKS.md"
- },
- {
-  "tmux": "wt-wke",
-  "model": "Claude Opus",
-  "account": "claude-13",
-  "branch": "w/jr-ops",
-  "packet": "JR-OPS: DH21 class J/R operators, Lemmas 5.3–5.8 (critical path; WKE + WKE-TAYLOR landed)",
-  "brief": "docs/campaign/briefs/JR-OPS.md"
- },
- {
-  "tmux": "wt-cumul",
-  "model": "GPT-6.1-Sol low",
-  "account": "codex-3",
-  "branch": "w/norm-bridge",
-  "packet": "I1+I2 INDUCT (pre-freeze, conditional): propansatz from layergarden/fixedpoint/wkeTaylor; main assembly done",
-  "brief": "docs/campaign/briefs/INDUCT.md"
- },
- {
-  "tmux": "wt-nt",
-  "model": "GPT-6.1-Sol low",
-  "account": "codex-3",
-  "branch": "w/nt-circle",
-  "packet": "M1+M2 MOLE (pre-freeze): molecules, decorations, reconstruction, blocks, cuts, 𝔈/𝔄/𝔇𝔢𝔳 (circle e<2/3 done by wt-ansob)",
-  "brief": "docs/campaign/briefs/MOLE.md"
- },
- {
-  "tmux": "wt-ansob",
-  "model": "GPT-6.1-Sol low",
-  "account": "codex-3",
-  "branch": "w/bproc",
-  "packet": "G6 MOLEPROP13 (pre-freeze): DH23 Props 10.1, 10.3, then G4 APPB-OPS (DEGEN done)",
-  "brief": "docs/campaign/briefs/MOLEPROP13.md"
- },
- {
-  "tmux": "wt-gausssum",
-  "model": "GPT-6.1-Sol low",
-  "account": "codex-3",
-  "branch": "w/count",
-  "packet": "M4 VINES (pre-freeze), then M9 VINEPARAM (COUNT done, landed)",
-  "brief": "docs/campaign/briefs/VINES.md"
- },
- {
-  "tmux": "wt-resonant",
-  "model": "GPT-6.1-Sol low",
-  "account": "codex-3",
-  "branch": "w/resonant",
-  "packet": "D4+C1 REG-STRUCT (pre-freeze): regular chains, DH21 Props 4.5–4.10, structure theorem, counting (COMB-CORE done in scratch)",
-  "brief": "docs/campaign/briefs/REG-STRUCT.md"
- },
- {
-  "tmux": "wt-anfourier",
-  "model": "GPT-6.1-Sol low",
-  "account": "codex-3",
-  "branch": "w/an-phase",
-  "packet": "V1+V2 SUMINT (pre-freeze): prove the Wave B statement sumint (N2+N3 done)",
-  "brief": "docs/campaign/briefs/SUMINT.md"
- },
- {
-  "tmux": "wt-l2s",
-  "model": "GPT-6.1-Sol low",
-  "account": "codex-3",
-  "branch": "w/wke-l2s",
-  "packet": "L1+L2 PL1: TARGET Prop 5.1 proplayer1 (NLS-BRIDGE done: nlsAkBridge proved)",
-  "brief": "docs/campaign/briefs/PL1.md"
- }
+  {
+    "tmux": "wt-orch",
+    "model": "Claude Opus",
+    "account": "claude-1",
+    "branch": "w/orch",
+    "packet": "Task 19: apply B2 draft fixes (F57 GroupConnected, F58, F59, R15-1/R15-2); done: snapshot-6 audit PASS, MOLE/COUNT/JR-OPS/NLS-BRIDGE/APPROXNT audits",
+    "brief": "docs/campaign/orch/TASK4.md"
+  },
+  {
+    "tmux": "wt-gauss-hc",
+    "model": "Claude Opus",
+    "account": "claude-10",
+    "branch": "w/waveb-infra",
+    "packet": "X2 moment expansion (flowerest1 probabilistic part), then X3 FIXEDPT (pre-freeze); X1 FLOWER, B1.12 final, B2 ladder fix done",
+    "brief": "docs/campaign/briefs/FLOWER.md"
+  },
+  {
+    "tmux": "wt-torus",
+    "model": "Claude Opus",
+    "account": "claude-14",
+    "branch": "w/approxnt",
+    "packet": "C2 LINKS (pre-freeze): links, coherence, auxlem, treelemma (APPROXNT done)",
+    "brief": "docs/campaign/briefs/LINKS.md"
+  },
+  {
+    "tmux": "wt-wke",
+    "model": "Claude Opus",
+    "account": "claude-13",
+    "branch": "w/jr-ops",
+    "packet": "J2 rest (DH21 Lemmas 5.9-5.10) then J3 MAINCOEF (DH21 Prop 5.1); JR-OPS 5.3-5.8 done",
+    "brief": "docs/campaign/briefs/JR2-MAINCOEF.md"
+  },
+  {
+    "tmux": "wt-cumul",
+    "model": "GPT-6.1-Sol low",
+    "account": "codex-3",
+    "branch": "w/norm-bridge",
+    "packet": "I1+I2 INDUCT (pre-freeze, conditional): propansatz from layergarden/fixedpoint/wkeTaylor; main assembly done",
+    "brief": "docs/campaign/briefs/INDUCT.md"
+  },
+  {
+    "tmux": "wt-nt",
+    "model": "GPT-6.1-Sol low",
+    "account": "codex-3",
+    "branch": "w/nt-circle",
+    "packet": "M3 CLCN (pre-freeze): (CL)/(CN), blockchainprop, cnblock (MOLE M1+M2 done)",
+    "brief": "docs/campaign/briefs/CLCN.md"
+  },
+  {
+    "tmux": "wt-ansob",
+    "model": "GPT-6.1-Sol low",
+    "account": "codex-3",
+    "branch": "w/bproc",
+    "packet": "G6 MOLEPROP13 (pre-freeze): DH23 Props 10.1, 10.3, then G4 APPB-OPS (DEGEN done)",
+    "brief": "docs/campaign/briefs/MOLEPROP13.md"
+  },
+  {
+    "tmux": "wt-gausssum",
+    "model": "GPT-6.1-Sol low",
+    "account": "codex-3",
+    "branch": "w/count",
+    "packet": "M4 VINES (pre-freeze), then M9 VINEPARAM (COUNT done, landed)",
+    "brief": "docs/campaign/briefs/VINES.md"
+  },
+  {
+    "tmux": "wt-resonant",
+    "model": "GPT-6.1-Sol low",
+    "account": "codex-3",
+    "branch": "w/resonant",
+    "packet": "D4+C1 REG-STRUCT (pre-freeze): regular chains, DH21 Props 4.5–4.10, structure theorem, counting (COMB-CORE done in scratch)",
+    "brief": "docs/campaign/briefs/REG-STRUCT.md"
+  },
+  {
+    "tmux": "wt-anfourier",
+    "model": "GPT-6.1-Sol low",
+    "account": "codex-3",
+    "branch": "w/an-phase",
+    "packet": "V1+V2 SUMINT (pre-freeze): prove the Wave B statement sumint (N2+N3 done)",
+    "brief": "docs/campaign/briefs/SUMINT.md"
+  },
+  {
+    "tmux": "wt-l2s",
+    "model": "GPT-6.1-Sol low",
+    "account": "codex-3",
+    "branch": "w/wke-l2s",
+    "packet": "L1+L2 PL1: TARGET Prop 5.1 proplayer1 (NLS-BRIDGE done: nlsAkBridge proved)",
+    "brief": "docs/campaign/briefs/PL1.md"
+  }
 ]

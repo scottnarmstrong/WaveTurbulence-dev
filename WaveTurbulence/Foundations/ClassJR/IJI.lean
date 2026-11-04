@@ -413,7 +413,7 @@ theorem gamma_KIcb_le {θ : ℝ} (h0 : 0 ≤ θ) (h1 : θ < 1) {ε : ℤ} (hε :
     ∫⁻ q : Unit, ∫⁻ s : Unit → ℝ, ((1 + ‖v s q 0‖ₑ) ^ θ + 2 * (1 + ‖v s q 1‖ₑ) ^ θ + 1) *
       ‖iteratedFDeriv ℝ c (fun x => KIcb x q) (v s q)‖ₑ ≤
         gev (16 * Cθ θ * (CPhi * CPhi)) A c :=
-  le_trans (lintegral_mono fun q => lintegral_mono fun s =>
+  le_trans (lintegral_mono fun q => lintegral_mono fun _ =>
     mul_le_mul' le_rfl (enorm_iteratedFDeriv_KIcb c _ q))
     (gamma_KPR_le h0 h1 hε hε Y X v hv0 hv1 c hA)
 

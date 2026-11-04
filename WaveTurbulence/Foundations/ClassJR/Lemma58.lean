@@ -6,6 +6,7 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.ClassJR.InvBounds
+public import WaveTurbulence.Foundations.ClassJR.Param
 
 /-!
 # DH21 Lemma 5.8: `I_{εα₁} I_{μ₁-εα₁}`
@@ -21,6 +22,10 @@ The kernel is `e^{πiμ₁s} E(εα₁, t-s)`, and splitting `E` with `χ₀ + �
 The variables are `α : Option Empty → ℝ` (`α₁ = α none`), so the class `R` part has special
 variable `α₁` and no other variables; `𝒥_{α[ ],μ₁}` has the variables `Empty`. All bounds are
 uniform in `μ₁`; the class `J` bound needs `θ < 1` (the error decays like `(1+|α₁|)^{-2}`).
+
+The pieces are parametric in `μ₁` (`JSymP ℝ`, `RSymP ℝ`): their symbols do not depend on `μ₁`, which
+only enters the coefficient maps, so they are jointly measurable (`iker_comp_decompP`, consumed in
+DH21 Proposition 5.1 where `μ₁` is a sum of integration variables).
 -/
 
 public section
@@ -201,29 +206,31 @@ theorem integral_prodUnit (f : ℝ × Unit → ℂ) : ∫ z, f z = ∫ g, f (g, 
 theorem gev_zero_eq (N A : ℝ) : gev N A 0 = ENNReal.ofReal N := by simp [gev]
 
 /-- **The piece `-J_{0;0,μ}`** (no variables). -/
-theorem exists_piece_58_0 (h0 : 0 ≤ θ) (h1 : θ ≤ 1) (μ : ℝ) :
-    ∃ S : JSym Empty, S.Bound θ A CM0 ∧ ∀ α t s, t ∈ Icc (0 : ℝ) 1 → s ∈ Icc (0 : ℝ) 1 →
-      S.kernel α t s = -jker 0 0 μ t s := by
-  obtain ⟨S, -, hS, hk⟩ := JSym.ofAny (ι := Empty) (y := 0) isBundle_zero
-    (a := fun _ (_ : Unit) => (-1 : ℂ)) (SymReg.const (integrable_const _)
-      stronglyMeasurable_const) (c := fun _ => ((0 : ℝ), μ)) measurable_const h0 h1
-      (A := A) zero_le_one (fun k => by
+theorem exists_piece_58_0 (h0 : 0 ≤ θ) (h1 : θ ≤ 1) :
+    ∃ S : JSymP ℝ Empty, S.Bound θ A CM0 ∧ ∀ μ α t s, t ∈ Icc (0 : ℝ) 1 →
+      s ∈ Icc (0 : ℝ) 1 → (S.get μ).kernel α t s = -jker 0 0 μ t s := by
+  obtain ⟨S, -, hS, hk⟩ := JSymP.ofAny (P := ℝ) (ι := Empty) (y := 0) isBundle_zero
+    (a := fun _ _ (_ : Unit) => (-1 : ℂ)) (fun _ => SymReg.const (integrable_const _)
+      stronglyMeasurable_const) stronglyMeasurable_const (c := fun μ _ => ((0 : ℝ), μ))
+      (show Measurable fun x : ℝ × Unit => ((0 : ℝ), x.1) from
+        measurable_const.prodMk measurable_fst) h0 h1
+      (A := A) zero_le_one (fun μ k => by
         rw [lintegral_emptyFun, lintegral_unit, wJ_emptyFun,
           show (1 + ‖((0 : ℝ), μ).1‖ₑ) ^ θ = 1 by simp, one_mul]
         refine (dnorm_const_le k _ _ _).trans ?_
         split_ifs with hk
         · subst hk; simp [gev]
         · simp)
-  refine ⟨S, by simpa using hS, fun α t s ht hs => ?_⟩
-  rw [hk α t s ht hs, integral_unit, bundle_emptyFun]
+  refine ⟨S, by simpa using hS, fun μ α t s ht hs => ?_⟩
+  rw [hk μ α t s ht hs, integral_unit, bundle_emptyFun]
   simp
 
 /-- **Piece I of Lemma 5.8**: `∫ M(εα₁, q) J_{0;σ,μ-σ} dq`. -/
 theorem exists_piece_58_M (h0 : 0 ≤ θ) (h1 : θ ≤ 1) (hA : A0 ≤ A) {ε : ℤ}
-    (hε : ε = 1 ∨ ε = -1) (μ : ℝ) :
-    ∃ S : JSym (Option Empty), S.Bound θ A (CM0 * (4 * (CkM * IM))) ∧ ∀ α t s,
+    (hε : ε = 1 ∨ ε = -1) :
+    ∃ S : JSymP ℝ (Option Empty), S.Bound θ A (CM0 * (4 * (CkM * IM))) ∧ ∀ μ α t s,
       t ∈ Icc (0 : ℝ) 1 → s ∈ Icc (0 : ℝ) 1 →
-      S.kernel α t s = ∫ q : ℝ × ℝ, kerM (ε * α none) q * jker 0 q.1 (μ - q.1) t s := by
+      (S.get μ).kernel α t s = ∫ q : ℝ × ℝ, kerM (ε * α none) q * jker 0 q.1 (μ - q.1) t s := by
   have hA0 : 0 ≤ A := A0_nonneg.trans hA
   have hC : 0 ≤ CkM * IM := mul_nonneg kerM_bound.1 IM_nonneg
   have hb := isBundle_yE hε
@@ -243,9 +250,16 @@ theorem exists_piece_58_M (h0 : 0 ≤ θ) (h1 : θ ≤ 1) (hA : A0 ≤ A) {ε : 
         (lintegral_mono fun q => iSup_le fun α => (hd k α q).trans
           (mul_le_of_le_one_left bot_le (ind_le_one _))) }
   have hN : 0 ≤ 4 * (CkM * IM) := by positivity
-  obtain ⟨S, -, hS, hk⟩ := JSym.ofAny (y := (0 : Option Empty → ℤ)) (θ := θ) (A := A)
-    (N := 4 * (CkM * IM)) isBundle_zero hreg
-    (c := fun q : ℝ × ℝ => (q.1, μ - q.1)) (by fun_prop) h0 h1 hN (fun k => by
+  have hm : StronglyMeasurable fun x : ℝ × ((Option Empty → ℝ) × (ℝ × ℝ)) =>
+      kerM (bundle (yE ε) x.2.1) x.2.2 :=
+    hreg.meas.comp_measurable
+      (measurable_snd : Measurable (Prod.snd : ℝ × ((Option Empty → ℝ) × (ℝ × ℝ)) → _))
+  obtain ⟨S, -, hS, hk⟩ := JSymP.ofAny (P := ℝ) (y := (0 : Option Empty → ℤ)) (θ := θ) (A := A)
+    (N := 4 * (CkM * IM)) isBundle_zero (a := fun _ α q => kerM (bundle (yE ε) α) q)
+    (fun _ => hreg) hm (c := fun μ (q : ℝ × ℝ) => (q.1, μ - q.1))
+    (show Measurable fun x : ℝ × (ℝ × ℝ) => (x.2.1, x.1 - x.2.1) from
+      (measurable_fst.comp measurable_snd).prodMk
+        (measurable_fst.sub (measurable_fst.comp measurable_snd))) h0 h1 hN (fun μ k => by
       have hmq : Measurable fun q : ℝ × ℝ => (1 + ‖q.1‖ₑ) * gM k q :=
         (measurable_const.add measurable_fst.enorm).mul (measurable_gM k)
       calc ∫⁻ α, ∫⁻ q, wJ θ α (q.1, μ - q.1).1 *
@@ -289,8 +303,8 @@ theorem exists_piece_58_M (h0 : 0 ≤ θ) (h1 : θ ≤ 1) (hA : A0 ≤ A) {ε : 
         _ ≤ gev (4 * (CkM * IM)) A k := by
             rw [show (2 : ℝ≥0∞) * 2 = ENNReal.ofReal 4 by norm_num, gev_mul_const _ (by norm_num)]
             exact gev_mono le_rfl kerM_bound.2.1 (AkM_le_A0.trans hA) (by positivity) k)
-  refine ⟨S, hS, fun α t s ht hs => ?_⟩
-  rw [hk α t s ht hs]
+  refine ⟨S, hS, fun μ α t s ht hs => ?_⟩
+  rw [hk μ α t s ht hs]
   simp only [bundle_optE, yE, Pi.zero_apply, Int.cast_zero, zero_mul]
 
 end PieceLemmas
@@ -302,17 +316,21 @@ variable {θ A : ℝ}
 attribute [local instance] isFiniteMeasure_volume_unit
 
 /-- **The class `R` part of piece III**: `∫ ρ(g)/(πi) χ_∞(εα₁+g)/(εα₁+g) J_{εα₁;0,μ} dg`. -/
-theorem exists_piece_58_R (h0 : 0 ≤ θ) (h1 : θ ≤ 1) {ε : ℤ} (hε : ε = 1 ∨ ε = -1) (μ : ℝ) :
-    ∃ S : RSym Empty, S.Bound θ A (CM0 * 2) ∧ ∀ α t s, t ∈ Icc (0 : ℝ) 1 →
-      s ∈ Icc (0 : ℝ) 1 → S.kernel α t s =
+theorem exists_piece_58_R (h0 : 0 ≤ θ) (h1 : θ ≤ 1) {ε : ℤ} (hε : ε = 1 ∨ ε = -1) :
+    ∃ S : RSymP ℝ Empty, S.Bound θ A (CM0 * 2) ∧ ∀ μ α t s, t ∈ Icc (0 : ℝ) 1 →
+      s ∈ Icc (0 : ℝ) 1 → (S.get μ).kernel α t s =
         ∫ g, rhoc g * ((chiInvR (ε * α none + g) : ℂ) * jker (ε * α none) 0 μ t s) := by
   have hint : Integrable fun z : ℝ × Unit => rhoc z.1 := by
     rw [Measure.volume_eq_prod]; exact integrable_rhoc.comp_fst _
-  obtain ⟨S, -, -, -, hS, hk⟩ := RSym.ofAny (ι := Empty) (Q := Unit) (θ := θ) (A := A)
-    (N := 2) hε (y₁ := 0) (y₂ := 0) isBundle_zero isBundle_zero
-    (a := fun _ (z : ℝ × Unit) => rhoc z.1)
-    (SymReg.const hint (measurable_rhoc.comp measurable_fst).stronglyMeasurable)
-    (c := fun _ => ((0 : ℝ), μ)) measurable_const h0 h1 zero_le_two (fun k => by
+  obtain ⟨S, -, -, -, hS, hk⟩ := RSymP.ofAny (P := ℝ) (ι := Empty) (Q := Unit) (θ := θ)
+    (A := A) (N := 2) hε (y₁ := 0) (y₂ := 0) isBundle_zero isBundle_zero
+    (a := fun _ _ (z : ℝ × Unit) => rhoc z.1)
+    (fun _ => SymReg.const hint (measurable_rhoc.comp measurable_fst).stronglyMeasurable)
+    ((measurable_rhoc.comp (measurable_fst.comp (measurable_snd.comp
+      measurable_snd))).stronglyMeasurable)
+    (c := fun μ _ => ((0 : ℝ), μ))
+    (show Measurable fun x : ℝ × (ℝ × Unit) => ((0 : ℝ), x.1) from
+      measurable_const.prodMk measurable_fst) h0 h1 zero_le_two (fun μ k => by
       rw [lintegral_emptyFun, lintegral_prodUnit]
       by_cases hk : k = 0
       · subst hk
@@ -345,8 +363,8 @@ theorem exists_piece_58_R (h0 : 0 ≤ θ) (h1 : θ ≤ 1) {ε : ℤ} (hε : ε =
               refine (mul_le_mul' le_rfl (dnorm_const_le k _ _ _)).trans ?_
               simp [hk]
           _ ≤ gev 2 A k := by simp)
-  refine ⟨S, hS, fun α t s ht hs => ?_⟩
-  rw [hk α t s ht hs, integral_prodUnit]
+  refine ⟨S, hS, fun μ α t s ht hs => ?_⟩
+  rw [hk μ α t s ht hs, integral_prodUnit]
   simp only [rker, bundle_emptyFun, zero_add]
 
 /-- The averaging error `χ_∞(x)/x - χ_∞(x+g)/(x+g)`. -/
@@ -394,9 +412,9 @@ theorem rpow_mul_inv_sq {θ : ℝ} (t : ℝ) :
 
 /-- **The class `J` error of piece III.** -/
 theorem exists_piece_58_E (h0 : 0 ≤ θ) (h1 : θ < 1) (hA : A0 ≤ A) {ε : ℤ}
-    (hε : ε = 1 ∨ ε = -1) (μ : ℝ) :
-    ∃ S : JSym (Option Empty), S.Bound θ A (CM0 * ((32 * CPhi + 8) * Ir (2 - θ))) ∧
-      ∀ α t s, t ∈ Icc (0 : ℝ) 1 → s ∈ Icc (0 : ℝ) 1 → S.kernel α t s =
+    (hε : ε = 1 ∨ ε = -1) :
+    ∃ S : JSymP ℝ (Option Empty), S.Bound θ A (CM0 * ((32 * CPhi + 8) * Ir (2 - θ))) ∧
+      ∀ μ α t s, t ∈ Icc (0 : ℝ) 1 → s ∈ Icc (0 : ℝ) 1 → (S.get μ).kernel α t s =
         ∫ g, rhoc g * (((chiInvR (ε * α none) : ℂ) - chiInvR (ε * α none + g)) *
           jker (ε * α none) 0 μ t s) := by
   have hb := isBundle_yE hε
@@ -425,15 +443,21 @@ theorem exists_piece_58_E (h0 : 0 ≤ θ) (h1 : θ < 1) (hA : A0 ≤ A) {ε : �
           exact lintegral_mono fun g => iSup_le fun α => (hd k α g).trans
             (mul_le_mul' le_rfl (exists_errE_bound k _ _)) }
   have hN : 0 ≤ (32 * CPhi + 8) * Ir (2 - θ) := by positivity
-  obtain ⟨S, -, hS, hk⟩ := JSym.ofAny (y := yE ε) (θ := θ) (A := A)
-    (N := (32 * CPhi + 8) * Ir (2 - θ)) hb hreg (c := fun _ : ℝ => ((0 : ℝ), μ))
-    measurable_const h0 h1.le hN (fun k => by
+  have hm : StronglyMeasurable fun x : ℝ × ((Option Empty → ℝ) × ℝ) =>
+      FE (bundle (yE ε) x.2.1) x.2.2 :=
+    hreg.meas.comp_measurable
+      (measurable_snd : Measurable (Prod.snd : ℝ × ((Option Empty → ℝ) × ℝ) → _))
+  obtain ⟨S, -, hS, hk⟩ := JSymP.ofAny (P := ℝ) (y := yE ε) (θ := θ) (A := A)
+    (N := (32 * CPhi + 8) * Ir (2 - θ)) hb (a := fun _ α g => FE (bundle (yE ε) α) g)
+    (fun _ => hreg) hm (c := fun μ (_ : ℝ) => ((0 : ℝ), μ))
+    (show Measurable fun x : ℝ × ℝ => ((0 : ℝ), x.1) from
+      measurable_const.prodMk measurable_fst) h0 h1.le hN (fun μ k => by
       have hK0 : 0 ≤ (32 * CPhi + 8) * (Achi ^ k * ((2 * k).factorial : ℝ)) :=
         mul_nonneg (by linarith) (mul_nonneg (pow_nonneg Achi_nonneg k) (by positivity))
       set C := ENNReal.ofReal ((32 * CPhi + 8) * (Achi ^ k * ((2 * k).factorial : ℝ)))
       have hw : Measurable fun α : Option Empty → ℝ =>
           ENNReal.ofReal ((1 + |α none|) ^ (-(2 - θ))) := by fun_prop
-      calc ∫⁻ α, ∫⁻ g, wJ θ α ((fun _ : ℝ => ((0 : ℝ), μ)) g).1 *
+      calc ∫⁻ α, ∫⁻ g, wJ θ α ((fun μ (_ : ℝ) => ((0 : ℝ), μ)) μ g).1 *
             dnorm k (fun α g => FE (bundle (yE ε) α) g) α g
           ≤ ∫⁻ α : Option Empty → ℝ, ∫⁻ g : ℝ, ‖rhoc g‖ₑ *
               (C * ENNReal.ofReal ((1 + |α none|) ^ (-(2 - θ)))) := by
@@ -472,8 +496,8 @@ theorem exists_piece_58_E (h0 : 0 ≤ θ) (h1 : θ < 1) (hA : A0 ≤ A) {ε : �
             congr 1; ring
         _ ≤ gev ((32 * CPhi + 8) * Ir (2 - θ)) A k :=
             gev_mono le_rfl Achi_nonneg (Achi_le_A0.trans hA) hN k)
-  refine ⟨S, hS, fun α t s ht hs => ?_⟩
-  rw [hk α t s ht hs]
+  refine ⟨S, hS, fun μ α t s ht hs => ?_⟩
+  rw [hk μ α t s ht hs]
   simp only [FE, errE, bundle_yE]
   push_cast
   refine integral_congr_ae (Eventually.of_forall fun g => ?_)
@@ -535,37 +559,55 @@ theorem phiR_jker_eq (x μ t s : ℝ) :
 @[expose] noncomputable def C58J (θ : ℝ) : ℝ :=
   CM0 * (4 * (CkM * IM)) + CM0 * ((32 * CPhi + 8) * Ir (2 - θ))
 
-/-- **DH21 Lemma 5.8** (L1086–L1106): `I_{εα₁} I_{μ₁-εα₁} = Φ(εα₁) 𝒥_{α[ ],μ₁} + 𝒥_{α₁,μ₁} +
-ℛ_{α₁,μ₁}` on the triangle, where `Φ(εα₁) = χ_∞(α₁)/(επiα₁)` (`phiR_sign`), `𝒥_{α[ ]}` has
-no variables, `𝒥_{α₁}` has the variable `α₁ = α none` and `ℛ_{α₁}` has the special variable
-`α₁`; the norms are bounded uniformly in `μ₁` (`0 ≤ θ < 1`, `A ≥ A0`). -/
+/-- **DH21 Lemma 5.8 with the parameter `μ₁`** (L1086–L1106): `I_{εα₁} I_{μ₁-εα₁} =
+Φ(εα₁) 𝒥_{α[ ],μ₁} + 𝒥_{α₁,μ₁} + ℛ_{α₁,μ₁}` on the triangle, where `Φ(εα₁) = χ_∞(α₁)/(επiα₁)`
+(`phiR_sign`), `𝒥_{α[ ]}` has no variables, `𝒥_{α₁}` has the variable `α₁ = α none` and `ℛ_{α₁}`
+has the special variable `α₁`; the three operators are parametric (jointly measurable) in `μ₁` with
+norms bounded uniformly in `μ₁` (`0 ≤ θ < 1`, `A ≥ A0`). Explicitly `𝒥_{α[ ],μ₁} = -I_{μ₁}` on the
+triangle (DH21 term II is `-Φ(εα₁) J_{0;0,μ₁}`). -/
+theorem iker_comp_decompP (h0 : 0 ≤ θ) (h1 : θ < 1) (hA : A0 ≤ A) {ε : ℤ}
+    (hε : ε = 1 ∨ ε = -1) :
+    ∃ (T₀ : ℝ → (Empty → ℝ) → ℝ → ℝ → ℂ) (TJ TR : ℝ → (Option Empty → ℝ) → ℝ → ℝ → ℂ),
+      ClassJP θ A CM0 T₀ ∧ ClassJP θ A (C58J θ) TJ ∧ ClassRP θ A (CM0 * 2) TR ∧
+      (∀ (μ : ℝ) (α : Empty → ℝ), KEqOn (T₀ μ α) fun t s => -iker μ t s) ∧
+      ∀ (μ : ℝ) (α : Option Empty → ℝ),
+        KEqOn (kcomp (iker (ε * α none)) (iker (μ - ε * α none)))
+          fun t s => phiR (ε * α none) * T₀ μ isEmptyElim t s + TJ μ α t s + TR μ α t s := by
+  obtain ⟨S0, hS0, hk0⟩ := exists_piece_58_0 (A := A) h0 h1.le
+  obtain ⟨SM, hSM, hkM⟩ := exists_piece_58_M h0 h1.le hA hε
+  obtain ⟨SR, hSR, hkR⟩ := exists_piece_58_R (A := A) h0 h1.le hε
+  obtain ⟨SE, hSE, hkE⟩ := exists_piece_58_E h0 h1 hA hε
+  refine ⟨fun μ => (S0.get μ).kernel,
+    fun μ α t s => (SM.get μ).kernel α t s + (SE.get μ).kernel α t s,
+    fun μ => (SR.get μ).kernel,
+    ⟨1, ![S0], ![CM0], fun i => by fin_cases i; exact hS0, by simp,
+      fun μ α t s _ _ _ => by simp⟩,
+    ⟨2, ![SM, SE], ![CM0 * (4 * (CkM * IM)), CM0 * ((32 * CPhi + 8) * Ir (2 - θ))],
+      fun i => by fin_cases i; exacts [hSM, hSE], by simp [C58J, Fin.sum_univ_two],
+      fun μ α t s _ _ _ => by simp [Fin.sum_univ_two]⟩,
+    ⟨1, ![SR], ![CM0 * 2], fun i => by fin_cases i; exact hSR, by simp,
+      fun μ α t s _ _ _ => by simp⟩, fun μ α t s hs0 hst ht1 => ?_, ?_⟩
+  · show (S0.get μ).kernel α t s = -iker μ t s
+    rw [hk0 μ α t s ⟨hs0.trans hst, ht1⟩ ⟨hs0, hst.trans ht1⟩, iker_eq_jker]
+  intro μ α t s hs0 hst ht1
+  have ht : t ∈ Icc (0 : ℝ) 1 := ⟨hs0.trans hst, ht1⟩
+  have hs : s ∈ Icc (0 : ℝ) 1 := ⟨hs0, hst.trans ht1⟩
+  rw [iker_eq_jker, iker_eq_jker, kcomp_jker_split _ _ _ _ _ _ (by linarith) (by linarith)]
+  beta_reduce
+  rw [hk0 μ _ t s ht hs, hkM μ α t s ht hs, hkE μ α t s ht hs, hkR μ α t s ht hs]
+  simp only [sub_self, zero_add, add_zero, add_sub_cancel]
+  rw [phiR_jker_eq]
+  ring
+
+/-- **DH21 Lemma 5.8** at a fixed `μ₁` (the specialization of `iker_comp_decompP`). -/
 theorem iker_comp_decomp (h0 : 0 ≤ θ) (h1 : θ < 1) (hA : A0 ≤ A) {ε : ℤ}
     (hε : ε = 1 ∨ ε = -1) (μ : ℝ) :
     ∃ (T₀ : (Empty → ℝ) → ℝ → ℝ → ℂ) (TJ TR : (Option Empty → ℝ) → ℝ → ℝ → ℂ),
       ClassJ θ A CM0 T₀ ∧ ClassJ θ A (C58J θ) TJ ∧ ClassR θ A (CM0 * 2) TR ∧
       ∀ α : Option Empty → ℝ, KEqOn (kcomp (iker (ε * α none)) (iker (μ - ε * α none)))
         fun t s => phiR (ε * α none) * T₀ isEmptyElim t s + TJ α t s + TR α t s := by
-  obtain ⟨S0, hS0, hk0⟩ := exists_piece_58_0 (A := A) h0 h1.le μ
-  obtain ⟨SM, hSM, hkM⟩ := exists_piece_58_M h0 h1.le hA hε μ
-  obtain ⟨SR, hSR, hkR⟩ := exists_piece_58_R (A := A) h0 h1.le hε μ
-  obtain ⟨SE, hSE, hkE⟩ := exists_piece_58_E h0 h1 hA hε μ
-  refine ⟨S0.kernel, fun α t s => SM.kernel α t s + SE.kernel α t s, SR.kernel,
-    ⟨1, ![S0], ![CM0], fun i => by fin_cases i; exact hS0, by simp,
-      fun α t s _ _ _ => by simp⟩,
-    ⟨2, ![SM, SE], ![CM0 * (4 * (CkM * IM)), CM0 * ((32 * CPhi + 8) * Ir (2 - θ))],
-      fun i => by fin_cases i; exacts [hSM, hSE], by simp [C58J, Fin.sum_univ_two],
-      fun α t s _ _ _ => by simp [Fin.sum_univ_two]⟩,
-    ⟨1, ![SR], ![CM0 * 2], fun i => by fin_cases i; exact hSR, by simp,
-      fun α t s _ _ _ => by simp⟩, ?_⟩
-  intro α t s hs0 hst ht1
-  have ht : t ∈ Icc (0 : ℝ) 1 := ⟨hs0.trans hst, ht1⟩
-  have hs : s ∈ Icc (0 : ℝ) 1 := ⟨hs0, hst.trans ht1⟩
-  rw [iker_eq_jker, iker_eq_jker, kcomp_jker_split _ _ _ _ _ _ (by linarith) (by linarith)]
-  beta_reduce
-  rw [hk0 _ t s ht hs, hkM α t s ht hs, hkE α t s ht hs, hkR α t s ht hs]
-  simp only [sub_self, zero_add, add_zero, add_sub_cancel]
-  rw [phiR_jker_eq]
-  ring
+  obtain ⟨T₀, TJ, TR, h₀, hJ, hR, -, he⟩ := iker_comp_decompP h0 h1 hA hε
+  exact ⟨T₀ μ, TJ μ, TR μ, h₀.classJ μ, hJ.classJ μ, hR.classR μ, he μ⟩
 
 end Assembly
 

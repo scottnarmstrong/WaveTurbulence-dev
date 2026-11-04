@@ -206,3 +206,59 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   DH21; DH23 has no `β` (square torus). Read as `⟨·,·⟩`. Typo. Found by wt-torus (APPROXNT). Also (F33 addendum, same
   packet): DH23 Prop 6.4 assumes `n ≤ (log L)^3` (L1002) but L1168 applies it to orders up to `N^3 ≈ (log L)^{12}`; the
   landed extension holds for every fixed power of `log L`, so both F33 readings are covered.
+  F53 addendum (2026-11-04): the B2 fix is B2-CL-3 (wt-gauss-hc): `IsLadder` = wt-ansob's `Degen.SourceLadder` verbatim
+  (double rungs, rails of multiplicity exactly 1 and oppositely directed, no induced clause). An intermediate version
+  (B2-CL-2) had dropped the single-rail requirement, which admits a length-1 ladder with a double rail (wt-orch's
+  `dblRail` probe, audits/DEGEN-F53.md); B2-CL-3 restores it. Audits: NLS-BRIDGE PASS, APPROXNT PASS (η₀ ≤
+  min(1/20, (d−1)(1−γ), γ) inside Π; n ≤ (log L)^A with A = A(d, 𝔇) covers F33).
+- F55 — DH21 Cor 4.9 (proof; counting of regular couples) — the proof miscounts the choices for double chains; the
+  corollary (≤ C₀^m regular couples of order 2m) still holds, and REG-STRUCT's proof (C₀ = 12^9, codes and actual
+  couples/trees) does not use the faulty step. Found by wt-orch (Task 15, audits/REG-STRUCT-prefreeze.md R15-4).
+  Status: erratum in a proof, statement unaffected. Related B2 drafting items (R15-1, R15-2): add the count
+  obligation (couples and trees, tree count with the root sign fixed — it fails at m = 0 otherwise) to the B2 §4
+  statements before the B2 freeze; R15-3: the general-couple skeleton uniqueness (DH21 L833, GAP.skeletonUniq) is
+  packet C3's, not discharged by REG-STRUCT.
+- F56 — Wave B snapshot 5 `WaveB1-Sumint.lean` `SumintDatum.phase` (L197–L215) vs TARGET (sumintI1) L1608–L1611 —
+  **our statement bug**: `∏ i, (…) * ∏ i : {i // D.S.nor i = true}, …` parses as `∏ i, ((…) * ∏ i' : Nor, …)`
+  (Mathlib's `∏ x, body` parses `body` at precedence 67, and `*` is 70), so the normal-block product is repeated `I`
+  times. Fix: `(∏ i, (…)) * ∏ i : Nor, …`, in snapshot 6 (with B1.12). Found by wt-anfourier (SUMINT). Lesson:
+  sweep every frozen candidate for big-operator scope errors (`∑`/`∏` bodies continuing past `*`, `•`, `^`); `∑`
+  stops before `+` (65 < 67) but not before `*`.
+- F57 — TARGET `defblock` L1328–L1331 and DH23 Def 4.10 (concatenation of blocks) — the claim that the concatenation
+  of two (degree-only) blocks sharing a joint is a block/hyper-block is false: kernel counterexample
+  `MoleculeBlockEdgeCase` (loops at atoms 0, 2, 4, opposite double bonds 1–2, 3–4; A = {0,1,2}, B = {0,3,4}). The
+  minimal correction is internal connectedness of each block/adjoint, used throughout MOLE's overlap proof. **B2
+  drafting item:** the B2 block definitions are degree-only and must add connectedness before the B2 freeze. Found by
+  wt-nt (MOLE). Status: candidate erratum (missing hypothesis).
+- F58 — TARGET `propcplmol` L1304–L1306 — the irreducible-garden sentence omits the qualifier "nontrivial" that the
+  couple sentence has; the trivial paired roots give n = E = 0, contradicting E = 2n − R at R = 1. The B2
+  characterization already assumes positive order. Found by wt-nt (MOLE). Status: minor erratum.
+- F59 — Wave B2 draft (deviation ratio docstring) — identifies the deviation ratio with a least operation bound with no
+  denominator condition; fails at (1, 0) (`deviation_zero_denominator_counterexample`). MOLE's cut API handles the
+  zero case. **B2 drafting item** (docstring/statement precision). Found by wt-nt (MOLE).
+- F60 — DH21-2 L830 (reconstruction proof) — "this does affect the result" should read "does not". Typo. Found by
+  wt-nt (MOLE).
+- F61 — DH21 Lemma 7.3 (L1737) vs DH21 Lemma 5.8 (proof) — Lemma 7.3 writes `+χ_∞(α)/(επiα)·I_μ`, while the proof of
+  Lemma 5.8 and the landed Lean identity (`ClassJR`, JR-OPS) give `−I_μ`, and DH21 sets `ε_j = ζ_n` with no extra
+  sign. Read literally, the `Z`-terms of the Prop 5.1 expansion pick up `(−1)^{|Z|}`, contradicting TARGET
+  (regref1-3)'s claim that `𝒥ℬ*` does not depend on `Z` unless the per-node sign of `Ω = −2⟨k₁−k, k₃−k⟩` compensates.
+  The final WKE identity is probably unaffected, but the Wave B2 per-couple bound B2.1(1) would be false with a wrong
+  sign. Found by wt-orch (Task 16, audits/JR-OPS.md W2). Status: **open — trace before the B2 freeze** (assigned to
+  wt-wke with J3).
+  F57 addendum (2026-11-04, wt-orch Task 17, audits/MOLE-prefreeze.md): the same molecule satisfies every premise of
+  TARGET `disjointlem` (DH23 Lemma 4.11: connected interiors, vertex deletion) while its only applicable alternative
+  (b, concatenation) fails, so Lemma 4.11's premises do not make a block connected either. B2 fix: add a
+  `GroupConnected` conjunct to `IsBlock` (exact text in the audit; a one-line bridge to MOLE's definition; `IsVine`
+  unchanged) and define hyper-blocks through a connected adjoint block. F59 addendum: the deviation docstring fails in
+  three ℝ≥0∞ cases (a, 0), (a, ⊤), (⊤, ⊤); state operation bounds directly as `𝔄_pre ≤ ℐ · 𝔄_pos`. F58: B2's
+  `propcplmol` already requires positive order; fix its docstring ("connected" is not asserted by `IsMolecule`).
+- F62 — TARGET (incohproof10) L1019–L1058 (Wick factor per link) — TARGET writes a per-link factor `ε_𝔫 ∈ {1,0,−1}`,
+  but `ε_ℐ` is a product over all branching nodes and the two nodes of a link carry the same `ε`, so the true per-link
+  factor is `ε_𝔫² ∈ {1,0,1}` (proved: `epsDec_eq_prod_links`, LINKS scratch). Estimates unaffected; an exact
+  formalization needs the square. Found by wt-torus (LINKS, E1). Status: erratum (local).
+- F63 — TARGET `treelemma` (1) L2422 — "−" should be "±", and the first node has no earlier node to anchor to. Found by
+  wt-torus (LINKS, E2). Status: typo/precision.
+- F64 — DH23 Lemma A.4 (2) — "the interval does not depend on r" cannot hold literally; formalized as what the proof
+  counts: a finite family of centres chosen per decoration and r. Found by wt-torus (LINKS, E3). Status: imprecision.
+- F65 — DH21 Def 4.11 — "if 𝒬 = × then 𝒩^ch contains the root of + sign" is a slip (the trivial couple has no
+  branching nodes). Found by wt-torus (LINKS, E4). Status: typo.
