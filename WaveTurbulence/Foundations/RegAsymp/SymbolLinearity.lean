@@ -43,4 +43,18 @@ theorem remainder_const_smul_symbol (L δ γ : ℝ) (J : Finset (Fin n))
       c • (approxSum L (L^(2*γ)*δ) W (resProfile J Ψ) - approxApp L δ γ J Ψ W) := by
   rw [approxSum_const_smul_symbol,approxApp_const_smul_symbol,smul_sub]
 
+/-- Removing a positive normalization retains its scalar exactly once in
+the norm of the actual remainder, for any source prefactor. -/
+theorem normalized_remainder_norm (L δ γ : ℝ) (J : Finset (Fin n))
+    (Ψ : EuclideanSpace ℝ {j // j ∉ J} → ℂ)
+    (W : (Fin n → Mom d) → (Fin n → Mom d) → ℂ) (c : ℂ) {g : ℝ} (hg : 0 < g) :
+    ‖c*(approxSum L (L^(2*γ)*δ) W (resProfile J Ψ)-approxApp L δ γ J Ψ W)‖ =
+      g*‖c*(approxSum L (L^(2*γ)*δ) W (resProfile J (fun Ω => g⁻¹ • Ψ Ω))-
+        approxApp L δ γ J (fun Ω => g⁻¹ • Ψ Ω) W)‖ := by
+  have he : Ψ = fun Ω => g • (g⁻¹ • Ψ Ω) := by
+    funext Ω
+    simp only [smul_smul,mul_inv_cancel₀ hg.ne',one_smul]
+  conv_lhs => rw [he,remainder_const_smul_symbol,mul_smul_comm,norm_smul,
+    Real.norm_eq_abs,abs_of_pos hg]
+
 end WaveTurbulence.RegAsymp
