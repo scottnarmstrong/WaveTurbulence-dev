@@ -177,3 +177,31 @@ label, cap-label, cap-edge and actual deletion lemmas are generic. Primitive
 CapPrefixData includes r=0,1,2. Template-specific finite tables and size-based
 recognition/exclusion results are kept separate. Continue pending the owner's
 F69 ruling; no pinned draft is changed.
+
+## Cap reconstruction and source type-VII hyper-object checkpoint
+
+The new scratch modules `VineCap*.lean`, `VineHyperVIICapRegion.lean`,
+`VineHyperVIICapData.lean`, `VineHyperVIIClassification.lean` and their
+incidence/label/deletion helpers now reconstruct the complete cap bond multiset
+from actual four-dart incidence rows. Deleting exactly the designated bond gives
+a type-V realization for prefixes of at least three rungs. The zero-prefix case
+gives two double bonds; prefixes of one/two rungs are excluded only using the
+current B2 family, as recorded under F69.
+
+`hyperLike_in_typeVII_adjoint` constructs every primitive cap field directly
+from source containment in an arbitrary-rung type-VII vine and proves that an
+HV/HVC has a designated adjoint which is two double bonds or a type-V vine.
+It assumes no cap realization, mask, prefix, incidence witness or conclusion.
+The generic cap reconstruction includes all short prefixes and remains separate
+from the template-dependent exclusions. No pinned draft changed.
+
+Checks: all new focused modules compiled with exit 0 and no warnings;
+`VineTools` compiled with exit 0; the expanded `validation/Axioms.lean` printed
+156 checked declarations with exit 0. All reported axioms are subsets of
+`[propext, Classical.choice, Quot.sound]`. An initial audit used a misspelled
+helper name, corrected to `capBonds_bondMultiset` before the successful rerun.
+`git merge main` completed cleanly at 511cf7f (main 6ce6c6d).
+
+Still required: source cap constructions V/VI/VIII, full hyper-object
+classification, chain/DV localization, ordinary simultaneous removal and
+realization-independent coherence. M4 is not complete. Continuing directly.
