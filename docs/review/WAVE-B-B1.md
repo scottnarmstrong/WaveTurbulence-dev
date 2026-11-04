@@ -2,6 +2,9 @@
 
 > **Addendum (2026-11-04):** B1.12 `layergardenFlower` is redrafted, audited and proposed for this freeze. See
 > [`WAVE-B-B1-B112.md`](WAVE-B-B1-B112.md), which has three decisions.
+> **Hold (2026-11-04):** snapshot 5 has a statement bug in the `sumint` phase (FINDINGS F56: a product's scope is too
+> wide). Snapshot 6 fixes it and adds B1.12. Please approve snapshot 6, not snapshot 5; this page will be regenerated
+> from it.
 
 Snapshot `waveb-snap-5` · prepared 2026-11-03. **This is the exact Lean to be frozen** (one declaration per file under
 `WaveTurbulence/Frozen/`, theorems with body `by sorry` as `DRAFT_SORRY` anchors, definitions sealed), exactly as for
