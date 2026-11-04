@@ -1,5 +1,5 @@
 {
- "assessed": "2026-11-04 08:05 UTC",
+ "assessed": "2026-11-04 08:30 UTC",
  "notes": "Lean work items = blueprint packets (docs/blueprint/GRAPH.md §E) with their difficulty weights (node weights L=1, M=2, H=4, VH=8 summed). Each frozen theorem anchor adds weight 1, credited when SEALED. Done fractions are the orchestrator's assessment, reviewed at integration rounds.",
  "lines_est_total": 273000,
  "parts": [
@@ -639,8 +639,8 @@
      "goal": "TARGET Props 6.6–6.8 (norm translation F11, corrected regref1-5, dominant trees)",
      "weight": 13.0,
      "lines_est": 4100,
-     "done": 0.55,
-     "note": "REGREF: B2.1 couple items proved at exact type; trees (items 2, 3b, trace argument F76) in progress"
+     "done": 0.9,
+     "note": "REGREF done: B2.1 regularAsymptotics proved at exact type from RA1Couple/RA1Tree (trace argument F76; leafwise kernel layer)"
     },
     {
      "id": "L3",
