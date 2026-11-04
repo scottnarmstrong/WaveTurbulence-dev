@@ -409,3 +409,11 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   (2u₁u₂, +2u₃(u₁+u₂−u₃), minus their sum) has a rank-3 third form (and the linear alternative has a common factor the
   actual triple lacks). Ruling: use explicit signed core normal forms with the corrected nonlinear sign, flagged for
   audit. Found by wt-gausssum (M9 VINEPARAM); kernel check in progress.
+- F80 — Wave B 𝔛-type restriction norms (B1 `WaveB1-System.lean`: XNorm/XNormRestr and relatives) — **open faithfulness
+  question**: two provers independently found that at derivative order ≥ 1 the norm integrand need not be measurable, so
+  the (lower) lintegral is not subadditive (wt-wke, `wt-scratch/pl234/ISSUE-XNORM.md`, Bernstein-set counterexample), and
+  that B2's XNormRestr controls non-smooth frequencies only in inner measure (wt-torus, REGREF; it uses the landed
+  `Fourier.mixedRestrictionNorm` with `XNormRestr ≤ mixedRestrictionNorm` proved). Local fix adopted for the Prop 6.1
+  spine inputs (order-0 restriction norm of ⟨k⟩^{30d}(K − 𝒜)). Whether the frozen candidate norms are faithful to TARGET's
+  (and whether B1/B2 statements become weaker/stronger) is with the independent auditor before the freeze. Also: TARGET
+  Prop 6.2 "at most 2^n terms" is 2^{2n+1} − 1 (still ≤ C₁^n) (wt-wke).
