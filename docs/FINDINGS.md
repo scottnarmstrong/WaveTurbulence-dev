@@ -279,3 +279,7 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   stage-2/3 R1 (self-loop halves accepted as a bond pair in the B2.3 gap hypotheses: add `x₂ ≠ M.mate x₁`) and R2
   (zero-gap tame ε-atoms, T L2183/L2152), keeps B2.3 out of the B2 freeze pending the author's ruling on DESIGN Q7, and
   requires the p.v. characterization for decaying kernels (F-5) and named instances + a B2 freeze list (F-6).
+- F67 — DH23 L1924 (Prop 10.3, case (3)) — "v4 and v5 are not bridges" refers to the bonds ℓ4, ℓ5. Notation typo. Found
+  by wt-ansob (MOLEPROP13). Also recorded (no erratum yet, check at the G-chain audit): DH23 Def 4.1 L633 forbids loops,
+  while TARGET L1295 permits loops with a guarded large-gap convention; MOLEPROP13 proves DH23 Prop 10.1 on DH23's
+  loop-free domain and claims no loop-counting extension for TARGET's use.
