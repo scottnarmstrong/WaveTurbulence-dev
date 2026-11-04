@@ -626,3 +626,20 @@ Focused serial rebuild passed all 492 targets, final `3 compiled;
 errors/warnings (`validation/Axioms-DVRemoval.log`). Remaining: hyper-outer
 ordinary cases and realization-independent coherence. The hyper-outer
 missing-joint ordinary case has compiled; its both-joints case is next.
+
+## All subsetvc simultaneous-removal cases proved
+
+`VineSubsetVCRemoval.subsetvc_simultaneous_removal_connected` assembles
+VC, DV and designated-adjoint HV/HVC removal. `VineHyperOrdinaryRemoval`
+splits ordinary families according to whether one piece contains both
+outer joints: such a piece is precisely the joint double bond and the
+outer adjoint is type V; otherwise all pieces transfer to the adjoint VC.
+`VineHyperMixedRemoval` then applies the generic adjoint retraction.
+All type-II cases include m=1 (F72).
+
+Focused gated compile of VineSubsetVCRemoval passed, exit0, no warnings.
+`validation/Axioms-SubsetRemoval.lean` checked the assembly, hyper ordinary
+and mixed removal and the both-joint shape: only propext, Classical.choice,
+Quot.sound; exit0, no warnings (`Axioms-SubsetRemoval.log`).
+Scratch umbrella imports the completed removal theorem. Remaining M4:
+realization-independent coherence; intrinsic graph recognition is in progress.
