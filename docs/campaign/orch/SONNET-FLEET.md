@@ -106,3 +106,25 @@ Running:
 Notes:
 - The LFTWIST fresh rebuild never completed: its agent stopped at 17:12 after one module. M7 is therefore READY but unverified. Verification comes through UNIVERSE L4.
 - Waiting on S2a: REDSPLICE (S2), SUBPRO (S4), the flower Stage-1 gates, and the Dirac-root regular couples (R12).
+
+## ~01:00 UTC 2026-11-05
+
+- **UNIVERSE:** L2 CLCN, L3 TWIST/MOLECPL and L4 LFTWIST published. Fresh rebuild of 845 modules ALL OK; 17 audit files pass with standard axioms. L5 VINES in progress. This also verifies M7 LFTWIST (fresh, canonical).
+- **Resumed on the universe:** S2a REDSPLICE-DEF (agent 2) and S1 (congruence, agent 2).
+- **V5 Step 3:** `vineestStep3` proved, with open hypotheses (a)–(e).
+  - Ruled: (b) BadClause and (d) leaf children must be proved on the universe.
+  - (c) coherent eligibility is accepted as a source premise (L951).
+  - Agent 5 is running.
+- **FINALCOUNT G3 (Prop 9.5):**
+  - Done: algorithm model, invariants, `finalStruct`.
+  - Next: N1/N2 (R18). Agent 2 is running.
+  - Candidate erratum: TARGET L2187 ("ghost" v₃).
+- **FINALCOUNT G2:**
+  - Prop 9.4 is proved except the single-vine count.
+  - Agent VINE-COUNT is running, under R17.
+  - Candidate erratum: DH23 L1794.
+- **FINALCOUNT G8 (Prop 9.6, γ > 1/2):**
+  - Done: AdmBridge, ops (c)/(d), Theorem A.
+  - MOLEPROP4 internal-input defects: OpCAt, OpDAt.
+  - Agent 4 is running.
+- **Research #2 (γ ≤ 1/2, closing gaps):** running.
