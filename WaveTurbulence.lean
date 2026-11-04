@@ -924,6 +924,10 @@ public import WaveTurbulence.Foundations.Incoh.WeightedOrderedLimit
 public import WaveTurbulence.Foundations.Incoh.WeightedSpectralMomentMass
 public import WaveTurbulence.Foundations.Incoh.WickCorrection
 public import WaveTurbulence.Foundations.Incoh.WideCoupleExtensionAgreement
+public import WaveTurbulence.Foundations.Layered.Envelope
+public import WaveTurbulence.Foundations.Layered.InverseFourier
+public import WaveTurbulence.Foundations.Layered.MultilinearBasis
+public import WaveTurbulence.Foundations.Layered.ParamFinite
 public import WaveTurbulence.Foundations.LemLin.AffineFourier
 public import WaveTurbulence.Foundations.LemLin.CoordinateFourier
 public import WaveTurbulence.Foundations.LemLin.CubicAmplitude
