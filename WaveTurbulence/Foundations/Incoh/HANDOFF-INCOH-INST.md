@@ -84,3 +84,71 @@ Upper-box analytic checkpoint:
 upper-box results, including both full raw spatial restriction bounds. Every result uses
 only `[propext, Classical.choice, Quot.sound]`. No source estimate was weakened and no
 restriction on gamma was added. The exact B2 anchor is still not claimed proved.
+
+Kernel-identity checkpoint:
+- `ClockTransport` proves that the actual C2 endpoint reindexings preserve product Lebesgue
+  measure, and that each reindexed source endpoint reads exactly its original link clock.
+- `WickFactors` proves exact per-link squared Wick factors for BOTH couples and paired trees.
+  The tree result is proved from the actual endpoint partition and `tree_xy_link`, not assumed.
+- `PhaseIdentity.couple_phaseProd_eq_links` proves the exact source couple phase identity,
+  retaining B1's pi normalization and the analytic `e(z)=exp(2*pi*i*z)` convention.
+- `DecorationEquivalences` uses the actual no-flower constraints of each decoded object to
+  identify the literal `GenDecoration` subtype with the C2 integer link coordinates.
+- `RootCoordinatesOfEmbedding` constructs the analytic root-time permutation from any actual
+  embedding of selected source vertices; its computed root vertices equal the given vertices.
+  Narrow build succeeds (9132 jobs).
+
+Further exact identities checked:
+- `TreePhaseIdentity.tree_phaseProd_eq_links` now compiles as well.
+- `InputProductIdentity` proves the literal analytic input products equal the original B1
+  `inputLeaves` products, with every leaf's original layer; both couple and tree cases compile.
+- `CosetDecorationIdentity` proves that the C2 real decoration with root `k` and lattice link
+  parameters equals exactly B1's `cosetDecoration k` of the integer C2 decoration. It uses the
+  frozen `latticePoint` as an actual additive homomorphism, with no scale restrictions.
+- Remaining main assembly obligations are time-domain identities/fibers, exact lattice-sum /
+  integral interchange, one-clock upper-box transport, uniform inputs and WTPrefix assembly,
+  followed by the final type/axiom checks. No mathematical obstruction has been found.
+
+`TemporalSourceIdentity` now compiles for BOTH couples and trees: the original integer
+`epsDec` multiplied by the original phase at the original coset decoration is exactly the
+analytic `sourceTemporalPhase`, including squared Wick factors and unchanged normalization.
+`SourceTimeMeasurability` proves measurability of the original `kDomain` from its literal
+layer, parent-child and lone-parent constraints. These are source identities, not estimates.
+
+The two-root source-domain reduction is now checked: `CoupleTimeBoundary` identifies the
+strict original domain with `internalTimeDomain ∩` the closed source root cuts almost
+everywhere, using `Measure.ae_eval_ne` for the two null root hyperplanes. The internal child
+inequalities imply every branch clock is at most its actual root (`TreeTimeOrder`,
+`ForestTimeOrder`). `CouplePhaseIntegral` then transports the original phase integral exactly
+to the computed analytic internal domain/root cut, by the proved measure-preserving clock map.
+
+`RawSourceTimeFubini` builds (9207 jobs): actual raw leaf summability and finite source time-box
+volume prove literal lattice/time interchange. Its summability premise is a conditional helper
+premise, to be discharged by `SourceAbsoluteConvergence` at the final source input bounds.
+
+`CoupleKernelIdentity.KQstar_eq_raw_of_summable` now compiles: it identifies the literal B1
+`KQstar` with the actual analytic raw source kernel, including the original decoration sum,
+coupling power, global garden sign, Wick factor, phase integral and input product. The explicitly
+named conditional helper uses summability only for Fubini. `CoupleKernelFromInputs.KQstar_eq_raw`
+also compiles and discharges that summability from the actual source `40d,40d` input bounds.
+`GardenSign` checks the original garden sign has unit modulus and retains its exact value.
+`CoupleUpperPropositionRate` builds (9441 jobs): printed spatial order and square-root eta
+loss on upper boxes, with `C1` chosen before eta and the finite layer cutoff.
+
+`axioms-kernel-ingredients.log` checks 14 exact phase/Wick/clock/lattice/input/coset results;
+each uses only `[propext, Classical.choice, Quot.sound]`.
+
+Actual original-kernel estimate checkpoint:
+- Scratch `CoupleDecay.exists_KQstar_twoRoot_decay` compiles. This is the literal original B1
+  `KQstar` estimate on the EXACT B2 `timeBox q q'`, in the exact B2 weighted spatial restriction
+  norm, for every decoded couple with two branching roots. All finite carrier fields, lattice/time
+  summability, root box conditions and norm bridges are discharged. Its exponential constant is
+  chosen before eta, delta and the total number of layers. It remains a component theorem, not
+  the final exact B2 anchor (one-clock/tree/prefix assembly remain).
+- `FiniteLayerCutoff` is an actual smooth compact cutoff covering the whole finite source range;
+  its pointwise equality on the closed range is proved, not assumed.
+- `MaskedRawOneClockUpperAgreement`, `FullRawOneClockUpperRestrictionDecay` compile (9439 jobs).
+  `OneClockUpperPropositionRate` compiles (9442 jobs): the printed one-clock rate on upper boxes,
+  with the same passive-clock translation and cutoff-independent exponential constant.
+- The expanded `axioms-foundations.log` checks every new principal analytic upper-box and Fubini
+  helper above and the root embedding helper: standard axioms only.
