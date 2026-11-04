@@ -47,3 +47,18 @@ The lookahead slack design is approved (proof-internal). As built, the terminal 
 `pendingSlack` (no scan-mode change needed). `GraphOk` (polylog molecule order) is a recorded deviation: DH23
 Prop 10.2 (L1834) states no size bound, but its proof's log losses need one. `η ≤ min(γ, 1−γ)` and
 `4·1440061·η ≤ 1` are instances of L438's standing assumption η ≪_{d,γ} 1.
+
+## R5 — FLOWER-SPINE vs LG-SPINE kernel genericity, 2026-11-04 ~18:55 UTC
+
+**No restructuring of LG-SPINE.** Its remaining Stage 1 and counting work is kernel-independent (molecules,
+gardens), so FLOWER-SPINE reuses it directly.
+
+**Analytic steps go through a bridge.** `kernelKgen` restricted to a plain pattern (no fixed-time nodes, no removed
+phases, unit weights) is shown equal to `kernelK`. Flower-specific analytic statements are proved separately.
+
+**What FLOWER-SPINE does meanwhile** (inputs not blocked by LG-SPINE's final `SpineInputs`):
+- the bridge;
+- F3, the DH21 Cor 11.3-type `M₂^{−P/9}` gain (L2298);
+- F4, stem preservation (L2299–2300);
+- F1, the leaf-decay reading (L2293);
+- the decay-factor comparison.
