@@ -359,3 +359,35 @@ Source identity milestone checks: `nice -n 5 lake build
 WaveTurbulence.Foundations.Incoh.SourceLinkKernelIdentity` passed (`9195 jobs`).
 Scratch `AxiomsSourceIdentity.lean`, log `axioms-source-identity.log`, audited seven main source
 identities and phase/summation results. Each prints `[propext, Classical.choice, Quot.sound]`.
+
+## Stage 3: actual couple extension with all spectral typing premises discharged
+
+`SpectralLinkContinuity` and `SpectralRootMeasurability` prove joint continuity of the link
+factors and strong measurability of the actual root marginals. `ParametricIntervalIntegral`
+and `ParametricDoubleIntegral` prove measurable moving-endpoint integration; the resulting
+`SpectralCoupleMeasurability` applies directly to the literal spectral couple extension.
+`CutoffDoubleL1` / `CouplePhysicalL1` reuse the landed bounded-kernel estimates to bound the
+physical L¹ norm of that extension by the root marginal. `UniformL1MixtureIntegrability`
+is an explicitly conditional Fubini helper. `SourceCoupleJointIntegrability` applies it to the
+actual source amplitude; the independently proved root L¹ bound supplies its remaining premise.
+`SourceAmplitudeIntegrability` proves actual amplitude continuity, integrability and the common
+pointwise envelope directly from the finite source spatial norms.
+
+`SourceCoupleExtension` defines the actual localized extension and proves exact agreement
+with `localizedSourceIntegral` on `I ∩ rootCut t` throughout the genuine source root box.
+`SourceCoupleDecay.exists_sourceCoupleExtension_bound` is its actual `𝔛^{η,0,0}` estimate with
+exponent `γ₁−100dη`, multiplied by the already proved summable actual spectral mass. It has no
+assumed Fourier norm, root norm, joint measurability or integrability premise. Those are proved
+from source hypotheses inside the theorem.
+
+`CoupleMomentumLocalization` and `CoupleLinkCellLocalization` strengthen P-2 for couples:
+when every leaf is an actual input (including the leaf of a trivial tree), the finite cover is
+chosen before every root momentum. This is an explicit structural condition on `leafInput`,
+not an analytic estimate. A tree's root-valued lone leaf is handled separately in the tree case.
+Full countable recombination, spatial derivative/weight estimates, and the corresponding actual
+source tree mixture assembly remain open; this is not yet READY pl1.
+
+Actual couple milestone checks: targeted builds `SourceCoupleDecay CoupleLinkCellLocalization`
+passed (`9381 jobs`). Scratch `AxiomsActualCoupleDecay.lean`, log
+`axioms-actual-couple-decay.log`, audited seven main results. Every result uses exactly
+`[propext, Classical.choice, Quot.sound]`. No new source errata or weakened decay estimates.
