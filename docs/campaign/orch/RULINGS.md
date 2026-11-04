@@ -157,3 +157,27 @@ it goes on the audit list as a reading. S2 must prove it for S2a's construction.
 **(c) `Stage1Data` / `Stage1Piece` is the S2a interface.** S2a instantiates it with its actual construction (R7)
 once UNIVERSE L2 (CLCN) is available. LG-SPINE keeps the record's field list stable and documents it in SPINE.md.
 Any change is announced at the top of SPINE.md with old and new hashes.
+
+## R10 — Prop 6.1 at 30d is restored (F80 is fixed), 2026-11-04 ~20:40 UTC
+
+**History.** The 2026-11-04 morning ruling restated the Prop 6.1 gates in order 0 (pl234 pin 0936). The reason was
+ISSUE-XNORM: the snapshot-8 `XNorm` put a per-frequency `⊤` inside `∫⁻`. That made it a lower integral with no
+triangle inequality, so TARGET's telescoping (prooflayer1-1/1-2, L1241–L1246) could not be done in `XNormRestr` at
+30d.
+
+**F80 (snapshot 9, now frozen)** replaced that with the a.e. `C^{Λ₁}` guard. The integrand is a.e. equal to a Borel
+function, `∫⁻` is a genuine integral, and the triangle inequality is derivable. The reason for the order-0
+restatement is gone.
+
+**V5 needs the derivatives.** It needs TARGET's layerregest3, `𝔛^{η,30d,30d}` with k-derivatives, for coherent K* with
+q ≠ q', to meet `sumint`'s `Admissible` (`SNorm 30d 30d`).
+
+**Ruling.**
+- The Prop 6.1 gate is TARGET's literal 30d form: the 0814 pin `CoherentApproximationGate`, with `XNormRestr η (30d)
+  (30d)`, restated word for word on snapshot 9 (B2 final). The leafwise gate likewise.
+- **New packet PL23-30D** proves it on snapshot 9 for q > q':
+  - the triangle inequality for `XNormRestr` under the F80 guard;
+  - the tensor and Leibniz bounds with derivatives;
+  - REGREF's `TraceDeriv` for the lower-layer trace.
+- LG-SPINE keeps consuming the order-0 consequence. It follows from the 30d gate by
+  `XNorm00Restr_weight_le_XNormRestr`, so LG-SPINE does not change.
