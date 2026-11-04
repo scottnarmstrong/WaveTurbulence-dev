@@ -52,4 +52,22 @@ theorem enorm_linkProduct_integral_le {d n : ℕ} {L : ℝ} (hL : 0 < L) (γ δ 
   intro i _
   exact (layerLinkMass_eq_ofReal_integral hL γ δ (Q i)).symm
 
+/-- Absolute product domination, the form needed for the root-density L¹ estimate. -/
+theorem lintegral_linkProduct_enorm_le {d n : ℕ} {L : ℝ} (hL : 0 < L) (γ δ : ℝ)
+    (Q : Fin n → LayerLink d) {I : Set (Fin n → Fin 2 → ℝ)}
+    (hI : I ⊆ univ.pi (fun i => linkBox (Q i))) :
+    (∫⁻ t in I, ‖∏ i, linkTimeFactor L γ δ (Q i) (t i)‖ₑ) ≤
+      ∏ i, layerLinkMass L (δ * L ^ (2 * γ)) (Q i) := by
+  have hi := (integrableOn_linkProduct hL γ δ Q hI).norm
+  have heq : (∫⁻ t in I, ‖∏ i, linkTimeFactor L γ δ (Q i) (t i)‖ₑ) =
+      ENNReal.ofReal (∫ t in I, ∏ i, ‖linkTimeFactor L γ δ (Q i) (t i)‖) := by
+    simp_rw [← ofReal_norm, norm_prod]
+    exact (ofReal_integral_eq_lintegral_ofReal (by simpa only [norm_prod] using hi)
+      (Filter.Eventually.of_forall fun t => Finset.prod_nonneg fun _ _ => norm_nonneg _)).symm
+  rw [heq]
+  apply (ENNReal.ofReal_le_ofReal (setIntegral_pi_product_norm_le hI
+    (fun i => integrableOn_linkTimeFactor hL γ δ (Q i)))).trans_eq
+  rw [ENNReal.ofReal_prod_of_nonneg (fun _ _ => integral_nonneg fun _ => norm_nonneg _)]
+  exact Finset.prod_congr rfl fun i _ => (layerLinkMass_eq_ofReal_integral hL γ δ (Q i)).symm
+
 end WaveTurbulence.Incoh
