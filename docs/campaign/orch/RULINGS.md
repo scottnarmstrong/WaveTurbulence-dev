@@ -110,3 +110,36 @@ inputs.
 **Interface note.** LG-SPINE session 8 changed the body of `CountingChoices.Admissible`, and with it
 `FinalCountGate`. Hashes are at the top of `lg-spine/SPINE.md`. Consumers (S3, FLOWER-SPINE) re-pin before their
 final exact-type checks.
+
+## R8 — One canonical molecule universe, 2026-11-04 ~19:50 UTC
+
+**Finding.** The scratch packets live in three incompatible molecule universes.
+
+| universe | molecule base | packets |
+|---|---|---|
+| (1) legacy MOLE-era | `Molecule.DegreeBlock` blocks | CLCN (M3), TWIST/MOLECPL (M6), LFTWIST (M7), and M8's current build |
+| (2) lg-spine | connected `IsBlock` (F57), but a pre-F72 `WaveB2Draft/Molecules.lean` (`986e96c8…`, no one-rung vine (II)) | lg-spine, S1, S2a, S3a/S3b, FLOWER-SPINE |
+| (3) B2 final | `waveb2-snap-final/WaveB2-Molecules.lean` `5cc50611…`: connected `IsBlock` plus F72 | VINES M4 / VINEPARAM canonical, partly |
+
+**Ruling.** The canonical universe is B1 snapshot 9 + the B2 final candidate (all of `waveb2-snap-final`, including
+Molecules `5cc50611`) + the molecule library ported to it.
+- The B2 molecule definitions are held out from the freeze (B2.3-only), but they are the audited B2-final text, and
+  they will be frozen with B2.3.
+- Every packet rebases onto this universe before its seal port.
+
+**Packet UNIVERSE (new agent, scratch `universe`).** It builds the canonical base in dependency order:
+1. B1 snapshot 9 and B2 final draft modules.
+2. The Molecule* library: mole, plus lg-spine's connectivity repairs, adapted to F72.
+3. CLCN (M3).
+4. TWIST/MOLECPL (M6).
+5. LFTWIST (M7).
+6. VINES (M4).
+
+Ports are proof-only where possible, via projection lemmas such as `degreeBlock_of_isBlock`; VINEPARAM's canonical
+copy uses one already. A statement change is allowed only where a legacy definition differs from the canonical one,
+and every such change is listed.
+
+**Effect on other packets.**
+- S1's congruence definition and GAP.congEquiv wait for UNIVERSE's LFTWIST port, together with the missing
+  symmetry/composition/commutation lemmas for `FamilyOperation`.
+- Packets continue in their current universe meanwhile and rebase when UNIVERSE publishes each layer.
