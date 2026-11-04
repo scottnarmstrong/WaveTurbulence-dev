@@ -134,3 +134,19 @@ Focused builds passed for all these modules. `AxiomsSelectedSource.lean` audited
 kernel and causal-domain identities, the selected factorization, unit dummy integral and full
 phase-mixture collapse: all six use exactly `[propext, Classical.choice, Quot.sound]`.
 The assembled common-extension and interpolation theorem is still pending.
+
+## Global common tree extension proved
+
+`treeCausalExtension_eq_phaseKernel` (`TreeCommonExtension.lean`) now proves global equality
+between the literal root-marginal causal extension and the normalized causal phase mixture.
+It holds on all external clock pairs; both sides are proved zero on reversed pairs from the
+actual strict descendant order. Its hypotheses are the structural fiber carrier, identification
+of root/lone-parent with first/last selected vertices, and cutoffs equal to one on their layer boxes.
+There are no assumed norm bounds or representation identities.
+
+`TreeSourcePhaseFibers` proves the full literal source integral's phase/remaining-clock formula.
+`TreeCausalMixtureSource` matches the actual causal mixture to it; `TreeNormalizedMixtureSource`
+retains the exact source coupling. All focused builds through `TreeCommonExtension` passed.
+`AxiomsCommonExtension.lean` audited the full source phase formula, unnormalized and normalized
+source identities, reverse support and global extension equality: all five use exactly
+`[propext, Classical.choice, Quot.sound]`. The final norm interpolation and Stages 2–3 are pending.
