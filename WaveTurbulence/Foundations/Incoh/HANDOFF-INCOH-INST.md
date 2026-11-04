@@ -49,3 +49,38 @@ normalization), upper external time boxes, uniform inputs and parameter prefix, 
 text/Expr comparison, final axiom check. No claim of anchor completion yet.
 
 No new source errata or deviations; F62's squared Wick factor remains in force.
+
+Further structural checkpoint:
+- Scratch `TreeLeafRows`, `TreeCarrier`, `CoupleLinkCoordinates`, `CoupleLayers`,
+  `TreeLinkCoordinates`, `TreeLayers` all pass their focused scratch builds.
+- Both actual source carriers are now constructed, with the tree lone leaf represented
+  by `none` and proved to carry exactly the root row; source input counts are `2n+1` / `2n`.
+- Both link endpoint maps are proved bijections onto all source branching nodes.
+  The actual analytic layer families have exactly the source incoherence count and the
+  source layer-span bound. No decoding or analytic bound was assumed in place of these proofs.
+- `CoupleUpperBoxAgreement` builds (9308 jobs): scalar exact agreement above root layers.
+- `MaskedRawCoupleUpperAgreement` builds (9431 jobs): full counted, masked spectral extension
+  agrees with the raw source on the larger external box, using the actual cutoff.
+- The O1–O5 proofs are being checked from the final-candidate REG-STRUCT rebuild in
+  wt-orch's `t32/build`, after MEXP's byte-identical final definitions in the search path.
+
+Upper-box analytic checkpoint:
+- `TreeUpperBoxAgreement`, `MaskedRawTreeUpperAgreement`, `TreeRootUpperAgreement` build
+  successfully (9559 jobs). The external time condition is exactly forward clocks and cutoff
+  equal to one at the external endpoints; they need not lie in the selected internal root box.
+- `FullRawCoupleUpperRestrictionDecay` builds (9437 jobs): any external set above the actual
+  root layers and covered by the chosen cutoff, with the exponential constant before cutoff.
+- `FullRawTreeUpperRestrictionDecay` builds (9563 jobs): any external forward-clock set
+  covered by the chosen cutoff; all root-partition spatial derivatives are preserved.
+- Scratch `NormBridge` checks `XNormRestr ≤ mixedRestrictionNorm` at arbitrary spatial weight,
+  including the exact B2 smoothness guards; it does not change the restriction domain.
+- Scratch `DecorationEquivalences` checks exact bijections of the original B1 `GenDecoration`
+  subtypes with C2's couple/tree link-lattice coordinates. No convergence hypothesis enters
+  these finite-coordinate bijections.
+- `axioms-rows.log`: both source carriers, their root/count identities and the couple link
+  equivalence use only `[propext, Classical.choice, Quot.sound]` (8 results).
+
+`check-foundations.lean` / `axioms-foundations.log` now audits seven cutoff-uniform and
+upper-box results, including both full raw spatial restriction bounds. Every result uses
+only `[propext, Classical.choice, Quot.sound]`. No source estimate was weakened and no
+restriction on gamma was added. The exact B2 anchor is still not claimed proved.
