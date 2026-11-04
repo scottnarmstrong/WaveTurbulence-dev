@@ -36,7 +36,7 @@ RA1-TREES (wt-l2s) was already READY and needed no takeover; its output feeds B2
 | S3a LADDER-FOURIER | — | `an-sob` | `ladder` | agent 2 running. Core done: DH21 elemineq and time-integral lemma, `core1`. Remaining: the domain bridge, Γ-algebra, counting, localization, assembly. |
 | S3b LADDER-DECAY | — | `an-sob` | `ladder-decay` | running: ladder chart, then rung sums, then the different-layer gain |
 | S2a REDSPLICE-DEF (new, R7) | — | `an-sob` | `redsplice` | started 19:20: the Stage 1 construction, the bridge to the choice data, `hingeOutsideFirst` |
-| SUMINT-SIGNED (new) | — | `an-sob` | `sumint-signed` | started 19:30: generalize the `sumint` proof to the F79-signed phase (obligation of V4/V5) |
+| SUMINT-SIGNED | — | dev env | `sumint-signed` | **READY 21:0x**: `signed_of_sumint : VineEstS2.SumintSigned`. Fresh snapshot-9 build 407/407 OK (checked by wt-orch); standard axioms. The sign enters only through the affine time rescaling of the cubic Weyl sum; no reduction to the unsigned case exists, because the nonlinear determinant is not sign-invariant. Port note: this is a 404-module fork of Foundations/Sumint. At landing, prefer replacing Foundations/Sumint by the signed version and deriving `sumint` as the all-plus case, to avoid a second copy. |
 
 Not held by Sonnet agents:
 - **PL234 (wt-wke):** done. ISSUE-APPCONJ is ruled (RULINGS.md R1).
