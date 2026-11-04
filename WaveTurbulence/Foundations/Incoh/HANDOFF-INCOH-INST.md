@@ -192,3 +192,21 @@ Tree graph comparison checkpoint:
 - Scratch `TreeSpineEndpoints`, `AncestorTimeOrder`, `TreeSpineSelection`, `TreeSourceGraph`
   compile: actual last link membership and lone-parent path, strict ancestor clock order,
   source link indices, parent-child graph and null graph-edge equality boundaries.
+
+Complete original-tree checkpoint (continuing with exact prefix/type audit):
+- Scratch `TreeClockSelection`, `TreeTwoLinkSelection`, `ActualTreeSelection` construct the two
+  source cases, including all ancestor geometry, complete pair selection, root and lone-parent.
+- `TreeGraphDomain`, `TreeGraphBoundary` identify the actual internal source domain with computed
+  fibers almost everywhere; every layer/edge equality removed is proved null.
+- `TreeRootClocks`, `TreeLoneParent`, `TreeTimeBoundary`, `TreePhaseIntegral` prove exact root and
+  lone-parent coordinates, uniqueness of the original lone parent, external causal cuts and the
+  original phase integral identity.
+- `TreeSummandIdentity`, `TreeKernelIdentity`, `TreeKernelFromInputs` identify literal B1 `KTstar`
+  with the raw analytic source tree kernel; input summability is discharged.
+- `TreeSourceAbsoluteConvergence` builds (9514 jobs): choose a nonzero smooth root partition at
+  fixed root momentum, prove augmented absolute convergence, and cancel that scalar. This avoids
+  imposing decay on the omitted lone-leaf input.
+- `TreeExternalBox`, `TreeDecay.exists_KTstar_decay` compile: the exact B2 `30d,0` norm and
+  `timeBoxGt` with constants before total layer count and cutoff, for all decoded incoherent trees.
+- `axioms-actual-tree.log` checks the tree estimate, original kernel identity, internal-domain a.e.
+  identity, exact phase transport and convergence theorem: standard axioms only.
