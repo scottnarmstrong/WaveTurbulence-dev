@@ -417,4 +417,80 @@ theorem tendsto_chainK (hR : KFam R R₀) :
 
 end Limit
 
+/-! ### Linearity and Lipschitz bounds -/
+
+/-- `chainK` is linear in the continuation. -/
+theorem chainK_sub {P : ℕ → ℝ → ℝ → ℂ} (hP : ∀ j, Continuous (Function.uncurry (P j))) :
+    ∀ (c : LegalCode) (q : ℕ) {h₁ h₂ : ℝ → ℂ}, Continuous h₁ → Continuous h₂ → ∀ t : ℝ,
+      chainK P c q t h₁ - chainK P c q t h₂ = chainK P c q t (fun x => h₁ x - h₂ x)
+  | .nil, _, _, _, _, _, _ => rfl
+  | .node i r, q, h₁, h₂, hh₁, hh₂, t => by
+    simp only [chainK_node]
+    have hr := chainK_sub hP r (q + i.size + 1) hh₁ hh₂
+    have hc : ∀ h : ℝ → ℂ, Continuous h → Continuous (Function.uncurry fun (ta t' : ℝ) =>
+        ∫ tb in (0 : ℝ)..t', P q ta tb * chainK P r (q + i.size + 1) tb h) := fun h hh =>
+      intervalIntegral.continuous_parametric_intervalIntegral_of_continuous
+        (f := fun (p : ℝ × ℝ) tb => P q p.1 tb * chainK P r (q + i.size + 1) tb h)
+        (((hP q).comp (continuous_fst.fst.prodMk continuous_snd)).mul
+          ((continuous_chainK' hP r _ hh).comp continuous_snd)) continuous_snd
+    have hF : ∀ h : ℝ → ℂ, Continuous h → Continuous fun ta => chainK P i (q + 1) ta
+        (fun t' => ∫ tb in (0 : ℝ)..t', P q ta tb * chainK P r (q + i.size + 1) tb h) := fun h hh =>
+      (continuous_chainK hP i (q + 1) (hc h hh)).comp (continuous_id.prodMk continuous_id)
+    rw [← intervalIntegral.integral_sub ((hF h₁ hh₁).intervalIntegrable _ _)
+      ((hF h₂ hh₂).intervalIntegrable _ _)]
+    refine intervalIntegral.integral_congr fun ta _ => ?_
+    have hci : ∀ h : ℝ → ℂ, Continuous h → Continuous fun t' =>
+        ∫ tb in (0 : ℝ)..t', P q ta tb * chainK P r (q + i.size + 1) tb h := fun h hh =>
+      (hc h hh).comp (continuous_const.prodMk continuous_id)
+    rw [chainK_sub hP i (q + 1) (hci h₁ hh₁) (hci h₂ hh₂) ta]
+    congr 1
+    funext t'
+    have hrc : ∀ h : ℝ → ℂ, Continuous h → Continuous fun tb =>
+        P q ta tb * chainK P r (q + i.size + 1) tb h := fun h hh =>
+      ((hP q).comp (continuous_const.prodMk continuous_id)).mul (continuous_chainK' hP r _ hh)
+    rw [← intervalIntegral.integral_sub ((hrc h₁ hh₁).intervalIntegrable _ _)
+      ((hrc h₂ hh₂).intervalIntegrable _ _)]
+    refine intervalIntegral.integral_congr fun tb _ => ?_
+    show P q ta tb * chainK P r (q + i.size + 1) tb h₁ - P q ta tb * chainK P r (q + i.size + 1) tb h₂ =
+      P q ta tb * chainK P r (q + i.size + 1) tb (fun x => h₁ x - h₂ x)
+    rw [← mul_sub, hr tb]
+
+/-- **`chainK` is Lipschitz in the time** (a nonempty chain, with bounded kernels' masses). -/
+theorem chainK_lip {P : ℕ → ℝ → ℝ → ℂ} {m : ℝ} (hm : 0 ≤ m)
+    (hP : ∀ j, ∀ ta ∈ Icc (0 : ℝ) 1, ∀ x ∈ Icc (0 : ℝ) 1, ∀ (f : ℝ → ℂ) (G : ℝ),
+      (∀ y ∈ Icc (0 : ℝ) x, ‖f y‖ ≤ G) → ‖∫ tb in (0 : ℝ)..x, P j ta tb * f tb‖ ≤ m * max G 0)
+    (i r : LegalCode) (q : ℕ) {g : ℝ → ℂ} {G : ℝ} (hG : 0 ≤ G) (hg : ∀ x ∈ Icc (0 : ℝ) 1, ‖g x‖ ≤ G)
+    (hPc : ∀ j, Continuous (Function.uncurry (P j))) (hgc : Continuous g)
+    {t t' : ℝ} (ht : t ∈ Icc (0 : ℝ) 1) (ht' : t' ∈ Icc (0 : ℝ) 1) :
+    ‖chainK P (.node i r) q t g - chainK P (.node i r) q t' g‖ ≤
+      m ^ i.size * (m * (m ^ r.size * G)) * |t - t'| := by
+  simp only [chainK_node]
+  have hr := norm_chainK_le hm hP r (q + i.size + 1) hG hg
+  have hrG : 0 ≤ m ^ r.size * G := by positivity
+  have hcont : ∀ ta ∈ Icc (0 : ℝ) 1, ∀ x ∈ Icc (0 : ℝ) 1,
+      ‖∫ tb in (0 : ℝ)..x, P q ta tb * chainK P r (q + i.size + 1) tb g‖ ≤ m * (m ^ r.size * G) := by
+    intro ta hta x hx
+    have := hP q ta hta x hx (fun tb => chainK P r (q + i.size + 1) tb g) (m ^ r.size * G)
+      fun y hy => hr y ⟨hy.1, hy.2.trans hx.2⟩
+    rwa [max_eq_left hrG] at this
+  have hFc : Continuous fun ta => chainK P i (q + 1) ta
+      (fun t' => ∫ tb in (0 : ℝ)..t', P q ta tb * chainK P r (q + i.size + 1) tb g) := by
+    have hc : Continuous (Function.uncurry fun (ta t' : ℝ) =>
+        ∫ tb in (0 : ℝ)..t', P q ta tb * chainK P r (q + i.size + 1) tb g) :=
+      intervalIntegral.continuous_parametric_intervalIntegral_of_continuous
+        (f := fun (p : ℝ × ℝ) tb => P q p.1 tb * chainK P r (q + i.size + 1) tb g)
+        (((hPc q).comp (continuous_fst.fst.prodMk continuous_snd)).mul
+          ((continuous_chainK' hPc r _ hgc).comp continuous_snd)) continuous_snd
+    exact (continuous_chainK hPc i (q + 1) hc).comp (continuous_id.prodMk continuous_id)
+  rw [intervalIntegral.integral_interval_sub_left (hFc.intervalIntegrable _ _)
+    (hFc.intervalIntegrable _ _)]
+  refine intervalIntegral.norm_integral_le_of_norm_le_const fun ta hta => ?_
+  have hta' : ta ∈ Icc (0 : ℝ) 1 := by
+    have := uIoc_subset_uIcc hta
+    rw [mem_uIcc] at this
+    rcases this with h | h
+    · exact ⟨ht'.1.trans h.1, h.2.trans ht.2⟩
+    · exact ⟨ht.1.trans h.1, h.2.trans ht'.2⟩
+  exact norm_chainK_le hm hP i (q + 1) (by positivity) (hcont ta hta') ta hta'
+
 end WaveTurbulence.Cancel
