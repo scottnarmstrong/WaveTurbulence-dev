@@ -6,7 +6,7 @@ Lean 4 formalization of
 > [arXiv:2311.10082v2](https://arxiv.org/abs/2311.10082) (2024).
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-11-04 03:32 UTC** · **estimated completion 51.3 %** (Lean proofs 50.2 %) · frozen theorems sealed: 1 / 2 (+ 13 frozen definitions) · **146,856 lines of Lean on main** (1351 files) + 15,125 unlanded on worker branches · blueprint estimate ≈ 273,000 lines
+> **Last updated: 2026-11-04 03:46 UTC** · **estimated completion 52.0 %** (Lean proofs 51.0 %) · frozen theorems sealed: 1 / 2 (+ 13 frozen definitions) · **146,856 lines of Lean on main** (1351 files) + 16,598 unlanded on worker branches · blueprint estimate ≈ 273,000 lines
 <!-- /AUTO:updated -->
 
 **Scope (D1):** everything proved in Lean, no black boxes. That covers the target paper and the results it uses from
@@ -32,20 +32,20 @@ DRAFT_IMPORT_VIOLATIONS: 0
 ## Progress
 
 <!-- AUTO:progress -->
-### Estimated completion: **51.3 %**
+### Estimated completion: **52.0 %**
 
-`███████████████░░░░░░░░░░░░░░░` 51.3 %
+`████████████████░░░░░░░░░░░░░░` 52.0 %
 
 | Part of the project | Items | Weight | Done | Completion |
 |---|---|---|---|---|
 | Sources, paper maps, blueprint (P0–P1) | 1 | 30 | 27.0 | `█████████░` 90 % |
 | Exact Lean statements, frozen (P2) | 1 | 20 | 14.0 | `███████░░░` 70 % |
-| Lean proofs (P4) | 85 | 681 | 341.9 | `█████░░░░░` 50 % |
+| Lean proofs (P4) | 85 | 681 | 347.3 | `█████░░░░░` 51 % |
 | Frozen theorems sealed | 2 | 2 | 1.0 | `█████░░░░░` 50 % |
 | Release (P5) | 1 | 15 | 0.0 | `░░░░░░░░░░` 0 % |
-| **Total** | | 748 | 383.9 | **51.3 %** |
+| **Total** | | 748 | 389.3 | **52.0 %** |
 
-Lean lines: 146,856 on main + 15,125 on branches, of ≈ 273,000 estimated by the blueprint (`████████████░░░░░░░░` 59.3 % of the estimate).
+Lean lines: 146,856 on main + 16,598 on branches, of ≈ 273,000 estimated by the blueprint (`████████████░░░░░░░░` 59.9 % of the estimate).
 
 <details><summary>All Lean work packets (blueprint §E) with weight and status</summary>
 
@@ -86,6 +86,7 @@ Lean lines: 146,856 on main + 15,125 on branches, of ≈ 273,000 estimated by th
 | C5 | ENHANCED | 9 | ≈3,150 | 🟡 90 % | ENHANCED done in scratch: dominant couples, special sets, equivalence (DH21 Def 4.18), encoded trees (Props 4.20, 4.23), net signs; + tree incohproof1 |
 | D4 | REG-DEFS | 8 | ≈2,400 | 🟡 90 % | REG-DEFS done (B2 draft + REG-STRUCT scratch) |
 | G0 | MOLE-COUNT-BASICS | 4 | ≈1,400 | 🟡 90 % | DEGEN done in scratch (DH21 Lemmas 9.13–9.14, DH23 §10.5, GAP.degenerate.tame, corrected remtame); moves to Foundations after the Wave B freeze |
+| G6 | MOLEPROP13 | 6 | ≈2,400 | 🟡 90 % | MOLEPROP13 done in scratch: DH23 Props 10.1, 10.3 (263 modules, against corrected B2) |
 | M1 | MOLE | 15 | ≈4,900 | 🟡 90 % | MOLE done in scratch: garden molecules, root-compatible decorations, reconstruction (C₀=20736), cuts; moves to Foundations at the freeze |
 | M2 | BLOCKS | 6 | ≈1,600 | 🟡 90 % | blocks, hyper-blocks, realizations, overlap classification (connected convention, F57) in scratch |
 | M3 | CLCN | 10 | ≈3,500 | 🟡 90 % | CLCN done in scratch: (CL)/(CN) dichotomy, splicing, blockchainprop, cnblock component bounds |
@@ -110,7 +111,6 @@ Lean lines: 146,856 on main + 15,125 on branches, of ≈ 273,000 estimated by th
 | G3 | EXCESS-T | 10 | ≈3,500 | ⬜ 0 % |  |
 | G4 | APPB-OPS | 8 | ≈4,000 | ⬜ 0 % |  |
 | G5 | APPB-ALG | 8 | ≈4,000 | ⬜ 0 % |  |
-| G6 | MOLEPROP13 | 6 | ≈2,400 | ⬜ 0 % |  |
 | G7 | MOLEPROP4 | 12 | ≈4,500 | ⬜ 0 % |  |
 | G8 | RIGID | 10 | ≈4,600 | ⬜ 0 % |  |
 | J5 | MEXP | 6 | ≈2,700 | ⬜ 0 % |  |
@@ -139,7 +139,7 @@ Lean lines: 146,856 on main + 15,125 on branches, of ≈ 273,000 estimated by th
 
 </details>
 
-Done fractions last reviewed: **2026-11-04 05:20 UTC**. Source: [`docs/campaign/progress.json`](docs/campaign/progress.json); history: [`docs/campaign/history.csv`](docs/campaign/history.csv).
+Done fractions last reviewed: **2026-11-04 03:55 UTC**. Source: [`docs/campaign/progress.json`](docs/campaign/progress.json); history: [`docs/campaign/history.csv`](docs/campaign/history.csv).
 <!-- /AUTO:progress -->
 
 ## Workers
@@ -147,17 +147,17 @@ Done fractions last reviewed: **2026-11-04 05:20 UTC**. Source: [`docs/campaign/
 <!-- AUTO:workers -->
 | tmux | model / account | packet | branch: last commit | brief |
 |---|---|---|---|---|
-| wt-orch | Claude Opus / claude-1 | B2 drafting: CL-11 (F61 specialWeight sign), Task 20 B2 change list; done: B2 fixes CL-4..CL-10, snapshot-6 audit | `w/orch`: 1 min ago | [brief](docs/campaign/orch/TASK4.md) |
+| wt-orch | Claude Opus / claude-1 | B2 drafting: CL-11 (F61 specialWeight sign), Task 20 B2 change list; done: B2 fixes CL-4..CL-10, snapshot-6 audit | `w/orch`: 2 min ago, 1 unlanded | [brief](docs/campaign/orch/TASK4.md) |
 | wt-gauss-hc | Claude Opus / claude-10 | X2 moment expansion (flowerest1 probabilistic part), then X3 FIXEDPT (pre-freeze); X1 FLOWER, B1.12 final, B2 ladder fix done | `w/waveb-infra`: — | [brief](docs/campaign/briefs/FLOWER.md) |
-| wt-torus | Claude Opus / claude-14 | J4 CANCEL7: DH21 Lemmas 7.1-7.3, Props 7.4-7.5 with F61 correction (C2, C4, C5 done) | `w/approxnt`: 9 min ago, 1 unlanded | [brief](docs/campaign/briefs/CANCEL7.md) |
-| wt-wke | Claude Opus / claude-13 | J2 rest (DH21 Lemmas 5.9-5.10) then J3 MAINCOEF (DH21 Prop 5.1); JR-OPS 5.3-5.8 done | `w/jr-ops`: 8 min ago, 3 unlanded | [brief](docs/campaign/briefs/JR2-MAINCOEF.md) |
+| wt-torus | Claude Opus / claude-14 | J4 CANCEL7: DH21 Lemmas 7.1-7.3, Props 7.4-7.5 with F61 correction (C2, C4, C5 done) | `w/approxnt`: 13 min ago, 2 unlanded | [brief](docs/campaign/briefs/CANCEL7.md) |
+| wt-wke | Claude Opus / claude-13 | J2 rest (DH21 Lemmas 5.9-5.10) then J3 MAINCOEF (DH21 Prop 5.1); JR-OPS 5.3-5.8 done | `w/jr-ops`: 9 min ago, 4 unlanded | [brief](docs/campaign/briefs/JR2-MAINCOEF.md) |
 | wt-cumul | GPT-6.1-Sol low / codex-3 | I1+I2 INDUCT (pre-freeze, conditional): propansatz from layergarden/fixedpoint/wkeTaylor; main assembly done | `w/norm-bridge`: 7 h ago | [brief](docs/campaign/briefs/INDUCT.md) |
-| wt-nt | GPT-6.1-Sol low / codex-3 | G4 APPB-OPS then G5 APPB-ALG (pre-freeze): DH23 Appendix B (MOLE M1+M2, CLCN M3 done) | `w/nt-circle`: 81 min ago | [brief](docs/campaign/briefs/APPB-OPS.md) |
-| wt-ansob | GPT-6.1-Sol low / codex-3 | G6 MOLEPROP13 (pre-freeze): DH23 Props 10.1, 10.3; then G7 MOLEPROP4 (DEGEN done) | `w/bproc`: 39 min ago | [brief](docs/campaign/briefs/MOLEPROP13.md) |
-| wt-gausssum | GPT-6.1-Sol low / codex-3 | M4 VINES (pre-freeze), then M9 VINEPARAM (COUNT done, landed) | `w/count`: 29 min ago | [brief](docs/campaign/briefs/VINES.md) |
+| wt-nt | GPT-6.1-Sol low / codex-3 | G4 APPB-OPS then G5 APPB-ALG (pre-freeze): DH23 Appendix B (MOLE M1+M2, CLCN M3 done) | `w/nt-circle`: 95 min ago | [brief](docs/campaign/briefs/APPB-OPS.md) |
+| wt-ansob | GPT-6.1-Sol low / codex-3 | PV-DECAY (B2 freeze item F-5), then G7 MOLEPROP4 (G6 MOLEPROP13, DEGEN done) | `w/bproc`: 0 min ago | [brief](docs/campaign/briefs/PV-DECAY.md) |
+| wt-gausssum | GPT-6.1-Sol low / codex-3 | M4 VINES (pre-freeze), then M9 VINEPARAM (COUNT done, landed) | `w/count`: 4 min ago, 1 unlanded | [brief](docs/campaign/briefs/VINES.md) |
 | wt-resonant | GPT-6.1-Sol low / codex-3 | C3 SKELETON (pre-freeze): prime skeletons with uniqueness (REG-STRUCT C1+D4 done) | `w/resonant`: 2 h ago | [brief](docs/campaign/briefs/SKELETON.md) |
 | wt-anfourier | GPT-6.1-Sol low / codex-3 | V1+V2 SUMINT (pre-freeze): prove the Wave B statement sumint (N2+N3 done) | `w/an-phase`: 5 h ago | [brief](docs/campaign/briefs/SUMINT.md) |
-| wt-l2s | GPT-6.1-Sol low / codex-3 | L1+L2 PL1: TARGET Prop 5.1 proplayer1 (NLS-BRIDGE done: nlsAkBridge proved) | `w/wke-l2s`: 12 min ago, 3 unlanded | [brief](docs/campaign/briefs/PL1.md) |
+| wt-l2s | GPT-6.1-Sol low / codex-3 | L1+L2 PL1: TARGET Prop 5.1 proplayer1 (NLS-BRIDGE done: nlsAkBridge proved) | `w/wke-l2s`: 9 min ago, 4 unlanded | [brief](docs/campaign/briefs/PL1.md) |
 <!-- /AUTO:workers -->
 
 ## Papers
