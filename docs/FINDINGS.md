@@ -319,8 +319,16 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   𝔄₀ ≥ c independent of L per tiny-gap bead — so DH23 Prop 9.6 / TARGET L2192–L2197, DH23 `kqmainest2` L1681–L1690
   and TARGET (finalcount1) L2114 would be false for γ ≤ 1/2 (main theorems not claimed false). Also claims vine (II)
   must include a one-double-bond case (DH23 L1421), needed for γ < 2/3. Proposed repairs: (E0)+(E1) treat T-type blocks
-  as normal vines (splice in stage 1), or (E2) restrict the formal target to γ ∈ (1/2, 1). **Author decision pending
-  verification.**
+  as normal vines (splice in stage 1), or (E2) restrict the formal target to γ ∈ (1/2, 1).
+  **CONFIRMED by an independent adversarial referee (2026-11-04, `docs/research/dh23-prop96-referee.txt`):** N_m is a
+  legitimate input in both papers (randomized couple constructions up to m = 20; in TARGET, all nodes in layer 0 give
+  a canonical layered couple in 𝒞₁ satisfying (a)–(f) L2096–L2109); Steps 1, 2, 4 never touch it (stage 2 simulated for
+  m = 2–6, all Step-3 orders); the count holds exactly in the range γ ≤ 1/2 (β-constraint automatic, consistent with
+  DH23 Lemma A.2(1) L2055); TARGET (finalcount1) fails once 4η⁶(5m+4) > 3(d−γ). The source error is L1885, resting on
+  ylem1. Vine (II) with one double bond: L1421 does not define it (literal Def 5.1 draws two), but under the literal
+  reading Q-bead necklaces break the same four statements for all γ < 2/3; whether DH23's cancellation works at m = 1 is
+  unchecked. Open: DH23 `kqmainest1` L1633 / TARGET (finalsbest2) L2078 may also fail (no lower bound on the time
+  integrals established). **Main theorems not refuted. AUTHOR DECISION REQUIRED** (`docs/review/ESCALATION-F69b.md`).
 - F70 — DH21 (integralK) L1782 — the weight `e^{−πθα²}` should be `e^{−πθ²α²}`. Minor typo. Found by wt-torus (CANCEL7),
   which also implements the corrected F61 sign in DH21 Lemma 7.3 and Prop 7.5 (`𝒥B̃_{Q,Z} = (−1)^{|Z|}𝒥B̃_Q`); its route
   (Gaussian-regularized limit of B̃_Q) shows the Z-component integral is the same for every expansion, stronger than
@@ -332,3 +340,24 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   atom group requires the same designated bond (up to mates); otherwise plain atom-set inclusion would make an inner
   SG object whose adjoint is a single double bond — outside `subsetvc`'s case list. Status: reading, flagged for the
   VINES audit (possible source imprecision).
+- F72 — DH23 Def 5.1 / vine (II) (L1421, L1481) and our B2 template — vine (II) must include the **one-double-bond case
+  (m = 1)**, the 4-atom Q-block. Research check (2026-11-04, `docs/research/vine2-m1.txt`): every vine estimate and the
+  twist cancellation in DH23 and TARGET go through unchanged at m = 1 (DH23 itself notes "m ≥ 1 for vines (II)" at L1481;
+  `sumintest1` L1280 is stated for m ≥ 1; TARGET treats vine (I) as m = 0 at L1800); mechanical checks: all 1152 Q-block
+  placements fall into `molecpl`'s scenarios (II-a)–(II-e), twists are valid involutions, the Q-block is never a proper
+  sub-object of a vine. Consequence: Q-bead necklaces (which broke Prop 9.6 / kqmainest2 / finalcount1 for γ < 2/3
+  under the literal two-double-bond reading) are repaired for all γ ∈ (0,1); F69b remains only for the T-bead necklace
+  and γ ≤ 1/2. Also: `ylem1`'s quadruple-bond branch becomes exactly "vine (II), m ≥ 1", and Prop 10.4(1)'s length-1
+  omission is the m = 1 vine. Minor DH23 slips: L1481 cites Lemma A.2(2) outside its range (A.2(1) closes it); the
+  δ-bookkeeping in (twoestbadv1) is off but absorbed by L^{−5η}. **B2 change required:** add the m = 1 instance to vine
+  (II) (reverses R4 of the ylem1 investigation); re-run template enumerations (VINES, MOLEPROP13).
+- F73 — DH23 `kqmainest1` (L1632–L1640) and TARGET (finalsbest2) (L2078) — the analytic per-class bounds also fail on the
+  necklace couples for 0 < γ < 1/2 (and γ = 1/2 with δ small): research note `docs/research/kqmainest1-necklace.txt`
+  computes K_Q(t,t,k) = ζ(Q) 2^{−n} δ^{2m+2−d} L^{−γ(2d−1)} [A_m + o(1)], n = 4m+3, with A_m ≠ 0 for explicit data —
+  no gain per bead (each T-bead is exactly neutral; joint phases do not oscillate when |r| ≲ 1/λ, and there are
+  ≳ δ^{−d} such gaps exactly when γ ≤ 1/2). TARGET (finalsbest2) fails once η⁶(4m+3) > γ(2d−1) (its ρ is explicit);
+  DH23 kqmainest1 fails with its proof's ρ (literal "there exists ρ" form not refuted). TARGET `layergarden` itself is not
+  contradicted (necklace couples are ≤ C^n with a fixed L^{−γ(2d−1)} gain), but its proof is broken at the analytic
+  level for γ ≤ 1/2, and no counting-only repair works (ladder-style ρ needs a log-free time bound; splicing needs a
+  Prop 7.6-type estimate). Confidence: high; derived, not a full proof with explicit error terms. Also: small-gap
+  Q-beads lose L^γ analytically, so the m = 1 vine (II) (F72) is necessary.
