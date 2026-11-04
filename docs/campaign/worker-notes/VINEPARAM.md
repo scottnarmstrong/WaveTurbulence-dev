@@ -71,3 +71,21 @@ current, exit0 and no warnings. These add no orientation assumptions.
 The all-profile check continues serially. Next are the weighted signed-dart
 bridge, concrete chart packaging, and arbitrary-insertion assembly. The
 packet remains in progress; no completion claim.
+
+## Actual resonances and full base conservation fibers
+
+The directed weighted-sum bridge now proves actual momentum transport and
+negative molecular Gamma transport on all full-degree realized vine atoms,
+for arbitrary insertions. Concrete type I/II catalogue lookups compile,
+and the generic matrix consumer is an equivalence on the entire fixed-gap,
+zero-interior-flow fiber, with both inverse directions proved.
+
+Focused run: 116 targets, final1 compiled/115 current, exit0/no warnings.
+Axiom checkpoint: 111 declarations, all matched, only standard axioms,
+no warnings/errors. Main merged again at clean point (F79 signed sumint
+extension is consistent with the signed-core ruling).
+
+The serial superset check now covers1175 targets including every concrete
+matrix package and all eight catalogue lookups. It replaces the previous
+queue at a clean boundary, retaining compiled artifacts. Full actual
+orientation normalization and arbitrary-insertion chart assembly remain.
