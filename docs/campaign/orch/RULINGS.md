@@ -143,3 +143,17 @@ and every such change is listed.
 - S1's congruence definition and GAP.congEquiv wait for UNIVERSE's LFTWIST port, together with the missing
   symmetry/composition/commutation lemmas for `FamilyOperation`.
 - Packets continue in their current universe meanwhile and rebase when UNIVERSE publishes each layer.
+
+## R9 — Leafwise `Stage1Piece.Represents`, and the S2a interface, 2026-11-04 ~20:20 UTC
+
+**(a) `Represents` carries the leaf profiles.** It is stated for leaf-modified kernels (`kernelLeaves` with
+`LeafProfiles` and `leafSizeProduct`), like gates 1 and 3. Reason: TARGET applies Props 5.1/6.1 leafwise at
+L2065–L2067. The weights `jbrProd^{-4Λ}` and the k-derivatives of the nonregular couple sum need it.
+
+**(b) `Represents` is LG-SPINE's reading of a loose source step (redvine → redvine2), not a literal TARGET
+statement.** It stays a separately named spine input, provided by S2 together with the literal redvine2/3 text, and
+it goes on the audit list as a reading. S2 must prove it for S2a's construction. It must not be weakened to fit.
+
+**(c) `Stage1Data` / `Stage1Piece` is the S2a interface.** S2a instantiates it with its actual construction (R7)
+once UNIVERSE L2 (CLCN) is available. LG-SPINE keeps the record's field list stable and documents it in SPINE.md.
+Any change is announced at the top of SPINE.md with old and new hashes.
