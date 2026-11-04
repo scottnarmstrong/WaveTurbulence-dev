@@ -62,3 +62,24 @@ phases, unit weights) is shown equal to `kernelK`. Flower-specific analytic stat
 - F4, stem preservation (L2299–2300);
 - F1, the leaf-decay reading (L2293);
 - the decay-factor comparison.
+
+## R6 — LG-SPINE second collection: designation and C2 carrier, 2026-11-04 ~19:05 UTC
+
+**(a) One designation per atom set.** In TARGET a vine-like object is an atomic group, so it has one designation. An
+atom set with two hyper designations (two parallel joint bonds; the {a,c,b} example in lg-spine/ERRATA.md) is one
+object.
+- The selection of C1/C2 is assembly (R3), so LG-SPINE fixes a canonical designation per atom set: the least deleted
+  bond in a fixed order on bonds. It proves (f)(ii) for that choice.
+- This is recorded as a reading (source ambiguity), not as an erratum.
+- With this choice, the second disjunct of `source_second_collection_pairs_compatible` (two hyper objects on the same
+  atom set) disappears.
+
+**(b) The C2 carrier is the source's.** Define the restricted second collection literally from TARGET L2101–2112, as
+`SubproSupport.contained` does if that matches the source: SG objects outside C1, disjoint from the hinges, with
+containers disjoint from C1 and the hinges. Re-run the step 1–4 results on it.
+
+**(c) The Stage 1 construction is LG-SPINE's assembly (R3).**
+- This means the congruence classes, 𝒱_0, splicing, 𝒢_sb, 𝕄_sb and the hinge atoms, which is the blueprint's S2a.
+- It uses S1's results (`vinechainlem`, congruence, `defdiff`; agent in /home/scott/wt-scratch/stage1). Until those
+  land, LG-SPINE takes them as named obligations matched word for word.
+- `subpro` (TARGET L2040–2051 / DH23 Prop 9.1) is a stated proposition, so it is a spine input, provided by S4.
