@@ -1140,6 +1140,7 @@ public import WaveTurbulence.Foundations.RegAsymp.CoordinateDerivative
 public import WaveTurbulence.Foundations.RegAsymp.CoordinateInsertion
 public import WaveTurbulence.Foundations.RegAsymp.CoordinateTrace
 public import WaveTurbulence.Foundations.RegAsymp.CrudeNormalizedApproximation
+public import WaveTurbulence.Foundations.RegAsymp.CrudeNormalizedSum
 public import WaveTurbulence.Foundations.RegAsymp.DerivativeCoefficientNormalizer
 public import WaveTurbulence.Foundations.RegAsymp.EnergyTracePartition
 public import WaveTurbulence.Foundations.RegAsymp.EnvelopePointwise
@@ -1156,6 +1157,8 @@ public import WaveTurbulence.Foundations.RegAsymp.FrequencySplit
 public import WaveTurbulence.Foundations.RegAsymp.GevreyEnvelope
 public import WaveTurbulence.Foundations.RegAsymp.InverseProfile
 public import WaveTurbulence.Foundations.RegAsymp.InverseProfileNorm
+public import WaveTurbulence.Foundations.RegAsymp.LeafWeightedMomentMass
+public import WaveTurbulence.Foundations.RegAsymp.MaskedModulation
 public import WaveTurbulence.Foundations.RegAsymp.MomentWeights
 public import WaveTurbulence.Foundations.RegAsymp.Normalization
 public import WaveTurbulence.Foundations.RegAsymp.NormalizeSymbol
@@ -1163,11 +1166,13 @@ public import WaveTurbulence.Foundations.RegAsymp.NormalizedAppSize
 public import WaveTurbulence.Foundations.RegAsymp.NormalizedApproximation
 public import WaveTurbulence.Foundations.RegAsymp.NormalizedContinuousSize
 public import WaveTurbulence.Foundations.RegAsymp.OrderLoss
+public import WaveTurbulence.Foundations.RegAsymp.PairedCutoffCharacter
 public import WaveTurbulence.Foundations.RegAsymp.PairedFrequencyWeight
 public import WaveTurbulence.Foundations.RegAsymp.PairedProfile
 public import WaveTurbulence.Foundations.RegAsymp.PairedProfileMajorant
 public import WaveTurbulence.Foundations.RegAsymp.PairedProfileRegularity
 public import WaveTurbulence.Foundations.RegAsymp.PairedProfileRestriction
+public import WaveTurbulence.Foundations.RegAsymp.PairedSpatialMixture
 public import WaveTurbulence.Foundations.RegAsymp.ParametricFourierAmplitude
 public import WaveTurbulence.Foundations.RegAsymp.ParametricSingularIntegral
 public import WaveTurbulence.Foundations.RegAsymp.PhiProfile
@@ -1175,6 +1180,8 @@ public import WaveTurbulence.Foundations.RegAsymp.PhysicalPhaseScale
 public import WaveTurbulence.Foundations.RegAsymp.PositiveEnvelope
 public import WaveTurbulence.Foundations.RegAsymp.ProfileMajorant
 public import WaveTurbulence.Foundations.RegAsymp.RemainderMeasurability
+public import WaveTurbulence.Foundations.RegAsymp.RootFrequencyMoment
+public import WaveTurbulence.Foundations.RegAsymp.SeparatedEnvelope
 public import WaveTurbulence.Foundations.RegAsymp.ShiftedCoefficientEnvelope
 public import WaveTurbulence.Foundations.RegAsymp.ShiftedGevreyEnvelope
 public import WaveTurbulence.Foundations.RegAsymp.SingularCellSize
@@ -1183,6 +1190,9 @@ public import WaveTurbulence.Foundations.RegAsymp.SpecialSign
 public import WaveTurbulence.Foundations.RegAsymp.SpecialZeroSupport
 public import WaveTurbulence.Foundations.RegAsymp.SpectralProfileMajorant
 public import WaveTurbulence.Foundations.RegAsymp.SumIntegralError
+public import WaveTurbulence.Foundations.RegAsymp.SurvivingEnergyCoordinates
+public import WaveTurbulence.Foundations.RegAsymp.SurvivingProfile
+public import WaveTurbulence.Foundations.RegAsymp.SurvivingTraceBudget
 public import WaveTurbulence.Foundations.RegAsymp.SymbolLinearity
 public import WaveTurbulence.Foundations.RegAsymp.TemporalSplitEnvelope
 public import WaveTurbulence.Foundations.RegAsymp.TensorAmplitudeBudget
