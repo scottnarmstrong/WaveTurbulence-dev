@@ -19,7 +19,18 @@ subagents that continue those packets in the same worktrees and scratch director
 | M7 LFTWIST | wt-anfourier | `an-fourier` / `w/lftwist` | `lftwist` | claimed READY. A stale olean graph was found (41 problems), so a fresh 777-module closure rebuild was ordered. |
 | B21-SNAP9 (new) | — | `wke-l2s` / `w/wke-l2s` (+ merge of `w/bproc`) | `b21-snap9` | running: RA2 + RA1-TREES on snapshot 9, the bridge `RA1CoupleF80 → RA1Couple`, and the composition at the B2.1 type (`audits/B21-CHAIN-prelim.md`) |
 
+| M8 LAYERCNT (new) | — | `an-sob` (shared, `lake env` only) | `layercnt` | started 18:45: TARGET layerlad and layervine (L1501–L1532) for LG-SPINE (T.plg.ab) |
+| S1 STAGE1-COMB (new) | — | `an-sob` (shared) | `stage1` | started 18:45: vinechainlem (DH23 Lemma 8.1), 𝒱 / congruence (equivalence; F20, F38), defdiff |
+| S3 LADDER (new) | — | `an-sob` (shared) | `ladder` | started 18:45: LG-SPINE spine inputs `LadderDecayAt`, `LadderFourierAt`, `CoarseSplicedAt`, word for word |
+| X2 FLOWER-SPINE (taken from wt-gauss-hc, never started) | wt-gauss-hc (Claude, waiting) | `an-sob` (shared) | `flower-spine` | started 18:50: `layergardenFlower_of_spine`, sharing LG-SPINE's inputs; gauss-hc notified |
+
 RA1-TREES (wt-l2s) was already READY and needed no takeover; its output feeds B21-SNAP9.
+
+Not held by Sonnet agents:
+- **PL234 (wt-wke):** done. ISSUE-APPCONJ is ruled (RULINGS.md R1).
+- **MOLEPROP4 + THEOREM-A (wt-torus):** done in scratch.
+- **G-chain** (S2a, S4, G1, G2, G3, G8, F1, F3, S2, V5): waits on dependencies (S1, V4, PL4, M9).
+- **F2 PLG = `layergarden` itself:** this is LG-SPINE.
 
 ## Acceptance (wt-orch)
 
