@@ -40,6 +40,9 @@ SECTION = re.compile(
     r"^[ \t]*(?:@\[[^\]\n]*\][ \t]*)*((?:(?:public|private|noncomputable)\s+)*)"
     rf"section(?:\s+{IDENT}(?:\.{IDENT})*)?[ \t]*$")
 END = re.compile(rf"^[ \t]*end(?:\s+{IDENT}(?:\.{IDENT})*)?[ \t]*$")
+# WaveTurbulence (Wave B B2): a `mutual ... end` block is a lexical block, so its bare `end` closes it and not the
+# enclosing namespace.
+MUTUAL = re.compile(r"^[ \t]*mutual[ \t]*$")
 PLACEHOLDER = re.compile(r"\b(?:sorry|admit)\b")
 MODULE_KEYWORD = re.compile(r"module(?![\w'.!?])")
 
@@ -178,6 +181,9 @@ class Guard:
                 namespaces.extend(parts)
                 blocks.append(("namespace", len(parts), None))
                 continue
+            if MUTUAL.match(line):
+                blocks.append(("mutual", 0, None))
+                continue
             section = SECTION.match(line)
             if section:
                 words = section.group(1).split()
@@ -249,6 +255,13 @@ class Guard:
         paths: set[str] = set()
         exports: set[str] = set()
         ids: set[str] = set()
+        # WaveTurbulence (Wave B B2): Lean cannot split a mutual group across files. The members of one
+        # `mutual ... end` block keep one manifest entry each (own export, source, ABI) and share the file;
+        # check_declaration requires that the file is that block and declares exactly the owners' exports.
+        self.owners: dict[str, list[dict[str, Any]]] = {}
+        for item in anchors:
+            if isinstance(item, dict) and isinstance(item.get("path"), str):
+                self.owners.setdefault(item["path"], []).append(item)
         modules: dict[str, Path] = {}
         parsed: list[tuple[dict[str, Any], Path, Path | None]] = []
         for number, item in enumerate(anchors):
@@ -299,7 +312,10 @@ class Guard:
                     or any(not isinstance(value.get(key), str) or not value[key] for key in keys)):
                 self.fail(f"{label}.{group}: missing or unauthorized approval/provenance fields")
         path_value, export = anchor.get("path"), anchor.get("export")
-        if isinstance(path_value, str) and path_value in paths:
+        shared = isinstance(path_value, str) and len(self.owners.get(path_value, [])) > 1
+        if shared and not all(owner.get("kind") == "definition" for owner in self.owners[path_value]):
+            self.fail(f"{label}.path: only definition anchors of one mutual block may share a file")
+        if isinstance(path_value, str) and path_value in paths and not shared:
             self.fail(f"{label}.path: duplicate {path_value}")
         elif isinstance(path_value, str):
             paths.add(path_value)
@@ -456,6 +472,10 @@ class Guard:
         declarations = self.declarations(text)
         expected_export = anchor.get("export", "")
         expected_kind = "def" if kind == "definition" else None
+        owners = self.owners.get(anchor.get("path"), []) if hasattr(self, "owners") else []
+        if kind == "definition" and len(owners) > 1:
+            self.check_mutual_file(anchor, label, text, declarations, owners)
+            return
         if len(declarations) != 1:
             self.fail(f"{label}: frozen file must contain exactly one top-level declaration total")
             return
@@ -474,6 +494,36 @@ class Guard:
             self.fail(f"{label}: definition anchor must use literal `def`, `abbrev`, `structure` or `inductive`")
         if kind == "theorem" and actual_kind not in {"theorem", "lemma"}:
             self.fail(f"{label}: theorem anchor must declare theorem or lemma")
+
+    def check_mutual_file(self, anchor: dict[str, Any], label: str, text: str,
+                          declarations: list[tuple[str | None, str, str | None, str | None]],
+                          owners: list[dict[str, Any]]) -> None:
+        """A file owned by several definition entries: exactly one `mutual ... end` block, which contains every
+        declaration of the file, and the declared names are exactly the owners' exports."""
+        lines = self.code_mask(text).splitlines()
+        starts = [i for i, line in enumerate(lines) if MUTUAL.match(line)]
+        if len(starts) != 1:
+            self.fail(f"{label}: a shared frozen file must contain exactly one mutual block")
+            return
+        stop = next((i for i in range(starts[0] + 1, len(lines)) if re.match(r"^[ \t]*end[ \t]*$", lines[i])), None)
+        if stop is None:
+            self.fail(f"{label}: unterminated mutual block")
+            return
+        outside = "\n".join(lines[:starts[0]] + lines[stop + 1:])
+        if any(True for _ in DECL.finditer(outside)):
+            self.fail(f"{label}: a shared frozen file may declare nothing outside its mutual block")
+        names = [d[3] for d in declarations]
+        exports = sorted(owner.get("export", "") for owner in owners)
+        if sorted(names) != exports or len(set(names)) != len(names):
+            self.fail(f"{label}: mutual block must declare exactly the exports of the entries sharing the file")
+        for modifier, actual_kind, actual_name, _export in declarations:
+            if modifier == "private" or actual_name is None:
+                self.fail(f"{label}: mutual declarations must be named and not private")
+            if actual_kind not in {"def", "abbrev", "structure", "inductive"}:
+                self.fail(f"{label}: definition anchor must use literal `def`, `abbrev`, `structure` or `inductive`")
+        hashes = {owner.get("full_file_sha256") for owner in owners}
+        if len(hashes) != 1:
+            self.fail(f"{label}: entries sharing a file must record the same full_file_sha256")
 
     def implementation_path(self, anchor: dict[str, Any], number: int) -> Path | None:
         label, value = f"anchor[{number}].implementation", anchor.get("implementation")
