@@ -1,6 +1,6 @@
 # PL1 working handoff — carrier interface
 
-Status: **in progress**, 2026-11-04. This is the requested C2 instantiation interface, not a `READY pl1-core` claim. The couple analytic core, including canonical source agreement, is complete. Stage 1 still needs the tree ordered-boundary/phase assembly; Stages 2–3 remain open.
+Status: **in progress**, 2026-11-04. This is the requested C2 instantiation interface, not a `READY pl1-core` claim. The couple analytic core, including canonical source agreement, is complete. Stage 1 still needs the exact tree phase/source identity and final interpolation; Stages 2–3 remain open.
 
 ## Structural data
 
@@ -58,3 +58,25 @@ The corrected-mask `RootDensityLp.lean` and `CoupleExtension.lean` now build, pr
 Commits `d8b519c` and `cc3405d` prove the phase estimates for **literal rectangular time fibers**, with arbitrary momentum-dependent endpoints and phases. The smoothing windows have variation at most two per coordinate and converge pointwise to half-open interval indicators. Their mixed derivative mass is at most four. Bounded convergence for ordered integrals, Fourier dominated convergence, and mixed-norm Fatou pass the landed smooth phase lemma to the hard boundaries. The momentum supremum remains inside the frequency integral throughout. Both focused `SmoothRectanglePhase` and `RectanglePhaseBound` builds passed. `AxiomsRectangle.lean` audited the six main smoothing/limit/phase results: all use exactly `[propext, Classical.choice, Quot.sound]`.
 
 This is a rigorous reading of the terse derivative step in TARGET `(incohproof27)`: hard interval indicators are handled by uniformly bounded smooth approximations, rather than asserted to be smooth. The remaining tasks include mixing these rectangular phase kernels against the actual internal link amplitudes, accounting for the selected-link expansion, proving source agreement for both tree cases and layer endpoints, and the negative/positive norm interpolation. No tree-core completion is claimed yet.
+
+
+## Causal tree kernels with every selected layer bound
+
+The current direct route uses `causalBoxKernel` (`CausalBoxKernel.lean`), with two selected clocks at `m=0` or four at `m=2`. The amplitude contains the literal half-open interval indicator for **every** selected clock, the fixed smooth cutoff, a balanced phase tuple, and the strict causal ordering of those clocks. This also handles reversed external clocks: `CausalOrderingZero.lean` proves the kernel is zero there.
+
+`CausalBoxData m` (`CausalBoxData.lean`) is the measurable subtype of three real vectors of length `m+2`:
+
+| field / invariant | exact content | C2 obligation |
+|---|---|---|
+| `phase` | `Fin (m+2) → ℝ` | Actual selected-link temporal frequencies, with signs determined by the endpoint ordering. |
+| `phase_sum` | `∑ j, phase j = 0` | Each completely selected link contributes its positive and negative frequency once. |
+| `lower`, `upper` | `Fin (m+2) → ℝ` | Actual interval bounds after fixing the remaining clocks, including all selected vertex layer boxes. |
+| `lower_le_upper` | coordinatewise `lower ≤ upper` | A zero-width interval represents an empty fiber. |
+
+These are the only data/invariants of this carrier. There are no analytic norm or decay fields. `universalCausalBoxKernel` includes all such parameters; it is jointly measurable and has one common integrable time dominator. The mixed norm theorem now allows **any** vector parameter carrier, retaining its supremum inside the frequency integral.
+
+Commit `8f0241a` proves the direct quarter-regularity estimate by reusing the landed eight-moment and joint-frequency estimates. A common clock shift differentiates each localized interval factor only once; the balanced phase and smooth causal-ordering weight contribute zero. The uniformly bounded first variation passes to the hard indicators by dominated convergence and Fatou. This keeps the printed `1/4` regularity and all selected clock bounds. The separate fixed-time trace results in `7c1af3b` are also valid, but are not needed to discard any layer constraint in this direct route.
+
+Focused builds passed for `CausalBoxBound`, `RootCausalSource`, and the supporting moment/measurability modules. `AxiomsCausalBoxes.lean` audited the first-variation, common-shift, smooth and hard causal box bounds, both trace bounds and the ordered-domain integral identity; all eight use exactly `[propext, Classical.choice, Quot.sound]`. `AxiomsCausal.lean` audited the actual negative tree norm and source agreement, with the same three axioms. The generic parameter-carrier extension has subsequently rebuilt through `CausalKernelMeasurable`.
+
+The remaining structural bridge must identify the actual tree time domain, after selecting the complete root link(s), with its remaining-clock domain and selected-clock rectangular fibers plus causal ordering. The phase expansion and the actual mixture amplitude mass are already proved; their exact integration identity with that source domain, the final common-extension interpolation, and Stages 2–3 remain in progress. The strict/half-open conventions will be related to any closed source endpoints by the corresponding null-boundary identity; no change in the source integral is intended. No `READY pl1-core` claim is made yet.

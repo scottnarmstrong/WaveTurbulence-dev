@@ -22,8 +22,8 @@ namespace WaveTurbulence.Incoh
 
 /-- Literal smooth causal box kernels have a common quarter-regularity bound. -/
 theorem exists_smoothCausalBoxKernel_bound (m : ℕ) {χ : ℝ → ℝ} (hχ : ContDiff ℝ ∞ χ)
-    (hcχ : HasCompactSupport χ) : ∃ C : ℝ, 0 < C ∧ ∀ d : ℕ,
-      ∀ phase a b : Mom d → Fin (m + 2) → ℝ,
+    (hcχ : HasCompactSupport χ) : ∃ C : ℝ, 0 < C ∧ ∀ V : Type*,
+      ∀ phase a b : V → Fin (m + 2) → ℝ,
       (∀ k, ∑ j, phase k j = 0) → (∀ k, a k ≤ b k) → ∀ ε : ℝ, 0 < ε →
       Fourier.mixedFourierNorm00 (1 / 4) (fun t k => smoothCausalBoxKernel m χ ε (phase k) (a k) (b k) t) ≤
         ENNReal.ofReal C := by
@@ -41,7 +41,7 @@ theorem exists_smoothCausalBoxKernel_bound (m : ℕ) {χ : ℝ → ℝ} (hχ : C
       _ = ENNReal.ofReal Q.toReal := (ENNReal.ofReal_toReal hQ).symm
       _ ≤ _ := ENNReal.ofReal_le_ofReal (by linarith)
   refine ⟨1 + Q.toReal, by positivity, ?_⟩
-  intro d phase a b hp hab ε hε
+  intro V phase a b hp hab ε hε
   apply le_trans ?_ hQC
   exact mixedFourierNorm00_invariantOrdered_le hχ h
     (fun k j => localizedInterval χ ε (a k j) (b k j))
