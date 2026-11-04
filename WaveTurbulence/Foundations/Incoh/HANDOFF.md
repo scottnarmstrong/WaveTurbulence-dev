@@ -80,3 +80,42 @@ Commit `8f0241a` proves the direct quarter-regularity estimate by reusing the la
 Focused builds passed for `CausalBoxBound`, `RootCausalSource`, and the supporting moment/measurability modules. `AxiomsCausalBoxes.lean` audited the first-variation, common-shift, smooth and hard causal box bounds, both trace bounds and the ordered-domain integral identity; all eight use exactly `[propext, Classical.choice, Quot.sound]`. `AxiomsCausal.lean` audited the actual negative tree norm and source agreement, with the same three axioms. The generic parameter-carrier extension has subsequently rebuilt through `CausalKernelMeasurable`.
 
 The remaining structural bridge must identify the actual tree time domain, after selecting the complete root link(s), with its remaining-clock domain and selected-clock rectangular fibers plus causal ordering. The phase expansion and the actual mixture amplitude mass are already proved; their exact integration identity with that source domain, the final common-extension interpolation, and Stages 2–3 remain in progress. The strict/half-open conventions will be related to any closed source endpoints by the corresponding null-boundary identity; no change in the source integral is intended. No `READY pl1-core` claim is made yet.
+
+## Exact phase and tree-fiber interfaces
+
+`SelectedLinkClocks n r` adds only `coordinates : RootCoordinates n r`, a finite equivalence
+`pairing : Fin r ≃ ({i // i ∈ coordinates.rootLinks} × Fin 2)`, and the equality identifying
+`coordinates.rootVertex` with that pair. Complete selection proves `2 * card(rootLinks) = r`
+(up to commutation), at most two selected links for `r ≤ 4`, and zero total signed temporal
+frequency. `SelectedClockPhase` identifies its linear phase with the literal product of link
+exponentials, in reconstructed original vertex coordinates.
+
+`TreeClockFibers m Q` contains:
+
+- `selection : SelectedLinkClocks n (m+2)`;
+- `remainingDomain` in the nonselected clock coordinates, with its measurability;
+- measurable `lower` and `upper` vectors depending on the remaining clocks, with `lower ≤ upper`;
+- containment of the remaining domain in `restBox Q`, and containment of each half-open interval
+  fiber in `rootBox Q`.
+
+Its `timeDomain` is defined from these data: remaining-domain membership, all selected intervals,
+and strict adjacent descendant ordering. Measurability and containment in the original full link
+box are theorems. The two source cases use `m=0` and `m=2`. These fields contain no analytic bounds.
+The actual tree instantiation must identify this defined domain with the source time domain up to
+null clock boundaries. This identification is not claimed by the abstract carrier alone.
+
+`PhaseCoordinateIntegral` recovers each selected lattice sum and their finite product by integrating
+against the literal counting/Dirac measures. `PhaseTimeSplit` proves that the actual product mixture
+measure separates into phase arrays and Lebesgue clock arrays, and proves Fubini with the phases
+integrated first. Focused builds passed for these modules, `SelectedLinkClocks`,
+`SelectedClockPhase`, and `TreeClockFibers`. The common-extension identity and final tree
+interpolation are still in progress.
+
+`ExpandedLinkIntegral.integral_source_eq_expandedMixture` now proves the exact identity between
+the literal source product integral on any measurable domain inside the layer box and the actual
+selected-phase mixture. Temporal phase restoration is proved integrable, not assumed.
+`TreeFiberParameters.mixtureParameters` constructs the actual balanced phases and interval endpoints
+from `TreeClockFibers`; its measurability is proved. The probes `AxiomsPhaseRecovery.lean` and
+`AxiomsExpanded.lean` (scratch `pl1/`, logs `axioms-phase-recovery.log`, `axioms-expanded.log`)
+check twelve recovery, finite-pair, measure-split and fiber-interface results: all use exactly
+`[propext, Classical.choice, Quot.sound]`. Focused builds passed for all modules named above.
