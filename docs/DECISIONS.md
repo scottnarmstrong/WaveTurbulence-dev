@@ -51,3 +51,9 @@ Format: D<n> — date (UTC) — who — decision — reason.
   Scott's approval of the exact text; (2) a research packet works on a repair for 0 < γ ≤ 1/2 in parallel; (3) the
   letter to Deng and Hani (draft `docs/review/LETTER-DENG-HANI-DRAFT.md`) is kept ready for Scott to send. The erratum
   (DH23 Prop 9.6 false for γ ≤ 1/2, necklace counterexample) is recorded in docs/ERRATA-AND-DEVIATIONS.md (E1).
+- D10 — 2026-11-04 ~23:15 — Scott ("approve the five successors", in reply to the complete code on
+  docs/review/GAMMA-HALF-SUCCESSORS.md, main 9c5ec0d) — **γ ∈ (1/2, 1) versioned successors approved and frozen**:
+  `main_v2`, `propansatz_v2`, `layergarden_v2`, `fixedpoint_v2`, `layergardenFlower_v2` as DRAFT_SORRY anchors.
+  Each is its original verbatim except: the name; `1 / 2 < P.γ →` at the head of the body (`hγ : γ ∈ Ioo (1 / 2) 1`
+  for `main_v2`); one docstring paragraph. Packaging (semantics-neutral): each imports its own provider stub
+  `Provider.<Name>V2`. The originals stay frozen and open (D9; erratum E1).

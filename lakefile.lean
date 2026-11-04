@@ -25,7 +25,12 @@ private def quarantinedModules : Array Lean.Name := #[
   `WaveTurbulence.Frozen.Theorems.LayergardenFlower, `WaveTurbulence.Provider.LayergardenFlower,
   `WaveTurbulence.Frozen.Theorems.Propansatz, `WaveTurbulence.Provider.Propansatz,
   `WaveTurbulence.Frozen.Theorems.WkeTaylor, `WaveTurbulence.Provider.WkeTaylor,
-  `WaveTurbulence.Frozen.Theorems.RegularAsymptotics, `WaveTurbulence.Provider.RegularAsymptotics
+  `WaveTurbulence.Frozen.Theorems.RegularAsymptotics, `WaveTurbulence.Provider.RegularAsymptotics,
+  `WaveTurbulence.Frozen.Theorems.MainV2, `WaveTurbulence.Provider.MainV2,
+  `WaveTurbulence.Frozen.Theorems.PropansatzV2, `WaveTurbulence.Provider.PropansatzV2,
+  `WaveTurbulence.Frozen.Theorems.LayergardenV2, `WaveTurbulence.Provider.LayergardenV2,
+  `WaveTurbulence.Frozen.Theorems.FixedpointV2, `WaveTurbulence.Provider.FixedpointV2,
+  `WaveTurbulence.Frozen.Theorems.LayergardenFlowerV2, `WaveTurbulence.Provider.LayergardenFlowerV2
 ]
 
 /-- The formalization of Deng–Hani, *Long time justification of wave turbulence theory*
