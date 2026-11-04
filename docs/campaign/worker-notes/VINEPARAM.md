@@ -89,3 +89,28 @@ The serial superset check now covers1175 targets including every concrete
 matrix package and all eight catalogue lookups. It replaces the previous
 queue at a clean boundary, retaining compiled artifacts. Full actual
 orientation normalization and arbitrary-insertion chart assembly remain.
+
+## Source orientation normalization and arbitrary ladder fiber checkpoint
+
+Actual direction counts now select a profile from source undirected shape
+and actual outgoing degrees, and the matching consumer preserves each
+oriented bond occurrence. The actual expanded-vine model is selected before
+all decorations. Source decoration conservation yields zero interior rows;
+the second joint gap is forced, and cap cut flow is zero or a signed root gap.
+
+Both forward and reverse charts work for arbitrary ladder length. The full
+rung/ladder conservation-fiber bijection, shared upper rail compatibility,
+and exact rung resonance formulas compile. The cap/reference correction has
+ternary coefficients in all12 local cases, and the pinned lattice embedding
+commutes with the integer charts and is injective for nonzero L. Outside
+insertions cannot create cap crossings, including arbitrary insertion folds.
+Caps may meet either end of the marked rails; this is documented and handled
+by the reverse charts (no source/template change).
+
+Focused check135 targets: final3 compiled/132 current, exit0/no warnings;
+then the137-target run compiled2, with a mechanically fixed unused-variable
+warning. A dynamic serial queue rechecked that fix and the axiom probe:
+151 declarations, mechanically matched, standard axioms only, no errors or
+warnings. It continues all-profile validation (currently through VI010,
+VI011 in progress). Concrete source-chart lookup and arbitrary-insertion
+chart assembly remain in progress; no M9 completion claim.
