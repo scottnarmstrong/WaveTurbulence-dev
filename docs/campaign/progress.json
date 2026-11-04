@@ -1,5 +1,5 @@
 {
- "assessed": "2026-11-04 07:55 UTC",
+ "assessed": "2026-11-04 08:05 UTC",
  "notes": "Lean work items = blueprint packets (docs/blueprint/GRAPH.md §E) with their difficulty weights (node weights L=1, M=2, H=4, VH=8 summed). Each frozen theorem anchor adds weight 1, credited when SEALED. Done fractions are the orchestrator's assessment, reviewed at integration rounds.",
  "lines_est_total": 273000,
  "parts": [
@@ -387,8 +387,8 @@
      "goal": "Prop 5.1 steps 1–2 (unimodular change of variables, localization)",
      "weight": 7.0,
      "lines_est": 2800,
-     "done": 0.6,
-     "note": "steps 1-2: carrier interface done (Incoh HANDOFF), unimodular change of variables in LINKS/ENHANCED scratch"
+     "done": 0.9,
+     "note": "steps 1-2 done in the abstract carrier; instantiation with LINKS in INCOH-INST"
     },
     {
      "id": "V1",
@@ -486,8 +486,8 @@
      "goal": "Prop 5.1 steps 3–4 and assembly",
      "weight": 9.0,
      "lines_est": 4650,
-     "done": 0.75,
-     "note": "PL1 analytic core done (couple + tree, steps 3-4, fb174c5); steps 1-2 and assembly in progress"
+     "done": 1.0,
+     "note": "PL1 done: abstract TARGET Prop 5.1 incl. one-clock case (541d4c8); garden instantiation = INCOH-INST"
     },
     {
      "id": "C4",
