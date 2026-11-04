@@ -458,3 +458,28 @@ all base one-atom-deletion certificates, expansion vertex connectivity,
 tactic warnings have been cleaned in source and await the final incremental
 pass. Main structural consumers and the refreshed axiom audit are still
 pending. No source result is claimed completed by this checkpoint.
+
+## F72 adaptation checked and audited
+
+The focused dependency rebuild now passes on all 432 targets. Last command:
+`nice -n 5 lake env bash -c 'export LEAN_PATH="/home/scott/wt-scratch/vines/build:$LEAN_PATH"; python3 /home/scott/wt-scratch/vines/validation/RebuildF72.py'`.
+Final incremental result: `1 compiled; 431 already current`, exit0, no warnings.
+The integrated `subsetvc_classification`, both ordinary and hyper DV cases,
+all single-vine and outer-VC/HV/HVC structural clauses, and simultaneous
+adjoint removal are rechecked under the refreshed four-atom type-II pin.
+
+The updated audit command is `nice -n 5 lake env bash -c 'export
+LEAN_PATH="/home/scott/wt-scratch/vines/build:$LEAN_PATH"; lean -R
+/home/scott/wt-scratch/vines/src /home/scott/wt-scratch/vines/validation/Axioms.lean
+> /home/scott/wt-scratch/vines/validation/Axioms-F72.log 2>&1'`; exit0, no
+errors or warnings, only subsets of `[propext, Classical.choice, Quot.sound]`.
+It includes the kernel-checked triple-bond example motivating the owner's
+designated-bond/compatible-containment reading (F71, still flagged for audit).
+
+New removal ingredients checked: literal single-bond backbones of types
+II–VIII (type III's entire core is connected by single bonds), exact single
+rail pair degree, type-I removals keep all atoms and all single rails, and
+a disjoint type-I family cannot remove two different neighbor attachments
+at one center. These are helpers, not the remaining source removal theorem.
+Next: simultaneous ordinary/mixed removal and realization-independent coherence.
+Continuing directly; M4 is not yet READY.
