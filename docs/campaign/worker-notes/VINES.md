@@ -444,3 +444,17 @@ and the replacement short-graph proofs are still being checked. The old
 pin. No new source erratum is alleged; this implements the owner's F72
 correction. Remaining M4 goals also include simultaneous ordinary/mixed
 removal and realization-independent coherence. Continuing; not READY.
+
+## F72 resumed validation checkpoint
+
+After the account move the old exec session no longer existed, so the serial
+focused rebuild was restarted incrementally. Checked under the refreshed pin:
+`VineCoherencePermutation`, `VineTypeIIMinimum`, the explicit five/seven-atom
+side and cap path certificates, `VineFiniteLabelConnectivity`,
+`VineShortGraphConnectivity`, `VineSingleRailCounts`, `VineTypeIISequence`,
+all base one-atom-deletion certificates, expansion vertex connectivity,
+`VineEraseChainIngredient`, `VineBranchingEnds`, base VC classification,
+`VineStemStarts`, and `VineCentralII`. All compiled with exit0; generated
+tactic warnings have been cleaned in source and await the final incremental
+pass. Main structural consumers and the refreshed axiom audit are still
+pending. No source result is claimed completed by this checkpoint.
