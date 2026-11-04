@@ -351,3 +351,13 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   omission is the m = 1 vine. Minor DH23 slips: L1481 cites Lemma A.2(2) outside its range (A.2(1) closes it); the
   δ-bookkeeping in (twoestbadv1) is off but absorbed by L^{−5η}. **B2 change required:** add the m = 1 instance to vine
   (II) (reverses R4 of the ylem1 investigation); re-run template enumerations (VINES, MOLEPROP13).
+- F73 — DH23 `kqmainest1` (L1632–L1640) and TARGET (finalsbest2) (L2078) — the analytic per-class bounds also fail on the
+  necklace couples for 0 < γ < 1/2 (and γ = 1/2 with δ small): research note `docs/research/kqmainest1-necklace.txt`
+  computes K_Q(t,t,k) = ζ(Q) 2^{−n} δ^{2m+2−d} L^{−γ(2d−1)} [A_m + o(1)], n = 4m+3, with A_m ≠ 0 for explicit data —
+  no gain per bead (each T-bead is exactly neutral; joint phases do not oscillate when |r| ≲ 1/λ, and there are
+  ≳ δ^{−d} such gaps exactly when γ ≤ 1/2). TARGET (finalsbest2) fails once η⁶(4m+3) > γ(2d−1) (its ρ is explicit);
+  DH23 kqmainest1 fails with its proof's ρ (literal "there exists ρ" form not refuted). TARGET `layergarden` itself is not
+  contradicted (necklace couples are ≤ C^n with a fixed L^{−γ(2d−1)} gain), but its proof is broken at the analytic
+  level for γ ≤ 1/2, and no counting-only repair works (ladder-style ρ needs a log-free time bound; splicing needs a
+  Prop 7.6-type estimate). Confidence: high; derived, not a full proof with explicit error terms. Also: small-gap
+  Q-beads lose L^γ analytically, so the m = 1 vine (II) (F72) is necessary.

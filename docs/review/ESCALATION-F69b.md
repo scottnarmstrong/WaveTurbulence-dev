@@ -63,6 +63,15 @@ the twist cancellation go through at m = 1), which repairs the Q-bead failure fo
 T-bead necklace for **γ ≤ 1/2**; option (2) below needs only γ ∈ (1/2, 1) plus the m = 1 vine and the T-type counts
 for γ > 1/2 (no longer (2/3, 1)). FINDINGS F72.
 
+
+**Update 2 (2026-11-04, `docs/research/kqmainest1-necklace.txt`, FINDINGS F73):** the analytic per-class bound TARGET
+(finalsbest2) (and DH23 `kqmainest1` with its proof's ρ) also fails on the necklaces for γ ≤ 1/2: the time integrals
+give no gain per bead (explicit leading-order computation, high confidence, not a complete proof). TARGET's
+`layergarden` itself is not contradicted, but its proof breaks at the analytic level for γ ≤ 1/2, and any repair needs
+new analytic input (a log-free time bound for long chains or a Prop 7.6-type estimate). This strengthens option (3)
+(write to the authors). Independently of the decision, the case-(4) counts for γ ∈ (1/2, 1) (all T-type classes) are
+being researched now, since every option needs them.
+
 ## What it means for the formalization
 
 Ruling D2 sets the target as **0 < γ < 1**, and the frozen `main` (Wave A) quantifies over `γ ∈ Ioo 0 1`. The
