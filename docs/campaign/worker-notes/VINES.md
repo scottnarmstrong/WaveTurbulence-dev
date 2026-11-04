@@ -414,3 +414,33 @@ expanded Axioms.lean exit0; all299 printed declarations use only subsets of
 `[propext, Classical.choice, Quot.sound]`. No pinned definition changed.
 Remaining M4: simultaneous ordinary/mixed removal and realization-independent
 coherence. Continue directly; not READY yet.
+
+## F72: type-II Q-block endpoint extension (adaptation in progress)
+
+Refreshed the copied `VineType.template` block verbatim from the updated
+owner B2 draft: type II has four atoms, six bonds, group `[2,3]`, and
+slot `((2,1),(3,1))`. The copied hashes are in `COPIED-SHA256.txt`;
+the pre-F72 pin and 299-declaration axiom log are preserved in
+`snapshots/f72-pre/`. In the new convention `m=1+k`, so type II has
+`4+2k` atoms, `6+4k` bonds and `1+k` groups.
+
+Statements changed: the type-I small-cardinality cutoff and double-chain
+cutoff decrease from six to four; the branching-chain singleton cutoff
+decreases from eleven to seven. The old five-or-seven branching exclusion
+is false after F72 (two Q-blocks concatenate to seven atoms) and is replaced
+by a five-atom branching exclusion plus a five/seven-atom exclusion requiring
+actual connectivity after every one-atom deletion. The source short-side
+and cap-adjoint proofs now construct that stronger graph property by finite
+paths. Slot helpers use distinct endpoints on each rail; full cross-rail
+distinctness is asserted only when the final ports differ. Interior
+connectivity needs only the initial ports to be nonjoint. The type-II full
+sequence now has `k+1` rungs and permits coincident final ports.
+
+Validation: the serial focused scratch rebuild is running, with per-module
+output in `validation/F72-Rebuild.log`. The refreshed template structure,
+counts, basic paths and small-cardinality lemmas have passed; later modules
+and the replacement short-graph proofs are still being checked. The old
+299-declaration axiom audit is pre-F72 and is not claimed for the refreshed
+pin. No new source erratum is alleged; this implements the owner's F72
+correction. Remaining M4 goals also include simultaneous ordinary/mixed
+removal and realization-independent coherence. Continuing; not READY.
