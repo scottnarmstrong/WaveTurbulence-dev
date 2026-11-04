@@ -483,3 +483,32 @@ Moving-tree checks: targeted build `MovingTreeDecay` passed (`9483 jobs`). Scrat
 actual spectral Fubini, uniform actual amplitude mass, and fixed-measure indicator formula.
 All four use exactly `[propext, Classical.choice, Quot.sound]`. No weakened exponent or new
 source errata were introduced.
+
+## Actual raw couple restriction bound (spatial order zero)
+
+`RawSourceIntegral` defines the original unlocalized normalized source lattice/time operator,
+retaining the global sign and actual source inputs. Source spatial norms prove its absolute
+lattice convergence and continuous time dependence. `RawSourceCellSeries` and
+`RawSourceCellIntegral` prove exact pointwise lattice/cell and time/cell rearrangements, with
+absolute convergence justified by the actual source majorant. `SourceCellTimeIntegrand`
+proves finite lattice support, continuity and a clock-independent majorant for every cell.
+
+`CutoffPointwiseL1` / `CouplePointwiseL1` reuse the landed bounded kernels to give a pointwise
+physical root-mass bound. `AllCellCouplePointwise` proves spectral/counting Fubini at every
+external clock pair. `RawCoupleAgreement` identifies the full recombined spectral extension
+with the literal raw couple kernel on the entire source root box, including boundaries.
+
+`RawCoupleRestrictionDecay.exists_rawCoupleKernel_restriction_bound` now proves actual
+`𝔛^{η,0,0}` restriction decay of that raw unlocalized source couple kernel. Its only input
+premises are structural source data, source layer/domain conditions, incoherence, and finite
+spatial input norms. The dimensional finite localization cover, Fourier bounds, all Fubini
+conditions and exact extension agreement are proved internally. Its displayed coefficient is
+still `C_local^n (C_leaf B)^m C_half^(2n)` before the final exponential absorption and spatial
+order `30d` / weight `30d` assembly. The one-clock analytic source case remains supplied by
+P-1 above and must be retained through final source assembly.
+
+Raw-couple checks: targeted build `RawCoupleRestrictionDecay` passed (`9401 jobs`), including
+`RawSourceCellIntegral` (`9209 jobs`) and `AllCellCouplePointwise` (`9388 jobs`). Scratch
+`AxiomsRawCouple.lean`, log `axioms-raw-couple.log`, audited six final raw restriction, exact
+recombination, pointwise Fubini and physical bound results: each uses exactly
+`[propext, Classical.choice, Quot.sound]`.
