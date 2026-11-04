@@ -51,4 +51,20 @@ theorem eLpNorm_le_of_one_and_pointwise {X : Type*} [MeasurableSpace X] {μ : Me
   have he : (p - 1) * (1 / p) = 1 - 1 / p := by field_simp
   rw [he, mul_comm]
 
+/-- Scaled endpoint interpolation factors out the common L¹ scale exactly. -/
+theorem eLpNorm_le_of_one_and_scaled_pointwise {X : Type*} [MeasurableSpace X] {μ : Measure X}
+    {F : X → ℂ} (hF : AEStronglyMeasurable F μ) {p : ℝ} (hp : 1 ≤ p)
+    {A B : ℝ≥0∞} (hA : eLpNorm F 1 μ ≤ A) (hB : ∀ᵐ x ∂μ, ‖F x‖ₑ ≤ A * B) :
+    eLpNorm F (ENNReal.ofReal p) μ ≤ A * B ^ (1 - 1 / p) := by
+  have hp₀ : 0 < p := zero_lt_one.trans_le hp
+  have ha : 0 ≤ 1 / p := by positivity
+  have hb : 0 ≤ 1 - 1 / p := sub_nonneg.mpr ((div_le_one hp₀).mpr hp)
+  apply (eLpNorm_le_of_one_and_pointwise hF hp hA hB).trans_eq
+  rw [ENNReal.mul_rpow_of_nonneg _ _ hb]
+  calc
+    _ = (A ^ (1 / p) * A ^ (1 - 1 / p)) * B ^ (1 - 1 / p) := by ac_rfl
+    _ = _ := by
+      rw [← ENNReal.rpow_add_of_nonneg (1 / p) (1 - 1 / p) ha hb,
+        add_sub_cancel, ENNReal.rpow_one]
+
 end WaveTurbulence.Incoh
