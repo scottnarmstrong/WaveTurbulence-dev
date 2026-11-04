@@ -69,12 +69,15 @@ theorem formsV_JR_one {Q : Type*} (α : (ι₁ ⊕ ι₂) ⊕ Unit → ℝ)
   simp [bundle]
   ring
 
+omit [Fintype ι₁] [Fintype ι₂] in
 theorem vS_elim (a : ι₁ ⊕ ι₂ → ℝ) (s : Unit → ℝ) : (Sum.elim a s : (ι₁ ⊕ ι₂) ⊕ Unit → ℝ)
     (Sum.inr ()) = s () := rfl
 
+omit [Fintype ι₁] [Fintype ι₂] in
 theorem vA_elim (a : ι₁ ⊕ ι₂ → ℝ) (s : Unit → ℝ) :
     vA (Sum.elim a s : (ι₁ ⊕ ι₂) ⊕ Unit → ℝ) = fun i => a (Sum.inl i) := rfl
 
+omit [Fintype ι₁] [Fintype ι₂] in
 theorem vB_elim (a : ι₁ ⊕ ι₂ → ℝ) (s : Unit → ℝ) :
     vB (Sum.elim a s : (ι₁ ⊕ ι₂) ⊕ Unit → ℝ) = fun i => a (Sum.inr i) := rfl
 

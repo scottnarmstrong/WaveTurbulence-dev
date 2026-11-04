@@ -39,6 +39,7 @@ variable {Q : Type*} [MeasureSpace Q] [SFinite (volume : Measure Q)]
     (α : ι → ℝ) (z : ℝ × (ℝ × Q)) : ℂ :=
   m α (z.1, z.2.1) * F (z.2.1 - bundle y α) z.2.2
 
+omit [MeasureSpace Q] [SFinite (volume : Measure Q)] in
 theorem dnorm_symR_le {m : (ι → ℝ) → ℝ × ℝ → ℂ} (hm : ∀ γ, ContDiff ℝ ∞ fun α => m α γ)
     {y : ι → ℤ} (hy : IsBundle y) {F : ℝ → Q → ℂ} (hF : ∀ q, ContDiff ℝ ∞ fun x => F x q)
     (k : ℕ) (α : ι → ℝ) (z : ℝ × (ℝ × Q)) :

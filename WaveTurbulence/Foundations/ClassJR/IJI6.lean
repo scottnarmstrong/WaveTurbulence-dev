@@ -40,6 +40,7 @@ theorem integral_prodUnit' (g : Z × Unit → ℂ) : ∫ p, g p = ∫ z, g (z, (
 @[expose] noncomputable def sp (f : Z → ℂ) (L : ℝ) (u v : Z → ℝ) (t s : ℝ) : ℂ :=
   ∫ z, f z * jker L (u z) (v z) t s
 
+omit [SFinite (volume : Measure Z)] in
 theorem continuous_sp {f : Z → ℂ} (hf : Integrable f) (L : ℝ) {u v : Z → ℝ}
     (hu : Measurable u) (hv : Measurable v) :
     Continuous fun p : ℝ × ℝ => sp f L u v p.1 p.2 := by

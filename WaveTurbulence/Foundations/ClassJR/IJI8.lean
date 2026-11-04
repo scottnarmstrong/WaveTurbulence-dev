@@ -30,6 +30,7 @@ section Split
 
 variable {Z : Type*} [MeasureSpace Z] [SFinite (volume : Measure Z)]
 
+omit [SFinite (volume : Measure Z)] in
 theorem integrable_mul_phiR_gen {f : Z → ℂ} (hf : Integrable f) {Y : Z → ℝ}
     (hY : Measurable Y) {J : Z → ℂ} (hJ : AEStronglyMeasurable J) (hJ1 : ∀ z, ‖J z‖ ≤ 1) :
     Integrable fun z => f z * phiR (Y z) * J z := by
