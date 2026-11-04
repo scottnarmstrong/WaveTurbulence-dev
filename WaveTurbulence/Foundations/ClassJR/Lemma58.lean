@@ -563,11 +563,13 @@ theorem phiR_jker_eq (x μ t s : ℝ) :
 Φ(εα₁) 𝒥_{α[ ],μ₁} + 𝒥_{α₁,μ₁} + ℛ_{α₁,μ₁}` on the triangle, where `Φ(εα₁) = χ_∞(α₁)/(επiα₁)`
 (`phiR_sign`), `𝒥_{α[ ]}` has no variables, `𝒥_{α₁}` has the variable `α₁ = α none` and `ℛ_{α₁}`
 has the special variable `α₁`; the three operators are parametric (jointly measurable) in `μ₁` with
-norms bounded uniformly in `μ₁` (`0 ≤ θ < 1`, `A ≥ A0`). -/
+norms bounded uniformly in `μ₁` (`0 ≤ θ < 1`, `A ≥ A0`). Explicitly `𝒥_{α[ ],μ₁} = -I_{μ₁}` on the
+triangle (DH21 term II is `-Φ(εα₁) J_{0;0,μ₁}`). -/
 theorem iker_comp_decompP (h0 : 0 ≤ θ) (h1 : θ < 1) (hA : A0 ≤ A) {ε : ℤ}
     (hε : ε = 1 ∨ ε = -1) :
     ∃ (T₀ : ℝ → (Empty → ℝ) → ℝ → ℝ → ℂ) (TJ TR : ℝ → (Option Empty → ℝ) → ℝ → ℝ → ℂ),
       ClassJP θ A CM0 T₀ ∧ ClassJP θ A (C58J θ) TJ ∧ ClassRP θ A (CM0 * 2) TR ∧
+      (∀ (μ : ℝ) (α : Empty → ℝ), KEqOn (T₀ μ α) fun t s => -iker μ t s) ∧
       ∀ (μ : ℝ) (α : Option Empty → ℝ),
         KEqOn (kcomp (iker (ε * α none)) (iker (μ - ε * α none)))
           fun t s => phiR (ε * α none) * T₀ μ isEmptyElim t s + TJ μ α t s + TR μ α t s := by
@@ -584,7 +586,8 @@ theorem iker_comp_decompP (h0 : 0 ≤ θ) (h1 : θ < 1) (hA : A0 ≤ A) {ε : �
       fun i => by fin_cases i; exacts [hSM, hSE], by simp [C58J, Fin.sum_univ_two],
       fun μ α t s _ _ _ => by simp [Fin.sum_univ_two]⟩,
     ⟨1, ![SR], ![CM0 * 2], fun i => by fin_cases i; exact hSR, by simp,
-      fun μ α t s _ _ _ => by simp⟩, ?_⟩
+      fun μ α t s _ _ _ => by simp⟩, fun μ α t s hs0 hst ht1 => ?_, ?_⟩
+  · rw [hk0 μ α t s ⟨hs0.trans hst, ht1⟩ ⟨hs0, hst.trans ht1⟩, iker_eq_jker]
   intro μ α t s hs0 hst ht1
   have ht : t ∈ Icc (0 : ℝ) 1 := ⟨hs0.trans hst, ht1⟩
   have hs : s ∈ Icc (0 : ℝ) 1 := ⟨hs0, hst.trans ht1⟩
@@ -602,7 +605,7 @@ theorem iker_comp_decomp (h0 : 0 ≤ θ) (h1 : θ < 1) (hA : A0 ≤ A) {ε : ℤ
       ClassJ θ A CM0 T₀ ∧ ClassJ θ A (C58J θ) TJ ∧ ClassR θ A (CM0 * 2) TR ∧
       ∀ α : Option Empty → ℝ, KEqOn (kcomp (iker (ε * α none)) (iker (μ - ε * α none)))
         fun t s => phiR (ε * α none) * T₀ isEmptyElim t s + TJ α t s + TR α t s := by
-  obtain ⟨T₀, TJ, TR, h₀, hJ, hR, he⟩ := iker_comp_decompP h0 h1 hA hε
+  obtain ⟨T₀, TJ, TR, h₀, hJ, hR, -, he⟩ := iker_comp_decompP h0 h1 hA hε
   exact ⟨T₀ μ, TJ μ, TR μ, h₀.classJ μ, hJ.classJ μ, hR.classR μ, he μ⟩
 
 end Assembly
