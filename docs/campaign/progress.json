@@ -1,5 +1,5 @@
 {
- "assessed": "2026-11-04 13:35 UTC",
+ "assessed": "2026-11-04 19:36 UTC",
  "notes": "Lean work items = blueprint packets (docs/blueprint/GRAPH.md §E) with their difficulty weights (node weights L=1, M=2, H=4, VH=8 summed). Each frozen theorem anchor adds weight 1, credited when SEALED. Done fractions are the orchestrator's assessment, reviewed at integration rounds.",
  "lines_est_total": 273000,
  "parts": [
@@ -14,8 +14,8 @@
    "part": "Exact Lean statements, frozen (P2)",
    "kind": "phase",
    "weight": 20,
-   "done": 0.7,
-   "note": "Wave A frozen (D6); Wave B tier B1 snapshot 6 (12 theorems, F56 fixed, B1.12 added) audited PASS and published for author approval (docs/review/WAVE-B-B1.md); tier B2 drafted, fixes F53/F57/F59/R15 in progress"
+   "done": 0.9,
+   "note": "Wave A frozen (D6); Wave B tier B1 (D7) and tier B2 (D8) approved and landed (cff2654, 3e2de9d); B2.3 rigidity held out; the gamma-range question (F69b) pending the author"
   },
   {
    "part": "Lean proofs (P4)",
@@ -369,8 +369,8 @@
      "goal": "molecule-level vine parametrizations (I)–(VIII) with ladders (F22; review I3, I19), before V4 and G2",
      "weight": 4.0,
      "lines_est": 1500,
-     "done": 0.0,
-     "note": ""
+     "done": 0.8,
+     "note": "VINEPARAM: vineparam_of_base and the full induction proved in the canonical context; 538-profile base catalogue compiling (~12 h)"
     },
     {
      "id": "J1",
@@ -414,8 +414,8 @@
      "goal": "canonical layered gardens (criterion form), canonequiv + characterization (mandatory gate, G-2), unique construction data and expansion bijection, truncation",
      "weight": 9.0,
      "lines_est": 3950,
-     "done": 0.95,
-     "note": "CANON: canonicalCharacterization proved (seals at the freeze)"
+     "done": 0.97,
+     "note": "CANON: canonicalCharacterization sealed on main (B1 freeze, cff2654); second-key seal audit pending"
     },
     {
      "id": "G6",
@@ -468,8 +468,8 @@
      "goal": "vineest Step 2: garden-level re-parametrization into sumint form",
      "weight": 4.0,
      "lines_est": 2500,
-     "done": 0.0,
-     "note": ""
+     "done": 0.95,
+     "note": "VINEEST-S2 done: vineChain_eq_sumintForm (V4 endpoint, ruling R2), 709-module snapshot-9 rebuild OK; obligations VINEPARAM, SumintSigned"
     },
     {
      "id": "J2",
@@ -522,8 +522,8 @@
      "goal": "App B algorithm, DH23 Prop 10.2",
      "weight": 8.0,
      "lines_est": 4000,
-     "done": 0.05,
-     "note": "APPB-ALG started (wt-nt)"
+     "done": 0.85,
+     "note": "APPB-ALG: DH23 Prop 10.2 proved in full (dh23_prop_10_2, all three bounds; GraphOk size deviation recorded); fresh 809-module rebuild running"
     },
     {
      "id": "G7",
@@ -531,8 +531,8 @@
      "goal": "DH23 Lemmas ylem1/2, Prop 10.4",
      "weight": 12.0,
      "lines_est": 4500,
-     "done": 0.15,
-     "note": "MOLEPROP4 revived with repairs (ylem1′, Prop 10.4(2)′; F69/F72), wt-torus; wt-ansob's partial Y2 lemmas reused"
+     "done": 0.9,
+     "note": "MOLEPROP4 done in scratch (moleprop4-t): DH23 Prop 10.4(2)' + THEOREM-A via named inputs (wt-torus)"
     },
     {
      "id": "J4",
@@ -549,8 +549,8 @@
      "goal": "induced pre-layering, LF twists, lftwistprop with all cases (F20)",
      "weight": 13.0,
      "lines_est": 4200,
-     "done": 0.02,
-     "note": "LFTWIST started (wt-anfourier)"
+     "done": 0.8,
+     "note": "LFTWIST: unit and family lftwistprop proved in scratch; fresh closure rebuild ordered; port to the canonical universe (R8) pending"
     },
     {
      "id": "J5",
@@ -585,8 +585,8 @@
      "goal": "DH23 Prop 6.1 (couples and trees) for orders n≤N^4_{p+1} (F33, route R14 (a)); 2 days: split couples / trees+derivatives",
      "weight": 10.0,
      "lines_est": 5800,
-     "done": 0.4,
-     "note": "RA1: foundations landed (sign, normalization, Prop 6.4 application, envelopes); couples (wt-ansob) and trees (wt-l2s) in progress"
+     "done": 0.95,
+     "note": "RA1 done: couples (regular_couple_asymptotics, F80 form, rebuilt on snapshot 9, b0d22a2) and trees (ra1Tree, wt-l2s); B2.1 composition on snapshot 9 in progress (B21-SNAP9)"
     },
     {
      "id": "M8",
@@ -594,8 +594,8 @@
      "goal": "layering counts of ladders and vines",
      "weight": 6.0,
      "lines_est": 2100,
-     "done": 0.0,
-     "note": ""
+     "done": 0.6,
+     "note": "LAYERCNT: layerlad and layervine first bound proved; improved coherent bound conditional on the layer-range lower half (in progress)"
     },
     {
      "id": "J6",
@@ -612,8 +612,8 @@
      "goal": "vinechainlem, 𝒱, congruence (equivalence, F20), gaps",
      "weight": 7.0,
      "lines_est": 2400,
-     "done": 0.0,
-     "note": ""
+     "done": 0.5,
+     "note": "STAGE1-COMB: vinechainlem (DH23 Lemma 8.1, existence and uniqueness), collection V, defdiff with gap identity proved; congruence waits on the canonical-universe LFTWIST port (R8)"
     },
     {
      "id": "S2a",
@@ -621,8 +621,8 @@
      "goal": "Stage 1 construction: congruence classes, 𝒱_0, splicing, 𝒢_sb, 𝕄_sb, hinge atoms (review I1)",
      "weight": 2.0,
      "lines_est": 800,
-     "done": 0.0,
-     "note": ""
+     "done": 0.1,
+     "note": "REDSPLICE-DEF: V_0 defined; splice/hinges wait on CLCN in the canonical universe (R7, R8)"
     },
     {
      "id": "S4",
@@ -666,8 +666,8 @@
      "goal": "Prop 6.3 (layered realness)",
      "weight": 4.0,
      "lines_est": 2500,
-     "done": 0.05,
-     "note": "PL4 (Prop 6.3) started (wt-wke)"
+     "done": 0.9,
+     "note": "PL4 done: kernel conjugation and Prop 6.3(iii) realness; app halves of (i)/(ii) a separate unconsumed node (ruling R1)"
     },
     {
      "id": "G2",
@@ -720,8 +720,8 @@
      "goal": "ladder L^∞ and L¹ time-integral bounds",
      "weight": 8.0,
      "lines_est": 4200,
-     "done": 0.0,
-     "note": ""
+     "done": 0.3,
+     "note": "LADDER: DH21 elemineq and timeintlemma (Lemma 10.2), core time-integral bound, ladder chart and decoupling proved; LadderFourierAt / LadderDecayAt assembly in progress"
     },
     {
      "id": "F1",
@@ -747,8 +747,8 @@
      "goal": "terms (a)–(d), counting of classes and layerings, proof of layergarden",
      "weight": 12.0,
      "lines_est": 4150,
-     "done": 0.0,
-     "note": ""
+     "done": 0.35,
+     "note": "PLG = LG-SPINE: second collection settled (pair compatibility, canonical designation, restricted carrier, full pair table); counting cover and SpineInputs in progress"
     },
     {
      "id": "X2",
@@ -756,8 +756,8 @@
      "goal": "flower adjustments on the general carriers (WAVE-B G-1, F26), deterministic flower bound (gate B1.12), flowerest1, ∂_t bounds; 2–3 days: split",
      "weight": 16.0,
      "lines_est": 8900,
-     "done": 0.6,
-     "note": "flower moments (O-X2-EXP) proved; the B1.12 estimate itself = FLOWER-SPINE"
+     "done": 0.65,
+     "note": "FLOWEREST: flower moments proved; FLOWER-SPINE flower-specific inputs (kernel bridge, F1, F4, decay comparison) proved; paused until LG-SPINE SpineInputs"
     },
     {
      "id": "X3",
