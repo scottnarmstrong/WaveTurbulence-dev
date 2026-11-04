@@ -1,5 +1,5 @@
 {
- "assessed": "2026-11-04 10:50 UTC",
+ "assessed": "2026-11-04 11:15 UTC",
  "notes": "Lean work items = blueprint packets (docs/blueprint/GRAPH.md §E) with their difficulty weights (node weights L=1, M=2, H=4, VH=8 summed). Each frozen theorem anchor adds weight 1, credited when SEALED. Done fractions are the orchestrator's assessment, reviewed at integration rounds.",
  "lines_est_total": 273000,
  "parts": [
@@ -432,8 +432,8 @@
      "goal": "skeleton reduction of K_𝒢, VC-local expressions",
      "weight": 6.0,
      "lines_est": 1900,
-     "done": 0.0,
-     "note": ""
+     "done": 0.9,
+     "note": "REGRED done in scratch: skeleton reduction, vineest Step 1 (ab8680f); nonzero-gap boundary case separate (F21)"
     },
     {
      "id": "G4",
