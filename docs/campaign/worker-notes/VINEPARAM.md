@@ -41,3 +41,19 @@ inverse free-coordinate coefficients 0 or ±1 and the ruled signed core
 forms. This enumeration is exploratory, not a proof input. Continuing with
 kernel-checkable matrix/quadratic certificates, graph transport and
 arbitrary insertion assembly. M9 is not yet complete.
+
+## Exhaustive orientation coverage and source-bound chart checkpoint
+
+All eight profile-coverage theorems now follow from actual multiplicity
+bounds and outgoing degree equations, with no enumerator as a premise.
+Generic integer/quadratic evaluation, conservation-fiber reconstruction,
+actual bond matching and cap/rung translation tools are checked. The type
+II000 and VI000 inverse/resonance certificates are bound to literal source
+endpoints, normalized profiles and actual conservation rows.
+
+Focused build: 83 targets, final4 compiled/79 current, exit0/no warnings.
+The 89-declaration checkpoint axiom probe passes, standard axioms only.
+The expanded881-target serial check is running for all269 inverse,
+quadratic and source-binding certificates. Full actual-molecule and
+arbitrary-insertion assembly remain; no M9 completion claim yet.
+Scratch handoff and generators contain the exact commands and conventions.
