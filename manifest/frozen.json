@@ -25541,7 +25541,7 @@
         "mode": "NOT_SPLIT",
         "ruling_ref": "docs/DECISIONS.md#D8"
       },
-      "abi_sha256": "d7ee6423681b236e74756de37252e18b6f20060eacb17f7dcb8dbe32e579fd03",
+      "abi_sha256": "790d093270ab203ed62150c4a112b163e270f15ac9418ff154a35e5595b8aa6d",
       "definition_closure": [
         {
           "path": "WaveTurbulence/Frozen/Defs/AddrExt.lean",
@@ -25720,7 +25720,7 @@
           "sha256": "232d46199745b08d4afa5cf8e2d86979c28910380f37e6957775ef71964848a0"
         }
       ],
-      "state": "DRAFT_SORRY",
+      "state": "SEALED",
       "prefix_sha256": "f75c490c6ac6ecdd04fb06199b9cf85dfca25e112c3413f03fa99687cab7cdbc",
       "suffix_sha256": "9f48199048606af986e4911abed0172f6e65c9c8c91f1c2874961ad85a7ea8d0",
       "draft_allowlist": {

@@ -29,7 +29,6 @@ private def quarantinedModules : Array Lean.Name := #[
   `WaveTurbulence.Frozen.Theorems.ExistsUnique_regCpl_decodes, `WaveTurbulence.Provider.ExistsUnique_regCpl_decodes,
   `WaveTurbulence.Frozen.Theorems.IncoherentDecay, `WaveTurbulence.Provider.IncoherentDecay,
   `WaveTurbulence.Frozen.Theorems.RegChainExists_decodesTree, `WaveTurbulence.Provider.RegChainExists_decodesTree,
-  `WaveTurbulence.Frozen.Theorems.RegCplExists_decodes, `WaveTurbulence.Provider.RegCplExists_decodes,
   `WaveTurbulence.Frozen.Theorems.RegCplSize_eq_order, `WaveTurbulence.Provider.RegCplSize_eq_order,
   `WaveTurbulence.Frozen.Theorems.RegularAsymptotics, `WaveTurbulence.Provider.RegularAsymptotics
 ]

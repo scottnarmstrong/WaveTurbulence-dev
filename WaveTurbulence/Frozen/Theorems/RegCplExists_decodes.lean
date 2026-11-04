@@ -35,7 +35,7 @@ open TTree
 theorem RegCpl.exists_decodes (Q : RegCpl) (hQ : Q.wf = true) :
     ∃ G : Garden 2, Q.Decodes G ∧ IsRegularCouple G :=
 -- FROZEN_ANCHOR_PROOF_BEGIN
-  by sorry
+  by exact WaveTurbulence.Provider.exists_decodes
 -- FROZEN_ANCHOR_PROOF_END
 -- FROZEN_ANCHOR_SUFFIX_BEGIN
 
