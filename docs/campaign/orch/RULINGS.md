@@ -265,3 +265,20 @@ the individual leaves, and the common-profile B2.2 cannot do that.
 
 **New packet INCOH-LEAFWISE.** It generalizes INCOH-INST's proof to per-leaf profiles and proves
 `LeafwiseIncoherentDecayGate` on snapshot 9. It runs alongside RA1-LEAFWISE (R14), which does the same for B2.1.
+
+## R16 — Seal targets after D10, 2026-11-04 ~23:20 UTC
+
+**Targets.** The five approved successors are the sealing targets for the end-to-end chain: `main_v2`,
+`propansatz_v2`, `layergarden_v2`, `fixedpoint_v2` and `layergardenFlower_v2`. They are DRAFT_SORRY anchors on main
+(D10).
+
+**How the successors are proved.**
+- `layergarden_v2` comes from `layergarden_of_spine` with `FinalCountGate` replaced by its 1/2 < γ form. This is the
+  `finalCountGate_of_half` route: G2 Prop 9.4 plus G8 Prop 9.6 for γ > 1/2. The successor's `1 / 2 < P.γ →` hypothesis
+  supplies the restriction inside the prefix.
+- `layergardenFlower_v2` comes from `layergardenFlower_of_spine` the same way.
+- `fixedpoint_v2`, `propansatz_v2` and `main_v2` use the existing X3 / INDUCT / MAIN-GLUE assemblies, re-run with the
+  restriction threaded through.
+
+**The originals stay open.** `main`, `propansatz`, `layergarden`, `fixedpoint` and `layergardenFlower` remain
+DRAFT_SORRY. Their γ ≤ 1/2 range is the research track (repair route under independent review).
