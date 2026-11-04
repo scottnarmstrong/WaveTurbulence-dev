@@ -306,3 +306,20 @@ DRAFT_SORRY. Their γ ≤ 1/2 range is the research track (repair route under in
 
 **L1794 (DH23, ΔF = 1 triangle).** Recorded as a CANDIDATE erratum with the analytic configuration: v₃ with
 k_{ℓ₁} = k_{ℓ₂} free in the unit ball gives about L^d pairs, against δ⁻¹L^{d+1−2γ}. The final bound still holds.
+
+## R18 — Prop 9.6 history properties (N1, N2) are conclusions of Prop 9.5 / the algorithm, 2026-11-05 ~00:45 UTC
+
+**The properties.** G8's Prop 9.6 needs:
+- (N1): every β-atom of 𝕄_fin has a nonzero gap;
+- (N2): the ι/κ property of case (6), "κ_{v1}+κ_{v2} = 0 and the three gaps sum to 0 ⇒ |r_β| ≳ L^{−50η}R₂".
+
+**Ruling.** Both are properties of the cutting history, so they are carried by the final molecule's labels (κ, R, ι).
+- G3 states them as explicit conclusions of its Prop 9.5 / finalmol package, with DH23 line citations (algorithm
+  L1773–L1801, Remark subcondition, ι at L1782), and proves them.
+- They never appear as hypotheses of Prop 9.6.
+
+**Also recorded.**
+- MOLEPROP4-T internal-input defects: `OpCAt` lacked connectivity; `OpDAt` lacked |Y| ≤ 3, connectivity, `hopen` and
+  the end-exemption. These join deviations 1 and 3 (internal statements, not source errata).
+- G8 found an exposition gap at DH23 L1862–L1874: "operations (a), (b) only on ε-atoms" also needs degree-1 α/β atoms
+  to be deleted for free. Recorded as a CANDIDATE exposition gap, not a false statement.
