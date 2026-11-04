@@ -22,7 +22,7 @@ open Finset Set
 namespace WaveTurbulence.CountLemmas
 
 /-- The explicit dense-fiber bound of `sum_dense_card_ysF_le`. -/
-noncomputable def denseBound (n : ℕ) (L ρ : ℝ) (k₀ M : ℕ) : ℝ :=
+@[expose] noncomputable def denseBound (n : ℕ) (L ρ : ℝ) (k₀ M : ℕ) : ℝ :=
   k₀ * (estcrossConst n * (ρ ^ (n + 3) + L ^ (n + 1) * ρ ^ 2 * max 1 (L ^ (n + 2) / k₀) ^ 2 *
       (1 + Real.log L) ^ 2)) +
     M * (estcrossConst n * (ρ ^ (n + 3) + L ^ (n + 1) * ρ ^ 2 * (1 + Real.log L) ^ 2)) +
