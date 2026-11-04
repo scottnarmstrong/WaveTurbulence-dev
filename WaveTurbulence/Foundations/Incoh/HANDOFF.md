@@ -554,3 +554,28 @@ Checks: targeted build `SpatialDerivativeInputBound` passed (`9055 jobs`);
 `AxiomsSpatialDerivative.lean` / `axioms-spatial-derivative.log` audited five results;
 all depend only on `[propext, Classical.choice, Quot.sound]`. No new source deviation.
 The full spatial mixed-norm assembly and raw one-clock assembly are still outstanding.
+
+P-1 raw-source milestone: the required degenerate couple is now covered through actual
+localization, spectral recombination, raw-source recovery and final order-zero restriction decay.
+`RawVertexClockRestrictionDecay.exists_rawVertexClockKernel_restriction_bound` selects only
+the genuine branching vertex `v` and the active external coordinate `a`. It has no premise
+providing a second source root. Its raw source domain is literally
+`I ∩ {w | w v.1 v.2 ≤ t a}`. The external box is the genuine root layer times an arbitrary
+passive unit interval. The auxiliary branching clock is constructed by `oneClockSelection`
+and fully integrated internally. All finite cover, source Fourier bounds, absolute lattice
+convergence and Fubini conditions are proved from the same structural/spatial input hypotheses.
+The global `ζ : Circle` is retained exactly. The exponent and explicit localization coefficient
+are unchanged from the two-clock raw theorem. Full spatial order/weight assembly remains.
+
+Files: `AllCellCutoffCoupleFamily`, `AllCellCutoffCoupleFubini`,
+`CutoffCoupleSpectralMixtureDecay`, `AllCellCutoffCoupleDecay`,
+`AllCellCutoffCouplePointwise` provide the existing actual-source pipeline with any fixed
+smooth compact cutoff. `ParameterTimeTranslation` transports the complete parameter supremum
+norm under a common time shift. `RawOneClockAgreement`, `RawOneClockRestrictionDecay`,
+`RawVertexClockRestrictionDecay` implement the required source reduction.
+
+Checks: targeted `nice -n 5 lake build
+WaveTurbulence.Foundations.Incoh.RawVertexClockRestrictionDecay` passed (`9409 jobs`).
+Scratch `AxiomsRawOneClock.lean` / `axioms-raw-one-clock.log` audits five results, including
+both final raw one-clock bounds and exact source recovery; every result uses only
+`[propext, Classical.choice, Quot.sound]`. No new erratum or source deviation.
