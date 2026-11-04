@@ -151,7 +151,10 @@ fix) must be on main before any branch with SEALED theorem anchors is merged.
 1. ~~Sign off commit 1 (the guard).~~ Done: the user approved the mutual-file guard change on 2026-11-04.
 2. The author approves the B2 final candidate as **ruling D8**. Draft for `docs/DECISIONS.md`:
 
-> D8 — 2026-11-?? — Scott ("…", in reply to the complete Wave B tier-B2 code shown for approval:
+**Approved 2026-11-04 17:1x UTC.** Scott, in this session: "I approve all", in reply to wt-orch's list of what would unblock landing: (1) approve D7 (B1, snapshot 9, review page `docs/review/WAVE-B-B1.md` regenerated from snapshot 9), then land `w/freeze-b1`, then D8 (B2, `waveb2-snap-final`, review page `docs/review/WAVE-B-B2.md`) and land `w/freeze-b2`; (2) second-key audits of the 13 seals by someone other than wt-orch; (3) audit, then port, the finished scratch packets. Pins re-verified at 17:12 UTC: `waveb-snap-9` SHA256SUMS `30263a992199…` and `waveb2-snap-final` SHA256SUMS `b3db9c4367a8…`, every listed file OK. Landing (and committing D7/D8 to `docs/DECISIONS.md`) is the orchestrator's; wt-orch does not land.
+
+
+> D8 — 2026-11-04 — Scott ("I approve all", in reply to the complete Wave B tier-B2 code shown for approval:
 > `/home/scott/wt-scratch/waveb2-snap-final`, SHA256SUMS `b3db9c43…`, on B1 snapshot 9) — **Wave B tier B2 approved
 > and frozen**: 7 `DRAFT_SORRY` theorem anchors (B2.1 `regularAsymptotics`, B2.2 `incoherentDecay`, and the decoding
 > obligations O1 `RegCpl.exists_decodes`, O2 `existsUnique_regCpl_decodes`, O3 `RegChain.exists_decodesTree`, O4
