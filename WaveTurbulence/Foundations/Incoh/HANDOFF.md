@@ -415,3 +415,24 @@ assembly remain open.
 Countable-cell estimate checks: targeted build `AllCellCoupleDecay` passed (`9384 jobs`).
 Scratch `AxiomsAllCellDecay.lean`, log `axioms-all-cell-decay.log`, audited five main mass,
 Fubini and decay results, each using exactly `[propext, Classical.choice, Quot.sound]`.
+
+## Exact raw source localization and absolute convergence
+
+`SourcePointwiseLocalization` defines the literal unlocalized input product `sourceLeafWeight`
+and the actual selected-cell weight. `hasSum_sourceCellWeight` proves exact pointwise recovery
+of the raw input product with an actual finite pointwise support, for the momentum-uniform
+cover condition. No convergence premise is assumed.
+`LinkArrayCutoffMass` tensorizes the landed center-independent cutoff mass `(5L)^d`.
+`SourceCellLatticeMajorant` uses the proved actual Fourier inversion to bound each cell by
+its computed spectral mass, then inserts the analytic cutoff exactly to obtain a summable
+lattice majorant. `SourceAbsoluteConvergence.summable_norm_sourceLeafWeight_lattice` proves
+absolute convergence of the literal raw source lattice series from the input spatial norm,
+finite cover and its cardinal bound. This absolute estimate is used only for rearrangements;
+it does not replace the oscillatory decay bound.
+
+Raw convergence milestone checks: `SourceAbsoluteConvergence` built successfully (`9205 jobs`),
+and rebuilding `AllCellCoupleDecay SourceAbsoluteConvergence` after the discrete cell-index
+API refinement passed (`9388 jobs`). Scratch `AxiomsSourceAbsolute.lean`, log
+`axioms-source-absolute.log`, audited pointwise reconstruction, raw absolute convergence,
+full cell/lattice mass and uniform cutoff mass. All four results use only
+`[propext, Classical.choice, Quot.sound]`.
