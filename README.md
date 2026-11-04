@@ -40,10 +40,10 @@ DRAFT_IMPORT_VIOLATIONS: 0
 |---|---|---|---|---|
 | Sources, paper maps, blueprint (P0–P1) | 1 | 30 | 27.0 | `█████████░` 90 % |
 | Exact Lean statements, frozen (P2) | 1 | 20 | 14.0 | `███████░░░` 70 % |
-| Lean proofs (P4) | 85 | 681 | 400.1 | `██████░░░░` 59 % |
+| Lean proofs (P4) | 85 | 681 | 400.0 | `██████░░░░` 59 % |
 | Frozen theorems sealed | 2 | 2 | 1.0 | `█████░░░░░` 50 % |
 | Release (P5) | 1 | 15 | 0.0 | `░░░░░░░░░░` 0 % |
-| **Total** | | 748 | 442.1 | **59.1 %** |
+| **Total** | | 748 | 442.0 | **59.1 %** |
 
 Lean lines: 159,098 on main + 39,124 on branches, of ≈ 273,000 estimated by the blueprint (`███████████████░░░░░` 72.6 % of the estimate).
 
