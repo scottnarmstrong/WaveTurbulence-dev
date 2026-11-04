@@ -269,3 +269,32 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   counts: a finite family of centres chosen per decoration and r. Found by wt-torus (LINKS, E3). Status: imprecision.
 - F65 — DH21 Def 4.11 — "if 𝒬 = × then 𝒩^ch contains the root of + sign" is a slip (the trivial couple has no
   branching nodes). Found by wt-torus (LINKS, E4). Status: typo.
+- F66 — Wave B2 draft `RegChain.JBtree` (`WaveB2-Regular.lean` L515–L517) vs TARGET (regref2-2) L1185 — **our statement
+  bug**: the tree approximation integrates down to `s`, but `K*_𝒯(t,s,k)` does not depend on `s` once `s ≤ r` (the time
+  constraint is implied by the layer bound); TARGET states (regref2-2) only for `s ∈ [r, r+1]`. So B2.1 item (2) and the
+  tree half of item (3) are false when `q' < r` (Lean probe `P5.lean` on the project's own `miniTree10LG`: `K*_𝒯` constant
+  in `s ≤ 1` while `app(t,s) − app(t,1) = (1−s)·c(k)` with `c(k)` independent of `L`). Fix: lower limit `max s r`
+  (`X.JBchain r (max s r) t fun _ => 1`). Found by the independent B2 audit
+  (`docs/campaign/orch/audits/WaveB2-independent-audit.md` F-1). Status: fix queued (B2-CL-13). The same audit reopens
+  stage-2/3 R1 (self-loop halves accepted as a bond pair in the B2.3 gap hypotheses: add `x₂ ≠ M.mate x₁`) and R2
+  (zero-gap tame ε-atoms, T L2183/L2152), keeps B2.3 out of the B2 freeze pending the author's ruling on DESIGN Q7, and
+  requires the p.v. characterization for decaying kernels (F-5) and named instances + a B2 freeze list (F-6).
+- F67 — DH23 L1924 (Prop 10.3, case (3)) — "v4 and v5 are not bridges" refers to the bonds ℓ4, ℓ5. Notation typo. Found
+  by wt-ansob (MOLEPROP13). Also recorded (no erratum yet, check at the G-chain audit): DH23 Def 4.1 L633 forbids loops,
+  while TARGET L1295 permits loops with a guarded large-gap convention; MOLEPROP13 proves DH23 Prop 10.1 on DH23's
+  loop-free domain and claims no loop-counting extension for TARGET's use.
+- F68 — Wave B snapshot 6 B1.12 `layergardenFlower`, `LayeredGarden.PatValid` (`dChild i` clause) vs TARGET L2331 —
+  **our statement defect**: the clause only requires the `i`-th child of `𝔣^pr` to be a branching node, so under
+  `IsCanonH (p+1)` it may be the root of an attached lower-layer garden (layer `< p`); `fixPat` then designates that
+  root with time `s > p`. TARGET's `∂_s` boundary term (L2331) is taken in the single-tree kernel `𝒥^†`, where a
+  non-flower child of `𝔣^pr` is a top-layer branching node or a leaf. So `flowerSum (dChild i)` contains gardens the
+  moment expansion never produces, and B1.12's bound for them is not justified by TARGET. Fix (snapshot 7): add
+  `LG.layer b.toNode = p` to the `dChild` clause. `dParent` is fine (the parent of `𝔣^pr` is on the stem). The
+  consumer `fixedpoint` (X3) uses only `plain` and `dRoot`. Found by wt-gauss-hc (X2-HANDOFF FINDING).
+- F69 — DH23 §10.4 Lemma `ylem1` (L1937–L1942) vs our B2 vine family — **open**: wt-ansob (MOLEPROP4) gives a
+  kernel-checked 5-atom molecule (bonds 1→0, 1→2, 2→1, 2→0, 0→2, 0→3, 3→4, 3→4, 4→3, 4→1; 4-regular, loop-free,
+  one triple bundle) whose single (Y2) step at 3, 4 gives the doubled triangle, while no vine in our B2 family has 7
+  atoms (type I: 2, type II: even ≥ 6, others ≥ 9), so ylem1's conclusion fails for it
+  (`/home/scott/wt-scratch/moleprop4/src/MoleProp4/ShortYCounterexample.lean`). Either our vine templates are too
+  narrow (F19/F37 readings) or ylem1 misses a small case. Independent investigation commissioned
+  (`/home/scott/wt-scratch/ylem1-investigation/REPORT.md`). G7 MOLEPROP4 is paused on this.

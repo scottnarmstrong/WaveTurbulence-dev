@@ -1,5 +1,5 @@
 {
- "assessed": "2026-11-04 03:00 UTC",
+ "assessed": "2026-11-04 04:30 UTC",
  "notes": "Lean work items = blueprint packets (docs/blueprint/GRAPH.md §E) with their difficulty weights (node weights L=1, M=2, H=4, VH=8 summed). Each frozen theorem anchor adds weight 1, credited when SEALED. Done fractions are the orchestrator's assessment, reviewed at integration rounds.",
  "lines_est_total": 273000,
  "parts": [
@@ -315,8 +315,8 @@
      "goal": "(CL)/(CN) dichotomy and splicing, blockchainprop, cnblock",
      "weight": 10.0,
      "lines_est": 3500,
-     "done": 0.0,
-     "note": ""
+     "done": 0.9,
+     "note": "CLCN done in scratch: (CL)/(CN) dichotomy, splicing, blockchainprop, cnblock component bounds"
     },
     {
      "id": "M4",
@@ -387,8 +387,8 @@
      "goal": "Prop 5.1 steps 1–2 (unimodular change of variables, localization)",
      "weight": 7.0,
      "lines_est": 2800,
-     "done": 0.0,
-     "note": ""
+     "done": 0.6,
+     "note": "steps 1-2: carrier interface done (Incoh HANDOFF), unimodular change of variables in LINKS/ENHANCED scratch"
     },
     {
      "id": "V1",
@@ -405,8 +405,8 @@
      "goal": "dominant/enhanced dominant couples and trees, equivalence classes, encoded trees (freeze if regref1 is frozen)",
      "weight": 9.0,
      "lines_est": 3150,
-     "done": 0.0,
-     "note": ""
+     "done": 0.9,
+     "note": "ENHANCED done in scratch: dominant couples, special sets, equivalence (DH21 Def 4.18), encoded trees (Props 4.20, 4.23), net signs; + tree incohproof1"
     },
     {
      "id": "D3",
@@ -423,8 +423,8 @@
      "goal": "DH23 Props 10.1, 10.3",
      "weight": 6.0,
      "lines_est": 2400,
-     "done": 0.0,
-     "note": ""
+     "done": 0.9,
+     "note": "MOLEPROP13 done in scratch: DH23 Props 10.1, 10.3 (263 modules, against corrected B2)"
     },
     {
      "id": "V3",
@@ -486,8 +486,8 @@
      "goal": "Prop 5.1 steps 3–4 and assembly",
      "weight": 9.0,
      "lines_est": 4650,
-     "done": 0.0,
-     "note": ""
+     "done": 0.75,
+     "note": "PL1 analytic core done (couple + tree, steps 3-4, fb174c5); steps 1-2 and assembly in progress"
     },
     {
      "id": "C4",
@@ -495,8 +495,8 @@
      "goal": "coherent layered regular objects and layering counts (Props 4.9, 4.10)",
      "weight": 8.0,
      "lines_est": 4000,
-     "done": 0.0,
-     "note": ""
+     "done": 0.9,
+     "note": "LAYERREG done in scratch: TARGET Props 4.9 (structure, replacement keeps canonicity) and 4.10 (layering count, stronger)"
     },
     {
      "id": "J3",
@@ -540,8 +540,8 @@
      "goal": "DH21 Lemmas 7.1–7.3, Props 7.4, 7.5",
      "weight": 6.0,
      "lines_est": 3400,
-     "done": 0.0,
-     "note": ""
+     "done": 0.02,
+     "note": "CANCEL7 started (wt-torus), with the F61 correction"
     },
     {
      "id": "M7",
@@ -756,8 +756,8 @@
      "goal": "flower adjustments on the general carriers (WAVE-B G-1, F26), deterministic flower bound (gate B1.12), flowerest1, ∂_t bounds; 2–3 days: split",
      "weight": 16.0,
      "lines_est": 8900,
-     "done": 0.25,
-     "note": "X2 moment layer done in scratch (flowerest1/flowerest2 from B1.12, conditional on the named obligation O-X2-EXP = INDUCT graft bijection)"
+     "done": 0.45,
+     "note": "moment layer done; O-X2-EXP via kernelKgen_graft (wt-gauss-hc) next"
     },
     {
      "id": "X3",
@@ -765,8 +765,8 @@
      "goal": "fixedest1–4 and fixedpoint",
      "weight": 9.0,
      "lines_est": 3400,
-     "done": 0.05,
-     "note": "FIXEDPT started (wt-gauss-hc, /home/scott/wt-scratch/fixedpt)"
+     "done": 0.8,
+     "note": "FIXEDPT: fixedpoint proved from B1.12, B1.2, B1.5 and the named obligations O-X2-EXP, O-X3-CPL (36 modules, scratch)"
     },
     {
      "id": "I2",
