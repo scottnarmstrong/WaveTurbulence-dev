@@ -84,3 +84,8 @@ Not held by Sonnet agents:
 - **Review page:** docs/review/GAMMA-HALF-SUCCESSORS.md, main `9c5ec0d`, awaiting Scott's approval (D10).
 | S3b LADDER-DECAY | `ladder-decay` | **READY 22:3x**: `ladderDecayGate : WTPrefix LadderDecayAtCopy`, which is rfl-equal to the pinned `LadderDecayAt` (14bbd832). Fresh 55-module build2, all exit 0; axioms checked by wt-orch (standard). The snapshot-9 rebuild is deferred to the universe rebase. |
 | S3c COARSE-SPLICED | `coarse-spliced` | started 22:35: `CoarseSplicedGate` (finalsbest1) from `LadderDecayAt` |
+| DEGEN-VINE | `degen-vine` | **READY 23:0x**. ε is handled through character mixtures of mass 3^n: `clockedBoundEps_of_restr`, `sumintMixSignedDoubled` (unconditional). Fresh rebuild of 21 modules OK; standard axioms. TARGET L1846 gap recorded as erratum E4 (main 2c160e5). V5 was told to state Step 3 with ε. |
+| FLOWER-REG | `flower-reg` | **READY**: `regularCouplesL0`. Obligations: B2.1, leafwise B2.1, leafwise B2.2 (R15). |
+| INCOH-LEAFWISE (R15) | `incoh-leafwise` | started 22:50 |
+| FINALCOUNT-G8 | `finalcount-g8` | agent 2 running. Done: bridges and 3 of the 7 inputs. `BiBridgeEqualInput` was false as stated and fixed with a good-cell hypothesis; PairGain/SmallGapPair need γ > 1/2. |
+| FINALCOUNT G2 | `finalcount` | agent 2 running. Done: single α/β cuts for all γ. Next: triangles, the operation datatype, vines, assembly. |
