@@ -483,3 +483,34 @@ a disjoint type-I family cannot remove two different neighbor attachments
 at one center. These are helpers, not the remaining source removal theorem.
 Next: simultaneous ordinary/mixed removal and realization-independent coherence.
 Continuing directly; M4 is not yet READY.
+
+## Ordinary double-bond removal: arbitrary-rung vine clause proved
+
+`VineTypeIRemovalConnected.nontrivial_vine_typeI_removal_connected` proves
+that any disjoint family of complete type-I removals preserves connectivity
+of any type-II–VIII vine, at arbitrary rung counts. It assumes actual
+source vine/removal data and disjointness, with no path witnesses, finite
+masks, gap restrictions, or classification hypotheses. Type I is explicitly
+excluded: deleting its own double bond would disconnect it; the source
+LG/ZG versus SG clause rules out that situation at chain assembly.
+
+Approach: `VineActualRailFrame`, `VineSingleRailPaths`, `VineSlotSinglePaths`,
+`VineCoreSinglePaths`, `VineCoreSinglePathLift`, `VineActualSingleBackbones`
+and `VineExpandedSingleBackbone` transport literal base single-edge paths
+through every source slot, including zero rungs and shared type-II final
+ports. Every fresh atom reaches a core starting port.
+`VineDoubleRemovalRails` and `VineDoubleRemovalAttachments` retain the
+backbone and at least one of each normal center's two attachments;
+`VineBackboneCenter` supplies those attachments from finite source data.
+
+Focused final theorem compile: `nice -n 5 lake env bash -c 'export
+LEAN_PATH="/home/scott/wt-scratch/vines/build:$LEAN_PATH"; lean -R
+/home/scott/wt-scratch/vines/src -o /home/scott/wt-scratch/vines/build/VineTypeIRemovalConnected.olean
+/home/scott/wt-scratch/vines/src/VineTypeIRemovalConnected.lean'`: exit0,
+no output/warnings. `validation/Axioms-TypeIRemoval.lean` compiled with
+the same LEAN_PATH and gate, exit0; its ten printed declarations, including
+the main result, use only `[propext, Classical.choice, Quot.sound]`
+(`validation/Axioms-TypeIRemoval.log`).
+
+Remaining M4: ordinary type-V and mixed removals, outer-chain/DV assembly,
+and realization-independent coherence. No new source deviation. Continuing.
