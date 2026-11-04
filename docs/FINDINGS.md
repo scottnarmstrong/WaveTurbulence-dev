@@ -238,3 +238,10 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   zero case. **B2 drafting item** (docstring/statement precision). Found by wt-nt (MOLE).
 - F60 — DH21-2 L830 (reconstruction proof) — "this does affect the result" should read "does not". Typo. Found by
   wt-nt (MOLE).
+- F61 — DH21 Lemma 7.3 (L1737) vs DH21 Lemma 5.8 (proof) — Lemma 7.3 writes `+χ_∞(α)/(επiα)·I_μ`, while the proof of
+  Lemma 5.8 and the landed Lean identity (`ClassJR`, JR-OPS) give `−I_μ`, and DH21 sets `ε_j = ζ_n` with no extra
+  sign. Read literally, the `Z`-terms of the Prop 5.1 expansion pick up `(−1)^{|Z|}`, contradicting TARGET
+  (regref1-3)'s claim that `𝒥ℬ*` does not depend on `Z` unless the per-node sign of `Ω = −2⟨k₁−k, k₃−k⟩` compensates.
+  The final WKE identity is probably unaffected, but the Wave B2 per-couple bound B2.1(1) would be false with a wrong
+  sign. Found by wt-orch (Task 16, audits/JR-OPS.md W2). Status: **open — trace before the B2 freeze** (assigned to
+  wt-wke with J3).
