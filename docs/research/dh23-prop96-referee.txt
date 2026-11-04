@@ -1,0 +1,270 @@
+REFEREE REPORT: "DH23 Prop 9.6, case (4): the small-gap components (F69b)"
+Note: /home/scott/WaveTurbulence-dev/docs/research/dh23-prop96-case4.md (= /home/scott/wt-scratch/prop96-case4/NOTE.md,
+SHA256SUMS verified: all 10 files OK).  Referee date: 2026-11-04.  No Lean.
+
+Sources: DH23 = references/src-2301.07063/Revision_Submit.tex; TARGET = paper/source/WKE-Longer_times_Final_arXiv.tex.
+
+======================================================================================================================
+VERDICT: CONFIRMED (items 1-4).  Item 5 is only PARTIALLY CONFIRMED: the textual claim is overstated, but the
+mathematical necessity it asserts is correct.
+======================================================================================================================
+
+I tried to break each step.  None of the refutation routes worked:
+  - illegitimate input;
+  - a step that touches the T-beads;
+  - a vine reading that covers them;
+  - an error in the count or the exponents;
+  - a definition of the counting quantity that rescues the statements.
+
+Strongest defensible form:
+
+(A) Fix d >= 3, 0 < gamma <= 1/2, eta small, delta <= 1/2.
+    - Take m >= 3.  There is a prime, non-degenerate couple Q of order n = 4m+3 with M(Q) = N_m.
+    - N_m has no vine-like object.  So Q_sk = Q_sub = Q (DH23) and G_sb = Q (TARGET, layer-0 couple in C_1).
+    - Use the decoration class with SG joints (gap r = e1/L, label R = L^{-1}) and all other atoms LG.
+    - Steps/Operations 1, 2 and 4 do nothing.  This holds for EVERY Step-3 order and EVERY designation side.
+    - At least m-2 components are T-beads with V_alpha = 0, V_beta = 2, G = 1.
+    - Each such component has A_0 >= c_d (C^+)^{-4} (DH23 normalization), resp. >= c_d C_1^{-4} (TARGET).
+    - This contradicts (finalcount) at DH23 L1820 and TARGET L2193, which demand A_0 <~ L^{-eta^2-eta^5 rho_0},
+      for L large.
+(B) For the same N_m, C >= [c delta^{-2} L^{4(d-gamma)}]^m.  So C / RHS(kqmainest2-1) >= c(m) L^{eta^6 rho - 3(d-gamma)}.
+    - rho >= m+3 (the note's bound); in fact rho >= 3m+3.
+    - This tends to infinity once eta^6 rho > 3(d-gamma).  The note's m = ceil((3d+1) eta^{-6}) is sufficient but
+      larger than necessary.
+    - TARGET (finalcount1) (L2114) with R = 1 fails once 4 eta^6 (rho_sb + p_sb) > 3(d-gamma).  Here
+      rho_sb = 4m+3 (TARGET ladders need >= 2 double bonds, L1384) and p_sb = m+1.
+(C) Under the LITERAL Def 5.1 (vine (II) has at least two double bonds), the Q-bead necklaces also break Prop 9.6
+    and kqmainest2 for 1/2 < gamma < 2/3.  So the failing range under the literal reading is 0 < gamma < 2/3.
+    The note says this (Lemma 4.6).  I re-derived the exponent L^{2-3 gamma} per bead.
+
+The main theorems (DH23 Thm 1.1, TARGET Thm 1.2, L314) are NOT refuted; see item 4.
+
+Independent checks (my scripts, in /home/scott/wt-scratch/prop96-verify/; they do not import the note's code):
+  verify_couple.py  -> out_verify_couple.txt, out_verify_couple_Q.txt
+     - m = 1..20, T- and Q-beads.
+     - Six randomized-DFS couples per m, each a different construction from necklace.py.
+     - M(Q) is rebuilt literally from Def 4.2 (L637-L643) and equals N_m, directed.
+     - Couple axioms and Remark 4.4 (L682) sibling non-degeneracy hold.
+     - The explicit necklace decoration is mapped to the couple and checked:
+         - tree equations k_n1 - k_n2 + k_n3 = k_n;
+         - roots = k; paired leaves equal;
+         - k_n2 not in {k_n1, k_n3} at every node, so eps != 0;
+         - the Gamma_v / Omega_n relation (molegammav, L655ff) holds;
+         - designated pairs have gap +-r;
+         - every other opposite pair has |gap| >= 8.
+  verify_stage2.py  -> out_verify_stage2.txt
+     - m = 2..6; all (m+1)! Step-3 orders; 5 designation patterns, both sides.
+     - Step 2: no eligible triangle.  Step 4 (repeated): 0 cuts.
+     - The minimum number of case-(4) T-bead components is m-2.  So 0 for m = 2, and >= 1 for every run with m >= 3.
+  verify_blocks.py  -> out_verify_blocks.txt
+     - m <= 4.  All blocks and hyper-blocks of N_m are blocks that are runs of consecutive T-beads (4j+1 atoms).
+     - There are no hyper-blocks.
+     - Each run of j >= 2 beads has j-1 interior cut atoms.
+
+----------------------------------------------------------------------------------------------------------------------
+1. Is N_m a legitimate input?   YES (DH23 and TARGET).
+----------------------------------------------------------------------------------------------------------------------
+- N_m is a molecule (Def 4.1, L633).
+    - in/out degree <= 2; no loops; connected.
+    - Two degree-3 atoms: o1 is (in 2, out 1), o2 is (1,2).  All others have degree 4.
+    - E = 8m+5 = 2n-1, matching Prop 4.3 (L645).
+    - No triple bond.
+- It is M(Q) for an explicit couple.
+    - Roots (+,-); children signs (z,-z,z); paired leaves have opposite signs; all leaves paired.
+    - I verified this with an independent construction.  Balanced tree orders also occur (e.g. 37/46 at m = 20), so
+      both kinds of couple sums in the proof after L1633 are hit.
+- Q is prime: M(Q) has no triple bond, while a (1,1)-mini couple or mini tree produces one (L686-L709).
+  So Q_sk = Q (Prop 4.8, L700).
+- Q is non-degenerate.
+    - Remark 4.4 (L682): no two siblings have their subtree leaves completely paired.  Checked for every pair of
+      siblings; three siblings carry an odd number of leaves.
+    - eps != 0 on the decoration family: eps is supported on k2 not in {k1,k3} or k1 = k2 = k3 (L435).  All nodes are
+      checked.
+- No stage-1 effect.
+    - N_m has no vine-like object (item 2), so the collection from Lemma 8.1 (L1619) is empty and V_0 is empty.
+    - Hence Q_sub = Q_sk, Delta_sub = 0, no hinge atoms, and no SG/LG specification enters kqmainest2(i)
+      (L1683-L1686).
+- TARGET.
+    - Def 3.4 (L658): C_{p+1} for p = 0 is built from two trees with all branching nodes in layer 0, all leaves paired,
+      and G_0 = empty.  So EVERY couple with the single-layer layering is a canonical layered couple.
+    - The R = 1 irreducibility condition is automatic: each tree has an odd number of leaves.
+    - Q lies in C_1^tr for n <= N_1 (Def L731).
+    - Stage 1 is vacuous for the same reason as in DH23.
+    - Requirements (a)-(f) (L2096-L2109) hold for the class below:
+        (a) restricted by fixed params;
+        (b) eps~ != 0, Z = 1 (no vine-like objects), Prop subpro (L2040) satisfied, no ZG atoms;
+        (c) no ladders (L1384 requires >= 2 double bonds);
+        (d)-(f) joints SG with designated in-bead pair and |r| ~_0 Q_v = L^{-1}; others LG.
+    - The same holds with all nodes in layer p, for any p.
+- No restriction elsewhere excludes N_m.  I checked:
+    - stage-1 removal of VC/HVC/HV/DV;
+    - ladders;
+    - Step 2 triangles;
+    - Remark 9.3 (L1747-L1754): R_v in [L^{-1}, L^{-gamma+eta}] explicitly allows R = L^{-1};
+    - TARGET Remark 11.3 (degree-2 cuts, L2126).  It is meant for Operation 1 joints; with it, Operation 4 would never
+      terminate and the invariant 4V-2E-2(V_alpha+V_beta) (proof of Prop finalmol, L2187) would break.  So
+      Operation 4 is at degree 3/4 atoms, as in DH23 L1781.  Even if read otherwise, it only peels off isolated
+      atoms and leaves the T-bead component intact.
+
+----------------------------------------------------------------------------------------------------------------------
+2. Vine-free, and untouched by Steps 1, 2, 4?   YES.
+----------------------------------------------------------------------------------------------------------------------
+- Single T-bead (5 atoms).  No reading of Def 5.1 (L790-L808, Fig. Vines) gives a 5-atom vine.
+    - Vine sizes are 2 (I), 6+2k (II), 9+2k (III, IV, V), 15+2k (VI), 11+2k (VII, VIII).
+    - Ladder insertion (Remark 5.2(c), L805) adds 2 atoms per double bond.
+    - Even the generous m = 1 reading of (II) only adds the 4-atom Q-block.
+- Runs of j >= 2 beads.  The shared joint is an interior cut atom (verify_blocks.py).
+    - Vine templates have no interior cut atom.  The note's check covers 0..2 rungs per slot.
+    - I re-read all eight templates in vinefree.py against Vines.png (II, III, IV, V, VI, VII including the crossing,
+      VIII); they match.
+    - Ladder insertion cannot create a cut atom, because the two rails stay joined by rungs.
+    - VCs need vine ingredients, and single beads are not vines.
+    - There are no hyper-blocks, since the joints are pairwise non-adjacent.  Hence there are no HV, VC, HVC or DV.
+- Step 1 (L1775): nothing to remove (no SG vine-like object, no triple bond).
+- Step 2 (L1777).
+    - N_m's only triangles are {w_m,o1,o2} and {w_0,o1,o2}, each with ONE SG vertex.
+    - T-beads contain no triangle: e and f are not adjacent.
+- Step 3 (L1779).
+    - The first cut is alpha (it breaks the cycle of beads); every later cut is beta.
+    - The final components are exactly the beads.
+    - The two beads next to the first-cut joint get one alpha-atom each; every other bead gets two beta-atoms.
+    - So for m >= 3 at least m-2 T-beads are in case (4), whatever the order or designation side.
+      This was verified for all orders up to m = 6.
+- Step 4 (L1781).  No beta-cut exists in a T-bead: cutting e, g or f along any opposite pair leaves it connected.
+  Cutting o1 or o2 gives alpha-cuts only.  Simulated and confirmed (0 cuts).
+- Prop 9.5 (L1806): its last sentence ("a vine component must be LG") does not apply; the T-bead is not a vine.
+  Nothing forces LG on its beta-atoms.
+
+----------------------------------------------------------------------------------------------------------------------
+3. The count.   CORRECT.
+----------------------------------------------------------------------------------------------------------------------
+Definition used.  A (DH23 L1767) = C L^{-(d-gamma)chi}(C^+ delta^{-1/2})^{-chi} P (log L)^{Cp}, where:
+  - C is the sup over (c_v, beta_v, k^0) of the number of decorations of the component restricted by the parameters
+    and inherited from a decoration of M(Q_sub) satisfying Remark 9.3 (L1766);
+  - restriction means |Gamma_v - beta_v| <= delta^{-1}L^{-2gamma} at EVERY atom, beta-atoms included (Def 4.5,
+    L680), and |k - k^0| <= 1.
+For the T-bead component: chi = 8-5+1 = 4; P = 1 (no ladder of length >= 1); p = 0.
+
+Family.  x, x', p, q are in radius-1/4 balls about 0, 10e1, 10e2, 10e3, which needs d >= 3.  r = e1/L.
+The other bond vectors are y = x-r, y' = x'+r, p' = x+x'-p, q' = x+x'-q.  I checked:
+  - vector constraints: c_e = c_g = c_f = 0, c_b = r, c_b' = -r;
+  - Gamma_e = 2(p-x).(p-x');  Gamma_e + Gamma_g = 2(q-x).(q-x');  Gamma_b = 2x.r - |r|^2;
+    Gamma_b' = -2x'.r - |r|^2;  sum of all Gamma = 0.
+Constraints:
+  - beta-atoms.  |Gamma_b - beta_b| <= |r|/2 = L^{-1}/2 <= delta^{-1}L^{-2gamma}, iff gamma <= 1/2 (given delta <= 2).
+    This is exactly where gamma <= 1/2 enters.  It matches DH23's own Lemma A.2(1) (L2055): for gamma <= 1/2 the
+    r-constraint gains only (1 + delta L^{2gamma} P)^{-1}, which is O(1) for P = L^{-1}.
+  - Pigeonhole over (Gamma_e, Gamma_e+Gamma_g) with cells of side lambda = delta^{-1}L^{-2gamma}:
+      - some cell holds >= c_d delta^{-2} L^{4d-4gamma} members;
+      - beta_g = b - a gives |Gamma_g - beta_g| < lambda;
+      - Gamma_f lies in an interval of length lambda + 2/L, so |Gamma_f - beta_f| <= lambda/2 + 1/L <= lambda for
+        gamma <= 1/2.
+  - LG at e, g, f: every opposite pair differs by >= 8 > L^{-gamma+eta}.
+  - Unit-ball restriction holds.
+Result: A_0 >= c_d (C^+)^{-4}, and the delta-powers cancel exactly (delta^{-2} . delta^{2}).  This is consistent with
+moleprop1 (A <~ 1, L1832).  The tiny-gap T-bead is exactly NEUTRAL; it is not lossy.
+
+Inheritance (Lemma 4.2).
+  - The other beads are fixed and shifted by 100 i e1.  The odd bead is fixed: s = 300e1, s' = 400e1, k = -10e2.
+  - Gamma_{w_i} = (sum of two bead parts), each within |r|/2 of its centre, so within lambda.
+  - All conditions of Remark 9.3 hold, including (iv) with R_v = L^{-1}.  Verified exactly, with rationals, for
+    m up to 20.
+
+Requirement.  Case (4) (L1883) has V_alpha = 0, V_beta = 2, G = 1.  (finalcount) (L1820) then reads
+  A_0 <~ L^{2(gamma0+2eta^2) - (2gamma0+5eta^2) - eta^5 rho_0} = L^{-eta^2 - eta^5 rho_0}.
+This is incompatible with A_0 >= c for large L.  The note's interpolation Lemma 1.1 is not needed for the refutation.
+TARGET L2193 is identical for perfect components with Z = 0 and has no implicit constant.
+
+kqmainest2 (L1681-L1690).
+  - The beads are independent given r (the joint vector constraints cancel: -r + r = 0), so the family is a product.
+  - C(N_m) >= [c delta^{-2}L^{4(d-gamma)}]^m, with r and the odd bead fixed.
+  - RHS = (C^+ delta^{-1/2})^{4m+3} L^{(d-gamma)(4m+3)} L^{-eta^6 rho} prod X^{-z}, with Delta_sub = 0 and
+    prod X^{-z} <= 1.
+  - Ratio >= (c (C^+)^{-4})^m (C^+)^{-3} delta^{3/2} L^{eta^6 rho - 3(d-gamma)}.  The delta-powers again cancel to
+    delta^{3/2}.
+  - rho = q + m' >= m+3: the joints and o1, o2 lie on no double bond.  Counting e=g and g=f as length-0 ladders gives
+    rho >= 3m+3; otherwise rho = 4m+3.
+  - So for any m with eta^6 rho > 3(d-gamma) the ratio tends to infinity as L tends to infinity, with n fixed and
+    n << N^3.  The statement has no L-dependent slack.
+  - Exponent bookkeeping is correct.
+
+TARGET (finalcount1) (L2110-L2114).
+  - A_sb >= (c C_1^{-4})^m C_1^{-3} delta^{3/2} L^{-3(d-gamma)}.
+  - The required bound is L^{-4eta^6(rho_sb+p_sb)}, with rho_sb = 4m+3 and p_sb = m+1.  It fails for large m.
+
+Heuristic check (mine).
+  - Summing over all r with |r| <~ delta^{-1}L^{-2gamma} gives a necklace count of about
+    L^{(d-gamma)n} . L^{-gamma(2d-1)}.
+  - That is a FIXED negative power, with no per-atom gain.  This is exactly why the eta^6 rho requirement fails while
+    the totals stay small.
+
+----------------------------------------------------------------------------------------------------------------------
+4. Do the papers' conclusions survive?
+----------------------------------------------------------------------------------------------------------------------
+- No reading rescues the four statements for gamma <= 1/2:
+    - Def 5.1 is an explicit list;
+    - rho = q + m' is explicit (L1681);
+    - R_v = L^{-1} is explicitly allowed (L1752);
+    - the count has no gap floor.
+- Where the source argument breaks: case (4), L1885, "an enumeration shows M_0 must be a vine".
+    - The enumeration is Lemma ylem1 (L1937).  Its proof assumes each of the "at most two (Y) sequences" ends in (Y2),
+      so it omits the zero-sequence cases.
+    - For the T-bead, operation (d) gives M_1 = T (the triangle of double bonds) with ZERO (Y) steps.
+    - DH23's own L579ff says T has exactly one good operation (A ~ 1).  That is consistent with my count.
+    - L586's claim that the exceptional components "exactly correspond to vines (II)-(VIII)" is false.
+    - This is the ylem1 investigation's "T itself" omission; the note correctly shows it is fatal when the gap is
+      tiny.
+- Main theorems: NOT refuted.
+    - Necklace couples number C^n and their total contribution is heuristically a fixed negative L-power.
+    - What fails is the n-proportional gain L^{-eta^6 rho}, which the proof uses to beat the (C rho)! molecule count
+      (L1640, L1692-L1694).
+    - A repair is plausible: splice small-gap T-type chains in stage 1 like normal vine chains, so they leave rho
+      (the note's (E1)).  But it requires:
+        - a Prop 7.6-type bound;
+        - Lemma 8.1 / Prop 9.1 extensions;
+        - uniform handling of the infinite T-type families.
+      None of this is done.
+    - (E2), restricting to gamma > 1/2, still needs (E0) or another treatment of the Q-block for gamma <= 2/3, and
+      counts for all T-type classes.  Only the parallel T-bead is done (Lemma 5.1; not refereed in depth).
+    - gamma = 1/2 (TARGET L325) lies in the failing range.
+- Open question, not established: whether kqmainest1 (L1633) and TARGET (finalsbest2) (L2078) themselves fail as
+  stated.  Both claim an L^{-eta^7 rho} (resp. L^{-eta^6 rho}) gain for the actual oscillatory sum.
+    - My heuristic size of K_Q for N_m is (C delta^{1/2})^n L^{-gamma(2d-1)}, with no per-atom gain.  That would
+      violate them for large m.
+    - Settling this needs a lower bound on the time integrals, which nobody has proved.
+    - The note only claims the counting statements fail, which is the safe claim.
+- Minor heuristic slip (does not affect the verdict).  Remark 4.5's "O(L^{gamma-d})" agrees with my estimate at
+  gamma = 1/2.  For gamma < 1/2 the tiny-gap sum is about L^{gamma(1-2d)}, which is larger, though still a fixed
+  negative power.
+
+----------------------------------------------------------------------------------------------------------------------
+5. Vine (II) with one double bond (L1421).   PARTIALLY CONFIRMED.
+----------------------------------------------------------------------------------------------------------------------
+Overstated: "DH23's own parametrization covers it."
+  - L1421 ("v1, v2, v_{2j+1}, v_{2j+2} (1 <= j <= m) ... 2m+2 atoms") parametrizes vines (II) AS DEFINED.  It does
+    not state m >= 1 as a definition.  It is generic in m: at m = 1 it is formally consistent (c_0, d_0 at v_2;
+    c_1, d_1 at v_1).
+  - Fig. VineAnnotated (A) is drawn for generic m, with several double bonds.
+  - The definition (Def 5.1 L790 / Fig. Vines, L798) draws vine (II) with TWO double bonds, and Remark 5.2(c) (L805)
+    only inserts ladders.  So literally m >= 2, and the 4-atom Q-block is not a vine.
+  - Also ylem1's proof (L1939): one (Z) from Q gives the (II)-closure, again without the zero-sequence case.
+  - Molecpl (L810ff) is stated locally at one joint and does not exclude m = 1.  I checked that (II-a) is realizable at
+    m = 1 (u3, u4 both children of u1), but I did not check Prop 7.5's twist cancellation at m = 1.  The note flags
+    this too, as (E0) / risk 6.
+Correct: "the reading is forced."
+  - Under the literal reading, a tiny-gap Q-bead component has A ~ delta^{1/2}(C^+)^{-3} L^{gamma} for
+    gamma <= 1/2, and ~ delta^{-3/2}(C^+)^{-3} L^{2-3gamma} for 1/2 < gamma <= 2/3.  I re-derived both: a slab of
+    width delta^{-1}L^{1-2gamma} for x and x', times L^d u's, times one Gamma_s constraint.
+  - Q-necklaces then reach case (4) in every order (cuts.py; the couple is re-verified by me).
+  - kqmainest2 then fails by L^{(2-3gamma)m - 3(d-gamma) + eta^6 rho}.
+  - So either the Q-block is a bad vine (II) whose stage-1 cancellation must be proved at m = 1, or the four
+    statements fail for all gamma < 2/3.  The investigation's R4 ("no change to B2") is unsafe in either case.
+
+----------------------------------------------------------------------------------------------------------------------
+Side remarks on other parts of the note (not required for the verdict)
+----------------------------------------------------------------------------------------------------------------------
+- Lemma 2.4 remark is correct.  (operc) as printed (L1862), Df <~ 1 + delta^{-1}R^{-1}L^{-gamma}, gives no gain under
+  LG.  The case-(4) step "A_0 <~ L^{-eta/2}" (L1885) needs the sharp Lemma A.3(1) form (L2101):
+  L^{gamma-1} + delta^{-1} min(R^{-1}L^{-gamma}, L^{gamma}).
+- Section 1.4 budget is correct: a beta-cut has budget L^{-eta^3+eta^2} (L1785 with Delta F = 1, Delta V_beta = 2).
+- Lemma 3.4 "m = 2 fails" is confirmed: the odd bead absorbs the beta-atoms.

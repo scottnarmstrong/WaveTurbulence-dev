@@ -1,5 +1,5 @@
 {
- "assessed": "2026-11-04 04:30 UTC",
+ "assessed": "2026-11-04 06:15 UTC",
  "notes": "Lean work items = blueprint packets (docs/blueprint/GRAPH.md §E) with their difficulty weights (node weights L=1, M=2, H=4, VH=8 summed). Each frozen theorem anchor adds weight 1, credited when SEALED. Done fractions are the orchestrator's assessment, reviewed at integration rounds.",
  "lines_est_total": 273000,
  "parts": [
@@ -504,8 +504,8 @@
      "goal": "DH21 Prop 5.1 (with DH23 weights)",
      "weight": 4.0,
      "lines_est": 3000,
-     "done": 0.05,
-     "note": "MAINCOEF started (wt-wke): DH21 Prop 5.1 with DH23 weights"
+     "done": 0.95,
+     "note": "MAINCOEF done (couples) + garden↔code B̃ bridge (couples, trees; discharges BtRec); tree Prop 5.1 next"
     },
     {
      "id": "X1",
@@ -540,8 +540,8 @@
      "goal": "DH21 Lemmas 7.1–7.3, Props 7.4, 7.5",
      "weight": 6.0,
      "lines_est": 3400,
-     "done": 0.02,
-     "note": "CANCEL7 started (wt-torus), with the F61 correction"
+     "done": 1.0,
+     "note": "CANCEL7 done with the F61 correction; BtRec discharged by the B̃ bridge"
     },
     {
      "id": "M7",
@@ -558,8 +558,8 @@
      "goal": "DH21 Props 7.7, 7.8 (momentum factors, class cancellation)",
      "weight": 6.0,
      "lines_est": 2700,
-     "done": 0.0,
-     "note": ""
+     "done": 0.02,
+     "note": "MEXP started (wt-torus)"
     },
     {
      "id": "I1",
@@ -567,8 +567,8 @@
      "goal": "expansion of truncated cumulants into canonical gardens; errors E^{(1)}, E^{(2)}; moment inequalities",
      "weight": 10.0,
      "lines_est": 4000,
-     "done": 0.15,
-     "note": "INDUCT started (scratch)"
+     "done": 0.95,
+     "note": "INDUCT done in scratch: propansatz_of_gates (from layergarden, fixedpoint, wkeTaylor; 465 modules); port to frozen names after the freeze"
     },
     {
      "id": "J7",
@@ -774,8 +774,8 @@
      "goal": "base case, statements (1)–(4) at p+1, propansatz",
      "weight": 10.0,
      "lines_est": 3050,
-     "done": 0.1,
-     "note": "INDUCT"
+     "done": 0.95,
+     "note": "INDUCT done (see I1)"
     },
     {
      "id": "Z1",
@@ -783,8 +783,8 @@
      "goal": "proof of Theorem 1.1 from propansatz and the bridge",
      "weight": 3.0,
      "lines_est": 860,
-     "done": 0.8,
-     "note": "main proved from propansatz + nlsAkBridge; nlsAkBridge now proved (scratch) — main rests on propansatz alone"
+     "done": 0.9,
+     "note": "main ⇐ propansatz + nlsAkBridge (proved); propansatz ⇐ layergarden + fixedpoint + wkeTaylor (proved); fixedpoint ⇐ B1.12 + layergarden + wkeTaylor + O-X2-EXP + O-X3-CPL (proved) ; wkeTaylor gate proved (38856ca)"
     }
    ]
   },
