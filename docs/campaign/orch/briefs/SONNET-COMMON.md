@@ -17,6 +17,7 @@ And: no `sorry` anywhere in your files.
 - **Prohibitions.** No tmux interaction, no codex/claude, no subagents, no push, no land, no `git stash`. Never edit /home/scott/WaveTurbulence-dev, the root WaveTurbulence.lean, frozen files or the manifest.
 - **Search first.** Before proving a lemma, grep the scratch packets you depend on (and /home/scott/wt-scratch/lg-spine, vines, mole, molecpl, lftwist, clcn) for an existing statement.
 - **Progress file.** Keep PROGRESS.md in your scratch dir current after every compiled module: what is proved (exact names), how it was checked, and the exact next step.
+- **Your turn has no fixed length.** Keep working, tool call after tool call, for hours if needed. "Too much work for one turn" is never a reason to stop. Neither is a missing lemma: prove it locally.
 - **How to end.** End only with:
   - `READY <packet>`: done, with the final checks below;
   - `STOPPED <packet>: <reason>`: a genuine obstruction (a false statement with an explicit counterexample, a missing idea after two routes, or a defect in a frozen or spine statement);
