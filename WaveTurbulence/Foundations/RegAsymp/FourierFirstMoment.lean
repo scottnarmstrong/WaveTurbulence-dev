@@ -2,6 +2,7 @@
 module
 
 public import WaveTurbulence.Foundations.Fourier.FourierL1Sobolev
+public import WaveTurbulence.Foundations.Fourier.TimeEuclidean
 
 /-! # One Fourier moment from one extra spatial derivative
 
@@ -64,5 +65,30 @@ theorem fourier_firstMoment_integrable_and_bound {N : ℕ} {f : V → ℂ}
     _ ≤ ∫ ξ : V, B * (1+‖ξ‖) ^ (-((N-1 : ℕ) : ℝ)) :=
       integral_mono hF (henv.const_mul B) hbound
     _ = _ := by rw [integral_const_mul]; unfold B firstMomentFourierConstant; ring
+
+/-- Coordinate-measure version, with the Euclidean frequency length required
+by the multidimensional lattice estimates. -/
+theorem coordinate_fourier_firstMoment_integrable_and_bound {d N : ℕ}
+    {f : (Fin d → ℝ) → ℂ} (hN : d+1 < N)
+    (hf : ContDiff ℝ N (fun x : EuclideanSpace ℝ (Fin d) => f (WithLp.ofLp x)))
+    (hi : ∀ j ≤ N, Integrable (iteratedFDeriv ℝ j (fun x : EuclideanSpace ℝ (Fin d) => f (WithLp.ofLp x)))) :
+    Integrable (fun ξ : Fin d → ℝ => (1+‖WithLp.toLp 2 ξ‖) * ‖Fourier.timeFourier f ξ‖) ∧
+      (∫ ξ : Fin d → ℝ, (1+‖WithLp.toLp 2 ξ‖) * ‖Fourier.timeFourier f ξ‖) ≤
+        firstMomentFourierConstant (EuclideanSpace ℝ (Fin d)) N *
+          Fourier.derivativeL1Sum N (fun x : EuclideanSpace ℝ (Fin d) => f (WithLp.ofLp x)) := by
+  obtain ⟨hInt,hBound⟩ := fourier_firstMoment_integrable_and_bound (by simpa using hN) hf hi
+  let g : (Fin d → ℝ) → ℝ := fun ξ => (1+‖WithLp.toLp 2 ξ‖) * ‖Fourier.timeFourier f ξ‖
+  have he : (fun x : EuclideanSpace ℝ (Fin d) => g (WithLp.ofLp x)) =
+      (fun x : EuclideanSpace ℝ (Fin d) => (1+‖x‖) * ‖𝓕 (fun y : EuclideanSpace ℝ (Fin d) => f (WithLp.ofLp y)) x‖) := by
+    funext x
+    simp only [g,Fourier.timeFourier_eq_euclidean,WithLp.toLp_ofLp]
+  have hm := PiLp.volume_preserving_ofLp (Fin d)
+  have hemb := (MeasurableEquiv.toLp 2 (Fin d → ℝ)).symm.measurableEmbedding
+  refine ⟨(hm.integrable_comp_emb hemb (g := g)).mp
+    (by simpa only [Function.comp_def,he] using hInt),?_⟩
+  have hh := hm.integral_comp hemb g
+  change (∫ ξ, g ξ) ≤ _
+  rw [← hh]
+  simpa only [he] using hBound
 
 end WaveTurbulence.RegAsymp
