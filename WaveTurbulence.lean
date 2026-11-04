@@ -1192,6 +1192,7 @@ public import WaveTurbulence.Frozen.Defs.SolvableEvent
 public import WaveTurbulence.Frozen.Defs.StdComplexGaussian
 public import WaveTurbulence.Frozen.Defs.TorusFourierCoeff
 public import WaveTurbulence.Frozen.Defs.WeightedL2Norm
+public import WaveTurbulence.Frozen.Theorems.Wkelwp
 
 /-!
 # WaveTurbulence
