@@ -43,12 +43,13 @@ theorem MomentumTreeData.localizedLeafWeight_eq_zero_of_not_mem {d n m w : ℕ}
     (leafCell_eq_zero_of_notMem (f a) (P.inputMomentum k x a) ha)
 
 /-- For a fixed leaf cell, the selected link cells recover its actual source weight. -/
-theorem MomentumTreeData.sum_sourceCellWeight_fiber_eq {d n m w : ℕ}
+theorem MomentumTreeData.sum_sourceCellWeight_fiber_eq_of_cover_at {d n m w : ℕ}
     (P : MomentumTreeData n m w) (f : Fin m → Mom d → ℂ)
     (S : (Fin m → Fin d → ℤ) → Finset ((Fin n × Fin 2) → Fin d → ℤ))
-    (hS : ∀ c k x, P.inputCellWeight c k x ≠ 0 →
+    (k : Mom d) (x : Fin n → Fin 2 → Mom d)
+    (hS : ∀ c, P.inputCellWeight c k x ≠ 0 →
       ∀ z, halfCellArrayWeight z (fun p : Fin n × Fin 2 => x p.1 p.2) ≠ 0 → z ∈ S c)
-    (k : Mom d) (x : Fin n → Fin 2 → Mom d) (c : Fin m → Fin d → ℤ) :
+    (c : Fin m → Fin d → ℤ) :
     (∑ z : {z : (Fin n × Fin 2) → Fin d → ℤ // z ∈ S c},
       P.sourceCellWeight f S k x ⟨c, z⟩) = P.localizedLeafWeight f c k x := by
   classical
@@ -58,16 +59,23 @@ theorem MomentumTreeData.sum_sourceCellWeight_fiber_eq {d n m w : ℕ}
     halfCellArrayWeight z (fun p => x p.1 p.2)), ← Finset.mul_sum]
   by_cases hc : P.inputCellWeight c k x = 0
   · simp only [P.localizedLeafWeight_eq, hc, mul_zero, zero_mul]
-  · rw [sum_halfCellArrayWeight_eq_one_of_cover P k c (S c) (hS c k) x hc, mul_one]
+  · have hz (z : (Fin n × Fin 2) → Fin d → ℤ) (hz : z ∉ S c) :
+        halfCellArrayWeight z (fun p : Fin n × Fin 2 => x p.1 p.2) = 0 := by
+      by_contra hn
+      exact hz (hS c hc z hn)
+    have he : (∑ z ∈ S c, halfCellArrayWeight z (fun p : Fin n × Fin 2 => x p.1 p.2)) = 1 :=
+      ((hasSum_halfCellArrayWeight (fun p : Fin n × Fin 2 => x p.1 p.2)).unique
+        (hasSum_sum_of_ne_finset_zero hz)).symm
+    rw [he, mul_one]
 
 /-- All selected cell weights recover the raw source input product, with an actual finite
 pointwise support. No analytic convergence premise is assumed. -/
-theorem MomentumTreeData.hasSum_sourceCellWeight {d n m w : ℕ}
+theorem MomentumTreeData.hasSum_sourceCellWeight_of_cover_at {d n m w : ℕ}
     (P : MomentumTreeData n m w) (f : Fin m → Mom d → ℂ)
     (S : (Fin m → Fin d → ℤ) → Finset ((Fin n × Fin 2) → Fin d → ℤ))
-    (hS : ∀ c k x, P.inputCellWeight c k x ≠ 0 →
-      ∀ z, halfCellArrayWeight z (fun p : Fin n × Fin 2 => x p.1 p.2) ≠ 0 → z ∈ S c)
-    (k : Mom d) (x : Fin n → Fin 2 → Mom d) :
+    (k : Mom d) (x : Fin n → Fin 2 → Mom d)
+    (hS : ∀ c, P.inputCellWeight c k x ≠ 0 →
+      ∀ z, halfCellArrayWeight z (fun p : Fin n × Fin 2 => x p.1 p.2) ≠ 0 → z ∈ S c) :
     HasSum (P.sourceCellWeight f S k x) (P.sourceLeafWeight f k x) := by
   classical
   let A := Fintype.piFinset (fun a => ApproxNT.thetaSupport (P.inputMomentum k x a))
@@ -85,8 +93,29 @@ theorem MomentumTreeData.hasSum_sourceCellWeight {d n m w : ℕ}
   have he : (∑ u ∈ F, P.sourceCellWeight f S k x u) = P.sourceLeafWeight f k x := by
     change (∑ u ∈ A.sigma (fun c => Finset.univ), P.sourceCellWeight f S k x u) = _
     rw [Finset.sum_sigma]
-    simp_rw [P.sum_sourceCellWeight_fiber_eq f S hS k x]
+    simp_rw [P.sum_sourceCellWeight_fiber_eq_of_cover_at f S k x hS]
     exact hleafA.unique hleaf
   exact he ▸ hs
+/-- For a fixed leaf cell, the selected link cells recover its actual source weight. -/
+theorem MomentumTreeData.sum_sourceCellWeight_fiber_eq {d n m w : ℕ}
+    (P : MomentumTreeData n m w) (f : Fin m → Mom d → ℂ)
+    (S : (Fin m → Fin d → ℤ) → Finset ((Fin n × Fin 2) → Fin d → ℤ))
+    (hS : ∀ c k x, P.inputCellWeight c k x ≠ 0 →
+      ∀ z, halfCellArrayWeight z (fun p : Fin n × Fin 2 => x p.1 p.2) ≠ 0 → z ∈ S c)
+    (k : Mom d) (x : Fin n → Fin 2 → Mom d) (c : Fin m → Fin d → ℤ) :
+    (∑ z : {z : (Fin n × Fin 2) → Fin d → ℤ // z ∈ S c},
+      P.sourceCellWeight f S k x ⟨c, z⟩) = P.localizedLeafWeight f c k x :=
+  P.sum_sourceCellWeight_fiber_eq_of_cover_at f S k x (fun c => hS c k x) c
+
+/-- All selected cell weights recover the raw source input product, with an actual finite
+pointwise support. No analytic convergence premise is assumed. -/
+theorem MomentumTreeData.hasSum_sourceCellWeight {d n m w : ℕ}
+    (P : MomentumTreeData n m w) (f : Fin m → Mom d → ℂ)
+    (S : (Fin m → Fin d → ℤ) → Finset ((Fin n × Fin 2) → Fin d → ℤ))
+    (hS : ∀ c k x, P.inputCellWeight c k x ≠ 0 →
+      ∀ z, halfCellArrayWeight z (fun p : Fin n × Fin 2 => x p.1 p.2) ≠ 0 → z ∈ S c)
+    (k : Mom d) (x : Fin n → Fin 2 → Mom d) :
+    HasSum (P.sourceCellWeight f S k x) (P.sourceLeafWeight f k x) :=
+  P.hasSum_sourceCellWeight_of_cover_at f S k x (fun c => hS c k x)
 
 end WaveTurbulence.Incoh

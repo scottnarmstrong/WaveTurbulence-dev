@@ -21,16 +21,17 @@ namespace WaveTurbulence.Incoh
 
 /-- The original normalized source lattice/time operator is exactly its countable smooth
 localization, with absolute convergence justified from the actual source input norms. -/
-theorem MomentumTreeData.sourceIntegral_eq_tsum_localizedSourceIntegral {d n m w K M : ℕ}
+theorem MomentumTreeData.sourceIntegral_eq_tsum_localizedSourceIntegral_of_cover_at {d n m w K M : ℕ}
     (P : MomentumTreeData n m w) (ζ : Circle) (L γ δ : ℝ) (Q : Fin n → LayerLink d)
     (I : Set (Fin n → Fin 2 → ℝ)) (hI : I ⊆ Set.univ.pi (fun i => linkBox (Q i)))
     (f : Fin m → Mom d → ℂ)
     (S : (Fin m → Fin d → ℤ) → Finset ((Fin n × Fin 2) → Fin d → ℤ))
-    (hcover : ∀ c k x, P.inputCellWeight c k x ≠ 0 →
+    (k : Mom d)
+    (hcover : ∀ c x, P.inputCellWeight c k x ≠ 0 →
       ∀ z, halfCellArrayWeight z (fun p : Fin n × Fin 2 => x p.1 p.2) ≠ 0 → z ∈ S c)
     {C : ℝ} (hS : ∀ c, ((S c).card : ℝ) ≤ C ^ n) {B : ℝ}
     (hL : 1 ≤ L) (hK : d + 1 ≤ K) (hM : 2 * d ≤ M) (hB : 0 ≤ B)
-    (h : ∀ a, Fourier.spatialNorm K M (f a) ≤ ENNReal.ofReal B) (k : Mom d) :
+    (h : ∀ a, Fourier.spatialNorm K M (f a) ≤ ENNReal.ofReal B) :
     P.sourceIntegral ζ L γ δ Q I f k = ∑' u : SourceCellIndex S,
       P.localizedSourceIntegral ζ L γ δ Q I f u.1 u.2.val k := by
   have hLp : 0 < L := zero_lt_one.trans_le hL
@@ -54,7 +55,7 @@ theorem MomentumTreeData.sourceIntegral_eq_tsum_localizedSourceIntegral {d n m w
   have he : P.sourceTimeIntegrand ζ L γ δ Q f k =
       fun t => ∑' u : SourceCellIndex S, P.sourceCellTimeIntegrand ζ L γ δ Q f S k u t := by
     funext t
-    exact P.sourceTimeIntegrand_eq_tsum_cells ζ L γ δ Q f S hcover hS hL hK hM hB h k t
+    exact P.sourceTimeIntegrand_eq_tsum_cells_of_cover_at ζ L γ δ Q f S k hcover hS hL hK hM hB h t
   unfold sourceIntegral
   rw [he, integral_tsum (fun u =>
     (P.continuous_sourceCellTimeIntegrand ζ hLp γ δ Q f S k u).aestronglyMeasurable) hsum.ne,
@@ -71,5 +72,21 @@ theorem MomentumTreeData.sourceIntegral_eq_tsum_localizedSourceIntegral {d n m w
   intro p
   unfold sourceCellWeight latticeMomentumArray
   ring
+
+/-- Compatibility form for a cover uniform in every root momentum. -/
+theorem MomentumTreeData.sourceIntegral_eq_tsum_localizedSourceIntegral {d n m w K M : ℕ}
+    (P : MomentumTreeData n m w) (ζ : Circle) (L γ δ : ℝ) (Q : Fin n → LayerLink d)
+    (I : Set (Fin n → Fin 2 → ℝ)) (hI : I ⊆ Set.univ.pi (fun i => linkBox (Q i)))
+    (f : Fin m → Mom d → ℂ)
+    (S : (Fin m → Fin d → ℤ) → Finset ((Fin n × Fin 2) → Fin d → ℤ))
+    (hcover : ∀ c k x, P.inputCellWeight c k x ≠ 0 →
+      ∀ z, halfCellArrayWeight z (fun p : Fin n × Fin 2 => x p.1 p.2) ≠ 0 → z ∈ S c)
+    {C : ℝ} (hS : ∀ c, ((S c).card : ℝ) ≤ C ^ n) {B : ℝ}
+    (hL : 1 ≤ L) (hK : d + 1 ≤ K) (hM : 2 * d ≤ M) (hB : 0 ≤ B)
+    (h : ∀ a, Fourier.spatialNorm K M (f a) ≤ ENNReal.ofReal B) (k : Mom d) :
+    P.sourceIntegral ζ L γ δ Q I f k = ∑' u : SourceCellIndex S,
+      P.localizedSourceIntegral ζ L γ δ Q I f u.1 u.2.val k :=
+  P.sourceIntegral_eq_tsum_localizedSourceIntegral_of_cover_at ζ L γ δ Q I hI f S k
+    (fun c x => hcover c k x) hS hL hK hM hB h
 
 end WaveTurbulence.Incoh

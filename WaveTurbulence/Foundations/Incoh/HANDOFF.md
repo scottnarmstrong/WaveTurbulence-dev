@@ -512,3 +512,31 @@ Raw-couple checks: targeted build `RawCoupleRestrictionDecay` passed (`9401 jobs
 `AxiomsRawCouple.lean`, log `axioms-raw-couple.log`, audited six final raw restriction, exact
 recombination, pointwise Fubini and physical bound results: each uses exactly
 `[propext, Classical.choice, Quot.sound]`.
+
+## Actual raw tree restriction bound (spatial order zero)
+
+The pointwise localization and raw reconstruction APIs now include `of_cover_at` versions:
+they require the cover only at the actual root momentum being evaluated. The former uniform
+cover theorem names and statements are retained as wrappers, and the raw couple bound was
+rebuilt successfully against them. This is the natural source reading for a tree with a
+root-valued lone leaf.
+
+`FiniteSelectionIntegral` proves exact counting/Lebesgue Fubini over selected finite fibers.
+`MovingTreePointwise` proves integrability at every external clock pair and exact forward
+agreement of the scalar causal spectral kernel with its literal source causal cut.
+`RawTreeAgreement` defines `sourceTreeKernel` as the original unlocalized normalized source
+operator over `I ∩ causalRootCut t` and proves exact pointwise agreement of the full moving-cell
+spectral extension on the external causal source box.
+
+`RawTreeRestrictionDecay.exists_rawTreeKernel_restriction_bound` proves actual raw
+`𝔛^{η,0,0}` restriction decay, including the lone leaf, with exponent `γ₁−100dη` and explicit
+localization coefficient `C_local^n (C_leaf B)^m C_half^(2n)`. The finite cover is generated
+inside the proof, and no Fourier norm, kernel representation, integrability or analytic root
+bound is assumed. Remaining Prop 5.1 work: full spatial order `30d`, couple weight `30d`,
+retaining P-1 through the raw source one-clock assembly, and final constant/exponent absorption.
+
+Raw-tree checks: targeted build `RawTreeRestrictionDecay` passed (`9499 jobs`), and the raw
+couple compatibility target `RawCoupleRestrictionDecay` rebuilt successfully (`9401 jobs`).
+Scratch `AxiomsRawTree.lean`, log `axioms-raw-tree.log`, audited five final raw restriction,
+exact recovery and finite-selection Fubini results. Each uses only
+`[propext, Classical.choice, Quot.sound]`.
