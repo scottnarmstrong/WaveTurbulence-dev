@@ -579,3 +579,29 @@ Statements, StatementsProbes.
    final?
 5. CL-17: no objection expected; the statement is MOLE's.
 6. F-5: is the lemma statement above what the B2.1 consumer needs?
+
+## Addendum 3: B2-CL-18 (wt-orch, Task 25): freeze scope is the consumer-reachable closure
+
+The independent re-check (`WaveB2-independent-audit.md`, "Re-check", main `1af9ab6`) passed with only F-5 open.
+Following the orchestrator's scope ruling (small frozen surface), the B2 freeze list now contains only declarations
+reachable from a frozen consumer. Only the generator and the generated list changed; no Lean source changed.
+
+- **Frozen consumers:** B2.1 `regularAsymptotics`, B2.2 `incoherentDecay`, the six Regular §4 obligations and
+  `Garden.isMolecule_molecule`.
+- **Freeze set:** these 9 theorems and exactly the B2 declarations they reach, through types, bodies and auxiliary
+  proofs. That is **89 declarations**: Regular 71, Molecules 12, Statements 6. The generator asserts the set is
+  closed.
+- **Held out with B2.3: 76 declarations.**
+  - The B2.3 section (13).
+  - The 63 that no frozen consumer reaches:
+    - 43 used only by B2.3;
+    - 20 used by no theorem at all: 10 probe-side instances and `MiniTreeCode.equiv`, plus the molecule operations
+      `cut`, `IsCutData`, `IsAlphaCut`, `eraseBond`, `IsHyperBlock`, `sigma`, `VineType.IsBad`, `IsDeviation` and
+      `deviation`.
+  - The ruling called these "used only by B2.3"; strictly, 20 of them are used by nothing yet. The closure rule
+    holds them out either way.
+- **Files** (`/home/scott/wt-scratch/waveb2`):
+  - `gen_freeze.py` `a741a10923f1…` and `FREEZE-LIST.md` `749daeb81908…`;
+  - `DESIGN.md` `6463b5f0872c…` (changelog B2-CL-18, files table);
+  - all Lean sources unchanged since snap-3 (`ce8f0a16…`, `89ff648e…`, `82e42b2b…`).
+- **Still open (REQUIRED):** F-5, the proof of `tendsto_pvResonantIntegral_of_decay`.
