@@ -34,13 +34,59 @@ public import WaveTurbulence.Frozen.Defs.WTParams
 public import WaveTurbulence.Frozen.Defs.WTParamsN
 public import WaveTurbulence.Frozen.Defs.WTPrefix
 public import WaveTurbulence.Frozen.Defs.XNormRestr
+public import WaveTurbulence.Foundations.IncohInst.IncoherentDecay
 
 /-!
 # Provider for `WaveTurbulence.incoherentDecay`
 
-The proof of the frozen anchor `WaveTurbulence.incoherentDecay` (T Prop `proplayer1`, L953–L956; L946–L951; WAVE-B v2 §4.12; T Def `defkg`) is assembled here under the export
-`WaveTurbulence.Provider.incoherentDecay`. Quarantined while the anchor is `DRAFT_SORRY`:
-only the frozen anchor may import this module.
+The proof of the frozen anchor `WaveTurbulence.incoherentDecay` (B2.2, ruling D8), exported as
+`WaveTurbulence.Provider.incoherentDecay`: wt-l2s's INCOH-INST theorem
+`WaveTurbulence.IncohInst.incoherentDecay`, whose scratch modules are ported under
+`Foundations/IncohInst` with their imports renamed (and the F80 repairs of `NormBridge` and
+`NormShift`). The anchor has no binders, so it seals with the bare `by exact`. This module must not
+import the frozen anchor.
 -/
 
 public section
+
+open MeasureTheory Finset Set
+open scoped ENNReal
+
+namespace WaveTurbulence.Provider
+
+open TTree
+
+/-- **B2.2 `incoherentDecay`** (T Prop `proplayer1`, L953–L956, with the standing assumptions of
+L946–L951; WAVE-B v2 §4.12). Under (Π), for `0 ≤ p < 𝔇`, remainders `R_q` (`q ≤ p`) with
+`‖R_q‖_{𝔖^{40d,40d}} ≤ L^{-θ_q}`, inputs `F_q = φ(δq) + R_q` and every `n ≤ N_{p+1}^4`:
+1. for every well-formed couple code of order `2n` and layered couple decoded by it, with all layers
+   `≤ p`, roots in layers `≤ q` and `≤ q'` (`q, q' ≤ p`, T Def `defkg`), and incoherency index `g ≥ 1`:
+   `‖K*_𝒬‖_{𝔛^{η,30d,30d}([q,q+1]×[q',q'+1])} ≤ C₁(C₁δ)^n L^{-(γ₁-√η)g}`;
+2. for every well-formed tree code of order `2n` and layered paired tree decoded by it, with all layers
+   `≤ p`, root layer `≤ q`, lone leaf in layer `q' ≤ q ≤ p` and `g ≥ 1`: the same bound for `K*_𝒯` in
+   `𝔛^{η,30d,0}(([q,q+1]×[q',q'+1]) ∩ {t > s})`.
+Deviations: (D1) arbitrary layerings (TARGET's standing assumption does not use canonicity for `g ≥ 1`;
+to be confirmed by packet L2); (D2) as B2.1 (D4)–(D6). -/
+theorem incoherentDecay : WTPrefix fun P =>
+    ∀ p : ℕ, p < P.D → ∀ R : ℕ → Mom P.d → ℝ, (∀ q ≤ p, InputRemainder P (R q) q) →
+    ∀ n : ℕ, n ≤ P.N (p + 1) ^ 4 →
+      -- (1) regular couples
+      (∀ Q : RegCpl, Q.wf = true → Q.size = 2 * n → ∀ LG : LayeredGarden 2, Q.Decodes LG.garden →
+        (∀ a, LG.layer a ≤ p) → ∀ q q' : ℕ, q ≤ p → q' ≤ p →
+        LG.layer (GNode.root LG.garden.tree 0) ≤ q → LG.layer (GNode.root LG.garden.tree 1) ≤ q' →
+        1 ≤ LG.incoherency Q.links →
+        XNormRestr P.η (30 * P.d) (30 * P.d) (timeBox q q') Set.univ
+          (fun ts k => KQstar P.L P.γ P.δ (inputsF P R) LG (ts 0) (ts 1) k) ≤
+          regBound P n (LG.incoherency Q.links)) ∧
+      -- (2) regular trees
+      (∀ X : RegChain, X.wf = true → X.size = 2 * n → ∀ LG : LayeredGarden 1,
+        X.DecodesTree LG.garden → (∀ a, LG.layer a ≤ p) → ∀ q q' : ℕ, q' ≤ q → q ≤ p →
+        LG.layer (GNode.root LG.garden.tree 0) ≤ q →
+        (∀ a : GNode LG.garden.tree, a.1.2 = X.lonePath → LG.layer a = q') →
+        1 ≤ LG.incoherency (X.treeLinks (LG.garden.sig 0)) →
+        XNormRestr P.η (30 * P.d) 0 (timeBoxGt q q') Set.univ
+          (fun ts k => KTstar P.L P.γ P.δ (inputsF P R) LG (ts 0) (ts 1) k) ≤
+          regBound P n (LG.incoherency (X.treeLinks (LG.garden.sig 0)))) :=
+  WaveTurbulence.IncohInst.incoherentDecay
+
+end WaveTurbulence.Provider

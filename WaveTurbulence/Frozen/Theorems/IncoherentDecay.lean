@@ -85,7 +85,7 @@ theorem incoherentDecay : WTPrefix fun P =>
           (fun ts k => KTstar P.L P.γ P.δ (inputsF P R) LG (ts 0) (ts 1) k) ≤
           regBound P n (LG.incoherency (X.treeLinks (LG.garden.sig 0)))) :=
 -- FROZEN_ANCHOR_PROOF_BEGIN
-  by sorry
+  by exact WaveTurbulence.Provider.incoherentDecay
 -- FROZEN_ANCHOR_PROOF_END
 -- FROZEN_ANCHOR_SUFFIX_BEGIN
 
