@@ -1,5 +1,5 @@
 {
- "assessed": "2026-11-04 03:00 UTC",
+ "assessed": "2026-11-04 03:20 UTC",
  "notes": "Lean work items = blueprint packets (docs/blueprint/GRAPH.md §E) with their difficulty weights (node weights L=1, M=2, H=4, VH=8 summed). Each frozen theorem anchor adds weight 1, credited when SEALED. Done fractions are the orchestrator's assessment, reviewed at integration rounds.",
  "lines_est_total": 273000,
  "parts": [
@@ -405,8 +405,8 @@
      "goal": "dominant/enhanced dominant couples and trees, equivalence classes, encoded trees (freeze if regref1 is frozen)",
      "weight": 9.0,
      "lines_est": 3150,
-     "done": 0.0,
-     "note": ""
+     "done": 0.9,
+     "note": "ENHANCED done in scratch: dominant couples, special sets, equivalence (DH21 Def 4.18), encoded trees (Props 4.20, 4.23), net signs; + tree incohproof1"
     },
     {
      "id": "D3",
