@@ -243,5 +243,72 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   sign. Read literally, the `Z`-terms of the Prop 5.1 expansion pick up `(−1)^{|Z|}`, contradicting TARGET
   (regref1-3)'s claim that `𝒥ℬ*` does not depend on `Z` unless the per-node sign of `Ω = −2⟨k₁−k, k₃−k⟩` compensates.
   The final WKE identity is probably unaffected, but the Wave B2 per-couple bound B2.1(1) would be false with a wrong
-  sign. Found by wt-orch (Task 16, audits/JR-OPS.md W2). Status: **open — trace before the B2 freeze** (assigned to
-  wt-wke with J3).
+  sign. Found by wt-orch (Task 16, audits/JR-OPS.md W2). **Status: CONFIRMED source erratum (2026-11-04).** wt-wke's
+  trace (`wt-scratch/wke/F61-sign-trace.md`): the composition kernel `I_{εα}I_{μ−εα}` has `χ_∞` part
+  `−χ_∞(α)/(επiα)·I_μ` (DH21 Lemma 5.8's own term II; Lean `iker_comp_decompP`; checked by hand by the orchestrator),
+  so `𝒥B̃_{Q,Z} = (−1)^{|Z|}𝒥B̃_Q` (DH21 Prop 7.5 "independent of Z" is false), and the per-couple leading term of DH21
+  (reducedom) / TARGET (regref1-3) L1154 needs `∏_{𝔫∈Z} (−1)/(ζ_𝔫πi)`. The Ω convention does not compensate (same
+  `Ω_𝔫 = 2⟨x_𝔫,y_𝔫⟩` in (newsum1) and in `α_𝔫`). Unaffected: DH21 Props 7.8–7.10 and the main theorems (`|Z|` is
+  constant on equivalence classes; the `Z ≠ ∅` classes cancel either way); TARGET (regref2-3), (regref1-5). Affected:
+  TARGET's per-couple bound (regref1-1) as printed is false for dominant Q with odd |Z| terms. B2 fix (ruling,
+  orchestrator): `specialWeight σ Z := ∏_{z∈Z} (−ζ_z π i)⁻¹` for couples and trees (B2-CL-11).
+  F57 addendum (2026-11-04, wt-orch Task 17, audits/MOLE-prefreeze.md): the same molecule satisfies every premise of
+  TARGET `disjointlem` (DH23 Lemma 4.11: connected interiors, vertex deletion) while its only applicable alternative
+  (b, concatenation) fails, so Lemma 4.11's premises do not make a block connected either. B2 fix: add a
+  `GroupConnected` conjunct to `IsBlock` (exact text in the audit; a one-line bridge to MOLE's definition; `IsVine`
+  unchanged) and define hyper-blocks through a connected adjoint block. F59 addendum: the deviation docstring fails in
+  three ℝ≥0∞ cases (a, 0), (a, ⊤), (⊤, ⊤); state operation bounds directly as `𝔄_pre ≤ ℐ · 𝔄_pos`. F58: B2's
+  `propcplmol` already requires positive order; fix its docstring ("connected" is not asserted by `IsMolecule`).
+- F62 — TARGET (incohproof10) L1019–L1058 (Wick factor per link) — TARGET writes a per-link factor `ε_𝔫 ∈ {1,0,−1}`,
+  but `ε_ℐ` is a product over all branching nodes and the two nodes of a link carry the same `ε`, so the true per-link
+  factor is `ε_𝔫² ∈ {1,0,1}` (proved: `epsDec_eq_prod_links`, LINKS scratch). Estimates unaffected; an exact
+  formalization needs the square. Found by wt-torus (LINKS, E1). Status: erratum (local).
+- F63 — TARGET `treelemma` (1) L2422 — "−" should be "±", and the first node has no earlier node to anchor to. Found by
+  wt-torus (LINKS, E2). Status: typo/precision.
+- F64 — DH23 Lemma A.4 (2) — "the interval does not depend on r" cannot hold literally; formalized as what the proof
+  counts: a finite family of centres chosen per decoration and r. Found by wt-torus (LINKS, E3). Status: imprecision.
+- F65 — DH21 Def 4.11 — "if 𝒬 = × then 𝒩^ch contains the root of + sign" is a slip (the trivial couple has no
+  branching nodes). Found by wt-torus (LINKS, E4). Status: typo.
+- F66 — Wave B2 draft `RegChain.JBtree` (`WaveB2-Regular.lean` L515–L517) vs TARGET (regref2-2) L1185 — **our statement
+  bug**: the tree approximation integrates down to `s`, but `K*_𝒯(t,s,k)` does not depend on `s` once `s ≤ r` (the time
+  constraint is implied by the layer bound); TARGET states (regref2-2) only for `s ∈ [r, r+1]`. So B2.1 item (2) and the
+  tree half of item (3) are false when `q' < r` (Lean probe `P5.lean` on the project's own `miniTree10LG`: `K*_𝒯` constant
+  in `s ≤ 1` while `app(t,s) − app(t,1) = (1−s)·c(k)` with `c(k)` independent of `L`). Fix: lower limit `max s r`
+  (`X.JBchain r (max s r) t fun _ => 1`). Found by the independent B2 audit
+  (`docs/campaign/orch/audits/WaveB2-independent-audit.md` F-1). Status: fix queued (B2-CL-13). The same audit reopens
+  stage-2/3 R1 (self-loop halves accepted as a bond pair in the B2.3 gap hypotheses: add `x₂ ≠ M.mate x₁`) and R2
+  (zero-gap tame ε-atoms, T L2183/L2152), keeps B2.3 out of the B2 freeze pending the author's ruling on DESIGN Q7, and
+  requires the p.v. characterization for decaying kernels (F-5) and named instances + a B2 freeze list (F-6).
+- F67 — DH23 L1924 (Prop 10.3, case (3)) — "v4 and v5 are not bridges" refers to the bonds ℓ4, ℓ5. Notation typo. Found
+  by wt-ansob (MOLEPROP13). Also recorded (no erratum yet, check at the G-chain audit): DH23 Def 4.1 L633 forbids loops,
+  while TARGET L1295 permits loops with a guarded large-gap convention; MOLEPROP13 proves DH23 Prop 10.1 on DH23's
+  loop-free domain and claims no loop-counting extension for TARGET's use.
+- F68 — Wave B snapshot 6 B1.12 `layergardenFlower`, `LayeredGarden.PatValid` (`dChild i` clause) vs TARGET L2331 —
+  **our statement defect**: the clause only requires the `i`-th child of `𝔣^pr` to be a branching node, so under
+  `IsCanonH (p+1)` it may be the root of an attached lower-layer garden (layer `< p`); `fixPat` then designates that
+  root with time `s > p`. TARGET's `∂_s` boundary term (L2331) is taken in the single-tree kernel `𝒥^†`, where a
+  non-flower child of `𝔣^pr` is a top-layer branching node or a leaf. So `flowerSum (dChild i)` contains gardens the
+  moment expansion never produces, and B1.12's bound for them is not justified by TARGET. Fix (snapshot 7): add
+  `LG.layer b.toNode = p` to the `dChild` clause. `dParent` is fine (the parent of `𝔣^pr` is on the stem). The
+  consumer `fixedpoint` (X3) uses only `plain` and `dRoot`. Found by wt-gauss-hc (X2-HANDOFF FINDING).
+- F69 — DH23 §10.4 Lemma `ylem1` (L1937–L1942) vs our B2 vine family — **open**: wt-ansob (MOLEPROP4) gives a
+  kernel-checked 5-atom molecule (bonds 1→0, 1→2, 2→1, 2→0, 0→2, 0→3, 3→4, 3→4, 4→3, 4→1; 4-regular, loop-free,
+  one triple bundle) whose single (Y2) step at 3, 4 gives the doubled triangle, while no vine in our B2 family has 7
+  atoms (type I: 2, type II: even ≥ 6, others ≥ 9), so ylem1's conclusion fails for it
+  (`/home/scott/wt-scratch/moleprop4/src/MoleProp4/ShortYCounterexample.lean`). Either our vine templates are too
+  narrow (F19/F37 readings) or ylem1 misses a small case. Independent investigation commissioned
+  (`docs/research/ylem1-investigation.md`). **Resolved (2026-11-04) as a DH23 erratum:** our eight vine templates match
+  `Vines.png` (DH23 L798–L800, Remark 5.2(c)); `ylem1` is false, missing Q and T themselves (zero sequences), the
+  5-atom T₁ (one sequence of length 1) and two infinite families with two triple bonds from the (VI) bullet (L1946);
+  the proof (L1939–L1948) never treats zero or one sequence and L1941, L1946, L586 over-claim. Exhaustive check: brute
+  force to 15 atoms, parametrised families to 27 atoms, 288 configurations, 0 mismatches. Repair: ylem1′ (explicit
+  exception list) and Prop 10.4(2)′ with hypothesis "not Y-exceptional" (proof L1963–L1977 then no longer uses
+  ylem1). No change to B2. Prop 10.4(1) (L1959) has the same length-1 omission.
+- **F69b — DH23 Prop 9.6 case (4), L1885 ("an enumeration shows 𝕄₀ must be a vine") — OPEN GAP inside TARGET's black box
+  (TARGET L2197 `lgmolect`).** The claim fails even for drawn vines (9-atom example in the report). The source argument
+  (vine ⇒ large gap ⇒ operation (c)) does not use the vine shape, so it covers every 𝕄₀ with a large β-gap; it does
+  NOT cover non-vine components whose two β-atoms both come from small-gap cuts (smallest: the 4-atom Q-block, three
+  5-atom T-blocks, five 7-atom T₁-blocks, the 9-atom block). Needed: for 𝕄₀ with V_α = 0, V_β = 2 and 𝕄₁
+  Y-exceptional, 𝔄₀ ≲ L^{−η²−η⁵ρ₀}. A partial route via operations (d)+(e) and (opere) L1871 when
+  |r| ≳ L^{−γ−100η} is unverified and does not cover T-blocks, the Q-block or very small gaps. Status: research
+  needed; escalated to the author (candidate DH23 erratum).

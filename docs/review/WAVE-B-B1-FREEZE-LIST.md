@@ -1,25 +1,26 @@
-# FREEZE-LIST: Wave B tier B1 (freeze-ready packaging, DESIGN CL-16–CL-18)
+# FREEZE-LIST: Wave B tier B1 (snapshot 6: freeze-ready packaging, DESIGN CL-16–CL-18, CL-20)
 
-Generated from the compiled modules `WaveBDraft.{Core, System, Statements, Sumint}` by the Lean metaprogram
-`FreezeList.lean` (next to this file) and `gen_freeze.py`. Each row is one declaration of the four frozen files:
+Generated from the compiled modules `WaveBDraft.{Core, System, Statements, Sumint, Flower}` by the Lean metaprogram
+`FreezeList.lean` (next to this file) and `gen_freeze.py`. Each row is one declaration of the five frozen files:
 its kind, its file, the TARGET/DH source it cites, and the other frozen declarations its type and body use.
 The source comes from the declaration's docstring. Where that has no citation, it is the citation of the
 enclosing section header, marked `(section)`, or else of the file's module docstring, marked `(file)`.
 
 **Counts.**
-- **11 theorems**, the anchors B1.1–B1.11. B1.6 `sumint` is in `WaveB1-Sumint.lean`, the others in
-  `WaveB1-Statements.lean`.
-- **148 definitions**, **4 abbrevs**, **5 structures** and **2 inductives**.
-- **32 instances**, each a named `@[instance_reducible, instance] def` (a literal `def`).
+- **12 theorems**, the anchors B1.1–B1.12. B1.6 `sumint` is in `WaveB1-Sumint.lean`, B1.12
+  `layergardenFlower` in `WaveB1-Flower.lean`, the others in `WaveB1-Statements.lean`.
+- **167 definitions**, **4 abbrevs**, **5 structures** and **5 inductives**.
+- **33 instances**, each a named `@[instance_reducible, instance] def` (a literal `def`).
   The former `deriving DecidableEq` clauses of `TTree` and `MarkTag` are now explicit definitions:
-  `TTree.decEq`, `instDecidableEqTTree` and `instDecidableEqMarkTag`.
+  `TTree.decEq`, `instDecidableEqTTree`, `instDecidableEqMarkTag` and, for `FixPat` (`WaveB1-Flower.lean`),
+  `FixPat.decEq` and `instDecidableEqFixPat`.
 
 **Closure.**
 - No frozen declaration uses a proved theorem of the project. The facts that definition bodies need are proved
   inline in `by` blocks; the elaborator stores these as auxiliary `….proof_n` constants, which belong to their
   definition.
 - Every proved non-anchor lemma is in the non-frozen `WaveB1-Lemmas.lean`.
-- The four files import only `WaveTurbulence.Frozen.Defs.*` (Wave A), Mathlib, and each other.
+- The five files import only `WaveTurbulence.Frozen.Defs.*` (Wave A), Mathlib, and each other.
 
 **The *uses* column.**
 - It lists frozen declarations only. Mathlib and Wave A constants are omitted.
@@ -246,4 +247,33 @@ enclosing section header, marked `(section)`, or else of the file's module docst
 | `SumintDatum.M₁` | def | (file) T Prop `sumint`, L1595–L1640; WAVE-B v2 §4.6 | `SumintDatum`, `SumintShape`, `SumintShape.VIdx`, `SumintShape.n` |
 | `WTPrefixA` | def | WAVE-B v2 §4.6 | `WTParams` |
 | `sumint` | theorem | T Prop `sumint`, L1595–L1640; WAVE-B v2 §4.6 | `SumintDatum`, `SumintDatum.Admissible`, `SumintDatum.M₀`, `SumintDatum.M₁`, `SumintDatum.expr`, `SumintShape`, `SumintShape.M`, `SumintShape.TVar`, `WTParams`, `WTParams.N`, `WTPrefixA`, `XNorm00Restr`, `jbr` |
+
+## `WaveB1-Flower.lean` (24 declarations)
+
+| declaration | kind | TARGET / DH source | uses (frozen) |
+|---|---|---|---|
+| `Garden.extendFix` | def | (file) T L2327; T L2283–L2285; T L2331 | `GBranch`, `Garden` |
+| `kDomainFix` | def | T L2331 | `GBranch`, `GBranch.IsChildOf`, `GBranch.toNode`, `Garden`, `LayeredGarden` |
+| `phaseProdOff` | def | T L2327 | `GBranch`, `GBranch.toNode`, `GNode`, `Garden`, `Garden.sign`, `instDecidableEqGBranch`, `instFintypeGBranch`, `omegaNode` |
+| `kernelKgen` | def | (file) T L2327; T L2283–L2285; T L2331 | `GBranch`, `GLeaf`, `GLeaf.toNode`, `GNode`, `GNode.root`, `Garden`, `Garden.IsFlower`, `Garden.extendFix`, `Garden.order`, `Garden.zeta`, `GenDecoration`, `IsDecoration`, `LayeredGarden`, `cosetDecoration`, `coupling`, `epsDec`, `inputLeaves`, `instFintypeGBranch`, `kDomainFix`, `phaseProdOff` |
+| `FixPat` | inductive | T L2312 | — |
+| `FixPat.decEq` | def | (file) T L2327; T L2283–L2285; T L2331 | `FixPat` |
+| `instDecidableEqFixPat` | instance (def) | — (DecidableEq instance for `FixPat`; no source object) | `FixPat`, `FixPat.decEq` |
+| `dyadicCut` | def | T L2283–L2285 | `chi0` |
+| `LayeredGarden.topCountBelow` | def | T L2290 | `GBranch`, `GBranch.toNode`, `GNode`, `GNode.IsDesc`, `Garden`, `LayeredGarden`, `instDecidableIsDesc`, `instFintypeGBranch` |
+| `LayeredGarden.IsFlowerNode` | def | (file) T L2327; T L2283–L2285; T L2331 | `GLeaf`, `GLeaf.toNode`, `GNode`, `Garden`, `Garden.IsFlower`, `LayeredGarden` |
+| `LayeredGarden.IsTopLeaf` | def | T L2283 | `GNode`, `Garden`, `LayeredGarden`, `LayeredGarden.parentLayer`, `TTree.Path`, `TTree.leaves`, `TTree.nodes` |
+| `LayeredGarden.fixPat` | def | T L2264 | `FixPat`, `GBranch`, `GBranch.IsChildOf`, `Garden`, `Garden.IsFlowerParent`, `LayeredGarden`, `TTree.Path`, `TTree.branching`, `instDecidableIsFlowerParent`, `instFintypeGBranch` |
+| `LayeredGarden.PatValid` | def | (file) T L2327; T L2283–L2285; T L2331 | `FixPat`, `GBranch`, `GBranch.IsChildOf`, `Garden`, `Garden.IsFlowerParent`, `LayeredGarden`, `TTree.Path`, `TTree.branching` |
+| `LayeredGarden.cutWeight1` | def | T L2283 | `GNode`, `Garden`, `LayeredGarden`, `LayeredGarden.IsFlowerNode`, `LayeredGarden.IsTopLeaf`, `TTree.Path`, `TTree.nodes`, `dyadicCut`, `instFintypeGNode` |
+| `LayeredGarden.cutWeight2` | def | T L2285 | `GBranch`, `GBranch.toNode`, `GNode`, `Garden`, `Garden.IsFlowerParent`, `LayeredGarden`, `LayeredGarden.OnStem`, `LayeredGarden.instDecidableOnStem`, `TTree.Path`, `TTree.branching`, `dyadicCut`, `instDecidableIsFlowerParent`, `instFintypeGBranch`, `omegaNode` |
+| `LayeredGarden.sibWeight` | def | T L2327 | `GBranch`, `GBranch.child`, `GNode`, `Garden`, `Garden.IsFlowerParent`, `LayeredGarden`, `LayeredGarden.IsFlowerNode`, `TTree.Path`, `TTree.branching`, `instDecidableIsFlowerParent`, `instFintypeGBranch` |
+| `FlowerKind` | inductive | T (operatorxker); T L2273 | — |
+| `TreeKind` | inductive | T (trterm); T L2312 | — |
+| `LayeredGarden.FlowerKindOK` | def | T L2290 | `FlowerKind`, `GBranch`, `GBranch.child`, `GBranch.toNode`, `Garden`, `Garden.IsFlowerParent`, `LayeredGarden`, `LayeredGarden.IsFlowerNode`, `LayeredGarden.topCountBelow`, `LayeredGarden.topOrder`, `TTree.Path`, `TTree.branching` |
+| `LayeredGarden.TreeKindOK` | def | T L2312 | `GBranch`, `GBranch.child`, `Garden`, `LayeredGarden`, `LayeredGarden.topCountBelow`, `LayeredGarden.topOrder`, `TTree.Path`, `TTree.branching`, `TreeKind` |
+| `flowerSum` | def | T (flowerexp2), L2287–L2290 | `FixPat`, `FlowerKind`, `GBranch`, `GLeaf`, `GLeaf.toNode`, `GNode`, `Garden`, `Garden.IsFlower`, `Garden.IsFlowerParent`, `Garden.order`, `Garden.sign`, `IsCanonH`, `LayeredGarden`, `LayeredGarden.FlowerKindOK`, `LayeredGarden.PatValid`, `LayeredGarden.attachNodes`, `LayeredGarden.attachedOrder`, `LayeredGarden.cutWeight1`, `LayeredGarden.cutWeight2`, `LayeredGarden.fixPat`, `LayeredGarden.sibWeight`, `TTree.Path`, `TTree.leaves`, `WTParams`, `WTParams.N`, `instDecidableIsFlowerParent`, `instFintypeGBranch`, `kernelKgen` |
+| `coupleSum` | def | T L2312 | `GBranch`, `GNode`, `Garden`, `Garden.order`, `IsCanonC`, `LayeredGarden`, `LayeredGarden.TreeKindOK`, `LayeredGarden.attachNodes`, `LayeredGarden.attachedOrder`, `TTree.Path`, `TTree.branching`, `TreeKind`, `WTParams`, `WTParams.N`, `kernelKgen` |
+| `WTPrefixP` | def | T L2279–L2280 | `WTParams` |
+| `layergardenFlower` | theorem | T Prop `flowerest1`, L2279–L2305; T L2306–L2338; WAVE-B v2 §4.15; T L2280; T (flowerest2); T (newnormn); T L2331; T L2312; T L2290 | `FixPat`, `FlowerKind`, `RemainderBound`, `TreeKind`, `WTParams`, `WTParams.Lambda`, `WTParams.N`, `WTPrefixP`, `coupleSum`, `flowerSum`, `inputsF`, `instDecidableEqFixPat`, `jbr` |
 

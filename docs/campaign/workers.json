@@ -4,7 +4,7 @@
   "model": "Claude Opus",
   "account": "claude-1",
   "branch": "w/orch",
-  "packet": "audits: Task 14 (NLS-BRIDGE, APPROXNT parameters, F53 ladder reading); done: seal audit wkelwp PASS, FLOWER redraft",
+  "packet": "Task 27: B2 freeze candidate final + author review page WAVE-B-B2.md; done: B2 audits, PL1/DEGEN/LINKS/ENHANCED/LAYERREG/CLCN pre-freeze audits, B1 freeze branch",
   "brief": "docs/campaign/orch/TASK4.md"
  },
  {
@@ -12,7 +12,7 @@
   "model": "Claude Opus",
   "account": "claude-10",
   "branch": "w/waveb-infra",
-  "packet": "X2 moment expansion (flowerest1 probabilistic part), then X3 FIXEDPT (pre-freeze); X1 FLOWER, B1.12 final, B2 ladder fix done",
+  "packet": "Wave B snapshot 7 (F68 dChild fix), then kernelKgen_graft + discharge O-X2-EXP/O-X3-CPL; X3 FIXEDPT done (conditional on those two)",
   "brief": "docs/campaign/briefs/FLOWER.md"
  },
  {
@@ -20,8 +20,8 @@
   "model": "Claude Opus",
   "account": "claude-14",
   "branch": "w/approxnt",
-  "packet": "C2 LINKS (pre-freeze): links, coherence, auxlem, treelemma (APPROXNT done)",
-  "brief": "docs/campaign/briefs/LINKS.md"
+  "packet": "J4 CANCEL7: DH21 Lemmas 7.1-7.3, Props 7.4-7.5 with F61 correction (C2, C4, C5 done)",
+  "brief": "docs/campaign/briefs/CANCEL7.md"
  },
  {
   "tmux": "wt-wke",
@@ -44,16 +44,16 @@
   "model": "GPT-6.1-Sol low",
   "account": "codex-3",
   "branch": "w/nt-circle",
-  "packet": "M3 CLCN (pre-freeze): (CL)/(CN), blockchainprop, cnblock (MOLE M1+M2 done)",
-  "brief": "docs/campaign/briefs/CLCN.md"
+  "packet": "G4 APPB-OPS then G5 APPB-ALG (pre-freeze): DH23 Appendix B (MOLE M1+M2, CLCN M3 done)",
+  "brief": "docs/campaign/briefs/APPB-OPS.md"
  },
  {
   "tmux": "wt-ansob",
   "model": "GPT-6.1-Sol low",
   "account": "codex-3",
   "branch": "w/bproc",
-  "packet": "G6 MOLEPROP13 (pre-freeze): DH23 Props 10.1, 10.3, then G4 APPB-OPS (DEGEN done)",
-  "brief": "docs/campaign/briefs/MOLEPROP13.md"
+  "packet": "RA1 REGASYMP: DH23 Prop 6.1 couples then trees (G7 paused on F69 ylem1; PV-DECAY, G6, DEGEN done)",
+  "brief": "docs/campaign/briefs/REGASYMP.md"
  },
  {
   "tmux": "wt-gausssum",
@@ -68,8 +68,8 @@
   "model": "GPT-6.1-Sol low",
   "account": "codex-3",
   "branch": "w/resonant",
-  "packet": "D4+C1 REG-STRUCT (pre-freeze): regular chains, DH21 Props 4.5–4.10, structure theorem, counting (COMB-CORE done in scratch)",
-  "brief": "docs/campaign/briefs/REG-STRUCT.md"
+  "packet": "C3 SKELETON (pre-freeze): prime skeletons with uniqueness (REG-STRUCT C1+D4 done)",
+  "brief": "docs/campaign/briefs/SKELETON.md"
  },
  {
   "tmux": "wt-anfourier",

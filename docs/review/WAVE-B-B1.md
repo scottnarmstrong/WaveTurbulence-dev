@@ -1,18 +1,16 @@
 # Wave B (tier B1) — freeze candidate for author approval
 
-> **Addendum (2026-11-04):** B1.12 `layergardenFlower` is redrafted, audited and proposed for this freeze. See
-> [`WAVE-B-B1-B112.md`](WAVE-B-B1-B112.md), which has three decisions.
-> **Hold (2026-11-04):** snapshot 5 has a statement bug in the `sumint` phase (FINDINGS F56: a product's scope is too
-> wide). Snapshot 6 fixes it and adds B1.12. Please approve snapshot 6, not snapshot 5; this page will be regenerated
-> from it.
-
-Snapshot `waveb-snap-5` · prepared 2026-11-03. **This is the exact Lean to be frozen** (one declaration per file under
+Snapshot `/home/scott/wt-scratch/waveb-snap-6` · prepared 2026-11-04 (supersedes snapshot 5: FINDINGS F56 fix + B1.12). **This is the exact Lean to be frozen** (one declaration per file under
 `WaveTurbulence/Frozen/`, theorems with body `by sorry` as `DRAFT_SORRY` anchors, definitions sealed), exactly as for
-Wave A (D6). File hashes: `WaveB1-Core.lean` 0b8477d9943a…, `WaveB1-System.lean` 59365906b84a…, `WaveB1-Statements.lean` e72e32df7fa0…, `WaveB1-Sumint.lean` 8863d8fa5e5c….
+Wave A (D6). File hashes: `WaveB1-Core.lean` 0b8477d9943a…, `WaveB1-System.lean` 59365906b84a…, `WaveB1-Statements.lean` e72e32df7fa0…, `WaveB1-Sumint.lean` 9750d760d676…, `WaveB1-Flower.lean` 026ac386b37e….
+
+> **Hold (2026-11-04, F68):** snapshot 6's B1.12 admits, through `PatValid (dChild i)`, gardens that TARGET's bound does
+> not cover. Snapshot 7 adds one conjunct (`LG.layer b.toNode = p`); nothing else changes. Please approve snapshot 7;
+> this page will be regenerated from it.
 
 ## 1. What is frozen
 
-11 theorem anchors and their definitions (148 defs, 4 abbrevs, 5 structures, 2 inductives, 32 instance-defs; full list
+12 theorem anchors and their definitions (167 defs, 4 abbrevs, 5 structures, 5 inductives, 33 instance-defs; full list
 with source lines and dependencies: `FREEZE-LIST.md` of the snapshot, copied to `docs/review/WAVE-B-B1-FREEZE-LIST.md`).
 
 | # | Lean name | TARGET source | what it says |
@@ -28,41 +26,32 @@ with source lines and dependencies: `FREEZE-LIST.md` of the snapshot, copied to 
 | B1.9 | `quadExpSum2` | `lemlayer2` L970–L977 (DH23 6.6(2)) | ∫_{L≤|s|≤T₀L^{2γ}} |Σ_{x,y} χ₀χ₀ e(…)| ds ≤ C L^{2d−2(d−1)(1−γ)+η} |
 | B1.10 | `quadExpSum3` | `lemcubic` L1554–L1593 | the three-vector analogue ≤ C L^{3d+γ−2γ₀} log L |
 | B1.11 | `canonicalCharacterization` | `canonequiv` L888–L897, Def 3.7 L657–L668 | the criterion form of canonical layered gardens ⇔ the inductive construction, with uniqueness of the construction data — **already proved in scratch** (wt-gauss-hc, 1447 lines, standard axioms) |
+| B1.12 | `layergardenFlower` | Prop `flowerest1` L2279–L2305 (deterministic core; uses L2306–L2338) | flower-garden sums of width 2P (kinds 𝒳, 𝒴, 𝒲, derivative patterns, †, M₁/M₂ cutoffs) ≤ ⟨k−ζk'⟩^{−4Λ_{p+1}P} L^{c(100d)³P} δ^{2νN}·(cutoff gains), and couple sums (ℒ₀, ∂_t a^tr) ≤ ⟨k⟩^{−4Λ_{p+1}} L^{100d} δ^{νN} — **new in snapshot 6**; decisions in [`WAVE-B-B1-B112.md`](WAVE-B-B1-B112.md) |
 
 ## 2. Rulings and readings to approve
 
 1. **Remainders R_q in finite smoothness** (C^{Λ_q}, forced by the 𝔖 norm), not C^∞ (stage-3 R1; F44: `ContDiff ℝ ⊤` is
    real-analytic in this Mathlib).
-2. **`layergardenFlower` (B1.12) and the flower-garden definitions deferred** to packet X1 (stage-3 R8, delta D1; F46).
+2. **`layergardenFlower` (B1.12) is now included** (packet X1 redraft, audited `FLOWER-redraft.md`; edits F1/F2 applied); its three decisions are in [`WAVE-B-B1-B112.md`](WAVE-B-B1-B112.md).
 3. **`cumulantExpansion` stays unfrozen** (proof target T.cmattr) (stage-3 R9).
 4. **`nlsAkBridge` gets `1 ≤ 𝔇`** (deviation D3: at 𝔇 = 0 the statement is false; `main` supplies 𝔇 ≥ 1).
-5. **Count theorem anchors against the ~20 budget** (Wave A 2 + Wave B 11 = 13; deferred: B1.12, B2.1–B2.3).
+5. **Count theorem anchors against the ~20 budget** (Wave A 2 + Wave B 12 = 14; deferred: B2.1–B2.3).
 6. Readings (DESIGN Q1–Q9): layers in ℕ (Q1); 𝒞₀ empty (Q2); prefix composition lemma left to provers (Q3); arbitrary
    garden width (Q4); **symmetric events = preimages of invariant sets of initial data** (Q5, the literal source notion);
    χ₀ Gevrey 2 with a constant (Q6, F41); `sumint` shifts with coefficient sum 1, no offset (Q9).
 7. The constant hierarchy is the parameter prefix (Π): d, γ → η₀ → data → C₁ → ν₀ → δ₀ → (δ, 𝔇) → C₂ → L₀ (F5).
-8. The 𝔖 and 𝔛 norms impose derivative regularity only at derivative order ≥ 1 (order 0 is the plain weighted
-   supremum, as in (normX2)/(normX)); found by wt-cumul and wt-anfourier, fixed in CL-13 and CL-19.
-9. Freeze-set definitions are self-contained (depend only on frozen Wave A definitions and Mathlib); bridges to the
+8. Freeze-set definitions are self-contained (depend only on frozen Wave A definitions and Mathlib); bridges to the
    landed Foundations objects (χ₀, the a-system, the Taylor terms) are proved; norm bridges are provider obligations.
+9. **Snapshot 6 fix (F56):** in `SumintDatum.phase` the normal-block product was inside the block product (Mathlib parses a `∏` body at precedence 67, `*` is 70); it is now `(∏ i, …) * ∏ i : Nor, …` as in TARGET (sumintI1). A sweep of every file found no other scope error (wt-gauss-hc; independently re-swept by wt-orch).
 
-## 3. Proof status already in hand (scratch / Foundations; sealed only after the freeze)
-
-- `canonicalCharacterization` (B1.11): proved (wt-gauss-hc, 1447 lines; exact statement checked by `type_of%`).
-- `quadExpSum2`, `quadExpSum3` (B1.9, B1.10): proved in Foundations in the drafted form (wt-gausssum, MINOR-ARCS).
-- `wkeTaylor` (B1.5): follows from the landed `wketaylor`/`taylorbound` via the proved bridge `wkeTaylorTerm = taylorU`.
-- `nlsAkBridge` (B1.4): its components are landed (NLS packet, MAIN-GLUE).
-- Composability checked **in Lean**: `MainGlue.main_of_propansatz_nlsAkBridge` proves the frozen type of `main` from
-  exactly the drafted `propansatz` and `nlsAkBridge` (wt-cumul); `propansatz` from the three gates is in progress (INDUCT).
-
-## 4. Audit trail
+## 3. Audit trail
 
 Stage audits: `docs/campaign/orch/audits/WaveB-stage1.md` (core definitions, wt-orch), `WaveB-stage2.md` (system objects,
 wt-orch), `WaveB-stage3.md` (statements, independent Opus auditor: 9 REQUIRED); deltas `WaveB-delta-1.md`,
-`WaveB-delta-stage3.md` (all closed; N1); `WaveB-final-check.md` (PASS); `WaveB-packaging-check.md` (PASS, packaging only, machine-checked); `WaveB-delta-CL19.md` (the order-0 norm guard).
-Every REQUIRED item is closed; all files elaborate; the only `sorry`s are the 11 anchors.
+`WaveB-delta-stage3.md` (all closed; N1); `WaveB-final-check.md` (PASS); `WaveB-packaging-check.md` (packaging only).
+Snapshot 6: `FLOWER-redraft.md` (B1.12), `WaveB-snapshot6.md` (delta audit: B1.12, F56, sweep). Every REQUIRED item is closed; all files elaborate; the only `sorry`s are the 12 anchors.
 
-## 5. The exact Lean code
+## 4. The exact Lean code
 
 ### WaveB1-Core.lean
 
@@ -1935,7 +1924,7 @@ noncomputable def phase (L γ δ η : ℝ) (x : D.S.VIdx → (Fin d → ℤ)) (r
   let c := δ * L ^ (2 * γ)
   let X : D.S.VIdx → Mom d := fun v => latticePoint L (x v)
   let e (θ : ℝ) : ℂ := Complex.exp ((Real.pi * θ : ℝ) * Complex.I)
-  ∏ i, ((∏ j : Fin (D.S.m i), e (c * (τ (.inl ⟨i, j.succ⟩) - τ (.inr (.inl ⟨i, j⟩))) *
+  (∏ i, ((∏ j : Fin (D.S.m i), e (c * (τ (.inl ⟨i, j.succ⟩) - τ (.inr (.inl ⟨i, j⟩))) *
         inner ℝ (X (D.S.xSlot i j)) (X (D.S.ySlot i j)))) *
       e (c * (τ (.inl ⟨i, 0⟩) - t) * inner ℝ r (X (D.S.x0Slot i))) *
       (∏ j : Fin (D.S.m i), e (c * (τ (.inl ⟨i, j.succ⟩) - t) * inner ℝ r
@@ -1945,7 +1934,7 @@ noncomputable def phase (L γ δ η : ℝ) (x : D.S.VIdx → (Fin d → ℤ)) (r
       (∏ j : Fin (D.S.m i), e (D.param (.inr (.inl ⟨i, j⟩)) * τ (.inr (.inl ⟨i, j⟩)))) *
       (if h : D.S.nor i = false ∧ D.badKind i = 2 ∧ 0 < D.S.m i then
         ((|τ (.inl ⟨i, ⟨1, by omega⟩⟩) - τ (.inr (.inl ⟨i, ⟨0, h.2.2⟩⟩))| ^ (1 - 3 * η) : ℝ) : ℂ)
-      else 1)) *
+      else 1))) *
   ∏ i : {i : Fin D.S.I // D.S.nor i = true},
     let u (c' : Fin 3) := X (D.S.uSlot i.1 i.2 c')
     let τ' (c' : Fin 3) := τ (.inr (.inr ⟨i, c'⟩))
@@ -2016,6 +2005,394 @@ theorem sumint : WTPrefixA fun A P =>
           P.L ^ ((D.S.M : ℝ) * (P.d - P.γ) -
             P.η ^ 2 * ((Finset.univ.filter fun i => D.S.nor i = false).card + D.M₁) -
             P.η ^ 8 * D.M₀ + P.η ^ 7)) := by
+  sorry
+
+end WaveTurbulence
+
+```
+
+### WaveB1-Flower.lean
+
+```lean
+/-
+Copyright (c) 2026 Scott Armstrong. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Scott Armstrong
+-/
+module
+
+public import WaveBDraft.Statements
+
+/-!
+# B1.12 `layergardenFlower`, redraft (packet X1; frozen candidate)
+
+The deterministic flower-garden gate. This redraft is meant to suffice for `fixedpoint`'s proof (stage-3 R8;
+FLOWER-DESIGN.md §3). It replaces the deferred draft of `WaveB1-Deferred.lean`. Like the freeze set, it imports
+only the frozen B1 files (closure policy, fix list 3 item 3).
+
+* **§1 The general kernel `kernelKgen`.** It is `kernelK` with three generalizations (R8: "a set of designated
+  branching nodes with prescribed times, plus a cutoff-function parameter"):
+  - designated **fixed-time nodes** `fix b = some v`, whose times are not integrated;
+  - a set `off` of nodes whose phase factor is removed (the `𝒥^†` of T L2327);
+  - a **weight** on the decoration (the smooth cutoffs of T L2283–L2285, and the sibling labels of T L2327).
+
+  Its time domain `kDomainFix` keeps the layer and upper-time constraints for free nodes, and the order
+  constraint `t_{𝔫'} < t_𝔫` whenever at least one of the two nodes is free. A Dirac factor `δ(t_𝔫 − s)` at
+  the boundary of `t_𝔫 < t_{𝔫^pr}` turns that constraint into an equality (T L2331).
+* **§2 Flower-garden data.**
+  - the fixed-time patterns `FixPat`: plain, `∂_t` (root ↦ `t`), `∂_s` (the parent, or a non-flower branching
+    child, of `𝔣^pr` ↦ `s`), each with `𝔣^pr ↦ s`;
+  - the dyadic cutoffs `dyadicCut` and the weights for `M₁` (top leaves), `M₂` (stem resonances) and `†`
+    (sibling labels);
+  - the kinds of initial flower trees: `𝒳` (`1 ≤` top order `≤ N_{p+1}`, F39); `𝒴`, `𝒲` ((Y-1)–(Y-2),
+    (W-1)–(W-3), which **replace** the top bound: F46, delta-1 D1);
+  - the kinds of trees in couples: `a^tr` (top order `≤ N_{p+1}`) and `ℒ₀` (top order `> N_{p+1}`, root
+    children `≤ N_{p+1}`).
+* **§3 The sums.** `flowerSum` corrects `truncSumHζ`; `coupleSum` gives the second moments of `ℒ₀`,
+  `∂_t a^tr` and `∂_t ℒ₀`.
+* **§4 B1.12.**
+-/
+
+@[expose] public section
+
+open MeasureTheory Finset Set
+open scoped ENNReal
+
+namespace WaveTurbulence
+
+/-! ## §1 The general kernel -/
+
+section General
+
+variable {w : ℕ}
+
+/-- Branch times from the free times: a designated node `b` (`fix b = some v`) gets the time `v`. -/
+def Garden.extendFix (G : Garden w) (fix : GBranch G.tree → Option ℝ)
+    (τ : {b : GBranch G.tree // fix b = none} → ℝ) : GBranch G.tree → ℝ :=
+  fun b => match h : fix b with
+    | some v => v
+    | none => τ ⟨b, h⟩
+
+/-- The **time domain with designated nodes**:
+- every free node has `𝔏_𝔫 < t_𝔫 < 𝔏_𝔫 + 1`, `0 < t_𝔫 < up(𝔫)`;
+- `t_{𝔫'} < t_𝔫` for a branching child `𝔫'` of `𝔫` whenever at least one of the two is free.
+
+The constraints that only involve designated nodes are dropped. Their times are prescribed, and a Dirac
+factor `δ(t_𝔫 − s)` sits on the boundary `t_𝔫 = t_{𝔫'}` (T L2331). With the flower parents as the
+designated nodes and no lone leaves, this is `kDomain` (bridge `kDomainFix_flowerParents`, probes). -/
+def kDomainFix (LG : LayeredGarden w) (up : GBranch LG.garden.tree → ℝ)
+    (fix : GBranch LG.garden.tree → Option ℝ) : Set (GBranch LG.garden.tree → ℝ) :=
+  {τ | ∀ b, (fix b = none → (LG.layer b.toNode : ℝ) < τ b ∧ τ b < LG.layer b.toNode + 1 ∧
+      0 < τ b ∧ τ b < up b) ∧
+    ∀ b' : GBranch LG.garden.tree, b'.IsChildOf b → (fix b' = none ∨ fix b = none) → τ b' < τ b}
+
+variable (L γ δ : ℝ) {d : ℕ}
+
+/-- The phase product with the phases at the nodes of `off` removed (`𝒥^†`, T L2327). -/
+noncomputable def phaseProdOff (G : Garden w) (off : Finset (GBranch G.tree))
+    (k : GNode G.tree → Mom d) (τ : GBranch G.tree → ℝ) : ℂ :=
+  ∏ b : GBranch G.tree, if b ∈ off then 1 else
+    Complex.exp ((Real.pi * ((G.sign b.toNode : ℤˣ) : ℤ) * δ * L ^ (2 * γ) * omegaNode G k b * τ b : ℝ) *
+      Complex.I)
+
+/-- **The general kernel** (R8): `kernelK` with designated fixed-time nodes `fix`, removed phases `off`
+and a decoration weight `wt`:
+`(δ/(2L^{d-γ}))^n ζ(𝒢) ∑_κ ε_κ wt(k) ∫ 1_{kDomainFix} ∏_{𝔫∉off} e^{πiζ_𝔫δL^{2γ}Ω_𝔫t_𝔫}
+∏^{(+,unmarked)}_ℓ F_{𝔏_ℓ}(k_ℓ)`. The integral runs over the free times. -/
+noncomputable def kernelKgen (F : ℕ → Mom d → ℝ) (LG : LayeredGarden w)
+    (fix : GBranch LG.garden.tree → Option ℝ) (off : Finset (GBranch LG.garden.tree))
+    (wt : (GNode LG.garden.tree → Mom d) → ℝ) (up : GBranch LG.garden.tree → ℝ) (k₀ : Mom d)
+    (nroot : Fin w → (Fin d → ℤ)) (nfl : Fin d → ℤ) : ℂ :=
+  (coupling d L γ δ : ℂ) ^ LG.garden.order * LG.garden.zeta *
+    ∑' κ : GenDecoration LG.garden d nroot nfl,
+      (epsDec LG.garden κ.1 : ℂ) * (wt (cosetDecoration LG.garden L k₀ κ.1) : ℂ) *
+        (∫ τ : {b : GBranch LG.garden.tree // fix b = none} → ℝ,
+          (kDomainFix LG up fix).indicator
+            (phaseProdOff L γ δ LG.garden off (cosetDecoration LG.garden L k₀ κ.1))
+            (LG.garden.extendFix fix τ)) *
+        ∏ ℓ ∈ inputLeaves LG.garden,
+          (F (LG.layer ℓ.toNode) (cosetDecoration LG.garden L k₀ κ.1 ℓ.toNode) : ℂ)
+
+end General
+
+/-! ## §2 Flower-garden data -/
+
+/-- The **fixed-time pattern** of one flower tree (T L2312, L2331). In every pattern the flower parent
+has time `s`.
+- `plain`: no other designated node.
+- `dRoot`: the root also has time `t` (`∂_t`).
+- `dParent`: the parent of `𝔣^pr` also has time `s` (`∂_s`).
+- `dChild i`: the `i`-th child of `𝔣^pr`, a branching node, also has time `s` (`∂_s`). -/
+inductive FixPat : Type
+  | plain : FixPat
+  | dRoot : FixPat
+  | dParent : FixPat
+  | dChild (i : Fin 3) : FixPat
+
+/-- Decidable equality of patterns, written out as for `TTree` and `MarkTag` (CL-17/CL-18: no `deriving` in the
+freeze set). -/
+def FixPat.decEq : (a b : FixPat) → Decidable (a = b)
+  | .plain, .plain => isTrue rfl
+  | .plain, .dRoot => isFalse fun h => FixPat.noConfusion h
+  | .plain, .dParent => isFalse fun h => FixPat.noConfusion h
+  | .plain, .dChild _ => isFalse fun h => FixPat.noConfusion h
+  | .dRoot, .plain => isFalse fun h => FixPat.noConfusion h
+  | .dRoot, .dRoot => isTrue rfl
+  | .dRoot, .dParent => isFalse fun h => FixPat.noConfusion h
+  | .dRoot, .dChild _ => isFalse fun h => FixPat.noConfusion h
+  | .dParent, .plain => isFalse fun h => FixPat.noConfusion h
+  | .dParent, .dRoot => isFalse fun h => FixPat.noConfusion h
+  | .dParent, .dParent => isTrue rfl
+  | .dParent, .dChild _ => isFalse fun h => FixPat.noConfusion h
+  | .dChild _, .plain => isFalse fun h => FixPat.noConfusion h
+  | .dChild _, .dRoot => isFalse fun h => FixPat.noConfusion h
+  | .dChild _, .dParent => isFalse fun h => FixPat.noConfusion h
+  | .dChild i, .dChild j =>
+    if h : i = j then isTrue (h ▸ rfl) else isFalse fun e => h (FixPat.dChild.inj e)
+
+@[instance_reducible, instance] def instDecidableEqFixPat : DecidableEq FixPat := FixPat.decEq
+
+/-- The dyadic smooth cutoffs `φ_M`, `M = 2^j L`, behind "`∼₀ M` (or `≲₀ M` if `M = L`)" (T L2283–L2285):
+- `φ_L(x) = χ₀(x/L)`;
+- `φ_{2^jL}(x) = χ₀(x/(2^jL)) − χ₀(x/(2^{j−1}L))` for `j ≥ 1`.
+
+They sum to `1`. `φ_M` is supported in `|x| < M`, and in `|x| > M/4` when `j ≥ 1`. -/
+noncomputable def dyadicCut (L : ℝ) (j : ℕ) (x : ℝ) : ℝ :=
+  if j = 0 then chi0 (x / L) else chi0 (x / (2 ^ j * L)) - chi0 (x / (2 ^ (j - 1) * L))
+
+namespace LayeredGarden
+
+variable {w : ℕ} (LG : LayeredGarden w)
+
+/-- The number of layer-`p` branching nodes below `a` (the "order" of T L2290). -/
+def topCountBelow (p : ℕ) (a : GNode LG.garden.tree) : ℕ :=
+  (Finset.univ.filter fun b : GBranch LG.garden.tree =>
+    a.IsDesc b.toNode ∧ LG.layer b.toNode = p).card
+
+/-- `ℓ`'s node is a flower. -/
+def IsFlowerNode (a : GNode LG.garden.tree) : Prop :=
+  ∃ ℓ : GLeaf LG.garden.tree, LG.garden.IsFlower ℓ ∧ ℓ.toNode = a
+
+/-- The **leaves of the initial flower trees** (T L2283, L2294). These are the non-root nodes with a
+layer-`p` parent that are leaves or lie in a lower layer: the paired layer-`p` leaves, the flower, and the
+roots of the attached gardens. -/
+def IsTopLeaf (p : ℕ) (a : GNode LG.garden.tree) : Prop :=
+  (LG.layer a < p ∨ a.1.2 ∈ (LG.garden.tree a.1.1).leaves) ∧ a.1.2 ≠ [] ∧ LG.parentLayer p a = p
+
+open Classical in
+/-- **The fixed times** of the pattern vector `pat` (T L2264, L2312, L2331): flower parents ↦ `s`,
+and per tree `j`, according to `pat j`, the root ↦ `t` or a neighbour of `𝔣^pr` ↦ `s`. -/
+noncomputable def fixPat (pat : Fin w → FixPat) (t s : ℝ) (b : GBranch LG.garden.tree) : Option ℝ :=
+  if LG.garden.IsFlowerParent b then some s else
+  match pat b.1.1 with
+  | .plain => none
+  | .dRoot => if b.1.2 = [] then some t else none
+  | .dParent => if ∃ c : GBranch LG.garden.tree, LG.garden.IsFlowerParent c ∧ c.IsChildOf b
+      then some s else none
+  | .dChild i => if ∃ c : GBranch LG.garden.tree, LG.garden.IsFlowerParent c ∧ b.1.1 = c.1.1 ∧
+      b.1.2 = c.1.2 ++ [i] then some s else none
+
+/-- The pattern of tree `j` designates an existing node other than `𝔣^pr`. Without it the pattern's
+boundary term does not exist. -/
+def PatValid (j : Fin w) : FixPat → Prop
+  | .plain => True
+  | .dRoot => ∃ b : GBranch LG.garden.tree, b.1 = (j, []) ∧ ¬ LG.garden.IsFlowerParent b
+  | .dParent => ∃ b c : GBranch LG.garden.tree, LG.garden.IsFlowerParent c ∧ c.1.1 = j ∧ c.IsChildOf b
+  | .dChild i => ∃ b c : GBranch LG.garden.tree, LG.garden.IsFlowerParent c ∧ c.1.1 = j ∧
+      b.1.1 = j ∧ b.1.2 = c.1.2 ++ [i]
+
+variable {d : ℕ}
+
+open Classical in
+/-- The `M₁` weight (T L2283, L2294): per tree, `φ_{M₁}` of the largest `|k|` over the non-flower
+leaves of the initial flower tree. -/
+noncomputable def cutWeight1 (p : ℕ) (L : ℝ) (j₁ : ℕ) (k : GNode LG.garden.tree → Mom d) : ℝ :=
+  ∏ j : Fin w, dyadicCut L j₁ (((Finset.univ.filter fun a : GNode LG.garden.tree =>
+    a.1.1 = j ∧ LG.IsTopLeaf p a ∧ ¬ LG.IsFlowerNode a).sup fun a => ‖k a‖₊ : NNReal) : ℝ)
+
+open Classical in
+/-- The `M₂` weight (T L2285, L2299): per tree, `φ_{M₂}` of the largest `|Ω_𝔫|` over the stem branching
+nodes other than `𝔣^pr`. -/
+noncomputable def cutWeight2 (L : ℝ) (j₂ : ℕ) (k : GNode LG.garden.tree → Mom d) : ℝ :=
+  ∏ j : Fin w, dyadicCut L j₂ (((Finset.univ.filter fun b : GBranch LG.garden.tree =>
+    b.1.1 = j ∧ LG.OnStem b.toNode ∧ ¬ LG.garden.IsFlowerParent b).sup
+      fun b => ‖omegaNode LG.garden k b‖₊ : NNReal) : ℝ)
+
+open Classical in
+/-- The `†` weight (T L2327): the children of each `𝔣^pr` other than the flower carry the prescribed
+vectors `c j i`. -/
+noncomputable def sibWeight (c : Fin w → Fin 3 → Mom d) (k : GNode LG.garden.tree → Mom d) : ℝ :=
+  ∏ b : GBranch LG.garden.tree, if LG.garden.IsFlowerParent b then
+    ∏ i : Fin 3, (if LG.IsFlowerNode (b.child i) then 1 else
+      if k (b.child i) = c b.1.1 i then 1 else 0) else 1
+
+end LayeredGarden
+
+/-- The kinds of initial flower trees: `𝒳` (T (operatorxker), without the identity term), `𝒴` and `𝒲`
+(T L2273). -/
+inductive FlowerKind : Type
+  | X : FlowerKind
+  | Y : FlowerKind
+  | W : FlowerKind
+
+/-- The kinds of trees in couples: `a^tr` (T (trterm)) and `ℒ₀` (T L2312). -/
+inductive TreeKind : Type
+  | tr : TreeKind
+  | L0 : TreeKind
+
+namespace LayeredGarden
+
+variable {w : ℕ} (LG : LayeredGarden w)
+
+/-- **The kind restrictions on the initial flower trees.** "Order" means the number of layer-`p` branching
+nodes (T L2290).
+- `X`: `1 ≤` order `≤ N_{p+1}`. The `1 ≤` excludes the trivial flower tree, whose term is the identity of
+  `𝒳 = 1 + ∑ 𝒥̃` (F39; DH23 (kernelexp)).
+- `Y`: (Y-1) order `> N_{p+1}`, (Y-2) each child of the root has `≤ N_{p+1}` below it.
+- `W`: (W-1) order `> N_{p+1}`, (W-2) each sibling of `𝔣` has `≤ N_{p+1}` below it, (W-3) order minus the
+  count below `𝔣^pr` `≤ N_{p+1}`.
+
+For `Y` and `W` these replace the bound `N_{p+1}` of `ℋ^tr` (F46, delta-1 D1). -/
+def FlowerKindOK (p Ntr : ℕ) : FlowerKind → Prop
+  | .X => ∀ j, 1 ≤ LG.topOrder p j ∧ LG.topOrder p j ≤ Ntr
+  | .Y => ∀ j, Ntr < LG.topOrder p j ∧ ∀ b : GBranch LG.garden.tree, b.1 = (j, []) →
+      ∀ i : Fin 3, LG.topCountBelow p (b.child i) ≤ Ntr
+  | .W => ∀ j, Ntr < LG.topOrder p j ∧ ∀ b : GBranch LG.garden.tree, b.1.1 = j →
+      LG.garden.IsFlowerParent b →
+        (∀ i : Fin 3, ¬ LG.IsFlowerNode (b.child i) → LG.topCountBelow p (b.child i) ≤ Ntr) ∧
+        LG.topOrder p j - LG.topCountBelow p b.toNode ≤ Ntr
+
+/-- **The kind restrictions on the trees of a couple:**
+- `tr`: top order `≤ N_{p+1}` (`a^tr`);
+- `L0`: top order `> N_{p+1}`, and each child of the root has `≤ N_{p+1}` below it (`ℒ₀`, T L2312). -/
+def TreeKindOK (p Ntr : ℕ) : TreeKind → Prop
+  | .tr => ∀ j, LG.topOrder p j ≤ Ntr
+  | .L0 => ∀ j, Ntr < LG.topOrder p j ∧ ∀ b : GBranch LG.garden.tree, b.1 = (j, []) →
+      ∀ i : Fin 3, LG.topCountBelow p (b.child i) ≤ Ntr
+
+end LayeredGarden
+
+/-! ## §3 The sums -/
+
+open Classical in
+/-- **The flower sum** (corrects `truncSumHζ`; T (flowerexp2), L2287–L2290; F39, F46/D1, R8). It sums
+`kernelKgen` over the layered flower gardens `𝒢` of width `w` and order `N` such that:
+- `𝒢 ∈ ℋ_{p+1}` (stems in layer `p`);
+- the attached gardens have order `≤ N_p`;
+- the initial flower trees are of kind `kind`;
+- the flower signs are `ζ · ζ_j`;
+- each tree's pattern is valid.
+
+The kernel data:
+- flower parents ↦ `s`, plus the pattern's node;
+- the phases at the flower parents removed if `dagger` is given;
+- the weights: `M₁` cutoff (index `cut1`), `M₂` cutoff (`cut2`), sibling labels (`dagger`);
+- `(n, n')`-decorations: roots `n`, flowers `n'`. -/
+noncomputable def flowerSum (P : WTParams) (F : ℕ → Mom P.d → ℝ) (p N : ℕ) {w : ℕ}
+    (kind : FlowerKind) (pat : Fin w → FixPat) (dagger : Option (Fin w → Fin 3 → Mom P.d))
+    (cut1 cut2 : Option ℕ) (ζ : ℤˣ) (t s : ℝ) (n n' : Fin P.d → ℤ) : ℂ :=
+  ∑ᶠ (LG : LayeredGarden w) (_ : IsCanonH (p + 1) LG ∧
+      (∀ u ∈ LG.attachNodes p, LG.attachedOrder p u ≤ P.N p) ∧ LG.garden.order = N ∧
+      LG.FlowerKindOK p (P.N (p + 1)) kind ∧
+      (∀ ℓ : GLeaf LG.garden.tree, LG.garden.IsFlower ℓ →
+        LG.garden.sign ℓ.toNode = ζ * LG.garden.sig ℓ.1.1) ∧
+      ∀ j, LG.PatValid j (pat j)),
+    kernelKgen P.L P.γ P.δ F LG (LG.fixPat pat t s)
+      (if dagger.isSome then Finset.univ.filter LG.garden.IsFlowerParent else ∅)
+      (fun k => (cut1.elim 1 fun j₁ => LG.cutWeight1 p P.L j₁ k) *
+        (cut2.elim 1 fun j₂ => LG.cutWeight2 P.L j₂ k) * (dagger.elim 1 fun c => LG.sibWeight c k))
+      (fun _ => t) 0 (fun _ => n) n'
+
+open Classical in
+/-- **The restricted couple sum** (T L2312). It sums over the couples `𝒬 ∈ 𝒞_{p+1}` of order `N`
+with attached gardens of order `≤ N_p` and trees of kind `kind`. With `dt`, the roots are branching
+and have time `t` (`δ(t_𝔯 − t)` of `∂_t`). The root vector is `k ∈ ℝ^d`, as in `KQ`. Without `dt`
+and with kind `tr` this is `truncSumC` (bridge in the probes). -/
+noncomputable def coupleSum (P : WTParams) (F : ℕ → Mom P.d → ℝ) (p N : ℕ) (kind : TreeKind)
+    (dt : Bool) (t : ℝ) (k : Mom P.d) : ℂ :=
+  ∑ᶠ (LG : LayeredGarden 2) (_ : IsCanonC (p + 1) LG ∧
+      (∀ u ∈ LG.attachNodes p, LG.attachedOrder p u ≤ P.N p) ∧ LG.garden.order = N ∧
+      LG.TreeKindOK p (P.N (p + 1)) kind ∧
+      (dt = true → ∀ j : Fin 2, ∃ b : GBranch LG.garden.tree, b.1 = (j, []))),
+    kernelKgen P.L P.γ P.δ F LG (fun b => if dt = true ∧ b.1.2 = [] then some t else none) ∅
+      (fun _ => 1) (fun _ => t) k (fun _ => 0) 0
+
+/-! ## §4 B1.12 -/
+
+/-- The prefix `(Π_P)` of `flowerest1` (T L2279–L2280). It is `(Π)` with the moment order `P` chosen after `ν`
+("large depending on `C₁`") and before `δ` ("`δ` small depending on `P`"). -/
+def WTPrefixP (Q : ℕ → WTParams → Prop) : Prop :=
+  ∀ d : ℕ, 3 ≤ d → ∀ γ : ℝ, γ ∈ Ioo (0 : ℝ) 1 →
+  ∃ η₀ : ℝ, 0 < η₀ ∧ ∀ η : ℝ, η ∈ Ioc 0 η₀ →
+  ∀ φin : SchwartzMap (Mom d) ℝ, (∀ k, 0 ≤ φin k) →
+  ∀ τstar : ℝ, 0 < τstar → ∀ φ : ℝ → SchwartzMap (Mom d) ℝ, IsWKESolution φin τstar φ →
+  ∃ C₁ : ℝ, 1 ≤ C₁ ∧ ∃ ν₀ : ℝ, 0 < ν₀ ∧ ∀ ν : ℝ, ν ∈ Ioc 0 ν₀ →
+  ∃ P₀ : ℕ, ∀ Pm : ℕ, P₀ ≤ Pm →
+  ∃ δ₀ : ℝ, 0 < δ₀ ∧ ∀ δ : ℝ, δ ∈ Ioc 0 δ₀ → ∀ D : ℕ, 1 ≤ D → τstar = D * δ →
+  ∃ C₂ : ℝ, 1 ≤ C₂ ∧ ∃ L₀ : ℝ, 2 ≤ L₀ ∧ ∀ L : ℝ, L₀ ≤ L →
+  Q Pm ⟨d, γ, η, φin, τstar, φ, C₁, ν, δ, D, C₂, L⟩
+
+open Classical in
+/-- **B1.12 `layergardenFlower`** (T Prop `flowerest1`, L2279–L2305, deterministic core; T L2306–L2338 for
+its uses; review G-1, stage-3 R8, WAVE-B v2 §4.15).
+
+Setting: `(Π_P)`, `0 ≤ p < 𝔇`, remainders as in B1.2, inputs `F_q = φ(δq) + R_q`.
+
+**(1) Flower gardens of width `2P`.** For `p < s < t < p+1` (T's range for the flower kernels, L2263),
+`n, n' ∈ ℤ^d`, `ζ`, `N ≤ N_{p+1}^4`, every kind (`𝒳`, `𝒴`, `𝒲`), every pattern vector, with or without `†`
+and the cutoffs:
+
+  `|flowerSum| ≤ ⟨k − ζk'⟩^{−4Λ_{p+1}P} L^{c(100d)³P} δ^{2νN} · M₁^{−80dP} · M₂^{−P/9}`
+
+- `c = 1` if all patterns are plain, `c = 2` otherwise.
+- The `M₁` factor is present iff the `M₁` cutoff is, also for derivative patterns.
+- The `M₂` factor is present iff the `M₂` cutoff is and all patterns are plain. The `M₂` cutoff requires the
+  `M₁` cutoff and `|k| ≥ M₁^{10}`.
+
+**(2) Couples.** For `p < t < p+1`, `k ∈ ℝ^d`, `N ≤ N_{p+1}^4`, kind `ℒ₀`, or kind `a^tr` with `∂_t`:
+
+  `|coupleSum| ≤ ⟨k⟩^{−4Λ_{p+1}} L^{100d} δ^{νN}`
+
+**Uses.**
+- The `𝒴`/`𝒲` gain `e^{−100N_{p+1}}` (T L2280) comes from summing over `N ≥ 2P(N_{p+1}+1)`, the kinds'
+  lower bound.
+- The bounds of (1) give T (flowerest2) with its cutoff variants, and T (newnormn) with the `∂_{t,s}` terms
+  of (sobolev2), T L2331.
+- Those of (2) give (trterm1) for `ℒ₀`, and for `∂_t a^tr`, `∂_t ℒ₀` with an extra `L^{100d}` (T L2312).
+
+**Deviations** (FLOWER-DESIGN.md):
+- (D1) The moment expansions `𝔼_p|𝒦|^{2P} = ∑ + errors` are left to T.flowerest1 and T.fp.part1. This gate
+  is their deterministic core.
+- (D2) Per-order bounds with `δ^{2νN}` (flowers) and `δ^{νN}` (couples).
+- (D3) Range `N ≤ N_{p+1}^4` (T L2290).
+- (D4) Prefactor `L^{d−γ}` (F25).
+- (D5) Kind `𝒳` excludes the trivial flower tree (F39).
+- (D6) `𝒴`/`𝒲` replace the top bound (F46).
+- (D7) Explicit dyadic cutoffs.
+- (D8) The derivative patterns and `†` as designated nodes, removed phases and weights (R8).
+- (D9) `L^{2(100d)³P}` for derivative patterns.
+- (D10) The couple clause covers `ℒ₀`, which B1.2 does not.
+- (D11) Per-tree choices: the `†` labels `c j` and the patterns `pat j` may differ between the trees `j` of
+  the garden. The consumer uses one uniform choice, so this is more general than `fixedpoint` needs (the
+  proof is per tree). -/
+theorem layergardenFlower : WTPrefixP fun Pm P =>
+    ∀ p : ℕ, p < P.D → ∀ R : ℕ → Mom P.d → ℝ, RemainderBound P R p →
+    (∀ t ∈ Ioo (p : ℝ) (p + 1), ∀ s ∈ Ioo (p : ℝ) t, ∀ n n' : Fin P.d → ℤ, ∀ ζ : ℤˣ,
+      ∀ N ≤ P.N (p + 1) ^ 4, ∀ (kind : FlowerKind) (pat : Fin (2 * Pm) → FixPat)
+        (dagger : Option (Fin (2 * Pm) → Fin 3 → Mom P.d)) (cut1 cut2 : Option ℕ),
+        (∀ j₂ ∈ cut2, ∃ j₁ ∈ cut1, ((2 : ℝ) ^ j₁ * P.L) ^ 10 ≤ ‖latticePoint P.L n‖) →
+        ‖flowerSum P (inputsF P R) p N kind pat dagger cut1 cut2 ζ t s n n'‖ ≤
+          jbr (latticePoint P.L n - (ζ : ℤ) • latticePoint P.L n') ^
+              (-(4 * P.Lambda (p + 1) * Pm : ℝ)) *
+            P.L ^ ((if ∀ j, pat j = .plain then 1 else 2) * (100 * P.d : ℝ) ^ 3 * Pm) *
+            P.δ ^ (2 * P.ν * N) *
+            (cut1.elim 1 fun j₁ => ((2 : ℝ) ^ j₁ * P.L) ^ (-(80 * P.d * Pm : ℝ))) *
+            (cut2.elim 1 fun j₂ =>
+              if ∀ j, pat j = .plain then ((2 : ℝ) ^ j₂ * P.L) ^ (-(Pm / 9 : ℝ)) else 1)) ∧
+    (∀ t ∈ Ioo (p : ℝ) (p + 1), ∀ k : Mom P.d, ∀ N ≤ P.N (p + 1) ^ 4, ∀ (kind : TreeKind)
+        (dt : Bool), (kind = .tr → dt = true) →
+        ‖coupleSum P (inputsF P R) p N kind dt t k‖ ≤
+          jbr k ^ (-(4 * P.Lambda (p + 1) : ℝ)) * P.L ^ (100 * P.d : ℝ) * P.δ ^ (P.ν * N)) := by
   sorry
 
 end WaveTurbulence
