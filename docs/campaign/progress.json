@@ -1,5 +1,5 @@
 {
- "assessed": "2026-11-04 06:15 UTC",
+ "assessed": "2026-11-04 07:30 UTC",
  "notes": "Lean work items = blueprint packets (docs/blueprint/GRAPH.md §E) with their difficulty weights (node weights L=1, M=2, H=4, VH=8 summed). Each frozen theorem anchor adds weight 1, credited when SEALED. Done fractions are the orchestrator's assessment, reviewed at integration rounds.",
  "lines_est_total": 273000,
  "parts": [
@@ -504,8 +504,8 @@
      "goal": "DH21 Prop 5.1 (with DH23 weights)",
      "weight": 4.0,
      "lines_est": 3000,
-     "done": 0.95,
-     "note": "MAINCOEF done (couples) + garden↔code B̃ bridge (couples, trees; discharges BtRec); tree Prop 5.1 next"
+     "done": 1.0,
+     "note": "MAINCOEF done: DH21 Prop 5.1 for couples and trees (DH23 weights), garden↔code B̃ bridge"
     },
     {
      "id": "X1",
@@ -558,8 +558,8 @@
      "goal": "DH21 Props 7.7, 7.8 (momentum factors, class cancellation)",
      "weight": 6.0,
      "lines_est": 2700,
-     "done": 0.02,
-     "note": "MEXP started (wt-torus)"
+     "done": 0.95,
+     "note": "MEXP done: DH21 Props 7.7, 7.8 (corrected weight)"
     },
     {
      "id": "I1",
@@ -576,8 +576,8 @@
      "goal": "DH23 Prop 6.3 (single-layer realness)",
      "weight": 4.0,
      "lines_est": 2000,
-     "done": 0.0,
-     "note": ""
+     "done": 0.95,
+     "note": "REGCANCEL done: DH23 Prop 6.3 (statement form chosen over B2 objects, to audit)"
     },
     {
      "id": "RA1",
@@ -603,8 +603,8 @@
      "goal": "DH21 Props 7.9, 7.10; DH23 Prop 6.2 (Σ app = 𝒰_n)",
      "weight": 6.0,
      "lines_est": 2800,
-     "done": 0.0,
-     "note": ""
+     "done": 0.95,
+     "note": "WKE-ID done: Σ app = 𝒰_n (wke_identity), B2.1 item (4) proved; route avoids DH21 7.9/7.10"
     },
     {
      "id": "S1",
@@ -639,8 +639,8 @@
      "goal": "TARGET Props 6.6–6.8 (norm translation F11, corrected regref1-5, dominant trees)",
      "weight": 13.0,
      "lines_est": 4100,
-     "done": 0.0,
-     "note": ""
+     "done": 0.55,
+     "note": "REGREF: B2.1 couple items proved at exact type; trees (items 2, 3b, trace argument F76) in progress"
     },
     {
      "id": "L3",
@@ -648,8 +648,8 @@
      "goal": "Props 6.1, 6.2",
      "weight": 4.0,
      "lines_est": 1700,
-     "done": 0.0,
-     "note": ""
+     "done": 0.02,
+     "note": "PL23 started (wt-wke)"
     },
     {
      "id": "G1",
@@ -765,8 +765,8 @@
      "goal": "fixedest1–4 and fixedpoint",
      "weight": 9.0,
      "lines_est": 3400,
-     "done": 0.8,
-     "note": "FIXEDPT: fixedpoint proved from B1.12, B1.2, B1.5 and the named obligations O-X2-EXP, O-X3-CPL (36 modules, scratch)"
+     "done": 0.85,
+     "note": "FIXEDPT conditional on O-X2-EXP/O-X3-CPL; O-X3-CPL: CPL-1 (a^tr), CPL-2 (ℒ₀) done, CPL-3 in progress"
     },
     {
      "id": "I2",

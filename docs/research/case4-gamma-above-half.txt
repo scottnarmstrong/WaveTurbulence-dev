@@ -1,0 +1,423 @@
+DH23 PROP 9.6, CASE (4), FOR 1/2 < gamma < 1: THE T-TYPE COMPONENTS
+Date: 2026-11-04.  No Lean compiled.  Scripts and outputs are in this directory (Section 7); run with python3 -I.
+
+Sources and line numbers:
+  DH23   = /home/scott/wave-turbulence/references/src-2301.07063/Revision_Submit.tex
+  TARGET = /home/scott/wave-turbulence/paper/source/WKE-Longer_times_Final_arXiv.tex
+  CASE4  = /home/scott/WaveTurbulence-dev/docs/research/dh23-prop96-case4.md (setting, Lemmas 1.1, 2.1-2.4, 4.1, 5.1)
+  YLEM1  = /home/scott/WaveTurbulence-dev/docs/research/ylem1-investigation.md (R1, R2: Y-exceptional, exception list)
+  VINE2  = /home/scott/WaveTurbulence-dev/docs/research/vine2-m1.txt (vine (II) with m = 1, i.e. (E0))
+
+=====================================================================================================================
+0. VERDICT: CLOSED FOR EVERY gamma IN (1/2, 1).
+=====================================================================================================================
+(a) R3 holds for EVERY T-type case-(4) component, for every gamma in (1/2, 1), by ONE uniform argument (Theorem A).
+    - It covers T itself in every orientation of the beta-atoms (all T-beads), the T_1 blocks, the 9-atom block, the
+      infinite families (Z_m(T_n, l') closures, vine (V)/(VIII) closures with misplaced beta-atoms), and also the
+      drawn vines (III)-(VIII) themselves.
+    - It holds for EVERY value of the beta-gap r (small or large).  The small/large-gap split, the vine shape and
+      the large-gap condition at the beta-atoms are never used.
+    - No restriction gamma <= 1 - 2 eta is needed for these classes.  The only condition is the one DH23 and TARGET
+      already impose: eta small depending on (d, gamma) (DH23 L438; TARGET L606), in particular 0 < eta << gamma - 1/2
+      (DH23 L2076).
+    - Result: A_0 <= C (C^+)^{-4} delta^{-1} (log L)^C L^{-10 eta}, hence (finalcount) (L1820) by interpolation.
+(b) The decisive input is the gamma > 1/2 branch of DH23 Lemma A.2(3) (L2064-L2068), used through Lemma A.3(4)
+    (L2106): two ADJACENT degree-3 atoms removed together cost delta^{-2} L^{3(d-gamma) - gamma_0 - 10 eta}, an extra
+    L^{-10 eta} beyond the gamma <= 1/2 value.  Applied to "T minus one bond" it gives
+        A(T \ l) <~ L^{-gamma_0 - 10 eta}    for every bond l and both orientations of T,
+    which is exactly L^{-10 eta} better than what the first beta-chain costs (L^{gamma_0}).  So for gamma > 1/2 the
+    triangle of double bonds is NOT a bad graph; DH23's "A(T) ~ 1" (L579) is a gamma = 1/2 statement.
+    The second beta-constraint is never used.  (CASE4 Lemma 5.1 used it, via Lemma A.2(1), for the parallel T-bead;
+    we found no way to extend that route to the anti-parallel orientations, see Remark 4.6.)
+(c) Case list: Y-exceptional M_1 split by PARITY of the atom count.
+    - T-type: |M_0| odd.  All covered by Theorem A.
+    - Q-type: |M_0| even.  These are exactly the vines (II) with m >= 1 double bonds (m = 1 is the Q-block):
+      Lemma 3.3, proved and checked.  They are handled, as before, by (E0) (VINE2) and CASE4 Lemma 2.4; the latter
+      needs 1 - gamma > eta^2 + 4 C_0 eta^3 (e.g. 1 - gamma >= 2 eta^2), again a smallness condition on eta for
+      fixed gamma < 1.
+    - Mechanical checks (Section 5) cover all directed classes with |M_1| <= 13 (4523 classes of M_0), and an
+      independent brute force confirms the (Z)-generation for |M_1| <= 9.
+(d) Consequence for the campaign.  For gamma in (1/2, 1), case (4) of DH23 Prop 9.6 (and of TARGET's black box,
+    TARGET L2192-L2197) needs only:
+      (E0)  [VINE2];
+      Theorem A below;
+      Prop 10.4(2)' (YLEM1 R2) for the non-exceptional M_1.
+    No new vine class, no stage-1 change ((E1) of CASE4 is not needed).  Option (E2) of CASE4 is therefore
+    COMPLETE: restrict the formal target to gamma in (1/2, 1).
+    The counterexample for gamma <= 1/2 (CASE4 Prop 4.3) stands, and gamma = 1/2 (TARGET L325) stays in the failing
+    range.  At gamma <= 1/2 every bound below holds with "10 eta" replaced by 0, which is consistent with, and sharp
+    by, CASE4 Lemma 4.1.
+(e) Formalization: one new counting estimate is needed.  The refined gamma > 1/2 bound for (basiccount02), in the two
+    forms zeta = x - v and zeta = x + y - v - z, is not in the landed `countLemma_bound`, which has only the weak
+    bound.  Its ingredients are already landed: Estcross.lean and the Improved* fixed-sum fibres.  See Section 8.
+
+=====================================================================================================================
+1. SETTING (as in CASE4 Sections 1-2; only what is used)
+=====================================================================================================================
+1.1  M_0 is an even component of M_fin (L1805-L1808) with V_alpha = 0, V_beta = 2: case (4), L1883.
+     - Atoms: two beta-atoms b, b' of degree 2, each with one in- and one out-bond (Def. cut, L1757).  All other
+       atoms are epsilon-atoms of degree 4, in = out = 2 (Def 4.1, L633), LG (Prop 9.5, L1806).
+     - No triple bond (L1806).
+     - The beta-atoms lie on chains between two DISTINCT epsilon-atoms (L1808; proof L1813).  Either two chains
+       with one beta-atom each, or one chain u -> b -> b' -> v with both (the sigma = 1 case).
+     - No beta-cut is possible at any epsilon-atom (Step 4, L1781).
+     - The beta-atoms are non-degenerate (L1985 (3)), so the gap r := c_b in Z_L^d satisfies r != 0, hence
+       |r| >= 1/L.  The parameter c_b is part of the supremum defining the count N_0 (L1766), so a bound uniform in
+       r is what is needed.
+1.2  A_0 := N_0 L^{-(d-gamma) chi_0} (C^+ delta^{-1/2})^{-chi_0} P_0, with p = 0 (L1767, L1819).  Here N_0 is the
+     count (fraktur C at L1766) of restricted decorations of M_0, supremum over (c_v, beta_v, k_l^0).
+     - chi_0 = E - V + 1 = |M_0| - 1, since E = 2|M_0| - 2.
+     - P_0 = prod over maximal ladders of X_j^{z_j}, with 1 <= X_j <= (log L)^2.
+1.3  With G = 1, (finalcount) (L1820) reads A_0 <~ L^{-eta^2 - eta^5 rho_0}.
+     By CASE4 Lemma 1.1 (interpolation with (roughbd) L1858, theta = eta^3) it suffices that
+         A_0 <~ L^{-a} with a >= eta^2 + 4 C_0 eta^3,
+     where C_0 is the absolute constant of (roughbd).  We prove a = 9 eta.
+     (Same requirement on C_0 as DH23's own cases (3), (4), (6); not new.)
+1.4  M_1 := operation (d) (L1865) applied to every beta-chain.  It is a 4-regular pseudomolecule with at most two
+     triple bonds, and every triple bond contains a new bond (M_0 has none).
+     - M_1 is Y-EXCEPTIONAL (YLEM1 R2) if some complete (Y)-reduction (L1929) of M_1 ends in Q (quadruple bond) or
+       in T (triangle of three double bonds).
+     - T-TYPE: some route ends in T.  Q-TYPE: some route ends in Q.
+     - Parity: a (Y) sequence of n steps removes 2n atoms.  So every route preserves the parity of the atom count,
+       Q has 2 atoms and T has 3: no M_1 is both, and T-type <=> |M_1| odd <=> |M_0| odd.
+1.5  R3 (YLEM1, CASE4 Sec. 1.6): A_0 <~ L^{-eta^2 - eta^5 rho_0} whenever M_1 is Y-exceptional.
+
+=====================================================================================================================
+2. THE COUNTING INPUTS (all DH23, with their exact ranges)
+=====================================================================================================================
+(K1) DH23 Lemma A.3(1), second part (L2101): two-vector system (1^+, 2^-), k_1 - k_2 fixed with |k_1 - k_2| ~ R in
+     [1/L, 1] (or >~ 1 when R = 1).
+         C <~ L^{d-1} + delta^{-1} min(R^{-1} L^{d-2 gamma}, L^d).
+     For 1/2 <= gamma < 1 and R >= 1/L, the right side is <= 2 delta^{-1} L^{d+1-2 gamma} = 2 delta^{-1} L^{(d-gamma)+gamma_0}.
+     Here d + 1 - 2 gamma = (d - gamma) + (1 - gamma), gamma_0 = 1 - gamma (L438), and L^{d-1} <= L^{d+1-2 gamma}.
+     TARGET Lemma A.9 (L2467-L2478, E_2) restates it; landed as `atomCountLemma_bound`.
+(K2) DH23 Lemma A.3(4) (L2106): systems {(1,2,3),(1,4,5)} satisfy the bounds (countc2-1) (L2064-L2068):
+         C <~ delta^{-2} L^{3d - 4 gamma}                           if gamma <= 1/2,
+         C <~ delta^{-2} L^{3(d-gamma) - gamma_0 - 10 eta}          if gamma >  1/2.
+     The gamma > 1/2 branch is proved at L2088-L2091 and needs 0 < eta << gamma - 1/2 (L2076).
+     - Form zeta in {x+y-v, x+y-v-z}: count (x+y, z) by L^{2(d-gamma)}, then the fixed-sum sphere by disclattice
+       (L2029), which saves min(10^{-3}, 2 gamma - 1).
+     - Form zeta = x - v: (bdc2new) for small |zeta| or |x|, and estcross (L2032-L2035) otherwise, giving
+       L^{3d - 4 gamma + O(eta)}.
+     Lemma 2.1 below spells out the reparametrization that L2110 only mentions.
+(K3) DH23 Lemma ylem2 (L1950-L1957).  If M' comes from M by one (Y) sequence ending in (Y2), with new bond l_new,
+     then A(M) <~ (log L)^C A(M').  If moreover a bond l of M is removed in the sequence, then
+     A(M \ l) <~ (log L)^C A(M' \ l_new).
+     The ladder steps are sharp, so P is respected (L1952: "for all but O(1) operations ... D <~ 1 ... in view of the
+     X^{-1} factor").
+(K4) Operation (d) (L1865-L1867): Delta chi = 0 and D <~ (log L)^C.
+     Operation (c) (L1861-L1863) is used only through its count (K1).
+
+Lemma 2.1 (reparametrization behind (K2); checked by hand, and the forms that occur are recorded by proof_steps.py).
+  Let tuples A = (1,2,3) at an atom e and B = (1,4,5) at an atom f obey the rules of L2096.  Each tuple has two
+  entries of one sign and one of the other, and bond 1 has opposite signs in A and B.
+  Multiply a tuple by -1 if needed, so that each reads k_i + k_j - k_l = k (the "odd" entry l carries the minus).
+  Then
+      |k_i|^2 + |k_j|^2 - |k_l|^2 = -2 (k_i - k).(k_j - k) + |k|^2,     k_l = (k_i - k) + (k_j - k) + k.
+  Write a, b for the right sides of A and B, and v := b - a.  The four cases:
+   (i)   1 odd in A and in B.  x = k_2 - a, y = k_3 - a, z = k_4 - b, and k_5 = k_1 - z with k_1 = x + y + a.
+         Constraints: x.y in a window, and (x + y - v - z).z in a window.        [zeta = x + y - v - z]
+   (ii)  1 odd in A, not in B.  x = k_2 - a, y = k_3 - a, z = the other '+' entry of B minus b.
+         Constraints: x.y and (x + y - v).z in windows.                         [zeta = x + y - v]
+   (iii) 1 odd in B, not in A.  Same as (ii) with A and B exchanged.
+   (iv)  1 odd in neither.  x = k_1 - a, y = the other '+' entry of A minus a, z = the other '+' entry of B minus b.
+         Constraints: x.y and (x - v).z in windows.                             [zeta = x - v]
+  In each case the map (k_1, ..., k_5) -> (x, y, z) is injective, each of x, y, z ranges over a translate of a unit
+  ball, and the windows have length <= delta^{-1} L^{-2 gamma}.  So C is at most the C_2 of (basiccount02)
+  (L2050-L2052), and (countc2-1) applies.  []
+
+=====================================================================================================================
+3. WHICH COMPONENTS OCCUR; THE CASE LIST AND ITS COMPLETENESS
+=====================================================================================================================
+3.1  Admissible M_0 (all of these properties are used in Section 4 or by the enumeration):
+     - directed, connected, loop-free;
+     - two beta-atoms (in = out = 1), the rest in = out = 2;
+     - no triple bond;
+     - chain ends are distinct epsilon-atoms;
+     - no cut vertex.
+     "No cut vertex" is equivalent to "no beta-cut possible" (Step 4):
+     - A beta-cut at v disconnects, so v is a cut vertex.
+     - Conversely, let v be a cut vertex of degree 4 and A a component of M_0 - v.  The degree sum of A is
+       4|A_eps| + 2|A_beta| - (bonds from A to v), so A receives an even number of v's bonds: exactly 2.  Flow
+       conservation (in = out everywhere) makes them opposite.  So a beta-cut along them is possible.
+     - A beta-atom is never a cut vertex: one side would have odd degree sum 4|A| - 1 + 2(...).
+     By CASE4 Lemma 2.3, M_0 is a block of M(Q_sub) with its joints replaced by the beta-atoms.  This is not needed
+     below.
+3.2  Dichotomy (1.4): Y-exceptional M_1 is T-type (|M_1| odd) or Q-type (|M_1| even), never both.
+3.3  LEMMA (Q-type = vines (II), m >= 1).  If M_1 is Q-type, then M_0 is, as an undirected graph with joints b, b',
+     the vine (II) with m >= 1 double bonds; m = 1 is the Q-block.
+     Proof.
+     - A route ending in Q is inverted by (Z) moves (L1939): M_1 = Q or M_1 = Z_n(Q, l), n >= 1.
+     - A second (Z) is impossible: Z_n(Q) already has two triple bonds (the rest of the quadruple bond, and
+       a_1 = b_1), and a second (Z) would add a third, while M_1 has at most two (1.4).
+     - Every triple bond of M_1 must contain a new bond, and a beta-chain gives only ONE new bond.
+     - If M_1 = Q: two chains on two copies of the quadruple bond (one doubly subdivided copy would leave a triple
+       bond).  This is e = f, e - b - f, e - b' - f: the Q-block, i.e. (II) with m = 1.
+     - If M_1 = Z_n(Q): one beta-atom on a copy of e = f, the other on a copy of a_1 = b_1.  The ladder
+       (a_1=b_1), ..., (a_n=b_n), (e=f) has n + 1 double bonds, with rails a_j - a_{j+1}, b_j - b_{j+1}, a_n - e,
+       b_n - f.  The joint b' is adjacent to a_1, b_1 and the joint b to e, f.  This is vine (II) with
+       m = n + 1, as in the B2 template (II) with joints 0, 1.  []
+     Enumeration: all 77 directed Q-type classes with |M_1| <= 13 are (II) with m = 1..6 (out_enum_classes.txt).
+3.4  T-type classes: everything else that is Y-exceptional.  Theorem A treats them all at once; no list is needed for
+     the proof.  For the record, enum_classes.py lists them up to |M_1| <= 13 (|M_0| <= 15): 80 undirected shapes,
+     4446 directed classes.
+       |M_0|        5   7   9  11  13  15
+       shapes       3   5  10  14  21  27
+       drawn vine   0   0   3   5   9  13   (III, IV, V at 9; III, IV, V, VII, VIII at 11; ...)
+       not a vine   3   5   7   9  12  14
+     This agrees with CASE4/YLEM1 (out_case4.txt) for |M_1| <= 9: 24 non-vine T-type shapes, plus 8 T-type drawn
+     vines and 4 Q-type shapes.  Named classes:
+     - the three 5-atom T-beads (both copies of one double bond subdivided, one doubly subdivided copy, one copy each
+       of two double bonds), with 2, 2 and 4 orientations;
+     - the five 7-atom T_1 blocks;
+     - the 9-atom block of YLEM1 ("T; Z_1 at (0,1); Z_1 at (3,0)");
+     - the families Z_m(T_n, l') with beta-atoms on the two triple bonds;
+     - vine (V)/(VIII) closures Z_n(T) with one beta-atom misplaced off the closure bonds.
+3.5  Completeness.
+     - By definition (YLEM1 R2) and 3.2, a case-(4) component with Y-exceptional M_1 is T-type or Q-type.  Q-type
+       is Lemma 3.3; T-type is Theorem A.
+     - Theorem A only uses the existence of a (Y)-route from M_1 to T, so no enumeration enters the proof.
+     - The enumeration is a check of the (Z)-generation and of the statements above.  An independent brute force
+       (Part A) agrees with the (Z)-generation (Part B), undirected and directed, for |M_1| <= 9:
+         * all 4-regular connected loop-free multigraphs with at most two triple bonds;
+         * for |M_1| >= 4, only those with a triple bond (a Y-exceptional M_1 other than Q, T needs a (Y) step);
+         * every balanced orientation;
+         * every literal directed (Y) route.
+
+=====================================================================================================================
+4. THEOREM A AND ITS PROOF
+=====================================================================================================================
+THEOREM A.  Let d >= 3 and 1/2 < gamma < 1.  Let eta be small depending on (d, gamma): 0 < eta << gamma - 1/2, as
+DH23 L438 / L2076 and TARGET L606 already require.  Let M_0 be a case-(4) component (Sec. 1.1) whose closure M_1 is
+T-type.  Then, uniformly in the parameters (c_v, beta_v, k_l^0), in particular in the gap r != 0,
+      A_0 <= C (C^+)^{-4} delta^{-1} (log L)^{C} L^{-10 eta},
+and (finalcount) (L1820) holds for M_0.  The same holds with "even component of M_fin" replaced by any connected
+M_0 of the shape 3.1 (LG at the epsilon-atoms is not used).
+
+PROOF.  Let S be the beta-chain removed first, and S' the other chain if there are two.  Either choice works; both
+choices are checked mechanically for every class.  The operations, with Delta chi and deviation D (L1770):
+
+Step 1 (operation (c) on S, L1861).
+  - S goes from u to v, with u != v epsilon-atoms (1.1).
+  - Removing it does not disconnect M_0 (parity, CASE4 Lemma 2.4(i)).  Indeed, if A is the side containing u, its
+    degree sum is 4(|A_eps| - 1) + 3 + 2|A_beta|, which is odd.
+  - Delta E = -2 and Delta V = -1 for one beta-atom; Delta E = -3 and Delta V = -2 for two.  In both cases
+    Delta chi = -1.
+  - Count: if S = u -> b -> v with bonds x, y, then y - x = c_b, and |y|^2 - |x|^2 lies in a window of length
+    delta^{-1} L^{-2 gamma} (b is restricted, L680).  If S = u -> b -> b' -> v with bonds x, y, z, then y - x = c_b
+    and z - y = c_{b'}.  Dropping the constraint at b' only enlarges the set, and the rest is the same.  In both
+    cases the vectors of S are determined by x, so (K1) with R ~ |c_b| >= 1/L gives
+        #S <~ delta^{-1} L^{(d-gamma) + gamma_0}.
+  - P changes by at most (log L)^{O(1)}: only O(1) atoms of maximal ladders are touched, and each X <= (log L)^2;
+    this is DH23's own remark at L1788.
+  - Hence  D_1 <= #S . L^{-(d-gamma)} (C^+ delta^{-1/2})^{-1} (log L)^{C} <~ (C^+)^{-1} delta^{-1/2} (log L)^C L^{gamma_0}.
+  - This step is valid for every gap.  No LG or SG is used at b.
+
+Step 2 (operation (d) on S', if S' exists).
+  - Replace S' = u' -> b' -> v' by a bond u' -> v' (L1865).  Then Delta chi = 0 and D_2 <~ (log L)^C (K4).
+  - The result is exactly M_1 \ l, where l = u -> v is the bond that operation (d) would have created from S.
+    (In the one-chain case Step 1 gives M_1 \ l directly.)
+
+Step 3 ((Y)-reduction of M_1 to T, carrying the missing bond l).
+  Fix a complete (Y)-route M_1 = M^(0) -> M^(1) -> ... -> M^(k) = T, made of complete (Y) sequences.
+  - Every sequence ends in (Y2): a (Y1) leaves an atom of degree <= 2 forever, and T is 4-regular.
+  - k <= 2: a sequence ends when no new triple bond forms, so each sequence removes one of the at most two triple
+    bonds of M_1 and creates none.  (If it met the other triple bond, a quadruple bond would form; that is Q-type.)
+  - Put l^(0) := l.  If l^(i) is removed by the i-th sequence, let l^(i+1) be that sequence's new bond; otherwise
+    l^(i+1) := l^(i).  With n_i the number of (Y2) steps of the i-th sequence:
+      LEMMA 4.1.  A(M^(i) \ l^(i)) <~ (log L)^C A(M^(i+1) \ l^(i+1)), and
+                  Delta chi(M^(i) \ l^(i) -> M^(i+1) \ l^(i+1)) = -2 n_i.
+      Proof.
+      - If l^(i) is removed in the sequence, this is the second statement of ylem2 (L1950, proof L1956).
+      - If not, repeat the proof of the first statement (L1954) with M^(i) \ l^(i) in place of M^(i).  That count
+        involves only:
+          * the 2n_i removed atoms and their 4n_i + 1 bonds;
+          * the two exit bonds l_1, l_2, whose difference and squared-norm difference are fixed by DH21 Lemma 9.14,
+            because the removed set is attached to the rest only through l_1, l_2;
+          * the new bond, given the vector k_{l_2} + g(k_{l_1} - k_{l_2}) with |g| <= 3.
+        None of these is l^(i), so the proof is unchanged.
+      - Components: M^(i) is 4-regular and connected, so it has no bridge (every edge cut in a graph with all
+        degrees even has even size).  Hence M^(i) \ l^(i) is connected, as is M^(i+1) \ l^(i+1).  So F does not
+        change, and Delta chi is -2 n_i, as at L1956.  []
+  - Hence  A(M_1 \ l) <~ (log L)^{C} A(T \ l*)  with l* := l^(k) a bond of T.  The ladder factors P are carried by
+    (K3).
+
+Step 4 (the gain: T minus one bond, (K2)).
+  - Let l* join e and f, and let g be the third atom of T.  In T \ l*, e and f have degree 3 and are still joined by
+    the other copy m of their double bond.  Each of them has two bonds to g, and g has degree 4.
+  - Remove e and f with their five bonds.  What is left is the isolated atom g:
+      chi(T \ l*) = 5 - 3 + 1 = 3,   chi(g) = 0 - 1 + 1 = 0,   Delta chi = -3,   F unchanged.
+  - The vectors of the five bonds solve the atom systems at e and f.  These form a system {(1,2,3),(1,4,5)} as at
+    L2096:
+      * bond 1 = m appears at e and f with opposite signs;
+      * the other four bonds appear once;
+      * no tuple has three equal signs, because in, out <= 2 at e and at f.
+  - By Lemma 2.1 and (K2) (gamma > 1/2 branch):
+        #{five vectors} <= C delta^{-2} L^{3(d-gamma) - gamma_0 - 10 eta}.
+  - P(T \ l*) <= (log L)^4, since T \ l* has two double bonds, and A(g) = 1.  Hence
+        A(T \ l*) <= C delta^{-2} L^{3(d-gamma)-gamma_0-10 eta} . L^{-3(d-gamma)} (C^+ delta^{-1/2})^{-3} (log L)^4
+                  =  C (C^+)^{-3} delta^{-1/2} (log L)^4 L^{-gamma_0 - 10 eta}.
+  - The two orientations of T: in-degree = out-degree = 2 forces the same number a in {0,1,2} of copies e->g, g->f,
+    f->e on all three sides.
+      * Cyclic (a = 0 or 2): m is the odd entry at both e and f, case (i) of Lemma 2.1, zeta = x+y-v-z.
+      * Anti-parallel (a = 1): m is the odd entry at neither, case (iv), zeta = x-v.
+    Both orientations occur as final T (proof_steps.py: 4055 and 4711 runs).
+
+Step 5 (total, and (finalcount)).
+  - The Delta chi add up to -1 + 0 - 2(n_1 + n_2) - 3 = -chi_0: the normalisation L^{-(d-gamma) chi_0} is used
+    exactly.  This is checked for every class and every choice of S.
+  - Multiplying the deviations:
+        A_0 <= D_1 . D_2 . (log L)^{2C} . A(T \ l*)
+            <= C (C^+)^{-4} delta^{-1} (log L)^{C} L^{gamma_0} L^{-gamma_0 - 10 eta}
+            =  C (C^+)^{-4} delta^{-1} (log L)^{C} L^{-10 eta}.
+  - For L >= L_0(delta, eta) (L is taken large depending on delta, DH23 L438), A_0 <= L^{-9 eta}.
+  - Interpolation (1.3, theta = eta^3) with (roughbd) A_0 <~ L^{-eta^2 rho_0 + 3 C_0}:
+        A_0 <= L^{-9 eta (1 - eta^3)} L^{eta^3 (-eta^2 rho_0 + 3 C_0)} <= L^{-eta^2 - eta^5 rho_0},
+    which is (finalcount) with V_alpha = 0, V_beta = 2, G = 1.  It holds once 9 eta - 9 eta^4 - 3 C_0 eta^3 >= eta^2.
+    (roughbd) applies to M_0 whatever the gap: moleprop2's last statement allows w = 2 SG atoms, L1834.  []
+
+Remarks.
+4.2  Exponent ledger (per step: Delta chi; normalised deviation, with powers of delta and C^+; source).
+       Step 1  op (c) on S          -1   2 (C^+)^{-1} delta^{-1/2} (log L)^C L^{+gamma_0}          (K1), gamma >= 1/2
+       Step 2  op (d) on S'          0   (log L)^C                                               L1867
+       Step 3  (Y) sequences    -2n_i    (log L)^C each, k <= 2                                  ylem2, Lemma 4.1
+       Step 4  remove e, f          -3   C (C^+)^{-3} delta^{-1/2} (log L)^4 L^{-gamma_0-10 eta}  (K2), gamma > 1/2
+       total                    -chi_0   C (C^+)^{-4} delta^{-1} (log L)^C L^{-10 eta}
+     - gamma_0 = 1 - gamma here.
+     - eta^2, eta^5 and rho_0 enter only through the interpolation in Step 5.
+     - The large-gap budget of Lemma 2.4 is not used.
+4.3  Where gamma > 1/2 is used.  ONLY in Step 4, in the branch of (countc2-1).  The inequality L^{gamma-1} <=
+     L^{1-gamma} in Step 1 is only a convenience.  At gamma <= 1/2 the same steps give D_1 <~ L^{gamma} = L^{gamma_0}
+     (from min(R^{-1}L^{-gamma}, L^gamma)) and A(T \ l*) <~ L^{-gamma_0}: total O(1), no gain.  This is sharp, by the
+     T-bead lower bound A_0 >= c_d (C^+)^{-4} (CASE4 Lemma 4.1).  So the threshold 1/2 is exactly the branch point of
+     DH23 Lemma A.2(3).
+4.4  Which beta-constraint is used.  Only the one on the chain S removed in Step 1, and only through the crude bound
+     (K1), which costs L^{gamma_0} for EVERY gap.  The constraint on S' is discarded by operation (d).  Hence
+     small/large gap, vine or not, LG at b, b' are irrelevant.  In particular Theorem A also re-proves case (4) for
+     the T-type drawn vines (III)-(VIII), without "vine => LG" (L1885) and without gamma <= 1 - 2 eta.
+4.5  Equivalent formulation (a sharpened Prop 10.4(2) for gamma > 1/2).  Steps 3-4 show:
+       if 1/2 < gamma < 1 and M is a 4-regular pseudomolecule with at most two triple bonds that (Y)-reduces to T,
+       then A(M \ l) <~ (log L)^C L^{-gamma_0-10 eta} for EVERY bond l.
+     This is the second alternative of Prop 10.4(2) (L1840), with margin 10 eta in place of eta/4.  So for gamma > 1/2
+     the exceptional set of Prop 10.4(2)' (YLEM1 R2) shrinks to the Q-type graphs (Q and Z_n(Q)), and the case-(4)
+     sentence L1885 can read: "in the latter case M_1 is Q-type, so M_0 is a vine (II) with m >= 1 (Lemma 3.3), hence
+     LG by Prop 9.5 under (E0), and operation (c) ...".
+4.6  Why CASE4 Lemma 5.1's route (Lemma A.2(1) with the second beta-constraint) is not enough.  In the anti-parallel
+     T-bead, after the first chain:
+       - the second beta-constraint combines with one product constraint (gain L^{-10 eta});
+       - the last count is then an anti-parallel double bond, which gains only L^{-eta} from LG instead of
+         L^{-gamma_0};
+       - total L^{gamma_0 - 11 eta}.
+     The truth there is a second moment sum_s N(s)^2 (N(s) = #{a : a.s in a window}), which is exactly (basiccount02)
+     with zeta = x - v.  So the A.2(3) branch is the natural tool.  We found no order of operations that avoids it
+     (orders tried: either chain first; Lemma A.2(1) at either end; the double bonds first).
+4.7  Heuristic sizes (NOT used; for orientation).
+     - True count of T \ l, generic parameters: about L^{3d - 4 gamma}, i.e. A ~ L^{-gamma}, far below
+       L^{-gamma_0-10 eta}.
+     - True normalised count of a tiny-gap T-bead: about L^{2 - 4 gamma}.
+     - count_numeric.py (d = 3, delta = 1, v = 0, centres 0, max over windows) shows the ratio
+       C_2 / L^{3(d-gamma)-gamma_0} with these local slopes in L in [8, 24]:
+         gamma = 0.5:   +0.03 ... +0.12 (flat);
+         gamma = 0.75:  -0.4 ... -0.6 (heuristic -0.5);
+         gamma = 0.9:   about -0.67 (heuristic -0.8).
+       This illustrates the branch of (K2); it is not evidence of uniformity over parameters.
+
+=====================================================================================================================
+5. MECHANICAL CHECKS
+=====================================================================================================================
+enum_classes.py  -> out_enum_classes.txt, classes.json
+  Part A (brute force, |M_1| <= 9; for |M_1| >= 4 only multigraphs with a triple bond, see 3.5): 394 undirected
+  classes, 16 Y-exceptional (12 T-type, 4 Q-type), 63 directed Y-exceptional classes.  Compared with Part B
+  ((Z)-generation from Q and T, all balanced orientations; 44 undirected / 613 directed classes for |M_1| <= 13):
+    - equal as undirected and as directed class sets;
+    - types (Q/T) agree;
+    - parity: no orientation reaches both Q and T.
+  Part C (all beta placements on every directed Y-exceptional M_1 with |M_1| <= 13; filters of 3.1):
+    - 4523 directed classes of M_0: 4446 T-type, 77 Q-type;
+    - every Q-type class is vine (II) with m = 1..6 (Lemma 3.3);
+    - the T-type undirected shapes are labelled "drawn vine (type, rungs)" or "not a drawn vine" against the B2
+      templates (copied from prop96-case4/vinefree.py).
+proof_steps.py   -> out_proof_steps.txt
+  For each T-type class and EACH choice of the chain S removed first (8766 pairs), checks Steps 1-5:
+    - S has distinct ends; removing it keeps M_0 connected, Delta chi = -1;
+    - operation (d) on S' gives exactly M_1 \ l;
+    - a complete literal directed (Y)-route of M_1 ends in T, with k <= 2 sequences;
+    - every M^(i) \ l^(i) is connected, and Delta chi = -2 n_i both for M -> M' and for M \ l -> M' \ l';
+    - at T \ l*: degrees (3,3,4), mult(e,f) = 1, chi = 3, the {(1,2,3),(1,4,5)} sign rules hold, and the Lemma 2.1
+      case is (i) for cyclic T and (iv) for anti-parallel T;
+    - the Delta chi add up to -chi(M_0).
+  Result: 8766/8766 pass.  Route lengths: 0 sequences 14, 1 sequence 4604, 2 sequences 4148.
+count_numeric.py -> out_count_numeric.txt   (illustration of (K2), Remark 4.7)
+dgraphs.py                                    (directed multigraph utilities, canonical forms, literal (Y2))
+Checksums: SHA256SUMS.
+
+=====================================================================================================================
+6. WHAT IS AND IS NOT CLAIMED
+=====================================================================================================================
+PROVED (modulo the cited DH23 lemmas (K1)-(K4), the interpolation constant of (roughbd), and DH23's choice of eta):
+  - R3 for every T-type case-(4) component, gamma in (1/2, 1), every gap.
+  - Q-type = vines (II), m >= 1.
+  - The T/Q parity dichotomy.
+NOT CLAIMED / OUT OF SCOPE:
+  - Q-type components: rely on (E0) (VINE2) plus LG (Prop 9.5) plus CASE4 Lemma 2.4.  Lemma 2.4 needs
+    1 - gamma >= 2 eta^2, a condition on eta for fixed gamma.  Without (E0), the Q-block fails R3 for gamma < 2/3
+    (CASE4 Lemma 4.6); for gamma in (2/3, 1) we did not check whether the literal reading survives.
+  - Non-exceptional M_1: Prop 10.4(2)' (YLEM1 R2).
+  - Case (5) (V_alpha = V_beta = 1) and Prop 10.4(1)'s length-1 omission (YLEM1 Q3 "Related"): not examined here.
+  - gamma <= 1/2: the counterexample (CASE4 Prop 4.3) stands; nothing here helps there.
+  - The inputs (K2), (K3) are DH23 lemmas.
+      * (K2): I checked the reparametrization (Lemma 2.1) and the exponent arithmetic of L2088-L2091, but did not
+        re-prove the gamma > 1/2 branch of (countc2-1); its proof is a sketch.  The campaign's F3/F31 analysis
+        reports that use (3) works with circle exponent 2/3, saving L^{-(2 gamma - 1)/3}.
+      * (K3): I re-derived the bookkeeping (Delta chi, connectivity) and the "not removed" variant (Lemma 4.1), not
+        the ladder sharpness.
+
+=====================================================================================================================
+7. FILES
+=====================================================================================================================
+  NOTE.txt             this note
+  dgraphs.py           utilities (directed canonical form; literal (Y2) step, L1929)
+  enum_classes.py      Parts A-C; usage  python3 -I enum_classes.py 13 9
+  out_enum_classes.txt output of the above
+  classes.json         directed classes for proof_steps.py
+  proof_steps.py       Steps 1-5 per class and per choice of S; usage  python3 -I proof_steps.py
+  out_proof_steps.txt  output
+  count_numeric.py     numerical illustration of (K2); usage  python3 -I count_numeric.py  (about 5 min)
+  out_count_numeric.txt output
+  SHA256SUMS
+
+=====================================================================================================================
+8. WHAT A LEAN FORMALIZATION NEEDS
+=====================================================================================================================
+Target statement (G8, case (4), T-type).  For 1/2 < gamma < 1 and eta <= eta_0(d, gamma):
+  if M_0 has the shape 3.1 and M_1 has a complete (Y)-route to T, then A_0 <= C delta^{-1} (log L)^C L^{-10 eta}
+  (or L^{-kappa(gamma)}, see N1).  Hypotheses: a predicate "YRoute M_1 T" (an inductive chain of complete (Y)
+  sequences) and the shape 3.1.  No class list.  The formal top-level target must assume gamma > 1/2.
+Inputs, by node:
+  N1 (NEW, NT7).  The refined gamma > 1/2 bound for (basiccount02):
+        C_2 <= C delta^{-2} L^{3(d-gamma) - gamma_0 - kappa},   kappa = kappa(gamma) > 0,
+      at least for zeta = x - v and zeta = x + y - v - z (Lemma 2.1 (iv), (i); add zeta = x + y - v for (ii)/(iii)).
+      - Stating a gamma-dependent saving kappa instead of 10 eta decouples it from eta.  Then Step 5 needs
+        kappa >= 2 eta^2 + O(eta^3), i.e. eta <= eta_0(gamma).
+      - The landed WaveTurbulence.CountLemmas.countLemma_bound (CountLemma.lean) proves only
+        S_2 <= C delta^{-2} L^{3(d-gamma) - min(gamma, 1-gamma)}, which is NOT enough: it gives Theorem A with gain 0.
+      - Ingredients already in the repo:
+          Foundations/Counting/Estcross.lean (DH23 Lemma A.1(2)), for zeta = x - v;
+          the Improved* fixed-sum fibre bounds with circle exponent 27/41 (CountLemmas/HANDOFF.md), for the
+          fixed-sum sphere when zeta = x + y - v (- z);
+          NT.threeVec, for the (x+y, z) count.
+  N2 (NEW, small).  The {(1,2,3),(1,4,5)} reparametrization, Lemma 2.1, four sign cases (DH23 L2106/L2110).
+  N3 (landed).  (K1) = TARGET Lemma A.9 E_2 <= delta^{-1} min(L^d, L^{d+1-2 gamma}) (`atomCountLemma_bound`).
+  N4 (G7, DH23.ylem).  ylem2, BOTH statements, plus the "l not removed" variant (Lemma 4.1).
+  N5 (G8).  Deviation lemmas for operations (c) and (d) with Delta chi and the P bookkeeping (O(1) ladder atoms).
+  N6 (graph lemmas).
+      - Removing a beta-chain does not disconnect (parity).
+      - Graphs with all degrees even have no bridge.
+      - A complete (Y)-route from a graph with <= 2 triple bonds to T has <= 2 sequences, all ending in (Y2).
+      - T \ l is two adjacent degree-3 atoms plus g.
+      - In/out = 2 forces the cyclic or anti-parallel orientation of T.
+  N7.  The interpolation lemma (CASE4 Lemma 1.1) with the (roughbd) constant independent of eta.
+Not needed:
+  - the class enumeration;
+  - any new vine type or stage-1 change ((E1));
+  - LG at the beta-atoms.

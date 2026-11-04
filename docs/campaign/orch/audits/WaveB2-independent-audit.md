@@ -652,3 +652,138 @@ hypotheses for B2's kernels is a proof obligation of B2.1's provers, not a freez
 - **OPTIONAL: helpers.** Land `KTstar_indep_of_le`, `item2_integrand_of_le` and `KTstar_relayer` (`Q1`, `Q3`) for the
   consumers.
 - **B2.3 (out of scope).** F-2 and F-3 are addressed in the draft; F-4 (author ruling on Q7) is still open.
+
+---
+
+## Re-check 2, 2026-11-04 (CL-18 to CL-21; the final candidate `waveb2-snap-final`)
+
+### Verdict: PASS — freeze the 59 declarations (B2.1, B2.2 and their closure)
+
+There is no BLOCKER. There is one REQUIRED item, R2-1. It concerns the order of steps before B2.1 and B2.2 can be
+sealed or counted source-faithful. It does not change any frozen text.
+
+### Inputs
+
+- **Snapshot.** `/home/scott/wt-scratch/waveb2-snap-final`. `sha256sum SHA256SUMS` = `d6dc5f2dd28e432a…`, the digest
+  the coordinator stated. All 12 files verify. My copy is in `b2-audit/snap-final/`.
+- **Build match.** The three freeze files, the probes and Ladders are byte-identical to `waveb2/src/WaveB2Draft/*`,
+  which were built at 06:18–06:19 UTC.
+- **Change list.** Handoff addenda 3–6; main `9a2a4da`.
+- **Probes.** Run in the dev environment, one Lean process at a time, `nice -n 5`:
+  - `Q4.lean`: the F-5 wrapper and its axioms;
+  - `Q5.lean` with output `Q5.out`: the closure of B2.1/B2.2;
+  - `Q6.lean`: a shared auxiliary proof;
+  - `Q7.lean`: the vine (II) template;
+  - a from-source compile of `Foundations/Resonant/PVDecay{Bounds,OneDim,Slices,}.lean`.
+- **Diff against my snap-3.**
+  - `WaveB2-Statements.lean` is unchanged (`82e42b2b…`), so B2.1 and B2.2 are unchanged.
+  - `WaveB2-Regular.lean` changed only in the docstring of `pvResonantIntegral` (CL-19).
+  - `WaveB2-Molecules.lean` changed only in `VineType.template .II` and in docstrings (CL-21).
+
+### (1) F-5 proof: CLOSED
+
+- **The wrapper is the exact statement.** `WaveBProbes.tendsto_pvResonantIntegral_of_decay`
+  (`WaveB2-Regular-probes.lean` L295–304) is character-for-character the statement I elaborated in the first
+  re-check (`Q3`). In `Q4`, an `example` with that exact type is closed by the export.
+- **Proof and axioms.** The proof is `rw [pvResonantIntegral_eq_energyInv]` followed by the landed
+  `Resonant.tendsto_energyInvIntegral_of_decay` (`Foundations/Resonant/PVDecay.lean` L62, commit `613a63a` on main).
+  The axioms are:
+  - the wrapper: `[propext, Classical.choice, Quot.sound]`;
+  - `tendsto_energyInvIntegral_of_decay`: `[propext, Classical.choice, Quot.sound]`;
+  - the bridge `pvResonantIntegral_eq_energyInv`: `[propext, Classical.choice, Quot.sound]`.
+- **The sources are clean.**
+  - The four `PVDecay*.lean` files contain no `sorry`, `admit`, `axiom`, `native_decide` or `implemented_by`.
+  - They are clean in git.
+  - They recompile from source in the dev environment with **no warnings**.
+- **Docstring.** `pvResonantIntegral` now cites the lemma and its landed source.
+
+### (2) The 59-declaration freeze set is exactly the closure of B2.1 and B2.2
+
+- **Exact closure.** `Q5` computes the B2 declarations reachable from the types of `regularAsymptotics` and
+  `incoherentDecay`. It follows types, bodies, constructors and auxiliary proofs and matchers, and folds auxiliary
+  constants into their owners.
+- **Set equality.** Compared with `FREEZE-LIST.md`'s 59 rows, the sets are equal up to three artifacts of my
+  folding:
+  - `RegCpl.brecOn.go` and `RegChain.brecOn.go` belong to the inductives `RegCpl` and `RegChain`.
+  - `Garden.MatchesTreeCouple` is reached only through the **shared** auxiliary proof
+    `Garden.MatchesTreeCouple._proof_1 : NeZero (0 + 1)`. That is the literal `(0 : Fin 1)`, which Lean shares among
+    `RegChain.DecodesTree`, `treeLinks`, `app` and `MatchesPairedTree` (`Q6`). It is not a semantic dependence.
+    B1's generator correctly expands shared auxiliaries instead of attributing them.
+  - If the frozen declarations move to one-per-file modules, Lean regenerates the auxiliary proof, so nothing breaks.
+- **Composition.**
+  - 53 declarations from Regular, 6 from Statements and none from Molecules: B2.1 and B2.2 do not reach the molecule
+    layer.
+  - The 59 contain the single instance `instDecidableIsSpecialSet`.
+  - The 59 match the `FREEZE-LIST.md` kinds: 2 theorems, 51 definitions, 2 abbrevs, 1 structure, 2 inductives,
+    1 instance.
+- **Closed, and no dependence on proved theorems.** The traversal reached **no** project theorem other than
+  structure projections and auxiliary constants. No frozen declaration uses a held-out one (generator check; also
+  implied by the closure computation).
+- **Dropping the seven obligations.**
+  - **Nothing in the anchors' statements, closure or (future) proofs requires them to be frozen.** Their types do
+    not mention any of them, and a proof may use any proved lemma.
+  - `regular_count_le` (O6) and `Garden.isMolecule_molecule` (O7) play no role in B2.1 or B2.2.
+  - **Fidelity, however, does depend on five of them** (reading D4, already noted in addendum 5). B2.1 and B2.2
+    quantify over well-formed codes and the carriers they decode. They say "every layered regular couple or tree of
+    order `2n`" only if:
+    - O1 `RegCpl.exists_decodes` and O3 `RegChain.exists_decodesTree` hold. Otherwise items (1) and (2) would also
+      quantify over non-regular carriers, which is a claim beyond the source.
+    - O2 `existsUnique_regCpl_decodes` and O4 `existsUnique_regChain_decodesTree` hold. Otherwise some regular
+      objects would be missed.
+    - O5 `RegCpl.size_eq_order` holds (order `2n` equals code size `2n`).
+    - Item (4)'s sum over codes equals T's sum over dominant couples only through the bijection O1 + O2 + O5.
+  - O2 and O5 are proved in scratch; **O1, O3 and O4 are open.** See R2-1.
+
+### (3) CL-21, vine (II) from one rung: CORRECT, and it does not reach B2.1 or B2.2
+
+- **Source.**
+  - DH23 Step 2 (L1421) describes vine (II) as joints `v₁, v₂` with `2m` further atoms `v_{2j+1} = v_{2j+2}`, which
+    are `m` double bonds.
+  - L1481 says "`m ≥ 1` for vines (II)".
+  - F72 extends B2's reading to `m = 1`.
+- **New template** (`Q7 #print`): `⟨4, [(0,2),(0,3),(2,3),(2,3),(2,1),(3,1)], [((2,1),(3,1))], [[2,3]]⟩`.
+  - It is the Q-block `J₁ – (a = b) – J₂`: the joints have degree 2 and the interior atoms degree 4.
+  - Its slot is the rail pair `a⋯J₂`, `b⋯J₂`. Both slot bonds occur verbatim in the bond list, so
+    `insertRungs`' `erase` removes them.
+  - So `expand [k]` is `J₁ – (a=b) – (u₁=v₁) – ⋯ – (u_k=v_k) – J₂`: the ladder with `m = k + 1` rungs and its last
+    rails at `J₂`.
+  - Each rung is a group. The family is exactly DH23's `m ≥ 1`, in which the old `m ≥ 2` family appears as `k ≥ 1`.
+- **Checks.**
+  - My `Q7` examples (by `decide`): `expand [1]` has 6 atoms and 10 bonds (the old drawing), and both joints keep
+    degree 2 for `k ≤ 3`.
+  - The drafter's probes `vineII_card`, `vineII_sizes`, `vineII_family_shift` and `qBlock_vine` all use standard
+    axioms or fewer. `qBlock` is a genuine molecule: the rung is antiparallel and the joint bonds are opposite.
+- **Reach.** `Q5`'s closure of B2.1/B2.2 contains no declaration from Molecules. It reaches neither `VineType` nor
+  `IsVine`.
+  - The change reaches only held-out declarations: `expand`, `IsVine`, `DecorationHyp.vineLG` and B2.3.
+  - This matches addendum 6's normalized dump: exactly one constant differs.
+- **For packet G8 when B2.3 returns.** `vineLG` now also covers Q-block components. F72 section E says this is the
+  source's own claim (a generic proof of DH23 Prop 9.5).
+
+### (4) The review page's Lean matches the pinned files exactly
+
+`docs/review/WAVE-B-B2.md` (main, last changed in `6ba59f6`):
+- **Lean blocks.** It has two `lean` blocks: Regular (499 lines) and Statements (149 lines).
+  - Split at its `-- [held out, not frozen: …]` markers (9 and 1), every segment is a **verbatim substring of the
+    pinned file, in order**.
+  - Each gap between segments contains exactly the declarations its marker names.
+  - The declarations shown are **exactly the 59 frozen ones**: none missing, none extra.
+- **Header hashes.** All match the snapshot:
+  - Regular `4d7f81efa32b…`;
+  - Molecules `5cc506118852…`;
+  - Statements `82e42b2bfa16…`;
+  - `FREEZE-LIST.md` `8967e57cfa83…` (also equal to `docs/review/WAVE-B-B2-FREEZE-LIST.md`);
+  - `SHA256SUMS` `d6dc5f2dd28e…`.
+
+### Remaining items
+
+- **R2-1 REQUIRED (before B2.1 and B2.2 are sealed or reported as faithful to T, not before freezing the text).**
+  1. Prove O1 `RegCpl.exists_decodes`, O3 `RegChain.exists_decodesTree` and O4 `existsUnique_regChain_decodesTree`
+     in their present exact statements.
+  2. Record in the freeze manifest, by hash, the statements of O1–O5 and of the 15 source-form definitions they rely
+     on (`IsRegularCouple`, `IsRegularTree`, `RawRegular`, `RawCpl.*`, `Garden.MatchesTreeCouple`,
+     `TTree.setAt`/`subtreeAt`, …) as **fidelity obligations of D4**.
+
+  Editing these non-frozen lemmas or definitions can then not silently change what the frozen anchors mean.
+  REG-STRUCT's order-≤ 6 diagnostics (no collisions; source range = code range) make failure unlikely.
+- **OPTIONAL.** The F72 follow-ups outside B2: re-run VINES, MOLEPROP13 and `vinefree.py` with `m = 1` (addendum 6).

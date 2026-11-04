@@ -361,3 +361,25 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   level for γ ≤ 1/2, and no counting-only repair works (ladder-style ρ needs a log-free time bound; splicing needs a
   Prop 7.6-type estimate). Confidence: high; derived, not a full proof with explicit error terms. Also: small-gap
   Q-beads lose L^γ analytically, so the m = 1 vine (II) (F72) is necessary.
+- F74 — TARGET L708 (`F₀ = Ω` in Prop `propansatz`) — proof-level reading, orchestrator ruling (recorded 2026-11-04 after
+  wt-orch's INDUCT audit I-1): INDUCT takes `Fev 0 = initialRapidEvent`, the measurable, symmetric event that the
+  initial coefficients decay rapidly, with `μ.real (Fev 0) = 1` and `μ.restrict (Fev 0) = μ`. So every level-0
+  expectation and cumulant is the full Gaussian one; the reading differs from L708 by a null set. It is needed because
+  the class condition is pointwise: for an arbitrary version of the Gaussian data, outcomes whose data do not decay have
+  no classed solution. No statement changes (the frozen statements are unaffected). Note: the approval recorded in
+  INDUCT's WORKLOG as the "user's" was the orchestrator's ruling, not the author's.
+- F75 — DH23 Prop 9.6 case (4) for γ ∈ (1/2, 1): **closed by new argument** (research note
+  `docs/research/case4-gamma-above-half.txt`, Theorem A; independent check commissioned). For a case-(4) component
+  whose closure 𝕄₁ (Y)-reduces to T: operation (c) on the first β-chain (Lemma A.3(1), cost L^{γ₀}), operation (d) on the
+  second (cost (log L)^C), at most two (Y) sequences (ylem2, + a not-removed variant) to T minus a bond, and Lemma
+  A.2(3)'s γ > 1/2 branch on the system {(1,2,3),(1,4,5)} gives L^{−γ₀−10η}; total 𝔄₀ ≲ δ⁻¹(log L)^C L^{−10η}. Only
+  η ≪ γ − 1/2 is needed (DH23 L438, L2076; TARGET L606); covers all orientations and gaps, and the drawn vines
+  (III)–(VIII). Parity: T-type = odd atom count; Q-type = vines (II), m ≥ 1 (F72). Checks: 8766/8766 directed classes
+  pass the structural steps; brute force agrees to 9 atoms. Rests on DH23 Lemma A.2(3) (γ > 1/2 branch, only sketched
+  at L2088–L2091; numerics support it) and ylem2. Lean needs: the γ > 1/2 refinement of (basiccount02), ylem2, the
+  operation (c)/(d) deviation lemmas, a few graph lemmas, and a γ > 1/2 hypothesis.
+- F76 — TARGET (regref2-2) "translate by r" for trees with the lone leaf in a lower layer (q' < r) — proof-level
+  precision: the B2 audit's reduction to the slice s = r holds pointwise, but at the norm level it is a trace
+  statement (the line s = r has measure zero, and the restriction norm requires extensions to agree pointwise), so it
+  needs continuity of K*_𝒯 − app on the closed box plus a slice lemma for the 𝔛 norm. B2.1 remains true; TARGET's
+  sentence does not cover this step. Found by wt-torus (RA2 REGREF); proved inside RA2 (route (a)).
