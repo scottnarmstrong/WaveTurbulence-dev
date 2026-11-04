@@ -282,3 +282,27 @@ the individual leaves, and the common-profile B2.2 cannot do that.
 
 **The originals stay open.** `main`, `propansatz`, `layergarden`, `fixedpoint` and `layergardenFlower` remain
 DRAFT_SORRY. Their γ ≤ 1/2 range is the research track (repair route under independent review).
+
+## R17 — `VineCountInput` (Prop 9.4, single vine) re-scoped; packet VINE-COUNT, 2026-11-05 ~00:30 UTC
+
+**Finding.** The G2 agent found our internal `VineCountInput` mis-posed (an internal statement, not a source one):
+- the ladder gain needs `Adm` to restrict each ladder's gap to about `P S`;
+- the true count carries a dimension constant per interior atom, which needs `C₂^m` in `vineF` with `C₂ ≤ C₁`, as
+  the source's "C₁ large" absorbs it;
+- premises are missing: `K.C.shape = .vc h`, the lower gap bound (as `hlow`), SG / nonzero VC gap, and the ladder scales
+  in `Adm`.
+
+**Ruling.**
+- Restate `VineCountInput` with these three fixes, matching DH23 L1799–L1801 and the `countA` definition, where the
+  ladder-scale restriction is part of the admissible class. Adjust `vine_excess_single` accordingly.
+- **New packet VINE-COUNT** proves it. Route: VINEPARAM's molecule-level charts for vines (I)–(VIII) with inserted
+  ladders, plus two new link lemmas:
+  - (a) the chart's rung slots are exactly the `maximalLadders` of `K.vc`;
+  - (b) each ladder's gap is the VC gap r or 0.
+- With these, the bilinear rung count gives 𝔛^{−z} per ladder, and the bounded core is counted by main's counting
+  lemmas.
+- Take `vineparam` as a named obligation, word for word (Contract.lean `cd16890b…`), while its catalogue compiles.
+- Garden-decoration counts (LADDER-DECAY) are not bridged.
+
+**L1794 (DH23, ΔF = 1 triangle).** Recorded as a CANDIDATE erratum with the analytic configuration: v₃ with
+k_{ℓ₁} = k_{ℓ₂} free in the unit ball gives about L^d pairs, against δ⁻¹L^{d+1−2γ}. The final bound still holds.
