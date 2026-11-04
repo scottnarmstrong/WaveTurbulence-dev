@@ -945,6 +945,7 @@ public import WaveTurbulence.Foundations.Layered.Envelope
 public import WaveTurbulence.Foundations.Layered.InverseFourier
 public import WaveTurbulence.Foundations.Layered.MultilinearBasis
 public import WaveTurbulence.Foundations.Layered.ParamFinite
+public import WaveTurbulence.Foundations.Layered.RestrictionCalculus
 public import WaveTurbulence.Foundations.LemLin.AffineFourier
 public import WaveTurbulence.Foundations.LemLin.CoordinateFourier
 public import WaveTurbulence.Foundations.LemLin.CubicAmplitude
