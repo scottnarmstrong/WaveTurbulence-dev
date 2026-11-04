@@ -83,3 +83,30 @@ containers disjoint from C1 and the hinges. Re-run the step 1–4 results on it.
 - It uses S1's results (`vinechainlem`, congruence, `defdiff`; agent in /home/scott/wt-scratch/stage1). Until those
   land, LG-SPINE takes them as named obligations matched word for word.
 - `subpro` (TARGET L2040–2051 / DH23 Prop 9.1) is a stated proposition, so it is a spine input, provided by S4.
+
+## R7 — Stage 1 construction becomes packet S2a; LG-SPINE goes generic, 2026-11-04 ~19:15 UTC (revises R3 / R6(c))
+
+**Why.** LG-SPINE found that the Stage 1 construction is a project of its own:
+- the simultaneous splice of the family 𝒱_0;
+- 𝒢_sb, 𝕄_sb and the hinges;
+- the kernel identification with (redvine);
+- the C1 half of L2116.
+
+**S2a REDSPLICE-DEF (new agent, scratch `redsplice`)** builds the actual construction:
+- definitions on the whole carrier, no placeholders;
+- the simultaneous splice from CLCN's single-block `CLSpliceMoleculeIso` / `ChainSplicedMolecule`;
+- S1's `vinechainlem` and `defcong` (named obligations, word for word, until S1 finishes);
+- the hinge atoms, and the L2116 C1-side non-interiority (`hingeOutsideFirst`) for the constructed objects.
+
+**S4 SUBPRO (later)** proves `subpro` (TARGET L2040–2051) for that construction.
+
+**LG-SPINE** proves the counting cover and the rest of the assembly over general choice data that satisfies the
+subpro conclusions and L2116. These are conditional helpers with distinct names. The final `layergarden_of_spine`
+instantiates them with S2a's construction, S4's `subpro`, and the literal (redvine2/3) identities as stated spine
+inputs.
+- No construction is ever replaced by an existential.
+- `SpineInputs` is published as soon as its list is fixed, because FLOWER-SPINE waits on it.
+
+**Interface note.** LG-SPINE session 8 changed the body of `CountingChoices.Admissible`, and with it
+`FinalCountGate`. Hashes are at the top of `lg-spine/SPINE.md`. Consumers (S3, FLOWER-SPINE) re-pin before their
+final exact-type checks.
