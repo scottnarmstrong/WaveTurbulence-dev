@@ -543,3 +543,21 @@ with only `[propext, Classical.choice, Quot.sound]`, no errors/warnings
 Remaining: assembly for ordinary SG families and chains, DV branch removal,
 combination with adjoint removals, and realization-independent coherence.
 Continuing directly; not READY.
+
+## Full ordinary SG-family removal inside one vine proved
+
+`VineSGOrdinaryRemovalSingle.SG_ordinary_vines_removal_in_single_vine_connected`
+now proves the ordinary source removal clause for an arbitrary disjoint
+family of actual SG vines inside one LG/ZG vine, from the source decoration,
+gap and containment premises. `VineSGOrdinaryVineShape` derives the type-I
+or complete-VII-side split. A second non-type-I piece is excluded by
+disjointness and the exact side atom set; family equivalence transports
+paths across repeated or reordered pieces and unordered joint choices.
+The outer type-I case has no SG sub-vine, proved by gap properness and
+cardinality; it is not silently omitted.
+
+Focused main-module compile exit0, no warnings. The four printed results
+in `validation/Axioms-OrdinarySingle.lean` use only standard axioms
+(`[propext, Classical.choice, Quot.sound]`), exit0, no errors/warnings
+(`validation/Axioms-OrdinarySingle.log`). Remaining: chain/DV assembly,
+hyper-adjoint combination, realization-independent coherence. Continuing.
