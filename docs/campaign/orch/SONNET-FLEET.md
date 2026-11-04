@@ -59,3 +59,26 @@ Not held by Sonnet agents:
   (I-1, C-1).
 - **Axioms and hygiene:** standard axioms only; the hygiene grep is clean.
 - **Seal audits:** independent second-key audits by someone other than wt-orch.
+
+
+## Added 2026-11-04 ~22:00–22:20 UTC
+
+| packet | scratch | status |
+|---|---|---|
+| PL23-30D | `pl23-30d` | **READY**: both Prop 6.1 gates at 30d on snapshot 9 (fresh 319-module rebuild). Obligations: B2.1 and the leafwise B2.1 (R14). |
+| FINALCOUNT G2 (Prop 9.4) | `finalcount` | running; `countE_le_beta_cut` proved |
+| FINALCOUNT-G8 (Prop 9.6 for γ > 1/2: inputs and bridges) | `finalcount-g8` | running |
+| RA1-LEAFWISE (R14) | `ra1-leafwise` | running |
+| DEGEN-VINE (R13) | `degen-vine` | running |
+| FLOWER-REG (R12, the L0 part) | `flower-reg` | running |
+| Research, γ ≤ 1/2 (D9) | `research-gamma-half` | running (Opus; notes only) |
+| M8 LAYERCNT | `layercnt` | READY |
+| S3a LADDER-FOURIER | `ladder` | READY |
+| SUMINT-SIGNED | `sumint-signed` | READY |
+| FLOWER-SPINE | `flower-spine` | `layergardenFlower_of_spine9` proved in the snapshot-7 universe; waits on the rebase, and re-pins `regular` per R12 |
+
+## Main-branch records (2026-11-04)
+
+- **Errata file:** docs/ERRATA-AND-DEVIATIONS.md, entry E1 (DH23 Prop 9.6, necklace), main `dfe30e3`.
+- **D9:** recorded in DECISIONS.md.
+- **Review page:** docs/review/GAMMA-HALF-SUCCESSORS.md, main `9c5ec0d`, awaiting Scott's approval (D10).
