@@ -1,6 +1,14 @@
-# PL1 working handoff — carrier interface
+# PL1 handoff — completed abstract carrier proof
 
-Status: **in progress**, 2026-11-04. This is the requested C2 instantiation interface, not a `READY pl1-core` claim. The couple analytic core, including canonical source agreement, is complete. Stage 1 still needs the exact tree phase/source identity and final interpolation; Stages 2–3 remain open.
+Status: **Stages 1–3 complete**, 2026-11-04. The final exports are
+`exists_proposition51` in `Proposition51.lean` and `exists_proposition51_oneClock`
+in `Proposition51OneClock.lean` (both in namespace `WaveTurbulence.Incoh`). They bound the sum of the actual raw couple
+and tree restriction norms at the printed spatial orders by
+`2 * ofReal ((C1*delta)^n * L^(-(gamma1-sqrt eta)*g))`.
+P-1 is covered by the intrinsic one-clock theorem, with no second-root clock premise.
+C2/frozen garden instantiation is intentionally outside this brief's abstract-carrier scope.
+The progress entries below are chronological; their older “remaining” statements are
+superseded by the completion section at the end.
 
 ## Structural data
 
@@ -680,3 +688,84 @@ build passed (`9500 jobs`). Scratch `AxiomsPropositionRates.lean` /
 absorption, the appended finite root-row certificate and its exact raw tree source identity.
 Each uses only `[propext, Classical.choice, Quot.sound]`. No new erratum or deviation.
 The packet still requires the tree's full spatial derivative bound and final joint packaging.
+
+## Full tree spatial estimate and printed rate
+
+`TreePropositionRate.exists_rawTreeKernel_propositionRate` proves the raw tree term in
+`X^{eta,30d,0}`, from actual `Sf^{40d,40d}` bounds, with the exact printed square-root
+eta loss and `(C1 delta)^n`. Its constants precede every order and source object.
+The source leaf count `m=2n` implies the displayed typing condition `m+1≤3n` once
+incoherence gives `n≥1`. The endpoint/clock geometry and smooth cutoff requirements
+are the same finite source data already used by the accepted order-zero tree result.
+
+Approach: append the temporary root input, localize it with the actual smooth partition
+`treeRootPartition`, and multiply each spectral amplitude by a slightly larger translated
+root cutoff. A single finite cell cover then works for all root momenta and root partition
+indices. The translated root input has exactly translation-invariant Fourier-moment mass;
+its growing weighted spatial norm is used only to establish integrability, never in the
+uniform bound. `RootAmplitudeLocalModels` and `RootAmplitudeMixture` prove differentiation
+and Fourier transport for the locally finite root sum using actual finite neighborhood
+models. `TreeRootSourceAgreement` proves exact source recovery on the full forward domain,
+including equality of external clocks. No decay premise on the lone leaf was added.
+
+New modules: `SpatialOperatorBound`, `CompactSpatialNorm`, `TreeRootPartition`,
+`TreeRootCellSupport`, `LeafFourierMomentMass`, `TreeRootPartitionMoments`,
+`LocalModelParameterIntegral`, `LocalModelSpectralIntegral`, `LocalModelUniformMassMixture`,
+`RootAmplitudeLocalModels`, `RootAmplitudeMass`, `RootAmplitudeMixture`,
+`TreeAugmentedInputBounds`, `MaskedCellActualMomentMass`, `SmoothModulatedDerivative`,
+`UniformDerivativeProduct`, `SingleRootSpectralAmplitude`, `TreeRootSpectralFamily`,
+`TreeRootSpectralMass`, `AllCellTreeFamily`, `AllCellTreeDecay`, `MaskedTreePointwise`,
+`MaskedRawTreeAgreement`, `TreeRootSpatialDecay`, `TreeRootSourceAgreement`,
+`FullRawTreeRestrictionDecay`, `TreeCoefficientAbsorption`, `TreePropositionRate`.
+
+Checks: `nice -n 5 lake build WaveTurbulence.Foundations.Incoh.TreePropositionRate`
+passed (`9566 jobs`), with no warnings. `AxiomsFullTree.lean` / `axioms-full-tree.log`
+checks seven principal results, including the final printed rate, exact raw agreement,
+full derivative transport and uniform moment mass. Every result uses only
+`[propext, Classical.choice, Quot.sound]`. No new source errata or weakened estimate.
+Joint abstract Proposition 5.1 packaging is the remaining closeout step.
+
+## Completion — abstract TARGET Proposition 5.1
+
+Files: final assembly is `Proposition51.lean` and `Proposition51OneClock.lean`, exporting
+`WaveTurbulence.Incoh.exists_proposition51` and
+`WaveTurbulence.Incoh.exists_proposition51_oneClock`. Both combine the raw source couple
+and tree norms under one `C1` and one lattice threshold, with the printed spatial orders
+`(30d,30d)` and `(30d,0)` and exact decay exponent `-(gamma1-sqrt eta)*g`.
+The explicit outside factor `2` is the printed admissible implicit constant. The threshold
+precedes every source order, carrier, link family and input function. The first theorem
+uses the ordinary two-root couple; the second uses precisely one source vertex clock,
+with arbitrary passive external unit interval. This closes audit P-1 at the final joint
+Proposition 5.1 level. The standalone component results remain available.
+
+Approach: combine the independently proved actual source component bounds with the maximum
+of their exponential constants and the maximum of their lattice thresholds. Their common
+incoherence count is a source typing equality. Neither joint theorem assumes an analytic
+estimate, an extension, a Fourier envelope, extra input regularity, or any desired conclusion.
+The global Circle signs remain arbitrary and separate for couple/tree (P-3). All localization
+is performed with the proved smooth finite cell covers, at their actual cutoff support scale
+(P-2); no unit-ball-to-cutoff-scale estimate is an unproved premise.
+
+Exact final checks:
+- `nice -n 5 lake build WaveTurbulence.Foundations.Incoh.Proposition51`:
+  `Build completed successfully (9604 jobs).`
+- `nice -n 5 lake build WaveTurbulence.Foundations.Incoh.Proposition51OneClock`:
+  `Build completed successfully (9605 jobs).`
+- `nice -n 5 lake env lean /home/scott/wt-scratch/wke-l2s/pl1/AxiomsProposition51.lean`:
+  exit `0`; log `/home/scott/wt-scratch/wke-l2s/pl1/axioms-proposition51.log`.
+  Both joint theorems and all three final raw component rates print exactly
+  `[propext, Classical.choice, Quot.sound]`.
+- `git diff --check`: exit `0`, no output.
+- Forbidden declaration/budget scan of `Incoh/*.lean`: no forbidden code; the only textual
+  matches are the English verb “admit” in two docstrings. Largest file: 153 lines.
+
+Uncertainties/scope: the final source carriers must still be constructed from the frozen
+Wave B garden definitions by C2/the orchestrator, as expressly deferred in PL1's brief.
+The finite fields and their C2 correspondence are listed above. This is a completed abstract
+carrier proof, not a claim that a frozen `proplayer1` anchor has been sealed or independently
+audited. The eta smallness used in the final square-root loss is explicitly
+`(100d)^2 eta≤1`, alongside the analytic tree core's `0<eta≤1/100` and `eta<gamma1`.
+No new suspected source erratum or deviation beyond the reported F62 squared Wick factor
+and previously documented stronger `L^{2d}` tree endpoint. No estimate was weakened.
+
+READY pl1
