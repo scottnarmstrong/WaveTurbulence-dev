@@ -8,6 +8,7 @@ module
 public import Mathlib.MeasureTheory.Integral.Prod
 public import Mathlib.MeasureTheory.Integral.DominatedConvergence
 public import Mathlib.MeasureTheory.Integral.IntervalIntegral.Basic
+public import Mathlib.MeasureTheory.Integral.IntervalIntegral.IntegrationByParts
 
 /-!
 # Iterated time integrals: rectangles and triangles
@@ -16,7 +17,8 @@ Two Fubini identities for continuous integrands, used to split the diagonal `�
 couple by its latest time (DH21 Props 7.8, 7.10, DH23 Prop 6.3):
 
 * `integral_rect_swap`: `∫_a^b ∫_c^d f(u, v) dv du = ∫_c^d ∫_a^b f(u, v) du dv`;
-* `integral_triangle_swap'`: `∫_r^t ∫_u^t f(u, v) dv du = ∫_r^t ∫_r^v f(u, v) du dv` for `r ≤ t`.
+* `integral_triangle_swap'`: `∫_r^t ∫_u^t f(u, v) dv du = ∫_r^t ∫_r^v f(u, v) du dv` for `r ≤ t`;
+* `primitive_mul_primitive`: the product rule for `A(t) = a + ∫_s^t α`, `B(t) = b + ∫_s^t β` (DH23 Prop 6.3).
 -/
 
 public section
@@ -113,5 +115,18 @@ theorem integral_triangle_swap' {f : ℝ → ℝ → ℝ} (hf : Continuous (Func
     split_ifs
     · exact hC p hp'
     · simp only [norm_zero]; exact (norm_nonneg _).trans (hC p hp')
+
+/-- **Product rule for primitives**: with `A(x) = a + ∫_s^x α`, `B(x) = b + ∫_s^x β` (continuous `α, β`),
+`A(t) B(t) = a b + ∫_s^t (α B + A β)`. -/
+theorem primitive_mul_primitive {α β : ℝ → ℝ} (hα : Continuous α) (hβ : Continuous β) (a b s t : ℝ) :
+    (a + ∫ u in s..t, α u) * (b + ∫ u in s..t, β u) =
+      a * b + ∫ u in s..t, (α u * (b + ∫ v in s..u, β v) + (a + ∫ v in s..u, α v) * β u) := by
+  have hA : ∀ x ∈ uIcc s t, HasDerivAt (fun x => a + ∫ v in s..x, α v) (α x) x := fun x _ =>
+    ((hα.integral_hasStrictDerivAt s x).hasDerivAt).const_add a
+  have hB : ∀ x ∈ uIcc s t, HasDerivAt (fun x => b + ∫ v in s..x, β v) (β x) x := fun x _ =>
+    ((hβ.integral_hasStrictDerivAt s x).hasDerivAt).const_add b
+  rw [intervalIntegral.integral_deriv_mul_eq_sub hA hB (hα.intervalIntegrable _ _)
+    (hβ.intervalIntegrable _ _)]
+  simp
 
 end WaveTurbulence.Cancel
