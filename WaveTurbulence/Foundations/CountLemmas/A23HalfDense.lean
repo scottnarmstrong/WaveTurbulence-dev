@@ -7,6 +7,7 @@ module
 
 public import WaveTurbulence.Foundations.CountLemmas.A23HalfFibers
 public import WaveTurbulence.Foundations.Counting.EstcrossBalls
+public import WaveTurbulence.Foundations.CountLemmas.PositiveAtomReduction
 
 /-!
 # The anti-parallel form `ζ = x − v`: dense fibers (estcross and a layer-cake sum)
@@ -32,12 +33,6 @@ variable {d : ℕ}
 
 theorem estcrossConst_nonneg (n : ℕ) : 0 ≤ estcrossConst n := by unfold estcrossConst; positivity
 
-theorem latticePoint_one_eq_smul {L : ℝ} (hL : 0 < L) (X : Fin d → ℤ) :
-    latticePoint 1 X = L • latticePoint L X := by
-  ext i
-  simp only [latticePoint, PiLp.smul_apply, smul_eq_mul, div_one]
-  field_simp
-
 /-- **Estcross for the unit-scale fibers** (`d = n + 3`). -/
 theorem card_dense_ysF_le {n : ℕ} {L τ θ : ℝ} (hL : 0 < L) (hτ : 0 ≤ τ) (hθ : 1 ≤ θ)
     (hscale : 16 * ((3 : ℝ) ^ (n + 1) * θ) ≤ τ * L ^ 2) (hρL : τ * L ^ 2 ≤ L)
@@ -49,14 +44,14 @@ theorem card_dense_ysF_le {n : ℕ} {L τ θ : ℝ} (hL : 0 < L) (hτ : 0 ≤ τ
   refine Counting.card_dense_dot_product_strips_in_balls_le _ (L • a) (by positivity) hθ hscale hρL
     (fun X hX => ?_) (fun X hX => ?_)
   · have hX := (mem_nearFinset hL a X).mp (Finset.mem_filter.mp hX).1
-    rw [latticePoint_one_eq_smul hL, ← smul_sub, norm_smul, Real.norm_of_nonneg hL.le]
+    rw [latticePoint_one_eq_smul hL.ne', ← smul_sub, norm_smul, Real.norm_of_nonneg hL.le]
     simpa using mul_le_mul_of_nonneg_left hX hL.le
   · refine ⟨ysF L b α τ X, L • b, L ^ 2 * α, fun Y hY => ?_, fun Y hY => ?_, (Finset.mem_filter.mp hX).2⟩
     · have hY := (mem_nearFinset hL b Y).mp (Finset.mem_filter.mp hY).1
-      rw [latticePoint_one_eq_smul hL, ← smul_sub, norm_smul, Real.norm_of_nonneg hL.le]
+      rw [latticePoint_one_eq_smul hL.ne', ← smul_sub, norm_smul, Real.norm_of_nonneg hL.le]
       simpa using mul_le_mul_of_nonneg_left hY hL.le
     · have hs := (Finset.mem_filter.mp hY).2
-      rw [latticePoint_one_eq_smul hL, latticePoint_one_eq_smul hL, inner_smul_left, inner_smul_right]
+      rw [latticePoint_one_eq_smul hL.ne', latticePoint_one_eq_smul hL.ne', inner_smul_left, inner_smul_right]
       simp only [RCLike.conj_to_real]
       have he : L * (L * inner ℝ (latticePoint L X) (latticePoint L Y)) - L ^ 2 * α =
           L ^ 2 * (inner ℝ (latticePoint L X) (latticePoint L Y) - α) := by ring
