@@ -93,6 +93,9 @@ public import WaveTurbulence.Foundations.ApproxNT.Profile
 public import WaveTurbulence.Foundations.ApproxNT.Prop64
 public import WaveTurbulence.Foundations.ApproxNT.PsiOne
 public import WaveTurbulence.Foundations.ApproxNT.Statement
+public import WaveTurbulence.Foundations.Canon.Basic
+public import WaveTurbulence.Foundations.Canon.Decomp
+public import WaveTurbulence.Foundations.Canon.Main
 public import WaveTurbulence.Foundations.ClassJR.Bump
 public import WaveTurbulence.Foundations.ClassJR.Chain
 public import WaveTurbulence.Foundations.ClassJR.Chain2
@@ -1034,6 +1037,7 @@ public import WaveTurbulence.Foundations.WKEL2.WeightedSobolevForget
 public import WaveTurbulence.Foundations.WKEL2.WeightedSobolevLetter
 public import WaveTurbulence.Foundations.WKEL2.WeightedSobolevModel
 public import WaveTurbulence.Foundations.WaveB.FrozenB1
+public import WaveTurbulence.Foundations.WaveB.Lemmas
 public import WaveTurbulence.Foundations.WeylSums.ArcAlgebra
 public import WaveTurbulence.Foundations.WeylSums.ArcIntegration
 public import WaveTurbulence.Foundations.WeylSums.ArcProfile
@@ -1410,6 +1414,7 @@ public import WaveTurbulence.Frozen.Defs.ZNormOn
 public import WaveTurbulence.Frozen.Defs.ZSpace
 public import WaveTurbulence.Frozen.Defs.ZpowSign
 public import WaveTurbulence.Frozen.Theorems.AtomCountLemma
+public import WaveTurbulence.Frozen.Theorems.CanonicalCharacterization
 public import WaveTurbulence.Frozen.Theorems.CountLemma
 public import WaveTurbulence.Frozen.Theorems.NlsAkBridge
 public import WaveTurbulence.Frozen.Theorems.Wkelwp

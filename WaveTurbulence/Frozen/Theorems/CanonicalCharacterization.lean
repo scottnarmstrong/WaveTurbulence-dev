@@ -69,7 +69,7 @@ theorem canonicalCharacterization {w : ℕ} (p : ℕ) (LG : LayeredGarden w) :
     (IsCanonH (p + 1) LG ↔ LG.garden.IsFlowerGarden ∧
       LG.TopDecomp true p (LG.CanonInd p) LG.roots) :=
 -- FROZEN_ANCHOR_PROOF_BEGIN
-  by sorry
+  by exact WaveTurbulence.Provider.canonicalCharacterization
 -- FROZEN_ANCHOR_PROOF_END
 -- FROZEN_ANCHOR_SUFFIX_BEGIN
 

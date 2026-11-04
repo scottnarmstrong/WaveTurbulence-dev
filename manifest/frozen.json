@@ -13364,7 +13364,7 @@
         "mode": "NOT_SPLIT",
         "ruling_ref": "docs/DECISIONS.md#D7"
       },
-      "abi_sha256": "4fea05622fb1ae07c6136fbc7d27fc74394e44a3ac6b50aa8d985022ac48bee0",
+      "abi_sha256": "f69fc5c4e2f3bbad712b6295774c527635357683e1da51c762cc3b102efada29",
       "definition_closure": [
         {
           "path": "WaveTurbulence/Frozen/Defs/ForestSet.lean",
@@ -13583,7 +13583,7 @@
           "sha256": "aecc42a4deefa069ebd109f0e3721fe14a0deb90a4d34fcfff6da7080893af47"
         }
       ],
-      "state": "DRAFT_SORRY",
+      "state": "SEALED",
       "prefix_sha256": "c420818fce4b4f4f94aedfd394687e156dc78761c54bb3924a56ae661b8169f0",
       "suffix_sha256": "9f48199048606af986e4911abed0172f6e65c9c8c91f1c2874961ad85a7ea8d0",
       "draft_allowlist": {

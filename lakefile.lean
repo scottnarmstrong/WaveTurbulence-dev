@@ -20,7 +20,6 @@ quarantine forbids every other module, the root included, from importing them, s
 builds them as extra globs beside its root. -/
 private def quarantinedModules : Array Lean.Name := #[
   `WaveTurbulence.Frozen.Theorems.Main, `WaveTurbulence.Provider.Main,
-  `WaveTurbulence.Frozen.Theorems.CanonicalCharacterization, `WaveTurbulence.Provider.CanonicalCharacterization,
   `WaveTurbulence.Frozen.Theorems.Fixedpoint, `WaveTurbulence.Provider.Fixedpoint,
   `WaveTurbulence.Frozen.Theorems.Layergarden, `WaveTurbulence.Provider.Layergarden,
   `WaveTurbulence.Frozen.Theorems.LayergardenFlower, `WaveTurbulence.Provider.LayergardenFlower,
