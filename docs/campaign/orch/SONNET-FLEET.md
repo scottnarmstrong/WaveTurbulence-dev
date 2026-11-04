@@ -82,3 +82,5 @@ Not held by Sonnet agents:
 - **Errata file:** docs/ERRATA-AND-DEVIATIONS.md, entry E1 (DH23 Prop 9.6, necklace), main `dfe30e3`.
 - **D9:** recorded in DECISIONS.md.
 - **Review page:** docs/review/GAMMA-HALF-SUCCESSORS.md, main `9c5ec0d`, awaiting Scott's approval (D10).
+| S3b LADDER-DECAY | `ladder-decay` | **READY 22:3x**: `ladderDecayGate : WTPrefix LadderDecayAtCopy`, which is rfl-equal to the pinned `LadderDecayAt` (14bbd832). Fresh 55-module build2, all exit 0; axioms checked by wt-orch (standard). The snapshot-9 rebuild is deferred to the universe rebase. |
+| S3c COARSE-SPLICED | `coarse-spliced` | started 22:35: `CoarseSplicedGate` (finalsbest1) from `LadderDecayAt` |
