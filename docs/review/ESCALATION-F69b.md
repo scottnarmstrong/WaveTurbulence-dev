@@ -78,6 +78,13 @@ being researched now, since every option needs them.
 proved in Lean) and ylem2; independent check commissioned. So option (2) — restrict the formal target to γ ∈ (1/2, 1) —
 now has a complete mathematical route. The threshold 1/2 is exactly A.2(3)'s branch point, matching the necklace.
 
+
+**Update 4 (2026-11-04):** an independent referee **confirmed** the γ ∈ (1/2, 1) argument (F75) and proved the one input
+it left open (DH23 Lemma A.2(3) for γ > 1/2). So restricting the formal target to γ ∈ (1/2, 1) has a complete,
+independently checked mathematical route (modulo DH23 material used as DH23 uses it). **Recommendation now: (2) + (3)** —
+version the frozen `main` to `γ ∈ Ioo (1/2) 1` (D2 amended; you approve the exact text) and write to Deng and Hani about
+γ ≤ 1/2. If the authors later supply a repair for γ ≤ 1/2, a second successor can widen it again.
+
 ## What it means for the formalization
 
 Ruling D2 sets the target as **0 < γ < 1**, and the frozen `main` (Wave A) quantifies over `γ ∈ Ioo 0 1`. The

@@ -378,6 +378,14 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   pass the structural steps; brute force agrees to 9 atoms. Rests on DH23 Lemma A.2(3) (γ > 1/2 branch, only sketched
   at L2088–L2091; numerics support it) and ylem2. Lean needs: the γ > 1/2 refinement of (basiccount02), ylem2, the
   operation (c)/(d) deviation lemmas, a few graph lemmas, and a γ > 1/2 hypothesis.
+  **CONFIRMED MODULO by an independent referee (2026-11-04, `docs/research/case4-gamma-above-half-referee.txt`):** every
+  step holds as a deduction from DH23's tools; the referee PROVED the γ > 1/2 branch of DH23 Lemma A.2(3) itself, with
+  saving κ(γ) = min((2γ−1)/3, 1−γ) up to logs (bilinear count + thin-annulus lattice bound, exponent 2/3, + estcross,
+  both already formalized). Remaining, all DH23 material used as DH23 uses it: ylem2's ladder sharpness, operation (d)'s
+  deviation and the O(1)-rung ladder-product changes, an η-independent constant in (roughbd); and, for case (4) as a
+  whole, (E0) (F72) and Prop 10.4(2)′. Note fixes: η ≪ 1−γ too (estcross; DH23 L438 covers it); ylem2 applies without
+  LG; 'T is not bad' should read 'T minus a bond is small'. Side finding: TARGET Lemma A.9's printed E₂ bound is false at
+  k = 0 with opposite signs for γ > 1/2 (the formalized `atomCountLemma_bound` carries k ≠ 0; cf. F43).
 - F76 — TARGET (regref2-2) "translate by r" for trees with the lone leaf in a lower layer (q' < r) — proof-level
   precision: the B2 audit's reduction to the slice s = r holds pointwise, but at the norm level it is a trace
   statement (the line s = r has measure zero, and the restriction norm requires extensions to agree pointwise), so it
