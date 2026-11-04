@@ -15,7 +15,15 @@ from pathlib import Path
 from typing import Any
 
 HEX = re.compile(r"^[0-9a-f]{64}$")
-FQ = re.compile(r"^[A-Za-z_][A-Za-z0-9_']*(?:\.[A-Za-z_][A-Za-z0-9_']*)+$")
+# Lean identifiers (Lean core `isIdFirst`/`isIdRest`): ASCII letters and `_`, the letter-like characters of
+# `isLetterLike` (Greek except λ, Π, Σ; Coptic; Greek extended; the letter-like symbols block, e.g. `ℓ`;
+# mathematical alphanumerics), and after the first character also digits, `'`, `!`, `?` and the subscripts
+# of `isSubScriptAlnum` (e.g. `M₀`). Wave B B1 exports such as `SumintDatum.M₀` and `SumintDatum.ℓVec` need it.
+ID_FIRST = ("A-Za-z_\u03b1-\u03ba\u03bc-\u03c9\u0391-\u039f\u03a1\u03a2\u03a4-\u03a9\u03ca-\u03fb"
+            "\u1f00-\u1ffe\u2100-\u214f\U0001d49c-\U0001d59f")
+ID_REST = ID_FIRST + "0-9'!?\u2080-\u2089\u2090-\u209c\u1d62-\u1d6a\u2c7c"
+IDENT = f"[{ID_FIRST}][{ID_REST}]*"
+FQ = re.compile(rf"^{IDENT}(?:\.{IDENT})+$")
 MARKERS = ("FROZEN_ANCHOR_PREFIX_BEGIN", "FROZEN_ANCHOR_PROOF_BEGIN",
            "FROZEN_ANCHOR_PROOF_END", "FROZEN_ANCHOR_SUFFIX_BEGIN",
            "FROZEN_ANCHOR_SUFFIX_END")
@@ -25,13 +33,13 @@ DECL = re.compile(
     r"(?m)^[ \t]*(?:@\[[^\]\n]*\][ \t]*)*"
     r"((?:(?:private|protected|public|noncomputable|unsafe|partial|nonrec|meta)\s+)*)"
     r"(theorem|lemma|def|abbrev|opaque|structure|class|inductive|axiom|constant|instance|example)\b"
-    r"(?:\s+([A-Za-z_][A-Za-z0-9_']*(?:\.[A-Za-z_][A-Za-z0-9_']*)*))?"
+    rf"(?:\s+({IDENT}(?:\.{IDENT})*))?"
 )
-NAMESPACE = re.compile(r"^[ \t]*namespace\s+([A-Za-z_][A-Za-z0-9_']*(?:\.[A-Za-z_][A-Za-z0-9_']*)*)\b")
+NAMESPACE = re.compile(rf"^[ \t]*namespace\s+({IDENT}(?:\.{IDENT})*)\b")
 SECTION = re.compile(
     r"^[ \t]*(?:@\[[^\]\n]*\][ \t]*)*((?:(?:public|private|noncomputable)\s+)*)"
-    r"section(?:\s+[A-Za-z_][A-Za-z0-9_']*(?:\.[A-Za-z_][A-Za-z0-9_']*)*)?[ \t]*$")
-END = re.compile(r"^[ \t]*end(?:\s+[A-Za-z_][A-Za-z0-9_']*(?:\.[A-Za-z_][A-Za-z0-9_']*)*)?[ \t]*$")
+    rf"section(?:\s+{IDENT}(?:\.{IDENT})*)?[ \t]*$")
+END = re.compile(rf"^[ \t]*end(?:\s+{IDENT}(?:\.{IDENT})*)?[ \t]*$")
 PLACEHOLDER = re.compile(r"\b(?:sorry|admit)\b")
 MODULE_KEYWORD = re.compile(r"module(?![\w'.!?])")
 

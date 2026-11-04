@@ -19,7 +19,12 @@ private def projectLeanOptions : Array LeanOption := #[
 quarantine forbids every other module, the root included, from importing them, so the library
 builds them as extra globs beside its root. -/
 private def quarantinedModules : Array Lean.Name := #[
-  `WaveTurbulence.Frozen.Theorems.Main, `WaveTurbulence.Provider.Main
+  `WaveTurbulence.Frozen.Theorems.Main, `WaveTurbulence.Provider.Main,
+  `WaveTurbulence.Frozen.Theorems.Fixedpoint, `WaveTurbulence.Provider.Fixedpoint,
+  `WaveTurbulence.Frozen.Theorems.Layergarden, `WaveTurbulence.Provider.Layergarden,
+  `WaveTurbulence.Frozen.Theorems.LayergardenFlower, `WaveTurbulence.Provider.LayergardenFlower,
+  `WaveTurbulence.Frozen.Theorems.Propansatz, `WaveTurbulence.Provider.Propansatz,
+  `WaveTurbulence.Frozen.Theorems.WkeTaylor, `WaveTurbulence.Provider.WkeTaylor
 ]
 
 /-- The formalization of Deng–Hani, *Long time justification of wave turbulence theory*

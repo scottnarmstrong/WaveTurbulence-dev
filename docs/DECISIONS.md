@@ -23,3 +23,15 @@ Format: D<n> — date (UTC) — who — decision — reason.
   device ∀ U, circular complex Gaussians, (log L)^{40d}, ⟨k⟩ = (1+|k|²)^{1/2}). Packaging (semantics-neutral): one
   declaration per file under `WaveTurbulence/Frozen/`, theorem bodies `by sorry` between anchor markers; the anchor
   checker accepts `abbrev` (for `Mom`) as a definition anchor.
+- D7 — 2026-11-04 ~17:10 — Scott ("I approve all", in reply to wt-orch's list: approve D7 and D8 and land the two
+  freeze branches; the complete Wave B tier-B1 code shown for approval in `docs/review/WAVE-B-B1.md`, snapshot 9,
+  `/home/scott/wt-scratch/waveb-snap-9`, SHA256SUMS `30263a99…`) — **Wave B tier B1 approved and frozen**: 12
+  `DRAFT_SORRY` theorem anchors (B1.1–B1.12: `propansatz`, `layergarden`, `fixedpoint`, `nlsAkBridge`, `wkeTaylor`,
+  `sumint`, `countLemma`, `atomCountLemma`, `quadExpSum2`, `quadExpSum3`, `canonicalCharacterization`,
+  `layergardenFlower`) and 214 sealed definitions (FREEZE-LIST.md of snapshot 9). Includes the F68 fix (`PatValid`'s
+  `dChild` designation is a layer-`p` node), the F78 fix (`coupleSum`'s `∂_t` roots are layer-`p` branching nodes) and
+  the F80 fix (`XNorm`'s a.e. `C^{Λ₁}` guard). Audits: `WaveB-snapshot6.md`, `WaveB-snapshot7.md`,
+  `WaveB-snapshot8.md`, the independent audit of the snapshot-9 delta, and the earlier Wave B audits. Packaging
+  (semantics-neutral): one declaration per file under `WaveTurbulence/Frozen/`, as D6; the guard accepts Lean Unicode
+  identifiers. Landed by wt-orch on Scott's instruction ("land the freeze branches yourself", 2026-11-04 ~18:15)
+  with seven seals (B1.4 `nlsAkBridge`, B1.6 `sumint`, B1.7–B1.11), whose second-key audits are pending.
