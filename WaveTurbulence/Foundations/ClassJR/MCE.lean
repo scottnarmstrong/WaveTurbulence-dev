@@ -677,11 +677,28 @@ end Integrated
 
 section IntegratedDiag
 
-/-- **The weighted diagonal derivative bounds of `gE`** (Lemma G, DH21 (propertyG)):
-`∫ (1+|λ+g|)^a |∂_u^j gE(c-u; λ-u, τ)| dλ dτ ≤ 3 C_E Ir(2) A₁^j (2j)! (1+|u+g|)^a (1+|c-u|)^{a-1}`. -/
-theorem lintegral_gED_le {a : ℝ} (h0 : 0 ≤ a) (h1 : a ≤ 1) (j : ℕ) (c u g : ℝ) :
-    ∫⁻ q : ℝ × ℝ, ((1 : ℝ≥0∞) + ‖q.1 + g‖ₑ) ^ a *
-        ‖iteratedDeriv j (fun y => gE (c - y) (q.1 - y, q.2)) u‖ₑ ≤
+/-- The explicit majorant of `|∂_u^j gE(c-u; v-u, τ)|` (`norm_iteratedDeriv_gED_le`). -/
+@[expose] noncomputable def gEDbd (j : ℕ) (c u : ℝ) (q : ℝ × ℝ) : ℝ≥0∞ :=
+  ENNReal.ofReal (CE * A1 ^ j * (Nat.factorial (2 * j) : ℝ) * ind01r q.2 / (1 + |c - u|) *
+    (1 / (1 + |q.1 - (u + q.2 * (c - u))|) ^ 3 + 1 / (1 + |q.1 - c|) ^ 3 +
+      1 / (1 + |q.1 - u|) ^ 3))
+
+theorem enorm_iteratedDeriv_gED_le_bd (j : ℕ) (c u : ℝ) (q : ℝ × ℝ) :
+    ‖iteratedDeriv j (fun y => gE (c - y) (q.1 - y, q.2)) u‖ₑ ≤ gEDbd j c u q := by
+  rw [← ofReal_norm, gEDbd]
+  refine ENNReal.ofReal_le_ofReal ((norm_iteratedDeriv_gED_le j c u q.1 q.2).trans_eq ?_)
+  congr 4
+  ring_nf
+
+theorem measurable_gEDbd (j : ℕ) :
+    Measurable fun p : ℝ × ℝ × (ℝ × ℝ) => gEDbd j p.1 p.2.1 p.2.2 := by
+  unfold gEDbd
+  fun_prop
+
+/-- **The weighted integral of the diagonal majorant** (Lemma G, DH21 (propertyG)):
+`∫ (1+|λ+g|)^a gEDbd ≤ 3 C_E Ir(2) A₁^j (2j)! (1+|u+g|)^a (1+|c-u|)^{a-1}`. -/
+theorem lintegral_gEDbd_le {a : ℝ} (h0 : 0 ≤ a) (h1 : a ≤ 1) (j : ℕ) (c u g : ℝ) :
+    ∫⁻ q : ℝ × ℝ, ((1 : ℝ≥0∞) + ‖q.1 + g‖ₑ) ^ a * gEDbd j c u q ≤
       ENNReal.ofReal (3 * CE * Ir 2 * A1 ^ j * (Nat.factorial (2 * j) : ℝ) *
         ((1 + |u + g|) ^ a * (1 + |c - u|) ^ (a - 1))) := by
   set K : ℝ := CE * A1 ^ j * (Nat.factorial (2 * j) : ℝ) with hK
@@ -696,12 +713,8 @@ theorem lintegral_gED_le {a : ℝ} (h0 : 0 ≤ a) (h1 : a ≤ 1) (j : ℕ) (c u 
         ENNReal.ofReal ((1 + |q.1 + g|) ^ a * (1 / (1 + |q.1 - c|) ^ 3)) +
         ENNReal.ofReal ((1 + |q.1 + g|) ^ a * (1 / (1 + |q.1 - u|) ^ 3)))) with hF
   have hFm : Measurable F := by simp only [hF]; fun_prop
-  have hpt : ∀ q : ℝ × ℝ, ((1 : ℝ≥0∞) + ‖q.1 + g‖ₑ) ^ a *
-      ‖iteratedDeriv j (fun y => gE (c - y) (q.1 - y, q.2)) u‖ₑ ≤ F q := fun q => by
-    have hb := norm_iteratedDeriv_gED_le j c u q.1 q.2
+  have hpt : ∀ q : ℝ × ℝ, ((1 : ℝ≥0∞) + ‖q.1 + g‖ₑ) ^ a * gEDbd j c u q ≤ F q := fun q => by
     have hi := ind01r_nonneg q.2
-    have e : q.1 - u - q.2 * (c - u) = q.1 - (u + q.2 * (c - u)) := by ring
-    rw [e] at hb
     have hFq : F q = ENNReal.ofReal (ind01r q.2 * (K / (1 + |c - u|) *
         ((1 + |q.1 + g|) ^ a * (1 / (1 + |q.1 - (u + q.2 * (c - u))|) ^ 3) +
           (1 + |q.1 + g|) ^ a * (1 / (1 + |q.1 - c|) ^ 3) +
@@ -710,13 +723,11 @@ theorem lintegral_gED_le {a : ℝ} (h0 : 0 ≤ a) (h1 : a ≤ 1) (j : ℕ) (c u 
       conv_rhs => rw [ENNReal.ofReal_mul hi, ENNReal.ofReal_mul (by positivity),
         ENNReal.ofReal_add (by positivity) (by positivity),
         ENNReal.ofReal_add (by positivity) (by positivity)]
-    rw [hFq, one_add_enorm_rpow_eq, ← ofReal_norm, ← ENNReal.ofReal_mul (by positivity)]
-    refine ENNReal.ofReal_le_ofReal ?_
-    calc (1 + |q.1 + g|) ^ a * ‖iteratedDeriv j (fun y => gE (c - y) (q.1 - y, q.2)) u‖
-        ≤ (1 + |q.1 + g|) ^ a * (K * ind01r q.2 / (1 + |c - u|) *
-            (1 / (1 + |q.1 - (u + q.2 * (c - u))|) ^ 3 + 1 / (1 + |q.1 - c|) ^ 3 +
-              1 / (1 + |q.1 - u|) ^ 3)) := by gcongr
-      _ = _ := by ring
+    rw [hFq, one_add_enorm_rpow_eq, gEDbd, ← ENNReal.ofReal_mul (by positivity)]
+    refine le_of_eq ?_
+    congr 1
+    simp only [hK]
+    field_simp
   -- the inner integral
   have hinner : ∀ τ : ℝ, ∫⁻ v : ℝ, F (v, τ) ≤
       ENNReal.ofReal (ind01r τ) * ENNReal.ofReal (K / (1 + |c - u|) * (3 * Ir 2 * X)) := by
@@ -763,8 +774,7 @@ theorem lintegral_gED_le {a : ℝ} (h0 : 0 ≤ a) (h1 : a ≤ 1) (j : ℕ) (c u 
           rw [← ENNReal.ofReal_add (by positivity) (by positivity),
             ← ENNReal.ofReal_add (by positivity) (by positivity)]
           ring_nf
-  calc ∫⁻ q : ℝ × ℝ, ((1 : ℝ≥0∞) + ‖q.1 + g‖ₑ) ^ a *
-        ‖iteratedDeriv j (fun y => gE (c - y) (q.1 - y, q.2)) u‖ₑ
+  calc ∫⁻ q : ℝ × ℝ, ((1 : ℝ≥0∞) + ‖q.1 + g‖ₑ) ^ a * gEDbd j c u q
       ≤ ∫⁻ q, F q := lintegral_mono hpt
     _ = ∫⁻ τ : ℝ, ∫⁻ v : ℝ, F (v, τ) := by
         rw [Measure.volume_eq_prod, lintegral_prod_symm _ hFm.aemeasurable]
@@ -778,6 +788,16 @@ theorem lintegral_gED_le {a : ℝ} (h0 : 0 ≤ a) (h1 : a ≤ 1) (j : ℕ) (c u 
           rw [Real.rpow_sub hp, Real.rpow_one]
         rw [hsplit, hX, hK]
         field_simp
+
+/-- **The weighted diagonal derivative bounds of `gE`** (Lemma G, DH21 (propertyG)):
+`∫ (1+|λ+g|)^a |∂_u^j gE(c-u; λ-u, τ)| dλ dτ ≤ 3 C_E Ir(2) A₁^j (2j)! (1+|u+g|)^a (1+|c-u|)^{a-1}`. -/
+theorem lintegral_gED_le {a : ℝ} (h0 : 0 ≤ a) (h1 : a ≤ 1) (j : ℕ) (c u g : ℝ) :
+    ∫⁻ q : ℝ × ℝ, ((1 : ℝ≥0∞) + ‖q.1 + g‖ₑ) ^ a *
+        ‖iteratedDeriv j (fun y => gE (c - y) (q.1 - y, q.2)) u‖ₑ ≤
+      ENNReal.ofReal (3 * CE * Ir 2 * A1 ^ j * (Nat.factorial (2 * j) : ℝ) *
+        ((1 + |u + g|) ^ a * (1 + |c - u|) ^ (a - 1))) :=
+  (lintegral_mono fun q => mul_le_mul' le_rfl (enorm_iteratedDeriv_gED_le_bd j c u q)).trans
+    (lintegral_gEDbd_le h0 h1 j c u g)
 
 end IntegratedDiag
 
