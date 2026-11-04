@@ -24,7 +24,14 @@ private def quarantinedModules : Array Lean.Name := #[
   `WaveTurbulence.Frozen.Theorems.Layergarden, `WaveTurbulence.Provider.Layergarden,
   `WaveTurbulence.Frozen.Theorems.LayergardenFlower, `WaveTurbulence.Provider.LayergardenFlower,
   `WaveTurbulence.Frozen.Theorems.Propansatz, `WaveTurbulence.Provider.Propansatz,
-  `WaveTurbulence.Frozen.Theorems.WkeTaylor, `WaveTurbulence.Provider.WkeTaylor
+  `WaveTurbulence.Frozen.Theorems.WkeTaylor, `WaveTurbulence.Provider.WkeTaylor,
+  `WaveTurbulence.Frozen.Theorems.ExistsUnique_regChain_decodesTree, `WaveTurbulence.Provider.ExistsUnique_regChain_decodesTree,
+  `WaveTurbulence.Frozen.Theorems.ExistsUnique_regCpl_decodes, `WaveTurbulence.Provider.ExistsUnique_regCpl_decodes,
+  `WaveTurbulence.Frozen.Theorems.IncoherentDecay, `WaveTurbulence.Provider.IncoherentDecay,
+  `WaveTurbulence.Frozen.Theorems.RegChainExists_decodesTree, `WaveTurbulence.Provider.RegChainExists_decodesTree,
+  `WaveTurbulence.Frozen.Theorems.RegCplExists_decodes, `WaveTurbulence.Provider.RegCplExists_decodes,
+  `WaveTurbulence.Frozen.Theorems.RegCplSize_eq_order, `WaveTurbulence.Provider.RegCplSize_eq_order,
+  `WaveTurbulence.Frozen.Theorems.RegularAsymptotics, `WaveTurbulence.Provider.RegularAsymptotics
 ]
 
 /-- The formalization of Deng–Hani, *Long time justification of wave turbulence theory*
