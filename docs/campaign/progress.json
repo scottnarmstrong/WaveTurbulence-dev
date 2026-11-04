@@ -1,5 +1,5 @@
 {
- "assessed": "2026-11-04 07:10 UTC",
+ "assessed": "2026-11-04 08:30 UTC",
  "notes": "Lean work items = blueprint packets (docs/blueprint/GRAPH.md §E) with their difficulty weights (node weights L=1, M=2, H=4, VH=8 summed). Each frozen theorem anchor adds weight 1, credited when SEALED. Done fractions are the orchestrator's assessment, reviewed at integration rounds.",
  "lines_est_total": 273000,
  "parts": [
@@ -342,8 +342,8 @@
      "goal": "prime skeletons of couples and gardens with uniqueness (DH21 4.13–4.16, DH21-2 4.4–4.6, E4)",
      "weight": 15.0,
      "lines_est": 5200,
-     "done": 0.0,
-     "note": ""
+     "done": 0.9,
+     "note": "SKELETON done in scratch: prime skeletons with uniqueness (incl. DH21's omitted E4 argument), 194 declarations"
     },
     {
      "id": "NT8",
@@ -387,8 +387,8 @@
      "goal": "Prop 5.1 steps 1–2 (unimodular change of variables, localization)",
      "weight": 7.0,
      "lines_est": 2800,
-     "done": 0.6,
-     "note": "steps 1-2: carrier interface done (Incoh HANDOFF), unimodular change of variables in LINKS/ENHANCED scratch"
+     "done": 0.9,
+     "note": "steps 1-2 done in the abstract carrier; instantiation with LINKS in INCOH-INST"
     },
     {
      "id": "V1",
@@ -486,8 +486,8 @@
      "goal": "Prop 5.1 steps 3–4 and assembly",
      "weight": 9.0,
      "lines_est": 4650,
-     "done": 0.75,
-     "note": "PL1 analytic core done (couple + tree, steps 3-4, fb174c5); steps 1-2 and assembly in progress"
+     "done": 1.0,
+     "note": "PL1 done: abstract TARGET Prop 5.1 incl. one-clock case (541d4c8); garden instantiation = INCOH-INST"
     },
     {
      "id": "C4",
@@ -639,8 +639,8 @@
      "goal": "TARGET Props 6.6–6.8 (norm translation F11, corrected regref1-5, dominant trees)",
      "weight": 13.0,
      "lines_est": 4100,
-     "done": 0.1,
-     "note": "REGREF started (wt-torus): B2.1 at exact type; item (4) done"
+     "done": 0.9,
+     "note": "REGREF done: B2.1 regularAsymptotics proved at exact type from RA1Couple/RA1Tree (trace argument F76; leafwise kernel layer)"
     },
     {
      "id": "L3",
@@ -765,8 +765,8 @@
      "goal": "fixedest1–4 and fixedpoint",
      "weight": 9.0,
      "lines_est": 3400,
-     "done": 0.8,
-     "note": "FIXEDPT: fixedpoint proved from B1.12, B1.2, B1.5 and the named obligations O-X2-EXP, O-X3-CPL (36 modules, scratch)"
+     "done": 0.85,
+     "note": "FIXEDPT conditional on O-X2-EXP/O-X3-CPL; O-X3-CPL: CPL-1 (a^tr), CPL-2 (ℒ₀) done, CPL-3 in progress"
     },
     {
      "id": "I2",
