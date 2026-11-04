@@ -6,6 +6,8 @@ stage-2/3 audit (`WaveB2-stage23.md`, Task 9b), with before and after, for the i
 **Authorship.**
 - B2-CL-1 to B2-CL-4: wt-gauss-hc. CL-4 is the ladder-disjointness port.
 - **B2-CL-5 to B2-CL-11: wt-orch** (Tasks 19–20). wt-orch therefore must not audit CL-5 to CL-11.
+- **B2-CL-12 (Task 21) and B2-CL-13 to B2-CL-17 (Task 23): wt-orch.** See the addenda at the end. wt-orch must not
+  audit them either.
 - CL-2 and CL-3 (wt-gauss-hc) implement findings from my audits Task 14c and DEGEN-F53.
 
 ## 1. Baseline and current state
@@ -61,8 +63,8 @@ It also adds the moved theorems to Molecules-probes.
 - `TTree.dropLast_mem_branching`, a theorem in Molecules used by the **definition** `GNode.parent` (§3, the
   garden molecule), calls `TTree.branching_of_append_mem` from the non-frozen `WaveB1-Lemmas.lean`.
 - **Auditor:** the DESIGN entry plans to inline this proof into `GNode.parent` when B2 is packaged, as B1 CL-17 did.
-  **It has not been done yet.** Under B1's closure policy ("no frozen declaration uses a proved theorem of the
-  project"), this is a freeze blocker for `GNode.parent` / `Garden.molecule`.
+  **Done in B2-CL-12** (addendum below): `GNode.parent` and `Garden.molecule` inline the proofs, and the import
+  is removed. *(This item said "it has not been done yet" until 2026-11-04, Task 23; independent audit F-9.)*
 
 ### B2-CL-2 (wt-gauss-hc), superseded by CL-3: `IsLadder` with dart-pair rails
 
@@ -376,3 +378,230 @@ Degen/MOLE modules, not `WaveB2Draft`.
 2. Re-run a closure check.
 3. Check whether `Regular.lean` or `Statements.lean` also need the no-`deriving` sweep. Neither has `deriving`; I
    checked.
+
+## Addendum 2: B2-CL-13 to B2-CL-17 (wt-orch, Task 23): fixes from the independent B2 audit (FINDINGS F66)
+
+**Inputs.** `WaveB2-independent-audit.md` (main `c8e8a21`). Before editing, I checked that
+`/home/scott/wt-scratch/waveb2` was byte-identical to the audited `waveb2-snap-2`, and copied and hashed it.
+**B2.3 stays out of this freeze** (F-4): CL-14 and CL-15 are drafts toward packet G8.
+
+| File | Before (= snap-2) | After | Changed by |
+|---|---|---|---|
+| `WaveB2-Regular.lean` | `6481afd99386…` | `ce8f0a1652ba…` | CL-13, CL-16 |
+| `WaveB2-Regular-probes.lean` | `84a2e952c52f…` | `93b4f0bf808f…` | CL-13 |
+| `WaveB2-Molecules.lean` | `58fe0545f105…` | `89ff648ed5a3…` | CL-14, CL-16, CL-17 |
+| `WaveB2-Molecules-probes.lean` | `9f8aa52a3afa…` | unchanged | — |
+| `WaveB2-Statements.lean` | `fcad6a08d100…` | `82e42b2bfa16…` | CL-14, CL-15 |
+| `WaveB2-Statements-probes.lean` | `3ab2ec2b60e1…` | `16099cbd4f31…` | CL-14, CL-15 |
+| `WaveB2-Ladders.lean` | `1e5458ba0e9b…` | unchanged (rebuilt) | — |
+| `DESIGN.md` | `3ed85d327bf3…` | `87906e680178…` | §1.5, §1.6, §3.3, Q6, inventory, files table, changelog CL-13 to CL-17 |
+| `FreezeList.lean`, `gen_freeze.py`, `FREEZE-LIST.md` | new | `cba281b7a004…`, `d589ab9bdf3b…`, `349020959462…` | CL-16 |
+
+### B2-CL-13 (F-1, BLOCKER for B2.1): `RegChain.JBtree` lower limit `max s r`
+
+- **Before:** `noncomputable def RegChain.JBtree (r : ℝ) (X : RegChain) (t s : ℝ) : ℝ := X.JBchain r s t fun _ => 1`
+- **After:** `… := X.JBchain r (max s r) t fun _ => 1`. This is the audit's exact replacement (its `P3.JBtreeFix`).
+- **Docstring:** cites T (regref2-2) L1185–L1188 and Def `defkg` L682–L684, and explains `s < r`.
+- **Probes:**
+  - `JBtree_chain10 : chain10.JBtree r t s = t - max s r` (proof unchanged);
+  - new `JBtree_of_le : s ≤ r → X.JBtree r t s = X.JBtree r t r`;
+  - an `example`: the mini-tree gives `t - 1` on the item-(2) box `s ≤ 1` of `regularAsymptotics_item2_nonvacuous`.
+- **Unchanged:** B2.1's statement text and every other consumer. `RegChain.app` uses `JBtree` as before.
+- **My own stage-1 audit was wrong here.** I have appended a dated correction to `WaveB2-stage1.md`.
+- **Auditor:**
+  - re-run `P5` against the new definition: `K*_𝒯 − app` should no longer have a slope in `s` on `[1,2]×[0,1]`;
+  - confirm item (3)'s tree bound: on the box (`t ∈ [r, r+1]`) the mini-tree now gives
+    `JBtree = t − max(s, r) ≤ 1`, so the growth `≥ D − 1 = τ★/δ − 1` of the counterexample is gone.
+
+### B2-CL-14 (F-2, B2.3 only): `x₂ ≠ M.mate x₁`
+
+- **`DecorationHyp`.** In `epsLGTame` (formerly `epsLG`; see CL-15), `alphaGap`, `iota` and `abNonzero`, the
+  binder line `M.atom x₁ = v → M.atom x₂ = v →` gains `x₂ ≠ M.mate x₁ →`.
+- **`Molecule.IsCutData`** gains the conjunct `x₂ ≠ M.mate x₁`, between `M.atom x₂ = v` and `M.out x₁ = false`.
+- **Source:** T Def `defdiff` L1938–L1941; `defcut` L2118; `finalmol` L2182–L2191 ("two bonds").
+- **Probes:**
+  - `loopMol_epsLG`: on the audit's one-atom loop molecule, the LG branch holds for every labelling. Before, the
+    hypothesis forced `¬ Adm κ` (`P2.loopMol_decorationHyp_empty`).
+  - `doubleBond3_cut` still holds: its darts `3, 0` are on different bonds.
+
+### B2-CL-15 (F-3, B2.3 only; drafted): ZG-tame ε-atoms
+
+New definition, transcribed from T Prop `subpro` (3), L2044: "tame if the values of `k_ℓ` for all `ℓ ↔ v` are
+equal, and equals a fixed value in `(k₁,…,k_{2R})` if `d(v) < 4`".
+```lean
+def IsTame {d : ℕ} (L : ℝ) (w : Mom d) (kFix : Finset (Mom d)) (κ : D → (Fin d → ℤ)) (v : V) : Prop :=
+  (∀ x₁ x₂, M.atom x₁ = v → M.atom x₂ = v → kvec L w κ x₁ = kvec L w κ x₂) ∧
+    (M.deg v < 4 → ∀ x, M.atom x = v → kvec L w κ x ∈ kFix)
+```
+- **`DecorationHyp`** gains the parameter `kFix : Finset (Mom d)` (after `w`). Its first field is now:
+  ```lean
+  epsLGTame : ∀ κ, Adm κ → ∀ v ∈ M.atoms, lab v = .eps →
+    (∀ x₁ x₂, M.atom x₁ = v → M.atom x₂ = v → x₂ ≠ M.mate x₁ → M.out x₁ ≠ M.out x₂ →
+      gapKind L γ η (gapAt L w κ x₁ x₂) = .LG) ∨ M.IsTame L w kFix κ v
+  ```
+  This is T `finalmol` L2183–L2184: "LG or ZG, and tame if ZG". Tame forces every triple to be ZG, so "LG or tame"
+  is the per-atom reading.
+- **`rigidity`** gains the binder `(kFix : Finset (Mom P.d))` after `w`, and the hypothesis
+  `kFix.card ≤ 2 * Rw →` after `1 ≤ Rw →`. Its deviation (D2) is updated. The bound on the number of elements
+  matters: without it, `kFix = univ` would make the `d(v) < 4` clause empty.
+- **Probe:** `loopMol_isTame_iff`. For a bond-constant labelling, the loop atom is tame iff its vector is in `kFix`.
+- **Open for G8 (DESIGN Q6, §3.3 (ii)):** is "one of at most `2R` fixed vectors" what DH23 §10.5 and T Remark
+  `remtame` need ("must all be fixed in the given decoration")? Q7 (no author ruling on the abstract hypotheses)
+  is unchanged.
+
+### B2-CL-16 (F-6, packaging): named instances; a generated B2 freeze list
+
+**Instances.** All ten become `@[instance_reducible, instance] def` under the names Lean had generated for them, so
+names, bodies and transparency are unchanged:
+
+| File | Line (audit, pre-change) | Name |
+|---|---|---|
+| Regular | 68 | `instDecidableEqMiniTreeCode` |
+| Regular | 70 | `instFintypeMiniTreeCode` |
+| Regular | 178 | `instDecidableMatchesCouple` |
+| Regular | 193 | `instDecidableMatchesTreeCouple` |
+| Regular | 298 | `instDecidableDecodes` |
+| Regular | 308 | `instDecidableMatchesPairedTree` |
+| Regular | 319 | `instDecidableDecodesTree` |
+| Regular | 476 | `instDecidableIsSpecialSet` |
+| Molecules | 105 | `Molecule.instDecidableInGroup` |
+| Molecules | 165 | `Molecule.instDecidableDirected` |
+
+- The names were read from the compiled pre-change build.
+- After the change, a probe lists all 12 instances of Regular and Molecules (these ten and CL-12's two) as
+  registered instances with `ReducibilityStatus.instanceReducible`.
+
+**Freeze list.**
+- **Tooling.** `waveb2/FreezeList.lean` is B1's metaprogram for the three modules, with a fifth column giving the B1
+  and Wave A owners each declaration uses. `waveb2/gen_freeze.py` turns its output into `waveb2/FREEZE-LIST.md`.
+- **Scope ("Statements minus rigidity").** Regular and Molecules in full, and Statements without its B2.3 section.
+  That section is `rigidity` and its 12 helpers: `AtomLabel.IsAlpha`, `IsConnected`, `IsPerfect`, `ABLinked`,
+  `FinalShape`, `IsTame`, `DecorationHyp`, `numBeta`, `perfectIndicator`, `epsDefect`, `alphaFactor` and
+  `rigidityRHS`. They are listed separately as held out.
+  - **Orchestrator:** if you meant only the theorem `rigidity`, the twelve helpers move into the list. Nothing
+    else changes, but they would be frozen with no consumer, and two of them carry the F-2/F-3 design items.
+- **Result:** 152 declarations: 9 theorems (B2.1, B2.2 and the 7 obligations), 119 defs, 3 abbrevs, 3 structures,
+  6 inductives and 12 instances.
+- **Checked by the script:**
+  - no listed declaration uses a held-out one;
+  - no listed definition uses a B2 or B1 theorem;
+  - the only Wave A owners are `Mom` and `latticePoint`.
+- **Informational:** 63 listed declarations are consumed by no listed theorem. They are mostly the molecule
+  machinery used only by B2.3 (`countA`, `countE`, `IsLadder`, vines, cuts), plus probe-only `Decidable` instances.
+  Whether to freeze them now is a scope decision; the list names them.
+
+### B2-CL-17 (F-7, optional): `Garden.isMolecule_molecule` without hypotheses
+
+- **Before:** `(G : Garden w) (hP : G.IsPlain) (hw : w = 2 ∨ G.Irreducible) (hn : 1 ≤ G.order) : G.molecule.IsMolecule`.
+- **After:** `(G : Garden w) : G.molecule.IsMolecule`. This is the exact form of MOLE's `garden_isMolecule`
+  (`/home/scott/wt-scratch/mole/src/GardenMoleculeAxioms.lean` L87).
+- **Docstring:** it now explains why the statement holds for every garden, and keeps the F58 warning about the
+  counts.
+- The statement is strictly stronger and has no consumers in the freeze set.
+
+### F-9 (documentation drift)
+
+- §2 CL-1 above now says "done in CL-12".
+- This addendum continues the CL list after CL-12.
+- `JBtree`'s docstring and DESIGN §1.5 are updated (CL-13).
+- DESIGN's `sorry` inventory now says 10, with 6 in Regular §4; it said 9.
+
+### F-5 (REQUIRED): the missing characterization lemma, for a prover
+
+**The gap.** `pvResonantIntegral` is the symmetric-quotient slice form (`= ∫ ℓ, energyInvSliceLimit
+(resonantKernel Ψ k) ℓ`, bridge `pvResonantIntegral_eq_energyInv`). Its only characterization,
+`tendsto_pvResonantIntegral`, inherits the support radius `hR`, `hs` of the landed `energyPrincipalValue_spec`. B2's
+kernels, built from `F = φ + R`, decay but are not compactly supported.
+
+**The lemma to prove**, exactly. It goes in `WaveB2-Regular-probes.lean`, `namespace WaveTurbulence.WaveBProbes`,
+with that file's opens (`open MeasureTheory Finset Filter Topology`, `open Resonant`); later it goes into the
+Resonant foundations. I elaborated it, with `sorry`, in a transient file (deleted) against the current build. An
+`example` there checked by `rfl` that its conclusion is the conclusion of `tendsto_pvResonantIntegral`.
+```lean
+/-- **Characterization of `pvResonantIntegral` for decaying kernels** (FINDINGS F66, independent audit F-5;
+stage-1 O1). The statement of `tendsto_pvResonantIntegral` without the support radius `hR`, `hs`: the
+`DeltaKernel` decay of the kernel and of its gradient replaces compact support. -/
+theorem tendsto_pvResonantIntegral_of_decay {d : ℕ} (hd : 0 < d) (Ψ : Mom d → Mom d → Mom d → ℝ)
+    (k : Mom d) {D : Mom d → Mom d → Mom d →L[ℝ] ℝ} {A B : Mom d → ℝ} {a b : Mom d → Mom d} {N M : ℝ}
+    (hF : DeltaKernel (resonantKernel Ψ k) A a N)
+    (hgrad : DeltaKernel (fun ℓ x => ‖D ℓ x‖) B b M)
+    (hDc : ∀ ℓ, Continuous (D ℓ)) (hD : ∀ ℓ x, HasFDerivAt (resonantKernel Ψ k ℓ) (D ℓ x) x)
+    {χ : ℝ → ℝ} (hχ : IsPVCutoff χ) :
+    Tendsto (fun μ => energyInvIntegral χ μ (resonantKernel Ψ k)) atTop
+      (𝓝 (pvResonantIntegral Ψ k))
+```
+
+**Why it should be true** (a sketch for the prover, not a proof). Fix `ℓ ≠ 0` and write `S = sliceInt F ℓ`.
+1. **Per slice.** The inner integral is `−(2|ℓ|)⁻¹ ∫ (1 − χ(2μ|ℓ|t)) pvQuotient S t dt` (`χ` is even), so it tends
+   to `energyInvSliceLimit F ℓ` by dominated convergence once `pvQuotient S` is integrable.
+   - Near `t = 0`, `|pvQuotient S| ≤ sup |S'|`. Differentiating under the hyperplane integral gives
+     `|S'(t)| ≤ C_{M,d}·B(ℓ)`, with the domination `(1 + |b(ℓ)_⊥ + w|)^{-M}` uniform in `t` (`M > d`).
+   - For `|t| ≥ 1`, `|pvQuotient S| ≤ |S(t)| + |S(−t)|` and `∫ |S| ≤ C_{N,d}·A(ℓ)` (`N > d`).
+   - So `|pvQuotient S|` is integrable, and the 1-D truncation limit holds without compact support. The landed
+     `tendsto_pvTruncation` uses `hasCompactSupport_sliceInt`; that hypothesis must be replaced by integrability of
+     `S` together with `S` differentiable at 0.
+2. **Outer integral.** The inner integrals are bounded uniformly in `μ` by `C·|ℓ|⁻¹·(A(ℓ) + B(ℓ))`, which is
+   integrable by `DeltaKernel.integrable` for `hF` and `hgrad`. Dominated convergence in `ℓ` finishes.
+
+**Consumer obligation** (not part of this lemma). B2.1's proof must show that its Factor-2 kernels
+`ℳ*·ℳ*` (from `F = φ + R` with `InputRemainder` decay) satisfy `hF`, `hgrad`, `hDc` and `hD`.
+
+**Alternative** (audit F-5 (b)): an author ruling that, in B2, the slice form *is* the definition of the p.v.,
+recorded as a deviation of B2.1. I recommend proving the lemma: the statement is in hand and the argument is
+standard.
+
+### Checks (mine; to be redone by the independent auditor)
+
+**Build.** All seven modules were rebuilt in place into `/home/scott/wt-scratch/waveb2/build`, one at a time,
+`nice -n 5`, 2026-11-04 03:02–03:03 UTC, in the order Regular, RegularProbes, Molecules, MoleculesProbes, Ladders,
+Statements, StatementsProbes.
+- `LEAN_PATH` = `/home/scott/WaveTurbulence-dev/.lake/build/lib/lean` : `/home/scott/wt-scratch/waveb/build` :
+  `waveb2/build`.
+- Note: `waveb2/build.sh` runs in the gauss-hc worktree's lake environment. Its Foundations predate the `Resonant`
+  namespace, so RegularProbes fails there (`unknown namespace Resonant`); use the dev build path.
+- `src/WaveB2Draft/*.lean` equal the top-level sources.
+
+**Result.** 0 errors.
+- The only warnings are `declaration uses 'sorry'`, for the same 10 declarations: Regular §4 (6),
+  `Garden.isMolecule_molecule`, and B2.1–B2.3.
+- The probe files are `sorry`-free.
+
+**Axioms** `[propext, Classical.choice, Quot.sound]` for `JBtree_chain10`, `JBtree_of_le`, `loopMol_epsLG`,
+`loopMol_isTame_iff`, `doubleBond3_cut`, `RegChain.app`, `Molecule.IsTame` and `Molecule.DecorationHyp`.
+
+**Questions for the re-check.**
+1. CL-13: does the corrected `JBtree` make B2.1 items (2) and (3) true as far as the source shows, including the
+   `s ≤ r − 1` consumer case (`P1.KTstar_indep_of_le`)?
+2. CL-14: is `x₂ ≠ mate x₁` the right exclusion in all five places, and is it needed anywhere else (`IsBlockGap`,
+   `IsLadderGap`, `vineLG`)?
+3. CL-15: is the `kFix` abstraction (at most `2R` fixed vectors) faithful to T `subpro` (3) and `remtame`?
+4. CL-16: is the scope "Statements minus its B2.3 section" what the freeze needs, and are the 12 instance names
+   final?
+5. CL-17: no objection expected; the statement is MOLE's.
+6. F-5: is the lemma statement above what the B2.1 consumer needs?
+
+## Addendum 3: B2-CL-18 (wt-orch, Task 25): freeze scope is the consumer-reachable closure
+
+The independent re-check (`WaveB2-independent-audit.md`, "Re-check", main `1af9ab6`) passed with only F-5 open.
+Following the orchestrator's scope ruling (small frozen surface), the B2 freeze list now contains only declarations
+reachable from a frozen consumer. Only the generator and the generated list changed; no Lean source changed.
+
+- **Frozen consumers:** B2.1 `regularAsymptotics`, B2.2 `incoherentDecay`, the six Regular §4 obligations and
+  `Garden.isMolecule_molecule`.
+- **Freeze set:** these 9 theorems and exactly the B2 declarations they reach, through types, bodies and auxiliary
+  proofs. That is **89 declarations**: Regular 71, Molecules 12, Statements 6. The generator asserts the set is
+  closed.
+- **Held out with B2.3: 76 declarations.**
+  - The B2.3 section (13).
+  - The 63 that no frozen consumer reaches:
+    - 43 used only by B2.3;
+    - 20 used by no theorem at all: 10 probe-side instances and `MiniTreeCode.equiv`, plus the molecule operations
+      `cut`, `IsCutData`, `IsAlphaCut`, `eraseBond`, `IsHyperBlock`, `sigma`, `VineType.IsBad`, `IsDeviation` and
+      `deviation`.
+  - The ruling called these "used only by B2.3"; strictly, 20 of them are used by nothing yet. The closure rule
+    holds them out either way.
+- **Files** (`/home/scott/wt-scratch/waveb2`):
+  - `gen_freeze.py` `a741a10923f1…` and `FREEZE-LIST.md` `749daeb81908…`;
+  - `DESIGN.md` `6463b5f0872c…` (changelog B2-CL-18, files table);
+  - all Lean sources unchanged since snap-3 (`ce8f0a16…`, `89ff648e…`, `82e42b2b…`).
+- **Still open (REQUIRED):** F-5, the proof of `tendsto_pvResonantIntegral_of_decay`.

@@ -1,5 +1,5 @@
 {
- "assessed": "2026-11-04 04:20 UTC",
+ "assessed": "2026-11-04 03:55 UTC",
  "notes": "Lean work items = blueprint packets (docs/blueprint/GRAPH.md §E) with their difficulty weights (node weights L=1, M=2, H=4, VH=8 summed). Each frozen theorem anchor adds weight 1, credited when SEALED. Done fractions are the orchestrator's assessment, reviewed at integration rounds.",
  "lines_est_total": 273000,
  "parts": [
@@ -423,8 +423,8 @@
      "goal": "DH23 Props 10.1, 10.3",
      "weight": 6.0,
      "lines_est": 2400,
-     "done": 0.0,
-     "note": ""
+     "done": 0.9,
+     "note": "MOLEPROP13 done in scratch: DH23 Props 10.1, 10.3 (263 modules, against corrected B2)"
     },
     {
      "id": "V3",
@@ -486,8 +486,8 @@
      "goal": "Prop 5.1 steps 3–4 and assembly",
      "weight": 9.0,
      "lines_est": 4650,
-     "done": 0.5,
-     "note": "PL1 couple analytic core done (Foundations/Incoh, 101 files, landed 4ccbf19; F62 squared Wick factor adopted); tree case in progress"
+     "done": 0.75,
+     "note": "PL1 analytic core done (couple + tree, steps 3-4, fb174c5); steps 1-2 and assembly in progress"
     },
     {
      "id": "C4",
@@ -495,8 +495,8 @@
      "goal": "coherent layered regular objects and layering counts (Props 4.9, 4.10)",
      "weight": 8.0,
      "lines_est": 4000,
-     "done": 0.0,
-     "note": ""
+     "done": 0.9,
+     "note": "LAYERREG done in scratch: TARGET Props 4.9 (structure, replacement keeps canonicity) and 4.10 (layering count, stronger)"
     },
     {
      "id": "J3",
@@ -540,8 +540,8 @@
      "goal": "DH21 Lemmas 7.1–7.3, Props 7.4, 7.5",
      "weight": 6.0,
      "lines_est": 3400,
-     "done": 0.0,
-     "note": ""
+     "done": 0.02,
+     "note": "CANCEL7 started (wt-torus), with the F61 correction"
     },
     {
      "id": "M7",

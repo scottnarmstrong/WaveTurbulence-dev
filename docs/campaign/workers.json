@@ -20,8 +20,8 @@
     "model": "Claude Opus",
     "account": "claude-14",
     "branch": "w/approxnt",
-    "packet": "C4 LAYERREG (pre-freeze): TARGET layerreg1/layerreg2 (C2 LINKS, C5 ENHANCED done)",
-    "brief": "docs/campaign/briefs/LAYERREG.md"
+    "packet": "J4 CANCEL7: DH21 Lemmas 7.1-7.3, Props 7.4-7.5 with F61 correction (C2, C4, C5 done)",
+    "brief": "docs/campaign/briefs/CANCEL7.md"
   },
   {
     "tmux": "wt-wke",
@@ -52,8 +52,8 @@
     "model": "GPT-6.1-Sol low",
     "account": "codex-3",
     "branch": "w/bproc",
-    "packet": "G6 MOLEPROP13 (pre-freeze): DH23 Props 10.1, 10.3; then G7 MOLEPROP4 (DEGEN done)",
-    "brief": "docs/campaign/briefs/MOLEPROP13.md"
+    "packet": "PV-DECAY (B2 freeze item F-5), then G7 MOLEPROP4 (G6 MOLEPROP13, DEGEN done)",
+    "brief": "docs/campaign/briefs/PV-DECAY.md"
   },
   {
     "tmux": "wt-gausssum",
