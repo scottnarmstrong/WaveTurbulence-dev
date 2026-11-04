@@ -20,15 +20,15 @@
     "model": "Claude Opus",
     "account": "claude-14",
     "branch": "w/approxnt",
-    "packet": "J4 CANCEL7: DH21 Lemmas 7.1-7.3, Props 7.4-7.5 with F61 correction (C2, C4, C5 done)",
-    "brief": "docs/campaign/briefs/CANCEL7.md"
+    "packet": "J5 MEXP, then J6 WKE-ID, J7 REGCANCEL (C2, C4, C5, J4 done)",
+    "brief": "docs/campaign/briefs/MEXP-T.md"
   },
   {
     "tmux": "wt-wke",
     "model": "Claude Opus",
     "account": "claude-13",
     "branch": "w/jr-ops",
-    "packet": "B̃ bridge (garden ↔ code), then J5 MEXP (DH21 Props 7.7, 7.8); J1-J3 done",
+    "packet": "B̃ bridge (garden ↔ code, discharges BtRec); J1-J3 done",
     "brief": "docs/campaign/briefs/BTILDE-MEXP.md"
   },
   {
@@ -36,8 +36,8 @@
     "model": "GPT-6.1-Sol low",
     "account": "codex-3",
     "branch": "w/norm-bridge",
-    "packet": "I1+I2 INDUCT (pre-freeze, conditional): propansatz from layergarden/fixedpoint/wkeTaylor; main assembly done",
-    "brief": "docs/campaign/briefs/INDUCT.md"
+    "packet": "LG-SPINE (pre-freeze): layergarden from named spine inputs (INDUCT, WKETAYLOR-GATE done)",
+    "brief": "docs/campaign/briefs/LG-SPINE.md"
   },
   {
     "tmux": "wt-nt",
