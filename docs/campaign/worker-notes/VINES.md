@@ -315,3 +315,43 @@ found no duplicates. No pinned draft was changed.
 Still needed: external closing-bond transport / outer hyper classification,
 DV, simultaneous ordinary/mixed removal, realization-independent coherence.
 M4 remains active and work continues after this checkpoint.
+
+## Exact local-dart transport; designated-adjoint gap audit
+
+New `VineEraseBondDegrees` and `VineEraseBondMolecule` prove exact filtered
+degree deletion formulas and preservation of the full molecule axioms for a
+nonloop bond deletion, including absence of saturated components.
+`VineLocalDartEmbedding`, `VineLocalDartObjects`, `VineLocalDartErasure`,
+`VineLocalDartChains`, `VineLocalDartHyper` identify actual internal darts,
+preserving oriented degrees, bond multiplicities, blocks, pinned vines,
+chains, double chains and designated hyper-adjoint objects.
+`VineHyperMissingJoint.hyperLike_in_hyperLike_missing_joint_adjoint` proves
+the full source structural classification for an inner HV/HVC missing either
+outer HV/HVC joint. Its external closing-bond transport is constructed by the
+canonical subtype injection, not assumed.
+
+Owner ruling 2026-11-04: a hyper-block is the pair of its atom group and
+its designated adjoint bond. Its gap and SG/LG class use that same designation
+consistently. Different valid deletions on one atom group give distinct objects.
+`VineHyperGapObjects.HyperLikeRealization` records these exact data and its
+`IsGap` uses the specified erased molecule; the gap is unique for a fixed
+object and ordered joint. The original existential shape predicates and all
+pinned definitions are unchanged.
+
+**Flagged for source audit:** `VineHyperGapAmbiguity` is a kernel-checked
+triple-bond example. At L=16, gamma=1/2, any 0<=eta<=1/4, labels1,32,0 on two
+forward/one backward bond give one designated type-I adjoint gap2 (LG) and
+another gap1/16 (SG). Both satisfy the actual molecule and decoration premises;
+there are no degree-four defects. No designated adjoint of this two-atom group
+is two double bonds or Vine V. Thus atom-set inclusion alone cannot be the
+containment relation for the full designated-object subsetvc theorem. The owner
+has been asked whether containment also requires matched designations whenever
+inner and outer atom groups are equal (same bond up to mates); that clarification
+is pending. This is a source-reading question, not a change to B2 templates.
+The example and owner reading are retained for independent statement audit.
+
+Checks: all listed focused modules exit0 with no final warnings. VineTools and
+Axioms.lean exit0; 261 printed declarations use only subsets of
+`[propext, Classical.choice, Quot.sound]`, including the audit example. No new
+Lean is committed to the repo (Wave B pre-freeze). Continuing independent
+transport/decoration work while the containment reading is pending.
