@@ -27,3 +27,17 @@ the exact example and corrected signed formulas are recorded in
 `param/HANDOFF.md`, flagged for independent source audit. No template change.
 Remaining M9 includes actual molecule transport, normal core orientation
 cases and the full eight-type assembly. Continuing directly.
+
+## All local core cases and molecule four-row transport checked
+
+`VineParamTools` compiles: joint coordinate; three III cases (including
+reversed exit rails); both IV cases; both zero-gap triangle cases; arbitrary
+ladder charts; actual molecule conservation/Gamma transport. The refreshed
+34-declaration axiom probe passes, standard axioms only, zero warnings.
+
+Exploratory synthesis found global integral base charts for all 269
+normalized balanced orientation profiles across eight templates, with
+inverse free-coordinate coefficients 0 or ±1 and the ruled signed core
+forms. This enumeration is exploratory, not a proof input. Continuing with
+kernel-checkable matrix/quadratic certificates, graph transport and
+arbitrary insertion assembly. M9 is not yet complete.
