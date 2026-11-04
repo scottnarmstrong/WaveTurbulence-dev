@@ -63,7 +63,7 @@ theorem sumint : WTPrefixA fun A P =>
             P.η ^ 2 * ((Finset.univ.filter fun i => D.S.nor i = false).card + D.M₁) -
             P.η ^ 8 * D.M₀ + P.η ^ 7)) :=
 -- FROZEN_ANCHOR_PROOF_BEGIN
-  by sorry
+  by exact WaveTurbulence.Provider.sumint
 -- FROZEN_ANCHOR_PROOF_END
 -- FROZEN_ANCHOR_SUFFIX_BEGIN
 
