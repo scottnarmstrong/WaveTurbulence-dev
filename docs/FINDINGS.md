@@ -312,6 +312,15 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   Y-exceptional, 𝔄₀ ≲ L^{−η²−η⁵ρ₀}. A partial route via operations (d)+(e) and (opere) L1871 when
   |r| ≳ L^{−γ−100η} is unverified and does not cover T-blocks, the Q-block or very small gaps. Status: research
   needed; escalated to the author (candidate DH23 erratum).
+  **Research result (2026-11-04, `docs/research/dh23-prop96-case4.md`), UNVERIFIED — independent adversarial referee
+  commissioned:** the large-gap case closes (with (operc) L1862 read in its sharp Lemma A.3(1) form; γ ≤ 1−2η). For
+  0 < γ ≤ 1/2 the note claims a counterexample — the necklace N_m of m "T-beads" (a doubled triangle with one double
+  bond subdivided by the β-atoms): vine-free, untouched by Steps 1, 2, 4, case-(4) components in every Step-3 order,
+  𝔄₀ ≥ c independent of L per tiny-gap bead — so DH23 Prop 9.6 / TARGET L2192–L2197, DH23 `kqmainest2` L1681–L1690
+  and TARGET (finalcount1) L2114 would be false for γ ≤ 1/2 (main theorems not claimed false). Also claims vine (II)
+  must include a one-double-bond case (DH23 L1421), needed for γ < 2/3. Proposed repairs: (E0)+(E1) treat T-type blocks
+  as normal vines (splice in stage 1), or (E2) restrict the formal target to γ ∈ (1/2, 1). **Author decision pending
+  verification.**
 - F70 — DH21 (integralK) L1782 — the weight `e^{−πθα²}` should be `e^{−πθ²α²}`. Minor typo. Found by wt-torus (CANCEL7),
   which also implements the corrected F61 sign in DH21 Lemma 7.3 and Prop 7.5 (`𝒥B̃_{Q,Z} = (−1)^{|Z|}𝒥B̃_Q`); its route
   (Gaussian-regularized limit of B̃_Q) shows the Z-component integral is the same for every expansion, stronger than
