@@ -15,7 +15,7 @@ subagents that continue those packets in the same worktrees and scratch director
 | G5 APPB-ALG | wt-nt | `nt-circle` / `w/nt-circle` | `appb` | agent 1 stopped at its context limit: about 2000 lines (`forest_acct_of_steps`, `exists_forest_step`). Agent 2 (18:1x): the `(n, kf, kg)` + `defect`/`progress` refactor, the Prop 10.2 bounds, the G5 handoff. |
 | RA1 couples | wt-ansob | `an-sob` / `w/bproc` | `regasymp` | **READY on snapshot 9** (scratch commit `b0d22a2`): 279/279 modules rebuilt with System `cc53aad3`; one proof-only `XNorm` repair (`TimeBridge`, the sumint repair); `check-exact-f80-snap9.sh` passes; standard axioms. wt-orch checked: fresh olean graph, 0 nonzero exits. Feeds B21-SNAP9. |
 | M9 VINEPARAM | wt-gausssum | `gausssum` / `w/count` | `vines`, `vineparam` | running |
-| V4 VINEEST-S2 | wt-resonant | `resonant` / `w/resonant` | `vineest-s2` | agent 1 proved the Step 2 kernel identity (`clLocalKernel_step2`). Scope ruling: V4 ends at the equality with the exact (tildeK2) `sumint` form; the weight bounds, bad cases (a)–(d) and the `sumint` application are V5 (T.vineest.S3). Agent 2 is running. |
+| V4 VINEEST-S2 | wt-resonant | `resonant` / `w/resonant` | `vineest-s2` | **READY 19:25** (scratch commit `84a5ee3`): `vineChain_eq_sumintForm`. Fresh snapshot-9 rebuild: 709/709 OK, standard axioms. Named obligations: VINEPARAM, `SumintSigned`. The V5 obligation list is in its HANDOFF, including the open `hb1`/`hb2` (leaf lower children) and δ' = 2δ against τ* = Dδ. |
 | M7 LFTWIST | wt-anfourier | `an-fourier` / `w/lftwist` | `lftwist` | claimed READY. A stale olean graph was found (41 problems), so a fresh 777-module closure rebuild was ordered. |
 | B21-SNAP9 (new) | — | `wke-l2s` / `w/wke-l2s` (+ merge of `w/bproc`) | `b21-snap9` | running: RA2 + RA1-TREES on snapshot 9, the bridge `RA1CoupleF80 → RA1Couple`, and the composition at the B2.1 type (`audits/B21-CHAIN-prelim.md`) |
 
@@ -32,6 +32,11 @@ subagents that continue those packets in the same worktrees and scratch director
   Finding: LG-SPINE's analytic gates quantify over `IsPlain` / `Irreducible` gardens, so flower-specific versions are needed (SPINE.md in flower-spine). |
 
 RA1-TREES (wt-l2s) was already READY and needed no takeover; its output feeds B21-SNAP9.
+
+| S3a LADDER-FOURIER | — | `an-sob` | `ladder` | agent 2 running. Core done: DH21 elemineq and time-integral lemma, `core1`. Remaining: the domain bridge, Γ-algebra, counting, localization, assembly. |
+| S3b LADDER-DECAY | — | `an-sob` | `ladder-decay` | running: ladder chart, then rung sums, then the different-layer gain |
+| S2a REDSPLICE-DEF (new, R7) | — | `an-sob` | `redsplice` | started 19:20: the Stage 1 construction, the bridge to the choice data, `hingeOutsideFirst` |
+| SUMINT-SIGNED (new) | — | `an-sob` | `sumint-signed` | started 19:30: generalize the `sumint` proof to the F79-signed phase (obligation of V4/V5) |
 
 Not held by Sonnet agents:
 - **PL234 (wt-wke):** done. ISSUE-APPCONJ is ruled (RULINGS.md R1).
