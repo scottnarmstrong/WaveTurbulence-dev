@@ -288,3 +288,30 @@ printed results use only subsets of `[propext, Classical.choice, Quot.sound]`.
 No source erratum or deviation introduced. Still required: outer HV/HVC and
 DV cases; full simultaneous ordinary/mixed removal; realization-independent
 coherence. Continue directly, M4 is not yet READY.
+
+## Connected interiors and both-joints hyper containment
+
+`VineInteriorPaths`, `VineBaseInteriorConnected`,
+`VineInsertionInteriorConnected`, `VineExpansionInteriorConnected`,
+`VineInteriorConnected`, `VineChainInteriorConnected` prove that the nonjoint
+region of every actual vine and VC is connected, including empty type-I
+interiors. Explicit base paths are recorded in GenerateInteriorPaths.py;
+generic rung insertion preserves them for every length.
+
+`VineNestedDegreeClosure`, `VineLowDegreeJoints`, `VineHyperBothJoints` now
+prove the outer HV/HVC both-joints reductions: an ordinary contained block
+containing both outer joints has exactly those two atoms; a contained
+hyper-block containing both joints equals the entire outer group. Source
+incidence/degree/connectedness facts construct every closure premise.
+
+Checks: all new focused targets compiled exit 0, no warnings. `VineTools` and
+Axioms.lean exited 0; 223 printed results use only subsets of
+`[propext, Classical.choice, Quot.sound]`. A duplicate of the existing
+`eraseBond_induced_path` was removed from the newer HyperVertexConnected
+module; that module now imports and reuses VineLikeConnected. All affected
+consumers were rebuilt. A namespace-aware scan of public Vine declarations
+found no duplicates. No pinned draft was changed.
+
+Still needed: external closing-bond transport / outer hyper classification,
+DV, simultaneous ordinary/mixed removal, realization-independent coherence.
+M4 remains active and work continues after this checkpoint.
