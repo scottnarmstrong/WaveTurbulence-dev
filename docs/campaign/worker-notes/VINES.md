@@ -15,3 +15,10 @@ The exhaustive block/hyper-block degree-mask checks now pass for all eight
 base cores. The larger cores are split by joint pair to stay within default
 budgets. Applying the tables to arbitrary rung expansions remains in progress;
 this checkpoint does not claim `subsetvc`.
+
+The actual-atom group partition/sizes/index, lattice gap-norm conservation,
+and connectivity of all drafted vine-like classes are checked. A new actual
+half-edge recurrence proves matched rung membership for arbitrary full-rung
+sequences of length >=3, and constant membership for connected blocks larger
+than a double bond. The 24-result axiom audit passes with standard axioms only.
+The final `subsetvc` classification/removal theorem remains in progress.
