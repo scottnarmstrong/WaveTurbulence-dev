@@ -301,6 +301,266 @@ theorem chainT_exp_fubini (hε : ∀ j, ε j = 1 ∨ ε j = -1) (lam : ℕ → �
           congr 1
           exact chainT_congr _ _ α (fun _ _ _ _ _ => rfl) (fun s hs => hEq w s hs) t ht
 
+
 end Fubini
+
+section PairFubini
+
+variable {V : Type} {σ : ℕ → V} {ε : ℕ → ℤ}
+
+theorem continuous_e2_rep {Ĉ : ℝ × ℝ → ℂ} (hC : Integrable Ĉ) :
+    Continuous fun p : ℝ × ℝ => ∫ lam, Ĉ lam * e2 lam p.1 p.2 := by
+  have hc : ∀ lam : ℝ × ℝ, Continuous fun p : ℝ × ℝ => e2 lam p.1 p.2 := fun lam => by
+    unfold e2; fun_prop
+  refine continuous_of_dominated (bound := fun lam => ‖Ĉ lam‖) (fun p => ?_)
+    (fun p => Eventually.of_forall fun lam => ?_) hC.norm
+    (Eventually.of_forall fun lam => continuous_const.mul (hc lam))
+  · have hφ : Continuous fun lam : ℝ × ℝ => e2 lam p.1 p.2 := by unfold e2; fun_prop
+    exact hC.1.mul hφ.aestronglyMeasurable
+  · rw [norm_mul, norm_e2, mul_one]
+
+theorem Λz_node_q (i r : LegalCode) (q : ℕ) (z : ZT (.node i r)) :
+    Λz (.node i r) q z q = z.1 := by simp [Λz]
+
+theorem Λz_node_inner (i r : LegalCode) (q : ℕ) (z : ZT (.node i r)) {j : ℕ}
+    (hj : j ∈ Set.Ico (q + 1) (q + 1 + i.size)) : Λz (.node i r) q z j = Λz i (q + 1) z.2.1 j := by
+  simp only [Set.mem_Ico] at hj
+  simp only [Λz]
+  rw [ite_eq_right_of_eq_false _ _ (by simp; omega), ite_eq_left_of_eq_true _ _ (by simp; omega)]
+
+theorem Λz_node_rest (i r : LegalCode) (q : ℕ) (z : ZT (.node i r)) {j : ℕ}
+    (hj : j ∈ Set.Ico (q + i.size + 1) (q + i.size + 1 + r.size)) :
+    Λz (.node i r) q z j = Λz r (q + i.size + 1) z.2.2 j := by
+  simp only [Set.mem_Ico] at hj
+  simp only [Λz]
+  rw [ite_eq_right_of_eq_false _ _ (by simp; omega), ite_eq_right_of_eq_false _ _ (by simp; omega)]
+
+theorem continuous_e2_Λz {X : Type*} [TopologicalSpace X] (c : LegalCode) (q : ℕ) {f : X → ZT c}
+    (hf : Continuous f) (j : ℕ) :
+    Continuous fun p : X × (ℝ × ℝ) => e2 (Λz c q (f p.1) j) p.2.1 p.2.2 :=
+  continuous_e2.comp ((((continuous_Λz c q j).comp hf).comp continuous_fst).prodMk continuous_snd)
+
+/-- **DH21 L1121–L1124: fixing the frequencies of the pair coefficients.** If the pair coefficients
+are `F_j(t,s) = ∫ 𝒞_j(λ) e^{πi(λ₁t+λ₂s)} dλ` with integrable `𝒞_j`, then on `[0,1]` the chain
+integral is `∫ ∏_j 𝒞_j(λ_j) · chainT(e^{πi(λ_{j,1}t_a + λ_{j,2}t_b)}) dλ`. -/
+theorem chainT_fubini (hε : ∀ j, ε j = 1 ∨ ε j = -1) {Ĉ : ℕ → ℝ × ℝ → ℂ}
+    (hC : ∀ j, Integrable (Ĉ j)) (α : V → ℝ) {F : ℕ → (V → ℝ) → ℝ → ℝ → ℂ}
+    (hF : ∀ j t s, F j α t s = ∫ lam, Ĉ j lam * e2 lam t s) :
+    ∀ (c : LegalCode) (q : ℕ), Set.InjOn σ (Set.Ico q (q + c.size)) → ∀ {g : ℝ → ℂ},
+      Continuous g → ∀ t ∈ Icc (0 : ℝ) 1,
+        chainT σ ε c q F α t g =
+          ∫ z : ZT c, Mz Ĉ c q z * chainT σ ε c q (fun j _ => e2 (Λz c q z j)) α t g
+  | .nil, q, _, g, _, t, _ => by
+    rw [chainT_nil]
+    simp only [Mz, chainT_nil, one_mul]
+    exact (integral_ZT_nil _).symm
+  | .node i r, q, hinj, g, hg, t, ht => by
+    have hsz : (LegalCode.node i r).size = i.size + r.size + 1 := rfl
+    have hinj_i : Set.InjOn σ (Set.Ico (q + 1) (q + 1 + i.size)) :=
+      hinj.mono fun j hj => by simp only [Set.mem_Ico] at hj ⊢; omega
+    have hinj_r : Set.InjOn σ (Set.Ico (q + i.size + 1) (q + i.size + 1 + r.size)) :=
+      hinj.mono fun j hj => by simp only [Set.mem_Ico] at hj ⊢; omega
+    -- continuity of the pair coefficients
+    have hFc : ∀ j, Continuous fun p : ℝ × ℝ => F j α p.1 p.2 := fun j => by
+      have : (fun p : ℝ × ℝ => F j α p.1 p.2) = fun p => ∫ lam, Ĉ j lam * e2 lam p.1 p.2 := by
+        funext p; exact hF j p.1 p.2
+      rw [this]; exact continuous_e2_rep (hC j)
+    obtain ⟨Bg, hBg⟩ := (isCompact_Icc (a := (0 : ℝ)) (b := 1)).exists_bound_of_continuousOn
+      hg.continuousOn
+    have hBg0 : 0 ≤ Bg := (norm_nonneg _).trans (hBg 0 ⟨le_rfl, zero_le_one⟩)
+    -- the phases
+    set e₁ : ℝ → ℂ := fun ta => cexp (π * I * (ε q * α (σ q) * ta)) with he₁
+    set e₂ : ℝ → ℂ := fun tb => cexp (π * I * (-(ε q * α (σ q)) * tb)) with he₂
+    have he₁c : Continuous e₁ := by simp only [he₁]; fun_prop
+    have he₂c : Continuous e₂ := by simp only [he₂]; fun_prop
+    have hn : ∀ x : ℝ, ‖cexp (π * I * (x : ℂ))‖ = 1 := fun x => by rw [Complex.norm_exp]; simp
+    have he₁n : ∀ ta, ‖e₁ ta‖ = 1 := fun ta => by
+      have := hn (ε q * α (σ q) * ta); push_cast at this; simpa [he₁] using this
+    have he₂n : ∀ tb, ‖e₂ tb‖ = 1 := fun tb => by
+      have := hn (-(ε q * α (σ q)) * tb); push_cast at this; simpa [he₂] using this
+    -- the rest of the chain with exponential coefficients
+    set Tr : ZT r → ℝ → ℂ := fun zr tb => chainT σ ε r (q + i.size + 1)
+      (fun j _ => e2 (Λz r (q + i.size + 1) zr j)) α tb g with hTr
+    have hTrc : Continuous fun p : ZT r × ℝ => Tr p.1 p.2 :=
+      continuous_chainT (σ := σ) (ε := ε) r (q + i.size + 1) (X := ZT r)
+        (F := fun zr j (_ : V → ℝ) => e2 (Λz r (q + i.size + 1) zr j)) α
+        (fun j => continuous_e2_Λz r _ continuous_id j) (E := fun _ => g) (hg.comp continuous_snd)
+    have hTrb : ∀ zr, ∀ tb ∈ Icc (0 : ℝ) 1, ‖Tr zr tb‖ ≤ Bg := fun zr tb htb => by
+      have := norm_chainT_le (σ := σ) (ε := ε) r (q + i.size + 1)
+        (F := fun j (_ : V → ℝ) => e2 (Λz r (q + i.size + 1) zr j)) α zero_le_one
+        (fun j t s _ _ => (norm_e2 _ t s).le) hBg0 hBg tb htb
+      simpa using this
+    -- the rest of the chain with the original coefficients
+    have hIHr := chainT_fubini hε hC α hF r (q + i.size + 1) hinj_r hg
+    have hRc : Continuous fun tb => chainT σ ε r (q + i.size + 1) F α tb g := by
+      have := continuous_chainT (σ := σ) (ε := ε) r (q + i.size + 1) (X := Unit) (F := fun _ => F) α
+        (fun j => (hFc j).comp continuous_snd) (E := fun _ => g) (hg.comp continuous_snd)
+      exact this.comp (continuous_const.prodMk continuous_id : Continuous fun tb : ℝ => ((), tb))
+    -- the continuation family
+    set W := (ℝ × ℝ) × ZT r
+    set φ : W → ℂ := fun w => Ĉ q w.1 * Mz Ĉ r (q + i.size + 1) w.2 with hφ
+    have hφi : Integrable φ := (hC q).mul_prod (integrable_Mz hC r _)
+    set E0 : ℝ → W → ℝ → ℂ := fun ta w t' => ∫ tb in (0 : ℝ)..t',
+      e₂ tb * e2 w.1 ta tb * Tr w.2 tb with hE0
+    have hE0c : Continuous fun p : (ℝ × W) × ℝ => E0 p.1.1 p.1.2 p.2 := by
+      refine intervalIntegral.continuous_parametric_intervalIntegral_of_continuous
+        (f := fun (p : (ℝ × W) × ℝ) (tb : ℝ) => e₂ tb * e2 p.1.2.1 p.1.1 tb * Tr p.1.2.2 tb) ?_
+        continuous_snd
+      refine ((he₂c.comp continuous_snd).mul (continuous_e2.comp
+        ((continuous_fst.comp (continuous_snd.comp (continuous_fst.comp continuous_fst))).prodMk
+          ((continuous_fst.comp (continuous_fst.comp continuous_fst)).prodMk continuous_snd)))).mul ?_
+      exact hTrc.comp ((continuous_snd.comp (continuous_snd.comp
+        (continuous_fst.comp continuous_fst))).prodMk continuous_snd)
+    set Ec : ℝ → W → ℝ → ℂ := fun ta w t' => E0 ta w (clamp01 t') with hEc
+    have hEcc : Continuous fun p : (ℝ × W) × ℝ => Ec p.1.1 p.1.2 p.2 :=
+      hE0c.comp (continuous_fst.prodMk (continuous_clamp01.comp continuous_snd))
+    have hEcb : ∀ ta w t', ‖Ec ta w t'‖ ≤ Bg := by
+      intro ta w t'
+      have hm := clamp01_mem t'
+      refine (intervalIntegral.norm_integral_le_of_norm_le_const (C := Bg) fun tb htb => ?_).trans ?_
+      · rw [Set.uIoc_of_le hm.1] at htb
+        rw [norm_mul, norm_mul, he₂n, norm_e2, one_mul, one_mul]
+        exact hTrb w.2 tb ⟨htb.1.le, htb.2.trans hm.2⟩
+      · rw [sub_zero, abs_of_nonneg hm.1]
+        nlinarith [hm.2]
+    -- Step H: the inner continuation
+    have hH : ∀ ta ∈ Icc (0 : ℝ) 1, ∀ t' ∈ Icc (0 : ℝ) 1,
+        ∫ tb in (0 : ℝ)..t', e₂ tb * F q α ta tb * chainT σ ε r (q + i.size + 1) F α tb g =
+          ∫ w, φ w * Ec ta w t' := by
+      intro ta hta t' ht'
+      rw [show Ec ta = fun w t' => E0 ta w (clamp01 t') from rfl]
+      simp only [clamp01_eq ht']
+      calc ∫ tb in (0 : ℝ)..t', e₂ tb * F q α ta tb * chainT σ ε r (q + i.size + 1) F α tb g
+          = ∫ tb in (0 : ℝ)..t', ∫ w, φ w * (e₂ tb * e2 w.1 ta tb * Tr w.2 tb) := by
+            refine intervalIntegral.integral_congr fun tb htb => ?_
+            rw [uIcc_of_le ht'.1] at htb
+            have htb' : tb ∈ Icc (0 : ℝ) 1 := ⟨htb.1, htb.2.trans ht'.2⟩
+            rw [hF q ta tb, hIHr tb htb']
+            have hpm := integral_prod_mul (μ := (volume : Measure (ℝ × ℝ)))
+              (ν := (volume : Measure (ZT r))) (fun lam => Ĉ q lam * e2 lam ta tb)
+              (fun zr => Mz Ĉ r (q + i.size + 1) zr * Tr zr tb)
+            rw [mul_assoc, ← hpm, ← integral_const_mul]
+            refine integral_congr_ae (Eventually.of_forall fun w => ?_)
+            simp only [hφ, hTr]
+            ring
+        _ = ∫ w, φ w * ∫ tb in (0 : ℝ)..t', e₂ tb * e2 w.1 ta tb * Tr w.2 tb := by
+            refine intervalIntegral_integral_mul_swap' hφi ?_ (C := Bg) (fun u hu w => ?_) ht'
+            · have : Continuous (Function.uncurry fun (tb : ℝ) (w : W) =>
+                  e₂ tb * e2 w.1 ta tb * Tr w.2 tb) :=
+                ((he₂c.comp continuous_fst).mul (continuous_e2.comp
+                  ((continuous_fst.comp continuous_snd).prodMk
+                    (continuous_const.prodMk continuous_fst)))).mul
+                  (hTrc.comp ((continuous_snd.comp continuous_snd).prodMk continuous_fst))
+              exact this.aestronglyMeasurable
+            · rw [norm_mul, norm_mul, he₂n, norm_e2, one_mul, one_mul]
+              exact hTrb w.2 u hu
+    -- Step I: the inner block
+    have hIHi : ∀ ta ∈ Icc (0 : ℝ) 1, chainT σ ε i (q + 1) F α ta (fun t' => ∫ tb in (0 : ℝ)..t',
+        e₂ tb * F q α ta tb * chainT σ ε r (q + i.size + 1) F α tb g) =
+        ∫ zi, Mz Ĉ i (q + 1) zi * ∫ w, φ w * chainT σ ε i (q + 1)
+          (fun j _ => e2 (Λz i (q + 1) zi j)) α ta (Ec ta w) := by
+      intro ta hta
+      have hhc : Continuous fun t' => ∫ tb in (0 : ℝ)..t',
+          e₂ tb * F q α ta tb * chainT σ ε r (q + i.size + 1) F α tb g :=
+        intervalIntegral.continuous_parametric_intervalIntegral_of_continuous
+          (f := fun (_ : ℝ) (tb : ℝ) => e₂ tb * F q α ta tb *
+            chainT σ ε r (q + i.size + 1) F α tb g)
+          (((he₂c.comp continuous_snd).mul ((hFc q).comp
+            (continuous_const.prodMk continuous_snd))).mul (hRc.comp continuous_snd)) continuous_id
+      rw [chainT_fubini hε hC α hF i (q + 1) hinj_i hhc ta hta]
+      congr 1
+      funext zi
+      congr 1
+      have hcEc : Continuous (Function.uncurry fun (w : W) (t' : ℝ) => Ec ta w t') :=
+        hEcc.comp ((continuous_const.prodMk continuous_fst).prodMk continuous_snd)
+      rw [← chainT_exp_fubini hε (Λz i (q + 1) zi) i (q + 1) hinj_i α hφi hcEc
+        (fun w s _ => hEcb ta w s) hta]
+      exact chainT_congr _ _ α (fun _ _ _ _ _ => rfl) (fun t' ht' => hH ta hta t' ht') ta hta
+    -- Step J/K/L
+    set Xc : ℝ → ZT i × W → ℂ := fun ta p => e₁ ta * chainT σ ε i (q + 1)
+      (fun j _ => e2 (Λz i (q + 1) p.1 j)) α ta (Ec ta p.2) with hXc
+    have hXcc : Continuous fun p : ℝ × (ZT i × W) => Xc p.1 p.2 := by
+      have := continuous_chainT (σ := σ) (ε := ε) i (q + 1) (X := ℝ × (ZT i × W))
+        (F := fun x j (_ : V → ℝ) => e2 (Λz i (q + 1) x.2.1 j)) α
+        (fun j => continuous_e2_Λz i _ (continuous_fst.comp continuous_snd) j)
+        (E := fun x t' => Ec x.1 x.2.2 t')
+        (hEcc.comp (((continuous_fst.comp continuous_fst).prodMk
+          (continuous_snd.comp (continuous_snd.comp continuous_fst))).prodMk continuous_snd))
+      exact (he₁c.comp continuous_fst).mul (this.comp (continuous_id.prodMk continuous_fst))
+    have hXcb : ∀ ta ∈ Icc (0 : ℝ) 1, ∀ p, ‖Xc ta p‖ ≤ Bg := fun ta hta p => by
+      simp only [hXc]
+      rw [norm_mul, he₁n, one_mul]
+      have := norm_chainT_le (σ := σ) (ε := ε) i (q + 1)
+        (F := fun j (_ : V → ℝ) => e2 (Λz i (q + 1) p.1 j)) α zero_le_one
+        (fun j t s _ _ => (norm_e2 _ t s).le) hBg0 (fun s _ => hEcb ta p.2 s) ta hta
+      simpa using this
+    have hMφ : Integrable fun p : ZT i × W => Mz Ĉ i (q + 1) p.1 * φ p.2 :=
+      (integrable_Mz hC i (q + 1)).mul_prod hφi
+    have hfs := measurePreserving_frontSwap (A := ZT i) (Z := ℝ × ℝ) (T := ZT r)
+    calc chainT σ ε (.node i r) q F α t g
+        = ∫ ta in (0 : ℝ)..t, ∫ p : ZT i × W, (Mz Ĉ i (q + 1) p.1 * φ p.2) * Xc ta p := by
+          rw [chainT_node]
+          refine intervalIntegral.integral_congr fun ta hta => ?_
+          rw [uIcc_of_le ht.1] at hta
+          have hta' : ta ∈ Icc (0 : ℝ) 1 := ⟨hta.1, hta.2.trans ht.2⟩
+          change e₁ ta * _ = _
+          rw [hIHi ta hta']
+          have hint : Integrable (fun p : ZT i × W => (Mz Ĉ i (q + 1) p.1 * φ p.2) * Xc ta p)
+              ((volume : Measure (ZT i)).prod volume) := by
+            refine hMφ.mul_bdd (c := Bg) ?_ (Eventually.of_forall fun p => hXcb ta hta' p)
+            exact (hXcc.comp (continuous_const.prodMk continuous_id)).aestronglyMeasurable
+          rw [show (∫ p : ZT i × W, (Mz Ĉ i (q + 1) p.1 * φ p.2) * Xc ta p) =
+              ∫ zi, ∫ w, (Mz Ĉ i (q + 1) (zi, w).1 * φ (zi, w).2) * Xc ta (zi, w) from
+            integral_prod _ hint, ← integral_const_mul]
+          refine integral_congr_ae (Eventually.of_forall fun zi => ?_)
+          beta_reduce
+          rw [← integral_const_mul, ← integral_const_mul]
+          refine integral_congr_ae (Eventually.of_forall fun w => ?_)
+          simp only [hXc]
+          ring
+      _ = ∫ p : ZT i × W, (Mz Ĉ i (q + 1) p.1 * φ p.2) * ∫ ta in (0 : ℝ)..t, Xc ta p :=
+          intervalIntegral_integral_mul_swap' hMφ (g := Xc)
+            (hXcc.aestronglyMeasurable : AEStronglyMeasurable (Function.uncurry Xc) _)
+            (C := Bg) (fun u hu p => hXcb u hu p) ht
+      _ = ∫ p : ZT i × W, Mz Ĉ (.node i r) q (frontSwap p) *
+            chainT σ ε (.node i r) q (fun j _ => e2 (Λz (.node i r) q (frontSwap p) j)) α t g := by
+          refine integral_congr_ae (Eventually.of_forall fun p => ?_)
+          beta_reduce
+          have hz1 : (frontSwap p : ZT (.node i r)).1 = p.2.1 := rfl
+          have hz21 : (frontSwap p : ZT (.node i r)).2.1 = p.1 := rfl
+          have hz22 : (frontSwap p : ZT (.node i r)).2.2 = p.2.2 := rfl
+          have hM : Mz Ĉ (.node i r) q (frontSwap p) = Mz Ĉ i (q + 1) p.1 * φ p.2 := by
+            show Ĉ q (frontSwap p : ZT (.node i r)).1 *
+              Mz Ĉ i (q + 1) (frontSwap p : ZT (.node i r)).2.1 *
+              Mz Ĉ r (q + i.size + 1) (frontSwap p : ZT (.node i r)).2.2 = _
+            rw [hz1, hz21, hz22]
+            simp only [hφ]
+            ring
+          rw [chainT_node, hM]
+          congr 1
+          refine intervalIntegral.integral_congr fun ta hta => ?_
+          rw [uIcc_of_le ht.1] at hta
+          have hta' : ta ∈ Icc (0 : ℝ) 1 := ⟨hta.1, hta.2.trans ht.2⟩
+          simp only [hXc]
+          congr 1
+          rw [chainT_congr_range i (q + 1) (F := fun j (_ : V → ℝ) =>
+            e2 (Λz (.node i r) q (frontSwap p) j))
+            (F' := fun j (_ : V → ℝ) => e2 (Λz i (q + 1) p.1 j)) α
+            (fun j hj => congrArg e2 (Λz_node_inner i r q (frontSwap p) hj))]
+          refine chainT_congr _ _ α (fun _ _ _ _ _ => rfl) (fun t' ht' => ?_) ta hta'
+          simp only [hEc, hE0, clamp01_eq ht']
+          refine intervalIntegral.integral_congr fun tb _ => ?_
+          have hq' : Λz (.node i r) q (frontSwap p) q = p.2.1 := Λz_node_q i r q (frontSwap p)
+          rw [hq', chainT_congr_range r (q + i.size + 1)
+            (F := fun j (_ : V → ℝ) => e2 (Λz (.node i r) q (frontSwap p) j))
+            (F' := fun j (_ : V → ℝ) => e2 (Λz r (q + i.size + 1) p.2.2 j)) α
+            (fun j hj => congrArg e2 (Λz_node_rest i r q (frontSwap p) hj))]
+      _ = ∫ z : ZT (.node i r), Mz Ĉ (.node i r) q z *
+            chainT σ ε (.node i r) q (fun j _ => e2 (Λz (.node i r) q z j)) α t g :=
+          hfs.integral_comp frontSwap.measurableEmbedding
+            (fun z => Mz Ĉ (.node i r) q z *
+              chainT σ ε (.node i r) q (fun j _ => e2 (Λz (.node i r) q z j)) α t g)
+
+end PairFubini
 
 end WaveTurbulence.ClassJR
