@@ -287,10 +287,10 @@ theorem greg_tr58K {θ : ℝ} (hθ : 0 < θ) {ε : ℤ} (hε : ε = 1 ∨ ε = -
   intro x
   simp only [mul_neg, phiR_neg, neg_mul]
 
-theorem triBdd_pairK (ε : ℤ) (μ : ℝ) : TriBdd (pairK ε μ) 1 := fun x t s hs0 hst ht1 =>
+theorem triBdd_pairK (ε : ℤ) (μ : ℝ) : TriBdd (pairK ε μ) 1 := fun x _ _ hs0 hst ht1 =>
   norm_pairK_le ε μ x ⟨hs0, hst.trans ht1⟩ ⟨hs0.trans hst, ht1⟩
 
-theorem triBdd_tr58K (ε : ℤ) (μ : ℝ) : TriBdd (tr58K ε μ) (1 + CPhi) := fun x t s hs0 hst ht1 =>
+theorem triBdd_tr58K (ε : ℤ) (μ : ℝ) : TriBdd (tr58K ε μ) (1 + CPhi) := fun x _ _ hs0 hst ht1 =>
   norm_tr58K_le ε μ x ⟨hs0, hst.trans ht1⟩ ⟨hs0.trans hst, ht1⟩
 
 /-- `gregK θ (tr58K ε μ) = e^{πiμs} GI θ (t-s)` on the triangle. -/
