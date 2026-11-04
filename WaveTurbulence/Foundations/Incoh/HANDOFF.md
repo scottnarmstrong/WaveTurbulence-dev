@@ -329,3 +329,33 @@ WaveTurbulence.Foundations.Incoh.FiniteSpectralDecomposition` passed (`9181 jobs
 Scratch `AxiomsSpectralLocalization.lean`, log `axioms-spectral-localization.log`, audited
 seven main identities, integrability, envelope and total-mass results. Each prints exactly
 `[propext, Classical.choice, Quot.sound]`. No source errata or additional source hypotheses.
+
+## Stage 2: exact normalized source-to-link-kernel identity
+
+`LocalizedLatticeSupport` computes a common finite lattice set from the actual inserted
+analytic cutoff. `LinkArrayCutoff` proves exact cutoff insertion and vanishing outside this
+set. `LocalizedLatticeFourierExchange` proves actual lattice/Fourier exchange, with an arbitrary
+coefficient transport parameter that can include the literal temporal phase and Wick factors.
+`SourceTemporalPhase` defines that literal factor, with squared Wick coefficients, and proves
+continuity, modulus at most one, and time integrability on every source layer subdomain.
+`LocalizedSourceIntegral` defines the literal coupling-normalized localized source lattice/time
+operator and proves its spectral identity; neither representation nor an estimate is assumed.
+
+`MomentumSpectralShift` computes the transpose integer momentum map. `SpectralPhaseFactorization`
+proves the exact root and link character factorization of the actual density. `SpectralLinkParameters`
+computes the analytic link centers/shifts and retains the original layers, orientation and
+incoherence count exactly. `LinkArraySummation`, `SpectralArraySummand`, and `SpectralLinkIntegral`
+identify the actual shifted lattice/time factors with the analytic product integral.
+
+The main equality `MomentumTreeData.localizedSourceIntegral_eq_linkKernelMixture` in
+`SourceLinkKernelIdentity` is TARGET (incohproof8–10) for the actual local structural carrier:
+the normalized source operator equals the integral of its computed signed/root-modulated
+Fourier amplitude times `normalizedLinkIntegral` with those computed analytic link parameters.
+The source input premise remains finite `spatialNorm K M`, with `d+1≤K`, and no Fourier norm
+or kernel representation premise. The time domain need only be contained in the source layer
+box for this equality. No new source errata or weakened bounds.
+
+Source identity milestone checks: `nice -n 5 lake build
+WaveTurbulence.Foundations.Incoh.SourceLinkKernelIdentity` passed (`9195 jobs`).
+Scratch `AxiomsSourceIdentity.lean`, log `axioms-source-identity.log`, audited seven main source
+identities and phase/summation results. Each prints `[propext, Classical.choice, Quot.sound]`.
