@@ -21,7 +21,7 @@ public section
 open MeasureTheory Filter Topology
 open scoped InnerProductSpace NNReal ContDiff
 
-namespace WaveTurbulence
+namespace WaveTurbulence.Resonant
 
 variable {d : ℕ}
 
@@ -111,4 +111,4 @@ theorem norm_bilinearInvFourierInner_le_pow
   unfold bilinearSliceBoundConst
   ring
 
-end WaveTurbulence
+end WaveTurbulence.Resonant

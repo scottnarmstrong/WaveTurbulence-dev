@@ -20,7 +20,7 @@ public section
 open MeasureTheory Filter Topology Set Metric
 open scoped InnerProductSpace NNReal
 
-namespace WaveTurbulence
+namespace WaveTurbulence.Resonant
 
 variable {d : ℕ}
 
@@ -211,4 +211,4 @@ theorem integral_norm_localizedSlice_le
   (integral_norm_localizedSlice_le_integral hc hs hℓ hψc hψ).trans
     (integral_norm_localized_amplitude_le hR hc hs hb)
 
-end WaveTurbulence
+end WaveTurbulence.Resonant

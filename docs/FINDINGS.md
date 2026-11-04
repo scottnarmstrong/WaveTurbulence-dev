@@ -149,3 +149,72 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   inputs; equivalence of `IsWKESolution` with the Z_s mild solution; 𝒮 = ⋂ Z_{s,m}). **The frozen `wkelwp` stays
   unchanged; no owner decision needed.** Formalization: packet WKE-L2S. Erratum for the authors: GIT20 Remark 2.6 is
   unproved as written for d ≥ 4 (one radial Cauchy–Schwarz step fails; fixed by Theorem 7) and false for d = 2 (§8.3).
+- F42 — TARGET Lemma A.3 (L2380–L2420, `timeintlem2`) — the printed bound ‖𝒰_χF‖_{𝔛^{1/4,0,0}} ≲ ‖∂∂F‖_{L^∞_kL¹} is false for
+  arbitrary F (F ≡ 1: right side 0, while 𝒰_χF(t,0) = t²/2 on (0,1/2) for χ = χ₀); the proof uses smooth compactly
+  supported F, which is the class at the use site (T.pl1.S4). Lean statement takes that hypothesis. Found by wt-anfourier.
+  Status: candidate erratum (missing hypothesis).
+- F43 — TARGET (atomcountbd) L2472 (Lemma `atomcountlem`) — the first bound is stated without k ≠ 0; it is false at k = 0
+  with signs (+,−) and γ > 1/2 (≈ L^d solutions vs. the claimed C·L^{d+1−2γ}); DH23 Lemma A.3(1) has |k₁−k₂| ∼ R ≥ L⁻¹,
+  i.e. k ≠ 0. Consumers (degenerate atoms, F21) must exclude or handle k = 0. Found by the independent Wave B stage-3
+  auditor (docs/campaign/orch/audits/WaveB-stage3.md R4). Status: candidate erratum (missing hypothesis).
+- F44 — Lean pitfall (not a source issue): in this Mathlib `ContDiff ℝ ⊤` means real-analytic (`ω`); C^∞ is
+  `ContDiff ℝ (⊤ : ℕ∞)` / `∞`. Wave A uses `(⊤ : ℕ∞)` (correct); the Wave B drafts used `⊤` (R1). Every brief and audit
+  must check this.
+- F45 — DH23 L1099 — after the change to (p,q) variables the phase is written `p·ξ + y·ζ`; it must be `p·ξ + q·ζ`. Typo.
+  TARGET L1567 — "|t′| ≥ L⁻¹ forces a ≠ 0": at the boundary t′ = L⁻¹, a = 0, q = 1 satisfies the weak Dirichlet error;
+  harmless (null endpoint). Found by wt-gausssum (HUA). Status: candidate typos.
+- F47 — TARGET L1541–L1542 (proof of `lemlin`) — after the Poisson identity with prefactor L^d, the displayed majorant
+  (lemlin3) omits that factor; needed to recover (lemlin2). Typo. Found by wt-cumul (LEMLIN). Status: candidate.
+- F3 (RESOLVED, 2026-11-03 ~21:30) — wt-ansob (packet NT-BPROC, `Foundations/VdCB/**`, commit ca5a6f6) proved the
+  B-process for the actual circle family and the exponent pair (11/30, 16/30), giving unconditional circle-problem
+  discrepancy and annulus bounds with exponent 27/41 < 2/3. Huxley's 7/11 is not needed; DH23 Lemma A.2(2) can be proved
+  with 27/41 (packet COUNT).
+- F48 — TARGET L2152 (`remtame`) — "some component contains exactly one atom adjacent to v" is used to conclude that all
+  labels incident to a removed tame atom v are fixed; false: explicit prime 4-tree garden counterexample (two residual
+  components, each with one atom adjacent to v but two opposite-oriented crossing bonds with equal labels that cancel in the
+  cut identity, so the label varies over ≳ L choices). Correction adopted: replace both occurrences by "exactly one bond
+  connecting the component to v" (the bridge criterion of DH21 Lemmas 9.13–9.14 and DH23 §10.5(4)); case (ii) negated
+  consistently. Found by wt-ansob (DEGEN), confirmed by its independent reviewer; write-up docs/research/erratum-remtame.md;
+  independent check by wt-orch pending. Status: candidate erratum (substantive; local fix).
+- F49 — TARGET Appendix A.2–A.3 proofs (L2370, L2392–L2394, L2417–L2419) — (i) the convolution step at L2370 (proofichi-2)
+  suppresses a logarithm (map Q13a); (ii) "a simple calculation yields" uniform low-frequency Fourier decay (weakdecay) is
+  false before localization; (iii) "bounded in Schwartz class ... uniformly in ξ and k" (timeintproof2-4) is false globally
+  (at Γ₁(k) = ξ the tail integral of χ² is nonzero). All three were repaired in the Lean proofs without changing the lemma
+  statements (beyond F42). Found by wt-anfourier (AN-PHASE-HY). Status: candidate errata (expository).
+- F48 (CONFIRMED by wt-orch, docs/campaign/orch/audits/F48-check.md): counterexample verified mechanically (valid prime
+  garden, ε = −1, c_v/Γ_v fixed, k free over L/4+1 values, Δχ = −2); the bridge correction is exactly what remtame (i)/(ii),
+  remtame2 and DH21 increF/cutlem need; no B1/B2 statement affected.
+- F50 — DH23 L1147–L1155 (Lemma 6.7, `NTintlem`) — `μ⁻¹∫ψ(μΩ)…` should be `μ∫ψ(μΩ)…` in (1) and (2); the error
+  `μ^{1−2η}` in (2) should be `μ^{−(1−2η)}` (cf. DH21 Lemma 6.5); the bound is bilinear in the Φ- and ψ-norms. Corrected
+  in the Lean statements (wt-torus, NTSP). Source: wt-orch Infra-review-3 R1(a). Status: candidate errata.
+- F51 — DH23 L2040 — `#(A ∩ ℤ^d)` should be `#(A ∩ ℤ²)`. Typo. Found by wt-nt (NT-CIRCLE v2). Source: Infra-review-3 R1(b).
+- F52 — TARGET L1308–L1325 (decorations of molecules ↔ decorations of gardens) — the correspondence fails for gardens
+  with directly paired trivial roots: e.g. four trivial trees, signs (+,−,+,−), root values (0,1,1,0) satisfy global
+  conservation but admit no garden decoration, while the (empty) molecule admits one. Correction adopted: state the
+  correspondence under root-pair compatibility (directly paired roots have equal prescribed values), which is exactly the
+  indicator the garden sums carry. Found by wt-nt (MOLE), Lean counterexample in scratch
+  (`mole/src/MoleculeDecorationEdgeCase.lean`). Status: candidate erratum (missing hypothesis; local).
+- F53 — Wave B2 draft `IsLadder` (`wt-scratch/waveb2/WaveB2-Molecules.lean` L305) vs TARGET L1384–L1386 / DH23
+  Def 5.1 L789–L808 (F37) — the draft requires the induced atom group of a ladder of length m to carry exactly 4m+2
+  bonds; this excludes maximal source ladders with an end-to-end chord. Kernel counterexample (wt-ansob, DEGEN):
+  `Degen.MaximalLadderDisjoint.chordLadder`, six atoms, eleven bonds, an actual nonsaturated molecule, whose two
+  overlapping four-atom induced B2 ladders are both maximal while the six-atom selected ladder fails the count (11 vs
+  10). DEGEN proved its results with the selected rung/rail reading (`SourceLadder`: double rungs, single opposite
+  rails, no induced-card clause). Status: **B2 draft defect** (ours, not the source's); fix `IsLadder` before the B2
+  freeze — queued for the B2 drafter after O-FK. Record: `wt-scratch/degen/ERRATUM-B2-LADDER.md`.
+- F54 — DH23 L1003, L1005 (Prop 6.4, (conclusion1), (intappr)) — the inner product `⟨x_j, y_j⟩_β` is carried over from
+  DH21; DH23 has no `β` (square torus). Read as `⟨·,·⟩`. Typo. Found by wt-torus (APPROXNT). Also (F33 addendum, same
+  packet): DH23 Prop 6.4 assumes `n ≤ (log L)^3` (L1002) but L1168 applies it to orders up to `N^3 ≈ (log L)^{12}`; the
+  landed extension holds for every fixed power of `log L`, so both F33 readings are covered.
+  F53 addendum (2026-11-04): the B2 fix is B2-CL-3 (wt-gauss-hc): `IsLadder` = wt-ansob's `Degen.SourceLadder` verbatim
+  (double rungs, rails of multiplicity exactly 1 and oppositely directed, no induced clause). An intermediate version
+  (B2-CL-2) had dropped the single-rail requirement, which admits a length-1 ladder with a double rail (wt-orch's
+  `dblRail` probe, audits/DEGEN-F53.md); B2-CL-3 restores it. Audits: NLS-BRIDGE PASS, APPROXNT PASS (η₀ ≤
+  min(1/20, (d−1)(1−γ), γ) inside Π; n ≤ (log L)^A with A = A(d, 𝔇) covers F33).
+- F55 — DH21 Cor 4.9 (proof; counting of regular couples) — the proof miscounts the choices for double chains; the
+  corollary (≤ C₀^m regular couples of order 2m) still holds, and REG-STRUCT's proof (C₀ = 12^9, codes and actual
+  couples/trees) does not use the faulty step. Found by wt-orch (Task 15, audits/REG-STRUCT-prefreeze.md R15-4).
+  Status: erratum in a proof, statement unaffected. Related B2 drafting items (R15-1, R15-2): add the count
+  obligation (couples and trees, tree count with the root sign fixed — it fails at m = 0 otherwise) to the B2 §4
+  statements before the B2 freeze; R15-3: the general-couple skeleton uniqueness (DH21 L833, GAP.skeletonUniq) is
+  packet C3's, not discharged by REG-STRUCT.

@@ -41,7 +41,7 @@ theorem wkelwp (d : ℕ) (hd : 3 ≤ d) (φin : 𝓢(Mom d, ℝ)) :
           ∀ τstar > τ₀, ENNReal.ofReal τstar < τmax → ∀ φ : ℝ → 𝓢(Mom d, ℝ),
             IsWKESolution φin τstar φ → M < weightedL2Norm s (φ τstar)) :=
 -- FROZEN_ANCHOR_PROOF_BEGIN
-  by sorry
+  by exact WaveTurbulence.Provider.wkelwp
 -- FROZEN_ANCHOR_PROOF_END
 -- FROZEN_ANCHOR_SUFFIX_BEGIN
 

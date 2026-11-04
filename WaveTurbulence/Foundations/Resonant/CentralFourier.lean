@@ -21,7 +21,7 @@ public section
 open MeasureTheory Set
 open scoped Topology ContDiff
 
-namespace WaveTurbulence
+namespace WaveTurbulence.Resonant
 
 /-- The unit-modulus Fourier phase. Frequencies absorb the source's `2π`. -/
 @[expose] noncomputable def unitPhase (η t : ℝ) : ℂ :=
@@ -84,4 +84,4 @@ theorem norm_integral_centralFourier_le {χ : ℝ → ℝ} (hχ : IsPVCutoff χ)
   exact (mul_le_mul_of_nonneg_left (abs_integral_cutoff_sine_le hχ hs hC hμ η)
     (by norm_num : (0 : ℝ) ≤ 2)).trans_eq (by ring)
 
-end WaveTurbulence
+end WaveTurbulence.Resonant
