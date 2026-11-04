@@ -48,3 +48,10 @@ Hyper-block full-rung masks have at most one transition. VineTools and the
 99-result axiom audit pass with standard axioms only. Type VII side-ladder
 recognition, hyper-vine/HVC containment, ingredient localization, DV and
 mixed block-removal connectivity remain open; work continues.
+
+Type VII now has a proved exact side-region characterization, joint pair,
+and cardinality5+2kc. Actual branching at both side joints excludes the short
+kc=0/1 cases for a VC. The remaining explicit type-V relabeling is in progress.
+VineTools and a112-result axiom audit pass with standard axioms only.
+Hyper/HVC containment, localization, DV, mixed removals and canonical
+coherence-group independence remain open; this is not a READY claim.
