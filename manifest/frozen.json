@@ -20360,7 +20360,7 @@
         "mode": "NOT_SPLIT",
         "ruling_ref": "docs/DECISIONS.md#D7"
       },
-      "abi_sha256": "e0449d2f3b79e4d06322ee5eef759c78ae90efd5407ead6c5d7e9398b2729d45",
+      "abi_sha256": "7ff84edb2ca4681e35f475faa006c076e9d0f1eef5e82b93f965ea0fe3c40922",
       "definition_closure": [
         {
           "path": "WaveTurbulence/Frozen/Defs/Chi0.lean",
@@ -20383,7 +20383,7 @@
           "sha256": "22aaac77bd1887265c3d8fec49f6975ae68311e18529151740ba0e74557e5d87"
         }
       ],
-      "state": "DRAFT_SORRY",
+      "state": "SEALED",
       "prefix_sha256": "6a19686f5cd9395a5950af6d065d4ce5f33e545d6d78fba61fe37384c5ad0348",
       "suffix_sha256": "9f48199048606af986e4911abed0172f6e65c9c8c91f1c2874961ad85a7ea8d0",
       "draft_allowlist": {

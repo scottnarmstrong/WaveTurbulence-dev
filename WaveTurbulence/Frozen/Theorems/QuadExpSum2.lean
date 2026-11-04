@@ -42,7 +42,7 @@ theorem quadExpSum2 :
                 s * inner ℝ (latticePoint L q.1) (latticePoint L q.2))‖ ≤
         C * L ^ (2 * (d : ℝ) - 2 * ((d : ℝ) - 1) * (1 - γ) + η) :=
 -- FROZEN_ANCHOR_PROOF_BEGIN
-  by sorry
+  by exact WaveTurbulence.Provider.quadExpSum2
 -- FROZEN_ANCHOR_PROOF_END
 -- FROZEN_ANCHOR_SUFFIX_BEGIN
 

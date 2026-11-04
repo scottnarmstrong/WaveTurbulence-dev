@@ -1096,6 +1096,7 @@ public import WaveTurbulence.Foundations.WeylSums.FourierLatticeBound
 public import WaveTurbulence.Foundations.WeylSums.FourierTails
 public import WaveTurbulence.Foundations.WeylSums.FourierTensorReduction
 public import WaveTurbulence.Foundations.WeylSums.FourierTranslations
+public import WaveTurbulence.Foundations.WeylSums.FrozenBridge
 public import WaveTurbulence.Foundations.WeylSums.GaussAlgebra
 public import WaveTurbulence.Foundations.WeylSums.GaussianBound
 public import WaveTurbulence.Foundations.WeylSums.GaussianCompletion
@@ -1417,6 +1418,7 @@ public import WaveTurbulence.Frozen.Theorems.AtomCountLemma
 public import WaveTurbulence.Frozen.Theorems.CanonicalCharacterization
 public import WaveTurbulence.Frozen.Theorems.CountLemma
 public import WaveTurbulence.Frozen.Theorems.NlsAkBridge
+public import WaveTurbulence.Frozen.Theorems.QuadExpSum2
 public import WaveTurbulence.Frozen.Theorems.Wkelwp
 
 /-!
