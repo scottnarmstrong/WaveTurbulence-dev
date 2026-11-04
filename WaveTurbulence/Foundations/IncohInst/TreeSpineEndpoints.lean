@@ -9,6 +9,8 @@ public section
 namespace WaveTurbulence.IncohInst
 open WaveTurbulence.Reg WaveTurbulence.Links TTree
 
+variable {w : ℕ}
+
 /-- The final top-level spine link, computed from the actual regular-chain code. -/
 @[expose] def lastSpineLink {w : ℕ} : RegChain → (Fin w × Path) →
     Option ((Fin w × Path) × (Fin w × Path))

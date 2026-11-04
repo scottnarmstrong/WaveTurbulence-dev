@@ -63,7 +63,7 @@ theorem mem_nodes_node {l m r : TTree} {p : Path} (hp : p ∈ (TTree.node l m r)
     · exact ⟨1, q, rfl, h⟩
     · exact ⟨2, q, rfl, h⟩
 
-theorem leaves_child {l m r : TTree} {k k0 : Path → α} [Norm α] [Sub α]
+theorem leaves_child {α : Type*} {l m r : TTree} {k k0 : Path → α} [Norm α] [Sub α]
     (h : ∀ p ∈ (TTree.node l m r).leaves, ‖k p - k0 p‖ ≤ 1) (i : Fin 3) :
     ∀ p ∈ (![l, m, r] i).leaves, ‖k (i :: p) - k0 (i :: p)‖ ≤ 1 := fun p hp =>
   h _ (by fin_cases i <;> simp [TTree.leaves, mem_pre] at hp ⊢ <;> exact hp)
