@@ -1,5 +1,5 @@
 {
- "assessed": "2026-11-04 07:30 UTC",
+ "assessed": "2026-11-04 07:55 UTC",
  "notes": "Lean work items = blueprint packets (docs/blueprint/GRAPH.md §E) with their difficulty weights (node weights L=1, M=2, H=4, VH=8 summed). Each frozen theorem anchor adds weight 1, credited when SEALED. Done fractions are the orchestrator's assessment, reviewed at integration rounds.",
  "lines_est_total": 273000,
  "parts": [
@@ -342,8 +342,8 @@
      "goal": "prime skeletons of couples and gardens with uniqueness (DH21 4.13–4.16, DH21-2 4.4–4.6, E4)",
      "weight": 15.0,
      "lines_est": 5200,
-     "done": 0.0,
-     "note": ""
+     "done": 0.9,
+     "note": "SKELETON done in scratch: prime skeletons with uniqueness (incl. DH21's omitted E4 argument), 194 declarations"
     },
     {
      "id": "NT8",

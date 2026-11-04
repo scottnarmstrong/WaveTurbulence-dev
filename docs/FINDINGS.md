@@ -383,3 +383,7 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   statement (the line s = r has measure zero, and the restriction norm requires extensions to agree pointwise), so it
   needs continuity of K*_𝒯 − app on the closed box plus a slice lemma for the 𝔛 norm. B2.1 remains true; TARGET's
   sentence does not cover this step. Found by wt-torus (RA2 REGREF); proved inside RA2 (route (a)).
+- F77 — DH21 Cor 4.16, proof L850/L852 — the displayed bound `Σ_{n_1+⋯+n_m≤n} C_0^{n_1}⋯C_0^{n_m} ≤ (2C_0)^n` fails as
+  written (even scales, m = n = 8: 330 terms at total scale 8 > 256). The exponential count itself is true and is proved in
+  SKELETON with larger explicit constants. Found by wt-resonant (C3 SKELETON), which also proves DH21 L833 / DH21-2 L641's
+  omitted E4 argument (general-couple skeleton uniqueness; R15-3). Status: minor erratum in a proof.
