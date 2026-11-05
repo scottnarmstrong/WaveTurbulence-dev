@@ -71,6 +71,26 @@ theorem pvTrunc_neg_right_ofReal (ν : ℝ) (F : Mom d → Mom d → ℝ) :
   rw [he]
   ring
 
+/-- Actual cutoff convergence for the reflected source kernel follows
+from its decay and actual gradient bounds. This permits scalar extraction
+before evaluating the source principal value. -/
+theorem tendsto_pvTrunc_neg_right_ofReal_of_decay
+    {F : Mom d → Mom d → ℝ} {D : Mom d → Mom d → Mom d →L[ℝ] ℝ}
+    {A B : Mom d → ℝ} {a b : Mom d → Mom d} {N M : ℝ} (hd : 0 < d)
+    (hF : DeltaKernel F A a N) (hgrad : DeltaKernel (fun ℓ x => ‖D ℓ x‖) B b M)
+    (hDc : ∀ ℓ, Continuous (D ℓ)) (hD : ∀ ℓ x, HasFDerivAt (F ℓ) (D ℓ x) x) :
+    Tendsto (fun ν : ℝ => pvTrunc ν (fun x y => (F x (-y):ℂ))) atTop
+      (𝓝 ((2:ℂ)*(((∫ ℓ, energyInvSliceLimit F ℓ):ℝ):ℂ))) := by
+  have hs : Tendsto (fun ν : ℝ => ν/2) atTop atTop := by
+    simpa only [div_eq_mul_inv, id_eq] using
+      Tendsto.atTop_mul_const (by norm_num : (0:ℝ) < (2:ℝ)⁻¹) tendsto_id
+  have ht := (tendsto_energyInvIntegral_of_decay hd hF hgrad hDc hD isPVCutoff_chi0).comp hs
+  have hcomplex := Complex.continuous_ofReal.continuousAt.tendsto.comp ht
+  have hlim : Tendsto (fun ν : ℝ => pvTrunc ν (fun x y => (F x (-y):ℂ))) atTop
+      (𝓝 ((2:ℂ)*(((∫ ℓ, energyInvSliceLimit F ℓ):ℝ):ℂ))) :=
+    (hcomplex.const_mul (2:ℂ)).congr (fun ν => (pvTrunc_neg_right_ofReal ν F).symm)
+  exact hlim
+
 /-- The actual source principal value agrees with the real symmetric
 quotient formula. Convergence is derived from decay and gradient bounds,
 not assumed as a premise; this is shared by Mstar and Nstar bridges. -/
@@ -81,14 +101,6 @@ theorem pvOp_neg_right_ofReal_of_decay
     (hDc : ∀ ℓ, Continuous (D ℓ)) (hD : ∀ ℓ x, HasFDerivAt (F ℓ) (D ℓ x) x) :
     pvOp (fun x y => (F x (-y):ℂ)) =
       (2:ℂ)*(((∫ ℓ, energyInvSliceLimit F ℓ):ℝ):ℂ) := by
-  have hs : Tendsto (fun ν : ℝ => ν/2) atTop atTop := by
-    simpa only [div_eq_mul_inv, id_eq] using
-      Tendsto.atTop_mul_const (by norm_num : (0:ℝ) < (2:ℝ)⁻¹) tendsto_id
-  have ht := (tendsto_energyInvIntegral_of_decay hd hF hgrad hDc hD isPVCutoff_chi0).comp hs
-  have hcomplex := Complex.continuous_ofReal.continuousAt.tendsto.comp ht
-  have hlim : Tendsto (fun ν : ℝ => pvTrunc ν (fun x y => (F x (-y):ℂ))) atTop
-      (𝓝 ((2:ℂ)*(((∫ ℓ, energyInvSliceLimit F ℓ):ℝ):ℂ))) :=
-    (hcomplex.const_mul (2:ℂ)).congr (fun ν => (pvTrunc_neg_right_ofReal ν F).symm)
-  exact hlim.limUnder_eq
+  exact (tendsto_pvTrunc_neg_right_ofReal_of_decay hd hF hgrad hDc hD).limUnder_eq
 
 end WaveTurbulence.RegAsymp
