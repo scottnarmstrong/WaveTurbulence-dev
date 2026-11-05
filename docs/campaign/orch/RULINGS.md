@@ -887,3 +887,29 @@ of charge 0, its gap equals the vine gap.
   designated pair, which now lies inside the triple bond. This is an α/β cut with the `UStep3` deviation. `NoTripleBond`
   after Step 1 is then PROVED, not assumed.
 - **(c)** FINALCOUNT-ASSEMBLY consumes (b).
+
+## R38 — Ghost triangles (charged bound) and DEAD-HIT (alive-cut ι), 2026-11-05 ~11:00 UTC
+
+Research: /home/scott/wt-scratch/research-ghost/NOTES.txt (§3c patterns, §3d the Lean statement, §6 the ruling text).
+
+**Findings.**
+- **A source gap at DH23 L1777 / L1791–L1795 and TARGET L2142 / L2165 (CANDIDATE).** The true-Δ triangle bound fails
+  for every pattern with an α-ghost (21 patterns; checked by a lattice count up to L ≤ 400). DH23's Prop 9.4 proof only
+  covers the case without ghosts, and (together2) drops the ghost's label factor T_g ≤ 1.
+- **Cut-all is not a cheaper route.** Under the cut-all reading, the invariant claimed at TARGET L2189 fails
+  (CANDIDATE erratum).
+- **The two-α-ghost case needs 8η ≤ 2γ − 1.** It is OPEN for γ ≤ 1/2, which lies outside the current gate.
+
+**Ruling.**
+1. **G2-GHOST proves the charged triangle bound with the true Δ's.**
+   - Hypotheses: UStep2's, plus a label (Q_g, κ_g) for each α-ghost, a nonzero gap for each β-ghost, and 8η ≤ 2γ − 1.
+   - Conclusion: C · excessRHS(αnew, ΔF_true, ΔV_β,true) · ∏_{α-ghosts} T(Q_g, κ_g)⁻¹.
+   - It covers ghosts at v₁, v₂ and v₃, and all 36 patterns of NOTES §3c–§3d.
+2. **G3 restates `UStep2.excess`** with the charged right-hand side. The ghost's (Q, κ) is already kept in its class.
+3. **The assembly telescopes with refunds.** Each α label factor is paid once, at creation, and refunded at most once:
+   at M_fin through Prop 9.6, or at its deletion as a ghost. An untaken refund is a gain. The assembly sets
+   η₀ ≤ (2γ − 1)/8; this is allowed, because WTPrefix chooses η after γ.
+4. **DEAD-HIT: option 2.** ι_v is defined only through cuts that are still alive when v is cut.
+   - κ_v is fixed at creation and is the same in the creation-step bound, in Prop 9.6's product and in any ghost refund.
+   - G3 restates `IotaHit` / the κ = 0 condition, and re-proves N2 (the earlier cut is alive at the later one).
+   - G8 is unchanged.
