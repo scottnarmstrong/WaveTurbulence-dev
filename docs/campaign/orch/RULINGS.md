@@ -1399,3 +1399,27 @@ classes". That count holds for DH23's plain twists but not for LF twists.
 the free re-layering of coherent chain pairs, uniformly in D. That is, the 2^{|q−q′|} layerings per coherent object
 (layerreg2) must be covered by C₂^{g+r}, or by C₀^N with C₀ independent of D. If CLASSCOUNT bounds classes only, S2
 STOPs, and the count is redone.
+
+## R57 — V5 must be kind-generic: couples use the kind = false LF class (S2 finding F-KIND), 2026-11-05 18:54 UTC
+
+**Finding** (S2, Opus). V5's class objects hardwire `kind = true`:
+- `CanonReps`/`canonFinset` (VineEstS4/Canon.lean, `Reach p true`);
+- `ClassSection` (VineEstS4/Class.lean, `allCoreOutputs (kind := true)`);
+- `VineEstCanonLayer{,Half,C2}`.
+
+`FamilyOperation.canonical : CanonicalObject p true` needs `IsCanonG`, i.e. 4 ≤ w. So for couples (w = 2, TARGET Def
+lftwist "G ∈ G_{p+1} (or C_{p+1})") the kind-true class is a singleton. VINEEST at w = 2 then asserts the vine gain
+without any twist cancellation, which is likely false. Meanwhile `Stage1ReductionAt` includes the R = 1 couple pieces,
+whose τ-classes are kind-false LF classes.
+
+**Ruling.**
+- **The final statements.** They are parametrized by `kind : Bool`, with `Reach p kind` and
+  `allCoreOutputs (kind := kind)`, and a premise `CanonicalObject p kind (layeredReconstruction …)`. The LF machinery
+  (FamilyOperation, FamilyBatch, outputs) is kind-generic.
+- **Order of work.**
+  - V5 P4 (Opus) first completes the kind = true assembly, stating new definitions generically where it is free.
+  - Then a dedicated V5-KIND pass generalizes `true` → `kind` across VineEstS4/S4b/S5A/S5B/S5B2/S5C/P1–P4 and
+    re-checks the proofs. It is done on a copy (uni-kind/) so it does not disturb P4. Any garden-only fact (4 ≤ w,
+    `IsCanonG`) used in a proof must get its couple analogue (`IsCanonC`), or be shown not to be needed.
+- **S2** consumes the kind-generic form: kind = true for w ≥ 4, kind = false for couples. Until then its VINEEST
+  named input is V5's statement with the kind parameter, recorded as a deviation.
