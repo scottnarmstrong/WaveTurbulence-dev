@@ -549,6 +549,66 @@ variable of its own.
 
 ---
 
+## E16 — TARGET L2152: "a ZG v₃ in Operation 2 must be tame by subpro (3)" is false when v₃ is a hinge atom
+
+**Status.** CANDIDATE. The prover wrote it, and an independent refute-first referee re-derived it (R29).
+- Research: /home/scott/wt-scratch/research-damaged/NOTES.txt §3.2.
+- Referee: /home/scott/wt-scratch/research-damaged-referee (`ref_hinge.py`).
+
+**Location.** TARGET Remark `remtame`, L2152: "We will also assume that no atom v₃ in Operation 2 … is ZG; in fact, if
+any such atom v is ZG, then it must be tame by Proposition subpro (3)".
+
+**Counterexample.** Take a couple of order 6, with its skeleton molecule M(Q_sk) as follows:
+- 6 atoms and 11 bonds;
+- degrees (3, 3, 4, 4, 4, 4);
+- no loop and no triple bond;
+- prime, with no mini couple, mini tree or sibling pair.
+
+**Why it is a counterexample.**
+- **The vine.** The only block is {u1, u2}. It is a (CL) vine (I-a), non-root (joint degree sum 8 > 6), and SG
+  under the decoration, so stage 1 merges it into a hinge h.
+- **The decoration.** Take decorations with D = E. Then M(Q_sk) has no zero gap, so no atom is degenerate and h is not
+  tame. The referee found this in 300 of 300 random decorations.
+- **The triangle.** In M_sb the unique Operation-2-eligible triangle is (P, u21 | v₃ = h). Its pair at h is a crossing
+  pair with gap ±(D − E) = 0.
+- So v₃ is ZG but not tame.
+
+**Consequence.**
+- **The literal cut breaks a needed property.** Cutting h along that pair leaves a degree-2 β-atom with zero gap. At a
+  charge-0 degree-4 atom, complementary pairs have opposite gaps, so this breaks the nonzero-gap property of β-atoms
+  that DH23 Prop 9.6 needs.
+- **DH23 has the same gap.** It appears in DH23 L1777 against L1985, under DH23's reading that "SG triples are fixed".
+- **A related gap.** With 0 < |D − E| SG, Operation 2 cuts h along a crossing (non-designated) pair. DH23 L1815's
+  argument that vines are LG assumes hinges are cut along designated pairs. This is a CANDIDATE exposition gap at DH23
+  L1815 / TARGET L2187.
+
+**Repair (R29).**
+- A triangle is eligible only if its v₁ and v₂ triples are SG, its v₃ pair has nonzero gap, and at each hinge the
+  triangle pair is a designated pair. Other triangles are skipped, and their v₁, v₂ are cut in Operation 3.
+- Tame atoms are never cut. A final Operation 5 erases each maximal connected tame cluster.
+- Components that still contain tame atoms, or were damaged by an erasure, get a separate bound (`prop96_damaged`).
+
+(finalcount1) holds with TARGET's exponents for 1/2 < γ < 1.
+
+---
+
+## E17 — TARGET L2152/L2218 (remtame) and L2193/L2197 (finalmol, R = 1): single-atom erasure and "imperfect = odd"
+
+**Status.** CANDIDATE. Refereed with R29.
+
+**(a) Single-atom erasure leaves components with no usable bound.** Two graph-level examples:
+- **C1.** The chain R1–e⇄u⇄v⇄f–R2, with all of e, u, v, f tame. Erasing e and f leaves an isolated tame double bond
+  {u, v} whose shared value is unpinned. Then A ~ L^γ.
+- **C0.** A similar chain isolates a degree-0 tame atom, so A = 1, while TARGET's R = 1 bound requires L^{−η⁵}.
+
+The repair is cluster erasure at the end of the run (R29, E16).
+
+**(b) TARGET L2193/L2197.** For R = 1 these lines set Z = 0 and call the imperfect components "odd". That
+identification is false by TARGET's own text: L2189 says "exactly R if R=1", but L2218 says a case-(ii) removal
+"increases the number of imperfect components by 2". The Z = 0 failure is shown at graph level only. Harmless.
+
+---
+
 ## E2 — further errata (to be transcribed before release)
 
 The remaining confirmed and candidate findings are in `docs/FINDINGS.md`:
