@@ -521,3 +521,16 @@ The author approved Opus for FINALCOUNT-ASM, V5 P4 and the S2 vine case. Sonnet 
 - VINEPARAM-U: rebuild about 1/3 done, 7–9 h projected.
 
 **Next:** S2 vine case (Opus), after the AMEND6′-GATE announcement. Flower Stage-1 gates after the census.
+
+## 18:34 UTC 2026-11-05 (author: up to four Codex helpers, GPT-6.1-Sol medium, codex-2, yolo)
+
+Three Codex helpers were launched in tmux, with briefs in /home/scott/wt-scratch/codex-briefs. Each reports through
+STATUS and HANDOFF.md in its scratch dir.
+
+| tmux | scratch dir | task |
+|---|---|---|
+| cx-repin | /home/scott/wt-scratch/provider-repin | Batch-3 providers (pl23-30d, ra1-leafwise, incoh-leafwise, ladder, ladder-decay, coarse-spliced) re-pinned to lg-spine-u build-fresh-a7, with exact-type checks |
+| cx-b4bprep | /home/scott/wt-scratch/b4b-prep | the single SumintPar fork, degen-vine re-pointed, N4, skeleton on the universe, layercnt rebase |
+| cx-flower | /home/scott/wt-scratch/flower-s1 | flower Stage-1 construction and subpro (S2a/S4 analogues with the flowerest1 adjustments); `Represents` excluded |
+
+The fourth slot is held for the top unowned item of the gap census.
