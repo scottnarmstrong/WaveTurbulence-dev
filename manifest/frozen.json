@@ -22006,7 +22006,7 @@
         "mode": "NOT_SPLIT",
         "ruling_ref": "docs/DECISIONS.md#D7"
       },
-      "abi_sha256": "a2db21e97bb5922ef58505ea8f25a34a449f1b5905ab798a52aa29de8b6edd66",
+      "abi_sha256": "317be2f56bfcacbc174cd54dab3f1d7afdea99fa77cb0cc608f26e089ad5c601",
       "definition_closure": [
         {
           "path": "WaveTurbulence/Frozen/Defs/CollisionOp.lean",
@@ -22057,7 +22057,7 @@
           "sha256": "e25a69657c56cd671594a124baa179fe42fe88ffe3aac9dfe5dee5a9cfa9a3bb"
         }
       ],
-      "state": "DRAFT_SORRY",
+      "state": "SEALED",
       "prefix_sha256": "7069fd0a123d8d28780afa8cdb81554901c92525522f96c8b0df099430d8b419",
       "suffix_sha256": "9f48199048606af986e4911abed0172f6e65c9c8c91f1c2874961ad85a7ea8d0",
       "draft_allowlist": {
