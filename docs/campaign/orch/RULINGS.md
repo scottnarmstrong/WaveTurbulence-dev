@@ -1194,3 +1194,38 @@ R47 is final, with these fixes, all binding on the implementers:
   - (c) the flower mirror (F7) in flower-spine-u.
 - S2 relaunches after (a) lands in lg-spine-u.
 - E-TWPROF is recorded as E24 in the errata batch, with the F6 wording. E23 is the FC-GEOM low-degree erratum, R48.
+
+## R49 — FINALCOUNT-ASM session 13: restricted Reach1, ladder-scale heredity, and the omitted clause (AMEND8), 2026-11-05 15:02 UTC
+
+The source is /home/scott/wt-scratch/finalcount-asm/HANDOFF.md (session 13).
+
+**Finding 1, ACCEPTED.**
+- `Reach1` is restricted: vine steps only for collected objects, triple steps only once every collected object is
+  dartless, and CN / root-CL vines removed first.
+- This is TARGET's order of Operations (L2140ff) and what `hend` needs (excessprop1 (3), the cnblock bridge).
+- AsmPhase1, 1b–1d and AsmPhased are re-based on it.
+- `Unsel` becomes κ-dependent, which is mechanical.
+
+**Q1, `LadderHered`.** Do NOT add a premise. Derive it from admissibility.
+- **Why it should work.**
+  - B2's `IsLadder` (induced bond count 4m+2) allows overlapping maximal ladders, as /home/scott/wt-scratch/degen/
+    ERRATUM-B2-LADDER.md (`chordLadder`) shows.
+  - Two overlapping maximal ladders that share a rung have the same gap on every decoration. On a nonempty admissible
+    set, their two scale constraints |r| ∼ P₁ and |r| ∼ P₂ therefore bind the same gap: the scales are comparable, or
+    Adm is empty and the bound is trivial.
+- **Steps.**
+  - Replace `C.ladderScale` by a coherent representative scale per overlap class, and bound the original count by the
+    coherent one.
+  - Any constant loss C^{#ladders} is absorbed like the other per-ladder constants.
+- **If it fails.** If two overlapping maximal ladders can share atoms but no rung (an atom with two double bonds),
+  analyze that case. If it is a genuine obstruction, STOP with the configuration.
+- **Settled independently.** The B2 ladder definition itself stays frozen; its reconciliation remains with the B2
+  owner, as recorded.
+
+**Q2, the omitted clause.** LG-SPINE AMEND8.
+- In `IsSourceSecondCollection`, the omitted clause's DV witness gains `Disjoint (↑(D.first ∪ D.second)) F`.
+- This is faithful: TARGET L2101 applies the DV rule only to DVs among the second-collection candidates, which are
+  disjoint from the first collection F. It matches the existing Xor clause.
+- LG-SPINE updates the producer of `IsSourceSecondCollection`, if lg-spine-u has one, in the same amendment.
+- `UnselOK` (the DV partner lies in `C2Of`, by maximality) is proved by FINALCOUNT-ASM as assembly glue. If it grows
+  beyond about 500 lines, it splits off as S4-DISJ2.
