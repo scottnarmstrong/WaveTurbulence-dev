@@ -1350,3 +1350,27 @@ claim.
 **Candidate erratum E25:** TARGET L1919–L1922 against (vineest2) L1748; the gain exponent should be η²/2, or should
 carry C₂^b. To be recorded with the next errata batch, together with the G3-LOWDEG ghost-bookkeeping exposition point
 (TARGET L2160–L2161).
+
+## R55 — AMEND9: `RepresentsInt` carries the bad-vine gain at rate η²/2 (follows R54), 2026-11-05 18:49 UTC
+
+**Finding** (S2, Opus). `Stage1Piece.RepresentsInt`'s mass conjunct (Stage1Interface L140–L142) hard-codes
+L^{−η²·bsk}, with the same text in Stage1PieceBound L89 (`hwb`), Stage1GateMonotone L23 (`hLp`) and PieceArithmetic
+`class_piece_bound` `hW` (L19). FLOWER-SPINE reuses `RepresentsInt`. So neither R54 form fits.
+
+**The gain is never consumed downstream.**
+- In `class_piece_bound` it is only used as `η²·bsk ≥ 0`, inside `linarith`.
+- `Stage1Counts` (iv), `ClassCountStmt` and `FinalCountAt` have no b.
+- TARGET finalprooffin (L2252) has no b_sk either.
+
+So halving the exponent changes nothing later.
+
+**Ruling: LG-SPINE AMEND9**, folded into the running AMEND6′ work.
+- Change `- P.η ^ 2 * (π.bsk : ℝ)` to `- P.η ^ 2 / 2 * (π.bsk : ℝ)` in the three places above, and change `hW` in
+  `class_piece_bound` to `- η ^ 2 / 2 * bsk`.
+- S2 consumes R54 (ii), the L^{−(η²/2)b} form with L ≥ L₀(C₂, η) taken at WTPrefix level.
+
+**Also noted** (S2 point 3, being checked): `Stage1Counts` (iii) allows ≤ 6^N pieces per class.
+- An LF twist also changes (T′, Q′), with ≈ C^m choices, so faithful τ-classes per coarse class can exceed 2^N.
+- S2 plans to group the τ-classes by piece data (same G_sb), at most 2^N per σ, and to absorb the (T′, Q′) count
+  into the F-CONST piece constant.
+- If that fails, S2 STOPs.
