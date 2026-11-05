@@ -1,0 +1,63 @@
+/- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
+module
+public import WaveTurbulence.Foundations.XChain.JbrBounds
+public import WaveTurbulence.Foundations.XChain.ZDecayBound
+public import WaveTurbulence.Foundations.XChain.FixedpointSolution
+public import WaveTurbulence.Foundations.XChain.FixedpointGlue
+public import WaveTurbulence.Foundations.XChain.InductParameters
+/-! The same fixedpoint event retains the actual truncated solution and remainder bounds. -/
+public section
+namespace WaveTurbulence.Induct
+open MeasureTheory ProbabilityTheory Set
+universe u
+
+theorem fixedpoint_gate_bounded_solution_extension (P : WTParams) (hF : FixedpointBody.{u} P)
+    (hd : 1 ≤ P.d) (hL : 0 < P.L)
+    (Ω : Type u) [MeasurableSpace Ω] (μ : Measure Ω) [IsProbabilityMeasure μ]
+    (g : (Fin P.d → ℤ) → Ω → ℂ) (hG : IsGaussianData μ g)
+    (p : ℕ) (hp : p < P.D)
+    (a : Ω → ℝ → (Fin P.d → ℤ) → ℂ) (Fev : ℕ → Set Ω)
+    (R : ℕ → Mom P.d → ℝ) (E : ℕ → (Fin P.d → ℤ) → ℝ)
+    (Et : ℕ → (m : ℕ) → (Fin (2 * m) → ℤˣ) → (Fin (2 * m) → (Fin P.d → ℤ)) → ℂ)
+    (hA : ∀ q ≤ p, AnsatzAt P μ g a Fev R E Et q) :
+    ∃ F' : Set Ω, F' ⊆ Fev p ∧ MeasurableSet F' ∧ IsSymmetricEvent P.L P.φin g F' ∧
+      μ.real (Fev p \ F') ≤ Real.exp (-(4 * P.N (p + 1) : ℝ)) ∧
+      ∀ ω ∈ F',
+        (∀ t ∈ Icc (p : ℝ) (p + 1), ∀ n,
+          ‖aTr P.L P.γ P.δ p (P.N (p + 1)) (a ω p) t n‖ ≤
+            jbr (latticePoint P.L n) ^ (-(3 / 2 * P.Lambda (p + 1) : ℝ)) *
+              Real.exp (3 * P.N (p + 1))) ∧
+        ∃ a' : ℝ → (Fin P.d → ℤ) → ℂ,
+          IsASolution P.L P.γ P.δ (p + 1) (initialCoeff P.L P.φin g ω) a' ∧
+          (∀ t ∈ Icc (0 : ℝ) p, a' t = a ω t) ∧
+          ∀ t ∈ Icc (p : ℝ) (p + 1), ∀ n,
+            ‖a' t n - aTr P.L P.γ P.δ p (P.N (p + 1)) (a ω p) t n‖ ≤
+              jbr (latticePoint P.L n) ^ (-(5 / 4 * P.Lambda (p + 1) : ℝ)) *
+                Real.exp (-(10 * P.N (p + 1) : ℝ)) := by
+  obtain ⟨F', hsub, hmeas, hsym, hprob, hpoint⟩ :=
+    fixedpoint_gate_exists_b P hF Ω μ g hG p hp a Fev R E Et hA
+  refine ⟨F', hsub, hmeas, hsym, hprob, fun ω hω => ?_⟩
+  obtain ⟨htr, b, hb, hnorm, hfp⟩ := hpoint ω hω
+  have ha := SysAPI.AnsatzAt.isASolution (hA p le_rfl) (hsub hω)
+  let a' := fun s => if s ≤ (p : ℝ) then a ω s else
+    fun n => aTr P.L P.γ P.δ p (P.N (p + 1)) (a ω p) s n +
+      IccExtend (by linarith : (p : ℝ) ≤ p + 1) b s n
+  have hsol : IsASolution P.L P.γ P.δ (p + 1) (initialCoeff P.L P.φin g ω) a' :=
+    fixedpoint_glue P.L P.γ P.δ hL (P.N (p + 1)) ha hb (fixedpoint_weight_ge P hd hp)
+      (fixedpoint_weight_le_tree_weight P p) htr hfp
+  refine ⟨htr, a', hsol, ?_, ?_⟩
+  · intro t ht
+    simp only [a', ite_eq_left ht.2]
+  · intro t ht n
+    by_cases htp : t ≤ (p : ℝ)
+    · have he : t = p := le_antisymm htp ht.1
+      subst t
+      simp only [a', ite_eq_left le_rfl, SysAPI.aTr_of_le P.L P.γ P.δ p (P.N (p + 1)) (a ω p) le_rfl,
+        sub_self, norm_zero]
+      exact mul_nonneg (Real.rpow_nonneg (jbr_pos _).le _) (Real.exp_pos _).le
+    · have he : a' t n - aTr P.L P.γ P.δ p (P.N (p + 1)) (a ω p) t n = b ⟨t, ht⟩ n := by
+        simp only [a', ite_eq_right htp, IccExtend_of_mem _ b ht, add_sub_cancel_left]
+      rw [he]
+      exact norm_le_of_ZNorm_le P.L (5 / 4 * P.Lambda (p + 1)) (Real.exp_pos _).le hnorm ⟨t, ht⟩ n
+
+end WaveTurbulence.Induct
