@@ -1,5 +1,5 @@
 {
- "assessed": "2026-11-04 23:04 UTC",
+ "assessed": "2026-11-05 01:04 UTC",
  "notes": "Lean work items = blueprint packets (docs/blueprint/GRAPH.md §E) with their difficulty weights (node weights L=1, M=2, H=4, VH=8 summed). Each frozen theorem anchor adds weight 1, credited when SEALED. Done fractions are the orchestrator's assessment, reviewed at integration rounds.",
  "lines_est_total": 273000,
  "parts": [
@@ -612,8 +612,8 @@
      "goal": "vinechainlem, 𝒱, congruence (equivalence, F20), gaps",
      "weight": 7.0,
      "lines_est": 2400,
-     "done": 0.5,
-     "note": "STAGE1-COMB: vinechainlem (DH23 Lemma 8.1, existence and uniqueness), collection V, defdiff with gap identity proved; congruence waits on the canonical-universe LFTWIST port (R8)"
+     "done": 0.65,
+     "note": "STAGE1-COMB: vinechainlem; twist reversal/composition both choices; congruence symmetric; V-family invariant under twists; transitivity reduced to commutation (in progress)"
     },
     {
      "id": "S2a",
@@ -621,8 +621,8 @@
      "goal": "Stage 1 construction: congruence classes, 𝒱_0, splicing, 𝒢_sb, 𝕄_sb, hinge atoms (review I1)",
      "weight": 2.0,
      "lines_est": 800,
-     "done": 0.1,
-     "note": "REDSPLICE-DEF: V_0 defined; splice/hinges wait on CLCN in the canonical universe (R7, R8)"
+     "done": 0.4,
+     "note": "REDSPLICE-DEF: V_0 and splice engine defined on the canonical universe; C1-free soundness fields proved; Stage 1 interface amended (ruling R19)"
     },
     {
      "id": "S4",
@@ -675,8 +675,8 @@
      "goal": "DH23 Prop 9.4 (case analysis of cut deviations)",
      "weight": 8.0,
      "lines_est": 3500,
-     "done": 0.55,
-     "note": "EXCESS-DH23: DH23 Prop 9.4 single cuts and triangles proved for all gamma; vine step reduced to the count; assembly in progress"
+     "done": 0.7,
+     "note": "EXCESS-DH23 + VINE-COUNT: DH23 Prop 9.4 single cuts and triangles for all gamma; single-vine label count from VINEPARAM alone (vine_count_main, prop94_vine_final); vine chains/hyper objects in progress"
     },
     {
      "id": "V5",
@@ -684,8 +684,8 @@
      "goal": "vineest Steps 3–4 and degenerate decorations (F21)",
      "weight": 13.0,
      "lines_est": 5100,
-     "done": 0.5,
-     "note": "VINEEST: Step 3 engine (clocked sumint bound, Fourier-series route), SumintSigned, degenerate decorations (DEGEN-VINE, errata E4) proved; Step 3 assembly in progress; Step 4 (twists) after LFTWIST port"
+     "done": 0.55,
+     "note": "VINEEST: Step 3 engine, SumintSigned, degenerate decorations (errata E4); Step 3 statement ported to the canonical universe (422 modules); clauses (a)-(e) in progress; Step 4 (twists) next"
     },
     {
      "id": "G3",
@@ -693,8 +693,8 @@
      "goal": "TARGET excessprop1, DH23 Prop 9.5, finalmol",
      "weight": 10.0,
      "lines_est": 3500,
-     "done": 0.0,
-     "note": ""
+     "done": 0.5,
+     "note": "FINALMOL: DH23 Prop 9.5 assembled (HRun.prop95: cycles, chains, N1, N2, noBetaCut); final-shape mapping to Prop 9.6 proved except vine_LG; excessprop1 and remtame (errata E9) in progress"
     },
     {
      "id": "S2",
@@ -711,8 +711,8 @@
      "goal": "DH23 Prop 9.6, TARGET lgmolect (F24)",
      "weight": 10.0,
      "lines_est": 4600,
-     "done": 0.3,
-     "note": "RIGID: DH23 Prop 9.6 restricted to gamma > 1/2 (D9): bridges and 3 of 7 operation inputs proved; one internal input repaired; in progress"
+     "done": 0.6,
+     "note": "RIGID: DH23 Prop 9.6 (gamma > 1/2) stated exactly; Prop 10.1' (off-protected-set), cycles, rough bound, cases (1)-(3) proved; even cases (4)-(6) in progress"
     },
     {
      "id": "S3",
@@ -738,8 +738,8 @@
      "goal": "finalcount1, remtame2, interpolation",
      "weight": 4.0,
      "lines_est": 900,
-     "done": 0.1,
-     "note": "FINAL-COUNT: FinalCountGate stated (lg-spine); gamma > 1/2 chain (G2, G8) in progress"
+     "done": 0.2,
+     "note": "FINAL-COUNT: FinalCountGate stated (lg-spine); gamma > 1/2 chain: Props 9.4 (G2), 9.5 (G3), 9.6 (G8) in progress"
     },
     {
      "id": "F2",
@@ -747,8 +747,8 @@
      "goal": "terms (a)–(d), counting of classes and layerings, proof of layergarden",
      "weight": 12.0,
      "lines_est": 4150,
-     "done": 0.6,
-     "note": "PLG = LG-SPINE: layergarden_of_spine compiles from SpineInputs + FinalCountGate; inputs: ladders proved, leafwise gates proved, Stage 1 (S2a/S2/S4) pending; universe rebase pending"
+     "done": 0.7,
+     "note": "PLG = LG-SPINE on the canonical universe: layergarden_of_spine (fresh 419-module rebuild) type-checks against snapshot-9 B1.2, and layergarden_v2_of_spine against the D10 successor; Stage 1 inputs pending"
     },
     {
      "id": "X2",
