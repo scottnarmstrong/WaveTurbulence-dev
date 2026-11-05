@@ -57,3 +57,28 @@ Format: D<n> — date (UTC) — who — decision — reason.
   Each is its original verbatim except: the name; `1 / 2 < P.γ →` at the head of the body (`hγ : γ ∈ Ioo (1 / 2) 1`
   for `main_v2`); one docstring paragraph. Packaging (semantics-neutral): each imports its own provider stub
   `Provider.<Name>V2`. The originals stay frozen and open (D9; erratum E1).
+- D11 — 2026-11-05 ~15:58 — Scott ("I approve all, defer approvals now and just get this done", in reply to the open
+  questions listed by wt-orch, including review page docs/review/GAMMA-LE-HALF-VINES.md) — **The enlarged vine family
+  for 0 < γ ≤ 1/2 is approved as recommended.** The decision has three parts:
+  - (a) The exact Lean text `TVineDefs.lean` (sha256 prefix `31242ecfe64dcdab`, the text on the review page)
+    is the definition of the enlarged family (T-vines). It is to be frozen when a γ ≤ 1/2 extension starts, after
+    the review page's small fixes, none of which changes the Lean text.
+  - (b) The γ ≤ 1/2 extension starts only after the γ ∈ (1/2, 1) chain is sealed.
+  - (c) The three open questions are settled:
+    - Q1: the "no interior cut atom" clause stays out, and is proved later as a lemma.
+    - Q2: γ-parametrised HV/VC/HVC/Chain are written as part of the extension, with the same review process.
+    - Q3: the groups of a T-vine are its pieces.
+- D12 — 2026-11-05 ~15:58 — Scott (same reply) — **Home of the VINEPARAM catalogue (PORT batch 4a):** option (iii) of
+  PORT-PLAN.
+  - The certificate catalogue (about 4.5k modules, ~878k lines) goes in a separate `lean_lib` of this package,
+    `WaveTurbulenceVineParam`.
+  - It is rebuilt on the canonical universe, with its ~580 Vine*/Molecule* copies dropped in favour of
+    Foundations.Molecule.*.
+  - The main library imports only `Vine.Param.vineparam` and `vineparam_grouped`.
+  - Regenerating the catalogue with a smaller certificate format (option (ii)) is deferred. It is an optimization if
+    the build cost blocks CI or the Palomar intake.
+- Standing authorization — 2026-11-05 — Scott: "I approve all, defer approvals now and just get this done".
+  - wt-orch makes the remaining campaign decisions itself, following its recommendations, and records each one here
+    or in the orchestrator's RULINGS.md.
+  - Frozen-statement changes still follow the versioned-successor and second-key-audit process, and are recorded as
+    D-entries.
