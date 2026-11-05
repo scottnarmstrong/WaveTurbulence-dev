@@ -567,3 +567,41 @@ specified pair's gap kind equals the designated object's gap kind.
 - **Not needed.** (R1), dropping the small-cell hypothesis from Prop 10.4(2)′, is not needed.
 - **Who does it.** The work goes to a parallel packet, G8-XROUTE, in its own scratch. G8 #7 continues F6-1, and the
   next G8 session glues the two together.
+
+## R27 — TARGET remtame case (i): erase, do not cut; N1 and N2 stand (research-remtame-i), 2026-11-05 ~04:00 UTC
+
+Research: /home/scott/wt-scratch/research-remtame-i/NOTES.txt. Checks: check_remtame.py, including a random test of
+18,126 cases.
+
+**Finding: an exposition gap at TARGET L2152 / L2218.** Case (i) says "cut at v and proceed normally", and L2218 says
+"modified trivially". Neither is accurate.
+- **(a) The premise "values fixed" is false.** Take a component of M − v that meets v only through an
+  opposite-direction double bond to one atom; then the value is not pinned. This is harmless, because then c ≤ 2 and
+  Δχ ≤ −2. CANDIDATE erratum.
+- **(b) The pin is lost after the cut.** Pinned values are pinned by the charges of M_pre. After the cut, the zero-gap
+  half can lie in a component whose own charges do not pin them.
+- **(c) Prop 9.6 is false for a component with an unpinned zero-gap β-atom.** Counterexample: X = {a,b,c,v₁} with
+  bonds c→a ×2, a→b, a→v₁, v₁→b, b→c ×2. Then 𝔄 ≥ c·C₁⁻⁴, against the required L^{−γ₀−3η²}.
+
+(finalcount1) itself is unaffected.
+
+**Ruling.**
+1. **Erase, do not cut.** Model case (i) like case (ii) and like DH23 §10.5 (L1985: "we shall not make any cut at
+   non-hinge degenerate atoms"). A zero-gap tame ε-atom of degree ≥ 3, met as Op 2's v₃ or Op 4's v, is ERASED: v and
+   its bonds are removed, and no α- or β-atom is created.
+   - In G3: generalize `HStep5` by dropping `ErasableAt`, and use `Good (R + (deg v − 2))`.
+   - The imperfect-component bound becomes R + T, with T = Σ(deg v_e − 2).
+2. **N1 and N2 (R18) stand as stated.** They remain conclusions of G3's Prop 9.5 package, and G8's `FinalDec` is
+   unchanged. Weakening `betaGap` is NOT permitted: `Prop96At` is false without it (counterexample X).
+3. **The erasure deviation.** Δχ = c − deg v.
+   - If v is pinned (some component of M − v has nonzero net flux from v, which always holds at degree 3), then
+     E_pre ≤ E_pos.
+   - Otherwise E_pre ≤ (2L+1)^d · E_pos, and in that case deg v = 4 and c ≤ 2.
+   - The required bound holds in every case for d ≥ 3. The case table is in NOTES L4.
+4. **The case split at L2152** is read as "pinned, or not pinned (and then c ≤ 2)". This is DH23 10.5(4)'s "bridge, or
+   Δχ ≤ −2".
+5. **Two pre-existing case-(ii) items get their own ticket, DAMAGED** (research first):
+   - (i) Final components that are imperfect with ε-degree < 4 ("damaged"), and surviving tame zero-gap ε-atoms. G8 has
+     no case for them, and G3 delivers "ε-atoms LG or tame" where G8 needs strict LG.
+   - (ii) TARGET's "ZG ⇒ tame by subpro (3)" when Op 2's v₃ is a hinge atom. G3's skip of such triangles must be shown
+     to be sound, or replaced.
