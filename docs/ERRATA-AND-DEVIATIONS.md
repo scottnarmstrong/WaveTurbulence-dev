@@ -233,6 +233,24 @@ No counterexample was found.
 - **Still open for all sizes:** one structural fact used by `layervine`, checked up to 21 atoms.
 - **Not yet in Lean:** the base cases need a verified enumeration of T-vines with at most 13 atoms.
 
+**Third research pass and third referee (2026-11-05).** Notes:
+/home/scott/wt-scratch/research-gamma-half-3/NOTES.txt. Report:
+/home/scott/wt-scratch/research-gamma-half-referee-3/REPORT.md.
+- **Proved for every size, and confirmed by the referee:** the `layervine` structure, i.e. spine, pendants and at most 3
+  ladders. Each vine's pieces form a cactus with at most one triangle. Checked independently on all shapes with at
+  most 41 atoms (3060 labelled cases).
+- **Corrected statements written out in full:** Lemma 1.14(c′) and Cor 1.16′ (the sources keep the adjoint bond:
+  TARGET L2140, DH23 L1775).
+- **Referee verdict:** the γ-dependent vine family (`IsTVine` for γ ≤ 1/2) can go to the author for approval.
+  Remaining caveats:
+  - the base enumerations (classification up to 13 atoms; 57 base pairs up to symmetry) are Python checks, not yet
+    kernel certificates;
+  - confluence (note 2 Lemma 1.4) is still a Lean obligation.
+- **DH23 `subsetvc` (L2128) is incomplete.** Its list of sub-objects omits two blocks:
+  - the block VC:I+I, which occurs in drawn vine (IV) (referee 2);
+  - the block vine (V), which occurs in drawn vine (VII) on atoms {4,…,8} (referee 3).
+  The corrected list is Cor 1.16′.
+
 In the Lean development, the γ-sensitive input `FinalCountGate` (TARGET finalcount1) is a separate hypothesis of
 `layergarden_of_spine` and `layergardenFlower_of_spine`, and it is proved only under 1/2 < γ.
 
