@@ -223,6 +223,16 @@ No counterexample was found.
 - **Still open:** TARGET with R ≥ 2 gardens, the flower/parametrix sections, and Prop 10.4(1) for T∖ℓ.
 - **The note's own errors (E1–E5 of the referee report)** do not affect the route.
 
+**Second research pass and second referee (2026-11-05).** Notes:
+/home/scott/wt-scratch/research-gamma-half-2/NOTES.md. Report:
+/home/scott/wt-scratch/research-gamma-half-referee-2/REPORT.md.
+- **Confirmed:** the R ≥ 2 gardens, the flower and parametrix sections, Prop 9.6 case (5), the ylem1′ list, and a
+  Lean-ready predicate `IsTVine` for the enlarged γ ≤ 1/2 vine family.
+- **Rung-locality:** proved for all sizes after two repairs the referee supplied (a patch to Lemma 1.14(c), and a
+  parity argument for hyper-member removal).
+- **Still open for all sizes:** one structural fact used by `layervine`, checked up to 21 atoms.
+- **Not yet in Lean:** the base cases need a verified enumeration of T-vines with at most 13 atoms.
+
 In the Lean development, the γ-sensitive input `FinalCountGate` (TARGET finalcount1) is a separate hypothesis of
 `layergarden_of_spine` and `layergardenFlower_of_spine`, and it is proved only under 1/2 < γ.
 
