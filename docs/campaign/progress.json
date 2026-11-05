@@ -1,5 +1,5 @@
 {
- "assessed": "2026-11-05 13:44 UTC",
+ "assessed": "2026-11-05 15:57 UTC",
  "notes": "Lean work items = blueprint packets (docs/blueprint/GRAPH.md §E) with their difficulty weights (node weights L=1, M=2, H=4, VH=8 summed). Each frozen theorem anchor adds weight 1, credited when SEALED. Done fractions are the orchestrator's assessment, reviewed at integration rounds.",
  "lines_est_total": 273000,
  "parts": [
@@ -567,8 +567,8 @@
      "goal": "expansion of truncated cumulants into canonical gardens; errors E^{(1)}, E^{(2)}; moment inequalities",
      "weight": 10.0,
      "lines_est": 4000,
-     "done": 0.97,
-     "note": "INDUCT: propansatz_of_gates, and the gamma > 1/2 version propansatz_v2_of_gates type-checked against the frozen successor (snapshot 9)"
+     "done": 0.98,
+     "note": "INDUCT: propansatz_of_gates; gamma > 1/2 version propansatz_v2_of_gates on main (PORT batch 2a, 3a1b17a)"
     },
     {
      "id": "J7",
@@ -684,8 +684,8 @@
      "goal": "vineest Steps 3–4 and degenerate decorations (F21)",
      "weight": 13.0,
      "lines_est": 5100,
-     "done": 0.92,
-     "note": "VINEEST: Step 3 and the Step 4 pieces proved (replaced-factor analysis, tildeJ2, 3-clock engine, S-side twist at p*); layer-uniform final statement VineEstCanonLayer written; bundle and induction in progress"
+     "done": 0.94,
+     "note": "VINEEST: Step 3 and all Step 4 pieces proved (replaced-factor analysis, tildeJ2, 3-clock engine, S-side twist at p* and at the bottom vine), induction over core vines (flat class-sum identity) proved; bundle bound and constants in progress"
     },
     {
      "id": "G3",
@@ -693,8 +693,8 @@
      "goal": "TARGET excessprop1, DH23 Prop 9.5, finalmol",
      "weight": 10.0,
      "lines_est": 3500,
-     "done": 0.95,
-     "note": "FINALMOL READY in scratch: DH23 Prop 9.5 / TARGET finalmol under rulings R29, R37 (triple-bond cut), R38 (charged ghost triangles, alive-cut iota); excessprop1 (1)-(3); 140 modules"
+     "done": 0.97,
+     "note": "FINALMOL READY: DH23 Prop 9.5 / TARGET finalmol under R29, R37, R38, and the run model extended to atoms of degree 0-2 and self-loops (G3-LOWDEG, errata E23)"
     },
     {
      "id": "S2",
@@ -702,8 +702,8 @@
      "goal": "Stage 1 analytic reduction (redvine2) and molecular form (redvine3)",
      "weight": 6.0,
      "lines_est": 2400,
-     "done": 0.5,
-     "note": "REPRESENTS: vine-free reduction proved; class count (CLASSCOUNT) reduced to the layering leg; vine case waits on the twist-class leaf-data ruling (R45)"
+     "done": 0.55,
+     "note": "REPRESENTS: vine-free reduction proved; class count (CLASSCOUNT, Stage1Counts (iv)) proved unconditionally; vine case waits on the pair-type gate (R47, AMEND6')"
     },
     {
      "id": "G8",
@@ -738,8 +738,8 @@
      "goal": "finalcount1, remtame2, interpolation",
      "weight": 4.0,
      "lines_est": 900,
-     "done": 0.7,
-     "note": "FINAL-COUNT: Props 9.4-9.6 proved for gamma > 1/2; assembly has the terminal chain (hterm) and the ladder-gap discharges; waiting on a ruling about low-degree atoms and triple designation (FC-GEOM, R45)"
+     "done": 0.78,
+     "note": "FINAL-COUNT: Props 9.4-9.6 proved for gamma > 1/2 incl. low-degree atoms; assembly: REG/LOW split (R48), terminal chain, restricted Step-1 run, UnselOK, ladder-scale heredity, molecule-level wrapper; hmem/hend and garden glue in progress"
     },
     {
      "id": "F2",
@@ -747,8 +747,8 @@
      "goal": "terms (a)–(d), counting of classes and layerings, proof of layergarden",
      "weight": 12.0,
      "lines_est": 4150,
-     "done": 0.82,
-     "note": "PLG = LG-SPINE on the canonical universe with the corrected Stage 1 interface (R24, R28, R33, R40) and atom-level second collection (R42, AMEND5); ladder inputs on the truncated time domain"
+     "done": 0.83,
+     "note": "PLG = LG-SPINE on the canonical universe with the corrected Stage 1 interface (R24, R28, R33, R40), atom-level second collection (R42) and final-count premises (R48/R49, AMEND7+8 rebuilding); pair-type Stage 1 families (R47) next"
     },
     {
      "id": "X2",
@@ -783,8 +783,8 @@
      "goal": "proof of Theorem 1.1 from propansatz and the bridge",
      "weight": 3.0,
      "lines_est": 860,
-     "done": 0.97,
-     "note": "main <= layergarden + layergardenFlower; gamma > 1/2 links main_v2_of_propansatz and fixedpoint_v2_of_closed_gates type-checked against the frozen successors; being landed on main"
+     "done": 0.98,
+     "note": "main <= layergarden + layergardenFlower; gamma > 1/2 links main_v2_of_propansatz and fixedpoint_v2_of_closed_gates on main (3a1b17a); wkeTaylor_v1 sealed"
     }
    ]
   },
