@@ -976,3 +976,23 @@ AMEND4 lands.
   ATOM-LEVEL: `literalSecondCandidate`, which COVER-HYPER classifies via `source_literal_object_classification`.
 - **Who does it.** LG-SPINE AMEND5 restates eligibility and re-proves the cover's existence/maximality chain, then
   re-runs the type checks. S4-DISJ's `c2Of_interior_covered` then gives the inclusion for hyper members without `hnc`.
+
+## R43 — The vine estimate must be leafwise (S2 finding F-VINEPROFILE), 2026-11-05 ~12:45 UTC
+
+**Finding.** V5's `VineEstCanon` is stated for the common input profile `inputsF P Rin`. `Stage1ReductionAt` is leafwise
+(R9(a)): each leaf carries its own profile with an `SNormR 40d 40d` bound. So VINEEST4, transcribed verbatim, cannot
+serve the vine pieces.
+
+**Ruling.**
+- **What V5 delivers.** The final vine estimate in leafwise form, `VineEstCanonLeaf`. Its kernels are built from
+  per-leaf profiles H, and its inputs are the leafwise gates (`LeafwiseCoherentApproximationGate`,
+  `LeafwiseIncoherentDecayGate`, and the leafwise reality gate). The common-profile `VineEstCanon` follows as a
+  corollary.
+- **How.** Follow REGRED-LEAF's pattern: generalize the kernels to a node-profile argument A, of which F and H are
+  special cases, so that the proofs carry over mechanically.
+- **Who.** V5 part C (the induction and the final statement) states and proves the leafwise form. The generalization of
+  Steps 3/4 to profiles is part of V5's remaining work.
+- **S2.** Meanwhile S2 takes VINEEST4-LEAF as its named input, with the exact leafwise statement transcribed from
+  V5's design note once V5 publishes it.
+- **Housekeeping.** S2a should `@[expose]` `unitIngredients`, `bskOf` and `gskOf` upstream; S2 currently patches its
+  pinned copy. This is done at PORT.
