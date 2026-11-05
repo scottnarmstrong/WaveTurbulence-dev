@@ -674,3 +674,63 @@ relation that holds. Do not restate them per twisted garden.
 
 **(3) Slot labels.** After a twist at the lower joint, check the four momentum slots of the twisted kernels against
 TARGET's u₂₁/u₂₂ convention (tildeK2, tildeJ2), and record the result.
+
+## R29 — DAMAGED: tame clusters are erased at the end (Op 5); eligible triangles; damaged components get their own bound. Revises R27 item 1. 2026-11-05 ~06:15 UTC
+
+**Sources.**
+- Research: /home/scott/wt-scratch/research-damaged/NOTES.txt (§7).
+- Referee: /home/scott/wt-scratch/research-damaged-referee. Verdict: the core holds, and amendments A1–A5 are required.
+  They are incorporated below.
+
+**Findings.**
+1. **TARGET L2152 is false for a hinge v₃.** It says "a ZG v₃ in Op 2 is tame by subpro (3)". Counterexample: an order-6
+   couple whose only vine, (I-a), is merged into a hinge h. The triangle pair at h is a crossing pair with zero gap,
+   and h is not tame. The referee re-derived this and found it in 300 of 300 random decorations.
+   - The literal cut breaks N1.
+   - DH23 L1777/L1985 has the same gap, under DH23's reading that the SG triple is fixed.
+2. **Hinge cuts along a non-designated pair are not covered.** With 0 < |D−E| SG, Op 2 cuts h along a crossing pair,
+   which DH23 L1815's vine-LG proof does not cover. This is a CANDIDATE exposition gap at DH23 L1815 / TARGET L2187.
+3. **Single-atom tame erasure fails per component.** C1 gives A ~ L^γ, and C0 gives A = 1 against L^{−η⁵}. The bound
+   (finalcount1) is unaffected.
+4. **TARGET L2193/L2197 is false.** "imperfect = odd" for R = 1 contradicts L2189 ("exactly R if R=1") against L2218.
+   CANDIDATE, harmless.
+
+**Ruling.**
+1. **Run model.**
+   - Tame atoms are never cut in Ops 1–4.
+   - A triangle is ELIGIBLE iff three things hold: its triples at v₁ and v₂ are SG; its pair at v₃ has nonzero gap; and
+     at every hinge atom among v₁, v₂, v₃, the triangle pair is one of that hinge's two designated pairs (A1).
+     Op 2 acts only on eligible triangles. The skipped v₁ and v₂ are cut in Op 3. Step 2 stops at
+     `NoEligibleTriangle`, and DesRec becomes a theorem.
+   - Op 4 makes only nonzero-gap β-cuts, and it stops at `NoBetaCut` (G8's `FinalDec.noBetaCut`).
+   - A new Op 5 erases every tame ε-atom, one maximal connected tame cluster at a time, creating no α- or β-atom.
+   - Requirement (d) also fixes the zero/nonzero status of every opposite pair. This costs at most 16^{n_sb}, which is
+     absorbed like C_0^{n_sb}.
+2. **N1 and N2 hold unconditionally** (R18 stands). All finalmol conclusions hold for M_fin, with one exception: the
+   chains clause, and the vine clause pending O4, is claimed only for components WITHOUT tame atoms (A2; referee
+   molecule F). Those are the only components Prop96At receives.
+3. **G3.**
+   - `NoEligibleTriangle` replaces `NoSGTriangle` (re-prove `cycles_of`, adding the hinge step of A1).
+   - `DegenSGT` replaces `DegenSG`.
+   - `NoBetaCut` is the Step-4 stop.
+   - Add phase 5, with these conclusions: imperfect ≤ R + Σ_K(e_K + χ_K − 1 − s_K); strict epsLG; and perfect
+     components are tame-free.
+   - Retire StepE2/StepE4/`NoBetaCutAll` and the single-atom HStep5. The `G3EraseDev*` lemmas may be reused.
+4. **`erase_cluster_deviation`.**
+   - Pinned(K) means: some atom of K is unbalanced, OR some component of M − K receives nonzero flux, OR some atom of K
+     has M_sb-degree < 4, whose value subpro (3) fixes to some k_j (A3).
+   - If K is pinned, E_pre ≤ E_pos. Otherwise E_pre ≤ (2L+1)^d E_pos, and J ≥ |K| + 1.
+   - Slack lemma: log_L I_K ≤ a(|K| − J) − η·e_K − C₀η⁵(|K| + e_K), with a = 2γ₀ + 5η², for d ≥ 3.
+5. **G8.** Add a new theorem `Prop96DamagedAt` (the DCB, with Z counted for every R), proved from P101, rough96 and
+   interpolation at θ = η³. It needs only FinalShape's isMolecule, classes, noLoop, noTriple, conn and nonempty, plus
+   FinalDec's epsLG. Prop96At is unchanged.
+6. **Assembly.** A_sb ≤ ∏_{Ops 1–5} I · ∏_components A. Each cluster contributes L^{−slack_K} with slack_K > 0, and
+   the assembly is for 1/2 < γ < 1. Two glue obligations are named (A4): O3, the ladder polylog (log L)^{C(s+e)}, and
+   O6.
+7. **Ledger (A5).** All of these are CANDIDATES:
+   - TARGET L2152, hinge v₃: erratum.
+   - DH23 L1777/L1985: exposition gap, with the "as fixed" caveat.
+   - DH23 L1815 / TARGET L2187, non-designated hinge cut: exposition gap.
+   - TARGET L2193/L2197: erratum. The identification fails by L2189 against L2218; the Z = 0 failure is shown at
+     graph level only.
+   - TARGET L2152/L2218, single-atom erasure: exposition gap.
