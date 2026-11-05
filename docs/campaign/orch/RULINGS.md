@@ -842,3 +842,24 @@ atoms. It is harmless, since η³/2 ≥ 8η⁶.
   that layerregest10 (realness) holds for the mixed exact/approximant products.
 
 **Ledger.** TARGET L1913 (ii) is a CANDIDATE erratum, harmless after the repair.
+
+## R36 — FINALCOUNT-ASSEMBLY blockers: ghost triangles, vine ρ-loss, 2026-11-05 ~09:30 UTC
+
+**(1) Ghost-triangle bookkeeping.**
+- **The problem.** G3's `UStep2.excess` uses ΔF and ΔV_β = 3 − #α, which count ghost atoms. A ghost is an already-cut
+  degree-2 atom of the triangle; DH23 L1777 cuts only atoms of degree ≥ 3.
+- **What the bound actually needs.** The true Δ's are smaller by g, the number of ghosts. So the per-step bound must
+  hold with the TRUE Δ's.
+- **Why it should hold.** The ghost's two bonds have a fixed difference, its gap lying in a ball, so the triangle count
+  gains.
+- **New packet G2-GHOST** proves the ghost-aware triangle deviation: excesseqn2 with the true ΔF and ΔV_β for g ≥ 1
+  ghosts. It uses G2's TriCount machinery and the sibling or relative-ball counts. G3's `UStep2.excess` is then
+  restated with the true Δ's.
+- **Stop condition.** If the bound fails for some ghost configuration, G2-GHOST STOPS with the configuration and the
+  count. That would be a source finding at DH23 L1777–L1796 / TARGET Operation 2.
+
+**(2) Vine ρ-loss.** The assembly needs `ladderLoss M (M.atoms \ S) ≤ C₀` for an IsVine S.
+- **New packet VINE-RHO** proves it, from the direction facts for the inserted rung chains: each slot is a 2-cut, so
+  `block_two_cut_opposite` applies per slot, across 14 slots in the 8 types, plus at most 15 template atoms.
+
+**(3) Errata.** L2216 (p_sb ≤ 2 p_op) is already recorded as E19.
