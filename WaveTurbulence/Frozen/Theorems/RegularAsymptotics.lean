@@ -119,7 +119,7 @@ theorem regularAsymptotics : WTPrefix fun P =>
             Q.app P.δ p F t t k =
           (wkeTaylorTerm (P.φ (P.δ * p)) P.δ p n t k : ℂ)) :=
 -- FROZEN_ANCHOR_PROOF_BEGIN
-  by sorry
+  by exact WaveTurbulence.Provider.regularAsymptotics
 -- FROZEN_ANCHOR_PROOF_END
 -- FROZEN_ANCHOR_SUFFIX_BEGIN
 
