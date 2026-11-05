@@ -1229,3 +1229,27 @@ The source is /home/scott/wt-scratch/finalcount-asm/HANDOFF.md (session 13).
 - LG-SPINE updates the producer of `IsSourceSecondCollection`, if lg-spine-u has one, in the same amendment.
 - `UnselOK` (the DV partner lies in `C2Of`, by maximality) is proved by FINALCOUNT-ASM as assembly glue. If it grows
   beyond about 500 lines, it splits off as S4-DISJ2.
+
+## R50 — FINALCOUNT-ASM session 14: F-DESIG and DVNotInsideObject, 2026-11-05 15:52 UTC
+
+The source is /home/scott/wt-scratch/finalcount-asm/HANDOFF.md (session 14). Accepted from that session:
+- the restricted `Reach1` with κ-dependent `Un`;
+- `unselOK_of_second8`;
+- `LadderHered` via `heredScale'` (no premise, no constant loss: `LadderHered` relates only nested ladder sets);
+- `reg_molecule_bound`.
+
+**F-DESIG.** G3's `C2Of` can contain two designations of one hyper SG group, while lg-spine's `canonicalSub` keeps one
+designation per atom set. G3's `HRunNC` conjunct (every collected object dartless) then fails.
+- **Ruling:** align G3 with the spine, so the second-collection pool has ONE designation per atom set (the canonical
+  one).
+- **Implementation:** in the assembly, use local copies of the affected G3 modules with recorded shas (the established
+  pattern, as for `G3Untouched` and `op5_damagedDec'`). `hcls`'s designation uniqueness then holds by construction,
+  and `hdisj` follows from S4-DISJ plus unique designation.
+- **If it is large:** if the change exceeds about 800 lines, CHECKPOINT with an estimate, and it becomes a G3-DESIG
+  packet.
+
+**DVNotInsideObject** (no pool object properly contains both vines of an F-disjoint DV).
+- First try to prove it from the vine classification on main (Foundations.Molecule.Vines: subsetvc, the VC/HV/HVC/DV
+  shapes) and lg-spine's `dv_branch_double_vine`.
+- If it is not provable in about 400 lines, STOP with the configuration. The fallback is AMEND8b: the omitted clause's
+  DV is maximal, i.e. not inside any eligible object. That is TARGET L2101 read among maximal objects (E13).
