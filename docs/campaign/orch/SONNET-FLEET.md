@@ -169,3 +169,25 @@ Notes:
 - **V5:** (a) and (d) are done; continuation #7 covers the R20 items.
 - **Research #3 (γ ≤ 1/2, item 6):** running. Referee 2's verdict is in errata E1.
 - **B21-SNAP9:** running.
+
+## 02:20 UTC 2026-11-05 (real clock; earlier entry labels such as "03:30" and "06:00" were estimates and ran ahead of the actual time)
+
+**READY**
+- **S2a REDSPLICE: READY (checked).** Fresh rebuild of 52 modules; 28 axiom checks standard; exact types against R19 `Stage1PieceD`/`Sound`. `stage1Piece_sound` takes only `SubproObligation` (S4).
+- **FLOWER-REG: READY.** Fresh rebuild of 191 modules ALL OK; the earlier failure was a stale log.
+- **FLOWER-SPINE-U: READY.** `layergardenFlower_of_spine` and `layergardenFlower_v2_of_spine` both type-check against the verbatim snapshot-9 statement and main's v2 statement. Fresh rebuild ALL OK.
+- **VINE-COUNT: READY.** Ladder form taken from the source; 36 modules.
+- **VINEPARAM-GROUPS: READY.** `vineparam_grouped`; 538 certificates match `cohmol`.
+
+**Research and referee**
+- **Research #3 and Referee #3, γ ≤ 1/2:** `layervine` structure proved for all sizes. Referee verdict: the proposal may go to the author. Errata E1 updated (main 5a51adb). TVINE-DEFS is writing the exact Lean definitions for review.
+
+**Running**
+- **S4 SUBPRO** (new): subpro (a)–(f) for S2a's construction, plus G3 `SubproOblG` and the R21 classification.
+- **S2 REPRESENTS** (new): `Represents` for S2a's pieces (redvine → redvine2/3), consuming V5 and S1.
+- **V5 #9:** aligned rows, grouped charts, `BadClause`.
+- **CONJ-COH:** the q < q′ orientation.
+- **G3 #7:** remtame, excessprop1.
+- **G8 #6:** cases (4) and (6), operation (e).
+- **S1:** OpsCommute #2.
+- **B21-SNAP9.**
