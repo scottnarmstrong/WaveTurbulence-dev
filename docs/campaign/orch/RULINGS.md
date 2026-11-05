@@ -435,3 +435,32 @@ conj-coherence of `IsCoherentCoupleAt`, then `couple_row_le_conj`.
 - V5 then picks its chart from the grouped subtype.
 - `normalizeChart` only permutes rungs, so it preserves the match.
 - If no group-matching chart exists for some base template, VINEPARAM-GROUPS STOPS with that template. That would be a source finding about TARGET L1489 versus DH23 Prop 7.6.
+
+## R23 — FLOWER-SPINE `RegularCouplesDtAt` exponent; Stage 1 packets S2 and S4 start, 2026-11-05 ~02:45 UTC
+
+**(1) `RegularCouplesDtAt` uses δ^{2νN}, which corrects R12's "δ^{νN}".**
+- TARGET's own flowerest bound (L2306) is ⟨k − ζk′⟩^{−4Λ_{p+1}P} L^{(100d)³P} δ^{2νn}.
+- With exactly δ^{νN}, the clause cannot be closed to B1.12(2)'s constants. With δ^{2νN} it closes, since
+  2δ^{2νN} ≤ δ^{νN}.
+
+**(2) FLOWER-SPINE's remaining proof copies are accepted until the port.**
+- The copies are `piece_bound_int`, `sum_bound_int` and `core_bound_int`.
+- LG-SPINE will later add a `stage1_piece_bound` for the integral conjunct alone. That is a proof-level addition,
+  with no spine-input text change. The copies are removed before landing, because duplicate code fails the commit
+  gate.
+
+**(3) S4 SUBPRO starts.** It proves TARGET Prop `subpro` (L2040–L2051) for S2a's construction (`stage1PieceOf`).
+- It discharges redsplice's `SubproObligation`.
+- It also instantiates G3's generic `SubproOblG` (contained, hingeSG, hingeJoint, crossing) and `subpro` (a), (e) for
+  R21's Step-1 classification.
+
+**(4) S2 REPRESENTS starts.** It proves `Represents` (R9, R19 shape: `sel`, `ctr`) for S2a's pieces, via TARGET
+(redvine) L1954, (redvine2) L1962 and (redvine3) L1973.
+- **V5 vineest** (Steps 3 and 4) is consumed. Until it is READY it is the single named input, with V5's exact
+  statement.
+- **S1 congruence** is consumed. Until it is READY it enters as the named `Equivalence` statement.
+- **What S2 proves itself:**
+  - that `sel` is exactly the σ-indicator;
+  - the centre-sum mass bound with C₁, for LG pieces and later for flower pieces.
+- **S2 audits S2a's reading at L1956:** one gap entry per group, none per ladder. S2 confirms it is what redvine2
+  consumes, or reports otherwise.
