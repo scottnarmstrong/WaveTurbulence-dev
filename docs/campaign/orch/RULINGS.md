@@ -350,3 +350,38 @@ garden, and the bad-vine count among the ingredients of 𝒱_0.
   the forward direction (`miniA_triple`, `miniB_triple`).
 - This is a stated source fact. S2a proves it, from SKELETON / COMB-CORE's mini-occurrence classification.
 - Likewise S2a proves `isMolecule_eraseBond` for HVC groups.
+
+## R20 — V5 Step 3 chart geometry (vineest-s3 session 5), 2026-11-05 ~05:00 UTC
+
+**(1) The VINEPARAM contract (`FullVineChart`, Contract.lean) is NOT amended.**
+- V4, VINE-COUNT and VINEPARAM all consume it, and VINEPARAM's catalogue build is in flight.
+- V5 derives the numbering it needs inside its own packet:
+  - prove a re-indexing lemma, `FullVineChart` → `FullVineChart` (reversing or permuting the rungs), giving a chart
+    whose rung 0 is the end rung next to `b` for a type-(II-e) vine;
+  - use only the contract's own fields: `rung_bonds`, a degree-4 count, and molecpl's `EndRungData`.
+- If the re-indexed chart cannot be fed to V4's `vineChain_eq_sumintForm`, prove a chart-independence lemma for the
+  sumint form instead, since the summand is a relabelling.
+- If neither works, STOP with the exact reason. Only then is a contract amendment considered, and VINEPARAM must prove
+  any new field.
+
+**(2) The layer-failure time order (TARGET L1846–L1847) comes from layers, not parent pairs.**
+- Prove the domain lemma: on the support of the layer indicators, t_{u4} ≤ q₄+1 ≤ q₂ < t_{u2} except on a null set.
+  So adding the layer-order pair to the constraints leaves the integral unchanged.
+- This is a proof step, not a premise. It is an exposition point, not an erratum.
+
+**(3) The incoherency dictionary.** The link between `LayeredGarden.incoherency` of the native rows and `CohOn` is a
+definitional bridge, so prove it.
+
+**(4) `n_(3)`.**
+- The inequality cohmol index ≤ D.M₀ + D.M₁ suffices, because L^{−η⁸·n} decreases in n.
+- Prove it by relating the chart's groups (rung pairs, and the core triple) to the groups of a `VineRealization` built
+  from the same chart, again from the contract's own fields.
+- The same applies to (1): if this is genuinely not derivable, STOP with the reason.
+
+**(5) (c), the q < q′ orientation.** Prove it, by swap + conjugation invariance of `XNorm`/`XNormRestr` and
+conj-coherence of `IsCoherentCoupleAt`, then `couple_row_le_conj`.
+
+**(6) Candidate erratum (V5).**
+- TARGET Step 3 and `sumint` require t₀¹ > max(t′, t″). That is not the actual domain when u₂₁ or u₂₂ is a leaf.
+- The order-0 trace route (`XNorm00Restr_trace`) handles it, at the cost of the constant `traceR η`.
+- To be assessed for the errata file once V5 is READY.
