@@ -550,3 +550,27 @@ The fourth slot is held for the top unowned item of the gap census.
 
 **Next:** the S2 vine case (Opus) after the AMEND6′-GATE announcement; the fourth Codex slot goes to the census's
 top unowned item.
+
+## 18:45 UTC 2026-11-05 (new login; resumed)
+
+**READY:** ZP-SURJ (`zpSurj_of_state`, `zpLayers_of_state`, `zpQ2_le_of_state`; four operation preconditions);
+S4-SHAPE; PORT-B2b (`w/port-b2b` 9ce0bfe).
+
+**Launched**
+- S2 REPRESENTS relaunch (Opus), on AMEND6′-GATE (build-fresh-a6g).
+- The second-key audit of B2b (regularAsymptotics seal).
+- LG-SPINE AMEND6′ #2 (Sonnet): the consumer rework, the couples lemma (R53 (1)), the consumer switch.
+
+**Resumed**
+- FINALCOUNT-ASM #18 (Opus), with the census's final-count findings.
+- V5 P4 #3 (Opus).
+- V5 P2 #3.
+
+**Rulings**
+- R52: Batch 4b keeps both sumint forks (cx-b4bprep STOP answered).
+- R53: TwistClosed for couples (a lemma); `FlowerTwist` for flower gardens (cx-flower).
+
+**Census.** The author stopped the GAP CENSUS and two of its sub-agents. Its final-count sub-report arrived and was
+forwarded to FINALCOUNT-ASM.
+
+**Codex:** cx-repin, cx-b4bprep (resumed with R52), cx-flower (scope + `FlowerTwist`).
