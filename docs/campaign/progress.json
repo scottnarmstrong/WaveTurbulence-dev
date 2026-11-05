@@ -1,5 +1,5 @@
 {
- "assessed": "2026-11-05 18:15 UTC",
+ "assessed": "2026-11-05 22:43 UTC",
  "notes": "Lean work items = blueprint packets (docs/blueprint/GRAPH.md §E) with their difficulty weights (node weights L=1, M=2, H=4, VH=8 summed). Each frozen theorem anchor adds weight 1, credited when SEALED. Done fractions are the orchestrator's assessment, reviewed at integration rounds.",
  "lines_est_total": 273000,
  "parts": [
@@ -639,8 +639,8 @@
      "goal": "TARGET Props 6.6–6.8 (norm translation F11, corrected regref1-5, dominant trees)",
      "weight": 13.0,
      "lines_est": 4100,
-     "done": 0.92,
-     "note": "REGREF done: B2.1 regularAsymptotics proved at exact type from RA1Couple/RA1Tree; snapshot-9 composition and the B2.1 seal (PORT batch 2b) in progress"
+     "done": 1.0,
+     "note": "landed 675cf6c: B2.1 regularAsymptotics_v1 SEALED after independent audit; 360-module chain on main"
     },
     {
      "id": "L3",
@@ -685,7 +685,7 @@
      "weight": 13.0,
      "lines_est": 5100,
      "done": 0.95,
-     "note": "VINEEST: Step 3, all Step 4 pieces, the induction over core vines and the bottom-vine twist proved; bundle decomposition (P1) and unrolling over levels (P3) proved; per-level engine bounds (P2) and final assembly (P4) in progress; twist-class bijection (ZP-SURJ) in progress"
+     "note": "VINEEST scratch: Step 3, Step 4, P1-P3 and ZP-SURJ checkpoints available; P4-W2 certificates and W13 expansions/constants resumed with Terra-medium. R54/R58 modulated assembly and kind=false obligations remain; no frozen closure claimed"
     },
     {
      "id": "G3",
@@ -703,7 +703,7 @@
      "weight": 6.0,
      "lines_est": 2400,
      "done": 0.58,
-     "note": "REPRESENTS: vine-free reduction and class count (CLASSCOUNT READY, exact bridge to Stage1Counts (iv)) proved; vine case waits on the pair-type gate (AMEND6')"
+     "note": "REPRESENTS scratch: vine-free reduction and CLASSCOUNT checkpoints exist; vine case split VINE-A/B/C/D/E/F. INTERFACE v2 routes lower-child mode frequencies through the R58 modulated kernel. Producer and full vine reduction remain open"
     },
     {
      "id": "G8",
@@ -739,7 +739,7 @@
      "weight": 4.0,
      "lines_est": 900,
      "done": 0.81,
-     "note": "FINAL-COUNT: Props 9.4-9.6 proved for gamma > 1/2 incl. low-degree atoms; assembly: REG/LOW split, terminal chain, restricted Step-1 run, UnselOK, ladder-scale heredity, one designation per atom set (R50), VHard shape and rho parts; hconn0, hend and garden glue in progress"
+     "note": "FINAL-COUNT scratch: finalCount_reg_half proved in session 19; LOW-FRONT/CHAIN/GARDEN/GLUE remain. Terra-medium owns LOW-FRONT. Canonical-world rebuild still pending; FinalCountGateHalf remains open"
     },
     {
      "id": "F2",
@@ -748,7 +748,7 @@
      "weight": 12.0,
      "lines_est": 4150,
      "done": 0.86,
-     "note": "PLG = LG-SPINE on the canonical universe: corrected Stage 1 interface, atom-level second collection (AMEND5), final-count premises (AMEND7+8: irreducible, triple designation, no hinge loop, F-disjoint omitted DVs); pair-type Stage 1 families (AMEND6', R47) in progress"
+     "note": "LG-SPINE scratch: AMEND4/5/7+8 checkpoint and AMEND6-prime pair-type gate exist; AMEND9/10 consumer rework unfinished. Full Stage-1 and final-count producers remain required"
     },
     {
      "id": "X2",
@@ -757,7 +757,7 @@
      "weight": 16.0,
      "lines_est": 8900,
      "done": 0.9,
-     "note": "FLOWEREST on the canonical universe: layergardenFlower_of_spine and layergardenFlower_v2_of_spine type-check against snapshot-9 B1.12 and the D10 successor; regular L0 leg proved (FLOWER-REG); flower Stage 1 gates and Dirac-root couples pending (S2a/S2/S4)"
+     "note": "FLOWEREST scratch: conditional spine assembly and regular L0 leg exist; flower Stage-1, fixed-time traces and marked-flower LF-twist construction remain unresolved"
     },
     {
      "id": "X3",
