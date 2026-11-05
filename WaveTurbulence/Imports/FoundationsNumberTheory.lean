@@ -1,0 +1,77 @@
+/-
+Copyright (c) 2026 Scott Armstrong. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Scott Armstrong
+-/
+module
+
+public import WaveTurbulence.Foundations.NumberTheory.AProcessAllRegimes
+public import WaveTurbulence.Foundations.NumberTheory.AProcessBounds
+public import WaveTurbulence.Foundations.NumberTheory.AProcessDerivativeBalance
+public import WaveTurbulence.Foundations.NumberTheory.AProcessDerivativeStep
+public import WaveTurbulence.Foundations.NumberTheory.AProcessOptimization
+public import WaveTurbulence.Foundations.NumberTheory.AProcessTwoPowers
+public import WaveTurbulence.Foundations.NumberTheory.AProcessTwoPowersCutoff
+public import WaveTurbulence.Foundations.NumberTheory.CircleColumnSourceCalculus
+public import WaveTurbulence.Foundations.NumberTheory.CircleDualAScale
+public import WaveTurbulence.Foundations.NumberTheory.CircleDualDerivativeNumerics
+public import WaveTurbulence.Foundations.NumberTheory.CircleDualScaleNormalization
+public import WaveTurbulence.Foundations.NumberTheory.CircleDualWeightScale
+public import WaveTurbulence.Foundations.NumberTheory.CircleGuardErrorScale
+public import WaveTurbulence.Foundations.NumberTheory.CircleIntegerSourceWindow
+public import WaveTurbulence.Foundations.NumberTheory.CircleOptimizedBError
+public import WaveTurbulence.Foundations.NumberTheory.CircleOptimizedSource
+public import WaveTurbulence.Foundations.NumberTheory.CirclePoissonErrorScale
+public import WaveTurbulence.Foundations.NumberTheory.CircleShortSource
+public import WaveTurbulence.Foundations.NumberTheory.CircleSourceScale
+public import WaveTurbulence.Foundations.NumberTheory.CircleSourceWindow
+public import WaveTurbulence.Foundations.NumberTheory.CircleSummedStationaryScale
+public import WaveTurbulence.Foundations.NumberTheory.CircleTotalPoissonErrorScale
+public import WaveTurbulence.Foundations.NumberTheory.CircleWeightedDual
+public import WaveTurbulence.Foundations.NumberTheory.CircleWeightedDualIntervals
+public import WaveTurbulence.Foundations.NumberTheory.DerivativeTests
+public import WaveTurbulence.Foundations.NumberTheory.DerivativeTowerShift
+public import WaveTurbulence.Foundations.NumberTheory.Differencing
+public import WaveTurbulence.Foundations.NumberTheory.ExponentPairApplications
+public import WaveTurbulence.Foundations.NumberTheory.ExponentPairSmoothing
+public import WaveTurbulence.Foundations.NumberTheory.ExponentialSums
+public import WaveTurbulence.Foundations.NumberTheory.FifthDerivative
+public import WaveTurbulence.Foundations.NumberTheory.FifthDerivativeLinearPhase
+public import WaveTurbulence.Foundations.NumberTheory.FifthDerivativeScale
+public import WaveTurbulence.Foundations.NumberTheory.FifthDerivativeScaleConstants
+public import WaveTurbulence.Foundations.NumberTheory.FiniteDifferenceMeanValue
+public import WaveTurbulence.Foundations.NumberTheory.FourthDerivative
+public import WaveTurbulence.Foundations.NumberTheory.FractionalPowerSums
+public import WaveTurbulence.Foundations.NumberTheory.FractionalSmoothing
+public import WaveTurbulence.Foundations.NumberTheory.FrequencyGuardGeometry
+public import WaveTurbulence.Foundations.NumberTheory.HalfPowerSums
+public import WaveTurbulence.Foundations.NumberTheory.IntegerDistance
+public import WaveTurbulence.Foundations.NumberTheory.IntegralSecondDerivative
+public import WaveTurbulence.Foundations.NumberTheory.IntegralSecondDerivativeSide
+public import WaveTurbulence.Foundations.NumberTheory.KusminLandau
+public import WaveTurbulence.Foundations.NumberTheory.LinearPhaseTower
+public import WaveTurbulence.Foundations.NumberTheory.MonotoneWeightedSums
+public import WaveTurbulence.Foundations.NumberTheory.Phase
+public import WaveTurbulence.Foundations.NumberTheory.PhaseCalculus
+public import WaveTurbulence.Foundations.NumberTheory.PhaseDifferences
+public import WaveTurbulence.Foundations.NumberTheory.PoissonStationaryGuards
+public import WaveTurbulence.Foundations.NumberTheory.PowerScaleComparison
+public import WaveTurbulence.Foundations.NumberTheory.ReflectedNegativePhase
+public import WaveTurbulence.Foundations.NumberTheory.Sawtooth
+public import WaveTurbulence.Foundations.NumberTheory.SawtoothFourier
+public import WaveTurbulence.Foundations.NumberTheory.SawtoothSmoothing
+public import WaveTurbulence.Foundations.NumberTheory.SecondDifference
+public import WaveTurbulence.Foundations.NumberTheory.SineSeries
+public import WaveTurbulence.Foundations.NumberTheory.SmoothingBounds
+public import WaveTurbulence.Foundations.NumberTheory.SmoothingFourier
+public import WaveTurbulence.Foundations.NumberTheory.SqrtQuadraticBounds
+public import WaveTurbulence.Foundations.NumberTheory.StationaryErrorBounds
+public import WaveTurbulence.Foundations.NumberTheory.StationaryRadius
+public import WaveTurbulence.Foundations.NumberTheory.ThirdDerivative
+public import WaveTurbulence.Foundations.NumberTheory.ThirdDifference
+public import WaveTurbulence.Foundations.NumberTheory.VdCBCircleDualAScale
+public import WaveTurbulence.Foundations.NumberTheory.WeylDifferencing
+
+/-! Public re-exports for FoundationsNumberTheory.
+Generated by scripts/update_root_imports.py. -/
+public section
