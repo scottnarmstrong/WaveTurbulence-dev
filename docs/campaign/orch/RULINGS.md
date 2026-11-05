@@ -1324,3 +1324,29 @@ for them. TARGET flowerest1 (4), (5) and (7) (L2296–L2302) say:
 - **Owner:** the flower Stage-1 packet (Codex cx-flower), as part of its construction work.
 - **Then:** `FlowerTwistClosed` is pinned on it in AMEND6′ (c). AMEND6′ finishes (b) and (d) for the LG gate first;
   (c) waits for cx-flower's `FlowerTwist`.
+
+## R54 — V5 F-COUNTGAIN: the bad-vine gain absorbs the class count only at a reduced rate, 2026-11-05 18:46 UTC
+
+**Finding** (V5 P4, Opus).
+- **The count.** At an operative vine, the class count of the exceptional pair is ≈ C^n · 4^{L4−L2}: codes ×
+  layerreg2 layerings, with L4 − L2 ≤ p ≤ D = τ*/δ.
+- **Why it cannot be absorbed as written.** C₁ is chosen before δ and D, so (C₁√δ)^{n₂} cannot absorb 4^D. The
+  engine gives exactly L^{−η²(b+M₁) − η⁸M₀ + η⁷}, with no slack beyond that.
+- **TARGET.** L1919–L1922 says this "can be covered by the L^{−η²} gain for this bad vine", yet (vineest2), L1748,
+  keeps the full L^{−η²b}.
+
+**What is provable.** The bound of (vineest2) times P.C₂^{#operative vines}, with #operative ≤ b. C₂ is chosen after δ
+and D (WTPrefix), so C₂^b ≤ L^{(η²/2)b} once L ≥ L₀, and the gain becomes L^{−(η²/2)b}.
+
+**Ruling.** V5 proves two statements.
+- (i) `VineEstCanonLayer` with the explicit factor P.C₂^{b}.
+- (ii) The corollary with L^{−(η²/2)b} in place of L^{−η²b}, for L ≥ L₀.
+
+S2 consumes whichever matches lg-spine-u's `Represents` bound. If neither does, because `Represents` or the Stage-1
+count hard-codes the exponent η²·b_sk, S2 reports the exact text and LG-SPINE amends it. A later step must absorb the
+halved exponent; this is harmless, since η is fixed and every later use has slack ≥ η²/2 per bad vine. S2 checks that
+claim.
+
+**Candidate erratum E25:** TARGET L1919–L1922 against (vineest2) L1748; the gain exponent should be η²/2, or should
+carry C₂^b. To be recorded with the next errata batch, together with the G3-LOWDEG ghost-bookkeeping exposition point
+(TARGET L2160–L2161).
