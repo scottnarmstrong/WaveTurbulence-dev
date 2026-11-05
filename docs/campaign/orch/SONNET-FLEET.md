@@ -395,3 +395,20 @@ the 30d coherent-error norm).
 **Stopped (not resumed):** S2 #6 and #7. S2 is relaunched after AMEND6 and LEAFMAP.
 
 **Waiting on the author:** D11; B21-SNAP9 restart; VINEPARAM catalogue home.
+
+## 13:40 UTC 2026-11-05
+
+**READY**
+- V5 4d-B, the S-side twist (`tildeJ2_bundle`, `zp_state`; 19 modules, fresh ALL-OK).
+- LFTWIST-LEAFMAP, with amended scope: ordinary leaves (R45).
+
+**STOPPED, now with Opus research packets**
+- FINALCOUNT-ASM #12: F-SH (degree and no-loop) and F-TD (TripleDesig). Research packet FC-GEOM; the result goes to AMEND7.
+  - Done in #12: AsmFamU, AsmTerm16a–c (`hterm_main`), AsmMaxGap1/2.
+- V5 part C: F-LEAFREAL. Research packet TWIST-PROFILES.
+  - The agent resumed on the steps every design needs: node-profile generalization (incl. Step 3), WP-B (layer profile on the exceptional pair), WP-I, WP-F, `VineEstCanonLayer`.
+
+**Running**
+- CLASSCOUNT #4.
+- LG-SPINE AMEND5: fresh rebuild; it is held off AMEND6.
+- The second-key audit of the wkeTaylor seal and the Batch 2a port (Opus).
