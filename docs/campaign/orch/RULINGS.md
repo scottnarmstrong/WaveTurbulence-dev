@@ -503,3 +503,20 @@ conj-coherence of `IsCoherentCoupleAt`, then `couple_row_le_conj`.
   (time-Fourier superposition with `XNormRestr` bounds, including the multi-time K̃^U).
 - **S2 main (represents):** W1 (sel/partition), W2 (finer classes; S1 EQUIV named until READY), W3 (factorization over
   the U_j), then W7 (assembly), consuming the others.
+
+## R25 — σ is indexed by the objects of 𝒞, with σ-independent gap pairs (S2 finding D7), 2026-11-05 ~03:00 UTC
+
+**Source.** TARGET L1950: "for each vine-like object in 𝒞, we can specify whether it has SG, LG or ZG". The
+prescription is per OBJECT of 𝒞, i.e. the specific objects from `vinechainlem`, with the canonical designation of R6.
+It is not per group.
+
+**Ruling.**
+- **Designate the pair once, outside σ.** S2a amends `internalPair` and `hingePair` (RedSpliceGap, RedSpliceColl2).
+  The gap pair of each group is taken from the group's designated object (S2's `groupObject`, i.e. the R6 canonical
+  designation), and it is chosen BEFORE and independently of σ. The dart types must not depend on σ.
+- **Then W1b follows.** For a fixed object, every internal pair gives the same gap kind (`object_hasGapKind_unique`),
+  so `splicedGapIndicator` on G_sb equals the σ-restriction `selOf`.
+- **The `VineHyperGapAmbiguity` example is consistent with this.** Two different adjoint designations of one hyper
+  group are different objects; only the designated object enters 𝒞.
+- **Re-check after the change.** S2a re-checks the `Sound` fields (`gapSpecification_hinge_kind`, `hingePair_spec`)
+  under the new choice.
