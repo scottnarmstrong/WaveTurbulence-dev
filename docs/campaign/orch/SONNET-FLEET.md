@@ -440,3 +440,29 @@ the 30d coherent-error norm).
 - D11.
 - VINEPARAM catalogue home.
 - Pruning the stale freeze-b1-snap6/7/8 branches.
+
+## 15:51 UTC 2026-11-05
+
+**READY**
+- G3-LOWDEG (56 modules, fresh, standard axioms). Loops are handled by `M.unloop`, the vine-LG chain is ported, and
+  `hnew` is proved. FINALCOUNT-ASM must assemble `FinalCountLowAt`.
+- S2a-AMEND7: standalone producer lemmas. They are re-pinned once AMEND7+8 is announced.
+
+**Rulings**
+- R47-FINAL: P*, with fixes F1–F7.
+- R48.
+- R49: the restricted Reach1; LadderHered via admissibility; AMEND8.
+
+**Errata on main (c1af77d):** E23 (low-degree atoms and loops) and E24 (weights and derivatives against the twist
+class). The candidate exposition point on the ghost bookkeeping at TARGET L2160–L2161 is pending a batch.
+
+**Running**
+- LG-SPINE AMEND7+8: fresh rebuild at 399/422.
+- FINALCOUNT-ASM #14 (REG): Reach1 re-base, hmem, hend, wrapper.
+- V5 part C #4: hAbs, WP-B, WP-F, prefix.
+- V5 4d-B2: the bottom-vine twist (F-BOTTOM).
+- CLASSCOUNT #4: fresh rebuild.
+
+**Next**
+- After AMEND7+8 is READY: LG-SPINE AMEND6′ (P*, gate then consumer), the flower mirror (F7), the S2a re-pin, and
+  the S2 relaunch.
