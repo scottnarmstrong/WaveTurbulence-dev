@@ -630,3 +630,27 @@ neither units nor a skipped vine), `ObjSpec.src` (skip-shape facts, `od R.added 
 
 **(4) `hL : P.L ≠ 0` (typing: L ≥ 1).** It is added to `SubproObligation`'s discharge, and threaded from the gate's
 L ≥ L₀.
+
+## R30 — V5 Step 4c: the derivative loss at clause (b), and clause (c), 2026-11-05 ~05:30 UTC
+
+**The finding (F1).** In replaceterm1, Q sits at k₁ and T at ℓ₁ = k₁ ± r. Shifting T by r gives the weight
+M_Q · (T(k₁ + εr) − T(k₁))/|r|. That weight has 29d derivatives, but sumint (`propertyKj`, L1605) asks for 30d.
+
+**Assessment.**
+- This is a derivative-counting slack, not a mathematical failure. TARGET itself (L995) notes that the kernels have
+  S^{40d,40d} inputs, of which only S^{10d,10d} is used.
+- It is recorded as an exposition point at TARGET L1903.
+
+**Ruling: option (ii).**
+- Prove an internal variant of `sumint`, parametric in the weight-regularity exponent A, with A ≥ A₀ for some explicit
+  threshold. The proof needs more than d decay for the unit-ball sums; give the exact threshold. The existing 30d
+  theorem (B1.6 / V1 / V2) must be a special case.
+- The bad-vine slot then consumes it at A = 29d.
+- If sumint's Lean proof cannot be made parametric cheaply, fall back to option (i): derive 31d versions of the
+  needed Prop 5.1/6.1 outputs as INTERNAL lemmas, using the 40d input slack exactly as in TARGET L995. Frozen
+  statements stay untouched in both cases.
+
+**F2, clause (c).** Prove the time-difference extraction lemma: Fourier-expand (J(s) − J(t))/|s − t|^{1−3η} in
+(s₁, t₁) with an X^{1−η}-controlled bound. This is real analysis that TARGET (L1903) only asserts. Do the proof.
+
+**F3.** The x*/y* reading of replaceterm1 for Vines II-a and II-b is recorded as a notation point.
