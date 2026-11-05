@@ -298,3 +298,40 @@ the 30d coherent-error norm).
 - V5 Step 4 induction (packet 4: induction + endpoint, consuming 4b and 4c).
 - Errata E18 (TARGET L1913 (ii)) and the L2216 factor 2, as candidates.
 - The PORT plan, once PORT-PREP reports.
+
+## 09:58 UTC 2026-11-05
+
+**PORT, on main**
+- Batch 0 + universe L2: d514f99.
+- Universe L3–L5: f1d45c8.
+  - 977 + 147 modules.
+  - land_check OK.
+  - Every audit test matches.
+
+**Next PORT batches**
+- 2a: X-chain + v2 assemblies. Waits for V2-CHAIN.
+- 2b: B2.1 + B1.5 seals. B2.1 needs the B21-SNAP9 composition, which was stopped by the user and needs a decision.
+- 3: spine + providers. Depends on 2b's B2.1 gate.
+- 4a: VINEPARAM catalogue, 878k lines. Needs a decision on where it lives.
+
+**READY**
+- G8-QUANT.
+- VINE-RHO (C0 = 42).
+- LG-SPINE-AMEND3: F-TT root times; F-DERIV 30d coherent norm, with providers PL2330 confirmed.
+
+**Rulings**
+- R36: ghost / vine-rho split.
+- R37: hinge triple bonds.
+- R38: charged ghost bound, alive-cut ι.
+
+**Errata on main:** E18–E22.
+
+**Running**
+- FINALCOUNT-ASM #6.
+- G3 #14 (R37/R38).
+- G2-GHOST #2.
+- S2a-TRIPLE.
+- V5 4b #6.
+- V2-CHAIN.
+- S2 represents #3.
+- LADDER-TT.
