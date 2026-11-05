@@ -925,3 +925,17 @@ Research: /home/scott/wt-scratch/research-ghost/NOTES.txt (§3c patterns, §3d t
 - **Owner.** New packet CLASSCOUNT, which states and proves it for S2's class producer.
 - **Until CLASSCOUNT is READY,** S2 takes it as a single named input with its exact statement (transcribed from
   lg-spine-u's `Stage1Counts` (iv)).
+
+## R40 — `LeafFamily.sign` must be bounded (S2 finding D8), 2026-11-05 ~11:00 UTC
+
+**Finding.** `LeafFamily.sign` is an unconstrained real, and `F.size` does not include it. Scaling a sign scales `val` but
+not the mass bound, so `Stage1ReductionAt` (C2) is FALSE as stated.
+
+**Source.** In TARGET the sign factors are products of ζ = ±1 and ε-coefficients, all bounded by 1 in absolute value.
+
+**Ruling.** LG-SPINE (AMEND4) adds `∀ LG i, |F.sign LG i| ≤ 1` to the `LeafFamily` structure, or the precise
+source-faithful form if the signs are exactly ±1. Every producer of a `LeafFamily` proves the bound. Then re-prove the
+consumers, re-run the type checks, and announce the change in PORT-LOG.md. FLOWER-SPINE follows.
+
+**Meanwhile.** S2 proceeds with `|sign| ≤ 1` as an explicit hypothesis, to be replaced by the structure field once
+AMEND4 lands.
