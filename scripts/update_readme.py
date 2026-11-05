@@ -87,7 +87,7 @@ def workers_block():
         workers = json.load(open(WORKERS, encoding="utf8"))
     except (OSError, json.JSONDecodeError):
         return "_no workers.json_"
-    rows = ["| tmux | model / account | packet | branch: last commit | brief |", "|---|---|---|---|---|"]
+    rows = ["| Worker / session | model / account | packet | branch: last commit | brief |", "|---|---|---|---|---|"]
     for w in workers:
         ts = git("log", "-1", "--format=%ct", w["branch"]).strip() if w.get("branch") else ""
         ahead = git("rev-list", "--count", f"main..{w['branch']}").strip() if w.get("branch") else ""

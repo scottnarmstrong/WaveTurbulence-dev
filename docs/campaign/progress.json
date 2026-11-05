@@ -1,5 +1,5 @@
 {
- "assessed": "2026-11-05 22:43 UTC",
+ "assessed": "2026-11-05 23:09 UTC",
  "notes": "Lean work items = blueprint packets (docs/blueprint/GRAPH.md §E) with their difficulty weights (node weights L=1, M=2, H=4, VH=8 summed). Each frozen theorem anchor adds weight 1, credited when SEALED. Done fractions are the orchestrator's assessment, reviewed at integration rounds.",
  "lines_est_total": 273000,
  "parts": [
@@ -685,7 +685,7 @@
      "weight": 13.0,
      "lines_est": 5100,
      "done": 0.95,
-     "note": "VINEEST scratch: Step 3, Step 4, P1-P3 and ZP-SURJ checkpoints available; P4-W2 certificates and W13 expansions/constants resumed with Terra-medium. R54/R58 modulated assembly and kind=false obligations remain; no frozen closure claimed"
+     "note": "Scratch checkpoints: modulated Step-3/no-twist base bound proved with the R58 loss; W13 full-square time bound and actual C2^b geometric class-count bound proved. General separated-family producer, unrolled-term certificates, modulated flattening and kind-general full VINEEST remain open"
     },
     {
      "id": "G3",
@@ -739,7 +739,7 @@
      "weight": 4.0,
      "lines_est": 900,
      "done": 0.81,
-     "note": "FINAL-COUNT scratch: finalCount_reg_half proved in session 19; LOW-FRONT/CHAIN/GARDEN/GLUE remain. Terra-medium owns LOW-FRONT. Canonical-world rebuild still pending; FinalCountGateHalf remains open"
+     "note": "Scratch LOW-FRONT A1-A3 compiled: actual loop-label determination, GL17/LoopCtx applications and loop-count bookkeeping; provisional farm only. REG half exists; A4, LOW-CHAIN/GARDEN/GLUE and canonical-world validation remain open"
     },
     {
      "id": "F2",
