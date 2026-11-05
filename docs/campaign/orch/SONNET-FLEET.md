@@ -412,3 +412,31 @@ the 30d coherent-error norm).
 - CLASSCOUNT #4.
 - LG-SPINE AMEND5: fresh rebuild; it is held off AMEND6.
 - The second-key audit of the wkeTaylor seal and the Batch 2a port (Opus).
+
+## 14:23 UTC 2026-11-05
+
+**LANDED on main 3a1b17a:** PORT Batch 2a plus the B1.5 wkeTaylor_v1 seal.
+- Merge 73b6270; landing notes d144ce9.
+- Second-key audit /home/scott/wt-scratch/audit-b2a: SEAL PASS, PORT PASS_WITH_NOTES, notes N1–N3 applied.
+- Checks: land_check OK (13516 jobs), FROZEN-ANCHOR GUARD OK, ABI 322/322 OK.
+- Sealed anchors: 15 of 26.
+
+**Rulings:**
+- R46: uniform input bound for the vine estimate.
+- R47 (provisional, referee running): pair-type Stage-1 families, P*.
+- R48: AMEND7, the REG/LOW split, G3-LOWDEG.
+
+**Running**
+- V5 part C #3: WP-I, WP-B, WP-F.
+- FINALCOUNT-ASM #13: REG.
+- G3-LOWDEG.
+- S2a-AMEND7.
+- CLASSCOUNT #4: `classCount` proved; fresh rebuild running.
+- LG-SPINE: AMEND5 READY on the lg-spine-u side, flower rebuild running; then AMEND7.
+- The P* referee.
+
+**Waiting on the author**
+- B21-SNAP9 restart. This gates the B2.1 regularAsymptotics seal, which is on the critical path to the v2 seals (Batch 6).
+- D11.
+- VINEPARAM catalogue home.
+- Pruning the stale freeze-b1-snap6/7/8 branches.
