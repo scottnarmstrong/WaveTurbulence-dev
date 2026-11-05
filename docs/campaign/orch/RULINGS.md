@@ -406,3 +406,32 @@ conj-coherence of `IsCoherentCoupleAt`, then `couple_row_le_conj`.
   - (a) realisation independence of a sub-ladder's gap, a ladder-combinatorics lemma;
   - (b) ‖r‖ ≤ c₀ at P = 1, from the unit-ball labels.
 - If (a) is false, give the configuration. The fix then goes in the consumer, not in the source form.
+
+## R22 — V5 Step 3: the chart in V4, row alignment, and cohmol groups (vineest-s3 session 6 STOP), 2026-11-05 ~01:50 UTC
+
+**(1) Normalized chart.**
+- In V5's own copy of the V4 modules (vineest-s3/uni), wrap `chosenVineChart` and `chainPieceChart` in `normalizeChart`.
+- Then rebuild. About 300 modules is compute time, not a reason to stop.
+- V4's proofs use only contract fields, so they should go through unchanged. Repair any that do not.
+- `Contract.lean` is not amended.
+
+**(2) Clause (d) per vine (STOP reason A).**
+- `Admissible` belongs to the sumint statement (B1.6), so it is not changed.
+- In V5's V4 copy, implement vine-aligned enumerations:
+  - a free bijection for pairs;
+  - for branches, the key (vine index, −depth).
+- Prove the structural fact this needs: a child of v lies in a vine of index ≤ vine(v), or choose the vine indexing so that it holds by construction.
+
+**(3) cohmol groups (STOP reason B).**
+- The cohmol groups of TARGET Def `cohmol` (L1489) are meant to be the parametrization's variable groups:
+  - the core triangle or the IV triple;
+  - the doubled pairs;
+  - the leftover pair of VII.
+- The contract STRUCTURE stays as it is. VINEPARAM instead delivers a strengthened existence theorem, `vineparam_grouped`: every vine admits a `FullVineChart` whose groups (rung pairs plus the core triple) equal VINES' `realizedGroups` as atom sets.
+- **New packet VINEPARAM-GROUPS:**
+  - check the base catalogue charts against the cohmol groups;
+  - re-mine with the group constraint if needed;
+  - show that rung insertion preserves the match.
+- V5 then picks its chart from the grouped subtype.
+- `normalizeChart` only permutes rungs, so it preserves the match.
+- If no group-matching chart exists for some base template, VINEPARAM-GROUPS STOPS with that template. That would be a source finding about TARGET L1489 versus DH23 Prop 7.6.
