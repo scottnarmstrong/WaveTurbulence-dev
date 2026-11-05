@@ -913,3 +913,15 @@ Research: /home/scott/wt-scratch/research-ghost/NOTES.txt (§3c patterns, §3d t
    - κ_v is fixed at creation and is the same in the creation-step bound, in Prop 9.6's product and in any ghost refund.
    - G3 restates `IotaHit` / the κ = 0 condition, and re-proves N2 (the earlier cut is alive at the later one).
    - G8 is unchanged.
+
+## R39 — The Stage 1 class count (Stage1Counts (iv), TARGET L2241–L2252) gets its own packet, 2026-11-05 ~10:30 UTC
+
+- `Stage1Counts` clause (iv) is the class count of TARGET L2241–L2252, the "M8 class-count edge" in the PORT-PLAN DAG.
+- It needs:
+  - propcplmol;
+  - propstructure2 (SKELETON's `existsUnique_prime_with_replacements`);
+  - layerreg1/2 (C4 LAYERREG);
+  - layervine and layerlad (M8 LAYERCNT).
+- **Owner.** New packet CLASSCOUNT, which states and proves it for S2's class producer.
+- **Until CLASSCOUNT is READY,** S2 takes it as a single named input with its exact statement (transcribed from
+  lg-spine-u's `Stage1Counts` (iv)).
