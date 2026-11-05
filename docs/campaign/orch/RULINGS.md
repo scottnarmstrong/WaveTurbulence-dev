@@ -605,3 +605,28 @@ Research: /home/scott/wt-scratch/research-remtame-i/NOTES.txt. Checks: check_rem
      no case for them, and G3 delivers "ε-atoms LG or tame" where G8 needs strict LG.
    - (ii) TARGET's "ZG ⇒ tame by subpro (3)" when Op 2's v₃ is a hinge atom. G3's skip of such triangles must be shown
      to be sound, or replaced.
+
+## R28 — S4 SUBPRO findings: hinge pair, atom-set containment, L ≠ 0, nonempty groups, 2026-11-05 ~04:30 UTC
+
+**(1) `hingePair` is the lift of R25's `hingeOrigPair`.**
+- S2a's `Cs.first`/`Cs.second` and the gap-specification entry pair then coincide, so hingeSG follows directly from
+  the Z restriction (TARGET L2042–L2047; L2152 "SG with fixed (ℓ₁, ℓ₂)").
+- The old `Classical.choose` over all `TripleAt` pairs goes. It could mix the two joints of a unit, which made (6)
+  unprovable and Z differ from the source.
+
+**(2) The changes are made in redsplice itself, not in S4's copies.** These are `GroupUnits.vl` (no VC/HVC group with
+neither units nor a skipped vine), `ObjSpec.src` (skip-shape facts, `od R.added = e`), `ProperPair`, and (1).
+- One tree is the single source of truth. Keep `amend-orig/` backups and add an R28 section to HANDOFF.md.
+- Every new field must be PROVED by the construction (`exists_groupUnits`, `vc_top_exists`, `hvc_top_exists`).
+- Then run a fresh rebuild and the `Sound` checks again. S4 then rebases subpro on that tree.
+
+**(3) `contained` is atom-set containment.**
+- TARGET L2040–L2051 says "subset", which is atom-set containment.
+- The designation-level `Outside`/`IsContained` fails for hyper objects when the SG designation differs from the C₁ one.
+- So lg-spine-u's `SubproSupport.contained` and G3's `SubproOblG.contained` are restated with atom-set containment
+  (S4's `contained_atoms` form).
+- Each consumer re-proves its use: lg-spine's counting cover, and G3's `vineLG_of_run`. If a consumer genuinely needs
+  designation-level containment, it reports the configuration.
+
+**(4) `hL : P.L ≠ 0` (typing: L ≥ 1).** It is added to `SubproObligation`'s discharge, and threaded from the gate's
+L ≥ L₀.
