@@ -385,3 +385,24 @@ conj-coherence of `IsCoherentCoupleAt`, then `couple_row_le_conj`.
 - TARGET Step 3 and `sumint` require t₀¹ > max(t′, t″). That is not the actual domain when u₂₁ or u₂₂ is a leaf.
 - The order-0 trace route (`XNorm00Restr_trace`) handles it, at the cost of the constant `traceR η`.
 - To be assessed for the errata file once V5 is READY.
+
+## R21 — VINE-COUNT scope and the ladder-scale form (vine-count session 2), 2026-11-05 ~05:30 UTC
+
+**(1) Chains of m ≥ 2 vines: the product count is false, and the source does not need it.**
+- VINE-COUNT's configuration: a path of double bonds z′ = a = x = b = z, with gaps r = 1/L forced by conservation. It
+  has about L^{2d+2−4γ} labels, against 𝔉 ≈ L^{2d−γ}.
+- DH23 L1797 removes only a single vine or two double bonds in Step 1, by Prop `subsetvc` (L2128) and `subpro` (a), (e).
+- So `prop94_vine_all` keeps the premise `SingleVineVC K ∨ Nonempty (DoubleShape K)`. This is NOT a free premise:
+  G3's excessprop1 glue must derive it at each Step-1 application, from:
+  - the universe's `subsetvc_classification` (proved in VINES, `VineSGOrdinaryRemovalSingle` and its neighbours);
+  - the `subpro` (a), (e) obligations (S4).
+- `Stage2Op.vine` being more permissive than the source is internal; it is not an erratum.
+
+**(2) The ladder-scale form.**
+- The canonical `Adm` ladder clause is lg-spine's source-audited `LadderGaps` / `sourceLadderGapScales`: an ∃ over
+  realisations, with only 1 ≤ ‖r‖ at P = 1.
+- VINE-COUNT proves its `LadderScaleAdm` (an ∀ over realisations, two-sided at P = 1) FROM that form. Two lemmas are
+  needed:
+  - (a) realisation independence of a sub-ladder's gap, a ladder-combinatorics lemma;
+  - (b) ‖r‖ ≤ c₀ at P = 1, from the unit-ball labels.
+- If (a) is false, give the configuration. The fix then goes in the consumer, not in the source form.
