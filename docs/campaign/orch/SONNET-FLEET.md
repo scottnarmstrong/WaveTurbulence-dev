@@ -254,3 +254,18 @@ Notes:
 
 **Waiting**
 - D11 (γ ≤ 1/2 vine family), author decision; review page docs/review/GAMMA-LE-HALF-VINES.md.
+
+## 07:52 UTC 2026-11-05 (session restart after a Sonnet weekly rate limit)
+
+**Rate-limit interruption.** Four agents hit the weekly Sonnet limit mid-task (HTTP 429): V5 4c #3, V5 4b #3, G3 #13
+and LG-SPINE-AMEND3. All four were resumed by message with their context intact. AMEND3 was told to check for a
+sed double replacement first.
+
+**B21-SNAP9 (aa07679…).** The harness reports it stopped by the user and not resumable. Its last build results are
+from 2026-11-04 19:16, and `B21Snap9/Main.lean` is pending. It is NOT relaunched without the author's say-so. That
+leaves the B2.1 snapshot-9 composition and its seal open.
+
+**READY since the last entry:** COVER-HYPER (atom-set hyper classification; 422 modules).
+
+**Rulings:** R32 (the S2 class producer, VINEEST4, LEAFGATES) and R33 (F-TT root-time constraints; F-DERIV restoring
+the 30d coherent-error norm).
