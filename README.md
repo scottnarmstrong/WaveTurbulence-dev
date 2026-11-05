@@ -6,7 +6,7 @@ Lean 4 formalization of
 > [arXiv:2311.10082v2](https://arxiv.org/abs/2311.10082) (2024).
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-11-05 22:53 UTC** · **estimated completion 90.5 %** (Lean proofs 92.4 %) · frozen theorems sealed: 16 / 26 (+ 296 frozen definitions) · **443,222 lines of Lean on main** (4828 files) + 1,460 unlanded on worker branches · blueprint estimate ≈ 273,000 lines
+> **Last updated: 2026-11-05 23:09 UTC** · **estimated completion 90.5 %** (Lean proofs 92.4 %) · frozen theorems sealed: 16 / 26 (+ 296 frozen definitions) · **443,222 lines of Lean on main** (4828 files) + 1,460 unlanded on worker branches · blueprint estimate ≈ 273,000 lines
 <!-- /AUTO:updated -->
 
 **Scope (D1):** everything proved in Lean, no black boxes. That covers the target paper and the results it uses from
@@ -25,10 +25,12 @@ Batch 2b landed as `675cf6c`, including `regularAsymptotics_v1`. The weighted me
 completed; it is not the percentage of theorem statements proved. Scratch and conditional helpers remain partial
 until integrated, checked against the frozen exports, and independently audited.
 
-**Current work:** Codex orchestrates with three GPT-6.1 Terra-medium workers on VINEEST term certificates,
-VINEEST expansions/constants, and LOW-FRONT counting. Remaining assemblies include the low-degree counting chain,
-vine Stage-1 reduction, flower Stage-1, and the final spine instances. The original Wave A auditor brief is
-historical; see the [current handover](docs/campaign/orch/CODEX-HANDOFF.md).
+**Current work:** Codex directs Terra-medium work on the VINEEST separated-family producer, integration of six
+analytic spine packets, and an independent review of that integration. New scratch checkpoints include a modulated
+Step-3 base estimate and loop-label/counting lemmas. The combined provider port is still being repaired and checked.
+Remaining assemblies include the low-degree counting chain, vine Stage-1 reduction, flower Stage-1, and the final
+spine instances. See the [current handover](docs/campaign/orch/CODEX-HANDOFF.md); earlier fleet history is preserved
+in [SONNET-FLEET.md](docs/campaign/orch/SONNET-FLEET.md).
 
 **Blueprint v2:** 275 nodes, 84 packets, approximately 273k lines estimated. **F32 resolved:** the general-d
 trilinear estimate and WKE local well-posedness were proved; `wkelwp` is sealed.
@@ -61,10 +63,10 @@ SEALED_THIS_TURN: 0
 |---|---|---|---|---|
 | Sources, paper maps, blueprint (P0–P1) | 1 | 30 | 27.0 | `█████████░` 90 % |
 | Exact Lean statements, frozen (P2) | 1 | 20 | 18.4 | `█████████░` 92 % |
-| Lean proofs (P4) | 85 | 681 | 637.3 | `█████████░` 94 % |
+| Lean proofs (P4) | 85 | 681 | 637.2 | `█████████░` 94 % |
 | Frozen theorems sealed | 26 | 26 | 16.0 | `██████░░░░` 62 % |
 | Release (P5) | 1 | 15 | 0.0 | `░░░░░░░░░░` 0 % |
-| **Total** | | 772 | 698.7 | **90.5 %** |
+| **Total** | | 772 | 698.6 | **90.5 %** |
 
 Lean lines: 443,222 on main + 1,460 on branches, of ≈ 273,000 estimated by the blueprint (`████████████████████` 162.9 % of the estimate).
 
@@ -126,7 +128,7 @@ Lean lines: 443,222 on main + 1,460 on branches, of ≈ 273,000 estimated by the
 | S2a | REDSPLICE-DEF | 2 | ≈800 | 🟡 95 % | REDSPLICE-DEF READY: the full Stage 1 construction; stage1Piece_sound now also supplies the triple designation and no-hinge-loop facts (AMEND7+8) |
 | S4 | SUBPRO | 8 | ≈3,000 | 🟡 95 % | SUBPRO done in atom-set form plus the hinge triple-bond designation (R37) |
 | V4 | VINEEST-S2 | 4 | ≈2,500 | 🟡 95 % | VINEEST-S2 done: vineChain_eq_sumintForm (V4 endpoint, ruling R2), 709-module snapshot-9 rebuild OK; obligations VINEPARAM, SumintSigned |
-| V5 | VINEEST | 13 | ≈5,100 | 🟡 95 % | VINEEST scratch: Step 3, Step 4, P1-P3 and ZP-SURJ checkpoints available; P4-W2 certificates and W13 expansions/constants resumed with Terra-medium. R54/R58 modulated assembly and kind=false obligations remain; no frozen closure claimed |
+| V5 | VINEEST | 13 | ≈5,100 | 🟡 95 % | Scratch checkpoints: modulated Step-3/no-twist base bound proved with the R58 loss; W13 full-square time bound and actual C2^b geometric class-count bound proved. General separated-family producer, unrolled-term certificates, modulated flattening and kind-general full VINEEST remain open |
 | X1 | FLOWER-DEF | 10 | ≈3,100 | 🟡 95 % | FLOWER-DEF done in scratch: classes, kernels, identities, O-FK; B1.12 final (audited, F1/F2 applied) proposed for the freeze |
 | C1 | REG-STRUCT | 11 | ≈4,000 | 🟡 90 % | REG-STRUCT done in scratch: structure theorem with uniqueness, decoding, legal/dominant chains, counts (C₀=12^9); F55 |
 | C2 | LINKS | 11 | ≈3,000 | 🟡 90 % | LINKS done in scratch: branchpair, defchoice, linkXY, deflink, defcoh, auxlem, explem, treelemma, incohproof1 (couples); F62-F65 |
@@ -153,32 +155,27 @@ Lean lines: 443,222 on main + 1,460 on branches, of ≈ 273,000 estimated by the
 | X2 | FLOWEREST | 16 | ≈8,900 | 🟡 90 % | FLOWEREST scratch: conditional spine assembly and regular L0 leg exist; flower Stage-1, fixed-time traces and marked-flower LF-twist construction remain unresolved |
 | F2 | PLG | 12 | ≈4,150 | 🟡 86 % | LG-SPINE scratch: AMEND4/5/7+8 checkpoint and AMEND6-prime pair-type gate exist; AMEND9/10 consumer rework unfinished. Full Stage-1 and final-count producers remain required |
 | M7 | LFTWIST | 13 | ≈4,200 | 🟡 85 % | LFTWIST on main with the canonical universe; leaf bijection of LF twists on ordinary leaves proved (LFTWIST-LEAFMAP, R45) |
-| F3 | FINAL-COUNT | 4 | ≈900 | 🟡 81 % | FINAL-COUNT scratch: finalCount_reg_half proved in session 19; LOW-FRONT/CHAIN/GARDEN/GLUE remain. Terra-medium owns LOW-FRONT. Canonical-world rebuild still pending; FinalCountGateHalf remains open |
+| F3 | FINAL-COUNT | 4 | ≈900 | 🟡 81 % | Scratch LOW-FRONT A1-A3 compiled: actual loop-label determination, GL17/LoopCtx applications and loop-count bookkeeping; provisional farm only. REG half exists; A4, LOW-CHAIN/GARDEN/GLUE and canonical-world validation remain open |
 | S2 | REDSPLICE | 6 | ≈2,400 | 🟡 58 % | REPRESENTS scratch: vine-free reduction and CLASSCOUNT checkpoints exist; vine case split VINE-A/B/C/D/E/F. INTERFACE v2 routes lower-child mode frequencies through the R58 modulated kernel. Producer and full vine reduction remain open |
 | F1 | FINAL-RED | 4 | ≈1,200 | 🟡 30 % | FINAL-RED: finalsbest1/finalsbest2 consumed in LG-SPINE's assembly (counting cover, finalproof numerics) proved generically |
 | G1 | STAGE2-DEF | 10 | ≈2,600 | 🟡 20 % | STAGE2-DEF: stage-2 operation datatype (Stage2Op) and TARGET's counting problem (lg-spine CountingChoices) defined |
 
 </details>
 
-Done fractions last reviewed: **2026-11-05 22:43 UTC**. Source: [`docs/campaign/progress.json`](docs/campaign/progress.json); history: [`docs/campaign/history.csv`](docs/campaign/history.csv).
+Done fractions last reviewed: **2026-11-05 23:09 UTC**. Source: [`docs/campaign/progress.json`](docs/campaign/progress.json); history: [`docs/campaign/history.csv`](docs/campaign/history.csv).
 <!-- /AUTO:progress -->
 
 ## Workers
 
 <!-- AUTO:workers -->
-| tmux | model / account | packet | branch: last commit | brief |
+| Worker / session | model / account | packet | branch: last commit | brief |
 |---|---|---|---|---|
-| wt-orch | Claude Opus / claude-1 | Task 34: snapshot-8 delta audit + freeze branch rebuild; done: letter draft, many audits | `w/orch`: 1 min ago, 1 unlanded | [brief](docs/campaign/orch/TASK4.md) |
-| wt-gauss-hc | Claude Opus / claude-10 | FLOWER-SPINE: B1.12 layergardenFlower from named spine inputs (X2, X3 closed: fixedpoint from B1.12+B1.2+B1.5) | `w/waveb-infra`: — | [brief](docs/campaign/briefs/FLOWER-SPINE.md) |
-| wt-torus | Claude Opus / claude-14 | G7 MOLEPROP4 (revived, repaired): DH23 ylem1′, ylem2, Prop 10.4 (A23-HALF done) | `w/approxnt`: 34 h ago | [brief](docs/campaign/briefs/MOLEPROP4.md) |
-| wt-wke | Claude Opus / claude-13 | L3+L4: TARGET Props 6.1-6.3 (proplayer2-4); J1-J3, B̃ bridge, tree Prop 5.1 done | `w/jr-ops`: 34 h ago | [brief](docs/campaign/briefs/PL234.md) |
-| wt-cumul | GPT-6.1-Sol low / codex-2 | LG-SPINE (pre-freeze): layergarden from named spine inputs (INDUCT, WKETAYLOR-GATE done) | `w/norm-bridge`: 41 h ago | [brief](docs/campaign/briefs/LG-SPINE.md) |
-| wt-nt | GPT-6.1-Sol low / codex-2 | G4 APPB-OPS then G5 APPB-ALG (pre-freeze): DH23 Appendix B (MOLE M1+M2, CLCN M3 done) | `w/nt-circle`: 30 h ago | [brief](docs/campaign/briefs/APPB-OPS.md) |
-| wt-ansob | GPT-6.1-Sol low / codex-2 | RA1 couples (RA1Couple): DH23 Prop 6.1 for couples; trees moved to wt-l2s | `w/bproc`: 31 h ago, 11 unlanded | [brief](docs/campaign/briefs/REGASYMP.md) |
-| wt-gausssum | GPT-6.1-Sol low / codex-2 | M9 VINEPARAM (pre-freeze): molecule-level vine parametrizations (M4 VINES done) | `w/count`: 30 h ago, 11 unlanded | [brief](docs/campaign/briefs/VINES.md) |
-| wt-resonant | GPT-6.1-Sol low / codex-2 | V4 VINEEST-S2 (pre-freeze): vineest Step 2 into sumint form (V3 REGRED done) | `w/resonant`: 35 h ago | [brief](docs/campaign/briefs/VINEEST-S2.md) |
-| wt-anfourier | GPT-6.1-Sol low / codex-2 | M7 LFTWIST (pre-freeze); M5 MOLECPL, M6 TWIST, SUMINT done | `w/an-phase`: 48 h ago | [brief](docs/campaign/briefs/LFTWIST.md) |
-| wt-l2s | GPT-6.1-Sol low / codex-2 | RA1-TREES: DH23 Prop 6.1 for trees (RA1Tree); INCOH-INST done: B2.2 proved at exact type | `w/wke-l2s`: 28 h ago, 23 unlanded | [brief](docs/campaign/briefs/RA1-TREES.md) |
+| Codex orchestrator | Codex / current session | Source rulings, safe landings, proof-state review and HQ upkeep | `w/orch`: 1 min ago, 2 unlanded | [brief](docs/campaign/orch/CODEX-HANDOFF.md) |
+| subagent v5_w2 | GPT-6.1 Terra medium / current session | Six-packet analytic spine port: warning/proof hygiene after V5 modulated-Step3 checkpoint | `w/port-b3a`: 25 min ago | [brief](docs/campaign/orch/briefs/TERRA-LINT-PORT-B3.md) |
+| subagent v5_w13 | GPT-6.1 Terra medium / current session | V5 W1/W3: separated-family producer and final-count constants | `w/orch`: 1 min ago, 2 unlanded | [brief](docs/campaign/orch/briefs/TERRA-V5-W13.md) |
+| subagent finalcount_low | GPT-6.1 Terra medium / current session | Independent port review; LOW-FRONT A1-A3 provisionally complete in scratch | `w/port-b3a`: 25 min ago | [brief](docs/campaign/orch/briefs/TERRA-AUDIT-PORT-B3.md) |
+| cx-world | GPT-6.1 Sol medium / codex-2 (existing session) | Existing serial canonical-world upstream rebuild; axiom closeout and assembly overlay pending | `w/orch`: 1 min ago, 2 unlanded | [brief](docs/campaign/orch/CODEX-HANDOFF.md) |
+| cx-b4bprep | GPT-6.1 Sol medium / codex-2 (existing session) | Existing R52 Batch-4b serial catalogue rebuild; skeleton/layer-count/N4 checks pending | `w/orch`: 1 min ago, 2 unlanded | [brief](docs/campaign/orch/CODEX-HANDOFF.md) |
 <!-- /AUTO:workers -->
 
 ## Papers
