@@ -1,5 +1,5 @@
 {
- "assessed": "2026-11-05 15:57 UTC",
+ "assessed": "2026-11-05 18:15 UTC",
  "notes": "Lean work items = blueprint packets (docs/blueprint/GRAPH.md §E) with their difficulty weights (node weights L=1, M=2, H=4, VH=8 summed). Each frozen theorem anchor adds weight 1, credited when SEALED. Done fractions are the orchestrator's assessment, reviewed at integration rounds.",
  "lines_est_total": 273000,
  "parts": [
@@ -370,7 +370,7 @@
      "weight": 4.0,
      "lines_est": 1500,
      "done": 0.9,
-     "note": "VINEPARAM: parametrization contract proved (538 certificates + rung-insertion induction); grouped charts match TARGET cohmol groups (vineparam_grouped)"
+     "note": "VINEPARAM: parametrization contract proved (538 certificates); being rebuilt on the canonical universe as a separate lean_lib (D12, VINEPARAM-U, ~1/3 done)"
     },
     {
      "id": "J1",
@@ -621,8 +621,8 @@
      "goal": "Stage 1 construction: congruence classes, 𝒱_0, splicing, 𝒢_sb, 𝕄_sb, hinge atoms (review I1)",
      "weight": 2.0,
      "lines_est": 800,
-     "done": 0.9,
-     "note": "REDSPLICE-DEF READY: the full Stage 1 construction (units, cover, C1 objects, gap specification, hinge pairs, gsk/bsk from the original garden); stage1PieceOf with Sound proved except the subpro obligation (S4)"
+     "done": 0.95,
+     "note": "REDSPLICE-DEF READY: the full Stage 1 construction; stage1Piece_sound now also supplies the triple designation and no-hinge-loop facts (AMEND7+8)"
     },
     {
      "id": "S4",
@@ -639,8 +639,8 @@
      "goal": "TARGET Props 6.6–6.8 (norm translation F11, corrected regref1-5, dominant trees)",
      "weight": 13.0,
      "lines_est": 4100,
-     "done": 0.9,
-     "note": "REGREF done: B2.1 regularAsymptotics proved at exact type from RA1Couple/RA1Tree (trace argument F76; leafwise kernel layer)"
+     "done": 0.92,
+     "note": "REGREF done: B2.1 regularAsymptotics proved at exact type from RA1Couple/RA1Tree; snapshot-9 composition and the B2.1 seal (PORT batch 2b) in progress"
     },
     {
      "id": "L3",
@@ -684,8 +684,8 @@
      "goal": "vineest Steps 3–4 and degenerate decorations (F21)",
      "weight": 13.0,
      "lines_est": 5100,
-     "done": 0.94,
-     "note": "VINEEST: Step 3 and all Step 4 pieces proved (replaced-factor analysis, tildeJ2, 3-clock engine, S-side twist at p* and at the bottom vine), induction over core vines (flat class-sum identity) proved; bundle bound and constants in progress"
+     "done": 0.95,
+     "note": "VINEEST: Step 3, all Step 4 pieces, the induction over core vines and the bottom-vine twist proved; bundle decomposition (P1) and unrolling over levels (P3) proved; per-level engine bounds (P2) and final assembly (P4) in progress; twist-class bijection (ZP-SURJ) in progress"
     },
     {
      "id": "G3",
@@ -702,8 +702,8 @@
      "goal": "Stage 1 analytic reduction (redvine2) and molecular form (redvine3)",
      "weight": 6.0,
      "lines_est": 2400,
-     "done": 0.55,
-     "note": "REPRESENTS: vine-free reduction proved; class count (CLASSCOUNT, Stage1Counts (iv)) proved unconditionally; vine case waits on the pair-type gate (R47, AMEND6')"
+     "done": 0.58,
+     "note": "REPRESENTS: vine-free reduction and class count (CLASSCOUNT READY, exact bridge to Stage1Counts (iv)) proved; vine case waits on the pair-type gate (AMEND6')"
     },
     {
      "id": "G8",
@@ -738,8 +738,8 @@
      "goal": "finalcount1, remtame2, interpolation",
      "weight": 4.0,
      "lines_est": 900,
-     "done": 0.78,
-     "note": "FINAL-COUNT: Props 9.4-9.6 proved for gamma > 1/2 incl. low-degree atoms; assembly: REG/LOW split (R48), terminal chain, restricted Step-1 run, UnselOK, ladder-scale heredity, molecule-level wrapper; hmem/hend and garden glue in progress"
+     "done": 0.81,
+     "note": "FINAL-COUNT: Props 9.4-9.6 proved for gamma > 1/2 incl. low-degree atoms; assembly: REG/LOW split, terminal chain, restricted Step-1 run, UnselOK, ladder-scale heredity, one designation per atom set (R50), VHard shape and rho parts; hconn0, hend and garden glue in progress"
     },
     {
      "id": "F2",
@@ -747,8 +747,8 @@
      "goal": "terms (a)–(d), counting of classes and layerings, proof of layergarden",
      "weight": 12.0,
      "lines_est": 4150,
-     "done": 0.83,
-     "note": "PLG = LG-SPINE on the canonical universe with the corrected Stage 1 interface (R24, R28, R33, R40), atom-level second collection (R42) and final-count premises (R48/R49, AMEND7+8 rebuilding); pair-type Stage 1 families (R47) next"
+     "done": 0.86,
+     "note": "PLG = LG-SPINE on the canonical universe: corrected Stage 1 interface, atom-level second collection (AMEND5), final-count premises (AMEND7+8: irreducible, triple designation, no hinge loop, F-disjoint omitted DVs); pair-type Stage 1 families (AMEND6', R47) in progress"
     },
     {
      "id": "X2",
