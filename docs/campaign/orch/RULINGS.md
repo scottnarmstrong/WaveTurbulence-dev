@@ -1277,3 +1277,26 @@ designation per atom set. G3's `HRunNC` conjunct (every collected object dartles
 - **Option (B) is REJECTED:** a named input for the leading-term cancellation is conclusion-shaped (hard rule 6).
 - **Meanwhile.** V5 part C carries `hZpSurj`, the exact statement ZP-SURJ will prove, as an explicit hypothesis, and
   continues with the rest: the remainder expansion, engine datum, `Admissible`, R35 cases, WP-F and the prefix.
+
+## R52 — Batch 4b: keep both sumint forks (cx-b4bprep STOP), 2026-11-05 18:43 UTC
+
+**Finding** (/home/scott/wt-scratch/b4b-prep/HANDOFF.md, STOP-ITEM.md). PORT-PLAN Batch 4b's "re-point degen-vine to
+SumintPar by namespace only" is impossible.
+- SumintPar's datum has `wK : VIdx → Mom d → Mom d → ℂ`, with extra `wN`, `wDec` and a changed `Admissible`.
+- So `DegenVine.exprMix` does not even typecheck after a namespace rename.
+
+**Ruling.** Keep BOTH forks; no consolidation in Batch 4b.
+- **The signed path:** `SumintSigned` + `DegenVine` (`sumintMixSignedDoubled`). This is what V5 Step 3
+  (`vineestStep3`/`vineestStep3Layer`) consumes.
+- **The parametric path:** `SumintPar` + V5's own `DegenVinePar` (vineest-s3/uni/src/DegenVinePar, ported with
+  documented edits: `sumintMixParDoubled`). This is what V5 Step 4 consumes.
+- **No clash:** they live in different namespaces, so no declaration names collide. The size cost (about 28k lines)
+  is accepted.
+- **Deferred:** a later consolidation, re-proving Step 3 on SumintPar, is optional.
+
+cx-b4bprep continues with the rest:
+- the staged world with both forks, re-pointed only for the B1/B2 frozen/held-out imports and main's canonical
+  bridges;
+- the 108 SkeletonDraft modules rebuilt on the universe;
+- the layercnt rebase;
+- the N4 composition `vineestStep3 DegenVine.sumintMixSignedDoubled`, elaborated.
