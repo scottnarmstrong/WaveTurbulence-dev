@@ -544,3 +544,26 @@ specified pair's gap kind equals the designated object's gap kind.
    - Check that the decoration identification `Os_sb` (TARGET L2040) keeps the original conservation at a.
 
 **(c) σ-independence of the choice still holds.**
+
+## R26 — G8 case (4): the small-cell X-route goes through an X-terminal Theorem A (F6-2), 2026-11-05 ~03:40 UTC
+
+**Research.** /home/scott/wt-scratch/research-g8-xroute/NOTES.txt.
+- **The only small cell.** The only small-cell post is X = (a=b, c=d, ac, ad, bc, bd), proved by a degree count.
+- **The bound holds.** Every case-(4) component whose M₁ reaches X satisfies 𝔄₀ ≲ L^{−η/10} (Theorem X, PROVED).
+  - The proof: operation (c) on one chain, then (d) on the other. Carry ℓ through (Y) to X. Remove the (3,3) or (3,4)
+    pair with Lemma A.3(4) (G8's `pairGainAt`). The leftover double bond c=d gains L^{−η/4}, using LG.
+  - A mechanical check found 0 failures in 44,868 cases (|M₀| ≤ 16).
+- **No gap and no erratum.** This is not a DH23 gap: DH23's Prop 10.4(2) proof (L1961–L1977) handles M′ = X under
+  case (I), and A.3(4) (L2106) lists the needed system form.
+- **Why the hypothesis appeared.** `¬YReachesSmallCell` is a formalization artifact: X's closed ladder cell has two
+  parametrizations.
+- **Exposition point.** DH23 L790 does not say which parametrization defines a closed cell's gap.
+
+**Ruling: (R2).**
+- **Theorem X.** Build `IsX`, `isX_of_smallCell`, `YRouteX`, `smallCell_route` (k ≤ 2), `xMinus_afree`,
+  `route_bound_X`, `theorem_A_X` and `theorem_A_X_one`, per NOTES §5.1.
+- **C4Main.** Branch on `YReachesSmallCell M₁`. Use `theorem_A_X` when it holds; otherwise use `prop104_two_proved`
+  together with F6-1's decoration-level consumer.
+- **Not needed.** (R1), dropping the small-cell hypothesis from Prop 10.4(2)′, is not needed.
+- **Who does it.** The work goes to a parallel packet, G8-XROUTE, in its own scratch. G8 #7 continues F6-1, and the
+  next G8 session glues the two together.
