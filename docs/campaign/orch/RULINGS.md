@@ -1300,3 +1300,27 @@ cx-b4bprep continues with the rest:
 - the 108 SkeletonDraft modules rebuilt on the universe;
 - the layercnt rebase;
 - the N4 composition `vineestStep3 DegenVine.sumintMixSignedDoubled`, elaborated.
+
+## R53 — AMEND6′: TwistClosed for couples and for flower gardens, 2026-11-05 18:44 UTC
+
+**(1) Couples.** Discharging `TwistClosed` for A = the nonregular couples needs "an LF twist at a prime-skeleton vine
+keeps a nonregular couple nonregular". This is TRUE and is proved as a lemma by LG-SPINE (AMEND6′ (b)). No premise is
+added.
+- The twisted couple's skeleton is the unit twist of the original skeleton (Def lftwist builds G′ from G_sk′).
+- That skeleton is prime, with the same number of branching nodes.
+- A couple is regular iff its skeleton is trivial (REG-STRUCT / C3 SKELETON uniqueness).
+
+**(2) Flower gardens.** They are `IsCanonH`, not a universe `CanonicalObject` kind, so no LF-twist relation exists
+for them. TARGET flowerest1 (4), (5) and (7) (L2296–L2302) say:
+- only LF twists at vines whose realization in G_sk avoids the special nodes matter (the root r_j, its children, the
+  flower f_j, and its parent and siblings);
+- such twists preserve membership in H^tr_{p+1} and the stem layers;
+- when |k| ≥ M₁¹⁰ an SG CL vine never splits the stem.
+
+**Ruling for (2).**
+- **The relation, `FlowerTwist`.** It is the universe's LF twist restricted to vines whose realization avoids the
+  special nodes, acting on the flower garden's underlying layered garden and preserving the flower marking. Proved
+  with it: preservation of H^tr_{p+1} and the stem-layer property (flowerest1 (4), (5); (7) under |k| ≥ M₁¹⁰).
+- **Owner:** the flower Stage-1 packet (Codex cx-flower), as part of its construction work.
+- **Then:** `FlowerTwistClosed` is pinned on it in AMEND6′ (c). AMEND6′ finishes (b) and (d) for the LG gate first;
+  (c) waits for cx-flower's `FlowerTwist`.
