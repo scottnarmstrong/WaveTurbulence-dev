@@ -711,6 +711,131 @@ is NOT yet verified that it occurs in a prime garden. Ruling R37.
 
 ---
 
+## E23 — TARGET L2122 ("essentially the same as in Sections 9–10 of [DH23]") and the proof of `propcplmol`: the stage-1 molecule can have atoms of degree 0, 1 or 2, and self-loops
+
+**Status.** CANDIDATE exposition gap; no counterexample to (finalcount1) itself is known. Found by the
+FINALCOUNT-ASSEMBLY prover (F-SH) and settled by research packet FC-GEOM. The examples are Lean-checked
+(/home/scott/wt-scratch/research-fcgeom/src/FcgeomCex.lean; standard axioms). Ruling R48.
+
+**Location.**
+- TARGET L2122: "The proof is essentially the same as in Sections 9–10 of [DH23], with only minor differences due to
+  the fact that here we are dealing with general gardens instead of couples."
+- The proof of Prop `propcplmol` (~L1303) adds that "some discussion is needed when some trees are trivial".
+
+**Why DH23's proof does not cover M_sb.**
+- DH23 Props 9.4–9.6 assume every atom has degree 3 or 4 and that there are no self-loops (Remark moleremark, DH23
+  L682).
+- DH23 §10.5(2) removes only a degenerate degree-2 atom, and that for couples.
+
+**Where M_sb violates this.** In a plain garden every branching node v has four legs, and
+deg v = 4 − f(v), with f(v) = [v is a root] + #{children of v that are leaves paired with the root of a trivial tree}.
+So gardens with trivial trees produce low-degree atoms, and sibling leaf pairings produce loops. The three examples
+below are prime, irreducible, plain and balanced, and satisfy the full counting geometry.
+
+**Example A, an atom of degree 0.**
+- R = 2. T₁ is a single branching node v whose three leaves have signs +, −, +. T₂, T₃ and T₄ are trivial, with root
+  signs +, −, −.
+- Each leaf of v is paired with one trivial root. Pairs involving a root leaf produce no bond.
+- So M is one atom with no bonds: connected, with bonds + R = 2 = 2n. This configuration is the only one of degree 0,
+  up to signs (n = 1, R = 2).
+- (finalcount1) holds, since 𝔄 ≤ 1 ≤ L^{(d−γ−1/4−1/40) − 4η⁶}.
+
+**Example B, a self-loop.**
+- Two sibling leaves are paired with each other. The prime skeleton condition excludes only mini couples and mini
+  trees, not sibling pairs, so this is allowed.
+- The resulting loop atom is not excluded by the ε-factor: ε(k,k,k₃) ≠ 0 exactly when k₃ = k. So on the ε-support
+  the atom is degenerate, with all four legs equal.
+- (finalcount1) holds, since the ε-support forces the loop momentum, giving 𝔄 ≤ L^{−(d−γ)}·C₁⁻¹δ^{1/2}.
+
+**Example C, a non-cut degree-2 atom with a gap pair.**
+- A root whose left and right children are leaves paired with two trivial roots gives an atom of degree 2 with two
+  bonds of opposite direction.
+- Its fixed offset is c_v = k_j − k_{j′}, a difference of two root momenta, so whether it is ZG, SG or LG depends only
+  on the roots.
+- Its two neighbours share a double bond, so it is not a cut atom.
+- (finalcount1) holds (𝔄 ≲ L^{2γ₀+η³}).
+- Variant: replace the double bond by a large irreducible block, with |k_{T₀} − k_{T₁}| ~ L⁻¹. Here (finalcount1)
+  holds by TARGET's degree-2 β-cut accounting, but it cannot be proved by erasing the atom when γ is in about
+  (1/2, 0.59). Erasing costs up to L^{γ₀}, against a margin of about 0.072 per unit of R.
+
+**What TARGET supplies, and only in passing.**
+- The Remark after Def `defcut` allows cuts at degree-2 atoms.
+- `excessprop1`(3) covers an isolated β-atom.
+- `lgmolect` allows imperfect components with ε-atoms of degree other than 4 when R ≥ 2.
+- `remtame` and DH23 §10.5 cover degenerate atoms.
+
+**Repair (R48, used in Lean).**
+- `FinalCountAt` gains `G.Irreducible`, matching TARGET subpro (1).
+- The counting geometry gains two facts, proved by the stage-1 producer: the hinge triple-bond designation (R37) and
+  "no loop at a hinge".
+- The final count is split into a REG case (every atom of degree ≥ 3, no loop), where DH23's run applies, and a LOW
+  case.
+- The LOW case is handled by a generalization of the cutting run (packet G3-LOWDEG):
+  - degree-2 β-cuts;
+  - removal of isolated atoms;
+  - exact smoothing of degenerate loops;
+  - R carried as a run variable.
+- No degree or no-loop premise is added to the statement. Examples A–C are valid outputs of the stage-1 producer.
+
+---
+
+## E24 — TARGET §redcount0, L2065 and L2067: moving the weights and the k-derivatives onto individual leaves breaks the twist-class cancellation of `vineest`
+
+**Status.** CANDIDATE erratum in the proof; the result stands with the repair below.
+- Found independently by three packets: S2 (F-TWISTCLASS), LFTWIST-LEAFMAP (F-EXC, F-ROOT) and V5 (F-LEAFREAL).
+- Diagnosed by research packet TWIST-PROFILES (/home/scott/wt-scratch/research-twistprof/NOTES.md).
+- Confirmed by an independent referee (/home/scott/wt-scratch/research-twistprof-referee/REPORT.md).
+- Rulings R44, R45 and R47.
+
+**Quotes.**
+- L2065: "⟨k_j⟩^{4Λ_{p+1}} ≤ (3n_j)^{4Λ_{p+1}}·⟨k_{𝔩_j}⟩^{4Λ_{p+1}} for some leaf 𝔩_j ∈ 𝒯_j … if we include the extra
+  factor ⟨k_{𝔩_j}⟩^{4Λ_{p+1}} to the input function F_{𝔏_{𝔩_j}}(k_{𝔩_j}) …"
+- L2067: "taking any ∂_k derivative is equivalent to taking exactly one ∂_{k_𝔩} derivative for some leaf 𝔩 ∈ 𝒢 …"
+  followed by "these stronger bounds will follow from same arguments below".
+
+**The gap.**
+- **(i) The weights.** The leaf 𝔩_j depends on the decoration, so L2065 is a pointwise inequality inside oscillatory
+  sums: the decoration sum and the twist-class sum of `vineest`. It is not a change of input function. Any rigorous
+  replacement is a decoration-independent identity, such as a polynomial expansion of ⟨k_j⟩^{4Λ} over leaves or a
+  Leibniz distribution of ∂_k over leaves. Those produce terms whose modified leaf lies inside the regular tree T_(u₂)
+  or the regular couple Q_(u₂₃,u₀) of a vine.
+- **(ii) Why such terms break the cancellation.**
+  - Under a layered full twist (Def `lftwist`, L1466–L1480), T_(u₂) and Q_(u₂₃,u₀) are replaced by free coherent
+    objects T′ and Q′. These are constrained only by (q, q′), their total order and their number of layer-p nodes, so
+    their leaf sets differ, and so do the leaf-layer multisets.
+  - A term with a modified leaf inside them therefore has no counterpart in the twisted garden.
+  - Prop `vineest` is a sum over the LF-twist class with IDENTICAL inputs, and it uses the realness (layerregest10) of
+    a common real input. It cannot be applied term by term.
+- **(iii) Supporting facts.**
+  - The leaf correspondence of an LF twist exists only on ordinary leaves (LFTWIST-LEAFMAP, Lean).
+  - PL234's realness gate holds only for symmetric (common) profile assignments.
+  - With layer-dependent bounds, the region leaf-cost product is not twist-invariant (R46).
+
+**Why the result survives.** The sums TARGET forms are symmetric in the leaves they range over, and they can be
+rewritten exactly as real combinations of kernels with inputs that depend only on the leaf-pair TYPE: the layer, the
+root tree of the + leaf and the root tree of the − leaf.
+- **Types are twist-invariant.** An LF twist acts inside the subtree of u₁, and every pair of the vine realization has
+  type (q, j₁, j₁). Only (CN) vines can span two trees, and those are never twisted.
+- **(a) Derivatives.** ∂_{k^i} K = Σ_𝔩 K[∂_i F at 𝔩] = d/dε|₀ K[F + ε∂_iF].
+- **(b) Root linear forms.** σ_j k_j^i K = d/dε|₀ K[F·(1 + ε c_j k^i)], where c_j = [+ leaf in T_j] − [− leaf in T_j].
+  This vanishes on pairs inside one tree, hence on every vine region. Then (1+|k_j|²)^{2Λ} is expanded into products of
+  such forms, with the derivatives applied first.
+- **(c) Exact extraction by real central differences.** For a polynomial p of degree ≤ 2M, where 2M ≥ n + R:
+  - p′(0) = Σ_{k≤2M, k≠M} w_k·p(λ(k−M))/λ;
+  - w_k = (−1)^{k+M+1}·C(2M,k)/((k−M)·C(2M,M)), with |w_k| ≤ 1/|k−M| and Σ|w_k| = H_M.
+  - This is Lean-checked (`first_coeff_extraction`).
+- **The bound.** Every term is then a kernel with real, type-uniform inputs, bounded at every layer by the one constant
+  C₁ + 2/(n+R) (taking λ with max(1, V)). The Stage 1 reduction and `vineest` apply to it verbatim.
+- **The loss** is (C(n+R))^{O(RΛ_{p+1})}. It is absorbed by the L-power margins, because n and R are polylogarithmic in
+  L (parameters2), and not "as in L2065".
+- **Side corrections to L2065.**
+  - (3n_j) fails for trivial trees; use 2n_j + 1.
+  - "at most R input factors" should read "at most 2R".
+  - For couples the weight is ⟨k⟩^{4Λ}.
+- **The flower case.** The same correction applies verbatim to the flower Stage 1 reduction (L2293).
+
+---
+
 ## E2 — further errata (to be transcribed before release)
 
 The remaining confirmed and candidate findings are in `docs/FINDINGS.md`:
