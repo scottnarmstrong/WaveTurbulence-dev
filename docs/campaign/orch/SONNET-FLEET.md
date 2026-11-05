@@ -482,3 +482,19 @@ class). The candidate exposition point on the ghost bookkeeping at TARGET L2160â
 - V5 part C #5: sbm, 4d-B2 wiring, WP-B, WP-F.
 
 **READY:** V5 4d-B2 (the bottom-vine twist identity).
+
+## 17:47 UTC 2026-11-05 (resumed after a Sonnet weekly limit; new login)
+
+**Resumed by SendMessage**
+- V5 P2 #2, V5 P3, ZP-SURJ #2.
+- FINALCOUNT-ASM #16.
+- B21-SNAP9 + PORT-B2b.
+- VINEPARAM-U.
+- LG-SPINE AMEND7+8 (fresh rebuild, then the announcement).
+- CLASSCOUNT #4 (fresh rebuild ALLDONE 112; Bridge and the HANDOFF remain).
+
+**READY:** V5 P1 (`bundle_decomp`). It introduced the typing input `ZpLayers`, which goes to ZP-SURJ.
+
+**Rulings:**
+- R50: F-DESIG, DVNotInsideObject.
+- R51: F-ZPSURJ, handled by the ZP-SURJ packet.
