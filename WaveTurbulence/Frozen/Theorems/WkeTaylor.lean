@@ -49,7 +49,7 @@ theorem wkeTaylor : WTPrefix fun P =>
         SNormR (4 * P.Lambda (p + 1)) (4 * P.Lambda (p + 1)) (U N t) ≤
           ENNReal.ofReal (P.C₂ * (P.C₁ * P.δ) ^ N) :=
 -- FROZEN_ANCHOR_PROOF_BEGIN
-  by sorry
+  by exact WaveTurbulence.Provider.wkeTaylor
 -- FROZEN_ANCHOR_PROOF_END
 -- FROZEN_ANCHOR_SUFFIX_BEGIN
 
