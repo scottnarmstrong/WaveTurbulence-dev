@@ -654,3 +654,23 @@ M_Q · (T(k₁ + εr) − T(k₁))/|r|. That weight has 29d derivatives, but sum
 (s₁, t₁) with an X^{1−η}-controlled bound. This is real analysis that TARGET (L1903) only asserts. Do the proof.
 
 **F3.** The x*/y* reading of replaceterm1 for Vines II-a and II-b is recorded as a notation point.
+
+## R31 — V5 Step 4: the representative of a twisted garden, invariants, slot labels (Step 4a findings), 2026-11-05 ~06:00 UTC
+
+**(1) Representative independence.**
+- TARGET's K^U_{(G′)} is built from G′'s skeleton G′_sk. That is the maximal collapse of the regular objects, which is
+  unique by REG-STRUCT's structure theorem with uniqueness (C1).
+- The statement must therefore use CANONICAL representatives: in each section, the skeleton of each representative is
+  the REG-STRUCT canonical skeleton of its garden. Prove that every garden of the class has exactly one canonical
+  representative (skeleton recoverability), and that LF twists map canonical representatives to canonical ones
+  (`twistexplain`).
+- `VineEstFull` then has the literal TARGET form.
+- The current "∀ sections Z" form may stay only if the kernel's independence of the representative is PROVED.
+  Otherwise it is stronger than TARGET and may be false.
+
+**(2) Twist invariants.** The quantities in the bound are `RowSizes`, `RowCoherent`, `clLocalOrder1`, n_(2), n_(3)
+and b. Prove that each is invariant under LF twists (TARGET `twistexplain`, L890–L902 / Remark), or prove the precise
+relation that holds. Do not restate them per twisted garden.
+
+**(3) Slot labels.** After a twist at the lower joint, check the four momentum slots of the twisted kernels against
+TARGET's u₂₁/u₂₂ convention (tildeK2, tildeJ2), and record the result.
