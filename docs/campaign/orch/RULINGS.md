@@ -323,3 +323,30 @@ k_{ℓ₁} = k_{ℓ₂} free in the unit ball gives about L^d pairs, against δ�
   the end-exemption. These join deviations 1 and 3 (internal statements, not source errata).
 - G8 found an exposition gap at DH23 L1862–L1874: "operations (a), (b) only on ε-atoms" also needs degree-1 α/β atoms
   to be deleted for free. Recorded as a CANDIDATE exposition gap, not a false statement.
+
+## R19 — Stage 1 interface amendments (S2a findings), 2026-11-05 ~02:30 UTC
+
+**(1) Pieces are indexed by (class, σ).**
+- TARGET L1950 splits one congruence class into up to 3^n terms by the SG/LG/ZG prescription σ, all over the same
+  gardens. The σ-split is a partition of the DECORATION sum, not of the gardens.
+- So `Represents` must carry the σ-restricted family. Each piece's value is Σ over the class's gardens of the
+  decoration sum restricted to σ.
+- The partition identity becomes "garden sum = Σ_class Σ_σ piece values". It holds because the σ-indicators partition
+  the decorations.
+- LG-SPINE amends `Stage1Partition` / `Represents` accordingly, after LG-SPINE-REBASE lands in lg-spine-u, and
+  re-proves the assembly (`nonregular_prefix`, `stage1_core_bound`). FLOWER-SPINE's flower gates follow the same shape.
+
+**(2) `center`.**
+- The unit-ball centres are summed per term, inside the analytic reduction (redvine2), and are not part of the class
+  count.
+- LG-SPINE moves the centre sum into `Represents`, following TARGET L1950–L1976 exactly, and documents the reading.
+- If TARGET instead counts centres in the class count, follow TARGET and say so.
+
+**(3) `gsk`, `bsk`.** These are construction data. S2a computes them: the regular decomposition of the original
+garden, and the bad-vine count among the ingredients of 𝒱_0.
+
+**(4) The triple-bond clause of `Structural`.**
+- It needs "the molecule of a prime couple has no triple bond" (TARGET L709 / DH21 Prop 4.14). The universe has only
+  the forward direction (`miniA_triple`, `miniB_triple`).
+- This is a stated source fact. S2a proves it, from SKELETON / COMB-CORE's mini-occurrence classification.
+- Likewise S2a proves `isMolecule_eraseBond` for HVC groups.
