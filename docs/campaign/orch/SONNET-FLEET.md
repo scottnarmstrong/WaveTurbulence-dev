@@ -574,3 +574,36 @@ S4-SHAPE; PORT-B2b (`w/port-b2b` 9ce0bfe).
 forwarded to FINALCOUNT-ASM.
 
 **Codex:** cx-repin, cx-b4bprep (resumed with R52), cx-flower (scope + `FlowerTwist`).
+
+## 19:06 UTC 2026-11-05
+
+**Rulings**
+- R54: F-COUNTGAIN; the vine gain is η²/2.
+- R55: AMEND9; `RepresentsInt` uses η²/2·bsk.
+- R56: AMEND10; `Stage1Counts` counts pieces directly. Its condition was verified by S2: `ClassCountStmt` counts
+  layered gardens uniformly in D.
+- R57: V5 is kind-generic (F-KIND).
+
+**READY:** V5 P2 (36 modules; F-RECENTER noted, with recentered `unrolled_bound`).
+
+**STOPPED**
+- cx-flower (flower Stage-1): the Dirac fixed-time traces against plain pieces, and no LF-twist relation for marked
+  flowers. Research packet FLOWER-DESIGN (Opus) launched. The cx-flower session is reassigned to VINE-A.
+
+**S2 vine case split** (plan /home/scott/wt-scratch/represents/PLAN-VINE.md)
+
+| sub-packet | owner | scratch dir |
+|---|---|---|
+| VINE-A (classes) | Codex cx-flower | /home/scott/wt-scratch/vine-a |
+| VINE-B (redvine factorization) | Opus | /home/scott/wt-scratch/vine-b |
+| VINE-C (class product) | Opus | /home/scott/wt-scratch/vine-c |
+| VINE-D/E/F (engine, premises, assembly) | the S2 lead (Opus) | /home/scott/wt-scratch/represents |
+
+**Codex**
+- cx-repin.
+- cx-b4bprep (R52).
+- cx-world: a single-world rebuild of the final-count upstream on lg-spine-u a7 (/home/scott/wt-scratch/world-a7).
+- cx-flower, now on VINE-A.
+
+**Running (Claude):** FINALCOUNT-ASM #18 (Opus), V5 P4 #3 (Opus), the S2 lead (Opus), VINE-B, VINE-C (Opus),
+FLOWER-DESIGN (Opus), LG-SPINE AMEND6′+9+10 (Sonnet), the B2b seal audit (Opus).
