@@ -22,8 +22,9 @@ public import WaveTurbulence.Foundations.WKE.TaylorGateSeries
 # Provider for `WaveTurbulence.wkeTaylor`
 
 The proof of the frozen anchor `WaveTurbulence.wkeTaylor` (T (wketaylor); L752–L758; WAVE-B §5) is assembled here under the export
-`WaveTurbulence.Provider.wkeTaylor`. Quarantined while the anchor is `DRAFT_SORRY`:
-only the frozen anchor may import this module.
+`WaveTurbulence.Provider.wkeTaylor`: the scratch proof `WkeTaylorGate.wkeTaylor` (V2-CHAIN), moved into this
+namespace with its imports renamed. The anchor is SEALED (`by exact WaveTurbulence.Provider.wkeTaylor`). This
+module must not import the frozen anchor.
 -/
 
 public section

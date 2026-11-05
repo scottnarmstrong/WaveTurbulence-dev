@@ -8,12 +8,13 @@ module
 public import WaveTurbulence.Foundations.XChain.GateTypes
 
 /-!
-# Snapshot-5 gate statements as Props (copied from INDUCT)
+# Snapshot-5 gate statements as Props (aliases of the INDUCT gates)
 
-The bodies of B1.2 `layergarden`, B1.3 `fixedpoint`, B1.5 `wkeTaylor` and B1.1 `propansatz`. They are copied
-verbatim from wt-cumul's INDUCT `GateTypes.lean` (`/home/scott/wt-scratch/induct/GateTypes.lean`, sha256
-`14422e2b7d5bb0eaaea259a0e3739cb16d91a7382773e6e4b1883b0e0a976bf1`). Only the namespace changes (`WaveTurbulence.Gates` instead of `WaveTurbulence.Induct`), so the two
-copies never clash. `X2-Probes.lean` checks each body against the snapshot theorem by definitional equality.
+The bodies of B1.2 `layergarden`, B1.3 `fixedpoint`, B1.5 `wkeTaylor` and B1.1 `propansatz`. In the scratch
+packet they were verbatim copies of wt-cumul's INDUCT `GateTypes.lean` (sha256
+`14422e2b7d5bb0eaaea259a0e3739cb16d91a7382773e6e4b1883b0e0a976bf1`) under the namespace `WaveTurbulence.Gates`.
+On main each is an `abbrev` alias of the corresponding `Induct` gate (PORT-PLAN D11): the bodies were textually
+identical, so the aliases change no meaning (second-key audit, /home/scott/wt-scratch/audit-b2a).
 -/
 
 @[expose] public section

@@ -11,9 +11,7 @@ public import WaveTurbulence.Foundations.XChain.FlowerDraft.GateProbes
 /-!
 # X2 probes
 
-* `layergardenFlowerGate_eq`: the hypothesis `LayergardenFlowerGate` is the statement of `Flower-Gate.lean`'s
-  `layergardenFlower`, verbatim (definitional equality). This probe uses the anchor, so it depends on `sorryAx`.
-  The results of X2 never do.
+* (The scratch probe `layergardenFlowerGate_eq`, which cited the DRAFT_SORRY anchor, is not ported.)
 * `flowerKernelGen_plain`: with the plain pattern, no `†` and no cutoffs, the general kernel of one flower tree is
   TARGET's `𝒥̃_𝒯` (jtflower), the `flowerKernel` of `Flower-Kernel.lean`, for `p < s < t ≤ p+1`. This checks the
   X2 kernel definitions against the kernel that O-FK represents.
