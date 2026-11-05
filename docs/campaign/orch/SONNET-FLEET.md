@@ -224,3 +224,33 @@ Notes:
 
 **Waiting**
 - **S2 main (represents):** W1b–W3 and W7 resume once AMEND2 and S4 are READY.
+
+## 05:09 UTC 2026-11-05
+
+**READY since the last entry**
+- G8 FINAL: DH23 Prop 9.6 `prop96` is unconditional (fresh build of 159 modules, checked).
+- G8-XROUTE and G2-SIBLING.
+- VINE-COUNT s4: `prop94_vine_newcomp`.
+- G8-DCB, including #2 (`prop96_damaged`, with `classes` weakened).
+- V5 Step 3: 458 modules, checked.
+- V5 Step 4a: `VineEstFull`.
+- LG-SPINE-AMEND2: R24 D1–D3, `RepresentsInt`, atom-set `SubproSupport`.
+- S4 SUBPRO: atom-set form, with `stage1Piece_sound_uncond` in represents/RepGlue.
+
+**Rulings R29–R31**
+- R29: tame clusters erased at Op 5, eligible triangles, DCB. Refereed, with amendments A1–A5.
+- R30: parametric sumint for the clause (b) derivative loss.
+- R31: canonical representatives, twist invariants, slot labels.
+
+**Errata on main:** E11–E17 candidates (f5fdd15).
+
+**Running**
+- G3 #12: cluster deviation, ITER-ERASE, UNTOUCHED-ISO, the newcomp glue, the cnblock bridge.
+- V5 4b #2: chart transport, invariants, tildeJ2.
+- V5 4c: parametric sumint fork (408 modules), currently rebuilding; then F2.
+- S2 represents: W1b–W7.
+- COVER-HYPER: code done, fresh rebuild running.
+- B21-SNAP9.
+
+**Waiting**
+- D11 (γ ≤ 1/2 vine family), author decision; review page docs/review/GAMMA-LE-HALF-VINES.md.
