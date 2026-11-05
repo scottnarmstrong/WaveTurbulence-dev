@@ -647,6 +647,70 @@ number of operations.
 
 ---
 
+## E20 — DH23 Prop 9.4 (L1777, L1791–L1795) and TARGET Operation 2 (L2142, L2165): triangles containing an already-cut atom ("ghost")
+
+**Status.** CANDIDATE source gap. Found by the G2-GHOST prover and independently re-derived by a research check, with a
+lattice count up to L ≤ 400 (/home/scott/wt-scratch/research-ghost/NOTES.txt). Ruling R38.
+
+**The gap.**
+- DH23 L1777 cuts only triangle atoms of degree ≥ 3, so an already-cut degree-2 atom (a "ghost", for example the
+  α-atom left at a joint of a vine removed in Step 1) is not cut again.
+- DH23's per-step proof (L1791–L1795) only covers triangles with no ghosts: there ΔF ∈ {0, 1, 2} and Δχ = ΔF − 3.
+- With an α-ghost, the per-step bound (excesseqn2), written with the true ΔF and ΔV_β, FAILS. In the explicit
+  configuration v₁, v₂ have degree 4, v₃ is an α-ghost, and the outer bonds form private double bonds. The count then
+  exceeds the allowed bound by ≈ L^{γ₀}. This happens in every one of the 21 patterns that contain an α-ghost.
+- (together2) drops the ghost's own label factor T_g ≤ 1, which was paid when the ghost was created and is never used
+  again.
+
+**Under TARGET's cut-all reading.** The Remark at L2126 together with L2142 also cuts degree-2 atoms. Each step's
+bound then holds, but the invariant claimed at L2189 ("at most R imperfect components") fails. CANDIDATE erratum.
+
+**Repair (R38, used in Lean).**
+- Charge the ghost's label factor at the triangle step: D ≤ C · excessRHS(true Δ's) · ∏_{α-ghosts} T(Q_g, κ_g)⁻¹.
+- Each α label factor is paid once, at creation, and refunded at most once: at the final molecule, or at its deletion
+  as a ghost.
+- The two-α-ghost case needs 8η ≤ 2γ − 1. That is harmless for γ > 1/2, because η is chosen after γ. For γ ≤ 1/2 the
+  case is OPEN.
+
+---
+
+## E21 — DH23 L1803 / TARGET L2131: the ι ball when the hitting cut has been deleted ("dead hit")
+
+**Status.** CANDIDATE exposition gap (R38).
+
+**The gap.**
+- The counting problem is a sup over the CURRENT molecule's parameters (DH23 L1766, TARGET L2131).
+- The "fixed ball" claim for κ_v = 50 (DH23 L1803) therefore needs the earlier cut that hits v to be still carried by
+  a present atom.
+- If both halves of that cut were deleted by later triangle operations, the ball's centre is no longer a parameter of
+  the current problem.
+
+**Repair (used in Lean).** ι_v is defined only through cuts that are still alive when v is cut. κ_v is fixed at
+creation and used consistently: in the creation-step bound, in Prop 9.6's product, and in any ghost refund. N2 still
+holds.
+
+---
+
+## E22 — TARGET Operation 1 (L2140): "these also include any possible triple bonds in M_sb (see Proposition subpro (2))"
+
+**Status.** CANDIDATE exposition gap. Found by the S4 prover. The configuration is constructed at molecule level. It
+is NOT yet verified that it occurs in a prime garden. Ruling R37.
+
+**The gap.**
+- Proposition `subpro` (2) only says every triple bond has a hinge endpoint. It does not place the triple bond in the
+  collected objects C₁ ∪ C₂.
+- **Configuration.** Merge two whole-group SG vine chains, with joints j₁, j₂ and b₁, b₂, carrying the external bonds
+  j₁→b₁, b₂→j₁ and b₁→j₂. This creates a hinge–hinge triple bond that lies in no collected object.
+- DH23 L1775 does cut triple bonds in Step 1, at a joint and along two of their bonds.
+
+**Repair (R37, used in Lean).**
+- **Pigeonhole.** A triple bond at a hinge uses both external bonds at one joint of the hinge's unit, and that pair is
+  small-gap.
+- **Choice of pair.** That pair is chosen as the hinge's designated pair.
+- **Step 1.** Step 1 cuts the hinge along it, which destroys the triple bond.
+
+---
+
 ## E2 — further errata (to be transcribed before release)
 
 The remaining confirmed and candidate findings are in `docs/FINDINGS.md`:
