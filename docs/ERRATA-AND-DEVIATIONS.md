@@ -609,6 +609,44 @@ identification is false by TARGET's own text: L2189 says "exactly R if R=1", but
 
 ---
 
+## E18 — TARGET L1913 (ii): "J̃_Q(t,s) equals 0 if t = L_r" fails for trivial couples and trees
+
+**Status.** CANDIDATE erratum. It is harmless after the repair below. It was found by the PL234-ENDPOINT prover, and
+the trivial-couple case is checked in Lean (/home/scott/wt-scratch/pl234-endpoint/Triv.lean). See ruling R35.
+
+**Location.** TARGET `vineest` Step 4, L1913 (ii): "if q = L_r then J̃_Q(t,s) equals 0 if t = L_r".
+
+**Counterexample.** For the trivial couple the coherent approximant is the input itself: `RegCpl.app δ r F triv t s k
+= F(k)` for all t and s, so J̃ ≡ 1 on [q, q+1] and does not vanish at t = L_r. The trivial tree behaves the same way.
+The true kernel K*_triv = F(k)·1_{t>q} does vanish there. There are also two other configurations where the
+approximant is nonzero:
+- type 1 with q′ < q, where the approximant does not depend on t;
+- type 1 with q = q′ and s < q.
+
+**Consequence.** The constant-in-t extension of the approximants, used for the case L_{u3} > L_{u4}, gives F where the
+true kernel gives 0.
+
+**Repair (R35, used in Lean).**
+- For trivial Q and T, the exact kernel F·1_{t>q} replaces the approximant (no remainder arises).
+- The vanishing is proved for the nontrivial approximants, where it holds.
+- The cancellation (`replSum_decomp_ext`) is re-proved with the mixed family. Realness (layerregest10) transfers off a
+  null set.
+
+---
+
+## E19 — TARGET L2216 (final count): "p_sb ≤ p_op" should be "p_sb ≤ 2 p_op"
+
+**Status.** CANDIDATE erratum. It is harmless. It was found by the FINALCOUNT-ASSEMBLY prover.
+
+**Location.** TARGET L2216.
+
+**Issue.** Operation 2 cuts two critical SG atoms, so the number of critical SG atoms consumed can be up to twice the
+number of operations.
+
+**Why it is harmless.** The margin absorbs it, since η³/2 ≥ 8η⁶.
+
+---
+
 ## E2 — further errata (to be transcribed before release)
 
 The remaining confirmed and candidate findings are in `docs/FINDINGS.md`:
