@@ -464,3 +464,42 @@ conj-coherence of `IsCoherentCoupleAt`, then `couple_row_le_conj`.
   - the centre-sum mass bound with C₁, for LG pieces and later for flower pieces.
 - **S2 audits S2a's reading at L1956:** one gap entry per group, none per ladder. S2 confirms it is what redvine2
   consumes, or reports otherwise.
+
+## R24 — `Represents` interface amendments and the split of S2 (S2 REPRESENTS findings D1–D5), 2026-11-05 ~02:35 UTC
+
+**D1. Pieces are (class, σ on groups, finer class τ).**
+- TARGET L1950 splits each σ-term into at most 2^n finer classes, by twists at 𝒱₀ only. A σ-term of a coarse class is
+  not one spliced integral, because LG/ZG vines stay unspliced and their twists change the time domain.
+- `sel π LG κ := (κ has prescription σ) ∧ LG ∈ τ`.
+- `Stage1Counts` becomes at most 6^N pieces per class (3^n · 2^n). The assembly absorbs 6·C₀. This is a
+  constants-only amendment.
+
+**D2. Restricted prescriptions.**
+- The piece index uses prescriptions restricted to the groups (`maximalGroups`).
+- LG-SPINE generalizes the per-class piece index to an arbitrary finite type, if its interface fixes `Prescription G`.
+
+**D3. The centre loss.**
+- The mass bound becomes (C₁√δ)^{n−n_sb} · C₁^{n_sb}.
+- TARGET L1960 writes "a loss of at most C_0^n", then omits it in (redvine2). This is recorded as an exposition point.
+- LG-SPINE re-proves the assembly. Per node, (δ/2L^{d−γ})^{n_sb} times the count leaves δ per node, so δ-smallness
+  absorbs C₁^{n_sb}. If it cannot, LG-SPINE STOPS and reports.
+
+**D4. New packet REGRED-LEAF.** A leafwise skeleton reduction: REGRED's chain re-run with `LeafProfiles` (R9a).
+- Per S2's notes, only `nativeKernelValue`, `reducedStarProduct` and `kernelK_native_reduction` mention F.
+- The attachment, fiber and phase lemmas are F-independent and are reused.
+
+**D5. Accepted.**
+- `Represents` omits redvine2's weight and phase, which only feed the mass bound.
+- ζ(G_sb) is absorbed into w.
+- S2a's DV entries are an extra 3-way split, which is harmless.
+
+**D6.** The audit of S2a's L1956 reading is CONFIRMED (`RepAudit.lean`).
+
+**The split of S2:**
+- **LG-SPINE-AMEND2:** D1–D3 in lg-spine-u and flower-spine-u, plus R23(2) (`stage1_piece_bound` for the integral
+  conjunct; drop FLOWER's proof copies).
+- **REGRED-LEAF:** D4.
+- **REP-ANALYTIC:** generic W5 (centre decomposition: unit-ball partition of unity, treelemma node centres) and W6
+  (time-Fourier superposition with `XNormRestr` bounds, including the multi-time K̃^U).
+- **S2 main (represents):** W1 (sel/partition), W2 (finer classes; S1 EQUIV named until READY), W3 (factorization over
+  the U_j), then W7 (assembly), consuming the others.
