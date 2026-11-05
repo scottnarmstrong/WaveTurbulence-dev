@@ -442,6 +442,113 @@ The Lean proof adds both arguments.
 
 ---
 
+## E11 — TARGET Remark `remtame` case (i) (L2152, L2218): "cut at v and proceed normally" / "modified trivially" is not trivial
+
+**Status.** CANDIDATE. It has an exposition-gap part and an erratum part. The research, with mechanical checks, is in
+/home/scott/wt-scratch/research-remtame-i/NOTES.txt. The ruling is R27.
+
+**Location.** TARGET L2152, case (i) applies "if d(v) < 4, or if some component contains exactly one atom adjacent to
+v". The text says: "the values of k_ℓ for ℓ↔v must all be fixed in the given decoration, so we always have enough gain
+whether the resulting α- or β-atoms have zero gap. We then cut at v and proceed normally." TARGET L2218 adds: "In case
+(i) the proof is modified trivially."
+
+**What goes wrong.**
+- **(a) "Values fixed" is false in one configuration.** A component of M − v can meet v only through an
+  opposite-direction double bond to a single atom u. Conservation then puts no constraint on the shared value.
+  - This is harmless. In that configuration M − v has c ≤ 2 components, so Δχ ≤ −2 and case (ii)'s gain applies.
+  - The correct split is "pinned, or c ≤ 2". This is DH23 §10.5(4)'s "bridge, or Δχ ≤ −2".
+- **(b) The pin does not survive the cut.** Where the values are pinned, they are pinned by the charges of the
+  molecule before the cut. After the β-cut, the zero-gap half of v can lie in a component whose own charges do not pin
+  them. TARGET's product over components (L2203) cannot use the pin.
+- **(c) Prop 9.6 (`lgmolect`) is false for a component with an unpinned zero-gap β-atom.**
+  - **Counterexample.** X = {a, b, c, v₁} with bonds c→a ×2, a→b, a→v₁, v₁→b, b→c ×2. It is perfect, with V_α = 0 and
+    V_β = 1, and conservation forces gap(v₁) = 0.
+  - A pigeonhole count gives 𝔄(X) ≥ c·C₁⁻⁴. But (finalcount) requires L^{−γ₀−3η²−η⁵ρ}.
+  - So "cut and proceed normally" can feed Prop 9.6 a component it does not cover.
+
+**Repair (used in Lean).** Erase v instead of cutting it, exactly as DH23 §10.5 does (L1985: "we shall not make any
+cut at non-hinge degenerate atoms"). Then:
+- the nonzero-gap property of β-atoms (N1) and the ι property (N2) hold as stated;
+- the count of imperfect components becomes R + Σ(deg v_e − 2);
+- an erasure-deviation lemma gives the gain: pinned, factor 1; unpinned, deg 4 and c ≤ 2.
+
+The final bound (finalcount1) is unaffected.
+
+---
+
+## E12 — DH23 Prop 9.6 proof, case (1) (L1884): the odd-component argument is written for a degree-1 odd atom
+
+**Status.** CANDIDATE exposition gap. Found by the FINALCOUNT-G8 prover; the details are in
+/home/scott/wt-scratch/finalcount-g8/HANDOFF.md.
+
+**Location.** DH23 L1884, case (1) of the proof of `lgmolect`.
+
+**Configuration.**
+- Take an odd component whose two odd atoms both have degree 3, with all other atoms of degree 2 or 4, and no α- or
+  β-atom. So w = 0 and E = 2V − 1.
+- Such components occur, because DH23 `subpro`(b) (L1734) has two degree-3 atoms that need not be cut.
+- Here 𝔄 ≲ 1 (Prop 10.1) does not give (finalcount): its right side carries L^{−η⁵ρ₀}.
+
+**Repair (used in Lean).** Use the first statement of Prop 10.2 (no triple bond and E = 2V − 1 give
+𝔄 ≲ L^{−3γ₀/5}).
+
+---
+
+## E13 — TARGET L2101 (selection of C₂): a DV whose two vines are both SG
+
+**Status.** CANDIDATE exposition gap. Found by the FINALCOUNT G3 prover; see /home/scott/wt-scratch/finalcount-g3/HANDOFF.md,
+SESSION 6.
+
+**Quote.** "if both vines (V) forming this DV are SG, then we select only one of them, plus all the maximal SG vine-like
+proper subsets of the other."
+
+**The gap.** The text does not say what happens if the selected vine is contained in a larger SG object. For example,
+U could be an HV whose added bond is the shared joint bond. The unselected vine could then survive as an SG vine
+component, contrary to L1806 and DH23 L1814.
+
+**Reading used in Lean.** The DV rule is applied among the maximal objects (`UnselOK`): the partner of an unselected
+vine is a VC member of C₂. No concrete counterexample is known.
+
+---
+
+## E14 — TARGET Prop `vineest` (L1742–L1752) and `sumint`: the time domain when a lower child is a leaf
+
+**Status.** CANDIDATE erratum, minor. Found by the V5 VINEEST prover.
+
+**The issue.** The domain 𝔅 is "the intersection of {t_{u₁} > max(t_{u₂₁}, t_{u₂₂})} with the product of three unit
+intervals". That is not the actual domain of the kernel when u₂₁ or u₂₂ is a leaf, because a leaf carries no time
+variable of its own.
+
+**Repair (used in Lean).** Evaluate at the lower end of the unit interval, then take an order-0 time trace
+(`XNorm00Restr_trace`). This costs a constant `traceR η`, which is absorbed into C₁.
+
+---
+
+## E15 — further exposition points (no false statement; recorded for completeness)
+
+- **TARGET L1960 (redvine → redvine2).** The text records "a loss of at most C_0^n" for node centres, then omits it in
+  (redvine2), whose prefactor is (C₁√δ)^{n−n_sb}. When n = n_sb the exponent is 0, so the loss cannot be absorbed
+  there. The Lean interface carries C₁^{n_sb} explicitly (R24 D3).
+- **TARGET L1846–L1847 (vineest Step 3, layer failure).** The time order t_{u4} < t_{u2} comes from layers, not from a
+  parent–child relation. It holds up to a null set (R20).
+- **DH23 L790 (closed ladder cells).** The text does not say which of the two parametrizations of a closed cell
+  defines its gap (R26). This is harmless: DH23's Prop 10.4(2) proof (L1961–L1977) treats such a post under case (I).
+- **DH23 L1802 (Prop 9.4, κ = 50).** The text does not say whether the ι ball is fixed. For a "sibling" hit (the first
+  cut of the same triangle) it is centred at a variable. The relative-ball count still gives the same bound
+  (G2-SIBLING).
+- **DH23 L1861 (operc).** "𝔇 ≲ 1 + δ⁻¹R⁻¹L^{−γ}" is really L^{γ−1} + δ⁻¹R⁻¹L^{−γ}. This is an over-estimate, not an
+  error.
+- **TARGET L2424 (`treelemma` (1)).** "for each j there exists j′ < j" fails for j = 1. This is a trivial slip in a
+  part that is not used.
+- **TARGET Operation 3, after a tame-atom erasure.** A neighbour of the erased atom can become an SG ε-atom of
+  degree 2, which Operation 3 (degree ≥ 3) never cuts. The text is silent on this (G3). It is being tracked under the
+  DAMAGED ticket.
+- **TARGET Operations 2/4, ι property ("dead hit").** If both halves of the earlier cut that gives κ_v = 50 are later
+  deleted by triangle operations, the ι ball centre is no longer a parameter of the current molecule. The Lean step
+  lemmas require the hitting cut to be carried by a present atom (G3).
+
+---
+
 ## E2 — further errata (to be transcribed before release)
 
 The remaining confirmed and candidate findings are in `docs/FINDINGS.md`:
