@@ -54,3 +54,26 @@ DRAFT_ANCHORS: 10 (paths enumerated in HQ README)
 UNREGISTERED_SORRIES: 0 (fresh frozen-anchor guard passed)
 DRAFT_IMPORT_VIOLATIONS: 0 (fresh frozen-anchor guard passed)
 SEALED_THIS_TURN: 0
+
+## Proof checkpoints, 2026-11-05 23:08 UTC
+
+- LOW-FRONT A1–A3: `AsmLowFront1` through `AsmLowFront5` in finalcount-asm supply the necessary card split,
+  actual admissibility-based loop-label determination (`hdet`), same-atom label equality (`heq`), GL17 loop-removal
+  count and exponent bookkeeping. Exact GL17/LoopCtx consumer checks pass; printed axioms are standard. This is
+  still the provisional farm8/build11 + g3-lowdeg/build-fresh1 environment, not a canonical-world certification.
+  A4, LOW-CHAIN/GARDEN/GLUE and FinalCountGateHalf remain open. Handoff: codex-takeover/finalcount-low/HANDOFF-CODEX.md.
+- V5 W2: `vineestStep3LayerM` and `layerBound_noTwistM` give the modulated Step-3/no-twist base bound, including
+  the exact `(1+abs(lam))^(6*eta^6)` loss and nonnegative profiles. The six audited checkpoints have standard
+  axioms in the existing P4 scratch world. Actual general unrolled-term certificates, modulated twist flattening
+  and kind-generic full VINEEST remain open. Handoff: codex-takeover/v5-w2/HANDOFF-CODEX.md.
+- V5 W13: full-square tree time-polynomial bound proved and shifted to arbitrary layers, with eight RA1Trees
+  polynomial/profile modules freshly rebuilt in P4's world. `card_terms_le_order2` gives the actual exceptional
+  class-count bound by C2^b times a geometric order factor; its separated-family producer is still required.
+  General SepFamFam, its boundedness and final prefix remain open.
+- Batch-3 port: `/home/scott/WaveTurbulence-worktrees/port-b3a` contains the isolated six-packet integration.
+  First RA1 targeted build passed; the combined build exposed duplicate raw Flower definitions, relocated
+  Induct helper names and copied warnings. Root owns seven structural files; v5_w2 now owns other hygiene
+  repairs. finalcount_low independently audits mapping/source surfaces, then final build/axiom evidence.
+  The combined integration is NOT READY and no new frozen seal is claimed.
+- E25/E26 and findings F83/F84 now record the pending R54 gain-bookkeeping and R58 lower-clock source issues,
+  explicitly as candidates rather than evaluated counterexamples or confirmed errors.
