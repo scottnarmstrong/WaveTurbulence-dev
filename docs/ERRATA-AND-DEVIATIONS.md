@@ -370,6 +370,50 @@ charges determine their bond, but the text does not say so.
 
 ---
 
+## E9 — TARGET `finalmol` (L2185, L2187) fails as stated once tame-atom removals occur (remtame case (ii))
+
+**Status:** CANDIDATE. The computation is explicit, and an independent check is pending. Found by the FINALCOUNT G3
+prover (/home/scott/wt-scratch/finalcount-g3/HANDOFF.md, Session 4).
+
+**Location.** TARGET L2185 (`finalmol`): the final molecule has "at most R imperfect components", and "no α- or β-atom is
+ZG". Its proof at L2187 says the invariant 4V − 2E − 2(V_α + V_β) is preserved.
+
+**What goes wrong.**
+- **The invariant rises by 4.** A degree-4 ZG tame atom removed under Remark `remtame` case (ii) changes the invariant
+  by **+4**: V − 1 and E − 4.
+- **The imperfect-component bound fails.** With t such removals it becomes **R + 2t**, not R. TARGET's later remark
+  `remtame2` (L2218) adds 2 imperfect components per removal, which is consistent with +4. So the source's own later
+  bookkeeping contradicts L2185/L2187 as stated.
+- **Degree invariant.** The "ε-atoms have degree ≥ 3" invariant fails for a neighbour joined to the removed atom by two
+  bonds.
+- **ZG α/β atoms.** `remtame` case (i) creates ZG α/β atoms, contradicting L2185's "no α- or β-atom is ZG".
+
+The exact configuration is in the G3 HANDOFF.
+
+**Assessment.** The final estimates may survive, because remtame2 accounts for the extra components. But `finalmol` as
+stated is false in TARGET's setting with tame atoms.
+
+**Effect on the formalization.** The counting chain models TARGET's setting with an explicit removal step and the bound
+R + 2t. DH23's setting has no non-hinge ZG tame atoms (`DegenSG`), so remtame never fires there.
+
+---
+
+## E10 — DH23 L1814 (proof of Prop 9.5, vine components are LG): "the vine is not changed" although its joints are cut
+
+**Status:** CANDIDATE exposition gap. Found by the FINALCOUNT G3 prover.
+
+**The problem.** The proof says a final vine component is the vine from stage 1, "not changed". But its joints are cut
+atoms. Identifying the component with an object of 𝕄₀ needs two arguments:
+- **An identification argument.** The component's non-ε atoms are its two joints, and the cut halves map injectively
+  to distinct ancestor atoms. The two joints cannot be the halves of one cut atom: the component would then be closed
+  under adjacency, hence all of 𝕄_sub, which contradicts the two odd atoms.
+- **The case of a hyper object.** When the joints' other halves are joined by a bond, the component is a hyper object
+  (HV), not a VC.
+
+The Lean proof adds both arguments.
+
+---
+
 ## E2 — further errata (to be transcribed before release)
 
 The remaining confirmed and candidate findings are in `docs/FINDINGS.md`:
