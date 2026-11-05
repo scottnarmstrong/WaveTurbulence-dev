@@ -1118,3 +1118,43 @@ The result stands with the repair above. It is recorded after the referee.
   AMEND5 is READY.
 - S2: relaunch after the AMEND6′ gate statement, with two small lemmas (the pair-type pullback to native rows; LF twists
   keep the root-tree indices of attachment points).
+
+## R48 — FinalCountAt premises (FC-GEOM): AMEND7, the REG/LOW split, new packet G3-LOWDEG, 2026-11-05 14:20 UTC
+
+The source is /home/scott/wt-scratch/research-fcgeom/NOTES.md and src/: the Lean checks FcgeomCex, FcgeomTriple and
+FcgeomAmend7, all with standard axioms.
+
+**LG-SPINE AMEND7.**
+- (1) `FinalCountAt` and `SourceFinalCountInputs.FinalCountGate` gain `G.Irreducible` after `G.IsPlain`. This matches
+  `LadderFourierAt` and TARGET subpro (1). Thread it through `SplicedFilteredGates` L33 and `FinalCountMonotone`.
+- (2) `SourceSubproObjects` gains `SubproChoices.TripleDesignated` and `SubproChoices.HingeNoLoop`, with the exact text
+  in NOTES.md.
+  - `CountingGeometry`, `SubproConclusions` (CoverAdmissible) and `Stage1Piece.Sound` gain the fields
+    `tripleDesignated` and `hingeNoLoop`.
+  - They are threaded through `coverIndex_geometry_of_subpro_choices`, `Stage1PieceBound` and `Stage1GateMonotone`.
+- (3) There is NO degree or no-loop premise. M_sb can have atoms of degree 0, 1 or 2 and degenerate non-hinge loops;
+  Examples A, B and C are Lean-checked as valid producer outputs.
+
+**Producer obligations.** S2a (redsplice) `stage1Piece_sound` supplies both fields:
+- `tripleDesignated` via S4's `triple_in_designated` (or RedSplice's `triple_in_hingePair`);
+- `hingeNoLoop` via `SpMap.od_range`, which needs a short proof.
+
+S2 carries the fields when it assembles pieces.
+
+**FINALCOUNT split.** `FinalCountAt P ← FinalCountRegAt P ∧ FinalCountLowAt P`.
+- **REG:** every atom has degree ≥ 3 and there are no loops. G3's `SubHyp` and `TripleDesig` follow from the amended
+  geometry (`subHyp_of_geometry`, `tripleDesig_REG`). FINALCOUNT-ASM completes REG.
+- **LOW:** an explicit named residual, `FinalCountLowAt`, until G3-LOWDEG lands.
+
+**New packet G3-LOWDEG.** It generalizes G3's run model, following NOTES.md "G3-LOWDEG changes":
+- drop `deg3`, and allow loops only at non-hinge degenerate atoms;
+- drop the initial-state `Flat` requirement;
+- add degree-2 β-cuts in Step 1 and Step 3, deleting the isolated atom, with Inv R → Inv (R−1).
+
+Then FINALCOUNT-ASM integrates LOW: R carried in the potential, Z₅ bounded by the deficit sum, termination redone,
+imperfect even components sent to `Damaged96`, and the R = 0 case.
+
+**Candidate erratum E23** (exposition; finalcount1 itself has no counterexample). TARGET L2122 says "essentially the
+same as DH23 §§9–10", and the propcplmol proof says "some discussion is needed when some trees are trivial". Both omit
+that M_sb can have atoms of degree 0, 1 or 2 and degenerate self-loops, which DH23 Props 9.4–9.6 exclude (Remark
+moleremark L682). G3's SubHyp is strictly stronger than what TARGET assumes.
