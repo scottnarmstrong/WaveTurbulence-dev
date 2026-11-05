@@ -863,3 +863,27 @@ atoms. It is harmless, since η³/2 ≥ 8η⁶.
   `block_two_cut_opposite` applies per slot, across 14 slots in the 8 types, plus at most 15 template atoms.
 
 **(3) Errata.** L2216 (p_sb ≤ 2 p_op) is already recorded as E19.
+
+## R37 — Triple bonds at hinges (S4-NOTRIPLE STOP), 2026-11-05 ~10:30 UTC
+
+**Finding.**
+- TARGET Operation 1 (L2140) says the collected objects "also include any possible triple bonds in M_sb (see Prop
+  subpro (2))". But subpro (2) only gives each triple bond a hinge endpoint. It does not put the triple bond in C₁ ∪ C₂.
+- **Configuration.** Merge two whole-group SG VC units whose joints carry the bonds j1→b1, b2→j1 and b1→j2. This gives a
+  hinge–hinge triple bond that lies in no collected object.
+- It is not yet verified that this configuration occurs in a prime garden.
+- DH23 L1775 has Step 1 cut triple bonds "in (c)" at a joint, along two of their bonds.
+- Status: CANDIDATE exposition gap at TARGET L2140.
+
+**Pigeonhole fact.** A triple bond between a hinge v and any atom w uses 3 of v's unit's 4 external bonds, two at each
+joint. So two of the three are the full external pair of one joint. That pair is SG by subpro (5): at a degree-4 joint
+of charge 0, its gap equals the vine gap.
+
+**Ruling.**
+- **(a) S2a, choice of designated pair.** When a hinge has a triple bond, `hingeOrigPair` chooses the joint whose
+  external pair lies in the triple bond. It stays σ-independent (R25), since the choice depends only on the molecule.
+  S4 re-checks subpro (5)/hingeSG and (6) crossing under this choice.
+- **(b) G3, Step 1.** Add a `triple` constructor to `HStep1C`. It cuts the hinge endpoint of a triple bond along its
+  designated pair, which now lies inside the triple bond. This is an α/β cut with the `UStep3` deviation. `NoTripleBond`
+  after Step 1 is then PROVED, not assumed.
+- **(c)** FINALCOUNT-ASSEMBLY consumes (b).
