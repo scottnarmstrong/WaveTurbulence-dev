@@ -335,3 +335,34 @@ the 30d coherent-error norm).
 - V2-CHAIN.
 - S2 represents #3.
 - LADDER-TT.
+
+## 10:46 UTC 2026-11-05 (usage limit reached; resumption state)
+
+**READY since the last entry**
+- G3 #15: GhostTriInput discharged; R37 triple cut; alive-cut ι; 140 modules.
+- G2-GHOST #2: charged bound, 36 patterns.
+- S2a-TRIPLE: triple_in_designated.
+- LADDER-TT: all three ladder gates on the truncated domain.
+- LG-SPINE-AMEND3.
+- VINE-RHO.
+- G8-QUANT.
+- ATOM-TRANSPORT.
+- PORT batch 1, on main as f1d45c8.
+
+**Running (resume each by SendMessage if interrupted)**
+- FINALCOUNT-ASM #7: Phase 1 + terminal bound + finalCount_half.
+- V5 4b #7: Cls4Ext, then tildeJ2.
+- S2 represents #4: RepNoVine3, producer.
+- CLASSCOUNT.
+- V2-CHAIN: fresh rebuild at 417/592. Its three v2 links and wkeTaylor already type-check against the frozen anchors.
+
+**Next**
+- V5 Step 4 induction (packet 4).
+- PORT batch 2a (X-chain + v2 links) once V2-CHAIN is READY.
+- B1.5 wkeTaylor seal, with a second-key audit.
+- Flower Stage-1 gates (after S2).
+
+**Waiting on the author**
+- D11.
+- B21-SNAP9 restart.
+- VINEPARAM catalogue home.
