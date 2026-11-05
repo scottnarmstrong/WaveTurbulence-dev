@@ -520,3 +520,27 @@ It is not per group.
   group are different objects; only the designated object enters 𝒞.
 - **Re-check after the change.** S2a re-checks the `Sound` fields (`gapSpecification_hinge_kind`, `hingePair_spec`)
   under the new choice.
+
+**R25 addendum (S2a-AMEND STOP), ~03:10 UTC.**
+
+**(a) The designated object is the whole group object.** `groupObject` must not be a bare choice of any `O` with
+`O.atoms ⊆ S`. It is:
+- `vc ⟨S, a, b⟩` for a VC group;
+- the group's own hyper object for HV and HVC (R6).
+
+Sub-blocks are never designated.
+
+**(b) The bridge is stated on gap kind, on the support, by cases.** For each group, on decorations with ε̃·Z ≠ 0, the
+specified pair's gap kind equals the designated object's gap kind.
+1. **Non-hinge joint.** The pair is inside the designated object (`objectJoint_pair`), so use
+   `object_hasGapKind_unique`.
+2. **Hinge with a residual object (skip VC, HVC).** The pair sits at a joint x or y of the residual object, and it lies
+   inside the whole-group object.
+3. **Whole-group hinge (a unit u = S).** The specified pair is the external out/in pair at the degree-4 joint a.
+   - `vc_top_exists` gives 7 ≤ deg a + deg b, so such a joint exists.
+   - Charge 0 at a degree-4 atom, plus conservation at a in the original molecule, gives: external gap = −(internal gap
+     of the designated object at a).
+   - Gap kind depends only on ‖r‖ (SG: 0 < ‖r‖ ≤ L^{−γ+η}; LG: ‖r‖ > L^{−γ+η}; ZG: r = 0), so the kinds agree.
+   - Check that the decoration identification `Os_sb` (TARGET L2040) keeps the original conservation at a.
+
+**(c) σ-independence of the choice still holds.**
