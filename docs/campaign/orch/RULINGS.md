@@ -1080,3 +1080,41 @@ Bh 1 / Bh 2 → ∞, the class sum cannot be bounded by the start state's produc
 - **`hreal`.** It enters V5 as a named input of exactly PL234's `reality_all` type, which PL234 owns and has proved.
 - **`hQb`.** It uses the exact kernel conjugation halves, with the 4c defect rows carrying the remainders. PL234's
   open app-half conjugation (ISSUE-APPCONJ) is not needed by V5.
+
+## R47 — Stage-1 leaf data by pair type (TWIST-PROFILES design P*), PROVISIONAL pending referee, 2026-11-05 14:19 UTC
+
+The source is /home/scott/wt-scratch/research-twistprof/NOTES.md and lean/; a referee review is running in
+research-twistprof-referee.
+
+**Design P\*.** It replaces R44 (ii) and settles F-EXC, F-ROOT and F-LEAFREAL.
+- **New family structure.** `Stage1ReductionAt` quantifies over a `TypeFamily` U. Each index i carries a sign
+  (|sign| ≤ 1), a profile h i : layer → tree of the + leaf → tree of the − leaf → Mom d → ℝ, and ONE bound b i
+  (uniform across layers and types, as R46 requires).
+  - `typeProfiles` assigns each leaf its pair type.
+  - `U.toLF` is the induced `LeafFamily`.
+  - `U.Bounded p` replaces `Controlled`.
+  - The new gate is no stronger than the old one (`stage1ReductionAtT_of_old`).
+- **R44 (i) still holds:** A is closed under LF twists, proved at the use site.
+- **Q1.** LF twists keep every leaf in its root tree, and vine-region pairs have type (q, j₁, j₁). So pair-type
+  profiles are class-compatible with no leaf bijection.
+- **The consumer** (`nonregular_prefix`) replaces `weightedFamily`. Each k-derivative and each root linear form becomes
+  a first-order slope on a pair-type profile, and the derivative-and-weight identity is an exact finite combination of
+  evaluations V(h + λ(k−M)v). It is extracted by real central differences (`first_coeff_extraction`, with weights
+  |w_k| ≤ 1/|k−M|). The loss is (C(N+m))^{O(mΛ)}, absorbed by E1/E2.
+- **V5** proves `VineEstCanonLeaf`, which is definitionally equal (rfl) to R46's `VineEstCanonLayer`. S2 applies it with
+  h := U.h i · j₁ j₁ and c := U.b i.
+- **LFTWIST-LEAFMAP** is off the critical path. `WeightedFamily` and `WeightedFamilyValue` become unused.
+
+**Candidate erratum E-TWPROF** (TARGET L2065–L2067).
+- L2065: the leaf l_j depends on the decoration, so the weight transfer is a pointwise inequality inside oscillatory
+  sums.
+- L2067: leafwise modifications inside T_{(u2)} and Q_{(u23,u0)} have no counterpart in the twisted garden, so
+  vineest cannot be applied term by term.
+
+The result stands with the repair above. It is recorded after the referee.
+
+**Work.**
+- LG-SPINE AMEND6′: the gate change (about 250 lines), then the consumer rework (about 2.2k lines). It starts after
+  AMEND5 is READY.
+- S2: relaunch after the AMEND6′ gate statement, with two small lemmas (the pair-type pullback to native rows; LF twists
+  keep the root-tree indices of attachment points).
