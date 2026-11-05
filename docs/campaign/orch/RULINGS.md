@@ -1253,3 +1253,27 @@ designation per atom set. G3's `HRunNC` conjunct (every collected object dartles
   shapes) and lg-spine's `dv_branch_double_vine`.
 - If it is not provable in about 400 lines, STOP with the configuration. The fallback is AMEND8b: the omitted clause's
   DV is maximal, i.e. not inside any eligible object. That is TARGET L2101 read among maximal objects (E13).
+
+## R51 — V5 F-ZPSURJ: the twist class realizes the whole coherent pair carrier (new packet ZP-SURJ), 2026-11-05 16:11 UTC
+
+**Finding** (/home/scott/wt-scratch/vineest-s3/PROGRESS.md top).
+- `replSum_decomp_ext` pairs the II-a and II-b states over one index of pairs b = (Q,T). PL234's `hreal`
+  (`reality_all`) sums over the whole `CoherentPairCarrier`.
+- So the leading term cancels only if the realized states at p* cover the whole carrier.
+- Injectivity Zp → carrier is proved (`Cls6Zp`, `Cls7Inj`). Surjectivity is not: no theorem constructs an
+  `LFConstruction` from arbitrary coherent carrier data.
+
+**Ruling: option (A).**
+- **Why surjectivity should hold.** TARGET Def lftwist (L1466–L1480) defines the class as ALL replacements
+  (T′, Q′) of the exceptional pair by coherent objects with the layerreg1 structure for (q, q′), the same total
+  order and the same number of layer-p nodes. Surjectivity is therefore the content of the definition, plus a
+  construction theorem.
+- **New packet ZP-SURJ.** It proves:
+  - existence of an `LFConstruction` for every carrier element satisfying those constraints;
+  - that the constructed state lies in Zp(A) (canonicity: TARGET Prop 4.9 / LAYERREG; class membership: lftwistprop);
+  - the bijection Zp(A) ≃ carrier.
+- **If the constraints differ.** If the carrier is larger than what Def lftwist realizes (a constraint mismatch),
+  ZP-SURJ STOPs with the mismatch. Option (C), restating realness over the realized class, is then considered.
+- **Option (B) is REJECTED:** a named input for the leading-term cancellation is conclusion-shaped (hard rule 6).
+- **Meanwhile.** V5 part C carries `hZpSurj`, the exact statement ZP-SURJ will prove, as an explicit hypothesis, and
+  continues with the rest: the remainder expansion, engine datum, `Admissible`, R35 cases, WP-F and the prefix.
