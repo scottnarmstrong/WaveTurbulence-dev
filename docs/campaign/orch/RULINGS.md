@@ -823,3 +823,22 @@ module names across scratch trees must be resolved into one closure.
 
 **Errata candidate.** At TARGET L2216, "p_sb ≤ p_op" should read ≤ 2 p_op, because Operation 2 cuts two critical SG
 atoms. It is harmless, since η³/2 ≥ 8η⁶.
+
+## R35 — TARGET L1913 (ii) fails for trivial couples and trees; the Bs″ argument is repaired (PL234-ENDPOINT STOP), 2026-11-05 ~09:40 UTC
+
+**Finding.** TARGET L1913 (ii) says: "if q = L_r then J̃_Q(t,s) equals 0 if t = L_r".
+- **Trivial couples and trees.** The claim is false there: J̃ ≡ 1 on [q, q+1], and `RegCpl.app … triv = F`. This was
+  proved for the trivial couple (`pl234-endpoint/Triv.lean`).
+- **Type 1 with q = q′.** It also fails for s < q.
+- **Consequence.** The constant-in-t extension of a trivial approximant gives F where the true kernel F·1_{t>q} gives 0.
+
+**Ruling: option 2.** In V5 Step 4c's Bs″ argument:
+- **Trivial objects.** For trivial Q and T, use the exact kernel F·1_{t>q} in place of the approximant. It is exact, so
+  there is no remainder.
+- **Weakened hypotheses.** Weaken `hQ0`/`hT0` to nontrivial b and s ≥ L_q b. Prove them for the nontrivial approximants:
+  type 2 with a nonempty positive chain, and the q < q′ branch with a nonempty chain, both vanish because their
+  leading integral is ∫_q^q.
+- **Re-check.** Confirm `replSum_decomp_ext` and the cancellation with the trivial pieces handled this way. Check also
+  that layerregest10 (realness) holds for the mixed exact/approximant products.
+
+**Ledger.** TARGET L1913 (ii) is a CANDIDATE erratum, harmless after the repair.
