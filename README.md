@@ -6,7 +6,7 @@ Lean 4 formalization of
 > [arXiv:2311.10082v2](https://arxiv.org/abs/2311.10082) (2024).
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-11-05 23:09 UTC** · **estimated completion 90.5 %** (Lean proofs 92.4 %) · frozen theorems sealed: 16 / 26 (+ 296 frozen definitions) · **443,222 lines of Lean on main** (4828 files) + 1,460 unlanded on worker branches · blueprint estimate ≈ 273,000 lines
+> **Last updated: 2026-11-05 23:23 UTC** · **estimated completion 90.5 %** (Lean proofs 92.4 %) · frozen theorems sealed: 16 / 26 (+ 296 frozen definitions) · **443,222 lines of Lean on main** (4828 files) + 1,460 unlanded on worker branches · blueprint estimate ≈ 273,000 lines
 <!-- /AUTO:updated -->
 
 **Scope (D1):** everything proved in Lean, no black boxes. That covers the target paper and the results it uses from
@@ -63,10 +63,10 @@ SEALED_THIS_TURN: 0
 |---|---|---|---|---|
 | Sources, paper maps, blueprint (P0–P1) | 1 | 30 | 27.0 | `█████████░` 90 % |
 | Exact Lean statements, frozen (P2) | 1 | 20 | 18.4 | `█████████░` 92 % |
-| Lean proofs (P4) | 85 | 681 | 637.2 | `█████████░` 94 % |
+| Lean proofs (P4) | 85 | 681 | 637.3 | `█████████░` 94 % |
 | Frozen theorems sealed | 26 | 26 | 16.0 | `██████░░░░` 62 % |
 | Release (P5) | 1 | 15 | 0.0 | `░░░░░░░░░░` 0 % |
-| **Total** | | 772 | 698.6 | **90.5 %** |
+| **Total** | | 772 | 698.7 | **90.5 %** |
 
 Lean lines: 443,222 on main + 1,460 on branches, of ≈ 273,000 estimated by the blueprint (`████████████████████` 162.9 % of the estimate).
 
@@ -170,12 +170,12 @@ Done fractions last reviewed: **2026-11-05 23:09 UTC**. Source: [`docs/campaign/
 <!-- AUTO:workers -->
 | Worker / session | model / account | packet | branch: last commit | brief |
 |---|---|---|---|---|
-| Codex orchestrator | Codex / current session | Source rulings, safe landings, proof-state review and HQ upkeep | `w/orch`: 1 min ago, 2 unlanded | [brief](docs/campaign/orch/CODEX-HANDOFF.md) |
-| subagent v5_w2 | GPT-6.1 Terra medium / current session | Six-packet analytic spine port: warning/proof hygiene after V5 modulated-Step3 checkpoint | `w/port-b3a`: 25 min ago | [brief](docs/campaign/orch/briefs/TERRA-LINT-PORT-B3.md) |
-| subagent v5_w13 | GPT-6.1 Terra medium / current session | V5 W1/W3: separated-family producer and final-count constants | `w/orch`: 1 min ago, 2 unlanded | [brief](docs/campaign/orch/briefs/TERRA-V5-W13.md) |
-| subagent finalcount_low | GPT-6.1 Terra medium / current session | Independent port review; LOW-FRONT A1-A3 provisionally complete in scratch | `w/port-b3a`: 25 min ago | [brief](docs/campaign/orch/briefs/TERRA-AUDIT-PORT-B3.md) |
-| cx-world | GPT-6.1 Sol medium / codex-2 (existing session) | Existing serial canonical-world upstream rebuild; axiom closeout and assembly overlay pending | `w/orch`: 1 min ago, 2 unlanded | [brief](docs/campaign/orch/CODEX-HANDOFF.md) |
-| cx-b4bprep | GPT-6.1 Sol medium / codex-2 (existing session) | Existing R52 Batch-4b serial catalogue rebuild; skeleton/layer-count/N4 checks pending | `w/orch`: 1 min ago, 2 unlanded | [brief](docs/campaign/orch/CODEX-HANDOFF.md) |
+| Codex orchestrator | Codex / current session | Source rulings, safe landings, proof-state review and HQ upkeep | `w/orch`: 12 min ago | [brief](docs/campaign/orch/CODEX-HANDOFF.md) |
+| subagent v5_w2 | GPT-6.1 Terra medium / current session | Six-packet analytic spine port: warning/proof hygiene after V5 modulated-Step3 checkpoint | `w/port-b3a`: 38 min ago | [brief](docs/campaign/orch/briefs/TERRA-LINT-PORT-B3.md) |
+| subagent v5_w13 | GPT-6.1 Terra medium / current session | V5 W1/W3: separated-family producer and final-count constants | `w/orch`: 12 min ago | [brief](docs/campaign/orch/briefs/TERRA-V5-W13.md) |
+| subagent finalcount_low | GPT-6.1 Terra medium / current session | Independent port review; LOW-FRONT A1-A3 provisionally complete in scratch | `w/port-b3a`: 38 min ago | [brief](docs/campaign/orch/briefs/TERRA-AUDIT-PORT-B3.md) |
+| cx-world | GPT-6.1 Sol medium / codex-2 (existing session) | Existing serial canonical-world upstream rebuild; axiom closeout and assembly overlay pending | `w/orch`: 12 min ago | [brief](docs/campaign/orch/CODEX-HANDOFF.md) |
+| cx-b4bprep | GPT-6.1 Sol medium / codex-2 (existing session) | Existing R52 Batch-4b serial catalogue rebuild; skeleton/layer-count/N4 checks pending | `w/orch`: 12 min ago | [brief](docs/campaign/orch/CODEX-HANDOFF.md) |
 <!-- /AUTO:workers -->
 
 ## Papers
