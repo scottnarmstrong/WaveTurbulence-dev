@@ -1158,3 +1158,39 @@ imperfect even components sent to `Damaged96`, and the R = 0 case.
 same as DH23 §§9–10", and the propcplmol proof says "some discussion is needed when some trees are trivial". Both omit
 that M_sb can have atoms of degree 0, 1 or 2 and degenerate self-loops, which DH23 Props 9.4–9.6 exclude (Remark
 moleremark L682). G3's SubHyp is strictly stronger than what TARGET assumes.
+
+## R47-FINAL — Design P* adopted with the referee's fixes F1–F7, 2026-11-05 14:41 UTC
+
+**Referee.** The verdict is ADOPT_WITH_FIXES; see /home/scott/wt-scratch/research-twistprof-referee/REPORT.md. Every
+claim re-derived:
+- Q1 holds for all vine types; only CN vines can span two trees, and those are never twisted.
+- The identities (D) and (M) are checked numerically.
+- `first_coeff_extraction` was re-run.
+- `VineEstCanonLeaf = VineEstCanonLayer` holds by rfl.
+
+R47 is final, with these fixes, all binding on the implementers:
+- **F1.** Use max(1, V) in λ, or the existing U = Cφ + 1.
+- **F2.** State the per-type operation count: on type (q,j,j′) only the forms of trees j and j′ act, at most 8Λ
+  multiplications (4Λ for couples) and at most 4Λ derivatives. The existing hU/hhigh bounds then suffice.
+- **F3.** Rewrite the garden threshold E1 in `NonregularPrefix` as a log-type threshold uniform in
+  2 ≤ m ≤ 10R_{p+1} and N ≤ N_{p+1}^4, counting the (d+1)^{4mΛ} expansion terms.
+- **F4.** The recursion is X_{O::rest}(h) := Σ_k (w_k/λ) X_rest(h + λ(k−M)·Oh), with the operation O INNERMOST:
+  derivatives first, then forms.
+- **F5.** Use a ℂ-valued `first_coeff_extraction`.
+- **F6.** Correct the E-TWPROF wording:
+  - "2M ≥ n+R";
+  - the loss is absorbed by the L-power margins with n, R polylog;
+  - the root-weight obstruction is the class-uniform index;
+  - side notes: 2n_j+1 for trivial trees, "at most 2R input factors", and the couple weight is <k>^{4Λ}.
+- **F7, scope.** FLOWER-SPINE's `FlowerStage1At` (FS9/Gates.lean L100) and `CoupleStage1At` (L128) have the same
+  defect: arbitrary per-garden H, arbitrary A, and weights redistributed "as in L2065". They must mirror P*: a
+  pair-type family, a twist-closed A, and (M) over non-flower leaves (TARGET L2293). This is part of AMEND6′ on the
+  flower side.
+
+**Work order.**
+- LG-SPINE AMEND6′, after AMEND7 is READY:
+  - (a) the gate change, `TypeFamily` / `typeProfiles` / `U.Bounded` / `TwistClosed` A, about 250 lines;
+  - (b) the consumer rework replacing `weightedFamily`, with F1–F5, about 2.2k lines;
+  - (c) the flower mirror (F7) in flower-spine-u.
+- S2 relaunches after (a) lands in lg-spine-u.
+- E-TWPROF is recorded as E24 in the errata batch, with the F6 wording. E23 is the FC-GEOM low-degree erratum, R48.
