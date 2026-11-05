@@ -734,3 +734,33 @@ TARGET's u₂₁/u₂₂ convention (tildeK2, tildeJ2), and record the result.
    - TARGET L2193/L2197: erratum. The identification fails by L2189 against L2218; the Z = 0 failure is shown at
      graph level only.
    - TARGET L2152/L2218, single-atom erasure: exposition gap.
+
+## R32 — S2 REPRESENTS: who produces the classes, VINEEST4, LEAFGATES (S2 session-3 questions), 2026-11-05 ~07:30 UTC
+
+**(1) S2 owns the producer.**
+- `Stage1Data` (members, `Cl`, `cls`, `sel`, the pieces) is construction data for `Stage1ReductionAt`, so S2 builds it. Never
+  take it as a hypothesis.
+- **Classes.** Use S1's congruence on `FamilyReconstruction` states (`congruent_equivalence_isVFamily`), restricted to
+  canonical representatives (V5 Step 4b, R31(1)): the prime skeleton, with SKELETON's
+  `existsUnique_prime_with_replacements`, so that each garden has exactly one state.
+- **"Same G_sb across τ"** (TARGET Remark `twistexplain` (c)). Prove it as an EQUALITY where the construction allows it,
+  making the relevant S2a data choice-free if necessary. If equality is blocked by `Classical.choose` inside
+  `SpState.add`, prove instead that the piece value is invariant under the garden isomorphism, and use that. Choose the
+  cheaper route and record why.
+- **Order.** Do the vine-free case first (`represents_noVine`), then the general case.
+
+**(2) VINEEST4.**
+- It stays a single named input of S2 until V5 is READY. Transcribe V5's `VineEstCanon` statement verbatim; both worlds
+  are built on the canonical universe types.
+- The per-U_j application inside G_sk, and the decoration and time-splitting identity, are S2's to prove (W3/W4).
+- The two scratch build worlds (vineest-s3/uni and represents/lg-spine-u) are unified in the final PORT phase.
+
+**(3) LEAFGATES.**
+- The leafwise gates at lower orders, `LeafwiseCoherentApproximationAt` and `LeafwiseIncoherentDecayAt`, are already
+  proved (L3: RA1-LEAFWISE, INCOH-LEAFWISE, PL23-30D) and are fields of `SpineInputs`.
+- S2 proves `stage1Reduction_of_leafGates : LeafGates(lower orders) → Stage1ReductionAt P`.
+- LG-SPINE's assembly then composes it with its `SpineInputs` leaf fields: a glue step, recorded for the PORT phase.
+  This changes how the spine input is discharged, not any frozen text.
+
+**(4) Note for the PORT phase.** REGRED-LEAF copied 56 REGRED modules from vineest-s3/uni. Before landing, duplicate
+module names across scratch trees must be resolved into one closure.
