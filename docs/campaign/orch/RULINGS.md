@@ -1423,3 +1423,32 @@ whose τ-classes are kind-false LF classes.
     `IsCanonG`) used in a proof must get its couple analogue (`IsCanonC`), or be shown not to be needed.
 - **S2** consumes the kind-generic form: kind = true for w ≥ 4, kind = false for couples. Until then its VINEEST
   named input is V5's statement with the kind parameter, recorded as a deviation.
+
+## R58 — F-LOWCLOCK: the lower-child slots of a unit read τ_{u2}; VINEEST gains a modulation at the lower joint, 2026-11-05 19:19 UTC
+
+**Finding** (S2 VINE-B, Opus; /home/scott/wt-scratch/vine-b/HANDOFF.md).
+- For each unit U_j (top joint a = u1, lower joint b = u2), the native slots at b's external children c ∈ {u21, u22}
+  read b's clock: K*_{T_(c)}(τ_b, τ_c, k_c) (TARGET (redkg) L1726), or a couple slot coupleLeaves(Q, τ_b, …).
+- τ_b is integrated inside K^{U_j} (L1737–L1738), and c ∉ U_j.
+- (redvine) L1954–L1956 instead places these slots on G_sb at t_{u1}. That is not an identity: a p = 0 configuration
+  with an order-2 regular tree at c lies in the gate's domain. In the leaf case the slot can even mix two units'
+  interior clocks.
+
+**Ruling: repair (A)**, via TARGET's own modulation tolerance (sumint FourierboundI, L1618).
+- **VINE-B♯ (S2).** An exact identity in which each unit kernel K̃^{U_j} is extended by its lower-child slots at clock
+  τ_{b_j}: the slot functions enter as extra rows of the unit's clocked expression.
+- **VINE-D (S2).** A time-Fourier expansion of each lower-child slot in its parent clock τ_b, on the unit interval, with
+  coefficients carrying the outer variables (τ_c, k_c). That produces modulations e^{πiλτ_b}, with summable
+  coefficients from the slots' time regularity.
+- **VINEEST (V5).** The final statements (`VineEstCanonLayerC2`/`Half`, kind-generic per R57) gain a modulation
+  parameter λ at the lower joint b of the unit, the factor e^{πiλτ_b} in the integrand, and a loss factor
+  ⟨λ⟩^{c·η⁶} on the right-hand side.
+  - The 4d-A engine supports it natively: a row at the internal clock τ_b with the single mode λ. `ClockedModes`'
+    `maxBracketPow θ` gives the ⟨λ⟩^{θ} loss with θ = 6η⁶.
+  - The modulation is twist-invariant: twists act inside the unit, and τ_b is a common time variable of every class
+    member (4d-B2 exchanges only b's children).
+  - The λ = 0 case is the current statement.
+- **V5-CONT** covers the modulated kernel as well.
+- **Candidate erratum E26** (TARGET (redvine) L1954–L1956): the slots at u21^j and u22^j keep the clock t_{u2^j},
+  which K^{U_j} integrates. The repair is the modulation tolerance already present in sumint. It goes into the next
+  errata batch with E25.
