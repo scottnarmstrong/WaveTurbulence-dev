@@ -939,3 +939,21 @@ consumers, re-run the type checks, and announce the change in PORT-LOG.md. FLOWE
 
 **Meanwhile.** S2 proceeds with `|sign| ≤ 1` as an explicit hypothesis, to be replaced by the structure field once
 AMEND4 lands.
+
+## R41 — The ρ-loss of a Step-1 removal is bounded per operation (VINE-RHO #2 finding), 2026-11-05 ~11:40 UTC
+
+**Finding.**
+- For a vine chain (VC/HVC) of n vines, the ρ-loss is ≤ 42·n, and this can be attained up to a constant: a chain of
+  n double bonds loses ≥ n − 1.
+- So a chain removal is not bounded per operation in general.
+
+**Ruling.** No per-ingredient charge is needed.
+- **Why.** By R21 (DH23 L1797, `subsetvc`, `subpro` (a) and (e)), the VC removed in Step 1 is either a single vine or
+  two double bonds: `SingleVineVC K ∨ DoubleShape K`, which is already the `hcls` hypothesis of
+  `UStep1.excess` / `excess_new`.
+- **The resulting bound.** n ≤ 2, so the ρ-loss is ≤ 84 per Step-1 operation (HV ≤ 42, DV ≤ 84). TARGET L2226's
+  "ρ_fin ≥ ρ_sb − C₀ p_op" then holds with C₀ = 84 + 2 (the two joints).
+- **What the assembly does.** It uses `hcls`, together with `vc_ladderLoss_le`, `hv_ladderLoss_le` and
+  `dv_ladderLoss_le`, to get the per-operation bound.
+- **If an n ≥ 3 chain appears anyway.** If some removed object is ever a chain of n ≥ 3 vines despite `hcls`, the
+  assembly STOPS and reports.
