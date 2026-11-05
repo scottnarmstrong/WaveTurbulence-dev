@@ -191,3 +191,36 @@ Notes:
 - **G8 #6:** cases (4) and (6), operation (e).
 - **S1:** OpsCommute #2.
 - **B21-SNAP9.**
+
+## 03:08 UTC 2026-11-05
+
+**READY since the last entry**
+- **S1 STAGE1-COMB:** congruence is an Equivalence on IsVFamily states; fresh rebuild of 111 modules, checked.
+- **CONJ-COH**
+- **REGRED-LEAF:** 68 modules, checked.
+- **REP-ANALYTIC**
+- **G2-SIBLING**
+- **S2a:** the R25 amendment.
+- **TVINE-DEFS:** the independent review passed.
+
+**For the author**
+- **D11 review page:** docs/review/GAMMA-LE-HALF-VINES.md (main 8e843a3), the exact Lean text of the γ ≤ 1/2 vine family.
+
+**Rulings R25–R28**
+- R25: σ per object of 𝒞; σ-independent pairs.
+- R26: the G8 X-route via an X-terminal Theorem A.
+- R27: remtame (i) erases rather than cuts; N1 and N2 stand.
+- R28: hingePair is the lift of hingeOrigPair; `contained` uses atom sets; L ≠ 0.
+
+**Running**
+- **G8 #7:** waiting on its fresh rebuild; F6-1 proved; only `Case4SmallCell` is open.
+- **G8-XROUTE:** Theorem X, which covers `Case4SmallCell`.
+- **G3 #9:** ladder, triangles (with the sibling case), vines, R27 erasure, excessprop1 (2) and (3).
+- **S4 #2:** R28 amendments in redsplice, then the rebase, crossing and assembly.
+- **LG-SPINE-AMEND2:** R24 D1–D3 plus R28(3).
+- **V5 #9:** aligned rows, grouped charts, BadClause, consuming CONJ-COH.
+- **B21-SNAP9.**
+- **Research DAMAGED:** damaged components and the hinge v₃.
+
+**Waiting**
+- **S2 main (represents):** W1b–W3 and W7 resume once AMEND2 and S4 are READY.
