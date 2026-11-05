@@ -498,3 +498,26 @@ class). The candidate exposition point on the ghost bookkeeping at TARGET L2160�
 **Rulings:**
 - R50: F-DESIG, DVNotInsideObject.
 - R51: F-ZPSURJ, handled by the ZP-SURJ packet.
+
+## 18:25 UTC 2026-11-05 (author: Opus for the three hardest assembly packets)
+
+The author approved Opus for FINALCOUNT-ASM, V5 P4 and the S2 vine case. Sonnet stays the default elsewhere.
+
+**Opus now**
+- FINALCOUNT-ASM #18: re-pin to AMEND7+8, garden glue, REG and LOW, `finalCount_half`.
+- V5 P4 #3: UnrollR (F-WINCHAIN), WinChain, count bridge, WP-F, prefix.
+- GAP CENSUS: top-down from `main_v2` into /home/scott/wt-scratch/gap-census/CENSUS.md.
+
+**READY**
+- CLASSCOUNT.
+- S2a-AMEND7 (re-pinned, `stage1Piece_sound` with the new fields).
+- LG-SPINE AMEND4/5/7+8.
+- V5 P1 and P3.
+
+**Running (Sonnet)**
+- V5 P2 #3, ZP-SURJ #2 (plus `ZpLayers` and `hq2`), S4-SHAPE.
+- LG-SPINE AMEND6′.
+- B21-SNAP9 + PORT-B2b.
+- VINEPARAM-U: rebuild about 1/3 done, 7–9 h projected.
+
+**Next:** S2 vine case (Opus), after the AMEND6′-GATE announcement. Flower Stage-1 gates after the census.
