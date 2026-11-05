@@ -1,5 +1,5 @@
 {
- "assessed": "2026-11-05 02:20 UTC",
+ "assessed": "2026-11-05 03:37 UTC",
  "notes": "Lean work items = blueprint packets (docs/blueprint/GRAPH.md §E) with their difficulty weights (node weights L=1, M=2, H=4, VH=8 summed). Each frozen theorem anchor adds weight 1, credited when SEALED. Done fractions are the orchestrator's assessment, reviewed at integration rounds.",
  "lines_est_total": 273000,
  "parts": [
@@ -612,8 +612,8 @@
      "goal": "vinechainlem, 𝒱, congruence (equivalence, F20), gaps",
      "weight": 7.0,
      "lines_est": 2400,
-     "done": 0.65,
-     "note": "STAGE1-COMB: vinechainlem; twist reversal/composition both choices; congruence symmetric; V-family invariant under twists; transitivity reduced to commutation (in progress)"
+     "done": 0.95,
+     "note": "STAGE1-COMB READY: vinechainlem; LF twist reversal, composition, commutation (Diamond, all four choice cases); congruence is an equivalence relation on V-family states (fresh 111-module rebuild)"
     },
     {
      "id": "S2a",
@@ -630,8 +630,8 @@
      "goal": "properties of 𝕄_sb (DH23 Prop 9.1), non-hinge ZG atoms tame (F21, review I2)",
      "weight": 8.0,
      "lines_est": 3000,
-     "done": 0.1,
-     "note": "SUBPRO: TARGET Prop subpro (a)-(f) for the S2a construction; started"
+     "done": 0.3,
+     "note": "SUBPRO: items (3), (4) and hinge clauses proved; R28 amendments, crossing (6) and assembly in progress"
     },
     {
      "id": "RA2",
@@ -675,8 +675,8 @@
      "goal": "DH23 Prop 9.4 (case analysis of cut deviations)",
      "weight": 8.0,
      "lines_est": 3500,
-     "done": 0.8,
-     "note": "EXCESS-DH23 + VINE-COUNT: DH23 Prop 9.4 single cuts, triangles, single vines, hyper objects and double bonds (prop94_vine_all) with the source ladder-gap form; assembly in G3's excessprop1"
+     "done": 0.85,
+     "note": "EXCESS-DH23 + VINE-COUNT + G2-SIBLING: DH23 Prop 9.4 cuts, triangles (incl. relative-ball sibling hits), single vines, hyper objects, double bonds; assembly in G3"
     },
     {
      "id": "V5",
@@ -684,8 +684,8 @@
      "goal": "vineest Steps 3–4 and degenerate decorations (F21)",
      "weight": 13.0,
      "lines_est": 5100,
-     "done": 0.55,
-     "note": "VINEEST: Step 3 engine, SumintSigned, degenerate decorations (errata E4); Step 3 statement ported to the canonical universe (422 modules); clauses (a)-(e) in progress; Step 4 (twists) next"
+     "done": 0.7,
+     "note": "VINEEST: Step 3 proved on the canonical universe (aligned rows, grouped charts, BadClause, both orientations via conjugate coherence); fresh rebuild pending; Step 4 (twist cancellation) next"
     },
     {
      "id": "G3",
@@ -693,8 +693,8 @@
      "goal": "TARGET excessprop1, DH23 Prop 9.5, finalmol",
      "weight": 10.0,
      "lines_est": 3500,
-     "done": 0.5,
-     "note": "FINALMOL: DH23 Prop 9.5 assembled (HRun.prop95: cycles, chains, N1, N2, noBetaCut); final-shape mapping to Prop 9.6 proved except vine_LG; excessprop1 and remtame (errata E9) in progress"
+     "done": 0.6,
+     "note": "FINALMOL: DH23 Prop 9.5 (all conclusions incl. vine_LG); corrected TARGET finalmol with tame-atom erasure (E9, E11); excessprop1 (1) for alpha/beta cuts; triangles, vines, (2), (3) in progress"
     },
     {
      "id": "S2",
@@ -702,8 +702,8 @@
      "goal": "Stage 1 analytic reduction (redvine2) and molecular form (redvine3)",
      "weight": 6.0,
      "lines_est": 2400,
-     "done": 0.1,
-     "note": "REPRESENTS: redvine -> redvine2/3 for the S2a pieces; started (consumes V5 vineest and S1 congruence)"
+     "done": 0.3,
+     "note": "REPRESENTS: interface amendments ruled (R24, R25); leafwise skeleton reduction (REGRED-LEAF), centre and time-Fourier decompositions (REP-ANALYTIC) proved; main reduction in progress"
     },
     {
      "id": "G8",
@@ -711,8 +711,8 @@
      "goal": "DH23 Prop 9.6, TARGET lgmolect (F24)",
      "weight": 10.0,
      "lines_est": 4600,
-     "done": 0.6,
-     "note": "RIGID: DH23 Prop 9.6 (gamma > 1/2) stated exactly; Prop 10.1' (off-protected-set), cycles, rough bound, cases (1)-(3) proved; even cases (4)-(6) in progress"
+     "done": 0.9,
+     "note": "RIGID READY in scratch: DH23 Prop 9.6 for gamma in (1/2,1) proved with no named input (prop96; fresh 159-module rebuild, standard axioms); case (4) small-cell branch via X-terminal Theorem A; port pending"
     },
     {
      "id": "S3",
