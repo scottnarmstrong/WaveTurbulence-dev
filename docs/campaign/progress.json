@@ -1,5 +1,5 @@
 {
- "assessed": "2026-11-05 01:04 UTC",
+ "assessed": "2026-11-05 02:20 UTC",
  "notes": "Lean work items = blueprint packets (docs/blueprint/GRAPH.md §E) with their difficulty weights (node weights L=1, M=2, H=4, VH=8 summed). Each frozen theorem anchor adds weight 1, credited when SEALED. Done fractions are the orchestrator's assessment, reviewed at integration rounds.",
  "lines_est_total": 273000,
  "parts": [
@@ -369,8 +369,8 @@
      "goal": "molecule-level vine parametrizations (I)–(VIII) with ladders (F22; review I3, I19), before V4 and G2",
      "weight": 4.0,
      "lines_est": 1500,
-     "done": 0.8,
-     "note": "VINEPARAM: vineparam_of_base and the full induction proved in the canonical context; 538-profile base catalogue compiling (~12 h)"
+     "done": 0.9,
+     "note": "VINEPARAM: parametrization contract proved (538 certificates + rung-insertion induction); grouped charts match TARGET cohmol groups (vineparam_grouped)"
     },
     {
      "id": "J1",
@@ -621,8 +621,8 @@
      "goal": "Stage 1 construction: congruence classes, 𝒱_0, splicing, 𝒢_sb, 𝕄_sb, hinge atoms (review I1)",
      "weight": 2.0,
      "lines_est": 800,
-     "done": 0.4,
-     "note": "REDSPLICE-DEF: V_0 and splice engine defined on the canonical universe; C1-free soundness fields proved; Stage 1 interface amended (ruling R19)"
+     "done": 0.9,
+     "note": "REDSPLICE-DEF READY: the full Stage 1 construction (units, cover, C1 objects, gap specification, hinge pairs, gsk/bsk from the original garden); stage1PieceOf with Sound proved except the subpro obligation (S4)"
     },
     {
      "id": "S4",
@@ -630,8 +630,8 @@
      "goal": "properties of 𝕄_sb (DH23 Prop 9.1), non-hinge ZG atoms tame (F21, review I2)",
      "weight": 8.0,
      "lines_est": 3000,
-     "done": 0.0,
-     "note": ""
+     "done": 0.1,
+     "note": "SUBPRO: TARGET Prop subpro (a)-(f) for the S2a construction; started"
     },
     {
      "id": "RA2",
@@ -675,8 +675,8 @@
      "goal": "DH23 Prop 9.4 (case analysis of cut deviations)",
      "weight": 8.0,
      "lines_est": 3500,
-     "done": 0.7,
-     "note": "EXCESS-DH23 + VINE-COUNT: DH23 Prop 9.4 single cuts and triangles for all gamma; single-vine label count from VINEPARAM alone (vine_count_main, prop94_vine_final); vine chains/hyper objects in progress"
+     "done": 0.8,
+     "note": "EXCESS-DH23 + VINE-COUNT: DH23 Prop 9.4 single cuts, triangles, single vines, hyper objects and double bonds (prop94_vine_all) with the source ladder-gap form; assembly in G3's excessprop1"
     },
     {
      "id": "V5",
@@ -702,8 +702,8 @@
      "goal": "Stage 1 analytic reduction (redvine2) and molecular form (redvine3)",
      "weight": 6.0,
      "lines_est": 2400,
-     "done": 0.0,
-     "note": ""
+     "done": 0.1,
+     "note": "REPRESENTS: redvine -> redvine2/3 for the S2a pieces; started (consumes V5 vineest and S1 congruence)"
     },
     {
      "id": "G8",
@@ -756,8 +756,8 @@
      "goal": "flower adjustments on the general carriers (WAVE-B G-1, F26), deterministic flower bound (gate B1.12), flowerest1, ∂_t bounds; 2–3 days: split",
      "weight": 16.0,
      "lines_est": 8900,
-     "done": 0.8,
-     "note": "FLOWEREST: layergardenFlower_of_spine proved (snapshot-7 universe) from FlowerSpineInputs; regular L0 leg proved (FLOWER-REG); flower Stage-1 and Dirac-root gates pending"
+     "done": 0.9,
+     "note": "FLOWEREST on the canonical universe: layergardenFlower_of_spine and layergardenFlower_v2_of_spine type-check against snapshot-9 B1.12 and the D10 successor; regular L0 leg proved (FLOWER-REG); flower Stage 1 gates and Dirac-root couples pending (S2a/S2/S4)"
     },
     {
      "id": "X3",
