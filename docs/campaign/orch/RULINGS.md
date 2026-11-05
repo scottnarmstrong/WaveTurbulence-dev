@@ -957,3 +957,22 @@ AMEND4 lands.
   `dv_ladderLoss_le`, to get the per-operation bound.
 - **If an n ≥ 3 chain appears anyway.** If some removed object is ever a chain of n ≥ 3 vines despite `hcls`, the
   assembly STOPS and reports.
+
+## R42 — Atom-level second collection; UnselOK completeness (S4-DISJ findings), 2026-11-05 ~12:00 UTC
+
+**(1) Unselected vines.**
+- **The gap.** G3's `UnselOK` is only half of TARGET L2101's DV rule: it holds vacuously when Unsel = ∅.
+- **The completeness that is needed** is the `Xor` conjunct of lg-spine's `IsSourceSecondCollection`.
+- **What the assembly does.** FINALCOUNT-ASSEMBLY takes Unsel := `unselOf (collDataOf Cc.subpro) L γ η base κ
+  Cc.omittedDVConstituents` and uses S4-DISJ's `step1_objects_disjoint`, which takes `IsSourceSecondCollection`.
+
+**(2) Second-collection eligibility is atom-level.**
+- **The mismatch.** G3's pool (`C2Of`) is atom-level, while lg-spine's `secondCollection` eligibility is
+  designation-level.
+- **The resulting gap.** A hyper SG object whose only hosts are LG/ZG hyper objects on the same atoms with a different
+  added bond lies in `C2Of`, but in no member of lg-spine's collection. Its interior atoms could then count as
+  critical, which would break the per-operation critical-atom loss.
+- **Ruling.** Consistent with R28 (TARGET's "subset" is atom sets), lg-spine-u's second-collection eligibility becomes
+  ATOM-LEVEL: `literalSecondCandidate`, which COVER-HYPER classifies via `source_literal_object_classification`.
+- **Who does it.** LG-SPINE AMEND5 restates eligibility and re-proves the cover's existence/maximality chain, then
+  re-runs the type checks. S4-DISJ's `c2Of_interior_covered` then gives the inclusion for hyper members without `hnc`.
