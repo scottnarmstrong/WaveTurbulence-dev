@@ -133,3 +133,19 @@ Notes:
   - Packet audits pass with standard axioms.
   - Statement changes are only `IsBlockDeg` → `IsBlock` (×4) and one rename.
 - **LG-SPINE-REBASE (new):** port lg-spine onto the universe in `lg-spine-u`, then a fresh rebuild, the snapshot-9 type check and the `layergarden_v2` corollary.
+
+## ~03:30 UTC 2026-11-05
+
+- **VINE-COUNT: READY (single vine).** `vine_count_main` and `prop94_vine_final` hold with VINEPARAM as the only vine hypothesis.
+  - The ladder link was done by the "square circulation" lemma (`rung_lambda`).
+  - Fresh rebuild: 25 modules, all exit 0 (checked).
+  - Agent 2 has started on vine chains, hyper objects and the M-level ladder scale.
+- **G3 (Prop 9.5):** cycles and chains are proved. Agent 4 is on noBetaCut, the FinalShape mapping, vine_LG, excessprop1 and remtame (+4 versus +2, to be settled from the source).
+- **G8 (Prop 9.6):** Prop96At is stated; cycles, roughbd and cases (1)–(3) are proved. Agent 5 is on cases (5), (4), operation (e) and case (6). `alphaSG` is non-strict.
+- **S2a:** the splice engine and the C1-free Sound fields are proved. R19 interface amendments are pending in LG-SPINE. Agent 3 is on unitBlocks, C1 and the triple-bond fact.
+- **S1 congruence:** ε-false reversal and composition are done. Two agents: ε-true / commutation / assembly, and (a) invariance.
+- **V5 Step 3:** ported to the universe (422/422). Agent 6 is on (a)–(e).
+- **LG-SPINE-REBASE:** running.
+- **Referee #2 (γ ≤ 1/2 gap closure):** running.
+- **B21-SNAP9:** running.
+- **VINEPARAM catalogue build:** running.
