@@ -996,3 +996,26 @@ serve the vine pieces.
   V5's design note once V5 publishes it.
 - **Housekeeping.** S2a should `@[expose]` `unitIngredients`, `bskOf` and `gskOf` upstream; S2 currently patches its
   pinned copy. This is done at PORT.
+
+## R44 — `Stage1ReductionAt` needs twist-closed classes and twist-compatible leaf data (S2 finding F-TWISTCLASS), 2026-11-05 ~13:00 UTC
+
+**Finding.** `Stage1ReductionAt` (lg-spine-u Stage1Gate.lean L57) takes ANY finite set A of canonical gardens and ANY
+leaf family F, where each garden has independent profiles, bounds and signs. The vine gain in `RepresentsInt` is
+TARGET `vineest`. That is a cancellation over the whole LF-twist class with the same profiles at corresponding leaves
+(L1730–L1752, L1927, L1944), so it is not derivable for arbitrary A and F.
+
+**The only consumer.** That is `layergarden_of_spine` / `nonregular_prefix`, which applies it with:
+- A = all canonical gardens of the given order and signature, which is twist-closed, since congruence classes
+  partition it;
+- F = `weightedFamily`, whose leaf data depend only on twist-invariant leaf data (layers and inputs).
+
+**Ruling (LG-SPINE AMEND6, after AMEND5).** Add two premises to `Stage1ReductionAt`:
+- (i) A is closed under LF twists at the vines of 𝒱, via the S1 congruence on canonical representatives;
+- (ii) F is twist-compatible: for a twist LG′ of LG with leaf bijection φ, the H, B and sign at LG′ equal those at LG
+  along φ.
+
+Then prove (i) and (ii) at the use site, in `nonregular_prefix`, for the actual A and `weightedFamily`.
+
+**New packet LFTWIST-LEAFMAP.** It defines the leaf bijection φ of an LF twist (unit and family batches) on the
+universe's LFTwist, now on main as `Foundations.Molecule.LFTwist`. It proves what AMEND6, V5's leafwise
+`VineEstCanonLeaf` (R43) and S2 need: φ preserves leaf layers, pairing and signs, and it composes along batches.
