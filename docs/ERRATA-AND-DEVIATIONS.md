@@ -320,6 +320,56 @@ literal form, using the corrected argument.
 
 ---
 
+## E6 — TARGET L2187 ("easy to check … preserved"): the invariant fails under the blanket Operation 2 cut
+
+**Status:** CANDIDATE. The computation is explicit, and an independent check is pending. Found by the FINALCOUNT G3
+prover (/home/scott/wt-scratch/finalcount-g3/HANDOFF.md).
+
+**Location.** TARGET L2187: the invariant 4V − 2E − 2(V_α + V_β) is "easy to check" to be preserved under the stage-2
+operations. Operation 2, the triangle cut, is stated as a blanket cut at L2142.
+
+**Configuration.**
+- Take a triangle (v₁, v₂, v₃) whose atom v₃ is a degree-2 β-atom created by an earlier cut.
+- The blanket Operation 2 cuts all three triangle atoms. At v₃ this leaves v₃ intact and creates a fresh isolated
+  β-atom of degree 0.
+- Then ΔV = 0, ΔE = −3 and Δ(V_α + V_β) = −1 + 3 = +2.
+- So Δ(4V − 2E − 2(V_α + V_β)) = 0 + 6 − 4 = **+2**, and an extra imperfect component appears.
+
+**Repair.** DH23's own formulation (L1777, "if deg v_j ≥ 3 then we cut") avoids this. The Lean model follows DH23, and
+deletes the degree-0 remainder (`Cls.ghost`).
+
+**Effect on the formalization.** None on any frozen statement.
+
+---
+
+## E7 — DH23 L1794 (Prop 9.4, triangle with ΔF = 1): the pair count assumes a nonzero fixed difference
+
+**Status:** CANDIDATE. The construction is analytic; it has not been checked in Lean. The final bound is unaffected.
+Found by the FINALCOUNT G2 prover (/home/scott/wt-scratch/finalcount/HANDOFF.md).
+
+**Location.** DH23 L1794: "(triangle1) holds for some j".
+
+**Configuration.**
+- The v₃ triple need not be SG; L1777 requires SG only for j ∈ {1, 2}.
+- Take v₃ with k_{ℓ₁} = k_{ℓ₂} = k free in the unit ball.
+- Then there are about L^d pairs. This exceeds the source's δ⁻¹L^{d+1−2γ} for γ > 1/2 and L large.
+- For d ≥ 3 and R ≤ L^{−γ+η}, the final ΔF = 1 bound still holds, by exponent arithmetic alone.
+
+The Lean proof assumes nonzero gaps at all three triangle atoms (`hnz`), a reading wider than the source's.
+
+---
+
+## E8 — DH23 L1862–L1874 (Prop 9.6, cases (1)–(3)): "operations (a), (b) only on ε-atoms" is incomplete
+
+**Status:** CANDIDATE exposition gap; the statement is not false. Found by the FINALCOUNT-G8 prover.
+
+**Problem.** The argument also needs degree-1 α- and β-atoms to be deleted at no cost. It is possible, since fixed
+charges determine their bond, but the text does not say so.
+
+**Effect on the formalization.** The Lean proof adds this free deletion.
+
+---
+
 ## E2 — further errata (to be transcribed before release)
 
 The remaining confirmed and candidate findings are in `docs/FINDINGS.md`:
