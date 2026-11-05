@@ -764,3 +764,38 @@ TARGET's u₂₁/u₂₂ convention (tildeK2, tildeJ2), and record the result.
 
 **(4) Note for the PORT phase.** REGRED-LEAF copied 56 REGRED modules from vineest-s3/uni. Before landing, duplicate
 module names across scratch trees must be resolved into one closure.
+
+## R33 — Stage 1 interface defects F-TT and F-DERIV (S2 session-4 STOP), 2026-11-05 ~08:00 UTC
+
+**F-TT: the root time.**
+- **The defect.** `Stage1ReductionAt` allows `tt j ∈ Icc p (p+1)`. But (C2), the spliced integral, can match the class
+  sum only if the root-adjacent constraint τ_b < tt_j is present.
+- **The source and the frozen text differ.** TARGET `layergarden` (L761–763) states K_G(p+1, …), where that constraint
+  is automatic. The frozen B1.2 (`Frozen/Theorems/Layergarden.lean`) quantifies `∀ t ∈ Ioc p (p+1)`, so the interface
+  must handle t < p+1. Fixing tt = p+1 is not an option.
+- **Ruling.** The spliced time domain in `Represents` carries the root constraints τ_b < tt_j for root-adjacent branches.
+  Equivalently, layer-p boxes are truncated at tt_j. This is TARGET's own sumint domain clause (ii): "all variables are
+  less than t".
+- **Who does it.** LG-SPINE (AMEND3) amends `splicedTimeDomain` / `Represents`. It re-proves the consumers
+  (`stage1_core_bound`, the spliced-bound inputs), using that the oscillatory time-integral bounds are uniform over
+  boxes defined by order constraints with fixed endpoints.
+- **Stop condition.** If a consumer genuinely needs untruncated boxes, LG-SPINE STOPS with the lemma.
+
+**F-DERIV: the coherent-error norm.**
+- **The defect.** The 2026-11-04 interface correction (lg-spine SPINE.md, "Prop 6.1 order-zero interface correction";
+  pl234 ISSUE-XNORM) reduced the coherent-approximation error to `XNorm00Restr`, with no k-derivatives. It did so
+  because higher-derivative Fourier guards were not known to be measurable.
+- **Why it no longer holds.**
+  - Snapshot 9's F80 a.e. guard (System.lean cc53aad3) addresses that measurability issue.
+  - The spine does consume the derivatives after all: `SplicedAmplitudeBounds` needs SNorm 30d of the bond
+    amplitudes, and the ladder bounds use them.
+- **Ruling.** Restore TARGET's literal norm (layerregest3, `proplayer2`): the coherent error is bounded in
+  X^{η,30d,30d} (couples) / X^{η,30d,0} (trees), i.e. `XNormRestr η 30d 30d` / `XNormRestr η 30d 0`. This supersedes
+  the order-zero correction.
+- **Owners.**
+  - LG-SPINE (AMEND3) restates `CoherentApproximationGate` and `LeafwiseCoherentApproximationGate`.
+  - The providers are PL23-30D (Prop 6.1 at the literal 30d norm) and RA1-LEAFWISE / REGREF. The provider check is
+    part of AMEND3.
+  - If a provider proves only the order-zero form, AMEND3 STOPS with the exact provider statement. Never weaken the
+    consumer instead.
+- **Flower.** FLOWER-SPINE follows both changes.
