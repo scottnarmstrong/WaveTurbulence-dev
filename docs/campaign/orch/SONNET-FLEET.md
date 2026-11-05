@@ -466,3 +466,19 @@ class). The candidate exposition point on the ghost bookkeeping at TARGET L2160�
 **Next**
 - After AMEND7+8 is READY: LG-SPINE AMEND6′ (P*, gate then consumer), the flower mirror (F7), the S2a re-pin, and
   the S2 relaunch.
+
+## 16:00 UTC 2026-11-05 (standing authorization: "I approve all, defer approvals now and just get this done")
+
+**Done**
+- DECISIONS D11 (γ ≤ 1/2 family, as recommended), D12 (VINEPARAM catalogue as a separate lean_lib, option (iii)) and
+  the standing authorization: main 9e355a4.
+- The stale branches w/freeze-b1-snap6/7/8 are pruned. Their tips are tagged archive/freeze-b1-snap6/7/8.
+
+**Launched**
+- B21-SNAP9 + PORT-B2b: B2.1 composition, fresh rebuild, AxChk/TypeChk against main, then branch w/port-b2b with the
+  regularAsymptotics_v1 seal prep.
+- VINEPARAM-U: the catalogue rebuilt on the universe, as a separate lean_lib. A pilot projection comes first.
+- FINALCOUNT-ASM #15 (R50).
+- V5 part C #5: sbm, 4d-B2 wiring, WP-B, WP-F.
+
+**READY:** V5 4d-B2 (the bottom-vine twist identity).
