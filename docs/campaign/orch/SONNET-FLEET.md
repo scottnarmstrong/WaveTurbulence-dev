@@ -155,3 +155,17 @@ Notes:
   - No spine-input text changed.
 - **LG-SPINE-AMEND (new):** the R19 interface change, (class, σ) pieces with centres inside `Represents`, made in `lg-spine-u`.
 - **Errata E9/E10 recorded** (main f9e5d59).
+
+## ~06:00 UTC 2026-11-05
+
+- **LG-SPINE-AMEND: READY** (checked). R19 shape: (class, σ) pieces, `sel`/`ctr`, centres inside `Represents`. Fresh build-amend: 420 modules OK; axioms standard; both type checks (snapshot-9 B1.2 and the `layergarden_v2` body) pass.
+- **FLOWER-REG: not READY yet.** Its fresh rebuild failed on a missing module path (`CoherentSourcePrefixRegularParity`). The fix is folded into FLOWER-SPINE-REBASE, step 0.
+- **FLOWER-SPINE-REBASE (new):** flower-spine-u on lg-spine-u. It consumes FLOWER-REG's L0 leg and adds `layergardenFlower_v2_of_spine`.
+- **VINE-COUNT: READY**, apart from the ladder-scale form. R21: chains are out of scope (subsetvc classification); session 3 is proving the source `Adm` form.
+- **G8:** case (5) is proved; session 6 covers cases (4), (6) and operation (e). The fresh-atom hypothesis is accepted as typing.
+- **G3:** E10 identification is proved (`final_vine_object`); session 6 covers `vine_LG`, remtame and excessprop1.
+- **S1:** gluing layer done (22 modules); OpsCommute #2 covers pins, Transport, Diamond and assembly.
+- **S2a:** A4 units, C1 objects, `Structural` and `prime_noTriple` are proved; continuation #4 covers pairs, `gapSpecification`, cover, `greg` and the instance.
+- **V5:** (a) and (d) are done; continuation #7 covers the R20 items.
+- **Research #3 (γ ≤ 1/2, item 6):** running. Referee 2's verdict is in errata E1.
+- **B21-SNAP9:** running.
