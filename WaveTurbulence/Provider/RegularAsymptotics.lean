@@ -52,7 +52,7 @@ public import WaveTurbulence.Frozen.Defs.XNormRestr
 The proof of the frozen anchor `WaveTurbulence.regularAsymptotics` (L1145–L1232; WAVE-B v2 §4.11; T (regref1-3); DH21 Lemma 7.3) is assembled here under the export
 `WaveTurbulence.Provider.regularAsymptotics`: RA2's `Regref.regularAsymptotics_of_obligations`, applied to the F80 couple
 obligation `RegAsymp.regular_couple_asymptotics` (bridged by `B21Snap9.RA1Couple_of_F80`) and the tree obligation
-`RegAsymp.ra1Tree` (scratch packet B21-SNAP9, `regularAsymptotics_snap9`, moved into this namespace with its imports
+`RegAsymp.ra1Tree` (scratch packet B21-SNAP9's `regularAsymptotics_snap9`, restated here with its imports
 renamed). The anchor is SEALED (`by exact WaveTurbulence.Provider.regularAsymptotics`). This module must not import the
 frozen anchor.
 -/

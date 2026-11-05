@@ -3862,7 +3862,6 @@ public import WaveTurbulence.Foundations.Molecule.VineZeroSlotBonds
 public import WaveTurbulence.Foundations.Molecule.VineZeroSlotEdges
 public import WaveTurbulence.Foundations.Molecule.VineZeroSlotPropagation
 public import WaveTurbulence.Foundations.RegularAsymptotics.B21Snap9.Bridge
-public import WaveTurbulence.Foundations.RegularAsymptotics.B21Snap9.Main
 public import WaveTurbulence.Foundations.RegularAsymptotics.BTilde.Bridge
 public import WaveTurbulence.Foundations.RegularAsymptotics.BTilde.BridgeB2
 public import WaveTurbulence.Foundations.RegularAsymptotics.BTilde.BridgeTree
