@@ -1,5 +1,5 @@
 {
- "assessed": "2026-11-05 03:37 UTC",
+ "assessed": "2026-11-05 08:53 UTC",
  "notes": "Lean work items = blueprint packets (docs/blueprint/GRAPH.md §E) with their difficulty weights (node weights L=1, M=2, H=4, VH=8 summed). Each frozen theorem anchor adds weight 1, credited when SEALED. Done fractions are the orchestrator's assessment, reviewed at integration rounds.",
  "lines_est_total": 273000,
  "parts": [
@@ -630,8 +630,8 @@
      "goal": "properties of 𝕄_sb (DH23 Prop 9.1), non-hinge ZG atoms tame (F21, review I2)",
      "weight": 8.0,
      "lines_est": 3000,
-     "done": 0.3,
-     "note": "SUBPRO: items (3), (4) and hinge clauses proved; R28 amendments, crossing (6) and assembly in progress"
+     "done": 0.9,
+     "note": "SUBPRO done in atom-set form (all six items) for the Stage 1 construction; consumed by LG-SPINE's restated interface"
     },
     {
      "id": "RA2",
@@ -684,8 +684,8 @@
      "goal": "vineest Steps 3–4 and degenerate decorations (F21)",
      "weight": 13.0,
      "lines_est": 5100,
-     "done": 0.7,
-     "note": "VINEEST: Step 3 proved on the canonical universe (aligned rows, grouped charts, BadClause, both orientations via conjugate coherence); fresh rebuild pending; Step 4 (twist cancellation) next"
+     "done": 0.8,
+     "note": "VINEEST: Step 3 proved; Step 4 replaced-factor analysis proved (parametric sumint, time-difference lemma, errata E18 repair); full statement with canonical representatives; twisted sum form and final induction in progress"
     },
     {
      "id": "G3",
@@ -693,8 +693,8 @@
      "goal": "TARGET excessprop1, DH23 Prop 9.5, finalmol",
      "weight": 10.0,
      "lines_est": 3500,
-     "done": 0.6,
-     "note": "FINALMOL: DH23 Prop 9.5 (all conclusions incl. vine_LG); corrected TARGET finalmol with tame-atom erasure (E9, E11); excessprop1 (1) for alpha/beta cuts; triangles, vines, (2), (3) in progress"
+     "done": 0.9,
+     "note": "FINALMOL READY in scratch: DH23 Prop 9.5 and TARGET finalmol under ruling R29 (tame clusters erased at the end, eligible triangles), excessprop1 (1)-(3) incl. new components and cluster erasure; remaining inputs discharged by the final-count assembly"
     },
     {
      "id": "S2",
@@ -702,8 +702,8 @@
      "goal": "Stage 1 analytic reduction (redvine2) and molecular form (redvine3)",
      "weight": 6.0,
      "lines_est": 2400,
-     "done": 0.3,
-     "note": "REPRESENTS: interface amendments ruled (R24, R25); leafwise skeleton reduction (REGRED-LEAF), centre and time-Fourier decompositions (REP-ANALYTIC) proved; main reduction in progress"
+     "done": 0.35,
+     "note": "REPRESENTS: interface amendments (R24, R25, R33), gap labelling proved, leafwise skeleton reduction and analytic decompositions proved; Stage 1 soundness unconditional; main reduction in progress"
     },
     {
      "id": "G8",
@@ -711,8 +711,8 @@
      "goal": "DH23 Prop 9.6, TARGET lgmolect (F24)",
      "weight": 10.0,
      "lines_est": 4600,
-     "done": 0.9,
-     "note": "RIGID READY in scratch: DH23 Prop 9.6 for gamma in (1/2,1) proved with no named input (prop96; fresh 159-module rebuild, standard axioms); case (4) small-cell branch via X-terminal Theorem A; port pending"
+     "done": 0.92,
+     "note": "RIGID READY in scratch: DH23 Prop 9.6 for gamma in (1/2,1) with no named input, plus the damaged-component bound; constants being made independent of the size parameter (R34)"
     },
     {
      "id": "S3",
@@ -738,8 +738,8 @@
      "goal": "finalcount1, remtame2, interpolation",
      "weight": 4.0,
      "lines_est": 900,
-     "done": 0.2,
-     "note": "FINAL-COUNT: FinalCountGate stated (lg-spine); gamma > 1/2 chain: Props 9.4 (G2), 9.5 (G3), 9.6 (G8) in progress"
+     "done": 0.45,
+     "note": "FINAL-COUNT: Props 9.4, 9.5, 9.6 proved in scratch for gamma > 1/2; final assembly (FinalCountGateHalf, TARGET finalcount1) in progress"
     },
     {
      "id": "F2",
