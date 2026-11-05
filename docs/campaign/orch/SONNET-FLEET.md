@@ -534,3 +534,19 @@ STATUS and HANDOFF.md in its scratch dir.
 | cx-flower | /home/scott/wt-scratch/flower-s1 | flower Stage-1 construction and subpro (S2a/S4 analogues with the flowerest1 adjustments); `Represents` excluded |
 
 The fourth slot is held for the top unowned item of the gap census.
+
+## 18:40 UTC 2026-11-05 (usage limit reached; state for resumption)
+
+**READY**
+- PORT-B2b: branch `w/port-b2b` at 9ce0bfe, 360 modules, with the `regularAsymptotics_v1` seal prepared.
+  - Checks: land_check OK, ABI 322/322, the anchor and provider types Expr-equal, standard axioms.
+  - NEXT: a second-key seal audit (Opus, modelled on audit-b2a), then land it with a land_port_b2a.sh-style script.
+- S4-SHAPE: `c1_shape`, `host_conn_final`; passed to FINALCOUNT-ASM #18.
+
+**Running**
+- Opus: FINALCOUNT-ASM #18, V5 P4 #3, the GAP CENSUS.
+- Sonnet: V5 P2 #3, ZP-SURJ #2, LG-SPINE AMEND6′, VINEPARAM-U (driver).
+- Codex on codex-2: cx-repin, cx-b4bprep, cx-flower. Watcher: scratchpad cxwatch.sh.
+
+**Next:** the S2 vine case (Opus) after the AMEND6′-GATE announcement; the fourth Codex slot goes to the census's
+top unowned item.
