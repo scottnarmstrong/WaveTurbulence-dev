@@ -1019,3 +1019,45 @@ Then prove (i) and (ii) at the use site, in `nonregular_prefix`, for the actual 
 **New packet LFTWIST-LEAFMAP.** It defines the leaf bijection φ of an LF twist (unit and family batches) on the
 universe's LFTwist, now on main as `Foundations.Molecule.LFTwist`. It proves what AMEND6, V5's leafwise
 `VineEstCanonLeaf` (R43) and S2 need: φ preserves leaf layers, pairing and signs, and it composes along batches.
+
+## R45 — Interim: LFTWIST-LEAFMAP scope accepted; AMEND6 withdrawn pending TWIST-PROFILES; FINALCOUNT premises pending FC-GEOM, 2026-11-05 13:40 UTC
+
+**LFTWIST-LEAFMAP is ACCEPTED** with its amended scope (/home/scott/wt-scratch/lftwist-leafmap/HANDOFF.md).
+- `FamilyBatchTrace.LeafCorr` and `leafMap` are a bijection on ORDINARY leaves only. They preserve layer, sign, tree
+  index, input-leaf membership and pair partner, and compose along traces.
+- Findings:
+  - F-EXC: no layer-preserving bijection exists inside the replaced T′_{u2} and Q′_{(u23,u0)}.
+  - F-ROOT: `ι` of `weightedFamily` is not in bijection across a twist.
+  - F-TRACE: the map depends on the batch trace.
+- These are correct readings of TARGET Def lftwist (L1466–L1480).
+
+**R44's AMEND6 (ii) is WITHDRAWN.** As worded (a bijection of all input leaves, with the same index type) it cannot be
+proved. V5 part C independently STOPPED on the same point (F-LEAFREAL, /home/scott/wt-scratch/vineest-s3/PROGRESS.md
+top):
+- PL234's `LeafwiseRealityGate` gives `hreal` only for symmetric profile assignments;
+- the `hQb` conjugation pairing needs partner-leaf transfer on exceptional leaves.
+
+**Open.** A research packet, TWIST-PROFILES (/home/scott/wt-scratch/research-twistprof), is deciding the
+class-compatible form of the Stage-1 leaf data, covering both the derivative and the root-weight modifications of
+TARGET L2062–L2067. The candidate designs are:
+- polarization: layer-uniform families with exact roots-of-unity coefficient extraction;
+- V5's hybrid option A;
+- regrouping.
+
+AMEND6, V5 part C (`VineEstCanonLeaf`) and the S2 relaunch wait for that ruling. LG-SPINE completes AMEND5 only.
+
+**FINALCOUNT-ASSEMBLY STOPPED** (/home/scott/wt-scratch/finalcount-asm/HANDOFF.md):
+- **F-SH.** `FinalCountAt` lacks `G.Irreducible`. Even irreducible plain gardens with trivial trees give atoms of
+  degree < 3, down to degree 0. So G3's `SubHyp` (3 ≤ deg, no loop) is not derivable.
+- **F-TD.** `TripleDesig` (R37) is not derivable for an arbitrary `CountingGeometry` C.
+- A research packet, FC-GEOM (/home/scott/wt-scratch/research-fcgeom), is deciding:
+  - whether `G.Irreducible` is added (TARGET subpro (1));
+  - how low-degree atoms are handled (preprocessing versus a run-model generalization);
+  - whether hinge loops can occur;
+  - the triple-designation field, or a restriction to `collectionChoices`.
+
+  The result will be issued as LG-SPINE AMEND7.
+- Accepted from session 12:
+  - `1 ≤ R` comes from `FinalCountAt` (no new premise);
+  - Operation 5 creates no new ladders (`isLadder_op5_up`);
+  - `maxGap_comp`/`maxGap_comp_op5` discharge MaxLadderGapAdm.
