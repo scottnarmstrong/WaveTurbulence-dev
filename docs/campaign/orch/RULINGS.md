@@ -799,3 +799,27 @@ module names across scratch trees must be resolved into one closure.
   - If a provider proves only the order-zero form, AMEND3 STOPS with the exact provider statement. Never weaken the
     consumer instead.
 - **Flower.** FLOWER-SPINE follows both changes.
+
+## R34 — FINALCOUNT-ASSEMBLY: quantifier order of the Prop 9.6/10.2 constants; atom renaming; the ρ change, 2026-11-05 ~09:00 UTC
+
+**BLOCKER-1, the quantifier order.**
+- `Prop96At`, `Prop96DamagedAt` and APPB's `dh23_prop_10_2` quantify `∃ Cstar, ∀ C1 ≥ Cstar` AFTER the size
+  parameter m (|M₀| ≤ (1+log L)^m). But in `WTPrefix`, C₁ is chosen before ν, δ and D, and m ≥ 4(40d)^{2D+3} depends
+  on D.
+- The frozen order is fixed, so C₁ may NOT depend on D.
+- **Ruling.** Restate these results so that m enters only through the large-L threshold R₀, as in DH23, where
+  |M| ≤ (log L)^m only produces (log L)^{C(m)} factors that L^{η-power} absorbs for L ≥ L₀(m). The constant Cstar must
+  depend only on d, γ and η.
+- **New packet G8-QUANT** checks the APPB and G8 proofs for any genuine m-dependence of the multiplicative constant.
+  If one exists, it STOPS with the exact lemma.
+
+**M9, atom renaming.** G3's final conclusions need an infinite atom type, but `GBranch G.tree` is finite.
+- **New packet ATOM-TRANSPORT** transports the molecule notions along `mapAtoms … Sum.inl` (V ⊕ ℕ) in both directions.
+  The notions are `Object`, `IsBlock`, `IsVine`, `IsVC`, `HyperLikeRealization`, `IsDV`, `HasGapKind`, `IsTame`,
+  `SubproOblG`, `UnselOK`, `DegenSGT` and `SourceLadderGaps`.
+- It also proves that `countA` is invariant under the renaming.
+
+**M1, the ρ change.** TARGET L2226 (ρ_fin ≥ ρ_sb − C₀ p_op) is proved by the assembly.
+
+**Errata candidate.** At TARGET L2216, "p_sb ≤ p_op" should read ≤ 2 p_op, because Operation 2 cuts two critical SG
+atoms. It is harmless, since η³/2 ≥ 8η⁶.
