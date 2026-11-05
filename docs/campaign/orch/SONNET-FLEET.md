@@ -366,3 +366,32 @@ the 30d coherent-error norm).
 - D11.
 - B21-SNAP9 restart.
 - VINEPARAM catalogue home.
+
+## 13:15 UTC 2026-11-05 (resumed after a weekly rate limit)
+
+**Rulings since the last entry:** R39 (CLASSCOUNT) through R44 (twist-closed classes; LFTWIST-LEAFMAP).
+
+**READY**
+- PORT-B2a, on branch `w/port-b2a` at 7cc4e87:
+  - 576 X-chain modules;
+  - the three v2 conditional assemblies;
+  - B1.5 seal prep (wkeTaylor_v1 SEALED, Provider.wkeTaylor).
+  - The second-key audit (Opus) is running. The branch lands only on SEAL_VERDICT PASS.
+
+**Checkpoints, each continued with a fresh agent**
+- FINALCOUNT-ASM #11, now #12. AsmTerm14a–15d compile. Next: AsmTerm16 (`hterm`), `hend`, `hmem`, the discharges, `finalCount_half`.
+  - Ruled: the local Op5.damagedDec copy is accepted.
+  - Ruled: `1 ≤ R` must come from the statement, not a premise.
+  - Ruled: MaxLadderGapAdm via `sourceGaps_state`, then component restriction.
+- CLASSCOUNT #3, now #4. The w-uniform patches compile, and the Chain/Unit modules compile. `unit_sum` has a decidability fix pending.
+  - Ruled: the shadow copies of S2's RedSpliceUnitBlocks/RedSpliceData, with `@[expose]` on six definitions, are accepted.
+  - S2 must add `@[expose]` to gskOf, vineIncoh, unitIngredients, bskOf, sgGroups and unitBlocks in its real files.
+
+**Running (resumed by SendMessage)**
+- LG-SPINE AMEND5: compiled (ALL OK 422); fresh rebuild build-fresh-a5 running. AMEND6 follows once LFTWIST-LEAFMAP is READY.
+- LFTWIST-LEAFMAP.
+- V5 4d-B: the S-side twist. R43 asks for a leafwise final estimate.
+
+**Stopped (not resumed):** S2 #6 and #7. S2 is relaunched after AMEND6 and LEAFMAP.
+
+**Waiting on the author:** D11; B21-SNAP9 restart; VINEPARAM catalogue home.
