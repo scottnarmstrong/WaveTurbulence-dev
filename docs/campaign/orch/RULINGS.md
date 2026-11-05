@@ -1061,3 +1061,22 @@ AMEND6, V5 part C (`VineEstCanonLeaf`) and the S2 relaunch wait for that ruling.
   - `1 ≤ R` comes from `FinalCountAt` (no new premise);
   - Operation 5 creates no new ladders (`isLadder_op5_up`);
   - `maxGap_comp`/`maxGap_comp_op5` discharge MaxLadderGapAdm.
+
+## R46 — The layer-uniform vine estimate takes one uniform input bound (V5 finding F-LAYERCOST), 2026-11-05 14:15 UTC
+
+**Finding.** Within one LF-twist class, the exceptional pair (T′_{u2}, Q′_{(u23,u0)}) can carry different multisets of
+input-leaf layers. Def lftwist (L1466–L1480) fixes only (q, q′), the total order n(T′) + n(Q′) and the number of
+layer-p branching nodes, and the chain-pair layers of layerreg1 (L899) are free, non-increasing from q down to q′. So
+`regionLeafSize` with a layer-dependent bound `Bh r` is not twist-invariant. With h r = Bh r · φ₀ and
+Bh 1 / Bh 2 → ∞, the class sum cannot be bounded by the start state's product.
+
+**Ruling.**
+- **The estimate.** `VineEstCanonLayer` takes one constant B with `SNormR (40d)(40d) (h r) ≤ ofReal B` for every
+  r ≤ p, and its right-hand side is B^(number of input leaves of U's rows). That count is twist-invariant. This is
+  TARGET's own form: all inputs are bounded by one C₁ (C₂ after modification).
+- **Helper lemmas** stay stated for a general `Bh` where that costs nothing.
+- **TWIST-PROFILES constraint.** The Stage-1 families must have per-leaf bounds that are uniform across the layers
+  of a class.
+- **`hreal`.** It enters V5 as a named input of exactly PL234's `reality_all` type, which PL234 owns and has proved.
+- **`hQb`.** It uses the exact kernel conjugation halves, with the 4c defect rows carrying the remainders. PL234's
+  open app-half conjugation (ISSUE-APPCONJ) is not needed by V5.
