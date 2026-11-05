@@ -1,5 +1,5 @@
 {
- "assessed": "2026-11-05 11:11 UTC",
+ "assessed": "2026-11-05 13:44 UTC",
  "notes": "Lean work items = blueprint packets (docs/blueprint/GRAPH.md §E) with their difficulty weights (node weights L=1, M=2, H=4, VH=8 summed). Each frozen theorem anchor adds weight 1, credited when SEALED. Done fractions are the orchestrator's assessment, reviewed at integration rounds.",
  "lines_est_total": 273000,
  "parts": [
@@ -549,8 +549,8 @@
      "goal": "induced pre-layering, LF twists, lftwistprop with all cases (F20)",
      "weight": 13.0,
      "lines_est": 4200,
-     "done": 0.8,
-     "note": "LFTWIST: unit and family lftwistprop proved in scratch; fresh closure rebuild ordered; port to the canonical universe (R8) pending"
+     "done": 0.85,
+     "note": "LFTWIST on main with the canonical universe; leaf bijection of LF twists on ordinary leaves proved (LFTWIST-LEAFMAP, R45)"
     },
     {
      "id": "J5",
@@ -684,8 +684,8 @@
      "goal": "vineest Steps 3–4 and degenerate decorations (F21)",
      "weight": 13.0,
      "lines_est": 5100,
-     "done": 0.9,
-     "note": "VINEEST: Step 3 proved; Step 4 replaced-factor analysis and twisted-garden sum (tildeJ2) proved; final induction to the full vineest in progress"
+     "done": 0.92,
+     "note": "VINEEST: Step 3 and the Step 4 pieces proved (replaced-factor analysis, tildeJ2, 3-clock engine, S-side twist at p*); layer-uniform final statement VineEstCanonLayer written; bundle and induction in progress"
     },
     {
      "id": "G3",
@@ -702,8 +702,8 @@
      "goal": "Stage 1 analytic reduction (redvine2) and molecular form (redvine3)",
      "weight": 6.0,
      "lines_est": 2400,
-     "done": 0.45,
-     "note": "REPRESENTS: vine-free reduction assembled up to the per-slot decompositions; class count (CLASSCOUNT) and vine case in progress"
+     "done": 0.5,
+     "note": "REPRESENTS: vine-free reduction proved; class count (CLASSCOUNT) reduced to the layering leg; vine case waits on the twist-class leaf-data ruling (R45)"
     },
     {
      "id": "G8",
@@ -738,8 +738,8 @@
      "goal": "finalcount1, remtame2, interpolation",
      "weight": 4.0,
      "lines_est": 900,
-     "done": 0.6,
-     "note": "FINAL-COUNT: Props 9.4-9.6 proved in scratch for gamma > 1/2; assembly (FinalCountGateHalf) has phases 2-4 and the potential; vine phase, run existence and terminal bound in progress"
+     "done": 0.7,
+     "note": "FINAL-COUNT: Props 9.4-9.6 proved for gamma > 1/2; assembly has the terminal chain (hterm) and the ladder-gap discharges; waiting on a ruling about low-degree atoms and triple designation (FC-GEOM, R45)"
     },
     {
      "id": "F2",
@@ -747,8 +747,8 @@
      "goal": "terms (a)–(d), counting of classes and layerings, proof of layergarden",
      "weight": 12.0,
      "lines_est": 4150,
-     "done": 0.8,
-     "note": "PLG = LG-SPINE on the canonical universe with the corrected Stage 1 interface (R24, R28, R33, R40); ladder inputs re-proved on the truncated time domain; Stage 1 reduction (S2) pending"
+     "done": 0.82,
+     "note": "PLG = LG-SPINE on the canonical universe with the corrected Stage 1 interface (R24, R28, R33, R40) and atom-level second collection (R42, AMEND5); ladder inputs on the truncated time domain"
     },
     {
      "id": "X2",
