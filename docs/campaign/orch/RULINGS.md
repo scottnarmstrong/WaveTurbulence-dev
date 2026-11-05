@@ -1374,3 +1374,28 @@ So halving the exponent changes nothing later.
 - S2 plans to group the τ-classes by piece data (same G_sb), at most 2^N per σ, and to absorb the (T′, Q′) count
   into the F-CONST piece constant.
 - If that fails, S2 STOPs.
+
+## R56 — AMEND10: `Stage1Counts` counts pieces directly by (g, r) (S2 finding F-COUNT3), 2026-11-05 18:52 UTC
+
+**Finding** (S2, Opus). `Stage1Counts` (iii), "≤ 6^N pieces per class", encodes TARGET L1950's "at most 2^n finer
+classes". That count holds for DH23's plain twists but not for LF twists.
+- `members c` must be the whole congruence class: `Stage1Partition` is σ-independent, and the σ = all-SG piece value
+  is V5's full canonFinset sum.
+- **The configuration.** A coherent chain pair in T_(u2) can be re-layered at any r ∈ [q′, q] (layerreg1). That gives
+  Δ + 1 gardens in one class, with Δ ≤ p < D unbounded as δ → 0 at fixed N. Under σ₀ = all-LG, each is its own piece.
+- **Why merging does not help.** The merged value has mass (Δ+1)×, which `RepresentsInt` cannot absorb, because C₁
+  is chosen before δ and D.
+- **TARGET is fine.** L2251 counts terms by gardens.
+
+**Ruling: LG-SPINE AMEND10.** In `Stage1Counts`, replace clauses (iii) and (iv) by one direct piece count:
+  ∀ g r, #{π | gbar π = g ∧ rbar π = r} ≤ 3^N · C₀^N · (C₀ r)! · (C₀ R)! · C₂^{g+r}
+- `Cl`, `hCl`, `cls` and `Stage1Partition` are kept.
+- **Consumers:** Stage1SumBound L48/L55 takes the direct bound, with 3·C₀ absorbed as 6·C₀ was. Stage1CoreBound and
+  Stage1Bound change only in plumbing.
+- **The flower side:** the same fix applies to FLOWER-SPINE wherever it mirrors (iii).
+
+**S2 proves (iii′)** from CLASSCOUNT. Each piece (c, σ, τ) maps to a representative garden, and the fibres are
+≤ 3^N. CONDITION: S2 must verify that the CLASSCOUNT count it uses bounds GARDENS with all their layerings, including
+the free re-layering of coherent chain pairs, uniformly in D. That is, the 2^{|q−q′|} layerings per coherent object
+(layerreg2) must be covered by C₂^{g+r}, or by C₀^N with C₀ independent of D. If CLASSCOUNT bounds classes only, S2
+STOPs, and the count is redone.
