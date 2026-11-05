@@ -149,3 +149,9 @@ Notes:
 - **Referee #2 (γ ≤ 1/2 gap closure):** running.
 - **B21-SNAP9:** running.
 - **VINEPARAM catalogue build:** running.
+- **LG-SPINE-REBASE: READY 04:xx.** `lg-spine-u` builds on the universe; fresh rebuild 419 modules ALL OK (checked); axioms standard.
+  - Type checks pass against the verbatim snapshot-9 B1.2 and against the body of main's `layergarden_v2`.
+  - New corollary: `layergarden_v2_of_spine (S) (hcount : FinalCountGateHalf) : LayergardenV2Gate`.
+  - No spine-input text changed.
+- **LG-SPINE-AMEND (new):** the R19 interface change, (class, σ) pieces with centres inside `Represents`, made in `lg-spine-u`.
+- **Errata E9/E10 recorded** (main f9e5d59).
