@@ -269,3 +269,32 @@ leaves the B2.1 snapshot-9 composition and its seal open.
 
 **Rulings:** R32 (the S2 class producer, VINEEST4, LEAFGATES) and R33 (F-TT root-time constraints; F-DERIV restoring
 the 30d coherent-error norm).
+
+## 08:40 UTC 2026-11-05 (usage limit reached; state for resumption)
+
+**READY**
+- G3 (Prop 9.5 + excessprop1; 125 modules).
+- V5 4c: replaced factor, F2, parametric sumint, R35 trivial pieces.
+
+**R35 caveats for the consumer (V5 Step 4 assembly)**
+- Type 1 with q' < q, and the other nonvanishing configurations, must be treated as trivial or excluded via layerreg1.
+- Ex = extFam above the root layer is unchecked against the frozen K*_triv; there is a possible F_q vs F_q' mismatch.
+- hreal for the mixed family is a premise, because it holds only a.e. at t1 = L4.
+
+**Running (resumable by SendMessage if interrupted)**
+- LG-SPINE-AMEND3 (R33)
+- V5 4b #5 (K^T invariance, tildeJ2, InputRemainder dedup)
+- G8-QUANT (R34)
+- ATOM-TRANSPORT (R34)
+- FINALCOUNT-ASM #2
+- PORT-PREP (read-only plan)
+
+**Waiting**
+- S2 represents: resumes after AMEND3.
+- B21-SNAP9: stopped; needs the author's go-ahead.
+- D11: author decision.
+
+**Next orchestration steps**
+- V5 Step 4 induction (packet 4: induction + endpoint, consuming 4b and 4c).
+- Errata E18 (TARGET L1913 (ii)) and the L2216 factor 2, as candidates.
+- The PORT plan, once PORT-PREP reports.
