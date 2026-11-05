@@ -1,0 +1,45 @@
+/- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
+module
+
+public import WaveTurbulence.Foundations.RegularAsymptotics.RegAsympDraft.SourceMstarBound
+
+/-! # Literal original source singular integral equals recursive Mstar -/
+
+public section
+noncomputable section
+namespace WaveTurbulence.RegAsymp
+open Links Reg TTree ApproxNT
+
+private theorem singInt_eq_eval_of_zero {d n : ℕ} (hn : n=0) (J : Finset (Fin n))
+    (W : (Fin n → Mom d) → (Fin n → Mom d) → ℂ) : singInt J W = W 0 0 := by
+  subst n
+  rfl
+
+/-- DH23 Prop6.1 leading spatial identification at every order: the
+ORIGINAL inputMomentum singular integral equals2 per original link times
+the literal recursive Mstar. Empty, even unnormalized, codes are included. -/
+theorem original_source_singInt_eq_Mstar {d : ℕ} (hd : 3 ≤ d)
+    {G : Garden 2} {Q : RegCpl} (hQ : Q.Decodes G) (hG : IsCouple G)
+    (hdom : Q.dominant = true) {F : Mom d → ℝ} {B : ℝ} (hB : 0 ≤ B)
+    (hF : Fourier.spatialNorm (40*d) (40*d) (fun k => (F k:ℂ)) ≤ ENNReal.ofReal B)
+    (Z : Finset (Fin 2 × Path)) (hZ : IsSpecialSet Q.links Z) (k : Mom d) :
+    singInt (markedLinkIndices Q Z) (fun x y =>
+      ∏ a, (F ((coupleMomentumData hQ hG).inputMomentum k
+        (fun j i => if i=0 then x j else y j) a):ℂ)) =
+      (2:ℂ)^Q.links.length*(Q.Mstar F Z (0,[]) (1,[]) k:ℂ) := by
+  by_cases hn : 0 < Q.links.length
+  · rw [← addressAppAlong_source_eq_singInt hd hQ hG hn (by omega) (by omega) hB hF Z k]
+    change addressAppAlong Z ((Q.linksAt (0,[]) (1,[])).map Prod.fst)
+      (fun θ => cplLeafProduct (fun k => (F k:ℂ)) θ Q (0,[]) (1,[]) k) 0 = _
+    rw [← ofReal_realCplFold hd Q (by omega) (by omega) hB hF Z _ _ indep_roots k 0,
+      realCplFold_eq_Mstar hd hB hF Q hdom Z _ _ indep_roots
+        (fun z _ hz => hZ z hz) k]
+    simp only [Complex.ofReal_mul,Complex.ofReal_pow,Complex.ofReal_ofNat,linksAt_length_eq_links]
+  · have hn0 : Q.links.length = 0 := by omega
+    have hnil : Q.linksAt (0,[]) (1,[]) = [] := List.eq_nil_of_length_eq_zero hn0
+    rw [singInt_eq_eval_of_zero hn0,prod_source_input_eq_cplLeafProduct hQ hG
+      (fun k => (F k:ℂ)) k]
+    rw [cplLeafProduct_eq_input_of_links_nil _ _ Q _ _ k indep_roots hnil,
+      Mstar_eq_input_of_links_nil F Q Z _ _ k hnil,hn0,pow_zero,one_mul]
+
+end WaveTurbulence.RegAsymp
