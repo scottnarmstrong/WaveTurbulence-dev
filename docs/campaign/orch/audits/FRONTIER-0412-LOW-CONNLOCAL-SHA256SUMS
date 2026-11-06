@@ -1,0 +1,6 @@
+3f35ba09dd3726696d30c148c0663854e1a39d3d93ee23398e46459dd7e52021  /home/scott/wt-scratch/codex-takeover/root-checkpoints/20261106-041232-LOW-CONNLOCAL/CODEX-LOW-UNLOOP-BRIDGE-connlocal-build.sh
+e32480bc2e04d575d5b681ed088bb51fd25c75de22fa93f8cc6d9fff9c3dbad8  /home/scott/wt-scratch/codex-takeover/root-checkpoints/20261106-041232-LOW-CONNLOCAL/CODEX-LOW-UNLOOP-BRIDGE-connlocal-check.sh
+070da1657d5ac69e35853b3e99b2f8917eaa0e55fc2116ce69d36ebb70bc0ff6  /home/scott/wt-scratch/codex-takeover/root-checkpoints/20261106-041232-LOW-CONNLOCAL/CODEX-LOW-UNLOOP-BRIDGE-connlocal-consumer.lean
+a2144677c7fbf1d78edf4f12583ee820e5735a990cedd9348d5704d1cd132345  /home/scott/wt-scratch/codex-takeover/root-checkpoints/20261106-041232-LOW-CONNLOCAL/connlocal-build.log
+c8e7ae970ec2f60d5ad3c3eab9b0f84b1ac262b25a3f2a412a4491915e656b4b  /home/scott/wt-scratch/codex-takeover/root-checkpoints/20261106-041232-LOW-CONNLOCAL/connlocal-check.log
+aa5b9368a6fd3cfd85e53e45baff409c17294ea6c70210b68618e45cd9f16d13  /home/scott/wt-scratch/codex-takeover/root-checkpoints/20261106-041232-LOW-CONNLOCAL/src/AsmLowChainCodex10ConnLocal.lean
