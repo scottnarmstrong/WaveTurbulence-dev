@@ -1,5 +1,5 @@
 {
- "assessed": "2026-11-06 06:05 UTC",
+ "assessed": "2026-11-06 06:25 UTC",
  "notes": "Lean work items = blueprint packets (docs/blueprint/GRAPH.md §E) with their difficulty weights (node weights L=1, M=2, H=4, VH=8 summed). Each frozen theorem anchor adds weight 1, credited when SEALED. Done fractions are the orchestrator's assessment, reviewed at integration rounds.",
  "lines_est_total": 273000,
  "parts": [
@@ -685,7 +685,7 @@
      "weight": 13.0,
      "lines_est": 5100,
      "done": 0.95,
-     "note": "Scratch: all six operative row families and actual piece-preserving restricted-Lvl assembly/Reach indices checked. Actual shifted source factors, nonnormal selected-kind allocation, paired dependent-row assignment and exact product bookkeeping compiled; final recursive choice/product/time-indicator and remainder box/norm transfer remain. Exterior/repeated-slot remainder constructor checked. Full FreeDict/TermCertW, R58 modulation, finite canonical R57 prefix and integration open. FRONTIER-0600; no fraction or seal change."
+     "note": "Actual level Reach/row indices, paired-row product/cost and source phase/gains checked, with complete typed consumers. Earlier six literal ptP factors are CaseA; CaseM mirrored producers/dispatch remain separate. Actual remainder box/norm/consumed comparison, recursive choice extraction, native frames/time indicators, FreeDict/TermCertW/prefix, R58/R57/canonical integration open. Untouched W2 Free authorized only into new owned same-world support cache. FRONTIER-0620; no fraction/seal change."
     },
     {
      "id": "G3",
@@ -703,7 +703,7 @@
      "weight": 6.0,
      "lines_est": 2400,
      "done": 0.58,
-     "note": "Scratch: real selected FamilyBatch state/layers/time/hinges/bad-count, quotient od/hinge-dart/label and literal decoration/phase/epsilon casts checked. Actual dart-versus-cast link active; full supported kernel/A3tau/Stage1 open. Whole-VC gap comparison conditional helper checked. hvPick existence choice versus R6 minimum recorded as internal watch; arbitrary hyper designation independence is false, no producer amendment. FRONTIER-0600; no fraction or seal change."
+     "note": "Actual complete containing-first PC/LP original-dart transport checked (791 worker files), alongside real batch state/layer/time/hinges/bad-count and cast decoration/phase/epsilon factors. Original-order LP permutation and actual quotient-dart/cast link still open; full supported kernel/A3tau/Stage1 and hyper designation watch unchanged. FRONTIER-0620; no fraction/seal change."
     },
     {
      "id": "G8",
@@ -739,7 +739,7 @@
      "weight": 4.0,
      "lines_est": 900,
      "done": 0.81,
-     "note": "Scratch: actual source D3 finite cover/index/payment/tree and garden application, with fixed preceding-node multiplier K; source-image and per-label InvL refinements checked. Later NoD3 terminal bound remains conditional; history refinement newly worker-reported. Need actual combined multiplier payment, later cut invariants/geometry, final LOW/GARDEN/GLUE/canonical integration. Original normalization helper remains conditional. FRONTIER-0600; no fraction or seal change."
+     "note": "Actual selected+D3 count composition retains source image/InvL/history and explicit combined node multipliers. NoD3 preservation Steps2–4 and LOW triangle/SG covers checked; phase4 adapter newly compiled. Local potential payments, reach composition and actual terminal count open. Damaged96 handles all imperfect components for original R>=2; R1 loop-adjusted source/tame analysis remains. Full LOW/GARDEN/GLUE/canonical integration open. FRONTIER-0620; no fraction/seal change."
     },
     {
      "id": "F2",
