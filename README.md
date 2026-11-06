@@ -6,7 +6,7 @@ Lean 4 formalization of
 > [arXiv:2311.10082v2](https://arxiv.org/abs/2311.10082) (2024).
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-11-06 00:07 UTC** · **estimated completion 90.5 %** (Lean proofs 92.4 %) · frozen theorems sealed: 16 / 26 (+ 296 frozen definitions) · **498,520 lines of Lean on main** (5365 files) + 1,460 unlanded on worker branches · blueprint estimate ≈ 273,000 lines
+> **Last updated: 2026-11-06 00:23 UTC** · **estimated completion 90.5 %** (Lean proofs 92.4 %) · frozen theorems sealed: 16 / 26 (+ 296 frozen definitions) · **498,520 lines of Lean on main** (5365 files) + 1,460 unlanded on worker branches · blueprint estimate ≈ 273,000 lines
 <!-- /AUTO:updated -->
 
 **Scope (D1):** everything proved in Lean, no black boxes. That covers the target paper and the results it uses from
@@ -171,12 +171,12 @@ Done fractions last reviewed: **2026-11-06 00:07 UTC**. Source: [`docs/campaign/
 <!-- AUTO:workers -->
 | Worker / session | model / account | packet | branch: last commit | brief |
 |---|---|---|---|---|
-| Codex orchestrator | Codex / current session | Source rulings, safe landings, proof-state review and HQ upkeep | `w/orch`: 57 min ago | [brief](docs/campaign/orch/CODEX-HANDOFF.md) |
-| subagent v5_w2 | GPT-6.1 Terra medium / current session | VINE-A: actual unitBlocks transport and tau-class invariance after source-input landing | `w/orch`: 57 min ago | [brief](docs/campaign/orch/briefs/TERRA-VINEA-CONTINUE.md) |
-| subagent v5_w13 | GPT-6.1 Terra medium / current session | V5 W1/W3: separated-family producer and final-count constants | `w/orch`: 57 min ago | [brief](docs/campaign/orch/briefs/TERRA-V5-W13.md) |
-| subagent finalcount_low | GPT-6.1 Terra medium / current session | LOW-FRONT A4 provisional checks pass; LOW-CHAIN SubHypL class labels and varying-index potential arithmetic; canonical rebuild still required | `w/orch`: 57 min ago | [brief](docs/campaign/orch/briefs/TERRA-FINALCOUNT-LOWCHAIN.md) |
-| cx-world | GPT-6.1 Sol medium / codex-2 (existing session) | Existing serial canonical-world upstream rebuild; axiom closeout and assembly overlay pending | `w/orch`: 57 min ago | [brief](docs/campaign/orch/CODEX-HANDOFF.md) |
-| cx-b4bprep | GPT-6.1 Sol medium / codex-2 (existing session) | Existing R52 Batch-4b serial catalogue rebuild; skeleton/layer-count/N4 checks pending | `w/orch`: 57 min ago | [brief](docs/campaign/orch/CODEX-HANDOFF.md) |
+| Codex orchestrator | Codex / current session | Source rulings, safe landings, proof-state review and HQ upkeep | `w/orch`: 8 min ago | [brief](docs/campaign/orch/CODEX-HANDOFF.md) |
+| subagent v5_w2 | GPT-6.1 Terra medium / current session | VINE-A: actual unitBlocks transport and tau-class invariance after source-input landing | `w/orch`: 8 min ago | [brief](docs/campaign/orch/briefs/TERRA-VINEA-CONTINUE.md) |
+| subagent v5_w13 | GPT-6.1 Terra medium / current session | V5 W1/W3: separated-family producer and final-count constants | `w/orch`: 8 min ago | [brief](docs/campaign/orch/briefs/TERRA-V5-W13.md) |
+| subagent finalcount_low | GPT-6.1 Terra medium / current session | LOW-FRONT A4 provisional checks pass; LOW-CHAIN SubHypL class labels and varying-index potential arithmetic; canonical rebuild still required | `w/orch`: 8 min ago | [brief](docs/campaign/orch/briefs/TERRA-FINALCOUNT-LOWCHAIN.md) |
+| cx-world | GPT-6.1 Sol medium / codex-2 (existing session) | Existing serial canonical-world upstream rebuild; axiom closeout and assembly overlay pending | `w/orch`: 8 min ago | [brief](docs/campaign/orch/CODEX-HANDOFF.md) |
+| cx-b4bprep | GPT-6.1 Sol medium / codex-2 (existing session) | Existing R52 Batch-4b serial catalogue rebuild; skeleton/layer-count/N4 checks pending | `w/orch`: 8 min ago | [brief](docs/campaign/orch/CODEX-HANDOFF.md) |
 <!-- /AUTO:workers -->
 
 ## Papers
