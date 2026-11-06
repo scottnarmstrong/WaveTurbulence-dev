@@ -38,3 +38,9 @@ lean_lib «WaveTurbulence» where
   roots := #[`WaveTurbulence]
   globs := #[.one `WaveTurbulence] ++ quarantinedModules.map .one
   leanOptions := projectLeanOptions
+
+/-- VINEPARAM certificate catalogue (D12). Built explicitly until a main-library consumer imports its roots. -/
+lean_lib «WaveTurbulenceVineParam» where
+  roots := #[`WaveTurbulenceVineParam.VineParamMain, `WaveTurbulenceVineParam.VineParamGrouped]
+  globs := #[.submodules `WaveTurbulenceVineParam]
+  leanOptions := projectLeanOptions
