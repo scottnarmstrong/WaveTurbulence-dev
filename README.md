@@ -6,7 +6,7 @@ Lean 4 formalization of
 > [arXiv:2311.10082v2](https://arxiv.org/abs/2311.10082) (2024).
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-11-06 20:00 UTC** · **estimated completion 89.8 %** (Lean proofs 91.7 %) · frozen theorems sealed: 16 / 27 (+ 300 frozen definitions) · **948,795 lines of Lean on main** (6658 files) + 2,643 unlanded on worker branches · blueprint estimate ≈ 273,000 lines
+> **Last updated: 2026-11-06 20:00 UTC** · **estimated completion 90.2 %** (Lean proofs 92.1 %) · frozen theorems sealed: 16 / 27 (+ 300 frozen definitions) · **948,795 lines of Lean on main** (6658 files) + 2,643 unlanded on worker branches · blueprint estimate ≈ 273,000 lines
 <!-- /AUTO:updated -->
 
 **Scope (D1):** everything proved in Lean, no black boxes. That covers the target paper and the results it uses from
@@ -32,18 +32,18 @@ DRAFT_IMPORT_VIOLATIONS: 0
 ## Progress
 
 <!-- AUTO:progress -->
-### Estimated completion: **89.8 %**
+### Estimated completion: **90.2 %**
 
-`███████████████████████████░░░` 89.8 %
+`███████████████████████████░░░` 90.2 %
 
 | Part of the project | Items | Weight | Done | Completion |
 |---|---|---|---|---|
 | Sources, paper maps, blueprint (P0–P1) | 1 | 30 | 27.0 | `█████████░` 90 % |
-| Exact Lean statements, frozen (P2) | 1 | 20 | 18.4 | `█████████░` 92 % |
-| Lean proofs (P4) | 85 | 681 | 633.0 | `█████████░` 93 % |
+| Exact Lean statements, frozen (P2) | 1 | 20 | 18.6 | `█████████░` 93 % |
+| Lean proofs (P4) | 85 | 681 | 635.8 | `█████████░` 93 % |
 | Frozen theorems sealed | 27 | 27 | 16.0 | `██████░░░░` 59 % |
 | Release (P5) | 1 | 15 | 0.0 | `░░░░░░░░░░` 0 % |
-| **Total** | | 773 | 694.4 | **89.8 %** |
+| **Total** | | 773 | 697.4 | **90.2 %** |
 
 Lean lines: 948,795 on main + 2,643 on branches, of ≈ 273,000 estimated by the blueprint (`████████████████████` 348.5 % of the estimate).
 
@@ -61,6 +61,7 @@ Lean lines: 948,795 on main + 2,643 on branches, of ≈ 273,000 estimated by the
 | J4 | CANCEL7 | 6 | ≈3,400 | ✅ 100 % | CANCEL7 done with the F61 correction; BtRec discharged by the B̃ bridge |
 | L1 | PL1A | 7 | ≈2,800 | ✅ 100 % | done: B2.2 incoherentDecay proved at the exact type (INCOH-INST, e77e692); seals at the B2 freeze |
 | L2 | PL1B | 9 | ≈4,650 | ✅ 100 % | PL1 done: abstract TARGET Prop 5.1 incl. one-clock case (541d4c8); garden instantiation = INCOH-INST |
+| M9 | VINEPARAM | 4 | ≈1,500 | ✅ 100 % | VINEPARAM: catalogue on main as the separate lean_lib WaveTurbulenceVineParam (D12, PORT batch 4a, 97036a3) |
 | N1 | AN-FOURIER | 9 | ≈3,500 | ✅ 100 % | landed: χ₀ (Gevrey 2, F41), 𝔛 norms, restriction norms, Fourier-L¹ products |
 | N2 | AN-PHASE | 5 | ≈1,700 | ✅ 100 % | landed: Poisson on ℤ_L^d, non-stationary and bilinear stationary phase |
 | N3 | AN-HY | 10 | ≈4,500 | ✅ 100 % | done: Hausdorff–Young, phase/time-integral bounds (TARGET A.2, A.3) |
@@ -95,18 +96,19 @@ Lean lines: 948,795 on main + 2,643 on branches, of ≈ 273,000 estimated by the
 | Z1 | MAIN | 3 | ≈860 | 🟡 98 % | main <= layergarden + layergardenFlower; gamma > 1/2 links main_v2_of_propansatz and fixedpoint_v2_of_closed_gates on main (3a1b17a); wkeTaylor_v1 sealed |
 | G3 | EXCESS-T | 10 | ≈3,500 | 🟡 97 % | FINALMOL READY: DH23 Prop 9.5 / TARGET finalmol under R29, R37, R38, and the run model extended to atoms of degree 0-2 and self-loops (G3-LOWDEG, errata E23) |
 | G5 | APPB-ALG | 8 | ≈4,000 | 🟡 97 % | APPB-ALG READY: DH23 Prop 10.2 in full (dh23_prop_10_2), fresh 809-module rebuild; GraphOk size deviation recorded |
-| V5 | VINEEST | 13 | ≈5,100 | 🟡 96 % | VINEEST: all Step 4 pieces, induction, bottom vine, bundle decomposition, per-level bounds, continuity (V5-CONT), modulated statement (R58) proved; final assembly (per-term certificates, constants) in progress |
+| V5 | VINEEST | 13 | ≈5,100 | 🟡 97 % | VINEEST: FLAT-MOD (fresh rebuild verified), W1W3, BOT-DECOMP READY; final prefix theorems for C2M/HalfM proved conditional on the uniform per-term certificate (W2, in progress); kind-generic pass (R57) and spatial-character form for cut2 (R66) in progress |
 | G8 | RIGID | 10 | ≈4,600 | 🟡 95 % | RIGID READY in scratch: DH23 Prop 9.6 (gamma > 1/2) with no named input, damaged-component bound, constants independent of the size parameter (R34) |
 | I2 | INDUCT-B | 10 | ≈3,050 | 🟡 95 % | INDUCT done (see I1) |
 | J5 | MEXP | 6 | ≈2,700 | 🟡 95 % | MEXP done: DH21 Props 7.7, 7.8 (corrected weight) |
 | J6 | WKE-ID | 6 | ≈2,800 | 🟡 95 % | WKE-ID done: Σ app = 𝒰_n (wke_identity), B2.1 item (4) proved; route avoids DH21 7.9/7.10 |
 | J7 | REGCANCEL | 4 | ≈2,000 | 🟡 95 % | REGCANCEL done: DH23 Prop 6.3 (statement form chosen over B2 objects, to audit) |
 | M8 | LAYERCNT | 6 | ≈2,100 | 🟡 95 % | LAYERCNT READY: layerlad, layervine (incl. the improved coherent bound) under TARGET's hypotheses; rebase onto the canonical universe pending |
-| M9 | VINEPARAM | 4 | ≈1,500 | 🟡 95 % | VINEPARAM: catalogue rebuilt on the canonical universe (1824 modules, standard axioms; D12); port to main as a separate lean_lib in progress |
 | S1 | STAGE1-COMB | 7 | ≈2,400 | 🟡 95 % | STAGE1-COMB READY: vinechainlem; LF twist reversal, composition, commutation (Diamond, all four choice cases); congruence is an equivalence relation on V-family states (fresh 111-module rebuild) |
 | S2a | REDSPLICE-DEF | 2 | ≈800 | 🟡 95 % | REDSPLICE-DEF READY: the full Stage 1 construction; stage1Piece_sound now also supplies the triple designation and no-hinge-loop facts (AMEND7+8) |
 | S4 | SUBPRO | 8 | ≈3,000 | 🟡 95 % | SUBPRO done in atom-set form plus the hinge triple-bond designation (R37) |
 | V4 | VINEEST-S2 | 4 | ≈2,500 | 🟡 95 % | VINEEST-S2 done: vineChain_eq_sumintForm (V4 endpoint, ruling R2), 709-module snapshot-9 rebuild OK; obligations VINEPARAM, SumintSigned |
+| F2 | PLG | 12 | ≈4,150 | 🟡 92 % | PLG = LG-SPINE: AMEND6'+9+10 (pair-type Stage 1 families, TwistClosed, AMEND9/10) fresh-rebuilt (592 modules), audited and announced; flower stubs and spatial phases (AMEND-ST/SX, R61/R66) in progress |
+| X1 | FLOWER-DEF | 10 | ≈3,100 | 🟡 92 % | FLOWER-DEF: product-form cutoff successor layergardenFlower_v3 audited (FIDELITY/CONSUMERS PASS) and frozen (D13); fixedpoint consumers rewired to it (FC1 READY) |
 | C1 | REG-STRUCT | 11 | ≈4,000 | 🟡 90 % | REG-STRUCT done in scratch: structure theorem with uniqueness, decoding, legal/dominant chains, counts (C₀=12^9); F55 |
 | C2 | LINKS | 11 | ≈3,000 | 🟡 90 % | LINKS done in scratch: branchpair, defchoice, linkXY, deflink, defcoh, auxlem, explem, treelemma, incohproof1 (couples); F62-F65 |
 | C3 | SKELETON | 15 | ≈5,200 | 🟡 90 % | SKELETON done in scratch: prime skeletons with uniqueness (incl. DH21's omitted E4 argument), 194 declarations |
@@ -115,7 +117,7 @@ Lean lines: 948,795 on main + 2,643 on branches, of ≈ 273,000 estimated by the
 | D1 | COMB-CORE | 8 | ≈2,020 | 🟡 90 % | COMB-CORE done in scratch; ports at the freeze |
 | D2 | SYS-DEFS | 14 | ≈3,400 | 🟡 90 % | SYS-DEFS + Duhamel identity done in scratch; ports at the freeze |
 | D4 | REG-DEFS | 8 | ≈2,400 | 🟡 90 % | REG-DEFS done (B2 draft + REG-STRUCT scratch) |
-| F2 | PLG | 12 | ≈4,150 | 🟡 90 % | PLG = LG-SPINE: pair-type Stage 1 families (AMEND6'), consumers switched, twist-closure discharged for gardens and couples, AMEND9/10; fresh rebuild pending; flower stubs (AMEND-ST) next |
+| F3 | FINAL-COUNT | 4 | ≈900 | 🟡 90 % | FINAL-COUNT: REG closed (R59); LOW: one-atom and loop-free gardens proved; LOW-CHAIN run port (LC-1 done) and the loop-atom smoothing step (R67) in progress |
 | G0 | MOLE-COUNT-BASICS | 4 | ≈1,400 | 🟡 90 % | DEGEN done in scratch (DH21 Lemmas 9.13–9.14, DH23 §10.5, GAP.degenerate.tame, corrected remtame); moves to Foundations after the Wave B freeze |
 | G2 | EXCESS-DH23 | 8 | ≈3,500 | 🟡 90 % | EXCESS-DH23 + VINE-COUNT + G2-SIBLING + G2-GHOST: DH23 Prop 9.4 all step types incl. new components and the charged ghost-triangle bound (errata E20) |
 | G4 | APPB-OPS | 8 | ≈4,000 | 🟡 90 % | APPB-OPS done in scratch: DH23 App B operations, 73 audited results; figure transcriptions flagged for review; F81 |
@@ -129,17 +131,15 @@ Lean lines: 948,795 on main + 2,643 on branches, of ≈ 273,000 estimated by the
 | M5 | MOLECPL | 4 | ≈1,500 | 🟡 90 % | MOLECPL done in scratch (DH23 Prop 5.3 for gardens; 2eacfc5) |
 | M6 | TWIST | 8 | ≈2,800 | 🟡 90 % | TWIST done in scratch: twist involution, invariances, sign cancellation, 2^r gardens (287 modules) |
 | V3 | REGRED | 6 | ≈1,900 | 🟡 90 % | REGRED done in scratch: skeleton reduction, vineest Step 1 (ab8680f); nonzero-gap boundary case separate (F21) |
-| F3 | FINAL-COUNT | 4 | ≈900 | 🟡 88 % | FINAL-COUNT: REG case closed (finalCount_reg_half, no named inputs; R59); LOW case (atoms of degree <= 2, loops) being assembled from G3-LOWDEG |
 | M7 | LFTWIST | 13 | ≈4,200 | 🟡 85 % | LFTWIST on main with the canonical universe; leaf bijection of LF twists on ordinary leaves proved (LFTWIST-LEAFMAP, R45) |
-| X1 | FLOWER-DEF | 10 | ≈3,100 | 🟡 85 % | FLOWER-DEF: classes, kernels, identities proved; the frozen B1.12 cutoff weights mis-transcribe TARGET's product cutoff, successor layergardenFlower_v3 in audit (R62) |
-| S2 | REDSPLICE | 6 | ≈2,400 | 🟡 65 % | REPRESENTS: vine-free case, class count, piece count (AMEND10), vine engine (VINE-D) and class product (VINE-C) proved; redvine factorization (VINE-B) and producer in progress |
-| X2 | FLOWEREST | 16 | ≈8,900 | 🟡 60 % | FLOWEREST: flower Stage 1 redesigned (R61, stub excision with anchors; ~10-18k lines): excision identity, anchored twists, couple decapitation in progress; cut2 cutoff clause under research (R62) |
+| S2 | REDSPLICE | 6 | ≈2,400 | 🟡 72 % | REPRESENTS: re-pinned to AMEND6'+9+10; moment chain, per-mode AsmCtxH, sum over modes and numerics to RepresentsIntA proved; VINE-B# per-mode identity proved for a general splice shape; producer, exponent matching, VINE-A tau partition in progress |
+| X2 | FLOWEREST | 16 | ≈8,900 | 🟡 66 % | FLOWEREST (R61 design C): stub kernel and analytic excision core, anchored twists (P3), exact couple decapitation proved; cut2: fiber lemma proved and refereed, Fourier-measure lemma (C2-A) and exact face/BV formula (C2-D) READY; cut-carrier (C2-C), spatial forms (R66) and assembly in progress |
 | F1 | FINAL-RED | 4 | ≈1,200 | 🟡 30 % | FINAL-RED: finalsbest1/finalsbest2 consumed in LG-SPINE's assembly (counting cover, finalproof numerics) proved generically |
 | G1 | STAGE2-DEF | 10 | ≈2,600 | 🟡 20 % | STAGE2-DEF: stage-2 operation datatype (Stage2Op) and TARGET's counting problem (lg-spine CountingChoices) defined |
 
 </details>
 
-Done fractions last reviewed: **2026-11-06 16:01 UTC**. Source: [`docs/campaign/progress.json`](docs/campaign/progress.json); history: [`docs/campaign/history.csv`](docs/campaign/history.csv).
+Done fractions last reviewed: **2026-11-06 20:00 UTC**. Source: [`docs/campaign/progress.json`](docs/campaign/progress.json); history: [`docs/campaign/history.csv`](docs/campaign/history.csv).
 <!-- /AUTO:progress -->
 
 ## Workers
