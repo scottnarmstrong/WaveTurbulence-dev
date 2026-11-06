@@ -1,5 +1,5 @@
 {
- "assessed": "2026-11-06 00:07 UTC",
+ "assessed": "2026-11-06 01:57 UTC",
  "notes": "Lean work items = blueprint packets (docs/blueprint/GRAPH.md §E) with their difficulty weights (node weights L=1, M=2, H=4, VH=8 summed). Each frozen theorem anchor adds weight 1, credited when SEALED. Done fractions are the orchestrator's assessment, reviewed at integration rounds.",
  "lines_est_total": 273000,
  "parts": [
@@ -370,7 +370,7 @@
      "weight": 4.0,
      "lines_est": 1500,
      "done": 0.9,
-     "note": "VINEPARAM: parametrization contract proved (538 certificates); being rebuilt on the canonical universe as a separate lean_lib (D12, VINEPARAM-U, ~1/3 done)"
+     "note": "Isolated D12 separate-library port: 1824 canonically mapped modules, independently reviewed mapping/carriers. Staged frozen/module guards pass for 7193 modules; targeted Grouped build is still running in certificate tables, with Main/closed consumers/full landing pending. No completion credit yet"
     },
     {
      "id": "J1",
@@ -685,7 +685,7 @@
      "weight": 13.0,
      "lines_est": 5100,
      "done": 0.95,
-     "note": "Modulated no-twist Step3 base proved in scratch; actual root tree/couple separated families and C2^b/order count proved. Cross-cell SFF glue, general unrolled-term certificates, modulated flattening and R57 generic target remain open"
+     "note": "Actual SFF, native metadata and per-cell Q/T terms with shared spatial factors compiled. Clamp inversion, cutoff, interval oscillation, regional derivatives and three-piece IBP/boundary cancellation compiled; weighted Fourier estimate remains open. Full TermCertW, modulated flattening, R57 target and final prefix remain open; scratch only"
     },
     {
      "id": "G3",
@@ -703,7 +703,7 @@
      "weight": 6.0,
      "lines_est": 2400,
      "done": 0.58,
-     "note": "Vine-free reduction and class count checkpoints exist; Terra worker proving actual selected-vine unitBlocks transport and class invariance. VINE-B/C/D/E/F and full Stage1 producer remain open"
+     "note": "Unique actual batch unit equivalence with composed atoms/ordered joints compiled and snapshotted; selected-family invariant and splice molecule/root map proved. Interior switched darts are removed; outer placement and whole-unit singleton splice equality compiled. Full simultaneous garden/position/layer/hinge/slot/kernel invariance, tau partition, remaining VINE-B/C/D/E/F and Stage1 producer remain open"
     },
     {
      "id": "G8",
@@ -739,7 +739,7 @@
      "weight": 4.0,
      "lines_est": 900,
      "done": 0.81,
-     "note": "Scratch LOW-FRONT A1-A3 complete provisionally; A4 unloop CollData/UnselOK/C2Can transfers compiled and producer wiring underway. REG half exists; LOW-CHAIN/GARDEN/GLUE and canonical-world validation remain open"
+     "note": "Actual garden UStepD1 DoubleShape deviation, reduced InvL index and branch-paid potential compiled; exact consumer +8 standard-axiom checks,941 pins verified and441 source/text snapshots preserved. R60 selected phase/projection, intactness/reach invariant and priority object selector compiled; eligible cut/class cover, all-dartless exit, terminal LOW/GARDEN/GLUE and canonical integration remain open"
     },
     {
      "id": "F2",

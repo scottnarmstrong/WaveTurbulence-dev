@@ -1,0 +1,10 @@
+note: using toolchain 'wt-throttled' from override set on '/home/scott/WaveTurbulence-dev'
+note: to remove: elan override unset --path '/home/scott/WaveTurbulence-dev' | to suppress: ELAN_NO_OVERRIDE_NOTICE=1
+'WaveTurbulence.FinalCountAsm.degree_two_gap_eq_neg_charge' depends on axioms: [propext, choice, Quot.sound]
+'WaveTurbulence.FinalCountAsm.doubleShape_fixed_gap' depends on axioms: [propext, choice, Quot.sound]
+'WaveTurbulence.FinalCountAsm.doubleShape_low_labelSet_le' depends on axioms: [propext, choice, Quot.sound]
+'WaveTurbulence.FinalCountAsm.double_low_fibre_rank_le' depends on axioms: [propext, choice, Quot.sound]
+'WaveTurbulence.FinalCountAsm.double_new_rank_and_noLadders' depends on axioms: [propext, choice, Quot.sound]
+'WaveTurbulence.FinalCountAsm.double_low_deviation_post' depends on axioms: [propext, choice, Quot.sound]
+'WaveTurbulence.FinalCountAsm.double_low_deviation_ghost' depends on axioms: [propext, choice, Quot.sound]
+'WaveTurbulence.FinalCountAsm.uniform_d1_double_deviation' depends on axioms: [propext, choice, Quot.sound]

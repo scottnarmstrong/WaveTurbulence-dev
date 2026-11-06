@@ -1,50 +1,50 @@
 [
-  {
-    "tmux": "Codex orchestrator",
-    "model": "Codex",
-    "account": "current session",
-    "branch": "w/orch",
-    "packet": "Source rulings, safe landings, proof-state review and HQ upkeep",
-    "brief": "docs/campaign/orch/CODEX-HANDOFF.md"
-  },
-  {
-    "tmux": "subagent v5_w2",
-    "model": "GPT-6.1 Terra medium",
-    "account": "current session",
-    "branch": "w/orch",
-    "packet": "VINE-A: actual unitBlocks transport and tau-class invariance after source-input landing",
-    "brief": "docs/campaign/orch/briefs/TERRA-VINEA-CONTINUE.md"
-  },
-  {
-    "tmux": "subagent v5_w13",
-    "model": "GPT-6.1 Terra medium",
-    "account": "current session",
-    "branch": "w/orch",
-    "packet": "V5 W1/W3: separated-family producer and final-count constants",
-    "brief": "docs/campaign/orch/briefs/TERRA-V5-W13.md"
-  },
-  {
-    "tmux": "subagent finalcount_low",
-    "model": "GPT-6.1 Terra medium",
-    "account": "current session",
-    "branch": "w/orch",
-    "packet": "LOW-FRONT A4 provisional checks pass; LOW-CHAIN SubHypL class labels and varying-index potential arithmetic; canonical rebuild still required",
-    "brief": "docs/campaign/orch/briefs/TERRA-FINALCOUNT-LOWCHAIN.md"
-  },
-  {
-    "tmux": "cx-world",
-    "model": "GPT-6.1 Sol medium",
-    "account": "codex-2 (existing session)",
-    "branch": "w/orch",
-    "packet": "Existing serial canonical-world upstream rebuild; axiom closeout and assembly overlay pending",
-    "brief": "docs/campaign/orch/CODEX-HANDOFF.md"
-  },
-  {
-    "tmux": "cx-b4bprep",
-    "model": "GPT-6.1 Sol medium",
-    "account": "codex-2 (existing session)",
-    "branch": "w/orch",
-    "packet": "Existing R52 Batch-4b serial catalogue rebuild; skeleton/layer-count/N4 checks pending",
-    "brief": "docs/campaign/orch/CODEX-HANDOFF.md"
-  }
+ {
+  "tmux": "Codex orchestrator",
+  "model": "Codex",
+  "account": "current session",
+  "branch": "w/orch",
+  "packet": "Source rulings, safe landings, proof-state review and HQ upkeep",
+  "brief": "docs/campaign/orch/CODEX-HANDOFF.md"
+ },
+ {
+  "tmux": "subagent v5_w2",
+  "model": "GPT-6.1 Terra medium",
+  "account": "current session",
+  "branch": "w/orch",
+  "packet": "Exact batch unit transport with uniqueness/coordinate characterization compiled; actual garden/slot invariance; independent D12 final consumers pending",
+  "brief": "docs/campaign/orch/briefs/TERRA-AUDIT-PORT-VP.md"
+ },
+ {
+  "tmux": "subagent v5_w13",
+  "model": "GPT-6.1 Terra medium",
+  "account": "current session",
+  "branch": "w/orch",
+  "packet": "Adjacent-cell clamp Fourier bound for W13 joint rows; native SFF/cell metadata checkpoint preserved; original D12 build stream relay",
+  "brief": "docs/campaign/orch/briefs/TERRA-PORT-VP-REPAIR.md"
+ },
+ {
+  "tmux": "subagent finalcount_low",
+  "model": "GPT-6.1 Terra medium",
+  "account": "current session",
+  "branch": "w/orch",
+  "packet": "LOW D1 direct deviation and garden one-step potential compiled; source-selected LOW phase/reach (R60) and terminal assembly next",
+  "brief": "docs/campaign/orch/briefs/TERRA-LOW-SELECTED-RUN.md"
+ },
+ {
+  "tmux": "cx-world",
+  "model": "GPT-6.1 Sol medium",
+  "account": "codex-2 (existing session)",
+  "branch": "w/orch",
+  "packet": "Existing serial canonical-world upstream rebuild; axiom closeout and assembly overlay pending",
+  "brief": "docs/campaign/orch/CODEX-HANDOFF.md"
+ },
+ {
+  "tmux": "cx-b4bprep",
+  "model": "GPT-6.1 Sol medium",
+  "account": "codex-2 (existing session)",
+  "branch": "w/orch",
+  "packet": "Existing R52 Batch-4b serial catalogue rebuild; skeleton/layer-count/N4 checks pending",
+  "brief": "docs/campaign/orch/CODEX-HANDOFF.md"
+ }
 ]
