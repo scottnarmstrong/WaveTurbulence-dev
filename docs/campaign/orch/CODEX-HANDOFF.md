@@ -101,3 +101,17 @@ final source target. R57 requires the kind-generic statement include CanonicalOb
 garden. Do not attempt full prefix or noOp-to-NoTwist closure using the overbroad old statement. No frozen anchor
 is involved. Root must finalize the source-faithful successor before full VINEEST closure; current per-operative
 helper work already has canonical context.
+
+## Main verification and proof frontier, 2026-11-06 00:07 UTC
+
+Seven-input landing: the canonical main root build passed (14412 jobs), with FROZEN-ANCHOR GUARD OK, all 5366 tracked Lean modules passing the 1500-line/module check, and LAND CHECK OK. The seven wrapper exports were rechecked on main and use only propext, Classical.choice and Quot.sound. No frozen declaration changed or new theorem was sealed.
+
+LOW-FRONT A4 now has a stable provisional handoff: AsmLowUnloop26–31 transfer actual SubproOblG, TripleDesig and the two-branch session-19 UnselOK to the loop-free molecule; garden_unloop_data discharges these from actual CountingGeometry and splicedCountingAdmissible, including the >=2-atom split. Canonical C2 choices are compared by atom sets, without assuming carrier-rank or hyper-bond designation equality. Six fresh own-module checks and eight axiom probes pass. Canonical-world closure rebuild and independent source review remain open; this is not FinalCountLowAt. Evidence: audits/LOW-FRONT-A4-*.
+
+The counting worker now owns bounded LOW-CHAIN infrastructure: actual SubHypL class labels/cardinality and D3 varying-index potential arithmetic. The D3 deviation is 1 while R drops; the false true-increment excess bound must not be used. See briefs/TERRA-FINALCOUNT-LOWCHAIN.md.
+
+LOW-CHAIN first checkpoint: actual SubHypL card_lowdeg_le_low, labelSet_card_le_low, exists_classLabel_low and countA_classes_le_low compile without a degree>=3 premise; varying-index potential work continues. This is provisional infrastructure, not low_class_bound.
+
+VINE-A compiled actual whole-group block maps in both directions, selected-vine support transport, and a conditional reduction of split transport to actual selected-incidence connectivity. That connectivity of chosen skipped runs is still required; the worker is testing recovery from ChainIngredient and SkelDecomp. No general transport/tau partition/A4 invariance closure is claimed. W13 has literal-source continuous factor producers and endpoint box-trace lemmas; its full SFF/Bounded assembly and prefix remain open.
+
+Source-watch additions: the final kind-generic canonical finset must be constructed on its genuine prime-start carrier from proved finiteness, without copying the old infinite-to-empty fallback. The flower obstruction remains an internal interface defect: fixed parent times, possible zero-order regular components, and marked/reducible gardens require a genuine new treatment before the old ordinary-spine representation can be consumed. No flower gate was amended by this checkpoint.
