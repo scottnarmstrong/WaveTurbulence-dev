@@ -77,6 +77,22 @@ Format: D<n> — date (UTC) — who — decision — reason.
   - The main library imports only `Vine.Param.vineparam` and `vineparam_grouped`.
   - Regenerating the catalogue with a smaller certificate format (option (ii)) is deferred. It is an optimization if
     the build cost blocks CI or the Palomar intake.
+- D13 — 2026-11-06 — wt-orch under the standing authorization (Scott, 2026-11-05: "I approve all, defer approvals now
+  and just get this done"), after FLOWER-CUT (R62) and the independent statement audit
+  (/home/scott/wt-scratch/audit-flower-v3/REPORT.md: FIDELITY PASS, CONSUMERS PASS) — **Flower cutoff successor
+  `layergardenFlower_v3` frozen**:
+  - What changed. `layergardenFlower_v3` is `layergardenFlower_v2` verbatim except `flowerSum` → `flowerSumP`
+    (and the name, the provider import and the docstring). `flowerSumP` is `flowerSum` verbatim except that the
+    weights `LG.cutWeight1/2` (a dyadic cutoff of a maximum) become `LG.cutWeight1P/2P`.
+  - Four new SEALED definitions, in DH21's per-leaf / per-node product form (T L2283–L2285, DH21 L2731, L2735):
+    `prodDyadicCut`, `LayeredGarden.cutWeight1P`, `LayeredGarden.cutWeight2P`, `flowerSumP`. The clauses without
+    cutoffs are unchanged (`flowerSumP` agrees with `flowerSum` there by `rfl`).
+  - Reason. The v2 max-form is not smooth and does not factor through the regular-object reduction; it
+    mis-transcribes TARGET's "smooth cutoff function" (erratum/deviation E34).
+  - `layergardenFlower_v2` stays frozen and open (`DRAFT_SORRY`); it is not deleted.
+  - Packaging (semantics-neutral): the anchor imports its own provider stub `Provider.LayergardenFlowerV3`
+    (quarantined in the lakefile); the audit's docstring fixes F1, F2, F4, F5 are applied. No Lean term differs from
+    the audited text.
 - Standing authorization — 2026-11-05 — Scott: "I approve all, defer approvals now and just get this done".
   - wt-orch makes the remaining campaign decisions itself, following its recommendations, and records each one here
     or in the orchestrator's RULINGS.md.
