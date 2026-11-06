@@ -1459,3 +1459,28 @@ whose τ-classes are kind-false LF classes.
 The canonical-world rebuild has a kernel-checked refutation of the legacy internal `chordLeft_mem_maximalLadders` assertion: the current selected-ladder carrier admits its proper six-atom ladder superset. This is implementation drift from an obsolete induced-edge-count predicate, not a mathematical-source erratum. Retire those incompatible assertions from the intended production closure, retain original bytes/refutation, and reuse only the independently extracted byte-identical `SelectedLadderGeometry` block and its checked consumers. Do not retry a false assertion, weaken it, or load its stale artifact. No frozen theorem or definition changes. See [evidence and exact scope](notes/PORT-WORLD-LEGACY-LADDER.md).
 
 The pending canonical world and assembly overlay still require their own complete target checks. This ruling does not mark any source node proved or permit a missing dependency.
+
+## R60 — Carry the source-selected Operation 1 order into LOW assembly, 2026-11-06 01:36 UTC
+
+This extends R49's restricted `Reach1` discipline to R48's LOW counting assembly. TARGET L2140 and the order paragraph
+L2148 collect the original objects before the remaining SG cuts. The provisional `GL6.HStep1L` accepts arbitrary
+old/D1 vine cuts, its exit only requires `NoTripleCut`, and `UStepD3` permits a designated degree-two cut at an
+otherwise unprotected atom. Those generic structural relations do not imply that the actual cut is an intact
+collected object. Do not add that implication as a premise to the final counting theorem or claim it for every
+unrestricted `UReach`/`HRunL`.
+
+The production LOW proof will construct and consume a separately named source-selected phase/run. Its Operation 1
+vine cuts retain actual collected-object membership, atom and original dart/joint correspondence, and source
+priority (CN/root-CL, then the remaining first collection, then the second collection). Triple steps follow the
+collected removals as in R49. Before the degree-two D3 phase starts, prove every collected object is dartless,
+along with the required `NoTripleCut`. Prove the actual finite class cover/selection, intactness until removal,
+termination, projection to the generic structural run, and potential estimates. These are proof obligations,
+never extra final source hypotheses. Generic relations and already checked modules remain unchanged.
+
+For degree-two-joint DoubleShape cuts, use the independently reviewed direct count with explicit
+`C_d (1 + δ⁻¹) L (log L)^8` cost and pay it from the changing-index potential. The impossible outside-connectivity
+witness is not an input. This weaker internal deviation does not replace the printed `excessprop1(2)` estimate.
+Initialize and preserve actual class-radius positivity (`ApPos`), derive ladder-scale heredity by R49–R50, and
+discharge the collected geometry/cost premises at each selected operation. LOW terminal normalization and
+LOW/GARDEN/GLUE remain open. No frozen declarations change; this is an implementation-order ruling, not a new
+paper erratum or source-node closure.
