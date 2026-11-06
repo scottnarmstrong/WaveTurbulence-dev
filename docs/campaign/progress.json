@@ -1,5 +1,5 @@
 {
- "assessed": "2026-11-05 18:15 UTC",
+ "assessed": "2026-11-06 16:01 UTC",
  "notes": "Lean work items = blueprint packets (docs/blueprint/GRAPH.md §E) with their difficulty weights (node weights L=1, M=2, H=4, VH=8 summed). Each frozen theorem anchor adds weight 1, credited when SEALED. Done fractions are the orchestrator's assessment, reviewed at integration rounds.",
  "lines_est_total": 273000,
  "parts": [
@@ -369,8 +369,8 @@
      "goal": "molecule-level vine parametrizations (I)–(VIII) with ladders (F22; review I3, I19), before V4 and G2",
      "weight": 4.0,
      "lines_est": 1500,
-     "done": 0.9,
-     "note": "VINEPARAM: parametrization contract proved (538 certificates); being rebuilt on the canonical universe as a separate lean_lib (D12, VINEPARAM-U, ~1/3 done)"
+     "done": 0.95,
+     "note": "VINEPARAM: catalogue rebuilt on the canonical universe (1824 modules, standard axioms; D12); port to main as a separate lean_lib in progress"
     },
     {
      "id": "J1",
@@ -513,8 +513,8 @@
      "goal": "flower trees/gardens as instances of the general carriers (G-1), kernels (F25), parametrix and operator identities (F26, F39)",
      "weight": 10.0,
      "lines_est": 3100,
-     "done": 0.95,
-     "note": "FLOWER-DEF done in scratch: classes, kernels, identities, O-FK; B1.12 final (audited, F1/F2 applied) proposed for the freeze"
+     "done": 0.85,
+     "note": "FLOWER-DEF: classes, kernels, identities proved; the frozen B1.12 cutoff weights mis-transcribe TARGET's product cutoff, successor layergardenFlower_v3 in audit (R62)"
     },
     {
      "id": "G5",
@@ -639,8 +639,8 @@
      "goal": "TARGET Props 6.6–6.8 (norm translation F11, corrected regref1-5, dominant trees)",
      "weight": 13.0,
      "lines_est": 4100,
-     "done": 0.92,
-     "note": "REGREF done: B2.1 regularAsymptotics proved at exact type from RA1Couple/RA1Tree; snapshot-9 composition and the B2.1 seal (PORT batch 2b) in progress"
+     "done": 1.0,
+     "note": "REGREF: B2.1 regularAsymptotics proved and SEALED on main (PORT batch 2b, 675cf6c; second-key audit PASS)"
     },
     {
      "id": "L3",
@@ -684,8 +684,8 @@
      "goal": "vineest Steps 3–4 and degenerate decorations (F21)",
      "weight": 13.0,
      "lines_est": 5100,
-     "done": 0.95,
-     "note": "VINEEST: Step 3, all Step 4 pieces, the induction over core vines and the bottom-vine twist proved; bundle decomposition (P1) and unrolling over levels (P3) proved; per-level engine bounds (P2) and final assembly (P4) in progress; twist-class bijection (ZP-SURJ) in progress"
+     "done": 0.96,
+     "note": "VINEEST: all Step 4 pieces, induction, bottom vine, bundle decomposition, per-level bounds, continuity (V5-CONT), modulated statement (R58) proved; final assembly (per-term certificates, constants) in progress"
     },
     {
      "id": "G3",
@@ -702,8 +702,8 @@
      "goal": "Stage 1 analytic reduction (redvine2) and molecular form (redvine3)",
      "weight": 6.0,
      "lines_est": 2400,
-     "done": 0.58,
-     "note": "REPRESENTS: vine-free reduction and class count (CLASSCOUNT READY, exact bridge to Stage1Counts (iv)) proved; vine case waits on the pair-type gate (AMEND6')"
+     "done": 0.65,
+     "note": "REPRESENTS: vine-free case, class count, piece count (AMEND10), vine engine (VINE-D) and class product (VINE-C) proved; redvine factorization (VINE-B) and producer in progress"
     },
     {
      "id": "G8",
@@ -720,8 +720,8 @@
      "goal": "ladder L^∞ and L¹ time-integral bounds",
      "weight": 8.0,
      "lines_est": 4200,
-     "done": 0.98,
-     "note": "LADDER: all three spine inputs proved, re-proved on the root-time-truncated domain (R33)"
+     "done": 0.99,
+     "note": "LADDER: all spine inputs proved; providers re-pinned to the current spine with exact gate checks (cx-repin)"
     },
     {
      "id": "F1",
@@ -738,8 +738,8 @@
      "goal": "finalcount1, remtame2, interpolation",
      "weight": 4.0,
      "lines_est": 900,
-     "done": 0.81,
-     "note": "FINAL-COUNT: Props 9.4-9.6 proved for gamma > 1/2 incl. low-degree atoms; assembly: REG/LOW split, terminal chain, restricted Step-1 run, UnselOK, ladder-scale heredity, one designation per atom set (R50), VHard shape and rho parts; hconn0, hend and garden glue in progress"
+     "done": 0.88,
+     "note": "FINAL-COUNT: REG case closed (finalCount_reg_half, no named inputs; R59); LOW case (atoms of degree <= 2, loops) being assembled from G3-LOWDEG"
     },
     {
      "id": "F2",
@@ -747,8 +747,8 @@
      "goal": "terms (a)–(d), counting of classes and layerings, proof of layergarden",
      "weight": 12.0,
      "lines_est": 4150,
-     "done": 0.86,
-     "note": "PLG = LG-SPINE on the canonical universe: corrected Stage 1 interface, atom-level second collection (AMEND5), final-count premises (AMEND7+8: irreducible, triple designation, no hinge loop, F-disjoint omitted DVs); pair-type Stage 1 families (AMEND6', R47) in progress"
+     "done": 0.9,
+     "note": "PLG = LG-SPINE: pair-type Stage 1 families (AMEND6'), consumers switched, twist-closure discharged for gardens and couples, AMEND9/10; fresh rebuild pending; flower stubs (AMEND-ST) next"
     },
     {
      "id": "X2",
@@ -756,8 +756,8 @@
      "goal": "flower adjustments on the general carriers (WAVE-B G-1, F26), deterministic flower bound (gate B1.12), flowerest1, ∂_t bounds; 2–3 days: split",
      "weight": 16.0,
      "lines_est": 8900,
-     "done": 0.9,
-     "note": "FLOWEREST on the canonical universe: layergardenFlower_of_spine and layergardenFlower_v2_of_spine type-check against snapshot-9 B1.12 and the D10 successor; regular L0 leg proved (FLOWER-REG); flower Stage 1 gates and Dirac-root couples pending (S2a/S2/S4)"
+     "done": 0.6,
+     "note": "FLOWEREST: flower Stage 1 redesigned (R61, stub excision with anchors; ~10-18k lines): excision identity, anchored twists, couple decapitation in progress; cut2 cutoff clause under research (R62)"
     },
     {
      "id": "X3",
