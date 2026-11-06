@@ -38,4 +38,3 @@ Hard rules (verbatim):
    the gate is expected, not a hang. This is a shared machine.
 9. **Errata.** Report every suspected defect in the pinned sources in your handoff (location, quoted text, why it is
    wrong), and every deviation you introduce.
-
