@@ -6,7 +6,7 @@ Lean 4 formalization of
 > [arXiv:2311.10082v2](https://arxiv.org/abs/2311.10082) (2024).
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-11-06 05:40 UTC** · **estimated completion 90.6 %** (Lean work incl. sealing 92.5 %) · frozen theorems sealed: 16 / 26 (+ 296 frozen definitions) · **1,003,786 lines of Lean on main** (7192 files) + 1,460 unlanded on worker branches · blueprint estimate ≈ 273,000 lines
+> **Last updated: 2026-11-06 06:02 UTC** · **estimated completion 90.6 %** (Lean work incl. sealing 92.5 %) · frozen theorems sealed: 16 / 26 (+ 296 frozen definitions) · **1,003,786 lines of Lean on main** (7192 files) + 1,460 unlanded on worker branches · blueprint estimate ≈ 273,000 lines
 <!-- /AUTO:updated -->
 
 **Scope (D1):** everything proved in Lean, no black boxes. That covers the target paper and the results it uses from
@@ -30,10 +30,10 @@ library with closed `vineparam` and `vineparam_grouped`. Independent exact consu
 landing gates passed. See [the main verification](docs/campaign/orch/audits/PORT-VP-main-verification.md),
 [SourceProviders.lean](WaveTurbulence/Foundations/Spine/SourceProviders.lean) and
 [Vine/Param.lean](WaveTurbulence/Foundations/Vine/Param.lean).
-Terra-medium workers have checked all six native operative row families, actual selected-batch splice
-layers/time domains, and a normalized original-garden LOW count conditional on its terminal budget.
-Global row certificates, full vine kernel transport and the remaining LOW terminal count stay open.
-See the [source assembly checkpoint](docs/campaign/orch/audits/FRONTIER-0540.md).
+Terra-medium workers have checked all six native operative row families and their actual level-subassembly
+indices, selected-batch splice/time factors, and a source-sized LOW degree-two count conditional on later phases.
+Global row/remainder certificates, full supported vine kernel transport and the LOW terminal count stay open.
+See the [source assembly checkpoint](docs/campaign/orch/audits/FRONTIER-0600.md).
 The upstream dependency world has 10/12 requested exports checked; two await assembly dependencies. The clamped Fourier operator has passed an
 [independent helper audit](docs/campaign/orch/audits/V5-clamp-operator-independent.md).
 Flower Stage-1 and final spine instances remain open.
@@ -138,7 +138,7 @@ Lean lines: 1,003,786 on main + 1,460 on branches, of ≈ 273,000 estimated by t
 | S2a | REDSPLICE-DEF | 2 | ≈800 | 🟡 95 % | REDSPLICE-DEF READY: the full Stage 1 construction; stage1Piece_sound now also supplies the triple designation and no-hinge-loop facts (AMEND7+8) |
 | S4 | SUBPRO | 8 | ≈3,000 | 🟡 95 % | SUBPRO done in atom-set form plus the hinge triple-bond designation (R37) |
 | V4 | VINEEST-S2 | 4 | ≈2,500 | 🟡 95 % | VINEEST-S2 done: vineChain_eq_sumintForm (V4 endpoint, ruling R2), 709-module snapshot-9 rebuild OK; obligations VINEPARAM, SumintSigned |
-| V5 | VINEEST | 13 | ≈5,100 | 🟡 95 % | Scratch: six operative row families A1/A2/KQ/KT/TQ/TT now have full-region bounded producers with constants before source carriers, typed consumers and standard axioms; actual shifted momentum/phase and four K source signs including zero are checked. Whole-assembly Reach and restricted level-prefix assembly still require an exact bridge; selected-unit allocation, all-row products/remainders, FreeDict/TermCertW, R58 modulation, finite kind-generic R57 prefix and canonical integration open. FRONTIER-0540; no seal or fraction change. |
+| V5 | VINEEST | 13 | ≈5,100 | 🟡 95 % | Scratch: all six operative row families and actual piece-preserving restricted-Lvl assembly/Reach indices checked. Actual shifted source factors, nonnormal selected-kind allocation, paired dependent-row assignment and exact product bookkeeping compiled; final recursive choice/product/time-indicator and remainder box/norm transfer remain. Exterior/repeated-slot remainder constructor checked. Full FreeDict/TermCertW, R58 modulation, finite canonical R57 prefix and integration open. FRONTIER-0600; no fraction or seal change. |
 | X1 | FLOWER-DEF | 10 | ≈3,100 | 🟡 95 % | FLOWER-DEF done in scratch: classes, kernels, identities, O-FK; B1.12 final (audited, F1/F2 applied) proposed for the freeze |
 | C1 | REG-STRUCT | 11 | ≈4,000 | 🟡 90 % | REG-STRUCT done in scratch: structure theorem with uniqueness, decoding, legal/dominant chains, counts (C₀=12^9); F55 |
 | C2 | LINKS | 11 | ≈3,000 | 🟡 90 % | LINKS done in scratch: branchpair, defchoice, linkXY, deflink, defcoh, auxlem, explem, treelemma, incohproof1 (couples); F62-F65 |
@@ -164,14 +164,14 @@ Lean lines: 1,003,786 on main + 1,460 on branches, of ≈ 273,000 estimated by t
 | X2 | FLOWEREST | 16 | ≈8,900 | 🟡 90 % | FLOWEREST scratch: conditional spine assembly and regular L0 leg exist; flower Stage-1, fixed-time traces and marked-flower LF-twist construction remain unresolved |
 | F2 | PLG | 12 | ≈4,150 | 🟡 86 % | LG-SPINE scratch: AMEND4/5/7+8 checkpoint and AMEND6-prime pair-type gate exist; AMEND9/10 consumer rework unfinished. Full Stage-1 and final-count producers remain required |
 | M7 | LFTWIST | 13 | ≈4,200 | 🟡 85 % | LFTWIST on main with the canonical universe; leaf bijection of LF twists on ordinary leaves proved (LFTWIST-LEAFMAP, R45) |
-| F3 | FINAL-COUNT | 4 | ≈900 | 🟡 81 % | Actual original-width unloop Cn and selected-history component cap/paid D1-triple-regular edges supply original-source normalized count conditional on the later terminal budget. Actual varying-index D3 classes and strict decreasing edges, queried triangle degree/cover and SG existence checked; paid terminal tree/later geometry and full LOW/GARDEN/GLUE/canonical overlay remain open. FRONTIER-0540; no seal or fraction change. |
-| S2 | REDSPLICE | 6 | ≈2,400 | 🟡 58 % | Actual original producer-order state transport now extends through the real selected FamilyBatch, its constructed batchMolIso, source-derived spliced layer/time domain and hinge finset (672-file worker checkpoint). State fields are garden/class/branch, not dart transport. Supported gap choices/full piece/kernel, A3/tau and remaining Stage1 consumers open; R25/R32 apply. FRONTIER-0540; no seal or fraction change. |
+| F3 | FINAL-COUNT | 4 | ≈900 | 🟡 81 % | Scratch: actual source D3 finite cover/index/payment/tree and garden application, with fixed preceding-node multiplier K; source-image and per-label InvL refinements checked. Later NoD3 terminal bound remains conditional; history refinement newly worker-reported. Need actual combined multiplier payment, later cut invariants/geometry, final LOW/GARDEN/GLUE/canonical integration. Original normalization helper remains conditional. FRONTIER-0600; no fraction or seal change. |
+| S2 | REDSPLICE | 6 | ≈2,400 | 🟡 58 % | Scratch: real selected FamilyBatch state/layers/time/hinges/bad-count, quotient od/hinge-dart/label and literal decoration/phase/epsilon casts checked. Actual dart-versus-cast link active; full supported kernel/A3tau/Stage1 open. Whole-VC gap comparison conditional helper checked. hvPick existence choice versus R6 minimum recorded as internal watch; arbitrary hyper designation independence is false, no producer amendment. FRONTIER-0600; no fraction or seal change. |
 | F1 | FINAL-RED | 4 | ≈1,200 | 🟡 30 % | FINAL-RED: finalsbest1/finalsbest2 consumed in LG-SPINE's assembly (counting cover, finalproof numerics) proved generically |
 | G1 | STAGE2-DEF | 10 | ≈2,600 | 🟡 20 % | STAGE2-DEF: stage-2 operation datatype (Stage2Op) and TARGET's counting problem (lg-spine CountingChoices) defined |
 
 </details>
 
-Done fractions last reviewed: **2026-11-06 05:40 UTC**. Source: [`docs/campaign/progress.json`](docs/campaign/progress.json); history: [`docs/campaign/history.csv`](docs/campaign/history.csv).
+Done fractions last reviewed: **2026-11-06 06:05 UTC**. Source: [`docs/campaign/progress.json`](docs/campaign/progress.json); history: [`docs/campaign/history.csv`](docs/campaign/history.csv).
 <!-- /AUTO:progress -->
 
 ## Workers
@@ -179,12 +179,12 @@ Done fractions last reviewed: **2026-11-06 05:40 UTC**. Source: [`docs/campaign/
 <!-- AUTO:workers -->
 | Worker / session | model / account | packet | branch: last commit | brief |
 |---|---|---|---|---|
-| Codex orchestrator | Codex / current session | Source rulings, safe landings, proof-state review and HQ upkeep | `w/orch`: 0 min ago, 1 unlanded | [brief](docs/campaign/orch/CODEX-HANDOFF.md) |
-| subagent v5_w2 | GPT-6.1 Terra medium / current session | Actual selected-batch layer/time/hinges checked; supported piece/kernel transport and tau/Stage1 | `w/orch`: 0 min ago, 1 unlanded | [brief](docs/campaign/orch/briefs/TERRA-VINEA-CONTINUE.md) |
-| subagent v5_w13 | GPT-6.1 Terra medium / current session | Six operative row families checked; actual level-prefix/selected-unit product and global certificates | `w/orch`: 0 min ago, 1 unlanded | [brief](docs/campaign/orch/briefs/TERRA-V5-W13.md) |
-| subagent finalcount_low | GPT-6.1 Terra medium / current session | Normalized source count conditional on terminal budget; paid D3/later terminal count and global assembly | `w/orch`: 0 min ago, 1 unlanded | [brief](docs/campaign/orch/briefs/TERRA-LOW-UNLOOP-BRIDGE.md) |
-| cx-world | GPT-6.1 Sol medium / codex-2 (existing session) | Partial upstream closeout:3407 modules;10/12 exact exports pass; assembly exclusions/overlay remain | `w/orch`: 0 min ago, 1 unlanded | [brief](docs/campaign/orch/CODEX-HANDOFF.md) |
-| cx-b4bprep | GPT-6.1 Sol medium / codex-2 (existing session) | Existing R52 Batch-4b serial catalogue rebuild; skeleton/layer-count/N4 checks pending | `w/orch`: 0 min ago, 1 unlanded | [brief](docs/campaign/orch/CODEX-HANDOFF.md) |
+| Codex orchestrator | Codex / current session | Source rulings, safe landings, proof-state review and HQ upkeep | `w/orch`: 21 min ago | [brief](docs/campaign/orch/CODEX-HANDOFF.md) |
+| subagent v5_w2 | GPT-6.1 Terra medium / current session | Actual batch factors and quotient-dart/cast diagram; supported kernel, designation watch and tau/Stage1 | `w/orch`: 21 min ago | [brief](docs/campaign/orch/briefs/TERRA-VINEA-CONTINUE.md) |
+| subagent v5_w13 | GPT-6.1 Terra medium / current session | Actual Lvl assembly and six row families checked; source products/remainders and full certificates | `w/orch`: 21 min ago | [brief](docs/campaign/orch/briefs/TERRA-V5-W13.md) |
+| subagent finalcount_low | GPT-6.1 Terra medium / current session | Source-sized weighted D3 count checked; later NoD3/cut terminal budget and global assembly | `w/orch`: 21 min ago | [brief](docs/campaign/orch/briefs/TERRA-LOW-UNLOOP-BRIDGE.md) |
+| cx-world | GPT-6.1 Sol medium / codex-2 (existing session) | Partial upstream closeout:3407 modules;10/12 exact exports pass; assembly exclusions/overlay remain | `w/orch`: 21 min ago | [brief](docs/campaign/orch/CODEX-HANDOFF.md) |
+| cx-b4bprep | GPT-6.1 Sol medium / codex-2 (existing session) | Existing R52 Batch-4b serial catalogue rebuild; skeleton/layer-count/N4 checks pending | `w/orch`: 21 min ago | [brief](docs/campaign/orch/CODEX-HANDOFF.md) |
 <!-- /AUTO:workers -->
 
 ## Papers
