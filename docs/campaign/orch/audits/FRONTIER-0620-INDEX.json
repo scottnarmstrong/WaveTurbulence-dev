@@ -1,0 +1,57 @@
+{
+  "VINE-CONTAINING-FIRST-DART": {
+    "pins": 792,
+    "snapshot": "/home/scott/wt-scratch/codex-takeover/root-checkpoints/20261106-061632-VINE-CONTAINING-FIRST-DART",
+    "artifact_payloads_omitted": 0
+  },
+  "SOURCE-PHASE": {
+    "pins": 61,
+    "snapshot": "/home/scott/wt-scratch/codex-takeover/root-checkpoints/20261106-061632-SOURCE-PHASE",
+    "artifact_payloads_omitted": 0
+  },
+  "LOW-SELECTEDD3COUNT": {
+    "pins": 10,
+    "snapshot": "/home/scott/wt-scratch/codex-takeover/root-checkpoints/20261106-061632-LOW-SELECTEDD3COUNT",
+    "artifact_payloads_omitted": 1
+  },
+  "LOW-D3WEIGHTEDREACHSOURCE": {
+    "pins": 27,
+    "snapshot": "/home/scott/wt-scratch/codex-takeover/root-checkpoints/20261106-061632-LOW-D3WEIGHTEDREACHSOURCE",
+    "artifact_payloads_omitted": 4
+  },
+  "LOW-PHASEPRODUCT": {
+    "pins": 10,
+    "snapshot": "/home/scott/wt-scratch/codex-takeover/root-checkpoints/20261106-061632-LOW-PHASEPRODUCT",
+    "artifact_payloads_omitted": 1
+  },
+  "LOW-NOD3CUT": {
+    "pins": 12,
+    "snapshot": "/home/scott/wt-scratch/codex-takeover/root-checkpoints/20261106-061632-LOW-NOD3CUT",
+    "artifact_payloads_omitted": 1
+  },
+  "LOW-NOD3TRI": {
+    "pins": 18,
+    "snapshot": "/home/scott/wt-scratch/codex-takeover/root-checkpoints/20261106-061632-LOW-NOD3TRI",
+    "artifact_payloads_omitted": 2
+  },
+  "LOW-LOWNODE2": {
+    "pins": 16,
+    "snapshot": "/home/scott/wt-scratch/codex-takeover/root-checkpoints/20261106-061632-LOW-LOWNODE2",
+    "artifact_payloads_omitted": 2
+  },
+  "LOW-LOWPHASE2": {
+    "pins": 16,
+    "snapshot": "/home/scott/wt-scratch/codex-takeover/root-checkpoints/20261106-061632-LOW-LOWPHASE2",
+    "artifact_payloads_omitted": 2
+  },
+  "SOURCE-PHASE-TYPED": {
+    "pins": 5,
+    "snapshot": "/home/scott/wt-scratch/codex-takeover/root-checkpoints/20261106-062136-SOURCE-PHASE-TYPED",
+    "artifact_payloads_omitted": 0
+  },
+  "LOW-PHASE3": {
+    "pins": 28,
+    "snapshot": "/home/scott/wt-scratch/codex-takeover/root-checkpoints/20261106-062136-LOW-PHASE3",
+    "artifact_payloads_omitted": 4
+  }
+}
