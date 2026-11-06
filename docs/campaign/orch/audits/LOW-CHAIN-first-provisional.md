@@ -1,0 +1,27 @@
+# LOW-CHAIN bounded first milestone
+
+## Files and result
+
+New sources only: `/home/scott/wt-scratch/finalcount-asm/src/AsmLowChainCodex{1,2,3,4}.lean`. Codex1 proves the degree-deficit bound and the actual `labelSet` cardinality, existence of `InClass` labels, and `countA` class cover from `SubHypL`, including positive degree and without degree >= 3. The fixed label set, decorations, and the existing mate/nonzero-scale interface are retained.
+
+Codex2 proves the actual D3 changes: components and apProd unchanged, vBeta increases by one, the potR ratio is `L^(min γ (1-γ)+2η²)`, and critical count decreases by at most one. Codex3 bounds the associated gExp decrease by `4η^6`, defines the genuine varying-index `lowIndexPot`, proves it equals the existing `WPot` with normalization `Y * L^(R*X)`, derives the source-scale margin for `X = d-γ-1/4-1/40` under the stated dimension and smallness hypotheses, and combines actual `UStepD3.dev` (deviation exactly 1) with index drop, preserved `InvL`, and pointwise potential contraction. No false true-increment excess bound is used. This normalization is an explicit source-scale factor; equality to the full REG terminal normalization has not been asserted or established. Pointwise contraction alone does not pay class or run-branch multiplicities.
+
+Codex4 applies actual `UStepD1`/`HStepD1` to construct the `vinePostG` cut and new `InvL` index `R'` with `R' + jdeg2 K = R` and `1 ≤ jdeg2 K ≤ 2`; each degree-two joint half is dartless in the cut molecule. At index zero, actual D1 and D3 cannot occur; this does not rule out other operations or prove a terminal estimate. The D1 rho/critical and potential comparison, deletion bookkeeping and branch cost remain open.
+
+## Interface checkpoint for LOW chain
+
+`AsmTopClass2.HmemAt` / `HendAt` currently quantify the fixed-index REG `Inv1` reach. A LOW variant must carry the actual `InvL` reach with an existential current index `R' ≤ Rn` and its transitions, while retaining the original class carrier and Cstar before the polylog exponent. The membership cover must cover the existing vine/triple cases and actual low `HStepD1`/`vinePostG` (including the deleted degree-two halves), together with the D3 phase and its actual uniform nodes. It must establish membership from the existing class predicates, not assume that desired membership as a source premise. The terminal interface must cover all genuinely stuck LOW states, track the changing index and deleted halves, and derive the needed component bound rather than assume it; the REG `vineCut_F_lt` concerns the pre-deletion post-cut state and does not by itself give the new bookkeeping. At `R'=0`, avoid formulas requiring `R'-1`: the lemma here excludes only D1 and D3, so the remaining phases, perfect/compBeta behavior, and terminal routing must be handled separately. Final terminal routing remains LowFree -> Prop96 and other low/tame components -> Prop96Damaged.
+
+For D1 the next precise missing ingredients are comparisons for `rho` and `critCount` after `vinePostG`, exact component/vBeta/apProd changes including the number of deleted degree-two joint halves, and the actual branch/multiplicity costs. These are mathematical obligations, not added hypotheses for a claimed source theorem. This checkpoint does not establish FinalCountLowAt or the full LOW chain.
+
+## Verification and provenance
+
+From `/home/scott/WaveTurbulence-dev`, `CODEX-LOWCHAIN-build.sh` uses `wt-throttled`, `nice -n 5`, `-DautoImplicit=false`, and sequential fresh own-module outputs in `fresh/`; the final consumer applies the precise actual D3 and D1 interfaces at the same parameters. Exit 0; `build.log` has no warnings or errors. All eight axiom checks (`card_lowdeg_le_low`, `labelSet_card_le_low`, `exists_classLabel_low`, `countA_classes_le_low`, `lowIndexPot_eq_WPot`, `d3_deviation_and_contraction`, `uniform_d1_index_and_dartless`, `no_low_cut_at_index_zero`) report exactly `[propext, choice, Quot.sound]`. Line counts 92, 92, 112, 56. New source scan found no forbidden placeholders, axioms, unsafe/opaque declarations or budget overrides. All files have module/import/docstring/public-section structure.
+
+`SHA256SUMS` records 334 new/source/interface artifacts including the recursively discovered scratch-source imports and matching build11/farm8/g3-lowdeg build-fresh1 oleans. It is an identification record for this provisional farm, not a complete canonical dependency certificate; upstream project/Mathlib dependencies and independently chosen alternative build paths are not certified by it. Source/interface world: build11 + farm8 + g3-lowdeg/build-fresh1, with the fresh own modules first in LEAN_PATH. No upstream rebuild. Canonical-world rebuild, exact consumer/axiom checks there, and independent source audit remain required. Broad old G3 closures can collide as documented in A4; narrow imports were used.
+
+## Errata and deviations
+
+No new suspected paper-source erratum found. Inherited GL14 observation: the generic true-increment excess bound is false for D3; this packet instead uses its actual deviation=1 and index decrease. Local source-scale/positivity/smallness hypotheses on internal lemmas are explicit and are not advertised as the finished source theorem. The full REG normalization, whole-run multiplicities and D1 potential comparisons remain unresolved as above.
+
+READY LOW-CHAIN first milestone (provisional; full LOW chain open)

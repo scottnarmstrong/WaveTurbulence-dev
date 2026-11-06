@@ -1,5 +1,5 @@
 {
- "assessed": "2026-11-06 00:07 UTC",
+ "assessed": "2026-11-06 00:31 UTC",
  "notes": "Lean work items = blueprint packets (docs/blueprint/GRAPH.md §E) with their difficulty weights (node weights L=1, M=2, H=4, VH=8 summed). Each frozen theorem anchor adds weight 1, credited when SEALED. Done fractions are the orchestrator's assessment, reviewed at integration rounds.",
  "lines_est_total": 273000,
  "parts": [
@@ -370,7 +370,7 @@
      "weight": 4.0,
      "lines_est": 1500,
      "done": 0.9,
-     "note": "VINEPARAM: parametrization contract proved (538 certificates); being rebuilt on the canonical universe as a separate lean_lib (D12, VINEPARAM-U, ~1/3 done)"
+     "note": "D12 port now in isolated w/port-vp: 1824 canonically mapped modules in a separate lean_lib. Near-final compatibility error repaired without statement change; targeted build and independent mapping/carrier audit running. Not yet landed or certified"
     },
     {
      "id": "J1",
@@ -685,7 +685,7 @@
      "weight": 13.0,
      "lines_est": 5100,
      "done": 0.95,
-     "note": "Modulated no-twist Step3 base proved in scratch; actual root tree/couple separated families and C2^b/order count proved. Cross-cell SFF glue, general unrolled-term certificates, modulated flattening and R57 generic target remain open"
+     "note": "Actual SepFamFam plus Bounded and per-term native gate metadata proved in the P4 scratch world; exact root rectangles, coefficients and C2^b/order count retained. Operative TermCertW, modulated flattening, final prefix and R57 kind-generic corrected target remain open; canonical validation pending"
     },
     {
      "id": "G3",
@@ -703,7 +703,7 @@
      "weight": 6.0,
      "lines_est": 2400,
      "done": 0.58,
-     "note": "Vine-free reduction and class count checkpoints exist; Terra worker proving actual selected-vine unitBlocks transport and class invariance. VINE-B/C/D/E/F and full Stage1 producer remain open"
+     "note": "Actual selected-vine LF unitBlocks bijection, transported atoms/ordered joints and list permutation proved in scratch. Vine-free representation exists; tau partition/A4, VINE-B/C/D/E/F and the full Stage1 producer remain open"
     },
     {
      "id": "G8",
@@ -739,7 +739,7 @@
      "weight": 4.0,
      "lines_est": 900,
      "done": 0.81,
-     "note": "Scratch LOW-FRONT A1-A3 complete provisionally; A4 unloop CollData/UnselOK/C2Can transfers compiled and producer wiring underway. REG half exists; LOW-CHAIN/GARDEN/GLUE and canonical-world validation remain open"
+     "note": "LOW-FRONT A1-A4 checked provisionally, including actual garden unloop data. LOW-CHAIN SubHypL class labels, D3 changing-index potential, and D1 structural changes compiled; D1 potential/branch assembly, full LOW-CHAIN/GARDEN/GLUE and canonical validation remain open"
     },
     {
      "id": "F2",
