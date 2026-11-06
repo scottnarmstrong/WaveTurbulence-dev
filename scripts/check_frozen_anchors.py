@@ -7,6 +7,7 @@ accept, or rebaseline command: an author-approved successor is external work.
 from __future__ import annotations
 
 import argparse
+from functools import lru_cache
 import hashlib
 import json
 import re
@@ -95,9 +96,12 @@ class Guard:
         return path.read_bytes().decode("utf-8")
 
     @staticmethod
+    @lru_cache(maxsize=16384)
     def code_mask(text: str) -> str:
         """Blank comments and strings while retaining offsets/newlines.
 
+        The cache key is the complete immutable source text: a changed file
+        gets a new key, while repeated quarantine passes reuse the same mask.
         This is deliberately a lexer-sized defense, not a Lean parser.  It
         handles nested block comments, line comments, ordinary/triple strings,
         escapes, and ordinary character literals well enough for quarantine
