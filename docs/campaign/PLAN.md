@@ -8,11 +8,17 @@ Target: Deng–Hani, *Long time justification of wave turbulence theory*, arXiv:
 | phase | content | status |
 |---|---|---|
 | P0 | pin sources (target, DH21, DH21-2, DH23, DH19, GIT20), repos, toolchain `wt-throttled` | done 2026-11-03 |
-| P1 | paper maps (`~/wave-turbulence/maps/`), then a node-level blueprint/dependency graph | maps in progress |
-| P2 | **Wave A** exact statements: Theorem 1.1 + every definition it uses (+ Prop `wkelwp`) — audit, author approval, freeze | draft elaborated; audit by wt-orch running |
-| P3 | **Wave B** exact statements: induction gates (`propansatz`, `layergarden`, `fixedpoint`), the combinatorial definitions they need (trees, couples, gardens, canonical layering, decorations, `K_G`), and the major imported results (DH21/DH23 regular-couple asymptotics, vine estimates, rigidity theorem, counting lemmas, GIT20 trilinear estimate, Gaussian chaos tails, NLS reduction) | after P1 |
-| P4 | provers on the dependency-ready frontier; infrastructure packets that every route needs may start earlier with a recorded reason | infra packets after Wave A freeze |
-| P5 | seal, audit, errata ledger, public release | — |
+| P1 | paper maps (`~/wave-turbulence/maps/`), then a node-level blueprint/dependency graph | blueprint v2: 275 nodes / 84 packets; exact-anchor/source maintenance continues |
+| P2 | **Wave A** exact statements: Theorem 1.1 + every definition it uses (+ Prop `wkelwp`) — audit, author approval, freeze | approved and frozen under D6; `wkelwp` sealed |
+| P3 | **Wave B** exact induction gates, combinatorial definitions and principal imported estimates | B1/B2 frozen under D7–D8; five gamma-above-half successors frozen under D10 |
+| P4 | prove dependency-ready obligations and integrate on the canonical universe | active: actual vine reduction/norm, LOW counting, flower boundary times and source-provider integration; see HQ and current handoff |
+| P5 | seal, audit, errata ledger, public release | 16/26 theorem anchors sealed; 10 drafts; 296 frozen definitions; public release pending |
+
+The active theorem chain is `1/2 < γ < 1`. Seal and independently audit its five successor anchors before starting
+the enlarged-vine extension to `0 < γ ≤ 1/2` (D9–D11). Scratch compilation, conditional helper results and library
+ports do not seal an anchor. The [HQ README](../../README.md) and [progress ledger](progress.json) distinguish the
+weighted work estimate from exact theorem closure; the [current handoff](orch/CODEX-HANDOFF.md) records the active
+packets, evidence and remaining gaps.
 
 ## Infrastructure packets (route-independent; candidates to start early)
 
@@ -29,9 +35,14 @@ Target: Deng–Hani, *Long time justification of wave turbulence theory*, arXiv:
 - COUNT / NT — lattice counting lemmas (TARGET App. A.4, DH23 App. A), number-theory lemmas (Gauss sums, Dirichlet
   approximation, DH23 `NTSP`, `minorarcs`), and the Huxley input question (FINDINGS F3).
 
-## Fleet (D3)
+## Fleet (D13; supersedes the initial D3 allocation)
 
-- `wt-orch` — Opus (claude-1): statement audits, blueprint review, seal audits.
-- Provers — Claude Code sessions on claude-10/13/14; Codex on codex-3 (codex-1/2 after their resets). Never codex-4.
+- Orchestrator: Codex in `w/orch`, succeeding the quota-interrupted Claude session. Owns source interpretation,
+  shared APIs, rulings, manifest, findings and landings.
+- Coding workers: Terra-medium subagents; Sol-low fallback if ineffective. Current packets and briefs are in
+  [workers.json](workers.json). Independent source reviewers must not have authored the declaration or repair.
+- Preserve the existing canonical-world and batch-4b serial builds; inspect their checkpoints before taking over
+  work and do not launch duplicate drivers.
 - Compile control: toolchain `wt-throttled` (`~/wt-tools/sysroot`): at most 6 project compiles (`WT_CAP`), then the
-  shared machine throttle. Workers build single modules only, never the library.
+  shared machine throttle. One targeted niced build per worker/cache at a time; no Mathlib rebuilds. Only the
+  orchestrator runs the prescribed root landing gate. The D12 catalogue has its own separate Lean library.
