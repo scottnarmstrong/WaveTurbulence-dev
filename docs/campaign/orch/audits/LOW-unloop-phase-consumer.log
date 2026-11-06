@@ -1,0 +1,13 @@
+note: using toolchain 'wt-throttled' from override set on '/home/scott/WaveTurbulence-dev'
+note: to remove: elan override unset --path '/home/scott/WaveTurbulence-dev' | to suppress: ELAN_NO_OVERRIDE_NOTICE=1
+'WaveTurbulence.FinalCountAsm.garden_unloop_collected_exact' depends on axioms: [propext, choice, Quot.sound]
+'WaveTurbulence.FinalCountAsm.garden_unloop_collected_sg' depends on axioms: [propext, choice, Quot.sound]
+'WaveTurbulence.FinalCountAsm.garden_unloop_collected_hinge' depends on axioms: [propext, choice, Quot.sound]
+'WaveTurbulence.FinalCountAsm.garden_unloop_collected_noncritical' depends on axioms: [propext, choice, Quot.sound]
+'WaveTurbulence.FinalCountAsm.garden_unloop_c2Of_atoms_eq_or_disjoint' depends on axioms: [propext, choice, Quot.sound]
+'WaveTurbulence.FinalCountAsm.lowSelected_class_cover' depends on axioms: [propext, choice, Quot.sound]
+'WaveTurbulence.FinalCountAsm.garden_unloop_selected_init' depends on axioms: [propext, choice, Quot.sound]
+'WaveTurbulence.FinalCountAsm.garden_unloop_selected_sg' depends on axioms: [propext, choice, Quot.sound]
+'WaveTurbulence.FinalCountAsm.garden_unloop_selected_hinge' depends on axioms: [propext, choice, Quot.sound]
+'WaveTurbulence.FinalCountAsm.garden_unloop_selected_disjoint' depends on axioms: [propext, choice, Quot.sound]
+'WaveTurbulence.FinalCountAsm.garden_unloop_selected_phase' depends on axioms: [propext, choice, Quot.sound]

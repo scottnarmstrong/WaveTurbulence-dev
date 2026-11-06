@@ -1484,3 +1484,23 @@ Initialize and preserve actual class-radius positivity (`ApPos`), derive ladder-
 discharge the collected geometry/cost premises at each selected operation. LOW terminal normalization and
 LOW/GARDEN/GLUE remain open. No frozen declarations change; this is an implementation-order ruling, not a new
 paper erratum or source-node closure.
+
+## R61 — Isolated unloop/selected import reconciliation, 2026-11-06 02:43 UTC
+
+A4's GL17 and the selected-phase G3EraseDev2 both export FinalCountG3.dartSign_mate, with explicit versus implicit
+M binders. They cannot be imported together. This is an inherited helper-name collision, not a mathematical-source
+error or an obstruction to the source-selected LOW algorithm.
+
+Use an isolated source overlay under codex-takeover/finalcount-low-unloop-bridge/compat-src. Copy GL17–GL25 and
+AsmLowUnloop26–31 exactly; only qualify GL17's helper declaration and its two internal uses, and GL18's one use,
+as LowUnloop.dartSign_mate in FinalCountG3. Keep G3EraseDev2's existing global helper unchanged. All unloop definitions,
+producer formulas/statements, old files and old artifacts remain untouched. Do not import the obsolete GL26/27
+alternatives into this closure. Rebuild the15-module source closure fresh and topologically under the gate, then
+rebuild10* and the actual NonLoop+selected consumer; never inject old raw oleans.
+
+Independent diff/carrier review confirms this exact overlay and the earlier15-source/four10*-module rebuild,
+with six standard-axiom reports on its actual NonLoop+selected consumer route. The later immutable phase checkpoint
+records six10* modules including10Combined and10Phase, and11 standard-axiom checks. Root verified its source/log
+pins (excluding the documented invalid manifest self-entry). Full endpoint/source audit remains required. The overlay is provisional; it does not certify a canonical main port or a LOW endpoint. Exact
+source lift uses original C2Of objects and their real joints/darts; canonical C2Can transport remains atom-set-only.
+Uniform class-tree assembly, actual source geometry/potential consumers and terminal normalization remain open.

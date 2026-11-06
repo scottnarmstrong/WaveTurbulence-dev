@@ -1,5 +1,5 @@
 {
- "assessed": "2026-11-06 02:35 UTC",
+ "assessed": "2026-11-06 02:53 UTC",
  "notes": "Lean work items = blueprint packets (docs/blueprint/GRAPH.md §E) with their difficulty weights (node weights L=1, M=2, H=4, VH=8 summed). Each frozen theorem anchor adds weight 1, credited when SEALED. Done fractions are the orchestrator's assessment, reviewed at integration rounds.",
  "lines_est_total": 273000,
  "parts": [
@@ -685,7 +685,7 @@
      "weight": 13.0,
      "lines_est": 5100,
      "done": 0.95,
-     "note": "Actual SFF/native Q-T cell metadata and shared factors checked; exact clamp Fourier identity, tails, low/middle/high region integrals and log absorption compiled. Global scalar weighted norm,2D lifting/same-power extraction, operative TermCertW, modulation, R57 generic target/final prefix and canonical integration remain open"
+     "note": "Actual SFF/native cell metadata compiled; scalar clamp Fourier identity and all signed weighted resonance regions/log growth checked. Cutoff now covers full adjacent cells;31 dependent modules rebuilt. Global weighted mode norm,2D lift/same-power extraction, operative TermCertW/modulation/R57 final prefix and canonical integration remain open"
     },
     {
      "id": "G3",
@@ -703,7 +703,7 @@
      "weight": 6.0,
      "lines_est": 2400,
      "done": 0.58,
-     "note": "Exact batch unit coordinates/list permutation, selected-family completeness, canonical state reindexing and orbit-output existence compiled; partial witness independence. Interior singleton splice has actual retained-leaf bijection preserving roots/marks/pair/sign. Ordered forest/fold/layer/hinge/slot/kernel invariance, tau partition, remaining vine packets and Stage1 producer remain open"
+     "note": "A3 exact batch canonical-state reindexing/output existence and selected-core witness independence compiled. A4 proves actual ordered boundary subtree/crown/single-unit forest equality and retained-leaf maps;136 immutable source/log pins verified. Leaf diagram/garden/full-fold/layer/hinge/slot/kernel invariance, tau partition, remaining vine packets and Stage1 producer remain open"
     },
     {
      "id": "G8",
@@ -739,7 +739,7 @@
      "weight": 4.0,
      "lines_est": 900,
      "done": 0.81,
-     "note": "LOW direct one-step potential and actual positivity checked; R60 selected pointwise all-dartless/NoTripleCut exit, finite D1/regular/triple class cover and node geometry compiled provisionally. Actual unloop producer/selected consumer need consistent carrier-name transport and duplicate-free overlay; uniform class-tree, terminal LOW/GARDEN/GLUE and canonical integration remain open"
+     "note": "Actual NonLoop source-selected phase now derives collection/name/SG/hinge/priority/SameDes data and all-dartless/NoTripleCut exit; duplicate helper overlay independently reviewed. Actual D1 shape/noncritical geometry and critical exponent drop compiled; immutable sources/logs verified. Uniform class-tree, terminal LOW/GARDEN/GLUE and canonical integration remain open"
     },
     {
      "id": "F2",

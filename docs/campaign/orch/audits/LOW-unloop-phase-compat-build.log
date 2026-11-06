@@ -1,0 +1,56 @@
+CHECK GL17
+note: using toolchain 'wt-throttled' from override set on '/home/scott/WaveTurbulence-dev'
+note: to remove: elan override unset --path '/home/scott/WaveTurbulence-dev' | to suppress: ELAN_NO_OVERRIDE_NOTICE=1
+CHECK GL18
+note: using toolchain 'wt-throttled' from override set on '/home/scott/WaveTurbulence-dev'
+note: to remove: elan override unset --path '/home/scott/WaveTurbulence-dev' | to suppress: ELAN_NO_OVERRIDE_NOTICE=1
+CHECK GL19
+note: using toolchain 'wt-throttled' from override set on '/home/scott/WaveTurbulence-dev'
+note: to remove: elan override unset --path '/home/scott/WaveTurbulence-dev' | to suppress: ELAN_NO_OVERRIDE_NOTICE=1
+/home/scott/wt-scratch/codex-takeover/finalcount-low-unloop-bridge/compat-src/GL19.lean:43:48: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/home/scott/wt-scratch/codex-takeover/finalcount-low-unloop-bridge/compat-src/GL19.lean:43:48: warning: Unused tactic linter: `<;>` should be replaced with `;` or be removed.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+CHECK GL20
+note: using toolchain 'wt-throttled' from override set on '/home/scott/WaveTurbulence-dev'
+note: to remove: elan override unset --path '/home/scott/WaveTurbulence-dev' | to suppress: ELAN_NO_OVERRIDE_NOTICE=1
+CHECK GL21
+note: using toolchain 'wt-throttled' from override set on '/home/scott/WaveTurbulence-dev'
+note: to remove: elan override unset --path '/home/scott/WaveTurbulence-dev' | to suppress: ELAN_NO_OVERRIDE_NOTICE=1
+/home/scott/wt-scratch/codex-takeover/finalcount-low-unloop-bridge/compat-src/GL21.lean:50:6: warning: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+CHECK GL22
+note: using toolchain 'wt-throttled' from override set on '/home/scott/WaveTurbulence-dev'
+note: to remove: elan override unset --path '/home/scott/WaveTurbulence-dev' | to suppress: ELAN_NO_OVERRIDE_NOTICE=1
+CHECK GL23
+note: using toolchain 'wt-throttled' from override set on '/home/scott/WaveTurbulence-dev'
+note: to remove: elan override unset --path '/home/scott/WaveTurbulence-dev' | to suppress: ELAN_NO_OVERRIDE_NOTICE=1
+CHECK GL24
+note: using toolchain 'wt-throttled' from override set on '/home/scott/WaveTurbulence-dev'
+note: to remove: elan override unset --path '/home/scott/WaveTurbulence-dev' | to suppress: ELAN_NO_OVERRIDE_NOTICE=1
+CHECK GL25
+note: using toolchain 'wt-throttled' from override set on '/home/scott/WaveTurbulence-dev'
+note: to remove: elan override unset --path '/home/scott/WaveTurbulence-dev' | to suppress: ELAN_NO_OVERRIDE_NOTICE=1
+CHECK AsmLowUnloop26
+note: using toolchain 'wt-throttled' from override set on '/home/scott/WaveTurbulence-dev'
+note: to remove: elan override unset --path '/home/scott/WaveTurbulence-dev' | to suppress: ELAN_NO_OVERRIDE_NOTICE=1
+CHECK AsmLowUnloop27
+note: using toolchain 'wt-throttled' from override set on '/home/scott/WaveTurbulence-dev'
+note: to remove: elan override unset --path '/home/scott/WaveTurbulence-dev' | to suppress: ELAN_NO_OVERRIDE_NOTICE=1
+CHECK AsmLowUnloop28
+note: using toolchain 'wt-throttled' from override set on '/home/scott/WaveTurbulence-dev'
+note: to remove: elan override unset --path '/home/scott/WaveTurbulence-dev' | to suppress: ELAN_NO_OVERRIDE_NOTICE=1
+CHECK AsmLowUnloop29
+note: using toolchain 'wt-throttled' from override set on '/home/scott/WaveTurbulence-dev'
+note: to remove: elan override unset --path '/home/scott/WaveTurbulence-dev' | to suppress: ELAN_NO_OVERRIDE_NOTICE=1
+CHECK AsmLowUnloop30
+note: using toolchain 'wt-throttled' from override set on '/home/scott/WaveTurbulence-dev'
+note: to remove: elan override unset --path '/home/scott/WaveTurbulence-dev' | to suppress: ELAN_NO_OVERRIDE_NOTICE=1
+CHECK AsmLowUnloop31
+note: using toolchain 'wt-throttled' from override set on '/home/scott/WaveTurbulence-dev'
+note: to remove: elan override unset --path '/home/scott/WaveTurbulence-dev' | to suppress: ELAN_NO_OVERRIDE_NOTICE=1
+COMPAT SOURCE REBUILD PASS
