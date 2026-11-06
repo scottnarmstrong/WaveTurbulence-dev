@@ -1,0 +1,87 @@
+/-
+Copyright (c) 2026 Scott Armstrong. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Scott Armstrong
+-/
+module
+
+public import WaveTurbulence.Foundations.Counting.AnnulusCellWidth
+public import WaveTurbulence.Foundations.Counting.AnnulusChartCounting
+public import WaveTurbulence.Foundations.Counting.AnnulusCoverGeometry
+public import WaveTurbulence.Foundations.Counting.AnnulusDiscrepancy
+public import WaveTurbulence.Foundations.Counting.AnnulusElementary
+public import WaveTurbulence.Foundations.Counting.AnnulusHalfRadius
+public import WaveTurbulence.Foundations.Counting.AnnulusLine
+public import WaveTurbulence.Foundations.Counting.AnnulusRotatedCharts
+public import WaveTurbulence.Foundations.Counting.AnnulusSectionGeometry
+public import WaveTurbulence.Foundations.Counting.CircleArc
+public import WaveTurbulence.Foundations.Counting.CircleAreaGeometry
+public import WaveTurbulence.Foundations.Counting.CircleBlockBounds
+public import WaveTurbulence.Foundations.Counting.CircleBlockGeometry
+public import WaveTurbulence.Foundations.Counting.CircleBlockIntervals
+public import WaveTurbulence.Foundations.Counting.CircleCapCounting
+public import WaveTurbulence.Foundations.Counting.CircleCapSmoothing
+public import WaveTurbulence.Foundations.Counting.CircleCentralArc
+public import WaveTurbulence.Foundations.Counting.CircleCentralQuadrature
+public import WaveTurbulence.Foundations.Counting.CircleClippedHeight
+public import WaveTurbulence.Foundations.Counting.CircleDiscrepancy
+public import WaveTurbulence.Foundations.Counting.CircleEndpointBlocks
+public import WaveTurbulence.Foundations.Counting.CircleEndpointBound
+public import WaveTurbulence.Foundations.Counting.CircleEndpointFrequency
+public import WaveTurbulence.Foundations.Counting.CircleEndpointGeometry
+public import WaveTurbulence.Foundations.Counting.CircleEndpointIntervals
+public import WaveTurbulence.Foundations.Counting.CircleEndpointTransfer
+public import WaveTurbulence.Foundations.Counting.CircleEndpointTrivial
+public import WaveTurbulence.Foundations.Counting.CircleExponentAnnulus
+public import WaveTurbulence.Foundations.Counting.CircleExponentTransfer
+public import WaveTurbulence.Foundations.Counting.CircleHeightSum
+public import WaveTurbulence.Foundations.Counting.CircleImprovedDiscrepancy
+public import WaveTurbulence.Foundations.Counting.CircleIntegerSawtooth
+public import WaveTurbulence.Foundations.Counting.CircleLocalizedEndpointTransfer
+public import WaveTurbulence.Foundations.Counting.CircleLowHeights
+public import WaveTurbulence.Foundations.Counting.CircleOctantAnnulus
+public import WaveTurbulence.Foundations.Counting.CircleOctantArea
+public import WaveTurbulence.Foundations.Counting.CircleOctantCounting
+public import WaveTurbulence.Foundations.Counting.CircleOctantError
+public import WaveTurbulence.Foundations.Counting.CircleOctantGeometry
+public import WaveTurbulence.Foundations.Counting.CircleOctantPhase
+public import WaveTurbulence.Foundations.Counting.CircleOctantTransfer
+public import WaveTurbulence.Foundations.Counting.CircleQuadrature
+public import WaveTurbulence.Foundations.Counting.CircleSawtooth
+public import WaveTurbulence.Foundations.Counting.CircleScalePoissonTransfer
+public import WaveTurbulence.Foundations.Counting.CircleSemicircle
+public import WaveTurbulence.Foundations.Counting.CurvaturePoissonTransfer
+public import WaveTurbulence.Foundations.Counting.DenseProductStrip
+public import WaveTurbulence.Foundations.Counting.DenseRelationIndices
+public import WaveTurbulence.Foundations.Counting.DenseStrip
+public import WaveTurbulence.Foundations.Counting.DenseVectorStrip
+public import WaveTurbulence.Foundations.Counting.DyadicBlocks
+public import WaveTurbulence.Foundations.Counting.DyadicPowerBlocks
+public import WaveTurbulence.Foundations.Counting.Estcross
+public import WaveTurbulence.Foundations.Counting.EstcrossBalls
+public import WaveTurbulence.Foundations.Counting.EstcrossBudget
+public import WaveTurbulence.Foundations.Counting.EstcrossDominant
+public import WaveTurbulence.Foundations.Counting.EulerMaclaurin
+public import WaveTurbulence.Foundations.Counting.ExponentAudit
+public import WaveTurbulence.Foundations.Counting.FiniteFibers
+public import WaveTurbulence.Foundations.Counting.FrequencyGuardCount
+public import WaveTurbulence.Foundations.Counting.ImprovedExponentAudit
+public import WaveTurbulence.Foundations.Counting.IntegerSampling
+public import WaveTurbulence.Foundations.Counting.IntervalCells
+public import WaveTurbulence.Foundations.Counting.LatticeBox
+public import WaveTurbulence.Foundations.Counting.LatticeCoordinateSwap
+public import WaveTurbulence.Foundations.Counting.LatticeCoordinates
+public import WaveTurbulence.Foundations.Counting.LatticeDisc
+public import WaveTurbulence.Foundations.Counting.LatticeRotations
+public import WaveTurbulence.Foundations.Counting.LatticeTriangle
+public import WaveTurbulence.Foundations.Counting.LinearStrip
+public import WaveTurbulence.Foundations.Counting.MonotoneIntervals
+public import WaveTurbulence.Foundations.Counting.QuadraticStrip
+public import WaveTurbulence.Foundations.Counting.RelationIndices
+public import WaveTurbulence.Foundations.Counting.SeparableStrips
+public import WaveTurbulence.Foundations.Counting.ShortCircleScalePoisson
+public import WaveTurbulence.Foundations.Counting.ShortRelationCounting
+
+/-! Public re-exports for FoundationsCounting.
+Generated by scripts/update_root_imports.py. -/
+public section

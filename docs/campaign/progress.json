@@ -1,5 +1,5 @@
 {
- "assessed": "2026-11-05 23:09 UTC",
+ "assessed": "2026-11-05 23:56 UTC",
  "notes": "Lean work items = blueprint packets (docs/blueprint/GRAPH.md §E) with their difficulty weights (node weights L=1, M=2, H=4, VH=8 summed). Each frozen theorem anchor adds weight 1, credited when SEALED. Done fractions are the orchestrator's assessment, reviewed at integration rounds.",
  "lines_est_total": 273000,
  "parts": [
@@ -585,8 +585,8 @@
      "goal": "DH23 Prop 6.1 (couples and trees) for orders n≤N^4_{p+1} (F33, route R14 (a)); 2 days: split couples / trees+derivatives",
      "weight": 10.0,
      "lines_est": 5800,
-     "done": 0.98,
-     "note": "RA1 done: couples and trees on snapshot 9, plus the leafwise version for per-leaf profiles (RA1-LEAFWISE)"
+     "done": 1.0,
+     "note": "RA1 couples/trees and leafwiseRegularAsymptotics integrated in the canonical main package; B2.1 is sealed; seven-input spine assembly and independent port review passed"
     },
     {
      "id": "M8",
@@ -649,7 +649,7 @@
      "weight": 4.0,
      "lines_est": 1700,
      "done": 0.98,
-     "note": "PL23: Props 6.1 (now at the literal 30d norm, PL23-30D) and 6.2 proved; leafwise B2.1 and B2.2 proved (RA1-LEAFWISE, INCOH-LEAFWISE)"
+     "note": "Literal 30d coherent approximation and leafwise analogue now integrated and consumed with sealed B2.1; remaining PL234 Taylor/reality integration is separate"
     },
     {
      "id": "G1",
@@ -685,7 +685,7 @@
      "weight": 13.0,
      "lines_est": 5100,
      "done": 0.95,
-     "note": "Scratch checkpoints: modulated Step-3/no-twist base bound proved with the R58 loss; W13 full-square time bound and actual C2^b geometric class-count bound proved. General separated-family producer, unrolled-term certificates, modulated flattening and kind-general full VINEEST remain open"
+     "note": "Modulated no-twist Step3 base proved in scratch; actual root tree/couple separated families and C2^b/order count proved. Cross-cell SFF glue, general unrolled-term certificates, modulated flattening and R57 generic target remain open"
     },
     {
      "id": "G3",
@@ -703,7 +703,7 @@
      "weight": 6.0,
      "lines_est": 2400,
      "done": 0.58,
-     "note": "REPRESENTS scratch: vine-free reduction and CLASSCOUNT checkpoints exist; vine case split VINE-A/B/C/D/E/F. INTERFACE v2 routes lower-child mode frequencies through the R58 modulated kernel. Producer and full vine reduction remain open"
+     "note": "Vine-free reduction and class count checkpoints exist; Terra worker proving actual selected-vine unitBlocks transport and class invariance. VINE-B/C/D/E/F and full Stage1 producer remain open"
     },
     {
      "id": "G8",
@@ -720,8 +720,8 @@
      "goal": "ladder L^∞ and L¹ time-integral bounds",
      "weight": 8.0,
      "lines_est": 4200,
-     "done": 0.98,
-     "note": "LADDER: all three spine inputs proved, re-proved on the root-time-truncated domain (R33)"
+     "done": 1.0,
+     "note": "Ladder Fourier, ladder decay and coarse spliced inputs integrated on the canonical main definitions with R33 root-time caps; exact SourceProviders consumers, standard axioms and independent port review passed"
     },
     {
      "id": "F1",
@@ -739,7 +739,7 @@
      "weight": 4.0,
      "lines_est": 900,
      "done": 0.81,
-     "note": "Scratch LOW-FRONT A1-A3 compiled: actual loop-label determination, GL17/LoopCtx applications and loop-count bookkeeping; provisional farm only. REG half exists; A4, LOW-CHAIN/GARDEN/GLUE and canonical-world validation remain open"
+     "note": "Scratch LOW-FRONT A1-A3 complete provisionally; A4 unloop CollData/UnselOK/C2Can transfers compiled and producer wiring underway. REG half exists; LOW-CHAIN/GARDEN/GLUE and canonical-world validation remain open"
     },
     {
      "id": "F2",

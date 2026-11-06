@@ -11,9 +11,9 @@
   "tmux": "subagent v5_w2",
   "model": "GPT-6.1 Terra medium",
   "account": "current session",
-  "branch": "w/port-b3a",
-  "packet": "Six-packet analytic spine port: warning/proof hygiene after V5 modulated-Step3 checkpoint",
-  "brief": "docs/campaign/orch/briefs/TERRA-LINT-PORT-B3.md"
+  "branch": "w/orch",
+  "packet": "VINE-A: actual unitBlocks transport and tau-class invariance after source-input landing",
+  "brief": "docs/campaign/orch/briefs/TERRA-VINEA-CONTINUE.md"
  },
  {
   "tmux": "subagent v5_w13",
@@ -27,9 +27,9 @@
   "tmux": "subagent finalcount_low",
   "model": "GPT-6.1 Terra medium",
   "account": "current session",
-  "branch": "w/port-b3a",
-  "packet": "Independent port review; LOW-FRONT A1-A3 provisionally complete in scratch",
-  "brief": "docs/campaign/orch/briefs/TERRA-AUDIT-PORT-B3.md"
+  "branch": "w/orch",
+  "packet": "LOW-FRONT A4: actual unloop collection/C2Can/UnselOK transfers; A1-A3 checkpoint complete provisionally",
+  "brief": "docs/campaign/orch/briefs/TERRA-FINALCOUNT-A4.md"
  },
  {
   "tmux": "cx-world",

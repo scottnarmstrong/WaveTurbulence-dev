@@ -77,3 +77,27 @@ SEALED_THIS_TURN: 0
   The combined integration is NOT READY and no new frozen seal is claimed.
 - E25/E26 and findings F83/F84 now record the pending R54 gain-bookkeeping and R58 lower-clock source issues,
   explicitly as candidates rather than evaluated counterexamples or confirmed errors.
+
+## Batch-3 analytic-input landing, 2026-11-05 23:56 UTC
+
+Source commit `457893b` (plus merge of current main): 497 source-mapped modules and the seven-input
+`SourceProviders` assembly now use canonical main frozen definitions. Targeted build: 11489 jobs, zero warnings
+in new Spine modules; seven exports use only propext/Classical.choice/Quot.sound. Independent port review and
+full landing-worktree gate passed (14412 jobs; frozen/module guards). Main landing reruns the full root gate.
+No frozen theorem was sealed by this port. Review and provenance are archived in audits/PORT-B3-*.
+
+The root import file had grown to 4806 lines, violating the campaign cap. It is now 56 lines plus 39 public area
+indexes (largest1114). The generator preserves all previous exports, adds the new source modules, and includes
+exactly the16 SEALED theorem anchors. The project checker now enforces1500 lines. Generator conflict markers
+fail before writes; the merge helper stops before staging on failure. Both author and independent regression
+probes checked the conflict case. Frozen bytes, Lake pins and Mathlib remain unchanged.
+
+Active workers: v5_w2 now owns uniquely named VINE-A continuation files; finalcount_low owns new LOW-FRONT A4
+files; v5_w13 continues root/cross-cell separated-family glue and exact count constants. Their current briefs
+are linked from the HQ worker table. Existing cx-world/cx-b4bprep catalogue drivers remain separate and not READY.
+
+**R57 target watch:** older P4.Statement and W2.ModStatement omit CanonicalObject and are broader than the intended
+final source target. R57 requires the kind-generic statement include CanonicalObject p kind of the reconstructed
+garden. Do not attempt full prefix or noOp-to-NoTwist closure using the overbroad old statement. No frozen anchor
+is involved. Root must finalize the source-faithful successor before full VINEEST closure; current per-operative
+helper work already has canonical context.

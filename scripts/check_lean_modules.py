@@ -6,7 +6,7 @@ a git checkout, every file outside `.git` and `.lake`) must:
 
 - be a module: `module` is the first token after ordinary comments and blank
   lines (`lakefile.lean` is exempt);
-- have at most 10,000 physical lines;
+- have at most 1,500 physical lines (campaign rule);
 - not be a symbolic link.
 
 Every `comparator.json` must name existing Challenge and Solution modules that
@@ -31,7 +31,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-MAX_LINES = 10_000
+MAX_LINES = 1_500
 CHALLENGE_MAX_LINES, CHALLENGE_MAX_BYTES = 1_000, 100 * 1024
 CHALLENGE_REVIEW_LINES, CHALLENGE_REVIEW_BYTES = 300, 32 * 1024
 STANDARD_AXIOMS = {"propext", "Classical.choice", "Quot.sound"}
