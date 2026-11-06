@@ -1,0 +1,106 @@
+[
+  {
+    "module": "G3ConclN",
+    "theorem": "WaveTurbulence.FinalCountG3.HRunN.prop95N",
+    "exit": 0,
+    "status": "ok",
+    "log": "/home/scott/wt-scratch/codex-takeover/world-a7-exports/logs/audit-0.log"
+  },
+  {
+    "module": "Final96c",
+    "theorem": "WaveTurbulence.FinalCountG8.prop96",
+    "exit": 0,
+    "status": "ok",
+    "log": "/home/scott/wt-scratch/codex-takeover/world-a7-exports/logs/audit-1.log"
+  },
+  {
+    "module": "Damaged96",
+    "theorem": "WaveTurbulence.FinalCountG8.prop96_damaged",
+    "exit": 0,
+    "status": "ok",
+    "log": "/home/scott/wt-scratch/codex-takeover/world-a7-exports/logs/audit-2.log"
+  },
+  {
+    "module": "Algorithm.Prop102",
+    "theorem": "WaveTurbulence.Mole.AppbAlgorithm.dh23_prop_10_2",
+    "exit": 0,
+    "status": "ok",
+    "log": "/home/scott/wt-scratch/codex-takeover/world-a7-exports/logs/audit-3.log"
+  },
+  {
+    "module": "VCCount4",
+    "theorem": "WaveTurbulence.VineCount.vine_count_main",
+    "exit": 0,
+    "status": "ok",
+    "log": "/home/scott/wt-scratch/codex-takeover/world-a7-exports/logs/audit-4.log"
+  },
+  {
+    "module": "GL28",
+    "theorem": "WaveTurbulence.FinalCountG3.runDataL_of_loop",
+    "exit": 0,
+    "status": "ok",
+    "log": "/home/scott/wt-scratch/codex-takeover/world-a7-exports/logs/audit-5.log"
+  },
+  {
+    "module": "SubproShapeC1",
+    "theorem": "WaveTurbulence.Subpro.c1_shape",
+    "status": "blocked",
+    "build_status": {
+      "status": "blocked",
+      "dependencies": [
+        "AsmVN13"
+      ]
+    }
+  },
+  {
+    "module": "SubproShapeFinal",
+    "theorem": "WaveTurbulence.Subpro.host_conn_final",
+    "status": "blocked",
+    "build_status": {
+      "status": "blocked",
+      "dependencies": [
+        "SubproShapeConn",
+        "SubproShapeDV",
+        "SubproShapeC1"
+      ]
+    }
+  },
+  {
+    "module": "SubproDisjFinal",
+    "theorem": "WaveTurbulence.Subpro.step1_objects_disjoint",
+    "exit": 0,
+    "status": "ok",
+    "log": "/home/scott/wt-scratch/codex-takeover/world-a7-exports/logs/audit-8-repaired.log",
+    "consumer": "/home/scott/wt-scratch/codex-takeover/world-a7-exports/audits/Target8Repaired.lean",
+    "repair_scope": "Generator header/preamble only; original failed consumer/log preserved."
+  },
+  {
+    "module": "WorldLadderCounterexample",
+    "theorem": "WaveTurbulence.WorldA7.chordLeft_not_maximal",
+    "exit": 0,
+    "status": "ok",
+    "log": "/home/scott/wt-scratch/codex-takeover/world-a7-exports/logs/audit-9.log"
+  },
+  {
+    "module": "VineParamMain",
+    "theorem": "WaveTurbulence.Vine.Param.vineparam",
+    "exit": 0,
+    "status": "ok",
+    "log": "/home/scott/wt-scratch/codex-takeover/world-a7-exports/logs/audit-10.log"
+  },
+  {
+    "module": "VrCount",
+    "theorem": "WaveTurbulence.VineRho.vine_ladderLoss_le",
+    "exit": 0,
+    "status": "ok",
+    "log": "/home/scott/wt-scratch/codex-takeover/world-a7-exports/logs/audit-11-repaired.log",
+    "consumer": "/home/scott/wt-scratch/codex-takeover/world-a7-exports/audits/Target11Repaired.lean",
+    "repair_scope": "Generator header/preamble only; original failed consumer/log preserved."
+  },
+  {
+    "module": "compatibility modules",
+    "status": "ok",
+    "exit": 0,
+    "log": "/home/scott/wt-scratch/codex-takeover/world-a7-exports/logs/audit-compat.log"
+  }
+]

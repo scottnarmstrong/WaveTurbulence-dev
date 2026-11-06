@@ -6,7 +6,7 @@ Lean 4 formalization of
 > [arXiv:2311.10082v2](https://arxiv.org/abs/2311.10082) (2024).
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-11-06 05:23 UTC** · **estimated completion 90.6 %** (Lean work incl. sealing 92.5 %) · frozen theorems sealed: 16 / 26 (+ 296 frozen definitions) · **1,003,786 lines of Lean on main** (7192 files) + 1,460 unlanded on worker branches · blueprint estimate ≈ 273,000 lines
+> **Last updated: 2026-11-06 05:24 UTC** · **estimated completion 90.6 %** (Lean work incl. sealing 92.5 %) · frozen theorems sealed: 16 / 26 (+ 296 frozen definitions) · **1,003,786 lines of Lean on main** (7192 files) + 1,460 unlanded on worker branches · blueprint estimate ≈ 273,000 lines
 <!-- /AUTO:updated -->
 
 **Scope (D1):** everything proved in Lean, no black boxes. That covers the target paper and the results it uses from
@@ -30,9 +30,10 @@ library with closed `vineparam` and `vineparam_grouped`. Independent exact consu
 landing gates passed. See [the main verification](docs/campaign/orch/audits/PORT-VP-main-verification.md),
 [SourceProviders.lean](WaveTurbulence/Foundations/Spine/SourceProviders.lean) and
 [Vine/Param.lean](WaveTurbulence/Foundations/Vine/Param.lean).
-Terra-medium workers have checked actual operative TQ/TT row pairs, two-splice garden commutation,
-and paid LOW edges using one component-aware potential. Full vine fold/kernel invariance, row-certificate
-assembly and the global LOW count remain open. The clamped Fourier operator has passed an
+Terra-medium workers have checked full-region row and phase geometry, arbitrary-prefix splice gardens,
+and the original-width LOW component bound. Source row products, full vine fold/kernel invariance and the
+terminal/global LOW count remain open. The upstream dependency world has10/12 requested exports checked;
+two await assembly dependencies. The clamped Fourier operator has passed an
 [independent helper audit](docs/campaign/orch/audits/V5-clamp-operator-independent.md).
 Flower Stage-1 and final spine instances remain open.
 See the [current handover](docs/campaign/orch/CODEX-HANDOFF.md).
@@ -136,7 +137,7 @@ Lean lines: 1,003,786 on main + 1,460 on branches, of ≈ 273,000 estimated by t
 | S2a | REDSPLICE-DEF | 2 | ≈800 | 🟡 95 % | REDSPLICE-DEF READY: the full Stage 1 construction; stage1Piece_sound now also supplies the triple designation and no-hinge-loop facts (AMEND7+8) |
 | S4 | SUBPRO | 8 | ≈3,000 | 🟡 95 % | SUBPRO done in atom-set form plus the hinge triple-bond designation (R37) |
 | V4 | VINEEST-S2 | 4 | ≈2,500 | 🟡 95 % | VINEEST-S2 done: vineChain_eq_sumintForm (V4 endpoint, ruling R2), 709-module snapshot-9 rebuild OK; obligations VINEPARAM, SumintSigned |
-| V5 | VINEEST | 13 | ≈5,100 | 🟡 95 % | Fully carrier-uniform operative TQ/TT pairs choose constants before width/order/types/P/garden;155-module incremental checkpoint317 verified source/evidence pins and explicit typed consumers. Earlier narrower scope preserved/corrected. All-clock source factors and initial type-I zero/type-II phase geometry compiled. Reached-family slot/momentum binding, multirow FreeDict/TermCertW, modulation/R57/full prefix/canonical integration remain open |
+| V5 | VINEEST | 13 | ≈5,100 | 🟡 95 % | Shifted full-region TQ/TT pairs:179-own-source incremental closure and explicit typed/standard-axiom consumers. Constants precede all source data; distinct fixed row indices, actual phase/momentum routing and both signs handled. Actual indicators/all-row FreeDict/TermCertW, modulation/R57/final prefix and canonical integration remain open |
 | X1 | FLOWER-DEF | 10 | ≈3,100 | 🟡 95 % | FLOWER-DEF done in scratch: classes, kernels, identities, O-FK; B1.12 final (audited, F1/F2 applied) proposed for the freeze |
 | C1 | REG-STRUCT | 11 | ≈4,000 | 🟡 90 % | REG-STRUCT done in scratch: structure theorem with uniqueness, decoding, legal/dominant chains, counts (C₀=12^9); F55 |
 | C2 | LINKS | 11 | ≈3,000 | 🟡 90 % | LINKS done in scratch: branchpair, defchoice, linkXY, deflink, defcoh, auxlem, explem, treelemma, incohproof1 (couples); F62-F65 |
@@ -162,14 +163,14 @@ Lean lines: 1,003,786 on main + 1,460 on branches, of ≈ 273,000 estimated by t
 | X2 | FLOWEREST | 16 | ≈8,900 | 🟡 90 % | FLOWEREST scratch: conditional spine assembly and regular L0 leg exist; flower Stage-1, fixed-time traces and marked-flower LF-twist construction remain unresolved |
 | F2 | PLG | 12 | ≈4,150 | 🟡 86 % | LG-SPINE scratch: AMEND4/5/7+8 checkpoint and AMEND6-prime pair-type gate exist; AMEND9/10 consumer rework unfinished. Full Stage-1 and final-count producers remain required |
 | M7 | LFTWIST | 13 | ≈4,200 | 🟡 85 % | LFTWIST on main with the canonical universe; leaf bijection of LF twists on ordinary leaves proved (LFTWIST-LEAFMAP, R45) |
-| F3 | FINAL-COUNT | 4 | ≈900 | 🟡 81 % | Source D1/triple/regular deviations and paid common g1 component potential compiled; exact consumers standard axioms. D1 actual j=2 component decrease explicitly paid. Generic multiplicity-preserving well-founded branch induction and actual unloop initialization proved; source Fmax/terminal/global/further LOW/GARDEN/GLUE and canonical integration remain open |
-| S2 | REDSPLICE | 6 | ≈2,400 | 🟡 58 % | Actual two-add gardens commute for any distinct selected units, including marks/pairings in nested/outside cases;445 verified source/evidence pins. Actual containing-unit singleton gardens/containing-first folds proved. Branch-name/arbitrary-prefix/order folds, full layer/hinge/slot/kernel invariance, tau partition and remaining VINE packets/Stage1 remain open |
+| F3 | FINAL-COUNT | 4 | ≈900 | 🟡 81 % | Actual original-width CnBound and selected-history F+1<=2R proved; index R+loops kept separate. Common uniform paid actual source edges and multiplicity-preserving induction checked. Terminal bound/normalization, source sum/later LOW/GARDEN/GLUE/canonical closure remain open. Scratch integrity lapse/correction in FRONTIER-0510 |
+| S2 | REDSPLICE | 6 | ≈2,400 | 🟡 58 % | Actual original producer-order cross-twist state transport proved: garden, classes and original branch names;632 verified source/evidence pins. Generic disjoint-block arbitrary-prefix state and fold permutation underlie it. Full time/layer/hinge/slot/kernel invariance, tau and remaining VINE/Stage1 consumers/canonical integration remain open |
 | F1 | FINAL-RED | 4 | ≈1,200 | 🟡 30 % | FINAL-RED: finalsbest1/finalsbest2 consumed in LG-SPINE's assembly (counting cover, finalproof numerics) proved generically |
 | G1 | STAGE2-DEF | 10 | ≈2,600 | 🟡 20 % | STAGE2-DEF: stage-2 operation datatype (Stage2Op) and TARGET's counting problem (lg-spine CountingChoices) defined |
 
 </details>
 
-Done fractions last reviewed: **2026-11-06 04:41 UTC**. Source: [`docs/campaign/progress.json`](docs/campaign/progress.json); history: [`docs/campaign/history.csv`](docs/campaign/history.csv).
+Done fractions last reviewed: **2026-11-06 05:15 UTC**. Source: [`docs/campaign/progress.json`](docs/campaign/progress.json); history: [`docs/campaign/history.csv`](docs/campaign/history.csv).
 <!-- /AUTO:progress -->
 
 ## Workers
@@ -177,12 +178,12 @@ Done fractions last reviewed: **2026-11-06 04:41 UTC**. Source: [`docs/campaign/
 <!-- AUTO:workers -->
 | Worker / session | model / account | packet | branch: last commit | brief |
 |---|---|---|---|---|
-| Codex orchestrator | Codex / current session | Source rulings, safe landings, proof-state review and HQ upkeep | `w/orch`: 30 min ago | [brief](docs/campaign/orch/CODEX-HANDOFF.md) |
-| subagent v5_w2 | GPT-6.1 Terra medium / current session | Actual nested crowns and boundary formulas; two-splice commutation, producer order and full vine invariance | `w/orch`: 30 min ago | [brief](docs/campaign/orch/briefs/TERRA-VINEA-CONTINUE.md) |
-| subagent v5_w13 | GPT-6.1 Terra medium / current session | Uniform genuine-clock TQ/TT rows; operative slot alignment and multirow FreeDict/TermCertW assembly | `w/orch`: 30 min ago | [brief](docs/campaign/orch/briefs/TERRA-V5-W13.md) |
-| subagent finalcount_low | GPT-6.1 Terra medium / current session | Source-uniform D1/triple paid costs; actual host connection, regular costs and global terminal counting | `w/orch`: 30 min ago | [brief](docs/campaign/orch/briefs/TERRA-LOW-UNLOOP-BRIDGE.md) |
-| cx-world | GPT-6.1 Sol medium / codex-2 (existing session) | Existing serial canonical-world upstream rebuild; axiom closeout and assembly overlay pending | `w/orch`: 30 min ago | [brief](docs/campaign/orch/CODEX-HANDOFF.md) |
-| cx-b4bprep | GPT-6.1 Sol medium / codex-2 (existing session) | Existing R52 Batch-4b serial catalogue rebuild; skeleton/layer-count/N4 checks pending | `w/orch`: 30 min ago | [brief](docs/campaign/orch/CODEX-HANDOFF.md) |
+| Codex orchestrator | Codex / current session | Source rulings, safe landings, proof-state review and HQ upkeep | `w/orch`: 0 min ago, 1 unlanded | [brief](docs/campaign/orch/CODEX-HANDOFF.md) |
+| subagent v5_w2 | GPT-6.1 Terra medium / current session | Original-order splice state transport proved; layer/time/kernel and tau/Stage1 consumers | `w/orch`: 0 min ago, 1 unlanded | [brief](docs/campaign/orch/briefs/TERRA-VINEA-CONTINUE.md) |
+| subagent v5_w13 | GPT-6.1 Terra medium / current session | Full-region shifted TQ/TT source wiring, fixed row choices and actual multirow certificates | `w/orch`: 0 min ago, 1 unlanded | [brief](docs/campaign/orch/briefs/TERRA-V5-W13.md) |
+| subagent finalcount_low | GPT-6.1 Terra medium / current session | Original-width LOW component cap, terminal/source count and global assembly | `w/orch`: 0 min ago, 1 unlanded | [brief](docs/campaign/orch/briefs/TERRA-LOW-UNLOOP-BRIDGE.md) |
+| cx-world | GPT-6.1 Sol medium / codex-2 (existing session) | Partial upstream closeout:3407 modules;10/12 exact exports pass; assembly exclusions/overlay remain | `w/orch`: 0 min ago, 1 unlanded | [brief](docs/campaign/orch/CODEX-HANDOFF.md) |
+| cx-b4bprep | GPT-6.1 Sol medium / codex-2 (existing session) | Existing R52 Batch-4b serial catalogue rebuild; skeleton/layer-count/N4 checks pending | `w/orch`: 0 min ago, 1 unlanded | [brief](docs/campaign/orch/CODEX-HANDOFF.md) |
 <!-- /AUTO:workers -->
 
 ## Papers
