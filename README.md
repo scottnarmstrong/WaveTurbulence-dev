@@ -6,7 +6,7 @@ Lean 4 formalization of
 > [arXiv:2311.10082v2](https://arxiv.org/abs/2311.10082) (2024).
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-11-06 02:53 UTC** · **estimated completion 90.6 %** (Lean work 92.5 %) · frozen theorems sealed: 16 / 26 (+ 296 frozen definitions) · **1,003,786 lines of Lean on main** (7192 files) + 1,460 unlanded on worker branches · blueprint estimate ≈ 273,000 lines
+> **Last updated: 2026-11-06 03:02 UTC** · **estimated completion 90.6 %** (Lean work 92.5 %) · frozen theorems sealed: 16 / 26 (+ 296 frozen definitions) · **1,003,786 lines of Lean on main** (7192 files) + 1,460 unlanded on worker branches · blueprint estimate ≈ 273,000 lines
 <!-- /AUTO:updated -->
 
 **Scope (D1):** everything proved in Lean, no black boxes. That covers the target paper and the results it uses from
@@ -131,7 +131,7 @@ Lean lines: 1,003,786 on main + 1,460 on branches, of ≈ 273,000 estimated by t
 | S2a | REDSPLICE-DEF | 2 | ≈800 | 🟡 95 % | REDSPLICE-DEF READY: the full Stage 1 construction; stage1Piece_sound now also supplies the triple designation and no-hinge-loop facts (AMEND7+8) |
 | S4 | SUBPRO | 8 | ≈3,000 | 🟡 95 % | SUBPRO done in atom-set form plus the hinge triple-bond designation (R37) |
 | V4 | VINEEST-S2 | 4 | ≈2,500 | 🟡 95 % | VINEEST-S2 done: vineChain_eq_sumintForm (V4 endpoint, ruling R2), 709-module snapshot-9 rebuild OK; obligations VINEPARAM, SumintSigned |
-| V5 | VINEEST | 13 | ≈5,100 | 🟡 95 % | Actual SFF/native cell metadata compiled; scalar clamp Fourier identity and all signed weighted resonance regions/log growth checked. Cutoff now covers full adjacent cells;31 dependent modules rebuilt. Global weighted mode norm,2D lift/same-power extraction, operative TermCertW/modulation/R57 final prefix and canonical integration remain open |
+| V5 | VINEEST | 13 | ≈5,100 | 🟡 95 % | Actual SFF/native cell metadata and full scalar clamped weighted Fourier mass compiled; cutoff covers complete adjacent cells,31-module dependency rebuild and74 source/audit/log pins verified. Native scalar normalization helpers checked separately;2D additive-weight lift/restriction, same-power extraction, operative TermCertW/modulation/R57 prefix and canonical integration remain open |
 | X1 | FLOWER-DEF | 10 | ≈3,100 | 🟡 95 % | FLOWER-DEF done in scratch: classes, kernels, identities, O-FK; B1.12 final (audited, F1/F2 applied) proposed for the freeze |
 | C1 | REG-STRUCT | 11 | ≈4,000 | 🟡 90 % | REG-STRUCT done in scratch: structure theorem with uniqueness, decoding, legal/dominant chains, counts (C₀=12^9); F55 |
 | C2 | LINKS | 11 | ≈3,000 | 🟡 90 % | LINKS done in scratch: branchpair, defchoice, linkXY, deflink, defcoh, auxlem, explem, treelemma, incohproof1 (couples); F62-F65 |
@@ -157,14 +157,14 @@ Lean lines: 1,003,786 on main + 1,460 on branches, of ≈ 273,000 estimated by t
 | X2 | FLOWEREST | 16 | ≈8,900 | 🟡 90 % | FLOWEREST scratch: conditional spine assembly and regular L0 leg exist; flower Stage-1, fixed-time traces and marked-flower LF-twist construction remain unresolved |
 | F2 | PLG | 12 | ≈4,150 | 🟡 86 % | LG-SPINE scratch: AMEND4/5/7+8 checkpoint and AMEND6-prime pair-type gate exist; AMEND9/10 consumer rework unfinished. Full Stage-1 and final-count producers remain required |
 | M7 | LFTWIST | 13 | ≈4,200 | 🟡 85 % | LFTWIST on main with the canonical universe; leaf bijection of LF twists on ordinary leaves proved (LFTWIST-LEAFMAP, R45) |
-| F3 | FINAL-COUNT | 4 | ≈900 | 🟡 81 % | Actual NonLoop source-selected phase now derives collection/name/SG/hinge/priority/SameDes data and all-dartless/NoTripleCut exit; duplicate helper overlay independently reviewed. Actual D1 shape/noncritical geometry and critical exponent drop compiled; immutable sources/logs verified. Uniform class-tree, terminal LOW/GARDEN/GLUE and canonical integration remain open |
-| S2 | REDSPLICE | 6 | ≈2,400 | 🟡 58 % | A3 exact batch canonical-state reindexing/output existence and selected-core witness independence compiled. A4 proves actual ordered boundary subtree/crown/single-unit forest equality and retained-leaf maps;136 immutable source/log pins verified. Leaf diagram/garden/full-fold/layer/hinge/slot/kernel invariance, tau partition, remaining vine packets and Stage1 producer remain open |
+| F3 | FINAL-COUNT | 4 | ≈900 | 🟡 81 % | Actual NonLoop source-selected phase, shape/critical exponent and pointwise paid potential/deviation compiled. Literal varying source collection agrees with unique admissible preimage; actual varying-label finite class cover compiled and9 source/evidence pins verified. Uniform per-node class-tree cost/sum, terminal LOW/GARDEN/GLUE and canonical integration remain open |
+| S2 | REDSPLICE | 6 | ≈2,400 | 🟡 58 % | A3 exact batch canonical-state reindexing/output existence and selected-core witness independence compiled. A4 actual containing-unit singleton GARDEN equality has no forest/crown/leaf assumption;144 immutable source/log pins verified. Simultaneous fold/other-unit transport, piece/layer/hinge/slot/kernel invariance, tau partition, remaining vine packets and Stage1 producer remain open |
 | F1 | FINAL-RED | 4 | ≈1,200 | 🟡 30 % | FINAL-RED: finalsbest1/finalsbest2 consumed in LG-SPINE's assembly (counting cover, finalproof numerics) proved generically |
 | G1 | STAGE2-DEF | 10 | ≈2,600 | 🟡 20 % | STAGE2-DEF: stage-2 operation datatype (Stage2Op) and TARGET's counting problem (lg-spine CountingChoices) defined |
 
 </details>
 
-Done fractions last reviewed: **2026-11-06 02:53 UTC**. Source: [`docs/campaign/progress.json`](docs/campaign/progress.json); history: [`docs/campaign/history.csv`](docs/campaign/history.csv).
+Done fractions last reviewed: **2026-11-06 03:01 UTC**. Source: [`docs/campaign/progress.json`](docs/campaign/progress.json); history: [`docs/campaign/history.csv`](docs/campaign/history.csv).
 <!-- /AUTO:progress -->
 
 ## Workers
@@ -172,12 +172,12 @@ Done fractions last reviewed: **2026-11-06 02:53 UTC**. Source: [`docs/campaign/
 <!-- AUTO:workers -->
 | Worker / session | model / account | packet | branch: last commit | brief |
 |---|---|---|---|---|
-| Codex orchestrator | Codex / current session | Source rulings, safe landings, proof-state review and HQ upkeep | `w/orch`: 0 min ago, 1 unlanded | [brief](docs/campaign/orch/CODEX-HANDOFF.md) |
-| subagent v5_w2 | GPT-6.1 Terra medium / current session | Actual ordered boundary/crown/singleton forest equality compiled; leaf diagram, garden/fold/kernel invariance and tau partition | `w/orch`: 0 min ago, 1 unlanded | [brief](docs/campaign/orch/briefs/TERRA-AUDIT-PORT-VP.md) |
-| subagent v5_w13 | GPT-6.1 Terra medium / current session | Widened adjacent-cell cutoff and31-module rebuild complete; actual global weighted Fourier mode norm/2D extraction toward W13 certificates | `w/orch`: 0 min ago, 1 unlanded | [brief](docs/campaign/orch/briefs/TERRA-PORT-VP-REPAIR.md) |
-| subagent finalcount_low | GPT-6.1 Terra medium / current session | Actual NonLoop source-selected phase, D1 shape/critical exponent drop compiled; uniform class-tree and terminal counting assembly | `w/orch`: 0 min ago, 1 unlanded | [brief](docs/campaign/orch/briefs/TERRA-LOW-UNLOOP-BRIDGE.md) |
-| cx-world | GPT-6.1 Sol medium / codex-2 (existing session) | Existing serial canonical-world upstream rebuild; axiom closeout and assembly overlay pending | `w/orch`: 0 min ago, 1 unlanded | [brief](docs/campaign/orch/CODEX-HANDOFF.md) |
-| cx-b4bprep | GPT-6.1 Sol medium / codex-2 (existing session) | Existing R52 Batch-4b serial catalogue rebuild; skeleton/layer-count/N4 checks pending | `w/orch`: 0 min ago, 1 unlanded | [brief](docs/campaign/orch/CODEX-HANDOFF.md) |
+| Codex orchestrator | Codex / current session | Source rulings, safe landings, proof-state review and HQ upkeep | `w/orch`: 0 min ago, 2 unlanded | [brief](docs/campaign/orch/CODEX-HANDOFF.md) |
+| subagent v5_w2 | GPT-6.1 Terra medium / current session | Actual containing-unit singleton garden equality compiled; simultaneous fold, piece/kernel invariance and tau partition | `w/orch`: 0 min ago, 2 unlanded | [brief](docs/campaign/orch/briefs/TERRA-AUDIT-PORT-VP.md) |
+| subagent v5_w13 | GPT-6.1 Terra medium / current session | Full scalar native weighted/unweighted clamp mass checked;2D lift, adjacent rectangle restriction and operative W13 certificates | `w/orch`: 0 min ago, 2 unlanded | [brief](docs/campaign/orch/briefs/TERRA-PORT-VP-REPAIR.md) |
+| subagent finalcount_low | GPT-6.1 Terra medium / current session | Actual varying-label NonLoop class cover and geometry/potential/deviation; uniform tree costs/sums and terminal counting assembly | `w/orch`: 0 min ago, 2 unlanded | [brief](docs/campaign/orch/briefs/TERRA-LOW-UNLOOP-BRIDGE.md) |
+| cx-world | GPT-6.1 Sol medium / codex-2 (existing session) | Existing serial canonical-world upstream rebuild; axiom closeout and assembly overlay pending | `w/orch`: 0 min ago, 2 unlanded | [brief](docs/campaign/orch/CODEX-HANDOFF.md) |
+| cx-b4bprep | GPT-6.1 Sol medium / codex-2 (existing session) | Existing R52 Batch-4b serial catalogue rebuild; skeleton/layer-count/N4 checks pending | `w/orch`: 0 min ago, 2 unlanded | [brief](docs/campaign/orch/CODEX-HANDOFF.md) |
 <!-- /AUTO:workers -->
 
 ## Papers

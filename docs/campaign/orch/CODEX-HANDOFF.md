@@ -203,3 +203,9 @@ Leaf/address commutation and full spliced-garden equality, simultaneous fold reo
 READY interior singleton-forest helper checkpoint; A4/source endpoint remains open.
 
 W13 widened the auxiliary cutoff to inner7/4 and outer9/4 around1/2, preserving support inside[-2,3] and giving a plateau containing[-1,2] with margin. Old exact sources were preserved before the change; all31 dependent clamp modules rebuilt exit0. Individual resonance integrability/growth estimates are checked; actual global weighted Fourier norm/2D/operative certificate remain open. No new packet fraction or seal credited by these helper checkpoints.
+
+## Scalar Fourier, singleton garden and varying-label cover, 2026-11-06 03:01 UTC
+
+Root verified/copies74 scalar-clamp source/evidence pins,144 actual singleton-garden pins and9 actual varying-source-cover pins into the immutable root-checkpoints named in the adjacent reports. Scalar weighted angular Fourier mass is proved with arbitrary positive exponent loss and adjacent-cell cutoff; actual containing-unit singleton gardens are literally equal; varying source collections/selected cover are faithful to the unique original source image. All reported audits use only standard axioms. These are provisional helper milestones, not closed endpoints.
+
+Uniform LOW tree/cost/sum and terminal counting, simultaneous vine fold/piece/kernel invariance/tau, and the two-clock analytic lift/operative certificate remain open. No work fraction or seal raised. The flower research note now explicitly excludes the newly added lone boundary leaf from the original-nonflower-leaf bijection. A prepared bounded parent-pruning brief addresses actual path/time/domain maps only, and has not reassigned an active worker or amended a source/frozen interface.
