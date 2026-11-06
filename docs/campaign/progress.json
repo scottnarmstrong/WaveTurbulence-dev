@@ -1,5 +1,5 @@
 {
- "assessed": "2026-11-06 01:31 UTC",
+ "assessed": "2026-11-06 01:57 UTC",
  "notes": "Lean work items = blueprint packets (docs/blueprint/GRAPH.md §E) with their difficulty weights (node weights L=1, M=2, H=4, VH=8 summed). Each frozen theorem anchor adds weight 1, credited when SEALED. Done fractions are the orchestrator's assessment, reviewed at integration rounds.",
  "lines_est_total": 273000,
  "parts": [
@@ -685,7 +685,7 @@
      "weight": 13.0,
      "lines_est": 5100,
      "done": 0.95,
-     "note": "Actual SFF, native metadata and per-cell Q/T SepT with shared spatial factors compiled; source coefficients/costs/count retained. Adjacent-cell clamp Fourier estimate, same-power difference extraction, all-row TermCertW, modulation, R57 target and final prefix remain open. Canonical validation pending"
+     "note": "Actual SFF, native metadata and per-cell Q/T terms with shared spatial factors compiled. Clamp inversion, cutoff, interval oscillation, regional derivatives and three-piece IBP/boundary cancellation compiled; weighted Fourier estimate remains open. Full TermCertW, modulated flattening, R57 target and final prefix remain open; scratch only"
     },
     {
      "id": "G3",
@@ -703,7 +703,7 @@
      "weight": 6.0,
      "lines_est": 2400,
      "done": 0.58,
-     "note": "Single-twist actual unit bijection, ordered joints and list permutation independently reviewed as helpers. Selected-family batch invariant and splice molecule iso compiled; interior port-survival case now proved. Actual outer-joint position/garden/layer/hinge/slot/kernel invariance, tau partition, VINE-B/C/D/E/F and full Stage1 remain open"
+     "note": "Unique actual batch unit equivalence with composed atoms/ordered joints compiled and snapshotted; selected-family invariant and splice molecule/root map proved. Interior switched darts are removed; outer placement and whole-unit singleton splice equality compiled. Full simultaneous garden/position/layer/hinge/slot/kernel invariance, tau partition, remaining VINE-B/C/D/E/F and Stage1 producer remain open"
     },
     {
      "id": "G8",
@@ -739,7 +739,7 @@
      "weight": 4.0,
      "lines_est": 900,
      "done": 0.81,
-     "note": "LOW-FRONT A1-A4 and D3 contraction provisional. Actual D1 DoubleShape deviation through ghost deletion has an independent source review, exact consumer and 8 standard-axiom checks. Garden rho/critical loss, source logarithmic absorption and conditional potential arithmetic compiled. Actual one-step discharge, full LOW-CHAIN/GARDEN/GLUE and canonical integration remain open"
+     "note": "Actual garden UStepD1 DoubleShape deviation, reduced InvL index and branch-paid potential compiled; exact consumer +8 standard-axiom checks,941 pins verified and441 source/text snapshots preserved. R60 selected phase/projection, intactness/reach invariant and priority object selector compiled; eligible cut/class cover, all-dartless exit, terminal LOW/GARDEN/GLUE and canonical integration remain open"
     },
     {
      "id": "F2",
