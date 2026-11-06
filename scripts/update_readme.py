@@ -129,7 +129,7 @@ def main():
     est_total = prog.get("lines_est_total", 0)
     now = datetime.datetime.now(datetime.timezone.utc)
     stamp = now.strftime("%Y-%m-%d %H:%M UTC")
-    updated = (f"> **Last updated: {stamp}** · **estimated completion {pct:.1f} %** (Lean proofs {lean_pct:.1f} %) · "
+    updated = (f"> **Last updated: {stamp}** · **estimated completion {pct:.1f} %** (Lean work {lean_pct:.1f} %) · "
                f"frozen theorems sealed: {sealed} / {frozen_total} (+ {frozen_defs} frozen definitions) · "
                f"**{main_lines:,} lines of Lean on main** ({main_files} files) + {branch_lines:,} unlanded on worker "
                f"branches · blueprint estimate ≈ {est_total:,} lines")
