@@ -30565,6 +30565,1197 @@
         "frozen_paths": [],
         "audit_paths": []
       }
+    },
+    {
+      "id": "prodDyadicCut_v1",
+      "kind": "definition",
+      "author_approval": {
+        "approved_by": "Scott Armstrong (standing authorization 2026-11-05, via wt-orch)",
+        "approved_at": "2026-11-06",
+        "approval_ref": "docs/DECISIONS.md#D13",
+        "approval_version": "1"
+      },
+      "source": {
+        "revision": "arXiv:2311.10082v2, WKE-Longer_times_Final_arXiv.tex sha256 493eef6b7dec448bc5f9f1c3974c0cad7a85eca9bc428f5b35e968aad76727cb",
+        "range": "T L2283–L2285; DH21 L2731, L2735"
+      },
+      "contract": {
+        "id": "dh-long.b1.prodDyadicCut",
+        "version": "1"
+      },
+      "path": "WaveTurbulence/Frozen/Defs/ProdDyadicCut.lean",
+      "export": "WaveTurbulence.prodDyadicCut",
+      "split_policy": {
+        "source_group": "dh-long.b1.prodDyadicCut",
+        "mode": "NOT_SPLIT",
+        "ruling_ref": "docs/DECISIONS.md#D13"
+      },
+      "abi_sha256": "d033a3ecda36f0e30c096eb53ddffe7573626935b927ad54aed035edcb2161ad",
+      "definition_closure": [
+        {
+          "path": "WaveTurbulence/Frozen/Defs/Chi0.lean",
+          "sha256": "d63a09083319dff6bd701226a9b109fdcce0c406ff17b84d6ee803144aa68aaa"
+        }
+      ],
+      "state": "SEALED",
+      "full_file_sha256": "5d359280d3c56ebb0940a8cb76c66944736970b0cb9c011266d04b47ef9703f4"
+    },
+    {
+      "id": "LayeredGarden.cutWeight1P_v1",
+      "kind": "definition",
+      "author_approval": {
+        "approved_by": "Scott Armstrong (standing authorization 2026-11-05, via wt-orch)",
+        "approved_at": "2026-11-06",
+        "approval_ref": "docs/DECISIONS.md#D13",
+        "approval_version": "1"
+      },
+      "source": {
+        "revision": "arXiv:2311.10082v2, WKE-Longer_times_Final_arXiv.tex sha256 493eef6b7dec448bc5f9f1c3974c0cad7a85eca9bc428f5b35e968aad76727cb",
+        "range": "T L2283; DH21 L2731"
+      },
+      "contract": {
+        "id": "dh-long.b1.LayeredGarden.cutWeight1P",
+        "version": "1"
+      },
+      "path": "WaveTurbulence/Frozen/Defs/LayeredGardenCutWeight1P.lean",
+      "export": "WaveTurbulence.LayeredGarden.cutWeight1P",
+      "split_policy": {
+        "source_group": "dh-long.b1.LayeredGarden.cutWeight1P",
+        "mode": "NOT_SPLIT",
+        "ruling_ref": "docs/DECISIONS.md#D13"
+      },
+      "abi_sha256": "8046759a0b431940c68d2b576184ff26207128b83b3d7c20d9f8c45acdcee711",
+      "definition_closure": [
+        {
+          "path": "WaveTurbulence/Frozen/Defs/Chi0.lean",
+          "sha256": "d63a09083319dff6bd701226a9b109fdcce0c406ff17b84d6ee803144aa68aaa"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/ForestSet.lean",
+          "sha256": "5bb4a1cdfc20e47f7fc6730d52ac3fafc74f14cd7f0ab6ea559289cf9b26281a"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/GBranch.lean",
+          "sha256": "507541e0474ddf577036d0e9707b7bd11ce0cad930be7e6c6d5bb5c09643564a"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/GBranchChild.lean",
+          "sha256": "186835a341292a60598222dc2cc665b7cf4ede9a8bf5e8bcd5f0807cc7eb7844"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/GBranchToNode.lean",
+          "sha256": "0d1cc89264a8cf13761291586c1bda22fa5f097f1b0485cd4b95a364add726c1"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/GLeaf.lean",
+          "sha256": "d7361d1155756efa9e2aec56234e9a427532a0a599af2d85a00b54b4a15cf48d"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/GLeafToNode.lean",
+          "sha256": "be8380e4f28e97bfebed5ee1a95dc66619982e2b92c619572b1baffec5f15307"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/GNode.lean",
+          "sha256": "46a36e8b1dbb96c0f6069946ce870d5d32623ca535d762b791c304fb2821fe68"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/Garden.lean",
+          "sha256": "a9f8162df28b5deacbd40f137331e3edaf43acf78d5257edb684e0787e5ef1c5"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/GardenIsFlower.lean",
+          "sha256": "f5f1cfcbd50dd05c2fb879264fb0de4568d6c3864b5d779a0cb5feae94d72046"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/InstFintypeGNode.lean",
+          "sha256": "89f6f33ca48b6f2377e66118380fe6bbc596a5d99c7a15ab0fc683118a72415c"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/IsLayering.lean",
+          "sha256": "52256166c46d5dbf08927d6090ca12e4b98b6b96deaf2fab86036bce5026d5ad"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/LayeredGarden.lean",
+          "sha256": "f84ff39b8da154a65738a074a49c6974418cf767b043435a33fc147b8f67c28e"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/LayeredGardenIsFlowerNode.lean",
+          "sha256": "90567d463b28935d79b8cc2c75c024541dbfe85192bd144c48f0745e7d42d863"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/LayeredGardenIsTopLeaf.lean",
+          "sha256": "1220ad05b6777348b1462c9dff18b62900ae68552ff1e3069692cd397033e957"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/LayeredGardenParentLayer.lean",
+          "sha256": "9ff86404b7db21c57be3759e838902289a8886b89b556f7de0a19bbb03af3f59"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/MarkTag.lean",
+          "sha256": "6e507a2211b8ce6622377c80242423364753c7aac21fd049259384c258c8edc0"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/Mom.lean",
+          "sha256": "22aaac77bd1887265c3d8fec49f6975ae68311e18529151740ba0e74557e5d87"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/NodeSign.lean",
+          "sha256": "07b6e125eeba35b66dab4e6907fa03581c24e2755cf5d661cbfb6fd392b38e46"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/ProdDyadicCut.lean",
+          "sha256": "5d359280d3c56ebb0940a8cb76c66944736970b0cb9c011266d04b47ef9703f4"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/TTree.lean",
+          "sha256": "e9700f184b11fc568b5a2d6c445333eeb52e642cd310ee89deeb0ade8013b8f4"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/TTreeBranching.lean",
+          "sha256": "0a51cdddae5af49fbe0050f05a00ce562c29d06067a25b8f63628fdd9ef1b8d0"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/TTreeLeaves.lean",
+          "sha256": "69606d4758a810a39ecc3169b899c44f0084d5f7ac50bf45deb49b313aeaf2e1"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/TTreeNodes.lean",
+          "sha256": "ea390b52a947e83097db5feabb6b9ab91b043eebd3cd6be788776cc4744a5f15"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/TTreePath.lean",
+          "sha256": "112444bc3730f5d196fa21a4e3c91a83affc8cc685432e38cb4eed07f314c6cd"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/TTreePathSign.lean",
+          "sha256": "e38bf5e94a0e4084c47943aa2aae9c059ab8c94119dcb82df830fcbfc7429d0e"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/TTreePre.lean",
+          "sha256": "aecc42a4deefa069ebd109f0e3721fe14a0deb90a4d34fcfff6da7080893af47"
+        }
+      ],
+      "state": "SEALED",
+      "full_file_sha256": "bcde60c8b13230b5f55339ae25e31fb1ba6749ace8d41824506a7affb9248d09"
+    },
+    {
+      "id": "LayeredGarden.cutWeight2P_v1",
+      "kind": "definition",
+      "author_approval": {
+        "approved_by": "Scott Armstrong (standing authorization 2026-11-05, via wt-orch)",
+        "approved_at": "2026-11-06",
+        "approval_ref": "docs/DECISIONS.md#D13",
+        "approval_version": "1"
+      },
+      "source": {
+        "revision": "arXiv:2311.10082v2, WKE-Longer_times_Final_arXiv.tex sha256 493eef6b7dec448bc5f9f1c3974c0cad7a85eca9bc428f5b35e968aad76727cb",
+        "range": "T L2285; DH21 L2735"
+      },
+      "contract": {
+        "id": "dh-long.b1.LayeredGarden.cutWeight2P",
+        "version": "1"
+      },
+      "path": "WaveTurbulence/Frozen/Defs/LayeredGardenCutWeight2P.lean",
+      "export": "WaveTurbulence.LayeredGarden.cutWeight2P",
+      "split_policy": {
+        "source_group": "dh-long.b1.LayeredGarden.cutWeight2P",
+        "mode": "NOT_SPLIT",
+        "ruling_ref": "docs/DECISIONS.md#D13"
+      },
+      "abi_sha256": "b245bfb49ee9c77d4a2a0e3ab70c9efe83985229bd1a3ee20cafa07fac2c1e95",
+      "definition_closure": [
+        {
+          "path": "WaveTurbulence/Frozen/Defs/Chi0.lean",
+          "sha256": "d63a09083319dff6bd701226a9b109fdcce0c406ff17b84d6ee803144aa68aaa"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/ForestSet.lean",
+          "sha256": "5bb4a1cdfc20e47f7fc6730d52ac3fafc74f14cd7f0ab6ea559289cf9b26281a"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/GBranch.lean",
+          "sha256": "507541e0474ddf577036d0e9707b7bd11ce0cad930be7e6c6d5bb5c09643564a"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/GBranchChild.lean",
+          "sha256": "186835a341292a60598222dc2cc665b7cf4ede9a8bf5e8bcd5f0807cc7eb7844"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/GBranchIsParentOf.lean",
+          "sha256": "93ab61c13d5b0d827fd93bec3de031bf833cd25ce87355dc6ef388f0edf0127e"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/GBranchToNode.lean",
+          "sha256": "0d1cc89264a8cf13761291586c1bda22fa5f097f1b0485cd4b95a364add726c1"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/GLeaf.lean",
+          "sha256": "d7361d1155756efa9e2aec56234e9a427532a0a599af2d85a00b54b4a15cf48d"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/GLeafToNode.lean",
+          "sha256": "be8380e4f28e97bfebed5ee1a95dc66619982e2b92c619572b1baffec5f15307"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/GNode.lean",
+          "sha256": "46a36e8b1dbb96c0f6069946ce870d5d32623ca535d762b791c304fb2821fe68"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/GNodeIsDesc.lean",
+          "sha256": "1e919954e58bfbb93374bdff7933d22d00b136d544f17d70079148a0e23bfd76"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/Garden.lean",
+          "sha256": "a9f8162df28b5deacbd40f137331e3edaf43acf78d5257edb684e0787e5ef1c5"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/GardenInstDecidableIsFlower.lean",
+          "sha256": "b881289dddf12b25af8c442af11a34fc0041fe151b43afd2fd02134adf3c0657"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/GardenIsFlower.lean",
+          "sha256": "f5f1cfcbd50dd05c2fb879264fb0de4568d6c3864b5d779a0cb5feae94d72046"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/GardenIsFlowerParent.lean",
+          "sha256": "29c62b6b13a119d5a4017421cb0b179d6ba1bfc9a726108e61ea7d641fdfc615"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/InstDecidableEqMarkTag.lean",
+          "sha256": "edfd6bda29f0d204bb47d8ab5e8c14cb3dbdc45265273dc94da9ebaa49d6a5ff"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/InstDecidableIsDesc.lean",
+          "sha256": "8873bc9b748fc3adb13deedcb5b13c689614469e4e57cc1d17688892eb932c00"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/InstDecidableIsFlowerParent.lean",
+          "sha256": "a763d8d2016b5218af990a554c4c68b780336705a4e586c8dce6ee6cf477f71f"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/InstDecidableIsParentOf.lean",
+          "sha256": "e852660a3ec55416908ddaf56d1b0ebbcb18134159efef7a90e416350feb0383"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/InstFintypeGBranch.lean",
+          "sha256": "06bc44e552d766c31a2eb5258532e75cd6c204e940a9776d60a52ee791082a6b"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/InstFintypeGLeaf.lean",
+          "sha256": "358ee97a30e20cf6d9e007a7aaab69aecbd36b37c85d2800ab32b91d346d2f72"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/IsLayering.lean",
+          "sha256": "52256166c46d5dbf08927d6090ca12e4b98b6b96deaf2fab86036bce5026d5ad"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/LayeredGarden.lean",
+          "sha256": "f84ff39b8da154a65738a074a49c6974418cf767b043435a33fc147b8f67c28e"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/LayeredGardenInstDecidableOnStem.lean",
+          "sha256": "8db831cf4d70006b6f52f487a1de909bf064747f842ea494b6f626016824221f"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/LayeredGardenOnStem.lean",
+          "sha256": "765f880de4ac5277efe9a97575e509a78b34acb7cffcd0bdd5778709c40b4295"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/MarkTag.lean",
+          "sha256": "6e507a2211b8ce6622377c80242423364753c7aac21fd049259384c258c8edc0"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/Mom.lean",
+          "sha256": "22aaac77bd1887265c3d8fec49f6975ae68311e18529151740ba0e74557e5d87"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/NodeSign.lean",
+          "sha256": "07b6e125eeba35b66dab4e6907fa03581c24e2755cf5d661cbfb6fd392b38e46"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/OmegaNode.lean",
+          "sha256": "9928c2344c67e8067136b18ab2c3ca10e0388d75b6771ee6e0d0b13c392a3c31"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/ProdDyadicCut.lean",
+          "sha256": "5d359280d3c56ebb0940a8cb76c66944736970b0cb9c011266d04b47ef9703f4"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/ResFactor.lean",
+          "sha256": "f6322894e350b33c3889815d026e622072349d69b8a7bc0405187a39f94c2fdf"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/TTree.lean",
+          "sha256": "e9700f184b11fc568b5a2d6c445333eeb52e642cd310ee89deeb0ade8013b8f4"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/TTreeBranching.lean",
+          "sha256": "0a51cdddae5af49fbe0050f05a00ce562c29d06067a25b8f63628fdd9ef1b8d0"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/TTreeLeaves.lean",
+          "sha256": "69606d4758a810a39ecc3169b899c44f0084d5f7ac50bf45deb49b313aeaf2e1"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/TTreeNodes.lean",
+          "sha256": "ea390b52a947e83097db5feabb6b9ab91b043eebd3cd6be788776cc4744a5f15"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/TTreePath.lean",
+          "sha256": "112444bc3730f5d196fa21a4e3c91a83affc8cc685432e38cb4eed07f314c6cd"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/TTreePathSign.lean",
+          "sha256": "e38bf5e94a0e4084c47943aa2aae9c059ab8c94119dcb82df830fcbfc7429d0e"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/TTreePre.lean",
+          "sha256": "aecc42a4deefa069ebd109f0e3721fe14a0deb90a4d34fcfff6da7080893af47"
+        }
+      ],
+      "state": "SEALED",
+      "full_file_sha256": "8b1a590758f0fedffae3ceba7c24079d04eb781153726f3a4af4d64d54ae5e15"
+    },
+    {
+      "id": "flowerSumP_v1",
+      "kind": "definition",
+      "author_approval": {
+        "approved_by": "Scott Armstrong (standing authorization 2026-11-05, via wt-orch)",
+        "approved_at": "2026-11-06",
+        "approval_ref": "docs/DECISIONS.md#D13",
+        "approval_version": "1"
+      },
+      "source": {
+        "revision": "arXiv:2311.10082v2, WKE-Longer_times_Final_arXiv.tex sha256 493eef6b7dec448bc5f9f1c3974c0cad7a85eca9bc428f5b35e968aad76727cb",
+        "range": "T (flowerexp2), L2287–L2290; product-form cutoffs (DH21 L2731, L2735)"
+      },
+      "contract": {
+        "id": "dh-long.b1.flowerSumP",
+        "version": "1"
+      },
+      "path": "WaveTurbulence/Frozen/Defs/FlowerSumP.lean",
+      "export": "WaveTurbulence.flowerSumP",
+      "split_policy": {
+        "source_group": "dh-long.b1.flowerSumP",
+        "mode": "NOT_SPLIT",
+        "ruling_ref": "docs/DECISIONS.md#D13"
+      },
+      "abi_sha256": "d6c42092c6dea851791266ce970e18a0c973994227624255085bcc30946de4a8",
+      "definition_closure": [
+        {
+          "path": "WaveTurbulence/Frozen/Defs/Chi0.lean",
+          "sha256": "d63a09083319dff6bd701226a9b109fdcce0c406ff17b84d6ee803144aa68aaa"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/CosetDecoration.lean",
+          "sha256": "1faecce6251dc1c19c0896fc2bd4738c57fa592b8adcf36d9771a23407df6434"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/Coupling.lean",
+          "sha256": "4fcfffdfca597a456fdb0888af06659a475d8a83d1d5229e169fafeb0d5aa3c4"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/EpsCoef.lean",
+          "sha256": "32281713e954a214c2665a0dce05985beb65f7a2274600e4a2945d3debe50b06"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/EpsDec.lean",
+          "sha256": "6a801ef5d9d14dedb917fc0c4a598d8b70e489dbee5512476cff064f828a914a"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/FixPat.lean",
+          "sha256": "ba9e66d855dc12e0168ba3d58ac7edfa67fb6c1470c67aff3e1d0825136056c3"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/FlowerKind.lean",
+          "sha256": "3c33a698f8f95aa7a0d586f4a3b00b2d2a4119abaa69f79de398daf91de0439a"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/ForestSet.lean",
+          "sha256": "5bb4a1cdfc20e47f7fc6730d52ac3fafc74f14cd7f0ab6ea559289cf9b26281a"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/GBranch.lean",
+          "sha256": "507541e0474ddf577036d0e9707b7bd11ce0cad930be7e6c6d5bb5c09643564a"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/GBranchChild.lean",
+          "sha256": "186835a341292a60598222dc2cc665b7cf4ede9a8bf5e8bcd5f0807cc7eb7844"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/GBranchIsChildOf.lean",
+          "sha256": "d26ee9cbd692944b23c4945867c70c23de34fd838259d52df6018a781348a37a"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/GBranchIsParentOf.lean",
+          "sha256": "93ab61c13d5b0d827fd93bec3de031bf833cd25ce87355dc6ef388f0edf0127e"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/GBranchToNode.lean",
+          "sha256": "0d1cc89264a8cf13761291586c1bda22fa5f097f1b0485cd4b95a364add726c1"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/GLeaf.lean",
+          "sha256": "d7361d1155756efa9e2aec56234e9a427532a0a599af2d85a00b54b4a15cf48d"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/GLeafToNode.lean",
+          "sha256": "be8380e4f28e97bfebed5ee1a95dc66619982e2b92c619572b1baffec5f15307"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/GNode.lean",
+          "sha256": "46a36e8b1dbb96c0f6069946ce870d5d32623ca535d762b791c304fb2821fe68"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/GNodeIncomparable.lean",
+          "sha256": "0ba00932d8b66aa19307208dfff0dd1175341299739f9d92ed49a76dc7f54d1f"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/GNodeIsDesc.lean",
+          "sha256": "1e919954e58bfbb93374bdff7933d22d00b136d544f17d70079148a0e23bfd76"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/GNodeLeavesBelow.lean",
+          "sha256": "7fb65efc9012403a9ba0f868c7d569d5bda52d2394633d70d46f470b0a345c4f"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/GNodeOrderBelow.lean",
+          "sha256": "38da540a4e001d3634ca5988978b13fc63da47c1bf32dd50d2c71c282e655436"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/GNodeRoot.lean",
+          "sha256": "d472e6d82bbdf5b30643e49033db5a127cd1e1c2803776ef016bf0294af48515"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/Garden.lean",
+          "sha256": "a9f8162df28b5deacbd40f137331e3edaf43acf78d5257edb684e0787e5ef1c5"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/GardenCompletelyPaired.lean",
+          "sha256": "2d7fb138f089806a6536ef0575018234d284abdafa2616143b4d3592c4ea9153"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/GardenExtendFix.lean",
+          "sha256": "1ad175bdf6ec6c2ed8d6d8e0a2c1d99a7fe281aa7bf14940fc06b44000d2ce53"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/GardenInstDecidableIsFlower.lean",
+          "sha256": "b881289dddf12b25af8c442af11a34fc0041fe151b43afd2fd02134adf3c0657"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/GardenIsFlower.lean",
+          "sha256": "f5f1cfcbd50dd05c2fb879264fb0de4568d6c3864b5d779a0cb5feae94d72046"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/GardenIsFlowerGarden.lean",
+          "sha256": "10fa402216d6c905d7fa4d37986d9914f87dbef62a3a632ecffd2227dbd62202"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/GardenIsFlowerParent.lean",
+          "sha256": "29c62b6b13a119d5a4017421cb0b179d6ba1bfc9a726108e61ea7d641fdfc615"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/GardenOrder.lean",
+          "sha256": "cd9ffe021ac1fa20ffd11f15aa5f98e5a3ced621cf7e497647805b3af9150e06"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/GardenSign.lean",
+          "sha256": "1852372cf3ee80e34f6b14e4f1ef05e7565b9df88321c463a27d212c8739b57f"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/GardenZeta.lean",
+          "sha256": "41f26a34cf25c0584d442c84b635075657cb87589967dfa4eae77f01edac7db4"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/GenDecoration.lean",
+          "sha256": "bbbf28247972f69402cc0577313441847b54a54c834f1347949f0e4a39113e7a"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/InputLeaves.lean",
+          "sha256": "fa19876ba3a3c1cec38ba438bd25a3b9f346b1c166f0fa26e60a9deb3c3de1cc"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/InstDecidableEqGBranch.lean",
+          "sha256": "09984a26aa162ccbcba1d9d15204efe802ac0874187d02f13069739e74a981b5"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/InstDecidableEqGLeaf.lean",
+          "sha256": "6f6dd67d24dbc761c0482b07c3a0016e8558db1c567d898f797cfb7292cdd8c7"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/InstDecidableEqMarkTag.lean",
+          "sha256": "edfd6bda29f0d204bb47d8ab5e8c14cb3dbdc45265273dc94da9ebaa49d6a5ff"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/InstDecidableIsDesc.lean",
+          "sha256": "8873bc9b748fc3adb13deedcb5b13c689614469e4e57cc1d17688892eb932c00"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/InstDecidableIsFlowerParent.lean",
+          "sha256": "a763d8d2016b5218af990a554c4c68b780336705a4e586c8dce6ee6cf477f71f"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/InstDecidableIsParentOf.lean",
+          "sha256": "e852660a3ec55416908ddaf56d1b0ebbcb18134159efef7a90e416350feb0383"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/InstFintypeGBranch.lean",
+          "sha256": "06bc44e552d766c31a2eb5258532e75cd6c204e940a9776d60a52ee791082a6b"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/InstFintypeGLeaf.lean",
+          "sha256": "358ee97a30e20cf6d9e007a7aaab69aecbd36b37c85d2800ab32b91d346d2f72"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/InstFintypeGNode.lean",
+          "sha256": "89f6f33ca48b6f2377e66118380fe6bbc596a5d99c7a15ab0fc683118a72415c"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/IsCanonH.lean",
+          "sha256": "eb5a21c647b2dcb34a5ab004c4975f01a7eb7433ecdd8a6757cbc3cbae078c9c"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/IsDecoration.lean",
+          "sha256": "e26471c4152aa44b592855b37db296769b9993bfabc463ad54d44db83908a5a0"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/IsLayering.lean",
+          "sha256": "52256166c46d5dbf08927d6090ca12e4b98b6b96deaf2fab86036bce5026d5ad"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/KDomainFix.lean",
+          "sha256": "618fc406f4cc0c7d4d07799494453b6c7c6cd595345917bddefbbb407667a02d"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/KernelKgen.lean",
+          "sha256": "1e76476561e13f34294dd79df08fbba7a3175ba6d889803826a26abc484df187"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/LatticePoint.lean",
+          "sha256": "5012e349f1715c3f53042229cd33eba43acd02a5fe3de310c0f71569f5c24f2d"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/LayeredGarden.lean",
+          "sha256": "f84ff39b8da154a65738a074a49c6974418cf767b043435a33fc147b8f67c28e"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/LayeredGardenAttachLinked.lean",
+          "sha256": "d8045e891f512c8478bca454eef1d37edea80e770f44e73e7ff57ac9347cc670"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/LayeredGardenAttachLinkedOn.lean",
+          "sha256": "4923a39ea27eb85a8e7d3d06d823d666f484d270053112d149af52d1f2ec7f15"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/LayeredGardenAttachNodes.lean",
+          "sha256": "7332a2c3f4ff3c4502a79c7d00c5534147ba4d3f404dd57fdf0879f4f66ee814"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/LayeredGardenAttachedOrder.lean",
+          "sha256": "c35d3300c6cd56d0c20c10eacf2a7b4d383a59a7e4197c813c44eef87bae08a1"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/LayeredGardenCanonCriterion.lean",
+          "sha256": "79e97bea3874179120dfc9a7241f56c487624b51931d1480f6331feed5eaddbd"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/LayeredGardenCutWeight1P.lean",
+          "sha256": "bcde60c8b13230b5f55339ae25e31fb1ba6749ace8d41824506a7affb9248d09"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/LayeredGardenCutWeight2P.lean",
+          "sha256": "8b1a590758f0fedffae3ceba7c24079d04eb781153726f3a4af4d64d54ae5e15"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/LayeredGardenFixPat.lean",
+          "sha256": "f841e195e16db09d5e01a678a8c4bd23d86ee76955c6f1db8141da9d10fae300"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/LayeredGardenFlowerKindOK.lean",
+          "sha256": "98dad24b6e627079c629d4fee099ed4f5a7402e6a5ee3380d4a29903ab081446"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/LayeredGardenInstDecidableOnStem.lean",
+          "sha256": "8db831cf4d70006b6f52f487a1de909bf064747f842ea494b6f626016824221f"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/LayeredGardenIsFlowerNode.lean",
+          "sha256": "90567d463b28935d79b8cc2c75c024541dbfe85192bd144c48f0745e7d42d863"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/LayeredGardenIsTopLeaf.lean",
+          "sha256": "1220ad05b6777348b1462c9dff18b62900ae68552ff1e3069692cd397033e957"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/LayeredGardenOnStem.lean",
+          "sha256": "765f880de4ac5277efe9a97575e509a78b34acb7cffcd0bdd5778709c40b4295"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/LayeredGardenParentLayer.lean",
+          "sha256": "9ff86404b7db21c57be3759e838902289a8886b89b556f7de0a19bbb03af3f59"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/LayeredGardenPatValid.lean",
+          "sha256": "1245e95ee2bcecf63580c167d7704159e82897530353436868a6a3fd095e6c35"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/LayeredGardenSibWeight.lean",
+          "sha256": "863f15ab6c2cb02c3c885bf52e37b0a2dae5c0c0ae7c2c7a362d772cae7aa5a7"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/LayeredGardenTopCountBelow.lean",
+          "sha256": "b074f33817f06d8066733b8af82e3b0b7e8a07d774a06239d3f2200f20c28db6"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/LayeredGardenTopOrder.lean",
+          "sha256": "85d7a063c7f2c99f959c280e6f11fbba11df4250f6e56e6d782f37fa9608940e"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/MarkTag.lean",
+          "sha256": "6e507a2211b8ce6622377c80242423364753c7aac21fd049259384c258c8edc0"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/Mom.lean",
+          "sha256": "22aaac77bd1887265c3d8fec49f6975ae68311e18529151740ba0e74557e5d87"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/NodeSign.lean",
+          "sha256": "07b6e125eeba35b66dab4e6907fa03581c24e2755cf5d661cbfb6fd392b38e46"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/OmegaNode.lean",
+          "sha256": "9928c2344c67e8067136b18ab2c3ca10e0388d75b6771ee6e0d0b13c392a3c31"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/PhaseProdOff.lean",
+          "sha256": "8d5b4f786af92c3d437ceb9abcf41ff0631d3de223d8f38c74cc369d673ad4b6"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/ProdDyadicCut.lean",
+          "sha256": "5d359280d3c56ebb0940a8cb76c66944736970b0cb9c011266d04b47ef9703f4"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/ResFactor.lean",
+          "sha256": "f6322894e350b33c3889815d026e622072349d69b8a7bc0405187a39f94c2fdf"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/TTree.lean",
+          "sha256": "e9700f184b11fc568b5a2d6c445333eeb52e642cd310ee89deeb0ade8013b8f4"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/TTreeBranching.lean",
+          "sha256": "0a51cdddae5af49fbe0050f05a00ce562c29d06067a25b8f63628fdd9ef1b8d0"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/TTreeLeaves.lean",
+          "sha256": "69606d4758a810a39ecc3169b899c44f0084d5f7ac50bf45deb49b313aeaf2e1"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/TTreeNodes.lean",
+          "sha256": "ea390b52a947e83097db5feabb6b9ab91b043eebd3cd6be788776cc4744a5f15"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/TTreeOrder.lean",
+          "sha256": "bb079979a4f1be170f584e1a6f19c1101dca2a3b661b47ab5e7bc04409590460"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/TTreePath.lean",
+          "sha256": "112444bc3730f5d196fa21a4e3c91a83affc8cc685432e38cb4eed07f314c6cd"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/TTreePathSign.lean",
+          "sha256": "e38bf5e94a0e4084c47943aa2aae9c059ab8c94119dcb82df830fcbfc7429d0e"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/TTreePre.lean",
+          "sha256": "aecc42a4deefa069ebd109f0e3721fe14a0deb90a4d34fcfff6da7080893af47"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/WTParams.lean",
+          "sha256": "7b415655e0f26d06dc4ac920708176f0fff5f514720b891a881d7484b719abd0"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/WTParamsN.lean",
+          "sha256": "d19aff9fbc48b8f83ab9e9379fd4116d8577b00dc2a30a635b5ef3277b6eb324"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/WTParamsR.lean",
+          "sha256": "5728f39df0fce7842f733aa48418979602407bb60e6be0577ee3b0c2c941a071"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/WTParamsRdown.lean",
+          "sha256": "63619790e062574cffc2d514a360bd95a236c5bf5a49ac0c75c0011e0e3c3f13"
+        }
+      ],
+      "state": "SEALED",
+      "full_file_sha256": "3680fc4cb5c96c0ee7859ce675ff29b0a798e778be6af1335e8ff93ac25d35cb"
+    },
+    {
+      "id": "layergardenFlower_v3",
+      "kind": "theorem",
+      "author_approval": {
+        "approved_by": "Scott Armstrong (standing authorization 2026-11-05, via wt-orch)",
+        "approved_at": "2026-11-06",
+        "approval_ref": "docs/DECISIONS.md#D13",
+        "approval_version": "1"
+      },
+      "source": {
+        "revision": "arXiv:2311.10082v2, WKE-Longer_times_Final_arXiv.tex sha256 493eef6b7dec448bc5f9f1c3974c0cad7a85eca9bc428f5b35e968aad76727cb",
+        "range": "T Prop `flowerest1`, L2279–L2305; T L2306–L2338; WAVE-B v2 §4.15; T L2280; T (flowerest2); T (newnormn); T L2331; T L2312; T L2290; restricted to 1/2 < γ < 1 (D9, D10; docs/ERRATA-AND-DEVIATIONS.md E1); product-form flower cutoffs (D13, R62; erratum E34)"
+      },
+      "contract": {
+        "id": "dh-long.b1.layergardenFlower.v3",
+        "version": "1"
+      },
+      "path": "WaveTurbulence/Frozen/Theorems/LayergardenFlowerV3.lean",
+      "export": "WaveTurbulence.layergardenFlower_v3",
+      "implementation": {
+        "module": "WaveTurbulence.Provider.LayergardenFlowerV3",
+        "export": "WaveTurbulence.Provider.layergardenFlower_v3"
+      },
+      "split_policy": {
+        "source_group": "dh-long.b1.layergardenFlower.v3",
+        "mode": "NOT_SPLIT",
+        "ruling_ref": "docs/DECISIONS.md#D13"
+      },
+      "abi_sha256": "a4a61eeae7291bc1a7a03ae3e2e35b38e860bd8981efb9575b9a6cd45e91a840",
+      "definition_closure": [
+        {
+          "path": "WaveTurbulence/Frozen/Defs/Chi0.lean",
+          "sha256": "d63a09083319dff6bd701226a9b109fdcce0c406ff17b84d6ee803144aa68aaa"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/CollisionOp.lean",
+          "sha256": "5246fe71b1082f7aa3f784220e77849dcb9a1debe013ebb06e7e489636a748c4"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/CosetDecoration.lean",
+          "sha256": "1faecce6251dc1c19c0896fc2bd4738c57fa592b8adcf36d9771a23407df6434"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/CoupleSum.lean",
+          "sha256": "8b420e2e8fb5df52725ad155be6a2616c7b7a3bc16fac30f754a13fa0adb8184"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/Coupling.lean",
+          "sha256": "4fcfffdfca597a456fdb0888af06659a475d8a83d1d5229e169fafeb0d5aa3c4"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/EpsCoef.lean",
+          "sha256": "32281713e954a214c2665a0dce05985beb65f7a2274600e4a2945d3debe50b06"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/EpsDec.lean",
+          "sha256": "6a801ef5d9d14dedb917fc0c4a598d8b70e489dbee5512476cff064f828a914a"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/FixPat.lean",
+          "sha256": "ba9e66d855dc12e0168ba3d58ac7edfa67fb6c1470c67aff3e1d0825136056c3"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/FixPatDecEq.lean",
+          "sha256": "5f6d2007e55fe6cd7b0c54339f0a078672003225d1b27f845a2322b52d5f21f9"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/FlowerKind.lean",
+          "sha256": "3c33a698f8f95aa7a0d586f4a3b00b2d2a4119abaa69f79de398daf91de0439a"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/FlowerSumP.lean",
+          "sha256": "3680fc4cb5c96c0ee7859ce675ff29b0a798e778be6af1335e8ff93ac25d35cb"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/ForestSet.lean",
+          "sha256": "5bb4a1cdfc20e47f7fc6730d52ac3fafc74f14cd7f0ab6ea559289cf9b26281a"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/GBranch.lean",
+          "sha256": "507541e0474ddf577036d0e9707b7bd11ce0cad930be7e6c6d5bb5c09643564a"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/GBranchChild.lean",
+          "sha256": "186835a341292a60598222dc2cc665b7cf4ede9a8bf5e8bcd5f0807cc7eb7844"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/GBranchIsChildOf.lean",
+          "sha256": "d26ee9cbd692944b23c4945867c70c23de34fd838259d52df6018a781348a37a"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/GBranchIsParentOf.lean",
+          "sha256": "93ab61c13d5b0d827fd93bec3de031bf833cd25ce87355dc6ef388f0edf0127e"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/GBranchToNode.lean",
+          "sha256": "0d1cc89264a8cf13761291586c1bda22fa5f097f1b0485cd4b95a364add726c1"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/GLeaf.lean",
+          "sha256": "d7361d1155756efa9e2aec56234e9a427532a0a599af2d85a00b54b4a15cf48d"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/GLeafToNode.lean",
+          "sha256": "be8380e4f28e97bfebed5ee1a95dc66619982e2b92c619572b1baffec5f15307"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/GNode.lean",
+          "sha256": "46a36e8b1dbb96c0f6069946ce870d5d32623ca535d762b791c304fb2821fe68"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/GNodeIncomparable.lean",
+          "sha256": "0ba00932d8b66aa19307208dfff0dd1175341299739f9d92ed49a76dc7f54d1f"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/GNodeIsDesc.lean",
+          "sha256": "1e919954e58bfbb93374bdff7933d22d00b136d544f17d70079148a0e23bfd76"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/GNodeLeavesBelow.lean",
+          "sha256": "7fb65efc9012403a9ba0f868c7d569d5bda52d2394633d70d46f470b0a345c4f"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/GNodeOrderBelow.lean",
+          "sha256": "38da540a4e001d3634ca5988978b13fc63da47c1bf32dd50d2c71c282e655436"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/GNodeRoot.lean",
+          "sha256": "d472e6d82bbdf5b30643e49033db5a127cd1e1c2803776ef016bf0294af48515"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/Garden.lean",
+          "sha256": "a9f8162df28b5deacbd40f137331e3edaf43acf78d5257edb684e0787e5ef1c5"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/GardenCompletelyPaired.lean",
+          "sha256": "2d7fb138f089806a6536ef0575018234d284abdafa2616143b4d3592c4ea9153"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/GardenExtendFix.lean",
+          "sha256": "1ad175bdf6ec6c2ed8d6d8e0a2c1d99a7fe281aa7bf14940fc06b44000d2ce53"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/GardenInstDecidableIsFlower.lean",
+          "sha256": "b881289dddf12b25af8c442af11a34fc0041fe151b43afd2fd02134adf3c0657"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/GardenIsFlower.lean",
+          "sha256": "f5f1cfcbd50dd05c2fb879264fb0de4568d6c3864b5d779a0cb5feae94d72046"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/GardenIsFlowerGarden.lean",
+          "sha256": "10fa402216d6c905d7fa4d37986d9914f87dbef62a3a632ecffd2227dbd62202"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/GardenIsFlowerParent.lean",
+          "sha256": "29c62b6b13a119d5a4017421cb0b179d6ba1bfc9a726108e61ea7d641fdfc615"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/GardenIsPlain.lean",
+          "sha256": "1769a09752a39ff85ba361658ef4b66cd64d26b81b1f5c9c6895df12b6d86da6"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/GardenOrder.lean",
+          "sha256": "cd9ffe021ac1fa20ffd11f15aa5f98e5a3ced621cf7e497647805b3af9150e06"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/GardenSign.lean",
+          "sha256": "1852372cf3ee80e34f6b14e4f1ef05e7565b9df88321c463a27d212c8739b57f"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/GardenZeta.lean",
+          "sha256": "41f26a34cf25c0584d442c84b635075657cb87589967dfa4eae77f01edac7db4"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/GenDecoration.lean",
+          "sha256": "bbbf28247972f69402cc0577313441847b54a54c834f1347949f0e4a39113e7a"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/InputLeaves.lean",
+          "sha256": "fa19876ba3a3c1cec38ba438bd25a3b9f346b1c166f0fa26e60a9deb3c3de1cc"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/InputsF.lean",
+          "sha256": "1b2d3bd508422fc8c4cb0a6a03d254c8c7e72fcd63611110c3bd8c45f22370a7"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/InstDecidableEqFixPat.lean",
+          "sha256": "c2ac0fed45b0e82961cbf58ec28a3c7f06fccdb10995ea735462acc7c7a0749b"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/InstDecidableEqGBranch.lean",
+          "sha256": "09984a26aa162ccbcba1d9d15204efe802ac0874187d02f13069739e74a981b5"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/InstDecidableEqGLeaf.lean",
+          "sha256": "6f6dd67d24dbc761c0482b07c3a0016e8558db1c567d898f797cfb7292cdd8c7"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/InstDecidableEqMarkTag.lean",
+          "sha256": "edfd6bda29f0d204bb47d8ab5e8c14cb3dbdc45265273dc94da9ebaa49d6a5ff"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/InstDecidableIsDesc.lean",
+          "sha256": "8873bc9b748fc3adb13deedcb5b13c689614469e4e57cc1d17688892eb932c00"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/InstDecidableIsFlowerParent.lean",
+          "sha256": "a763d8d2016b5218af990a554c4c68b780336705a4e586c8dce6ee6cf477f71f"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/InstDecidableIsParentOf.lean",
+          "sha256": "e852660a3ec55416908ddaf56d1b0ebbcb18134159efef7a90e416350feb0383"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/InstFintypeGBranch.lean",
+          "sha256": "06bc44e552d766c31a2eb5258532e75cd6c204e940a9776d60a52ee791082a6b"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/InstFintypeGLeaf.lean",
+          "sha256": "358ee97a30e20cf6d9e007a7aaab69aecbd36b37c85d2800ab32b91d346d2f72"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/InstFintypeGNode.lean",
+          "sha256": "89f6f33ca48b6f2377e66118380fe6bbc596a5d99c7a15ab0fc683118a72415c"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/IsCanonC.lean",
+          "sha256": "714277d51bfbe2ba09b53d164cb4cf4e1b18c83464698be9522526faa4db35a6"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/IsCanonH.lean",
+          "sha256": "eb5a21c647b2dcb34a5ab004c4975f01a7eb7433ecdd8a6757cbc3cbae078c9c"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/IsCouple.lean",
+          "sha256": "d36bd62d742a0f11b331ff90d00d51ba0b8d0679dbc6315620dcdf1f6770d320"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/IsDecoration.lean",
+          "sha256": "e26471c4152aa44b592855b37db296769b9993bfabc463ad54d44db83908a5a0"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/IsLayering.lean",
+          "sha256": "52256166c46d5dbf08927d6090ca12e4b98b6b96deaf2fab86036bce5026d5ad"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/IsWKESolution.lean",
+          "sha256": "2529844f73ade481a1295d3399c8f3967f98d290e54adb52f00fbf6908c2d178"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/IterPartial.lean",
+          "sha256": "403e82efee750c579870218af6a392c7d37686cd14a43eb500de8fb2e8acda61"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/Jbr.lean",
+          "sha256": "5763ccb0da35e8e457c214d6db10defc3cf02d2d718809fb16e1e537f4e3cbe7"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/KDomainFix.lean",
+          "sha256": "618fc406f4cc0c7d4d07799494453b6c7c6cd595345917bddefbbb407667a02d"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/KernelKgen.lean",
+          "sha256": "1e76476561e13f34294dd79df08fbba7a3175ba6d889803826a26abc484df187"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/LatticePoint.lean",
+          "sha256": "5012e349f1715c3f53042229cd33eba43acd02a5fe3de310c0f71569f5c24f2d"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/LayeredGarden.lean",
+          "sha256": "f84ff39b8da154a65738a074a49c6974418cf767b043435a33fc147b8f67c28e"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/LayeredGardenAttachLinked.lean",
+          "sha256": "d8045e891f512c8478bca454eef1d37edea80e770f44e73e7ff57ac9347cc670"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/LayeredGardenAttachLinkedOn.lean",
+          "sha256": "4923a39ea27eb85a8e7d3d06d823d666f484d270053112d149af52d1f2ec7f15"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/LayeredGardenAttachNodes.lean",
+          "sha256": "7332a2c3f4ff3c4502a79c7d00c5534147ba4d3f404dd57fdf0879f4f66ee814"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/LayeredGardenAttachedOrder.lean",
+          "sha256": "c35d3300c6cd56d0c20c10eacf2a7b4d383a59a7e4197c813c44eef87bae08a1"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/LayeredGardenCanonCriterion.lean",
+          "sha256": "79e97bea3874179120dfc9a7241f56c487624b51931d1480f6331feed5eaddbd"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/LayeredGardenCutWeight1P.lean",
+          "sha256": "bcde60c8b13230b5f55339ae25e31fb1ba6749ace8d41824506a7affb9248d09"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/LayeredGardenCutWeight2P.lean",
+          "sha256": "8b1a590758f0fedffae3ceba7c24079d04eb781153726f3a4af4d64d54ae5e15"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/LayeredGardenFixPat.lean",
+          "sha256": "f841e195e16db09d5e01a678a8c4bd23d86ee76955c6f1db8141da9d10fae300"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/LayeredGardenFlowerKindOK.lean",
+          "sha256": "98dad24b6e627079c629d4fee099ed4f5a7402e6a5ee3380d4a29903ab081446"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/LayeredGardenInstDecidableOnStem.lean",
+          "sha256": "8db831cf4d70006b6f52f487a1de909bf064747f842ea494b6f626016824221f"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/LayeredGardenIsFlowerNode.lean",
+          "sha256": "90567d463b28935d79b8cc2c75c024541dbfe85192bd144c48f0745e7d42d863"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/LayeredGardenIsTopLeaf.lean",
+          "sha256": "1220ad05b6777348b1462c9dff18b62900ae68552ff1e3069692cd397033e957"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/LayeredGardenOnStem.lean",
+          "sha256": "765f880de4ac5277efe9a97575e509a78b34acb7cffcd0bdd5778709c40b4295"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/LayeredGardenParentLayer.lean",
+          "sha256": "9ff86404b7db21c57be3759e838902289a8886b89b556f7de0a19bbb03af3f59"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/LayeredGardenPatValid.lean",
+          "sha256": "1245e95ee2bcecf63580c167d7704159e82897530353436868a6a3fd095e6c35"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/LayeredGardenSibWeight.lean",
+          "sha256": "863f15ab6c2cb02c3c885bf52e37b0a2dae5c0c0ae7c2c7a362d772cae7aa5a7"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/LayeredGardenTopCountBelow.lean",
+          "sha256": "b074f33817f06d8066733b8af82e3b0b7e8a07d774a06239d3f2200f20c28db6"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/LayeredGardenTopOrder.lean",
+          "sha256": "85d7a063c7f2c99f959c280e6f11fbba11df4250f6e56e6d782f37fa9608940e"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/LayeredGardenTreeKindOK.lean",
+          "sha256": "05af462ba71280a54a09795481794dcc28d303470c2eabfb153ab7e560822dbb"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/MarkTag.lean",
+          "sha256": "6e507a2211b8ce6622377c80242423364753c7aac21fd049259384c258c8edc0"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/Mom.lean",
+          "sha256": "22aaac77bd1887265c3d8fec49f6975ae68311e18529151740ba0e74557e5d87"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/NodeSign.lean",
+          "sha256": "07b6e125eeba35b66dab4e6907fa03581c24e2755cf5d661cbfb6fd392b38e46"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/OmegaNode.lean",
+          "sha256": "9928c2344c67e8067136b18ab2c3ca10e0388d75b6771ee6e0d0b13c392a3c31"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/PartialMom.lean",
+          "sha256": "8a0d95ecc78ca8d45148631b2cb4311bbedf29d8bf48619b4d2e03b38944e433"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/PhaseProdOff.lean",
+          "sha256": "8d5b4f786af92c3d437ceb9abcf41ff0631d3de223d8f38c74cc369d673ad4b6"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/ProdDyadicCut.lean",
+          "sha256": "5d359280d3c56ebb0940a8cb76c66944736970b0cb9c011266d04b47ef9703f4"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/RemainderBound.lean",
+          "sha256": "d8f9f454206c67425770f75f0e3b3207cee00457fc0539880b302b37ddb5d989"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/ResFactor.lean",
+          "sha256": "f6322894e350b33c3889815d026e622072349d69b8a7bc0405187a39f94c2fdf"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/SNorm.lean",
+          "sha256": "d51d8096cc3593d2152e0fd008eccef8a1da17108f6af5cf881303bae486a48b"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/SNormR.lean",
+          "sha256": "137754302d85ea4eda3c077126f063ed2c627da8c14052292b50d2aea01bfd2e"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/TTree.lean",
+          "sha256": "e9700f184b11fc568b5a2d6c445333eeb52e642cd310ee89deeb0ade8013b8f4"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/TTreeBranching.lean",
+          "sha256": "0a51cdddae5af49fbe0050f05a00ce562c29d06067a25b8f63628fdd9ef1b8d0"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/TTreeLeaves.lean",
+          "sha256": "69606d4758a810a39ecc3169b899c44f0084d5f7ac50bf45deb49b313aeaf2e1"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/TTreeNodes.lean",
+          "sha256": "ea390b52a947e83097db5feabb6b9ab91b043eebd3cd6be788776cc4744a5f15"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/TTreeOrder.lean",
+          "sha256": "bb079979a4f1be170f584e1a6f19c1101dca2a3b661b47ab5e7bc04409590460"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/TTreePath.lean",
+          "sha256": "112444bc3730f5d196fa21a4e3c91a83affc8cc685432e38cb4eed07f314c6cd"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/TTreePathSign.lean",
+          "sha256": "e38bf5e94a0e4084c47943aa2aae9c059ab8c94119dcb82df830fcbfc7429d0e"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/TTreePre.lean",
+          "sha256": "aecc42a4deefa069ebd109f0e3721fe14a0deb90a4d34fcfff6da7080893af47"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/TreeKind.lean",
+          "sha256": "25a5870bae86cf117008261d70ff030d0055431a1ef1f94a969f25e024a95145"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/WTParams.lean",
+          "sha256": "7b415655e0f26d06dc4ac920708176f0fff5f514720b891a881d7484b719abd0"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/WTParamsLambda.lean",
+          "sha256": "f0de1b34331c7107e56232116ef49f21d61fe8a7fee013e1077dfa132a7997af"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/WTParamsN.lean",
+          "sha256": "d19aff9fbc48b8f83ab9e9379fd4116d8577b00dc2a30a635b5ef3277b6eb324"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/WTParamsR.lean",
+          "sha256": "5728f39df0fce7842f733aa48418979602407bb60e6be0577ee3b0c2c941a071"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/WTParamsRdown.lean",
+          "sha256": "63619790e062574cffc2d514a360bd95a236c5bf5a49ac0c75c0011e0e3c3f13"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/WTParamsTheta.lean",
+          "sha256": "4297ad7f54350d24b88ab62983a3e1d9c294abbcee5190061c299e697ed3275e"
+        },
+        {
+          "path": "WaveTurbulence/Frozen/Defs/WTPrefixP.lean",
+          "sha256": "97c0bef48745364d8460dfca4fd327506e4d3bdc0ab1113728c5f51030fb3c6e"
+        }
+      ],
+      "state": "DRAFT_SORRY",
+      "prefix_sha256": "d7203fd68e46e103ff1327afc146a4a70d1a0b0153c0714edd70109467d0b258",
+      "suffix_sha256": "9f48199048606af986e4911abed0172f6e65c9c8c91f1c2874961ad85a7ea8d0",
+      "draft_allowlist": {
+        "frozen_paths": [],
+        "audit_paths": []
+      }
     }
   ]
 }
