@@ -1,5 +1,5 @@
 {
- "assessed": "2026-11-06 03:34 UTC",
+ "assessed": "2026-11-06 04:16 UTC",
  "notes": "Lean work items = blueprint packets (docs/blueprint/GRAPH.md §E) with their difficulty weights (node weights L=1, M=2, H=4, VH=8 summed). Each frozen theorem anchor adds weight 1, credited when SEALED. Done fractions are the orchestrator's assessment, reviewed at integration rounds.",
  "lines_est_total": 273000,
  "parts": [
@@ -685,7 +685,7 @@
      "weight": 13.0,
      "lines_est": 5100,
      "done": 0.95,
-     "note": "Actual clamped Fourier operator1−eta→1−2eta and whole adjacent-rectangle representative identity independently PASS; all54 own modules rebuilt and125 source/evidence pins verified. Actual native adjacent-row restriction and reduced/recentered extraction keep source power1−3eta. Distant-cell gluing/geometry, operative TermCertW, modulation/R57 prefix and canonical integration remain open"
+     "note": "Four specialized native TQ/TT row producers pinned (129-module incremental world); later genuine exterior/repeated-clock and d/eta-before-C uniform exports compiled. Root verified269 native and49 mixed source/evidence pins. Actual structural lower-slot origin matches window; operative row matching, FreeDict/TermCertW, modulation/R57 prefix and canonical integration remain open"
     },
     {
      "id": "G3",
@@ -703,7 +703,7 @@
      "weight": 6.0,
      "lines_est": 2400,
      "done": 0.58,
-     "note": "Containing-unit-first arbitrary remaining-list garden equality covers both cases;232 source/log pins verified. Producer-list permutations and uniform retained-region locality compiled, but original-order fold equality remains open. Full piece/layer/hinge/slot/kernel invariance, tau partition, other vine packets and Stage1 producer remain open"
+     "note": "Both-case containing-first fold and actual nested pullback carriers/slot choices, crowns and boundary replacement formulas compiled. Root verified355 source/log pins. Two-splice forest/pairing commutation and original producer order, full piece/layer/hinge/kernel invariance, tau partition, other vine packets and Stage1 producer remain open"
     },
     {
      "id": "G8",
@@ -739,7 +739,7 @@
      "weight": 4.0,
      "lines_est": 900,
      "done": 0.81,
-     "note": "Finite source class tree/terminal-label cover and source polylog node bound compiled; synchronized path UCtx and empty-source loop/scale comparison checked.9+8 source/evidence pins verified. Local QS terminal/child subadditivity compiled afterward. Per-edge costs, weighted recursion, further low phases/terminal LOW/GARDEN/GLUE and canonical integration remain open"
+     "note": "Actual D1 single/double paid producer and triple paid producer compiled with constants before arbitrary gardens. Varying-index path/node-size correction and local QS subadditivity pinned. Regular geometry/local-degree host transfer and weak LOW connection history developed; actual source host producer, regular costs, global aggregation, further phases/terminal LOW/GARDEN/GLUE and canonical integration remain open"
     },
     {
      "id": "F2",

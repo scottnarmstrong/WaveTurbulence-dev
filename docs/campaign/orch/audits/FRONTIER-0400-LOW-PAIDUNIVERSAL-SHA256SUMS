@@ -1,0 +1,15 @@
+245f319d0222cb23e3a84871050754100e44651cb70988ed87c65451daf23068  /home/scott/wt-scratch/codex-takeover/root-checkpoints/20261106-040051-LOW-PAIDUNIVERSAL/CODEX-LOW-UNLOOP-BRIDGE-branchuniversal-build.sh
+c337cdc7e8a0b1993f8adab1cdf2c50edb9b7a83d48498184e8b1bc2a90e8ac0  /home/scott/wt-scratch/codex-takeover/root-checkpoints/20261106-040051-LOW-PAIDUNIVERSAL/CODEX-LOW-UNLOOP-BRIDGE-paiduniversal-build.sh
+5203d7dc61e2d997992f28f2ac67ea6d6a26df89a6447a1199badccb6d318809  /home/scott/wt-scratch/codex-takeover/root-checkpoints/20261106-040051-LOW-PAIDUNIVERSAL/CODEX-LOW-UNLOOP-BRIDGE-paiduniversal-check.sh
+229b3d9105dbc428ffed676ca036da17ceb9490cb5de999afd6c4d6e5132b3a0  /home/scott/wt-scratch/codex-takeover/root-checkpoints/20261106-040051-LOW-PAIDUNIVERSAL/CODEX-LOW-UNLOOP-BRIDGE-paiduniversal-consumer.lean
+6113183107dc18d0a7d3d64bee5181e797f5ab27e77cb5e7d9691c505c1cc399  /home/scott/wt-scratch/codex-takeover/root-checkpoints/20261106-040051-LOW-PAIDUNIVERSAL/CODEX-LOW-UNLOOP-BRIDGE-singleuniversal-build.sh
+d8d2058ccc725f4eae0a6730e0c9154cbc821a6957642c7fe475b097ad8b3bfc  /home/scott/wt-scratch/codex-takeover/root-checkpoints/20261106-040051-LOW-PAIDUNIVERSAL/CODEX-LOW-UNLOOP-BRIDGE-sourcesingleuniversal-build.sh
+70f163dc06806bba99ce3f907b36009b4006fe068b9572fa6b0cc6314f2dad18  /home/scott/wt-scratch/codex-takeover/root-checkpoints/20261106-040051-LOW-PAIDUNIVERSAL/branchuniversal-build.log
+87529355328339de994a3103c9240abee74b2cc00f5280d167831f097df56ceb  /home/scott/wt-scratch/codex-takeover/root-checkpoints/20261106-040051-LOW-PAIDUNIVERSAL/paiduniversal-build.log
+6da10960f7fe7d1df0539a07063896cc082986f3adfbd5d982dcdf9e73b014b4  /home/scott/wt-scratch/codex-takeover/root-checkpoints/20261106-040051-LOW-PAIDUNIVERSAL/paiduniversal-check.log
+e42ad4e936bb3707d7d460ae2677091cc0c56590b38d3f52f0ca20ef16e570ab  /home/scott/wt-scratch/codex-takeover/root-checkpoints/20261106-040051-LOW-PAIDUNIVERSAL/singleuniversal-build.log
+659011ee61cda9aebd90cdb91d087a6ae6059ca9bd33090fe42bc5d04322f155  /home/scott/wt-scratch/codex-takeover/root-checkpoints/20261106-040051-LOW-PAIDUNIVERSAL/sourcesingleuniversal-build.log
+5ddd8bc23ce2d23a24766054a86eafbeb717acb939fa95e97b5b7a58637f74d9  /home/scott/wt-scratch/codex-takeover/root-checkpoints/20261106-040051-LOW-PAIDUNIVERSAL/src/AsmLowChainCodex10BranchUniversal.lean
+b0cf8e0d6cd41e03c43785fb6201533d58460f53c2b19df6113dcad66ecdd7ae  /home/scott/wt-scratch/codex-takeover/root-checkpoints/20261106-040051-LOW-PAIDUNIVERSAL/src/AsmLowChainCodex10PaidUniversal.lean
+e8bd089fd44738ee1ef88eac64b953270a49ee94c85f156ba3d700acc69c4ca4  /home/scott/wt-scratch/codex-takeover/root-checkpoints/20261106-040051-LOW-PAIDUNIVERSAL/src/AsmLowChainCodex10SingleUniversal.lean
+ca5970b184cc5c40e3d5759f677bff331a6798e5ec7a23d48a7b0dddb8fabbce  /home/scott/wt-scratch/codex-takeover/root-checkpoints/20261106-040051-LOW-PAIDUNIVERSAL/src/AsmLowChainCodex10SourceSingleUniversal.lean
