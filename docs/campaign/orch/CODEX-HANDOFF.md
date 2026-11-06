@@ -1,59 +1,43 @@
 # Codex orchestration handover
 
-Recovered 2026-11-05 22:40 UTC from Claude session `30b41343-3acb-4168-9826-e7d8c6659375` in
-`~/.claude/projects/-home-scott-WaveTurbulence-worktrees-orch/`. Last substantive exchange: 2026-11-05
-19:32 UTC; subsequent quota-failure notifications and the successful Batch 2b landing arrived later.
+Current frontier reviewed 2026-11-06 04:41 UTC. HQ main last verified: 7133196; subsequent evidence below is pending the next docs landing. The weighted estimate is **90.6%**, with **16/26 theorem anchors sealed**, ten drafts and 296 frozen definitions. No new seal is claimed by a scratch helper or library port.
 
-Scott explicitly assigned Codex the orchestrator role, requested Terra-medium coding subagents (Sol-low fallback),
-and required continued upkeep of the campaign HQ README completion meter. Earlier standing authorization in
-DECISIONS remains in force. The original BRIEF.md is historical: it describes the initial audit assignment.
+Scott assigned Codex the orchestrator role after Claude quota, with Terra-medium code workers and Sol-low fallback, and requires HQ README/meter upkeep. D11 standing authorization and D13 apply. Frozen statements, source scope and independent audits remain in force. Finish the five gamma-above-half successors before starting the approved low-gamma extension (D9–D11).
 
-## Verified baseline
+## Landed and verified
 
-- Batch 2b landed as main commit `675cf6c`, including the regularAsymptotics_v1 seal and 360-module chain.
-- Manifest: 16 sealed theorem anchors, 10 draft theorem anchors, 296 frozen definitions.
-- Draft exports: main, fixedpoint, layergarden, layergardenFlower, propansatz and their five D10 successors.
-- D9–D11 remain the scope rulings: finish the gamma in (1/2,1) chain before the gamma <= 1/2 extension.
-- R54–R58 are preserved in RULINGS.md; do not restart from pre-amendment Stage-1 or VINEEST statements.
+- Batch2b/regularAsymptotics: 675cf6c. Seven canonical analytic Spine inputs: f89596c, verification0f8248f.
+- D12 separate canonical vine catalogue:66fa48d, verification a5faa10;1824 modules and both actual exports. Independent review, exact consumers/standard axioms and worktree/main root gates passed. Main reused only matched canonical donor outputs under the recorded hash/COW/import checks; it was not a fresh main build.
+- Root import indexes and1500-line guard are enforced; no Mathlib rebuild or frozen change. M9 is complete; source theorem seals unchanged.
 
-## Active Codex packets
+## Active workers
 
-| Agent | Model | Owned packet | Brief |
+| Agent | Model | Current packet | Brief |
 |---|---|---|---|
-| v5_w2 | GPT-6.1 Terra, medium | P4/W2 term certificates and R58 modulation | briefs/TERRA-V5-W2.md |
-| v5_w13 | GPT-6.1 Terra, medium | P4/W13 expansions and constants | briefs/TERRA-V5-W13.md |
-| finalcount_low | GPT-6.1 Terra, medium | New AsmLowFront modules: loop/low-degree frontier | briefs/TERRA-FINALCOUNT-LOW.md |
-
-Workers write per-packet HANDOFF-CODEX.md and STATUS-CODEX; their scratch roots are named in the briefs. Root owns
-integration, shared APIs, source rulings, status and manifest. No new seal has been claimed at handover.
+| v5_w2 | Terra medium | Literal splice gardens, branch/order/fold and full vine invariance | [VINE-A](briefs/TERRA-VINEA-CONTINUE.md) |
+| v5_w13 | Terra medium | Source-uniform native rows, actual engine wiring and multirow certificates | [W13](briefs/TERRA-V5-W13.md) |
+| finalcount_low | Terra medium | Common-potential LOW source count and terminal normalization | [LOW](briefs/TERRA-LOW-UNLOOP-BRIDGE.md) |
 
 ## Resume points
 
-- V5: newest state is at TOP of `/home/scott/wt-scratch/vineest-s3/PROGRESS.md`. P4/W2/ModStatement now uses
-  Cont.twistedRecenteredModC directly; the older progress prose describing a competing kernel is stale.
-  Modulated class-sum flattening and kind=false generalization remain explicit obligations.
-- Final count: session-19 HANDOFF in finalcount-asm proves finalCount_reg_half. LOW-FRONT/CHAIN/GARDEN/GLUE remain.
-  SubHypLoop requires a non-loop dart at each atom: use card>=2 for this interface and handle singleton molecules
-  separately with GL13/GL28. No unconditional SubHypLoop assertion is justified.
-- S2: represents/PLAN-VINE.md INTERFACE v2 is the shared contract. Outer slots expand before unit factorization;
-  lower-child mode frequencies enter the modulated unit kernel. VINE-A/B/C and the producer remain unfinished.
-- CX-REPIN is READY in scratch for all six Batch-3 providers, with exact a7 gate checks. It has not landed.
-- world-a7 and b4b-prep have long-running catalogue rebuilds; inspect existing process/log status before launching
-  another driver. Never replace or kill another session's work without evidence and authorization.
-- Flower Stage-1 is unresolved (fixed-time traces and marked-flower LF twists); the previous design research was
-  quota-interrupted. It must not be credited as proved.
+- V5:155-own-module fully carrier-uniform operative row checkpoint,317 root-verified pins. Separate explicit typed consumers and standard axioms pass. Type-I time-difference terms vanish; actual type-II normalized rung0 gives the parent phase difference. Reached-family/index/momentum wiring, all-row FreeDict/TermCertW, R58 modulated flattening, R57 kind-generic source-finite representative API and final prefix remain open. Do not consume old overbroad P4/W2 statements or empty-if-infinite representative definitions.
+- VINE-A:445-pin actual two-add garden commutation includes marks and pairings, both nested/outside. Original branch-name state, arbitrary-prefix/fold permutation, layers/hinges/slots/kernel and tau/remaining VINE-B/C/D/E/F producer remain open. Same selected core collection does not imply equal full prescriptions; a labelled-state orbit route is research only.
+- LOW: actual unloop source classes, source host/outside connection, all three uniform paid edges share g1. The generic recursion preserves parent-edge multiplicity. Initial F=1 is proved. Actual source Fmax/terminal count and remaining low-degree phase/global LOW/GARDEN/GLUE/source gate remain open. D1 j=2 can decrease F and is explicitly charged; never use blanket component monotonicity. R60 selection and R61 narrow compatibility overlay remain the source rulings.
+- world-a7 original serial build:3298 successes then the known RealizedDegrees proof mismatch. Terra applied the same local argument as landed D12, without changing statements/imports; focused target and axioms pass,3299 successes. Root metadata/hygiene checks pass and the original driver has resumed with a new root-owned log. Explicit assembly exclusions and overlay rebuild remain; not READY.
+- Batch4b initial3274-module build passed; its planned fresh second build remains active. Preserve both serial drivers, do not duplicate them. Skeleton-only port has a read-only inventory but has not begun.
+- Flower Stage1 remains a genuine fixed-parent-time/marked/componentwise interface gap. Prepared [parent-pruning brief](briefs/TERRA-FLOWER-PARENT-PRUNING.md) is unassigned; [research note](notes/FLOWER-BOUNDARY-RESEARCH.md) changes no frozen gate. No plain positive-order time-averaging shortcut is valid.
 
-## HQ upkeep
+## Evidence and HQ upkeep
 
-`docs/campaign/progress.json` holds reviewed estimates, `manifest/frozen.json` holds sealed/draft counts, and
-`scripts/update_readme.py` regenerates the AUTO blocks and history. Update the handwritten README status too:
-it previously still listed two drafts from Wave A although the manifest has ten. Scratch completion does not
-constitute a sealed theorem. Keep the weighted estimate distinct from exact theorem closure.
+Current bounded checkpoints: [FRONTIER-0440](audits/FRONTIER-0440.md), [earlier frontier](audits/FRONTIER-0424.md), [independent clamp helper review](audits/V5-clamp-operator-independent.md). Source/text hashes and artifact hashes have separate scope. Scratch checks do not certify the canonical universe or close source nodes. Use the exact source/anchor audit before any seal.
 
-DRAFT_ANCHORS: 10 (paths enumerated in HQ README)
-UNREGISTERED_SORRIES: 0 (fresh frozen-anchor guard passed)
-DRAFT_IMPORT_VIOLATIONS: 0 (fresh frozen-anchor guard passed)
-SEALED_THIS_TURN: 0
+Root owns landings and shared APIs. Main mutations use main.lock, explicit staging, fail-closed guards and abort an unsuccessful own merge before unlock. scripts/update_readme.py regenerates the AUTO blocks/history; handwritten status and progress.json notes must also stay current. The headline Lean percentage includes theorem sealing; the packet-only table row has a separate denominator. No new fraction is justified by a helper prototype.
+
+Recovered Claude transcript: ~/.claude/projects/-home-scott-WaveTurbulence-worktrees-orch/30b41343-3acb-4168-9826-e7d8c6659375.jsonl. Old BRIEF.md and the timestamped sections below are historical; current briefs above govern workers.
+
+DRAFT_ANCHORS:10. UNREGISTERED_SORRIES:0 and DRAFT_IMPORT_VIOLATIONS:0 at the latest canonical guard. SEALED_THIS_TURN:0.
+
+## Historical checkpoints
 
 ## Proof checkpoints, 2026-11-05 23:08 UTC
 
@@ -243,3 +227,29 @@ VINE-A proves actual_two_splice_forests_commute for any two distinct actual sele
 LOW derives actual source HostConnLocal and regular-cut VineOutsideConn using literal loop-erased source classes and phase-aware selected-run bookkeeping. The source-uniform regular deviation covers both component cases. Paying its new-component cost needs a common g1 potential, including the component term. Existing plain-gExp D1/triple paid helpers remain valid but do not by themselves supply this common potential. A D1 cut with j degree-two joints satisfies F_after+j=F_before+1: j=2 can decrease F, so a blanket component-monotonicity conversion is invalid. The varying-index drop must explicitly pay that case. No source erratum or extra final hypothesis is asserted.
 
 All reported axiom checks show only propext, Classical.choice and Quot.sound. Full endpoints, canonical integration and independent source audits remain open. No frozen declaration changed; no seal or packet fraction was credited.
+
+## Scope and common-potential update, 2026-11-06 04:41 UTC
+
+Root verified/copies are bound by the adjacent FRONTIER-0440 manifests/index. These are scratch source/text checkpoints; compiled artifacts were not transferred into a project cache and no canonical closure is claimed.
+
+## Row-constant scope correction
+
+The earlier operative_TQ_rows_uniform / operative_TT_rows_uniform helper types had file-level implicit w, n, family carrier/instances and selected indices before the existential constants. Their 307-pin checkpoint remains preserved, with that narrower scope. Its #check/axiom audit was not a fully typed consumer and printed some elisions. A separate explicit typed consumer later checked exactly those signatures.
+
+The strengthened operative_TQ_rows_uniform_all / operative_TT_rows_uniform_all put all those family/width/order/type binders after the existential constants. Root inspected the actual signatures: only d, eta and their smallness assumptions precede the constants. A separate explicit expected-type consumer and standard-axiom audit pass. The 317 pins include 155 own source modules, 155 successful incremental target logs and seven evidence files; all 155 logs end with exit 0 and contain no Lean error. Largest own file is 410 lines. This is an incremental scratch world, not a fresh closure or independent full source audit.
+
+Subsequent source selected-factor identities cover the diagonal and exact native coefficients; actual engine momentum identities remain required. The phase watch has a concrete geometric route: type-I designated parent clocks coincide, making both time-difference source terms vanish; type-II normalized rung0 gives the actual two parent nodes as an unordered pair, and the fixed phase difference agrees for an identified actual piece. Initial assembly-family identification is proved; reached-family transport is still being implemented. No engine amendment or source erratum is asserted.
+
+## LOW and actual splice gardens
+
+D1, triple and regular source edges now use one lowPhasePot / g1 potential. This includes the component-count term missing from the earlier plain-gExp helpers. D1 uses a proved conservative extra L^gamma0 charge covering the actual j=2 component decrease; triple derives component nondecrease from its cut. Regular covers both component cases with source-uniform constants and actual selected geometry/outside connectivity. Exact source consumers report only standard axioms. Old plain-potential results remain valid under their own statements.
+
+The new low_branch_induction is an explicitly conditional generic helper. It pays each terminal summand and child edge using the parent's own cardinality-plus-one budget, so later path merges retain multiplicity. It is not the source endpoint: actual terminal counting, source Fmax and the remaining low-degree phase still need proof. Source initialization computes the actual unloop potential with F_initial=1; it does not assert Fmax or terminal bounds.
+
+VINE-A actual_two_add_gardens_eq proves literal equality of both real two-add gardens for any two distinct actual selected units, including marks and pairings, in nested and outside cases. Its 445 source/evidence pins and standard axioms are preserved. Branch-name transport, arbitrary-prefix/fold order, layer/hinge/kernel invariance and tau/remaining Stage1 work are still open.
+
+## Existing serial rebuild
+
+The original world-a7 driver stopped at 3298 successful modules on VineParamRealizedDegrees: a degree-only block was passed to a connected-block helper. Terra copied the exact already-reviewed 18-line local joint-index argument from canonical D12, changing only that copied proof body. Root checked identical original theorem headers/imports and byte-identical replacement argument, preserved failure/success/source/axiom evidence, and reran metadata/hygiene checks successfully. The focused module passed with standard axioms; root resumed the same serial driver. The original upstream source and canonical/frozen files were unchanged. Its explicit assembly exclusions remain; this world is not READY.
+
+No frozen theorem sealed and no packet fraction increased. HQ stays 90.6% estimated work, 16/26 theorem anchors sealed, ten drafts and 296 frozen definitions.

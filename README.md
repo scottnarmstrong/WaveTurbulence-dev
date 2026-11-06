@@ -30,9 +30,9 @@ library with closed `vineparam` and `vineparam_grouped`. Independent exact consu
 landing gates passed. See [the main verification](docs/campaign/orch/audits/PORT-VP-main-verification.md),
 [SourceProviders.lean](WaveTurbulence/Foundations/Spine/SourceProviders.lean) and
 [Vine/Param.lean](WaveTurbulence/Foundations/Vine/Param.lean).
-Terra-medium workers have checked actual operative TQ/TT row pairs, two-splice forest commutation,
-and source-uniform regular LOW deviations. Full vine garden/kernel invariance, row-certificate assembly
-and the global LOW count remain open. The clamped Fourier operator has passed an
+Terra-medium workers have checked actual operative TQ/TT row pairs, two-splice garden commutation,
+and paid LOW edges using one component-aware potential. Full vine fold/kernel invariance, row-certificate
+assembly and the global LOW count remain open. The clamped Fourier operator has passed an
 [independent helper audit](docs/campaign/orch/audits/V5-clamp-operator-independent.md).
 Flower Stage-1 and final spine instances remain open.
 See the [current handover](docs/campaign/orch/CODEX-HANDOFF.md).
