@@ -45,4 +45,20 @@ Targeted rebuilds of SelectGates, StateSep, GateCongr, ActualFamily, ActualCount
 
 Remaining: translate `NativeState` plus the trace bounds and product layer-cost accounting into the actual operative `TermCertW`, including the correct constants and modulated factor flattening. Final WP-F/prefix and R57 generic corrected target/finite CanonRepsK remain open. No full norm or final theorem closure claimed.
 
+## Continuous native factors and cell traces
+
+`ContinuousGate.gate_continuous_representative` preserves gate m, every coefficient and spatial factor while replacing time factors by continuous representatives with no loss of bounds. `EntryContinuous.rectangle_entry_continuous` integrates this into the actual entry producer. `RectangleEntry.time_cont` is now included in `NativeState` returned by `exists_actual_sepFamFam`. `EntryTrace.rectangle_entry_trace` bounds each selected J endpoint trace on an arbitrary first-clock cell by `traceConst (1−η) * ofReal CJ`, and `rectangle_entry_term_above/below` identify the exact selected term with the corresponding endpoint trace. These are exact actual gates and do not claim the assembled norm certificate.
+
+Targeted builds `ContinuousGate`, `EntryContinuous`, `SelectGates`, `StateSep`, `GateCongr`, `ActualFamily`, `ActualCount`, `EntryTrace`, and an axiom probe all exit 0. The first attempted monolithic ActualFamily proof exceeded the default elaboration budget; splitting the generic entry conversion fixed it with no budget override. The final probe prints only `[propext, Classical.choice, Quot.sound]` for actual SFF, state assembly, both count results and `rectangle_entry_trace`. Full source snapshot `continuous-checkpoint-src/`, manifest `CONTINUOUS-CHECKPOINT-SHA256.txt`; axiom probe archived under `probes/`. Earlier metadata/SFF snapshots remain reproducible historical baselines; later source/artifact edits do not change their snapshot bytes.
+
+Remaining: show the full operative TermCertW from these actual entries, accounting for exact leaf-cost products and trace constants; prove modulation-aware flattening and final WP-F/prefix; correct the R57 generic target with finite CanonRepsK. No full norm or final theorem closure claimed.
+
+## Native Q/T cell certificates
+
+`TraceSlack.rectangle_entry_trace_sepT_actual` discharges the endpoint trace numeric slack using only `1−η ≥ 0` and `C₁ ≥ 1`, with CJ′=(traceConst(1−η).toReal+1)·CJ and unchanged coefficient/M. `CrossCell` proves exact above/below/root-cell term identities; `AnyCell.rectangle_entry_sepT_cell` produces a genuine P2 SepT for every integer first-clock cell, with exact coefficient δ^n and the original spatial M/cost. `SelectedCell.selected_entry_sepT_cell` consumes the dependent sigma identity returned by NativeState. `NativeCell.native_state_Q_cell` and `_T_cell` apply it directly to the actual selected P4 Q/T terms for each operative state and z, preserving n≤zpN and exact layerCost through the returned RectangleEntry. These certify each separated factor; they do not yet build all engine rows or a TermCertW.
+
+Targeted compiles of TraceSlack, CrossCell, AnyCell, SelectedCell, NativeCell and the combined `AxNativeCODEX` probe exit 0. `#print axioms` for native_state_Q_cell, native_state_T_cell, exists_actual_sepFamFam and exists_actual_sepFamFam_count each returns `[propext, Classical.choice, Quot.sound]`. Complete source snapshot and key olean hashes are in `native-cell-checkpoint-src/` and `NATIVE-CELL-CHECKPOINT-SHA256.txt`; the axiom probe is archived under `probes/` and absent from the live closure. Same-world provider and locally rebuilt polynomial provenance remains as recorded above.
+
+Remaining: combine the actual Q/T factors into operative row data for all branches, prove the global engine/leaf-cost product and actual `TermCertW`; prove modulation-aware flattening and WP-F/prefix; correct R57 generic target with finite CanonRepsK. No complete norm certificate or final theorem closure claimed.
+
 STOPPED V5-W13: operative/modulated certificates and final WP-F/prefix remain open.

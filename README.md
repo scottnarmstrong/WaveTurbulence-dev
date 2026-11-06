@@ -6,7 +6,7 @@ Lean 4 formalization of
 > [arXiv:2311.10082v2](https://arxiv.org/abs/2311.10082) (2024).
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-11-06 00:53 UTC** · **estimated completion 90.5 %** (Lean proofs 92.4 %) · frozen theorems sealed: 16 / 26 (+ 296 frozen definitions) · **498,520 lines of Lean on main** (5365 files) + 1,460 unlanded on worker branches · blueprint estimate ≈ 273,000 lines
+> **Last updated: 2026-11-06 01:14 UTC** · **estimated completion 90.5 %** (Lean proofs 92.4 %) · frozen theorems sealed: 16 / 26 (+ 296 frozen definitions) · **498,520 lines of Lean on main** (5365 files) + 1,460 unlanded on worker branches · blueprint estimate ≈ 273,000 lines
 <!-- /AUTO:updated -->
 
 **Scope (D1):** everything proved in Lean, no black boxes. That covers the target paper and the results it uses from
@@ -29,10 +29,11 @@ until integrated, checked against the frozen exports, and independently audited.
 consumer applications, standard axioms and independent port review passed. See
 [SourceProviders.lean](WaveTurbulence/Foundations/Spine/SourceProviders.lean) and the
 [port review](docs/campaign/orch/audits/PORT-B3-independent.md). Root imports now use bounded area indexes.
-Actual separated families with term metadata and the vine unit-transport bijection now have checked scratch checkpoints.
-Terra-medium workers are validating the separate D12 certificate library, reviewing that port independently,
-and assembling the remaining low-degree counting steps. LOW-CHAIN/GARDEN/GLUE, full vine and flower Stage-1, and the final spine
-instances remain open. See the [current handover](docs/campaign/orch/CODEX-HANDOFF.md).
+Actual separated families now have checked per-cell time-factor bounds; single-twist unit transport,
+selected-family batch preservation and the simultaneous-splice molecule map also compile in scratch.
+The low degree worker has derived the actual D1 double component bound through ghost deletion.
+The separate D12 certificate-library build is running after its static audit passed. Full LOW-CHAIN/GARDEN/GLUE,
+garden-level vine invariance, flower Stage-1 and final spine instances remain open. See the [current handover](docs/campaign/orch/CODEX-HANDOFF.md).
 
 **Blueprint v2:** 275 nodes, 84 packets, approximately 273k lines estimated. **F32 resolved:** the general-d
 trilinear estimate and WKE local well-posedness were proved; `wkelwp` is sealed.
@@ -130,7 +131,7 @@ Lean lines: 498,520 on main + 1,460 on branches, of ≈ 273,000 estimated by the
 | S2a | REDSPLICE-DEF | 2 | ≈800 | 🟡 95 % | REDSPLICE-DEF READY: the full Stage 1 construction; stage1Piece_sound now also supplies the triple designation and no-hinge-loop facts (AMEND7+8) |
 | S4 | SUBPRO | 8 | ≈3,000 | 🟡 95 % | SUBPRO done in atom-set form plus the hinge triple-bond designation (R37) |
 | V4 | VINEEST-S2 | 4 | ≈2,500 | 🟡 95 % | VINEEST-S2 done: vineChain_eq_sumintForm (V4 endpoint, ruling R2), 709-module snapshot-9 rebuild OK; obligations VINEPARAM, SumintSigned |
-| V5 | VINEEST | 13 | ≈5,100 | 🟡 95 % | Actual SepFamFam plus Bounded and per-term native gate metadata proved in the P4 scratch world; exact root rectangles, coefficients and C2^b/order count retained. Operative TermCertW, modulated flattening, final prefix and R57 kind-generic corrected target remain open; canonical validation pending |
+| V5 | VINEEST | 13 | ≈5,100 | 🟡 95 % | Actual SFF+Bounded, native metadata and chosen Q/T SepT on every integer first-clock cell compiled with standard axioms. Exact coefficients, layer costs and source count retained. Full operative TermCertW, modulated flattening, R57 corrected target and final prefix remain open; scratch-world validation only |
 | X1 | FLOWER-DEF | 10 | ≈3,100 | 🟡 95 % | FLOWER-DEF done in scratch: classes, kernels, identities, O-FK; B1.12 final (audited, F1/F2 applied) proposed for the freeze |
 | C1 | REG-STRUCT | 11 | ≈4,000 | 🟡 90 % | REG-STRUCT done in scratch: structure theorem with uniqueness, decoding, legal/dominant chains, counts (C₀=12^9); F55 |
 | C2 | LINKS | 11 | ≈3,000 | 🟡 90 % | LINKS done in scratch: branchpair, defchoice, linkXY, deflink, defcoh, auxlem, explem, treelemma, incohproof1 (couples); F62-F65 |
@@ -152,19 +153,19 @@ Lean lines: 498,520 on main + 1,460 on branches, of ≈ 273,000 estimated by the
 | M4 | VINES | 10 | ≈3,300 | 🟡 90 % | VINES done in scratch: templates incl. m = 1 vine (II) (F72), groups/coherence, subsetvc, VC/HVC/DV/HV (F71 reading), 358 declarations |
 | M5 | MOLECPL | 4 | ≈1,500 | 🟡 90 % | MOLECPL done in scratch (DH23 Prop 5.3 for gardens; 2eacfc5) |
 | M6 | TWIST | 8 | ≈2,800 | 🟡 90 % | TWIST done in scratch: twist involution, invariances, sign cancellation, 2^r gardens (287 modules) |
-| M9 | VINEPARAM | 4 | ≈1,500 | 🟡 90 % | D12 port now in isolated w/port-vp: 1824 canonically mapped modules in a separate lean_lib. Near-final compatibility error repaired without statement change; targeted build and independent mapping/carrier audit running. Not yet landed or certified |
+| M9 | VINEPARAM | 4 | ≈1,500 | 🟡 90 % | Isolated D12 separate-library port: 1824 canonically mapped modules, independently reviewed mapping/carriers. Staged frozen/module guards pass for 7193 modules; targeted Grouped build is still running in certificate tables, with Main/closed consumers/full landing pending. No completion credit yet |
 | V3 | REGRED | 6 | ≈1,900 | 🟡 90 % | REGRED done in scratch: skeleton reduction, vineest Step 1 (ab8680f); nonzero-gap boundary case separate (F21) |
 | X2 | FLOWEREST | 16 | ≈8,900 | 🟡 90 % | FLOWEREST scratch: conditional spine assembly and regular L0 leg exist; flower Stage-1, fixed-time traces and marked-flower LF-twist construction remain unresolved |
 | F2 | PLG | 12 | ≈4,150 | 🟡 86 % | LG-SPINE scratch: AMEND4/5/7+8 checkpoint and AMEND6-prime pair-type gate exist; AMEND9/10 consumer rework unfinished. Full Stage-1 and final-count producers remain required |
 | M7 | LFTWIST | 13 | ≈4,200 | 🟡 85 % | LFTWIST on main with the canonical universe; leaf bijection of LF twists on ordinary leaves proved (LFTWIST-LEAFMAP, R45) |
-| F3 | FINAL-COUNT | 4 | ≈900 | 🟡 81 % | LOW-FRONT A1-A4 checked provisionally, including actual garden unloop data. LOW-CHAIN SubHypL class labels, D3 changing-index potential, and D1 structural changes compiled; D1 potential/branch assembly, full LOW-CHAIN/GARDEN/GLUE and canonical validation remain open |
-| S2 | REDSPLICE | 6 | ≈2,400 | 🟡 58 % | Actual selected-vine LF unitBlocks bijection, transported atoms/ordered joints and list permutation proved in scratch. Vine-free representation exists; tau partition/A4, VINE-B/C/D/E/F and the full Stage1 producer remain open |
+| F3 | FINAL-COUNT | 4 | ≈900 | 🟡 81 % | LOW-FRONT A1-A4, D3 changing-index contraction and D1 structural/scalar bounds compiled provisionally. Actual UStepD1 DoubleShape deviation now derived by direct degree-two fixed-gap counting and ghost transfer without outside-connectivity premises. Exact one-step potential, full LOW-CHAIN/GARDEN/GLUE and canonical/source review remain open |
+| S2 | REDSPLICE | 6 | ≈2,400 | 🟡 58 % | Actual single-twist unit bijection with atom/ordered-joint equations and list permutation compiled; selected-family batch invariant and actual simultaneous-splice molecule isomorphism also compiled. Batch unit equivalence is carrier-only so far. Garden/layer/hinge/slot/kernel invariance, tau partition, remaining VINE-B/C/D/E/F and Stage1 producer remain open |
 | F1 | FINAL-RED | 4 | ≈1,200 | 🟡 30 % | FINAL-RED: finalsbest1/finalsbest2 consumed in LG-SPINE's assembly (counting cover, finalproof numerics) proved generically |
 | G1 | STAGE2-DEF | 10 | ≈2,600 | 🟡 20 % | STAGE2-DEF: stage-2 operation datatype (Stage2Op) and TARGET's counting problem (lg-spine CountingChoices) defined |
 
 </details>
 
-Done fractions last reviewed: **2026-11-06 00:31 UTC**. Source: [`docs/campaign/progress.json`](docs/campaign/progress.json); history: [`docs/campaign/history.csv`](docs/campaign/history.csv).
+Done fractions last reviewed: **2026-11-06 01:14 UTC**. Source: [`docs/campaign/progress.json`](docs/campaign/progress.json); history: [`docs/campaign/history.csv`](docs/campaign/history.csv).
 <!-- /AUTO:progress -->
 
 ## Workers
@@ -172,12 +173,12 @@ Done fractions last reviewed: **2026-11-06 00:31 UTC**. Source: [`docs/campaign/
 <!-- AUTO:workers -->
 | Worker / session | model / account | packet | branch: last commit | brief |
 |---|---|---|---|---|
-| Codex orchestrator | Codex / current session | Source rulings, safe landings, proof-state review and HQ upkeep | `w/orch`: 20 min ago | [brief](docs/campaign/orch/CODEX-HANDOFF.md) |
-| subagent v5_w2 | GPT-6.1 Terra medium / current session | Independent D12 port mapping/carrier/closure review; actual VINE-A unit transport checkpoint complete provisionally | `w/orch`: 20 min ago | [brief](docs/campaign/orch/briefs/TERRA-AUDIT-PORT-VP.md) |
-| subagent v5_w13 | GPT-6.1 Terra medium / current session | D12 certificate-library compatibility proof repairs and targeted build in w/port-vp; W13 actual SFF+metadata checkpoint preserved | `w/orch`: 20 min ago | [brief](docs/campaign/orch/briefs/TERRA-PORT-VP-REPAIR.md) |
-| subagent finalcount_low | GPT-6.1 Terra medium / current session | LOW-CHAIN D1 potential/rho/critical/component/branch arithmetic; prior A4 and D3 checkpoints provisional | `w/orch`: 20 min ago | [brief](docs/campaign/orch/briefs/TERRA-FINALCOUNT-LOWCHAIN.md) |
-| cx-world | GPT-6.1 Sol medium / codex-2 (existing session) | Existing serial canonical-world upstream rebuild; axiom closeout and assembly overlay pending | `w/orch`: 20 min ago | [brief](docs/campaign/orch/CODEX-HANDOFF.md) |
-| cx-b4bprep | GPT-6.1 Sol medium / codex-2 (existing session) | Existing R52 Batch-4b serial catalogue rebuild; skeleton/layer-count/N4 checks pending | `w/orch`: 20 min ago | [brief](docs/campaign/orch/CODEX-HANDOFF.md) |
+| Codex orchestrator | Codex / current session | Source rulings, safe landings, proof-state review and HQ upkeep | `w/orch`: 42 min ago | [brief](docs/campaign/orch/CODEX-HANDOFF.md) |
+| subagent v5_w2 | GPT-6.1 Terra medium / current session | Actual vine batch transport/A4 invariance; independent D12 static audit passed, final consumer audit pending | `w/orch`: 42 min ago | [brief](docs/campaign/orch/briefs/TERRA-AUDIT-PORT-VP.md) |
+| subagent v5_w13 | GPT-6.1 Terra medium / current session | Actual W13 per-cell certificates toward operative norm; relay original D12 target build, root owns cache baton | `w/orch`: 42 min ago | [brief](docs/campaign/orch/briefs/TERRA-PORT-VP-REPAIR.md) |
+| subagent finalcount_low | GPT-6.1 Terra medium / current session | Actual LOW D1 DoubleShape deviation compiled; assembling changing-index potential and full LOW chain | `w/orch`: 42 min ago | [brief](docs/campaign/orch/briefs/TERRA-FINALCOUNT-LOWCHAIN.md) |
+| cx-world | GPT-6.1 Sol medium / codex-2 (existing session) | Existing serial canonical-world upstream rebuild; axiom closeout and assembly overlay pending | `w/orch`: 42 min ago | [brief](docs/campaign/orch/CODEX-HANDOFF.md) |
+| cx-b4bprep | GPT-6.1 Sol medium / codex-2 (existing session) | Existing R52 Batch-4b serial catalogue rebuild; skeleton/layer-count/N4 checks pending | `w/orch`: 42 min ago | [brief](docs/campaign/orch/CODEX-HANDOFF.md) |
 <!-- /AUTO:workers -->
 
 ## Papers
