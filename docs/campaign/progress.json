@@ -1,5 +1,5 @@
 {
- "assessed": "2026-11-06 03:01 UTC",
+ "assessed": "2026-11-06 03:21 UTC",
  "notes": "Lean work items = blueprint packets (docs/blueprint/GRAPH.md §E) with their difficulty weights (node weights L=1, M=2, H=4, VH=8 summed). Each frozen theorem anchor adds weight 1, credited when SEALED. Done fractions are the orchestrator's assessment, reviewed at integration rounds.",
  "lines_est_total": 273000,
  "parts": [
@@ -685,7 +685,7 @@
      "weight": 13.0,
      "lines_est": 5100,
      "done": 0.95,
-     "note": "Actual SFF/native cell metadata and full scalar clamped weighted Fourier mass compiled; cutoff covers complete adjacent cells,31-module dependency rebuild and74 source/audit/log pins verified. Native scalar normalization helpers checked separately;2D additive-weight lift/restriction, same-power extraction, operative TermCertW/modulation/R57 prefix and canonical integration remain open"
+     "note": "Full scalar native clamp masses and translated2D tensor mode norm/rectangle identity checked;49 tensor source/evidence pins verified. Concrete Fourier-mixture norm/eta operator/representative identity compiled, full own closure rebuild and independent review underway. Actual row restriction/same-power extraction, operative TermCertW/modulation/R57 prefix and canonical integration remain open"
     },
     {
      "id": "G3",
@@ -703,7 +703,7 @@
      "weight": 6.0,
      "lines_est": 2400,
      "done": 0.58,
-     "note": "A3 exact batch canonical-state reindexing/output existence and selected-core witness independence compiled. A4 actual containing-unit singleton GARDEN equality has no forest/crown/leaf assumption;144 immutable source/log pins verified. Simultaneous fold/other-unit transport, piece/layer/hinge/slot/kernel invariance, tau partition, remaining vine packets and Stage1 producer remain open"
+     "note": "Actual containing-unit-first garden fold equality now compiled for both cases and any remaining same-enumeration unit list;224 earlier interior state/fold pins verified. Original producer-list order/nested contraction commutation, full piece/layer/hinge/slot/kernel invariance, tau partition, remaining vine packets and Stage1 producer remain open"
     },
     {
      "id": "G8",
@@ -739,7 +739,7 @@
      "weight": 4.0,
      "lines_est": 900,
      "done": 0.81,
-     "note": "Actual NonLoop source-selected phase, shape/critical exponent and pointwise paid potential/deviation compiled. Literal varying source collection agrees with unique admissible preimage; actual varying-label finite class cover compiled and9 source/evidence pins verified. Uniform per-node class-tree cost/sum, terminal LOW/GARDEN/GLUE and canonical integration remain open"
+     "note": "Actual varying-label source image/class cover, UCtx initialization/all3 edge transitions, hereditary ladder scale and original count comparison checked;20 later source/evidence pins verified. Finite branching/reachability/terminal-label cover compiled after snapshots. Quantitative source N/branch costs, multiplicity-aware count induction, further low phases/terminal LOW/GARDEN/GLUE and canonical integration remain open"
     },
     {
      "id": "F2",
