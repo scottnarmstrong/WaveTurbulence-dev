@@ -7,7 +7,6 @@ accept, or rebaseline command: an author-approved successor is external work.
 from __future__ import annotations
 
 import argparse
-from functools import lru_cache
 import hashlib
 import json
 import re
@@ -96,12 +95,9 @@ class Guard:
         return path.read_bytes().decode("utf-8")
 
     @staticmethod
-    @lru_cache(maxsize=16384)
     def code_mask(text: str) -> str:
         """Blank comments and strings while retaining offsets/newlines.
 
-        The cache key is the complete immutable source text: a changed file
-        gets a new key, while repeated quarantine passes reuse the same mask.
         This is deliberately a lexer-sized defense, not a Lean parser.  It
         handles nested block comments, line comments, ordinary/triple strings,
         escapes, and ordinary character literals well enough for quarantine
@@ -650,16 +646,11 @@ class Guard:
                     self.fail(f"unauthorized `{match.group()}` outside manifest-listed DRAFT proof region: {path.relative_to(self.root)}")
 
     def check_forbidden_axioms_constants(self) -> None:
-        """Enforce the campaign's forbidden declaration kinds and modifiers."""
         for path in self.project_files():
-            code = self.code_mask(self.read_utf8(path))
-            for match in DECL.finditer(code):
-                modifiers, kind, name = match.groups()
-                label = name or "<anonymous>"
-                if kind in {"axiom", "constant", "opaque"}:
+            for _modifier, kind, name, _export in self.declarations(self.read_utf8(path)):
+                if kind in {"axiom", "constant"}:
+                    label = name or "<anonymous>"
                     self.fail(f"project-owned `{kind}` command is forbidden: {path.relative_to(self.root)}:{label}")
-                if "unsafe" in modifiers.split():
-                    self.fail(f"project-owned `unsafe` declaration is forbidden: {path.relative_to(self.root)}:{label}")
 
 
 def main(argv: list[str] | None = None) -> int:

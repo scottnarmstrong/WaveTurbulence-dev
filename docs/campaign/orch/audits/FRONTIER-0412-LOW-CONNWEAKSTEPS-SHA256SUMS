@@ -1,6 +1,0 @@
-e3ad5e301c2795cff4df652e5174aeb7bd3ef0d7924adbc69dbd9639704d30aa  /home/scott/wt-scratch/codex-takeover/root-checkpoints/20261106-041232-LOW-CONNWEAKSTEPS/CODEX-LOW-UNLOOP-BRIDGE-connweaksteps-build.sh
-bc25b258f5174e0430de39e9988391553f02479cdf77fe7f5efc1d0e889179b8  /home/scott/wt-scratch/codex-takeover/root-checkpoints/20261106-041232-LOW-CONNWEAKSTEPS/CODEX-LOW-UNLOOP-BRIDGE-connweaksteps-check.sh
-c4c67943edffd5d0ddb02523bf4450cda57ae879fad5d268eb71876159fe7c5f  /home/scott/wt-scratch/codex-takeover/root-checkpoints/20261106-041232-LOW-CONNWEAKSTEPS/CODEX-LOW-UNLOOP-BRIDGE-connweaksteps-consumer.lean
-43e1d17d0c403852d89328ac6d50b0f5558e7471a95d296b240394cff66753d1  /home/scott/wt-scratch/codex-takeover/root-checkpoints/20261106-041232-LOW-CONNWEAKSTEPS/connweaksteps-build.log
-c05ec2eb34cf811829b0af1594c855981e1b8dc26ae3abfdcd594940d9409b18  /home/scott/wt-scratch/codex-takeover/root-checkpoints/20261106-041232-LOW-CONNWEAKSTEPS/connweaksteps-check.log
-fec54455464ea905f2d302d2ce304f98c5ed5d550b511a2a044f7e3388c1b2a7  /home/scott/wt-scratch/codex-takeover/root-checkpoints/20261106-041232-LOW-CONNWEAKSTEPS/src/AsmLowChainCodex10ConnWeakSteps.lean

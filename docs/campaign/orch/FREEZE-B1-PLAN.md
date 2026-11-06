@@ -1,7 +1,5 @@
 # Wave B tier-B1 freeze (ruling D7): landing plan
 
-> **LANDED 2026-11-04 18:54 UTC as main `cff2654`** (by wt-orch on Scott's instruction "land the freeze branches yourself"): full gate 11476 jobs OK, guard OK, ABI 241 OK; D7 recorded in docs/DECISIONS.md; approved_at 2026-11-04. Merged with the d36c45e merge script (run from a copy, avoiding the open-file issue of step A). Seal second-key audits still pending.
-
 Prepared by `wt-orch` (Task 22), 2026-11-04. **Rebuilt from snapshot 9 in Task 34b, with seven seals.**
 - Branch **`w/freeze-b1`**, worktree `/home/scott/WaveTurbulence-worktrees/freeze-b1`, based on main `1ecb500`.
 - Since that base, main has added Foundations modules and root imports, which `merge_branch.sh` regenerates. Main has
@@ -145,10 +143,7 @@ phase terms in the same order. Each provider restates its anchor verbatim (check
 
 **Step B — the author approves (ruling D7).** Record D7 in `docs/DECISIONS.md` after D6, in its style. Draft:
 
-**Approved 2026-11-04 17:1x UTC.** Scott, in this session: "I approve all", in reply to wt-orch's list of what would unblock landing: (1) approve D7 (B1, snapshot 9, review page `docs/review/WAVE-B-B1.md` regenerated from snapshot 9), then land `w/freeze-b1`, then D8 (B2, `waveb2-snap-final`, review page `docs/review/WAVE-B-B2.md`) and land `w/freeze-b2`; (2) second-key audits of the 13 seals by someone other than wt-orch; (3) audit, then port, the finished scratch packets. Pins re-verified at 17:12 UTC: `waveb-snap-9` SHA256SUMS `30263a992199…` and `waveb2-snap-final` SHA256SUMS `b3db9c4367a8…`, every listed file OK. Landing (and committing D7/D8 to `docs/DECISIONS.md`) is the orchestrator's; wt-orch does not land. The same reply signs off step A (commits 1–2).
-
-
-> D7 — 2026-11-04 — Scott ("I approve all", in reply to the complete Wave B tier-B1 code shown for approval: snapshot 9,
+> D7 — 2026-11-?? — Scott ("…", in reply to the complete Wave B tier-B1 code shown for approval: snapshot 9,
 > `/home/scott/wt-scratch/waveb-snap-9`, SHA256SUMS `30263a99…`) — **Wave B tier B1 approved and frozen**:
 > 12 `DRAFT_SORRY` theorem anchors (B1.1–B1.12: `propansatz`, `layergarden`, `fixedpoint`, `nlsAkBridge`,
 > `wkeTaylor`, `sumint`, `countLemma`, `atomCountLemma`, `quadExpSum2`, `quadExpSum3`,

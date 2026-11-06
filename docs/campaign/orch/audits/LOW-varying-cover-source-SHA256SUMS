@@ -1,9 +1,0 @@
-1aab04a9990eea92708f5c837553722b2780b77dc1649ff8f11d18a7d50f992e  /home/scott/wt-scratch/codex-takeover/root-checkpoints/20261106-030200-LOW-VARYING-COVER/CODEX-LOW-UNLOOP-BRIDGE-vary-build.sh
-2d9bccebfeceebcba43d7a4192824f47299d6627ae8472f5afdae827f7e83117  /home/scott/wt-scratch/codex-takeover/root-checkpoints/20261106-030200-LOW-VARYING-COVER/CODEX-LOW-UNLOOP-BRIDGE-vary-consumer.lean
-446ec0155e33bb99d0c19f89a563111526d64904f8c0cfbed7c758bc9edabc9b  /home/scott/wt-scratch/codex-takeover/root-checkpoints/20261106-030200-LOW-VARYING-COVER/src/AsmLowChainCodex10Cover.lean
-0cd6a8a1a90c9b685e136721fba3cacb68bdd3b3d52fd988cde867747e2ee8b0  /home/scott/wt-scratch/codex-takeover/root-checkpoints/20261106-030200-LOW-VARYING-COVER/src/AsmLowChainCodex10Deviation.lean
-39f110359d724ead27434ab0d28183a14fbb605b5e6e975de1842371b1c0bf29  /home/scott/wt-scratch/codex-takeover/root-checkpoints/20261106-030200-LOW-VARYING-COVER/src/AsmLowChainCodex10Inject.lean
-7faaacd6527df09b8bf51eac15417dc64f51adf306119fc4d322ae7a51c1b4da  /home/scott/wt-scratch/codex-takeover/root-checkpoints/20261106-030200-LOW-VARYING-COVER/src/AsmLowChainCodex10Potential.lean
-5b06c9b1407a48ec5e289797ef26853a81e44db07798b62fdf05c9cdf4ba1f6d  /home/scott/wt-scratch/codex-takeover/root-checkpoints/20261106-030200-LOW-VARYING-COVER/src/AsmLowChainCodex10Vary.lean
-37f0205b48a7048d0713be827eb85edc5deada4277a0fdc8c57258e5792db334  /home/scott/wt-scratch/codex-takeover/root-checkpoints/20261106-030200-LOW-VARYING-COVER/vary-build.log
-6ff2055470938c8d11296446585cfef11c3ca99410b04abd09d9eddc79a83880  /home/scott/wt-scratch/codex-takeover/root-checkpoints/20261106-030200-LOW-VARYING-COVER/vary-consumer.log

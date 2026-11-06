@@ -1,7 +1,0 @@
-# Pure full-text lexer-mask cache
-
-The frozen checker repeatedly masks the same file text while checking declaration bodies and quarantine closures. A bounded16,384-entry LRU now memoizes only `Guard.code_mask(text)`, keyed by the complete immutable source string. Raw file reads, byte hashes, manifests, import traversal and all accept/reject decisions remain uncached. Changed bytes use a different key. The mask result is immutable; this introduces no path/mtime freshness assumption. Memory use can rise with distinct source texts.
-
-Measurement on8 representative generated matrix/certificate modules and5 lexical regression cases: cached and baseline masks are byte-identical, including nested comments, strings and forbidden-token contexts. Baseline CPU passes were0.08954,0.13116,0.11924 seconds; cold cached pass0.13087 seconds; repeated freshly reread text passes0.000526,0.000524,0.000508 seconds. Adjacent JSON preserves exact values. These are small mask-loop measurements, not a claimed speedup factor for the whole guard.
-
-The full staged guard passes the same7193 files before and after caching. The cached complete run measured61.79s wall,56.39s user,2.33s system,506896KiB peak RSS. The final full worktree landing gate also passes with the cache. Terra W2 independently reviewed key freshness, immutability and failure semantics; no source/statement/proof/axiom or guard policy changed. Safety improvements rejecting opaque/unsafe and covering both libraries were committed separately in c65534d.

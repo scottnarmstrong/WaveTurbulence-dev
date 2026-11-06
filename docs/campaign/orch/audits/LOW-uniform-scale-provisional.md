@@ -1,9 +1,0 @@
-# Actual source image, uniform context and hereditary ladder scale
-
-Recorded 2026-11-06 03:21 UTC; author Terra-medium finalcount_low. Root independently verified/copies8 image-cover pins,7 uniform-context pins and5 ladder-scale pins to the immutable root snapshots named in the accompanying source manifests. Exact consumers and all listed axiom checks pass with standard axioms; this is provisional same-world helper evidence, not canonical integration or a full independent source audit.
-
-The actual varying-label D1 geometry/potential/deviation and simultaneous source-image finite cover are checked. Actual source image is PinnedM0; initial UCtx and each of D1/regular/triple class transitions derive and preserve the required uniform context. Source ladder gaps transport through actual unloop maximal-ladder equality and the atom embedding. The primed hereditary superscale is hereditary and nonnegative, preserves each source label's ladder-gap constraints, and dominates original countA after the exact loop factor. No coherence premise or retired false maximality assertion is introduced.
-
-The count comparison still assumes a nonempty source witness, and the intermediate potential still uses a node size bound; final assembly must handle empty classes and derive size bounds. After these immutable snapshots, the worker proved actual nonempty class edges, strict descent, finite successor enumeration, finite reachable states and pointwise terminal-leaf coverage. Those later results are not included in these20 pinned files. Finite reachability is not an aggregate count bound: class overlaps/merged paths need local induction or explicit multiplicity. Source N/branch cost bounds, single-vine and further low phases, terminal normalization, LOW/GARDEN/GLUE and canonical-world rebuild remain open.
-
-READY uniform-context/scale helper checkpoints; final source counting endpoint remains open.

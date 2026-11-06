@@ -87,7 +87,7 @@ def workers_block():
         workers = json.load(open(WORKERS, encoding="utf8"))
     except (OSError, json.JSONDecodeError):
         return "_no workers.json_"
-    rows = ["| Worker / session | model / account | packet | branch: last commit | brief |", "|---|---|---|---|---|"]
+    rows = ["| tmux | model / account | packet | branch: last commit | brief |", "|---|---|---|---|---|"]
     for w in workers:
         ts = git("log", "-1", "--format=%ct", w["branch"]).strip() if w.get("branch") else ""
         ahead = git("rev-list", "--count", f"main..{w['branch']}").strip() if w.get("branch") else ""
@@ -129,7 +129,7 @@ def main():
     est_total = prog.get("lines_est_total", 0)
     now = datetime.datetime.now(datetime.timezone.utc)
     stamp = now.strftime("%Y-%m-%d %H:%M UTC")
-    updated = (f"> **Last updated: {stamp}** · **estimated completion {pct:.1f} %** (Lean work incl. sealing {lean_pct:.1f} %) · "
+    updated = (f"> **Last updated: {stamp}** · **estimated completion {pct:.1f} %** (Lean proofs {lean_pct:.1f} %) · "
                f"frozen theorems sealed: {sealed} / {frozen_total} (+ {frozen_defs} frozen definitions) · "
                f"**{main_lines:,} lines of Lean on main** ({main_files} files) + {branch_lines:,} unlanded on worker "
                f"branches · blueprint estimate ≈ {est_total:,} lines")
@@ -142,8 +142,6 @@ def main():
         "|---|---|---|---|---|",
         *rows,
         f"| **Total** | | {tot_w:g} | {tot_d:.1f} | **{pct:.1f} %** |",
-        "",
-        "The headline Lean-work percentage combines proof packets and frozen theorem seals.",
         "",
         f"Lean lines: {main_lines:,} on main + {branch_lines:,} on branches, of ≈ {est_total:,} estimated by the "
         f"blueprint (`{bar((main_lines + branch_lines) / est_total if est_total else 0, 20)}` "

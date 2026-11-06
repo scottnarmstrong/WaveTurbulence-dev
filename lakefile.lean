@@ -38,9 +38,3 @@ lean_lib «WaveTurbulence» where
   roots := #[`WaveTurbulence]
   globs := #[.one `WaveTurbulence] ++ quarantinedModules.map .one
   leanOptions := projectLeanOptions
-
-/-- The checked finite catalogue and source parametrization inputs (D12). -/
-lean_lib «WaveTurbulenceVineParam» where
-  roots := #[`WaveTurbulenceVineParam]
-  globs := #[.one `WaveTurbulenceVineParam]
-  leanOptions := projectLeanOptions

@@ -445,12 +445,3 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   |fkCoef| ≤ 8/(πδL^{2γ}M₂) per tree on the cutoff's support, bounding the deterministic coefficient shared by main and
   error terms, so O-X2-EXP holds as originally stated (M₁ from the leaf weights); X2 and X3 unchanged
   (`wt-scratch/x2e/FINDING-X2E5.md`).
-
-- F83 — TARGET L1919–L1922 vs. `vineest2` L1748–L1750 — "can be covered by the L^{-eta^2} gain" — the
-  exceptional-class count can depend on the layer gap, while C1 is chosen before the step count. R54–R56 retain
-  C2^b or use half the bad-vine exponent internally. Candidate proof-bookkeeping gap, not a counterexample to the
-  stated estimate. Details and open verification: ERRATA-AND-DEVIATIONS E25.
-- F84 — TARGET `redkg` L1726 and `redvine` L1954–L1957 — the regular-tree slot reads the parent clock — a lower
-  external child reads the unit's integrated lower-joint clock before splicing, and the upper-joint clock after
-  splicing. These need not agree for nontrivial same-layer slots. R58 uses Fourier-mode modulation of unit kernels;
-  full repaired identity and evaluated counterexample remain open. Candidate identity mismatch; details: E26.

@@ -1,9 +1,0 @@
-e00f0b963a6fdae00a2d82617a9bd60f63d97a748466adb0b6a786c51d6182fb  /home/scott/wt-scratch/codex-takeover/root-checkpoints/20261106-040051-LOW-INDEX/CODEX-LOW-UNLOOP-BRIDGE-index-build.sh
-69b257f0cbecc62e229111bda4ad4b5b886a05d173a7ca9dca9818bd76e1f343  /home/scott/wt-scratch/codex-takeover/root-checkpoints/20261106-040051-LOW-INDEX/CODEX-LOW-UNLOOP-BRIDGE-index-consumer.lean
-2f9d395529e50613f38f1f4b5f0a135c6954aa995530d1ca2d001dd9735d3a0c  /home/scott/wt-scratch/codex-takeover/root-checkpoints/20261106-040051-LOW-INDEX/index-build.log
-e9d4e20b52576164724a0d82ed4950b50394222280f85edda9a95c87dacacc30  /home/scott/wt-scratch/codex-takeover/root-checkpoints/20261106-040051-LOW-INDEX/index-consumer.log
-2dc5e8fe42e9df212847da8b9e25c28f8f877e3116acd6c0be6fb0dcc0216273  /home/scott/wt-scratch/codex-takeover/root-checkpoints/20261106-040051-LOW-INDEX/src/AsmLowChainCodex10CommonAbsorb.lean
-06fa9ec17b623adf284a7e5cf897356cb295264b9edaaa6d26e6c53efcd66439  /home/scott/wt-scratch/codex-takeover/root-checkpoints/20261106-040051-LOW-INDEX/src/AsmLowChainCodex10CommonCost.lean
-d471b7475caa7216b457e5377ac3fbfd7e2648c9b618bceeeee8465244fa48b1  /home/scott/wt-scratch/codex-takeover/root-checkpoints/20261106-040051-LOW-INDEX/src/AsmLowChainCodex10NodeBoundsVary.lean
-012da7734d7bae05fccebef7697a81599e4dc66bacb0e9b4dd5b2bcbf5e7bcc0  /home/scott/wt-scratch/codex-takeover/root-checkpoints/20261106-040051-LOW-INDEX/src/AsmLowChainCodex10PathBound.lean
-87f3899439feabd0e7c76d4f8fa40b67aaf07e8a5e74fd2b33e9237791198819  /home/scott/wt-scratch/codex-takeover/root-checkpoints/20261106-040051-LOW-INDEX/src/AsmLowChainCodex10ScaleVary.lean

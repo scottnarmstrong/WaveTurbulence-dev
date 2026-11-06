@@ -1,4 +1,0 @@
-note: using toolchain 'wt-throttled' from override set on '/home/scott/WaveTurbulence-dev'
-note: to remove: elan override unset --path '/home/scott/WaveTurbulence-dev' | to suppress: ELAN_NO_OVERRIDE_NOTICE=1
-'WaveTurbulence.Vine.Param.vineparam' depends on axioms: [propext, Classical.choice, Quot.sound]
-'WaveTurbulence.Vine.Param.vineparam_grouped' depends on axioms: [propext, Classical.choice, Quot.sound]

@@ -1,3 +1,0 @@
-'WaveTurbulence.VineEstS5C.P4.W13.clampMixture_eta_operator' depends on axioms: [propext, Classical.choice, Quot.sound]
-'WaveTurbulence.VineEstS5C.P4.W13.clampMixture_norm' depends on axioms: [propext, Classical.choice, Quot.sound]
-'WaveTurbulence.VineEstS5C.P4.W13.clampMixture_eq_rep' depends on axioms: [propext, Classical.choice, Quot.sound]

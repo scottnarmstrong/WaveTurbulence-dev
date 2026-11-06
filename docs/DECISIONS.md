@@ -82,8 +82,3 @@ Format: D<n> — date (UTC) — who — decision — reason.
     or in the orchestrator's RULINGS.md.
   - Frozen-statement changes still follow the versioned-successor and second-key-audit process, and are recorded as
     D-entries.
-
-- D13 — 2026-11-05 22:43 UTC — Scott — Codex takes over orchestration from the quota-interrupted Claude session.
-  Coding subagents use GPT-6.1 Terra at medium effort; GPT-6.1 Sol at low effort is the fallback if ineffective.
-  Keep the campaign HQ README and docs/campaign/progress.json current, especially the completion meter.
-  Prior standing authorization, source-scope rulings and independent audit/landing gates remain in force.

@@ -1,5 +1,5 @@
 {
- "assessed": "2026-11-06 07:05 UTC",
+ "assessed": "2026-11-05 18:15 UTC",
  "notes": "Lean work items = blueprint packets (docs/blueprint/GRAPH.md §E) with their difficulty weights (node weights L=1, M=2, H=4, VH=8 summed). Each frozen theorem anchor adds weight 1, credited when SEALED. Done fractions are the orchestrator's assessment, reviewed at integration rounds.",
  "lines_est_total": 273000,
  "parts": [
@@ -369,8 +369,8 @@
      "goal": "molecule-level vine parametrizations (I)–(VIII) with ladders (F22; review I3, I19), before V4 and G2",
      "weight": 4.0,
      "lines_est": 1500,
-     "done": 1.0,
-     "note": "Landed66fa48d: D12 separate canonical library,1824 modules; closed vineparam and actual-realization grouped theorem. Independent mapping/source repair/hygiene, direct+wrapper consumers/standard axioms, worktree+incremental canonical-main root gates16239 jobs and7193-file guards passed; no frozen anchor seal"
+     "done": 0.9,
+     "note": "VINEPARAM: parametrization contract proved (538 certificates); being rebuilt on the canonical universe as a separate lean_lib (D12, VINEPARAM-U, ~1/3 done)"
     },
     {
      "id": "J1",
@@ -585,8 +585,8 @@
      "goal": "DH23 Prop 6.1 (couples and trees) for orders n≤N^4_{p+1} (F33, route R14 (a)); 2 days: split couples / trees+derivatives",
      "weight": 10.0,
      "lines_est": 5800,
-     "done": 1.0,
-     "note": "RA1 couples/trees and leafwiseRegularAsymptotics integrated in the canonical main package; B2.1 is sealed; seven-input spine assembly and independent port review passed"
+     "done": 0.98,
+     "note": "RA1 done: couples and trees on snapshot 9, plus the leafwise version for per-leaf profiles (RA1-LEAFWISE)"
     },
     {
      "id": "M8",
@@ -639,8 +639,8 @@
      "goal": "TARGET Props 6.6–6.8 (norm translation F11, corrected regref1-5, dominant trees)",
      "weight": 13.0,
      "lines_est": 4100,
-     "done": 1.0,
-     "note": "landed 675cf6c: B2.1 regularAsymptotics_v1 SEALED after independent audit; 360-module chain on main"
+     "done": 0.92,
+     "note": "REGREF done: B2.1 regularAsymptotics proved at exact type from RA1Couple/RA1Tree; snapshot-9 composition and the B2.1 seal (PORT batch 2b) in progress"
     },
     {
      "id": "L3",
@@ -649,7 +649,7 @@
      "weight": 4.0,
      "lines_est": 1700,
      "done": 0.98,
-     "note": "Literal 30d coherent approximation and leafwise analogue now integrated and consumed with sealed B2.1; remaining PL234 Taylor/reality integration is separate"
+     "note": "PL23: Props 6.1 (now at the literal 30d norm, PL23-30D) and 6.2 proved; leafwise B2.1 and B2.2 proved (RA1-LEAFWISE, INCOH-LEAFWISE)"
     },
     {
      "id": "G1",
@@ -685,7 +685,7 @@
      "weight": 13.0,
      "lines_est": 5100,
      "done": 0.95,
-     "note": "Actual source term/bundle/terminal extraction and original-assembly no-op clause-(d) intervals checked. Compatible owned W2.Free support cache/import checked. Actual recursive trace/untouched coverage checked; six piece/six remainder dispatch, actual row certificates/native frames/time indicators/remainders, full cost prefix, R58/R57 and canonical integration remain. FRONTIER-0700; no fraction/seal change."
+     "note": "VINEEST: Step 3, all Step 4 pieces, the induction over core vines and the bottom-vine twist proved; bundle decomposition (P1) and unrolling over levels (P3) proved; per-level engine bounds (P2) and final assembly (P4) in progress; twist-class bijection (ZP-SURJ) in progress"
     },
     {
      "id": "G3",
@@ -703,7 +703,7 @@
      "weight": 6.0,
      "lines_est": 2400,
      "done": 0.58,
-     "note": "Actual original-order PC/LP dart transport and conditional full spliced-kernel cast checked. Actual twist integrand retains exceptional input momentum; restricted TypeFamilyD reconstruction/profile/index bridge, original time domain and A3/tau remain. All-SG HV candidate image independently reviewed; least-key existence only, no replacement designation. FRONTIER-0700; no fraction/seal change."
+     "note": "REPRESENTS: vine-free reduction and class count (CLASSCOUNT READY, exact bridge to Stage1Counts (iv)) proved; vine case waits on the pair-type gate (AMEND6')"
     },
     {
      "id": "G8",
@@ -720,8 +720,8 @@
      "goal": "ladder L^∞ and L¹ time-integral bounds",
      "weight": 8.0,
      "lines_est": 4200,
-     "done": 1.0,
-     "note": "Ladder Fourier, ladder decay and coarse spliced inputs integrated on the canonical main definitions with R33 root-time caps; exact SourceProviders consumers, standard axioms and independent port review passed"
+     "done": 0.98,
+     "note": "LADDER: all three spine inputs proved, re-proved on the root-time-truncated domain (R33)"
     },
     {
      "id": "F1",
@@ -739,7 +739,7 @@
      "weight": 4.0,
      "lines_est": 900,
      "done": 0.81,
-     "note": "Actual selected+D3 and later Steps2–4 source chain checked with source geometry/local scalar payments derived. Fixed source ZG supplies tameness/degeneracy and source-image Prop95. Combined multipliers bounded by an explicit reserved L^epsilon; actual NoBetaCut terminal count must supply that reserve, including Op5 common-label fiber obligation after loop removal and original R1. LOW/GARDEN/GLUE/canonical integration open. FRONTIER-0700; no fraction/seal change."
+     "note": "FINAL-COUNT: Props 9.4-9.6 proved for gamma > 1/2 incl. low-degree atoms; assembly: REG/LOW split, terminal chain, restricted Step-1 run, UnselOK, ladder-scale heredity, one designation per atom set (R50), VHard shape and rho parts; hconn0, hend and garden glue in progress"
     },
     {
      "id": "F2",
@@ -748,7 +748,7 @@
      "weight": 12.0,
      "lines_est": 4150,
      "done": 0.86,
-     "note": "LG-SPINE scratch: AMEND4/5/7+8 checkpoint and AMEND6-prime pair-type gate exist; AMEND9/10 consumer rework unfinished. Full Stage-1 and final-count producers remain required"
+     "note": "PLG = LG-SPINE on the canonical universe: corrected Stage 1 interface, atom-level second collection (AMEND5), final-count premises (AMEND7+8: irreducible, triple designation, no hinge loop, F-disjoint omitted DVs); pair-type Stage 1 families (AMEND6', R47) in progress"
     },
     {
      "id": "X2",
@@ -757,7 +757,7 @@
      "weight": 16.0,
      "lines_est": 8900,
      "done": 0.9,
-     "note": "FLOWEREST scratch: conditional spine assembly and regular L0 leg exist; flower Stage-1, fixed-time traces and marked-flower LF-twist construction remain unresolved"
+     "note": "FLOWEREST on the canonical universe: layergardenFlower_of_spine and layergardenFlower_v2_of_spine type-check against snapshot-9 B1.12 and the D10 successor; regular L0 leg proved (FLOWER-REG); flower Stage 1 gates and Dirac-root couples pending (S2a/S2/S4)"
     },
     {
      "id": "X3",
