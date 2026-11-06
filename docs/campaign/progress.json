@@ -1,5 +1,5 @@
 {
- "assessed": "2026-11-06 05:15 UTC",
+ "assessed": "2026-11-06 05:40 UTC",
  "notes": "Lean work items = blueprint packets (docs/blueprint/GRAPH.md §E) with their difficulty weights (node weights L=1, M=2, H=4, VH=8 summed). Each frozen theorem anchor adds weight 1, credited when SEALED. Done fractions are the orchestrator's assessment, reviewed at integration rounds.",
  "lines_est_total": 273000,
  "parts": [
@@ -685,7 +685,7 @@
      "weight": 13.0,
      "lines_est": 5100,
      "done": 0.95,
-     "note": "Shifted full-region TQ/TT pairs:179-own-source incremental closure and explicit typed/standard-axiom consumers. Constants precede all source data; distinct fixed row indices, actual phase/momentum routing and both signs handled. Actual indicators/all-row FreeDict/TermCertW, modulation/R57/final prefix and canonical integration remain open"
+     "note": "Scratch: six operative row families A1/A2/KQ/KT/TQ/TT now have full-region bounded producers with constants before source carriers, typed consumers and standard axioms; actual shifted momentum/phase and four K source signs including zero are checked. Whole-assembly Reach and restricted level-prefix assembly still require an exact bridge; selected-unit allocation, all-row products/remainders, FreeDict/TermCertW, R58 modulation, finite kind-generic R57 prefix and canonical integration open. FRONTIER-0540; no seal or fraction change."
     },
     {
      "id": "G3",
@@ -703,7 +703,7 @@
      "weight": 6.0,
      "lines_est": 2400,
      "done": 0.58,
-     "note": "Actual original producer-order cross-twist state transport proved: garden, classes and original branch names;632 verified source/evidence pins. Generic disjoint-block arbitrary-prefix state and fold permutation underlie it. Full time/layer/hinge/slot/kernel invariance, tau and remaining VINE/Stage1 consumers/canonical integration remain open"
+     "note": "Actual original producer-order state transport now extends through the real selected FamilyBatch, its constructed batchMolIso, source-derived spliced layer/time domain and hinge finset (672-file worker checkpoint). State fields are garden/class/branch, not dart transport. Supported gap choices/full piece/kernel, A3/tau and remaining Stage1 consumers open; R25/R32 apply. FRONTIER-0540; no seal or fraction change."
     },
     {
      "id": "G8",
@@ -739,7 +739,7 @@
      "weight": 4.0,
      "lines_est": 900,
      "done": 0.81,
-     "note": "Actual original-width CnBound and selected-history F+1<=2R proved; index R+loops kept separate. Common uniform paid actual source edges and multiplicity-preserving induction checked. Terminal bound/normalization, source sum/later LOW/GARDEN/GLUE/canonical closure remain open. Scratch integrity lapse/correction in FRONTIER-0510"
+     "note": "Actual original-width unloop Cn and selected-history component cap/paid D1-triple-regular edges supply original-source normalized count conditional on the later terminal budget. Actual varying-index D3 classes and strict decreasing edges, queried triangle degree/cover and SG existence checked; paid terminal tree/later geometry and full LOW/GARDEN/GLUE/canonical overlay remain open. FRONTIER-0540; no seal or fraction change."
     },
     {
      "id": "F2",
