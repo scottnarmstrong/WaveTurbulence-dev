@@ -1,0 +1,8 @@
+1ff663999408c676ef2a8438550f18b0f467af9b1bac7331d9a2ee01ea898ef3  /home/scott/wt-scratch/codex-takeover/root-checkpoints/20261106-032826-LOW-SCALE/CODEX-LOW-UNLOOP-BRIDGE-scale-build.sh
+4975844c61c9c39f3dcef751ddf7934b6242c80d1bd4e6a46bef3ce3ab760eec  /home/scott/wt-scratch/codex-takeover/root-checkpoints/20261106-032826-LOW-SCALE/CODEX-LOW-UNLOOP-BRIDGE-scale-consumer.lean
+ccf844e7747be1581fb7d080094e01adb4f8a68ad6f66f029bc8f49a27cb7b2e  /home/scott/wt-scratch/codex-takeover/root-checkpoints/20261106-032826-LOW-SCALE/scale-build.log
+390e27b300bcb670556f26d85db11916be6f322517b2102476aecb83972c07e9  /home/scott/wt-scratch/codex-takeover/root-checkpoints/20261106-032826-LOW-SCALE/scale-consumer.log
+3109bddb110183fff9463d2c131bd42a1cf21354f28a68ebb4159b0d1a9bdf4b  /home/scott/wt-scratch/codex-takeover/root-checkpoints/20261106-032826-LOW-SCALE/src/AsmLowChainCodex10EdgeUCtx.lean
+cd76884e7beaa06df6801f14f53284169dac1a1fcd51b07c1f977b626cb44859  /home/scott/wt-scratch/codex-takeover/root-checkpoints/20261106-032826-LOW-SCALE/src/AsmLowChainCodex10Empty.lean
+7ef0744e3906adbe05c28591610f3bcf59c0b033f8eac974d441c27def914590  /home/scott/wt-scratch/codex-takeover/root-checkpoints/20261106-032826-LOW-SCALE/src/AsmLowChainCodex10Poly.lean
+efb17adb5c7659d26c540246f1bfaa79eecd082efc51bc34caca5b65578d6422  /home/scott/wt-scratch/codex-takeover/root-checkpoints/20261106-032826-LOW-SCALE/src/AsmLowChainCodex10ScaleBound.lean
