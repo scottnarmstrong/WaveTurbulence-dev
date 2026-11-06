@@ -646,11 +646,16 @@ class Guard:
                     self.fail(f"unauthorized `{match.group()}` outside manifest-listed DRAFT proof region: {path.relative_to(self.root)}")
 
     def check_forbidden_axioms_constants(self) -> None:
+        """Enforce the campaign's forbidden declaration kinds and modifiers."""
         for path in self.project_files():
-            for _modifier, kind, name, _export in self.declarations(self.read_utf8(path)):
-                if kind in {"axiom", "constant"}:
-                    label = name or "<anonymous>"
+            code = self.code_mask(self.read_utf8(path))
+            for match in DECL.finditer(code):
+                modifiers, kind, name = match.groups()
+                label = name or "<anonymous>"
+                if kind in {"axiom", "constant", "opaque"}:
                     self.fail(f"project-owned `{kind}` command is forbidden: {path.relative_to(self.root)}:{label}")
+                if "unsafe" in modifiers.split():
+                    self.fail(f"project-owned `unsafe` declaration is forbidden: {path.relative_to(self.root)}:{label}")
 
 
 def main(argv: list[str] | None = None) -> int:
