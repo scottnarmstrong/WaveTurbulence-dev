@@ -6,7 +6,7 @@ Lean 4 formalization of
 > [arXiv:2311.10082v2](https://arxiv.org/abs/2311.10082) (2024).
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-11-06 04:53 UTC** · **estimated completion 90.6 %** (Lean work incl. sealing 92.5 %) · frozen theorems sealed: 16 / 26 (+ 296 frozen definitions) · **1,003,786 lines of Lean on main** (7192 files) + 1,460 unlanded on worker branches · blueprint estimate ≈ 273,000 lines
+> **Last updated: 2026-11-06 05:23 UTC** · **estimated completion 90.6 %** (Lean work incl. sealing 92.5 %) · frozen theorems sealed: 16 / 26 (+ 296 frozen definitions) · **1,003,786 lines of Lean on main** (7192 files) + 1,460 unlanded on worker branches · blueprint estimate ≈ 273,000 lines
 <!-- /AUTO:updated -->
 
 **Scope (D1):** everything proved in Lean, no black boxes. That covers the target paper and the results it uses from
@@ -177,12 +177,12 @@ Done fractions last reviewed: **2026-11-06 04:41 UTC**. Source: [`docs/campaign/
 <!-- AUTO:workers -->
 | Worker / session | model / account | packet | branch: last commit | brief |
 |---|---|---|---|---|
-| Codex orchestrator | Codex / current session | Source rulings, safe landings, proof-state review and HQ upkeep | `w/orch`: 10 min ago | [brief](docs/campaign/orch/CODEX-HANDOFF.md) |
-| subagent v5_w2 | GPT-6.1 Terra medium / current session | Actual nested crowns and boundary formulas; two-splice commutation, producer order and full vine invariance | `w/orch`: 10 min ago | [brief](docs/campaign/orch/briefs/TERRA-VINEA-CONTINUE.md) |
-| subagent v5_w13 | GPT-6.1 Terra medium / current session | Uniform genuine-clock TQ/TT rows; operative slot alignment and multirow FreeDict/TermCertW assembly | `w/orch`: 10 min ago | [brief](docs/campaign/orch/briefs/TERRA-V5-W13.md) |
-| subagent finalcount_low | GPT-6.1 Terra medium / current session | Source-uniform D1/triple paid costs; actual host connection, regular costs and global terminal counting | `w/orch`: 10 min ago | [brief](docs/campaign/orch/briefs/TERRA-LOW-UNLOOP-BRIDGE.md) |
-| cx-world | GPT-6.1 Sol medium / codex-2 (existing session) | Existing serial canonical-world upstream rebuild; axiom closeout and assembly overlay pending | `w/orch`: 10 min ago | [brief](docs/campaign/orch/CODEX-HANDOFF.md) |
-| cx-b4bprep | GPT-6.1 Sol medium / codex-2 (existing session) | Existing R52 Batch-4b serial catalogue rebuild; skeleton/layer-count/N4 checks pending | `w/orch`: 10 min ago | [brief](docs/campaign/orch/CODEX-HANDOFF.md) |
+| Codex orchestrator | Codex / current session | Source rulings, safe landings, proof-state review and HQ upkeep | `w/orch`: 30 min ago | [brief](docs/campaign/orch/CODEX-HANDOFF.md) |
+| subagent v5_w2 | GPT-6.1 Terra medium / current session | Actual nested crowns and boundary formulas; two-splice commutation, producer order and full vine invariance | `w/orch`: 30 min ago | [brief](docs/campaign/orch/briefs/TERRA-VINEA-CONTINUE.md) |
+| subagent v5_w13 | GPT-6.1 Terra medium / current session | Uniform genuine-clock TQ/TT rows; operative slot alignment and multirow FreeDict/TermCertW assembly | `w/orch`: 30 min ago | [brief](docs/campaign/orch/briefs/TERRA-V5-W13.md) |
+| subagent finalcount_low | GPT-6.1 Terra medium / current session | Source-uniform D1/triple paid costs; actual host connection, regular costs and global terminal counting | `w/orch`: 30 min ago | [brief](docs/campaign/orch/briefs/TERRA-LOW-UNLOOP-BRIDGE.md) |
+| cx-world | GPT-6.1 Sol medium / codex-2 (existing session) | Existing serial canonical-world upstream rebuild; axiom closeout and assembly overlay pending | `w/orch`: 30 min ago | [brief](docs/campaign/orch/CODEX-HANDOFF.md) |
+| cx-b4bprep | GPT-6.1 Sol medium / codex-2 (existing session) | Existing R52 Batch-4b serial catalogue rebuild; skeleton/layer-count/N4 checks pending | `w/orch`: 30 min ago | [brief](docs/campaign/orch/CODEX-HANDOFF.md) |
 <!-- /AUTO:workers -->
 
 ## Papers
