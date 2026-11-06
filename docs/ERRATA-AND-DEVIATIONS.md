@@ -7,8 +7,10 @@ the project's own statements are not errata.
 **Pinned sources (sha256 of the TeX):**
 - TARGET: Deng–Hani, *Long time justification of wave turbulence theory*, arXiv:2311.10082v2,
   `WKE-Longer_times_Final_arXiv.tex`, `493eef6b7dec448b…`.
-- DH23: Deng–Hani, *Full derivation of the wave kinetic equation* (arXiv:2301.07063), `Revision_Submit.tex`,
-  `c7e47dfabf5a4cca…`.
+- DH23: Deng–Hani, *Derivation of the wave kinetic equation: full range of scaling laws* (arXiv:2301.07063),
+  `Revision_Submit.tex`, `c7e47dfabf5a4cca…`.
+- DH21: Deng–Hani, *Full derivation of the wave kinetic equation* (arXiv:2104.11204),
+  `Inventiones-Final_Version.tex`, `50d0e236a2df0cfd…`.
 
 Line numbers below refer to these files.
 
@@ -833,6 +835,266 @@ root tree of the + leaf and the root tree of the − leaf.
   - "at most R input factors" should read "at most 2R".
   - For couples the weight is ⟨k⟩^{4Λ}.
 - **The flower case.** The same correction applies verbatim to the flower Stage 1 reduction (L2293).
+
+---
+
+## E25 — TARGET `vineest`, L1749/L1909: the class count consumes part of the bad-vine gain
+
+**Status.** CANDIDATE erratum in the proof; the corrected estimate retains a bad-vine gain. Found by V5 (P4, F-COUNTGAIN); rulings R54 and R55. Evidence: /home/scott/wt-scratch/vineest-s3/HANDOFF.md, P4 finding and W3 count bookkeeping.
+
+**Location.** TARGET L1909, against (vineest2), L1748–L1750 (the bound is on L1749). (Ruling R54 cites L1919–L1922; the gain sentence is on L1909.)
+
+**Quoted text.**
+
+> Here note that, in cases (a)--(c) above, the number of choices for $(\Qc,\Tc)$ is at most $C_2\cdot C_0^{n(\Qc)+n(\Tc)}$ by Proposition \ref{layerreg2}, which is acceptable because this only occurs once for $\Ub^p$ and can be covered by the $L^{-\eta^2}$ gain for this bad vine obtained below.
+
+**The configuration and the missing loss.** Fix one operative bad vine and the orders of its exceptional regular couple and tree. Their allowed layer interval has length Δ = q−q′, with Δ ≤ p ≤ 𝔇 = τ*/δ. A coherent chain pair can be re-layered at each of the Δ+1 intermediate layers while keeping its order fixed. Thus the count is not uniform in 𝔇. The P4 estimate used in the proof is
+
+    #choices ≤ 16(N+1)(4·12⁹)^N 4^p.
+
+The exponential-in-order part can be assigned to C₁. The remaining 𝔇-dependent factor cannot: C₁ is chosen before δ and 𝔇. The upper bound 4^p is not asserted to be sharp; the actual re-layering family already shows the absence of a uniform fixed-order count.
+
+The engine supplies the full gain L^{−η²b} appearing in (vineest2), with no additional η² margin in general. Applying the triangle inequality over the choices and absorbing their count by this gain cannot then leave that same full gain on the right. This diagnoses a missing prefactor/margin in the proof; it is not a lower-bound counterexample to the kernel estimate itself.
+
+**Repair used in Lean (R54/R55).** Keep the factor C₂^b explicitly (`VineEstCanonLayerC2`), where C₂ is chosen after δ and 𝔇. Every operative member is bad, so the number of such factors is at most b. For L ≥ L₀(C₂,η),
+
+    C₂^b L^{−η²b} ≤ L^{−(η²/2)b}.
+
+Use the halved-gain corollary (`VineEstCanonLayerHalf`; `vineEstCanonLayerHalf_of_C2`) and amend the `RepresentsInt` mass exponent to −η²b_sk/2. R55 checks that the downstream arithmetic uses only nonnegativity of this exponent, so this amendment does not remove a needed downstream saving. The remaining exponents are unchanged.
+
+The prefix implication `vineEstCanonLayerHalf_of_C2` is checked in the cited P4 work; it does not by itself discharge every input of the full V5 bound.
+---
+
+## E26 — TARGET (redvine), L1954–L1957: lower-child slots retain an integrated lower-joint clock
+
+**Status.** CANDIDATE erratum in the factorization. Found by S2 VINE-B (F-LOWCLOCK); R58 adopts the lower-clock/modulation repair. Source: /home/scott/wt-scratch/vine-b/HANDOFF.md.
+
+**Location.** TARGET (redkg), L1726; the definition of Kᵁ, L1737–L1738; and (redvine), L1954–L1957, especially the outer tree/couple slots on L1956.
+
+**Quoted text.**
+
+> we only integrate over the variables $t_\nf$ for all branching nodes $\nf\in\Gc_{\mathrm{sk}}[\Ub]\backslash\{\uf_1\}$, and treat the other $t_\nf$ variables as fixed.
+
+> \prod_{\mf\in\Nc_{\mathrm{sb}}}\Kc_{\Tc_{(\mf)}}^*(t_{\mf^{\mathrm{pr}}},t_\mf,k_\mf)
+
+**Configuration (p = 0).** Take an eligible non-root (CL) unit U with upper joint a = u₁ and lower joint b = u₂. All nodes have layer 0 and clocks in (0,1). Let the lower external child c = u₂₁ be a branch, and reconstruct there a nontrivial order-2 regular paired tree, with one chain pair n₁→n₂, also in layer 0. The native factor has the time ordering
+
+    τ_c < t_n₂ < t_n₁ < τ_b < t_a < 1.
+
+It is a function K*_{T_(c)}(τ_b,τ_c,k_c). The integral defining Kᵁ integrates τ_b, because b lies inside U; it does not include this external-child slot, because c lies outside U. After splicing, c has parent a, so the outer slot written in (redvine) instead reads K*_{T_(c)}(t_a,τ_c,k_c). These two upper integration limits differ. Layer separation does not make the slot constant when all layers are zero.
+
+For a lower external child which is a leaf, the couple slot similarly reads (τ_b,τ_{c′ᵖʳ}); if its partner is a lower child of another unit, it couples the two units’ interior clocks. Twist invariance of the slot does not make its lower-joint clock an exterior variable.
+
+This is the structural p=0 configuration specified in VINE-B. That handoff does not enumerate a complete prime skeleton or evaluate a numerical instance; this entry does not claim such an additional check.
+
+**Repair adopted for the Lean chain (R58).** The exact VINE-B♯ identity keeps the lower-child slots at τ_b inside the clocked expression. VINE-D Fourier-expands those slots in their parent clocks before separating the unit factors. VINEEST therefore carries e^{πiλτ_b} and a loss ⟨λ⟩^{6η⁶}; the λ=0 case recovers the unmodulated statement. This uses TARGET’s modulation tolerance (FourierboundI), L1618. Changing the outer clock to τ_b without changing the interface would not repair the identity: τ_b is not a coordinate of the spliced garden. R58 is the adopted repair; the diagnostic VINE-B handoff itself contains no proof of the repaired factorization.
+---
+
+## E27 — TARGET L1944: LF-twist refinement need not have at most 2ⁿ classes
+
+**Status.** CANDIDATE erratum in the intermediate class count; the final garden count survives. Found by S2 REPRESENTS (F-COUNT3), ruling R56 / AMEND10; see /home/scott/wt-scratch/represents/HANDOFF.md.
+
+**Location.** TARGET L1944 in Stage 1, and the garden count L2250–L2251. (Ruling R56 cites L1950; the sentence is on L1944.)
+
+**Quoted text.**
+
+> then we can further divide the sum into at most $2^n$ terms, each of which is a sum over a new equivalence class.
+
+**Configuration.** Fix the unlayered garden and its order n. Inside the coherent tree T_(u₂), take one coherent chain pair whose common layer may be any integer r ∈ [q′,q]. Keeping every other datum fixed gives Δ+1 distinct layered gardens in one LF-twist class, where Δ = q−q′. At fixed n, Δ can grow with p < 𝔇 as δ decreases. Under the all-LG prescription σ₀ there are no SG vines at which the finer relation is allowed to twist; these members therefore give distinct singleton pieces. Choosing Δ+1 > 2ⁿ violates the asserted uniform refinement count. The same obstruction defeats any fixed exponential-in-size bound on pieces per coarse class, including the former ≤6ᴺ interface.
+
+This is an LF-twist issue: the relation changes coherent objects and their layerings, not only the finite plain-twist choices. Merging the singleton pieces would put their Δ+1 multiplicity into the represented mass, whose C₁ constant is chosen before δ and 𝔇.
+
+**Why the final count is still usable.** L2250–L2251 counts canonical layered gardens, not merely coarse classes. It can count all the re-layerings; no false final estimate is asserted here.
+
+**Repair used in the Lean interfaces (R56).** Replace the per-class piece cap by a direct count at fixed (g,r):
+
+    #{π : ḡ(π)=g, ρ̄(π)=r} ≤ 3ᴺ C₀ᴺ (C₀r)! (C₀R)! C₂^{g+r}.
+
+Here N is the Stage-1 size budget. Map pieces to representative layered gardens, with fibres at most 3ᴺ, and use CLASSCOUNT’s garden count including all free coherent layerings. REPRESENTS records that the needed layer dependence is covered uniformly by the late constant C₂ (in particular K^{𝔇+1} ≤ C₂). Keep the class/partition data, but do not infer a uniform number of faithful pieces from the old class count. Apply the same interface correction on the flower side.
+---
+
+## E28 — TARGET `excessprop1`, L2156–L2162: degree-2 cuts need explicit isolated-half bookkeeping
+
+**Status.** CANDIDATE exposition gap; harmless with the corrected ledger. Found by G3-LOWDEG (R48), whose handoff reports no false TARGET statement. Evidence: /home/scott/wt-scratch/g3-lowdeg/HANDOFF.md, “Errata”; Lean example `GC_stepD3` in src/Ex1.lean.
+
+**Location.** TARGET’s degree-2-cut remark L2126, increment convention L2138, and excess bounds L2156–L2161.
+
+**Quoted text.**
+
+> This case is in fact trivial: after the cut $v_2$ becomes an isolated atom (without any bond) which forms a single connected component by itself.
+
+> use $\Delta$ to denote increments (such as $\Delta F=F_{\mathrm{pos}}-F_{\mathrm{pre}}$).
+
+**Example C, with a complete garden configuration.** Take four trees with root signs (+,−,+,−): trees 0,2,3 are ternary corollas, tree 1 is trivial. Number the children 0,1,2. Pair leaves as
+
+    (0,[0]) ↔ (1,[]),   (0,[1]) ↔ (2,[0]),   (0,[2]) ↔ (3,[0]),
+    (2,[1]) ↔ (3,[1]),  (2,[2]) ↔ (3,[2]).
+
+The molecule has n=3 atoms a,b,c (the three corolla roots), four bonds, R=2, degrees (2,3,3), one bond a–b, one a–c and two b–c. The two bonds at a have opposite directions. Choose the difference of the two prescribed root momenta so their pair gap c_a is nonzero, of size about L^{−1}. This is the Lean-checked plain, prime, irreducible Example C (`FcgeomCex.lean:185–267`); `GC_stepD3` checks applicability of the degree-2 cut and the R−1 invariant.
+
+**The bookkeeping ambiguity.** Cutting a along both bonds creates one non-isolated β-half and one isolated β-half. Before deleting that isolated half the literal increments are ΔF=1 and ΔV_β=2. If it is immediately discarded, the true remaining-graph increments are instead ΔF=0 and ΔV_β=1. In the factor
+
+    L^{(2γ₀+5η²)ΔF − (γ₀+2η²)ΔV_β}
+
+the two conventions give L^{η²} and L^{−γ₀−2η²}, respectively: a missing factor L^{γ₀+3η²}. Thus one cannot use the compressed graph’s increments in the unamended per-step estimate. The displayed formula is not refuted when the isolated half is counted as TARGET literally describes.
+
+**Repair used in Lean.** `UStepD3.excess` and `UStepD1.excess_new` keep the isolated β-half in the excess ledger. When it is deleted, `InvL.stepD3` and `UCtx.stepD3/D1` decrease the run index R by one. The resulting L^{X} margin, X=d−γ−1/4−1/40, pays the missing L^{γ₀+3η²} under the standing small-η conditions. State both conventions and the index drop explicitly; do not silently discard a half while treating Δ as the true graph increments with unchanged R.
+---
+
+## E29 — TARGET L2259–L2261/L2287: a flower-to-flower pairing is not a compatible skeleton construction
+
+**Status.** CANDIDATE exposition gap. Found by FLOWER-S1 and FLOWER-DESIGN; independently reviewed in research-flower-referee/REPORT.md, items 1–5 and 8; R61 adopts design C with the referee’s fixes.
+
+**Location.** TARGET’s optional pairing footnote L2259, flower canonicity L2261, and the moment expansion L2287–L2288; compare the ordinary skeleton at L870.
+
+**Quoted text.**
+
+> We may also pair the flowers (for example pair the flower of the first tree with the second, the third with the fourth, etc.) to make $\Gc$ a genuine garden, as was done in \cite{DH23}, but this is not necessary in the proof below.
+
+> so we will make no irreducibility assumption about flower gardens.
+
+Before completion the flowers are marked/unpaired leaves, whereas the ordinary skeleton/full-twist construction requires a plain garden. A compatible completion and transport of the marks and fixed-time kernel are therefore missing from the stated reuse of that construction.
+
+**Two-corolla configuration.** Take two ternary corollas, root signs (+,−), with the left child of each marked as its flower. Pair the middle children across the trees, and likewise the right children. Put every node in layer 0. This is the canonical order-2 flower garden used in FLOWER-S1 (`IsCanonH 1`). For an explicit decoration in dimension 3 take, in each tree, root label 0 and child labels (1,2,1), interpreted as constant integer vectors. Thus the flower momentum is (1,1,1)/L, conservation is 1−2+1=0, and ε=1.
+
+Pairing the two flowers with each other does produce a genuine plain garden, as the footnote says. But it produces the regular (1,1) mini-couple: its ordinary regular reduction has a zero-order skeleton. This does not preserve the marked fixed-parent-time flower kernel, nor supply the positive-order irreducible skeleton required for the ordinary Stage-1 interface. Taking a disjoint union of two such corolla pairs also gives an allowed width-four flower input with a reducible completion; repeating the pair P times gives the required width 2P for any larger moment parameter. The explicit omission of irreducibility cannot be dropped when reusing the ordinary construction.
+
+The issue is the missing compatible definition/transport of the flower skeleton, not the mere existence of a complete leaf pairing. FLOWER-S1’s configuration and elementary identities are Lean-checked; this is not a counterexample to (flowerest2).
+
+**Repair adopted for the Lean chain (R61).** Perform garden-level excision before taking a skeleton: detach the siblings of each flower, replace their former slots and the flower slot by leaves paired with fresh trivial anchor trees carrying the prescribed labels, and retain fᵖʳ as a fixed-time branch stub. Decompose into irreducible plain anchored components, then apply their ordinary skeletons and full LF twists. Anchors have fixed labels/profile 1, explicitly exempted from the ordinary profile/size conditions. The amended interfaces must carry the stub times and component data; a separate marked-flower twist is not used. The full excision/transport package is an adopted construction, not asserted already proved by the FLOWER-S1 diagnostic.
+---
+
+## E30 — TARGET L2295 (2): fixing the flower-parent resonance does not remove the Dirac trace
+
+**Status.** CANDIDATE exposition gap. Found by FLOWER-S1 and FLOWER-DESIGN, checked by the independent flower referee (items 1, 2 and 8); R61 adopts the fixed-stub repair.
+
+**Location.** TARGET (kqflower), L2265, and flowerest1 adjustment (2), L2295. The regular-tree/regular-chain parent case also needs treatment, as in DH21’s argument recalled in Corollary 11.3, L2703.
+
+**Quoted text.**
+
+> They may also come from the $\dirac(t_{\ff^{\mathrm{pr}}}-s)$ factor which removes the integration in the $t_{\ff^{\mathrm{pr}}}$ variable, but $\Omega_{\ff^{\mathrm{pr}}}$ has at most $L^{10d}$ possible values once we fix each $k_\lf$ to a unit ball, so we may fix the value of $\Omega_{\ff^{\mathrm{pr}}}$ and safely get rid of the factor $e^{\zeta_\nf\pi i \cdot\delta L^{2\gamma}\Omega_\nf t_\nf}$ for $\nf=\ff^{\mathrm{pr}}$ at a loss of at most $L^{10d}$.
+
+**What is valid.** With k′ fixed and the two sibling momenta localized to unit balls, there are at most (2L+1)^{2d} possible pairs of sibling lattice labels, hence at most that many parent resonances. This is compatible with the stated L^{10d} allowance for large L, uniformly in k′. No defect in that local cardinality claim is alleged.
+
+**What is missing.** Fixing Ω_{fᵖʳ} makes its phase a scalar; it does not restore the removed integration variable. A fixed fᵖʳ imposes caps τ_child<s on its free children and a floor τ_parent>s on its free parent. If fᵖʳ lies inside a regular tree, one has a trace of an ordered chain integral, not the ordinary all-times-integrated regular-object factor. Stage 2’s counting/Fourier bounds must be proved for that altered domain.
+
+**Concrete time-dimension test.** In the two-corolla garden of E29, choose all layers 0, root momenta 0, flower labels 1 and other child labels (2,1) in constant integer coordinates, with 0<s<t<1. Both roots are flower parents. The two Dirac factors remove all branch-time integrations; ε=1 and the signed phases cancel. The literal remaining time integral is exactly 1, even without deleting phases (`corolla_plain_timeIntegral`). In contrast, a positive-order plain spliced kernel with bounded amplitudes is O(t^{order}), and any frequency average with uniformly bounded mass is O(t). For common positive Schwartz profiles the paired-corolla phases cancel, ε appears squared and ζ=i(−i)=1, so the whole summable value is a positive constant for fixed L. If the moment parameter must be large, take P disjoint copies of the pair, giving width 2P and again a positive time-independent value. At s=t/2→0, that constant cannot be represented that way. The exact time identities and elementary mass contradiction are Lean-checked; the whole infinite-sum endpoint argument is mathematical evidence in FLOWER-S1/OBSTRUCTION.md, not a Lean negation of the flower estimate.
+
+**Repair adopted for the Lean chain (R61).** Keep fᵖʳ as a pendant stub with fixed time s after anchor excision. Its degree is at most one, so it lies in no block, vine or ladder; it cannot be strictly inside a regular object. At most it is the lone-leaf endpoint of a regular tree, whose standard factor is K*_T(·,s). Retain every parent floor and child cap. Use an explicitly proved fixed-external-time trace of the V5 `XNorm00Restr` bound where t₁=s; do not substitute a pointwise bound for that norm. The trace and garden-side fixed-node interface are obligations of the R61 implementation.
+---
+
+## E31 — TARGET L2297 (4): leaving special-node SG vines unspliced does not preserve `subpro` (4)
+
+**Status.** CANDIDATE exposition gap. Found by FLOWER-DESIGN and confirmed as a gap by the flower referee, item 8; ruling R61, fixes X3/X8. This concerns reuse of Stage 1, not a refutation of ordinary `subpro`.
+
+**Location.** TARGET flowerest1 adjustment (4), L2297, against Proposition subpro (4), L2045.
+
+**Quoted text.**
+
+> Clearly there are less than $20P$ vines containing one of these special nodes; for each of them we can use Proposition \ref{ladderl1new} to treat its ladder parts, and sum and integrate trivially over the $k_\ell$ and $t_v$ variables for $\ell$ and $v$ outside of the ladders (there are at most $20$ such variables per vine).
+
+> \item Any SG vine-like object which is not a subset of an SG vine-like object in $\Cs_1$, and also \emph{does not contain} a hinge atom, must be a subset of a DV or an LG or ZG vine-like object
+
+**Configuration exposing the conflict.** Consider a maximal non-root SG (CL) vine disjoint from other collected objects, for example a two-joint vine (I) with degree-four joints a,b, whose upper joint a is a child of an original flower-tree root. That child is one of L2297’s special nodes. Suppose there is no containing DV or larger LG/ZG object, and no other collected object meeting this vine. If the exceptional-vine rule leaves it unspliced, it is an SG object outside C₁ with no hinge and no containing DV/LG/ZG object. That is precisely the alternative which subpro (4) is designed to exclude after the ordinary splicing selection.
+
+This is a configuration testing the proposed reuse of the ordinary conclusion; the cited notes do not supply a separately enumerated full prime flower garden for it. The gap is not that subpro (4) fails for the ordinary algorithm. It is that omitting a special-node vine from splicing does not entitle the modified algorithm to invoke that conclusion unchanged. Paying a polynomial L-loss for at most 20P exceptional vines does not itself restore the missing structural premise. Moreover, each whole-tree layer-p count in (i) is already invariant under full LF twists; the real protected data are the subtree carriers and fixed-time mark.
+
+**Repair adopted for the Lean chain (R61).** Detach the protected sibling/root-child subtrees as separately capped trees and put the fixed-time constraint on a pendant anchored stub. Then the carrier restrictions become per-tree topOrder restrictions, and the component gardens use the full universe LF-twist relation and ordinary vine selection; there are no special-node vines requiring an ad hoc exception. Include the referee’s corrections: excise roots for kind W as well, to ensure `IsTrunc`, and split the fixed dParent edge. The stub/anchor transport and complete-family closure belong to the amended producer, not to an unchanged application of subpro.
+---
+
+## E32 — TARGET L2312: the root-time derivative is handled by decapitation, with width-four components retained
+
+**Status.** CANDIDATE exposition gap. Found by FLOWER-DESIGN; independent referee item 6 corrects its initial “no Stage 1” claim. R61 adopts root excision and the correction (X6/X8).
+
+**Location.** TARGET L2312, the use of the flower argument for ∂ₜaᵗʳ and ∂ₜℒ₀.
+
+**Quoted text.**
+
+> In addition, we can treat the time derivative $\partial_ta_k^{\mathrm{tr}}$ (which simply contains an extra $\dirac(t_{\rf}-t)$ factor in $\Jc_\Tc$ similar to the one in (\ref{jtflower})) using the same arguments in the proof of Proposition \ref{flowerest1}, to get the same bound (\ref{trterm1}) with an additional $L^{100d}$ loss.
+
+**The required identity.** Differentiating a nontrivial tree’s upper endpoint pins its root at t. Excise that root once: its three child subtrees become trees with cap t, and its coupling, ε, phase and local label sums move outside. For a differentiated couple, excising both roots gives a width-six garden. Ordinary Stage 1 alone integrates the root time and does not implement this identity; a separate root-Dirac regular-object estimate is unnecessary after the excision.
+
+**The referee’s concrete regular-couple configuration.** Let r₁ have children a₁,a₂,a₃, with a₁ and a₂ leaves paired to each other. Let a₃ and the other root r₂ be the corolla roots of a (1,1) mini-couple, their three child pairs matched across. The original Q is regular: remove the top mini-tree and then that mini-couple. After deleting r₁,r₂, the detached a₁,a₂ form a trivial couple, while
+
+    {T_a₃, T_b₁, T_b₂, T_b₃}
+
+is one irreducible width-four component, where b₁,b₂,b₃ are the children of r₂. It consists of the a₃ corolla and three trivial trees, with each corolla leaf paired to one trivial root. It has no vine but is not a couple. Therefore “only regular couples remain” and the original research note’s “no Stage 1” are both invalid shortcuts. Recursive decapitation through depth O(N) would also lose too much.
+
+**Repair adopted for the Lean chain (R61).** Use the single root-excision identity, then componentwise bounds: regular/trivial couples use their pointwise kernels; nonregular components, including width-four components above, go through LG’s Stage-1 gate (with the LOW geometry where needed). The local label loss is at most δ²L^{2d+2γ}, within the permitted L^{100d} allowance. P7 still needs the regular-couple structure lemma identifying the finitely many decapitation product patterns. Neither that lemma nor the amended component assembly is claimed proved merely by the research note.
+---
+
+## E33 — TARGET L2294/L2299: the cutoff factors need a product partition and a weighted reduction argument
+
+**Status.** CANDIDATE exposition gap, not a counterexample to the stated bounds. Found by FLOWER-DESIGN and FLOWER-CUT; referee item 8 confirms E-F5 and requests the DH21 comparison. R61 X8/X9 and R62–R63 govern the repair. The max-form freeze error is separated in E34.
+
+**Location.** TARGET L2283–L2285, adjustment (1) L2294 and adjustment (6) L2299; DH21 Corollary 11.3 L2699–L2704 and the per-variable partitions L2731/L2735.
+
+**Quoted text.**
+
+> The extra factor $M_1^{-80dP}$ when assuming $\max\{|k_\lf|:\ff_j\neq\lf\in\Lc_j\}\sim_0 M_1$ comes in the same way (note that if we insert some cutoff to the tree $\Tc$ associated to $\Xs$, then the same cutoff will appear in each tree $\Tc_j$ occurring in the garden $\Gc$ associated with the expansion (\ref{flowerexp2})).
+
+> and we insert suitable cutoff functions supported in $|k_\lf|\leq M_0$ for each $\ff\neq\lf\in\Lc^*$; moreover, suppose we insert one (or more) cutoff function supported in $|\Omega_{\nf_j}|\geq M_1$ for some $1\leq j\leq n-1$, where $\nf_j$ is the $j$-th node in the stem from top to bottom (in particular $\nf_n=\ff^p$),
+
+**The intended smooth partition.** DH21 L2731 decomposes each non-flower leaf separately and then groups the dyadic indices by their maximum; L2735 does the same for stem resonances. For a finite family of nonnegative magnitudes y_a, this gives
+
+    Ψ₀(y) = ∏ₐ χ₀(y_a/L),
+    Ψⱼ(y) = ∏ₐ χ₀(y_a/(2ʲL)) − ∏ₐ χ₀(y_a/(2ʲ⁻¹L)),  j≥1.
+
+This is a difference of smooth products, not a scalar cutoff evaluated on a pointwise maximum. Telescoping Ψⱼ chooses one annular factor and leaves upper cutoffs at the other slots. DH21 Corollary 11.3 states the corresponding gain M₁^{−1/9}M₀^{5d}, with M₀ its leaf scale and M₁ its stem scale. TARGET calls these scales M₁ and M₂; their names must not be identified literally.
+
+**A concrete layered configuration requiring more than a modified leaf profile.** In the construction of H_{p+1}, replace four initial non-flower leaves by a lower-layer garden, as L2261 allows. One of the original cutoff slots is then the root of an attached garden, hence an internal node of the expanded garden. Its momentum is a signed sum of descendant input momenta. A cutoff there is a bond/root weight, not simply a new F_q at an actual input leaf. The assertion that the M₁ gain comes “in the same way” therefore omits a transport/extraction argument. For cut2, the nonmarked stem nodes still carry upper Ω cutoffs; they cannot simply be deleted from a signed or complex kernel. Even the elementary sum 1+(−1)=0 becomes 1 after weighting its two terms by (1,0), so pointwise domination of weights supplies no such estimate.
+
+**Repair adopted for the formalization.** Use the DH21-form product partition. For cut1, extract a marked decaying input by an exact uniform-family/Markov identity, with per-bond weights and anchored leaf transport for internal attachment roots (FC2/FC3), preserving the real, twist-compatible families needed for cancellation. For cut2, retain the upper weights by spatial Fourier insertion and handle the time faces as in E35. These are additional interfaces/lemmas, not an application of an unweighted bound to a smaller oscillatory sum. At dyadic index zero there is no annular mark; the base-scale L gains must be reserved from the available L-power slack. The flower estimates are not declared closed by this repair architecture.
+---
+
+## E34 — frozen `layergardenFlower_v2`: max-form cutoffs differ from the source’s product partition
+
+**Status.** DEVIATION of our frozen statement, not a TARGET erratum. Found by FLOWER-CUT; R62 identifies the mis-transcription and proposes a versioned successor, subject to the statement audit. No falsity of the max-form estimate is established.
+
+**Location.** TARGET L2283/L2285, read with DH21 L2731/L2735. On the Lean side, frozen LayeredGardenCutWeight1/2 feed FlowerSum, which is used by LayergardenFlowerV2.lean:88–101.
+
+**Quoted text.**
+
+> by a smooth cutoff function for the tree $\Tc$, where $\ff$ is the flower of $\Tc$ and $\Lc$ the set of leaves, then (\ref{flowerest2}) holds with an extra factor  $M_1^{-80dP}$ on the right hand side
+
+> \begin{equation}\label{Rdecompose}1=\sum_{R\geq L}\chi_R(k_\lf),\end{equation} where $\chi_R(z)$ is supported in $|z|\lesssim R$ if $R=L$ and in $|z|\sim R$ if $R>L$, for each $\ff\neq\lf\in\Lc^*$.
+
+**The exact mismatch.** The frozen `cutWeight1` applies `dyadicCut` to a `Finset.sup` of leaf magnitudes in each original tree; `cutWeight2` does so to stem-resonance magnitudes. Thus for j=0 its factor is χ₀(maxₐ y_a/L), and for j≥1 it is the difference of the two scalar max cutoffs. The DH21 per-variable partition, grouped by its largest dyadic scale, instead gives the product differences Ψⱼ in E33. These have the same intended dyadic role but are different functions. The words “smooth cutoff” in TARGET do not prescribe our nonsmooth scalar-of-max implementation.
+
+**Lean-checked two-leaf example.** Let L>0 and take two magnitudes y₁=y₂=3L/4 in one tree at j=0. Put c=χ₀(3/4). For the actual frozen χ₀(x)=smoothTransition(2−2|x|), the probe proves 0<c<1. Then
+
+    frozen factor = χ₀(max(y₁,y₂)/L) = c,
+    product factor = χ₀(y₁/L)χ₀(y₂/L) = c²,
+    c−c² = c(1−c) > 0.
+
+This is `chi0_three_quarters` and `frozen_ne_product` in research-flowercut/probe/FlowerCut.lean:166–182 (namespace WaveTurbulence.ResearchFlowerCut); the recorded check uses only propext, Classical.choice and Quot.sound. It proves non-equivalence of the weight functions, not a counterexample to the full frozen estimate or an admissible nonzero kernel lower bound.
+
+**Repair of the formalization (R62).** Do not edit v2 in place. Prepare a versioned `layergardenFlower_v3` using `prodDyadicCut`, `cutWeight1P`, `cutWeight2P` and `flowerSumP`, preserving the other clauses. The probe checks telescoping, upper/annular support and `flowerSumP_none` (rfl), so the uncut expressions agree. At the pinned ruling, the successor is provisional pending an independent statement audit, and the full cutoff proof is not complete. Keep v2’s status explicit rather than treating the two cutoff definitions as interchangeable.
+---
+
+## E35 — TARGET L2299: time integration needs face bounds and a twist-compatible cut-label carrier
+
+**Status.** CANDIDATE exposition gap; no new source falsity is claimed. Found by CX-CUT2, research-cut2/NOTES.md §9, with independent review; R63 records the architecture; R64 settles its open fibre lemma (with a repair). The full cut2 bound is not yet a completed proof.
+
+**Location.** TARGET adjustment (6), L2299; related stem invariance L2300. DH21 Corollary 11.3 L2699–L2704 is a comparison, not a ready-made layered 2P-mark theorem.
+
+**Quoted text.**
+
+> By integrating in $t_j$ before manipulating everything else, and arguing similarly as in the proof of Corollary 11.3 in \cite{DH21}, we gain a factor $M_2^{-P/9}$ from this integration.
+
+The same line says “otherwise these cutoffs play no role in the proof”. Two arguments are omitted.
+
+**(a) A concrete time-face configuration.** Mark a free stem branch b other than fᵖʳ, with free parent u and off-stem children at times σ₁,σ₂; its stem child may be the fixed flower parent at s. The b-clock ranges over
+
+    max(s,σ₁,σ₂) < τ_b < τ_u.
+
+Integrating e^{iωτ_b} first, ω=πζ_bδL^{2γ}Ω_b, produces upper and lower endpoint terms. With coefficient 1 they give (e^{iωτ_u}−e^{iω max(s,σ₁,σ₂)})/(iω), which need not vanish. With the remaining kernels present, differentiation creates cap/floor faces: the parent or one child is pinned at the marked clock. Those faces have their own lower-dimensional integration measure and their own carriers. They are not the unchanged all-times-integrated garden, nor equality indicators inside the old measure.
+
+**(b) The other cutoffs still matter.** Exact telescoping of the product partition marks one annular Ω per original tree but leaves smooth upper cutoffs on the other stem nodes. Twist invariance does not make these factors external scalars: a stem vine’s top Ω can depend on internally summed momenta. Removing them by an unweighted estimate would discard the cancellation being estimated.
+
+**Repair route adopted for the Lean work (R63; still incomplete).** For positive dyadic index, keep the exact marked partition, excise the flower parents and marked nodes with their labels recorded, and estimate anchored multiple-stub kernels together with all cap/floor faces. Apply mixed BV integration by parts in the outer marked clocks, including both endpoints; at most one extra face pin per marked original tree is needed. Retain the upper cutoffs by a localized spatial Fourier-measure insertion, uniform in momentum centres, after the coherent cancellation; R58’s temporal modulation alone is not that insertion.
+
+The fixed cut-label fibres must also be closed under the admissible augmented LF twists, contain complete coherent families, preserve canonicity across glued layer-p boundaries, and retain original-tree/mark/topOrder data. Reversible gluing alone proves none of the required complex-sum bound: a subset {1} can have nonzero sum although {1,−1} sums to zero. R64 (2026-11-06) records the cut-label fibre theorem as PROVED-WITH-REPAIR: the cuts are indexed by tagged anchor ports and gluing incidence, parent floors are transported intrinsically, and each pin costs L^{23d}, independent of N (research-cut2/fiber/FIBER.md; an independent referee is pending). The exact mixed face/BV identity of the time-face argument is Lean-checked (packet C2-D, research-cut2/c2d). Local arithmetic/clock-classification Lean probes do not close cut2 or prove TARGET’s full M₂^{−P/9} gain. This is an exposition/architecture entry, not a claim that the remaining flower theorem has been formalized.
 
 ---
 
