@@ -2456,6 +2456,7 @@ public import WaveTurbulence.Frozen.Defs.FixPat
 public import WaveTurbulence.Frozen.Defs.FixPatDecEq
 public import WaveTurbulence.Frozen.Defs.FlowerKind
 public import WaveTurbulence.Frozen.Defs.FlowerSum
+public import WaveTurbulence.Frozen.Defs.FlowerSumP
 public import WaveTurbulence.Frozen.Defs.ForestSet
 public import WaveTurbulence.Frozen.Defs.GBranch
 public import WaveTurbulence.Frozen.Defs.GBranchChild
@@ -2568,6 +2569,8 @@ public import WaveTurbulence.Frozen.Defs.LayeredGardenCanonCriterion
 public import WaveTurbulence.Frozen.Defs.LayeredGardenCanonInd
 public import WaveTurbulence.Frozen.Defs.LayeredGardenCutWeight1
 public import WaveTurbulence.Frozen.Defs.LayeredGardenCutWeight2
+public import WaveTurbulence.Frozen.Defs.LayeredGardenCutWeight1P
+public import WaveTurbulence.Frozen.Defs.LayeredGardenCutWeight2P
 public import WaveTurbulence.Frozen.Defs.LayeredGardenFixPat
 public import WaveTurbulence.Frozen.Defs.LayeredGardenFlowerKindOK
 public import WaveTurbulence.Frozen.Defs.LayeredGardenIncoherency
@@ -2612,6 +2615,7 @@ public import WaveTurbulence.Frozen.Defs.PartialMom
 public import WaveTurbulence.Frozen.Defs.PhaseIntegral
 public import WaveTurbulence.Frozen.Defs.PhaseProd
 public import WaveTurbulence.Frozen.Defs.PhaseProdOff
+public import WaveTurbulence.Frozen.Defs.ProdDyadicCut
 public import WaveTurbulence.Frozen.Defs.PvResonantIntegral
 public import WaveTurbulence.Frozen.Defs.RawCpl
 public import WaveTurbulence.Frozen.Defs.RawCplMapTree
