@@ -1,5 +1,5 @@
 {
- "assessed": "2026-11-06 04:41 UTC",
+ "assessed": "2026-11-06 05:15 UTC",
  "notes": "Lean work items = blueprint packets (docs/blueprint/GRAPH.md §E) with their difficulty weights (node weights L=1, M=2, H=4, VH=8 summed). Each frozen theorem anchor adds weight 1, credited when SEALED. Done fractions are the orchestrator's assessment, reviewed at integration rounds.",
  "lines_est_total": 273000,
  "parts": [
@@ -685,7 +685,7 @@
      "weight": 13.0,
      "lines_est": 5100,
      "done": 0.95,
-     "note": "Fully carrier-uniform operative TQ/TT pairs choose constants before width/order/types/P/garden;155-module incremental checkpoint317 verified source/evidence pins and explicit typed consumers. Earlier narrower scope preserved/corrected. All-clock source factors and initial type-I zero/type-II phase geometry compiled. Reached-family slot/momentum binding, multirow FreeDict/TermCertW, modulation/R57/full prefix/canonical integration remain open"
+     "note": "Shifted full-region TQ/TT pairs:179-own-source incremental closure and explicit typed/standard-axiom consumers. Constants precede all source data; distinct fixed row indices, actual phase/momentum routing and both signs handled. Actual indicators/all-row FreeDict/TermCertW, modulation/R57/final prefix and canonical integration remain open"
     },
     {
      "id": "G3",
@@ -703,7 +703,7 @@
      "weight": 6.0,
      "lines_est": 2400,
      "done": 0.58,
-     "note": "Actual two-add gardens commute for any distinct selected units, including marks/pairings in nested/outside cases;445 verified source/evidence pins. Actual containing-unit singleton gardens/containing-first folds proved. Branch-name/arbitrary-prefix/order folds, full layer/hinge/slot/kernel invariance, tau partition and remaining VINE packets/Stage1 remain open"
+     "note": "Actual original producer-order cross-twist state transport proved: garden, classes and original branch names;632 verified source/evidence pins. Generic disjoint-block arbitrary-prefix state and fold permutation underlie it. Full time/layer/hinge/slot/kernel invariance, tau and remaining VINE/Stage1 consumers/canonical integration remain open"
     },
     {
      "id": "G8",
@@ -739,7 +739,7 @@
      "weight": 4.0,
      "lines_est": 900,
      "done": 0.81,
-     "note": "Source D1/triple/regular deviations and paid common g1 component potential compiled; exact consumers standard axioms. D1 actual j=2 component decrease explicitly paid. Generic multiplicity-preserving well-founded branch induction and actual unloop initialization proved; source Fmax/terminal/global/further LOW/GARDEN/GLUE and canonical integration remain open"
+     "note": "Actual original-width CnBound and selected-history F+1<=2R proved; index R+loops kept separate. Common uniform paid actual source edges and multiplicity-preserving induction checked. Terminal bound/normalization, source sum/later LOW/GARDEN/GLUE/canonical closure remain open. Scratch integrity lapse/correction in FRONTIER-0510"
     },
     {
      "id": "F2",

@@ -1,0 +1,32 @@
+{
+  "source_build_counts": {
+    "ok": 3407,
+    "stopped": 1,
+    "blocked": 5,
+    "failed": 1
+  },
+  "requested_exports": {
+    "ok": 10,
+    "blocked": 2
+  },
+  "compatibility": "ok",
+  "hash_checks": {
+    "FIXED-BASE-SHA256SUMS": true,
+    "MAIN-SHA256SUMS": true,
+    "CURRENT-SHA256SUMS": true,
+    "COPIED-SHA256SUMS": true
+  },
+  "ready": false,
+  "limits": [
+    "One failed legacy module G3VineLG9, only AxCheck6/7 consumers, outside12requested-rootclosure",
+    "Stopped retired false Degen.MaximalLadderDisjoint; selected subblock independently extracted",
+    "AsmVN13/AsmDesig explicitly excluded, blocking c1_shape and host_conn_final",
+    "Assembly overrides and source gate endpoints not certified by upstream-world consumers"
+  ],
+  "audit_generator_repairs": [
+    "Target8 old parser stopped at let C := in conclusion; separate consumer retains complete original header",
+    "Target11 old preamble regex copied attributed definitions; separate consumer omits copied definitions"
+  ],
+  "axiom_names": "Three old logs abbreviate Classical.choice as choice; separate pp.fullNames=true audit confirms exact full names. Initial strict summary check correctly rejected abbreviations before this audit.",
+  "timestamp": "2026-11-06T05:01:07.670791+00:00"
+}

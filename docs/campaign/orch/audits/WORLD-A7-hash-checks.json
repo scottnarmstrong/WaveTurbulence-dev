@@ -1,0 +1,42 @@
+[
+  {
+    "command": [
+      "sha256sum",
+      "--check",
+      "--quiet",
+      "/home/scott/wt-scratch/world-a7/FIXED-BASE-SHA256SUMS"
+    ],
+    "exit": 0,
+    "output": ""
+  },
+  {
+    "command": [
+      "sha256sum",
+      "--check",
+      "--quiet",
+      "/home/scott/wt-scratch/world-a7/MAIN-SHA256SUMS"
+    ],
+    "exit": 0,
+    "output": ""
+  },
+  {
+    "command": [
+      "sha256sum",
+      "--check",
+      "--quiet",
+      "/home/scott/wt-scratch/world-a7/CURRENT-SHA256SUMS"
+    ],
+    "exit": 0,
+    "output": ""
+  },
+  {
+    "command": [
+      "sha256sum",
+      "--check",
+      "--quiet",
+      "/home/scott/wt-scratch/world-a7/COPIED-SHA256SUMS"
+    ],
+    "exit": 0,
+    "output": ""
+  }
+]
