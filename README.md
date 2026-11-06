@@ -131,7 +131,7 @@ Lean lines: 1,003,786 on main + 1,460 on branches, of ≈ 273,000 estimated by t
 | S2a | REDSPLICE-DEF | 2 | ≈800 | 🟡 95 % | REDSPLICE-DEF READY: the full Stage 1 construction; stage1Piece_sound now also supplies the triple designation and no-hinge-loop facts (AMEND7+8) |
 | S4 | SUBPRO | 8 | ≈3,000 | 🟡 95 % | SUBPRO done in atom-set form plus the hinge triple-bond designation (R37) |
 | V4 | VINEEST-S2 | 4 | ≈2,500 | 🟡 95 % | VINEEST-S2 done: vineChain_eq_sumintForm (V4 endpoint, ruling R2), 709-module snapshot-9 rebuild OK; obligations VINEPARAM, SumintSigned |
-| V5 | VINEEST | 13 | ≈5,100 | 🟡 95 % | Actual SFF/native Q-T cell metadata and shared factors checked; exact clamp Fourier identity, tails, low/middle/high region integrals and log absorption compiled. Global scalar weighted norm,2D lifting/same-power extraction, operative TermCertW, modulation, R57 generic target/final prefix and canonical integration remain open |
+| V5 | VINEEST | 13 | ≈5,100 | 🟡 95 % | Actual SFF/native cell metadata compiled; scalar clamp Fourier identity and all signed weighted resonance regions/log growth checked. Cutoff now covers full adjacent cells;31 dependent modules rebuilt. Global weighted mode norm,2D lift/same-power extraction, operative TermCertW/modulation/R57 final prefix and canonical integration remain open |
 | X1 | FLOWER-DEF | 10 | ≈3,100 | 🟡 95 % | FLOWER-DEF done in scratch: classes, kernels, identities, O-FK; B1.12 final (audited, F1/F2 applied) proposed for the freeze |
 | C1 | REG-STRUCT | 11 | ≈4,000 | 🟡 90 % | REG-STRUCT done in scratch: structure theorem with uniqueness, decoding, legal/dominant chains, counts (C₀=12^9); F55 |
 | C2 | LINKS | 11 | ≈3,000 | 🟡 90 % | LINKS done in scratch: branchpair, defchoice, linkXY, deflink, defcoh, auxlem, explem, treelemma, incohproof1 (couples); F62-F65 |
@@ -157,14 +157,14 @@ Lean lines: 1,003,786 on main + 1,460 on branches, of ≈ 273,000 estimated by t
 | X2 | FLOWEREST | 16 | ≈8,900 | 🟡 90 % | FLOWEREST scratch: conditional spine assembly and regular L0 leg exist; flower Stage-1, fixed-time traces and marked-flower LF-twist construction remain unresolved |
 | F2 | PLG | 12 | ≈4,150 | 🟡 86 % | LG-SPINE scratch: AMEND4/5/7+8 checkpoint and AMEND6-prime pair-type gate exist; AMEND9/10 consumer rework unfinished. Full Stage-1 and final-count producers remain required |
 | M7 | LFTWIST | 13 | ≈4,200 | 🟡 85 % | LFTWIST on main with the canonical universe; leaf bijection of LF twists on ordinary leaves proved (LFTWIST-LEAFMAP, R45) |
-| F3 | FINAL-COUNT | 4 | ≈900 | 🟡 81 % | LOW direct one-step potential and actual positivity checked; R60 selected pointwise all-dartless/NoTripleCut exit, finite D1/regular/triple class cover and node geometry compiled provisionally. Actual unloop producer/selected consumer need consistent carrier-name transport and duplicate-free overlay; uniform class-tree, terminal LOW/GARDEN/GLUE and canonical integration remain open |
-| S2 | REDSPLICE | 6 | ≈2,400 | 🟡 58 % | Exact batch unit coordinates/list permutation, selected-family completeness, canonical state reindexing and orbit-output existence compiled; partial witness independence. Interior singleton splice has actual retained-leaf bijection preserving roots/marks/pair/sign. Ordered forest/fold/layer/hinge/slot/kernel invariance, tau partition, remaining vine packets and Stage1 producer remain open |
+| F3 | FINAL-COUNT | 4 | ≈900 | 🟡 81 % | Actual NonLoop source-selected phase now derives collection/name/SG/hinge/priority/SameDes data and all-dartless/NoTripleCut exit; duplicate helper overlay independently reviewed. Actual D1 shape/noncritical geometry and critical exponent drop compiled; immutable sources/logs verified. Uniform class-tree, terminal LOW/GARDEN/GLUE and canonical integration remain open |
+| S2 | REDSPLICE | 6 | ≈2,400 | 🟡 58 % | A3 exact batch canonical-state reindexing/output existence and selected-core witness independence compiled. A4 proves actual ordered boundary subtree/crown/single-unit forest equality and retained-leaf maps;136 immutable source/log pins verified. Leaf diagram/garden/full-fold/layer/hinge/slot/kernel invariance, tau partition, remaining vine packets and Stage1 producer remain open |
 | F1 | FINAL-RED | 4 | ≈1,200 | 🟡 30 % | FINAL-RED: finalsbest1/finalsbest2 consumed in LG-SPINE's assembly (counting cover, finalproof numerics) proved generically |
 | G1 | STAGE2-DEF | 10 | ≈2,600 | 🟡 20 % | STAGE2-DEF: stage-2 operation datatype (Stage2Op) and TARGET's counting problem (lg-spine CountingChoices) defined |
 
 </details>
 
-Done fractions last reviewed: **2026-11-06 02:35 UTC**. Source: [`docs/campaign/progress.json`](docs/campaign/progress.json); history: [`docs/campaign/history.csv`](docs/campaign/history.csv).
+Done fractions last reviewed: **2026-11-06 02:53 UTC**. Source: [`docs/campaign/progress.json`](docs/campaign/progress.json); history: [`docs/campaign/history.csv`](docs/campaign/history.csv).
 <!-- /AUTO:progress -->
 
 ## Workers
@@ -172,12 +172,12 @@ Done fractions last reviewed: **2026-11-06 02:35 UTC**. Source: [`docs/campaign/
 <!-- AUTO:workers -->
 | Worker / session | model / account | packet | branch: last commit | brief |
 |---|---|---|---|---|
-| Codex orchestrator | Codex / current session | Source rulings, safe landings, proof-state review and HQ upkeep | `w/orch`: 16 min ago | [brief](docs/campaign/orch/CODEX-HANDOFF.md) |
-| subagent v5_w2 | GPT-6.1 Terra medium / current session | Actual A3 batch/orbit canonical reindexing and A4 retained-leaf/ordered forest/fold invariance; D12 independent audit passed | `w/orch`: 16 min ago | [brief](docs/campaign/orch/briefs/TERRA-AUDIT-PORT-VP.md) |
-| subagent v5_w13 | GPT-6.1 Terra medium / current session | Global clamped weighted Fourier bound and2D extraction toward actual W13 certificates; D12 build handoff complete | `w/orch`: 16 min ago | [brief](docs/campaign/orch/briefs/TERRA-PORT-VP-REPAIR.md) |
-| subagent finalcount_low | GPT-6.1 Terra medium / current session | Actual NonLoop source collection/name/geometry bridge after checked selected phase and finite class cover | `w/orch`: 16 min ago | [brief](docs/campaign/orch/briefs/TERRA-LOW-UNLOOP-BRIDGE.md) |
-| cx-world | GPT-6.1 Sol medium / codex-2 (existing session) | Existing serial canonical-world upstream rebuild; axiom closeout and assembly overlay pending | `w/orch`: 16 min ago | [brief](docs/campaign/orch/CODEX-HANDOFF.md) |
-| cx-b4bprep | GPT-6.1 Sol medium / codex-2 (existing session) | Existing R52 Batch-4b serial catalogue rebuild; skeleton/layer-count/N4 checks pending | `w/orch`: 16 min ago | [brief](docs/campaign/orch/CODEX-HANDOFF.md) |
+| Codex orchestrator | Codex / current session | Source rulings, safe landings, proof-state review and HQ upkeep | `w/orch`: 0 min ago, 1 unlanded | [brief](docs/campaign/orch/CODEX-HANDOFF.md) |
+| subagent v5_w2 | GPT-6.1 Terra medium / current session | Actual ordered boundary/crown/singleton forest equality compiled; leaf diagram, garden/fold/kernel invariance and tau partition | `w/orch`: 0 min ago, 1 unlanded | [brief](docs/campaign/orch/briefs/TERRA-AUDIT-PORT-VP.md) |
+| subagent v5_w13 | GPT-6.1 Terra medium / current session | Widened adjacent-cell cutoff and31-module rebuild complete; actual global weighted Fourier mode norm/2D extraction toward W13 certificates | `w/orch`: 0 min ago, 1 unlanded | [brief](docs/campaign/orch/briefs/TERRA-PORT-VP-REPAIR.md) |
+| subagent finalcount_low | GPT-6.1 Terra medium / current session | Actual NonLoop source-selected phase, D1 shape/critical exponent drop compiled; uniform class-tree and terminal counting assembly | `w/orch`: 0 min ago, 1 unlanded | [brief](docs/campaign/orch/briefs/TERRA-LOW-UNLOOP-BRIDGE.md) |
+| cx-world | GPT-6.1 Sol medium / codex-2 (existing session) | Existing serial canonical-world upstream rebuild; axiom closeout and assembly overlay pending | `w/orch`: 0 min ago, 1 unlanded | [brief](docs/campaign/orch/CODEX-HANDOFF.md) |
+| cx-b4bprep | GPT-6.1 Sol medium / codex-2 (existing session) | Existing R52 Batch-4b serial catalogue rebuild; skeleton/layer-count/N4 checks pending | `w/orch`: 0 min ago, 1 unlanded | [brief](docs/campaign/orch/CODEX-HANDOFF.md) |
 <!-- /AUTO:workers -->
 
 ## Papers
