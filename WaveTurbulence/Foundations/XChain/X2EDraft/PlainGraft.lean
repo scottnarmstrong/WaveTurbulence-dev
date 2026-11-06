@@ -13,7 +13,7 @@ public import WaveTurbulence.Foundations.XChain.CanonicalGraftKernel
 
 INDUCT's `CanonicalGraftData` carries the field `irreducible` (the top partition connects all trees), and its
 equivalence `canonicalGraftEquiv` is with the *irreducible* canonical gardens `IsCanonG`. The moments of the flower
-kernels sum over all partitions, so the flower gardens of `flowerSum` need the version without irreducibility.
+kernels sum over all partitions, so the flower gardens of `flowerSumP` need the version without irreducibility.
 
 `PlainGraftData sig p` is `CanonicalGraftData sig p` without `irreducible`.
 

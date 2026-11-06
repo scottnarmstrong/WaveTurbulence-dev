@@ -368,7 +368,7 @@ theorem norm_sibling_lt {F : FTree} (hF : F ≠ flower) (hL : 0 < L) {j : ℕ} {
       (Fintype.card (GLeaf (single F.toTree)) : ℝ) * (2 ^ j * L) := by
   classical
   set x : NNReal := (Finset.univ.erase F.flowerLeaf).sup fun ℓ => ‖latticePoint L (κ.1.1 ℓ.toNode)‖₊
-  have hx : (x : ℝ) < 2 ^ j * L := lt_of_dyadicCut_ne_zero hL (NNReal.coe_nonneg _) hcut
+  have hx : (x : ℝ) < 2 ^ j * L := sup_lt_of_treeCut1_ne_zero hL hcut
   set a := (F.flowerParent hF).child m
   have hrule := sum_rule (fun _ : Fin 1 => (1 : ℤˣ)) κ.1.1 κ.1.2.1 a
   have hb : ∀ ℓ ∈ a.leavesBelow, ‖latticePoint L

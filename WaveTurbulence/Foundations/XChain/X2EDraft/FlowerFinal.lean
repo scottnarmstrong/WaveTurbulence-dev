@@ -47,7 +47,7 @@ def OX2ExpNoCutBody.{u} (Pm : ℕ) (P : WTParams) : Prop :=
       (μ.restrict (Fev p)) ∧
     ‖(((∫ ω in Fev p, ‖randK P a p kind pat dagger none none ζ t s n n' ω‖ ^ (2 * Pm) ∂μ : ℝ)) : ℂ) -
         ∑ N ∈ Finset.range (P.N (p + 1) ^ 4 + 1),
-          flowerSum P (inputsF P R) p N (w := 2 * Pm) kind (fun _ => pat) (dagger.map fun c _ => c)
+          flowerSumP P (inputsF P R) p N (w := 2 * Pm) kind (fun _ => pat) (dagger.map fun c _ => c)
             none none ζ t s n n'‖ ≤
       x2Bound P Pm p ζ n n' (fun _ : Fin (2 * Pm) => pat) none none *
         Real.exp (-(101 * P.N (p + 1) : ℝ))
@@ -157,9 +157,9 @@ theorem x2Sizes_stage {Pm : ℕ} {P : WTParams} {C : ℝ} (hS : X2Sizes Pm P C) 
 theorem flowerSum_clip (P : WTParams) (R : ℕ → Mom P.d → ℝ) (p N : ℕ) {w : ℕ} (kind : FlowerKind)
     (pat : Fin w → FixPat) (dagger : Option (Fin w → Fin 3 → Mom P.d)) (cut1 cut2 : Option ℕ) (ζ : ℤˣ) (t s : ℝ)
     (n n' : Fin P.d → ℤ) :
-    flowerSum P (inputsF P (clipRemainder p R)) p N kind pat dagger cut1 cut2 ζ t s n n' =
-      flowerSum P (inputsF P R) p N kind pat dagger cut1 cut2 ζ t s n n' := by
-  unfold flowerSum
+    flowerSumP P (inputsF P (clipRemainder p R)) p N kind pat dagger cut1 cut2 ζ t s n n' =
+      flowerSumP P (inputsF P R) p N kind pat dagger cut1 cut2 ζ t s n n' := by
+  unfold flowerSumP
   refine finsum_congr fun LG => finsum_congr fun h => ?_
   exact kernelKgen_clip_inputs P R LG (fun a => Canon.layer_le_of_isCanonH h.1 a) _ _ _ _ _ _ _
 
@@ -183,7 +183,7 @@ theorem x2_core.{u} (Pm : ℕ) (P : WTParams) (C : ℝ) (hS : X2Sizes Pm P C) (�
     Integrable (fun ω => ‖randK P a p kind pat dagger cut1 cut2 ζ t s n n' ω‖ ^ (2 * Pm)) (μ.restrict (Fev p)) ∧
     ‖(((∫ ω in Fev p, ‖randK P a p kind pat dagger cut1 cut2 ζ t s n n' ω‖ ^ (2 * Pm) ∂μ : ℝ)) : ℂ) -
         ∑ N ∈ Finset.range (P.N (p + 1) ^ 4 + 1),
-          flowerSum P (inputsF P R) p N (w := 2 * Pm) kind (fun _ => pat) (dagger.map fun c _ => c)
+          flowerSumP P (inputsF P R) p N (w := 2 * Pm) kind (fun _ => pat) (dagger.map fun c _ => c)
             cut1 cut2 ζ t s n n'‖ ≤
       Real.exp (-(101 * P.N (p + 1) : ℝ)) * (K * bracketW P ζ n n' Pm b) := by
   classical
@@ -223,14 +223,14 @@ theorem x2_core.{u} (Pm : ℕ) (P : WTParams) (C : ℝ) (hS : X2Sizes Pm P C) (�
     have hint : (∫ ω in Fev' p, ‖randK P a p kind pat dagger cut1 cut2 ζ t s n n' ω‖ ^ (2 * Pm) ∂μ) =
         ∫ ω in Fev p, ‖randK P a p kind pat dagger cut1 cut2 ζ t s n n' ω‖ ^ (2 * Pm) ∂μ := by rw [hres]
     rw [hint] at hid
-    have hcl : ∀ N, flowerSum P (inputsF P R') p N (w := 2 * Pm) kind (fun _ => pat) (dagger.map fun c _ => c)
-        cut1 cut2 ζ t s n n' = flowerSum P (inputsF P R) p N (w := 2 * Pm) kind (fun _ => pat)
+    have hcl : ∀ N, flowerSumP P (inputsF P R') p N (w := 2 * Pm) kind (fun _ => pat) (dagger.map fun c _ => c)
+        cut1 cut2 ζ t s n n' = flowerSumP P (inputsF P R) p N (w := 2 * Pm) kind (fun _ => pat)
           (dagger.map fun c _ => c) cut1 cut2 ζ t s n n' := fun N =>
       flowerSum_clip P R p N kind (fun _ => pat) (dagger.map fun c _ => c) cut1 cut2 ζ t s n n'
     simp only [hcl] at hid
     rw [hid]
     set M := ∑ N ∈ range (P.N (p + 1) ^ 4 + 1),
-      flowerSum P (inputsF P R) p N (w := 2 * Pm) kind (fun _ => pat) (dagger.map fun c _ => c) cut1 cut2
+      flowerSumP P (inputsF P R) p N (w := 2 * Pm) kind (fun _ => pat) (dagger.map fun c _ => c) cut1 cut2
         ζ t s n n'
     set T := flowerTail P (inputsF P R') p kind pat dagger cut1 cut2 ζ t s n n' Pm (P.N (p + 1) ^ 4)
     set Er := flowerErr P μ a Fev' R' p kind pat dagger cut1 cut2 ζ t s n n' Pm

@@ -10,7 +10,7 @@ public import WaveTurbulence.Foundations.XChain.X2EDraft.FlowerIndex
 /-!
 # X2E-3, step 7: the moment expansion at fixed flower trees, as gate kernels
 
-`gateSummand`: the summand of B1.12's `flowerSum` (constant pattern, constant `†` labels). `CutWeightsOK`: the
+`gateSummand`: the summand of B1.12's `flowerSumP` (constant pattern, constant `†` labels). `CutWeightsOK`: the
 cutoff weights of a flower graft are the products of the tree cutoff weights (void without cutoffs).
 
 **Statements** (non-trivial flower trees `tops` of flower sign `ζ`, patterns `plain`/`dRoot`, `p ≤ s, t`):
@@ -31,12 +31,12 @@ open scoped Classical
 
 variable (L γ δ : ℝ) {d : ℕ}
 
-/-- **The summand of `flowerSum`** with constant pattern `pat` and constant `†` labels. -/
+/-- **The summand of `flowerSumP`** with constant pattern `pat` and constant `†` labels. -/
 noncomputable def gateSummand (F : ℕ → Mom d → ℝ) (p : ℕ) (pat : FixPat) (dagger : Option (Fin 3 → Mom d))
     (cut1 cut2 : Option ℕ) (t s : ℝ) (n n' : Fin d → ℤ) {w : ℕ} (LG : LayeredGarden w) : ℂ :=
   kernelKgen L γ δ F LG (LG.fixPat (fun _ => pat) t s)
     (if (dagger.map fun c (_ : Fin w) => c).isSome then univ.filter LG.garden.IsFlowerParent else ∅)
-    (fun k => (cut1.elim 1 fun j₁ => LG.cutWeight1 p L j₁ k) * (cut2.elim 1 fun j₂ => LG.cutWeight2 L j₂ k) *
+    (fun k => (cut1.elim 1 fun j₁ => LG.cutWeight1P p L j₁ k) * (cut2.elim 1 fun j₂ => LG.cutWeight2P L j₂ k) *
       ((dagger.map fun c (_ : Fin w) => c).elim 1 fun c => LG.sibWeight c k))
     (fun _ => t) 0 (fun _ => n) n'
 
@@ -48,11 +48,11 @@ variable {Pm p : ℕ} {ζ : ℤˣ} {tops : Fin (2 * Pm) → FTree} (hF : ∀ j, 
 /-- The cutoff weights of the flower graft are the products of the tree cutoff weights. -/
 def CutWeightsOK (cut1 cut2 : Option ℕ) : Prop :=
   (∀ j₁ ∈ cut1, ∀ k : GNode (x.toData hsign).flowerGraft.garden.tree → Mom d,
-    (x.toData hsign).flowerGraft.cutWeight1 p L j₁ k =
+    (x.toData hsign).flowerGraft.cutWeight1P p L j₁ k =
       ∏ j, treeCut1K L (tops j) j₁ (fun a => k (topNodeEmbedding (ftop tops) x.partition
         (fun B => ((x.toData hsign).lowFl B).garden) (singleNodeToForest (ftop tops) j a)))) ∧
   (∀ j₂ ∈ cut2, ∀ k : GNode (x.toData hsign).flowerGraft.garden.tree → Mom d,
-    (x.toData hsign).flowerGraft.cutWeight2 L j₂ k =
+    (x.toData hsign).flowerGraft.cutWeight2P L j₂ k =
       ∏ j, treeCut2K L (tops j) (hF j) j₂ (fun a => k (topNodeEmbedding (ftop tops) x.partition
         (fun B => ((x.toData hsign).lowFl B).garden) (singleNodeToForest (ftop tops) j a))))
 

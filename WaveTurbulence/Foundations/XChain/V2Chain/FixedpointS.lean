@@ -48,7 +48,7 @@ theorem flowerest1S_of_gates (hG : WTPrefixPS S B112Body) (hE : OX2Exp.{u}) :
   set Ntr := P.N (p + 1)
   set B := x2Bound P Pm p ζ n n' (fun _ : Fin (2 * Pm) => pat) cut1 cut2
   set I := ∫ ω in Fev p, ‖randK P a p kind pat dagger cut1 cut2 ζ t s n n' ω‖ ^ (2 * Pm) ∂μ
-  set fS : ℕ → ℂ := fun N => flowerSum P (inputsF P R) p N (w := 2 * Pm) kind (fun _ => pat)
+  set fS : ℕ → ℂ := fun N => flowerSumP P (inputsF P R) p N (w := 2 * Pm) kind (fun _ => pat)
     (dagger.map fun c _ => c) cut1 cut2 ζ t s n n'
   have hB0 : 0 ≤ B := x2Bound_nonneg P (by linarith) Pm p ζ n n' _ cut1 cut2
   set q := P.δ ^ (2 * P.ν)

@@ -280,7 +280,7 @@ theorem norm_base_le (hL : 0 < L) {j : ℕ} {k k' : Fin d → ℤ} (κ : FlowerD
   classical
   set n := (Fintype.card (GLeaf (single F.toTree)) : ℝ)
   set x : NNReal := (Finset.univ.erase F.flowerLeaf).sup fun ℓ => ‖latticePoint L (κ.1.1 ℓ.toNode)‖₊
-  have hx : (x : ℝ) < 2 ^ j * L := lt_of_dyadicCut_ne_zero hL (NNReal.coe_nonneg _) hcut
+  have hx : (x : ℝ) < 2 ^ j * L := sup_lt_of_treeCut1_ne_zero hL hcut
   refine (norm_node_le L (stemShift_branch (-k) κ.1.2.1) a).trans ?_
   rw [← Finset.add_sum_erase _ _ (Finset.mem_univ F.flowerLeaf)]
   have hf : ‖latticePoint L (stemShift F (-k) κ.1.1 F.flowerLeaf.toNode)‖ < n * (2 ^ j * L) := by
@@ -441,8 +441,9 @@ variable (L γ δ : ℝ) {F : FTree} (hF : F ≠ flower)
 theorem treeCut1_stemShift (j : ℕ) (D : Fin d → ℤ) (κ : GNode (single F.toTree) → (Fin d → ℤ)) :
     treeCut1 L F j (stemShift F D κ) = treeCut1 L F j κ := by
   unfold treeCut1
-  congr 2
-  exact Finset.sup_congr rfl fun ℓ hℓ => by rw [stemShift_leaf D κ (Finset.ne_of_mem_erase hℓ)]
+  refine XChain.ProductCut.prodDyadicCut_congr _ L j fun ℓ hℓ => ?_
+  show ‖latticePoint L (stemShift F D κ ℓ.toNode)‖ = _
+  rw [stemShift_leaf D κ (Finset.ne_of_mem_erase hℓ)]
 
 theorem restP_stemShift (aP : (Fin d → ℤ) → ℂ) (D : Fin d → ℤ) (κ : GNode (single F.toTree) → (Fin d → ℤ)) :
     restP F aP (stemShift F D κ) = restP F aP κ := by
@@ -561,12 +562,9 @@ theorem treeCut2_eq_zero_of {F : FTree} (hF : F ≠ flower) (hL : 0 < L) (j : �
   classical
   unfold treeCut2
   by_contra h
-  have hlt := lt_of_dyadicCut_ne_zero hL (NNReal.coe_nonneg _) h
-  have hle := Finset.le_sup (s := Finset.univ.filter fun b => OnStemT F b ∧ b ≠ F.flowerParent hF)
-    (f := fun b => ‖omegaT L F.toTree κ b‖₊) (Finset.mem_filter.2 ⟨Finset.mem_univ b, hb, hbf⟩)
-  have h2 : ‖omegaT L F.toTree κ b‖ ≤ (((Finset.univ.filter fun b => OnStemT F b ∧ b ≠ F.flowerParent hF).sup
-      fun b => ‖omegaT L F.toTree κ b‖₊ : NNReal) : ℝ) := by exact_mod_cast hle
-  rw [Real.norm_eq_abs] at h2
+  have hlt : |omegaT L F.toTree κ b| < 2 ^ j * L :=
+    XChain.ProductCut.lt_of_prodDyadicCut_ne_zero _ hL (fun _ _ => abs_nonneg _) h b
+      (Finset.mem_filter.2 ⟨Finset.mem_univ b, hb, hbf⟩)
   linarith
 
 /-- **KerInv: the kernel at `k_* = k + D`, `k'_* = k' + ζD`.** -/
@@ -628,9 +626,9 @@ theorem flowerKernelGen_shift_eq (hL : 0 < L) {F : FTree} (aP : (Fin d → ℤ) 
   · -- all relevant `Ω` agree
     have hcut2 : treeCut2 L F hF j₂ (stemShift F (k + D) κ₀) = treeCut2 L F hF j₂ (stemShift F k κ₀) := by
       unfold treeCut2
-      congr 2
-      refine Finset.sup_congr rfl fun b hb => ?_
+      refine XChain.ProductCut.prodDyadicCut_congr _ L j₂ fun b hb => ?_
       obtain ⟨-, hbs, hbf⟩ := Finset.mem_filter.1 hb
+      show |omegaT L F.toTree (stemShift F (k + D) κ₀) b| = |omegaT L F.toTree (stemShift F k κ₀) b|
       rw [hall b hbs hbf]
     have hTI : ∀ off', (F.flowerParent hF ∈ off') →
         TIpat L γ δ hF p off' (stemShift F (k + D) κ₀) pat t s = TIpat L γ δ hF p off' (stemShift F k κ₀) pat t s := by

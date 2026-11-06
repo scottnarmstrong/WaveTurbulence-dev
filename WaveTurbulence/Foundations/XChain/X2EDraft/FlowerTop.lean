@@ -35,14 +35,13 @@ variable (L : ℝ) {d : ℕ}
 
 /-- `treeCut1` on real decorations. -/
 noncomputable def treeCut1K (F : FTree) (j₁ : ℕ) (k : GNode (single F.toTree) → Mom d) : ℝ :=
-  dyadicCut L j₁ (((univ.erase F.flowerLeaf).sup fun ℓ => ‖k ℓ.toNode‖₊ : NNReal) : ℝ)
+  prodDyadicCut L j₁ (univ.erase F.flowerLeaf) (fun ℓ => ‖k ℓ.toNode‖)
 
 /-- `treeCut2` on real decorations. -/
 noncomputable def treeCut2K (F : FTree) (hF : F ≠ FTree.flower) (j₂ : ℕ) (k : GNode (single F.toTree) → Mom d) :
     ℝ :=
-  dyadicCut L j₂ (((univ.filter fun b : GBranch (single F.toTree) =>
-    OnStemT F b ∧ b ≠ F.flowerParent hF).sup fun b =>
-      ‖resFactor (k (b.child 0)) (k (b.child 1)) (k (b.child 2)) (k b.toNode)‖₊ : NNReal) : ℝ)
+  prodDyadicCut L j₂ (univ.filter fun b : GBranch (single F.toTree) => OnStemT F b ∧ b ≠ F.flowerParent hF)
+    (fun b => |resFactor (k (b.child 0)) (k (b.child 1)) (k (b.child 2)) (k b.toNode)|)
 
 /-- `treeSib` on real decorations. -/
 noncomputable def treeSibK (F : FTree) (hF : F ≠ FTree.flower) (c : Fin 3 → Mom d)

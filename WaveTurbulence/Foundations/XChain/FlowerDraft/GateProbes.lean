@@ -14,10 +14,10 @@ public import WaveTurbulence.Foundations.XChain.WaveBDraft.CoreProbes
 
 * `kernelKgen_flowerParents`: for flower gardens with the flower parents in layer `p`,
   `p < s < min(t, p+1)`, and only the flower parents designated, the general kernel is `kernelK`. So
-  `kernelKgen` is a conservative generalization, and plain `flowerSum` is the old `truncSumHζ` with the
+  `kernelKgen` is a conservative generalization, and plain `flowerSumP` is the old `truncSumHζ` with the
   F39/F46 kinds.
 * `coupleSum_tr`: the kind-`a^tr` couple sum without `∂_t` is `truncSumC`.
-* `finite_flowerSum_support`, `finite_coupleSum_support`: the `finsum`s defining `flowerSum` and `coupleSum`
+* `finite_flowerSum_support`, `finite_coupleSum_support`: the `finsum`s defining `flowerSumP` and `coupleSum`
   have finite support. They replace snapshot 5's `finite_truncSumHζ_support`.
 * `fixPat_plain`, `dyadicCut_zero`.
 -/
@@ -257,7 +257,7 @@ theorem coupleSum_tr (P : WTParams) (F : ℕ → Mom P.d → ℝ) (p N : ℕ) (t
 
 /-! ### Finite supports -/
 
-/-- The support of the `finsum` defining `flowerSum` is finite. -/
+/-- The support of the `finsum` defining `flowerSumP` is finite. -/
 theorem finite_flowerSum_support (P : WTParams) (p N w : ℕ) (kind : FlowerKind) (pat : Fin w → FixPat)
     (ζ : ℤˣ) :
     {LG : LayeredGarden w | IsCanonH (p + 1) LG ∧

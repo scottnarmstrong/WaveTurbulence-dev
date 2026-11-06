@@ -108,7 +108,7 @@ def B112Body (Pm : ℕ) (P : WTParams) : Prop :=
       ∀ N ≤ P.N (p + 1) ^ 4, ∀ (kind : FlowerKind) (pat : Fin (2 * Pm) → FixPat)
         (dagger : Option (Fin (2 * Pm) → Fin 3 → Mom P.d)) (cut1 cut2 : Option ℕ),
         (∀ j₂ ∈ cut2, ∃ j₁ ∈ cut1, ((2 : ℝ) ^ j₁ * P.L) ^ 10 ≤ ‖latticePoint P.L n‖) →
-        ‖flowerSum P (inputsF P R) p N kind pat dagger cut1 cut2 ζ t s n n'‖ ≤
+        ‖flowerSumP P (inputsF P R) p N kind pat dagger cut1 cut2 ζ t s n n'‖ ≤
           jbr (latticePoint P.L n - (ζ : ℤ) • latticePoint P.L n') ^
               (-(4 * P.Lambda (p + 1) * Pm : ℝ)) *
             P.L ^ ((if ∀ j, pat j = .plain then 1 else 2) * (100 * P.d : ℝ) ^ 3 * Pm) *
@@ -150,7 +150,7 @@ theorem inputsF_update_x2 (P : WTParams) (C₁ C₂ : ℝ) (R : ℕ → Mom P.d 
 /-- B1.12's body does not use the constants `C₁, C₂`. -/
 theorem B112Body_update (Pm : ℕ) (P : WTParams) (C₁ C₂ : ℝ) :
     B112Body Pm {P with C₁ := C₁, C₂ := C₂} = B112Body Pm P := by
-  simp only [B112Body, RemainderBound, flowerSum, coupleSum, inputsF_update_x2, WTParams.theta,
+  simp only [B112Body, RemainderBound, flowerSumP, coupleSum, inputsF_update_x2, WTParams.theta,
     WTParams.Lambda, N_update_x2]
 
 theorem B112Body_const (Pm : ℕ) (P : WTParams) (C₁ C₂ : ℝ) (h : B112Body Pm P) :
@@ -183,7 +183,7 @@ def OX2ExpBody.{u} (Pm : ℕ) (P : WTParams) : Prop :=
       (μ.restrict (Fev p)) ∧
     ‖(((∫ ω in Fev p, ‖randK P a p kind pat dagger cut1 cut2 ζ t s n n' ω‖ ^ (2 * Pm) ∂μ : ℝ)) : ℂ) -
         ∑ N ∈ Finset.range (P.N (p + 1) ^ 4 + 1),
-          flowerSum P (inputsF P R) p N (w := 2 * Pm) kind (fun _ => pat) (dagger.map fun c _ => c)
+          flowerSumP P (inputsF P R) p N (w := 2 * Pm) kind (fun _ => pat) (dagger.map fun c _ => c)
             cut1 cut2 ζ t s n n'‖ ≤
       x2Bound P Pm p ζ n n' (fun _ : Fin (2 * Pm) => pat) cut1 cut2 *
         Real.exp (-(101 * P.N (p + 1) : ℝ))
@@ -247,8 +247,8 @@ theorem kind_order_lower {w : ℕ} (LG : LayeredGarden w) (p Ntr : ℕ) (kind : 
 theorem flowerSum_eq_zero_of_lt (P : WTParams) (F : ℕ → Mom P.d → ℝ) (p N : ℕ) {w : ℕ}
     (kind : FlowerKind) (hk : kind ≠ .X) (pat : Fin w → FixPat) (dagger : Option (Fin w → Fin 3 → Mom P.d))
     (cut1 cut2 : Option ℕ) (ζ : ℤˣ) (t s : ℝ) (n n' : Fin P.d → ℤ) (hN : N < w * (P.N (p + 1) + 1)) :
-    flowerSum P F p N kind pat dagger cut1 cut2 ζ t s n n' = 0 := by
-  unfold flowerSum
+    flowerSumP P F p N kind pat dagger cut1 cut2 ζ t s n n' = 0 := by
+  unfold flowerSumP
   classical
   refine finsum_eq_zero_of_forall_eq_zero fun LG => ?_
   rw [finsum_eq_dif, dite_eq_right_iff]
@@ -333,7 +333,7 @@ theorem flowerest1_of_gates.{u} (hG : LayergardenFlowerGate) (hE : OX2Exp.{u}) :
   set Ntr := P.N (p + 1)
   set B := x2Bound P Pm p ζ n n' (fun _ : Fin (2 * Pm) => pat) cut1 cut2
   set I := ∫ ω in Fev p, ‖randK P a p kind pat dagger cut1 cut2 ζ t s n n' ω‖ ^ (2 * Pm) ∂μ
-  set fS : ℕ → ℂ := fun N => flowerSum P (inputsF P R) p N (w := 2 * Pm) kind (fun _ => pat)
+  set fS : ℕ → ℂ := fun N => flowerSumP P (inputsF P R) p N (w := 2 * Pm) kind (fun _ => pat)
     (dagger.map fun c _ => c) cut1 cut2 ζ t s n n'
   have hB0 : 0 ≤ B := x2Bound_nonneg P (by linarith) Pm p ζ n n' _ cut1 cut2
   set q := P.δ ^ (2 * P.ν)

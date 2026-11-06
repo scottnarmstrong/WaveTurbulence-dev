@@ -516,16 +516,6 @@ variable (L γ δ : ℝ) {d : ℕ}
 theorem chi0_mem_Icc (x : ℝ) : chi0 x ∈ Icc (0 : ℝ) 1 :=
   ⟨Real.smoothTransition.nonneg _, Real.smoothTransition.le_one _⟩
 
-theorem abs_dyadicCut_le_one (L' : ℝ) (j : ℕ) (x : ℝ) : |dyadicCut L' j x| ≤ 1 := by
-  unfold dyadicCut
-  split_ifs
-  · rw [abs_le]
-    exact ⟨by linarith [(chi0_mem_Icc (x / L')).1], (chi0_mem_Icc _).2⟩
-  · have h1 := chi0_mem_Icc (x / (2 ^ j * L'))
-    have h2 := chi0_mem_Icc (x / (2 ^ (j - 1) * L'))
-    rw [abs_le]
-    constructor <;> linarith [h1.1, h1.2, h2.1, h2.2]
-
 theorem abs_treeWeight_le_one {F : FTree} (hF : F ≠ flower) (dagger : Option (Fin 3 → Mom d))
     (cut1 cut2 : Option ℕ) (κ : GNode (single F.toTree) → (Fin d → ℤ)) :
     |treeWeight L F hF dagger cut1 cut2 κ| ≤ 1 := by
@@ -534,11 +524,11 @@ theorem abs_treeWeight_le_one {F : FTree} (hF : F ≠ flower) (dagger : Option (
   have h1 : |cut1.elim 1 fun j₁ => treeCut1 L F j₁ κ| ≤ 1 := by
     cases cut1 with
     | none => simp
-    | some j => exact abs_dyadicCut_le_one L j _
+    | some j => exact XChain.ProductCut.abs_prodDyadicCut_le_one _ L j _
   have h2 : |cut2.elim 1 fun j₂ => treeCut2 L F hF j₂ κ| ≤ 1 := by
     cases cut2 with
     | none => simp
-    | some j => exact abs_dyadicCut_le_one L j _
+    | some j => exact XChain.ProductCut.abs_prodDyadicCut_le_one _ L j _
   have h3 : |dagger.elim 1 fun c => treeSib L F hF c κ| ≤ 1 := by
     cases dagger with
     | none => simp

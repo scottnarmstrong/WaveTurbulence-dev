@@ -6,6 +6,7 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.WaveB.FrozenB1
+public import WaveTurbulence.Foundations.XChain.ProductCut.FlowerSumP
 public import WaveTurbulence.Foundations.XChain.GateTypes
 public import WaveTurbulence.Frozen.Defs.IsASolution
 public import WaveTurbulence.Frozen.Defs.ZNormOn
@@ -24,7 +25,8 @@ public import WaveTurbulence.Frozen.Defs.Mom
 Each abbreviation is, token for token, the type of the corresponding frozen anchor of
 `WaveTurbulence.Frozen.Theorems.*` (`layergarden_v2`, `fixedpoint_v2`, `propansatz_v2`, `wkeTaylor`,
 `layergardenFlower_v2`, `nlsAkBridge`): the type text is extracted mechanically from the frozen file
-(`tools/gen_gates.py`). They are used only as the hypotheses and conclusions of the conditional assembly theorems.
+(`tools/gen_gates.py`). D13 adds `LayergardenFlowerV3Gate`, the exact body of the frozen successor
+anchor `layergardenFlower_v3` (`layergardenFlower_v2` with `flowerSum` replaced by the product-form `flowerSumP`). They are used only as the hypotheses and conclusions of the conditional assembly theorems.
 -/
 
 @[expose] public section
@@ -105,6 +107,27 @@ abbrev LayergardenFlowerV2Gate : Prop :=
         (dagger : Option (Fin (2 * Pm) → Fin 3 → Mom P.d)) (cut1 cut2 : Option ℕ),
         (∀ j₂ ∈ cut2, ∃ j₁ ∈ cut1, ((2 : ℝ) ^ j₁ * P.L) ^ 10 ≤ ‖latticePoint P.L n‖) →
         ‖flowerSum P (inputsF P R) p N kind pat dagger cut1 cut2 ζ t s n n'‖ ≤
+          jbr (latticePoint P.L n - (ζ : ℤ) • latticePoint P.L n') ^
+              (-(4 * P.Lambda (p + 1) * Pm : ℝ)) *
+            P.L ^ ((if ∀ j, pat j = .plain then 1 else 2) * (100 * P.d : ℝ) ^ 3 * Pm) *
+            P.δ ^ (2 * P.ν * N) *
+            (cut1.elim 1 fun j₁ => ((2 : ℝ) ^ j₁ * P.L) ^ (-(80 * P.d * Pm : ℝ))) *
+            (cut2.elim 1 fun j₂ =>
+              if ∀ j, pat j = .plain then ((2 : ℝ) ^ j₂ * P.L) ^ (-(Pm / 9 : ℝ)) else 1)) ∧
+    (∀ t ∈ Ioo (p : ℝ) (p + 1), ∀ k : Mom P.d, ∀ N ≤ P.N (p + 1) ^ 4, ∀ (kind : TreeKind)
+        (dt : Bool), (kind = .tr → dt = true) →
+        ‖coupleSum P (inputsF P R) p N kind dt t k‖ ≤
+          jbr k ^ (-(4 * P.Lambda (p + 1) : ℝ)) * P.L ^ (100 * P.d : ℝ) * P.δ ^ (P.ν * N))
+
+open Classical in
+abbrev LayergardenFlowerV3Gate : Prop :=
+  WTPrefixP fun Pm P => 1 / 2 < P.γ →
+    ∀ p : ℕ, p < P.D → ∀ R : ℕ → Mom P.d → ℝ, RemainderBound P R p →
+    (∀ t ∈ Ioo (p : ℝ) (p + 1), ∀ s ∈ Ioo (p : ℝ) t, ∀ n n' : Fin P.d → ℤ, ∀ ζ : ℤˣ,
+      ∀ N ≤ P.N (p + 1) ^ 4, ∀ (kind : FlowerKind) (pat : Fin (2 * Pm) → FixPat)
+        (dagger : Option (Fin (2 * Pm) → Fin 3 → Mom P.d)) (cut1 cut2 : Option ℕ),
+        (∀ j₂ ∈ cut2, ∃ j₁ ∈ cut1, ((2 : ℝ) ^ j₁ * P.L) ^ 10 ≤ ‖latticePoint P.L n‖) →
+        ‖flowerSumP P (inputsF P R) p N kind pat dagger cut1 cut2 ζ t s n n'‖ ≤
           jbr (latticePoint P.L n - (ζ : ℤ) • latticePoint P.L n') ^
               (-(4 * P.Lambda (p + 1) * Pm : ℝ)) *
             P.L ^ ((if ∀ j, pat j = .plain then 1 else 2) * (100 * P.d : ℝ) ^ 3 * Pm) *

@@ -5,8 +5,10 @@ Authors: Scott Armstrong
 -/
 module
 
+public import WaveTurbulence.Foundations.XChain.ProductCut.ProdCut
 public import WaveTurbulence.Foundations.WaveB.FrozenB1
 public import WaveTurbulence.Foundations.XChain.FlowerDraft.Kernel
+public import WaveTurbulence.Foundations.XChain.ProductCut.FlowerSumP
 
 /-!
 # X2, part 1: the random flower kernels of `flowerest1`
@@ -26,9 +28,9 @@ mirrors the garden-level piece of the B1.12 gate (`Flower-Gate.lean`):
 | `treeFixPat`, `treePatValid` | `LayeredGarden.fixPat`, `PatValid` |
 | `treeDomFix`, `extendFixT` | `kDomainFix`, `Garden.extendFix` (layer `p`, upper time `t`) |
 | `phaseOffT` | `phaseProdOff` |
-| `treeCut1`, `treeCut2`, `treeSib` | `cutWeight1`, `cutWeight2`, `sibWeight` |
+| `treeCut1`, `treeCut2`, `treeSib` | `cutWeight1P`, `cutWeight2P`, `sibWeight` |
 | `flowerKernelGen` | `kernelKgen` |
-| `kindTrees`, `randFlowerKernel` | `FlowerKindOK`, `flowerSum` |
+| `kindTrees`, `randFlowerKernel` | `FlowerKindOK`, `flowerSumP` |
 
 With the plain pattern, no `†` and no cutoffs, `flowerKernelGen` is TARGET's `𝒥̃_𝒯` (jtflower), the
 `flowerKernel` of `Flower-Kernel.lean`.
@@ -102,16 +104,18 @@ noncomputable def phaseOffT (T : TTree) (off : Finset (GBranch (single T))) (κ 
 def OnStemT (F : FTree) (b : GBranch (single F.toTree)) : Prop := b.1.2 <+: F.flowerPath
 
 open Classical in
-/-- The `M₁` weight (as `cutWeight1`): `φ_{M₁}` of the largest `|k_ℓ|` over the non-flower leaves. -/
+/-- The `M₁` weight (as `cutWeight1P`, product form; DH21 L2731): `Ψ_{j₁}` of the norms `|k_ℓ|` of the non-flower
+leaves. -/
 noncomputable def treeCut1 (F : FTree) (j₁ : ℕ) (κ : GNode (single F.toTree) → (Fin d → ℤ)) : ℝ :=
-  dyadicCut L j₁ (((Finset.univ.erase F.flowerLeaf).sup fun ℓ => ‖latticePoint L (κ ℓ.toNode)‖₊ : NNReal) : ℝ)
+  prodDyadicCut L j₁ (Finset.univ.erase F.flowerLeaf) (fun ℓ => ‖latticePoint L (κ ℓ.toNode)‖)
 
 open Classical in
-/-- The `M₂` weight (as `cutWeight2`): `φ_{M₂}` of the largest `|Ω_𝔫|` over the stem branching nodes `≠ 𝔣^pr`. -/
+/-- The `M₂` weight (as `cutWeight2P`, product form; DH21 L2735): `Ψ_{j₂}` of the `|Ω_𝔫|` over the stem branching
+nodes `≠ 𝔣^pr`. -/
 noncomputable def treeCut2 (F : FTree) (hF : F ≠ flower) (j₂ : ℕ) (κ : GNode (single F.toTree) → (Fin d → ℤ)) :
     ℝ :=
-  dyadicCut L j₂ (((Finset.univ.filter fun b : GBranch (single F.toTree) =>
-    OnStemT F b ∧ b ≠ F.flowerParent hF).sup fun b => ‖omegaT L F.toTree κ b‖₊ : NNReal) : ℝ)
+  prodDyadicCut L j₂ (Finset.univ.filter fun b : GBranch (single F.toTree) =>
+    OnStemT F b ∧ b ≠ F.flowerParent hF) (fun b => |omegaT L F.toTree κ b|)
 
 open Classical in
 /-- The `†` weight (as `sibWeight`): the children of `𝔣^pr` other than the flower carry the vectors `c i`. -/
@@ -120,7 +124,7 @@ noncomputable def treeSib (F : FTree) (hF : F ≠ flower) (c : Fin 3 → Mom d)
   ∏ i : Fin 3, if ((F.flowerParent hF).child i).1.2 = F.flowerPath then 1 else
     if latticePoint L (κ ((F.flowerParent hF).child i)) = c i then 1 else 0
 
-/-- The decoration weight: the `M₁` and `M₂` cutoffs and the `†` labels (as in `flowerSum`). -/
+/-- The decoration weight: the `M₁` and `M₂` cutoffs and the `†` labels (as in `flowerSumP`). -/
 noncomputable def treeWeight (F : FTree) (hF : F ≠ flower) (dagger : Option (Fin 3 → Mom d))
     (cut1 cut2 : Option ℕ) (κ : GNode (single F.toTree) → (Fin d → ℤ)) : ℝ :=
   (cut1.elim 1 fun j₁ => treeCut1 L F j₁ κ) * (cut2.elim 1 fun j₂ => treeCut2 L F hF j₂ κ) *

@@ -218,11 +218,11 @@ theorem abs_treeWeightK_le_one (F : FTree) (hF : F ≠ FTree.flower) (dagger : O
   have h1 : |cut1.elim 1 fun j₁ => treeCut1K L F j₁ k| ≤ 1 := by
     cases cut1 with
     | none => simp
-    | some j => exact Fixedpt.abs_dyadicCut_le_one L j _
+    | some j => exact XChain.ProductCut.abs_prodDyadicCut_le_one _ L j _
   have h2 : |cut2.elim 1 fun j₂ => treeCut2K L F hF j₂ k| ≤ 1 := by
     cases cut2 with
     | none => simp
-    | some j => exact Fixedpt.abs_dyadicCut_le_one L j _
+    | some j => exact XChain.ProductCut.abs_prodDyadicCut_le_one _ L j _
   have h3 : |dagger.elim 1 fun c => treeSibK F hF c k| ≤ 1 := by
     cases dagger with
     | none => simp
@@ -295,16 +295,16 @@ theorem sibWeight_flowerGraft (c : Fin 3 → Mom d) (k : GNode (x.toData hsign).
 /-- **The gate weight of the flower graft** is the top weight, given the cutoff weights. -/
 theorem gateWeight_eq (dagger : Option (Fin 3 → Mom d)) (cut1 cut2 : Option ℕ)
     (h1 : ∀ j₁ ∈ cut1, ∀ k : GNode (x.toData hsign).flowerGraft.garden.tree → Mom d,
-      (x.toData hsign).flowerGraft.cutWeight1 p L j₁ k =
+      (x.toData hsign).flowerGraft.cutWeight1P p L j₁ k =
       ∏ j, treeCut1K L (tops j) j₁ (fun a => k (topNodeEmbedding (ftop tops) x.partition
         (fun B => ((x.toData hsign).lowFl B).garden) (singleNodeToForest (ftop tops) j a))))
     (h2 : ∀ j₂ ∈ cut2, ∀ k : GNode (x.toData hsign).flowerGraft.garden.tree → Mom d,
-      (x.toData hsign).flowerGraft.cutWeight2 L j₂ k =
+      (x.toData hsign).flowerGraft.cutWeight2P L j₂ k =
       ∏ j, treeCut2K L (tops j) (hF j) j₂ (fun a => k (topNodeEmbedding (ftop tops) x.partition
         (fun B => ((x.toData hsign).lowFl B).garden) (singleNodeToForest (ftop tops) j a))))
     (k : GNode (x.toData hsign).flowerGraft.garden.tree → Mom d) :
-    (cut1.elim 1 fun j₁ => (x.toData hsign).flowerGraft.cutWeight1 p L j₁ k) *
-        (cut2.elim 1 fun j₂ => (x.toData hsign).flowerGraft.cutWeight2 L j₂ k) *
+    (cut1.elim 1 fun j₁ => (x.toData hsign).flowerGraft.cutWeight1P p L j₁ k) *
+        (cut2.elim 1 fun j₂ => (x.toData hsign).flowerGraft.cutWeight2P L j₂ k) *
         ((dagger.map fun c _ => c).elim 1 fun c => (x.toData hsign).flowerGraft.sibWeight c k) =
       wtopFl tops hF L dagger cut1 cut2
         (fun a => k (topNodeEmbedding (ftop tops) x.partition (fun B => ((x.toData hsign).lowFl B).garden) a)) := by

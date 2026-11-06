@@ -18,7 +18,7 @@ public import WaveTurbulence.Foundations.XChain.CplDraft.DtKernel
 - `isTopLeaf_iff` (any layered garden with layers `≤ p`): the top leaves of the gate are the non-root leaves of the
   layer-`p` cut;
 - on the flower graft of `x : FlowerAt`: the `M₁` set of tree `j` is the image of the non-flower leaves of `tops j`
-  (`sup_topLeaves_eq`), the `M₂` set is the image of the stem branches `≠ 𝔣^pr` of `tops j` (`sup_stem_eq`);
+  (`prodCut1_topLeaves_eq`), the `M₂` set is the image of the stem branches `≠ 𝔣^pr` of `tops j` (`prodCut2_stem_eq`);
 - **`cutWeightsOK`**: `CutWeightsOK` for all cutoffs.
 -/
 
@@ -86,17 +86,36 @@ theorem leaf_ne_flowerLeaf_iff (j : Fin (2 * Pm)) (ℓ : GLeaf (single (tops j).
   · intro h he
     exact h (congrArg (fun l : GLeaf (single (tops j).toTree) => l.1.2) he)
 
+theorem topNd_injective (j : Fin (2 * Pm)) :
+    Function.Injective fun ℓ : GLeaf (single (tops j).toTree) => topNd x hsign j ℓ.toNode := by
+  intro ℓ ℓ' h
+  have h1 := congrArg (fun a => a.1.2) h
+  simp only [topNd_val] at h1
+  exact Subtype.ext (Prod.ext (Subsingleton.elim _ _) h1)
+
 include hF in
-theorem sup_topLeaves_eq (j : Fin (2 * Pm)) (k : GNode (x.toData hsign).flowerGraft.garden.tree → Mom d) :
-    ((univ.filter fun a : GNode (x.toData hsign).flowerGraft.garden.tree =>
-        a.1.1 = j ∧ (x.toData hsign).flowerGraft.IsTopLeaf p a ∧ ¬ (x.toData hsign).flowerGraft.IsFlowerNode a).sup
-      fun a => ‖k a‖₊) =
-    (univ.erase (tops j).flowerLeaf).sup fun ℓ => ‖k (topNd x hsign j ℓ.toNode)‖₊ := by
+/-- **The `M₁` weight of tree `j` of the graft** is the tree weight `Ψ_{j₁}` of the non-flower leaves of `tops j`,
+read through the top embedding (a reindexing of the leaf set). -/
+theorem prodCut1_topLeaves_eq (L : ℝ) (j₁ : ℕ) (j : Fin (2 * Pm))
+    (k : GNode (x.toData hsign).flowerGraft.garden.tree → Mom d) :
+    prodDyadicCut L j₁ (univ.filter fun a : GNode (x.toData hsign).flowerGraft.garden.tree =>
+        a.1.1 = j ∧ (x.toData hsign).flowerGraft.IsTopLeaf p a ∧ ¬ (x.toData hsign).flowerGraft.IsFlowerNode a)
+      (fun a => ‖k a‖) =
+    prodDyadicCut L j₁ (univ.erase (tops j).flowerLeaf) (fun ℓ => ‖k (topNd x hsign j ℓ.toNode)‖) := by
   have hb := (x.toData hsign).layer_le
   have hcut := layerCut_toData x hsign
-  apply le_antisymm
-  · refine Finset.sup_le fun a ha => ?_
-    obtain ⟨-, hj, htl, hnf⟩ := mem_filter.mp ha
+  refine XChain.ProductCut.prodDyadicCut_congr_nbij _ L j₁ (fun ℓ : GLeaf (single (tops j).toTree) => topNd x hsign j ℓ.toNode)
+    ?_ (fun ℓ _ ℓ' _ h => topNd_injective x hsign j h) ?_ (fun _ _ => rfl)
+  · intro ℓ hℓ
+    have hne : ℓ.1.2 ≠ [] := Cpl.ne_nil_of_mem_leaves ((ne_flower_iff _).mp (hF j)) ℓ.2
+    have hnfl := (leaf_ne_flowerLeaf_iff j ℓ).mp (mem_erase.mp hℓ).1
+    refine mem_filter.mpr ⟨mem_univ _, rfl, (isTopLeaf_iff _ p hb _).mpr ⟨?_, hne⟩, ?_⟩
+    · rw [congrFun hcut]
+      exact ℓ.2
+    · rw [(x.toData hsign).isFlowerNode_iff]
+      exact hnfl
+  · intro a ha
+    obtain ⟨-, hj, htl, hnf⟩ := mem_filter.mp (Finset.mem_coe.mp ha)
     obtain ⟨hl, -⟩ := (isTopLeaf_iff _ p hb a).mp htl
     rw [congrFun hcut a.1.1, hj] at hl
     obtain ⟨ℓ, hℓv⟩ : ∃ ℓ : GLeaf (single (tops j).toTree), ℓ.1 = (0, a.1.2) := ⟨⟨(0, a.1.2), hl⟩, rfl⟩
@@ -107,22 +126,7 @@ theorem sup_topLeaves_eq (j : Fin (2 * Pm)) (k : GNode (x.toData hsign).flowerGr
       change a.1.2 = (tops a.1.1).flowerPath
       rw [hj, ← hℓ2]
       exact he
-    have hemb : topNd x hsign j ℓ.toNode = a := Subtype.ext ((topNd_val x hsign j ℓ.toNode).trans
-      (Prod.ext hj.symm hℓ2))
-    have hle := Finset.le_sup (f := fun ℓ => ‖k (topNd x hsign j ℓ.toNode)‖₊) hℓ
-    rw [hemb] at hle
-    exact hle
-  · refine Finset.sup_le fun ℓ hℓ => ?_
-    have hne : ℓ.1.2 ≠ [] := Cpl.ne_nil_of_mem_leaves ((ne_flower_iff _).mp (hF j)) ℓ.2
-    have hnfl := (leaf_ne_flowerLeaf_iff j ℓ).mp (mem_erase.mp hℓ).1
-    have hmem : topNd x hsign j ℓ.toNode ∈ univ.filter fun a : GNode (x.toData hsign).flowerGraft.garden.tree =>
-        a.1.1 = j ∧ (x.toData hsign).flowerGraft.IsTopLeaf p a ∧ ¬ (x.toData hsign).flowerGraft.IsFlowerNode a := by
-      refine mem_filter.mpr ⟨mem_univ _, rfl, (isTopLeaf_iff _ p hb _).mpr ⟨?_, hne⟩, ?_⟩
-      · rw [congrFun hcut]
-        exact ℓ.2
-      · rw [(x.toData hsign).isFlowerNode_iff]
-        exact hnfl
-    exact Finset.le_sup (f := fun a => ‖k a‖₊) hmem
+    exact ⟨ℓ, Finset.mem_coe.mpr hℓ, Subtype.ext ((topNd_val x hsign j ℓ.toNode).trans (Prod.ext hj.symm hℓ2))⟩
 
 theorem fp_eq_of (j c : Fin (2 * Pm)) (hc : c = j) (q : TTree.Path)
     (h : q = ((tops c).flowerParent (hF c)).1.2) : q = ((tops j).flowerParent (hF j)).1.2 := by
@@ -137,18 +141,44 @@ theorem omegaNode_topBr (j : Fin (2 * Pm)) (b : GBranch (single (tops j).toTree)
   unfold omegaNode
   congr 1
 
+theorem topBr_injective (j : Fin (2 * Pm)) :
+    Function.Injective fun b : GBranch (single (tops j).toTree) => topBr x hsign j b := by
+  intro b b' h
+  have h1 := congrArg (fun a => a.1.2) h
+  simp only [topBr_val] at h1
+  exact Subtype.ext (Prod.ext (Subsingleton.elim _ _) h1)
+
 include hF in
-theorem sup_stem_eq (j : Fin (2 * Pm)) (k : GNode (x.toData hsign).flowerGraft.garden.tree → Mom d) :
-    ((univ.filter fun b : GBranch (x.toData hsign).flowerGraft.garden.tree => b.1.1 = j ∧
-        (x.toData hsign).flowerGraft.OnStem b.toNode ∧ ¬ (x.toData hsign).flowerGraft.garden.IsFlowerParent b).sup
-      fun b => ‖omegaNode (x.toData hsign).flowerGraft.garden k b‖₊) =
-    (univ.filter fun b : GBranch (single (tops j).toTree) => OnStemT (tops j) b ∧
-        b ≠ (tops j).flowerParent (hF j)).sup
-      fun b => ‖resFactor (k (topNd x hsign j (b.child 0))) (k (topNd x hsign j (b.child 1)))
-        (k (topNd x hsign j (b.child 2))) (k (topNd x hsign j b.toNode))‖₊ := by
-  apply le_antisymm
-  · refine Finset.sup_le fun b hb => ?_
-    obtain ⟨-, hj, hst, hnfp⟩ := mem_filter.mp hb
+/-- **The `M₂` weight of tree `j` of the graft** is the tree weight `Ψ_{j₂}` of the `|Ω|` at the stem branches
+`≠ 𝔣^pr` of `tops j`, read through the top embedding (a reindexing of the branch set). -/
+theorem prodCut2_stem_eq (L : ℝ) (j₂ : ℕ) (j : Fin (2 * Pm))
+    (k : GNode (x.toData hsign).flowerGraft.garden.tree → Mom d) :
+    prodDyadicCut L j₂ (univ.filter fun b : GBranch (x.toData hsign).flowerGraft.garden.tree => b.1.1 = j ∧
+        (x.toData hsign).flowerGraft.OnStem b.toNode ∧ ¬ (x.toData hsign).flowerGraft.garden.IsFlowerParent b)
+      (fun b => |omegaNode (x.toData hsign).flowerGraft.garden k b|) =
+    prodDyadicCut L j₂ (univ.filter fun b : GBranch (single (tops j).toTree) => OnStemT (tops j) b ∧
+        b ≠ (tops j).flowerParent (hF j))
+      (fun b => |resFactor (k (topNd x hsign j (b.child 0))) (k (topNd x hsign j (b.child 1)))
+        (k (topNd x hsign j (b.child 2))) (k (topNd x hsign j b.toNode))|) := by
+  refine XChain.ProductCut.prodDyadicCut_congr_nbij _ L j₂ (fun b' : GBranch (single (tops j).toTree) => topBr x hsign j b')
+    ?_ (fun b _ b' _ h => topBr_injective x hsign j h) ?_ (fun b' _ => ?_)
+  · intro b' hb'
+    obtain ⟨-, hst, hne⟩ := mem_filter.mp hb'
+    have hv := topBr_val x hsign j b'
+    refine mem_filter.mpr ⟨mem_univ _, congrArg Prod.fst hv, ?_, fun hfp => hne ?_⟩
+    · refine ⟨(x.toData hsign).flLeaf j, ((x.toData hsign).isFlower_iff _).mpr
+        (by rw [(x.toData hsign).flLeaf_val]), ?_, ?_⟩
+      · change (topBr x hsign j b').1.1 = ((x.toData hsign).flLeaf j).1.1
+        rw [hv, (x.toData hsign).flLeaf_val]
+      · change (topBr x hsign j b').1.2 <+: ((x.toData hsign).flLeaf j).1.2
+        rw [hv, (x.toData hsign).flLeaf_val]
+        exact hst
+    · have h := (isFlowerParent_toData_iff x hsign hF _).mp hfp
+      have h' := fp_eq_of hF j _ (congrArg Prod.fst hv) _ h
+      rw [congrArg Prod.snd hv] at h'
+      exact Subtype.ext (Prod.ext (Subsingleton.elim _ _) h')
+  · intro b hb
+    obtain ⟨-, hj, hst, hnfp⟩ := mem_filter.mp (Finset.mem_coe.mp hb)
     obtain ⟨ℓ, hfl, hdesc⟩ := hst
     have hℓ := ((x.toData hsign).isFlower_iff ℓ).mp hfl
     have hpre : b.1.2 <+: (tops j).flowerPath := by
@@ -180,48 +210,22 @@ theorem sup_stem_eq (j : Fin (2 * Pm)) (k : GNode (x.toData hsign).flowerGraft.g
       refine mem_filter.mpr ⟨mem_univ _, ⟨r, by rw [hb'2]; exact hr⟩, fun he => hnfp ?_⟩
       rw [isFlowerParent_toData_iff x hsign hF b, hj, ← hb'2]
       exact congrArg (fun c : GBranch (single (tops j).toTree) => c.1.2) he
-    have hemb : topBr x hsign j b' = b :=
-      Subtype.ext ((topBr_val x hsign j b').trans (Prod.ext hj.symm hb'2))
-    have hle := Finset.le_sup (f := fun b => ‖resFactor (k (topNd x hsign j (b.child 0)))
-      (k (topNd x hsign j (b.child 1))) (k (topNd x hsign j (b.child 2))) (k (topNd x hsign j b.toNode))‖₊) hb'
-    have he2 := congrArg (fun z => ‖z‖₊) (omegaNode_topBr x hsign j b' k)
-    rw [hemb] at he2
-    exact (le_of_eq he2).trans hle
-  · refine Finset.sup_le fun b' hb' => ?_
-    obtain ⟨-, hst, hne⟩ := mem_filter.mp hb'
-    have hv := topBr_val x hsign j b'
-    have hmem : topBr x hsign j b' ∈ univ.filter fun b : GBranch (x.toData hsign).flowerGraft.garden.tree => b.1.1 = j ∧
-        (x.toData hsign).flowerGraft.OnStem b.toNode ∧ ¬ (x.toData hsign).flowerGraft.garden.IsFlowerParent b := by
-      refine mem_filter.mpr ⟨mem_univ _, congrArg Prod.fst hv, ?_, fun hfp => hne ?_⟩
-      · refine ⟨(x.toData hsign).flLeaf j, ((x.toData hsign).isFlower_iff _).mpr
-          (by rw [(x.toData hsign).flLeaf_val]), ?_, ?_⟩
-        · change (topBr x hsign j b').1.1 = ((x.toData hsign).flLeaf j).1.1
-          rw [hv, (x.toData hsign).flLeaf_val]
-        · change (topBr x hsign j b').1.2 <+: ((x.toData hsign).flLeaf j).1.2
-          rw [hv, (x.toData hsign).flLeaf_val]
-          exact hst
-      · have h := (isFlowerParent_toData_iff x hsign hF _).mp hfp
-        have h' := fp_eq_of hF j _ (congrArg Prod.fst hv) _ h
-        rw [congrArg Prod.snd hv] at h'
-        exact Subtype.ext (Prod.ext (Subsingleton.elim _ _) h')
-    have hle := Finset.le_sup (f := fun b => ‖omegaNode (x.toData hsign).flowerGraft.garden k b‖₊) hmem
-    have he2 := congrArg (fun z => ‖z‖₊) (omegaNode_topBr x hsign j b' k)
-    exact (le_of_eq he2.symm).trans hle
+    exact ⟨b', Finset.mem_coe.mpr hb', Subtype.ext ((topBr_val x hsign j b').trans (Prod.ext hj.symm hb'2))⟩
+  · show |omegaNode (x.toData hsign).flowerGraft.garden k (topBr x hsign j b')| = _
+    rw [omegaNode_topBr x hsign j b' k]
 
 include hF in
 /-- **The cutoff weights of a flower graft are the products of the tree cutoff weights.** -/
 theorem cutWeightsOK (L : ℝ) (cut1 cut2 : Option ℕ) : CutWeightsOK L (d := d) hF x hsign cut1 cut2 := by
   refine ⟨fun j₁ _ k => ?_, fun j₂ _ k => ?_⟩
-  · unfold LayeredGarden.cutWeight1
+  · unfold LayeredGarden.cutWeight1P
     refine prod_congr rfl fun j _ => ?_
     unfold treeCut1K
-    rw [sup_topLeaves_eq hF x hsign j k]
-    rfl
-  · unfold LayeredGarden.cutWeight2
+    exact prodCut1_topLeaves_eq hF x hsign L j₁ j k
+  · unfold LayeredGarden.cutWeight2P
     refine prod_congr rfl fun j _ => ?_
     unfold treeCut2K
-    rw [sup_stem_eq hF x hsign j k]
-    rfl
+    exact prodCut2_stem_eq hF x hsign L j₂ j k
 
 end Graft
 

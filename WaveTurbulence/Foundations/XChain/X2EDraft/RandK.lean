@@ -19,7 +19,7 @@ public import WaveTurbulence.Foundations.XChain.FlowerDraft.X2Est
 - `Q` runs over the partitions of the non-flower leaves of `(F_j)`; `κ` over the decorations with roots `n` and
   flowers `n'`; the signs alternate (`altSig P`).
 - `flowerKer` has the lower kernel sums `K(𝒢_p)` at the blocks of `Q` (X2E-2/3 identify these with the
-  gardens of `flowerSum`), and `flowerError` collects the `E_p, Ẽ_p` terms (bounded in X2E-4).
+  gardens of `flowerSumP`), and `flowerError` collects the `E_p, Ẽ_p` terms (bounded in X2E-4).
 
 Also `integrable_norm_randK_pow`: `|𝒦|^{2P}` is integrable on `F_p` (the first half of O-X2-EXP).
 -/

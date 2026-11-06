@@ -130,10 +130,10 @@ variable (P : WTParams) (F : ℕ → Mom P.d → ℝ) (p : ℕ) (kind : FlowerKi
 
 /-- **`flowerSum_N` is the gate garden sum at order `N`.** -/
 theorem flowerSum_eq_finsum (N : ℕ) :
-    flowerSum P F p N (w := 2 * Pm) kind (fun _ => pat) (dagger.map fun c _ => c) cut1 cut2 ζ t s n n' =
+    flowerSumP P F p N (w := 2 * Pm) kind (fun _ => pat) (dagger.map fun c _ => c) cut1 cut2 ζ t s n n' =
       ∑ᶠ (LG : LayeredGarden (2 * Pm)) (_ : GateCond (P.N p) (P.N (p + 1)) pat kind ζ (p := p) LG),
         if LG.garden.order = N then gateSummand P.L P.γ P.δ F p pat dagger cut1 cut2 t s n n' LG else 0 := by
-  unfold flowerSum
+  unfold flowerSumP
   refine finsum_congr fun LG => ?_
   rw [finsum_eq_if, finsum_eq_if]
   by_cases h1 : GateCond (P.N p) (P.N (p + 1)) pat kind ζ (p := p) LG
@@ -149,7 +149,7 @@ include hpat in
 /-- **The flower sums up to order `M`** as an index sum. -/
 theorem sum_flowerSum_eq (M : ℕ) :
     ∑ N ∈ range (M + 1),
-        flowerSum P F p N (w := 2 * Pm) kind (fun _ => pat) (dagger.map fun c _ => c) cut1 cut2 ζ t s n n' =
+        flowerSumP P F p N (w := 2 * Pm) kind (fun _ => pat) (dagger.map fun c _ => c) cut1 cut2 ζ t s n n' =
       ∑ x : FlIdx (P.N p) (P.N (p + 1)) pat kind ζ Pm p,
         if (flIdxGraft (P.N p) (P.N (p + 1)) pat kind ζ x).garden.order ≤ M then
           gateSummand P.L P.γ P.δ F p pat dagger cut1 cut2 t s n n' (flIdxGraft (P.N p) (P.N (p + 1)) pat kind ζ x)
@@ -212,7 +212,7 @@ error. -/
 theorem integral_norm_randK_pow_eq_flowerSum (M : ℕ) :
     (((∫ ω in Fev p, ‖randK P a p kind pat dagger cut1 cut2 ζ t s n n' ω‖ ^ (2 * Pm) ∂μ : ℝ)) : ℂ) =
       ∑ N ∈ range (M + 1),
-          flowerSum P (inputsF P R) p N (w := 2 * Pm) kind (fun _ => pat) (dagger.map fun c _ => c) cut1 cut2
+          flowerSumP P (inputsF P R) p N (w := 2 * Pm) kind (fun _ => pat) (dagger.map fun c _ => c) cut1 cut2
             ζ t s n n' +
         flowerTail P (inputsF P R) p kind pat dagger cut1 cut2 ζ t s n n' Pm M +
         flowerErr P μ a Fev R p kind pat dagger cut1 cut2 ζ t s n n' Pm := by

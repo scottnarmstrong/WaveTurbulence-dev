@@ -12,11 +12,11 @@ public import WaveTurbulence.Foundations.XChain.X2EDraft.OX2Exp
 /-!
 # V2-CHAIN 1: `fixedpoint_v2` from the closed gates
 
-`fixedpoint_v2_of_closed_gates` is X2E's `fixedpoint_of_closed_gates` (X3 `fixedpoint_of_gates` with
+`fixedpoint_v2_of_closed_gates_v3` (D13 product-cutoff assembly) is X2E's `fixedpoint_of_closed_gates` (X3 `fixedpoint_of_gates` with
 O-X2-EXP `oX2Exp` and O-X3-CPL `oX3Cpl` proved) re-run for the successor bodies: the hypotheses are the bodies of
-`layergardenFlower_v2`, `layergarden_v2` and `wkeTaylor`, the conclusion is the body of `fixedpoint_v2`.
+`layergardenFlower_v3`, `layergarden_v2` and `wkeTaylor`, the conclusion is the body of `fixedpoint_v2`.
 The restriction `1/2 < γ` is threaded through `V2Chain.WTPrefixS`; the inputs `oX2Exp`, `oX3Cpl` are unconditional.
-Conditional helper (not a source result); it proves nothing about `fixedpoint_v2` itself.
+UNOWNED conditional helper (PORT-PLAN hard rule 6; not a source result); it proves nothing about `fixedpoint_v2` itself.
 -/
 
 @[expose] public section
@@ -28,7 +28,9 @@ open WaveTurbulence WaveTurbulence.Fixedpt
 
 universe u
 
-theorem fixedpoint_v2_of_closed_gates (hG : LayergardenFlowerV2Gate) (hL : LayergardenV2Gate)
+/-- UNOWNED conditional assembly from the exact D13 flower gate and the unchanged v2 layergarden
+and WKE Taylor gates. Its conclusion is the frozen `fixedpoint_v2` body. -/
+theorem fixedpoint_v2_of_closed_gates_v3 (hG : LayergardenFlowerV3Gate) (hL : LayergardenV2Gate)
     (hW : WkeTaylorGate) : FixedpointV2Gate.{u} := by
   have hG' : WTPrefixP fun Pm P => 1 / 2 < P.γ → B112Body Pm P := hG
   have hL' : WTPrefix fun P => 1 / 2 < P.γ → Gates.LayergardenBody P := hL
@@ -36,5 +38,13 @@ theorem fixedpoint_v2_of_closed_gates (hG : LayergardenFlowerV2Gate) (hL : Layer
   exact (fixedpointS_of_parts
     (cplMomentsS_of_gates (WTPrefixPS.ofR hG') (WTPrefixS.ofR hL') (WTPrefixS.ofFull hW') Cpl.oX3Cpl)
     (part2S_of_X2 (flowerest1S_of_gates (WTPrefixPS.ofR hG') X2E.oX2Exp))).toR
+
+/-- Compatibility name for the fixedpoint-v2 consumer after D13. The shared X-chain now uses
+product cutoffs, so this helper takes `LayergardenFlowerV3Gate`. The exact max-cutoff
+`LayergardenFlowerV2Gate` remains available in `GateTypes`; no implication between the two gates
+is asserted. UNOWNED conditional helper. -/
+theorem fixedpoint_v2_of_closed_gates (hG : LayergardenFlowerV3Gate) (hL : LayergardenV2Gate)
+    (hW : WkeTaylorGate) : FixedpointV2Gate.{u} :=
+  fixedpoint_v2_of_closed_gates_v3 hG hL hW
 
 end WaveTurbulence.V2Chain

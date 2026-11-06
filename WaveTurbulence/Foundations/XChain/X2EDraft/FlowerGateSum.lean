@@ -43,7 +43,7 @@ theorem kernelTrees_sign {F : FTree} (h : F ∈ kernelTrees pat Ntr kind ζ) : F
 noncomputable def flIdxGraft (x : FlIdx Natt Ntr pat kind ζ Pm p) : LayeredGarden (2 * Pm) :=
   ((mkFlowerAt x.2.1.1 x.2.1.2 x.2.2).toData (fun j => kernelTrees_sign Ntr pat kind ζ (x.1 j).2)).flowerGraft
 
-/-- **The gate's conditions** (`flowerSum` without the order). -/
+/-- **The gate's conditions** (`flowerSumP` without the order). -/
 def GateCond (LG : LayeredGarden (2 * Pm)) : Prop :=
   IsCanonH (p + 1) LG ∧ (∀ u ∈ LG.attachNodes p, LG.attachedOrder p u ≤ Natt) ∧
     LG.FlowerKindOK p Ntr kind ∧ (∀ ℓ : GLeaf LG.garden.tree, LG.garden.IsFlower ℓ →

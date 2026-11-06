@@ -12,11 +12,12 @@ public import WaveTurbulence.Foundations.XChain.FlowerDraft.OFKFubini
 # X3 DyadicReduction: the `M₁`, `M₂` decompositions (T L2318–L2324)
 
 **Statement.** Let `0 < L`. Then:
-1. `dyadicCut` (B1.12). For `x ≥ 0`:
-   - `0 ≤ dyadicCut L j x ≤ 1`;
-   - `∑_{j ≤ J} dyadicCut L j x = χ₀(x/(2^J L))` (`sum_dyadicCut`);
-   - `HasSum (dyadicCut L · x) 1` (`hasSum_dyadicCut`);
-   - `dyadicCut L j x ≠ 0` implies `x < 2^j L` (`lt_of_dyadicCut_ne_zero`).
+1. The product-form cutoff `prodDyadicCut` (FC1; `cutWeight1P`, `cutWeight2P` of the successor gate
+   `layergardenFlower_v3`). For `L > 0` and nonnegative entries `y_a`, `a ∈ s`:
+   - `0 ≤ Ψ_j ≤ 1` (`XChain.ProductCut.prodDyadicCut_nonneg`, `XChain.ProductCut.prodDyadicCut_le_one`);
+   - `∑_{j ≤ J} Ψ_j = ∏_a χ₀(y_a/(2^J L))` (`XChain.ProductCut.sum_prodDyadicCut`);
+   - `HasSum (Ψ_·) 1` (`XChain.ProductCut.hasSum_prodDyadicCut`);
+   - `Ψ_j ≠ 0` implies `y_a < 2^j L` for all `a` (`XChain.ProductCut.lt_of_prodDyadicCut_ne_zero`).
 2. The kernel decompositions (`hasSum_randFlowerKernel_cut1`, `hasSum_randFlowerKernel_cut2`). For summable
    `a(p)`, any kind, pattern, `†`, `ζ`, `t`, `s`, `k`, `k'`:
    - `HasSum (j₁ ↦ 𝒦[cut1 := j₁]) 𝒦[cut1 := none]`, for any `cut2`;
@@ -35,81 +36,6 @@ The interchange of `∑_j` with the decoration sum is Fubini for `tsum` on `ℕ 
 namespace WaveTurbulence.Fixedpt
 
 open MeasureTheory Set SysAPI FTree
-
-/-! ## `dyadicCut` -/
-
-section Cut
-
-theorem chi0_eq_one {x : ℝ} (hx : |x| ≤ 1 / 2) : chi0 x = 1 :=
-  Real.smoothTransition.one_of_one_le (by linarith)
-
-theorem chi0_eq_zero {x : ℝ} (hx : 1 ≤ |x|) : chi0 x = 0 :=
-  Real.smoothTransition.zero_of_nonpos (by linarith)
-
-theorem chi0_anti {x y : ℝ} (hxy : |x| ≤ |y|) : chi0 y ≤ chi0 x :=
-  Real.smoothTransition.monotone (by linarith)
-
-variable {L : ℝ} (hL : 0 < L)
-
-include hL in
-theorem dyadicCut_nonneg (j : ℕ) {x : ℝ} (hx : 0 ≤ x) : 0 ≤ dyadicCut L j x := by
-  unfold dyadicCut
-  split_ifs with h
-  · exact Real.smoothTransition.nonneg _
-  · rw [sub_nonneg]
-    refine chi0_anti ?_
-    rw [abs_of_nonneg (by positivity), abs_of_nonneg (by positivity)]
-    have hj : 1 ≤ j := Nat.one_le_iff_ne_zero.2 h
-    have h2 : (2 : ℝ) ^ (j - 1) * L ≤ 2 ^ j * L := by
-      gcongr
-      · norm_num
-      · omega
-    exact div_le_div_of_nonneg_left hx (by positivity) h2
-
-theorem dyadicCut_le_one (j : ℕ) (x : ℝ) : dyadicCut L j x ≤ 1 :=
-  le_trans (le_abs_self _) (abs_dyadicCut_le_one L j x)
-
-theorem sum_dyadicCut (x : ℝ) : ∀ J : ℕ, ∑ j ∈ Finset.range (J + 1), dyadicCut L j x = chi0 (x / (2 ^ J * L))
-  | 0 => by simp [dyadicCut]
-  | J + 1 => by
-    rw [Finset.sum_range_succ, sum_dyadicCut x J]
-    simp [dyadicCut]
-
-include hL in
-theorem hasSum_dyadicCut {x : ℝ} (hx : 0 ≤ x) : HasSum (fun j => dyadicCut L j x) 1 := by
-  rw [hasSum_iff_tendsto_nat_of_nonneg (fun j => dyadicCut_nonneg hL j hx)]
-  obtain ⟨J₀, hJ₀⟩ := pow_unbounded_of_one_lt (2 * x / L) (by norm_num : (1 : ℝ) < 2)
-  rw [div_lt_iff₀ hL] at hJ₀
-  refine tendsto_const_nhds.congr' (Filter.eventually_atTop.2 ⟨J₀ + 1, fun n hn => ?_⟩)
-  obtain ⟨J, rfl⟩ : ∃ J, n = J + 1 := ⟨n - 1, by omega⟩
-  show 1 = ∑ i ∈ Finset.range (J + 1), dyadicCut L i x
-  rw [sum_dyadicCut, chi0_eq_one ?_]
-  rw [abs_of_nonneg (by positivity), div_le_iff₀ (by positivity)]
-  have : (2 : ℝ) ^ J₀ ≤ 2 ^ J := pow_le_pow_right₀ (by norm_num) (by omega)
-  nlinarith
-
-include hL in
-theorem lt_of_dyadicCut_ne_zero {j : ℕ} {x : ℝ} (hx : 0 ≤ x) (h : dyadicCut L j x ≠ 0) : x < 2 ^ j * L := by
-  by_contra hle
-  push Not at hle
-  apply h
-  have h1 : chi0 (x / (2 ^ j * L)) = 0 := by
-    refine chi0_eq_zero ?_
-    rw [abs_of_nonneg (by positivity), le_div_iff₀ (by positivity)]
-    linarith
-  unfold dyadicCut
-  split_ifs with hj
-  · subst hj
-    simpa using h1
-  · rw [h1, chi0_eq_zero, sub_zero]
-    rw [abs_of_nonneg (by positivity), le_div_iff₀ (by positivity)]
-    have : (2 : ℝ) ^ (j - 1) * L ≤ 2 ^ j * L := by
-      gcongr
-      · norm_num
-      · omega
-    linarith
-
-end Cut
 
 /-! ## Decompositions of the kernels -/
 
@@ -208,7 +134,8 @@ theorem hasSum_flowerKernelGen_cut1 (F : FTree) (pat : FixPat) (dagger : Option 
   · simp only [flowerKernelGen, hF, ↓reduceDIte]
     exact hasSum_zero
   refine hasSum_flowerKernelGen_split L γ δ p haP hF pat dagger none cut2 t s k k' (fun j κ => treeCut1 L F j κ)
-    (fun j κ => dyadicCut_nonneg hL j (NNReal.coe_nonneg _)) (fun κ => hasSum_dyadicCut hL (NNReal.coe_nonneg _))
+    (fun j κ => XChain.ProductCut.prodDyadicCut_nonneg _ hL (fun _ _ => norm_nonneg _) j)
+    (fun κ => XChain.ProductCut.hasSum_prodDyadicCut _ hL (fun _ _ => norm_nonneg _))
     _ fun j => ?_
   rw [flowerKernelGen_eq L γ δ hF p]
   simp only [treeWeight_cut1]
@@ -222,7 +149,8 @@ theorem hasSum_flowerKernelGen_cut2 (F : FTree) (pat : FixPat) (dagger : Option 
   · simp only [flowerKernelGen, hF, ↓reduceDIte]
     exact hasSum_zero
   refine hasSum_flowerKernelGen_split L γ δ p haP hF pat dagger cut1 none t s k k' (fun j κ => treeCut2 L F hF j κ)
-    (fun j κ => dyadicCut_nonneg hL j (NNReal.coe_nonneg _)) (fun κ => hasSum_dyadicCut hL (NNReal.coe_nonneg _))
+    (fun j κ => XChain.ProductCut.prodDyadicCut_nonneg _ hL (fun _ _ => abs_nonneg _) j)
+    (fun κ => XChain.ProductCut.hasSum_prodDyadicCut _ hL (fun _ _ => abs_nonneg _))
     _ fun j => ?_
   rw [flowerKernelGen_eq L γ δ hF p]
   simp only [treeWeight_cut2]
@@ -290,6 +218,24 @@ theorem flowerDecoration_root {F : FTree} {k k' : Fin d → ℤ} (κ : FlowerDec
   unfold treeSign at hs
   exact congrArg (fun u : ℤˣ => (u : ℤ)) hs
 
+/-- **Support of the `M₁` weight**: if `Ψ_j` of the non-flower leaves is nonzero, their largest norm is below
+`2^j L`. -/
+theorem sup_lt_of_treeCut1_ne_zero {L : ℝ} (hL : 0 < L) {F : FTree} {j : ℕ}
+    {κ : GNode (single F.toTree) → (Fin d → ℤ)} (h : treeCut1 L F j κ ≠ 0) :
+    (((Finset.univ.erase F.flowerLeaf).sup fun ℓ => ‖latticePoint L (κ ℓ.toNode)‖₊ : NNReal) : ℝ) <
+      2 ^ j * L := by
+  classical
+  have hlt : ∀ ℓ ∈ Finset.univ.erase F.flowerLeaf, ‖latticePoint L (κ ℓ.toNode)‖ < 2 ^ j * L :=
+    XChain.ProductCut.lt_of_prodDyadicCut_ne_zero _ hL (fun _ _ => norm_nonneg _) h
+  have hpos : (0 : ℝ) < 2 ^ j * L := by positivity
+  have hs : ((Finset.univ.erase F.flowerLeaf).sup fun ℓ => ‖latticePoint L (κ ℓ.toNode)‖₊ : NNReal) <
+      Real.toNNReal (2 ^ j * L) :=
+    (Finset.sup_lt_iff (by simpa using hpos)).2 fun ℓ hℓ => by
+      rw [← NNReal.coe_lt_coe, coe_nnnorm, Real.coe_toNNReal _ hpos.le]
+      exact hlt ℓ hℓ
+  have := NNReal.coe_lt_coe.2 hs
+  rwa [Real.coe_toNNReal _ hpos.le] at this
+
 variable (L γ δ : ℝ) (hL : 0 < L) (p : ℕ)
 
 include hL in
@@ -309,37 +255,32 @@ theorem flowerKernelGen_cut1_eq_zero {F : FTree} (aP : (Fin d → ℤ) → ℂ) 
   suffices hw : treeCut1 L F j κ.1.1 = 0 by
     simp [treeWeight, hw]
   by_contra hw
-  set x : NNReal := (Finset.univ.erase F.flowerLeaf).sup fun ℓ => ‖latticePoint L (κ.1.1 ℓ.toNode)‖₊
-  have hx : (x : ℝ) < 2 ^ j * L := lt_of_dyadicCut_ne_zero hL (NNReal.coe_nonneg _) hw
-  have hle : ∀ ℓ ∈ Finset.univ.erase F.flowerLeaf, ‖latticePoint L (κ.1.1 ℓ.toNode)‖ ≤ x := fun ℓ hℓ => by
-    have := Finset.le_sup (f := fun ℓ => ‖latticePoint L (κ.1.1 ℓ.toNode)‖₊) hℓ
-    exact_mod_cast this
+  have hlt : ∀ ℓ ∈ Finset.univ.erase F.flowerLeaf, ‖latticePoint L (κ.1.1 ℓ.toNode)‖ < 2 ^ j * L :=
+    XChain.ProductCut.lt_of_prodDyadicCut_ne_zero _ hL (fun _ _ => norm_nonneg _) hw
   have hmom := congrArg (latticePoint L) (flowerDecoration_root κ)
   rw [latticePoint_add, latticePoint_zsmul, latticePoint_sum] at hmom
   have hdiff : latticePoint L k - (F.sign : ℤ) • latticePoint L k' = ∑ ℓ ∈ Finset.univ.erase F.flowerLeaf,
       latticePoint L (((treeSign F.toTree ℓ.toNode : ℤˣ) : ℤ) • κ.1.1 ℓ.toNode) := by
     rw [hmom]; abel
   have hsum : ‖latticePoint L k - (F.sign : ℤ) • latticePoint L k'‖ ≤
-      ((Finset.univ.erase F.flowerLeaf).card : ℝ) * x := by
+      ((Finset.univ.erase F.flowerLeaf).card : ℝ) * (2 ^ j * L) := by
     rw [hdiff]
     refine (norm_sum_le _ _).trans ?_
     have hb : ∀ ℓ ∈ Finset.univ.erase F.flowerLeaf,
-        ‖latticePoint L (((treeSign F.toTree ℓ.toNode : ℤˣ) : ℤ) • κ.1.1 ℓ.toNode)‖ ≤ x := fun ℓ hℓ => by
+        ‖latticePoint L (((treeSign F.toTree ℓ.toNode : ℤˣ) : ℤ) • κ.1.1 ℓ.toNode)‖ ≤ 2 ^ j * L := fun ℓ hℓ => by
       calc ‖latticePoint L (((treeSign F.toTree ℓ.toNode : ℤˣ) : ℤ) • κ.1.1 ℓ.toNode)‖
           = ‖((treeSign F.toTree ℓ.toNode : ℤˣ) : ℤ) • latticePoint L (κ.1.1 ℓ.toNode)‖ := by
             simp only [latticePoint_zsmul]
         _ = ‖latticePoint L (κ.1.1 ℓ.toNode)‖ := by
             rcases Int.units_eq_one_or (treeSign F.toTree ℓ.toNode) with h | h <;> simp [h]
-        _ ≤ x := hle ℓ hℓ
+        _ ≤ 2 ^ j * L := (hlt ℓ hℓ).le
     have := Finset.sum_le_card_nsmul _ _ _ hb
     rwa [nsmul_eq_mul] at this
   have hcard : ((Finset.univ.erase F.flowerLeaf).card : ℝ) + 1 = Fintype.card (GLeaf (single F.toTree)) := by
     have := Finset.card_erase_add_one (Finset.mem_univ F.flowerLeaf)
     rw [Finset.card_univ] at this
     exact_mod_cast this
-  have hx0 : (0 : ℝ) ≤ x := NNReal.coe_nonneg _
   have h2 : (0 : ℝ) < 2 ^ j * L := by positivity
-  have hc0 : (0 : ℝ) ≤ (Finset.univ.erase F.flowerLeaf).card := Nat.cast_nonneg _
   nlinarith
 
 include hL in
