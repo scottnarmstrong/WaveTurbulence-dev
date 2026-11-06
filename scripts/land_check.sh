@@ -7,7 +7,11 @@ cd "$root"
 python3 -I - <<'PY' || exit 1
 import re,glob,collections,sys
 seen=collections.defaultdict(list)
-for f in glob.glob("WaveTurbulence/**/*.lean",recursive=True):
+source_files = sorted(set(glob.glob("WaveTurbulence.lean") +
+                          glob.glob("WaveTurbulenceVineParam.lean") +
+                          [f for tree in ("WaveTurbulence", "WaveTurbulenceVineParam")
+                           for f in glob.glob(tree + "/**/*.lean", recursive=True)]))
+for f in source_files:
     if "/Frozen/" in f or "/Provider/" in f: continue
     ns=[]
     for line in open(f,encoding="utf8"):
@@ -23,7 +27,7 @@ if d:
 print("duplicate scan: OK")
 # sorry/admit scan outside Frozen/ (DRAFT_SORRY anchors live there): lake build only warns on sorry.
 bad=[]
-for f in glob.glob("WaveTurbulence/**/*.lean",recursive=True):
+for f in source_files:
     if "/Frozen/" in f: continue
     t=open(f,encoding="utf8").read()
     t=re.sub(r"/-.*?-/","",t,flags=re.S)          # block comments and docstrings

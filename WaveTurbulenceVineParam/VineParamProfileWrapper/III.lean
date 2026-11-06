@@ -1,0 +1,129 @@
+/- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
+module
+
+public import WaveTurbulenceVineParam.VineParamProfileDegrees
+import WaveTurbulenceVineParam.VineParamProfileProof.III
+import Mathlib.Tactic
+
+/-! # Source degree constraints exhaust the literal profiles of vine III -/
+
+public section
+namespace WaveTurbulence.Vine.Param.Profiles.III
+
+private theorem outgoing_row_0 (k : Fin 13 → ℕ) : baseOutgoing .III k 0=k ⟨0,by decide⟩+k ⟨1,by decide⟩ := by
+  change (∑ i : Fin 13, if ((baseBundles .III)[i.1]).1.1=0 then k i else
+    if ((baseBundles .III)[i.1]).1.2=0 then ((baseBundles .III)[i.1]).2-k i else 0)=_
+  simp [baseBundles,Fin.sum_univ_succ]
+
+private theorem outgoing_row_1 (k : Fin 13 → ℕ) : baseOutgoing .III k 1=k ⟨7,by decide⟩+k ⟨8,by decide⟩ := by
+  change (∑ i : Fin 13, if ((baseBundles .III)[i.1]).1.1=1 then k i else
+    if ((baseBundles .III)[i.1]).1.2=1 then ((baseBundles .III)[i.1]).2-k i else 0)=_
+  simp [baseBundles,Fin.sum_univ_succ]
+
+private theorem outgoing_row_2 (k : Fin 13 → ℕ) : baseOutgoing .III k 2=(1-k ⟨0,by decide⟩)+k ⟨2,by decide⟩+k ⟨9,by decide⟩ := by
+  change (∑ i : Fin 13, if ((baseBundles .III)[i.1]).1.1=2 then k i else
+    if ((baseBundles .III)[i.1]).1.2=2 then ((baseBundles .III)[i.1]).2-k i else 0)=_
+  simp [baseBundles,Fin.sum_univ_succ,Nat.add_assoc]
+
+private theorem outgoing_row_3 (k : Fin 13 → ℕ) : baseOutgoing .III k 3=(1-k ⟨1,by decide⟩)+(2-k ⟨2,by decide⟩)+k ⟨10,by decide⟩ := by
+  change (∑ i : Fin 13, if ((baseBundles .III)[i.1]).1.1=3 then k i else
+    if ((baseBundles .III)[i.1]).1.2=3 then ((baseBundles .III)[i.1]).2-k i else 0)=_
+  simp [baseBundles,Fin.sum_univ_succ,Nat.add_assoc]
+
+private theorem outgoing_row_4 (k : Fin 13 → ℕ) : baseOutgoing .III k 4=k ⟨3,by decide⟩+k ⟨4,by decide⟩+(1-k ⟨9,by decide⟩)+k ⟨11,by decide⟩ := by
+  change (∑ i : Fin 13, if ((baseBundles .III)[i.1]).1.1=4 then k i else
+    if ((baseBundles .III)[i.1]).1.2=4 then ((baseBundles .III)[i.1]).2-k i else 0)=_
+  simp [baseBundles,Fin.sum_univ_succ,Nat.add_assoc]
+
+private theorem outgoing_row_5 (k : Fin 13 → ℕ) : baseOutgoing .III k 5=(1-k ⟨3,by decide⟩)+k ⟨5,by decide⟩+(1-k ⟨10,by decide⟩) := by
+  change (∑ i : Fin 13, if ((baseBundles .III)[i.1]).1.1=5 then k i else
+    if ((baseBundles .III)[i.1]).1.2=5 then ((baseBundles .III)[i.1]).2-k i else 0)=_
+  simp [baseBundles,Fin.sum_univ_succ,Nat.add_assoc]
+
+private theorem outgoing_row_6 (k : Fin 13 → ℕ) : baseOutgoing .III k 6=(1-k ⟨4,by decide⟩)+(2-k ⟨5,by decide⟩)+k ⟨12,by decide⟩ := by
+  change (∑ i : Fin 13, if ((baseBundles .III)[i.1]).1.1=6 then k i else
+    if ((baseBundles .III)[i.1]).1.2=6 then ((baseBundles .III)[i.1]).2-k i else 0)=_
+  simp [baseBundles,Fin.sum_univ_succ,Nat.add_assoc]
+
+private theorem outgoing_row_7 (k : Fin 13 → ℕ) : baseOutgoing .III k 7=k ⟨6,by decide⟩+(1-k ⟨7,by decide⟩)+(1-k ⟨11,by decide⟩) := by
+  change (∑ i : Fin 13, if ((baseBundles .III)[i.1]).1.1=7 then k i else
+    if ((baseBundles .III)[i.1]).1.2=7 then ((baseBundles .III)[i.1]).2-k i else 0)=_
+  simp [baseBundles,Fin.sum_univ_succ,Nat.add_assoc]
+
+private theorem outgoing_row_8 (k : Fin 13 → ℕ) : baseOutgoing .III k 8=(2-k ⟨6,by decide⟩)+(1-k ⟨8,by decide⟩)+(1-k ⟨12,by decide⟩) := by
+  change (∑ i : Fin 13, if ((baseBundles .III)[i.1]).1.1=8 then k i else
+    if ((baseBundles .III)[i.1]).1.2=8 then ((baseBundles .III)[i.1]).2-k i else 0)=_
+  simp [baseBundles,Fin.sum_univ_succ,Nat.add_assoc]
+
+/-- Every normalized source-balanced orientation has an actual profile index. -/
+theorem exists_profile (k : Fin (baseBundles .III).length → ℕ)
+    (hk : ∀ i,k i ≤ ((baseBundles .III)[i.1]'i.2).2)
+    (hb : ∀ v : Fin VineType.III.template.n,
+      baseOutgoing .III k v.1=if v.1<2 then 1 else 2) :
+    ∃ p : Fin (baseProfileCount .III),baseProfileCounts .III p=List.ofFn k := by
+  change Fin 13 → ℕ at k
+  have h0 := hk ⟨0,by decide⟩
+  change k ⟨0,by decide⟩ ≤ 1 at h0
+  have h1 := hk ⟨1,by decide⟩
+  change k ⟨1,by decide⟩ ≤ 1 at h1
+  have h2 := hk ⟨2,by decide⟩
+  change k ⟨2,by decide⟩ ≤ 2 at h2
+  have h3 := hk ⟨3,by decide⟩
+  change k ⟨3,by decide⟩ ≤ 1 at h3
+  have h4 := hk ⟨4,by decide⟩
+  change k ⟨4,by decide⟩ ≤ 1 at h4
+  have h5 := hk ⟨5,by decide⟩
+  change k ⟨5,by decide⟩ ≤ 2 at h5
+  have h6 := hk ⟨6,by decide⟩
+  change k ⟨6,by decide⟩ ≤ 2 at h6
+  have h7 := hk ⟨7,by decide⟩
+  change k ⟨7,by decide⟩ ≤ 1 at h7
+  have h8 := hk ⟨8,by decide⟩
+  change k ⟨8,by decide⟩ ≤ 1 at h8
+  have h9 := hk ⟨9,by decide⟩
+  change k ⟨9,by decide⟩ ≤ 1 at h9
+  have h10 := hk ⟨10,by decide⟩
+  change k ⟨10,by decide⟩ ≤ 1 at h10
+  have h11 := hk ⟨11,by decide⟩
+  change k ⟨11,by decide⟩ ≤ 1 at h11
+  have h12 := hk ⟨12,by decide⟩
+  change k ⟨12,by decide⟩ ≤ 1 at h12
+  have hbal0 := hb ⟨0,by decide⟩
+  change baseOutgoing .III k 0=1 at hbal0
+  rw [outgoing_row_0] at hbal0
+  have hbal1 := hb ⟨1,by decide⟩
+  change baseOutgoing .III k 1=1 at hbal1
+  rw [outgoing_row_1] at hbal1
+  have hbal2 := hb ⟨2,by decide⟩
+  change baseOutgoing .III k 2=2 at hbal2
+  rw [outgoing_row_2] at hbal2
+  have hbal3 := hb ⟨3,by decide⟩
+  change baseOutgoing .III k 3=2 at hbal3
+  rw [outgoing_row_3] at hbal3
+  have hbal4 := hb ⟨4,by decide⟩
+  change baseOutgoing .III k 4=2 at hbal4
+  rw [outgoing_row_4] at hbal4
+  have hbal5 := hb ⟨5,by decide⟩
+  change baseOutgoing .III k 5=2 at hbal5
+  rw [outgoing_row_5] at hbal5
+  have hbal6 := hb ⟨6,by decide⟩
+  change baseOutgoing .III k 6=2 at hbal6
+  rw [outgoing_row_6] at hbal6
+  have hbal7 := hb ⟨7,by decide⟩
+  change baseOutgoing .III k 7=2 at hbal7
+  rw [outgoing_row_7] at hbal7
+  have hbal8 := hb ⟨8,by decide⟩
+  change baseOutgoing .III k 8=2 at hbal8
+  rw [outgoing_row_8] at hbal8
+  obtain ⟨p,hp⟩ := exhaustive (k ⟨0,by decide⟩) (k ⟨1,by decide⟩) (k ⟨2,by decide⟩) (k ⟨3,by decide⟩) (k ⟨4,by decide⟩) (k ⟨5,by decide⟩) (k ⟨6,by decide⟩) (k ⟨7,by decide⟩) (k ⟨8,by decide⟩) (k ⟨9,by decide⟩) (k ⟨10,by decide⟩) (k ⟨11,by decide⟩) (k ⟨12,by decide⟩) h0 h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12 hbal0 hbal1 hbal2 hbal3 hbal4 hbal5 hbal6 hbal7 hbal8
+  refine ⟨p,?_⟩
+  change baseProfileCounts .III p=List.ofFn (fun i : Fin 13 => k i)
+  rw [hp]
+  apply List.ext_getElem
+  · simp only [List.length_cons,List.length_nil,List.length_ofFn]
+  · intro i hi _hi2
+    have hib : i<13 := by simpa only [List.length_cons,List.length_nil] using hi
+    simp only [List.getElem_ofFn]
+    interval_cases i <;> rfl
+
+end WaveTurbulence.Vine.Param.Profiles.III

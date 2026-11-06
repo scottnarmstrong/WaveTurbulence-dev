@@ -8,6 +8,7 @@ set -euo pipefail
 br="$1"
 git merge --no-ff --no-commit "$br" >/dev/null 2>&1
 python3 -I "$PWD/scripts/update_root_imports.py"
-git add -A WaveTurbulence.lean WaveTurbulence
+git add -A -- WaveTurbulence.lean WaveTurbulence \
+  WaveTurbulenceVineParam.lean WaveTurbulenceVineParam lakefile.lean
 if git diff --cached --name-only --diff-filter=U | grep -q .; then echo "UNRESOLVED CONFLICTS:"; git diff --cached --name-only --diff-filter=U; exit 1; fi
 echo "merged $br (staged; run scripts/land_check.sh, then commit)"

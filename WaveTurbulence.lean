@@ -38,6 +38,7 @@ public import WaveTurbulence.Imports.FoundationsSpine
 public import WaveTurbulence.Imports.FoundationsSumint
 public import WaveTurbulence.Imports.FoundationsTorus
 public import WaveTurbulence.Imports.FoundationsVdCB
+public import WaveTurbulence.Imports.FoundationsVine
 public import WaveTurbulence.Imports.FoundationsWKE
 public import WaveTurbulence.Imports.FoundationsWKEL2
 public import WaveTurbulence.Imports.FoundationsWaveB
