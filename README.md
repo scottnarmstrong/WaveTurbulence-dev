@@ -6,7 +6,7 @@ Lean 4 formalization of
 > [arXiv:2311.10082v2](https://arxiv.org/abs/2311.10082) (2024).
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-11-06 06:53 UTC** · **estimated completion 90.6 %** (Lean work incl. sealing 92.5 %) · frozen theorems sealed: 16 / 26 (+ 296 frozen definitions) · **1,003,786 lines of Lean on main** (7192 files) + 1,460 unlanded on worker branches · blueprint estimate ≈ 273,000 lines
+> **Last updated: 2026-11-06 07:05 UTC** · **estimated completion 90.6 %** (Lean work incl. sealing 92.5 %) · frozen theorems sealed: 16 / 26 (+ 296 frozen definitions) · **1,003,786 lines of Lean on main** (7192 files) + 1,460 unlanded on worker branches · blueprint estimate ≈ 273,000 lines
 <!-- /AUTO:updated -->
 
 **Scope (D1):** everything proved in Lean, no black boxes. That covers the target paper and the results it uses from
@@ -30,10 +30,10 @@ library with closed `vineparam` and `vineparam_grouped`. Independent exact consu
 landing gates passed. See [the main verification](docs/campaign/orch/audits/PORT-VP-main-verification.md),
 [SourceProviders.lean](WaveTurbulence/Foundations/Spine/SourceProviders.lean) and
 [Vine/Param.lean](WaveTurbulence/Foundations/Vine/Param.lean).
-Terra-medium workers have checked actual level/row/phase algebra for the vine estimate, containing-first
-splice dart transport, and LOW selected/degree-two count plus later cut-class covers.
-Mirrored/remainder certificates, original-order supported kernel transport and the final LOW terminal count remain open.
-See the [source assembly checkpoint](docs/campaign/orch/audits/FRONTIER-0620.md).
+Terra-medium workers have checked original-order splice dart transport, actual recursive source-term extraction,
+and the LOW later-step local payments and fixed-ZG source degeneracy bridge.
+Actual reconstructed profile/index transport, full row certificates and the final LOW terminal count remain open.
+See the [current source checkpoints](docs/campaign/orch/audits/FRONTIER-0700.md).
 The upstream dependency world has 10/12 requested exports checked; two await assembly dependencies. The clamped Fourier operator has passed an
 [independent helper audit](docs/campaign/orch/audits/V5-clamp-operator-independent.md).
 Flower Stage-1 and final spine instances remain open.
@@ -138,7 +138,7 @@ Lean lines: 1,003,786 on main + 1,460 on branches, of ≈ 273,000 estimated by t
 | S2a | REDSPLICE-DEF | 2 | ≈800 | 🟡 95 % | REDSPLICE-DEF READY: the full Stage 1 construction; stage1Piece_sound now also supplies the triple designation and no-hinge-loop facts (AMEND7+8) |
 | S4 | SUBPRO | 8 | ≈3,000 | 🟡 95 % | SUBPRO done in atom-set form plus the hinge triple-bond designation (R37) |
 | V4 | VINEEST-S2 | 4 | ≈2,500 | 🟡 95 % | VINEEST-S2 done: vineChain_eq_sumintForm (V4 endpoint, ruling R2), 709-module snapshot-9 rebuild OK; obligations VINEPARAM, SumintSigned |
-| V5 | VINEEST | 13 | ≈5,100 | 🟡 95 % | Actual level Reach/row indices, paired-row product/cost and source phase/gains checked, with complete typed consumers. Earlier six literal ptP factors are CaseA; CaseM mirrored producers/dispatch remain separate. Actual remainder box/norm/consumed comparison, recursive choice extraction, native frames/time indicators, FreeDict/TermCertW/prefix, R58/R57/canonical integration open. Untouched W2 Free authorized only into new owned same-world support cache. FRONTIER-0620; no fraction/seal change. |
+| V5 | VINEEST | 13 | ≈5,100 | 🟡 95 % | Actual source term/bundle/terminal extraction and original-assembly no-op clause-(d) intervals checked. Compatible owned W2.Free support cache/import checked. Actual recursive trace/untouched coverage checked; six piece/six remainder dispatch, actual row certificates/native frames/time indicators/remainders, full cost prefix, R58/R57 and canonical integration remain. FRONTIER-0700; no fraction/seal change. |
 | X1 | FLOWER-DEF | 10 | ≈3,100 | 🟡 95 % | FLOWER-DEF done in scratch: classes, kernels, identities, O-FK; B1.12 final (audited, F1/F2 applied) proposed for the freeze |
 | C1 | REG-STRUCT | 11 | ≈4,000 | 🟡 90 % | REG-STRUCT done in scratch: structure theorem with uniqueness, decoding, legal/dominant chains, counts (C₀=12^9); F55 |
 | C2 | LINKS | 11 | ≈3,000 | 🟡 90 % | LINKS done in scratch: branchpair, defchoice, linkXY, deflink, defcoh, auxlem, explem, treelemma, incohproof1 (couples); F62-F65 |
@@ -164,14 +164,14 @@ Lean lines: 1,003,786 on main + 1,460 on branches, of ≈ 273,000 estimated by t
 | X2 | FLOWEREST | 16 | ≈8,900 | 🟡 90 % | FLOWEREST scratch: conditional spine assembly and regular L0 leg exist; flower Stage-1, fixed-time traces and marked-flower LF-twist construction remain unresolved |
 | F2 | PLG | 12 | ≈4,150 | 🟡 86 % | LG-SPINE scratch: AMEND4/5/7+8 checkpoint and AMEND6-prime pair-type gate exist; AMEND9/10 consumer rework unfinished. Full Stage-1 and final-count producers remain required |
 | M7 | LFTWIST | 13 | ≈4,200 | 🟡 85 % | LFTWIST on main with the canonical universe; leaf bijection of LF twists on ordinary leaves proved (LFTWIST-LEAFMAP, R45) |
-| F3 | FINAL-COUNT | 4 | ≈900 | 🟡 81 % | Actual selected+D3 count composition retains source image/InvL/history and explicit combined node multipliers. NoD3 preservation Steps2–4 and LOW triangle/SG covers checked; phase4 adapter newly compiled. Local potential payments, reach composition and actual terminal count open. Damaged96 handles all imperfect components for original R>=2; R1 loop-adjusted source/tame analysis remains. Full LOW/GARDEN/GLUE/canonical integration open. FRONTIER-0620; no fraction/seal change. |
-| S2 | REDSPLICE | 6 | ≈2,400 | 🟡 58 % | Actual complete containing-first PC/LP original-dart transport checked (791 worker files), alongside real batch state/layer/time/hinges/bad-count and cast decoration/phase/epsilon factors. Original-order LP permutation and actual quotient-dart/cast link still open; full supported kernel/A3tau/Stage1 and hyper designation watch unchanged. FRONTIER-0620; no fraction/seal change. |
+| F3 | FINAL-COUNT | 4 | ≈900 | 🟡 81 % | Actual selected+D3 and later Steps2–4 source chain checked with source geometry/local scalar payments derived. Fixed source ZG supplies tameness/degeneracy and source-image Prop95. Combined multipliers bounded by an explicit reserved L^epsilon; actual NoBetaCut terminal count must supply that reserve, including Op5 common-label fiber obligation after loop removal and original R1. LOW/GARDEN/GLUE/canonical integration open. FRONTIER-0700; no fraction/seal change. |
+| S2 | REDSPLICE | 6 | ≈2,400 | 🟡 58 % | Actual original-order PC/LP dart transport and conditional full spliced-kernel cast checked. Actual twist integrand retains exceptional input momentum; restricted TypeFamilyD reconstruction/profile/index bridge, original time domain and A3/tau remain. All-SG HV candidate image independently reviewed; least-key existence only, no replacement designation. FRONTIER-0700; no fraction/seal change. |
 | F1 | FINAL-RED | 4 | ≈1,200 | 🟡 30 % | FINAL-RED: finalsbest1/finalsbest2 consumed in LG-SPINE's assembly (counting cover, finalproof numerics) proved generically |
 | G1 | STAGE2-DEF | 10 | ≈2,600 | 🟡 20 % | STAGE2-DEF: stage-2 operation datatype (Stage2Op) and TARGET's counting problem (lg-spine CountingChoices) defined |
 
 </details>
 
-Done fractions last reviewed: **2026-11-06 06:25 UTC**. Source: [`docs/campaign/progress.json`](docs/campaign/progress.json); history: [`docs/campaign/history.csv`](docs/campaign/history.csv).
+Done fractions last reviewed: **2026-11-06 07:05 UTC**. Source: [`docs/campaign/progress.json`](docs/campaign/progress.json); history: [`docs/campaign/history.csv`](docs/campaign/history.csv).
 <!-- /AUTO:progress -->
 
 ## Workers
@@ -179,12 +179,12 @@ Done fractions last reviewed: **2026-11-06 06:25 UTC**. Source: [`docs/campaign/
 <!-- AUTO:workers -->
 | Worker / session | model / account | packet | branch: last commit | brief |
 |---|---|---|---|---|
-| Codex orchestrator | Codex / current session | Source rulings, safe landings, proof-state review and HQ upkeep | `w/orch`: 29 min ago | [brief](docs/campaign/orch/CODEX-HANDOFF.md) |
-| subagent v5_w2 | GPT-6.1 Terra medium / current session | Containing-first full dart diagram checked; original-order permutations, supported kernel and tau | `w/orch`: 29 min ago | [brief](docs/campaign/orch/briefs/TERRA-VINEA-CONTINUE.md) |
-| subagent v5_w13 | GPT-6.1 Terra medium / current session | Source phase and row products checked; mirrored/remainder actual certificates and final prefix | `w/orch`: 29 min ago | [brief](docs/campaign/orch/briefs/TERRA-V5-W13.md) |
-| subagent finalcount_low | GPT-6.1 Terra medium / current session | Selected+D3 count and later cut covers; local payments, component terminal count and global assembly | `w/orch`: 29 min ago | [brief](docs/campaign/orch/briefs/TERRA-LOW-UNLOOP-BRIDGE.md) |
-| cx-world | GPT-6.1 Sol medium / codex-2 (existing session) | Partial upstream closeout:3407 modules;10/12 exact exports pass; assembly exclusions/overlay remain | `w/orch`: 29 min ago | [brief](docs/campaign/orch/CODEX-HANDOFF.md) |
-| cx-b4bprep | GPT-6.1 Sol medium / codex-2 (existing session) | Existing R52 Batch-4b serial catalogue rebuild; skeleton/layer-count/N4 checks pending | `w/orch`: 29 min ago | [brief](docs/campaign/orch/CODEX-HANDOFF.md) |
+| Codex orchestrator | Codex / current session | Source rulings, safe landings, proof-state review and HQ upkeep | `w/orch`: 0 min ago, 2 unlanded | [brief](docs/campaign/orch/CODEX-HANDOFF.md) |
+| subagent v5_w2 | GPT-6.1 Terra medium / current session | Original-order dart transport checked; actual TypeFamilyD LF reconstruction/profile/index bridge and tau | `w/orch`: 0 min ago, 2 unlanded | [brief](docs/campaign/orch/briefs/TERRA-VINEA-CONTINUE.md) |
+| subagent v5_w13 | GPT-6.1 Terra medium / current session | Actual source recursion and original no-op rows checked; selected tags, full actual certificates and prefix | `w/orch`: 0 min ago, 2 unlanded | [brief](docs/campaign/orch/briefs/TERRA-V5-W13.md) |
+| subagent finalcount_low | GPT-6.1 Terra medium / current session | Actual source later-chain local payments/fixed-ZG Prop95; combined absorption, Op5 fibers and terminal count | `w/orch`: 0 min ago, 2 unlanded | [brief](docs/campaign/orch/briefs/TERRA-LOW-UNLOOP-BRIDGE.md) |
+| cx-world | GPT-6.1 Sol medium / codex-2 (existing session) | Partial upstream closeout:3407 modules;10/12 exact exports pass; assembly exclusions/overlay remain | `w/orch`: 0 min ago, 2 unlanded | [brief](docs/campaign/orch/CODEX-HANDOFF.md) |
+| cx-b4bprep | GPT-6.1 Sol medium / codex-2 (existing session) | Existing R52 Batch-4b serial catalogue rebuild; skeleton/layer-count/N4 checks pending | `w/orch`: 0 min ago, 2 unlanded | [brief](docs/campaign/orch/CODEX-HANDOFF.md) |
 <!-- /AUTO:workers -->
 
 ## Papers
