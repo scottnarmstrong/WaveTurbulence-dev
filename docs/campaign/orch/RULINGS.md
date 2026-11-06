@@ -1452,3 +1452,10 @@ whose τ-classes are kind-false LF classes.
 - **Candidate erratum E26** (TARGET (redvine) L1954–L1956): the slots at u21^j and u22^j keep the clock t_{u2^j},
   which K^{U_j} integrates. The repair is the modulation tolerance already present in sumint. It goes into the next
   errata batch with E25.
+
+
+## R59 — Retire incompatible internal ladder maximality assertions, 2026-11-06 00:11 UTC
+
+The canonical-world rebuild has a kernel-checked refutation of the legacy internal `chordLeft_mem_maximalLadders` assertion: the current selected-ladder carrier admits its proper six-atom ladder superset. This is implementation drift from an obsolete induced-edge-count predicate, not a mathematical-source erratum. Retire those incompatible assertions from the intended production closure, retain original bytes/refutation, and reuse only the independently extracted byte-identical `SelectedLadderGeometry` block and its checked consumers. Do not retry a false assertion, weaken it, or load its stale artifact. No frozen theorem or definition changes. See [evidence and exact scope](notes/PORT-WORLD-LEGACY-LADDER.md).
+
+The pending canonical world and assembly overlay still require their own complete target checks. This ruling does not mark any source node proved or permit a missing dependency.
