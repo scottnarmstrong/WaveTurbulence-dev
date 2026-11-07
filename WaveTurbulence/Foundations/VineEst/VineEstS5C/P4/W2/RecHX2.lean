@@ -1,0 +1,136 @@
+/-
+Copyright (c) 2026 Scott Armstrong. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Scott Armstrong
+-/
+module
+
+public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.RecContract
+public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.RecHX
+public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.FreeRow
+public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.RecF0
+
+/-! # P4-W2 (session 18, step 3b): the constant `kind1Pref * k2c` of a term with records
+
+`kind1Pref_k2c_eq`: for the block kinds of a record list (`bkVal` at the record blocks, no kind 1 or 2 elsewhere) the engine constant `kind1Pref * k2c` is the product over the records of
+`‖E₀-E₁‖` (kind 1) or `1`.
+-/
+
+@[expose] public section
+set_option autoImplicit false
+namespace WaveTurbulence.VineEstS5C.P4.W2
+open VineParamContract TTree Reg Reg.Skeleton RegRed MeasureTheory WaveTurbulence.VineEstS2 WaveTurbulence.VineEstS5A
+  WaveTurbulence.VineEstS5C WaveTurbulence.VineEstS3 WaveTurbulence.VineEstS3Par.Eng WaveTurbulence.DegenVine WaveTurbulence.DegenVinePar
+  WaveTurbulence.VineEstS5C.P2 WaveTurbulence.VineEstS5C.P3 WaveTurbulence.VineEstS5C.P4 WaveTurbulence.VineEstS4
+  WaveTurbulence.VineEstS5B
+
+variable {w d : ℕ} {G : Garden w} {U : Finset (GBranch G.tree)} {a b : GBranch G.tree}
+variable {R : CLRegionData G U a b} {n : ℕ}
+
+theorem prod_map_ite_pow {α : Type*} [DecidableEq α] (l : List α) (hnd : l.Nodup) (p : α → Prop) [DecidablePred p] (z : ℂ) :
+    (l.map fun r => if p r then z else 1).prod = z ^ (l.toFinset.filter p).card := by
+  induction l with
+  | nil => simp
+  | cons r rs ih =>
+    have hnd' := List.nodup_cons.mp hnd
+    rw [List.toFinset_cons, Finset.filter_insert, List.map_cons, List.prod_cons]
+    by_cases hp : p r
+    · rw [if_pos hp, if_pos hp, Finset.card_insert_of_notMem (fun h => hnd'.1 (List.mem_toFinset.mp (Finset.mem_filter.mp h).1)), pow_succ, ih hnd'.2]
+      ring
+    · rw [if_neg hp, if_neg hp, ih hnd'.2, one_mul]
+
+theorem kind1Pref_eq_prod (hM9 : VINEPARAM) (B : CLChainAssembly G R n) (hG : G.IsPlain)
+    (W : SumintWeightClockData (assemblyShape hM9 B) d) (wN wDec : ℕ) (bk : Fin (assemblyShape hM9 B).I → Fin 4)
+    (cons : Finset ((assemblyShape hM9 B).TVar × (assemblyShape hM9 B).TVar)) (g g' : (assemblyShape hM9 B).VIdx → ℕ)
+    (E : Fin 4 → Mom d)
+    (recs : List (ExcRec G d)) (kd : ExcRec G d → ℕ) (zc : ExcRec G d → Prop)
+    (blkf : ExcRec G d → Fin (assemblyShape hM9 B).I)
+    (hinj : ∀ r ∈ recs, ∀ r' ∈ recs, blkf r = blkf r' → r = r') (hnd : recs.Nodup)
+    (hbkr : ∀ r ∈ recs, bk (blkf r) = bkVal (kd r) (zc r))
+    (hbkn : ∀ i, (∀ r ∈ recs, blkf r ≠ i) → bk i ≠ 1 ∧ bk i ≠ 2)
+    (hnor : ∀ r ∈ recs, (assemblyShape hM9 B).nor (blkf r) = false) :
+    ((kind1Pref (D := engDatum hM9 B hG W wN wDec bk cons g g') E : ℝ) : ℂ) =
+      (recs.map fun r => if bkVal (kd r) (zc r) = 1 then ((‖E 0 - E 1‖ : ℝ) : ℂ) else 1).prod := by
+  classical
+  have hset : (Finset.univ.filter fun i => (engDatum hM9 B hG W wN wDec bk cons g g').S.nor i = false ∧
+      (engDatum hM9 B hG W wN wDec bk cons g g').badKind i = 1) =
+      (recs.toFinset.filter fun r => bkVal (kd r) (zc r) = 1).image blkf := by
+    ext i
+    constructor
+    · intro hi
+      obtain ⟨-, hn, h1⟩ := Finset.mem_filter.mp hi
+      by_cases h : ∃ r ∈ recs, blkf r = i
+      · obtain ⟨r, hr, rfl⟩ := h
+        exact Finset.mem_image.mpr ⟨r, Finset.mem_filter.mpr ⟨List.mem_toFinset.mpr hr, by rw [← hbkr r hr]; exact h1⟩, rfl⟩
+      · have h' : ∀ r ∈ recs, blkf r ≠ i := fun r hr hh => h ⟨r, hr, hh⟩
+        exact absurd h1 (hbkn i h').1
+    · intro hi
+      obtain ⟨r, hr, rfl⟩ := Finset.mem_image.mp hi
+      obtain ⟨hr1, h1⟩ := Finset.mem_filter.mp hr
+      have hr' := List.mem_toFinset.mp hr1
+      exact Finset.mem_filter.mpr ⟨Finset.mem_univ _, hnor r hr', by
+        rw [show (engDatum hM9 B hG W wN wDec bk cons g g').badKind (blkf r) = bk (blkf r) from rfl, hbkr r hr']; exact h1⟩
+  have hcard : (Finset.univ.filter fun i => (engDatum hM9 B hG W wN wDec bk cons g g').S.nor i = false ∧
+      (engDatum hM9 B hG W wN wDec bk cons g g').badKind i = 1).card =
+      (recs.toFinset.filter fun r => bkVal (kd r) (zc r) = 1).card := by
+    rw [hset]
+    have hinjOn : Set.InjOn blkf ↑(recs.toFinset.filter fun r => bkVal (kd r) (zc r) = 1) := by
+      intro r hr r' hr' h
+      exact hinj r (List.mem_toFinset.mp (Finset.mem_filter.mp hr).1) r' (List.mem_toFinset.mp (Finset.mem_filter.mp hr').1) h
+    convert Finset.card_image_of_injOn hinjOn
+    all_goals first | rfl | (congr 2; exact Subsingleton.elim _ _)
+  unfold kind1Pref
+  rw [hcard]
+  rw [Complex.ofReal_pow, prod_map_ite_pow recs hnd]
+
+
+theorem k2c_eq_recs (hM9 : VINEPARAM) (B : CLChainAssembly G R n)
+    (bk : Fin (assemblyShape hM9 B).I → Fin 4) (η : ℝ) (τ : (assemblyShape hM9 B).TVar → ℝ)
+    (recs : List (ExcRec G d)) (kd : ExcRec G d → ℕ) (zc : ExcRec G d → Prop)
+    (blkf : ExcRec G d → Fin (assemblyShape hM9 B).I)
+    (hinj : ∀ r ∈ recs, ∀ r' ∈ recs, blkf r = blkf r' → r = r') (hnd : recs.Nodup)
+    (hbkr : ∀ r ∈ recs, bk (blkf r) = bkVal (kd r) (zc r))
+    (hbkn : ∀ i, (∀ r ∈ recs, blkf r ≠ i) → bk i ≠ 1 ∧ bk i ≠ 2)
+    (hnor : ∀ r ∈ recs, (assemblyShape hM9 B).nor (blkf r) = false) :
+    k2c bk η τ = (recs.map fun r => if bkVal (kd r) (zc r) = 2 then k2f η (blkf r) τ else 1).prod := by
+  classical
+  rw [k2c_eq_prod, ← Finset.prod_filter, ← List.prod_toFinset _ hnd, ← Finset.prod_filter]
+  have hset : (Finset.univ.filter fun i => (assemblyShape hM9 B).nor i = false ∧ bk i = 2) =
+      (recs.toFinset.filter fun r => bkVal (kd r) (zc r) = 2).image blkf := by
+    ext i
+    constructor
+    · intro hi
+      obtain ⟨-, hn, h2⟩ := Finset.mem_filter.mp hi
+      by_cases h : ∃ r ∈ recs, blkf r = i
+      · obtain ⟨r, hr, rfl⟩ := h
+        exact Finset.mem_image.mpr ⟨r, Finset.mem_filter.mpr ⟨List.mem_toFinset.mpr hr, by rw [← hbkr r hr]; exact h2⟩, rfl⟩
+      · have h' : ∀ r ∈ recs, blkf r ≠ i := fun r hr hh => h ⟨r, hr, hh⟩
+        exact absurd h2 (hbkn i h').2
+    · intro hi
+      obtain ⟨r, hr, rfl⟩ := Finset.mem_image.mp hi
+      obtain ⟨hr1, h1⟩ := Finset.mem_filter.mp hr
+      have hr' := List.mem_toFinset.mp hr1
+      exact Finset.mem_filter.mpr ⟨Finset.mem_univ _, hnor r hr', by rw [hbkr r hr']; exact h1⟩
+  rw [hset]
+  have hinjOn : Set.InjOn blkf ↑(recs.toFinset.filter fun r => bkVal (kd r) (zc r) = 2) := by
+    intro r hr r' hr' h
+    exact hinj r (List.mem_toFinset.mp (Finset.mem_filter.mp hr).1) r' (List.mem_toFinset.mp (Finset.mem_filter.mp hr').1) h
+  rw [Finset.prod_image hinjOn]
+
+theorem kind1Pref_k2c_eq (hM9 : VINEPARAM) (B : CLChainAssembly G R n) (hG : G.IsPlain)
+    (W : SumintWeightClockData (assemblyShape hM9 B) d) (wN wDec : ℕ) (bk : Fin (assemblyShape hM9 B).I → Fin 4)
+    (cons : Finset ((assemblyShape hM9 B).TVar × (assemblyShape hM9 B).TVar)) (g g' : (assemblyShape hM9 B).VIdx → ℕ)
+    (η : ℝ) (τ : (assemblyShape hM9 B).TVar → ℝ) (E : Fin 4 → Mom d)
+    (recs : List (ExcRec G d)) (kd : ExcRec G d → ℕ) (zc : ExcRec G d → Prop)
+    (blkf : ExcRec G d → Fin (assemblyShape hM9 B).I)
+    (hinj : ∀ r ∈ recs, ∀ r' ∈ recs, blkf r = blkf r' → r = r') (hnd : recs.Nodup)
+    (hbkr : ∀ r ∈ recs, bk (blkf r) = bkVal (kd r) (zc r))
+    (hbkn : ∀ i, (∀ r ∈ recs, blkf r ≠ i) → bk i ≠ 1 ∧ bk i ≠ 2)
+    (hnor : ∀ r ∈ recs, (assemblyShape hM9 B).nor (blkf r) = false) :
+    ((kind1Pref (D := engDatum hM9 B hG W wN wDec bk cons g g') E : ℝ) : ℂ) * k2c bk η τ =
+      (recs.map fun r => (if bkVal (kd r) (zc r) = 1 then ((‖E 0 - E 1‖ : ℝ) : ℂ) else 1) *
+        (if bkVal (kd r) (zc r) = 2 then k2f η (blkf r) τ else 1)).prod := by
+  rw [kind1Pref_eq_prod hM9 B hG W wN wDec bk cons g g' E recs kd zc blkf hinj hnd hbkr hbkn hnor,
+    k2c_eq_recs hM9 B bk η τ recs kd zc blkf hinj hnd hbkr hbkn hnor, List.prod_map_mul]
+
+end WaveTurbulence.VineEstS5C.P4.W2
