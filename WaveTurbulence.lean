@@ -1566,6 +1566,7 @@ public import WaveTurbulence.Foundations.Resonant.SmallEnergyBound
 public import WaveTurbulence.Foundations.Resonant.SmallEnergyCharacterization
 public import WaveTurbulence.Foundations.Resonant.SymmetricQuotient
 public import WaveTurbulence.Foundations.Spine.SpineWithProviders
+public import WaveTurbulence.Foundations.Stage1.Producer
 public import WaveTurbulence.Foundations.Sumint.AffineCharacter
 public import WaveTurbulence.Foundations.Sumint.AffineFacts
 public import WaveTurbulence.Foundations.Sumint.AffineModulation
