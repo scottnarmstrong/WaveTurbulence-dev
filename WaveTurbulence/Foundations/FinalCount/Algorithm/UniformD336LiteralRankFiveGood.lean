@@ -1,0 +1,61 @@
+/- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
+module
+
+public import WaveTurbulence.Foundations.FinalCount.Algorithm.UniformD336LiteralRankFiveCount
+public import WaveTurbulence.Foundations.FinalCount.AppBGoodDeletionTransfer
+public import WaveTurbulence.Foundations.FinalCount.AppBGoodReinsertionEffects
+import Mathlib.Tactic
+
+/-! # The full good deviation in the four-circuit branch of 3D3-6G -/
+
+@[expose] public section
+set_option autoImplicit false
+namespace WaveTurbulence.Mole.AppbAlgorithm
+open Set Finset Filter
+open scoped ENNReal
+universe u v
+
+theorem uniform_d336_literal_rank_five_good_bound (d : ℕ) (hd : 3 ≤ d) (γ : ℝ)
+    (hγ : γ ∈ Ioo (0 : ℝ) 1) (δ : ℝ) (hδ : δ ∈ Ioc (0 : ℝ) 1) :
+    ∃ L₀ : ℝ,
+    ∀ (V : Type v) (D : Type u) [DecidableEq V] [Fintype D] [DecidableEq D], ∀ C1 ≥ (1 : ℝ), ∀ L ≥ L₀,
+    ∀ (M : Molecule V D) (r : AppbRealization M AppbPatternKind.d33new.pattern),
+      M.IsMolecule → (∀ u ∈ M.atoms,∀ v ∈ M.atoms,M.SameComponent u v) → r.post.numComponents = 1 →
+    ∀ (w : Mom d) (Adm : (D → (Fin d → ℤ)) → Prop) (scales : Finset V → ℝ),
+      (∀ S,0 ≤ scales S) →
+      ∃ q : Fin AppbPatternKind.d33new.pattern.edges.length → (Fin d → ℤ),
+      IsDeviation (appbLinkCountA M L γ δ C1 w Adm scales)
+        (appbLinkCountA r.post L γ δ C1 w (r.conditionedPostAdmissibility Adm q) scales)
+        (ENNReal.ofReal (L^(-5*min γ (1-γ)/8))) := by
+  obtain ⟨C,L₀,hC,hL₀⟩ := uniform_d336_literal_rank_five_countE_bound d hd γ hγ δ hδ
+  have hδp := hδ.1
+  have hg0 : 0 < min γ (1-γ) := lt_min hγ.1 (sub_pos.mpr hγ.2)
+  obtain ⟨L₁,hL₁⟩ := eventually_atTop.mp
+    (appb_good_log_coefficient_eventual (C*δ⁻¹) (3/4) (min γ (1-γ)) 16 (by positivity) hg0 (by norm_num))
+  refine ⟨max L₀ (max L₁ (Real.exp 1)),?_⟩
+  intro V D instV instF instD C1 hC1 L hL M r hM hc hF w Adm scales hscale
+  have hexp : Real.exp 1 ≤ L := (le_max_right L₁ _).trans ((le_max_right L₀ _).trans hL)
+  have hL1 : 1 ≤ L := (Real.one_le_exp (by norm_num : (0 : ℝ) ≤ 1)).trans hexp
+  have hLp := zero_lt_one.trans_le hL1
+  have hlog : 1 ≤ Real.log L := (Real.le_log_iff_exp_le hLp).mpr hexp
+  obtain ⟨q,hraw⟩ := hL₀ V D L ((le_max_left _ _).trans hL) hLp M r hM w Adm
+  refine ⟨q,?_⟩
+  have hchi : M.circuitRank = r.post.circuitRank+(5 : ℕ) := by
+    have hm := numComponents_eq_one M ⟨r.vertex 1,r.vertex_mem 1 (by decide)⟩ hc
+    have hh := r.post_circuitRank
+    rw [hF,hm] at hh
+    norm_num [AppbPatternKind.pattern] at hh
+    omega
+  have hcard : 4*r.removedAtoms.card ≤ 16 := by
+    change 4*(AppbPatternKind.d33new.pattern.removed.image r.vertex).card ≤ 16
+    have hh := card_image_le (f := r.vertex) (s := AppbPatternKind.d33new.pattern.removed)
+    have hn : AppbPatternKind.d33new.pattern.removed.card = 4 := by decide
+    omega
+  apply appb_good_deletion_of_raw_and_rank r hM L γ δ C1 (3/4) (min γ (1-γ)) (C*δ⁻¹)
+    w Adm q scales 5 16 hL1 hlog hδ hC1 (by positivity) hscale hcard hchi
+    (hL₁ L ((le_max_left L₁ _).trans ((le_max_right L₀ _).trans hL)))
+  have he : ((d : ℝ)-γ)*(5 : ℝ)-(3/4)*min γ (1-γ) =
+      5*((d : ℝ)-γ)-3*min γ (1-γ)/4 := by ring
+  simpa only [Nat.cast_ofNat,he] using hraw
+
+end WaveTurbulence.Mole.AppbAlgorithm
