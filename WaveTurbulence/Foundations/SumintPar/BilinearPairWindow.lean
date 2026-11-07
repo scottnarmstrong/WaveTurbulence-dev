@@ -1,0 +1,51 @@
+/- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
+module
+
+public import WaveTurbulence.Foundations.SumintPar.BilinearTimeWindow
+
+/-!
+# The complete ordinary pair factor on a rectangular time window
+
+The outer time may change both linear momentum frequencies. Uniformity
+of the landed bilinear estimate permits that dependence before the outer
+time is integrated. All source cross-block constraints can subsequently
+be discarded by monotonicity of the nonnegative integrand.
+-/
+
+@[expose] public section
+set_option autoImplicit false
+
+open MeasureTheory Set
+
+namespace WaveTurbulence.SumintPar
+
+/-- Ordinary pair cancellation, uniform in arbitrary outer-time modulation
+frequencies and all contained inner time windows. -/
+theorem exists_bilinear_pair_window_bound (d : ℕ) (hd : 3 ≤ d) (γ : ℝ)
+    (hγ : γ ∈ Ioo (0 : ℝ) 1) (η : ℝ) (hη : 0 < η)
+    (hηγ : η ≤ 2*((d:ℝ)-1)*(1-γ)) (T₀ : ℝ) (hT₀ : 0 < T₀) :
+    ∃ C L₀ : ℝ, 0 ≤ C ∧ 2 ≤ L₀ ∧ ∀ L ≥ L₀, ∀ a b : Mom d,
+      ∀ ξ ζ : ℝ → Mom d, ∀ c l u v w : ℝ, 0 < c → l ≤ u → v ≤ w →
+      (∀ t ∈ Icc v w, -(T₀*L^(2*γ)) ≤ c*(l-t) ∧ c*(u-t) ≤ T₀*L^(2*γ)) →
+      (∫ t in Icc v w, ∫ s in Icc l u,
+        ‖WeylSums.bilinearLatticeSum L (c*(s-t)) a b (ξ t) (ζ t)‖) ≤
+          (w-v) * c⁻¹ * C * L^(2*d) := by
+  obtain ⟨C,L₀,hC,hL₀,hbound⟩ :=
+    exists_bilinear_affine_window_bound d hd γ hγ η hη hηγ T₀ hT₀
+  refine ⟨C,L₀,hC,hL₀,?_⟩
+  intro L hL a b ξ ζ c l u v w hc hlu hvw hwin
+  let B := c⁻¹ * C * L^(2*d)
+  have hb : ∀ᵐ t ∂volume.restrict (Icc v w),
+      (∫ s in Icc l u, ‖WeylSums.bilinearLatticeSum L (c*(s-t)) a b (ξ t) (ζ t)‖) ≤ B := by
+    filter_upwards [ae_restrict_mem measurableSet_Icc] with t ht
+    exact hbound L hL a b (ξ t) (ζ t) c l u t hc hlu (hwin t ht).1 (hwin t ht).2
+  calc
+    _ ≤ ∫ _t in Icc v w, B := integral_mono_of_nonneg
+      (ae_of_all _ (fun _ => integral_nonneg (fun _ => norm_nonneg _))) (integrable_const B) hb
+    _ = _ := by
+      rw [integral_const]
+      simp only [Measure.real, Measure.restrict_apply_univ, Real.volume_Icc, ENNReal.toReal_ofReal (sub_nonneg.mpr hvw), smul_eq_mul]
+      dsimp [B]
+      ring
+
+end WaveTurbulence.SumintPar

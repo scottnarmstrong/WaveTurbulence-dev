@@ -1,0 +1,126 @@
+/-
+Copyright (c) 2026 Scott Armstrong. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Scott Armstrong
+-/
+module
+
+public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.Bot.Terms
+
+/-! # BOT-DECOMP: the bottom expansion family with `BotSurj`, `BotLayers`, `hq2` discharged (mirror of `P4.Family`)
+
+At a level `lv` whose top operative member `pstar` has piece index `0`, the four operation preconditions (`canonical`, `eligible`, `treeCoherent`,
+`coupleCoherent`) of `hop : lv.Op pstar` are exactly the hypotheses of `botSurj_of_state`, `botLayers_of_state` (the bottom mirror of ZP-SURJ's export) and of
+ZP-SURJ's `zpQ2_le_of_state` (`P4.hq2_of_op`).  So `bundleBotFamOf hR SFF` is the bottom expansion family; its only inputs are PL234's `RealityAll`
+and the separated expansions `SFF` of the approximants at the bottom vine (P2 gate data, as `P4.SepFamFam` at the other members).
+-/
+
+@[expose] public section
+set_option autoImplicit false
+namespace WaveTurbulence.VineEstS5C.P4.Bot
+variable {kind : Bool}
+open WaveTurbulence WaveTurbulence.Twist WaveTurbulence.LFTwist WaveTurbulence.VineEstS2 WaveTurbulence.VineEstS3 WaveTurbulence.VineEstS4
+  WaveTurbulence.VineEstS5B WaveTurbulence.VineEstS5B2 WaveTurbulence.Links WaveTurbulence.Reg.Skeleton WaveTurbulence.RegRed TTree MeasureTheory
+open WaveTurbulence.VineEstS5C WaveTurbulence.VineEstS5C.P3 WaveTurbulence.VineEstS5C.P4
+
+set_option linter.unusedSectionVars false
+
+variable {w : ℕ} {G : Garden w} {U : Finset (GBranch G.tree)} {a b : GBranch G.tree} {R : CLRegionData G U a b} {n : ℕ}
+  {d : ℕ} {p : ℕ}
+variable (B : CLChainAssembly G R n) (RD : ReconstructionData G) (hG : G.IsPlain)
+  (layer : GNode (RD.forest hG) → ℕ) (hLayer : IsLayering (RD.garden hG) layer)
+variable {κ0 : KPar d} {hprime : IsPrimeGarden G}
+
+/-- At the top operative member of piece index `0`, every other member is inert (the situation of `4d-B2`'s `hup`). -/
+theorem hup_of_max (lv : Lvl B) (pstar : lv.ι) (h0 : (lv.e pstar).1.val = 0)
+    (hmax : ∀ j, lv.Op (p := p) (kind := kind) B RD hG layer hLayer j → (lv.e j).1.val ≤ (lv.e pstar).1.val) :
+    ∀ j, j ≠ pstar → IsEmpty (FamilyOperation (p := p) (kind := kind) (lv.state B RD hG layer hLayer) j) := by
+  intro j hjp
+  refine ⟨fun op => hjp ?_⟩
+  have h1 := hmax j ⟨op⟩
+  have h2 : (lv.e j).1.val = (lv.e pstar).1.val := by omega
+  exact lv.he (Subtype.ext (Fin.ext h2))
+
+theorem botSurj_of_op (hprime : IsPrimeGarden G) (lv : Lvl B) (pstar : lv.ι) (h0 : (lv.e pstar).1.val = 0)
+    (hop : lv.Op (p := p) (kind := kind) B RD hG layer hLayer pstar)
+    (hmax : ∀ j, lv.Op (p := p) (kind := kind) B RD hG layer hLayer j → (lv.e j).1.val ≤ (lv.e pstar).1.val) :
+    BotSurj p kind pstar (lv.state B RD hG layer hLayer) lv.c :=
+  botSurj_of_state (lv.state B RD hG layer hLayer) hop.some.canonical hop.some.eligible hop.some.treeCoherent
+    hop.some.coupleCoherent lv.c hprime (hup_of_max B RD hG layer hLayer lv pstar h0 hmax)
+
+theorem botLayers_of_op (hprime : IsPrimeGarden G) (lv : Lvl B) (pstar : lv.ι) (h0 : (lv.e pstar).1.val = 0)
+    (hop : lv.Op (p := p) (kind := kind) B RD hG layer hLayer pstar)
+    (hmax : ∀ j, lv.Op (p := p) (kind := kind) B RD hG layer hLayer j → (lv.e j).1.val ≤ (lv.e pstar).1.val) :
+    BotLayers p kind pstar (lv.state B RD hG layer hLayer) lv.c :=
+  botLayers_of_state (lv.state B RD hG layer hLayer) hop.some.canonical hop.some.eligible hop.some.treeCoherent
+    hop.some.coupleCoherent lv.c hprime (hup_of_max B RD hG layer hLayer lv pstar h0 hmax)
+
+variable (p kind) in
+/-- The separated expansions of the approximants at every bottom vine (from P2's gate data). -/
+abbrev BotSepFamFam (κ0 : KPar d) : Type 1 :=
+  ∀ (lv : Lvl B) (pstar : lv.ι), (lv.e pstar).1.val = 0 → lv.Op (p := p) (kind := kind) B RD hG layer hLayer pstar →
+    (∀ j, lv.Op (p := p) (kind := kind) B RD hG layer hLayer j → (lv.e j).1.val ≤ (lv.e pstar).1.val) →
+    BotSepFam p kind pstar (lv.state B RD hG layer hLayer) lv.c κ0
+
+open Classical in
+/-- **`BotExp` of a bottom level** from the separated expansions `SF`, and `hR` (PL234 `reality_all`). -/
+noncomputable def bundleBotExpOf (hprime : IsPrimeGarden G) (hR : P1.RealityAll) (lv : Lvl B) (pstar : lv.ι) (h0 : (lv.e pstar).1.val = 0)
+    (hop : lv.Op (p := p) (kind := kind) B RD hG layer hLayer pstar)
+    (hmax : ∀ j, lv.Op (p := p) (kind := kind) B RD hG layer hLayer j → (lv.e j).1.val ≤ (lv.e pstar).1.val)
+    (SF : BotSepFam p kind pstar (lv.state B RD hG layer hLayer) lv.c κ0) :
+    BotExp (p := p) (kind := kind) B RD hG layer hLayer κ0 lv pstar where
+  Ch := Ch SF.S
+    (if CaseA (pstar := pstar) (lv.state B RD hG layer hLayer) then
+      botA p kind pstar (lv.state B RD hG layer hLayer) lv.c else botB p kind pstar (lv.state B RD hG layer hLayer) lv.c)
+    (if CaseA (pstar := pstar) (lv.state B RD hG layer hLayer) then
+      botB p kind pstar (lv.state B RD hG layer hLayer) lv.c else botA p kind pstar (lv.state B RD hG layer hLayer) lv.c)
+    (botA p kind pstar (lv.state B RD hG layer hLayer) lv.c) (botB p kind pstar (lv.state B RD hG layer hLayer) lv.c)
+  term := fun c x t u => botTerm p kind pstar (lv.state B RD hG layer hLayer) lv.c κ0 SF _ _ c x t u
+  Win := BotWin p kind pstar (lv.state B RD hG layer hLayer) lv.c κ0 SF
+  eq := fun x t u hW => psiBot_eq_sum_terms hR (botSurj_of_op B RD hG layer hLayer hprime lv pstar h0 hop hmax)
+    (botLayers_of_op B RD hG layer hLayer hprime lv pstar h0 hop hmax) κ0 SF _ _
+    ⟨fun h => by simp [if_pos h], fun h => by simp [if_neg h]⟩ x t u hW
+
+/-- The number of summands of a bottom level's bundle (`card_botCh`). -/
+theorem card_bundleBotExpOf (hprime : IsPrimeGarden G) (hR : P1.RealityAll) (lv : Lvl B) (pstar : lv.ι) (h0 : (lv.e pstar).1.val = 0)
+    (hop : lv.Op (p := p) (kind := kind) B RD hG layer hLayer pstar)
+    (hmax : ∀ j, lv.Op (p := p) (kind := kind) B RD hG layer hLayer j → (lv.e j).1.val ≤ (lv.e pstar).1.val)
+    (SF : BotSepFam p kind pstar (lv.state B RD hG layer hLayer) lv.c κ0) :
+    Fintype.card (bundleBotExpOf B RD hG layer hLayer hprime hR lv pstar h0 hop hmax SF).Ch =
+      3 * ((∑ b ∈ botA p kind pstar (lv.state B RD hG layer hLayer) lv.c, SF.S.mQ b * SF.S.mT b) +
+          ∑ b ∈ botB p kind pstar (lv.state B RD hG layer hLayer) lv.c, SF.S.mQ b * SF.S.mT b) +
+        ((∑ b ∈ botA p kind pstar (lv.state B RD hG layer hLayer) lv.c, (SF.S.mQ b + SF.S.mT b + 1)) +
+          ∑ b ∈ botB p kind pstar (lv.state B RD hG layer hLayer) lv.c, (SF.S.mQ b + SF.S.mT b + 1)) := by
+  classical
+  unfold bundleBotExpOf
+  show Fintype.card (Ch _ _ _ _ _) = _
+  exact card_botCh κ0 SF
+
+/-- **The bottom expansion family** (`bundleBotExpOf` at every bottom level). -/
+noncomputable def bundleBotFamOf (hprime : IsPrimeGarden G) (hR : P1.RealityAll) (SFF : BotSepFamFam (p := p) (kind := kind) B RD hG layer hLayer κ0) :
+    BotExpFam (p := p) (kind := kind) B RD hG layer hLayer κ0 :=
+  fun lv pstar h0 hop hmax => bundleBotExpOf B RD hG layer hLayer hprime hR lv pstar h0 hop hmax (SFF lv pstar h0 hop hmax)
+
+/-- The summand `c` of the bottom family is `botTerm` (the frame times `bFac` times `νA` times the piece/remainder summand). -/
+theorem bundleBotFamOf_term (hprime : IsPrimeGarden G) (hR : P1.RealityAll) (SFF : BotSepFamFam (p := p) (kind := kind) B RD hG layer hLayer κ0)
+    (lv : Lvl B) (pstar : lv.ι) (h0 : (lv.e pstar).1.val = 0) (hop : lv.Op (p := p) (kind := kind) B RD hG layer hLayer pstar)
+    (hmax : ∀ j, lv.Op (p := p) (kind := kind) B RD hG layer hLayer j → (lv.e j).1.val ≤ (lv.e pstar).1.val)
+    (c : (bundleBotFamOf B RD hG layer hLayer hprime hR SFF lv pstar h0 hop hmax).Ch) (x : GNode G.tree → (Fin d → ℤ))
+    (t : Fin 3 → ℝ) (u : GBranch G.tree → ℝ) :
+    (bundleBotFamOf B RD hG layer hLayer hprime hR SFF lv pstar h0 hop hmax).term c x t u =
+      botTerm p kind pstar (lv.state B RD hG layer hLayer) lv.c κ0 (SFF lv pstar h0 hop hmax) _ _ c x t u := rfl
+
+/-- **`hq2`** at a bottom level (the state-level ZP-SURJ bound `zpQ2_le_of_state`, from the operation fields of `hop`). -/
+theorem hq2_of_bot (lv : Lvl B) (pstar : lv.ι) (hop : lv.Op (p := p) (kind := kind) B RD hG layer hLayer pstar) :
+    zpQ2 (lv.state B RD hG layer hLayer) pstar ≤
+      layOf (lv.state B RD hG layer hLayer) (qrOf ((lv.state B RD hG layer hLayer).family.placement pstar)) :=
+  hq2_of_op B RD hG layer hLayer lv pstar hop
+
+/-- **The windows of the bottom family hold under the exterior window** (`WinOfExtBot`). -/
+theorem winOfExtBot_bundleBotFamOf (hprime : IsPrimeGarden G) (hR : P1.RealityAll) (SFF : BotSepFamFam (p := p) (kind := kind) B RD hG layer hLayer κ0) :
+    WinOfExtBot B RD hG layer hLayer (bundleBotFamOf B RD hG layer hLayer hprime hR SFF) := by
+  intro lv pstar h0 hop hmax x u hu
+  exact botWin_holds κ0 (SFF lv pstar h0 hop hmax) (Lvl.bottom_hb0 B RD hG layer hLayer lv pstar h0) (retParent _)
+    (hq2_of_op B RD hG layer hLayer lv pstar hop) x u hu
+
+end WaveTurbulence.VineEstS5C.P4.Bot
