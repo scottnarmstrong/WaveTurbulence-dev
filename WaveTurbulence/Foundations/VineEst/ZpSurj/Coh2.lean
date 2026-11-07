@@ -10,6 +10,7 @@ public import WaveTurbulence.Foundations.VineEst.ZpSurj.Coh1
 /-! # ZP-SURJ: the native data of an operation output -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 namespace WaveTurbulence.ZpSurj

@@ -19,6 +19,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS5C.PosLimit
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS5C.P4.Final
 open WaveTurbulence WaveTurbulence.Fourier WaveTurbulence.VineEstS3.FS WaveTurbulence.Twist WaveTurbulence.LFTwist
@@ -129,7 +130,7 @@ theorem vineEstCanonLayerC2MKPos_core (Pe : WTParams) (C₁ Km Kr Kb : ℝ) (hKm
     field_simp
 
 /-- **F8 limit argument**: the `0 ≤ B₀` statement from the `0 < B₀` one (`B₀ + ε`, `ε → 0`). -/
-theorem vineEstCanonLayerC2MK_of_pos (P : WTParams) (H : VineEstCanonLayerC2MKPos P) : VineEstCanonLayerC2MK P := by
+theorem vineEstCanonLayerC2MK_of_pos (P : WTParams) (H : VineEstCanonLayerC2MKPos (rowSel := VineEst.RowSel.plain) P) : VineEstCanonLayerC2MK P := by
   intro p hp h B₀ hB₀ hh w G U a b R n hprime hM9 B RD hG layer hLayer kind hcan hlay hord hl1 centre wBar lam hcoh
   have e : ∀ a b c d e0 : ℝ, a * (b * c * d * e0) = (a * (b * c * e0)) * d := fun a b c d e0 => by ring
   conv_rhs => rw [e]
@@ -139,7 +140,7 @@ theorem vineEstCanonLayerC2MK_of_pos (P : WTParams) (H : VineEstCanonLayerC2MKPo
     hprime hM9 B RD hG layer hLayer kind hcan hlay hord hl1 centre wBar lam hcoh
 
 theorem vineEstCanonLayerC2MK_core (Pe : WTParams) (C₁ Km Kr Kb : ℝ) (hKm : 1 ≤ Km) (hKr : 1 ≤ Kr) (hKb : 1 ≤ Kb) (hR : RealityAll)
-    (hgate : CoherentGateH Pe) (hinc : IncoherentGateH Pe) (hUC : UniformTermCertAtK 6561 Pe Km Kr Kb)
+    (hgate : CoherentGateH Pe) (hinc : IncoherentGateH Pe) (hUC : UniformTermCertAtK (rowSel := VineEst.RowSel.plain) 6561 Pe Km Kr Kb)
     (hd : 1 ≤ Pe.d) (hc0 : 1 ≤ Pe.C₁) (hη0 : 0 < Pe.η) (hη1 : Pe.η ≤ 1 / 2) (hL : 2 ≤ Pe.L)
     (hC₁ : (Eng.ccη Pe.η + 1).toReal * countKc * engNs Pe.η Pe.C₁ Km Kr ≤ C₁) (hC₂ : (countKp Pe.D : ℝ) * Kb ≤ Pe.C₂) :
     VineEstCanonLayerC2MK ({Pe with C₁ := C₁} : WTParams) :=

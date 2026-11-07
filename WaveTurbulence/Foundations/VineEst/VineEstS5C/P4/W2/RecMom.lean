@@ -17,6 +17,7 @@ the branch carries `base + L·ξ(lower)`, and `lower = retained + ε (E₀ - E�
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS5C.P4.W2
 open VineParamContract TTree Reg Reg.Skeleton RegRed MeasureTheory WaveTurbulence.VineEstS2 WaveTurbulence.VineEstS5A

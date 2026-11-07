@@ -5,6 +5,7 @@ Authors: Scott Armstrong
 -/
 module
 
+public import WaveTurbulence.Foundations.VineEst.RowSel.SelDataLF
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.AbsSb1
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.LevelBundle
 public import WaveTurbulence.Foundations.VineEst.VineEstS5B.StateInt4
@@ -14,6 +15,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS5B.StateInt4
 For these states the bundle kernel is the native S-part `spart` of the state (same chart), so `sAbs_spart` applies. -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS5C
@@ -47,12 +49,13 @@ theorem bundleKernel_skip_eq (κ : KPar d) (A : FamilyReconstruction w ι) (sp :
     rw [sInt_same A.plain A.data A.data κ.L κ.γ κ.δ κ.F (stateLayer A) (stateLayer_isLayering A) (stateLayer A)
       (stateLayer_isLayering A) κ.base (pairOfLeaf A.skeleton A.plain (A.family.placement pstar).retained) sp.RS
       κ.t0 κ.t1 κ.t2 κ.e κ.f sp.sb.b.toNode (sp.sb.b.child sp.RS.kept) (fun _ _ _ => (1 : ℂ)) hS.b_mem_erase hS.p0_mem
-      (fun _ _ => rfl) (fun _ _ => rfl) (fun _ _ => rfl) x σ]
+      (fun _ _ => rfl) (fun _ _ => rfl) (fun _ _ => rfl) (VineEst.SelDataEq.refl _ _ _ _ _ _) x σ]
     have hex := exc_same (A.family.placement pstar) A.plain A.data κ.L κ.γ κ.δ κ.F (stateLayer A)
       (stateLayer_isLayering A) κ.base (S := sp.sb.U) (a := sp.sb.a) hS.lower x.1 (hS.pairedAt_ext x)
       (clLocalClock sp.RS ![κ.t0, κ.t1, κ.t2] σ)
-    have hT : nativeChainLayered A.data A.plain (stateLayer A) (stateLayer_isLayering A) sp.sb.b =
-        nativeChainLayered A.data A.plain (stateLayer A) (stateLayer_isLayering A) (A.family.placement pstar).lower := by
+    have hT : VineEst.selTreeRow κ.L κ.γ κ.δ κ.F A.data A.plain (stateLayer A) (stateLayer_isLayering A) sp.sb.b =
+        VineEst.selTreeRow κ.L κ.γ κ.δ κ.F A.data A.plain (stateLayer A) (stateLayer_isLayering A)
+          (A.family.placement pstar).lower := by
       rw [hS.lower]
     unfold sameInt bundleInt
     rw [hex, hn0, hn1, hT]
@@ -114,7 +117,11 @@ theorem bundleKernel_false_eq (con : LFConstruction (A.source pstar hcan hel htc
     refine (sInt_same A.plain A.data con.data κ.L κ.γ κ.δ κ.F (stateLayer A) (stateLayer_isLayering A)
       (stateLayer (opOut A pstar hcan hel htc hcc con)) (stateLayer_isLayering (opOut A pstar hcan hel htc hcc con))
       κ.base (pairOfLeaf A.skeleton A.plain (A.family.placement pstar).retained) sp.RS κ.t0 κ.t1 κ.t2 κ.e κ.f
-      sp.sb.b.toNode (sp.sb.b.child sp.RS.kept) (fun _ _ _ => (1 : ℂ)) hS.b_mem_erase hS.p0_mem ?_ ?_ ?_ x σ).symm
+      sp.sb.b.toNode (sp.sb.b.child sp.RS.kept) (fun _ _ _ => (1 : ℂ)) hS.b_mem_erase hS.p0_mem ?_ ?_ ?_
+      (VineEst.selDataEq_LF_false con (stateLayer A) (stateLayer_isLayering A) (stateLayer_spec A)
+        (stateLayer (opOut A pstar hcan hel htc hcc con)) (stateLayer_isLayering (opOut A pstar hcan hel htc hcc con))
+        (stateLayer_spec (opOut A pstar hcan hel htc hcc con)) _ _ (fun q hq => (Finset.mem_erase.mp hq).1)
+        (fun v hv => hS.lower ▸ (Finset.mem_erase.mp hv).1)).symm x σ).symm
     · intro q hq
       obtain ⟨hq0, _⟩ := Finset.mem_erase.mp hq
       have := native_couple_eq con (stateLayer A) (stateLayer_isLayering A) (stateLayer_spec A)

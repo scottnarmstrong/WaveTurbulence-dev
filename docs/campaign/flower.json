@@ -1,0 +1,490 @@
+{
+ "title": "Flower estimate: Prop flowerest1 = frozen layergardenFlower_v3",
+ "updated": "2026-11-07 19:12 UTC",
+ "convention": "Packet weights follow the blueprint convention (hard = 4, standard = 2, multi-packet items more). Credit: done = 1; a CHECKPOINT carries an explicit partial fraction; running and queued packets carry 0.",
+ "paper": "Paper-level proof complete and refereed (R155): SUPPLEMENT-v2 + 6.3', 7.3', 7.5', 8.2', 8.3, 10.2-10.4, U-clock; 7 referee reports, no FAIL.",
+ "next": "World cleanup after the V5W-B landing; A3b (flower estimate from the per-component bound alone); B1a/B2b (marked Stage 1); C1b1/C1c (final count); D2c, D5d, D5b-1 (protected objects); V5W-B world pieces.",
+ "risks": [
+  "D5b: filters through main's incoherent link chain, now mapped (copy-thread, 95 modules, 5-6.7k lines; theta = 1/4 couples branch still to write)",
+  "B2b: Lemma 2+ (the marking is twist-invariant) needs node maps across LF twists that main lacks",
+  "C1b1: must exclude the one survivor configuration where the re-cut budget fails (gamma < 3/5)"
+ ],
+ "groups": [
+  {
+   "id": "top",
+   "name": "Flower top reduction (landed on main)",
+   "packets": [
+    {
+     "id": "FT1",
+     "w": 4,
+     "status": "done",
+     "note": "flower top reduction, main 89e2e136"
+    },
+    {
+     "id": "FC23W",
+     "w": 4,
+     "status": "done",
+     "note": "M1, main 796c0f5f"
+    },
+    {
+     "id": "FL-CASES",
+     "w": 2,
+     "status": "done",
+     "note": "M1"
+    },
+    {
+     "id": "FL-TYPED",
+     "w": 2,
+     "status": "done",
+     "note": "M1"
+    },
+    {
+     "id": "FL-POLAR",
+     "w": 2,
+     "status": "done",
+     "note": "M1"
+    },
+    {
+     "id": "FL-FAM",
+     "w": 4,
+     "status": "done",
+     "note": "M1: layergardenFlower_v3 from the two cores"
+    }
+   ]
+  },
+  {
+   "id": "s1w",
+   "name": "Weighted Stage 1, unmarked gardens",
+   "packets": [
+    {
+     "id": "STAGE1W-GLUE",
+     "w": 4,
+     "status": "done",
+     "note": "gate glue, exponent c_psi^{16N}"
+    },
+    {
+     "id": "STAGE1W-O4",
+     "w": 4,
+     "status": "done",
+     "note": "noVineRepresentsFW"
+    },
+    {
+     "id": "INC-TOP",
+     "w": 4,
+     "status": "done",
+     "note": "topIncoherentDecayGateR"
+    },
+    {
+     "id": "COH-TRUNK",
+     "w": 4,
+     "status": "done",
+     "note": "coherent trunk"
+    },
+    {
+     "id": "STAGE1W-VINE",
+     "w": 4,
+     "status": "done",
+     "note": "weighted Stage-1 gate, given the V5W class bound"
+    }
+   ]
+  },
+  {
+   "id": "v5w",
+   "name": "Weighted vine estimate (V5W)",
+   "packets": [
+    {
+     "id": "V5W-0",
+     "w": 4,
+     "status": "done",
+     "note": "class factorization and continuity"
+    },
+    {
+     "id": "V5W-A",
+     "w": 4,
+     "status": "done",
+     "note": "S = none from main's certificate"
+    },
+    {
+     "id": "V5W-B-MAIN",
+     "w": 8,
+     "status": "done",
+     "note": "LANDED on main 416902c8 (land_check, 327 ABI OK)"
+    },
+    {
+     "id": "V5W-B-WORLD",
+     "w": 4,
+     "status": "queued",
+     "note": "B3-B5: engine rows, masked bonds, assembly"
+    },
+    {
+     "id": "V5W-T",
+     "w": 4,
+     "status": "queued",
+     "note": "top filter (OutCharMix)"
+    }
+   ]
+  },
+  {
+   "id": "lem",
+   "name": "Supplement lemma stock",
+   "packets": [
+    {
+     "id": "FL-SHELL",
+     "w": 2,
+     "status": "done",
+     "note": ""
+    },
+    {
+     "id": "FL-SEP",
+     "w": 2,
+     "status": "done",
+     "note": ""
+    },
+    {
+     "id": "FL-AFFINE",
+     "w": 2,
+     "status": "done",
+     "note": ""
+    },
+    {
+     "id": "FL-PIN",
+     "w": 2,
+     "status": "done",
+     "note": ""
+    },
+    {
+     "id": "FL-EXCISE",
+     "w": 2,
+     "status": "done",
+     "note": ""
+    },
+    {
+     "id": "FL-COEF",
+     "w": 2,
+     "status": "done",
+     "note": ""
+    },
+    {
+     "id": "FL-FIBER",
+     "w": 2,
+     "status": "done",
+     "note": ""
+    },
+    {
+     "id": "FL-FACE",
+     "w": 4,
+     "status": "done",
+     "note": "Lemma 9.1 faces"
+    }
+   ]
+  },
+  {
+   "id": "mkA",
+   "name": "Marked layer A: interface, capping, top assembly",
+   "packets": [
+    {
+     "id": "A1 MK-DEFS",
+     "w": 2,
+     "status": "done",
+     "note": ""
+    },
+    {
+     "id": "A5 MK-ASM",
+     "w": 2,
+     "status": "done",
+     "note": "flower_v3_of_marked_of_caps"
+    },
+    {
+     "id": "A2 CAPS-ID",
+     "w": 4,
+     "status": "done",
+     "note": "capped encoding; A2-R final interface"
+    },
+    {
+     "id": "CAPS-FUBINI",
+     "w": 2,
+     "status": "done",
+     "note": "shell integral exchange"
+    },
+    {
+     "id": "A3a CAPS-GLUE",
+     "w": 2,
+     "status": "done",
+     "note": "n-ary glue identity"
+    },
+    {
+     "id": "A3b CAPS-COMP",
+     "w": 4,
+     "status": "running",
+     "note": "discharges CapsDecompF/G"
+    }
+   ]
+  },
+  {
+   "id": "mkB",
+   "name": "Marked layer B: marked Stage 1",
+   "packets": [
+    {
+     "id": "B0 design",
+     "w": 2,
+     "status": "done",
+     "note": "S-STAGE1MK"
+    },
+    {
+     "id": "B1a THREAD-ROOTS",
+     "w": 8,
+     "status": "running",
+     "note": "264 main files, branch w/stage1mk"
+    },
+    {
+     "id": "B1b THREAD-GEN",
+     "w": 4,
+     "status": "queued",
+     "note": ""
+    },
+    {
+     "id": "B2a MK-RUNS",
+     "w": 4,
+     "status": "queued",
+     "note": ""
+    },
+    {
+     "id": "B2b MK-MARK",
+     "w": 4,
+     "status": "running",
+     "note": "Lemmas 1+ and 2+ (riskiest)"
+    },
+    {
+     "id": "B2c MK-SUBPRO",
+     "w": 8,
+     "status": "queued",
+     "note": ""
+    },
+    {
+     "id": "B3 MK-UNITS",
+     "w": 2,
+     "status": "queued",
+     "note": ""
+    },
+    {
+     "id": "B3s MK-SLOTS",
+     "w": 4,
+     "status": "queued",
+     "note": ""
+    },
+    {
+     "id": "B4 STAGE1MK-GATE",
+     "w": 2,
+     "status": "queued",
+     "note": ""
+    }
+   ]
+  },
+  {
+   "id": "mkC",
+   "name": "Marked layer C: final count (Stage 2')",
+   "packets": [
+    {
+     "id": "C0 design",
+     "w": 2,
+     "status": "done",
+     "note": "S-FINALMK"
+    },
+    {
+     "id": "C3 LAD-FILT",
+     "w": 4,
+     "status": "done",
+     "note": "filtered ladders"
+    },
+    {
+     "id": "C2 FINALMK-CRUDE",
+     "w": 2,
+     "status": "done",
+     "note": "crude bound gate"
+    },
+    {
+     "id": "C1a SURV-STEP",
+     "w": 4,
+     "status": "done",
+     "note": "re-cut potential step (riskiest C step)"
+    },
+    {
+     "id": "C5a PIECE-MK",
+     "w": 2,
+     "status": "done",
+     "done": 1.0,
+     "note": "MarkedPieceTarget (R161: 1 <= d) and the class sum"
+    },
+    {
+     "id": "C1b1 MK-PHASE1",
+     "w": 4,
+     "status": "running",
+     "note": "porting to the R164-repaired statements"
+    },
+    {
+     "id": "C4a PIN-FOURIER",
+     "w": 4,
+     "status": "done",
+     "note": "pinned ladder Fourier bound + face export for D7"
+    },
+    {
+     "id": "C1b2 MK-CHAIN",
+     "w": 4,
+     "status": "queued",
+     "note": ""
+    },
+    {
+     "id": "C1c MK-GARDEN",
+     "w": 2,
+     "status": "running",
+     "note": "porting to the R164-repaired statements (C0-r READY)"
+    },
+    {
+     "id": "C4b FINE-PIN",
+     "w": 4,
+     "status": "queued",
+     "note": ""
+    },
+    {
+     "id": "C5b COMP-MK",
+     "w": 2,
+     "status": "queued",
+     "note": ""
+    }
+   ]
+  },
+  {
+   "id": "mkD",
+   "name": "Marked layer D: protected objects",
+   "packets": [
+    {
+     "id": "D0 design",
+     "w": 2,
+     "status": "done",
+     "note": "S-PROT"
+    },
+    {
+     "id": "D1 PROT-TA",
+     "w": 2,
+     "status": "done",
+     "note": ""
+    },
+    {
+     "id": "D2a PROT-KER",
+     "w": 2,
+     "status": "done",
+     "note": "ProtDefs + kernel bridge"
+    },
+    {
+     "id": "D5c FILT-NT",
+     "w": 2,
+     "status": "done",
+     "note": ""
+    },
+    {
+     "id": "D1b PROT-OPS",
+     "w": 4,
+     "status": "checkpoint",
+     "done": 0.85,
+     "note": "6 of 7 (D1b-S, D1b-T done); fold estimate deferred to D6a time"
+    },
+    {
+     "id": "D2b PROT-GEO",
+     "w": 4,
+     "status": "done",
+     "note": "protected geometry (i)-(iv); R163 carrier fix"
+    },
+    {
+     "id": "D2c PROT-CUT",
+     "w": 4,
+     "status": "running",
+     "note": ""
+    },
+    {
+     "id": "D5a FILT-LINK",
+     "w": 4,
+     "status": "done",
+     "note": "o82 Lemma 14.1 + the D5b map (copy-thread recommended)"
+    },
+    {
+     "id": "D5d FILT-COH",
+     "w": 8,
+     "status": "running",
+     "note": ""
+    },
+    {
+     "id": "D3 PROT-PIN",
+     "w": 4,
+     "status": "queued",
+     "note": "+ conjugation transfer and the P8 root-trace bound (R163)"
+    },
+    {
+     "id": "D5b-1 FILT-SRC",
+     "w": 4,
+     "status": "running",
+     "note": "filtered source phase (copy-thread of INC-TOP), riskiest D step"
+    },
+    {
+     "id": "D5b-2 FILT-PROD",
+     "w": 2,
+     "status": "queued",
+     "note": "thread to the link product"
+    },
+    {
+     "id": "D5b-3 FILT-GATE",
+     "w": 2,
+     "status": "queued",
+     "note": "FiltIncoherentDecayGate incl. theta = 1/4"
+    },
+    {
+     "id": "D6a PROT-PTW",
+     "w": 4,
+     "status": "queued",
+     "note": ""
+    },
+    {
+     "id": "D6b PROT-WHOLE",
+     "w": 4,
+     "status": "queued",
+     "note": ""
+    },
+    {
+     "id": "D7 SEL-RES",
+     "w": 4,
+     "status": "queued",
+     "note": ""
+    }
+   ]
+  },
+  {
+   "id": "close",
+   "name": "Cores, landing and seals",
+   "packets": [
+    {
+     "id": "CORES",
+     "w": 4,
+     "status": "queued",
+     "note": "Core-F and Core-G from the component bound"
+    },
+    {
+     "id": "LAND",
+     "w": 4,
+     "status": "queued",
+     "note": "land the world on main (land_check, ABI)"
+    },
+    {
+     "id": "SEAL layergardenFlower_v3",
+     "w": 2,
+     "status": "queued",
+     "note": "two keys"
+    },
+    {
+     "id": "SEAL fixedpoint_v2 / propansatz_v2 / main_v2",
+     "w": 4,
+     "status": "queued",
+     "note": "two keys each; Theorem 1.1 for 1/2 < gamma < 1"
+    }
+   ]
+  }
+ ]
+}

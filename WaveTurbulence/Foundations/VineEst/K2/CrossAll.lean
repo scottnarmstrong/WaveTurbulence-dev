@@ -17,6 +17,7 @@ containing both clock pairs.  Window assignment: case A (`TQ`, `TT`): `s₁` hig
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 namespace WaveTurbulence.VineEstS5C.P4.W2.K2

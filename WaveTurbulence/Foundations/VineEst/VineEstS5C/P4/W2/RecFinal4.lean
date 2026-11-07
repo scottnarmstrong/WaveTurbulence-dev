@@ -10,6 +10,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.RecFinal3
 /-! # P4-W2 (session 20): `uniformTermCertAt_rec` and `uniformTermCertK` (all kinds, no staging hypothesis) -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS5C.P4.W2
 open WaveTurbulence WaveTurbulence.Twist WaveTurbulence.LFTwist WaveTurbulence.VineEstS2 WaveTurbulence.VineEstS3 WaveTurbulence.VineEstS4
@@ -66,7 +67,7 @@ theorem uniformTermCertAt_rec {Pe : WTParams} (hPe : AmbP 6561 Pe) (hL2 : 2 ≤ 
 open Classical in
 /-- **`UniformTermCertTargetK`** (TARGET `UniformTermCertAtK`, every kind). -/
 theorem uniformTermCertK :
-    WaveTurbulence.VineEstS5C.P4.Final.UniformTermCertTargetK := by
+    WaveTurbulence.VineEstS5C.P4.Final.UniformTermCertTargetK (rowSel := VineEst.RowSel.plain) := by
   intro d hd γ hγ
   have hd1 : 1 ≤ d := by omega
   set g1 : ℝ := min (2 * γ) (min 1 (2 * ((d : ℝ) - 1) * (1 - γ))) with hg1
@@ -97,7 +98,7 @@ theorem uniformTermCertK :
     set Kb : ℝ := max 1 ((Kall d (K0 * ENNReal.ofReal (K2.KxX η))).toReal * (4 * TR η ^ 2 * trC (6 * η ^ 6) ^ 2 / rowCb P₀ ^ 2)) with hKb
     refine ⟨Kb, le_max_left _ _, fun C₂ L hL hamb => ?_⟩
     have hPe : WaveTurbulence.VineEstS5C.P2.AmbP 6561 (⟨d, γ, η, φin, τstar, φ, c0, ν, δ, D, C₂, L⟩ : WTParams) := hamb
-    exact @uniformTermCertAt_rec (⟨d, γ, η, φin, τstar, φ, c0, ν, δ, D, C₂, L⟩ : WTParams) hPe hL hηγ
+    exact @uniformTermCertAt_rec _ VineEst.RowSel.plain (⟨d, γ, η, φin, τstar, φ, c0, ν, δ, D, C₂, L⟩ : WTParams) hPe hL hηγ
       (by show 0 ≤ g1 - Real.sqrt η; linarith) C hC1 hCt hbody K0 hK0t
       (DispK01.mono (hdisp0 ν δ D C₂ L hamb) le_sup_left) (DispK2.mono (hdisp2 ν δ D C₂ L hamb) le_sup_right)
       cf Kr Kb (3 * max (tcSq η) 1)

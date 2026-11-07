@@ -16,6 +16,7 @@ objects `sigStar G i`; chart free), `nuOf G i`: the sign of the lower joint.
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS5B
@@ -24,13 +25,26 @@ open WaveTurbulence WaveTurbulence.Twist WaveTurbulence.LFTwist WaveTurbulence.L
 
 variable {w : ℕ} {ι : Type*} {p : ℕ} {kind : Bool} {pstar : ι} {J : Set ι} {d : ℕ}
 
-/-- The exceptional starred couple row of the state `G` at the member `i`. -/
+/-- The exceptional starred couple row of the state `G` at the member `i`, read through the row selector (ruling F2):
+the selection data are those of the native couple `(sigStar G i).2.1` at the pair of the retained leaf. -/
 @[expose] noncomputable def rowQ (κ : KPar d) (G : FamilyReconstruction w ι) (i : ι) : ℝ → ℝ → Mom d → ℂ :=
-  KQstar κ.L κ.γ κ.δ κ.F (sigStar G i).2.1
+  VineEst.KQsel
+    (Flower.V5W.coupleIncoh G.data G.plain (stateLayer G) (stateLayer_isLayering G)
+      (pairOfLeaf G.skeleton G.plain (G.family.placement i).retained))
+    (Flower.V5W.coupleRootParents rowSel.p G.data G.plain (stateLayer G) (stateLayer_isLayering G)
+      (pairOfLeaf G.skeleton G.plain (G.family.placement i).retained) 0)
+    (Flower.V5W.coupleRootParents rowSel.p G.data G.plain (stateLayer G) (stateLayer_isLayering G)
+      (pairOfLeaf G.skeleton G.plain (G.family.placement i).retained) 1)
+    κ.L κ.γ κ.δ κ.F (sigStar G i).2.1
 
-/-- The exceptional starred tree row of the state `G` at the member `i`. -/
+/-- The exceptional starred tree row of the state `G` at the member `i`, read through the row selector (ruling F2):
+the selection data are those of the native tree `(sigStar G i).2.2` at the lower joint. -/
 @[expose] noncomputable def rowT (κ : KPar d) (G : FamilyReconstruction w ι) (i : ι) : ℝ → ℝ → Mom d → ℂ :=
-  KTstar κ.L κ.γ κ.δ κ.F (sigStar G i).2.2
+  VineEst.KTsel
+    (Flower.V5W.treeIncoh G.data G.plain (stateLayer G) (stateLayer_isLayering G) (G.family.placement i).lower)
+    (Flower.V5W.treeRootParent rowSel.p G.data G.plain (stateLayer G) (stateLayer_isLayering G)
+      (G.family.placement i).lower)
+    κ.L κ.γ κ.δ κ.F (sigStar G i).2.2
 
 /-- The sign of the lower joint of the member `i` of the state `G`. -/
 @[expose] noncomputable def nuOf (G : FamilyReconstruction w ι) (i : ι) : ℤˣ := (sigStar G i).1
@@ -68,7 +82,7 @@ theorem sSumAt_skip (κ : KPar d) (A : FamilyReconstruction w ι) (sp : SplitAt 
   rw [sSum_same A.plain A.data A.data κ.L κ.γ κ.δ κ.F (stateLayer A) (stateLayer_isLayering A) (stateLayer A)
     (stateLayer_isLayering A) κ.base (pairOfLeaf A.skeleton A.plain (A.family.placement pstar).retained) sp.RS
     κ.t0 κ.t1 κ.t2 κ.e κ.f sp.sb.b.toNode (sp.sb.b.child sp.RS.kept) Φ hS.b_mem_erase hS.p0_mem
-    (fun _ _ => rfl) (fun _ _ => rfl) (fun _ _ => rfl)]
+    (fun _ _ => rfl) (fun _ _ => rfl) (fun _ _ => rfl) (VineEst.SelDataEq.refl _ _ _ _ _ _)]
   congr 1
   refine tsum_congr fun x => ?_
   refine integral_congr_ae (Filter.Eventually.of_forall fun σ => ?_)
@@ -79,8 +93,9 @@ theorem sSumAt_skip (κ : KPar d) (A : FamilyReconstruction w ι) (sp : SplitAt 
   have hex := exc_same (A.family.placement pstar) A.plain A.data κ.L κ.γ κ.δ κ.F (stateLayer A)
     (stateLayer_isLayering A) κ.base (S := sp.sb.U) (a := sp.sb.a) hS.lower x.1 (hS.pairedAt_ext x)
     (clLocalClock sp.RS ![κ.t0, κ.t1, κ.t2] σ)
-  have hT : nativeChainLayered A.data A.plain (stateLayer A) (stateLayer_isLayering A) sp.sb.b =
-      nativeChainLayered A.data A.plain (stateLayer A) (stateLayer_isLayering A) (A.family.placement pstar).lower := by
+  have hT : VineEst.selTreeRow κ.L κ.γ κ.δ κ.F A.data A.plain (stateLayer A) (stateLayer_isLayering A) sp.sb.b =
+      VineEst.selTreeRow κ.L κ.γ κ.δ κ.F A.data A.plain (stateLayer A) (stateLayer_isLayering A)
+        (A.family.placement pstar).lower := by
     rw [hS.lower]
   unfold sameInt bundleInt
   rw [hex, hn0, hn1, hT]

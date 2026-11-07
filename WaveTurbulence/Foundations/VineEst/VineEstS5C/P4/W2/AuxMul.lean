@@ -15,6 +15,7 @@ that is the `𝒦` row, which also carries the `r`-dependent spatial factor `G(r
 `SNorm_mul_le` (`G r` at weight `0`, the coefficient at the row weight): size `C · 2^{Λ₁} d^{Λ₁} · b · sup_r ‖G r‖_{𝔖^{Λ₁,0}}`. -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 namespace WaveTurbulence.VineEstS5C.P4.W2

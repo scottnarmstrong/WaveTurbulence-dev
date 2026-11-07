@@ -5,6 +5,8 @@ Authors: Scott Armstrong
 -/
 module
 
+public import WaveTurbulence.Foundations.VineEst.RowSel.RowDataLemmas
+public import WaveTurbulence.Foundations.Molecule.TwistChildLabels
 public import WaveTurbulence.Foundations.VineEst.VineEstS5B.Fac1
 
 /-! # V5 Step 4d-B: the factors of the S-side under a twist at the lower joint (part 2)
@@ -15,6 +17,7 @@ transported clocks, is the frame of the original.
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS5B
@@ -70,7 +73,11 @@ variable {d : ℕ} (hG : G.IsPlain) (D : ReconstructionData G) (D' : Reconstruct
 include h hu in
 theorem qRow_tw (p : SourcePair G) (hp : p ∈ clRegionalPairs hG S) (hp0 : p ≠ pairOfLeaf G hG P.retained)
     (hC : nativeCoupleLayered D' (unitTwistGarden_plain G P hG) layer' hLayer' (tp P hG p) =
-      nativeCoupleLayered D hG layer hLayer p) :
+      nativeCoupleLayered D hG layer hLayer p)
+    (hCi : Flower.V5W.coupleIncoh D' (unitTwistGarden_plain G P hG) layer' hLayer' (tp P hG p) =
+      Flower.V5W.coupleIncoh D hG layer hLayer p)
+    (hlS : ∀ v ∈ S, layer' (D'.coreBranch (unitTwistGarden_plain G P hG) (eB P v)).toNode =
+      layer (D.coreBranch hG v).toNode) :
     qRow D' (unitTwistGarden_plain G P hG) L γ δ F layer' hLayer' base (u' (eB P a)) (twistNodeLabels G P x) u'
         (tp P hG p) =
       qRow D hG L γ δ F layer hLayer base (u a) x u p := by
@@ -110,13 +117,46 @@ theorem qRow_tw (p : SourcePair G) (hp : p ∈ clRegionalPairs hG S) (hp0 : p �
         if l = P.retained ∨ l = G.pair P.retained then x P.lower.toNode else x l.toNode :=
       twistNodeLabels_leaf G P x l
     rw [t0, if_neg (by tauto)]
+  have hl1 : (p.firstLeaf hG).toNode ≠ a.toNode := (Mole.branch_toNode_ne_leaf a _).symm
+  have hl2 : (p.secondLeaf hG).toNode ≠ a.toNode := (Mole.branch_toNode_ne_leaf a _).symm
+  have hn1 : (p.firstLeaf hG).toNode ≠ P.lower.toNode := (Mole.branch_toNode_ne_leaf P.lower _).symm
+  have hn2 : (p.secondLeaf hG).toNode ≠ P.lower.toNode := (Mole.branch_toNode_ne_leaf P.lower _).symm
+  obtain ⟨v1, i1, hv1, hx1⟩ := Flower.V5W.real_child h.block RS ((leaf_mem_clRealizationNodes _).mpr hint1) hl1
+  obtain ⟨v2, i2, hv2, hx2⟩ := Flower.V5W.real_child h.block RS ((leaf_mem_clRealizationNodes _).mpr hint2) hl2
+  have hq : ∀ i, Flower.V5W.coupleRootParents rowSel.p D' (unitTwistGarden_plain G P hG) layer' hLayer' (tp P hG p) i =
+      Flower.V5W.coupleRootParents rowSel.p D hG layer hLayer p i := by
+    intro i
+    fin_cases i
+    · have hx1' : ((tp P hG p).firstLeaf (unitTwistGarden_plain G P hG)).toNode =
+          (eB P v1).child (exchangeChildSlot P.lower.1 P.keep v1.1 i1) := by
+        rw [hf]
+        exact (naiveNodeEquiv_leaf G P _).symm.trans
+          (naiveNodeEquiv_child G P hx1 hn1 (fun e => h2 (Mole.leaf_toNode_injective e)))
+      show Flower.V5W.coupleRootParents rowSel.p D' (unitTwistGarden_plain G P hG) layer' hLayer' (tp P hG p) 0 =
+        Flower.V5W.coupleRootParents rowSel.p D hG layer hLayer p 0
+      rw [Flower.V5W.coupleRootParents_zero D' (unitTwistGarden_plain G P hG) layer' hLayer' rowSel.p (tp P hG p)
+          (eB P v1) _ hx1', Flower.V5W.coupleRootParents_zero D hG layer hLayer rowSel.p p v1 i1 hx1, hlS v1 hv1]
+    · have hx2' : ((tp P hG p).secondLeaf (unitTwistGarden_plain G P hG)).toNode =
+          (eB P v2).child (exchangeChildSlot P.lower.1 P.keep v2.1 i2) := by
+        rw [hs]
+        exact (naiveNodeEquiv_leaf G P _).symm.trans
+          (naiveNodeEquiv_child G P hx2 hn2 (fun e => h4 (Mole.leaf_toNode_injective e)))
+      show Flower.V5W.coupleRootParents rowSel.p D' (unitTwistGarden_plain G P hG) layer' hLayer' (tp P hG p) 1 =
+        Flower.V5W.coupleRootParents rowSel.p D hG layer hLayer p 1
+      rw [Flower.V5W.coupleRootParents_one D' (unitTwistGarden_plain G P hG) layer' hLayer' rowSel.p (tp P hG p)
+          (eB P v2) _ hx2', Flower.V5W.coupleRootParents_one D hG layer hLayer rowSel.p p v2 i2 hx2, hlS v2 hv2]
   unfold qRow
-  rw [hC, hf, hs, hlf _ hint1 h1 h2, hlf _ hint2 h3 h4, hco _ h1 h2]
+  rw [VineEst.selCoupleRow_congr L γ δ F D hG layer hLayer p D' (unitTwistGarden_plain G P hG) layer' hLayer'
+    (tp P hG p) hC hCi hq, hf, hs, hlf _ hint1 h1 h2, hlf _ hint2 h3 h4, hco _ h1 h2]
 
 include h hu in
 theorem tRow_tw (v : GBranch G.tree) (hv : v ∈ S.erase a) (hvb : v ≠ b)
     (hT : nativeChainLayered D' (unitTwistGarden_plain G P hG) layer' hLayer' (eB P v) =
-      nativeChainLayered D hG layer hLayer v) :
+      nativeChainLayered D hG layer hLayer v)
+    (hTi : Flower.V5W.treeIncoh D' (unitTwistGarden_plain G P hG) layer' hLayer' (eB P v) =
+      Flower.V5W.treeIncoh D hG layer hLayer v)
+    (hlS : ∀ v ∈ S, layer' (D'.coreBranch (unitTwistGarden_plain G P hG) (eB P v)).toNode =
+      layer (D.coreBranch hG v).toNode) :
     tRow D' (unitTwistGarden_plain G P hG) L γ δ F layer' hLayer' base (u' (eB P a)) (twistNodeLabels G P x) u'
         (eB P v) =
       tRow D hG L γ δ F layer hLayer base (u a) x u v := by
@@ -128,8 +168,18 @@ theorem tRow_tw (v : GBranch G.tree) (hv : v ∈ S.erase a) (hvb : v ≠ b)
     exact h.parentClock_naive ((branch_mem_clRealizationNodes v).mpr hvS)
       (fun he => (Finset.mem_erase.mp hv).1 (Mole.branch_toNode_injective he))
       (fun he => hvl (Mole.branch_toNode_injective he)) (Mole.branch_toNode_ne_leaf v _) (u a) u' u hu
+  have hva : v.toNode ≠ a.toNode := fun he => (Finset.mem_erase.mp hv).1 (Mole.branch_toNode_injective he)
+  obtain ⟨c, i, hc, hxc⟩ := Flower.V5W.real_child h.block RS ((branch_mem_clRealizationNodes v).mpr hvS) hva
+  have hxc' : (eB P v).toNode = (eB P c).child (exchangeChildSlot P.lower.1 P.keep c.1 i) :=
+    (naiveNodeEquiv_branch G P v).symm.trans
+      (naiveNodeEquiv_child G P hxc (fun he => hvl (Mole.branch_toNode_injective he)) (Mole.branch_toNode_ne_leaf v _))
+  have hqT : Flower.V5W.treeRootParent rowSel.p D' (unitTwistGarden_plain G P hG) layer' hLayer' (eB P v) =
+      Flower.V5W.treeRootParent rowSel.p D hG layer hLayer v := by
+    rw [Flower.V5W.treeRootParent_eq D' (unitTwistGarden_plain G P hG) layer' hLayer' rowSel.p (eB P v) (eB P c) _ hxc',
+      Flower.V5W.treeRootParent_eq D hG layer hLayer rowSel.p v c i hxc, hlS c hc]
   unfold tRow cosetDecoration
-  rw [hT, hpc, hu v hvS, STw.branch_rel x hvl]
+  rw [VineEst.selTreeRow_congr L γ δ F D hG layer hLayer v D' (unitTwistGarden_plain G P hG) layer' hLayer'
+    (eB P v) hT hTi hqT, hpc, hu v hvS, STw.branch_rel x hvl]
 
 end Rows
 

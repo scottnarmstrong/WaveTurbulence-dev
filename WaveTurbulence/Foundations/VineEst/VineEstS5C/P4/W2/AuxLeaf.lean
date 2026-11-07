@@ -20,6 +20,7 @@ The number of input leaves of a garden (`inputLeaves`: sign `+`, unmarked) is `o
 `zp_half_sizes`), hence the same total number of input leaves `2 zpN + 1` and, for a constant layer bound, the same leaf cost `B₀^{2 zpN + 1}`. -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 namespace WaveTurbulence.VineEstS5C.P4.W2

@@ -16,6 +16,7 @@ The row `cutW (f(c₀,c₁,k + u r) G(r,k))`, `|u| ≤ 1`: the remainder `f` (a 
 The coefficients are `ĉ_m(k + u r) G(r,k)` (cut off to `‖r‖ ≤ 1`), bounded by `SNorm_translate_le` then `SNorm_mul_le`.  Copy-edit of `AuxMul.remRowMul`. -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 namespace WaveTurbulence.VineEstS5C.P4.W2

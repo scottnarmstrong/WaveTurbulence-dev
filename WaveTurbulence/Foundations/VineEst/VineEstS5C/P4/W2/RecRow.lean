@@ -17,6 +17,7 @@ non-exceptional rows).  The constant `C` is `kind1Pref · k2c` of the engine dat
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS5C.P4.W2
 open VineParamContract TTree Reg Reg.Skeleton RegRed MeasureTheory WaveTurbulence.VineEstS2 WaveTurbulence.VineEstS5A
@@ -58,13 +59,13 @@ theorem nonExc_inr (hM9 : VINEPARAM) (B : CLChainAssembly G R n) (hG : G.IsPlain
 variable
   (hRW : ∀ ρ (cl : Fin 3 → ℝ), NonExc hM9 B hG W wN wDec bk cons g g' Vp Vb ρ →
     ![cl 0, cl 1] ∈ rowBx hM9 B RD hG layer hLayer W L γ δ F ρ → ∀ r k,
-    (Rw ρ).W cl r k = (assemblyClocked hM9 B RD hG W L γ δ F layer hLayer).W ρ ![cl 0, cl 1] k)
+    (Rw ρ).W cl r k = (assemblyClockedS hM9 B RD hG W L γ δ F layer hLayer).W ρ ![cl 0, cl 1] k)
   (hRS : ∀ ρ i, NonExc hM9 B hG W wN wDec bk cons g g' Vp Vb ρ → (Rw ρ).slot i = natSlot hM9 B hG ρ i)
 
 include hRW hRS in
 theorem allCR_W_eq_natCR3_exc (τ : (assemblyShape hM9 B).TVar → ℝ) (tt : Fin 3 → ℝ)
     (ρ : Row (engDatum hM9 B hG W wN wDec bk cons g g')) (hρ : NonExc hM9 B hG W wN wDec bk cons g g' Vp Vb ρ)
-    (hclk : (assemblyClocked hM9 B RD hG W L γ δ F layer hLayer).clock τ tt ρ ∈
+    (hclk : (assemblyClockedS hM9 B RD hG W L γ δ F layer hLayer).clock τ tt ρ ∈
       rowBx hM9 B RD hG layer hLayer W L γ δ F ρ) (r k : Mom d) :
     (allCR Rw).W ρ ((allCR Rw).clock τ tt ρ) r k =
       (natCR3 hM9 B hG W wN wDec bk cons g g' RD L γ δ F layer hLayer).W ρ
@@ -92,7 +93,7 @@ variable (hM9 : VINEPARAM) (B : CLChainAssembly G R n) (hG : G.IsPlain)
   (Vp Vb : Finset (assemblyShape hM9 B).VIdx)
   (hRW : ∀ ρ (cl : Fin 3 → ℝ), NonExc hM9 B hG W wN wDec bk cons g g' Vp Vb ρ →
     ![cl 0, cl 1] ∈ rowBx hM9 B RD hG layer hLayer W L γ δ F ρ → ∀ r k,
-    (Rw ρ).W cl r k = (assemblyClocked hM9 B RD hG W L γ δ F layer hLayer).W ρ ![cl 0, cl 1] k)
+    (Rw ρ).W cl r k = (assemblyClockedS hM9 B RD hG W L γ δ F layer hLayer).W ρ ![cl 0, cl 1] k)
   (hRS : ∀ ρ i, NonExc hM9 B hG W wN wDec bk cons g g' Vp Vb ρ → (Rw ρ).slot i = natSlot hM9 B hG ρ i)
 
 include hRW hRS in
@@ -104,7 +105,7 @@ theorem hrow_exc_allCR (hL : L ≠ 0) (η : ℝ) (base : Mom d) (β : Fin 4 → 
     (hVp : ∀ v, v ∈ Vp ↔ (assemblyPairOf hM9 B hG v).1 ∈ Pex)
     (hVb : ∀ v, v ∈ Vb ↔ (assemblyBranchOf hM9 B v).1 ∈ Bex)
     (hclk : ∀ ρ, NonExc hM9 B hG W wN wDec bk cons g g' Vp Vb ρ →
-      (assemblyClocked hM9 B RD hG W L γ δ F layer hLayer).clock τ tt ρ ∈ rowBx hM9 B RD hG layer hLayer W L γ δ F ρ)
+      (assemblyClockedS hM9 B RD hG W L γ δ F layer hLayer).clock τ tt ρ ∈ rowBx hM9 B RD hG layer hLayer W L γ δ F ρ)
     (hX : (∏ v ∈ Vp, Xq (assemblyPairOf hM9 B hG v).1 tt (clLocalClock R tt (assemblyClockEquiv hM9 B τ))
           (clExtendIndices R ((clNormalizedChainEquiv hL B base β hβ hM9).symm x).1)) =
       ((kind1Pref (D := engDatum hM9 B hG W wN wDec bk cons g g')

@@ -10,6 +10,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS2.CLLocalDifferenceCoef
 /-! # Opposite local source incidences have unit inverse coefficients -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS2
 open TTree RegRed

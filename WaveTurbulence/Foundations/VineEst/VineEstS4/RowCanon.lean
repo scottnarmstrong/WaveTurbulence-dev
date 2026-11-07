@@ -18,6 +18,7 @@ parent-core layers `pairQ`, `branchQ`.  This is TARGET L899-L905 applied inside 
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 open WaveTurbulence.VineParamContract

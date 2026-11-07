@@ -23,6 +23,7 @@ bound `CR > C₁ (C₁δ)ⁿ L^{-(γ₁-√η)} layerCost`), continuity set `Bc 
 `remQ κ (zpQfam κ A) b = R.f` (`remT … = R.f`) on `Bc`. -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 namespace WaveTurbulence.VineEstS5C.P4.W2

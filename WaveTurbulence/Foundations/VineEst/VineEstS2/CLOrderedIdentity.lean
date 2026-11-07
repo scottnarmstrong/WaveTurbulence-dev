@@ -11,6 +11,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS2.CLInteriorBudget
 /-! # Numbered source predecessor identities in sumint's subtraction form -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS2
 open TTree RegRed

@@ -16,6 +16,7 @@ Hypotheses: `BotSurj` (`botSurj_of_state`), `BotLayers` (`botLayers_of_state`), 
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 namespace WaveTurbulence.VineEstS5C.P4.Bot
@@ -77,7 +78,7 @@ theorem bundle_decomp_bot (hR : P1.RealityAll) (hZ : BotSurj p kind pstar A c0) 
           (botVars κ A c0 pstar x u).2.2.1 (botVars κ A c0 pstar x u).2.2.2.1 (botVars κ A c0 pstar x u).2.2.2.2)) := by
   obtain ⟨τ, hbij, hrel⟩ := hZ.twin
   rw [psiBot_eq_repl p kind κ A c0 pstar (botQfam pstar κ A) (botTfam pstar κ A) τ hbij
-    (fun G hG => ⟨(hrel G hG).1, (hrel G hG).2.1⟩) x t u]
+    (fun G hG => ⟨(hrel G hG).1, (hrel G hG).2.1⟩) hZ.coherent x t u]
   congr 2
   generalize botVars κ A c0 pstar x u = v at *
   obtain ⟨t0, s1, t1, x', y'⟩ := v
@@ -123,7 +124,7 @@ theorem bundle_decomp_bot_mirror (hR : P1.RealityAll) (hZ : BotSurj p kind pstar
           (botVars κ A c0 pstar x u).2.2.1 (botVars κ A c0 pstar x u).2.2.2.1 (botVars κ A c0 pstar x u).2.2.2.2)) := by
   obtain ⟨τ, hbij, hrel⟩ := hZ.twin
   rw [psiBot_eq_repl p kind κ A c0 pstar (botQfam pstar κ A) (botTfam pstar κ A) τ hbij
-    (fun G hG => ⟨(hrel G hG).1, (hrel G hG).2.1⟩) x t u]
+    (fun G hG => ⟨(hrel G hG).1, (hrel G hG).2.1⟩) hZ.coherent x t u]
   congr 2
   generalize botVars κ A c0 pstar x u = v at *
   obtain ⟨t0, s1, t1, x', y'⟩ := v

@@ -10,6 +10,7 @@ public import WaveTurbulence.Foundations.VineEst.ZpSurj.ConjTree1
 /-! # ZP-SURJ: the carrier-side objects of the states of `Zp(A)` are coherent -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 namespace WaveTurbulence.ZpSurj

@@ -17,6 +17,7 @@ below `pstar` in `J`, all other members except `pstar` carrying no operation at 
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS4

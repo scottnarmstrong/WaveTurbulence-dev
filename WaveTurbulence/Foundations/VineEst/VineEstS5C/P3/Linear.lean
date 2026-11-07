@@ -15,6 +15,7 @@ convergent (`LkAbs`), is the sum of the `lkRaw`s, given the pointwise (on the cl
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS5C.P3
 open WaveTurbulence WaveTurbulence.Fourier WaveTurbulence.VineEstS4 WaveTurbulence.RegRed WaveTurbulence.Reg.Skeleton TTree MeasureTheory

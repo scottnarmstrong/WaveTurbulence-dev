@@ -1,0 +1,59 @@
+vine templates (all eight + Q-block, 0..2 rungs per slot): no interior cut vertex
+T-beads m=1: 7 atoms; 1 blocks/hyper-blocks; vine matches: 0
+   block: joints ['w0', 'w1'], T-blocks [1], consecutive=True, atoms=5
+T-beads m=2: 11 atoms; 3 blocks/hyper-blocks; vine matches: 0
+   block: joints ['w0', 'w1'], T-blocks [1], consecutive=True, atoms=5
+   block: joints ['w1', 'w2'], T-blocks [2], consecutive=True, atoms=5
+   block: joints ['w0', 'w2'], T-blocks [1, 2], consecutive=True, atoms=9
+T-beads m=3: 15 atoms; 6 blocks/hyper-blocks; vine matches: 0
+   block: joints ['w0', 'w1'], T-blocks [1], consecutive=True, atoms=5
+   block: joints ['w1', 'w2'], T-blocks [2], consecutive=True, atoms=5
+   block: joints ['w0', 'w2'], T-blocks [1, 2], consecutive=True, atoms=9
+   block: joints ['w2', 'w3'], T-blocks [3], consecutive=True, atoms=5
+   block: joints ['w1', 'w3'], T-blocks [2, 3], consecutive=True, atoms=9
+   block: joints ['w0', 'w3'], T-blocks [1, 2, 3], consecutive=True, atoms=13
+T-beads m=4: 19 atoms; 10 blocks/hyper-blocks; vine matches: 0
+   block: joints ['w0', 'w1'], T-blocks [1], consecutive=True, atoms=5
+   block: joints ['w1', 'w2'], T-blocks [2], consecutive=True, atoms=5
+   block: joints ['w0', 'w2'], T-blocks [1, 2], consecutive=True, atoms=9
+   block: joints ['w2', 'w3'], T-blocks [3], consecutive=True, atoms=5
+   block: joints ['w1', 'w3'], T-blocks [2, 3], consecutive=True, atoms=9
+   block: joints ['w0', 'w3'], T-blocks [1, 2, 3], consecutive=True, atoms=13
+   block: joints ['w3', 'w4'], T-blocks [4], consecutive=True, atoms=5
+   block: joints ['w2', 'w4'], T-blocks [3, 4], consecutive=True, atoms=9
+   block: joints ['w1', 'w4'], T-blocks [2, 3, 4], consecutive=True, atoms=13
+   block: joints ['w0', 'w4'], T-blocks [1, 2, 3, 4], consecutive=True, atoms=17
+Q-beads m=1: 6 atoms; 1 blocks/hyper-blocks; vine matches: 1
+   block: joints ['w0', 'w1'], T-blocks [1], consecutive=True, atoms=4
+   VINE MATCH ('block', ['w0', 'w1', 'e1', 'f1'], [('II(m=1) Q-block', ())])
+Q-beads m=2: 9 atoms; 3 blocks/hyper-blocks; vine matches: 2
+   block: joints ['w0', 'w1'], T-blocks [1], consecutive=True, atoms=4
+   block: joints ['w1', 'w2'], T-blocks [2], consecutive=True, atoms=4
+   block: joints ['w0', 'w2'], T-blocks [1, 2], consecutive=True, atoms=7
+   VINE MATCH ('block', ['w0', 'w1', 'e1', 'f1'], [('II(m=1) Q-block', ())])
+   VINE MATCH ('block', ['w1', 'w2', 'e2', 'f2'], [('II(m=1) Q-block', ())])
+Q-beads m=3: 12 atoms; 6 blocks/hyper-blocks; vine matches: 3
+   block: joints ['w0', 'w1'], T-blocks [1], consecutive=True, atoms=4
+   block: joints ['w1', 'w2'], T-blocks [2], consecutive=True, atoms=4
+   block: joints ['w0', 'w2'], T-blocks [1, 2], consecutive=True, atoms=7
+   block: joints ['w2', 'w3'], T-blocks [3], consecutive=True, atoms=4
+   block: joints ['w1', 'w3'], T-blocks [2, 3], consecutive=True, atoms=7
+   block: joints ['w0', 'w3'], T-blocks [1, 2, 3], consecutive=True, atoms=10
+   VINE MATCH ('block', ['w0', 'w1', 'e1', 'f1'], [('II(m=1) Q-block', ())])
+   VINE MATCH ('block', ['w1', 'w2', 'e2', 'f2'], [('II(m=1) Q-block', ())])
+   VINE MATCH ('block', ['w2', 'w3', 'e3', 'f3'], [('II(m=1) Q-block', ())])
+Q-beads m=4: 15 atoms; 10 blocks/hyper-blocks; vine matches: 4
+   block: joints ['w0', 'w1'], T-blocks [1], consecutive=True, atoms=4
+   block: joints ['w1', 'w2'], T-blocks [2], consecutive=True, atoms=4
+   block: joints ['w0', 'w2'], T-blocks [1, 2], consecutive=True, atoms=7
+   block: joints ['w2', 'w3'], T-blocks [3], consecutive=True, atoms=4
+   block: joints ['w1', 'w3'], T-blocks [2, 3], consecutive=True, atoms=7
+   block: joints ['w0', 'w3'], T-blocks [1, 2, 3], consecutive=True, atoms=10
+   block: joints ['w3', 'w4'], T-blocks [4], consecutive=True, atoms=4
+   block: joints ['w2', 'w4'], T-blocks [3, 4], consecutive=True, atoms=7
+   block: joints ['w1', 'w4'], T-blocks [2, 3, 4], consecutive=True, atoms=10
+   block: joints ['w0', 'w4'], T-blocks [1, 2, 3, 4], consecutive=True, atoms=13
+   VINE MATCH ('block', ['w0', 'w1', 'e1', 'f1'], [('II(m=1) Q-block', ())])
+   VINE MATCH ('block', ['w1', 'w2', 'e2', 'f2'], [('II(m=1) Q-block', ())])
+   VINE MATCH ('block', ['w2', 'w3', 'e3', 'f3'], [('II(m=1) Q-block', ())])
+   VINE MATCH ('block', ['w3', 'w4', 'e4', 'f4'], [('II(m=1) Q-block', ())])

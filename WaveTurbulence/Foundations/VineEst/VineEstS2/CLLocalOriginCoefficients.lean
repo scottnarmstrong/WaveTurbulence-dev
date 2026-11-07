@@ -10,6 +10,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS2.CLOriginIncidences
 /-! # Precise garden consequence of the proposed M9 local witness -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS2

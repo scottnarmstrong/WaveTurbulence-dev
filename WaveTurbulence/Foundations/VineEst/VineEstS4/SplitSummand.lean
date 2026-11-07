@@ -15,6 +15,7 @@ factors of `S`).  `summand_split`: the summand of `U` at the glued decoration is
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS4
 open WaveTurbulence WaveTurbulence.VineEstS2 WaveTurbulence.RegRed WaveTurbulence.Reg.Skeleton TTree MeasureTheory
@@ -27,10 +28,10 @@ variable (D : ReconstructionData G) (hG : G.IsPlain) (L γ δ : ℝ) (F : ℕ �
 /-- Starred factors of the pairs internal to `V` and the branches of `V.erase a` (parent clocks relative to `top`). -/
 @[expose] noncomputable def starProd (V : Finset (GBranch G.tree)) (a : GBranch G.tree) (top : ℝ)
     (x : GNode G.tree → (Fin d → ℤ)) (u : GBranch G.tree → ℝ) : ℂ :=
-  (∏ p ∈ clRegionalPairs hG V, KQstar L γ δ F (nativeCoupleLayered D hG layer hLayer p)
+  (∏ p ∈ clRegionalPairs hG V, VineEst.selCoupleRow L γ δ F D hG layer hLayer p
     (parentClock top u (p.firstLeaf hG).toNode) (parentClock top u (p.secondLeaf hG).toNode)
     (cosetDecoration G L base x (p.firstLeaf hG).toNode)) *
-  (∏ v ∈ V.erase a, KTstar L γ δ F (nativeChainLayered D hG layer hLayer v)
+  (∏ v ∈ V.erase a, VineEst.selTreeRow L γ δ F D hG layer hLayer v
     (parentClock top u v.toNode) (u v) (cosetDecoration G L base x v.toNode))
 
 /-- The S-part of the summand. -/

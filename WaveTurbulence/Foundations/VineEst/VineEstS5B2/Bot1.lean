@@ -17,6 +17,7 @@ region factors as `spart U a b * bFac`, where `bFac` is the contribution of the 
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS5B2

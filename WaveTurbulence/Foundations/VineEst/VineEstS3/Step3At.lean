@@ -20,6 +20,7 @@ with `B_ρ = rowB P n_ρ g_ρ`, `n_ρ` the half order and `g_ρ` the incoherency
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 open WaveTurbulence.VineParamContract

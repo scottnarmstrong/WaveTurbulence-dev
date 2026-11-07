@@ -16,6 +16,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.ExcSrc
 `x = dictX ν low ret`, `y = dictY ν low ret` (the outer decoration, `exc_vars`). -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS5C.P4.W2
 open WaveTurbulence WaveTurbulence.Twist WaveTurbulence.LFTwist WaveTurbulence.VineEstS2 WaveTurbulence.VineEstS3 WaveTurbulence.VineEstS4

@@ -18,6 +18,7 @@ is `c ζ lkRaw` of `psiFuel`: the flat form of TARGET Step 4 before the splittin
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS5C

@@ -22,6 +22,13 @@ README = ROOT / "README.md"
 PROGRESS = ROOT / "docs" / "campaign" / "progress.json"
 WORKERS = ROOT / "docs" / "campaign" / "workers.json"
 HISTORY = ROOT / "docs" / "campaign" / "history.csv"
+# Flower estimate (flowerest1): the orchestrator's packet ledger lives beside the flower world; it is copied into
+# docs/campaign/flower.json at every run. Its weight and completion replace packet X2's in the overall meter.
+FLOWER_LEDGER = pathlib.Path("/home/scott/wt-scratch/flower-core/FLOWER-STATUS.json")
+FLOWER_COPY = ROOT / "docs" / "campaign" / "flower.json"
+FLOWER_HISTORY = ROOT / "docs" / "campaign" / "flower-history.csv"
+FLOWER_WORLD = pathlib.Path("/home/scott/wt-scratch/flower-core/world/src/WaveTurbulence/Foundations/Flower")
+FLOWER_ICON = {"done": "✅", "checkpoint": "🟠", "running": "🟡", "queued": "⬜"}
 
 
 def git(*args):
@@ -82,6 +89,79 @@ def age(ts):
     return f"{mins} min ago" if mins < 120 else f"{mins // 60} h ago"
 
 
+def flower_credit(pk):
+    if pk["status"] == "done":
+        return 1.0
+    if pk["status"] == "checkpoint":
+        return float(pk.get("done", 0.0))
+    return 0.0
+
+
+def flower_block():
+    """Render the flower status bar. Returns (markdown, total weight, done fraction, counts) or None."""
+    try:
+        led = json.load(open(FLOWER_LEDGER, encoding="utf8"))
+    except (OSError, json.JSONDecodeError):
+        return None
+    FLOWER_COPY.write_text(json.dumps(led, indent=1, ensure_ascii=False) + "\n", encoding="utf8")
+    rows, prow = [], []
+    tw = td = 0.0
+    cnt = {"done": 0, "checkpoint": 0, "running": 0, "queued": 0}
+    for g in led["groups"]:
+        gw = sum(p["w"] for p in g["packets"])
+        gd = sum(p["w"] * flower_credit(p) for p in g["packets"])
+        tw += gw
+        td += gd
+        st = [p["status"] for p in g["packets"]]
+        for p in g["packets"]:
+            cnt[p["status"]] = cnt.get(p["status"], 0) + 1
+            part = f" {round(100 * flower_credit(p))} %" if p["status"] == "checkpoint" else ""
+            prow.append(f"| {g['name']} | {p['id']} | {p['w']:g} | {FLOWER_ICON.get(p['status'], '?')} "
+                        f"{p['status']}{part} | {p.get('note', '')} |")
+        frac = gd / gw if gw else 0.0
+        rows.append(f"| {g['name']} | {len(st)} | {st.count('done')} | {st.count('running')} | "
+                    f"`{bar(frac)}` {round(100 * frac)} % |")
+    frac = td / tw if tw else 0.0
+    wl = 0
+    if FLOWER_WORLD.exists():
+        for f in FLOWER_WORLD.rglob("*.lean"):
+            try:
+                wl += sum(1 for _ in open(f, encoding="utf8"))
+            except OSError:
+                pass
+    n = sum(cnt.values())
+    md = "\n".join([
+        f"### Flower estimate (`flowerest1` = frozen `layergardenFlower_v3`): **{100 * frac:.1f} %**",
+        "",
+        f"`{bar(frac, 30)}` {100 * frac:.1f} % · {cnt['done']} of {n} packets done, {cnt['checkpoint']} partial, "
+        f"{cnt['running']} running, {cnt['queued']} queued · ledger updated {led.get('updated', '?')}",
+        "",
+        f"- **Paper proof:** ✅ {led.get('paper', '')}",
+        f"- **Lean:** {wl:,} lines in the flower world (sorry-free, pinned to main), plus main-side threading on "
+        "worker branches. When the cores close, the world lands on main and the chain "
+        "`layergardenFlower_v3 → fixedpoint_v2 → propansatz_v2 → main_v2` is sealed.",
+        f"- **Next:** {led.get('next', '')}",
+        "- **Open risks:** " + "; ".join(led.get("risks", [])),
+        "",
+        "| Workstream | Packets | Done | Running | Completion |",
+        "|---|---|---|---|---|",
+        *rows,
+        f"| **Total** | {n} | {cnt['done']} | {cnt['running']} | **{100 * frac:.1f} %** |",
+        "",
+        "<details><summary>All flower packets</summary>",
+        "",
+        "| Workstream | Packet | Weight | Status | Note |",
+        "|---|---|---|---|---|",
+        *prow,
+        "",
+        "</details>",
+        "",
+        f"{led.get('convention', '')} Source: [`docs/campaign/flower.json`](docs/campaign/flower.json); history: "
+        "[`docs/campaign/flower-history.csv`](docs/campaign/flower-history.csv).",
+    ])
+    return md, tw, frac, cnt, wl
+
+
 def workers_block():
     try:
         workers = json.load(open(WORKERS, encoding="utf8"))
@@ -98,6 +178,14 @@ def workers_block():
 
 def main():
     prog = json.load(open(PROGRESS, encoding="utf8"))
+    fl = flower_block()
+    if fl is not None:
+        for part in prog["parts"]:
+            for i in part.get("items", []):
+                if i["id"] == "X2":
+                    i["weight"], i["done"] = fl[1], fl[2]
+                    i["note"] = (f"FLOWEREST: weight and completion from the flower ledger ({fl[3]['done']} packets "
+                                 f"done, {fl[3]['running']} running, {fl[3]['queued']} queued; see the flower bar)")
     sealed, frozen_total, frozen_defs = frozen_counts()
     rows, item_rows = [], []
     tot_w = tot_d = lean_w = lean_d = 0.0
@@ -160,7 +248,10 @@ def main():
         "[`docs/campaign/history.csv`](docs/campaign/history.csv).",
     ])
     text = README.read_text(encoding="utf8")
-    for key, body in (("updated", updated), ("progress", progress), ("workers", workers_block())):
+    blocks = [("updated", updated), ("progress", progress), ("workers", workers_block())]
+    if fl is not None:
+        blocks.append(("flower", fl[0]))
+    for key, body in blocks:
         text = re.sub(rf"(<!-- AUTO:{key} -->).*?(<!-- /AUTO:{key} -->)",
                       lambda m, body=body: m.group(1) + "\n" + body + "\n" + m.group(2), text, flags=re.S)
     README.write_text(text, encoding="utf8")
@@ -170,6 +261,14 @@ def main():
             h.write("utc,completion_pct,lean_pct,main_lines,branch_lines,sealed,frozen_theorems\n")
         h.write(f"{now.strftime('%Y-%m-%dT%H:%MZ')},{pct:.2f},{lean_pct:.2f},{main_lines},{branch_lines},"
                 f"{sealed},{frozen_total}\n")
+    if fl is not None:
+        newf = not FLOWER_HISTORY.exists()
+        with open(FLOWER_HISTORY, "a", encoding="utf8") as h:
+            if newf:
+                h.write("utc,flower_pct,done,checkpoint,running,queued,world_lines\n")
+            c = fl[3]
+            h.write(f"{now.strftime('%Y-%m-%dT%H:%MZ')},{100 * fl[2]:.2f},{c['done']},{c['checkpoint']},{c['running']},"
+                    f"{c['queued']},{fl[4]}\n")
     print(f"README updated: {pct:.1f} % overall, {lean_pct:.1f} % Lean, {main_lines} + {branch_lines} lines, "
           f"{sealed}/{frozen_total} sealed")
 

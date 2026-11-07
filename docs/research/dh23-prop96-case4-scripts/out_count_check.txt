@@ -1,0 +1,4 @@
+L=8: 2000 random decorations: vector constraints, Gamma identities, automatic beta-atom constraints (|Gamma_b - beta_b| <= |r|/2), LG margins >= 8, unit-ball restriction: all OK
+L=64: 2000 random decorations: vector constraints, Gamma identities, automatic beta-atom constraints (|Gamma_b - beta_b| <= |r|/2), LG margins >= 8, unit-ball restriction: all OK
+L=1000: 2000 random decorations: vector constraints, Gamma identities, automatic beta-atom constraints (|Gamma_b - beta_b| <= |r|/2), LG margins >= 8, unit-ball restriction: all OK
+L=1000000: 2000 random decorations: vector constraints, Gamma identities, automatic beta-atom constraints (|Gamma_b - beta_b| <= |r|/2), LG margins >= 8, unit-ball restriction: all OK

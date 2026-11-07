@@ -11,6 +11,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS2.CLAssemblyInputEquati
 /-! # The global atom bijection restricts to each ingredient's own atom bijection -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS2

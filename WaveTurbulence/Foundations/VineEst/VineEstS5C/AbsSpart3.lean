@@ -10,6 +10,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS5C.AbsSpart2
 /-! # `SAbs` of the native S-part (V5 Step 4d part C, `hAbs`, leaf `sb`) -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 open WaveTurbulence.VineParamContract

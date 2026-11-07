@@ -16,6 +16,7 @@ the factor `e^{πiλτ_b}` in the time integrand of each member, `b` the lower j
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 open WaveTurbulence.VineParamContract
@@ -83,7 +84,7 @@ theorem memberMod_continuousOn {P : WTParams} (lam : ℝ)
       (step3W hM9 B0 A.data A.plain lA hLA bk0 q0 centre wBar) P.L P.γ P.δ h p) :
     ∀ E ∈ outSet (step3D hM9 B0 A.data A.plain lA hLA bk0 q0 centre wBar)
         P.L P.γ P.η,
-      ContinuousOn (fun tt : Fin 3 → ℝ => clRecenteredLocalKernelModC Bs.data Bs.plain
+      ContinuousOn (fun tt : Fin 3 → ℝ => clRecenteredLocalKernelModC (rowSel := VineEst.RowSel.plain) Bs.data Bs.plain
           (clRegionData Bs.skeleton c'.block c'.cl) P.L P.γ P.δ h (stateLayer Bs) (stateLayer_isLayering Bs) wBar lam
           (tt 0) (tt 1) (tt 2) (sumintBoundary (A.skeleton.sign c.a.toNode) E 0)
           (sumintBoundary (A.skeleton.sign c.a.toNode) E 1) (sumintBoundary (A.skeleton.sign c.a.toNode) E 2)
@@ -147,7 +148,7 @@ theorem classSumMod_continuousOn {P : WTParams} (lam : ℝ)
     (Z : Finset (Σ Bs : FamilyReconstruction w ι, ChainAt Bs.skeleton Bs.family))
     (hZ : ∀ x ∈ Z, ∃ M : List ι, Reach p kind M A c x.1 x.2) :
     ∀ E ∈ outSet (step3D hM9 B0 A.data A.plain lA hLA bk0 q0 centre wBar) P.L P.γ P.η,
-      ContinuousOn (fun tt : Fin 3 → ℝ => twistedRecenteredModC A.skeleton c.a Z P.L P.γ P.δ h wBar lam
+      ContinuousOn (fun tt : Fin 3 → ℝ => twistedRecenteredModC (rowSel := VineEst.RowSel.plain) A.skeleton c.a Z P.L P.γ P.δ h wBar lam
           (tt 0) (tt 1) (tt 2) (sumintBoundary (A.skeleton.sign c.a.toNode) E 0)
           (sumintBoundary (A.skeleton.sign c.a.toNode) E 1) (sumintBoundary (A.skeleton.sign c.a.toNode) E 2)
           (sumintBoundary (A.skeleton.sign c.a.toNode) E 3)) (cubeSet q0) := by
@@ -186,7 +187,7 @@ theorem twistedRecenteredModC_continuousOn {P : WTParams} (lam : ℝ)
       P.L P.γ P.δ h p) :
     ∀ E ∈ outSet (step3D hM9 B RD hG layer hLayer (canonBadKind hM9 B RD hG layer) (qOutOf RD hG layer a b R) centre wBar)
         P.L P.γ P.η,
-      ContinuousOn (fun tt : Fin 3 → ℝ => twistedRecenteredModC G a
+      ContinuousOn (fun tt : Fin 3 → ℝ => twistedRecenteredModC (rowSel := VineEst.RowSel.plain) G a
           (canonFinsetK p kind (startState B RD hG layer hLayer) (chainStart B)) P.L P.γ P.δ h wBar lam
           (tt 0) (tt 1) (tt 2) (sumintBoundary (G.sign a.toNode) E 0) (sumintBoundary (G.sign a.toNode) E 1)
           (sumintBoundary (G.sign a.toNode) E 2) (sumintBoundary (G.sign a.toNode) E 3))

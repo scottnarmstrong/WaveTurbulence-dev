@@ -14,6 +14,7 @@ public import WaveTurbulence.Foundations.VineEst.RegRedDraft.CLLocalFactors
 /-! # The regional phase as one exponential indexed by the M9 atom slots -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS2

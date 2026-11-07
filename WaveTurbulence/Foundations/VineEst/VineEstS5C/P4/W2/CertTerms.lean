@@ -15,6 +15,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.PieceAll1
 (`ObjExp.term_of_mem`), in the form `pieceAll_*` consumes. -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 namespace WaveTurbulence.VineEstS5C.P4.W2

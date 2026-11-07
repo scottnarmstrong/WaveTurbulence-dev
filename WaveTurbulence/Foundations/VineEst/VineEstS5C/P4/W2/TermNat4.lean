@@ -17,6 +17,7 @@ carries `TermCertW` at every size `β' ≥ certBeta ..` (`traceConst² · pre ·
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS5C.P4.W2
 open VineParamContract TTree Reg Reg.Skeleton RegRed MeasureTheory WaveTurbulence.VineEstS2 WaveTurbulence.VineEstS5A
@@ -43,7 +44,7 @@ theorem termCertW_nat {A : ℝ} (d : ℕ) (η : ℝ) (hd : 1 ≤ d) :
         P.L P.γ P.δ h p)
       (ψ0 : PsiT G P.d) (Dm : (Fin 3 → ℝ) → (GBranch G.tree → ℝ) → Prop)
       (Xq : SourcePair G → (Fin 3 → ℝ) → (GBranch G.tree → ℝ) → (GNode G.tree → (Fin P.d → ℤ)) → ℂ)
-      (hNE : RowFormNE RD hG P.L P.γ P.δ h layer hLayer lv.region wBar ψ0 Dm ∅ ∅ Xq)
+      (hNE : RowFormNE (rowSel := VineEst.RowSel.plain) RD hG P.L P.γ P.δ h layer hLayer lv.region wBar ψ0 Dm ∅ ∅ Xq)
       (hDm : ∀ t u, u lv.c.a = t 0 → (Dm t u ↔ ClDom lv.region (fun v => layer (RD.coreBranch hG v).toNode) t u))
       (hfree : ∀ i : Fin n', (assemblyPieceAt B' i).vineType.IsBad = true → ¬ AClause hM9 B' RD hG layer i →
         ∃ v : (assemblyShape hM9 B').VIdx, v.1 = i ∧

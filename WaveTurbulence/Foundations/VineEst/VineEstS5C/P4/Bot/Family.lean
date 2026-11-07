@@ -16,6 +16,7 @@ and the separated expansions `SFF` of the approximants at the bottom vine (P2 ga
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS5C.P4.Bot
 variable {kind : Bool}

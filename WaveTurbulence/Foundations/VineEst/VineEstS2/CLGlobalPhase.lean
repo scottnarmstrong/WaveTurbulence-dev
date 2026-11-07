@@ -17,6 +17,7 @@ reindexed clocks equals `signedPhase` of the source sumint datum, at `δ' = 2δ`
 common gap `-(β₂-β₃)` and vanishing weight parameters. -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS2

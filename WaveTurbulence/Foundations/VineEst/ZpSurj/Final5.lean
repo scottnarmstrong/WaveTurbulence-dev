@@ -10,6 +10,7 @@ public import WaveTurbulence.Foundations.VineEst.ZpSurj.Final4
 /-! # ZP-SURJ: the carrier bijection and the export -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 namespace WaveTurbulence.ZpSurj

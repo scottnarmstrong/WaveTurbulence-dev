@@ -19,6 +19,7 @@ core (`LFTwist.inducedPrelayer_isBranchPrelayering`), and the lone leaf of a nat
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 open WaveTurbulence.VineParamContract

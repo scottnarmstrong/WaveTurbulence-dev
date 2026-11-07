@@ -10,6 +10,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS2.CLFlowConservation
 /-! # Integer branching conservation reconstructed from the M9 fiber -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS2

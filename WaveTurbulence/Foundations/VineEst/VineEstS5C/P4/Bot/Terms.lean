@@ -16,6 +16,7 @@ operative member has piece index `0` contributes the summands `BX.term c`, `c âˆ
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS5C.P4.Bot
 variable {kind : Bool}

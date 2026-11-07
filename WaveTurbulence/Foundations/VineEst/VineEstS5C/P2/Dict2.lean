@@ -17,6 +17,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P2.LevelAbs
 a.e. on the engine time domain, (`hsub`) the engine domain is contained in the `sumint` domain and (`hvan`) the `sumint` integrand vanishes a.e. on the rest. -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS5C.P2
 open VineParamContract TTree Reg Reg.Skeleton RegRed MeasureTheory WaveTurbulence.VineEstS2 WaveTurbulence.VineEstS5A

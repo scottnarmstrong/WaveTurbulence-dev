@@ -33,6 +33,7 @@ public import WaveTurbulence.Foundations.WaveB.FrozenB1
 /-! # Unit coefficients after cancellation of the actual paired leaves -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS2
 open TTree Reg Reg.Skeleton RegRed

@@ -20,6 +20,7 @@ with constants `trC (6η⁶) · CRq b`, `trC (6η⁶) · CRt b` for any positive
 `κ.L = L`, `κ.γ = γ`, all fields of `AmbP`). -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 namespace WaveTurbulence.VineEstS5C.P4.W2

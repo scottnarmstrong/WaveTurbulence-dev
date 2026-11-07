@@ -11,6 +11,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P1.Mix
 /-! # ZP-SURJ: the numbers of the states of `Zp(A)` and `ZpLayers` -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 namespace WaveTurbulence.ZpSurj

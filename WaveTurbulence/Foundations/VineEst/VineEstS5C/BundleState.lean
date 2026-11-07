@@ -5,6 +5,7 @@ Authors: Scott Armstrong
 -/
 module
 
+public import WaveTurbulence.Foundations.VineEst.RowSel.ZpCoherent
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.ZpSurjStmt
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.BundleAbs
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.BundleAlg
@@ -21,6 +22,7 @@ are the conjugate-swaps (`cswap`, `cconj`).
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 open WaveTurbulence.VineParamContract
@@ -77,18 +79,22 @@ theorem zpObjT_of_pos {G : FamilyReconstruction w ι} {i : ι} (h : nuOf G i = 1
   simp [zpObjT, this]
 
 /-- Exact rows of a II-b index: `K*_Q = Q + R_Q`. -/
-theorem rowQ_B (b : ST w ι pstar J) (hb : nuOf b.1 pstar ≠ 1) (t s : ℝ) (k : Mom d) :
+theorem rowQ_B (b : ST w ι pstar J) (hb : nuOf b.1 pstar ≠ 1) {pc qc qc' : ℕ}
+    (hc : IsCoherentCoupleAt pc qc qc' (zpCodeC b.1 pstar) (zpObjC b.1 pstar)) (t s : ℝ) (k : Mom d) :
     rowQ κ b.1 pstar t s k = Qf b t s k + remQ κ Qf b t s k := by
   have h := (units_ne_one_iff _).mp hb
-  unfold remQ rowQ
+  rw [VineEst.rowQ_eq_of_zp κ hc]
+  unfold remQ
   rw [zpObjC_of_neg h]; ring
 
 /-- Exact tree row of a II-b index: `K*_{T̄} = T̄ + conj R_T`. -/
-theorem rowT_B (b : ST w ι pstar J) (hb : nuOf b.1 pstar ≠ 1) (t s : ℝ) (k : Mom d) :
+theorem rowT_B (b : ST w ι pstar J) (hb : nuOf b.1 pstar ≠ 1) {pc qc qc' : ℕ}
+    (hct : IsCoherentTreeAt pc qc qc' (zpCodeT b.1 pstar) (zpObjT b.1 pstar)) (t s : ℝ) (k : Mom d) :
     rowT κ b.1 pstar t s k = cconj (Tf) b t s k + (starRingEnd ℂ) (remT κ Tf b t s k) := by
   have h := (units_ne_one_iff _).mp hb
   have hc := PL234.KTstar_conj κ.L κ.γ κ.δ κ.F (conjLayered_isConjugateBy (sigStar b.1 pstar).2.2 (Equiv.refl (Fin 1))) t s k
-  unfold remT rowT cconj
+  rw [VineEst.rowT_eq_of_zp κ hct]
+  unfold remT cconj
   rw [zpObjT_of_neg h, hc, map_sub]
   simp
 
@@ -119,10 +125,12 @@ variable {p kind J}
 /-- Exact couple row of the II-a state standing for an index of `bsA`: `K*_{Q̄} = Q̄ + conj R_Q`. -/
 theorem rowQ_A {b : ST w ι pstar J} (hb : (nuOf b.1 pstar = 1) ∨
       (nuOf b.1 pstar ≠ 1 ∧ IsConjugateCouple (sigStar b.1 pstar).2.1 (sigStar (τ b).1 pstar).2.1))
+    {pc qc qc' : ℕ} (hcoh : IsCoherentCoupleAt pc qc qc' (zpCodeC (bsigma τ b).1 pstar) (zpObjC (bsigma τ b).1 pstar))
     (t s : ℝ) (k : Mom d) :
     rowQ κ (bsigma τ b).1 pstar t s k = cswap (Qf) b t s k + (starRingEnd ℂ) (remQ κ Qf b s t k) := by
   classical
-  unfold cswap remQ rowQ bsigma
+  rw [VineEst.rowQ_eq_of_zp κ hcoh]
+  unfold cswap remQ bsigma
   rcases hb with h | ⟨h, hc⟩
   · rw [if_pos h, zpObjC_of_pos h]
     have := PL234.KQstar_conj κ.L κ.γ κ.δ κ.F (conjLayered_isConjugateBy (sigStar b.1 pstar).2.1 (Equiv.swap (0 : Fin 2) 1)) s t k
@@ -135,10 +143,12 @@ theorem rowQ_A {b : ST w ι pstar J} (hb : (nuOf b.1 pstar = 1) ∨
 /-- Exact tree row of the II-a state standing for an index of `bsA`: `K*_T = T + R_T`. -/
 theorem rowT_A {b : ST w ι pstar J} (hb : (nuOf b.1 pstar = 1) ∨
       (nuOf b.1 pstar ≠ 1 ∧ IsConjugateTree (sigStar b.1 pstar).2.2 (sigStar (τ b).1 pstar).2.2))
+    {pc qc qc' : ℕ} (hcoh : IsCoherentTreeAt pc qc qc' (zpCodeT (bsigma τ b).1 pstar) (zpObjT (bsigma τ b).1 pstar))
     (t s : ℝ) (k : Mom d) :
     rowT κ (bsigma τ b).1 pstar t s k = Tf b t s k + remT κ Tf b t s k := by
   classical
-  unfold remT rowT bsigma
+  rw [VineEst.rowT_eq_of_zp κ hcoh]
+  unfold remT bsigma
   rcases hb with h | ⟨h, hc⟩
   · rw [if_pos h, zpObjT_of_pos h]; ring
   · have h' := (units_ne_one_iff _).mp h
@@ -229,6 +239,9 @@ theorem bundle_eq_repl (A : FamilyReconstruction w ι) (sp0 : SplitAt A.skeleton
     (hrel : ∀ G ∈ zpSet p kind pstar J A sp0 hA (-1),
       IsConjugateCouple (sigStar G.1 pstar).2.1 (sigStar (τ G).1 pstar).2.1 ∧
       IsConjugateTree (sigStar G.1 pstar).2.2 (sigStar (τ G).1 pstar).2.2)
+    (hZc : ∀ G ∈ zpFinset p kind pstar J A sp0 hA,
+      IsCoherentCoupleAt p (zpQQ G.1 pstar).1 (zpQQ G.1 pstar).2 (zpCodeC G.1 pstar) (zpObjC G.1 pstar) ∧
+      IsCoherentTreeAt p (zpBranchQ G.1 pstar).1 (zpBranchQ G.1 pstar).2 (zpCodeT G.1 pstar) (zpObjT G.1 pstar))
     (x : GNode A.skeleton.tree → (Fin d → ℤ)) (u : GBranch A.skeleton.tree → ℝ) :
     psiSB (p := p) (kind := kind) κ A sp0 hA x u = bundleFrame κ A sp0 x u * (((nuOf A pstar : ℤˣ) : ℂ) *
       (replSum (bsA p kind J A sp0 hA) (bsB p kind J A sp0 hA) (Qf) (cswap (Qf)) (Tf) (cconj (Tf))
@@ -256,19 +269,26 @@ theorem bundle_eq_repl (A : FamilyReconstruction w ι) (sp0 : SplitAt A.skeleton
       rcases hb'.2 with ⟨hn, hr⟩ | ⟨hn, _⟩
       · exact Or.inr ⟨hn, (hrel b ⟨hb'.1, (units_ne_one_iff _).mp hn, hr⟩).2⟩
       · exact Or.inl hn
+    have hσ : bsigma τ b ∈ zpFinset p kind pstar J A sp0 hA := by
+      unfold bsigma
+      rcases hb'.2 with ⟨hn, hr⟩ | ⟨hn, _⟩
+      · rw [if_neg hn]
+        exact (hbij.mapsTo (⟨hb'.1, (units_ne_one_iff _).mp hn, hr⟩ : b ∈ zpSet p kind pstar J A sp0 hA (-1))).1
+      · rw [if_pos hn]; exact hb'.1
     have e1 : rowQ κ (bsigma τ b).1 pstar =
         fun t s k => cswap (Qf) b t s k + (starRingEnd ℂ) (remQ κ Qf b s t k) :=
-      funext fun t => funext fun s => funext fun k => rowQ_A κ Qf τ hr1 t s k
+      funext fun t => funext fun s => funext fun k => rowQ_A κ Qf τ hr1 (hZc _ hσ).1 t s k
     have e2 : rowT κ (bsigma τ b).1 pstar = fun t s k => Tf b t s k + remT κ Tf b t s k :=
-      funext fun t => funext fun s => funext fun k => rowT_A κ Tf τ hr2 t s k
+      funext fun t => funext fun s => funext fun k => rowT_A κ Tf τ hr2 (hZc _ hσ).2 t s k
     rw [e1, e2]
   · refine Finset.sum_congr rfl fun b hb => ?_
     have hb' : b ∈ bsB p kind J A sp0 hA := hb
     have hn : nuOf b.1 pstar ≠ 1 := (Finset.mem_filter.mp hb').2
+    have hbz : b ∈ zpFinset p kind pstar J A sp0 hA := (Finset.mem_filter.mp hb').1
     have e1 : rowQ κ b.1 pstar = fun t s k => Qf b t s k + remQ κ Qf b t s k :=
-      funext fun t => funext fun s => funext fun k => rowQ_B κ Qf b hn t s k
+      funext fun t => funext fun s => funext fun k => rowQ_B κ Qf b hn (hZc b hbz).1 t s k
     have e2 : rowT κ b.1 pstar = fun t s k => cconj (Tf) b t s k + (starRingEnd ℂ) (remT κ Tf b t s k) :=
-      funext fun t => funext fun s => funext fun k => rowT_B κ Tf b hn t s k
+      funext fun t => funext fun s => funext fun k => rowT_B κ Tf b hn (hZc b hbz).2 t s k
     rw [e1, e2]
 
 end Reindex

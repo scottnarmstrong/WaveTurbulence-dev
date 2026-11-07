@@ -22,6 +22,7 @@ points of its `PtOK`; with the fallback, `PtOK := True` works, and the pieces of
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS5C.P4.W13
 open WaveTurbulence WaveTurbulence.VineEstS5C.P2 WaveTurbulence.VineEstS3.FS MeasureTheory

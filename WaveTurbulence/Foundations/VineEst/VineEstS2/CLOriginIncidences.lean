@@ -12,6 +12,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS2.CLIncidenceDifference
 /-! # Proposed molecule-local origin geometry implies actual garden slots -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS2

@@ -10,6 +10,7 @@ public import WaveTurbulence.Foundations.VineEst.ZpSurj.Realize2
 /-! # ZP-SURJ: the numerical inequalities between the layers `L₂ ≤ L₃, L₄ ≤ p` of the start state -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 namespace WaveTurbulence.ZpSurj

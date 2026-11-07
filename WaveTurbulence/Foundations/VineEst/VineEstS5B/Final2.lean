@@ -10,6 +10,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS5B.Final1
 /-! # V5 Step 4d-B: the common lower factor `K̃` of `A` and `SOKAt` of `K̃^G` at the states of `Zp(A)` -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS5B

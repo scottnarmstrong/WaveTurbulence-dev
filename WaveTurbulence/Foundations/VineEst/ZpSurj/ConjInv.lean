@@ -10,6 +10,7 @@ public import WaveTurbulence.Foundations.VineEst.ZpSurj.Coherent1
 /-! # ZP-SURJ: conjugation is an involution (codes and layered gardens) -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 namespace WaveTurbulence.ZpSurj

@@ -18,6 +18,7 @@ expansion that makes them time-independent weights (Propositions `proplayer1/2`)
 Step 3. -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS2
@@ -31,7 +32,7 @@ noncomputable def assemblyWK (hM9 : VINEPARAM) (B : CLChainAssembly G R n) (D : 
     (hG : G.IsPlain) (L γ δ : ℝ) (F : ℕ → Mom d → ℝ) (layer : GNode (D.forest hG) → ℕ)
     (hLayer : IsLayering (D.garden hG) layer) (t : Fin 3 → ℝ) (τ : CLInternalTime R)
     (v : (assemblyShape hM9 B).VIdx) (k : Mom d) : ℂ :=
-  KQstar L γ δ F (nativeCoupleLayered D hG layer hLayer (assemblyPairOf hM9 B hG v).1)
+  VineEst.selCoupleRow L γ δ F D hG layer hLayer (assemblyPairOf hM9 B hG v).1
     (parentClock (t 0) (clLocalClock R t τ) ((assemblyPairOf hM9 B hG v).1.firstLeaf hG).toNode)
     (parentClock (t 0) (clLocalClock R t τ) ((assemblyPairOf hM9 B hG v).1.secondLeaf hG).toNode) k
 
@@ -40,7 +41,7 @@ noncomputable def assemblyWL (hM9 : VINEPARAM) (B : CLChainAssembly G R n) (D : 
     (hG : G.IsPlain) (L γ δ : ℝ) (F : ℕ → Mom d → ℝ) (layer : GNode (D.forest hG) → ℕ)
     (hLayer : IsLayering (D.garden hG) layer) (t : Fin 3 → ℝ) (τ : CLInternalTime R)
     (v : (assemblyShape hM9 B).VIdx) (k : Mom d) : ℂ :=
-  KTstar L γ δ F (nativeChainLayered D hG layer hLayer (assemblyBranchOf hM9 B v).1)
+  VineEst.selTreeRow L γ δ F D hG layer hLayer (assemblyBranchOf hM9 B v).1
     (parentClock (t 0) (clLocalClock R t τ) (assemblyBranchOf hM9 B v).1.toNode)
     (clLocalClock R t τ (assemblyBranchOf hM9 B v).1) k
 
@@ -59,13 +60,13 @@ theorem clLocalStarProduct_eq_weights (hM9 : VINEPARAM) (B : CLChainAssembly G R
   refine congrArg₂ (· * ·) ?_ ?_
   · rw [← Finset.prod_coe_sort]
     exact (Equiv.prod_comp ((assemblyRowEquiv hM9 B).symm.trans (assemblyPairOrder hG B hM9).symm)
-      (fun p : ↥(clRegionalPairs hG U) => KQstar L γ δ F (nativeCoupleLayered D hG layer hLayer p.1)
+      (fun p : ↥(clRegionalPairs hG U) => VineEst.selCoupleRow L γ δ F D hG layer hLayer p.1
         (parentClock (t 0) (clLocalClock R t τ) (p.1.firstLeaf hG).toNode)
         (parentClock (t 0) (clLocalClock R t τ) (p.1.secondLeaf hG).toNode)
         (cosetDecoration G L base κ (p.1.firstLeaf hG).toNode))).symm
   · rw [← Finset.prod_coe_sort]
     exact (Equiv.prod_comp ((assemblyRowEquiv hM9 B).symm.trans (assemblyIntOrder hM9 B).e.symm)
-      (fun z : ↥(clInteriorBranches R) => KTstar L γ δ F (nativeChainLayered D hG layer hLayer z.1)
+      (fun z : ↥(clInteriorBranches R) => VineEst.selTreeRow L γ δ F D hG layer hLayer z.1
         (parentClock (t 0) (clLocalClock R t τ) z.1.toNode) (clLocalClock R t τ z.1)
         (cosetDecoration G L base κ z.1.toNode))).symm
 

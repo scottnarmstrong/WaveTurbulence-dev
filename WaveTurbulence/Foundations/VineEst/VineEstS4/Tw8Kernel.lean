@@ -15,6 +15,7 @@ twisted garden at the transported block equals the kernel of `G` at `T` with the
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS4
 open WaveTurbulence WaveTurbulence.Twist WaveTurbulence.LFTwist WaveTurbulence.RegRed WaveTurbulence.Reg.Skeleton TTree
@@ -46,8 +47,12 @@ variable {d : ℕ} (hG : G.IsPlain) (D : ReconstructionData G) (D' : Reconstruct
       nativeChainLayered D hG layer hLayer v)
   (hl : ∀ v ∈ T, layer' (D'.coreBranch (unitTwistGarden_plain G P hG) (eB P v)).toNode =
       layer (D.coreBranch hG v).toNode)
+  (hCi : ∀ p ∈ clRegionalPairs hG T, Flower.V5W.coupleIncoh D' (unitTwistGarden_plain G P hG) layer' hLayer' (tp P hG p) =
+      Flower.V5W.coupleIncoh D hG layer hLayer p)
+  (hTi : ∀ v ∈ clInteriorBranches R, Flower.V5W.treeIncoh D' (unitTwistGarden_plain G P hG) layer' hLayer' (eB P v) =
+      Flower.V5W.treeIncoh D hG layer hLayer v)
 
-include hB hCL hC hT hl in
+include hB hCL hC hT hl hCi hTi in
 /-- **K^T twist invariance (TARGET `twistexplain` (d), local form).** -/
 theorem clLocalKernel_twist :
     clLocalKernel D' (unitTwistGarden_plain G P hG) R' L γ δ F layer' hLayer' base t0 t1 t2 e f g h =
@@ -64,7 +69,7 @@ theorem clLocalKernel_twist :
     rw [← (tEquiv_measurePreserving P R R').integral_comp' (g := fun τ' => clLocalSummand D' _ R' L γ δ F layer' hLayer'
       base ![e, f, g, h] ![t0, t1, t2] κ' τ')]
     exact integral_congr_ae (Filter.Eventually.of_forall fun τ =>
-      summand_twist P hB hCL R R' hG D D' L γ δ F layer hLayer layer' hLayer' base e f g h hC hT hl _ κ' τ)
+      summand_twist P hB hCL R R' hG D D' L γ δ F layer hLayer layer' hLayer' base e f g h hC hT hl hCi hTi _ κ' τ)
   rw [tsum_congr hint]
   exact (decEquiv P hB hCL R R' L base e f g h).tsum_eq
     (fun κ => ∫ τ : CLInternalTime R, clLocalSummand D hG R L γ δ F layer hLayer base ![f, e, g, h] ![t0, t1, t2] κ τ)

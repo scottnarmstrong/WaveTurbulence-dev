@@ -16,6 +16,7 @@ carrier lies in a layer `≤ q`.  `coherentCouple_layer_le_q`: every node of a c
 `cohFacts_of_coherent` with `q` in place of `p`). -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 namespace WaveTurbulence.VineEstS5C.P4.W2

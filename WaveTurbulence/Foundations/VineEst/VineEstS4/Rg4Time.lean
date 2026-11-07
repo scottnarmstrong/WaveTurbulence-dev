@@ -11,6 +11,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS4.Tw5Clock
 /-! # Rigid relocation of the upper block: clocks and the factors `n₁`, `ζ` (V5 Step 4b, step 4, WP-B part 4) -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS4

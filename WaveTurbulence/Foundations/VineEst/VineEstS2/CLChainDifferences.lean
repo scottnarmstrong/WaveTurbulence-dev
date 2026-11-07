@@ -10,6 +10,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS2.CLChainOrigins
 /-! # Every full-chain coordinate is a difference of two actual origins -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS2

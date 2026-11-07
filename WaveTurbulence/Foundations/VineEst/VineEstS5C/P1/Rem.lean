@@ -17,6 +17,7 @@ exact trivial kernel is `F · 1_{t > Lr}`).  `zp_remQ_eq`, `zp_remT_eq`: hence `
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 namespace WaveTurbulence.VineEstS5C.P1

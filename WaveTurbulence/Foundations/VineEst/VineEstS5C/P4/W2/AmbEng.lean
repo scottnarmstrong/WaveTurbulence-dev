@@ -16,6 +16,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS3.AdmissibleAssembly
 `ambW_engDatum`: the `AmbW` of the engine datum from `AmbP`, the structural part, the bad-case clause `BadClauseP`, a sign mixture, the kind-2 unit-gap bound and `d < wDec`, `M ≤ N₁⁴`. -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS5C.P4.W2
 variable {kind : Bool}

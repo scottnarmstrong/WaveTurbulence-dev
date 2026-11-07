@@ -10,6 +10,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS4.Tw3Dec
 /-! # K^T twist invariance, the decoration equivalence (V5 Step 4b, step 3, part 4) -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS4
 open WaveTurbulence WaveTurbulence.Twist WaveTurbulence.RegRed WaveTurbulence.Reg.Skeleton TTree

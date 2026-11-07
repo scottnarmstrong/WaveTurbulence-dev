@@ -22,6 +22,7 @@ The six row shapes of the remainder pieces `rA1…rB3` (both orientations of `Fl
 * `pieceRep_RP`   : `𝒦` three-clock product (shifted couple remainder) × (tree remainder), `ℒ` the constant `1`. -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 namespace WaveTurbulence.VineEstS5C.P4.W2

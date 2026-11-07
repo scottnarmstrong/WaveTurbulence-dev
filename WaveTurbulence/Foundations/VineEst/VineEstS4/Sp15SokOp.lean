@@ -11,6 +11,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS4.Sp5Reach
 /-! # `SOKAt` along operations at members of `J` and along batches (V5 Step 4b, step 4, WP-E, part 5) -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS4

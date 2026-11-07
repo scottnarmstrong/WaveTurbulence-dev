@@ -11,6 +11,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS4.RowCanon
 /-! # ZP-SURJ: coherence of the native exceptional objects of a reconstruction -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 namespace WaveTurbulence.ZpSurj

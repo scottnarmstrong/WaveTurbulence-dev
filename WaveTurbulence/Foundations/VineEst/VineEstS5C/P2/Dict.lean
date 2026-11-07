@@ -16,6 +16,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS3.Step3Kernel
 `c ζ ∑'_x ε(x) ∫_{𝒟} signedPhase · ∏_v (WKg v … · WLg v …)`, the `sumint` form of V4 (`vineChainGenR_eq_sumintForm`). -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS5C.P2
 open VineParamContract TTree Reg Reg.Skeleton RegRed MeasureTheory WaveTurbulence.VineEstS2 WaveTurbulence.VineEstS5A

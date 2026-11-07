@@ -5,6 +5,8 @@ Authors: Scott Armstrong
 -/
 module
 
+public import WaveTurbulence.Foundations.VineEst.RowSel.RowDataLF
+public import WaveTurbulence.Foundations.VineEst.RowSel.RowTransport
 public import WaveTurbulence.Foundations.VineEst.VineEstS4.Sp13Rig
 public import WaveTurbulence.Foundations.VineEst.VineEstS4.Sp4Rigid
 
@@ -15,6 +17,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS4.Sp4Rigid
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS4
@@ -47,7 +50,7 @@ theorem SOK_rigid_LF_iff (h : LFConstruction s true) {S : Finset (GBranch s.skel
     SOK RS' h.data (s.chosen_plain true) L γ δ F layer' hLayer' base t0 t1 t2 e f
         (naiveNodeEquiv s.skeleton s.placement n0) (naiveNodeEquiv s.skeleton s.placement n1) Φ ↔
       SOK RS s.data s.plain L γ δ F layer hLayer base t0 t1 t2 e f n0 n1 Φ := by
-  refine SOK_rigid_iff s.placement hS hR RS RS' s.plain s.data h.data L γ δ F layer hLayer layer' hLayer' base ?_ ?_ ?_
+  refine SOK_rigid_iff s.placement hS hR RS RS' s.plain s.data h.data L γ δ F layer hLayer layer' hLayer' base ?_ ?_ ?_ ?_ ?_ ?_
     t0 t1 t2 e f n0 n1 Φ
   · intro q hq
     have hint := (mem_clRegionalPairs s.skeleton).mp hq
@@ -61,6 +64,20 @@ theorem SOK_rigid_LF_iff (h : LFConstruction s true) {S : Finset (GBranch s.skel
     exact native_couple_eq h layer hLayer hspec layer' hLayer' hspec' q hne
   · intro v hv
     exact native_tree_eq h layer hLayer hspec layer' hLayer' hspec' v (hR.ne_lower (Finset.mem_of_mem_erase hv))
+  · intro v _
+    exact coreLayer_eq h layer hLayer hspec layer' hLayer' hspec' v
+  · intro q hq
+    have hint := (mem_clRegionalPairs s.skeleton).mp hq
+    have hne : q ≠ s.exceptional := by
+      intro hqe
+      have hqe' : q = pairOfLeaf s.skeleton s.plain s.placement.retained := hqe
+      subst hqe'
+      rcases pairOfLeaf_first_or_partner s.skeleton s.plain s.placement.retained with hq' | hq'
+      · exact not_internal_retained_of s.placement hR.lower_notMem (hq' ▸ hint)
+      · exact not_internal_pair_of s.placement hR.lower_notMem (hq' ▸ hint)
+    exact Flower.V5W.coupleIncoh_LF h layer hLayer hspec layer' hLayer' hspec' q hne
+  · intro v hv
+    exact Flower.V5W.treeIncoh_LF h layer hLayer hspec layer' hLayer' hspec' v (hR.ne_lower (Finset.mem_of_mem_erase hv))
   · intro v _
     exact coreLayer_eq h layer hLayer hspec layer' hLayer' hspec' v
 
@@ -80,7 +97,7 @@ theorem SOK_false_LF_iff (h : LFConstruction s false) {S : Finset (GBranch s.ske
       sInt RS h.data (s.chosen_plain false) L γ δ F layer' hLayer' base t0 t1 t2 e f n0 n1 Φ xS σ =
         sInt RS s.data s.plain L γ δ F layer hLayer base t0 t1 t2 e f n0 n1 Φ xS σ := by
     intro xS σ
-    have hsp := spart_congr_data (a := a) (S := S) s.plain h.data s.data L γ δ F layer' hLayer' layer hLayer base ?_ ?_ ?_ b
+    have hsp := spart_congr_data (a := a) (S := S) s.plain h.data s.data L γ δ F layer' hLayer' layer hLayer base ?_ ?_ ?_ ?_ ?_ ?_ ?_ b
       xS.1 (clLocalClock RS ![t0, t1, t2] σ)
     · unfold sInt
       rw [hsp]
@@ -100,6 +117,27 @@ theorem SOK_false_LF_iff (h : LFConstruction s false) {S : Finset (GBranch s.ske
       exact native_tree_eq h layer hLayer hspec layer' hLayer' hspec' v (fun e => hlow (e ▸ (Finset.mem_of_mem_erase hv)))
     · intro v _
       exact coreLayer_eq h layer hLayer hspec layer' hLayer' hspec' v
+    · intro q hq
+      have hint := (mem_clRegionalPairs s.skeleton).mp hq
+      have hne : q ≠ s.exceptional := by
+        intro hqe
+        have hqe' : q = pairOfLeaf s.skeleton s.plain s.placement.retained := hqe
+        subst hqe'
+        rcases pairOfLeaf_first_or_partner s.skeleton s.plain s.placement.retained with hq' | hq'
+        · exact not_internal_retained_of s.placement hlow (hq' ▸ hint)
+        · exact not_internal_pair_of s.placement hlow (hq' ▸ hint)
+      have := Flower.V5W.coupleIncoh_LF h layer hLayer hspec layer' hLayer' hspec' q hne
+      have hp : s.pairs false q = q := pairOfLeaf_firstLeaf s.skeleton s.plain q
+      rwa [hp] at this
+    · intro v hv
+      exact Flower.V5W.treeIncoh_LF h layer hLayer hspec layer' hLayer' hspec' v
+        (fun e => hlow (e ▸ (Finset.mem_of_mem_erase hv)))
+    · intro pp q _ i
+      exact VineEst.coupleRootParents_congr_all s.plain h.data s.data layer' hLayer' layer hLayer
+        (fun v => coreLayer_eq h layer hLayer hspec layer' hLayer' hspec' v) pp q i
+    · intro pp v _
+      exact VineEst.treeRootParent_congr_all s.plain h.data s.data layer' hLayer' layer hLayer
+        (fun v => coreLayer_eq h layer hLayer hspec layer' hLayer' hspec' v) pp v
   have hfun : ∀ xS : ExtS RS L base e f,
       sInt RS h.data (s.chosen_plain false) L γ δ F layer' hLayer' base t0 t1 t2 e f n0 n1 Φ xS =
         sInt RS s.data s.plain L γ δ F layer hLayer base t0 t1 t2 e f n0 n1 Φ xS := fun xS => funext (hpt xS)

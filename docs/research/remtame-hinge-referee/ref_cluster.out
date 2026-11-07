@@ -1,0 +1,33 @@
+== N: balanced charge-0 degree-4 atom
+  ok (2000 random); so a zero-gap crossing triangle pair at a degree-4 hinge leaves a zero-gap outer half
+== C: C1 and C0 at graph level (R = 1 molecules, 2n-1 bonds)
+  C1: atoms 9, bonds 17; cluster ['E1', 'u', 'v', 'E2'] pinned (rank) = False, (flux) = False
+   C1 erasing E1: beta-cut along its chain pair possible = True; TARGET literal case = (i) cut
+   C1 erasing E2: beta-cut along its chain pair possible = True; TARGET literal case = (i) cut
+   C1 after the two erasures: tame component(s) [['u', 'v']]
+   A({u,v}) ~ L^{0.750} vs per-component RHS with Z=2: L^{0.0020} (fails for every gamma > 2 eta)
+  C0: atoms 8, bonds 15; cluster ['E1', 'w', 'E2'] pinned (rank) = False, (flux) = False
+   C0 erasing E1: beta-cut along its chain pair possible = True; TARGET literal case = (i) cut
+   C0 erasing E2: beta-cut along its chain pair possible = True; TARGET literal case = (i) cut
+   C0 after the two erasures: tame component(s) [['w']]
+   A({w}) = 1 vs TARGET R=1 (Z := 0, G = 0, rho = 1) RHS L^{-eta^5} < 1: fails; with Z = 1 it holds
+== K: cluster lemma on random molecules
+  trials 4000; rank test == flux test in 4000; unpinned 609; unpinned with all K-degrees 4: 352; min(J - s) = 1
+  brute-force E_pre <= N_K * sup E_pos on tiny molecules (d = 1, box [-1,1])
+   cases 369, violations 0; unpinned cases where the factor #k0 is really needed: 81
+== F: Option B on an 8-atom molecule; tame v3 = t of a skipped triangle
+  pair kinds: {'a': ['LG', 'SG'], 'b': ['LG', 'SG'], 'o1': ['LG'], 'o2': ['LG'], 't': ['ZG'], 'w1': ['LG'], 'w2': ['LG'], 'w3': ['LG']}
+  blocks (with gap kind): [(('w1', 'w2'), 'LG'), (('w2', 'w3'), 'LG'), (('a', 'b', 't', 'w1', 'w2', 'w3'), 'SG')]
+   LG block ('w1', 'w2') (a vine (I), not collected)
+   LG block ('w2', 'w3') (a vine (I), not collected)
+  directed triangles (atom, kind of triangle pair): [[('w1', 'LG'), ('w3', 'LG'), ('t', 'ZG')], [('b', 'SG'), ('t', 'ZG'), ('a', 'SG')], [('b', 'LG'), ('o2', 'LG'), ('a', 'LG')], [('o1', 'LG'), ('o2', 'LG'), ('a', 'SG')], [('w3', 'LG'), ('w2', 'LG'), ('w1', 'LG')]]
+  M_fin components: [['a', 'b', 'o1', 'o2'], ['a1', 'b1', 't', 'w1', 'w2', 'w3']]  classes: {'a': 'alpha', 'b': 'beta', 'o1': 'eps', 'o2': 'eps', 't': 'eps', 'w1': 'eps', 'w2': 'eps', 'w3': 'eps', 'a1': 'alpha', 'b1': 'beta'}
+  component of t: perfect = True; its alpha/beta chain ['b1', 'a1'] attaches at ['t', 't']
+  Op 5 on {t}: s=1 e=4 c=2 chi_K=0 J=2 pinned=False
+== S: slack of the cluster lemma (f) over all feasible shapes, s <= 24
+  shapes evaluated 2890800; minimum slack 0.01999 at (d, gamma, eta, s, e, J, pinned) = (3, 0.01, 3.3333333333333333e-06, 1, 4, 0, True)
+  excluded shapes: degree-2 unpinned atom slack -0.7502, isolated tame double bond slack -0.2500
+== D: DCB closing arithmetic
+  eta^2 <= 1/(32d+56) holds whenever d*eta <= 1/2000: True
+
+RESULT: ALL CHECKS PASSED

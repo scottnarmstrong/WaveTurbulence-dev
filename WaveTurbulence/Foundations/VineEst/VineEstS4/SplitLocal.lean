@@ -11,6 +11,7 @@ public import WaveTurbulence.Foundations.VineEst.RegRedDraft.CLStarConsumption
 /-! # Locality of the S-part `spart` in the clock (V5 Step 4b, P2.3 Fubini form) -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS4
 open WaveTurbulence WaveTurbulence.VineEstS2 WaveTurbulence.RegRed WaveTurbulence.Reg.Skeleton TTree MeasureTheory
@@ -51,7 +52,7 @@ theorem starProd_congr_S (hS : G.molecule.IsBlock S a b) (RS : CLRegionData G S 
     (x : GNode G.tree → (Fin d → ℤ)) {u u' : GBranch G.tree → ℝ} (h : ∀ v ∈ S, u v = u' v) :
     starProd D hG L γ δ F layer hLayer base S a top x u = starProd D hG L γ δ F layer hLayer base S a top x u' := by
   unfold starProd
-  congr 1
+  refine congrArg₂ (· * ·) ?_ ?_
   · refine Finset.prod_congr rfl (fun p hp => ?_)
     have hr := clRegionalPair_realization hG p hp
     rw [parentClock_congr_S hS RS h hr.1 (Mole.branch_toNode_ne_leaf a _).symm,

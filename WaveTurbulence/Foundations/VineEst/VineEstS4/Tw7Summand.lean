@@ -7,10 +7,13 @@ module
 
 public import WaveTurbulence.Foundations.VineEst.VineEstS4.Tw6Pairs
 public import WaveTurbulence.Foundations.VineEst.RegRedDraft.CLLocalKernel
+public import WaveTurbulence.Foundations.VineEst.RowSel.RowDataLemmas
+public import WaveTurbulence.Foundations.Molecule.TwistChildLabels
 
 /-! # K^T twist invariance, the local summand (V5 Step 4b, step 3, part 7) -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS4
 open WaveTurbulence WaveTurbulence.Twist WaveTurbulence.LFTwist WaveTurbulence.RegRed WaveTurbulence.Reg.Skeleton TTree
@@ -64,7 +67,13 @@ theorem star_reg (ext : GNode G.tree → (Fin d → ℤ)) (ext' : GNode (unitTwi
     (hC : ∀ p ∈ clRegionalPairs hG T, nativeCoupleLayered D' (unitTwistGarden_plain G P hG) layer' hLayer' (tp P hG p) =
       nativeCoupleLayered D hG layer hLayer p)
     (hT : ∀ v ∈ clInteriorBranches R, nativeChainLayered D' (unitTwistGarden_plain G P hG) layer' hLayer' (eB P v) =
-      nativeChainLayered D hG layer hLayer v) :
+      nativeChainLayered D hG layer hLayer v)
+    (hCi : ∀ p ∈ clRegionalPairs hG T, Flower.V5W.coupleIncoh D' (unitTwistGarden_plain G P hG) layer' hLayer' (tp P hG p) =
+      Flower.V5W.coupleIncoh D hG layer hLayer p)
+    (hTi : ∀ v ∈ clInteriorBranches R, Flower.V5W.treeIncoh D' (unitTwistGarden_plain G P hG) layer' hLayer' (eB P v) =
+      Flower.V5W.treeIncoh D hG layer hLayer v)
+    (hl : ∀ v ∈ T, layer' (D'.coreBranch (unitTwistGarden_plain G P hG) (eB P v)).toNode =
+      layer (D.coreBranch hG v).toNode) :
     clLocalStarProduct D' (unitTwistGarden_plain G P hG) R' L γ δ F layer' hLayer' base ext' t (tEquiv P R R' τ) =
       clLocalStarProduct D hG R L γ δ F layer hLayer base ext t τ := by
   have hclock := fun v (hv : v ∈ T) => clock_corr P R R' t τ hv
@@ -90,7 +99,37 @@ theorem star_reg (ext : GNode G.tree → (Fin d → ℤ)) (ext' : GNode (unitTwi
       naiveNodeEquiv_leaf G P _
     have n2 : naiveNodeEquiv G P (p.secondLeaf hG).toNode = (eL P (p.secondLeaf hG)).toNode :=
       naiveNodeEquiv_leaf G P _
-    rw [hf, hs, hC p hp]
+    have hp1 : p.firstLeaf hG ≠ G.pair P.retained := fun h => not_internal_pair P hB hCL (h ▸ hint)
+    have hint2 : Mole.IsInternalLeaf G T (p.secondLeaf hG) := by
+      have := (Mole.internal_leaf_pair_iff G T (p.firstLeaf hG)).mpr hint
+      rwa [pair_first_eq_second hG p] at this
+    have hp2 : p.secondLeaf hG ≠ G.pair P.retained := fun h => not_internal_pair P hB hCL (h ▸ hint2)
+    obtain ⟨v1, i1, hv1, hx1⟩ := Flower.V5W.real_child hB R hr1 hl1
+    obtain ⟨v2, i2, hv2, hx2⟩ := Flower.V5W.real_child hB R hr2 hl2
+    have hq : ∀ i, Flower.V5W.coupleRootParents rowSel.p D' (unitTwistGarden_plain G P hG) layer' hLayer'
+        (tp P hG p) i = Flower.V5W.coupleRootParents rowSel.p D hG layer hLayer p i := by
+      intro i
+      fin_cases i
+      · have hx1' : ((tp P hG p).firstLeaf (unitTwistGarden_plain G P hG)).toNode =
+            (eB P v1).child (exchangeChildSlot P.lower.1 P.keep v1.1 i1) := by
+          rw [hf]
+          exact (naiveNodeEquiv_leaf G P _).symm.trans
+            (naiveNodeEquiv_child G P hx1 hl1 (fun h => hp1 (Mole.leaf_toNode_injective h)))
+        show Flower.V5W.coupleRootParents rowSel.p D' (unitTwistGarden_plain G P hG) layer' hLayer' (tp P hG p) 0 =
+          Flower.V5W.coupleRootParents rowSel.p D hG layer hLayer p 0
+        rw [Flower.V5W.coupleRootParents_zero D' (unitTwistGarden_plain G P hG) layer' hLayer' rowSel.p (tp P hG p)
+            (eB P v1) _ hx1', Flower.V5W.coupleRootParents_zero D hG layer hLayer rowSel.p p v1 i1 hx1, hl v1 hv1]
+      · have hx2' : ((tp P hG p).secondLeaf (unitTwistGarden_plain G P hG)).toNode =
+            (eB P v2).child (exchangeChildSlot P.lower.1 P.keep v2.1 i2) := by
+          rw [hs]
+          exact (naiveNodeEquiv_leaf G P _).symm.trans
+            (naiveNodeEquiv_child G P hx2 hl2 (fun h => hp2 (Mole.leaf_toNode_injective h)))
+        show Flower.V5W.coupleRootParents rowSel.p D' (unitTwistGarden_plain G P hG) layer' hLayer' (tp P hG p) 1 =
+          Flower.V5W.coupleRootParents rowSel.p D hG layer hLayer p 1
+        rw [Flower.V5W.coupleRootParents_one D' (unitTwistGarden_plain G P hG) layer' hLayer' rowSel.p (tp P hG p)
+            (eB P v2) _ hx2', Flower.V5W.coupleRootParents_one D hG layer hLayer rowSel.p p v2 i2 hx2, hl v2 hv2]
+    rw [VineEst.selCoupleRow_congr L γ δ F D hG layer hLayer p D' (unitTwistGarden_plain G P hG) layer' hLayer'
+      (tp P hG p) (hC p hp) (hCi p hp) hq, hf, hs]
     have d1 : cosetDecoration (unitTwistGarden G P) L base ext' (eL P (p.firstLeaf hG)).toNode =
         cosetDecoration G L base ext (p.firstLeaf hG).toNode := by
       unfold cosetDecoration
@@ -112,7 +151,16 @@ theorem star_reg (ext : GNode G.tree → (Fin d → ℤ)) (ext' : GNode (unitTwi
         cosetDecoration G L base ext v.toNode := by
       unfold cosetDecoration
       exact congrArg (fun y => base + latticePoint L y) ((hext _).trans (congrArg ext' (twNode_branch P v hvl))).symm
-    rw [hT v hv, c1', hclock v hvT, d1]
+    obtain ⟨c, i, hc, hxc⟩ := Flower.V5W.real_child hB R ((branch_mem_clRealizationNodes v).mpr hvT) hvn
+    have hxc' : (eB P v).toNode = (eB P c).child (exchangeChildSlot P.lower.1 P.keep c.1 i) := by
+      exact (naiveNodeEquiv_branch G P v).symm.trans
+        (naiveNodeEquiv_child G P hxc hvn (Mole.branch_toNode_ne_leaf v _))
+    have hqT : Flower.V5W.treeRootParent rowSel.p D' (unitTwistGarden_plain G P hG) layer' hLayer' (eB P v) =
+        Flower.V5W.treeRootParent rowSel.p D hG layer hLayer v := by
+      rw [Flower.V5W.treeRootParent_eq D' (unitTwistGarden_plain G P hG) layer' hLayer' rowSel.p (eB P v) (eB P c) _ hxc',
+        Flower.V5W.treeRootParent_eq D hG layer hLayer rowSel.p v c i hxc, hl c hc]
+    rw [VineEst.selTreeRow_congr L γ δ F D hG layer hLayer v D' (unitTwistGarden_plain G P hG) layer' hLayer'
+      (eB P v) (hT v hv) (hTi v hv) hqT, c1', hclock v hvT, d1]
 
 end Star
 
@@ -127,8 +175,12 @@ variable {d : ℕ} (hG : G.IsPlain) (D : ReconstructionData G) (D' : Reconstruct
       nativeChainLayered D hG layer hLayer v)
   (hl : ∀ v ∈ T, layer' (D'.coreBranch (unitTwistGarden_plain G P hG) (eB P v)).toNode =
       layer (D.coreBranch hG v).toNode)
+  (hCi : ∀ p ∈ clRegionalPairs hG T, Flower.V5W.coupleIncoh D' (unitTwistGarden_plain G P hG) layer' hLayer' (tp P hG p) =
+      Flower.V5W.coupleIncoh D hG layer hLayer p)
+  (hTi : ∀ v ∈ clInteriorBranches R, Flower.V5W.treeIncoh D' (unitTwistGarden_plain G P hG) layer' hLayer' (eB P v) =
+      Flower.V5W.treeIncoh D hG layer hLayer v)
 
-include hB hCL hC hT hl in
+include hB hCL hC hT hl hCi hTi in
 /-- **The local summand is twist invariant**: the summand of the twisted garden at `κ'` and the clock `tEquiv τ` is the
 summand of the original garden at `decEquiv κ'` (boundary momenta `e, f` exchanged) and the clock `τ`. -/
 theorem summand_twist (t : Fin 3 → ℝ) (κ' : CLLocalDecoration R' L base ![e, f, g, h]) (τ : CLInternalTime R) :
@@ -147,7 +199,7 @@ theorem summand_twist (t : Fin 3 → ℝ) (κ' : CLLocalDecoration R' L base ![e
     intro x; unfold cosetDecoration; rw [hext x]
   have hph := phase_reg P hB hCL L γ δ _ _ hk (clLocalClock R t τ) (clLocalClock R' t (tEquiv P R R' τ)) hclock
   have hst := star_reg P hB hCL R R' hG D D' L γ δ F layer hLayer layer' hLayer' base (clExtendIndices R κ.1)
-    (clExtendIndices R' κ'.1) hext t τ hC hT
+    (clExtendIndices R' κ'.1) hext t τ hC hT hCi hTi hl
   have hdom := twDomain_iff P hB hCL R R' (fun v => layer (D.coreBranch hG v).toNode)
     (fun v => layer' (D'.coreBranch (unitTwistGarden_plain G P hG) v).toNode) hl t τ
   unfold clLocalSummand

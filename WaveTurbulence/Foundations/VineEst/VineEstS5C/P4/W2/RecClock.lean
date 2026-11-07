@@ -16,6 +16,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.DomEng
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS5C.P4.W2
 open VineParamContract TTree Reg Reg.Skeleton RegRed MeasureTheory WaveTurbulence.VineEstS2 WaveTurbulence.VineEstS5A
@@ -36,7 +37,7 @@ theorem rows_clock_mem_exc (W : SumintWeightClockData (assemblyShape hM9 B) d) (
         parentClock (tt 0) (clLocalClock R tt (assemblyClockEquiv hM9 B τ)) z.1.toNode)
     (ρ : Row (sourceSumintDatum hM9 B hG W))
     (hρ : ∀ v, ρ = Sum.inr v → (assemblyBranchOf hM9 B v).1 ∉ Bex) :
-    (assemblyClocked hM9 B RD hG W L γ δ F layer hLayer).clock τ tt ρ ∈
+    (assemblyClockedS hM9 B RD hG W L γ δ F layer hLayer).clock τ tt ρ ∈
       rowBx hM9 B RD hG layer hLayer W L γ δ F ρ := by
   have hsl : ∀ s : Eng.Slot (sourceSumintDatum hM9 B hG W),
       slotVal (sourceSumintDatum hM9 B hG W) τ tt s ∈
@@ -45,7 +46,7 @@ theorem rows_clock_mem_exc (W : SumintWeightClockData (assemblyShape hM9 B) d) (
     rcases s with v | c
     · exact ⟨(hwin v).1, (hwin v).2⟩
     · exact htt.1 c
-  have hbox : ∀ i : Fin 2, (assemblyClocked hM9 B RD hG W L γ δ F layer hLayer).clock τ tt ρ i ∈
+  have hbox : ∀ i : Fin 2, (assemblyClockedS hM9 B RD hG W L γ δ F layer hLayer).clock τ tt ρ i ∈
       Set.Icc (((if i = 0 then (rowQ hM9 B RD hG W L γ δ F layer hLayer ρ).1
         else (rowQ hM9 B RD hG W L γ δ F layer hLayer ρ).2 : ℕ)) : ℝ)
         ((if i = 0 then (rowQ hM9 B RD hG W L γ δ F layer hLayer ρ).1
@@ -63,16 +64,16 @@ theorem rows_clock_mem_exc (W : SumintWeightClockData (assemblyShape hM9 B) d) (
         (Finset.mem_erase.mp (assemblyBranchOf hM9 B v).2).2)
       (interior_ne (assemblyBranchOf hM9 B v)) tt τ
     have h4 := branchSlot_spec hM9 B (assemblyBranchOf hM9 B v) tt τ
-    have e1 : (assemblyClocked hM9 B RD hG W L γ δ F layer hLayer).clock τ tt (Sum.inr v) 1 =
+    have e1 : (assemblyClockedS hM9 B RD hG W L γ δ F layer hLayer).clock τ tt (Sum.inr v) 1 =
         τ (branchSlot hM9 B (assemblyBranchOf hM9 B v)) := by
-      simp [ClockedRows.clock, assemblyClocked, slotVal]
+      simp [ClockedRows.clock, assemblyClockedS, slotVal]
       rfl
-    have e0 : (assemblyClocked hM9 B RD hG W L γ δ F layer hLayer).clock τ tt (Sum.inr v) 0 =
+    have e0 : (assemblyClockedS hM9 B RD hG W L γ δ F layer hLayer).clock τ tt (Sum.inr v) 0 =
         Sum.elim τ tt (nodeSlot hM9 B (assemblyBranchOf hM9 B v).1.toNode) := by
-      simp [ClockedRows.clock, assemblyClocked, slotVal]
+      simp [ClockedRows.clock, assemblyClockedS, slotVal]
       rfl
-    show (assemblyClocked hM9 B RD hG W L γ δ F layer hLayer).clock τ tt (Sum.inr v) 1 <
-      (assemblyClocked hM9 B RD hG W L γ δ F layer hLayer).clock τ tt (Sum.inr v) 0
+    show (assemblyClockedS hM9 B RD hG W L γ δ F layer hLayer).clock τ tt (Sum.inr v) 1 <
+      (assemblyClockedS hM9 B RD hG W L γ δ F layer hLayer).clock τ tt (Sum.inr v) 0
     rw [e1, e0, ← h3, ← h4]
     exact hz
 

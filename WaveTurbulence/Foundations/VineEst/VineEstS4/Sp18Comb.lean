@@ -15,6 +15,7 @@ lower joint `bk` of piece `k`) and the lower vine chain `Tk` (pieces `< k`, from
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS4

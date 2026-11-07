@@ -22,6 +22,7 @@ partner of the retained leaf), `q₂ = (zpBranchQ A).1` (parent layer of the low
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 namespace WaveTurbulence.VineEstS5C.P4.W13

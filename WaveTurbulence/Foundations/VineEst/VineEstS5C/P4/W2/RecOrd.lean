@@ -18,6 +18,7 @@ On the engine time domain (`τ s < tt 0` for all `s`, the pairs of `cons`): `ord
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS5C.P4.W2
 open WaveTurbulence WaveTurbulence.VineEstS5C.P4 WaveTurbulence.VineEstS5C.P4.W13

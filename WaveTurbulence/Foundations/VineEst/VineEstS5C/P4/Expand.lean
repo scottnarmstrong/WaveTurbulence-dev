@@ -18,6 +18,7 @@ Generic algebra (no vine data).  `Q b = ∑ i, sQ b i`, `T b = ∑ j, sT b j` at
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS5C.P4

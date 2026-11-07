@@ -14,6 +14,7 @@ The hypotheses `hcan, hel, htc, hcc` are the operation preconditions of `FamilyO
 state `A ∈ Zp(A)` must have a coherent exceptional pair. -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 namespace WaveTurbulence.ZpSurj

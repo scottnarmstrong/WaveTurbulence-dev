@@ -1,0 +1,254 @@
+RESEARCH-GHOST (wt-orch ticket "Research (ghost)" + DEAD-HIT add-on), 2026-11-05
+=====================================================================================
+Refute-first review of the G2-GHOST STOP (ghost triangles in Operation 2) and of DEAD-HIT (iota hits by dead cuts).
+Labels: PROVED (argument written here), CHECKED (finite computation, range given), OPEN.
+
+Inputs (pinned at first read, re-verified unchanged at the end: PINNED-SHA256SUMS.txt, `sha256sum -c` all OK):
+  g2-ghost/HANDOFF.md, PROGRESS.md; orch RULINGS.md (R18, R27, R29, R34-R36); finalcount-g3/HANDOFF.md, G3Steps.lean,
+  G3Iota.lean, G3N12.lean.  Read also: DH23 L1747-1827 (Revision_Submit.tex), TARGET L2095-2226, G2 Prop94Statement.lean,
+  TriDev3.lean (TriReal), universe WaveBDraft/Core.lean (WTPrefix).
+Scripts (all run with python3 -I in this directory):
+  patterns.py      -> patterns.out      enumeration of all 36 triangle patterns, charged and uncharged margins
+  check_charged.py -> check_charged.out random (gamma,eta) under H0/H1, kappa variants, d in {3,4,5,8}; closed forms vs grid
+  adversarial.py   -> adversarial.out   deterministic points gamma in [0.5005, 0.51] (where TriReal allows eta > (2gamma-1)/4)
+  slabcount.py     -> slabcount.out     brute-force lattice check of the slab count used in every count below
+
+----------------------------------------------------------------------------------------------------------------
+0. MODEL AND NOTATION
+----------------------------------------------------------------------------------------------------------------
+Exponents are log_L.  a = 2g0 + 5eta^2, b = g0 + 2eta^2 (g0 = gamma0 = min(gamma,1-gamma)), h = (gamma+3eta)/2,
+T(Q,kappa) = L^{h - kappa*eta} Q  (the alpha label factor of excesseqn2), t = log_L T <= (-gamma+5eta)/2 < 0.
+q = log_L Q in [-1, -gamma+eta] for every SG / alpha label.  W = delta^{-1} L^{-2gamma} (energy window).
+
+Triangle v1 v2 v3 (G3: t0 t1 t2), bonds l3 = v1v2 (momentum a), l1 = v2v3, l2 = v3v1; it is a directed 3-cycle (each
+triangle pair has opposite directions), gaps r1, r2, r3 = differences of consecutive momenta, r1 + r2 + r3 = 0,
+energies E_j = 2 a.r_j + (quadratic in r), E1 + E2 + E3 = 0.
+
+GHOST = triangle atom already cut (class alpha/beta, degree 2; its two darts are the two triangle darts).
+G3 model (= DH23 L1777 reading "if deg v_j >= 3 then we cut"): ghosts are not cut; they are deleted with the triangle.
+G = ghost set, N = non-ghost set, m = number of post components containing non-ghost halves f_j (m = 0 iff N empty).
+Classification (DH23 L1777 / TARGET L2142, G3 triCls): f3 beta; f1 alpha iff f1~f3 or f1~f2; f2 alpha iff f2~f3.
+  => #new alpha = |N| - m, #new beta = m.                                                         [PROVED, case check]
+TRUE increments: DeltaF = m - 1, DeltaV_beta = m - g_beta (g_beta = #beta ghosts), Delta chi = m - 1 - |N|
+  (E -3, V -g, F +DeltaF).  DH23 L1791's "DeltaF in {0,1,2}, DeltaV_beta = DeltaF+1, Delta chi = DeltaF-3" is the g = 0 case;
+  with ghosts Delta chi = DeltaF - 3 + g and DeltaF = -1 is possible (triangle component).            [PROVED]
+
+COUNT (DH23's method, made ghost-aware).  I <= #(a, r1, r2 admissible) * L^{(d-gamma) Delta chi} * delta^{O(1)} (log L)^{O(1)}.
+  Blocks: the m post components (fixed flux r_P and energy E_P in a window of width <= nW: sum the atom equations over the
+  component, as in DH23 L1788) plus one block per ghost (r_g = +-charge param, E_g in its window W).  B = m + g blocks,
+  B - 1 independent relations.  Free gap vectors = 3 - B = #new alpha, and they can be taken to be the new alpha atoms'
+  own gaps (|r_j| ~ Q_j; ball L^{-50eta}Q_j if kappa_j = 50).
+  #a <= L^{d-1}(1 + L W/|r_P|) for any fixed block gap r_P  ->  exponent d + s(rho), s(rho) = min(0, max(-1, -2gamma-rho)).
+  All block gaps are nonzero (SG labels, R29 nonzero gap at v3, N1 for beta ghosts, alpha-ghost labels), so |r_P| >= 1/L.
+  Slab model brute-forced in d = 3 (slabcount.out): config A (|r| = 1/L, gamma = 0.6) slope log2(count(400)/count(200))
+  = 2.80 = d+1-2gamma; config B (|r| ~ L^{-gamma+eta}) count/model in [0.78, 1.31] for L = 50..400.   [CHECKED, L <= 400]
+
+----------------------------------------------------------------------------------------------------------------
+1. QUESTION 1: IS THE COUNTEREXAMPLE RIGHT?
+----------------------------------------------------------------------------------------------------------------
+1a. Re-derivation (independent).  [PROVED]
+  M = {v1, v2, g, x, y}: l0 = v1->v2, l1 = v2->g, l2 = g->v1, double bonds v1=x (momenta p,p'), v2=y (q,q'); g alpha-ghost.
+  Charges (c = 0 at degree-4 atoms): l2 = u - r_x, l1 = u + r_y (u = k_{l0}), r_g = r_x + r_y.  All three triangle gaps are
+  parameters; u is free subject to the energy windows at v1, v2 (g's window follows):  |u - r_x|^2 - |u|^2 in I1,
+  |u|^2 - |u + r_y|^2 in I2.  With r_x, r_y collinear along e1, |r| ~ 1/L: one slab of lattice thickness ~L^{2-2gamma}
+  (gamma > 1/2), so #u ~ L^{d+1-2gamma} (L^d if gamma < 1/2).  M' = two bigons, E(M') = E(bigon x) E(bigon y), and
+  E(M) = #u * E(M') for windows chosen so that a positive fraction of u's give full M'-windows (the sup over M' parameters
+  is attained at the same |r| ~ 1/L).  chi(M) = 3, chi(M') = 2:
+      A(M)/A(M') ~ #u L^{-(d-gamma)} = L^{min(gamma, 1-gamma)} = L^{g0}   (times delta^{O(1)})
+  Allowed by excesseqn2 with TRUE Deltas (DeltaF = 1, DeltaV_beta = 2, no new alpha): L^{-eta^3 + a - 2b} = L^{eta^2-eta^3}.
+  The G2-GHOST counterexample is correct: the true-Delta statement fails by L^{g0 - eta^2 + eta^3}.
+  It is one instance of a general failure: the true-Delta (uncharged) statement fails for EVERY pattern with an alpha
+  ghost (patterns.out, "uncharged" block: all 21 alpha-ghost patterns negative, worst about -2g0).     [CHECKED, grid below]
+  Uncharged closed form for one alpha ghost, B = 3, g ghosts: min margin = -g0 + (2-g) eta^2 - eta^3. [PROVED]
+
+1b. Can the neighbourhood occur in a run?
+  * Rule level: YES.  [CHECKED against the run rules, by hand]  Take an SG vine V removed in Op 1 whose joint J has its two
+    outer bonds to adjacent atoms v1, v2.  V's removal keeps J's side connected to V's other joint (through v1 and the rest),
+    so J's remainder g is an ALPHA atom (TARGET L2140 / G3 Step1).  Let v2's outer pair lead to a part X2 whose only other
+    connection was another vine V' removed in Op 1 (V' removal does not disconnect: X2 still hangs on v2 - triangle - v1 -
+    rest; so V' joints are alpha too).  Op 2 then sees the triangle (v1, v2, g): v1, v2 SG along the triangle pairs, g with
+    nonzero gap (R29 eligible; Desig is trivial at non-hinges).  Removing it separates X2 + v2_out from v1_out + rest:
+    pattern "ghost v3:alpha, comps 1|2" = the handoff's configuration with X2 and "the rest" in place of the private
+    double bonds.  The count in 1a only uses that v1, v2 are beta-cuts relative to each other, so it applies verbatim.
+  * Whether a stage-1 molecule M_sub (with all of subpro / Prop 9.1 constraints) contains this neighbourhood: OPEN.
+    Irrelevant for the ruling: the per-step lemma quantifies over every state satisfying UStep2's hypotheses, the source
+    proof gives no exclusion, and the repaired statement (section 3) is TRUE for all patterns, so no realizability question
+    has to be settled.
+  * Ghosts at v1/v2 are possible in G3's model (Desig = pair OR complement, R29/G3 session 11) and also under DH23's strict
+    "as fixed" reading (hinge atoms of degree 4 have both (d)-pairs fixed; an earlier v3-cut along a non-designated pair
+    leaves the designated pair).  So all three positions must be covered.                       [PROVED, from the rules]
+
+----------------------------------------------------------------------------------------------------------------
+2. QUESTION 2: WHAT DO DH23 AND TARGET DO?
+----------------------------------------------------------------------------------------------------------------
+2a. DH23 L1777: "If deg v_j >= 3, then we cut ... and remove the triangle" -- the ghost model.  DH23 explicitly NEEDS ghost
+   triangles: L1813 (proof of Prop 9.5) "any triangle with at least two SG atoms will be removed in Step 2" is used for
+   triangle COMPONENTS, i.e. all-ghost triangles.  But Prop 9.4's proof (L1791-1795) treats only g = 0 (DeltaF in {0,1,2},
+   Delta chi = DeltaF - 3, "This leaves 3 atoms of degree 1 or 2").  With ghosts excesseqn2 is false (section 1). [PROVED]
+2b. TARGET L2126 Remark (cut at degree-2 atoms allowed) + L2142 "We then cut ... at each v_j" = cut-all model: ghost
+   remainders become isolated beta-atoms.  Per step excesseqn2 then holds (G2 proved it with DeltaF_G2, DeltaV_beta =
+   3 - #alpha), but L2189 "4V - 2E - 2(V_alpha+V_beta) is preserved" is false (+2 per ghost, G3 finding F1), so F_im <= R
+   fails and (together2) -> (together3) breaks (section 4).                                       [PROVED]
+2c. The ghost's label factor.  (together2) is obtained by "putting together (excesseqn2), (excesseqn2+) and (finalcount)":
+   the alpha products cancel only for alpha atoms of M_fin.  For an alpha atom deleted as a ghost, the creation factor
+   T_g = L^{h - kappa_g eta} Q_g <= L^{(-gamma+5eta)/2} < 1 stays in the product and is silently DROPPED (bounded by 1).
+   It is not used anywhere in DH23 or TARGET.                                                     [PROVED, by reading]
+2d. Verdict: GENUINE source gap in both DH23 and TARGET, not a G3 modelling artifact.  Under the DH23 (ghost) reading
+   excesseqn2 fails; under the TARGET (cut-all) reading the component count fails and the accounting does not close
+   (section 4).  The repair (section 3) is a bookkeeping change: move the dropped T_g to the deletion step.
+   For gamma <= 1/2 (DH23's range; outside the campaign's 1/2 < gamma gate) the two-alpha-ghost pattern is NOT repaired by
+   the T_g charge (margin 2gamma - 1 - 4eta < 0, section 3c): OPEN there (would need the creation-step slack).
+
+----------------------------------------------------------------------------------------------------------------
+3. QUESTION 3: IS THE T_g REPAIR SOUND?
+----------------------------------------------------------------------------------------------------------------
+3a. Charged per-step statement (RHS for a triangle step, true Deltas):
+     I <= C * L^{-eta^3} * prod_{new alpha j} T(Q_j,kappa_j) * prod_{alpha ghosts g} T(Q_g,kappa_g)^{-1} * L^{a DeltaF - b DeltaV_beta}
+   with DeltaF = F(post) - F(pre), DeltaV_beta = V_beta(post) - V_beta(pre) = m - g_beta (ghost deletions INCLUDED).
+   Beta ghosts get no extra factor: their removal is already in DeltaV_beta (-1 each, i.e. a relaxation L^{+b}).
+
+3b. Telescoping.  [PROVED]
+   Per step s: e_s = -eta^3 + sum_{A+_s} t_v - sum_{A-_s} t_v + a DeltaF_s - b DeltaV_beta_s (+ g0 for a new-component Op 1),
+   A+_s = alpha atoms created at s, A-_s = alpha ghosts deleted at s.  Per final component c (finalcount / Prop 9.6):
+   f_c = -sum_{alpha in c} t_v + b V_beta(c) - a G_c - eta^5 rho_c + eta Z_c.  With F_sb = 1, V_beta(sb) = 0 and TRUE Deltas:
+     sum_s e_s + sum_c f_c = a(F_im - 1) + g0 p+ + eta Z_tot - eta^3 p_op - eta^5 rho_fin + [U],
+     U = sum_{created} t - sum_{ghost-deleted} t - sum_{in M_fin} t = sum_{alpha deleted otherwise} t <= 0,
+   because every created alpha atom is exactly one of: in M_fin, deleted as an Op-2 ghost, deleted otherwise (Op 5 "ghost
+   neighbours" of G3's eraseSetSt).  Ops 1-4 delete no other alpha atom (the cut halves removed with a VC/triangle in the
+   same step are never "created alpha atoms"; Op-1 objects are disjoint, TARGET L2167).  Hence (together2) as printed, and
+   (together3) with G3's F_im <= R (+ R29 Op-5 terms; the ghost model PRESERVES 4V-2E-2(V_a+V_b)).
+   Accounting rule: each alpha label factor is PAID once (creation) and REFUNDED at most once (M_fin product, or its own
+   Op-2 deletion); a forfeited refund (Op 5) is a gain.  No double refund is possible (a ghost is deleted, so it is not in
+   M_fin).  The refund must use the SAME (Q_g, kappa_g) as the payment: G3 already keeps them in the class `.alpha Q kp`
+   of the already-cut atom t_j until the triangle step.
+
+3c. ALL patterns (positions v1/v2/v3, ghost classes, post partition).  36 patterns (5 without ghosts, 31 with; N empty with
+   only alpha ghosts excluded by CompBeta: a component of degree-2 atoms has a beta atom).  Closed-form minimal margins
+   (RHS_exp - I_exp, minimised over labels, kappa = 0; kappa = 50 on either side only increases the margin), d >= 3,
+   1/2 < gamma < 1 - eta:                                        [PROVED by hand; CHECKED vs grid, 145/145 agree]
+     A  no ghost (DH23):  B=1 (2 new alpha) 3gamma - 1 - eta - 2eta^2 - eta^3;  B=2 (1 new alpha) >= 5gamma/2 - 1 - eta/2 - eta^3;
+                          B=3 (DeltaF=2)  4eta^2 - eta^3.
+     B  beta ghosts only: B=2 (1 beta ghost, 1 new alpha)  >= 5gamma/2 - 1 - eta/2 - eta^3;
+                          B=3 (g beta ghosts, g=1,2,3)      (4-g) eta^2 - eta^3.
+     C  one alpha ghost:  B=2 (+1 new alpha)                3gamma - 1 - 2eta - 2eta^2 - eta^3;
+                          B=3, g ghosts in all (g=1,2,3)    gamma/2 - 3eta/2 + (2-g) eta^2 - eta^3.
+     D  two alpha ghosts (g=2, or g=3 with one beta ghost):  (2gamma - 1) - 4eta - g eta^2 - eta^3.   <-- NEEDS eta << 2gamma-1
+     E  three alpha ghosts: impossible (CompBeta).
+   Proof recipe per group (what the Lean prover counts):
+     B=2: (#free new-alpha gap, (Q_alpha L)^d or (Q_alpha L^{1-50eta})^d) x slab of the fixed block's gap
+          (alpha ghost: its label Q_g; ghost at v1/v2: SG label; beta ghost / lone v3: only |r| >= 1/L).
+     B=3: slab of ONE fixed gap: the largest alpha-ghost label if there is an alpha ghost (two: the larger one),
+          otherwise any (|r| >= 1/L suffices).  No free gaps.
+   Numerics: patterns.out (gamma in {0.5005,...,0.99}, eta in {g0/200, g0/1000, (2gamma-1)/8}, d in {3,4,6}, q-grid 25^2-3);
+   check_charged.out (12 random (gamma,eta) per hypothesis set, d in {3,4,5,8}, all 4 kappa variants, grid 15^k; H0 and H1
+   both all-positive on that sample); adversarial.out: with TriReal only (200eta <= gamma, 200eta <= 1-gamma) the 6 group-D
+   patterns FAIL at gamma = 0.5005 / 0.501 / 0.503 with eta = g0/200 (margin -0.009 .. -0.004); every pattern passes once
+   (2gamma-1)/eta >= 4.04, and at (2gamma-1)/eta in {5, 8}.                                       [CHECKED, ranges as stated]
+   Group D is attained (not just a weak bound): x, y alpha ghosts (Op-1 joints, e.g. the joints of an SG HV whose added bond
+   is xy, so r_x = +-r_y collinear automatically) with common neighbour z; z = w double bond; then
+   A_pre/A_pos ~ L^{-eta} while the charged RHS is L^{2gamma-1-5eta-...}.  So the extra hypothesis is necessary for the
+   statement as charged.                                                    [PROVED for the local model; slab CHECKED]
+   gamma <= 1/2: groups A-C still hold (C: margins gamma - 2eta, gamma/2 - 3eta/2); group D fails (margin -4eta).
+
+3d. EXACT PER-STEP STATEMENT for the Lean prover (G2-GHOST), in G3 vocabulary:
+   Data: pre state h, T : TriData h.s.M, labels Q : Fin 2 -> R, kp : Fin 2 -> N, hcl; post = triSt h.s T Q kp hcl.
+   Ghost j :<=> h.s.cls (T.t j) != .eps   (then deg = 2 and its two darts are T.a j, T.b j).
+   Hypotheses: those of UStep2 (G3 HStep2C/Eligible: SG + GapSim Q j at t0,t1, nonzero gap at t2, Desig at hinges,
+     kp j = 50 -> IotaUnif (alive) or SibUnif, kp j = 0 -> no alive hit), TriReal, d >= 3, n <= (log L)^c, ladder heredity,
+     PLUS
+     (G-alpha) for every ghost j with h.s.cls (T.t j) = .alpha R k:  GapSim L w (k0 o down) (T.a j) (T.b j) R  on Adm0
+               (= HInv.label/dartGap of a degree-2 alpha atom), IsLabel R, k in {0,50};
+     (G-beta)  for every ghost j with class .beta: gap(T.a j, T.b j) != 0 on Adm0 (N1);
+     (H-gam)   8*eta <= 2*gamma - 1   (may be weakened to: #alpha ghosts <= 1 \/ 8*eta <= 2*gamma - 1).
+   Conclusion:
+     IsDeviation (countA pre) (countA post)
+       (ofReal (Cconst(d,c,eta,delta) * excessRHS L gamma eta alphaNew dF dVb / prod_{(R,k) in alphaGhost} (L^((gamma+3eta)/2 - k*eta) * R)))
+     alphaNew   = [(Q j, kp j) | j in {0,1}, not Ghost j, triCls h.s T Q kp (T.f j) = .alpha _ _]
+     alphaGhost = [(R, k) | j in {0,1,2}, h.s.cls (T.t j) = .alpha R k]
+     dF  = post.numComponents - pre.numComponents                      (= m - 1, can be -1)
+     dVb = #beta atoms(post) - #beta atoms(pre)                         (= m - #beta ghosts)
+   Exponent bookkeeping the arithmetic lemma must verify: I_exp = sum_{new alpha} d(q_j+1) + d + s(rho) + (d-gamma)(m-1-|N|)
+   (B = 1: no s-term), RHS_exp = -eta^3 + sum_{new}(h+q_j) - sum_{alpha ghosts}(h_g+q_g) + a(m-1) - b(m-g_beta),
+   margins as in 3c (each >= a positive constant depending on (gamma,eta) under TriReal + H-gam, which absorbs delta^{-O(1)}
+   and (log L)^{O(1)} for L >= L0).
+
+----------------------------------------------------------------------------------------------------------------
+4. QUESTION 4: A CHEAPER ROUTE (cut-all, TARGET Remark L2126)?  NO.
+----------------------------------------------------------------------------------------------------------------
+[PROVED, exponent arithmetic]  The deviation I of a decoration class is model-independent (the isolated remainder has one
+decoration and chi = 0).  Under cut-all every ghost leaves an isolated beta atom, F_im(cut-all) = F_im(G3) + g_tot, and G2's
+per-step RHS uses DeltaF_c = DeltaF + g, DeltaV_beta^{G2} = 3 - #alpha = DeltaV_beta(true, G3) + g.  Telescoping G2's bounds
+(and using the exact A = 1 of each isolated atom) gives, relative to the needed a(R-1):
+     per beta ghost  a - 2b = +eta^2          (no label to pay with; the -eta^3 per step cannot absorb it)
+     per alpha ghost a - b + t_g = g0 + 3eta^2 + t_g, t_g <= (-gamma+5eta)/2  -> positive for 1/2 < gamma < 2/3 - O(eta).
+So cut-all with G2's statement does NOT close (together2)/(together3), even with T_g.  The handoff's remark that cut-all
+leaves "the same L^{(a-b)g} excess, again payable only with T_g" is too optimistic: T_g does not pay it for gamma < 2/3, and
+beta ghosts leave L^{eta^2} each.  The information that closes the bookkeeping is exactly the charged statement of 3d
+(which is a STRONGER per-step bound than G2's cut-all bound).  Cut-all saves nothing.
+Other "cheap" options considered and rejected: skipping triangles with ghosts (then Op 3 can produce a perfect triangle
+component with two alpha atoms, forbidden by finalmol and false for Prop 9.6 when 2gamma-1 < 4eta); relabelling v3 to be
+the ghost (still needs the refund).
+
+----------------------------------------------------------------------------------------------------------------
+5. DEAD-HIT (coordinator add-on)
+----------------------------------------------------------------------------------------------------------------
+5a. Source reading.  [PROVED, by reading]  DH23 L1766 / TARGET L2131 define the counting quantity as the SUP over the
+   CURRENT molecule's parameters (c_v, beta_v, k0); earlier values are parameters only while some present atom carries
+   them as a charge.  DH23 L1803 ("the corresponding gap r must belong to a fixed ball") is justified by that definition
+   only when the hitting cut is still carried by a present atom.  For a hit whose cut lost both halves (deleted as ghosts
+   or with a triangle), the centre is a function of deleted data, not of the current parameters.  So DEAD-HIT is a genuine,
+   minor exposition gap at DH23 L1784/L1803, TARGET Remark remiota L2150 (the nested-sum reading "earlier values stay
+   fixed" is the intended meaning, but it is not the stated definition).
+5b. Option 1 (carry dead charges): sound.  Extend the parameter vector of the state by the gaps of all dead cuts, define
+   A_s = sup over (current params, dead values); at a deletion step the newly dead values are functions of the PRE
+   parameters (deleted atom's charge = +-gap + c0, AtomRelU), so A_pre <= I * A_post still holds; Prop 9.6 needs uniformity
+   in the extra parameters (it has it: they do not enter its hypotheses).  Cost: every UStep / UCtx / Adm restriction and
+   the assembly chain carry a growing parameter list; G3's ghost pseudo-pairs (pushed into hist by triPost although DH23
+   does not cut ghosts) would count as "cutting operations", a further deviation.
+5c. Option 2 (alive-cut iota): sound and cheaper.  RECOMMENDED.  Define iota_v = 1 iff some cut performed before v's cut,
+   still carried by a present atom AT THE TIME OF v's CUT, has 0 < |r_v +- r'| <= L^{-50eta} Q_v.
+   Telescoping of kappa [PROVED]: kappa_v is computed once, at v's creation, and stored in v's class `.alpha Q kappa`.
+     - creation step: kappa = 50 -> the hitting cut is alive, IotaUnif + AtomRelU give a centre that is a current parameter
+       (existing G3 machinery, with the usual split of the class by (q, sign), <= 2n choices, absorbed by L^{-eta^3});
+       kappa = 0 -> the generic count, valid without any iota information;
+     - final use: Prop 9.6 product L^{-h + kappa eta}/Q with the same kappa; kappa = 0 needs only N2;
+     - ghost deletion: refund T(Q_g, kappa_g)^{-1} with the same stored kappa_g.
+   N2 (DH23 L1895, G3 HInv.N2) survives: it compares alpha atoms v1, v2 of M_fin; the earlier of their two cuts is carried
+   by v1 (or v2), which is present from its creation to the end, hence alive at the later cut.  N1 is unaffected.
+   A decoration whose only hit is dead now gets kappa = 0 and is covered by the generic (kappa = 0) count.
+   G8 is unchanged (FinalDec.iota only compares atoms of M_fin).  Ghost pseudo-pairs in hist become irrelevant (their
+   remainder is deleted at once, so they are dead from the start).
+   G3 work: IotaHit's list = alive cuts at the time (record it in crec instead of the full hist); UStep kp = 0 condition
+   "no ALIVE earlier cut hits"; N2 re-proof: replace the suffix argument (p1 :: vis1 <:+ vis2) by "p1 is in the alive list of
+   v2's record", from the invariant "an atom present at the end was present, with the same record, at every later cut"
+   (records are set once: alpha/beta atoms are never cut again; atoms are never re-created).
+
+----------------------------------------------------------------------------------------------------------------
+6. RECOMMENDED RULING TEXT
+----------------------------------------------------------------------------------------------------------------
+R37 -- Ghost triangles: refund the ghost's label factor; DEAD-HIT: iota through alive cuts.
+
+(1) Finding (confirms the G2-GHOST STOP).  With the TRUE increments (ghosts are not cut and are deleted, DH23 L1777),
+    excesseqn2 is FALSE for every triangle with an alpha ghost (worst ratio L^{gamma0}; G2-GHOST configuration
+    re-derived).  Beta ghosts alone are fine.  The creation factor T_g = L^{(gamma+3eta)/2-kappa_g eta} Q_g of a deleted
+    alpha atom is silently dropped in (together2).  CANDIDATE source gap: DH23 L1777/L1791-1795 (Prop 9.4 treats g = 0
+    only, although L1813 needs ghost triangles) and TARGET L2142/L2165; CANDIDATE erratum TARGET L2189 under the cut-all
+    reading (F1).  OPEN (outside the gate): the two-alpha-ghost pattern for gamma <= 1/2.
+(2) G2-GHOST proves the CHARGED ghost-aware triangle deviation (NOTES 3d, exact):
+      IsDeviation (A pre) (A post) (C * excessRHS(alphaNew, DeltaF, DeltaV_beta) * prod_{alpha ghosts} T(Q_g,kappa_g)^{-1}),
+    DeltaF, DeltaV_beta the TRUE increments of triSt; ghosts at v1, v2, v3, either class; hypotheses of UStep2 plus
+    (G-alpha) GapSim of each alpha ghost at its two (triangle) darts with its own label, (G-beta) nonzero gap of each beta
+    ghost, and (H-gam) 8 eta <= 2 gamma - 1 (only needed when two triangle atoms are alpha ghosts).  The case split and
+    the arithmetic lemma are those of NOTES 3c.  Cut-all is NOT adopted (NOTES 4: it does not close the accounting).
+(3) G3: restate UStep2.excess with this RHS (alphaGhost read from the classes of the already-cut atoms t_j, which already
+    carry (Q, kappa)); keep the ghost model; no change to Inv / F_im <= R.
+(4) Assembly: telescope with refunds: every alpha label factor is paid at creation and refunded at most once (M_fin product
+    or its own Op-2 deletion); forfeited refunds (Op-5 ghost neighbours) are dropped as gains; Sum DeltaF = F_fin - 1 and
+    Sum DeltaV_beta = V_beta,fin with true increments.  This yields (together2) as printed.  In WTPrefix choose
+    eta0 <= (2gamma - 1)/8 (allowed: eta0 is chosen after gamma; the gate assumes gamma > 1/2).
+(5) DEAD-HIT: iota_v is defined through cuts still carried by a present atom at the time of v's cut (option 2).  kappa_v is
+    fixed at creation and the same value is used in the creation bound, in Prop 9.6's product and in a ghost refund.
+    G3 restates IotaHit / the kp = 0 condition and re-proves N2 (alive-at-the-time argument).  G8 unchanged.
+    CANDIDATE exposition gap: DH23 L1784/L1803, TARGET L2150 (ball centre of a dead hit is not a parameter of the count).
+Packets: G2-GHOST (new statement + proof), G3 (UStep2.excess restatement; iota/N2), assembly (refund telescoping, eta0).
+G8: no change.

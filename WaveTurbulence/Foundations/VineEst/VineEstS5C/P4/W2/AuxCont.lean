@@ -21,6 +21,7 @@ continuous on `{ts 0 ≥ q}` and on `{ts 0 < q}`, not across `ts 0 = q`.  Hence 
   identity set `V` of the expansion has `t ≠ q` anyway (`ObjExp.term` is the fallback there). -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 namespace WaveTurbulence.VineEstS5C.P4.W2

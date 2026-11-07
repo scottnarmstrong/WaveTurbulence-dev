@@ -14,6 +14,7 @@ is integrable in the times of `S` for each `xS`, and its `L¹` norms are summabl
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS4

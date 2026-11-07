@@ -15,6 +15,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.ExcBnd
 (case A: `t₁` in the `L₄`-window, `s₁` in the `Lₕ`-window; case M: the roles are exchanged), exactly the window hypotheses of `exc_dispatch_k01` / `exc_dispatch_k2`. -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS5C.P4.W2
 open WaveTurbulence WaveTurbulence.Twist WaveTurbulence.LFTwist WaveTurbulence.VineEstS4 WaveTurbulence.VineEstS5B

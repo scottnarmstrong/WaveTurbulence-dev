@@ -12,6 +12,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS2.CLRegionalPredecessor
 /-! # Unit source coefficients for the two local incidence geometries -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS2
 open TTree RegRed

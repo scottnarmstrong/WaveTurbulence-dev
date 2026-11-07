@@ -17,6 +17,7 @@ gain `L^{-η² b}` of a term bound `C L^{-η² b}` combines with `N ^ #members`.
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS5C.P3

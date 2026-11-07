@@ -5,6 +5,7 @@ Authors: Scott Armstrong
 -/
 module
 
+public import WaveTurbulence.Foundations.VineEst.RowSel.SelDataLF
 public import WaveTurbulence.Foundations.VineEst.VineEstS5B2.Bot11
 
 /-! # V5 Step 4d-B2: the bottom vine, part 12 (the FALSE-choice output)
@@ -13,6 +14,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS5B2.Bot11
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS5B2
@@ -83,10 +85,15 @@ theorem botState_false (hb0 : c0.b = (A.family.placement pstar).lower)
     refine Eq.trans ?_ (summand_same A.plain A.data con.data κ.L κ.γ κ.δ κ.F (stateLayer A) (stateLayer_isLayering A)
       (stateLayer (opOut A pstar hcan hel htc hcc con)) (stateLayer_isLayering (opOut A pstar hcan hel htc hcc con))
       κ.base (botR A c0) (pairOfLeaf A.skeleton A.plain (A.family.placement pstar).retained)
-      hS.b_mem_erase hS.p0_mem hCq hCt hCl _ _ κd τ).symm
+      hS.b_mem_erase hS.p0_mem hCq hCt hCl
+      (VineEst.selDataEq_LF_false con (stateLayer A) (stateLayer_isLayering A) (stateLayer_spec A)
+        (stateLayer (opOut A pstar hcan hel htc hcc con)) (stateLayer_isLayering (opOut A pstar hcan hel htc hcc con))
+        (stateLayer_spec (opOut A pstar hcan hel htc hcc con)) _ _ (fun q hq => (Finset.mem_erase.mp hq).1)
+        (fun v hv => hb0 ▸ (Finset.mem_erase.mp hv).1)).symm _ _ κd τ).symm
     rw [sameIntB_eq_botKernel κ A c0 hb0 (opOut A pstar hcan hel htc hcc con) con.data
       (stateLayer (opOut A pstar hcan hel htc hcc con)) (stateLayer_isLayering (opOut A pstar hcan hel htc hcc con))
-      (sigStar_false A hcan hel htc hcc con) _ hpx]
+      (sigStar_false A hcan hel htc hcc con) (rowQ_false_eq κ A hcan hel htc hcc con)
+      (rowT_false_eq κ A hcan hel htc hcc con) _ hpx]
     unfold stBot epsOf
     rw [hd, if_neg hn, one_mul]
   have hfun : (fun (κd : CLLocalDecoration (botR A c0) κ.L κ.base ![κ.e, κ.f, κ.g, κ.h]) (τ : CLInternalTime (botR A c0)) =>

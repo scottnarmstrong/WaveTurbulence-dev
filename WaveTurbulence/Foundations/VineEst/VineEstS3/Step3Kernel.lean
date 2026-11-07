@@ -17,6 +17,7 @@ On the `sumint` output set the boundary vector is `sumintBoundary ζ (w̲ + β)`
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS3
@@ -74,7 +75,7 @@ theorem kernel_eq_clockedExprEps (hM9 : VINEPARAM) (B : CLChainAssembly G R n) (
         (sumintBoundary (G.sign a.toNode) E 2) (sumintBoundary (G.sign a.toNode) E 3) =
       (coupling d L γ δ : ℂ) ^ clLocalOrder1 R * clLocalZeta R *
         clockedExprEps (fun v : ↥U => childLabel hM9 B hG v.1 0) (fun v : ↥U => childLabel hM9 B hG v.1 1)
-          (fun v : ↥U => childLabel hM9 B hG v.1 2) (assemblyClocked hM9 B RD hG W L γ δ F layer hLayer)
+          (fun v : ↥U => childLabel hM9 B hG v.1 2) (assemblyClockedS hM9 B RD hG W L γ δ F layer hLayer)
           (assemblyCoreFirstSign hM9 B) (assemblyCoreSign hM9 B) (assemblyShape_I_pos hM9 B) L γ (2 * δ) η tt E := by
   obtain ⟨β, hβ, rfl⟩ := outSet_exists_beta hL (G.sign a.toNode) W.wBar E hE hgap
   have hfun : (fun c => sumintBoundary (G.sign a.toNode)

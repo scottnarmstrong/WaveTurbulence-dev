@@ -15,6 +15,7 @@ point of `Bc` (the upgrade `hasSum_of_ae_contOn` of the a.e. expansion of the ex
 `rowModes3_of_restr_C`: the three-clock version (zero third mode). -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS5C.P4.W2
 open WaveTurbulence WaveTurbulence.Fourier WaveTurbulence.VineEstS3.FS WaveTurbulence.VineEstS5A

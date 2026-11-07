@@ -16,6 +16,7 @@ clamp otherwise) the `𝔛^{1-2η}` bound on the union of the two windows `box_{
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS5C.P4.W2.K2
 open WaveTurbulence WaveTurbulence.VineEstS3 WaveTurbulence.VineEstS3.FS WaveTurbulence.Fourier WaveTurbulence.VineEstS5C

@@ -18,6 +18,7 @@ boundary labels `(x r, x lower)`.  The sign is `ζ_S' = -ζ_S`.
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS5B
@@ -59,6 +60,14 @@ variable {d : ℕ} (hG : G.IsPlain) (D : ReconstructionData G) (D' : Reconstruct
       nativeChainLayered D hG layer hLayer v)
   (hl : ∀ v ∈ S.erase a, layer' (D'.coreBranch (unitTwistGarden_plain G P hG) (eB P v)).toNode =
     layer (D.coreBranch hG v).toNode)
+  (hCi : ∀ p ∈ clRegionalPairs hG S, p ≠ pairOfLeaf G hG P.retained →
+    Flower.V5W.coupleIncoh D' (unitTwistGarden_plain G P hG) layer' hLayer' (tp P hG p) =
+      Flower.V5W.coupleIncoh D hG layer hLayer p)
+  (hTi : ∀ v ∈ S.erase a, v ≠ b →
+    Flower.V5W.treeIncoh D' (unitTwistGarden_plain G P hG) layer' hLayer' (eB P v) =
+      Flower.V5W.treeIncoh D hG layer hLayer v)
+  (hlS : ∀ v ∈ S, layer' (D'.coreBranch (unitTwistGarden_plain G P hG) (eB P v)).toNode =
+    layer (D.coreBranch hG v).toNode)
 
 /-- The integrand of the original-chart form of the twisted S-side. -/
 @[expose] noncomputable def twInt (x : ExtS RS L base e f) (σ : CLInternalTime RS) : ℂ :=
@@ -70,7 +79,7 @@ variable {d : ℕ} (hG : G.IsPlain) (D : ReconstructionData G) (D' : Reconstruct
       Φ' (clLocalClock RS ![t0, t1, t2] σ b) (base + latticePoint L (x.1 P.retained.toNode))
         (base + latticePoint L (x.1 P.lower.toNode)))
 
-include h hC hT hl in
+include h hC hT hl hCi hTi hlS in
 /-- The pointwise form: the S-side integrand of the twisted garden at `(extEquiv x, tEquivS σ)` is `twInt x σ`. -/
 theorem sInt_tw (x : ExtS RS L base e f) (σ : CLInternalTime RS) :
     sInt RS' D' (unitTwistGarden_plain G P hG) L γ δ F layer' hLayer' base t0 t1 t2 e f (eB P b).toNode
@@ -97,11 +106,11 @@ theorem sInt_tw (x : ExtS RS L base e f) (σ : CLInternalTime RS) :
     twInt (RS' := RS') hG D D' L γ δ F layer hLayer layer' hLayer' base t0 t1 t2 e f Φ' x σ
   rw [hx, h.label_b x.1, h.label_b_kept x.1, hu b h.block.2.2.1,
     spart_eq_frame_mul_exc _ _ L γ δ F layer' hLayer' base _ _ _ _ hb' hp0',
-    spartFrame_tw h hG D D' L γ δ F layer hLayer layer' hLayer' base x.1 hpx _ _ hu hC hT hl]
+    spartFrame_tw h hG D D' L γ δ F layer hLayer layer' hLayer' base x.1 hpx _ _ hu hC hT hl hCi hTi hlS]
   unfold twInt
   ring
 
-include h hC hT hl in
+include h hC hT hl hCi hTi hlS in
 theorem sSum_tw :
     sSum RS' D' (unitTwistGarden_plain G P hG) L γ δ F layer' hLayer' base t0 t1 t2 e f (eB P b).toNode
         ((eB P b).child RS'.kept) Φ' =
@@ -125,7 +134,7 @@ theorem sSum_tw :
       (eB P b) (h.extEquiv L base e f x).1 (clLocalClock RS' ![t0, t1, t2] σ') *
       Φ' (clLocalClock RS' ![t0, t1, t2] σ' (eB P b)) (base + latticePoint L ((h.extEquiv L base e f x).1 (eB P b).toNode))
         (base + latticePoint L ((h.extEquiv L base e f x).1 ((eB P b).child RS'.kept))))]
-  exact integral_congr_ae (Filter.Eventually.of_forall fun σ => sInt_tw h hG D D' L γ δ F layer hLayer layer' hLayer' base t0 t1 t2 e f Φ' hC hT hl x σ)
+  exact integral_congr_ae (Filter.Eventually.of_forall fun σ => sInt_tw h hG D D' L γ δ F layer hLayer layer' hLayer' base t0 t1 t2 e f Φ' hC hT hl hCi hTi hlS x σ)
 
 end SumTw
 

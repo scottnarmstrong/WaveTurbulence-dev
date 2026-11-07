@@ -17,6 +17,7 @@ closure up to `MexpDraft.RegCancelB2`) is compiled here in the V5 (snapshot-9) e
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS5C.P1
 

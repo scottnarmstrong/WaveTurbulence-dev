@@ -15,6 +15,7 @@ For a pair `p₀ = pairOfLeaf ℓ` of a region `U` (`p₀ ∈ clRegionalPairs hG
 So the `𝒦` row of the pair row of a record has the momentum `ret` of the retained leaf (`pairMom_eq`). -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS5C.P4.W2
 open WaveTurbulence WaveTurbulence.RegRed WaveTurbulence.Reg.Skeleton TTree

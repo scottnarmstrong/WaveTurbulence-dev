@@ -16,6 +16,7 @@ lower factor.  `stBot G` is the signed integrand of the state `G` (`ε_G = -1` i
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS5B2
@@ -72,6 +73,9 @@ theorem sameIntB_eq_botKernel (κ : KPar d) (A : FamilyReconstruction w ι) (c0 
     (hσ : sigStar G pstar = (A.skeleton.sign (A.family.placement pstar).lower.toNode,
       nativeCoupleLayered D2 A.plain layer2 hLayer2 (pairOfLeaf A.skeleton A.plain (A.family.placement pstar).retained),
       nativeChainLayered D2 A.plain layer2 hLayer2 (A.family.placement pstar).lower))
+    (hQ : rowQ κ G pstar = VineEst.selCoupleRow κ.L κ.γ κ.δ κ.F D2 A.plain layer2 hLayer2
+      (pairOfLeaf A.skeleton A.plain (A.family.placement pstar).retained))
+    (hT : rowT κ G pstar = VineEst.selTreeRow κ.L κ.γ κ.δ κ.F D2 A.plain layer2 hLayer2 (A.family.placement pstar).lower)
     (x : GNode A.skeleton.tree → (Fin d → ℤ)) (hpx : PairedAt (A.family.placement pstar) x) (t : Fin 3 → ℝ)
     (u : GBranch A.skeleton.tree → ℝ) :
     sameIntB A.plain A.data D2 κ.L κ.γ κ.δ κ.F (stateLayer A) (stateLayer_isLayering A) layer2 hLayer2 κ.base
@@ -80,15 +84,52 @@ theorem sameIntB_eq_botKernel (κ : KPar d) (A : FamilyReconstruction w ι) (c0 
   have hex := exc_same (A.family.placement pstar) A.plain D2 κ.L κ.γ κ.δ κ.F layer2 hLayer2 κ.base
     (S := c0.U) (a := c0.a) hb0 x hpx u
   unfold sameIntB botKernel
-  rw [hex]
-  unfold nuOf rowQ rowT
+  rw [hex, hQ, hT]
+  unfold nuOf
   rw [hσ]
   simp only [Bool.false_eq_true, if_false]
   have e1 : A.skeleton.sign c0.b.toNode = A.skeleton.sign (A.family.placement pstar).lower.toNode := by rw [hb0]
-  have e2 : nativeChainLayered D2 A.plain layer2 hLayer2 c0.b =
-      nativeChainLayered D2 A.plain layer2 hLayer2 (A.family.placement pstar).lower := by rw [hb0]
+  have e2 : VineEst.selTreeRow κ.L κ.γ κ.δ κ.F D2 A.plain layer2 hLayer2 c0.b =
+      VineEst.selTreeRow κ.L κ.γ κ.δ κ.F D2 A.plain layer2 hLayer2 (A.family.placement pstar).lower := by rw [hb0]
   have e3 : x c0.b.toNode = x (A.family.placement pstar).lower.toNode := by rw [hb0]
   rw [e1, e2, e3]
+
+section Ops
+variable {p : ℕ} {kind : Bool} (κ : KPar d) (A : FamilyReconstruction w ι)
+  (hcan : CanonicalObject p kind A.layered)
+  (hel : SourceLayerEligible A.layered A.data A.plain A.decodes (A.family.placement pstar) (A.family.kind pstar)
+    (A.family.atoms pstar) (A.family.upper pstar))
+  (htc : CohOn A.layered ((A.data.tree (A.family.placement pstar).lower).linksAt
+    (nodeSign A.skeleton.sig (A.family.placement pstar).lower.1)
+    (inflatedPosition A.skeleton A.data.tree (A.family.placement pstar).lower.toNode)))
+  (hcc : CohOn A.layered ((A.data.couple (pairOfLeaf A.skeleton A.plain (A.family.placement pstar).retained)).linksAt
+    (inflatedPosition A.skeleton A.data.tree
+      ((pairOfLeaf A.skeleton A.plain (A.family.placement pstar).retained).firstLeaf A.plain).toNode)
+    (inflatedPosition A.skeleton A.data.tree
+      ((pairOfLeaf A.skeleton A.plain (A.family.placement pstar).retained).secondLeaf A.plain).toNode)))
+
+/-- The selected exceptional couple row of a FALSE-choice output is the selected row of the output data at the source
+pair (ruling F2). -/
+theorem rowQ_false_eq (con : LFConstruction (A.source pstar hcan hel htc hcc) false) :
+    rowQ κ (opOut A pstar hcan hel htc hcc con) pstar =
+      VineEst.selCoupleRow κ.L κ.γ κ.δ κ.F con.data A.plain (stateLayer (opOut A pstar hcan hel htc hcc con))
+        (stateLayer_isLayering (opOut A pstar hcan hel htc hcc con))
+        (pairOfLeaf A.skeleton A.plain (A.family.placement pstar).retained) := by
+  unfold rowQ
+  rw [sigStar_false A hcan hel htc hcc con]
+  rfl
+
+/-- The selected exceptional tree row of a FALSE-choice output is the selected row of the output data at the lower
+joint (ruling F2). -/
+theorem rowT_false_eq (con : LFConstruction (A.source pstar hcan hel htc hcc) false) :
+    rowT κ (opOut A pstar hcan hel htc hcc con) pstar =
+      VineEst.selTreeRow κ.L κ.γ κ.δ κ.F con.data A.plain (stateLayer (opOut A pstar hcan hel htc hcc con))
+        (stateLayer_isLayering (opOut A pstar hcan hel htc hcc con)) (A.family.placement pstar).lower := by
+  unfold rowT
+  rw [sigStar_false A hcan hel htc hcc con]
+  rfl
+
+end Ops
 
 open Classical in
 theorem botState_skip (κ : KPar d) (A : FamilyReconstruction w ι) (c0 : ChainAt A.skeleton A.family)
@@ -109,8 +150,8 @@ theorem botState_skip (κ : KPar d) (A : FamilyReconstruction w ι) (c0 : ChainA
       hFree.2.2 _ hS.retained_internal
     rw [summand_same A.plain A.data A.data κ.L κ.γ κ.δ κ.F (stateLayer A) (stateLayer_isLayering A) (stateLayer A)
       (stateLayer_isLayering A) κ.base (botR A c0) (pairOfLeaf A.skeleton A.plain (A.family.placement pstar).retained)
-      hS.b_mem_erase hS.p0_mem (fun _ _ => rfl) (fun _ _ => rfl) (fun _ _ => rfl)]
-    rw [sameIntB_eq_botKernel κ A c0 hb0 A A.data (stateLayer A) (stateLayer_isLayering A) rfl _ hpx]
+      hS.b_mem_erase hS.p0_mem (fun _ _ => rfl) (fun _ _ => rfl) (fun _ _ => rfl) (VineEst.SelDataEq.refl _ _ _ _ _ _)]
+    rw [sameIntB_eq_botKernel κ A c0 hb0 A A.data (stateLayer A) (stateLayer_isLayering A) rfl rfl rfl _ hpx]
     unfold stBot epsOf
     have hd : decide (twAt A A pstar) = false := by simp [hn]
     rw [hd, if_neg hn, one_mul]

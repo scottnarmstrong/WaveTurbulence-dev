@@ -16,6 +16,7 @@ the one of `A`).  `kTor`: the lower kernel of `y` with the first two boundary mo
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS4

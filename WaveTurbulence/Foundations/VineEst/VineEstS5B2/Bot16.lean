@@ -19,6 +19,7 @@ children, is the factor `bFac_A` and the boundary-decoration constraint of `CLLo
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS5B2

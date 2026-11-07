@@ -12,6 +12,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS2.ChainInteriorPartitio
 /-! # Recursive actual chain chart indices and their exact source dimension -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS2

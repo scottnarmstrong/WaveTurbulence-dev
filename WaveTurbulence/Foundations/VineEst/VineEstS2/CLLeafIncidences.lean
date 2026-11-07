@@ -10,6 +10,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS2.CLPairLeaves
 /-! # Canonical pair sides identify distinct actual cropped leaves -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS2
 open TTree Reg Reg.Skeleton RegRed

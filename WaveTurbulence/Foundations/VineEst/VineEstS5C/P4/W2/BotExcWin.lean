@@ -21,6 +21,7 @@ in the identity set `V` and the continuity set `Bc` of a certified term.  `botCe
 `I1 = (Lₕ, Lₕ+1)`, with `I0 = (L₂, L₂+1)`; this is what the open windows of `DomX` provide (a.e. off the window boundaries). -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 namespace WaveTurbulence.VineEstS5C.P4.W2

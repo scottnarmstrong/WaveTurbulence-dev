@@ -5,6 +5,7 @@ Authors: Scott Armstrong
 -/
 module
 
+public import WaveTurbulence.Foundations.VineEst.RowSel.RowTransport
 public import WaveTurbulence.Foundations.VineEst.VineEstS5B.Sum
 
 /-! # V5 Step 4d-B: the S-side of a state with the same skeleton (skip or FALSE choice)
@@ -14,6 +15,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS5B.Sum
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS5B
@@ -30,8 +32,10 @@ variable
     nativeCoupleLayered D2 hG layer2 hLayer2 p)
   (hT : ∀ v ∈ (S.erase a).erase b, nativeChainLayered D1 hG layer1 hLayer1 v = nativeChainLayered D2 hG layer2 hLayer2 v)
   (hl : ∀ v ∈ S.erase a, layer1 (D1.coreBranch hG v).toNode = layer2 (D2.coreBranch hG v).toNode)
+  (hsel : VineEst.SelDataEq hG D1 D2 layer1 hLayer1 layer2 hLayer2 ((clRegionalPairs hG S).erase p0)
+      ((S.erase a).erase b))
 
-include hC hT hl in
+include hC hT hl hsel in
 theorem spartFrame_congr (x : GNode G.tree → (Fin d → ℤ)) (u : GBranch G.tree → ℝ) :
     spartFrame D1 hG L γ δ F layer1 hLayer1 base S a b p0 x u =
       spartFrame D2 hG L γ δ F layer2 hLayer2 base S a b p0 x u := by
@@ -45,10 +49,10 @@ theorem spartFrame_congr (x : GNode G.tree → (Fin d → ℤ)) (u : GBranch G.t
     rw [hl v hv]
   have hq : ∏ p ∈ (clRegionalPairs hG S).erase p0, qRow D1 hG L γ δ F layer1 hLayer1 base (u a) x u p =
       ∏ p ∈ (clRegionalPairs hG S).erase p0, qRow D2 hG L γ δ F layer2 hLayer2 base (u a) x u p :=
-    Finset.prod_congr rfl fun p hp => by unfold qRow; rw [hC p hp]
+    Finset.prod_congr rfl fun p hp => by unfold qRow; exact VineEst.selCoupleRow_of_selDataEq hsel hp (hC p hp) _ _ _ _ _ _ _
   have ht : ∏ v ∈ (S.erase a).erase b, tRow D1 hG L γ δ F layer1 hLayer1 base (u a) x u v =
       ∏ v ∈ (S.erase a).erase b, tRow D2 hG L γ δ F layer2 hLayer2 base (u a) x u v :=
-    Finset.prod_congr rfl fun v hv => by unfold tRow; rw [hT v hv]
+    Finset.prod_congr rfl fun v hv => by unfold tRow; exact VineEst.selTreeRow_of_selDataEq hsel hv (hT v hv) _ _ _ _ _ _ _
   rw [hq, ht]
   simp only [hdom]
 
@@ -68,7 +72,9 @@ theorem sSum_same (hb : b ∈ S.erase a) (hp0 : p0 ∈ clRegionalPairs hG S)
     (hC : ∀ p ∈ (clRegionalPairs hG S).erase p0, nativeCoupleLayered D1 hG layer1 hLayer1 p =
       nativeCoupleLayered D2 hG layer2 hLayer2 p)
     (hT : ∀ v ∈ (S.erase a).erase b, nativeChainLayered D1 hG layer1 hLayer1 v = nativeChainLayered D2 hG layer2 hLayer2 v)
-    (hl : ∀ v ∈ S.erase a, layer1 (D1.coreBranch hG v).toNode = layer2 (D2.coreBranch hG v).toNode) :
+    (hl : ∀ v ∈ S.erase a, layer1 (D1.coreBranch hG v).toNode = layer2 (D2.coreBranch hG v).toNode)
+    (hsel : VineEst.SelDataEq hG D1 D2 layer1 hLayer1 layer2 hLayer2 ((clRegionalPairs hG S).erase p0)
+      ((S.erase a).erase b)) :
     sSum RS D2 hG L γ δ F layer2 hLayer2 base t0 t1 t2 e f n0 n1 Φ =
       (coupling d L γ δ : ℂ) ^ clLocalOrder1 RS * clLocalZeta RS *
         ∑' x : ExtS RS L base e f, ∫ σ : CLInternalTime RS,
@@ -79,7 +85,7 @@ theorem sSum_same (hb : b ∈ S.erase a) (hp0 : p0 ∈ clRegionalPairs hG S)
   refine integral_congr_ae (Filter.Eventually.of_forall fun σ => ?_)
   show spart D2 hG L γ δ F layer2 hLayer2 base S a b x.1 (clLocalClock RS ![t0, t1, t2] σ) * _ = _
   rw [spart_eq_frame_mul_exc D2 hG L γ δ F layer2 hLayer2 base S a b p0 hb hp0,
-    ← spartFrame_congr hG D1 D2 L γ δ F layer1 hLayer1 layer2 hLayer2 base p0 hC hT hl]
+    ← spartFrame_congr hG D1 D2 L γ δ F layer1 hLayer1 layer2 hLayer2 base p0 hC hT hl hsel]
   unfold sameInt
   ring
 
@@ -88,12 +94,14 @@ theorem sInt_same (hb : b ∈ S.erase a) (hp0 : p0 ∈ clRegionalPairs hG S)
       nativeCoupleLayered D2 hG layer2 hLayer2 p)
     (hT : ∀ v ∈ (S.erase a).erase b, nativeChainLayered D1 hG layer1 hLayer1 v = nativeChainLayered D2 hG layer2 hLayer2 v)
     (hl : ∀ v ∈ S.erase a, layer1 (D1.coreBranch hG v).toNode = layer2 (D2.coreBranch hG v).toNode)
+    (hsel : VineEst.SelDataEq hG D1 D2 layer1 hLayer1 layer2 hLayer2 ((clRegionalPairs hG S).erase p0)
+      ((S.erase a).erase b))
     (x : ExtS RS L base e f) (σ : CLInternalTime RS) :
     sInt RS D2 hG L γ δ F layer2 hLayer2 base t0 t1 t2 e f n0 n1 Φ x σ =
       sameInt hG D1 D2 L γ δ F layer1 hLayer1 layer2 hLayer2 base p0 RS t0 t1 t2 e f n0 n1 Φ x σ := by
   unfold sInt
   rw [spart_eq_frame_mul_exc D2 hG L γ δ F layer2 hLayer2 base S a b p0 hb hp0,
-    ← spartFrame_congr hG D1 D2 L γ δ F layer1 hLayer1 layer2 hLayer2 base p0 hC hT hl]
+    ← spartFrame_congr hG D1 D2 L γ δ F layer1 hLayer1 layer2 hLayer2 base p0 hC hT hl hsel]
   unfold sameInt
   ring
 

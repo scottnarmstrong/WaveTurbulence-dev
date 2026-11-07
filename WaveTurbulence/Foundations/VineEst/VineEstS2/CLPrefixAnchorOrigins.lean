@@ -11,6 +11,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS2.InternalDartOriginAt
 /-! # The joined anchor origins retain their actual local directions -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS2

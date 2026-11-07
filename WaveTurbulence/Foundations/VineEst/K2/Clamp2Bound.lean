@@ -15,6 +15,7 @@ high-root object (`q = Lr > L₂`), through `couple_root_vanish` / `tree_root_va
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 namespace WaveTurbulence.VineEstS5C.P4.W2.K2

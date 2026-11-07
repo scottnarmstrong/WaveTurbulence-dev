@@ -11,6 +11,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.Final.BotCount
 /-! # P4-W2 (session 19, step 2): `stepSrcC`, `botSrcC` and their `Src.sz` bounds against the native row bounds -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS5C.P4.W2
 open WaveTurbulence WaveTurbulence.Twist WaveTurbulence.LFTwist WaveTurbulence.VineEstS2 WaveTurbulence.VineEstS3 WaveTurbulence.VineEstS4
