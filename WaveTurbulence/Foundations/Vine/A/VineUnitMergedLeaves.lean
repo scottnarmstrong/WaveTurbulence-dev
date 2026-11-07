@@ -1,0 +1,47 @@
+/- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
+module
+public import WaveTurbulence.Foundations.Vine.A.VineUnitDeletedDarts
+public import WaveTurbulence.Foundations.Vine.A.VineSpliceLeafRange
+/-! The actual LF leaf map preserves the complete surviving-leaf carrier
+of simultaneous selected splices, including leaves absent from the molecule. -/
+@[expose] public section
+set_option autoImplicit false
+namespace WaveTurbulence.VineA
+open WaveTurbulence.RedSplice WaveTurbulence.Stage1 WaveTurbulence.Twist WaveTurbulence.Mole
+variable {w : ℕ} {G : Garden w}
+
+/-- A leaf is merged on one side exactly when its actual LF image is merged on the other. -/
+theorem unitTwist_mergedLeaf_iff (Z : TwistGroupSite G) (σ : Prescription G)
+    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) (q : GLeaf G.tree) :
+    MergedLeaf (spliceFold Z.target (unitBlocks Z.target (transportPrescription Z.iso σ))).cls
+      (coreLeafEquiv G Z.P q) ↔ MergedLeaf (spliceFold G (unitBlocks G σ)).cls q := by
+  constructor
+  · rintro ⟨lp', he, hd⟩
+    let lp := (lpLeafEquiv G Z.P).symm lp'
+    have hmap : lpLeafEquiv G Z.P lp = lp' := Equiv.apply_symm_apply _ _
+    have hval : lp.1 = q := (coreLeafEquiv G Z.P).injective ((congrArg Subtype.val hmap).trans he)
+    refine ⟨lp, hval, ?_⟩
+    apply (naiveDart_deleted_iff Z σ hsel (.inr lp)).mp
+    change DeletedDart _ (.inr (lpLeafEquiv G Z.P lp))
+    rw [hmap]
+    exact hd
+  · rintro ⟨lp, he, hd⟩
+    refine ⟨lpLeafEquiv G Z.P lp, congrArg (coreLeafEquiv G Z.P) he, ?_⟩
+    exact (naiveDart_deleted_iff Z σ hsel (.inr lp)).mpr hd
+
+/-- The complete old-leaf ranges of the two actual simultaneous splices correspond. -/
+theorem unitTwist_splice_leaf_ranges (Z : TwistGroupSite G) (σ : Prescription G)
+    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) (q' : GLeaf Z.target.tree) :
+    (∃ q, coreLeafEquiv G Z.P ((spliceFoldLeafTrace (unitBlocks G σ)).leaf q) = q') ↔
+      ∃ q, (spliceFoldLeafTrace (unitBlocks Z.target (transportPrescription Z.iso σ))).leaf q = q' := by
+  obtain ⟨q, rfl⟩ := (coreLeafEquiv G Z.P).surjective q'
+  have hleft : (∃ x, coreLeafEquiv G Z.P ((spliceFoldLeafTrace (unitBlocks G σ)).leaf x) = coreLeafEquiv G Z.P q) ↔
+      ∃ x, (spliceFoldLeafTrace (unitBlocks G σ)).leaf x = q :=
+    ⟨fun ⟨x, hx⟩ => ⟨x, (coreLeafEquiv G Z.P).injective hx⟩,
+      fun ⟨x, hx⟩ => ⟨x, congrArg (coreLeafEquiv G Z.P) hx⟩⟩
+  exact hleft.trans ((spliceFold_leaf_range (unitBlocks G σ) q).trans
+    ((not_congr (unitTwist_mergedLeaf_iff Z σ hsel q)).symm.trans
+      (spliceFold_leaf_range (unitBlocks Z.target (transportPrescription Z.iso σ))
+        (coreLeafEquiv G Z.P q)).symm))
+
+end WaveTurbulence.VineA
