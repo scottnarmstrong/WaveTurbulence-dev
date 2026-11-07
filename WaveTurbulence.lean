@@ -2087,6 +2087,7 @@ public import WaveTurbulence.Foundations.VdCB.SymmetricKernel
 public import WaveTurbulence.Foundations.VdCB.TruncatedPoisson
 public import WaveTurbulence.Foundations.VdCB.TruncatedPoissonShift
 public import WaveTurbulence.Foundations.VdCB.WeightedStationary
+public import WaveTurbulence.Foundations.VineEst.RowSel.Plain
 public import WaveTurbulence.Foundations.VineEst.Statements
 public import WaveTurbulence.Foundations.VineEst.V5Proof
 public import WaveTurbulence.Foundations.VineEst.VineSpaceB.BondStatements
