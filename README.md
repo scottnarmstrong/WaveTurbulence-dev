@@ -6,7 +6,7 @@ Lean 4 formalization of
 > [arXiv:2311.10082v2](https://arxiv.org/abs/2311.10082) (2024).
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-11-07 20:04 UTC** · **estimated completion 84.8 %** (Lean proofs 85.8 %) · frozen theorems sealed: 17 / 27 (+ 300 frozen definitions) · **1,475,048 lines of Lean on main** (11891 files) + 5,212 unlanded on worker branches · blueprint estimate ≈ 273,000 lines
+> **Last updated: 2026-11-07 20:23 UTC** · **estimated completion 84.8 %** (Lean proofs 85.8 %) · frozen theorems sealed: 17 / 27 (+ 300 frozen definitions) · **1,475,048 lines of Lean on main** (11891 files) + 5,604 unlanded on worker branches · blueprint estimate ≈ 273,000 lines
 <!-- /AUTO:updated -->
 
 **Scope (D1):** everything proved in Lean, no black boxes. That covers the target paper and the results it uses from
@@ -40,7 +40,7 @@ SEALED: 17 theorems + 300 definitions
 `███████████████████░░░░░░░░░░░` 64.7 % · 46 of 71 packets done, 3 partial, 8 running, 14 queued · ledger updated 2026-11-07 20:04 UTC
 
 - **Paper proof:** ✅ Paper-level proof complete and refereed (R155): SUPPLEMENT-v2 + 6.3', 7.3', 7.5', 8.2', 8.3, 10.2-10.4, U-clock; 7 referee reports, no FAIL.
-- **Lean:** 86,723 lines in the flower world (sorry-free, pinned to main), plus main-side threading on worker branches. When the cores close, the world lands on main and the chain `layergardenFlower_v3 → fixedpoint_v2 → propansatz_v2 → main_v2` is sealed.
+- **Lean:** 87,865 lines in the flower world (sorry-free, pinned to main), plus main-side threading on worker branches. When the cores close, the world lands on main and the chain `layergardenFlower_v3 → fixedpoint_v2 → propansatz_v2 → main_v2` is sealed.
 - **Next:** flowerest1 now needs only MarkedComponentBoundAtI: B group (B1b, B2a, B2b-3 running; B2c, B3, B3s, B4 next), C group (C1b2, C4b running; C5b), D group (D2c, D5b-2/3, D5d-b running; D3, D6a/b, D7 next); V5W-B-WORLD running.
 - **Open risks:** D5b: the filtered source is done (D5b-1); remaining: the link product (D5b-2) and the gate's theta = 1/4 couple branch (o82 L16.1, new assembly); B2b: Lemma 2+ PROVED (both halves); remaining: the sigma-bridge (main's group gaps -> CL chain gaps; one HV/DV math check); C1b1 PROVED the survivor re-cut budget sound (the failing configuration cannot occur); remaining C risk: the LOW chain phases 2-4 with survivors (C1b2)
 
@@ -154,7 +154,7 @@ Packet weights follow the blueprint convention (hard = 4, standard = 2, multi-pa
 | Release (P5) | 1 | 15 | 0.0 | `░░░░░░░░░░` 0 % |
 | **Total** | | 999 | 847.3 | **84.8 %** |
 
-Lean lines: 1,475,048 on main + 5,212 on branches, of ≈ 273,000 estimated by the blueprint (`████████████████████` 542.2 % of the estimate).
+Lean lines: 1,475,048 on main + 5,604 on branches, of ≈ 273,000 estimated by the blueprint (`████████████████████` 542.4 % of the estimate).
 
 <details><summary>All Lean work packets (blueprint §E) with weight and status</summary>
 
@@ -261,11 +261,11 @@ Done fractions last reviewed: **2026-11-07 05:24 UTC**. Source: [`docs/campaign/
 | wt-torus | Claude Opus / claude-14 | G7 MOLEPROP4 (revived, repaired): DH23 ylem1′, ylem2, Prop 10.4 (A23-HALF done) | `w/approxnt`: 80 h ago | [brief](docs/campaign/briefs/MOLEPROP4.md) |
 | wt-wke | Claude Opus / claude-13 | L3+L4: TARGET Props 6.1-6.3 (proplayer2-4); J1-J3, B̃ bridge, tree Prop 5.1 done | `w/jr-ops`: 80 h ago | [brief](docs/campaign/briefs/PL234.md) |
 | wt-cumul | GPT-6.1-Sol low / codex-2 | LG-SPINE (pre-freeze): layergarden from named spine inputs (INDUCT, WKETAYLOR-GATE done) | `w/norm-bridge`: 87 h ago | [brief](docs/campaign/briefs/LG-SPINE.md) |
-| wt-nt | GPT-6.1-Sol low / codex-2 | G4 APPB-OPS then G5 APPB-ALG (pre-freeze): DH23 Appendix B (MOLE M1+M2, CLCN M3 done) | `w/nt-circle`: 75 h ago | [brief](docs/campaign/briefs/APPB-OPS.md) |
+| wt-nt | GPT-6.1-Sol low / codex-2 | G4 APPB-OPS then G5 APPB-ALG (pre-freeze): DH23 Appendix B (MOLE M1+M2, CLCN M3 done) | `w/nt-circle`: 76 h ago | [brief](docs/campaign/briefs/APPB-OPS.md) |
 | wt-ansob | GPT-6.1-Sol low / codex-2 | RA1 couples (RA1Couple): DH23 Prop 6.1 for couples; trees moved to wt-l2s | `w/bproc`: 77 h ago, 11 unlanded | [brief](docs/campaign/briefs/REGASYMP.md) |
 | wt-gausssum | GPT-6.1-Sol low / codex-2 | M9 VINEPARAM (pre-freeze): molecule-level vine parametrizations (M4 VINES done) | `w/count`: 75 h ago, 11 unlanded | [brief](docs/campaign/briefs/VINES.md) |
-| wt-resonant | GPT-6.1-Sol low / codex-2 | V4 VINEEST-S2 (pre-freeze): vineest Step 2 into sumint form (V3 REGRED done) | `w/resonant`: 80 h ago | [brief](docs/campaign/briefs/VINEEST-S2.md) |
-| wt-anfourier | GPT-6.1-Sol low / codex-2 | M7 LFTWIST (pre-freeze); M5 MOLECPL, M6 TWIST, SUMINT done | `w/an-phase`: 93 h ago | [brief](docs/campaign/briefs/LFTWIST.md) |
+| wt-resonant | GPT-6.1-Sol low / codex-2 | V4 VINEEST-S2 (pre-freeze): vineest Step 2 into sumint form (V3 REGRED done) | `w/resonant`: 81 h ago | [brief](docs/campaign/briefs/VINEEST-S2.md) |
+| wt-anfourier | GPT-6.1-Sol low / codex-2 | M7 LFTWIST (pre-freeze); M5 MOLECPL, M6 TWIST, SUMINT done | `w/an-phase`: 94 h ago | [brief](docs/campaign/briefs/LFTWIST.md) |
 | wt-l2s | GPT-6.1-Sol low / codex-2 | RA1-TREES: DH23 Prop 6.1 for trees (RA1Tree); INCOH-INST done: B2.2 proved at exact type | `w/wke-l2s`: 74 h ago, 23 unlanded | [brief](docs/campaign/briefs/RA1-TREES.md) |
 <!-- /AUTO:workers -->
 
