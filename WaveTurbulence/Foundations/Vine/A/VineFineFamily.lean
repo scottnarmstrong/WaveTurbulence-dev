@@ -1,0 +1,67 @@
+/- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
+module
+public import WaveTurbulence.Foundations.Vine.A.VineFamilyUnique
+public import WaveTurbulence.Foundations.Vine.A.VineSelectedTransport
+/-! Exact selected-family states and their preservation under a skeleton
+unit twist. The predicate uses the actual V0 carrier of the prescription. -/
+@[expose] public section
+set_option autoImplicit false
+namespace WaveTurbulence.VineA
+open Finset WaveTurbulence.Stage1 WaveTurbulence.RedSplice WaveTurbulence.Twist
+variable {w : ℕ} {G : Garden w} {ι : Type*}
+
+/-- The family enumerates exactly the core vines of the selected V0 carrier. -/
+def IsV0Fam (F : CoreFamily G ι) (σ : Prescription G) : Prop :=
+  (∀ i, familyVine F i ∈ vinesV0 G σ) ∧
+  (∀ c ∈ vinesV0 G σ, (∃ X, IsCoreCLVine G X c.atoms c.upper c.lower) →
+    ∃ i, F.atoms i = c.atoms)
+
+/-- The canonical fine state has the exact selected family. -/
+theorem fineState_isV0Fam {LG : LayeredGarden w} (A : PrimeData LG) (σ : Prescription A.skeleton) :
+    IsV0Fam (A.fineState σ).family σ := by
+  constructor
+  · intro i
+    have he : familyVine (A.fineState σ).family i = i.1 := clVine_eq_of_atoms rfl
+    exact he ▸ i.2.1
+  · intro c hc hcore
+    exact ⟨⟨c, hc, hcore⟩, rfl⟩
+
+/-- The actual twist site of a selected family member. -/
+noncomputable def selectedMemberSite {F : CoreFamily G ι} {σ : Prescription G}
+    (hF : IsV0Fam F σ) (i : ι) : TwistGroupSite G where
+  P := F.placement i
+  S0 := F.atoms i
+  a0 := F.upper i
+  hB := (F.core i).1.1
+  hCL := (F.core i).2.1
+  hP := F.designated i
+  Sg := (hF.1 i).2.choose
+  hSg := (hF.1 i).2.choose_spec.1
+  hS0 := (hF.1 i).2.choose_spec.2.1
+
+/-- A selected unit twist preserves completeness of the selected core family. -/
+theorem isV0Fam_twist {F : CoreFamily G ι} {σ : Prescription G}
+    (hF : IsV0Fam F σ) (i : ι) :
+    IsV0Fam (F.twist i) (transportPrescription (selectedMemberSite hF i).iso σ) := by
+  let Z := selectedMemberSite hF i
+  constructor
+  · intro j
+    obtain ⟨c', hc', ha, _, _⟩ := vinesV0_image Z σ (hF.1 j)
+    have he : c' = familyVine (F.twist i) j := clVine_eq_of_atoms ha
+    exact he ▸ hc'
+  · intro c' hc' ⟨X, hX⟩
+    obtain ⟨c, hc, ha, hu, hl⟩ := vinesV0_preimage Z σ hc'
+    by_cases hat : c.atoms = F.atoms i
+    · refine ⟨i, ?_⟩
+      rw [ha, hat]
+      rfl
+    · obtain ⟨S, hS, hi, _⟩ := hc.1
+      have hsep := Z.sep_of_ing hS hi hat
+      have hcore : IsCoreCLVine G X c.atoms c.upper c.lower :=
+        Z.core_pull hsep (by rw [ha, hu, hl] at hX; exact hX)
+      obtain ⟨j, hj⟩ := hF.2 c hc ⟨X, hcore⟩
+      refine ⟨j, ?_⟩
+      rw [ha, ← hj]
+      rfl
+
+end WaveTurbulence.VineA
