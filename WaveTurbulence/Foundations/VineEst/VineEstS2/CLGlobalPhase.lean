@@ -1,0 +1,139 @@
+/-
+Copyright (c) 2026 Scott Armstrong. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Scott Armstrong
+-/
+module
+
+public import WaveTurbulence.Foundations.VineEst.VineEstS2.CLGlobalPhaseExponent
+public import WaveTurbulence.Foundations.VineEst.VineEstS2.CLKernelReindex
+public import WaveTurbulence.Foundations.VineEst.VineEstS2.BlockPhaseAlgebra
+
+/-! # TARGET Step 2: the regional phase is the frozen signed sumint phase
+
+For every lattice point `x` of the frozen sumint vector lattice and every sumint clock
+`τ`, the literal regional source phase of the corresponding regional decoration and the
+reindexed clocks equals `signedPhase` of the source sumint datum, at `δ' = 2δ`, with the
+common gap `-(β₂-β₃)` and vanishing weight parameters. -/
+
+@[expose] public section
+set_option autoImplicit false
+open WaveTurbulence.VineParamContract
+namespace WaveTurbulence.VineEstS2
+open VineParamContract TTree RegRed
+variable {w d : ℕ} {G : Garden w} {U : Finset (GBranch G.tree)} {a b : GBranch G.tree}
+variable {R : CLRegionData G U a b} {n : ℕ}
+
+theorem assembly_phase_exponent (hM9 : VINEPARAM) (B : CLChainAssembly G R n) (hG : G.IsPlain)
+    (W : SumintWeightClockData (assemblyShape hM9 B) d)
+    {L : ℝ} (hL : L ≠ 0) (base : Mom d) (β : Fin 4 → (Fin d → ℤ))
+    (hβ : ((G.sign a.toNode : ℤ) • (β 0-β 1)) = β 2-β 3)
+    (γ δ : ℝ) (x : (assemblyShape hM9 B).VIdx → (Fin d → ℤ)) (t : Fin 3 → ℝ)
+    (τ : (sourceSumintDatum hM9 B hG W).S.TVar → ℝ) :
+    (∑ z : Σ i : Fin n, Fin (assemblyChartAt hM9 B i).indexing.shape.n,
+      Real.pi * δ * L ^ (2*γ) *
+        ((((G.sign ((assemblyChartAt hM9 B z.1).indexing.atom z.2).1.toNode : ℤ) : ℝ)) *
+          omegaNode G (clChainMomentum hL B base β hβ hM9 (jointFlip _ x))
+            ((assemblyChartAt hM9 B z.1).indexing.atom z.2).1) *
+        (asmFC hM9 B τ z - t 0)) =
+    Real.pi * signedPhaseExponent (sourceSumintDatum hM9 B hG W)
+      (assemblyCoreFirstSign hM9 B) (assemblyCoreSign hM9 B) L γ (2*δ) x
+      (-(latticePoint L (β 2-β 3))) (t 0) τ := by
+  obtain ⟨gA, hgA⟩ := assembly_slot_resonance hL B base β hβ hM9 (jointFlip _ x)
+  rw [Finset.sum_congr rfl (fun z _ => by rw [hgA z])]
+  refine assembly_slots_exponent hM9 B hG W γ δ x t τ (latticePoint L (β 2-β 3))
+    (fun i j => nodeResonance (assemblyChartAt hM9 B i).indexing
+      (((assemblyChartAt hM9 B i).chart (gA i) (latticePoint L (β 2-β 3))).symm
+        (fun j => latticePoint L (jointFlip _ x (assemblyVectorEquiv hM9 B
+          ((assemblyInputEquiv hM9 B).symm ⟨i,j⟩))))).1 (gA i) (latticePoint L (β 2-β 3)) j)
+    (fun i j => latticePoint L (jointFlip _ x (assemblyVectorEquiv hM9 B
+          ((assemblyInputEquiv hM9 B).symm ⟨i,j⟩)))) ?_ ?_ ?_ ?_ ?_ ?_ ?_
+  · intro i
+    show latticePoint L (jointFlip _ x (assemblyVectorEquiv hM9 B ((assemblyInputEquiv hM9 B).symm
+      ⟨i,(assemblyChartAt hM9 B i).indexing.shape.x0⟩))) = _
+    rw [assemblyVector_input, familySlotEquiv_x0]
+    exact (congrArg (latticePoint L) (jointFlip_x0 (assemblyShape hM9 B) x i)).trans
+      (latticePoint_neg' L _)
+  · intro i j
+    show latticePoint L (jointFlip _ x (assemblyVectorEquiv hM9 B ((assemblyInputEquiv hM9 B).symm
+      ⟨i,(assemblyChartAt hM9 B i).indexing.shape.xSlot j⟩))) = _
+    rw [assemblyVector_input, familySlotEquiv_x]
+    exact congrArg (latticePoint L) (jointFlip_x (assemblyShape hM9 B) x i j)
+  · intro i j
+    show latticePoint L (jointFlip _ x (assemblyVectorEquiv hM9 B ((assemblyInputEquiv hM9 B).symm
+      ⟨i,(assemblyChartAt hM9 B i).indexing.shape.ySlot j⟩))) = _
+    rw [assemblyVector_input, familySlotEquiv_y]
+    exact congrArg (latticePoint L) (jointFlip_y (assemblyShape hM9 B) x i j)
+  · intro k c
+    have h1 := assemblyVector_input hM9 B k.1
+      ((assemblyChartAt hM9 B k.1).indexing.shape.uSlot ((shapeFamily_normal_iff _ _ k.1).mp k.2) c)
+    have h2 := familySlotEquiv_u (fun i => (assemblyPieceAt B i).vineType)
+      (fun i => (assemblyChartAt hM9 B i).indexing.shape) k.1
+      ((shapeFamily_normal_iff _ _ k.1).mp k.2) k.2 c
+    exact (congrArg (fun v => latticePoint L (jointFlip _ x v)) h1).trans
+      ((congrArg (fun q => latticePoint L (jointFlip _ x ⟨k.1, q⟩)) h2).trans
+        (congrArg (latticePoint L) (jointFlip_u (assemblyShape hM9 B) x k.1 k.2 c)))
+  · intro i
+    have e : asmFC hM9 B τ ⟨i, (assemblyChartAt hM9 B i).indexing.shape.x0⟩ = τ (.inl ⟨i,0⟩) :=
+      familyClock_x0 (fun i => (assemblyPieceAt B i).vineType)
+        (fun i => (assemblyChartAt hM9 B i).indexing.shape) τ i
+    refine (block_joint_exponent (assemblyChartAt hM9 B i) (gA i) (latticePoint L (β 2-β 3))
+      (fun j => latticePoint L (jointFlip _ x (assemblyVectorEquiv hM9 B
+          ((assemblyInputEquiv hM9 B).symm ⟨i,j⟩)))) (Real.pi * δ * L ^ (2*γ))
+      (asmFC hM9 B τ ⟨i, (assemblyChartAt hM9 B i).indexing.shape.x0⟩) (t 0)).trans ?_
+    rw [e]
+  · intro i j
+    have ex : asmFC hM9 B τ ⟨i, (assemblyChartAt hM9 B i).indexing.shape.xSlot j⟩ =
+        τ (.inl ⟨i,j.succ⟩) :=
+      familyClock_x (fun i => (assemblyPieceAt B i).vineType)
+        (fun i => (assemblyChartAt hM9 B i).indexing.shape) τ i j
+    have ey : asmFC hM9 B τ ⟨i, (assemblyChartAt hM9 B i).indexing.shape.ySlot j⟩ =
+        τ (.inr (.inl ⟨i,j⟩)) :=
+      familyClock_y (fun i => (assemblyPieceAt B i).vineType)
+        (fun i => (assemblyChartAt hM9 B i).indexing.shape) τ i j
+    refine (block_rung_exponent (assemblyChartAt hM9 B i) (gA i) (latticePoint L (β 2-β 3))
+      (fun j => latticePoint L (jointFlip _ x (assemblyVectorEquiv hM9 B
+          ((assemblyInputEquiv hM9 B).symm ⟨i,j⟩)))) j (Real.pi * δ * L ^ (2*γ))
+      (asmFC hM9 B τ ⟨i, (assemblyChartAt hM9 B i).indexing.shape.xSlot j⟩)
+      (asmFC hM9 B τ ⟨i, (assemblyChartAt hM9 B i).indexing.shape.ySlot j⟩) (t 0)).trans ?_
+    rw [ex, ey]
+  · intro k
+    have eu : ∀ c : Fin 3, asmFC hM9 B τ ⟨k.1, (assemblyChartAt hM9 B k.1).indexing.shape.uSlot
+        ((shapeFamily_normal_iff _ _ k.1).mp k.2) c⟩ = τ (.inr (.inr ⟨k,c⟩)) :=
+      fun c => familyClock_u (fun i => (assemblyPieceAt B i).vineType)
+        (fun i => (assemblyChartAt hM9 B i).indexing.shape) τ k c
+    refine (block_core_exponent (assemblyChartAt hM9 B k.1) ((shapeFamily_normal_iff _ _ k.1).mp k.2)
+      (gA k.1) (latticePoint L (β 2-β 3))
+      (fun j => latticePoint L (jointFlip _ x (assemblyVectorEquiv hM9 B
+          ((assemblyInputEquiv hM9 B).symm ⟨k.1,j⟩))))
+      (fun c => asmFC hM9 B τ ⟨k.1, (assemblyChartAt hM9 B k.1).indexing.shape.uSlot
+        ((shapeFamily_normal_iff _ _ k.1).mp k.2) c⟩) (Real.pi * δ * L ^ (2*γ)) (t 0)).trans ?_
+    simp only [eu]
+    rfl
+
+/-- TARGET vineest Step 2, phase part: the literal recentered regional source phase on the
+reindexed chain coordinates is `signedPhase` of the source sumint datum (the weight parameters
+vanish, no bad factor), at `δ' = 2δ` and the frozen gap `-(β₂-β₃)`. -/
+theorem assembly_regionalPhase_eq_signedPhase (hM9 : VINEPARAM) (B : CLChainAssembly G R n)
+    (hG : G.IsPlain) (W : SumintWeightClockData (assemblyShape hM9 B) d)
+    (hpar : ∀ v, W.param v = 0) (hbad : ∀ i, W.badKind i ≠ 2)
+    {L : ℝ} (hL : L ≠ 0) (base : Mom d) (β : Fin 4 → (Fin d → ℤ))
+    (hβ : ((G.sign a.toNode : ℤ) • (β 0-β 1)) = β 2-β 3)
+    (γ δ η : ℝ) (x : (assemblyShape hM9 B).VIdx → (Fin d → ℤ)) (t : Fin 3 → ℝ)
+    (τ : (assemblyShape hM9 B).TVar → ℝ) :
+    clRegionalPhase G U L γ δ
+        (cosetDecoration G L base
+          (clExtendIndices R ((clNormalizedChainEquiv hL B base β hβ hM9).symm x).1))
+        (fun v => clLocalClock R t (assemblyClockEquiv hM9 B τ) v - t 0) =
+      signedPhase (sourceSumintDatum hM9 B hG W) (assemblyCoreFirstSign hM9 B)
+        (assemblyCoreSign hM9 B) L γ (2*δ) η x (-(latticePoint L (β 2-β 3))) (t 0) τ := by
+  have hK : cosetDecoration G L base
+      (clExtendIndices R ((clNormalizedChainEquiv hL B base β hβ hM9).symm x).1) =
+      clChainMomentum hL B base β hβ hM9 (jointFlip _ x) := rfl
+  rw [hK, clRegionalPhase_eq_exp_slots hM9 B L γ δ _ t τ,
+    signedPhase_eq_exp (sourceSumintDatum hM9 B hG W) (assemblyCoreFirstSign hM9 B)
+      (assemblyCoreSign hM9 B) L γ (2*δ) η x _ (t 0) τ hpar hbad]
+  exact congrArg (fun y : ℝ => Complex.exp ((y : ℂ) * Complex.I))
+    (assembly_phase_exponent hM9 B hG W hL base β hβ γ δ x t τ)
+
+end WaveTurbulence.VineEstS2
