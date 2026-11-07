@@ -6,7 +6,7 @@ Lean 4 formalization of
 > [arXiv:2311.10082v2](https://arxiv.org/abs/2311.10082) (2024).
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-11-07 10:23 UTC** · **estimated completion 91.0 %** (Lean proofs 92.9 %) · frozen theorems sealed: 16 / 27 (+ 300 frozen definitions) · **1,366,583 lines of Lean on main** (10866 files) + 2,643 unlanded on worker branches · blueprint estimate ≈ 273,000 lines
+> **Last updated: 2026-11-07 18:13 UTC** · **estimated completion 81.4 %** (Lean proofs 82.1 %) · frozen theorems sealed: 17 / 27 (+ 300 frozen definitions) · **1,472,062 lines of Lean on main** (11879 files) + 5,935 unlanded on worker branches · blueprint estimate ≈ 273,000 lines
 <!-- /AUTO:updated -->
 
 **Scope (D1):** everything proved in Lean, no black boxes. That covers the target paper and the results it uses from
@@ -16,36 +16,144 @@ Deng–Hani's earlier papers (DH21, DH23, parts of DH21-2 and DH19), the triline
 
 ## Status
 
-**Phase:** P2 (exact statements) with P4 proofs of route-independent infrastructure running in parallel.
-**Wave A frozen (D6):** Theorem 1.1 (`WaveTurbulence.main`) and Prop 3.2 (`WaveTurbulence.wkelwp`) as `DRAFT_SORRY`
-anchors in `WaveTurbulence/Frozen/Theorems/`, 13 sealed definitions in `WaveTurbulence/Frozen/Defs/`, manifest
-`manifest/frozen.json`. **Wave B** (12 theorems + their definitions): drafting and stage audits in progress.
-**Blueprint v2** (after independent topology review): 275 nodes, 84 packets, ≈273k lines, critical path weight 99.
-**F32 resolved:** the `wkelwp` blow-up conjunct is provable for all d ≥ 3 (new proof of the general-d L²_s trilinear estimate, audited CORRECT; packet WKE-L2S); no owner decision needed.
+**Phase (reviewed 2026-11-07):** P4 proofs. `layergarden_v2` is **PROVED** (sealed, two keys; R152). On main, Theorem 1.1
+for 1/2 < γ < 1 (`main_v2`) follows from `layergarden_v2` and `layergardenFlower_v3` by proved assembly. So the
+remaining proof work for that range is the flower estimate `flowerest1` (= `layergardenFlower_v3`), tracked by the
+flower bar below. Its paper-level proof is complete and refereed (R155); its Lean formalization is in progress. Then
+`layergardenFlower_v3 → fixedpoint_v2 → propansatz_v2 → main_v2` are sealed with two-key audits.
+**γ ≤ 1/2:** DH23 Prop 9.6 is false there (erratum E1). The T-vine repair (D11) is deferred until the 1/2 < γ < 1
+chain is sealed. Errata and deviations are consolidated in `docs/ERRATA-AND-DEVIATIONS.md` on branch `w/report`,
+which lands with the next Lean landing.
 
 ```text
-DRAFT_ANCHORS: 2 (WaveTurbulence/Frozen/Theorems/Main.lean, WaveTurbulence/Frozen/Theorems/Wkelwp.lean)
-UNREGISTERED_SORRIES: 0
+DRAFT_ANCHORS: 10 theorem anchors at DRAFT_SORRY (main, fixedpoint, propansatz v1/v2; layergarden v1; layergardenFlower v1/v2/v3; superseded versions stay frozen as history)
+UNREGISTERED_SORRIES: 0 (frozen-anchor guard OK on HEAD)
 DRAFT_IMPORT_VIOLATIONS: 0
+SEALED: 17 theorems + 300 definitions
 ```
+
+## Flower estimate
+
+<!-- AUTO:flower -->
+### Flower estimate (`flowerest1` = frozen `layergardenFlower_v3`): **49.9 %**
+
+`███████████████░░░░░░░░░░░░░░░` 49.9 % · 39 of 70 packets done, 1 partial, 7 running, 23 queued · ledger updated 2026-11-07 18:13 UTC
+
+- **Paper proof:** ✅ Paper-level proof complete and refereed (R155): SUPPLEMENT-v2 + 6.3', 7.3', 7.5', 8.2', 8.3, 10.2-10.4, U-clock; 7 referee reports, no FAIL.
+- **Lean:** 64,506 lines in the flower world (sorry-free, pinned to main), plus main-side threading on worker branches. When the cores close, the world lands on main and the chain `layergardenFlower_v3 → fixedpoint_v2 → propansatz_v2 → main_v2` is sealed.
+- **Next:** Land V5W-B on main; A3b (flower estimate from the per-component bound alone); B1a/B2b (marked Stage 1); C1b1 (final count); D2b, D2c, D5d, D5b (protected objects); V5W-B world pieces.
+- **Open risks:** D5b: filters through main's incoherent link chain, now mapped (copy-thread, 95 modules, 5-6.7k lines; theta = 1/4 couples branch still to write); B2b: Lemma 2+ (the marking is twist-invariant) needs node maps across LF twists that main lacks; C1b1: must exclude the one survivor configuration where the re-cut budget fails (gamma < 3/5)
+
+| Workstream | Packets | Done | Running | Completion |
+|---|---|---|---|---|
+| Flower top reduction (landed on main) | 6 | 6 | 0 | `██████████` 100 % |
+| Weighted Stage 1, unmarked gardens | 5 | 5 | 0 | `██████████` 100 % |
+| Weighted vine estimate (V5W) | 5 | 3 | 0 | `███████░░░` 67 % |
+| Supplement lemma stock | 8 | 8 | 0 | `██████████` 100 % |
+| Marked layer A: interface, capping, top assembly | 6 | 5 | 1 | `████████░░` 75 % |
+| Marked layer B: marked Stage 1 | 9 | 1 | 2 | `█░░░░░░░░░` 5 % |
+| Marked layer C: final count (Stage 2') | 11 | 6 | 1 | `█████░░░░░` 53 % |
+| Marked layer D: protected objects | 16 | 5 | 3 | `███░░░░░░░` 26 % |
+| Cores, landing and seals | 4 | 0 | 0 | `░░░░░░░░░░` 0 % |
+| **Total** | 70 | 39 | 7 | **49.9 %** |
+
+<details><summary>All flower packets</summary>
+
+| Workstream | Packet | Weight | Status | Note |
+|---|---|---|---|---|
+| Flower top reduction (landed on main) | FT1 | 4 | ✅ done | flower top reduction, main 89e2e136 |
+| Flower top reduction (landed on main) | FC23W | 4 | ✅ done | M1, main 796c0f5f |
+| Flower top reduction (landed on main) | FL-CASES | 2 | ✅ done | M1 |
+| Flower top reduction (landed on main) | FL-TYPED | 2 | ✅ done | M1 |
+| Flower top reduction (landed on main) | FL-POLAR | 2 | ✅ done | M1 |
+| Flower top reduction (landed on main) | FL-FAM | 4 | ✅ done | M1: layergardenFlower_v3 from the two cores |
+| Weighted Stage 1, unmarked gardens | STAGE1W-GLUE | 4 | ✅ done | gate glue, exponent c_psi^{16N} |
+| Weighted Stage 1, unmarked gardens | STAGE1W-O4 | 4 | ✅ done | noVineRepresentsFW |
+| Weighted Stage 1, unmarked gardens | INC-TOP | 4 | ✅ done | topIncoherentDecayGateR |
+| Weighted Stage 1, unmarked gardens | COH-TRUNK | 4 | ✅ done | coherent trunk |
+| Weighted Stage 1, unmarked gardens | STAGE1W-VINE | 4 | ✅ done | weighted Stage-1 gate, given the V5W class bound |
+| Weighted vine estimate (V5W) | V5W-0 | 4 | ✅ done | class factorization and continuity |
+| Weighted vine estimate (V5W) | V5W-A | 4 | ✅ done | S = none from main's certificate |
+| Weighted vine estimate (V5W) | V5W-B-MAIN | 8 | ✅ done | READY b4ee6eee (609 main files, layergarden_v2 ABI unchanged); landing |
+| Weighted vine estimate (V5W) | V5W-B-WORLD | 4 | ⬜ queued | B3-B5: engine rows, masked bonds, assembly |
+| Weighted vine estimate (V5W) | V5W-T | 4 | ⬜ queued | top filter (OutCharMix) |
+| Supplement lemma stock | FL-SHELL | 2 | ✅ done |  |
+| Supplement lemma stock | FL-SEP | 2 | ✅ done |  |
+| Supplement lemma stock | FL-AFFINE | 2 | ✅ done |  |
+| Supplement lemma stock | FL-PIN | 2 | ✅ done |  |
+| Supplement lemma stock | FL-EXCISE | 2 | ✅ done |  |
+| Supplement lemma stock | FL-COEF | 2 | ✅ done |  |
+| Supplement lemma stock | FL-FIBER | 2 | ✅ done |  |
+| Supplement lemma stock | FL-FACE | 4 | ✅ done | Lemma 9.1 faces |
+| Marked layer A: interface, capping, top assembly | A1 MK-DEFS | 2 | ✅ done |  |
+| Marked layer A: interface, capping, top assembly | A5 MK-ASM | 2 | ✅ done | flower_v3_of_marked_of_caps |
+| Marked layer A: interface, capping, top assembly | A2 CAPS-ID | 4 | ✅ done | capped encoding; A2-R final interface |
+| Marked layer A: interface, capping, top assembly | CAPS-FUBINI | 2 | ✅ done | shell integral exchange |
+| Marked layer A: interface, capping, top assembly | A3a CAPS-GLUE | 2 | ✅ done | n-ary glue identity |
+| Marked layer A: interface, capping, top assembly | A3b CAPS-COMP | 4 | 🟡 running | discharges CapsDecompF/G |
+| Marked layer B: marked Stage 1 | B0 design | 2 | ✅ done | S-STAGE1MK |
+| Marked layer B: marked Stage 1 | B1a THREAD-ROOTS | 8 | 🟡 running | 264 main files, branch w/stage1mk |
+| Marked layer B: marked Stage 1 | B1b THREAD-GEN | 4 | ⬜ queued |  |
+| Marked layer B: marked Stage 1 | B2a MK-RUNS | 4 | ⬜ queued |  |
+| Marked layer B: marked Stage 1 | B2b MK-MARK | 4 | 🟡 running | Lemmas 1+ and 2+ (riskiest) |
+| Marked layer B: marked Stage 1 | B2c MK-SUBPRO | 8 | ⬜ queued |  |
+| Marked layer B: marked Stage 1 | B3 MK-UNITS | 2 | ⬜ queued |  |
+| Marked layer B: marked Stage 1 | B3s MK-SLOTS | 4 | ⬜ queued |  |
+| Marked layer B: marked Stage 1 | B4 STAGE1MK-GATE | 2 | ⬜ queued |  |
+| Marked layer C: final count (Stage 2') | C0 design | 2 | ✅ done | S-FINALMK |
+| Marked layer C: final count (Stage 2') | C3 LAD-FILT | 4 | ✅ done | filtered ladders |
+| Marked layer C: final count (Stage 2') | C2 FINALMK-CRUDE | 2 | ✅ done | crude bound gate |
+| Marked layer C: final count (Stage 2') | C1a SURV-STEP | 4 | ✅ done | re-cut potential step (riskiest C step) |
+| Marked layer C: final count (Stage 2') | C5a PIECE-MK | 2 | ✅ done | MarkedPieceTarget (R161: 1 <= d) and the class sum |
+| Marked layer C: final count (Stage 2') | C1b1 MK-PHASE1 | 4 | 🟡 running |  |
+| Marked layer C: final count (Stage 2') | C4a PIN-FOURIER | 4 | ✅ done | pinned ladder Fourier bound + face export for D7 |
+| Marked layer C: final count (Stage 2') | C1b2 MK-CHAIN | 4 | ⬜ queued |  |
+| Marked layer C: final count (Stage 2') | C1c MK-GARDEN | 2 | ⬜ queued |  |
+| Marked layer C: final count (Stage 2') | C4b FINE-PIN | 4 | ⬜ queued |  |
+| Marked layer C: final count (Stage 2') | C5b COMP-MK | 2 | ⬜ queued |  |
+| Marked layer D: protected objects | D0 design | 2 | ✅ done | S-PROT |
+| Marked layer D: protected objects | D1 PROT-TA | 2 | ✅ done |  |
+| Marked layer D: protected objects | D2a PROT-KER | 2 | ✅ done | ProtDefs + kernel bridge |
+| Marked layer D: protected objects | D5c FILT-NT | 2 | ✅ done |  |
+| Marked layer D: protected objects | D1b PROT-OPS | 4 | 🟠 checkpoint 70 % | 5 of 7: D1b-T running, fold estimate deferred |
+| Marked layer D: protected objects | D2b PROT-GEO | 4 | 🟡 running |  |
+| Marked layer D: protected objects | D2c PROT-CUT | 4 | 🟡 running |  |
+| Marked layer D: protected objects | D5a FILT-LINK | 4 | ✅ done | o82 Lemma 14.1 + the D5b map (copy-thread recommended) |
+| Marked layer D: protected objects | D5d FILT-COH | 8 | 🟡 running |  |
+| Marked layer D: protected objects | D3 PROT-PIN | 4 | ⬜ queued |  |
+| Marked layer D: protected objects | D5b-1 FILT-SRC | 4 | ⬜ queued | filtered source phase (copy-thread of INC-TOP), riskiest D step |
+| Marked layer D: protected objects | D5b-2 FILT-PROD | 2 | ⬜ queued | thread to the link product |
+| Marked layer D: protected objects | D5b-3 FILT-GATE | 2 | ⬜ queued | FiltIncoherentDecayGate incl. theta = 1/4 |
+| Marked layer D: protected objects | D6a PROT-PTW | 4 | ⬜ queued |  |
+| Marked layer D: protected objects | D6b PROT-WHOLE | 4 | ⬜ queued |  |
+| Marked layer D: protected objects | D7 SEL-RES | 4 | ⬜ queued |  |
+| Cores, landing and seals | CORES | 4 | ⬜ queued | Core-F and Core-G from the component bound |
+| Cores, landing and seals | LAND | 4 | ⬜ queued | land the world on main (land_check, ABI) |
+| Cores, landing and seals | SEAL layergardenFlower_v3 | 2 | ⬜ queued | two keys |
+| Cores, landing and seals | SEAL fixedpoint_v2 / propansatz_v2 / main_v2 | 4 | ⬜ queued | two keys each; Theorem 1.1 for 1/2 < gamma < 1 |
+
+</details>
+
+Packet weights follow the blueprint convention (hard = 4, standard = 2, multi-packet items more). Credit: done = 1; a CHECKPOINT carries an explicit partial fraction; running and queued packets carry 0. Source: [`docs/campaign/flower.json`](docs/campaign/flower.json); history: [`docs/campaign/flower-history.csv`](docs/campaign/flower-history.csv).
+<!-- /AUTO:flower -->
 
 ## Progress
 
 <!-- AUTO:progress -->
-### Estimated completion: **91.0 %**
+### Estimated completion: **81.4 %**
 
-`███████████████████████████░░░` 91.0 %
+`████████████████████████░░░░░░` 81.4 %
 
 | Part of the project | Items | Weight | Done | Completion |
 |---|---|---|---|---|
 | Sources, paper maps, blueprint (P0–P1) | 1 | 30 | 27.0 | `█████████░` 90 % |
 | Exact Lean statements, frozen (P2) | 1 | 20 | 18.6 | `█████████░` 93 % |
-| Lean proofs (P4) | 85 | 681 | 641.7 | `█████████░` 94 % |
-| Frozen theorems sealed | 27 | 27 | 16.0 | `██████░░░░` 59 % |
+| Lean proofs (P4) | 85 | 903 | 746.9 | `████████░░` 83 % |
+| Frozen theorems sealed | 27 | 27 | 17.0 | `██████░░░░` 63 % |
 | Release (P5) | 1 | 15 | 0.0 | `░░░░░░░░░░` 0 % |
-| **Total** | | 773 | 703.3 | **91.0 %** |
+| **Total** | | 995 | 809.5 | **81.4 %** |
 
-Lean lines: 1,366,583 on main + 2,643 on branches, of ≈ 273,000 estimated by the blueprint (`████████████████████` 501.5 % of the estimate).
+Lean lines: 1,472,062 on main + 5,935 on branches, of ≈ 273,000 estimated by the blueprint (`████████████████████` 541.4 % of the estimate).
 
 <details><summary>All Lean work packets (blueprint §E) with weight and status</summary>
 
@@ -133,7 +241,7 @@ Lean lines: 1,366,583 on main + 2,643 on branches, of ≈ 273,000 estimated by t
 | M6 | TWIST | 8 | ≈2,800 | 🟡 90 % | TWIST done in scratch: twist involution, invariances, sign cancellation, 2^r gardens (287 modules) |
 | V3 | REGRED | 6 | ≈1,900 | 🟡 90 % | REGRED done in scratch: skeleton reduction, vineest Step 1 (ab8680f); nonzero-gap boundary case separate (F21) |
 | M7 | LFTWIST | 13 | ≈4,200 | 🟡 85 % | LFTWIST on main with the canonical universe; leaf bijection of LF twists on ordinary leaves proved (LFTWIST-LEAFMAP, R45) |
-| X2 | FLOWEREST | 16 | ≈8,900 | 🟡 85 % | FLOWEREST: layergardenFlower_v3 proved from owner inputs (second key PASS); cut2 via route OG (orbit-by-gluing; CG lemma proved), coherent bound (C2-B-COH: all fixed-nu 30d gates, block-product integral in progress), cut1 family (FC23) and phased Stage-1 producer (S2-ST: STBLD, anchors, designated vine engine) in progress |
+| X2 | FLOWEREST | 238 | ≈8,900 | 🟡 50 % | FLOWEREST: weight and completion from the flower ledger (39 packets done, 7 running, 23 queued; see the flower bar) |
 | F1 | FINAL-RED | 4 | ≈1,200 | 🟡 30 % | FINAL-RED: finalsbest1/finalsbest2 consumed in LG-SPINE's assembly (counting cover, finalproof numerics) proved generically |
 | G1 | STAGE2-DEF | 10 | ≈2,600 | 🟡 20 % | STAGE2-DEF: stage-2 operation datatype (Stage2Op) and TARGET's counting problem (lg-spine CountingChoices) defined |
 
@@ -147,17 +255,17 @@ Done fractions last reviewed: **2026-11-07 05:24 UTC**. Source: [`docs/campaign/
 <!-- AUTO:workers -->
 | tmux | model / account | packet | branch: last commit | brief |
 |---|---|---|---|---|
-| wt-orch | Claude Opus / claude-1 | Task 34: snapshot-8 delta audit + freeze branch rebuild; done: letter draft, many audits | `w/orch`: 2 min ago, 109 unlanded | [brief](docs/campaign/orch/TASK4.md) |
+| wt-orch | Claude Opus / claude-1 | Task 34: snapshot-8 delta audit + freeze branch rebuild; done: letter draft, many audits | `w/orch`: 2 h ago, 120 unlanded | [brief](docs/campaign/orch/TASK4.md) |
 | wt-gauss-hc | Claude Opus / claude-10 | FLOWER-SPINE: B1.12 layergardenFlower from named spine inputs (X2, X3 closed: fixedpoint from B1.12+B1.2+B1.5) | `w/waveb-infra`: — | [brief](docs/campaign/briefs/FLOWER-SPINE.md) |
-| wt-torus | Claude Opus / claude-14 | G7 MOLEPROP4 (revived, repaired): DH23 ylem1′, ylem2, Prop 10.4 (A23-HALF done) | `w/approxnt`: 70 h ago | [brief](docs/campaign/briefs/MOLEPROP4.md) |
-| wt-wke | Claude Opus / claude-13 | L3+L4: TARGET Props 6.1-6.3 (proplayer2-4); J1-J3, B̃ bridge, tree Prop 5.1 done | `w/jr-ops`: 70 h ago | [brief](docs/campaign/briefs/PL234.md) |
-| wt-cumul | GPT-6.1-Sol low / codex-2 | LG-SPINE (pre-freeze): layergarden from named spine inputs (INDUCT, WKETAYLOR-GATE done) | `w/norm-bridge`: 77 h ago | [brief](docs/campaign/briefs/LG-SPINE.md) |
-| wt-nt | GPT-6.1-Sol low / codex-2 | G4 APPB-OPS then G5 APPB-ALG (pre-freeze): DH23 Appendix B (MOLE M1+M2, CLCN M3 done) | `w/nt-circle`: 66 h ago | [brief](docs/campaign/briefs/APPB-OPS.md) |
-| wt-ansob | GPT-6.1-Sol low / codex-2 | RA1 couples (RA1Couple): DH23 Prop 6.1 for couples; trees moved to wt-l2s | `w/bproc`: 67 h ago, 11 unlanded | [brief](docs/campaign/briefs/REGASYMP.md) |
-| wt-gausssum | GPT-6.1-Sol low / codex-2 | M9 VINEPARAM (pre-freeze): molecule-level vine parametrizations (M4 VINES done) | `w/count`: 65 h ago, 11 unlanded | [brief](docs/campaign/briefs/VINES.md) |
-| wt-resonant | GPT-6.1-Sol low / codex-2 | V4 VINEEST-S2 (pre-freeze): vineest Step 2 into sumint form (V3 REGRED done) | `w/resonant`: 71 h ago | [brief](docs/campaign/briefs/VINEEST-S2.md) |
-| wt-anfourier | GPT-6.1-Sol low / codex-2 | M7 LFTWIST (pre-freeze); M5 MOLECPL, M6 TWIST, SUMINT done | `w/an-phase`: 84 h ago | [brief](docs/campaign/briefs/LFTWIST.md) |
-| wt-l2s | GPT-6.1-Sol low / codex-2 | RA1-TREES: DH23 Prop 6.1 for trees (RA1Tree); INCOH-INST done: B2.2 proved at exact type | `w/wke-l2s`: 64 h ago, 23 unlanded | [brief](docs/campaign/briefs/RA1-TREES.md) |
+| wt-torus | Claude Opus / claude-14 | G7 MOLEPROP4 (revived, repaired): DH23 ylem1′, ylem2, Prop 10.4 (A23-HALF done) | `w/approxnt`: 78 h ago | [brief](docs/campaign/briefs/MOLEPROP4.md) |
+| wt-wke | Claude Opus / claude-13 | L3+L4: TARGET Props 6.1-6.3 (proplayer2-4); J1-J3, B̃ bridge, tree Prop 5.1 done | `w/jr-ops`: 78 h ago | [brief](docs/campaign/briefs/PL234.md) |
+| wt-cumul | GPT-6.1-Sol low / codex-2 | LG-SPINE (pre-freeze): layergarden from named spine inputs (INDUCT, WKETAYLOR-GATE done) | `w/norm-bridge`: 85 h ago | [brief](docs/campaign/briefs/LG-SPINE.md) |
+| wt-nt | GPT-6.1-Sol low / codex-2 | G4 APPB-OPS then G5 APPB-ALG (pre-freeze): DH23 Appendix B (MOLE M1+M2, CLCN M3 done) | `w/nt-circle`: 73 h ago | [brief](docs/campaign/briefs/APPB-OPS.md) |
+| wt-ansob | GPT-6.1-Sol low / codex-2 | RA1 couples (RA1Couple): DH23 Prop 6.1 for couples; trees moved to wt-l2s | `w/bproc`: 75 h ago, 11 unlanded | [brief](docs/campaign/briefs/REGASYMP.md) |
+| wt-gausssum | GPT-6.1-Sol low / codex-2 | M9 VINEPARAM (pre-freeze): molecule-level vine parametrizations (M4 VINES done) | `w/count`: 73 h ago, 11 unlanded | [brief](docs/campaign/briefs/VINES.md) |
+| wt-resonant | GPT-6.1-Sol low / codex-2 | V4 VINEEST-S2 (pre-freeze): vineest Step 2 into sumint form (V3 REGRED done) | `w/resonant`: 79 h ago | [brief](docs/campaign/briefs/VINEEST-S2.md) |
+| wt-anfourier | GPT-6.1-Sol low / codex-2 | M7 LFTWIST (pre-freeze); M5 MOLECPL, M6 TWIST, SUMINT done | `w/an-phase`: 91 h ago | [brief](docs/campaign/briefs/LFTWIST.md) |
+| wt-l2s | GPT-6.1-Sol low / codex-2 | RA1-TREES: DH23 Prop 6.1 for trees (RA1Tree); INCOH-INST done: B2.2 proved at exact type | `w/wke-l2s`: 72 h ago, 23 unlanded | [brief](docs/campaign/briefs/RA1-TREES.md) |
 <!-- /AUTO:workers -->
 
 ## Papers
