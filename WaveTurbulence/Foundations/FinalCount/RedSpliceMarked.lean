@@ -19,7 +19,8 @@ deviations recorded in the B1a handoff:
 * `markedGroup G Mk S`: the group `S` of `𝒞` has a marked `𝒱`-ingredient (`m_𝕎 ≥ 1`, o75 §2.5);
 * `MarkedGroupUnits G S Mk`: runs and survivors of a marked group (o75 §2.5 and Lemma 3).  One field is added to the
   probe's twelve: `chain` (every run is a vine chain from its upper to its lower joint, as main's units are,
-  `VineA.groupUnit_chain`), which the threaded unit assemblies (R13) need.
+  `VineA.groupUnit_chain`), which the threaded unit assemblies (R13) need.  B2a adds two more: `spine` (the run's
+  spine consists of unmarked `𝒱`-ingredients) and `surv_skip` (the skipped ingredient is a survivor).
 -/
 
 @[expose] public section
@@ -79,5 +80,14 @@ structure MarkedGroupUnits (G : Garden w) (S : Finset (GBranch G.tree)) (Mk : Se
   ext : ∀ u ∈ runs, ∃ j, (j = u.upper ∨ j = u.lower) ∧ HasExtPair G.molecule u.atoms j
   /-- B1a: every run is a vine chain from its upper to its lower joint (as main's units, `groupUnit_chain`). -/
   chain : ∀ u ∈ runs, ∃ n, Vine.Chain G.molecule u.atoms u.upper u.lower n
+  /-- B2a: every run has a spine (upper to lower) whose members are unmarked `𝒱`-ingredients of the group.  Without
+  it a "run" could contain a marked vine (I) (a double bond) between two unmarked vines, whose atoms are joints of
+  theirs (finding F-B2a-1). -/
+  spine : ∀ u ∈ runs, ∃ L, Spine G.molecule L u.atoms u.upper u.lower ∧ ∀ t ∈ L, ∃ c : Stage1.CLVine G,
+    c ∈ Stage1.vinesV G ∧ c ∉ Mk ∧ Stage1.IsIngredient G.molecule S c.atoms ∧ c.atoms = t.1
+  /-- B2a: the ingredient skipped by T1934 (no vine of `𝒱` has its atoms) is a survivor.  `partition` alone does
+  not force this for a skipped vine (I) whose two atoms lie in runs (finding F-B2a-1). -/
+  surv_skip : ∀ T, Stage1.IsIngredient G.molecule S T → (∀ c : Stage1.CLVine G, c ∈ Stage1.vinesV G → c.atoms ≠ T) →
+    ∃ t ∈ surv, t.1 = T
 
 end WaveTurbulence.RedSplice
