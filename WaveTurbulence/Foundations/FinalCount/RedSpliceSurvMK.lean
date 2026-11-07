@@ -316,6 +316,7 @@ theorem MarkedGroupUnits.surv_localMK (U : MarkedGroupUnits G S Mk) (hs : Spine 
     (hmemb : ∀ T, IsIngredient G.molecule S T → ∃ p q, (T, p, q) ∈ L ∨ (T, q, p) ∈ L)
     {t : Finset (GBranch G.tree) × GBranch G.tree × GBranch G.tree} (ht : t ∈ U.surv) :
     ∃ P RL m RR Q, L = P ++ RL ++ m :: (RR ++ Q) ∧ m.1 = t.1 ∧ ¬ UnmMemMK G Mk m ∧
+      (∀ r ∈ RL, UnmMemMK G Mk r) ∧ (∀ r ∈ RR, UnmMemMK G Mk r) ∧
       (RL = [] ∧ (∀ u ∈ U.runs, m.2.1 ∉ u.atoms) ∨
         RL ≠ [] ∧ ∃ u ∈ U.runs, m.2.1 ∈ u.atoms ∧ ∀ v, v ∈ u.atoms ↔ ∃ r ∈ RL, v ∈ r.1) ∧
       (RR = [] ∧ (∀ u ∈ U.runs, m.2.2 ∉ u.atoms) ∨
@@ -335,7 +336,7 @@ theorem MarkedGroupUnits.surv_localMK (U : MarkedGroupUnits G S Mk) (hs : Spine 
   obtain ⟨P0, Q0, hL⟩ := List.append_of_mem hmL
   have hcanon := fun u (hu : u ∈ U.runs) => U.run_canonMK hs hvineM hingr hmemb hu
   -- the left side
-  obtain ⟨P, RL, hP0, hleft⟩ : ∃ P RL, P0 = P ++ RL ∧ (RL = [] ∧ (∀ u ∈ U.runs, m.2.1 ∉ u.atoms) ∨
+  obtain ⟨P, RL, hP0, hRLg, hleft⟩ : ∃ P RL, P0 = P ++ RL ∧ (∀ r ∈ RL, UnmMemMK G Mk r) ∧ (RL = [] ∧ (∀ u ∈ U.runs, m.2.1 ∉ u.atoms) ∨
       RL ≠ [] ∧ ∃ u ∈ U.runs, m.2.1 ∈ u.atoms ∧ ∀ v, v ∈ u.atoms ↔ ∃ r ∈ RL, v ∈ r.1) := by
     by_cases hx : ∃ u ∈ U.runs, m.2.1 ∈ u.atoms
     · obtain ⟨u, hu, hxu⟩ := hx
@@ -343,11 +344,11 @@ theorem MarkedGroupUnits.surv_localMK (U : MarkedGroupUnits G S Mk) (hs : Spine 
       obtain ⟨r, hr, hxr⟩ := (hiff _).mp hxu
       have hmR : m ∉ Ru := fun h => hmg (hRg m h)
       obtain ⟨h1, -⟩ := run_adj_leftMK hs hvineM hL hLu hmR hr hxr
-      exact ⟨Pu, Ru, h1, Or.inr ⟨hRu, u, hu, hxu, hiff⟩⟩
+      exact ⟨Pu, Ru, h1, hRg, Or.inr ⟨hRu, u, hu, hxu, hiff⟩⟩
     · push Not at hx
-      exact ⟨P0, [], by simp, Or.inl ⟨rfl, hx⟩⟩
+      exact ⟨P0, [], by simp, by simp, Or.inl ⟨rfl, hx⟩⟩
   -- the right side
-  obtain ⟨RR, Q, hQ0, hright⟩ : ∃ RR Q, Q0 = RR ++ Q ∧ (RR = [] ∧ (∀ u ∈ U.runs, m.2.2 ∉ u.atoms) ∨
+  obtain ⟨RR, Q, hQ0, hRRg, hright⟩ : ∃ RR Q, Q0 = RR ++ Q ∧ (∀ r ∈ RR, UnmMemMK G Mk r) ∧ (RR = [] ∧ (∀ u ∈ U.runs, m.2.2 ∉ u.atoms) ∨
       RR ≠ [] ∧ ∃ u ∈ U.runs, m.2.2 ∈ u.atoms ∧ ∀ v, v ∈ u.atoms ↔ ∃ r ∈ RR, v ∈ r.1) := by
     by_cases hy : ∃ u ∈ U.runs, m.2.2 ∈ u.atoms
     · obtain ⟨u, hu, hyu⟩ := hy
@@ -355,10 +356,10 @@ theorem MarkedGroupUnits.surv_localMK (U : MarkedGroupUnits G S Mk) (hs : Spine 
       obtain ⟨r, hr, hyr⟩ := (hiff _).mp hyu
       have hmR : m ∉ Ru := fun h => hmg (hRg m h)
       obtain ⟨h1, -⟩ := run_adj_rightMK hs hvineM hL hLu hmR hr hyr
-      exact ⟨Ru, Qu, h1, Or.inr ⟨hRu, u, hu, hyu, hiff⟩⟩
+      exact ⟨Ru, Qu, h1, hRg, Or.inr ⟨hRu, u, hu, hyu, hiff⟩⟩
     · push Not at hy
-      exact ⟨[], Q0, by simp, Or.inl ⟨rfl, hy⟩⟩
-  refine ⟨P, RL, m, RR, Q, by rw [hL, hP0, hQ0], hm1, hmg, hleft, hright, ?_⟩
+      exact ⟨[], Q0, by simp, by simp, Or.inl ⟨rfl, hy⟩⟩
+  refine ⟨P, RL, m, RR, Q, by rw [hL, hP0, hQ0], hm1, hmg, hRLg, hRRg, hleft, hright, ?_⟩
   intro u hu v hvu hvm
   obtain ⟨Pu, Ru, Qu, hLu, hRu, hRg, hiff, -, -⟩ := hcanon u hu
   obtain ⟨r, hr, hvr⟩ := (hiff v).mp hvu
