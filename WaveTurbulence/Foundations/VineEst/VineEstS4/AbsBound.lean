@@ -10,6 +10,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS4.AbsMeas
 /-! # Measurability and the box support of the CL-local summand (V5 Step 4b) -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS4
 open WaveTurbulence WaveTurbulence.LGSpine WaveTurbulence.RegRed WaveTurbulence.Reg.Skeleton TTree MeasureTheory

@@ -10,6 +10,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS5C.AbsSpart3
 /-! # Algebra of `SAbs` (V5 Step 4d part C, `hAbs`, leaf `sb`): congruence on clocks, finite sums, constant multiples -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS5C

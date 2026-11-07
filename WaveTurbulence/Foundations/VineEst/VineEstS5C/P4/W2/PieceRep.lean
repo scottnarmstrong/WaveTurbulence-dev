@@ -19,6 +19,7 @@ is, on the engine time domain and for `‖r‖ ≤ 1`, `fac(τ, r)` (the kind-2 
 `pieceRep_sep`: `X = J_K(clocks) M(r, k) · J_L(clocks)` (separated rows).  The joint (three-clock) and remainder variants are in `PieceRepJ`. -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS5C.P4.W2
 open WaveTurbulence WaveTurbulence.VineEstS3Par.Eng WaveTurbulence.VineEstS3.FS WaveTurbulence.VineEstS5A

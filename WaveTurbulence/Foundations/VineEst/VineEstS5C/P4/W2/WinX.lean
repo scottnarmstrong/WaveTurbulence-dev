@@ -14,6 +14,7 @@ for every interior branch `v` of the region (`DomX` keeps the window condition a
 this covers every branch of any sub-block `V ⊆ U`. -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS5C.P4.W2
 open WaveTurbulence WaveTurbulence.Twist WaveTurbulence.Reg.Skeleton WaveTurbulence.RegRed TTree

@@ -17,6 +17,7 @@ engine constant is `c₀ = max CS CG`, and the final constants are `C₁ = max 1
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 namespace WaveTurbulence.VineEstS5C.P4.Final
@@ -25,7 +26,7 @@ open WaveTurbulence WaveTurbulence.LGSpine WaveTurbulence.VineEstS3 WaveTurbulen
 open WaveTurbulence.VineEstS5C WaveTurbulence.VineEstS5C.P4.W13 WaveTurbulence.VineEstS5C.P1 WaveTurbulence.VineEstS5C.P2
 open scoped ENNReal
 
-theorem vineEstCanonLayerC2MK_of_uniformCert (hU : UniformTermCertTargetK) (hG : LeafwiseCoherentApproximationGate)
+theorem vineEstCanonLayerC2MK_of_uniformCert (hU : UniformTermCertTargetK (rowSel := VineEst.RowSel.plain)) (hG : LeafwiseCoherentApproximationGate)
     (hI : LeafwiseIncoherentDecayGate) (hR : RealityAll) : WTPrefix VineEstCanonLayerC2MK := by
   intro d hd γ hγ
   obtain ⟨ηU, hηU, hUa⟩ := hU d hd γ hγ
@@ -107,7 +108,7 @@ theorem vineEstCanonLayerC2MK_of_uniformCert (hU : UniformTermCertTargetK) (hG :
   exact @key
 
 /-- **`WTPrefix VineEstCanonLayerHalfMK`** from the same inputs (R54 (ii) from (i), modulated). -/
-theorem vineEstCanonLayerHalfMK_of_uniformCert (hU : UniformTermCertTargetK) (hG : LeafwiseCoherentApproximationGate)
+theorem vineEstCanonLayerHalfMK_of_uniformCert (hU : UniformTermCertTargetK (rowSel := VineEst.RowSel.plain)) (hG : LeafwiseCoherentApproximationGate)
     (hI : LeafwiseIncoherentDecayGate) (hR : RealityAll) : WTPrefix VineEstCanonLayerHalfMK :=
   vineEstCanonLayerHalfMK_of_C2MK (vineEstCanonLayerC2MK_of_uniformCert hU hG hI hR)
 

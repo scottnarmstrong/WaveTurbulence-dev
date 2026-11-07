@@ -12,6 +12,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.RecEng
 `exists_row_merge`: given a family of rows `Rw` and rows `Rk k` at distinct indices `idx k` (`k ∈ S`), there is a family `Rw'` equal to `Rw` off the indices and to `Rk k` at `idx k`. -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS5C.P4.W2
 open WaveTurbulence WaveTurbulence.VineEstS3Par.Eng WaveTurbulence.VineEstS3.FS WaveTurbulence.VineEstS5A WaveTurbulence.VineEstS4c

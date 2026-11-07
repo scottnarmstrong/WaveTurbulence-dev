@@ -22,6 +22,7 @@ index `k < k0` (upper block `[k, k0)`, lower block `[0, k)`).  With `RestrictSta
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS5C

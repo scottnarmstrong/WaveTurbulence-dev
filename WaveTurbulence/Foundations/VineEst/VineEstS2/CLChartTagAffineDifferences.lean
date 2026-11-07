@@ -12,6 +12,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS2.SourceBoundaryBasis
 /-! # Source coordinate differences are identities of exact affine forms -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS2

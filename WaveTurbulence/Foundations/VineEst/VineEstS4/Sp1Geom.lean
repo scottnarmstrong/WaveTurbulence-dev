@@ -15,6 +15,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS4.Cls1State
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS4

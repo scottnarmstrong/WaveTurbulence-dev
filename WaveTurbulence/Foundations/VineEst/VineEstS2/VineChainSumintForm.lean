@@ -21,6 +21,7 @@ and `𝒦ᵥ, ℒᵥ` are the actual starred kernels `K_Q^*, K_T^*` of the garde
 expansion into time-independent weights is TARGET Step 3). -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS2

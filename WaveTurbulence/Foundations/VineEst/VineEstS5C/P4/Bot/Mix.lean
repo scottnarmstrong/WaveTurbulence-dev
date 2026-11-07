@@ -15,6 +15,7 @@ The extension lemmas `P1.couple_eq_ext`, `P1.tree_eq_ext`, `P1.couple_root_vanis
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 namespace WaveTurbulence.VineEstS5C.P4.Bot

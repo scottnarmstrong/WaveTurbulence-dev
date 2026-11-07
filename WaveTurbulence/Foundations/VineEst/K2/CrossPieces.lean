@@ -17,6 +17,7 @@ The proofs are those of PieceRowsJ, with `pieceRep_joint` replaced by `pieceRep_
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 namespace WaveTurbulence.VineEstS5C.P4.W2.K2

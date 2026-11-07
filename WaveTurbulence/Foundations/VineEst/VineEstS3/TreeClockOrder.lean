@@ -11,6 +11,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS3.ConstraintsOK
 /-! # Step 3: the clocks of a tree row are ordered (`child < parent`) on the `sumint` time domain, and `ζ` is unimodular -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS3

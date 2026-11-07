@@ -20,6 +20,7 @@ from PL234 `SliceApp` into `VineEstS5C/Copied/PL234Draft`).
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 open WaveTurbulence.VineParamContract
@@ -79,7 +80,7 @@ theorem coherentTree_layer_le {p q q' : ℕ} {X : RegChain} {LG : LayeredGarden 
 /-- The leafwise control of the layer profiles of `h` on a garden all of whose layers are `≤ p`. -/
 theorem controlled_layerProfiles {P : WTParams} {h : ℕ → Mom P.d → ℝ} {Bh : ℕ → ℝ} {p : ℕ}
     (hB : ProfileBound P h Bh p) {w : ℕ} (LG : LayeredGarden w) (hlay : ∀ x, LG.layer x ≤ p) :
-    LeafwiseControlled LG (layerProfiles LG h) (fun z => Real.toNNReal (Bh (layerAt LG z))) := by
+    LeafwiseControlled LG (PL234.layerProfiles LG h) (fun z => Real.toNNReal (Bh (layerAt LG z))) := by
   intro ℓ hℓ
   have hle : layerAt LG ℓ.1 ≤ p := (layerAt_node LG ℓ.toNode).le.trans (hlay _)
   obtain ⟨h0, h1⟩ := hB _ hle
@@ -150,15 +151,15 @@ theorem coherentGateH_of {P : WTParams} (hg : LeafwiseCoherentApproximationAt P)
     have hcost := leafSizeProduct_eq_layerCost hB LG hlay
     obtain ⟨hE, hD, hSp⟩ := hLc Q LG q q' hqq hqp hsize hcoh _ _ hctl
     have hsrc : ∀ ts : Fin 2 → ℝ, ∀ k, SourceApp.couple P.δ h LG Q q q' (ts 0) (ts 1) k =
-        LeafApp.coherentCouple P.δ LG (layerProfiles LG h) Q q q' (ts 0) (ts 1) k :=
+        LeafApp.coherentCouple P.δ LG (PL234.layerProfiles LG h) Q q q' (ts 0) (ts 1) k :=
       fun ts k => sourceCouple_eq h P.δ hqq hqp hcoh _ _ k
     rw [hcost] at hE hSp
     refine ⟨?_, fun hdom ts hts k => by rw [hsrc]; exact hD hdom ts hts k, ?_⟩
     · have hfun : (fun (ts : Fin 2 → ℝ) (k : Mom P.d) => KQstar P.L P.γ P.δ h LG (ts 0) (ts 1) k -
             SourceApp.couple P.δ h LG Q q q' (ts 0) (ts 1) k) =
           fun (ts : Fin 2 → ℝ) (k : Mom P.d) =>
-            (coupleLeaves P.L P.γ P.δ LG (layerProfiles LG h) (ts 0) (ts 1) k -
-              LeafApp.coherentCouple P.δ LG (layerProfiles LG h) Q q q' (ts 0) (ts 1) k) := by
+            (coupleLeaves P.L P.γ P.δ LG (PL234.layerProfiles LG h) (ts 0) (ts 1) k -
+              LeafApp.coherentCouple P.δ LG (PL234.layerProfiles LG h) Q q q' (ts 0) (ts 1) k) := by
         funext ts k
         rw [KQstar_eq_coupleLeaves, hsrc]
       rw [hfun]; exact hE
@@ -169,14 +170,14 @@ theorem coherentGateH_of {P : WTParams} (hg : LeafwiseCoherentApproximationAt P)
     have hcost := leafSizeProduct_eq_layerCost hB LG hlay
     obtain ⟨hE, hD, hSp⟩ := hLt X LG q q' hqq hqp hsize hcoh _ _ hctl
     have hsrc : ∀ ts : Fin 2 → ℝ, ∀ k, SourceApp.tree P.δ h LG X q q' (ts 0) (ts 1) k =
-        LeafApp.coherentTree P.δ LG (layerProfiles LG h) X q q' (ts 0) (ts 1) k :=
+        LeafApp.coherentTree P.δ LG (PL234.layerProfiles LG h) X q q' (ts 0) (ts 1) k :=
       fun ts k => sourceTree_eq h P.δ hqq hcoh _ _ k
     rw [hcost] at hE hSp
     refine ⟨?_, fun hdom ts hts k => by rw [hsrc]; exact hD hdom ts hts k, ?_⟩
     · have hfun : (fun (ts : Fin 2 → ℝ) (k : Mom P.d) => KTstar P.L P.γ P.δ h LG (ts 0) (ts 1) k -
             SourceApp.tree P.δ h LG X q q' (ts 0) (ts 1) k) =
-          fun (ts : Fin 2 → ℝ) (k : Mom P.d) => treeLeaves P.L P.γ P.δ LG (layerProfiles LG h) (ts 0) (ts 1) k -
-            LeafApp.coherentTree P.δ LG (layerProfiles LG h) X q q' (ts 0) (ts 1) k := by
+          fun (ts : Fin 2 → ℝ) (k : Mom P.d) => treeLeaves P.L P.γ P.δ LG (PL234.layerProfiles LG h) (ts 0) (ts 1) k -
+            LeafApp.coherentTree P.δ LG (PL234.layerProfiles LG h) X q q' (ts 0) (ts 1) k := by
         funext ts k
         rw [KTstar_eq_treeLeaves, hsrc]
       rw [hfun]; exact hE
@@ -193,7 +194,7 @@ theorem incoherentGateH_of {P : WTParams} (hg : LeafwiseIncoherentDecayAt P) : I
     have := hc Q hwf hsize LG hdec hlay q q' hqp hq'p hr0 hr1 hg1 _ _ hctl
     rw [hcost] at this
     have hfun : (fun (ts : Fin 2 → ℝ) (k : Mom P.d) => KQstar P.L P.γ P.δ h LG (ts 0) (ts 1) k) =
-        fun (ts : Fin 2 → ℝ) (k : Mom P.d) => coupleLeaves P.L P.γ P.δ LG (layerProfiles LG h) (ts 0) (ts 1) k := by
+        fun (ts : Fin 2 → ℝ) (k : Mom P.d) => coupleLeaves P.L P.γ P.δ LG (PL234.layerProfiles LG h) (ts 0) (ts 1) k := by
       funext ts k; rw [KQstar_eq_coupleLeaves]
     rw [hfun]; exact this
   · have hctl := controlled_layerProfiles hB LG hlay
@@ -201,7 +202,7 @@ theorem incoherentGateH_of {P : WTParams} (hg : LeafwiseIncoherentDecayAt P) : I
     have := ht X hwf hsize LG hdec hlay q q' hqq hqp hr0 hlone hg1 _ _ hctl
     rw [hcost] at this
     have hfun : (fun (ts : Fin 2 → ℝ) (k : Mom P.d) => KTstar P.L P.γ P.δ h LG (ts 0) (ts 1) k) =
-        fun (ts : Fin 2 → ℝ) (k : Mom P.d) => treeLeaves P.L P.γ P.δ LG (layerProfiles LG h) (ts 0) (ts 1) k := by
+        fun (ts : Fin 2 → ℝ) (k : Mom P.d) => treeLeaves P.L P.γ P.δ LG (PL234.layerProfiles LG h) (ts 0) (ts 1) k := by
       funext ts k; rw [KTstar_eq_treeLeaves]
     rw [hfun]; exact this
 

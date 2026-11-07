@@ -13,6 +13,7 @@ See `Bot4`.  `bFac_tw` is the twist invariance of the `b`-factor.
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS5B2

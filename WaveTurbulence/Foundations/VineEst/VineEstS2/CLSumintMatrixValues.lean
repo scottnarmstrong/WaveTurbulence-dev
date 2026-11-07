@@ -12,6 +12,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS2.CLSumintRows
 /-! # The matrix rows are the literal original source lattice labels -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS2

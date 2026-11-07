@@ -11,6 +11,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS4.RegionUnique
 /-! # `UAbs` of the glued summand, and index/restriction congruences for `UAbs`, `SAbs` (V5 Step 4d part C, `hAbs`) -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS5C
 open WaveTurbulence WaveTurbulence.VineEstS2 WaveTurbulence.VineEstS4 WaveTurbulence.RegRed WaveTurbulence.Reg.Skeleton TTree MeasureTheory

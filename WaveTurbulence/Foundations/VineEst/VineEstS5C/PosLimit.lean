@@ -15,6 +15,7 @@ at `Bh + ε` for every `ε > 0` gives the bound at `Bh`.
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS5C
 open WaveTurbulence WaveTurbulence.VineEstS3 WaveTurbulence.VineEstS2 WaveTurbulence.RegRed WaveTurbulence.Reg.Skeleton Filter Topology

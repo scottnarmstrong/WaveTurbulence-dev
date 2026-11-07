@@ -15,6 +15,7 @@ For a node `x` of the realization with `x ≠ a.toNode`, the parent clock
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS3

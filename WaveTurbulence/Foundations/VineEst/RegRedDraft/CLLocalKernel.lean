@@ -11,6 +11,7 @@ public import WaveTurbulence.Foundations.VineEst.RegRedDraft.CLPhaseRecentering
 /-! # TARGET regred: the actual seven-argument CL-local kernel construction -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.RegRed
 open TTree Reg Reg.Skeleton MeasureTheory

@@ -11,6 +11,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS2.CLPredecessorBudget
 /-! # Every cropped leaf is an actual regional leaf or a fixed boundary value -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS2
 open TTree RegRed

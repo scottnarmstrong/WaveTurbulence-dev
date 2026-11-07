@@ -11,6 +11,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS2.CLPhysicalChartResona
 /-! # Existing uniform M9 phase identities prove local coordinate geometry -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS2

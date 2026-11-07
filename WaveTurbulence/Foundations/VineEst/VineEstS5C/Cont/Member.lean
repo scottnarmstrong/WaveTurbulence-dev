@@ -24,6 +24,7 @@ preserved by the batch through `atomLayer`), and the row eligibility of the memb
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 open WaveTurbulence.VineParamContract
@@ -77,7 +78,7 @@ theorem member_continuousOn {P : WTParams}
       (step3W hM9 B0 A.data A.plain lA hLA bk0 q0 centre wBar) P.L P.γ P.δ h p) :
     ∀ E ∈ outSet (step3D hM9 B0 A.data A.plain lA hLA bk0 q0 centre wBar)
         P.L P.γ P.η,
-      ContinuousOn (fun tt : Fin 3 → ℝ => clRecenteredLocalKernel Bs.data Bs.plain
+      ContinuousOn (fun tt : Fin 3 → ℝ => clRecenteredLocalKernel (rowSel := VineEst.RowSel.plain) Bs.data Bs.plain
           (clRegionData Bs.skeleton c'.block c'.cl) P.L P.γ P.δ h (stateLayer Bs) (stateLayer_isLayering Bs) wBar
           (tt 0) (tt 1) (tt 2) (sumintBoundary (A.skeleton.sign c.a.toNode) E 0)
           (sumintBoundary (A.skeleton.sign c.a.toNode) E 1) (sumintBoundary (A.skeleton.sign c.a.toNode) E 2)

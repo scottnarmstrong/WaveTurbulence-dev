@@ -18,6 +18,7 @@ recentering factor times `c ζ lkRaw (modPsi b λ psiFuel)`.  `modPsi_zero`, `cl
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS5C

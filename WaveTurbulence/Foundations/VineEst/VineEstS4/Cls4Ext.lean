@@ -18,6 +18,7 @@ bijections `eB`, `eP`, and on all layers there.  An LF operation at `i` (any cho
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS4

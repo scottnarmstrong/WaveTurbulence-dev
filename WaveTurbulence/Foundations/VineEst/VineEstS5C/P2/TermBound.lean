@@ -14,6 +14,7 @@ the engine data `Z`, a `PieceBound` and the identification `DictAll`.  Then `Ter
 `β = ‖c ζ‖ · β'` and `LkAbs` (`habs` of P3) holds for every term at every point of the output set. -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS5C.P2
 variable {kind : Bool}

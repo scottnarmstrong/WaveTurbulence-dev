@@ -11,6 +11,7 @@ public import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
 /-! # Both exact inverse identities for the full-chain source pair matrix -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS2

@@ -10,6 +10,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS3.Step3Facts
 /-! # Step 3: the engine bound in the literal form `(C√δ)^{n₍₂₎} L^{-η⁸n₍₃₎ - η²b + η⁷}` -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS3

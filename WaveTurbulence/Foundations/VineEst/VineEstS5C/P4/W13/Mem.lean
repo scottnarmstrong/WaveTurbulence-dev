@@ -17,6 +17,7 @@ boxes are null sets of times.)  `zp_half_sizes`: the exceptional orders of every
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 namespace WaveTurbulence.VineEstS5C.P4.W13

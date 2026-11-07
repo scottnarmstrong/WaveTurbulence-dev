@@ -5,6 +5,8 @@ Authors: Scott Armstrong
 -/
 module
 
+public import WaveTurbulence.Foundations.VineEst.RowSel.RowDataLF
+public import WaveTurbulence.Foundations.VineEst.RowSel.SelDataLF
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.BotAbs1
 public import WaveTurbulence.Foundations.VineEst.VineEstS5B2.Bot19
 
@@ -16,6 +18,7 @@ time (TRUE choice).  `uAbs_stBot_skip/false/true`: the corresponding uniform `UA
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 open WaveTurbulence.VineParamContract
@@ -48,8 +51,8 @@ theorem stBot_skip_eq (κ : KPar d) (A : FamilyReconstruction w ι) (c0 : ChainA
     hFree.2.2 _ hS.retained_internal
   rw [summand_same A.plain A.data A.data κ.L κ.γ κ.δ κ.F (stateLayer A) (stateLayer_isLayering A) (stateLayer A)
     (stateLayer_isLayering A) κ.base (botR A c0) (pairOfLeaf A.skeleton A.plain (A.family.placement pstar).retained)
-    hS.b_mem_erase hS.p0_mem (fun _ _ => rfl) (fun _ _ => rfl) (fun _ _ => rfl)]
-  rw [sameIntB_eq_botKernel κ A c0 hb0 A A.data (stateLayer A) (stateLayer_isLayering A) rfl _ hpx]
+    hS.b_mem_erase hS.p0_mem (fun _ _ => rfl) (fun _ _ => rfl) (fun _ _ => rfl) (VineEst.SelDataEq.refl _ _ _ _ _ _)]
+  rw [sameIntB_eq_botKernel κ A c0 hb0 A A.data (stateLayer A) (stateLayer_isLayering A) rfl rfl rfl _ hpx]
   unfold stBot epsOf
   have hd : decide (twAt A A pstar) = false := by simp [hn]
   rw [hd, if_neg hn, one_mul]
@@ -113,10 +116,15 @@ theorem stBot_false_eq (hb0 : c0.b = (A.family.placement pstar).lower)
   refine Eq.trans ?_ (summand_same A.plain A.data con.data κ.L κ.γ κ.δ κ.F (stateLayer A) (stateLayer_isLayering A)
     (stateLayer (opOut A pstar hcan hel htc hcc con)) (stateLayer_isLayering (opOut A pstar hcan hel htc hcc con))
     κ.base (botR A c0) (pairOfLeaf A.skeleton A.plain (A.family.placement pstar).retained)
-    hS.b_mem_erase hS.p0_mem hCq hCt hCl _ _ κd τ).symm
+    hS.b_mem_erase hS.p0_mem hCq hCt hCl
+      (VineEst.selDataEq_LF_false con (stateLayer A) (stateLayer_isLayering A) (stateLayer_spec A)
+        (stateLayer (opOut A pstar hcan hel htc hcc con)) (stateLayer_isLayering (opOut A pstar hcan hel htc hcc con))
+        (stateLayer_spec (opOut A pstar hcan hel htc hcc con)) _ _ (fun q hq => (Finset.mem_erase.mp hq).1)
+        (fun v hv => hb0 ▸ (Finset.mem_erase.mp hv).1)).symm _ _ κd τ).symm
   rw [sameIntB_eq_botKernel κ A c0 hb0 (opOut A pstar hcan hel htc hcc con) con.data
     (stateLayer (opOut A pstar hcan hel htc hcc con)) (stateLayer_isLayering (opOut A pstar hcan hel htc hcc con))
-    (sigStar_false A hcan hel htc hcc con) _ hpx]
+    (sigStar_false A hcan hel htc hcc con) (rowQ_false_eq κ A hcan hel htc hcc con)
+      (rowT_false_eq κ A hcan hel htc hcc con) _ hpx]
   unfold stBot epsOf
   rw [hd, if_neg hn, one_mul]
 
@@ -169,7 +177,8 @@ theorem stBot_true_eq (hb0 : c0.b = (A.family.placement pstar).lower)
       (c0.next pstar true).cl) ![κ.t0, κ.t1, κ.t2] τ hv
   have h1 := twIntB_eq_botKernel κ A c0 hb0 (opOut A pstar hcan hel htc hcc con) con.data
     (stateLayer (opOut A pstar hcan hel htc hcc con)) (stateLayer_isLayering (opOut A pstar hcan hel htc hcc con))
-    (sigStar_true A hcan hel htc hcc con) (clExtendIndices (botR A c0) κd.1) ![κ.t0, κ.t1, κ.t2]
+    (sigStar_true A hcan hel htc hcc con) (rowQ_true_eq κ A hcan hel htc hcc con)
+      (rowT_true_eq κ A hcan hel htc hcc con) (clExtendIndices (botR A c0) κd.1) ![κ.t0, κ.t1, κ.t2]
     (clLocalClock (botR A c0) ![κ.t0, κ.t1, κ.t2] τ)
     (clLocalClock (clRegionData (chosenSkeleton A.skeleton (A.family.placement pstar) true) (c0.next pstar true).block
         (c0.next pstar true).cl) ![κ.t0, κ.t1, κ.t2]
@@ -179,7 +188,16 @@ theorem stBot_true_eq (hb0 : c0.b = (A.family.placement pstar).lower)
     (hu _ hS.block.2.2.1) (hu _ hS.qb_mem) (hu _ hS.qr_mem)
   have h2 := summand_tw (A.family.placement pstar) hT A.plain A.data con.data κ.L κ.γ κ.δ κ.F (stateLayer A)
     (stateLayer_isLayering A) (stateLayer (opOut A pstar hcan hel htc hcc con))
-    (stateLayer_isLayering (opOut A pstar hcan hel htc hcc con)) κ.base hCq hCt hCl ![κ.e, κ.f, κ.g, κ.h]
+    (stateLayer_isLayering (opOut A pstar hcan hel htc hcc con)) κ.base hCq hCt hCl
+      (fun q _ hq => Flower.V5W.coupleIncoh_LF con (stateLayer A) (stateLayer_isLayering A) (stateLayer_spec A)
+        (stateLayer (opOut A pstar hcan hel htc hcc con)) (stateLayer_isLayering (opOut A pstar hcan hel htc hcc con))
+        (stateLayer_spec (opOut A pstar hcan hel htc hcc con)) q hq)
+      (fun v _ hv => Flower.V5W.treeIncoh_LF con (stateLayer A) (stateLayer_isLayering A) (stateLayer_spec A)
+        (stateLayer (opOut A pstar hcan hel htc hcc con)) (stateLayer_isLayering (opOut A pstar hcan hel htc hcc con))
+        (stateLayer_spec (opOut A pstar hcan hel htc hcc con)) v (hb0 ▸ hv))
+      (fun v _ => coreLayer_eq con (stateLayer A) (stateLayer_isLayering A) (stateLayer_spec A)
+        (stateLayer (opOut A pstar hcan hel htc hcc con)) (stateLayer_isLayering (opOut A pstar hcan hel htc hcc con))
+        (stateLayer_spec (opOut A pstar hcan hel htc hcc con)) v) ![κ.e, κ.f, κ.g, κ.h]
     ![κ.t0, κ.t1, κ.t2] κd τ
   have h3 := congrArg Neg.neg h1.symm
   unfold stBot

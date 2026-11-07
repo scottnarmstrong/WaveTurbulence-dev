@@ -16,6 +16,7 @@ depends only on the twisted subset, as for `ChainAt`, `Reach.region_unique`).
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS4

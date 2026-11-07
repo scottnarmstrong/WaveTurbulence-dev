@@ -14,6 +14,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS5C.LevelAbs
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 open WaveTurbulence.VineParamContract

@@ -23,6 +23,7 @@ sections.
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS4
@@ -46,7 +47,7 @@ representatives of the twist class of the chain `U` of the prime skeleton `G`. -
       P.L P.γ P.δ (inputsF P Rin) p →
     XNorm00Restr (2 * P.η ^ 8) (outBox (step3D hM9 B RD hG layer hLayer (canonBadKind hM9 B RD hG layer) (qOutOf RD hG layer a b R) centre wBar))
       (outSet (step3D hM9 B RD hG layer hLayer (canonBadKind hM9 B RD hG layer) (qOutOf RD hG layer a b R) centre wBar) P.L P.γ P.η)
-      (fun tt E => twistedRecentered G a (canonFinsetK p kind (startState B RD hG layer hLayer) (chainStart B))
+      (fun tt E => twistedRecentered (rowSel := VineEst.RowSel.plain) G a (canonFinsetK p kind (startState B RD hG layer hLayer) (chainStart B))
         P.L P.γ P.δ (inputsF P Rin) wBar
         (tt 0) (tt 1) (tt 2) (sumintBoundary (G.sign a.toNode) E 0) (sumintBoundary (G.sign a.toNode) E 1)
         (sumintBoundary (G.sign a.toNode) E 2) (sumintBoundary (G.sign a.toNode) E 3)) ≤
@@ -70,7 +71,7 @@ representatives of the twist class of the chain `U` of the prime skeleton `G`. -
     ClassSectionK p kind (startState B RD hG layer hLayer) (chainStart B) Z →
     XNorm00Restr (2 * P.η ^ 8) (outBox (step3D hM9 B RD hG layer hLayer (canonBadKind hM9 B RD hG layer) (qOutOf RD hG layer a b R) centre wBar))
       (outSet (step3D hM9 B RD hG layer hLayer (canonBadKind hM9 B RD hG layer) (qOutOf RD hG layer a b R) centre wBar) P.L P.γ P.η)
-      (fun tt E => twistedRecentered G a Z P.L P.γ P.δ (inputsF P Rin) wBar
+      (fun tt E => twistedRecentered (rowSel := VineEst.RowSel.plain) G a Z P.L P.γ P.δ (inputsF P Rin) wBar
         (tt 0) (tt 1) (tt 2) (sumintBoundary (G.sign a.toNode) E 0) (sumintBoundary (G.sign a.toNode) E 1)
         (sumintBoundary (G.sign a.toNode) E 2) (sumintBoundary (G.sign a.toNode) E 3)) ≤
     ENNReal.ofReal ((P.C₁ * Real.sqrt P.δ) ^ clLocalOrder2 RD hG R *

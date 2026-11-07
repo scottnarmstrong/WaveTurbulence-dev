@@ -19,6 +19,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W13.Mem
 and the high window `winCh/winTh` (selector `true`), `good b := b ∈ bsA ∪ bsB`, `cc b = (certC b).c`, `CJq b = (certC b).CJ`, ..., and the window facts of `ExcWin`. -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 namespace WaveTurbulence.VineEstS5C.P4.W2

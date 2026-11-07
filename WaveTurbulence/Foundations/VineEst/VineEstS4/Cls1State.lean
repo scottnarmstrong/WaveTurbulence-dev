@@ -15,6 +15,7 @@ the form of TARGET (tildeJ2) for one state (hypotheses: `L ≠ 0`, `HF`, the inp
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS4

@@ -14,6 +14,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS5B.Final3
 finite sum `psiSB` has an `SAbs` bound. -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS5C

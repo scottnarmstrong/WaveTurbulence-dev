@@ -16,6 +16,7 @@ operative member and a term `Ψ'` of the next level (`Lvl.terms m (lv.next ..)`)
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS5C.P4.W2
 variable {kind : Bool}

@@ -11,6 +11,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS5C.ZpSurjStmt
 /-! # ZP-SURJ: the parent-layer numbers of a state -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.ZpSurj
 open TTree Reg Reg.Skeleton Twist Links RegRed WaveTurbulence.LFTwist WaveTurbulence.VineEstS4

@@ -11,6 +11,7 @@ public import WaveTurbulence.Foundations.Molecule.SkeletonDraft.SourcePairFuncti
 /-! # Native regional kernels are the literal factors of the global reduction -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.RegRed
 open TTree Reg Reg.Skeleton
@@ -27,17 +28,17 @@ theorem clRegionalPair_realization (hG : G.IsPlain) (p : SourcePair G)
   exact ⟨(leaf_mem_clRealizationNodes _).mpr hfirst,
     (leaf_mem_clRealizationNodes _).mpr (he ▸ (Mole.internal_leaf_pair_iff G U _).mpr hfirst)⟩
 
-theorem clLocalStarProduct_restrict (hU : G.molecule.IsBlock U a b)
+theorem clLocalStarProduct_restrictS (hU : G.molecule.IsBlock U a b)
     (D : ReconstructionData G) (hG : G.IsPlain) (R : CLRegionData G U a b)
     (L γ δ top : ℝ) (F : ℕ → Mom d → ℝ) (layer : GNode (D.forest hG) → ℕ)
     (hLayer : IsLayering (D.garden hG) layer) (base : Mom d)
     (κ : GNode G.tree → (Fin d → ℤ)) (τ : GBranch G.tree → ℝ) :
     clLocalStarProduct D hG R L γ δ F layer hLayer base
       (clExtendIndices R (fun x => κ x.1)) (clExternalTimes R τ) (clRestrictTime R τ) =
-    (∏ p ∈ clRegionalPairs hG U, KQstar L γ δ F (nativeCoupleLayered D hG layer hLayer p)
+    (∏ p ∈ clRegionalPairs hG U, VineEst.selCoupleRow L γ δ F D hG layer hLayer p
       (parentClock top τ (p.firstLeaf hG).toNode) (parentClock top τ (p.secondLeaf hG).toNode)
       (cosetDecoration G L base κ (p.firstLeaf hG).toNode)) *
-    (∏ v ∈ clInteriorBranches R, KTstar L γ δ F (nativeChainLayered D hG layer hLayer v)
+    (∏ v ∈ clInteriorBranches R, VineEst.selTreeRow L γ δ F D hG layer hLayer v
       (parentClock top τ v.toNode) (τ v) (cosetDecoration G L base κ v.toNode)) := by
   classical
   unfold clLocalStarProduct
@@ -58,5 +59,20 @@ theorem clLocalStarProduct_restrict (hU : G.molecule.IsBlock U a b)
       clLocalClock_restrict_region R τ v hv'.2]
     unfold cosetDecoration
     rw [clExtendIndices_restrict R κ _ (cl_realization_mem_support R hx)]
+
+/-- `clLocalStarProduct_restrictS` at the plain selector, in main's original form (used by `Vine/B/PointB`). -/
+theorem clLocalStarProduct_restrict (hU : G.molecule.IsBlock U a b)
+    (D : ReconstructionData G) (hG : G.IsPlain) (R : CLRegionData G U a b)
+    (L γ δ top : ℝ) (F : ℕ → Mom d → ℝ) (layer : GNode (D.forest hG) → ℕ)
+    (hLayer : IsLayering (D.garden hG) layer) (base : Mom d)
+    (κ : GNode G.tree → (Fin d → ℤ)) (τ : GBranch G.tree → ℝ) :
+    clLocalStarProduct (rowSel := VineEst.RowSel.plain) D hG R L γ δ F layer hLayer base
+      (clExtendIndices R (fun x => κ x.1)) (clExternalTimes R τ) (clRestrictTime R τ) =
+    (∏ p ∈ clRegionalPairs hG U, KQstar L γ δ F (nativeCoupleLayered D hG layer hLayer p)
+      (parentClock top τ (p.firstLeaf hG).toNode) (parentClock top τ (p.secondLeaf hG).toNode)
+      (cosetDecoration G L base κ (p.firstLeaf hG).toNode)) *
+    (∏ v ∈ clInteriorBranches R, KTstar L γ δ F (nativeChainLayered D hG layer hLayer v)
+      (parentClock top τ v.toNode) (τ v) (cosetDecoration G L base κ v.toNode)) :=
+  clLocalStarProduct_restrictS (rowSel := VineEst.RowSel.plain) hU D hG R L γ δ top F layer hLayer base κ τ
 
 end WaveTurbulence.RegRed

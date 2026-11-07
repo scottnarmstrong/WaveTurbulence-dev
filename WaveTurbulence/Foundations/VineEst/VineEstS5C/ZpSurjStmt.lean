@@ -27,6 +27,7 @@ of the lower joint) and `zpQ2 A i = L_{u2}` (the layer of the lower joint = the 
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 open WaveTurbulence.VineParamContract

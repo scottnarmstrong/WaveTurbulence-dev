@@ -14,6 +14,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.PieceAll2
 `pieceAll_MA2`: the case-M summand of the A2 slot, `-conj(-tA2 t₀ t₁ s₁ y x) = tA1 t₀ s₁ t₁ x y`; `pieceAll_PA2`: the case-A summand of the A2 slot `-tA2`. -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS5C.P4.W2
 open WaveTurbulence WaveTurbulence.VineEstS3Par.Eng WaveTurbulence.VineEstS3.FS WaveTurbulence.VineEstS5A

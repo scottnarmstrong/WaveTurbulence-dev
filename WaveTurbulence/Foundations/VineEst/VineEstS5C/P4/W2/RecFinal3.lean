@@ -10,6 +10,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.RecFinal2
 /-! # P4-W2 (session 19, step 5): the certificate of one term, `term_rec_exists` -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS5C.P4.W2
 variable {kind : Bool}

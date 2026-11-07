@@ -11,6 +11,7 @@ public import WaveTurbulence.Foundations.VineEst.RegRedDraft.CLBoundaryLocal
 /-! # TARGET defKtilde: the actual recentered seven-argument CL-local kernel -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.RegRed
 open TTree Reg Reg.Skeleton MeasureTheory

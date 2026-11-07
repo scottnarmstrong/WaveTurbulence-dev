@@ -15,6 +15,7 @@ of the S-part of the twisted garden is the frame of the S-part of the original g
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS5B
@@ -41,8 +42,16 @@ variable {d : ℕ} (hG : G.IsPlain) (D : ReconstructionData G) (D' : Reconstruct
       nativeChainLayered D hG layer hLayer v)
   (hl : ∀ v ∈ S.erase a, layer' (D'.coreBranch (unitTwistGarden_plain G P hG) (eB P v)).toNode =
     layer (D.coreBranch hG v).toNode)
+  (hCi : ∀ p ∈ clRegionalPairs hG S, p ≠ pairOfLeaf G hG P.retained →
+    Flower.V5W.coupleIncoh D' (unitTwistGarden_plain G P hG) layer' hLayer' (tp P hG p) =
+      Flower.V5W.coupleIncoh D hG layer hLayer p)
+  (hTi : ∀ v ∈ S.erase a, v ≠ b →
+    Flower.V5W.treeIncoh D' (unitTwistGarden_plain G P hG) layer' hLayer' (eB P v) =
+      Flower.V5W.treeIncoh D hG layer hLayer v)
+  (hlS : ∀ v ∈ S, layer' (D'.coreBranch (unitTwistGarden_plain G P hG) (eB P v)).toNode =
+    layer (D.coreBranch hG v).toNode)
 
-include h hpx hu hC hT hl in
+include h hpx hu hC hT hl hCi hTi hlS in
 theorem spartFrame_tw :
     spartFrame D' (unitTwistGarden_plain G P hG) L γ δ F layer' hLayer' base (twistedAtoms G P S) (eB P a) (eB P b)
         (tp P hG (pairOfLeaf G hG P.retained)) (twistNodeLabels G P x) u' =
@@ -59,7 +68,7 @@ theorem spartFrame_tw :
     refine (Finset.prod_equiv (tp P hG) (fun p => ?_) (fun p hp => ?_)).symm
     · rw [Finset.mem_erase, Finset.mem_erase, (tp P hG).injective.ne_iff, mem_pairs_tw h hG p]
     · obtain ⟨hp0, hp⟩ := Finset.mem_erase.mp hp
-      exact (qRow_tw h hG D D' L γ δ F layer hLayer layer' hLayer' base x u' u hu p hp hp0 (hC p hp hp0)).symm
+      exact (qRow_tw h hG D D' L γ δ F layer hLayer layer' hLayer' base x u' u hu p hp hp0 (hC p hp hp0) (hCi p hp hp0) hlS).symm
   have ht : ∏ v' ∈ ((twistedAtoms G P S).erase (eB P a)).erase (eB P b),
       tRow D' (unitTwistGarden_plain G P hG) L γ δ F layer' hLayer' base (u' (eB P a)) (twistNodeLabels G P x) u' v' =
       ∏ v ∈ (S.erase a).erase b, tRow D hG L γ δ F layer hLayer base (u a) x u v := by
@@ -67,7 +76,7 @@ theorem spartFrame_tw :
     · simp only [Finset.mem_erase, (eB P).injective.ne_iff]
       exact and_congr Iff.rfl (and_congr Iff.rfl (mem_twistedAtoms G P S v).symm)
     · obtain ⟨hvb, hv⟩ := Finset.mem_erase.mp hv
-      exact (tRow_tw h hG D D' L γ δ F layer hLayer layer' hLayer' base x u' u hu v hv hvb (hT v hv hvb)).symm
+      exact (tRow_tw h hG D D' L γ δ F layer hLayer layer' hLayer' base x u' u hu v hv hvb (hT v hv hvb) (hTi v hv hvb) hlS).symm
   unfold spartFrame
   have hdom : (if DomF (fun v => layer' (D'.coreBranch (unitTwistGarden_plain G P hG) v).toNode)
       (twistedAtoms G P S) (eB P a) (eB P b) u' then (1 : ℂ) else 0) =

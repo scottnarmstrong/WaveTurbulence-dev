@@ -18,6 +18,7 @@ integrand of `clockedExpr` with the integrand of V4's endpoint `vineChain_eq_sum
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS3
@@ -87,13 +88,36 @@ noncomputable def assemblyClocked (hM9 : VINEPARAM) (B : CLChainAssembly G R n) 
     | Sum.inr v => if i = 0 then nodeSlot hM9 B (assemblyBranchOf hM9 B v).1.toNode
         else Sum.inl (branchSlot hM9 B (assemblyBranchOf hM9 B v))
 
-/-- The integrand of `clockedExpr` for `assemblyClocked` is the integrand of V4's endpoint. -/
+/-- **The selected clock-dependent rows of the assembly** (ruling F2): `assemblyClocked` with its rows read through the
+row selector (`VineEst.selCoupleRow`, `VineEst.selTreeRow`) and the same slots.  `assemblyClocked` itself stays plain and
+instance-free (it is read by the statement-shape `rowQ`/`RowCoherent`); under `RowSel.plain` the two agree by `rfl`. -/
+noncomputable def assemblyClockedS (hM9 : VINEPARAM) (B : CLChainAssembly G R n) (RD : ReconstructionData G)
+    (hG : G.IsPlain) (W : SumintWeightClockData (assemblyShape hM9 B) d) (L γ δ : ℝ) (F : ℕ → Mom d → ℝ)
+    (layer : GNode (RD.forest hG) → ℕ) (hLayer : IsLayering (RD.garden hG) layer) :
+    ClockedRows (sourceSumintDatum hM9 B hG W) where
+  W := fun ρ c k => match ρ with
+    | Sum.inl v => VineEst.selCoupleRow L γ δ F RD hG layer hLayer (assemblyPairOf hM9 B hG v).1 (c 0) (c 1) k
+    | Sum.inr v => VineEst.selTreeRow L γ δ F RD hG layer hLayer (assemblyBranchOf hM9 B v).1 (c 0) (c 1) k
+  slot := fun ρ i => match ρ with
+    | Sum.inl v => if i = 0 then nodeSlot hM9 B ((assemblyPairOf hM9 B hG v).1.firstLeaf hG).toNode
+        else nodeSlot hM9 B ((assemblyPairOf hM9 B hG v).1.secondLeaf hG).toNode
+    | Sum.inr v => if i = 0 then nodeSlot hM9 B (assemblyBranchOf hM9 B v).1.toNode
+        else Sum.inl (branchSlot hM9 B (assemblyBranchOf hM9 B v))
+
+/-- The selected rows have the slots of `assemblyClocked`. -/
+theorem assemblyClockedS_slot (hM9 : VINEPARAM) (B : CLChainAssembly G R n) (RD : ReconstructionData G)
+    (hG : G.IsPlain) (W : SumintWeightClockData (assemblyShape hM9 B) d) (L γ δ : ℝ) (F : ℕ → Mom d → ℝ)
+    (layer : GNode (RD.forest hG) → ℕ) (hLayer : IsLayering (RD.garden hG) layer) :
+    (assemblyClockedS hM9 B RD hG W L γ δ F layer hLayer).slot =
+      (assemblyClocked hM9 B RD hG W L γ δ F layer hLayer).slot := rfl
+
+/-- The integrand of `clockedExpr` for `assemblyClockedS` is the integrand of V4's endpoint. -/
 theorem clockedIntegrand_assembly (hM9 : VINEPARAM) (B : CLChainAssembly G R n) (RD : ReconstructionData G)
     (hG : G.IsPlain) (W : SumintWeightClockData (assemblyShape hM9 B) d) (L γ δ : ℝ) (F : ℕ → Mom d → ℝ)
     (layer : GNode (RD.forest hG) → ℕ) (hLayer : IsLayering (RD.garden hG) layer)
     (cfs cs : Fin (assemblyShape hM9 B).I → ℤˣ) (γ' δ' η : ℝ) (x : (assemblyShape hM9 B).VIdx → (Fin d → ℤ))
     (E : Fin 4 → Mom d) (t : Fin 3 → ℝ) (τ : (assemblyShape hM9 B).TVar → ℝ) :
-    clockedIntegrand (assemblyClocked hM9 B RD hG W L γ δ F layer hLayer) cfs cs L γ' δ' η x E t τ =
+    clockedIntegrand (assemblyClockedS hM9 B RD hG W L γ δ F layer hLayer) cfs cs L γ' δ' η x E t τ =
       signedPhase (sourceSumintDatum hM9 B hG W) cfs cs L γ' δ' η x (E 0 - E 1) (t 0) τ *
         ∏ v, (assemblyWK hM9 B RD hG L γ δ F layer hLayer t (assemblyClockEquiv hM9 B τ) v
             ((sourceSumintDatum hM9 B hG W).kVec L x E v) *
@@ -110,7 +134,7 @@ theorem clockedIntegrand_assembly (hM9 : VINEPARAM) (B : CLChainAssembly G R n) 
     (Finset.mem_erase.mp (assemblyBranchOf hM9 B v).2).2
   have h3 := nodeSlot_spec hM9 B _ hbr (interior_ne (assemblyBranchOf hM9 B v)) t τ
   have h4 := branchSlot_spec hM9 B (assemblyBranchOf hM9 B v) t τ
-  simp only [ClockedRows.clock, assemblyClocked, rowMom, Sum.elim_inl, Sum.elim_inr, slotVal]
+  simp only [ClockedRows.clock, assemblyClockedS, rowMom, Sum.elim_inl, Sum.elim_inr, slotVal]
   unfold assemblyWK assemblyWL
   simp only [h1, h2, h3, h4, if_true, Fin.isValue]
   rfl

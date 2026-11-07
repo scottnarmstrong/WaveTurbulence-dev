@@ -15,6 +15,7 @@ the shape of the flat form of TARGET Step 4 of part C: the class sum is `c Î¶ âˆ
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS5B2

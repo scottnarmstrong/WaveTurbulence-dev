@@ -15,6 +15,7 @@ the `K` row sits at the momentum `k`, so a summand whose factor at `k` is a sepa
 The remainders enter through `RemC` data (`hRQ`, `hRT`: the point functions are the `f` of the `RemC`). -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 namespace WaveTurbulence.VineEstS5C.P4.W2

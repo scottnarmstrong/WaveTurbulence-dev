@@ -19,6 +19,7 @@ which lies in the CLOSED box, so strictness holds only off the boundary: see `P4
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 open WaveTurbulence.VineParamContract

@@ -16,6 +16,7 @@ with the modulation, is `-(c ζ ∑' ∫ lowModC · twIntB)` in the chart of the
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS5C.FlatMod
@@ -58,6 +59,14 @@ theorem clLocalKernelModC_tw (D : ReconstructionData G) (D' : ReconstructionData
         nativeChainLayered D hG layer hLayer v)
     (hl : ∀ v ∈ S.erase a, layer' (D'.coreBranch (unitTwistGarden_plain G P hG) (eB P v)).toNode =
       layer (D.coreBranch hG v).toNode)
+    (hCi : ∀ p ∈ clRegionalPairs hG S, p ≠ pairOfLeaf G hG P.retained →
+      Flower.V5W.coupleIncoh D' (unitTwistGarden_plain G P hG) layer' hLayer' (tp P hG p) =
+        Flower.V5W.coupleIncoh D hG layer hLayer p)
+    (hTi : ∀ v ∈ S.erase a, v ≠ b →
+      Flower.V5W.treeIncoh D' (unitTwistGarden_plain G P hG) layer' hLayer' (eB P v) =
+        Flower.V5W.treeIncoh D hG layer hLayer v)
+    (hlS : ∀ v ∈ S, layer' (D'.coreBranch (unitTwistGarden_plain G P hG) (eB P v)).toNode =
+      layer (D.coreBranch hG v).toNode)
     (t0 t1 t2 : ℝ) (e f g h' : Mom d) :
     clLocalKernelModC D' (unitTwistGarden_plain G P hG) RS' L γ δ F layer' hLayer' base lam t0 t1 t2 e f g h' =
       -((coupling d L γ δ : ℂ) ^ clLocalOrder1 RS * clLocalZeta RS *
@@ -85,7 +94,7 @@ theorem clLocalKernelModC_tw (D : ReconstructionData G) (D' : ReconstructionData
   beta_reduce
   rw [lowModC_tw P h.block.2.2.1 lam _ τ]
   exact congrArg (fun y => lowModC RS lam ![t0, t1, t2] τ * y)
-    (summand_tw P h hG D D' L γ δ F layer hLayer layer' hLayer' base hC hT hl _ _ κ τ)
+    (summand_tw P h hG D D' L γ δ F layer hLayer layer' hLayer' base hC hT hl hCi hTi hlS _ _ κ τ)
 
 include h in
 theorem BOKd_twM
@@ -101,6 +110,14 @@ theorem BOKd_twM
         nativeChainLayered D hG layer hLayer v)
     (hl : ∀ v ∈ S.erase a, layer' (D'.coreBranch (unitTwistGarden_plain G P hG) (eB P v)).toNode =
       layer (D.coreBranch hG v).toNode)
+    (hCi : ∀ p ∈ clRegionalPairs hG S, p ≠ pairOfLeaf G hG P.retained →
+      Flower.V5W.coupleIncoh D' (unitTwistGarden_plain G P hG) layer' hLayer' (tp P hG p) =
+        Flower.V5W.coupleIncoh D hG layer hLayer p)
+    (hTi : ∀ v ∈ S.erase a, v ≠ b →
+      Flower.V5W.treeIncoh D' (unitTwistGarden_plain G P hG) layer' hLayer' (eB P v) =
+        Flower.V5W.treeIncoh D hG layer hLayer v)
+    (hlS : ∀ v ∈ S, layer' (D'.coreBranch (unitTwistGarden_plain G P hG) (eB P v)).toNode =
+      layer (D.coreBranch hG v).toNode)
     (β : Fin 4 → Mom d) (t : Fin 3 → ℝ)
     (hg : BOKd RS' L base β fun κ' τ' => lowModC RS' lam t τ' *
       clLocalSummand D' (unitTwistGarden_plain G P hG) RS' L γ δ F layer' hLayer' base β t κ' τ') :
@@ -112,7 +129,7 @@ theorem BOKd_twM
   beta_reduce
   rw [lowModC_tw P h.block.2.2.1 lam t τ]
   exact congrArg (fun y => lowModC RS lam t τ * y)
-    (summand_tw P h hG D D' L γ δ F layer hLayer layer' hLayer' base hC hT hl β t κ τ)
+    (summand_tw P h hG D D' L γ δ F layer hLayer layer' hLayer' base hC hT hl hCi hTi hlS β t κ τ)
 
 end Kernel
 

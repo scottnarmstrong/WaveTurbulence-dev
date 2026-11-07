@@ -22,6 +22,7 @@ layer-eligible (else `aClause_typeII`), so one of the two objects is incoherent,
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS3

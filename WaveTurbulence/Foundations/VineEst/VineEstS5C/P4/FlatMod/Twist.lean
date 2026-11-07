@@ -19,6 +19,7 @@ The modulation `e^{πiλτ_b}` (`Cont.lowModC`) reads only the clock of the lowe
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS5C.FlatMod
@@ -46,8 +47,12 @@ variable {d : ℕ} (hG : G.IsPlain) (D : ReconstructionData G) (D' : Reconstruct
       nativeChainLayered D hG layer hLayer v)
   (hl : ∀ v ∈ T, layer' (D'.coreBranch (unitTwistGarden_plain G P hG) (eB P v)).toNode =
       layer (D.coreBranch hG v).toNode)
+  (hCi : ∀ p ∈ clRegionalPairs hG T, Flower.V5W.coupleIncoh D' (unitTwistGarden_plain G P hG) layer' hLayer' (tp P hG p) =
+      Flower.V5W.coupleIncoh D hG layer hLayer p)
+  (hTi : ∀ v ∈ clInteriorBranches R, Flower.V5W.treeIncoh D' (unitTwistGarden_plain G P hG) layer' hLayer' (eB P v) =
+      Flower.V5W.treeIncoh D hG layer hLayer v)
 
-include hB hCL hC hT hl in
+include hB hCL hC hT hl hCi hTi in
 /-- **K^{T,λ} twist invariance** (modulated `clLocalKernel_twist`). -/
 theorem clLocalKernelModC_twist :
     clLocalKernelModC D' (unitTwistGarden_plain G P hG) R' L γ δ F layer' hLayer' base lam t0 t1 t2 e f g h =
@@ -69,7 +74,7 @@ theorem clLocalKernelModC_twist :
     beta_reduce
     rw [lowModC_twist P hB R R' lam _ τ]
     exact congrArg (fun y => lowModC R lam ![t0, t1, t2] τ * y)
-      (summand_twist P hB hCL R R' hG D D' L γ δ F layer hLayer layer' hLayer' base e f g h hC hT hl _ κ' τ)
+      (summand_twist P hB hCL R R' hG D D' L γ δ F layer hLayer layer' hLayer' base e f g h hC hT hl hCi hTi _ κ' τ)
   rw [tsum_congr hint]
   exact (decEquiv P hB hCL R R' L base e f g h).tsum_eq
     (fun κ => ∫ τ : CLInternalTime R, lowModC R lam ![t0, t1, t2] τ *

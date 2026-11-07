@@ -10,6 +10,7 @@ public import WaveTurbulence.Foundations.VineEst.ZpSurj.Pat1
 /-! # ZP-SURJ: the parent layers of the base gardens of the two skeleton choices -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.ZpSurj
 variable {kind : Bool}

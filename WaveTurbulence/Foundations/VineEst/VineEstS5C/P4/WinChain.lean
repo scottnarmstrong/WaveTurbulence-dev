@@ -24,6 +24,7 @@ exterior clocks, `tt 0 ∈ [qOut 0, qOut 0 + 1]`; the strict window `ExtOf` of d
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS5C.P4

@@ -18,6 +18,7 @@ sum is the sum over `Zp(A)` of the kernels `K^U_G` itself (the Step 3 form).
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS4

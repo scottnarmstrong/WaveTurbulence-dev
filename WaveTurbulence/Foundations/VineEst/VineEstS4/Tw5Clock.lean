@@ -11,6 +11,7 @@ public import WaveTurbulence.Foundations.VineEst.RegRedDraft.CLLocalTimes
 /-! # K^T twist invariance, clocks and time domain (V5 Step 4b, step 3, part 5) -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS4
 open WaveTurbulence WaveTurbulence.Twist WaveTurbulence.RegRed WaveTurbulence.Reg.Skeleton TTree MeasureTheory

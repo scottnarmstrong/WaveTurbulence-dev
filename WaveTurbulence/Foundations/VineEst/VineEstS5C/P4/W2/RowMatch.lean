@@ -16,13 +16,14 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS3.AssemblyClocked
   `cL v ·` (row `inr v`), then the product of the row-form weights is `(∏ cK)(∏ cL) · ∏_ρ (row ρ)`.
 * `pairMom_eq`, `branchMom_eq`: the row momenta of the engine datum are the decoration momenta of the first leaf of the pair, resp. of the
   branch, of the row (`assembly_pair_momentum`, `assembly_branch_momentum`).
-* `natCR3`: the native rows of the region (the starred kernels `K_Q^*`, `K_T^*` at their parent clocks, as `VineEstS3.assemblyClocked`)
+* `natCR3`: the native rows of the region (the starred kernels `K_Q^*`, `K_T^*` at their parent clocks, as `VineEstS3.assemblyClockedS`)
   as three-clock rows of the engine datum (third clock: a repetition, mode `0`); `qRow_eq_natCR3`, `tRow_eq_natCR3`: at the region's
   clocks `u = clLocalClock R tt (assemblyClockEquiv τ)` and the top clock `tt 0`, the native rows `qRow`, `tRow` of the row form are the rows
   of `natCR3`.
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS5C.P4.W2
 open VineParamContract TTree Reg Reg.Skeleton RegRed MeasureTheory WaveTurbulence.VineEstS2 WaveTurbulence.VineEstS5A
@@ -100,8 +101,8 @@ variable (RD : ReconstructionData G) (L γ δ : ℝ) (F : ℕ → Mom d → ℝ)
 /-- **The native rows of the region as three-clock engine rows.** -/
 noncomputable def natCR3 : ClockedRows3 (engDatum hM9 B hG W wN wDec bk cons g g') where
   W := fun ρ c _ k => match ρ with
-    | Sum.inl v => KQstar L γ δ F (nativeCoupleLayered RD hG layer hLayer (assemblyPairOf hM9 B hG v).1) (c 0) (c 1) k
-    | Sum.inr v => KTstar L γ δ F (nativeChainLayered RD hG layer hLayer (assemblyBranchOf hM9 B v).1) (c 0) (c 1) k
+    | Sum.inl v => VineEst.selCoupleRow L γ δ F RD hG layer hLayer (assemblyPairOf hM9 B hG v).1 (c 0) (c 1) k
+    | Sum.inr v => VineEst.selTreeRow L γ δ F RD hG layer hLayer (assemblyBranchOf hM9 B v).1 (c 0) (c 1) k
   slot := natSlot hM9 B hG
   W_indep := fun _ _ _ _ _ => rfl
 

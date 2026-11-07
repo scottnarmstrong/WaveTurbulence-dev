@@ -15,6 +15,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS4c.DefectRows
 (separated 𝒦, remainder ℒ), `piece_RS` (remainder 𝒦, separated ℒ), `piece_RR` (both remainders). -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS5C.P2
 open WaveTurbulence WaveTurbulence.VineEstS3Par.Eng WaveTurbulence.VineEstS3.FS WaveTurbulence.VineEstS5A

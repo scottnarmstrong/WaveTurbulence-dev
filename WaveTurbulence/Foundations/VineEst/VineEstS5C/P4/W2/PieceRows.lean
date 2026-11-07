@@ -18,6 +18,7 @@ The identities are those of `PieceSp` (`sp_ident_*`); the hypotheses `hv0` (the 
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 namespace WaveTurbulence.VineEstS5C.P4.W2

@@ -24,6 +24,7 @@ For an index `b` whose carrier-side couple (tree) is coherent at `(q, L₂)` wit
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 namespace WaveTurbulence.VineEstS5C.P4.W13

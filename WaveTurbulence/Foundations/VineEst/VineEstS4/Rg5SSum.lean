@@ -5,6 +5,8 @@ Authors: Scott Armstrong
 -/
 module
 
+public import WaveTurbulence.Foundations.VineEst.RowSel.RowDataLF
+public import WaveTurbulence.Foundations.VineEst.RowSel.RowTransport
 public import WaveTurbulence.Foundations.VineEst.VineEstS4.Rg4Time
 public import WaveTurbulence.Foundations.VineEst.VineEstS4.Tw10Final
 
@@ -16,6 +18,7 @@ lower-block factor `Φ` (TARGET (tildeJ2): `Φ = K̃^{U<p}`), the boundary label
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS4
@@ -45,8 +48,14 @@ variable {w d : ℕ} {G : Garden w} (P : CorePlacement G) {S : Finset (GBranch G
       nativeChainLayered D hG layer hLayer v)
   (hl : ∀ v ∈ S.erase a, layer' (D'.coreBranch (unitTwistGarden_plain G P hG) (eB P v)).toNode =
       layer (D.coreBranch hG v).toNode)
+  (hCi : ∀ p ∈ clRegionalPairs hG S, Flower.V5W.coupleIncoh D' (unitTwistGarden_plain G P hG) layer' hLayer' (tp P hG p) =
+      Flower.V5W.coupleIncoh D hG layer hLayer p)
+  (hTi : ∀ v ∈ S.erase a, Flower.V5W.treeIncoh D' (unitTwistGarden_plain G P hG) layer' hLayer' (eB P v) =
+      Flower.V5W.treeIncoh D hG layer hLayer v)
+  (hlS : ∀ v ∈ S, layer' (D'.coreBranch (unitTwistGarden_plain G P hG) (eB P v)).toNode =
+      layer (D.coreBranch hG v).toNode)
 
-include hS hR hC hT hl in
+include hS hR hC hT hl hCi hTi hlS in
 /-- **The S-side of (tildeJ2) is invariant under a rigid twist** (no exchange of the two boundary labels). -/
 theorem sSum_rigid (t0 t1 t2 : ℝ) (e f : Mom d) (n0 n1 : GNode G.tree) (Φ : ℝ → Mom d → Mom d → ℂ) :
     sSum RS' D' (unitTwistGarden_plain G P hG) L γ δ F layer' hLayer' base t0 t1 t2 e f
@@ -65,7 +74,7 @@ theorem sSum_rigid (t0 t1 t2 : ℝ) (e f : Mom d) (n0 n1 : GNode G.tree) (Φ : �
   refine integral_congr_ae (Filter.Eventually.of_forall fun τ => ?_)
   have hu : ∀ v ∈ S, clLocalClock RS' ![t0, t1, t2] (tEquivS P RS RS' τ) (eB P v) = clLocalClock RS ![t0, t1, t2] τ v :=
     fun v hv => clockS_corr P RS RS' _ τ hv
-  have hsp := spart_rigid P hS hR hG D D' L γ δ F layer hLayer layer' hLayer' base hC hT RS xS'.1
+  have hsp := spart_rigid P hS hR hG D D' L γ δ F layer hLayer layer' hLayer' base hC hT hCi hTi hlS RS xS'.1
     (clLocalClock RS' ![t0, t1, t2] (tEquivS P RS RS' τ)) (clLocalClock RS ![t0, t1, t2] τ) hu hl
   show spart D' (unitTwistGarden_plain G P hG) L γ δ F layer' hLayer' base (twistedAtoms G P S) (eB P a) (eB P b) xS'.1
         (clLocalClock RS' ![t0, t1, t2] (tEquivS P RS RS' τ)) *
@@ -96,7 +105,7 @@ theorem sSum_rigid_LF (h : LFConstruction s true) {S : Finset (GBranch s.skeleto
     sSum RS' h.data (s.chosen_plain true) L γ δ F layer' hLayer' base t0 t1 t2 e f
         (naiveNodeEquiv s.skeleton s.placement n0) (naiveNodeEquiv s.skeleton s.placement n1) Φ =
       sSum RS s.data s.plain L γ δ F layer hLayer base t0 t1 t2 e f n0 n1 Φ := by
-  refine sSum_rigid s.placement hS hR RS RS' s.plain s.data h.data L γ δ F layer hLayer layer' hLayer' base ?_ ?_ ?_
+  refine sSum_rigid s.placement hS hR RS RS' s.plain s.data h.data L γ δ F layer hLayer layer' hLayer' base ?_ ?_ ?_ ?_ ?_ ?_
     t0 t1 t2 e f n0 n1 Φ
   · intro q hq
     have hint := (mem_clRegionalPairs s.skeleton).mp hq
@@ -110,6 +119,20 @@ theorem sSum_rigid_LF (h : LFConstruction s true) {S : Finset (GBranch s.skeleto
     exact native_couple_eq h layer hLayer hspec layer' hLayer' hspec' q hne
   · intro v hv
     exact native_tree_eq h layer hLayer hspec layer' hLayer' hspec' v (hR.ne_lower (Finset.mem_of_mem_erase hv))
+  · intro v _
+    exact coreLayer_eq h layer hLayer hspec layer' hLayer' hspec' v
+  · intro q hq
+    have hint := (mem_clRegionalPairs s.skeleton).mp hq
+    have hne : q ≠ s.exceptional := by
+      intro hqe
+      have hqe' : q = pairOfLeaf s.skeleton s.plain s.placement.retained := hqe
+      subst hqe'
+      rcases pairOfLeaf_first_or_partner s.skeleton s.plain s.placement.retained with hq' | hq'
+      · exact not_internal_retained_of s.placement hR.lower_notMem (hq' ▸ hint)
+      · exact not_internal_pair_of s.placement hR.lower_notMem (hq' ▸ hint)
+    exact Flower.V5W.coupleIncoh_LF h layer hLayer hspec layer' hLayer' hspec' q hne
+  · intro v hv
+    exact Flower.V5W.treeIncoh_LF h layer hLayer hspec layer' hLayer' hspec' v (hR.ne_lower (Finset.mem_of_mem_erase hv))
   · intro v _
     exact coreLayer_eq h layer hLayer hspec layer' hLayer' hspec' v
 
@@ -129,7 +152,7 @@ theorem sSum_false_LF (h : LFConstruction s false) {S : Finset (GBranch s.skelet
   congr 1
   refine tsum_congr fun xS => ?_
   refine integral_congr_ae (Filter.Eventually.of_forall fun σ => ?_)
-  have hsp := spart_congr_data (a := a) (S := S) s.plain h.data s.data L γ δ F layer' hLayer' layer hLayer base ?_ ?_ ?_ b
+  have hsp := spart_congr_data (a := a) (S := S) s.plain h.data s.data L γ δ F layer' hLayer' layer hLayer base ?_ ?_ ?_ ?_ ?_ ?_ ?_ b
     xS.1 (clLocalClock RS ![t0, t1, t2] σ)
   · simp only []
     rw [hsp]
@@ -149,6 +172,27 @@ theorem sSum_false_LF (h : LFConstruction s false) {S : Finset (GBranch s.skelet
     exact native_tree_eq h layer hLayer hspec layer' hLayer' hspec' v (fun e => hlow (e ▸ (Finset.mem_of_mem_erase hv)))
   · intro v _
     exact coreLayer_eq h layer hLayer hspec layer' hLayer' hspec' v
+  · intro q hq
+    have hint := (mem_clRegionalPairs s.skeleton).mp hq
+    have hne : q ≠ s.exceptional := by
+      intro hqe
+      have hqe' : q = pairOfLeaf s.skeleton s.plain s.placement.retained := hqe
+      subst hqe'
+      rcases pairOfLeaf_first_or_partner s.skeleton s.plain s.placement.retained with hq' | hq'
+      · exact not_internal_retained_of s.placement hlow (hq' ▸ hint)
+      · exact not_internal_pair_of s.placement hlow (hq' ▸ hint)
+    have := Flower.V5W.coupleIncoh_LF h layer hLayer hspec layer' hLayer' hspec' q hne
+    have hp : s.pairs false q = q := pairOfLeaf_firstLeaf s.skeleton s.plain q
+    rwa [hp] at this
+  · intro v hv
+    exact Flower.V5W.treeIncoh_LF h layer hLayer hspec layer' hLayer' hspec' v
+      (fun e => hlow (e ▸ (Finset.mem_of_mem_erase hv)))
+  · intro pp q _ i
+    exact VineEst.coupleRootParents_congr_all s.plain h.data s.data layer' hLayer' layer hLayer
+      (fun v => coreLayer_eq h layer hLayer hspec layer' hLayer' hspec' v) pp q i
+  · intro pp v _
+    exact VineEst.treeRootParent_congr_all s.plain h.data s.data layer' hLayer' layer hLayer
+      (fun v => coreLayer_eq h layer hLayer hspec layer' hLayer' hspec' v) pp v
 
 end LF
 

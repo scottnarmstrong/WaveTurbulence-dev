@@ -18,6 +18,7 @@ The mirror of `SFF` for BOT-DECOMP (R60): at the bottom operative member (piece 
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 namespace WaveTurbulence.VineEstS5C.P4.W13

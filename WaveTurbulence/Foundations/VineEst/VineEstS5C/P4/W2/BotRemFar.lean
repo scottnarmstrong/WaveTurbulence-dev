@@ -15,6 +15,7 @@ The bottom copy of `RemFar2` (`botRemQ_eq_clamp`, `botRemT_eq_clamp`) and `RemFa
 with `botQfam_eq_clamp`/`botQfam_eq_zero` (W13/BotObj) in place of `zpQfam_eq_clamp`/`zpQfam_eq_zero`. -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 namespace WaveTurbulence.VineEstS5C.P4.W2

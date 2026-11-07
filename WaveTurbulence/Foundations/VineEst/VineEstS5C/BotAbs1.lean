@@ -16,6 +16,7 @@ times), `uAbs_of_summand_eq` (a summand equal to the CL local summand of a nativ
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 open WaveTurbulence.VineParamContract

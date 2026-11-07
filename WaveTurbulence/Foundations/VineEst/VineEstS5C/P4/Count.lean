@@ -15,6 +15,7 @@ This is the TARGET count `4^b ∏ |Bs_i|` (one factor per operative vine, depend
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS5C.P4

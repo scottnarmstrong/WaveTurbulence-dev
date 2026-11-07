@@ -17,6 +17,7 @@ exact signed bundle is `replSum` of the approximants plus the remainder rows `re
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 noncomputable section

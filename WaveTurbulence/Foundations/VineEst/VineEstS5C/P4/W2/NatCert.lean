@@ -15,6 +15,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS3.LeafWire
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS5C.P4.W2
 open VineParamContract TTree Reg Reg.Skeleton RegRed MeasureTheory WaveTurbulence.VineEstS2 WaveTurbulence.VineEstS5A
@@ -55,7 +56,7 @@ theorem freeDict_native (hM9 : VINEPARAM) (B : CLChainAssembly G R n) (RD : Reco
         (consX hM9 B (fun v => layer (RD.coreBranch hG v).toNode) ∅ ∅) g g'),
       RowData (engDatum hM9 B hG W wN wDec bk (consX hM9 B (fun v => layer (RD.coreBranch hG v).toNode) ∅ ∅) g g') θ ρ)
     (hRW : ∀ ρ (cl : Fin 3 → ℝ), ![cl 0, cl 1] ∈ rowBx hM9 B RD hG layer hLayer W L γ δ F ρ → ∀ r k,
-      (Rw ρ).W cl r k = (assemblyClocked hM9 B RD hG W L γ δ F layer hLayer).W ρ ![cl 0, cl 1] k)
+      (Rw ρ).W cl r k = (assemblyClockedS hM9 B RD hG W L γ δ F layer hLayer).W ρ ![cl 0, cl 1] k)
     (hRS : ∀ ρ i, (Rw ρ).slot i = natSlot hM9 B hG ρ i)
     (Mx : CharMix (assemblyShape hM9 B) d)
     (hpar : ∀ v, W.param v =

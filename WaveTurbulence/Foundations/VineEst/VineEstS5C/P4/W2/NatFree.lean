@@ -15,6 +15,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.FreeNE
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS5C.P4.W2
 open VineParamContract TTree Reg Reg.Skeleton RegRed MeasureTheory WaveTurbulence.VineEstS2 WaveTurbulence.VineEstS5A
@@ -34,13 +35,13 @@ variable (hM9 : VINEPARAM) (B : CLChainAssembly G R n) (hG : G.IsPlain)
 
 theorem natCR3_W_eq (ρ : Row (engDatum hM9 B hG W wN wDec bk cons g g')) (cl : Fin 3 → ℝ) (r k : Mom d) :
     (natCR3 hM9 B hG W wN wDec bk cons g g' RD L γ δ F layer hLayer).W ρ cl r k =
-      (assemblyClocked hM9 B RD hG W L γ δ F layer hLayer).W ρ ![cl 0, cl 1] k := by
+      (assemblyClockedS hM9 B RD hG W L γ δ F layer hLayer).W ρ ![cl 0, cl 1] k := by
   rcases ρ with v | v <;> rfl
 
 theorem natCR3_clock_eq (τ : (assemblyShape hM9 B).TVar → ℝ) (tt : Fin 3 → ℝ) (ρ : Row (engDatum hM9 B hG W wN wDec bk cons g g')) :
     ![(natCR3 hM9 B hG W wN wDec bk cons g g' RD L γ δ F layer hLayer).clock τ tt ρ 0,
       (natCR3 hM9 B hG W wN wDec bk cons g g' RD L γ δ F layer hLayer).clock τ tt ρ 1] =
-      (assemblyClocked hM9 B RD hG W L γ δ F layer hLayer).clock τ tt ρ := by
+      (assemblyClockedS hM9 B RD hG W L γ δ F layer hLayer).clock τ tt ρ := by
   funext i
   fin_cases i <;> rcases ρ with v | v <;> rfl
 
@@ -55,13 +56,13 @@ variable (hM9 : VINEPARAM) (B : CLChainAssembly G R n) (hG : G.IsPlain)
   (hLayer : IsLayering (RD.garden hG) layer) {θ : ℝ}
   (Rw : ∀ ρ : Row (engDatum hM9 B hG W wN wDec bk cons g g'), RowData (engDatum hM9 B hG W wN wDec bk cons g g') θ ρ)
   (hRW : ∀ ρ (cl : Fin 3 → ℝ), ![cl 0, cl 1] ∈ rowBx hM9 B RD hG layer hLayer W L γ δ F ρ → ∀ r k,
-    (Rw ρ).W cl r k = (assemblyClocked hM9 B RD hG W L γ δ F layer hLayer).W ρ ![cl 0, cl 1] k)
+    (Rw ρ).W cl r k = (assemblyClockedS hM9 B RD hG W L γ δ F layer hLayer).W ρ ![cl 0, cl 1] k)
   (hRS : ∀ ρ i, (Rw ρ).slot i = natSlot hM9 B hG ρ i)
 
 include hRW hRS in
 /-- **The weights of the family `Rw` at the clocks of `τ` are the native weights** (clocks in the row boxes). -/
 theorem allCR_W_eq_natCR3 (τ : (assemblyShape hM9 B).TVar → ℝ) (tt : Fin 3 → ℝ)
-    (hclk : ∀ ρ, (assemblyClocked hM9 B RD hG W L γ δ F layer hLayer).clock τ tt ρ ∈
+    (hclk : ∀ ρ, (assemblyClockedS hM9 B RD hG W L γ δ F layer hLayer).clock τ tt ρ ∈
       rowBx hM9 B RD hG layer hLayer W L γ δ F ρ) (ρ : Row (engDatum hM9 B hG W wN wDec bk cons g g')) (r k : Mom d) :
     (allCR Rw).W ρ ((allCR Rw).clock τ tt ρ) r k =
       (natCR3 hM9 B hG W wN wDec bk cons g g' RD L γ δ F layer hLayer).W ρ
@@ -83,7 +84,7 @@ include hRW hRS in
 theorem hrow_native_allCR (hL : L ≠ 0) (η : ℝ) (base : Mom d) (β : Fin 4 → (Fin d → ℤ))
     (hβ : ((G.sign a.toNode : ℤ) • (β 0 - β 1)) = β 2 - β 3) (tt : Fin 3 → ℝ) (x : (assemblyShape hM9 B).VIdx → (Fin d → ℤ))
     (τ : (assemblyShape hM9 B).TVar → ℝ) (hbk : ∀ i, bk i ≠ 1 ∧ bk i ≠ 2)
-    (hclk : ∀ ρ, (assemblyClocked hM9 B RD hG W L γ δ F layer hLayer).clock τ tt ρ ∈
+    (hclk : ∀ ρ, (assemblyClockedS hM9 B RD hG W L γ δ F layer hLayer).clock τ tt ρ ∈
       rowBx hM9 B RD hG layer hLayer W L γ δ F ρ) :
     (∏ p ∈ clRegionalPairs hG U, qRow RD hG L γ δ F layer hLayer base (tt 0)
         (clExtendIndices R ((clNormalizedChainEquiv hL B base β hβ hM9).symm x).1)

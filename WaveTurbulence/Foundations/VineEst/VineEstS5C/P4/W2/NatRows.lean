@@ -15,6 +15,7 @@ native slots, the leaf-cost bound `b ≤ C · 2 rowBoundH` and the a.e. mode exp
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 namespace WaveTurbulence.VineEstS5C.P4.W2
@@ -46,7 +47,7 @@ theorem natRows_family (d : ℕ) (η : ℝ) (hd : 1 ≤ d) :
       ∃ Rw : ∀ ρ : WaveTurbulence.VineEstS3Par.Eng.Row (engDatum hM9 B hG W wN wDec bk cons g g'),
           RowData (engDatum hM9 B hG W wN wDec bk cons g g') (6 * P.η ^ 6) ρ,
         (∀ ρ (cl : Fin 3 → ℝ), ![cl 0, cl 1] ∈ rowBx hM9 B RD hG layer hLayer W P.L P.γ P.δ h ρ → ∀ r k,
-          (Rw ρ).W cl r k = (assemblyClocked hM9 B RD hG W P.L P.γ P.δ h layer hLayer).W ρ ![cl 0, cl 1] k) ∧
+          (Rw ρ).W cl r k = (assemblyClockedS (rowSel := VineEst.RowSel.plain) hM9 B RD hG W P.L P.γ P.δ h layer hLayer).W ρ ![cl 0, cl 1] k) ∧
         (∀ ρ i, (Rw ρ).slot i = natSlot hM9 B hG ρ i) ∧
         (∀ ρ, (Rw ρ).b ≤ C * ENNReal.ofReal (2 * rowBoundH hM9 B RD hG layer hLayer P Bh W ρ)) ∧
         (∀ ρ, (Rw ρ).Ae (assemblyShape_I_pos hM9 B)) ∧

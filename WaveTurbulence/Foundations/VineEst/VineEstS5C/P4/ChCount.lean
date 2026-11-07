@@ -22,6 +22,7 @@ number of unrolled terms by `∏_{members} wtOf` (`card_terms_le_wt`).
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS5C.P4
 variable {kind : Bool}

@@ -19,6 +19,7 @@ physical coset momenta of the first leaf of the `v`-th regional pair, respective
 `v`-th interior branch. -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS2

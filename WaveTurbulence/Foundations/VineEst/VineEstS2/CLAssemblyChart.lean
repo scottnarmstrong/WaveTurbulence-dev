@@ -12,6 +12,7 @@ public import Mathlib.Logic.Equiv.Prod
 /-! # The actual triangular full-chain M9 chart -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS2

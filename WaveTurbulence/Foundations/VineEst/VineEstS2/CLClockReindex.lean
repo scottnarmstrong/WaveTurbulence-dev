@@ -13,6 +13,7 @@ public import Mathlib.MeasureTheory.Integral.Bochner.Basic
 /-! # Measure-preserving clock change from actual source branches to sumint slots -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS2

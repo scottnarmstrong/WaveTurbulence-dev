@@ -16,6 +16,7 @@ TARGET assumes `L_{u3} ≥ L_{u4}` "by symmetry".  The symmetry is complex conju
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 open WaveTurbulence.VineParamContract
@@ -72,7 +73,7 @@ theorem bundle_decomp_mirror (hR : RealityAll) (hZ : ZpSurj p kind pstar J A sp0
           (bundleVars κ A sp0 x u).2.2.1 (bundleVars κ A sp0 x u).2.2.2.1 (bundleVars κ A sp0 x u).2.2.2.2)) := by
   obtain ⟨τ, hbij, hrel⟩ := hZ.twin
   rw [bundle_eq_repl p kind J κ (zpQfam κ A) (zpTfam κ A) τ A sp0 hA hbij
-    (fun G hG => ⟨(hrel G hG).1, (hrel G hG).2.1⟩) x u]
+    (fun G hG => ⟨(hrel G hG).1, (hrel G hG).2.1⟩) hZ.coherent x u]
   congr 2
   generalize bundleVars κ A sp0 x u = v at *
   obtain ⟨t0, s1, t1, x', y'⟩ := v

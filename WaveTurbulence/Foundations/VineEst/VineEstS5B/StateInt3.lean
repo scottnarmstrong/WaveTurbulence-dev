@@ -14,6 +14,7 @@ at the exchanged labels, the clocks of the parents of the lower joint and of the
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS5B
@@ -81,9 +82,9 @@ theorem sameInt_false_eq (con : LFConstruction (A.source pstar hcan hel htc hcc)
   have hex := exc_same (A.family.placement pstar) A.plain con.data κ.L κ.γ κ.δ κ.F
     (stateLayer (opOut A pstar hcan hel htc hcc con)) (stateLayer_isLayering (opOut A pstar hcan hel htc hcc con))
     κ.base (S := sp.sb.U) (a := sp.sb.a) hS.lower x.1 (hS.pairedAt_ext x) (clLocalClock sp.RS ![κ.t0, κ.t1, κ.t2] σ)
-  have hT : nativeChainLayered con.data A.plain (stateLayer (opOut A pstar hcan hel htc hcc con))
+  have hT : VineEst.selTreeRow κ.L κ.γ κ.δ κ.F con.data A.plain (stateLayer (opOut A pstar hcan hel htc hcc con))
       (stateLayer_isLayering (opOut A pstar hcan hel htc hcc con)) sp.sb.b =
-      nativeChainLayered con.data A.plain (stateLayer (opOut A pstar hcan hel htc hcc con))
+      VineEst.selTreeRow κ.L κ.γ κ.δ κ.F con.data A.plain (stateLayer (opOut A pstar hcan hel htc hcc con))
       (stateLayer_isLayering (opOut A pstar hcan hel htc hcc con)) (A.family.placement pstar).lower := by
     rw [hS.lower]
   unfold sameInt bundleInt
@@ -121,6 +122,49 @@ theorem sSumAt_false (con : LFConstruction (A.source pstar hcan hel htc hcc) fal
   refine tsum_congr fun x => ?_
   refine integral_congr_ae (Filter.Eventually.of_forall fun σ => ?_)
   exact sameInt_false_eq κ A sp hcan hel htc hcc con Φ x σ
+/-- The pair of the retained leaf of the twisted state is the twist image of the source pair. -/
+theorem retainedPair_true (con : LFConstruction (A.source pstar hcan hel htc hcc) true) :
+    pairOfLeaf (opOut A pstar hcan hel htc hcc con).skeleton (opOut A pstar hcan hel htc hcc con).plain
+        ((opOut A pstar hcan hel htc hcc con).family.placement pstar).retained =
+      tp (A.family.placement pstar) A.plain (pairOfLeaf A.skeleton A.plain (A.family.placement pstar).retained) := by
+  have hr : (A.family.nextPlacement pstar pstar).retained =
+      coreLeafEquiv A.skeleton (A.family.placement pstar) (A.family.placement pstar).retained :=
+    A.family.nextPlacement_retained pstar pstar
+  have hq : chosenPairEquiv A.skeleton (A.family.placement pstar) A.plain true
+      (pairOfLeaf A.skeleton A.plain (A.family.placement pstar).retained) =
+      pairOfLeaf (unitTwistGarden A.skeleton (A.family.placement pstar)) (unitTwistGarden_plain _ _ A.plain)
+        (coreLeafEquiv A.skeleton (A.family.placement pstar) (A.family.placement pstar).retained) :=
+    sourcePairEquiv_pairOfLeaf A.plain (unitTwistGarden_plain _ _ A.plain)
+      (coreLeafEquiv A.skeleton (A.family.placement pstar)) (fun l => (unitTwistGarden_pair _ _ l).symm) _
+  show pairOfLeaf (unitTwistGarden A.skeleton (A.family.placement pstar)) _ (A.family.nextPlacement pstar pstar).retained = _
+  rw [hr, ← hq]
+  rfl
+
+/-- **The selected exceptional couple row of the twisted state** is the selected row of the twist image of the source
+pair (ruling F2; the selection data are read at the same pair). -/
+theorem rowQ_true_eq (con : LFConstruction (A.source pstar hcan hel htc hcc) true) :
+    rowQ κ (opOut A pstar hcan hel htc hcc con) pstar =
+      VineEst.selCoupleRow κ.L κ.γ κ.δ κ.F con.data (unitTwistGarden_plain A.skeleton (A.family.placement pstar) A.plain)
+        (stateLayer (opOut A pstar hcan hel htc hcc con)) (stateLayer_isLayering (opOut A pstar hcan hel htc hcc con))
+        (tp (A.family.placement pstar) A.plain (pairOfLeaf A.skeleton A.plain (A.family.placement pstar).retained)) := by
+  unfold rowQ sigStar
+  rw [retainedPair_true A hcan hel htc hcc con]
+  rfl
+
+/-- **The selected exceptional tree row of the twisted state** is the selected row at the twist image of the lower
+joint. -/
+theorem rowT_true_eq (con : LFConstruction (A.source pstar hcan hel htc hcc) true) :
+    rowT κ (opOut A pstar hcan hel htc hcc con) pstar =
+      VineEst.selTreeRow κ.L κ.γ κ.δ κ.F con.data (unitTwistGarden_plain A.skeleton (A.family.placement pstar) A.plain)
+        (stateLayer (opOut A pstar hcan hel htc hcc con)) (stateLayer_isLayering (opOut A pstar hcan hel htc hcc con))
+        (eB (A.family.placement pstar) (A.family.placement pstar).lower) := by
+  have hl : ((opOut A pstar hcan hel htc hcc con).family.placement pstar).lower =
+      eB (A.family.placement pstar) (A.family.placement pstar).lower :=
+    A.family.nextPlacement_lower pstar pstar
+  unfold rowT sigStar
+  rw [hl]
+  rfl
+
 theorem twInt_true_eq (con : LFConstruction (A.source pstar hcan hel htc hcc) true) (Φ' : ℝ → Mom d → Mom d → ℂ)
     (x : ExtS sp.RS κ.L κ.base κ.e κ.f) (σ : CLInternalTime sp.RS) :
     twInt (RS' := (SplitAt.nextA A sp pstar true).RS) A.plain A.data con.data κ.L κ.γ κ.δ κ.F (stateLayer A)
@@ -142,7 +186,8 @@ theorem twInt_true_eq (con : LFConstruction (A.source pstar hcan hel htc hcc) tr
   have hb : eB (A.family.placement pstar) sp.sb.b = eB (A.family.placement pstar) (A.family.placement pstar).lower := by
     rw [hS.lower]
   unfold twInt bundleInt
-  unfold nuOf rowQ rowT
+  rw [rowQ_true_eq κ A hcan hel htc hcc con, rowT_true_eq κ A hcan hel htc hcc con]
+  unfold nuOf
   rw [sigStar_true A hcan hel htc hcc con]
   erw [hex]
   rw [hb]

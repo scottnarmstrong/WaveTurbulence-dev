@@ -14,6 +14,7 @@ of the start state of `twistedLocalKernel` (definitional), i.e. the left-hand si
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS5C

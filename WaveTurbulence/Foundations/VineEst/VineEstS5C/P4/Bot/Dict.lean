@@ -15,6 +15,7 @@ chain region (`c0.U`, `c0.a`, `c0.b`), `t₀` is the clock `u c0.b` of the lower
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 namespace WaveTurbulence.VineEstS5C.P4.Bot
@@ -89,6 +90,9 @@ theorem psiBot_eq_repl (κ : KPar d) (A : FamilyReconstruction w ι) (c0 : Chain
     (hrel : ∀ G ∈ botSet p kind pstar A c0 (-1),
       IsConjugateCouple (sigStar G.1 pstar).2.1 (sigStar (τ G).1 pstar).2.1 ∧
       IsConjugateTree (sigStar G.1 pstar).2.2 (sigStar (τ G).1 pstar).2.2)
+    (hBc : ∀ G ∈ canonFinsetK p kind A c0,
+      IsCoherentCoupleAt p (zpQQ G.1 pstar).1 (zpQQ G.1 pstar).2 (zpCodeC G.1 pstar) (zpObjC G.1 pstar) ∧
+      IsCoherentTreeAt p (zpBranchQ G.1 pstar).1 (zpBranchQ G.1 pstar).2 (zpCodeT G.1 pstar) (zpObjT G.1 pstar))
     (x : GNode A.skeleton.tree → (Fin d → ℤ)) (t : Fin 3 → ℝ) (u : GBranch A.skeleton.tree → ℝ) :
     psiBot p kind κ A c0 pstar x t u = botFrame κ A c0 pstar x u * bFac (botR A c0) κ.L κ.γ κ.δ κ.base x t u *
       (((nuOf A pstar : ℤˣ) : ℂ) *
@@ -117,19 +121,26 @@ theorem psiBot_eq_repl (κ : KPar d) (A : FamilyReconstruction w ι) (c0 : Chain
       rcases hb'.2 with ⟨hn, hr⟩ | ⟨hn, _⟩
       · exact Or.inr ⟨hn, (hrel b ⟨hb'.1, (units_ne_one_iff _).mp hn, hr⟩).2⟩
       · exact Or.inl hn
+    have hσ : botSigma pstar τ b ∈ canonFinsetK p kind A c0 := by
+      unfold botSigma
+      rcases hb'.2 with ⟨hn, hr⟩ | ⟨hn, _⟩
+      · rw [if_neg hn]
+        exact (hbij.mapsTo (⟨hb'.1, (units_ne_one_iff _).mp hn, hr⟩ : b ∈ botSet p kind pstar A c0 (-1))).1
+      · rw [if_pos hn]; exact hb'.1
     have e1 : rowQ κ (botSigma pstar τ b).1 pstar =
         fun t s k => cswap (Qf) b t s k + (starRingEnd ℂ) (botRemQ pstar κ Qf b s t k) :=
-      funext fun t => funext fun s => funext fun k => botRowQ_A pstar κ Qf τ hr1 t s k
+      funext fun t => funext fun s => funext fun k => botRowQ_A pstar κ Qf τ hr1 (hBc _ hσ).1 t s k
     have e2 : rowT κ (botSigma pstar τ b).1 pstar = fun t s k => Tf b t s k + botRemT pstar κ Tf b t s k :=
-      funext fun t => funext fun s => funext fun k => botRowT_A pstar κ Tf τ hr2 t s k
+      funext fun t => funext fun s => funext fun k => botRowT_A pstar κ Tf τ hr2 (hBc _ hσ).2 t s k
     rw [e1, e2]
   · refine Finset.sum_congr rfl fun b hb => ?_
     have hb' : b ∈ botB p kind pstar A c0 := hb
     have hn : nuOf b.1 pstar ≠ 1 := (Finset.mem_filter.mp hb').2
+    have hbz : b ∈ canonFinsetK p kind A c0 := (Finset.mem_filter.mp hb').1
     have e1 : rowQ κ b.1 pstar = fun t s k => Qf b t s k + botRemQ pstar κ Qf b t s k :=
-      funext fun t => funext fun s => funext fun k => botRowQ_B pstar κ Qf b hn t s k
+      funext fun t => funext fun s => funext fun k => botRowQ_B pstar κ Qf b hn (hBc b hbz).1 t s k
     have e2 : rowT κ b.1 pstar = fun t s k => cconj (Tf) b t s k + (starRingEnd ℂ) (botRemT pstar κ Tf b t s k) :=
-      funext fun t => funext fun s => funext fun k => botRowT_B pstar κ Tf b hn t s k
+      funext fun t => funext fun s => funext fun k => botRowT_B pstar κ Tf b hn (hBc b hbz).2 t s k
     rw [e1, e2]
 
 end

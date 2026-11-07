@@ -18,6 +18,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS3.BoxFacts
 restriction norm `XNormRestr θ Λ Λ₂` with `Λ ≠ 0`, through the exact bridge `XNormRestr = rN` (`PL2330.rN_trace_transport`). -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 namespace WaveTurbulence.VineEstS5C.P4.W2

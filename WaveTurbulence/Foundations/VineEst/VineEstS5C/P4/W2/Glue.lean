@@ -23,6 +23,7 @@ exterior clocks, the clock and the decoration) and an arbitrary time condition `
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS5C.P4.W2
 open WaveTurbulence WaveTurbulence.VineEstS2 WaveTurbulence.VineEstS4 WaveTurbulence.VineEstS5B WaveTurbulence.RegRed

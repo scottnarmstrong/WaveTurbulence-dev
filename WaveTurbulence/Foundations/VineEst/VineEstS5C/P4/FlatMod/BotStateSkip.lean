@@ -15,6 +15,7 @@ summand of the state, `hint` / `hpt`) are those of `Bot11`-`Bot14`; the modulati
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS5C.FlatMod
@@ -57,8 +58,8 @@ theorem botStateM_skip (κ : KPar d) (lam : ℝ) (A : FamilyReconstruction w ι)
       hFree.2.2 _ hS.retained_internal
     rw [summand_same A.plain A.data A.data κ.L κ.γ κ.δ κ.F (stateLayer A) (stateLayer_isLayering A) (stateLayer A)
       (stateLayer_isLayering A) κ.base (botR A c0) (pairOfLeaf A.skeleton A.plain (A.family.placement pstar).retained)
-      hS.b_mem_erase hS.p0_mem (fun _ _ => rfl) (fun _ _ => rfl) (fun _ _ => rfl)]
-    rw [sameIntB_eq_botKernel κ A c0 hb0 A A.data (stateLayer A) (stateLayer_isLayering A) rfl _ hpx]
+      hS.b_mem_erase hS.p0_mem (fun _ _ => rfl) (fun _ _ => rfl) (fun _ _ => rfl) (VineEst.SelDataEq.refl _ _ _ _ _ _)]
+    rw [sameIntB_eq_botKernel κ A c0 hb0 A A.data (stateLayer A) (stateLayer_isLayering A) rfl rfl rfl _ hpx]
     unfold stBot epsOf
     have hd : decide (twAt A A pstar) = false := by simp [hn]
     rw [hd, if_neg hn, one_mul]

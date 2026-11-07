@@ -28,6 +28,7 @@ The row matching (`hrow`, N2(b)) and the time domain (`hsub`, `hvan`, N2(c)) are
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS5C.P4.W2
 variable {kind : Bool}

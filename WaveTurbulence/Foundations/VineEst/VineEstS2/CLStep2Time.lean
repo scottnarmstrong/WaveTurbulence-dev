@@ -16,6 +16,7 @@ source clock domain is, up to the unit-interval boundaries, the sumint input tim
 `q` the layers and the constraints the child/parent order. -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS2

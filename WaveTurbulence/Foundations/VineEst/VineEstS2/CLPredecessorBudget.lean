@@ -12,6 +12,7 @@ public import WaveTurbulence.Foundations.VineEst.RegRedDraft.CLLocalFactors
 /-! # Exponential coefficient budget on the actual CL realization -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS2
 open TTree RegRed

@@ -19,6 +19,7 @@ sum of the recentered kernels `clRecenteredLocalKernel` of the members (all at t
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 open WaveTurbulence.VineParamContract
@@ -76,7 +77,7 @@ theorem classSum_continuousOn {P : WTParams}
     (Z : Finset (Σ Bs : FamilyReconstruction w ι, ChainAt Bs.skeleton Bs.family))
     (hZ : ∀ x ∈ Z, ∃ M : List ι, Reach p kind M A c x.1 x.2) :
     ∀ E ∈ outSet (step3D hM9 B0 A.data A.plain lA hLA bk0 q0 centre wBar) P.L P.γ P.η,
-      ContinuousOn (fun tt : Fin 3 → ℝ => twistedRecentered A.skeleton c.a Z P.L P.γ P.δ h wBar
+      ContinuousOn (fun tt : Fin 3 → ℝ => twistedRecentered (rowSel := VineEst.RowSel.plain) A.skeleton c.a Z P.L P.γ P.δ h wBar
           (tt 0) (tt 1) (tt 2) (sumintBoundary (A.skeleton.sign c.a.toNode) E 0)
           (sumintBoundary (A.skeleton.sign c.a.toNode) E 1) (sumintBoundary (A.skeleton.sign c.a.toNode) E 2)
           (sumintBoundary (A.skeleton.sign c.a.toNode) E 3)) (cubeSet q0) := by
@@ -115,7 +116,7 @@ theorem twistedRecentered_continuousOn {P : WTParams}
       P.L P.γ P.δ h p) :
     ∀ E ∈ outSet (step3D hM9 B RD hG layer hLayer (canonBadKind hM9 B RD hG layer) (qOutOf RD hG layer a b R) centre wBar)
         P.L P.γ P.η,
-      ContinuousOn (fun tt : Fin 3 → ℝ => twistedRecentered G a
+      ContinuousOn (fun tt : Fin 3 → ℝ => twistedRecentered (rowSel := VineEst.RowSel.plain) G a
           (canonFinsetK p kind (startState B RD hG layer hLayer) (chainStart B)) P.L P.γ P.δ h wBar
           (tt 0) (tt 1) (tt 2) (sumintBoundary (G.sign a.toNode) E 0) (sumintBoundary (G.sign a.toNode) E 1)
           (sumintBoundary (G.sign a.toNode) E 2) (sumintBoundary (G.sign a.toNode) E 3))

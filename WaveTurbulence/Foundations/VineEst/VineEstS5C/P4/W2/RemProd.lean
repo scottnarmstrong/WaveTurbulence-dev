@@ -16,6 +16,7 @@ Its modes are the convolution in the shared clock: `c_m(r,k) = ∑'_p â_{(m₀,
 (`maxBracketPow_merge_le`), the series is bounded by `snorm_tsum_le`, and the expansion is the Cauchy product regrouped along the bijection `(m,p) ↔ (a,b)`. -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 namespace WaveTurbulence.VineEstS5C.P4.W2

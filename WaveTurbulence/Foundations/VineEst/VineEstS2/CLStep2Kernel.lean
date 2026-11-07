@@ -15,6 +15,7 @@ weight parameters) times the native starred-kernel product, all in the exact fro
 lattice and clock coordinates. Weight extraction and the bad-case alternatives are Step 3. -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS2

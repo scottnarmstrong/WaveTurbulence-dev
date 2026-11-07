@@ -11,12 +11,13 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS5C.Step3AtH
 
 /-! # P4-W2 (step 1, session 7): the native rows as `RowData` with the leaf-cost bound
 
-`natRows_res`: the hypothesis `hres` of `step3AtLeafH` (the gate bound `XNormRestr (6η⁶) (30d) _ (rowBx ρ) univ (assemblyClocked.W ρ) <
+`natRows_res`: the hypothesis `hres` of `step3AtLeafH` (the gate bound `XNormRestr (6η⁶) (30d) _ (rowBx ρ) univ (assemblyClockedS.W ρ) <
 ofReal (2 rowBoundH ρ)`), extracted from `coupleRow_leaf_le`/`treeRow_leaf_le`.  `natRowH`: the row `ρ` of the engine datum
 `engDatum ..` (any `W, wN, wDec, bk, cons, g, g'` with `wN + 1 = 30 d`, `wDec = 30 d`) is a `RowData` of any slot triple whose weight is
-`(assemblyClocked ..).W ρ` on the box `rowBx ρ` and whose size is `≤ C · ofReal (2 rowBoundH ρ)`, with `Ae`. -/
+`(assemblyClockedS ..).W ρ` on the box `rowBx ρ` and whose size is `≤ C · ofReal (2 rowBoundH ρ)`, with `Ae`. -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 namespace WaveTurbulence.VineEstS5C.P4.W2
@@ -40,7 +41,7 @@ theorem natRows_res {P : WTParams} (hgate : CoherentGateH P) (hinc : IncoherentG
     (ρ : VineEstS3.Eng.Row (sourceSumintDatum hM9 B hG W)) :
     XNormRestr (6 * P.η ^ 6) (30 * P.d) (VineEstS3.Eng.rowOrder (sourceSumintDatum hM9 B hG W) ρ)
       (rowBx hM9 B RD hG layer hLayer W P.L P.γ P.δ h ρ) Set.univ
-      ((assemblyClocked hM9 B RD hG W P.L P.γ P.δ h layer hLayer).W ρ) <
+      ((assemblyClockedS (rowSel := VineEst.RowSel.plain) hM9 B RD hG W P.L P.γ P.δ h layer hLayer).W ρ) <
       ENNReal.ofReal (2 * rowBoundH hM9 B RD hG layer hLayer P Bh W ρ) := by
   have hL0 : 0 < P.L := by linarith
   rcases ρ with v | v
@@ -57,7 +58,7 @@ theorem natRows_res {P : WTParams} (hgate : CoherentGateH P) (hinc : IncoherentG
     change ENNReal.ofReal (rowBoundH hM9 B RD hG layer hLayer P Bh W (Sum.inr v)) < _
     exact (ENNReal.ofReal_lt_ofReal_iff (by linarith)).2 (by linarith)
 
-/-- **A native row of the engine datum as a `RowData`, with the leaf-cost bound** (`natRowData` specialised to `assemblyClocked`). -/
+/-- **A native row of the engine datum as a `RowData`, with the leaf-cost bound** (`natRowData` specialised to `assemblyClockedS`). -/
 theorem natRowH (d : ℕ) (η : ℝ) (hd : 1 ≤ d) :
     ∃ C : ℝ≥0∞, C ≠ ⊤ ∧ ∀ (P : WTParams), P.d = d → P.η = η →
       ∀ {w : ℕ} {G : Garden w} {U : Finset (GBranch G.tree)} {a b : GBranch G.tree} {R : CLRegionData G U a b} {n : ℕ},
@@ -79,7 +80,7 @@ theorem natRowH (d : ℕ) (η : ℝ) (hd : 1 ≤ d) :
       (slot : Fin 3 → WaveTurbulence.VineEstS3Par.Eng.Slot (engDatum hM9 B hG W wN wDec bk cons g g')),
       ∃ Rr : RowData (engDatum hM9 B hG W wN wDec bk cons g g') (6 * P.η ^ 6) ρ,
         (∀ cl : Fin 3 → ℝ, ![cl 0, cl 1] ∈ rowBx hM9 B RD hG layer hLayer W P.L P.γ P.δ h ρ → ∀ r k,
-          Rr.W cl r k = (assemblyClocked hM9 B RD hG W P.L P.γ P.δ h layer hLayer).W ρ ![cl 0, cl 1] k) ∧
+          Rr.W cl r k = (assemblyClockedS (rowSel := VineEst.RowSel.plain) hM9 B RD hG W P.L P.γ P.δ h layer hLayer).W ρ ![cl 0, cl 1] k) ∧
         (∀ i, Rr.slot i = slot i) ∧
         Rr.b ≤ C * ENNReal.ofReal (2 * rowBoundH hM9 B RD hG layer hLayer P Bh W ρ) ∧
         Rr.Ae (assemblyShape_I_pos hM9 B) ∧ (∀ cl r k, Rr.W cl r k = ∑' m, Rr.c m r k * WaveTurbulence.VineEstS3.FS.fsPhase m cl) := by
@@ -96,7 +97,7 @@ theorem natRowH (d : ℕ) (η : ℝ) (hd : 1 ≤ d) :
     · rfl
   rw [hord] at hres
   exact hCall (engDatum hM9 B hG W wN wDec bk cons g g') (assemblyShape_I_pos hM9 B) hwN hwDec ρ slot _ _
-    ((assemblyClocked hM9 B RD hG W P.L P.γ P.δ h layer hLayer).W ρ) _ ENNReal.ofReal_ne_top
+    ((assemblyClockedS hM9 B RD hG W P.L P.γ P.δ h layer hLayer).W ρ) _ ENNReal.ofReal_ne_top
     (rowBx_subset_cell hM9 B RD hG layer hLayer W P.L P.γ P.δ h ρ)
     (rowBx_closure hM9 B RD hG layer hLayer W P.L P.γ P.δ h hqq ρ)
     (fun k => rows_continuousH hB hd hL hlay W ρ k) hres

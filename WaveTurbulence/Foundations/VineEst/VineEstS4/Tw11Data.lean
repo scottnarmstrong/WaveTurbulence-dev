@@ -5,6 +5,8 @@ Authors: Scott Armstrong
 -/
 module
 
+public import WaveTurbulence.Foundations.VineEst.RowSel.RowDataLF
+public import WaveTurbulence.Foundations.VineEst.RowSel.RowTransport
 public import WaveTurbulence.Foundations.VineEst.VineEstS4.Tw10Final
 public import WaveTurbulence.Foundations.VineEst.VineEstS4.SplitFubiniInputs
 
@@ -17,6 +19,7 @@ for a FALSE-choice LF construction (no skeleton change, no label swap): `clLocal
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS4
@@ -32,12 +35,31 @@ variable (R : CLRegionData G U a b) (hG : G.IsPlain) (D1 D2 : ReconstructionData
   (hC : ∀ p ∈ clRegionalPairs hG U, nativeCoupleLayered D1 hG layer1 hLayer1 p = nativeCoupleLayered D2 hG layer2 hLayer2 p)
   (hT : ∀ v ∈ clInteriorBranches R, nativeChainLayered D1 hG layer1 hLayer1 v = nativeChainLayered D2 hG layer2 hLayer2 v)
   (hl : ∀ v ∈ clInteriorBranches R, layer1 (D1.coreBranch hG v).toNode = layer2 (D2.coreBranch hG v).toNode)
+  (hCi : ∀ p ∈ clRegionalPairs hG U, Flower.V5W.coupleIncoh D1 hG layer1 hLayer1 p = Flower.V5W.coupleIncoh D2 hG layer2 hLayer2 p)
+  (hTi : ∀ v ∈ clInteriorBranches R, Flower.V5W.treeIncoh D1 hG layer1 hLayer1 v = Flower.V5W.treeIncoh D2 hG layer2 hLayer2 v)
+  (hq : ∀ pp, ∀ p ∈ clRegionalPairs hG U, ∀ i, Flower.V5W.coupleRootParents pp D1 hG layer1 hLayer1 p i =
+    Flower.V5W.coupleRootParents pp D2 hG layer2 hLayer2 p i)
+  (hqT : ∀ pp, ∀ v ∈ clInteriorBranches R, Flower.V5W.treeRootParent pp D1 hG layer1 hLayer1 v =
+    Flower.V5W.treeRootParent pp D2 hG layer2 hLayer2 v)
 
-include hC hT in
-theorem clLocalStarProduct_congr_data (κ : GNode G.tree → (Fin d → ℤ)) (t : Fin 3 → ℝ) (τ : CLInternalTime R) :
+include hC hT hCi hTi hq hqT in
+theorem clLocalStarProduct_congr_dataS (κ : GNode G.tree → (Fin d → ℤ)) (t : Fin 3 → ℝ) (τ : CLInternalTime R) :
     clLocalStarProduct D1 hG R L γ δ F layer1 hLayer1 base κ t τ =
       clLocalStarProduct D2 hG R L γ δ F layer2 hLayer2 base κ t τ := by
   unfold clLocalStarProduct
+  refine congrArg₂ (· * ·) (Finset.prod_congr rfl fun p hp => ?_) (Finset.prod_congr rfl fun v hv => ?_)
+  · rw [VineEst.selCoupleRow_congr L γ δ F D2 hG layer2 hLayer2 p D1 hG layer1 hLayer1 p (hC p hp) (hCi p hp)
+      (hq _ p hp)]
+  · rw [VineEst.selTreeRow_congr L γ δ F D2 hG layer2 hLayer2 v D1 hG layer1 hLayer1 v (hT v hv) (hTi v hv)
+      (hqT _ v hv)]
+
+include hC hT in
+/-- `clLocalStarProduct_congr_dataS` at the plain selector, with the original hypotheses (used by `Vine/C/VCRigid2`). -/
+theorem clLocalStarProduct_congr_data (κ : GNode G.tree → (Fin d → ℤ)) (t : Fin 3 → ℝ) (τ : CLInternalTime R) :
+    clLocalStarProduct (rowSel := VineEst.RowSel.plain) D1 hG R L γ δ F layer1 hLayer1 base κ t τ =
+      clLocalStarProduct (rowSel := VineEst.RowSel.plain) D2 hG R L γ δ F layer2 hLayer2 base κ t τ := by
+  unfold clLocalStarProduct
+  simp only [VineEst.selCoupleRow_plain, VineEst.selTreeRow_plain]
   refine congrArg₂ (· * ·) (Finset.prod_congr rfl fun p hp => ?_) (Finset.prod_congr rfl fun v hv => ?_)
   · rw [hC p hp]
   · rw [hT v hv]
@@ -51,7 +73,7 @@ theorem clLocalTimeDomain_congr_data (t : Fin 3 → ℝ) :
   refine and_congr (forall_congr' fun v => ?_) Iff.rfl
   rw [hl v.1 v.2]
 
-include hC hT hl in
+include hC hT hl hCi hTi hq hqT in
 theorem clLocalKernel_congr_data (t0 t1 t2 : ℝ) (e f g k : Mom d) :
     clLocalKernel D1 hG R L γ δ F layer1 hLayer1 base t0 t1 t2 e f g k =
       clLocalKernel D2 hG R L γ δ F layer2 hLayer2 base t0 t1 t2 e f g k := by
@@ -63,7 +85,7 @@ theorem clLocalKernel_congr_data (t0 t1 t2 : ℝ) (e f g k : Mom d) :
   have hstar : ∀ (κ' : GNode G.tree → (Fin d → ℤ)) (t' : Fin 3 → ℝ) (τ' : CLInternalTime R),
       clLocalStarProduct D1 hG R L γ δ F layer1 hLayer1 base κ' t' τ' =
         clLocalStarProduct D2 hG R L γ δ F layer2 hLayer2 base κ' t' τ' :=
-    fun κ' t' τ' => clLocalStarProduct_congr_data R hG D1 D2 L γ δ F layer1 hLayer1 layer2 hLayer2 base hC hT κ' t' τ'
+    fun κ' t' τ' => clLocalStarProduct_congr_dataS R hG D1 D2 L γ δ F layer1 hLayer1 layer2 hLayer2 base hC hT hCi hTi hq hqT κ' t' τ'
   simp only [hstar]
   rw [clLocalTimeDomain_congr_data R hG D1 D2 layer1 layer2 hl]
 
@@ -85,7 +107,7 @@ theorem clLocalKernel_false_LF {T : Finset (GBranch s.skeleton.tree)} {z : GBran
     (L γ δ : ℝ) (F : ℕ → Mom d → ℝ) (base : Mom d) (t0 t1 t2 : ℝ) (e f g k : Mom d) :
     clLocalKernel h.data (s.chosen_plain false) R L γ δ F layer' hLayer' base t0 t1 t2 e f g k =
       clLocalKernel s.data s.plain R L γ δ F layer hLayer base t0 t1 t2 e f g k := by
-  refine clLocalKernel_congr_data R s.plain h.data s.data L γ δ F layer' hLayer' layer hLayer base ?_ ?_ ?_ t0 t1 t2 e f g k
+  refine clLocalKernel_congr_data R s.plain h.data s.data L γ δ F layer' hLayer' layer hLayer base ?_ ?_ ?_ ?_ ?_ ?_ ?_ t0 t1 t2 e f g k
   · intro q hq
     have hint := (mem_clRegionalPairs s.skeleton).mp hq
     have hne : q ≠ s.exceptional := by
@@ -104,6 +126,28 @@ theorem clLocalKernel_false_LF {T : Finset (GBranch s.skeleton.tree)} {z : GBran
     exact native_tree_eq h layer hLayer hspec layer' hLayer' hspec' v hvl
   · intro v _
     exact coreLayer_eq h layer hLayer hspec layer' hLayer' hspec' v
+  · intro q hq
+    have hint := (mem_clRegionalPairs s.skeleton).mp hq
+    have hne : q ≠ s.exceptional := by
+      intro hqe
+      have hqe' : q = pairOfLeaf s.skeleton s.plain s.placement.retained := hqe
+      subst hqe'
+      have hq' := pairOfLeaf_first_or_partner s.skeleton s.plain s.placement.retained
+      rcases hq' with hq' | hq'
+      · exact not_internal_retained s.placement hB hCL (hq' ▸ hint)
+      · exact not_internal_pair s.placement hB hCL (hq' ▸ hint)
+    have := Flower.V5W.coupleIncoh_LF h layer hLayer hspec layer' hLayer' hspec' q hne
+    have hp : s.pairs false q = q := pairOfLeaf_firstLeaf s.skeleton s.plain q
+    rwa [hp] at this
+  · intro v hv
+    have hvl : v ≠ s.placement.lower := (Finset.mem_erase.mp hv).1
+    exact Flower.V5W.treeIncoh_LF h layer hLayer hspec layer' hLayer' hspec' v hvl
+  · intro pp q hq i
+    exact VineEst.coupleRootParents_congr hB R s.plain h.data s.data layer' hLayer' layer hLayer
+      (fun v _ => coreLayer_eq h layer hLayer hspec layer' hLayer' hspec' v) pp hq i
+  · intro pp v hv
+    exact VineEst.treeRootParent_congr hB R s.plain h.data s.data layer' hLayer' layer hLayer
+      (fun v _ => coreLayer_eq h layer hLayer hspec layer' hLayer' hspec' v) pp hv
 
 end False
 
@@ -116,16 +160,24 @@ variable {S : Finset (GBranch G.tree)} (hG : G.IsPlain) (D1 D2 : ReconstructionD
   (hC : ∀ p ∈ clRegionalPairs hG S, nativeCoupleLayered D1 hG layer1 hLayer1 p = nativeCoupleLayered D2 hG layer2 hLayer2 p)
   (hT : ∀ v ∈ S.erase a, nativeChainLayered D1 hG layer1 hLayer1 v = nativeChainLayered D2 hG layer2 hLayer2 v)
   (hl : ∀ v ∈ S.erase a, layer1 (D1.coreBranch hG v).toNode = layer2 (D2.coreBranch hG v).toNode)
+  (hCi : ∀ p ∈ clRegionalPairs hG S, Flower.V5W.coupleIncoh D1 hG layer1 hLayer1 p = Flower.V5W.coupleIncoh D2 hG layer2 hLayer2 p)
+  (hTi : ∀ v ∈ S.erase a, Flower.V5W.treeIncoh D1 hG layer1 hLayer1 v = Flower.V5W.treeIncoh D2 hG layer2 hLayer2 v)
+  (hq : ∀ pp, ∀ p ∈ clRegionalPairs hG S, ∀ i, Flower.V5W.coupleRootParents pp D1 hG layer1 hLayer1 p i =
+    Flower.V5W.coupleRootParents pp D2 hG layer2 hLayer2 p i)
+  (hqT : ∀ pp, ∀ v ∈ S.erase a, Flower.V5W.treeRootParent pp D1 hG layer1 hLayer1 v =
+    Flower.V5W.treeRootParent pp D2 hG layer2 hLayer2 v)
 
-include hC hT in
+include hC hT hCi hTi hq hqT in
 theorem starProd_congr_data (top : ℝ) (x : GNode G.tree → (Fin d → ℤ)) (u : GBranch G.tree → ℝ) :
     starProd D1 hG L γ δ F layer1 hLayer1 base S a top x u = starProd D2 hG L γ δ F layer2 hLayer2 base S a top x u := by
   unfold starProd
   refine congrArg₂ (· * ·) (Finset.prod_congr rfl fun p hp => ?_) (Finset.prod_congr rfl fun v hv => ?_)
-  · rw [hC p hp]
-  · rw [hT v hv]
+  · rw [VineEst.selCoupleRow_congr L γ δ F D2 hG layer2 hLayer2 p D1 hG layer1 hLayer1 p (hC p hp) (hCi p hp)
+      (hq _ p hp)]
+  · rw [VineEst.selTreeRow_congr L γ δ F D2 hG layer2 hLayer2 v D1 hG layer1 hLayer1 v (hT v hv) (hTi v hv)
+      (hqT _ v hv)]
 
-include hC hT hl in
+include hC hT hl hCi hTi hq hqT in
 theorem spart_congr_data (b : GBranch G.tree) (x : GNode G.tree → (Fin d → ℤ)) (u : GBranch G.tree → ℝ) :
     spart D1 hG L γ δ F layer1 hLayer1 base S a b x u = spart D2 hG L γ δ F layer2 hLayer2 base S a b x u := by
   unfold spart
@@ -135,7 +187,7 @@ theorem spart_congr_data (b : GBranch G.tree) (x : GNode G.tree → (Fin d → �
     refine forall_congr' fun v => forall_congr' fun hv => ?_
     simp only []
     rw [hl v hv]
-  have hstar := starProd_congr_data hG D1 D2 L γ δ F layer1 hLayer1 layer2 hLayer2 base hC hT (u a) x u
+  have hstar := starProd_congr_data hG D1 D2 L γ δ F layer1 hLayer1 layer2 hLayer2 base hC hT hCi hTi hq hqT (u a) x u
   rw [hstar]
   by_cases hd : DomS (fun v => layer1 (D1.coreBranch hG v).toNode) S a u
   · simp [hd, hdom.mp hd]

@@ -10,6 +10,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.TermNat2
 /-! # P4-W2 (session 12, step 1c): the leaf-child independence of a native term, and the bad-case clause of the native block kinds -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS5C.P4.W2
 open VineParamContract TTree Reg Reg.Skeleton RegRed MeasureTheory WaveTurbulence.VineEstS2 WaveTurbulence.VineEstS5A

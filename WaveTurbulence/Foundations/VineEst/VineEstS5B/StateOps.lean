@@ -5,6 +5,8 @@ Authors: Scott Armstrong
 -/
 module
 
+public import WaveTurbulence.Foundations.VineEst.RowSel.SelDataLF
+public import WaveTurbulence.Foundations.VineEst.RowSel.RowDataLF
 public import WaveTurbulence.Foundations.VineEst.VineEstS5B.Low
 public import WaveTurbulence.Foundations.VineEst.VineEstS4.Op1Step
 
@@ -16,6 +18,7 @@ of the output data.  `sSum_falseLF` (FALSE choice / skip): the same chart.
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS5B
@@ -44,11 +47,17 @@ theorem sSum_twLF {d : ℕ} (L γ δ : ℝ) (F : ℕ → Mom d → ℝ) (base : 
       -((coupling d L γ δ : ℂ) ^ clLocalOrder1 RS * clLocalZeta RS *
         ∑' x : ExtS RS L base e f, ∫ σ : CLInternalTime RS,
           twInt (RS' := RS') s.plain s.data h.data L γ δ F layer hLayer layer' hLayer' base t0 t1 t2 e f Φ' x σ) := by
-  refine sSum_tw hS s.plain s.data h.data L γ δ F layer hLayer layer' hLayer' base t0 t1 t2 e f Φ' ?_ ?_ ?_
+  refine sSum_tw hS s.plain s.data h.data L γ δ F layer hLayer layer' hLayer' base t0 t1 t2 e f Φ' ?_ ?_ ?_ ?_ ?_ ?_
   · intro q _ hq
     exact native_couple_eq h layer hLayer hspec layer' hLayer' hspec' q hq
   · intro v _ hv
     exact native_tree_eq h layer hLayer hspec layer' hLayer' hspec' v (hS.lower ▸ hv)
+  · intro v _
+    exact coreLayer_eq h layer hLayer hspec layer' hLayer' hspec' v
+  · intro q _ hq
+    exact Flower.V5W.coupleIncoh_LF h layer hLayer hspec layer' hLayer' hspec' q hq
+  · intro v _ hv
+    exact Flower.V5W.treeIncoh_LF h layer hLayer hspec layer' hLayer' hspec' v (hS.lower ▸ hv)
   · intro v _
     exact coreLayer_eq h layer hLayer hspec layer' hLayer' hspec' v
 
@@ -73,6 +82,8 @@ theorem sSum_falseLF {d : ℕ} (L γ δ : ℝ) (F : ℕ → Mom d → ℝ) (base
             (pairOfLeaf s.skeleton s.plain s.placement.retained) RS t0 t1 t2 e f n0 n1 Φ x σ := by
   refine sSum_same s.plain s.data h.data L γ δ F layer hLayer layer' hLayer' base
     (pairOfLeaf s.skeleton s.plain s.placement.retained) RS t0 t1 t2 e f n0 n1 Φ hS.b_mem_erase hS.p0_mem ?_ ?_ ?_
+    (VineEst.selDataEq_LF_false h layer hLayer hspec layer' hLayer' hspec' _ _ (fun q hq => (Finset.mem_erase.mp hq).1)
+      (fun v hv => hS.lower ▸ (Finset.mem_erase.mp hv).1)).symm
   · intro q hq
     obtain ⟨hq0, _⟩ := Finset.mem_erase.mp hq
     have := native_couple_eq h layer hLayer hspec layer' hLayer' hspec' q hq0

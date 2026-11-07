@@ -11,6 +11,7 @@ public import WaveTurbulence.Foundations.VineEst.RegRedDraft.CLStarConsumption
 /-! # The two actual cropped leaves of each regional source pair -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS2
 open TTree Reg Reg.Skeleton RegRed

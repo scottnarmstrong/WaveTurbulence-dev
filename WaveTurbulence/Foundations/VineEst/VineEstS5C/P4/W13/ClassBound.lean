@@ -22,6 +22,7 @@ FLAT-MOD) and the psiBot terms (BOT-DECOMP, R60: the count hypothesis of `wpF_to
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS5C.P4.W13
 variable {kind : Bool}

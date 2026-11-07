@@ -11,6 +11,7 @@ public import WaveTurbulence.Foundations.VineEst.ConjCoherent
 /-! # ZP-SURJ: conjugation of embedded regular trees -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 namespace WaveTurbulence.ZpSurj

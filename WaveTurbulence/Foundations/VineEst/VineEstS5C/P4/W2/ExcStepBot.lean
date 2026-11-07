@@ -12,6 +12,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.ExcStep
 `botX_eq`: `botX .. c x u = ν · bundlePtG (CaseA A) (BSFF ..).S bs₁ bs₂ (botA) (botB) (botRemQ ..) (botRemT ..) (botVars κ0 A lv.c pstar x u) c` (by definition; the bottom data is `botVars`, with no restriction `rA`). -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS5C.P4.W2
 open WaveTurbulence WaveTurbulence.Twist WaveTurbulence.LFTwist WaveTurbulence.VineEstS2 WaveTurbulence.VineEstS3 WaveTurbulence.VineEstS4

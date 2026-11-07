@@ -18,6 +18,7 @@ partner)`, `Lq = base + lattice (x retained)`, `M = base + lattice (x lower)`.
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS5B
@@ -45,8 +46,8 @@ variable {d : ℕ} (hG : G.IsPlain) (D2 : ReconstructionData G) (L γ δ : ℝ) 
 theorem exc_same {b : GBranch G.tree} (hb : b = P.lower) (x : GNode G.tree → (Fin d → ℤ)) (hp : PairedAt P x)
     (u : GBranch G.tree → ℝ) :
     spartExc D2 hG L γ δ F layer2 hLayer2 base S a b (pairOfLeaf G hG P.retained) x u =
-      rowVal (G.sign b.toNode) (KQstar L γ δ F (nativeCoupleLayered D2 hG layer2 hLayer2 (pairOfLeaf G hG P.retained)))
-        (KTstar L γ δ F (nativeChainLayered D2 hG layer2 hLayer2 b)) (u b) (u (qbOf P)) (u (qrOf P))
+      rowVal (G.sign b.toNode) (VineEst.selCoupleRow L γ δ F D2 hG layer2 hLayer2 (pairOfLeaf G hG P.retained))
+        (VineEst.selTreeRow L γ δ F D2 hG layer2 hLayer2 b) (u b) (u (qbOf P)) (u (qrOf P))
         (base + latticePoint L (x P.retained.toNode)) (base + latticePoint L (x b.toNode)) := by
   classical
   subst hb
@@ -126,9 +127,9 @@ theorem exc_tw {b : GBranch G.tree} (hb : b = P.lower) (x : GNode G.tree → (Fi
     spartExc D' (unitTwistGarden_plain G P hG) L γ δ F layer' hLayer' base (twistedAtoms G P S) (eB P a) (eB P b)
         (tp P hG (pairOfLeaf G hG P.retained)) (twistNodeLabels G P x) u' =
       rowVal ((unitTwistGarden G P).sign (eB P b).toNode)
-        (KQstar L γ δ F (nativeCoupleLayered D' (unitTwistGarden_plain G P hG) layer' hLayer'
-          (tp P hG (pairOfLeaf G hG P.retained))))
-        (KTstar L γ δ F (nativeChainLayered D' (unitTwistGarden_plain G P hG) layer' hLayer' (eB P b)))
+        (VineEst.selCoupleRow L γ δ F D' (unitTwistGarden_plain G P hG) layer' hLayer'
+          (tp P hG (pairOfLeaf G hG P.retained)))
+        (VineEst.selTreeRow L γ δ F D' (unitTwistGarden_plain G P hG) layer' hLayer' (eB P b))
         (u b) (u (qrOf P)) (u (qbOf P))
         (base + latticePoint L (x P.lower.toNode)) (base + latticePoint L (x P.retained.toNode)) := by
   classical

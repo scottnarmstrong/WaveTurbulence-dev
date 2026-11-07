@@ -18,6 +18,7 @@ pairs of `Vp` equal `kind1Pref · k2c` times the product of the engine rows ther
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS5C.P4.W2
 open VineParamContract TTree Reg Reg.Skeleton RegRed MeasureTheory WaveTurbulence.VineEstS2 WaveTurbulence.VineEstS5A
@@ -51,7 +52,7 @@ theorem freeDict_rec (hM9 : VINEPARAM) (B : CLChainAssembly G R n) (RD : Reconst
     (hRW : ∀ ρ (cl : Fin 3 → ℝ), NonExc hM9 B hG W wN wDec bk
         (consX hM9 B (fun v => layer (RD.coreBranch hG v).toNode) Bex add) g g' Vp Vb ρ →
       ![cl 0, cl 1] ∈ rowBx hM9 B RD hG layer hLayer W L γ δ F ρ → ∀ r k,
-      (Rw ρ).W cl r k = (assemblyClocked hM9 B RD hG W L γ δ F layer hLayer).W ρ ![cl 0, cl 1] k)
+      (Rw ρ).W cl r k = (assemblyClockedS hM9 B RD hG W L γ δ F layer hLayer).W ρ ![cl 0, cl 1] k)
     (hRS : ∀ ρ i, NonExc hM9 B hG W wN wDec bk
         (consX hM9 B (fun v => layer (RD.coreBranch hG v).toNode) Bex add) g g' Vp Vb ρ → (Rw ρ).slot i = natSlot hM9 B hG ρ i)
     (hpar : ∀ v, W.param v =

@@ -15,6 +15,7 @@ parent-core layers `pairQ`, `branchQ`.  The statement `RowsCoh` does not depend 
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 open WaveTurbulence.VineParamContract

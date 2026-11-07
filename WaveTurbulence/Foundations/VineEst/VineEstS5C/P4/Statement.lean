@@ -20,6 +20,7 @@ bad vine".  The engine (`sumint`, (FourierboundI)) gives exactly `L^{-η²}` per
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS5C
@@ -44,7 +45,7 @@ def VineEstCanonLayerC2 (P : WTParams) : Prop :=
       P.L P.γ P.δ h p →
     XNorm00Restr (2 * P.η ^ 8) (outBox (step3D hM9 B RD hG layer hLayer (canonBadKind hM9 B RD hG layer) (qOutOf RD hG layer a b R) centre wBar))
       (outSet (step3D hM9 B RD hG layer hLayer (canonBadKind hM9 B RD hG layer) (qOutOf RD hG layer a b R) centre wBar) P.L P.γ P.η)
-      (fun tt E => twistedRecentered G a (canonFinset p (startState B RD hG layer hLayer) (chainStart B))
+      (fun tt E => twistedRecentered (rowSel := VineEst.RowSel.plain) G a (canonFinset p (startState B RD hG layer hLayer) (chainStart B))
         P.L P.γ P.δ h wBar
         (tt 0) (tt 1) (tt 2) (sumintBoundary (G.sign a.toNode) E 0) (sumintBoundary (G.sign a.toNode) E 1)
         (sumintBoundary (G.sign a.toNode) E 2) (sumintBoundary (G.sign a.toNode) E 3)) ≤
@@ -70,7 +71,7 @@ def VineEstCanonLayerHalf (P : WTParams) : Prop :=
       P.L P.γ P.δ h p →
     XNorm00Restr (2 * P.η ^ 8) (outBox (step3D hM9 B RD hG layer hLayer (canonBadKind hM9 B RD hG layer) (qOutOf RD hG layer a b R) centre wBar))
       (outSet (step3D hM9 B RD hG layer hLayer (canonBadKind hM9 B RD hG layer) (qOutOf RD hG layer a b R) centre wBar) P.L P.γ P.η)
-      (fun tt E => twistedRecentered G a (canonFinset p (startState B RD hG layer hLayer) (chainStart B))
+      (fun tt E => twistedRecentered (rowSel := VineEst.RowSel.plain) G a (canonFinset p (startState B RD hG layer hLayer) (chainStart B))
         P.L P.γ P.δ h wBar
         (tt 0) (tt 1) (tt 2) (sumintBoundary (G.sign a.toNode) E 0) (sumintBoundary (G.sign a.toNode) E 1)
         (sumintBoundary (G.sign a.toNode) E 2) (sumintBoundary (G.sign a.toNode) E 3)) ≤
@@ -151,7 +152,7 @@ def VineEstCanonLayerC2K (P : WTParams) : Prop :=
       P.L P.γ P.δ h p →
     XNorm00Restr (2 * P.η ^ 8) (outBox (step3D hM9 B RD hG layer hLayer (canonBadKind hM9 B RD hG layer) (qOutOf RD hG layer a b R) centre wBar))
       (outSet (step3D hM9 B RD hG layer hLayer (canonBadKind hM9 B RD hG layer) (qOutOf RD hG layer a b R) centre wBar) P.L P.γ P.η)
-      (fun tt E => twistedRecentered G a (canonFinsetK p kind (startState B RD hG layer hLayer) (chainStart B))
+      (fun tt E => twistedRecentered (rowSel := VineEst.RowSel.plain) G a (canonFinsetK p kind (startState B RD hG layer hLayer) (chainStart B))
         P.L P.γ P.δ h wBar
         (tt 0) (tt 1) (tt 2) (sumintBoundary (G.sign a.toNode) E 0) (sumintBoundary (G.sign a.toNode) E 1)
         (sumintBoundary (G.sign a.toNode) E 2) (sumintBoundary (G.sign a.toNode) E 3)) ≤
@@ -177,7 +178,7 @@ def VineEstCanonLayerHalfK (P : WTParams) : Prop :=
       P.L P.γ P.δ h p →
     XNorm00Restr (2 * P.η ^ 8) (outBox (step3D hM9 B RD hG layer hLayer (canonBadKind hM9 B RD hG layer) (qOutOf RD hG layer a b R) centre wBar))
       (outSet (step3D hM9 B RD hG layer hLayer (canonBadKind hM9 B RD hG layer) (qOutOf RD hG layer a b R) centre wBar) P.L P.γ P.η)
-      (fun tt E => twistedRecentered G a (canonFinsetK p kind (startState B RD hG layer hLayer) (chainStart B))
+      (fun tt E => twistedRecentered (rowSel := VineEst.RowSel.plain) G a (canonFinsetK p kind (startState B RD hG layer hLayer) (chainStart B))
         P.L P.γ P.δ h wBar
         (tt 0) (tt 1) (tt 2) (sumintBoundary (G.sign a.toNode) E 0) (sumintBoundary (G.sign a.toNode) E 1)
         (sumintBoundary (G.sign a.toNode) E 2) (sumintBoundary (G.sign a.toNode) E 3)) ≤

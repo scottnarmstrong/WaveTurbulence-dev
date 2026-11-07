@@ -16,6 +16,7 @@ RECONSTRUCTION `RD` of the start state: `layerCost (nativeCoupleLayered RD hG la
 (both `B₀^{2 zpN + 1}`; `zpN` of the level state is that of the start state, `zpN_lvl`; the garden of a native object does not depend on the layering). -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 namespace WaveTurbulence.VineEstS5C.P4.W2
