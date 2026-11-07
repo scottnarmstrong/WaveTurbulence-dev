@@ -37,6 +37,12 @@ def abi_hash(root: Path, path: str, export: str) -> str:
         run = subprocess.run(["nice", "-n", "10", "lake", "env", "lean", str(probe)], cwd=root,
                              capture_output=True, check=False)
     if run.returncode != 0 or run.stderr or b"error" in run.stdout:
+        if b"failed to read file" in run.stdout and b".olean" in run.stdout:
+            # vm.max_map_count exceeded by a large import closure: same probe through Lake's setup file
+            fb = subprocess.run([sys.executable, "-I", str(root / "scripts" / "abi_hash_setup.py"), str(root), path, export],
+                                cwd=root, capture_output=True, check=False)
+            if fb.returncode == 0 and fb.stdout.strip():
+                return fb.stdout.decode().strip()
         raise SystemExit(f"probe failed for {export}:\n{run.stdout.decode()}{run.stderr.decode()}")
     return hashlib.sha256(run.stdout).hexdigest()
 
