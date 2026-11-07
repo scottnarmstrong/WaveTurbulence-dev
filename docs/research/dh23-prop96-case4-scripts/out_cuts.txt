@@ -1,0 +1,15 @@
+order (0, 1, 2, 3):
+   odd     V_alpha=1 V_beta=1  ['o1', 'o2', 'w0', "w3'"]
+   T-block V_alpha=1 V_beta=1  ['e1', 'f1', 'g1', "w0'", 'w1']
+   T-block V_alpha=0 V_beta=2  ['e2', 'f2', 'g2', "w1'", 'w2']
+   T-block V_alpha=0 V_beta=2  ['e3', 'f3', 'g3', "w2'", 'w3']
+T-beads m=3: 24 Step-3 orders; Step 4 performs no cut in any order; a T-block component with V_alpha=0, V_beta=2 occurs in EVERY order: True
+T-beads m=4: 120 Step-3 orders; Step 4 performs no cut in any order; a T-block component with V_alpha=0, V_beta=2 occurs in EVERY order: True
+T-beads m=2: 6 Step-3 orders; Step 4 performs no cut in any order; a T-block component with V_alpha=0, V_beta=2 occurs in EVERY order: False
+order (0, 1, 2, 3):
+   odd     V_alpha=1 V_beta=1  ['o1', 'o2', 'w0', "w3'"]
+   Q-block V_alpha=1 V_beta=1  ['e1', 'f1', "w0'", 'w1']
+   Q-block V_alpha=0 V_beta=2  ['e2', 'f2', "w1'", 'w2']
+   Q-block V_alpha=0 V_beta=2  ['e3', 'f3', "w2'", 'w3']
+Q-beads m=3: 24 Step-3 orders; Step 4 performs no cut in any order; a Q-block component with V_alpha=0, V_beta=2 occurs in EVERY order: True
+Q-beads m=4: 120 Step-3 orders; Step 4 performs no cut in any order; a Q-block component with V_alpha=0, V_beta=2 occurs in EVERY order: True

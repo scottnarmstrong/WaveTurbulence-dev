@@ -1,0 +1,508 @@
+RESEARCH-DAMAGED: damaged final components, surviving tame ZG eps-atoms, and the hinge v3 of Operation 2
+==========================================================================================================
+Date: 2026-11-05.  Author: research subagent for wt-orch (ticket DAMAGED, RULINGS R27 item 5).
+Directory: /home/scott/wt-scratch/research-damaged
+Files: NOTES.txt (this file); check_damaged.py (run `python3 -I check_damaged.py`, all asserts pass, output in
+check_damaged.out); pinned/ (copies of G3/G8 HANDOFF and Prop96Statement.lean taken at first read, SHA256SUMS.txt).
+
+Labels: PROVED = complete argument written here; CHECKED = verified by script (finite, range stated) or by exact text
+reading; OPEN = not settled here.
+
+Pinned inputs (sha256 prefix at first read):
+  TARGET  WKE-Longer_times_Final_arXiv.tex   493eef6b7dec448b      DH23  Revision_Submit.tex  c7e47dfabf5a4cca
+  RULINGS.md a2f63385 at first read; e6a1140f now (R28 added mid-task; R28 is about hingePair/containment; it is
+     consistent with what is used here: the hinge designated pair = the two external bonds at one VC joint)
+  research-remtame-i/NOTES.txt e75726ff    G3 HANDOFF 7c80924a    G8 HANDOFF 7494d6dc at first read, 7bda731c now
+     (only a "Checks run (session 7)" block was appended)    G8 Prop96Statement.lean 972561be (unchanged)
+  G3Steps.lean 9bc7f469, G3Hist.lean 87c8233e, G3FinalE.lean 8543708f, G3FinalE3.lean 44bd43ec,
+  G8 Rough96.lean 552857db, P101/Main.lean 4e211733, P101/PMol.lean 2cf51930
+  check_damaged.py 175b7507, check_damaged.out 1496c00f
+Read: TARGET L2040-L2051 (subpro), L2101-L2112 (requirements (a)-(f), finalcount1), L2113-L2152 (cuts, Ops 1-4,
+  order, remiota, remtame), L2153-L2181 (excessprop1), L2182-L2199 (finalmol, lgmolect), L2200-L2218 (proof of
+  finalcount1, together/together2/together3, remtame2), L1938-L1941 (defdiff), L1345-L1413 (block_clcn, cnblock,
+  defvine, molecpl), L1930-L1934 (vinechainlem, defcong).  DH23 L1727-L1897 (subpro, Steps 1-4, Prop 9.4-9.6,
+  Prop 10.1-10.4, proof of Prop 9.6), L1979-L1989 (Section 10.5), L2097-L2110 (basiccount).
+  G3: HANDOFF; G3Steps.lean L106-L128 (NoSGTriangle, NoSGLeft, NoBetaCut, Run); G3Hist.lean L73-L115 (HStep2..4);
+  G3FinalE.lean L22-L39 (NoBetaCutAll, StepE2/E4, HRunE); G3FinalE3.lean (DegenSGT); G3Cycle.lean (cycles_of).
+  G8: HANDOFF; Prop96Statement.lean; Rough96.lean (rough96); P101/Main.lean (proposition_one_off_bound); P101/PMol.lean.
+
+==========================================================================================================
+0. SUMMARY
+==========================================================================================================
+ITEM 2 (hinge v3), answered first because it changes the run model that item 1 relies on.
+
+ H-1 [CHECKED, explicit couple + decoration] TARGET's claim (L2152) "if v3 in Operation 2 is ZG, then it must be tame by
+     subpro (3)" is FALSE.  subpro (3) exempts hinge atoms.  A hinge atom h is SG only along its designated pairs
+     (subpro (5)); a CROSSING pair of h (one bond from each joint of the merged vine chain) can have zero gap.
+     Counterexample, in Section 3: a couple of order 6 (R = 1).  Its skeleton molecule has no degenerate atom, and its
+     only vine is a (CL) vine (I-a) with SG gap, so the vine is spliced into the hinge h.  In M_sb, h, P, u21 form the
+     UNIQUE Op-2-eligible triangle, with v3 = h; its triangle pair at h has zero gap, and h is not tame.
+     DH23 has the same gap.  Step 2 (L1777) cuts v3 along a non-designated pair, and Section 10.5(3) (L1985) claims
+     "all the hinge atoms ... will not be degenerate once they are cut according to the rules".  The same couple is
+     a DH23 couple, and its skeleton molecule M(Q_sk) has no degenerate atom.
+ H-2 [PROVED + CHECKED] The literal treatment cuts h along the zero-gap pair.  At a degree-4 atom with charge 0, the
+     two crossing pairs have equal gaps.  So the outer half of h becomes a beta-atom of degree 2 with ZERO gap: N1
+     (R18, FinalDec.betaGap) fails, and G8's Prop96At cannot be applied to its component.
+ H-3 [CHECKED, by reading G3] G3 does NOT skip such triangles; it EXCLUDES them.
+     - Run (G3Steps L123-L128) and HRunE (G3FinalE L34-L39) require NoSGTriangle at the end of Step 2: no triangle
+       with two SG triples, whatever the gap at v3.
+     - HStep2 requires a nonzero gap at v3 (`hnz`, G3Hist L80), so this triangle can never be removed.
+     - HStep5 erases only tame atoms, so it cannot remove h either.
+     So the stopping condition is unreachable, NO run exists for such decorations, and Prop 9.5 is vacuous for them.
+     This is a coverage gap for the final assembly, which must produce a run for every decoration class.
+ H-4 [PROVED] SKIPPING is sound, but TARGET does not state it or imply it.  TARGET performs Op 2 on every triangle with
+     two SG triples (L2142, L2148).  Skipping is DH23 Section 10.5(3)'s principle, "never cut along a zero-gap pair"
+     (hinges are cut only along their designated pairs).  Sound with these changes:
+     - Step-2 stopping condition NoEligibleTriangle: no triangle with SG triples at v1, v2 and a NONZERO gap at v3.
+     - The skipped v1, v2 are SG atoms with intact designated pairs, cut in Op 3 by single SG cuts (Prop 9.4 bound).
+       No deviation is lost.
+     - finalmol's triangle clause is re-proved from N1 and the alpha labels at the dart level (Section 3.4).
+     - The same skip covers a tame v3 (Section 4).
+
+ITEM 1 (damaged components, surviving tame ZG eps-atoms).
+
+ D-1 [CHECKED, reading] What TARGET does.
+     - (together2) charges L^{(2g0+5eta^2)} for each imperfect component beyond the first (factor F_im - 1), plus
+       L^{eta Z} with Z = 0 when R = 1.
+     - remtame2 pays for the two extra imperfect components of a case-(ii) erasure from its gain.
+     - lgmolect is claimed for EVERY component of M_fin.
+       . Imperfect, R >= 2: A <~ 1, interpolated with Lemma 10.2 (roughbd).  This argument is sound given strict LG
+         at the eps-atoms; it is the bound DCB of D-4.
+       . R = 1: TARGET identifies "imperfect" with DH23's odd component and sets Z = 0.  This is false after erasures.
+       . Tame ZG eps-atoms: TARGET refers to DH23 Section 10.5.  That section's part (4) is an end-of-run removal of
+         degenerate eps-atoms inside the proof of Prop 9.6.  It is written for one degree-4 atom ("other cases are
+         similar and easier"), with "the big gain covers all later losses".
+     - TARGET itself has no end-of-run step.
+ D-2 [PROVED; CHECKED at graph level] Per-component bounds fail after single-atom erasures (TARGET case (ii), or R27
+     item 1 as written).  When a tame atom is erased, its tame neighbours (same k0) are damaged.
+     - C0: R1 -- e1 <=> w <=> e2 -- R2, all three tame.  Erasing e1, then e2 (each admits a beta-cut) leaves w
+       ISOLATED (degree 0).  A({w}) = 1, but TARGET's (finalcount) with R = 1 (Z := 0, G = 0) demands L^{-eta^5}.
+     - C1: R1 -- e <=> u <=> v <=> f -- R2, all four tame.  Erasing e, then f leaves {u, v}: an isolated tame double
+       bond with k0 FREE (chi = 1, k0 not pinned).  A({u,v}) ~ L^d L^{-(d-gamma)} = L^gamma, which fails EVERY
+       per-component bound, with Z or without.
+     - Smoothing does not help: smoothing u gives a self-loop with the same count.
+     - (finalcount1) itself still holds, because the erasures of e, f gain far more.  But the scheme "deviation per
+       operation x black-box bound per final component" does not close.
+ D-3 [PROVED + CHECKED (3000 random clusters)] The repair: an end-of-run step Op 5 that erases whole TAME CLUSTERS.
+     - This is DH23 Section 10.5(3)+(4) as an operation: never cut a tame atom in Ops 1-4, and erase the tame atoms of
+       M_fin at the end.
+     - Cluster = maximal connected set of tame eps-atoms; all its bonds carry one k0.
+     - With Op 2 skipping zero-gap v3 and Op 4 cutting only nonzero gaps, no tame atom loses a bond before Op 5.  Its
+       degree is then its M_sb degree (3 or 4).
+     - Erasing a cluster K satisfies the required deviation bound in all cases (the cluster lemma of Section 4.3):
+       . pinned: E_pre <= E_pos;
+       . unpinned: E_pre <= (2L+1)^d E_pos, and then -Delta chi = J >= |K| + 1 >= 2.
+     - The exponents close with slack > 0 for d >= 3, 0 < gamma < 1, under G8's smallness of eta.
+ D-4 [PROVED, from existing G8 pieces] After Op 5, every eps-atom is LG (strict).  Every final component is one of:
+       (P) a perfect component of M_fin without tame atoms: G8 Prop96At (even);
+       (O) for R = 1, the odd component, if no cluster touched it: G8 Prop96At (odd);
+       (D) any other component (imperfect): the new DAMAGED-COMPONENT BOUND DCB,
+             A <= prod_alpha L^{-(gamma+3eta)/2+kappa eta} Q^{-1} * L^{(g0+2eta^2) V_beta} * L^{-eta^5 rho + eta Z},
+           with Z = # eps-atoms of degree != 4, counted FOR EVERY R.
+     DCB's proof:
+       - A <= 1 by G8's P101.proposition_one_off_bound (protected set = alpha/beta atoms).
+       - A <= L^{-eta^2 rho + (16d+28)(w+1)} by the argument of G8's rough96, with w = V_a + V_b + Z >= 1.
+       - Interpolate with theta = eta^3.
+     DCB needs no N1, N2, noBetaCut, chains, cycles or vineLG.
+ D-5 [PROVED + CHECKED] Assembly.  Compared with TARGET's (together3), each cluster K contributes
+     L^{-slack_K}, slack_K > 0.  (finalcount1) holds with TARGET's exponents unchanged.
+     - Bookkeeping: F'_im <= R + sum_K (e_K + chi_K - 1 - s_K) and Z' <= 2R + sum_K e_K.
+     - Here s = |K|, e = # bonds from K to outside, chi_K = cycle rank of K.
+ D-6 Which option.
+     - Single-atom erasure with smoothing: rejected (D-2).
+     - DCB alone: needed, but not sufficient while tame atoms remain.
+     - Recommended, "Option B" (DH23-faithful): skip zero-gap v3 in Op 2, nonzero-gap beta-cuts only in Op 4,
+       cluster erasure in Op 5, then DCB for the damaged components.
+     - Equivalent alternative, "Option A'": keep R27's in-run erasure at Op 4 but make it erase the whole current
+       cluster.  The Op-2 erasure must still become a skip (Section 4.6).
+
+==========================================================================================================
+1. TEXTS (exact)
+==========================================================================================================
+TARGET L2044 subpro (3): "... tame if the values of k_l for all l<->v are equal, and equals a fixed value in (k_1..k_2R)
+  if d(v)<4. Then any degenerate/ZG atom that is not a hinge atom must be tame."
+TARGET L2046 subpro (5): "For any hinge atom v, we can find two bonds (l1,l2) at v, such that the triple (v,l1,l2) always
+  has SG."  Proof L2050: (l1,l2) = "the two bonds at one joint of U that do not belong to U ... if d(v)=4 then the other
+  two bonds (l3,l4) also have the same properties."  (No statement about crossing pairs.)
+TARGET L1940 defdiff: SG = 0 < |r| <= L^{-gamma+eta}, LG = |r| > L^{-gamma+eta}, ZG = (r = 0).
+TARGET L2142 Op 2: "triangles v1v2v3 ... (v_j, l_{j+1}, l_{j+2}) is an SG triple for j in {1,2} ... We then cut the molecule
+  at each v_j along the bonds (l_{j+1},l_{j+2}) ... We define v3 as a beta-atom".  L2148: "Next we perform Operation 2 for
+  all eligible triangles".
+TARGET L2152 remtame: "We will also assume that no atom v3 in Operation 2 or atom v in Operation 4 is ZG; in fact, if any
+  such atom v is ZG, then it must be tame by Proposition subpro (3), and thus can be treated by ... Section 10.5 of [DH23]."
+TARGET L2185 finalmol: "there are at most R imperfect components" (false with erasures: G3 E9); L2187 proof via
+  4V-2E-2(V_a+V_b) preserved.
+TARGET L2193 lgmolect: (finalcount) with "+ eta Z", "Z equals 0 if R=1; if R>=2 then Z equals the number of eps-atoms not
+  of degree 4".  L2197 proof: "For perfect components, or imperfect components when R=1 (which are called odd components
+  in [DH23]), this is exactly the same as Proposition 9.6 of [DH23]; see also Section 10.5 of [DH23] that addresses tame
+  atoms. ... imperfect component when R>=2 ... Af <~ 1 ... Lemma 10.2 ... Af <~ L^{-eta^2 rho + C0(Va+Vb+Z)}, noticing that
+  Va+Vb+Z >= 1 ... by interpolation".
+TARGET L2206-L2212 (together2): Af_sb <= L^{(2g0+5eta^2)(F_im-1)} L^{g0 p_op^+} L^{eta Z_tot} L^{-eta^5 rho_fin - eta^3 p_op};
+  "F_im <= R by finalmol"; "Z_tot = 0 if R = 1 ... In any case Z_tot <= 4(R-1)".
+TARGET L2218 remtame2: case (ii) gains L^{-(d-2gamma-2eta)-(2g0+5eta^2)} and "increases the number of imperfect components
+  by 2, leading to a loss L^{2(2g0+5eta^2)} in (together2), but this is acceptable as d-2gamma-2g0 >= 1".
+TARGET L2126 remark: cuts at degree-2 atoms are allowed (v2 becomes isolated).
+DH23 L1735 Prop 9.1(c): "Any degenerate atom ... must be a hinge atom".  L1777 Step 2: "(v_j,l_{j+1},l_{j+2}) is an SG
+  triple as fixed in Remark subcondition for j in {1,2} ... If deg v_j >= 3, then we cut ... We call v3 a beta-atom".
+DH23 L1985 (10.5(3)): "all the hinge atoms ... will not be degenerate once they are cut according to the rules in Section
+  reductcut0. Moreover, we shall not make any cut at non-hinge degenerate atoms, so there will be no degenerate atoms
+  involved in the cutting process, and any alpha- or beta- atom will not be degenerate; however, we also allow degenerate
+  eps-atoms in the resulting molecule M_fin."
+DH23 L1987 (10.5(4)): "Suppose there is a degenerate eps-atom v in a component M0 of the final molecule M_fin. Assume v has
+  4 bonds ..., as other cases are similar and easier ... We shall remove this atom v; if Delta chi <= -2 then this
+  operation has a big gain ... enough to cover all possible losses and we just proceed normally (using Proposition 10.1)
+  thereafter. If Delta chi >= -1, then one of k_j must be a bridge, so ... the value of k will be uniquely fixed".
+DH23 L1874: "if V_beta = 1 then we must have V_alpha >= 1, since otherwise the only beta-atom will have gap r = 0 which is
+  not possible" (N1 use).  DH23 L1813 (proof of finalmole): "any triangle with at least two SG atoms will be removed in
+  Step 2".
+G3 (Steps L106): NoSGTriangle = forall T : TriData, not (SG at (a0,b0) and SG at (a1,b1)).  Run/HRunE require it after
+  Step 2.  HStep2 (G3Hist L80): hnz : pgap (a2,b2) != 0.  HStep5: v ZG and every triple at v zero gap (tame).
+
+==========================================================================================================
+2. CONVENTIONS
+==========================================================================================================
+Molecule M: atoms with in/out degree <= 2; a bond carries k_l; conservation at w: sum_{l at w} zeta_{w,l} k_l = c_w
+(zeta = +1 leaving w, -1 entering).  c_w = 0 at atoms of M_sb of degree 4; the charges are parameters of the count
+(E = sup over (c, beta, k^0) of the number of restricted decorations; A = E L^{-(d-gamma) chi} (C1^{-1} delta^{1/2})^chi
+prod X_j^{z_j}).  Phi := 4V - 2E - 2(V_a+V_b) = sum_eps (4 - deg) + sum_{alpha,beta} (2 - deg).  Each component contributes
+an even number >= 0, and >= 2 iff it is imperfect (all terms are >= 0).  a := 2 g0 + 5 eta^2, g0 = min(gamma, 1-gamma).
+Tame atom: all bonds at it carry one value k0 (TARGET L2044).  Two adjacent tame atoms share a bond, hence the same k0.
+Cluster: a maximal connected set K of tame eps-atoms of the current molecule.  Every bond touching K carries k0.
+
+==========================================================================================================
+3. ITEM 2: THE HINGE v3 OF OPERATION 2
+==========================================================================================================
+3.1 [PROVED] Local algebra.  A degree-4 hinge h (charge 0) arises by splicing an SG vine chain with joints J1, J2.  Its
+  bonds are a, b (external at J1) and c, d (external at J2).  Designated pairs: (a,b) and (c,d), gap +-r_VC != 0, SG.
+  The crossing pairs (a,c), (b,d) (and (a,d), (b,c)) are unconstrained.  Op 2 at a triangle (v1, v2, v3 = h) cuts h
+  along its two triangle bonds.  If these come from different joints (say a out, c in), the cut pair is a crossing pair.
+  Conservation at h: k_c + k_b = k_a + k_d.  Hence gap(c,a) = gap(d,b): the triangle pair is ZG iff the outer pair
+  is ZG.  So a zero-gap triangle pair at h ALWAYS leaves a zero-gap beta-atom (the outer half of h) after the literal
+  cut.  The triangle gaps also satisfy r1 + r2 + r3 = 0 (directed 3-cycle), so ZG at v3 means r2 = -r1: two SG atoms
+  with opposite gaps.
+
+3.2 [CHECKED, check_damaged.py H1-H3] The counterexample (R = 1 couple, DH23 Def 4.2 directions).
+  + tree: P(+) -> [x(+), m(-), u1(+)];  u1 -> [u11(+), u0(-), u2(+)];  u2 -> [u21(+), u22(-), u23(+)];
+          u21 -> [y1(+), y2(-), y3(+)].
+  - tree: Q(-) -> [q1(-), q2(+), Q2(-)];  Q2 -> [r1(-), r2(+), r3(-)].
+  Leaf pairs, one free momentum each: u23-u0 = A, y1-m = B, x-r3 = C, u11-q1 = D, r2-u22 = E, q2-y2 = F, y3-r1 = G.
+  M(Q_sk) [H1]:
+   - 6 atoms, 11 bonds = 2n - 1; degrees 3 (P, Q) and 4; caps; no loop, no triple bond, connected.
+   - The ONLY double bond is u1 <=> u2 (opposite directions).  It is a (CL) vine (I-a) (TARGET molecpl (1)(a)):
+     u2 is the right child of u1, and u23 is paired with u1's middle child u0.  Its joint degrees sum to 8 > 6, so
+     the VC is non-root.
+   - The only block (degree criterion) is {u1, u2}.
+   - No self-loop and no triple bond, so the couple has no mini tree and no mini couple.  Reading: hence no regular
+     sub-structure, i.e. it is a skeleton.
+  Node momenta: u21 = B - F + G,  u1 = D + B - F + G - E,  P = Q = C + D - F + G - E (the root condition holds
+  automatically).  Vine gap r = B - F + G - E.
+  Decoration [H2]: L = 10^6, gamma = 3/4, eta = 1/100, d = 3, integers in units of 1/L.
+   - F = (1e5,2e5,3e5), s = (10,0,0), r = (0,10,0), G = F + s, E = G - (3e5,0,0), D = E, B = E + F - G + r,
+     A = E + (0,4e5,0), C = E + (0,0,5e5).
+   - Conservation is checked at every atom of M(Q_sk) and of M_sb.
+   - M(Q_sk) has NO zero-gap pair at any atom (no degenerate atom, as DH23 Prop 9.1(c) requires).
+   - The vine gap is SG and nonzero, so the vine is in V0 and is spliced.
+  M_sb (u1, u2 merged into h) [H2]:
+   - 5 atoms, 9 bonds, single bonds only, and no block at all (so Op 1 collects nothing).
+   - h's designated pairs (D in, u1 out) and (u21 in, E out) are SG.
+   - h's crossing pairs (u21 in, u1 out) and (D in, E out) are ZERO GAP.  h is not tame (its bonds carry different
+     values).
+   - Every other atom of M_sb is non-degenerate.
+   - The directed triangles were enumerated.  The UNIQUE Op-2-eligible triangle is (P, u21 | v3 = h): P and u21 are
+     SG with gaps G - F and F - G, and the gap at h is 0.
+  The zero-gap condition is the single linear condition D = E (k_{u11} = k_{u22}), a codimension-d slice of the
+  decoration class.  So it occurs for a positive count of decorations whenever the class is otherwise nonempty.
+  Literal TARGET [H3]: Op 2 cuts h along (u21 in, u1 out).  The outer half hb = (D in, E out) is a beta-atom with gap
+  0, so N1 fails.  Here the resulting single component is the odd one, with V_a = 2 and V_b = 1.
+  Skip [H3]:
+   - Op 2 does nothing.  Op 3 cuts P, u21 and h along designated pairs; all cut gaps are nonzero.
+   - Op 4 finds no nonzero-gap beta-cut.
+   - Final molecule: one odd component; the eps-atoms Q (degree 3) and Q2 (degree 4) are LG; N1 holds; no triangle
+     component.
+
+3.3 [PROVED] Consequences.
+  (a) TARGET L2152's justification does not cover hinge v3, and the claim is false (3.2).
+  (b) DH23 L1985's "hinge atoms ... will not be degenerate once they are cut according to the rules" is false for the
+      Step-2 cut at v3 (same couple).  CANDIDATE exposition gap, DH23 L1777/L1985.
+  (c) A literal cut produces a zero-gap beta-atom (3.1), so FinalDec.betaGap fails and Prop96At is unavailable.
+      R27 (c) shows that Prop 9.6 is false without N1 for an X-type component (V_a = 0, V_b = 1).  Whether a
+      literal hinge cut can produce an X-type component is OPEN and not needed: it would need h's outer pair to lead
+      into a perfect bubble that the triangle cuts off.
+  (d) G3: exclusion, not skip (H-3).
+
+3.4 [PROVED] Soundness of the skip.
+  Rule: a triangle is ELIGIBLE iff (v1,l2,l3) and (v2,l3,l1) are SG and gap(v3,l1,l2) != 0 (G3's HStep2 with `hnz`).
+  Step-2 stopping condition: NoEligibleTriangle(s) := forall T : TriData s.M,
+      not (SG(a0,b0) and SG(a1,b1) and gap(a2,b2) != 0).
+  By subpro (3), a zero gap at v3 means v3 is tame or a hinge.
+  (i) Run existence.  Op 2 removes eligible triangles until none is left (finite).  Skipped v1, v2 keep their
+      designated pairs: nothing is erased before Op 3 in the recommended model.  So Op 3 can cut them (G3 HStep3).
+      Hinge v3 is SG and is cut in Op 3 along its designated pair (DesRec).  Tame v3 is never cut.
+  (ii) Deviations.  Skipping costs nothing.  v1 and v2 are charged as single SG cuts (DH23 Prop 9.4 single-cut case).
+      p_sb <= p_op still holds, since every SG atom is cut in Op 1, 2 or 3.
+  (iii) finalmol's triangle clause.  Let C be a final triangle component with two alpha-atoms u1, u2 and third atom
+      u3.  The alpha labels (alphaSG) make the dart pairs at u1, u2 SG.  The dart pair at u3 has nonzero gap: N1 if
+      u3 is beta, |gap| >= Q/2 > 0 if u3 is alpha.  Gaps are functions of darts and kappa only, and cuts and erasures
+      keep darts and orientations.  So C's darts pull back to a triangle T of the state s2 at the end of Step 2 with
+      the same three gaps (G3TriPull).  Then T is eligible at s2, contradicting NoEligibleTriangle(s2).  Equivalently,
+      NoEligibleTriangle is preserved by Steps 3-5 (pull-back), as NoSGTriangle is now.
+  (iv) N2 is unaffected (its proof uses only the order of cuts).
+  (v) Uniformity over a decoration class.  Whether a pair has zero gap depends on the decoration.  Requirement (d)
+      (TARGET L2103) must also fix, for every atom and every opposite pair at it, whether its gap is 0.  That is at
+      most 2^4 patterns per atom (a C^n loss, absorbed like (d)).  Then the skip set and the tame set are constant on
+      a term.  In G3's per-decoration model this is automatic.
+
+==========================================================================================================
+4. ITEM 1: DAMAGED COMPONENTS AND SURVIVING TAME ATOMS
+==========================================================================================================
+4.1 [PROVED + CHECKED] What goes wrong with single-atom erasures (check_damaged.py C0, C1).
+  The tame neighbours of an erased tame atom keep k0 on their remaining bonds.  A tame atom of degree 2 with opposite
+  bonds lying on a cycle is UNPINNED.  Erasing it loses L^{d-(d-gamma)} = L^gamma, and smoothing it can create a
+  self-loop.  The two configurations below are CHECKED at graph level, with the count from the linear algebra.
+  Garden realization is OPEN; it is not needed for any recommendation below.
+  - C0: isolated tame eps-atom w of degree 0.  A = 1 against TARGET's R = 1 right-hand side L^{-eta^5 rho}, a failure
+    by L^{eta^5}.  With the eta Z allowance (Z = 1) the bound holds.
+  - C1: isolated tame double bond {u, v}.  A = #k0 * L^{-(d-gamma)} C1^{-1} delta^{1/2} ~ L^gamma.  No per-component
+    bound holds.  As a cluster of its own (s = 2, e = 0, chi_K = 1, J = 1, unpinned), the local Phi credit a(s - 1) = a
+    beats L^gamma only if 2 g0 > gamma, i.e. it fails for gamma >= 2/3 (E1 confirms this).
+  In both cases the erasures that produced the configuration gained L^{-(d-2gamma)} or more, so the TOTAL is fine.
+  The loss is visible only if each cluster is erased as a whole.  Under R27 item 1 as written (single atom), G3's
+  HRunE ends with such components (FinalStructE allows them).  Under TARGET's literal case (i), the same chains give
+  zero-gap beta-atoms (R27 F4).
+
+4.2 [PROVED] The run model (Option B; DH23 Section 10.5(3)+(4)).
+  Ops 1, 3 as in TARGET.  Op 2 on ELIGIBLE triangles only (3.4).  Op 4: beta-cuts with nonzero gap only (G3 HStep4 +
+  NoBetaCut; this is exactly G8's FinalDec.noBetaCut).  Op 5: erase all tame eps-atoms, one cluster at a time.
+  Invariant T0: no tame atom is ever cut, and before Op 5 no bond at a tame atom is removed.
+   - Op 1 cuts joints along the vine pair (SG, nonzero gap) and removes the VC.  A VC's bonds join VC atoms only, so
+     a tame atom outside the VC loses nothing; a tame atom inside is removed with it.
+   - Op 2 cuts v1, v2 (SG) and v3 (nonzero pair), never a tame atom; triangle bonds join triangle atoms.
+   - Op 3 cuts SG pairs, which a tame atom does not have.
+   - Op 4 cuts nonzero gaps, which a tame atom does not have.
+   Hence at Op 5 every tame atom has its M_sb degree, which is 3 or 4 (G3 SubHyp: all degrees >= 3).
+  At M_fin (after Op 4), TARGET finalmol holds VERBATIM:
+   - Phi = 2R is preserved by Ops 1-4, so F_im <= R and Z_fin <= 2R;
+   - eps-atoms are LG or tame (G3 DegenSGT; hinges are SG and get cut);
+   - no alpha/beta atom has zero gap (N1), and N2 holds;
+   - noBetaCut (nonzero gap), no triple bond;
+   - perfect components have a beta-atom; cycles and chains as now.
+
+4.3 [PROVED; CHECKED by C2 on 3000 random molecules/clusters, seed 7] The cluster-erasure lemma.
+  Let K be a connected set of tame atoms of M.  Put s = |K|; e_int, e = # bonds inside K / from K to M - K;
+  chi_K = e_int - s + 1; c = # components of M - K meeting K.  Then:
+  (a) Delta V = -s, Delta E = -(e_int + e), Delta F = c - 1, Delta chi = -J with J := (e - c) + chi_K >= 0;
+      Delta Phi = 2(e + chi_K - 1 - s); Delta Z <= e; |Delta rho| <= C(s + e).
+  (b) Pinned(K) := some a in K has outdeg != indeg, or some component C of M - K has net flux != 0 from K.  Then k0 is
+      a function of the charges, k0 = c_a/(out_a - in_a) or k0 = -(sum_{w in C} c_w)/flux_C.  Conversely, if K is
+      unpinned, k0 -> k0 + t extends to a circulation (each C receives net 0 and is connected).  C2: the row-space test
+      agrees with this formula in all 3000 cases.
+  (c) Pinned => E_pre <= E_pos.  Restricting to M - K is injective, and its image lies in ONE parameter fiber:
+      c'_w = c_w - (net multiplicity of w's bonds to K) k0, beta'_w = beta_w - (net multiplicity) |k0|^2, both
+      functions of (c, beta).  Unpinned => E_pre <= #{k0} sup E_pos <= (2L+1)^d E_pos (fiberwise in k0).
+  (d) Unpinned and every atom of K of degree 4 => J >= s + 1.  [Unpinned => every component gets an even number >= 2
+      of bonds, so c <= e/2; and e = 4s - 2 e_int = 2s + 2 - 2 chi_K; so J >= e/2 + chi_K = s + 1.]  C2: min(J - s) = 1
+      over 1005 unpinned all-degree-4 clusters.  Unpinned forces all atoms balanced, so all degrees are even.  At Op 5
+      the degrees are 3 or 4 (4.2), so unpinned means all degree 4.
+  (e) Deviation: I_K <= (log L)^{C(s+e)} (C1^{-1} delta^{1/2})^J L^{-(d-gamma) J} * [3^d L^d if unpinned].  The polylog
+      factor comes from the ladder product (removing an atom changes O(1) ladders by O(1)) and from the X-factors in
+      [1, (log L)^2].  This is the standard DH23 L1793 bookkeeping (not re-derived; see OPEN O3).
+  (f) Required (the Op-5 analogue of excesseqn2, with the imperfect-component, Z and rho costs folded in, see 4.5):
+        log_L I_K <= a (s - J) - eta e - C0 eta^5 (s + e).
+      Pinned: the slack is (d - gamma - a) J + a s - eta e - ... >= (a - 4 eta - 5 C0 eta^5) s > 0, using e <= 4s.
+      Unpinned: J >= s + 1 and e <= 2s + 2 <= 2J.  The slack is
+        >= (d - gamma - a - 2 eta) J + a s - d >= 2(d - gamma - 2eta) - a - d = d - 2gamma - 2g0 - 4eta - 5eta^2
+        >= 1 - 5eta > 0,
+      using d >= 3 and gamma + g0 <= 1 (the same margin as remtame2's "d - 2gamma - 2g0 >= 1").
+      E1 CHECKED: all 3000 sampled clusters plus synthetic worst cases (pinned J = 0, e = 4s; unpinned J = s + 1,
+      e = 2s + 2; s < 40), for d = 3..6, gamma = 0.01..0.99, eta = g0/(1000 d).  Min slack 0.02.
+  (g) The excluded cases, which cannot occur at Op 5, are exactly the bad ones: an unpinned degree-2 cycle atom (s = 1,
+      J = 1, slack -gamma - 2eta < 0) and an isolated tame cycle (s = 2, J = 1, slack a - gamma < 0 for gamma >= 2/3).
+      Both need damaged tame atoms, which T0 forbids.
+  R27's single-atom table (research-remtame-i NOTES L4) is the case s = 1 of (f).
+
+4.4 [PROVED] The damaged-component bound DCB.  Statement in 5.2; proof:
+  (1) countA <= countAFree (G8 countA_le_countAFree_cell, as in rough96) <= 1 by P101.proposition_one_off_bound, with
+      protected set B = alpha/beta atoms (degree <= 2, no loop).  PMol holds: caps; protected degree <= 2; and every
+      atom's component contains an unsaturated atom, because M is connected and imperfect (an eps-atom of degree != 4
+      or an alpha/beta atom of degree != 2).  LargeGapOff B holds by strict epsLG.
+  (2) countA <= L^{-eta^2 rho + (16d+28)(w+1)}, w = #{atoms of degree != 4} = V_a + V_b + Z.  This is the rough96 proof
+      verbatim (dh23_prop_10_2 with ProblemSG).  Its inputs are the molecule axioms (caps + an atom of degree != 4),
+      noLoop, noTriple, conn, nonempty, the size bound, LG off nonEps, and nonEps subset of {deg != 4}.
+  (3) min(1, X) <= X^theta with theta = eta^3 gives A <= L^{-eta^5 rho + C eta^3 (w+1)}, C = 16d + 28.  The RHS of DCB
+      is >= L^{-eta^5 rho + eta w}: each alpha factor is >= L^{(gamma-5eta)/2} >= L^eta, each beta factor
+      L^{g0+2eta^2} >= L^eta, and each Z factor is L^eta.  Since w >= 1, it suffices that 2 C eta^3 <= eta, i.e.
+      eta^2 <= 1/(32 d + 56).  This holds under G8's smallness (d eta <= g0/1000).  E2 CHECKED for d = 3..11 and
+      gamma = 0.01..0.99.
+  DCB is TARGET's own R >= 2 argument (L2197), with Z counted for all R.  It does not use N1, N2, noBetaCut, dir2,
+  chains, cycles, evenBeta or vineLG.  For R >= 2 it also covers the untouched garden-deficient imperfect components.
+
+4.5 [PROVED] The assembly (Option B).  Write F', Z', rho' for M_fin' (after Op 5).
+   A_sb <= prod_{Ops 1-4} I * prod_K I_K * prod_{components of M_fin'} A.
+   The components are bounded by: Prop96At (G = 1) for perfect components; Prop96At (odd) for the untouched R = 1 odd
+   component; DCB (G = 0, + eta Z) for all others.
+   Collect the powers of a:
+     sum Delta F_{1-4} - F'_perf = (F'_fin - 1) - sum_K (c_K - 1) - F'_perf = (F'_im - 1) - sum_K (c_K - 1),
+   and F'_im <= Phi'/2 = R + sum_K Delta Phi_K / 2.  Hence
+   A_sb <= [TARGET (together3) bound] * prod_K [ I_K L^{a(J_K - s_K)} L^{eta e_K + C0 eta^5 (s_K + e_K)} ]
+        <= [TARGET bound] * prod_K L^{-slack_K}.
+   Here
+   - Z' <= Z_fin + sum_K e_K with Z_fin <= 2R (inside TARGET's budget for R >= 2);
+   - for R = 1 the two original odd atoms enter Z only if their component is touched, and then they cost 2 eta, paid
+     by that cluster's slack >= a - 4 eta;
+   - rho' >= rho_fin - C sum_K (s_K + e_K), and p_sb <= p_op (3.4 (ii)).
+   So (finalcount1) holds with TARGET's exponents.
+   [CHECKED, reading: G8's Prop96At takes exactly FinalShape/FinalDec, which hold for perfect components of M_fin'
+   (they are components of M_fin without tame atoms) and for the untouched odd component.]
+
+4.6 [PROVED] The other options.
+  (a) R27 as written (single-atom erasure in Op 2 and Op 4): C0/C1 (4.1).  In addition, an Op-2 erasure happens
+      BEFORE Op 3 and can damage SG atoms.  Example: an SG atom w (degree 4, charge 0) with in-bonds from two tame atoms
+      t1, t2 (k0 each) and out-bonds x, y; all four pairs have gap +-(k0 - k_x).  If t1 and t2 are erased (as v3's in
+      Op 2), w keeps only x, y (same direction), so no SG pair remains.  Op 3 cannot cut w, and G3's NoSGLeft becomes
+      unreachable (no run).  [PROVED at graph level; garden realization not attempted.]
+  (b) Option A': in-run erasure at Op 4 only, of the WHOLE current cluster, and the Op-2 tame v3 skipped.  Valid with
+      the same lemma (4.3): Op 4 comes after Op 3, so no SG atom is damaged, and cluster-wise erasure keeps T0.  Then
+      Op 5 erases the remaining clusters.  It is equivalent to Option B but has more cases (interleaving, the
+      NoBetaCutAll stop).
+  (c) An end-of-run erase step plus smoothing of degree-2 zero-gap atoms, with single atoms: smoothing is unnecessary
+      under T0 (no degree-2 tame atoms) and insufficient without it (C1: a loop).  Not recommended.
+  (d) DCB alone: necessary for all damaged components, but it requires strict LG at eps-atoms, so the tame atoms must
+      be removed first.
+
+==========================================================================================================
+5. STATEMENTS FOR THE PACKETS (Lean-shaped; names are suggestions)
+==========================================================================================================
+5.1 G3 (finalmol / run model), Option B.
+  * Replace NoSGTriangle by
+      NoEligibleTriangle L gamma eta w kappa s := forall T : TriData s.M,
+        not (gapKind (gapAt (a 0) (b 0)) = .SG and gapKind (gapAt (a 1) (b 1)) = .SG and pgap (pr (a 2) (b 2)) != 0)
+    in the Step-2 stop.  Re-prove `cycles_of` (triangle with <= 1 alpha) from NoEligibleTriangle + its pull-back
+    preservation + label/N1 dart gaps (3.4 (iii)).
+  * Premise DegenSGT M0 .. Tm (tame allowed) in place of DegenSG.  New conclusion T0: Tm a and a eps in hf => hf.M.deg
+    a = M0.deg a.  Tame atoms are never cut, automatically: HStep1..4 cut only nonzero/SG pairs.
+  * Step-4 stop: NoBetaCut (nonzero gap; G3's pre-session-7 condition), NOT NoBetaCutAll.
+  * Phase 5: hf' = eraseAtoms hf (tame eps-atoms), done cluster by cluster or at once.  Conclusions FinalStructB:
+    - imperfect <= R + sum_K (e_K + chi_K - 1 - s_K);
+    - every eps-atom LG (strict); no triple bond; no loop; caps; alpha/beta degree <= 2;
+    - labels, N1, N2 unchanged (no cut is recorded);
+    - every PERFECT component of hf' is a component of hf with no tame atom, hence FinalShape/FinalDec as now.
+    The Phi bookkeeping per atom is Good(R + (deg_current v - 2)), with deg_current possibly < 2 inside a cluster;
+    use an integer potential.
+  * HRunE/StepE2/StepE4 (in-run HStep5) are superseded.  Good.eraseSt / CompBeta.eraseSt are reused in phase 5.
+  * Re-check vineLG under DegenSGT (the vine components that matter have no tame atom; OPEN O4).
+
+5.2 G8: the damaged-component bound (new; ~150-300 lines from P101 + rough96 + an interpolation lemma).
+  structure DamagedShape (M) (cls) : Prop where
+    nonempty; caps; noLoop; conn; noTriple
+    prot  : forall a in M.atoms, not (cls a).IsEps -> M.deg a <= 2
+    imperf: exists a in M.atoms, ((cls a).IsEps and M.deg a != 4) or (not (cls a).IsEps and M.deg a != 2)
+  structure DamagedDec (M) (cls) L gamma eta Adm : Prop where
+    labRange; kapVals (or 0 <= kap); epsLG (strict, as FinalDec.epsLG)
+  noncomputable def damagedRHS M cls L gamma eta :=
+    (prod_{alpha} L^(-(gamma+3eta)/2 + kap eta) * lab^-1) * L^((g0 + 2eta^2) * #beta) * L^(-eta^5 rho + eta * Z),
+    Z := #{a | (cls a).IsEps and M.deg a != 4}
+  def Prop96DamagedAt d gamma eta m : Prop := exists Cstar >= 1, forall C1 >= Cstar, forall delta in Ioc 0 1,
+    exists R0, forall L >= R0, forall M cls Adm P, DamagedShape M cls -> DamagedDec M cls L gamma eta Adm ->
+    card <= (1 + log L)^m -> (forall S, 0 <= P S) -> MaxLadderGapAdm M L 0 P (GapScale L) Adm ->
+    M.countA L gamma delta C1 0 Adm P <= ofReal (damagedRHS M cls L gamma eta)
+  Proof as in 4.4.  Hypotheses: 1/2 < gamma < 1, d >= 3, G8 smallness (it implies eta^2 <= 1/(32d+56)).
+
+5.3 Glue (excessprop1 level): the cluster-erasure deviation.
+  theorem erase_cluster_deviation (K : Finset V) (hK : K subset M.atoms) (hconn : K connected in M)
+    (htame : forall kappa, Adm kappa -> all darts at atoms of K carry one vector up to orientation) :
+    M.countE .. Adm <= N * (eraseAtoms M K).countE .. (AdmRestrict Adm K),
+    N = 1 if PinnedSet M K, else (2L+1)^d;
+  plus circuitRank (eraseAtoms M K) = circuitRank M - J, and
+  (unpinned and forall a in K, deg a = 4) -> J >= K.card + 1;
+  plus the real-arithmetic slack lemma 4.3 (f) (d >= 3, 0 < gamma < 1, eta <= g0/(1000 d)).
+  Proof: flux sum over a component (G8 sum_charges_eq_cross with Y = C, or with Y = {a}), injectivity of the
+  restriction, a fiber shift of the parameters, and partition by k0 when unpinned.
+
+5.4 Final assembly: the product formula of 4.5.  Component dispatch: perfect -> Prop96At even; R = 1 untouched odd ->
+  Prop96At odd; all others -> Prop96DamagedAt.  Op 5 terms enter through 5.3.
+
+==========================================================================================================
+6. LEDGER, LABELS, OPEN
+==========================================================================================================
+TARGET L2152 (remtame, "ZG v3 => tame by subpro (3)"): FALSE for hinge v3.  CANDIDATE erratum; counterexample in 3.2
+  [CHECKED].
+DH23 L1777 + L1985 (10.5(3) "hinge atoms will not be degenerate once cut"): the same gap for the Step-2 cut at v3.
+  CANDIDATE exposition gap [CHECKED, same couple].
+TARGET L2193 lgmolect "Z = 0 if R = 1" and L2197 "imperfect components when R=1 (odd components)": false once erasures
+  occur (C0; G3 E9 for F_im).  CANDIDATE erratum; harmless for (finalcount1) [PROVED].
+TARGET L2152/L2218 + R27 item 1 (single-atom erasure): per-component bounds fail for tame neighbours (C1).  The repair
+  is cluster erasure at the end (Option B).  CANDIDATE exposition gap; (finalcount1) unaffected [PROVED/CHECKED].
+G3 model: NoSGTriangle stop => no run for hinge-ZG triangles (coverage gap) [CHECKED by reading].  Op-2 erasures can
+  make NoSGLeft unreachable (4.6 (a)) [PROVED at graph level].
+OPEN:
+  O1 Garden realization of C0/C1 (graph level only).  Not needed: Option B is immune either way.
+  O2 Whether a literal hinge cut can produce an X-type component (V_a = 0, V_b = 1, zero gap) that falsifies
+     (finalcount).  Not needed: the skip avoids it.
+  O3 The (log L)^{C(s+e)} ladder bookkeeping in 4.3 (e): the standard DH23 L1793 argument, not re-derived.  The slack
+     contains a factor >= (a - 5eta) s, which absorbs it for L >= L0.
+  O4 G3's vineLG proof under DegenSGT (tame atoms present in M_fin).  Only vine components WITHOUT tame atoms reach
+     Prop96At, so this is a re-check, not a new statement.
+  O5 The skeleton reading in 3.2 (no self-loop and no triple bond => no regular sub-couple or sub-tree).  Not
+     separately verified.
+  O6 The MaxLadderGapAdm input for components of M_fin' (scales of sub-ladders) is the same glue item as for M_fin.
+
+==========================================================================================================
+7. RECOMMENDED RULING TEXT
+==========================================================================================================
+R29 -- DAMAGED: tame atoms are erased by clusters at the end (Op 5); zero-gap v3 triangles are skipped; damaged components
+get their own bound (research-damaged), 2026-11-05
+
+Findings.
+ (1) TARGET L2152's "a ZG v3 in Operation 2 is tame by subpro (3)" is FALSE when v3 is a hinge atom.  A hinge is SG only
+     along its designated pairs; a crossing pair can have zero gap.  Counterexample (research-damaged NOTES 3.2):
+     - a couple of order 6 whose skeleton molecule has no degenerate atom and one (CL) vine (I-a) with SG gap;
+     - in M_sb the spliced hinge h lies in the unique Op-2-eligible triangle (P, u21 | v3 = h);
+     - the triangle pair at h is ZG and h is not tame.
+     The literal cut leaves a zero-gap beta-atom, so N1 fails.  DH23 L1777/L1985 has the same gap.  CANDIDATE erratum
+     (TARGET), CANDIDATE exposition gap (DH23).
+ (2) G3 does not skip such triangles; it excludes them.  NoSGTriangle is unreachable, so no run exists for those
+     decorations.  This is a coverage gap.
+ (3) Single-atom erasure of tame atoms (TARGET case (ii), R27 item 1) damages tame neighbours.  It can leave components
+     for which no per-component bound holds: an isolated tame double bond with A ~ L^gamma (C1), or an isolated tame
+     atom with A = 1 against TARGET's R = 1, Z = 0 right-hand side (C0).  An Op-2 erasure can also damage SG atoms
+     before Op 3.  (finalcount1) itself is unaffected.
+ (4) TARGET's lgmolect sets Z = 0 for R = 1 and treats imperfect R = 1 components as DH23 odd components.  Both are
+     false once erasures occur.
+
+Ruling (revises R27 item 1: erasure moves to the end of the run and acts on whole clusters; R27 items 3-4 become the
+case |K| = 1 of item 4 below; R27 item 2 and R18 stand).
+ 1. Run model (DH23 Section 10.5(3)+(4)).  Tame atoms are never cut in Operations 1-4.
+    - Op 2 acts only on ELIGIBLE triangles: SG triples at v1 and v2 AND a nonzero gap at v3.  A triangle whose v3 pair
+      has zero gap (v3 tame or a hinge) is skipped; its v1 and v2 are cut in Op 3.
+    - The Step-2 stop is NoEligibleTriangle.
+    - Op 4 performs beta-cuts with nonzero gap only; the stop is NoBetaCut (= G8 FinalDec.noBetaCut).
+    - New Op 5 (end of run): erase every tame eps-atom, one maximal connected tame cluster K at a time.  No alpha- or
+      beta-atom is created.
+    - Requirement (d) also fixes the zero/nonzero status of every opposite pair.
+ 2. N1 and N2 hold unconditionally.  TARGET finalmol holds verbatim for M_fin (before Op 5), including F_im <= R.
+    Every tame atom keeps its M_sb degree until Op 5.
+ 3. G3:
+    - NoEligibleTriangle replaces NoSGTriangle; cycles_of is re-proved from it plus the N1/label dart gaps;
+    - DegenSGT replaces DegenSG, with the new conclusion that tame atoms are undamaged;
+    - NoBetaCut is the Step-4 stop;
+    - Phase 5 (eraseAtoms of the tame set) with FinalStructB: imperfect <= R + sum_K (e_K + chi_K - 1 - s_K), strict
+      epsLG, and perfect components of M_fin' are tame-free components of M_fin;
+    - the in-run HStep5 phases (StepE2/StepE4, NoBetaCutAll) are retired.
+ 4. Glue: erase_cluster_deviation.
+    - Pinned (some atom of K unbalanced, or some component of M - K with nonzero flux): E_pre <= E_pos.
+    - Otherwise E_pre <= (2L+1)^d E_pos, and then J := -Delta chi >= |K| + 1.
+    - With the slack lemma: log_L I_K <= a(|K| - J) - eta e_K - C0 eta^5 (|K| + e_K), a = 2 g0 + 5 eta^2, for d >= 3,
+      0 < gamma < 1, eta <= g0/(1000 d).
+ 5. G8: new theorem Prop96DamagedAt for every IMPERFECT component (DamagedShape + strict epsLG + labels):
+       A <= prod_alpha L^{-(gamma+3eta)/2 + kappa eta} Q^{-1} * L^{(g0+2eta^2) V_beta} * L^{-eta^5 rho + eta Z},
+    with Z = # eps-atoms of degree != 4 FOR EVERY R.  Proof: P101 (A <= 1) and the rough96 argument with
+    w = V_a + V_b + Z >= 1, interpolated at theta = eta^3.  It needs no N1, N2, noBetaCut, chains or vineLG.
+    Prop96At (FinalShape/FinalDec) is unchanged and is applied to perfect components and to the untouched R = 1 odd
+    component.
+ 6. Assembly: A_sb <= prod_{Ops 1-5} I * prod_components A.  Compared with TARGET (together3), each cluster contributes
+    L^{-slack_K} with slack_K > 0, so (finalcount1) holds with TARGET's exponents.
+ 7. Ledger:
+    - TARGET L2152 (hinge v3): CANDIDATE erratum.  DH23 L1777/L1985: CANDIDATE exposition gap.
+    - TARGET L2193/L2197 (Z = 0 and "odd" for R = 1 after erasures): CANDIDATE erratum, harmless.
+    - TARGET L2152/L2218 single-atom erasure: CANDIDATE exposition gap, repaired by item 1.
+    - The garden realizations of C0/C1, and an X-type component from a literal hinge cut, are OPEN and not needed.

@@ -1,0 +1,32 @@
+== H1: the couple, its molecule M(Q_sk), blocks, skeleton
+  degrees (deg,in,out): {'P': (3, 2, 1), 'Q': (3, 1, 2), 'Q2': (4, 2, 2), 'u1': (4, 2, 2), 'u2': (4, 2, 2), 'u21': (4, 2, 2)}
+  double bonds: [('u1', 'u2')]
+  blocks: [(('u1', 'u2'), ('u1', 'u2'))]  hyper-blocks: []
+  G[B] = ['u0', 'u1', 'u2', 'u23'] ; joint degrees 8 > 6: non-root VC
+== H2: splicing at the garden level, M_sb, hinge pairs
+  u1 children in G_sb: ['u11', 'u22', 'u21']
+  designated pairs (in, out) at h: [('LP:u11-q1', 'PC:u1'), ('PC:u21', 'LP:r2-u22')]
+  crossing pairs at h: [('PC:u21', 'PC:u1'), ('LP:u11-q1', 'LP:r2-u22')]
+   pair ('PC:u21', 'PC:u1') gap = -1D +1E | proportional to D-E: True
+   pair ('PC:u21', 'LP:r2-u22') gap = +1B -1E -1F +1G | proportional to D-E: False
+   pair ('LP:u11-q1', 'PC:u1') gap = -1B +1E +1F -1G | proportional to D-E: False
+   pair ('LP:u11-q1', 'LP:r2-u22') gap = +1D -1E | proportional to D-E: True
+  M(Q_sk) has 20 opposite pairs; none is a multiple of D-E
+== H3: decorations (random family) on the slice D = E
+  L = 1e8, gamma = 0.6, eta = 0.01, d = 3, SG threshold (units 1/L) = 1905.5
+  trial 0: zero gaps in M(Q_sk): [] ; vine gap kind: SG
+           kinds at h: {('PC:u21', 'PC:u1'): 'ZG', ('PC:u21', 'LP:r2-u22'): 'SG', ('LP:u11-q1', 'PC:u1'): 'SG', ('LP:u11-q1', 'LP:r2-u22'): 'ZG'} ; h tame: False
+           SG-SG triangle rotations in M_sb: [('P', 'u21', 'u1', 'ZG')]
+  random decorations on the slice D=E satisfying ALL of the counterexample properties: 300 / 300
+== H4: literal Operation 2 (cut h along its zero-gap triangle pair) versus the skip
+  outer half of h keeps bonds ['LP:u11-q1', 'LP:r2-u22'] with gap (0, 0, 0)
+  components after the literal Op 2: [['P', 'Q', 'Q2', 'u1', 'u21']]
+  SG pairs: P [('PC:u1', 'LP:y1-m')] u21 [('LP:y1-m', 'PC:u21'), ('LP:y3-r1', 'LP:q2-y2')]
+  skip run (first order): ('P', 'u21', 'u1') -> components [['P', "P'", 'Q', 'Q2', 'u1', "u1'", 'u21', "u21'"]] classes {'P': 'alpha', 'Q': 'eps', 'Q2': 'eps', 'u1': 'alpha', 'u21': 'alpha', "P'": 'alpha', "u21'": 'alpha', "u1'": 'alpha'}
+  skip runs examined: 24 (all orders x designated choices); runs violating N1 / eps-LG / triangle: 0
+== H5: same couple, D - E SMALL NONZERO: Op 2 is eligible and cuts the hinge along a CROSSING pair
+  trial 0 eligible rotations (v1, v2, v3): [('u1', 'P', 'u21'), ('P', 'u21', 'u1'), ('u21', 'u1', 'P')]
+  decorations with t = E - D small nonzero: triangle {P,u21,h} Op-2 eligible in 200 / 200
+  its pair at h is ('PC:u21', 'PC:u1') or ('LP:u11-q1', 'LP:r2-u22') -- a crossing pair, never a designated pair [('LP:u11-q1', 'PC:u1'), ('PC:u21', 'LP:r2-u22')]
+
+RESULT: ALL CHECKS PASSED

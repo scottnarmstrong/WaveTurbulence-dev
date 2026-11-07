@@ -1,0 +1,892 @@
+RESEARCH NOTE 3 — the gamma <= 1/2 repair: TARGET `layervine` for every T-vine, corrected Lemma 1.14(c) and
+Corollary 1.16, base cases, and the Lean-facing vine family
+==================================================================================================================
+
+Date: 2026-11-05.  Author: research agent launched by wt-orch (packet "research-gamma-half-3").
+No Lean was run.  Nothing outside /home/scott/wt-scratch/research-gamma-half-3/ was edited.
+Python was run as `python3 -I`.  All computations together took under 10 minutes of wall time.
+
+SOURCES (line numbers refer to these files; sha256 in pinned/PINNED_SHA256.txt)
+  TARGET = wave-turbulence/paper/source/WKE-Longer_times_Final_arXiv.tex      (493eef6b...727cb)
+  DH23   = wave-turbulence/references/src-2301.07063/Revision_Submit.tex      (c7e47dfa...75475)
+  N1     = research note 1    pinned/N1_NOTES.md     sha256 e7e876e5393b44448d801c2cdcd2cc285428b04e33a23e20bb5ef50be76405a2
+  N2     = research note 2    pinned/N2_NOTES.md     sha256 ac936aed79e2df39b36a87ab4102ad298e25997024710d02b246d1b1b511e7cc
+  REF1   = referee report 1   pinned/REF1_REPORT.md  sha256 70af76c42cee58d71df5546c9b4b189d04b8489f5d9eb02745d9ee9e029bcfcf
+  REF2   = referee report 2   pinned/REF2_REPORT.md  sha256 8e7ec6f50c8c48db7567bfe302380e85b3b09d0566658a32b4b2240adc9ded8b
+  (N2 Lemma/Theorem numbers such as "Lemma 1.6", "Theorem 1.15", "Prop 1.17" refer to N2.)
+  Also pinned: referee 2's rlib.py, check_layervine.py, cactus_cycles.py, gen_counts.py and two counterexample
+  scripts, and N2's drawn_check.py (the B2 template data).  Unmodified copies of referee 2's generator and checkers
+  were run from refcopy/ (sha256 in refcopy/SOURCE_SHA256.txt).
+
+LABELS
+  PROVED   the complete proof is written here, or in N1/N2 and confirmed by REF1/REF2 (the source is named).
+  CHECKED  verified by a script in this directory over a stated finite range.
+  OPEN     not established.
+
+
+0. VERDICT
+----------
+
+ITEM 6 (the `layervine` structure) is PROVED for every T-vine, of every size.
+  * Precisely: the fact used in TARGET's proof of Prop `layervine` (L1519-L1531) is quoted in Sec. 1.1 and
+    isolated in Sec. 1.2.  Its T-vine version is Theorem 6 (Sec. 1.3), with groups := the non-joint 2-edge-cut
+    pieces.  Every T-vine satisfies it, for both labellings of the joints.
+  * The proof needs no induction on rungs and no new base case.  It has three ingredients:
+      Lemma 6.1  the quotient of a T-vine by its pieces is a cactus (elementary);
+      Lemma 6.2  a T-vine has no two disjoint joint-free 2-poles.  This is N2 Lemma 1.6, re-proved for any
+                 (Y2)-path, so no confluence is used;
+      the piece-shape theorem (N2 Prop 1.17(a),(b): two joints, one 3-atom core, 2-atom pieces), which is
+                 PROVED in N2 with base "T-vines with no deletable rung", confirmed by REF2.
+    Lemma 6.2 forces every cactus cycle to have length <= 3 (at most one of length 3) and at most one pendant.
+    The pendant is "Vine (V) minus its joints": a ladder followed by a (D) core.  This is exactly TARGET's
+    structure.
+  * Counterexample search: none found.
+      - My own independent generator: all 1530 undirected joint-marked T-vine shapes with <= 41 atoms, both joint
+        labellings.  This covers all 188926 directed T-vines with <= 23 atoms, whose counts I also generated:
+        111856 at 23 atoms, and identical to REF2 at 5..21.
+      - REF2's own unmodified generator and `layervine` checker, run to 23 atoms: 377852 labellings, 0 failures.
+
+ITEM 2 (corrected statements).  Both are PROVED here with complete proofs.
+  * Lemma 1.14(c') (Sec. 2.1): "deleting a rung preserves the vine type" holds except in one case.  When R is
+    the whole interior of a 4-atom Q-block ingredient, that ingredient becomes a double bond and the gap becomes
+    constant.  In the induction of N2 Theorem 1.15 this case contradicts (F4) for B/R (REF2's patch), so it never
+    occurs inside a T-vine.
+      CHECKED: on 12165 generic vine-chain blocks, every type change (17763) is exactly the predicted one;
+      T-vines never change type.
+  * Corollary 1.16' (Sec. 2.2), with the sources' removal semantics (a hyper member's adjoint bond is kept,
+    TARGET L2140 and DH23 L1775).  It gives the location of every member, the list, connectivity (via the parity
+    Lemma P) and disjointness of maximal SG members.
+      CHECKED: 251922 families in HV, DV', VC and HVC containers give 0 disconnections under the sources'
+      semantics.  The note's semantics reproduces REF2's 109 HV failures (on REF2's own 3172 HV containers) and
+      gives 1488 DV' failures.
+
+ITEM 3 (base cases).  The minimal finite sets are listed in Sec. 3:
+  * Piece-shape theorem: the 13 undirected T-vine shapes with D = 0 (94 directed classes; 5/7/9/11 atoms).
+  * Theorem 1.15: 70 undirected (vine, sub-object) pairs on the 27 shapes with D <= 1 (459 directed pairs on
+    288 directed classes).  No family with >= 2 members reaches the base.
+  * Item 6: nothing beyond the piece-shape base.
+  * Directions are never needed (PROVED, Sec. 3.2).  Completeness of the base lists needs N2 Lemma 1.8 plus the
+    classification of T-vines with <= 13 atoms (23 closures, 53 shapes).
+
+ITEM 4 (Lean-facing proposal).  This is Sec. 4:
+  * the predicate IsTVine, with the redundant 2-connectivity clause dropped (PROVED redundant, Lemma 4.1);
+  * groups := pieces (CHECKED equal to TARGET `cohmol` groups on the drawn vines);
+  * the family V_gamma;
+  * the complete list of TARGET/DH23 statements to be read in V_gamma, from an independent scan of both sources.
+
+OPEN: see Sec. 5.  Nothing in item 6 or item 2 is OPEN.  The base enumerations are Python checks, not yet
+kernel-verified.
+
+
+1. ITEM 6 — TARGET `layervine` FOR ALL T-VINES
+--------------------------------------------
+
+1.1 The source (TARGET, quoted from the LaTeX)
+
+  L1513  \begin{prop}\label{layervine} Let $\Gc\in\Gs_{p+1}$ (or $\Cs_{p+1}$) be a canonical layered object, and
+         let the skeleton $\Gc_{\mathrm{sk}}$, the molecule $\Mb=\Mb(\Gc_{\mathrm{sk}})$ and the regular objects
+         $\Tc_{(\mf)}$ and $\Qc_{(\lf,\lf')}$ be as in Definition \ref{lftwist}. Let $\Vb\subset\Mb$ be any (CL)
+         vine, note that the layering of $\Gc$ induces a layering of atoms of $\Vb$ ...
+  L1515  Assume $\Vb$ contains $2m+2$ (for bad vine) or $2m+5$ (for normal vine) atoms, and has incoherency index
+         $0\leq g\leq m$ (for bad vine) or $0\leq g\leq m+1$ (for normal vine). Let the two joints of $\Vb$ be
+         $v_1$ and $v_2$, such that $\uf_1=\nf(v_1)$ is an ancestor of $\uf_2=\nf(v_2)$, and assume that
+         $\Lf_{v_1}=q$ and $\Lf_{v_2}=q'$ are given with $q\geq q'$.
+  L1517  Then the same bound (\ref{sumofexp0}) holds, ... Moreover, if $g=0$ and the regular objects ... are
+         \emph{coherent} ..., then the right hand side of (\ref{sumofexp0}) can be improved to $C_0^{m+|q-q'|}$.
+
+  The structural facts used in the proof:
+  L1519  "... because $\Vb$ consists of at most three ladders plus less than $20$ extra atoms, ..."
+  L1523  "The case of Vine (I) is obvious. For other vines except Vine (V), by the grouping in Definition
+         \ref{cohmol}, we can always find groups $\Gb_i\,(1\leq i\leq r)$ such that $v_2$ is connected to $\Gb_1$,
+         each $\Gb_i$ is connected to $\Gb_{i+1}$, and $\Gb_r$ is connected to $v_1$. Moreover, for each $i$, after
+         removing atoms in $\Gb_i$, then vine becomes disconnected with $v_2$ and $\Gb_j\,(j<i)$ in one component,
+         and $v_1$ and $\Gb_j\,(j>i)$ in another. These $\Gb_i$ exhaust all groups for vines (II)--(IV), while for
+         vines (VI)--(VIII), all the groups other than $\Gb_i$ form exactly the shape which is Vine (V) minus two
+         joints."  (The rest of L1523 is the monotonicity argument q' <= L_1 <= ... <= L_r <= q.)
+  L1525  "... we only need to look at the remaining atoms and bonds not in the groups $\Gb_i$, which form a Vine
+         (V) minus two joints. We shall prove that all these atoms must be in the same layer ..."
+  L1527  "... let $\Hb$ be the set of all remaining atoms not in the groups $\Gb_i$, then every atom in $\Hb$ has
+         degree $4$, and there are only two bonds connecting atoms in $\Hb$ to atoms not in $\Hb$, namely two
+         single bonds between atoms $v_1\not\in\Hb$ and $v_2\in\Hb$, and between $v_3\not\in \Hb$ and
+         $v_4\in\Hb$ ...; note also that $v_2$ and $v_4$ belong to the same group ..., so $\Lf_{v_2}=\Lf_{v_4}$.
+         We only need to prove that $\Lf_{v_2}$ must be between $\Lf_{v_1}$ and $\Lf_{v_3}$, because then we can
+         remove the atoms $(v_2,v_4)$ and apply the same argument to the resulting set $\Hb'$, and proceed with
+         induction."
+  L1529-L1531  The tree argument (parent chains, Prop `canonequiv`).  It uses only: every atom of H has degree
+         4; H is joined to the rest by exactly two single bonds; the two H-ends are in one group.
+         (In L1527-L1531 the names v1..v4 are local to H and are not the joints.)
+  The groups are those of Def `cohmol` (L1489-L1496).  For T-vines they must be redefined: groups := the
+  non-joint 2-edge-cut pieces (N1 Sec. 3.2).  Sec. 4.2 checks that this agrees with `cohmol` on (III)-(VIII).
+
+1.2 What exactly the proof uses (the "structural fact")
+
+  Let V be a vine with joints v1, v2 and groups G (a partition of the non-joint atoms).
+  (U0) [L1519]  V consists of at most 3 ladders plus O(1) further atoms (TARGET says < 20).  If V has 2m+5 atoms,
+       there are exactly m+1 groups.
+  (U1) [L1523, spine]  There are groups G_1, ..., G_r (r >= 0) such that:
+       (a) for every i, in V - G_i the set {v2} u G_{<i} lies in one component and {v1} u G_{>i} in another.
+           This is what makes every path from v2 to v1 meet G_1, ..., G_r in this order.
+       (b) consecutive members of (v2, G_1, ..., G_r, v1) are joined by a bond.  The product bound also uses that
+           non-consecutive members are not joined; this follows from (a).
+  (U2) [L1523, L1525-L1531, pendant]  The atoms in no G_i and not joints form a set H with:
+       either H is empty,
+       or H = Y_1 u ... u Y_s (groups), and for every k the set H_k := Y_k u ... u Y_s
+         * consists of atoms of degree 4,
+         * is joined to V - H_k by exactly two bonds,
+         * those bonds are single bonds x-y and x'-y' with y, y' in Y_k ("v2, v4 in the same group").
+       The induction "remove (v2,v4) and apply the same argument to H'" is exactly the peeling Y_1, Y_2, ...
+       The two outer ends x, x' of H must have layers in [q', q].  This holds when they lie in spine groups or are
+       joints.
+  For a (V)-type vine, r = 0 and H = all non-joint atoms.
+
+1.3 Theorem 6 (PROVED for every T-vine; CHECKED, Sec. 1.6)
+
+  Setting.  B is a T-vine (N2 Def 1.2 / Def 5.1) with joints j, j'; either labelling (v1, v2) = (j, j') or (j', j).
+  Pieces are the classes of atoms of B not separated by any 2-edge-cut.  The groups of B are its non-joint
+  pieces.  By N2 Prop 1.17(b), the pieces are: {j}, {j'}, one 3-atom core of shape (B), (C) or (D), and m 2-atom
+  pieces, each joined internally by 1 or 2 bonds, where |B| = 2m+5.  So B has m+1 groups.
+  Gamma = Gamma(B) is the multigraph with one node per piece and one edge per bond of B between distinct pieces.
+
+  Theorem 6.  For every T-vine B and either labelling:
+   (i)   Gamma is a cactus (every edge lies on exactly one cycle).  All its cycles have length 2, except at most
+         one of length 3.
+   (ii)  [spine] Let G_1, ..., G_r be the non-joint pieces whose removal separates v1 from v2, ordered by the
+         nested v2-sides.  Then (U1)(a) holds (atom level).  Consecutive members of
+         (v2, G_1, ..., G_r, v1) are joined by exactly 2 bonds, except at most one consecutive pair joined by 1 bond.
+         Non-consecutive members are not joined.  r = 0 iff sigma(B) = 1.
+   (iii) [pendant] Let H := the non-joint atoms not in any G_i.  Then H is empty iff the core has shape (B) or (C).
+         If the core has shape (D), H = Y_1 u ... u Y_s (s >= 1), where:
+           * Y_1, ..., Y_{s-1} are rungs: 2-atom pieces with an internal double bond, each atom having one bond
+             toward Y_{k-1} (or the outside) and one toward Y_{k+1};
+           * Y_s is the (D) core;
+           * Y_k and Y_{k+1} are joined by exactly two bonds;
+           * every H_k = Y_k u ... u Y_s is joined to B - H_k by exactly two single bonds x-y, x'-y' with
+             y != y' in Y_k and x != x'.
+         So H is "Vine (V) minus its two joints" with s-1 rungs (s-1 >= 0).  H is attached in one of two ways:
+           (P-a) both outer ends x, x' lie in one spine piece G_i.  This G_i is the unique piece whose Gamma-degree
+                 is 6: a 2-atom piece with a single internal bond (the (VII) pair of `cohmol`);
+           (P-b) x and x' lie in two consecutive members of (v2, G_1, ..., G_r, v1).  These are joined by a single
+                 bond, and the three nodes form the unique cycle of length 3 of Gamma.
+   (iv)  [shape constants, (U0)] B has at most 3 maximal ladders and at most 13 atoms outside them, and m+1 groups.
+
+  Consequently (U0)-(U2) hold for every T-vine, and TARGET's proof of Prop `layervine` (L1519-L1531) applies
+  verbatim to the gamma <= 1/2 family, with groups := pieces.  Monotone layering along the spine gives
+  C_0^{m+|q-q'|}; the pendant is in one layer between the layers of x and x', which lie in [q', q].
+
+1.4 Proofs
+
+  Lemma 6.1 (cactus).  PROVED.
+    Let B be a T-vine and Gamma its piece quotient.  Then Gamma is a connected loopless multigraph.  Every node
+    has even degree.  Any two distinct nodes are separated by a cut of exactly 2 edges.  Hence every block
+    (maximal 2-connected subgraph) of Gamma is a cycle of length >= 2, and Gamma is a cactus.
+    Proof.
+      - Gamma is connected because B is.  It is loopless by construction.
+      - deg_Gamma(P) = |delta_B(P)| = sum_{v in P} deg_B(v) - 2 e_B(P), which is even because every B-degree is
+        2 or 4.  So every cut of Gamma is even, and Gamma has no bridge.
+      - By the definition of pieces, two distinct pieces P, P' are separated by a 2-edge-cut delta_B(X) of B.
+        X is a union of pieces (a 2-edge-cut never splits a piece), so delta_B(X) is a 2-edge cut of Gamma
+        separating P and P'.  Hence lambda_Gamma(P, P') = 2.
+      - Let beta be a block with at least 2 edges (a 1-edge block would be a bridge).
+          * If beta has 2 nodes, it is a bundle of k >= 2 parallel edges, and k >= 3 would give lambda >= 3.
+            So beta is a digon.
+          * If beta has >= 3 nodes and is not a cycle, then, being 2-connected, it contains a cycle C and a path
+            P' (possibly a single parallel edge) with distinct ends x, y on C and no inner node on C (an ear).
+            Then the two arcs of C and P' are 3 edge-disjoint x-y paths, so lambda(x, y) >= 3, a contradiction.
+      - Every edge lies in exactly one block, hence on exactly one cycle.  QED
+    Standard facts used below:
+      - a node of Gamma-degree 2k lies on exactly k cycles, so degree-2 nodes are not cut nodes;
+      - two edges on a common cycle form a 2-edge-cut of Gamma, hence of B (same bonds);
+      - for nodes u, w that each lie on one cycle, the block-cut tree contains a unique path
+        C_1, A_1, C_2, ..., A_{t-1}, C_t with u on C_1 and w on C_t; the nodes separating u from w are exactly
+        A_1, ..., A_{t-1}.
+
+  Lemma 6.2 (no two pendants; N2 Lemma 1.6 re-proved for an arbitrary (Y2)-path).  PROVED.
+    A T-vine B has no two disjoint nonempty sets K_1, K_2 of interior atoms with
+    |delta_B(K_1)| = |delta_B(K_2)| = 2.
+    Proof.
+    Step 1 (transfer to the closure).  Let G = cl(B), a connected loopless 4-regular multigraph on the interior
+    atoms.  Suppose K_1, K_2 are as stated.
+      - B - K_i is connected.  Each component Y of B - K_i has delta(Y) contained in delta(K_i), and |delta(Y)|
+        is even and >= 2.  So there is only one component.
+      - Hence neither joint has both of its B-neighbours in K_i (sigma = 0), and the joint path n1-j-j'-n2
+        (sigma = 1) does not have both ends in K_i.  Otherwise B - K_i would consist of joints only, so
+        K_i = I(B), contradicting K_1 n K_2 = {} with both nonempty.
+      - Therefore every bond of delta_B(K_i) corresponds to exactly one bond of delta_G(K_i): itself, or the
+        contracted bond through the joint(s).  So |delta_G(K_i)| = 2.
+      - No contracted bond lies inside K_i, so the bonds of G inside K_i are bonds of B.  Hence K_i has no
+        internal triple bond.
+    Step 2 (along the reduction).  By the definition of a T-vine there are (Y2) steps
+    G = G_0 -> G_1 -> ... -> G_N ~= T.  A (Y2) step keeps a graph connected, loopless and 4-regular: a path
+    through the removed pair {a, b} enters at c and leaves at d, and is replaced by the new bond c-d.
+      - Let t_i be the first step that deletes an atom of K_i or adds a bond with both ends in K_i (t_i = infinity
+        if none).  For m < t_i, K_i is intact in G_m: all its atoms are present, its internal bonds are those of
+        G, and |delta_{G_m}(K_i)| = 2.
+        Induction: let a step at the triple pair {a, b} have external bonds a-c and b-d.  The pair cannot lie
+        inside an intact K_i (no internal triple bond) or straddle it (3 crossing bonds).  If exactly one of c, d
+        is in K_i, a crossing bond is replaced by a crossing bond.  If both are, the step is step t_i.
+      - At step t_i the two crossing bonds of K_i are a-c, b-d.  Then K_i u {a, b} has no bond leaving it, so the
+        atoms of G_{t_i - 1} are exactly K_i u {a, b}.
+      - Suppose t_1 <= t_2 with t_1 finite.  At time t_1 - 1, K_2 is intact, so K_2 is a subset of the atom set
+        K_1 u {a, b}.  Hence K_2 is contained in {a, b}.  An intact singleton would have |delta| = 4, so
+        K_2 = {a, b}, which has the internal triple bond a=b.  This is a contradiction.
+      - So t_1 = t_2 = infinity, and K_1 is intact in G_N ~= T.  But every nonempty proper atom set of T has
+        |delta| = 4, and K_1 = all of T would give |delta| = 0, not 2.  This is a contradiction.  QED
+    (No confluence (N2 Lemma 1.4) is needed: only the one (Y2)-path given by the definition is used.)
+
+  Lemma 6.3 (attachment units).  PROVED.
+    Fix the labelling and the block-cut path C_1, A_1, ..., A_{t-1}, C_t from v2 to v1 (A_0 := v2,
+    A_t := v1).  Put S := {A_0, ..., A_t}.  Define the attachment units:
+      (arc)     a maximal arc of C_i strictly between A_{i-1} and A_i that contains at least one node.  C_i has at
+                most two arcs.
+      (hanging) a cycle D != C_i, C_{i+1} through some A_i with 1 <= i <= t-1.  No cycle other than C_1 (resp.
+                C_t) passes through v2 (resp. v1), since these have Gamma-degree 2.
+    For each unit, the two edges of its cycle that join it to S form a 2-edge-cut.  Let K(unit) be the side of that
+    cut that contains the unit.  Then:
+      - K(unit) contains no node of S.  The rest of S stays connected to the unit's S-nodes: through the other arc
+        of C_i, or through the chain at A_i.
+      - K(unit) is connected, and all its boundary edges go to S, so it is a component of Gamma - S.
+      - Every node outside S is reached from S through some unit.
+    So the components of Gamma - S are exactly the K(unit).  They are pairwise disjoint and joint-free, and each
+    is attached by exactly 2 bonds.  By Lemma 6.2 there is AT MOST ONE UNIT.  QED
+
+  Proof of Theorem 6.
+    (i), (ii), cactus part.
+      - Spine: the separating pieces are A_1, ..., A_{t-1} (Lemma 6.1).
+      - A chain cycle C_i with both arcs empty is a digon.  C_i cannot have both arcs nonempty (two units).  An
+        arc with >= 2 nodes Z, Z' is impossible: each of Z, Z' together with everything hanging from it is a
+        joint-free 2-pole (cut by the two C_i-edges at that node), and these are disjoint, contradicting
+        Lemma 6.2.  Hence every chain cycle is a digon, or a triangle (A_{i-1}, Z, A_i) whose third node Z is
+        the top of the unique unit (P-b).
+      - Inside the unit, let Y be any node and D' any cycle below Y (hanging from Y away from S).
+          * D' has exactly 2 nodes: two nodes of D' - Y would give two disjoint joint-free 2-poles.
+          * Y has at most one cycle below it, for the same reason.
+        A hanging unit D at A_i is a digon for the same reason.
+      - So the unit is a path of digons Y_1 = Y_2 = ... = Y_s.  deg_Gamma(Y_k) = 4 for k < s,
+        deg_Gamma(Y_s) = 2, and Y_1 hangs from A_i by a digon (P-a) or is the triangle node Z (P-b).
+      - A spine node lies on C_i, C_{i+1} and on at most one hanging digon, so its degree is 4, or 6 iff (P-a).
+      - Hence Gamma has at most one cycle of length 3 (P-b only), and all other cycles are digons.  This gives
+        the bond counts 2 and 1 in (ii).
+      - t = 1 iff v1 and v2 lie on one cycle C_1.  C_1 is then a triangle (v2, Z, v1), because a digon v2 = v1
+        would make B = {v1, v2}.  So v1 and v2 are adjacent and sigma = 1.  Conversely, if sigma = 1 the bond
+        v1-v2 lies on a cycle through both, so t = 1.  Hence r = t - 1 = 0 iff sigma(B) = 1.
+    Translation to atoms (uses the piece-shape theorem, N2 Prop 1.17(b)).
+      - Pieces are internally connected (2-atom pieces with >= 1 internal bond; cores (B), (C), (D)).  So
+        separation and components in Gamma are the same as in B, which gives (U1)(a).
+      - Gamma-degrees: joint 2; (D) core 2; (B)/(C) core 12 - 2*4 = 4; a 2-atom piece 8 - 2*mult, which is 4 or
+        6.  Hence:
+          * Y_s (degree 2, non-joint) is the (D) core;
+          * the Y_k with k < s (degree 4, not the core) are 2-atom pieces with a double bond;
+          * a degree-6 spine piece is a 2-atom piece with a single bond.
+      - The pendant exists iff the core is (D): a degree-2 non-joint piece cannot be a cut node, so it lies in a
+        unit; and a unit ends in a degree-2 piece.
+      - One bond each side, and distinct ends: let y in Y_k.
+          * If both y-bonds leaving Y_k went into H_{k+1}, then
+            |delta(H_{k+1} u {y})| = 2 + 4 - 2*2 = 2.  That 2-cut separates y from its partner, a contradiction.
+            The same argument applies to the other side.
+          * If both bonds of delta(H_k) ended at one atom y, then |delta(H_k - y)| = 2 - 2 + 2 = 2, again
+            separating y from its partner.  Every non-joint piece has >= 2 atoms.
+          * If both ended at one outer atom x, then |delta(H u {x})| = 2 + 4 - 4 = 2 separates x from its piece
+            partner (x is not a joint: a joint with both bonds into H would give B = H u {x}).
+        Two crossing bonds with distinct ends are single bonds.
+    (iv) Ladders.
+      - Double bonds of B lie inside pieces.  A double bond x=y between different pieces would make the 2-cut of
+        its digon separate x from its partner.
+      - A ladder step (two disjoint single rails between consecutive double bonds) is a digon between two rung
+        pieces.  Its rails are anti-parallel by balance (N1 Lemma D), as B2's `IsLadder` requires.
+      - The chain's rung pieces form at most 2 runs.  The only possible break is: the (B)/(C) core; the degree-6
+        piece (P-a); or the single bond of the triangle (P-b).  At most one occurs, since a (B)/(C) core excludes a
+        pendant.
+      - The pendant forms at most 1 run, and only when the core is (D).
+      - Each double bond of the core has an endpoint with at most one bond leaving the core: (B) x=y has 1 and 1;
+        (C) w1=w2 has w2 with 0; (D) p=r and r=q have r with 0.  So a core double bond is never an interior rung,
+        and can at most lengthen one end of a run.
+      - Hence there are at most 3 maximal ladders.  The atoms outside them are at most:
+          2 (joints) + 3 (core) + 2 (degree-6 piece) + 3 x 2 (runs of length 1) = 13.
+      - The group count is m+1 by the piece-shape theorem.  QED
+
+  Remark (REF2's suggested route).
+    REF2 proposed: "every cactus cycle has length <= 3, preserved by rung insertion, plus Lemma 1.6".  This also
+    works.
+      - A rung insertion at a 2-cut {e, f} subdivides e and f and joins the two new atoms by a double bond.  The
+        cycle containing e, f (length L) splits into two cycles of lengths k+1 and L-k+1, with 1 <= k <= L-1.
+      - So "all lengths <= 3" is preserved, and its base is the D = 0 vines.
+    Lemma 6.2 makes this induction unnecessary: the length bound, and much more, follow directly.
+
+1.5 Status of the inputs
+  - Lemma 6.1, Lemma 6.2, Lemma 6.3: PROVED here.
+  - Piece-shape theorem: PROVED in N2 (Prop 1.17(a): pieces(B/R) = pieces(B) - {R} under rung deletion; (b): the
+    base is the T-vines with D = 0, which have <= 11 atoms by N2 Lemma 1.8).  CONFIRMED by REF2.  Its base is
+    re-CHECKED here: the piece shape holds on all 1530 shapes <= 41 atoms.
+  - Therefore Theorem 6 is PROVED for all sizes, with no base of its own.
+
+1.6 Checks (CHECKED)
+  run_item6.py 41 23 14  ->  out_item6_41_23.txt  (39 s)
+    * Closures (Z1-closure of T, <= 2 triple bonds): 1, 1, 4, 6, 11, 15, 22, 28, 37, 45, 56, 66, 79, 91, 106, 120,
+      137, 153, 172 at 3, 5, ..., 39 atoms.
+    * Undirected T-vine shapes: 3, 5, 10, 14, 21, 27, 36, 44, 55, 65, 78, 90, 105, 119, 136, 152, 171, 189, 210 at
+      5, ..., 41 atoms (1530 in total).
+    * Each shape is re-verified with the defining predicate: block degrees, multiplicity <= 2, closure defined,
+      and an exhaustive (Y2)-search to T (no confluence assumed).
+    * Of 12522 joint placements tested, 0 were disconnected or had an interior cut atom (Lemma 4.1).
+    * Directed classes: 8, 32, 120, 366, 1060, 2860, 7464, 18808, 46352, 111856 at 5..23 atoms (188926 in total).
+      These equal REF2's counts at 5..21.
+    * Theorem 6 (i)-(iii), checked at atom level for both labellings: 1530/1530 shapes OK.  The checks are:
+        - piece shape and core shape;
+        - the inter-piece bonds split into classes of mutually 2-cut-forming bonds; each class is a cycle; the
+          cycle count gives a cactus; lengths <= 3 with at most one triangle;
+        - Gamma-degrees;
+        - Lemma 6.2 over all joint-free 2-cut sides;
+        - spine separation;
+        - consecutive bond counts (2,...,2 with at most one 1), and no non-consecutive bonds;
+        - r = 0 iff sigma = 1;
+        - at most one degree-6 piece, which is exactly the P-a attachment;
+        - pendant iff (D) core;
+        - pendant boundary of 2 single bonds with distinct ends;
+        - P-a / P-b configuration;
+        - the peel (rungs with one rail each side, ending at the core).
+      Statistics:
+        - labellings: 1230 P-a, 1430 P-b, 400 no pendant;
+        - cycles: 21955 digons and 715 triangles;
+        - pendant lengths s from 1 to 19.
+      Since the structure depends only on the undirected joint-marked graph, this covers every directed T-vine
+      with <= 41 atoms.  In particular it covers all 188926 directed T-vines with <= 23 atoms.
+  refcopy/ (REF2's unmodified gen_counts.py, check_layervine.py, cactus_cycles.py, extended to 23 atoms)
+    * gen_counts_23.txt: 188926 directed T-vines (111856 at 23), 0 failing the T-vine predicate.
+    * check_layervine_23.txt: 377852 labellings.
+        - 73860 "no pendant", 303992 "pendant chain", 0 failures;
+        - Prop 1.17(a) piece invariance on 1206844 rung deletions;
+        - at most 3 maximal B2-ladders and at most 13 atoms outside them, at every size up to 23.
+    * cactus_cycles_23.txt: maximum cycle length 3.  The 94206 vines with a triangle have exactly one
+      (59384 + 32776 + 2046 = 94206).
+    * Wall time 5.5 min.
+  controls.py -> out_controls.txt (negative controls).
+    * Hand-built blocks with two hanging (D) pendants, and with a chain cycle of length 4: Lemma 6.2 is violated
+      and the (Y2)-search fails, as predicted.
+    * Vine (II) is rejected.
+    * A (V)-type T-vine passes.
+  drawn_groups.py 3 -> out_drawn_groups_3.txt: Theorem 6 holds on all 180 expansions of (III)-(VIII) with
+    <= 3 rungs per slot.
+
+
+2. ITEM 2 — CORRECTED STATEMENTS
+--------------------------------
+
+2.1 Lemma 1.14(c') (corrected; R1) and the patched step of N2 Theorem 1.15.  PROVED.
+
+  Setting (N2 Def 1.3).
+    - B is a block.  R = {a, b} is a 2-cut rung of B that is not a cap, with sides K-, K+.  The rails of a are
+      a-x- and a-x+, those of b are b-y- and b-y+.
+    - U is a vine-like sub-object of B with no joint in R and R contained in I(U) (the all-in case of
+      N2 Lemma 1.14(a)).  U° is U minus its adjoint (if U is hyper), and V_1, ..., V_p are the ingredients of the
+      chain U°.
+    - B/R is the deletion.  Phi(U) is the atomic group S(U) - R of B/R, with the same joints and the same adjoint.
+
+  Lemma 1.14(c').
+   (i)   R is contained in I(V_i) for exactly one i, and R is a 2-cut rung of V_i.
+   (ii)  If R != I(V_i), then V_i/R is a vine of the same type as V_i, and Phi(U) is vine-like, of the same kind
+         (block or hyper) and the same type as U, with ingredients V_1, ..., V_i/R, ..., V_p.
+   (iii) If R = I(V_i), then:
+           * V_i is the 4-atom vine (II) with one double bond (the "Q-block") on {x, a, b, y}, where x, y are its
+             joints, K- n S(V_i) = {x} and K+ n S(V_i) = {y};
+           * both new bonds of B/R join x and y;
+           * Phi(V_i) is the vine (I) {x, y} formed by them;
+           * Phi(U) is vine-like, of the type obtained from U's by replacing that ingredient (II) with (I);
+           * the gap of Phi(U) is constant on B/R: it is identically 0 or +-r, because the two new bonds form the
+             2-edge-cut delta_{B/R}(K-) and the gap is propagated along the chain.
+         Case (iii) can occur only if U has a 4-atom Q-block ingredient.
+
+  Proof.
+   (i) a is not a junction of U°.
+     - A junction sends exactly two bonds into each of two consecutive ingredients.  a's bonds are
+       {ab, ab, ax-, ax+}.
+     - Splitting the two copies of ab between ingredients would put b in both.  Two consecutive ingredients share
+       only their junction, so this is impossible.
+     - Otherwise one ingredient W gets {ab, ab}, and the next ingredient W' gets {ax-, ax+}.
+         * W' - a is connected: removing a degree-2 atom from a block leaves it connected, because the
+           complement of a side of a 2-edge-cut in an even-degree connected graph is connected.
+         * W' - a avoids b, since b lies in W, and W' n W = {a}.
+         * So W' - a joins x- in K- to x+ in K+ inside B - R.  This is impossible, since K- and K+ are different
+           components of B - R.
+     - The same holds for b.  So a and b lie in exactly one ingredient, which is the same one V_i (they are
+       joined by bonds).  They are not joints of V_i: the joints of V_i are junctions or joints of U, and R has
+       no joint of U.  So R is contained in I(V_i).
+     - R is a 2-cut rung of V_i.  The rails are bonds of V_i.  If a component Z of V_i - R inside K- contained
+       x- but not y-, then delta_{V_i}(Z) = {ax-} would be odd, which is impossible since all V_i-degrees are even.
+       So V_i n K- and V_i n K+ are connected, and each of a, b sends one rail into each.
+   (ii) If both V_i n K-+ contain a non-joint atom of V_i:
+     - R is a 2-cut rung of cl(V_i) and cl(V_i/R) = cl(V_i)/R (N2 Lemma 1.9).  N2 Lemma 1.5 gives the same
+       Y-class.
+     - The shape conditions (no triple bond, no interior cut atom) hold by the proof of N2 Lemma 1.9(1).
+     If exactly one side, say V_i n K-, consists of joints of V_i:
+     - That side is {x} (both rails go to the joint x), or the two adjacent joints {j, j'} when sigma = 1.
+     - In cl(V_i), a=b becomes a triple bond whose external bonds go to x+ and y+.
+     - x+ != y+.  Otherwise x+ would be a cut atom of V_i separating {x, a, b} from the rest unless x+ is the
+       other joint, and then the other side would also consist of joints.
+     - One (Y2) at a=b produces exactly cl(V_i/R): the new bonds join the joint(s) of that side to x+ and y+,
+       and contracting the joint(s) gives the bond x+-y+.  So the Y-class is the same (a (Y2)-path).
+     - V_i/R has single new bonds and no interior cut atom.
+     The other ingredients and the junctions are unchanged, and the adjoint (joining U's joints) is not in R.
+   (iii) If both sides consist of joints of V_i:
+     - Each side is connected and contains both of its rail ends, so V_i n K- = {x} and V_i n K+ = {y}.
+     - Hence V_i = {x, a, b, y} with x-a, x-b, a=b, a-y, b-y.  This is vine (II) with one double bond: its
+       closure is the quadruple bond.  It cannot be a T-vine, since T-vines have >= 3 interior atoms.
+     - The deletion's new bonds pair the K- rail ends (both x) with the K+ rail ends (both y).  So they are x-y
+       twice, anti-parallel under the canonical matching (x- -> y+, x+ -> y-), and form vine (I).
+     - They are the only bonds of B/R between K- and K+, so they form a 2-edge-cut of B/R.  The gap of the
+       ingredient {x, y} at x is therefore constant (N2 Lemma 1.13, or N1 Lemma D).
+     - At each junction, conservation (balance) makes the gaps of consecutive ingredients equal up to sign.
+       Within an ingredient, the gaps at its two joints are opposite.  So the gap of Phi(U) is constant.  QED
+
+  Patched induction step of N2 Theorem 1.15 for (F3), (F4) and (F5) for single sub-objects.  B is a T-vine, U a
+  proper vine-like sub-object, and R a deletable rung containing no joint of U.
+    - If U is all-out, nothing changes (N2).
+    - If U is all-in and case (iii) held, then Phi(U) would be a proper vine-like sub-object of the smaller
+      T-vine B/R (N2 Lemma 1.9) with constant gap.  This contradicts (F4) for B/R, by the induction hypothesis.
+    - So case (ii) holds, and N2's argument goes through: the type is preserved, and N2 Lemma 1.14(d),(e)
+      transfer gap freeness and removal connectivity.
+  As a consequence, (F3) shows that no sub-object of a T-vine has a Q-type ingredient.
+  (REF2's counterexample B = (I) o Q-block o (I) is an instance of (iii) in a block that is not a T-vine.)
+
+  CHECKED: lemma114c_check.py 13 14 -> out_lemma114c_13.txt.
+    * All 1586 directed T-vines <= 13 atoms: 924 all-in images, all type-preserving.
+    * 12165 generic blocks (directed chains of 2-3 ingredients from {I, Q-block, II with 2 double bonds, 5-atom
+      T-vines}, plus REF2's counterexample): 35107 all-in images.
+        - 17344 type-preserving;
+        - 17763 type changes, ALL of the predicted form (II -> I, rail ends coinciding on both sides, constant gap
+          in B/R): B:II -> B:I 5921, VC:I+II -> VC:I+I 1346, VC:II+II -> VC:I+II 7936, VC:II+T -> VC:I+T 2560;
+        - 0 unpredicted changes.
+
+2.2 Corollary 1.16' — removal under the SOURCES' semantics (R2).  PROVED.
+
+  Removal semantics (TARGET L2140 "we cut the molecule at each of its joints v, along the two bonds (l1, l2) ...
+  that belong to U.  This disconnects a VC, denoted by U', ... and then we remove U'"; TARGET footnote at L2104;
+  DH23 L1775 "(which is U or U minus a bond in case of HV or HVC)"; TARGET Lemma `subsetvc` L2431; DH23 Prop
+  `subsetvc` L2128).
+    To remove a vine-like object U means:
+      - delete I(U) := S(U) minus the two end joints of U°;
+      - delete the bonds E(U°);
+      - KEEP the two end joints and, if U is hyper, its adjoint bond.
+    N2's semantics also deleted the adjoint.  REF2 showed that N2's Cor 1.16 (1)-exception, (3) and (4) fail
+    under N2's semantics.
+
+  Setting.  gamma <= 1/2, and the vine family is V_enl.
+    - The container Ctr is one of: a vine V of V_enl (types (I), (II), T-vine); an HV (V, e*); a VC
+      V_1 o ... o V_p (p >= 2); an HVC (VC, e*); or a DV' = V_1 u V_2.  A DV' consists of two sigma = 1 members of
+      V_enl sharing both joints (and hence the joint bond f) and no other atom (N2 N6; DH23 L1619).  The
+      ingredients of Ctr are V, the V_i, or the two vines of a DV'.  Its junctions are the joints of its
+      ingredients.
+    - A member is a vine-like U with S(U) a proper subset of S(Ctr), sharing no ingredient with Ctr.
+      In a DV' a member may be V_1 or V_2 (DH23 L1751, L1775: "if both vines (V) in one DV are SG then we only
+      collect one of them").
+    - A family is a set of pairwise atom-disjoint members.
+
+  Corollary 1.16'.
+   (1) Location.  Every member U satisfies exactly one of:
+         (L-a) S(U) is contained in S(V) for one ingredient V of the container (one of the two vines, for a DV'),
+               U is a proper sub-object of V, and S(U) contains no joint of V;
+         (L-b) the container is an HV (V, e*) with sigma(V) = 1, and U is the vine (I) {j1, j2} formed by e* and
+               V's joint bond f;
+         (L-c) the container is a DV' and U is V_1 or V_2.
+   (2) List.
+         - In (L-a) with V a T-vine, U is a block I, a block or hyper VC:I+I, a block T-vine, or a hyper T-vine
+           (N2 Theorem 1.15 (F3)).
+         - In (L-a) with V a vine (II), U is a block I, namely a rung of V.
+         - V = (I) has no proper sub-object.
+   (3) Connectivity.  After removing all members of any family (sources' semantics), the container is still
+       connected.
+   (4) Maximal SG members are pairwise disjoint, except possibly the two vines of a DV', of which the sources keep
+       only one (DH23 L1751, L1775).  (N2 Cor 1.16(5); CONFIRMED by REF2.)
+
+  Lemma P (parity; REF2's step).  PROVED.
+    Let V be a vine whose joints j1, j2 are joined by a bond f, so sigma(V) = 1.  Let F be a family of pairwise
+    disjoint sub-objects of V, none containing j1 or j2.  Let G be V after removing F (sources' semantics).
+    If G is connected, then G - f is connected.
+    Proof.
+      - Suppose not.  Let X (containing j1) and Y (containing j2) be the two components of G - f.
+      - For U in F with end joints a_U, b_U: if U is hyper, its kept adjoint (not f, since U avoids j1, j2) joins
+        a_U and b_U.  So a_U and b_U are on the same side.
+      - Put X~ := X together with I(U) for every U with a_U in X.  Every atom of V lies in X~ or in its complement.
+      - delta_V(X~) consists of f, plus, for each block member U with a_U in X and b_U in Y, its two U°-bonds at
+        b_U.  (b_U has U°-degree 2.)  All other bonds lie within one side: G - f has no X-Y bond, and the bonds
+        of a non-split member lie inside one side.
+      - So |delta_V(X~)| = 1 + 2k is odd.  But every V-degree is even (2 or 4), so every cut of V is even.  This
+        is a contradiction.  QED
+    Under N2's semantics a split hyper member contributes 3 bonds (its adjoint is gone), and the parity argument
+    fails.  This is exactly REF2's counterexamples.
+
+  Proof of (1).
+   Step 0: facts on ingredients.
+     - Every vine W of V_enl satisfies: W - J(W) is connected, and W has no interior cut atom.  For T-vines this
+       is N2 Theorem 1.15 (F1).  For (II) the ladder is clear, and (I) is trivial.
+     - Hence N2 Lemma 1.12: no proper sub-object of W contains a joint of W.
+     - Also, a vine (II) has no joint-free set K with |delta(K)| = 2.  Its piece quotient is the path of digons
+       j1 = R_1 = ... = R_m = j2, so every side of a 2-edge-cut contains a joint.
+   Step 1: ingredients of U lie in one container ingredient.
+     Let W be an ingredient of U° (a vine; it has no interior cut atom, and I(W) is connected or empty).
+     (Container VC, HV or vine; for an HV, here U does not contain both j1 and j2, so e* is not in U.)
+       - An intermediate junction c (container-degree 4) cannot be in I(W).  Otherwise W - c would be connected
+         and contain c's neighbours on both sides of c, which c separates.
+       - So I(W), if nonempty, lies in one component of the container minus its junctions.  Those components are
+         the I(V_i), which are connected by Step 0.  The joints of W are neighbours of I(W), so W lies in one V_i.
+         A double bond W lies in one V_i because every bond does.
+       - Now let two consecutive ingredients W, W' of U lie in different V_i, V_j.  Their common junction is then
+         a junction c of the container.  By Lemma 1.12, W is not a proper sub-object of V_i containing V_i's
+         joint c, so W = V_i.  That is a common ingredient, which is excluded.
+       - So S(U) is contained in some S(V_i).  If U contained a joint of V_i, Lemma 1.12 would give
+         S(U) = S(V_i), so U = V_i (excluded), or U is hyper on S(V_i) with an extra joint-joint bond.  The only
+         such bond is e*, and then U is the container, which is not proper.  This gives (L-a).
+     (Container DV'.)
+       - j1 and j2 have DV'-degree 3, so they are never interior to U.  The components of DV' - {j1, j2} are
+         I(V_1) and I(V_2), and the only bond between j1 and j2 is the single shared bond f.  So every ingredient
+         of U lies in V_1 or in V_2.
+       - Consecutive ingredients of U in different vines would share j1 or j2, and Lemma 1.12 forces W = V_1.  The
+         next ingredient then also contains a joint of V_2, so it is V_2.  Then U contains both vines and is the
+         DV' itself, which is not proper.
+       - So U lies in one vine V_k.  Either U avoids its joints (L-a), or U = V_k (L-c).  No hyper version exists:
+         the only joint-joint bond f is already in V_k.
+     (Container HVC, U containing c_0 and c_p, so e* is in U.)
+       - c_0 has container-degree 3, so c_0 and c_p are the joints of U.
+       - If U is a block: the U-degree of c_0 is 2, namely e* plus one bond of V_1.  The degree sum inside V_1,
+         sum over y in S(U) n S(V_1) of deg_{U n V_1}(y), is then 1 + (even), which is odd.  But it must equal
+         twice the number of U-bonds in V_1.  This is a contradiction.
+       - If U is hyper: its adjoint is e*, the only c_0-c_p bond.  Then U - e* is a block joining c_0 in V_1 to
+         c_p in V_p, contradicting the VC case unless U - e* is the whole VC (U is the container).
+     (Container HV (V, e*), U containing j1 and j2, so e* is in U.)
+       - j1 and j2 have container-degree 3, so they are the joints of U.
+       - Block U with sigma(V) = 1: f is also in U, so the U-bonds at j1 are {e*, f}, and likewise at j2.  So
+         S(U) = {j1, j2}.  This is (L-b).
+       - Block U with sigma(V) = 0: the U-degree of j1 is 2, namely e* plus j1-x.
+           * The sets I(U) and K := S(V) - S(U) are disjoint and joint-free.  Each has |delta_V| = 2: I(U) through
+             j1-x and j2-x'; K through j1's and j2's other bonds.
+           * Both are nonempty: I(U) = {} would need a second j1-j2 bond, impossible when sigma = 0.
+           * This contradicts Lemma 6.2 (T-vine V), or the (II) fact of Step 0.
+       - Hyper U: the U-degree of j1 is 3, the adjoint is e* or f, and U minus its adjoint is a block containing
+         I(V) (connected, by (F1)).  So U is the container, which is not proper.
+     (Container a single vine V.)  U is a proper sub-object of V, and Lemma 1.12 gives (L-a).
+   This completes (1).
+
+  Proof of (2).
+    - For T-vines this is N2 Theorem 1.15 (F3), as patched in Sec. 2.1.
+    - For V = (II), with rungs R_1, ..., R_m and U avoiding j1, j2: let i_0 be the least rung index met by S(U).
+      The atoms of S(U) in R_{i_0} have no U-bond to the left, so their U-degree is <= 3, and they are U-joints.
+        * If both atoms of R_{i_0} are in U, both are joints.  Then the right-most rung met is also made of joints,
+          so U = R_{i_0} as a double bond.
+        * If only one atom is in U, its U-degree is <= 1, which is impossible.
+      Hyper is impossible, since a 2-atom set has no third bond.
+
+  Proof of (3).
+    Case A: no member is of type (L-b) or (L-c).
+      - Each ingredient W stays connected after removing the members inside it.  For T-vines this is N2 Theorem
+        1.15 (F5), proved there under N2's stronger semantics; removing fewer bonds keeps connectivity.  For (II)
+        only rungs are removed, and the two rails remain.
+      - W keeps both of its joints ((L-a) members avoid them).
+      - Ingredients are glued at junctions (a DV' at both joints), and kept adjoints only add connections.
+    Case B: one member U* is of type (L-b) or (L-c).  There is at most one, since such members contain both j1 and
+    j2.
+      - Let V be the vine that U* does not swallow: the HV's vine in (L-b), the other vine in (L-c).
+      - Every other member is (L-a) in V.  It is disjoint from {j1, j2}, and in (L-c) also from I(V_1).
+      - Let G_V be V after removing these members.  By Case A, G_V is connected.
+      - Removing U* in addition deletes f (and e* in (L-b), or I(V_1) and E(V_1) in (L-c)), leaving G_V - f.
+      - G_V - f is connected by Lemma P.  QED
+
+  CHECKED: cor116_check.py 13 11 7 14 -> out_cor116_13_11_7.txt  (4 s).  Containers:
+    * HV: every directed T-vine with <= 13 atoms, with both directions of e* (3172 containers, REF2's set);
+    * DV': all pairs of sigma = 1 T-vines with <= 11 atoms, joint bond oriented consistently (465 containers);
+    * VC: 6400 containers; HVC: 12800 containers (pairs of T-vines with <= 7 atoms, all joint orders and e*
+      directions).
+    Every family of pairwise disjoint members was enumerated: HV 33317, DV' 56257, VC 54116, HVC 108232
+    (251922 in total).
+    Results:
+      - 0 unlocated members; locations: L-a everywhere else, L-b 62 (type B:I, all in sigma = 1 HVs), L-c 930
+        (type B:T);
+      - sources' semantics: 0 disconnections;
+      - N2's semantics: HV 109 disconnections (= REF2's 109 on the same 3172 containers), DV' 1488 on 465
+        unordered pairs (REF2 reports 2880 on its 900 ordered pairs), VC 0, HVC 0.
+
+
+3. ITEM 3 — BASE CASES (the minimal finite sets)
+------------------------------------------------
+
+3.1 What each induction needs.  Counts are CHECKED by base_sets.py (out_base_sets_13.txt, and
+out_base_sets_21_25_17.txt to 21 directed / 25 undirected atoms).  D(B) is the number of deletable rungs.
+
+  (B1) Piece-shape theorem (N2 Prop 1.17(b); N1 Theorem N piece data; it feeds Theorem 6, (U0), `cohmol`,
+       `vineest`).  Induction: rung deletion (N2 Prop 1.17(a)).
+       BASE = all T-vines with D(B) = 0.
+         * Undirected: 13 shapes (3, 5, 4, 1 with 5, 7, 9, 11 atoms).
+         * Directed: 94 classes (8, 32, 40, 14).
+       To check: the pieces are 2 joints, one 3-atom core of shape B/C/D, and 2-atom pieces with internal
+       multiplicity 1 or 2.  For Theorem N, also N1's analytic unit data on these cores.
+  (B2) Theorem 6 (`layervine`) and the shape constants (iv): NO further base (Sec. 1.4).
+  (B3) N2 Theorem 1.15 (F1)(i) (B - J connected): BASE = the D = 0 vines of (B1).
+       (F1)(ii): none (part of the definition, or Lemma 4.1).  (F2), (F6): none (derived).
+  (B4) N2 Theorem 1.15 (F3), (F4), (F5) for single sub-objects.  Induction: deletion of a deletable rung avoiding
+       U's joints, plus Lemma 1.14(c').
+       BASE = the pairs (B, U) such that every deletable rung of B contains a joint of U.  This forces D(B) <= 1
+       (N2 Lemma 1.11), hence |B| <= 13 (N2 Lemma 1.8).
+         * Undirected: 70 pairs (50 on the 13 shapes with D = 0, 20 on the 14 shapes with D = 1).
+           There are 27 shapes with D <= 1.
+         * Directed: 459 pairs (201 + 258) on 288 classes.  There are 410 directed classes with D <= 1.
+       Types among the directed base pairs: B:I 305, H:T 104, H:VC:I+I 26, B:T 18, B:VC:I+I 6.
+  (B5) (F5) for families with >= 2 members.  Induction: N2's steps 1-4.
+       BASE = families that steps 1-3 cannot reduce: no member is the double bond of a rung, and every
+       deletable rung contains a member's joint.  This set is EMPTY.
+         * CHECKED exhaustively over all T-vines with <= 13 atoms, directed and undirected.
+         * This covers every base candidate, since the base forces D <= 1 and hence <= 13 atoms.
+         * So step 4 of N2's family induction is never reached with >= 2 members, and (B4) suffices.
+  (B6) N2 Lemma 5.2 (drawn (III)-(VIII) are T-vines) and `cohmol` = pieces on drawn vines.
+       BASE = the 6 templates III-VIII with k = 0, plus the 13 slot facts (each slot is a 2-edge-cut with an
+       interior atom on each side).  Induction: rung insertion.
+       CHECKED here for k <= 3 per slot (drawn_groups.py; 180 expansions).
+
+  COMPLETENESS of the base lists.  This is what a kernel proof must also certify.
+    - Any T-vine with D <= 1 has <= 13 atoms (N2 Lemma 1.8, PROVED from N2 Lemma 1.7).
+    - So it suffices to have the complete list of T-vines with <= 13 atoms:
+        * 53 undirected shapes (3, 5, 10, 14, 21);
+        * 1586 directed classes;
+        * their closures: 23 multigraphs with <= 11 atoms that (Y2)-reduce to T with <= 2 triple bonds
+          (1, 1, 4, 6, 11 at 3, 5, 7, 9, 11 atoms).
+    - Closures are exactly the (Z1)-closure of T.  A (Y2)-path reversed is a (Z1)-path, and (Z1) never lowers the
+      number of triple bonds.
+    - For (B1) alone, the list <= 11 atoms suffices: 32 shapes from 12 closures.
+    - Lemma 1.8 is tight: max |B| = 11 + 2D for D = 0..7 (CHECKED to 25 atoms, undirected).
+
+3.2 Directions are not needed.  PROVED; CHECKED.
+  Every fact in (B1)-(B5) can be stated and proved for the undirected joint-marked graph:
+    - pieces, 2-edge-cuts, rungs, D(B), Lemma 6.2: obviously;
+    - sub-objects, by "undirected sub-objects": the degree conditions 2/4, or 3/3/4 with an adjoint;
+    - types, which are orientation-free (N2 Remark after Lemma 1.4);
+    - gap freeness, read through N2 Lemma 1.13's criterion "the two U°-bonds at a joint do not form a 2-edge-cut".
+  The proofs of N2 Lemmas 1.9-1.14 and of Lemma 1.14(c') never use directions:
+    - Lemma 1.10 uses degrees.
+    - For 1.14(d) in 2-cut form: let {l, l'} = delta_B(X) with R on one side.  If 0 or 1 rails cross, the
+      deletion maps the cut to a 2-cut of B/R.  If 2 rails cross, they come from one side K-+ (a K- and a K+ rail
+      would force a K-bond across the cut), so X = K-+ and the new bonds form the 2-cut.  This holds for any
+      matching of the new bonds.
+  Every directed sub-object is an undirected sub-object with the same type and the same 2-cut criterion.  So the
+  undirected theorem implies the directed one.
+  CHECKED: the undirected (F1)-(F6) hold on all 358 undirected shapes with <= 25 atoms.
+    - 4332 sub-objects, all of the five allowed types; F6 overlapping pairs 322;
+    - families exhaustive to 17 atoms (11877 families of size >= 2), disjoint pairs above 17 (17019).
+  Hence the MINIMAL base for a formalization is:
+    * 13 undirected shapes for (B1);
+    * 70 undirected (shape, sub-object) pairs for (B4);
+    * together with the 53-shape completeness list (<= 13 atoms) or the 32-shape list (<= 11) for (B1) alone.
+
+
+4. ITEM 4 — LEAN-FACING PROPOSAL
+--------------------------------
+
+4.1 IsTVine (B2 conventions: half-edge molecules, undirected `IsBlock`, `bondsBetween`, `GroupConnected`)
+
+  closure S j1 j2 : Option UMultigraph
+    The multigraph on S - {j1, j2}.  Keep the bonds of S not at a joint, then:
+      - sigma = 0: add, for each joint, one bond between its two S-neighbours;
+      - sigma = 1: add one bond between the S-neighbour of j1 other than j2 and the S-neighbour of j2 other
+        than j1.
+    The result is none if a loop arises, or if sigma >= 2 (that is vine (I)).
+  Y2Step G G'
+    a != b are joined by exactly 3 bonds, a has exactly one further bond (to c), b exactly one (to d), c != d,
+    and G' = G - {a, b} + {c-d}.
+  IsTVine S j1 j2 :=
+       IsBlock S j1 j2                                           -- degrees 2/4, connected, atomic group
+    /\ (forall u v in S, u != v -> bondsBetween u v <= 2)        -- no triple bond
+    /\ exists G, closure S j1 j2 = some G /\
+       exists G', Relation.ReflTransGen Y2Step G G' /\ G' ~= doubledTriangle
+  Lemma 4.1 (PROVED; so "no interior cut atom" is a lemma, not a clause).  If IsTVine S j1 j2, then for every
+  interior v, S - v is connected.
+    Proof.
+      - (Z1) moves preserve 2-connectivity.  Removing a gives G - cd plus b-d, connected because a 2-connected
+        graph is 2-edge-connected.  Removing w not in {a, b}: G - w is connected and the path c-a-b-d replaces cd.
+      - T is 2-connected, so cl(S) is 2-connected.
+      - If v were an interior cut atom of S: every component of S - v contains an interior atom.  A component made
+        only of joints would mean a subdivided loop at v, but the closure is loopless.  Paths in cl(S) - v lift to
+        S - v.  So cl(S) - v would be disconnected, which is a contradiction.  QED
+    CHECKED: 0 of 12522 joint placements up to 41 atoms violate it.  This agrees with REF2's "redundant".
+  The (Y2)-path form needs no confluence lemma: Lemma 6.2 uses only the given path.
+  Equivalent generation, for proofs: cl(S) is T, Z_k(T, l), or Z_k'(Z_k(T, l), l') (N2 Lemma 1.7, Lemma 4.2).
+
+4.2 Groups (TARGET Def `cohmol`) for T-vines.
+  SamePiece S u w :<-> no 2-edge-cut of S separates u and w (equivalently lambda_S(u, w) >= 4).
+  groups S j1 j2 := the SamePiece-classes of S - {j1, j2}.
+  CHECKED (drawn_groups.py): on (III)-(VIII) with <= 3 rungs per slot, groups = the literal `cohmol` groups of
+  TARGET L1489-L1496 (180/180).  For all k this follows from N2 Prop 1.17(a): an inserted rung is a new piece and
+  a new double-bond group.  So the definition extends `cohmol` conservatively.
+  For (II) keep `cohmol` (double-bond pairs; its pieces are the same).  For (I) there are no groups.
+
+4.3 The gamma-dependent family
+
+  IsVineEnl S j1 j2  := IsVine .I S j1 j2 \/ IsVine .II S j1 j2 \/ IsTVine S j1 j2
+  IsVineGamma g S j1 j2 := (g <= 1/2 /\ IsVineEnl S j1 j2) \/ (1/2 < g /\ exists X, IsVine X S j1 j2)
+  bad   := IsVine .I \/ IsVine .II                (the same in both families)
+  normal(g) := IsVineGamma g /\ not bad           (T-vines for g <= 1/2; (III)-(VIII) for g > 1/2)
+
+  HV, VC and HVC are defined from IsVineGamma exactly as from IsVine.  DV' := the union of two sigma = 1 members
+  of IsVineGamma sharing both joints and no other atom.  This replaces "two vines (V)", DH23 L1619 / TARGET L1930.
+  Removal (Step 1 / Operation 1) is defined as in Sec. 2.2: delete I(U) and E(U°), keep the joints and the
+  adjoint.
+  Inclusions:
+    - the drawn (III)-(VIII) are T-vines (N2 Lemma 5.2, PROVED; base CHECKED), so V_{>1/2} is contained in
+      V_{<=1/2};
+    - Q-type blocks = B2 `IsVine .II` (N2 Def 1.2 and REF2 to 21 atoms), so (II) stays a template.
+  The uniform alternative (V_enl for all gamma, TARGET chain only) remains HEURISTIC (N2 Sec. 5.2).  It needs DH23
+  Prop 7.6 Step 2 for T-vines at gamma > 1/2 if DH23's estimate is used, so it is not proposed.
+
+4.4 Every statement whose "vine" must be read in V_gamma
+  Independent scan: vine_inventory.py -> out_vine_inventory.txt.  It covers every labelled environment and
+  attached proof mentioning vine, HV, VC, HVC, DV or the collections, plus all running-text and unattached-proof
+  mentions.  It excludes the false positives TARGET L1267-L1279 and DH23 L1252-L1255 (the macros \Vs_j, \Cs_j)
+  and the equation label "redvine3" at TARGET L1978 and L1994.
+
+  Codes.
+    NEW  read in V_gamma, and needs a T-vine input supplied by notes 1-3.
+    GEN  read in V_gamma; the proof is unchanged given (F1)-(F6), Cor 1.16', Theorem 6 and the shape constants.
+    BAD  concerns bad vines only; identical in both families (no change).
+    EXP  expository or notation.
+  For g > 1/2 every item reads with (I)-(VIII), as now.
+
+  TARGET
+    NEW  Def `defvine` L1384-L1389 (+ L1383, L1391-L1395)          -> V_gamma (Sec. 4.3)
+    NEW  Def `cohmol` L1489-L1499                                  -> groups := pieces (Sec. 4.2)
+    NEW  Prop `layervine` L1513-L1518, proof L1519-L1532           -> Theorem 6 (Sec. 1)
+    NEW  Sec. 9.2 L1723-L1741 and Prop `vineest` L1742-L1751, proof L1752-L1925
+                                                                    -> T-vines are Nor units: N1 Theorem N, N2 Prop 1.17(b)
+    NEW  Lemma `vinechainlem` L1930-L1933                           -> DV replaced by DV' (N2 N6)
+    NEW  Prop `excessprop1` L2154-L2164, proof L2165-L2180, items (1), (2)
+                                                                    -> Step-1 / Operation-1 count for T-vines (N1 Sec. 3.2, N2 Sec. 2.1)
+    NEW  Lemma `subsetvc` L2431-L2434                               -> Cor 1.16' (list, location, sources' semantics)
+    NEW  Prop `lgmolect` L2192-L2200 (perfect components via DH23 Prop 9.6)
+                                                                    -> case (4) at gamma <= 1/2 via ylem1' (N1, N2, REF1)
+    GEN  Prop `excessprop1` (3); Rem `remtame` L2152; Prop `finalmol` L2182-L2190; Prop `subpro` L2040-L2053;
+         Def `defcong` L1934-L1937; Def `defdiff` L1938-L1941;
+         stage 1 L1926-L1977 (collection C, V_0, splicing, (redvine), (redvine2));
+         Sec. 11.1 L2072-L2117 (C_1, C_2 = maximal SG sub-objects, SG atoms, footnote L2104);
+         Operation 1 L2140 and order L2148; proof of (finalcount1) L2202-L2213 ("at most 3 ladders, < 20 atoms":
+         Theorem 6(iv));
+         proof of Prop `layergarden` L2223-L2246; Prop `flowerest1` L2279-L2305 ("20 variables" -> C,
+         N2 Sec. 3); Prop `sumint` (proof mention L1621-L1722)
+    BAD  Prop `molecpl` L1396-L1424 (but "non-core = normal or (II-e)" reads normal(g)); Rem L1425-L1426;
+         Def `twist` L1429-L1434; Rems `explaintwist` L1436, `twistexplain` L1447, figure L1458;
+         Def `lftwist` L1466-L1480; Prop `lftwistprop` L1481-L1488
+    EXP  intro L141, L394, L520-L536; section titles L1293, L1326, L1500, L1533; table L2575-L2602
+
+  DH23
+    NEW  Def `defvine` L790-L795 (+ L788-L789, L797-L799), Rem `remilia` L801-L808
+                                                                    -> V_gamma; "sigma(V) = 0 except (V), (I)" fails for sigma = 1 T-vines (harmless, N2 N6)
+    NEW  Prop `estnormalvine` L1547-L1556, proof L1557-L1611        -> g <= 1/2: Step 3 with T-vines (N1 Theorem N + Cor `sumintest3`);
+                                                                       g > 1/2: original family (Step 2)
+    NEW  Lemma `vinechainlem` L1619-L1622                           -> DV' (N2 N6)
+    NEW  Step 1 L1775 and Prop `excessprop1` L1785-L1804 (count at L1797)
+                                                                    -> T-vine Step-1 count (N1 Sec. 3.2, REF1); read "all SG objects" as "maximal" (Cor 1.16'(4))
+    NEW  Prop `lgmolect` L1818-L1827, proof L1854-L1897, case (4) L1883-L1887
+                                                                    -> g <= 1/2: ylem1' + Prop 9.5' + CASE4 Lemma 2.4; g > 1/2: F75
+    NEW  Prop `moleprop4` L1838-L1841, (2) exception, proof L1959-L1961, and Lemma `ylem1` L1937-L1949
+                                                                    -> "a vine" in (2) is TRUE only for V_enl (YLEM1); read V_enl for every
+                                                                       gamma, or restate as "not Y-exceptional" (YLEM1 R2).  (1): Q'_m only (N2 Lemma 4.1).
+    NEW  Prop `subsetvc` L2128-L2131                                -> Cor 1.16' (also adds the block VC:I+I missing from DH23's list)
+    GEN  Def `twistrep` L890-L902 (codes of non-core (CL) vines); Rem `extravar` L1612-L1616; Sec. 8.1 L1618;
+         Def `defcong` L1623-L1626; Def `defdiff` L1627-L1630; Sec. 8.2 L1643-L1652; Prop `red1step` L1653-L1679,
+         L1680 (Q_sub);
+         Prop `kqmainest1` L1633 (rho via Q_sub) and proof of `kqmainest2` L1692-L1726 ("O(1)": Theorem 6(iv));
+         Prop `kqmainest2` L1681-L1691 (via `lgmolect`); Prop `subpro` L1731-L1746; Rem `subcondition` L1747-L1754;
+         Prop `finalmole` L1806-L1816; Sec. 10.5 L1981, L1985; Lemma `timeFourierlem` L2132-L2159 (proof mention)
+    BAD  Prop `molecpl` L810-L841 (but L836 "non-core if it is normal or (II-e)" reads normal(g));
+         Rem `molecplrem` L842-L850; Def `twist` L852-L859; Rems `explaintwist` L861-L871, `twistexplain`
+         L872-L879, `dectwist` L885-L889;
+         Def `twistgen` L904-L911; Rem `fulltwistrep` L912-L915; Sec. 7.2 L1385-L1386 and Prop `estbadvine`
+         L1401-L1544; Sec. 11.1.1 L2012
+    EXP  Rem L617-L618, Def `defmole0` L633-L636 (passing mention), intro L123, L379-L385, L529-L551,
+         L586-L628 (L586 "(Y)-reduce to Q or T ... exactly vines (II)-(VIII)" is false for (I)-(VIII) and true
+         for V_enl), L788-L789, L809, L851, L882, L1278-L1279
+
+  Implicit dependence.  These statements mention no vine but are built on objects defined from the vine family,
+  so their meaning changes with gamma: rho(Q) and Q_sub (DH23 L1633-L1680), Q_sk -> Q_sub congruence classes,
+  G_sb (TARGET L1942), and the final estimates `kqmainest2`, (finalcount1), (finalsbest2), `layergarden`.  They
+  need no new proof beyond the NEW items above.
+
+
+5. OPEN ITEMS AND RESIDUAL RISKS
+--------------------------------
+
+  OPEN (formalization):
+    - The base enumerations (B1), (B4) and the completeness list (Sec. 3) are Python checks.  A kernel or decide
+      certificate, including isomorphism certificates for the <= 13-atom classification, does not exist yet.
+  OPEN (outside this packet; unchanged from N2/REF2):
+    - the uniform family for gamma > 1/2 (DH23 Prop 7.6 Step 2 for T-vines);
+    - old caveats C1-C3 (F79 core sign; |r| <= L^{-gamma-eta} vs L^{-gamma+eta}; T1^{-1} entries +-2);
+    - N1 Theorem N's analytic unit data on the (B1) base cores were not re-run here; N1 and REF1 checked them to
+      15/17 atoms.
+  Dependencies, not re-proved here (PROVED in N2, CONFIRMED by REF2):
+    - N2 Lemma 1.7 (generation), Lemma 1.8 (size bound), Lemma 1.9 (deletion and insertion), Lemma 1.12,
+      Lemma 1.13, Prop 1.17(a);
+    - Lemma 1.8's tightness was CHECKED here to 25 atoms.
+  Not a risk to item 6.  The proof of Theorem 6 depends on N2 only through the piece-shape theorem.  Its
+  conclusion was also CHECKED directly on 1530 shapes up to 41 atoms, and by REF2's independent code to 23.
+
+
+6. FILES (run as `python3 -I <script> <args>` in this directory)
+-----------------------------------------------------------------
+
+  g3lib.py            library: canonical forms, (Z1)-generation, shapes, orientations, exhaustive (Y2)-search,
+                      2-edge-cuts, pieces, item6() (Theorem 6 checker)
+  sub3.py             sub-objects (directed/undirected), vine types, removal semantics, rungs, directed deletion
+  run_item6.py 41 23 14         Theorem 6 to 41 atoms (undirected) and directed counts to 23  -> out_item6_41_23.txt
+  controls.py                   negative and positive controls for item6 and Lemma 6.2       -> out_controls.txt
+  lemma114c_check.py 13 14      Lemma 1.14(c') on T-vines and generic chains                 -> out_lemma114c_13.txt
+  cor116_check.py 13 11 7 14    Cor 1.16' location and connectivity, both semantics          -> out_cor116_13_11_7.txt
+  base_sets.py 13 13 13 14      base sets; undirected Theorem 1.15 to 13                     -> out_base_sets_13.txt
+  base_sets.py 21 25 17 14      the same to 21 (directed) / 25 (undirected)                  -> out_base_sets_21_25_17.txt
+  drawn_groups.py 3             cohmol groups = pieces on (III)-(VIII); Theorem 6 on them    -> out_drawn_groups_3.txt
+  vine_inventory.py             statement inventory of Sec. 4.4                              -> out_vine_inventory.txt
+  refcopy/                      REF2's unmodified generator and checkers, run to 23 atoms    -> refcopy/out/*_23.txt
+                                (tvines_23.pkl, 43 MB, is the generated data)
+  out/shapes_41.pkl             the 1530 undirected T-vine shapes
+  pinned/                       pinned inputs, with PINNED_SHA256.txt
+  SHA256SUMS                    hashes of every file in this directory except itself
+
+
+7. SUMMARY (handoff to wt-orch)
+-------------------------------
+
+  * ITEM 6: PROVED for all T-vines (so no counterexample exists); none was found computationally either.
+      - TARGET `layervine` (L1513-L1531) needs:
+          (U0) <= 3 ladders plus O(1) atoms, and m+1 groups;
+          (U1) a separating spine of groups;
+          (U2) the remaining groups peel as "Vine (V) minus its joints", attached by 2 single bonds whose inner
+               ends are in one group.
+      - Theorem 6 gives all three for every T-vine, with groups = non-joint 2-cut pieces, for both joint
+        labellings.  It is also sharper:
+          * the piece quotient is a cactus of digons with at most one triangle;
+          * the pendant exists iff the core is (D);
+          * the pendant hangs from a degree-6 single-bond pair (P-a) or from the triangle (P-b);
+          * r = 0 iff sigma = 1.
+      - The proof: cactus lemma + Lemma 6.2 (no two disjoint joint-free 2-poles, from any (Y2)-path) + N2's
+        piece-shape theorem.  No new induction or base case.
+      - CHECKED: 1530 shapes to 41 atoms (all 188926 directed T-vines to 23).  REF2's own code extended to
+        23 atoms: 0 failures.
+  * CORRECTED STATEMENTS (complete proofs):
+      - Lemma 1.14(c'): type is preserved except when R is the whole interior of a 4-atom Q-block ingredient;
+        then that ingredient becomes (I) with constant gap.  In N2 Theorem 1.15 this case contradicts (F4) for B/R,
+        so it never occurs in T-vines.
+      - Cor 1.16': under the sources' semantics (adjoint kept, TARGET L2140, DH23 L1775):
+          (1) location (L-a)/(L-b)/(L-c);
+          (2) list;
+          (3) connectivity via Lemma P (odd cut 1 + 2k in an even-degree vine);
+          (4) maximal SG members are disjoint, except the two vines of a DV', of which the sources keep one.
+      - Both CHECKED, with 0 failures under the sources' semantics.  The note's semantics reproduces REF2's
+        failures.
+  * BASE SET (minimal; directions provably unnecessary):
+      - 13 undirected T-vine shapes with D = 0 (94 directed) for the piece-shape theorem;
+      - 70 undirected (shape, sub-object) pairs on 27 shapes with D <= 1 (459 directed pairs on 288 classes) for
+        Theorem 1.15;
+      - no family base;
+      - the 6 drawn templates + 13 slot facts;
+      - completeness: N2 Lemma 1.8 + the classification of T-vines <= 13 atoms (23 closures, 53 shapes, 1586
+        directed); <= 11 atoms (12 closures, 32 shapes) suffices for the piece-shape theorem alone.
+  * LEAN PROPOSAL:
+      - IsTVine = IsBlock /\ multiplicity <= 2 /\ closure defined /\ (Y2)-path to T; 2-connectivity is a lemma.
+      - groups := 2-cut pieces, conservative over `cohmol`.
+      - IsVineGamma: (I), (II), T-vines for g <= 1/2; B2 (I)-(VIII) for g > 1/2.  DV' replaces DV.
+      - The sources' removal semantics.
+      - Statement list in Sec. 4.4: 8 TARGET and 7 DH23 entries are NEW; the rest are GEN, BAD or EXP.
+  * OPEN: kernel-verified base enumerations; items outside this packet (uniform family; C1-C3).
