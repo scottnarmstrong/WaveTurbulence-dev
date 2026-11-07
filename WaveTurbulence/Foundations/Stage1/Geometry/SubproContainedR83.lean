@@ -30,19 +30,28 @@ open WaveTurbulence WaveTurbulence.LGSpine WaveTurbulence.LGSpine.SourceVine Fin
 
 variable {R : ℕ} {G : Garden (2 * R)}
 
-theorem mem_objects' {σ : Prescription G} {O : Object (stSt G σ).G.molecule} (h : O ∈ objects G σ) :
-    ∃ S, G.molecule.IsMolecule ∧ S ∈ maximalGroups G.molecule ∧ objOf G σ S = some O := by
+/-- B1b (Mk-general form of `mem_objects'`). -/
+theorem mem_objects'Mk {σ : Prescription G} {Mk : Set (Stage1.CLVine _)} {O : Object (stSt (Mk := Mk) G σ).G.molecule} (h : O ∈ objects (Mk := Mk) G σ) :
+    ∃ S, G.molecule.IsMolecule ∧ S ∈ maximalGroups G.molecule ∧ objOf (Mk := Mk) G σ S = some O := by
   unfold objects at h
   obtain ⟨S, -, hS⟩ := List.mem_filterMap.mp h
-  obtain ⟨h1, h2, -, -⟩ := objOf_spec hS
+  obtain ⟨h1, h2, -, -⟩ := objOf_specMk (Mk := Mk) hS
   exact ⟨S, h1, h2, hS⟩
 
-theorem objOf_none (σ : Prescription G) {S : Finset (GBranch G.tree)}
-    (h : ¬ (G.molecule.IsMolecule ∧ S ∈ maximalGroups G.molecule ∧ σ S = Molecule.GapKind.SG ∧ HasObj G S)) :
-    objOf G σ S = none := by
+theorem mem_objects' {σ : Prescription G} {O : Object (stSt G σ).G.molecule} (h : O ∈ objects G σ) :
+    ∃ S, G.molecule.IsMolecule ∧ S ∈ maximalGroups G.molecule ∧ objOf G σ S = some O := mem_objects'Mk (Mk := ∅) h
+
+/-- B1b (Mk-general form of `objOf_none`). -/
+theorem objOf_noneMk (σ : Prescription G) {S : Finset (GBranch G.tree)}
+    (h : ¬ (G.molecule.IsMolecule ∧ S ∈ maximalGroups G.molecule ∧ σ S = Molecule.GapKind.SG ∧ HasObj G S)) {Mk : Set (Stage1.CLVine _)} :
+    objOf (Mk := Mk) G σ S = none := by
   classical
   unfold objOf
   rw [dif_neg (fun h' => h ⟨h'.1, h'.2.1, h'.2.2.1, h'.2.2.2.1⟩)]
+
+theorem objOf_none (σ : Prescription G) {S : Finset (GBranch G.tree)}
+    (h : ¬ (G.molecule.IsMolecule ∧ S ∈ maximalGroups G.molecule ∧ σ S = Molecule.GapKind.SG ∧ HasObj G S)) :
+    objOf G σ S = none := objOf_noneMk (Mk := ∅) σ h
 
 theorem objOf_some (hM : G.molecule.IsMolecule) (σ : Prescription G) {S : Finset (GBranch G.tree)}
     (hS : S ∈ maximalGroups G.molecule) (hσ : σ S = Molecule.GapKind.SG) (hO : HasObj G S) :
@@ -58,16 +67,24 @@ theorem cover_group (hM : G.molecule.IsMolecule) {T : Finset (GBranch G.tree)} (
   obtain ⟨g, hg, hTg⟩ := cover_of_vineLike hpart hT
   exact ⟨g, by rw [← partition_eq_maximalGroups hpart]; exact hg, hTg⟩
 
-theorem nohinge_unmerged (σ : Prescription G) {P : Finset (GBranch (stSt G σ).G.tree)}
-    (hP : Disjoint P (stSt G σ).hinges) : ∀ c ∈ P, (stSt G σ).cls ((stSt G σ).M.ob c) = none := by
+/-- B1b (Mk-general form of `nohinge_unmerged`). -/
+theorem nohinge_unmergedMk (σ : Prescription G) {Mk : Set (Stage1.CLVine _)} {P : Finset (GBranch (stSt (Mk := Mk) G σ).G.tree)}
+    (hP : Disjoint P (stSt (Mk := Mk) G σ).hinges) : ∀ c ∈ P, (stSt (Mk := Mk) G σ).cls ((stSt (Mk := Mk) G σ).M.ob c) = none := by
   intro c hc
   by_contra h
-  exact Finset.disjoint_left.mp hP hc (((stSt G σ).mem_hinges c).mpr h)
+  exact Finset.disjoint_left.mp hP hc (((stSt (Mk := Mk) G σ).mem_hinges c).mpr h)
+
+theorem nohinge_unmerged (σ : Prescription G) {P : Finset (GBranch (stSt G σ).G.tree)}
+    (hP : Disjoint P (stSt G σ).hinges) : ∀ c ∈ P, (stSt G σ).cls ((stSt G σ).M.ob c) = none := nohinge_unmergedMk (Mk := ∅) σ hP
+
+/-- B1b (Mk-general form of `pi_ob`). -/
+theorem pi_obMk (σ : Prescription G) {Mk : Set (Stage1.CLVine _)} {c : GBranch (stSt (Mk := Mk) G σ).G.tree} (h : (stSt (Mk := Mk) G σ).cls ((stSt (Mk := Mk) G σ).M.ob c) = none) :
+    (stSt (Mk := Mk) G σ).M.pi (stSt (Mk := Mk) G σ).hcls ((stSt (Mk := Mk) G σ).M.ob c) = c := by
+  apply (stSt (Mk := Mk) G σ).M.ob_inj
+  rw [(stSt (Mk := Mk) G σ).M.ob_pi, repC_of_none h]
 
 theorem pi_ob (σ : Prescription G) {c : GBranch (stSt G σ).G.tree} (h : (stSt G σ).cls ((stSt G σ).M.ob c) = none) :
-    (stSt G σ).M.pi (stSt G σ).hcls ((stSt G σ).M.ob c) = c := by
-  apply (stSt G σ).M.ob_inj
-  rw [(stSt G σ).M.ob_pi, repC_of_none h]
+    (stSt G σ).M.pi (stSt G σ).hcls ((stSt G σ).M.ob c) = c := pi_obMk (Mk := ∅) σ h
 
 /-- Atoms of `M_sb` that are unmerged images of atoms of an object's group lie in the object. -/
 theorem atoms_sub_obj (hM : G.molecule.IsMolecule) (σ : Prescription G) {S : Finset (GBranch G.tree)}
@@ -85,11 +102,16 @@ theorem obj_group_of_mem (σ : Prescription G) {O : Object (stSt G σ).G.molecul
   mem_objects' hO
 
 
-theorem mem_objects_of (σ : Prescription G) {S : Finset (GBranch G.tree)} {O : Object (stSt G σ).G.molecule}
-    (hS : S ∈ maximalGroups G.molecule) (hσ : σ S = Molecule.GapKind.SG) (hO : objOf G σ S = some O) :
-    O ∈ objects G σ := by
+/-- B1b (Mk-general form of `mem_objects_of`). -/
+theorem mem_objects_ofMk (σ : Prescription G) {S : Finset (GBranch G.tree)} {Mk : Set (Stage1.CLVine _)} {O : Object (stSt (Mk := Mk) G σ).G.molecule}
+    (hS : S ∈ maximalGroups G.molecule) (hσ : σ S = Molecule.GapKind.SG) (hO : objOf (Mk := Mk) G σ S = some O) :
+    O ∈ objects (Mk := Mk) G σ := by
   unfold objects
   exact List.mem_filterMap.mpr ⟨S, mem_sgGroups.mpr ⟨hS, hσ⟩, hO⟩
+
+theorem mem_objects_of (σ : Prescription G) {S : Finset (GBranch G.tree)} {O : Object (stSt G σ).G.molecule}
+    (hS : S ∈ maximalGroups G.molecule) (hσ : σ S = Molecule.GapKind.SG) (hO : objOf G σ S = some O) :
+    O ∈ objects G σ := mem_objects_ofMk (Mk := ∅) σ hS hσ hO
 
 theorem containsDart_inGroup {V D : Type*} [DecidableEq V] [Fintype D] [DecidableEq D] {M : Molecule V D}
     (O : Object M) {x : D} (h : O.ContainsDart x) : M.InGroup O.atoms x := by
@@ -98,16 +120,21 @@ theorem containsDart_inGroup {V D : Type*} [DecidableEq V] [Fintype D] [Decidabl
   | vc _ => exact h
   | hyper _ => exact h.2.2
 
-/-- The images of the unmerged atoms of a group are disjoint from the hinges. -/
-theorem image_pi_disjoint_hinges (σ : Prescription G) {g : Finset (GBranch G.tree)}
-    (hall : ∀ z0 ∈ g, (stSt G σ).cls z0 = none) :
-    Disjoint (g.image ((stSt G σ).M.pi (stSt G σ).hcls)) (stSt G σ).hinges := by
+/-- B1b (Mk-general form of `image_pi_disjoint_hinges`). -/
+theorem image_pi_disjoint_hingesMk (σ : Prescription G) {g : Finset (GBranch G.tree)}
+    {Mk : Set (Stage1.CLVine _)} (hall : ∀ z0 ∈ g, (stSt (Mk := Mk) G σ).cls z0 = none) :
+    Disjoint (g.image ((stSt (Mk := Mk) G σ).M.pi (stSt (Mk := Mk) G σ).hcls)) (stSt (Mk := Mk) G σ).hinges := by
   rw [Finset.disjoint_left]
   intro v hv hh
   obtain ⟨z0, hz0, rfl⟩ := Finset.mem_image.mp hv
-  have := ((stSt G σ).mem_hinges _).mp hh
-  rw [(stSt G σ).M.ob_pi, repC_of_none (hall z0 hz0)] at this
+  have := ((stSt (Mk := Mk) G σ).mem_hinges _).mp hh
+  rw [(stSt (Mk := Mk) G σ).M.ob_pi, repC_of_none (hall z0 hz0)] at this
   exact this (hall z0 hz0)
+
+/-- The images of the unmerged atoms of a group are disjoint from the hinges. -/
+theorem image_pi_disjoint_hinges (σ : Prescription G) {g : Finset (GBranch G.tree)}
+    (hall : ∀ z0 ∈ g, (stSt G σ).cls z0 = none) :
+    Disjoint (g.image ((stSt G σ).M.pi (stSt G σ).hcls)) (stSt G σ).hinges := image_pi_disjoint_hingesMk (Mk := ∅) σ hall
 
 /-- The image of a group without an object of `C_1` is disjoint from the objects of `C_1`. -/
 theorem image_pi_disjoint_objects (hM : G.molecule.IsMolecule) (σ : Prescription G) {g : Finset (GBranch G.tree)}

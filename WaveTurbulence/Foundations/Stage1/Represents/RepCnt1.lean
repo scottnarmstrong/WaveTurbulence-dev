@@ -84,19 +84,24 @@ end Assembly
 section Units
 variable {w : ℕ} {S : Garden w}
 
-theorem sum_vineIncoh_le_units (hM : S.molecule.IsMolecule) (σ : Prescription S) (layer0 : GBranch S.tree → ℕ) :
-    ∑ T ∈ (Set.toFinite (unitIngredients S σ)).toFinset, vineIncoh S layer0 T ≤
-      ((unitBlocks S σ).map fun u => u.atoms.card - 1).sum := by
+/-- B1b (Mk-general form of `sum_vineIncoh_le_units`). -/
+theorem sum_vineIncoh_le_unitsMk (hM : S.molecule.IsMolecule) (σ : Prescription S) (layer0 : GBranch S.tree → ℕ) {Mk : Set (Stage1.CLVine _)} :
+    ∑ T ∈ (Set.toFinite (unitIngredients (Mk := Mk) S σ)).toFinset, vineIncoh S layer0 T ≤
+      ((unitBlocks (Mk := Mk) S σ).map fun u => u.atoms.card - 1).sum := by
   classical
-  refine (sum_vineIncoh_le_cohmol σ (fun j => unitAssembly hM σ j) (hcov_units hM σ) layer0).trans ?_
-  have h1 : ∀ j : Fin (unitBlocks S σ).length,
+  refine (sum_vineIncoh_le_cohmolMk (Mk := Mk) σ (fun j => unitAssembly hM σ j) (hcov_unitsMk (Mk := Mk) hM σ) layer0).trans ?_
+  have h1 : ∀ j : Fin (unitBlocks (Mk := Mk) S σ).length,
       ∑ i : Fin (unitN σ j), realizedIncoherencyIndex (pieceRealization (unitAssembly hM σ j) i) layer0 ≤
-        ((unitBlocks S σ).get j).atoms.card - 1 := fun j => sum_pieces_incoh_le (unitAssembly hM σ j) layer0
+        ((unitBlocks (Mk := Mk) S σ).get j).atoms.card - 1 := fun j => sum_pieces_incoh_le (unitAssembly hM σ j) layer0
   refine (Finset.sum_le_sum fun j _ => h1 j).trans ?_
-  have h2 := Fin.sum_univ_fun_getElem (unitBlocks S σ) (fun u : CLBlock S => u.atoms.card - 1)
+  have h2 := Fin.sum_univ_fun_getElem (unitBlocks (Mk := Mk) S σ) (fun u : CLBlock S => u.atoms.card - 1)
   refine le_of_eq (Eq.trans ?_ h2)
   refine Finset.sum_congr rfl fun j _ => ?_
   simp
+
+theorem sum_vineIncoh_le_units (hM : S.molecule.IsMolecule) (σ : Prescription S) (layer0 : GBranch S.tree → ℕ) :
+    ∑ T ∈ (Set.toFinite (unitIngredients S σ)).toFinset, vineIncoh S layer0 T ≤
+      ((unitBlocks S σ).map fun u => u.atoms.card - 1).sum := sum_vineIncoh_le_unitsMk (Mk := ∅) hM σ layer0
 
 end Units
 end WaveTurbulence.Represents

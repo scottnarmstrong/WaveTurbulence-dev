@@ -60,16 +60,17 @@ theorem sum_slotIncoh_split (Φ : SpliceShape blk Gsb) (hd : Disj blk) (D : Reco
   simp only [slotIncoh_inl, slotIncoh_inr]
   rfl
 
-theorem gsk_bound (Φ : SpliceShape blk Gsb) (hd : Disj blk) (D : ReconstructionData S) (hS : S.IsPlain)
+/-- B1b (Mk-general form of `gsk_bound`). -/
+theorem gsk_boundMk (Φ : SpliceShape blk Gsb) (hd : Disj blk) (D : ReconstructionData S) (hS : S.IsPlain)
     (hSb : Gsb.IsPlain) (layer : GNode (D.forest hS) → ℕ) (hLayer : IsLayering (D.garden hS) layer)
     (σ : Prescription S) {n₀ : J → ℕ} (B₀ : ∀ j, CLChainAssembly S (regionOf (blk j)) (n₀ j))
-    (hcov : ∀ T ∈ unitIngredients S σ, ∃ j, IsIngredient S.molecule (blk j).atoms T)
+    {Mk : Set (Stage1.CLVine _)} (hcov : ∀ T ∈ unitIngredients (Mk := Mk) S σ, ∃ j, IsIngredient S.molecule (blk j).atoms T)
     (layer0 : GBranch S.tree → ℕ) (hl : ∀ v, layer0 v = atomLayer D hS layer v) :
-    gskOf (gregOf D hS (layeredReconstruction D hS layer hLayer)) S σ layer0 ≤
+    gskOf (Mk := Mk) (gregOf D hS (layeredReconstruction D hS layer hLayer)) S σ layer0 ≤
       (∑ s', slotIncoh D hS layer hLayer (Φ.iota hS hSb s')) +
         ∑ j, (cohmolIndex (B₀ j) D hS layer + unitM1 blk D hS layer hLayer j) := by
   have hl' : layer0 = atomLayer D hS layer := funext hl
-  have h1 := sum_vineIncoh_le_cohmol (σ := σ) (B₀ := B₀) hcov layer0
+  have h1 := sum_vineIncoh_le_cohmolMk (Mk := Mk) (σ := σ) (B₀ := B₀) hcov layer0
   have h2 : ∑ j, cohmolIndex (B₀ j) D hS layer =
       ∑ j, ∑ i : Fin (n₀ j), realizedIncoherencyIndex (pieceRealization (B₀ j) i) layer0 := by
     refine Finset.sum_congr rfl fun j _ => ?_
@@ -79,14 +80,30 @@ theorem gsk_bound (Φ : SpliceShape blk Gsb) (hd : Disj blk) (D : Reconstruction
   rw [gregOf_eq_sum_slotIncoh, sum_slotIncoh_split Φ hd D hS hSb layer hLayer, Finset.sum_add_distrib]
   omega
 
+theorem gsk_bound (Φ : SpliceShape blk Gsb) (hd : Disj blk) (D : ReconstructionData S) (hS : S.IsPlain)
+    (hSb : Gsb.IsPlain) (layer : GNode (D.forest hS) → ℕ) (hLayer : IsLayering (D.garden hS) layer)
+    (σ : Prescription S) {n₀ : J → ℕ} (B₀ : ∀ j, CLChainAssembly S (regionOf (blk j)) (n₀ j))
+    (hcov : ∀ T ∈ unitIngredients S σ, ∃ j, IsIngredient S.molecule (blk j).atoms T)
+    (layer0 : GBranch S.tree → ℕ) (hl : ∀ v, layer0 v = atomLayer D hS layer v) :
+    gskOf (gregOf D hS (layeredReconstruction D hS layer hLayer)) S σ layer0 ≤
+      (∑ s', slotIncoh D hS layer hLayer (Φ.iota hS hSb s')) +
+        ∑ j, (cohmolIndex (B₀ j) D hS layer + unitM1 blk D hS layer hLayer j) := by apply gsk_boundMk (Mk := ∅) <;> assumption
+
+open scoped Classical in
+/-- B1b (Mk-general form of `bsk_bound`). -/
+theorem bsk_boundMk {n₀ : J → ℕ} (hM9 : VineParamContract.VINEPARAM) (σ : Prescription S)
+    (B₀ : ∀ j, CLChainAssembly S (regionOf (blk j)) (n₀ j))
+    {Mk : Set (Stage1.CLVine _)} (hcov : ∀ T ∈ unitIngredients (Mk := Mk) S σ, ∃ j, IsIngredient S.molecule (blk j).atoms T) :
+    bskOf (Mk := Mk) S σ ≤ ∑ j, (Finset.univ.filter fun i : Fin (n₀ j) => (assemblyShape hM9 (B₀ j)).nor i = false).card := by
+  refine (card_bad_leMk (Mk := Mk) (σ := σ) (B₀ := B₀) hcov).trans (le_of_eq ?_)
+  refine Finset.sum_congr rfl fun j _ => ?_
+  refine congrArg Finset.card (Finset.filter_congr fun i _ => ?_)
+  simp [assemblyShape, shapeFamily]
+
 open scoped Classical in
 theorem bsk_bound {n₀ : J → ℕ} (hM9 : VineParamContract.VINEPARAM) (σ : Prescription S)
     (B₀ : ∀ j, CLChainAssembly S (regionOf (blk j)) (n₀ j))
     (hcov : ∀ T ∈ unitIngredients S σ, ∃ j, IsIngredient S.molecule (blk j).atoms T) :
-    bskOf S σ ≤ ∑ j, (Finset.univ.filter fun i : Fin (n₀ j) => (assemblyShape hM9 (B₀ j)).nor i = false).card := by
-  refine (card_bad_le (σ := σ) (B₀ := B₀) hcov).trans (le_of_eq ?_)
-  refine Finset.sum_congr rfl fun j _ => ?_
-  refine congrArg Finset.card (Finset.filter_congr fun i _ => ?_)
-  simp [assemblyShape, shapeFamily]
+    bskOf S σ ≤ ∑ j, (Finset.univ.filter fun i : Fin (n₀ j) => (assemblyShape hM9 (B₀ j)).nor i = false).card := by apply bsk_boundMk (Mk := ∅) <;> assumption
 
 end WaveTurbulence.Represents

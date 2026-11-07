@@ -104,28 +104,37 @@ theorem spliceFoldInv_leaf (L : List (CLBlock G0)) (hl : L.Pairwise (fun u u' =>
 
 variable {S : Garden w}
 
-/-- **The original dart `od y` is carried by the image of the node carrying `y`.** -/
-theorem stSt_od_node (hM : S.molecule.IsMolecule) (σ : Prescription S) (y : GardenDart (stSt S σ).G) :
-    dartNode S ((stSt S σ).M.od y) = (stShape hM σ).node (dartNode (stSt S σ).G y) := by
+/-- B1b (Mk-general form of `stSt_od_node`). -/
+theorem stSt_od_nodeMk (hM : S.molecule.IsMolecule) (σ : Prescription S) {Mk : Set (Stage1.CLVine _)} (y : GardenDart (stSt (Mk := Mk) S σ).G) :
+    dartNode S ((stSt (Mk := Mk) S σ).M.od y) = (stShape (Mk := Mk) hM σ).node (dartNode (stSt (Mk := Mk) S σ).G y) := by
   rcases y with ⟨c, side⟩ | l
-  · have h := (spliceFoldDartTrace (unitBlocks S σ)).pc c side
-    change dartNode S ((spliceFold S (unitBlocks S σ)).M.od (.inl (c, side))) = _
+  · have h := (spliceFoldDartTrace (unitBlocks (Mk := Mk) S σ)).pc c side
+    change dartNode S ((spliceFold S (unitBlocks (Mk := Mk) S σ)).M.od (.inl (c, side))) = _
     rw [h]
-    exact (stInv hM σ).br_node c.1
-  · have h := (spliceFoldDartTrace (unitBlocks S σ)).lp l
-    change dartNode S ((spliceFold S (unitBlocks S σ)).M.od (.inr l)) = _
+    exact (stInv (Mk := Mk) hM σ).br_node c.1
+  · have h := (spliceFoldDartTrace (unitBlocks (Mk := Mk) S σ)).lp l
+    change dartNode S ((spliceFold S (unitBlocks (Mk := Mk) S σ)).M.od (.inr l)) = _
     rw [h]
-    have hl := spliceFoldInv_leaf (unitBlocks S σ) (unitBlocks_pairwise hM σ)
-    have h2 := (stInv hM σ).leaf_node l.1
-    have h3 : (spliceFoldLeafTrace (unitBlocks S σ)).leaf l.1 = (stInv hM σ).leaf l.1 :=
+    have hl := spliceFoldInv_leaf (unitBlocks (Mk := Mk) S σ) (unitBlocks_pairwiseMk (Mk := Mk) hM σ)
+    have h2 := (stInv (Mk := Mk) hM σ).leaf_node l.1
+    have h3 : (spliceFoldLeafTrace (unitBlocks (Mk := Mk) S σ)).leaf l.1 = (stInv (Mk := Mk) hM σ).leaf l.1 :=
       (congrFun hl l.1).symm
-    show ((spliceFoldLeafTrace (unitBlocks S σ)).leaf l.1).toNode = _
+    show ((spliceFoldLeafTrace (unitBlocks (Mk := Mk) S σ)).leaf l.1).toNode = _
     rw [h3]
     exact h2
 
+/-- **The original dart `od y` is carried by the image of the node carrying `y`.** -/
+theorem stSt_od_node (hM : S.molecule.IsMolecule) (σ : Prescription S) (y : GardenDart (stSt S σ).G) :
+    dartNode S ((stSt S σ).M.od y) = (stShape hM σ).node (dartNode (stSt S σ).G y) := stSt_od_nodeMk (Mk := ∅) hM σ y
+
+/-- B1b (Mk-general form of `bondIndex_stSt_od`). -/
+theorem bondIndex_stSt_odMk (hM : S.molecule.IsMolecule) (σ : Prescription S) {d : ℕ}
+    (κ : GNode S.tree → (Fin d → ℤ)) {Mk : Set (Stage1.CLVine _)} (y : GardenDart (stSt (Mk := Mk) S σ).G) :
+    bondIndex (stSt (Mk := Mk) S σ).G (fun x => κ ((stShape (Mk := Mk) hM σ).node x)) y = bondIndex S κ ((stSt (Mk := Mk) S σ).M.od y) := by
+  rw [bondIndex_eq_dartNode, bondIndex_eq_dartNode, stSt_od_nodeMk (Mk := Mk) hM σ y]
+
 theorem bondIndex_stSt_od (hM : S.molecule.IsMolecule) (σ : Prescription S) {d : ℕ}
     (κ : GNode S.tree → (Fin d → ℤ)) (y : GardenDart (stSt S σ).G) :
-    bondIndex (stSt S σ).G (fun x => κ ((stShape hM σ).node x)) y = bondIndex S κ ((stSt S σ).M.od y) := by
-  rw [bondIndex_eq_dartNode, bondIndex_eq_dartNode, stSt_od_node hM σ y]
+    bondIndex (stSt S σ).G (fun x => κ ((stShape hM σ).node x)) y = bondIndex S κ ((stSt S σ).M.od y) := bondIndex_stSt_odMk (Mk := ∅) hM σ κ y
 
 end WaveTurbulence.Represents

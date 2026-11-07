@@ -56,11 +56,16 @@ structure SubproSupportA {w d : ℕ} (G : Garden w) (C : SubproChoices G) (L γ 
 
 variable {R : ℕ} {G : Garden (2 * R)}
 
+/-- B1b (Mk-general form of `sbDec_of_gen`). -/
+theorem sbDec_of_genMk (σ : Prescription G) {d : ℕ} {Mk : Set (Stage1.CLVine _)} (hpl : (stSt (Mk := Mk) G σ).G.IsPlain) {L : ℝ} (hL : L ≠ 0) (base : Mom d)
+    (roots : Fin (2 * R) → (Fin d → ℤ)) (z : GenDecoration (stSt (Mk := Mk) G σ).G d roots 0) :
+    SbDec G σ L base (bondIndex (stSt (Mk := Mk) G σ).G z.1) :=
+  ⟨_, spliced_molecule_decoration (stSt (Mk := Mk) G σ).G hpl hL base roots z,
+    fun _ _ hdeg => gardenSource_eq_zero_of_deg_four _ hpl _ _ hdeg⟩
+
 theorem sbDec_of_gen (σ : Prescription G) {d : ℕ} (hpl : (stSt G σ).G.IsPlain) {L : ℝ} (hL : L ≠ 0) (base : Mom d)
     (roots : Fin (2 * R) → (Fin d → ℤ)) (z : GenDecoration (stSt G σ).G d roots 0) :
-    SbDec G σ L base (bondIndex (stSt G σ).G z.1) :=
-  ⟨_, spliced_molecule_decoration (stSt G σ).G hpl hL base roots z,
-    fun _ _ hdeg => gardenSource_eq_zero_of_deg_four _ hpl _ _ hdeg⟩
+    SbDec G σ L base (bondIndex (stSt G σ).G z.1) := sbDec_of_genMk (Mk := ∅) σ hpl hL base roots z
 
 theorem contained_support (σ : Prescription G) {d : ℕ}
     (D : SplicedKernelData (stSt G σ).G d) (hD : D.gapSpecification = gapSpecification G σ)

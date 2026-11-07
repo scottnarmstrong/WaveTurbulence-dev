@@ -44,12 +44,16 @@ noncomputable def unitAssembly (hM : S.molecule.IsMolecule) (σ : Prescription S
     (List.get_mem _ _ : (unitBlocks S σ Mk).get j ∈ unitBlocks S σ Mk))) (unitBlkMk hM σ Mk j).isBlock
     (regionOf (unitBlkMk hM σ Mk j))
 
-theorem hcov_units (hM : S.molecule.IsMolecule) (σ : Prescription S) :
-    ∀ T ∈ unitIngredients S σ, ∃ j : Fin (unitBlocks S σ).length, IsIngredient S.molecule (unitBlk hM σ j).atoms T := by
+/-- B1b (Mk-general form of `hcov_units`). -/
+theorem hcov_unitsMk (hM : S.molecule.IsMolecule) (σ : Prescription S) {Mk : Set (Stage1.CLVine _)} :
+    ∀ T ∈ unitIngredients (Mk := Mk) S σ, ∃ j : Fin (unitBlocks (Mk := Mk) S σ).length, IsIngredient S.molecule (unitBlkMk (Mk := Mk) hM σ j).atoms T := by
   rintro T ⟨u, hu, x, y, n, p, q, hi⟩
   obtain ⟨j, rfl⟩ := List.mem_iff_get.mp hu
-  have hj := chain_block_joints (Mole.garden_isMolecule S) (unitBlk hM σ j).isBlock (Vine.chainIngredient_spec hi).1
-  have hB := Mole.block_transport_joints S.molecule hj (unitBlk hM σ j).isBlock
+  have hj := chain_block_joints (Mole.garden_isMolecule S) (unitBlkMk (Mk := Mk) hM σ j).isBlock (Vine.chainIngredient_spec hi).1
+  have hB := Mole.block_transport_joints S.molecule hj (unitBlkMk (Mk := Mk) hM σ j).isBlock
   exact ⟨j, Or.inl ⟨x, y, n, p, q, hB, hi⟩⟩
+
+theorem hcov_units (hM : S.molecule.IsMolecule) (σ : Prescription S) :
+    ∀ T ∈ unitIngredients S σ, ∃ j : Fin (unitBlocks S σ).length, IsIngredient S.molecule (unitBlk hM σ j).atoms T := hcov_unitsMk (Mk := ∅) hM σ
 
 end WaveTurbulence.Represents

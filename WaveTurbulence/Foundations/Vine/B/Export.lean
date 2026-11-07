@@ -44,19 +44,33 @@ noncomputable def stSrc (hM : S.molecule.IsMolecule) (σ : Prescription S) {Mk :
     HingeDarts (stSt S σ Mk).G (stSt S σ Mk).hinges ⊕ Fin w :=
   (stShape hM σ Mk).src (unitBlkMk_disj hM σ Mk) hSb (stSt S σ Mk).hinges (stSt_hinges_memMk hM σ Mk) j i
 
+/-- B1b (Mk-general form of `stSrc_dart`). -/
+theorem stSrc_dartMk (hM : S.molecule.IsMolecule) (σ : Prescription S) {Mk : Set (Stage1.CLVine _)} (hSb : (stSt (Mk := Mk) S σ).G.IsPlain)
+    (j : Fin (unitBlocks (Mk := Mk) S σ).length) (i : Fin 4) (x : HingeDarts (stSt (Mk := Mk) S σ).G (stSt (Mk := Mk) S σ).hinges)
+    (hx : stSrc hM σ hSb j i = Sum.inl x) (roots : Fin w → (Fin d → ℤ))
+    (z : GenDecoration (stSt (Mk := Mk) S σ).G d roots 0) :
+    bondIndex (stSt (Mk := Mk) S σ).G z.1 x.1 = z.1 ((stShape (Mk := Mk) hM σ).hmom (unitBlkMk_disj (Mk := Mk) hM σ) j i) :=
+  (stShape (Mk := Mk) hM σ).src_dart (unitBlkMk_disj (Mk := Mk) hM σ) hSb _ (stSt_hinges_memMk (Mk := Mk) hM σ) j i x hx d roots z
+
 theorem stSrc_dart (hM : S.molecule.IsMolecule) (σ : Prescription S) (hSb : (stSt S σ).G.IsPlain)
     (j : Fin (unitBlocks S σ).length) (i : Fin 4) (x : HingeDarts (stSt S σ).G (stSt S σ).hinges)
     (hx : stSrc hM σ hSb j i = Sum.inl x) (roots : Fin w → (Fin d → ℤ))
     (z : GenDecoration (stSt S σ).G d roots 0) :
-    bondIndex (stSt S σ).G z.1 x.1 = z.1 ((stShape hM σ).hmom (unitBlk_disj hM σ) j i) :=
-  (stShape hM σ).src_dart (unitBlk_disj hM σ) hSb _ (stSt_hinges_mem hM σ) j i x hx d roots z
+    bondIndex (stSt S σ).G z.1 x.1 = z.1 ((stShape hM σ).hmom (unitBlk_disj hM σ) j i) := stSrc_dartMk (Mk := ∅) hM σ hSb j i x hx roots z
+
+/-- B1b (Mk-general form of `stSrc_root`). -/
+theorem stSrc_rootMk (hM : S.molecule.IsMolecule) (σ : Prescription S) {Mk : Set (Stage1.CLVine _)} (hSb : (stSt (Mk := Mk) S σ).G.IsPlain)
+    (j : Fin (unitBlocks (Mk := Mk) S σ).length) (i : Fin 4) (r : Fin w)
+    (hr : stSrc hM σ hSb j i = Sum.inr r) (roots : Fin w → (Fin d → ℤ))
+    (z : GenDecoration (stSt (Mk := Mk) S σ).G d roots 0) :
+    z.1 ((stShape (Mk := Mk) hM σ).hmom (unitBlkMk_disj (Mk := Mk) hM σ) j i) = roots r :=
+  (stShape (Mk := Mk) hM σ).src_root (unitBlkMk_disj (Mk := Mk) hM σ) hSb _ (stSt_hinges_memMk (Mk := Mk) hM σ) j i r hr d roots z
 
 theorem stSrc_root (hM : S.molecule.IsMolecule) (σ : Prescription S) (hSb : (stSt S σ).G.IsPlain)
     (j : Fin (unitBlocks S σ).length) (i : Fin 4) (r : Fin w)
     (hr : stSrc hM σ hSb j i = Sum.inr r) (roots : Fin w → (Fin d → ℤ))
     (z : GenDecoration (stSt S σ).G d roots 0) :
-    z.1 ((stShape hM σ).hmom (unitBlk_disj hM σ) j i) = roots r :=
-  (stShape hM σ).src_root (unitBlk_disj hM σ) hSb _ (stSt_hinges_mem hM σ) j i r hr d roots z
+    z.1 ((stShape hM σ).hmom (unitBlk_disj hM σ) j i) = roots r := stSrc_rootMk (Mk := ∅) hM σ hSb j i r hr roots z
 
 open scoped Classical in
 /-- **The per-mode single-state factorization for `G_sb = (stSt S σ).G`** (the `hval` shape of S2's

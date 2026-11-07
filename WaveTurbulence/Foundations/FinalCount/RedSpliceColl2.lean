@@ -39,9 +39,10 @@ variable {w : ℕ} {G : Garden w}
     List (Object (stSt G σ Mk).G.molecule) :=
   (sgGroups G σ).filterMap (fun S => objOf G σ S Mk)
 
-theorem objOf_spec {σ : Prescription G} {S : Finset (GBranch G.tree)} {O : Object (stSt G σ).G.molecule}
-    (h : O ∈ objOf G σ S) :
-    G.molecule.IsMolecule ∧ S ∈ maximalGroups G.molecule ∧ σ S = Molecule.GapKind.SG ∧ ObjSpec G σ S O := by
+/-- B1b (Mk-general form of `objOf_spec`). -/
+theorem objOf_specMk {σ : Prescription G} {S : Finset (GBranch G.tree)} {Mk : Set (Stage1.CLVine _)} {O : Object (stSt (Mk := Mk) G σ).G.molecule}
+    (h : O ∈ objOf (Mk := Mk) G σ S) :
+    G.molecule.IsMolecule ∧ S ∈ maximalGroups G.molecule ∧ σ S = Molecule.GapKind.SG ∧ ObjSpecMk (Mk := Mk) G σ S O := by
   classical
   unfold objOf at h
   split_ifs at h with hh
@@ -50,12 +51,20 @@ theorem objOf_spec {σ : Prescription G} {S : Finset (GBranch G.tree)} {O : Obje
     exact ⟨hh.1, hh.2.1, hh.2.2.1, Classical.choose_spec hh.2.2.2.2.2⟩
   · simp at h
 
-theorem mem_objects {σ : Prescription G} {O : Object (stSt G σ).G.molecule} (h : O ∈ objects G σ) :
-    ∃ S, G.molecule.IsMolecule ∧ S ∈ maximalGroups G.molecule ∧ σ S = Molecule.GapKind.SG ∧ ObjSpec G σ S O := by
+theorem objOf_spec {σ : Prescription G} {S : Finset (GBranch G.tree)} {O : Object (stSt G σ).G.molecule}
+    (h : O ∈ objOf G σ S) :
+    G.molecule.IsMolecule ∧ S ∈ maximalGroups G.molecule ∧ σ S = Molecule.GapKind.SG ∧ ObjSpec G σ S O := objOf_specMk (Mk := ∅) h
+
+/-- B1b (Mk-general form of `mem_objects`). -/
+theorem mem_objectsMk {σ : Prescription G} {Mk : Set (Stage1.CLVine _)} {O : Object (stSt (Mk := Mk) G σ).G.molecule} (h : O ∈ objects (Mk := Mk) G σ) :
+    ∃ S, G.molecule.IsMolecule ∧ S ∈ maximalGroups G.molecule ∧ σ S = Molecule.GapKind.SG ∧ ObjSpecMk (Mk := Mk) G σ S O := by
   unfold objects at h
   obtain ⟨S, _, hS⟩ := List.mem_filterMap.mp h
-  obtain ⟨h1, h2, h3, h4⟩ := objOf_spec hS
+  obtain ⟨h1, h2, h3, h4⟩ := objOf_specMk (Mk := Mk) hS
   exact ⟨S, h1, h2, h3, h4⟩
+
+theorem mem_objects {σ : Prescription G} {O : Object (stSt G σ).G.molecule} (h : O ∈ objects G σ) :
+    ∃ S, G.molecule.IsMolecule ∧ S ∈ maximalGroups G.molecule ∧ σ S = Molecule.GapKind.SG ∧ ObjSpec G σ S O := mem_objectsMk (Mk := ∅) h
 
 theorem objects_pairwise (hM : G.molecule.IsMolecule) (σ : Prescription G) :
     (objects G σ).Pairwise (fun O O' => Disjoint O.atoms O'.atoms) := by

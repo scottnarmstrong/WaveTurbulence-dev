@@ -26,24 +26,36 @@ open Finset WaveTurbulence TTree WaveTurbulence.LGSpine WaveTurbulence.RedSplice
 
 variable {R : ℕ}
 
-theorem unitIngredients_noVine {S : Garden (2 * R)} (σ : Prescription S) (h : unitBlocks S σ = []) :
-    unitIngredients S σ = ∅ := by
+/-- B1b (Mk-general form of `unitIngredients_noVine`). -/
+theorem unitIngredients_noVineMk {S : Garden (2 * R)} (σ : Prescription S) {Mk : Set (Stage1.CLVine _)} (h : unitBlocks (Mk := Mk) S σ = []) :
+    unitIngredients (Mk := Mk) S σ = ∅ := by
   ext T
   simp [unitIngredients, h]
 
-theorem bskOf_noVine {S : Garden (2 * R)} (σ : Prescription S) (h : unitBlocks S σ = []) :
-    bskOf S σ = 0 := by
+theorem unitIngredients_noVine {S : Garden (2 * R)} (σ : Prescription S) (h : unitBlocks S σ = []) :
+    unitIngredients S σ = ∅ := unitIngredients_noVineMk (Mk := ∅) σ h
+
+/-- B1b (Mk-general form of `bskOf_noVine`). -/
+theorem bskOf_noVineMk {S : Garden (2 * R)} (σ : Prescription S) {Mk : Set (Stage1.CLVine _)} (h : unitBlocks (Mk := Mk) S σ = []) :
+    bskOf (Mk := Mk) S σ = 0 := by
   unfold bskOf
-  rw [unitIngredients_noVine σ h]
+  rw [unitIngredients_noVineMk (Mk := Mk) σ h]
+  simp
+
+theorem bskOf_noVine {S : Garden (2 * R)} (σ : Prescription S) (h : unitBlocks S σ = []) :
+    bskOf S σ = 0 := bskOf_noVineMk (Mk := ∅) σ h
+
+/-- B1b (Mk-general form of `gskOf_noVine`). -/
+theorem gskOf_noVineMk {S : Garden (2 * R)} (g : ℕ) (σ : Prescription S) {Mk : Set (Stage1.CLVine _)} (h : unitBlocks (Mk := Mk) S σ = [])
+    (l : GBranch S.tree → ℕ) : gskOf (Mk := Mk) g S σ l = g := by
+  unfold gskOf
+  have : (Set.toFinite (unitIngredients (Mk := Mk) S σ)).toFinset = ∅ := by
+    ext T; simp [unitIngredients_noVineMk (Mk := Mk) σ h]
+  rw [this]
   simp
 
 theorem gskOf_noVine {S : Garden (2 * R)} (g : ℕ) (σ : Prescription S) (h : unitBlocks S σ = [])
-    (l : GBranch S.tree → ℕ) : gskOf g S σ l = g := by
-  unfold gskOf
-  have : (Set.toFinite (unitIngredients S σ)).toFinset = ∅ := by
-    ext T; simp [unitIngredients_noVine σ h]
-  rw [this]
-  simp
+    (l : GBranch S.tree → ℕ) : gskOf g S σ l = g := gskOf_noVineMk (Mk := ∅) g σ h l
 
 theorem gregOf_eq_sum_slotIncoh {S : Garden (2 * R)} (D : ReconstructionData S) (hS : S.IsPlain)
     (layer : GNode (D.forest hS) → ℕ) (hLayer : IsLayering (D.garden hS) layer) :

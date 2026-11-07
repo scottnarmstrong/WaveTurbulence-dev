@@ -15,14 +15,25 @@ noncomputable def operationSlotMap (op : FamilyOperation (p := p) (kind := kind)
   Sum.map (chosenPairEquiv A.skeleton (A.family.placement i) A.plain op.choice)
     (chosenBranchEquiv A.skeleton (A.family.placement i) op.choice)
 
+/-- B1b (Mk-general form of `shape_leaf_prescription_cast`). -/
+theorem shape_leaf_prescription_castMk {S : Garden w} {τ σ : Prescription S} (he : τ = σ)
+    {Mk : Set (Stage1.CLVine _)} (e : (stSt (Mk := Mk) S σ).G = (stSt (Mk := Mk) S τ).G) (l : GLeaf (stSt (Mk := Mk) S σ).G.tree) :
+    (stShape (Mk := Mk) (Mole.garden_isMolecule S) τ).leaf (leafCast e l) =
+      (stShape (Mk := Mk) (Mole.garden_isMolecule S) σ).leaf l := by subst τ; rfl
+
 theorem shape_leaf_prescription_cast {S : Garden w} {τ σ : Prescription S} (he : τ = σ)
     (e : (stSt S σ).G = (stSt S τ).G) (l : GLeaf (stSt S σ).G.tree) :
     (stShape (Mole.garden_isMolecule S) τ).leaf (leafCast e l) =
-      (stShape (Mole.garden_isMolecule S) σ).leaf l := by subst τ; rfl
+      (stShape (Mole.garden_isMolecule S) σ).leaf l := shape_leaf_prescription_castMk (Mk := ∅) he e l
+
+/-- B1b (Mk-general form of `shape_branch_prescription_cast`). -/
+theorem shape_branch_prescription_castMk {S : Garden w} {τ σ : Prescription S} (he : τ = σ)
+    {Mk : Set (Stage1.CLVine _)} (e : (stSt (Mk := Mk) S σ).G = (stSt (Mk := Mk) S τ).G) (b : GBranch (stSt (Mk := Mk) S σ).G.tree) :
+    (stSt (Mk := Mk) S τ).M.ob (gardenBranchCast e b) = (stSt (Mk := Mk) S σ).M.ob b := by subst τ; rfl
 
 theorem shape_branch_prescription_cast {S : Garden w} {τ σ : Prescription S} (he : τ = σ)
     (e : (stSt S σ).G = (stSt S τ).G) (b : GBranch (stSt S σ).G.tree) :
-    (stSt S τ).M.ob (gardenBranchCast e b) = (stSt S σ).M.ob b := by subst τ; rfl
+    (stSt S τ).M.ob (gardenBranchCast e b) = (stSt S σ).M.ob b := shape_branch_prescription_castMk (Mk := ∅) he e b
 
 theorem operation_leaf_cast (hA : IsV0Fam A.family σ)
     (op : FamilyOperation (p := p) (kind := kind) A i) (l : GLeaf (stSt A.skeleton σ).G.tree) :

@@ -84,8 +84,12 @@ noncomputable def stShape (hM : S.molecule.IsMolecule) (σ : Prescription S) (Mk
   pair := (stInv hM σ Mk).pair
   sign := (stInv hM σ Mk).sign
 
+/-- B1b (Mk-general form of `stShape_br`). -/
+theorem stShape_brMk (hM : S.molecule.IsMolecule) (σ : Prescription S) {Mk : Set (Stage1.CLVine _)} :
+    (stShape (Mk := Mk) hM σ).br = (stSt (Mk := Mk) S σ).M.ob := rfl
+
 theorem stShape_br (hM : S.molecule.IsMolecule) (σ : Prescription S) :
-    (stShape hM σ).br = (stSt S σ).M.ob := rfl
+    (stShape hM σ).br = (stSt S σ).M.ob := stShape_brMk (Mk := ∅) hM σ
 
 theorem stShape_hinges (hM : S.molecule.IsMolecule) (σ : Prescription S) :
     (stShape hM σ).hinges (unitBlk_disj hM σ) = (stSt S σ).hinges := by

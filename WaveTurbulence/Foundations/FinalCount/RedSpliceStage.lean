@@ -50,28 +50,6 @@ theorem stSt_empty (G : Garden w) (σ : Prescription G) :
   unfold stSt
   rw [unitBlocks_empty]
 
-section cls
-variable {G : Garden w} (hM : G.molecule.IsMolecule) (σ : Prescription G)
-include hM
-
-theorem stSt_cls_mem {u : CLBlock G} (hu : u ∈ unitBlocks G σ) {v : GBranch G.tree} (hv : v ∈ u.atoms) :
-    (stSt G σ).cls v = some u.upper :=
-  spliceFold_cls_mem (unitBlocks G σ) (unitBlocks_pairwise hM σ) hu hv
-
-theorem stSt_cls_none {v : GBranch G.tree} (hv : ∀ u ∈ unitBlocks G σ, v ∉ u.atoms) :
-    (stSt G σ).cls v = none :=
-  spliceFold_cls_notMem (unitBlocks G σ) (unitBlocks_pairwise hM σ) hv
-
-theorem stSt_repC_mem {u : CLBlock G} (hu : u ∈ unitBlocks G σ) {v : GBranch G.tree} (hv : v ∈ u.atoms) :
-    repC (stSt G σ).cls v = u.upper := by
-  simp [repC, stSt_cls_mem hM σ hu hv]
-
-theorem stSt_repC_none {v : GBranch G.tree} (hv : ∀ u ∈ unitBlocks G σ, v ∉ u.atoms) :
-    repC (stSt G σ).cls v = v := by
-  simp [repC, stSt_cls_none hM σ hv]
-
-end cls
-
 section clsMk
 variable {G : Garden w} (hM : G.molecule.IsMolecule) (σ : Prescription G) (Mk : Set (Stage1.CLVine G))
 include hM
@@ -87,5 +65,35 @@ theorem stSt_cls_noneMk {v : GBranch G.tree} (hv : ∀ u ∈ unitBlocks G σ Mk,
   spliceFold_cls_notMem (unitBlocks G σ Mk) (unitBlocks_pairwiseMk hM σ Mk) hv
 
 end clsMk
+
+section cls
+variable {G : Garden w} (hM : G.molecule.IsMolecule) (σ : Prescription G)
+include hM
+
+theorem stSt_cls_mem {u : CLBlock G} (hu : u ∈ unitBlocks G σ) {v : GBranch G.tree} (hv : v ∈ u.atoms) :
+    (stSt G σ).cls v = some u.upper :=
+  spliceFold_cls_mem (unitBlocks G σ) (unitBlocks_pairwise hM σ) hu hv
+
+theorem stSt_cls_none {v : GBranch G.tree} (hv : ∀ u ∈ unitBlocks G σ, v ∉ u.atoms) :
+    (stSt G σ).cls v = none :=
+  spliceFold_cls_notMem (unitBlocks G σ) (unitBlocks_pairwise hM σ) hv
+
+/-- B1b (Mk-general form of `stSt_repC_mem`). -/
+theorem stSt_repC_memMk {u : CLBlock G} {Mk : Set (Stage1.CLVine _)} (hu : u ∈ unitBlocks (Mk := Mk) G σ) {v : GBranch G.tree} (hv : v ∈ u.atoms) :
+    repC (stSt (Mk := Mk) G σ).cls v = u.upper := by
+  simp [repC, stSt_cls_memMk (Mk := Mk) hM σ hu hv]
+
+theorem stSt_repC_mem {u : CLBlock G} (hu : u ∈ unitBlocks G σ) {v : GBranch G.tree} (hv : v ∈ u.atoms) :
+    repC (stSt G σ).cls v = u.upper := by apply stSt_repC_memMk (Mk := ∅) <;> assumption
+
+/-- B1b (Mk-general form of `stSt_repC_none`). -/
+theorem stSt_repC_noneMk {v : GBranch G.tree} {Mk : Set (Stage1.CLVine _)} (hv : ∀ u ∈ unitBlocks (Mk := Mk) G σ, v ∉ u.atoms) :
+    repC (stSt (Mk := Mk) G σ).cls v = v := by
+  simp [repC, stSt_cls_noneMk (Mk := Mk) hM σ hv]
+
+theorem stSt_repC_none {v : GBranch G.tree} (hv : ∀ u ∈ unitBlocks G σ, v ∉ u.atoms) :
+    repC (stSt G σ).cls v = v := by apply stSt_repC_noneMk (Mk := ∅) <;> assumption
+
+end cls
 
 end WaveTurbulence.RedSplice

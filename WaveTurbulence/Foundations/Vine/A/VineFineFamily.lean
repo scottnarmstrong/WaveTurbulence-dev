@@ -17,15 +17,19 @@ def IsV0Fam (F : CoreFamily G ι) (σ : Prescription G) (Mk : Set (CLVine G) := 
   (∀ c ∈ vinesV0 G σ Mk, (∃ X, IsCoreCLVine G X c.atoms c.upper c.lower) →
     ∃ i, F.atoms i = c.atoms)
 
-/-- The canonical fine state has the exact selected family. -/
-theorem fineState_isV0Fam {LG : LayeredGarden w} (A : PrimeData LG) (σ : Prescription A.skeleton) :
-    IsV0Fam (A.fineState σ).family σ := by
+/-- B1b (Mk-general form of `fineState_isV0Fam`). -/
+theorem fineState_isV0FamMk {LG : LayeredGarden w} (A : PrimeData LG) (σ : Prescription A.skeleton) {Mk : Set (Stage1.CLVine _)} :
+    IsV0Fam (Mk := Mk) (A.fineState (Mk := Mk) σ).family σ := by
   constructor
   · intro i
-    have he : familyVine (A.fineState σ).family i = i.1 := clVine_eq_of_atoms rfl
+    have he : familyVine (A.fineState (Mk := Mk) σ).family i = i.1 := clVine_eq_of_atoms rfl
     exact he ▸ i.2.1
   · intro c hc hcore
     exact ⟨⟨c, hc, hcore⟩, rfl⟩
+
+/-- The canonical fine state has the exact selected family. -/
+theorem fineState_isV0Fam {LG : LayeredGarden w} (A : PrimeData LG) (σ : Prescription A.skeleton) :
+    IsV0Fam (A.fineState σ).family σ := fineState_isV0FamMk (Mk := ∅) A σ
 
 /-- The actual twist site of a selected family member. -/
 noncomputable def selectedMemberSite {F : CoreFamily G ι} {σ : Prescription G} {Mk : Set (CLVine G)}

@@ -24,24 +24,36 @@ open Finset WaveTurbulence WaveTurbulence.Mole TTree WaveTurbulence.LGSpine Wave
 
 variable {w : ℕ} {S : Garden w}
 
-theorem stSt_eq_init_of_unitBlocks_empty (σ : Prescription S) (h : unitBlocks S σ = []) :
-    stSt S σ = SpState.init S := by
+/-- B1b (Mk-general form of `stSt_eq_init_of_unitBlocks_empty`). -/
+theorem stSt_eq_init_of_unitBlocks_emptyMk (σ : Prescription S) {Mk : Set (Stage1.CLVine _)} (h : unitBlocks (Mk := Mk) S σ = []) :
+    stSt (Mk := Mk) S σ = SpState.init S := by
   unfold stSt; rw [h]; rfl
+
+theorem stSt_eq_init_of_unitBlocks_empty (σ : Prescription S) (h : unitBlocks S σ = []) :
+    stSt S σ = SpState.init S := stSt_eq_init_of_unitBlocks_emptyMk (Mk := ∅) σ h
+
+/-- B1b (Mk-general form of `stSt_G_eq_of_unitBlocks_empty`). -/
+theorem stSt_G_eq_of_unitBlocks_emptyMk (σ : Prescription S) {Mk : Set (Stage1.CLVine _)} (h : unitBlocks (Mk := Mk) S σ = []) :
+    (stSt (Mk := Mk) S σ).G = S := by
+  rw [stSt_eq_init_of_unitBlocks_emptyMk (Mk := Mk) σ h]; rfl
 
 /-- `G_sb = G_sk` when no unit is spliced. -/
 theorem stSt_G_eq_of_unitBlocks_empty (σ : Prescription S) (h : unitBlocks S σ = []) :
-    (stSt S σ).G = S := by
-  rw [stSt_eq_init_of_unitBlocks_empty σ h]; rfl
+    (stSt S σ).G = S := stSt_G_eq_of_unitBlocks_emptyMk (Mk := ∅) σ h
 
-/-- No hinges when no unit is spliced. -/
-theorem stSt_hinges_eq_empty (σ : Prescription S) (h : unitBlocks S σ = []) :
-    (stSt S σ).hinges = ∅ := by
+/-- B1b (Mk-general form of `stSt_hinges_eq_empty`). -/
+theorem stSt_hinges_eq_emptyMk (σ : Prescription S) {Mk : Set (Stage1.CLVine _)} (h : unitBlocks (Mk := Mk) S σ = []) :
+    (stSt (Mk := Mk) S σ).hinges = ∅ := by
   classical
   ext c
   simp only [SpState.mem_hinges, Finset.notMem_empty, iff_false, not_not]
-  have hs := stSt_eq_init_of_unitBlocks_empty σ h
+  have hs := stSt_eq_init_of_unitBlocks_emptyMk (Mk := Mk) σ h
   have : ∀ st : SpState S, st = SpState.init S → ∀ c : GBranch st.G.tree, st.cls (st.M.ob c) = none := by
     rintro st rfl c; rfl
   exact this _ hs c
+
+/-- No hinges when no unit is spliced. -/
+theorem stSt_hinges_eq_empty (σ : Prescription S) (h : unitBlocks S σ = []) :
+    (stSt S σ).hinges = ∅ := stSt_hinges_eq_emptyMk (Mk := ∅) σ h
 
 end WaveTurbulence.Represents

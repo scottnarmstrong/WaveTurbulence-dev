@@ -64,16 +64,17 @@ variable (hM : S.molecule.IsMolecule) (σ : Prescription S)
 include hM
 
 /-- The merged atoms of the splice. -/
-noncomputable def mergedAtoms : Finset (GBranch S.tree) :=
-  by classical exact Finset.univ.filter fun v => (stSt S σ).cls v ≠ none
+noncomputable def mergedAtoms (Mk : Set (Stage1.CLVine S) := ∅) : Finset (GBranch S.tree) :=
+  by classical exact Finset.univ.filter fun v => (stSt S σ Mk).cls v ≠ none
 
 /-- The crown atoms of the splice. -/
-noncomputable def crownAtoms : Finset (GBranch S.tree) :=
-  by classical exact Finset.univ.filter fun v => (stSt S σ).cls v = some v
+noncomputable def crownAtoms (Mk : Set (Stage1.CLVine S) := ∅) : Finset (GBranch S.tree) :=
+  by classical exact Finset.univ.filter fun v => (stSt S σ Mk).cls v = some v
 
-theorem card_mergedAtoms : (mergedAtoms σ).card = ((unitBlocks S σ).map fun u => u.atoms.card).sum := by
+/-- B1b (Mk-general form of `card_mergedAtoms`). -/
+theorem card_mergedAtomsMk {Mk : Set (Stage1.CLVine _)} : (mergedAtoms (Mk := Mk) σ).card = ((unitBlocks (Mk := Mk) S σ).map fun u => u.atoms.card).sum := by
   classical
-  rw [← card_union_blocks _ (unitBlocks_pairwise hM σ)]
+  rw [← card_union_blocks _ (unitBlocks_pairwiseMk (Mk := Mk) hM σ)]
   congr 1
   ext v
   simp only [mergedAtoms, Finset.mem_filter, Finset.mem_univ, true_and]
@@ -81,9 +82,11 @@ theorem card_mergedAtoms : (mergedAtoms σ).card = ((unitBlocks S σ).map fun u 
   · intro h
     by_contra hn
     push Not at hn
-    exact h (stSt_cls_none hM σ hn)
+    exact h (stSt_cls_noneMk (Mk := Mk) hM σ hn)
   · rintro ⟨u, hu, hv⟩
-    rw [stSt_cls_mem hM σ hu hv]; simp
+    rw [stSt_cls_memMk (Mk := Mk) hM σ hu hv]; simp
+
+theorem card_mergedAtoms : (mergedAtoms σ).card = ((unitBlocks S σ).map fun u => u.atoms.card).sum := card_mergedAtomsMk (Mk := ∅) hM σ
 
 theorem crownAtoms_subset : crownAtoms σ ⊆ mergedAtoms σ := by
   classical
@@ -91,25 +94,29 @@ theorem crownAtoms_subset : crownAtoms σ ⊆ mergedAtoms σ := by
   simp only [crownAtoms, mergedAtoms, Finset.mem_filter, Finset.mem_univ, true_and] at hv ⊢
   rw [hv]; simp
 
-theorem card_crownAtoms_le : (crownAtoms σ).card ≤ (unitBlocks S σ).length := by
+/-- B1b (Mk-general form of `card_crownAtoms_le`). -/
+theorem card_crownAtoms_leMk {Mk : Set (Stage1.CLVine _)} : (crownAtoms (Mk := Mk) σ).card ≤ (unitBlocks (Mk := Mk) S σ).length := by
   classical
-  have : crownAtoms σ ⊆ ((unitBlocks S σ).map fun u => u.upper).toFinset := by
+  have : crownAtoms (Mk := Mk) σ ⊆ ((unitBlocks (Mk := Mk) S σ).map fun u => u.upper).toFinset := by
     intro v hv
     simp only [crownAtoms, Finset.mem_filter, Finset.mem_univ, true_and] at hv
-    have hn : (stSt S σ).cls v ≠ none := by rw [hv]; simp
-    have : ∃ u ∈ unitBlocks S σ, v ∈ u.atoms := by
+    have hn : (stSt (Mk := Mk) S σ).cls v ≠ none := by rw [hv]; simp
+    have : ∃ u ∈ unitBlocks (Mk := Mk) S σ, v ∈ u.atoms := by
       by_contra h
       push Not at h
-      exact hn (stSt_cls_none hM σ h)
+      exact hn (stSt_cls_noneMk (Mk := Mk) hM σ h)
     obtain ⟨u, hu, hvu⟩ := this
-    rw [stSt_cls_mem hM σ hu hvu] at hv
+    rw [stSt_cls_memMk (Mk := Mk) hM σ hu hvu] at hv
     have : u.upper = v := Option.some.inj hv
     exact List.mem_toFinset.mpr (List.mem_map.mpr ⟨u, hu, this⟩)
   refine (Finset.card_le_card this).trans ?_
   exact (List.toFinset_card_le _).trans (by simp)
 
-theorem two_mul_units_le : 2 * (unitBlocks S σ).length ≤ (mergedAtoms σ).card := by
-  rw [card_mergedAtoms hM σ]
+theorem card_crownAtoms_le : (crownAtoms σ).card ≤ (unitBlocks S σ).length := card_crownAtoms_leMk (Mk := ∅) hM σ
+
+/-- B1b (Mk-general form of `two_mul_units_le`). -/
+theorem two_mul_units_leMk {Mk : Set (Stage1.CLVine _)} : 2 * (unitBlocks (Mk := Mk) S σ).length ≤ (mergedAtoms (Mk := Mk) σ).card := by
+  rw [card_mergedAtomsMk (Mk := Mk) hM σ]
   have : ∀ l : List (CLBlock S), (∀ u ∈ l, 2 ≤ u.atoms.card) → 2 * l.length ≤ (l.map fun u => u.atoms.card).sum := by
     intro l
     induction l with
@@ -122,10 +129,13 @@ theorem two_mul_units_le : 2 * (unitBlocks S σ).length ≤ (mergedAtoms σ).car
       omega
   exact this _ fun u _ => two_le_card_atoms hM u
 
-theorem order_add_merged :
-    (stSt S σ).G.order + (mergedAtoms σ).card = S.order + (crownAtoms σ).card := by
+theorem two_mul_units_le : 2 * (unitBlocks S σ).length ≤ (mergedAtoms σ).card := two_mul_units_leMk (Mk := ∅) hM σ
+
+/-- B1b (Mk-general form of `order_add_merged`). -/
+theorem order_add_mergedMk {Mk : Set (Stage1.CLVine _)} :
+    (stSt (Mk := Mk) S σ).G.order + (mergedAtoms (Mk := Mk) σ).card = S.order + (crownAtoms (Mk := Mk) σ).card := by
   classical
-  set st := stSt S σ
+  set st := stSt (Mk := Mk) S σ
   have hord : st.G.order = (Finset.univ.filter fun v : GBranch S.tree => st.cls v = none ∨ st.cls v = some v).card := by
     rw [Garden_order_eq_card]
     rw [← Finset.card_univ, ← Finset.card_image_of_injective _ st.M.ob_inj]
@@ -133,16 +143,16 @@ theorem order_add_merged :
     ext v
     simp only [Finset.mem_image, Finset.mem_univ, true_and, Finset.mem_filter]
     exact st.M.ob_range v
-  have hS : S.order = (Finset.univ.filter fun v : GBranch S.tree => st.cls v = none).card + (mergedAtoms σ).card := by
+  have hS : S.order = (Finset.univ.filter fun v : GBranch S.tree => st.cls v = none).card + (mergedAtoms (Mk := Mk) σ).card := by
     rw [Garden_order_eq_card, ← Finset.card_univ]
     have := Finset.card_filter_add_card_filter_not (s := (Finset.univ : Finset (GBranch S.tree))) (fun v => st.cls v = none)
     rw [← this]
     congr 2
   have hsplit : (Finset.univ.filter fun v : GBranch S.tree => st.cls v = none ∨ st.cls v = some v) =
-      (Finset.univ.filter fun v : GBranch S.tree => st.cls v = none) ∪ crownAtoms σ := by
+      (Finset.univ.filter fun v : GBranch S.tree => st.cls v = none) ∪ crownAtoms (Mk := Mk) σ := by
     ext v
     simp [crownAtoms, st]
-  have hdisj : Disjoint (Finset.univ.filter fun v : GBranch S.tree => st.cls v = none) (crownAtoms σ) := by
+  have hdisj : Disjoint (Finset.univ.filter fun v : GBranch S.tree => st.cls v = none) (crownAtoms (Mk := Mk) σ) := by
     rw [Finset.disjoint_left]
     intro v h1 h2
     simp only [crownAtoms, Finset.mem_filter, Finset.mem_univ, true_and] at h1 h2
@@ -150,9 +160,13 @@ theorem order_add_merged :
   rw [hord, hsplit, Finset.card_union_of_disjoint hdisj]
   omega
 
-theorem card_hinges_eq : (stSt S σ).hinges.card = (crownAtoms σ).card := by
+theorem order_add_merged :
+    (stSt S σ).G.order + (mergedAtoms σ).card = S.order + (crownAtoms σ).card := order_add_mergedMk (Mk := ∅) hM σ
+
+/-- B1b (Mk-general form of `card_hinges_eq`). -/
+theorem card_hinges_eqMk {Mk : Set (Stage1.CLVine _)} : (stSt (Mk := Mk) S σ).hinges.card = (crownAtoms (Mk := Mk) σ).card := by
   classical
-  set st := stSt S σ
+  set st := stSt (Mk := Mk) S σ
   unfold SpState.hinges
   rw [← Finset.card_image_of_injective _ st.M.ob_inj]
   congr 1
@@ -168,22 +182,27 @@ theorem card_hinges_eq : (stSt S σ).hinges.card = (crownAtoms σ).card := by
     obtain ⟨c, hc⟩ := hr
     exact ⟨c, by rw [hc, h]; simp, hc⟩
 
-/-- `n_sb + #hinges ≤ n_sk`. -/
-theorem order_add_hinges_le : (stSt S σ).G.order + (stSt S σ).hinges.card ≤ S.order := by
-  have h1 := order_add_merged hM σ
-  have h2 := card_hinges_eq hM σ
-  have h3 := card_crownAtoms_le hM σ
-  have h4 := two_mul_units_le hM σ
+theorem card_hinges_eq : (stSt S σ).hinges.card = (crownAtoms σ).card := card_hinges_eqMk (Mk := ∅) hM σ
+
+/-- B1b (Mk-general form of `order_add_hinges_le`). -/
+theorem order_add_hinges_leMk {Mk : Set (Stage1.CLVine _)} : (stSt (Mk := Mk) S σ).G.order + (stSt (Mk := Mk) S σ).hinges.card ≤ S.order := by
+  have h1 := order_add_mergedMk (Mk := Mk) hM σ
+  have h2 := card_hinges_eqMk (Mk := Mk) hM σ
+  have h3 := card_crownAtoms_leMk (Mk := Mk) hM σ
+  have h4 := two_mul_units_leMk (Mk := Mk) hM σ
   omega
 
-/-- `n_sb + Σ_u (|u.atoms| - 1) ≤ n_sk`. -/
-theorem order_add_units_le :
-    (stSt S σ).G.order + ((unitBlocks S σ).map fun u => u.atoms.card - 1).sum ≤ S.order := by
-  have h1 := order_add_merged hM σ
-  have h3 := card_crownAtoms_le hM σ
-  have h5 := card_mergedAtoms hM σ
-  have h6 : ((unitBlocks S σ).map fun u => u.atoms.card - 1).sum + (unitBlocks S σ).length =
-      ((unitBlocks S σ).map fun u => u.atoms.card).sum := by
+/-- `n_sb + #hinges ≤ n_sk`. -/
+theorem order_add_hinges_le : (stSt S σ).G.order + (stSt S σ).hinges.card ≤ S.order := order_add_hinges_leMk (Mk := ∅) hM σ
+
+/-- B1b (Mk-general form of `order_add_units_le`). -/
+theorem order_add_units_leMk {Mk : Set (Stage1.CLVine _)} :
+    (stSt (Mk := Mk) S σ).G.order + ((unitBlocks (Mk := Mk) S σ).map fun u => u.atoms.card - 1).sum ≤ S.order := by
+  have h1 := order_add_mergedMk (Mk := Mk) hM σ
+  have h3 := card_crownAtoms_leMk (Mk := Mk) hM σ
+  have h5 := card_mergedAtomsMk (Mk := Mk) hM σ
+  have h6 : ((unitBlocks (Mk := Mk) S σ).map fun u => u.atoms.card - 1).sum + (unitBlocks (Mk := Mk) S σ).length =
+      ((unitBlocks (Mk := Mk) S σ).map fun u => u.atoms.card).sum := by
     have : ∀ l : List (CLBlock S), (∀ u ∈ l, 2 ≤ u.atoms.card) →
         (l.map fun u => u.atoms.card - 1).sum + l.length = (l.map fun u => u.atoms.card).sum := by
       intro l
@@ -197,6 +216,10 @@ theorem order_add_units_le :
         omega
     exact this _ fun u _ => two_le_card_atoms hM u
   omega
+
+/-- `n_sb + Σ_u (|u.atoms| - 1) ≤ n_sk`. -/
+theorem order_add_units_le :
+    (stSt S σ).G.order + ((unitBlocks S σ).map fun u => u.atoms.card - 1).sum ≤ S.order := order_add_units_leMk (Mk := ∅) hM σ
 
 end Counts
 end WaveTurbulence.Represents
