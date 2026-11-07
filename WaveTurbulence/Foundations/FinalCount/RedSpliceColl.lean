@@ -31,22 +31,27 @@ theorem groups_disjoint (hM : G.molecule.IsMolecule) :
   have := (stage1Collection_isPartition hM).2.1
   rwa [hpart] at this
 
-/-- The crown of an atom of a group lies in the group. -/
-theorem repC_mem_group (hM : G.molecule.IsMolecule) (σ : Prescription G) {S : Finset (GBranch G.tree)}
-    (hSm : S ∈ maximalGroups G.molecule) {z : GBranch G.tree} (hz : z ∈ S) :
-    repC (stSt G σ).cls z ∈ S := by
-  by_cases h : ∃ u ∈ unitBlocks G σ, z ∈ u.atoms
+/-- B1b (Mk-general form of `repC_mem_group`). -/
+theorem repC_mem_groupMk (hM : G.molecule.IsMolecule) (σ : Prescription G) {S : Finset (GBranch G.tree)}
+    (hSm : S ∈ maximalGroups G.molecule) {z : GBranch G.tree} (hz : z ∈ S) {Mk : Set (Stage1.CLVine _)} :
+    repC (stSt (Mk := Mk) G σ).cls z ∈ S := by
+  by_cases h : ∃ u ∈ unitBlocks (Mk := Mk) G σ, z ∈ u.atoms
   · obtain ⟨u, hu, hzu⟩ := h
-    rw [stSt_repC_mem hM σ hu hzu]
-    obtain ⟨S'', hS''m, _, hu''⟩ := mem_unitBlocks.mp hu
-    have hsub := (groupUnitsOf G S'').sub u hu''
+    rw [stSt_repC_memMk (Mk := Mk) hM σ hu hzu]
+    obtain ⟨S'', hS''m, _, hu''⟩ := (mem_unitBlocksMk (Mk := Mk)).mp hu
+    have hsub := groupUnitsMk_sub (Mk := Mk) (u := u) hu''
     by_cases hSS : S'' = S
     · subst hSS
       exact hsub u.isBlock.2.1
     · exact absurd hz (Finset.disjoint_left.mp (groups_disjoint hM hS''m hSm hSS) (hsub hzu)).elim
   · push Not at h
-    rw [stSt_repC_none hM σ h]
+    rw [stSt_repC_noneMk (Mk := Mk) hM σ h]
     exact hz
+
+/-- The crown of an atom of a group lies in the group. -/
+theorem repC_mem_group (hM : G.molecule.IsMolecule) (σ : Prescription G) {S : Finset (GBranch G.tree)}
+    (hSm : S ∈ maximalGroups G.molecule) {z : GBranch G.tree} (hz : z ∈ S) :
+    repC (stSt G σ).cls z ∈ S := repC_mem_groupMk (Mk := ∅) hM σ hSm hz
 
 /-- An SG group contributes an object to `C_1`. -/
 @[expose] def HasObj (G : Garden w) (S : Finset (GBranch G.tree)) : Prop :=

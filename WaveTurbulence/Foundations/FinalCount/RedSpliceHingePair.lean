@@ -103,28 +103,36 @@ the units are `groupUnitsMk` (runs in a marked group, with the run pair `HingeSp
   first := fun v => (hingePair G σ v).map Prod.fst
   second := fun v => (hingePair G σ v).map Prod.snd
 
-theorem structural_collectionChoices (hM : G.molecule.IsMolecule) (σ : Prescription G)
-    (hno : ∀ a b, G.molecule.bondsBetween a b ≠ 3) : (collectionChoices G σ).Structural := by
+/-- B1b (Mk-general form of `structural_collectionChoices`). -/
+theorem structural_collectionChoicesMk (hM : G.molecule.IsMolecule) (σ : Prescription G)
+    (hno : ∀ a b, G.molecule.bondsBetween a b ≠ 3) {Mk : Set (Stage1.CLVine _)} : (collectionChoices (Mk := Mk) G σ).Structural := by
   refine ⟨?_, ?_, ?_⟩
   · intro i
-    obtain ⟨_, _, _, _, hS⟩ := mem_objects (List.get_mem (objects G σ) i)
+    obtain ⟨_, _, _, _, hS⟩ := mem_objectsMk (Mk := Mk) (List.get_mem (objects (Mk := Mk) G σ) i)
     exact hS.allowed
   · intro i j hne
-    have hp := List.pairwise_iff_get.mp (objects_pairwise hM σ)
+    have hp := List.pairwise_iff_get.mp (objects_pairwiseMk (Mk := Mk) hM σ)
     rcases lt_or_gt_of_ne (fun h => hne (Fin.ext h)) with h | h
     · exact hp i j h
     · exact (hp j i h).symm
   · intro a b hab
-    exact (stSt G σ).triple_hinge hno a b hab
+    exact (stSt (Mk := Mk) G σ).triple_hinge hno a b hab
 
-theorem hingeOutsideFirst_collectionChoices (σ : Prescription G) :
-    ∀ v ∈ (collectionChoices G σ).hinges, ∀ i, ¬ ((collectionChoices G σ).collection i).IsInterior v := by
+theorem structural_collectionChoices (hM : G.molecule.IsMolecule) (σ : Prescription G)
+    (hno : ∀ a b, G.molecule.bondsBetween a b ≠ 3) : (collectionChoices G σ).Structural := structural_collectionChoicesMk (Mk := ∅) hM σ hno
+
+/-- B1b (Mk-general form of `hingeOutsideFirst_collectionChoices`). -/
+theorem hingeOutsideFirst_collectionChoicesMk (σ : Prescription G) {Mk : Set (Stage1.CLVine _)} :
+    ∀ v ∈ (collectionChoices (Mk := Mk) G σ).hinges, ∀ i, ¬ ((collectionChoices (Mk := Mk) G σ).collection i).IsInterior v := by
   intro v hv i hint
-  obtain ⟨_, _, _, _, hS⟩ := mem_objects (List.get_mem (objects G σ) i)
-  have hcn : (stSt G σ).cls ((stSt G σ).M.ob v) ≠ none := ((stSt G σ).mem_hinges v).mp hv
+  obtain ⟨_, _, _, _, hS⟩ := mem_objectsMk (Mk := Mk) (List.get_mem (objects (Mk := Mk) G σ) i)
+  have hcn : (stSt (Mk := Mk) G σ).cls ((stSt (Mk := Mk) G σ).M.ob v) ≠ none := ((stSt (Mk := Mk) G σ).mem_hinges v).mp hv
   rcases hS.hinge v hcn hint.1 with h | h
   · exact hint.2.1 h
   · exact hint.2.2 h
+
+theorem hingeOutsideFirst_collectionChoices (σ : Prescription G) :
+    ∀ v ∈ (collectionChoices G σ).hinges, ∀ i, ¬ ((collectionChoices G σ).collection i).IsInterior v := hingeOutsideFirst_collectionChoicesMk (Mk := ∅) σ
 
 
 theorem properPair_congr {σ : Prescription G} {v : GBranch (stSt G σ).G.tree}

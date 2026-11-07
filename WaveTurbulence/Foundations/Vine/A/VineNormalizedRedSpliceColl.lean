@@ -35,22 +35,27 @@ theorem groups_disjoint (hM : G.molecule.IsMolecule) :
   have := (stage1Collection_isPartition hM).2.1
   rwa [hpart] at this
 
-/-- The crown of an atom of a group lies in the group. -/
-theorem repC_mem_group (hM : G.molecule.IsMolecule) (σ : Prescription G) {S : Finset (GBranch G.tree)}
-    (hSm : S ∈ maximalGroups G.molecule) {z : GBranch G.tree} (hz : z ∈ S) :
-    repC (stSt G σ).cls z ∈ S := by
-  by_cases h : ∃ u ∈ unitBlocks G σ, z ∈ u.atoms
+/-- B1b (Mk-general form of `repC_mem_group`). -/
+theorem repC_mem_groupMk (hM : G.molecule.IsMolecule) (σ : Prescription G) {S : Finset (GBranch G.tree)}
+    (hSm : S ∈ maximalGroups G.molecule) {z : GBranch G.tree} (hz : z ∈ S) {Mk : Set (Stage1.CLVine _)} :
+    repC (stSt (Mk := Mk) G σ).cls z ∈ S := by
+  by_cases h : ∃ u ∈ unitBlocks (Mk := Mk) G σ, z ∈ u.atoms
   · obtain ⟨u, hu, hzu⟩ := h
-    rw [stSt_repC_mem hM σ hu hzu]
-    obtain ⟨S'', hS''m, _, hu''⟩ := mem_unitBlocks.mp hu
-    have hsub := (groupUnitsOf G S'').sub u hu''
+    rw [stSt_repC_memMk (Mk := Mk) hM σ hu hzu]
+    obtain ⟨S'', hS''m, _, hu''⟩ := (mem_unitBlocksMk (Mk := Mk)).mp hu
+    have hsub := groupUnitsMk_sub (Mk := Mk) (u := u) hu''
     by_cases hSS : S'' = S
     · subst hSS
       exact hsub u.isBlock.2.1
     · exact absurd hz (Finset.disjoint_left.mp (groups_disjoint hM hS''m hSm hSS) (hsub hzu)).elim
   · push Not at h
-    rw [stSt_repC_none hM σ h]
+    rw [stSt_repC_noneMk (Mk := Mk) hM σ h]
     exact hz
+
+/-- The crown of an atom of a group lies in the group. -/
+theorem repC_mem_group (hM : G.molecule.IsMolecule) (σ : Prescription G) {S : Finset (GBranch G.tree)}
+    (hSm : S ∈ maximalGroups G.molecule) {z : GBranch G.tree} (hz : z ∈ S) :
+    repC (stSt G σ).cls z ∈ S := repC_mem_groupMk (Mk := ∅) hM σ hSm hz
 
 /-- An SG group contributes an object to `C_1`. -/
 @[expose] def HasObj (G : Garden w) (S : Finset (GBranch G.tree)) : Prop :=
@@ -99,19 +104,20 @@ theorem SDecomp.nonmerged_mem {V D : Type*} [DecidableEq V] [Fintype D] [Decidab
   · obtain ⟨r, hr, -⟩ := H.hRc z h z h
     rw [hn] at hr; cases hr
 
-theorem objSpec_of_skip (_hM : G.molecule.IsMolecule) (σ : Prescription G) {S : Finset (GBranch G.tree)}
-    (sk : SkipData G S) (O : Object (stSt G σ).G.molecule)
-    (hO : AllowedCollectionObject (stSt G σ).G O)
-    (hOa : O.atoms = sk.A.image ((stSt G σ).M.pi (stSt G σ).hcls))
-    (hu : O.upper = (stSt G σ).M.pi (stSt G σ).hcls sk.x)
-    (hl : O.lower = (stSt G σ).M.pi (stSt G σ).hcls sk.y)
-    (hcase : ∀ z ∈ sk.A, (stSt G σ).cls (((stSt G σ).cls z).getD z) ≠ none → z = sk.x ∨ z = sk.y)
-    (hnm : ∀ z ∈ S, (stSt G σ).cls z = none → z ∈ sk.A) (hsk : (groupUnitsOf G S).skip = some sk)
+/-- B1b (Mk-general form of `objSpec_of_skip`). -/
+theorem objSpec_of_skipMk (_hM : G.molecule.IsMolecule) (σ : Prescription G) {S : Finset (GBranch G.tree)}
+    (sk : SkipData G S) {Mk : Set (Stage1.CLVine _)} (O : Object (stSt (Mk := Mk) G σ).G.molecule)
+    (hO : AllowedCollectionObject (stSt (Mk := Mk) G σ).G O)
+    (hOa : O.atoms = sk.A.image ((stSt (Mk := Mk) G σ).M.pi (stSt (Mk := Mk) G σ).hcls))
+    (hu : O.upper = (stSt (Mk := Mk) G σ).M.pi (stSt (Mk := Mk) G σ).hcls sk.x)
+    (hl : O.lower = (stSt (Mk := Mk) G σ).M.pi (stSt (Mk := Mk) G σ).hcls sk.y)
+    (hcase : ∀ z ∈ sk.A, (stSt (Mk := Mk) G σ).cls (((stSt (Mk := Mk) G σ).cls z).getD z) ≠ none → z = sk.x ∨ z = sk.y)
+    (hnm : ∀ z ∈ S, (stSt (Mk := Mk) G σ).cls z = none → z ∈ sk.A) (hsk : (groupUnitsOf G S).skip = some sk)
     (hsh1 : sk.bond = none → ∃ h, O.shape = VineLikeObject.vc h)
-    (hsh2 : ∀ e, sk.bond = some e → ∃ R : HyperLikeRealization (stSt G σ).G.molecule O.atoms O.upper O.lower,
-      O.shape = VineLikeObject.hyper R ∧ (stSt G σ).M.od R.added = e) :
-    ObjSpec G σ S O := by
-  have hc := (stSt G σ).hcls
+    (hsh2 : ∀ e, sk.bond = some e → ∃ R : HyperLikeRealization (stSt (Mk := Mk) G σ).G.molecule O.atoms O.upper O.lower,
+      O.shape = VineLikeObject.hyper R ∧ (stSt (Mk := Mk) G σ).M.od R.added = e) :
+    ObjSpecMk (Mk := Mk) G σ S O := by
+  have hc := (stSt (Mk := Mk) G σ).hcls
   refine ⟨hO, ?_, ?_, ⟨sk.A, ?_, hOa, hnm, Or.inr ⟨sk, hsk, rfl, hu, hl, hsh1, hsh2⟩⟩⟩
   · intro v hv
     rw [hOa] at hv
@@ -123,13 +129,26 @@ theorem objSpec_of_skip (_hM : G.molecule.IsMolecule) (σ : Prescription G) {S :
   · intro c hcn hcO
     rw [hOa] at hcO
     obtain ⟨z, hz, rfl⟩ := Finset.mem_image.mp hcO
-    rw [(stSt G σ).M.ob_pi hc] at hcn
+    rw [(stSt (Mk := Mk) G σ).M.ob_pi hc] at hcn
     rcases hcase z hz hcn with rfl | rfl
     · exact Or.inl hu.symm
     · exact Or.inr hl.symm
   · intro z hz
     rw [sk.hS]
     exact mem_union_left _ (mem_union_right _ hz)
+
+theorem objSpec_of_skip (_hM : G.molecule.IsMolecule) (σ : Prescription G) {S : Finset (GBranch G.tree)}
+    (sk : SkipData G S) (O : Object (stSt G σ).G.molecule)
+    (hO : AllowedCollectionObject (stSt G σ).G O)
+    (hOa : O.atoms = sk.A.image ((stSt G σ).M.pi (stSt G σ).hcls))
+    (hu : O.upper = (stSt G σ).M.pi (stSt G σ).hcls sk.x)
+    (hl : O.lower = (stSt G σ).M.pi (stSt G σ).hcls sk.y)
+    (hcase : ∀ z ∈ sk.A, (stSt G σ).cls (((stSt G σ).cls z).getD z) ≠ none → z = sk.x ∨ z = sk.y)
+    (hnm : ∀ z ∈ S, (stSt G σ).cls z = none → z ∈ sk.A) (hsk : (groupUnitsOf G S).skip = some sk)
+    (hsh1 : sk.bond = none → ∃ h, O.shape = VineLikeObject.vc h)
+    (hsh2 : ∀ e, sk.bond = some e → ∃ R : HyperLikeRealization (stSt G σ).G.molecule O.atoms O.upper O.lower,
+      O.shape = VineLikeObject.hyper R ∧ (stSt G σ).M.od R.added = e) :
+    ObjSpec G σ S O := objSpec_of_skipMk (Mk := ∅) _hM σ sk O hO hOa hu hl hcase hnm hsk hsh1 hsh2
 
 theorem exists_obj (hM : G.molecule.IsMolecule) (σ : Prescription G) {S : Finset (GBranch G.tree)}
     (hSm : S ∈ maximalGroups G.molecule) (hσ : σ S = Molecule.GapKind.SG) (h : HasObj G S) :
