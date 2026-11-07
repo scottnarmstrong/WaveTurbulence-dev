@@ -5,6 +5,7 @@ Authors: Scott Armstrong
 -/
 module
 
+public import WaveTurbulence.Foundations.Stage1.Shared.CarriesW
 public import WaveTurbulence.Foundations.Stage1.Represents.RepVD11
 public import WaveTurbulence.Foundations.Stage1.Represents.RepVC1
 public import WaveTurbulence.Foundations.Stage1.Represents.RepS10c
@@ -35,12 +36,30 @@ theorem outputs_mem_A {R : ℕ} {A : Finset (LayeredGarden (2 * R))} (hcl : Twis
   refine hcl (objKind (2 * R)) (UnitsIndex (sourceAssembly a)) (sourceStart a) M a.prime.prime
     (canonicalObject_of_isCanonGC (by rw [hB]; exact hcan)) (by rw [hB]; exact haA) y.1.layered ⟨M, y.1, List.Perm.refl _, hr.batch, rfl⟩
 
+/-- B1b (R156): `member_isCanon` with the truncation-free carrier `Stage1CarriesW`. -/
+theorem member_isCanonW {R : ℕ} {A : Finset (LayeredGarden (2 * R))} {P : WTParams} {N : ℕ}
+    (hA : ∀ LG ∈ A, Stage1Mk.Stage1CarriesW P p N LG) (hcl : TwistClosed p A)
+    (a : PrescribedPrimeGarden (2 * R)) (haA : a.layered ∈ A)
+    (y : UState (2 * R) (unitsSplit (sourceAssembly a))) (hy : y ∈ sourceClass a p (objKind (2 * R))) :
+    IsCanonGC (p + 1) y.1.layered :=
+  (hA _ (outputs_mem_A hcl a haA (hA _ haA).1 y hy)).1
+
 theorem member_isCanon {R : ℕ} {A : Finset (LayeredGarden (2 * R))} {P : WTParams} {N : ℕ}
     (hA : ∀ LG ∈ A, Stage1Carries P p N LG) (hcl : TwistClosed p A)
     (a : PrescribedPrimeGarden (2 * R)) (haA : a.layered ∈ A)
     (y : UState (2 * R) (unitsSplit (sourceAssembly a))) (hy : y ∈ sourceClass a p (objKind (2 * R))) :
     IsCanonGC (p + 1) y.1.layered :=
   (hA _ (outputs_mem_A hcl a haA (hA _ haA).1 y hy)).1
+
+/-- B1b (R156): `member_stateLayer_le` with the truncation-free carrier `Stage1CarriesW`. -/
+theorem member_stateLayer_leW {R : ℕ} {A : Finset (LayeredGarden (2 * R))} {P : WTParams} {N : ℕ}
+    (hA : ∀ LG ∈ A, Stage1Mk.Stage1CarriesW P p N LG) (hcl : TwistClosed p A)
+    (a : PrescribedPrimeGarden (2 * R)) (haA : a.layered ∈ A)
+    (y : UState (2 * R) (unitsSplit (sourceAssembly a))) (hy : y ∈ sourceClass a p (objKind (2 * R))) (x) :
+    stateLayer y.1 x ≤ p := by
+  have h := Canon.layer_le_of_isCanonGC (member_isCanonW hA hcl a haA y hy)
+  rw [← stateLayer_spec y.1] at h
+  exact h x
 
 theorem member_stateLayer_le {R : ℕ} {A : Finset (LayeredGarden (2 * R))} {P : WTParams} {N : ℕ}
     (hA : ∀ LG ∈ A, Stage1Carries P p N LG) (hcl : TwistClosed p A)

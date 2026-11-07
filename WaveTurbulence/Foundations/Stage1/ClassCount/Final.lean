@@ -28,4 +28,8 @@ theorem classCount_of_layeringLeg (h2 : LayeringLeg) : ClassCountStmt :=
 /-- **The Stage 1 class count (TARGET L2241-L2252), unconditional.** -/
 theorem classCount : ClassCountStmt := classCount_of_layeringLeg layeringLeg
 
+/-- B1b (R156): the Stage 1 class count with the truncation-free carrier `Stage1CarriesW`, unconditional. -/
+theorem classCountW : ClassCountStmtW :=
+  classCount_of_legsW decodeSizeLeg (skeletonLeg_of_codeLeg skeletonCodeLeg) layeringLegW
+
 end WaveTurbulence.ClassCount

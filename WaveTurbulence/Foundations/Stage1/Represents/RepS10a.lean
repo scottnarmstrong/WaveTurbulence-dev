@@ -30,15 +30,19 @@ open Finset WaveTurbulence WaveTurbulence.VineA WaveTurbulence.LGSpine WaveTurbu
 
 variable {R : ℕ}
 
-/-- The injection `π ↦ repPt π`. -/
-theorem repPt_injective {p : ℕ} {kind : Bool} {A : Finset (LayeredGarden (2 * R))} :
-    Function.Injective (fun π : PcA R p kind A => repPt π) := by
+/-- B1b (Mk-general form of `repPt_injective`). -/
+theorem repPt_injectiveMk {p : ℕ} {kind : Bool} {A : Finset (LayeredGarden (2 * R))} {mk : Stage1Mk.MarkFn _} :
+    Function.Injective (fun π : PcA (mk := mk) R p kind A => repPt π) := by
   intro π π' h
   have h1 : (Quotient.out π : PtA R A) = Quotient.out π' := Subtype.ext h
   rw [← Quotient.out_eq π, ← Quotient.out_eq π', h1]
 
-/-- Every piece with representative `LG` has representative in the range of the prescriptions on `LG`'s skeleton. -/
-theorem repPt_mem_range {p : ℕ} {kind : Bool} {A : Finset (LayeredGarden (2 * R))} (π : PcA R p kind A)
+/-- The injection `π ↦ repPt π`. -/
+theorem repPt_injective {p : ℕ} {kind : Bool} {A : Finset (LayeredGarden (2 * R))} :
+    Function.Injective (fun π : PcA R p kind A => repPt π) := repPt_injectiveMk (mk := fun _ => ∅)
+
+/-- B1b (Mk-general form of `repPt_mem_range`). -/
+theorem repPt_mem_rangeMk {p : ℕ} {kind : Bool} {A : Finset (LayeredGarden (2 * R))} {mk : Stage1Mk.MarkFn _} (π : PcA (mk := mk) R p kind A)
     (LG : LayeredGarden (2 * R)) (h : (repPt π).layered = LG) (hp : LG.garden.IsPlain) :
     repPt π ∈ Set.range (fun σ : GroupPrescription (primeDataOf LG hp).skeleton =>
       (⟨LG, primeDataOf LG hp, σ⟩ : PrescribedPrimeGarden (2 * R))) := by
@@ -50,23 +54,30 @@ theorem repPt_mem_range {p : ℕ} {kind : Bool} {A : Finset (LayeredGarden (2 * 
   subst e
   exact ⟨σ, rfl⟩
 
-theorem fibre_card_le (p : ℕ) (kind : Bool) (A : Finset (LayeredGarden (2 * R))) (LG : LayeredGarden (2 * R))
-    (hp : LG.garden.IsPlain) {N : ℕ} (hN : LG.garden.order = N) :
-    ((Finset.univ : Finset (PcA R p kind A)).filter fun π => (repPt π).layered = LG).card ≤ 3 ^ N := by
+/-- Every piece with representative `LG` has representative in the range of the prescriptions on `LG`'s skeleton. -/
+theorem repPt_mem_range {p : ℕ} {kind : Bool} {A : Finset (LayeredGarden (2 * R))} (π : PcA R p kind A)
+    (LG : LayeredGarden (2 * R)) (h : (repPt π).layered = LG) (hp : LG.garden.IsPlain) :
+    repPt π ∈ Set.range (fun σ : GroupPrescription (primeDataOf LG hp).skeleton =>
+      (⟨LG, primeDataOf LG hp, σ⟩ : PrescribedPrimeGarden (2 * R))) := repPt_mem_rangeMk (mk := fun _ => ∅) π LG h hp
+
+/-- B1b (Mk-general form of `fibre_card_le`). -/
+theorem fibre_card_leMk (p : ℕ) (kind : Bool) (A : Finset (LayeredGarden (2 * R))) (LG : LayeredGarden (2 * R))
+    (hp : LG.garden.IsPlain) {N : ℕ} (hN : LG.garden.order = N) {mk : Stage1Mk.MarkFn _} :
+    ((Finset.univ : Finset (PcA (mk := mk) R p kind A)).filter fun π => (repPt π).layered = LG).card ≤ 3 ^ N := by
   classical
   set T : Set (PrescribedPrimeGarden (2 * R)) := Set.range (fun σ : GroupPrescription (primeDataOf LG hp).skeleton =>
       (⟨LG, primeDataOf LG hp, σ⟩ : PrescribedPrimeGarden (2 * R))) with hT
   have hfin : Finite (GroupPrescription (primeDataOf LG hp).skeleton) :=
     finite_groupPrescription _
   have hTfin : T.Finite := Set.finite_range _
-  have h1 : ((Finset.univ : Finset (PcA R p kind A)).filter fun π => (repPt π).layered = LG).card ≤ T.ncard := by
+  have h1 : ((Finset.univ : Finset (PcA (mk := mk) R p kind A)).filter fun π => (repPt π).layered = LG).card ≤ T.ncard := by
     rw [← Set.ncard_coe_finset]
     refine Set.ncard_le_ncard_of_injOn (fun π => repPt π) ?_ ?_ hTfin
     · intro π hπ
       have := (Finset.mem_filter.1 (Finset.mem_coe.1 hπ)).2
-      exact repPt_mem_range π LG this hp
+      exact repPt_mem_rangeMk (mk := mk) π LG this hp
     · intro a _ b _ hab
-      exact repPt_injective hab
+      exact repPt_injectiveMk (mk := mk) hab
   have h2 : T.ncard ≤ Nat.card (GroupPrescription (primeDataOf LG hp).skeleton) := by
     rw [← Nat.card_coe_set_eq]
     exact Nat.card_le_card_of_surjective _ (Set.rangeFactorization_surjective (f := fun σ : GroupPrescription (primeDataOf LG hp).skeleton =>
@@ -80,5 +91,9 @@ theorem fibre_card_le (p : ℕ) (kind : Bool) (A : Finset (LayeredGarden (2 * R)
     _ ≤ _ := h2
     _ ≤ 3 ^ Fintype.card (GBranch (primeDataOf LG hp).skeleton.tree) := h3
     _ ≤ 3 ^ N := Nat.pow_le_pow_right (by norm_num) (by omega)
+
+theorem fibre_card_le (p : ℕ) (kind : Bool) (A : Finset (LayeredGarden (2 * R))) (LG : LayeredGarden (2 * R))
+    (hp : LG.garden.IsPlain) {N : ℕ} (hN : LG.garden.order = N) :
+    ((Finset.univ : Finset (PcA R p kind A)).filter fun π => (repPt π).layered = LG).card ≤ 3 ^ N := fibre_card_leMk (mk := fun _ => ∅) p kind A LG hp hN
 
 end WaveTurbulence.Represents
