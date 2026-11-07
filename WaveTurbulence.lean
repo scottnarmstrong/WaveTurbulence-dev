@@ -2084,6 +2084,7 @@ public import WaveTurbulence.Foundations.VdCB.SymmetricKernel
 public import WaveTurbulence.Foundations.VdCB.TruncatedPoisson
 public import WaveTurbulence.Foundations.VdCB.TruncatedPoissonShift
 public import WaveTurbulence.Foundations.VdCB.WeightedStationary
+public import WaveTurbulence.Foundations.VineEst.Statements
 public import WaveTurbulence.Foundations.WKE.Characterization
 public import WaveTurbulence.Foundations.WKE.CollisionOp
 public import WaveTurbulence.Foundations.WKE.DeltaReading
