@@ -412,6 +412,7 @@ public import WaveTurbulence.Foundations.Cumulant.ProductsFormula
 public import WaveTurbulence.Foundations.Cumulant.Refinement
 public import WaveTurbulence.Foundations.Cumulant.Symmetry
 public import WaveTurbulence.Foundations.FinalCount.FinalCountClose
+public import WaveTurbulence.Foundations.FinalCount.RedSpliceSurvMK3
 public import WaveTurbulence.Foundations.Flower.Fam.Top
 public import WaveTurbulence.Foundations.FlowerTop.ThreeInputs
 public import WaveTurbulence.Foundations.Fourier.BalancedAmplitude
