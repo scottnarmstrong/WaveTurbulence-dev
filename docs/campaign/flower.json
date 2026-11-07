@@ -1,6 +1,6 @@
 {
  "title": "Flower estimate: Prop flowerest1 = frozen layergardenFlower_v3",
- "updated": "2026-11-07 22:00 UTC",
+ "updated": "2026-11-07 22:06 UTC",
  "convention": "Packet weights follow the blueprint convention (hard = 4, standard = 2, multi-packet items more). Credit: done = 1; a CHECKPOINT carries an explicit partial fraction; running and queued packets carry 0.",
  "paper": "Paper-level proof complete and refereed (R155): SUPPLEMENT-v2 + 6.3', 7.3', 7.5', 8.2', 8.3, 10.2-10.4, U-clock; 7 referee reports, no FAIL.",
  "next": "B1b (then the joint landing B1a+B1b+B2a, the re-pin with R169, then B2c/B3/B3s/B4); D2c (then D3, D6a/b, D7); D5d-b; V5W-B-WORLD (then V5W-T); C5b after B4 and D6.",
@@ -415,8 +415,8 @@
      "id": "D5d FILT-COH",
      "w": 8,
      "status": "checkpoint",
-     "note": "milestone (a) X^{1/4} for unfiltered coherent objects done; D5d-b (stars + filters) running",
-     "done": 0.5
+     "note": "(a) unfiltered X^{1/4}; star couples done (uniform (10.5)); D5d-c: trees, filters, multi-layer, gate",
+     "done": 0.65
     },
     {
      "id": "D3 PROT-PIN",
