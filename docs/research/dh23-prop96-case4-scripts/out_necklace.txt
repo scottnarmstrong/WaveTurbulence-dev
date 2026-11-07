@@ -1,0 +1,17 @@
+T-beads m=1: n=7 atoms, 13 bonds (=2n-1), no triple bond; couple built: tree orders {'o1': 6, 'o2': 1}, 16 leaves, signs/pairing/non-degeneracy OK; M(Q) == N_m (directed): True
+T-beads m=2: n=11 atoms, 21 bonds (=2n-1), no triple bond; couple built: tree orders {'o1': 10, 'o2': 1}, 24 leaves, signs/pairing/non-degeneracy OK; M(Q) == N_m (directed): True
+T-beads m=3: n=15 atoms, 29 bonds (=2n-1), no triple bond; couple built: tree orders {'o1': 14, 'o2': 1}, 32 leaves, signs/pairing/non-degeneracy OK; M(Q) == N_m (directed): True
+T-beads m=4: n=19 atoms, 37 bonds (=2n-1), no triple bond; couple built: tree orders {'o1': 18, 'o2': 1}, 40 leaves, signs/pairing/non-degeneracy OK; M(Q) == N_m (directed): True
+T-beads m=5: n=23 atoms, 45 bonds (=2n-1), no triple bond; couple built: tree orders {'o1': 22, 'o2': 1}, 48 leaves, signs/pairing/non-degeneracy OK; M(Q) == N_m (directed): True
+T-beads m=8: n=35 atoms, 69 bonds (=2n-1), no triple bond; couple built: tree orders {'o1': 34, 'o2': 1}, 72 leaves, signs/pairing/non-degeneracy OK; M(Q) == N_m (directed): True
+T-beads m=20: n=83 atoms, 165 bonds (=2n-1), no triple bond; couple built: tree orders {'o1': 82, 'o2': 1}, 168 leaves, signs/pairing/non-degeneracy OK; M(Q) == N_m (directed): True
+Q-beads m=1: n=6 atoms, 11 bonds (=2n-1), no triple bond; couple built: tree orders {'o1': 5, 'o2': 1}, 14 leaves, signs/pairing/non-degeneracy OK; M(Q) == N_m (directed): True
+Q-beads m=2: n=9 atoms, 17 bonds (=2n-1), no triple bond; couple built: tree orders {'o1': 8, 'o2': 1}, 20 leaves, signs/pairing/non-degeneracy OK; M(Q) == N_m (directed): True
+Q-beads m=3: n=12 atoms, 23 bonds (=2n-1), no triple bond; couple built: tree orders {'o1': 11, 'o2': 1}, 26 leaves, signs/pairing/non-degeneracy OK; M(Q) == N_m (directed): True
+Q-beads m=4: n=15 atoms, 29 bonds (=2n-1), no triple bond; couple built: tree orders {'o1': 14, 'o2': 1}, 32 leaves, signs/pairing/non-degeneracy OK; M(Q) == N_m (directed): True
+Q-beads m=5: n=18 atoms, 35 bonds (=2n-1), no triple bond; couple built: tree orders {'o1': 17, 'o2': 1}, 38 leaves, signs/pairing/non-degeneracy OK; M(Q) == N_m (directed): True
+Q-beads m=8: n=27 atoms, 53 bonds (=2n-1), no triple bond; couple built: tree orders {'o1': 26, 'o2': 1}, 56 leaves, signs/pairing/non-degeneracy OK; M(Q) == N_m (directed): True
+Q-beads m=20: n=63 atoms, 125 bonds (=2n-1), no triple bond; couple built: tree orders {'o1': 62, 'o2': 1}, 128 leaves, signs/pairing/non-degeneracy OK; M(Q) == N_m (directed): True
+
+N_3 bonds (u->v):
+  w0->e1, w1->e1, e1->g1, e1->g1, g1->f1, g1->f1, f1->w0, f1->w1, w1->e2, w2->e2, e2->g2, e2->g2, g2->f2, g2->f2, f2->w1, f2->w2, w2->e3, w3->e3, e3->g3, e3->g3, g3->f3, g3->f3, f3->w2, f3->w3, w3->o1, w0->o1, o1->o2, o2->w3, o2->w0

@@ -98,3 +98,23 @@ Format: D<n> — date (UTC) — who — decision — reason.
     or in the orchestrator's RULINGS.md.
   - Frozen-statement changes still follow the versioned-successor and second-key-audit process, and are recorded as
     D-entries.
+- D14 — 2026-11-07 ~10:30 — Scott ("I want you to stop the lean development now. I want you to write a report on what
+  is problematic about formalizing the paper. What are the gap(s) in the proof? ... I am going to publish this repo
+  with a full written report about why the formalization was not successful and an errata+deviations list") —
+  **Lean development stopped.**
+  - All proof, port and research agents were stopped at about 10:25 UTC. Nothing was landed or sealed after main
+    5c6d256c.
+  - The deliverables are `docs/FORMALIZATION-REPORT.md` and a publication-ready `docs/ERRATA-AND-DEVIATIONS.md`.
+  - Work that existed only in scratch directories at the stop is described in the report and is not claimed as proved.
+- D15 — 2026-11-07 ~12:00 — Scott ("let's land layergarden", "please land the layergarden proof and push to origin
+  main", then "let's get moving on formalizing the completable sketch of the flower estimate! I want this proved!") —
+  **Development restarted.**
+  - Batch 4b-3 (the V5 proof closure) landed (68820285), and `layergarden_v2` was sealed.
+  - An independent assessment of `flowerest1` (Astra, docs/research/astra-flowerest1-report.md) found the printed
+    proof incomplete but completable with the paper's own mechanisms. It judged the formalization's difficulty
+    largely architectural.
+  - The flower work restarts on its recommended plan:
+    1. a complete paper-level supplement first, refereed;
+    2. the flower-top reduction ported to main (three named inputs remain);
+    3. Lean packets built against the supplement's lemmas.
+  - The public report and FLOWEREST1 note are held back and will be revised to match.

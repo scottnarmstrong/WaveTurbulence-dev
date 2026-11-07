@@ -1,0 +1,699 @@
+{
+ "schema": "closure-map/1",
+ "generated": "2026-11-07 (O-CLOSURE-MAP, Opus)",
+ "main": "origin/main 5c6d256c",
+ "headline": {
+  "open_leaves": 13,
+  "route_uncertain": [
+   "O1",
+   "O5",
+   "O11"
+  ],
+  "no_owner": [
+   "O5(a)",
+   "O5(c)"
+  ],
+  "live_anchors_sealed": "0/5",
+  "critical_path": [
+   "O1",
+   "O3",
+   "stbldtop",
+   "O8/O10",
+   "hFam/hCut2/hCut2Zero",
+   "flowertop (port)",
+   "layergardenFlower_v3",
+   "fixedpoint_v2",
+   "propansatz_v2",
+   "main_v2"
+  ]
+ },
+ "nodes": [
+  {
+   "id": "main_v2",
+   "decl": "WaveTurbulence.main_v2",
+   "module": "WaveTurbulence/Frozen/Theorems/MainV2.lean",
+   "world": "origin/main 5c6d256c",
+   "status": "DRAFT_SORRY",
+   "target": "L314-L320; proof L795-L823"
+  },
+  {
+   "id": "main_v2.asm",
+   "decl": "WaveTurbulence.MainGlue.main_v2_of_propansatz",
+   "module": "WaveTurbulence/Foundations/XChain/V2Chain/MainV2.lean",
+   "world": "origin/main 5c6d256c",
+   "status": "PROVED-ON-MAIN",
+   "target": "L795-L823",
+   "note": "axioms standard (checked); conclusion = type of main_v2"
+  },
+  {
+   "id": "nlsAkBridge",
+   "decl": "WaveTurbulence.nlsAkBridge",
+   "module": "WaveTurbulence/Frozen/Theorems/NlsAkBridge.lean",
+   "world": "origin/main 5c6d256c",
+   "status": "PROVED-ON-MAIN",
+   "target": "L540-L566; L817-L819",
+   "note": "SEALED; type = V2Chain.NlsAkBridgeGate (rfl, checked)"
+  },
+  {
+   "id": "propansatz_v2",
+   "decl": "WaveTurbulence.propansatz_v2",
+   "module": "WaveTurbulence/Frozen/Theorems/PropansatzV2.lean",
+   "world": "origin/main 5c6d256c",
+   "status": "DRAFT_SORRY",
+   "target": "L689-L707"
+  },
+  {
+   "id": "propansatz_v2.asm",
+   "decl": "WaveTurbulence.V2Chain.propansatz_v2_of_gates",
+   "module": "WaveTurbulence/Foundations/XChain/V2Chain/PropansatzV2.lean",
+   "world": "origin/main 5c6d256c",
+   "status": "PROVED-ON-MAIN",
+   "target": "L795-L823"
+  },
+  {
+   "id": "wkeTaylor",
+   "decl": "WaveTurbulence.wkeTaylor",
+   "module": "WaveTurbulence/Frozen/Theorems/WkeTaylor.lean",
+   "world": "origin/main 5c6d256c",
+   "status": "PROVED-ON-MAIN",
+   "target": "L752-L758",
+   "note": "SEALED; type = WkeTaylorGate (rfl, checked)"
+  },
+  {
+   "id": "fixedpoint_v2",
+   "decl": "WaveTurbulence.fixedpoint_v2",
+   "module": "WaveTurbulence/Frozen/Theorems/FixedpointV2.lean",
+   "world": "origin/main 5c6d256c",
+   "status": "DRAFT_SORRY",
+   "target": "L780-L794; proof L2306-L2338"
+  },
+  {
+   "id": "fixedpoint_v2.asm",
+   "decl": "WaveTurbulence.V2Chain.fixedpoint_v2_of_closed_gates_v3",
+   "module": "WaveTurbulence/Foundations/XChain/V2Chain/FixedpointV2.lean",
+   "world": "origin/main 5c6d256c",
+   "status": "PROVED-ON-MAIN",
+   "target": "L2306-L2338",
+   "note": "internally X2E.oX2Exp, Cpl.oX3Cpl (on main)"
+  },
+  {
+   "id": "layergarden_v2",
+   "decl": "WaveTurbulence.layergarden_v2",
+   "module": "WaveTurbulence/Frozen/Theorems/LayergardenV2.lean",
+   "world": "origin/main 5c6d256c",
+   "status": "DRAFT_SORRY",
+   "target": "L761-L779; proof L1293-L2255"
+  },
+  {
+   "id": "layergarden_v2.proof",
+   "decl": "WaveTurbulence.VineEst.layergarden_v2_proof",
+   "module": "WaveTurbulence/Foundations/VineEst/V5Proof.lean",
+   "world": "port-b4b3 worktree (w/port-b4b3 from bf597bcf)",
+   "status": "PROVED-IN-SCRATCH",
+   "owner": "PORT 4b-3",
+   "last_agent": "port-b4b3 (Opus)",
+   "r138_consistent": true,
+   "note": "targeted lake build exit 0 at 10:05Z (19157 jobs); exact frozen type rfl and standard axioms checked in this audit; R143 kernel replay, land_check and seal audit pending; PROGRESS.md not updated"
+  },
+  {
+   "id": "layergarden_v2_of_V5",
+   "decl": "WaveTurbulence.Spine.layergarden_v2_of_V5",
+   "module": "WaveTurbulence/Foundations/Stage1/Producer.lean",
+   "world": "origin/main 5c6d256c",
+   "status": "PROVED-ON-MAIN",
+   "note": "conditional on WTPrefix VineEstCanonLayerHalfMK"
+  },
+  {
+   "id": "stage1ReductionGate_of_V5",
+   "decl": "WaveTurbulence.Spine.stage1ReductionGate_of_V5'",
+   "module": "WaveTurbulence/Foundations/Stage1/Producer.lean",
+   "world": "origin/main 5c6d256c",
+   "status": "PROVED-ON-MAIN",
+   "target": "L1927-L2053"
+  },
+  {
+   "id": "HalfMK",
+   "decl": "WaveTurbulence.VineEst.vineEstCanonLayerHalfMK",
+   "module": "WaveTurbulence/Foundations/VineEst/V5Proof.lean",
+   "world": "port-b4b3 worktree",
+   "status": "PROVED-IN-SCRATCH",
+   "target": "vineest L1742-L1922",
+   "r138_consistent": true,
+   "note": "= KindFinal.vineEstCanonLayerHalfMK_of_gates with main gates; W2/V5-KIND two-key PASS (R136, R144)"
+  },
+  {
+   "id": "finalCount_half",
+   "decl": "WaveTurbulence.FinalCountAsm.finalCount_half",
+   "module": "WaveTurbulence/Foundations/FinalCount/FinalCountClose.lean",
+   "world": "origin/main 5c6d256c",
+   "status": "PROVED-ON-MAIN",
+   "target": "L2101-L2255 (1/2<γ)"
+  },
+  {
+   "id": "layergarden_v2_of_stage1_finalCount",
+   "decl": "WaveTurbulence.Spine.layergarden_v2_of_stage1_finalCount",
+   "module": "WaveTurbulence/Foundations/Spine/SpineWithProviders.lean",
+   "world": "origin/main 5c6d256c",
+   "status": "PROVED-ON-MAIN"
+  },
+  {
+   "id": "leafwise_gates",
+   "decl": "WaveTurbulence.Spine.leafwise_incoherent_decay / leafwise_coherent_approximation",
+   "module": "WaveTurbulence/Foundations/Spine/SourceProviders.lean",
+   "world": "origin/main 5c6d256c",
+   "status": "PROVED-ON-MAIN",
+   "target": "L953-L1058; L1145-L1232"
+  },
+  {
+   "id": "vineparam",
+   "decl": "WaveTurbulence.Vine.Param.vineparam",
+   "module": "WaveTurbulenceVineParam",
+   "world": "origin/main 5c6d256c",
+   "status": "PROVED-ON-MAIN"
+  },
+  {
+   "id": "layergardenFlower_v3",
+   "decl": "WaveTurbulence.layergardenFlower_v3",
+   "module": "WaveTurbulence/Frozen/Theorems/LayergardenFlowerV3.lean",
+   "world": "origin/main 5c6d256c",
+   "status": "DRAFT_SORRY",
+   "target": "L2279-L2305 (uses L2306-L2338)"
+  },
+  {
+   "id": "flowertop",
+   "decl": "WaveTurbulence.FlowerTop.layergardenFlower_v3_of_owners'",
+   "module": "flower-top/src/FlowerTop/FinalFamily.lean",
+   "world": "flower-top build-final8 (frozen world, symlink farm)",
+   "status": "PROVED-IN-SCRATCH",
+   "owner": "FLOWERTOP",
+   "last_agent": "Sonnet S3",
+   "r138_consistent": false,
+   "note": "exact type vs frozen v3; second key PASS (R104); four binders hFam, hCut2, hCut2Zero, hStage1; hcount discharged by finalCount_half"
+  },
+  {
+   "id": "hStage1",
+   "decl": "WaveTurbulence.LGSpine.Stage1ReductionGate",
+   "module": "(composition)",
+   "world": "port-b4b3 worktree",
+   "status": "PROVED-IN-SCRATCH",
+   "r138_consistent": true,
+   "note": "stage1ReductionGate_of_V5' applied to vineEstCanonLayerHalfMK; lands with 4b-3"
+  },
+  {
+   "id": "hFam",
+   "decl": "FC23.FC23UniformCut1At (WTPrefixP (FC23UniformCut1Input C U))",
+   "module": "fc23/src/FC23/Cut1PrefixInterface.lean",
+   "world": "fc23",
+   "status": "STAGED",
+   "owner": "FC23",
+   "last_agent": "FC23 Opus session 11 (CHECKPOINT)",
+   "target": "L2283, L2294; E33",
+   "note": "OPEN; tighter than frozen plain clause by L^{(80d+2)Pm} δ^{6νN} (load-bearing for cut1 interpolation)"
+  },
+  {
+   "id": "hCut2",
+   "decl": "Cut2EB.PositiveCut2FrozenInput",
+   "module": "c2e-b",
+   "world": "c2e-b m2",
+   "status": "STAGED",
+   "owner": "C2-E-B",
+   "last_agent": "C2-E-B Opus session 19 (stopped)",
+   "target": "L2285, L2299-L2300; E35",
+   "note": "OPEN"
+  },
+  {
+   "id": "hCut2Zero",
+   "decl": "FlowerTop.Cut2ZeroFrozenInput",
+   "module": "flower-top / c2e-b",
+   "world": "c2e-b",
+   "status": "STAGED",
+   "owner": "C2-E-B",
+   "last_agent": "none (not started)",
+   "target": "L2285",
+   "note": "OPEN"
+  },
+  {
+   "id": "fc23.E1",
+   "decl": "FC23Int.flowerWeighted_eq_components_retained",
+   "module": "fc23/src/FC23Int/RetainedExcision.lean",
+   "world": "fc23 eb world",
+   "status": "PROVED-IN-SCRATCH",
+   "target": "L2287-L2288",
+   "r138_consistent": false
+  },
+  {
+   "id": "fc23.agreement",
+   "decl": "FC23Bond.fc23Weight_eq_regionBondWeight_mul",
+   "module": "fc23/src/FC23Bond/SkeletonBond.lean",
+   "world": "fc23 bond world",
+   "status": "PROVED-IN-SCRATCH",
+   "target": "L899, L1464",
+   "r138_consistent": false
+  },
+  {
+   "id": "c2bcoh",
+   "decl": "FC23Coh.c2bCohBlockGateFin / Cut2BCoh.c2bCohBlockGate",
+   "module": "fc23/src/FC23Coh/BlockAdapter.lean; c2b",
+   "world": "fc23 coh world; c2b build-coh-fresh15",
+   "status": "PROVED-IN-SCRATCH",
+   "r138_consistent": false,
+   "note": "two-key PASS (R137, R140); needed by C2-E-B width-2 slices, not by FC23 top factors"
+  },
+  {
+   "id": "O1",
+   "decl": "ResearchInternal.V5TopClassBound + VineTop.twistedRecenteredModCXTop_continuousOn",
+   "module": "vineest-s3/uni-top (planned)",
+   "world": "uni-top buildF1 fork",
+   "status": "STAGED",
+   "owner": "V5-SPACE-EXT (v5top)",
+   "last_agent": "uni-top lead + uni-top-bond (Opus); SCOPED",
+   "target": "L1742-L1922 with weights",
+   "assessment": "route uncertain",
+   "owner_size_estimate": "4.7-7.6k (SCOPE); 3.3-7k (research-internal)"
+  },
+  {
+   "id": "O2",
+   "decl": "ResearchInternal.TopIncoherentDecayGate (+ C2BTop.StarIncoherentDecayGate)",
+   "module": "c2b-top/src",
+   "world": "c2b-top main-based",
+   "status": "STAGED",
+   "owner": "C2-B-TOP",
+   "last_agent": "c2b-top (Opus), partial",
+   "target": "L953-L1058 (W L991-L1012)",
+   "assessment": "route clear",
+   "owner_size_estimate": "2-3.5k"
+  },
+  {
+   "id": "O3",
+   "decl": "S2ST.VineCaseRepresentsSTψTop",
+   "module": "s2-st/mw/src/S2ST/Top/STBLDTop.lean",
+   "world": "s2-st mw (R138 certified)",
+   "status": "STAGED",
+   "owner": "S2-ST",
+   "last_agent": "S2-ST Opus session 18 (stopped)",
+   "target": "L1942-L1960, L1742",
+   "assessment": "route clear given O1, O2",
+   "owner_size_estimate": "4-4.7k with O4"
+  },
+  {
+   "id": "O4",
+   "decl": "S2ST.NoVineRepresentsSTψTop",
+   "module": "s2-st/mw/src/S2ST/Top/STBLDTop.lean",
+   "world": "s2-st mw",
+   "status": "STAGED",
+   "owner": "S2-ST",
+   "target": "L1942-L1960",
+   "assessment": "route clear"
+  },
+  {
+   "id": "stbldtop",
+   "decl": "S2ST.stage1STBLDψTop_of_pieces",
+   "module": "s2-st/mw/src/S2ST/Top/STBLDTop.lean",
+   "world": "s2-st mw",
+   "status": "PROVED-IN-SCRATCH",
+   "r138_consistent": true,
+   "note": "conditional on O3, O4; statement = FC23 Stage1ReductionAtSTBLDψTopN up to namespace"
+  },
+  {
+   "id": "O5",
+   "decl": "widened Stage1ReductionAtSTBLDψTop with BranchWeight ω (W1-W4)",
+   "module": "s2-st/mw/src/S2ST/Top/SlotWeight.lean (defs only)",
+   "world": "s2-st mw",
+   "status": "MISSING",
+   "owner": "S2-ST (+C2-B, v5top, C2-A)",
+   "last_agent": "S17/C2-E-B S19 handshake",
+   "target": "L2285, L2299-L2300; FINDING-STEMROW",
+   "note": "(a) centre-uniform moment version of C2-A quadratic_resonance_fourier_measure: unowned; (b) C2-B-COH with rho-localized measures: unverified; (c) region-top stem cutoffs: V5Top SCOPE 6.2 item 1 excludes them",
+   "assessment": "route uncertain; sub-item (c) no owner/no route"
+  },
+  {
+   "id": "O6",
+   "decl": "ResearchInternal.RowTopAgreementCouple/Tree",
+   "module": "research-internal probe",
+   "world": "—",
+   "status": "STAGED",
+   "owner": "FC23",
+   "assessment": "route clear",
+   "owner_size_estimate": "0.2-0.5k"
+  },
+  {
+   "id": "O7",
+   "decl": "FC23OrbitRegroup (cut1 family E2)",
+   "module": "fc23/src/FC23Int/OrbitRegroup.lean",
+   "world": "fc23 eb world",
+   "status": "STAGED",
+   "owner": "FC23 + C2-E-B",
+   "assessment": "route clear"
+  },
+  {
+   "id": "O8",
+   "decl": "FC23 E3 slice premises + piece bound",
+   "module": "—",
+   "world": "—",
+   "status": "MISSING",
+   "owner": "FC23",
+   "assessment": "route clear"
+  },
+  {
+   "id": "O9",
+   "decl": "FC23 E4/E5 budget into B",
+   "module": "—",
+   "world": "—",
+   "status": "MISSING",
+   "owner": "FC23",
+   "assessment": "route clear"
+  },
+  {
+   "id": "c2eb.chain",
+   "decl": "Cut2EB.flowerSumP_plain_enorm_leT, pointedFace_sum_orbitsT', gluedFaceGood",
+   "module": "c2e-b/src/Cut2EB/Local",
+   "world": "c2e-b m2",
+   "status": "PROVED-IN-SCRATCH",
+   "r138_consistent": false
+  },
+  {
+   "id": "O10",
+   "decl": "Cut2EB.ComponentClassBoundAtT",
+   "module": "c2e-b/src/Cut2EB/Local/FTOrbitNormT.lean",
+   "world": "c2e-b m2",
+   "status": "STAGED",
+   "owner": "C2-E-B",
+   "assessment": "route clear given O5"
+  },
+  {
+   "id": "O11",
+   "decl": "perRepT bd ≤ T; FTFluxCode root-label sum",
+   "module": "c2e-b/src/Cut2EB/Local/FTFluxCode.lean",
+   "world": "c2e-b m2",
+   "status": "STAGED",
+   "owner": "C2-E-B",
+   "last_agent": "C2-E-B S19 (stopped)",
+   "assessment": "route uncertain (divergence at anchor labels found; repair unfinished)"
+  },
+  {
+   "id": "O12",
+   "decl": "nonplain patterns, j2>=1",
+   "module": "—",
+   "world": "—",
+   "status": "MISSING",
+   "owner": "C2-E-B",
+   "assessment": "route presumably clear; nothing written"
+  },
+  {
+   "id": "O13",
+   "decl": "Cut2ZeroCore (j2=0)",
+   "module": "—",
+   "world": "—",
+   "status": "MISSING",
+   "owner": "C2-E-B",
+   "assessment": "route clear on paper (research-cut2 §5)"
+  }
+ ],
+ "edges": [
+  {
+   "src": "main_v2",
+   "dst": "main_v2.asm",
+   "rel": "needs"
+  },
+  {
+   "src": "main_v2.asm",
+   "dst": "propansatz_v2",
+   "rel": "needs"
+  },
+  {
+   "src": "main_v2.asm",
+   "dst": "nlsAkBridge",
+   "rel": "needs"
+  },
+  {
+   "src": "propansatz_v2",
+   "dst": "propansatz_v2.asm",
+   "rel": "needs"
+  },
+  {
+   "src": "propansatz_v2.asm",
+   "dst": "layergarden_v2",
+   "rel": "needs"
+  },
+  {
+   "src": "propansatz_v2.asm",
+   "dst": "fixedpoint_v2",
+   "rel": "needs"
+  },
+  {
+   "src": "propansatz_v2.asm",
+   "dst": "wkeTaylor",
+   "rel": "needs"
+  },
+  {
+   "src": "fixedpoint_v2",
+   "dst": "fixedpoint_v2.asm",
+   "rel": "needs"
+  },
+  {
+   "src": "fixedpoint_v2.asm",
+   "dst": "layergardenFlower_v3",
+   "rel": "needs"
+  },
+  {
+   "src": "fixedpoint_v2.asm",
+   "dst": "layergarden_v2",
+   "rel": "needs"
+  },
+  {
+   "src": "fixedpoint_v2.asm",
+   "dst": "wkeTaylor",
+   "rel": "needs"
+  },
+  {
+   "src": "layergarden_v2",
+   "dst": "layergarden_v2.proof",
+   "rel": "needs"
+  },
+  {
+   "src": "layergarden_v2.proof",
+   "dst": "layergarden_v2_of_V5",
+   "rel": "needs"
+  },
+  {
+   "src": "layergarden_v2.proof",
+   "dst": "HalfMK",
+   "rel": "needs"
+  },
+  {
+   "src": "layergarden_v2_of_V5",
+   "dst": "stage1ReductionGate_of_V5",
+   "rel": "needs"
+  },
+  {
+   "src": "layergarden_v2_of_V5",
+   "dst": "layergarden_v2_of_stage1_finalCount",
+   "rel": "needs"
+  },
+  {
+   "src": "layergarden_v2_of_V5",
+   "dst": "finalCount_half",
+   "rel": "needs"
+  },
+  {
+   "src": "stage1ReductionGate_of_V5",
+   "dst": "leafwise_gates",
+   "rel": "needs"
+  },
+  {
+   "src": "stage1ReductionGate_of_V5",
+   "dst": "vineparam",
+   "rel": "needs"
+  },
+  {
+   "src": "HalfMK",
+   "dst": "leafwise_gates",
+   "rel": "needs"
+  },
+  {
+   "src": "layergardenFlower_v3",
+   "dst": "flowertop",
+   "rel": "needs"
+  },
+  {
+   "src": "flowertop",
+   "dst": "hStage1",
+   "rel": "needs"
+  },
+  {
+   "src": "flowertop",
+   "dst": "hFam",
+   "rel": "needs"
+  },
+  {
+   "src": "flowertop",
+   "dst": "hCut2",
+   "rel": "needs"
+  },
+  {
+   "src": "flowertop",
+   "dst": "hCut2Zero",
+   "rel": "needs"
+  },
+  {
+   "src": "flowertop",
+   "dst": "finalCount_half",
+   "rel": "needs"
+  },
+  {
+   "src": "flowertop",
+   "dst": "leafwise_gates",
+   "rel": "needs"
+  },
+  {
+   "src": "hStage1",
+   "dst": "stage1ReductionGate_of_V5",
+   "rel": "needs"
+  },
+  {
+   "src": "hStage1",
+   "dst": "HalfMK",
+   "rel": "needs"
+  },
+  {
+   "src": "hFam",
+   "dst": "fc23.E1",
+   "rel": "needs"
+  },
+  {
+   "src": "hFam",
+   "dst": "fc23.agreement",
+   "rel": "needs"
+  },
+  {
+   "src": "hFam",
+   "dst": "O7",
+   "rel": "needs"
+  },
+  {
+   "src": "hFam",
+   "dst": "O8",
+   "rel": "needs"
+  },
+  {
+   "src": "hFam",
+   "dst": "O9",
+   "rel": "needs"
+  },
+  {
+   "src": "hFam",
+   "dst": "stbldtop",
+   "rel": "needs"
+  },
+  {
+   "src": "hFam",
+   "dst": "O6",
+   "rel": "needs"
+  },
+  {
+   "src": "hCut2",
+   "dst": "c2eb.chain",
+   "rel": "needs"
+  },
+  {
+   "src": "hCut2",
+   "dst": "O10",
+   "rel": "needs"
+  },
+  {
+   "src": "hCut2",
+   "dst": "O11",
+   "rel": "needs"
+  },
+  {
+   "src": "hCut2",
+   "dst": "O12",
+   "rel": "needs"
+  },
+  {
+   "src": "hCut2Zero",
+   "dst": "O13",
+   "rel": "needs"
+  },
+  {
+   "src": "hCut2Zero",
+   "dst": "O10",
+   "rel": "needs"
+  },
+  {
+   "src": "O10",
+   "dst": "stbldtop",
+   "rel": "needs"
+  },
+  {
+   "src": "O10",
+   "dst": "O5",
+   "rel": "needs"
+  },
+  {
+   "src": "O10",
+   "dst": "c2bcoh",
+   "rel": "needs"
+  },
+  {
+   "src": "stbldtop",
+   "dst": "O3",
+   "rel": "needs"
+  },
+  {
+   "src": "stbldtop",
+   "dst": "O4",
+   "rel": "needs"
+  },
+  {
+   "src": "O3",
+   "dst": "O1",
+   "rel": "needs"
+  },
+  {
+   "src": "O3",
+   "dst": "O2",
+   "rel": "needs"
+  },
+  {
+   "src": "O3",
+   "dst": "O6",
+   "rel": "needs"
+  },
+  {
+   "src": "O3",
+   "dst": "leafwise_gates",
+   "rel": "needs"
+  },
+  {
+   "src": "O3",
+   "dst": "vineparam",
+   "rel": "needs"
+  },
+  {
+   "src": "O4",
+   "dst": "O2",
+   "rel": "needs"
+  },
+  {
+   "src": "O4",
+   "dst": "O5",
+   "rel": "needs"
+  },
+  {
+   "src": "O5",
+   "dst": "O1",
+   "rel": "needs"
+  },
+  {
+   "src": "O5",
+   "dst": "c2bcoh",
+   "rel": "needs"
+  },
+  {
+   "src": "O1",
+   "dst": "O2",
+   "rel": "needs"
+  }
+ ]
+}
