@@ -411,6 +411,7 @@ public import WaveTurbulence.Foundations.Cumulant.Products
 public import WaveTurbulence.Foundations.Cumulant.ProductsFormula
 public import WaveTurbulence.Foundations.Cumulant.Refinement
 public import WaveTurbulence.Foundations.Cumulant.Symmetry
+public import WaveTurbulence.Foundations.FinalCount.FinalCountClose
 public import WaveTurbulence.Foundations.Fourier.BalancedAmplitude
 public import WaveTurbulence.Foundations.Fourier.BalancedAmplitudeBox
 public import WaveTurbulence.Foundations.Fourier.BalancedPhase
