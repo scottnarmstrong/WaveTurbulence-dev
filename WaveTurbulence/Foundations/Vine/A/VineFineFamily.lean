@@ -10,10 +10,11 @@ namespace WaveTurbulence.VineA
 open Finset WaveTurbulence.Stage1 WaveTurbulence.RedSplice WaveTurbulence.Twist
 variable {w : ℕ} {G : Garden w} {ι : Type*}
 
-/-- The family enumerates exactly the core vines of the selected V0 carrier. -/
-def IsV0Fam (F : CoreFamily G ι) (σ : Prescription G) : Prop :=
-  (∀ i, familyVine F i ∈ vinesV0 G σ) ∧
-  (∀ c ∈ vinesV0 G σ, (∃ X, IsCoreCLVine G X c.atoms c.upper c.lower) →
+/-- The family enumerates exactly the core vines of the selected V0 carrier.  B1a: with the trailing marked vine set
+`Mk` (default `∅`) the carrier is the unmarked `𝒱₀♮ = vinesV0 G σ Mk`. -/
+def IsV0Fam (F : CoreFamily G ι) (σ : Prescription G) (Mk : Set (CLVine G) := ∅) : Prop :=
+  (∀ i, familyVine F i ∈ vinesV0 G σ Mk) ∧
+  (∀ c ∈ vinesV0 G σ Mk, (∃ X, IsCoreCLVine G X c.atoms c.upper c.lower) →
     ∃ i, F.atoms i = c.atoms)
 
 /-- The canonical fine state has the exact selected family. -/
@@ -27,8 +28,8 @@ theorem fineState_isV0Fam {LG : LayeredGarden w} (A : PrimeData LG) (σ : Prescr
     exact ⟨⟨c, hc, hcore⟩, rfl⟩
 
 /-- The actual twist site of a selected family member. -/
-noncomputable def selectedMemberSite {F : CoreFamily G ι} {σ : Prescription G}
-    (hF : IsV0Fam F σ) (i : ι) : TwistGroupSite G where
+noncomputable def selectedMemberSite {F : CoreFamily G ι} {σ : Prescription G} {Mk : Set (CLVine G)}
+    (hF : IsV0Fam F σ Mk) (i : ι) : TwistGroupSite G where
   P := F.placement i
   S0 := F.atoms i
   a0 := F.upper i

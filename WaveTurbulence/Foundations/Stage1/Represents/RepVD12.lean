@@ -106,7 +106,9 @@ theorem sum_members_eq {R : ℕ} {A : Finset (LayeredGarden (2 * R))} (hcl : Twi
         (Finset.univ.toList) (repPt π).prime.prime
         (canonicalObject_of_isCanonGC (by rw [hB0]; exact hcan)) (by rw [hB0]; exact repPt_layered_mem π) LG
         ⟨M, B', hM, hB, hLB⟩
-    · exact (repPt π).prime.fine_outputs_subset_coarse (repPt π).totalSigma hout
+    · show LG ∈ coarseOf p (objKind (2 * R)) (repPt π)
+      rw [coarseOf_empty]
+      exact (repPt π).prime.fine_outputs_subset_coarse (repPt π).totalSigma hout
   exact (Finset.sum_subset hsub (fun LG _ hLG => hzero LG hLG)).symm
 
 end WaveTurbulence.Represents

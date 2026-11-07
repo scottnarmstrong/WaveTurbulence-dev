@@ -27,7 +27,7 @@ variable {w : ℕ} {G : Garden w}
 /-- **Every vine of `𝒱_0` lies in a unit** (TARGET L1936). -/
 theorem vinesV0_cover (hM : G.molecule.IsMolecule) (σ : Prescription G) {c : CLVine G}
     (hc : c ∈ vinesV0 G σ) : ∃ u ∈ unitBlocks G σ, c.atoms ⊆ u.atoms := by
-  obtain ⟨hcV, S, hSm, hi, hσ⟩ := hc
+  obtain ⟨hcV, S, hSm, hi, hσ, -⟩ := hc
   obtain ⟨u, hu, hsub⟩ := (groupUnitsOf G S).cover hM hSm c hcV hi
   have hSM : G.molecule.IsMolecule ∧ S ∈ maximalGroups G.molecule := ⟨hM, hSm⟩
   exact ⟨u, mem_unitBlocks.mpr ⟨S, hSm, hσ, hu⟩, hsub⟩

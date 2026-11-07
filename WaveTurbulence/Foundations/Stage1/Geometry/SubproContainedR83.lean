@@ -42,14 +42,14 @@ theorem objOf_none (σ : Prescription G) {S : Finset (GBranch G.tree)}
     objOf G σ S = none := by
   classical
   unfold objOf
-  rw [dif_neg h]
+  rw [dif_neg (fun h' => h ⟨h'.1, h'.2.1, h'.2.2.1, h'.2.2.2.1⟩)]
 
 theorem objOf_some (hM : G.molecule.IsMolecule) (σ : Prescription G) {S : Finset (GBranch G.tree)}
     (hS : S ∈ maximalGroups G.molecule) (hσ : σ S = Molecule.GapKind.SG) (hO : HasObj G S) :
     ∃ O, objOf G σ S = some O := by
   classical
   unfold objOf
-  rw [dif_pos ⟨hM, hS, hσ, hO⟩]
+  rw [dif_pos ⟨hM, hS, hσ, hO, not_markedGroup_empty G S, exists_obj hM σ hS hσ hO⟩]
   exact ⟨_, rfl⟩
 
 theorem cover_group (hM : G.molecule.IsMolecule) {T : Finset (GBranch G.tree)} (hT : IsVineLikeSet G.molecule T) :

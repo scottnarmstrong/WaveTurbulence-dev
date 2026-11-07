@@ -84,6 +84,22 @@ theorem groupUnit_chain {S : Finset (GBranch G.tree)} (U : GroupUnits G S)
       · obtain ⟨L, hL⟩ := Spine.of_chain hn
         exact ⟨_, by rw [hat, hup, hlo]; exact hL.reverse.chain⟩
 
+/-- B1a: every unit of a group (main's units of an unmarked group, the runs of a marked one) is a chain. -/
+theorem groupUnitsMk_chain {Mk : Set (Stage1.CLVine G)} {S : Finset (GBranch G.tree)} {u : CLBlock G}
+    (hu : u ∈ groupUnitsMk G Mk S) : ∃ n, Chain G.molecule u.atoms u.upper u.lower n := by
+  classical
+  unfold groupUnitsMk at hu
+  split_ifs at hu with h1 h2
+  · exact (Classical.choice h2).chain u hu
+  · simp at hu
+  · exact groupUnit_chain (groupUnitsOf G S) hu
+
+/-- B1a: canonical unit-chain existence for every marked vine set. -/
+theorem unitBlocks_chainMk {σ : Prescription G} {Mk : Set (Stage1.CLVine G)} {u : CLBlock G}
+    (hu : u ∈ unitBlocks G σ Mk) : ∃ n, Chain G.molecule u.atoms u.upper u.lower n := by
+  obtain ⟨S, _, _, hm⟩ := mem_unitBlocksMk.mp hu
+  exact groupUnitsMk_chain hm
+
 /-- Canonical unit-chain existence, using the actual chosen list. -/
 theorem unitBlocks_chain {σ : Prescription G} {u : CLBlock G} (hu : u ∈ unitBlocks G σ) :
     ∃ n, Chain G.molecule u.atoms u.upper u.lower n := by

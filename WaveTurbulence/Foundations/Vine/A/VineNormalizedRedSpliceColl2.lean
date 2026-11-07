@@ -28,15 +28,18 @@ open Finset WaveTurbulence WaveTurbulence.RedSplice WaveTurbulence.Mole TTree Wa
 variable {w : ℕ} {G : Garden w}
 
 /-- The object of the SG group `S` in `G_sb` (if it contributes one). -/
-@[expose] noncomputable def objOf (G : Garden w) (σ : Prescription G) (S : Finset (GBranch G.tree)) :
-    Option (Object (stSt G σ).G.molecule) := by
+@[expose] noncomputable def objOf (G : Garden w) (σ : Prescription G) (S : Finset (GBranch G.tree))
+    (Mk : Set (CLVine G) := ∅) : Option (Object (stSt G σ Mk).G.molecule) := by
   classical
-  exact if h : G.molecule.IsMolecule ∧ S ∈ maximalGroups G.molecule ∧ σ S = Molecule.GapKind.SG ∧ HasObj G S then
-    some (Classical.choose (exists_obj h.1 σ h.2.1 h.2.2.1 h.2.2.2)) else none
+  exact if h : G.molecule.IsMolecule ∧ S ∈ maximalGroups G.molecule ∧ σ S = Molecule.GapKind.SG ∧ HasObj G S ∧
+      ¬ markedGroup G Mk S ∧ ∃ O : Object (stSt G σ Mk).G.molecule, ObjSpecMk G σ S Mk O then
+    some (Classical.choose h.2.2.2.2.2) else none
 
-/-- The objects of `C_1`. -/
-@[expose] noncomputable def objects (G : Garden w) (σ : Prescription G) : List (Object (stSt G σ).G.molecule) :=
-  (sgGroups G σ).filterMap (objOf G σ)
+/-- The objects of `C_1`.  B1a: with the marked vine set `Mk` (default `∅`), the objects of the unmarked SG groups
+(o75: `𝒞₁` = main's objects restricted to `¬ markedGroup`). -/
+@[expose] noncomputable def objects (G : Garden w) (σ : Prescription G) (Mk : Set (CLVine G) := ∅) :
+    List (Object (stSt G σ Mk).G.molecule) :=
+  (sgGroups G σ).filterMap (fun S => objOf G σ S Mk)
 
 theorem objOf_spec {σ : Prescription G} {S : Finset (GBranch G.tree)} {O : Object (stSt G σ).G.molecule}
     (h : O ∈ objOf G σ S) :
@@ -46,7 +49,7 @@ theorem objOf_spec {σ : Prescription G} {S : Finset (GBranch G.tree)} {O : Obje
   split_ifs at h with hh
   · rw [Option.mem_def, Option.some.injEq] at h
     subst h
-    exact ⟨hh.1, hh.2.1, hh.2.2.1, Classical.choose_spec (exists_obj hh.1 σ hh.2.1 hh.2.2.1 hh.2.2.2)⟩
+    exact ⟨hh.1, hh.2.1, hh.2.2.1, Classical.choose_spec hh.2.2.2.2.2⟩
   · simp at h
 
 theorem mem_objects {σ : Prescription G} {O : Object (stSt G σ).G.molecule} (h : O ∈ objects G σ) :
@@ -79,11 +82,11 @@ theorem objects_pairwise (hM : G.molecule.IsMolecule) (σ : Prescription G) :
 
 /-- A **proper hinge pair** at the hinge `v` is the lift of an external out/in pair of a unit (the unit whose crown
 is `v`) at one of its joints (TARGET `subpro` (5): "the two bonds at one joint of `U` that do not belong to `U`"). -/
-@[expose] def ProperPair (G : Garden w) (σ : Prescription G) (v : GBranch (stSt G σ).G.tree)
-    (x y : GardenDart (stSt G σ).G) : Prop :=
-  TripleAt (stSt G σ).G v x y ∧ ∃ u ∈ unitBlocks G σ, (stSt G σ).M.ob v = u.upper ∧
-    ∃ j, (j = u.upper ∨ j = u.lower) ∧ G.molecule.atom ((stSt G σ).M.od x) = j ∧
-      G.molecule.atom ((stSt G σ).M.od y) = j ∧
-      ¬ G.molecule.InGroup u.atoms ((stSt G σ).M.od x) ∧ ¬ G.molecule.InGroup u.atoms ((stSt G σ).M.od y)
+@[expose] def ProperPair (G : Garden w) (σ : Prescription G) {Mk : Set (CLVine G)} (v : GBranch (stSt G σ Mk).G.tree)
+    (x y : GardenDart (stSt G σ Mk).G) : Prop :=
+  TripleAt (stSt G σ Mk).G v x y ∧ ∃ u ∈ unitBlocks G σ Mk, (stSt G σ Mk).M.ob v = u.upper ∧
+    ∃ j, (j = u.upper ∨ j = u.lower) ∧ G.molecule.atom ((stSt G σ Mk).M.od x) = j ∧
+      G.molecule.atom ((stSt G σ Mk).M.od y) = j ∧
+      ¬ G.molecule.InGroup u.atoms ((stSt G σ Mk).M.od x) ∧ ¬ G.molecule.InGroup u.atoms ((stSt G σ Mk).M.od y)
 
 end WaveTurbulence.VineA.NormalizedSplice

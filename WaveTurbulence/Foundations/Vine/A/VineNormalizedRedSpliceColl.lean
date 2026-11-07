@@ -57,27 +57,34 @@ theorem repC_mem_group (hM : G.molecule.IsMolecule) (σ : Prescription G) {S : F
   ((∃ a b, LGSpine.SourceVine.IsHV G.molecule S a b) ∧ ¬ ∃ a b, LGSpine.SourceVine.IsHVC G.molecule S a b) ∨
     ∃ sk : SkipData G S, (groupUnitsOf G S).skip = some sk
 
-/-- The properties of the object of the group `S` in `G_sb`. -/
-structure ObjSpec (G : Garden w) (σ : Prescription G) (S : Finset (GBranch G.tree))
-    (O : Object (stSt G σ).G.molecule) : Prop where
-  allowed : AllowedCollectionObject (stSt G σ).G O
-  atoms_sub : ∀ v ∈ O.atoms, ∃ z ∈ S, v = (stSt G σ).M.pi (stSt G σ).hcls z
-  hinge : ∀ c, (stSt G σ).cls ((stSt G σ).M.ob c) ≠ none → c ∈ O.atoms → c = O.upper ∨ c = O.lower
+/-- The properties of the object of the group `S` in `G_sb` (B1a: for the marked vine set `Mk`). -/
+structure ObjSpecMk (G : Garden w) (σ : Prescription G) (S : Finset (GBranch G.tree)) (Mk : Set (CLVine G))
+    (O : Object (stSt G σ Mk).G.molecule) : Prop where
+  allowed : AllowedCollectionObject (stSt G σ Mk).G O
+  atoms_sub : ∀ v ∈ O.atoms, ∃ z ∈ S, v = (stSt G σ Mk).M.pi (stSt G σ Mk).hcls z
+  hinge : ∀ c, (stSt G σ Mk).cls ((stSt G σ Mk).M.ob c) ≠ none → c ∈ O.atoms → c = O.upper ∨ c = O.lower
   /-- SUBPRO amendment A2: the atoms of the object are exactly the image of a subset `A` of the group, and every
   unmerged atom of the group lies in `A` -/
-  src : ∃ A : Finset (GBranch G.tree), A ⊆ S ∧ O.atoms = A.image ((stSt G σ).M.pi (stSt G σ).hcls) ∧
-    (∀ z ∈ S, (stSt G σ).cls z = none → z ∈ A) ∧
+  src : ∃ A : Finset (GBranch G.tree), A ⊆ S ∧ O.atoms = A.image ((stSt G σ Mk).M.pi (stSt G σ Mk).hcls) ∧
+    (∀ z ∈ S, (stSt G σ Mk).cls z = none → z ∈ A) ∧
     ((((∃ a b, LGSpine.SourceVine.IsHV G.molecule S a b) ∧ ¬ ∃ a b, LGSpine.SourceVine.IsHVC G.molecule S a b) ∧
         (groupUnitsOf G S).skip = none ∧
-        ∃ a b e, hvGroupPick G S = some (a, b, e) ∧ O.upper = (stSt G σ).M.pi (stSt G σ).hcls a ∧
-          O.lower = (stSt G σ).M.pi (stSt G σ).hcls b ∧
-          ∃ R : HyperLikeRealization (stSt G σ).G.molecule O.atoms O.upper O.lower,
-            O.shape = VineLikeObject.hyper R ∧ (stSt G σ).M.od R.added = e) ∨
+        ∃ a b e, hvGroupPick G S = some (a, b, e) ∧ O.upper = (stSt G σ Mk).M.pi (stSt G σ Mk).hcls a ∧
+          O.lower = (stSt G σ Mk).M.pi (stSt G σ Mk).hcls b ∧
+          ∃ R : HyperLikeRealization (stSt G σ Mk).G.molecule O.atoms O.upper O.lower,
+            O.shape = VineLikeObject.hyper R ∧ (stSt G σ Mk).M.od R.added = e) ∨
       ∃ sk : SkipData G S, (groupUnitsOf G S).skip = some sk ∧ A = sk.A ∧
-        O.upper = (stSt G σ).M.pi (stSt G σ).hcls sk.x ∧ O.lower = (stSt G σ).M.pi (stSt G σ).hcls sk.y ∧
+        O.upper = (stSt G σ Mk).M.pi (stSt G σ Mk).hcls sk.x ∧ O.lower = (stSt G σ Mk).M.pi (stSt G σ Mk).hcls sk.y ∧
         (sk.bond = none → ∃ h, O.shape = VineLikeObject.vc h) ∧
-        ∀ e, sk.bond = some e → ∃ R : HyperLikeRealization (stSt G σ).G.molecule O.atoms O.upper O.lower,
-          O.shape = VineLikeObject.hyper R ∧ (stSt G σ).M.od R.added = e)
+        ∀ e, sk.bond = some e → ∃ R : HyperLikeRealization (stSt G σ Mk).G.molecule O.atoms O.upper O.lower,
+          O.shape = VineLikeObject.hyper R ∧ (stSt G σ Mk).M.od R.added = e)
+
+/-- The properties of the object of the group `S` in `G_sb` (main's, at the default marked set `∅`).  B1a: the
+Mk-general structure is `ObjSpecMk`; the object's type depends on the marked set, so the default cannot be a trailing
+argument here. -/
+abbrev ObjSpec (G : Garden w) (σ : Prescription G) (S : Finset (GBranch G.tree))
+    (O : Object (stSt G σ).G.molecule) : Prop :=
+  ObjSpecMk G σ S ∅ O
 
 theorem SDecomp.nonmerged_mem {V D : Type*} [DecidableEq V] [Fintype D] [DecidableEq D] {N : Molecule V D}
     {cls : V → Option V} {S A L0 R0 : Finset V} {a b x y : V} (H : SDecomp N cls S A L0 R0 a b x y)

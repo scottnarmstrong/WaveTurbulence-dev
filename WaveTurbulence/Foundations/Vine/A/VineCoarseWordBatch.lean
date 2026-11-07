@@ -14,7 +14,7 @@ theorem mem_allSG {G : Garden w} {c : CLVine G} (h : c ∈ vinesV G) :
     c ∈ vinesV0 G (fun _ => .SG) := by
   have hh := h
   obtain ⟨S, hS, hi, _⟩ := hh
-  exact ⟨h, S, hS, hi, rfl⟩
+  exact ⟨h, S, hS, hi, rfl, fun h => h⟩
 
 /-- Coarse operations preserve every actual quotient atom word. -/
 theorem operation_coarseAtomWord {A : FamilyReconstruction w ι} {i : ι}

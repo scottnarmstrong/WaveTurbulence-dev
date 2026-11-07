@@ -81,6 +81,8 @@ theorem noVine_members_sum (P : WTParams) (base : Mom P.d) (roots : Fin (2 * R) 
   classical
   have hmem : (repPt π).layered ∈ membersP (clsP π) := by
     refine Finset.mem_filter.2 ⟨repPt_layered_mem π, ?_⟩
+    show (repPt π).layered ∈ coarseOf p kind (repPt π)
+    rw [coarseOf_empty]
     exact (repPt π).prime.mem_coarse_outputs_self
   rw [Finset.sum_eq_single (repPt π).layered]
   · congr 1

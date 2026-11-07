@@ -26,16 +26,16 @@ open Finset WaveTurbulence WaveTurbulence.Mole TTree WaveTurbulence.Stage1
 variable {w : ℕ}
 
 /-- The vine ingredients of the units spliced for `σ` (the vines of `𝒱_0`). -/
-def unitIngredients (G : Garden w) (σ : Prescription G) : Set (Finset (GBranch G.tree)) :=
-  {T | ∃ u ∈ unitBlocks G σ, ∃ x y n p q, Vine.ChainIngredient G.molecule u.atoms x y n T p q}
+def unitIngredients (G : Garden w) (σ : Prescription G) (Mk : Set (CLVine G) := ∅) : Set (Finset (GBranch G.tree)) :=
+  {T | ∃ u ∈ unitBlocks G σ Mk, ∃ x y n p q, Vine.ChainIngredient G.molecule u.atoms x y n T p q}
 
 /-- A vine of type (I) or (II). -/
 def IsBadVineSet (G : Garden w) (T : Finset (GBranch G.tree)) : Prop :=
   ∃ X p q, X.IsBad = true ∧ G.molecule.IsVine X T p q
 
 /-- `b_sk`: the number of bad vines among the ingredients of `𝒱_0`. -/
-noncomputable def bskOf (G : Garden w) (σ : Prescription G) : ℕ :=
-  (unitIngredients G σ ∩ {T | IsBadVineSet G T}).ncard
+noncomputable def bskOf (G : Garden w) (σ : Prescription G) (Mk : Set (CLVine G) := ∅) : ℕ :=
+  (unitIngredients G σ Mk ∩ {T | IsBadVineSet G T}).ncard
 
 /-- The incoherency index of a vine (a chosen template realization; `0` for a non-vine). -/
 noncomputable def vineIncoh (G : Garden w) (layer0 : GBranch G.tree → ℕ) (T : Finset (GBranch G.tree)) : ℕ := by
@@ -46,7 +46,8 @@ noncomputable def vineIncoh (G : Garden w) (layer0 : GBranch G.tree → ℕ) (T 
   else 0
 
 /-- `g_sk`: `greg` plus the total incoherency index of the vines of `𝒱_0`. -/
-noncomputable def gskOf (greg : ℕ) (G : Garden w) (σ : Prescription G) (layer0 : GBranch G.tree → ℕ) : ℕ :=
-  greg + ∑ T ∈ (Set.toFinite (unitIngredients G σ)).toFinset, vineIncoh G layer0 T
+noncomputable def gskOf (greg : ℕ) (G : Garden w) (σ : Prescription G) (layer0 : GBranch G.tree → ℕ)
+    (Mk : Set (CLVine G) := ∅) : ℕ :=
+  greg + ∑ T ∈ (Set.toFinite (unitIngredients G σ Mk)).toFinset, vineIncoh G layer0 T
 
 end WaveTurbulence.RedSplice

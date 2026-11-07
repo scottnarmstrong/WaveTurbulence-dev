@@ -30,10 +30,10 @@ variable {R : ℕ}
 
 /-- The producer's `Stage1Data` over the finite set `A` (values supplied). -/
 noncomputable def prodData (P : WTParams) (p : ℕ) (kind : Bool) (A : Finset (LayeredGarden (2 * R)))
-    (val : PcA R p kind A → ℂ) : Stage1Data P R where
-  Pc := PcA R p kind A
+    {mk : Stage1Mk.MarkFn (2 * R)} (val : PcA R p kind A mk → ℂ) : Stage1Data P R where
+  Pc := PcA R p kind A mk
   fin := inferInstance
-  piece := fun π => (repPt π).normalizedPiece P.d
+  piece := fun π => (repPt π).normalizedPiece P.d (mk (repPt π).prime)
   val := val
 
 theorem prod_piece_gsb_order (P : WTParams) (p N : ℕ) (kind : Bool) (A : Finset (LayeredGarden (2 * R)))

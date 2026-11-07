@@ -31,15 +31,18 @@ open Finset TTree WaveTurbulence WaveTurbulence.RegRed WaveTurbulence.RedSplice 
 
 variable {w : ℕ} {S : Garden w}
 
-/-- The number of ingredients of the chain of unit `j`. -/
-noncomputable def unitN (σ : Prescription S) (j : Fin (unitBlocks S σ).length) : ℕ :=
-  Classical.choose (WaveTurbulence.VineA.unitBlocks_chain (G := S) (σ := σ) (List.get_mem _ _ : (unitBlocks S σ).get j ∈ unitBlocks S σ))
+/-- The number of ingredients of the chain of unit `j`.  B1a: for the marked vine set `Mk`, inferred from `j`. -/
+noncomputable def unitN (σ : Prescription S) {Mk : Set (Stage1.CLVine S)} (j : Fin (unitBlocks S σ Mk).length) : ℕ :=
+  Classical.choose (WaveTurbulence.VineA.unitBlocks_chainMk (G := S) (σ := σ)
+    (List.get_mem _ _ : (unitBlocks S σ Mk).get j ∈ unitBlocks S σ Mk))
 
-/-- The chain assembly of unit `j`. -/
-noncomputable def unitAssembly (hM : S.molecule.IsMolecule) (σ : Prescription S) (j : Fin (unitBlocks S σ).length) :
-    CLChainAssembly S (regionOf (unitBlk hM σ j)) (unitN σ j) :=
-  clChainAssembly (Classical.choose_spec (WaveTurbulence.VineA.unitBlocks_chain (G := S) (σ := σ)
-    (List.get_mem _ _ : (unitBlocks S σ).get j ∈ unitBlocks S σ))) (unitBlk hM σ j).isBlock (regionOf (unitBlk hM σ j))
+/-- The chain assembly of unit `j`.  B1a: for the marked vine set `Mk`, inferred from `j`. -/
+noncomputable def unitAssembly (hM : S.molecule.IsMolecule) (σ : Prescription S) {Mk : Set (Stage1.CLVine S)}
+    (j : Fin (unitBlocks S σ Mk).length) :
+    CLChainAssembly S (regionOf (unitBlkMk hM σ Mk j)) (unitN σ j) :=
+  clChainAssembly (Classical.choose_spec (WaveTurbulence.VineA.unitBlocks_chainMk (G := S) (σ := σ)
+    (List.get_mem _ _ : (unitBlocks S σ Mk).get j ∈ unitBlocks S σ Mk))) (unitBlkMk hM σ Mk j).isBlock
+    (regionOf (unitBlkMk hM σ Mk j))
 
 theorem hcov_units (hM : S.molecule.IsMolecule) (σ : Prescription S) :
     ∀ T ∈ unitIngredients S σ, ∃ j : Fin (unitBlocks S σ).length, IsIngredient S.molecule (unitBlk hM σ j).atoms T := by

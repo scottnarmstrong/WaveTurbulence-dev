@@ -31,11 +31,18 @@ theorem stSt_hinges_mem (hM : S.molecule.IsMolecule) (σ : Prescription S) (c : 
     c ∈ (stSt S σ).hinges ↔ c ∈ (stShape hM σ).hinges (unitBlk_disj hM σ) := by
   rw [stShape_hinges]
 
-/-- **G3.** The hinge dart (or root) giving the momentum of `hmom j i`, for the units of `σ`. -/
-noncomputable def stSrc (hM : S.molecule.IsMolecule) (σ : Prescription S) (hSb : (stSt S σ).G.IsPlain)
-    (j : Fin (unitBlocks S σ).length) (i : Fin 4) :
-    HingeDarts (stSt S σ).G (stSt S σ).hinges ⊕ Fin w :=
-  (stShape hM σ).src (unitBlk_disj hM σ) hSb (stSt S σ).hinges (stSt_hinges_mem hM σ) j i
+/-- B1a: `stSt_hinges_mem` for every marked vine set. -/
+theorem stSt_hinges_memMk (hM : S.molecule.IsMolecule) (σ : Prescription S) (Mk : Set (Stage1.CLVine S))
+    (c : GBranch (stSt S σ Mk).G.tree) :
+    c ∈ (stSt S σ Mk).hinges ↔ c ∈ (stShape hM σ Mk).hinges (unitBlkMk_disj hM σ Mk) := by
+  rw [stShape_hingesMk]
+
+/-- **G3.** The hinge dart (or root) giving the momentum of `hmom j i`, for the units of `σ`.  B1a: for the marked
+vine set `Mk`, inferred from `hSb`. -/
+noncomputable def stSrc (hM : S.molecule.IsMolecule) (σ : Prescription S) {Mk : Set (Stage1.CLVine S)}
+    (hSb : (stSt S σ Mk).G.IsPlain) (j : Fin (unitBlocks S σ Mk).length) (i : Fin 4) :
+    HingeDarts (stSt S σ Mk).G (stSt S σ Mk).hinges ⊕ Fin w :=
+  (stShape hM σ Mk).src (unitBlkMk_disj hM σ Mk) hSb (stSt S σ Mk).hinges (stSt_hinges_memMk hM σ Mk) j i
 
 theorem stSrc_dart (hM : S.molecule.IsMolecule) (σ : Prescription S) (hSb : (stSt S σ).G.IsPlain)
     (j : Fin (unitBlocks S σ).length) (i : Fin 4) (x : HingeDarts (stSt S σ).G (stSt S σ).hinges)

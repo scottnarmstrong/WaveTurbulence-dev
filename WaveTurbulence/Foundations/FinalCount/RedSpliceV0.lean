@@ -33,11 +33,28 @@ variable {w : ℕ}
 /-- A prescription of SG/LG/ZG for the atomic groups. -/
 abbrev Prescription (G : Garden w) := Finset (GBranch G.tree) → Molecule.GapKind
 
-/-- The vines of `𝒱_0`: vines of `𝒱` whose group in `𝒞` is prescribed SG. -/
-@[expose] def vinesV0 (G : Garden w) (σ : Prescription G) : Set (CLVine G) :=
-  {c | c ∈ vinesV G ∧ ∃ S ∈ maximalGroups G.molecule, IsIngredient G.molecule S c.atoms ∧ σ S = .SG}
+/-- The vines of `𝒱_0`: vines of `𝒱` whose group in `𝒞` is prescribed SG.  B1a (ruling F-1): the trailing
+marked vine set `Mk` (default `∅`) removes the marked vines, so `vinesV0 G σ Mk` is o75's `𝒱₀♮ = 𝒱₀ ∖ Mk`
+(`RedSplice.vinesV0Mk_eq`); at `Mk = ∅` it is main's `𝒱_0` (`RedSplice.mem_vinesV0_empty`). -/
+@[expose] def vinesV0 (G : Garden w) (σ : Prescription G) (Mk : Set (CLVine G) := ∅) : Set (CLVine G) :=
+  {c | c ∈ vinesV G ∧ ∃ S ∈ maximalGroups G.molecule, IsIngredient G.molecule S c.atoms ∧ σ S = .SG ∧ c ∉ Mk}
 
 theorem vinesV0_subset (G : Garden w) (σ : Prescription G) : vinesV0 G σ ⊆ vinesV G :=
   fun _ h => h.1
+
+/-- B1a: `vinesV0` for every marked set lies in `𝒱`. -/
+theorem vinesV0_subsetMk (G : Garden w) (σ : Prescription G) (Mk : Set (CLVine G)) : vinesV0 G σ Mk ⊆ vinesV G :=
+  fun _ h => h.1
+
+/-- B1a bridge: membership in `vinesV0` at the default `Mk = ∅` is main's membership. -/
+theorem mem_vinesV0_empty {G : Garden w} {σ : Prescription G} {c : CLVine G} :
+    c ∈ vinesV0 G σ ↔ c ∈ vinesV G ∧ ∃ S ∈ maximalGroups G.molecule, IsIngredient G.molecule S c.atoms ∧ σ S = .SG :=
+  ⟨fun ⟨hV, S, hS, hI, hσ, _⟩ => ⟨hV, S, hS, hI, hσ⟩, fun ⟨hV, S, hS, hI, hσ⟩ => ⟨hV, S, hS, hI, hσ, fun h => h⟩⟩
+
+/-- B1a bridge: membership in `vinesV0` for a marked set. -/
+theorem mem_vinesV0 {G : Garden w} {σ : Prescription G} {Mk : Set (CLVine G)} {c : CLVine G} :
+    c ∈ vinesV0 G σ Mk ↔ c ∈ vinesV0 G σ ∧ c ∉ Mk :=
+  ⟨fun ⟨hV, S, hS, hI, hσ, hc⟩ => ⟨⟨hV, S, hS, hI, hσ, fun h => h⟩, hc⟩,
+    fun ⟨⟨hV, S, hS, hI, hσ, _⟩, hc⟩ => ⟨hV, S, hS, hI, hσ, hc⟩⟩
 
 end WaveTurbulence.RedSplice

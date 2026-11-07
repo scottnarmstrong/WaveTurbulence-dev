@@ -140,7 +140,9 @@ theorem unit_hinge_data (P : WTParams) (hV : VineEstCanonLayerHalfMK P) (hM9 : V
     intro κ hκ j c hball
     refine g2_unitsN P hMa a.prime.prime.1 a.totalSigma hL0.ne' base roots D' rfl (B₀ := sourceAssembly a) hM9
       a.prime.data a.prime.prime.1 (sourceLayer a) (sourceLayer_isLayering a) κ ?_ j c hball
-    have h1 := NormalizedSplice.gapValue_eq_indicator a.totalSigma D' rfl P.L P.γ P.η base κ.1
+    have hD' : D'.gapSpecification = NormalizedSplice.gapSpecification a.prime.skeleton a.totalSigma := by
+      simp only [D']
+    have h1 := NormalizedSplice.gapValue_eq_indicator a.totalSigma D' hD' P.L P.γ P.η base κ.1
     have h2 : NormalizedSplice.gapValue a.prime.skeleton a.totalSigma P.L P.γ P.η base κ.1 = 1 :=
       (gap_value_eq_gapValue a P.L P.γ P.η hL0.ne' base roots κ).symm.trans hκ
     rw [← h1, h2]

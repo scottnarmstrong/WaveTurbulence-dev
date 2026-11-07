@@ -12,7 +12,7 @@ open Finset WaveTurbulence.Stage1 WaveTurbulence.RedSplice WaveTurbulence.Twist
 theorem vinesV0_iff_unit_cover {w : ℕ} (G : Garden w) (σ : Prescription G) (c : CLVine G) :
     c ∈ vinesV0 G σ ↔ c ∈ vinesV G ∧ ∃ u ∈ unitBlocks G σ, c.atoms ⊆ u.atoms := by
   constructor
-  · rintro ⟨hc, S, hS, hi, hσ⟩
+  · rintro ⟨hc, S, hS, hi, hσ, -⟩
     obtain ⟨u, hu, hcu⟩ := (groupUnitsOf G S).cover (Mole.garden_isMolecule G) hS c hc hi
     exact ⟨hc, u, mem_unitBlocks.mpr ⟨S, hS, hσ, hu⟩, hcu⟩
   · rintro ⟨hc, u, hu, hcu⟩
@@ -23,7 +23,7 @@ theorem vinesV0_iff_unit_cover {w : ℕ} (G : Garden w) (σ : Prescription G) (c
       have hz := c.upper_mem
       exact (Finset.disjoint_left.mp (maximalGroups_disjoint (Mole.garden_isMolecule G) hS hT hne)
         (ing_subset hi hz) ((groupUnitsOf G T).sub u hut (hcu hz))).elim
-    exact ⟨⟨S, hS, hi, hcond⟩, S, hS, hi, he.symm ▸ hσ⟩
+    exact ⟨⟨S, hS, hi, hcond⟩, S, hS, hi, he.symm ▸ hσ, fun h => h⟩
 
 /-- Exact geometric family membership, phrased in S2a's unitBlocks data. -/
 theorem fineState_exact_units {w : ℕ} {LG : LayeredGarden w} (A : PrimeData LG)

@@ -14,8 +14,9 @@ open Stage1 RedSplice LFTwist LGSpine
 variable {R p : ℕ} {kind : Bool}
 
 /-- The successor producer piece at the unique prime representative of a plain garden. -/
-noncomputable def normalizedPiece (a : PrescribedPrimeGarden (2 * R)) (d : ℕ) :=
-  NormalizedSplice.stage1PieceOf d a.prime.prime.1 a.layered a.prime.decodes a.totalSigma
+noncomputable def normalizedPiece (a : PrescribedPrimeGarden (2 * R)) (d : ℕ)
+    (Mk : Set (Stage1.CLVine a.prime.skeleton) := ∅) :=
+  NormalizedSplice.stage1PieceOf d a.prime.prime.1 a.layered a.prime.decodes a.totalSigma Mk
 
 /-- The actual normalized garden, layers, hinges, counts and entire gap functional. -/
 noncomputable def profile (a : PrescribedPrimeGarden (2 * R)) : PieceProfile (2 * R) :=
