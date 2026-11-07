@@ -1,5 +1,5 @@
 {
- "assessed": "2026-11-07 01:49 UTC",
+ "assessed": "2026-11-07 05:24 UTC",
  "notes": "Lean work items = blueprint packets (docs/blueprint/GRAPH.md §E) with their difficulty weights (node weights L=1, M=2, H=4, VH=8 summed). Each frozen theorem anchor adds weight 1, credited when SEALED. Done fractions are the orchestrator's assessment, reviewed at integration rounds.",
  "lines_est_total": 273000,
  "parts": [
@@ -684,8 +684,8 @@
      "goal": "vineest Steps 3–4 and degenerate decorations (F21)",
      "weight": 13.0,
      "lines_est": 5100,
-     "done": 0.98,
-     "note": "VINEEST: W2 certificate nearly closed: remainder supply (R95), bottom family, F5 leaf-box fix, hfree discharged (W2-HFREE), native record-free certificate; records and final numerics in progress; V5-SPACE kind-generic C2MXK/HalfMXK export compiled"
+     "done": 0.985,
+     "note": "VINEEST: statement layer and weighted SpatialMeasure statements on main (batches 4b-1/4b-1b); V5-SPACE READY; W2 certificate: all record kinds built (kind 2 cross-window lemmas READY), final constants and integration in progress"
     },
     {
      "id": "G3",
@@ -702,8 +702,8 @@
      "goal": "Stage 1 analytic reduction (redvine2) and molecular form (redvine3)",
      "weight": 6.0,
      "lines_est": 2400,
-     "done": 0.85,
-     "note": "REPRESENTS: plain producer assembled, stage1ReductionGate_of_vineCase (fresh 425-module world, exact type checked), leafwise gates discharged on main; vine case from VINE-ALIGN in progress (aligned assembly, member bridge done); STB2 both-member gate and native X7 identity done (S2-ST)"
+     "done": 0.97,
+     "note": "REPRESENTS: on main as PORT batch 4b-2 (96c8e1d): stage1ReductionGate_of_V5' : WTPrefix VineEstCanonLayerHalfMK -> Stage1ReductionGate (vineparam and leafwise gates discharged on main); second key PASS (R123)"
     },
     {
      "id": "G8",
@@ -747,8 +747,8 @@
      "goal": "terms (a)–(d), counting of classes and layerings, proof of layergarden",
      "weight": 12.0,
      "lines_est": 4150,
-     "done": 0.97,
-     "note": "PLG = LG-SPINE on main (PORT batch 3, 7372a8d): layergarden_v2_of_stage1_finalCount and the analytic providers incl. both leafwise gates; with batch 5, layergarden_v2 now waits only on Stage1ReductionGate"
+     "done": 0.99,
+     "note": "PLG = LG-SPINE: layergarden_v2_of_V5 on main (batch 4b-2): layergarden_v2 conditional only on V5's VINEEST HalfMK"
     },
     {
      "id": "X2",
@@ -756,8 +756,8 @@
      "goal": "flower adjustments on the general carriers (WAVE-B G-1, F26), deterministic flower bound (gate B1.12), flowerest1, ∂_t bounds; 2–3 days: split",
      "weight": 16.0,
      "lines_est": 8900,
-     "done": 0.8,
-     "note": "FLOWEREST: layergardenFlower_v3 proved from five owner inputs in the frozen world (flower-top, second key PASS, R103/R104); cut2 top level (C2-E-B: refined fibres, weighted excision, phase expansion), coherent M_J bound (C2-B-COH: same-layer couples/trees done, multilayer canonical defined) and cut1 family transport (FC23) in progress"
+     "done": 0.85,
+     "note": "FLOWEREST: layergardenFlower_v3 proved from owner inputs (second key PASS); cut2 via route OG (orbit-by-gluing; CG lemma proved), coherent bound (C2-B-COH: all fixed-nu 30d gates, block-product integral in progress), cut1 family (FC23) and phased Stage-1 producer (S2-ST: STBLD, anchors, designated vine engine) in progress"
     },
     {
      "id": "X3",
