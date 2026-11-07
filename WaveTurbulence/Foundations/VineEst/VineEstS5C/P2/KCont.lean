@@ -18,6 +18,7 @@ continuous a.e.-representative (`remainder_ae_cont`).
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 namespace WaveTurbulence.VineEstS5C.P2
@@ -44,7 +45,7 @@ theorem continuous_KTstar_of_coherent {P : WTParams} {h : ℕ → Mom P.d → �
     Continuous fun ts : Fin 2 → ℝ => KTstar P.L P.γ P.δ h LG (ts 0) (ts 1) k := by
   have hX := hcoh.2.1
   have hfl : ∀ b, ¬ LG.garden.IsFlowerParent b := noFlowerParent_of_noFlower (not_flower_of_decodesTree hX)
-  have hc := continuous_treeLeaves_time P.L P.γ P.δ LG (layerProfiles LG h) hfl (card_lone_le_of_decodesTree hX) k
+  have hc := continuous_treeLeaves_time P.L P.γ P.δ LG (PL234.layerProfiles LG h) hfl (card_lone_le_of_decodesTree hX) k
     fun ℓ _ => summable_layer_coset hB hd hL (r := layerAt LG ℓ.1) ((layerAt_node LG ℓ.toNode).le.trans
       ((coherentTree_layer_le hqq hcoh _).trans hqp)) k
   exact hc.congr fun ts => (KTstar_eq_treeLeaves P.L P.γ P.δ h LG (ts 0) (ts 1) k).symm

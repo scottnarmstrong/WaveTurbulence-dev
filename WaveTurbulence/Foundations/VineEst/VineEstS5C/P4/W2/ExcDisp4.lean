@@ -15,6 +15,7 @@ the summand `bundlePtG caseA S bs₁ bs₂ rA rB RQ RT t₀ s₁ t₁ (k + e_x r
 the product bound `bK * bL ≤ Kall d K₀ · ofReal (size)` (`Src.szQ`, `Src.szT`, `CRq`, `CRt`) and the factor `FacOK` (`1`, or `‖r‖` for the kind-1 pieces KQ, KT). -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS5C.P4.W2
 open WaveTurbulence WaveTurbulence.VineEstS3Par.Eng WaveTurbulence.VineEstS3.FS WaveTurbulence.VineEstS5A WaveTurbulence.VineEstS4c

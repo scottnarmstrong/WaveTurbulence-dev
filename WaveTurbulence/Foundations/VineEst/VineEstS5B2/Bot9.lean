@@ -16,6 +16,7 @@ clock `tEquivS τ`.
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS5B2
@@ -38,12 +39,14 @@ theorem summand_same (hb : b ∈ S.erase a) (hp0 : p0 ∈ clRegionalPairs hG S)
       nativeCoupleLayered D2 hG layer2 hLayer2 p)
     (hT : ∀ v ∈ (S.erase a).erase b, nativeChainLayered D1 hG layer1 hLayer1 v = nativeChainLayered D2 hG layer2 hLayer2 v)
     (hl : ∀ v ∈ S.erase a, layer1 (D1.coreBranch hG v).toNode = layer2 (D2.coreBranch hG v).toNode)
+    (hsel : VineEst.SelDataEq hG D1 D2 layer1 hLayer1 layer2 hLayer2 ((clRegionalPairs hG S).erase p0)
+      ((S.erase a).erase b))
     (β : Fin 4 → Mom d) (t : Fin 3 → ℝ) (κ : CLLocalDecoration R L base β) (τ : CLInternalTime R) :
     clLocalSummand D2 hG R L γ δ F layer2 hLayer2 base β t κ τ =
       sameIntB hG D1 D2 L γ δ F layer1 hLayer1 layer2 hLayer2 base R p0 t (clExtendIndices R κ.1) (clLocalClock R t τ) := by
   rw [clLocalSummand_eq_spart_bFac D2 hG L γ δ F layer2 hLayer2 base R (Finset.mem_of_mem_erase hb),
     spart_eq_frame_mul_exc D2 hG L γ δ F layer2 hLayer2 base S a b p0 hb hp0,
-    ← spartFrame_congr hG D1 D2 L γ δ F layer1 hLayer1 layer2 hLayer2 base p0 hC hT hl]
+    ← spartFrame_congr hG D1 D2 L γ δ F layer1 hLayer1 layer2 hLayer2 base p0 hC hT hl hsel]
   unfold sameIntB
   ring
 
@@ -77,6 +80,14 @@ theorem summand_tw
         nativeChainLayered D hG layer hLayer v)
     (hl : ∀ v ∈ S.erase a, layer' (D'.coreBranch (unitTwistGarden_plain G P hG) (eB P v)).toNode =
       layer (D.coreBranch hG v).toNode)
+    (hCi : ∀ p ∈ clRegionalPairs hG S, p ≠ pairOfLeaf G hG P.retained →
+      Flower.V5W.coupleIncoh D' (unitTwistGarden_plain G P hG) layer' hLayer' (tp P hG p) =
+        Flower.V5W.coupleIncoh D hG layer hLayer p)
+    (hTi : ∀ v ∈ S.erase a, v ≠ b →
+      Flower.V5W.treeIncoh D' (unitTwistGarden_plain G P hG) layer' hLayer' (eB P v) =
+        Flower.V5W.treeIncoh D hG layer hLayer v)
+    (hlS : ∀ v ∈ S, layer' (D'.coreBranch (unitTwistGarden_plain G P hG) (eB P v)).toNode =
+      layer (D.coreBranch hG v).toNode)
     (β : Fin 4 → Mom d) (t : Fin 3 → ℝ) (κ : CLLocalDecoration RS L base β) (τ : CLInternalTime RS) :
     clLocalSummand D' (unitTwistGarden_plain G P hG) RS' L γ δ F layer' hLayer' base β t
         (decEquiv P h L base β κ) (tEquivS P RS RS' τ) =
@@ -100,7 +111,7 @@ theorem summand_tw
   rw [clLocalSummand_eq_spart_bFac D' (unitTwistGarden_plain G P hG) L γ δ F layer' hLayer' base RS' ((mem_twistedAtoms G P S b).mpr h.block.2.2.1) β t _ _,
     decEquiv_val P h L base β κ,
     spart_eq_frame_mul_exc _ _ L γ δ F layer' hLayer' base _ _ _ _ hb' hp0',
-    spartFrame_tw h hG D D' L γ δ F layer hLayer layer' hLayer' base x hpx _ _ hu hC hT hl,
+    spartFrame_tw h hG D D' L γ δ F layer hLayer layer' hLayer' base x hpx _ _ hu hC hT hl hCi hTi hlS,
     stw_bFac P h L γ δ base x t _ _ (hu b h.block.2.2.1) hcons]
   unfold twIntB
   ring

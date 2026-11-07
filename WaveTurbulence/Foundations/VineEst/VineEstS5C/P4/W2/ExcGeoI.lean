@@ -15,6 +15,7 @@ the lower joint is a child of the upper joint (`Molecpl.typeI_parent`) and the r
 so that the summands A1, A2, TQ, TT of the bundle vanish identically. -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS5C.P4.W2
 variable {kind : Bool}

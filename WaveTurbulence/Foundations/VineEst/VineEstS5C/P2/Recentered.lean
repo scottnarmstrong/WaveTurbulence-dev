@@ -16,6 +16,7 @@ clock `t₀` and on the boundary momenta, so `XNorm00Restr` is NOT invariant und
 `termFnR`) gives the same finite-Minkowski bound as `P3.unrolled_bound`. -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS5C.P2

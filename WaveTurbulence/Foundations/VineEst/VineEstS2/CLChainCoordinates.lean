@@ -13,6 +13,7 @@ public import Mathlib.Topology.Algebra.InfiniteSum.Basic
 /-! # Actual regional lattice reparametrization into frozen sumint slots -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS2

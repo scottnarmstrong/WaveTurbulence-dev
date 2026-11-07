@@ -16,6 +16,7 @@ node resonance, evaluated at the inherited current, anchor and common gap, is
 the literal signed source resonance at the corresponding interior atom. -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS2

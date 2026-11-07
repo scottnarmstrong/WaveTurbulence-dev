@@ -21,6 +21,7 @@ it is lexicographically increasing (`vineOf_desc_le`), so `assemblyIntOrder` is 
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS3

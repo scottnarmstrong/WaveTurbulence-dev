@@ -15,6 +15,7 @@ fields `xs : XCross P src`).  The windows are `Wsel q4 qh (decide caseA)` for `s
 `Kall d (K0 · Kx0)` where `Kx0 ≥ 1` bounds the glue constants of the cross fields (`(xs h).Kx ≤ Kx0`). -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS5C.P4.W2
 open WaveTurbulence WaveTurbulence.VineEstS3Par.Eng WaveTurbulence.VineEstS3.FS WaveTurbulence.VineEstS5A WaveTurbulence.VineEstS4c

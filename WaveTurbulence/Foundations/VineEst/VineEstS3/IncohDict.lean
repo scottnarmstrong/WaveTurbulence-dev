@@ -18,6 +18,7 @@ Hence `¬ CohOn ⟹ 1 ≤ g` (`one_le_rowTreeG_of_not_cohOn`, `one_le_rowCoupleG
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 open WaveTurbulence.VineParamContract

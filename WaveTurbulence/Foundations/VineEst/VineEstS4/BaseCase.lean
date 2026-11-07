@@ -16,6 +16,7 @@ single-garden kernel (the CL region data and the layering are unique).
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS4
@@ -109,7 +110,7 @@ in place of `RowSizes`; `step3Ord_of_step3` derives it from `Step3Statement`. -/
       P.L P.γ P.δ (inputsF P Rin) p →
     XNorm00Restr (2 * P.η ^ 8) (outBox (step3D hM9 B RD hG layer hLayer (canonBadKind hM9 B RD hG layer) (qOutOf RD hG layer a b R) centre wBar))
       (outSet (step3D hM9 B RD hG layer hLayer (canonBadKind hM9 B RD hG layer) (qOutOf RD hG layer a b R) centre wBar) P.L P.γ P.η)
-      (fun tt E => clRecenteredLocalKernel RD hG R P.L P.γ P.δ (inputsF P Rin) layer hLayer wBar
+      (fun tt E => clRecenteredLocalKernel (rowSel := VineEst.RowSel.plain) RD hG R P.L P.γ P.δ (inputsF P Rin) layer hLayer wBar
         (tt 0) (tt 1) (tt 2) (sumintBoundary (G.sign a.toNode) E 0) (sumintBoundary (G.sign a.toNode) E 1)
         (sumintBoundary (G.sign a.toNode) E 2) (sumintBoundary (G.sign a.toNode) E 3)) ≤
     ENNReal.ofReal ((P.C₁ * Real.sqrt P.δ) ^ clLocalOrder2 RD hG R *

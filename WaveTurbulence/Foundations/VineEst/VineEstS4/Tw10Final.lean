@@ -6,6 +6,7 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.VineEst.VineEstS4.Tw9Native
+public import WaveTurbulence.Foundations.VineEst.RowSel.RowDataLF
 
 /-! # K^T twist invariance (V5 Step 4b, step 3): the LF-level statement
 
@@ -16,6 +17,7 @@ Remark `twistexplain` (d): `K^{T'}_{G_p}(t; e, f, g, h) = K^T_G(t; f, e, g, h)`.
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS4
@@ -37,7 +39,7 @@ theorem clLocalKernel_twist_LF {T : Finset (GBranch s.skeleton.tree)} {z : GBran
     clLocalKernel h.data (s.chosen_plain true) R' L γ δ F layer' hLayer' base t0 t1 t2 e f g k =
       clLocalKernel s.data s.plain R L γ δ F layer hLayer base t0 t1 t2 f e g k := by
   refine clLocalKernel_twist s.placement hB hCL R R' s.plain s.data h.data L γ δ F layer hLayer layer' hLayer' base
-    t0 t1 t2 e f g k ?_ ?_ ?_
+    t0 t1 t2 e f g k ?_ ?_ ?_ ?_ ?_
   · intro q hq
     have hint := (mem_clRegionalPairs s.skeleton).mp hq
     have hne : q ≠ s.exceptional := by
@@ -54,5 +56,19 @@ theorem clLocalKernel_twist_LF {T : Finset (GBranch s.skeleton.tree)} {z : GBran
     exact native_tree_eq h layer hLayer hspec layer' hLayer' hspec' v hvl
   · intro v _
     exact coreLayer_eq h layer hLayer hspec layer' hLayer' hspec' v
+  · intro q hq
+    have hint := (mem_clRegionalPairs s.skeleton).mp hq
+    have hne : q ≠ s.exceptional := by
+      intro hqe
+      have hqe' : q = pairOfLeaf s.skeleton s.plain s.placement.retained := hqe
+      subst hqe'
+      have hq' := pairOfLeaf_first_or_partner s.skeleton s.plain s.placement.retained
+      rcases hq' with hq' | hq'
+      · exact not_internal_retained s.placement hB hCL (hq' ▸ hint)
+      · exact not_internal_pair s.placement hB hCL (hq' ▸ hint)
+    exact Flower.V5W.coupleIncoh_LF h layer hLayer hspec layer' hLayer' hspec' q hne
+  · intro v hv
+    have hvl : v ≠ s.placement.lower := (Finset.mem_erase.mp hv).1
+    exact Flower.V5W.treeIncoh_LF h layer hLayer hspec layer' hLayer' hspec' v hvl
 
 end WaveTurbulence.VineEstS4

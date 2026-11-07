@@ -14,6 +14,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.XCrossOf
 `botSrcOfX`: the `K2.XCross` of `botSrcOf` for `L₄ + 1 ≤ Lₕ`, from the selected-clamp data of the certified terms (`XSrcData`). -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 namespace WaveTurbulence.VineEstS5C.P4.W2

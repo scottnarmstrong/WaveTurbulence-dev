@@ -5,6 +5,7 @@ Authors: Scott Armstrong
 -/
 module
 
+public import WaveTurbulence.Foundations.VineEst.RowSel.Bounds
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.ConjRowsH
 public import WaveTurbulence.Foundations.VineEst.VineEstS3.NativeRows
 public import WaveTurbulence.Foundations.VineEst.VineEstS3.Step3Data
@@ -16,6 +17,7 @@ H-gates.  `rowBoundH ρ = rowBound ρ * rowCostH ρ`, where `rowCostH ρ = layer
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 open WaveTurbulence.VineParamContract
@@ -98,7 +100,7 @@ theorem rows_continuousH {h : ℕ → Mom P.d → ℝ} {Bh : ℕ → ℝ} (hB : 
     (hL : 1 ≤ P.L) (hlay : ∀ x, layer x ≤ p)
     (W : SumintWeightClockData (assemblyShape hM9 B) P.d) (ρ : Row (sourceSumintDatum hM9 B hG W)) (k : Mom P.d) :
     Continuous fun t : Fin 2 → ℝ =>
-      (assemblyClocked hM9 B RD hG W P.L P.γ P.δ h layer hLayer).W ρ t k := by
+      (assemblyClockedS hM9 B RD hG W P.L P.γ P.δ h layer hLayer).W ρ t k := by
   have hsum : ∀ ℓ : ℕ, ℓ ≤ p → Summable fun n : Fin P.d → ℤ => |h ℓ (k + latticePoint P.L n)| := fun ℓ hℓ =>
     summable_abs_coset_of_SNormR (A := 40 * P.d) (B := 40 * P.d) hL (by omega) (hB ℓ hℓ).1 (h ℓ) (hB ℓ hℓ).2 k
   rcases ρ with v | v
@@ -106,12 +108,12 @@ theorem rows_continuousH {h : ℕ → Mom P.d → ℝ} {Bh : ℕ → ℝ} (hB : 
       unfold rowCoupleLG
       rw [nativeCoupleLayered_garden]
       exact (decodedCouple_decodes _).1.1
-    exact continuous_KQstar_time P.L P.γ P.δ h (rowCoupleLG hM9 B RD hG layer hLayer v) hplain k
+    exact VineEst.continuous_KQsel_time _ _ _ P.L P.γ P.δ h (rowCoupleLG hM9 B RD hG layer hLayer v) hplain k
       (fun ℓ _ => hsum _ (hlay _))
   · have hT : IsPairedTree (rowTreeLG hM9 B RD hG layer hLayer v).garden := by
       unfold rowTreeLG
       exact decodedTree_isPairedTree _ _
-    exact continuous_KTstar_time P.L P.γ P.δ h (rowTreeLG hM9 B RD hG layer hLayer v) hT k
+    exact VineEst.continuous_KTsel_time _ _ P.L P.γ P.δ h (rowTreeLG hM9 B RD hG layer hLayer v) hT k
       (fun ℓ _ => hsum _ (hlay _))
 
 end

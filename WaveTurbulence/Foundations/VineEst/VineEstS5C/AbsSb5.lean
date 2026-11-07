@@ -15,6 +15,7 @@ are continuous in the two times.  **`measurable_psiSB`**: `psiSB x` is measurabl
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 open WaveTurbulence.VineParamContract
@@ -56,10 +57,10 @@ theorem measurable_spartFrame (hF : HF D hG L F layer base) (p0 : SourcePair G) 
     exact Finset.measurable_prod _ fun v _ =>
       (continuous_phaseAtom L γ δ (G.sign v.toNode) _).measurable.comp (hu v)
   have hq : ∀ p : SourcePair G, Measurable fun z => qRow D hG L γ δ F layer hLayer base (u z a) x (u z) p := fun p =>
-    measurable_KQstar_comp L γ δ F _ (native_couple_plain D hG layer hLayer p) _
+    VineEst.measurable_KQsel_comp _ _ _ L γ δ F _ (native_couple_plain D hG layer hLayer p) _
       (couple_hF hF p (x (p.firstLeaf hG).toNode)) (hp _) (hp _)
   have ht : ∀ v : GBranch G.tree, Measurable fun z => tRow D hG L γ δ F layer hLayer base (u z a) x (u z) v := fun v =>
-    measurable_KTstar_comp L γ δ F _ (native_chain_paired D hG layer hLayer v) _
+    VineEst.measurable_KTsel_comp _ _ L γ δ F _ (native_chain_paired D hG layer hLayer v) _
       (chain_hF hF v (x v.toNode)) (hp _) (hu v)
   unfold spartFrame
   exact (Measurable.ite hset measurable_const measurable_const).mul (measurable_const.mul (hphase.mul
@@ -94,14 +95,14 @@ theorem measurable_rowQ_comp (κ : KPar d) (G : FamilyReconstruction w ι) (i : 
       |κ.F ((sigStar G i).2.1.layer ℓ.toNode) (k + latticePoint κ.L n)|)
     {f g : α → ℝ} (hf : Measurable f) (hg : Measurable g) :
     Measurable fun z => rowQ κ G i (f z) (g z) k :=
-  measurable_KQstar_comp κ.L κ.γ κ.δ κ.F _ (native_couple_plain G.data G.plain (stateLayer G) (stateLayer_isLayering G) _) k hk hf hg
+  VineEst.measurable_KQsel_comp _ _ _ κ.L κ.γ κ.δ κ.F _ (native_couple_plain G.data G.plain (stateLayer G) (stateLayer_isLayering G) _) k hk hf hg
 
 theorem measurable_rowT_comp (κ : KPar d) (G : FamilyReconstruction w ι) (i : ι) (k : Mom d)
     (hk : ∀ ℓ ∈ inputLeaves (sigStar G i).2.2.garden, Summable fun n : Fin d → ℤ =>
       |κ.F ((sigStar G i).2.2.layer ℓ.toNode) (k + latticePoint κ.L n)|)
     {f g : α → ℝ} (hf : Measurable f) (hg : Measurable g) :
     Measurable fun z => rowT κ G i (f z) (g z) k :=
-  measurable_KTstar_comp κ.L κ.γ κ.δ κ.F _ (native_chain_paired G.data G.plain (stateLayer G) (stateLayer_isLayering G) _) k hk hf hg
+  VineEst.measurable_KTsel_comp _ _ κ.L κ.γ κ.δ κ.F _ (native_chain_paired G.data G.plain (stateLayer G) (stateLayer_isLayering G) _) k hk hf hg
 
 end State
 

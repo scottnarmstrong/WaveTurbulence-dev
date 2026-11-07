@@ -17,6 +17,7 @@ public import WaveTurbulence.Foundations.VineEst.K2.CrossDisp
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS5C.P4.W2.K2
 open MeasureTheory Set WaveTurbulence.VineEstS3 WaveTurbulence.VineEstS5C.P4.W13

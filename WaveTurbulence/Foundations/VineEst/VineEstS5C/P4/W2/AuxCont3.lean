@@ -15,6 +15,7 @@ of `ts 0 = q`.  `certC_J_contOn_hi` (window `winCh`), `certC_J_contOn_lo` (windo
 `certC_hiTC`, `certC_loTC`. -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 namespace WaveTurbulence.VineEstS5C.P4.W2

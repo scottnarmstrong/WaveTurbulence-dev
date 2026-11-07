@@ -11,6 +11,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS5C.LevelLoc2
 /-! # Joint measurability of the native summand `psiNat` in the exterior times and the clock (V5 Step 4d part C) -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 open WaveTurbulence.VineParamContract
@@ -84,9 +85,9 @@ theorem measT_psiNat (R : CLRegionData G U a b) (hF : HF D hG L F layer base) :
       starProd D hG L γ δ F layer hLayer base U a (z.1 0) x z.2 := by
     unfold starProd
     refine Measurable.mul (Finset.measurable_prod _ fun p _ => ?_) (Finset.measurable_prod _ fun v _ => ?_)
-    · exact measurable_KQstar_comp L γ δ F _ (native_couple_plain D hG layer hLayer p) _
+    · exact VineEst.measurable_KQsel_comp _ _ _ L γ δ F _ (native_couple_plain D hG layer hLayer p) _
         (couple_hF hF p (x (p.firstLeaf hG).toNode)) (hp _) (hp _)
-    · exact measurable_KTstar_comp L γ δ F _ (native_chain_paired D hG layer hLayer v) _
+    · exact VineEst.measurable_KTsel_comp _ _ L γ δ F _ (native_chain_paired D hG layer hLayer v) _
         (chain_hF hF v (x v.toNode)) (hp _) (hu v)
   unfold psiNat
   exact measurable_const.mul (Measurable.ite (measurableSet_ClDom R _) (hphase.mul hstar) measurable_const)

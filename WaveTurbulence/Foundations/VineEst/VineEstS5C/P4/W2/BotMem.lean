@@ -11,6 +11,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W13.BotGeo
 /-! # P4-W2 (bottom, session 9): the clocks of the windows lie in the identity sets of `botCertC`, `botCertT` (copy of `W13.Mem`). -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 namespace WaveTurbulence.VineEstS5C.P4.W2

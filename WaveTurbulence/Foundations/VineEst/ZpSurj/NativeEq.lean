@@ -11,6 +11,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS4.Cls7Inj
 /-! # ZP-SURJ: the native exceptional data of the constructed output -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.ZpSurj
 open TTree Reg Reg.Skeleton Twist Links RegRed WaveTurbulence.LFTwist WaveTurbulence.Stage1

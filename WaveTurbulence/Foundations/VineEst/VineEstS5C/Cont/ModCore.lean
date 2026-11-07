@@ -15,6 +15,7 @@ exterior clocks on the closed cube, for every `E` of the output set (same hypoth
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 open WaveTurbulence.VineParamContract
@@ -114,7 +115,7 @@ theorem kernelMod_eq_clockedExprEpsM (hM9 : VINEPARAM) (B : CLChainAssembly G R 
         (sumintBoundary (G.sign a.toNode) E 2) (sumintBoundary (G.sign a.toNode) E 3) =
       (coupling d L γ δ : ℂ) ^ clLocalOrder1 R * clLocalZeta R *
         clockedExprEpsM (fun v : ↥U => childLabel hM9 B hG v.1 0) (fun v : ↥U => childLabel hM9 B hG v.1 1)
-          (fun v : ↥U => childLabel hM9 B hG v.1 2) (assemblyClocked hM9 B RD hG W L γ δ F layer hLayer)
+          (fun v : ↥U => childLabel hM9 B hG v.1 2) (assemblyClockedS hM9 B RD hG W L γ δ F layer hLayer)
           (assemblyCoreFirstSign hM9 B) (assemblyCoreSign hM9 B) (assemblyShape_I_pos hM9 B) L γ (2 * δ) η
           (fun (tt : Fin 3 → ℝ) (τ : (sourceSumintDatum hM9 B hG W).S.TVar → ℝ) =>
             Complex.exp (((Real.pi * lam * τ (.inl ⟨⟨0, assemblyShape_I_pos hM9 B⟩, 0⟩) : ℝ) : ℂ) * Complex.I)) tt E := by
@@ -161,7 +162,7 @@ theorem clRecenteredMod_continuousOn {P : WTParams} (lam : ℝ)
       (qOut 2 : ℝ) ≤ assemblyTimeQ hM9 B (fun v => layer (RD.coreBranch hG v).toNode)
         (.inl ⟨⟨0, assemblyShape_I_pos hM9 B⟩, 0⟩)) :
     ∀ E ∈ outSet (step3D hM9 B RD hG layer hLayer badKind qOut centre wBar) P.L P.γ P.η,
-      ContinuousOn (fun tt : Fin 3 → ℝ => clRecenteredLocalKernelModC RD hG R P.L P.γ P.δ h layer hLayer wBar lam
+      ContinuousOn (fun tt : Fin 3 → ℝ => clRecenteredLocalKernelModC (rowSel := VineEst.RowSel.plain) RD hG R P.L P.γ P.δ h layer hLayer wBar lam
           (tt 0) (tt 1) (tt 2) (sumintBoundary (G.sign a.toNode) E 0) (sumintBoundary (G.sign a.toNode) E 1)
           (sumintBoundary (G.sign a.toNode) E 2) (sumintBoundary (G.sign a.toNode) E 3))
         (cubeSet (step3D hM9 B RD hG layer hLayer badKind qOut centre wBar).qOut) := by
@@ -175,7 +176,7 @@ theorem clRecenteredMod_continuousOn {P : WTParams} (lam : ℝ)
       (rowQ hM9 B RD hG W P.L P.γ P.δ h layer hLayer (Sum.inr v)).1 := fun v => (hel v).2.1
   have hres : ∀ ρ, XNormRestr (6 * P.η ^ 6) (30 * P.d) (rowOrder D ρ)
       (rowBx hM9 B RD hG layer hLayer W P.L P.γ P.δ h ρ) Set.univ
-      ((assemblyClocked hM9 B RD hG W P.L P.γ P.δ h layer hLayer).W ρ) <
+      ((assemblyClockedS hM9 B RD hG W P.L P.γ P.δ h layer hLayer).W ρ) <
       ENNReal.ofReal (2 * rowBoundH hM9 B RD hG layer hLayer P Bh W ρ) := by
     intro ρ
     rcases ρ with v | v
@@ -194,7 +195,7 @@ theorem clRecenteredMod_continuousOn {P : WTParams} (lam : ℝ)
   have hrb : ∀ ρ, 0 < rowBoundH hM9 B RD hG layer hLayer P Bh W ρ := by
     intro ρ; rcases ρ with v | v <;> exact mul_pos (rowB_pos hC hδ hL0 _ _) (rowCostH_pos hBpos hlay W _)
   have hrowdec : ∀ ρ (c : Fin 2 → ℝ), c ∈ closure (interior (rowBx hM9 B RD hG layer hLayer W P.L P.γ P.δ
-      h ρ)) → ∀ k, ‖(assemblyClocked hM9 B RD hG W P.L P.γ P.δ h layer hLayer).W ρ c k‖ ≤
+      h ρ)) → ∀ k, ‖(assemblyClockedS hM9 B RD hG W P.L P.γ P.δ h layer hLayer).W ρ c k‖ ≤
       (2 * rowBoundH hM9 B RD hG layer hLayer P Bh W ρ) * decayWt D (30 * P.d) ρ k := by
     intro ρ c hc k
     have h := norm_le_decay_of_XNormRestr (θ := 6 * P.η ^ 6) (by positivity) (30 * P.d) (Eng.rowOrder D ρ) _ _
@@ -212,8 +213,8 @@ theorem clRecenteredMod_continuousOn {P : WTParams} (lam : ℝ)
     mul_nonneg (Finset.prod_nonneg fun ρ _ => by have := hrb ρ; linarith)
       (Finset.prod_nonneg fun ρ _ => decayWt_nonneg D _ ρ _)
   have hbd : ∀ E x, ∀ tt ∈ cubeSet D.qOut, ∀ τ ∈ D.timeDom hI (tt 0) (tt 1) (tt 2),
-      ∏ ρ, ‖(assemblyClocked hM9 B RD hG W P.L P.γ P.δ h layer hLayer).W ρ
-        ((assemblyClocked hM9 B RD hG W P.L P.γ P.δ h layer hLayer).clock τ tt ρ)
+      ∏ ρ, ‖(assemblyClockedS hM9 B RD hG W P.L P.γ P.δ h layer hLayer).W ρ
+        ((assemblyClockedS hM9 B RD hG W P.L P.γ P.δ h layer hLayer).clock τ tt ρ)
         (rowMom D P.L x E ρ)‖ ≤ Bx x E := by
     intro E x tt htt τ hτ
     calc _ ≤ ∏ ρ, ((2 * rowBoundH hM9 B RD hG layer hLayer P Bh W ρ) *
@@ -226,7 +227,7 @@ theorem clRecenteredMod_continuousOn {P : WTParams} (lam : ℝ)
   have hcontI : ∀ E : Fin 4 → Mom P.d, ContinuousOn (fun tt => ((coupling P.d P.L P.γ P.δ : ℂ) ^ clLocalOrder1 R *
       clLocalZeta R) * clockedExprEpsM (D := D) (fun v : ↥U => childLabel hM9 B hG v.1 0)
         (fun v : ↥U => childLabel hM9 B hG v.1 1) (fun v : ↥U => childLabel hM9 B hG v.1 2)
-        (assemblyClocked hM9 B RD hG W P.L P.γ P.δ h layer hLayer)
+        (assemblyClockedS hM9 B RD hG W P.L P.γ P.δ h layer hLayer)
         (assemblyCoreFirstSign hM9 B) (assemblyCoreSign hM9 B) hI P.L P.γ (2 * P.δ) P.η (fun (_ : Fin 3 → ℝ) (τ : D.S.TVar → ℝ) => Complex.exp (((Real.pi * lam * τ (.inl ⟨⟨0, hI⟩, 0⟩) : ℝ) : ℂ) * Complex.I)) tt E) (cubeSet D.qOut) := by
     intro E
     exact continuousOn_const.mul (continuousOn_clockedExprEpsM hbad2' _ _ _ _ _ _ hI P.L P.γ (2 * P.δ) P.η E (fun (_ : Fin 3 → ℝ) (τ : D.S.TVar → ℝ) => Complex.exp (((Real.pi * lam * τ (.inl ⟨⟨0, hI⟩, 0⟩) : ℝ) : ℂ) * Complex.I))
@@ -239,7 +240,7 @@ theorem clRecenteredMod_continuousOn {P : WTParams} (lam : ℝ)
   have hcomp : ContinuousOn (fun tt => ((coupling P.d P.L P.γ P.δ : ℂ) ^ clLocalOrder1 R *
       clLocalZeta R) * clockedExprEpsM (D := D) (fun v : ↥U => childLabel hM9 B hG v.1 0)
         (fun v : ↥U => childLabel hM9 B hG v.1 1) (fun v : ↥U => childLabel hM9 B hG v.1 2)
-        (assemblyClocked hM9 B RD hG W P.L P.γ P.δ h layer hLayer)
+        (assemblyClockedS hM9 B RD hG W P.L P.γ P.δ h layer hLayer)
         (assemblyCoreFirstSign hM9 B) (assemblyCoreSign hM9 B) hI P.L P.γ (2 * P.δ) P.η (fun (_ : Fin 3 → ℝ) (τ : D.S.TVar → ℝ) => Complex.exp (((Real.pi * lam * τ (.inl ⟨⟨0, hI⟩, 0⟩) : ℝ) : ℂ) * Complex.I))
         (leafT D.qOut b1 b2 tt) E) (cubeSet D.qOut) :=
     (hcontI E).comp (continuous_leafT D.qOut b1 b2).continuousOn (mapsTo_leafT_cubeSet D.qOut b1 b2)

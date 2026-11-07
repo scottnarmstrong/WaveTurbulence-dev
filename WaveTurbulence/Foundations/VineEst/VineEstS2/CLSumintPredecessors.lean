@@ -14,6 +14,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS3.RowAlign
 /-! # Actual regional predecessors in the frozen lexicographic row order -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS2

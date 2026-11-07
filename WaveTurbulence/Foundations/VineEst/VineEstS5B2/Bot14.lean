@@ -5,6 +5,7 @@ Authors: Scott Armstrong
 -/
 module
 
+public import WaveTurbulence.Foundations.VineEst.RowSel.RowDataLF
 public import WaveTurbulence.Foundations.VineEst.VineEstS5B2.Bot13
 
 /-! # V5 Step 4d-B2: the bottom vine, part 14 (`botState_true`)
@@ -13,6 +14,7 @@ See `Bot13`.
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS5B2
@@ -33,6 +35,12 @@ theorem twIntB_eq_botKernel (κ : KPar d) (A : FamilyReconstruction w ι) (c0 : 
         (tp (A.family.placement pstar) A.plain (pairOfLeaf A.skeleton A.plain (A.family.placement pstar).retained)),
       nativeChainLayered D' (unitTwistGarden_plain A.skeleton (A.family.placement pstar) A.plain) layer' hLayer'
         (eB (A.family.placement pstar) (A.family.placement pstar).lower)))
+    (hQ : rowQ κ G pstar = VineEst.selCoupleRow κ.L κ.γ κ.δ κ.F D'
+      (unitTwistGarden_plain A.skeleton (A.family.placement pstar) A.plain) layer' hLayer'
+      (tp (A.family.placement pstar) A.plain (pairOfLeaf A.skeleton A.plain (A.family.placement pstar).retained)))
+    (hT : rowT κ G pstar = VineEst.selTreeRow κ.L κ.γ κ.δ κ.F D'
+      (unitTwistGarden_plain A.skeleton (A.family.placement pstar) A.plain) layer' hLayer'
+      (eB (A.family.placement pstar) (A.family.placement pstar).lower))
     (x : GNode A.skeleton.tree → (Fin d → ℤ)) (t : Fin 3 → ℝ) (u : GBranch A.skeleton.tree → ℝ)
     (u' : GBranch (unitTwistGarden A.skeleton (A.family.placement pstar)).tree → ℝ)
     (hub : u' (eB (A.family.placement pstar) c0.b) = u c0.b)
@@ -44,8 +52,8 @@ theorem twIntB_eq_botKernel (κ : KPar d) (A : FamilyReconstruction w ι) (c0 : 
   have hex := exc_tw (A.family.placement pstar) A.plain D' κ.L κ.γ κ.δ κ.F layer' hLayer' κ.base c0.U (a := c0.a)
     hb0 x u' u hub hqb hqr
   unfold twIntB botKernel
-  rw [hex]
-  unfold nuOf rowQ rowT
+  rw [hex, hQ, hT]
+  unfold nuOf
   rw [hσ]
   simp only [if_true]
   have e1 : eB (A.family.placement pstar) c0.b = eB (A.family.placement pstar) (A.family.placement pstar).lower := by
@@ -120,7 +128,8 @@ theorem botState_true (hb0 : c0.b = (A.family.placement pstar).lower)
         (c0.next pstar true).cl) ![κ.t0, κ.t1, κ.t2] τ hv
     have h1 := twIntB_eq_botKernel κ A c0 hb0 (opOut A pstar hcan hel htc hcc con) con.data
       (stateLayer (opOut A pstar hcan hel htc hcc con)) (stateLayer_isLayering (opOut A pstar hcan hel htc hcc con))
-      (sigStar_true A hcan hel htc hcc con) (clExtendIndices (botR A c0) κd.1) ![κ.t0, κ.t1, κ.t2]
+      (sigStar_true A hcan hel htc hcc con) (rowQ_true_eq κ A hcan hel htc hcc con)
+      (rowT_true_eq κ A hcan hel htc hcc con) (clExtendIndices (botR A c0) κd.1) ![κ.t0, κ.t1, κ.t2]
       (clLocalClock (botR A c0) ![κ.t0, κ.t1, κ.t2] τ)
       (clLocalClock (clRegionData (chosenSkeleton A.skeleton (A.family.placement pstar) true) (c0.next pstar true).block
           (c0.next pstar true).cl) ![κ.t0, κ.t1, κ.t2]
@@ -142,7 +151,16 @@ theorem botState_true (hb0 : c0.b = (A.family.placement pstar).lower)
     rw [hk]
     refine (clLocalKernel_tw A.plain κ.L κ.γ κ.δ κ.F κ.base (A.family.placement pstar) hT A.data con.data
       (stateLayer A) (stateLayer_isLayering A) (stateLayer (opOut A pstar hcan hel htc hcc con))
-      (stateLayer_isLayering (opOut A pstar hcan hel htc hcc con)) hCq hCt hCl _ _ _ _ _ _ _).trans ?_
+      (stateLayer_isLayering (opOut A pstar hcan hel htc hcc con)) hCq hCt hCl
+      (fun q _ hq => Flower.V5W.coupleIncoh_LF con (stateLayer A) (stateLayer_isLayering A) (stateLayer_spec A)
+        (stateLayer (opOut A pstar hcan hel htc hcc con)) (stateLayer_isLayering (opOut A pstar hcan hel htc hcc con))
+        (stateLayer_spec (opOut A pstar hcan hel htc hcc con)) q hq)
+      (fun v _ hv => Flower.V5W.treeIncoh_LF con (stateLayer A) (stateLayer_isLayering A) (stateLayer_spec A)
+        (stateLayer (opOut A pstar hcan hel htc hcc con)) (stateLayer_isLayering (opOut A pstar hcan hel htc hcc con))
+        (stateLayer_spec (opOut A pstar hcan hel htc hcc con)) v (hb0 ▸ hv))
+      (fun v _ => coreLayer_eq con (stateLayer A) (stateLayer_isLayering A) (stateLayer_spec A)
+        (stateLayer (opOut A pstar hcan hel htc hcc con)) (stateLayer_isLayering (opOut A pstar hcan hel htc hcc con))
+        (stateLayer_spec (opOut A pstar hcan hel htc hcc con)) v) _ _ _ _ _ _ _).trans ?_
     dsimp only
     simp_rw [hpt, integral_neg, tsum_neg]
     simp only [mul_neg]
@@ -160,7 +178,16 @@ theorem botState_true (hb0 : c0.b = (A.family.placement pstar).lower)
         κ.base hL (HF_of_all _ _ _ _ _ _ hF) _ _
     have h2 := BOKd_tw (A.family.placement pstar) hT A.plain A.data con.data κ.L κ.γ κ.δ κ.F (stateLayer A)
       (stateLayer_isLayering A) (stateLayer (opOut A pstar hcan hel htc hcc con))
-      (stateLayer_isLayering (opOut A pstar hcan hel htc hcc con)) κ.base hCq hCt hCl _ _ hg
+      (stateLayer_isLayering (opOut A pstar hcan hel htc hcc con)) κ.base hCq hCt hCl
+      (fun q _ hq => Flower.V5W.coupleIncoh_LF con (stateLayer A) (stateLayer_isLayering A) (stateLayer_spec A)
+        (stateLayer (opOut A pstar hcan hel htc hcc con)) (stateLayer_isLayering (opOut A pstar hcan hel htc hcc con))
+        (stateLayer_spec (opOut A pstar hcan hel htc hcc con)) q hq)
+      (fun v _ hv => Flower.V5W.treeIncoh_LF con (stateLayer A) (stateLayer_isLayering A) (stateLayer_spec A)
+        (stateLayer (opOut A pstar hcan hel htc hcc con)) (stateLayer_isLayering (opOut A pstar hcan hel htc hcc con))
+        (stateLayer_spec (opOut A pstar hcan hel htc hcc con)) v (hb0 ▸ hv))
+      (fun v _ => coreLayer_eq con (stateLayer A) (stateLayer_isLayering A) (stateLayer_spec A)
+        (stateLayer (opOut A pstar hcan hel htc hcc con)) (stateLayer_isLayering (opOut A pstar hcan hel htc hcc con))
+        (stateLayer_spec (opOut A pstar hcan hel htc hcc con)) v) _ _ hg
     refine BOKd.congr (h2.const_mul (-1)) ?_
     funext κd τ
     rw [neg_one_mul]

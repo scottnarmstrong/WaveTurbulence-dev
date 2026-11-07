@@ -16,6 +16,7 @@ bottom member's bundle, which `P4.Lvl.card_terms_le_prod` counts as `1`.)
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS5C.P4.Bot
 variable {kind : Bool}

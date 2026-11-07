@@ -13,6 +13,7 @@ Copy-edit of `AuxMul.remRowMul` (that file is unchanged): the remainder `f` has 
 so that the product has the row weight (`SNorm_mul_le` with the weight-`0` factor first).  `AuxMul`'s version has `f` at the row weight and `G` at weight `0`. -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 namespace WaveTurbulence.VineEstS5C.P4.W2

@@ -16,6 +16,7 @@ by `decEquiv`, the times by `tEquivS`, and `ζ' = -ζ`).
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS5B2
@@ -59,6 +60,8 @@ theorem clLocalKernel_same (D1 D2 : ReconstructionData G)
       nativeCoupleLayered D2 hG layer2 hLayer2 p)
     (hT : ∀ v ∈ (S.erase a).erase b, nativeChainLayered D1 hG layer1 hLayer1 v = nativeChainLayered D2 hG layer2 hLayer2 v)
     (hl : ∀ v ∈ S.erase a, layer1 (D1.coreBranch hG v).toNode = layer2 (D2.coreBranch hG v).toNode)
+    (hsel : VineEst.SelDataEq hG D1 D2 layer1 hLayer1 layer2 hLayer2 ((clRegionalPairs hG S).erase p0)
+      ((S.erase a).erase b))
     (t0 t1 t2 : ℝ) (e f g h : Mom d) :
     clLocalKernel D2 hG R L γ δ F layer2 hLayer2 base t0 t1 t2 e f g h =
       (coupling d L γ δ : ℂ) ^ clLocalOrder1 R * clLocalZeta R *
@@ -68,7 +71,7 @@ theorem clLocalKernel_same (D1 D2 : ReconstructionData G)
   unfold clLocalKernel
   congr 1
   refine tsum_congr fun κ => integral_congr_ae (Filter.Eventually.of_forall fun τ => ?_)
-  exact summand_same hG D1 D2 L γ δ F layer1 hLayer1 layer2 hLayer2 base R p0 hb hp0 hC hT hl _ _ κ τ
+  exact summand_same hG D1 D2 L γ δ F layer1 hLayer1 layer2 hLayer2 base R p0 hb hp0 hC hT hl hsel _ _ κ τ
 
 variable (P : CorePlacement G) {S : Finset (GBranch G.tree)} {a b : GBranch G.tree} {RS : CLRegionData G S a b}
   {RS' : CLRegionData (unitTwistGarden G P) (twistedAtoms G P S) (eB P a) (eB P b)} (h : STw P RS RS')
@@ -85,6 +88,14 @@ theorem clLocalKernel_tw (D : ReconstructionData G) (D' : ReconstructionData (un
       nativeChainLayered D' (unitTwistGarden_plain G P hG) layer' hLayer' (eB P v) =
         nativeChainLayered D hG layer hLayer v)
     (hl : ∀ v ∈ S.erase a, layer' (D'.coreBranch (unitTwistGarden_plain G P hG) (eB P v)).toNode =
+      layer (D.coreBranch hG v).toNode)
+    (hCi : ∀ p ∈ clRegionalPairs hG S, p ≠ pairOfLeaf G hG P.retained →
+      Flower.V5W.coupleIncoh D' (unitTwistGarden_plain G P hG) layer' hLayer' (tp P hG p) =
+        Flower.V5W.coupleIncoh D hG layer hLayer p)
+    (hTi : ∀ v ∈ S.erase a, v ≠ b →
+      Flower.V5W.treeIncoh D' (unitTwistGarden_plain G P hG) layer' hLayer' (eB P v) =
+        Flower.V5W.treeIncoh D hG layer hLayer v)
+    (hlS : ∀ v ∈ S, layer' (D'.coreBranch (unitTwistGarden_plain G P hG) (eB P v)).toNode =
       layer (D.coreBranch hG v).toNode)
     (t0 t1 t2 : ℝ) (e f g h' : Mom d) :
     clLocalKernel D' (unitTwistGarden_plain G P hG) RS' L γ δ F layer' hLayer' base t0 t1 t2 e f g h' =
@@ -106,7 +117,7 @@ theorem clLocalKernel_tw (D : ReconstructionData G) (D' : ReconstructionData (un
     (g := fun τ' => clLocalSummand D' (unitTwistGarden_plain G P hG) RS' L γ δ F layer' hLayer' base ![e, f, g, h']
       ![t0, t1, t2] (decEquiv P h L base ![e, f, g, h'] κ) τ')]
   exact integral_congr_ae (Filter.Eventually.of_forall fun τ =>
-    summand_tw P h hG D D' L γ δ F layer hLayer layer' hLayer' base hC hT hl _ _ κ τ)
+    summand_tw P h hG D D' L γ δ F layer hLayer layer' hLayer' base hC hT hl hCi hTi hlS _ _ κ τ)
 
 end Kernel
 

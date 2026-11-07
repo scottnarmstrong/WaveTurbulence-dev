@@ -15,6 +15,7 @@ The pointwise identity behind `sSum_rigid` (`sInt_rigid`), and its consequence `
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS4
@@ -34,8 +35,14 @@ variable {w d : ℕ} {G : Garden w} (P : CorePlacement G) {S : Finset (GBranch G
       nativeChainLayered D hG layer hLayer v)
   (hl : ∀ v ∈ S.erase a, layer' (D'.coreBranch (unitTwistGarden_plain G P hG) (eB P v)).toNode =
       layer (D.coreBranch hG v).toNode)
+  (hCi : ∀ p ∈ clRegionalPairs hG S, Flower.V5W.coupleIncoh D' (unitTwistGarden_plain G P hG) layer' hLayer' (tp P hG p) =
+      Flower.V5W.coupleIncoh D hG layer hLayer p)
+  (hTi : ∀ v ∈ S.erase a, Flower.V5W.treeIncoh D' (unitTwistGarden_plain G P hG) layer' hLayer' (eB P v) =
+      Flower.V5W.treeIncoh D hG layer hLayer v)
+  (hlS : ∀ v ∈ S, layer' (D'.coreBranch (unitTwistGarden_plain G P hG) (eB P v)).toNode =
+      layer (D.coreBranch hG v).toNode)
 
-include hS hR hC hT hl in
+include hS hR hC hT hl hCi hTi hlS in
 /-- The pointwise form of the rigid invariance of the S-side integrand. -/
 theorem sInt_rigid (t0 t1 t2 : ℝ) (e f : Mom d) (n0 n1 : GNode G.tree) (Φ : ℝ → Mom d → Mom d → ℂ)
     (xS' : ExtS RS' L base e f) (τ : CLInternalTime RS) :
@@ -44,20 +51,20 @@ theorem sInt_rigid (t0 t1 t2 : ℝ) (e f : Mom d) (n0 n1 : GNode G.tree) (Φ : �
       sInt RS D hG L γ δ F layer hLayer base t0 t1 t2 e f n0 n1 Φ (extSEquiv P RS RS' L base e f hS hR xS') τ := by
   have hu : ∀ v ∈ S, clLocalClock RS' ![t0, t1, t2] (tEquivS P RS RS' τ) (eB P v) = clLocalClock RS ![t0, t1, t2] τ v :=
     fun v hv => clockS_corr P RS RS' _ τ hv
-  have hsp := spart_rigid P hS hR hG D D' L γ δ F layer hLayer layer' hLayer' base hC hT RS xS'.1
+  have hsp := spart_rigid P hS hR hG D D' L γ δ F layer hLayer layer' hLayer' base hC hT hCi hTi hlS RS xS'.1
     (clLocalClock RS' ![t0, t1, t2] (tEquivS P RS RS' τ)) (clLocalClock RS ![t0, t1, t2] τ) hu hl
   unfold sInt
   rw [hsp, hu b hS.2.2.1]
   rfl
 
-include hS hR hC hT hl in
+include hS hR hC hT hl hCi hTi hlS in
 /-- **`SOK` is invariant under the rigid twist.** -/
 theorem SOK_rigid_iff (t0 t1 t2 : ℝ) (e f : Mom d) (n0 n1 : GNode G.tree) (Φ : ℝ → Mom d → Mom d → ℂ) :
     SOK RS' D' (unitTwistGarden_plain G P hG) L γ δ F layer' hLayer' base t0 t1 t2 e f
         (naiveNodeEquiv G P n0) (naiveNodeEquiv G P n1) Φ ↔
       SOK RS D hG L γ δ F layer hLayer base t0 t1 t2 e f n0 n1 Φ := by
   have hmp := tEquivS_measurePreserving P RS RS'
-  have hpt := fun xS' τ => sInt_rigid P hS hR RS RS' hG D D' L γ δ F layer hLayer layer' hLayer' base hC hT hl t0 t1 t2 e f
+  have hpt := fun xS' τ => sInt_rigid P hS hR RS RS' hG D D' L γ δ F layer hLayer layer' hLayer' base hC hT hl hCi hTi hlS t0 t1 t2 e f
     n0 n1 Φ xS' τ
   have hint : ∀ xS' : ExtS RS' L base e f,
       Integrable (sInt RS' D' (unitTwistGarden_plain G P hG) L γ δ F layer' hLayer' base t0 t1 t2 e f

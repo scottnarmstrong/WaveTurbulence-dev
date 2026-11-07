@@ -15,6 +15,7 @@ rows of `S` and the atom layers agree (the hypotheses `hC`, `hT`, `hl`, provided
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS4
@@ -190,13 +191,93 @@ variable {d : ℕ} (hG : G.IsPlain) (D : ReconstructionData G) (D' : Reconstruct
       nativeCoupleLayered D hG layer hLayer p)
   (hT : ∀ v ∈ S.erase a, nativeChainLayered D' (unitTwistGarden_plain G P hG) layer' hLayer' (eB P v) =
       nativeChainLayered D hG layer hLayer v)
+  (hCi : ∀ p ∈ clRegionalPairs hG S, Flower.V5W.coupleIncoh D' (unitTwistGarden_plain G P hG) layer' hLayer' (tp P hG p) =
+      Flower.V5W.coupleIncoh D hG layer hLayer p)
+  (hTi : ∀ v ∈ S.erase a, Flower.V5W.treeIncoh D' (unitTwistGarden_plain G P hG) layer' hLayer' (eB P v) =
+      Flower.V5W.treeIncoh D hG layer hLayer v)
+  (hlS : ∀ v ∈ S, layer' (D'.coreBranch (unitTwistGarden_plain G P hG) (eB P v)).toNode =
+      layer (D.coreBranch hG v).toNode)
 
-include hS hR hC hT in
-theorem starProd_rigid (RS : CLRegionData G S a b) (top : ℝ) (x' : GNode (unitTwistGarden G P).tree → (Fin d → ℤ))
+include hS hR hC hT hCi hTi hlS in
+/-- **The selected product is rigidly twist invariant** (ruling F2: the selection data are transported too). -/
+theorem starProd_rigidS (RS : CLRegionData G S a b) (top : ℝ) (x' : GNode (unitTwistGarden G P).tree → (Fin d → ℤ))
     (u' : GBranch (unitTwistGarden G P).tree → ℝ) (u : GBranch G.tree → ℝ) (hu : ∀ v ∈ S, u' (eB P v) = u v) :
     starProd D' (unitTwistGarden_plain G P hG) L γ δ F layer' hLayer' base (twistedAtoms G P S) (eB P a) top x' u' =
       starProd D hG L γ δ F layer hLayer base S a top (fun y => x' (naiveNodeEquiv G P y)) u := by
   unfold starProd
+  refine congrArg₂ (· * ·) ?_ ?_
+  · refine (Finset.prod_equiv (tp P hG) (fun p => (regional_tp_rigid P hR hG p).symm) (fun p hp => ?_)).symm
+    obtain ⟨hf, hs⟩ := tp_first_rigid P hR hG p hp
+    have hint := (mem_clRegionalPairs G).mp hp
+    have hr1 : (p.firstLeaf hG).toNode ∈ clRealizationNodes G S := (leaf_mem_clRealizationNodes _).mpr hint
+    have hr2 : (p.secondLeaf hG).toNode ∈ clRealizationNodes G S := by
+      have := (Mole.internal_leaf_pair_iff G S (p.firstLeaf hG)).mpr hint
+      rw [pair_first_eq_second hG p] at this
+      exact (leaf_mem_clRealizationNodes _).mpr this
+    have hl1 : (p.firstLeaf hG).toNode ≠ a.toNode := (Mole.branch_toNode_ne_leaf a _).symm
+    have hl2 : (p.secondLeaf hG).toNode ≠ a.toNode := (Mole.branch_toNode_ne_leaf a _).symm
+    have c1 := parentClock_rigid P hS hR RS top u' u hu hr1 hl1
+    have c2 := parentClock_rigid P hS hR RS top u' u hu hr2 hl2
+    have n1 : naiveNodeEquiv G P (p.firstLeaf hG).toNode = (eL P (p.firstLeaf hG)).toNode := naiveNodeEquiv_leaf G P _
+    have n2 : naiveNodeEquiv G P (p.secondLeaf hG).toNode = (eL P (p.secondLeaf hG)).toNode := naiveNodeEquiv_leaf G P _
+    obtain ⟨v1, i1, hv1, hx1, hn1⟩ := naive_real P hS hR RS hr1 hl1
+    obtain ⟨v2, i2, hv2, hx2, hn2⟩ := naive_real P hS hR RS hr2 hl2
+    have hq : ∀ i, Flower.V5W.coupleRootParents rowSel.p D' (unitTwistGarden_plain G P hG) layer' hLayer' (tp P hG p) i =
+        Flower.V5W.coupleRootParents rowSel.p D hG layer hLayer p i := by
+      intro i
+      fin_cases i
+      · show Flower.V5W.coupleRootParents rowSel.p D' (unitTwistGarden_plain G P hG) layer' hLayer' (tp P hG p) 0 =
+          Flower.V5W.coupleRootParents rowSel.p D hG layer hLayer p 0
+        rw [Flower.V5W.coupleRootParents_zero D' (unitTwistGarden_plain G P hG) layer' hLayer' rowSel.p (tp P hG p)
+            (eB P v1) i1 (by rw [hf, ← n1, hn1]),
+          Flower.V5W.coupleRootParents_zero D hG layer hLayer rowSel.p p v1 i1 hx1, hlS v1 hv1]
+      · show Flower.V5W.coupleRootParents rowSel.p D' (unitTwistGarden_plain G P hG) layer' hLayer' (tp P hG p) 1 =
+          Flower.V5W.coupleRootParents rowSel.p D hG layer hLayer p 1
+        rw [Flower.V5W.coupleRootParents_one D' (unitTwistGarden_plain G P hG) layer' hLayer' rowSel.p (tp P hG p)
+            (eB P v2) i2 (by rw [hs, ← n2, hn2]),
+          Flower.V5W.coupleRootParents_one D hG layer hLayer rowSel.p p v2 i2 hx2, hlS v2 hv2]
+    rw [VineEst.selCoupleRow_congr L γ δ F D hG layer hLayer p D' (unitTwistGarden_plain G P hG) layer' hLayer'
+      (tp P hG p) (hC p hp) (hCi p hp) hq, hf, hs]
+    have c1' := (congrArg (parentClock top u') n1.symm).trans c1
+    have c2' := (congrArg (parentClock top u') n2.symm).trans c2
+    rw [c1', c2']
+    have d1 : cosetDecoration (unitTwistGarden G P) L base x' (eL P (p.firstLeaf hG)).toNode =
+        cosetDecoration G L base (fun y => x' (naiveNodeEquiv G P y)) (p.firstLeaf hG).toNode := by
+      unfold cosetDecoration
+      exact congrArg (fun y => base + latticePoint L y) (congrArg x' n1.symm)
+    rw [d1]
+  · have hset : ∀ v, v ∈ S.erase a ↔ eB P v ∈ (twistedAtoms G P S).erase (eB P a) := fun v =>
+      (mem_erase_twisted P (b := a) v).symm
+    refine (Finset.prod_equiv (eB P) (fun v => hset v) (fun v hv => ?_)).symm
+    have hvS : v ∈ S := Finset.mem_of_mem_erase hv
+    have hva : v ≠ a := (Finset.mem_erase.mp hv).1
+    have hvn : v.toNode ≠ a.toNode := fun h => hva (Mole.branch_toNode_injective h)
+    have c1 := parentClock_rigid P hS hR RS top u' u hu ((branch_mem_clRealizationNodes v).mpr hvS) hvn
+    have c1' : parentClock top u' (eB P v).toNode = parentClock top u v.toNode :=
+      (congrArg (parentClock top u') (naiveNodeEquiv_branch G P v).symm).trans c1
+    have d1 : cosetDecoration (unitTwistGarden G P) L base x' (eB P v).toNode =
+        cosetDecoration G L base (fun y => x' (naiveNodeEquiv G P y)) v.toNode := by
+      unfold cosetDecoration
+      exact congrArg (fun y => base + latticePoint L y) (congrArg x' (naiveNodeEquiv_branch G P v).symm)
+    obtain ⟨c, i, hc, hxc, hnc⟩ := naive_real P hS hR RS ((branch_mem_clRealizationNodes v).mpr hvS) hvn
+    have hqT : Flower.V5W.treeRootParent rowSel.p D' (unitTwistGarden_plain G P hG) layer' hLayer' (eB P v) =
+        Flower.V5W.treeRootParent rowSel.p D hG layer hLayer v := by
+      rw [Flower.V5W.treeRootParent_eq D' (unitTwistGarden_plain G P hG) layer' hLayer' rowSel.p (eB P v) (eB P c) i
+          ((naiveNodeEquiv_branch G P v).symm.trans hnc),
+        Flower.V5W.treeRootParent_eq D hG layer hLayer rowSel.p v c i hxc, hlS c hc]
+    rw [VineEst.selTreeRow_congr L γ δ F D hG layer hLayer v D' (unitTwistGarden_plain G P hG) layer' hLayer'
+      (eB P v) (hT v hv) (hTi v hv) hqT, c1', hu v hvS, d1]
+
+include hS hR hC hT in
+/-- `starProd_rigidS` at the plain selector, with the original hypotheses (used by `Vine/C/VCRigid2`). -/
+theorem starProd_rigid (RS : CLRegionData G S a b) (top : ℝ) (x' : GNode (unitTwistGarden G P).tree → (Fin d → ℤ))
+    (u' : GBranch (unitTwistGarden G P).tree → ℝ) (u : GBranch G.tree → ℝ) (hu : ∀ v ∈ S, u' (eB P v) = u v) :
+    starProd (rowSel := VineEst.RowSel.plain) D' (unitTwistGarden_plain G P hG) L γ δ F layer' hLayer' base
+        (twistedAtoms G P S) (eB P a) top x' u' =
+      starProd (rowSel := VineEst.RowSel.plain) D hG L γ δ F layer hLayer base S a top
+        (fun y => x' (naiveNodeEquiv G P y)) u := by
+  unfold starProd
+  simp only [VineEst.selCoupleRow_plain, VineEst.selTreeRow_plain]
   refine congrArg₂ (· * ·) ?_ ?_
   · refine (Finset.prod_equiv (tp P hG) (fun p => (regional_tp_rigid P hR hG p).symm) (fun p hp => ?_)).symm
     obtain ⟨hf, hs⟩ := tp_first_rigid P hR hG p hp
@@ -236,7 +317,7 @@ theorem starProd_rigid (RS : CLRegionData G S a b) (top : ℝ) (x' : GNode (unit
       exact congrArg (fun y => base + latticePoint L y) (congrArg x' (naiveNodeEquiv_branch G P v).symm)
     rw [hT v hv, c1', hu v hvS, d1]
 
-include hS hR hC hT in
+include hS hR hC hT hCi hTi hlS in
 /-- **The S-part is rigidly twist invariant.** -/
 theorem spart_rigid (RS : CLRegionData G S a b) (x' : GNode (unitTwistGarden G P).tree → (Fin d → ℤ))
     (u' : GBranch (unitTwistGarden G P).tree → ℝ) (u : GBranch G.tree → ℝ) (hu : ∀ v ∈ S, u' (eB P v) = u v)
@@ -251,7 +332,7 @@ theorem spart_rigid (RS : CLRegionData G S a b) (x' : GNode (unitTwistGarden G P
   have heps := eps_rigid P hR x'
   have hph := phase_rigid P hR L γ δ (cosetDecoration (unitTwistGarden G P) L base x') u' u
     (fun v hv => hu v (Finset.mem_of_mem_erase hv))
-  have hst := starProd_rigid P hS hR hG D D' L γ δ F layer hLayer layer' hLayer' base hC hT RS (u a) x' u' u hu
+  have hst := starProd_rigidS P hS hR hG D D' L γ δ F layer hLayer layer' hLayer' base hC hT hCi hTi hlS RS (u a) x' u' u hu
   rw [hua, hst] at *
   have hcd : cosetDecoration G L base (fun y => x' (naiveNodeEquiv G P y)) =
       fun y => cosetDecoration (unitTwistGarden G P) L base x' (naiveNodeEquiv G P y) := by

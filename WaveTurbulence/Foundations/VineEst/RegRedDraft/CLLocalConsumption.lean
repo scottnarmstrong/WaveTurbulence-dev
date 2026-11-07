@@ -10,6 +10,7 @@ public import WaveTurbulence.Foundations.VineEst.RegRedDraft.CLLocalFactors
 /-! # Regional phase and epsilon consume only the actual local coordinates -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.RegRed
 open TTree Reg Reg.Skeleton

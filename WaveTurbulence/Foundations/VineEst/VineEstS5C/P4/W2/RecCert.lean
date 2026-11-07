@@ -24,6 +24,7 @@ For a term `ψ0` of the top level with the row form `RowFormNE .. (pexOf recs) (
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS5C.P4.W2
 open VineParamContract TTree Reg Reg.Skeleton RegRed MeasureTheory WaveTurbulence.VineEstS2 WaveTurbulence.VineEstS5A
@@ -114,7 +115,7 @@ def TermRecBody {A : ℝ} (d : ℕ) (η : ℝ) (C : ℝ≥0∞) : Prop :=
 
 /-- **The certificate of a term with records** (see the module docstring). -/
 theorem termCertWG_rec {A : ℝ} (d : ℕ) (η : ℝ) (hd : 1 ≤ d) :
-    ∃ C : ℝ≥0∞, 1 ≤ C ∧ C ≠ ⊤ ∧ TermRecBody (A := A) d η C := by
+    ∃ C : ℝ≥0∞, 1 ≤ C ∧ C ≠ ⊤ ∧ TermRecBody (rowSel := VineEst.RowSel.plain) (A := A) d η C := by
   classical
   obtain ⟨C0, hC00, hall⟩ := natRows_family d η hd
   refine ⟨C0 + 1, le_add_self, ENNReal.add_ne_top.2 ⟨hC00, ENNReal.one_ne_top⟩, ?_⟩
@@ -219,7 +220,7 @@ theorem termCertWG_rec {A : ℝ} (d : ℕ) (η : ℝ) (hd : 1 ≤ d) :
       exact hρ.2 (vbf k) h' ((mem_vbSet hM9 B recs _).mpr (by rw [hvb k hk']; exact mem_bexOf.mpr ⟨k, hk', rfl⟩))
   have hRW : ∀ ρ (cl : Fin 3 → ℝ), NonExc hM9 B hG W wN wDec bk cons g g' (vpSet hM9 B hG recs) (vbSet hM9 B recs) ρ →
       ![cl 0, cl 1] ∈ rowBx hM9 B RD hG layer hLayer W P.L P.γ P.δ h ρ → ∀ r k,
-      (Rw' ρ).W cl r k = (assemblyClocked hM9 B RD hG W P.L P.γ P.δ h layer hLayer).W ρ ![cl 0, cl 1] k := by
+      (Rw' ρ).W cl r k = (assemblyClockedS hM9 B RD hG W P.L P.γ P.δ h layer hLayer).W ρ ![cl 0, cl 1] k := by
     intro ρ cl hρ hcl r k
     rw [hnonexc ρ hρ]
     exact hRW0 ρ cl hcl r k

@@ -20,6 +20,7 @@ certificates (W2) read the `SepT` data `(certC …).lo i`, `(certC …).hi i` (w
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS5C.P4.W13
 variable {kind : Bool}

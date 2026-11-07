@@ -15,6 +15,7 @@ sum is `c ζ lkRaw` of the recursively defined summand `psiFuel` (the flat form 
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS5C

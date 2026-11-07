@@ -10,6 +10,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P1.Mix
 /-! # P1: `hQ0`, `hT0` (R35-repaired endpoint vanishing) and `hreal` (from `RealityAll` via `carrier_sum_eq`) -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 open WaveTurbulence.VineParamContract

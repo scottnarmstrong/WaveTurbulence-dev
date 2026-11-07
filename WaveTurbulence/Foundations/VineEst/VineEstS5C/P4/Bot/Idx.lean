@@ -5,6 +5,7 @@ Authors: Scott Armstrong
 -/
 module
 
+public import WaveTurbulence.Foundations.VineEst.RowSel.ZpCoherent
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.Family
 
 /-! # BOT-DECOMP: the index type of the bottom bundle (R60, F-W2-BOT)
@@ -16,6 +17,7 @@ This module mirrors `ZpSurjStmt` (`zpSet`, `ZpSurj`), `P1.ZpLayers`, `BundleStat
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 namespace WaveTurbulence.VineEstS5C.P4.Bot
@@ -94,18 +96,22 @@ noncomputable def botRemT (κ : KPar d) (Tf : BT w ι → ℝ → ℝ → Mom d 
 variable (κ : KPar d) (Qf Tf : BT w ι → ℝ → ℝ → Mom d → ℂ)
 
 /-- Exact rows of a II-b index: `K*_Q = Q + R_Q`. -/
-theorem botRowQ_B (b : BT w ι) (hb : nuOf b.1 pstar ≠ 1) (t s : ℝ) (k : Mom d) :
+theorem botRowQ_B (b : BT w ι) (hb : nuOf b.1 pstar ≠ 1) {pc qc qc' : ℕ}
+    (hcoh : IsCoherentCoupleAt pc qc qc' (zpCodeC b.1 pstar) (zpObjC b.1 pstar)) (t s : ℝ) (k : Mom d) :
     rowQ κ b.1 pstar t s k = Qf b t s k + botRemQ pstar κ Qf b t s k := by
   have h := (units_ne_one_iff _).mp hb
-  unfold botRemQ rowQ
+  rw [VineEst.rowQ_eq_of_zp κ hcoh]
+  unfold botRemQ
   rw [zpObjC_of_neg h]; ring
 
 /-- Exact tree row of a II-b index: `K*_{T̄} = T̄ + conj R_T`. -/
-theorem botRowT_B (b : BT w ι) (hb : nuOf b.1 pstar ≠ 1) (t s : ℝ) (k : Mom d) :
+theorem botRowT_B (b : BT w ι) (hb : nuOf b.1 pstar ≠ 1) {pc qc qc' : ℕ}
+    (hcoh : IsCoherentTreeAt pc qc qc' (zpCodeT b.1 pstar) (zpObjT b.1 pstar)) (t s : ℝ) (k : Mom d) :
     rowT κ b.1 pstar t s k = cconj (Tf) b t s k + (starRingEnd ℂ) (botRemT pstar κ Tf b t s k) := by
   have h := (units_ne_one_iff _).mp hb
   have hc := PL234.KTstar_conj κ.L κ.γ κ.δ κ.F (conjLayered_isConjugateBy (sigStar b.1 pstar).2.2 (Equiv.refl (Fin 1))) t s k
-  unfold botRemT rowT cconj
+  rw [VineEst.rowT_eq_of_zp κ hcoh]
+  unfold botRemT cconj
   rw [zpObjT_of_neg h, hc, map_sub]
   simp
 
@@ -114,10 +120,13 @@ variable (τ : BT w ι → BT w ι)
 /-- Exact couple row of the II-a state standing for an index of `botA`: `K*_{Q̄} = Q̄ + conj R_Q`. -/
 theorem botRowQ_A {b : BT w ι} (hb : (nuOf b.1 pstar = 1) ∨
       (nuOf b.1 pstar ≠ 1 ∧ IsConjugateCouple (sigStar b.1 pstar).2.1 (sigStar (τ b).1 pstar).2.1))
+    {pc qc qc' : ℕ}
+    (hcoh : IsCoherentCoupleAt pc qc qc' (zpCodeC (botSigma pstar τ b).1 pstar) (zpObjC (botSigma pstar τ b).1 pstar))
     (t s : ℝ) (k : Mom d) :
     rowQ κ (botSigma pstar τ b).1 pstar t s k = cswap (Qf) b t s k + (starRingEnd ℂ) (botRemQ pstar κ Qf b s t k) := by
   classical
-  unfold cswap botRemQ rowQ botSigma
+  rw [VineEst.rowQ_eq_of_zp κ hcoh]
+  unfold cswap botRemQ botSigma
   rcases hb with h | ⟨h, hc⟩
   · rw [if_pos h, zpObjC_of_pos h]
     have := PL234.KQstar_conj κ.L κ.γ κ.δ κ.F (conjLayered_isConjugateBy (sigStar b.1 pstar).2.1 (Equiv.swap (0 : Fin 2) 1)) s t k
@@ -130,10 +139,13 @@ theorem botRowQ_A {b : BT w ι} (hb : (nuOf b.1 pstar = 1) ∨
 /-- Exact tree row of the II-a state standing for an index of `botA`: `K*_T = T + R_T`. -/
 theorem botRowT_A {b : BT w ι} (hb : (nuOf b.1 pstar = 1) ∨
       (nuOf b.1 pstar ≠ 1 ∧ IsConjugateTree (sigStar b.1 pstar).2.2 (sigStar (τ b).1 pstar).2.2))
+    {pc qc qc' : ℕ}
+    (hcoh : IsCoherentTreeAt pc qc qc' (zpCodeT (botSigma pstar τ b).1 pstar) (zpObjT (botSigma pstar τ b).1 pstar))
     (t s : ℝ) (k : Mom d) :
     rowT κ (botSigma pstar τ b).1 pstar t s k = Tf b t s k + botRemT pstar κ Tf b t s k := by
   classical
-  unfold botRemT rowT botSigma
+  rw [VineEst.rowT_eq_of_zp κ hcoh]
+  unfold botRemT botSigma
   rcases hb with h | ⟨h, hc⟩
   · rw [if_pos h, zpObjT_of_pos h]; ring
   · have h' := (units_ne_one_iff _).mp h

@@ -11,6 +11,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS3.NumericCore
 /-! # Step 3: bookkeeping facts (orders, cardinalities, `maxPar`) -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS3

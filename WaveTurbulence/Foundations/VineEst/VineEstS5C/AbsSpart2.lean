@@ -10,6 +10,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS5C.AbsSpart
 /-! # Pointwise, integral and measurability bounds of the native S-part `spart` (V5 Step 4d part C, `hAbs`, leaf `sb`) -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 open WaveTurbulence.VineParamContract
@@ -30,8 +31,8 @@ theorem norm_starProd_le (R : CLRegionData G S a b) (hF : HF D hG L F layer base
   refine mul_le_mul (Finset.prod_le_prod₀ (fun _ _ => norm_nonneg _) (fun p _ => ?_))
     (Finset.prod_le_prod₀ (fun _ _ => norm_nonneg _) (fun v _ => ?_)) (Finset.prod_nonneg fun _ _ => norm_nonneg _)
     (Finset.prod_nonneg fun p _ => ?_)
-  · exact norm_KQstar_le hF p _ _ _
-  · exact norm_KTstar_le hF v _ _ _
+  · exact norm_selCoupleRow_le hF p _ _ _
+  · exact norm_selTreeRow_le hF v _ _ _
   · unfold pairBound majSum
     exact mul_nonneg (by positivity) (tsum_nonneg fun ρ => Finset.prod_nonneg fun ℓ _ => abs_nonneg _)
 
@@ -82,9 +83,9 @@ theorem measurable_spart (R : CLRegionData G S a b) (hF : HF D hG L F layer base
       starProd D hG L γ δ F layer hLayer base S a (clLocalClock R t σ a) x (clLocalClock R t σ) := by
     unfold starProd
     refine Measurable.mul (Finset.measurable_prod _ fun p _ => ?_) (Finset.measurable_prod _ fun v _ => ?_)
-    · exact measurable_KQstar_comp L γ δ F _ (native_couple_plain D hG layer hLayer p) _
+    · exact VineEst.measurable_KQsel_comp _ _ _ L γ δ F _ (native_couple_plain D hG layer hLayer p) _
         (couple_hF hF p (x (p.firstLeaf hG).toNode)) (hp _) (hp _)
-    · exact measurable_KTstar_comp L γ δ F _ (native_chain_paired D hG layer hLayer v) _
+    · exact VineEst.measurable_KTsel_comp _ _ L γ δ F _ (native_chain_paired D hG layer hLayer v) _
         (chain_hF hF v (x v.toNode)) (hp _) (hu v)
   unfold spart
   exact (Measurable.ite hset measurable_const measurable_const).mul (measurable_const.mul (hphase.mul hstar))

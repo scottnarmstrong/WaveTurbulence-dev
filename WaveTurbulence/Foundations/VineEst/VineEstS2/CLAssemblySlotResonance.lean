@@ -14,6 +14,7 @@ its ingredient chart, at the slice of the physical chain coordinates and some
 inherited anchor, with the common physical gap. -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS2

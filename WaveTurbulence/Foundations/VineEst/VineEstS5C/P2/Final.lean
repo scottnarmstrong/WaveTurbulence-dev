@@ -17,6 +17,7 @@ the weights/slots `(Kw, Ks, Lw, Ls)` the `DictHyp` identification of the merged 
 `recFac · c ζ lkRaw ψ` by `‖c ζ‖ · pre · bK · bL · others`.  `lkAbs_of_piece`: the absolute convergence `P3.LkAbs` of `ψ` at the boundary of every point of the output set. -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS5C.P2
 open VineParamContract TTree Reg Reg.Skeleton RegRed MeasureTheory WaveTurbulence.VineEstS2 WaveTurbulence.VineEstS5A

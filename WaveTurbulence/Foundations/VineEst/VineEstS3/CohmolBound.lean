@@ -23,6 +23,7 @@ from `vineparam_grouped` (the chosen charts have the cohmol groups as rung pairs
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS3

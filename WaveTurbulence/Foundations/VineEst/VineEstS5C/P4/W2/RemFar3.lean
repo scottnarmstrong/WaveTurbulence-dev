@@ -16,6 +16,7 @@ public import WaveTurbulence.Foundations.Spine.PL2330Draft.Triangle
 `pairBc`, `pairBcGt`: the open window pairs (continuity sets `Bc`). -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS5C.P4.W2
 open WaveTurbulence WaveTurbulence.VineEstS3 WaveTurbulence.VineEstS3.FS WaveTurbulence.Regref MeasureTheory Set

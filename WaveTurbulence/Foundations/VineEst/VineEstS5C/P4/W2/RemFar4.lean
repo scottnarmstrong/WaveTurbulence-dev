@@ -14,6 +14,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P1.Ext
 `KQstar_zero_below_root`, `KTstar_zero_below_root`: then the exact kernel vanishes for `t ≤ Lr` (the time domain is empty: the root time lies in `(Lr, Lr + 1)` and below `t`). -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 namespace WaveTurbulence.VineEstS5C.P4.W2

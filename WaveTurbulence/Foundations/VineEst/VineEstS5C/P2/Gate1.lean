@@ -15,6 +15,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P1.Rem
 (P1's `zp_remQ_eq`), and `zpQfam κ A b = srcQ κ b` (`zp_Qf_eq_srcQ`), so the pieces built from `Qf`/`remQ` are the pieces of the `SepFam`/`RemT`. -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 namespace WaveTurbulence.VineEstS5C.P2

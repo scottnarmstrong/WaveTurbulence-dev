@@ -17,6 +17,7 @@ twists at `p*`).  `qRow`, `tRow` are the individual starred-kernel rows of `star
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS5B
@@ -29,17 +30,17 @@ section Rows
 variable (D : ReconstructionData G) (hG : G.IsPlain) (L γ δ : ℝ) (F : ℕ → Mom d → ℝ)
   (layer : GNode (D.forest hG) → ℕ) (hLayer : IsLayering (D.garden hG) layer) (base : Mom d)
 
-/-- The starred couple row of a regional pair. -/
+/-- The starred couple row of a regional pair (read through the row selector, ruling F2). -/
 @[expose] noncomputable def qRow (top : ℝ) (x : GNode G.tree → (Fin d → ℤ)) (u : GBranch G.tree → ℝ)
     (p : SourcePair G) : ℂ :=
-  KQstar L γ δ F (nativeCoupleLayered D hG layer hLayer p)
+  VineEst.selCoupleRow L γ δ F D hG layer hLayer p
     (parentClock top u (p.firstLeaf hG).toNode) (parentClock top u (p.secondLeaf hG).toNode)
     (cosetDecoration G L base x (p.firstLeaf hG).toNode)
 
-/-- The starred tree row of an interior branch. -/
+/-- The starred tree row of an interior branch (read through the row selector, ruling F2). -/
 @[expose] noncomputable def tRow (top : ℝ) (x : GNode G.tree → (Fin d → ℤ)) (u : GBranch G.tree → ℝ)
     (v : GBranch G.tree) : ℂ :=
-  KTstar L γ δ F (nativeChainLayered D hG layer hLayer v)
+  VineEst.selTreeRow L γ δ F D hG layer hLayer v
     (parentClock top u v.toNode) (u v) (cosetDecoration G L base x v.toNode)
 
 theorem starProd_eq_rows (V : Finset (GBranch G.tree)) (a : GBranch G.tree) (top : ℝ)

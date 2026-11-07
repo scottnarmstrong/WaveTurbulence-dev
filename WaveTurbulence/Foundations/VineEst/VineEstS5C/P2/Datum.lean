@@ -20,6 +20,7 @@ public import WaveTurbulence.Foundations.SumintPar.Final
 * `structAdm_modPiece`: `StructAdm` is unaffected by `modPiece`. -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS5C.P2
 open WaveTurbulence WaveTurbulence.VineEstS3Par.Eng WaveTurbulence.VineEstS5A

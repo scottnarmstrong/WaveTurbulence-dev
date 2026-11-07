@@ -16,6 +16,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS3.Step3AtLeaf
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 open WaveTurbulence.VineParamContract
@@ -77,7 +78,7 @@ theorem step3AtLeafH {A : ℝ} {P : WTParams} (hdb : SumintMixDoubledAt A P) (hA
         (.inl ⟨⟨0, assemblyShape_I_pos hM9 B⟩, 0⟩) →
       XNorm00Restr (2 * P.η ^ 8) (outBox (step3D hM9 B RD hG layer hLayer badKind qOut centre wBar))
         (outSet (step3D hM9 B RD hG layer hLayer badKind qOut centre wBar) P.L P.γ P.η)
-        (fun tt E => clRecenteredLocalKernel RD hG R P.L P.γ P.δ h layer hLayer wBar
+        (fun tt E => clRecenteredLocalKernel (rowSel := VineEst.RowSel.plain) RD hG R P.L P.γ P.δ h layer hLayer wBar
           (tt 0) (tt 1) (tt 2) (sumintBoundary (G.sign a.toNode) E 0) (sumintBoundary (G.sign a.toNode) E 1)
           (sumintBoundary (G.sign a.toNode) E 2) (sumintBoundary (G.sign a.toNode) E 3)) ≤
         Regref.traceConst (r := 3) (2 * P.η ^ 8) chiUnit ^ 2 *
@@ -105,7 +106,7 @@ theorem step3AtLeafH {A : ℝ} {P : WTParams} (hdb : SumintMixDoubledAt A P) (hA
       (rowQ hM9 B RD hG W P.L P.γ P.δ h layer hLayer (Sum.inr v)).1 := fun v => (hel v).2.1
   have hres : ∀ ρ, XNormRestr (6 * P.η ^ 6) (30 * P.d) (rowOrder D ρ)
       (rowBx hM9 B RD hG layer hLayer W P.L P.γ P.δ h ρ) Set.univ
-      ((assemblyClocked hM9 B RD hG W P.L P.γ P.δ h layer hLayer).W ρ) <
+      ((assemblyClockedS hM9 B RD hG W P.L P.γ P.δ h layer hLayer).W ρ) <
       ENNReal.ofReal (2 * rowBoundH hM9 B RD hG layer hLayer P Bh W ρ) := by
     intro ρ
     rcases ρ with v | v
@@ -122,7 +123,7 @@ theorem step3AtLeafH {A : ℝ} {P : WTParams} (hdb : SumintMixDoubledAt A P) (hA
   have hcl := clockedBoundEps_cfs hdb hL0 hη0 hη1 (by linarith) hδ hd hI (assemblyCoreFirstSign hM9 B) (assemblyCoreSign hM9 B)
     (fun v : ↥U => childLabel hM9 B hG v.1 0) (fun v : ↥U => childLabel hM9 B hG v.1 1)
     (fun v : ↥U => childLabel hM9 B hG v.1 2) hno hbad2 hAdm hMD
-    (assemblyClocked hM9 B RD hG W P.L P.γ P.δ h layer hLayer)
+    (assemblyClockedS hM9 B RD hG W P.L P.γ P.δ h layer hLayer)
     (rowBx hM9 B RD hG layer hLayer W P.L P.γ P.δ h)
     (rowQx hM9 B RD hG layer hLayer W P.L P.γ P.δ h)
     (fun ρ => ENNReal.ofReal (2 * rowBoundH hM9 B RD hG layer hLayer P Bh W ρ))
@@ -141,7 +142,7 @@ theorem step3AtLeafH {A : ℝ} {P : WTParams} (hdb : SumintMixDoubledAt A P) (hA
   have hrb : ∀ ρ, 0 < rowBoundH hM9 B RD hG layer hLayer P Bh W ρ := by
     intro ρ; rcases ρ with v | v <;> exact mul_pos (rowB_pos hC hδ hL0 _ _) (rowCostH_pos hBpos hlay W _)
   have hrowdec : ∀ ρ (c : Fin 2 → ℝ), c ∈ closure (interior (rowBx hM9 B RD hG layer hLayer W P.L P.γ P.δ
-      h ρ)) → ∀ k, ‖(assemblyClocked hM9 B RD hG W P.L P.γ P.δ h layer hLayer).W ρ c k‖ ≤
+      h ρ)) → ∀ k, ‖(assemblyClockedS hM9 B RD hG W P.L P.γ P.δ h layer hLayer).W ρ c k‖ ≤
       (2 * rowBoundH hM9 B RD hG layer hLayer P Bh W ρ) * decayWt D (30 * P.d) ρ k := by
     intro ρ c hc k
     have h := norm_le_decay_of_XNormRestr (θ := 6 * P.η ^ 6) (by positivity) (30 * P.d) (Eng.rowOrder D ρ) _ _
@@ -158,8 +159,8 @@ theorem step3AtLeafH {A : ℝ} {P : WTParams} (hdb : SumintMixDoubledAt A P) (hA
     mul_nonneg (Finset.prod_nonneg fun ρ _ => by have := hrb ρ; linarith)
       (Finset.prod_nonneg fun ρ _ => decayWt_nonneg D _ ρ _)
   have hbd : ∀ E x, ∀ tt ∈ cubeSet D.qOut, ∀ τ ∈ D.timeDom hI (tt 0) (tt 1) (tt 2),
-      ∏ ρ, ‖(assemblyClocked hM9 B RD hG W P.L P.γ P.δ h layer hLayer).W ρ
-        ((assemblyClocked hM9 B RD hG W P.L P.γ P.δ h layer hLayer).clock τ tt ρ)
+      ∏ ρ, ‖(assemblyClockedS hM9 B RD hG W P.L P.γ P.δ h layer hLayer).W ρ
+        ((assemblyClockedS hM9 B RD hG W P.L P.γ P.δ h layer hLayer).clock τ tt ρ)
         (rowMom D P.L x E ρ)‖ ≤ Bx x E := by
     intro E x tt htt τ hτ
     calc _ ≤ ∏ ρ, ((2 * rowBoundH hM9 B RD hG layer hLayer P Bh W ρ) * decayWt D (30 * P.d) ρ (rowMom D P.L x E ρ)) :=
@@ -170,7 +171,7 @@ theorem step3AtLeafH {A : ℝ} {P : WTParams} (hdb : SumintMixDoubledAt A P) (hA
   have hcontI : ∀ E : Fin 4 → Mom P.d, ContinuousOn (fun tt => ((coupling P.d P.L P.γ P.δ : ℂ) ^ clLocalOrder1 R *
       clLocalZeta R) * clockedExprEps (D := D) (fun v : ↥U => childLabel hM9 B hG v.1 0)
         (fun v : ↥U => childLabel hM9 B hG v.1 1) (fun v : ↥U => childLabel hM9 B hG v.1 2)
-        (assemblyClocked hM9 B RD hG W P.L P.γ P.δ h layer hLayer)
+        (assemblyClockedS hM9 B RD hG W P.L P.γ P.δ h layer hLayer)
         (assemblyCoreFirstSign hM9 B) (assemblyCoreSign hM9 B) hI P.L P.γ (2 * P.δ) P.η tt E) (cubeSet D.qOut) := by
     intro E
     exact continuousOn_const.mul (continuousOn_clockedExprEps hbad2 _ _ _ _ _ _ hI P.L P.γ (2 * P.δ) P.η E
@@ -180,7 +181,7 @@ theorem step3AtLeafH {A : ℝ} {P : WTParams} (hdb : SumintMixDoubledAt A P) (hA
   have hker := XNorm00Restr_leaf (θ := 2 * P.η ^ 8) (by positivity) D (outSet D P.L P.γ P.η)
     (fun tt E => ((coupling P.d P.L P.γ P.δ : ℂ) ^ clLocalOrder1 R * clLocalZeta R) *
       clockedExprEps (D := D) (fun v : ↥U => childLabel hM9 B hG v.1 0) (fun v : ↥U => childLabel hM9 B hG v.1 1)
-        (fun v : ↥U => childLabel hM9 B hG v.1 2) (assemblyClocked hM9 B RD hG W P.L P.γ P.δ h layer hLayer)
+        (fun v : ↥U => childLabel hM9 B hG v.1 2) (assemblyClockedS hM9 B RD hG W P.L P.γ P.δ h layer hLayer)
         (assemblyCoreFirstSign hM9 B) (assemblyCoreSign hM9 B) hI P.L P.γ (2 * P.δ) P.η tt E)
     (fun tt E => clRecenteredLocalKernel RD hG R P.L P.γ P.δ h layer hLayer wBar
           (tt 0) (tt 1) (tt 2) (sumintBoundary (G.sign a.toNode) E 0) (sumintBoundary (G.sign a.toNode) E 1)

@@ -12,6 +12,7 @@ public import Mathlib.Algebra.BigOperators.Ring.Finset
 /-! # Actual CL predecessor rows and their coefficient budgets -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS2
 open TTree Reg Reg.Skeleton RegRed

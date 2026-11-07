@@ -14,6 +14,7 @@ Copy-and-edit of `ConjCoh.couple_row_le_conj`/`_both`: the leaf cost of the conj
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 open WaveTurbulence.VineParamContract

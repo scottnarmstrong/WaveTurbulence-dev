@@ -13,6 +13,7 @@ public import Mathlib.Logic.Equiv.Prod
 /-! # The actual bottom-to-top vine family of a chain assembly -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS2

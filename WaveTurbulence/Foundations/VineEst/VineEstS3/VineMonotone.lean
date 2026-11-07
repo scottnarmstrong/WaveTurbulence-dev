@@ -21,6 +21,7 @@ locality `block_concat_inGroup_iff`, the CL parent pattern of every piece and th
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS3

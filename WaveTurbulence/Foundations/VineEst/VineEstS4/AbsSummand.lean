@@ -6,6 +6,7 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.VineEst.VineEstS4.AbsBound
+public import WaveTurbulence.Foundations.VineEst.RowSel.Bounds
 
 /-! # Pointwise bound and measurability of the CL-local summand (V5 Step 4b)
 
@@ -15,6 +16,7 @@ domain and vanishes off it.  `measurable_clLocalSummand`: the summand is measura
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS4
 open WaveTurbulence WaveTurbulence.LGSpine WaveTurbulence.RegRed WaveTurbulence.Reg.Skeleton TTree MeasureTheory
@@ -78,6 +80,22 @@ theorem norm_KTstar_le (hF : HF D hG L F layer base) (v : GBranch G.tree) (x : F
   exact mul_le_mul_of_nonneg_left (majSum_le L F _ base (native_chain_lone D hG layer hLayer v)
     (chain_hF_base hF v) _ _ x) (by positivity)
 
+/-- **The selected couple row obeys the same bound** (ruling F2; `VineEst.norm_KQsel_le`). -/
+theorem norm_selCoupleRow_le (hF : HF D hG L F layer base) (p : SourcePair G) (x : Fin d → ℤ) (t s : ℝ) :
+    ‖VineEst.selCoupleRow L γ δ F D hG layer hLayer p t s (base + latticePoint L x)‖ ≤
+      pairBound D hG L γ δ F layer hLayer base p x :=
+  VineEst.norm_KQsel_le _ _ _ L γ δ F _ _ _ _ (native_couple_lone D hG layer hLayer p) (couple_hF hF p x)
+
+/-- **The selected tree row obeys the same bound** (ruling F2; `VineEst.norm_KTsel_le`). -/
+theorem norm_selTreeRow_le (hF : HF D hG L F layer base) (v : GBranch G.tree) (x : Fin d → ℤ) (t s : ℝ) :
+    ‖VineEst.selTreeRow L γ δ F D hG layer hLayer v t s (base + latticePoint L x)‖ ≤
+      chainBound D hG L γ δ F layer hLayer base v := by
+  refine (VineEst.norm_KTsel_le _ _ L γ δ F _ _ _ _ (native_chain_lone D hG layer hLayer v)
+    (chain_hF hF v x)).trans ?_
+  unfold chainBound
+  exact mul_le_mul_of_nonneg_left (majSum_le L F _ base (native_chain_lone D hG layer hLayer v)
+    (chain_hF_base hF v) _ _ x) (by positivity)
+
 variable (D hG L γ δ F layer hLayer base)
 
 /-- The bound of the local summand: the couple majorants at the labels of the regional pairs times the tree majorants. -/
@@ -105,8 +123,8 @@ theorem norm_clLocalStarProduct_le {U : Finset (GBranch G.tree)} {a b : GBranch 
   refine mul_le_mul (Finset.prod_le_prod₀ (fun _ _ => norm_nonneg _) (fun p _ => ?_))
     (Finset.prod_le_prod₀ (fun _ _ => norm_nonneg _) (fun v _ => ?_)) (Finset.prod_nonneg fun _ _ => norm_nonneg _)
     (Finset.prod_nonneg fun p _ => ?_)
-  · exact norm_KQstar_le hF p _ _ _
-  · exact norm_KTstar_le hF v _ _ _
+  · exact norm_selCoupleRow_le hF p _ _ _
+  · exact norm_selTreeRow_le hF v _ _ _
   · unfold pairBound majSum
     exact mul_nonneg (by positivity) (tsum_nonneg fun ρ => Finset.prod_nonneg fun ℓ _ => abs_nonneg _)
 
@@ -145,10 +163,10 @@ theorem measurable_clLocalSummand {U : Finset (GBranch G.tree)} {a b : GBranch G
       clLocalStarProduct D hG R L γ δ F layer hLayer base (clExtendIndices R κ.1) t τ := by
     unfold clLocalStarProduct
     refine Measurable.mul (Finset.measurable_prod _ fun p _ => ?_) (Finset.measurable_prod _ fun v _ => ?_)
-    · exact measurable_KQstar_comp L γ δ F _ (native_couple_plain D hG layer hLayer p) _
+    · exact VineEst.measurable_KQsel_comp _ _ _ L γ δ F _ (native_couple_plain D hG layer hLayer p) _
         (couple_hF hF p (clExtendIndices R κ.1 (p.firstLeaf hG).toNode))
         (measurable_parentClock_local R t _) (measurable_parentClock_local R t _)
-    · exact measurable_KTstar_comp L γ δ F _ (native_chain_paired D hG layer hLayer v) _
+    · exact VineEst.measurable_KTsel_comp _ _ L γ δ F _ (native_chain_paired D hG layer hLayer v) _
         (chain_hF hF v (clExtendIndices R κ.1 v.toNode))
         (measurable_parentClock_local R t _) (measurable_clLocalClock R t v)
   unfold clLocalSummand

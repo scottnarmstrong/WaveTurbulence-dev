@@ -16,6 +16,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.OfModes
 form of the native rows `K_Q^*`, `K_T^*` of the region (`natCR3`, slots `natSlot`). -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence WaveTurbulence.VineEstS3Par.Eng WaveTurbulence.VineEstS3.FS WaveTurbulence.VineEstS5A
   WaveTurbulence.DegenVine WaveTurbulence.DegenVinePar WaveTurbulence.VineEstS5C.P2 MeasureTheory

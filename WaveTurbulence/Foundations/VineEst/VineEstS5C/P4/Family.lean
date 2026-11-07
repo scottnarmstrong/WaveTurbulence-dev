@@ -22,6 +22,7 @@ the hypotheses of ZP-SURJ's `zpSurj_of_state`, `zpLayers_of_state`, `zpQ2_le_of_
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 namespace WaveTurbulence.VineEstS5C.P4
 variable {kind : Bool}

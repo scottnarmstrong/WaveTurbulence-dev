@@ -15,6 +15,7 @@ and the `b`-factor of `A` (`bFac_tw`); `BOKd` is transported along `decEquiv` an
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS5B2
@@ -41,6 +42,14 @@ theorem BOKd_tw
         nativeChainLayered D hG layer hLayer v)
     (hl : ∀ v ∈ S.erase a, layer' (D'.coreBranch (unitTwistGarden_plain G P hG) (eB P v)).toNode =
       layer (D.coreBranch hG v).toNode)
+    (hCi : ∀ p ∈ clRegionalPairs hG S, p ≠ pairOfLeaf G hG P.retained →
+      Flower.V5W.coupleIncoh D' (unitTwistGarden_plain G P hG) layer' hLayer' (tp P hG p) =
+        Flower.V5W.coupleIncoh D hG layer hLayer p)
+    (hTi : ∀ v ∈ S.erase a, v ≠ b →
+      Flower.V5W.treeIncoh D' (unitTwistGarden_plain G P hG) layer' hLayer' (eB P v) =
+        Flower.V5W.treeIncoh D hG layer hLayer v)
+    (hlS : ∀ v ∈ S, layer' (D'.coreBranch (unitTwistGarden_plain G P hG) (eB P v)).toNode =
+      layer (D.coreBranch hG v).toNode)
     (β : Fin 4 → Mom d) (t : Fin 3 → ℝ)
     (hg : BOKd RS' L base β fun κ' τ' =>
       clLocalSummand D' (unitTwistGarden_plain G P hG) RS' L γ δ F layer' hLayer' base β t κ' τ') :
@@ -49,7 +58,7 @@ theorem BOKd_tw
         (clLocalClock RS t τ) (clLocalClock RS' t (tEquivS P RS RS' τ)) := by
   refine sok_transport (decEquiv P h L base β) (tEquivS P RS RS') (tEquivS_measurePreserving P RS RS') _ _ ?_ hg
   intro κ τ
-  exact summand_tw P h hG D D' L γ δ F layer hLayer layer' hLayer' base hC hT hl β t κ τ
+  exact summand_tw P h hG D D' L γ δ F layer hLayer layer' hLayer' base hC hT hl hCi hTi hlS β t κ τ
 
 end Tw
 

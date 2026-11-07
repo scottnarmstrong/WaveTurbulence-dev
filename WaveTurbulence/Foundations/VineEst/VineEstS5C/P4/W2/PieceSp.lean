@@ -18,6 +18,7 @@ the joint row `|c₀-c₁|^{-(1-3η)}(J(c₀,c₂) - J(c₁,c₂))`).  `spS_boun
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 namespace WaveTurbulence.VineEstS5C.P4.W2

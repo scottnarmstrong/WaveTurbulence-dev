@@ -21,6 +21,7 @@ second parent layer `L₂ = zpQ2` (so that `Qf` is the constant extension of the
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.Induct
 open WaveTurbulence.VineParamContract

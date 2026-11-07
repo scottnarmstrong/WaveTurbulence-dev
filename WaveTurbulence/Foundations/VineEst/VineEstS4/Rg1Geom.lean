@@ -16,6 +16,7 @@ realization nodes (`real_iff_rigid`), the regional pairs and their leaves (`tp_f
 -/
 
 @[expose] public section
+variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS4
