@@ -1,13 +1,13 @@
 {
  "title": "Flower estimate: Prop flowerest1 = frozen layergardenFlower_v3",
- "updated": "2026-11-07 19:22 UTC",
+ "updated": "2026-11-07 19:51 UTC",
  "convention": "Packet weights follow the blueprint convention (hard = 4, standard = 2, multi-packet items more). Credit: done = 1; a CHECKPOINT carries an explicit partial fraction; running and queued packets carry 0.",
  "paper": "Paper-level proof complete and refereed (R155): SUPPLEMENT-v2 + 6.3', 7.3', 7.5', 8.2', 8.3, 10.2-10.4, U-clock; 7 referee reports, no FAIL.",
  "next": "World cleanup after the V5W-B landing; A3b (flower estimate from the per-component bound alone); B1a/B2b (marked Stage 1); C1b1/C1c (final count); D2c, D5d, D5b-1 (protected objects); V5W-B world pieces.",
  "risks": [
-  "D5b: filters through main's incoherent link chain, now mapped (copy-thread, 95 modules, 5-6.7k lines; theta = 1/4 couples branch still to write)",
-  "B2b: the coarse half of Lemma 2+ is PROVED (node maps across LF twists built); the stem half and the sigma-bridge remain",
-  "C1b1: must exclude the one survivor configuration where the re-cut budget fails (gamma < 3/5)"
+  "D5b: the filtered source is done (D5b-1); remaining: the link product (D5b-2) and the gate's theta = 1/4 couple branch (o82 L16.1, new assembly)",
+  "B2b: Lemma 2+ PROVED (both halves); remaining: the sigma-bridge (main's group gaps -> CL chain gaps; one HV/DV math check)",
+  "C1b1 PROVED the survivor re-cut budget sound (the failing configuration cannot occur); remaining C risk: the LOW chain phases 2-4 with survivors (C1b2)"
  ],
  "groups": [
   {
@@ -113,8 +113,8 @@
     {
      "id": "V5W-B-WORLD",
      "w": 4,
-     "status": "queued",
-     "note": "B3-B5: engine rows, masked bonds, assembly"
+     "status": "running",
+     "note": "B3-B5 -> V5FrontierClassBound (makes the weighted Stage-1 gate unconditional)"
     },
     {
      "id": "V5W-T",
@@ -215,8 +215,15 @@
     {
      "id": "A3b CAPS-COMP",
      "w": 4,
+     "status": "checkpoint",
+     "note": "CapsDecompF/G proved from one named input CapsTwistStable",
+     "done": 0.85
+    },
+    {
+     "id": "CAPS-STABLE",
+     "w": 4,
      "status": "running",
-     "note": "discharges CapsDecompF/G"
+     "note": "CapsTwistStable via B2b's LF node maps"
     }
    ]
   },
@@ -245,15 +252,15 @@
     {
      "id": "B2a MK-RUNS",
      "w": 4,
-     "status": "queued",
-     "note": ""
+     "status": "running",
+     "note": "main-side branch w/mk-runs from B1a; lands with B1a+B1b"
     },
     {
      "id": "B2b MK-MARK",
      "w": 4,
      "status": "checkpoint",
-     "note": "MK-alpha proved: Lemma 1+ and coarse Lemma 2+ (R166: MarkInvariantBatchV); B2b-2 doing stem half + sigma-bridge",
-     "done": 0.6
+     "note": "Lemma 1+ and Lemma 2+ (both halves) proved; sigma-bridge (B2b-3) running",
+     "done": 0.8
     },
     {
      "id": "B2c MK-SUBPRO",
@@ -319,8 +326,8 @@
     {
      "id": "C1b1 MK-PHASE1",
      "w": 4,
-     "status": "running",
-     "note": "porting to the R164-repaired statements"
+     "status": "done",
+     "note": "phase-1 cover; survivor budget proved sound (recut_hone, recut_not_both_ab)"
     },
     {
      "id": "C4a PIN-FOURIER",
@@ -331,7 +338,7 @@
     {
      "id": "C1b2 MK-CHAIN",
      "w": 4,
-     "status": "queued",
+     "status": "running",
      "note": ""
     },
     {
@@ -411,8 +418,9 @@
     {
      "id": "D5d FILT-COH",
      "w": 8,
-     "status": "running",
-     "note": ""
+     "status": "checkpoint",
+     "note": "milestone (a) X^{1/4} for unfiltered coherent objects done; D5d-b (stars + filters) running",
+     "done": 0.5
     },
     {
      "id": "D3 PROT-PIN",
@@ -423,20 +431,20 @@
     {
      "id": "D5b-1 FILT-SRC",
      "w": 4,
-     "status": "running",
-     "note": "filtered source phase (copy-thread of INC-TOP), riskiest D step"
+     "status": "done",
+     "note": "filtered source phase, twins, kernel identity"
     },
     {
      "id": "D5b-2 FILT-PROD",
      "w": 2,
-     "status": "queued",
+     "status": "running",
      "note": "thread to the link product"
     },
     {
      "id": "D5b-3 FILT-GATE",
      "w": 2,
-     "status": "queued",
-     "note": "FiltIncoherentDecayGate incl. theta = 1/4"
+     "status": "running",
+     "note": "gate incl. theta = 1/4 couples (o82 L16.1)"
     },
     {
      "id": "D6a PROT-PTW",
