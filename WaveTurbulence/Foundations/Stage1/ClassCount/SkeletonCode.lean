@@ -27,35 +27,41 @@ open Finset WaveTurbulence WaveTurbulence.LGSpine WaveTurbulence.RedSplice WaveT
 
 variable {w : ℕ}
 
-theorem cls_same_iff (S : Garden w) (hM : S.molecule.IsMolecule) (σ : Prescription S) (p p' : GBranch S.tree) :
-    (∃ a, (stSt S σ).cls p = some a ∧ (stSt S σ).cls p' = some a) ↔
-      ∃ i : ℕ, ∃ hi : i < (unitBlocks S σ).length,
-        p ∈ ((unitBlocks S σ).get ⟨i, hi⟩).atoms ∧ p' ∈ ((unitBlocks S σ).get ⟨i, hi⟩).atoms := by
+/-- B1b (Mk-general form of `cls_same_iff`). -/
+theorem cls_same_iffMk (S : Garden w) (hM : S.molecule.IsMolecule) (σ : Prescription S) (p p' : GBranch S.tree) {Mk : Set (Stage1.CLVine _)} :
+    (∃ a, (stSt (Mk := Mk) S σ).cls p = some a ∧ (stSt (Mk := Mk) S σ).cls p' = some a) ↔
+      ∃ i : ℕ, ∃ hi : i < (unitBlocks (Mk := Mk) S σ).length,
+        p ∈ ((unitBlocks (Mk := Mk) S σ).get ⟨i, hi⟩).atoms ∧ p' ∈ ((unitBlocks (Mk := Mk) S σ).get ⟨i, hi⟩).atoms := by
   constructor
   · rintro ⟨a, h1, h2⟩
-    have hp : ∃ u ∈ unitBlocks S σ, p ∈ u.atoms := by
+    have hp : ∃ u ∈ unitBlocks (Mk := Mk) S σ, p ∈ u.atoms := by
       by_contra hno
       push Not at hno
-      rw [stSt_cls_none hM σ hno] at h1; exact absurd h1 (by simp)
-    have hp' : ∃ u ∈ unitBlocks S σ, p' ∈ u.atoms := by
+      rw [stSt_cls_noneMk (Mk := Mk) hM σ hno] at h1; exact absurd h1 (by simp)
+    have hp' : ∃ u ∈ unitBlocks (Mk := Mk) S σ, p' ∈ u.atoms := by
       by_contra hno
       push Not at hno
-      rw [stSt_cls_none hM σ hno] at h2; exact absurd h2 (by simp)
+      rw [stSt_cls_noneMk (Mk := Mk) hM σ hno] at h2; exact absurd h2 (by simp)
     obtain ⟨u, hu, hpu⟩ := hp
     obtain ⟨u', hu', hpu'⟩ := hp'
-    have e1 := stSt_cls_mem hM σ hu hpu
-    have e2 := stSt_cls_mem hM σ hu' hpu'
+    have e1 := stSt_cls_memMk (Mk := Mk) hM σ hu hpu
+    have e2 := stSt_cls_memMk (Mk := Mk) hM σ hu' hpu'
     rw [e1] at h1; rw [e2] at h2
     have hup : u.upper = u'.upper := (Option.some.inj h1).trans (Option.some.inj h2).symm
     have : u = u' := by
-      apply units_eq_of_not_disjoint hM σ hu hu'
+      apply units_eq_of_not_disjointMk (Mk := Mk) hM σ hu hu'
       rw [Finset.not_disjoint_iff]
       exact ⟨u.upper, u.isBlock.2.1, hup ▸ u'.isBlock.2.1⟩
     subst this
     obtain ⟨i, hi⟩ := List.mem_iff_get.mp hu
     exact ⟨i.1, i.2, by rw [show (⟨i.1, i.2⟩ : Fin _) = i from rfl, hi]; exact ⟨hpu, hpu'⟩⟩
   · rintro ⟨i, hi, h1, h2⟩
-    exact ⟨_, stSt_cls_mem hM σ (List.get_mem _ _) h1, stSt_cls_mem hM σ (List.get_mem _ _) h2⟩
+    exact ⟨_, stSt_cls_memMk (Mk := Mk) hM σ (List.get_mem _ _) h1, stSt_cls_memMk (Mk := Mk) hM σ (List.get_mem _ _) h2⟩
+
+theorem cls_same_iff (S : Garden w) (hM : S.molecule.IsMolecule) (σ : Prescription S) (p p' : GBranch S.tree) :
+    (∃ a, (stSt S σ).cls p = some a ∧ (stSt S σ).cls p' = some a) ↔
+      ∃ i : ℕ, ∃ hi : i < (unitBlocks S σ).length,
+        p ∈ ((unitBlocks S σ).get ⟨i, hi⟩).atoms ∧ p' ∈ ((unitBlocks S σ).get ⟨i, hi⟩).atoms := cls_same_iffMk (Mk := ∅) S hM σ p p'
 
 /-- The `SpliceData` of a skeleton and its spliced garden. -/
 noncomputable def spliceDataOf (S : Garden w) (hM : S.molecule.IsMolecule) (σ : Prescription S)

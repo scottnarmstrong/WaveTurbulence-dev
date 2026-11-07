@@ -62,6 +62,14 @@ theorem vinesV0_iff_unit_coverMk {w : ℕ} (G : Garden w) (σ : Prescription G) 
         (ing_subset hi hz) (groupUnitsMk_sub hut (hcu hz))).elim
     exact ⟨hc', S, hS, hi, he.symm ▸ hσ, hcM⟩
 
+/-- B1b: `vinesV0_iff_unit_coverMk` with the unmarked carrier `𝒱 ∖ Mk` as one conjunct (the shape of
+`vinesV0_iff_unit_cover`, used by the Mk-general class-C cover statements). -/
+theorem vinesV0_iff_unit_cover_diffMk {w : ℕ} (G : Garden w) (σ : Prescription G) {Mk : Set (CLVine G)}
+    (c : CLVine G) :
+    c ∈ vinesV0 G σ Mk ↔ c ∈ vinesV G \ Mk ∧ ∃ u ∈ unitBlocks G σ Mk, c.atoms ⊆ u.atoms :=
+  ⟨fun h => let ⟨a, b, d⟩ := (vinesV0_iff_unit_coverMk G σ c).mp h; ⟨⟨a, b⟩, d⟩,
+    fun ⟨⟨a, b⟩, d⟩ => (vinesV0_iff_unit_coverMk G σ c).mpr ⟨a, b, d⟩⟩
+
 /-- Exact geometric family membership, phrased in S2a's unitBlocks data. -/
 theorem fineState_exact_units {w : ℕ} {LG : LayeredGarden w} (A : PrimeData LG)
     (σ : Prescription A.skeleton) (c : CLVine A.skeleton) :

@@ -53,10 +53,11 @@ theorem card_groupsFinset_le (S : Garden w) :
       (fun h' => h (Subtype.ext h')))
   simpa using this
 
-theorem unitBlocks_eq_of_filter_eq (S : Garden w) (σ σ' : Prescription S)
+/-- B1b (Mk-general form of `unitBlocks_eq_of_filter_eq`). -/
+theorem unitBlocks_eq_of_filter_eqMk (S : Garden w) (σ σ' : Prescription S)
     (h : (groupsFinset S).filter (fun T => σ T = Molecule.GapKind.SG) =
-      (groupsFinset S).filter (fun T => σ' T = Molecule.GapKind.SG)) :
-    unitBlocks S σ = unitBlocks S σ' := by
+      (groupsFinset S).filter (fun T => σ' T = Molecule.GapKind.SG)) {Mk : Set (Stage1.CLVine _)} :
+    unitBlocks (Mk := Mk) S σ = unitBlocks (Mk := Mk) S σ' := by
   classical
   have hsg : sgGroups S σ = sgGroups S σ' := by
     unfold sgGroups
@@ -68,6 +69,11 @@ theorem unitBlocks_eq_of_filter_eq (S : Garden w) (σ σ' : Prescription S)
     simpa using this
   unfold unitBlocks
   rw [hsg]
+
+theorem unitBlocks_eq_of_filter_eq (S : Garden w) (σ σ' : Prescription S)
+    (h : (groupsFinset S).filter (fun T => σ T = Molecule.GapKind.SG) =
+      (groupsFinset S).filter (fun T => σ' T = Molecule.GapKind.SG)) :
+    unitBlocks S σ = unitBlocks S σ' := unitBlocks_eq_of_filter_eqMk (Mk := ∅) S σ σ' h
 
 theorem length_filter_eq_sum {ι : Type*} (L : List ι) (P : ι → Bool) :
     (L.filter P).length = (L.map (fun x => if P x then 1 else 0)).sum := by
@@ -92,6 +98,28 @@ theorem incoherencyIndex_ladderGroups {α : Type*} (layer : α → ℕ) {m : ℕ
       intro hh; exact h (hh (u j) (by simp) (v j) (by simp))
     simp only [this, decide_false, if_false] ; simp
 
+/-- B1b (Mk-general form of `gbar_decomp`). -/
+theorem gbar_decompMk {R : ℕ} (d : ℕ) {S : Garden (2 * R)} {D : ReconstructionData S} (hS : S.IsPlain)
+    (LG : LayeredGarden (2 * R)) (hd : D.Decodes hS LG.garden) (σ : Prescription S) {Mk : Set (Stage1.CLVine _)} :
+    (stage1PieceOf (Mk := Mk) d hS LG hd σ).gbar = ∑ s, slotInc D hS LG s +
+      ∑ T ∈ (Set.toFinite (unitIngredients (Mk := Mk) S σ)).toFinset, vineIncoh S (coreOf D hS LG) T +
+      ∑ i : {T // T ∈ (stSt (Mk := Mk) S σ).G.molecule.maximalLadders},
+        incoherencyIndex (coreOf D hS LG ∘ (stSt (Mk := Mk) S σ).M.ob)
+          (ladderGroups ((ladderDataOf (stSt (Mk := Mk) S σ).G).upper i) ((ladderDataOf (stSt (Mk := Mk) S σ).G).lower i)) := by
+  unfold LGSpine.Stage1PieceD.gbar LGSpine.Stage1PieceD.gsk LGSpine.Stage1PieceD.gsb
+  simp only [stage1PieceOf, gskOf]
+  rw [gregOf_eq_sum D hS hd, ← coreOf_eq D hS hd]
+  unfold LGSpine.SourceMaximalLadderData.totalIncoherency
+  have : ∀ i : {T // T ∈ (stSt (Mk := Mk) S σ).G.molecule.maximalLadders},
+      LGSpine.sourceLadderIncoherency (stSt (Mk := Mk) S σ).G ((stSt (Mk := Mk) S σ).layer (coreOf D hS LG))
+        ((ladderDataOf (stSt (Mk := Mk) S σ).G).upper i) ((ladderDataOf (stSt (Mk := Mk) S σ).G).lower i) =
+      incoherencyIndex (coreOf D hS LG ∘ (stSt (Mk := Mk) S σ).M.ob)
+          (ladderGroups ((ladderDataOf (stSt (Mk := Mk) S σ).G).upper i) ((ladderDataOf (stSt (Mk := Mk) S σ).G).lower i)) := by
+    intro i
+    rw [incoherencyIndex_ladderGroups]
+    rfl
+  rw [Finset.sum_congr rfl fun i _ => this i]
+
 /-- **`ḡ` of a piece is `Σ gs + (vine incoherencies) + Σ γ`.** -/
 theorem gbar_decomp {R : ℕ} (d : ℕ) {S : Garden (2 * R)} {D : ReconstructionData S} (hS : S.IsPlain)
     (LG : LayeredGarden (2 * R)) (hd : D.Decodes hS LG.garden) (σ : Prescription S) :
@@ -99,28 +127,23 @@ theorem gbar_decomp {R : ℕ} (d : ℕ) {S : Garden (2 * R)} {D : Reconstruction
       ∑ T ∈ (Set.toFinite (unitIngredients S σ)).toFinset, vineIncoh S (coreOf D hS LG) T +
       ∑ i : {T // T ∈ (stSt S σ).G.molecule.maximalLadders},
         incoherencyIndex (coreOf D hS LG ∘ (stSt S σ).M.ob)
-          (ladderGroups ((ladderDataOf (stSt S σ).G).upper i) ((ladderDataOf (stSt S σ).G).lower i)) := by
-  unfold LGSpine.Stage1PieceD.gbar LGSpine.Stage1PieceD.gsk LGSpine.Stage1PieceD.gsb
-  simp only [stage1PieceOf, gskOf]
-  rw [gregOf_eq_sum D hS hd, ← coreOf_eq D hS hd]
-  unfold LGSpine.SourceMaximalLadderData.totalIncoherency
-  have : ∀ i : {T // T ∈ (stSt S σ).G.molecule.maximalLadders},
-      LGSpine.sourceLadderIncoherency (stSt S σ).G ((stSt S σ).layer (coreOf D hS LG))
-        ((ladderDataOf (stSt S σ).G).upper i) ((ladderDataOf (stSt S σ).G).lower i) =
-      incoherencyIndex (coreOf D hS LG ∘ (stSt S σ).M.ob)
-          (ladderGroups ((ladderDataOf (stSt S σ).G).upper i) ((ladderDataOf (stSt S σ).G).lower i)) := by
-    intro i
-    rw [incoherencyIndex_ladderGroups]
-    rfl
-  rw [Finset.sum_congr rfl fun i _ => this i]
+          (ladderGroups ((ladderDataOf (stSt S σ).G).upper i) ((ladderDataOf (stSt S σ).G).lower i)) := gbar_decompMk (Mk := ∅) d hS LG hd σ
 
-theorem stSt_eq_of_unitBlocks_eq (S : Garden w) (σ σ' : Prescription S)
-    (h : unitBlocks S σ = unitBlocks S σ') : stSt S σ = stSt S σ' := by
+/-- B1b (Mk-general form of `stSt_eq_of_unitBlocks_eq`). -/
+theorem stSt_eq_of_unitBlocks_eqMk (S : Garden w) (σ σ' : Prescription S)
+    {Mk : Set (Stage1.CLVine _)} (h : unitBlocks (Mk := Mk) S σ = unitBlocks (Mk := Mk) S σ') : stSt (Mk := Mk) S σ = stSt (Mk := Mk) S σ' := by
   unfold stSt; rw [h]
 
-theorem unitIngredients_eq_of_unitBlocks_eq (S : Garden w) (σ σ' : Prescription S)
-    (h : unitBlocks S σ = unitBlocks S σ') : unitIngredients S σ = unitIngredients S σ' := by
+theorem stSt_eq_of_unitBlocks_eq (S : Garden w) (σ σ' : Prescription S)
+    (h : unitBlocks S σ = unitBlocks S σ') : stSt S σ = stSt S σ' := stSt_eq_of_unitBlocks_eqMk (Mk := ∅) S σ σ' h
+
+/-- B1b (Mk-general form of `unitIngredients_eq_of_unitBlocks_eq`). -/
+theorem unitIngredients_eq_of_unitBlocks_eqMk (S : Garden w) (σ σ' : Prescription S)
+    {Mk : Set (Stage1.CLVine _)} (h : unitBlocks (Mk := Mk) S σ = unitBlocks (Mk := Mk) S σ') : unitIngredients (Mk := Mk) S σ = unitIngredients (Mk := Mk) S σ' := by
   unfold unitIngredients; rw [h]
+
+theorem unitIngredients_eq_of_unitBlocks_eq (S : Garden w) (σ σ' : Prescription S)
+    (h : unitBlocks S σ = unitBlocks S σ') : unitIngredients S σ = unitIngredients S σ' := unitIngredients_eq_of_unitBlocks_eqMk (Mk := ∅) S σ σ' h
 
 /-- The `ḡ`-decomposition as a function of the splice state and the ingredient set. -/
 noncomputable def gbarRHS {R : ℕ} {S : Garden (2 * R)} (D : ReconstructionData S) (hS : S.IsPlain)
@@ -152,33 +175,37 @@ theorem gbar_rbar_eq_of_unitBlocks_eq {R : ℕ} (d : ℕ) {S : Garden (2 * R)} {
     rw [hst]
   · rw [rbarOf_eq, rbarOf_eq, hst]
 
-theorem length_le_hinges (S : Garden w) (σ : Prescription S) :
-    (unitBlocks S σ).length ≤ (stSt S σ).hinges.card := by
+/-- B1b (Mk-general form of `length_le_hinges`). -/
+theorem length_le_hingesMk (S : Garden w) (σ : Prescription S) {Mk : Set (Stage1.CLVine _)} :
+    (unitBlocks (Mk := Mk) S σ).length ≤ (stSt (Mk := Mk) S σ).hinges.card := by
   classical
   have hM := Mole.garden_isMolecule S
-  have hpair := List.pairwise_iff_get.mp (unitBlocks_pairwise hM σ)
-  have hrange : ∀ j : Fin (unitBlocks S σ).length, ∃ c, (stSt S σ).M.ob c = ((unitBlocks S σ).get j).upper := by
+  have hpair := List.pairwise_iff_get.mp (unitBlocks_pairwiseMk (Mk := Mk) hM σ)
+  have hrange : ∀ j : Fin (unitBlocks (Mk := Mk) S σ).length, ∃ c, (stSt (Mk := Mk) S σ).M.ob c = ((unitBlocks (Mk := Mk) S σ).get j).upper := by
     intro j
-    rw [(stSt S σ).M.ob_range]
+    rw [(stSt (Mk := Mk) S σ).M.ob_range]
     right
-    rw [stSt_cls_mem hM σ (List.get_mem _ _) ((unitBlocks S σ).get j).isBlock.2.1]
+    rw [stSt_cls_memMk (Mk := Mk) hM σ (List.get_mem _ _) ((unitBlocks (Mk := Mk) S σ).get j).isBlock.2.1]
   choose c hc using hrange
-  have hmem : ∀ j, c j ∈ (stSt S σ).hinges := by
+  have hmem : ∀ j, c j ∈ (stSt (Mk := Mk) S σ).hinges := by
     intro j
-    rw [SpState.mem_hinges, hc j, stSt_cls_mem hM σ (List.get_mem _ _) ((unitBlocks S σ).get j).isBlock.2.1]
+    rw [SpState.mem_hinges, hc j, stSt_cls_memMk (Mk := Mk) hM σ (List.get_mem _ _) ((unitBlocks (Mk := Mk) S σ).get j).isBlock.2.1]
     simp
-  calc (unitBlocks S σ).length = Fintype.card (Fin (unitBlocks S σ).length) := (Fintype.card_fin _).symm
-    _ ≤ (stSt S σ).hinges.card := by
+  calc (unitBlocks (Mk := Mk) S σ).length = Fintype.card (Fin (unitBlocks (Mk := Mk) S σ).length) := (Fintype.card_fin _).symm
+    _ ≤ (stSt (Mk := Mk) S σ).hinges.card := by
         refine Finset.card_le_card_of_injOn c (fun j _ => hmem j) ?_
         intro j _ j' _ h
         by_contra hne
-        have hd : Disjoint ((unitBlocks S σ).get j).atoms ((unitBlocks S σ).get j').atoms := by
+        have hd : Disjoint ((unitBlocks (Mk := Mk) S σ).get j).atoms ((unitBlocks (Mk := Mk) S σ).get j').atoms := by
           rcases lt_or_gt_of_ne hne with h' | h'
           · exact hpair j j' h'
           · exact (hpair j' j h').symm
-        have hu := congrArg (stSt S σ).M.ob h
+        have hu := congrArg (stSt (Mk := Mk) S σ).M.ob h
         rw [hc j, hc j'] at hu
-        exact Finset.disjoint_left.1 hd ((unitBlocks S σ).get j).isBlock.2.1 (hu ▸ ((unitBlocks S σ).get j').isBlock.2.1)
+        exact Finset.disjoint_left.1 hd ((unitBlocks (Mk := Mk) S σ).get j).isBlock.2.1 (hu ▸ ((unitBlocks (Mk := Mk) S σ).get j').isBlock.2.1)
+
+theorem length_le_hinges (S : Garden w) (σ : Prescription S) :
+    (unitBlocks S σ).length ≤ (stSt S σ).hinges.card := length_le_hingesMk (Mk := ∅) S σ
 
 theorem rho_add_length_le_rbarOf (S : Garden (2 * w)) (σ : Prescription S) :
     (stSt S σ).G.molecule.rho + (unitBlocks S σ).length ≤ rbarOf S σ := by

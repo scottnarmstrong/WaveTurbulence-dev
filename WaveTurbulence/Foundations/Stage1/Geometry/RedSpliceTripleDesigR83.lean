@@ -111,70 +111,91 @@ section core
 variable (hM : G.molecule.IsMolecule) (σ : Prescription G)
 include hM
 
-theorem repC_class (n0 : GBranch G.tree) :
-    ((stSt G σ).cls n0 = none ∧ ∀ m, repC (stSt G σ).cls m = repC (stSt G σ).cls n0 ↔ m = n0) ∨
-    (∃ u' ∈ unitBlocks G σ, n0 ∈ u'.atoms ∧
-      ∀ m, repC (stSt G σ).cls m = repC (stSt G σ).cls n0 ↔ m ∈ u'.atoms) := by
-  by_cases h : ∃ u' ∈ unitBlocks G σ, n0 ∈ u'.atoms
+/-- B1b (Mk-general form of `repC_class`). -/
+theorem repC_classMk (n0 : GBranch G.tree) {Mk : Set (Stage1.CLVine _)} :
+    ((stSt (Mk := Mk) G σ).cls n0 = none ∧ ∀ m, repC (stSt (Mk := Mk) G σ).cls m = repC (stSt (Mk := Mk) G σ).cls n0 ↔ m = n0) ∨
+    (∃ u' ∈ unitBlocks (Mk := Mk) G σ, n0 ∈ u'.atoms ∧
+      ∀ m, repC (stSt (Mk := Mk) G σ).cls m = repC (stSt (Mk := Mk) G σ).cls n0 ↔ m ∈ u'.atoms) := by
+  by_cases h : ∃ u' ∈ unitBlocks (Mk := Mk) G σ, n0 ∈ u'.atoms
   · obtain ⟨u', hu', hn0⟩ := h
     right
     refine ⟨u', hu', hn0, fun m => ?_⟩
-    rw [stSt_repC_mem hM σ hu' hn0]
+    rw [stSt_repC_memMk (Mk := Mk) hM σ hu' hn0]
     constructor
     · intro hm
-      by_cases hm' : ∃ u2 ∈ unitBlocks G σ, m ∈ u2.atoms
+      by_cases hm' : ∃ u2 ∈ unitBlocks (Mk := Mk) G σ, m ∈ u2.atoms
       · obtain ⟨u2, hu2, hmu2⟩ := hm'
-        rw [stSt_repC_mem hM σ hu2 hmu2] at hm
+        rw [stSt_repC_memMk (Mk := Mk) hM σ hu2 hmu2] at hm
         have h3 : u2.upper ∈ u'.atoms := hm ▸ u'.isBlock.2.1
-        have := unit_eq_of_mem hM σ hu2 hu' u2.isBlock.2.1 h3
+        have := unit_eq_of_memMk (Mk := Mk) hM σ hu2 hu' u2.isBlock.2.1 h3
         exact this ▸ hmu2
       · push Not at hm'
-        rw [stSt_repC_none hM σ hm'] at hm
+        rw [stSt_repC_noneMk (Mk := Mk) hM σ hm'] at hm
         exact hm ▸ u'.isBlock.2.1
     · intro hm
-      exact stSt_repC_mem hM σ hu' hm
+      exact stSt_repC_memMk (Mk := Mk) hM σ hu' hm
   · push Not at h
     left
-    refine ⟨stSt_cls_none hM σ h, fun m => ?_⟩
-    rw [stSt_repC_none hM σ h]
+    refine ⟨stSt_cls_noneMk (Mk := Mk) hM σ h, fun m => ?_⟩
+    rw [stSt_repC_noneMk (Mk := Mk) hM σ h]
     constructor
     · intro hm
-      by_cases hm' : ∃ u2 ∈ unitBlocks G σ, m ∈ u2.atoms
+      by_cases hm' : ∃ u2 ∈ unitBlocks (Mk := Mk) G σ, m ∈ u2.atoms
       · obtain ⟨u2, hu2, hmu2⟩ := hm'
-        rw [stSt_repC_mem hM σ hu2 hmu2] at hm
+        rw [stSt_repC_memMk (Mk := Mk) hM σ hu2 hmu2] at hm
         exact absurd (hm ▸ u2.isBlock.2.1) (h u2 hu2)
       · push Not at hm'
-        rw [stSt_repC_none hM σ hm'] at hm
+        rw [stSt_repC_noneMk (Mk := Mk) hM σ hm'] at hm
         exact hm
     · intro hm
-      rw [hm]; exact stSt_repC_none hM σ h
+      rw [hm]; exact stSt_repC_noneMk (Mk := Mk) hM σ h
 
-theorem mem_unit_of_repC {u : CLBlock G} (hu : u ∈ unitBlocks G σ) {m : GBranch G.tree}
-    (h : repC (stSt G σ).cls m = u.upper) : m ∈ u.atoms := by
-  have hrep : repC (stSt G σ).cls u.upper = u.upper := stSt_repC_mem hM σ hu u.isBlock.2.1
-  rcases repC_class hM σ u.upper with ⟨hn, _⟩ | ⟨u', hu', hn0, hiff⟩
-  · rw [stSt_cls_mem hM σ hu u.isBlock.2.1] at hn; cases hn
-  · have := unit_eq_of_mem hM σ hu' hu hn0 u.isBlock.2.1
+theorem repC_class (n0 : GBranch G.tree) :
+    ((stSt G σ).cls n0 = none ∧ ∀ m, repC (stSt G σ).cls m = repC (stSt G σ).cls n0 ↔ m = n0) ∨
+    (∃ u' ∈ unitBlocks G σ, n0 ∈ u'.atoms ∧
+      ∀ m, repC (stSt G σ).cls m = repC (stSt G σ).cls n0 ↔ m ∈ u'.atoms) := repC_classMk (Mk := ∅) hM σ n0
+
+/-- B1b (Mk-general form of `mem_unit_of_repC`). -/
+theorem mem_unit_of_repCMk {u : CLBlock G} {Mk : Set (Stage1.CLVine _)} (hu : u ∈ unitBlocks (Mk := Mk) G σ) {m : GBranch G.tree}
+    (h : repC (stSt (Mk := Mk) G σ).cls m = u.upper) : m ∈ u.atoms := by
+  have hrep : repC (stSt (Mk := Mk) G σ).cls u.upper = u.upper := stSt_repC_memMk (Mk := Mk) hM σ hu u.isBlock.2.1
+  rcases repC_classMk (Mk := Mk) hM σ u.upper with ⟨hn, _⟩ | ⟨u', hu', hn0, hiff⟩
+  · rw [stSt_cls_memMk (Mk := Mk) hM σ hu u.isBlock.2.1] at hn; cases hn
+  · have := unit_eq_of_memMk (Mk := Mk) hM σ hu' hu hn0 u.isBlock.2.1
     subst this
     exact (hiff m).mp (h.trans hrep.symm)
 
+theorem mem_unit_of_repC {u : CLBlock G} (hu : u ∈ unitBlocks G σ) {m : GBranch G.tree}
+    (h : repC (stSt G σ).cls m = u.upper) : m ∈ u.atoms := mem_unit_of_repCMk (Mk := ∅) hM σ hu h
+
+/-- B1b (Mk-general form of `ob_atom_mate`). -/
+theorem ob_atom_mateMk {Mk : Set (Stage1.CLVine _)} (y : GardenDart (stSt (Mk := Mk) G σ).G) :
+    (stSt (Mk := Mk) G σ).M.ob ((stSt (Mk := Mk) G σ).G.molecule.atom ((stSt (Mk := Mk) G σ).G.molecule.mate y)) =
+      repC (stSt (Mk := Mk) G σ).cls (G.molecule.atom (G.molecule.mate ((stSt (Mk := Mk) G σ).M.od y))) := by
+  rw [(stSt (Mk := Mk) G σ).M.ob_atom, (stSt (Mk := Mk) G σ).M.od_mate]
+
 theorem ob_atom_mate (y : GardenDart (stSt G σ).G) :
     (stSt G σ).M.ob ((stSt G σ).G.molecule.atom ((stSt G σ).G.molecule.mate y)) =
-      repC (stSt G σ).cls (G.molecule.atom (G.molecule.mate ((stSt G σ).M.od y))) := by
-  rw [(stSt G σ).M.ob_atom, (stSt G σ).M.od_mate]
+      repC (stSt G σ).cls (G.molecule.atom (G.molecule.mate ((stSt G σ).M.od y))) := ob_atom_mateMk (Mk := ∅) hM σ y
+
+/-- B1b (Mk-general form of `od_ext`). -/
+theorem od_extMk {u : CLBlock G} {Mk : Set (Stage1.CLVine _)} (hu : u ∈ unitBlocks (Mk := Mk) G σ) {v : GBranch (stSt (Mk := Mk) G σ).G.tree}
+    (hcr : (stSt (Mk := Mk) G σ).M.ob v = u.upper) {y : GardenDart (stSt (Mk := Mk) G σ).G}
+    (hy : (stSt (Mk := Mk) G σ).G.molecule.atom y = v) :
+    G.molecule.atom ((stSt (Mk := Mk) G σ).M.od y) ∈ u.atoms ∧ ¬ G.molecule.InGroup u.atoms ((stSt (Mk := Mk) G σ).M.od y) := by
+  have h1 : repC (stSt (Mk := Mk) G σ).cls (G.molecule.atom ((stSt (Mk := Mk) G σ).M.od y)) = u.upper := by
+    have := (stSt (Mk := Mk) G σ).M.ob_atom y
+    rw [hy, hcr] at this
+    exact this.symm
+  have hin := mem_unit_of_repCMk (Mk := Mk) hM σ hu h1
+  refine ⟨hin, fun hg => ?_⟩
+  have hr := ((stSt (Mk := Mk) G σ).M.od_range ((stSt (Mk := Mk) G σ).M.od y)).mp ⟨y, rfl⟩
+  exact hr ⟨u.upper, stSt_cls_memMk (Mk := Mk) hM σ hu hg.1, stSt_cls_memMk (Mk := Mk) hM σ hu hg.2⟩
 
 theorem od_ext {u : CLBlock G} (hu : u ∈ unitBlocks G σ) {v : GBranch (stSt G σ).G.tree}
     (hcr : (stSt G σ).M.ob v = u.upper) {y : GardenDart (stSt G σ).G}
     (hy : (stSt G σ).G.molecule.atom y = v) :
-    G.molecule.atom ((stSt G σ).M.od y) ∈ u.atoms ∧ ¬ G.molecule.InGroup u.atoms ((stSt G σ).M.od y) := by
-  have h1 : repC (stSt G σ).cls (G.molecule.atom ((stSt G σ).M.od y)) = u.upper := by
-    have := (stSt G σ).M.ob_atom y
-    rw [hy, hcr] at this
-    exact this.symm
-  have hin := mem_unit_of_repC hM σ hu h1
-  refine ⟨hin, fun hg => ?_⟩
-  have hr := ((stSt G σ).M.od_range ((stSt G σ).M.od y)).mp ⟨y, rfl⟩
-  exact hr ⟨u.upper, stSt_cls_mem hM σ hu hg.1, stSt_cls_mem hM σ hu hg.2⟩
+    G.molecule.atom ((stSt G σ).M.od y) ∈ u.atoms ∧ ¬ G.molecule.InGroup u.atoms ((stSt G σ).M.od y) := od_extMk (Mk := ∅) hM σ hu hcr hy
 
 theorem ext_joint {u : CLBlock G} {d : GardenDart G} (hd : G.molecule.atom d ∈ u.atoms)
     (hn : ¬ G.molecule.InGroup u.atoms d) : G.molecule.atom d = u.upper ∨ G.molecule.atom d = u.lower := by
@@ -182,22 +203,28 @@ theorem ext_joint {u : CLBlock G} {d : GardenDart G} (hd : G.molecule.atom d ∈
   push Not at hcon
   exact hn (allInt hM u.isBlock hd hcon.1 hcon.2 rfl)
 
+/-- B1b (Mk-general form of `ext_preimage`). -/
+theorem ext_preimageMk {u : CLBlock G} {Mk : Set (Stage1.CLVine _)} (hu : u ∈ unitBlocks (Mk := Mk) G σ) {v : GBranch (stSt (Mk := Mk) G σ).G.tree}
+    (hcr : (stSt (Mk := Mk) G σ).M.ob v = u.upper) {d : GardenDart G} (hd : G.molecule.atom d ∈ u.atoms)
+    (hn : ¬ G.molecule.InGroup u.atoms d) :
+    ∃ y, (stSt (Mk := Mk) G σ).M.od y = d ∧ (stSt (Mk := Mk) G σ).G.molecule.atom y = v := by
+  have hnint : ¬ ∃ a, (stSt (Mk := Mk) G σ).cls (G.molecule.atom d) = some a ∧
+      (stSt (Mk := Mk) G σ).cls (G.molecule.atom (G.molecule.mate d)) = some a := by
+    rintro ⟨a, ha, ha'⟩
+    rw [stSt_cls_memMk (Mk := Mk) hM σ hu hd] at ha
+    have : a = u.upper := (Option.some.inj ha).symm
+    subst this
+    exact hn ⟨hd, mem_of_cls_eqMk (Mk := Mk) hM σ hu ha'⟩
+  obtain ⟨y, hy⟩ := ((stSt (Mk := Mk) G σ).M.od_range d).mpr hnint
+  refine ⟨y, hy, ?_⟩
+  apply (stSt (Mk := Mk) G σ).M.ob_inj
+  rw [(stSt (Mk := Mk) G σ).M.ob_atom, hy, hcr]
+  exact stSt_repC_memMk (Mk := Mk) hM σ hu hd
+
 theorem ext_preimage {u : CLBlock G} (hu : u ∈ unitBlocks G σ) {v : GBranch (stSt G σ).G.tree}
     (hcr : (stSt G σ).M.ob v = u.upper) {d : GardenDart G} (hd : G.molecule.atom d ∈ u.atoms)
     (hn : ¬ G.molecule.InGroup u.atoms d) :
-    ∃ y, (stSt G σ).M.od y = d ∧ (stSt G σ).G.molecule.atom y = v := by
-  have hnint : ¬ ∃ a, (stSt G σ).cls (G.molecule.atom d) = some a ∧
-      (stSt G σ).cls (G.molecule.atom (G.molecule.mate d)) = some a := by
-    rintro ⟨a, ha, ha'⟩
-    rw [stSt_cls_mem hM σ hu hd] at ha
-    have : a = u.upper := (Option.some.inj ha).symm
-    subst this
-    exact hn ⟨hd, mem_of_cls_eq hM σ hu ha'⟩
-  obtain ⟨y, hy⟩ := ((stSt G σ).M.od_range d).mpr hnint
-  refine ⟨y, hy, ?_⟩
-  apply (stSt G σ).M.ob_inj
-  rw [(stSt G σ).M.ob_atom, hy, hcr]
-  exact stSt_repC_mem hM σ hu hd
+    ∃ y, (stSt G σ).M.od y = d ∧ (stSt G σ).G.molecule.atom y = v := ext_preimageMk (Mk := ∅) hM σ hu hcr hd hn
 
 theorem mem_tripleDarts {u : CLBlock G} (hu : u ∈ unitBlocks G σ) {v c : GBranch (stSt G σ).G.tree}
     (hcr : (stSt G σ).M.ob v = u.upper) {d : GardenDart G} :
@@ -541,17 +568,21 @@ section skipcase
 variable (hM : G.molecule.IsMolecule) (σ : Prescription G)
 include hM
 
-theorem mem_group_of_repC {S : Finset (GBranch G.tree)} (hS : S ∈ maximalGroups G.molecule)
-    {n0 m : GBranch G.tree} (hn0 : n0 ∈ S) (h : repC (stSt G σ).cls m = repC (stSt G σ).cls n0) : m ∈ S := by
-  rcases repC_class hM σ n0 with ⟨-, hiff⟩ | ⟨u', hu', hn0', hiff⟩
+/-- B1b (Mk-general form of `mem_group_of_repC`). -/
+theorem mem_group_of_repCMk {S : Finset (GBranch G.tree)} (hS : S ∈ maximalGroups G.molecule)
+    {n0 m : GBranch G.tree} (hn0 : n0 ∈ S) {Mk : Set (Stage1.CLVine _)} (h : repC (stSt (Mk := Mk) G σ).cls m = repC (stSt (Mk := Mk) G σ).cls n0) : m ∈ S := by
+  rcases repC_classMk (Mk := Mk) hM σ n0 with ⟨-, hiff⟩ | ⟨u', hu', hn0', hiff⟩
   · rw [(hiff m).mp h]; exact hn0
-  · obtain ⟨S', hS'm, -, hu'S'⟩ := mem_unitBlocks.mp hu'
-    have hsub := (groupUnitsOf G S').sub u' hu'S'
+  · obtain ⟨S', hS'm, -, hu'S'⟩ := (mem_unitBlocksMk (Mk := Mk)).mp hu'
+    have hsub := groupUnitsMk_sub (Mk := Mk) (u := u') hu'S'
     have hSS : S = S' := by
       by_contra hne
       exact Finset.disjoint_left.mp (groups_disjoint hM hS hS'm hne) hn0 (hsub hn0')
     subst hSS
-    exact (groupUnitsOf G S).sub u' hu'S' ((hiff m).mp h)
+    exact groupUnitsMk_sub (Mk := Mk) (u := u') hu'S' ((hiff m).mp h)
+
+theorem mem_group_of_repC {S : Finset (GBranch G.tree)} (hS : S ∈ maximalGroups G.molecule)
+    {n0 m : GBranch G.tree} (hn0 : n0 ∈ S) (h : repC (stSt G σ).cls m = repC (stSt G σ).cls n0) : m ∈ S := mem_group_of_repCMk (Mk := ∅) hM σ hS hn0 h
 
 /-- **R37, units of a skipped vine.**  The hinge pair of the unit (the external pair at the joint `x`/`y` of the vine, a
 `HingeSpec` pair) consists of two bonds of a triple bond of the hinge. -/

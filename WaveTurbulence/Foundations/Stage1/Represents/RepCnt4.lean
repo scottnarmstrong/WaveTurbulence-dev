@@ -37,36 +37,49 @@ theorem normalized_rbar_eq (d : ℕ) {S : Garden (2 * R)} {D : ReconstructionDat
     (LG : LayeredGarden (2 * R)) (hd : D.Decodes hS LG.garden) (σ : Prescription S) :
     (VineA.NormalizedSplice.stage1PieceOf d hS LG hd σ).rbar = (RedSplice.stage1PieceOf d hS LG hd σ).rbar := rfl
 
+/-- B1b (Mk-general form of `stage1Piece_rbar_bounds`). -/
+theorem stage1Piece_rbar_boundsMk (d : ℕ) {S : Garden (2 * R)} {D : ReconstructionData S} (hS : S.IsPlain)
+    (LG : LayeredGarden (2 * R)) (hd : D.Decodes hS LG.garden) (σ : Prescription S) {N : ℕ}
+    (hn : 1 ≤ S.order) (hN : S.order ≤ N) {Mk : Set (Stage1.CLVine _)} :
+    1 ≤ (VineA.NormalizedSplice.stage1PieceOf (Mk := Mk) d hS LG hd σ).rbar ∧
+      (VineA.NormalizedSplice.stage1PieceOf (Mk := Mk) d hS LG hd σ).rbar ≤ N := by
+  have hM : S.molecule.IsMolecule := Mole.garden_isMolecule S
+  have hMsb : (stSt (Mk := Mk) S σ).G.molecule.IsMolecule := Mole.garden_isMolecule _
+  have hpos : 1 ≤ (stSt (Mk := Mk) S σ).G.order := (stSt (Mk := Mk) S σ).M.order_pos (stSt (Mk := Mk) S σ).hcls hn
+  have hat : (stSt (Mk := Mk) S σ).G.molecule.atoms.card = (stSt (Mk := Mk) S σ).G.order := garden_card_atoms _
+  have h1 := rho_le_atoms hMsb
+  have h2 := one_le_rho (M := (stSt (Mk := Mk) S σ).G.molecule) (by omega)
+  have h3 := order_add_hinges_leMk (Mk := Mk) hM σ
+  show 1 ≤ (stSt (Mk := Mk) S σ).G.molecule.rho + (stSt (Mk := Mk) S σ).hinges.card ∧ (stSt (Mk := Mk) S σ).G.molecule.rho + (stSt (Mk := Mk) S σ).hinges.card ≤ N
+  omega
+
 theorem stage1Piece_rbar_bounds (d : ℕ) {S : Garden (2 * R)} {D : ReconstructionData S} (hS : S.IsPlain)
     (LG : LayeredGarden (2 * R)) (hd : D.Decodes hS LG.garden) (σ : Prescription S) {N : ℕ}
     (hn : 1 ≤ S.order) (hN : S.order ≤ N) :
     1 ≤ (VineA.NormalizedSplice.stage1PieceOf d hS LG hd σ).rbar ∧
-      (VineA.NormalizedSplice.stage1PieceOf d hS LG hd σ).rbar ≤ N := by
+      (VineA.NormalizedSplice.stage1PieceOf d hS LG hd σ).rbar ≤ N := stage1Piece_rbar_boundsMk (Mk := ∅) d hS LG hd σ hn hN
+
+/-- B1b (Mk-general form of `stage1Piece_gbar_le`). -/
+theorem stage1Piece_gbar_leMk (d : ℕ) {S : Garden (2 * R)} {D : ReconstructionData S} (hS : S.IsPlain)
+    (LG : LayeredGarden (2 * R)) (hd : D.Decodes hS LG.garden) (σ : Prescription S) {N : ℕ}
+    (hN : S.order + D.size ≤ N) {Mk : Set (Stage1.CLVine _)} :
+    (VineA.NormalizedSplice.stage1PieceOf (Mk := Mk) d hS LG hd σ).gbar ≤ N := by
   have hM : S.molecule.IsMolecule := Mole.garden_isMolecule S
-  have hMsb : (stSt S σ).G.molecule.IsMolecule := Mole.garden_isMolecule _
-  have hpos : 1 ≤ (stSt S σ).G.order := (stSt S σ).M.order_pos (stSt S σ).hcls hn
-  have hat : (stSt S σ).G.molecule.atoms.card = (stSt S σ).G.order := garden_card_atoms _
-  have h1 := rho_le_atoms hMsb
-  have h2 := one_le_rho (M := (stSt S σ).G.molecule) (by omega)
-  have h3 := order_add_hinges_le hM σ
-  show 1 ≤ (stSt S σ).G.molecule.rho + (stSt S σ).hinges.card ∧ (stSt S σ).G.molecule.rho + (stSt S σ).hinges.card ≤ N
+  have hMsb : (stSt (Mk := Mk) S σ).G.molecule.IsMolecule := Mole.garden_isMolecule _
+  have hat : (stSt (Mk := Mk) S σ).G.molecule.atoms.card = (stSt (Mk := Mk) S σ).G.order := garden_card_atoms _
+  have h1 := sum_vineIncoh_le_unitsMk (Mk := Mk) hM σ (RegRed.coreLayer LG D hS hd)
+  have h2 := totalIncoherency_le_atoms hMsb (ladderDataOf (stSt (Mk := Mk) S σ).G)
+    ((stSt (Mk := Mk) S σ).layer (RegRed.coreLayer LG D hS hd))
+  have h3 := order_add_units_leMk (Mk := Mk) hM σ
+  have h4 := two_mul_gregOf_le D hS LG
+  show gskOf (Mk := Mk) (gregOf D hS LG) S σ (RegRed.coreLayer LG D hS hd) +
+    (ladderDataOf (stSt (Mk := Mk) S σ).G).totalIncoherency ((stSt (Mk := Mk) S σ).layer (RegRed.coreLayer LG D hS hd)) ≤ N
+  unfold gskOf
   omega
 
 theorem stage1Piece_gbar_le (d : ℕ) {S : Garden (2 * R)} {D : ReconstructionData S} (hS : S.IsPlain)
     (LG : LayeredGarden (2 * R)) (hd : D.Decodes hS LG.garden) (σ : Prescription S) {N : ℕ}
     (hN : S.order + D.size ≤ N) :
-    (VineA.NormalizedSplice.stage1PieceOf d hS LG hd σ).gbar ≤ N := by
-  have hM : S.molecule.IsMolecule := Mole.garden_isMolecule S
-  have hMsb : (stSt S σ).G.molecule.IsMolecule := Mole.garden_isMolecule _
-  have hat : (stSt S σ).G.molecule.atoms.card = (stSt S σ).G.order := garden_card_atoms _
-  have h1 := sum_vineIncoh_le_units hM σ (RegRed.coreLayer LG D hS hd)
-  have h2 := totalIncoherency_le_atoms hMsb (ladderDataOf (stSt S σ).G)
-    ((stSt S σ).layer (RegRed.coreLayer LG D hS hd))
-  have h3 := order_add_units_le hM σ
-  have h4 := two_mul_gregOf_le D hS LG
-  show gskOf (gregOf D hS LG) S σ (RegRed.coreLayer LG D hS hd) +
-    (ladderDataOf (stSt S σ).G).totalIncoherency ((stSt S σ).layer (RegRed.coreLayer LG D hS hd)) ≤ N
-  unfold gskOf
-  omega
+    (VineA.NormalizedSplice.stage1PieceOf d hS LG hd σ).gbar ≤ N := stage1Piece_gbar_leMk (Mk := ∅) d hS LG hd σ hN
 
 end WaveTurbulence.Represents

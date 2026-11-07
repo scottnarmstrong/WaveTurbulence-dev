@@ -187,32 +187,40 @@ theorem Object.upper_ne_lower' {w : ℕ} {G' : Garden w} (P : Object G'.molecule
   | vc h => exact h.1.2.2.2.1
   | hyper R => exact R.adjoint.1.2.2.2.1
 
-/-- A hinge that is the crown of a unit of a group with a skipped vine is an atom (a joint) of the residual object. -/
-theorem hinge_mem_obj (hM : G.molecule.IsMolecule) (σ : Prescription G) {S : Finset (GBranch G.tree)}
+/-- B1b (Mk-general form of `hinge_mem_obj`). -/
+theorem hinge_mem_objMk (hM : G.molecule.IsMolecule) (σ : Prescription G) {S : Finset (GBranch G.tree)}
     (hSm : S ∈ maximalGroups G.molecule) (sk : SkipData G S) (hsk : (groupUnitsOf G S).skip = some sk)
-    {O : Object (stSt G σ).G.molecule} (hOa : O.atoms = sk.A.image ((stSt G σ).M.pi (stSt G σ).hcls))
-    (hup : O.upper = (stSt G σ).M.pi (stSt G σ).hcls sk.x) (hlo : O.lower = (stSt G σ).M.pi (stSt G σ).hcls sk.y)
-    {u : CLBlock G} (hu : u ∈ unitBlocks G σ) (hu' : u ∈ (groupUnitsOf G S).units)
-    {c : GBranch (stSt G σ).G.tree} (hob : (stSt G σ).M.ob c = u.upper) : c ∈ O.atoms := by
+    {Mk : Set (Stage1.CLVine _)} {O : Object (stSt (Mk := Mk) G σ).G.molecule} (hOa : O.atoms = sk.A.image ((stSt (Mk := Mk) G σ).M.pi (stSt (Mk := Mk) G σ).hcls))
+    (hup : O.upper = (stSt (Mk := Mk) G σ).M.pi (stSt (Mk := Mk) G σ).hcls sk.x) (hlo : O.lower = (stSt (Mk := Mk) G σ).M.pi (stSt (Mk := Mk) G σ).hcls sk.y)
+    {u : CLBlock G} (hu : u ∈ unitBlocks (Mk := Mk) G σ) (hu' : u ∈ (groupUnitsOf G S).units)
+    {c : GBranch (stSt (Mk := Mk) G σ).G.tree} (hob : (stSt (Mk := Mk) G σ).M.ob c = u.upper) : c ∈ O.atoms := by
   have hsu := (groupUnitsOf G S).skip_units sk hsk
   rcases hsu.1 u hu' with ⟨hL, hl⟩ | ⟨hR, hr⟩
   · have hxu : sk.x ∈ u.atoms := by
       rcases hl with ⟨_, h2⟩ | ⟨h2, _⟩
       · rw [← h2]; exact u.isBlock.2.2.1
       · rw [← h2]; exact u.isBlock.2.1
-    have : (stSt G σ).M.pi (stSt G σ).hcls sk.x = c := by
-      apply (stSt G σ).M.ob_inj
-      rw [(stSt G σ).M.ob_pi, hob]
-      exact stSt_repC_mem hM σ hu hxu
+    have : (stSt (Mk := Mk) G σ).M.pi (stSt (Mk := Mk) G σ).hcls sk.x = c := by
+      apply (stSt (Mk := Mk) G σ).M.ob_inj
+      rw [(stSt (Mk := Mk) G σ).M.ob_pi, hob]
+      exact stSt_repC_memMk (Mk := Mk) hM σ hu hxu
     rw [← this, ← hup]; exact Object.upper_mem O
   · have hyu : sk.y ∈ u.atoms := by
       rcases hr with ⟨h2, _⟩ | ⟨_, h2⟩
       · rw [← h2]; exact u.isBlock.2.1
       · rw [← h2]; exact u.isBlock.2.2.1
-    have : (stSt G σ).M.pi (stSt G σ).hcls sk.y = c := by
-      apply (stSt G σ).M.ob_inj
-      rw [(stSt G σ).M.ob_pi, hob]
-      exact stSt_repC_mem hM σ hu hyu
+    have : (stSt (Mk := Mk) G σ).M.pi (stSt (Mk := Mk) G σ).hcls sk.y = c := by
+      apply (stSt (Mk := Mk) G σ).M.ob_inj
+      rw [(stSt (Mk := Mk) G σ).M.ob_pi, hob]
+      exact stSt_repC_memMk (Mk := Mk) hM σ hu hyu
     rw [← this, ← hlo]; exact Object.lower_mem O
+
+/-- A hinge that is the crown of a unit of a group with a skipped vine is an atom (a joint) of the residual object. -/
+theorem hinge_mem_obj (hM : G.molecule.IsMolecule) (σ : Prescription G) {S : Finset (GBranch G.tree)}
+    (hSm : S ∈ maximalGroups G.molecule) (sk : SkipData G S) (hsk : (groupUnitsOf G S).skip = some sk)
+    {O : Object (stSt G σ).G.molecule} (hOa : O.atoms = sk.A.image ((stSt G σ).M.pi (stSt G σ).hcls))
+    (hup : O.upper = (stSt G σ).M.pi (stSt G σ).hcls sk.x) (hlo : O.lower = (stSt G σ).M.pi (stSt G σ).hcls sk.y)
+    {u : CLBlock G} (hu : u ∈ unitBlocks G σ) (hu' : u ∈ (groupUnitsOf G S).units)
+    {c : GBranch (stSt G σ).G.tree} (hob : (stSt G σ).M.ob c = u.upper) : c ∈ O.atoms := hinge_mem_objMk (Mk := ∅) hM σ hSm sk hsk hOa hup hlo hu hu' hob
 
 end WaveTurbulence.VineA.NormalizedSplice.Subpro
