@@ -39,6 +39,22 @@ theorem isV0Fam_operation {A : FamilyReconstruction w ι} {i : ι}
       exact hF
     · exact isV0Fam_twist hF i
 
+/-- B1b (R11): both choices of an actual operation preserve exact unmarked selected-family states, for marked sets
+carried by the operation. -/
+theorem isV0Fam_operationMk {A : FamilyReconstruction w ι} {i : ι}
+    {σ : Prescription A.skeleton} {Mk : Set (CLVine A.skeleton)} (hF : IsV0Fam A.family σ Mk)
+    (op : FamilyOperation (p := p) (kind := kind) A i) {Mk' : Set (CLVine op.output.skeleton)}
+    (hT : Stage1Mk.MarkTransported (operationMolIso op) Mk Mk') :
+    IsV0Fam op.output.family (transportPrescription (operationMolIso op) σ) Mk' := by
+  cases op with
+  | mk hc he ht hq ε C =>
+    cases ε
+    · have hE : Mk = Mk' := Stage1Mk.markTransported_refl_eq hT
+      change IsV0Fam A.family (transportPrescription (molIsoRefl A.skeleton) σ) Mk'
+      rw [transportPrescription_refl]
+      exact hE ▸ hF
+    · exact isV0Fam_twistMk hF i hT
+
 /-- Actual unit lists transport for every admissible operation and either choice. -/
 theorem operation_unitBlocks_perm {A : FamilyReconstruction w ι} {i : ι}
     {σ : Prescription A.skeleton} (hF : IsV0Fam A.family σ)

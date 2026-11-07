@@ -138,4 +138,20 @@ theorem unit_chain {w : ℕ} (G : Garden w) (hM : G.molecule.IsMolecule) (σ : P
         · exact run_chain (G.molecule.eraseBond e) hI skel (P := u.atoms) (Or.inr hR) hne
       exact chain_orient (chain_of_eraseBond e hC' hnot) (isBlock_of_eraseBond e hB' hnot) u.isBlock
 
+/-- B1b (Mk-general form of `unit_chain`): every unit (a run at a marked group: the `chain` field of
+`MarkedGroupUnits`) is a vine chain. -/
+theorem unit_chainMk {w : ℕ} (G : Garden w) (hM : G.molecule.IsMolecule) (σ : Prescription G)
+    {Mk : Set (Stage1.CLVine G)} {u : CLBlock G} (hu : u ∈ unitBlocks G σ Mk) :
+    ∃ n, Vine.Chain G.molecule u.atoms u.upper u.lower n := by
+  classical
+  obtain ⟨S, hS, hσ, hum⟩ := mem_unitBlocksMk.mp hu
+  by_cases hm : markedGroup G Mk S
+  · unfold groupUnitsMk at hum
+    simp only [hm, ↓reduceIte] at hum
+    split_ifs at hum with hne
+    · exact (Classical.choice hne).chain u hum
+    · simp at hum
+  · rw [groupUnitsMk_of_not_marked hm] at hum
+    exact unit_chain G hM σ (mem_unitBlocks.mpr ⟨S, hS, hσ, hum⟩)
+
 end WaveTurbulence.ClassCount

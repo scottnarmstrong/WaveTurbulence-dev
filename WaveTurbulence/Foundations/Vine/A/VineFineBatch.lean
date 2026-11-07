@@ -21,6 +21,25 @@ theorem BatchIso.selected (h : BatchIso p kind L A B F) (σ : Prescription A.ske
     rw [transportPrescription_trans] at hb
     exact hb
 
+/-- B1b (R11): the unmarked selected family transports through every actual batch trace, for marked sets carried by
+the composite transport (`MarkTransported`; the intermediate marked sets are `Stage1Mk.midMark`). -/
+theorem BatchIso.selectedMk (h : BatchIso p kind L A B F) :
+    ∀ (σ : Prescription A.skeleton) (Mk : Set (Stage1.CLVine A.skeleton)) (Mk' : Set (Stage1.CLVine B.skeleton)),
+      IsV0Fam A.family σ Mk → Stage1Mk.MarkTransported F Mk Mk' →
+        IsV0Fam B.family (transportPrescription F σ) Mk' := by
+  induction h with
+  | nil A =>
+    intro σ Mk Mk' hA hT
+    rw [transportPrescription_refl, ← Stage1Mk.markTransported_refl_eq hT]
+    exact hA
+  | skip _ _ ih => exact ih
+  | @apply L A B i op J h ih =>
+    intro σ Mk Mk' hA hT
+    obtain ⟨h1, h2⟩ := Stage1Mk.markTransported_split (operationMolIso op) J hT
+    have hb := ih (transportPrescription (operationMolIso op) σ) _ Mk' (isV0Fam_operationMk hA op h1) h2
+    rw [transportPrescription_trans] at hb
+    exact hb
+
 /-- Actual chosen unit lists transport through every actual batch trace. -/
 theorem BatchIso.units (h : BatchIso p kind L A B F) (σ : Prescription A.skeleton)
     (hA : IsV0Fam A.family σ) :

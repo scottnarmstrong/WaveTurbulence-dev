@@ -69,4 +69,31 @@ theorem isV0Fam_twist {F : CoreFamily G ι} {σ : Prescription G}
       rw [ha, ← hj]
       rfl
 
+/-- B1b (R11): a selected unit twist preserves completeness of the unmarked selected core family, for marked sets
+carried by the twist. -/
+theorem isV0Fam_twistMk {F : CoreFamily G ι} {σ : Prescription G} {Mk : Set (CLVine G)}
+    (hF : IsV0Fam F σ Mk) (i : ι) {Mk' : Set (CLVine (selectedMemberSite hF i).target)}
+    (hT : Stage1Mk.MarkTransported (selectedMemberSite hF i).iso Mk Mk') :
+    IsV0Fam (F.twist i) (transportPrescription (selectedMemberSite hF i).iso σ) Mk' := by
+  let Z := selectedMemberSite hF i
+  constructor
+  · intro j
+    obtain ⟨c', hc', ha, _, _⟩ := vinesV0_imageMk Z σ hT (hF.1 j)
+    have he : c' = familyVine (F.twist i) j := clVine_eq_of_atoms ha
+    exact he ▸ hc'
+  · intro c' hc' ⟨X, hX⟩
+    obtain ⟨c, hc, ha, hu, hl⟩ := vinesV0_preimageMk Z σ hT hc'
+    by_cases hat : c.atoms = F.atoms i
+    · refine ⟨i, ?_⟩
+      rw [ha, hat]
+      rfl
+    · obtain ⟨S, hS, hi, _⟩ := hc.1
+      have hsep := Z.sep_of_ing hS hi hat
+      have hcore : IsCoreCLVine G X c.atoms c.upper c.lower :=
+        Z.core_pull hsep (by rw [ha, hu, hl] at hX; exact hX)
+      obtain ⟨j, hj⟩ := hF.2 c hc ⟨X, hcore⟩
+      refine ⟨j, ?_⟩
+      rw [ha, ← hj]
+      rfl
+
 end WaveTurbulence.VineA

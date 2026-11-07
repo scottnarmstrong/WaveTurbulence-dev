@@ -30,4 +30,23 @@ theorem fineState_recovery (A : FamilyReconstruction w ι) (hp : IsPrimeGarden A
   · rfl
   · rfl
 
+/-- B1b (R11): canonical fine reconstruction at a marked set recovers an unmarked selected state. -/
+theorem fineState_recoveryMk (A : FamilyReconstruction w ι) (hp : IsPrimeGarden A.skeleton)
+    (σ : Prescription A.skeleton) {Mk : Set (CLVine A.skeleton)} (hF : IsV0Fam A.family σ Mk) :
+    ∃ e : ι ≃ CoreIndex (vinesV0 A.skeleton σ Mk),
+      stateReindex ((⟨A.skeleton, hp, A.data, A.decodes⟩ : PrimeData A.layered).fineState σ Mk) e = A := by
+  obtain ⟨e, he⟩ := coreFamilyOf_reindex_data A.family (vinesV0 A.skeleton σ Mk)
+    (vinesV0_subsetMk A.skeleton σ Mk) hF.1 hF.2
+  refine ⟨e, ?_⟩
+  apply familyReconstruction_ext
+  · rfl
+  · apply heq_of_eq
+    apply CoreFamily.ext_data
+    · exact funext fun i => (he i).1
+    · exact funext fun i => (he i).2.1
+    · exact funext fun i => (he i).2.2.1
+    · exact funext fun i => (he i).2.2.2
+  · rfl
+  · rfl
+
 end WaveTurbulence.VineA
