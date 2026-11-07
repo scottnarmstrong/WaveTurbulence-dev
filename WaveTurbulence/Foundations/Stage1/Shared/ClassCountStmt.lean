@@ -7,6 +7,7 @@ module
 
 public import WaveTurbulence.Foundations.FinalCount.RedSplicePiece
 public import WaveTurbulence.Foundations.Spine.Stage1Gate
+public import WaveTurbulence.Foundations.Stage1.Shared.CarriesW
 import Mathlib.Tactic
 
 /-!
@@ -39,5 +40,19 @@ def ClassCountStmt : Prop :=
     (∀ LG ∈ A, Stage1Carries P p N LG ∧ HasPieceData P.d LG g r) →
       (A.card : ℝ) ≤ (C₀ : ℝ) ^ N * (((C₀ * r).factorial : ℕ) : ℝ) * (((C₀ * R).factorial : ℕ) : ℝ) *
         P.C₂ ^ (g + r)
+
+/-- B1b (R156): the class count with the truncation-free carrier `Stage1CarriesW`. -/
+def ClassCountStmtW : Prop :=
+  ∃ C₀ K : ℕ, 2 ≤ C₀ ∧ ∀ P : WTParams, K ^ (P.D + 1) ≤ P.C₂ → ∀ p, p < P.D →
+    ∀ R, 1 ≤ R → ∀ N, 1 ≤ N → ∀ g r : ℕ, ∀ A : Finset (LayeredGarden (2 * R)),
+    (∀ LG ∈ A, Stage1Mk.Stage1CarriesW P p N LG ∧ HasPieceData P.d LG g r) →
+      (A.card : ℝ) ≤ (C₀ : ℝ) ^ N * (((C₀ * r).factorial : ℕ) : ℝ) * (((C₀ * R).factorial : ℕ) : ℝ) *
+        P.C₂ ^ (g + r)
+
+/-- The truncation-free class count implies main's. -/
+theorem classCountStmt_of_W (h : ClassCountStmtW) : ClassCountStmt := by
+  obtain ⟨C₀, K, hC₀, hm⟩ := h
+  exact ⟨C₀, K, hC₀, fun P hK p hp R hR N hN g r A hA => hm P hK p hp R hR N hN g r A
+    (fun LG hLG => ⟨Stage1Mk.stage1CarriesW_of_stage1Carries (hA LG hLG).1, (hA LG hLG).2⟩)⟩
 
 end WaveTurbulence.ClassCount

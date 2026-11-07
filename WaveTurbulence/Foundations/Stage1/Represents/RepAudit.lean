@@ -39,7 +39,7 @@ theorem gapSpecification_isSome_iff (hM : G.molecule.IsMolecule) (σ : Prescript
   constructor
   · intro h
     by_contra hne
-    unfold gapSpecification at h
+    unfold gapSpecification gapSpecificationMk at h
     rw [dite_eq_right_iff.mpr (fun h => absurd h hne)] at h
     simp at h
   · rintro ⟨S, hS, hv⟩

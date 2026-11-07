@@ -25,6 +25,66 @@ open Finset WaveTurbulence WaveTurbulence.RedSplice WaveTurbulence.Mole TTree Wa
 
 variable {w : ℕ} {G : Garden w}
 
+/-- B1b (Mk-general form of `hyper_object`). -/
+theorem hyper_objectMk (σ : Prescription G) {S A L0 R0 : Finset (GBranch G.tree)} {a b x y : GBranch G.tree}
+    {e : GardenDart G}
+    {Mk : Set (Stage1.CLVine _)} (H : SDecomp (Mole.eraseBond G.molecule e) (stSt (Mk := Mk) G σ).cls S A L0 R0 a b x y)
+    (hends : G.molecule.ends e = s(a, b)) (hvine : Vine.IsSomeVine (Mole.eraseBond G.molecule e) A x y) :
+    ∃ O : Object (stSt (Mk := Mk) G σ).G.molecule, AllowedCollectionObject (stSt (Mk := Mk) G σ).G O ∧
+      O.atoms = A.image ((stSt (Mk := Mk) G σ).M.pi (stSt (Mk := Mk) G σ).hcls) ∧
+      O.upper = (stSt (Mk := Mk) G σ).M.pi (stSt (Mk := Mk) G σ).hcls x ∧ O.lower = (stSt (Mk := Mk) G σ).M.pi (stSt (Mk := Mk) G σ).hcls y ∧
+      ∃ R : HyperLikeRealization (stSt (Mk := Mk) G σ).G.molecule O.atoms O.upper O.lower,
+        O.shape = VineLikeObject.hyper R ∧ (stSt (Mk := Mk) G σ).M.od R.added = e := by
+  have hnc : ¬ ∃ a', (stSt (Mk := Mk) G σ).cls (G.molecule.atom e) = some a' ∧
+      (stSt (Mk := Mk) G σ).cls (G.molecule.atom (G.molecule.mate e)) = some a' := by
+    unfold Molecule.ends at hends
+    rcases Sym2.eq_iff.mp hends with ⟨h1, h2⟩ | ⟨h1, h2⟩
+    · rw [h1, h2]; exact H.ends_not_class
+    · rw [h1, h2]
+      rintro ⟨r, ha, hb⟩
+      exact H.ends_not_class ⟨r, hb, ha⟩
+  obtain ⟨e', rfl⟩ := ((stSt (Mk := Mk) G σ).M.od_range e).mpr hnc
+  have hc := (stSt (Mk := Mk) G σ).hcls
+  let I := H.inducedIso ((stSt (Mk := Mk) G σ).M.eraseMol hc e')
+  obtain ⟨X, hX⟩ := hvine
+  have hv : Vine.IsSomeVine (Mole.eraseBond (stSt (Mk := Mk) G σ).G.molecule e')
+      (A.image ((stSt (Mk := Mk) G σ).M.pi hc)) ((stSt (Mk := Mk) G σ).M.pi hc x) ((stSt (Mk := Mk) G σ).M.pi hc y) :=
+    ⟨X, I.isVine hX⟩
+  have hobx : (stSt (Mk := Mk) G σ).M.ob ((stSt (Mk := Mk) G σ).M.pi hc x) = ((stSt (Mk := Mk) G σ).cls x).getD x :=
+    (stSt (Mk := Mk) G σ).M.ob_pi hc x
+  have hoby : (stSt (Mk := Mk) G σ).M.ob ((stSt (Mk := Mk) G σ).M.pi hc y) = ((stSt (Mk := Mk) G σ).cls y).getD y :=
+    (stSt (Mk := Mk) G σ).M.ob_pi hc y
+  have hpx : (stSt (Mk := Mk) G σ).M.ob ((stSt (Mk := Mk) G σ).G.molecule.atom e') = ((stSt (Mk := Mk) G σ).cls a).getD a ∨
+      (stSt (Mk := Mk) G σ).M.ob ((stSt (Mk := Mk) G σ).G.molecule.atom e') = ((stSt (Mk := Mk) G σ).cls b).getD b := by
+    rw [(stSt (Mk := Mk) G σ).M.ob_atom e']
+    unfold Molecule.ends at hends
+    rcases Sym2.eq_iff.mp hends with ⟨h1, h2⟩ | ⟨h1, h2⟩
+    · exact Or.inl (by rw [h1]; rfl)
+    · exact Or.inr (by rw [h1]; rfl)
+  have hends' : (stSt (Mk := Mk) G σ).G.molecule.ends e' = s((stSt (Mk := Mk) G σ).M.pi hc x, (stSt (Mk := Mk) G σ).M.pi hc y) := by
+    unfold Molecule.ends at hends ⊢
+    have hm : (stSt (Mk := Mk) G σ).M.ob ((stSt (Mk := Mk) G σ).G.molecule.atom ((stSt (Mk := Mk) G σ).G.molecule.mate e')) =
+        ((stSt (Mk := Mk) G σ).cls (G.molecule.atom (G.molecule.mate ((stSt (Mk := Mk) G σ).M.od e')))).getD
+          (G.molecule.atom (G.molecule.mate ((stSt (Mk := Mk) G σ).M.od e'))) := by
+      rw [(stSt (Mk := Mk) G σ).M.ob_atom, (stSt (Mk := Mk) G σ).M.od_mate]; rfl
+    have h0 : (stSt (Mk := Mk) G σ).M.ob ((stSt (Mk := Mk) G σ).G.molecule.atom e') =
+        ((stSt (Mk := Mk) G σ).cls (G.molecule.atom ((stSt (Mk := Mk) G σ).M.od e'))).getD (G.molecule.atom ((stSt (Mk := Mk) G σ).M.od e')) :=
+      (stSt (Mk := Mk) G σ).M.ob_atom e'
+    rcases Sym2.eq_iff.mp hends with ⟨h1, h2⟩ | ⟨h1, h2⟩
+    · rw [h1] at h0; rw [h2] at hm
+      have e1 : (stSt (Mk := Mk) G σ).G.molecule.atom e' = (stSt (Mk := Mk) G σ).M.pi hc x :=
+        (stSt (Mk := Mk) G σ).M.ob_inj (h0.trans (H.rc_a.trans hobx.symm))
+      have e2 : (stSt (Mk := Mk) G σ).G.molecule.atom ((stSt (Mk := Mk) G σ).G.molecule.mate e') = (stSt (Mk := Mk) G σ).M.pi hc y :=
+        (stSt (Mk := Mk) G σ).M.ob_inj (hm.trans (H.rc_b.trans hoby.symm))
+      rw [e1, e2]
+    · rw [h1] at h0; rw [h2] at hm
+      have e1 : (stSt (Mk := Mk) G σ).G.molecule.atom e' = (stSt (Mk := Mk) G σ).M.pi hc y :=
+        (stSt (Mk := Mk) G σ).M.ob_inj (h0.trans (H.rc_b.trans hoby.symm))
+      have e2 : (stSt (Mk := Mk) G σ).G.molecule.atom ((stSt (Mk := Mk) G σ).G.molecule.mate e') = (stSt (Mk := Mk) G σ).M.pi hc x :=
+        (stSt (Mk := Mk) G σ).M.ob_inj (hm.trans (H.rc_a.trans hobx.symm))
+      rw [e1, e2, Sym2.eq_swap]
+  exact ⟨objHyper e' _ _ _ hends' hv, allowed_hyper e' _ _ _ hends' hv, rfl, rfl, rfl, _, rfl, rfl⟩
+
 /-- **The HV residual** of a vine `A` of the adjoint `eraseBond M e` of a decomposed group, in `G_sb`: the vine
 `π''A` with the image `e'` of the added bond `e` (TARGET `blockchainprop` and subpro(2): an HVC reduces to an
 SG HV; an SG HV is unchanged). -/
@@ -36,56 +96,7 @@ theorem hyper_object (σ : Prescription G) {S A L0 R0 : Finset (GBranch G.tree)}
       O.atoms = A.image ((stSt G σ).M.pi (stSt G σ).hcls) ∧
       O.upper = (stSt G σ).M.pi (stSt G σ).hcls x ∧ O.lower = (stSt G σ).M.pi (stSt G σ).hcls y ∧
       ∃ R : HyperLikeRealization (stSt G σ).G.molecule O.atoms O.upper O.lower,
-        O.shape = VineLikeObject.hyper R ∧ (stSt G σ).M.od R.added = e := by
-  have hnc : ¬ ∃ a', (stSt G σ).cls (G.molecule.atom e) = some a' ∧
-      (stSt G σ).cls (G.molecule.atom (G.molecule.mate e)) = some a' := by
-    unfold Molecule.ends at hends
-    rcases Sym2.eq_iff.mp hends with ⟨h1, h2⟩ | ⟨h1, h2⟩
-    · rw [h1, h2]; exact H.ends_not_class
-    · rw [h1, h2]
-      rintro ⟨r, ha, hb⟩
-      exact H.ends_not_class ⟨r, hb, ha⟩
-  obtain ⟨e', rfl⟩ := ((stSt G σ).M.od_range e).mpr hnc
-  have hc := (stSt G σ).hcls
-  let I := H.inducedIso ((stSt G σ).M.eraseMol hc e')
-  obtain ⟨X, hX⟩ := hvine
-  have hv : Vine.IsSomeVine (Mole.eraseBond (stSt G σ).G.molecule e')
-      (A.image ((stSt G σ).M.pi hc)) ((stSt G σ).M.pi hc x) ((stSt G σ).M.pi hc y) :=
-    ⟨X, I.isVine hX⟩
-  have hobx : (stSt G σ).M.ob ((stSt G σ).M.pi hc x) = ((stSt G σ).cls x).getD x :=
-    (stSt G σ).M.ob_pi hc x
-  have hoby : (stSt G σ).M.ob ((stSt G σ).M.pi hc y) = ((stSt G σ).cls y).getD y :=
-    (stSt G σ).M.ob_pi hc y
-  have hpx : (stSt G σ).M.ob ((stSt G σ).G.molecule.atom e') = ((stSt G σ).cls a).getD a ∨
-      (stSt G σ).M.ob ((stSt G σ).G.molecule.atom e') = ((stSt G σ).cls b).getD b := by
-    rw [(stSt G σ).M.ob_atom e']
-    unfold Molecule.ends at hends
-    rcases Sym2.eq_iff.mp hends with ⟨h1, h2⟩ | ⟨h1, h2⟩
-    · exact Or.inl (by rw [h1]; rfl)
-    · exact Or.inr (by rw [h1]; rfl)
-  have hends' : (stSt G σ).G.molecule.ends e' = s((stSt G σ).M.pi hc x, (stSt G σ).M.pi hc y) := by
-    unfold Molecule.ends at hends ⊢
-    have hm : (stSt G σ).M.ob ((stSt G σ).G.molecule.atom ((stSt G σ).G.molecule.mate e')) =
-        ((stSt G σ).cls (G.molecule.atom (G.molecule.mate ((stSt G σ).M.od e')))).getD
-          (G.molecule.atom (G.molecule.mate ((stSt G σ).M.od e'))) := by
-      rw [(stSt G σ).M.ob_atom, (stSt G σ).M.od_mate]; rfl
-    have h0 : (stSt G σ).M.ob ((stSt G σ).G.molecule.atom e') =
-        ((stSt G σ).cls (G.molecule.atom ((stSt G σ).M.od e'))).getD (G.molecule.atom ((stSt G σ).M.od e')) :=
-      (stSt G σ).M.ob_atom e'
-    rcases Sym2.eq_iff.mp hends with ⟨h1, h2⟩ | ⟨h1, h2⟩
-    · rw [h1] at h0; rw [h2] at hm
-      have e1 : (stSt G σ).G.molecule.atom e' = (stSt G σ).M.pi hc x :=
-        (stSt G σ).M.ob_inj (h0.trans (H.rc_a.trans hobx.symm))
-      have e2 : (stSt G σ).G.molecule.atom ((stSt G σ).G.molecule.mate e') = (stSt G σ).M.pi hc y :=
-        (stSt G σ).M.ob_inj (hm.trans (H.rc_b.trans hoby.symm))
-      rw [e1, e2]
-    · rw [h1] at h0; rw [h2] at hm
-      have e1 : (stSt G σ).G.molecule.atom e' = (stSt G σ).M.pi hc y :=
-        (stSt G σ).M.ob_inj (h0.trans (H.rc_b.trans hoby.symm))
-      have e2 : (stSt G σ).G.molecule.atom ((stSt G σ).G.molecule.mate e') = (stSt G σ).M.pi hc x :=
-        (stSt G σ).M.ob_inj (hm.trans (H.rc_a.trans hobx.symm))
-      rw [e1, e2, Sym2.eq_swap]
-  exact ⟨objHyper e' _ _ _ hends' hv, allowed_hyper e' _ _ _ hends' hv, rfl, rfl, rfl, _, rfl, rfl⟩
+        O.shape = VineLikeObject.hyper R ∧ (stSt G σ).M.od R.added = e := hyper_objectMk (Mk := ∅) σ H hends hvine
 
 /-- The HV of the skipped vine of an SG HVC group. -/
 theorem hvc_object (hM : G.molecule.IsMolecule) (σ : Prescription G) {S : Finset (GBranch G.tree)}

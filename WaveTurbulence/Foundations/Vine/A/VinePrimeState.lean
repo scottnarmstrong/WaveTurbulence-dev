@@ -64,10 +64,61 @@ noncomputable def PrimeData.state {LG : LayeredGarden w} (A : PrimeData LG)
 noncomputable def PrimeData.coarseState {LG : LayeredGarden w} (A : PrimeData LG) :
     FamilyReconstruction w (CoreIndex (vinesV A.skeleton)) := A.state (vinesV A.skeleton) (fun _ h => h)
 
-/-- The fine congruence state for a prescription uses precisely the core members of V0(sigma). -/
+/-- The fine congruence state for a prescription uses precisely the core members of V0(sigma).  B1a: with the
+trailing marked vine set `Mk` (default `∅`), the core members of the unmarked `𝒱₀♮ = vinesV0 A.skeleton σ Mk`
+(twists only at unmarked vines). -/
 noncomputable def PrimeData.fineState {LG : LayeredGarden w} (A : PrimeData LG)
-    (σ : Prescription A.skeleton) : FamilyReconstruction w (CoreIndex (vinesV0 A.skeleton σ)) :=
-  A.state (vinesV0 A.skeleton σ) (vinesV0_subset A.skeleton σ)
+    (σ : Prescription A.skeleton) (Mk : Set (CLVine A.skeleton) := ∅) :
+    FamilyReconstruction w (CoreIndex (vinesV0 A.skeleton σ Mk)) :=
+  A.state (vinesV0 A.skeleton σ Mk) (vinesV0_subsetMk A.skeleton σ Mk)
+
+/-- Fine′ family state of the probe (copied by source from the B0 probe, lines 209–214): twists only at unmarked
+vines. -/
+noncomputable def fineStateMk {LG : LayeredGarden w} (A : PrimeData LG) (σ : Prescription A.skeleton)
+    (Mk : Set (Stage1.CLVine A.skeleton)) :
+    LFTwist.FamilyReconstruction w (VineA.CoreIndex (vinesV0Mk A.skeleton σ Mk)) :=
+  A.state (vinesV0Mk A.skeleton σ Mk) (fun _ h => (vinesV0_subset A.skeleton σ) h.1)
+
+/-- Coarse′ family state of the probe (copied by source from the B0 probe, lines 216–219). -/
+noncomputable def coarseStateMk {LG : LayeredGarden w} (A : PrimeData LG)
+    (Mk : Set (Stage1.CLVine A.skeleton)) :
+    LFTwist.FamilyReconstruction w (VineA.CoreIndex {c | c ∈ Stage1.vinesV A.skeleton ∧ c ∉ Mk}) :=
+  A.state {c | c ∈ Stage1.vinesV A.skeleton ∧ c ∉ Mk} (fun _ h => h.1)
+
+/-- B1a bridge: states over equal carriers are equal up to the carrier identification. -/
+theorem PrimeData.state_heq {LG : LayeredGarden w} (A : PrimeData LG) {U V : Set (CLVine A.skeleton)}
+    (hUV : U = V) (hU : U ⊆ vinesV A.skeleton) (hV : V ⊆ vinesV A.skeleton) :
+    HEq (A.state U hU) (A.state V hV) := by
+  subst hUV; rfl
+
+/-- B1a bridge: the outputs of states over equal carriers agree. -/
+theorem PrimeData.state_allCoreOutputs_congr {LG : LayeredGarden w} (A : PrimeData LG) {p : ℕ} {kind : Bool}
+    {U V : Set (CLVine A.skeleton)} (hUV : U = V) (hU : U ⊆ vinesV A.skeleton) (hV : V ⊆ vinesV A.skeleton) :
+    (A.state U hU).allCoreOutputs (p := p) (kind := kind) = (A.state V hV).allCoreOutputs (p := p) (kind := kind) := by
+  subst hUV; rfl
+
+/-- B1a bridge: the probe's fine′ state is main's threaded fine state. -/
+theorem fineStateMk_heq {LG : LayeredGarden w} (A : PrimeData LG) (σ : Prescription A.skeleton)
+    (Mk : Set (CLVine A.skeleton)) : HEq (fineStateMk A σ Mk) (A.fineState σ Mk) :=
+  A.state_heq (vinesV0Mk_eq A.skeleton σ Mk) _ _
+
+/-- B1a bridge: the fine′ outputs are the threaded fine outputs. -/
+theorem fineStateMk_outputs {LG : LayeredGarden w} (A : PrimeData LG) (σ : Prescription A.skeleton)
+    (Mk : Set (CLVine A.skeleton)) {p : ℕ} {kind : Bool} :
+    (fineStateMk A σ Mk).allCoreOutputs (p := p) (kind := kind) =
+      (A.fineState σ Mk).allCoreOutputs (p := p) (kind := kind) :=
+  A.state_allCoreOutputs_congr (vinesV0Mk_eq A.skeleton σ Mk) _ _
+
+/-- B1a bridge: the coarse′ state at `Mk = ∅` is main's coarse state. -/
+theorem coarseStateMk_empty_heq {LG : LayeredGarden w} (A : PrimeData LG) :
+    HEq (coarseStateMk A ∅) A.coarseState :=
+  A.state_heq (by ext c; simp) _ _
+
+/-- B1a bridge: the coarse′ outputs at `Mk = ∅` are main's coarse outputs. -/
+theorem coarseStateMk_empty_outputs {LG : LayeredGarden w} (A : PrimeData LG) {p : ℕ} {kind : Bool} :
+    (coarseStateMk A ∅).allCoreOutputs (p := p) (kind := kind) =
+      A.coarseState.allCoreOutputs (p := p) (kind := kind) :=
+  A.state_allCoreOutputs_congr (by ext c; simp) _ _
 
 /-- The coarse state satisfies S1's actual V-family predicate. -/
 theorem PrimeData.coarseState_isVFamily {LG : LayeredGarden w} (A : PrimeData LG) :

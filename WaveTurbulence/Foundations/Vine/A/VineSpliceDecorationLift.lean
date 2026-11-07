@@ -28,16 +28,22 @@ theorem exists_ext_of_shape (Φ : SpliceShape blk Gsb) (hS : S.IsPlain) (hd : Di
   exact congrArg Sigma.fst this
 
 
+/-- B1b (Mk-general form of `splice_labels_extend`). -/
+theorem splice_labels_extendMk (hS : S.IsPlain) (σ : Prescription S) {L : ℝ} (hL : L ≠ 0)
+    (base : Mom d) (roots : Fin w → (Fin d → ℤ)) {Mk : Set (Stage1.CLVine _)} (z : GenDecoration (stSt (Mk := Mk) S σ).G d roots 0) :
+    ∃ κ : GenDecoration S d roots 0, ∀ y,
+      bondIndex (stSt (Mk := Mk) S σ).G z.1 y = bondIndex S κ.1 ((stSt (Mk := Mk) S σ).M.od y) := by
+  obtain ⟨κ, hk⟩ := exists_ext_of_shape (stShape (Mk := Mk) (Mole.garden_isMolecule S) σ) hS
+    (unitBlkMk_disj (Mk := Mk) (Mole.garden_isMolecule S) σ) hL base roots z
+  refine ⟨κ, ?_⟩
+  intro y
+  rw [← hk]
+  exact bondIndex_stSt_odMk (Mk := Mk) (Mole.garden_isMolecule S) σ κ.1 y
+
 /-- Every decoration of the actual splice has conserving original dart labels. -/
 theorem splice_labels_extend (hS : S.IsPlain) (σ : Prescription S) {L : ℝ} (hL : L ≠ 0)
     (base : Mom d) (roots : Fin w → (Fin d → ℤ)) (z : GenDecoration (stSt S σ).G d roots 0) :
     ∃ κ : GenDecoration S d roots 0, ∀ y,
-      bondIndex (stSt S σ).G z.1 y = bondIndex S κ.1 ((stSt S σ).M.od y) := by
-  obtain ⟨κ, hk⟩ := exists_ext_of_shape (stShape (Mole.garden_isMolecule S) σ) hS
-    (unitBlk_disj (Mole.garden_isMolecule S) σ) hL base roots z
-  refine ⟨κ, ?_⟩
-  intro y
-  rw [← hk]
-  exact bondIndex_stSt_od (Mole.garden_isMolecule S) σ κ.1 y
+      bondIndex (stSt S σ).G z.1 y = bondIndex S κ.1 ((stSt S σ).M.od y) := splice_labels_extendMk (Mk := ∅) hS σ hL base roots z
 
 end WaveTurbulence.VineA

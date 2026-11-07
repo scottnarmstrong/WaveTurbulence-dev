@@ -5,6 +5,7 @@ Authors: Scott Armstrong
 -/
 module
 
+public import WaveTurbulence.Foundations.Stage1.Shared.CarriesW
 public import WaveTurbulence.Foundations.Stage1.Represents.RepE2
 
 /-!
@@ -39,6 +40,11 @@ theorem canonicalObject_of_isCanonGC {w p : ℕ} {LG : LayeredGarden w} (hc : Is
     fin_cases j
     · simpa using hsig 0
     · simpa using hsig 1
+
+/-- B1b (R156): the canonical object from the truncation-free carrier. -/
+theorem canonicalObject_of_carriesW {P : WTParams} {p N R : ℕ} {LG : LayeredGarden (2 * R)}
+    (h : Stage1Mk.Stage1CarriesW P p N LG) : CanonicalObject p (objKind (2 * R)) LG :=
+  canonicalObject_of_isCanonGC h.1
 
 theorem canonicalObject_of_carries {P : WTParams} {p N R : ℕ} {LG : LayeredGarden (2 * R)}
     (h : Stage1Carries P p N LG) : CanonicalObject p (objKind (2 * R)) LG :=

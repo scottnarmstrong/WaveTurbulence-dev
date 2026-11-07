@@ -28,25 +28,31 @@ open WaveTurbulence WaveTurbulence.LGSpine WaveTurbulence.LGSpine.SourceVine Fin
 
 variable {R : ℕ} {G : Garden (2 * R)}
 
+/-- B1b (Mk-general form of `atom_eq_pi`). -/
+theorem atom_eq_piMk (σ : Prescription G) {Mk : Set (Stage1.CLVine _)} (f : GardenDart (stSt (Mk := Mk) G σ).G) :
+    (stSt (Mk := Mk) G σ).G.molecule.atom f = (stSt (Mk := Mk) G σ).M.pi (stSt (Mk := Mk) G σ).hcls (G.molecule.atom ((stSt (Mk := Mk) G σ).M.od f)) ∧
+    (stSt (Mk := Mk) G σ).G.molecule.atom ((stSt (Mk := Mk) G σ).G.molecule.mate f) =
+      (stSt (Mk := Mk) G σ).M.pi (stSt (Mk := Mk) G σ).hcls (G.molecule.atom (G.molecule.mate ((stSt (Mk := Mk) G σ).M.od f))) := by
+  constructor
+  · apply (stSt (Mk := Mk) G σ).M.ob_inj
+    rw [(stSt (Mk := Mk) G σ).M.ob_pi, (stSt (Mk := Mk) G σ).M.ob_atom]
+  · apply (stSt (Mk := Mk) G σ).M.ob_inj
+    rw [(stSt (Mk := Mk) G σ).M.ob_pi, (stSt (Mk := Mk) G σ).M.ob_atom, (stSt (Mk := Mk) G σ).M.od_mate]
+
 theorem atom_eq_pi (σ : Prescription G) (f : GardenDart (stSt G σ).G) :
     (stSt G σ).G.molecule.atom f = (stSt G σ).M.pi (stSt G σ).hcls (G.molecule.atom ((stSt G σ).M.od f)) ∧
     (stSt G σ).G.molecule.atom ((stSt G σ).G.molecule.mate f) =
-      (stSt G σ).M.pi (stSt G σ).hcls (G.molecule.atom (G.molecule.mate ((stSt G σ).M.od f))) := by
-  constructor
-  · apply (stSt G σ).M.ob_inj
-    rw [(stSt G σ).M.ob_pi, (stSt G σ).M.ob_atom]
-  · apply (stSt G σ).M.ob_inj
-    rw [(stSt G σ).M.ob_pi, (stSt G σ).M.ob_atom, (stSt G σ).M.od_mate]
+      (stSt G σ).M.pi (stSt G σ).hcls (G.molecule.atom (G.molecule.mate ((stSt G σ).M.od f))) := atom_eq_piMk (Mk := ∅) σ f
 
-/-- A dart of `G_sb` whose original dart lies in `A` is inside the object with atoms `π''A`. -/
-theorem containsDart_of_orig (σ : Prescription G) {O : Object (stSt G σ).G.molecule} {A : Finset (GBranch G.tree)}
-    (hOa : O.atoms = A.image ((stSt G σ).M.pi (stSt G σ).hcls)) {f : GardenDart (stSt G σ).G}
-    (hf : G.molecule.InGroup A ((stSt G σ).M.od f))
+/-- B1b (Mk-general form of `containsDart_of_orig`). -/
+theorem containsDart_of_origMk (σ : Prescription G) {Mk : Set (Stage1.CLVine _)} {O : Object (stSt (Mk := Mk) G σ).G.molecule} {A : Finset (GBranch G.tree)}
+    (hOa : O.atoms = A.image ((stSt (Mk := Mk) G σ).M.pi (stSt (Mk := Mk) G σ).hcls)) {f : GardenDart (stSt (Mk := Mk) G σ).G}
+    (hf : G.molecule.InGroup A ((stSt (Mk := Mk) G σ).M.od f))
     (hsh : ∀ R, O.shape = VineLikeObject.hyper R →
-      (stSt G σ).M.od f ≠ (stSt G σ).M.od R.added ∧
-        (stSt G σ).M.od f ≠ G.molecule.mate ((stSt G σ).M.od R.added)) : O.ContainsDart f := by
-  have hg : (stSt G σ).G.molecule.InGroup O.atoms f := by
-    obtain ⟨h1, h2⟩ := atom_eq_pi σ f
+      (stSt (Mk := Mk) G σ).M.od f ≠ (stSt (Mk := Mk) G σ).M.od R.added ∧
+        (stSt (Mk := Mk) G σ).M.od f ≠ G.molecule.mate ((stSt (Mk := Mk) G σ).M.od R.added)) : O.ContainsDart f := by
+  have hg : (stSt (Mk := Mk) G σ).G.molecule.InGroup O.atoms f := by
+    obtain ⟨h1, h2⟩ := atom_eq_piMk (Mk := Mk) σ f
     rw [hOa]
     exact ⟨by rw [h1]; exact Finset.mem_image_of_mem _ hf.1, by rw [h2]; exact Finset.mem_image_of_mem _ hf.2⟩
   unfold Object.ContainsDart
@@ -55,7 +61,15 @@ theorem containsDart_of_orig (σ : Prescription G) {O : Object (stSt G σ).G.mol
   | hyper R' =>
     obtain ⟨n1, n2⟩ := hsh R' hs
     refine ⟨fun h => n1 (by rw [h]), fun h => n2 ?_, hg⟩
-    rw [← (stSt G σ).M.od_mate, h]
+    rw [← (stSt (Mk := Mk) G σ).M.od_mate, h]
+
+/-- A dart of `G_sb` whose original dart lies in `A` is inside the object with atoms `π''A`. -/
+theorem containsDart_of_orig (σ : Prescription G) {O : Object (stSt G σ).G.molecule} {A : Finset (GBranch G.tree)}
+    (hOa : O.atoms = A.image ((stSt G σ).M.pi (stSt G σ).hcls)) {f : GardenDart (stSt G σ).G}
+    (hf : G.molecule.InGroup A ((stSt G σ).M.od f))
+    (hsh : ∀ R, O.shape = VineLikeObject.hyper R →
+      (stSt G σ).M.od f ≠ (stSt G σ).M.od R.added ∧
+        (stSt G σ).M.od f ≠ G.molecule.mate ((stSt G σ).M.od R.added)) : O.ContainsDart f := containsDart_of_origMk (Mk := ∅) σ hOa hf hsh
 
 theorem inGroup_of_degIn_eq {V D : Type*} [DecidableEq V] [Fintype D] [DecidableEq D] {N : Molecule V D}
     {A S : Finset V} (hAS : A ⊆ S) {v : V} (h : N.degIn A v = N.degIn S v) {d : D} (hd : N.atom d = v)

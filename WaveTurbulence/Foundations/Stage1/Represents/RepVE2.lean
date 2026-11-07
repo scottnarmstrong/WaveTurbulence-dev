@@ -47,33 +47,35 @@ theorem ingredient_piece {G : Garden w} {U : Finset (GBranch G.tree)} {a b : GBr
   · exact h2 T p q hm
   · exact h2 T q p hm
 
-section Cover
-variable {G : Garden w} (σ : Prescription G) {J₀ : Type} [Fintype J₀] {U₀ : J₀ → Finset (GBranch G.tree)}
+section CoverMk
+variable {G : Garden w} {Mk : Set (Stage1.CLVine G)} (σ : Prescription G) {J₀ : Type} [Fintype J₀] {U₀ : J₀ → Finset (GBranch G.tree)}
   {a₀ b₀ : J₀ → GBranch G.tree} {R₀ : ∀ j, CLRegionData G (U₀ j) (a₀ j) (b₀ j)} {n₀ : J₀ → ℕ}
   (B₀ : ∀ j, CLChainAssembly G (R₀ j) (n₀ j))
-  (hcov : ∀ T ∈ unitIngredients G σ, ∃ j, IsIngredient G.molecule (U₀ j) T)
+  (hcov : ∀ T ∈ unitIngredients (Mk := Mk) G σ, ∃ j, IsIngredient G.molecule (U₀ j) T)
 
 include hcov in
-theorem exists_piece_index :
-    ∀ T ∈ unitIngredients G σ, ∃ x : (Σ j, Fin (n₀ j)), (assemblyPieceAt (B₀ x.1) x.2).atoms = T := by
+/-- B1b (Mk-general form of `exists_piece_index`). -/
+theorem exists_piece_indexMk :
+    ∀ T ∈ unitIngredients (Mk := Mk) G σ, ∃ x : (Σ j, Fin (n₀ j)), (assemblyPieceAt (B₀ x.1) x.2).atoms = T := by
   intro T hT
   obtain ⟨j, hj⟩ := hcov T hT
   obtain ⟨i, hi⟩ := ingredient_piece (B₀ j) hj
   exact ⟨⟨j, i⟩, hi⟩
 
 include hcov in
-theorem sum_vineIncoh_le_cohmol (layer0 : GBranch G.tree → ℕ) :
-    ∑ T ∈ (Set.toFinite (unitIngredients G σ)).toFinset, vineIncoh G layer0 T ≤
+/-- B1b (Mk-general form of `sum_vineIncoh_le_cohmol`). -/
+theorem sum_vineIncoh_le_cohmolMk (layer0 : GBranch G.tree → ℕ) :
+    ∑ T ∈ (Set.toFinite (unitIngredients (Mk := Mk) G σ)).toFinset, vineIncoh G layer0 T ≤
       ∑ j, ∑ i : Fin (n₀ j), realizedIncoherencyIndex (pieceRealization (B₀ j) i) layer0 := by
   classical
-  set Ing := (Set.toFinite (unitIngredients G σ)).toFinset with hIng
-  have hmem : ∀ T ∈ Ing, T ∈ unitIngredients G σ := fun T hT => (Set.Finite.mem_toFinset _).1 hT
+  set Ing := (Set.toFinite (unitIngredients (Mk := Mk) G σ)).toFinset with hIng
+  have hmem : ∀ T ∈ Ing, T ∈ unitIngredients (Mk := Mk) G σ := fun T hT => (Set.Finite.mem_toFinset _).1 hT
   rcases isEmpty_or_nonempty (Σ j, Fin (n₀ j)) with hE | hN
   · have : Ing = ∅ := Finset.eq_empty_of_forall_notMem fun T hT => by
-      obtain ⟨x, -⟩ := exists_piece_index σ B₀ hcov T (hmem T hT)
+      obtain ⟨x, -⟩ := exists_piece_indexMk (Mk := Mk) σ B₀ hcov T (hmem T hT)
       exact hE.elim x
     rw [this]; simp
-  choose! idx hidx using exists_piece_index σ B₀ hcov
+  choose! idx hidx using exists_piece_indexMk (Mk := Mk) σ B₀ hcov
   have hinj : Set.InjOn idx (Ing : Set (Finset (GBranch G.tree))) := by
     intro T hT T' hT' h
     rw [← hidx T (hmem T hT), ← hidx T' (hmem T' hT'), h]
@@ -88,28 +90,29 @@ theorem sum_vineIncoh_le_cohmol (layer0 : GBranch G.tree → ℕ) :
     _ = _ := Fintype.sum_sigma g
 
 include hcov in
-theorem card_bad_le :
-    bskOf G σ ≤ ∑ j, (Finset.univ.filter fun i : Fin (n₀ j) => (assemblyPieceAt (B₀ j) i).vineType.IsBad = true).card := by
+/-- B1b (Mk-general form of `card_bad_le`). -/
+theorem card_bad_leMk :
+    bskOf (Mk := Mk) G σ ≤ ∑ j, (Finset.univ.filter fun i : Fin (n₀ j) => (assemblyPieceAt (B₀ j) i).vineType.IsBad = true).card := by
   classical
-  set Ing := (Set.toFinite (unitIngredients G σ)).toFinset with hIng
-  have hmem : ∀ T ∈ Ing, T ∈ unitIngredients G σ := fun T hT => (Set.Finite.mem_toFinset _).1 hT
+  set Ing := (Set.toFinite (unitIngredients (Mk := Mk) G σ)).toFinset with hIng
+  have hmem : ∀ T ∈ Ing, T ∈ unitIngredients (Mk := Mk) G σ := fun T hT => (Set.Finite.mem_toFinset _).1 hT
   rcases isEmpty_or_nonempty (Σ j, Fin (n₀ j)) with hE | hN
   · have hIe : Ing = ∅ := Finset.eq_empty_of_forall_notMem fun T hT => by
-      obtain ⟨x, -⟩ := exists_piece_index σ B₀ hcov T (hmem T hT)
+      obtain ⟨x, -⟩ := exists_piece_indexMk (Mk := Mk) σ B₀ hcov T (hmem T hT)
       exact hE.elim x
-    have hb0 : bskOf G σ = 0 := by
+    have hb0 : bskOf (Mk := Mk) G σ = 0 := by
       unfold bskOf
       rw [Set.ncard_eq_zero (Set.toFinite _)]
       ext T
       simp only [Set.mem_inter_iff, Set.mem_empty_iff_false, iff_false, not_and]
       intro hT
-      have : T ∈ Ing := (Set.Finite.mem_toFinset (Set.toFinite (unitIngredients G σ))).2 hT
+      have : T ∈ Ing := (Set.Finite.mem_toFinset (Set.toFinite (unitIngredients (Mk := Mk) G σ))).2 hT
       rw [hIe] at this
       simp at this
     rw [hb0]; exact Nat.zero_le _
-  choose! idx hidx using exists_piece_index σ B₀ hcov
+  choose! idx hidx using exists_piece_indexMk (Mk := Mk) σ B₀ hcov
   let Bad : Finset (Finset (GBranch G.tree)) := Ing.filter (fun T => IsBadVineSet G T)
-  have hb : bskOf G σ = Bad.card := by
+  have hb : bskOf (Mk := Mk) G σ = Bad.card := by
     unfold bskOf
     rw [← Set.ncard_coe_finset, Finset.coe_filter]
     congr 1
@@ -136,6 +139,27 @@ theorem card_bad_le :
   · intro T hT T' hT' h
     simp only [Finset.coe_filter, Set.mem_setOf_eq, Bad] at hT hT'
     rw [← hidx T (hmem T hT.1), ← hidx T' (hmem T' hT'.1), h]
+
+end CoverMk
+
+section Cover
+variable {G : Garden w} (σ : Prescription G) {J₀ : Type} [Fintype J₀] {U₀ : J₀ → Finset (GBranch G.tree)}
+  {a₀ b₀ : J₀ → GBranch G.tree} {R₀ : ∀ j, CLRegionData G (U₀ j) (a₀ j) (b₀ j)} {n₀ : J₀ → ℕ}
+  (B₀ : ∀ j, CLChainAssembly G (R₀ j) (n₀ j))
+  (hcov : ∀ T ∈ unitIngredients G σ, ∃ j, IsIngredient G.molecule (U₀ j) T)
+
+include hcov in
+theorem exists_piece_index :
+    ∀ T ∈ unitIngredients G σ, ∃ x : (Σ j, Fin (n₀ j)), (assemblyPieceAt (B₀ x.1) x.2).atoms = T := by apply exists_piece_indexMk (Mk := ∅) <;> assumption
+
+include hcov in
+theorem sum_vineIncoh_le_cohmol (layer0 : GBranch G.tree → ℕ) :
+    ∑ T ∈ (Set.toFinite (unitIngredients G σ)).toFinset, vineIncoh G layer0 T ≤
+      ∑ j, ∑ i : Fin (n₀ j), realizedIncoherencyIndex (pieceRealization (B₀ j) i) layer0 := by apply sum_vineIncoh_le_cohmolMk (Mk := ∅) <;> assumption
+
+include hcov in
+theorem card_bad_le :
+    bskOf G σ ≤ ∑ j, (Finset.univ.filter fun i : Fin (n₀ j) => (assemblyPieceAt (B₀ j) i).vineType.IsBad = true).card := by apply card_bad_leMk (Mk := ∅) <;> assumption
 
 end Cover
 

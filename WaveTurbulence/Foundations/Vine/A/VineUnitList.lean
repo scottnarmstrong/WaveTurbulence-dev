@@ -9,12 +9,15 @@ namespace WaveTurbulence.VineA
 open Finset WaveTurbulence.RedSplice WaveTurbulence.Stage1
 variable {w : ℕ} {G : Garden w}
 
-/-- Actual units occur without repetitions, since every unit is nonempty. -/
-theorem unitBlocks_nodup (σ : Prescription G) : (unitBlocks G σ).Nodup := by
-  apply (unitBlocks_pairwise (Mole.garden_isMolecule G) σ).imp
+/-- B1b (Mk-general form of `unitBlocks_nodup`). -/
+theorem unitBlocks_nodupMk (σ : Prescription G) {Mk : Set (Stage1.CLVine _)} : (unitBlocks (Mk := Mk) G σ).Nodup := by
+  apply (unitBlocks_pairwiseMk (Mk := Mk) (Mole.garden_isMolecule G) σ).imp
   intro u v hd he
   subst v
   exact (disjoint_left.mp hd u.isBlock.2.1) u.isBlock.2.1
+
+/-- Actual units occur without repetitions, since every unit is nonempty. -/
+theorem unitBlocks_nodup (σ : Prescription G) : (unitBlocks G σ).Nodup := unitBlocks_nodupMk (Mk := ∅) σ
 
 /-- Actual atom lists correspond up to permutation under a selected LF unit twist. -/
 theorem unitBlocks_image_perm (Z : TwistGroupSite G) (σ : Prescription G)

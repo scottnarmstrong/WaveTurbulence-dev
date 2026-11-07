@@ -30,16 +30,56 @@ open Finset TTree Reg Reg.Skeleton WaveTurbulence WaveTurbulence.RegRed WaveTurb
 
 variable {w : ℕ} {S : Garden w}
 
+/-- B1b (Mk-general form of `lay_hinge`). -/
+theorem lay_hingeMk (hM : S.molecule.IsMolecule) (σ : Prescription S) {Mk : Set (Stage1.CLVine _)} (j : Fin (unitBlocks (Mk := Mk) S σ).length)
+    (D : ReconstructionData S) (hS : S.IsPlain) (layer : GNode (D.forest hS) → ℕ)
+    (hLayer : IsLayering (D.garden hS) layer) :
+    (stSt (Mk := Mk) S σ).layer (RegRed.coreLayer (layeredReconstruction D hS layer hLayer) D hS (D.garden_decodes hS))
+        ((stShape (Mk := Mk) hM σ).hinge (unitBlkMk_disj (Mk := Mk) hM σ) j) =
+      layer (D.coreBranch hS (unitBlkMk (Mk := Mk) hM σ j).upper).toNode := by
+  have h := (stShape (Mk := Mk) hM σ).br_hinge (unitBlkMk_disj (Mk := Mk) hM σ) j
+  have h' : (stSt (Mk := Mk) S σ).M.ob ((stShape (Mk := Mk) hM σ).hinge (unitBlkMk_disj (Mk := Mk) hM σ) j) = (unitBlkMk (Mk := Mk) hM σ j).upper := h
+  show layer (D.coreBranch hS ((stSt (Mk := Mk) S σ).M.ob ((stShape (Mk := Mk) hM σ).hinge (unitBlkMk_disj (Mk := Mk) hM σ) j))).toNode = _
+  rw [h']
+
 theorem lay_hinge (hM : S.molecule.IsMolecule) (σ : Prescription S) (j : Fin (unitBlocks S σ).length)
     (D : ReconstructionData S) (hS : S.IsPlain) (layer : GNode (D.forest hS) → ℕ)
     (hLayer : IsLayering (D.garden hS) layer) :
     (stSt S σ).layer (RegRed.coreLayer (layeredReconstruction D hS layer hLayer) D hS (D.garden_decodes hS))
         ((stShape hM σ).hinge (unitBlk_disj hM σ) j) =
-      layer (D.coreBranch hS (unitBlk hM σ j).upper).toNode := by
-  have h := (stShape hM σ).br_hinge (unitBlk_disj hM σ) j
-  have h' : (stSt S σ).M.ob ((stShape hM σ).hinge (unitBlk_disj hM σ) j) = (unitBlk hM σ j).upper := h
-  show layer (D.coreBranch hS ((stSt S σ).M.ob ((stShape hM σ).hinge (unitBlk_disj hM σ) j))).toNode = _
-  rw [h']
+      layer (D.coreBranch hS (unitBlk hM σ j).upper).toNode := lay_hingeMk (Mk := ∅) hM σ j D hS layer hLayer
+
+/-- B1b (Mk-general form of `lay_branch_child`). -/
+theorem lay_branch_childMk (hM : S.molecule.IsMolecule) (σ : Prescription S) {Mk : Set (Stage1.CLVine _)} (j : Fin (unitBlocks (Mk := Mk) S σ).length)
+    (D : ReconstructionData S) (hS : S.IsPlain) (layer : GNode (D.forest hS) → ℕ)
+    (hLayer : IsLayering (D.garden hS) layer) (k : Fin 4) (c : GBranch (stSt (Mk := Mk) S σ).G.tree)
+    (hc : nodeClk (stSt (Mk := Mk) S σ).G ((stShape (Mk := Mk) hM σ).hmom (unitBlkMk_disj (Mk := Mk) hM σ) j k) = Sum.inr c) :
+    ∃ hb : (bnodes (unitBlkMk (Mk := Mk) hM σ j) k).1.2 ∈ (S.tree (bnodes (unitBlkMk (Mk := Mk) hM σ j) k).1.1).branching,
+      (stSt (Mk := Mk) S σ).layer (RegRed.coreLayer (layeredReconstruction D hS layer hLayer) D hS (D.garden_decodes hS)) c =
+        layer (D.coreBranch hS ⟨(bnodes (unitBlkMk (Mk := Mk) hM σ j) k).1, hb⟩).toNode := by
+  have hcn : c.toNode = (stShape (Mk := Mk) hM σ).hmom (unitBlkMk_disj (Mk := Mk) hM σ) j k := by
+    unfold nodeClk at hc
+    by_cases h : ((stShape (Mk := Mk) hM σ).hmom (unitBlkMk_disj (Mk := Mk) hM σ) j k).1.2 ∈
+        ((stSt (Mk := Mk) S σ).G.tree ((stShape (Mk := Mk) hM σ).hmom (unitBlkMk_disj (Mk := Mk) hM σ) j k).1.1).branching
+    · rw [dif_pos h] at hc
+      have := Sum.inr.inj hc
+      subst this
+      rfl
+    · rw [dif_neg h] at hc
+      exact absurd hc (by simp)
+  have hnode : ((stShape (Mk := Mk) hM σ).br c).toNode = bnodes (unitBlkMk (Mk := Mk) hM σ j) k := by
+    rw [(stShape (Mk := Mk) hM σ).br_node, hcn]
+    exact (stShape (Mk := Mk) hM σ).node_hmom (unitBlkMk_disj (Mk := Mk) hM σ) j k
+  have hb : (bnodes (unitBlkMk (Mk := Mk) hM σ j) k).1.2 ∈ (S.tree (bnodes (unitBlkMk (Mk := Mk) hM σ j) k).1.1).branching := by
+    rw [← hnode]; exact ((stShape (Mk := Mk) hM σ).br c).2
+  refine ⟨hb, ?_⟩
+  have hbr : (stShape (Mk := Mk) hM σ).br c = ⟨(bnodes (unitBlkMk (Mk := Mk) hM σ j) k).1, hb⟩ := by
+    apply WaveTurbulence.Mole.branch_toNode_injective
+    rw [hnode]
+    rfl
+  have hob : (stSt (Mk := Mk) S σ).M.ob c = ⟨(bnodes (unitBlkMk (Mk := Mk) hM σ j) k).1, hb⟩ := hbr
+  show layer (D.coreBranch hS ((stSt (Mk := Mk) S σ).M.ob c)).toNode = _
+  rw [hob]
 
 theorem lay_branch_child (hM : S.molecule.IsMolecule) (σ : Prescription S) (j : Fin (unitBlocks S σ).length)
     (D : ReconstructionData S) (hS : S.IsPlain) (layer : GNode (D.forest hS) → ℕ)
@@ -47,30 +87,7 @@ theorem lay_branch_child (hM : S.molecule.IsMolecule) (σ : Prescription S) (j :
     (hc : nodeClk (stSt S σ).G ((stShape hM σ).hmom (unitBlk_disj hM σ) j k) = Sum.inr c) :
     ∃ hb : (bnodes (unitBlk hM σ j) k).1.2 ∈ (S.tree (bnodes (unitBlk hM σ j) k).1.1).branching,
       (stSt S σ).layer (RegRed.coreLayer (layeredReconstruction D hS layer hLayer) D hS (D.garden_decodes hS)) c =
-        layer (D.coreBranch hS ⟨(bnodes (unitBlk hM σ j) k).1, hb⟩).toNode := by
-  have hcn : c.toNode = (stShape hM σ).hmom (unitBlk_disj hM σ) j k := by
-    unfold nodeClk at hc
-    by_cases h : ((stShape hM σ).hmom (unitBlk_disj hM σ) j k).1.2 ∈
-        ((stSt S σ).G.tree ((stShape hM σ).hmom (unitBlk_disj hM σ) j k).1.1).branching
-    · rw [dif_pos h] at hc
-      have := Sum.inr.inj hc
-      subst this
-      rfl
-    · rw [dif_neg h] at hc
-      exact absurd hc (by simp)
-  have hnode : ((stShape hM σ).br c).toNode = bnodes (unitBlk hM σ j) k := by
-    rw [(stShape hM σ).br_node, hcn]
-    exact (stShape hM σ).node_hmom (unitBlk_disj hM σ) j k
-  have hb : (bnodes (unitBlk hM σ j) k).1.2 ∈ (S.tree (bnodes (unitBlk hM σ j) k).1.1).branching := by
-    rw [← hnode]; exact ((stShape hM σ).br c).2
-  refine ⟨hb, ?_⟩
-  have hbr : (stShape hM σ).br c = ⟨(bnodes (unitBlk hM σ j) k).1, hb⟩ := by
-    apply WaveTurbulence.Mole.branch_toNode_injective
-    rw [hnode]
-    rfl
-  have hob : (stSt S σ).M.ob c = ⟨(bnodes (unitBlk hM σ j) k).1, hb⟩ := hbr
-  show layer (D.coreBranch hS ((stSt S σ).M.ob c)).toNode = _
-  rw [hob]
+        layer (D.coreBranch hS ⟨(bnodes (unitBlk hM σ j) k).1, hb⟩).toNode := lay_branch_childMk (Mk := ∅) hM σ j D hS layer hLayer k c hc
 
 /-- The core layer is monotone along the unit: every atom of the unit has core layer at most that of its upper joint. -/
 theorem layer_core_le_upper (u : CLBlock S) (D : ReconstructionData S) (hS : S.IsPlain)

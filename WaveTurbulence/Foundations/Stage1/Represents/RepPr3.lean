@@ -51,13 +51,20 @@ theorem stage1Partition_prod (p : ℕ) (kind : Bool) (A : Finset (LayeredGarden 
   · have hp := hplain LG hLG
     let b0 : PrescribedPrimeGarden (2 * R) := ⟨LG, primeDataOf LG hp, fun _ => .ZG⟩
     refine ⟨⟨coarseOf p kind b0, ⟨⟨b0, hLG⟩, rfl⟩⟩, Finset.mem_filter.2 ⟨hLG, ?_⟩⟩
+    show LG ∈ coarseOf p kind b0
+    rw [coarseOf_empty]
     exact b0.prime.mem_coarse_outputs_self
   · rintro ⟨_, ⟨x, rfl⟩⟩ ⟨_, ⟨x', rfl⟩⟩ hne
     rcases x.1.prime.coarse_outputs_disjoint_or_eq (p := p) (kind := kind) x'.1.prime with hd | he
     · rw [Finset.disjoint_left]
       intro LG h1 h2
-      exact Set.disjoint_left.1 hd (Finset.mem_filter.1 h1).2 (Finset.mem_filter.1 h2).2
-    · exact (hne (Subtype.ext he)).elim
+      have h1' : LG ∈ coarseOf p kind x.1 := (Finset.mem_filter.1 h1).2
+      have h2' : LG ∈ coarseOf p kind x'.1 := (Finset.mem_filter.1 h2).2
+      rw [coarseOf_empty] at h1' h2'
+      exact Set.disjoint_left.1 hd h1' h2'
+    · exact (hne (Subtype.ext (by
+        show coarseOf p kind x.1 = coarseOf p kind x'.1
+        rw [coarseOf_empty, coarseOf_empty]; exact he))).elim
   · intro c LG hLG κ
     obtain ⟨hLGA, hLGc⟩ := Finset.mem_filter.1 hLG
     have hp := hplain LG hLGA
@@ -71,7 +78,10 @@ theorem stage1Partition_prod (p : ℕ) (kind : Bool) (A : Finset (LayeredGarden 
       refine Subtype.ext ?_
       change coarseOf p kind (repPt π0) = coarseOf p kind z.1
       rw [coarse_eq_of_related hrel0]
-      exact (z.1.prime.coarse_outputs_rebase (p := p) (kind := kind) b0.prime hLGc).symm
+      have hLGc' : LG ∈ coarseOf p kind z.1 := hLGc
+      rw [coarseOf_empty] at hLGc'
+      rw [coarseOf_empty, coarseOf_empty]
+      exact (z.1.prime.coarse_outputs_rebase (p := p) (kind := kind) b0.prime hLGc').symm
     · intro π' ⟨_, b, h, hrel, hs⟩
       have hbb : b = b0 := eq_of_selAt P base LG κ b b0 h rfl hs hσ0
       subst hbb

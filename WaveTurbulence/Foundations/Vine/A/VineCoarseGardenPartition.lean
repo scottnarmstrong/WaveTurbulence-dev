@@ -15,6 +15,12 @@ theorem PrimeData.mem_coarse_outputs_self (A : PrimeData LG) :
   (congruent_layered_iff p kind A.coarseState LG).mpr
     ⟨A.coarseState, WaveTurbulence.Stage1.Congruent.refl p kind A.coarseState, rfl⟩
 
+/-- B1b (R11): every prime garden representative belongs to its coarse′ output set. -/
+theorem PrimeData.mem_coarse_outputs_selfMk (A : PrimeData LG) (Mk : Set (Stage1.CLVine A.skeleton)) :
+    LG ∈ (coarseStateMk A Mk).allCoreOutputs (p := p) (kind := kind) :=
+  (congruent_layered_iff p kind (coarseStateMk A Mk) LG).mpr
+    ⟨coarseStateMk A Mk, WaveTurbulence.Stage1.Congruent.refl p kind (coarseStateMk A Mk), rfl⟩
+
 /-- Coarse garden output sets can be rebased at any member's unique prime representative. -/
 theorem PrimeData.coarse_outputs_rebase (A : PrimeData LG) (B : PrimeData LH)
     (h : LH ∈ A.coarseState.allCoreOutputs (p := p) (kind := kind)) :

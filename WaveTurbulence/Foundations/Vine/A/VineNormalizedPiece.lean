@@ -14,15 +14,15 @@ variable {R : ℕ}
 
 /-- **The Stage 1 piece of the original layered garden `LG` and the prescription `σ`.** -/
 noncomputable def stage1PieceOf (d : ℕ) {S : Garden (2 * R)} {D : ReconstructionData S}
-    (hS : S.IsPlain) (LG : LayeredGarden (2 * R)) (hd : D.Decodes hS LG.garden) (σ : Prescription S) :
-    Stage1PieceD d R where
-  Gsb := (stSt S σ).G
-  Cs := collectionChoices S σ
-  ladders := ladderDataOf (stSt S σ).G
-  layer := (stSt S σ).layer (RegRed.coreLayer LG D hS hd)
-  gapSpecification := gapSpecification S σ
-  gsk := gskOf (gregOf D hS LG) S σ (RegRed.coreLayer LG D hS hd)
-  bsk := bskOf S σ
+    (hS : S.IsPlain) (LG : LayeredGarden (2 * R)) (hd : D.Decodes hS LG.garden) (σ : Prescription S)
+    (Mk : Set (Stage1.CLVine S) := ∅) : Stage1PieceD d R where
+  Gsb := (stSt S σ Mk).G
+  Cs := collectionChoices S σ Mk
+  ladders := ladderDataOf (stSt S σ Mk).G
+  layer := (stSt S σ Mk).layer (RegRed.coreLayer LG D hS hd)
+  gapSpecification := gapSpecificationMk S σ Mk
+  gsk := gskOf (gregOf D hS LG) S σ (RegRed.coreLayer LG D hS hd) Mk
+  bsk := bskOf S σ Mk
 
 
 end WaveTurbulence.VineA.NormalizedSplice

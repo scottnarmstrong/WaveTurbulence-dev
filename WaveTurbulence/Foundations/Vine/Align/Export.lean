@@ -25,19 +25,29 @@ theorem sourceLayer_reconstructs {w : ℕ} (a : PrescribedPrimeGarden w) :
     layeredReconstruction a.prime.data a.prime.prime.1 (sourceLayer a) (sourceLayer_isLayering a) = a.layered :=
   (layered_eq_reconstruction a.prime.data a.prime.prime.1 a.layered a.prime.decodes).choose_spec.choose_spec
 
+/-- B1a: the actual unit assembly family for the marking `mk` (the units are the runs of the marked groups, so the
+start family consists of unmarked vines only); main's `sourceAssembly a` is its value at the empty marking. -/
+noncomputable abbrev sourceAssemblyMk {w : ℕ} (a : PrescribedPrimeGarden w) (mk : Stage1Mk.MarkFn w) :=
+  alignedAssemblyMk (Mole.garden_isMolecule a.prime.skeleton) a.totalSigma (mk a.prime)
+
+/-- B1a: the unit regions for the marking `mk`. -/
+noncomputable abbrev sourceUnitsMk {w : ℕ} (a : PrescribedPrimeGarden w) (mk : Stage1Mk.MarkFn w) :=
+  unitsRegion (sourceAssemblyMk a mk) (VineB.unitBlkMk_disj (Mole.garden_isMolecule _) a.totalSigma (mk a.prime))
+
 /-- The actual unit assembly family to use as `B₀` in the S2 class sum. -/
 noncomputable abbrev sourceAssembly {w : ℕ} (a : PrescribedPrimeGarden w) :=
-  alignedAssembly (Mole.garden_isMolecule a.prime.skeleton) a.totalSigma
+  sourceAssemblyMk a fun _ => ∅
 
-noncomputable abbrev sourceStart {w : ℕ} (a : PrescribedPrimeGarden w) :=
-  unitsStart (sourceAssembly a) (unitBlk_disj (Mole.garden_isMolecule _) a.totalSigma)
+noncomputable abbrev sourceStart {w : ℕ} (a : PrescribedPrimeGarden w) (mk : Stage1Mk.MarkFn w := fun _ => ∅) :=
+  unitsStart (sourceAssemblyMk a mk) (VineB.unitBlkMk_disj (Mole.garden_isMolecule _) a.totalSigma (mk a.prime))
     a.prime.data a.prime.prime.1 (sourceLayer a) (sourceLayer_isLayering a)
 
 noncomputable abbrev sourceUnits {w : ℕ} (a : PrescribedPrimeGarden w) :=
-  unitsRegion (sourceAssembly a) (unitBlk_disj (Mole.garden_isMolecule _) a.totalSigma)
+  sourceUnitsMk a fun _ => ∅
 
-noncomputable abbrev sourceClass {w : ℕ} (a : PrescribedPrimeGarden w) (p : ℕ) (kind : Bool) :=
-  classU (unitsSplit (sourceAssembly a)) p kind (sourceStart a) (sourceUnits a)
+noncomputable abbrev sourceClass {w : ℕ} (a : PrescribedPrimeGarden w) (p : ℕ) (kind : Bool)
+    (mk : Stage1Mk.MarkFn w := fun _ => ∅) :=
+  classU (unitsSplit (sourceAssemblyMk a mk)) p kind (sourceStart a mk) (sourceUnitsMk a mk)
 
 /-- `hT` with the representative's actual data and layering, without an alignment assumption. -/
 theorem sourceClass_hT {w p : ℕ} {kind : Bool} (a : PrescribedPrimeGarden w)

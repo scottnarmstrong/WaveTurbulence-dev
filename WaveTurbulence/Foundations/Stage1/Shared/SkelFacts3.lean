@@ -8,6 +8,7 @@ module
 public import WaveTurbulence.Foundations.Stage1.Shared.SkelFacts2
 public import WaveTurbulence.Foundations.Vine.A.VineAExports
 public import WaveTurbulence.Foundations.Spine.Stage1Gate
+public import WaveTurbulence.Foundations.Stage1.Shared.CarriesW
 import Mathlib.Tactic
 
 /-!
@@ -48,11 +49,11 @@ theorem skeleton_order_pos (hR : 1 ≤ R) {LG : LayeredGarden (2 * R)} (pr : Pri
     (hnc : ∀ h : 2 * R = 2, ¬ IsRegularCouple (h ▸ LG.garden)) : 1 ≤ pr.skeleton.order :=
   pr.data.order_pos_of_decodes hR pr.prime pr.decodes hG hsig hnc
 
-/-- All three facts from the `Stage1Carries` hypothesis of the gate (canonical, balanced, non-regular couple). -/
-theorem skelFacts_of_carries (P : WTParams) (p N : ℕ) (hR : 1 ≤ R) {LG : LayeredGarden (2 * R)}
-    (hc : Stage1Carries P p N LG) (pr : PrimeData LG) :
+/-- B1b (R156): all three facts from the truncation-free carrier `Stage1CarriesW`. -/
+theorem skelFacts_of_carriesW (P : WTParams) (p N : ℕ) (hR : 1 ≤ R) {LG : LayeredGarden (2 * R)}
+    (hc : Stage1Mk.Stage1CarriesW P p N LG) (pr : PrimeData LG) :
     pr.skeleton.Irreducible ∧ IsBalancedSig pr.skeleton.sig ∧ 1 ≤ pr.skeleton.order := by
-  obtain ⟨hcan, _, _, hbal, hnc⟩ := hc
+  obtain ⟨hcan, _, hbal, hnc⟩ := hc
   obtain ⟨_, hirr, _⟩ := hcan
   have hsig : ∀ _ : 2 * R = 2, ∀ j, LG.garden.sig j = (-1) ^ (j : ℕ) := by
     intro h2
@@ -66,5 +67,11 @@ theorem skelFacts_of_carries (P : WTParams) (p N : ℕ) (hR : 1 ≤ R) {LG : Lay
       subst hR1
       exact WaveTurbulence.Comb.couple_irreducible LG.garden
   exact ⟨skeleton_irreducible pr hG, skeleton_balanced pr hbal, skeleton_order_pos hR pr hG hsig hnc⟩
+
+/-- All three facts from the `Stage1Carries` hypothesis of the gate (canonical, balanced, non-regular couple). -/
+theorem skelFacts_of_carries (P : WTParams) (p N : ℕ) (hR : 1 ≤ R) {LG : LayeredGarden (2 * R)}
+    (hc : Stage1Carries P p N LG) (pr : PrimeData LG) :
+    pr.skeleton.Irreducible ∧ IsBalancedSig pr.skeleton.sig ∧ 1 ≤ pr.skeleton.order :=
+  skelFacts_of_carriesW P p N hR (Stage1Mk.stage1CarriesW_of_stage1Carries hc) pr
 
 end WaveTurbulence.Represents

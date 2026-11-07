@@ -45,31 +45,35 @@ theorem tripleDesignated_collectionChoices {G : Garden w} (hM : G.molecule.IsMol
     exact ⟨b, hb, a, x, y, Or.inr ⟨rfl, rfl⟩, by simp [collectionChoices, hxy], by simp [collectionChoices, hxy],
       hT, h1, h2⟩
 
-/-- No loop dart at a hinge of `G_sb`: both ends of a dart of `G_sb` never lie in one merged class (`od_range`). -/
-theorem hingeNoLoop_collectionChoices {G : Garden w} (σ : Prescription G) :
-    (collectionChoices G σ).HingeNoLoop := by
+/-- B1b (Mk-general form of `hingeNoLoop_collectionChoices`). -/
+theorem hingeNoLoop_collectionChoicesMk {G : Garden w} (σ : Prescription G) {Mk : Set (Stage1.CLVine _)} :
+    (collectionChoices (Mk := Mk) G σ).HingeNoLoop := by
   intro x hx hloop
-  have hcn := ((stSt G σ).mem_hinges _).mp hx
-  have hr := ((stSt G σ).M.od_range ((stSt G σ).M.od x)).mp ⟨x, rfl⟩
-  have h1 := (stSt G σ).M.ob_atom x
-  have h2 := (stSt G σ).M.ob_atom ((stSt G σ).G.molecule.mate x)
-  rw [(stSt G σ).M.od_mate] at h2
+  have hcn := ((stSt (Mk := Mk) G σ).mem_hinges _).mp hx
+  have hr := ((stSt (Mk := Mk) G σ).M.od_range ((stSt (Mk := Mk) G σ).M.od x)).mp ⟨x, rfl⟩
+  have h1 := (stSt (Mk := Mk) G σ).M.ob_atom x
+  have h2 := (stSt (Mk := Mk) G σ).M.ob_atom ((stSt (Mk := Mk) G σ).G.molecule.mate x)
+  rw [(stSt (Mk := Mk) G σ).M.od_mate] at h2
   rw [← hloop] at h2
-  set p := G.molecule.atom ((stSt G σ).M.od x)
-  set q := G.molecule.atom (G.molecule.mate ((stSt G σ).M.od x))
-  have hp : (stSt G σ).cls p ≠ none := by
+  set p := G.molecule.atom ((stSt (Mk := Mk) G σ).M.od x)
+  set q := G.molecule.atom (G.molecule.mate ((stSt (Mk := Mk) G σ).M.od x))
+  have hp : (stSt (Mk := Mk) G σ).cls p ≠ none := by
     intro hn
     apply hcn
     rw [h1]; simp [repC, hn]
-  have hq : (stSt G σ).cls q ≠ none := by
+  have hq : (stSt (Mk := Mk) G σ).cls q ≠ none := by
     intro hn
     apply hcn
     rw [h2]; simp [repC, hn]
   obtain ⟨a, ha⟩ := Option.ne_none_iff_exists'.mp hp
   obtain ⟨b, hb⟩ := Option.ne_none_iff_exists'.mp hq
   have hab : a = b := by
-    have e : repC (stSt G σ).cls p = repC (stSt G σ).cls q := h1.symm.trans h2
+    have e : repC (stSt (Mk := Mk) G σ).cls p = repC (stSt (Mk := Mk) G σ).cls q := h1.symm.trans h2
     simp [repC, ha, hb] at e; exact e
   exact hr ⟨a, ha, hab ▸ hb⟩
+
+/-- No loop dart at a hinge of `G_sb`: both ends of a dart of `G_sb` never lie in one merged class (`od_range`). -/
+theorem hingeNoLoop_collectionChoices {G : Garden w} (σ : Prescription G) :
+    (collectionChoices G σ).HingeNoLoop := hingeNoLoop_collectionChoicesMk (Mk := ∅) σ
 
 end WaveTurbulence.VineA.NormalizedSplice

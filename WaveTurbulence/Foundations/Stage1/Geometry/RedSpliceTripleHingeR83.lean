@@ -50,43 +50,51 @@ section glue
 variable (hM : G.molecule.IsMolecule) (σ : Prescription G)
 include hM
 
-/-- A hinge is the crown of a spliced unit. -/
-theorem hinge_crown {v : GBranch (stSt G σ).G.tree} (hv : v ∈ (stSt G σ).hinges) :
-    ∃ u ∈ unitBlocks G σ, (stSt G σ).M.ob v = u.upper := by
-  have hcn := ((stSt G σ).mem_hinges v).mp hv
-  by_cases h : ∃ u ∈ unitBlocks G σ, (stSt G σ).M.ob v ∈ u.atoms
+/-- B1b (Mk-general form of `hinge_crown`). -/
+theorem hinge_crownMk {Mk : Set (Stage1.CLVine _)} {v : GBranch (stSt (Mk := Mk) G σ).G.tree} (hv : v ∈ (stSt (Mk := Mk) G σ).hinges) :
+    ∃ u ∈ unitBlocks (Mk := Mk) G σ, (stSt (Mk := Mk) G σ).M.ob v = u.upper := by
+  have hcn := ((stSt (Mk := Mk) G σ).mem_hinges v).mp hv
+  by_cases h : ∃ u ∈ unitBlocks (Mk := Mk) G σ, (stSt (Mk := Mk) G σ).M.ob v ∈ u.atoms
   swap
   · push Not at h
-    exact absurd (stSt_cls_none hM σ h) hcn
+    exact absurd (stSt_cls_noneMk (Mk := Mk) hM σ h) hcn
   obtain ⟨u, hu, hvu⟩ := h
-  have h1 := stSt_cls_mem hM σ hu hvu
+  have h1 := stSt_cls_memMk (Mk := Mk) hM σ hu hvu
   refine ⟨u, hu, ?_⟩
-  have := ((stSt G σ).M.ob_range ((stSt G σ).M.ob v)).mp ⟨v, rfl⟩
+  have := ((stSt (Mk := Mk) G σ).M.ob_range ((stSt (Mk := Mk) G σ).M.ob v)).mp ⟨v, rfl⟩
   rcases this with h3 | h3
   · rw [h1] at h3; cases h3
   · rw [h1] at h3; exact (Option.some.inj h3).symm
 
-/-- No bond of `G_sb` joins a hinge to itself. -/
-theorem hinge_ne {u : CLBlock G} (hu : u ∈ unitBlocks G σ) {v c : GBranch (stSt G σ).G.tree}
-    (hcr : (stSt G σ).M.ob v = u.upper) (h3 : (stSt G σ).G.molecule.bondsBetween v c = 3) : v ≠ c := by
+/-- A hinge is the crown of a spliced unit. -/
+theorem hinge_crown {v : GBranch (stSt G σ).G.tree} (hv : v ∈ (stSt G σ).hinges) :
+    ∃ u ∈ unitBlocks G σ, (stSt G σ).M.ob v = u.upper := hinge_crownMk (Mk := ∅) hM σ hv
+
+/-- B1b (Mk-general form of `hinge_ne`). -/
+theorem hinge_neMk {u : CLBlock G} {Mk : Set (Stage1.CLVine _)} (hu : u ∈ unitBlocks (Mk := Mk) G σ) {v c : GBranch (stSt (Mk := Mk) G σ).G.tree}
+    (hcr : (stSt (Mk := Mk) G σ).M.ob v = u.upper) (h3 : (stSt (Mk := Mk) G σ).G.molecule.bondsBetween v c = 3) : v ≠ c := by
   intro hvc
   subst hvc
-  have hpos : 0 < (stSt G σ).G.molecule.bondsBetween v v := by rw [h3]; norm_num
+  have hpos : 0 < (stSt (Mk := Mk) G σ).G.molecule.bondsBetween v v := by rw [h3]; norm_num
   unfold Molecule.bondsBetween at hpos
   obtain ⟨x, hx⟩ := Finset.card_pos.mp hpos
   rw [Finset.mem_filter] at hx
   have h2 := hx.2
   unfold Molecule.ends at h2
-  have hx1 : (stSt G σ).G.molecule.atom x = v ∧ (stSt G σ).G.molecule.atom ((stSt G σ).G.molecule.mate x) = v := by
+  have hx1 : (stSt (Mk := Mk) G σ).G.molecule.atom x = v ∧ (stSt (Mk := Mk) G σ).G.molecule.atom ((stSt (Mk := Mk) G σ).G.molecule.mate x) = v := by
     rcases Sym2.eq_iff.mp h2 with ⟨a, b⟩ | ⟨a, b⟩
     · exact ⟨a, b⟩
     · exact ⟨a, b⟩
-  obtain ⟨hin, hn⟩ := od_ext hM σ hu hcr hx1.1
-  obtain ⟨hin2, -⟩ := od_ext hM σ hu hcr hx1.2
+  obtain ⟨hin, hn⟩ := od_extMk (Mk := Mk) hM σ hu hcr hx1.1
+  obtain ⟨hin2, -⟩ := od_extMk (Mk := Mk) hM σ hu hcr hx1.2
   apply hn
   refine ⟨hin, ?_⟩
-  rw [← (stSt G σ).M.od_mate]
+  rw [← (stSt (Mk := Mk) G σ).M.od_mate]
   exact hin2
+
+/-- No bond of `G_sb` joins a hinge to itself. -/
+theorem hinge_ne {u : CLBlock G} (hu : u ∈ unitBlocks G σ) {v c : GBranch (stSt G σ).G.tree}
+    (hcr : (stSt G σ).M.ob v = u.upper) (h3 : (stSt G σ).G.molecule.bondsBetween v c = 3) : v ≠ c := hinge_neMk (Mk := ∅) hM σ hu hcr h3
 
 /-- **R37 (S2a).**  If a hinge `v` of `G_sb` has a triple bond to `c`, the hinge pair `(ℓ_1, ℓ_2)` of `v` (TARGET subpro (5);
 `hingePair`) consists of two bonds of that triple bond. -/

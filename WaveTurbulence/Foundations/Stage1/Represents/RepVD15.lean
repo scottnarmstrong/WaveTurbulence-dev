@@ -46,13 +46,20 @@ theorem eta_small_facts (η : ℝ) (hη : 0 < η) (hη2 : η ≤ 1 / 2) :
   · rw [h6]; nlinarith
 
 
+/-- B1b (Mk-general form of `gsk_of_spec`). -/
+theorem gsk_of_specMk {w : ℕ} {S : Garden w} (D : ReconstructionData S) (hS : S.IsPlain)
+    (layer : GNode (D.forest hS) → ℕ) (hLayer : IsLayering (D.garden hS) layer) (LG : LayeredGarden w)
+    (hspec : layeredReconstruction D hS layer hLayer = LG) (hd : D.Decodes hS LG.garden) (σ : Prescription S) {Mk : Set (Stage1.CLVine _)} :
+    gskOf (Mk := Mk) (gregOf D hS LG) S σ (RegRed.coreLayer LG D hS hd) =
+      gskOf (Mk := Mk) (gregOf D hS (layeredReconstruction D hS layer hLayer)) S σ (fun v => layer (D.coreBranch hS v).toNode) := by
+  subst hspec
+  rfl
+
 theorem gsk_of_spec {w : ℕ} {S : Garden w} (D : ReconstructionData S) (hS : S.IsPlain)
     (layer : GNode (D.forest hS) → ℕ) (hLayer : IsLayering (D.garden hS) layer) (LG : LayeredGarden w)
     (hspec : layeredReconstruction D hS layer hLayer = LG) (hd : D.Decodes hS LG.garden) (σ : Prescription S) :
     gskOf (gregOf D hS LG) S σ (RegRed.coreLayer LG D hS hd) =
-      gskOf (gregOf D hS (layeredReconstruction D hS layer hLayer)) S σ (fun v => layer (D.coreBranch hS v).toNode) := by
-  subst hspec
-  rfl
+      gskOf (gregOf D hS (layeredReconstruction D hS layer hLayer)) S σ (fun v => layer (D.coreBranch hS v).toNode) := gsk_of_specMk (Mk := ∅) D hS layer hLayer LG hspec hd σ
 
 theorem nor_card_eq {w : ℕ} {G : Garden w} {U : Finset (GBranch G.tree)} {a b : GBranch G.tree}
     {R : CLRegionData G U a b} {n : ℕ} (hM9 : VINEPARAM) (B : CLChainAssembly G R n) :

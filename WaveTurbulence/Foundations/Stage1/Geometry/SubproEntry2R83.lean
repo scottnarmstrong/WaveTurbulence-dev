@@ -75,16 +75,17 @@ theorem entry_obj_hv (hM : G.molecule.IsMolecule) (σ : Prescription G) {S : Fin
     exact ⟨n1, n2⟩
   exact ⟨hcd _ _ h1 hQ1, hcd _ _ h2 hQ2, Or.inl hup.symm⟩
 
-theorem hsh_skip (σ : Prescription G) {S : Finset (GBranch G.tree)} (sk : SkipData G S)
-    {O : Object (stSt G σ).G.molecule}
+/-- B1b (Mk-general form of `hsh_skip`). -/
+theorem hsh_skipMk (σ : Prescription G) {S : Finset (GBranch G.tree)} (sk : SkipData G S)
+    {Mk : Set (Stage1.CLVine _)} {O : Object (stSt (Mk := Mk) G σ).G.molecule}
     (hsh1 : sk.bond = none → ∃ h, O.shape = VineLikeObject.vc h)
-    (hsh2 : ∀ e, sk.bond = some e → ∃ R : HyperLikeRealization (stSt G σ).G.molecule O.atoms O.upper O.lower,
-      O.shape = VineLikeObject.hyper R ∧ (stSt G σ).M.od R.added = e)
-    {f : GardenDart (stSt G σ).G}
-    (hbond : ∀ e, sk.bond = some e → (stSt G σ).M.od f ≠ e ∧ (stSt G σ).M.od f ≠ G.molecule.mate e) :
+    (hsh2 : ∀ e, sk.bond = some e → ∃ R : HyperLikeRealization (stSt (Mk := Mk) G σ).G.molecule O.atoms O.upper O.lower,
+      O.shape = VineLikeObject.hyper R ∧ (stSt (Mk := Mk) G σ).M.od R.added = e)
+    {f : GardenDart (stSt (Mk := Mk) G σ).G}
+    (hbond : ∀ e, sk.bond = some e → (stSt (Mk := Mk) G σ).M.od f ≠ e ∧ (stSt (Mk := Mk) G σ).M.od f ≠ G.molecule.mate e) :
     ∀ R', O.shape = VineLikeObject.hyper R' →
-      (stSt G σ).M.od f ≠ (stSt G σ).M.od R'.added ∧
-        (stSt G σ).M.od f ≠ G.molecule.mate ((stSt G σ).M.od R'.added) := by
+      (stSt (Mk := Mk) G σ).M.od f ≠ (stSt (Mk := Mk) G σ).M.od R'.added ∧
+        (stSt (Mk := Mk) G σ).M.od f ≠ G.molecule.mate ((stSt (Mk := Mk) G σ).M.od R'.added) := by
   intro R' hR'
   rcases hb : sk.bond with _ | e
   · obtain ⟨h, hh⟩ := hsh1 hb
@@ -96,9 +97,52 @@ theorem hsh_skip (σ : Prescription G) {S : Finset (GBranch G.tree)} (sk : SkipD
     rw [hRe]
     exact hbond e hb
 
+theorem hsh_skip (σ : Prescription G) {S : Finset (GBranch G.tree)} (sk : SkipData G S)
+    {O : Object (stSt G σ).G.molecule}
+    (hsh1 : sk.bond = none → ∃ h, O.shape = VineLikeObject.vc h)
+    (hsh2 : ∀ e, sk.bond = some e → ∃ R : HyperLikeRealization (stSt G σ).G.molecule O.atoms O.upper O.lower,
+      O.shape = VineLikeObject.hyper R ∧ (stSt G σ).M.od R.added = e)
+    {f : GardenDart (stSt G σ).G}
+    (hbond : ∀ e, sk.bond = some e → (stSt G σ).M.od f ≠ e ∧ (stSt G σ).M.od f ≠ G.molecule.mate e) :
+    ∀ R', O.shape = VineLikeObject.hyper R' →
+      (stSt G σ).M.od f ≠ (stSt G σ).M.od R'.added ∧
+        (stSt G σ).M.od f ≠ G.molecule.mate ((stSt G σ).M.od R'.added) := hsh_skipMk (Mk := ∅) σ sk hsh1 hsh2 hbond
+
 theorem x_mem_A {S : Finset (GBranch G.tree)} (sk : SkipData G S) : sk.x ∈ sk.A ∧ sk.y ∈ sk.A := by
   obtain ⟨X, hX⟩ := sk.vine
   exact ⟨hX.1.2.1, hX.1.2.2.1⟩
+
+/-- B1b (Mk-general form of `entry_obj_hinge`). -/
+theorem entry_obj_hingeMk (hM : G.molecule.IsMolecule) (σ : Prescription G) {S : Finset (GBranch G.tree)}
+    (sk : SkipData G S) (hsk : (groupUnitsOf G S).skip = some sk)
+    {Mk : Set (Stage1.CLVine _)} {O : Object (stSt (Mk := Mk) G σ).G.molecule}
+    (hOa : O.atoms = sk.A.image ((stSt (Mk := Mk) G σ).M.pi (stSt (Mk := Mk) G σ).hcls))
+    (hup : O.upper = (stSt (Mk := Mk) G σ).M.pi (stSt (Mk := Mk) G σ).hcls sk.x) (hlo : O.lower = (stSt (Mk := Mk) G σ).M.pi (stSt (Mk := Mk) G σ).hcls sk.y)
+    (hsh1 : sk.bond = none → ∃ h, O.shape = VineLikeObject.vc h)
+    (hsh2 : ∀ e, sk.bond = some e → ∃ R : HyperLikeRealization (stSt (Mk := Mk) G σ).G.molecule O.atoms O.upper O.lower,
+      O.shape = VineLikeObject.hyper R ∧ (stSt (Mk := Mk) G σ).M.od R.added = e)
+    {a : GBranch G.tree}
+    {e : LocalGapSpecification (stSt (Mk := Mk) G σ).G ((stSt (Mk := Mk) G σ).M.pi (stSt (Mk := Mk) G σ).hcls a)}
+    {p : GardenDart G × GardenDart G} (h1 : (stSt (Mk := Mk) G σ).M.od e.first = p.1) (h2 : (stSt (Mk := Mk) G σ).M.od e.second = p.2)
+    (hsp : HingeSpec G S a p) :
+    O.ContainsDart e.first ∧ O.ContainsDart e.second ∧
+      ((stSt (Mk := Mk) G σ).M.pi (stSt (Mk := Mk) G σ).hcls a = O.upper ∨ (stSt (Mk := Mk) G σ).M.pi (stSt (Mk := Mk) G σ).hcls a = O.lower) := by
+  obtain ⟨u, hu, hau, j, hj, hT, hn1, hn2, hrel⟩ := hsp
+  obtain ⟨hjxy, hm1, hm2, hbond⟩ := hrel.1 sk hsk
+  obtain ⟨hxA, hyA⟩ := x_mem_A sk
+  have hjA : j ∈ sk.A := by rcases hjxy with rfl | rfl; exact hxA; exact hyA
+  have hg1 : G.molecule.InGroup sk.A p.1 := ⟨hT.1 ▸ hjA, hm1⟩
+  have hg2 : G.molecule.InGroup sk.A p.2 := ⟨hT.2.1 ▸ hjA, hm2⟩
+  refine ⟨containsDart_of_origMk (Mk := Mk) σ hOa (by rw [h1]; exact hg1)
+      (hsh_skipMk (Mk := Mk) σ sk hsh1 hsh2 (by intro e' he'; rw [h1]; exact ⟨(hbond e' he').1, (hbond e' he').2.1⟩)),
+    containsDart_of_origMk (Mk := Mk) σ hOa (by rw [h2]; exact hg2)
+      (hsh_skipMk (Mk := Mk) σ sk hsh1 hsh2 (by intro e' he'; rw [h2]; exact ⟨(hbond e' he').2.2.1, (hbond e' he').2.2.2⟩)), ?_⟩
+  have hat : (stSt (Mk := Mk) G σ).M.pi (stSt (Mk := Mk) G σ).hcls a = (stSt (Mk := Mk) G σ).M.pi (stSt (Mk := Mk) G σ).hcls j := by
+    rw [← e.at_first, (atom_eq_piMk (Mk := Mk) σ e.first).1, h1, hT.1]
+  rw [hat]
+  rcases hjxy with rfl | rfl
+  · exact Or.inl hup.symm
+  · exact Or.inr hlo.symm
 
 /-- The merged-first-joint case: a pair of the skipped vine at a hinge. -/
 theorem entry_obj_hinge (hM : G.molecule.IsMolecule) (σ : Prescription G) {S : Finset (GBranch G.tree)}
@@ -114,23 +158,7 @@ theorem entry_obj_hinge (hM : G.molecule.IsMolecule) (σ : Prescription G) {S : 
     {p : GardenDart G × GardenDart G} (h1 : (stSt G σ).M.od e.first = p.1) (h2 : (stSt G σ).M.od e.second = p.2)
     (hsp : HingeSpec G S a p) :
     O.ContainsDart e.first ∧ O.ContainsDart e.second ∧
-      ((stSt G σ).M.pi (stSt G σ).hcls a = O.upper ∨ (stSt G σ).M.pi (stSt G σ).hcls a = O.lower) := by
-  obtain ⟨u, hu, hau, j, hj, hT, hn1, hn2, hrel⟩ := hsp
-  obtain ⟨hjxy, hm1, hm2, hbond⟩ := hrel.1 sk hsk
-  obtain ⟨hxA, hyA⟩ := x_mem_A sk
-  have hjA : j ∈ sk.A := by rcases hjxy with rfl | rfl; exact hxA; exact hyA
-  have hg1 : G.molecule.InGroup sk.A p.1 := ⟨hT.1 ▸ hjA, hm1⟩
-  have hg2 : G.molecule.InGroup sk.A p.2 := ⟨hT.2.1 ▸ hjA, hm2⟩
-  refine ⟨containsDart_of_orig σ hOa (by rw [h1]; exact hg1)
-      (hsh_skip σ sk hsh1 hsh2 (by intro e' he'; rw [h1]; exact ⟨(hbond e' he').1, (hbond e' he').2.1⟩)),
-    containsDart_of_orig σ hOa (by rw [h2]; exact hg2)
-      (hsh_skip σ sk hsh1 hsh2 (by intro e' he'; rw [h2]; exact ⟨(hbond e' he').2.2.1, (hbond e' he').2.2.2⟩)), ?_⟩
-  have hat : (stSt G σ).M.pi (stSt G σ).hcls a = (stSt G σ).M.pi (stSt G σ).hcls j := by
-    rw [← e.at_first, (atom_eq_pi σ e.first).1, h1, hT.1]
-  rw [hat]
-  rcases hjxy with rfl | rfl
-  · exact Or.inl hup.symm
-  · exact Or.inr hlo.symm
+      ((stSt G σ).M.pi (stSt G σ).hcls a = O.upper ∨ (stSt G σ).M.pi (stSt G σ).hcls a = O.lower) := entry_obj_hingeMk (Mk := ∅) hM σ sk hsk hOa hup hlo hsh1 hsh2 h1 h2 hsp
 
 /-- A non-hinge group joint of a group with a skipped vine has `L0 = ∅` and `x = a`. -/
 theorem left_trivial (hM : G.molecule.IsMolecule) (σ : Prescription G) {S : Finset (GBranch G.tree)}
@@ -223,6 +251,34 @@ theorem entry_obj (hM : G.molecule.IsMolecule) (σ : Prescription G) {S : Finset
     · exact entry_obj_hinge hM σ sk hsk hOa hup hlo hsh1 hsh2 h1 h2 (hnh.1 hh).2
     · exact entry_obj_nonhinge hM σ hSm hσ sk hsk hOa hup hsh1 hsh2 ha h1 h2 hnh.2 hh
 
+/-- B1b (Mk-general form of `hinge_dart_obj`). -/
+theorem hinge_dart_objMk (σ : Prescription G) {S : Finset (GBranch G.tree)}
+    (sk : SkipData G S) (hsk : (groupUnitsOf G S).skip = some sk)
+    {Mk : Set (Stage1.CLVine _)} {O : Object (stSt (Mk := Mk) G σ).G.molecule}
+    (hOa : O.atoms = sk.A.image ((stSt (Mk := Mk) G σ).M.pi (stSt (Mk := Mk) G σ).hcls))
+    (hup : O.upper = (stSt (Mk := Mk) G σ).M.pi (stSt (Mk := Mk) G σ).hcls sk.x) (hlo : O.lower = (stSt (Mk := Mk) G σ).M.pi (stSt (Mk := Mk) G σ).hcls sk.y)
+    (hsh1 : sk.bond = none → ∃ h, O.shape = VineLikeObject.vc h)
+    (hsh2 : ∀ e, sk.bond = some e → ∃ R : HyperLikeRealization (stSt (Mk := Mk) G σ).G.molecule O.atoms O.upper O.lower,
+      O.shape = VineLikeObject.hyper R ∧ (stSt (Mk := Mk) G σ).M.od R.added = e)
+    {a : GBranch G.tree} {p : GardenDart G × GardenDart G} (hsp : HingeSpec G S a p)
+    {f1 f2 : GardenDart (stSt (Mk := Mk) G σ).G} (h1 : (stSt (Mk := Mk) G σ).M.od f1 = p.1) (h2 : (stSt (Mk := Mk) G σ).M.od f2 = p.2) :
+    O.ContainsDart f1 ∧ O.ContainsDart f2 ∧
+      ((stSt (Mk := Mk) G σ).G.molecule.atom f1 = O.upper ∨ (stSt (Mk := Mk) G σ).G.molecule.atom f1 = O.lower) := by
+  obtain ⟨u, hu, hau, j, hj, hT, hn1, hn2, hrel⟩ := hsp
+  obtain ⟨hjxy, hm1, hm2, hbond⟩ := hrel.1 sk hsk
+  obtain ⟨hxA, hyA⟩ := x_mem_A sk
+  have hjA : j ∈ sk.A := by rcases hjxy with rfl | rfl; exact hxA; exact hyA
+  have hg1 : G.molecule.InGroup sk.A p.1 := ⟨hT.1 ▸ hjA, hm1⟩
+  have hg2 : G.molecule.InGroup sk.A p.2 := ⟨hT.2.1 ▸ hjA, hm2⟩
+  refine ⟨containsDart_of_origMk (Mk := Mk) σ hOa (by rw [h1]; exact hg1)
+      (hsh_skipMk (Mk := Mk) σ sk hsh1 hsh2 (by intro e' he'; rw [h1]; exact ⟨(hbond e' he').1, (hbond e' he').2.1⟩)),
+    containsDart_of_origMk (Mk := Mk) σ hOa (by rw [h2]; exact hg2)
+      (hsh_skipMk (Mk := Mk) σ sk hsh1 hsh2 (by intro e' he'; rw [h2]; exact ⟨(hbond e' he').2.2.1, (hbond e' he').2.2.2⟩)), ?_⟩
+  rw [(atom_eq_piMk (Mk := Mk) σ f1).1, h1, hT.1]
+  rcases hjxy with rfl | rfl
+  · exact Or.inl hup.symm
+  · exact Or.inr hlo.symm
+
 /-- The darts of a `HingeSpec` pair of a unit of a skipped-vine group lie inside the residual object, at a joint. -/
 theorem hinge_dart_obj (σ : Prescription G) {S : Finset (GBranch G.tree)}
     (sk : SkipData G S) (hsk : (groupUnitsOf G S).skip = some sk)
@@ -235,21 +291,7 @@ theorem hinge_dart_obj (σ : Prescription G) {S : Finset (GBranch G.tree)}
     {a : GBranch G.tree} {p : GardenDart G × GardenDart G} (hsp : HingeSpec G S a p)
     {f1 f2 : GardenDart (stSt G σ).G} (h1 : (stSt G σ).M.od f1 = p.1) (h2 : (stSt G σ).M.od f2 = p.2) :
     O.ContainsDart f1 ∧ O.ContainsDart f2 ∧
-      ((stSt G σ).G.molecule.atom f1 = O.upper ∨ (stSt G σ).G.molecule.atom f1 = O.lower) := by
-  obtain ⟨u, hu, hau, j, hj, hT, hn1, hn2, hrel⟩ := hsp
-  obtain ⟨hjxy, hm1, hm2, hbond⟩ := hrel.1 sk hsk
-  obtain ⟨hxA, hyA⟩ := x_mem_A sk
-  have hjA : j ∈ sk.A := by rcases hjxy with rfl | rfl; exact hxA; exact hyA
-  have hg1 : G.molecule.InGroup sk.A p.1 := ⟨hT.1 ▸ hjA, hm1⟩
-  have hg2 : G.molecule.InGroup sk.A p.2 := ⟨hT.2.1 ▸ hjA, hm2⟩
-  refine ⟨containsDart_of_orig σ hOa (by rw [h1]; exact hg1)
-      (hsh_skip σ sk hsh1 hsh2 (by intro e' he'; rw [h1]; exact ⟨(hbond e' he').1, (hbond e' he').2.1⟩)),
-    containsDart_of_orig σ hOa (by rw [h2]; exact hg2)
-      (hsh_skip σ sk hsh1 hsh2 (by intro e' he'; rw [h2]; exact ⟨(hbond e' he').2.2.1, (hbond e' he').2.2.2⟩)), ?_⟩
-  rw [(atom_eq_pi σ f1).1, h1, hT.1]
-  rcases hjxy with rfl | rfl
-  · exact Or.inl hup.symm
-  · exact Or.inr hlo.symm
+      ((stSt G σ).G.molecule.atom f1 = O.upper ∨ (stSt G σ).G.molecule.atom f1 = O.lower) := hinge_dart_objMk (Mk := ∅) σ sk hsk hOa hup hlo hsh1 hsh2 hsp h1 h2
 
 /-- If a hinge is a joint of an object of `C_1`, the group of its unit has a skipped vine and the object is its image. -/
 theorem obj_skip_data (hM : G.molecule.IsMolecule) (σ : Prescription G) {O : Object (stSt G σ).G.molecule}

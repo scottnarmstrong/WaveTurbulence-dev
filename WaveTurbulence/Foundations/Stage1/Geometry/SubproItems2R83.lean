@@ -27,10 +27,10 @@ open WaveTurbulence WaveTurbulence.LGSpine WaveTurbulence.LGSpine.SourceVine Fin
 variable {R : ℕ} {G : Garden (2 * R)}
 
 /-- Decoration hypotheses of `G_sb` used by the gap-kind transport (provided by `spliced_molecule_decoration`). -/
-structure SbDec (G : Garden (2 * R)) (σ : Prescription G) {d : ℕ} (L : ℝ) (base : Mom d)
-    (κ : GardenDart (stSt G σ).G → (Fin d → ℤ)) : Prop where
-  c : ∃ c : GBranch (stSt G σ).G.tree → Mom d, (stSt G σ).G.molecule.IsDecoration L base c κ ∧
-    ∀ v ∈ (stSt G σ).G.molecule.atoms, (stSt G σ).G.molecule.deg v = 4 → c v = 0
+structure SbDec (G : Garden (2 * R)) (σ : Prescription G) {Mk : Set (Stage1.CLVine G)} {d : ℕ} (L : ℝ) (base : Mom d)
+    (κ : GardenDart (stSt G σ Mk).G → (Fin d → ℤ)) : Prop where
+  c : ∃ c : GBranch (stSt G σ Mk).G.tree → Mom d, (stSt G σ Mk).G.molecule.IsDecoration L base c κ ∧
+    ∀ v ∈ (stSt G σ Mk).G.molecule.atoms, (stSt G σ Mk).G.molecule.deg v = 4 → c v = 0
 
 theorem selectedSG_cc2 (σ : Prescription G) {d : ℕ}
     (D : SplicedKernelData (stSt G σ).G d) (hD : D.gapSpecification = gapSpecification G σ)

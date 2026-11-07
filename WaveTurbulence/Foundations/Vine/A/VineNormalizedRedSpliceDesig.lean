@@ -70,8 +70,9 @@ canonical triple `hvGroupPick`; for a group having a joint of the kind HV, VC or
     ∃ A b, dvGroupPick G S = some (A, a, b))
 
 /-- The first joint of a group of `𝒞` (`none` for anything else). -/
-@[expose] noncomputable def groupJoint (G : Garden w) (S : Finset (GBranch G.tree)) : Option (GBranch G.tree) := by
-  classical exact if h : ∃ a, IsGroupJoint G S a then some h.choose else none
+@[expose] noncomputable def groupJoint (G : Garden w) (S : Finset (GBranch G.tree)) (Mk : Set (CLVine G) := ∅) :
+    Option (GBranch G.tree) := by
+  classical exact if markedGroup G Mk S then none else if h : ∃ a, IsGroupJoint G S a then some h.choose else none
 
 theorem exists_groupJoint {S : Finset (GBranch G.tree)} (hS : S ∈ maximalGroups G.molecule) :
     ∃ a, IsGroupJoint G S a := by
@@ -119,15 +120,31 @@ theorem exists_groupJoint_eq {S : Finset (GBranch G.tree)} (hS : S ∈ maximalGr
   have h := exists_groupJoint hS
   refine ⟨h.choose, ?_⟩
   unfold groupJoint
+  simp only [not_markedGroup_empty G S, ↓reduceIte]
   rw [dite_eq_left h]
 
 theorem groupJoint_spec {S : Finset (GBranch G.tree)} {a : GBranch G.tree} (h : groupJoint G S = some a) :
     IsGroupJoint G S a := by
   classical
   unfold groupJoint at h
+  simp only [not_markedGroup_empty G S, ↓reduceIte] at h
   split_ifs at h with hex
   · rw [Option.some.injEq] at h
     exact h ▸ hex.choose_spec
+
+/-- B1a bridge: the first joint of an unmarked group is main's. -/
+theorem groupJoint_of_not_marked {S : Finset (GBranch G.tree)} {Mk : Set (CLVine G)} (h : ¬ markedGroup G Mk S) :
+    groupJoint G S Mk = groupJoint G S := by
+  classical
+  unfold groupJoint
+  simp only [h, not_markedGroup_empty G S, ↓reduceIte]
+
+/-- B1a: a marked group has no first joint (no designated atom, o75 §2.5). -/
+theorem groupJoint_of_marked {S : Finset (GBranch G.tree)} {Mk : Set (CLVine G)} (h : markedGroup G Mk S) :
+    groupJoint G S Mk = none := by
+  classical
+  unfold groupJoint
+  simp only [h, ↓reduceIte]
 
 /-- The first joint of a group is a joint of one of its kinds. -/
 theorem groupJoint_kind {S : Finset (GBranch G.tree)} {a : GBranch G.tree} (h : groupJoint G S = some a) :
@@ -262,10 +279,10 @@ theorem exists_isDesig {S : Finset (GBranch G.tree)} {a : GBranch G.tree} (h : g
         exact ⟨rfl, R, rfl, rfl⟩
 
 /-- **The designated object of a group** (a function of the original garden and the group only). -/
-@[expose] noncomputable def designatedObject (G : Garden w) (S : Finset (GBranch G.tree)) :
+@[expose] noncomputable def designatedObject (G : Garden w) (S : Finset (GBranch G.tree)) (Mk : Set (CLVine G) := ∅) :
     Option (Object G.molecule) := by
   classical
-  exact if h : ∃ a, groupJoint G S = some a ∧ ∃ O, IsDesig G S a O then some h.choose_spec.2.choose else none
+  exact if h : ∃ a, groupJoint G S Mk = some a ∧ ∃ O, IsDesig G S a O then some h.choose_spec.2.choose else none
 
 theorem designatedObject_spec {S : Finset (GBranch G.tree)} (hS : S ∈ maximalGroups G.molecule) :
     ∃ a O, groupJoint G S = some a ∧ designatedObject G S = some O ∧ IsDesig G S a O := by
@@ -276,19 +293,24 @@ theorem designatedObject_spec {S : Finset (GBranch G.tree)} (hS : S ∈ maximalG
   unfold designatedObject
   rw [dite_eq_left h]
 
-theorem designatedObject_isDesig {S : Finset (GBranch G.tree)} {O : Object G.molecule}
-    (h : designatedObject G S = some O) : ∃ a, groupJoint G S = some a ∧ IsDesig G S a O := by
+/-- B1b (Mk-general form of `designatedObject_isDesig`). -/
+theorem designatedObject_isDesigMk {S : Finset (GBranch G.tree)} {O : Object G.molecule}
+    {Mk : Set (Stage1.CLVine _)} (h : designatedObject (Mk := Mk) G S = some O) : ∃ a, groupJoint (Mk := Mk) G S = some a ∧ IsDesig G S a O := by
   classical
   unfold designatedObject at h
   split_ifs at h with hex
   · rw [Option.some.injEq] at h
     exact ⟨hex.choose, hex.choose_spec.1, h ▸ hex.choose_spec.2.choose_spec⟩
 
+theorem designatedObject_isDesig {S : Finset (GBranch G.tree)} {O : Object G.molecule}
+    (h : designatedObject G S = some O) : ∃ a, groupJoint G S = some a ∧ IsDesig G S a O := designatedObject_isDesigMk (Mk := ∅) h
+
 /-! ### The pair inside the designated object (non-hinge entries) -/
 
 /-- An out/in pair of darts of the original garden inside the designated object, at its first joint. -/
-@[expose] def IntSpec (G : Garden w) (S : Finset (GBranch G.tree)) (p : GardenDart G × GardenDart G) : Prop :=
-  ∃ a O, groupJoint G S = some a ∧ designatedObject G S = some O ∧ (a = O.upper ∨ a = O.lower) ∧
+@[expose] def IntSpec (G : Garden w) (S : Finset (GBranch G.tree)) (p : GardenDart G × GardenDart G)
+    (Mk : Set (CLVine G) := ∅) : Prop :=
+  ∃ a O, groupJoint G S Mk = some a ∧ designatedObject G S Mk = some O ∧ (a = O.upper ∨ a = O.lower) ∧
     TripleAt G a p.1 p.2 ∧ O.ContainsDart p.1 ∧ O.ContainsDart p.2
 
 theorem exists_intSpec {S : Finset (GBranch G.tree)} (hS : S ∈ maximalGroups G.molecule) :
@@ -298,9 +320,9 @@ theorem exists_intSpec {S : Finset (GBranch G.tree)} (hS : S ∈ maximalGroups G
   exact ⟨(x, y), a, O, ha, hO, Or.inl hd.1, hT, hx, hy⟩
 
 /-- **The pair of the group in the original garden, chosen once and independently of `σ`.** -/
-@[expose] noncomputable def intPairOrig (G : Garden w) (S : Finset (GBranch G.tree)) :
+@[expose] noncomputable def intPairOrig (G : Garden w) (S : Finset (GBranch G.tree)) (Mk : Set (CLVine G) := ∅) :
     Option (GardenDart G × GardenDart G) := by
-  classical exact if h : ∃ p, IntSpec G S p then some h.choose else none
+  classical exact if h : ∃ p, IntSpec G S p Mk then some h.choose else none
 
 theorem intPairOrig_spec {S : Finset (GBranch G.tree)} (hS : S ∈ maximalGroups G.molecule) :
     ∃ p, intPairOrig G S = some p ∧ IntSpec G S p := by
@@ -458,16 +480,17 @@ theorem exists_hingeBest {S : Finset (GBranch G.tree)} {a : GBranch G.tree}
 
 /-- **The pair of the group at a merged first joint, chosen once and independently of `σ`** (R37: `HingeBest`, so that when
 a hinge has a triple bond the chosen joint is the one whose external pair lies in the triple bond). -/
-@[expose] noncomputable def hingeOrigPair (G : Garden w) (S : Finset (GBranch G.tree)) :
+@[expose] noncomputable def hingeOrigPair (G : Garden w) (S : Finset (GBranch G.tree)) (Mk : Set (CLVine G) := ∅) :
     Option (GardenDart G × GardenDart G) := by
-  classical exact if h : ∃ p a, groupJoint G S = some a ∧ HingeBest G S a p then some h.choose else none
+  classical exact if h : ∃ p a, groupJoint G S Mk = some a ∧ HingeBest G S a p then some h.choose else none
 
-theorem hingeOrigPair_best {S : Finset (GBranch G.tree)} {a : GBranch G.tree} (ha : groupJoint G S = some a)
+/-- B1b (Mk-general form of `hingeOrigPair_best`). -/
+theorem hingeOrigPair_bestMk {S : Finset (GBranch G.tree)} {a : GBranch G.tree} {Mk : Set (Stage1.CLVine _)} (ha : groupJoint (Mk := Mk) G S = some a)
     (hu : ∃ u ∈ (groupUnitsOf G S).units, a ∈ u.atoms) :
-    ∃ p, hingeOrigPair G S = some p ∧ HingeBest G S a p := by
+    ∃ p, hingeOrigPair (Mk := Mk) G S = some p ∧ HingeBest G S a p := by
   classical
   obtain ⟨p0, hp0⟩ := exists_hingeBest hu
-  have h : ∃ p a, groupJoint G S = some a ∧ HingeBest G S a p := ⟨p0, a, ha, hp0⟩
+  have h : ∃ p a, groupJoint (Mk := Mk) G S = some a ∧ HingeBest G S a p := ⟨p0, a, ha, hp0⟩
   refine ⟨h.choose, ?_, ?_⟩
   · unfold hingeOrigPair; rw [dite_eq_left h]
   · obtain ⟨a', ha', hs⟩ := h.choose_spec
@@ -475,10 +498,19 @@ theorem hingeOrigPair_best {S : Finset (GBranch G.tree)} {a : GBranch G.tree} (h
     cases ha'
     exact hs
 
+theorem hingeOrigPair_best {S : Finset (GBranch G.tree)} {a : GBranch G.tree} (ha : groupJoint G S = some a)
+    (hu : ∃ u ∈ (groupUnitsOf G S).units, a ∈ u.atoms) :
+    ∃ p, hingeOrigPair G S = some p ∧ HingeBest G S a p := hingeOrigPair_bestMk (Mk := ∅) ha hu
+
+/-- B1b (Mk-general form of `hingeOrigPair_spec`). -/
+theorem hingeOrigPair_specMk {S : Finset (GBranch G.tree)} {a : GBranch G.tree} {Mk : Set (Stage1.CLVine _)} (ha : groupJoint (Mk := Mk) G S = some a)
+    (hu : ∃ u ∈ (groupUnitsOf G S).units, a ∈ u.atoms) :
+    ∃ p, hingeOrigPair (Mk := Mk) G S = some p ∧ HingeSpec G S a p := by
+  obtain ⟨p, hp, hb⟩ := hingeOrigPair_bestMk (Mk := Mk) ha hu
+  exact ⟨p, hp, hb.1⟩
+
 theorem hingeOrigPair_spec {S : Finset (GBranch G.tree)} {a : GBranch G.tree} (ha : groupJoint G S = some a)
     (hu : ∃ u ∈ (groupUnitsOf G S).units, a ∈ u.atoms) :
-    ∃ p, hingeOrigPair G S = some p ∧ HingeSpec G S a p := by
-  obtain ⟨p, hp, hb⟩ := hingeOrigPair_best ha hu
-  exact ⟨p, hp, hb.1⟩
+    ∃ p, hingeOrigPair G S = some p ∧ HingeSpec G S a p := hingeOrigPair_specMk (Mk := ∅) ha hu
 
 end WaveTurbulence.VineA.NormalizedSplice

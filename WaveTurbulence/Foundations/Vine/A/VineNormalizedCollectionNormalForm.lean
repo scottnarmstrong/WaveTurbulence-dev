@@ -27,13 +27,13 @@ theorem objOf_atoms (σ : Prescription G) {S : Finset (GBranch G.tree)}
       ⟨Mole.garden_isMolecule G, hS, hσ, ho⟩
     rw [ite_eq_left ho]
     unfold objOf
-    rw [dite_eq_left hh]
+    rw [dite_eq_left ⟨hh.1, hh.2.1, hh.2.2.1, hh.2.2.2, not_markedGroup_empty G S, exists_obj hh.1 σ hS hσ ho⟩]
     exact congrArg some (objSpec_atoms σ hS hσ (Classical.choose_spec (exists_obj hh.1 σ hS hσ ho)))
   · have hh : ¬ (G.molecule.IsMolecule ∧ S ∈ maximalGroups G.molecule ∧ σ S = Molecule.GapKind.SG ∧ HasObj G S) :=
       fun h => ho h.2.2.2
     rw [ite_eq_right ho]
     unfold objOf
-    rw [dite_eq_right hh]
+    rw [dite_eq_right (fun h' => hh ⟨h'.1, h'.2.1, h'.2.2.1, h'.2.2.2.1⟩)]
     rfl
 
 /-- The full support list of actual collection choices is independent of the object witnesses. -/

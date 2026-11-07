@@ -1,5 +1,6 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
+public import WaveTurbulence.Foundations.Vine.A.VineUnitSelectedMK
 public import WaveTurbulence.Foundations.Vine.A.VineUnitIngredients
 public import WaveTurbulence.Foundations.Molecule.VineLowDegreeJoints
 /-! The actual ChainIngredient carrier of the chosen units is exactly the
@@ -18,21 +19,21 @@ theorem chain_block_joints {V D : Type*} [DecidableEq V] [Fintype D] [DecidableE
   exact joints_eq_of_two_low_degrees M (subset_refl _) hB.2.1 hB.2.2.1
     hB.2.2.2.1 (chain_joints_ne hc) (by omega) (by omega) (chain_interior_degree M hM hc)
 
-/-- The chosen units' actual ingredient carrier equals the selected source carrier. -/
-theorem mem_unitIngredients_iff {σ : Prescription G} {T : Finset (GBranch G.tree)} :
-    T ∈ unitIngredients G σ ↔ ∃ c ∈ vinesV0 G σ, c.atoms = T := by
+/-- B1b (Mk-general form of `mem_unitIngredients_iff`). -/
+theorem mem_unitIngredients_iffMk {σ : Prescription G} {T : Finset (GBranch G.tree)} {Mk : Set (Stage1.CLVine _)} :
+    T ∈ unitIngredients (Mk := Mk) G σ ↔ ∃ c ∈ vinesV0 (Mk := Mk) G σ, c.atoms = T := by
   have hM := Mole.garden_isMolecule G
   constructor
   · rintro ⟨u, hu, x, y, n, p, q, hi⟩
-    obtain ⟨L, hs, hsel⟩ := unitBlocks_selected_spine hu
+    obtain ⟨L, hs, hsel⟩ := unitBlocks_selected_spineMk (Mk := Mk) hu
     have hj := chain_block_joints hM u.isBlock (chainIngredient_spec hi).1
     have hB := Mole.block_transport_joints G.molecule hj u.isBlock
     obtain ⟨r, s, hm | hm⟩ := isIngredient_vc hM u.isBlock hs (Or.inl ⟨x, y, n, p, q, hB, hi⟩)
     · exact hsel (T, r, s) hm
     · exact hsel (T, s, r) hm
   · rintro ⟨c, hc, rfl⟩
-    obtain ⟨_, u, hu, hcu⟩ := (vinesV0_iff_unit_cover G σ c).mp hc
-    obtain ⟨L, hs, hsel⟩ := unitBlocks_selected_spine hu
+    obtain ⟨_, u, hu, hcu⟩ := (vinesV0_iff_unit_cover_diffMk (Mk := Mk) G σ c).mp hc
+    obtain ⟨L, hs, hsel⟩ := unitBlocks_selected_spineMk (Mk := Mk) hu
     obtain ⟨T, p, q, hm, hsub⟩ := hs.vine_in_member hM u.isBlock c.isVine.choose_spec hcu
     obtain ⟨d, hd, hdat⟩ := hsel (T, p, q) hm
     have he : c = d := by
@@ -45,5 +46,9 @@ theorem mem_unitIngredients_iff {σ : Prescription G} {T : Finset (GBranch G.tre
     refine ⟨u, hu, u.upper, u.lower, L.length, p, q, ?_⟩
     rw [hat]
     exact hs.ingredient_of_mem hm
+
+/-- The chosen units' actual ingredient carrier equals the selected source carrier. -/
+theorem mem_unitIngredients_iff {σ : Prescription G} {T : Finset (GBranch G.tree)} :
+    T ∈ unitIngredients G σ ↔ ∃ c ∈ vinesV0 G σ, c.atoms = T := mem_unitIngredients_iffMk (Mk := ∅)
 
 end WaveTurbulence.VineA

@@ -62,8 +62,13 @@ theorem coreAssembly_piece_core (B : CLChainAssembly G R n) (i : Fin n)
     · exact coreLabel_core h
     · exact ih k h
 
+/-- Actual unit assemblies with core labels chosen by the source's existential criterion.  B1a: the Mk-general
+family (the units are the runs of the marked groups); main's `alignedAssembly hM σ` is its value at `Mk = ∅`. -/
+noncomputable def alignedAssemblyMk (hM : G.molecule.IsMolecule) (σ : Prescription G) (Mk : Set (CLVine G))
+    (j : Fin (unitBlocks G σ Mk).length) := coreAssembly (Represents.unitAssembly hM σ j)
+
 /-- Actual unit assemblies with core labels chosen by the source's existential criterion. -/
-noncomputable def alignedAssembly (hM : G.molecule.IsMolecule) (σ : Prescription G)
-    (j : Fin (unitBlocks G σ).length) := coreAssembly (Represents.unitAssembly hM σ j)
+noncomputable abbrev alignedAssembly (hM : G.molecule.IsMolecule) (σ : Prescription G) :=
+  alignedAssemblyMk hM σ ∅
 
 end WaveTurbulence.VineAlign

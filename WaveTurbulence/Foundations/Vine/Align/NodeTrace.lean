@@ -64,20 +64,29 @@ theorem fold_leaf_eq (l : List (CLBlock S)) (hl : l.Pairwise (fun u v => Disjoin
     exact ih (List.pairwise_cons.mp hl).2 _ _ _ _
       (step_leaf_eq T tr he u (hd u (List.mem_cons_self ..))) _
 
+/-- B1b (Mk-general form of `stShape_leaf_eq`). -/
+theorem stShape_leaf_eqMk (hM : S.molecule.IsMolecule) (σ : Prescription S) {Mk : Set (Stage1.CLVine _)} :
+    (stShape (Mk := Mk) hM σ).leaf = (spliceFoldLeafTrace (unitBlocks (Mk := Mk) S σ)).leaf := by
+  refine (congr_leaf_eq _ _).trans ?_
+  exact fold_leaf_eq (unitBlocks (Mk := Mk) S σ) (unitBlocks_pairwiseMk (Mk := Mk) hM σ) _ _
+    (FoldInv.init S) (spliceLeafTrace_init S) rfl (fun _ _ _ h => h.elim)
+
 /-- VINE-B's actual shape leaf map equals VINE-A's actual original-leaf trace. -/
 theorem stShape_leaf_eq (hM : S.molecule.IsMolecule) (σ : Prescription S) :
-    (stShape hM σ).leaf = (spliceFoldLeafTrace (unitBlocks S σ)).leaf := by
-  refine (congr_leaf_eq _ _).trans ?_
-  exact fold_leaf_eq (unitBlocks S σ) (unitBlocks_pairwise hM σ) _ _
-    (FoldInv.init S) (spliceLeafTrace_init S) rfl (fun _ _ _ h => h.elim)
+    (stShape hM σ).leaf = (spliceFoldLeafTrace (unitBlocks S σ)).leaf := stShape_leaf_eqMk (Mk := ∅) hM σ
+
+/-- B1b (Mk-general form of `stShape_node_eq`). -/
+theorem stShape_node_eqMk (hM : S.molecule.IsMolecule) (σ : Prescription S)
+    {Mk : Set (Stage1.CLVine _)} (n : GNode (stSt (Mk := Mk) S σ).G.tree) :
+    (stShape (Mk := Mk) hM σ).node n = spliceOldNode (unitBlocks (Mk := Mk) S σ) n := by
+  rcases SpliceShape.node_cases n with ⟨b, rfl⟩ | ⟨l, rfl⟩
+  · exact ((stShape (Mk := Mk) hM σ).br_node b).symm.trans (spliceOldNode_branch _ b).symm
+  · rw [← (stShape (Mk := Mk) hM σ).leaf_node, stShape_leaf_eqMk (Mk := Mk)]
+    exact (spliceOldNode_leaf _ l).symm
 
 /-- VINE-B's actual shape node map is VINE-A's complete original-node map. -/
 theorem stShape_node_eq (hM : S.molecule.IsMolecule) (σ : Prescription S)
     (n : GNode (stSt S σ).G.tree) :
-    (stShape hM σ).node n = spliceOldNode (unitBlocks S σ) n := by
-  rcases SpliceShape.node_cases n with ⟨b, rfl⟩ | ⟨l, rfl⟩
-  · exact ((stShape hM σ).br_node b).symm.trans (spliceOldNode_branch _ b).symm
-  · rw [← (stShape hM σ).leaf_node, stShape_leaf_eq]
-    exact (spliceOldNode_leaf _ l).symm
+    (stShape hM σ).node n = spliceOldNode (unitBlocks S σ) n := stShape_node_eqMk (Mk := ∅) hM σ n
 
 end WaveTurbulence.VineAlign

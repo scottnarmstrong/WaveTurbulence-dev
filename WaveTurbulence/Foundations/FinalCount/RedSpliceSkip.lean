@@ -26,12 +26,16 @@ open Finset WaveTurbulence WaveTurbulence.Mole TTree WaveTurbulence.Stage1
 
 variable {w : ℕ} {G : Garden w}
 
-/-- Distinct units are disjoint. -/
-theorem units_eq_of_not_disjoint (hM : G.molecule.IsMolecule) (σ : Prescription G) {u u' : CLBlock G}
-    (hu : u ∈ unitBlocks G σ) (hu' : u' ∈ unitBlocks G σ) (h : ¬ Disjoint u.atoms u'.atoms) : u = u' := by
+/-- B1b (Mk-general form of `units_eq_of_not_disjoint`). -/
+theorem units_eq_of_not_disjointMk (hM : G.molecule.IsMolecule) (σ : Prescription G) {u u' : CLBlock G}
+    {Mk : Set (Stage1.CLVine _)} (hu : u ∈ unitBlocks (Mk := Mk) G σ) (hu' : u' ∈ unitBlocks (Mk := Mk) G σ) (h : ¬ Disjoint u.atoms u'.atoms) : u = u' := by
   by_contra hne
   haveI : Std.Symm (fun u u' : CLBlock G => Disjoint u.atoms u'.atoms) := ⟨fun _ _ h => h.symm⟩
-  exact h ((unitBlocks_pairwise hM σ).forall hu hu' hne)
+  exact h ((unitBlocks_pairwiseMk (Mk := Mk) hM σ).forall hu hu' hne)
+
+/-- Distinct units are disjoint. -/
+theorem units_eq_of_not_disjoint (hM : G.molecule.IsMolecule) (σ : Prescription G) {u u' : CLBlock G}
+    (hu : u ∈ unitBlocks G σ) (hu' : u' ∈ unitBlocks G σ) (h : ¬ Disjoint u.atoms u'.atoms) : u = u' := units_eq_of_not_disjointMk (Mk := ∅) hM σ hu hu' h
 
 section skip
 variable (hM : G.molecule.IsMolecule) (σ : Prescription G) {S : Finset (GBranch G.tree)}
@@ -95,23 +99,27 @@ theorem unit_R' (hR : sk.R0 ≠ ∅) : ∃ u ∈ unitBlocks G σ, u.atoms = sk.R
     exact Finset.subset_empty.mp this
   · exact h
 
-/-- The class of an atom of a unit lies in the unit. -/
-theorem class_in_unit {u : CLBlock G} (hu : u ∈ unitBlocks G σ) {v p : GBranch G.tree} (hv : v ∈ u.atoms)
-    (h : repC (stSt G σ).cls p = repC (stSt G σ).cls v) : p ∈ u.atoms := by
-  have hv' : repC (stSt G σ).cls v = u.upper := stSt_repC_mem hM σ hu hv
-  by_cases hp : ∃ u' ∈ unitBlocks G σ, p ∈ u'.atoms
+/-- B1b (Mk-general form of `class_in_unit`). -/
+theorem class_in_unitMk {u : CLBlock G} {Mk : Set (Stage1.CLVine _)} (hu : u ∈ unitBlocks (Mk := Mk) G σ) {v p : GBranch G.tree} (hv : v ∈ u.atoms)
+    (h : repC (stSt (Mk := Mk) G σ).cls p = repC (stSt (Mk := Mk) G σ).cls v) : p ∈ u.atoms := by
+  have hv' : repC (stSt (Mk := Mk) G σ).cls v = u.upper := stSt_repC_memMk (Mk := Mk) hM σ hu hv
+  by_cases hp : ∃ u' ∈ unitBlocks (Mk := Mk) G σ, p ∈ u'.atoms
   · obtain ⟨u', hu', hpu'⟩ := hp
-    have hp' : repC (stSt G σ).cls p = u'.upper := stSt_repC_mem hM σ hu' hpu'
+    have hp' : repC (stSt (Mk := Mk) G σ).cls p = u'.upper := stSt_repC_memMk (Mk := Mk) hM σ hu' hpu'
     have hup : u'.upper = u.upper := by rw [← hp', h, hv']
     have : u' = u := by
-      apply units_eq_of_not_disjoint hM σ hu' hu
+      apply units_eq_of_not_disjointMk (Mk := Mk) hM σ hu' hu
       rw [Finset.not_disjoint_iff]
       exact ⟨u.upper, hup ▸ u'.isBlock.2.1, u.isBlock.2.1⟩
     exact this ▸ hpu'
   · push Not at hp
-    have hp' : repC (stSt G σ).cls p = p := stSt_repC_none hM σ hp
+    have hp' : repC (stSt (Mk := Mk) G σ).cls p = p := stSt_repC_noneMk (Mk := Mk) hM σ hp
     rw [hp', hv'] at h
     exact h ▸ u.isBlock.2.1
+
+/-- The class of an atom of a unit lies in the unit. -/
+theorem class_in_unit {u : CLBlock G} (hu : u ∈ unitBlocks G σ) {v p : GBranch G.tree} (hv : v ∈ u.atoms)
+    (h : repC (stSt G σ).cls p = repC (stSt G σ).cls v) : p ∈ u.atoms := class_in_unitMk (Mk := ∅) hM σ hSm hσ hsk hu hv h
 
 /-- The skipped vine of an SG group satisfies the residual hypotheses for the global splice. -/
 theorem skip_sdecomp {D' : Type*} [Fintype D'] [DecidableEq D'] (N : Molecule (GBranch G.tree) D')

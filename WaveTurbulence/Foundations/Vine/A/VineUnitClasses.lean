@@ -43,34 +43,51 @@ theorem unitBlocks_repC_twist (Z : TwistGroupSite G) (σ : Prescription G)
   rw [unitBlocks_cls_twist Z σ hsel v]
   cases (spliceFold G (unitBlocks G σ)).cls v <;> rfl
 
+/-- B1b (Mk-general form of `active_support_unit`). -/
+theorem active_support_unitMk (Z : TwistGroupSite G) (σ : Prescription G)
+    {Mk : Set (Stage1.CLVine _)} (hsel : ∃ c ∈ vinesV0 (Mk := Mk) G σ, c.atoms = Z.S0) :
+    ∃ u ∈ unitBlocks (Mk := Mk) G σ, Z.S0 ⊆ u.atoms := by
+  obtain ⟨c, hc, hat⟩ := hsel
+  obtain ⟨_, u, hu, hsub⟩ := (vinesV0_iff_unit_cover_diffMk (Mk := Mk) G σ c).mp hc
+  exact ⟨u, hu, hat ▸ hsub⟩
+
 /-- The entire active selected support lies in one actual unit. -/
 theorem active_support_unit (Z : TwistGroupSite G) (σ : Prescription G)
     (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) :
-    ∃ u ∈ unitBlocks G σ, Z.S0 ⊆ u.atoms := by
-  obtain ⟨c, hc, hat⟩ := hsel
-  obtain ⟨_, u, hu, hsub⟩ := (vinesV0_iff_unit_cover G σ c).mp hc
-  exact ⟨u, hu, hat ▸ hsub⟩
+    ∃ u ∈ unitBlocks G σ, Z.S0 ⊆ u.atoms := active_support_unitMk (Mk := ∅) Z σ hsel
+
+/-- B1b (Mk-general form of `active_lower_merged`). -/
+theorem active_lower_mergedMk (Z : TwistGroupSite G) (σ : Prescription G)
+    {Mk : Set (Stage1.CLVine _)} (hsel : ∃ c ∈ vinesV0 (Mk := Mk) G σ, c.atoms = Z.S0) :
+    ∃ u ∈ unitBlocks (Mk := Mk) G σ, (spliceFold G (unitBlocks (Mk := Mk) G σ)).cls Z.P.lower = some u.upper ∧ u.upper ≠ Z.P.lower := by
+  obtain ⟨u, hu, hsub⟩ := active_support_unitMk (Mk := Mk) Z σ hsel
+  have hp := internalParent_mono hsub Z.hCL.2
+  refine ⟨u, hu, spliceFold_cls_mem _ (unitBlocks_pairwiseMk (Mk := Mk) (Mole.garden_isMolecule G) σ) hu
+    (hsub Z.hB.2.2.1), ?_⟩
+  intro he
+  exact u.cl.1 (he.symm ▸ hp)
 
 /-- The active lower node is merged into a distinct surviving crown. -/
 theorem active_lower_merged (Z : TwistGroupSite G) (σ : Prescription G)
     (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) :
-    ∃ u ∈ unitBlocks G σ, (spliceFold G (unitBlocks G σ)).cls Z.P.lower = some u.upper ∧ u.upper ≠ Z.P.lower := by
-  obtain ⟨u, hu, hsub⟩ := active_support_unit Z σ hsel
-  have hp := internalParent_mono hsub Z.hCL.2
-  refine ⟨u, hu, spliceFold_cls_mem _ (unitBlocks_pairwise (Mole.garden_isMolecule G) σ) hu
-    (hsub Z.hB.2.2.1), ?_⟩
-  intro he
-  exact u.cl.1 (he.symm ▸ hp)
+    ∃ u ∈ unitBlocks G σ, (spliceFold G (unitBlocks G σ)).cls Z.P.lower = some u.upper ∧ u.upper ≠ Z.P.lower := active_lower_mergedMk (Mk := ∅) Z σ hsel
+
+/-- B1b (Mk-general form of `active_internal_dart_merged`). -/
+theorem active_internal_dart_mergedMk (Z : TwistGroupSite G) (σ : Prescription G)
+    {Mk : Set (Stage1.CLVine _)} (hsel : ∃ c ∈ vinesV0 (Mk := Mk) G σ, c.atoms = Z.S0) {d : GardenDart G}
+    (hd : G.molecule.InGroup Z.S0 d) :
+    ∃ a, (spliceFold G (unitBlocks (Mk := Mk) G σ)).cls (G.molecule.atom d) = some a ∧
+      (spliceFold G (unitBlocks (Mk := Mk) G σ)).cls (G.molecule.atom (G.molecule.mate d)) = some a := by
+  obtain ⟨u, hu, hsub⟩ := active_support_unitMk (Mk := Mk) Z σ hsel
+  have hmem : ∀ {v}, v ∈ u.atoms → (spliceFold G (unitBlocks (Mk := Mk) G σ)).cls v = some u.upper :=
+    fun hv => spliceFold_cls_mem (unitBlocks (Mk := Mk) G σ) (unitBlocks_pairwiseMk (Mk := Mk) (Mole.garden_isMolecule G) σ) hu hv
+  exact ⟨u.upper, hmem (hsub hd.1), hmem (hsub hd.2)⟩
 
 /-- Every active internal dart is deleted by the actual simultaneous splice. -/
 theorem active_internal_dart_merged (Z : TwistGroupSite G) (σ : Prescription G)
     (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) {d : GardenDart G}
     (hd : G.molecule.InGroup Z.S0 d) :
     ∃ a, (spliceFold G (unitBlocks G σ)).cls (G.molecule.atom d) = some a ∧
-      (spliceFold G (unitBlocks G σ)).cls (G.molecule.atom (G.molecule.mate d)) = some a := by
-  obtain ⟨u, hu, hsub⟩ := active_support_unit Z σ hsel
-  have hmem : ∀ {v}, v ∈ u.atoms → (spliceFold G (unitBlocks G σ)).cls v = some u.upper :=
-    fun hv => spliceFold_cls_mem (unitBlocks G σ) (unitBlocks_pairwise (Mole.garden_isMolecule G) σ) hu hv
-  exact ⟨u.upper, hmem (hsub hd.1), hmem (hsub hd.2)⟩
+      (spliceFold G (unitBlocks G σ)).cls (G.molecule.atom (G.molecule.mate d)) = some a := active_internal_dart_mergedMk (Mk := ∅) Z σ hsel hd
 
 end WaveTurbulence.VineA

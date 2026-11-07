@@ -34,96 +34,135 @@ open Finset WaveTurbulence WaveTurbulence.RedSplice WaveTurbulence.Mole TTree Wa
 variable {w : ℕ} {G : Garden w}
 
 /-- The designated atom of the group `S` in `G_sb`. -/
-@[expose] noncomputable def groupAtom (G : Garden w) (σ : Prescription G) (S : Finset (GBranch G.tree)) :
-    Option (GBranch (stSt G σ).G.tree) :=
-  (groupJoint G S).map ((stSt G σ).M.pi (stSt G σ).hcls)
+@[expose] noncomputable def groupAtom (G : Garden w) (σ : Prescription G) (S : Finset (GBranch G.tree))
+    (Mk : Set (CLVine G) := ∅) : Option (GBranch (stSt G σ Mk).G.tree) :=
+  (groupJoint G S Mk).map ((stSt G σ Mk).M.pi (stSt G σ Mk).hcls)
 
 /-- The lift to `G_sb` (at the atom `v`) of a pair of darts of the original garden: darts of `G_sb` whose images
 under `od` are the given darts and which form a `TripleAt` at `v`. -/
-@[expose] noncomputable def liftPair (G : Garden w) (σ : Prescription G) (v : GBranch (stSt G σ).G.tree)
-    (p : GardenDart G × GardenDart G) : Option (GardenDart (stSt G σ).G × GardenDart (stSt G σ).G) := by
+@[expose] noncomputable def liftPair (G : Garden w) (σ : Prescription G) {Mk : Set (CLVine G)}
+    (v : GBranch (stSt G σ Mk).G.tree)
+    (p : GardenDart G × GardenDart G) : Option (GardenDart (stSt G σ Mk).G × GardenDart (stSt G σ Mk).G) := by
   classical
-  exact if h : ∃ q : GardenDart (stSt G σ).G × GardenDart (stSt G σ).G,
-      (stSt G σ).M.od q.1 = p.1 ∧ (stSt G σ).M.od q.2 = p.2 ∧ TripleAt (stSt G σ).G v q.1 q.2
+  exact if h : ∃ q : GardenDart (stSt G σ Mk).G × GardenDart (stSt G σ Mk).G,
+      (stSt G σ Mk).M.od q.1 = p.1 ∧ (stSt G σ Mk).M.od q.2 = p.2 ∧ TripleAt (stSt G σ Mk).G v q.1 q.2
   then some (Classical.choose h) else none
 
-theorem liftPair_of_exists {σ : Prescription G} {v : GBranch (stSt G σ).G.tree} {p : GardenDart G × GardenDart G}
-    (h : ∃ q : GardenDart (stSt G σ).G × GardenDart (stSt G σ).G,
-      (stSt G σ).M.od q.1 = p.1 ∧ (stSt G σ).M.od q.2 = p.2 ∧ TripleAt (stSt G σ).G v q.1 q.2) :
-    ∃ q, liftPair G σ v p = some q ∧ (stSt G σ).M.od q.1 = p.1 ∧ (stSt G σ).M.od q.2 = p.2 ∧
-      TripleAt (stSt G σ).G v q.1 q.2 := by
+/-- B1b (Mk-general form of `liftPair_of_exists`). -/
+theorem liftPair_of_existsMk {σ : Prescription G} {Mk : Set (Stage1.CLVine _)} {v : GBranch (stSt (Mk := Mk) G σ).G.tree} {p : GardenDart G × GardenDart G}
+    (h : ∃ q : GardenDart (stSt (Mk := Mk) G σ).G × GardenDart (stSt (Mk := Mk) G σ).G,
+      (stSt (Mk := Mk) G σ).M.od q.1 = p.1 ∧ (stSt (Mk := Mk) G σ).M.od q.2 = p.2 ∧ TripleAt (stSt (Mk := Mk) G σ).G v q.1 q.2) :
+    ∃ q, liftPair G σ v p = some q ∧ (stSt (Mk := Mk) G σ).M.od q.1 = p.1 ∧ (stSt (Mk := Mk) G σ).M.od q.2 = p.2 ∧
+      TripleAt (stSt (Mk := Mk) G σ).G v q.1 q.2 := by
   classical
   refine ⟨Classical.choose h, ?_, Classical.choose_spec h⟩
   unfold liftPair
   rw [dite_eq_left h]
 
-theorem liftPair_spec {σ : Prescription G} {v : GBranch (stSt G σ).G.tree} {p : GardenDart G × GardenDart G}
-    {q : GardenDart (stSt G σ).G × GardenDart (stSt G σ).G} (h : liftPair G σ v p = some q) :
-    (stSt G σ).M.od q.1 = p.1 ∧ (stSt G σ).M.od q.2 = p.2 ∧ TripleAt (stSt G σ).G v q.1 q.2 := by
+theorem liftPair_of_exists {σ : Prescription G} {v : GBranch (stSt G σ).G.tree} {p : GardenDart G × GardenDart G}
+    (h : ∃ q : GardenDart (stSt G σ).G × GardenDart (stSt G σ).G,
+      (stSt G σ).M.od q.1 = p.1 ∧ (stSt G σ).M.od q.2 = p.2 ∧ TripleAt (stSt G σ).G v q.1 q.2) :
+    ∃ q, liftPair G σ v p = some q ∧ (stSt G σ).M.od q.1 = p.1 ∧ (stSt G σ).M.od q.2 = p.2 ∧
+      TripleAt (stSt G σ).G v q.1 q.2 := liftPair_of_existsMk (Mk := ∅) h
+
+/-- B1b (Mk-general form of `liftPair_spec`). -/
+theorem liftPair_specMk {σ : Prescription G} {Mk : Set (Stage1.CLVine _)} {v : GBranch (stSt (Mk := Mk) G σ).G.tree} {p : GardenDart G × GardenDart G}
+    {q : GardenDart (stSt (Mk := Mk) G σ).G × GardenDart (stSt (Mk := Mk) G σ).G} (h : liftPair G σ v p = some q) :
+    (stSt (Mk := Mk) G σ).M.od q.1 = p.1 ∧ (stSt (Mk := Mk) G σ).M.od q.2 = p.2 ∧ TripleAt (stSt (Mk := Mk) G σ).G v q.1 q.2 := by
   classical
   unfold liftPair at h
   split_ifs at h with hex
   · rw [Option.some.injEq] at h
     exact h ▸ Classical.choose_spec hex
 
+theorem liftPair_spec {σ : Prescription G} {v : GBranch (stSt G σ).G.tree} {p : GardenDart G × GardenDart G}
+    {q : GardenDart (stSt G σ).G × GardenDart (stSt G σ).G} (h : liftPair G σ v p = some q) :
+    (stSt G σ).M.od q.1 = p.1 ∧ (stSt G σ).M.od q.2 = p.2 ∧ TripleAt (stSt G σ).G v q.1 q.2 := liftPair_specMk (Mk := ∅) h
+
 /-- The pair at a hinge designated atom: the lift of `hingeOrigPair`. -/
 @[expose] noncomputable def hingeEntryPair (G : Garden w) (σ : Prescription G) (S : Finset (GBranch G.tree))
-    (v : GBranch (stSt G σ).G.tree) : Option (GardenDart (stSt G σ).G × GardenDart (stSt G σ).G) :=
-  (hingeOrigPair G S).bind (liftPair G σ v)
+    {Mk : Set (CLVine G)} (v : GBranch (stSt G σ Mk).G.tree) :
+    Option (GardenDart (stSt G σ Mk).G × GardenDart (stSt G σ Mk).G) :=
+  (hingeOrigPair G S Mk).bind (liftPair G σ v)
 
-/-- **The hinge pair of TARGET subpro(5)** (R28): see the module docstring. -/
-@[expose] noncomputable def hingePair (G : Garden w) (σ : Prescription G) (v : GBranch (stSt G σ).G.tree) :
-    Option (GardenDart (stSt G σ).G × GardenDart (stSt G σ).G) := by
+/-- B1a (o75 Theorem 7.5′ clause (5)): a hinge pair of a run `u` of a marked group: an out/in pair of darts of the
+original garden at an outer joint of `u`, both external to `u`.  (The 75-F1 rule, which prefers among these the
+bonds of the survivor removed first, is a marked-group branch of B2c.) -/
+@[expose] def HingeSpecRun (G : Garden w) (u : CLBlock G) (p : GardenDart G × GardenDart G) : Prop :=
+  ∃ j, (j = u.upper ∨ j = u.lower) ∧ TripleAt G j p.1 p.2 ∧ ¬ G.molecule.InGroup u.atoms p.1 ∧
+    ¬ G.molecule.InGroup u.atoms p.2
+
+/-- **The hinge pair of TARGET subpro(5)** (R28): see the module docstring.  B1a: with the marked vine set `Mk`
+the units are `groupUnitsMk` (runs in a marked group, with the run pair `HingeSpecRun`). -/
+@[expose] noncomputable def hingePair (G : Garden w) (σ : Prescription G) {Mk : Set (CLVine G)}
+    (v : GBranch (stSt G σ Mk).G.tree) :
+    Option (GardenDart (stSt G σ Mk).G × GardenDart (stSt G σ Mk).G) := by
   classical
-  exact if h : ∃ p : GardenDart (stSt G σ).G × GardenDart (stSt G σ).G, ∃ S ∈ maximalGroups G.molecule,
-      groupAtom G σ S = some v ∧ hingeEntryPair G σ S v = some p ∧ ProperPair G σ v p.1 p.2
+  exact if h : ∃ p : GardenDart (stSt G σ Mk).G × GardenDart (stSt G σ Mk).G, ∃ S ∈ maximalGroups G.molecule,
+      groupAtom G σ S Mk = some v ∧ hingeEntryPair G σ S v = some p ∧ ProperPair G σ v p.1 p.2
   then some (Classical.choose h)
-  else if h2 : ∃ q : GardenDart (stSt G σ).G × GardenDart (stSt G σ).G, ∃ S ∈ maximalGroups G.molecule,
-      ∃ u ∈ (groupUnitsOf G S).units, (stSt G σ).M.ob v = u.upper ∧
-        ∃ p, HingeSpec G S u.upper p ∧ liftPair G σ v p = some q ∧ ProperPair G σ v q.1 q.2
+  else if h2 : ∃ q : GardenDart (stSt G σ Mk).G × GardenDart (stSt G σ Mk).G, ∃ S ∈ maximalGroups G.molecule,
+      ∃ u ∈ groupUnitsMk G Mk S, (stSt G σ Mk).M.ob v = u.upper ∧
+        ∃ p, (¬ markedGroup G Mk S → HingeSpec G S u.upper p) ∧ (markedGroup G Mk S → HingeSpecRun G u p) ∧
+          liftPair G σ v p = some q ∧ ProperPair G σ v q.1 q.2
   then some (Classical.choose h2)
-  else if h3 : ∃ p : GardenDart (stSt G σ).G × GardenDart (stSt G σ).G, ProperPair G σ v p.1 p.2
+  else if h3 : ∃ p : GardenDart (stSt G σ Mk).G × GardenDart (stSt G σ Mk).G, ProperPair G σ v p.1 p.2
   then some (Classical.choose h3) else none
 
-/-- **The choice data `C_1`, hinges and hinge pairs of `G_sb`.** -/
-@[expose] noncomputable def collectionChoices (G : Garden w) (σ : Prescription G) : SubproChoices (stSt G σ).G where
-  count := (objects G σ).length
-  collection := fun i => (objects G σ).get i
-  hinges := (stSt G σ).hinges
+/-- **The choice data `C_1`, hinges and hinge pairs of `G_sb`.**  B1a: trailing marked vine set `Mk` (default `∅`). -/
+@[expose] noncomputable def collectionChoices (G : Garden w) (σ : Prescription G) (Mk : Set (CLVine G) := ∅) :
+    SubproChoices (stSt G σ Mk).G where
+  count := (objects G σ Mk).length
+  collection := fun i => (objects G σ Mk).get i
+  hinges := (stSt G σ Mk).hinges
   first := fun v => (hingePair G σ v).map Prod.fst
   second := fun v => (hingePair G σ v).map Prod.snd
 
-theorem structural_collectionChoices (hM : G.molecule.IsMolecule) (σ : Prescription G)
-    (hno : ∀ a b, G.molecule.bondsBetween a b ≠ 3) : (collectionChoices G σ).Structural := by
+/-- B1b (Mk-general form of `structural_collectionChoices`). -/
+theorem structural_collectionChoicesMk (hM : G.molecule.IsMolecule) (σ : Prescription G)
+    (hno : ∀ a b, G.molecule.bondsBetween a b ≠ 3) {Mk : Set (Stage1.CLVine _)} : (collectionChoices (Mk := Mk) G σ).Structural := by
   refine ⟨?_, ?_, ?_⟩
   · intro i
-    obtain ⟨_, _, _, _, hS⟩ := mem_objects (List.get_mem (objects G σ) i)
+    obtain ⟨_, _, _, _, hS⟩ := mem_objectsMk (Mk := Mk) (List.get_mem (objects (Mk := Mk) G σ) i)
     exact hS.allowed
   · intro i j hne
-    have hp := List.pairwise_iff_get.mp (objects_pairwise hM σ)
+    have hp := List.pairwise_iff_get.mp (objects_pairwiseMk (Mk := Mk) hM σ)
     rcases lt_or_gt_of_ne (fun h => hne (Fin.ext h)) with h | h
     · exact hp i j h
     · exact (hp j i h).symm
   · intro a b hab
-    exact (stSt G σ).triple_hinge hno a b hab
+    exact (stSt (Mk := Mk) G σ).triple_hinge hno a b hab
 
-theorem hingeOutsideFirst_collectionChoices (σ : Prescription G) :
-    ∀ v ∈ (collectionChoices G σ).hinges, ∀ i, ¬ ((collectionChoices G σ).collection i).IsInterior v := by
+theorem structural_collectionChoices (hM : G.molecule.IsMolecule) (σ : Prescription G)
+    (hno : ∀ a b, G.molecule.bondsBetween a b ≠ 3) : (collectionChoices G σ).Structural := structural_collectionChoicesMk (Mk := ∅) hM σ hno
+
+/-- B1b (Mk-general form of `hingeOutsideFirst_collectionChoices`). -/
+theorem hingeOutsideFirst_collectionChoicesMk (σ : Prescription G) {Mk : Set (Stage1.CLVine _)} :
+    ∀ v ∈ (collectionChoices (Mk := Mk) G σ).hinges, ∀ i, ¬ ((collectionChoices (Mk := Mk) G σ).collection i).IsInterior v := by
   intro v hv i hint
-  obtain ⟨_, _, _, _, hS⟩ := mem_objects (List.get_mem (objects G σ) i)
-  have hcn : (stSt G σ).cls ((stSt G σ).M.ob v) ≠ none := ((stSt G σ).mem_hinges v).mp hv
+  obtain ⟨_, _, _, _, hS⟩ := mem_objectsMk (Mk := Mk) (List.get_mem (objects (Mk := Mk) G σ) i)
+  have hcn : (stSt (Mk := Mk) G σ).cls ((stSt (Mk := Mk) G σ).M.ob v) ≠ none := ((stSt (Mk := Mk) G σ).mem_hinges v).mp hv
   rcases hS.hinge v hcn hint.1 with h | h
   · exact hint.2.1 h
   · exact hint.2.2 h
 
+theorem hingeOutsideFirst_collectionChoices (σ : Prescription G) :
+    ∀ v ∈ (collectionChoices G σ).hinges, ∀ i, ¬ ((collectionChoices G σ).collection i).IsInterior v := hingeOutsideFirst_collectionChoicesMk (Mk := ∅) σ
+
+
+/-- B1b (Mk-general form of `properPair_congr`). -/
+theorem properPair_congrMk {σ : Prescription G} {Mk : Set (Stage1.CLVine _)} {v : GBranch (stSt (Mk := Mk) G σ).G.tree}
+    {y1 y2 q1 q2 : GardenDart (stSt (Mk := Mk) G σ).G} (h : ProperPair G σ v y1 y2)
+    (h1 : (stSt (Mk := Mk) G σ).M.od q1 = (stSt (Mk := Mk) G σ).M.od y1) (h2 : (stSt (Mk := Mk) G σ).M.od q2 = (stSt (Mk := Mk) G σ).M.od y2)
+    (hT : TripleAt (stSt (Mk := Mk) G σ).G v q1 q2) : ProperPair G σ v q1 q2 := by
+  obtain ⟨-, u, hu, hc, j, hj, e1, e2, n1, n2⟩ := h
+  exact ⟨hT, u, hu, hc, j, hj, by rw [h1]; exact e1, by rw [h2]; exact e2, by rw [h1]; exact n1,
+    by rw [h2]; exact n2⟩
 
 theorem properPair_congr {σ : Prescription G} {v : GBranch (stSt G σ).G.tree}
     {y1 y2 q1 q2 : GardenDart (stSt G σ).G} (h : ProperPair G σ v y1 y2)
     (h1 : (stSt G σ).M.od q1 = (stSt G σ).M.od y1) (h2 : (stSt G σ).M.od q2 = (stSt G σ).M.od y2)
-    (hT : TripleAt (stSt G σ).G v q1 q2) : ProperPair G σ v q1 q2 := by
-  obtain ⟨-, u, hu, hc, j, hj, e1, e2, n1, n2⟩ := h
-  exact ⟨hT, u, hu, hc, j, hj, by rw [h1]; exact e1, by rw [h2]; exact e2, by rw [h1]; exact n1,
-    by rw [h2]; exact n2⟩
+    (hT : TripleAt (stSt G σ).G v q1 q2) : ProperPair G σ v q1 q2 := properPair_congrMk (Mk := ∅) h h1 h2 hT
 
 section cases
 variable (hM : G.molecule.IsMolecule) (σ : Prescription G)
@@ -180,7 +219,7 @@ theorem hinge_entry {v : GBranch (stSt G σ).G.tree} (hv : v ∈ (stSt G σ).hin
     have hSg : S ∈ sgGroups G σ := mem_sgGroups.mpr ⟨hSm, hσ⟩
     have hex : objOf G σ S = some (Classical.choose (exists_obj hM σ hSm hσ hoS)) := by
       unfold objOf
-      rw [dite_eq_left ⟨hM, hSm, hσ, hoS⟩]
+      rw [dite_eq_left ⟨hM, hSm, hσ, hoS, not_markedGroup_empty G S, exists_obj hM σ hSm hσ hoS⟩]
     set O := Classical.choose (exists_obj hM σ hSm hσ hoS)
     have hOm : O ∈ objects G σ := List.mem_filterMap.mpr ⟨S, hSg, hex⟩
     obtain ⟨-, -, -, hOspec⟩ := objOf_spec (Option.mem_def.mpr hex)
@@ -355,13 +394,17 @@ theorem hingePair_spec (hM : G.molecule.IsMolecule) (σ : Prescription G)
       exact h (hentry hno)
     obtain ⟨q, S, hS, u, hu, hob, p, hsp, hq, hP⟩ := hunit
     have h2 : ∃ q : GardenDart (stSt G σ).G × GardenDart (stSt G σ).G, ∃ S ∈ maximalGroups G.molecule,
-        ∃ u ∈ (groupUnitsOf G S).units, (stSt G σ).M.ob v = u.upper ∧
-          ∃ p, HingeSpec G S u.upper p ∧ liftPair G σ v p = some q ∧ ProperPair G σ v q.1 q.2 :=
-      ⟨q, S, hS, u, hu, hob, p, hsp, hq, hP⟩
+        ∃ u ∈ groupUnitsMk G ∅ S, (stSt G σ).M.ob v = u.upper ∧
+          ∃ p, (¬ markedGroup G ∅ S → HingeSpec G S u.upper p) ∧ (markedGroup G ∅ S → HingeSpecRun G u p) ∧
+            liftPair G σ v p = some q ∧ ProperPair G σ v q.1 q.2 :=
+      ⟨q, S, hS, u, by rwa [groupUnitsMk_empty], hob, p, fun _ => hsp,
+        fun hm => (not_markedGroup_empty G S hm).elim, hq, hP⟩
     rw [dite_eq_left h2]
-    obtain ⟨S2, hS2, u2, hu2, hob2, p2, hsp2, hq2, hP2⟩ := Classical.choose_spec h2
+    obtain ⟨S2, hS2, u2, hu2, hob2, p2, hsp2, -, hq2, hP2⟩ := Classical.choose_spec h2
     obtain ⟨hl1, hl2, -⟩ := liftPair_spec hq2
-    exact ⟨(Classical.choose h2).1, (Classical.choose h2).2, rfl, hP2, ⟨S2, hS2, u2, hu2, hob2, p2, hsp2, hl1, hl2⟩,
+    rw [groupUnitsMk_empty] at hu2
+    exact ⟨(Classical.choose h2).1, (Classical.choose h2).2, rfl, hP2,
+      ⟨S2, hS2, u2, hu2, hob2, p2, hsp2 (not_markedGroup_empty G S2), hl1, hl2⟩,
       fun hno' => absurd hno hno'⟩
 
 end WaveTurbulence.VineA.NormalizedSplice

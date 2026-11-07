@@ -11,8 +11,9 @@ open Stage1 RedSplice LFTwist
 variable {w p : ℕ} {kind : Bool}
 
 /-- The fine tau class keeps the locally transported prescription. -/
-def tauClass (a : PrescribedPrimeGarden w) : Set (PrescribedPrimeGarden w) :=
-  {b | Related (p := p) (kind := kind) a b}
+def tauClass (a : PrescribedPrimeGarden w) (mk : Stage1Mk.MarkFn w := fun _ => ∅) :
+    Set (PrescribedPrimeGarden w) :=
+  {b | Related (p := p) (kind := kind) a b mk}
 
 theorem mem_tauClass_self (a : PrescribedPrimeGarden w) : a ∈ a.tauClass (p := p) (kind := kind) :=
   Relation.EqvGen.refl a

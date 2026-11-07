@@ -47,6 +47,25 @@ theorem PrimeData.fine_outputs_subset_coarse (A : PrimeData LG) (σ : Prescripti
   rw [A.state_eq_restrict _ _ _ (fun _ h => h) (vinesV0_subset A.skeleton σ)]
   exact allCoreOutputs_restrict_subset _ _ _
 
+/-- B1b (R11): the fine′ class (marked set `Mk`) lies in the coarse′ class of any smaller marked set `Mk0`
+(o75: the coarse marking `markI0` is contained in the fine marking `markI`). -/
+theorem PrimeData.fine_outputs_subset_coarseMk (A : PrimeData LG) (σ : Prescription A.skeleton)
+    {Mk Mk0 : Set (CLVine A.skeleton)} (h : Mk0 ⊆ Mk) :
+    (A.fineState σ Mk).allCoreOutputs (p := p) (kind := kind) ⊆
+      (coarseStateMk A Mk0).allCoreOutputs (p := p) (kind := kind) := by
+  change (A.state (vinesV0 A.skeleton σ Mk) (vinesV0_subsetMk A.skeleton σ Mk)).allCoreOutputs ⊆
+    (A.state {c | c ∈ vinesV A.skeleton ∧ c ∉ Mk0} (fun _ h => h.1)).allCoreOutputs
+  rw [A.state_eq_restrict (vinesV0 A.skeleton σ Mk) {c | c ∈ vinesV A.skeleton ∧ c ∉ Mk0} _ (fun _ h => h.1)
+    (fun c hc => ⟨(mem_vinesV0.mp hc).1.1, fun hm => (mem_vinesV0.mp hc).2 (h hm)⟩)]
+  exact allCoreOutputs_restrict_subset _ _ _
+
+/-- B1b (R11): every prescribed garden belongs to its fine′ output class. -/
+theorem PrimeData.mem_fine_outputs_selfMk (A : PrimeData LG) (σ : Prescription A.skeleton)
+    (Mk : Set (CLVine A.skeleton)) :
+    LG ∈ (A.fineState σ Mk).allCoreOutputs (p := p) (kind := kind) :=
+  (congruent_layered_iff p kind (A.fineState σ Mk) LG).mpr
+    ⟨A.fineState σ Mk, WaveTurbulence.Stage1.Congruent.refl p kind (A.fineState σ Mk), rfl⟩
+
 /-- Every prescribed garden belongs to its actual fine output class. -/
 theorem PrimeData.mem_fine_outputs_self (A : PrimeData LG) (σ : Prescription A.skeleton) :
     LG ∈ (A.fineState σ).allCoreOutputs (p := p) (kind := kind) :=

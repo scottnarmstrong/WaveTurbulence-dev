@@ -38,24 +38,33 @@ variable {w : ℕ} {G : Garden w}
 
 /-- The internal pair at a non-hinge designated atom: the lift of `intPairOrig`. -/
 @[expose] noncomputable def internalPair (G : Garden w) (σ : Prescription G) (S : Finset (GBranch G.tree))
-    (v : GBranch (stSt G σ).G.tree) : Option (GardenDart (stSt G σ).G × GardenDart (stSt G σ).G) :=
-  (intPairOrig G S).bind (liftPair G σ v)
+    {Mk : Set (CLVine G)} (v : GBranch (stSt G σ Mk).G.tree) :
+    Option (GardenDart (stSt G σ Mk).G × GardenDart (stSt G σ Mk).G) :=
+  (intPairOrig G S Mk).bind (liftPair G σ v)
 
 /-- The pair of darts of the entry of the group `S` at `v`. -/
 @[expose] noncomputable def gapPair (G : Garden w) (σ : Prescription G) (S : Finset (GBranch G.tree))
-    (v : GBranch (stSt G σ).G.tree) : Option (GardenDart (stSt G σ).G × GardenDart (stSt G σ).G) := by
-  classical exact if v ∈ (stSt G σ).hinges then hingeEntryPair G σ S v else internalPair G σ S v
+    {Mk : Set (CLVine G)} (v : GBranch (stSt G σ Mk).G.tree) :
+    Option (GardenDart (stSt G σ Mk).G × GardenDart (stSt G σ Mk).G) := by
+  classical exact if v ∈ (stSt G σ Mk).hinges then hingeEntryPair G σ S v else internalPair G σ S v
 
-/-- **The gap specification of `G_sb`** (the indicator `Z` of TARGET L1956, L1963). -/
-@[expose] noncomputable def gapSpecification (G : Garden w) (σ : Prescription G)
-    (v : GBranch (stSt G σ).G.tree) : Option (LocalGapSpecification (stSt G σ).G v) := by
+/-- **The gap specification of `G_sb`** (the indicator `Z` of TARGET L1956, L1963), for the marked vine set `Mk`
+(B1a). -/
+@[expose] noncomputable def gapSpecificationMk (G : Garden w) (σ : Prescription G) (Mk : Set (CLVine G))
+    (v : GBranch (stSt G σ Mk).G.tree) : Option (LocalGapSpecification (stSt G σ Mk).G v) := by
   classical
-  exact if h : ∃ S ∈ maximalGroups G.molecule, groupAtom G σ S = some v then
+  exact if h : ∃ S ∈ maximalGroups G.molecule, groupAtom G σ S Mk = some v then
     (match gapPair G σ h.choose v with
-      | some p => if hp : TripleAt (stSt G σ).G v p.1 p.2 then
+      | some p => if hp : TripleAt (stSt G σ Mk).G v p.1 p.2 then
           some ⟨p.1, p.2, hp.1, hp.2.1, hp.2.2.1, hp.2.2.2, σ h.choose⟩ else none
       | none => none)
   else none
+
+/-- **The gap specification of `G_sb`** at the default marked set `∅` (main's).  B1a: the Mk-general function is
+`gapSpecificationMk` (it is used unapplied in statements, so the default cannot be an argument here). -/
+@[expose] noncomputable def gapSpecification (G : Garden w) (σ : Prescription G) :
+    (v : GBranch (stSt G σ).G.tree) → Option (LocalGapSpecification (stSt G σ).G v) :=
+  gapSpecificationMk G σ ∅
 
 /-- The designated atoms of distinct groups differ. -/
 theorem groupAtom_inj (hM : G.molecule.IsMolecule) (σ : Prescription G) {S S' : Finset (GBranch G.tree)}
@@ -84,18 +93,9 @@ theorem gapSpecification_of (hM : G.molecule.IsMolecule) (σ : Prescription G) {
   classical
   have h : ∃ S' ∈ maximalGroups G.molecule, groupAtom G σ S' = some v := ⟨S, hS, hv⟩
   have hc : h.choose = S := groupAtom_inj hM σ h.choose_spec.1 hS h.choose_spec.2 hv
-  unfold gapSpecification
+  unfold gapSpecification gapSpecificationMk
   rw [dite_eq_left h]
-  have key : ∀ S' : Finset (GBranch G.tree), S' = S →
-      (match gapPair G σ S' v with
-        | some p => if hp : TripleAt (stSt G σ).G v p.1 p.2 then
-            some (⟨p.1, p.2, hp.1, hp.2.1, hp.2.2.1, hp.2.2.2, σ S'⟩ : LocalGapSpecification (stSt G σ).G v) else none
-        | none => none) = some ⟨x, y, hT.1, hT.2.1, hT.2.2.1, hT.2.2.2, σ S⟩ := by
-    intro S' hS'
-    subst hS'
-    rw [hp]
-    simp only [dite_eq_left hT]
-  exact key _ hc
+  simp only [hc, hp, dite_eq_left hT]
 
 /-- **Every group of `𝒞` has its entry in `gapSpecification`**, of kind `σ S`, whose darts are the lifts of the
 chosen original pair: `intPairOrig` at a non-hinge joint, `hingeOrigPair` at a hinge. -/
@@ -198,22 +198,27 @@ theorem gapSpecification_pair_of_object (hM : G.molecule.IsMolecule) (σ : Presc
     rw [h1, h2]
     exact hsp
 
-/-- **Hinge entries are SG** (TARGET `subpro` (5): the triple at a hinge always has SG). -/
-theorem gapSpecification_hinge_kind (hM : G.molecule.IsMolecule) (σ : Prescription G)
+/-- B1b (Mk-general form of `gapSpecification_hinge_kind`). -/
+theorem gapSpecification_hinge_kindMk (hM : G.molecule.IsMolecule) (σ : Prescription G)
     {S : Finset (GBranch G.tree)} (hS : S ∈ maximalGroups G.molecule) {a : GBranch G.tree} (haS : a ∈ S)
-    (hh : (stSt G σ).M.pi (stSt G σ).hcls a ∈ (stSt G σ).hinges) : σ S = Molecule.GapKind.SG := by
-  have h1 := ((stSt G σ).mem_hinges _).mp hh
-  rw [(stSt G σ).M.ob_pi] at h1
-  by_cases h : ∃ u ∈ unitBlocks G σ, a ∈ u.atoms
+    {Mk : Set (Stage1.CLVine _)} (hh : (stSt (Mk := Mk) G σ).M.pi (stSt (Mk := Mk) G σ).hcls a ∈ (stSt (Mk := Mk) G σ).hinges) : σ S = Molecule.GapKind.SG := by
+  have h1 := ((stSt (Mk := Mk) G σ).mem_hinges _).mp hh
+  rw [(stSt (Mk := Mk) G σ).M.ob_pi] at h1
+  by_cases h : ∃ u ∈ unitBlocks (Mk := Mk) G σ, a ∈ u.atoms
   · obtain ⟨u, hu, hau⟩ := h
-    obtain ⟨S'', hS''m, hσ, hmem⟩ := mem_unitBlocks.mp hu
-    have hsub := (groupUnitsOf G S'').sub u hmem hau
+    obtain ⟨S'', hS''m, hσ, hmem⟩ := (mem_unitBlocksMk (Mk := Mk)).mp hu
+    have hsub := groupUnitsMk_sub hmem hau
     by_cases hSS : S = S''
     · rw [hSS]; exact hσ
     · exact absurd haS (Finset.disjoint_left.mp (groups_disjoint hM hS hS''m hSS) |> fun f => fun h => f h hsub)
   · push Not at h
-    have : repC (stSt G σ).cls a = a := stSt_repC_none hM σ h
-    rw [this, stSt_cls_none hM σ h] at h1
+    have : repC (stSt (Mk := Mk) G σ).cls a = a := stSt_repC_noneMk (Mk := Mk) hM σ h
+    rw [this, stSt_cls_noneMk (Mk := Mk) hM σ h] at h1
     exact absurd rfl h1
+
+/-- **Hinge entries are SG** (TARGET `subpro` (5): the triple at a hinge always has SG). -/
+theorem gapSpecification_hinge_kind (hM : G.molecule.IsMolecule) (σ : Prescription G)
+    {S : Finset (GBranch G.tree)} (hS : S ∈ maximalGroups G.molecule) {a : GBranch G.tree} (haS : a ∈ S)
+    (hh : (stSt G σ).M.pi (stSt G σ).hcls a ∈ (stSt G σ).hinges) : σ S = Molecule.GapKind.SG := gapSpecification_hinge_kindMk (Mk := ∅) hM σ hS haS hh
 
 end WaveTurbulence.VineA.NormalizedSplice

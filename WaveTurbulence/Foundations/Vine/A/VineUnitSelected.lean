@@ -103,6 +103,6 @@ theorem unitBlocks_selected_spine {σ : Prescription G} {u : CLBlock G} (hu : u 
       exact (disjoint_left.mp (groups_disjoint' (Mole.garden_isMolecule G) hS' hS hne)
         (ingredient_sub hi' c.upper_mem)) (hin c.upper_mem)
     exact heS ▸ hi'
-  exact ⟨c, ⟨hc, S, hS, hci, hσ⟩, he⟩
+  exact ⟨c, ⟨hc, S, hS, hci, hσ, fun h => h⟩, he⟩
 
 end WaveTurbulence.VineA

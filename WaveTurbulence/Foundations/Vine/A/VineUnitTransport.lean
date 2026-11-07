@@ -51,20 +51,25 @@ theorem clBlock_eq_of_atoms {u v : CLBlock G} (h : u.atoms = v.atoms) : u = v :=
   cases hv
   rfl
 
-/-- Every actual unit either contains the active selected vine, or is disjoint from it. -/
-theorem unitBlocks_good (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) {u : CLBlock G} (hu : u ∈ unitBlocks G σ) :
+/-- B1b (Mk-general form of `unitBlocks_good`). -/
+theorem unitBlocks_goodMk (Z : TwistGroupSite G) (σ : Prescription G)
+    {Mk : Set (Stage1.CLVine _)} (hsel : ∃ c ∈ vinesV0 (Mk := Mk) G σ, c.atoms = Z.S0) {u : CLBlock G} (hu : u ∈ unitBlocks (Mk := Mk) G σ) :
     Z.Good u.atoms := by
   obtain ⟨c, hc, hat⟩ := hsel
-  obtain ⟨_, v, hv, hcv⟩ := (vinesV0_iff_unit_cover G σ c).mp hc
+  obtain ⟨_, v, hv, hcv⟩ := (vinesV0_iff_unit_cover_diffMk (Mk := Mk) G σ c).mp hc
   by_cases huv : u = v
   · subst v
     exact Or.inl (hat ▸ hcv)
   · right
     intro x hx hxu
-    exact ((disjoint_left.mp (disjoint_members (unitBlocks G σ)
-      (unitBlocks_pairwise (Mole.garden_isMolecule G) σ) hu hv huv) hxu)
+    exact ((disjoint_left.mp (disjoint_members (unitBlocks (Mk := Mk) G σ)
+      (unitBlocks_pairwiseMk (Mk := Mk) (Mole.garden_isMolecule G) σ) hu hv huv) hxu)
       (hcv (hat.symm ▸ hx))).elim
+
+/-- Every actual unit either contains the active selected vine, or is disjoint from it. -/
+theorem unitBlocks_good (Z : TwistGroupSite G) (σ : Prescription G)
+    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) {u : CLBlock G} (hu : u ∈ unitBlocks G σ) :
+    Z.Good u.atoms := unitBlocks_goodMk (Mk := ∅) Z σ hsel hu
 
 /-- The transported actual unit, with its CL property derived from source geometry. -/
 noncomputable def unitImage (Z : TwistGroupSite G) (u : CLBlock G) (hgood : Z.Good u.atoms) :
