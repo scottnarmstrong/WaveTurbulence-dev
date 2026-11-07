@@ -1,9 +1,9 @@
 {
  "title": "Flower estimate: Prop flowerest1 = frozen layergardenFlower_v3",
- "updated": "2026-11-07 18:13 UTC",
+ "updated": "2026-11-07 19:12 UTC",
  "convention": "Packet weights follow the blueprint convention (hard = 4, standard = 2, multi-packet items more). Credit: done = 1; a CHECKPOINT carries an explicit partial fraction; running and queued packets carry 0.",
  "paper": "Paper-level proof complete and refereed (R155): SUPPLEMENT-v2 + 6.3', 7.3', 7.5', 8.2', 8.3, 10.2-10.4, U-clock; 7 referee reports, no FAIL.",
- "next": "Land V5W-B on main; A3b (flower estimate from the per-component bound alone); B1a/B2b (marked Stage 1); C1b1 (final count); D2b, D2c, D5d, D5b (protected objects); V5W-B world pieces.",
+ "next": "World cleanup after the V5W-B landing; A3b (flower estimate from the per-component bound alone); B1a/B2b (marked Stage 1); C1b1/C1c (final count); D2c, D5d, D5b-1 (protected objects); V5W-B world pieces.",
  "risks": [
   "D5b: filters through main's incoherent link chain, now mapped (copy-thread, 95 modules, 5-6.7k lines; theta = 1/4 couples branch still to write)",
   "B2b: Lemma 2+ (the marking is twist-invariant) needs node maps across LF twists that main lacks",
@@ -108,7 +108,7 @@
      "id": "V5W-B-MAIN",
      "w": 8,
      "status": "done",
-     "note": "READY b4ee6eee (609 main files, layergarden_v2 ABI unchanged); landing"
+     "note": "LANDED on main 416902c8 (land_check, 327 ABI OK)"
     },
     {
      "id": "V5W-B-WORLD",
@@ -319,7 +319,7 @@
      "id": "C1b1 MK-PHASE1",
      "w": 4,
      "status": "running",
-     "note": ""
+     "note": "porting to the R164-repaired statements"
     },
     {
      "id": "C4a PIN-FOURIER",
@@ -336,8 +336,8 @@
     {
      "id": "C1c MK-GARDEN",
      "w": 2,
-     "status": "queued",
-     "note": ""
+     "status": "running",
+     "note": "porting to the R164-repaired statements (C0-r READY)"
     },
     {
      "id": "C4b FINE-PIN",
@@ -385,14 +385,14 @@
      "id": "D1b PROT-OPS",
      "w": 4,
      "status": "checkpoint",
-     "done": 0.7,
-     "note": "5 of 7: D1b-T running, fold estimate deferred"
+     "done": 0.85,
+     "note": "6 of 7 (D1b-S, D1b-T done); fold estimate deferred to D6a time"
     },
     {
      "id": "D2b PROT-GEO",
      "w": 4,
-     "status": "running",
-     "note": ""
+     "status": "done",
+     "note": "protected geometry (i)-(iv); R163 carrier fix"
     },
     {
      "id": "D2c PROT-CUT",
@@ -416,12 +416,12 @@
      "id": "D3 PROT-PIN",
      "w": 4,
      "status": "queued",
-     "note": ""
+     "note": "+ conjugation transfer and the P8 root-trace bound (R163)"
     },
     {
      "id": "D5b-1 FILT-SRC",
      "w": 4,
-     "status": "queued",
+     "status": "running",
      "note": "filtered source phase (copy-thread of INC-TOP), riskiest D step"
     },
     {
