@@ -28663,7 +28663,7 @@
         "mode": "NOT_SPLIT",
         "ruling_ref": "docs/DECISIONS.md#D10"
       },
-      "abi_sha256": "36fb4c1dd04ff1330839fb9cb4d465fee163bf52dcc6efb3471d8f5c577a8da4",
+      "abi_sha256": "2110340043ade661f13a79379c82904919645a1d2cc59f3650fe539e27b75272",
       "definition_closure": [
         {
           "path": "WaveTurbulence/Frozen/Defs/Mom.lean",
