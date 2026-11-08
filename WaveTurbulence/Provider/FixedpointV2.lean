@@ -20,13 +20,69 @@ public import WaveTurbulence.Frozen.Defs.WTParamsN
 public import WaveTurbulence.Frozen.Defs.WTPrefix
 public import WaveTurbulence.Frozen.Defs.ZNorm
 public import WaveTurbulence.Frozen.Defs.ZSpace
+import WaveTurbulence.Frozen.Theorems.LayergardenFlowerV3
+import WaveTurbulence.Frozen.Theorems.LayergardenV2
+import WaveTurbulence.Frozen.Theorems.WkeTaylor
+import WaveTurbulence.Foundations.XChain.V2Chain.FixedpointV2
 
 /-!
 # Provider for `WaveTurbulence.fixedpoint_v2` (the γ ∈ (1/2, 1) successor, ruling D10)
 
 The proof of the frozen anchor `WaveTurbulence.fixedpoint_v2` (T Prop `fixedpoint`, L780–L794; WAVE-B v2 §4.3) is assembled here under the export
-`WaveTurbulence.Provider.fixedpoint_v2`. Quarantined while the anchor is `DRAFT_SORRY`:
-only the frozen anchor may import this module.
+`WaveTurbulence.Provider.fixedpoint_v2`.
+The proof is `V2Chain.fixedpoint_v2_of_closed_gates_v3` (`Foundations/XChain/V2Chain/FixedpointV2`, the
+X-chain assembly of TARGET Prop `fixedpoint`) applied to the sealed anchors `layergardenFlower_v3`,
+`layergarden_v2` and `wkeTaylor`. This module must not import its own frozen anchor.
+The proof modules are imported privately (`import`), so that the frozen anchor elaborates its statement
+in its freeze environment.
 -/
 
 public section
+
+open MeasureTheory ProbabilityTheory Finset Set
+open scoped ENNReal
+universe u
+
+namespace WaveTurbulence.Provider
+
+/-- The frozen statement of `WaveTurbulence.fixedpoint_v2`, verbatim,
+proved by the assembly in the module docstring. -/
+theorem fixedpoint_v2 : WTPrefix fun P => 1 / 2 < P.γ →
+    ∀ (Ω : Type u) [MeasurableSpace Ω] (μ : Measure Ω) [IsProbabilityMeasure μ]
+      (g : (Fin P.d → ℤ) → Ω → ℂ), IsGaussianData μ g →
+    ∀ p : ℕ, p < P.D →
+    ∀ (a : Ω → ℝ → (Fin P.d → ℤ) → ℂ) (Fev : ℕ → Set Ω) (R : ℕ → Mom P.d → ℝ)
+      (E : ℕ → (Fin P.d → ℤ) → ℝ)
+      (Et : ℕ → (m : ℕ) → (Fin (2 * m) → ℤˣ) → (Fin (2 * m) → (Fin P.d → ℤ)) → ℂ),
+      (∀ q ≤ p, AnsatzAt P μ g a Fev R E Et q) →
+    ∃ F' : Set Ω, F' ⊆ Fev p ∧ MeasurableSet F' ∧ IsSymmetricEvent P.L P.φin g F' ∧
+      μ.real (Fev p \ F') ≤ Real.exp (-(4 * P.N (p + 1) : ℝ)) ∧
+      ∀ ω ∈ F',
+        let Ntr := P.N (p + 1)
+        let Λ : ℝ := 5 / 4 * P.Lambda (p + 1)
+        let ℒ : ℕ → (Icc (p : ℝ) (p + 1) → (Fin P.d → ℤ) → ℂ) →
+            Icc (p : ℝ) (p + 1) → (Fin P.d → ℤ) → ℂ :=
+          fun j b t n => Lop P.L P.γ P.δ p Ntr (a ω p) j b t n
+        let Zs := ZSpace (d := P.d) P.L Λ p
+        (∀ t ∈ Icc (p : ℝ) (p + 1), ∀ n,
+          ‖aTr P.L P.γ P.δ p Ntr (a ω p) t n‖ ≤
+            jbr (latticePoint P.L n) ^ (-(3 / 2 * P.Lambda (p + 1) : ℝ)) *
+              Real.exp (3 * Ntr)) ∧
+        (∀ (b : Icc (p : ℝ) (p + 1) → (Fin P.d → ℤ) → ℂ) (t : Icc (p : ℝ) (p + 1)) (n),
+          ‖ℒ 0 b t n‖ ≤ jbr (latticePoint P.L n) ^ (-(3 / 2 * P.Lambda (p + 1) : ℝ)) *
+            Real.exp (-(20 * Ntr : ℝ))) ∧
+        (∀ b ∈ Zs, b - ℒ 1 b ∈ Zs) ∧
+        (∀ c ∈ Zs, ∃! b, b ∈ Zs ∧ b - ℒ 1 b = c) ∧
+        (∀ b ∈ Zs, ZNorm P.L Λ b ≤ ENNReal.ofReal (Real.exp (3 * Ntr)) * ZNorm P.L Λ (b - ℒ 1 b)) ∧
+        (∀ b ∈ Zs, ZNorm P.L Λ b ≤ ENNReal.ofReal (Real.exp (-(10 * Ntr : ℝ))) →
+          ∃ c ∈ Zs, c - ℒ 1 c = ℒ 0 b + ℒ 2 b + ℒ 3 b ∧
+            ZNorm P.L Λ c ≤ ENNReal.ofReal (Real.exp (-(10 * Ntr : ℝ)))) ∧
+        (∀ b ∈ Zs, ∀ b' ∈ Zs, ∀ c ∈ Zs, ∀ c' ∈ Zs,
+          ZNorm P.L Λ b ≤ ENNReal.ofReal (Real.exp (-(10 * Ntr : ℝ))) →
+          ZNorm P.L Λ b' ≤ ENNReal.ofReal (Real.exp (-(10 * Ntr : ℝ))) →
+          c - ℒ 1 c = ℒ 0 b + ℒ 2 b + ℒ 3 b → c' - ℒ 1 c' = ℒ 0 b' + ℒ 2 b' + ℒ 3 b' →
+          ZNorm P.L Λ (c - c') ≤ 2⁻¹ * ZNorm P.L Λ (b - b')) :=
+  WaveTurbulence.V2Chain.fixedpoint_v2_of_closed_gates_v3 WaveTurbulence.layergardenFlower_v3
+    WaveTurbulence.layergarden_v2 WaveTurbulence.wkeTaylor
+
+end WaveTurbulence.Provider

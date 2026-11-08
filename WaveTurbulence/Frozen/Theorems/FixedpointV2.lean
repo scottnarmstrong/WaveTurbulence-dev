@@ -88,7 +88,7 @@ theorem fixedpoint_v2 : WTPrefix fun P => 1 / 2 < P.γ →
           c - ℒ 1 c = ℒ 0 b + ℒ 2 b + ℒ 3 b → c' - ℒ 1 c' = ℒ 0 b' + ℒ 2 b' + ℒ 3 b' →
           ZNorm P.L Λ (c - c') ≤ 2⁻¹ * ZNorm P.L Λ (b - b')) :=
 -- FROZEN_ANCHOR_PROOF_BEGIN
-  by sorry
+  by exact WaveTurbulence.Provider.fixedpoint_v2
 -- FROZEN_ANCHOR_PROOF_END
 -- FROZEN_ANCHOR_SUFFIX_BEGIN
 
