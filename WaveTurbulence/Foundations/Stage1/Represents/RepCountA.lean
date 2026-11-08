@@ -27,11 +27,11 @@ namespace WaveTurbulence.Represents
 open Finset WaveTurbulence WaveTurbulence.LGSpine WaveTurbulence.ClassCount
 
 open Classical in
-/-- B1b (R156): `pieceCount_of_rep` with the truncation-free carrier `Stage1CarriesW`. -/
-theorem pieceCount_of_repW (hcc : ClassCountStmtW) :
+/-- B1b-2: `pieceCount_of_rep` for Stage 1′ pieces at admissible marked sets (`ClassCountStmtMk Adm`). -/
+theorem pieceCount_of_repMk (Adm : MarkAdm) (hcc : ClassCountStmtMk Adm) :
     ∃ C₀ K : ℕ, 2 ≤ C₀ ∧ ∀ (P : WTParams), K ^ (P.D + 1) ≤ P.C₂ → ∀ p, p < P.D → ∀ R, 1 ≤ R → ∀ N, 1 ≤ N →
       ∀ (S : Stage1Data P R) (rep : S.Pc → LayeredGarden (2 * R)) (M : ℕ),
-        (∀ π, Stage1Mk.Stage1CarriesW P p N (rep π) ∧ HasPieceData P.d (rep π) (S.piece π).gbar (S.piece π).rbar) →
+        (∀ π, Stage1Mk.Stage1CarriesW P p N (rep π) ∧ HasPieceDataMk Adm P.d (rep π) (S.piece π).gbar (S.piece π).rbar) →
         (∀ LG, ((@univ S.Pc S.fin).filter fun π => rep π = LG).card ≤ M) →
         ∀ g r : ℕ,
           ((((@univ S.Pc S.fin).filter fun π => (S.piece π).gbar = g ∧ (S.piece π).rbar = r).card : ℕ) : ℝ) ≤
@@ -62,6 +62,23 @@ theorem pieceCount_of_repW (hcc : ClassCountStmtW) :
     simpa [hA, mul_comm] using this
   have hcardR : (PS.card : ℝ) ≤ (M : ℝ) * (A.card : ℝ) := by exact_mod_cast hcard
   exact hcardR.trans (mul_le_mul_of_nonneg_left hAc (Nat.cast_nonneg _))
+
+open Classical in
+/-- B1b (R156): `pieceCount_of_rep` with the truncation-free carrier `Stage1CarriesW`. -/
+theorem pieceCount_of_repW (hcc : ClassCountStmtW) :
+    ∃ C₀ K : ℕ, 2 ≤ C₀ ∧ ∀ (P : WTParams), K ^ (P.D + 1) ≤ P.C₂ → ∀ p, p < P.D → ∀ R, 1 ≤ R → ∀ N, 1 ≤ N →
+      ∀ (S : Stage1Data P R) (rep : S.Pc → LayeredGarden (2 * R)) (M : ℕ),
+        (∀ π, Stage1Mk.Stage1CarriesW P p N (rep π) ∧ HasPieceData P.d (rep π) (S.piece π).gbar (S.piece π).rbar) →
+        (∀ LG, ((@univ S.Pc S.fin).filter fun π => rep π = LG).card ≤ M) →
+        ∀ g r : ℕ,
+          ((((@univ S.Pc S.fin).filter fun π => (S.piece π).gbar = g ∧ (S.piece π).rbar = r).card : ℕ) : ℝ) ≤
+            (M : ℝ) * ((C₀ : ℝ) ^ N * (((C₀ * r).factorial : ℕ) : ℝ) * (((C₀ * R).factorial : ℕ) : ℝ) *
+              P.C₂ ^ (g + r)) := by
+  obtain ⟨C₀, K, hC₀, hm⟩ := pieceCount_of_repMk _ (classCountStmtMk_of_W hcc)
+  refine ⟨C₀, K, hC₀, fun P hK p hp R hR N hN S rep M hrep hfib g r =>
+    hm P hK p hp R hR N hN S rep M (fun π => ?_) hfib g r⟩
+  obtain ⟨h1, S', D, hS, hd, σ, hg, hr⟩ := hrep π
+  exact ⟨h1, S', D, hS, hd, σ, ∅, rfl, hg, hr⟩
 
 open Classical in
 /-- Counting pieces through representatives with bounded fibres. -/
