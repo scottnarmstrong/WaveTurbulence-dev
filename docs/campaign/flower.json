@@ -1,6 +1,6 @@
 {
  "title": "Flower estimate: Prop flowerest1 = frozen layergardenFlower_v3",
- "updated": "2026-11-08 10:04 UTC",
+ "updated": "2026-11-08 10:09 UTC",
  "convention": "Packet weights follow the blueprint convention (hard = 4, standard = 2, multi-packet items more). Credit: done = 1; a CHECKPOINT carries an explicit partial fraction; running and queued packets carry 0.",
  "paper": "Paper-level proof complete and refereed (R155): SUPPLEMENT-v2 + 6.3', 7.3', 7.5', 8.2', 8.3, 10.2-10.4, U-clock; 7 referee reports, no FAIL.",
  "next": "B4 (R177 design; B2e MK-X supplies markIX transport and per-tree FL-SEP; B3 and B3s as hypotheses); D3-2 (R176); D6a final audit; D6b; D7 (R175); C5b (consumes Stage1ReductionAtMKFull, base = 0); SEAL-PREP dry run; PORT-1 landing at a lull.",
@@ -287,7 +287,7 @@
      "id": "B3s MK-SLOTS",
      "w": 4,
      "status": "running",
-     "note": "claude-5 wt-b3s: protected slots, pins, MkPieceRest fields → B4 Hyp"
+     "note": "STOP (F-B3s-1..5): ruling R179 pending; relaunch in milestones α–δ (4–6k)"
     },
     {
      "id": "B4 STAGE1MK-GATE",
