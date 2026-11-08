@@ -7,6 +7,7 @@ module
 
 public import WaveTurbulence.Foundations.Stage1.ClassCount.Lab
 public import WaveTurbulence.Foundations.Stage1.ClassCount.SkeletonLeg
+public import WaveTurbulence.Foundations.Stage1.ClassCount.UnitChain2
 public import WaveTurbulence.Foundations.WaveB.Ladders
 public import WaveTurbulence.Foundations.Spine.SourceSplicedBounds
 import Mathlib.Tactic
@@ -62,6 +63,77 @@ theorem cls_same_iff (S : Garden w) (hM : S.molecule.IsMolecule) (σ : Prescript
     (∃ a, (stSt S σ).cls p = some a ∧ (stSt S σ).cls p' = some a) ↔
       ∃ i : ℕ, ∃ hi : i < (unitBlocks S σ).length,
         p ∈ ((unitBlocks S σ).get ⟨i, hi⟩).atoms ∧ p' ∈ ((unitBlocks S σ).get ⟨i, hi⟩).atoms := cls_same_iffMk (Mk := ∅) S hM σ p p'
+
+/-- B2d: the `SpliceData` of a skeleton and its spliced garden at the marked set `Mk`. -/
+noncomputable def spliceDataOfMk (S : Garden w) (hM : S.molecule.IsMolecule) (σ : Prescription S)
+    (Mk : Set (Stage1.CLVine S)) (v0 : GBranch S.tree) : SpliceData S.molecule (stSt S σ Mk).G.molecule where
+  ob := (stSt S σ Mk).M.ob
+  od := (stSt S σ Mk).M.od
+  q := (unitBlocks S σ Mk).length
+  U := fun i => if h : i < (unitBlocks S σ Mk).length then ((unitBlocks S σ Mk).get ⟨i, h⟩).atoms else ∅
+  rep := fun i => if h : i < (unitBlocks S σ Mk).length then ((unitBlocks S σ Mk).get ⟨i, h⟩).upper else v0
+  cl := repC (stSt S σ Mk).cls
+  ob_inj := (stSt S σ Mk).M.ob_inj
+  od_inj := (stSt S σ Mk).M.od_inj
+  od_mate := (stSt S σ Mk).M.od_mate
+  od_out := (stSt S σ Mk).M.od_out
+  U_disj := by
+    intro i j hi hj hij
+    simp only [dif_pos hi, dif_pos hj]
+    have hp := List.pairwise_iff_get.mp (unitBlocks_pairwiseMk hM σ Mk)
+    rcases lt_or_gt_of_ne hij with h | h
+    · exact hp ⟨i, hi⟩ ⟨j, hj⟩ h
+    · exact (hp ⟨j, hj⟩ ⟨i, hi⟩ h).symm
+  rep_mem := by
+    intro i hi
+    simp only [dif_pos hi]
+    exact ((unitBlocks S σ Mk).get ⟨i, hi⟩).isBlock.2.1
+  cl_unit := by
+    intro i hi v hv
+    simp only [dif_pos hi] at hv ⊢
+    exact stSt_repC_memMk (Mk := Mk) hM σ (List.get_mem _ _) hv
+  cl_free := by
+    intro v hv
+    refine stSt_repC_noneMk (Mk := Mk) hM σ (fun u hu hvu => ?_)
+    obtain ⟨i, hi⟩ := List.mem_iff_get.mp hu
+    have := hv i.1 i.2
+    simp only [dif_pos i.2] at this
+    rw [show (⟨i.1, i.2⟩ : Fin _) = i from rfl, hi] at this
+    exact this hvu
+  ob_atom := (stSt S σ Mk).M.ob_atom
+  ob_range := by
+    intro v
+    rw [(stSt S σ Mk).M.ob_range]
+    simp only [repC]
+    cases h : (stSt S σ Mk).cls v <;> simp
+  od_range := by
+    intro x
+    rw [(stSt S σ Mk).M.od_range]
+    refine not_congr ?_
+    rw [cls_same_iffMk (Mk := Mk) S hM σ]
+    constructor
+    · rintro ⟨i, hi, h⟩
+      exact ⟨i, hi, by simpa [dif_pos hi] using h⟩
+    · rintro ⟨i, hi, h⟩
+      exact ⟨i, hi, by simpa [dif_pos hi] using h⟩
+
+
+theorem spliceDataOf_UMk (S : Garden w) (hM : S.molecule.IsMolecule) (σ : Prescription S) (Mk : Set (Stage1.CLVine S))
+    (v0 : GBranch S.tree)
+    {i : ℕ} (hi : i < (unitBlocks S σ Mk).length) :
+    (spliceDataOfMk S hM σ Mk v0).U i = ((unitBlocks S σ Mk).get ⟨i, hi⟩).atoms := by
+  simp [spliceDataOfMk, dif_pos hi]
+
+theorem spliceDataOf_repMk (S : Garden w) (hM : S.molecule.IsMolecule) (σ : Prescription S) (Mk : Set (Stage1.CLVine S))
+    (v0 : GBranch S.tree)
+    {i : ℕ} (hi : i < (unitBlocks S σ Mk).length) :
+    (spliceDataOfMk S hM σ Mk v0).rep i = ((unitBlocks S σ Mk).get ⟨i, hi⟩).upper := by
+  simp [spliceDataOfMk, dif_pos hi]
+
+theorem spliceDataOf_qMk (S : Garden w) (hM : S.molecule.IsMolecule) (σ : Prescription S) (Mk : Set (Stage1.CLVine S))
+    (v0 : GBranch S.tree) :
+    (spliceDataOfMk S hM σ Mk v0).q = (unitBlocks S σ Mk).length := rfl
+
 
 /-- The `SpliceData` of a skeleton and its spliced garden. -/
 noncomputable def spliceDataOf (S : Garden w) (hM : S.molecule.IsMolecule) (σ : Prescription S)
@@ -171,26 +243,27 @@ theorem ladderFamOf_r (G : Garden w) :
     exact ⟨b, Finset.mem_filter.mpr ⟨hb.1, (hset b).mpr hb.2⟩, rfl⟩
 
 
-/-- **`SkeletonCodeLeg`** (nonempty case). -/
-theorem skeletonCode_nonempty {R : ℕ} (S : Garden (2 * R)) (σ : Prescription S) (v0 : GBranch S.tree) :
+/-- B2d: **`SkeletonCodeLegMk`** (nonempty case). -/
+theorem skeletonCode_nonemptyMk {R : ℕ} (S : Garden (2 * R)) (σ : Prescription S) (Mk : Set (Stage1.CLVine S))
+    (v0 : GBranch S.tree) :
     ∃ nsb : ℕ, nsb ≤ Fintype.card (GBranch S.tree) ∧ ∃ ℓ : GBranch S.tree ≃ Fin (Fintype.card (GBranch S.tree)),
-      ∃ L ∈ arcLists (Fintype.card (GBranch S.tree)) (4 * rbarOf S σ)
-          (unitFamily (Fintype.card (GBranch S.tree)) nsb (rbarOf S σ) (Fintype.card (GBranch S.tree) - nsb)),
+      ∃ L ∈ arcLists (Fintype.card (GBranch S.tree)) (4 * rbarOfMk S σ Mk)
+          (unitFamily (Fintype.card (GBranch S.tree)) nsb (rbarOfMk S σ Mk) (Fintype.card (GBranch S.tree) - nsb)),
         ∀ x : Fin (Fintype.card (GBranch S.tree)) × Fin (Fintype.card (GBranch S.tree)),
           Fintype.card {b : {y : GardenDart S // S.molecule.out y = true} //
             (ℓ (S.molecule.atom b.1), ℓ (S.molecule.atom (S.molecule.mate b.1))) = x} = L.count x := by
   classical
   have hM := Mole.garden_isMolecule S
-  have hM' := Mole.garden_isMolecule (stSt S σ).G
-  let SD := spliceDataOf S hM σ v0
+  have hM' := Mole.garden_isMolecule (stSt S σ Mk).G
+  let SD := spliceDataOfMk S hM σ Mk v0
   have hex : ∀ i : ℕ, ∃ (c : List IngCode) (l : GBranch S.tree → ℕ), ∀ h : i < SD.q,
       (∀ d ∈ c, d.Wf) ∧ Set.InjOn l (SD.U i) ∧ (SD.U i).image l = Finset.range (unitWeight c + 1) ∧
       groupArcs S.molecule (SD.U i) l = ((unitArcs c : List (ℕ × ℕ)) : Multiset (ℕ × ℕ)) := by
     intro i
     by_cases h : i < SD.q
     · obtain ⟨cs, hwf, lab, hinj, himg, harcs⟩ :=
-        unit_decode S hM σ (u := (unitBlocks S σ).get ⟨i, h⟩) (List.get_mem _ _)
-      have hU := spliceDataOf_U S hM σ v0 (show i < (unitBlocks S σ).length from h)
+        unit_decodeMk S hM σ (Mk := Mk) (u := (unitBlocks S σ Mk).get ⟨i, h⟩) (List.get_mem _ _)
+      have hU := spliceDataOf_UMk S hM σ Mk v0 (show i < (unitBlocks S σ Mk).length from h)
       refine ⟨cs, lab, fun _ => ⟨hwf, ?_, ?_, ?_⟩⟩
       · rw [hU]; exact hinj
       · rw [hU]; exact himg
@@ -208,12 +281,12 @@ theorem skeletonCode_nonempty {R : ℕ} (S : Garden (2 * R)) (σ : Prescription 
     intro i hi
     refine ⟨rfl, ?_⟩
     have h2 : 2 ≤ (SD.U i).card := by
-      have hb := ((unitBlocks S σ).get ⟨i, hi⟩).isBlock
-      have hU := spliceDataOf_U S hM σ v0 (show i < (unitBlocks S σ).length from hi)
+      have hb := ((unitBlocks S σ Mk).get ⟨i, hi⟩).isBlock
+      have hU := spliceDataOf_UMk S hM σ Mk v0 (show i < (unitBlocks S σ Mk).length from hi)
       rw [hU]
-      have hne : ((unitBlocks S σ).get ⟨i, hi⟩).upper ≠ ((unitBlocks S σ).get ⟨i, hi⟩).lower := hb.2.2.2.1
-      have : ({((unitBlocks S σ).get ⟨i, hi⟩).upper, ((unitBlocks S σ).get ⟨i, hi⟩).lower} : Finset _) ⊆
-          ((unitBlocks S σ).get ⟨i, hi⟩).atoms := by
+      have hne : ((unitBlocks S σ Mk).get ⟨i, hi⟩).upper ≠ ((unitBlocks S σ Mk).get ⟨i, hi⟩).lower := hb.2.2.2.1
+      have : ({((unitBlocks S σ Mk).get ⟨i, hi⟩).upper, ((unitBlocks S σ Mk).get ⟨i, hi⟩).lower} : Finset _) ⊆
+          ((unitBlocks S σ Mk).get ⟨i, hi⟩).atoms := by
         intro x hx
         simp only [Finset.mem_insert, Finset.mem_singleton] at hx
         rcases hx with rfl | rfl
@@ -223,36 +296,37 @@ theorem skeletonCode_nonempty {R : ℕ} (S : Garden (2 * R)) (σ : Prescription 
       rwa [Finset.card_pair hne] at this
     have := hcardU i hi
     omega
-  have hH : ∀ c, (∃ i, i < SD.q ∧ SD.ob c = SD.rep i) → c ∈ (stSt S σ).hinges := by
+  have hH : ∀ c, (∃ i, i < SD.q ∧ SD.ob c = SD.rep i) → c ∈ (stSt S σ Mk).hinges := by
     rintro c ⟨i, hi, hc⟩
     rw [SpState.mem_hinges]
-    have hc' : (stSt S σ).M.ob c = ((unitBlocks S σ).get ⟨i, hi⟩).upper := by
+    have hc' : (stSt S σ Mk).M.ob c = ((unitBlocks S σ Mk).get ⟨i, hi⟩).upper := by
       have : SD.ob c = SD.rep i := hc
-      rw [spliceDataOf_rep S hM σ v0 (show i < (unitBlocks S σ).length from hi)] at this
+      rw [spliceDataOf_repMk S hM σ Mk v0 (show i < (unitBlocks S σ Mk).length from hi)] at this
       exact this
     rw [hc']
-    have := stSt_cls_mem hM σ (List.get_mem (unitBlocks S σ) ⟨i, hi⟩) ((unitBlocks S σ).get ⟨i, hi⟩).isBlock.2.1
+    have := stSt_cls_memMk (Mk := Mk) hM σ (List.get_mem (unitBlocks S σ Mk) ⟨i, hi⟩) ((unitBlocks S σ Mk).get ⟨i, hi⟩).isBlock.2.1
     rw [this]; simp
   obtain ⟨nsb, hnsb, ℓ, L, hL, hcount⟩ := SD.lab_arcs hM hM' (fun v => Finset.mem_univ v)
-    (ladderFamOf (stSt S σ).G) (ladderFamOf_disj (stSt S σ).G hM') (stSt S σ).hinges hH cs W lab
+    (ladderFamOf (stSt S σ Mk).G) (ladderFamOf_disj (stSt S σ Mk).G hM') (stSt S σ Mk).hinges hH cs W lab
     (fun i hi => (hprop i hi).1) hW (fun i hi => (hprop i hi).2.1) (fun i hi => (hprop i hi).2.2.1)
     (fun i hi => (hprop i hi).2.2.2)
-  have hr : (((stSt S σ).G.molecule.atoms.filter (fun a => ∀ i, a ∉ (ladderFamOf (stSt S σ).G).atomsOf i)).card +
-      Fintype.card {T // T ∈ (stSt S σ).G.molecule.maximalLadders} + (stSt S σ).hinges.card) =
-      rbarOf S σ := by
-    have := ladderFamOf_r (stSt S σ).G
-    unfold rbarOf
+  have hr : (((stSt S σ Mk).G.molecule.atoms.filter (fun a => ∀ i, a ∉ (ladderFamOf (stSt S σ Mk).G).atomsOf i)).card +
+      Fintype.card {T // T ∈ (stSt S σ Mk).G.molecule.maximalLadders} + (stSt S σ Mk).hinges.card) =
+      rbarOfMk S σ Mk := by
+    have := ladderFamOf_r (stSt S σ Mk).G
+    unfold rbarOfMk
     rw [← this]
     simp only [collectionChoices]
   rw [hr] at hL
   exact ⟨nsb, hnsb, ℓ, L, hL, hcount⟩
 
 
-/-- In the empty case there is nothing to code. -/
-theorem skeletonCode_empty {R : ℕ} (S : Garden (2 * R)) (σ : Prescription S) (hE : IsEmpty (GBranch S.tree)) :
+/-- B2d: in the empty case there is nothing to code (any marked set). -/
+theorem skeletonCode_emptyMk {R : ℕ} (S : Garden (2 * R)) (σ : Prescription S) (Mk : Set (Stage1.CLVine S))
+    (hE : IsEmpty (GBranch S.tree)) :
     ∃ nsb : ℕ, nsb ≤ Fintype.card (GBranch S.tree) ∧ ∃ ℓ : GBranch S.tree ≃ Fin (Fintype.card (GBranch S.tree)),
-      ∃ L ∈ arcLists (Fintype.card (GBranch S.tree)) (4 * rbarOf S σ)
-          (unitFamily (Fintype.card (GBranch S.tree)) nsb (rbarOf S σ) (Fintype.card (GBranch S.tree) - nsb)),
+      ∃ L ∈ arcLists (Fintype.card (GBranch S.tree)) (4 * rbarOfMk S σ Mk)
+          (unitFamily (Fintype.card (GBranch S.tree)) nsb (rbarOfMk S σ Mk) (Fintype.card (GBranch S.tree) - nsb)),
         ∀ x : Fin (Fintype.card (GBranch S.tree)) × Fin (Fintype.card (GBranch S.tree)),
           Fintype.card {b : {y : GardenDart S // S.molecule.out y = true} //
             (ℓ (S.molecule.atom b.1), ℓ (S.molecule.atom (S.molecule.mate b.1))) = x} = L.count x := by
@@ -260,25 +334,25 @@ theorem skeletonCode_empty {R : ℕ} (S : Garden (2 * R)) (σ : Prescription S) 
   have h0 : Fintype.card (GBranch S.tree) = 0 := Fintype.card_eq_zero
   have hM := Mole.garden_isMolecule S
   -- the spliced garden has no atoms
-  have hE' : IsEmpty (GBranch (stSt S σ).G.tree) :=
-    ⟨fun c => hE.false ((stSt S σ).M.ob c)⟩
-  have hr : rbarOf S σ = 0 := by
-    unfold rbarOf
-    have h1 : (stSt S σ).G.molecule.rho = 0 := by
+  have hE' : IsEmpty (GBranch (stSt S σ Mk).G.tree) :=
+    ⟨fun c => hE.false ((stSt S σ Mk).M.ob c)⟩
+  have hr : rbarOfMk S σ Mk = 0 := by
+    unfold rbarOfMk
+    have h1 : (stSt S σ Mk).G.molecule.rho = 0 := by
       unfold Molecule.rho Molecule.numLadders Molecule.numFree
-      have hl : (stSt S σ).G.molecule.maximalLadders = ∅ := by
+      have hl : (stSt S σ Mk).G.molecule.maximalLadders = ∅ := by
         rw [Finset.eq_empty_iff_forall_notMem]
         intro T hT
         simp only [Molecule.maximalLadders, Finset.mem_filter] at hT
         obtain ⟨-, ⟨m, u, v, hu, -⟩, -⟩ := hT
         exact hE'.false (u 0)
-      have hf : ((stSt S σ).G.molecule.atoms.filter (fun v => ∀ T ∈ (stSt S σ).G.molecule.maximalLadders, v ∉ T)) = ∅ := by
+      have hf : ((stSt S σ Mk).G.molecule.atoms.filter (fun v => ∀ T ∈ (stSt S σ Mk).G.molecule.maximalLadders, v ∉ T)) = ∅ := by
         rw [Finset.eq_empty_iff_forall_notMem]
         intro v; exact hE'.elim v
-      have ha : (stSt S σ).G.molecule.atoms = ∅ :=
+      have ha : (stSt S σ Mk).G.molecule.atoms = ∅ :=
         Finset.eq_empty_of_forall_notMem (fun v _ => hE'.elim v)
       simp [hl, hf, ha]
-    have h2 : (collectionChoices S σ).hinges.card = 0 := by
+    have h2 : (collectionChoices S σ Mk).hinges.card = 0 := by
       simp only [collectionChoices]
       rw [Finset.card_eq_zero, Finset.eq_empty_iff_forall_notMem]
       intro c; exact hE'.elim c
@@ -299,15 +373,37 @@ theorem skeletonCode_empty {R : ℕ} (S : Garden (2 * R)) (σ : Prescription S) 
     convert this using 1
     funext x; exact x.1.elim0
 
-theorem skeletonCodeLeg : SkeletonCodeLeg := by
-  intro R S σ hS
+theorem skeletonCodeLegMk : SkeletonCodeLegMk := by
+  intro R S σ Mk hS
   classical
   have hcard : Fintype.card (GBranch S.tree) = S.order := by
     rw [← Mole.garden_card_atoms S, ← Finset.card_univ]; rfl
   rw [← hcard]
   by_cases hne : Nonempty (GBranch S.tree)
   · obtain ⟨v0⟩ := hne
-    exact skeletonCode_nonempty S σ v0
-  · exact skeletonCode_empty S σ (not_nonempty_iff.mp hne)
+    exact skeletonCode_nonemptyMk S σ Mk v0
+  · exact skeletonCode_emptyMk S σ Mk (not_nonempty_iff.mp hne)
+
+/-- **`SkeletonCodeLeg`** (nonempty case). -/
+theorem skeletonCode_nonempty {R : ℕ} (S : Garden (2 * R)) (σ : Prescription S) (v0 : GBranch S.tree) :
+    ∃ nsb : ℕ, nsb ≤ Fintype.card (GBranch S.tree) ∧ ∃ ℓ : GBranch S.tree ≃ Fin (Fintype.card (GBranch S.tree)),
+      ∃ L ∈ arcLists (Fintype.card (GBranch S.tree)) (4 * rbarOf S σ)
+          (unitFamily (Fintype.card (GBranch S.tree)) nsb (rbarOf S σ) (Fintype.card (GBranch S.tree) - nsb)),
+        ∀ x : Fin (Fintype.card (GBranch S.tree)) × Fin (Fintype.card (GBranch S.tree)),
+          Fintype.card {b : {y : GardenDart S // S.molecule.out y = true} //
+            (ℓ (S.molecule.atom b.1), ℓ (S.molecule.atom (S.molecule.mate b.1))) = x} = L.count x :=
+  skeletonCode_nonemptyMk S σ ∅ v0
+
+/-- In the empty case there is nothing to code. -/
+theorem skeletonCode_empty {R : ℕ} (S : Garden (2 * R)) (σ : Prescription S) (hE : IsEmpty (GBranch S.tree)) :
+    ∃ nsb : ℕ, nsb ≤ Fintype.card (GBranch S.tree) ∧ ∃ ℓ : GBranch S.tree ≃ Fin (Fintype.card (GBranch S.tree)),
+      ∃ L ∈ arcLists (Fintype.card (GBranch S.tree)) (4 * rbarOf S σ)
+          (unitFamily (Fintype.card (GBranch S.tree)) nsb (rbarOf S σ) (Fintype.card (GBranch S.tree) - nsb)),
+        ∀ x : Fin (Fintype.card (GBranch S.tree)) × Fin (Fintype.card (GBranch S.tree)),
+          Fintype.card {b : {y : GardenDart S // S.molecule.out y = true} //
+            (ℓ (S.molecule.atom b.1), ℓ (S.molecule.atom (S.molecule.mate b.1))) = x} = L.count x :=
+  skeletonCode_emptyMk S σ ∅ hE
+
+theorem skeletonCodeLeg : SkeletonCodeLeg := skeletonCodeLeg_of_Mk skeletonCodeLegMk
 
 end WaveTurbulence.ClassCount
