@@ -6,7 +6,7 @@ Lean 4 formalization of
 > [arXiv:2311.10082v2](https://arxiv.org/abs/2311.10082) (2024).
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-11-08 09:52 UTC** · **estimated completion 89.5 %** (Lean proofs 90.9 %) · frozen theorems sealed: 17 / 27 (+ 300 frozen definitions) · **1,487,753 lines of Lean on main** (11928 files) + 46,491 unlanded on worker branches · blueprint estimate ≈ 273,000 lines
+> **Last updated: 2026-11-08 09:53 UTC** · **estimated completion 89.5 %** (Lean proofs 90.9 %) · frozen theorems sealed: 17 / 27 (+ 300 frozen definitions) · **1,487,753 lines of Lean on main** (11928 files) + 46,491 unlanded on worker branches · blueprint estimate ≈ 273,000 lines
 <!-- /AUTO:updated -->
 
 **Scope (D1):** everything proved in Lean, no black boxes. That covers the target paper and the results it uses from
@@ -40,7 +40,7 @@ SEALED: 17 theorems + 300 definitions
 `█████████████████████████░░░░░` 84.3 % · 60 of 73 packets done, 2 partial, 8 running, 3 queued · ledger updated 2026-11-08 09:52 UTC
 
 - **Paper proof:** ✅ Paper-level proof complete and refereed (R155): SUPPLEMENT-v2 + 6.3', 7.3', 7.5', 8.2', 8.3, 10.2-10.4, U-clock; 7 referee reports, no FAIL.
-- **Lean:** 142,367 lines in the flower world (sorry-free, pinned to main), plus main-side threading on worker branches. When the cores close, the world lands on main and the chain `layergardenFlower_v3 → fixedpoint_v2 → propansatz_v2 → main_v2` is sealed.
+- **Lean:** 142,450 lines in the flower world (sorry-free, pinned to main), plus main-side threading on worker branches. When the cores close, the world lands on main and the chain `layergardenFlower_v3 → fixedpoint_v2 → propansatz_v2 → main_v2` is sealed.
 - **Next:** B4 (R177 design; B2e MK-X supplies markIX transport and per-tree FL-SEP; B3 and B3s as hypotheses); D3-2 (R176); D6a final audit; D6b; D7 (R175); C5b (consumes Stage1ReductionAtMKFull, base = 0); SEAL-PREP dry run; PORT-1 landing at a lull.
 - **Open risks:** B4 STOP resolved by R177; new packet B2e (X transport, per-tree FL-SEP) is on the critical path with B3/B3s; Protected objects: D3-2 (R176 root-pin box) and D6 (whole objects) in progress
 
