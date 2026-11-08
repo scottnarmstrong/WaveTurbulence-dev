@@ -1569,6 +1569,7 @@ public import WaveTurbulence.Foundations.Resonant.SmallEnergyBound
 public import WaveTurbulence.Foundations.Resonant.SmallEnergyCharacterization
 public import WaveTurbulence.Foundations.Resonant.SymmetricQuotient
 public import WaveTurbulence.Foundations.Spine.SpineWithProviders
+public import WaveTurbulence.Foundations.Stage1.Geometry.SurvConnMK
 public import WaveTurbulence.Foundations.Stage1.Producer
 public import WaveTurbulence.Foundations.Sumint.AffineCharacter
 public import WaveTurbulence.Foundations.Sumint.AffineFacts
@@ -2088,6 +2089,7 @@ public import WaveTurbulence.Foundations.VdCB.SymmetricKernel
 public import WaveTurbulence.Foundations.VdCB.TruncatedPoisson
 public import WaveTurbulence.Foundations.VdCB.TruncatedPoissonShift
 public import WaveTurbulence.Foundations.VdCB.WeightedStationary
+public import WaveTurbulence.Foundations.Vine.A.VineMarkedGapMK5
 public import WaveTurbulence.Foundations.VineEst.RowSel.Plain
 public import WaveTurbulence.Foundations.VineEst.Statements
 public import WaveTurbulence.Foundations.VineEst.V5Proof
