@@ -78,7 +78,9 @@ theorem markedGroupUnits_of_spineMK (hN : N.IsMolecule) (hs : Spine N L S a b) (
     ext := fun u hu => (hruns u hu).1.2.2
     chain := ?_
     spine := fun u hu => (hruns u hu).1.2.1
-    surv_skip := ?_ }⟩
+    surv_skip := ?_
+    surv_spine := ⟨D', inferInstance, inferInstance, N, L, a, b, hN, hs, hB, hrun, hvineM, hingr, hmemb,
+      List.filter_sublist, fun t ht => by simp [List.mem_filter, ht, UnmMemMK]⟩ }⟩
   · intro u hu
     obtain ⟨R, hsR, hR⟩ := (hruns u hu).1.2.1
     obtain ⟨cs, hcs1, hcs2⟩ := choose_listMK (P := fun t (c : CLVine G) =>

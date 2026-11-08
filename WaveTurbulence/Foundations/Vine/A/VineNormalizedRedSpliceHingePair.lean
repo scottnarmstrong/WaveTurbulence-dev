@@ -6,6 +6,7 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.Vine.A.VineNormalizedRedSpliceDesig
+public import WaveTurbulence.Foundations.FinalCount.RedSpliceSurvData
 import Mathlib.Tactic
 
 /-!
@@ -20,6 +21,8 @@ external out/in pair of the unit with crown `v` at one of its joints):
 2. otherwise the lift of a pair `HingeSpec G S u.upper p` of the unit `u` with crown `v` (for a hinge of a skipped vine
    it lies inside the residual object);
 3. otherwise a proper pair.
+0. (B2c, o75 Theorem 7.5′(5) and 75-F1, taken first) at a joint of a survivor: the lift of the pair of the survivor
+   removed first (`survPairAt`).
 `collectionChoices G σ`, `structural_collectionChoices`, `hingeOutsideFirst_collectionChoices`: as before.
 -/
 
@@ -92,13 +95,58 @@ bonds of the survivor removed first, is a marked-group branch of B2c.) -/
   ∃ j, (j = u.upper ∨ j = u.lower) ∧ TripleAt G j p.1 p.2 ∧ ¬ G.molecule.InGroup u.atoms p.1 ∧
     ¬ G.molecule.InGroup u.atoms p.2
 
+/-- B2c (o75 Theorem 7.5′(5), 75-F1): the first survivor (in `survivorsMk` order, i.e. chain by chain along the spine)
+having a joint at `v` in `G_sb`, with that joint (its lower joint if both map to `v`). -/
+@[expose] noncomputable def survJointAt (G : Garden w) (σ : Prescription G) {Mk : Set (CLVine G)}
+    (v : GBranch (stSt G σ Mk).G.tree) : Option (Finset (GBranch G.tree) × GBranch G.tree) := by
+  classical
+  exact ((survivorsMk G σ Mk).find? (fun t => decide ((stSt G σ Mk).M.pi (stSt G σ Mk).hcls t.2.2 = v ∨
+      (stSt G σ Mk).M.pi (stSt G σ Mk).hcls t.2.1 = v))).map
+    (fun t => (t.1, if (stSt G σ Mk).M.pi (stSt G σ Mk).hcls t.2.2 = v then t.2.2 else t.2.1))
+
+/-- B2c (75-F1): the designated pair at a joint `v` of a survivor (hinge or not): the lift of the pair, at that joint,
+of the survivor removed first. -/
+@[expose] noncomputable def survPairAt (G : Garden w) (σ : Prescription G) {Mk : Set (CLVine G)}
+    (v : GBranch (stSt G σ Mk).G.tree) : Option (GardenDart (stSt G σ Mk).G × GardenDart (stSt G σ Mk).G) :=
+  (survJointAt G σ v).bind fun Tj => (survOrigPair G Tj.1 Tj.2).bind (liftPair G σ v)
+
+theorem survPairAt_empty (σ : Prescription G) (v : GBranch (stSt G σ).G.tree) : survPairAt G σ v = none := by
+  unfold survPairAt survJointAt
+  simp [survivorsMk_empty]
+
+theorem not_exists_survPairAt_empty (σ : Prescription G) (v : GBranch (stSt G σ).G.tree) :
+    ¬ ∃ q, survPairAt G σ v = some q := by
+  rw [survPairAt_empty]; simp
+
+/-- B2c (ruling R171, o75 (2.3)): `v` carries the gap entry of the survivor `t` of the group `S`, i.e. `v` is the
+image in `G_sb` of the upper joint of `t`.  Every survivor of a marked group carries an entry (of the group's kind), so
+the indicator `𝒵` checks the gap of every survivor on any decoration of `G_sb`. -/
+@[expose] def MarkedEntryAt (G : Garden w) (σ : Prescription G) (S : Finset (GBranch G.tree)) {Mk : Set (CLVine G)}
+    (t : Finset (GBranch G.tree) × GBranch G.tree × GBranch G.tree) (v : GBranch (stSt G σ Mk).G.tree) : Prop :=
+  t ∈ groupSurvMk G Mk S ∧ (stSt G σ Mk).M.pi (stSt G σ Mk).hcls t.2.1 = v
+
+/-- B2c (R171): the pair of the gap entry of the survivor `t` at `v`: the lift of the chosen pair of `t` at its upper
+joint. -/
+@[expose] noncomputable def markedEntryPair (G : Garden w) (σ : Prescription G) {Mk : Set (CLVine G)}
+    (t : Finset (GBranch G.tree) × GBranch G.tree × GBranch G.tree) (v : GBranch (stSt G σ Mk).G.tree) :
+    Option (GardenDart (stSt G σ Mk).G × GardenDart (stSt G σ Mk).G) :=
+  (survOrigPair G t.1 t.2.1).bind (liftPair G σ v)
+
+theorem not_exists_markedEntryAt_empty (σ : Prescription G) (v : GBranch (stSt G σ).G.tree) :
+    ¬ ∃ St : Finset (GBranch G.tree) × (Finset (GBranch G.tree) × GBranch G.tree × GBranch G.tree),
+      St.1 ∈ maximalGroups G.molecule ∧ MarkedEntryAt G σ St.1 St.2 v := by
+  rintro ⟨St, -, h, -⟩
+  rw [groupSurvMk_empty] at h
+  cases h
+
 /-- **The hinge pair of TARGET subpro(5)** (R28): see the module docstring.  B1a: with the marked vine set `Mk`
 the units are `groupUnitsMk` (runs in a marked group, with the run pair `HingeSpecRun`). -/
 @[expose] noncomputable def hingePair (G : Garden w) (σ : Prescription G) {Mk : Set (CLVine G)}
     (v : GBranch (stSt G σ Mk).G.tree) :
     Option (GardenDart (stSt G σ Mk).G × GardenDart (stSt G σ Mk).G) := by
   classical
-  exact if h : ∃ p : GardenDart (stSt G σ Mk).G × GardenDart (stSt G σ Mk).G, ∃ S ∈ maximalGroups G.molecule,
+  exact if h0 : ∃ q, survPairAt G σ v = some q then some (Classical.choose h0)
+  else if h : ∃ p : GardenDart (stSt G σ Mk).G × GardenDart (stSt G σ Mk).G, ∃ S ∈ maximalGroups G.molecule,
       groupAtom G σ S Mk = some v ∧ hingeEntryPair G σ S v = some p ∧ ProperPair G σ v p.1 p.2
   then some (Classical.choose h)
   else if h2 : ∃ q : GardenDart (stSt G σ Mk).G × GardenDart (stSt G σ Mk).G, ∃ S ∈ maximalGroups G.molecule,
@@ -364,6 +412,7 @@ theorem hingePair_spec (hM : G.molecule.IsMolecule) (σ : Prescription G)
         groupAtom G σ S = some v ∧ hingeEntryPair G σ S v = some p ∧ ProperPair G σ v p.1 p.2 :=
     fun hno => hinge_entry hM σ hv hno
   unfold hingePair
+  rw [dif_neg (not_exists_survPairAt_empty σ v)]
   by_cases h : ∃ p : GardenDart (stSt G σ).G × GardenDart (stSt G σ).G, ∃ S ∈ maximalGroups G.molecule,
       groupAtom G σ S = some v ∧ hingeEntryPair G σ S v = some p ∧ ProperPair G σ v p.1 p.2
   · rw [dite_eq_left h]
