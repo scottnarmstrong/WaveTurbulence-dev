@@ -10,14 +10,24 @@ variable {R p : ℕ} {kind : Bool} {ι : Type*} {L : List ι}
 variable {A B : FamilyReconstruction (2 * R) ι}
 variable {F : MolIso A.skeleton.molecule B.skeleton.molecule}
 
+/-- B1b-2 (Mk-general form of `BatchIso.piece_layer`). -/
+theorem BatchIso.piece_layerMk (h : BatchIso p kind L A B F) (σ : Prescription A.skeleton)
+    {Mk : Set (CLVine A.skeleton)} {Mk' : Set (CLVine B.skeleton)}
+    (hT : Stage1Mk.MarkTransported F Mk Mk') (hA : IsV0Fam A.family σ Mk) (d : ℕ)
+    (c : GBranch (stSt A.skeleton σ Mk).G.tree) :
+    (stage1PieceOf d B.plain B.layered B.decodes (transportPrescription F σ) Mk').layer
+        ((h.spliceMolIsoMk σ hT hA).e c) =
+      (stage1PieceOf d A.plain A.layered A.decodes σ Mk).layer c :=
+  (congrArg (RegRed.coreLayer B.layered B.data B.plain B.decodes)
+    (h.spliceMolIso_branch_namesMk σ hT hA c)).trans (h.coreLayer ((stSt A.skeleton σ Mk).M.ob c))
+
 /-- Actual piece layers commute with the actual full batch quotient map. -/
 theorem BatchIso.piece_layer (h : BatchIso p kind L A B F) (σ : Prescription A.skeleton)
     (hA : IsV0Fam A.family σ) (d : ℕ) (c : GBranch (stSt A.skeleton σ).G.tree) :
     (stage1PieceOf d B.plain B.layered B.decodes (transportPrescription F σ)).layer
         ((h.spliceMolIso σ hA).e c) =
       (stage1PieceOf d A.plain A.layered A.decodes σ).layer c :=
-  (congrArg (RegRed.coreLayer B.layered B.data B.plain B.decodes)
-    (h.spliceMolIso_branch_names σ hA c)).trans (h.coreLayer ((stSt A.skeleton σ).M.ob c))
+  h.piece_layerMk σ (Stage1Mk.markTransported_empty F) hA d c
 
 /-- The actual constructed hinge membership follows the actual batch map. -/
 theorem BatchIso.piece_hinge_iff (h : BatchIso p kind L A B F) (σ : Prescription A.skeleton)
@@ -49,10 +59,18 @@ theorem BatchIso.piece_hinges (h : BatchIso p kind L A B F) (σ : Prescription A
   · intro hy
     exact Finset.mem_image.mpr ⟨x, (h.piece_hinge_iff σ hA d x).mp hy, rfl⟩
 
+/-- B1b-2 (Mk-general form of `BatchIso.piece_bsk`). -/
+theorem BatchIso.piece_bskMk (h : BatchIso p kind L A B F) (σ : Prescription A.skeleton)
+    {Mk : Set (CLVine A.skeleton)} {Mk' : Set (CLVine B.skeleton)}
+    (hT : Stage1Mk.MarkTransported F Mk Mk') (hA : IsV0Fam A.family σ Mk) (d : ℕ) :
+    (stage1PieceOf d B.plain B.layered B.decodes (transportPrescription F σ) Mk').bsk =
+      (stage1PieceOf d A.plain A.layered A.decodes σ Mk).bsk := h.badCountMk σ Mk Mk' hA hT
+
 /-- The actual constructed bsk follows every selected batch. -/
 theorem BatchIso.piece_bsk (h : BatchIso p kind L A B F) (σ : Prescription A.skeleton)
     (hA : IsV0Fam A.family σ) (d : ℕ) :
     (stage1PieceOf d B.plain B.layered B.decodes (transportPrescription F σ)).bsk =
-      (stage1PieceOf d A.plain A.layered A.decodes σ).bsk := h.badCount σ hA
+      (stage1PieceOf d A.plain A.layered A.decodes σ).bsk :=
+  h.piece_bskMk σ (Stage1Mk.markTransported_empty F) hA d
 
 end WaveTurbulence.VineA

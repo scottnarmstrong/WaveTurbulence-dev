@@ -10,6 +10,19 @@ namespace WaveTurbulence.VineA
 open WaveTurbulence.Stage1 WaveTurbulence.RedSplice WaveTurbulence.LFTwist
 variable {w p : ℕ} {kind : Bool} {ι : Type*}
 
+/-- B1b-2 (Mk-general form of `operation_spliced_layer`). -/
+theorem operation_spliced_layerMk {A : FamilyReconstruction w ι} {i : ι}
+    {σ : Prescription A.skeleton} {Mk : Set (CLVine A.skeleton)} (hF : IsV0Fam A.family σ Mk)
+    (op : FamilyOperation (p := p) (kind := kind) A i)
+    {Mk' : Set (CLVine op.output.skeleton)} (hT : Stage1Mk.MarkTransported (operationMolIso op) Mk Mk')
+    (c : GBranch (stSt A.skeleton σ Mk).G.tree) :
+    (stSt op.output.skeleton (transportPrescription (operationMolIso op) σ) Mk').layer
+      (RegRed.coreLayer op.output.layered op.output.data op.output.plain op.output.decodes)
+      ((operationSpliceMolIsoMk hF op hT).e c) =
+    (stSt A.skeleton σ Mk).layer (RegRed.coreLayer A.layered A.data A.plain A.decodes) c :=
+  (congrArg (RegRed.coreLayer op.output.layered op.output.data op.output.plain op.output.decodes)
+    (operationSpliceMolIso_branch_namesMk hF op hT c)).trans (operation_coreLayer op ((stSt A.skeleton σ Mk).M.ob c))
+
 /-- The actual spliced inherited layer commutes with the actual operation's quotient map. -/
 theorem operation_spliced_layer {A : FamilyReconstruction w ι} {i : ι}
     {σ : Prescription A.skeleton} (hF : IsV0Fam A.family σ)
@@ -18,8 +31,7 @@ theorem operation_spliced_layer {A : FamilyReconstruction w ι} {i : ι}
       (RegRed.coreLayer op.output.layered op.output.data op.output.plain op.output.decodes)
       ((operationSpliceMolIso hF op).e c) =
     (stSt A.skeleton σ).layer (RegRed.coreLayer A.layered A.data A.plain A.decodes) c :=
-  (congrArg (RegRed.coreLayer op.output.layered op.output.data op.output.plain op.output.decodes)
-    (operationSpliceMolIso_branch_names hF op c)).trans (operation_coreLayer op ((stSt A.skeleton σ).M.ob c))
+  operation_spliced_layerMk hF op (Stage1Mk.markTransported_empty _) c
 
 /-- Actual hinge membership is preserved, with no extra hinge-compatibility premise. -/
 theorem operationSpliceMolIso_hinge_iff {A : FamilyReconstruction w ι} {i : ι}
@@ -64,13 +76,24 @@ theorem operation_hinges_card {A : FamilyReconstruction w ι} {i : ι}
   (Finset.card_image_of_injective _ (operationSpliceMolIso hF op).e.injective).symm.trans
     (congrArg Finset.card (operationSpliceMolIso_hinges_image hF op))
 
+/-- B1b-2 (Mk-general form of `operation_piece_layer`). -/
+theorem operation_piece_layerMk {R d : ℕ} {A : FamilyReconstruction (2 * R) ι} {i : ι}
+    {σ : Prescription A.skeleton} {Mk : Set (CLVine A.skeleton)} (hF : IsV0Fam A.family σ Mk)
+    (op : FamilyOperation (p := p) (kind := kind) A i)
+    {Mk' : Set (CLVine op.output.skeleton)} (hT : Stage1Mk.MarkTransported (operationMolIso op) Mk Mk')
+    (c : GBranch (stSt A.skeleton σ Mk).G.tree) :
+    (stage1PieceOf d op.output.plain op.output.layered op.output.decodes
+      (transportPrescription (operationMolIso op) σ) Mk').layer ((operationSpliceMolIsoMk hF op hT).e c) =
+      (stage1PieceOf d A.plain A.layered A.decodes σ Mk).layer c := operation_spliced_layerMk hF op hT c
+
 /-- The literal layer field of stage1PieceOf is preserved through the actual operation map. -/
 theorem operation_piece_layer {R d : ℕ} {A : FamilyReconstruction (2 * R) ι} {i : ι}
     {σ : Prescription A.skeleton} (hF : IsV0Fam A.family σ)
     (op : FamilyOperation (p := p) (kind := kind) A i) (c : GBranch (stSt A.skeleton σ).G.tree) :
     (stage1PieceOf d op.output.plain op.output.layered op.output.decodes
       (transportPrescription (operationMolIso op) σ)).layer ((operationSpliceMolIso hF op).e c) =
-      (stage1PieceOf d A.plain A.layered A.decodes σ).layer c := operation_spliced_layer hF op c
+      (stage1PieceOf d A.plain A.layered A.decodes σ).layer c :=
+  operation_piece_layerMk hF op (Stage1Mk.markTransported_empty _) c
 
 /-- The literal Cs.hinges field of stage1PieceOf is preserved through the actual operation map. -/
 theorem operation_piece_hinges {R d : ℕ} {A : FamilyReconstruction (2 * R) ι} {i : ι}
@@ -88,12 +111,22 @@ theorem operation_piece_hinges_card {R d : ℕ} {A : FamilyReconstruction (2 * R
       (stage1PieceOf d op.output.plain op.output.layered op.output.decodes
         (transportPrescription (operationMolIso op) σ)).Cs.hinges.card := operation_hinges_card hF op
 
+/-- B1b-2 (Mk-general form of `operation_piece_bsk`). -/
+theorem operation_piece_bskMk {R d : ℕ} {A : FamilyReconstruction (2 * R) ι} {i : ι}
+    {σ : Prescription A.skeleton} {Mk : Set (CLVine A.skeleton)} (hF : IsV0Fam A.family σ Mk)
+    (op : FamilyOperation (p := p) (kind := kind) A i)
+    {Mk' : Set (CLVine op.output.skeleton)} (hT : Stage1Mk.MarkTransported (operationMolIso op) Mk Mk') :
+    (stage1PieceOf d op.output.plain op.output.layered op.output.decodes
+      (transportPrescription (operationMolIso op) σ) Mk').bsk =
+      (stage1PieceOf d A.plain A.layered A.decodes σ Mk).bsk := bskOf_operationMk hF op hT
+
 /-- The literal bad-vine count of the actual Stage 1 piece is invariant. -/
 theorem operation_piece_bsk {R d : ℕ} {A : FamilyReconstruction (2 * R) ι} {i : ι}
     {σ : Prescription A.skeleton} (hF : IsV0Fam A.family σ)
     (op : FamilyOperation (p := p) (kind := kind) A i) :
     (stage1PieceOf d op.output.plain op.output.layered op.output.decodes
       (transportPrescription (operationMolIso op) σ)).bsk =
-      (stage1PieceOf d A.plain A.layered A.decodes σ).bsk := bskOf_operation hF op
+      (stage1PieceOf d A.plain A.layered A.decodes σ).bsk :=
+  operation_piece_bskMk hF op (Stage1Mk.markTransported_empty _)
 
 end WaveTurbulence.VineA
