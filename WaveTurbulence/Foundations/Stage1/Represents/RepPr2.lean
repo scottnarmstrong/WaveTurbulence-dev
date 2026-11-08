@@ -7,6 +7,7 @@ module
 
 public import WaveTurbulence.Foundations.Stage1.Represents.RepPr1
 public import WaveTurbulence.Foundations.Stage1.Represents.RepCountB
+public import WaveTurbulence.Foundations.Vine.A.VineMarkedClasses
 import Mathlib.Tactic
 
 /-!
@@ -138,13 +139,23 @@ abbrev selP (p : ℕ) (kind : Bool) (A : Finset (LayeredGarden (2 * R))) (P : WT
       GenDecoration LG.garden P.d roots 0 → Prop :=
   selPMk p kind A P base roots fun _ => ∅
 
+/-- B1b-2 (Mk-general form of `coarse_eq_of_related`): fine′ related points (fine marking `mkF`) have the same coarse′
+class (coarse marking `mkC ⊆ mkF`, carried by every batch: the world's `markInvariantBatchV_markI0`). No transport of
+the fine marking is needed: each fine′ batch edge already lands in the source's coarse′ class. -/
+theorem coarse_eq_of_relatedMk {p : ℕ} {kind : Bool} {mkF mkC : Stage1Mk.MarkFn (2 * R)}
+    (hV : Stage1Mk.MarkInvariantBatchV mkC fun _ => True)
+    (hsub : ∀ {LG : LayeredGarden (2 * R)} (A : PrimeData LG), mkC A ⊆ mkF A)
+    {a b : PrescribedPrimeGarden (2 * R)} (h : Related (p := p) (kind := kind) a b mkF) :
+    coarseOf p kind a mkC = coarseOf p kind b mkC := by
+  induction h with
+  | rel a b h => exact a.prime.coarse_outputs_rebaseMk hV b.prime (BatchReach.mem_coarseMk hsub h)
+  | refl _ => rfl
+  | symm _ _ _ ih => exact ih.symm
+  | trans _ _ _ _ _ ih hj => exact ih.trans hj
+
 theorem coarse_eq_of_related {p : ℕ} {kind : Bool} {a b : PrescribedPrimeGarden (2 * R)}
-    (h : Related (p := p) (kind := kind) a b) : coarseOf p kind a = coarseOf p kind b := by
-  have hb : b.layered ∈ a.outputs (p := p) (kind := kind) := by
-    rw [← tauClass_image a]; exact ⟨b, h, rfl⟩
-  have hb2 : b.layered ∈ a.prime.coarseState.allCoreOutputs (p := p) (kind := kind) :=
-    a.prime.fine_outputs_subset_coarse a.totalSigma hb
-  rw [coarseOf_empty, coarseOf_empty]
-  exact a.prime.coarse_outputs_rebase b.prime hb2
+    (h : Related (p := p) (kind := kind) a b) : coarseOf p kind a = coarseOf p kind b :=
+  coarse_eq_of_relatedMk (mkF := fun _ => ∅) (mkC := fun _ => ∅)
+    (Stage1Mk.markInvariantBatchV_empty fun _ => True) (fun _ => subset_rfl) h
 
 end WaveTurbulence.Represents
