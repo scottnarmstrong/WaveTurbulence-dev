@@ -80,6 +80,29 @@ theorem route_eq_of_hmom (Φ : SpliceShape blk G) (hd : Disj blk)
     · change Sum.inr (Φ.br c) = Sum.inr (blk j).lower ↔ Sum.inr (Ψ.br c) = Sum.inr (blk' j).lower
       simp only [Sum.inr.injEq, br_ne_lower, iff_self]
 
+section ClassRouteMk
+variable {p : ℕ} {kind : Bool}
+  (hM : S.molecule.IsMolecule) (σ : Prescription S) {Mk : Set (CLVine S)}
+  (D : ReconstructionData S) (hS : S.IsPlain)
+  (layer : GNode (D.forest hS) → ℕ) (hLayer : IsLayering (D.garden hS) layer)
+  {Y : FamilyReconstruction w (UnitsIndex (alignedAssemblyMk hM σ Mk))}
+  {vs : ∀ j, UnitAt Y.skeleton Y.family ((unitsSplit (alignedAssemblyMk hM σ Mk)).Q j)}
+  {L : List (UnitsIndex (alignedAssemblyMk hM σ Mk))}
+  (hr : ReachU p kind (unitsSplit (alignedAssemblyMk hM σ Mk)).Q L
+    (unitsStart (alignedAssemblyMk hM σ Mk) (unitBlkMk_disj hM σ Mk) D hS layer hLayer)
+    (unitsRegion (alignedAssemblyMk hM σ Mk) (unitBlkMk_disj hM σ Mk)) Y vs)
+  (hn : L.Nodup)
+  {Mk' : Set (CLVine Y.skeleton)} (hT : Stage1Mk.MarkTransported (batchMolIso hr.batch) Mk Mk')
+
+/-- B1b-3 (Mk-general form of `commonShape_route`).
+R-GSB: the actual per-member route is the representative's route. -/
+theorem commonShape_routeMk (hG : (stSt S σ Mk).G.IsPlain) :
+    (commonShapeMk hM σ D hS layer hLayer hr hn hT).route Y.plain hG = (stShape hM σ Mk).route hS hG :=
+  route_eq_of_hmom _ (member_disjMk hM σ D hS layer hLayer hr hn) _ (unitBlkMk_disj hM σ Mk) Y.plain hS hG
+    (commonShape_hmomMk hM σ D hS layer hLayer hr hn hT)
+
+end ClassRouteMk
+
 variable {p : ℕ} {kind : Bool}
   (hM : S.molecule.IsMolecule) (σ : Prescription S)
   (D : ReconstructionData S) (hS : S.IsPlain)
@@ -94,7 +117,6 @@ variable {p : ℕ} {kind : Bool}
 /-- R-GSB: the actual per-member route is the representative's route. -/
 theorem commonShape_route (hG : (stSt S σ).G.IsPlain) :
     (commonShape hM σ D hS layer hLayer hr hn).route Y.plain hG = (stShape hM σ).route hS hG :=
-  route_eq_of_hmom _ (member_disj hM σ D hS layer hLayer hr hn) _ (unitBlk_disj hM σ) Y.plain hS hG
-    (commonShape_hmom hM σ D hS layer hLayer hr hn)
+  commonShape_routeMk hM σ D hS layer hLayer hr hn (Stage1Mk.markTransported_empty _) hG
 
 end WaveTurbulence.VineAlign

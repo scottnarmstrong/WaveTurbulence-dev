@@ -21,46 +21,56 @@ theorem signed_ternary_sum_perm {V : Type*} [AddCommGroup V] (e : Fin 3 ≃ Fin 
   simp only [Fin.sum_univ_three, he, h0, h2, h01, h21, ↓reduceIte] at h
   simpa only [sub_eq_add_neg, he] using h
 
-/-- The actual decoration constraints are preserved in both directions. -/
-theorem unitSplice_isDecoration_iff {V : Type*} [AddCommGroup V]
+/-- B1b-2 (Mk-general form of `unitSplice_isDecoration_iff`). -/
+theorem unitSplice_isDecoration_iffMk {V : Type*} [AddCommGroup V]
     (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0)
-    (κ : GNode (stSt Z.target (transportPrescription Z.iso σ)).G.tree → V) :
-    IsDecoration (stSt Z.target (transportPrescription Z.iso σ)).G κ ↔
-      IsDecoration (stSt G σ).G (κ ∘ unitSpliceNodeEquiv Z σ hsel) := by
-  let F := unitSpliceMolIso Z σ hsel
-  let E := unitSpliceLeafEquiv Z σ hsel
-  have hsum (b : GBranch (stSt G σ).G.tree) :=
-    signed_ternary_sum_perm (unitSpliceChildEquiv Z σ hsel b) (unitSpliceChildSlot_middle Z σ hsel b)
+    {Mk : Set (CLVine G)} {Mk' : Set (CLVine Z.target)} (hT : Stage1Mk.MarkTransported Z.iso Mk Mk')
+    (hsel : ∃ c ∈ vinesV0 G σ Mk, c.atoms = Z.S0)
+    (κ : GNode (stSt Z.target (transportPrescription Z.iso σ) Mk').G.tree → V) :
+    IsDecoration (stSt Z.target (transportPrescription Z.iso σ) Mk').G κ ↔
+      IsDecoration (stSt G σ Mk).G (κ ∘ unitSpliceNodeEquivMk Z σ hT hsel) := by
+  let F := unitSpliceMolIsoMk Z σ hT hsel
+  let E := unitSpliceLeafEquivMk Z σ hT hsel
+  have hsum (b : GBranch (stSt G σ Mk).G.tree) :=
+    signed_ternary_sum_perm (unitSpliceChildEquivMk Z σ hT hsel b) (unitSpliceChildSlot_middleMk Z σ hT hsel b)
       (fun i => κ ((F.e b).child i))
   constructor
   · rintro ⟨hb, hl⟩
     constructor
     · intro b
-      change κ (unitSpliceNodeEquiv Z σ hsel b.toNode) =
-        κ (unitSpliceNodeEquiv Z σ hsel (b.child 0)) - κ (unitSpliceNodeEquiv Z σ hsel (b.child 1)) +
-          κ (unitSpliceNodeEquiv Z σ hsel (b.child 2))
-      rw [unitSpliceNodeEquiv_branch, unitSpliceNodeEquiv_child, unitSpliceNodeEquiv_child, unitSpliceNodeEquiv_child]
+      change κ (unitSpliceNodeEquivMk Z σ hT hsel b.toNode) =
+        κ (unitSpliceNodeEquivMk Z σ hT hsel (b.child 0)) - κ (unitSpliceNodeEquivMk Z σ hT hsel (b.child 1)) +
+          κ (unitSpliceNodeEquivMk Z σ hT hsel (b.child 2))
+      rw [unitSpliceNodeEquiv_branchMk, unitSpliceNodeEquiv_childMk, unitSpliceNodeEquiv_childMk, unitSpliceNodeEquiv_childMk]
       exact (hb (F.e b)).trans (hsum b).symm
     · intro q
-      change κ (unitSpliceNodeEquiv Z σ hsel q.toNode) = κ (unitSpliceNodeEquiv Z σ hsel ((stSt G σ).G.pair q).toNode)
-      rw [unitSpliceNodeEquiv_leaf, unitSpliceNodeEquiv_leaf, unitSpliceLeafEquiv_pair]
+      change κ (unitSpliceNodeEquivMk Z σ hT hsel q.toNode) = κ (unitSpliceNodeEquivMk Z σ hT hsel ((stSt G σ Mk).G.pair q).toNode)
+      rw [unitSpliceNodeEquiv_leafMk, unitSpliceNodeEquiv_leafMk, unitSpliceLeafEquiv_pairMk]
       exact hl (E q)
   · rintro ⟨hb, hl⟩
     constructor
     · intro b'
       obtain ⟨b, rfl⟩ := F.e.surjective b'
       have h := hb b
-      change κ (unitSpliceNodeEquiv Z σ hsel b.toNode) =
-        κ (unitSpliceNodeEquiv Z σ hsel (b.child 0)) - κ (unitSpliceNodeEquiv Z σ hsel (b.child 1)) +
-          κ (unitSpliceNodeEquiv Z σ hsel (b.child 2)) at h
-      rw [unitSpliceNodeEquiv_branch, unitSpliceNodeEquiv_child, unitSpliceNodeEquiv_child, unitSpliceNodeEquiv_child] at h
+      change κ (unitSpliceNodeEquivMk Z σ hT hsel b.toNode) =
+        κ (unitSpliceNodeEquivMk Z σ hT hsel (b.child 0)) - κ (unitSpliceNodeEquivMk Z σ hT hsel (b.child 1)) +
+          κ (unitSpliceNodeEquivMk Z σ hT hsel (b.child 2)) at h
+      rw [unitSpliceNodeEquiv_branchMk, unitSpliceNodeEquiv_childMk, unitSpliceNodeEquiv_childMk, unitSpliceNodeEquiv_childMk] at h
       exact h.trans (hsum b)
     · intro q'
       obtain ⟨q, rfl⟩ := E.surjective q'
       have h := hl q
-      change κ (unitSpliceNodeEquiv Z σ hsel q.toNode) = κ (unitSpliceNodeEquiv Z σ hsel ((stSt G σ).G.pair q).toNode) at h
-      rw [unitSpliceNodeEquiv_leaf, unitSpliceNodeEquiv_leaf, unitSpliceLeafEquiv_pair] at h
+      change κ (unitSpliceNodeEquivMk Z σ hT hsel q.toNode) = κ (unitSpliceNodeEquivMk Z σ hT hsel ((stSt G σ Mk).G.pair q).toNode) at h
+      rw [unitSpliceNodeEquiv_leafMk, unitSpliceNodeEquiv_leafMk, unitSpliceLeafEquiv_pairMk] at h
       exact h
+
+/-- The actual decoration constraints are preserved in both directions. -/
+theorem unitSplice_isDecoration_iff {V : Type*} [AddCommGroup V]
+    (Z : TwistGroupSite G) (σ : Prescription G)
+    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0)
+    (κ : GNode (stSt Z.target (transportPrescription Z.iso σ)).G.tree → V) :
+    IsDecoration (stSt Z.target (transportPrescription Z.iso σ)).G κ ↔
+      IsDecoration (stSt G σ).G (κ ∘ unitSpliceNodeEquiv Z σ hsel) :=
+  unitSplice_isDecoration_iffMk Z σ (Stage1Mk.markTransported_empty Z.iso) hsel κ
 
 end WaveTurbulence.VineA

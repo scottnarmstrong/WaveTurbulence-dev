@@ -35,6 +35,69 @@ noncomputable def gapValue (G : Garden w) (σ : Prescription G) (L γ η : ℝ) 
     (z : GNode (stSt G σ).G.tree → (Fin d → ℤ)) : ℝ :=
   gapProduct (stSt G σ).G (gapSpecification G σ) L γ η base z
 
+/-- B1b-3 (Mk-general form of `gapValue`): the gap product with the entries `gapSpecificationMk G σ Mk`. -/
+noncomputable def gapValueMk (G : Garden w) (σ : Prescription G) (Mk : Set (CLVine G)) (L γ η : ℝ) (base : Mom d)
+    (z : GNode (stSt G σ Mk).G.tree → (Fin d → ℤ)) : ℝ :=
+  gapProduct (stSt G σ Mk).G (gapSpecificationMk G σ Mk) L γ η base z
+
+/-- B1b-3 (Mk-general form of `gapValue_eq_indicator`). -/
+theorem gapValue_eq_indicatorMk (σ : Prescription G) {Mk : Set (CLVine G)} (D : SplicedKernelData (stSt G σ Mk).G d)
+    (hD : D.gapSpecification = gapSpecificationMk G σ Mk) (L γ η : ℝ) (base : Mom d)
+    (z : GNode (stSt G σ Mk).G.tree → (Fin d → ℤ)) :
+    gapValueMk G σ Mk L γ η base z = splicedGapIndicator (stSt G σ Mk).G D L γ η base z := by
+  rw [indicator_eq_gapProduct, hD]
+  rfl
+
+open scoped Classical in
+/-- B1b-3: **the exact statement of B2c's `VineA.NormalizedSplice.splicedGapIndicator_eq_selOfMk`** (branch
+w/mk-subpro, ruling R171), at one garden, prescription and marking. A HYPOTHESIS here, discharged at the joint
+landing by `fun … => splicedGapIndicator_eq_selOfMk (Mole.garden_isMolecule G) σ …`. -/
+def SplicedGapIndicatorSelOfAt (G : Garden w) (σ : Prescription G) (Mk : Set (CLVine G)) : Prop :=
+  ∀ {d : ℕ} (L γ η : ℝ) (base : Mom d) (c : GBranch G.tree → Mom d) (z : GNode G.tree → (Fin d → ℤ))
+    (_hκ : G.molecule.IsDecoration L base c (bondIndex G z))
+    (_hc0 : ∀ v ∈ G.molecule.atoms, G.molecule.deg v = 4 → c v = 0)
+    (zsb : GNode (stSt G σ Mk).G.tree → (Fin d → ℤ))
+    (_hlab : ∀ y, bondIndex (stSt G σ Mk).G zsb y = bondIndex G z ((stSt G σ Mk).M.od y))
+    (D : SplicedKernelData (stSt G σ Mk).G d) (_hD : D.gapSpecification = gapSpecificationMk G σ Mk),
+    splicedGapIndicator (stSt G σ Mk).G D L γ η base zsb =
+      if selOf (GroupPrescription.ofPrescription σ) L γ η base z then 1 else 0
+
+/-- B1b-3: B2c's theorem `splicedGapIndicator_eq_selOfMk`, as a proposition (its type, verbatim binders). -/
+def SplicedGapIndicatorEqSelOfMk : Prop :=
+  ∀ {w : ℕ} {G : Garden w} (_hM : G.molecule.IsMolecule) (σ : Prescription G) {Mk : Set (CLVine G)},
+    SplicedGapIndicatorSelOfAt G σ Mk
+
+/-- B1b-3: B2c's theorem gives the hypothesis at every garden, prescription and marking. -/
+theorem splicedGapIndicatorSelOfAt_of (h : SplicedGapIndicatorEqSelOfMk) (G : Garden w) (σ : Prescription G)
+    (Mk : Set (CLVine G)) : SplicedGapIndicatorSelOfAt G σ Mk :=
+  h (Mole.garden_isMolecule G) σ
+
+/-- B1b-3: at the empty marking the hypothesis is main's `splicedGapIndicator_eq_selOf`. -/
+theorem splicedGapIndicatorSelOfAt_empty (G : Garden w) (σ : Prescription G) : SplicedGapIndicatorSelOfAt G σ ∅ :=
+  fun L γ η base c z hκ hc0 zsb hlab D hD =>
+    splicedGapIndicator_eq_selOf (Mole.garden_isMolecule G) σ L γ η base c z hκ hc0 zsb hlab D hD
+
+open scoped Classical in
+/-- B1b-3: the dart-label form of the same identity (the Mk-general form of main's `gapValue_eq_selDarts`), at one
+garden, prescription and marking. B2c's per-group lemma `gapSpecificationMk_indicator_iff` is already dart-label,
+and B2c's proof of `splicedGapIndicator_eq_selOfMk` proves this verbatim with `bondIndex G z` replaced by `κ`. It is
+needed for twist invariance (`unitSplice_actual_gapValueMk`), where the source labels are the pull-back
+`κ ∘ Z.iso.d` of a target decoration (no node decoration of the source is available). A HYPOTHESIS here. -/
+def GapValueSelDartsAt (G : Garden w) (σ : Prescription G) (Mk : Set (CLVine G)) : Prop :=
+  ∀ {d : ℕ} (L γ η : ℝ) (base : Mom d) (c : GBranch G.tree → Mom d) (κ : GardenDart G → (Fin d → ℤ))
+    (_hκ : G.molecule.IsDecoration L base c κ)
+    (_hc0 : ∀ v ∈ G.molecule.atoms, G.molecule.deg v = 4 → c v = 0)
+    (zsb : GNode (stSt G σ Mk).G.tree → (Fin d → ℤ))
+    (_hlab : ∀ y, bondIndex (stSt G σ Mk).G zsb y = κ ((stSt G σ Mk).M.od y)),
+    gapValueMk G σ Mk L γ η base zsb = if selDarts (GroupPrescription.ofPrescription σ) L γ η base κ then 1 else 0
+
+/-- B1b-3: the dart-label form implies B2c's exact statement (take `κ = bondIndex G z`). -/
+theorem splicedGapIndicatorSelOfAt_of_selDarts {G : Garden w} {σ : Prescription G} {Mk : Set (CLVine G)}
+    (h : GapValueSelDartsAt G σ Mk) : SplicedGapIndicatorSelOfAt G σ Mk := by
+  intro d L γ η base c z hκ hc0 zsb hlab D hD
+  rw [← gapValue_eq_indicatorMk σ D hD]
+  exact h L γ η base c (bondIndex G z) hκ hc0 zsb hlab
+
 /-- The literal kernel's gap indicator is this product when it carries the constructed entries. -/
 theorem gapValue_eq_indicator (σ : Prescription G) (D : SplicedKernelData (stSt G σ).G d)
     (hD : D.gapSpecification = gapSpecification G σ) (L γ η : ℝ) (base : Mom d)
@@ -101,16 +164,23 @@ theorem gapValue_eq_selDarts (hM : G.molecule.IsMolecule) (σ : Prescription G) 
       exact (hind k hk).mpr (hgk.symm.trans (hsel ⟨S, hS⟩))
   simp only [key]
 
+/-- B1b-3: at the empty marking the dart-label hypothesis is main's `gapValue_eq_selDarts`. -/
+theorem gapValueSelDartsAt_empty (G : Garden w) (σ : Prescription G) : GapValueSelDartsAt G σ ∅ :=
+  fun L γ η base c κ hκ hc0 zsb hlab =>
+    gapValue_eq_selDarts (Mole.garden_isMolecule G) σ L γ η base c κ hκ hc0 zsb hlab
 
-/-- Actual target choices agree with actual source choices on every spliced decoration. -/
-theorem unitSplice_actual_gapValue (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) (hH : Z.target.IsPlain)
+/-- B1b-3 (Mk-general form of `unitSplice_actual_gapValue`): twist invariance of the gap product at markings carried
+by the twist, given the dart-label gap identity at the source and target (`GapValueSelDartsAt`, B2c). -/
+theorem unitSplice_actual_gapValueMk (Z : TwistGroupSite G) (σ : Prescription G)
+    {Mk : Set (CLVine G)} {Mk' : Set (CLVine Z.target)} (hT : Stage1Mk.MarkTransported Z.iso Mk Mk')
+    (hsel : ∃ c ∈ vinesV0 G σ Mk, c.atoms = Z.S0) (hH : Z.target.IsPlain)
+    (hgS : GapValueSelDartsAt G σ Mk) (hgT : GapValueSelDartsAt Z.target (transportPrescription Z.iso σ) Mk')
     {L : ℝ} (hL : L ≠ 0) (γ η : ℝ) (base : Mom d) (roots : Fin w → (Fin d → ℤ))
-    (z : GenDecoration (stSt Z.target (transportPrescription Z.iso σ)).G d roots 0) :
-    gapValue G σ L γ η base (z.1 ∘ unitSpliceNodeEquiv Z σ hsel) =
-      gapValue Z.target (transportPrescription Z.iso σ) L γ η base z.1 := by
+    (z : GenDecoration (stSt Z.target (transportPrescription Z.iso σ) Mk').G d roots 0) :
+    gapValueMk G σ Mk L γ η base (z.1 ∘ unitSpliceNodeEquivMk Z σ hT hsel) =
+      gapValueMk Z.target (transportPrescription Z.iso σ) Mk' L γ η base z.1 := by
   classical
-  obtain ⟨κ, hlab⟩ := splice_labels_extend hH (transportPrescription Z.iso σ) hL base roots z
+  obtain ⟨κ, hlab⟩ := splice_labels_extendMk hH (transportPrescription Z.iso σ) hL base roots z
   let c := gardenSource Z.target hH (fun i => base + latticePoint L (roots i))
   have hκ := spliced_molecule_decoration Z.target hH hL base roots κ
   have hc0 : ∀ v ∈ Z.target.molecule.atoms, Z.target.molecule.deg v = 4 → c v = 0 :=
@@ -119,17 +189,25 @@ theorem unitSplice_actual_gapValue (Z : TwistGroupSite G) (σ : Prescription G)
   have hzero : ∀ v ∈ G.molecule.atoms, G.molecule.deg v = 4 → (c ∘ Z.iso.e) v = 0 := by
     intro v hv hd
     exact hc0 (Z.iso.e v) ((Z.iso.atoms_iff v).mpr hv) ((Z.iso.deg_img v).trans hd)
-  have hsLab : ∀ y, bondIndex (stSt G σ).G (z.1 ∘ unitSpliceNodeEquiv Z σ hsel) y =
-      (bondIndex Z.target κ.1 ∘ Z.iso.d) ((stSt G σ).M.od y) := by
+  have hsLab : ∀ y, bondIndex (stSt G σ Mk).G (z.1 ∘ unitSpliceNodeEquivMk Z σ hT hsel) y =
+      (bondIndex Z.target κ.1 ∘ Z.iso.d) ((stSt G σ Mk).M.od y) := by
     intro y
-    exact (unitSplice_bondIndex Z σ hsel z.1 y).trans
-      ((hlab _).trans (congrArg (bondIndex Z.target κ.1) (unitSpliceMolIso_dart_names Z σ hsel y)))
-  rw [gapValue_eq_selDarts (garden_isMolecule G) σ L γ η base _ _ hpull hzero _ hsLab,
-    gapValue_eq_selDarts (garden_isMolecule Z.target) (transportPrescription Z.iso σ)
-      L γ η base c _ hκ hc0 _ hlab]
+    exact (unitSplice_bondIndexMk Z σ hT hsel z.1 y).trans
+      ((hlab _).trans (congrArg (bondIndex Z.target κ.1) (unitSpliceMolIso_dart_namesMk Z σ hT hsel y)))
+  rw [hgS L γ η base _ _ hpull hzero _ hsLab, hgT L γ η base c _ hκ hc0 _ hlab]
   obtain ⟨u, hu, ha⟩ := hsel
   have hc := selDarts_twist Z ⟨u, mem_allSG hu.1, ha⟩ (Represents.GroupPrescription.ofPrescription σ)
     L γ η base c (bondIndex Z.target κ.1) hκ hc0
   exact if_congr hc.symm rfl rfl
+
+/-- Actual target choices agree with actual source choices on every spliced decoration. -/
+theorem unitSplice_actual_gapValue (Z : TwistGroupSite G) (σ : Prescription G)
+    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) (hH : Z.target.IsPlain)
+    {L : ℝ} (hL : L ≠ 0) (γ η : ℝ) (base : Mom d) (roots : Fin w → (Fin d → ℤ))
+    (z : GenDecoration (stSt Z.target (transportPrescription Z.iso σ)).G d roots 0) :
+    gapValue G σ L γ η base (z.1 ∘ unitSpliceNodeEquiv Z σ hsel) =
+      gapValue Z.target (transportPrescription Z.iso σ) L γ η base z.1 :=
+  unitSplice_actual_gapValueMk Z σ (Stage1Mk.markTransported_empty Z.iso) hsel hH
+    (gapValueSelDartsAt_empty G σ) (gapValueSelDartsAt_empty Z.target _) hL γ η base roots z
 
 end WaveTurbulence.VineA.NormalizedSplice

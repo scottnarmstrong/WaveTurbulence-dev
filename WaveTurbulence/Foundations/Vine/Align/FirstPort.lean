@@ -46,6 +46,45 @@ theorem castShape_firstPort (he : G = H) (Φ : SpliceShape blk G) (hd : Disj blk
   subst H
   exact hp
 
+
+section FirstPortMk
+variable {p : ℕ} {kind : Bool}
+  (hM : S.molecule.IsMolecule) (σ : Prescription S) {Mk : Set (CLVine S)}
+  (D : ReconstructionData S) (hS : S.IsPlain)
+  (layer : GNode (D.forest hS) → ℕ) (hLayer : IsLayering (D.garden hS) layer)
+  {Y : FamilyReconstruction w (UnitsIndex (alignedAssemblyMk hM σ Mk))}
+  {vs : ∀ j, UnitAt Y.skeleton Y.family ((unitsSplit (alignedAssemblyMk hM σ Mk)).Q j)}
+  {L : List (UnitsIndex (alignedAssemblyMk hM σ Mk))}
+  (hr : ReachU p kind (unitsSplit (alignedAssemblyMk hM σ Mk)).Q L
+    (unitsStart (alignedAssemblyMk hM σ Mk) (unitBlkMk_disj hM σ Mk) D hS layer hLayer)
+    (unitsRegion (alignedAssemblyMk hM σ Mk) (unitBlkMk_disj hM σ Mk)) Y vs)
+  (hn : L.Nodup)
+  {Mk' : Set (CLVine Y.skeleton)} (hT : Stage1Mk.MarkTransported (batchMolIso hr.batch) Mk Mk')
+
+/-- B1b-3 (Mk-general form of `commonShape_firstPort`).
+Actual common shapes inherit the ordered first crown port from the actual endpoint splice. -/
+theorem commonShape_firstPortMk :
+    HasFirstPort (commonShapeMk hM σ D hS layer hLayer hr hn hT) (member_disjMk hM σ D hS layer hLayer hr hn) := by
+  apply castShape_firstPort
+  apply congrBlocks_firstPort _ _
+    (reindex_disj (unitBlkMk_disj (Mole.garden_isMolecule Y.skeleton)
+      (transportPrescription (batchMolIso hr.batch) σ) Mk') _)
+  apply reindex_firstPort
+  exact stShape_hmom_oneMk _ _
+
+/-- B1b-3 (Mk-general form of `commonShape_hmom_one`).
+Slot one of the actual momentum boundary is common to every class member. -/
+theorem commonShape_hmom_oneMk (j : Fin (unitBlocks S σ Mk).length) :
+    (commonShapeMk hM σ D hS layer hLayer hr hn hT).hmom (member_disjMk hM σ D hS layer hLayer hr hn) j 1 =
+      (stShape hM σ Mk).hmom (unitBlkMk_disj hM σ Mk) j 1 := by
+  have he := batch_unit_excludedMk (batchMolIso_spec hr.batch) σ hT (unitsFamily_isV0FamMk hM σ)
+    (List.get_mem (unitBlocks S σ Mk) j) (unitClBlock (vs j)) (member_unit_atomsMk hM σ D hS layer hLayer hr hn j)
+  exact (commonShape_firstPortMk hM σ D hS layer hLayer hr hn hT j).trans
+    ((congrArg₂ GBranch.child (commonShape_hingeMk hM σ D hS layer hLayer hr hn hT j) he).trans
+      (stShape_hmom_oneMk hM σ j).symm)
+
+end FirstPortMk
+
 variable {p : ℕ} {kind : Bool}
   (hM : S.molecule.IsMolecule) (σ : Prescription S)
   (D : ReconstructionData S) (hS : S.IsPlain)
@@ -59,22 +98,13 @@ variable {p : ℕ} {kind : Bool}
 
 /-- Actual common shapes inherit the ordered first crown port from the actual endpoint splice. -/
 theorem commonShape_firstPort :
-    HasFirstPort (commonShape hM σ D hS layer hLayer hr hn) (member_disj hM σ D hS layer hLayer hr hn) := by
-  apply castShape_firstPort
-  apply congrBlocks_firstPort _ _
-    (reindex_disj (unitBlk_disj (Mole.garden_isMolecule Y.skeleton)
-      (transportPrescription (batchMolIso hr.batch) σ)) _)
-  apply reindex_firstPort
-  exact stShape_hmom_one _ _
+    HasFirstPort (commonShape hM σ D hS layer hLayer hr hn) (member_disj hM σ D hS layer hLayer hr hn) :=
+  commonShape_firstPortMk hM σ D hS layer hLayer hr hn (Stage1Mk.markTransported_empty _)
 
 /-- Slot one of the actual momentum boundary is common to every class member. -/
 theorem commonShape_hmom_one (j : Fin (unitBlocks S σ).length) :
     (commonShape hM σ D hS layer hLayer hr hn).hmom (member_disj hM σ D hS layer hLayer hr hn) j 1 =
-      (stShape hM σ).hmom (unitBlk_disj hM σ) j 1 := by
-  have he := batch_unit_excluded (batchMolIso_spec hr.batch) σ (unitsFamily_isV0Fam hM σ)
-    (List.get_mem (unitBlocks S σ) j) (unitClBlock (vs j)) (member_unit_atoms hM σ D hS layer hLayer hr hn j)
-  exact (commonShape_firstPort hM σ D hS layer hLayer hr hn j).trans
-    ((congrArg₂ GBranch.child (commonShape_hinge hM σ D hS layer hLayer hr hn j) he).trans
-      (stShape_hmom_one hM σ j).symm)
+      (stShape hM σ).hmom (unitBlk_disj hM σ) j 1 :=
+  commonShape_hmom_oneMk hM σ D hS layer hLayer hr hn (Stage1Mk.markTransported_empty _) j
 
 end WaveTurbulence.VineAlign

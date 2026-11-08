@@ -28,6 +28,14 @@ open Finset TTree WaveTurbulence WaveTurbulence.RegRed WaveTurbulence.RedSplice 
 
 variable {w p : ℕ} {kind : Bool}
 
+/-- B1b-2 (Mk-general form of `member_trace`): a member of the run class at the marking `mk` is reached by a full
+batch of the run assembly. -/
+theorem member_traceMk (a : PrescribedPrimeGarden w) (mk : Stage1Mk.MarkFn w)
+    (y : UState w (unitsSplit (sourceAssemblyMk a mk))) (hy : y ∈ sourceClass a p kind mk) :
+    ∃ M : List (UnitsIndex (sourceAssemblyMk a mk)), M.Perm Finset.univ.toList ∧
+      ReachU p kind (unitsSplit (sourceAssemblyMk a mk)).Q M (sourceStart a mk) (sourceUnitsMk a mk) y.1 y.2 :=
+  (mem_classU a.prime.prime).mp hy
+
 theorem member_trace (a : PrescribedPrimeGarden w) (y : UState w (unitsSplit (sourceAssembly a)))
     (hy : y ∈ sourceClass a p kind) :
     ∃ M : List (UnitsIndex (sourceAssembly a)), M.Perm Finset.univ.toList ∧

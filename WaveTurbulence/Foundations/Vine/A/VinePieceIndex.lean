@@ -10,16 +10,24 @@ variable {R p : ℕ} {kind : Bool} {ι : Type*} {L : List ι}
 variable {A B : FamilyReconstruction (2 * R) ι}
 variable {F : MolIso A.skeleton.molecule B.skeleton.molecule}
 
+/-- B1b-3 (Mk-general form of `BatchIso.piece_gsk`). -/
+theorem BatchIso.piece_gskMk (h : BatchIso p kind L A B F) (σ : Prescription A.skeleton)
+    {Mk : Set (CLVine A.skeleton)} {Mk' : Set (CLVine B.skeleton)}
+    (hT : Stage1Mk.MarkTransported F Mk Mk') (hA : IsV0Fam A.family σ Mk) (d : ℕ) :
+    (stage1PieceOf d B.plain B.layered B.decodes (transportPrescription F σ) Mk').gsk =
+      (stage1PieceOf d A.plain A.layered A.decodes σ Mk).gsk := by
+  change gskOf (RedSplice.gregOf B.data B.plain B.layered) B.skeleton (transportPrescription F σ)
+      (RegRed.coreLayer B.layered B.data B.plain B.decodes) Mk' =
+    gskOf (RedSplice.gregOf A.data A.plain A.layered) A.skeleton σ
+      (RegRed.coreLayer A.layered A.data A.plain A.decodes) Mk
+  unfold gskOf
+  rw [h.gregOf, h.vineIndexSumMk σ hT hA]
+
 /-- Full actual gsk invariance: regular rows and actual chosen vine indices are both transported. -/
 theorem BatchIso.piece_gsk (h : BatchIso p kind L A B F) (σ : Prescription A.skeleton)
     (hA : IsV0Fam A.family σ) (d : ℕ) :
     (stage1PieceOf d B.plain B.layered B.decodes (transportPrescription F σ)).gsk =
-      (stage1PieceOf d A.plain A.layered A.decodes σ).gsk := by
-  change gskOf (RedSplice.gregOf B.data B.plain B.layered) B.skeleton (transportPrescription F σ)
-      (RegRed.coreLayer B.layered B.data B.plain B.decodes) =
-    gskOf (RedSplice.gregOf A.data A.plain A.layered) A.skeleton σ
-      (RegRed.coreLayer A.layered A.data A.plain A.decodes)
-  unfold gskOf
-  rw [h.gregOf, h.vineIndexSum σ hA]
+      (stage1PieceOf d A.plain A.layered A.decodes σ).gsk :=
+  h.piece_gskMk σ (Stage1Mk.markTransported_empty F) hA d
 
 end WaveTurbulence.VineA

@@ -40,35 +40,50 @@ theorem retainedLP_inGroup (Z : TwistGroupSite G) : G.molecule.InGroup Z.S0 (ret
   have ha : G.molecule.atom (retainedLP G Z.P) = Z.P.lower := retained_parent G Z.P
   exact ⟨ha.symm ▸ Z.hB.2.2.1, placement_paired_parent_mem G Z.P Z.hP⟩
 
-/-- The four exceptional darts of a selected twist are deleted by its actual unit. -/
-theorem exceptionalDartSwap_deleted (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) (d : GardenDart G) :
-    DeletedDart (spliceFold G (unitBlocks G σ)).cls (exceptionalDartSwap G Z.P d) ↔
-      DeletedDart (spliceFold G (unitBlocks G σ)).cls d := by
+/-- B1b-2 (Mk-general form of `exceptionalDartSwap_deleted`). -/
+theorem exceptionalDartSwap_deletedMk (Z : TwistGroupSite G) (σ : Prescription G)
+    {Mk : Set (CLVine G)}
+    (hsel : ∃ c ∈ vinesV0 G σ Mk, c.atoms = Z.S0) (d : GardenDart G) :
+    DeletedDart (spliceFold G (unitBlocks G σ Mk)).cls (exceptionalDartSwap G Z.P d) ↔
+      DeletedDart (spliceFold G (unitBlocks G σ Mk)).cls d := by
   classical
-  let R := DeletedDart (spliceFold G (unitBlocks G σ)).cls
-  have hp : R (lowerPC G Z.P false) := active_internal_dart_merged Z σ hsel
+  let R := DeletedDart (spliceFold G (unitBlocks G σ Mk)).cls
+  have hp : R (lowerPC G Z.P false) := active_internal_dart_mergedMk Z σ hsel
     ⟨Z.hB.2.2.1, Z.hCL.2.choose_spec⟩
-  have hl : R (retainedLP G Z.P) := active_internal_dart_merged Z σ hsel (retainedLP_inGroup Z)
+  have hl : R (retainedLP G Z.P) := active_internal_dart_mergedMk Z σ hsel (retainedLP_inGroup Z)
   have hp' : R (lowerPC G Z.P true) := (deletedDart_mate_iff _ _).mpr hp
   have hl' : R (G.molecule.mate (retainedLP G Z.P)) := (deletedDart_mate_iff _ _).mpr hl
   change R (Equiv.swap _ _ (Equiv.swap _ _ d)) ↔ R d
   exact (swap_predicate_iff R hp' hl' _).trans (swap_predicate_iff R hp hl d)
 
-/-- The ordinary carrier map preserves deletion after the exceptional exchange is removed. -/
-theorem naiveDart_deleted_iff (Z : TwistGroupSite G) (σ : Prescription G)
+/-- The four exceptional darts of a selected twist are deleted by its actual unit. -/
+theorem exceptionalDartSwap_deleted (Z : TwistGroupSite G) (σ : Prescription G)
     (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) (d : GardenDart G) :
-    DeletedDart (spliceFold Z.target (unitBlocks Z.target (transportPrescription Z.iso σ))).cls
-      (naiveDartEquiv G Z.P d) ↔ DeletedDart (spliceFold G (unitBlocks G σ)).cls d := by
+    DeletedDart (spliceFold G (unitBlocks G σ)).cls (exceptionalDartSwap G Z.P d) ↔
+      DeletedDart (spliceFold G (unitBlocks G σ)).cls d := exceptionalDartSwap_deletedMk Z σ hsel d
+
+/-- B1b-2 (Mk-general form of `naiveDart_deleted_iff`). -/
+theorem naiveDart_deleted_iffMk (Z : TwistGroupSite G) (σ : Prescription G)
+    {Mk : Set (CLVine G)} {Mk' : Set (CLVine Z.target)} (hT : Stage1Mk.MarkTransported Z.iso Mk Mk')
+    (hsel : ∃ c ∈ vinesV0 G σ Mk, c.atoms = Z.S0) (d : GardenDart G) :
+    DeletedDart (spliceFold Z.target (unitBlocks Z.target (transportPrescription Z.iso σ) Mk')).cls
+      (naiveDartEquiv G Z.P d) ↔ DeletedDart (spliceFold G (unitBlocks G σ Mk)).cls d := by
   let x := (exceptionalDartSwap G Z.P).symm d
-  have h := merged_dart_intertwines Z.iso (unitBlocks_cls_twist Z σ hsel) x
+  have h := merged_dart_intertwines Z.iso (unitBlocks_cls_twistMk Z σ hT hsel) x
   change DeletedDart _ (twistDartEquiv G Z.P x) ↔ DeletedDart _ x at h
   have he : twistDartEquiv G Z.P x = naiveDartEquiv G Z.P d := by
     change naiveDartEquiv G Z.P (exceptionalDartSwap G Z.P ((exceptionalDartSwap G Z.P).symm d)) = _
     rw [Equiv.apply_symm_apply]
   rw [he] at h
-  have hx := exceptionalDartSwap_deleted Z σ hsel x
+  have hx := exceptionalDartSwap_deletedMk Z σ hsel x
   rw [show exceptionalDartSwap G Z.P x = d from Equiv.apply_symm_apply _ _] at hx
   exact h.trans hx.symm
+
+/-- The ordinary carrier map preserves deletion after the exceptional exchange is removed. -/
+theorem naiveDart_deleted_iff (Z : TwistGroupSite G) (σ : Prescription G)
+    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) (d : GardenDart G) :
+    DeletedDart (spliceFold Z.target (unitBlocks Z.target (transportPrescription Z.iso σ))).cls
+      (naiveDartEquiv G Z.P d) ↔ DeletedDart (spliceFold G (unitBlocks G σ)).cls d :=
+  naiveDart_deleted_iffMk Z σ (Stage1Mk.markTransported_empty Z.iso) hsel d
 
 end WaveTurbulence.VineA

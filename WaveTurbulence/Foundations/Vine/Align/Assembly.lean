@@ -46,14 +46,19 @@ noncomputable def assemblyVine (B : CLChainAssembly G R n) (i : Fin n) : CLVine 
   notParentUpper := (assemblyPiece_cl B i).1
   parentLower := (assemblyPiece_cl B i).2
 
+/-- B1b (Mk-general form of `assemblyVine_mem`). -/
+theorem assemblyVine_memMk {σ : Prescription G} {u : CLBlock G}
+    {Mk : Set (Stage1.CLVine _)} (hu : u ∈ unitBlocks (Mk := Mk) G σ) {n : ℕ} (B : CLChainAssembly G (VineB.regionOf u) n) (i : Fin n) :
+    assemblyVine B i ∈ vinesV0 (Mk := Mk) G σ := by
+  have hi : (assemblyPieceAt B i).atoms ∈ unitIngredients (Mk := Mk) G σ :=
+    ⟨u, hu, u.upper, u.lower, n, _, _, assemblyPiece_ingredient B i⟩
+  obtain ⟨c, hc, he⟩ := (mem_unitIngredients_iffMk (Mk := Mk)).mp hi
+  have hcv : c = assemblyVine B i := clVine_eq_of_atoms he
+  exact hcv ▸ hc
+
 /-- Every assembly piece of a selected unit belongs to the exact V0 carrier. -/
 theorem assemblyVine_mem {σ : Prescription G} {u : CLBlock G}
     (hu : u ∈ unitBlocks G σ) {n : ℕ} (B : CLChainAssembly G (VineB.regionOf u) n) (i : Fin n) :
-    assemblyVine B i ∈ vinesV0 G σ := by
-  have hi : (assemblyPieceAt B i).atoms ∈ unitIngredients G σ :=
-    ⟨u, hu, u.upper, u.lower, n, _, _, assemblyPiece_ingredient B i⟩
-  obtain ⟨c, hc, he⟩ := mem_unitIngredients_iff.mp hi
-  have hcv : c = assemblyVine B i := clVine_eq_of_atoms he
-  exact hcv ▸ hc
+    assemblyVine B i ∈ vinesV0 G σ := assemblyVine_memMk (Mk := ∅) hu B i
 
 end WaveTurbulence.VineAlign

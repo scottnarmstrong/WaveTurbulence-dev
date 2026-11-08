@@ -28,6 +28,51 @@ theorem stateSlotFn_eq {w d : ℕ} {ι : Type*} (A : FamilyReconstruction w ι)
   subst layer
   rfl
 
+section MemberKernelsMk
+variable {w p d : ℕ} {kind : Bool} {S : Garden w}
+  (hM : S.molecule.IsMolecule) (σ : Prescription S) {Mk : Set (CLVine S)}
+  (D : ReconstructionData S) (hS : S.IsPlain)
+  (layer : GNode (D.forest hS) → ℕ) (hLayer : IsLayering (D.garden hS) layer)
+  {Y : FamilyReconstruction w (UnitsIndex (alignedAssemblyMk hM σ Mk))}
+  {vs : ∀ j, UnitAt Y.skeleton Y.family ((unitsSplit (alignedAssemblyMk hM σ Mk)).Q j)}
+  {xs : List (UnitsIndex (alignedAssemblyMk hM σ Mk))}
+  (hr : ReachU p kind (unitsSplit (alignedAssemblyMk hM σ Mk)).Q xs
+    (unitsStart (alignedAssemblyMk hM σ Mk) (unitBlkMk_disj hM σ Mk) D hS layer hLayer)
+    (unitsRegion (alignedAssemblyMk hM σ Mk) (unitBlkMk_disj hM σ Mk)) Y vs)
+  (hn : xs.Nodup)
+  {Mk' : Set (CLVine Y.skeleton)} (hT : Stage1Mk.MarkTransported (batchMolIso hr.batch) Mk Mk')
+
+/-- B1b-3 (Mk-general form of `endpointShape_iota`).
+Unit reindexing leaves the endpoint's actual slot embedding unchanged. -/
+theorem endpointShape_iotaMk
+    (hG : (stSt Y.skeleton (transportPrescription (batchMolIso hr.batch) σ) Mk').G.IsPlain) :
+    (endpointShapeMk hM σ D hS layer hLayer hr hn hT).iota Y.plain hG =
+    (stShape (Mole.garden_isMolecule Y.skeleton) (transportPrescription (batchMolIso hr.batch) σ) Mk').iota Y.plain hG := by
+  unfold endpointShapeMk
+  rw [congrBlocks_iota]
+  rfl
+
+/-- B1b-3 (Mk-general form of `commonShape_slotFn`).
+Native outer kernels of every carried member agree on the literal common garden. -/
+theorem commonShape_slotFnMk (hG : (stSt S σ Mk).G.IsPlain)
+    (f : ℕ → Fin w → Fin w → Mom d → ℝ) (L γ δ : ℝ) (s : ReplacementSlot (stSt S σ Mk).G) :
+    slotFn Y.data Y.plain L γ δ (typeProfiles Y.layered f) (stateLayer Y) (stateLayer_isLayering Y)
+      ((commonShapeMk hM σ D hS layer hLayer hr hn hT).iota Y.plain hG s) =
+    slotFn D hS L γ δ (typeProfiles (layeredReconstruction D hS layer hLayer) f) layer hLayer
+      ((stShape hM σ Mk).iota hS hG s) := by
+  let A := unitsStart (alignedAssemblyMk hM σ Mk) (unitBlkMk_disj hM σ Mk) D hS layer hLayer
+  let h := batchMolIso_spec hr.batch
+  change stateSlotFn Y f L γ δ _ = _
+  unfold commonShapeMk
+  erw [cast_iota _ _ Y.plain ((stSt _ _ Mk').plain Y.plain), endpointShape_iotaMk]
+  change spliceKernelMk Y (transportPrescription (batchMolIso hr.batch) σ) Mk' f L γ δ _ = _
+  erw [batch_spliceKernelMk h σ hT (unitsFamily_isV0FamMk hM σ)]
+  unfold spliceKernelMk
+  erw [stateSlotFn_eq A layer hLayer rfl]
+  rfl
+
+end MemberKernelsMk
+
 variable {w p d : ℕ} {kind : Bool} {S : Garden w}
   (hM : S.molecule.IsMolecule) (σ : Prescription S)
   (D : ReconstructionData S) (hS : S.IsPlain)
@@ -43,10 +88,8 @@ variable {w p d : ℕ} {kind : Bool} {S : Garden w}
 /-- Unit reindexing leaves the endpoint's actual slot embedding unchanged. -/
 theorem endpointShape_iota (hG : (stSt Y.skeleton (transportPrescription (batchMolIso hr.batch) σ)).G.IsPlain) :
     (endpointShape hM σ D hS layer hLayer hr hn).iota Y.plain hG =
-    (stShape (Mole.garden_isMolecule Y.skeleton) (transportPrescription (batchMolIso hr.batch) σ)).iota Y.plain hG := by
-  unfold endpointShape
-  rw [congrBlocks_iota]
-  rfl
+    (stShape (Mole.garden_isMolecule Y.skeleton) (transportPrescription (batchMolIso hr.batch) σ)).iota Y.plain hG :=
+  endpointShape_iotaMk hM σ D hS layer hLayer hr hn (Stage1Mk.markTransported_empty _) hG
 
 /-- Native outer kernels of every carried member agree on the literal common garden. -/
 theorem commonShape_slotFn (hG : (stSt S σ).G.IsPlain)
@@ -54,16 +97,7 @@ theorem commonShape_slotFn (hG : (stSt S σ).G.IsPlain)
     slotFn Y.data Y.plain L γ δ (typeProfiles Y.layered f) (stateLayer Y) (stateLayer_isLayering Y)
       ((commonShape hM σ D hS layer hLayer hr hn).iota Y.plain hG s) =
     slotFn D hS L γ δ (typeProfiles (layeredReconstruction D hS layer hLayer) f) layer hLayer
-      ((stShape hM σ).iota hS hG s) := by
-  let A := unitsStart (alignedAssembly hM σ) (unitBlk_disj hM σ) D hS layer hLayer
-  let h := batchMolIso_spec hr.batch
-  change stateSlotFn Y f L γ δ _ = _
-  unfold commonShape
-  erw [cast_iota _ _ Y.plain ((stSt _ _).plain Y.plain), endpointShape_iota]
-  change spliceKernel Y (transportPrescription (batchMolIso hr.batch) σ) f L γ δ _ = _
-  erw [batch_spliceKernel h σ (unitsFamily_isV0Fam hM σ)]
-  unfold spliceKernel
-  erw [stateSlotFn_eq A layer hLayer rfl]
-  rfl
+      ((stShape hM σ).iota hS hG s) :=
+  commonShape_slotFnMk hM σ D hS layer hLayer hr hn (Stage1Mk.markTransported_empty _) hG f L γ δ s
 
 end WaveTurbulence.VineAlign

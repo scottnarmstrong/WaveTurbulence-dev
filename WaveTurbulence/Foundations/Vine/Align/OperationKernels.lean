@@ -35,6 +35,31 @@ theorem operation_kernel {A : FamilyReconstruction w ι} {i : ι}
       exact ordinary_tree_kernel C (stateLayer A) (stateLayer_isLayering A) (stateLayer_spec A)
         (stateLayer B) (stateLayer_isLayering B) (stateLayer_spec B) f L γ δ b hs ts k
 
+/-- B1b-3 (Mk-general form of `spliceKernel`): the kernel of a slot of the spliced garden at the marking `Mk`. -/
+noncomputable def spliceKernelMk (A : FamilyReconstruction w ι) (σ : Prescription A.skeleton)
+    (Mk : Set (CLVine A.skeleton)) (f : ℕ → Fin w → Fin w → Mom d → ℝ) (L γ δ : ℝ)
+    (s : ReplacementSlot (stSt A.skeleton σ Mk).G) : (Fin 2 → ℝ) → Mom d → ℂ :=
+  stateSlotFn A f L γ δ ((stShape (Mole.garden_isMolecule A.skeleton) σ Mk).iota
+    A.plain ((stSt _ _ Mk).plain A.plain) s)
+
+/-- B1b-3 (Mk-general form of `operation_spliceKernel`). -/
+theorem operation_spliceKernelMk {A : FamilyReconstruction w ι} {i : ι} {σ : Prescription A.skeleton}
+    {Mk : Set (CLVine A.skeleton)} (hA : IsV0Fam A.family σ Mk) (op : FamilyOperation (p := p) (kind := kind) A i)
+    {Mk' : Set (CLVine op.output.skeleton)} (hT : Stage1Mk.MarkTransported (operationMolIso op) Mk Mk')
+    (f : ℕ → Fin w → Fin w → Mom d → ℝ) (L γ δ : ℝ) (s : ReplacementSlot (stSt A.skeleton σ Mk).G) :
+    spliceKernelMk op.output (transportPrescription (operationMolIso op) σ) Mk' f L γ δ
+      (slotCast (operation_splice_garden_eqMk hA op hT).symm s) = spliceKernelMk A σ Mk f L γ δ s := by
+  unfold spliceKernelMk
+  rw [operation_iotaMk hA op hT]
+  apply operation_kernel
+  cases s with
+  | inl q =>
+    exact surviving_pair_neMk (selectedMemberSite hA i) σ
+      ⟨familyVine A.family i, hA.1 i, rfl⟩ A.plain (q.firstLeaf ((stSt _ _ Mk).plain A.plain))
+  | inr b =>
+    exact fun he => active_lower_not_survivingMk (selectedMemberSite hA i) σ
+      ⟨familyVine A.family i, hA.1 i, rfl⟩ ⟨b, he⟩
+
 /-- The actual kernel of a slot of the simultaneously spliced garden. -/
 noncomputable def spliceKernel (A : FamilyReconstruction w ι) (σ : Prescription A.skeleton)
     (f : ℕ → Fin w → Fin w → Mom d → ℝ) (L γ δ : ℝ)
@@ -47,16 +72,7 @@ theorem operation_spliceKernel {A : FamilyReconstruction w ι} {i : ι} {σ : Pr
     (hA : IsV0Fam A.family σ) (op : FamilyOperation (p := p) (kind := kind) A i)
     (f : ℕ → Fin w → Fin w → Mom d → ℝ) (L γ δ : ℝ) (s : ReplacementSlot (stSt A.skeleton σ).G) :
     spliceKernel op.output (transportPrescription (operationMolIso op) σ) f L γ δ
-      (slotCast (operation_splice_garden_eq hA op).symm s) = spliceKernel A σ f L γ δ s := by
-  unfold spliceKernel
-  rw [operation_iota hA op]
-  apply operation_kernel
-  cases s with
-  | inl q =>
-    exact surviving_pair_ne (selectedMemberSite hA i) σ
-      ⟨familyVine A.family i, hA.1 i, rfl⟩ A.plain (q.firstLeaf ((stSt _ _).plain A.plain))
-  | inr b =>
-    exact fun he => active_lower_not_surviving (selectedMemberSite hA i) σ
-      ⟨familyVine A.family i, hA.1 i, rfl⟩ ⟨b, he⟩
+      (slotCast (operation_splice_garden_eq hA op).symm s) = spliceKernel A σ f L γ δ s :=
+  operation_spliceKernelMk hA op (Stage1Mk.markTransported_empty _) f L γ δ s
 
 end WaveTurbulence.VineAlign

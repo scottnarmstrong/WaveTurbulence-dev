@@ -55,32 +55,54 @@ theorem isV0Fam_operationMk {A : FamilyReconstruction w ι} {i : ι}
       exact hE ▸ hF
     · exact isV0Fam_twistMk hF i hT
 
+/-- B1b-2 (Mk-general form of `operation_unitBlocks_perm`): unit (run) lists transport along every admissible
+operation at an unmarked member, for marked sets carried by the operation. -/
+theorem operation_unitBlocks_permMk {A : FamilyReconstruction w ι} {i : ι}
+    {σ : Prescription A.skeleton} {Mk : Set (CLVine A.skeleton)} (hF : IsV0Fam A.family σ Mk)
+    (op : FamilyOperation (p := p) (kind := kind) A i) {Mk' : Set (CLVine op.output.skeleton)}
+    (hT : Stage1Mk.MarkTransported (operationMolIso op) Mk Mk') :
+    ((unitBlocks A.skeleton σ Mk).map (fun u => (operationMolIso op).img u.atoms)).Perm
+      ((unitBlocks op.output.skeleton (transportPrescription (operationMolIso op) σ) Mk').map CLBlock.atoms) := by
+  cases op with
+  | mk hc he ht hq ε C =>
+    cases ε
+    · have hE : Mk = Mk' := Stage1Mk.markTransported_refl_eq hT
+      subst hE
+      change ((unitBlocks A.skeleton σ Mk).map (fun u => (molIsoRefl A.skeleton).img u.atoms)).Perm
+        ((unitBlocks A.skeleton (transportPrescription (molIsoRefl A.skeleton) σ) Mk).map CLBlock.atoms)
+      rw [transportPrescription_refl]
+      have he : (fun u : CLBlock A.skeleton => (molIsoRefl A.skeleton).img u.atoms) = CLBlock.atoms :=
+        funext fun u => Finset.image_id
+      rw [he]
+    · exact unitBlocks_image_permMk (selectedMemberSite hF i) σ hT ⟨familyVine A.family i, hF.1 i, rfl⟩
+
 /-- Actual unit lists transport for every admissible operation and either choice. -/
 theorem operation_unitBlocks_perm {A : FamilyReconstruction w ι} {i : ι}
     {σ : Prescription A.skeleton} (hF : IsV0Fam A.family σ)
     (op : FamilyOperation (p := p) (kind := kind) A i) :
     ((unitBlocks A.skeleton σ).map (fun u => (operationMolIso op).img u.atoms)).Perm
-      ((unitBlocks op.output.skeleton (transportPrescription (operationMolIso op) σ)).map CLBlock.atoms) := by
+      ((unitBlocks op.output.skeleton (transportPrescription (operationMolIso op) σ)).map CLBlock.atoms) :=
+  operation_unitBlocks_permMk hF op (Stage1Mk.markTransported_empty _)
+
+/-- B1b-2 (Mk-general form of `bskOf_operation`). -/
+theorem bskOf_operationMk {A : FamilyReconstruction w ι} {i : ι}
+    {σ : Prescription A.skeleton} {Mk : Set (CLVine A.skeleton)} (hF : IsV0Fam A.family σ Mk)
+    (op : FamilyOperation (p := p) (kind := kind) A i) {Mk' : Set (CLVine op.output.skeleton)}
+    (hT : Stage1Mk.MarkTransported (operationMolIso op) Mk Mk') :
+    bskOf op.output.skeleton (transportPrescription (operationMolIso op) σ) Mk' = bskOf A.skeleton σ Mk := by
   cases op with
   | mk hc he ht hq ε C =>
     cases ε
-    · change ((unitBlocks A.skeleton σ).map (fun u => (molIsoRefl A.skeleton).img u.atoms)).Perm
-        ((unitBlocks A.skeleton (transportPrescription (molIsoRefl A.skeleton) σ)).map CLBlock.atoms)
-      rw [transportPrescription_refl]
-      have he : (fun u : CLBlock A.skeleton => (molIsoRefl A.skeleton).img u.atoms) = CLBlock.atoms :=
-        funext fun u => Finset.image_id
-      rw [he]
-    · exact unitBlocks_image_perm (selectedMemberSite hF i) σ ⟨familyVine A.family i, hF.1 i, rfl⟩
+    · have hE : Mk = Mk' := Stage1Mk.markTransported_refl_eq hT
+      subst hE
+      exact congrArg (fun τ => bskOf A.skeleton τ Mk) (transportPrescription_refl σ)
+    · exact bskOf_unitTwistMk (selectedMemberSite hF i) σ hT ⟨familyVine A.family i, hF.1 i, rfl⟩
 
 /-- The actual b_sk contribution is preserved by every admissible LF operation. -/
 theorem bskOf_operation {A : FamilyReconstruction w ι} {i : ι}
     {σ : Prescription A.skeleton} (hF : IsV0Fam A.family σ)
     (op : FamilyOperation (p := p) (kind := kind) A i) :
-    bskOf op.output.skeleton (transportPrescription (operationMolIso op) σ) = bskOf A.skeleton σ := by
-  cases op with
-  | mk hc he ht hq ε C =>
-    cases ε
-    · exact congrArg (bskOf A.skeleton) (transportPrescription_refl σ)
-    · exact bskOf_unitTwist (selectedMemberSite hF i) σ ⟨familyVine A.family i, hF.1 i, rfl⟩
+    bskOf op.output.skeleton (transportPrescription (operationMolIso op) σ) = bskOf A.skeleton σ :=
+  bskOf_operationMk hF op (Stage1Mk.markTransported_empty _)
 
 end WaveTurbulence.VineA
