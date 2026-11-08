@@ -103,21 +103,26 @@ theorem not_exists_survPairAt_empty (σ : Prescription G) (v : GBranch (stSt G �
     ¬ ∃ q, survPairAt G σ v = some q := by
   rw [survPairAt_empty]; simp
 
-/-- B2c (ruling R171, o75 (2.3)): the atom of `G_sb` carrying the gap entry of a marked group, the image of the upper
-joint of its first survivor (`none` for an unmarked group). -/
-@[expose] noncomputable def markedAtom (G : Garden w) (σ : Prescription G) (S : Finset (GBranch G.tree))
-    (Mk : Set (CLVine G)) : Option (GBranch (stSt G σ Mk).G.tree) :=
-  (groupSurvMk G Mk S).head?.map fun t => (stSt G σ Mk).M.pi (stSt G σ Mk).hcls t.2.1
+/-- B2c (ruling R171, o75 (2.3)): `v` carries the gap entry of the survivor `t` of the group `S`, i.e. `v` is the
+image in `G_sb` of the upper joint of `t`.  Every survivor of a marked group carries an entry (of the group's kind), so
+the indicator `𝒵` checks the gap of every survivor on any decoration of `G_sb`. -/
+@[expose] def MarkedEntryAt (G : Garden w) (σ : Prescription G) (S : Finset (GBranch G.tree)) {Mk : Set (CLVine G)}
+    (t : Finset (GBranch G.tree) × GBranch G.tree × GBranch G.tree) (v : GBranch (stSt G σ Mk).G.tree) : Prop :=
+  t ∈ groupSurvMk G Mk S ∧ (stSt G σ Mk).M.pi (stSt G σ Mk).hcls t.2.1 = v
 
-/-- B2c (R171): the pair of the gap entry of a marked group at `v`: the lift of its first survivor's pair at the
-survivor's upper joint. -/
-@[expose] noncomputable def markedEntryPair (G : Garden w) (σ : Prescription G) (S : Finset (GBranch G.tree))
-    {Mk : Set (CLVine G)} (v : GBranch (stSt G σ Mk).G.tree) :
+/-- B2c (R171): the pair of the gap entry of the survivor `t` at `v`: the lift of the chosen pair of `t` at its upper
+joint. -/
+@[expose] noncomputable def markedEntryPair (G : Garden w) (σ : Prescription G) {Mk : Set (CLVine G)}
+    (t : Finset (GBranch G.tree) × GBranch G.tree × GBranch G.tree) (v : GBranch (stSt G σ Mk).G.tree) :
     Option (GardenDart (stSt G σ Mk).G × GardenDart (stSt G σ Mk).G) :=
-  ((groupSurvMk G Mk S).head?.bind fun t => survOrigPair G t.1 t.2.1).bind (liftPair G σ v)
+  (survOrigPair G t.1 t.2.1).bind (liftPair G σ v)
 
-theorem markedAtom_empty (σ : Prescription G) (S : Finset (GBranch G.tree)) : markedAtom G σ S ∅ = none := by
-  simp [markedAtom, groupSurvMk_empty]
+theorem not_exists_markedEntryAt_empty (σ : Prescription G) (v : GBranch (stSt G σ).G.tree) :
+    ¬ ∃ St : Finset (GBranch G.tree) × (Finset (GBranch G.tree) × GBranch G.tree × GBranch G.tree),
+      St.1 ∈ maximalGroups G.molecule ∧ MarkedEntryAt G σ St.1 St.2 v := by
+  rintro ⟨St, -, h, -⟩
+  rw [groupSurvMk_empty] at h
+  cases h
 
 /-- **The hinge pair of TARGET subpro(5)** (R28): see the module docstring.  B1a: with the marked vine set `Mk`
 the units are `groupUnitsMk` (runs in a marked group, with the run pair `HingeSpecRun`). -/

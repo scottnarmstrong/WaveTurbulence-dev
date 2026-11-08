@@ -16,8 +16,8 @@ Mk-general versions (marked vine set `Mk`) of main's gap-entry lemmas:
 * unmarked groups (`¬ markedGroup G Mk S`): `groupAtom_injMk`, `hinge_unitMk`, `gapSpecificationMk_of`,
   `gapSpecificationMk_group`, `gapSpecificationMk_indicator_iff` (main's `groupAtom_inj`, `hinge_unit`,
   `gapSpecification_of`, `gapSpecification_group`, `gapSpecification_indicator_iff`, whose proofs are followed);
-* marked groups: `gapSpecificationMk_marked` (the entry exists at `markedAtom`, of kind `σ S`, with the lifted survivor
-  pair) and `gapSpecificationMk_marked_indicator_iff`;
+* marked groups: `gapSpecificationMk_marked` (every survivor has an entry at the image of its upper joint, of kind
+  `σ S`, with a lifted survivor pair) and `gapSpecificationMk_marked_indicator_iff`;
 * `gapSpecificationMk_isSome`: every entry belongs to a group.
 -/
 
@@ -90,19 +90,17 @@ theorem groupAtom_mem {T : Finset (GBranch G.tree)} {v : GBranch (stSt G σ Mk).
       rw [hg] at hT
       exact ⟨hm, a, rfl, (groupJoint_kind hg).1, Option.some.inj hT⟩
 
-/-- A marked group's entry atom lies, through `repC`, in the group. -/
-theorem markedAtom_mem {T : Finset (GBranch G.tree)} {v : GBranch (stSt G σ Mk).G.tree}
-    (hT : markedAtom G σ T Mk = some v) :
-    ∃ (hmk : markedGroup G Mk T) (t : Finset (GBranch G.tree) × GBranch G.tree × GBranch G.tree),
-      (groupSurvMk G Mk T).head? = some t ∧ t ∈ (markedUnitsOfMK hmk).surv ∧ t.2.1 ∈ T ∧
-      (stSt G σ Mk).M.pi (stSt G σ Mk).hcls t.2.1 = v := by
-  unfold markedAtom at hT
+/-- A survivor carrying a marked entry is a survivor of a marked group, and its upper joint lies in the group. -/
+theorem markedEntryAt_mem {T : Finset (GBranch G.tree)}
+    {t : Finset (GBranch G.tree) × GBranch G.tree × GBranch G.tree} {v : GBranch (stSt G σ Mk).G.tree}
+    (hT : MarkedEntryAt G σ T t v) :
+    ∃ hmk : markedGroup G Mk T, t ∈ (markedUnitsOfMK hmk).surv ∧ t.2.1 ∈ T := by
+  obtain ⟨ht, -⟩ := hT
   by_cases hm : markedGroup G Mk T
-  · obtain ⟨t, ht, htm⟩ := groupSurvMk_head hm
-    rw [ht] at hT
-    obtain ⟨⟨X, hX⟩, hI, -⟩ := (markedUnitsOfMK hm).surv_spec t htm
-    exact ⟨hm, t, ht, htm, isIngredient_subset hI hX.1.2.1, Option.some.inj hT⟩
-  · rw [groupSurvMk_of_not_marked hm] at hT; cases hT
+  · rw [groupSurvMk_of_marked hm (exists_markedGroupUnits hm)] at ht
+    obtain ⟨⟨X, hX⟩, hI, -⟩ := (markedUnitsOfMK hm).surv_spec t ht
+    exact ⟨hm, ht, isIngredient_subset hI hX.1.2.1⟩
+  · rw [groupSurvMk_of_not_marked hm] at ht; cases ht
 
 theorem repC_eq_of_pi_eq {a a' : GBranch G.tree}
     (h : (stSt G σ Mk).M.pi (stSt G σ Mk).hcls a = (stSt G σ Mk).M.pi (stSt G σ Mk).hcls a') :
@@ -125,20 +123,21 @@ theorem groupAtom_injMk {S S' : Finset (GBranch G.tree)} (hS : S ∈ maximalGrou
   obtain ⟨-, a', -, haS', hav'⟩ := groupAtom_mem hM σ h'
   exact group_eq_of_pi_eq hM σ hS hS' haS haS' (hav.trans hav'.symm)
 
-theorem markedAtom_inj {S S' : Finset (GBranch G.tree)} (hS : S ∈ maximalGroups G.molecule)
-    (hS' : S' ∈ maximalGroups G.molecule) {v : GBranch (stSt G σ Mk).G.tree}
-    (h : markedAtom G σ S Mk = some v) (h' : markedAtom G σ S' Mk = some v) : S = S' := by
-  obtain ⟨-, t, -, -, htS, htv⟩ := markedAtom_mem hM σ h
-  obtain ⟨-, t', -, -, htS', htv'⟩ := markedAtom_mem hM σ h'
-  exact group_eq_of_pi_eq hM σ hS hS' htS htS' (htv.trans htv'.symm)
+theorem markedEntryAt_group_eq {S S' : Finset (GBranch G.tree)} (hS : S ∈ maximalGroups G.molecule)
+    (hS' : S' ∈ maximalGroups G.molecule) {t t' : Finset (GBranch G.tree) × GBranch G.tree × GBranch G.tree}
+    {v : GBranch (stSt G σ Mk).G.tree} (h : MarkedEntryAt G σ S t v) (h' : MarkedEntryAt G σ S' t' v) : S = S' := by
+  obtain ⟨-, -, htS⟩ := markedEntryAt_mem hM σ h
+  obtain ⟨-, -, htS'⟩ := markedEntryAt_mem hM σ h'
+  exact group_eq_of_pi_eq hM σ hS hS' htS htS' (h.2.trans h'.2.symm)
 
-theorem not_groupAtom_of_markedAtom {S : Finset (GBranch G.tree)} (hS : S ∈ maximalGroups G.molecule)
-    {v : GBranch (stSt G σ Mk).G.tree} (h : markedAtom G σ S Mk = some v) :
+theorem not_groupAtom_of_markedEntryAt {S : Finset (GBranch G.tree)} (hS : S ∈ maximalGroups G.molecule)
+    {t : Finset (GBranch G.tree) × GBranch G.tree × GBranch G.tree} {v : GBranch (stSt G σ Mk).G.tree}
+    (h : MarkedEntryAt G σ S t v) :
     ¬ ∃ S' ∈ maximalGroups G.molecule, groupAtom G σ S' Mk = some v := by
   rintro ⟨S', hS', h'⟩
-  obtain ⟨hmk, t, -, -, htS, htv⟩ := markedAtom_mem hM σ h
+  obtain ⟨hmk, -, htS⟩ := markedEntryAt_mem hM σ h
   obtain ⟨hnm, a, -, haS, hav⟩ := groupAtom_mem hM σ h'
-  have hSS := group_eq_of_pi_eq hM σ hS hS' htS haS (htv.trans hav.symm)
+  have hSS := group_eq_of_pi_eq hM σ hS hS' htS haS (h.2.trans hav.symm)
   subst hSS
   exact hnm hmk
 
@@ -288,73 +287,90 @@ theorem gapSpecificationMk_indicator_iff {S : Finset (GBranch G.tree)} (hS : S �
       exact obj_pair_gapKind G.molecule hM L γ η w c κ hκ hc0 O hOk hOj hT.1 hT.2.1 hx hy hT.2.2.2
   rw [hkind]
 
-/-- **The gap entry of a marked group** (ruling R171, o75 (2.3)). -/
+/-- **The gap entry of a survivor** (ruling R171, o75 (2.3)): every survivor `t` of a marked group `S` has an entry
+at the image of its upper joint, of kind `σ S`, whose darts are the lifts of a pair of a survivor `t'` of `S` at its
+upper joint, with the same image. -/
 theorem gapSpecificationMk_marked {S : Finset (GBranch G.tree)} (hS : S ∈ maximalGroups G.molecule)
-    (hmk : markedGroup G Mk S) :
-    ∃ t p, (groupSurvMk G Mk S).head? = some t ∧ t ∈ (markedUnitsOfMK hmk).surv ∧ SurvPairSpec G t.1 t.2.1 p ∧
-      markedAtom G σ S Mk = some ((stSt G σ Mk).M.pi (stSt G σ Mk).hcls t.2.1) ∧
+    (hmk : markedGroup G Mk S) {t : Finset (GBranch G.tree) × GBranch G.tree × GBranch G.tree}
+    (ht : t ∈ (markedUnitsOfMK hmk).surv) :
+    ∃ t' p, t' ∈ (markedUnitsOfMK hmk).surv ∧
+      (stSt G σ Mk).M.pi (stSt G σ Mk).hcls t'.2.1 = (stSt G σ Mk).M.pi (stSt G σ Mk).hcls t.2.1 ∧
+      SurvPairSpec G t'.1 t'.2.1 p ∧
       ∃ e : LocalGapSpecification (stSt G σ Mk).G ((stSt G σ Mk).M.pi (stSt G σ Mk).hcls t.2.1),
         gapSpecificationMk G σ Mk ((stSt G σ Mk).M.pi (stSt G σ Mk).hcls t.2.1) = some e ∧ e.kind = σ S ∧
         (stSt G σ Mk).M.od e.first = p.1 ∧ (stSt G σ Mk).M.od e.second = p.2 := by
   classical
-  obtain ⟨t, ht, htm⟩ := groupSurvMk_head hmk
-  obtain ⟨hvine, -, -⟩ := (markedUnitsOfMK hmk).surv_spec t htm
+  have hg : groupSurvMk G Mk S = (markedUnitsOfMK hmk).surv :=
+    groupSurvMk_of_marked hmk (exists_markedGroupUnits hmk)
+  have hEt : MarkedEntryAt G σ S t ((stSt G σ Mk).M.pi (stSt G σ Mk).hcls t.2.1) := ⟨by rw [hg]; exact ht, rfl⟩
+  have h' : ∃ St : Finset (GBranch G.tree) × (Finset (GBranch G.tree) × GBranch G.tree × GBranch G.tree),
+      St.1 ∈ maximalGroups G.molecule ∧
+        MarkedEntryAt G σ St.1 St.2 ((stSt G σ Mk).M.pi (stSt G σ Mk).hcls t.2.1) := ⟨(S, t), hS, hEt⟩
+  obtain ⟨hS1, hE1⟩ := h'.choose_spec
+  have hc : h'.choose.1 = S := markedEntryAt_group_eq hM σ hS1 hS hE1 hEt
+  have ht' : h'.choose.2 ∈ (markedUnitsOfMK hmk).surv := by
+    have := hE1.1
+    rw [hc, hg] at this
+    exact this
+  obtain ⟨hvine, -, -⟩ := (markedUnitsOfMK hmk).surv_spec _ ht'
   obtain ⟨p, hp, hsp⟩ := survOrigPair_isSome (exists_survPairSpec hvine)
-  have hatom : markedAtom G σ S Mk = some ((stSt G σ Mk).M.pi (stSt G σ Mk).hcls t.2.1) := by
-    unfold markedAtom; rw [ht]; rfl
+  have hv := hE1.2
   obtain ⟨⟨hpx, hpy, hpne, hpout⟩, hgx, hgy⟩ := hsp
-  have hrep : ∀ z : GardenDart G, G.molecule.atom z = t.2.1 →
-      repC (stSt G σ Mk).cls (G.molecule.atom z) = (stSt G σ Mk).M.ob ((stSt G σ Mk).M.pi (stSt G σ Mk).hcls t.2.1) := by
+  have hrep : ∀ z : GardenDart G, G.molecule.atom z = h'.choose.2.2.1 →
+      repC (stSt G σ Mk).cls (G.molecule.atom z) =
+        (stSt G σ Mk).M.ob ((stSt G σ Mk).M.pi (stSt G σ Mk).hcls t.2.1) := by
     intro z hz
-    rw [hz, (stSt G σ Mk).M.ob_pi]
-  obtain ⟨y1, y2, hy1, hy2, hT'⟩ := (stSt G σ Mk).M.tripleAt_of_lift (c := (stSt G σ Mk).M.pi (stSt G σ Mk).hcls t.2.1) (d1 := p.1) (d2 := p.2)
-    (hrep p.1 hpx) (hrep p.2 hpy) (survDart_not_internal hM σ hS hmk htm hgx (Or.inl hpx))
-    (survDart_not_internal hM σ hS hmk htm hgy (Or.inl hpy)) hpout hpne
-  obtain ⟨q, hq, hq1, hq2, hqT⟩ := liftPair_of_existsMk (σ := σ) (v := (stSt G σ Mk).M.pi (stSt G σ Mk).hcls t.2.1) (p := p) ⟨(y1, y2), hy1, hy2, hT'⟩
-  have hmep : markedEntryPair G σ S ((stSt G σ Mk).M.pi (stSt G σ Mk).hcls t.2.1) = some q := by
-    unfold markedEntryPair; rw [ht]; simp only [Option.bind_some, hp]; exact hq
-  have hno := not_groupAtom_of_markedAtom hM σ hS hatom
-  have h' : ∃ S' ∈ maximalGroups G.molecule, markedAtom G σ S' Mk = some ((stSt G σ Mk).M.pi (stSt G σ Mk).hcls t.2.1) := ⟨S, hS, hatom⟩
-  have hc : h'.choose = S := markedAtom_inj hM σ h'.choose_spec.1 hS h'.choose_spec.2 hatom
-  refine ⟨t, p, ht, htm, ⟨⟨hpx, hpy, hpne, hpout⟩, hgx, hgy⟩, hatom,
+    rw [hz]
+    exact ((stSt G σ Mk).M.ob_pi (stSt G σ Mk).hcls _).symm.trans (congrArg _ hv)
+  obtain ⟨y1, y2, hy1, hy2, hT'⟩ := (stSt G σ Mk).M.tripleAt_of_lift
+    (c := (stSt G σ Mk).M.pi (stSt G σ Mk).hcls t.2.1) (d1 := p.1) (d2 := p.2)
+    (hrep p.1 hpx) (hrep p.2 hpy) (survDart_not_internal hM σ hS hmk ht' hgx (Or.inl hpx))
+    (survDart_not_internal hM σ hS hmk ht' hgy (Or.inl hpy)) hpout hpne
+  obtain ⟨q, hq, hq1, hq2, hqT⟩ := liftPair_of_existsMk (σ := σ)
+    (v := (stSt G σ Mk).M.pi (stSt G σ Mk).hcls t.2.1) (p := p) ⟨(y1, y2), hy1, hy2, hT'⟩
+  have hmep : markedEntryPair G σ h'.choose.2 ((stSt G σ Mk).M.pi (stSt G σ Mk).hcls t.2.1) = some q := by
+    unfold markedEntryPair; rw [hp, Option.bind_some]; exact hq
+  have hno := not_groupAtom_of_markedEntryAt hM σ hS hEt
+  refine ⟨h'.choose.2, p, ht', hv, ⟨⟨hpx, hpy, hpne, hpout⟩, hgx, hgy⟩,
     ⟨q.1, q.2, hqT.1, hqT.2.1, hqT.2.2.1, hqT.2.2.2, σ S⟩, ?_, rfl, hq1, hq2⟩
   unfold gapSpecificationMk
   rw [dite_eq_right hno, dite_eq_left h']
-  simp only [hc]
-  rw [hmep]
-  simp only [dite_eq_left hqT]
+  simp only [hmep, hc, dite_eq_left hqT]
 
-/-- **The indicator factor of a marked group**: the gap kind of the specified survivor pair equals the kind of the
-entry exactly when the designated object of the group has the prescribed kind `σ S`. -/
+/-- **The indicator factor of a survivor**: the gap kind of its specified pair equals the kind of the entry exactly
+when the designated object of the group has the prescribed kind `σ S`. -/
 theorem gapSpecificationMk_marked_indicator_iff {S : Finset (GBranch G.tree)} (hS : S ∈ maximalGroups G.molecule)
-    (hmk : markedGroup G Mk S) {d : ℕ}
+    (hmk : markedGroup G Mk S) {t : Finset (GBranch G.tree) × GBranch G.tree × GBranch G.tree}
+    (ht : t ∈ (markedUnitsOfMK hmk).surv) {d : ℕ}
     (L γ η : ℝ) (w : Mom d) (c : GBranch G.tree → Mom d) (κ : GardenDart G → (Fin d → ℤ))
     (hκ : G.molecule.IsDecoration L w c κ) (hc0 : ∀ v ∈ G.molecule.atoms, G.molecule.deg v = 4 → c v = 0)
     (κsb : GardenDart (stSt G σ Mk).G → (Fin d → ℤ)) (hlab : ∀ y, κsb y = κ ((stSt G σ Mk).M.od y)) :
-    ∃ v O, markedAtom G σ S Mk = some v ∧ designatedObject G S = some O ∧
-      ∃ e : LocalGapSpecification (stSt G σ Mk).G v, gapSpecificationMk G σ Mk v = some e ∧
+    ∃ O, designatedObject G S = some O ∧
+      ∃ e : LocalGapSpecification (stSt G σ Mk).G ((stSt G σ Mk).M.pi (stSt G σ Mk).hcls t.2.1),
+        gapSpecificationMk G σ Mk ((stSt G σ Mk).M.pi (stSt G σ Mk).hcls t.2.1) = some e ∧
         ∀ k, O.HasGapKind L γ η w κ k →
           (Molecule.gapKind L γ η ((w + latticePoint L (κsb e.first)) - (w + latticePoint L (κsb e.second))) = e.kind
             ↔ k = σ S) := by
-  obtain ⟨t, p, -, htm, hsp, hatom, e, he, hk, h1, h2⟩ := gapSpecificationMk_marked hM σ hS hmk
+  obtain ⟨t', p, ht', -, hsp, e, he, hk, h1, h2⟩ := gapSpecificationMk_marked hM σ hS hmk ht
   obtain ⟨a', O, -, hO, -⟩ := designatedObject_spec hS
-  obtain ⟨hvine, hI, -⟩ := (markedUnitsOfMK hmk).surv_spec t htm
-  refine ⟨_, O, hatom, hO, e, he, fun k hOk => ?_⟩
+  obtain ⟨hvine, hI, -⟩ := (markedUnitsOfMK hmk).surv_spec t' ht'
+  refine ⟨O, hO, e, he, fun k hOk => ?_⟩
   have hgap : (w + latticePoint L (κsb e.first)) - (w + latticePoint L (κsb e.second)) =
       Molecule.gapAt L w κ p.1 p.2 := by
     simp only [Molecule.gapAt, Molecule.kvec, hlab, h1, h2]
   rw [hgap, hk, ingredient_pair_gapKind hM L γ η w c κ hκ hc0 hS hI hvine hsp hO hOk]
 
-/-- Every entry of `gapSpecificationMk` belongs to a group: an unmarked group's designated atom or a marked group's
-entry atom. -/
+/-- Every entry of `gapSpecificationMk` belongs to a group: an unmarked group's designated atom or the upper joint of
+a survivor. -/
 theorem gapSpecificationMk_isSome {v : GBranch (stSt G σ Mk).G.tree} (h : (gapSpecificationMk G σ Mk v).isSome) :
     (∃ S ∈ maximalGroups G.molecule, groupAtom G σ S Mk = some v) ∨
-      ∃ S ∈ maximalGroups G.molecule, markedAtom G σ S Mk = some v := by
+      ∃ S t, S ∈ maximalGroups G.molecule ∧ MarkedEntryAt G σ S t v := by
   classical
   by_contra hne
   push Not at hne
   unfold gapSpecificationMk at h
-  rw [dite_eq_right (fun ⟨S, hS, h1⟩ => hne.1 S hS h1), dite_eq_right (fun ⟨S, hS, h1⟩ => hne.2 S hS h1)] at h
+  rw [dite_eq_right (fun ⟨S, hS, h1⟩ => hne.1 S hS h1),
+    dite_eq_right (fun ⟨St, hS, h1⟩ => hne.2 St.1 St.2 hS h1)] at h
   simp at h
 
 end main

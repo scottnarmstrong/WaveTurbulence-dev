@@ -46,8 +46,8 @@ variable {w : ℕ} {G : Garden w}
   classical exact if v ∈ (stSt G σ Mk).hinges then hingeEntryPair G σ S v else internalPair G σ S v
 
 /-- **The gap specification of `G_sb`** (the indicator `Z` of TARGET L1956, L1963), for the marked vine set `Mk`
-(B1a).  B2c (ruling R171, o75 (2.3)): a marked group has its entry at `markedAtom` (the upper joint of its first
-survivor), with the lift of that survivor's pair and the kind `σ S`. -/
+(B1a).  B2c (ruling R171, o75 (2.3)): every survivor `t` of a marked group `S` has an entry at the image of its upper
+joint (`MarkedEntryAt`), with the lift of the chosen pair of `t` there and the kind `σ S`. -/
 @[expose] noncomputable def gapSpecificationMk (G : Garden w) (σ : Prescription G) (Mk : Set (CLVine G))
     (v : GBranch (stSt G σ Mk).G.tree) : Option (LocalGapSpecification (stSt G σ Mk).G v) := by
   classical
@@ -56,10 +56,11 @@ survivor), with the lift of that survivor's pair and the kind `σ S`. -/
       | some p => if hp : TripleAt (stSt G σ Mk).G v p.1 p.2 then
           some ⟨p.1, p.2, hp.1, hp.2.1, hp.2.2.1, hp.2.2.2, σ h.choose⟩ else none
       | none => none)
-  else if h' : ∃ S ∈ maximalGroups G.molecule, markedAtom G σ S Mk = some v then
-    (match markedEntryPair G σ h'.choose v with
+  else if h' : ∃ St : Finset (GBranch G.tree) × (Finset (GBranch G.tree) × GBranch G.tree × GBranch G.tree),
+      St.1 ∈ maximalGroups G.molecule ∧ MarkedEntryAt G σ St.1 St.2 v then
+    (match markedEntryPair G σ h'.choose.2 v with
       | some p => if hp : TripleAt (stSt G σ Mk).G v p.1 p.2 then
-          some ⟨p.1, p.2, hp.1, hp.2.1, hp.2.2.1, hp.2.2.2, σ h'.choose⟩ else none
+          some ⟨p.1, p.2, hp.1, hp.2.1, hp.2.2.1, hp.2.2.2, σ h'.choose.1⟩ else none
       | none => none)
   else none
 

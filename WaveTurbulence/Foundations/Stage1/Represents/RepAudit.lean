@@ -41,7 +41,7 @@ theorem gapSpecification_isSome_iff (hM : G.molecule.IsMolecule) (σ : Prescript
     by_contra hne
     unfold gapSpecification gapSpecificationMk at h
     rw [dite_eq_right_iff.mpr (fun h => absurd h hne)] at h
-    simp [markedAtom_empty] at h
+    simp [MarkedEntryAt, groupSurvMk_empty] at h
   · rintro ⟨S, hS, hv⟩
     obtain ⟨a, ha, e, he, -⟩ := gapSpecification_group hM σ hS
     have hat : groupAtom G σ S = some ((stSt G σ).M.pi (stSt G σ).hcls a) := by

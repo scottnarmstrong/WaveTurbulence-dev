@@ -67,7 +67,8 @@ theorem splicedGapIndicator_eq_selOfMk (hM : G.molecule.IsMolecule) (σ : Prescr
       unfold selOf
       intro S
       by_cases hmk : markedGroup G Mk S.1
-      · obtain ⟨v, O, -, hO, e, he, hind⟩ := gapSpecificationMk_marked_indicator_iff hM σ S.2 hmk L γ η base c _
+      · obtain ⟨t, -, ht⟩ := groupSurvMk_head hmk
+        obtain ⟨O, hO, e, he, hind⟩ := gapSpecificationMk_marked_indicator_iff hM σ S.2 hmk ht L γ η base c _
           hκ hc0 (bondIndex (stSt G σ Mk).G zsb) hlab
         obtain ⟨k, hk, hgk⟩ := exists_groupGapKind_eq (G := G) L γ η base (bondIndex G z) hO
         exact hgk.trans ((hind k hk).mp (hall _ e he))
@@ -77,7 +78,7 @@ theorem splicedGapIndicator_eq_selOfMk (hM : G.molecule.IsMolecule) (σ : Prescr
         exact hgk.trans ((hind k hk).mp (hall _ e he))
     · intro hsel v q hq
       have hsome : (gapSpecificationMk G σ Mk v).isSome := by rw [hq]; rfl
-      rcases gapSpecificationMk_isSome hM σ hsome with ⟨S, hS, hSv⟩ | ⟨S, hS, hSv⟩
+      rcases gapSpecificationMk_isSome hM σ hsome with ⟨S, hS, hSv⟩ | ⟨S, t, hS, hSv⟩
       · obtain ⟨hnm, -, -, -, -⟩ := groupAtom_mem hM σ hSv
         obtain ⟨a, O, ha, hO, e, he, hind⟩ := gapSpecificationMk_indicator_iff hM σ hS hnm L γ η base c _
           hκ hc0 (bondIndex (stSt G σ Mk).G zsb) hlab
@@ -89,11 +90,11 @@ theorem splicedGapIndicator_eq_selOfMk (hM : G.molecule.IsMolecule) (σ : Prescr
         cases hq
         obtain ⟨k, hk, hgk⟩ := exists_groupGapKind_eq (G := G) L γ η base (bondIndex G z) hO
         exact (hind k hk).mpr (hgk.symm.trans (hsel ⟨S, hS⟩))
-      · obtain ⟨hmk, -⟩ := markedAtom_mem hM σ hSv
-        obtain ⟨v', O, hv', hO, e, he, hind⟩ := gapSpecificationMk_marked_indicator_iff hM σ hS hmk L γ η base c _
+      · obtain ⟨hmk, ht, -⟩ := markedEntryAt_mem hM σ hSv
+        obtain ⟨O, hO, e, he, hind⟩ := gapSpecificationMk_marked_indicator_iff hM σ hS hmk ht L γ η base c _
           hκ hc0 (bondIndex (stSt G σ Mk).G zsb) hlab
-        rw [hv'] at hSv
-        cases hSv
+        obtain ⟨-, hvv⟩ := hSv
+        subst hvv
         rw [he] at hq
         cases hq
         obtain ⟨k, hk, hgk⟩ := exists_groupGapKind_eq (G := G) L γ η base (bondIndex G z) hO
