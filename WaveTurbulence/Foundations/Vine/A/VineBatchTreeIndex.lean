@@ -30,14 +30,23 @@ theorem BatchIso.tree_index (h : BatchIso p kind L A B F) (b : GBranch A.skeleto
   | @apply L A B i op J h ih =>
     exact (ih ((operationMolIso op).e b)).trans (operationMolIso_tree_index op b)
 
+/-- B1b-2 (Mk-general form of `BatchIso.unit_upper_tree_index`). -/
+theorem BatchIso.unit_upper_tree_indexMk (h : BatchIso p kind L A B F)
+    (σ : Prescription A.skeleton) {Mk : Set (CLVine A.skeleton)} {Mk' : Set (CLVine B.skeleton)}
+    (hT : Stage1Mk.MarkTransported F Mk Mk') (hA : IsV0Fam A.family σ Mk) (u : CLBlock A.skeleton)
+    (hu : u ∈ unitBlocks A.skeleton σ Mk) :
+    ∃ v ∈ unitBlocks B.skeleton (transportPrescription F σ) Mk',
+      v.atoms = F.img u.atoms ∧ v.upper = F.e u.upper ∧ v.lower = F.e u.lower ∧
+        v.upper.1.1 = u.upper.1.1 := by
+  obtain ⟨v, hv, ha, htop, hbottom⟩ := h.units_jointsMk σ hT hA hu
+  exact ⟨v, hv, ha, htop, hbottom, (congrArg (fun b => b.1.1) htop).trans (h.tree_index u.upper)⟩
+
 /-- The actual matching target unit has the source unit's upper-joint tree index (R-IDX). -/
 theorem BatchIso.unit_upper_tree_index (h : BatchIso p kind L A B F)
     (σ : Prescription A.skeleton) (hA : IsV0Fam A.family σ) (u : CLBlock A.skeleton)
     (hu : u ∈ unitBlocks A.skeleton σ) :
     ∃ v ∈ unitBlocks B.skeleton (transportPrescription F σ),
       v.atoms = F.img u.atoms ∧ v.upper = F.e u.upper ∧ v.lower = F.e u.lower ∧
-        v.upper.1.1 = u.upper.1.1 := by
-  obtain ⟨v, hv, ha, htop, hbottom⟩ := h.units_joints σ hA hu
-  exact ⟨v, hv, ha, htop, hbottom, (congrArg (fun b => b.1.1) htop).trans (h.tree_index u.upper)⟩
+        v.upper.1.1 = u.upper.1.1 := h.unit_upper_tree_indexMk σ (Stage1Mk.markTransported_empty F) hA u hu
 
 end WaveTurbulence.VineA

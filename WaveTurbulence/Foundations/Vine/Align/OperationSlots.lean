@@ -35,30 +35,53 @@ theorem shape_branch_prescription_cast {S : Garden w} {τ σ : Prescription S} (
     (e : (stSt S σ).G = (stSt S τ).G) (b : GBranch (stSt S σ).G.tree) :
     (stSt S τ).M.ob (gardenBranchCast e b) = (stSt S σ).M.ob b := shape_branch_prescription_castMk (Mk := ∅) he e b
 
+/-- B1b-3 (Mk-general form of `operation_leaf_cast`). -/
+theorem operation_leaf_castMk {Mk : Set (CLVine A.skeleton)} (hA : IsV0Fam A.family σ Mk)
+    (op : FamilyOperation (p := p) (kind := kind) A i)
+    {Mk' : Set (CLVine op.output.skeleton)} (hT : Stage1Mk.MarkTransported (operationMolIso op) Mk Mk')
+    (l : GLeaf (stSt A.skeleton σ Mk).G.tree) :
+    (stShape (Mole.garden_isMolecule op.output.skeleton) (transportPrescription (operationMolIso op) σ) Mk').leaf
+      (leafCast (operation_splice_garden_eqMk hA op hT).symm l) =
+    chosenLeafEquiv A.skeleton (A.family.placement i) op.choice
+      ((stShape (Mole.garden_isMolecule A.skeleton) σ Mk).leaf l) := by
+  cases op with
+  | mk hc he ht hq ε C =>
+    cases ε
+    · obtain rfl : Mk = Mk' := Stage1Mk.markTransported_refl_eq hT
+      change (stShape _ (transportPrescription (molIsoRefl _) σ) Mk).leaf _ = _
+      exact shape_leaf_prescription_castMk (transportPrescription_refl σ) _ l
+    · exact unit_leaf_castMk (selectedMemberSite hA i) σ hT ⟨familyVine A.family i, hA.1 i, rfl⟩ l
+
 theorem operation_leaf_cast (hA : IsV0Fam A.family σ)
     (op : FamilyOperation (p := p) (kind := kind) A i) (l : GLeaf (stSt A.skeleton σ).G.tree) :
     (stShape (Mole.garden_isMolecule op.output.skeleton) (transportPrescription (operationMolIso op) σ)).leaf
       (leafCast (operation_splice_garden_eq hA op).symm l) =
     chosenLeafEquiv A.skeleton (A.family.placement i) op.choice
-      ((stShape (Mole.garden_isMolecule A.skeleton) σ).leaf l) := by
+      ((stShape (Mole.garden_isMolecule A.skeleton) σ).leaf l) :=
+  operation_leaf_castMk hA op (Stage1Mk.markTransported_empty _) l
+
+/-- B1b-3 (Mk-general form of `operation_branch_cast`). -/
+theorem operation_branch_castMk {Mk : Set (CLVine A.skeleton)} (hA : IsV0Fam A.family σ Mk)
+    (op : FamilyOperation (p := p) (kind := kind) A i)
+    {Mk' : Set (CLVine op.output.skeleton)} (hT : Stage1Mk.MarkTransported (operationMolIso op) Mk Mk')
+    (b : GBranch (stSt A.skeleton σ Mk).G.tree) :
+    (stSt op.output.skeleton (transportPrescription (operationMolIso op) σ) Mk').M.ob
+      (gardenBranchCast (operation_splice_garden_eqMk hA op hT).symm b) =
+    chosenBranchEquiv A.skeleton (A.family.placement i) op.choice ((stSt A.skeleton σ Mk).M.ob b) := by
   cases op with
   | mk hc he ht hq ε C =>
     cases ε
-    · change (stShape _ (transportPrescription (molIsoRefl _) σ)).leaf _ = _
-      exact shape_leaf_prescription_cast (transportPrescription_refl σ) _ l
-    · exact unit_leaf_cast (selectedMemberSite hA i) σ ⟨familyVine A.family i, hA.1 i, rfl⟩ l
+    · obtain rfl : Mk = Mk' := Stage1Mk.markTransported_refl_eq hT
+      change (stSt _ (transportPrescription (molIsoRefl _) σ) Mk).M.ob _ = _
+      exact shape_branch_prescription_castMk (transportPrescription_refl σ) _ b
+    · exact unit_branch_castMk (selectedMemberSite hA i) σ hT ⟨familyVine A.family i, hA.1 i, rfl⟩ b
 
 theorem operation_branch_cast (hA : IsV0Fam A.family σ)
     (op : FamilyOperation (p := p) (kind := kind) A i) (b : GBranch (stSt A.skeleton σ).G.tree) :
     (stSt op.output.skeleton (transportPrescription (operationMolIso op) σ)).M.ob
       (gardenBranchCast (operation_splice_garden_eq hA op).symm b) =
-    chosenBranchEquiv A.skeleton (A.family.placement i) op.choice ((stSt A.skeleton σ).M.ob b) := by
-  cases op with
-  | mk hc he ht hq ε C =>
-    cases ε
-    · change (stSt _ (transportPrescription (molIsoRefl _) σ)).M.ob _ = _
-      exact shape_branch_prescription_cast (transportPrescription_refl σ) _ b
-    · exact unit_branch_cast (selectedMemberSite hA i) σ ⟨familyVine A.family i, hA.1 i, rfl⟩ b
+    chosenBranchEquiv A.skeleton (A.family.placement i) op.choice ((stSt A.skeleton σ).M.ob b) :=
+  operation_branch_castMk hA op (Stage1Mk.markTransported_empty _) b
 
 variable {G H : Garden w}
 def pairCast (e : G = H) (q : SourcePair G) : SourcePair H := e ▸ q
@@ -69,23 +92,35 @@ theorem slotCast_pair (e : G = H) (q : SourcePair G) :
 theorem pairCast_first (e : G = H) (hG : G.IsPlain) (hH : H.IsPlain) (q : SourcePair G) :
     (pairCast e q).firstLeaf hH = leafCast e (q.firstLeaf hG) := by subst H; rfl
 
+/-- B1b-3 (Mk-general form of `operation_iota`). -/
+theorem operation_iotaMk {Mk : Set (CLVine A.skeleton)} (hA : IsV0Fam A.family σ Mk)
+    (op : FamilyOperation (p := p) (kind := kind) A i)
+    {Mk' : Set (CLVine op.output.skeleton)} (hT : Stage1Mk.MarkTransported (operationMolIso op) Mk Mk')
+    (s : ReplacementSlot (stSt A.skeleton σ Mk).G) :
+    (stShape (Mole.garden_isMolecule op.output.skeleton) (transportPrescription (operationMolIso op) σ) Mk').iota
+      op.output.plain ((stSt _ _ Mk').plain op.output.plain)
+      (slotCast (operation_splice_garden_eqMk hA op hT).symm s) =
+    operationSlotMap op
+      ((stShape (Mole.garden_isMolecule A.skeleton) σ Mk).iota A.plain ((stSt _ _ Mk).plain A.plain) s) := by
+  cases s with
+  | inl q =>
+    rw [slotCast_pair]
+    simp only [SpliceShape.iota, operationSlotMap]
+    rw [pairCast_first _ ((stSt _ _ Mk).plain A.plain), operation_leaf_castMk hA op hT]
+    exact congrArg Sum.inl (sourcePairEquiv_pairOfLeaf A.plain op.output.plain
+      (chosenLeafEquiv A.skeleton (A.family.placement i) op.choice)
+      (chosenLeafEquiv_pair _ _ _) _).symm
+  | inr b =>
+    rw [slotCast_inr]
+    exact congrArg Sum.inr (operation_branch_castMk hA op hT b)
+
 /-- The actual slot embeddings commute, with the literal garden equality cast. -/
 theorem operation_iota (hA : IsV0Fam A.family σ)
     (op : FamilyOperation (p := p) (kind := kind) A i) (s : ReplacementSlot (stSt A.skeleton σ).G) :
     (stShape (Mole.garden_isMolecule op.output.skeleton) (transportPrescription (operationMolIso op) σ)).iota
       op.output.plain ((stSt _ _).plain op.output.plain)
       (slotCast (operation_splice_garden_eq hA op).symm s) =
-    operationSlotMap op ((stShape (Mole.garden_isMolecule A.skeleton) σ).iota A.plain ((stSt _ _).plain A.plain) s) := by
-  cases s with
-  | inl q =>
-    rw [slotCast_pair]
-    simp only [SpliceShape.iota, operationSlotMap]
-    rw [pairCast_first _ ((stSt _ _).plain A.plain), operation_leaf_cast hA op]
-    exact congrArg Sum.inl (sourcePairEquiv_pairOfLeaf A.plain op.output.plain
-      (chosenLeafEquiv A.skeleton (A.family.placement i) op.choice)
-      (chosenLeafEquiv_pair _ _ _) _).symm
-  | inr b =>
-    rw [slotCast_inr]
-    exact congrArg Sum.inr (operation_branch_cast hA op b)
+    operationSlotMap op ((stShape (Mole.garden_isMolecule A.skeleton) σ).iota A.plain ((stSt _ _).plain A.plain) s) :=
+  operation_iotaMk hA op (Stage1Mk.markTransported_empty _) s
 
 end WaveTurbulence.VineAlign

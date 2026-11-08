@@ -44,23 +44,39 @@ theorem BatchIso.contributingGroups_perm (h : BatchIso p kind L A B F) (σ : Pre
     have hso : HasObj A.skeleton S := (h.hasObj σ hA hs hσ).mp (by rw [he]; exact ho)
     exact List.mem_map.mpr ⟨S, (mem_contributingGroups σ S).mpr ⟨hs, hσ, hso⟩, he⟩
 
+/-- B1b-2 (Mk-general form of `BatchIso.splice_repC`). -/
+theorem BatchIso.splice_repCMk (h : BatchIso p kind L A B F) (σ : Prescription A.skeleton)
+    {Mk : Set (CLVine A.skeleton)} {Mk' : Set (CLVine B.skeleton)}
+    (hT : Stage1Mk.MarkTransported F Mk Mk') (hA : IsV0Fam A.family σ Mk) (z : GBranch A.skeleton.tree) :
+    repC (stSt B.skeleton (transportPrescription F σ) Mk').cls (F.e z) =
+      F.e (repC (stSt A.skeleton σ Mk).cls z) := by
+  unfold repC
+  rw [h.splice_classesMk σ hT hA z]
+  cases (stSt A.skeleton σ Mk).cls z <;> rfl
+
 /-- The actual representative map commutes with the actual batch atom map. -/
 theorem BatchIso.splice_repC (h : BatchIso p kind L A B F) (σ : Prescription A.skeleton)
     (hA : IsV0Fam A.family σ) (z : GBranch A.skeleton.tree) :
     repC (stSt B.skeleton (transportPrescription F σ)).cls (F.e z) =
-      F.e (repC (stSt A.skeleton σ).cls z) := by
-  unfold repC
-  rw [h.splice_classes σ hA z]
-  cases (stSt A.skeleton σ).cls z <;> rfl
+      F.e (repC (stSt A.skeleton σ).cls z) := h.splice_repCMk σ (Stage1Mk.markTransported_empty F) hA z
+
+/-- B1b-2 (Mk-general form of `BatchIso.splice_pi`). -/
+theorem BatchIso.splice_piMk (h : BatchIso p kind L A B F) (σ : Prescription A.skeleton)
+    {Mk : Set (CLVine A.skeleton)} {Mk' : Set (CLVine B.skeleton)}
+    (hT : Stage1Mk.MarkTransported F Mk Mk') (hA : IsV0Fam A.family σ Mk) (z : GBranch A.skeleton.tree) :
+    (h.spliceMolIsoMk σ hT hA).e ((stSt A.skeleton σ Mk).M.pi (stSt A.skeleton σ Mk).hcls z) =
+      (stSt B.skeleton (transportPrescription F σ) Mk').M.pi
+        (stSt B.skeleton (transportPrescription F σ) Mk').hcls (F.e z) := by
+  apply (stSt B.skeleton (transportPrescription F σ) Mk').M.ob_inj
+  rw [h.spliceMolIso_branch_namesMk σ hT hA, SpMap.ob_pi, SpMap.ob_pi, h.splice_repCMk σ hT hA z]
 
 /-- Actual group quotient images commute with the actual full batch splice map. -/
 theorem BatchIso.splice_pi (h : BatchIso p kind L A B F) (σ : Prescription A.skeleton)
     (hA : IsV0Fam A.family σ) (z : GBranch A.skeleton.tree) :
     (h.spliceMolIso σ hA).e ((stSt A.skeleton σ).M.pi (stSt A.skeleton σ).hcls z) =
       (stSt B.skeleton (transportPrescription F σ)).M.pi
-        (stSt B.skeleton (transportPrescription F σ)).hcls (F.e z) := by
-  apply (stSt B.skeleton (transportPrescription F σ)).M.ob_inj
-  rw [h.spliceMolIso_branch_names σ hA, SpMap.ob_pi, SpMap.ob_pi, h.splice_repC σ hA z]
+        (stSt B.skeleton (transportPrescription F σ)).hcls (F.e z) :=
+  h.splice_piMk σ (Stage1Mk.markTransported_empty F) hA z
 
 /-- The entire actual collection support list is invariant through the actual splice map. -/
 theorem BatchIso.objects_atoms_perm (h : BatchIso p kind L A B F) (σ : Prescription A.skeleton)

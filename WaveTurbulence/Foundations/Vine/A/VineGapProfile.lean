@@ -41,6 +41,69 @@ theorem GapProfile.eq_of_cast {P Q : GapProfile w} (h : Q.garden = P.garden)
   funext d L γ η hL base roots z
   exact hv d L γ η hL base roots z
 
+/-- B1b-3: B2c's dart-label gap identity at every garden of width `w`, prescription and marking (needed along
+batches, whose intermediate markings are arbitrary). -/
+def GapValueSelDartsMk (w : ℕ) : Prop :=
+  ∀ (H : Garden w) (τ : Prescription H) (M : Set (CLVine H)), NormalizedSplice.GapValueSelDartsAt H τ M
+
+/-- B1b-3 (Mk-general form of `gapProfile`). -/
+noncomputable def gapProfileMk (G : Garden w) (σ : Prescription G) (Mk : Set (CLVine G)) : GapProfile w :=
+  ⟨(stSt G σ Mk).G, fun _ L γ η _ base _ z => NormalizedSplice.gapValueMk G σ Mk L γ η base z.1⟩
+
+/-- B1b-3 (Mk-general form of `gapProfile_twist`). -/
+theorem gapProfile_twistMk (Z : TwistGroupSite G) (σ : Prescription G)
+    {Mk : Set (CLVine G)} {Mk' : Set (CLVine Z.target)} (hT : Stage1Mk.MarkTransported Z.iso Mk Mk')
+    (hsel : ∃ c ∈ vinesV0 G σ Mk, c.atoms = Z.S0) (hH : Z.target.IsPlain)
+    (hgS : NormalizedSplice.GapValueSelDartsAt G σ Mk)
+    (hgT : NormalizedSplice.GapValueSelDartsAt Z.target (transportPrescription Z.iso σ) Mk') :
+    gapProfileMk Z.target (transportPrescription Z.iso σ) Mk' = gapProfileMk G σ Mk := by
+  apply GapProfile.eq_of_cast (unitSplice_garden_eqMk Z σ hT hsel)
+  intro d L γ η hL base roots z
+  change GenDecoration (stSt Z.target (transportPrescription Z.iso σ) Mk').G d roots 0 at z
+  change NormalizedSplice.gapValueMk Z.target _ Mk' L γ η base z.1 =
+    NormalizedSplice.gapValueMk G σ Mk L γ η base (gardenGenCast (unitSplice_garden_eqMk Z σ hT hsel) z).1
+  refine (NormalizedSplice.unitSplice_actual_gapValueMk Z σ hT hsel hH hgS hgT hL γ η base roots z).symm.trans ?_
+  apply congrArg (NormalizedSplice.gapValueMk G σ Mk L γ η base)
+  funext n
+  have he : unitSpliceNodeEquivMk Z σ hT hsel n = gardenNodeCast (unitSplice_garden_eqMk Z σ hT hsel).symm n :=
+    Subtype.ext ((unitSpliceNodeEquiv_addressMk Z σ hT hsel n).trans (gardenNodeCast_val _ n).symm)
+  exact (congrArg z.1 he).trans (gardenGenCast_val (unitSplice_garden_eqMk Z σ hT hsel) z n).symm
+
+/-- B1b-3 (Mk-general form of `operation_gapProfile`). -/
+theorem operation_gapProfileMk {p : ℕ} {kind : Bool} {ι : Type*} {A : FamilyReconstruction w ι} {i : ι}
+    {σ : Prescription A.skeleton} {Mk : Set (CLVine A.skeleton)} (hA : IsV0Fam A.family σ Mk)
+    (op : FamilyOperation (p := p) (kind := kind) A i)
+    {Mk' : Set (CLVine op.output.skeleton)} (hT : Stage1Mk.MarkTransported (operationMolIso op) Mk Mk')
+    (hgS : NormalizedSplice.GapValueSelDartsAt A.skeleton σ Mk)
+    (hgT : NormalizedSplice.GapValueSelDartsAt op.output.skeleton (transportPrescription (operationMolIso op) σ) Mk') :
+    gapProfileMk op.output.skeleton (transportPrescription (operationMolIso op) σ) Mk' = gapProfileMk A.skeleton σ Mk := by
+  have hp := op.output.plain
+  cases op with
+  | mk hc he ht hq ε C =>
+    cases ε
+    · obtain rfl : Mk = Mk' := Stage1Mk.markTransported_refl_eq hT
+      exact congrArg (fun τ => gapProfileMk A.skeleton τ Mk) (transportPrescription_refl σ)
+    · exact gapProfile_twistMk (selectedMemberSite hA i) σ hT ⟨familyVine A.family i, hA.1 i, rfl⟩ hp hgS hgT
+
+/-- B1b-3 (Mk-general form of `BatchIso.gapProfile`): the gap profile at markings carried by the batch, given B2c's
+dart-label gap identity everywhere (`GapValueSelDartsMk w`). -/
+theorem BatchIso.gapProfileMk {p : ℕ} {kind : Bool} {ι : Type*} {L : List ι}
+    {A B : FamilyReconstruction w ι} {F : MolIso A.skeleton.molecule B.skeleton.molecule}
+    (h : BatchIso p kind L A B F) (σ : Prescription A.skeleton) {Mk : Set (CLVine A.skeleton)}
+    {Mk' : Set (CLVine B.skeleton)} (hT : Stage1Mk.MarkTransported F Mk Mk') (hA : IsV0Fam A.family σ Mk)
+    (hg : GapValueSelDartsMk w) :
+    VineA.gapProfileMk B.skeleton (transportPrescription F σ) Mk' = VineA.gapProfileMk A.skeleton σ Mk := by
+  induction h with
+  | nil =>
+    obtain rfl := Stage1Mk.markTransported_refl_eq hT
+    exact congrArg (fun τ => VineA.gapProfileMk _ τ Mk) (transportPrescription_refl σ)
+  | skip _ _ ih => exact ih σ hT hA
+  | @apply L A B i op F h ih =>
+    obtain ⟨h1, h2⟩ := Stage1Mk.markTransported_split (operationMolIso op) F hT
+    have hb := ih _ h2 (isV0Fam_operationMk hA op h1)
+    rw [transportPrescription_trans] at hb
+    exact hb.trans (operation_gapProfileMk hA op h1 (hg _ _ _) (hg _ _ _))
+
 /-- The actual independently constructed successor gap profile. -/
 noncomputable def gapProfile (G : Garden w) (σ : Prescription G) : GapProfile w :=
   ⟨(stSt G σ).G, fun _ L γ η _ base _ z => NormalizedSplice.gapValue G σ L γ η base z.1⟩
@@ -48,30 +111,17 @@ noncomputable def gapProfile (G : Garden w) (σ : Prescription G) : GapProfile w
 /-- The entire actual gap profile is constant under a selected unit LF twist. -/
 theorem gapProfile_twist (Z : TwistGroupSite G) (σ : Prescription G)
     (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) (hH : Z.target.IsPlain) :
-    gapProfile Z.target (transportPrescription Z.iso σ) = gapProfile G σ := by
-  apply GapProfile.eq_of_cast (unitSplice_garden_eq Z σ hsel)
-  intro d L γ η hL base roots z
-  change GenDecoration (stSt Z.target (transportPrescription Z.iso σ)).G d roots 0 at z
-  change NormalizedSplice.gapValue Z.target _ L γ η base z.1 =
-    NormalizedSplice.gapValue G σ L γ η base (gardenGenCast (unitSplice_garden_eq Z σ hsel) z).1
-  refine (NormalizedSplice.unitSplice_actual_gapValue Z σ hsel hH hL γ η base roots z).symm.trans ?_
-  apply congrArg (NormalizedSplice.gapValue G σ L γ η base)
-  funext n
-  have he : unitSpliceNodeEquiv Z σ hsel n = gardenNodeCast (unitSplice_garden_eq Z σ hsel).symm n :=
-    Subtype.ext ((unitSpliceNodeEquiv_address Z σ hsel n).trans (gardenNodeCast_val _ n).symm)
-  exact (congrArg z.1 he).trans (gardenGenCast_val (unitSplice_garden_eq Z σ hsel) z n).symm
+    gapProfile Z.target (transportPrescription Z.iso σ) = gapProfile G σ :=
+  gapProfile_twistMk Z σ (Stage1Mk.markTransported_empty Z.iso) hsel hH
+    (NormalizedSplice.gapValueSelDartsAt_empty G σ) (NormalizedSplice.gapValueSelDartsAt_empty Z.target _)
 
 /-- Both actual operation choices preserve the constructed gap profile. -/
 theorem operation_gapProfile {p : ℕ} {kind : Bool} {ι : Type*} {A : FamilyReconstruction w ι} {i : ι}
     {σ : Prescription A.skeleton} (hA : IsV0Fam A.family σ)
     (op : FamilyOperation (p := p) (kind := kind) A i) :
-    gapProfile op.output.skeleton (transportPrescription (operationMolIso op) σ) = gapProfile A.skeleton σ := by
-  have hp := op.output.plain
-  cases op with
-  | mk hc he ht hq ε C =>
-    cases ε
-    · exact congrArg (gapProfile A.skeleton) (transportPrescription_refl σ)
-    · exact gapProfile_twist (selectedMemberSite hA i) σ ⟨familyVine A.family i, hA.1 i, rfl⟩ hp
+    gapProfile op.output.skeleton (transportPrescription (operationMolIso op) σ) = gapProfile A.skeleton σ :=
+  operation_gapProfileMk hA op (Stage1Mk.markTransported_empty _)
+    (NormalizedSplice.gapValueSelDartsAt_empty _ σ) (NormalizedSplice.gapValueSelDartsAt_empty _ _)
 
 /-- Every actual fine batch preserves the complete independently chosen gap product. -/
 theorem BatchIso.gapProfile {p : ℕ} {kind : Bool} {ι : Type*} {L : List ι}

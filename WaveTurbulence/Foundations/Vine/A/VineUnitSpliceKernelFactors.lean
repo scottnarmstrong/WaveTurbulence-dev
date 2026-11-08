@@ -18,6 +18,19 @@ theorem molIso_mem_bonds_iff (F : MolIso G.molecule H.molecule) (x : GardenDart 
     x ∈ Finset.univ.filter (fun y => G.molecule.out y = true)
   simp only [Finset.mem_filter, Finset.mem_univ, true_and, F.out_comm]
 
+/-- B1b-2 (Mk-general form of `unitSplice_edgeAmplitude`). -/
+theorem unitSplice_edgeAmplitudeMk (Z : TwistGroupSite G) (σ : Prescription G)
+    {Mk : Set (CLVine G)} {Mk' : Set (CLVine Z.target)} (hT : Stage1Mk.MarkTransported Z.iso Mk Mk')
+    (hsel : ∃ c ∈ vinesV0 G σ Mk, c.atoms = Z.S0) (D : SplicedKernelData (stSt G σ Mk).G d)
+    (L : ℝ) (base : Mom d) (z : GNode (stSt Z.target (transportPrescription Z.iso σ) Mk').G.tree → (Fin d → ℤ))
+    (x : GardenDart (stSt G σ Mk).G) :
+    (mapSplicedKernelData (unitSpliceMolIsoMk Z σ hT hsel) D).edgeAmplitude ((unitSpliceMolIsoMk Z σ hT hsel).d x)
+      (base + latticePoint L (bondIndex (stSt Z.target (transportPrescription Z.iso σ) Mk').G z ((unitSpliceMolIsoMk Z σ hT hsel).d x))) =
+    D.edgeAmplitude x (base + latticePoint L (bondIndex (stSt G σ Mk).G (z ∘ unitSpliceNodeEquivMk Z σ hT hsel) x)) := by
+  change D.edgeAmplitude ((unitSpliceMolIsoMk Z σ hT hsel).d.symm ((unitSpliceMolIsoMk Z σ hT hsel).d x)) _ = _
+  rw [Equiv.symm_apply_apply]
+  exact congrArg (fun r => D.edgeAmplitude x (base + latticePoint L r)) (unitSplice_bondIndexMk Z σ hT hsel z x).symm
+
 /-- Every transported actual edge amplitude has exactly its original momentum argument. -/
 theorem unitSplice_edgeAmplitude (Z : TwistGroupSite G) (σ : Prescription G)
     (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) (D : SplicedKernelData (stSt G σ).G d)
@@ -25,10 +38,25 @@ theorem unitSplice_edgeAmplitude (Z : TwistGroupSite G) (σ : Prescription G)
     (x : GardenDart (stSt G σ).G) :
     (mapSplicedKernelData (unitSpliceMolIso Z σ hsel) D).edgeAmplitude ((unitSpliceMolIso Z σ hsel).d x)
       (base + latticePoint L (bondIndex (stSt Z.target (transportPrescription Z.iso σ)).G z ((unitSpliceMolIso Z σ hsel).d x))) =
-    D.edgeAmplitude x (base + latticePoint L (bondIndex (stSt G σ).G (z ∘ unitSpliceNodeEquiv Z σ hsel) x)) := by
-  change D.edgeAmplitude ((unitSpliceMolIso Z σ hsel).d.symm ((unitSpliceMolIso Z σ hsel).d x)) _ = _
-  rw [Equiv.symm_apply_apply]
-  exact congrArg (fun r => D.edgeAmplitude x (base + latticePoint L r)) (unitSplice_bondIndex Z σ hsel z x).symm
+    D.edgeAmplitude x (base + latticePoint L (bondIndex (stSt G σ).G (z ∘ unitSpliceNodeEquiv Z σ hsel) x)) :=
+  unitSplice_edgeAmplitudeMk Z σ (Stage1Mk.markTransported_empty Z.iso) hsel D L base z x
+
+/-- B1b-2 (Mk-general form of `unitSplice_edgeAmplitude_product`). -/
+theorem unitSplice_edgeAmplitude_productMk (Z : TwistGroupSite G) (σ : Prescription G)
+    {Mk : Set (CLVine G)} {Mk' : Set (CLVine Z.target)} (hT : Stage1Mk.MarkTransported Z.iso Mk Mk')
+    (hsel : ∃ c ∈ vinesV0 G σ Mk, c.atoms = Z.S0) (D : SplicedKernelData (stSt G σ Mk).G d)
+    (L : ℝ) (base : Mom d) (z : GNode (stSt Z.target (transportPrescription Z.iso σ) Mk').G.tree → (Fin d → ℤ)) :
+    (∏ x ∈ (stSt G σ Mk).G.molecule.bonds,
+      D.edgeAmplitude x (base + latticePoint L (bondIndex (stSt G σ Mk).G (z ∘ unitSpliceNodeEquivMk Z σ hT hsel) x))) =
+    ∏ x ∈ (stSt Z.target (transportPrescription Z.iso σ) Mk').G.molecule.bonds,
+      (mapSplicedKernelData (unitSpliceMolIsoMk Z σ hT hsel) D).edgeAmplitude x
+        (base + latticePoint L (bondIndex (stSt Z.target (transportPrescription Z.iso σ) Mk').G z x)) := by
+  let F := unitSpliceMolIsoMk Z σ hT hsel
+  refine Finset.prod_bij (fun x _ => F.d x) (fun x hx => (molIso_mem_bonds_iff F x).mpr hx)
+    (fun x _ y _ h => F.d.injective h) ?_ (fun x _ => (unitSplice_edgeAmplitudeMk Z σ hT hsel D L base z x).symm)
+  intro y hy
+  refine ⟨F.d.symm y, (molIso_mem_bonds_iff F _).mp ?_, F.d.apply_symm_apply y⟩
+  simpa only [Equiv.apply_symm_apply] using hy
 
 /-- The entire product over actual outgoing bond representatives is invariant. -/
 theorem unitSplice_edgeAmplitude_product (Z : TwistGroupSite G) (σ : Prescription G)
@@ -38,13 +66,20 @@ theorem unitSplice_edgeAmplitude_product (Z : TwistGroupSite G) (σ : Prescripti
       D.edgeAmplitude x (base + latticePoint L (bondIndex (stSt G σ).G (z ∘ unitSpliceNodeEquiv Z σ hsel) x))) =
     ∏ x ∈ (stSt Z.target (transportPrescription Z.iso σ)).G.molecule.bonds,
       (mapSplicedKernelData (unitSpliceMolIso Z σ hsel) D).edgeAmplitude x
-        (base + latticePoint L (bondIndex (stSt Z.target (transportPrescription Z.iso σ)).G z x)) := by
-  let F := unitSpliceMolIso Z σ hsel
-  refine Finset.prod_bij (fun x _ => F.d x) (fun x hx => (molIso_mem_bonds_iff F x).mpr hx)
-    (fun x _ y _ h => F.d.injective h) ?_ (fun x _ => (unitSplice_edgeAmplitude Z σ hsel D L base z x).symm)
-  intro y hy
-  refine ⟨F.d.symm y, (molIso_mem_bonds_iff F _).mp ?_, F.d.apply_symm_apply y⟩
-  simpa only [Equiv.apply_symm_apply] using hy
+        (base + latticePoint L (bondIndex (stSt Z.target (transportPrescription Z.iso σ)).G z x)) :=
+  unitSplice_edgeAmplitude_productMk Z σ (Stage1Mk.markTransported_empty Z.iso) hsel D L base z
+
+/-- B1b-2 (Mk-general form of `unitSplice_hingeAmplitude`). -/
+theorem unitSplice_hingeAmplitudeMk (Z : TwistGroupSite G) (σ : Prescription G)
+    {Mk : Set (CLVine G)} {Mk' : Set (CLVine Z.target)} (hT : Stage1Mk.MarkTransported Z.iso Mk Mk')
+    (hsel : ∃ c ∈ vinesV0 G σ Mk, c.atoms = Z.S0) (D : SplicedKernelData (stSt G σ Mk).G d)
+    (L : ℝ) (base : Mom d) (z : GNode (stSt Z.target (transportPrescription Z.iso σ) Mk').G.tree → (Fin d → ℤ)) :
+    (mapSplicedKernelData (unitSpliceMolIsoMk Z σ hT hsel) D).hingeAmplitude
+      (fun x => base + latticePoint L (bondIndex (stSt Z.target (transportPrescription Z.iso σ) Mk').G z x.1)) =
+    D.hingeAmplitude (fun x => base + latticePoint L (bondIndex (stSt G σ Mk).G (z ∘ unitSpliceNodeEquivMk Z σ hT hsel) x.1)) := by
+  apply congrArg D.hingeAmplitude
+  funext x
+  exact congrArg (fun r => base + latticePoint L r) (unitSplice_bondIndexMk Z σ hT hsel z x.1).symm
 
 /-- The exact full hinge-amplitude argument is transported, without any regularity premise. -/
 theorem unitSplice_hingeAmplitude (Z : TwistGroupSite G) (σ : Prescription G)
@@ -52,20 +87,19 @@ theorem unitSplice_hingeAmplitude (Z : TwistGroupSite G) (σ : Prescription G)
     (L : ℝ) (base : Mom d) (z : GNode (stSt Z.target (transportPrescription Z.iso σ)).G.tree → (Fin d → ℤ)) :
     (mapSplicedKernelData (unitSpliceMolIso Z σ hsel) D).hingeAmplitude
       (fun x => base + latticePoint L (bondIndex (stSt Z.target (transportPrescription Z.iso σ)).G z x.1)) =
-    D.hingeAmplitude (fun x => base + latticePoint L (bondIndex (stSt G σ).G (z ∘ unitSpliceNodeEquiv Z σ hsel) x.1)) := by
-  apply congrArg D.hingeAmplitude
-  funext x
-  exact congrArg (fun r => base + latticePoint L r) (unitSplice_bondIndex Z σ hsel z x.1).symm
+    D.hingeAmplitude (fun x => base + latticePoint L (bondIndex (stSt G σ).G (z ∘ unitSpliceNodeEquiv Z σ hsel) x.1)) :=
+  unitSplice_hingeAmplitudeMk Z σ (Stage1Mk.markTransported_empty Z.iso) hsel D L base z
 
-/-- The complete literal local-gap indicator is invariant under actual data and coordinate transport. -/
-theorem unitSplice_splicedGapIndicator (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) (D : SplicedKernelData (stSt G σ).G d)
-    (L γ η : ℝ) (base : Mom d) (z : GNode (stSt Z.target (transportPrescription Z.iso σ)).G.tree → (Fin d → ℤ)) :
-    splicedGapIndicator (stSt G σ).G D L γ η base (z ∘ unitSpliceNodeEquiv Z σ hsel) =
-      splicedGapIndicator (stSt Z.target (transportPrescription Z.iso σ)).G
-        (mapSplicedKernelData (unitSpliceMolIso Z σ hsel) D) L γ η base z := by
+/-- B1b-2 (Mk-general form of `unitSplice_splicedGapIndicator`). -/
+theorem unitSplice_splicedGapIndicatorMk (Z : TwistGroupSite G) (σ : Prescription G)
+    {Mk : Set (CLVine G)} {Mk' : Set (CLVine Z.target)} (hT : Stage1Mk.MarkTransported Z.iso Mk Mk')
+    (hsel : ∃ c ∈ vinesV0 G σ Mk, c.atoms = Z.S0) (D : SplicedKernelData (stSt G σ Mk).G d)
+    (L γ η : ℝ) (base : Mom d) (z : GNode (stSt Z.target (transportPrescription Z.iso σ) Mk').G.tree → (Fin d → ℤ)) :
+    splicedGapIndicator (stSt G σ Mk).G D L γ η base (z ∘ unitSpliceNodeEquivMk Z σ hT hsel) =
+      splicedGapIndicator (stSt Z.target (transportPrescription Z.iso σ) Mk').G
+        (mapSplicedKernelData (unitSpliceMolIsoMk Z σ hT hsel) D) L γ η base z := by
   classical
-  let F := unitSpliceMolIso Z σ hsel
+  let F := unitSpliceMolIsoMk Z σ hT hsel
   unfold splicedGapIndicator
   conv_lhs => rw [← F.e.symm.prod_comp]
   apply Finset.prod_congr rfl
@@ -77,6 +111,15 @@ theorem unitSplice_splicedGapIndicator (Z : TwistGroupSite G) (σ : Prescription
   | some q =>
     simp only [F] at hq
     simp only [F, mapSplicedKernelData, hq, Option.map_some, mapLocalGapSpecification]
-    rw [unitSplice_bondIndex, unitSplice_bondIndex]
+    rw [unitSplice_bondIndexMk, unitSplice_bondIndexMk]
+
+/-- The complete literal local-gap indicator is invariant under actual data and coordinate transport. -/
+theorem unitSplice_splicedGapIndicator (Z : TwistGroupSite G) (σ : Prescription G)
+    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) (D : SplicedKernelData (stSt G σ).G d)
+    (L γ η : ℝ) (base : Mom d) (z : GNode (stSt Z.target (transportPrescription Z.iso σ)).G.tree → (Fin d → ℤ)) :
+    splicedGapIndicator (stSt G σ).G D L γ η base (z ∘ unitSpliceNodeEquiv Z σ hsel) =
+      splicedGapIndicator (stSt Z.target (transportPrescription Z.iso σ)).G
+        (mapSplicedKernelData (unitSpliceMolIso Z σ hsel) D) L γ η base z :=
+  unitSplice_splicedGapIndicatorMk Z σ (Stage1Mk.markTransported_empty Z.iso) hsel D L γ η base z
 
 end WaveTurbulence.VineA

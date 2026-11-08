@@ -154,4 +154,15 @@ theorem unit_chainMk {w : ℕ} (G : Garden w) (hM : G.molecule.IsMolecule) (σ :
   · rw [groupUnitsMk_of_not_marked hm] at hum
     exact unit_chain G hM σ (mem_unitBlocks.mpr ⟨S, hS, hσ, hum⟩)
 
+/-- B2d: **UL at a marking**: every unit of `unitBlocks G σ Mk` is a unit code.  (A unit is a vine chain from its
+upper to its lower joint, `unit_chainMk`, so `chain_decode` applies; no skip decomposition is needed.) -/
+theorem unit_decodeMk {w : ℕ} (G : Garden w) (hM : G.molecule.IsMolecule) (σ : Prescription G)
+    {Mk : Set (Stage1.CLVine G)} {u : CLBlock G} (hu : u ∈ unitBlocks G σ Mk) :
+    ∃ cs : List IngCode, (∀ c ∈ cs, c.Wf) ∧ ∃ lab : GBranch G.tree → ℕ, Set.InjOn lab u.atoms ∧
+      u.atoms.image lab = Finset.range (unitWeight cs + 1) ∧
+      groupArcs G.molecule u.atoms lab = ((unitArcs cs : List (ℕ × ℕ)) : Multiset (ℕ × ℕ)) := by
+  obtain ⟨n, hC⟩ := unit_chainMk G hM σ hu
+  obtain ⟨cs, -, hwf, lab, hinj, himg, -, -, harcs⟩ := chain_decode G.molecule hM hC u.isBlock
+  exact ⟨cs, hwf, lab, hinj, himg, harcs⟩
+
 end WaveTurbulence.ClassCount

@@ -4,6 +4,7 @@ public import WaveTurbulence.Foundations.Vine.A.VinePieceProfile
 public import WaveTurbulence.Foundations.Vine.A.VinePlainTauPartition
 public import WaveTurbulence.Foundations.Vine.A.VineNormalizedCollectionGeometry
 public import WaveTurbulence.Foundations.Vine.A.VineNormalizedHingeGapTransport
+public import WaveTurbulence.Foundations.Vine.A.VineMarkedClasses
 /-! Complete A4 kernel-relevant profiles on the actual fixed-sigma plain-garden classes. -/
 @[expose] public section
 open WaveTurbulence.Induct
@@ -21,6 +22,35 @@ noncomputable def normalizedPiece (a : PrescribedPrimeGarden (2 * R)) (d : ℕ)
 /-- The actual normalized garden, layers, hinges, counts and entire gap functional. -/
 noncomputable def profile (a : PrescribedPrimeGarden (2 * R)) : PieceProfile (2 * R) :=
   familyPieceProfile a.state a.totalSigma
+
+/-- B1b-3 (Mk-general form of `profile`): the piece profile (gap functional, layers, hinges, counts) of the fine′
+state at the marking `mk`. -/
+noncomputable def profileMk (a : PrescribedPrimeGarden (2 * R)) (mk : Stage1Mk.MarkFn (2 * R)) : PieceProfile (2 * R) :=
+  familyPieceProfileMk (a.state mk) a.totalSigma (mk a.prime)
+
+/-- B1b-3 (Mk-general form of `BatchReach.profile_eq`): fine′ batch edges preserve the piece profile at `mk`, given
+the fine transport of the marking and B2c's dart-label gap identity. -/
+theorem BatchReach.profile_eqMk {mk : Stage1Mk.MarkFn (2 * R)} {a b : PrescribedPrimeGarden (2 * R)}
+    (hT : a.FineTransportedAt mk) (hg : GapValueSelDartsMk (2 * R))
+    (h : BatchReach (p := p) (kind := kind) a b mk) : b.profileMk mk = a.profileMk mk := by
+  obtain ⟨L, B, hb, _, rfl⟩ := h
+  have he := (batchMolIso_spec hb).pieceProfileMk a.totalSigma (hT hb) (fineState_isV0FamMk a.prime a.totalSigma) hg
+  have ht : transportPrescription (batchMolIso hb) a.totalSigma =
+      extendGroupPrescription (transportGroupPrescription (batchMolIso hb) a.sigma) :=
+    transport_extendGroupPrescription (batchMolIso hb) a.sigma
+  rw [ht] at he
+  exact he
+
+/-- B1b-3 (Mk-general form of `Related.profile_eq`). -/
+theorem Related.profile_eqMk {mk : Stage1Mk.MarkFn (2 * R)}
+    (hT : ∀ c : PrescribedPrimeGarden (2 * R), c.FineTransportedAt mk) (hg : GapValueSelDartsMk (2 * R))
+    {a b : PrescribedPrimeGarden (2 * R)} (h : Related (p := p) (kind := kind) a b mk) :
+    b.profileMk mk = a.profileMk mk := by
+  induction h with
+  | rel _ _ h => exact BatchReach.profile_eqMk (hT _) hg h
+  | refl _ => rfl
+  | symm _ _ _ ih => exact ih.symm
+  | trans _ _ _ _ _ ih hj => exact hj.trans ih
 
 /-- Actual batch edges preserve all kernel-relevant successor piece fields. -/
 theorem BatchReach.profile_eq {a b : PrescribedPrimeGarden (2 * R)}

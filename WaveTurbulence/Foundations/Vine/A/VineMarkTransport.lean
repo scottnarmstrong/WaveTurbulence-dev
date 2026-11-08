@@ -28,6 +28,10 @@ theorem markTransported_refl_eq {S : Garden w} {M M' : Set (CLVine S)}
     change c.atoms = c.atoms.image (Equiv.refl _)
     rw [Equiv.coe_refl, Finset.image_id])
 
+/-- B1b-2: the empty marking is carried by every isomorphism (the `∅`-instance of the twist-side `…Mk` lemmas). -/
+theorem markTransported_empty {S S' : Garden w} (F : Stage1.MolIso S.molecule S'.molecule) :
+    MarkTransported F (∅ : Set (CLVine S)) (∅ : Set (CLVine S')) := fun _ _ _ => Iff.rfl
+
 theorem molIsoTrans_img {S S' S'' : Garden w} (F : MolIso S.molecule S'.molecule)
     (J : MolIso S'.molecule S''.molecule) (U : Finset (GBranch S.tree)) :
     (molIsoTrans F J).img U = J.img (F.img U) := by

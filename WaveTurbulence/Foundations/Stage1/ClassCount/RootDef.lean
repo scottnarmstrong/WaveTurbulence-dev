@@ -358,38 +358,43 @@ theorem degIn_le_deg {V D : Type*} [DecidableEq V] [Fintype D] [DecidableEq D] (
   unfold Molecule.degIn Molecule.deg
   exact Finset.card_le_card (Finset.filter_subset _ _)
 
-/-- **The root things of the skeleton are bounded by `16 ρ̄`.** -/
-theorem rootThings_le (S : Garden w) (hS : S.IsPlain) (σ : Prescription S) :
-    rootThings hS ≤ 16 * ((stSt S σ).G.molecule.rho + (unitBlocks S σ).length) := by
+/-- B2d: **the root things are bounded by `16 ρ̄`** at any marked set. -/
+theorem rootThings_leMk (S : Garden w) (hS : S.IsPlain) (σ : Prescription S) (Mk : Set (Stage1.CLVine S)) :
+    rootThings hS ≤ 16 * ((stSt S σ Mk).G.molecule.rho + (unitBlocks S σ Mk).length) := by
   classical
   have hM := Mole.garden_isMolecule S
-  have hM' := Mole.garden_isMolecule (stSt S σ).G
+  have hM' := Mole.garden_isMolecule (stSt S σ Mk).G
   refine (rootThings_le_deficit hS).trans ?_
   by_cases hne : Nonempty (GBranch S.tree)
   · obtain ⟨v0⟩ := hne
-    set SD := spliceDataOf S hM σ v0 with hSD
+    set SD := spliceDataOfMk S hM σ Mk v0 with hSD
     have hint : ∀ i, i < SD.q → ∀ v ∈ SD.U i, v ≠ SD.rep i →
-        v ≠ (fun i => if h : i < (unitBlocks S σ).length then ((unitBlocks S σ).get ⟨i, h⟩).lower else v0) i →
+        v ≠ (fun i => if h : i < (unitBlocks S σ Mk).length then ((unitBlocks S σ Mk).get ⟨i, h⟩).lower else v0) i →
         4 ≤ S.molecule.deg v := by
       intro i hi v hv hvr hvl
-      rw [spliceDataOf_U S hM σ v0 hi] at hv
-      rw [spliceDataOf_rep S hM σ v0 hi] at hvr
-      have hvl' : v ≠ ((unitBlocks S σ).get ⟨i, hi⟩).lower := by
-        have hi' : i < (unitBlocks S σ).length := hi
-        intro h; apply hvl; show v = if h : i < (unitBlocks S σ).length then _ else _
+      rw [spliceDataOf_UMk S hM σ Mk v0 hi] at hv
+      rw [spliceDataOf_repMk S hM σ Mk v0 hi] at hvr
+      have hvl' : v ≠ ((unitBlocks S σ Mk).get ⟨i, hi⟩).lower := by
+        have hi' : i < (unitBlocks S σ Mk).length := hi
+        intro h; apply hvl; show v = if h : i < (unitBlocks S σ Mk).length then _ else _
         rw [dif_pos hi']; exact h
-      have hB := ((unitBlocks S σ).get ⟨i, hi⟩).isBlock
+      have hB := ((unitBlocks S σ Mk).get ⟨i, hi⟩).isBlock
       have := hB.2.2.2.2.2.2.2.2.1 v hv hvr hvl'
       exact this ▸ degIn_le_deg S.molecule _ v
     have h1 := deficit_splice_le SD (fun v => Finset.mem_univ v) (fun c => Finset.mem_univ c) hM hM' _ hint
-    have h2 := sum_deficit_le (stSt S σ).G.molecule hM' (ladderFamOf (stSt S σ).G) (ladderFamOf_disj (stSt S σ).G hM')
-    have h3 := ladderFamOf_r (stSt S σ).G
-    have h4 : SD.q = (unitBlocks S σ).length := rfl
+    have h2 := sum_deficit_le (stSt S σ Mk).G.molecule hM' (ladderFamOf (stSt S σ Mk).G) (ladderFamOf_disj (stSt S σ Mk).G hM')
+    have h3 := ladderFamOf_r (stSt S σ Mk).G
+    have h4 : SD.q = (unitBlocks S σ Mk).length := rfl
     omega
   · have hemp : IsEmpty (GBranch S.tree) := not_nonempty_iff.1 hne
     have : ∑ v ∈ S.molecule.atoms, (4 - S.molecule.deg v) = 0 :=
       Finset.sum_eq_zero fun v _ => (hemp.false v).elim
     omega
+
+/-- **The root things of the skeleton are bounded by `16 ρ̄`.** -/
+theorem rootThings_le (S : Garden w) (hS : S.IsPlain) (σ : Prescription S) :
+    rootThings hS ≤ 16 * ((stSt S σ).G.molecule.rho + (unitBlocks S σ).length) :=
+  rootThings_leMk S hS σ ∅
 
 end inst
 
