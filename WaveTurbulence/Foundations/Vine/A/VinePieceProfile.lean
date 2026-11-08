@@ -38,6 +38,39 @@ theorem PieceProfile.eq_of_fields {P Q : PieceProfile w} (hg : Q.gap = P.gap)
   subst l' hs' k' b'
   rfl
 
+/-- B1b-3 (Mk-general form of `familyPieceProfile`): the piece fields at the marking `Mk`. -/
+noncomputable def familyPieceProfileMk (A : FamilyReconstruction (2 * R) ι) (σ : Prescription A.skeleton)
+    (Mk : Set (CLVine A.skeleton)) : PieceProfile (2 * R) where
+  gap := gapProfileMk A.skeleton σ Mk
+  layer := (NormalizedSplice.stage1PieceOf 0 A.plain A.layered A.decodes σ Mk).layer
+  hinges := (NormalizedSplice.stage1PieceOf 0 A.plain A.layered A.decodes σ Mk).Cs.hinges
+  gsk := (NormalizedSplice.stage1PieceOf 0 A.plain A.layered A.decodes σ Mk).gsk
+  bsk := (NormalizedSplice.stage1PieceOf 0 A.plain A.layered A.decodes σ Mk).bsk
+
+/-- B1b-3 (Mk-general form of `BatchIso.pieceProfile`): A4 field constancy at markings carried by the batch, given
+B2c's dart-label gap identity (`GapValueSelDartsMk`). -/
+theorem BatchIso.pieceProfileMk {A B : FamilyReconstruction (2 * R) ι}
+    {F : MolIso A.skeleton.molecule B.skeleton.molecule} (h : BatchIso p kind L A B F)
+    (σ : Prescription A.skeleton) {Mk : Set (CLVine A.skeleton)} {Mk' : Set (CLVine B.skeleton)}
+    (hT : Stage1Mk.MarkTransported F Mk Mk') (hA : IsV0Fam A.family σ Mk) (hg : GapValueSelDartsMk (2 * R)) :
+    familyPieceProfileMk B (transportPrescription F σ) Mk' = familyPieceProfileMk A σ Mk := by
+  apply PieceProfile.eq_of_fields (h.gapProfileMk σ hT hA hg)
+  · intro b
+    obtain ⟨a, rfl⟩ := (h.spliceMolIsoMk σ hT hA).e.surjective b
+    change (stage1PieceOf 0 B.plain B.layered B.decodes (transportPrescription F σ) Mk').layer _ = _
+    rw [h.piece_layerMk σ hT hA 0]
+    exact congrArg (fun a => (stage1PieceOf 0 A.plain A.layered A.decodes σ Mk).layer a)
+      (h.splice_branch_castMk σ hT hA a).symm
+  · have hh := h.splice_hinges_imageMk σ hT hA
+    change ((stSt B.skeleton (transportPrescription F σ) Mk').hinges).image
+      (gardenBranchCast (h.splice_garden_eqMk σ hT hA)) = (stSt A.skeleton σ Mk).hinges
+    rw [← hh, Finset.image_image]
+    have he : (fun a => gardenBranchCast (h.splice_garden_eqMk σ hT hA)
+        ((h.spliceMolIsoMk σ hT hA).e a)) = id := funext (h.splice_branch_castMk σ hT hA)
+    exact (congrArg (fun f => (stSt A.skeleton σ Mk).hinges.image f) he).trans Finset.image_id
+  · exact h.piece_gskMk σ hT hA 0
+  · exact h.piece_bskMk σ hT hA 0
+
 /-- Extract exactly the independently constructed successor piece fields. -/
 noncomputable def familyPieceProfile (A : FamilyReconstruction (2 * R) ι) (σ : Prescription A.skeleton) :
     PieceProfile (2 * R) where
