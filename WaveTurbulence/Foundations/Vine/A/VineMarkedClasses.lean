@@ -126,6 +126,10 @@ def FineTransportedAt (mk : Stage1Mk.MarkFn w) (a : PrescribedPrimeGarden w) : P
     Stage1Mk.MarkTransported (batchMolIso h) (mk a.prime)
       (mk (⟨B.skeleton, batch_prime h a.prime.prime, B.data, B.decodes⟩ : PrimeData B.layered))
 
+/-- The empty marking is carried by every fine batch. -/
+theorem fineTransportedAt_empty (a : PrescribedPrimeGarden w) : a.FineTransportedAt (fun _ => ∅) :=
+  fun h => Stage1Mk.markTransported_empty (batchMolIso h)
+
 /-- The fine transport at a clean point, from the batch form of Lemma 2⁺(a). -/
 theorem fineTransportedAt_of_markInvariantBatchV {mk : Stage1Mk.MarkFn w}
     {Clean : ∀ {LG : LayeredGarden w}, PrimeData LG → Prop} (hV : Stage1Mk.MarkInvariantBatchV mk Clean)
@@ -182,6 +186,89 @@ theorem BatchReach.mem_coarseMk {mkF mkC : Stage1Mk.MarkFn w}
   obtain ⟨L, B, hb, hL, rfl⟩ := h
   exact a.prime.fine_outputs_subset_coarseMk a.totalSigma (hsub a.prime)
     ((congruent_layered_iff p kind (a.state mkF) B.layered).mpr ⟨B, ⟨L, hL, hb⟩, rfl⟩)
+
+/-- Transport of a group prescription along the identity. -/
+theorem transportGroupPrescription_refl {G : Garden w} (σ : Represents.GroupPrescription G) :
+    transportGroupPrescription (molIsoRefl G) σ = σ := by
+  funext T
+  refine congrArg σ (Subtype.ext ?_)
+  change T.1.image (Equiv.refl _) = T.1
+  rw [Equiv.coe_refl, Finset.image_id]
+
+/-- B1b-2: with no runs/units at the marking there is no unmarked selected core vine. -/
+theorem isEmpty_coreIndex_of_unitBlocks_nil {G : Garden w} {σ : Prescription G} {Mk : Set (CLVine G)}
+    (hnv : unitBlocks G σ Mk = []) : IsEmpty (CoreIndex (vinesV0 G σ Mk)) :=
+  ⟨fun c => by
+    obtain ⟨_, _, u, hu, -⟩ := (vinesV0_iff_unit_coverMk G σ c.1).mp c.2.1
+    rw [hnv] at hu
+    exact absurd hu List.not_mem_nil⟩
+
+/-- B1b-2: with no runs/units at the marking, `𝒱₀♮` is empty. -/
+theorem not_mem_vinesV0_of_unitBlocks_nil {G : Garden w} {σ : Prescription G} {Mk : Set (CLVine G)}
+    (hnv : unitBlocks G σ Mk = []) (c : CLVine G) : c ∉ vinesV0 G σ Mk := fun hc => by
+  obtain ⟨_, _, u, hu, -⟩ := (vinesV0_iff_unit_coverMk G σ c).mp hc
+  rw [hnv] at hu
+  exact absurd hu List.not_mem_nil
+
+/-- A batch over an empty index type is trivial: the prescribed point is unchanged. -/
+theorem ofState_eq_of_isEmpty {mk : Stage1Mk.MarkFn w} (a : PrescribedPrimeGarden w)
+    [IsEmpty (CoreIndex (vinesV0 a.prime.skeleton a.totalSigma (mk a.prime)))]
+    {L : List (CoreIndex (vinesV0 a.prime.skeleton a.totalSigma (mk a.prime)))}
+    {B : FamilyReconstruction w (CoreIndex (vinesV0 a.prime.skeleton a.totalSigma (mk a.prime)))}
+    (hb : FamilyBatch p kind L (a.state mk) B) (hL : L.Perm Finset.univ.toList) :
+    ofState B (batch_prime hb a.prime.prime) (transportGroupPrescription (batchMolIso hb) a.sigma) = a := by
+  have h0 : (Finset.univ : Finset (CoreIndex (vinesV0 a.prime.skeleton a.totalSigma (mk a.prime)))).toList = [] := by
+    simp [Finset.univ_eq_empty]
+  rw [h0] at hL
+  obtain rfl : L = [] := List.Perm.eq_nil hL
+  have hs := batchMolIso_spec hb
+  generalize batchMolIso hb = F at hs ⊢
+  generalize batch_prime hb a.prime.prime = hpB
+  cases hs
+  exact (congrArg (ofState (a.state mk) hpB) (transportGroupPrescription_refl a.sigma)).trans rfl
+
+/-- B1b-2: a fine′ batch edge out of a point without units at the marking is trivial. -/
+theorem batchReach_eq_of_unitBlocks_nil {mk : Stage1Mk.MarkFn w} {a b : PrescribedPrimeGarden w}
+    (hnv : unitBlocks a.prime.skeleton a.totalSigma (mk a.prime) = [])
+    (h : BatchReach (p := p) (kind := kind) a b mk) : b = a := by
+  haveI := isEmpty_coreIndex_of_unitBlocks_nil hnv
+  obtain ⟨L, B, hb, hL, rfl⟩ := h
+  exact ofState_eq_of_isEmpty a hb hL
+
+/-- B1b-2: a fine′ batch edge *into* a point without units at the marking is trivial (the source's unmarked family is
+carried onto the target's, which is empty). -/
+theorem batchReach_eq_of_unitBlocks_nil' {mk : Stage1Mk.MarkFn w} {a b : PrescribedPrimeGarden w}
+    (hT : a.FineTransportedAt mk) (hnv : unitBlocks b.prime.skeleton b.totalSigma (mk b.prime) = [])
+    (h : BatchReach (p := p) (kind := kind) a b mk) : a = b := by
+  obtain ⟨L, B, hb, hL, rfl⟩ := h
+  have hB := (batchMolIso_spec hb).selectedMk a.totalSigma _ _ (fineState_isV0FamMk a.prime a.totalSigma) (hT hb)
+  have ht : transportPrescription (batchMolIso hb) a.totalSigma =
+      extendGroupPrescription (transportGroupPrescription (batchMolIso hb) a.sigma) :=
+    transport_extendGroupPrescription (batchMolIso hb) a.sigma
+  rw [ht] at hB
+  haveI : IsEmpty (CoreIndex (vinesV0 a.prime.skeleton a.totalSigma (mk a.prime))) :=
+    ⟨fun i => not_mem_vinesV0_of_unitBlocks_nil hnv _ (hB.1 i)⟩
+  exact (ofState_eq_of_isEmpty a hb hL).symm
+
+/-- B1b-2: along a fine′ relation, being the unit-free point `a` is invariant. -/
+theorem related_eq_iff_of_unitBlocks_nil {mk : Stage1Mk.MarkFn w}
+    (hT : ∀ c : PrescribedPrimeGarden w, c.FineTransportedAt mk) {a : PrescribedPrimeGarden w}
+    (hnv : unitBlocks a.prime.skeleton a.totalSigma (mk a.prime) = []) {x y : PrescribedPrimeGarden w}
+    (hxy : Related (p := p) (kind := kind) x y mk) : x = a ↔ y = a := by
+  induction hxy with
+  | rel x' y' hr =>
+    constructor
+    · rintro rfl; exact batchReach_eq_of_unitBlocks_nil hnv hr
+    · rintro rfl; exact batchReach_eq_of_unitBlocks_nil' (hT x') hnv hr
+  | refl => exact Iff.rfl
+  | symm _ _ _ ih => exact ih.symm
+  | trans _ _ _ _ _ ih hj => exact ih.trans hj
+
+/-- B1b-2: the fine′ class of a point without units at the marking is the point itself. -/
+theorem related_eq_of_unitBlocks_nil {mk : Stage1Mk.MarkFn w} (hT : ∀ c : PrescribedPrimeGarden w, c.FineTransportedAt mk)
+    {a b : PrescribedPrimeGarden w} (hnv : unitBlocks a.prime.skeleton a.totalSigma (mk a.prime) = [])
+    (h : Related (p := p) (kind := kind) a b mk) : b = a :=
+  (related_eq_iff_of_unitBlocks_nil hT hnv h).mp rfl
 
 end PrescribedPrimeGarden
 end WaveTurbulence.VineA
