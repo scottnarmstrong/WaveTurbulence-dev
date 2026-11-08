@@ -1569,6 +1569,7 @@ public import WaveTurbulence.Foundations.Resonant.SmallEnergyBound
 public import WaveTurbulence.Foundations.Resonant.SmallEnergyCharacterization
 public import WaveTurbulence.Foundations.Resonant.SymmetricQuotient
 public import WaveTurbulence.Foundations.Spine.SpineWithProviders
+public import WaveTurbulence.Foundations.Stage1.Geometry.SubproSupportMK
 public import WaveTurbulence.Foundations.Stage1.Geometry.SurvConnMK
 public import WaveTurbulence.Foundations.Stage1.Producer
 public import WaveTurbulence.Foundations.Sumint.AffineCharacter
