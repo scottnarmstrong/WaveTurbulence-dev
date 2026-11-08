@@ -20,7 +20,8 @@ deviations recorded in the B1a handoff:
 * `MarkedGroupUnits G S Mk`: runs and survivors of a marked group (o75 §2.5 and Lemma 3).  One field is added to the
   probe's twelve: `chain` (every run is a vine chain from its upper to its lower joint, as main's units are,
   `VineA.groupUnit_chain`), which the threaded unit assemblies (R13) need.  B2a adds two more: `spine` (the run's
-  spine consists of unmarked `𝒱`-ingredients) and `surv_skip` (the skipped ingredient is a survivor).
+  spine consists of unmarked `𝒱`-ingredients) and `surv_skip` (the skipped ingredient is a survivor).  B2c adds
+  `surv_spine` (the survivors in spine order).
 -/
 
 @[expose] public section
@@ -89,5 +90,16 @@ structure MarkedGroupUnits (G : Garden w) (S : Finset (GBranch G.tree)) (Mk : Se
   not force this for a skipped vine (I) whose two atoms lie in runs (finding F-B2a-1). -/
   surv_skip : ∀ T, Stage1.IsIngredient G.molecule S T → (∀ c : Stage1.CLVine G, c ∈ Stage1.vinesV G → c.atoms ≠ T) →
     ∃ t ∈ surv, t.1 = T
+  /-- B2c (o75 §4.6 chain order, Theorem 7.5′(5) and 75-F1): the survivors are listed in the order of a spine of the
+  group (in `G.molecule`, or in the adjoint `eraseBond` of an HVC), oriented along it: `surv` is the sublist of the
+  spine members that are not unmarked `𝒱`-ingredients. -/
+  surv_spine : ∃ (D' : Type) (_ : Fintype D') (_ : DecidableEq D') (N : Molecule (GBranch G.tree) D')
+    (L : List (Finset (GBranch G.tree) × GBranch G.tree × GBranch G.tree)) (a b : GBranch G.tree),
+    N.IsMolecule ∧ Spine N L S a b ∧ N.IsBlock S a b ∧
+    (∀ X x y, X ⊆ S → ¬ (a ∈ X ∧ b ∈ X) → N.IsBlock X x y → G.molecule.IsBlock X x y) ∧
+    (∀ t ∈ L, IsSomeVine G.molecule t.1 t.2.1 t.2.2) ∧ (∀ t ∈ L, Stage1.IsIngredient G.molecule S t.1) ∧
+    (∀ T, Stage1.IsIngredient G.molecule S T → ∃ p q, (T, p, q) ∈ L ∨ (T, q, p) ∈ L) ∧
+    surv.Sublist L ∧
+    ∀ t ∈ L, (t ∈ surv ↔ ¬ ∃ c : Stage1.CLVine G, c ∈ Stage1.vinesV G ∧ c ∉ Mk ∧ c.atoms = t.1)
 
 end WaveTurbulence.RedSplice

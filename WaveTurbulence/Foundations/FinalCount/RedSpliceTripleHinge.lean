@@ -121,7 +121,7 @@ theorem triple_in_hingePair {v c : GBranch (stSt G σ).G.tree} (hv : v ∈ (stSt
         groupAtom G σ S' = some v ∧ hingeEntryPair G σ S' v = some p' ∧ ProperPair G σ v p'.1 p'.2 :=
       ⟨q, S, hSm, hga, hentry, hPP⟩
     have hdef : hingePair G σ v = some (Classical.choose hex) := by
-      unfold hingePair; rw [dif_pos hex]
+      unfold hingePair; rw [dif_neg (not_exists_survPairAt_empty σ v), dif_pos hex]
     obtain ⟨S'', hS''m, hga'', hent'', hP''⟩ := Classical.choose_spec hex
     have hSS : S = S'' := groupAtom_inj hM σ hSm hS''m hga hga''
     subst hSS
