@@ -12,7 +12,7 @@ import Mathlib.Tactic
 /-!
 # B2c MK-SUBPRO: the hinge pairs of `collectionChoices G σ Mk` (o75 Theorem 7.5′(5))
 
-Every hinge of `G_sb` is the crown of a unit of an SG group (`hinge_crownMk`).
+Every hinge of `G_sb` is the crown of a unit of an SG group (`hinge_groupMk`).
 * **Unmarked group** (`¬ markedGroup G Mk S`, units `groupUnitsOf G S`): no survivor has a joint there
   (`not_survPairAt_of_unmarked`), so `hingePair` is main's choice: `hinge_unit_pairMk`, `hinge_entryMk` and
   `hingePair_specMk` are main's `hinge_unit_pair`, `hinge_entry`, `hingePair_spec` for such a hinge.
@@ -88,7 +88,7 @@ theorem pi_of_crown {u : CLBlock G} (hu : u ∈ unitBlocks G σ Mk) {v : GBranch
   rw [(stSt G σ Mk).M.ob_pi, stSt_repC_memMk (Mk := Mk) hM σ hu hz, hcr]
 
 /-- **Every hinge is the crown of a unit of an SG group.** -/
-theorem hinge_crownMk {v : GBranch (stSt G σ Mk).G.tree} (hv : v ∈ (stSt G σ Mk).hinges) :
+theorem hinge_groupMk {v : GBranch (stSt G σ Mk).G.tree} (hv : v ∈ (stSt G σ Mk).hinges) :
     ∃ S, S ∈ maximalGroups G.molecule ∧ σ S = Molecule.GapKind.SG ∧
       ∃ u ∈ groupUnitsMk G Mk S, (stSt G σ Mk).M.ob v = u.upper := by
   classical
