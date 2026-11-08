@@ -6,7 +6,7 @@ Lean 4 formalization of
 > [arXiv:2311.10082v2](https://arxiv.org/abs/2311.10082) (2024).
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-11-08 10:48 UTC** · **estimated completion 90.4 %** (Lean proofs 91.8 %) · frozen theorems sealed: 17 / 27 (+ 300 frozen definitions) · **1,487,753 lines of Lean on main** (11928 files) + 46,491 unlanded on worker branches · blueprint estimate ≈ 273,000 lines
+> **Last updated: 2026-11-08 10:53 UTC** · **estimated completion 90.4 %** (Lean proofs 91.8 %) · frozen theorems sealed: 17 / 27 (+ 300 frozen definitions) · **1,487,753 lines of Lean on main** (11928 files) + 46,491 unlanded on worker branches · blueprint estimate ≈ 273,000 lines
 <!-- /AUTO:updated -->
 
 **Scope (D1):** everything proved in Lean, no black boxes. That covers the target paper and the results it uses from
@@ -40,7 +40,7 @@ SEALED: 17 theorems + 300 definitions
 `██████████████████████████░░░░` 87.9 % · 66 of 76 packets done, 1 partial, 6 running, 3 queued · ledger updated 2026-11-08 10:47 UTC
 
 - **Paper proof:** ✅ Paper-level proof complete and refereed (R155): SUPPLEMENT-v2 + 6.3', 7.3', 7.5', 8.2', 8.3, 10.2-10.4, U-clock; 7 referee reports, no FAIL.
-- **Lean:** 152,449 lines in the flower world (sorry-free, pinned to main), plus main-side threading on worker branches. When the cores close, the world lands on main and the chain `layergardenFlower_v3 → fixedpoint_v2 → propansatz_v2 → main_v2` is sealed.
+- **Lean:** 153,159 lines in the flower world (sorry-free, pinned to main), plus main-side threading on worker branches. When the cores close, the world lands on main and the chain `layergardenFlower_v3 → fixedpoint_v2 → propansatz_v2 → main_v2` is sealed.
 - **Next:** B4 (gate assembly; consumes B2e, B3, WTPrefix MarkedClassRepresentsMK); B3s α→β→δ→γ; B3-2 + V5W-2L (two-layer top filters); D3-3 (ProtBoundGate); D6b (ProtAnnBoundGate, regular component); D7-2 (chiDN); C5b (MarkedComponentBoundAtI at B = 18000); SEAL-PREP dry run; then CORES, PORT, seals.
 - **Open risks:** B3s grew to 4–6k lines (protected slots, two-layer unit top filters); it is now the longest pole with B4; R179: the selected filter is normalized (chiDN); the old Sel statements were vacuous for #sel ≥ 1
 
@@ -261,7 +261,7 @@ Done fractions last reviewed: **2026-11-07 05:24 UTC**. Source: [`docs/campaign/
 <!-- AUTO:workers -->
 | tmux | model / account | packet | branch: last commit | brief |
 |---|---|---|---|---|
-| wt-orch | Claude Opus / claude-1 | Task 34: snapshot-8 delta audit + freeze branch rebuild; done: letter draft, many audits | `w/orch`: 0 min ago, 134 unlanded | [brief](docs/campaign/orch/TASK4.md) |
+| wt-orch | Claude Opus / claude-1 | Task 34: snapshot-8 delta audit + freeze branch rebuild; done: letter draft, many audits | `w/orch`: 5 min ago, 134 unlanded | [brief](docs/campaign/orch/TASK4.md) |
 | wt-gauss-hc | Claude Opus / claude-10 | FLOWER-SPINE: B1.12 layergardenFlower from named spine inputs (X2, X3 closed: fixedpoint from B1.12+B1.2+B1.5) | `w/waveb-infra`: — | [brief](docs/campaign/briefs/FLOWER-SPINE.md) |
 | wt-torus | Claude Opus / claude-14 | G7 MOLEPROP4 (revived, repaired): DH23 ylem1′, ylem2, Prop 10.4 (A23-HALF done) | `w/approxnt`: 94 h ago | [brief](docs/campaign/briefs/MOLEPROP4.md) |
 | wt-wke | Claude Opus / claude-13 | L3+L4: TARGET Props 6.1-6.3 (proplayer2-4); J1-J3, B̃ bridge, tree Prop 5.1 done | `w/jr-ops`: 94 h ago | [brief](docs/campaign/briefs/PL234.md) |
