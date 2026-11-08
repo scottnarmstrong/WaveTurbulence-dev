@@ -368,7 +368,7 @@ theorem classCount_of_legsMk (h0 : DecodeSizeLeg) (h1 : SkeletonLegMk) (h2 : Lay
     _ = ((C₁ : ℝ) ^ N * ((12 : ℝ) ^ 18) ^ N * (C₃ : ℝ) ^ N) *
           (((C₁ * r).factorial : ℝ) * ((C₃ * r).factorial : ℝ)) *
           (((C₁ * R).factorial : ℝ) * ((12 : ℝ) ^ 18) ^ R) * P.C₂ ^ (g + r) := by
-        rw [pow_add]; push_cast; ring
+        rw [pow_add]; ring
     _ ≤ (C₀ : ℝ) ^ N * ((C₀ * r).factorial : ℝ) * ((C₀ * R).factorial : ℝ) * P.C₂ ^ (g + r) := by
         rw [hC0N]
         gcongr

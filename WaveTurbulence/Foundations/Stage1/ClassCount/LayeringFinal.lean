@@ -219,7 +219,7 @@ theorem layeringLegMk : LayeringLegMk := by
     intro LG hLG
     obtain ⟨-, hS', hd, σ, Mk, hr, hg⟩ := hA' LG hLG
     exact ⟨σ, Mk, hd, hr, hg⟩
-  haveI : Nonempty (Prescription S) := ⟨(hex LG1 hLG1).choose⟩
+  have : Nonempty (Prescription S) := ⟨(hex LG1 hLG1).choose⟩
   choose! σf Mkf hdf hrf hgf using hex
   have hcan : ∀ LG ∈ A', IsCanonGC (p + 1) LG := fun LG h => (hA' LG h).1.1
   have hsize : D.size ≤ N := by
