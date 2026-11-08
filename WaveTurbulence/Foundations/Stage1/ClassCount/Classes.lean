@@ -153,14 +153,39 @@ noncomputable def gbarRHS {R : ℕ} {S : Garden (2 * R)} (D : ReconstructionData
       incoherencyIndex (coreOf D hS LG ∘ st.M.ob)
         (ladderGroups ((ladderDataOf st.G).upper i) ((ladderDataOf st.G).lower i))
 
+/-- B2d: `ḡ` of a piece at a marked set, as a function of the splice state and the ingredient set. -/
+theorem gbar_eq_gbarRHSMk {R : ℕ} (d : ℕ) {S : Garden (2 * R)} {D : ReconstructionData S} (hS : S.IsPlain)
+    (LG : LayeredGarden (2 * R)) (hd : D.Decodes hS LG.garden) (σ : Prescription S) (Mk : Set (Stage1.CLVine S)) :
+    (stage1PieceOf d hS LG hd σ Mk).gbar =
+      gbarRHS D hS LG (stSt S σ Mk) (Set.toFinite (unitIngredients S σ Mk)).toFinset :=
+  gbar_decompMk (Mk := Mk) d hS LG hd σ
+
 theorem gbar_eq_gbarRHS {R : ℕ} (d : ℕ) {S : Garden (2 * R)} {D : ReconstructionData S} (hS : S.IsPlain)
     (LG : LayeredGarden (2 * R)) (hd : D.Decodes hS LG.garden) (σ : Prescription S) :
     (stage1PieceOf d hS LG hd σ).gbar =
       gbarRHS D hS LG (stSt S σ) (Set.toFinite (unitIngredients S σ)).toFinset :=
-  gbar_decomp d hS LG hd σ
+  gbar_eq_gbarRHSMk d hS LG hd σ ∅
+
+theorem rbarOf_eqMk (S : Garden (2 * w)) (σ : Prescription S) (Mk : Set (Stage1.CLVine S)) :
+    rbarOfMk S σ Mk = (stSt S σ Mk).G.molecule.rho + (stSt S σ Mk).hinges.card := rfl
 
 theorem rbarOf_eq (S : Garden (2 * w)) (σ : Prescription S) :
-    rbarOf S σ = (stSt S σ).G.molecule.rho + (stSt S σ).hinges.card := rfl
+    rbarOf S σ = (stSt S σ).G.molecule.rho + (stSt S σ).hinges.card := rbarOf_eqMk S σ ∅
+
+/-- B2d: the piece data `(ḡ, ρ̄)` depend on the prescription and the marked set only through the unit list. -/
+theorem gbar_rbar_eq_of_unitBlocks_eqMk {R : ℕ} (d : ℕ) {S : Garden (2 * R)} {D : ReconstructionData S}
+    (hS : S.IsPlain) (LG : LayeredGarden (2 * R)) (hd : D.Decodes hS LG.garden) (σ σ' : Prescription S)
+    (Mk Mk' : Set (Stage1.CLVine S)) (h : unitBlocks S σ Mk = unitBlocks S σ' Mk') :
+    (stage1PieceOf d hS LG hd σ Mk).gbar = (stage1PieceOf d hS LG hd σ' Mk').gbar ∧
+      rbarOfMk S σ Mk = rbarOfMk S σ' Mk' := by
+  have hst : stSt S σ Mk = stSt S σ' Mk' := by unfold stSt; rw [h]
+  have hing : unitIngredients S σ Mk = unitIngredients S σ' Mk' := by unfold unitIngredients; rw [h]
+  have hfin : (Set.toFinite (unitIngredients S σ Mk)).toFinset =
+      (Set.toFinite (unitIngredients S σ' Mk')).toFinset := by
+    ext T; simp [hing]
+  refine ⟨?_, ?_⟩
+  · rw [gbar_eq_gbarRHSMk, gbar_eq_gbarRHSMk, hfin, hst]
+  · rw [rbarOf_eqMk, rbarOf_eqMk, hst]
 
 theorem gbar_rbar_eq_of_unitBlocks_eq {R : ℕ} (d : ℕ) {S : Garden (2 * R)} {D : ReconstructionData S}
     (hS : S.IsPlain) (LG : LayeredGarden (2 * R)) (hd : D.Decodes hS LG.garden) (σ σ' : Prescription S)
@@ -207,11 +232,16 @@ theorem length_le_hingesMk (S : Garden w) (σ : Prescription S) {Mk : Set (Stage
 theorem length_le_hinges (S : Garden w) (σ : Prescription S) :
     (unitBlocks S σ).length ≤ (stSt S σ).hinges.card := length_le_hingesMk (Mk := ∅) S σ
 
-theorem rho_add_length_le_rbarOf (S : Garden (2 * w)) (σ : Prescription S) :
-    (stSt S σ).G.molecule.rho + (unitBlocks S σ).length ≤ rbarOf S σ := by
-  rw [rbarOf_eq]
-  have := length_le_hinges S σ
+/-- B2d: `ρ_sb + #units ≤ ρ̄` at any marked set. -/
+theorem rho_add_length_le_rbarOfMk (S : Garden (2 * w)) (σ : Prescription S) (Mk : Set (Stage1.CLVine S)) :
+    (stSt S σ Mk).G.molecule.rho + (unitBlocks S σ Mk).length ≤ rbarOfMk S σ Mk := by
+  rw [rbarOf_eqMk]
+  have := length_le_hingesMk (Mk := Mk) S σ
   omega
+
+theorem rho_add_length_le_rbarOf (S : Garden (2 * w)) (σ : Prescription S) :
+    (stSt S σ).G.molecule.rho + (unitBlocks S σ).length ≤ rbarOf S σ :=
+  rho_add_length_le_rbarOfMk S σ ∅
 
 theorem card_ladders_le_rho (G : Garden w) :
     Fintype.card {T // T ∈ G.molecule.maximalLadders} ≤ G.molecule.rho := by
@@ -258,13 +288,22 @@ theorem slotInc_eq_zero_of_size {S : Garden w} (D : ReconstructionData S) (hS : 
     rw [List.length_eq_zero_iff.1 h0]
     rfl
 
+/-- B2d: the number of ingredient triples is at most the number of atoms (any marked set). -/
+theorem card_tripI_leMk {S : Garden w} {σ : Prescription S} {Mk : Set (Stage1.CLVine S)} {Tss : Fin (unitBlocks S σ Mk).length → List (Trip S)}
+    (h1 : ∀ j, ∃ n, ∀ t ∈ Tss j, ChainIngredient S.molecule ((unitBlocks S σ Mk).get j).atoms
+          ((unitBlocks S σ Mk).get j).upper ((unitBlocks S σ Mk).get j).lower n t.1 t.2.1 t.2.2 ∧
+          Mole.CLParentPattern S t.1 t.2.1 t.2.2)
+    (h2 : ∀ j, ((Tss j).map (fun t => t.1.erase t.2.1)).Pairwise Disjoint) :
+    Fintype.card (TripIMk S σ Mk Tss) ≤ Fintype.card (GBranch S.tree) :=
+  card_le_of_disjoint_nonempty (fun i : TripIMk S σ Mk Tss => (tauMk Tss i).1.erase (tauMk Tss i).2.1)
+    (fun i => tau_nonemptyMk h1 i) (fun i i' hne => tau_disjointMk h1 h2 hne)
+
 theorem card_tripI_le {S : Garden w} {σ : Prescription S} {Tss : Fin (unitBlocks S σ).length → List (Trip S)}
     (h1 : ∀ j, ∃ n, ∀ t ∈ Tss j, ChainIngredient S.molecule ((unitBlocks S σ).get j).atoms
           ((unitBlocks S σ).get j).upper ((unitBlocks S σ).get j).lower n t.1 t.2.1 t.2.2 ∧
           Mole.CLParentPattern S t.1 t.2.1 t.2.2)
     (h2 : ∀ j, ((Tss j).map (fun t => t.1.erase t.2.1)).Pairwise Disjoint) :
     Fintype.card (TripI S σ Tss) ≤ Fintype.card (GBranch S.tree) :=
-  card_le_of_disjoint_nonempty (fun i : TripI S σ Tss => (tau Tss i).1.erase (tau Tss i).2.1)
-    (fun i => tau_nonempty h1 i) (fun i i' hne => tau_disjoint h1 h2 hne)
+  card_tripI_leMk (Mk := ∅) h1 h2
 
 end WaveTurbulence.ClassCount
