@@ -6,6 +6,7 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.Vine.A.VineMarkedGapMK3
+public import WaveTurbulence.Foundations.FinalCount.RedSpliceSurvMK4
 public import WaveTurbulence.Foundations.FinalCount.AsmVN13
 import Mathlib.Tactic
 
@@ -31,11 +32,40 @@ open Finset WaveTurbulence WaveTurbulence.RedSplice WaveTurbulence.Mole TTree Wa
 
 variable {w : ℕ} {G : Garden w}
 
-/-- **The image of a survivor in `G_sb`** (B2a's `survivorsMk_imageMK`). -/
+/-- **The image of a survivor in `G_sb`** (B2a's `survivorsMk_imageMK`, in the form `survivorsMk_imageMK'` that
+records the added bond of a 75-W1 HV). -/
 noncomputable def survObj {σ : Prescription G} {Mk : Set (CLVine G)}
     {t : Finset (GBranch G.tree) × GBranch G.tree × GBranch G.tree} (ht : t ∈ survivorsMk G σ Mk) :
     Object (stSt G σ Mk).G.molecule :=
-  Classical.choose (survivorsMk_imageMK ht)
+  Classical.choose (survivorsMk_imageMK' ht)
+
+theorem survObj_spec' {σ : Prescription G} {Mk : Set (CLVine G)}
+    {t : Finset (GBranch G.tree) × GBranch G.tree × GBranch G.tree} (ht : t ∈ survivorsMk G σ Mk) :
+    (survObj ht).atoms = t.1.image ((stSt G σ Mk).M.pi (stSt G σ Mk).hcls) ∧
+      (survObj ht).upper = (stSt G σ Mk).M.pi (stSt G σ Mk).hcls t.2.1 ∧
+      (survObj ht).lower = (stSt G σ Mk).M.pi (stSt G σ Mk).hcls t.2.2 ∧
+      Set.InjOn ((stSt G σ Mk).M.pi (stSt G σ Mk).hcls) t.1 ∧
+      (∀ c, (stSt G σ Mk).cls ((stSt G σ Mk).M.ob c) ≠ none → c ∈ (survObj ht).atoms →
+        c = (survObj ht).upper ∨ c = (survObj ht).lower) ∧
+      (∀ z ∈ t.1, z ≠ t.2.1 → z ≠ t.2.2 → (stSt G σ Mk).cls z = none) ∧
+      ((Vine.IsSomeVine (stSt G σ Mk).G.molecule (survObj ht).atoms (survObj ht).upper (survObj ht).lower ∧
+          ∃ hvc, (survObj ht).shape = VineLikeObject.vc hvc) ∨
+        (AllowedCollectionObject (stSt G σ Mk).G (survObj ht) ∧ ∃ R, (survObj ht).shape = VineLikeObject.hyper R ∧
+          ¬ G.molecule.InGroup t.1 ((stSt G σ Mk).M.od R.added))) :=
+  Classical.choose_spec (survivorsMk_imageMK' ht)
+
+/-- The added bond of a 75-W1 survivor HV is not a bond of the survivor. -/
+theorem survObj_hyper_added {σ : Prescription G} {Mk : Set (CLVine G)}
+    {t : Finset (GBranch G.tree) × GBranch G.tree × GBranch G.tree} (ht : t ∈ survivorsMk G σ Mk)
+    {R : HyperLikeRealization (stSt G σ Mk).G.molecule (survObj ht).atoms (survObj ht).upper (survObj ht).lower}
+    (hR : (survObj ht).shape = VineLikeObject.hyper R) :
+    ¬ G.molecule.InGroup t.1 ((stSt G σ Mk).M.od R.added) := by
+  obtain ⟨-, -, -, -, -, -, h⟩ := survObj_spec' ht
+  rcases h with ⟨-, hvc, hs⟩ | ⟨-, R', hs, hn⟩
+  · rw [hR] at hs; cases hs
+  · rw [hR] at hs
+    cases hs
+    exact hn
 
 theorem survObj_spec {σ : Prescription G} {Mk : Set (CLVine G)}
     {t : Finset (GBranch G.tree) × GBranch G.tree × GBranch G.tree} (ht : t ∈ survivorsMk G σ Mk) :
@@ -48,8 +78,9 @@ theorem survObj_spec {σ : Prescription G} {Mk : Set (CLVine G)}
       (∀ z ∈ t.1, z ≠ t.2.1 → z ≠ t.2.2 → (stSt G σ Mk).cls z = none) ∧
       ((Vine.IsSomeVine (stSt G σ Mk).G.molecule (survObj ht).atoms (survObj ht).upper (survObj ht).lower ∧
           ∃ hvc, (survObj ht).shape = VineLikeObject.vc hvc) ∨
-        (AllowedCollectionObject (stSt G σ Mk).G (survObj ht) ∧ ∃ R, (survObj ht).shape = VineLikeObject.hyper R)) :=
-  Classical.choose_spec (survivorsMk_imageMK ht)
+        (AllowedCollectionObject (stSt G σ Mk).G (survObj ht) ∧ ∃ R, (survObj ht).shape = VineLikeObject.hyper R)) := by
+  obtain ⟨h1, h2, h3, h4, h5, h6, h7⟩ := survObj_spec' ht
+  exact ⟨h1, h2, h3, h4, h5, h6, h7.imp id fun hh => ⟨hh.1, hh.2.imp fun _ hR => hR.1⟩⟩
 
 /-- The survivor objects of `G_sb`, in the order of `survivorsMk`. -/
 noncomputable def survObjs (G : Garden w) (σ : Prescription G) (Mk : Set (CLVine G)) :

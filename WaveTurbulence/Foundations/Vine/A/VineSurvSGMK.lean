@@ -17,9 +17,9 @@ On any decoration of `G_sb` on which the gap indicator of `gapSpecificationMk` d
 with an ordinary (`vc`) shape has small gap: its entry (ruling R171, one per survivor, at the image of its upper joint)
 is a lift of its own pair (`survivor_upper_inj`), of kind `σ S = SG`.
 
-`survObj_SG_vc` covers the `vc` survivors; the HV of a one-survivor HVC (75-W1) needs the added bond of the hyper
-object (B2a's `hyper_objectStMK` records `od R.added = e`, which `survivorsMk_imageMK` does not export) and is left
-open here.
+`survObj_SG_vc` covers the `vc` survivors.  `survObj_containsDart`: a bond of the survivor in `G` lifts to a bond of
+its image object, also for the HV of a one-survivor HVC (75-W1), whose added bond is not a survivor bond
+(`survObj_hyper_added`).  `survObj_SG`: every survivor is small-gap on the support.
 -/
 
 @[expose] public section
@@ -104,6 +104,52 @@ theorem survObj_SG_vc {d : ℕ} (L γ η : ℝ) (base : Mom d) (zsb : GNode (stS
   have hj : (stSt G σ Mk).M.pi (stSt G σ Mk).hcls t'.2.1 = (survObj ht).upper := hup.symm
   exact Subpro.hasGapKind_of_pair_joint (stSt G σ Mk).G L γ η base c _ hκ hc0 (survObj ht) (Or.inl hj)
     e.at_first e.at_second (hin _ (Or.inl h1)) (hin _ (Or.inr h2)) e.opposite hgap
+
+/-- **A bond of a survivor lifts to a bond of its image object** (both shapes; for the 75-W1 HV, the added bond is not
+a survivor bond). -/
+theorem survObj_containsDart {t : Finset (GBranch G.tree) × GBranch G.tree × GBranch G.tree}
+    (ht : t ∈ survivorsMk G σ Mk) {y : GardenDart (stSt G σ Mk).G}
+    (hy : G.molecule.InGroup t.1 ((stSt G σ Mk).M.od y)) : (survObj ht).ContainsDart y := by
+  obtain ⟨hat, -⟩ := survObj_spec ht
+  have hg : (stSt G σ Mk).G.molecule.InGroup (survObj ht).atoms y := by
+    refine ⟨?_, ?_⟩
+    · rw [atom_lift hM σ, hat]
+      exact Finset.mem_image_of_mem _ hy.1
+    · rw [atom_lift hM σ, hat, (stSt G σ Mk).M.od_mate]
+      exact Finset.mem_image_of_mem _ hy.2
+  unfold Object.ContainsDart
+  split
+  · exact hg
+  · rename_i R hR
+    refine ⟨fun h => ?_, fun h => ?_, hg⟩
+    · exact survObj_hyper_added ht hR (h ▸ hy)
+    · apply survObj_hyper_added ht hR
+      rw [h, (stSt G σ Mk).M.od_mate] at hy
+      exact ⟨by simpa only [G.molecule.mate_mate] using hy.2, hy.1⟩
+
+/-- **Every survivor is small-gap on the support** (o75 Theorem 7.5′(2); `SubproSupportMK.survivorSG`), including
+the HV of a one-survivor HVC (75-W1). -/
+theorem survObj_SG {d : ℕ} (L γ η : ℝ) (base : Mom d) (zsb : GNode (stSt G σ Mk).G.tree → (Fin d → ℤ))
+    (D : SplicedKernelData (stSt G σ Mk).G d) (hD : D.gapSpecification = gapSpecificationMk G σ Mk)
+    (hZ : splicedGapIndicator (stSt G σ Mk).G D L γ η base zsb ≠ 0)
+    (hdec : ∃ c : GBranch (stSt G σ Mk).G.tree → Mom d,
+      (stSt G σ Mk).G.molecule.IsDecoration L base c (bondIndex (stSt G σ Mk).G zsb) ∧
+        ∀ v ∈ (stSt G σ Mk).G.molecule.atoms, (stSt G σ Mk).G.molecule.deg v = 4 → c v = 0)
+    {t : Finset (GBranch G.tree) × GBranch G.tree × GBranch G.tree} (ht : t ∈ survivorsMk G σ Mk) :
+    (survObj ht).HasGapKind L γ η base (bondIndex (stSt G σ Mk).G zsb) Molecule.GapKind.SG := by
+  obtain ⟨c, hκ, hc0⟩ := hdec
+  obtain ⟨S, hS, hσ, hmk, htm, -⟩ := survivorsMk_group ht
+  obtain ⟨t', p, ht', hv, ⟨⟨hpx, hpy, -, -⟩, hgx, hgy⟩, e, he, hk, h1, h2⟩ :=
+    gapSpecificationMk_marked hM σ hS hmk htm
+  have htt := survivor_upper_inj hM σ hS hσ hmk htm ht' hv
+  subst htt
+  have hgap := Subpro.gapKind_of_Z (stSt G σ Mk).G D L γ η base zsb hZ (q := e) (by rw [hD]; exact he)
+  rw [hk, hσ] at hgap
+  obtain ⟨-, hup, -⟩ := survObj_spec ht
+  have hj : (stSt G σ Mk).M.pi (stSt G σ Mk).hcls t'.2.1 = (survObj ht).upper := hup.symm
+  exact Subpro.hasGapKind_of_pair_joint (stSt G σ Mk).G L γ η base c _ hκ hc0 (survObj ht) (Or.inl hj)
+    e.at_first e.at_second (survObj_containsDart hM σ ht (h1 ▸ hgx)) (survObj_containsDart hM σ ht (h2 ▸ hgy))
+    e.opposite hgap
 
 end main
 
