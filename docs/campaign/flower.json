@@ -1,6 +1,6 @@
 {
  "title": "Flower estimate: Prop flowerest1 = frozen layergardenFlower_v3",
- "updated": "2026-11-08 02:33 UTC",
+ "updated": "2026-11-08 03:08 UTC",
  "convention": "Packet weights follow the blueprint convention (hard = 4, standard = 2, multi-packet items more). Credit: done = 1; a CHECKPOINT carries an explicit partial fraction; running and queued packets carry 0.",
  "paper": "Paper-level proof complete and refereed (R155): SUPPLEMENT-v2 + 6.3', 7.3', 7.5', 8.2', 8.3, 10.2-10.4, U-clock; 7 referee reports, no FAIL.",
  "next": "B1b (then the joint landing B1a+B1b+B2a, the re-pin with R169, then B2c/B3/B3s/B4); D2c (then D3, D6a/b, D7); D5d-b; V5W-B-WORLD (then V5W-T); C5b after B4 and D6.",
@@ -245,8 +245,8 @@
      "id": "B1b THREAD-GEN",
      "w": 4,
      "status": "checkpoint",
-     "note": "part 1 LANDED (b9ffa69f); B1b-2 twist side + mk producers running",
-     "done": 0.6
+     "note": "part 1 landed; twist side + mk producers done (fe58cc4b); B1b-3 Align class-shape running",
+     "done": 0.85
     },
     {
      "id": "B2a MK-RUNS",
@@ -265,6 +265,12 @@
      "w": 8,
      "status": "running",
      "note": "phase 1: class-B marked branches (main) + Theorem 7.5prime (world)"
+    },
+    {
+     "id": "B2d CLASSCOUNT-MK",
+     "w": 4,
+     "status": "running",
+     "note": "class counts at a marking (ClassCountStmtMk)"
     },
     {
      "id": "B3 MK-UNITS",
@@ -404,8 +410,8 @@
      "id": "D2c PROT-CUT",
      "w": 4,
      "status": "checkpoint",
-     "note": "alpha done; D2c-2 (P5, P7) running",
-     "done": 0.75
+     "note": "all pattern cuts incl. P5/P7; o104 Prop 7.4 root trace (D2c-3) running",
+     "done": 0.9
     },
     {
      "id": "D5a FILT-LINK",
