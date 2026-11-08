@@ -28714,7 +28714,7 @@
           "sha256": "d651332e8c2f769aa6d708f09ddcf0c3aa2df29905723b89bb1fc026fc4069c9"
         }
       ],
-      "state": "DRAFT_SORRY",
+      "state": "SEALED",
       "prefix_sha256": "67762ca2a9dd62d2a5c50525c7b761f6c26a71a27519ff41a6f6032aa76b55f3",
       "suffix_sha256": "9f48199048606af986e4911abed0172f6e65c9c8c91f1c2874961ad85a7ea8d0",
       "draft_allowlist": {

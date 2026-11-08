@@ -58,7 +58,7 @@ theorem main_v2 (d : ℕ) (hd : 3 ≤ d) (γ : ℝ) (hγ : γ ∈ Ioo (1 / 2 : �
                   (fun ω => ‖torusFourierCoeff L (U ω t) n‖ ^ 2) ω ∂P)
               - φ (t / kineticTime α) (latticePoint L n)| ≤ L ^ (-θ) :=
 -- FROZEN_ANCHOR_PROOF_BEGIN
-  by sorry
+  by exact WaveTurbulence.Provider.main_v2
 -- FROZEN_ANCHOR_PROOF_END
 -- FROZEN_ANCHOR_SUFFIX_BEGIN
 

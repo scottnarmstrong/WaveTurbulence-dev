@@ -2778,6 +2778,7 @@ public import WaveTurbulence.Frozen.Theorems.FixedpointV2
 public import WaveTurbulence.Frozen.Theorems.IncoherentDecay
 public import WaveTurbulence.Frozen.Theorems.LayergardenFlowerV3
 public import WaveTurbulence.Frozen.Theorems.LayergardenV2
+public import WaveTurbulence.Frozen.Theorems.MainV2
 public import WaveTurbulence.Frozen.Theorems.NlsAkBridge
 public import WaveTurbulence.Frozen.Theorems.PropansatzV2
 public import WaveTurbulence.Frozen.Theorems.QuadExpSum2
