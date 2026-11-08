@@ -54,7 +54,7 @@ theorem propansatz_v2 : WTPrefix fun P => 1 / 2 < P.γ →
       (Et : ℕ → (m : ℕ) → (Fin (2 * m) → ℤˣ) → (Fin (2 * m) → (Fin P.d → ℤ)) → ℂ),
       ∀ p ≤ P.D, AnsatzAt P μ g a Fev R E Et p :=
 -- FROZEN_ANCHOR_PROOF_BEGIN
-  by sorry
+  by exact WaveTurbulence.Provider.propansatz_v2
 -- FROZEN_ANCHOR_PROOF_END
 -- FROZEN_ANCHOR_SUFFIX_BEGIN
 
