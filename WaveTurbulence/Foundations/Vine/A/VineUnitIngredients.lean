@@ -10,19 +10,26 @@ namespace WaveTurbulence.VineA
 open Finset WaveTurbulence.RedSplice WaveTurbulence.Stage1
 variable {w : ℕ} {G : Garden w}
 
-/-- Actual ingredients of the chosen units transport in both directions. -/
-theorem unitIngredients_image_iff (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) (T : Finset (GBranch G.tree)) :
-    Z.iso.img T ∈ unitIngredients Z.target (transportPrescription Z.iso σ) ↔ T ∈ unitIngredients G σ := by
+/-- B1b-2 (Mk-general form of `unitIngredients_image_iff`, two marked sets carried by the twist). -/
+theorem unitIngredients_image_iffMk (Z : TwistGroupSite G) (σ : Prescription G) {Mk : Set (CLVine G)}
+    {Mk' : Set (CLVine Z.target)} (hT : Stage1Mk.MarkTransported Z.iso Mk Mk')
+    (hsel : ∃ c ∈ vinesV0 G σ Mk, c.atoms = Z.S0) (T : Finset (GBranch G.tree)) :
+    Z.iso.img T ∈ unitIngredients Z.target (transportPrescription Z.iso σ) Mk' ↔ T ∈ unitIngredients G σ Mk := by
   constructor
   · rintro ⟨v, hv, x, y, n, p, q, hi⟩
-    obtain ⟨u, hu, hat, _, _⟩ := unitBlocks_preimage Z σ hsel hv
+    obtain ⟨u, hu, hat, _, _⟩ := unitBlocks_preimageMk Z σ hT hsel hv
     have hi' := Z.iso.symm.chainIngredient_img hi
     rw [hat, Z.iso.img_img_symm, Z.iso.img_img_symm] at hi'
     exact ⟨u, hu, Z.iso.symm.e x, Z.iso.symm.e y, n, Z.iso.symm.e p, Z.iso.symm.e q, hi'⟩
   · rintro ⟨u, hu, x, y, n, p, q, hi⟩
-    exact ⟨unitImage Z u (unitBlocks_good Z σ hsel hu), unitImage_mem Z σ hsel hu,
+    exact ⟨unitImage Z u (unitBlocks_goodMk Z σ hsel hu), unitImage_memMk Z σ hT hsel hu,
       Z.iso.e x, Z.iso.e y, n, Z.iso.e p, Z.iso.e q, Z.iso.chainIngredient_img hi⟩
+
+/-- Actual ingredients of the chosen units transport in both directions. -/
+theorem unitIngredients_image_iff (Z : TwistGroupSite G) (σ : Prescription G)
+    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) (T : Finset (GBranch G.tree)) :
+    Z.iso.img T ∈ unitIngredients Z.target (transportPrescription Z.iso σ) ↔ T ∈ unitIngredients G σ :=
+  unitIngredients_image_iffMk Z σ (Stage1Mk.markTransported_empty Z.iso) hsel T
 
 /-- Bad-vine classification is determined by the actual molecular vine type. -/
 theorem isBadVineSet_image_iff {H : Garden w} (F : MolIso G.molecule H.molecule)

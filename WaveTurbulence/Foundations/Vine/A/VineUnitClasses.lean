@@ -10,38 +10,54 @@ namespace WaveTurbulence.VineA
 open Finset WaveTurbulence.RedSplice WaveTurbulence.Stage1
 variable {w : ℕ} {G : Garden w}
 
-/-- The actual spliceFold merge classes commute with the unit twist atom map. -/
-theorem unitBlocks_cls_twist (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) (v : GBranch G.tree) :
-    (spliceFold Z.target (unitBlocks Z.target (transportPrescription Z.iso σ))).cls (Z.iso.e v) =
-      ((spliceFold G (unitBlocks G σ)).cls v).map Z.iso.e := by
+/-- B1b-2 (Mk-general form of `unitBlocks_cls_twist`, two marked sets carried by the twist). -/
+theorem unitBlocks_cls_twistMk (Z : TwistGroupSite G) (σ : Prescription G) {Mk : Set (CLVine G)}
+    {Mk' : Set (CLVine Z.target)} (hT : Stage1Mk.MarkTransported Z.iso Mk Mk')
+    (hsel : ∃ c ∈ vinesV0 G σ Mk, c.atoms = Z.S0) (v : GBranch G.tree) :
+    (spliceFold Z.target (unitBlocks Z.target (transportPrescription Z.iso σ) Mk')).cls (Z.iso.e v) =
+      ((spliceFold G (unitBlocks G σ Mk)).cls v).map Z.iso.e := by
   classical
-  have hs := unitBlocks_pairwise (Mole.garden_isMolecule G) σ
-  have ht := unitBlocks_pairwise (Mole.garden_isMolecule Z.target) (transportPrescription Z.iso σ)
-  by_cases hv : ∃ u ∈ unitBlocks G σ, v ∈ u.atoms
+  have hs := unitBlocks_pairwiseMk (Mole.garden_isMolecule G) σ Mk
+  have ht := unitBlocks_pairwiseMk (Mole.garden_isMolecule Z.target) (transportPrescription Z.iso σ) Mk'
+  by_cases hv : ∃ u ∈ unitBlocks G σ Mk, v ∈ u.atoms
   · obtain ⟨u, hu, hv⟩ := hv
-    have hmu := unitImage_mem Z σ hsel hu
-    have hmv : Z.iso.e v ∈ (unitImage Z u (unitBlocks_good Z σ hsel hu)).atoms :=
+    have hmu := unitImage_memMk Z σ hT hsel hu
+    have hmv : Z.iso.e v ∈ (unitImage Z u (unitBlocks_goodMk Z σ hsel hu)).atoms :=
       (Z.iso.mem_img u.atoms v).mpr hv
     rw [spliceFold_cls_mem _ hs hu hv, spliceFold_cls_mem _ ht hmu hmv]
     rfl
-  · have hn : ∀ u ∈ unitBlocks G σ, v ∉ u.atoms := fun u hu h => hv ⟨u, hu, h⟩
-    have hn' : ∀ u' ∈ unitBlocks Z.target (transportPrescription Z.iso σ), Z.iso.e v ∉ u'.atoms := by
+  · have hn : ∀ u ∈ unitBlocks G σ Mk, v ∉ u.atoms := fun u hu h => hv ⟨u, hu, h⟩
+    have hn' : ∀ u' ∈ unitBlocks Z.target (transportPrescription Z.iso σ) Mk', Z.iso.e v ∉ u'.atoms := by
       intro u' hu' hm
-      obtain ⟨u, hu, hat, _, _⟩ := unitBlocks_preimage Z σ hsel hu'
+      obtain ⟨u, hu, hat, _, _⟩ := unitBlocks_preimageMk Z σ hT hsel hu'
       rw [hat] at hm
       exact hn u hu ((Z.iso.mem_img u.atoms v).mp hm)
     rw [spliceFold_cls_notMem _ hs hn, spliceFold_cls_notMem _ ht hn']
     rfl
 
+/-- The actual spliceFold merge classes commute with the unit twist atom map. -/
+theorem unitBlocks_cls_twist (Z : TwistGroupSite G) (σ : Prescription G)
+    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) (v : GBranch G.tree) :
+    (spliceFold Z.target (unitBlocks Z.target (transportPrescription Z.iso σ))).cls (Z.iso.e v) =
+      ((spliceFold G (unitBlocks G σ)).cls v).map Z.iso.e :=
+  unitBlocks_cls_twistMk Z σ (Stage1Mk.markTransported_empty Z.iso) hsel v
+
+/-- B1b-2 (Mk-general form of `unitBlocks_repC_twist`). -/
+theorem unitBlocks_repC_twistMk (Z : TwistGroupSite G) (σ : Prescription G) {Mk : Set (CLVine G)}
+    {Mk' : Set (CLVine Z.target)} (hT : Stage1Mk.MarkTransported Z.iso Mk Mk')
+    (hsel : ∃ c ∈ vinesV0 G σ Mk, c.atoms = Z.S0) (v : GBranch G.tree) :
+    repC (spliceFold Z.target (unitBlocks Z.target (transportPrescription Z.iso σ) Mk')).cls (Z.iso.e v) =
+      Z.iso.e (repC (spliceFold G (unitBlocks G σ Mk)).cls v) := by
+  unfold repC
+  rw [unitBlocks_cls_twistMk Z σ hT hsel v]
+  cases (spliceFold G (unitBlocks G σ Mk)).cls v <;> rfl
+
 /-- The actual quotient retractions commute as well. -/
 theorem unitBlocks_repC_twist (Z : TwistGroupSite G) (σ : Prescription G)
     (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) (v : GBranch G.tree) :
     repC (spliceFold Z.target (unitBlocks Z.target (transportPrescription Z.iso σ))).cls (Z.iso.e v) =
-      Z.iso.e (repC (spliceFold G (unitBlocks G σ)).cls v) := by
-  unfold repC
-  rw [unitBlocks_cls_twist Z σ hsel v]
-  cases (spliceFold G (unitBlocks G σ)).cls v <;> rfl
+      Z.iso.e (repC (spliceFold G (unitBlocks G σ)).cls v) :=
+  unitBlocks_repC_twistMk Z σ (Stage1Mk.markTransported_empty Z.iso) hsel v
 
 /-- B1b (Mk-general form of `active_support_unit`). -/
 theorem active_support_unitMk (Z : TwistGroupSite G) (σ : Prescription G)
