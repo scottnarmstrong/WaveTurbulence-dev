@@ -31749,7 +31749,7 @@
           "sha256": "97c0bef48745364d8460dfca4fd327506e4d3bdc0ab1113728c5f51030fb3c6e"
         }
       ],
-      "state": "DRAFT_SORRY",
+      "state": "SEALED",
       "prefix_sha256": "d7203fd68e46e103ff1327afc146a4a70d1a0b0153c0714edd70109467d0b258",
       "suffix_sha256": "9f48199048606af986e4911abed0172f6e65c9c8c91f1c2874961ad85a7ea8d0",
       "draft_allowlist": {

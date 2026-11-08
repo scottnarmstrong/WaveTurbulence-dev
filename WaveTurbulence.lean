@@ -2775,6 +2775,7 @@ public import WaveTurbulence.Frozen.Theorems.CountLemma
 public import WaveTurbulence.Frozen.Theorems.ExistsUnique_regChain_decodesTree
 public import WaveTurbulence.Frozen.Theorems.ExistsUnique_regCpl_decodes
 public import WaveTurbulence.Frozen.Theorems.IncoherentDecay
+public import WaveTurbulence.Frozen.Theorems.LayergardenFlowerV3
 public import WaveTurbulence.Frozen.Theorems.LayergardenV2
 public import WaveTurbulence.Frozen.Theorems.NlsAkBridge
 public import WaveTurbulence.Frozen.Theorems.QuadExpSum2

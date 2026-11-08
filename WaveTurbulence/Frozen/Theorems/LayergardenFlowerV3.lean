@@ -109,7 +109,7 @@ theorem layergardenFlower_v3 : WTPrefixP fun Pm P => 1 / 2 < P.γ →
         ‖coupleSum P (inputsF P R) p N kind dt t k‖ ≤
           jbr k ^ (-(4 * P.Lambda (p + 1) : ℝ)) * P.L ^ (100 * P.d : ℝ) * P.δ ^ (P.ν * N)) :=
 -- FROZEN_ANCHOR_PROOF_BEGIN
-  by sorry
+  by exact WaveTurbulence.Provider.layergardenFlower_v3
 -- FROZEN_ANCHOR_PROOF_END
 -- FROZEN_ANCHOR_SUFFIX_BEGIN
 
