@@ -32,11 +32,12 @@ theorem pointPiece_soundFull (P : WTParams) {R : ℕ} (hR : 1 ≤ R) {p N : ℕ}
     (fix : GBranch (stSt a.prime.skeleton a.totalSigma Mk).G.tree → Option ℝ)
     (filt : GBranch (stSt a.prime.skeleton a.totalSigma Mk).G.tree → Option (ℝ × SchwartzMap ℝ ℂ))
     (ind : (GNode (stSt a.prime.skeleton a.totalSigma Mk).G.tree → Mom P.d) → ℝ)
+    (lb : GBranch (stSt a.prime.skeleton a.totalSigma Mk).G.tree → Option ℝ)
     (hrest : MkSubpro.MkPieceRest
-      (MkSubpro.stage1PieceMKOf P a.prime.prime.1 a.layered a.prime.decodes a.totalSigma Mk prot nProt fix filt ind)
-      cθ) :
+      (MkSubpro.stage1PieceMKOf P a.prime.prime.1 a.layered a.prime.decodes a.totalSigma Mk prot nProt fix filt ind
+        lb) cθ) :
     SoundMKFull
-      (MkSubpro.stage1PieceMKOf P a.prime.prime.1 a.layered a.prime.decodes a.totalSigma Mk prot nProt fix filt ind)
+      (MkSubpro.stage1PieceMKOf P a.prime.prime.1 a.layered a.prime.decodes a.totalSigma Mk prot nProt fix filt ind lb)
       p 0 roots cθ := by
   obtain ⟨hI, hbal, hn⟩ := skelFacts_of_carriesW P p N hR hc a.prime
   have hsz := a.prime.data.decoded_order a.prime.prime.1 a.prime.decodes
@@ -64,11 +65,15 @@ theorem zeroPiece_rest (P : WTParams) {R : ℕ} (a : PrescribedPrimeGarden (2 * 
   filt_ok := fun a q hq => by simp [zeroPiece, MkSubpro.stage1PieceMKOf] at hq
   ind_ok := fun k => by simp [zeroPiece, MkSubpro.stage1PieceMKOf]
   ind_local := fun k k' _ => rfl
+  lb_free := fun b hb => by simp [zeroPiece, MkSubpro.stage1PieceMKOf] at hb
+  lb_prot := fun b hb => by simp [zeroPiece, MkSubpro.stage1PieceMKOf] at hb
+  lb_layer := fun b x hb => by simp [zeroPiece, MkSubpro.stage1PieceMKOf] at hb
 
 theorem zeroPiece_soundFull (P : WTParams) {R : ℕ} (hR : 1 ≤ R) {p N : ℕ} (a : PrescribedPrimeGarden (2 * R))
     (hc : Stage1Mk.Stage1CarriesW P p N a.layered) (hNb : N ≤ P.N (p + 1) ^ 4) (hL : P.L ≠ 0)
     (roots : Fin (2 * R) → (Fin P.d → ℤ)) (cθ : ℝ) : SoundMKFull (zeroPiece P a) p 0 roots cθ :=
   pointPiece_soundFull P hR a hc hNb hL roots cθ (Set.empty_subset _) ∅ 0 (fun _ => none) (fun _ => none) (fun _ => 1)
+    (fun _ => none)
     (zeroPiece_rest P a cθ)
 
 /-- The mass bound's prefactor is nonnegative. -/

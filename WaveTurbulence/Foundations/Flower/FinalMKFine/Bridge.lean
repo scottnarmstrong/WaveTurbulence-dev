@@ -45,7 +45,8 @@ theorem fine_spliced_of_MK (P : WTParams) (h : FineSplicedAtMK P)
           P.L ^ (-((R : ℝ) - 1) * (1 / 4 + 1 / 50)) := by
   have hb := h p hp R hR hRmax G hplain hirred hbal hn hnmax (toMKData D) Cs (survEmpty G) ∅ hD hlayer
     (fun a q hq => by simp [toMKData] at hq) (fun k => by simp [toMKData])
-    (fun b hb => by simp [toMKData] at hb) (fun b t hb => by simp [toMKData] at hb) base roots
+    (fun b hb => by simp [toMKData] at hb) (fun b t hb => by simp [toMKData] at hb)
+    (fun b hb => by simp [toMKData] at hb) base roots
     ⟨hM, hconn, hatoms, hbonds⟩ (subproConclusionsMK_of_empty hS)
   rw [splicedKernelMK_toMK] at hb
   simpa [survEmpty, toMKData] using hb

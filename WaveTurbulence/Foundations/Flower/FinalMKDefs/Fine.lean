@@ -86,7 +86,8 @@ structure SubproConclusionsMK {R : ℕ} (G : Garden (2 * R)) (D : SplicedKernelD
 
 /-- **C4 target 2 `FineSplicedAtMK`** (o75 (finalsbest2′) + o73 Thm 7.3′(3)): main's fine bound for the marked kernel,
 extra `L^{2 N_E}` (C1) and `((N+1)L)^{(5d+4)|E|}` (Prop 18.1 and row 12 via FL-FIBER). Filters and indicators are
-weights of modulus `≤ 1` in the absolute count (S Lemma 9.4). -/
+weights of modulus `≤ 1` in the absolute count (S Lemma 9.4). Ruling R187 (LB-RESTORE-2): the lower-bounded atoms
+are exceptional, `(∀ b, (D.lb b).isSome → b ∈ E)` (the consumer's `E = Π_sb` contains them by `SoundMKFull.lb_prot`). -/
 abbrev FineSplicedAtMK (P : WTParams) : Prop :=
   ∀ p : ℕ, p < P.D → ∀ R : ℕ, 1 ≤ R → R ≤ 10 * P.R (p + 1) →
   ∀ G : Garden (2 * R), G.IsPlain → G.Irreducible → IsBalancedSig G.sig →
@@ -95,6 +96,7 @@ abbrev FineSplicedAtMK (P : WTParams) : Prop :=
     SplicedAmplitudeBounds G D.toSplicedKernelData → (∀ v, D.layer v ≤ p) →
     (∀ a q, D.filt a = some q → ∀ u, ‖q.2 u‖ ≤ 1) → (∀ k, 0 ≤ D.ind k ∧ D.ind k ≤ 1) →
     (∀ b, (D.fix b).isSome → b ∈ E) → (∀ b t, D.fix b = some t → (D.layer b : ℝ) ≤ t ∧ t ≤ D.layer b + 1) →
+    (∀ b, (D.lb b).isSome → b ∈ E) →
   ∀ (base : Mom P.d) (roots : Fin (2 * R) → (Fin P.d → ℤ)),
     SplicedGeomPremises G → SubproConclusionsMK G D.toSplicedKernelData Cs S P.L P.γ P.η base roots →
     ‖splicedKernelMK G D P.L P.γ P.η P.δ base roots‖ ≤

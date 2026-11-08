@@ -28,7 +28,8 @@ open WaveTurbulence.LGSpine.SourceVine WaveTurbulence.Flower.MkDefs
 
 
 /-- **`SoundMKFull`** = B0's `SoundMK` plus what the fine and crude bounds read: main's `Sound` geometry/support fields
-(support with `SubproSupportMK`), the removal order, and the pin/filter/indicator facts (finding F-C0-3). -/
+(support with `SubproSupportMK`), the removal order, and the pin/filter/indicator facts (finding F-C0-3). Ruling R187
+(F-H3-1): the last three fields `lb_free`, `lb_prot`, `lb_layer` for the constant lower bounds `π.lb`. -/
 structure SoundMKFull {P : WTParams} {R : ℕ} (π : Stage1PieceMK P.d R) (p : ℕ) (base : Mom P.d)
     (roots : Fin (2 * R) → (Fin P.d → ℤ)) (cθ : ℝ) : Prop extends SoundMK (P := P) π p where
   molecule : π.Gsb.molecule.IsMolecule
@@ -52,6 +53,11 @@ structure SoundMKFull {P : WTParams} {R : ℕ} (π : Stage1PieceMK P.d R) (p : �
   ind_ok : ∀ k, 0 ≤ π.ind k ∧ π.ind k ≤ 1
   ind_local : ∀ k k', (∀ a ∈ π.surv.joints ∪ π.surv.prot, ∀ i : Fin 3,
     k (a.child i) = k' (a.child i) ∧ k a.toNode = k' a.toNode) → π.ind k = π.ind k'
+  /-- Ruling R187: the lower-bounded atoms are free, protected (so the crude split and the fine `E` already charge
+  them) and their bound lies in their layer window. -/
+  lb_free : ∀ b, (π.lb b).isSome → π.fix b = none
+  lb_prot : ∀ b, (π.lb b).isSome → b ∈ π.surv.prot
+  lb_layer : ∀ b x, π.lb b = some x → (π.layer b : ℝ) ≤ x ∧ x ≤ π.layer b + 1
 
 /-- The extra exponent of a marked piece (B0 §6, R157): `cP·d·nProt + (60d+2)(2m + 2·nProt) + 2m`. -/
 noncomputable def markedExtra {P : WTParams} {R : ℕ} (cP : ℝ) (π : Stage1PieceMK P.d R) : ℝ :=

@@ -43,8 +43,9 @@ theorem classPiece_surv_le (P : WTParams) {R : ℕ} {J : Finset (Fin (2 * R))} {
     (prot : Finset (GBranch (stSt a.prime.skeleton a.totalSigma (classMk mkF a)).G.tree))
     (fix : GBranch (stSt a.prime.skeleton a.totalSigma (classMk mkF a)).G.tree → Option ℝ)
     (filt : GBranch (stSt a.prime.skeleton a.totalSigma (classMk mkF a)).G.tree → Option (ℝ × SchwartzMap ℝ ℂ))
-    (ind : (GNode (stSt a.prime.skeleton a.totalSigma (classMk mkF a)).G.tree → Mom P.d) → ℝ) :
-    (classPiece P mkF a prot (protI a.layered J pat t s kSel).card fix filt ind).surv.m ≤
+    (ind : (GNode (stSt a.prime.skeleton a.totalSigma (classMk mkF a)).G.tree → Mom P.d) → ℝ)
+    (lb : GBranch (stSt a.prime.skeleton a.totalSigma (classMk mkF a)).G.tree → Option ℝ) :
+    (classPiece P mkF a prot (protI a.layered J pat t s kSel).card fix filt ind lb).surv.m ≤
       6 * (protI a.layered J pat t s kSel).card := by
   show (VineA.NormalizedSplice.survObjs a.prime.skeleton a.totalSigma (classMk mkF a)).length ≤ _
   rw [VineA.NormalizedSplice.survObjs_length]
@@ -64,7 +65,7 @@ variable (P : WTParams) {R : ℕ} (p N : ℕ) (J : Finset (Fin (2 * R))) (pat : 
 
 /-- **The good piece of a non-zero class** (from B3s's hypothesis). -/
 theorem good_of_nonzero (hB : MarkedClassRepresentsMK cP cθ P) (hp : p < P.D) (hR : 1 ≤ R)
-    (hRmax : R ≤ 10 * P.R (p + 1)) (hN1 : 1 ≤ N) (hNb : N ≤ P.N (p + 1) ^ 4)
+    (hRmax : R ≤ 10 * P.R (p + 1)) (hN1 : 1 ≤ N) (hNb : N ≤ P.N (p + 1) ^ 4) (hJ : J.card = R)
     (ht : t ∈ Ioo (p : ℝ) (p + 1)) (hs : s ∈ Ioo (p : ℝ) t)
     (hA : ∀ LG ∈ A, MkCarries P p N LG ∧ (∀ h : 2 * R = 2, ¬ IsRegularCouple (h ▸ LG.garden : Garden 2)) ∧
       LG.garden.Irreducible ∧ (∀ j ∈ J, LG.garden.tree j = TTree.leaf) ∧ CapGeo LG J p ∧ CapPatValid LG J pat p)
@@ -78,16 +79,17 @@ theorem good_of_nonzero (hB : MarkedClassRepresentsMK cP cθ P) (hp : p < P.D) (
     (hnz : ¬ StemDep σ kSel ∨ ∀ a : PrescribedPrimeGarden (2 * R),
       Related (p := p) (kind := objKind (2 * R)) (repPt π) a mkF → CleanPt J a) :
     Nonempty (GoodPiece P p N J pat kSel t s A roots h b Rf σ Rs dag cP cθ mkF π) := by
-  obtain ⟨prot, fix, filt, ind, selR, hok⟩ := hB p hp R hR hRmax N hN1 hNb J pat kSel t ht s hs A hA hpl hTC roots
-    h b Rf σ Rs dag hb hh hRf hRs hhigh mkF hF π hnz
+  obtain ⟨prot, fix, filt, ind, lb, selR, hok⟩ := hB p hp R hR hRmax N hN1 hNb J hJ pat kSel t ht s hs A hA hpl hTC
+    roots h b Rf σ Rs dag hb hh hRf hRs hhigh mkF hF π hnz
   have hnz' : ¬ StemDep σ kSel ∨ CleanPt J (repPt π) :=
     hnz.imp id fun h => h (repPt π) (Relation.EqvGen.refl _)
   have hcW := carriersW_of P (hA _ (repPt_layered_memMk π))
-  refine ⟨⟨classPiece P mkF (repPt π) prot (protI (repPt π).layered J pat t s kSel).card fix filt ind,
+  refine ⟨⟨classPiece P mkF (repPt π) prot (protI (repPt π).layered J pat t s kSel).card fix filt ind lb,
     selR, classMk mkF (repPt π), rfl, hok, le_rfl, ?_⟩⟩
-  exact pointPiece_soundFull P hR (repPt π) hcW hNb hL roots cθ (classMk_sub_vinesV0 mkF _) prot _ fix filt ind
-    ⟨classPiece_surv_le P hF (repPt π) hnz' prot fix filt ind, hok.rest.prot_card, hok.rest.fix_prot,
-      hok.rest.fix_layer, hok.rest.filt_ok, hok.rest.ind_ok, hok.rest.ind_local⟩
+  exact pointPiece_soundFull P hR (repPt π) hcW hNb hL roots cθ (classMk_sub_vinesV0 mkF _) prot _ fix filt ind lb
+    ⟨classPiece_surv_le P hF (repPt π) hnz' prot fix filt ind lb, hok.rest.prot_card, hok.rest.fix_prot,
+      hok.rest.fix_layer, hok.rest.filt_ok, hok.rest.ind_ok, hok.rest.ind_local, hok.rest.lb_free,
+      hok.rest.lb_prot, hok.rest.lb_layer⟩
 
 /-- **The good piece of a zero class** (class value `0`). -/
 theorem good_of_zero (hR : 1 ≤ R) (hNb : N ≤ P.N (p + 1) ^ 4)
@@ -101,8 +103,8 @@ theorem good_of_zero (hR : 1 ≤ R) (hNb : N ≤ P.N (p + 1) ^ 4)
   have hrest := zeroPiece_rest P (repPt π) cθ
   refine ⟨⟨zeroPiece P (repPt π), ∅, ∅, rfl, ?_, Nat.zero_le _,
     zeroPiece_soundFull P hR (repPt π) hcW hNb hL.ne' roots cθ⟩⟩
-  refine ⟨?_, ⟨hrest.prot_card, hrest.fix_prot, hrest.fix_layer, hrest.filt_ok, hrest.ind_ok, hrest.ind_local⟩,
-    by simp, by simp, by simp, ?_⟩
+  refine ⟨?_, ⟨hrest.prot_card, hrest.fix_prot, hrest.fix_layer, hrest.filt_ok, hrest.ind_ok, hrest.ind_local,
+    hrest.lb_free, hrest.lb_prot, hrest.lb_layer⟩, by simp, by simp, by simp, ?_, by simp⟩
   · rw [hval]
     exact representsIntMKSel_zero _ _ N cP _ 0 roots _ hC hL.le
       (selMassMK_nonneg N (zero_le_one.trans hb) hRs0 kSel _)

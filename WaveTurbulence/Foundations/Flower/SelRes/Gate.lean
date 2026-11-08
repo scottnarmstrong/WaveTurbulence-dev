@@ -64,7 +64,7 @@ theorem kernel_bound_mod {P : WTParams} (hs : PieceSmall P) (hd : 1 ≤ P.d) {c�
   have hL1 : 1 ≤ P.L := by linarith [hs.L_ge]
   have hL0 : 0 < P.L := by linarith [hs.L_ge]
   set D := π.dataMK tt c e h f with hDdef
-  obtain ⟨hdata, hfilt, ⟨g, hg, hgl, hind⟩, ⟨Rc, hRc, hchg, hbox⟩⟩ := hD'
+  obtain ⟨hdata, hfilt, ⟨g, hg, hgl, hind⟩, ⟨Rc, hRc, hchg, hbox⟩, hlbeq⟩ := hD'
   set X : Finset (GBranch π.Gsb.tree) := sel ∪ Rc with hX
   have hXcard : X.card ≤ 2 * sel.card := by
     have h1 : (sel ∪ Rc).card ≤ sel.card + Rc.card := card_union_le sel Rc
@@ -118,7 +118,8 @@ theorem kernel_bound_mod {P : WTParams} (hs : PieceSmall P) (hd : 1 ≤ P.d) {c�
     (fun k => by rw [hind]; have h1 := hπ.ind_ok k
                  exact ⟨mul_nonneg h1.1 (hg k).1,
                    (mul_le_mul h1.2 (hg k).2 (hg k).1 zero_le_one).trans_eq (one_mul 1)⟩)
-    hpinS hfixlay base roots hgeom hconc
+    hpinS hfixlay (fun b hb => Finset.mem_union_left _ (hπ.lb_prot b (by rw [hlbeq] at hb; exact hb)))
+    base roots hgeom hconc
   have hC1 : 0 < P.C₁ := by linarith [hs.c1_ge]
   have hC2 : 0 < P.C₂ := by linarith [hs.c1_ge, hs.c1_le_c2]
   have hν0 : 0 ≤ P.ν := hs.nu_pos.le

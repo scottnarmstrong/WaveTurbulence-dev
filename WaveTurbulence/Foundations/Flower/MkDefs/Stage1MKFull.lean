@@ -37,10 +37,12 @@ def selMassMK {R : ℕ} (N : ℕ) (b : ℝ) (Rs : Fin (2 * R) → ℝ) (kSel : F
 /-- **`Stage1ReductionAtMKFull`** (ruling R177; the gate C5b consumes): the marked Stage-1′ gate at coset base `0`,
 with the weight data explicit, the plain-pattern hypothesis on selected trees, `SoundMKFull … cθ`, and residual
 selected vertices `selR π` (at most one per tree, in selected trees, unpinned, filter `(Rs j, chiDN)` — the
-normalized `chiD / chiDNorm`, ruling R179 —, at most `nProt` of them) with `RepresentsIntMKSel` at the mass `selMassMK`. -/
+normalized `chiD / chiDNorm`, ruling R179 —, at most `nProt` of them) with `RepresentsIntMKSel` at the mass `selMassMK`.
+Ruling R185 (F-B3s-8): `J.card = R` after the cap set, as in `MarkedComponentBoundAtI`. Ruling R187
+(LB-RESTORE-2): the residual selected vertices carry no lower bound (`(S.piece π).lb v = none`), as D7 needs. -/
 def Stage1ReductionAtMKFull (C₀ : ℕ) (cP cθ : ℝ) (P : WTParams) : Prop :=
   ∀ p, p < P.D → ∀ R, 1 ≤ R → R ≤ 10 * P.R (p + 1) → ∀ N, 1 ≤ N → N ≤ P.N (p + 1) ^ 4 →
-  ∀ (J : Finset (Fin (2 * R))) (pat : Fin (2 * R) → FixPat) (kSel : Fin (2 * R) → Option ℕ),
+  ∀ (J : Finset (Fin (2 * R))), J.card = R → ∀ (pat : Fin (2 * R) → FixPat) (kSel : Fin (2 * R) → Option ℕ),
   ∀ t ∈ Ioo (p : ℝ) (p + 1), ∀ s ∈ Ioo (p : ℝ) t,
   ∀ A : Finset (LayeredGarden (2 * R)),
     (∀ LG ∈ A, MkCarries P p N LG ∧ (∀ h : 2 * R = 2, ¬ IsRegularCouple (h ▸ LG.garden : Garden 2)) ∧
@@ -68,7 +70,7 @@ def Stage1ReductionAtMKFull (C₀ : ℕ) (cP cθ : ℝ) (P : WTParams) : Prop :=
       (∃ LG ∈ members (cls π), (S.piece π).nProt ≤ (protI LG J pat t s kSel).card) ∧
       (∀ v ∈ selR π, (kSel v.1.1).isSome ∧ (S.piece π).fix v = none ∧
         ∃ ψ : SchwartzMap ℝ ℂ, (S.piece π).filt v = some (Rs v.1.1, ψ) ∧ ∀ u, ψ u = (chiDN u : ℂ)) ∧
-      (∀ v ∈ selR π, ∀ v' ∈ selR π, v.1.1 = v'.1.1 → v = v') ∧
+      (∀ v ∈ selR π, ∀ v' ∈ selR π, v.1.1 = v'.1.1 → v = v') ∧ (∀ v ∈ selR π, (S.piece π).lb v = none) ∧
       (selR π).card ≤ (S.piece π).nProt) ∧
     (∀ π, SoundMKFull (S.piece π) p 0 roots cθ) ∧ (∀ π, (S.piece π).Gsb.order ≤ N) ∧
     Stage1Counts C₀ P R N S.toData Cl hCl cls

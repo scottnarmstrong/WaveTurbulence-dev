@@ -74,15 +74,17 @@ structure FineMarking (J : Finset (Fin w)) (pat : Fin w → FixPat) (t s : ℝ) 
 
 /-! ## The piece and the value of a fine′ class -/
 
-/-- **The marked piece of a prescribed point** (B2c's `stage1PieceMKOf` at the point, marked set `classMk mkF a`). -/
+/-- **The marked piece of a prescribed point** (B2c's `stage1PieceMKOf` at the point, marked set `classMk mkF a`).
+Ruling R187: the optional last argument `lb` (constant lower bounds on free atoms, default none). -/
 def classPiece (P : WTParams) {R : ℕ} (mkF : Stage1Mk.MarkFn (2 * R)) (a : PrescribedPrimeGarden (2 * R))
     (prot : Finset (GBranch (stSt a.prime.skeleton a.totalSigma (classMk mkF a)).G.tree)) (nProt : ℕ)
     (fix : GBranch (stSt a.prime.skeleton a.totalSigma (classMk mkF a)).G.tree → Option ℝ)
     (filt : GBranch (stSt a.prime.skeleton a.totalSigma (classMk mkF a)).G.tree → Option (ℝ × SchwartzMap ℝ ℂ))
-    (ind : (GNode (stSt a.prime.skeleton a.totalSigma (classMk mkF a)).G.tree → Mom P.d) → ℝ) :
+    (ind : (GNode (stSt a.prime.skeleton a.totalSigma (classMk mkF a)).G.tree → Mom P.d) → ℝ)
+    (lb : GBranch (stSt a.prime.skeleton a.totalSigma (classMk mkF a)).G.tree → Option ℝ := fun _ => none) :
     Stage1PieceMK P.d R :=
   MkSubpro.stage1PieceMKOf P a.prime.prime.1 a.layered a.prime.decodes a.totalSigma (classMk mkF a) prot nProt fix
-    filt ind
+    filt ind lb
 
 /-- The intrinsic marked weight with explicit data (`selOK · markedWeight`). -/
 def markedWt (P : WTParams) {R : ℕ} (J : Finset (Fin (2 * R))) (p : ℕ) (kSel : Fin (2 * R) → Option ℕ)
@@ -113,6 +115,10 @@ structure PieceRestB3s {P : WTParams} {R : ℕ} (π : Stage1PieceMK P.d R) (cθ 
   ind_ok : ∀ k, 0 ≤ π.ind k ∧ π.ind k ≤ 1
   ind_local : ∀ k k', (∀ a ∈ π.surv.joints ∪ π.surv.prot, ∀ i : Fin 3,
     k (a.child i) = k' (a.child i) ∧ k a.toNode = k' a.toNode) → π.ind k = π.ind k'
+  /-- Ruling R187: the lower-bounded atoms are free, protected, and bounded inside their layer window. -/
+  lb_free : ∀ b, (π.lb b).isSome → π.fix b = none
+  lb_prot : ∀ b, (π.lb b).isSome → b ∈ π.surv.prot
+  lb_layer : ∀ b x, π.lb b = some x → (π.layer b : ℝ) ≤ x ∧ x ≤ π.layer b + 1
 
 /-- **What B3s provides for one class piece**: `RepresentsIntMKSel` of the class value at the mass `selMassMK`
 (residual selected vertices `selR`), the six non-survivor `MkPieceRest` fields, and the residual-selection facts of
@@ -131,6 +137,9 @@ structure ClassPieceOK {P : WTParams} {R : ℕ} (π : Stage1PieceMK P.d R) (selR
   `selMassMK ≤ b^N`, `L^{7(47d+2)·#selR} ≤ L^{343·d·nProt}` for `d ≥ 1`; `RepresentsIntMKSel` alone does not give the
   integrability of `‖w‖`.) -/
   repMK : π.RepresentsIntMK N (cP + 343) (fun _ => t) 0 roots (b ^ N) val
+  /-- Ruling R187 (LB-RESTORE-2): no residual selected vertex carries a lower bound (lower bounds sit on `dParent`
+  trees; selected trees are plain). -/
+  sel_lb : ∀ v ∈ selR, π.lb v = none
 
 /-! ## The hypothesis -/
 
@@ -138,10 +147,13 @@ structure ClassPieceOK {P : WTParams} {R : ℕ} (π : Stage1PieceMK P.d R) (selR
 `Stage1ReductionAtMKFull` (coset base `0`), then a fine marking `mkF` (`FineMarking`), then a fine′ class `π` that is
 non-zero (stem-free weight, or every point of the class is stem-clean). Conclusion: for the piece of `repPt π` at
 the marked set `classMk mkF (repPt π)` and `nProt = |Π(repPt π)|`, B3s's data `prot, fix, filt, ind, selR` exist with
-`ClassPieceOK` for the class value `classValue`. -/
+`ClassPieceOK` for the class value `classValue`. Ruling R185 (F-B3s-8): `J.card = R` after the cap set, as in
+`MarkedComponentBoundAtI` (at `J = ∅` the class value has degree `N + R` in the profiles, the mass only `b ^ N`).
+Ruling R187 (F-H3-1): the data also include the constant lower bounds `lb` (`lb π = some s` at the free parents of
+`dParent`-pinned object tops), with `PieceRestB3s.lb_*` and `ClassPieceOK.sel_lb`. -/
 def MarkedClassRepresentsMK (cP cθ : ℝ) (P : WTParams) : Prop :=
   ∀ p, p < P.D → ∀ R, 1 ≤ R → R ≤ 10 * P.R (p + 1) → ∀ N, 1 ≤ N → N ≤ P.N (p + 1) ^ 4 →
-  ∀ (J : Finset (Fin (2 * R))) (pat : Fin (2 * R) → FixPat) (kSel : Fin (2 * R) → Option ℕ),
+  ∀ (J : Finset (Fin (2 * R))), J.card = R → ∀ (pat : Fin (2 * R) → FixPat) (kSel : Fin (2 * R) → Option ℕ),
   ∀ t ∈ Ioo (p : ℝ) (p + 1), ∀ s ∈ Ioo (p : ℝ) t,
   ∀ A : Finset (LayeredGarden (2 * R)),
     (∀ LG ∈ A, MkCarries P p N LG ∧ (∀ h : 2 * R = 2, ¬ IsRegularCouple (h ▸ LG.garden : Garden 2)) ∧
@@ -165,8 +177,9 @@ def MarkedClassRepresentsMK (cP cθ : ℝ) (P : WTParams) : Prop :=
       Option (ℝ × SchwartzMap ℝ ℂ))
     (ind : (GNode (stSt (repPt π).prime.skeleton (repPt π).totalSigma (classMk mkF (repPt π))).G.tree → Mom P.d) →
       ℝ)
+    (lb : GBranch (stSt (repPt π).prime.skeleton (repPt π).totalSigma (classMk mkF (repPt π))).G.tree → Option ℝ)
     (selR : Finset (GBranch (stSt (repPt π).prime.skeleton (repPt π).totalSigma (classMk mkF (repPt π))).G.tree)),
-    ClassPieceOK (classPiece P mkF (repPt π) prot (protI (repPt π).layered J pat t s kSel).card fix filt ind) selR
+    ClassPieceOK (classPiece P mkF (repPt π) prot (protI (repPt π).layered J pat t s kSel).card fix filt ind lb) selR
       N cP cθ t b roots kSel Rs (classValue P p J pat kSel t s A roots h Rf σ Rs dag mkF π)
 
 end WaveTurbulence.Flower.Stage1MKGate

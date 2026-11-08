@@ -9,18 +9,20 @@ public import WaveTurbulence.Foundations.Flower.MkDefs.Stage1MK
 public import WaveTurbulence.Foundations.FlowerTop.Port.CoarseBlockST
 public import WaveTurbulence.Foundations.FlowerTop.Port.FixLemmas
 public import WaveTurbulence.Foundations.Flower.FinalMKCrude.Fibre
+public import WaveTurbulence.Foundations.Flower.FinalMKFine.LBPin
 
 /-! # C2 FINALMK-CRUDE: the marked spliced kernel is bounded by a time-L¹ norm over the free clocks
 
 Copy-thread of Port's `splicedKernelST_norm_le` (itself a copy-thread of main's `splicedKernel_norm_le`) to the
-marked kernel `splicedKernelMK`: arbitrary pins `fix`, and the atom weight `atomW`. -/
+marked kernel `splicedKernelMK`: arbitrary pins `fix`, and the atom weight `atomW`. Ruling R187: the time domain is
+intersected with the constant lower bounds `D.lb`; it stays inside the free box, so the bound is unchanged. -/
 
 @[expose] public section
 set_option autoImplicit false
 namespace WaveTurbulence.Flower.FinalMKCrude
 open WaveTurbulence WaveTurbulence.LGSpine WaveTurbulence.CoarseSpliced WaveTurbulence.FlowerP5
   Finset MeasureTheory Set
-open WaveTurbulence.Flower.MkDefs (SplicedKernelDataMK splicedKernelMK splicedTimeIntegralMK)
+open WaveTurbulence.Flower.MkDefs (SplicedKernelDataMK splicedKernelMK splicedTimeIntegralMK splicedLBDomain)
 open scoped Classical
 
 variable {w d : ℕ} {G : Garden w}
@@ -36,12 +38,13 @@ theorem splicedKernelMK_norm_le (D : SplicedKernelDataMK G d) {L : ℝ} (γ η �
             (splicedMomentumAmplitude G D.toSplicedKernelData L γ η base z.1 *
               globalPhase D.toSplicedKernelData L γ δ base z.1 (G.extendFix D.fix τ))‖ := by
   set C : Set ({b : GBranch G.tree // D.fix b = none} → ℝ) :=
-    G.extendFix D.fix ⁻¹' splicedTimeDomainFix G D.layer D.rootTime D.fix with hC
+    G.extendFix D.fix ⁻¹' (splicedTimeDomainFix G D.layer D.rootTime D.fix ∩ splicedLBDomain D.lb) with hC
   have hCm : MeasurableSet C :=
-    measurable_extendFix D.fix (measurableSet_splicedTimeDomainFix G D.layer D.rootTime D.fix)
+    measurable_extendFix D.fix ((measurableSet_splicedTimeDomainFix G D.layer D.rootTime D.fix).inter
+      (FinalMKFine.measurableSet_splicedLBDomain D.lb))
   have hCsub : C ⊆ freeBox G D.layer D.fix := by
     intro τ hτ v _
-    have := hτ.1 v.1 v.2
+    have := hτ.1.1 v.1 v.2
     rw [extendFix_free D.fix τ v.1 v.2] at this
     exact this.1
   have hg : ∀ z : GNode G.tree → (Fin d → ℤ), Continuous (fun τ : {b : GBranch G.tree // D.fix b = none} → ℝ =>
@@ -55,10 +58,10 @@ theorem splicedKernelMK_norm_le (D : SplicedKernelDataMK G d) {L : ℝ} (γ η �
     funext τ
     by_cases h : τ ∈ C
     · rw [Set.indicator_of_mem h, Set.indicator_of_mem (show G.extendFix D.fix τ ∈
-        splicedTimeDomainFix G D.layer D.rootTime D.fix from h)]
+        splicedTimeDomainFix G D.layer D.rootTime D.fix ∩ splicedLBDomain D.lb from h)]
       exact phaseProd_mul_freq D.toSplicedKernelData L γ δ base z _
     · rw [Set.indicator_of_notMem h, Set.indicator_of_notMem (show G.extendFix D.fix τ ∉
-        splicedTimeDomainFix G D.layer D.rootTime D.fix from h)]
+        splicedTimeDomainFix G D.layer D.rootTime D.fix ∩ splicedLBDomain D.lb from h)]
   have hsum : splicedKernelMK G D L γ η δ base roots =
       (coupling d L γ δ : ℂ) ^ G.order * ∑ z ∈ Zsupp,
         (D.atomW (cosetDecoration G L base z.1) *

@@ -77,7 +77,7 @@ theorem carrier_largeConstants {P : WTParams} (c₁ c₂ : ℝ) {p N R : ℕ} {J
 /-- `PieceRestB3s` does not read the large constants (field-by-field: the structure's parameter record changes). -/
 theorem pieceRestB3s_largeConstants {P : WTParams} {R : ℕ} (c₁ c₂ : ℝ) (π : Stage1PieceMK P.d R) (cθ : ℝ)
     (h : PieceRestB3s π cθ) : PieceRestB3s (P := ({P with C₁ := c₁, C₂ := c₂} : WTParams)) π cθ :=
-  ⟨h.prot_card, h.fix_prot, h.fix_layer, h.filt_ok, h.ind_ok, h.ind_local⟩
+  ⟨h.prot_card, h.fix_prot, h.fix_layer, h.filt_ok, h.ind_ok, h.ind_local, h.lb_free, h.lb_prot, h.lb_layer⟩
 
 theorem classPiece_largeConstants (P : WTParams) {R : ℕ} (c₁ c₂ : ℝ) (mkF : Stage1Mk.MarkFn (2 * R))
     (a : PrescribedPrimeGarden (2 * R))
@@ -85,32 +85,33 @@ theorem classPiece_largeConstants (P : WTParams) {R : ℕ} (c₁ c₂ : ℝ) (mk
     (fix : GBranch (RedSplice.stSt a.prime.skeleton a.totalSigma (classMk mkF a)).G.tree → Option ℝ)
     (filt : GBranch (RedSplice.stSt a.prime.skeleton a.totalSigma (classMk mkF a)).G.tree →
       Option (ℝ × SchwartzMap ℝ ℂ))
-    (ind : (GNode (RedSplice.stSt a.prime.skeleton a.totalSigma (classMk mkF a)).G.tree → Mom P.d) → ℝ) :
-    classPiece ({P with C₁ := c₁, C₂ := c₂} : WTParams) mkF a prot n fix filt ind =
-      classPiece P mkF a prot n fix filt ind := rfl
+    (ind : (GNode (RedSplice.stSt a.prime.skeleton a.totalSigma (classMk mkF a)).G.tree → Mom P.d) → ℝ)
+    (lb : GBranch (RedSplice.stSt a.prime.skeleton a.totalSigma (classMk mkF a)).G.tree → Option ℝ) :
+    classPiece ({P with C₁ := c₁, C₂ := c₂} : WTParams) mkF a prot n fix filt ind lb =
+      classPiece P mkF a prot n fix filt ind lb := rfl
 
 /-- **The B3 + B3s hypothesis is large-constant monotone.** -/
 theorem markedClassRepresentsMK_mono (cP cθ : ℝ) : LargeConstantMonotone (MarkedClassRepresentsMK cP cθ) := by
   intro P c₁ c₂ hC hC₂ hδ hL h₁ h₂ h
-  intro p hp R hR hRmax N hN1 hNb J pat kSel t ht s hs A hA hpl hTC roots hh b Rf σ Rs dag hb hhb hRf hRs hhigh
+  intro p hp R hR hRmax N hN1 hNb J hJ pat kSel t ht s hs A hA hpl hTC roots hh b Rf σ Rs dag hb hhb hRf hRs hhigh
     mkF hF π hnz
   rw [R_largeConstants] at hRmax
   rw [N_largeConstants] at hNb
-  obtain ⟨prot, fix, filt, ind, selR, hok⟩ := h p hp R hR hRmax N hN1 hNb J pat kSel t ht s hs A
+  obtain ⟨prot, fix, filt, ind, lb, selR, hok⟩ := h p hp R hR hRmax N hN1 hNb J hJ pat kSel t ht s hs A
     (fun LG hLG => carrier_largeConstants c₁ c₂ (hA LG hLG)) hpl hTC roots hh b Rf σ Rs dag hb hhb hRf hRs hhigh
     mkF hF π hnz
   have hL0 : 0 ≤ P.L := by linarith
   have hRs0 : ∀ j, 0 ≤ Rs j := fun j => hL0.trans (hRs j)
-  refine ⟨prot, fix, filt, ind, selR, ?_⟩
+  refine ⟨prot, fix, filt, ind, lb, selR, ?_⟩
   have h1 := representsIntMKSel_largeConstants (P := P) c₁ c₂ h₁ (by linarith) hL0
-    (classPiece P mkF (repPt π) prot (protI (repPt π).layered J pat t s kSel).card fix filt ind) selR N cP
+    (classPiece P mkF (repPt π) prot (protI (repPt π).layered J pat t s kSel).card fix filt ind lb) selR N cP
     (fun _ => t) 0 roots _ (selMassMK_nonneg N (zero_le_one.trans hb) hRs0 kSel _) _ hok.rep
   have h2 := pieceRestB3s_largeConstants (P := P) c₁ c₂
-    (classPiece P mkF (repPt π) prot (protI (repPt π).layered J pat t s kSel).card fix filt ind) cθ hok.rest
+    (classPiece P mkF (repPt π) prot (protI (repPt π).layered J pat t s kSel).card fix filt ind lb) cθ hok.rest
   have h3 := representsIntMK_largeConstants (P := P) c₁ c₂ h₁ (by linarith) hL0
-    (classPiece P mkF (repPt π) prot (protI (repPt π).layered J pat t s kSel).card fix filt ind) N (cP + 343)
+    (classPiece P mkF (repPt π) prot (protI (repPt π).layered J pat t s kSel).card fix filt ind lb) N (cP + 343)
     (fun _ => t) 0 roots _ (pow_nonneg (zero_le_one.trans hb) N) _ hok.repMK
-  exact ⟨h1, h2, hok.sel_spec, hok.sel_inj, hok.sel_card, h3⟩
+  exact ⟨h1, h2, hok.sel_spec, hok.sel_inj, hok.sel_card, h3, hok.sel_lb⟩
 
 /-- **The zero-class statement is large-constant monotone.** -/
 theorem zeroVanish_mono : LargeConstantMonotone ZeroVanish := by

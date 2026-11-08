@@ -423,7 +423,8 @@ def ProtBoundSelGate : Prop := WTPrefix ProtBoundSelAt
 chain (times still integrated, factor `chiD(|Ω|/M₂)`; at most one, ruling R178, finding F-D6a-1: adjacent linked
 selected vertices cancel phases and give one `1/|ω|`, not two) and `b₀ ∈ {0,1}` terminal pin, `r = b₀ + a ≥ 1`, upper filters
 elsewhere: the whole signed face collection (= the original annular kernel) gains `M₂^{-a/18}` at cost
-`L^{(47d+5)r}`, with every incoherency unit retained. -/
+`L^{(47d+5)r}`, with every incoherency unit retained. For a paired tree (`w = 1`) the port box is the
+native one: the lone node lies in layer `q'` (ruling R183, finding F-D6b-4; D5's form). -/
 def ProtAnnBoundAt (P : WTParams) : Prop :=
   ∀ p : ℕ, p < P.D → ∀ n : ℕ, n ≤ P.N (p + 1) ^ 4 → ∀ (w : ℕ) (LG : LayeredGarden w) (X : RegChain),
   ProtShape p X LG → protSize X LG = 2 * n →
@@ -432,6 +433,7 @@ def ProtAnnBoundAt (P : WTParams) : Prop :=
       (pin = true → b.1.2 ≠ X.lonePath.dropLast)) →
     1 ≤ (if pin then 1 else 0) + Sel.card → Sel.card ≤ 1 → ProtAmbient p X LG →
   ∀ (M₂ : ℝ), P.L ≤ M₂ → ∀ (s : ℝ), (p : ℝ) < s → s < p + 1 → ∀ q' : ℕ, q' ≤ p →
+    (w = 1 → ∀ a : GNode LG.garden.tree, a.1.2 = X.lonePath → LG.layer a = q') →
   ∀ (S : Finset (GNode LG.garden.tree)) (ω : GNode LG.garden.tree → Flower.IncTop.Star P.d → ℂ)
     (cω : GNode LG.garden.tree → ℝ), (∀ a ∈ S, Flower.IncTop.StarPresented (30 * P.d) (ω a) (cω a)) →
   ∀ (F : Finset (GBranch LG.garden.tree)) (M : GBranch LG.garden.tree → ℝ), (∀ b ∈ F, P.L ≤ M b) →

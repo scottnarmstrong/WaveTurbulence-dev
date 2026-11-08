@@ -36,19 +36,22 @@ namespace WaveTurbulence.Flower.MkSubpro
 open WaveTurbulence.LGSpine.SourceVine WaveTurbulence.Flower.MkDefs WaveTurbulence.Flower.FinalMKDefs
 
 /-- **The marked Stage-1′ piece of the construction** (main's `stage1PieceOf` at the marking `Mk`, the survivors,
-and B4's protected set, pins, filters and indicator). -/
+and B4's protected set, pins, filters and indicator). Ruling R187: the optional last argument `lb` (constant lower
+bounds, default none). -/
 noncomputable def stage1PieceMKOf (P : WTParams) {R : ℕ} {S : Garden (2 * R)} {D : ReconstructionData S}
     (hS : S.IsPlain) (LG : LayeredGarden (2 * R)) (hd : D.Decodes hS LG.garden) (σ : Prescription S)
     (Mk : Set (Stage1.CLVine S)) (prot : Finset (GBranch (stSt S σ Mk).G.tree)) (nProt : ℕ)
     (fix : GBranch (stSt S σ Mk).G.tree → Option ℝ)
     (filt : GBranch (stSt S σ Mk).G.tree → Option (ℝ × SchwartzMap ℝ ℂ))
-    (ind : (GNode (stSt S σ Mk).G.tree → Mom P.d) → ℝ) : Stage1PieceMK P.d R where
+    (ind : (GNode (stSt S σ Mk).G.tree → Mom P.d) → ℝ)
+    (lb : GBranch (stSt S σ Mk).G.tree → Option ℝ := fun _ => none) : Stage1PieceMK P.d R where
   toStage1PieceD := VineA.NormalizedSplice.stage1PieceOf P.d hS LG hd σ Mk
   surv := survData S σ Mk prot
   nProt := nProt
   fix := fix
   filt := filt
   ind := ind
+  lb := lb
 
 /-- The fields of `SoundMK`/`SoundMKFull` that are not geometric (copied from them verbatim): the survivor and
 protected counts (B4) and the pin, filter and indicator facts (B3s/B4). -/
@@ -61,6 +64,9 @@ structure MkPieceRest {P : WTParams} {R : ℕ} (π : Stage1PieceMK P.d R) (cθ :
   ind_ok : ∀ k, 0 ≤ π.ind k ∧ π.ind k ≤ 1
   ind_local : ∀ k k', (∀ a ∈ π.surv.joints ∪ π.surv.prot, ∀ i : Fin 3,
     k (a.child i) = k' (a.child i) ∧ k a.toNode = k' a.toNode) → π.ind k = π.ind k'
+  lb_free : ∀ b, (π.lb b).isSome → π.fix b = none
+  lb_prot : ∀ b, (π.lb b).isSome → b ∈ π.surv.prot
+  lb_layer : ∀ b x, π.lb b = some x → (π.layer b : ℝ) ≤ x ∧ x ≤ π.layer b + 1
 
 /-- **`SoundMKFull` for the marked Stage-1′ piece** (F-C0-3): main's hypotheses of `stage1Piece_sound_succ_uncond`,
 ruling R173 (`hMkSG`) and the non-geometric fields (`MkPieceRest`). -/
@@ -73,9 +79,9 @@ theorem soundMKFull_marked (P : WTParams) {R : ℕ} {S : Garden (2 * R)} {D : Re
     (prot : Finset (GBranch (stSt S σ Mk).G.tree)) (nProt : ℕ)
     (fix : GBranch (stSt S σ Mk).G.tree → Option ℝ)
     (filt : GBranch (stSt S σ Mk).G.tree → Option (ℝ × SchwartzMap ℝ ℂ))
-    (ind : (GNode (stSt S σ Mk).G.tree → Mom P.d) → ℝ)
-    (hrest : MkPieceRest (stage1PieceMKOf P hS LG hd σ Mk prot nProt fix filt ind) cθ) :
-    SoundMKFull (stage1PieceMKOf P hS LG hd σ Mk prot nProt fix filt ind) p base roots cθ := by
+    (ind : (GNode (stSt S σ Mk).G.tree → Mom P.d) → ℝ) {lb : GBranch (stSt S σ Mk).G.tree → Option ℝ}
+    (hrest : MkPieceRest (stage1PieceMKOf P hS LG hd σ Mk prot nProt fix filt ind lb) cθ) :
+    SoundMKFull (stage1PieceMKOf P hS LG hd σ Mk prot nProt fix filt ind lb) p base roots cθ := by
   obtain ⟨hB, hStr, hHinge⟩ := VineA.NormalizedSplice.construction_factsMk (Mk := Mk) S hP hI hbal hn σ
     (RegRed.coreLayer LG D hS hd) p (P.N (p + 1) ^ 4) hN hlayer
   exact
@@ -104,6 +110,9 @@ theorem soundMKFull_marked (P : WTParams) {R : ℕ} {S : Garden (2 * R)} {D : Re
       fix_layer := hrest.fix_layer
       filt_ok := hrest.filt_ok
       ind_ok := hrest.ind_ok
-      ind_local := hrest.ind_local }
+      ind_local := hrest.ind_local
+      lb_free := hrest.lb_free
+      lb_prot := hrest.lb_prot
+      lb_layer := hrest.lb_layer }
 
 end WaveTurbulence.Flower.MkSubpro

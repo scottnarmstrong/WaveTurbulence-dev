@@ -43,13 +43,15 @@ theorem phase_mul_eq (G : Garden w) (D : SplicedKernelData G d) (L γ δ : ℝ) 
   push_cast
   ring
 
-/-- The pinned time integral is the pinned transform `B_MK` at the decoration's frequency. -/
-theorem splicedTimeIntegralMK_eq (G : Garden w) (D : SplicedKernelDataMK G d) (L γ δ : ℝ) (base : Mom d)
-    (z : GNode G.tree → (Fin d → ℤ)) :
+/-- The pinned time integral is the pinned transform `B_MK` at the decoration's frequency (data without lower
+bounds, ruling R187; the general form is `LBPin.splicedTimeIntegralMK_eq_LB`). -/
+theorem splicedTimeIntegralMK_eq (G : Garden w) (D : SplicedKernelDataMK G d) (hlb : D.lb = fun _ => none)
+    (L γ δ : ℝ) (base : Mom d) (z : GNode G.tree → (Fin d → ℤ)) :
     splicedTimeIntegralMK G D L γ δ base z =
       splicedFourierBMK G D.layer D.rootTime D.fix
         (splicedFrequency G D.toSplicedKernelData L γ δ base z) := by
-  unfold splicedTimeIntegralMK splicedFourierBMK
+  rw [splicedTimeIntegralMK_lb_none G D hlb]
+  unfold splicedFourierBMK
   congr 1
   funext τ
   have h : (fun t : GBranch G.tree → ℝ => phaseProd L γ δ G (cosetDecoration G L base z) t *
@@ -65,8 +67,8 @@ noncomputable def ampMK (G : Garden w) (D : SplicedKernelDataMK G d) (L γ η : 
     (z : GNode G.tree → (Fin d → ℤ)) : ℂ :=
   D.atomW (cosetDecoration G L base z) * splicedMomentumAmplitude G D.toSplicedKernelData L γ η base z
 
-theorem splicedKernelMK_eq (G : Garden w) (D : SplicedKernelDataMK G d) (L γ η δ : ℝ) (base : Mom d)
-    (roots : Fin w → (Fin d → ℤ)) :
+theorem splicedKernelMK_eq (G : Garden w) (D : SplicedKernelDataMK G d) (hlb : D.lb = fun _ => none)
+    (L γ η δ : ℝ) (base : Mom d) (roots : Fin w → (Fin d → ℤ)) :
     splicedKernelMK G D L γ η δ base roots = (coupling d L γ δ : ℂ) ^ G.order *
       ∑' z : GenDecoration G d roots 0, ampMK G D L γ η base z.1 *
         splicedFourierBMK G D.layer D.rootTime D.fix
@@ -75,7 +77,7 @@ theorem splicedKernelMK_eq (G : Garden w) (D : SplicedKernelDataMK G d) (L γ η
   congr 1
   apply tsum_congr
   intro z
-  rw [splicedTimeIntegralMK_eq]
+  rw [splicedTimeIntegralMK_eq G D hlb]
   unfold ampMK splicedMomentumAmplitude
   ring
 

@@ -44,14 +44,14 @@ theorem ampMK_modData (D : SplicedKernelDataMK G d) (fix' : GBranch G.tree → O
 
 /-- The marked kernel as a finite sum of amplitudes times pinned time transforms (C4b's `splicedKernelMK_eq`). -/
 theorem kernel_eq_sum (hP : G.IsPlain) (D : SplicedKernelDataMK G d)
-    (hD : SplicedAmplitudeBounds G D.toSplicedKernelData) {L : ℝ} (hL : 0 < L) (γ η δ : ℝ) (base : Mom d)
+    (hD : SplicedAmplitudeBounds G D.toSplicedKernelData) (hlb : D.lb = fun _ => none) {L : ℝ} (hL : 0 < L) (γ η δ : ℝ) (base : Mom d)
     (roots : Fin w → (Fin d → ℤ)) (fix' : GBranch G.tree → Option ℝ) (g : (GNode G.tree → Mom d) → ℝ) :
     splicedKernelMK G (modData D fix' g) L γ η δ base roots =
       (coupling d L γ δ : ℂ) ^ G.order *
         ∑ z ∈ (CoarseSpliced.finite_momAmp_support G hP D.toSplicedKernelData hD hL γ η base roots).toFinset,
           ampMK G D L γ η base z.1 * (g (cosetDecoration G L base z.1) : ℂ) *
             splicedFourierBMK G D.layer D.rootTime fix' (splicedFrequency G D.toSplicedKernelData L γ δ base z.1) := by
-  rw [splicedKernelMK_eq]
+  rw [splicedKernelMK_eq G (modData D fix' g) hlb]
   congr 1
   rw [tsum_eq_sum]
   · refine Finset.sum_congr rfl fun z _ => ?_
@@ -221,7 +221,7 @@ theorem face_expand' (layer : GBranch G.tree → ℕ) (rootTime : Fin w → ℝ)
 
 /-- Summing the faces against the modified amplitudes gives the modified kernels. -/
 theorem faces_sum (hP : G.IsPlain) (D : SplicedKernelDataMK G d)
-    (hD : SplicedAmplitudeBounds G D.toSplicedKernelData) {L : ℝ} (hL : 0 < L) (γ η δ : ℝ) (base : Mom d)
+    (hD : SplicedAmplitudeBounds G D.toSplicedKernelData) (hlb : D.lb = fun _ => none) {L : ℝ} (hL : 0 < L) (γ η δ : ℝ) (base : Mom d)
     (roots : Fin w → (Fin d → ℤ)) (v : GBranch G.tree) (hv : D.fix v = none) (g : (GNode G.tree → Mom d) → ℝ) :
     (coupling d L γ δ : ℂ) ^ G.order *
         ∑ z ∈ (CoarseSpliced.finite_momAmp_support G hP D.toSplicedKernelData hD hL γ η base roots).toFinset,
@@ -230,7 +230,7 @@ theorem faces_sum (hP : G.IsPlain) (D : SplicedKernelDataMK G d)
       facesK D v g L γ η δ base roots := by
   unfold facesB facesK
   rw [alg_faces]
-  simp only [kernel_eq_sum hP D hD hL γ η δ base roots]
+  simp only [kernel_eq_sum hP D hD hlb hL γ η δ base roots]
   congr 1
   · congr 1
     · split_ifs <;> simp [mul_assoc]
@@ -317,13 +317,13 @@ theorem norm_facesK_le (D : SplicedKernelDataMK G d) (v : GBranch G.tree) (g : (
 /-- **One selected atom** (o73 (20.5)): if the selected frequency is at least `λ` on the support, the kernel is at
 most `12/λ` times any bound for the one-step pinned modifications. -/
 theorem expand_one (hP : G.IsPlain) (D : SplicedKernelDataMK G d)
-    (hD : SplicedAmplitudeBounds G D.toSplicedKernelData) {L : ℝ} (hL : 0 < L) (γ η δ : ℝ) (base : Mom d)
+    (hD : SplicedAmplitudeBounds G D.toSplicedKernelData) (hlb : D.lb = fun _ => none) {L : ℝ} (hL : 0 < L) (γ η δ : ℝ) (base : Mom d)
     (roots : Fin w → (Fin d → ℤ)) (v : GBranch G.tree) (hv : D.fix v = none) {lam : ℝ} (hlam : 0 < lam)
     (hα : ∀ z : GenDecoration G d roots 0, ampMK G D L γ η base z.1 ≠ 0 →
       lam ≤ |selFreq D L γ δ v (cosetDecoration G L base z.1)|)
     (Bnd : ℝ) (hB0 : 0 ≤ Bnd) (hB : OneStepBound D v L γ η δ base roots Bnd) :
     ‖splicedKernelMK G D L γ η δ base roots‖ ≤ (12 / lam) * Bnd := by
-  have hK := kernel_eq_sum hP D hD hL γ η δ base roots D.fix (fun _ => 1)
+  have hK := kernel_eq_sum hP D hD hlb hL γ η δ base roots D.fix (fun _ => 1)
   rw [modData_self] at hK
   have hz : ∀ z : GenDecoration G d roots 0,
       ampMK G D L γ η base z.1 * ((fun _ => (1 : ℝ)) (cosetDecoration G L base z.1) : ℂ) *
@@ -347,7 +347,7 @@ theorem expand_one (hP : G.IsPlain) (D : SplicedKernelDataMK G d)
     ring
   have key : splicedKernelMK G D L γ η δ base roots = (-Complex.I / (lam : ℂ)) *
       (facesK D v (gPlus D L γ δ v lam) L γ η δ base roots - facesK D v (gMinus D L γ δ v lam) L γ η δ base roots) := by
-    rw [hK, ← faces_sum hP D hD hL γ η δ base roots v hv, ← faces_sum hP D hD hL γ η δ base roots v hv,
+    rw [hK, ← faces_sum hP D hD hlb hL γ η δ base roots v hv, ← faces_sum hP D hD hlb hL γ η δ base roots v hv,
       ← mul_sub, ← Finset.sum_sub_distrib, Finset.mul_sum, Finset.mul_sum, Finset.mul_sum]
     refine Finset.sum_congr rfl fun z _ => ?_
     rw [hz z]; ring
@@ -383,10 +383,12 @@ structure ModOK (S : Finset (GBranch G.tree)) (D D' : SplicedKernelDataMK G d) :
     ∀ k, D'.ind k = D.ind k * g k
   recip : ∃ Rc : Finset (GBranch G.tree), Rc.card ≤ S.card ∧ (∀ b, D'.fix b ≠ D.fix b → b ∈ S ∪ Rc) ∧
     ∀ b, D'.fix b ≠ D.fix b → ∃ t, D'.fix b = some t ∧ (D.layer b : ℝ) ≤ t ∧ t ≤ D.layer b + 1
+  /-- Ruling R187: the lower bounds are unchanged. -/
+  lb : D'.lb = D.lb
 
 theorem ModOK.refl (D : SplicedKernelDataMK G d) : ModOK ∅ D D :=
   ⟨rfl, rfl, ⟨fun _ => 1, fun _ => ⟨zero_le_one, le_rfl⟩, fun _ _ _ => rfl, fun _ => (mul_one _).symm⟩,
-    ⟨∅, le_rfl, fun _ h => absurd rfl h, fun _ h => absurd rfl h⟩⟩
+    ⟨∅, le_rfl, fun _ h => absurd rfl h, fun _ h => absurd rfl h⟩, rfl⟩
 
 theorem ModOK.one (D : SplicedKernelDataMK G d) (v y : GBranch G.tree) (r : ℝ) (g : (GNode G.tree → Mom d) → ℝ)
     (hg : ∀ k, 0 ≤ g k ∧ g k ≤ 1)
@@ -394,7 +396,7 @@ theorem ModOK.one (D : SplicedKernelDataMK G d) (v y : GBranch G.tree) (r : ℝ)
     (hv : (D.layer v : ℝ) ≤ r ∧ r ≤ D.layer v + 1) (hy : (D.layer y : ℝ) ≤ r ∧ r ≤ D.layer y + 1) :
     ModOK {v} D (modData D (pin (pin D.fix v r) y r) g) := by
   refine ⟨rfl, rfl, ⟨g, hg, fun k k' h => hgl k k' ⟨fun i => (h v (mem_singleton_self v) i).1,
-    (h v (mem_singleton_self v) 0).2⟩, fun k => rfl⟩, ⟨{y}, by simp, fun b hb => ?_, fun b hb => ?_⟩⟩
+    (h v (mem_singleton_self v) 0).2⟩, fun k => rfl⟩, ⟨{y}, by simp, fun b hb => ?_, fun b hb => ?_⟩, rfl⟩
   · by_contra hn
     simp only [Finset.mem_union, Finset.mem_singleton, not_or] at hn
     exact hb (by simp [modData, pin, Function.update_of_ne hn.1, Function.update_of_ne hn.2])
@@ -406,11 +408,11 @@ theorem ModOK.one (D : SplicedKernelDataMK G d) (v y : GBranch G.tree) (r : ℝ)
 
 theorem ModOK.trans {S₁ S₂ : Finset (GBranch G.tree)} {D D₁ D₂ : SplicedKernelDataMK G d} (h₁ : ModOK S₁ D D₁)
     (h₂ : ModOK S₂ D₁ D₂) (hd : Disjoint S₁ S₂) : ModOK (S₁ ∪ S₂) D D₂ := by
-  obtain ⟨hd₁, hf₁, ⟨g₁, hg₁, hl₁, hi₁⟩, ⟨R₁, hR₁, hc₁, hb₁⟩⟩ := h₁
-  obtain ⟨hd₂, hf₂, ⟨g₂, hg₂, hl₂, hi₂⟩, ⟨R₂, hR₂, hc₂, hb₂⟩⟩ := h₂
+  obtain ⟨hd₁, hf₁, ⟨g₁, hg₁, hl₁, hi₁⟩, ⟨R₁, hR₁, hc₁, hb₁⟩, hlb₁⟩ := h₁
+  obtain ⟨hd₂, hf₂, ⟨g₂, hg₂, hl₂, hi₂⟩, ⟨R₂, hR₂, hc₂, hb₂⟩, hlb₂⟩ := h₂
   refine ⟨hd₂.trans hd₁, hf₂.trans hf₁, ⟨fun k => g₁ k * g₂ k, fun k => ⟨mul_nonneg (hg₁ k).1 (hg₂ k).1,
     (mul_le_mul (hg₁ k).2 (hg₂ k).2 (hg₂ k).1 zero_le_one).trans_eq (one_mul 1)⟩, fun k k' h => ?_, fun k => by rw [hi₂, hi₁, mul_assoc]⟩,
-    ⟨R₁ ∪ R₂, ?_, fun b hb => ?_, fun b hb => ?_⟩⟩
+    ⟨R₁ ∪ R₂, ?_, fun b hb => ?_, fun b hb => ?_⟩, hlb₂.trans hlb₁⟩
   · show g₁ k * g₂ k = g₁ k' * g₂ k'
     rw [hl₁ k k' fun a ha => h a (mem_union_left _ ha), hl₂ k k' fun a ha => h a (mem_union_right _ ha)]
   · calc (R₁ ∪ R₂).card ≤ R₁.card + R₂.card := card_union_le _ _
@@ -436,7 +438,8 @@ theorem selFreq_congr {D D' : SplicedKernelDataMK G d} (h : D'.toSplicedKernelDa
 theorem expand_bound_atom (hP : G.IsPlain) {L : ℝ} (hL : 0 < L) (γ η δ : ℝ) (base : Mom d)
     (roots : Fin w → (Fin d → ℤ)) (lam : GBranch G.tree → ℝ) (Bnd : ℝ) (hB0 : 0 ≤ Bnd) :
     ∀ (S : Finset (GBranch G.tree)) (D : SplicedKernelDataMK G d), (∀ v ∈ S, 0 < lam v) →
-      SplicedAmplitudeBounds G D.toSplicedKernelData → (∀ a ∈ S, ∀ b ∈ S, a.1.1 = b.1.1 → a = b) →
+      SplicedAmplitudeBounds G D.toSplicedKernelData → D.lb = (fun _ => none) →
+      (∀ a ∈ S, ∀ b ∈ S, a.1.1 = b.1.1 → a = b) →
       (∀ v ∈ S, D.fix v = none) →
       (∀ v ∈ S, ∀ z : GenDecoration G d roots 0, ampMK G D L γ η base z.1 ≠ 0 →
         lam v ≤ |selFreq D L γ δ v (cosetDecoration G L base z.1)|) →
@@ -445,15 +448,15 @@ theorem expand_bound_atom (hP : G.IsPlain) {L : ℝ} (hL : 0 < L) (γ η δ : �
   intro S
   induction S using Finset.induction_on with
   | empty =>
-    intro D _ _ _ _ _ hB
+    intro D _ _ _ _ _ _ hB
     simpa using hB D (ModOK.refl D)
   | insert v S hvS ih =>
-    intro D hlam hD hS1 hfree hα hB
+    intro D hlam hD hlb hS1 hfree hα hB
     rw [prod_insert hvS, mul_assoc]
     have hlamS : ∀ v' ∈ S, 0 < lam v' := fun v' hv' => hlam v' (mem_insert_of_mem hv')
     have hBnd' : 0 ≤ (∏ v' ∈ S, 12 / lam v') * Bnd :=
       mul_nonneg (prod_nonneg fun v' hv' => by have := hlamS v' hv'; positivity) hB0
-    refine expand_one hP D hD hL γ η δ base roots v (hfree v (mem_insert_self v S)) (hlam v (mem_insert_self v S))
+    refine expand_one hP D hD hlb hL γ η δ base roots v (hfree v (mem_insert_self v S)) (hlam v (mem_insert_self v S))
       (hα v (mem_insert_self v S)) _ hBnd' ?_
     intro y r g hg hgl hy hbv hby
     set D₁ := modData D (pin (pin D.fix v r) y r) g with hD₁
@@ -462,7 +465,7 @@ theorem expand_bound_atom (hP : G.IsPlain) {L : ℝ} (hL : 0 < L) (γ η δ : �
       · rfl
       · exact h.1
       · exact h.1.symm
-    refine ih D₁ hlamS hD (fun a ha b hb => hS1 a (mem_insert_of_mem ha) b (mem_insert_of_mem hb))
+    refine ih D₁ hlamS hD hlb (fun a ha b hb => hS1 a (mem_insert_of_mem ha) b (mem_insert_of_mem hb))
       (fun v' hv' => ?_) (fun v' hv' z hz => ?_) (fun D' hD' => ?_)
     · have hv'v : v' ≠ v := fun h => hvS (h ▸ hv')
       have hv'y : v' ≠ y := fun h => hv'v (hS1 v' (mem_insert_of_mem hv') v (mem_insert_self v S) (h ▸ hyt))
@@ -481,14 +484,16 @@ theorem expand_bound_atom (hP : G.IsPlain) {L : ℝ} (hL : 0 < L) (γ η δ : �
 theorem expand_bound (hP : G.IsPlain) {L : ℝ} (hL : 0 < L) (γ η δ : ℝ) (base : Mom d)
     (roots : Fin w → (Fin d → ℤ)) {lam : ℝ} (hlam : 0 < lam) (Bnd : ℝ) (hB0 : 0 ≤ Bnd) :
     ∀ (S : Finset (GBranch G.tree)) (D : SplicedKernelDataMK G d),
-      SplicedAmplitudeBounds G D.toSplicedKernelData → (∀ a ∈ S, ∀ b ∈ S, a.1.1 = b.1.1 → a = b) →
+      SplicedAmplitudeBounds G D.toSplicedKernelData → D.lb = (fun _ => none) →
+      (∀ a ∈ S, ∀ b ∈ S, a.1.1 = b.1.1 → a = b) →
       (∀ v ∈ S, D.fix v = none) →
       (∀ v ∈ S, ∀ z : GenDecoration G d roots 0, ampMK G D L γ η base z.1 ≠ 0 →
         lam ≤ |selFreq D L γ δ v (cosetDecoration G L base z.1)|) →
       (∀ D', ModOK S D D' → ‖splicedKernelMK G D' L γ η δ base roots‖ ≤ Bnd) →
       ‖splicedKernelMK G D L γ η δ base roots‖ ≤ (12 / lam) ^ S.card * Bnd := by
-  intro S D hD hS1 hfree hα hB
-  have h := expand_bound_atom hP hL γ η δ base roots (fun _ => lam) Bnd hB0 S D (fun _ _ => hlam) hD hS1 hfree hα hB
+  intro S D hD hlb hS1 hfree hα hB
+  have h := expand_bound_atom hP hL γ η δ base roots (fun _ => lam) Bnd hB0 S D (fun _ _ => hlam) hD hlb hS1 hfree
+    hα hB
   rwa [prod_const] at h
 
 end WaveTurbulence.Flower.SelRes

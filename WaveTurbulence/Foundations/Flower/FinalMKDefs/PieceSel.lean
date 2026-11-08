@@ -22,6 +22,9 @@ and `MarkedPieceSelTarget` takes `1 ≤ P.d` (as R161 for `MarkedPieceTarget`).
 **Revision R179 (F-B3s-1):** the selected filter is the normalized `chiDN = chiD / chiDNorm` (`MkDefs.ChiDNorm`),
 not `chiD`, whose supremum exceeds the bound `1` of `SoundMKFull.filt_ok`.
 
+**Revision R187 (LB-RESTORE-2):** the four selected statements take `lb v = none` at the selected atoms (a selected
+atom is integrated by parts; B3s's lower bounds sit on `dParent` trees, which carry no selection).
+
 **Per-tree scales (D7-2, finding F-C5b-1):** `MarkedPieceBoundSelAtT` (new) and `MarkedSumBoundSelAtT`,
 `SelSumTargetT` (copied by source from the world's `CompMK/Defs.lean`, see `COPIED-SHA256SUMS`): each selected atom
 `v` at its tree's scale `Ms v.1.1`. -/
@@ -72,7 +75,7 @@ def MarkedPieceBoundSelAt (cP cθ : ℝ) (P : WTParams) : Prop :=
   ∀ {p R n : ℕ}, p < P.D → 1 ≤ R → R ≤ 10 * P.R (p + 1) →
   ∀ (π : Stage1PieceMK P.d R) (sel : Finset (GBranch π.Gsb.tree)) (M₂ : ℝ), P.L ≤ M₂ →
     (∀ v ∈ sel, π.fix v = none ∧ ∃ ψ : SchwartzMap ℝ ℂ, π.filt v = some (M₂, ψ) ∧ ∀ u, ψ u = (chiDN u : ℂ)) →
-    (∀ v ∈ sel, ∀ v' ∈ sel, v.1.1 = v'.1.1 → v = v') →
+    (∀ v ∈ sel, ∀ v' ∈ sel, v.1.1 = v'.1.1 → v = v') → (∀ v ∈ sel, π.lb v = none) →
   ∀ (tt : Fin (2 * R) → ℝ) (base : Mom P.d) (roots : Fin (2 * R) → (Fin P.d → ℤ)),
     SoundMKFull π p base roots cθ → π.Gsb.order ≤ n → ((n : ℝ) + 1) ≤ P.L →
   ∀ (val : ℂ) (s : ℝ), 0 < s → RepresentsIntMKSel π sel n cP tt base roots s val →
@@ -97,7 +100,7 @@ def MarkedSumBoundSelAt (cP cθ X : ℝ) (a : ℕ) (M₂ : ℝ) (P : WTParams) :
     P.L ≤ M₂ → (∀ π, (sel π).card = a) →
     (∀ π, ∀ v ∈ sel π, (S.piece π).fix v = none ∧
       ∃ ψ : SchwartzMap ℝ ℂ, (S.piece π).filt v = some (M₂, ψ) ∧ ∀ u, ψ u = (chiDN u : ℂ)) →
-    (∀ π, ∀ v ∈ sel π, ∀ v' ∈ sel π, v.1.1 = v'.1.1 → v = v') →
+    (∀ π, ∀ v ∈ sel π, ∀ v' ∈ sel π, v.1.1 = v'.1.1 → v = v') → (∀ π, ∀ v ∈ sel π, (S.piece π).lb v = none) →
     (∀ π, SoundMKFull (S.piece π) p base roots cθ) → (∀ π, (S.piece π).Gsb.order ≤ n) → ((n : ℝ) + 1) ≤ P.L →
     (∀ π, RepresentsIntMKSel (S.piece π) (sel π) n cP tt base roots s (S.val π)) →
     (∀ π, markedExtra cP (S.piece π) ≤ X) →
@@ -121,7 +124,7 @@ def MarkedPieceBoundSelAtT (cP cθ : ℝ) (P : WTParams) : Prop :=
     (∀ v ∈ sel, P.L ≤ Ms v.1.1) →
     (∀ v ∈ sel, π.fix v = none ∧
       ∃ ψ : SchwartzMap ℝ ℂ, π.filt v = some (Ms v.1.1, ψ) ∧ ∀ u, ψ u = (chiDN u : ℂ)) →
-    (∀ v ∈ sel, ∀ v' ∈ sel, v.1.1 = v'.1.1 → v = v') →
+    (∀ v ∈ sel, ∀ v' ∈ sel, v.1.1 = v'.1.1 → v = v') → (∀ v ∈ sel, π.lb v = none) →
   ∀ (tt : Fin (2 * R) → ℝ) (base : Mom P.d) (roots : Fin (2 * R) → (Fin P.d → ℤ)),
     SoundMKFull π p base roots cθ → π.Gsb.order ≤ n → ((n : ℝ) + 1) ≤ P.L →
   ∀ (val : ℂ) (s : ℝ), 0 < s → RepresentsIntMKSel π sel n cP tt base roots s val →
@@ -147,7 +150,7 @@ def MarkedSumBoundSelAtT (cP cθ X : ℝ) (P : WTParams) : Prop :=
     (∀ j ∈ T, P.L ≤ Ms j) → (∀ π, (sel π).image (fun v => v.1.1) = T) →
     (∀ π, ∀ v ∈ sel π, (S.piece π).fix v = none ∧
       ∃ ψ : SchwartzMap ℝ ℂ, (S.piece π).filt v = some (Ms v.1.1, ψ) ∧ ∀ u, ψ u = (chiDN u : ℂ)) →
-    (∀ π, ∀ v ∈ sel π, ∀ v' ∈ sel π, v.1.1 = v'.1.1 → v = v') →
+    (∀ π, ∀ v ∈ sel π, ∀ v' ∈ sel π, v.1.1 = v'.1.1 → v = v') → (∀ π, ∀ v ∈ sel π, (S.piece π).lb v = none) →
     (∀ π, SoundMKFull (S.piece π) p base roots cθ) → (∀ π, (S.piece π).Gsb.order ≤ n) → ((n : ℝ) + 1) ≤ P.L →
     (∀ π, RepresentsIntMKSel (S.piece π) (sel π) n cP tt base roots s (S.val π)) →
     (∀ π, markedExtra cP (S.piece π) ≤ X) →

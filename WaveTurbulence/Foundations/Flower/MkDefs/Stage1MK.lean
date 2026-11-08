@@ -31,7 +31,8 @@ namespace WaveTurbulence.Flower.MkDefs
 
 variable {w : ℕ}
 
-/-! ## Copied by source from S-MARKED `probe/MarkedProbe.lean` (sha256 94102f8c…7a6, §4/§5/§9), `lb` removed. -/
+/-! ## Copied by source from S-MARKED `probe/MarkedProbe.lean` (sha256 94102f8c…7a6, §4/§5/§9), `lb` removed by B0
+and restored as a defaulted last field by ruling R187. -/
 
 open WaveTurbulence.LGSpine.SourceVine in
 /-- Survivor data of a marked piece: the collection `𝒞_E` and the protected atoms `Π_sb`. -/
@@ -55,24 +56,50 @@ open scoped FourierTransform in
 noncomputable def filterB (ψ : ℝ → ℂ) : ℝ :=
   ∫ ξ : ℝ, (1 + |ξ|) ^ 2 * ‖𝓕 ψ ξ‖
 
-/-- Spliced kernel data with arbitrary designated times (pins at `s` or `t`). No hinge lower bounds: with the
-enlarged marking no lower slot is protected, so U-clock's constant boundary `t_{a_j} > s` never occurs. -/
+/-- Spliced kernel data with arbitrary designated times (pins at `s` or `t`). With the enlarged marking no lower slot
+is protected, so U-clock's hinge boundary `t_{a_j} > s` never occurs. Ruling R187 (F-H3-1; R184's design re-applied):
+constant lower bounds `lb` (`x < t_v` whenever `lb v = some x`) on free atoms, for the free parent of a
+`dParent`-pinned object top (`lb π = some s`). The default `fun _ => none` keeps every existing construction. -/
 structure SplicedKernelDataMK {w : ℕ} (G : Garden w) (d : ℕ) extends SplicedKernelData G d where
   fix : GBranch G.tree → Option ℝ
   filt : GBranch G.tree → Option (ℝ × SchwartzMap ℝ ℂ)
   ind : (GNode G.tree → Mom d) → ℝ
+  lb : GBranch G.tree → Option ℝ := fun _ => none
 
 noncomputable def SplicedKernelDataMK.atomW {w d : ℕ} {G : Garden w} (D : SplicedKernelDataMK G d)
     (k : GNode G.tree → Mom d) : ℂ :=
   (∏ a : GBranch G.tree, (D.filt a).elim 1 fun q => q.2 (omegaNode G k a / q.1)) * (D.ind k : ℂ)
 
+/-- The constant lower bounds (ruling R187): `x < t v` whenever `lb v = some x`. -/
+def splicedLBDomain {w : ℕ} {G : Garden w} (lb : GBranch G.tree → Option ℝ) : Set (GBranch G.tree → ℝ) :=
+  {t | ∀ v x, lb v = some x → x < t v}
+
+/-- The pinned time integral over the pinned domain intersected with the lower bounds (ruling R187). -/
 noncomputable def splicedTimeIntegralMK {w d : ℕ} (G : Garden w) (D : SplicedKernelDataMK G d)
     (L γ δ : ℝ) (base : Mom d) (z : GNode G.tree → (Fin d → ℤ)) : ℂ :=
   ∫ τ : {b : GBranch G.tree // D.fix b = none} → ℝ,
-    (splicedTimeDomainFix G D.layer D.rootTime D.fix).indicator
+    (splicedTimeDomainFix G D.layer D.rootTime D.fix ∩ splicedLBDomain D.lb).indicator
       (fun t => phaseProd L γ δ G (cosetDecoration G L base z) t *
         ∏ v : GBranch G.tree, Complex.exp ((Real.pi * D.frequency v * t v : ℝ) * Complex.I))
       (G.extendFix D.fix τ)
+
+/-- No lower bounds: the lower-bound domain is everything. -/
+theorem splicedLBDomain_none {w : ℕ} {G : Garden w} :
+    splicedLBDomain (G := G) (fun _ => none) = Set.univ := by
+  ext t; simp [splicedLBDomain]
+
+/-- **`lb`-free data have the old time integral** (the pinned domain alone), so proofs about `lb`-free pieces
+transfer. -/
+theorem splicedTimeIntegralMK_lb_none {w d : ℕ} (G : Garden w) (D : SplicedKernelDataMK G d)
+    (hlb : D.lb = fun _ => none) (L γ δ : ℝ) (base : Mom d) (z : GNode G.tree → (Fin d → ℤ)) :
+    splicedTimeIntegralMK G D L γ δ base z =
+      ∫ τ : {b : GBranch G.tree // D.fix b = none} → ℝ,
+        (splicedTimeDomainFix G D.layer D.rootTime D.fix).indicator
+          (fun t => phaseProd L γ δ G (cosetDecoration G L base z) t *
+            ∏ v : GBranch G.tree, Complex.exp ((Real.pi * D.frequency v * t v : ℝ) * Complex.I))
+          (G.extendFix D.fix τ) := by
+  unfold splicedTimeIntegralMK
+  rw [hlb, splicedLBDomain_none, Set.inter_univ]
 
 noncomputable def splicedKernelMK {w d : ℕ} (G : Garden w) (D : SplicedKernelDataMK G d)
     (L γ η δ : ℝ) (base : Mom d) (roots : Fin w → (Fin d → ℤ)) : ℂ :=
@@ -112,15 +139,18 @@ theorem stage1CarriesW_of_mkCarries {P : WTParams} {p N w : ℕ} {LG : LayeredGa
     Stage1CarriesW P p N LG :=
   ⟨h.1, h.2.2.1, h.2.2.2, hnr⟩
 
-/-! ## The Stage-1′ piece, soundness, weight class and gate (corrected: intrinsic data, `nProt`, no `lb`). -/
+/-! ## The Stage-1′ piece, soundness, weight class and gate (corrected: intrinsic data, `nProt`; `lb` restored by
+ruling R187). -/
 
-/-- A marked Stage-1′ piece. `nProt` is `|Π|` of the class (o75 `b`); `surv.prot` is `Π_sb`. -/
+/-- A marked Stage-1′ piece. `nProt` is `|Π|` of the class (o75 `b`); `surv.prot` is `Π_sb`. `lb` (ruling R187):
+constant lower bounds on free atoms, default none. -/
 structure Stage1PieceMK (d R : ℕ) extends Stage1PieceD d R where
   surv : SurvivorData Gsb
   nProt : ℕ
   fix : GBranch Gsb.tree → Option ℝ
   filt : GBranch Gsb.tree → Option (ℝ × SchwartzMap ℝ ℂ)
   ind : (GNode Gsb.tree → Mom d) → ℝ
+  lb : GBranch Gsb.tree → Option ℝ := fun _ => none
 
 def Stage1PieceMK.dataMK {P : WTParams} {R : ℕ} (π : Stage1PieceMK P.d R) (tt : Fin (2 * R) → ℝ)
     (center : GardenDart π.Gsb → Mom P.d) (edge : GardenDart π.Gsb → Mom P.d → ℂ)
@@ -130,6 +160,7 @@ def Stage1PieceMK.dataMK {P : WTParams} {R : ℕ} (π : Stage1PieceMK P.d R) (tt
   fix := π.fix
   filt := π.filt
   ind := π.ind
+  lb := π.lb
 
 /-- `RepresentsInt` with pins, survivors and the protected-object loss `L^{cP·d·nProt}`. -/
 def Stage1PieceMK.RepresentsIntMK {P : WTParams} {R : ℕ} (π : Stage1PieceMK P.d R) (n : ℕ) (cP : ℝ)
@@ -191,10 +222,12 @@ unmarked vines, with intrinsic pins `fixCap`, dagger `offCap` and depth selectio
 Ruling R177 (B4, findings F-B4-1/F-B4-2): stated at coset base `0` (the high-root clause of `MarkedWeightClassI`
 reads `latticePoint P.L (roots j)`, the root momentum only at base `0`; the consumer's `compValue` has `k₀ = 0`),
 with the protected count bounded at ONE member of the class, and with the plain-pattern hypothesis on selected
-trees of `MarkedComponentBoundAtI` (F-D0-8; needed to derive this form from `Stage1ReductionAtMKFull`). -/
+trees of `MarkedComponentBoundAtI` (F-D0-8; needed to derive this form from `Stage1ReductionAtMKFull`). Ruling R185
+(F-B3s-8): `J.card = R` after the cap set, as in `MarkedComponentBoundAtI`. -/
 def Stage1ReductionAtMK (C₀ : ℕ) (cP : ℝ) (P : WTParams) : Prop :=
   ∀ p, p < P.D → ∀ R, 1 ≤ R → R ≤ 10 * P.R (p + 1) → ∀ N, 1 ≤ N → N ≤ P.N (p + 1) ^ 4 →
-  ∀ (J : Finset (Fin (2 * R))) (pat : Fin (2 * R) → FixPat) (dag : Bool) (kSel : Fin (2 * R) → Option ℕ),
+  ∀ (J : Finset (Fin (2 * R))), J.card = R →
+  ∀ (pat : Fin (2 * R) → FixPat) (dag : Bool) (kSel : Fin (2 * R) → Option ℕ),
   ∀ t ∈ Ioo (p : ℝ) (p + 1), ∀ s ∈ Ioo (p : ℝ) t,
   ∀ A : Finset (LayeredGarden (2 * R)),
     (∀ LG ∈ A, MkCarries P p N LG ∧ (∀ h : 2 * R = 2, ¬ IsRegularCouple (h ▸ LG.garden : Garden 2)) ∧

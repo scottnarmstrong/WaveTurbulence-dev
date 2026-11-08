@@ -2,6 +2,7 @@
 module
 
 public import WaveTurbulence.Foundations.Flower.FinalMKFine.PerChoice
+public import WaveTurbulence.Foundations.Flower.FinalMKFine.LBPin
 import Mathlib.Tactic
 
 /-! # C4b FINE-PIN: `FineSplicedAtMK` at fixed parameters
@@ -11,7 +12,10 @@ conditions of main's `fine_spliced_of_subpro_choices` (plus `81 ≤ L` for FL-FI
 1. `splicedKernelMK = c^n ∑' z, ampMK z · B_MK(α z)` and `‖∑'‖ₑ ≤ ∑' ‖·‖ₑ` (no cancellation is used);
 2. the cover with survivors (`exists_cover_choiceMK`) puts every nonzero summand in some `carrierMK`;
 3. each carrier is bounded by `perChoice_le`, and the reciprocal weights sum to `≤ 1` (`tsum_weightMK_le_one`);
-4. `(2L+1)^{d·#X} ≤ ((N+1)L)^{5d|E|}` (`#X ≤ 4|E|`, o75 row 12) and main's `exp_form_eq_fine`. -/
+4. `(2L+1)^{d·#X} ≤ ((N+1)L)^{5d|E|}` (`#X ≤ 4|E|`, o75 row 12) and main's `exp_form_eq_fine`.
+Ruling R187: steps 1–4 are `fineSplicedAtMK_of_gates_nolb` (data without lower bounds); a lower-bounded atom is
+exceptional, so `LBPin.norm_kernelMK_le_of_pinLB` (pin it, integrate over a window of length `≤ 1`) gives the
+general case. -/
 
 @[expose] public section
 set_option autoImplicit false
@@ -66,15 +70,29 @@ theorem tuples_mul_le {w : ℕ} (G : Garden w) (E : Finset (GBranch G.tree)) (d 
         congr 1
         ring
 
-/-- **`FineSplicedAtMK` at fixed parameters** (o73 Prop 18.1 inside main's fine bound, with survivors). -/
-theorem fineSplicedAtMK_of_gates (P : WTParams) (hLF : LadderFourierAtMK P) (hFC : FinalCountAtMK P)
+/-- **`FineSplicedAtMK` at fixed parameters for data without lower bounds** (o73 Prop 18.1 inside main's fine
+bound, with survivors). -/
+theorem fineSplicedAtMK_of_gates_nolb (P : WTParams) (hLF : LadderFourierAtMK P) (hFC : FinalCountAtMK P)
     (hL : 81 ≤ P.L) (hδ : 0 < P.δ) (hC₁ : 1 ≤ P.C₁) (hδ1 : P.δ ≤ 1)
     (hcap : 2 * P.L⁻¹ ≤ P.L ^ (-P.γ + P.η)) (hb1 : P.L ^ (-P.γ + P.η) ≤ 1)
     (ha : P.δ ^ (5 * P.ν) ≤ P.η ^ 6)
     (hb : Real.log (Real.log P.L / Real.log 2 + 2) ≤ P.η ^ 6 * Real.log P.L)
     (hsmall : Real.log P.C₁ + Real.log (((3 ^ 16 * 17 : ℕ) : ℝ)) + 5 * P.ν * Real.log P.δ ≤ 0) :
-    FineSplicedAtMK P := by
-  intro p hp R hR hRmax G hplain hirred hbal hn hnmax D Cs S E hD hlayer hfilt hind hfixE hfixT base roots
+    ∀ p : ℕ, p < P.D → ∀ R : ℕ, 1 ≤ R → R ≤ 10 * P.R (p + 1) →
+    ∀ G : Garden (2 * R), G.IsPlain → G.Irreducible → IsBalancedSig G.sig →
+      1 ≤ G.order → G.order ≤ P.N (p + 1) ^ 4 →
+    ∀ (D : SplicedKernelDataMK G P.d) (Cs : SubproChoices G) (S : SurvivorData G) (E : Finset (GBranch G.tree)),
+      SplicedAmplitudeBounds G D.toSplicedKernelData → (∀ v, D.layer v ≤ p) →
+      (∀ a q, D.filt a = some q → ∀ u, ‖q.2 u‖ ≤ 1) → (∀ k, 0 ≤ D.ind k ∧ D.ind k ≤ 1) →
+      (∀ b, (D.fix b).isSome → b ∈ E) → (∀ b t, D.fix b = some t → (D.layer b : ℝ) ≤ t ∧ t ≤ D.layer b + 1) →
+      D.lb = (fun _ => none) →
+    ∀ (base : Mom P.d) (roots : Fin (2 * R) → (Fin P.d → ℤ)),
+      SplicedGeomPremises G → SubproConclusionsMK G D.toSplicedKernelData Cs S P.L P.γ P.η base roots →
+      ‖splicedKernelMK G D P.L P.γ P.η P.δ base roots‖ ≤
+        P.C₁ * (P.C₁ * P.δ ^ (-10 * P.ν)) ^ G.order * P.L ^ (2 * (S.m : ℝ)) *
+          (((G.order : ℝ) + 1) * P.L) ^ ((5 * P.d + 4) * E.card) *
+          P.L ^ (-P.η ^ 6 * (G.molecule.rho + D.hinges.card)) * P.L ^ (-((R : ℝ) - 1) * (1 / 4 + 1 / 50)) := by
+  intro p hp R hR hRmax G hplain hirred hbal hn hnmax D Cs S E hD hlayer hfilt hind hfixE hfixT hlb base roots
     hgeo hS
   have hL2 : 2 ≤ P.L := by linarith
   have hL1 : 1 ≤ P.L := by linarith
@@ -115,7 +133,7 @@ theorem fineSplicedAtMK_of_gates (P : WTParams) (hLF : LadderFourierAtMK P) (hFC
     exact h
   have hK : ‖splicedKernelMK G D P.L P.γ P.η P.δ base roots‖ₑ ≤
       ENNReal.ofReal (fineConst P G E S.m Cs.hinges.card) := by
-    rw [splicedKernelMK_eq, enorm_mul]
+    rw [splicedKernelMK_eq G D hlb, enorm_mul]
     calc ‖(coupling P.d P.L P.γ P.δ : ℂ) ^ G.order‖ₑ *
           ‖∑' z : GenDecoration G P.d roots 0, ampMK G D P.L P.γ P.η base z.1 *
             splicedFourierBMK G D.layer D.rootTime D.fix
@@ -184,5 +202,34 @@ theorem fineSplicedAtMK_of_gates (P : WTParams) (hLF : LadderFourierAtMK P) (hFC
           P.L ^ (-P.η ^ 6 * (G.molecule.rho + Cs.hinges.card)) * P.L ^ (-((R : ℝ) - 1) * (1 / 4 + 1 / 50))) :=
         mul_le_mul_of_nonneg_right (mul_le_mul_of_nonneg_right hT hLm) hrest
     _ = _ := by ring
+
+/-- **`FineSplicedAtMK` at fixed parameters** (o73 Prop 18.1 inside main's fine bound, with survivors; ruling R187:
+lower-bounded atoms are exceptional and are reduced to pins by `norm_kernelMK_le_of_pinLB`). -/
+theorem fineSplicedAtMK_of_gates (P : WTParams) (hLF : LadderFourierAtMK P) (hFC : FinalCountAtMK P)
+    (hL : 81 ≤ P.L) (hδ : 0 < P.δ) (hC₁ : 1 ≤ P.C₁) (hδ1 : P.δ ≤ 1)
+    (hcap : 2 * P.L⁻¹ ≤ P.L ^ (-P.γ + P.η)) (hb1 : P.L ^ (-P.γ + P.η) ≤ 1)
+    (ha : P.δ ^ (5 * P.ν) ≤ P.η ^ 6)
+    (hb : Real.log (Real.log P.L / Real.log 2 + 2) ≤ P.η ^ 6 * Real.log P.L)
+    (hsmall : Real.log P.C₁ + Real.log (((3 ^ 16 * 17 : ℕ) : ℝ)) + 5 * P.ν * Real.log P.δ ≤ 0) :
+    FineSplicedAtMK P := by
+  intro p hp R hR hRmax G hplain hirred hbal hn hnmax D Cs S E hD hlayer hfilt hind hfixE hfixT hlbE base roots
+    hgeo hS
+  have hL0 : 0 < P.L := by linarith
+  refine norm_kernelMK_le_of_pinLB hplain hL0 P.γ P.η P.δ base roots _ D hD fun fix' hpins => ?_
+  refine fineSplicedAtMK_of_gates_nolb P hLF hFC hL hδ hC₁ hδ1 hcap hb1 ha hb hsmall p hp R hR hRmax G hplain
+    hirred hbal hn hnmax (pinData D fix') Cs S E hD hlayer hfilt hind (fun b hb => ?_) (fun b t ht => ?_) rfl base
+    roots hgeo hS
+  · by_cases hl : D.lb b = none
+    · have e : (pinData D fix').fix b = D.fix b := hpins.1 b hl
+      rw [e] at hb; exact hfixE b hb
+    · exact hlbE b (Option.isSome_iff_ne_none.2 hl)
+  · by_cases hl : D.lb b = none
+    · have e : (pinData D fix').fix b = D.fix b := hpins.1 b hl
+      rw [e] at ht; exact hfixT b t ht
+    · rcases hpins.2 b (Option.isSome_iff_ne_none.2 hl) with e | ⟨r, hr, h1, h2⟩
+      · have e' : (pinData D fix').fix b = D.fix b := e
+        rw [e'] at ht; exact hfixT b t ht
+      · have e' : (pinData D fix').fix b = some r := hr
+        rw [e'] at ht; cases ht; exact ⟨h1, h2⟩
 
 end WaveTurbulence.Flower.FinalMKFine

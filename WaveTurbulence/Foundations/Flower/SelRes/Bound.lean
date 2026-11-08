@@ -34,7 +34,7 @@ theorem prod_sel_factor_atom {ι : Type*} (s : Finset ι) {L : ℝ} (hL : 0 < L)
 theorem markedPieceBoundSelAtT_of_one_le_d {P : WTParams} (hd : 1 ≤ P.d) (hs : PieceSmall P) {cP cθ : ℝ}
     (_hcP : 0 ≤ cP) (hcθ : 1 ≤ cθ) (hcoarse : CoarseSplicedAtMK P) (hfine : FineSplicedAtMK P) :
     MarkedPieceBoundSelAtT cP cθ P := by
-  intro p R n hp hR hRmax π sel Ms hM hsel hone tt base roots hπ hnsb hnL val s hs0 hval
+  intro p R n hp hR hRmax π sel Ms hM hsel hone hlbsel tt base roots hπ hnsb hnL val s hs0 hval
   obtain ⟨Ξ, _, μ, w, ctr, edge, hinge, freq, hint, hv, hwint, hwbound, hD⟩ := hval
   have hL1 : 1 ≤ P.L := by linarith [hs.L_ge]
   have hL0 : 0 < P.L := by linarith [hs.L_ge]
@@ -60,7 +60,7 @@ theorem markedPieceBoundSelAtT_of_one_le_d {P : WTParams} (hd : 1 ≤ P.d) (hs :
       P.L P.γ P.η P.δ base roots‖ ≤ (M * cq ^ π.Gsb.order * P.L ^ Ek * Gsel) * Wf ξ := by
     intro ξ
     have := point_bound_atom hs hd hcθ hcoarse hfine hp hR hRmax π base roots hπ hnsb hnL tt (ctr ξ) (edge ξ)
-      (hinge ξ) (freq ξ) (hD ξ) sel (fun v => Ms v.1.1) hM hsel hone
+      (hinge ξ) (freq ξ) (hD ξ) sel (fun v => Ms v.1.1) hM hsel hone hlbsel
     rw [prod_sel_factor_atom sel hL0] at this
     refine this.trans (le_of_eq ?_)
     rw [hbsf, hGsel, hWf]; ring
@@ -125,10 +125,10 @@ theorem markedPieceBoundSelAtT_of_one_le_d {P : WTParams} (hd : 1 ≤ P.d) (hs :
 theorem markedPieceBoundSelAt_of_one_le_d {P : WTParams} (hd : 1 ≤ P.d) (hs : PieceSmall P) {cP cθ : ℝ}
     (hcP : 0 ≤ cP) (hcθ : 1 ≤ cθ) (hcoarse : CoarseSplicedAtMK P) (hfine : FineSplicedAtMK P) :
     MarkedPieceBoundSelAt cP cθ P := by
-  intro p R n hp hR hRmax π sel M₂ hM hsel hone tt base roots hπ hnsb hnL val s hs0 hval
+  intro p R n hp hR hRmax π sel M₂ hM hsel hone hlbsel tt base roots hπ hnsb hnL val s hs0 hval
   have hM0 : 0 < M₂ := by linarith [hs.L_ge]
   have h := markedPieceBoundSelAtT_of_one_le_d hd hs hcP hcθ hcoarse hfine hp hR hRmax π sel (fun _ => M₂)
-    (fun _ _ => hM) hsel hone tt base roots hπ hnsb hnL val s hs0 hval
+    (fun _ _ => hM) hsel hone hlbsel tt base roots hπ hnsb hnL val s hs0 hval
   have e : ∏ _v ∈ sel, M₂ ^ (-(1 / 18 : ℝ)) = M₂ ^ (-((sel.card : ℝ) / 18)) := by
     rw [Finset.prod_const, ← Real.rpow_mul_natCast hM0.le]; congr 1; ring
   beta_reduce at h

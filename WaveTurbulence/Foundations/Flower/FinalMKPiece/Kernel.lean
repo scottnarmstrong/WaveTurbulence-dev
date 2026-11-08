@@ -88,7 +88,7 @@ theorem kernel_bound {P : WTParams} (hs : PieceSmall P) (hd : 1 ≤ P.d) {cθ : 
   have hf := hfine p hp R hR hRmax π.Gsb hπ.plain hπ.irreducible hπ.balanced hπ.order_pos
     hπ.order_le D π.Cs π.surv π.surv.prot hamp (fun v => hπ.layer_le v)
     (fun a q hq u => (hπ.filt_ok a q hq).2.2.1 u) hπ.ind_ok
-    (fun b hb => hπ.fix_prot b hb) hπ.fix_layer base roots hgeom hconc
+    (fun b hb => hπ.fix_prot b hb) hπ.fix_layer (fun b hb => hπ.lb_prot b hb) base roots hgeom hconc
   have hC1 : 0 < P.C₁ := by linarith [hs.c1_ge]
   have hC2 : 0 < P.C₂ := by linarith [hs.c1_ge, hs.c1_le_c2]
   have hν0 : 0 ≤ P.ν := hs.nu_pos.le

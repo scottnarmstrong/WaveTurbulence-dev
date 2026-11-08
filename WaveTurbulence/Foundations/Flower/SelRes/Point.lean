@@ -154,8 +154,9 @@ theorem gamma_bounds {P : WTParams} (hs : PieceSmall P) : P.η ≤ P.γ ∧ P.γ
 /-- **The selected pointwise bound with per-atom scales** (o73 Prop 20.1 at fixed `ξ`; finding F-C5b-1): the selected
 atom `v` carries the filter `chiDN(Ω_v/M_v)` at its own scale `M_v ≥ L`. The regimes are split per atom: in the
 normal regime only the atoms with `M_v > L^{18c}` are expanded (the others have `φ_v ≥ 1`); in the tiny regime only
-the atoms with `μ M_v ≥ 2` are (the others have `κ φ_v ≥ 1`). -/
-theorem point_bound_atom {P : WTParams} (hs : PieceSmall P) (hd : 1 ≤ P.d) {cθ : ℝ} (hcθ : 1 ≤ cθ)
+the atoms with `μ M_v ≥ 2` are (the others have `κ φ_v ≥ 1`). This is the form for a piece without lower bounds
+(ruling R187); `point_bound_atom` reduces the lower-bounded atoms to pins. -/
+theorem point_bound_atom_nolb {P : WTParams} (hs : PieceSmall P) (hd : 1 ≤ P.d) {cθ : ℝ} (hcθ : 1 ≤ cθ)
     (hcoarse : CoarseSplicedAtMK P) (hfine : FineSplicedAtMK P)
     {p R n : ℕ} (hp : p < P.D) (hR : 1 ≤ R) (hRmax : R ≤ 10 * P.R (p + 1))
     (π : Stage1PieceMK P.d R) (base : Mom P.d) (roots : Fin (2 * R) → (Fin P.d → ℤ))
@@ -166,11 +167,12 @@ theorem point_bound_atom {P : WTParams} (hs : PieceSmall P) (hd : 1 ≤ P.d) {c�
     (sel : Finset (GBranch π.Gsb.tree)) (M : GBranch π.Gsb.tree → ℝ) (hM : ∀ v ∈ sel, P.L ≤ M v)
     (hsel : ∀ v ∈ sel, π.fix v = none ∧
       ∃ ψ : SchwartzMap ℝ ℂ, π.filt v = some (M v, ψ) ∧ ∀ u, ψ u = (chiDN u : ℂ))
-    (hone : ∀ v ∈ sel, ∀ v' ∈ sel, v.1.1 = v'.1.1 → v = v') :
+    (hone : ∀ v ∈ sel, ∀ v' ∈ sel, v.1.1 = v'.1.1 → v = v') (hlb : π.lb = fun _ => none) :
     ‖splicedKernelMK π.Gsb (π.dataMK tt c e h f) P.L P.γ P.η P.δ base roots‖ ≤
       bsf P cθ π * ∏ v ∈ sel, (P.L ^ (71 * (P.d : ℝ) - 14) * M v ^ (-(1 / 18 : ℝ)) * (1 + |f v|) ^ (1 / 18 : ℝ)) := by
   set D := π.dataMK tt c e h f with hDdef
   have hD : SplicedAmplitudeBounds π.Gsb D.toSplicedKernelData := hamp
+  have hDlb : D.lb = fun _ => none := hlb
   have hL2 : 2 ≤ P.L := hs.L_ge
   have hL0 : 0 < P.L := by linarith
   have hL1 : 1 ≤ P.L := by linarith
@@ -231,13 +233,13 @@ theorem point_bound_atom {P : WTParams} (hs : PieceSmall P) (hd : 1 ≤ P.d) {c�
       have hQs : Q ⊆ S := Finset.mem_powerset.1 hQ
       by_cases hz : ∃ v ∈ S \ Q, |D.frequency v| < P.δ * P.L ^ (2 * P.γ) * M v / 4
       · obtain ⟨v, hv, hsm⟩ := hz
-        rw [pattern_zero hP D hD hL0 P.γ P.η P.δ hδ0.le base roots S Q M (fun v hv => (hSsel v hv).2) hv
+        rw [pattern_zero hP D hD hDlb hL0 P.γ P.η P.δ hδ0.le base roots S Q M (fun v hv => (hSsel v hv).2) hv
           (hSM v (Finset.mem_sdiff.1 hv).1) hsm, norm_zero]
         exact mul_nonneg (by positivity) hB0'
       · push Not at hz
-        exact (pattern_bound hP D hD hL0 P.γ P.η P.δ hδ0 base roots S Q hQs hSone M hSM hSsel Bnd hB0
+        exact (pattern_bound hP D hD hDlb hL0 P.γ P.η P.δ hδ0 base roots S Q hQs hSone M hSM hSsel Bnd hB0
           hBnd).trans (hQB Q hQs hz)
-    rw [kernel_eq_sum_patterns hP D hD hL0 P.γ P.η P.δ base roots D.frequency S]
+    rw [kernel_eq_sum_patterns hP D hD hDlb hL0 P.γ P.η P.δ base roots D.frequency S]
     refine (norm_sum_le _ _).trans ((Finset.sum_le_sum hone_pat).trans ?_)
     rw [Finset.sum_const, Finset.card_powerset, nsmul_eq_mul, ← mul_assoc]
     push_cast
@@ -400,6 +402,76 @@ theorem point_bound_atom {P : WTParams} (hs : PieceSmall P) (hd : 1 ≤ P.d) {c�
                 = 1 * M v ^ (-(1 / 18 : ℝ)) * (1 + |f v|) ^ (1 / 18 : ℝ) := by ring
               _ ≤ _ := by gcongr
 
+/-- Ruling R187: pinning the lower-bounded atoms of a sound piece inside their layer windows and dropping the lower
+bounds keeps it sound (the pinned atoms are protected, `lb_prot`). -/
+theorem soundMKFull_pinLB {P : WTParams} {R p : ℕ} {base : Mom P.d} {roots : Fin (2 * R) → (Fin P.d → ℤ)} {cθ : ℝ}
+    {π : Stage1PieceMK P.d R} (hπ : SoundMKFull π p base roots cθ) (fix' : GBranch π.Gsb.tree → Option ℝ)
+    (h1 : ∀ b, π.lb b = none → fix' b = π.fix b)
+    (h2 : ∀ b, (π.lb b).isSome → fix' b = π.fix b ∨ ∃ r, fix' b = some r ∧ (π.layer b : ℝ) ≤ r ∧ r ≤ π.layer b + 1) :
+    SoundMKFull { π with fix := fix', lb := fun _ => none } p base roots cθ where
+  plain := hπ.plain
+  irreducible := hπ.irreducible
+  balanced := hπ.balanced
+  order_pos := hπ.order_pos
+  order_le := hπ.order_le
+  layer_le := hπ.layer_le
+  survivors := hπ.survivors
+  survivors_card := hπ.survivors_card
+  prot_card := hπ.prot_card
+  molecule := hπ.molecule
+  connected := hπ.connected
+  atom_count := hπ.atom_count
+  bond_count := hπ.bond_count
+  structural := hπ.structural
+  support := hπ.support
+  hingeOutsideFirst := hπ.hingeOutsideFirst
+  tripleDesignated := hπ.tripleDesignated
+  hingeNoLoop := hπ.hingeNoLoop
+  chainOrder := hπ.chainOrder
+  fix_prot := fun b hb => by
+    have hb' : (fix' b).isSome := hb
+    by_cases hl : π.lb b = none
+    · rw [h1 b hl] at hb'; exact hπ.fix_prot b hb'
+    · exact hπ.lb_prot b (Option.isSome_iff_ne_none.2 hl)
+  fix_layer := fun b t ht => by
+    have ht' : fix' b = some t := ht
+    by_cases hl : π.lb b = none
+    · rw [h1 b hl] at ht'; exact hπ.fix_layer b t ht'
+    · rcases h2 b (Option.isSome_iff_ne_none.2 hl) with e | ⟨r, hr, hr1, hr2⟩
+      · rw [e] at ht'; exact hπ.fix_layer b t ht'
+      · rw [hr] at ht'; cases ht'; exact ⟨hr1, hr2⟩
+  filt_ok := hπ.filt_ok
+  ind_ok := hπ.ind_ok
+  ind_local := hπ.ind_local
+  lb_free := fun b hb => by simp at hb
+  lb_prot := fun b hb => by simp at hb
+  lb_layer := fun b x hb => by simp at hb
+
+/-- **The selected pointwise bound with per-atom scales** (`point_bound_atom_nolb` for every piece; ruling R187: the
+selected atoms carry no lower bound, the other lower-bounded atoms are pinned inside their windows and integrated
+over a window of length `≤ 1`, `FinalMKFine.norm_kernelMK_le_of_pinLB`). -/
+theorem point_bound_atom {P : WTParams} (hs : PieceSmall P) (hd : 1 ≤ P.d) {cθ : ℝ} (hcθ : 1 ≤ cθ)
+    (hcoarse : CoarseSplicedAtMK P) (hfine : FineSplicedAtMK P)
+    {p R n : ℕ} (hp : p < P.D) (hR : 1 ≤ R) (hRmax : R ≤ 10 * P.R (p + 1))
+    (π : Stage1PieceMK P.d R) (base : Mom P.d) (roots : Fin (2 * R) → (Fin P.d → ℤ))
+    (hπ : SoundMKFull π p base roots cθ) (hnsb : π.Gsb.order ≤ n) (hnL : ((n : ℝ) + 1) ≤ P.L)
+    (tt : Fin (2 * R) → ℝ) (c : GardenDart π.Gsb → Mom P.d) (e : GardenDart π.Gsb → Mom P.d → ℂ)
+    (h : (HingeDarts π.Gsb π.Cs.hinges → Mom P.d) → ℂ) (f : GBranch π.Gsb.tree → ℝ)
+    (hamp : SplicedAmplitudeBounds π.Gsb (Stage1Piece.data π.toStage1PieceD tt c e h f))
+    (sel : Finset (GBranch π.Gsb.tree)) (M : GBranch π.Gsb.tree → ℝ) (hM : ∀ v ∈ sel, P.L ≤ M v)
+    (hsel : ∀ v ∈ sel, π.fix v = none ∧
+      ∃ ψ : SchwartzMap ℝ ℂ, π.filt v = some (M v, ψ) ∧ ∀ u, ψ u = (chiDN u : ℂ))
+    (hone : ∀ v ∈ sel, ∀ v' ∈ sel, v.1.1 = v'.1.1 → v = v') (hlbsel : ∀ v ∈ sel, π.lb v = none) :
+    ‖splicedKernelMK π.Gsb (π.dataMK tt c e h f) P.L P.γ P.η P.δ base roots‖ ≤
+      bsf P cθ π * ∏ v ∈ sel, (P.L ^ (71 * (P.d : ℝ) - 14) * M v ^ (-(1 / 18 : ℝ)) * (1 + |f v|) ^ (1 / 18 : ℝ)) := by
+  have hL0 : 0 < P.L := by linarith [hs.L_ge]
+  refine FinalMKFine.norm_kernelMK_le_of_pinLB hπ.plain hL0 P.γ P.η P.δ base roots _ (π.dataMK tt c e h f) hamp
+    fun fix' hpins => ?_
+  have hπ' := soundMKFull_pinLB hπ fix' hpins.1 hpins.2
+  exact point_bound_atom_nolb hs hd hcθ hcoarse hfine hp hR hRmax { π with fix := fix', lb := fun _ => none } base
+    roots hπ' hnsb hnL tt c e h f hamp sel M hM
+    (fun v hv => ⟨(hpins.1 v (hlbsel v hv)).trans (hsel v hv).1, (hsel v hv).2⟩) hone rfl
+
 /-- **The selected pointwise bound** (o73 Prop 20.1 at fixed `ξ`), all selected atoms at one scale `M₂`
 (`point_bound_atom` at `M ≡ M₂`). -/
 theorem point_bound {P : WTParams} (hs : PieceSmall P) (hd : 1 ≤ P.d) {cθ : ℝ} (hcθ : 1 ≤ cθ)
@@ -412,10 +484,10 @@ theorem point_bound {P : WTParams} (hs : PieceSmall P) (hd : 1 ≤ P.d) {cθ : �
     (hamp : SplicedAmplitudeBounds π.Gsb (Stage1Piece.data π.toStage1PieceD tt c e h f))
     (sel : Finset (GBranch π.Gsb.tree)) (M₂ : ℝ) (hM : P.L ≤ M₂)
     (hsel : ∀ v ∈ sel, π.fix v = none ∧ ∃ ψ : SchwartzMap ℝ ℂ, π.filt v = some (M₂, ψ) ∧ ∀ u, ψ u = (chiDN u : ℂ))
-    (hone : ∀ v ∈ sel, ∀ v' ∈ sel, v.1.1 = v'.1.1 → v = v') :
+    (hone : ∀ v ∈ sel, ∀ v' ∈ sel, v.1.1 = v'.1.1 → v = v') (hlbsel : ∀ v ∈ sel, π.lb v = none) :
     ‖splicedKernelMK π.Gsb (π.dataMK tt c e h f) P.L P.γ P.η P.δ base roots‖ ≤
       bsf P cθ π * ∏ v ∈ sel, (P.L ^ (71 * (P.d : ℝ) - 14) * M₂ ^ (-(1 / 18 : ℝ)) * (1 + |f v|) ^ (1 / 18 : ℝ)) :=
   point_bound_atom hs hd hcθ hcoarse hfine hp hR hRmax π base roots hπ hnsb hnL tt c e h f hamp sel (fun _ => M₂)
-    (fun _ _ => hM) hsel hone
+    (fun _ _ => hM) hsel hone hlbsel
 
 end WaveTurbulence.Flower.SelRes

@@ -6,13 +6,15 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.Flower.SelRes.Expand
+public import WaveTurbulence.Foundations.Flower.FinalMKFine.LBPin
 public import WaveTurbulence.Foundations.Spine.CoarseSpliced.Count
 public import WaveTurbulence.Foundations.Spine.SplicedMoleculeDecoration
 
 /-! # D7 SEL-RES / Triv: the trivial kernel bound
 
 `norm_kernel_le_trivial`: `‖K‖ ≤ |coupling|^n (2L+1)^{d·#bonds}`. The amplitudes and the pinned time transforms
-have modulus at most one (`norm_splicedFourierBMK_le_one`), and at most `(2L+1)^{d·#bonds}` decorations carry a
+have modulus at most one (`norm_splicedFourierBMK_le_one`; for data with lower bounds, ruling R187,
+`FinalMKFine.norm_fourierLB_le_one`), and at most `(2L+1)^{d·#bonds}` decorations carry a
 nonzero amplitude (`card_support_le`: main's `card_classes_le` with no ladder and `bondIndex_injective`). Used only
 when `δL^{2γ}` is tiny, where the oscillation gives no gain. -/
 
@@ -75,15 +77,12 @@ theorem norm_kernel_le_trivial (hP : G.IsPlain) (D : SplicedKernelDataMK G d)
     (hL : 0 < L) (γ η δ : ℝ) (base : Mom d) (roots : Fin w → (Fin d → ℤ)) :
     ‖splicedKernelMK G D L γ η δ base roots‖ ≤
       ‖(coupling d L γ δ : ℂ)‖ ^ G.order * (2 * L + 1) ^ (d * G.molecule.bonds.card) := by
-  have hK := kernel_eq_sum hP D hD hL γ η δ base roots D.fix (fun _ => 1)
-  rw [modData_self] at hK
-  rw [hK, norm_mul, norm_pow]
+  rw [splicedKernelMK_eq_sumLB hP D hD hL γ η δ base roots, norm_mul, norm_pow]
   refine mul_le_mul_of_nonneg_left ?_ (by positivity)
   refine (norm_sum_le _ _).trans ?_
   refine (Finset.sum_le_sum (g := fun _ => (1 : ℝ)) fun z _ => ?_).trans ?_
-  · rw [norm_mul, norm_mul]
-    simp only [Complex.ofReal_one, norm_one, mul_one]
-    exact (mul_le_mul (norm_ampMK_le_one D hD hfilt hind L γ η base z.1) (norm_splicedFourierBMK_le_one _ _ _ _)
+  · rw [norm_mul]
+    exact (mul_le_mul (norm_ampMK_le_one D hD hfilt hind L γ η base z.1) (norm_fourierLB_le_one _ _ _ _ _)
       (norm_nonneg _) zero_le_one).trans_eq (one_mul 1)
   · rw [Finset.sum_const, nsmul_eq_mul, mul_one]
     exact card_support_le hP D.toSplicedKernelData hD hL γ η base roots

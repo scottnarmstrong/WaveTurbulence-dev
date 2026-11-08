@@ -91,7 +91,7 @@ variable {C₀ K : ℕ} {cP cθ : ℝ} {P : WTParams}
 theorem gate_good (hB : MarkedClassRepresentsMK cP cθ P) (hIX : B2eIX) (hZ : ZeroVanish P)
     (hC : 0 ≤ P.C₁) (hL : 0 < P.L) {p : ℕ} (hp : p < P.D) {R : ℕ} (hR : 1 ≤ R) (hRmax : R ≤ 10 * P.R (p + 1))
     {N : ℕ} (hN1 : 1 ≤ N) (hNb : N ≤ P.N (p + 1) ^ 4)
-    (J : Finset (Fin (2 * R))) (pat : Fin (2 * R) → FixPat) (kSel : Fin (2 * R) → Option ℕ)
+    (J : Finset (Fin (2 * R))) (hJ : J.card = R) (pat : Fin (2 * R) → FixPat) (kSel : Fin (2 * R) → Option ℕ)
     {t : ℝ} (ht : t ∈ Ioo (p : ℝ) (p + 1)) {s : ℝ} (hs : s ∈ Ioo (p : ℝ) t) (A : Finset (LayeredGarden (2 * R)))
     (hA : ∀ LG ∈ A, MkCarries P p N LG ∧ (∀ h : 2 * R = 2, ¬ IsRegularCouple (h ▸ LG.garden : Garden 2)) ∧
       LG.garden.Irreducible ∧ (∀ j ∈ J, LG.garden.tree j = TTree.leaf) ∧ CapGeo LG J p ∧ CapPatValid LG J pat p)
@@ -109,8 +109,8 @@ theorem gate_good (hB : MarkedClassRepresentsMK cP cθ P) (hIX : B2eIX) (hZ : Ze
   have hF := fineMarking_fineMk hIX J pat t s kSel σ
   by_cases hnz : ¬ StemDep σ kSel ∨ ∀ a : PrescribedPrimeGarden (2 * R),
       Related (p := p) (kind := objKind (2 * R)) (repPt π) a (fineMk J pat t s kSel σ) → CleanPt J a
-  · exact good_of_nonzero P p N J pat kSel t s A roots h b Rf σ Rs dag cP cθ _ hB hp hR hRmax hN1 hNb ht hs hA hpl
-      hTC hb hh hRf hRs hhigh hF hL.ne' π hnz
+  · exact good_of_nonzero P p N J pat kSel t s A roots h b Rf σ Rs dag cP cθ _ hB hp hR hRmax hN1 hNb hJ ht hs hA
+      hpl hTC hb hh hRf hRs hhigh hF hL.ne' π hnz
   · push_neg at hnz
     exact good_of_zero P p N J pat kSel t s A roots h b Rf σ Rs dag cP cθ _ hR hNb hA hb hRs hC hL π
       (hZ p hp R hR hRmax N hN1 hNb J pat kSel t ht s hs A hA roots h b Rf σ Rs dag hRf hhigh π hnz.1 hnz.2)
@@ -119,27 +119,27 @@ theorem gate_good (hB : MarkedClassRepresentsMK cP cθ P) (hIX : B2eIX) (hZ : Ze
 theorem fullAt (hcnt : PieceCountAt C₀ K) (hK : (K : ℝ) ^ (P.D + 1) ≤ P.C₂) (hC : 0 ≤ P.C₁) (hL : 0 < P.L)
     (hB : MarkedClassRepresentsMK cP cθ P) (hIX : B2eIX) (hZ : ZeroVanish P) :
     Stage1ReductionAtMKFull C₀ cP cθ P := by
-  intro p hp R hR hRmax N hN1 hNb J pat kSel t ht s hs A hA hpl hTC roots h b Rf σ Rs dag hb hh hRf hRs hhigh
+  intro p hp R hR hRmax N hN1 hNb J hJ pat kSel t ht s hs A hA hpl hTC roots h b Rf σ Rs dag hb hh hRf hRs hhigh
   have hF := fineMarking_fineMk hIX J pat t s kSel σ
   obtain ⟨S, Cl, hCl, cls, members, sel, selR, h1, h2, h3, h4, h5, -⟩ :=
     gate_of_good P p N J pat kSel t s A roots h b Rf σ Rs dag cP cθ (fineMk J pat t s kSel σ) C₀ K hcnt hK hp hR hN1
       hA (fun B => (markI0_sub_markI J pat t s kSel B).trans (hF.sub B))
-      (gate_good hB hIX hZ hC hL hp hR hRmax hN1 hNb J pat kSel ht hs A hA hpl hTC roots h b Rf σ Rs dag hb hh hRf
-        hRs hhigh)
+      (gate_good hB hIX hZ hC hL hp hR hRmax hN1 hNb J hJ pat kSel ht hs A hA hpl hTC roots h b Rf σ Rs dag hb hh
+        hRf hRs hhigh)
   exact ⟨S, Cl, hCl, cls, members, sel, selR, h1, h2, h3, h4, h5⟩
 
 /-- **The frozen form** `MkDefs.Stage1ReductionAtMK` (R177 text) at `cP + 343`, from the same inputs. -/
 theorem frozenAt (hcnt : PieceCountAt C₀ K) (hK : (K : ℝ) ^ (P.D + 1) ≤ P.C₂) (hC : 0 ≤ P.C₁) (hL : 0 < P.L)
     (hB : MarkedClassRepresentsMK cP cθ P) (hIX : B2eIX) (hZ : ZeroVanish P) :
     Stage1ReductionAtMK C₀ (cP + 343) P := by
-  intro p hp R hR hRmax N hN1 hNb J pat dag kSel t ht s hs A hA hpl hTC roots wt b hwc
+  intro p hp R hR hRmax N hN1 hNb J hJ pat dag kSel t ht s hs A hA hpl hTC roots wt b hwc
   obtain ⟨hb, h, Rf, σ, Rs, dagv, hdag, hh, hRf, hRs, hwt, hhigh⟩ := hwc
   have hF := fineMarking_fineMk hIX J pat t s kSel σ
   obtain ⟨S, Cl, hCl, cls, members, sel, selR, h1, h2, h3, h4, h5, h6⟩ :=
     gate_of_good P p N J pat kSel t s A roots h b Rf σ Rs dagv cP cθ (fineMk J pat t s kSel σ) C₀ K hcnt hK hp hR
       hN1 hA (fun B => (markI0_sub_markI J pat t s kSel B).trans (hF.sub B))
-      (gate_good hB hIX hZ hC hL hp hR hRmax hN1 hNb J pat kSel ht hs A hA hpl hTC roots h b Rf σ Rs dagv hb hh hRf
-        hRs hhigh)
+      (gate_good hB hIX hZ hC hL hp hR hRmax hN1 hNb J hJ pat kSel ht hs A hA hpl hTC roots h b Rf σ Rs dagv hb hh
+        hRf hRs hhigh)
   refine ⟨S, Cl, hCl, cls, members, sel, h1, fun π => ⟨?_, h6 π, (h2 π).2.2.1⟩, fun π => (h3 π).toSoundMK, h4, h5⟩
   rw [(h2 π).1, ← hdag]
   refine Finset.sum_congr rfl fun LG _ => ?_

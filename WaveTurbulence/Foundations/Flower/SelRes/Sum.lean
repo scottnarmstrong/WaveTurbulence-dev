@@ -27,7 +27,8 @@ open WaveTurbulence.LGSpine.SourceVine WaveTurbulence.Flower.MkDefs WaveTurbulen
 factor `L^{400d·a} M₂^{-a/18}` divided out together with `s L^X`). -/
 theorem markedSumBoundSelAt {P : WTParams} (hs : PieceSmall P) {cP cθ : ℝ} (X : ℝ) (a : ℕ) (M₂ : ℝ)
     (hcθ : 1 ≤ cθ) (hpb : MarkedPieceBoundSelAt cP cθ P) : MarkedSumBoundSelAt cP cθ X a M₂ P := by
-  intro p R n hp hR hRmax S sel tt base roots C₀ Cl hCl cls s hs0 hM hcard hsel hone hsound hnsb hnL hrep hX hcnt
+  intro p R n hp hR hRmax S sel tt base roots C₀ Cl hCl cls s hs0 hM hcard hsel hone hlbsel hsound hnsb hnL hrep hX
+    hcnt
     hT2 hS2
   let _ := S.fin
   obtain ⟨hrb, hgb, hpc⟩ := hcnt
@@ -46,7 +47,8 @@ theorem markedSumBoundSelAt {P : WTParams} (hs : PieceSmall P) {cP cθ : ℝ} (X
       (P.L ^ (-(P.ν * P.η))) ^ (S.piece π).gbar * (P.L ^ (-P.η ^ 6 / 4)) ^ (S.piece π).rbar *
       P.L ^ (-((R : ℝ) - 1) * (1 / 4 + 1 / 60)) := by
     intro π
-    have h := hpb hp hR hRmax (S.piece π) (sel π) M₂ hM (hsel π) (hone π) tt base roots (hsound π) (hnsb π) hnL
+    have h := hpb hp hR hRmax (S.piece π) (sel π) M₂ hM (hsel π) (hone π) (hlbsel π) tt base roots (hsound π)
+      (hnsb π) hnL
       (S.val π) s hs0 (hrep π)
     rw [hcard π] at h
     have hme : P.L ^ markedExtra cP (S.piece π) ≤ P.L ^ X :=
@@ -135,8 +137,8 @@ selected trees of every piece are `T`, so the per-piece factor `L^{400d·#T} ∏
 divided out together with `s L^X`. -/
 theorem markedSumBoundSelAtT {P : WTParams} (hs : PieceSmall P) {cP cθ : ℝ} (X : ℝ)
     (hcθ : 1 ≤ cθ) (hpb : MarkedPieceBoundSelAtT cP cθ P) : MarkedSumBoundSelAtT cP cθ X P := by
-  intro p R n hp hR hRmax S sel T Ms tt base roots C₀ Cl hCl cls s hs0 hMT himg hsel hone hsound hnsb hnL hrep hX
-    hcnt hT2 hS2
+  intro p R n hp hR hRmax S sel T Ms tt base roots C₀ Cl hCl cls s hs0 hMT himg hsel hone hlbsel hsound hnsb hnL hrep
+    hX hcnt hT2 hS2
   let _ := S.fin
   obtain ⟨hrb, hgb, hpc⟩ := hcnt
   have hL1 : 1 ≤ P.L := by linarith [hs.L_ge]
@@ -161,7 +163,8 @@ theorem markedSumBoundSelAtT {P : WTParams} (hs : PieceSmall P) {cP cθ : ℝ} (
     have hcardT : (sel π).card = T.card := by rw [← himg π, Finset.card_image_of_injOn hinj]
     have hprodT : ∏ v ∈ sel π, Ms v.1.1 ^ (-(1 / 18 : ℝ)) = ∏ j ∈ T, Ms j ^ (-(1 / 18 : ℝ)) := by
       rw [← himg π, Finset.prod_image hinj]
-    have h := hpb hp hR hRmax (S.piece π) (sel π) Ms hM (hsel π) (hone π) tt base roots (hsound π) (hnsb π) hnL
+    have h := hpb hp hR hRmax (S.piece π) (sel π) Ms hM (hsel π) (hone π) (hlbsel π) tt base roots (hsound π)
+      (hnsb π) hnL
       (S.val π) s hs0 (hrep π)
     rw [hcardT, hprodT] at h
     have hme : P.L ^ markedExtra cP (S.piece π) ≤ P.L ^ X :=

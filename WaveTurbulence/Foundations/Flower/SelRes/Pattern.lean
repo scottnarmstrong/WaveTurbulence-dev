@@ -158,12 +158,12 @@ theorem patInd_local (L γ δ : ℝ) (ξ : GBranch G.tree → ℝ) (sel Q : Fins
 
 /-- **Pattern decomposition**: the kernel is the sum of the pattern kernels. -/
 theorem kernel_eq_sum_patterns (hP : G.IsPlain) (D : SplicedKernelDataMK G d)
-    (hD : SplicedAmplitudeBounds G D.toSplicedKernelData) {L : ℝ} (hL : 0 < L) (γ η δ : ℝ) (base : Mom d)
+    (hD : SplicedAmplitudeBounds G D.toSplicedKernelData) (hlb : D.lb = fun _ => none) {L : ℝ} (hL : 0 < L) (γ η δ : ℝ) (base : Mom d)
     (roots : Fin w → (Fin d → ℤ)) (ξ : GBranch G.tree → ℝ) (sel : Finset (GBranch G.tree)) :
     splicedKernelMK G D L γ η δ base roots =
       ∑ Q ∈ sel.powerset, splicedKernelMK G (modData D D.fix (patInd L γ δ ξ sel Q)) L γ η δ base roots := by
   conv_lhs => rw [← modData_self D]
-  simp only [kernel_eq_sum hP D hD hL γ η δ base roots]
+  simp only [kernel_eq_sum hP D hD hlb hL γ η δ base roots]
   rw [← Finset.mul_sum, Finset.sum_comm]
   congr 1
   refine Finset.sum_congr rfl fun z _ => ?_
@@ -213,12 +213,12 @@ theorem betaV_ge (D : SplicedKernelDataMK G d) {L γ η δ : ℝ} (hL : 0 ≤ L)
 
 /-- A pattern with a high atom `v` whose shift is below `μM_v/4` vanishes (per-atom scales `M v`). -/
 theorem pattern_zero (hP : G.IsPlain) (D : SplicedKernelDataMK G d)
-    (hD : SplicedAmplitudeBounds G D.toSplicedKernelData) {L : ℝ} (hL : 0 < L) (γ η δ : ℝ) (hδ : 0 ≤ δ)
+    (hD : SplicedAmplitudeBounds G D.toSplicedKernelData) (hlb : D.lb = fun _ => none) {L : ℝ} (hL : 0 < L) (γ η δ : ℝ) (hδ : 0 ≤ δ)
     (base : Mom d) (roots : Fin w → (Fin d → ℤ)) (sel Q : Finset (GBranch G.tree)) (M : GBranch G.tree → ℝ)
     (hsel : ∀ v ∈ sel, ∃ ψ : SchwartzMap ℝ ℂ, D.filt v = some (M v, ψ) ∧ ∀ u, ψ u = (chiDN u : ℂ))
     {v : GBranch G.tree} (hv : v ∈ sel \ Q) (hM : 0 < M v) (hsmall : |D.frequency v| < δ * L ^ (2 * γ) * M v / 4) :
     splicedKernelMK G (modData D D.fix (patInd L γ δ D.frequency sel Q)) L γ η δ base roots = 0 := by
-  rw [kernel_eq_sum hP D hD hL γ η δ base roots]
+  rw [kernel_eq_sum hP D hD hlb hL γ η δ base roots]
   refine (mul_eq_zero_of_right _ (Finset.sum_eq_zero fun z _ => ?_))
   by_cases h0 : ampMK G D L γ η base z.1 = 0
   · simp [h0]
@@ -264,9 +264,9 @@ theorem selFreq_ge_of_low (D : SplicedKernelDataMK G d) {L γ η δ : ℝ} (hL :
 /-- Expanding the low atoms of a pattern produces modifications of the original data. -/
 theorem ModOK.of_pattern {sel Q : Finset (GBranch G.tree)} (hQ : Q ⊆ sel) {D D' : SplicedKernelDataMK G d}
     {L γ δ : ℝ} (h : ModOK Q (modData D D.fix (patInd L γ δ D.frequency sel Q)) D') : ModOK sel D D' := by
-  obtain ⟨hd, hf, ⟨g, hg, hgl, hi⟩, ⟨Rc, hRc, hc, hb⟩⟩ := h
+  obtain ⟨hd, hf, ⟨g, hg, hgl, hi⟩, ⟨Rc, hRc, hc, hb⟩, hlb⟩ := h
   refine ⟨hd, hf, ⟨fun k => patInd L γ δ D.frequency sel Q k * g k, fun k => ?_, fun k k' hk => ?_,
-    fun k => ?_⟩, ⟨Rc, hRc.trans (card_le_card hQ), fun b hb' => ?_, fun b hb' => hb b hb'⟩⟩
+    fun k => ?_⟩, ⟨Rc, hRc.trans (card_le_card hQ), fun b hb' => ?_, fun b hb' => hb b hb'⟩, hlb⟩
   · have h1 := patInd_mem L γ δ D.frequency sel Q k
     exact ⟨mul_nonneg h1.1 (hg k).1, (mul_le_mul h1.2 (hg k).2 (hg k).1 zero_le_one).trans_eq (one_mul 1)⟩
   · show patInd L γ δ D.frequency sel Q k * g k = patInd L γ δ D.frequency sel Q k' * g k'
@@ -281,7 +281,7 @@ theorem ModOK.of_pattern {sel Q : Finset (GBranch G.tree)} (hQ : Q ⊆ sel) {D D
 /-- **The pattern bound** (per-atom scales `M v`): a pattern is at most `∏_{v∈Q} 12/λ_v` times any bound for the
 modifications of the original data, `λ_v = π μ M_v / 4`. -/
 theorem pattern_bound (hP : G.IsPlain) (D : SplicedKernelDataMK G d)
-    (hD : SplicedAmplitudeBounds G D.toSplicedKernelData) {L : ℝ} (hL : 0 < L) (γ η δ : ℝ) (hδ : 0 < δ)
+    (hD : SplicedAmplitudeBounds G D.toSplicedKernelData) (hlb : D.lb = fun _ => none) {L : ℝ} (hL : 0 < L) (γ η δ : ℝ) (hδ : 0 < δ)
     (base : Mom d) (roots : Fin w → (Fin d → ℤ)) (sel Q : Finset (GBranch G.tree)) (hQ : Q ⊆ sel)
     (hone : ∀ a ∈ sel, ∀ b ∈ sel, a.1.1 = b.1.1 → a = b) (M : GBranch G.tree → ℝ) (hM : ∀ v ∈ sel, 0 < M v)
     (hsel : ∀ v ∈ sel, D.fix v = none ∧ ∃ ψ : SchwartzMap ℝ ℂ, D.filt v = some (M v, ψ) ∧ ∀ u, ψ u = (chiDN u : ℂ))
@@ -291,7 +291,7 @@ theorem pattern_bound (hP : G.IsPlain) (D : SplicedKernelDataMK G d)
   have hlam : ∀ v ∈ Q, 0 < Real.pi * (δ * L ^ (2 * γ) * M v) / 4 := fun v hv => by
     have := Real.rpow_pos_of_pos hL (2 * γ); have := hM v (hQ hv); positivity
   refine expand_bound_atom hP hL γ η δ base roots (fun v => Real.pi * (δ * L ^ (2 * γ) * M v) / 4) Bnd hB0 Q _ hlam
-    hD (fun a ha b hb => hone a (hQ ha) b (hQ hb)) (fun v hv => (hsel v (hQ hv)).1)
+    hD hlb (fun a ha b hb => hone a (hQ ha) b (hQ hb)) (fun v hv => (hsel v (hQ hv)).1)
     (fun v hv z hz => ?_) (fun D' hD' => hB D' (ModOK.of_pattern hQ hD'))
   obtain ⟨ψ, hψ, hψc⟩ := (hsel v (hQ hv)).2
   rw [selFreq_congr (D := D) (D' := modData D D.fix (patInd L γ δ D.frequency sel Q)) rfl]

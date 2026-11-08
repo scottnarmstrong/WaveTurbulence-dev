@@ -94,7 +94,7 @@ theorem gate_of_good (C₀ K : ℕ) (hcnt : PieceCountAt C₀ K) (hK : (K : ℝ)
         (∃ LG ∈ members (cls π), (S.piece π).nProt ≤ (protI LG J pat t s kSel).card) ∧
         (∀ v ∈ selR π, (kSel v.1.1).isSome ∧ (S.piece π).fix v = none ∧
           ∃ ψ : SchwartzMap ℝ ℂ, (S.piece π).filt v = some (Rs v.1.1, ψ) ∧ ∀ u, ψ u = (chiDN u : ℂ)) ∧
-        (∀ v ∈ selR π, ∀ v' ∈ selR π, v.1.1 = v'.1.1 → v = v') ∧
+        (∀ v ∈ selR π, ∀ v' ∈ selR π, v.1.1 = v'.1.1 → v = v') ∧ (∀ v ∈ selR π, (S.piece π).lb v = none) ∧
         (selR π).card ≤ (S.piece π).nProt) ∧
       (∀ π, SoundMKFull (S.piece π) p 0 roots cθ) ∧ (∀ π, (S.piece π).Gsb.order ≤ N) ∧
       Stage1Counts C₀ P R N S.toData Cl hCl cls ∧
@@ -122,7 +122,7 @@ theorem gate_of_good (C₀ K : ℕ) (hcnt : PieceCountAt C₀ K) (hK : (K : ℝ)
   · -- values, representation, protected count, residual selections
     refine ⟨rfl, (G π).ok.rep, ⟨(repPt π).layered, Finset.mem_filter.2 ⟨repPt_layered_memMk π,
       (repPt π).prime.mem_coarse_outputs_selfMk (markI0 J pat t s (repPt π).prime)⟩, (G π).nprot⟩,
-      (G π).ok.sel_spec, (G π).ok.sel_inj, (G π).ok.sel_card⟩
+      (G π).ok.sel_spec, (G π).ok.sel_inj, (G π).ok.sel_lb, (G π).ok.sel_card⟩
   · -- orders
     have h1 := prod_piece_gsb_orderMk (mk := mkF) P p N kind A hW π
     have h2 := order_add_hinges_leMk (Mk := (G π).Mk) (Mole.garden_isMolecule (repPt π).prime.skeleton)

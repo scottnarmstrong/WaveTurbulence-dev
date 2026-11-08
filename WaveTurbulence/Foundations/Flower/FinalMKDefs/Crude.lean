@@ -69,14 +69,15 @@ abbrev CoarseSplicedAtMK (P : WTParams) : Prop :=
 /-- **The C2 deliverable**, from C3's `ladderL1GateFilt : WTPrefix LadderL1AtFilt`. -/
 abbrev CoarseSplicedGateMK : Prop := WTPrefix CoarseSplicedAtMK
 
-/-- Unmarked data as marked data (no pins, no filters, indicator `1`). -/
+/-- Unmarked data as marked data (no pins, no filters, indicator `1`, no lower bounds). -/
 def toMKData {w d : ℕ} {G : Garden w} (D : SplicedKernelData G d) : SplicedKernelDataMK G d :=
   { D with fix := fun _ => none, filt := fun _ => none, ind := fun _ => 1 }
 
 theorem splicedTimeIntegralMK_toMK {w d : ℕ} {G : Garden w} (D : SplicedKernelData G d) (L γ δ : ℝ) (base : Mom d)
     (z : GNode G.tree → (Fin d → ℤ)) :
     splicedTimeIntegralMK G (toMKData D) L γ δ base z = splicedTimeIntegral G D L γ δ base z := by
-  unfold splicedTimeIntegral splicedTimeIntegralMK
+  rw [MkDefs.splicedTimeIntegralMK_lb_none G (toMKData D) rfl]
+  unfold splicedTimeIntegral
   have hfix : ∀ b, (toMKData D).fix b = none := fun _ => rfl
   have hdom : splicedTimeDomainFix G (toMKData D).layer (toMKData D).rootTime (toMKData D).fix =
       splicedTimeDomain G D.layer D.rootTime := by
