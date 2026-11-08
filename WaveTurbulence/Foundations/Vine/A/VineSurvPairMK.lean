@@ -68,7 +68,7 @@ theorem hingePair_of_survPairAt {σ : Prescription G} {Mk : Set (CLVine G)} {v :
   classical
   have h0 : ∃ q, survPairAt G σ v = some q := ⟨q, h⟩
   unfold hingePair
-  rw [dif_pos h0]
+  rw [dite_eq_left h0]
   exact congrArg some (Option.some.inj (h0.choose_spec.symm.trans h))
 
 section main
@@ -82,7 +82,8 @@ theorem hingePair_survFirst {i : ℕ} (hi : i < (survivorsMk G σ Mk).length) {v
       (stSt G σ Mk).M.pi (stSt G σ Mk).hcls (survivorsMk G σ Mk)[i].2.2 = v)
     (hfirst : ∀ j (hj : j < i), ¬ ((stSt G σ Mk).M.pi (stSt G σ Mk).hcls (survivorsMk G σ Mk)[j].2.1 = v ∨
       (stSt G σ Mk).M.pi (stSt G σ Mk).hcls (survivorsMk G σ Mk)[j].2.2 = v)) :
-    ∃ q, hingePair G σ v = some q ∧ G.molecule.InGroup (survivorsMk G σ Mk)[i].1 ((stSt G σ Mk).M.od q.1) ∧
+    ∃ q, hingePair G σ v = some q ∧ TripleAt (stSt G σ Mk).G v q.1 q.2 ∧
+      G.molecule.InGroup (survivorsMk G σ Mk)[i].1 ((stSt G σ Mk).M.od q.1) ∧
       G.molecule.InGroup (survivorsMk G σ Mk)[i].1 ((stSt G σ Mk).M.od q.2) := by
   classical
   have ht : (survivorsMk G σ Mk)[i] ∈ survivorsMk G σ Mk := List.getElem_mem hi
@@ -99,14 +100,14 @@ theorem hingePair_survFirst {i : ℕ} (hi : i < (survivorsMk G σ Mk).length) {v
   obtain ⟨y1, y2, hy1, hy2, hT'⟩ := (stSt G σ Mk).M.tripleAt_of_lift (c := v) (d1 := p.1) (d2 := p.2)
     (hrep p.1 hpx) (hrep p.2 hpy) (survDart_not_internal hM σ hS hmk htm hgx (by rw [hpx]; exact hjt))
     (survDart_not_internal hM σ hS hmk htm hgy (by rw [hpy]; exact hjt)) hpout hpne
-  obtain ⟨q, hq, hq1, hq2, -⟩ := liftPair_of_existsMk (σ := σ) (v := v) (p := p) ⟨(y1, y2), hy1, hy2, hT'⟩
+  obtain ⟨q, hq, hq1, hq2, hqT⟩ := liftPair_of_existsMk (σ := σ) (v := v) (p := p) ⟨(y1, y2), hy1, hy2, hT'⟩
   have hsq : survPairAt G σ v = some q := by
     unfold survPairAt
     rw [hJ, Option.bind_some]
     simp only
     rw [hp, Option.bind_some]
     exact hq
-  exact ⟨q, hingePair_of_survPairAt hsq, hq1 ▸ hgx, hq2 ▸ hgy⟩
+  exact ⟨q, hingePair_of_survPairAt hsq, hqT, hq1 ▸ hgx, hq2 ▸ hgy⟩
 
 /-- **`SubproSupportMK.jointPair`** (o75 Theorem 7.5′(5), 75-F1) for `S.surv := (survObjs G σ Mk).get` and
 `C := collectionChoices G σ Mk`: at a joint `v` of the survivor `i`, the first one with joint `v`, the chosen pair
@@ -135,7 +136,7 @@ theorem jointPair_survObjs (i : Fin (survObjs G σ Mk).length) (v : GBranch (stS
     have e : j'.val = j := hjj
     simp only [e]
     exact hc.imp Eq.symm Eq.symm
-  obtain ⟨q, hq, h1, h2⟩ := hingePair_survFirst hM σ i'.2 hv' hfirst'
+  obtain ⟨q, hq, -, h1, h2⟩ := hingePair_survFirst hM σ i'.2 hv' hfirst'
   rw [← hget] at h1 h2
   refine ⟨q.1, q.2, by simp [collectionChoices, hq], by simp [collectionChoices, hq], ?_, ?_⟩
   · rw [hgi]; exact survObj_containsDart hM σ hi' h1
