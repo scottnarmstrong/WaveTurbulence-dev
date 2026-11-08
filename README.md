@@ -6,7 +6,7 @@ Lean 4 formalization of
 > [arXiv:2311.10082v2](https://arxiv.org/abs/2311.10082) (2024).
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-11-08 17:23 UTC** · **estimated completion 91.8 %** (Lean proofs 93.3 %) · frozen theorems sealed: 17 / 27 (+ 300 frozen definitions) · **1,487,753 lines of Lean on main** (11928 files) + 134,849 unlanded on worker branches · blueprint estimate ≈ 273,000 lines
+> **Last updated: 2026-11-08 17:43 UTC** · **estimated completion 91.8 %** (Lean proofs 93.3 %) · frozen theorems sealed: 17 / 27 (+ 300 frozen definitions) · **1,487,753 lines of Lean on main** (11928 files) + 134,849 unlanded on worker branches · blueprint estimate ≈ 273,000 lines
 <!-- /AUTO:updated -->
 
 **Scope (D1):** everything proved in Lean, no black boxes. That covers the target paper and the results it uses from
@@ -37,12 +37,12 @@ SEALED: 17 theorems + 300 definitions
 <!-- AUTO:flower -->
 ### Flower estimate (`flowerest1` = frozen `layergardenFlower_v3`): **93.4 %**
 
-`████████████████████████████░░` 93.4 % · 71 of 76 packets done, 1 partial, 1 running, 3 queued · ledger updated 2026-11-08 13:59 UTC
+`████████████████████████████░░` 93.4 % · 71 of 76 packets done, 1 partial, 1 running, 3 queued · ledger updated 2026-11-08 17:43 UTC
 
 - **Paper proof:** ✅ Paper-level proof complete and refereed (R155): SUPPLEMENT-v2 + 6.3', 7.3', 7.5', 8.2', 8.3, 10.2-10.4, U-clock; 7 referee reports, no FAIL.
-- **Lean:** 242,945 lines in the flower world (sorry-free, pinned to main), plus main-side threading on worker branches. When the cores close, the world lands on main and the chain `layergardenFlower_v3 → fixedpoint_v2 → propansatz_v2 → main_v2` is sealed.
+- **Lean:** 244,260 lines in the flower world (sorry-free, pinned to main), plus main-side threading on worker branches. When the cores close, the world lands on main and the chain `layergardenFlower_v3 → fixedpoint_v2 → propansatz_v2 → main_v2` is sealed.
 - **Next:** B4 (gate assembly; consumes B2e, B3, WTPrefix MarkedClassRepresentsMK); B3s α→β→δ→γ; B3-2 + V5W-2L (two-layer top filters); D3-3 (ProtBoundGate); D6b (ProtAnnBoundGate, regular component); D7-2 (chiDN); C5b (MarkedComponentBoundAtI at B = 18000); SEAL-PREP dry run; then CORES, PORT, seals.
-- **Open risks:** flowerest1 rests on ONE input: B3s MarkedClassRepresentsMK (α integration + helpers β/δ/γ in parallel); Then: final_sync (PORT-2 ready), landing, seal_chain.sh, two-key audits
+- **Open risks:** flowerest1 PROVED in the world (closed composite, standard axioms) — fresh rebuilds/READY finishing; Next: final_sync.py → land on main → seal_chain.sh (4 anchors) → two-key audits
 
 | Workstream | Packets | Done | Running | Completion |
 |---|---|---|---|---|
@@ -103,7 +103,7 @@ SEALED: 17 theorems + 300 definitions
 | Marked layer B: marked Stage 1 | B3 MK-UNITS | 2 | ✅ done | marked run producer, pieces at mkF ∩ vinesV0 (R177); audit clean |
 | Marked layer B: marked Stage 1 | B3-2 MK-UNITS-L | 2 | ✅ done | markedUnitsRepresentsFWL' unconditional (per-unit top filters) |
 | Marked layer B: marked Stage 1 | V5W-2L | 2 | ✅ done | v5FrontierClassBoundL: V5 bound for a product of top filters (mass topFilterMass^|S|) |
-| Marked layer B: marked Stage 1 | B3s MK-SLOTS | 4 | 🟡 running | claude-2 wt-b3s (moved): R179 ruled; ProtSlotSupM repaired form, then milestones α→β→δ→γ |
+| Marked layer B: marked Stage 1 | B3s MK-SLOTS | 4 | 🟡 running | DELIVERED: markedClassRepresentsMK_prefix (HELPER7) — flowerest1 closed composite checked, std axioms; fresh rebuilds finishing |
 | Marked layer B: marked Stage 1 | B4 STAGE1MK-GATE | 2 | ✅ done | stage1ReductionAtMKFull_of_B3s (single hypothesis: B3s); ZeroVanish, B2eIX, survivor count proved |
 | Marked layer C: final count (Stage 2') | C0 design | 2 | ✅ done | S-FINALMK |
 | Marked layer C: final count (Stage 2') | C3 LAD-FILT | 4 | ✅ done | filtered ladders |
@@ -261,7 +261,7 @@ Done fractions last reviewed: **2026-11-07 05:24 UTC**. Source: [`docs/campaign/
 <!-- AUTO:workers -->
 | tmux | model / account | packet | branch: last commit | brief |
 |---|---|---|---|---|
-| wt-orch | Claude Opus / claude-1 | Task 34: snapshot-8 delta audit + freeze branch rebuild; done: letter draft, many audits | `w/orch`: 26 min ago, 179 unlanded | [brief](docs/campaign/orch/TASK4.md) |
+| wt-orch | Claude Opus / claude-1 | Task 34: snapshot-8 delta audit + freeze branch rebuild; done: letter draft, many audits | `w/orch`: 0 min ago, 180 unlanded | [brief](docs/campaign/orch/TASK4.md) |
 | wt-gauss-hc | Claude Opus / claude-10 | FLOWER-SPINE: B1.12 layergardenFlower from named spine inputs (X2, X3 closed: fixedpoint from B1.12+B1.2+B1.5) | `w/waveb-infra`: — | [brief](docs/campaign/briefs/FLOWER-SPINE.md) |
 | wt-torus | Claude Opus / claude-14 | G7 MOLEPROP4 (revived, repaired): DH23 ylem1′, ylem2, Prop 10.4 (A23-HALF done) | `w/approxnt`: 101 h ago | [brief](docs/campaign/briefs/MOLEPROP4.md) |
 | wt-wke | Claude Opus / claude-13 | L3+L4: TARGET Props 6.1-6.3 (proplayer2-4); J1-J3, B̃ bridge, tree Prop 5.1 done | `w/jr-ops`: 101 h ago | [brief](docs/campaign/briefs/PL234.md) |
