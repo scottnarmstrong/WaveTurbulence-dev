@@ -8,6 +8,68 @@ set_option autoImplicit false
 open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineAlign
 open VineEstS4 VineA VineB VineC RedSplice Stage1 Twist RegRed Represents LFTwist Reg.Skeleton
+
+section HingeMk
+variable {w p : ℕ} {kind : Bool} {S : Garden w}
+  (hM : S.molecule.IsMolecule) (σ : Prescription S) {Mk : Set (CLVine S)}
+  (D : ReconstructionData S) (hS : S.IsPlain)
+  (layer : GNode (D.forest hS) → ℕ) (hLayer : IsLayering (D.garden hS) layer)
+  {Y : FamilyReconstruction w (UnitsIndex (alignedAssemblyMk hM σ Mk))}
+  {vs : ∀ j, UnitAt Y.skeleton Y.family ((unitsSplit (alignedAssemblyMk hM σ Mk)).Q j)}
+  {L : List (UnitsIndex (alignedAssemblyMk hM σ Mk))}
+  (hr : ReachU p kind (unitsSplit (alignedAssemblyMk hM σ Mk)).Q L
+    (unitsStart (alignedAssemblyMk hM σ Mk) (unitBlkMk_disj hM σ Mk) D hS layer hLayer)
+    (unitsRegion (alignedAssemblyMk hM σ Mk) (unitBlkMk_disj hM σ Mk)) Y vs)
+  (hn : L.Nodup)
+  {Mk' : Set (CLVine Y.skeleton)} (hT : Stage1Mk.MarkTransported (batchMolIso hr.batch) Mk Mk')
+
+/-- B1b-3 (Mk-general form of `commonShape_br`).
+The common shape uses the actual batch map on every surviving original branch. -/
+theorem commonShape_brMk (c : GBranch (stSt S σ Mk).G.tree) :
+    (commonShapeMk hM σ D hS layer hLayer hr hn hT).br c =
+      (batchMolIso hr.batch).e ((stSt S σ Mk).M.ob c) := by
+  let h := batchMolIso_spec hr.batch
+  let e := (h.spliceMolIsoMk σ hT (unitsFamily_isV0FamMk hM σ)).e
+  calc
+    _ = (endpointShapeMk hM σ D hS layer hLayer hr hn hT).br (e c) := by
+      exact (congrArg (commonShapeMk hM σ D hS layer hLayer hr hn hT).br
+        (h.splice_branch_castMk σ hT (unitsFamily_isV0FamMk hM σ) c).symm).trans
+          (castShape_br (h.splice_garden_eqMk σ hT (unitsFamily_isV0FamMk hM σ))
+            (endpointShapeMk hM σ D hS layer hLayer hr hn hT) (e c))
+    _ = (stSt Y.skeleton (transportPrescription (batchMolIso hr.batch) σ) Mk').M.ob (e c) := by
+      unfold endpointShapeMk
+      rw [congrBlocks_br]
+      rfl
+    _ = _ := h.spliceMolIso_branch_namesMk σ hT (unitsFamily_isV0FamMk hM σ) c
+
+/-- B1b-3 (Mk-general form of `commonShape_hinge`).
+Each labelled hinge, not just their finite set, is class-independent. -/
+theorem commonShape_hingeMk (j : Fin (unitBlocks S σ Mk).length) :
+    (commonShapeMk hM σ D hS layer hLayer hr hn hT).hinge (member_disjMk hM σ D hS layer hLayer hr hn) j =
+      (stShape hM σ Mk).hinge (unitBlkMk_disj hM σ Mk) j := by
+  classical
+  apply (commonShapeMk hM σ D hS layer hLayer hr hn hT).br_inj
+  rw [SpliceShape.br_hinge, commonShape_brMk]
+  have hc := (reachU_coordinates hr hn (batchMolIso_spec hr.batch) j).2.1
+  exact hc.trans (congrArg (batchMolIso hr.batch).e ((stShape hM σ Mk).br_hinge (unitBlkMk_disj hM σ Mk) j).symm)
+
+/-- B1b-3 (Mk-general form of `commonShape_hmom_zero`).
+Slot zero of the momentum boundary is the same common hinge node. -/
+theorem commonShape_hmom_zeroMk (j : Fin (unitBlocks S σ Mk).length) :
+    (commonShapeMk hM σ D hS layer hLayer hr hn hT).hmom (member_disjMk hM σ D hS layer hLayer hr hn) j 0 =
+      (stShape hM σ Mk).hmom (unitBlkMk_disj hM σ Mk) j 0 := by
+  rw [SpliceShape.hmom_zero, SpliceShape.hmom_zero, commonShape_hingeMk]
+
+/-- B1b-3 (Mk-general form of `commonShape_hclk_zero`).
+The upper clock of each unit is literally common to every class member. -/
+theorem commonShape_hclk_zeroMk (j : Fin (unitBlocks S σ Mk).length) :
+    (commonShapeMk hM σ D hS layer hLayer hr hn hT).hclk (member_disjMk hM σ D hS layer hLayer hr hn) j 0 =
+      (stShape hM σ Mk).hclk (unitBlkMk_disj hM σ Mk) j 0 := by
+  change Sum.inr _ = Sum.inr _
+  exact congrArg Sum.inr (commonShape_hingeMk hM σ D hS layer hLayer hr hn hT j)
+
+end HingeMk
+
 variable {w p : ℕ} {kind : Bool} {S : Garden w}
   (hM : S.molecule.IsMolecule) (σ : Prescription S)
   (D : ReconstructionData S) (hS : S.IsPlain)
@@ -23,42 +85,25 @@ variable {w p : ℕ} {kind : Bool} {S : Garden w}
 /-- The common shape uses the actual batch map on every surviving original branch. -/
 theorem commonShape_br (c : GBranch (stSt S σ).G.tree) :
     (commonShape hM σ D hS layer hLayer hr hn).br c =
-      (batchMolIso hr.batch).e ((stSt S σ).M.ob c) := by
-  let h := batchMolIso_spec hr.batch
-  let e := (h.spliceMolIso σ (unitsFamily_isV0Fam hM σ)).e
-  calc
-    _ = (endpointShape hM σ D hS layer hLayer hr hn).br (e c) := by
-      exact (congrArg (commonShape hM σ D hS layer hLayer hr hn).br
-        (h.splice_branch_cast σ (unitsFamily_isV0Fam hM σ) c).symm).trans
-          (castShape_br (h.splice_garden_eq σ (unitsFamily_isV0Fam hM σ))
-            (endpointShape hM σ D hS layer hLayer hr hn) (e c))
-    _ = (stSt Y.skeleton (transportPrescription (batchMolIso hr.batch) σ)).M.ob (e c) := by
-      unfold endpointShape
-      rw [congrBlocks_br]
-      rfl
-    _ = _ := h.spliceMolIso_branch_names σ (unitsFamily_isV0Fam hM σ) c
+      (batchMolIso hr.batch).e ((stSt S σ).M.ob c) :=
+  commonShape_brMk hM σ D hS layer hLayer hr hn (Stage1Mk.markTransported_empty _) c
 
 /-- Each labelled hinge, not just their finite set, is class-independent. -/
 theorem commonShape_hinge (j : Fin (unitBlocks S σ).length) :
     (commonShape hM σ D hS layer hLayer hr hn).hinge (member_disj hM σ D hS layer hLayer hr hn) j =
-      (stShape hM σ).hinge (unitBlk_disj hM σ) j := by
-  classical
-  apply (commonShape hM σ D hS layer hLayer hr hn).br_inj
-  rw [SpliceShape.br_hinge, commonShape_br]
-  have hc := (reachU_coordinates hr hn (batchMolIso_spec hr.batch) j).2.1
-  exact hc.trans (congrArg (batchMolIso hr.batch).e ((stShape hM σ).br_hinge (unitBlk_disj hM σ) j).symm)
+      (stShape hM σ).hinge (unitBlk_disj hM σ) j :=
+  commonShape_hingeMk hM σ D hS layer hLayer hr hn (Stage1Mk.markTransported_empty _) j
 
 /-- Slot zero of the momentum boundary is the same common hinge node. -/
 theorem commonShape_hmom_zero (j : Fin (unitBlocks S σ).length) :
     (commonShape hM σ D hS layer hLayer hr hn).hmom (member_disj hM σ D hS layer hLayer hr hn) j 0 =
-      (stShape hM σ).hmom (unitBlk_disj hM σ) j 0 := by
-  rw [SpliceShape.hmom_zero, SpliceShape.hmom_zero, commonShape_hinge]
+      (stShape hM σ).hmom (unitBlk_disj hM σ) j 0 :=
+  commonShape_hmom_zeroMk hM σ D hS layer hLayer hr hn (Stage1Mk.markTransported_empty _) j
 
 /-- The upper clock of each unit is literally common to every class member. -/
 theorem commonShape_hclk_zero (j : Fin (unitBlocks S σ).length) :
     (commonShape hM σ D hS layer hLayer hr hn).hclk (member_disj hM σ D hS layer hLayer hr hn) j 0 =
-      (stShape hM σ).hclk (unitBlk_disj hM σ) j 0 := by
-  change Sum.inr _ = Sum.inr _
-  exact congrArg Sum.inr (commonShape_hinge hM σ D hS layer hLayer hr hn j)
+      (stShape hM σ).hclk (unitBlk_disj hM σ) j 0 :=
+  commonShape_hclk_zeroMk hM σ D hS layer hLayer hr hn (Stage1Mk.markTransported_empty _) j
 
 end WaveTurbulence.VineAlign

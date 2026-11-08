@@ -80,4 +80,37 @@ theorem BatchIso.spliceMolIso_dart_names (h : BatchIso p kind L A B F)
     (stSt B.skeleton (transportPrescription F σ)).M.od ((h.spliceMolIso σ hA).d x) =
       F.d ((stSt A.skeleton σ).M.od x) := h.spliceMolIso_dart_namesMk σ (Stage1Mk.markTransported_empty F) hA x
 
+/-- B1b-3: the splice state's hinge set (branches with a splice class, `SpState.hinges`) follows the actual batch
+map at markings carried by the batch. It reads neither hinge pairs nor the gap specification. -/
+theorem BatchIso.splice_hinge_iffMk (h : BatchIso p kind L A B F) (σ : Prescription A.skeleton)
+    {Mk : Set (CLVine A.skeleton)} {Mk' : Set (CLVine B.skeleton)}
+    (hT : Stage1Mk.MarkTransported F Mk Mk') (hA : IsV0Fam A.family σ Mk)
+    (c : GBranch (stSt A.skeleton σ Mk).G.tree) :
+    (h.spliceMolIsoMk σ hT hA).e c ∈ (stSt B.skeleton (transportPrescription F σ) Mk').hinges ↔
+      c ∈ (stSt A.skeleton σ Mk).hinges := by
+  let S := stSt A.skeleton σ Mk
+  let T := stSt B.skeleton (transportPrescription F σ) Mk'
+  have he : T.cls (T.M.ob ((h.spliceMolIsoMk σ hT hA).e c)) = (S.cls (S.M.ob c)).map F.e :=
+    (congrArg T.cls (h.spliceMolIso_branch_namesMk σ hT hA c)).trans (h.splice_classesMk σ hT hA (S.M.ob c))
+  have hn : ((S.cls (S.M.ob c)).map F.e ≠ none) ↔ S.cls (S.M.ob c) ≠ none := by
+    cases S.cls (S.M.ob c) <;> simp
+  exact (T.mem_hinges _).trans
+    ((Iff.of_eq (congrArg (fun o : Option (GBranch B.skeleton.tree) => o ≠ none) he)).trans
+      (hn.trans (S.mem_hinges c).symm))
+
+/-- B1b-3: the complete splice hinge sets correspond by the actual batch quotient map. -/
+theorem BatchIso.splice_hinges_imageMk (h : BatchIso p kind L A B F) (σ : Prescription A.skeleton)
+    {Mk : Set (CLVine A.skeleton)} {Mk' : Set (CLVine B.skeleton)}
+    (hT : Stage1Mk.MarkTransported F Mk Mk') (hA : IsV0Fam A.family σ Mk) :
+    (stSt A.skeleton σ Mk).hinges.image (h.spliceMolIsoMk σ hT hA).e =
+      (stSt B.skeleton (transportPrescription F σ) Mk').hinges := by
+  ext y
+  obtain ⟨x, rfl⟩ := (h.spliceMolIsoMk σ hT hA).e.surjective y
+  constructor
+  · intro hy
+    obtain ⟨c, hc, he⟩ := Finset.mem_image.mp hy
+    exact (h.splice_hinge_iffMk σ hT hA x).mpr ((h.spliceMolIsoMk σ hT hA).e.injective he ▸ hc)
+  · intro hy
+    exact Finset.mem_image.mpr ⟨x, (h.splice_hinge_iffMk σ hT hA x).mp hy, rfl⟩
+
 end WaveTurbulence.VineA

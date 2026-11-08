@@ -62,6 +62,39 @@ theorem hmom_eq_of_hinge_first (Φ : SpliceShape blk G) (hd : Disj blk)
       norm_num at hz
     · exact Φ.inj ((Φ.node_hmom hd j 3).trans h.symm)
 
+section BoundaryMk
+variable {p : ℕ} {kind : Bool}
+  (hM : S.molecule.IsMolecule) (σ : Prescription S) {Mk : Set (CLVine S)}
+  (D : ReconstructionData S) (hS : S.IsPlain)
+  (layer : GNode (D.forest hS) → ℕ) (hLayer : IsLayering (D.garden hS) layer)
+  {Y : FamilyReconstruction w (UnitsIndex (alignedAssemblyMk hM σ Mk))}
+  {vs : ∀ j, UnitAt Y.skeleton Y.family ((unitsSplit (alignedAssemblyMk hM σ Mk)).Q j)}
+  {L : List (UnitsIndex (alignedAssemblyMk hM σ Mk))}
+  (hr : ReachU p kind (unitsSplit (alignedAssemblyMk hM σ Mk)).Q L
+    (unitsStart (alignedAssemblyMk hM σ Mk) (unitBlkMk_disj hM σ Mk) D hS layer hLayer)
+    (unitsRegion (alignedAssemblyMk hM σ Mk) (unitBlkMk_disj hM σ Mk)) Y vs)
+  (hn : L.Nodup)
+  {Mk' : Set (CLVine Y.skeleton)} (hT : Stage1Mk.MarkTransported (batchMolIso hr.batch) Mk Mk')
+
+/-- B1b-3 (Mk-general form of `commonShape_hmom`).
+All four actual momentum boundary nodes are common across the class. -/
+theorem commonShape_hmomMk :
+    (commonShapeMk hM σ D hS layer hLayer hr hn hT).hmom (member_disjMk hM σ D hS layer hLayer hr hn) =
+      (stShape hM σ Mk).hmom (unitBlkMk_disj hM σ Mk) :=
+  hmom_eq_of_hinge_first _ _ _ _ (commonShape_hingeMk hM σ D hS layer hLayer hr hn hT)
+    (commonShape_hmom_oneMk hM σ D hS layer hLayer hr hn hT)
+
+/-- B1b-3 (Mk-general form of `commonShape_hclk`).
+All three actual exterior clock sources are common across the class. -/
+theorem commonShape_hclkMk :
+    (commonShapeMk hM σ D hS layer hLayer hr hn hT).hclk (member_disjMk hM σ D hS layer hLayer hr hn) =
+      (stShape hM σ Mk).hclk (unitBlkMk_disj hM σ Mk) := by
+  funext j
+  unfold SpliceShape.hclk
+  rw [commonShape_hingeMk, commonShape_hmomMk]
+
+end BoundaryMk
+
 variable {p : ℕ} {kind : Bool}
   (hM : S.molecule.IsMolecule) (σ : Prescription S)
   (D : ReconstructionData S) (hS : S.IsPlain)
@@ -77,15 +110,12 @@ variable {p : ℕ} {kind : Bool}
 theorem commonShape_hmom :
     (commonShape hM σ D hS layer hLayer hr hn).hmom (member_disj hM σ D hS layer hLayer hr hn) =
       (stShape hM σ).hmom (unitBlk_disj hM σ) :=
-  hmom_eq_of_hinge_first _ _ _ _ (commonShape_hinge hM σ D hS layer hLayer hr hn)
-    (commonShape_hmom_one hM σ D hS layer hLayer hr hn)
+  commonShape_hmomMk hM σ D hS layer hLayer hr hn (Stage1Mk.markTransported_empty _)
 
 /-- All three actual exterior clock sources are common across the class. -/
 theorem commonShape_hclk :
     (commonShape hM σ D hS layer hLayer hr hn).hclk (member_disj hM σ D hS layer hLayer hr hn) =
-      (stShape hM σ).hclk (unitBlk_disj hM σ) := by
-  funext j
-  unfold SpliceShape.hclk
-  rw [commonShape_hinge, commonShape_hmom]
+      (stShape hM σ).hclk (unitBlk_disj hM σ) :=
+  commonShape_hclkMk hM σ D hS layer hLayer hr hn (Stage1Mk.markTransported_empty _)
 
 end WaveTurbulence.VineAlign

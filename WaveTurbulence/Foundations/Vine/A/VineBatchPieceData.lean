@@ -29,35 +29,37 @@ theorem BatchIso.piece_layer (h : BatchIso p kind L A B F) (σ : Prescription A.
       (stage1PieceOf d A.plain A.layered A.decodes σ).layer c :=
   h.piece_layerMk σ (Stage1Mk.markTransported_empty F) hA d c
 
+/-- B1b-3 (Mk-general form of `BatchIso.piece_hinge_iff`). -/
+theorem BatchIso.piece_hinge_iffMk (h : BatchIso p kind L A B F) (σ : Prescription A.skeleton)
+    {Mk : Set (CLVine A.skeleton)} {Mk' : Set (CLVine B.skeleton)}
+    (hT : Stage1Mk.MarkTransported F Mk Mk') (hA : IsV0Fam A.family σ Mk) (d : ℕ)
+    (c : GBranch (stSt A.skeleton σ Mk).G.tree) :
+    (h.spliceMolIsoMk σ hT hA).e c ∈
+        (stage1PieceOf d B.plain B.layered B.decodes (transportPrescription F σ) Mk').Cs.hinges ↔
+      c ∈ (stage1PieceOf d A.plain A.layered A.decodes σ Mk).Cs.hinges := h.splice_hinge_iffMk σ hT hA c
+
 /-- The actual constructed hinge membership follows the actual batch map. -/
 theorem BatchIso.piece_hinge_iff (h : BatchIso p kind L A B F) (σ : Prescription A.skeleton)
     (hA : IsV0Fam A.family σ) (d : ℕ) (c : GBranch (stSt A.skeleton σ).G.tree) :
     (h.spliceMolIso σ hA).e c ∈
         (stage1PieceOf d B.plain B.layered B.decodes (transportPrescription F σ)).Cs.hinges ↔
-      c ∈ (stage1PieceOf d A.plain A.layered A.decodes σ).Cs.hinges := by
-  let S := stSt A.skeleton σ
-  let T := stSt B.skeleton (transportPrescription F σ)
-  have he : T.cls (T.M.ob ((h.spliceMolIso σ hA).e c)) = (S.cls (S.M.ob c)).map F.e :=
-    (congrArg T.cls (h.spliceMolIso_branch_names σ hA c)).trans (h.splice_classes σ hA (S.M.ob c))
-  have hn : ((S.cls (S.M.ob c)).map F.e ≠ none) ↔ S.cls (S.M.ob c) ≠ none := by
-    cases S.cls (S.M.ob c) <;> simp
-  exact (T.mem_hinges _).trans
-    ((Iff.of_eq (congrArg (fun o : Option (GBranch B.skeleton.tree) => o ≠ none) he)).trans
-      (hn.trans (S.mem_hinges c).symm))
+      c ∈ (stage1PieceOf d A.plain A.layered A.decodes σ).Cs.hinges :=
+  h.piece_hinge_iffMk σ (Stage1Mk.markTransported_empty F) hA d c
+
+/-- B1b-3 (Mk-general form of `BatchIso.piece_hinges`). -/
+theorem BatchIso.piece_hingesMk (h : BatchIso p kind L A B F) (σ : Prescription A.skeleton)
+    {Mk : Set (CLVine A.skeleton)} {Mk' : Set (CLVine B.skeleton)}
+    (hT : Stage1Mk.MarkTransported F Mk Mk') (hA : IsV0Fam A.family σ Mk) (d : ℕ) :
+    (stage1PieceOf d A.plain A.layered A.decodes σ Mk).Cs.hinges.image (h.spliceMolIsoMk σ hT hA).e =
+      (stage1PieceOf d B.plain B.layered B.decodes (transportPrescription F σ) Mk').Cs.hinges :=
+  h.splice_hinges_imageMk σ hT hA
 
 /-- The actual full hinge sets of the constructed pieces correspond. -/
 theorem BatchIso.piece_hinges (h : BatchIso p kind L A B F) (σ : Prescription A.skeleton)
     (hA : IsV0Fam A.family σ) (d : ℕ) :
     (stage1PieceOf d A.plain A.layered A.decodes σ).Cs.hinges.image (h.spliceMolIso σ hA).e =
-      (stage1PieceOf d B.plain B.layered B.decodes (transportPrescription F σ)).Cs.hinges := by
-  ext y
-  obtain ⟨x, rfl⟩ := (h.spliceMolIso σ hA).e.surjective y
-  constructor
-  · intro hy
-    obtain ⟨c, hc, he⟩ := Finset.mem_image.mp hy
-    exact (h.piece_hinge_iff σ hA d x).mpr ((h.spliceMolIso σ hA).e.injective he ▸ hc)
-  · intro hy
-    exact Finset.mem_image.mpr ⟨x, (h.piece_hinge_iff σ hA d x).mp hy, rfl⟩
+      (stage1PieceOf d B.plain B.layered B.decodes (transportPrescription F σ)).Cs.hinges :=
+  h.piece_hingesMk σ (Stage1Mk.markTransported_empty F) hA d
 
 /-- B1b-2 (Mk-general form of `BatchIso.piece_bsk`). -/
 theorem BatchIso.piece_bskMk (h : BatchIso p kind L A B F) (σ : Prescription A.skeleton)
