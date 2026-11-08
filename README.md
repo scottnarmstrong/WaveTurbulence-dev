@@ -6,7 +6,7 @@ Lean 4 formalization of
 > [arXiv:2311.10082v2](https://arxiv.org/abs/2311.10082) (2024).
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-11-08 03:23 UTC** · **estimated completion 87.9 %** (Lean proofs 89.1 %) · frozen theorems sealed: 17 / 27 (+ 300 frozen definitions) · **1,478,809 lines of Lean on main** (11902 files) + 10,971 unlanded on worker branches · blueprint estimate ≈ 273,000 lines
+> **Last updated: 2026-11-08 03:28 UTC** · **estimated completion 88.1 %** (Lean proofs 89.3 %) · frozen theorems sealed: 17 / 27 (+ 300 frozen definitions) · **1,478,809 lines of Lean on main** (11902 files) + 11,663 unlanded on worker branches · blueprint estimate ≈ 273,000 lines
 <!-- /AUTO:updated -->
 
 **Scope (D1):** everything proved in Lean, no black boxes. That covers the target paper and the results it uses from
@@ -35,12 +35,12 @@ SEALED: 17 theorems + 300 definitions
 ## Flower estimate
 
 <!-- AUTO:flower -->
-### Flower estimate (`flowerest1` = frozen `layergardenFlower_v3`): **77.4 %**
+### Flower estimate (`flowerest1` = frozen `layergardenFlower_v3`): **78.2 %**
 
-`███████████████████████░░░░░░░` 77.4 % · 54 of 72 packets done, 4 partial, 4 running, 10 queued · ledger updated 2026-11-08 03:08 UTC
+`███████████████████████░░░░░░░` 78.2 % · 55 of 72 packets done, 3 partial, 4 running, 10 queued · ledger updated 2026-11-08 03:28 UTC
 
 - **Paper proof:** ✅ Paper-level proof complete and refereed (R155): SUPPLEMENT-v2 + 6.3', 7.3', 7.5', 8.2', 8.3, 10.2-10.4, U-clock; 7 referee reports, no FAIL.
-- **Lean:** 124,819 lines in the flower world (sorry-free, pinned to main), plus main-side threading on worker branches. When the cores close, the world lands on main and the chain `layergardenFlower_v3 → fixedpoint_v2 → propansatz_v2 → main_v2` is sealed.
+- **Lean:** 125,503 lines in the flower world (sorry-free, pinned to main), plus main-side threading on worker branches. When the cores close, the world lands on main and the chain `layergardenFlower_v3 → fixedpoint_v2 → propansatz_v2 → main_v2` is sealed.
 - **Next:** B1b (then the joint landing B1a+B1b+B2a, the re-pin with R169, then B2c/B3/B3s/B4); D2c (then D3, D6a/b, D7); D5d-b; V5W-B-WORLD (then V5W-T); C5b after B4 and D6.
 - **Open risks:** Protected objects: D3 (pinned bound) and D6 (whole objects) now unblocked; D2c's P5/P7 remain; C1b1 PROVED the survivor re-cut budget sound (the failing configuration cannot occur); remaining C risk: the LOW chain phases 2-4 with survivors (C1b2)
 
@@ -53,9 +53,9 @@ SEALED: 17 theorems + 300 definitions
 | Marked layer A: interface, capping, top assembly | 7 | 7 | 0 | `██████████` 100 % |
 | Marked layer B: marked Stage 1 | 10 | 4 | 2 | `█████░░░░░` 51 % |
 | Marked layer C: final count (Stage 2') | 11 | 10 | 0 | `█████████░` 94 % |
-| Marked layer D: protected objects | 16 | 9 | 2 | `███████░░░` 66 % |
+| Marked layer D: protected objects | 16 | 10 | 2 | `███████░░░` 70 % |
 | Cores, landing and seals | 4 | 0 | 0 | `░░░░░░░░░░` 0 % |
-| **Total** | 72 | 54 | 4 | **77.4 %** |
+| **Total** | 72 | 55 | 4 | **78.2 %** |
 
 <details><summary>All flower packets</summary>
 
@@ -121,7 +121,7 @@ SEALED: 17 theorems + 300 definitions
 | Marked layer D: protected objects | D2b PROT-GEO | 4 | ✅ done | protected geometry (i)-(iv); R163 carrier fix |
 | Marked layer D: protected objects | D2c PROT-CUT | 4 | 🟠 checkpoint 90 % | all pattern cuts incl. P5/P7; o104 Prop 7.4 root trace (D2c-3) running |
 | Marked layer D: protected objects | D5a FILT-LINK | 4 | ✅ done | o82 Lemma 14.1 + the D5b map (copy-thread recommended) |
-| Marked layer D: protected objects | D5d FILT-COH | 8 | 🟠 checkpoint 75 % | star couples+trees, single-layer star bounds done; D5d-d1 (multi-layer+gate) and D5d-d2 (filtered oracles) running |
+| Marked layer D: protected objects | D5d FILT-COH | 8 | ✅ done | FiltCoherentBoundGate unconditional |
 | Marked layer D: protected objects | D3 PROT-PIN | 4 | 🟡 running | + conjugation transfer and the P8 root-trace bound (R163) |
 | Marked layer D: protected objects | D5b-1 FILT-SRC | 4 | ✅ done | filtered source phase, twins, kernel identity |
 | Marked layer D: protected objects | D5b-2 FILT-PROD | 2 | ✅ done | filters threaded to the link product |
@@ -142,20 +142,20 @@ Packet weights follow the blueprint convention (hard = 4, standard = 2, multi-pa
 ## Progress
 
 <!-- AUTO:progress -->
-### Estimated completion: **87.9 %**
+### Estimated completion: **88.1 %**
 
-`██████████████████████████░░░░` 87.9 %
+`██████████████████████████░░░░` 88.1 %
 
 | Part of the project | Items | Weight | Done | Completion |
 |---|---|---|---|---|
 | Sources, paper maps, blueprint (P0–P1) | 1 | 30 | 27.0 | `█████████░` 90 % |
 | Exact Lean statements, frozen (P2) | 1 | 20 | 18.6 | `█████████░` 93 % |
-| Lean proofs (P4) | 85 | 911 | 818.5 | `█████████░` 90 % |
+| Lean proofs (P4) | 85 | 911 | 820.5 | `█████████░` 90 % |
 | Frozen theorems sealed | 27 | 27 | 17.0 | `██████░░░░` 63 % |
 | Release (P5) | 1 | 15 | 0.0 | `░░░░░░░░░░` 0 % |
-| **Total** | | 1003 | 881.1 | **87.9 %** |
+| **Total** | | 1003 | 883.1 | **88.1 %** |
 
-Lean lines: 1,478,809 on main + 10,971 on branches, of ≈ 273,000 estimated by the blueprint (`████████████████████` 545.7 % of the estimate).
+Lean lines: 1,478,809 on main + 11,663 on branches, of ≈ 273,000 estimated by the blueprint (`████████████████████` 546.0 % of the estimate).
 
 <details><summary>All Lean work packets (blueprint §E) with weight and status</summary>
 
@@ -243,7 +243,7 @@ Lean lines: 1,478,809 on main + 10,971 on branches, of ≈ 273,000 estimated by 
 | M6 | TWIST | 8 | ≈2,800 | 🟡 90 % | TWIST done in scratch: twist involution, invariances, sign cancellation, 2^r gardens (287 modules) |
 | V3 | REGRED | 6 | ≈1,900 | 🟡 90 % | REGRED done in scratch: skeleton reduction, vineest Step 1 (ab8680f); nonzero-gap boundary case separate (F21) |
 | M7 | LFTWIST | 13 | ≈4,200 | 🟡 85 % | LFTWIST on main with the canonical universe; leaf bijection of LF twists on ordinary leaves proved (LFTWIST-LEAFMAP, R45) |
-| X2 | FLOWEREST | 246 | ≈8,900 | 🟡 77 % | FLOWEREST: weight and completion from the flower ledger (54 packets done, 4 running, 10 queued; see the flower bar) |
+| X2 | FLOWEREST | 246 | ≈8,900 | 🟡 78 % | FLOWEREST: weight and completion from the flower ledger (55 packets done, 4 running, 10 queued; see the flower bar) |
 | F1 | FINAL-RED | 4 | ≈1,200 | 🟡 30 % | FINAL-RED: finalsbest1/finalsbest2 consumed in LG-SPINE's assembly (counting cover, finalproof numerics) proved generically |
 | G1 | STAGE2-DEF | 10 | ≈2,600 | 🟡 20 % | STAGE2-DEF: stage-2 operation datatype (Stage2Op) and TARGET's counting problem (lg-spine CountingChoices) defined |
 
