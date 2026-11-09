@@ -9,7 +9,7 @@ together with the results it relies on from the authors' earlier papers and from
 [Papers](#papers) below). Every step is checked by Lean; nothing is assumed beyond Lean's standard axioms.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-11-09 07:52 UTC** · frozen theorems sealed: 21 / 27 (+ 300 frozen definitions) · **1,726,978 lines of Lean on main** (13117 files) · overall completion of the whole project (full range 0 < γ < 1): 93.8 %
+> **Last updated: 2026-11-09 07:53 UTC** · frozen theorems sealed: 21 / 27 (+ 300 frozen definitions) · **1,726,978 lines of Lean on main** (13117 files) · overall completion of the whole project (full range 0 < γ < 1): 93.8 %
 <!-- /AUTO:updated -->
 
 ## At a glance
