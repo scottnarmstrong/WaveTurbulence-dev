@@ -256,8 +256,8 @@
      ],
      "note": "marked count (H2) PROVED unconditionally, with the marked ghost cover; final count gate discharged; marked stage 1 nearly complete (I-SLOTS, I-SLOTSO, I-SLOTSB, I-VEW done; I-UNITS 34/35; I-SLOTSI and the base tail in progress)",
      "done": 0.75,
-     "lines": 86398,
-     "lines_compiled": 79141,
+     "lines": 86528,
+     "lines_compiled": 78631,
      "credit": 0.75
     }
    ]
