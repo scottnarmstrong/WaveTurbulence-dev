@@ -56,6 +56,8 @@ a smaller γ means a stronger nonlinearity and a shorter kinetic time.
   connects to the open problem of whether the Gibbs measure (Φ⁴₃) is invariant under the cubic Schrödinger flow, and
   to energy cascades. On the square torus γ = 1 is not admissible. Theorem 1.1 covers it only on rectangular tori with
   generic side lengths, a case this project does not formalize (decision D2 in [docs/DECISIONS.md](docs/DECISIONS.md)).
+  **So at γ = 1 our formal result is narrower than the printed Theorem 1.1.** This is listed among the deviations in
+  [docs/ERRATA-AND-DEVIATIONS.md](docs/ERRATA-AND-DEVIATIONS.md).
 - **γ ≤ 1/2 more broadly.** In this range the equidistribution the theory needs holds for essentially any dispersion
   relation, without number theory (DH23, §1.2). The difficulty we found there is of a different, combinatorial kind
   (see [docs/GAMMA-LE-HALF.md](docs/GAMMA-LE-HALF.md)).
