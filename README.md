@@ -9,7 +9,7 @@ together with the results it relies on from the authors' earlier papers and from
 [Papers](#papers) below). Every step is checked by Lean; nothing is assumed beyond Lean's standard axioms.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-11-09 21:00 UTC** · frozen theorems sealed: 21 / 28 (+ 300 frozen definitions) · **1,679,060 lines of Lean on main** (12736 files) · overall completion of the whole project (full range 0 < γ < 1): 93.7 %
+> **Last updated: 2026-11-09 21:10 UTC** · frozen theorems sealed: 21 / 28 (+ 300 frozen definitions) · **1,679,060 lines of Lean on main** (12736 files) · overall completion of the whole project (full range 0 < γ < 1): 93.7 %
 <!-- /AUTO:updated -->
 
 ## At a glance
@@ -177,7 +177,7 @@ complete; the remaining percentage is mostly the γ ≤ 1/2 work.
 | Release (P5) | 1 | 15 | 0.0 | `░░░░░░░░░░` 0 % |
 | **Total** | | 1011 | 947.7 | **93.7 %** |
 
-Lean lines: 1,679,060 on main + 314,163 on worker branches. (The original blueprint estimate, ≈ 273,000 lines, was set before the project's scope and the errata were known; it is no longer a useful yardstick.)
+Lean lines: 1,679,060 on main + 317,706 on worker branches. (The original blueprint estimate, ≈ 273,000 lines, was set before the project's scope and the errata were known; it is no longer a useful yardstick.)
 
 <details><summary>All Lean work packets (blueprint §E) with weight and status</summary>
 
@@ -305,13 +305,13 @@ Campaign bookkeeping, refreshed automatically; may lag behind the actual session
 <!-- AUTO:workers -->
 | tmux | model / account | packet | branch: last commit | brief |
 |---|---|---|---|---|
-| wt-orch | Claude Opus / claude-1 | Task 34: snapshot-8 delta audit + freeze branch rebuild; done: letter draft, many audits | `w/orch`: 6 min ago, 222 unlanded | [brief](docs/campaign/orch/TASK4.md) |
+| wt-orch | Claude Opus / claude-1 | Task 34: snapshot-8 delta audit + freeze branch rebuild; done: letter draft, many audits | `w/orch`: 16 min ago, 222 unlanded | [brief](docs/campaign/orch/TASK4.md) |
 | wt-gauss-hc | Claude Opus / claude-10 | FLOWER-SPINE: B1.12 layergardenFlower from named spine inputs (X2, X3 closed: fixedpoint from B1.12+B1.2+B1.5) | `w/waveb-infra`: — | [brief](docs/campaign/briefs/FLOWER-SPINE.md) |
 | wt-torus | Claude Opus / claude-14 | G7 MOLEPROP4 (revived, repaired): DH23 ylem1′, ylem2, Prop 10.4 (A23-HALF done) | `w/approxnt`: 129 h ago | [brief](docs/campaign/briefs/MOLEPROP4.md) |
 | wt-wke | Claude Opus / claude-13 | L3+L4: TARGET Props 6.1-6.3 (proplayer2-4); J1-J3, B̃ bridge, tree Prop 5.1 done | `w/jr-ops`: 129 h ago | [brief](docs/campaign/briefs/PL234.md) |
-| wt-cumul | GPT-6.1-Sol low / codex-2 | LG-SPINE (pre-freeze): layergarden from named spine inputs (INDUCT, WKETAYLOR-GATE done) | `w/norm-bridge`: 135 h ago | [brief](docs/campaign/briefs/LG-SPINE.md) |
+| wt-cumul | GPT-6.1-Sol low / codex-2 | LG-SPINE (pre-freeze): layergarden from named spine inputs (INDUCT, WKETAYLOR-GATE done) | `w/norm-bridge`: 136 h ago | [brief](docs/campaign/briefs/LG-SPINE.md) |
 | wt-nt | GPT-6.1-Sol low / codex-2 | G4 APPB-OPS then G5 APPB-ALG (pre-freeze): DH23 Appendix B (MOLE M1+M2, CLCN M3 done) | `w/nt-circle`: 124 h ago | [brief](docs/campaign/briefs/APPB-OPS.md) |
-| wt-ansob | GPT-6.1-Sol low / codex-2 | RA1 couples (RA1Couple): DH23 Prop 6.1 for couples; trees moved to wt-l2s | `w/bproc`: 125 h ago, 11 unlanded | [brief](docs/campaign/briefs/REGASYMP.md) |
+| wt-ansob | GPT-6.1-Sol low / codex-2 | RA1 couples (RA1Couple): DH23 Prop 6.1 for couples; trees moved to wt-l2s | `w/bproc`: 126 h ago, 11 unlanded | [brief](docs/campaign/briefs/REGASYMP.md) |
 | wt-gausssum | GPT-6.1-Sol low / codex-2 | M9 VINEPARAM (pre-freeze): molecule-level vine parametrizations (M4 VINES done) | `w/count`: 124 h ago, 11 unlanded | [brief](docs/campaign/briefs/VINES.md) |
 | wt-resonant | GPT-6.1-Sol low / codex-2 | V4 VINEEST-S2 (pre-freeze): vineest Step 2 into sumint form (V3 REGRED done) | `w/resonant`: 129 h ago | [brief](docs/campaign/briefs/VINEEST-S2.md) |
 | wt-anfourier | GPT-6.1-Sol low / codex-2 | M7 LFTWIST (pre-freeze); M5 MOLECPL, M6 TWIST, SUMINT done | `w/an-phase`: 142 h ago | [brief](docs/campaign/briefs/LFTWIST.md) |
