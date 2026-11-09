@@ -1797,6 +1797,7 @@ public import WaveTurbulence.Foundations.Sumint.WindowRescale
 public import WaveTurbulence.Foundations.Sumint.WindowRescaleGeneral
 public import WaveTurbulence.Foundations.Sumint.WindowRescaleTwo
 public import WaveTurbulence.Foundations.Sumint.Words
+public import WaveTurbulence.Foundations.TVine.Defs
 public import WaveTurbulence.Foundations.Torus.Basic
 public import WaveTurbulence.Foundations.Torus.Derivative
 public import WaveTurbulence.Foundations.Torus.Inversion

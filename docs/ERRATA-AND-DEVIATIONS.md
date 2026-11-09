@@ -178,8 +178,8 @@ in [`docs/research/flowerest1/`](research/flowerest1/); an earlier referee of th
 
 The formal development states the results it targets as *frozen* Lean statements in `WaveTurbulence/Frozen/`
 (theorems with `sorry` bodies awaiting proof, and sealed definitions). Their approval is recorded in
-`docs/DECISIONS.md` (D6–D10, D13) and on the approval pages in `docs/review/`. This section lists every recorded way
-in which they differ from the printed text. "Weaker?" says whether the Lean statement claims less than the source.
+`docs/DECISIONS.md` (D6–D10, D13, D16) and on the approval pages in `docs/review/`. This section lists every recorded
+way in which they differ from the printed text. "Weaker?" says whether the Lean statement claims less than the source.
 
 ### A. The main theorem (TARGET Theorem 1.1, L314–L318)
 
@@ -208,7 +208,8 @@ unproved as written there (E2g).
 originals stay frozen and open. Weaker: yes, in γ. The reason is E1: the printed proof fails for γ ≤ 1/2 at DH23
 Prop 9.6. The written completion of the flower estimate (E29–E46) is likewise proved only for 1/2 < γ < 1: it uses the
 counting inputs repaired for that range (E1's γ > 1/2 argument, and E20, whose two-ghost case needs 8η ≤ 2γ − 1), and
-it chooses η small depending on γ with 8η ≤ 2γ − 1.
+it chooses η small depending on γ with 8η ≤ 2γ − 1. `layergardenFlower_v4` (D16) is `layergardenFlower_v3` without
+the restriction, so it covers the full range 0 < γ < 1; it is frozen and open.
 
 **Recorded deviations of each statement** (from the statements' docstrings; the approval pages
 `docs/review/WAVE-B-B1.md` and `docs/review/WAVE-B-B2.md` give the reasons in full):

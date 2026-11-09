@@ -118,3 +118,28 @@ Format: D<n> — date (UTC) — who — decision — reason.
     2. the flower-top reduction ported to main (three named inputs remain);
     3. Lean packets built against the supplement's lemmas.
   - The public report and FLOWEREST1 note are held back and will be revised to match.
+- D16 — 2026-11-09 — wt-orch under the standing authorization (Scott, 2026-11-05: "I approve all, defer approvals now
+  and just get this done"; and 2026-11-09: "we aim for the full statement", "let's get the full range of gamma"),
+  after GAMMA-HALF-SCOPE (R190) and the independent statement audit (gh-core/audits/AUDIT-V4.md: DECLARATION_FIDELITY
+  PASS, EXCESS 0, RECOMMEND_FREEZE YES_WITH_FIXES) — **Full-range flower successor `layergardenFlower_v4` frozen; the
+  T-vine text pinned**:
+  - What changed. `layergardenFlower_v4` is `layergardenFlower_v3` verbatim minus the hypothesis `1 / 2 < P.γ →` (and
+    the name, the provider import and the docstring). So it covers the full range 0 < γ < 1 of TARGET Theorem 1.1
+    (`WTPrefixP` has `γ ∈ Ioo 0 1`). Its definition closure is v3's (107 sealed definitions). Its statement block is
+    v3's after that single substitution (sha256 `4b29cdf4…`), and its type is v3's minus exactly one non-dependent
+    hypothesis (`Expr` level, audit §6).
+  - `layergardenFlower_v3` stays SEALED and PROVED (1/2 < γ < 1) and is not changed. v4 is a new `DRAFT_SORRY` anchor
+    with its own contract and split group (`dh-long.b1.layergardenFlower.v4`). Its proof is to be glued from v3 and a
+    γ ≤ 1/2 half (audit §8).
+  - The T-vine text (implementing D11(a)). `WaveTurbulence/Foundations/TVine/Defs.lean` is the approved
+    `TVineDefs.lean` (sha256 prefix `31242ecfe64dcdab`) with four non-semantic edits: the import path, the module
+    title and two documentation paths. No Lean term changes. It is pinned by sha256 (`6f26a370016e607e…`) in
+    `manifest/pinned-texts.json`; `scripts/check_pinned_texts.py`, run by `scripts/land_check.sh`, fails the landing
+    on any change. It is pinned rather than frozen as an anchor, because no frozen statement mentions T-vines. Any
+    change to it needs a versioned successor and a review.
+  - The targets of the extension. The v1 anchors `main_v1`, `propansatz_v1`, `fixedpoint_v1` and `layergarden_v1`
+    are the full-range targets and are discharged as printed (each is its sealed v2 minus exactly the γ restriction;
+    audit §7). `layergardenFlower_v1` and `layergardenFlower_v2` (max-form cutoffs, E34) stay frozen and open.
+  - Packaging (semantics-neutral): the anchor imports its own provider stub `Provider.LayergardenFlowerV4`
+    (quarantined in the lakefile). The audit's docstring fixes F1–F3 and manifest fixes F4 are applied. No Lean term
+    differs from the audited text.
