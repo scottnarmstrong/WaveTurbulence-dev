@@ -136,7 +136,7 @@ Lean lines: 1,726,978 on main + 2,643 on worker branches. (The original blueprin
 | V1 | SUMINT-A | 7 | ≈4,200 | ✅ 100 % | sumint (B1.6) proved at the exact snapshot-8 type (wt-anfourier, 436 axiom checks); seals at the freeze |
 | V2 | SUMINT-B | 5 | ≈2,200 | ✅ 100 % | sumint (B1.6) proved at the exact snapshot-8 type (wt-anfourier, 436 axiom checks); seals at the freeze |
 | WA | Wave A definitions | 5 | ≈230 | ✅ 100 % | frozen D6 |
-| X2 | FLOWEREST | 253 | ≈8,900 | ✅ 100 % | FLOWEREST: weight and completion from the flower ledger (76 packets done, 0 running, 0 queued; see the flower bar) |
+| X2 | FLOWEREST | 253 | ≈8,900 | ✅ 100 % | FLOWEREST: weight and completion from the flower ledger (76 packets done, 0 running, 0 queued) |
 | X3 | FIXEDPT | 9 | ≈3,400 | ✅ 100 % | FIXEDPT closed: fixedpoint_of_closed_gates from B1.12, B1.2, B1.5 only (O-X2-EXP, O-X3-CPL proved) |
 | F2 | PLG | 12 | ≈4,150 | 🟡 99 % | PLG = LG-SPINE: layergarden_v2_of_V5 on main (batch 4b-2): layergarden_v2 conditional only on V5's VINEEST HalfMK |
 | S3 | LADDER | 8 | ≈4,200 | 🟡 99 % | LADDER: all spine inputs proved; providers re-pinned to the current spine with exact gate checks (cx-repin) |
@@ -189,120 +189,6 @@ Lean lines: 1,726,978 on main + 2,643 on worker branches. (The original blueprin
 Done fractions last reviewed: **2026-11-07 05:24 UTC**. Source: [`docs/campaign/progress.json`](docs/campaign/progress.json); history: [`docs/campaign/history.csv`](docs/campaign/history.csv).
 <!-- /AUTO:progress -->
 
-## Completed milestone: the flower estimate
-
-The last and largest missing piece of the 1/2 < γ < 1 proof was the paper's "flower estimate" (`flowerest1`). It was
-completed in Lean on 2026-11-08. The ledger below records the work packages it took.
-
-<!-- AUTO:flower -->
-### Flower estimate (`flowerest1` = frozen `layergardenFlower_v3`): **100.0 %**
-
-`██████████████████████████████` 100.0 % · 76 of 76 packets done, 0 partial, 0 running, 0 queued · ledger updated 2026-11-09 00:16 UTC
-
-- **Paper proof:** ✅ Paper-level proof complete and refereed (R155): SUPPLEMENT-v2 + 6.3', 7.3', 7.5', 8.2', 8.3, 10.2-10.4, U-clock; 7 referee reports, no FAIL.
-- **Lean:** 244,297 lines in the flower world (sorry-free, pinned to main), plus main-side threading on worker branches. When the cores close, the world lands on main and the chain `layergardenFlower_v3 → fixedpoint_v2 → propansatz_v2 → main_v2` is sealed.
-- **Next:** GAMMA-HALF-SCOPE (read-only) → trim waves 1a + 2-clean (scenario K) → γ ≤ 1/2 extension (D11)
-- **Open risks:** γ∈(1/2,1) chain PROVED: layergardenFlower_v3, fixedpoint_v2, propansatz_v2, main_v2 (two-key audits PASS); Next: γ ≤ 1/2 scoping (running), then trim waves 1a/2-clean, then the γ ≤ 1/2 Lean work
-
-| Workstream | Packets | Done | Running | Completion |
-|---|---|---|---|---|
-| Flower top reduction (landed on main) | 6 | 6 | 0 | `██████████` 100 % |
-| Weighted Stage 1, unmarked gardens | 5 | 5 | 0 | `██████████` 100 % |
-| Weighted vine estimate (V5W) | 5 | 5 | 0 | `██████████` 100 % |
-| Supplement lemma stock | 8 | 8 | 0 | `██████████` 100 % |
-| Marked layer A: interface, capping, top assembly | 7 | 7 | 0 | `██████████` 100 % |
-| Marked layer B: marked Stage 1 | 13 | 13 | 0 | `██████████` 100 % |
-| Marked layer C: final count (Stage 2') | 11 | 11 | 0 | `██████████` 100 % |
-| Marked layer D: protected objects | 17 | 17 | 0 | `██████████` 100 % |
-| Cores, landing and seals | 4 | 4 | 0 | `██████████` 100 % |
-| **Total** | 76 | 76 | 0 | **100.0 %** |
-
-<details><summary>All flower packets</summary>
-
-| Workstream | Packet | Weight | Status | Note |
-|---|---|---|---|---|
-| Flower top reduction (landed on main) | FT1 | 4 | ✅ done | flower top reduction, main 89e2e136 |
-| Flower top reduction (landed on main) | FC23W | 4 | ✅ done | M1, main 796c0f5f |
-| Flower top reduction (landed on main) | FL-CASES | 2 | ✅ done | M1 |
-| Flower top reduction (landed on main) | FL-TYPED | 2 | ✅ done | M1 |
-| Flower top reduction (landed on main) | FL-POLAR | 2 | ✅ done | M1 |
-| Flower top reduction (landed on main) | FL-FAM | 4 | ✅ done | M1: layergardenFlower_v3 from the two cores |
-| Weighted Stage 1, unmarked gardens | STAGE1W-GLUE | 4 | ✅ done | gate glue, exponent c_psi^{16N} |
-| Weighted Stage 1, unmarked gardens | STAGE1W-O4 | 4 | ✅ done | noVineRepresentsFW |
-| Weighted Stage 1, unmarked gardens | INC-TOP | 4 | ✅ done | topIncoherentDecayGateR |
-| Weighted Stage 1, unmarked gardens | COH-TRUNK | 4 | ✅ done | coherent trunk |
-| Weighted Stage 1, unmarked gardens | STAGE1W-VINE | 4 | ✅ done | weighted Stage-1 gate (now unconditional via V5WB) |
-| Weighted vine estimate (V5W) | V5W-0 | 4 | ✅ done | class factorization and continuity |
-| Weighted vine estimate (V5W) | V5W-A | 4 | ✅ done | S = none from main's certificate |
-| Weighted vine estimate (V5W) | V5W-B-MAIN | 8 | ✅ done | LANDED on main 416902c8 (land_check, 327 ABI OK) |
-| Weighted vine estimate (V5W) | V5W-B-WORLD | 4 | ✅ done | S = none half; weighted Stage-1 gate UNCONDITIONAL |
-| Weighted vine estimate (V5W) | V5W-T | 4 | ✅ done | top filter; V5FrontierClassBound unconditional |
-| Supplement lemma stock | FL-SHELL | 2 | ✅ done |  |
-| Supplement lemma stock | FL-SEP | 2 | ✅ done |  |
-| Supplement lemma stock | FL-AFFINE | 2 | ✅ done |  |
-| Supplement lemma stock | FL-PIN | 2 | ✅ done |  |
-| Supplement lemma stock | FL-EXCISE | 2 | ✅ done |  |
-| Supplement lemma stock | FL-COEF | 2 | ✅ done |  |
-| Supplement lemma stock | FL-FIBER | 2 | ✅ done |  |
-| Supplement lemma stock | FL-FACE | 4 | ✅ done | Lemma 9.1 faces |
-| Marked layer A: interface, capping, top assembly | A1 MK-DEFS | 2 | ✅ done |  |
-| Marked layer A: interface, capping, top assembly | A5 MK-ASM | 2 | ✅ done | flower_v3_of_marked_of_caps |
-| Marked layer A: interface, capping, top assembly | A2 CAPS-ID | 4 | ✅ done | capped encoding; A2-R final interface |
-| Marked layer A: interface, capping, top assembly | CAPS-FUBINI | 2 | ✅ done | shell integral exchange |
-| Marked layer A: interface, capping, top assembly | A3a CAPS-GLUE | 2 | ✅ done | n-ary glue identity |
-| Marked layer A: interface, capping, top assembly | A3b CAPS-COMP | 4 | ✅ done | CapsDecompF/G |
-| Marked layer A: interface, capping, top assembly | CAPS-STABLE | 4 | ✅ done | CapsTwistStable; flower_v3_of_marked: flowerest1 <= MarkedComponentBoundAtI alone |
-| Marked layer B: marked Stage 1 | B0 design | 2 | ✅ done | S-STAGE1MK |
-| Marked layer B: marked Stage 1 | B1a THREAD-ROOTS | 8 | ✅ done | LANDED on main (b9ffa69f) |
-| Marked layer B: marked Stage 1 | B1b THREAD-GEN | 4 | ✅ done | part 1 landed; rest READY a08a78bd (lands jointly) |
-| Marked layer B: marked Stage 1 | B2a MK-RUNS | 4 | ✅ done | LANDED on main (b9ffa69f) |
-| Marked layer B: marked Stage 1 | B2b MK-MARK | 4 | ✅ done | Lemmas 1+ and 2+ and the sigma-bridge (zero weight for stem-unclean pieces) |
-| Marked layer B: marked Stage 1 | B2c MK-SUBPRO | 8 | ✅ done | complete (main + world: SoundMKFull geometric fields) |
-| Marked layer B: marked Stage 1 | B2d CLASSCOUNT-MK | 4 | ✅ done | ClassCountStmtMk at any marking; landed on main (004ebeb7) |
-| Marked layer B: marked Stage 1 | B2e MK-X | 2 | ✅ done | markIX transport (no clean hyp), per-tree FL-SEP, FineMarking both cases |
-| Marked layer B: marked Stage 1 | B3 MK-UNITS | 2 | ✅ done | marked run producer, pieces at mkF ∩ vinesV0 (R177); audit clean |
-| Marked layer B: marked Stage 1 | B3-2 MK-UNITS-L | 2 | ✅ done | markedUnitsRepresentsFWL' unconditional (per-unit top filters) |
-| Marked layer B: marked Stage 1 | V5W-2L | 2 | ✅ done | v5FrontierClassBoundL: V5 bound for a product of top filters (mass topFilterMass^|S|) |
-| Marked layer B: marked Stage 1 | B3s MK-SLOTS | 4 | ✅ done | DELIVERED: markedClassRepresentsMK_prefix (HELPER7) — flowerest1 closed composite checked, std axioms; fresh rebuilds finishing |
-| Marked layer B: marked Stage 1 | B4 STAGE1MK-GATE | 2 | ✅ done | stage1ReductionAtMKFull_of_B3s (single hypothesis: B3s); ZeroVanish, B2eIX, survivor count proved |
-| Marked layer C: final count (Stage 2') | C0 design | 2 | ✅ done | S-FINALMK |
-| Marked layer C: final count (Stage 2') | C3 LAD-FILT | 4 | ✅ done | filtered ladders |
-| Marked layer C: final count (Stage 2') | C2 FINALMK-CRUDE | 2 | ✅ done | crude bound gate |
-| Marked layer C: final count (Stage 2') | C1a SURV-STEP | 4 | ✅ done | re-cut potential step (riskiest C step) |
-| Marked layer C: final count (Stage 2') | C5a PIECE-MK | 2 | ✅ done | MarkedPieceTarget (R161: 1 <= d) and the class sum |
-| Marked layer C: final count (Stage 2') | C1b1 MK-PHASE1 | 4 | ✅ done | phase-1 cover; survivor budget proved sound (recut_hone, recut_not_both_ab) |
-| Marked layer C: final count (Stage 2') | C4a PIN-FOURIER | 4 | ✅ done | pinned ladder Fourier bound + face export for D7 |
-| Marked layer C: final count (Stage 2') | C1b2 MK-CHAIN | 4 | ✅ done | LowLoopClassBoundMKAll; FinalCountGateHalfMK unconditional |
-| Marked layer C: final count (Stage 2') | C1c MK-GARDEN | 2 | ✅ done | FinalCountGateHalfMK (now unconditional with C1b2) |
-| Marked layer C: final count (Stage 2') | C4b FINE-PIN | 4 | ✅ done | FineSplicedGateHalfMK unconditional |
-| Marked layer C: final count (Stage 2') | C5b COMP-MK | 2 | ✅ done | flowerest1_of_B3s_D6b_452: LayergardenFlowerV3Gate from B3s + D6b (D7, B4 discharged) |
-| Marked layer D: protected objects | D0 design | 2 | ✅ done | S-PROT |
-| Marked layer D: protected objects | D1 PROT-TA | 2 | ✅ done |  |
-| Marked layer D: protected objects | D2a PROT-KER | 2 | ✅ done | ProtDefs + kernel bridge |
-| Marked layer D: protected objects | D5c FILT-NT | 2 | ✅ done |  |
-| Marked layer D: protected objects | D1b PROT-OPS | 4 | ✅ done | all 7 time-operator bounds incl. FoldInterpolation |
-| Marked layer D: protected objects | D2b PROT-GEO | 4 | ✅ done | protected geometry (i)-(iv); R163 carrier fix |
-| Marked layer D: protected objects | D2c PROT-CUT | 4 | ✅ done | all cut identities incl. o104 Prop 7.4 |
-| Marked layer D: protected objects | D5a FILT-LINK | 4 | ✅ done | o82 Lemma 14.1 + the D5b map (copy-thread recommended) |
-| Marked layer D: protected objects | D5d FILT-COH | 8 | ✅ done | FiltCoherentBoundGate unconditional |
-| Marked layer D: protected objects | D3 PROT-PIN | 4 | ✅ done | protBoundGate + protBoundSelGate unconditional (125 modules) |
-| Marked layer D: protected objects | D5b-1 FILT-SRC | 4 | ✅ done | filtered source phase, twins, kernel identity |
-| Marked layer D: protected objects | D5b-2 FILT-PROD | 2 | ✅ done | filters threaded to the link product |
-| Marked layer D: protected objects | D5b-3 FILT-GATE | 2 | ✅ done | FiltIncoherentDecayGate at eta and 1/4 |
-| Marked layer D: protected objects | D6a PROT-PTW | 4 | ✅ done | protPtwGate unconditional (o82 Prop 14.2, form 18.4); 22 modules, audit clean; F-D6a-1 → R178 Sel.card ≤ 1 |
-| Marked layer D: protected objects | D6b PROT-WHOLE | 4 | ✅ done | RegularComponentTargetI + ProtAnnBoundGate from ProtBoundGate (D3) alone |
-| Marked layer D: protected objects | D7 SEL-RES | 4 | ✅ done | markedSumBoundSel_of_gates (R175 κ = 400d); 13 modules, audit clean |
-| Marked layer D: protected objects | D7-2 SEL-NORM | 1 | ✅ done | chiDN in PieceSel/SelRes (same RHS); selSumTargetT per-tree (F-C5b-1) |
-| Cores, landing and seals | CORES | 4 | ✅ done | Core-F and Core-G from the component bound |
-| Cores, landing and seals | LAND | 4 | ✅ done | w/flower-port fa3f90c9 (708 modules ported in 2 waves); final_sync.py dry-run OK |
-| Cores, landing and seals | SEAL layergardenFlower_v3 | 2 | ✅ done | SEALED 1e51bebf (ABI 33a97fdc); PROVED (two keys) |
-| Cores, landing and seals | SEAL fixedpoint_v2 / propansatz_v2 / main_v2 | 4 | ✅ done | fixedpoint_v2, propansatz_v2, main_v2 SEALED (1987105a); PROVED (two keys) |
-
-</details>
-
-Packet weights follow the blueprint convention (hard = 4, standard = 2, multi-packet items more). Credit: done = 1; a CHECKPOINT carries an explicit partial fraction; running and queued packets carry 0. Source: [`docs/campaign/flower.json`](docs/campaign/flower.json); history: [`docs/campaign/flower-history.csv`](docs/campaign/flower-history.csv).
-<!-- /AUTO:flower -->
-
 ## Papers
 
 | key | reference |
@@ -334,7 +220,7 @@ Campaign bookkeeping, refreshed automatically; may lag behind the actual session
 <!-- AUTO:workers -->
 | tmux | model / account | packet | branch: last commit | brief |
 |---|---|---|---|---|
-| wt-orch | Claude Opus / claude-1 | Task 34: snapshot-8 delta audit + freeze branch rebuild; done: letter draft, many audits | `w/orch`: 22 min ago, 194 unlanded | [brief](docs/campaign/orch/TASK4.md) |
+| wt-orch | Claude Opus / claude-1 | Task 34: snapshot-8 delta audit + freeze branch rebuild; done: letter draft, many audits | `w/orch`: 23 min ago, 194 unlanded | [brief](docs/campaign/orch/TASK4.md) |
 | wt-gauss-hc | Claude Opus / claude-10 | FLOWER-SPINE: B1.12 layergardenFlower from named spine inputs (X2, X3 closed: fixedpoint from B1.12+B1.2+B1.5) | `w/waveb-infra`: — | [brief](docs/campaign/briefs/FLOWER-SPINE.md) |
 | wt-torus | Claude Opus / claude-14 | G7 MOLEPROP4 (revived, repaired): DH23 ylem1′, ylem2, Prop 10.4 (A23-HALF done) | `w/approxnt`: 115 h ago | [brief](docs/campaign/briefs/MOLEPROP4.md) |
 | wt-wke | Claude Opus / claude-13 | L3+L4: TARGET Props 6.1-6.3 (proplayer2-4); J1-J3, B̃ bridge, tree Prop 5.1 done | `w/jr-ops`: 115 h ago | [brief](docs/campaign/briefs/PL234.md) |

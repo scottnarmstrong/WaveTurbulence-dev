@@ -185,7 +185,7 @@ def main():
                 if i["id"] == "X2":
                     i["weight"], i["done"] = fl[1], fl[2]
                     i["note"] = (f"FLOWEREST: weight and completion from the flower ledger ({fl[3]['done']} packets "
-                                 f"done, {fl[3]['running']} running, {fl[3]['queued']} queued; see the flower bar)")
+                                 f"done, {fl[3]['running']} running, {fl[3]['queued']} queued)")
     sealed, frozen_total, frozen_defs = frozen_counts()
     rows, item_rows = [], []
     tot_w = tot_d = lean_w = lean_d = 0.0
