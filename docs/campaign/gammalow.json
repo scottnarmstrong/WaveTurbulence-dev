@@ -1,6 +1,6 @@
 {
  "title": "The γ ≤ 1/2 campaign",
- "updated": "2026-11-09 13:05 UTC",
+ "updated": "2026-11-09 13:12 UTC",
  "convention": "Weights are the estimated size of each work package (thousands of new Lean lines; non-Lean steps get an equivalent weight). A finished package counts fully once it passes its checks and an independent re-run of its audit. A running package counts by the orchestrator's estimate at its last checkpoint (what is proved against what remains); before its first checkpoint it counts by the Lean it has compiled, capped at 75 %. Line counts alone overstate progress, because several packages first port large amounts of the existing proof.",
  "next": "All T-vine combinatorics is proved except one ladder lemma. Remaining: the port of main's final-count run to the enlarged vine family (L6, with the run-wide ghost assembly), the γ ≤ 1/2 flower estimate (L8), the stage-1 assembly (L5a), then landing, sealing and audits.",
  "risks": [
@@ -98,8 +98,8 @@
       "TVine/Struct/Drawn"
      ],
      "done": 0.92,
-     "lines": 11357,
-     "lines_compiled": 11330,
+     "lines": 11386,
+     "lines_compiled": 11359,
      "credit": 0.92
     },
     {
@@ -150,8 +150,8 @@
      ],
      "note": "Prop 9.6 at γ ≤ 1/2 fully proved; porting main's run (8 layer helpers, ~25–40 % compiled); ghost assembly over the run under way",
      "done": 0.45,
-     "lines": 51120,
-     "lines_compiled": 19013,
+     "lines": 51579,
+     "lines_compiled": 21118,
      "credit": 0.45
     },
     {
@@ -163,8 +163,8 @@
       "GammaLow/FinalCount/Ghost"
      ],
      "note": "accepted: the ghost step (E20) and its Operation-1 cone (L6E2), 26 modules / 446 theorems; audits re-run by wt-orch",
-     "lines": 5167,
-     "lines_compiled": 5167,
+     "lines": 5240,
+     "lines_compiled": 5240,
      "credit": 1.0
     },
     {
@@ -210,8 +210,8 @@
      ],
      "note": "gate, collections, units, splice and normalized pieces (F) proved; vine case (G) and assembly (J) remaining",
      "done": 0.7,
-     "lines": 56067,
-     "lines_compiled": 22960,
+     "lines": 56383,
+     "lines_compiled": 24838,
      "credit": 0.7
     },
     {
@@ -223,7 +223,7 @@
       "GammaLow/Famb"
      ],
      "note": "accepted: vineest′ for all 0<γ<1 (207 modules, 848 theorems; audit re-run by wt-orch); uses L4's Theorem C",
-     "lines": 21082,
+     "lines": 21110,
      "lines_compiled": 20921,
      "credit": 1.0
     },
@@ -237,8 +237,8 @@
      ],
      "note": "CoarseSpliced′, cover′, layervine′, spine code and subpro′ proved; class count (I) in progress",
      "done": 0.85,
-     "lines": 20801,
-     "lines_compiled": 18373,
+     "lines": 20584,
+     "lines_compiled": 20584,
      "credit": 0.85
     }
    ]
@@ -258,8 +258,8 @@
      ],
      "note": "statement and five parts proved; marked stage 1 split over five helpers; marked count waits on L6's port",
      "done": 0.35,
-     "lines": 44546,
-     "lines_compiled": 20929,
+     "lines": 44813,
+     "lines_compiled": 24658,
      "credit": 0.35
     }
    ]
@@ -291,8 +291,8 @@
       "GammaLow/LGLow"
      ],
      "note": "accepted: LG-low and the flower couple clause from the low gates; audit re-run by wt-orch (19 modules, 401 theorems)",
-     "lines": 3210,
-     "lines_compiled": 3210,
+     "lines": 3263,
+     "lines_compiled": 3263,
      "credit": 1.0
     }
    ]
@@ -306,10 +306,12 @@
      "id": "L9",
      "name": "landing, seals, two-key audits",
      "w": 6,
-     "status": "queued",
+     "status": "running",
+     "done": 0.1,
+     "note": "started early: landing branch synced incrementally (GH-PORT) and seal tooling + 10 audit briefs prepared (SEAL-PREP)",
      "lines": 0,
      "lines_compiled": 0,
-     "credit": 0.0
+     "credit": 0.1
     }
    ]
   }
