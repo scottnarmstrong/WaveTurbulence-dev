@@ -1,8 +1,8 @@
 {
  "title": "The γ ≤ 1/2 campaign",
- "updated": "2026-11-09 18:11 UTC",
+ "updated": "2026-11-09 18:44 UTC",
  "convention": "Weights are the estimated size of each work package (thousands of new Lean lines; non-Lean steps get an equivalent weight). A finished package counts fully once it passes its checks and an independent re-run of its audit. A running package counts by the orchestrator's estimate at its last checkpoint (what is proved against what remains); before its first checkpoint it counts by the Lean it has compiled, capped at 75 %. Line counts alone overstate progress, because several packages first port large amounts of the existing proof.",
- "next": "The final count and the marked count are proved, with all three ghost repairs (E20). Remaining: the stage-1 gate (L5a, closing), the marked stage 1 (last pieces), then the closed γ ≤ 1/2 halves, landing, sealing and two-key audits.",
+ "next": "End-to-end: Theorem 1.1 for all 0 < γ < 1 now follows (checked in Lean) from exactly two remaining pieces, the stage-1 gate (L5a, closing) and the marked stage 1 (last module group). Then landing, sealing and two-key audits.",
  "risks": [
   "account quota (weekly limits",
   " claude-1 carries most packages)",
@@ -257,7 +257,7 @@
      "note": "marked count (H2) PROVED unconditionally, with the marked ghost cover; final count gate discharged; marked stage 1 nearly complete (I-SLOTS, I-SLOTSO, I-SLOTSB, I-VEW done; I-UNITS 34/35; I-SLOTSI and the base tail in progress)",
      "done": 0.75,
      "lines": 86736,
-     "lines_compiled": 78187,
+     "lines_compiled": 77603,
      "credit": 0.75
     }
    ]
