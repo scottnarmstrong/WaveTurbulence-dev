@@ -25,4 +25,7 @@ A theorem is recorded as PROVED only when both keys pass.
 
 The upstream theorem `layergarden_v2` was sealed and audited earlier, in the same way.
 
+These theorems are restricted to 1/2 < γ < 1. The full-range theorem, 0 < γ < 1, uses them for γ > 1/2; its seal
+audits are in [`../full-range/`](../full-range/README.md).
+
 The reports are working documents: they mention internal paths and tools of the formalization campaign.

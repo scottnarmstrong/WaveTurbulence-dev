@@ -5,11 +5,15 @@ which the formal (Lean) statements differ from the printed ones. It is written f
 at hand but not the history of this project.
 
 **What an entry claims.** Each entry concerns an argument or a statement as printed. **No counterexample to the main
-theorem of TARGET or of DH23 has been found.** The only entry that breaks the printed proof of a main theorem without
-a local repair is E1: DH23 Prop 9.6 and the statements built on it are false for 0 < γ ≤ 1/2. That breaks the printed
-proof of TARGET's main theorem in that range; it does not refute the theorem. Several other entries show that an
+theorem of TARGET or of DH23 has been found, and TARGET's main theorem (Theorem 1.1) has a complete Lean proof in
+this repository for the full range 0 < γ < 1** (`WaveTurbulence.main`, sealed on 2026-11-09; independent audits under
+way; see [GAMMA-LE-HALF.md](GAMMA-LE-HALF.md)). The
+entry with the largest consequence is E1: DH23 Prop 9.6 and the statements built on it are false for 0 < γ ≤ 1/2, so
+the printed proof of TARGET's main theorem breaks in that range. We give a repair (an enlarged family of vines; no new
+analytic estimate is needed), and the repaired proof is the one formalized here. Several other entries show that an
 intermediate statement or identity is false as printed (class ERROR), but each has a repair that keeps what the proof
-needs. The remaining entries are omitted or invalid steps whose conclusions survive, usually with a repair that we give.
+needs. The remaining entries are omitted or invalid steps whose conclusions survive, usually with a repair that we
+give.
 
 ## Summary of findings
 
@@ -17,14 +21,15 @@ In order of importance. An *error* is a statement false as printed; a *gap* is a
 missing or does not work, while the conclusion survives. Evidence, status and repairs are in the entries. TARGET,
 DH21, DH23 and GIT20 are the papers listed under "Pinned sources" below, and L-numbers are lines of their TeX files.
 
-1. **The range 0 < γ ≤ 1/2 (E1, error, CONFIRMED).** DH23 Prop 9.6, case (4), is false for 0 < γ ≤ 1/2: an explicit
-   family of "necklace" molecules violates it, and with it DH23 `kqmainest2`, TARGET `lgmolect` and (finalcount1); the
-   per-class analytic bound `kqmainest1` also fails there for γ < 1/2 (F73, CANDIDATE). For 1/2 < γ < 1 case (4) is
-   closed by a new, refereed argument, and the main theorem is now formally proved in Lean for 1/2 < γ < 1 (`main_v2`,
-   sealed and two-key audited, 2026-11-09). For γ ≤ 1/2 a repair route (splicing the neutral T-type blocks as an
-   enlarged vine family) has passed three independent referee rounds but is not formalized. One step of the counting
-   run (E20) was open there; it is now resolved for all 0 < γ < 1 and refereed (2026-11-09). Plain-language
-   overview and plan: [GAMMA-LE-HALF.md](GAMMA-LE-HALF.md).
+1. **The range 0 < γ ≤ 1/2 (E1, error, CONFIRMED; repaired in Lean).** DH23 Prop 9.6, case (4), is false for
+   0 < γ ≤ 1/2: an explicit family of "necklace" molecules violates it, and with it DH23 `kqmainest2`, TARGET
+   `lgmolect` and (finalcount1); the per-class analytic bound `kqmainest1` also fails there for γ < 1/2 (F73,
+   CANDIDATE). For 1/2 < γ < 1 case (4) is closed by a new, refereed argument (F75). For γ ≤ 1/2 the repair enlarges
+   the vine family by the *T-vines*, which absorb the failing components in stage 1, and re-proves Prop 9.6 over the
+   enlarged family; one step of the counting run, the ghost step (E20), needed a further repair, valid for all
+   0 < γ < 1. All of this is formalized: the Lean proof of Theorem 1.1 for the full range 0 < γ < 1 is complete and
+   sealed (`main`, 2026-11-09; independent audits under way). Plain-language account:
+   [GAMMA-LE-HALF.md](GAMMA-LE-HALF.md).
 2. **The flower estimate (TARGET Prop `flowerest1`, L2279–L2305).** Its printed proof is a list of seven
    adjustments to the proof of `layergarden`. A complete proof also needs: a layered fixed-time estimate in place of
    "fix the value of Ω" (E30; DH21 L2684–L2694 has the unlayered mechanism); a restated `subpro` for the vines left
@@ -39,7 +44,9 @@ DH21, DH23 and GIT20 are the papers listed under "Pinned sources" below, and L-n
    idea. The statement needs the normalization fix E41 and the order-zero reading E42; the dagger and derivative
    variants used for `fixedpoint` add one more gap (E45, partly refereed).
    *Update 2026-11-09:* the flower estimate is now formally proved in Lean for 1/2 < γ < 1 (`layergardenFlower_v3`,
-   sealed and two-key audited).
+   sealed and two-key audited), and its full-range form `layergardenFlower_v4` is sealed (audits under way). The
+   completion was re-checked at γ ≤ 1/2 use by use; none of its 75 uses of γ > 1/2 fails there
+   ([GAMMA-LE-HALF.md](GAMMA-LE-HALF.md#6-the-flower-estimate-for-γ--12)).
 3. **Other errors.** Each has a repair, and none breaks a main theorem.
    - DH21 Lemma 5.8 and Prop 7.5: the sign of the χ_∞ term is wrong, so the per-couple weight in TARGET (regref1-3)
      needs a factor (−1)^{|Z|} (E2a, CONFIRMED).
@@ -55,16 +62,19 @@ DH21, DH23 and GIT20 are the papers listed under "Pinned sources" below, and L-n
    cancellation of `vineest` (E24); "cut at v and proceed normally" can feed Prop 9.6 a component on which it fails,
    and single-atom erasure leaves components with no usable bound (E11, E17); triangles through already-cut atoms
    (E20); atoms of degree 0–2 and self-loops in the stage-1 molecule (E23); the d-dimensional trilinear estimate of
-   GIT20 that TARGET Prop 3.2 cites (E2g). All are repaired, E20 only for γ > 1/2.
+   GIT20 that TARGET Prop 3.2 cites (E2g). All are repaired; E20 for every 0 < γ < 1.
 5. **Exposition gaps** (omitted, routinely fillable):
-   - the counting run of DH23 §§9–10 as reused by TARGET: E5, E7, E8, E10, E12, E13, E21, E22, E28;
+   - the counting run of DH23 §§9–10 as reused by TARGET: E5, E7, E8, E10, E12, E13, E21, E22, E28; at γ < 1/2, E47
+     and E48;
    - regular objects and the vine and ladder estimates: E2e (order ranges), E14, E15, E40 (the `ladderl1new` sketch);
    - the flower section: E29, E32, E36–E38, E46;
    - the proof of Theorem 1.1: E2f.
 
-**Deviations.** The Lean statements restrict TARGET's results to 1/2 < γ < 1, read the order-zero flower as the
-identity, use d − γ in the flower normalization, and use DH21's product form of the dyadic cutoffs (Deviations, A
-and C).
+**Deviations.** The main theorem `main` is TARGET Theorem 1.1 as printed for 0 < γ < 1 on the square torus; the
+case γ = 1 on rectangular tori with generic side lengths is out of scope (decision D2). The flower statement reads the
+order-zero flower as the identity, uses d − γ in the flower normalization, and uses DH21's product form of the dyadic
+cutoffs. Earlier versions restricted to 1/2 < γ < 1 (`main_v2` and its chain) remain as audited intermediate results.
+See Deviations, A and C.
 
 **Pinned sources** (sha256 of the TeX; line numbers below are physical lines of these files):
 - TARGET: Y. Deng, Z. Hani, *Long time justification of wave turbulence theory*, arXiv:2311.10082v2,
@@ -105,7 +115,8 @@ references.
 **Main theorem** (last column of the summary): the theorem itself is not refuted by any entry. The column says what the
 entry does to the printed *proof*: "none" (harmless as it stands); "repaired" (a repair is given), with "in Lean" if
 the repair is checked in Lean in this repository or on its main branch, "on paper (refereed)" if a written proof was
-checked by an independent refute-first referee, and "on paper" alone otherwise; or "breaks for γ ≤ 1/2".
+checked by an independent refute-first referee, and "on paper" alone otherwise. E1 is the one entry that broke the
+printed proof of the main theorem (for γ ≤ 1/2); its repair is in Lean.
 
 **Referees named in the entries.** "Independent" means not involved in writing the claim or the repair checked. The
 flower entries (E29–E46) cite: the referee of the first integrated flower supplement (`REFEREE.md`); the referees of
@@ -118,7 +129,7 @@ in [`docs/research/flowerest1/`](research/flowerest1/); an earlier referee of th
 
 | Id | Source, lines | Claim | Class | Status | Main theorem |
 |---|---|---|---|---|---|
-| E1 | DH23 Prop 9.6, L1818–L1822, L1885; DH23 L1681–L1690; TARGET L2192–L2197, L2114 | DH23 Prop 9.6 case (4), and the statements built on it, are false for 0 < γ ≤ 1/2 (necklace counterexample) | ERROR | CONFIRMED | breaks for γ ≤ 1/2; γ > 1/2 closed by a new refereed argument |
+| E1 | DH23 Prop 9.6, L1818–L1822, L1885; DH23 L1681–L1690; TARGET L2192–L2197, L2114 | DH23 Prop 9.6 case (4), and the statements built on it, are false for 0 < γ ≤ 1/2 (necklace counterexample) | ERROR | CONFIRMED | broke the printed proof for γ ≤ 1/2; repaired in Lean for all 0 < γ < 1 (γ > 1/2: new argument F75; γ ≤ 1/2: T-vines and a re-proved Prop 9.6) |
 | E2a | DH21 L1070, L1079, L1737, L1767; TARGET L1154 | sign of the χ_∞ term in DH21 Lemmas 5.8/7.3: 𝒥B̃_{𝒬,Z} = (−1)^{\|Z\|}𝒥B̃_𝒬, so the per-couple weight in TARGET (regref1-3) needs (−1)^{\|Z\|} | ERROR | CONFIRMED | none (main sums unaffected); per-couple bound corrected in Lean |
 | E2b | DH23 Lemma `ylem1`, L1937–L1948 | the lemma misses several molecules (Q, T, a 5-atom molecule, two infinite families) | ERROR | CANDIDATE | none directly; it underlies E1 |
 | E2c | DH23 L1911–L1912 | in the proof of Prop 10.2, "the total number of operations is ≤ C(r₁+r₂)" is false | ERROR | CANDIDATE | none (short repair) |
@@ -144,7 +155,7 @@ in [`docs/research/flowerest1/`](research/flowerest1/); an earlier referee of th
 | E17 | TARGET L2152, L2218, L2189, L2193–L2197 | single-atom erasure leaves components with no usable bound; "imperfect = odd" contradicts L2218 | GAP | CANDIDATE | repaired in Lean |
 | E18 | TARGET L1918 | "J̃_𝒬(t,s) equals 0 if t = L_r" is false for trivial couples and trees | ERROR | CANDIDATE | none after repair (in Lean) |
 | E19 | TARGET L2213 | "p_sb ≤ p_op" should be "p_sb ≤ 2p_op" | MINOR | CANDIDATE | none |
-| E20 | DH23 L1777, L1791–L1795; TARGET L2126, L2142, L2189 | triangles containing an already-cut atom ("ghosts"): the per-step bound fails | GAP | CANDIDATE | repaired in Lean for γ > 1/2; open for γ ≤ 1/2 |
+| E20 | DH23 L1777, L1791–L1795; TARGET L2126, L2142, L2189 | triangles containing an already-cut atom ("ghosts"): the per-step bound fails | GAP | CANDIDATE | repaired in Lean for all 0 < γ < 1 |
 | E21 | DH23 L1803; TARGET L2131 | the ι ball when the hitting cut has been deleted | EXPOSITION | CANDIDATE | none |
 | E22 | TARGET L2140 | a triple bond need not lie in a collected object | EXPOSITION | CANDIDATE | none |
 | E23 | TARGET L2122, L1306 | the stage-1 molecule can have atoms of degree 0, 1, 2 and self-loops, which DH23's proof does not cover | GAP | CANDIDATE | repaired in Lean |
@@ -171,6 +182,8 @@ in [`docs/research/flowerest1/`](research/flowerest1/); an earlier referee of th
 | E44 | TARGET L2299, L2081 | "these cutoffs play no role" fails for upper M₂ filters on large-gap ladder rungs | GAP | CONFIRMED | repaired on paper (refereed: o83 Thm 8.3) |
 | E45 | TARGET L2327–L2331 | the dagger and derivative variants used for `fixedpoint` add an unprotected grandparent pin and coincident faces | GAP | CANDIDATE | repaired on paper (o104 Thm 10.4), partly refereed |
 | E46 | TARGET L2290 | the expansion remainders are not shown to carry the cutoff gains | EXPOSITION | CANDIDATE | repaired on paper (refereed) |
+| E47 | DH23 L1861–L1862, L1878 | at γ < 1/2, case (2) of Prop 9.6 needs the sharp form of the count (operc), from Lemma A.3(1) | EXPOSITION | CONFIRMED | repaired in Lean |
+| E48 | DH23 L1869–L1871; TARGET L2459–L2461 | at γ ≤ 1/2, operation (e) needs the uncapped bound of Lemma A.2(1); TARGET's restatement `countlem` keeps only the capped one | EXPOSITION | CONFIRMED | repaired in Lean |
 
 ---
 
@@ -183,12 +196,12 @@ way in which they differ from the printed text. "Weaker?" says whether the Lean 
 
 ### A. The main theorem (TARGET Theorem 1.1, L314–L318)
 
-Lean: `WaveTurbulence.main` (0 < γ < 1) and its restricted successor `WaveTurbulence.main_v2` (1/2 < γ < 1). Both are
-frozen and unproved.
+Lean: `WaveTurbulence.main` (0 < γ < 1), sealed on 2026-11-09 (independent audits under way), and its earlier
+restricted version `WaveTurbulence.main_v2` (1/2 < γ < 1), sealed and audited.
 
 | Source text | Lean reading | Reason | Weaker? |
 |---|---|---|---|
-| "Fix d ≥ 3 and γ ∈ (0,1) (or assume γ = 1 but replace 𝕋_L^d by a rectangular torus …)" (L314) | `main`: 0 < γ < 1 on the square torus. `main_v2`: 1/2 < γ < 1. | The γ = 1 generic-torus case is out of scope (D2). The range γ ≤ 1/2 is removed in `main_v2` because the printed proof fails there (E1; D9, D10). | Yes, for `main_v2`. `main` keeps the full range and remains open. |
+| "Fix d ≥ 3 and γ ∈ (0,1) (or assume γ = 1 but replace 𝕋_L^d by a rectangular torus …)" (L314) | `main`: 0 < γ < 1 on the square torus. `main_v2`: 1/2 < γ < 1. | The γ = 1 generic-torus case is out of scope (D2). The range γ ≤ 1/2 was removed in `main_v2` while the printed proof's failure there (E1) was being repaired (D9, D10). | `main`: only in leaving out γ = 1 on generic rectangular tori. `main_v2`: yes, in γ. |
 | "the expectation 𝔼 is taken assuming (NLS) has a smooth solution on [0,T]" (L318) | ∫ 1_F ‖û(t,n)‖² dP, where F is the solvability event: an expectation restricted to F, not conditioned on it. | This is the quantity the proof computes (L818–L819); D6. | No. Since P(F) ≥ 1 − e^{−(log L)^{40d}} and the expectation is bounded, the two readings differ by far less than L^{−θ}. |
 | "(NLS) has a smooth solution u(t,x) up to time T" (L316); "smooth" is not defined | `IsSmoothNLSSolution` (a C^∞ solution on [0,T]); the bound is asserted for every family U of such solutions on F. | Makes the notion precise; D6 (ledger F8). | No (smooth solutions are unique). |
 | — | `MeasurableSet F` is an extra conclusion. | So that P(F) is defined; D6. | No (adds a conclusion). |
@@ -203,13 +216,16 @@ unproved as written there (E2g).
 
 ### C. The intermediate statements used by the proof of Theorem 1.1
 
-**The γ restriction.** `propansatz_v2`, `layergarden_v2`, `fixedpoint_v2`, `layergardenFlower_v2` and
-`layergardenFlower_v3` are their originals verbatim with the hypothesis `1 / 2 < γ` added (D10; for v3 also D13). The
-originals stay frozen and open. Weaker: yes, in γ. The reason is E1: the printed proof fails for γ ≤ 1/2 at DH23
-Prop 9.6. The written completion of the flower estimate (E29–E46) is likewise proved only for 1/2 < γ < 1: it uses the
-counting inputs repaired for that range (E1's γ > 1/2 argument, and E20, whose two-ghost case needs 8η ≤ 2γ − 1), and
-it chooses η small depending on γ with 8η ≤ 2γ − 1. `layergardenFlower_v4` (D16) is `layergardenFlower_v3` without
-the restriction, so it covers the full range 0 < γ < 1; it is frozen and open.
+**The γ range.** The full-range statements `propansatz`, `layergarden` and `fixedpoint` are frozen as printed, for
+0 < γ < 1 (D7), and are sealed (2026-11-09; independent audits under way). The flower estimate is sealed in its
+full-range form `layergardenFlower_v4` (D16), which is `layergardenFlower_v3` without the hypothesis `1 / 2 < γ`.
+
+While E1 was being repaired, the restricted versions `propansatz_v2`, `layergarden_v2`, `fixedpoint_v2`,
+`layergardenFlower_v2` and `layergardenFlower_v3` were frozen: each is its original verbatim with the hypothesis
+`1 / 2 < γ` added (D10; for v3 also D13). Those that are proved (all but `layergardenFlower_v2`) supply the γ > 1/2
+half of the full-range proof. The two flower statements with max-form cutoffs, `layergardenFlower` (v1) and
+`layergardenFlower_v2`, stay frozen and unproved: they mis-transcribe the source's cutoffs (E34), and v3/v4 replace
+them. Nothing depends on them.
 
 **Recorded deviations of each statement** (from the statements' docstrings; the approval pages
 `docs/review/WAVE-B-B1.md` and `docs/review/WAVE-B-B2.md` give the reasons in full):
@@ -228,7 +244,7 @@ the restriction, so it covers the full range 0 < γ < 1; it is frozen and open.
 | | per-order bounds with δ^{2νN} (flowers) and δ^{νN} (couples); order range N ≤ N_{p+1}⁴ (L2290) | explicit form of the source's bounds |
 | | prefactor (δ/(2L^{d−γ}))ⁿ instead of the printed (δ/(2L^{d−1}))ⁿ | corrects an erratum (E41); not weaker |
 | | the kind 𝒳 excludes the trivial flower tree; 𝒴 and 𝒲 replace the top bound | the order-zero reading 𝒳 = I + 𝒳_reg, with (flowerest2) bounding 𝒳_reg on p < s < t < p+1 (E42); the only meaningful pointwise reading, not weaker |
-| | explicit dyadic cutoffs: in v2 a cutoff of a maximum (E34); in v3 DH21's product form (D13) | TARGET says only "smooth cutoff function" of a maximum (L2283, L2285); v3 reads it as DH21's per-variable partition grouped by the largest scale (DH21 L2731, L2735; E33). v2 differs from that reading (E34) |
+| | explicit dyadic cutoffs: in v2 a cutoff of a maximum (E34); in v3 and v4 DH21's product form (D13, D16) | TARGET says only "smooth cutoff function" of a maximum (L2283, L2285); v3 reads it as DH21's per-variable partition grouped by the largest scale (DH21 L2731, L2735; E33). v2 differs from that reading (E34) |
 | | derivative patterns and † as designated nodes, removed phases and weights; L^{2(100d)³P} for derivative patterns; a couple clause for ℒ₀; per-tree choices of patterns | explicit form; more general than the consumer needs |
 | `nlsAkBridge` (TARGET L540–L566, L817–L819) | precise correspondence between smooth NLS solutions and the Fourier-side system; measurability of the observables at t ∈ [0,T]; rapidly decreasing data; 1 ≤ 𝔇 | makes the paper's implicit step precise (E2f (b)) |
 | `wkeTaylor` (TARGET L752–L758) | the expansion at every t ∈ [p,p+1]; interval integrability of the integrands added | stronger; adds conclusions (E2f (c)) |
@@ -262,13 +278,25 @@ These concern our own statements, encodings or interfaces, not the papers:
   explicitly at L2295), FINDING-TIVINE (our Stage-1 interfaces could not carry weights).
 - Shapes defined only by figures (vines, ladders, mini couples and trees, cuts: ledger F12, F19). Textual definitions
   had to be written and checked (`docs/campaign/orch/figure-defs.md`); this is not a defect of the papers.
+- The γ ≤ 1/2 extension (E1) replaced the drawn vines by the family 𝒱_γ, which for γ ≤ 1/2 contains T-vines with 5,
+  7, 9, … atoms. Two lemmas of the γ > 1/2 formal proof, `Vine.not_isVC_five_of_branching` and
+  `Vine.not_isVC_five_or_seven_of_erase_connected`, use that no drawn vine has 5 or 7 atoms, and so fail for 𝒱_γ.
+  They were not carried over to the γ ≤ 1/2 proof, and the arguments that used them were redone there. The papers do
+  not use these lemmas.
+- Our own research note on the γ ≤ 1/2 flower count
+  ([`gamma-le-half-flower-notes.md`](research/gamma-le-half-flower-notes.md) §7.2, and its referee's remark R3)
+  reserves a factor L² for each pending re-cut. The formalization showed that L² exceeds the budget L^{2m} of the
+  marked count, and uses L^{3/2}, which works for every γ
+  (`WaveTurbulence/Foundations/GammaLow/Flower/FinalMK/H2/Bank.lean`). This corrects our note, not the papers.
 
 ---
 
 ## E1 — DH23 Prop 9.6 (`lgmolect`), case (4), is false for 0 < γ ≤ 1/2
 
 **Status:** CONFIRMED. **Class:** ERROR. **Main theorem:** the printed proof breaks for 0 < γ ≤ 1/2; the theorem is
-not refuted. For 1/2 < γ < 1 the failing case is closed by a new argument (F75 below).
+not refuted. For 1/2 < γ < 1 the failing case is closed by a new argument (F75 below). For 0 < γ ≤ 1/2 the proof is
+repaired by enlarging the vine family; the repair is formalized, and the full-range Lean proof of Theorem 1.1 is
+sealed ([the repair, formalized](#the-repair-formalized-2026-11-09), below).
 - Ledger: F69b.
 - Research note: [`docs/research/dh23-prop96-case4.md`](research/dh23-prop96-case4.md); scripts and outputs:
   [`docs/research/dh23-prop96-case4-scripts/`](research/dh23-prop96-case4-scripts/).
@@ -434,7 +462,8 @@ TARGET (finalcount1) at R = 1 fails the same way. It also asks for L^{−4η⁶p
   - On these couples K_𝒬(t,t,k) = ζ(𝒬) 2^{−n} δ^{2m+2−d} L^{−γ(2d−1)} [A_m + o(1)], with n = 4m + 3 and A_m ≠ 0 for
     explicit data. There is no gain per bead.
   - TARGET (finalsbest2) fails once η⁶(4m+3) > γ(2d−1).
-  - So no counting-only repair suffices.
+  - So no counting-only repair suffices. The repair of this entry is not counting-only: the T-beads are T-vines,
+    spliced in stage 1 and bounded by the vine estimate (`GammaLow.Famb.vineEstGammaHalfMK`).
   - Note: [`docs/research/kqmainest1-necklace.txt`](research/kqmainest1-necklace.txt). Status: CANDIDATE (derived; error
     terms not fully explicit).
 - **F75: the range γ ∈ (1/2, 1) is closed by a new argument,** confirmed by an independent referee
@@ -452,13 +481,17 @@ TARGET (finalcount1) at R = 1 fails the same way. It also asks for L^{−4η⁶p
 
 ### Consequence for the formalization
 
-The project owner decided (2026-11-04; `docs/DECISIONS.md` D9, D10):
-- **Restrict the endpoint.** The formal endpoint is restricted to γ ∈ (1/2, 1) by versioned successors of the frozen
-  statements: `main_v2` and the affected intermediate statements (see Deviations, A and C).
+When E1 was found, the project owner decided (2026-11-04; `docs/DECISIONS.md` D9, D10):
+- **Restrict the endpoint for the time being.** The formal endpoint was restricted to γ ∈ (1/2, 1) by versioned
+  successors of the frozen statements: `main_v2` and the affected intermediate statements (see Deviations, A and C).
+  The full-range originals stayed frozen.
 - **Research the repair** for γ ≤ 1/2 separately.
 - **Write to the authors.** A letter was drafted (`docs/review/LETTER-DENG-HANI-DRAFT.md`).
 
-**Repair route for γ ≤ 1/2 (research; refereed three times; not formalized).** A first research note
+The restricted chain was proved first (`main_v2`, sealed and audited on 2026-11-09). The repair below then gave the
+full range, and the original statements were sealed as printed (D16, D17).
+
+**Repair route for γ ≤ 1/2 (research; refereed three times; formalized, see below).** A first research note
 ([`docs/research/gamma-le-half-repair-1-notes.md`](research/gamma-le-half-repair-1-notes.md)) proposes that the chain
 can be repaired without a new analytic estimate:
 - T-type blocks are exactly neutral and fit the hypotheses of the existing DH23 Cor `sumintest3` / TARGET Prop
@@ -497,16 +530,47 @@ No counterexample was found.
 - **Referee verdict:** the γ-dependent vine family (`IsTVine` for γ ≤ 1/2) was ready for the owner's approval, which
   was given on 2026-11-05 (D11; text on `docs/review/GAMMA-LE-HALF-VINES.md`; the Lean text is a working note, not
   included). Remaining caveats:
-  - the base enumerations (classification up to 13 atoms; 57 base pairs up to symmetry) are Python checks, not yet
+  - the base enumerations (classification up to 13 atoms; 57 base pairs up to symmetry) were Python checks, not yet
     kernel certificates;
-  - confluence (note 2 Lemma 1.4) is still a Lean obligation.
+  - confluence (note 2 Lemma 1.4) was still a Lean obligation.
+
+  Both are now settled in Lean: the base cases by a verified checker evaluated by the kernel
+  (`WaveTurbulence/Foundations/TVine/Checker/`), and
+  confluence is avoided by a path-wise argument
+  ([`gamma-le-half-tvine-blueprint-notes.md`](research/gamma-le-half-tvine-blueprint-notes.md) §5).
 - **DH23 `subsetvc` (L2128) is incomplete.** Its list of sub-objects omits two blocks:
   - the block VC:I+I, which occurs in drawn vine (IV) (second referee);
   - the block vine (V), which occurs in drawn vine (VII) on atoms {4,…,8} (third referee).
   The corrected list is Cor 1.16′.
 
 In the Lean development, the γ-sensitive input `FinalCountGate` (TARGET finalcount1) is a separate hypothesis of
-`layergarden_of_spine`. Its restriction to 1/2 < γ, `FinalCountGateHalf`, is proved (`finalCount_half`).
+`layergarden_of_spine`. Its restriction to 1/2 < γ, `FinalCountGateHalf`, is proved (`finalCount_half`); its
+restriction to γ ≤ 1/2, over the enlarged family, is `GammaLow.FinalCount.FinalCountGateLow`, proved by
+`GammaLow.Close.finalCountGateLow_proved`.
+
+### The repair, formalized (2026-11-09)
+
+The γ ≤ 1/2 repair was completed on paper on 2026-11-09 by four further notes, each accepted by an independent
+refute-first referee with small repairs: the T-vine combinatorics and charts for all sizes, Props 9.4–9.6 and 10.4(2)
+at γ ≤ 1/2, the ghost step (E20) and the flower estimate at γ ≤ 1/2. They are listed in
+[`research/INDEX.md`](research/INDEX.md). The Lean formalization followed the same day. Its main results, with names
+relative to `WaveTurbulence`:
+- **T-vines.** `Molecule.IsTVine` and the γ-dependent family `Molecule.IsVineGamma` (in
+  `WaveTurbulence/Foundations/TVine/Defs.lean`, the text approved under D11 and pinned by hash under D16); the
+  structure theorems `TVine.Struct.pieceShape_holds`, `TVine.Struct.layervine_holds`, `TVine.Struct.subObjects_holds`;
+  every drawn vine (III)–(VIII) is a T-vine, `TVine.Struct.Drawn.drawnTVine`; the charts of all T-vines,
+  `TVine.Chart.tvineChart_holds`; the vine estimate over 𝒱_γ, `GammaLow.Famb.vineEstGammaHalfMK`.
+- **Prop 9.6 at γ ≤ 1/2**, all cases, over 𝒱_γ: `GammaLow.FinalCount.prop96_low_closed`. Case (4) now holds as
+  DH23 states it ("𝕄₀ must be a vine"), for the enlarged family.
+- **The final count at γ ≤ 1/2**, with the ghost repair (E20): `GammaLow.Close.finalCountGateLow_proved`.
+- **The two γ ≤ 1/2 halves**: `GammaLow.Close.layergarden_low_closed` and `GammaLow.Close.flower_low_closed`, joined
+  to the γ > 1/2 proof at γ = 1/2 (γ = 1/2 belongs to the low half) by `GammaLow.Glue.wtPrefix_of_halves` and
+  `GammaLow.Glue.wtPrefixP_of_halves`.
+- **The full-range statements**: `GammaLow.Close.main_full` and its four companions in
+  `WaveTurbulence/Foundations/GammaLow/Close/Final.lean`, which prove the frozen `main`, `propansatz`, `fixedpoint`,
+  `layergarden` and `layergardenFlower_v4`, with standard axioms only.
+
+A plain-language account is [GAMMA-LE-HALF.md](GAMMA-LE-HALF.md).
 
 ---
 
@@ -1165,7 +1229,8 @@ no time variable of its own.
 ## E16 — TARGET L2152: "a ZG v₃ in Operation 2 must be tame by `subpro` (3)" is false when v₃ is a hinge atom
 
 **Status:** CANDIDATE (written by the finder and re-derived by an independent refute-first referee; ruling R29).
-**Class:** ERROR. **Main theorem:** repaired in Lean; (finalcount1) holds with TARGET's exponents for 1/2 < γ < 1.
+**Class:** ERROR. **Main theorem:** repaired in Lean; (finalcount1) holds with TARGET's exponents for 1/2 < γ < 1, and
+for 0 < γ ≤ 1/2 over the enlarged vine family of E1.
 - Research: [`docs/research/remtame-hinge-notes.txt`](research/remtame-hinge-notes.txt) §3.2.
 - Referee scripts and outputs: [`docs/research/remtame-hinge-referee/`](research/remtame-hinge-referee/)
   (`ref_hinge.py`, `ref_cluster.py`).
@@ -1266,9 +1331,13 @@ number of operations.
 
 ## E20 — DH23 Prop 9.4 (L1777, L1791–L1795) and TARGET Operation 2 (L2142, L2165): triangles containing an already-cut atom ("ghost")
 
-**Status:** CANDIDATE. **Class:** GAP. **Main theorem:** repaired in Lean for γ > 1/2; open for γ ≤ 1/2.
+**Status:** CANDIDATE. **Class:** GAP. **Main theorem:** repaired in Lean for all 0 < γ < 1.
 - Found while formalizing the triangle step, and independently re-derived by a research check with a lattice count up
   to L ≤ 400: [`docs/research/ghost-triangle-notes.txt`](research/ghost-triangle-notes.txt). Ruling R38.
+- The repair for γ ≤ 1/2: [`docs/research/gamma-le-half-ghost-step-notes.md`](research/gamma-le-half-ghost-step-notes.md),
+  accepted with minor repairs by an independent referee
+  ([report](research/gamma-le-half-ghost-step-referee.md)). Two alternative approaches, worked out separately,
+  reached the same conclusion.
 
 **The gap.**
 - DH23 L1777 cuts only triangle atoms of degree ≥ 3, so an already-cut degree-2 atom (a "ghost", for example the
@@ -1284,12 +1353,33 @@ number of operations.
 bound then holds, but the invariant claimed at L2189 ("at most R imperfect components") fails. This part is an
 erratum (CANDIDATE).
 
-**Repair (ruling R38, used in Lean).**
+**Repair for 1/2 < γ < 1 (ruling R38, used in Lean).**
 - Charge the ghost's label factor at the triangle step: 𝔇 ≤ C · excessRHS(true Δ's) · ∏_{α-ghosts} T(Q_g, κ_g)⁻¹.
 - Each α label factor is paid once, at creation, and refunded at most once: at the final molecule, or at its deletion
   as a ghost.
-- The two-α-ghost case needs 8η ≤ 2γ − 1. That is harmless for γ > 1/2, because η is chosen after γ. For γ ≤ 1/2 the
-  case is OPEN.
+- The two-α-ghost case needs 8η ≤ 2γ − 1. That is harmless for γ > 1/2, because η is chosen after γ.
+
+**Repair for all 0 < γ < 1 (2026-11-09, used in Lean).** For γ ≤ 1/2 the condition 8η ≤ 2γ − 1 cannot hold, and the
+charged per-step bound above does fail in the two-α-ghost case: by at most L^{4η+gη²+η³} (g the number of ghosts),
+and only when both ghost labels are close to their maximum (ghost-step note, §3). The repair keeps the run unchanged
+and moves a small gain between steps:
+1. **Two ghosts from one removal never meet at an eligible triangle** (Lemma 2.1). If both are joints of the same
+   removed object, conservation of momentum over that object forces a zero gap at the third atom of the triangle, and
+   a triangle with that gap is not eligible.
+2. **Two ghosts from two different steps.** Each such *critical* pair is classified in advance, relative to the angle
+   θ₀ = L^{−6η}, as transverse or near-collinear (Theorem 6.1). For a transverse pair the triangle step closes with a
+   margin of at least γ − 9η − O(η²), using both energy constraints. For a near-collinear pair the step that creates
+   the later ghost counts its gap inside a cone of aperture θ₀, gaining at least L^{12η}. It gives up L^{5η} of that
+   gain, which the triangle step receives.
+3. **Telescoping** (Theorem 7.1). The transfers cancel pair by pair, so the global tally is exactly R38's. The run, its
+   molecules and classes, and the budgets of TARGET (together2)/(together3) are unchanged.
+
+The same argument covers the outer-joint ghosts of the flower estimate's Operation 1E (ghost-step note, §8).
+
+**In Lean.** For γ ≤ 1/2 the per-step form is false, so the repair is stated as a bound for the whole run:
+`GammaLow.FinalCount.Ghost.chainCoverLow'_holds` and `GammaLow.FinalCount.Ghost.chainCoverLowL'_holds` (the final
+count), and `GammaLow.Flower.H2.Ghost.chainCoverLowLE'_holds` (the marked count of the flower estimate). They enter
+`GammaLow.Close.finalCountGateLow_proved` and `GammaLow.Flower.H2.finalCountGateLowMK_holds`.
 
 ---
 
@@ -2464,3 +2554,45 @@ of the inputs; M₂ comes from integrating one stem time exactly at each fixed d
 e^{O(N²)} losses are paid by e^{−N_p} or by 2^{−N⁴/2} (o102 Theorem R; no use of the L-power budget).
 
 ---
+
+## E47 — DH23 L1861–L1862 and L1878 (Prop 9.6, case (2)): at γ < 1/2 the printed count (operc) is not sharp enough
+
+**Status:** CONFIRMED (found in the γ ≤ 1/2 re-proof of Prop 9.6; confirmed by its independent referee, with an
+exact-arithmetic control). **Class:** EXPOSITION. **Main theorem:** repaired in Lean (the γ ≤ 1/2 final count uses
+the sharp form).
+- Note: [`docs/research/gamma-le-half-counting-notes.md`](research/gamma-le-half-counting-notes.md), Finding 1 (§0)
+  and §4.1. Referee: [`docs/research/gamma-le-half-counting-referee.md`](research/gamma-le-half-counting-referee.md),
+  §1 and §2.3 (Finding 1), and repair R2 (§3).
+
+**The step.** Case (2) of the proof of Prop 9.6 (L1878) derives 𝔄₀ ≲ δ⁻¹L^{γ₀} "using also (operc)", where (operc)
+(L1861–L1862) bounds the count of an operation by 1 + δ⁻¹R⁻¹L^{−γ}.
+
+**What is missing.** For γ < 1/2, take an even component with V_α = 0, V_β ≥ 3 and every β-gap of size about L⁻¹. The
+printed bound then gives δ⁻¹L^{1−γ}, while the case needs δ⁻¹L^{γ} (here γ₀ = γ); the loss is L^{1−2γ}.
+
+**Fill.** DH23's own Lemma A.3(1) gives the sharp form L^{γ−1} + δ⁻¹min(R⁻¹L^{−γ}, L^{γ}), which suffices. For
+γ > 1/2 the printed form is enough. Case (4) at L1883 does not use (operc): it already bounds the new bond by the sharp
+count, so it is not affected. In Lean, case (2) at γ ≤ 1/2 uses the sharp form
+(`WaveTurbulence/Foundations/GammaLow/FinalCount/P96/Case23.lean`).
+
+---
+
+## E48 — DH23 L1869–L1871 (operation (e)) and TARGET `countlem` (L2459–L2461): at γ ≤ 1/2 the uncapped count is needed
+
+**Status:** CONFIRMED (found in the γ ≤ 1/2 re-proof of Prop 9.6; confirmed by its independent referee). **Class:**
+EXPOSITION. **Main theorem:** repaired in Lean.
+- Note: [`docs/research/gamma-le-half-counting-notes.md`](research/gamma-le-half-counting-notes.md), Finding 2 (§0)
+  and Lemma 4.3. Referee: [`docs/research/gamma-le-half-counting-referee.md`](research/gamma-le-half-counting-referee.md),
+  §1 (Finding 2) and remark K2 (§4).
+
+**The step.** Operation (e) in the proof of Prop 9.6 (L1869–L1871) is used in case (6).
+
+**What is missing.**
+- At γ ≤ 1/2 the gain of operation (e) needs the uncapped bound of Lemma A.2(1), δ⁻¹L^{2(d−γ)}(1 + δL^{2γ}P)⁻¹.
+  DH23 states this branch (L2056), but TARGET's restatement `countlem` (L2459–L2461) keeps only the capped form, with
+  a factor at most (log L)², which gives no power gain.
+- The hypothesis of (opere), "max|r| ≳ L^{−γ−100η}" for the gaps in the chain, is not the quantity the count uses; the
+  count uses the chain's total charge |w|. In case (6) the two agree.
+
+**Fill.** Use the uncapped bound of DH23 Lemma A.2(1) with the total charge |w| (counting note, Lemma 4.3). In Lean
+the uncapped bound is `CountLemmas.exists_low_pair_selector_bound`.
