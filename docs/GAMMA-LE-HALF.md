@@ -17,8 +17,6 @@ refer to [ERRATA-AND-DEVIATIONS.md](ERRATA-AND-DEVIATIONS.md), decision numbers 
   (Deng–Hani, *Derivation of the wave kinetic equation: full range of scaling laws*, arXiv:2301.07063),
   **Proposition 9.6**, and one case of that proposition is false in this range (erratum **E1**). The range contains
   **γ = 1/2, the "ballistic" scaling law** that Deng and Hani single out as physically natural.
-- **The theorem itself is not affected.** The gap is in the proof, and it can be closed. We repaired the proof, and
-  the repaired proof is formalized in Lean.
 - **The repair has three ingredients:**
   1. an enlarged family of *vines*, the **T-vines**, which absorbs the components on which Prop 9.6 fails;
   2. **Prop 9.6 re-proved** for γ ≤ 1/2 over the enlarged family;
@@ -51,9 +49,8 @@ Prop 9.6 needs a negative power. For γ > 1/2 the width is smaller than 1/L, and
 (F75 in E1). That argument is part of the formal proof for 1/2 < γ < 1.
 
 What fails, for 0 < γ ≤ 1/2: DH23 Prop 9.6 (`lgmolect`), DH23 `kqmainest2`, TARGET `lgmolect` and TARGET
-(finalcount1). What does not fail: Theorem 1.1. The necklace molecules are few, and a heuristic estimate puts their
-total contribution at a fixed negative power of L. They show that this route through the proof breaks, not that the
-theorem does.
+(finalcount1). The necklace molecules themselves are few, and a heuristic estimate puts their total contribution at a
+fixed negative power of L.
 
 Details, the explicit necklace, and the scripts that check it: [E1](ERRATA-AND-DEVIATIONS.md#e1--dh23-prop-96-lgmolect-case-4-is-false-for-0--γ--12).
 
