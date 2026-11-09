@@ -491,7 +491,7 @@
         "mode": "NOT_SPLIT",
         "ruling_ref": "docs/DECISIONS.md#D6"
       },
-      "abi_sha256": "05d07e58bd43f9f500570d2d4993deec5442d73225ca0f6536ba2ba20c3e7f2c",
+      "abi_sha256": "b83d1394ae7b902677b6fbd70ae839d0ef59cd5e71c395558b16be4169c729fc",
       "definition_closure": [
         {
           "path": "WaveTurbulence/Frozen/Defs/Mom.lean",
