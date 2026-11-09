@@ -1,6 +1,6 @@
 {
  "title": "The γ ≤ 1/2 campaign",
- "updated": "2026-11-09 16:38 UTC",
+ "updated": "2026-11-09 17:41 UTC",
  "convention": "Weights are the estimated size of each work package (thousands of new Lean lines; non-Lean steps get an equivalent weight). A finished package counts fully once it passes its checks and an independent re-run of its audit. A running package counts by the orchestrator's estimate at its last checkpoint (what is proved against what remains); before its first checkpoint it counts by the Lean it has compiled, capped at 75 %. Line counts alone overstate progress, because several packages first port large amounts of the existing proof.",
  "next": "The γ ≤ 1/2 final count is proved. Remaining: the stage-1 vine case (last port modules), the γ ≤ 1/2 flower estimate (marked stage 1 and marked count), then landing, sealing and two-key audits.",
  "risks": [
@@ -256,8 +256,8 @@
      ],
      "note": "all T-vine inputs proved; marked stage 1: I-SLOTSO 103/106, I-SLOTS 105/156, I-UNITS 13/35, I-SLOTSI 9/158 declarations built; marked count waits on L6's port",
      "done": 0.45,
-     "lines": 84998,
-     "lines_compiled": 66829,
+     "lines": 85027,
+     "lines_compiled": 65877,
      "credit": 0.45
     }
    ]
@@ -305,11 +305,11 @@
      "name": "landing, seals, two-key audits",
      "w": 6,
      "status": "running",
-     "done": 0.1,
-     "note": "started early: landing branch synced incrementally (GH-PORT) and seal tooling + 10 audit briefs prepared (SEAL-PREP)",
+     "done": 0.3,
+     "note": "landing branch synced and clean (1,523 modules); seal tooling dry-run sealed all five anchors on a scratch clone (OK); ten audit briefs ready",
      "lines": 0,
      "lines_compiled": 0,
-     "credit": 0.1
+     "credit": 0.3
     }
    ]
   }
