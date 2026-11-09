@@ -43,4 +43,5 @@ if [ $status -ne 0 ] || grep -q "^error" "$log"; then
 fi
 grep -E "Build completed" "$log"; rm -f "$log"
 "$root/scripts/check_index.sh" || { echo "GUARD FAILED"; exit 1; }
+python3 -I "$root/scripts/check_pinned_texts.py" --root "$root" || { echo "PINNED-TEXT GUARD FAILED"; exit 1; }
 echo "LAND CHECK OK"
