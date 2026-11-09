@@ -9,7 +9,7 @@ together with the results it relies on from the authors' earlier papers and from
 [Papers](#papers) below). Every step is checked by Lean; nothing is assumed beyond Lean's standard axioms.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-11-09 11:45 UTC** · frozen theorems sealed: 21 / 28 (+ 300 frozen definitions) · **1,679,060 lines of Lean on main** (12736 files) · overall completion of the whole project (full range 0 < γ < 1): 93.7 %
+> **Last updated: 2026-11-09 11:46 UTC** · frozen theorems sealed: 21 / 28 (+ 300 frozen definitions) · **1,679,060 lines of Lean on main** (12736 files) · overall completion of the whole project (full range 0 < γ < 1): 93.7 %
 <!-- /AUTO:updated -->
 
 ## At a glance
@@ -110,7 +110,7 @@ SEALED: 21 theorems (incl. main_v2, PROVED with two-key audits) + 300 definition
 <!-- AUTO:gammalow -->
 ### The γ ≤ 1/2 campaign: **54.2 %**
 
-`████████████████░░░░░░░░░░░░░░` 54.2 % · 8 of 19 work packages done, 10 running, 1 not started · **112,558 lines of new Lean compiling** (162,650 written) in the γ ≤ 1/2 work area, not yet on main · ledger updated 2026-11-09 11:45 UTC
+`████████████████░░░░░░░░░░░░░░` 54.2 % · 8 of 19 work packages done, 10 running, 1 not started · **114,172 lines of new Lean compiling** (163,624 written) in the γ ≤ 1/2 work area, not yet on main · ledger updated 2026-11-09 11:45 UTC
 
 This meter tracks the extension of the formal proof of Theorem 1.1 from 1/2 < γ < 1 to the full range 0 < γ < 1 (see [docs/GAMMA-LE-HALF.md](docs/GAMMA-LE-HALF.md)). Weights are the estimated size of each work package (thousands of new Lean lines; non-Lean steps get an equivalent weight). A finished package counts fully once it passes its checks and an independent re-run of its audit. A running package counts by the orchestrator's estimate at its last checkpoint (what is proved against what remains); before its first checkpoint it counts by the Lean it has compiled, capped at 75 %. Line counts alone overstate progress, because several packages first port large amounts of the existing proof.
 
@@ -138,16 +138,16 @@ This meter tracks the extension of the formal proof of Theorem 1.1 from 1/2 < γ
 | Statements | FREEZE-V4 | freeze layergardenFlower_v4, pin the T-vine text | 1 | — | ✅ done | 100 % | landed on main 8bbfb3b8 (ABI 328 OK; T-vine text pinned in land_check) |
 | T-vine combinatorics | L1 | core API, rung surgery, gap criterion | 15 | 9,725 / 9,859 | 🔄 running | 50 % | core API and statements of the remaining items published; proofs of the rung/gap/Φ items under way |
 | T-vine combinatorics | L2 | verified checker for the small cases | 8 | 6,414 / 6,580 | 🔄 running | 50 % | 13-atom benchmark passed (≈30 s, 1.3 GB); checker statement published; soundness and generation under way |
-| T-vine combinatorics | L3 | structure theorems (pieces, sub-objects) | 13 | 7,094 / 7,094 | 🔄 running | 35 % | statements published; induction for the structure theorems under way |
+| T-vine combinatorics | L3 | structure theorems (pieces, sub-objects) | 13 | 7,195 / 7,195 | 🔄 running | 35 % | statements published; induction for the structure theorems under way |
 | T-vine combinatorics | L3D | drawn vines are T-vines (N2 Lemma 5.2), Lemma 8.1′ | 3 | 0 / 0 | 🔄 running | 0 % | last input of Prop 9.6 at γ ≤ 1/2 |
-| T-vine combinatorics | L4 | charts (parametrizations) of all T-vines | 11.5 | 8,316 / 8,316 | 🔄 running | 50 % | chart contract and family bridge published; generic chart theorem under way |
-| Counting estimates for γ ≤ 1/2 | L6 | final count: gate, Prop 9.6, assembly | 30 | 7,744 / 48,046 | 🔄 running | 35 % | Prop 9.6 at γ ≤ 1/2 closes given one lemma (L3D); porting main's run to 𝒱_γ (item H, 676-module map) |
+| T-vine combinatorics | L4 | charts (parametrizations) of all T-vines | 11.5 | 8,571 / 8,571 | 🔄 running | 50 % | chart contract and family bridge published; generic chart theorem under way |
+| Counting estimates for γ ≤ 1/2 | L6 | final count: gate, Prop 9.6, assembly | 30 | 8,426 / 48,068 | 🔄 running | 35 % | Prop 9.6 at γ ≤ 1/2 closes given one lemma (L3D); porting main's run to 𝒱_γ (item H, 676-module map) |
 | Counting estimates for γ ≤ 1/2 | L6E | the ghost step (erratum E20) | 4 | 5,167 / 5,167 | ✅ done | 100 % | accepted: the ghost step (E20) and its Operation-1 cone (L6E2), 26 modules / 446 theorems; audits re-run by wt-orch |
 | Counting estimates for γ ≤ 1/2 | L6-COUNT | volume counts and operations (App. A, Prop 10.4) | 5 | 6,860 / 6,860 | ✅ done | 100 % | accepted: Prop 10.4 counts, operations (d)/(e), and Case6TopLow; Prop 9.6 at γ ≤ 1/2 now needs only one T-vine lemma (L3); audit re-run by wt-orch |
 | Counting estimates for γ ≤ 1/2 | L6-STEP1 | Step-1 deviation for T-vines | 3 | 5,809 / 5,809 | ✅ done | 100 % | accepted: 51 modules, 306 theorems, audit re-run by wt-orch (standard axioms only) |
-| Moving the proof to the enlarged vine family | L5a | stage 1 and the class count | 8 | 14,601 / 17,896 | 🔄 running | 50 % | gate published; 𝒱_γ collections, units, splice proved; normalized pieces, vine case, assembly remaining |
+| Moving the proof to the enlarged vine family | L5a | stage 1 and the class count | 8 | 14,919 / 18,494 | 🔄 running | 50 % | gate published; 𝒱_γ collections, units, splice proved; normalized pieces, vine case, assembly remaining |
 | Moving the proof to the enlarged vine family | L5b | the vine estimate for T-vines | 12 | 19,596 / 21,082 | 🔄 running | 80 % | vineest′ proved for all 0<γ<1 (188-module port); chain-API extension remaining |
-| Moving the proof to the enlarged vine family | L5c | source objects, spliced count, subpro | 10 | 9,511 / 10,423 | 🔄 running | 75 % | CoarseSpliced′, cover′, layervine′, spine code proved; class count and subpro′ remaining |
+| Moving the proof to the enlarged vine family | L5c | source objects, spliced count, subpro | 10 | 9,769 / 10,421 | 🔄 running | 75 % | CoarseSpliced′, cover′, layervine′, spine code proved; class count and subpro′ remaining |
 | Flower estimate for γ ≤ 1/2 | L8 | flower estimate, low half | 30 | 7,770 / 11,567 | 🔄 running | 30 % | statement + carriers B, C, F, G and H1 proved (hmarg fixed); marked stage 1 and marked count remaining |
 | Assembly | L0 | glue lemmas | 1 | 741 / 741 | ✅ done | 100 % | accepted with L7: five conditional provider theorems Expr-equal to the frozen statements |
 | Assembly | L7 | layergarden, low half | 2 | 3,210 / 3,210 | ✅ done | 100 % | accepted: LG-low and the flower couple clause from the low gates; audit re-run by wt-orch (19 modules, 401 theorems) |
@@ -305,7 +305,7 @@ Campaign bookkeeping, refreshed automatically; may lag behind the actual session
 <!-- AUTO:workers -->
 | tmux | model / account | packet | branch: last commit | brief |
 |---|---|---|---|---|
-| wt-orch | Claude Opus / claude-1 | Task 34: snapshot-8 delta audit + freeze branch rebuild; done: letter draft, many audits | `w/orch`: 7 min ago, 203 unlanded | [brief](docs/campaign/orch/TASK4.md) |
+| wt-orch | Claude Opus / claude-1 | Task 34: snapshot-8 delta audit + freeze branch rebuild; done: letter draft, many audits | `w/orch`: 8 min ago, 203 unlanded | [brief](docs/campaign/orch/TASK4.md) |
 | wt-gauss-hc | Claude Opus / claude-10 | FLOWER-SPINE: B1.12 layergardenFlower from named spine inputs (X2, X3 closed: fixedpoint from B1.12+B1.2+B1.5) | `w/waveb-infra`: — | [brief](docs/campaign/briefs/FLOWER-SPINE.md) |
 | wt-torus | Claude Opus / claude-14 | G7 MOLEPROP4 (revived, repaired): DH23 ylem1′, ylem2, Prop 10.4 (A23-HALF done) | `w/approxnt`: 119 h ago | [brief](docs/campaign/briefs/MOLEPROP4.md) |
 | wt-wke | Claude Opus / claude-13 | L3+L4: TARGET Props 6.1-6.3 (proplayer2-4); J1-J3, B̃ bridge, tree Prop 5.1 done | `w/jr-ops`: 119 h ago | [brief](docs/campaign/briefs/PL234.md) |

@@ -100,8 +100,8 @@
       "TVine/Struct/Drawn"
      ],
      "done": 0.35,
-     "lines": 7094,
-     "lines_compiled": 7094,
+     "lines": 7195,
+     "lines_compiled": 7195,
      "credit": 0.35
     },
     {
@@ -127,8 +127,8 @@
      ],
      "done": 0.5,
      "note": "chart contract and family bridge published; generic chart theorem under way",
-     "lines": 8316,
-     "lines_compiled": 8316,
+     "lines": 8571,
+     "lines_compiled": 8571,
      "credit": 0.5
     }
    ]
@@ -153,8 +153,8 @@
      ],
      "note": "Prop 9.6 at γ ≤ 1/2 closes given one lemma (L3D); porting main's run to 𝒱_γ (item H, 676-module map)",
      "done": 0.35,
-     "lines": 48046,
-     "lines_compiled": 7744,
+     "lines": 48068,
+     "lines_compiled": 8426,
      "credit": 0.35
     },
     {
@@ -213,8 +213,8 @@
      ],
      "note": "gate published; 𝒱_γ collections, units, splice proved; normalized pieces, vine case, assembly remaining",
      "done": 0.5,
-     "lines": 17896,
-     "lines_compiled": 14601,
+     "lines": 18494,
+     "lines_compiled": 14919,
      "credit": 0.5
     },
     {
@@ -241,8 +241,8 @@
      ],
      "note": "CoarseSpliced′, cover′, layervine′, spine code proved; class count and subpro′ remaining",
      "done": 0.75,
-     "lines": 10423,
-     "lines_compiled": 9511,
+     "lines": 10421,
+     "lines_compiled": 9769,
      "credit": 0.75
     }
    ]
