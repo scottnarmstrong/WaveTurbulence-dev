@@ -1,0 +1,52 @@
+# Seal audits: Theorem 1.1 for the full range 0 < γ < 1
+
+On 2026-11-09 five frozen theorems were sealed on main (decision D17 in [DECISIONS.md](../../DECISIONS.md)): Theorem
+1.1 for every 0 < γ < 1 and the four statements its proof is assembled from. Sealing replaces each statement's
+placeholder proof by a one-line reference to its formal proof, and tooling checks that the statement itself did not
+change. A sealed theorem is recorded as **PROVED** only after two independent audits pass. This directory holds those
+two audits.
+
+**Status: both audits are under way.** Their reports will be added here when they finish.
+
+## What was sealed
+
+| Theorem (Lean) | Paper | Seal commit | Frozen |
+|---|---|---|---|
+| `WaveTurbulence.layergardenFlower_v4` | the flower estimate, TARGET Prop `flowerest1` (corrected form; D16) | `4558dd65` | 2026-11-09 |
+| `WaveTurbulence.layergarden` | TARGET Prop `layergarden` | `2e2c16ef` | 2026-11-04 |
+| `WaveTurbulence.fixedpoint` | TARGET Prop `fixedpoint` | `008e27f9` | 2026-11-04 |
+| `WaveTurbulence.propansatz` | TARGET Prop `propansatz` | `6f4a03d2` | 2026-11-04 |
+| **`WaveTurbulence.main`** | **TARGET Theorem 1.1, 0 < γ < 1, as printed** | `bfbb5546` | 2026-11-03 |
+
+TARGET is Deng–Hani, *Long time justification of wave turbulence theory*, arXiv:2311.10082v2. Each proof is assembled
+in `WaveTurbulence/Foundations/GammaLow/Close/Final.lean` from the earlier, audited proof for 1/2 < γ < 1
+([`../v2-chain/`](../v2-chain/README.md)) and the new proof for 0 < γ ≤ 1/2
+([GAMMA-LE-HALF.md](../../GAMMA-LE-HALF.md)).
+
+## How the audits work
+
+Two auditors, keys A and B, work separately and never see each other's work. Neither wrote any part of the proof.
+Each audits all five theorems and records a verdict per theorem on every item:
+
+- (a) the frozen statement's bytes: only the proof body changed;
+- (b) the provider: its statement is exactly the frozen one, and it does not depend on its own anchor;
+- (c) the axioms: only `propext`, `Classical.choice` and `Quot.sound`;
+- (d) hidden hypotheses and vacuity;
+- (e) the ABI hashes of the frozen declarations;
+- (f) a full replay of the proof in Lean's kernel;
+- (g) the status fields;
+- (h) a table of every hypothesis, built from the paper's TeX source, which must show **zero excess hypotheses**: none
+  beyond the source, the standing assumptions, typing data and approved rulings.
+
+Each auditor replays the joint dependency closure of the five theorems once in the kernel; the replay covers every
+constant each theorem depends on. The two keys are given different primary refutation targets and different methods,
+so that they do not share blind spots. A theorem is recorded as PROVED only if both keys pass it.
+
+## Reports
+
+| Key | Report | Verdict |
+|---|---|---|
+| A | to be added | pending |
+| B | to be added | pending |
+
+The reports are working documents: they mention internal paths and tools of the formalization campaign.

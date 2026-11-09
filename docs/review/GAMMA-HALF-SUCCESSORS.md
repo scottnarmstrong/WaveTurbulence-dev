@@ -1,5 +1,10 @@
 # Review page: the γ ∈ (1/2, 1) versioned successors (ruling D9)
 
+> **Outcome (recorded 2026-11-09).** The five successors were approved and frozen (D10). `main_v2`, `propansatz_v2`,
+> `layergarden_v2` and `fixedpoint_v2` were proved and audited, and `layergardenFlower_v2` was superseded by
+> `layergardenFlower_v3` (D13). The original full-range statements were later sealed as printed (D17). This page is
+> kept as the record of the approval. Current account: [`../GAMMA-LE-HALF.md`](../GAMMA-LE-HALF.md).
+
 For approval by Scott. Prepared by wt-orch, 2026-11-04.
 
 ## Why

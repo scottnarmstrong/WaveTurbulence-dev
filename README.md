@@ -6,7 +6,8 @@ This repository is a formalization, in the [Lean 4](https://lean-lang.org) proof
 > [arXiv:2311.10082v2](https://arxiv.org/abs/2311.10082) (2024),
 
 together with the results it relies on from the authors' earlier papers and from the literature (listed under
-[Papers](#papers) below). Every step is checked by Lean; nothing is assumed beyond Lean's standard axioms.
+[Papers](#papers) below). The main result, Theorem 1.1, is formalized for the full range of its scaling exponent,
+0 < γ < 1. Every step is checked by Lean; nothing is assumed beyond Lean's standard axioms.
 
 <!-- AUTO:updated -->
 > **Last updated: 2026-11-09 23:10 UTC** · frozen theorems sealed: 26 / 28 (+ 300 frozen definitions) · **1,994,316 lines of Lean on main** (14409 files) · overall completion of the whole project (full range 0 < γ < 1): 94.2 %
@@ -14,14 +15,18 @@ together with the results it relies on from the authors' earlier papers and from
 
 ## At a glance
 
-- ✅ **Theorem 1.1 is formally proved for 1/2 < γ < 1.** The exact Lean statement (`main_v2`) was frozen before its
-  proof was written. It was sealed on 2026-11-08 and passed two independent audits on 2026-11-09. Each audit includes a
-  full replay of the proof in Lean's kernel. The theorem depends only on Lean's standard axioms (`propext`,
-  `Classical.choice`, `Quot.sound`).
-- 🚧 **The range 0 < γ ≤ 1/2 is not finished.** There, the printed proof relies on a counting proposition (DH23
-  Prop 9.6) that is false in that range. This is a gap in the proof, not a counterexample to the theorem. A repair is
-  now complete on paper and independently refereed; its Lean formalization started on 2026-11-09. **→ [docs/GAMMA-LE-HALF.md](docs/GAMMA-LE-HALF.md)** explains
-  the problem and the plan.
+- 🔒 **Theorem 1.1 for the full range 0 < γ < 1: the Lean proof is complete and sealed; independent audits are under
+  way.** The Lean statement (`WaveTurbulence.main`) is the printed one for 0 < γ < 1 on the square torus. It was
+  frozen on 2026-11-03, before its proof was written, and never changed. The proof was completed and sealed on
+  2026-11-09. It depends only on Lean's standard axioms (`propext`, `Classical.choice`, `Quot.sound`). The result is
+  recorded as proved once both audits pass ([how this works](#how-a-result-counts-as-proved-here)).
+- ✅ **For 1/2 < γ < 1 the result is also proved and fully audited** in an earlier version (`main_v2`, sealed on
+  2026-11-08; two independent audits passed on 2026-11-09, each including a full replay of the proof in Lean's kernel).
+- 🔧 **What it took for γ ≤ 1/2.** There the printed proof has a gap: it relies on a counting proposition (DH23
+  Prop 9.6) that is false in that range. This is a gap in the proof, not a counterexample to the theorem. The repair
+  enlarges the family of "vines" that the proof splices out, re-proves the counting proposition for the enlarged
+  family, and corrects one step of the counting procedure (the "ghost" step). **→
+  [docs/GAMMA-LE-HALF.md](docs/GAMMA-LE-HALF.md)** explains the problem, the repair and where it is in Lean.
 - 📄 **Errata and deviations.** Formalizing a long proof surfaces mistakes and gaps. Every defect we found in the
   published arguments, and every way our formal statements differ from the printed ones, is recorded with evidence
   and a repair. **→ [docs/ERRATA-AND-DEVIATIONS.md](docs/ERRATA-AND-DEVIATIONS.md)**
@@ -48,9 +53,9 @@ a smaller γ means a stronger nonlinearity and a shorter kinetic time.
 - **γ = 1/2, the "ballistic" scaling law.** Here T_kin is of order L: the kinetic time equals the time a wave packet
   needs to cross the box. Deng and Hani point out that this is the wave analogue of the Boltzmann–Grad scaling used in
   Lanford's theorem for the Boltzmann equation (where the mean free path is equated with the transport length scale),
-  and that it is the natural scaling law for spatially inhomogeneous problems. **This value lies in the range that our
-  formal proof does not yet cover:** the proved result is for 1/2 < γ < 1, and γ = 1/2 itself belongs to the
-  [γ ≤ 1/2 work](docs/GAMMA-LE-HALF.md).
+  and that it is the natural scaling law for spatially inhomogeneous problems. **The formal proof covers this value.**
+  It lies in the range 0 < γ ≤ 1/2, where the printed proof needed the repair described in
+  [docs/GAMMA-LE-HALF.md](docs/GAMMA-LE-HALF.md).
 - **γ = 1, the endpoint.** Here T_kin is of order L², which matches the natural (parabolic) scaling of the Schrödinger
   equation, so results at this scaling translate into statements on a torus of fixed size. In three dimensions this
   connects to the open problem of whether the Gibbs measure (Φ⁴₃) is invariant under the cubic Schrödinger flow, and
@@ -59,8 +64,8 @@ a smaller γ means a stronger nonlinearity and a shorter kinetic time.
   **So at γ = 1 our formal result is narrower than the printed Theorem 1.1.** This is listed among the deviations in
   [docs/ERRATA-AND-DEVIATIONS.md](docs/ERRATA-AND-DEVIATIONS.md).
 - **γ ≤ 1/2 more broadly.** In this range the equidistribution the theory needs holds for essentially any dispersion
-  relation, without number theory (DH23, §1.2). The difficulty we found there is of a different, combinatorial kind
-  (see [docs/GAMMA-LE-HALF.md](docs/GAMMA-LE-HALF.md)).
+  relation, without number theory (DH23, §1.2). The difficulty we found there is of a different, combinatorial kind,
+  and it is repaired (see [docs/GAMMA-LE-HALF.md](docs/GAMMA-LE-HALF.md)).
 
 ## How a result counts as "proved" here
 
@@ -75,37 +80,44 @@ a smaller γ means a stronger nonlinearity and a shorter kinetic time.
    - check the axioms used;
    - replay the entire proof in Lean's kernel.
 
-   The audit records for Theorem 1.1 (1/2 < γ < 1) and its chain are in
-   [`docs/audits/v2-chain/`](docs/audits/v2-chain/).
+   The audit records for Theorem 1.1 for the full range are collected in
+   [`docs/audits/full-range/`](docs/audits/full-range/README.md); those for the earlier 1/2 < γ < 1 version are in
+   [`docs/audits/v2-chain/`](docs/audits/v2-chain/README.md).
 
 ## Current status
 
-- **Done:** Theorem 1.1 for 1/2 < γ < 1, i.e. `main_v2` and the theorems it is assembled from (`propansatz_v2`,
-  `fixedpoint_v2`, `layergarden_v2`, and the "flower estimate" `layergardenFlower_v3`). All are sealed and audited.
-- **In progress:**
-  - the range 0 < γ ≤ 1/2: the Lean formalization of the repair, started on 2026-11-09
-    ([plan and status](docs/GAMMA-LE-HALF.md); [progress meter](#progress-on-0--γ--12));
-  - removing code that the final proof does not use (the code base grew large while alternative routes were
-    explored). A first pass removed about 48,000 lines; the rest waits until the γ ≤ 1/2 work is done, since that
-    work reuses part of the code;
-  - preparing a public release.
-- The seven frozen theorem statements that are not yet sealed are the full-range versions (0 < γ < 1): the original
-  `main`, `propansatz`, `fixedpoint` and `layergarden`, the original flower statements v1 and v2, and the new
-  full-range flower statement `layergardenFlower_v4` (frozen on 2026-11-09, decision D16). The first four and v4 will
-  be proved when the γ ≤ 1/2 work is complete; flower v1/v2 (max-form cutoffs, erratum E34) are superseded.
+- **Sealed; independent audits under way:** Theorem 1.1 for the full range 0 < γ < 1, `main`, and the four
+  statements it is assembled from: `propansatz`, `fixedpoint`, `layergarden` (all three as printed, for 0 < γ < 1)
+  and the flower estimate `layergardenFlower_v4`. Sealed on 2026-11-09 (decision D17). Audit records:
+  [docs/audits/full-range/](docs/audits/full-range/README.md). How the proof is put together:
+  [docs/GAMMA-LE-HALF.md](docs/GAMMA-LE-HALF.md).
+- **Sealed and audited:** Theorem 1.1 for 1/2 < γ < 1, `main_v2`, and the theorems it is assembled from
+  (`propansatz_v2`, `fixedpoint_v2`, `layergarden_v2` and the flower estimate `layergardenFlower_v3`). The
+  full-range proof uses these for γ > 1/2.
+- **Sealed:** the other 16 frozen theorems (so 26 of the 28 frozen theorem statements are sealed), and all 300
+  frozen definitions.
+- **Not proved, by design:** the two original flower statements `layergardenFlower` (v1) and `layergardenFlower_v2`.
+  Their cutoffs mis-transcribe the paper's (erratum E34); `layergardenFlower_v3` and `layergardenFlower_v4` replace
+  them, and nothing depends on them.
+- **In progress:** removing code that the final proof does not use (the code base grew large while alternative routes
+  were explored; a first pass removed about 48,000 lines), and preparing the public release.
 
 <details><summary>Technical status fields</summary>
 
 ```text
-DRAFT_ANCHORS: 7 theorem anchors at DRAFT_SORRY (the full-range originals main, propansatz, fixedpoint, layergarden,
-               layergardenFlower v1, the superseded layergardenFlower_v2, and the new full-range layergardenFlower_v4)
+DRAFT_ANCHORS: 2 theorem anchors at DRAFT_SORRY (the superseded flower statements layergardenFlower v1 and
+               layergardenFlower_v2; erratum E34)
 UNREGISTERED_SORRIES: 0 (frozen-anchor guard OK)
 DRAFT_IMPORT_VIOLATIONS: 0
-SEALED: 21 theorems (incl. main_v2, PROVED with two-key audits) + 300 definitions
+SEALED: 26 theorems + 300 definitions. Full range: main, propansatz, fixedpoint, layergarden, layergardenFlower_v4
+        sealed 2026-11-09 (main 5c19b015), two-key audits under way. 1/2 < γ < 1: main_v2 PROVED (two-key audits).
 ```
 </details>
 
-## Progress on 0 < γ ≤ 1/2
+## Progress of the γ ≤ 1/2 extension
+
+This meter tracked the formalization of the γ ≤ 1/2 repair; it is kept as a record. Its package names are the
+project's internal work packages.
 
 <!-- AUTO:gammalow -->
 ### The γ ≤ 1/2 campaign: **99.3 %**
@@ -160,8 +172,10 @@ Source: [`docs/campaign/gammalow.json`](docs/campaign/gammalow.json); history: [
 
 ## Progress
 
-The percentage below measures the **whole project**, i.e. the full range 0 < γ < 1. The 1/2 < γ < 1 result is
-complete; the remaining percentage is mostly the γ ≤ 1/2 work.
+The percentage below is the project's internal bookkeeping for the **whole project**: sources, statements, proofs,
+seals and the public release. Its per-package figures were last reviewed on 2026-11-07, before the full-range proof
+was completed, and several of them are below 100 % only because they have not been re-reviewed since. The
+authoritative state is [Current status](#current-status) above.
 
 <!-- AUTO:progress -->
 ### Overall completion (whole project: full range 0 < γ < 1): **94.2 %**
@@ -287,12 +301,15 @@ Done fractions last reviewed: **2026-11-07 05:24 UTC**. Source: [`docs/campaign/
 
 ## Documents
 
-- [docs/GAMMA-LE-HALF.md](docs/GAMMA-LE-HALF.md): the range 0 < γ ≤ 1/2, what goes wrong and the plan (work in
-  progress).
+- [docs/GAMMA-LE-HALF.md](docs/GAMMA-LE-HALF.md): the range 0 < γ ≤ 1/2, what goes wrong in the printed proof, the
+  repair, and where it is in Lean.
 - [docs/ERRATA-AND-DEVIATIONS.md](docs/ERRATA-AND-DEVIATIONS.md): errata in the published arguments and deviations of
   the formal statements.
-- [docs/audits/v2-chain/](docs/audits/v2-chain/): the two-key seal audits of Theorem 1.1 for 1/2 < γ < 1 and its
-  chain.
+- [docs/audits/full-range/](docs/audits/full-range/README.md): the two-key seal audits of Theorem 1.1 for the full
+  range 0 < γ < 1 and its chain.
+- [docs/audits/v2-chain/](docs/audits/v2-chain/README.md): the two-key seal audits of Theorem 1.1 for 1/2 < γ < 1 and
+  its chain.
+- [docs/research/](docs/research/INDEX.md): research notes, referee reports and scripts behind the errata.
 - [docs/DECISIONS.md](docs/DECISIONS.md): the author's decisions (scope, statement versions, rulings).
 - [docs/FINDINGS.md](docs/FINDINGS.md): the running ledger of source findings.
 - [docs/THIRD-PARTY.md](docs/THIRD-PARTY.md): third-party code (Apache 2.0, attributed).

@@ -143,3 +143,42 @@ Format: D<n> — date (UTC) — who — decision — reason.
   - Packaging (semantics-neutral): the anchor imports its own provider stub `Provider.LayergardenFlowerV4`
     (quarantined in the lakefile). The audit's docstring fixes F1–F3 and manifest fixes F4 are applied. No Lean term
     differs from the audited text.
+- D17 — 2026-11-09 ~22:40 — the campaign orchestrator under the standing authorization (Scott, 2026-11-05: "I approve
+  all, defer approvals now and just get this done"; 2026-11-09: "we aim for the full statement", "let's get the full
+  range of gamma", "continue until we're at 100% and all theorems are sealed for the full range of gamma"), following
+  rulings R190–R196 — **The full-range statements are sealed**:
+  - What was sealed (main `5c19b015`). In one batch, in the order of the proof: `layergardenFlower_v4` (`4558dd65`),
+    `layergarden` (`2e2c16ef`), `fixedpoint` (`008e27f9`), `propansatz` (`6f4a03d2`) and `main` (`bfbb5546`), i.e.
+    the four originals of D6/D7 as printed, for 0 < γ < 1, and the flower successor of D16. No frozen statement
+    changed; each proof body is now a one-line reference to its provider in `WaveTurbulence/Provider/`.
+  - The proof. Each provider is a theorem of `WaveTurbulence/Foundations/GammaLow/Close/Final.lean`. It splits γ at
+    1/2 (γ = 1/2 in the low half). The high half uses the sealed `layergarden_v2` and `layergardenFlower_v3`. The low
+    half uses the closed γ ≤ 1/2 theorems `GammaLow.Close.layergarden_low_closed` and
+    `GammaLow.Close.flower_low_closed`, which are built on the enlarged vine family of D11 (erratum E1, repair) and the
+    ghost-step repair (erratum E20).
+  - What the rulings settled.
+    - R190: the target is the full statement. Discharge `main`, `propansatz`, `fixedpoint` and `layergarden` as
+      printed, and freeze `layergardenFlower_v4` after an independent statement audit (D16). A partial range would
+      need a new decision; it was not needed.
+    - R191: all paper-level research for γ ≤ 1/2 was accepted by independent refute-first referees, including the
+      ghost step for every 0 < γ < 1.
+    - R192: the γ ≤ 1/2 Lean phase starts, with the T-vine text pinned by hash; the removal of unused code is
+      deferred until after the seals.
+    - R193: the order is the seals, then the dead-code sweep, then public readiness of this repository with its full
+      history.
+    - R194: in the γ ≤ 1/2 final count, the ghost repair is stated as a bound for the whole run, which uses an
+      explicit count at the step that creates a ghost (itself proved). This is an internal interface only; no frozen
+      or source statement changes.
+    - R195: the five full-range theorems are proved in Lean with standard axioms only, each with exactly the type of
+      its frozen statement.
+    - R196: seal the five in one batch, keeping every per-statement check (exact type before and after, statement
+      drift, axioms, ABI hash) and running the repository-wide checks once at the end. Audit them with two
+      independent auditors, each covering all five statements with one kernel replay of their joint dependency
+      closure.
+  - Checks at the seal. Per statement: exact type equal to the frozen statement; the statement-drift checks; axioms
+    `propext`, `Classical.choice`, `Quot.sound` only, with no `sorryAx`; ABI hash written and rechecked. At the end:
+    the landing check, the ABI of all 328 frozen declarations, and the frozen-statement guard, all passing.
+  - Status: SEALED. A statement is recorded as PROVED only when both independent audits pass; their records go in
+    `docs/audits/full-range/`.
+  - `layergardenFlower` (v1) and `layergardenFlower_v2` (max-form cutoffs, erratum E34) stay frozen and unproved.
+    Nothing depends on them.

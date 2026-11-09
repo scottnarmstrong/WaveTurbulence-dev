@@ -1,5 +1,10 @@
 # Review: the enlarged vine family for 0 < γ ≤ 1/2 (for author approval)
 
+> **Outcome (recorded 2026-11-09).** Approved as recommended (D11). The Lean text below became
+> `WaveTurbulence/Foundations/TVine/Defs.lean` with four non-semantic edits, pinned by hash (D16), and the γ ≤ 1/2
+> extension built on it was completed; the full-range statements were sealed on 2026-11-09 (D17). This page is kept as
+> the record of the approval. Current account: [`../GAMMA-LE-HALF.md`](../GAMMA-LE-HALF.md).
+
 Prepared by wt-orch on 2026-11-05 (overnight). Nothing on this page is frozen or landed. It asks for an author decision
 (D11).
 

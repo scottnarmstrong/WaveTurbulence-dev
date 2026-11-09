@@ -93,6 +93,26 @@ editorial revisions, so a later version may exist. The independent assessment of
 | `flowerest1/REFEREE-82.md` | `ref/REFEREE-82.md` | `4f42eb173da7d7259d78182ad04446f63a14263e4393691e9d229a02f02aba8f` | referee of o82; E39 |
 | `flowerest1/REFEREE-83.md` | `ref/REFEREE-83.md` | `56f98c771d0d5e503f9fd5b86fc29e872d2ac724f3ed51859ca6e70df366760a` | referee of o83; E40, E44 |
 
+## The repair for 0 < γ ≤ 1/2 (November 2026)
+
+The four research notes of the γ ≤ 1/2 repair, each with the report of its independent, refute-first referee. Every
+verdict was ACCEPT WITH REPAIRS. Each note is the version its referee reviewed, edited for readers: a reader's preface
+(what the note proves, how it fits the repair, where it is in Lean) was added, and internal paths and labels were
+removed or replaced by descriptive names; the mathematics is unchanged. The referees' repairs (small corrections of
+wording, scope or constants) are listed in the reports; they were applied in the Lean formalization, not folded into
+the notes. The scripts named in the notes are not included. Overview: [`../GAMMA-LE-HALF.md`](../GAMMA-LE-HALF.md).
+
+| File | Topic | Entries |
+|---|---|---|
+| [`gamma-le-half-tvine-blueprint-notes.md`](gamma-le-half-tvine-blueprint-notes.md) | the T-vine combinatorics and charts, for all sizes | E1 |
+| [`gamma-le-half-tvine-blueprint-referee.md`](gamma-le-half-tvine-blueprint-referee.md) | its referee report | E1 |
+| [`gamma-le-half-counting-notes.md`](gamma-le-half-counting-notes.md) | DH23 Props 9.4–9.6 and 10.4(2) for 0 < γ ≤ 1/2 | E1, E47, E48 |
+| [`gamma-le-half-counting-referee.md`](gamma-le-half-counting-referee.md) | its referee report | E1, E47, E48 |
+| [`gamma-le-half-ghost-step-notes.md`](gamma-le-half-ghost-step-notes.md) | the ghost step for all 0 < γ < 1 | E20 |
+| [`gamma-le-half-ghost-step-referee.md`](gamma-le-half-ghost-step-referee.md) | its referee report | E20 |
+| [`gamma-le-half-flower-notes.md`](gamma-le-half-flower-notes.md) | the flower estimate re-checked for 0 < γ ≤ 1/2 | E1, E29–E46 |
+| [`gamma-le-half-flower-referee.md`](gamma-le-half-flower-referee.md) | its referee report | E1, E29–E46 |
+
 Also copied: `seal-layergarden_v2-audit.md`, the independent seal audit of the Lean proof of `layergarden_v2` on main
 (source: the orchestration records, `docs/campaign/orch/audits/Seal-layergarden_v2.md` in the `w/orch` worktree;
 sha256 `a6e054b1bcc12371009c99db415188c0c1d932bf85d3094b23d045fcd921d025`). Evidence for the Lean claims in E26.
@@ -110,4 +130,5 @@ sha256 `a6e054b1bcc12371009c99db415188c0c1d932bf85d3094b23d045fcd921d025`). Evid
 | `vine2-m1.txt` | E3 |
 | `erratum-remtame.md` | E11 (part (a), F48) |
 
-`closure-audit/` holds the read-only closure audit used by `../FORMALIZATION-REPORT.md`; it is maintained separately.
+`closure-audit/` holds the read-only closure audit prepared for the project's formalization report, which has not
+been published (decisions D14, D15); it is maintained separately.

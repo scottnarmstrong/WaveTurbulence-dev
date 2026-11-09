@@ -329,6 +329,10 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   reading Q-bead necklaces break the same four statements for all γ < 2/3; whether DH23's cancellation works at m = 1 is
   unchecked. Open: DH23 `kqmainest1` L1633 / TARGET (finalsbest2) L2078 may also fail (no lower bound on the time
   integrals established). **Main theorems not refuted. AUTHOR DECISION REQUIRED** (`docs/review/ESCALATION-F69b.md`).
+  **Resolved (2026-11-09).** Decided by D9/D10 (restrict for the time being, research a repair). Repair: the T-type
+  blocks are spliced in stage 1 as an enlarged vine family (T-vines, D11), and Prop 9.6 is re-proved over that family
+  for γ ≤ 1/2 (Lean: `GammaLow.FinalCount.prop96_low_closed`). The full-range statements are sealed (D17). Errata
+  E1; overview `docs/GAMMA-LE-HALF.md`.
 - F70 — DH21 (integralK) L1782 — the weight `e^{−πθα²}` should be `e^{−πθ²α²}`. Minor typo. Found by wt-torus (CANCEL7),
   which also implements the corrected F61 sign in DH21 Lemma 7.3 and Prop 7.5 (`𝒥B̃_{Q,Z} = (−1)^{|Z|}𝒥B̃_Q`); its route
   (Gaussian-regularized limit of B̃_Q) shows the Z-component integral is the same for every expansion, stronger than
@@ -361,6 +365,9 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   level for γ ≤ 1/2, and no counting-only repair works (ladder-style ρ needs a log-free time bound; splicing needs a
   Prop 7.6-type estimate). Confidence: high; derived, not a full proof with explicit error terms. Also: small-gap
   Q-beads lose L^γ analytically, so the m = 1 vine (II) (F72) is necessary.
+  **Resolved (2026-11-09)** by the splicing route: the T-beads are T-vines, spliced in stage 1 and bounded by the vine
+  estimate over the enlarged family (Lean: `GammaLow.Famb.vineEstGammaHalfMK`), so the failing per-class bound is not
+  needed for them. See F69b and errata E1.
 - F74 — TARGET L708 (`F₀ = Ω` in Prop `propansatz`) — proof-level reading, orchestrator ruling (recorded 2026-11-04 after
   wt-orch's INDUCT audit I-1): INDUCT takes `Fev 0 = initialRapidEvent`, the measurable, symmetric event that the
   initial coefficients decay rapidly, with `μ.real (Fev 0) = 1` and `μ.restrict (Fev 0) = μ`. So every level-0

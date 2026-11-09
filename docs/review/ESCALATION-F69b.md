@@ -1,5 +1,11 @@
 # Escalation F69b: a false intermediate statement in DH23 (and TARGET) for γ ≤ 1/2
 
+> **Outcome (recorded 2026-11-09).** The author chose to restrict the formal target to 1/2 < γ < 1 for the time
+> being and to research a repair (D9, D10). The repair, an enlarged vine family (T-vines, D11) with a re-proved
+> Prop 9.6, was completed, and the full-range statements were sealed on 2026-11-09 (D17). This page is kept as the
+> record of the escalation. Current account: [`../GAMMA-LE-HALF.md`](../GAMMA-LE-HALF.md); erratum E1 in
+> [`../ERRATA-AND-DEVIATIONS.md`](../ERRATA-AND-DEVIATIONS.md).
+
 Prepared 2026-11-04 for Scott. This is a decision for the author. Nothing in the campaign is blocked while it is
 pending.
 
