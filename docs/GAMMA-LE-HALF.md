@@ -1,6 +1,6 @@
 # The range 0 < γ ≤ 1/2: what goes wrong, and how we plan to fix it
 
-*Status: **work in progress**: the mathematics is complete on paper; the Lean formalization has not started. This page explains why our formal proof of Theorem 1.1 currently covers only
+*Status: **work in progress**: the mathematics is complete on paper and refereed; the Lean formalization started on 2026-11-09. This page explains why our formal proof of Theorem 1.1 currently covers only
 1/2 < γ < 1, and what remains to be done for 0 < γ ≤ 1/2. Last revised 2026-11-09.*
 
 ## In short
@@ -14,8 +14,8 @@
   **Proposition 9.6**, and one case of that proposition is false in this range.
 - **This is a gap in the proof, not a counterexample to the theorem.** Nobody has found a counterexample to Theorem 1.1
   for any γ, and we believe the theorem is true. We have a repair whose every step is now proved on paper
-  and checked by independent referees (2026-11-09). What remains is the Lean formalization for this range, which has
-  not started yet.
+  and checked by independent referees (2026-11-09). What remains is the Lean formalization for this range, which
+  started on 2026-11-09.
 
 ## What goes wrong
 
@@ -66,13 +66,17 @@ repairs, and two separate research approaches reached the same conclusion by dif
 ## The plan
 
 1. **Paper-level research: done (2026-11-09).** Every step has passed an independent, refute-first referee. The
-   referees' small repairs are being folded into the notes.
-2. **Lean formalization (next).** Roughly 100–180 thousand new or modified lines, in about ten work packages. Much of the
+   referees' small repairs are applied directly in the Lean work.
+2. **Lean formalization (started 2026-11-09).** Roughly 100–180 thousand new or modified lines, in about ten work packages. Much of the
    existing proof for 1/2 < γ < 1 carries over unchanged, since only a small part of it actually uses γ > 1/2. The
    main new pieces are:
    - the T-vine combinatorics, with a compact verified checker in place of a large generated catalogue;
    - the counting estimates for γ ≤ 1/2;
    - the flower estimate for γ ≤ 1/2.
+
+   The first four packages are running in parallel: the T-vine combinatorics, the verified checker, the
+   parametrization of T-vines, and the counting estimates for γ ≤ 1/2 (the longest chain of dependencies). The new
+   full-range statement of the flower estimate is being independently audited before it is frozen.
 3. **Sealing.** We then prove the original, full-range frozen statements as printed: the main theorem `main` and its
    intermediate theorems `propansatz`, `fixedpoint` and `layergarden`. We also prove one new full-range version of
    the flower estimate. Each goes through the same two-key independent audit as the 1/2 < γ < 1 result.
