@@ -1,6 +1,6 @@
 {
  "title": "The γ ≤ 1/2 campaign",
- "updated": "2026-11-09 11:50 UTC",
+ "updated": "2026-11-09 12:52 UTC",
  "convention": "Weights are the estimated size of each work package (thousands of new Lean lines; non-Lean steps get an equivalent weight). A finished package counts fully once it passes its checks and an independent re-run of its audit. A running package counts by the orchestrator's estimate at its last checkpoint (what is proved against what remains); before its first checkpoint it counts by the Lean it has compiled, capped at 75 %. Line counts alone overstate progress, because several packages first port large amounts of the existing proof.",
  "next": "The full range now reduces to four γ ≤ 1/2 inputs: L5a's stage-1 gate, L6's final-count gate (port of the run under way), L3's T-vine structure statements, L8's flower low half.",
  "risks": [
@@ -63,29 +63,27 @@
      "id": "L1",
      "name": "core API, rung surgery, gap criterion",
      "w": 15,
-     "status": "running",
+     "status": "done",
      "dirs": [
       "TVine/Core"
      ],
-     "note": "core API and statements of the remaining items published; proofs of the rung/gap/Φ items under way",
-     "done": 0.5,
+     "note": "accepted: every core item proved (N2 1.5, 1.9, 1.10–1.12, 1.14, N3 4.1, 6.2; path surgery); 47 modules, 576 theorems; audit re-run by wt-orch",
      "lines": 12115,
      "lines_compiled": 12115,
-     "credit": 0.5
+     "credit": 1.0
     },
     {
      "id": "L2",
      "name": "verified checker for the small cases",
      "w": 8,
-     "status": "running",
+     "status": "done",
      "dirs": [
       "TVine/Checker"
      ],
-     "note": "13-atom benchmark passed (≈30 s, 1.3 GB); checker statement published; soundness and generation under way",
-     "done": 0.5,
-     "lines": 7230,
-     "lines_compiled": 7230,
-     "credit": 0.5
+     "note": "accepted: verified checker; completeness (OM7) proved, so the finite base cases are kernel-checked, not Python-only; 37 modules, 685 theorems",
+     "lines": 7924,
+     "lines_compiled": 7924,
+     "credit": 1.0
     },
     {
      "id": "L3",
@@ -100,22 +98,22 @@
       "TVine/Struct/Drawn"
      ],
      "done": 0.55,
-     "lines": 8479,
-     "lines_compiled": 8479,
+     "lines": 10515,
+     "lines_compiled": 10488,
      "credit": 0.55
     },
     {
      "id": "L3D",
      "name": "drawn vines are T-vines (N2 Lemma 5.2), Lemma 8.1′",
      "w": 3,
-     "status": "running",
+     "status": "done",
      "dirs": [
       "TVine/Struct/Drawn"
      ],
-     "note": "last input of Prop 9.6 at γ ≤ 1/2",
-     "lines": 1835,
-     "lines_compiled": 1835,
-     "credit": 0.612
+     "note": "accepted: Lemma 5.2 unconditional; Lemma 8.1′ proved given Thm 1.15 (F1), which L3 has proved (f1_mol); 13 modules, 573 theorems",
+     "lines": 3314,
+     "lines_compiled": 3314,
+     "credit": 1.0
     },
     {
      "id": "L4",
@@ -127,8 +125,8 @@
      ],
      "done": 0.5,
      "note": "chart contract and family bridge published; generic chart theorem under way",
-     "lines": 9724,
-     "lines_compiled": 9724,
+     "lines": 9803,
+     "lines_compiled": 9803,
      "credit": 0.5
     }
    ]
@@ -151,10 +149,10 @@
       "GammaLow/FinalCount/Count",
       "GammaLow/FinalCount/Step1"
      ],
-     "note": "Prop 9.6 at γ ≤ 1/2 closes given one lemma (L3D); porting main's run to 𝒱_γ (item H, 676-module map)",
+     "note": "Prop 9.6 at γ ≤ 1/2 fully proved; T-vine transports done; porting main's run with 7 layer helpers",
      "done": 0.35,
-     "lines": 48483,
-     "lines_compiled": 9917,
+     "lines": 50671,
+     "lines_compiled": 18324,
      "credit": 0.35
     },
     {
@@ -211,11 +209,11 @@
      "dirs": [
       "GammaLow/Fama"
      ],
-     "note": "gate published; 𝒱_γ collections, units, splice proved; normalized pieces, vine case, assembly remaining",
-     "done": 0.5,
-     "lines": 20394,
-     "lines_compiled": 19962,
-     "credit": 0.5
+     "note": "gate, collections, units, splice and normalized pieces (F) proved; vine case (G) and assembly (J) remaining",
+     "done": 0.7,
+     "lines": 56102,
+     "lines_compiled": 21628,
+     "credit": 0.7
     },
     {
      "id": "L5b",
@@ -227,7 +225,7 @@
      ],
      "note": "accepted: vineest′ for all 0<γ<1 (207 modules, 848 theorems; audit re-run by wt-orch); uses L4's Theorem C",
      "lines": 21082,
-     "lines_compiled": 19596,
+     "lines_compiled": 20921,
      "credit": 1.0
     },
     {
@@ -238,11 +236,11 @@
      "dirs": [
       "GammaLow/Famc"
      ],
-     "note": "CoarseSpliced′, cover′, layervine′, spine code proved; class count and subpro′ remaining",
-     "done": 0.75,
-     "lines": 14824,
-     "lines_compiled": 13319,
-     "credit": 0.75
+     "note": "CoarseSpliced′, cover′, layervine′, spine code and subpro′ proved; class count (I) in progress",
+     "done": 0.85,
+     "lines": 20754,
+     "lines_compiled": 17336,
+     "credit": 0.85
     }
    ]
   },
@@ -261,8 +259,8 @@
      ],
      "note": "statement + carriers B, C, F, G and H1 proved (hmarg fixed); marked stage 1 and marked count remaining",
      "done": 0.3,
-     "lines": 16066,
-     "lines_compiled": 11469,
+     "lines": 43552,
+     "lines_compiled": 18761,
      "credit": 0.3
     }
    ]
