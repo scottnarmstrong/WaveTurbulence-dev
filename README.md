@@ -23,9 +23,9 @@ together with the results it relies on from the authors' earlier papers and from
 - ✅ **For 1/2 < γ < 1 the result is also proved and fully audited** in an earlier version (`main_v2`, sealed on
   2026-11-08; two independent audits passed on 2026-11-09, each including a full replay of the proof in Lean's kernel).
 - 🔧 **What it took for γ ≤ 1/2.** There the printed proof has a gap: it relies on a counting proposition (DH23
-  Prop 9.6) that is false in that range. The repair
-  enlarges the family of "vines" that the proof splices out, re-proves the counting proposition for the enlarged
-  family, and corrects one step of the counting procedure (the "ghost" step). **→
+  Prop 9.6) that is false in that range. The repair enlarges the family of "vines" that the proof splices out,
+  re-proves the counting proposition for the enlarged family, and corrects one step of the counting procedure (the
+  "ghost" step). **→
   [docs/GAMMA-LE-HALF.md](docs/GAMMA-LE-HALF.md)** explains the problem, the repair and where it is in Lean.
 - 📄 **Errata and deviations.** Formalizing a long proof surfaces mistakes and gaps. Every defect we found in the
   published arguments, and every way our formal statements differ from the printed ones, is recorded with evidence
