@@ -1,6 +1,6 @@
 {
  "title": "The γ ≤ 1/2 campaign",
- "updated": "2026-11-09 15:55 UTC",
+ "updated": "2026-11-09 16:12 UTC",
  "convention": "Weights are the estimated size of each work package (thousands of new Lean lines; non-Lean steps get an equivalent weight). A finished package counts fully once it passes its checks and an independent re-run of its audit. A running package counts by the orchestrator's estimate at its last checkpoint (what is proved against what remains); before its first checkpoint it counts by the Lean it has compiled, capped at 75 %. Line counts alone overstate progress, because several packages first port large amounts of the existing proof.",
  "next": "T-vine combinatorics complete (all unconditional). Remaining: the ghost chain covers in the ported run (R194), the rest of the run port and the marked stage 1, the vine case of stage 1; then landing, sealing, audits (preparation under way).",
  "risks": [
@@ -149,8 +149,8 @@
      ],
      "note": "Prop 9.6 at γ ≤ 1/2 and the run-wide ghost chain cover (REG) PROVED; port 78 % compiling; LOW chain cover next",
      "done": 0.7,
-     "lines": 59196,
-     "lines_compiled": 54578,
+     "lines": 59197,
+     "lines_compiled": 56420,
      "credit": 0.7
     },
     {
@@ -209,8 +209,8 @@
      ],
      "note": "gate, pieces, normalized pieces and the stage-1 assembly proved; waits on the class count (L5c) and the vine case (helper L5a-G)",
      "done": 0.85,
-     "lines": 58768,
-     "lines_compiled": 56785,
+     "lines": 58770,
+     "lines_compiled": 57696,
      "credit": 0.85
     },
     {
@@ -230,15 +230,14 @@
      "id": "L5c",
      "name": "source objects, spliced count, subpro",
      "w": 10,
-     "status": "running",
+     "status": "done",
      "dirs": [
       "GammaLow/Famc"
      ],
-     "note": "everything proved (CoarseSpliced′, cover′, layervine′, spine code, subpro′, class count), all inputs discharged; final rebuild running",
-     "done": 0.95,
+     "note": "accepted: CoarseSpliced′, cover′, layervine′, subpro′, spine code and class count all proved, no inputs; 144 modules, 3,222 theorems; audit re-run by wt-orch",
      "lines": 20612,
      "lines_compiled": 20612,
-     "credit": 0.95
+     "credit": 1.0
     }
    ]
   },
@@ -257,8 +256,8 @@
      ],
      "note": "all T-vine inputs proved; marked stage 1: I-SLOTSO 103/106, I-SLOTS 105/156, I-UNITS 13/35, I-SLOTSI 9/158 declarations built; marked count waits on L6's port",
      "done": 0.45,
-     "lines": 48771,
-     "lines_compiled": 32076,
+     "lines": 50775,
+     "lines_compiled": 26923,
      "credit": 0.45
     }
    ]
