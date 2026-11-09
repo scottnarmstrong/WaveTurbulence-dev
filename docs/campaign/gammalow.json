@@ -1,0 +1,282 @@
+{
+ "title": "The γ ≤ 1/2 campaign",
+ "updated": "2026-11-09 11:05 UTC",
+ "convention": "Weights are the estimated size of each work package (thousands of new Lean lines; non-Lean steps get an equivalent weight). A finished package counts fully. A running package counts in proportion to the Lean it has written that compiles in the work area (part of it adapted from the existing proof), capped at 75 % until the package passes its checks and is accepted.",
+ "next": "Freeze the full-range flower statement layergardenFlower_v4 (branch in preparation); T-vine core API (L1); first counting results (L6).",
+ "risks": [
+  "kernel cost of the T-vine checker at 13 atoms (benchmark under way)",
+  "account quota (the work is spread over 5 accounts)",
+  "new mathematics may need local repairs once formalized"
+ ],
+ "groups": [
+  {
+   "id": "paper",
+   "name": "Mathematics on paper",
+   "what": "the repair for γ ≤ 1/2, proved and checked by independent referees",
+   "packets": [
+    {
+     "id": "RESEARCH",
+     "name": "T-vines, the ghost step, the counting and flower re-checks (notes N1–N3, M1–M4)",
+     "w": 20,
+     "status": "done",
+     "note": "all refereed (R191)",
+     "lines": 0,
+     "lines_compiled": 0,
+     "credit": 1.0
+    }
+   ]
+  },
+  {
+   "id": "stmt",
+   "name": "Statements",
+   "what": "the new full-range flower statement: audited, then frozen",
+   "packets": [
+    {
+     "id": "AUDIT-V4",
+     "name": "independent audit of layergardenFlower_v4",
+     "w": 1,
+     "status": "done",
+     "note": "fidelity PASS, 0 extra hypotheses",
+     "lines": 0,
+     "lines_compiled": 0,
+     "credit": 1.0
+    },
+    {
+     "id": "FREEZE-V4",
+     "name": "freeze layergardenFlower_v4, pin the T-vine text",
+     "w": 1,
+     "status": "running",
+     "done": 0.3,
+     "note": "branch in preparation",
+     "lines": 0,
+     "lines_compiled": 0,
+     "credit": 0.3
+    }
+   ]
+  },
+  {
+   "id": "tvine",
+   "name": "T-vine combinatorics",
+   "what": "the enlarged vine family: structure, a verified checker, parametrizations",
+   "packets": [
+    {
+     "id": "L1",
+     "name": "core API, rung surgery, gap criterion",
+     "w": 15,
+     "status": "running",
+     "dirs": [
+      "TVine/Core"
+     ],
+     "lines": 1112,
+     "lines_compiled": 675,
+     "credit": 0.045
+    },
+    {
+     "id": "L2",
+     "name": "verified checker for the small cases",
+     "w": 8,
+     "status": "running",
+     "dirs": [
+      "TVine/Checker"
+     ],
+     "lines": 1509,
+     "lines_compiled": 1471,
+     "credit": 0.184
+    },
+    {
+     "id": "L3",
+     "name": "structure theorems (pieces, sub-objects)",
+     "w": 16,
+     "status": "running",
+     "dirs": [
+      "TVine/Struct"
+     ],
+     "lines": 322,
+     "lines_compiled": 322,
+     "credit": 0.02
+    },
+    {
+     "id": "L4",
+     "name": "charts (parametrizations) of all T-vines",
+     "w": 11.5,
+     "status": "running",
+     "dirs": [
+      "TVine/Chart"
+     ],
+     "lines": 1368,
+     "lines_compiled": 0,
+     "credit": 0.0
+    }
+   ]
+  },
+  {
+   "id": "count",
+   "name": "Counting estimates for γ ≤ 1/2",
+   "what": "DH23 Props 9.4–9.6 and 10.4 in the low range, and the ghost step",
+   "packets": [
+    {
+     "id": "L6",
+     "name": "final count: gate, Prop 9.6, assembly",
+     "w": 18,
+     "status": "running",
+     "dirs": [
+      "GammaLow/FinalCount"
+     ],
+     "exclude": [
+      "GammaLow/FinalCount/Ghost",
+      "GammaLow/FinalCount/Count",
+      "GammaLow/FinalCount/Step1"
+     ],
+     "lines": 2849,
+     "lines_compiled": 1922,
+     "credit": 0.107
+    },
+    {
+     "id": "L6E",
+     "name": "the ghost step (erratum E20)",
+     "w": 4,
+     "status": "running",
+     "dirs": [
+      "GammaLow/FinalCount/Ghost"
+     ],
+     "lines": 1085,
+     "lines_compiled": 0,
+     "credit": 0.0
+    },
+    {
+     "id": "L6-COUNT",
+     "name": "volume counts and operations (App. A, Prop 10.4)",
+     "w": 5,
+     "status": "running",
+     "dirs": [
+      "GammaLow/FinalCount/Count"
+     ],
+     "lines": 1534,
+     "lines_compiled": 1534,
+     "credit": 0.307
+    },
+    {
+     "id": "L6-STEP1",
+     "name": "Step-1 deviation for T-vines",
+     "w": 3,
+     "status": "running",
+     "dirs": [
+      "GammaLow/FinalCount/Step1"
+     ],
+     "lines": 5583,
+     "lines_compiled": 0,
+     "credit": 0.0
+    }
+   ]
+  },
+  {
+   "id": "family",
+   "name": "Moving the proof to the enlarged vine family",
+   "what": "stage 1, the vine estimate and the source objects with T-vines",
+   "packets": [
+    {
+     "id": "L5a",
+     "name": "stage 1 and the class count",
+     "w": 8,
+     "status": "running",
+     "dirs": [
+      "GammaLow/Fama"
+     ],
+     "lines": 632,
+     "lines_compiled": 632,
+     "credit": 0.079
+    },
+    {
+     "id": "L5b",
+     "name": "the vine estimate for T-vines",
+     "w": 12,
+     "status": "running",
+     "dirs": [
+      "GammaLow/Famb"
+     ],
+     "lines": 0,
+     "lines_compiled": 0,
+     "credit": 0.0
+    },
+    {
+     "id": "L5c",
+     "name": "source objects, spliced count, subpro",
+     "w": 10,
+     "status": "running",
+     "dirs": [
+      "GammaLow/Famc"
+     ],
+     "lines": 440,
+     "lines_compiled": 440,
+     "credit": 0.044
+    }
+   ]
+  },
+  {
+   "id": "flower",
+   "name": "Flower estimate for γ ≤ 1/2",
+   "what": "the marked stage 1 and the marked final count in the low range",
+   "packets": [
+    {
+     "id": "L8",
+     "name": "flower estimate, low half",
+     "w": 30,
+     "status": "running",
+     "dirs": [
+      "GammaLow/Flower"
+     ],
+     "lines": 379,
+     "lines_compiled": 0,
+     "credit": 0.0
+    }
+   ]
+  },
+  {
+   "id": "asm",
+   "name": "Assembly",
+   "what": "joining the two halves γ ≤ 1/2 and γ > 1/2",
+   "packets": [
+    {
+     "id": "L0",
+     "name": "glue lemmas",
+     "w": 1,
+     "status": "queued",
+     "dirs": [
+      "GammaLow/Glue"
+     ],
+     "lines": 0,
+     "lines_compiled": 0,
+     "credit": 0.0
+    },
+    {
+     "id": "L7",
+     "name": "layergarden, low half",
+     "w": 2,
+     "status": "queued",
+     "dirs": [
+      "GammaLow/LGLow"
+     ],
+     "lines": 0,
+     "lines_compiled": 0,
+     "credit": 0.0
+    }
+   ]
+  },
+  {
+   "id": "seal",
+   "name": "Landing, sealing and audits",
+   "what": "land on main; seal main, propansatz, fixedpoint, layergarden and the flower statement; two independent audits each",
+   "packets": [
+    {
+     "id": "L9",
+     "name": "landing, seals, two-key audits",
+     "w": 6,
+     "status": "queued",
+     "lines": 0,
+     "lines_compiled": 0,
+     "credit": 0.0
+    }
+   ]
+  }
+ ]
+}

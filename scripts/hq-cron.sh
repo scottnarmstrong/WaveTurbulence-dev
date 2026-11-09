@@ -5,5 +5,5 @@ cd /home/scott/WaveTurbulence-dev || exit 1
 exec 9>/home/scott/wt-tools/main.lock; flock -w 600 9 || exit 0
 [ -z "$(git status --porcelain --untracked-files=no)" ] || exit 0
 python3 -I scripts/update_readme.py >/dev/null 2>&1 || exit 1
-git add README.md docs/campaign/history.csv docs/campaign/flower.json docs/campaign/flower-history.csv
+git add README.md docs/campaign/history.csv docs/campaign/flower.json docs/campaign/flower-history.csv docs/campaign/gammalow.json docs/campaign/gammalow-history.csv
 git diff --cached --quiet || { git commit -qm "HQ auto-update (progress meter)"; git push -q origin main; }

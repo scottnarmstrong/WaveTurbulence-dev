@@ -56,7 +56,7 @@ nonlinearity is set by an exponent γ ∈ (0, 1).
   `fixedpoint_v2`, `layergarden_v2`, and the "flower estimate" `layergardenFlower_v3`). All are sealed and audited.
 - **In progress:**
   - the range 0 < γ ≤ 1/2: the Lean formalization of the repair, started on 2026-11-09
-    ([plan and status](docs/GAMMA-LE-HALF.md));
+    ([plan and status](docs/GAMMA-LE-HALF.md); [progress meter](#progress-on-0--γ--12));
   - removing code that the final proof does not use (the code base grew large while alternative routes were
     explored). A first pass removed about 48,000 lines; the rest waits until the γ ≤ 1/2 work is done, since that
     work reuses part of the code;
@@ -74,6 +74,58 @@ DRAFT_IMPORT_VIOLATIONS: 0
 SEALED: 21 theorems (incl. main_v2, PROVED with two-key audits) + 300 definitions
 ```
 </details>
+
+## Progress on 0 < γ ≤ 1/2
+
+<!-- AUTO:gammalow -->
+### The γ ≤ 1/2 campaign: **16.5 %**
+
+`█████░░░░░░░░░░░░░░░░░░░░░░░░░` 16.5 % · 2 of 18 work packages done, 13 running, 3 not started · **6,996 lines of new Lean compiling** (16,813 written) in the γ ≤ 1/2 work area, not yet on main · ledger updated 2026-11-09 11:05 UTC
+
+This meter tracks the extension of the formal proof of Theorem 1.1 from 1/2 < γ < 1 to the full range 0 < γ < 1 (see [docs/GAMMA-LE-HALF.md](docs/GAMMA-LE-HALF.md)). Weights are the estimated size of each work package (thousands of new Lean lines; non-Lean steps get an equivalent weight). A finished package counts fully. A running package counts in proportion to the Lean it has written that compiles in the work area (part of it adapted from the existing proof), capped at 75 % until the package passes its checks and is accepted.
+
+- **Next:** Freeze the full-range flower statement layergardenFlower_v4 (branch in preparation); T-vine core API (L1); first counting results (L6).
+- **Risks:** kernel cost of the T-vine checker at 13 atoms (benchmark under way); account quota (the work is spread over 5 accounts); new mathematics may need local repairs once formalized
+
+| Stage | What it does | Packages | Done | Completion |
+|---|---|---|---|---|
+| Mathematics on paper | the repair for γ ≤ 1/2, proved and checked by independent referees | 1 | 1 | `██████████` 100 % |
+| Statements | the new full-range flower statement: audited, then frozen | 2 | 1 | `██████░░░░` 65 % |
+| T-vine combinatorics | the enlarged vine family: structure, a verified checker, parametrizations | 4 | 0 | `░░░░░░░░░░` 5 % |
+| Counting estimates for γ ≤ 1/2 | DH23 Props 9.4–9.6 and 10.4 in the low range, and the ghost step | 4 | 0 | `█░░░░░░░░░` 12 % |
+| Moving the proof to the enlarged vine family | stage 1, the vine estimate and the source objects with T-vines | 3 | 0 | `░░░░░░░░░░` 4 % |
+| Flower estimate for γ ≤ 1/2 | the marked stage 1 and the marked final count in the low range | 1 | 0 | `░░░░░░░░░░` 0 % |
+| Assembly | joining the two halves γ ≤ 1/2 and γ > 1/2 | 2 | 0 | `░░░░░░░░░░` 0 % |
+| Landing, sealing and audits | land on main; seal main, propansatz, fixedpoint, layergarden and the flower statement; two independent audits each | 1 | 0 | `░░░░░░░░░░` 0 % |
+| **Total** | | 18 | 2 | **16.5 %** |
+
+<details><summary>All work packages</summary>
+
+| Stage | Package | Content | Weight | Lean lines (compiling / written) | Status | Credit | Note |
+|---|---|---|---|---|---|---|---|
+| Mathematics on paper | RESEARCH | T-vines, the ghost step, the counting and flower re-checks (notes N1–N3, M1–M4) | 20 | — | ✅ done | 100 % | all refereed (R191) |
+| Statements | AUDIT-V4 | independent audit of layergardenFlower_v4 | 1 | — | ✅ done | 100 % | fidelity PASS, 0 extra hypotheses |
+| Statements | FREEZE-V4 | freeze layergardenFlower_v4, pin the T-vine text | 1 | — | 🔄 running | 30 % | branch in preparation |
+| T-vine combinatorics | L1 | core API, rung surgery, gap criterion | 15 | 675 / 1,112 | 🔄 running | 4 % |  |
+| T-vine combinatorics | L2 | verified checker for the small cases | 8 | 1,471 / 1,509 | 🔄 running | 18 % |  |
+| T-vine combinatorics | L3 | structure theorems (pieces, sub-objects) | 16 | 322 / 322 | 🔄 running | 2 % |  |
+| T-vine combinatorics | L4 | charts (parametrizations) of all T-vines | 11.5 | 0 / 1,368 | 🔄 running | 0 % |  |
+| Counting estimates for γ ≤ 1/2 | L6 | final count: gate, Prop 9.6, assembly | 18 | 1,922 / 2,849 | 🔄 running | 11 % |  |
+| Counting estimates for γ ≤ 1/2 | L6E | the ghost step (erratum E20) | 4 | 0 / 1,085 | 🔄 running | 0 % |  |
+| Counting estimates for γ ≤ 1/2 | L6-COUNT | volume counts and operations (App. A, Prop 10.4) | 5 | 1,534 / 1,534 | 🔄 running | 31 % |  |
+| Counting estimates for γ ≤ 1/2 | L6-STEP1 | Step-1 deviation for T-vines | 3 | 0 / 5,583 | 🔄 running | 0 % |  |
+| Moving the proof to the enlarged vine family | L5a | stage 1 and the class count | 8 | 632 / 632 | 🔄 running | 8 % |  |
+| Moving the proof to the enlarged vine family | L5b | the vine estimate for T-vines | 12 | 0 / 0 | 🔄 running | 0 % |  |
+| Moving the proof to the enlarged vine family | L5c | source objects, spliced count, subpro | 10 | 440 / 440 | 🔄 running | 4 % |  |
+| Flower estimate for γ ≤ 1/2 | L8 | flower estimate, low half | 30 | 0 / 379 | 🔄 running | 0 % |  |
+| Assembly | L0 | glue lemmas | 1 | 0 / 0 | ⬜ queued | 0 % |  |
+| Assembly | L7 | layergarden, low half | 2 | 0 / 0 | ⬜ queued | 0 % |  |
+| Landing, sealing and audits | L9 | landing, seals, two-key audits | 6 | — | ⬜ queued | 0 % |  |
+
+</details>
+
+Source: [`docs/campaign/gammalow.json`](docs/campaign/gammalow.json); history: [`docs/campaign/gammalow-history.csv`](docs/campaign/gammalow-history.csv).
+<!-- /AUTO:gammalow -->
 
 ## Progress
 
