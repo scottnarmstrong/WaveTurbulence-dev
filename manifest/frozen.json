@@ -542,7 +542,7 @@
           "sha256": "d651332e8c2f769aa6d708f09ddcf0c3aa2df29905723b89bb1fc026fc4069c9"
         }
       ],
-      "state": "DRAFT_SORRY",
+      "state": "SEALED",
       "prefix_sha256": "fdb8acf38409984d9fa8347df988ef4f35df30b653f2bf940a2aaf243a6a7dc3",
       "suffix_sha256": "9f48199048606af986e4911abed0172f6e65c9c8c91f1c2874961ad85a7ea8d0",
       "draft_allowlist": {

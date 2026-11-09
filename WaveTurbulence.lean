@@ -2541,6 +2541,7 @@ public import WaveTurbulence.Frozen.Theorems.Layergarden
 public import WaveTurbulence.Frozen.Theorems.LayergardenFlowerV3
 public import WaveTurbulence.Frozen.Theorems.LayergardenFlowerV4
 public import WaveTurbulence.Frozen.Theorems.LayergardenV2
+public import WaveTurbulence.Frozen.Theorems.Main
 public import WaveTurbulence.Frozen.Theorems.MainV2
 public import WaveTurbulence.Frozen.Theorems.NlsAkBridge
 public import WaveTurbulence.Frozen.Theorems.Propansatz
