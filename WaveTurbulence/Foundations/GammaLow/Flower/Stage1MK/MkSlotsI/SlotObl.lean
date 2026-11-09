@@ -5,6 +5,7 @@ public import WaveTurbulence.Foundations.GammaLow.Flower.Carrier.Defs
 public import WaveTurbulence.Foundations.GammaLow.Flower.Stage1MK.Inputs
 public import WaveTurbulence.Foundations.GammaLow.Flower.Stage1MK.MkSlotsI.Discharge
 public import WaveTurbulence.Foundations.Flower.MkSlotsI.SlotObl
+public import WaveTurbulence.Foundations.GammaLow.Fama.P.Supp.VinePlainA4Supp
 public import WaveTurbulence.Foundations.GammaLow.Fama.P.Vine.A.VinePrescribedPoints
 public import WaveTurbulence.Foundations.GammaLow.Flower.Stage1MK.MkSlots.Ready2
 public import WaveTurbulence.Foundations.GammaLow.Flower.Stage1MK.P2
@@ -116,7 +117,7 @@ open WaveTurbulence.GammaLow.FinalCount
 variable {γF : ℝ} [Fact (γF ≤ 1 / 2)]
 variable {w d : ℕ}
 
-/-- The leaf factor of a slot: `b⁻¹ · slotLeaf` on a cap pair (the anchored pair has no profile), `slotLeaf` else. -/
+/-- The leaf factor of a slot: `b⁻¹ · slotLeaf` on a cap pair (the anchored pair has no Fama.VineA.PrescribedPrimeGarden.profile γF), `slotLeaf` else. -/
 def genLeafLow {R : ℕ} (a : Fama.VineA.PrescribedPrimeGarden γF (2 * R)) (J : Finset (Fin (2 * R))) (b : ℝ) :
     ReplacementSlot a.prime.skeleton → ℝ
   | .inl q => (if IsCapPair a.prime.skeleton a.prime.prime.1 J q then b⁻¹ else 1) *

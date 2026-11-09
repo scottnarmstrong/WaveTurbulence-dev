@@ -2,6 +2,7 @@
 module
 
 public import WaveTurbulence.Foundations.GammaLow.Flower.Carrier.Defs
+public import WaveTurbulence.Foundations.GammaLow.Flower.Stage1MK.Bridge
 public import WaveTurbulence.Foundations.GammaLow.Flower.Carrier.Gates
 public import WaveTurbulence.Foundations.GammaLow.Flower.Stage1MK.Inputs
 public import WaveTurbulence.Foundations.GammaLow.Flower.Stage1MK.P1
@@ -18,20 +19,24 @@ public import WaveTurbulence.Foundations.Flower.MkMark.CountBound
 public import WaveTurbulence.Foundations.Flower.MkMark.SigmaGroup
 public import WaveTurbulence.Foundations.Flower.MkMarkX.Defs
 public import WaveTurbulence.Foundations.Flower.MkMarkX.Transport
+public import WaveTurbulence.Foundations.GammaLow.Fama.Coll.Basic
 public import WaveTurbulence.Foundations.GammaLow.Fama.Coll.Collection
 public import WaveTurbulence.Foundations.GammaLow.Fama.Inputs
 public import WaveTurbulence.Foundations.GammaLow.Fama.P.Stage1.Shared.S1VInvEquiv
 public import WaveTurbulence.Foundations.GammaLow.Fama.P.Stage1.Shared.S1VInvGood
 public import WaveTurbulence.Foundations.GammaLow.Fama.P.Stage1.Shared.S1VInvIng
+public import WaveTurbulence.Foundations.GammaLow.Fama.P.Supp.VineNormalizedRepSelSupp
 public import WaveTurbulence.Foundations.GammaLow.Fama.P.Vine.A.VineFamily
 public import WaveTurbulence.Foundations.GammaLow.Fama.P.Vine.A.VineMarkFn
 public import WaveTurbulence.Foundations.GammaLow.Fama.P.Vine.A.VineMarkTransport
 public import WaveTurbulence.Foundations.GammaLow.Fama.P.Vine.A.VineNormalizedRedSpliceDesig
+public import WaveTurbulence.Foundations.GammaLow.Fama.P.Vine.A.VineNormalizedRepSel
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.HVC
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Spine
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.UnitBlocks
 public import WaveTurbulence.Foundations.GammaLow.Fama.Vine.IsoStmt
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.Src.Objects
+public import WaveTurbulence.Foundations.TVine.Struct.Drawn.VCMember
 
 /-! # FLOWER-LOW (packet L8), item I (wave 3): the marking functions over `𝒱_γ`
 
@@ -73,7 +78,7 @@ variable {w : ℕ}
 
 /-- Fine marking (`Π`, with selected seeds) and coarse marking (`Π₀`). -/
 def markILow (J : Finset (Fin w)) (pat : Fin w → FixPat) (t s : ℝ) (kSel : Fin w → Option ℕ) : Fama.Stage1Mk.MarkFn γF w :=
-  fun {LG} A => markedVinesRawLow A.skeleton A.data.tree (protI LG J pat t s kSel)
+  fun {LG} A => markedVinesRawLow (γF := γF) A.skeleton A.data.tree (protI LG J pat t s kSel)
 
 end
 
@@ -87,7 +92,7 @@ variable {γF : ℝ} [Fact (γF ≤ 1 / 2)] [Fact Fama.TVineF1Input] [Fact Fama.
 variable {w : ℕ}
 
 def markI0Low (J : Finset (Fin w)) (pat : Fin w → FixPat) (t s : ℝ) : Fama.Stage1Mk.MarkFn γF w :=
-  fun {LG} A => markedVinesRawLow A.skeleton A.data.tree (protI0 LG J pat t s)
+  fun {LG} A => markedVinesRawLow (γF := γF) A.skeleton A.data.tree (protI0 LG J pat t s)
 
 end
 
@@ -102,7 +107,7 @@ variable {w : ℕ}
 
 theorem mem_markedVinesRawLow {S : Garden w} (X : GBranch S.tree → RegChain) {T : Fin w → TTree}
     (Pi : Finset (GNode T)) (c : Fama.CLVineG γF S) :
-    c ∈ markedVinesRawLow S X Pi ↔ c ∈ Fama.vinesVG γF S ∧ ∃ b ∈ c.atoms, b ≠ c.upper ∧ MarkedBranch S X Pi b := Iff.rfl
+    c ∈ markedVinesRawLow (γF := γF) S X Pi ↔ c ∈ Fama.vinesVG γF S ∧ ∃ b ∈ c.atoms, b ≠ c.upper ∧ MarkedBranch S X Pi b := Iff.rfl
 
 end
 
@@ -122,8 +127,8 @@ theorem mark_stepLow (ε : Bool) {LG LG' : LayeredGarden w} (hd : D.Decodes hS L
     (hd' : (lfReconstructionChoice S Z.P hS D ε X Q hX hQ).Decodes (chosenSkeleton_plain S Z.P hS ε) LG'.garden)
     {J : Finset (Fin w)} {pat : Fin w → FixPat} (t s : ℝ)
     (hn : ∀ a ∈ protI0 LG J pat t s, a.1 ∉ nearRegion S D.tree Z.P.lower) :
-    Fama.Stage1Mk.MarkTransported γF (VineA.chosenMolIso S Z.P ε) (markedVinesRawLow S D.tree (protI0 LG J pat t s))
-      (markedVinesRawLow (chosenSkeleton S Z.P ε) (lfReconstructionChoice S Z.P hS D ε X Q hX hQ).tree
+    Fama.Stage1Mk.MarkTransported γF (VineA.chosenMolIso S Z.P ε) (markedVinesRawLow (γF := γF) S D.tree (protI0 LG J pat t s))
+      (markedVinesRawLow (γF := γF) (chosenSkeleton S Z.P ε) (lfReconstructionChoice S Z.P hS D ε X Q hX hQ).tree
         (protI0 LG' J pat t s)) := by
   have hsame := pair_retained_tree' Z.P Z.hB Z.hCL Z.hP
   have hp := noProt_of_near hS Z.P D hd t s hn
@@ -257,7 +262,7 @@ variable (J : Finset (Fin w)) (pat : Fin w → FixPat) (t s : ℝ)
 
 /-- The coarse marked set of a family reconstruction. -/
 def MV0Low {ι : Type*} (A : FamilyReconstruction w ι) : Set (Fama.CLVineG γF A.skeleton) :=
-  markedVinesRawLow A.skeleton A.data.tree (protI0 A.layered J pat t s)
+  markedVinesRawLow (γF := γF) A.skeleton A.data.tree (protI0 A.layered J pat t s)
 
 end
 
@@ -273,7 +278,7 @@ variable (J : Finset (Fin w)) (pat : Fin w → FixPat) (t s : ℝ)
 
 /-- Every family member is an unmarked vine of `𝒱`. -/
 def FamHypLow {ι : Type*} (A : FamilyReconstruction w ι) : Prop :=
-  ∀ i, ∃ c ∈ Fama.vinesVG γF A.skeleton, c.atoms = A.family.atoms i ∧ c ∉ MV0Low J pat t s A
+  ∀ i, ∃ c ∈ Fama.vinesVG γF A.skeleton, c.atoms = A.family.atoms i ∧ c ∉ MV0Low (γF := γF) J pat t s A
 
 end
 
@@ -288,7 +293,7 @@ variable {w : ℕ}
 variable (J : Finset (Fin w)) (pat : Fin w → FixPat) (t s : ℝ)
 
 theorem near_unmarkedLow {ι : Type*} (A : FamilyReconstruction w ι) (i : ι) (c : Fama.CLVineG γF A.skeleton)
-    (hc : c ∈ Fama.vinesVG γF A.skeleton) (he : c.atoms = A.family.atoms i) (hm : c ∉ MV0Low J pat t s A) :
+    (hc : c ∈ Fama.vinesVG γF A.skeleton) (he : c.atoms = A.family.atoms i) (hm : c ∉ MV0Low (γF := γF) J pat t s A) :
     ∀ a ∈ protI0 A.layered J pat t s, a.1 ∉ nearRegion A.skeleton A.data.tree (A.family.placement i).lower := by
   intro a ha hnear
   apply hm
@@ -344,7 +349,7 @@ variable (J : Finset (Fin w)) (pat : Fin w → FixPat) (t s : ℝ) (kSel : Fin w
 
 /-- The fine marked set of a family reconstruction. -/
 def MVILow {ι : Type*} (A : FamilyReconstruction w ι) : Set (Fama.CLVineG γF A.skeleton) :=
-  markedVinesRawLow A.skeleton A.data.tree (protI A.layered J pat t s kSel)
+  markedVinesRawLow (γF := γF) A.skeleton A.data.tree (protI A.layered J pat t s kSel)
 
 end
 
@@ -360,7 +365,7 @@ variable (J : Finset (Fin w)) (pat : Fin w → FixPat) (t s : ℝ) (kSel : Fin w
 
 /-- Every family member is a vine of `𝒱` unmarked for `Π`. -/
 def FamHypILow {ι : Type*} (A : FamilyReconstruction w ι) : Prop :=
-  ∀ i, ∃ c ∈ Fama.vinesVG γF A.skeleton, c.atoms = A.family.atoms i ∧ c ∉ MVILow J pat t s kSel A
+  ∀ i, ∃ c ∈ Fama.vinesVG γF A.skeleton, c.atoms = A.family.atoms i ∧ c ∉ MVILow (γF := γF) J pat t s kSel A
 
 end
 
@@ -375,7 +380,7 @@ variable {w : ℕ}
 variable (J : Finset (Fin w)) (pat : Fin w → FixPat) (t s : ℝ) (kSel : Fin w → Option ℕ)
 
 theorem near_unmarkedILow {ι : Type*} (A : FamilyReconstruction w ι) (i : ι) (c : Fama.CLVineG γF A.skeleton)
-    (hc : c ∈ Fama.vinesVG γF A.skeleton) (he : c.atoms = A.family.atoms i) (hm : c ∉ MVILow J pat t s kSel A) :
+    (hc : c ∈ Fama.vinesVG γF A.skeleton) (he : c.atoms = A.family.atoms i) (hm : c ∉ MVILow (γF := γF) J pat t s kSel A) :
     ∀ a ∈ protI A.layered J pat t s kSel, a.1 ∉ nearRegion A.skeleton A.data.tree (A.family.placement i).lower := by
   intro a ha hnear
   apply hm
@@ -533,6 +538,27 @@ end
 
 section
 open WaveTurbulence.Flower
+open WaveTurbulence.Flower.MkMark
+open scoped Classical
+open WaveTurbulence WaveTurbulence.Stage1 WaveTurbulence.LGSpine.SourceVine
+open WaveTurbulence.GammaLow.FinalCount
+variable {γF : ℝ} [Fact (γF ≤ 1 / 2)] [Fact Fama.TVineF1Input] [Fact Fama.VinechainlemPrimeInput] [Fact Fama.TVineIsoInvariant]
+variable {w : ℕ} {G : Garden w}
+
+/-- The designated object of a group of `𝒞` has the group's gap kind. -/
+theorem designated_hasGapKindLow {d : ℕ} (L γ η : ℝ) (base : Mom d) (κ : GardenDart G → (Fin d → ℤ))
+    {S : Finset (GBranch G.tree)} (hS : S ∈ Fama.maximalGroupsG γF G.molecule) :
+    ∃ a O, Fama.VineA.NormalizedSplice.IsDesig γF G S a O ∧
+      O.HasGapKind L γ η base κ (Fama.VineA.NormalizedSplice.groupGapKind γF G L γ η base κ S) := by
+  obtain ⟨a, O, -, hO, hdes⟩ := Fama.VineA.NormalizedSplice.designatedObject_spec hS
+  obtain ⟨k, hk⟩ := represents_exists_hasGapKindLow O L γ η base κ
+  have he := Fama.VineA.NormalizedSplice.groupGapKind_eq L γ η base κ hO hk
+  exact ⟨a, O, hdes, he ▸ hk⟩
+
+end
+
+section
+open WaveTurbulence.Flower
 open WaveTurbulence.Flower.MkMarkX
 open scoped Classical
 open WaveTurbulence WaveTurbulence.Flower.MkDefs WaveTurbulence.Flower.MkMark WaveTurbulence.Stage1
@@ -555,9 +581,9 @@ open WaveTurbulence.GammaLow.FinalCount
 variable {γF : ℝ} [Fact (γF ≤ 1 / 2)] [Fact Fama.TVineF1Input] [Fact Fama.VinechainlemPrimeInput] [Fact Fama.TVineIsoInvariant]
 variable {w : ℕ}
 
-/-- **The fine′ marking `mkF = markILow ∪ X`** (R177, F-B4-4 (b)). -/
+/-- **The fine′ marking `mkF = markILow (γF := γF) ∪ X`** (R177, F-B4-4 (b)). -/
 def markIXLow (J : Finset (Fin w)) (pat : Fin w → FixPat) (t s : ℝ) (kSel : Fin w → Option ℕ) : Fama.Stage1Mk.MarkFn γF w :=
-  fun A => markILow J pat t s kSel A ∪ markXLow J A
+  fun A => markILow (γF := γF) J pat t s kSel A ∪ markXLow (γF := γF) J A
 
 end
 
@@ -572,7 +598,7 @@ variable {w : ℕ}
 
 theorem mem_markX_iffLow (J : Finset (Fin w)) {LG : LayeredGarden w} (A : VineA.PrimeData LG)
     (c : Fama.CLVineG γF A.skeleton) :
-    c ∈ markXLow J A ↔ c ∈ Fama.vinesVG γF A.skeleton ∧ ¬ StemCleanAt J A c.atoms c.upper := Iff.rfl
+    c ∈ markXLow (γF := γF) J A ↔ c ∈ Fama.vinesVG γF A.skeleton ∧ ¬ StemCleanAt J A c.atoms c.upper := Iff.rfl
 
 end
 

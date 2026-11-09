@@ -3,10 +3,9 @@ module
 
 public import WaveTurbulence.Foundations.GammaLow.Flower.Carrier.Defs
 public import WaveTurbulence.Foundations.GammaLow.Flower.Stage1MK.Inputs
+public import WaveTurbulence.Foundations.GammaLow.Flower.Stage1MK.MkSlotsO.Discharge
 public import WaveTurbulence.Foundations.Flower.MkSlotsO.Obl
-public import WaveTurbulence.Foundations.GammaLow.Fama.Inputs
 public import WaveTurbulence.Foundations.GammaLow.Fama.P.Vine.A.VinePrescribedPoints
-public import WaveTurbulence.Foundations.GammaLow.Fama.Vine.IsoStmt
 
 /-! # FLOWER-LOW (packet L8, item I-SLOTSO, file Pred): the slot predicates over `𝒱_γ`
 
@@ -34,7 +33,7 @@ open WaveTurbulence.Flower.Stage1MKGate
 open WaveTurbulence.Flower.MkSlots (anchProfiles capNodeW recLG IsCapPair capTreeOf stA fixCore)
 open WaveTurbulence.Flower.MkSlotsI
 open WaveTurbulence.GammaLow.FinalCount
-variable {γF : ℝ} [Fact (γF ≤ 1 / 2)] [Fact Fama.TVineF1Input] [Fact Fama.VinechainlemPrimeInput] [Fact Fama.TVineIsoInvariant]
+variable {γF : ℝ} [Fact (γF ≤ 1 / 2)]
 
 /-- A predicate on the slots of a prescribed point (with its cap trees, pattern, times, selection and filters). -/
 abbrev SlotPredLow : Type :=
@@ -55,7 +54,7 @@ open WaveTurbulence.Flower.Stage1MKGate
 open WaveTurbulence.Flower.MkSlots (anchProfiles capNodeW recLG IsCapPair capTreeOf stA fixCore)
 open WaveTurbulence.Flower.MkSlotsI
 open WaveTurbulence.GammaLow.FinalCount
-variable {γF : ℝ} [Fact (γF ≤ 1 / 2)] [Fact Fama.TVineF1Input] [Fact Fama.VinechainlemPrimeInput] [Fact Fama.TVineIsoInvariant]
+variable {γF : ℝ} [Fact (γF ≤ 1 / 2)]
 
 /-- A cap pair. -/
 def IsCapSlotLow : SlotPredLow := fun a J _ _ _ _ _ sl =>
@@ -75,7 +74,7 @@ open WaveTurbulence.Flower.Stage1MKGate
 open WaveTurbulence.Flower.MkSlots (anchProfiles capNodeW recLG IsCapPair capTreeOf stA fixCore)
 open WaveTurbulence.Flower.MkSlotsI
 open WaveTurbulence.GammaLow.FinalCount
-variable {γF : ℝ} [Fact (γF ≤ 1 / 2)] [Fact Fama.TVineF1Input] [Fact Fama.VinechainlemPrimeInput] [Fact Fama.TVineIsoInvariant]
+variable {γF : ℝ} [Fact (γF ≤ 1 / 2)]
 
 /-- A leaf pair that is not a cap pair. -/
 def IsCplSlotLow : SlotPredLow := fun a J _ _ _ _ _ sl =>

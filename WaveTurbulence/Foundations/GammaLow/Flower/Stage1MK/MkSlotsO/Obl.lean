@@ -3,10 +3,9 @@ module
 
 public import WaveTurbulence.Foundations.GammaLow.Flower.Carrier.Defs
 public import WaveTurbulence.Foundations.GammaLow.Flower.Stage1MK.Inputs
+public import WaveTurbulence.Foundations.GammaLow.Flower.Stage1MK.MkSlotsO.Discharge
 public import WaveTurbulence.Foundations.Flower.MkSlotsO.Obl
-public import WaveTurbulence.Foundations.GammaLow.Fama.Inputs
 public import WaveTurbulence.Foundations.GammaLow.Fama.P.Vine.A.VinePrescribedPoints
-public import WaveTurbulence.Foundations.GammaLow.Fama.Vine.IsoStmt
 public import WaveTurbulence.Foundations.GammaLow.Flower.Stage1MK.MkSlotsI.SlotObl
 public import WaveTurbulence.Foundations.GammaLow.Flower.Stage1MK.P2
 
@@ -36,7 +35,7 @@ open WaveTurbulence.Flower.Stage1MKGate
 open WaveTurbulence.Flower.MkSlots (anchProfiles capNodeW recLG IsCapPair capTreeOf stA fixCore)
 open WaveTurbulence.Flower.MkSlotsI
 open WaveTurbulence.GammaLow.FinalCount
-variable {γF : ℝ} [Fact (γF ≤ 1 / 2)] [Fact Fama.TVineF1Input] [Fact Fama.VinechainlemPrimeInput] [Fact Fama.TVineIsoInvariant]
+variable {γF : ℝ} [Fact (γF ≤ 1 / 2)]
 
 /-- **The conclusion for one slot `sl` and one centre `x`** (the body of `GenSlotObligationAtLow`). -/
 def SlotConclLow (P : WTParams) [Fact (P.γ ≤ 1 / 2)] (C : ℝ) (Kg : ℕ → ℝ → ℝ) {R p : ℕ} (a : Fama.VineA.PrescribedPrimeGarden P.γ (2 * R))
@@ -77,7 +76,7 @@ open WaveTurbulence.Flower.Stage1MKGate
 open WaveTurbulence.Flower.MkSlots (anchProfiles capNodeW recLG IsCapPair capTreeOf stA fixCore)
 open WaveTurbulence.Flower.MkSlotsI
 open WaveTurbulence.GammaLow.FinalCount
-variable {γF : ℝ} [Fact (γF ≤ 1 / 2)] [Fact Fama.TVineF1Input] [Fact Fama.VinechainlemPrimeInput] [Fact Fama.TVineIsoInvariant]
+variable {γF : ℝ} [Fact (γF ≤ 1 / 2)]
 
 /-- **One slot family at one moment weight `θ`** with `θ`-moment mass `≤ μ`: the structural part of `SlotConclLow`
 (SlotFam-compatible amplitudes, localization on leaf pairs, the HasSum at the consumed lattice momenta on the box). -/
@@ -114,7 +113,7 @@ open WaveTurbulence.Flower.Stage1MKGate
 open WaveTurbulence.Flower.MkSlots (anchProfiles capNodeW recLG IsCapPair capTreeOf stA fixCore)
 open WaveTurbulence.Flower.MkSlotsI
 open WaveTurbulence.GammaLow.FinalCount
-variable {γF : ℝ} [Fact (γF ≤ 1 / 2)] [Fact Fama.TVineF1Input] [Fact Fama.VinechainlemPrimeInput] [Fact Fama.TVineIsoInvariant]
+variable {γF : ℝ} [Fact (γF ≤ 1 / 2)]
 
 /-- **One slot family on the cut box** (`TopCutLow`, SlotObl rev 5): `SlotFam1Low` with the HasSum asked only at the
 times where every pinned native top sits below its clock. -/
@@ -151,7 +150,7 @@ open WaveTurbulence.Flower.Stage1MKGate
 open WaveTurbulence.Flower.MkSlots (anchProfiles capNodeW recLG IsCapPair capTreeOf stA fixCore)
 open WaveTurbulence.Flower.MkSlotsI
 open WaveTurbulence.GammaLow.FinalCount
-variable {γF : ℝ} [Fact (γF ≤ 1 / 2)] [Fact Fama.TVineF1Input] [Fact Fama.VinechainlemPrimeInput] [Fact Fama.TVineIsoInvariant]
+variable {γF : ℝ} [Fact (γF ≤ 1 / 2)]
 
 /-- A family on the whole box is a family on the cut box. -/
 theorem SlotFam1Low.toC {P : WTParams} [Fact (P.γ ≤ 1 / 2)] {R p : ℕ} {a : Fama.VineA.PrescribedPrimeGarden P.γ (2 * R)}
@@ -178,7 +177,7 @@ open WaveTurbulence.Flower.Stage1MKGate
 open WaveTurbulence.Flower.MkSlots (anchProfiles capNodeW recLG IsCapPair capTreeOf stA fixCore)
 open WaveTurbulence.Flower.MkSlotsI
 open WaveTurbulence.GammaLow.FinalCount
-variable {γF : ℝ} [Fact (γF ≤ 1 / 2)] [Fact Fama.TVineF1Input] [Fact Fama.VinechainlemPrimeInput] [Fact Fama.TVineIsoInvariant]
+variable {γF : ℝ} [Fact (γF ≤ 1 / 2)]
 
 /-- **The conclusion from one cut-box family at the slot's weight** (rev 5). -/
 theorem slotConcl_of_fam1CLow (P : WTParams) [Fact (P.γ ≤ 1 / 2)] (C : ℝ) (Kg : ℕ → ℝ → ℝ) {R p : ℕ} (a : Fama.VineA.PrescribedPrimeGarden P.γ (2 * R))
@@ -213,7 +212,7 @@ open WaveTurbulence.Flower.Stage1MKGate
 open WaveTurbulence.Flower.MkSlots (anchProfiles capNodeW recLG IsCapPair capTreeOf stA fixCore)
 open WaveTurbulence.Flower.MkSlotsI
 open WaveTurbulence.GammaLow.FinalCount
-variable {γF : ℝ} [Fact (γF ≤ 1 / 2)] [Fact Fama.TVineF1Input] [Fact Fama.VinechainlemPrimeInput] [Fact Fama.TVineIsoInvariant]
+variable {γF : ℝ} [Fact (γF ≤ 1 / 2)]
 
 /-- **The conclusion from one family at the slot's weight**: `θ = η` off `SelAdj`, `θ = 1/4` with the loss
 `L^{47d+2}` on `SelAdj` (SlotObl rev 4). -/
@@ -246,7 +245,7 @@ open WaveTurbulence.Flower.Stage1MKGate
 open WaveTurbulence.Flower.MkSlots (anchProfiles capNodeW recLG IsCapPair capTreeOf stA fixCore)
 open WaveTurbulence.Flower.MkSlotsI
 open WaveTurbulence.GammaLow.FinalCount
-variable {γF : ℝ} [Fact (γF ≤ 1 / 2)] [Fact Fama.TVineF1Input] [Fact Fama.VinechainlemPrimeInput] [Fact Fama.TVineIsoInvariant]
+variable {γF : ℝ} [Fact (γF ≤ 1 / 2)]
 
 /-- The slot mass is nonnegative (`C ≥ 0`, `δ ≥ 0`, `L > 0`, `b ≥ 1`, `Rs > 0`). -/
 theorem genSlotMass_nonnegLow (P : WTParams) [Fact (P.γ ≤ 1 / 2)] {C b : ℝ} (hC : 0 ≤ C) (hb : 1 ≤ b) (hL : 0 < P.L) {R : ℕ}
@@ -286,7 +285,7 @@ open WaveTurbulence.Flower.Stage1MKGate
 open WaveTurbulence.Flower.MkSlots (anchProfiles capNodeW recLG IsCapPair capTreeOf stA fixCore)
 open WaveTurbulence.Flower.MkSlotsI
 open WaveTurbulence.GammaLow.FinalCount
-variable {γF : ℝ} [Fact (γF ≤ 1 / 2)] [Fact Fama.TVineF1Input] [Fact Fama.VinechainlemPrimeInput] [Fact Fama.TVineIsoInvariant]
+variable {γF : ℝ} [Fact (γF ≤ 1 / 2)]
 
 /-- A conclusion with a smaller constant gives the conclusion with a larger one. -/
 theorem slotConcl_monoLow (P : WTParams) [Fact (P.γ ≤ 1 / 2)] {C : ℝ} {Kg Kg' : ℕ → ℝ → ℝ} (hK : Kg P.d P.η ≤ Kg' P.d P.η) {R p : ℕ}

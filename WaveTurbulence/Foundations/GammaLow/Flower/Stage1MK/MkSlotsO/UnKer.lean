@@ -3,10 +3,9 @@ module
 
 public import WaveTurbulence.Foundations.GammaLow.Flower.Carrier.Defs
 public import WaveTurbulence.Foundations.GammaLow.Flower.Stage1MK.Inputs
+public import WaveTurbulence.Foundations.GammaLow.Flower.Stage1MK.MkSlotsO.Discharge
 public import WaveTurbulence.Foundations.Flower.MkSlotsO.UnKer
-public import WaveTurbulence.Foundations.GammaLow.Fama.Inputs
 public import WaveTurbulence.Foundations.GammaLow.Fama.P.Vine.A.VinePrescribedPoints
-public import WaveTurbulence.Foundations.GammaLow.Fama.Vine.IsoStmt
 public import WaveTurbulence.Foundations.GammaLow.Flower.Stage1MK.MkSlots.Ready2
 public import WaveTurbulence.Foundations.GammaLow.Flower.Stage1MK.MkSlotsO.Split
 
@@ -34,7 +33,7 @@ open WaveTurbulence.Flower.MkDefs
 open WaveTurbulence.Flower.MkSlotsI
 open WaveTurbulence.VineA
 open WaveTurbulence.GammaLow.FinalCount
-variable {γF : ℝ} [Fact (γF ≤ 1 / 2)] [Fact Fama.TVineF1Input] [Fact Fama.VinechainlemPrimeInput] [Fact Fama.TVineIsoInvariant]
+variable {γF : ℝ} [Fact (γF ≤ 1 / 2)]
 variable {w d : ℕ}
 
 /-- `¬ HasPinNativeLow`: no native branch of the slot is pinned. -/

@@ -581,7 +581,10 @@ theorem UStepRC.hstep {M₀ : Molecule V D₀} {C : FinalCount.H.CollData M₀} 
 
 /-- **C1a target 1: the re-cut deviation** (o75 75-F2 "bound for the re-cut step"; `Ex1D` with `UStepRC`). The RHS is
 main's D1 RHS `excessRHS2 L γ η [] 1 2 = L^{γ₀+η²-η³} ≥ L^{γ₀+2η³}` (o75's bound). Proof route: `ex1D_uniform`'s, from
-the class-free count `Step1.prop94_vine_newcomp`. -/
+the class-free count `Step1.prop94_vine_newcomp`.
+L8-H2 (low family, L6's convention as H's `Ex1A`/`Ex1N`/`Ex1D`): the single-vine premise is the family form
+`Step1.SingleVineVCGamma K` (main: the charted `SingleVineVC`); the count site converts it with
+`Step1.singleVineVC_of_gamma TVine.Chart.tvineChartExists_holds hMol K` (Theorem C), as H's `GL15`/`AsmEx1ULow`. -/
 def Ex1RC (L γ η δ C₁ : ℝ) (w : Mom d) (M₀ : Molecule V D₀) (C : FinalCount.H.CollData M₀) (P : Finset V → ℝ) (CD ν : ℝ) : Prop :=
   (∀ S, 0 ≤ P S) → LadderHered M₀ P → M₀.IsMolecule →
   ∀ (Adm0 : (D₀ → (Fin d → ℤ)) → Prop), (∃ k0, Adm0 k0) → (∀ k0, Adm0 k0 → SourceLadderGaps M₀ L w P k0) →
@@ -589,7 +592,7 @@ def Ex1RC (L γ η δ C₁ : ℝ) (w : Mom d) (M₀ : Molecule V D₀) (C : Fina
     ∀ {h h' : HSt V D₀}, UStepRC C L γ η w Adm0 h h' → LCtx M₀ h.s → AtomRelU Adm0 L w h → h.s.M.IsMolecule →
       (∀ x, h.s.M.atom x ≠ h.s.M.atom (h.s.M.mate x)) → (h.s.M.atoms.card : ℝ) ≤ ν →
       ∃ (K : Step1.VineCut Src.γL h.s.M), h' = h.vinePostGL K ∧
-        ((Step1.SingleVineVC K ∨ Nonempty (Step1.DoubleShape K)) →
+        ((Step1.SingleVineVCGamma K ∨ Nonempty (Step1.DoubleShape K)) →
         (Nonempty (Step1.DoubleShape K) →
           ∃ G : Finset h.s.D, (∀ z ∈ ({K.x₁, K.x₂, K.y₁, K.y₂} : Finset h.s.D), z ∈ G) ∧ FinalCount.H.VineOutsideConn K G) →
           IsDeviation (h.s.M.countA L γ δ C₁ w (AdmS Adm0 h.s) P) (h'.s.M.countA L γ δ C₁ w (AdmS Adm0 h'.s) P)
@@ -699,8 +702,11 @@ def CollectedF (C : CollDataMK M₀) (Un : Set (Src.Object Src.γL M₀)) (L γ 
 /-- Main's `CollData.UnselOK` on the forbidden pool. -/
 structure CollDataMK.UnselOKF (C : CollDataMK M₀) (L γ η : ℝ) (w : Mom d) (κ : D₀ → (Fin d → ℤ))
     (Unsel : Set (Src.Object Src.γL M₀)) : Prop where
+  /-- L8-H2 (low family, ruling D11): the double vine is the low `DV′` pair (`σ = 1` and two members of `𝒱_γL`), as
+  in L6's `H.CollData.UnselOK.dv` (`G3VineLG1`); main states main's drawn type-(V) pair. -/
   dv : ∀ B ∈ Unsel, C.InPF L γ η w κ B ∧ ((∃ U ∈ C.C2CanF L γ η w κ Unsel, B.atoms ⊆ U.atoms) ∨
-    ∃ A a b, M₀.IsVine .V A a b ∧ M₀.IsVine .V B.atoms a b ∧ A ∩ B.atoms = {a, b} ∧
+    ∃ A a b, M₀.sigma a b = 1 ∧ Src.IsSomeVine Src.γL M₀ A a b ∧ Src.IsSomeVine Src.γL M₀ B.atoms a b ∧
+    A ∩ B.atoms = {a, b} ∧
     ∃ U ∈ C.C2CanF L γ η w κ Unsel, U.atoms = A ∧ ∃ h, U.shape = Src.VineLikeObject.vc h)
 
 /-- Main's `PieceData` with `CollectedF`. -/

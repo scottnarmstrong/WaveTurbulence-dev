@@ -3,10 +3,9 @@ module
 
 public import WaveTurbulence.Foundations.GammaLow.Flower.Carrier.Defs
 public import WaveTurbulence.Foundations.GammaLow.Flower.Stage1MK.Inputs
+public import WaveTurbulence.Foundations.GammaLow.Flower.Stage1MK.MkSlotsO.Discharge
 public import WaveTurbulence.Foundations.Flower.MkSlotsO.Split
-public import WaveTurbulence.Foundations.GammaLow.Fama.Inputs
 public import WaveTurbulence.Foundations.GammaLow.Fama.P.Vine.A.VinePrescribedPoints
-public import WaveTurbulence.Foundations.GammaLow.Fama.Vine.IsoStmt
 public import WaveTurbulence.Foundations.GammaLow.Flower.Stage1MK.MkSlots.Ready2
 public import WaveTurbulence.Foundations.GammaLow.Flower.Stage1MK.MkSlotsO.Pred
 public import WaveTurbulence.Foundations.GammaLow.Flower.Stage1MK.P2
@@ -37,7 +36,7 @@ open WaveTurbulence.Flower.MkSlots (recLG IsCapPair fixNative)
 open WaveTurbulence.Flower.MkDefs (OnCapStem)
 open WaveTurbulence.Flower.MkSlotsI
 open WaveTurbulence.GammaLow.FinalCount
-variable {γF : ℝ} [Fact (γF ≤ 1 / 2)] [Fact Fama.TVineF1Input] [Fact Fama.VinechainlemPrimeInput] [Fact Fama.TVineIsoInvariant]
+variable {γF : ℝ} [Fact (γF ≤ 1 / 2)]
 
 /-- The slot has a native branch pinned by the intrinsic pins `fixCap … pat` (the pins of `genSlotKerLow`). -/
 def HasPinNativeLow : SlotPredLow := fun a J pat t s _ _ sl =>
@@ -58,7 +57,7 @@ open WaveTurbulence.Flower.MkSlots (recLG IsCapPair fixNative)
 open WaveTurbulence.Flower.MkDefs (OnCapStem)
 open WaveTurbulence.Flower.MkSlotsI
 open WaveTurbulence.GammaLow.FinalCount
-variable {γF : ℝ} [Fact (γF ≤ 1 / 2)] [Fact Fama.TVineF1Input] [Fact Fama.VinechainlemPrimeInput] [Fact Fama.TVineIsoInvariant]
+variable {γF : ℝ} [Fact (γF ≤ 1 / 2)]
 
 /-- The slot has a selected vertex as a non-core native node (δ's `MkSlotsS.HasSelNative`). -/
 def HasSelNatLow : SlotPredLow := fun a J _ _ _ kSel _ sl =>
@@ -78,7 +77,7 @@ open WaveTurbulence.Flower.MkSlots (recLG IsCapPair fixNative)
 open WaveTurbulence.Flower.MkDefs (OnCapStem)
 open WaveTurbulence.Flower.MkSlotsI
 open WaveTurbulence.GammaLow.FinalCount
-variable {γF : ℝ} [Fact (γF ≤ 1 / 2)] [Fact Fama.TVineF1Input] [Fact Fama.VinechainlemPrimeInput] [Fact Fama.TVineIsoInvariant]
+variable {γF : ℝ} [Fact (γF ≤ 1 / 2)]
 
 /-- Not a cap pair, no pinned native branch, no selected native vertex. -/
 def IsUnpinSlotLow : SlotPredLow := fun a J pat t s kSel σ sl =>
@@ -98,7 +97,7 @@ open WaveTurbulence.Flower.MkSlots (recLG IsCapPair fixNative)
 open WaveTurbulence.Flower.MkDefs (OnCapStem)
 open WaveTurbulence.Flower.MkSlotsI
 open WaveTurbulence.GammaLow.FinalCount
-variable {γF : ℝ} [Fact (γF ≤ 1 / 2)] [Fact Fama.TVineF1Input] [Fact Fama.VinechainlemPrimeInput] [Fact Fama.TVineIsoInvariant]
+variable {γF : ℝ} [Fact (γF ≤ 1 / 2)]
 
 /-- A chain slot with a pinned native branch or a selected native vertex. -/
 def IsProtChainSlotLow : SlotPredLow := fun a J pat t s kSel σ sl =>
@@ -118,7 +117,7 @@ open WaveTurbulence.Flower.MkSlots (recLG IsCapPair fixNative)
 open WaveTurbulence.Flower.MkDefs (OnCapStem)
 open WaveTurbulence.Flower.MkSlotsI
 open WaveTurbulence.GammaLow.FinalCount
-variable {γF : ℝ} [Fact (γF ≤ 1 / 2)] [Fact Fama.TVineF1Input] [Fact Fama.VinechainlemPrimeInput] [Fact Fama.TVineIsoInvariant]
+variable {γF : ℝ} [Fact (γF ≤ 1 / 2)]
 
 /-- A non-cap leaf pair with a pinned native branch or a selected native vertex. -/
 def IsProtCplSlotLow : SlotPredLow := fun a J pat t s kSel σ sl =>
@@ -138,7 +137,7 @@ open WaveTurbulence.Flower.MkSlots (recLG IsCapPair fixNative)
 open WaveTurbulence.Flower.MkDefs (OnCapStem)
 open WaveTurbulence.Flower.MkSlotsI
 open WaveTurbulence.GammaLow.FinalCount
-variable {γF : ℝ} [Fact (γF ≤ 1 / 2)] [Fact Fama.TVineF1Input] [Fact Fama.VinechainlemPrimeInput] [Fact Fama.TVineIsoInvariant]
+variable {γF : ℝ} [Fact (γF ≤ 1 / 2)]
 
 /-- The slot has a non-core native node on a capped stem. -/
 def HasStemNativeLow : SlotPredLow := fun a J _ _ _ _ _ sl =>
@@ -162,7 +161,7 @@ open WaveTurbulence.Flower.MkSlots (recLG IsCapPair fixNative)
 open WaveTurbulence.Flower.MkDefs (OnCapStem)
 open WaveTurbulence.Flower.MkSlotsI
 open WaveTurbulence.GammaLow.FinalCount
-variable {γF : ℝ} [Fact (γF ≤ 1 / 2)] [Fact Fama.TVineF1Input] [Fact Fama.VinechainlemPrimeInput] [Fact Fama.TVineIsoInvariant]
+variable {γF : ℝ} [Fact (γF ≤ 1 / 2)]
 
 /-- **An off-stem root-trace chain slot**: a chain slot with a pinned native branch and no native stem node (the
 `dChild`-pinned root of a chain hanging at a core capped flower parent; delivered by HELPER3 from `RootTraceGate`). -/
@@ -183,7 +182,7 @@ open WaveTurbulence.Flower.MkSlots (recLG IsCapPair fixNative)
 open WaveTurbulence.Flower.MkDefs (OnCapStem)
 open WaveTurbulence.Flower.MkSlotsI
 open WaveTurbulence.GammaLow.FinalCount
-variable {γF : ℝ} [Fact (γF ≤ 1 / 2)] [Fact Fama.TVineF1Input] [Fact Fama.VinechainlemPrimeInput] [Fact Fama.TVineIsoInvariant]
+variable {γF : ℝ} [Fact (γF ≤ 1 / 2)]
 
 /-- **A stem-protected chain slot**: a protected chain slot that is not an off-stem root trace (`dRoot` root chains,
 `dParent` F-H3-3 chains, absorbed selections; D3 / D6). -/
@@ -204,7 +203,7 @@ open WaveTurbulence.Flower.MkSlots (recLG IsCapPair fixNative)
 open WaveTurbulence.Flower.MkDefs (OnCapStem)
 open WaveTurbulence.Flower.MkSlotsI
 open WaveTurbulence.GammaLow.FinalCount
-variable {γF : ℝ} [Fact (γF ≤ 1 / 2)] [Fact Fama.TVineF1Input] [Fact Fama.VinechainlemPrimeInput] [Fact Fama.TVineIsoInvariant]
+variable {γF : ℝ} [Fact (γF ≤ 1 / 2)]
 
 /-- The protected chain slots split into root traces and stem-protected ones. -/
 theorem protChain_splitLow {R : ℕ} (a : Fama.VineA.PrescribedPrimeGarden γF (2 * R)) (J : Finset (Fin (2 * R)))
@@ -229,7 +228,7 @@ open WaveTurbulence.Flower.MkSlots (recLG IsCapPair fixNative)
 open WaveTurbulence.Flower.MkDefs (OnCapStem)
 open WaveTurbulence.Flower.MkSlotsI
 open WaveTurbulence.GammaLow.FinalCount
-variable {γF : ℝ} [Fact (γF ≤ 1 / 2)] [Fact Fama.TVineF1Input] [Fact Fama.VinechainlemPrimeInput] [Fact Fama.TVineIsoInvariant]
+variable {γF : ℝ} [Fact (γF ≤ 1 / 2)]
 
 /-- The four work kinds cover every slot. -/
 theorem slot_splitLow {R : ℕ} (a : Fama.VineA.PrescribedPrimeGarden γF (2 * R)) (J : Finset (Fin (2 * R)))

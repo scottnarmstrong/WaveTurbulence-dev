@@ -3,10 +3,9 @@ module
 
 public import WaveTurbulence.Foundations.GammaLow.Flower.Carrier.Defs
 public import WaveTurbulence.Foundations.GammaLow.Flower.Stage1MK.Inputs
+public import WaveTurbulence.Foundations.GammaLow.Flower.Stage1MK.MkSlotsO.Discharge
 public import WaveTurbulence.Foundations.Flower.MkSlotsO.UnMass
-public import WaveTurbulence.Foundations.GammaLow.Fama.Inputs
 public import WaveTurbulence.Foundations.GammaLow.Fama.P.Vine.A.VinePrescribedPoints
-public import WaveTurbulence.Foundations.GammaLow.Fama.Vine.IsoStmt
 public import WaveTurbulence.Foundations.GammaLow.Flower.Stage1MK.MkSlotsI.SlotObl
 public import WaveTurbulence.Foundations.GammaLow.Flower.Stage1MK.MkSlotsO.Obl
 public import WaveTurbulence.Foundations.GammaLow.Flower.Stage1MK.P2
@@ -35,7 +34,7 @@ open WaveTurbulence.VineA WaveTurbulence.VineA.PrescribedPrimeGarden WaveTurbule
 open WaveTurbulence.Flower.MkDefs WaveTurbulence.Flower.Stage1W WaveTurbulence.Flower.Stage1WNoVine
 open WaveTurbulence.Flower.MkSlotsI
 open WaveTurbulence.GammaLow.FinalCount
-variable {γF : ℝ} [Fact (γF ≤ 1 / 2)] [Fact Fama.TVineF1Input] [Fact Fama.VinechainlemPrimeInput] [Fact Fama.TVineIsoInvariant]
+variable {γF : ℝ} [Fact (γF ≤ 1 / 2)]
 
 /-- A family with a smaller moment mass. -/
 theorem slotFam1_monoLow (P : WTParams) [Fact (P.γ ≤ 1 / 2)] {R p : ℕ} {a : Fama.VineA.PrescribedPrimeGarden P.γ (2 * R)}
@@ -60,7 +59,7 @@ open WaveTurbulence.VineA WaveTurbulence.VineA.PrescribedPrimeGarden WaveTurbule
 open WaveTurbulence.Flower.MkDefs WaveTurbulence.Flower.Stage1W WaveTurbulence.Flower.Stage1WNoVine
 open WaveTurbulence.Flower.MkSlotsI
 open WaveTurbulence.GammaLow.FinalCount
-variable {γF : ℝ} [Fact (γF ≤ 1 / 2)] [Fact Fama.TVineF1Input] [Fact Fama.VinechainlemPrimeInput] [Fact Fama.TVineIsoInvariant]
+variable {γF : ℝ} [Fact (γF ≤ 1 / 2)]
 
 /-- **Without selected native vertex the general slot mass dominates the B3 slot mass.** -/
 theorem genSlotMass_ge_baseLow (P : WTParams) [Fact (P.γ ≤ 1 / 2)] {C b : ℝ} (hC : 0 ≤ C) (hb : 1 ≤ b) (hL : 1 ≤ P.L) {R : ℕ}

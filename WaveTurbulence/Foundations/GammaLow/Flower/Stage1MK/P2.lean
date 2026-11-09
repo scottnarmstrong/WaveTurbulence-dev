@@ -46,6 +46,7 @@ public import WaveTurbulence.Foundations.GammaLow.Fama.P.Vine.A.VineNormalizedRe
 public import WaveTurbulence.Foundations.GammaLow.Fama.P.Vine.A.VineNormalizedRepSel
 public import WaveTurbulence.Foundations.GammaLow.Fama.P.Vine.A.VinePrescribedPoints
 public import WaveTurbulence.Foundations.GammaLow.Fama.P.Vine.A.VinePrescription
+public import WaveTurbulence.Foundations.GammaLow.Fama.P.Vine.A.VineUnitList
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Data
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Stage
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.UnitBlocks
@@ -166,7 +167,7 @@ open WaveTurbulence.GammaLow.FinalCount
 variable {γF : ℝ} [Fact (γF ≤ 1 / 2)] [Fact Fama.TVineF1Input] [Fact Fama.VinechainlemPrimeInput] [Fact Fama.TVineIsoInvariant]
 variable {w : ℕ} {G : Garden w}
 
-/-- B1b (Mk-general form of `unitBlocks_nodup`). -/
+/-- B1b (Mk-general form of `Fama.VineA.unitBlocks_nodup`). -/
 theorem unitBlocks_nodupMkLow (σ : Prescription G) {Mk : Set (Fama.CLVineG γF _)} : (Fama.unitBlocks γF (Mk := Mk) G σ).Nodup := by
   apply (Fama.unitBlocks_pairwiseMk (Mk := Mk) (Mole.garden_isMolecule G) σ).imp
   intro u v hd he

@@ -177,6 +177,7 @@ open WaveTurbulence.GammaLow.FinalCount
 variable {γF : ℝ} [Fact (γF ≤ 1 / 2)] [Fact Fama.TVineF1Input] [Fact Fama.VinechainlemPrimeInput] [Fact Fama.TVineIsoInvariant]
 variable {w : ℕ} {G : Garden w}
 variable (hM : G.molecule.IsMolecule) (σ : Prescription G) {Mk : Set (Fama.CLVineG γF G)}
+include hM
 
 theorem repC_eq_of_pi_eqLow {a a' : GBranch G.tree}
     (h : (Fama.stSt γF G σ Mk).M.pi (Fama.stSt γF G σ Mk).hcls a = (Fama.stSt γF G σ Mk).M.pi (Fama.stSt γF G σ Mk).hcls a') :
@@ -194,6 +195,7 @@ open WaveTurbulence.GammaLow.FinalCount
 variable {γF : ℝ} [Fact (γF ≤ 1 / 2)] [Fact Fama.TVineF1Input] [Fact Fama.VinechainlemPrimeInput] [Fact Fama.TVineIsoInvariant]
 variable {w : ℕ} {G : Garden w}
 variable (hM : G.molecule.IsMolecule) (σ : Prescription G) {Mk : Set (Fama.CLVineG γF G)}
+include hM
 
 /-- Every entry of `Fama.VineA.NormalizedSplice.gapSpecificationMk γF` belongs to a group: an unmarked group's designated atom or the upper joint of
 a survivor. -/
@@ -344,6 +346,7 @@ open WaveTurbulence.GammaLow.FinalCount
 variable {γF : ℝ} [Fact (γF ≤ 1 / 2)] [Fact Fama.TVineF1Input] [Fact Fama.VinechainlemPrimeInput] [Fact Fama.TVineIsoInvariant]
 variable {w : ℕ} {G : Garden w}
 variable (hM : G.molecule.IsMolecule) (σ : Prescription G) {Mk : Set (Fama.CLVineG γF G)}
+include hM
 
 /-- The atom of a lifted dart is the image of the atom of the original dart. -/
 theorem atom_liftLow {y : GardenDart (Fama.stSt γF G σ Mk).G} :
@@ -632,6 +635,7 @@ open WaveTurbulence.GammaLow.FinalCount
 variable {γF : ℝ} [Fact (γF ≤ 1 / 2)] [Fact Fama.TVineF1Input] [Fact Fama.VinechainlemPrimeInput] [Fact Fama.TVineIsoInvariant]
 variable {w : ℕ} {G : Garden w}
 variable (hM : G.molecule.IsMolecule) (σ : Prescription G) {Mk : Set (Fama.CLVineG γF G)}
+include hM
 
 theorem card_tripleDartsMkLow {v c : GBranch (Fama.stSt γF G σ Mk).G.tree} (hvc : v ≠ c)
     (h3 : (Fama.stSt γF G σ Mk).G.molecule.bondsBetween v c = 3) : (tripleDartsMkLow G σ Mk v c).card = 3 := by

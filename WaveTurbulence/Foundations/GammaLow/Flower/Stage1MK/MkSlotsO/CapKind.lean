@@ -3,9 +3,8 @@ module
 
 public import WaveTurbulence.Foundations.GammaLow.Flower.Carrier.Defs
 public import WaveTurbulence.Foundations.GammaLow.Flower.Stage1MK.Inputs
+public import WaveTurbulence.Foundations.GammaLow.Flower.Stage1MK.MkSlotsO.Discharge
 public import WaveTurbulence.Foundations.Flower.MkSlotsO.CapKind
-public import WaveTurbulence.Foundations.GammaLow.Fama.Inputs
-public import WaveTurbulence.Foundations.GammaLow.Fama.Vine.IsoStmt
 public import WaveTurbulence.Foundations.GammaLow.Flower.Stage1MK.MkSlotsO.Pred
 public import WaveTurbulence.Foundations.GammaLow.Flower.Stage1MK.P2
 
@@ -34,7 +33,7 @@ open WaveTurbulence.VineA WaveTurbulence.VineA.PrescribedPrimeGarden WaveTurbule
 open WaveTurbulence.Flower.ProtDefs WaveTurbulence.Flower.ProtWhole
 open WaveTurbulence.Flower.MkDefs WaveTurbulence.Flower.MkSlots WaveTurbulence.Flower.MkSlotsI
 open WaveTurbulence.GammaLow.FinalCount
-variable {γF : ℝ} [Fact (γF ≤ 1 / 2)] [Fact Fama.TVineF1Input] [Fact Fama.VinechainlemPrimeInput] [Fact Fama.TVineIsoInvariant]
+variable {γF : ℝ} [Fact (γF ≤ 1 / 2)]
 
 /-- **The STOP configuration** of a cap slot: a nontrivial cap couple whose configuration pins the root while its
 chain clock is free (`CapK.CapPenFree`; `CapK.capPenFree_spec`: pattern `dParent`, `|X.lonePath| = 2`). -/
@@ -55,7 +54,7 @@ open WaveTurbulence.VineA WaveTurbulence.VineA.PrescribedPrimeGarden WaveTurbule
 open WaveTurbulence.Flower.ProtDefs WaveTurbulence.Flower.ProtWhole
 open WaveTurbulence.Flower.MkDefs WaveTurbulence.Flower.MkSlots WaveTurbulence.Flower.MkSlotsI
 open WaveTurbulence.GammaLow.FinalCount
-variable {γF : ℝ} [Fact (γF ≤ 1 / 2)] [Fact Fama.TVineF1Input] [Fact Fama.VinechainlemPrimeInput] [Fact Fama.TVineIsoInvariant]
+variable {γF : ℝ} [Fact (γF ≤ 1 / 2)]
 
 /-- A cap pair outside the STOP configuration. -/
 def IsCapOffSlotLow : SlotPredLow := fun a J pat t s kSel σ sl =>

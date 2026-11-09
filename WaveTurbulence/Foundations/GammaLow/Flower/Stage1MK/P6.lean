@@ -2,6 +2,7 @@
 module
 
 public import WaveTurbulence.Foundations.GammaLow.Flower.Carrier.Defs
+public import WaveTurbulence.Foundations.GammaLow.Flower.Stage1MK.Bridge
 public import WaveTurbulence.Foundations.GammaLow.Flower.Carrier.Gates
 public import WaveTurbulence.Foundations.GammaLow.Flower.Stage1MK.Inputs
 public import WaveTurbulence.Foundations.GammaLow.Flower.Stage1MK.P1
@@ -143,15 +144,15 @@ open WaveTurbulence.GammaLow.FinalCount
 variable {γF : ℝ} [Fact (γF ≤ 1 / 2)] [Fact Fama.TVineF1Input] [Fact Fama.VinechainlemPrimeInput] [Fact Fama.TVineIsoInvariant]
 variable {w : ℕ}
 
-/-- **The fine marking of Stage 1′** (F-B4-4 (b)), characterized: it contains `markILow` (`Π`-marked vines); for a
+/-- **The fine marking of Stage 1′** (F-B4-4 (b)), characterized: it contains `markILow (γF := γF)` (`Π`-marked vines); for a
 stem-dependent weight it contains every stem-unclean vine of `𝒱`; it contains nothing else; and every fine′ batch
 from every prescribed point carries it. -/
 structure FineMarkingLow (J : Finset (Fin w)) (pat : Fin w → FixPat) (t s : ℝ) (kSel σ : Fin w → Option ℕ)
     (mkF : Fama.Stage1Mk.MarkFn γF w) : Prop where
-  sub : ∀ {LG : LayeredGarden w} (B : PrimeData LG), markILow J pat t s kSel B ⊆ mkF B
+  sub : ∀ {LG : LayeredGarden w} (B : PrimeData LG), markILow (γF := γF) J pat t s kSel B ⊆ mkF B
   stem : StemDep σ kSel → ∀ {LG : LayeredGarden w} (B : PrimeData LG), ∀ c ∈ Fama.vinesVG γF B.skeleton,
     ¬ MkMark.StemCleanAt J B c.atoms c.upper → c ∈ mkF B
-  le : ∀ {LG : LayeredGarden w} (B : PrimeData LG), ∀ c ∈ mkF B, c ∈ markILow J pat t s kSel B ∨
+  le : ∀ {LG : LayeredGarden w} (B : PrimeData LG), ∀ c ∈ mkF B, c ∈ markILow (γF := γF) J pat t s kSel B ∨
     (StemDep σ kSel ∧ c ∈ Fama.vinesVG γF B.skeleton ∧ ¬ MkMark.StemCleanAt J B c.atoms c.upper)
   fine : ∀ a : Fama.VineA.PrescribedPrimeGarden γF w, a.FineTransportedAt γF mkF
 
@@ -169,7 +170,7 @@ open WaveTurbulence.GammaLow.FinalCount
 variable {γF : ℝ} [Fact (γF ≤ 1 / 2)] [Fact Fama.TVineF1Input] [Fact Fama.VinechainlemPrimeInput] [Fact Fama.TVineIsoInvariant]
 variable {w : ℕ}
 
-/-- **The value of a fine′ class**: the `kernelKgenSel` sum (coset base `0`) over the coarse′ class (`markI0Low`) of the
+/-- **The value of a fine′ class**: the `kernelKgenSel` sum (coset base `0`) over the coarse′ class (`markI0Low (γF := P.γ)`) of the
 class, restricted to the decorations selected by the class (`Fama.Represents.selPMk P.γ` at the fine marking). -/
 def classValueLow (P : WTParams) [Fact (P.γ ≤ 1 / 2)] {R : ℕ} (p : ℕ) (J : Finset (Fin (2 * R))) (pat : Fin (2 * R) → FixPat)
     (kSel : Fin (2 * R) → Option ℕ) (t s : ℝ) (A : Finset (LayeredGarden (2 * R)))
@@ -177,7 +178,7 @@ def classValueLow (P : WTParams) [Fact (P.γ ≤ 1 / 2)] {R : ℕ} (p : ℕ) (J 
     (Rf : Fin (2 * R) → Option ℝ) (σ : Fin (2 * R) → Option ℕ) (Rs : Fin (2 * R) → ℝ)
     (dag : Option (Fin (2 * R) → Fin 3 → Mom P.d)) (mkF : Fama.Stage1Mk.MarkFn P.γ (2 * R))
     (π : Fama.Represents.PcA P.γ R p (objKind (2 * R)) A mkF) : ℂ :=
-  ∑ LG ∈ Fama.Represents.membersP P.γ (Fama.Represents.clsPMk P.γ (markI0Low J pat t s) π),
+  ∑ LG ∈ Fama.Represents.membersP P.γ (Fama.Represents.clsPMk P.γ (markI0Low (γF := P.γ) J pat t s) π),
     kernelKgenSel P.L P.γ P.δ LG (fixCap LG J pat t s) (offCap LG J dag.isSome)
       (markedWt P J p kSel h Rf σ Rs dag LG) (fun _ => t) 0 roots
       (Fama.Represents.selPMk P.γ p (objKind (2 * R)) A P 0 roots mkF π LG)
@@ -467,7 +468,7 @@ variable {w : ℕ}
 /-- **The fine′ marking of Stage 1′.** -/
 def fineMkLow (J : Finset (Fin w)) (pat : Fin w → FixPat) (t s : ℝ) (kSel σ : Fin w → Option ℕ) :
     Fama.Stage1Mk.MarkFn γF w :=
-  fun {_} B => if StemDep σ kSel then markIXLow J pat t s kSel B else markILow J pat t s kSel B
+  fun {_} B => if StemDep σ kSel then markIXLow (γF := γF) J pat t s kSel B else markILow (γF := γF) J pat t s kSel B
 
 end
 
@@ -483,7 +484,7 @@ open WaveTurbulence.GammaLow.FinalCount
 variable {γF : ℝ} [Fact (γF ≤ 1 / 2)] [Fact Fama.TVineF1Input] [Fact Fama.VinechainlemPrimeInput] [Fact Fama.TVineIsoInvariant]
 variable {w : ℕ}
 
-/-- **Zero classes vanish**: under the gate's hypotheses, the class value of a fine′ class (at `fineMkLow`) of a
+/-- **Zero classes vanish**: under the gate's hypotheses, the class value of a fine′ class (at `fineMkLow (γF := P.γ)`) of a
 stem-dependent weight that contains a stem-unclean point is `0` (FL-SEP). -/
 def ZeroVanishLow (P : WTParams) [Fact (P.γ ≤ 1 / 2)] : Prop :=
   ∀ p, p < P.D → ∀ R, 1 ≤ R → R ≤ 10 * P.R (p + 1) → ∀ N, 1 ≤ N → N ≤ P.N (p + 1) ^ 4 →
@@ -498,10 +499,10 @@ def ZeroVanishLow (P : WTParams) [Fact (P.γ ≤ 1 / 2)] : Prop :=
     (∀ j r, Rf j = some r → P.L / 2 ≤ r) →
     (((∃ i, σ i ≠ none) ∨ ∃ i, kSel i ≠ none) → ∀ j, j ∉ J → ∃ r, Rf j = some r ∧
       (∀ j' x, ‖x‖ ≥ r → h p j j' x = 0 ∧ h p j' j x = 0) ∧ r ^ 10 ≤ ‖latticePoint P.L (roots j)‖) →
-  ∀ π : Fama.Represents.PcA P.γ R p (objKind (2 * R)) A (fineMkLow J pat t s kSel σ), StemDep σ kSel →
+  ∀ π : Fama.Represents.PcA P.γ R p (objKind (2 * R)) A (fineMkLow (γF := P.γ) J pat t s kSel σ), StemDep σ kSel →
     (∃ a : Fama.VineA.PrescribedPrimeGarden P.γ (2 * R),
-      Fama.VineA.PrescribedPrimeGarden.Related P.γ (p := p) (kind := objKind (2 * R)) (Fama.Represents.repPt P.γ π) a (fineMkLow J pat t s kSel σ) ∧ ¬ CleanPtLow J a) →
-    classValueLow P p J pat kSel t s A roots h Rf σ Rs dag (fineMkLow J pat t s kSel σ) π = 0
+      Fama.VineA.PrescribedPrimeGarden.Related P.γ (p := p) (kind := objKind (2 * R)) (Fama.Represents.repPt P.γ π) a (fineMkLow (γF := P.γ) J pat t s kSel σ) ∧ ¬ CleanPtLow J a) →
+    classValueLow P p J pat kSel t s A roots h Rf σ Rs dag (fineMkLow (γF := P.γ) J pat t s kSel σ) π = 0
 
 end
 
@@ -574,7 +575,7 @@ variable (J : Finset (Fin w)) (pat : Fin w → FixPat) (t s : ℝ) (kSel σf : F
 
 /-- A stem-unclean point: some vine of `𝒱₀(σ)` has its active set on the capped stem. -/
 theorem not_cleanPt_iffLow (a : Fama.VineA.PrescribedPrimeGarden γF w) :
-    ¬ CleanPtLow J a ↔ ∃ c ∈ Fama.vinesV0 γF a.prime.skeleton a.totalSigma, c ∈ markXLow J a.prime := by
+    ¬ CleanPtLow J a ↔ ∃ c ∈ Fama.vinesV0 γF a.prime.skeleton a.totalSigma, c ∈ markXLow (γF := γF) J a.prime := by
   simp only [CleanPtLow, not_forall, exists_prop, mem_markX_iffLow]
   exact ⟨fun ⟨c, hc, hn⟩ => ⟨c, hc, (Fama.mem_vinesV0.mp hc).1.1, hn⟩, fun ⟨c, hc, _, hn⟩ => ⟨c, hc, hn⟩⟩
 

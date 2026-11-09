@@ -3,10 +3,9 @@ module
 
 public import WaveTurbulence.Foundations.GammaLow.Flower.Carrier.Defs
 public import WaveTurbulence.Foundations.GammaLow.Flower.Stage1MK.Inputs
+public import WaveTurbulence.Foundations.GammaLow.Flower.Stage1MK.MkSlotsO.Discharge
 public import WaveTurbulence.Foundations.Flower.MkSlotsO.UnBox
-public import WaveTurbulence.Foundations.GammaLow.Fama.Inputs
 public import WaveTurbulence.Foundations.GammaLow.Fama.P.Vine.A.VinePrescribedPoints
-public import WaveTurbulence.Foundations.GammaLow.Fama.Vine.IsoStmt
 public import WaveTurbulence.Foundations.GammaLow.Flower.Stage1MK.MkSlots.Ready2
 public import WaveTurbulence.Foundations.GammaLow.Flower.Stage1MK.MkSlotsI.SlotObl
 public import WaveTurbulence.Foundations.GammaLow.Flower.Stage1MK.P2
@@ -34,7 +33,7 @@ open WaveTurbulence.Reg WaveTurbulence.Reg.Skeleton WaveTurbulence.RegRed WaveTu
 open WaveTurbulence.VineA WaveTurbulence.VineA.PrescribedPrimeGarden WaveTurbulence.VineAlign
 open WaveTurbulence.Flower.MkDefs WaveTurbulence.Flower.MkSlotsI
 open WaveTurbulence.GammaLow.FinalCount
-variable {γF : ℝ} [Fact (γF ≤ 1 / 2)] [Fact Fama.TVineF1Input] [Fact Fama.VinechainlemPrimeInput] [Fact Fama.TVineIsoInvariant]
+variable {γF : ℝ} [Fact (γF ≤ 1 / 2)]
 variable {R : ℕ} (a : Fama.VineA.PrescribedPrimeGarden γF (2 * R)) (J : Finset (Fin (2 * R))) (pat : Fin (2 * R) → FixPat)
   (t s : ℝ) (p : ℕ)
 
@@ -54,7 +53,7 @@ open WaveTurbulence.Reg WaveTurbulence.Reg.Skeleton WaveTurbulence.RegRed WaveTu
 open WaveTurbulence.VineA WaveTurbulence.VineA.PrescribedPrimeGarden WaveTurbulence.VineAlign
 open WaveTurbulence.Flower.MkDefs WaveTurbulence.Flower.MkSlotsI
 open WaveTurbulence.GammaLow.FinalCount
-variable {γF : ℝ} [Fact (γF ≤ 1 / 2)] [Fact Fama.TVineF1Input] [Fact Fama.VinechainlemPrimeInput] [Fact Fama.TVineIsoInvariant]
+variable {γF : ℝ} [Fact (γF ≤ 1 / 2)]
 variable {R : ℕ} (a : Fama.VineA.PrescribedPrimeGarden γF (2 * R)) (J : Finset (Fin (2 * R))) (pat : Fin (2 * R) → FixPat)
   (t s : ℝ) (p : ℕ)
 
@@ -84,7 +83,7 @@ open WaveTurbulence.Reg WaveTurbulence.Reg.Skeleton WaveTurbulence.RegRed WaveTu
 open WaveTurbulence.VineA WaveTurbulence.VineA.PrescribedPrimeGarden WaveTurbulence.VineAlign
 open WaveTurbulence.Flower.MkDefs WaveTurbulence.Flower.MkSlotsI
 open WaveTurbulence.GammaLow.FinalCount
-variable {γF : ℝ} [Fact (γF ≤ 1 / 2)] [Fact Fama.TVineF1Input] [Fact Fama.VinechainlemPrimeInput] [Fact Fama.TVineIsoInvariant]
+variable {γF : ℝ} [Fact (γF ≤ 1 / 2)]
 variable {R : ℕ} (a : Fama.VineA.PrescribedPrimeGarden γF (2 * R)) (J : Finset (Fin (2 * R))) (pat : Fin (2 * R) → FixPat)
   (t s : ℝ) (p : ℕ)
 
@@ -118,7 +117,7 @@ open WaveTurbulence.Reg WaveTurbulence.Reg.Skeleton WaveTurbulence.RegRed WaveTu
 open WaveTurbulence.VineA WaveTurbulence.VineA.PrescribedPrimeGarden WaveTurbulence.VineAlign
 open WaveTurbulence.Flower.MkDefs WaveTurbulence.Flower.MkSlotsI
 open WaveTurbulence.GammaLow.FinalCount
-variable {γF : ℝ} [Fact (γF ≤ 1 / 2)] [Fact Fama.TVineF1Input] [Fact Fama.VinechainlemPrimeInput] [Fact Fama.TVineIsoInvariant]
+variable {γF : ℝ} [Fact (γF ≤ 1 / 2)]
 variable {R : ℕ} (a : Fama.VineA.PrescribedPrimeGarden γF (2 * R)) (J : Finset (Fin (2 * R))) (pat : Fin (2 * R) → FixPat)
   (t s : ℝ) (p : ℕ)
 
