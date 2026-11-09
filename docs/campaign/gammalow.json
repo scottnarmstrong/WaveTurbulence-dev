@@ -1,8 +1,8 @@
 {
  "title": "The γ ≤ 1/2 campaign",
- "updated": "2026-11-09 18:58 UTC",
+ "updated": "2026-11-09 19:12 UTC",
  "convention": "Weights are the estimated size of each work package (thousands of new Lean lines; non-Lean steps get an equivalent weight). A finished package counts fully once it passes its checks and an independent re-run of its audit. A running package counts by the orchestrator's estimate at its last checkpoint (what is proved against what remains); before its first checkpoint it counts by the Lean it has compiled, capped at 75 %. Line counts alone overstate progress, because several packages first port large amounts of the existing proof.",
- "next": "End-to-end: Theorem 1.1 for all 0 < γ < 1 now follows (checked in Lean) from exactly two remaining pieces, the stage-1 gate (L5a, closing) and the marked stage 1 (last module group). Then landing, sealing and two-key audits.",
+ "next": "The layergarden statement for the full range is proved (in the work area). Everything else (flower v4, fixedpoint, propansatz, main) now waits on ONE remaining piece: the marked stage 1 of the flower estimate (its last module group). Then landing, sealing and two-key audits.",
  "risks": [
   "account quota (weekly limits",
   " claude-1 carries most packages)",
@@ -202,15 +202,14 @@
      "id": "L5a",
      "name": "stage 1 and the class count",
      "w": 8,
-     "status": "running",
+     "status": "done",
      "dirs": [
       "GammaLow/Fama"
      ],
-     "note": "gate, pieces, normalized pieces and the stage-1 assembly proved; waits on the class count (L5c) and the vine case (helper L5a-G)",
-     "done": 0.85,
+     "note": "the γ ≤ 1/2 stage-1 gate proved unconditionally (verified by wt-orch); final area audit pending",
      "lines": 59105,
      "lines_compiled": 59105,
-     "credit": 0.85
+     "credit": 1.0
     },
     {
      "id": "L5b",
@@ -255,8 +254,8 @@
      ],
      "note": "marked count (H2) PROVED unconditionally, with the marked ghost cover; final count gate discharged; marked stage 1 nearly complete (I-SLOTS, I-SLOTSO, I-SLOTSB, I-VEW done; I-UNITS 34/35; I-SLOTSI and the base tail in progress)",
      "done": 0.75,
-     "lines": 89914,
-     "lines_compiled": 81357,
+     "lines": 88244,
+     "lines_compiled": 76754,
      "credit": 0.75
     }
    ]
