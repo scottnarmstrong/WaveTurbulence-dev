@@ -20,7 +20,7 @@ together with the results it relies on from the authors' earlier papers and from
   `Classical.choice`, `Quot.sound`).
 - 🚧 **The range 0 < γ ≤ 1/2 is not finished.** There, the printed proof relies on a counting proposition (DH23
   Prop 9.6) that is false in that range. This is a gap in the proof, not a counterexample to the theorem. A repair is
-  under way, and one research step is still open. **→ [docs/GAMMA-LE-HALF.md](docs/GAMMA-LE-HALF.md)** explains
+  now complete on paper and independently refereed; its Lean formalization is next. **→ [docs/GAMMA-LE-HALF.md](docs/GAMMA-LE-HALF.md)** explains
   the problem and the plan.
 - 📄 **Errata and deviations.** Formalizing a long proof surfaces mistakes and gaps. Every defect we found in the
   published arguments, and every way our formal statements differ from the printed ones, is recorded with evidence

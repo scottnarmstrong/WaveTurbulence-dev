@@ -23,7 +23,7 @@ DH21, DH23 and GIT20 are the papers listed under "Pinned sources" below, and L-n
    closed by a new, refereed argument, and the main theorem is now formally proved in Lean for 1/2 < γ < 1 (`main_v2`,
    sealed and two-key audited, 2026-11-09). For γ ≤ 1/2 a repair route (splicing the neutral T-type blocks as an
    enlarged vine family) has passed three independent referee rounds but is not formalized. One step of the counting
-   run (E20) was open there; a proposed resolution is under independent refereeing (2026-11-09). Plain-language
+   run (E20) was open there; it is now resolved for all 0 < γ < 1 and refereed (2026-11-09). Plain-language
    overview and plan: [GAMMA-LE-HALF.md](GAMMA-LE-HALF.md).
 2. **The flower estimate (TARGET Prop `flowerest1`, L2279–L2305).** Its printed proof is a list of seven
    adjustments to the proof of `layergarden`. A complete proof also needs: a layered fixed-time estimate in place of
