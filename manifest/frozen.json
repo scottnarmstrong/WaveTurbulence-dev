@@ -31785,7 +31785,7 @@
         "mode": "NOT_SPLIT",
         "ruling_ref": "docs/DECISIONS.md#D16"
       },
-      "abi_sha256": "585a8d7c0aeb65d744a34f5565cb4e627b349a7705384c6c3c40c42e23fa0a7e",
+      "abi_sha256": "e1a20b63605ff3c7637ad6010925f192254e2a620e7f3bb1295767ca925e7beb",
       "definition_closure": [
         {
           "path": "WaveTurbulence/Frozen/Defs/Chi0.lean",
