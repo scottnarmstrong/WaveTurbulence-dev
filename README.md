@@ -31,8 +31,34 @@ together with the results it relies on from the authors' earlier papers and from
 Wave turbulence theory predicts that, for a large system of weakly interacting waves, the distribution of energy
 across frequencies evolves according to an effective *wave kinetic equation*. Deng and Hani's Theorem 1.1 proves this
 rigorously for the cubic nonlinear Schrödinger equation on a large square torus in dimension d ≥ 3, with random
-initial data, on long time scales. The precise relation between the size of the torus and the strength of the
-nonlinearity is set by an exponent γ ∈ (0, 1).
+initial data, on long time scales.
+
+### The exponent γ, and the values that matter physically
+
+The theorem involves two limits at once: the side length L of the torus tends to infinity, and the strength α of the
+nonlinearity tends to zero. The exponent γ fixes how the two are linked: α = L^(−γ). The time scale on which the
+kinetic equation describes the waves, the *kinetic time*, is then T_kin = 1/(2α²) = L^(2γ)/2. For a given box size L,
+a smaller γ means a stronger nonlinearity and a shorter kinetic time.
+
+- **Why 0 < γ < 1.** The kinetic description needs the resonance frequencies of the waves to be spread out evenly
+  ("equidistributed") at the scale 1/T_kin. On the square torus these frequencies are multiples of 1/L², so they cannot
+  be equidistributed at finer scales; this rules out γ ≥ 1. At the other end, γ = 0 (letting L → ∞ before α → 0) is
+  not compatible with the continuum setting. Deng and Hani show that every γ in between is admissible, and that
+  different values of γ correspond to genuinely different physical and mathematical regimes (DH23, §1.2).
+- **γ = 1/2, the "ballistic" scaling law.** Here T_kin is of order L: the kinetic time equals the time a wave packet
+  needs to cross the box. Deng and Hani point out that this is the wave analogue of the Boltzmann–Grad scaling used in
+  Lanford's theorem for the Boltzmann equation (where the mean free path is equated with the transport length scale),
+  and that it is the natural scaling law for spatially inhomogeneous problems. **This value lies in the range that our
+  formal proof does not yet cover:** the proved result is for 1/2 < γ < 1, and γ = 1/2 itself belongs to the
+  [γ ≤ 1/2 work](docs/GAMMA-LE-HALF.md).
+- **γ = 1, the endpoint.** Here T_kin is of order L², which matches the natural (parabolic) scaling of the Schrödinger
+  equation, so results at this scaling translate into statements on a torus of fixed size. In three dimensions this
+  connects to the open problem of whether the Gibbs measure (Φ⁴₃) is invariant under the cubic Schrödinger flow, and
+  to energy cascades. On the square torus γ = 1 is not admissible. Theorem 1.1 covers it only on rectangular tori with
+  generic side lengths, a case this project does not formalize (decision D2 in [docs/DECISIONS.md](docs/DECISIONS.md)).
+- **γ ≤ 1/2 more broadly.** In this range the equidistribution the theory needs holds for essentially any dispersion
+  relation, without number theory (DH23, §1.2). The difficulty we found there is of a different, combinatorial kind
+  (see [docs/GAMMA-LE-HALF.md](docs/GAMMA-LE-HALF.md)).
 
 ## How a result counts as "proved" here
 

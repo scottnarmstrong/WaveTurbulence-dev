@@ -9,6 +9,9 @@
   main result, Theorem 1.1, for every scaling exponent 0 < γ < 1.
 - Our Lean formalization **proves Theorem 1.1 for 1/2 < γ < 1**. The statement is frozen, sealed and independently
   audited (see the [README](../README.md)).
+- The remaining range contains **γ = 1/2, the "ballistic" scaling law**, which Deng and Hani single out as
+  physically natural: the wave analogue of the Boltzmann–Grad scaling in Lanford's theorem (see the
+  [README](../README.md#the-exponent-γ-and-the-values-that-matter-physically) for what γ means).
 - For **0 < γ ≤ 1/2**, the printed proof does not go through. It relies on a counting estimate from the companion
   paper DH23 (Deng–Hani, *Derivation of the wave kinetic equation: full range of scaling laws*, arXiv:2301.07063),
   **Proposition 9.6**, and one case of that proposition is false in this range.
