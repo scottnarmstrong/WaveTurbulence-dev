@@ -11,7 +11,7 @@ TARGET (finalprooffin), L2236–L2252, for L5a's `𝒱_γ` Stage 1 pieces (`γ �
 * `skeletonLegG_of_codeLeg skeletonCodeLegG` (molecule counts; the units are decoded through the `𝒱_γ` ingredient codes,
   including the T-vine branch `vine_chain_codeG`, item H);
 * `layeringLegG` (layering counts; the transfer matrices of T-vine ingredients by layervine′, item D).
-The L3 inputs are discharged (`Famc.Discharge`) except `LaddersInput` (N3 Theorem 6 (iv), used by layervine′). -/
+All L3 inputs are discharged (`Famc.Discharge`); `classCountG_uncond` has no named input. -/
 @[expose] public section
 set_option autoImplicit false
 namespace WaveTurbulence.GammaLow.Famc.ClassCount
@@ -23,5 +23,9 @@ theorem classCountG [Fact Fama.TVineF1Input] [Fact Fama.VinechainlemPrimeInput] 
   have : Fact LayervineTVineImproved := ⟨layervineTVineImproved_of_ladders hLad⟩
   have : Fact LayervineTVineFirst := ⟨layervineTVineFirst_of_ladders hLad⟩
   exact classCountG_of_legs ClassCount.decodeSizeLeg (skeletonLegG_of_codeLeg skeletonCodeLegG) layeringLegG
+
+/-- **The Stage 1 class count over `𝒱_γ`, unconditional** (L3's ladder statement discharged). -/
+theorem classCountG_uncond [Fact Fama.TVineF1Input] [Fact Fama.VinechainlemPrimeInput] : ClassCountStmtG :=
+  classCountG laddersInput_holds
 
 end WaveTurbulence.GammaLow.Famc.ClassCount

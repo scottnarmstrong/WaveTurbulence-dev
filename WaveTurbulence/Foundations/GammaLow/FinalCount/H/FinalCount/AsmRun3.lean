@@ -55,7 +55,7 @@ theorem hinge_oriented {C : CollData M₀} (obl : SubproOblG C L γ η w κ) {v 
     rw [hsw, gapKind_eq_of_norm_eq (L := L) (γ := γ) (η := η) (norm_neg (Molecule.gapAt L w κ f s))]
     exact hsg
 
-/-- **Step-3 existence**: an `ε` atom that is SG in `M_sub` admits a step `HStep3C` (given a fresh name). -/
+/-- **Step-3 existence**: an `ε` atom that is SG in `M_sub` has a step `HStep3C` (given a fresh name). -/
 theorem exists_step3C [Infinite V] {C : CollData M₀} (obl : SubproOblG C L γ η w κ) (hL : 0 < L)
     (h2 : 2 / L ≤ L ^ (-γ + η)) {h : HSt V D₀} (hI : InvE M₀ R 0 L γ η w κ h) (hA : AncRel M₀ h.s h.anc)
     {v : V} (hv : v ∈ h.s.M.atoms) (hε : h.s.cls v = .eps) (hSG : SGat M₀ L γ η w κ v) :

@@ -203,7 +203,7 @@ theorem vineEnl_joint_bond_cases {z : D} (hX : M.IsVineEnl S a b) (hza : M.atom 
 /-- **Partner uniqueness for DV′ branches** (main's `source_doubleVine_partner_unique`): if `S, T` and `S, U` are DV′ pairs
 with joints `a, b` (`σ = 1`, `T` a T-vine), then `T = U` (three blocks with the same joints would saturate a
 component, main's `no_three_joint_blocks`). -/
-theorem dv_partner_unique [Src.DSInputs V D] (hM : M.IsMolecule) (hσ : M.sigma a b = 1) (hS : M.IsBlock S a b)
+theorem dv_partner_unique (hM : M.IsMolecule) (hσ : M.sigma a b = 1) (hS : M.IsBlock S a b)
     (hT : M.IsTVine T a b) (hU : M.IsBlock U a b) (hST : S ∩ T = {a, b}) (hSU : S ∩ U = {a, b}) : T = U := by
   by_cases hTU : T ⊆ U
   · exact nested_blocks_both_joints_eq M hT.1 hU (vine_groupConnected_of hU.2.2.2.2.2.2.2.2.2) hTU hT.1.2.1
@@ -217,7 +217,7 @@ theorem dv_partner_unique [Src.DSInputs V D] (hM : M.IsMolecule) (hσ : M.sigma 
       · exact (mem_singleton.mp hv).symm ▸ hp.2)).elim
 
 /-- Partner uniqueness for DV′ branches does not depend on the ordering of the joints. -/
-theorem dv_partner_unique_unordered [Src.DSInputs V D] (hM : M.IsMolecule) {c e : V} (hσ : M.sigma a b = 1)
+theorem dv_partner_unique_unordered (hM : M.IsMolecule) {c e : V} (hσ : M.sigma a b = 1)
     (hS : M.IsBlock S a b) (hT : M.IsTVine T a b) (hS' : M.IsBlock S c e) (hU : M.IsBlock U c e)
     (hST : S ∩ T = {a, b}) (hSU : S ∩ U = {c, e}) : T = U := by
   have hj := block_joints_unique M hS hS'

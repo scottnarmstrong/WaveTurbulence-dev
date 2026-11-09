@@ -5,7 +5,7 @@ public import WaveTurbulence.Foundations.GammaLow.FinalCount.Src.Counting
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.Src.Objects
 public import WaveTurbulence.Foundations.Spine.SourceCountingData
 public import WaveTurbulence.Foundations.Spine.SourceGapDyadics
-/-! Actual selected small-gap pairs admit all critical-atom dyadic scales simultaneously. -/
+/-! Actual selected small-gap pairs have all critical-atom dyadic scales simultaneously. -/
 public section
 set_option autoImplicit false
 -- Ported from main `Spine.SourceAtomScaleExists` (sha256 0459d6efa939f629974c6043d53e24224b725600e010b49139692d1edb789df9) to L6's `𝒱_γ` carrier `FinalCount.Src` (family parameter `γv`).

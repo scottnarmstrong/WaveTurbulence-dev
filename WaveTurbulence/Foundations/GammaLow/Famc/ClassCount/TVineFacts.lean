@@ -1,6 +1,7 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 public import WaveTurbulence.Foundations.GammaLow.Famc.Defs
+public import WaveTurbulence.Foundations.GammaLow.Famc.Spine.Pieces
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Data
 public import WaveTurbulence.Foundations.Stage1.ClassCount.VineData
 public import WaveTurbulence.Foundations.Molecule.VineBlockJoints
@@ -80,13 +81,6 @@ theorem pieces_swap (S : Finset V) (a b : V) : M.pieces S a b = M.pieces S b a :
 theorem tvineGroups_swap (S : Finset V) (a b : V) : M.tvineGroups S a b = M.tvineGroups S b a :=
   pieces_swap S a b
 
-theorem samePiece_symm {S : Finset V} {u w : V} (h : M.SamePiece S u w) : M.SamePiece S w u :=
-  fun F hF hc => (h F hF hc).symm
-
-theorem samePiece_trans {S : Finset V} {u v w : V} (h1 : M.SamePiece S u v) (h2 : M.SamePiece S v w) :
-    M.SamePiece S u w :=
-  fun F hF hc => (h1 F hF hc).trans _ _ _ (h2 F hF hc)
-
 /-- Every piece is the class of one of its atoms, inside `S ∖ {a, b}`. -/
 theorem mem_pieces {S : Finset V} {a b : V} {P : Finset V} (hP : P ∈ M.pieces S a b) :
     ∃ u ∈ (S.erase a).erase b, ∀ w, w ∈ P ↔ w ∈ (S.erase a).erase b ∧ M.SamePiece S u w := by
@@ -114,8 +108,8 @@ theorem pieces_eq_or_disjoint {S : Finset V} {a b : V} {P Q : Finset V} (hP : P 
     ext w
     rw [hu w, hv w]
     constructor
-    · rintro ⟨hw, huw⟩; exact ⟨hw, samePiece_trans hvx (samePiece_trans (samePiece_symm hux) huw)⟩
-    · rintro ⟨hw, hvw⟩; exact ⟨hw, samePiece_trans hux (samePiece_trans (samePiece_symm hvx) hvw)⟩
+    · rintro ⟨hw, huw⟩; exact ⟨hw, samePiece_trans M hvx (samePiece_trans M (samePiece_symm M hux) huw)⟩
+    · rintro ⟨hw, hvw⟩; exact ⟨hw, samePiece_trans M hux (samePiece_trans M (samePiece_symm M hvx) hvw)⟩
 
 /-- Groups among the pieces satisfying a predicate that forces two atoms number at most half the interior. -/
 theorem two_mul_card_filter_pieces_le (S : Finset V) (a b : V) (q : Finset V → Prop) {_ : DecidablePred q}

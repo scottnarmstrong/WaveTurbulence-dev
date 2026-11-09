@@ -8,6 +8,7 @@ public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3Flat
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3Steps
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineChainConnected
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3TVineRho
+public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.InputsProved
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Api
 /-! **L6-H port of main `WaveTurbulence.Foundations.FinalCount.AsmP1Rho`** (sha256 in H/COPIED-SHA256SUMS): only the declarations that
 depend on the vine-family carrier, re-stated over the low family `Src … Src.γL` (and L6-STEP1's
@@ -16,8 +17,9 @@ depend on the vine-family carrier, re-stated over the low family `Src … Src.γ
  **FINALCOUNT-ASSEMBLY, phase 1 (d): `ρ` and `critCount` under a vine removal.** 
 
 **Low-range change (L6-HASM).** `rho_vine_isVine`: a member of the low family (the porter's binder rule; its doubled
-`Src.γL` fixed by hand); the ρ-loss bound comes from H-G3's `someVine_ladderLoss_le_of_agree` (T-vines by N3 Thm 6 (iv),
-class `Src.G3Inputs`, owner L3) instead of main's drawn-type `VineRho.vine_ladderLoss_le`.-/
+`Src.γL` fixed by hand); the ρ-loss bound comes from H-G3's `someVine_ladderLoss_le_of_agree` (T-vines by N3 Thm 6 (iv))
+instead of main's drawn-type `VineRho.vine_ladderLoss_le`. N3 Thm 6 (iv) is proved by L3 (`Ladders.ladders_holds`), so
+H-G3's class `Src.G3Inputs` is a global instance (`H.InputsProved`) and the statement is unconditional.-/
 @[expose] public section
 open WaveTurbulence.VineParamContract
 set_option autoImplicit false
@@ -94,7 +96,7 @@ theorem rho_vine_le {D : Type*} [Fintype D] [DecidableEq D] {M : Molecule V D} (
   (vineTransfer K (hM _ K.a_atom) (hM _ K.b_atom)).rho_le
 
 /-- Single vine (`IsVine`): `ρ`-loss at most `42` (VINE-RHO). -/
-theorem rho_vine_isVine {D : Type*} [Fintype D] [DecidableEq D] [Src.G3Inputs V D] {M : Molecule V D} (K : Step1.VineCut Src.γL M) (hMol : M.IsMolecule)
+theorem rho_vine_isVine {D : Type*} [Fintype D] [DecidableEq D] {M : Molecule V D} (K : Step1.VineCut Src.γL M) (hMol : M.IsMolecule)
     (hV : Src.IsSomeVine Src.γL M K.C.atoms K.C.upper K.C.lower) :
     M.rho ≤ K.post.rho + 42 := by
   have hM : ∀ x ∈ M.atoms, M.deg x ≤ 4 := fun x hx => Mole.deg_le_four M hMol hx

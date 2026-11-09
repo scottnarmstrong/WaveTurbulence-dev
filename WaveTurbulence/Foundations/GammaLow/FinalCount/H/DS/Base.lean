@@ -56,6 +56,14 @@ theorem isTVine_rejoint (h : M.IsTVine S a b) (hB : M.IsBlock S x y) : M.IsTVine
 theorem isTVine_card (h : M.IsTVine S a b) : 5 ≤ S.card :=
   (TVine.Struct.card_isTVineU (TVine.Core.isTVineU_of_isTVine M h)).2
 
+/-- A T-vine is not contained in the pair of its joints. -/
+theorem tvine_not_subset_pair (h : M.IsTVine S a b) : ¬ S ⊆ {a, b} := by
+  intro hsub
+  have h5 := isTVine_card h
+  have h2 := card_le_card hsub
+  have h2' : ({a, b} : Finset V).card ≤ 2 := card_le_two
+  omega
+
 /-- A vine (II) has at least four atoms (L3, `Struct.card_isVineXU_II`). -/
 theorem isVineII_card (h : M.IsVine .II S a b) : 4 ≤ S.card :=
   (TVine.Struct.card_isVineXU_II ((TVine.Core.isVine_iff M .II).mp h).2).2

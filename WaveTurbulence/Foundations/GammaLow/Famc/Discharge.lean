@@ -1,13 +1,14 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 public import WaveTurbulence.Foundations.TVine.Struct.Final
+public import WaveTurbulence.Foundations.TVine.Struct.Ladders.Final
 public import WaveTurbulence.Foundations.GammaLow.Famc.Glue
 public import WaveTurbulence.Foundations.GammaLow.Famc.Layervine.Improved
 public import WaveTurbulence.Foundations.GammaLow.Famc.Spine.VineCode
 /-! # Discharge of L5c's L3 named inputs (L3's `TVine.Struct.Final`, proved unconditionally)
 
 L3 proved its T-vine structure statements (`TVine.Struct.Final`: `subObjects_holds`, `pieceShape_holds`,
-`layervine_holds`). Every L3 named input of L5c except `LaddersInput` (N3 Theorem 6 (iv), still open at L3) is
+`layervine_holds`; `TVine.Struct.Ladders.Final`: `ladders_holds`, N3 Theorem 6 (iv)). Every L3 named input of L5c is
 discharged here, and the exports that carried them are restated unconditionally. -/
 @[expose] public section
 set_option autoImplicit false
@@ -17,6 +18,7 @@ open WaveTurbulence.Induct WaveTurbulence.LGSpine
 theorem subObjectsInput_holds : SubObjectsInput := TVine.Struct.subObjects_holds
 theorem pieceShapeInput_holds : PieceShapeInput := TVine.Struct.pieceShape_holds
 theorem layervineInput_holds : LayervineInput := TVine.Struct.layervine_holds
+theorem laddersInput_holds : LaddersInput := TVine.Struct.Ladders.ladders_holds
 theorem tvineStructInputs_holds : ClassCount.TVineStructInputs :=
   ⟨TVine.Struct.layervine_holds, TVine.Struct.pieceShape_holds⟩
 
@@ -46,5 +48,11 @@ theorem stage1Piece_fine_gamma_uncond {P : WTParams} {R : ℕ} (hfourier : Ladde
         P.L ^ (-P.η ^ 6 * (π.Gsb.molecule.rho + (π.data tt ctr edge hinge freq).hinges.card)) *
           P.L ^ (-((R : ℝ) - 1) * (1 / 4 + 1 / 50)) :=
   stage1Piece_fine_gamma subObjectsInput_holds hfourier hcount hs π hp hR hRmax hπ tt ctr edge hinge freq hD
+
+/-- **layervine′, first bound, unconditional.** -/
+theorem layervineTVineFirst_holds : LayervineTVineFirst := layervineTVineFirst_of_ladders laddersInput_holds
+
+/-- **layervine′, improved bound, unconditional.** -/
+theorem layervineTVineImproved_holds : LayervineTVineImproved := layervineTVineImproved_of_ladders laddersInput_holds
 
 end WaveTurbulence.GammaLow.Famc
