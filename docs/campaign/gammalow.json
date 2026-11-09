@@ -256,8 +256,8 @@
      ],
      "note": "all T-vine inputs proved; marked stage 1: I-SLOTSO 103/106, I-SLOTS 105/156, I-UNITS 13/35, I-SLOTSI 9/158 declarations built; marked count waits on L6's port",
      "done": 0.45,
-     "lines": 84762,
-     "lines_compiled": 57700,
+     "lines": 84988,
+     "lines_compiled": 66780,
      "credit": 0.45
     }
    ]
