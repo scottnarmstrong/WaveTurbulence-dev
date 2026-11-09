@@ -217,12 +217,11 @@ def main():
     est_total = prog.get("lines_est_total", 0)
     now = datetime.datetime.now(datetime.timezone.utc)
     stamp = now.strftime("%Y-%m-%d %H:%M UTC")
-    updated = (f"> **Last updated: {stamp}** · **estimated completion {pct:.1f} %** (Lean proofs {lean_pct:.1f} %) · "
-               f"frozen theorems sealed: {sealed} / {frozen_total} (+ {frozen_defs} frozen definitions) · "
-               f"**{main_lines:,} lines of Lean on main** ({main_files} files) + {branch_lines:,} unlanded on worker "
-               f"branches · blueprint estimate ≈ {est_total:,} lines")
+    updated = (f"> **Last updated: {stamp}** · frozen theorems sealed: {sealed} / {frozen_total} "
+               f"(+ {frozen_defs} frozen definitions) · **{main_lines:,} lines of Lean on main** ({main_files} files) · "
+               f"overall completion of the whole project (full range 0 < γ < 1 and public release): {pct:.1f} %")
     progress = "\n".join([
-        f"### Estimated completion: **{pct:.1f} %**",
+        f"### Overall completion (whole project: full range 0 < γ < 1 and public release): **{pct:.1f} %**",
         "",
         f"`{bar(pct / 100, 30)}` {pct:.1f} %",
         "",
@@ -231,9 +230,9 @@ def main():
         *rows,
         f"| **Total** | | {tot_w:g} | {tot_d:.1f} | **{pct:.1f} %** |",
         "",
-        f"Lean lines: {main_lines:,} on main + {branch_lines:,} on branches, of ≈ {est_total:,} estimated by the "
-        f"blueprint (`{bar((main_lines + branch_lines) / est_total if est_total else 0, 20)}` "
-        f"{100 * (main_lines + branch_lines) / est_total:.1f} % of the estimate).",
+        f"Lean lines: {main_lines:,} on main + {branch_lines:,} on worker branches. (The original blueprint "
+        f"estimate, ≈ {est_total:,} lines, was set before the project's scope and the errata were known; it is no "
+        f"longer a useful yardstick.)",
         "",
         "<details><summary>All Lean work packets (blueprint §E) with weight and status</summary>",
         "",

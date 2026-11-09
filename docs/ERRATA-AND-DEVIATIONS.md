@@ -20,9 +20,11 @@ DH21, DH23 and GIT20 are the papers listed under "Pinned sources" below, and L-n
 1. **The range 0 < γ ≤ 1/2 (E1, error, CONFIRMED).** DH23 Prop 9.6, case (4), is false for 0 < γ ≤ 1/2: an explicit
    family of "necklace" molecules violates it, and with it DH23 `kqmainest2`, TARGET `lgmolect` and (finalcount1); the
    per-class analytic bound `kqmainest1` also fails there for γ < 1/2 (F73, CANDIDATE). For 1/2 < γ < 1 case (4) is
-   closed by a new, refereed argument. For γ ≤ 1/2 a repair route (splicing the neutral T-type blocks as an enlarged
-   vine family) has passed three independent referee rounds but is not formalized, and one step of the counting run
-   (E20) is open there.
+   closed by a new, refereed argument, and the main theorem is now formally proved in Lean for 1/2 < γ < 1 (`main_v2`,
+   sealed and two-key audited, 2026-11-09). For γ ≤ 1/2 a repair route (splicing the neutral T-type blocks as an
+   enlarged vine family) has passed three independent referee rounds but is not formalized. One step of the counting
+   run (E20) was open there; a proposed resolution is under independent refereeing (2026-11-09). Plain-language
+   overview and plan: [GAMMA-LE-HALF.md](GAMMA-LE-HALF.md).
 2. **The flower estimate (TARGET Prop `flowerest1`, L2279–L2305).** Its printed proof is a list of seven
    adjustments to the proof of `layergarden`. A complete proof also needs: a layered fixed-time estimate in place of
    "fix the value of Ω" (E30; DH21 L2684–L2694 has the unlayered mechanism); a restated `subpro` for the vines left
@@ -36,6 +38,8 @@ DH21, DH23 and GIT20 are the papers listed under "Pinned sources" below, and L-n
    that the missing arguments build on mechanisms already in DH21 and DH23 without establishing that any needs a new
    idea. The statement needs the normalization fix E41 and the order-zero reading E42; the dagger and derivative
    variants used for `fixedpoint` add one more gap (E45, partly refereed).
+   *Update 2026-11-09:* the flower estimate is now formally proved in Lean for 1/2 < γ < 1 (`layergardenFlower_v3`,
+   sealed and two-key audited).
 3. **Other errors.** Each has a repair, and none breaks a main theorem.
    - DH21 Lemma 5.8 and Prop 7.5: the sign of the χ_∞ term is wrong, so the per-couple weight in TARGET (regref1-3)
      needs a factor (−1)^{|Z|} (E2a, CONFIRMED).
