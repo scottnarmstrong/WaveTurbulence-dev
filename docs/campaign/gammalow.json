@@ -254,8 +254,8 @@
      ],
      "note": "every helper of the marked stage 1 complete (I-SLOTSI, I-SLOTS, I-SLOTSO, I-SLOTSB, I-VEW, I-UNITS, I-TAIL, I-ORPHANS) and the marked count proved; L8 assembling the marked stage 1, the last input of the full-range proof",
      "done": 0.9,
-     "lines": 90370,
-     "lines_compiled": 87041,
+     "lines": 90456,
+     "lines_compiled": 89722,
      "credit": 0.9
     }
    ]
