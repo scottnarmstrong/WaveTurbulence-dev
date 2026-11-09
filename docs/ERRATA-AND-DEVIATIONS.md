@@ -5,9 +5,9 @@ which the formal (Lean) statements differ from the printed ones. It is written f
 at hand but not the history of this project.
 
 **What an entry claims.** Each entry concerns an argument or a statement as printed. **No counterexample to the main
-theorem of TARGET or of DH23 has been found, and TARGET's main theorem (Theorem 1.1) has a complete Lean proof in
-this repository for the full range 0 < γ < 1** (`WaveTurbulence.main`, sealed on 2026-11-09; independent audits under
-way; see [GAMMA-LE-HALF.md](GAMMA-LE-HALF.md)). The
+theorem of TARGET or of DH23 has been found, and TARGET's main theorem (Theorem 1.1) is proved in Lean in this
+repository for the full range 0 < γ < 1** (`WaveTurbulence.main`, sealed and independently audited; see
+[GAMMA-LE-HALF.md](GAMMA-LE-HALF.md)). The
 entry with the largest consequence is E1: DH23 Prop 9.6 and the statements built on it are false for 0 < γ ≤ 1/2, so
 the printed proof of TARGET's main theorem breaks in that range. We give a repair (an enlarged family of vines; no new
 analytic estimate is needed), and the repaired proof is the one formalized here. Several other entries show that an
@@ -27,9 +27,8 @@ DH21, DH23 and GIT20 are the papers listed under "Pinned sources" below, and L-n
    CANDIDATE). For 1/2 < γ < 1 case (4) is closed by a new, refereed argument (F75). For γ ≤ 1/2 the repair enlarges
    the vine family by the *T-vines*, which absorb the failing components in stage 1, and re-proves Prop 9.6 over the
    enlarged family; one step of the counting run, the ghost step (E20), needed a further repair, valid for all
-   0 < γ < 1. All of this is formalized: the Lean proof of Theorem 1.1 for the full range 0 < γ < 1 is complete and
-   sealed (`main`, 2026-11-09; independent audits under way). Plain-language account:
-   [GAMMA-LE-HALF.md](GAMMA-LE-HALF.md).
+   0 < γ < 1. All of this is formalized: Theorem 1.1 is proved in Lean for the full range 0 < γ < 1 (`main`, sealed
+   on 2026-11-09 and independently audited). Plain-language account: [GAMMA-LE-HALF.md](GAMMA-LE-HALF.md).
 2. **The flower estimate (TARGET Prop `flowerest1`, L2279–L2305).** Its printed proof is a list of seven
    adjustments to the proof of `layergarden`. A complete proof also needs: a layered fixed-time estimate in place of
    "fix the value of Ω" (E30; DH21 L2684–L2694 has the unlayered mechanism); a restated `subpro` for the vines left
@@ -44,7 +43,7 @@ DH21, DH23 and GIT20 are the papers listed under "Pinned sources" below, and L-n
    idea. The statement needs the normalization fix E41 and the order-zero reading E42; the dagger and derivative
    variants used for `fixedpoint` add one more gap (E45, partly refereed).
    *Update 2026-11-09:* the flower estimate is now formally proved in Lean for 1/2 < γ < 1 (`layergardenFlower_v3`,
-   sealed and two-key audited), and its full-range form `layergardenFlower_v4` is sealed (audits under way). The
+   sealed and two-key audited), and in its full-range form `layergardenFlower_v4` (sealed and two-key audited). The
    completion was re-checked at γ ≤ 1/2 use by use; none of its 75 uses of γ > 1/2 fails there
    ([GAMMA-LE-HALF.md](GAMMA-LE-HALF.md#6-the-flower-estimate-for-γ--12)).
 3. **Other errors.** Each has a repair, and none breaks a main theorem.
@@ -196,8 +195,8 @@ way in which they differ from the printed text. "Weaker?" says whether the Lean 
 
 ### A. The main theorem (TARGET Theorem 1.1, L314–L318)
 
-Lean: `WaveTurbulence.main` (0 < γ < 1), sealed on 2026-11-09 (independent audits under way), and its earlier
-restricted version `WaveTurbulence.main_v2` (1/2 < γ < 1), sealed and audited.
+Lean: `WaveTurbulence.main` (0 < γ < 1) and its earlier restricted version `WaveTurbulence.main_v2`
+(1/2 < γ < 1). Both are proved: sealed and independently audited.
 
 | Source text | Lean reading | Reason | Weaker? |
 |---|---|---|---|
@@ -217,8 +216,9 @@ unproved as written there (E2g).
 ### C. The intermediate statements used by the proof of Theorem 1.1
 
 **The γ range.** The full-range statements `propansatz`, `layergarden` and `fixedpoint` are frozen as printed, for
-0 < γ < 1 (D7), and are sealed (2026-11-09; independent audits under way). The flower estimate is sealed in its
-full-range form `layergardenFlower_v4` (D16), which is `layergardenFlower_v3` without the hypothesis `1 / 2 < γ`.
+0 < γ < 1 (D7), and are proved (sealed on 2026-11-09 and independently audited). The flower estimate is proved in
+its full-range form `layergardenFlower_v4` (D16), which is `layergardenFlower_v3` without the hypothesis
+`1 / 2 < γ`.
 
 While E1 was being repaired, the restricted versions `propansatz_v2`, `layergarden_v2`, `fixedpoint_v2`,
 `layergardenFlower_v2` and `layergardenFlower_v3` were frozen: each is its original verbatim with the hypothesis
@@ -295,8 +295,8 @@ These concern our own statements, encodings or interfaces, not the papers:
 
 **Status:** CONFIRMED. **Class:** ERROR. **Main theorem:** the printed proof breaks for 0 < γ ≤ 1/2; the theorem is
 not refuted. For 1/2 < γ < 1 the failing case is closed by a new argument (F75 below). For 0 < γ ≤ 1/2 the proof is
-repaired by enlarging the vine family; the repair is formalized, and the full-range Lean proof of Theorem 1.1 is
-sealed ([the repair, formalized](#the-repair-formalized-2026-11-09), below).
+repaired by enlarging the vine family; the repair is formalized, and Theorem 1.1 is proved in Lean for every
+0 < γ < 1 ([the repair, formalized](#the-repair-formalized-2026-11-09), below).
 - Ledger: F69b.
 - Research note: [`docs/research/dh23-prop96-case4.md`](research/dh23-prop96-case4.md); scripts and outputs:
   [`docs/research/dh23-prop96-case4-scripts/`](research/dh23-prop96-case4-scripts/).
@@ -489,7 +489,7 @@ When E1 was found, the project owner decided (2026-11-04; `docs/DECISIONS.md` D9
 - **Write to the authors.** A letter was drafted (`docs/review/LETTER-DENG-HANI-DRAFT.md`).
 
 The restricted chain was proved first (`main_v2`, sealed and audited on 2026-11-09). The repair below then gave the
-full range, and the original statements were sealed as printed (D16, D17).
+full range, and the original statements were proved as printed (D16, D17).
 
 **Repair route for γ ≤ 1/2 (research; refereed three times; formalized, see below).** A first research note
 ([`docs/research/gamma-le-half-repair-1-notes.md`](research/gamma-le-half-repair-1-notes.md)) proposes that the chain

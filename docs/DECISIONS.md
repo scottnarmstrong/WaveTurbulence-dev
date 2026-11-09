@@ -178,7 +178,6 @@ Format: D<n> — date (UTC) — who — decision — reason.
   - Checks at the seal. Per statement: exact type equal to the frozen statement; the statement-drift checks; axioms
     `propext`, `Classical.choice`, `Quot.sound` only, with no `sorryAx`; ABI hash written and rechecked. At the end:
     the landing check, the ABI of all 328 frozen declarations, and the frozen-statement guard, all passing.
-  - Status: SEALED. A statement is recorded as PROVED only when both independent audits pass; their records go in
-    `docs/audits/full-range/`.
+  - Status: PROVED. Both independent audits passed for all five statements; records in `docs/audits/full-range/`.
   - `layergardenFlower` (v1) and `layergardenFlower_v2` (max-form cutoffs, erratum E34) stay frozen and unproved.
     Nothing depends on them.
