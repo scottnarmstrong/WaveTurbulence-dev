@@ -149,8 +149,8 @@
      ],
      "note": "FinalCountGateLow PROVED unconditionally (verified by wt-orch): Prop 9.6 at γ ≤ 1/2, the run-wide ghost repair (E20) and the port of main's run; final rebuild and audit under way",
      "done": 0.95,
-     "lines": 59314,
-     "lines_compiled": 59293,
+     "lines": 59320,
+     "lines_compiled": 59204,
      "credit": 0.95
     },
     {
@@ -256,8 +256,8 @@
      ],
      "note": "all T-vine inputs proved; marked stage 1: I-SLOTSO 103/106, I-SLOTS 105/156, I-UNITS 13/35, I-SLOTSI 9/158 declarations built; marked count waits on L6's port",
      "done": 0.45,
-     "lines": 80709,
-     "lines_compiled": 36567,
+     "lines": 80728,
+     "lines_compiled": 36386,
      "credit": 0.45
     }
    ]
