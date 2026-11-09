@@ -1,6 +1,6 @@
 {
  "title": "The γ ≤ 1/2 campaign",
- "updated": "2026-11-09 20:53 UTC",
+ "updated": "2026-11-09 21:10 UTC",
  "convention": "Weights are the estimated size of each work package (thousands of new Lean lines; non-Lean steps get an equivalent weight). A finished package counts fully once it passes its checks and an independent re-run of its audit. A running package counts by the orchestrator's estimate at its last checkpoint (what is proved against what remains); before its first checkpoint it counts by the Lean it has compiled, capped at 75 %. Line counts alone overstate progress, because several packages first port large amounts of the existing proof.",
  "next": "PROVED: Theorem 1.1 for all 0 < γ < 1 now holds in Lean in the work area (all five full-range statements, standard axioms only). Remaining: acceptance build of the flower area, landing on main, sealing the five statements, and two independent audits of each.",
  "risks": [
@@ -248,15 +248,14 @@
      "id": "L8",
      "name": "flower estimate, low half",
      "w": 30,
-     "status": "running",
+     "status": "done",
      "dirs": [
       "GammaLow/Flower"
      ],
-     "note": "the γ ≤ 1/2 flower estimate is PROVED (marked stage 1 + marked count); final acceptance build pending",
-     "done": 0.95,
+     "note": "accepted: the γ ≤ 1/2 flower estimate proved with no inputs (marked stage 1 + marked count + ghost cover); 232 modules / 10,105 theorems audited by wt-orch",
      "lines": 90490,
      "lines_compiled": 89905,
-     "credit": 0.95
+     "credit": 1.0
     }
    ]
   },
@@ -303,11 +302,11 @@
      "name": "landing, seals, two-key audits",
      "w": 6,
      "status": "running",
-     "done": 0.3,
-     "note": "landing branch synced and clean (1,523 modules); seal tooling dry-run sealed all five anchors on a scratch clone (OK); ten audit briefs ready",
+     "done": 0.4,
+     "note": "Lean work complete and accepted; final landing on main running (land_check + ABI); then the five seals and ten audits",
      "lines": 0,
      "lines_compiled": 0,
-     "credit": 0.3
+     "credit": 0.4
     }
    ]
   }
