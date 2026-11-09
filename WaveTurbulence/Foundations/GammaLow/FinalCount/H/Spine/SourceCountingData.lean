@@ -3,6 +3,10 @@ module
 public import WaveTurbulence.Foundations.Spine.SourceCountingData
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceCanonicalDef
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceCountingObjects
+public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceSubproObjects
+public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceVineData
+public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceVineGapObjects
+public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceVineObjects
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Api
 /-! **L6-H port of main `WaveTurbulence.Foundations.Spine.SourceCountingData`** (sha256 in H/COPIED-SHA256SUMS): only the declarations that
 depend on the vine-family carrier, re-stated over the low family `Src … Src.γL` (and L6-STEP1's

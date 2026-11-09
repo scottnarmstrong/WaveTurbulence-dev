@@ -2,6 +2,7 @@
 module
 public import WaveTurbulence.Foundations.FinalCount.G3RunE
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3CompRun
+public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3CycChain
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3Flat
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3HInv
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3HRun

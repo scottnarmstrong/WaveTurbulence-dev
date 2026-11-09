@@ -1,7 +1,12 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 public import WaveTurbulence.Foundations.Molecule.VineEraseChainIngredient
+public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineChainBlock
+public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineChainConnected
+public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineChainCounts
+public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineChainEnds
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineChainIngredients
+public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineObjects
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Api
 /-! **L6-H port of main `WaveTurbulence.Foundations.Molecule.VineEraseChainIngredient`** (sha256 in H/COPIED-SHA256SUMS): only the declarations that
 depend on the vine-family carrier, re-stated over the low family `Src … Src.γL` (and L6-STEP1's

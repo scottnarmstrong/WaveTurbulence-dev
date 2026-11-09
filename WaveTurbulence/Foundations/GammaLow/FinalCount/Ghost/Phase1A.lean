@@ -41,7 +41,7 @@ theorem cut_dartsAt_other' {a : V} (hav : a ≠ v) (ha2 : a ≠ v₂) : (M.cut v
   · intro hy; rw [← hy, cut_atom_of_ne y (by rw [hy]; exact ha2)]
   · intro hy
     change (if M.atom y = v ∧ y ≠ x₁ ∧ y ≠ x₂ then v₂ else M.atom y) = a
-    rw [if_neg (fun hc => hav (hy ▸ hc.1))]; exact hy
+    rw [ite_eq_right (fun hc => hav (hy ▸ hc.1))]; exact hy
 
 theorem cut_common (hv₂ : v₂ ∉ M.atoms) (a b : D) (hab : (M.cut v v₂ x₁ x₂).atom a = (M.cut v v₂ x₁ x₂).atom b) :
     M.atom a = M.atom b := by

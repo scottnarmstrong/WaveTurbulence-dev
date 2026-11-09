@@ -10,7 +10,7 @@ FinalCountG3.IotaBall`), main's `G3VineBall` form; L6-STEP1's counts take the st
 which they use only through `ball_of_iota (hι hκ50) c β k0 hp` (an `IotaBall`). The four theorems below are L6-STEP1's
 `prop94_vine_double_full` (Prop94Statement), `prop94_vine_final` (VCStmt), `prop94_hyper_final` (VCAll1) and
 `prop94_vine_all` (VCAll3), copied by source (sha256 in `ASM-COPIED-SHA256SUMS`) with exactly that hypothesis replaced by
-`FinalCountG3.IotaBall … γ δ …` and the call by `(hι hκ50) c β k0 hp` (main's `prop94_*_ball` of `G3VineBall`, over
+`FinalCountG3.IotaBall … γ δ …` and the call by `(hι hκ50) c β k0 hp` (names suffixed `_low`: main's `prop94_*_ball` of `G3VineBall` take `VINEPARAM` and are H-G3's port; over
 L6-STEP1's charted counts instead of VINEPARAM). They feed `AsmEx1ULow.ex1A_uniform`. -/
 @[expose] public section
 open WaveTurbulence.VineParamContract
@@ -33,7 +33,7 @@ variable {V D : Type*} [DecidableEq V] [Fintype D] [DecidableEq D]
 sentence, is `DoubleShape.labelSet_le_vineG`). Source facts assumed: the shape `S`; `ΔF = 0` (`hF`, L1798);
 `4` bonds in the VC (`hB`, two double bonds); no ladder in the VC (`hlad`); the label `|r| ~ R` of the new
 `α`-atoms (`hgap`: `|r| <= 2R`, `hlow`: `|r| >= R/2`); for `κ = 50` the `ι` condition (`hι`). -/
-theorem prop94_vine_double_full_ball {M : Molecule V D} (K : VineCut g M) (S : DoubleShape K) (hd : 3 ≤ d)
+theorem prop94_vine_double_full_ball_low {M : Molecule V D} (K : VineCut g M) (S : DoubleShape K) (hd : 3 ≤ d)
     (hM : ∀ a ∈ M.atoms, M.deg a ≤ 4)
     (L γ δ C₁ η : ℝ) (w : Mom d) (Adm : (D → (Fin d → ℤ)) → Prop)
     (Adm' : (PDart K.cutMol (fun a => a ∉ K.C.atoms) → (Fin d → ℤ)) → Prop)
@@ -95,7 +95,7 @@ there are constants `Cf, C₂` (depending on `d, γ`) such that for all `δ ∈ 
 whose removed object is a single vine, with `ΔF = 0` (`hF`, L1798), the new `α`-atoms labelled by `R ∈ [L⁻¹, L^{-γ+η}]`
 (`κ ∈ {0, 50}`; for `κ = 50` the `ι`-condition `IotaReading`), and an admissible class `Adm` that carries the ladder scales
 (`VCLadderScale`), the deviation of the operation is `≲ L^{-η³} ∏ L^{(γ+3η)/2-κη}R` (excesseqn2). -/
-theorem prop94_vine_final_ball (hd : 3 ≤ d) {γ : ℝ} (hγ : γ ∈ Ioo (0 : ℝ) 1) :
+theorem prop94_vine_final_ball_low (hd : 3 ≤ d) {γ : ℝ} (hγ : γ ∈ Ioo (0 : ℝ) 1) :
     ∃ Cf C₂ : ℝ, 0 ≤ Cf ∧ 1 ≤ C₂ ∧ ∀ δ ∈ Ioc (0 : ℝ) 1, ∃ L₀ : ℝ, Real.exp 1 ≤ L₀ ∧ ∀ L ≥ L₀,
       ∀ C₁ η : ℝ, C₂ ≤ C₁ → 0 < η → η < 1 → η ≤ γ →
       ∀ {V D : Type} [DecidableEq V] [Fintype D] [DecidableEq D] (M : Molecule V D) (K : VineCut g M),
@@ -159,7 +159,7 @@ theorem prop94_vine_final_ball (hd : 3 ≤ d) {γ : ℝ} (hγ : γ ∈ Ioo (0 : 
 /-- **DH23 Prop 9.4, Step 1, a hyper object whose adjoint VC is a single vine** (HV, and the triple bonds of
 `subpro` (c): the adjoint is a double bond), of a charted vine (`Charted`; main: from `VINEPARAM`), the ladder scales being the molecule-level
 canonical ladder-gap form `SourceLadderGaps` (lg-spine `sourceLadderGapScales`) of `Adm`.  The deleted bond between the joints is not counted (it stays in `𝕄_pos`). -/
-theorem prop94_hyper_final_ball (hd : 3 ≤ d) {γ : ℝ} (hγ : γ ∈ Ioo (0 : ℝ) 1) :
+theorem prop94_hyper_final_ball_low (hd : 3 ≤ d) {γ : ℝ} (hγ : γ ∈ Ioo (0 : ℝ) 1) :
     ∃ Cf C₂ : ℝ, 0 ≤ Cf ∧ 1 ≤ C₂ ∧ ∀ δ ∈ Ioc (0 : ℝ) 1, ∃ L₀ : ℝ, Real.exp 1 ≤ L₀ ∧ ∀ L ≥ L₀,
       ∀ C₁ η : ℝ, C₂ ≤ C₁ → 0 < η → η < 1 → η ≤ γ →
       ∀ {V D : Type} [DecidableEq V] [Fintype D] [DecidableEq D] (M : Molecule V D) (K : VineCut g M)
@@ -213,7 +213,7 @@ source ones: the classification of `Prop subsetvc` (`hcls`), `ΔF = 0` (`hF`, L1
 (`hgap`, `hlow`, L1800), `ι` (L1782, L1801), the heredity of `P` along maximal ladders (F-FC-3) and the molecule-level
 ladder-gap clause of `Adm` (`SourceLadderGaps` = lg-spine `sourceLadderGapScales`, requirement (ii) of `kqmainest2`, L1692), at decorations (`DecScale`).  (`hlow` is used for the
 double bonds only.) -/
-theorem prop94_vine_all_ball (hd : 3 ≤ d) {γ : ℝ} (hγ : γ ∈ Ioo (0 : ℝ) 1) :
+theorem prop94_vine_all_ball_low (hd : 3 ≤ d) {γ : ℝ} (hγ : γ ∈ Ioo (0 : ℝ) 1) :
     ∃ Cs : ℝ, 0 ≤ Cs ∧ ∃ C₂ : ℝ, 1 ≤ C₂ ∧ ∀ δ ∈ Ioc (0 : ℝ) 1, ∃ L₀ : ℝ, Real.exp 1 ≤ L₀ ∧ ∀ L ≥ L₀,
       ∀ C₁ η : ℝ, C₂ ≤ C₁ → 0 < η → η < 1 → η ≤ γ →
       ∀ {V D : Type} [DecidableEq V] [Fintype D] [DecidableEq D] (M : Molecule V D) (K : VineCut g M),
@@ -233,8 +233,8 @@ theorem prop94_vine_all_ball (hd : 3 ≤ d) {γ : ℝ} (hγ : γ ∈ Ioo (0 : �
         IsDeviation (M.countA L γ δ C₁ w Adm P) ((Stage2Op.vine K).post.countA L γ δ C₁ w Adm' P)
           (ENNReal.ofReal ((Cs * (2 ^ d * ((13 : ℝ) / (2 * η - η ^ 3)) ^ 13) * (1 + δ⁻¹)) *
             excessRHS L γ η [(Rg, κ), (Rg, κ)] 0 0)) := by
-  obtain ⟨Cf₁, C₂₁, hCf₁, hC₂₁, h₁⟩ := prop94_vine_final_ball hd hγ
-  obtain ⟨Cf₂, C₂₂, hCf₂, hC₂₂, h₂⟩ := prop94_hyper_final_ball hd hγ
+  obtain ⟨Cf₁, C₂₁, hCf₁, hC₂₁, h₁⟩ := prop94_vine_final_ball_low hd hγ
+  obtain ⟨Cf₂, C₂₂, hCf₂, hC₂₂, h₂⟩ := prop94_hyper_final_ball_low hd hγ
   refine ⟨max (max Cf₁ Cf₂) ((9 : ℝ) ^ d * 5 ^ d * (2 * d)), ?_, max C₂₁ C₂₂, le_max_of_le_left hC₂₁, ?_⟩
   · exact le_max_of_le_left (le_max_of_le_left hCf₁)
   intro δ hδ
@@ -275,7 +275,7 @@ theorem prop94_vine_all_ball (hd : 3 ≤ d) {γ : ℝ} (hγ : γ ∈ Ioo (0 : �
   · -- two double bonds
     obtain ⟨S⟩ := hS
     have hC1 : 1 ≤ C₁ := hC₂₁.trans hCa
-    have := prop94_vine_double_full_ball K S hd hM L γ δ C₁ η w Adm Adm' hAdm' P hLe hδ.1 hδ.2 hC1 hP0 hP1 hP2 hη hη1 hηγ
+    have := prop94_vine_double_full_ball_low K S hd hM L γ δ C₁ η w Adm Adm' hAdm' P hLe hδ.1 hδ.2 hC1 hP0 hP1 hP2 hη hη1 hηγ
       hγ.2 hF (Step1.double_bonds_card S) (Step1.double_noLadder S) Rg hRl hRu κ ρ hρ hgap hlow hι
     refine isDeviation_mono this (ENNReal.ofReal_le_ofReal ?_)
     exact dev_const_double d (by positivity) (le_max_right _ _) ht ht2 hδ.1 hE

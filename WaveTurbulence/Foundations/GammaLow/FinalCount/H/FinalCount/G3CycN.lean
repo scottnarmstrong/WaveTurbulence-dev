@@ -1,14 +1,9 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 public import WaveTurbulence.Foundations.FinalCount.G3CycN
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3CompRun
+public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3CycChain
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3DPInv2
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3Flat
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3HInv
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3HRun
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3Run
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3RunN
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3Steps
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Api
 /-! **L6-H port of main `WaveTurbulence.Foundations.FinalCount.G3CycN`** (sha256 in H/COPIED-SHA256SUMS): only the declarations that
 depend on the vine-family carrier, re-stated over the low family `Src … Src.γL` (and L6-STEP1's
