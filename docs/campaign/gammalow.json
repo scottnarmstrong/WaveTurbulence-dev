@@ -149,8 +149,8 @@
      ],
      "note": "Prop 9.6 at γ ≤ 1/2 and the run-wide ghost chain cover (REG) PROVED; port 78 % compiling; LOW chain cover next",
      "done": 0.7,
-     "lines": 59181,
-     "lines_compiled": 47836,
+     "lines": 59196,
+     "lines_compiled": 54578,
      "credit": 0.7
     },
     {
@@ -209,8 +209,8 @@
      ],
      "note": "gate, pieces, normalized pieces and the stage-1 assembly proved; waits on the class count (L5c) and the vine case (helper L5a-G)",
      "done": 0.85,
-     "lines": 58767,
-     "lines_compiled": 54787,
+     "lines": 58768,
+     "lines_compiled": 56785,
      "credit": 0.85
     },
     {
@@ -257,8 +257,8 @@
      ],
      "note": "all T-vine inputs proved; marked stage 1: I-SLOTSO 103/106, I-SLOTS 105/156, I-UNITS 13/35, I-SLOTSI 9/158 declarations built; marked count waits on L6's port",
      "done": 0.45,
-     "lines": 48648,
-     "lines_compiled": 31368,
+     "lines": 48771,
+     "lines_compiled": 32076,
      "credit": 0.45
     }
    ]
