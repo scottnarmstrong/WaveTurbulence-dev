@@ -1,0 +1,206 @@
+/- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
+module
+public import WaveTurbulence.Foundations.FinalCount.SubproChainSplit
+public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineChainBlock
+public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineChainConnected
+public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineTwoJointSeparator
+public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Api
+public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.RS.Facts
+/-! **L6-H port of main `WaveTurbulence.Foundations.FinalCount.SubproChainSplit`** (sha256 in H/COPIED-SHA256SUMS): only the declarations that
+depend on the vine-family carrier, re-stated over the low family `Src … Src.γL` (and L6-STEP1's
+`Step1.VineCut Src.γL`); everything else is main's, by import.
+
+
+# S4-DISJ: splitting a vine chain at a cut atom
+
+If a block `U` that is an actual vine chain from `a` to `b` is the union of two blocks `C` (joints `a`, `c`) and `C'` (joints `c`, `b`)
+meeting only in `c`, then `C` and `C'` are themselves chains (`c` is a junction of the chain). Proof: induction on the chain; a vine has no
+cut atom (`isVine_erase_connected`), and no path can cross the edge cut `C \ {c} | C' \ {c}`.
+-/
+@[expose] public section
+set_option autoImplicit false
+set_option linter.unusedSectionVars false
+namespace WaveTurbulence.GammaLow.FinalCount.H
+open WaveTurbulence.Subpro
+open WaveTurbulence Finset
+
+variable {V D : Type*} [DecidableEq V] [Fintype D] [DecidableEq D]
+
+/-- **Src.Chain Src.γL splitting.** -/
+theorem chain_split (M : Molecule V D) (hM : M.IsMolecule) {U : Finset V} {a b : V} {n : ℕ}
+    (h : Src.Chain Src.γL M U a b n) :
+    ∀ {C C' : Finset V} {c : V}, M.IsBlock U a b → C ∪ C' = U → C ∩ C' = {c} → a ∈ C → b ∈ C' →
+      c ≠ a → c ≠ b → (∀ x ∈ C, x ≠ c → ∀ y ∈ C', y ≠ c → ¬ M.Adj x y) →
+      (∃ i, Src.Chain Src.γL M C a c i) ∧ ∃ j, Src.Chain Src.γL M C' c b j := by
+  induction h with
+  | single hS =>
+    rename_i U a b
+    intro C C' c hU hcov hi ha hb hca hcb hno
+    exfalso
+    have hX := hS
+    have hbC : b ∉ C := fun hbC => hcb (mem_singleton.mp (hi ▸ mem_inter.mpr ⟨hbC, hb⟩)).symm
+    have hcC : c ∈ C := (mem_inter.mp (hi ▸ mem_singleton_self c)).1
+    have hW : U.erase c ⊆ (C ∪ C').erase c := by rw [hcov]
+    have hcon := RS.isSomeVine_erase_connected hX c
+    have haU : a ∈ U.erase c := mem_erase.mpr ⟨hca.symm, hcov ▸ mem_union_left _ ha⟩
+    have hbU : b ∈ U.erase c := mem_erase.mpr ⟨hcb.symm, hcov ▸ mem_union_right _ hb⟩
+    have := (side_of_connected M hno hW hcon haU hbU).mp (mem_erase.mpr ⟨hca.symm, ha⟩)
+    exact hbC (Finset.mem_of_mem_erase this)
+  | @append S T a b' b n hS hT hi hne ih =>
+    intro C C' c hU hcov hi' ha hb hca hcb hno
+    have hX := hT
+    have hSB : M.IsBlock S a b' := RS.chain_prefix_isBlock M hM hS hX hi hU
+    have hb'S : b' ∈ S := (chain_joints_mem hS).2
+    have haS : a ∈ S := (chain_joints_mem hS).1
+    have hb'T : b' ∈ T := hX.block.2.1
+    have hbT : b ∈ T := hX.block.2.2.1
+    have hb'b : b' ≠ b := hX.block.2.2.2.1
+    have hab' : a ≠ b' := chain_joints_ne hS
+    have hcC : c ∈ C := (mem_inter.mp (hi' ▸ mem_singleton_self c)).1
+    have hcC' : c ∈ C' := (mem_inter.mp (hi' ▸ mem_singleton_self c)).2
+    have hcU : c ∈ S ∪ T := hcov ▸ mem_union_left _ hcC
+    have hW : (S ∪ T).erase c ⊆ (C ∪ C').erase c := by rw [hcov]
+    have hbC : b ∉ C := fun hbC => hcb (mem_singleton.mp (hi' ▸ mem_inter.mpr ⟨hbC, hb⟩)).symm
+    have haC' : a ∉ C' := fun haC' => hca (mem_singleton.mp (hi' ▸ mem_inter.mpr ⟨ha, haC'⟩)).symm
+    have hTconn := RS.vconnected hX
+    have hSconn := chain_connected hS
+    -- the side of an atom of `U \ {c}`
+    have hside : ∀ {W : Finset V} {u v : V}, W ⊆ (S ∪ T).erase c →
+        (∀ u ∈ W, ∀ v ∈ W, (Mole.induced M W).SameComponent u v) → u ∈ W → v ∈ W →
+        (u ∈ C.erase c ↔ v ∈ C.erase c) := fun hW' hc hu hv =>
+      side_of_connected M hno (hW'.trans hW) hc hu hv
+    by_cases hcT : c ∈ T
+    · by_cases hcb' : c = b'
+      · -- c is the last junction: C = S, C' = T
+        subst hcb'
+        have hSe := chain_erase_last_connected hS
+        have hTe := RS.isSomeVine_erase_connected hX c
+        have hSsub : S.erase c ⊆ (S ∪ T).erase c := erase_subset_erase _ subset_union_left
+        have hTsub : T.erase c ⊆ (S ∪ T).erase c := erase_subset_erase _ subset_union_right
+        have haP : a ∈ C.erase c := mem_erase.mpr ⟨hca.symm, ha⟩
+        have hbQ : b ∈ T.erase c := mem_erase.mpr ⟨hcb.symm, hbT⟩
+        have hSP : ∀ u ∈ S.erase c, u ∈ C.erase c := fun u hu =>
+          (hside hSsub hSe (mem_erase.mpr ⟨hca.symm, haS⟩) hu).mp haP
+        have hTP : ∀ u ∈ T.erase c, u ∈ C'.erase c := by
+          intro u hu
+          have hbn : b ∉ C.erase c := fun h => hbC (mem_of_mem_erase h)
+          have h1 : u ∉ C.erase c := fun h => hbn ((hside hTsub hTe hu hbQ).mp h)
+          have hu' : u ∈ (C ∪ C').erase c := hW (hTsub hu)
+          rw [Finset.erase_union_distrib, mem_union] at hu'
+          exact hu'.resolve_left h1
+        have hCS : C = S := by
+          apply Finset.Subset.antisymm
+          · intro x hx
+            have hxU : x ∈ S ∪ T := hcov ▸ mem_union_left _ hx
+            rcases mem_union.mp hxU with hxS | hxT
+            · exact hxS
+            · by_cases hxc : x = c
+              · exact hxc ▸ hb'S
+              · have := mem_of_mem_erase (hTP x (mem_erase.mpr ⟨hxc, hxT⟩))
+                exact absurd (mem_singleton.mp (hi' ▸ mem_inter.mpr ⟨hx, this⟩)) hxc
+          · intro x hx
+            by_cases hxc : x = c
+            · exact hxc ▸ hcC
+            · exact mem_of_mem_erase (hSP x (mem_erase.mpr ⟨hxc, hx⟩))
+        have hCT : C' = T := by
+          apply Finset.Subset.antisymm
+          · intro x hx
+            have hxU : x ∈ S ∪ T := hcov ▸ mem_union_right _ hx
+            rcases mem_union.mp hxU with hxS | hxT
+            · by_cases hxc : x = c
+              · exact hxc ▸ hb'T
+              · have := mem_of_mem_erase (hSP x (mem_erase.mpr ⟨hxc, hxS⟩))
+                exact absurd (mem_singleton.mp (hi' ▸ mem_inter.mpr ⟨this, hx⟩)) hxc
+            · exact hxT
+          · intro x hx
+            by_cases hxc : x = c
+            · exact hxc ▸ hcC'
+            · exact mem_of_mem_erase (hTP x (mem_erase.mpr ⟨hxc, hx⟩))
+        refine ⟨⟨n, hCS ▸ hS⟩, ⟨1, ?_⟩⟩
+        rw [hCT]
+        exact Src.Chain.single hX
+      · -- c interior to the last vine: impossible
+        exfalso
+        have hcS : c ∉ S := fun hcS => hcb' (mem_singleton.mp (hi ▸ mem_inter.mpr ⟨hcS, hcT⟩))
+        have hTe := RS.isSomeVine_erase_connected hX c
+        have hSsub : S ⊆ (S ∪ T).erase c := fun x hx =>
+          mem_erase.mpr ⟨fun h => hcS (h ▸ hx), mem_union_left _ hx⟩
+        have hTsub : T.erase c ⊆ (S ∪ T).erase c := erase_subset_erase _ subset_union_right
+        have haP : a ∈ C.erase c := mem_erase.mpr ⟨hca.symm, ha⟩
+        have hb'e : b' ∈ T.erase c := mem_erase.mpr ⟨fun h => hcb' h.symm, hb'T⟩
+        have hbe : b ∈ T.erase c := mem_erase.mpr ⟨hcb.symm, hbT⟩
+        have h1 := (hside hSsub hSconn haS hb'S).mp haP
+        have h2 := (hside hTsub hTe hb'e hbe).mp h1
+        exact hbC (mem_of_mem_erase h2)
+    · -- c lies in S, c ≠ b'
+      have hcS : c ∈ S := (mem_union.mp hcU).resolve_right hcT
+      have hcb'' : c ≠ b' := fun h => hcT (h ▸ hb'T)
+      have hTsub : T ⊆ (S ∪ T).erase c := fun x hx =>
+        mem_erase.mpr ⟨fun h => hcT (h ▸ hx), mem_union_right _ hx⟩
+      have hbn : b ∉ C.erase c := fun h => hbC (mem_of_mem_erase h)
+      have hTC' : ∀ u ∈ T, u ∈ C' ∧ u ≠ c := by
+        intro u hu
+        have h1 : u ∉ C.erase c := fun h => hbn ((hside hTsub hTconn hu hbT).mp h)
+        have hu' : u ∈ (C ∪ C').erase c := hW (hTsub hu)
+        rw [Finset.erase_union_distrib, mem_union] at hu'
+        have := hu'.resolve_left h1
+        exact ⟨mem_of_mem_erase this, ne_of_mem_erase this⟩
+      have hCS : C ⊆ S := by
+        intro x hx
+        have hxU : x ∈ S ∪ T := hcov ▸ mem_union_left _ hx
+        rcases mem_union.mp hxU with hxS | hxT
+        · exact hxS
+        · obtain ⟨h1, h2⟩ := hTC' x hxT
+          exact absurd (mem_singleton.mp (hi' ▸ mem_inter.mpr ⟨hx, h1⟩)) h2
+      obtain ⟨⟨i, hi1⟩, ⟨j, hj1⟩⟩ := ih (C := C) (C' := C' ∩ S) (c := c) hSB
+        (by
+          apply Finset.Subset.antisymm
+          · intro x hx
+            rcases mem_union.mp hx with hx | hx
+            · exact hCS hx
+            · exact (mem_inter.mp hx).2
+          · intro x hx
+            have hxU : x ∈ C ∪ C' := hcov ▸ mem_union_left _ hx
+            rcases mem_union.mp hxU with hx' | hx'
+            · exact mem_union_left _ hx'
+            · exact mem_union_right _ (mem_inter.mpr ⟨hx', hx⟩))
+        (by
+          apply Finset.Subset.antisymm
+          · intro x hx
+            obtain ⟨h1, h2⟩ := mem_inter.mp hx
+            have h3 : x ∈ C ∩ C' := mem_inter.mpr ⟨h1, (mem_inter.mp h2).1⟩
+            rw [hi'] at h3
+            exact h3
+          · intro x hx
+            have hxc : x = c := mem_singleton.mp hx
+            subst hxc
+            exact mem_inter.mpr ⟨hcC, mem_inter.mpr ⟨hcC', hcS⟩⟩)
+        ha (mem_inter.mpr ⟨(hTC' b' hb'T).1, hb'S⟩) hca hcb''
+        (fun x hx hxc y hy hyc => hno x hx hxc y (mem_inter.mp hy).1 hyc)
+      refine ⟨⟨i, hi1⟩, ⟨j + 1, ?_⟩⟩
+      have hC'eq : C' = (C' ∩ S) ∪ T := by
+        apply Finset.Subset.antisymm
+        · intro x hx
+          have hxU : x ∈ S ∪ T := hcov ▸ mem_union_right _ hx
+          rcases mem_union.mp hxU with hxS | hxT
+          · exact mem_union_left _ (mem_inter.mpr ⟨hx, hxS⟩)
+          · exact mem_union_right _ hxT
+        · intro x hx
+          rcases mem_union.mp hx with hx | hx
+          · exact (mem_inter.mp hx).1
+          · exact (hTC' x hx).1
+      have hint : (C' ∩ S) ∩ T = {b'} := by
+        apply Finset.Subset.antisymm
+        · intro x hx
+          obtain ⟨h12, h3⟩ := mem_inter.mp hx
+          have h4 : x ∈ S ∩ T := mem_inter.mpr ⟨(mem_inter.mp h12).2, h3⟩
+          rw [hi] at h4
+          exact h4
+        · intro x hx
+          have hxb : x = b' := mem_singleton.mp hx
+          subst hxb
+          exact mem_inter.mpr ⟨mem_inter.mpr ⟨(hTC' x hb'T).1, hb'S⟩, hb'T⟩
+      rw [hC'eq]
+      exact Src.Chain.append hj1 hX hint hcb
+
+end WaveTurbulence.GammaLow.FinalCount.H

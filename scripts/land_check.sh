@@ -10,7 +10,10 @@ seen=collections.defaultdict(list)
 for f in glob.glob("WaveTurbulence/**/*.lean",recursive=True) + glob.glob("WaveTurbulenceVineParam/**/*.lean",recursive=True):
     if "/Frozen/" in f or "/Provider/" in f: continue
     ns=[]
-    for line in open(f,encoding="utf8"):
+    t=open(f,encoding="utf8").read()
+    t=re.sub(r"/-.*?-/","",t,flags=re.S)          # block comments and docstrings (as the sorry scan below)
+    t=re.sub(r"--[^\n]*","",t)                     # line comments
+    for line in t.split("\n"):
         m=re.match(r"\s*namespace\s+(\S+)",line)
         if m: ns.append(m.group(1)); continue
         m=re.match(r"\s*end\s+(\S+)",line)
