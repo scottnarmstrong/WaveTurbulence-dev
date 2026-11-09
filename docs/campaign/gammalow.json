@@ -1,6 +1,6 @@
 {
  "title": "The γ ≤ 1/2 campaign",
- "updated": "2026-11-09 19:42 UTC",
+ "updated": "2026-11-09 20:31 UTC",
  "convention": "Weights are the estimated size of each work package (thousands of new Lean lines; non-Lean steps get an equivalent weight). A finished package counts fully once it passes its checks and an independent re-run of its audit. A running package counts by the orchestrator's estimate at its last checkpoint (what is proved against what remains); before its first checkpoint it counts by the Lean it has compiled, capped at 75 %. Line counts alone overstate progress, because several packages first port large amounts of the existing proof.",
  "next": "The layergarden statement for the full range is proved (in the work area). Everything else (flower v4, fixedpoint, propansatz, main) now waits on ONE remaining piece: the marked stage 1 of the flower estimate (its last module group). Then landing, sealing and two-key audits.",
  "risks": [
@@ -206,7 +206,7 @@
      "dirs": [
       "GammaLow/Fama"
      ],
-     "note": "the γ ≤ 1/2 stage-1 gate proved unconditionally (verified by wt-orch); final area audit pending",
+     "note": "accepted: the γ ≤ 1/2 stage-1 gate proved unconditionally, with the vine case (L5a-G); 296 modules, 5,223 theorems; audit re-run by wt-orch",
      "lines": 59105,
      "lines_compiled": 59105,
      "credit": 1.0
@@ -254,7 +254,7 @@
      ],
      "note": "every helper of the marked stage 1 complete (I-SLOTSI, I-SLOTS, I-SLOTSO, I-SLOTSB, I-VEW, I-UNITS, I-TAIL, I-ORPHANS) and the marked count proved; L8 assembling the marked stage 1, the last input of the full-range proof",
      "done": 0.9,
-     "lines": 90134,
+     "lines": 90007,
      "lines_compiled": 86155,
      "credit": 0.9
     }
