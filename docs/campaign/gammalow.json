@@ -1,12 +1,13 @@
 {
  "title": "The γ ≤ 1/2 campaign",
- "updated": "2026-11-09 11:05 UTC",
+ "updated": "2026-11-09 10:20 UTC",
  "convention": "Weights are the estimated size of each work package (thousands of new Lean lines; non-Lean steps get an equivalent weight). A finished package counts fully. A running package counts in proportion to the Lean it has written that compiles in the work area (part of it adapted from the existing proof), capped at 75 % until the package passes its checks and is accepted.",
  "next": "Freeze the full-range flower statement layergardenFlower_v4 (branch in preparation); T-vine core API (L1); first counting results (L6).",
  "risks": [
-  "kernel cost of the T-vine checker at 13 atoms (benchmark under way)",
-  "account quota (the work is spread over 5 accounts)",
-  "new mathematics may need local repairs once formalized"
+  "account quota (weekly limits",
+  " claude-1 carries most packages)",
+  "new mathematics may need local repairs once formalized",
+  "integration: about a dozen packages must meet at exact interfaces"
  ],
  "groups": [
   {
@@ -46,11 +47,11 @@
      "name": "freeze layergardenFlower_v4, pin the T-vine text",
      "w": 1,
      "status": "running",
-     "done": 0.3,
-     "note": "branch in preparation",
+     "done": 0.6,
+     "note": "branch prepared; final checks (ABI) running",
      "lines": 0,
      "lines_compiled": 0,
-     "credit": 0.3
+     "credit": 0.6
     }
    ]
   },
@@ -67,9 +68,10 @@
      "dirs": [
       "TVine/Core"
      ],
-     "lines": 1112,
-     "lines_compiled": 675,
-     "credit": 0.045
+     "note": "core API published",
+     "lines": 2796,
+     "lines_compiled": 2796,
+     "credit": 0.186
     },
     {
      "id": "L2",
@@ -79,9 +81,10 @@
      "dirs": [
       "TVine/Checker"
      ],
-     "lines": 1509,
-     "lines_compiled": 1471,
-     "credit": 0.184
+     "note": "13-atom kernel benchmark passed (≈30 s, 1.3 GB): checker design confirmed; statement published",
+     "lines": 2963,
+     "lines_compiled": 2590,
+     "credit": 0.324
     },
     {
      "id": "L3",
@@ -91,9 +94,10 @@
      "dirs": [
       "TVine/Struct"
      ],
-     "lines": 322,
-     "lines_compiled": 322,
-     "credit": 0.02
+     "note": "statements published",
+     "lines": 2602,
+     "lines_compiled": 2602,
+     "credit": 0.163
     },
     {
      "id": "L4",
@@ -103,9 +107,9 @@
      "dirs": [
       "TVine/Chart"
      ],
-     "lines": 1368,
-     "lines_compiled": 0,
-     "credit": 0.0
+     "lines": 4224,
+     "lines_compiled": 4224,
+     "credit": 0.367
     }
    ]
   },
@@ -117,7 +121,7 @@
     {
      "id": "L6",
      "name": "final count: gate, Prop 9.6, assembly",
-     "w": 18,
+     "w": 30.0,
      "status": "running",
      "dirs": [
       "GammaLow/FinalCount"
@@ -127,9 +131,10 @@
       "GammaLow/FinalCount/Count",
       "GammaLow/FinalCount/Step1"
      ],
-     "lines": 2849,
-     "lines_compiled": 1922,
-     "credit": 0.107
+     "note": "Prop 9.6 at γ ≤ 1/2 proved modulo two inputs; now porting main's run to 𝒱_γ (item H, 676 modules)",
+     "lines": 17603,
+     "lines_compiled": 5158,
+     "credit": 0.172
     },
     {
      "id": "L6E",
@@ -139,9 +144,9 @@
      "dirs": [
       "GammaLow/FinalCount/Ghost"
      ],
-     "lines": 1085,
-     "lines_compiled": 0,
-     "credit": 0.0
+     "lines": 3145,
+     "lines_compiled": 2921,
+     "credit": 0.73
     },
     {
      "id": "L6-COUNT",
@@ -151,21 +156,22 @@
      "dirs": [
       "GammaLow/FinalCount/Count"
      ],
-     "lines": 1534,
-     "lines_compiled": 1534,
-     "credit": 0.307
+     "lines": 2845,
+     "lines_compiled": 2845,
+     "credit": 0.569
     },
     {
      "id": "L6-STEP1",
      "name": "Step-1 deviation for T-vines",
      "w": 3,
-     "status": "running",
+     "status": "done",
      "dirs": [
       "GammaLow/FinalCount/Step1"
      ],
-     "lines": 5583,
-     "lines_compiled": 0,
-     "credit": 0.0
+     "note": "accepted: 51 modules, 306 theorems, audit re-run by wt-orch (standard axioms only)",
+     "lines": 5809,
+     "lines_compiled": 4519,
+     "credit": 1.0
     }
    ]
   },
@@ -182,9 +188,9 @@
      "dirs": [
       "GammaLow/Fama"
      ],
-     "lines": 632,
-     "lines_compiled": 632,
-     "credit": 0.079
+     "lines": 6707,
+     "lines_compiled": 6269,
+     "credit": 0.75
     },
     {
      "id": "L5b",
@@ -194,7 +200,7 @@
      "dirs": [
       "GammaLow/Famb"
      ],
-     "lines": 0,
+     "lines": 18529,
      "lines_compiled": 0,
      "credit": 0.0
     },
@@ -206,9 +212,10 @@
      "dirs": [
       "GammaLow/Famc"
      ],
-     "lines": 440,
-     "lines_compiled": 440,
-     "credit": 0.044
+     "note": "CoarseSpliced′ proved; cover′/layervine′/subpro′ in progress",
+     "lines": 6640,
+     "lines_compiled": 5775,
+     "credit": 0.578
     }
    ]
   },
@@ -225,9 +232,9 @@
      "dirs": [
       "GammaLow/Flower"
      ],
-     "lines": 379,
-     "lines_compiled": 0,
-     "credit": 0.0
+     "lines": 4544,
+     "lines_compiled": 4544,
+     "credit": 0.151
     }
    ]
   },
@@ -240,7 +247,7 @@
      "id": "L0",
      "name": "glue lemmas",
      "w": 1,
-     "status": "queued",
+     "status": "running",
      "dirs": [
       "GammaLow/Glue"
      ],
@@ -252,7 +259,7 @@
      "id": "L7",
      "name": "layergarden, low half",
      "w": 2,
-     "status": "queued",
+     "status": "running",
      "dirs": [
       "GammaLow/LGLow"
      ],
