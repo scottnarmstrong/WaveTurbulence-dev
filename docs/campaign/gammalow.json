@@ -1,6 +1,6 @@
 {
  "title": "The γ ≤ 1/2 campaign",
- "updated": "2026-11-09 13:47 UTC",
+ "updated": "2026-11-09 14:27 UTC",
  "convention": "Weights are the estimated size of each work package (thousands of new Lean lines; non-Lean steps get an equivalent weight). A finished package counts fully once it passes its checks and an independent re-run of its audit. A running package counts by the orchestrator's estimate at its last checkpoint (what is proved against what remains); before its first checkpoint it counts by the Lean it has compiled, capped at 75 %. Line counts alone overstate progress, because several packages first port large amounts of the existing proof.",
  "next": "T-vine combinatorics complete (all unconditional). Remaining: the ghost chain covers in the ported run (R194), the rest of the run port and the marked stage 1, the vine case of stage 1; then landing, sealing, audits (preparation under way).",
  "risks": [
@@ -89,18 +89,17 @@
      "id": "L3",
      "name": "structure theorems (pieces, sub-objects)",
      "w": 13,
-     "status": "running",
+     "status": "done",
      "dirs": [
       "TVine/Struct"
      ],
-     "note": "all T-vine structure proved unconditionally, including the ladders (helper L3-LAD); final packet audit under way",
+     "note": "accepted: all nine T-vine structure statements proved unconditionally (with helpers L3D, L3-LP, L3-LAD); 62 modules, 1,988 theorems; audit re-run by wt-orch",
      "exclude": [
       "TVine/Struct/Drawn"
      ],
-     "done": 0.98,
      "lines": 11395,
      "lines_compiled": 11368,
-     "credit": 0.98
+     "credit": 1.0
     },
     {
      "id": "L3D",
@@ -110,7 +109,7 @@
      "dirs": [
       "TVine/Struct/Drawn"
      ],
-     "note": "accepted: Lemma 5.2 unconditional; Lemma 8.1′ proved given Thm 1.15 (F1), which L3 has proved (f1_mol); 13 modules, 573 theorems",
+     "note": "accepted (part of L3): Lemma 5.2 and Lemma 8.1′, both unconditional",
      "lines": 3314,
      "lines_compiled": 3314,
      "credit": 1.0
@@ -150,8 +149,8 @@
      ],
      "note": "Prop 9.6 at γ ≤ 1/2 fully proved; main's run ported by 8 layer helpers, all inputs discharged except the ghost chain covers (ruling R194, in progress)",
      "done": 0.5,
-     "lines": 53844,
-     "lines_compiled": 34940,
+     "lines": 53843,
+     "lines_compiled": 38181,
      "credit": 0.5
     },
     {
@@ -163,8 +162,8 @@
       "GammaLow/FinalCount/Ghost"
      ],
      "note": "accepted: the ghost step (E20) and its Operation-1 cone (L6E2), 26 modules / 446 theorems; audits re-run by wt-orch",
-     "lines": 6379,
-     "lines_compiled": 6268,
+     "lines": 6759,
+     "lines_compiled": 6584,
      "credit": 1.0
     },
     {
@@ -210,8 +209,8 @@
      ],
      "note": "gate, pieces, normalized pieces and the stage-1 assembly proved; waits on the class count (L5c) and the vine case (helper L5a-G)",
      "done": 0.85,
-     "lines": 58827,
-     "lines_compiled": 32220,
+     "lines": 58890,
+     "lines_compiled": 33946,
      "credit": 0.85
     },
     {
@@ -258,8 +257,8 @@
      ],
      "note": "statement and five parts proved; marked stage 1 across five helpers (about half built, rest waits on L5a's last ports); marked count waits on L6's port",
      "done": 0.4,
-     "lines": 45051,
-     "lines_compiled": 27489,
+     "lines": 44781,
+     "lines_compiled": 26852,
      "credit": 0.4
     }
    ]
