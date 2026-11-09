@@ -1,8 +1,8 @@
 {
  "title": "The γ ≤ 1/2 campaign",
- "updated": "2026-11-09 13:12 UTC",
+ "updated": "2026-11-09 13:47 UTC",
  "convention": "Weights are the estimated size of each work package (thousands of new Lean lines; non-Lean steps get an equivalent weight). A finished package counts fully once it passes its checks and an independent re-run of its audit. A running package counts by the orchestrator's estimate at its last checkpoint (what is proved against what remains); before its first checkpoint it counts by the Lean it has compiled, capped at 75 %. Line counts alone overstate progress, because several packages first port large amounts of the existing proof.",
- "next": "All T-vine combinatorics is proved except one ladder lemma. Remaining: the port of main's final-count run to the enlarged vine family (L6, with the run-wide ghost assembly), the γ ≤ 1/2 flower estimate (L8), the stage-1 assembly (L5a), then landing, sealing and audits.",
+ "next": "T-vine combinatorics complete (all unconditional). Remaining: the ghost chain covers in the ported run (R194), the rest of the run port and the marked stage 1, the vine case of stage 1; then landing, sealing, audits (preparation under way).",
  "risks": [
   "account quota (weekly limits",
   " claude-1 carries most packages)",
@@ -93,14 +93,14 @@
      "dirs": [
       "TVine/Struct"
      ],
-     "note": "T-vine structure proved unconditionally (Thm 1.15, Prop 1.17, N3 Thm 6, Lemma A, Cor 1.16′); only the ladder statement (Thm 6 (iv)) remains (helper L3-LAD)",
+     "note": "all T-vine structure proved unconditionally, including the ladders (helper L3-LAD); final packet audit under way",
      "exclude": [
       "TVine/Struct/Drawn"
      ],
-     "done": 0.92,
-     "lines": 11386,
-     "lines_compiled": 11359,
-     "credit": 0.92
+     "done": 0.98,
+     "lines": 11395,
+     "lines_compiled": 11368,
+     "credit": 0.98
     },
     {
      "id": "L3D",
@@ -148,11 +148,11 @@
       "GammaLow/FinalCount/Count",
       "GammaLow/FinalCount/Step1"
      ],
-     "note": "Prop 9.6 at γ ≤ 1/2 fully proved; porting main's run (8 layer helpers, ~25–40 % compiled); ghost assembly over the run under way",
-     "done": 0.45,
-     "lines": 51579,
-     "lines_compiled": 21118,
-     "credit": 0.45
+     "note": "Prop 9.6 at γ ≤ 1/2 fully proved; main's run ported by 8 layer helpers, all inputs discharged except the ghost chain covers (ruling R194, in progress)",
+     "done": 0.5,
+     "lines": 52081,
+     "lines_compiled": 24009,
+     "credit": 0.5
     },
     {
      "id": "L6E",
@@ -163,8 +163,8 @@
       "GammaLow/FinalCount/Ghost"
      ],
      "note": "accepted: the ghost step (E20) and its Operation-1 cone (L6E2), 26 modules / 446 theorems; audits re-run by wt-orch",
-     "lines": 5240,
-     "lines_compiled": 5240,
+     "lines": 5593,
+     "lines_compiled": 5546,
      "credit": 1.0
     },
     {
@@ -208,11 +208,11 @@
      "dirs": [
       "GammaLow/Fama"
      ],
-     "note": "gate, collections, units, splice and normalized pieces (F) proved; vine case (G) and assembly (J) remaining",
-     "done": 0.7,
-     "lines": 56383,
-     "lines_compiled": 24838,
-     "credit": 0.7
+     "note": "gate, pieces, normalized pieces and the stage-1 assembly proved; waits on the class count (L5c) and the vine case (helper L5a-G)",
+     "done": 0.85,
+     "lines": 59250,
+     "lines_compiled": 26783,
+     "credit": 0.85
     },
     {
      "id": "L5b",
@@ -235,11 +235,11 @@
      "dirs": [
       "GammaLow/Famc"
      ],
-     "note": "CoarseSpliced′, cover′, layervine′, spine code and subpro′ proved; class count (I) in progress",
-     "done": 0.85,
-     "lines": 20584,
-     "lines_compiled": 20584,
-     "credit": 0.85
+     "note": "everything proved (CoarseSpliced′, cover′, layervine′, spine code, subpro′, class count), all inputs discharged; final rebuild running",
+     "done": 0.95,
+     "lines": 20618,
+     "lines_compiled": 20618,
+     "credit": 0.95
     }
    ]
   },
@@ -256,11 +256,11 @@
      "dirs": [
       "GammaLow/Flower"
      ],
-     "note": "statement and five parts proved; marked stage 1 split over five helpers; marked count waits on L6's port",
-     "done": 0.35,
-     "lines": 44813,
-     "lines_compiled": 24658,
-     "credit": 0.35
+     "note": "statement and five parts proved; marked stage 1 across five helpers (about half built, rest waits on L5a's last ports); marked count waits on L6's port",
+     "done": 0.4,
+     "lines": 44364,
+     "lines_compiled": 27062,
+     "credit": 0.4
     }
    ]
   },
