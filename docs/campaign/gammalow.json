@@ -1,6 +1,6 @@
 {
  "title": "The γ ≤ 1/2 campaign",
- "updated": "2026-11-09 18:44 UTC",
+ "updated": "2026-11-09 18:58 UTC",
  "convention": "Weights are the estimated size of each work package (thousands of new Lean lines; non-Lean steps get an equivalent weight). A finished package counts fully once it passes its checks and an independent re-run of its audit. A running package counts by the orchestrator's estimate at its last checkpoint (what is proved against what remains); before its first checkpoint it counts by the Lean it has compiled, capped at 75 %. Line counts alone overstate progress, because several packages first port large amounts of the existing proof.",
  "next": "End-to-end: Theorem 1.1 for all 0 < γ < 1 now follows (checked in Lean) from exactly two remaining pieces, the stage-1 gate (L5a, closing) and the marked stage 1 (last module group). Then landing, sealing and two-key audits.",
  "risks": [
@@ -138,7 +138,7 @@
      "id": "L6",
      "name": "final count: gate, Prop 9.6, assembly",
      "w": 30.0,
-     "status": "running",
+     "status": "done",
      "dirs": [
       "GammaLow/FinalCount"
      ],
@@ -147,11 +147,10 @@
       "GammaLow/FinalCount/Count",
       "GammaLow/FinalCount/Step1"
      ],
-     "note": "FinalCountGateLow PROVED unconditionally (verified by wt-orch): Prop 9.6 at γ ≤ 1/2, the run-wide ghost repair (E20) and the port of main's run; final rebuild and audit under way",
-     "done": 0.95,
-     "lines": 59320,
-     "lines_compiled": 59299,
-     "credit": 0.95
+     "note": "accepted: the γ ≤ 1/2 final count, with Prop 9.6, the run-wide ghost repair (E20) and the full port of main's run; 643 modules, 5,729 theorems; audit re-run by wt-orch on L6's final build",
+     "lines": 59223,
+     "lines_compiled": 59202,
+     "credit": 1.0
     },
     {
      "id": "L6E",
@@ -256,8 +255,8 @@
      ],
      "note": "marked count (H2) PROVED unconditionally, with the marked ghost cover; final count gate discharged; marked stage 1 nearly complete (I-SLOTS, I-SLOTSO, I-SLOTSB, I-VEW done; I-UNITS 34/35; I-SLOTSI and the base tail in progress)",
      "done": 0.75,
-     "lines": 86709,
-     "lines_compiled": 77603,
+     "lines": 86688,
+     "lines_compiled": 79063,
      "credit": 0.75
     }
    ]

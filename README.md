@@ -9,7 +9,7 @@ together with the results it relies on from the authors' earlier papers and from
 [Papers](#papers) below). Every step is checked by Lean; nothing is assumed beyond Lean's standard axioms.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-11-09 18:50 UTC** · frozen theorems sealed: 21 / 28 (+ 300 frozen definitions) · **1,679,060 lines of Lean on main** (12736 files) · overall completion of the whole project (full range 0 < γ < 1): 93.7 %
+> **Last updated: 2026-11-09 18:59 UTC** · frozen theorems sealed: 21 / 28 (+ 300 frozen definitions) · **1,679,060 lines of Lean on main** (12736 files) · overall completion of the whole project (full range 0 < γ < 1): 93.7 %
 <!-- /AUTO:updated -->
 
 ## At a glance
@@ -108,9 +108,9 @@ SEALED: 21 theorems (incl. main_v2, PROVED with two-key audits) + 300 definition
 ## Progress on 0 < γ ≤ 1/2
 
 <!-- AUTO:gammalow -->
-### The γ ≤ 1/2 campaign: **92.2 %**
+### The γ ≤ 1/2 campaign: **93.0 %**
 
-`████████████████████████████░░` 92.2 % · 15 of 19 work packages done, 4 running, 0 not started · **309,476 lines of new Lean compiling** (318,723 written) in the γ ≤ 1/2 work area, not yet on main · ledger updated 2026-11-09 18:44 UTC
+`████████████████████████████░░` 93.0 % · 16 of 19 work packages done, 3 running, 0 not started · **310,839 lines of new Lean compiling** (318,605 written) in the γ ≤ 1/2 work area, not yet on main · ledger updated 2026-11-09 18:58 UTC
 
 This meter tracks the extension of the formal proof of Theorem 1.1 from 1/2 < γ < 1 to the full range 0 < γ < 1 (see [docs/GAMMA-LE-HALF.md](docs/GAMMA-LE-HALF.md)). Weights are the estimated size of each work package (thousands of new Lean lines; non-Lean steps get an equivalent weight). A finished package counts fully once it passes its checks and an independent re-run of its audit. A running package counts by the orchestrator's estimate at its last checkpoint (what is proved against what remains); before its first checkpoint it counts by the Lean it has compiled, capped at 75 %. Line counts alone overstate progress, because several packages first port large amounts of the existing proof.
 
@@ -122,12 +122,12 @@ This meter tracks the extension of the formal proof of Theorem 1.1 from 1/2 < γ
 | Mathematics on paper | the repair for γ ≤ 1/2, proved and checked by independent referees | 1 | 1 | `██████████` 100 % |
 | Statements | the new full-range flower statement: audited, then frozen | 2 | 2 | `██████████` 100 % |
 | T-vine combinatorics | the enlarged vine family: structure, a verified checker, parametrizations | 5 | 5 | `██████████` 100 % |
-| Counting estimates for γ ≤ 1/2 | DH23 Props 9.4–9.6 and 10.4 in the low range, and the ghost step | 4 | 3 | `██████████` 96 % |
+| Counting estimates for γ ≤ 1/2 | DH23 Props 9.4–9.6 and 10.4 in the low range, and the ghost step | 4 | 4 | `██████████` 100 % |
 | Moving the proof to the enlarged vine family | stage 1, the vine estimate and the source objects with T-vines | 3 | 2 | `██████████` 96 % |
 | Flower estimate for γ ≤ 1/2 | the marked stage 1 and the marked final count in the low range | 1 | 0 | `████████░░` 75 % |
 | Assembly | joining the two halves γ ≤ 1/2 and γ > 1/2 | 2 | 2 | `██████████` 100 % |
 | Landing, sealing and audits | land on main; seal main, propansatz, fixedpoint, layergarden and the flower statement; two independent audits each | 1 | 0 | `███░░░░░░░` 30 % |
-| **Total** | | 19 | 15 | **92.2 %** |
+| **Total** | | 19 | 16 | **93.0 %** |
 
 <details><summary>All work packages</summary>
 
@@ -141,14 +141,14 @@ This meter tracks the extension of the formal proof of Theorem 1.1 from 1/2 < γ
 | T-vine combinatorics | L3 | structure theorems (pieces, sub-objects) | 13 | 11,368 / 11,395 | ✅ done | 100 % | accepted: all nine T-vine structure statements proved unconditionally (with helpers L3D, L3-LP, L3-LAD); 62 modules, 1,988 theorems; audit re-run by wt-orch |
 | T-vine combinatorics | L3D | drawn vines are T-vines (N2 Lemma 5.2), Lemma 8.1′ | 3 | 3,314 / 3,314 | ✅ done | 100 % | accepted (part of L3): Lemma 5.2 and Lemma 8.1′, both unconditional |
 | T-vine combinatorics | L4 | charts (parametrizations) of all T-vines | 11.5 | 9,803 / 9,803 | ✅ done | 100 % | accepted: Theorem C (charts of all T-vines) proved unconditionally; 42 modules, 2,021 theorems |
-| Counting estimates for γ ≤ 1/2 | L6 | final count: gate, Prop 9.6, assembly | 30 | 59,299 / 59,320 | 🔄 running | 95 % | FinalCountGateLow PROVED unconditionally (verified by wt-orch): Prop 9.6 at γ ≤ 1/2, the run-wide ghost repair (E20) and the port of main's run; final rebuild and audit under way |
+| Counting estimates for γ ≤ 1/2 | L6 | final count: gate, Prop 9.6, assembly | 30 | 59,202 / 59,223 | ✅ done | 100 % | accepted: the γ ≤ 1/2 final count, with Prop 9.6, the run-wide ghost repair (E20) and the full port of main's run; 643 modules, 5,729 theorems; audit re-run by wt-orch on L6's final build |
 | Counting estimates for γ ≤ 1/2 | L6E | the ghost step (erratum E20) | 4 | 10,622 / 10,643 | ✅ done | 100 % | accepted: the ghost step (E20) and its Operation-1 cone (L6E2), 26 modules / 446 theorems; audits re-run by wt-orch |
 | Counting estimates for γ ≤ 1/2 | L6-COUNT | volume counts and operations (App. A, Prop 10.4) | 5 | 6,860 / 6,860 | ✅ done | 100 % | accepted: Prop 10.4 counts, operations (d)/(e), and Case6TopLow; Prop 9.6 at γ ≤ 1/2 now needs only one T-vine lemma (L3); audit re-run by wt-orch |
 | Counting estimates for γ ≤ 1/2 | L6-STEP1 | Step-1 deviation for T-vines | 3 | 5,809 / 5,809 | ✅ done | 100 % | accepted: 51 modules, 306 theorems, audit re-run by wt-orch (standard axioms only) |
 | Moving the proof to the enlarged vine family | L5a | stage 1 and the class count | 8 | 59,105 / 59,105 | 🔄 running | 85 % | gate, pieces, normalized pieces and the stage-1 assembly proved; waits on the class count (L5c) and the vine case (helper L5a-G) |
 | Moving the proof to the enlarged vine family | L5b | the vine estimate for T-vines | 12 | 21,038 / 21,110 | ✅ done | 100 % | accepted: vineest′ for all 0<γ<1 (207 modules, 848 theorems; audit re-run by wt-orch); uses L4's Theorem C |
 | Moving the proof to the enlarged vine family | L5c | source objects, spliced count, subpro | 10 | 20,612 / 20,612 | ✅ done | 100 % | accepted: CoarseSpliced′, cover′, layervine′, subpro′, spine code and class count all proved, no inputs; 144 modules, 3,222 theorems; audit re-run by wt-orch |
-| Flower estimate for γ ≤ 1/2 | L8 | flower estimate, low half | 30 | 77,603 / 86,709 | 🔄 running | 75 % | marked count (H2) PROVED unconditionally, with the marked ghost cover; final count gate discharged; marked stage 1 nearly complete (I-SLOTS, I-SLOTSO, I-SLOTSB, I-VEW done; I-UNITS 34/35; I-SLOTSI and the base tail in progress) |
+| Flower estimate for γ ≤ 1/2 | L8 | flower estimate, low half | 30 | 79,063 / 86,688 | 🔄 running | 75 % | marked count (H2) PROVED unconditionally, with the marked ghost cover; final count gate discharged; marked stage 1 nearly complete (I-SLOTS, I-SLOTSO, I-SLOTSB, I-VEW done; I-UNITS 34/35; I-SLOTSI and the base tail in progress) |
 | Assembly | L0 | glue lemmas | 1 | 741 / 741 | ✅ done | 100 % | accepted with L7: five conditional provider theorems Expr-equal to the frozen statements |
 | Assembly | L7 | layergarden, low half | 2 | 3,263 / 3,263 | ✅ done | 100 % | accepted: LG-low and the flower couple clause from the low gates; audit re-run by wt-orch (19 modules, 401 theorems) |
 | Landing, sealing and audits | L9 | landing, seals, two-key audits | 6 | — | 🔄 running | 30 % | landing branch synced and clean (1,523 modules); seal tooling dry-run sealed all five anchors on a scratch clone (OK); ten audit briefs ready |
@@ -305,15 +305,15 @@ Campaign bookkeeping, refreshed automatically; may lag behind the actual session
 <!-- AUTO:workers -->
 | tmux | model / account | packet | branch: last commit | brief |
 |---|---|---|---|---|
-| wt-orch | Claude Opus / claude-1 | Task 34: snapshot-8 delta audit + freeze branch rebuild; done: letter draft, many audits | `w/orch`: 5 min ago, 218 unlanded | [brief](docs/campaign/orch/TASK4.md) |
+| wt-orch | Claude Opus / claude-1 | Task 34: snapshot-8 delta audit + freeze branch rebuild; done: letter draft, many audits | `w/orch`: 1 min ago, 219 unlanded | [brief](docs/campaign/orch/TASK4.md) |
 | wt-gauss-hc | Claude Opus / claude-10 | FLOWER-SPINE: B1.12 layergardenFlower from named spine inputs (X2, X3 closed: fixedpoint from B1.12+B1.2+B1.5) | `w/waveb-infra`: — | [brief](docs/campaign/briefs/FLOWER-SPINE.md) |
-| wt-torus | Claude Opus / claude-14 | G7 MOLEPROP4 (revived, repaired): DH23 ylem1′, ylem2, Prop 10.4 (A23-HALF done) | `w/approxnt`: 126 h ago | [brief](docs/campaign/briefs/MOLEPROP4.md) |
-| wt-wke | Claude Opus / claude-13 | L3+L4: TARGET Props 6.1-6.3 (proplayer2-4); J1-J3, B̃ bridge, tree Prop 5.1 done | `w/jr-ops`: 126 h ago | [brief](docs/campaign/briefs/PL234.md) |
+| wt-torus | Claude Opus / claude-14 | G7 MOLEPROP4 (revived, repaired): DH23 ylem1′, ylem2, Prop 10.4 (A23-HALF done) | `w/approxnt`: 127 h ago | [brief](docs/campaign/briefs/MOLEPROP4.md) |
+| wt-wke | Claude Opus / claude-13 | L3+L4: TARGET Props 6.1-6.3 (proplayer2-4); J1-J3, B̃ bridge, tree Prop 5.1 done | `w/jr-ops`: 127 h ago | [brief](docs/campaign/briefs/PL234.md) |
 | wt-cumul | GPT-6.1-Sol low / codex-2 | LG-SPINE (pre-freeze): layergarden from named spine inputs (INDUCT, WKETAYLOR-GATE done) | `w/norm-bridge`: 133 h ago | [brief](docs/campaign/briefs/LG-SPINE.md) |
 | wt-nt | GPT-6.1-Sol low / codex-2 | G4 APPB-OPS then G5 APPB-ALG (pre-freeze): DH23 Appendix B (MOLE M1+M2, CLCN M3 done) | `w/nt-circle`: 122 h ago | [brief](docs/campaign/briefs/APPB-OPS.md) |
 | wt-ansob | GPT-6.1-Sol low / codex-2 | RA1 couples (RA1Couple): DH23 Prop 6.1 for couples; trees moved to wt-l2s | `w/bproc`: 123 h ago, 11 unlanded | [brief](docs/campaign/briefs/REGASYMP.md) |
 | wt-gausssum | GPT-6.1-Sol low / codex-2 | M9 VINEPARAM (pre-freeze): molecule-level vine parametrizations (M4 VINES done) | `w/count`: 122 h ago, 11 unlanded | [brief](docs/campaign/briefs/VINES.md) |
 | wt-resonant | GPT-6.1-Sol low / codex-2 | V4 VINEEST-S2 (pre-freeze): vineest Step 2 into sumint form (V3 REGRED done) | `w/resonant`: 127 h ago | [brief](docs/campaign/briefs/VINEEST-S2.md) |
 | wt-anfourier | GPT-6.1-Sol low / codex-2 | M7 LFTWIST (pre-freeze); M5 MOLECPL, M6 TWIST, SUMINT done | `w/an-phase`: 140 h ago | [brief](docs/campaign/briefs/LFTWIST.md) |
-| wt-l2s | GPT-6.1-Sol low / codex-2 | RA1-TREES: DH23 Prop 6.1 for trees (RA1Tree); INCOH-INST done: B2.2 proved at exact type | `w/wke-l2s`: 120 h ago, 23 unlanded | [brief](docs/campaign/briefs/RA1-TREES.md) |
+| wt-l2s | GPT-6.1-Sol low / codex-2 | RA1-TREES: DH23 Prop 6.1 for trees (RA1Tree); INCOH-INST done: B2.2 proved at exact type | `w/wke-l2s`: 121 h ago, 23 unlanded | [brief](docs/campaign/briefs/RA1-TREES.md) |
 <!-- /AUTO:workers -->
