@@ -89,14 +89,16 @@ a smaller γ means a stronger nonlinearity and a shorter kinetic time.
     explored). A first pass removed about 48,000 lines; the rest waits until the γ ≤ 1/2 work is done, since that
     work reuses part of the code;
   - preparing a public release.
-- The six frozen theorem statements that are not yet sealed are the original full-range versions (0 < γ < 1). They
-  will be proved when the γ ≤ 1/2 work is complete.
+- The seven frozen theorem statements that are not yet sealed are the full-range versions (0 < γ < 1): the original
+  `main`, `propansatz`, `fixedpoint` and `layergarden`, the original flower statements v1 and v2, and the new
+  full-range flower statement `layergardenFlower_v4` (frozen on 2026-11-09, decision D16). The first four and v4 will
+  be proved when the γ ≤ 1/2 work is complete; flower v1/v2 (max-form cutoffs, erratum E34) are superseded.
 
 <details><summary>Technical status fields</summary>
 
 ```text
-DRAFT_ANCHORS: 6 theorem anchors at DRAFT_SORRY (the full-range originals main, propansatz, fixedpoint, layergarden,
-               layergardenFlower v1, and the superseded layergardenFlower_v2)
+DRAFT_ANCHORS: 7 theorem anchors at DRAFT_SORRY (the full-range originals main, propansatz, fixedpoint, layergarden,
+               layergardenFlower v1, the superseded layergardenFlower_v2, and the new full-range layergardenFlower_v4)
 UNREGISTERED_SORRIES: 0 (frozen-anchor guard OK)
 DRAFT_IMPORT_VIOLATIONS: 0
 SEALED: 21 theorems (incl. main_v2, PROVED with two-key audits) + 300 definitions
