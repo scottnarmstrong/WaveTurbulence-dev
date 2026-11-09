@@ -2536,6 +2536,7 @@ public import WaveTurbulence.Frozen.Theorems.ExistsUnique_regChain_decodesTree
 public import WaveTurbulence.Frozen.Theorems.ExistsUnique_regCpl_decodes
 public import WaveTurbulence.Frozen.Theorems.FixedpointV2
 public import WaveTurbulence.Frozen.Theorems.IncoherentDecay
+public import WaveTurbulence.Frozen.Theorems.Layergarden
 public import WaveTurbulence.Frozen.Theorems.LayergardenFlowerV3
 public import WaveTurbulence.Frozen.Theorems.LayergardenFlowerV4
 public import WaveTurbulence.Frozen.Theorems.LayergardenV2
