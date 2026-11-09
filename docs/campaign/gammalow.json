@@ -150,8 +150,8 @@
      ],
      "note": "Prop 9.6 at γ ≤ 1/2 fully proved; main's run ported by 8 layer helpers, all inputs discharged except the ghost chain covers (ruling R194, in progress)",
      "done": 0.5,
-     "lines": 52081,
-     "lines_compiled": 24009,
+     "lines": 52087,
+     "lines_compiled": 24818,
      "credit": 0.5
     },
     {
@@ -164,7 +164,7 @@
      ],
      "note": "accepted: the ghost step (E20) and its Operation-1 cone (L6E2), 26 modules / 446 theorems; audits re-run by wt-orch",
      "lines": 5593,
-     "lines_compiled": 5546,
+     "lines_compiled": 5593,
      "credit": 1.0
     },
     {
@@ -211,7 +211,7 @@
      "note": "gate, pieces, normalized pieces and the stage-1 assembly proved; waits on the class count (L5c) and the vine case (helper L5a-G)",
      "done": 0.85,
      "lines": 59250,
-     "lines_compiled": 26783,
+     "lines_compiled": 27117,
      "credit": 0.85
     },
     {
@@ -258,8 +258,8 @@
      ],
      "note": "statement and five parts proved; marked stage 1 across five helpers (about half built, rest waits on L5a's last ports); marked count waits on L6's port",
      "done": 0.4,
-     "lines": 44364,
-     "lines_compiled": 27062,
+     "lines": 44636,
+     "lines_compiled": 26987,
      "credit": 0.4
     }
    ]
