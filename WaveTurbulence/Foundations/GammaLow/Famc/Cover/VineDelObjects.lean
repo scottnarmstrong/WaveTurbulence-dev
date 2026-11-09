@@ -1,0 +1,173 @@
+/- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
+module
+public import WaveTurbulence.Foundations.GammaLow.Famc.Cover.ChainFacts
+public import WaveTurbulence.Foundations.Spine.VineDelMolecule
+public import WaveTurbulence.Foundations.Molecule.VineTwoJointSeparator
+public import WaveTurbulence.Foundations.Molecule.VineHyperBothJoints
+public import WaveTurbulence.Foundations.Molecule.VineLikeConnected
+public import WaveTurbulence.Foundations.Molecule.MoleculeComponentPartitions
+public import WaveTurbulence.Foundations.Molecule.MoleculeBlockRealizations
+public import WaveTurbulence.Foundations.GammaLow.Famc.Cover.Base
+public import WaveTurbulence.Foundations.Spine.SourceVineObjectBridge
+/-! # The interior deletion property for actual vine chains and designated vine-like objects -/
+public section
+set_option autoImplicit false
+-- Ported from main `Spine.VineDelObjects` (sha256 f0ceb0b1e689bfa2c5f457b77a08d27587a598748216387fe0e97f1fde48f464) to L6's `𝒱_γ` carrier `FinalCount.Src` (family parameter `γv`).
+namespace WaveTurbulence.GammaLow.Famc
+open WaveTurbulence.LGSpine WaveTurbulence.GammaLow.FinalCount.Src
+open WaveTurbulence.LGSpine.SourceVine (TripleAt HasChosenPair atomGapKind IsDyadicScale InternalParent disjointF_of_subset disjointF_union)
+set_option linter.unusedSectionVars false
+variable {γv : ℝ}
+open WaveTurbulence.Vine (GroupConnected induced_path_mono eraseBond_induced_path)
+open Finset
+
+variable {V D : Type} [DecidableEq V] [Fintype D]
+
+/-- A group closed under adjacency inside a larger group inherits its paths. -/
+theorem induced_restrict (M : Molecule V D) {U S : Finset V}
+    (hcl : ∀ x ∈ U, ∀ y ∈ S, M.Adj x y → y ∈ U) {u v : V}
+    (hp : (Mole.induced M S).SameComponent u v) :
+    (u ∈ U ↔ v ∈ U) ∧ (u ∈ U → (Mole.induced M U).SameComponent u v) := by
+  induction hp with
+  | rel a b hab =>
+    obtain ⟨hadj, ha, hb⟩ := (Mole.induced_adj_iff M S a b).mp hab
+    refine ⟨⟨fun h => hcl a h b hb hadj, fun h => hcl b h a ha (Mole.adj_symmetric M hadj)⟩,
+      fun hu => Relation.EqvGen.rel _ _ ((Mole.induced_adj_iff M U a b).mpr
+        ⟨hadj, hu, hcl a hu b hb hadj⟩)⟩
+  | refl a => exact ⟨Iff.rfl, fun _ => Relation.EqvGen.refl _⟩
+  | symm a b _ ih =>
+    exact ⟨ih.1.symm, fun hb => Relation.EqvGen.symm _ _ (ih.2 (ih.1.mpr hb))⟩
+  | trans a b c _ _ ih1 ih2 =>
+    exact ⟨ih1.1.trans ih2.1, fun ha => Relation.EqvGen.trans _ _ _ (ih1.2 ha)
+      (ih2.2 (ih1.1.mp ha))⟩
+
+/-- DH23 Lemma 4.11 premise for vine chains: deleting an interior atom leaves the chain connected
+or splits it into two connected pieces containing the joints. -/
+theorem chain_interior_deletion [DecidableEq D] (hF : FamFacts γv) {M : Molecule V D} {S : Finset V} {a b : V}
+    {n : ℕ} (h : Chain γv M S a b n) {v : V} (hv : v ∈ S) (hva : v ≠ a) (hvb : v ≠ b) :
+    Mole.GroupConnected M (S.erase v) ∨ Mole.TwoComponents M (S.erase v) a b := by
+  classical
+  obtain ⟨haS, hbS⟩ := chain_joints_mem h
+  have haS' : a ∈ S.erase v := mem_erase.mpr ⟨hva.symm, haS⟩
+  have hbS' : b ∈ S.erase v := mem_erase.mpr ⟨hvb.symm, hbS⟩
+  have reach := chain_erase_endpoint_reach hF (z := v) h
+  by_cases hab : (Mole.induced M (S.erase v)).SameComponent a b
+  · left
+    have hall : ∀ u ∈ S.erase v, (Mole.induced M (S.erase v)).SameComponent a u := by
+      intro u hu
+      rcases reach u hu with ⟨_, hp⟩ | ⟨_, hp⟩
+      · exact hp
+      · exact Relation.EqvGen.trans _ _ _ hab hp
+    refine ⟨⟨a, haS'⟩, fun u hu w hw => ?_⟩
+    exact Relation.EqvGen.trans _ _ _ (Relation.EqvGen.symm _ _ (hall u hu)) (hall w hw)
+  · right
+    let U := (S.erase v).filter (fun x => (Mole.induced M (S.erase v)).SameComponent a x)
+    let W := (S.erase v).filter (fun x => (Mole.induced M (S.erase v)).SameComponent b x)
+    have hclosed : ∀ (c : V), (Mole.induced M (S.erase v)).SameComponent c c →
+        ∀ x ∈ (S.erase v).filter (fun x => (Mole.induced M (S.erase v)).SameComponent c x),
+        ∀ y ∈ S.erase v, M.Adj x y →
+        y ∈ (S.erase v).filter (fun x => (Mole.induced M (S.erase v)).SameComponent c x) := by
+      intro c _ x hx y hy hadj
+      refine mem_filter.mpr ⟨hy, Relation.EqvGen.trans _ _ _ (mem_filter.mp hx).2
+        (Relation.EqvGen.rel _ _ ((Mole.induced_adj_iff M _ x y).mpr ⟨hadj, (mem_filter.mp hx).1, hy⟩))⟩
+    have gc : ∀ (c : V), c ∈ S.erase v →
+        Mole.GroupConnected M ((S.erase v).filter
+          (fun x => (Mole.induced M (S.erase v)).SameComponent c x)) := by
+      intro c hc
+      refine ⟨⟨c, mem_filter.mpr ⟨hc, Relation.EqvGen.refl _⟩⟩, fun u hu w hw => ?_⟩
+      have hcl := hclosed c (Relation.EqvGen.refl _)
+      have hp : (Mole.induced M (S.erase v)).SameComponent u w :=
+        Relation.EqvGen.trans _ _ _ (Relation.EqvGen.symm _ _ (mem_filter.mp hu).2)
+          (mem_filter.mp hw).2
+      exact (induced_restrict M hcl hp).2 hu
+    refine ⟨U, W, ?_, ?_, gc a haS', gc b hbS',
+      mem_filter.mpr ⟨haS', Relation.EqvGen.refl _⟩,
+      mem_filter.mpr ⟨hbS', Relation.EqvGen.refl _⟩, ?_⟩
+    · ext u
+      simp only [mem_union, U, W, mem_filter]
+      constructor
+      · rintro (h | h) <;> exact h.1
+      · intro hu
+        rcases reach u hu with ⟨_, hp⟩ | ⟨_, hp⟩
+        · exact Or.inl ⟨hu, hp⟩
+        · exact Or.inr ⟨hu, hp⟩
+    · rw [Finset.disjoint_left]
+      intro u hu hw
+      exact hab (Relation.EqvGen.trans _ _ _ (mem_filter.mp hu).2
+        (Relation.EqvGen.symm _ _ (mem_filter.mp hw).2))
+    · intro u hu w hw hadj
+      have hp := Relation.EqvGen.rel _ _ ((Mole.induced_adj_iff M (S.erase v) u w).mpr
+        ⟨hadj, (mem_filter.mp hu).1, (mem_filter.mp hw).1⟩)
+      exact hab (Relation.EqvGen.trans _ _ _ (mem_filter.mp hu).2
+        (Relation.EqvGen.trans _ _ _ hp (Relation.EqvGen.symm _ _ (mem_filter.mp hw).2)))
+
+section Objects
+variable [DecidableEq D]
+
+theorem sourceVC_chain {M : Molecule V D} {S : Finset V} {a b : V}
+    (h : IsVC γv M S a b) : ∃ n, Chain γv M S a b n := by
+  obtain ⟨_, n, hc⟩ := h
+  exact ⟨n, hc⟩
+
+/-- Interior deletion property for an ordinary designated VC. -/
+theorem sourceVC_interior_deletion (hF : FamFacts γv) {M : Molecule V D} {S : Finset V} {a b : V}
+    (h : IsVC γv M S a b) : Mole.InteriorDeletionProperty M S a b := by
+  obtain ⟨n, hc⟩ := sourceVC_chain h
+  intro v hv hva hvb
+  exact chain_interior_deletion hF hc hv hva hvb
+
+/-- Interior deletion property of a hyper-like object, in the original molecule. -/
+theorem hyperAdjoint_interior_deletion (hF : FamFacts γv) {M : Molecule V D} {S : Finset V} {a b : V} {e : D}
+    (hends : M.ends e = s(a, b)) (h : IsVC γv (Mole.eraseBond M e) S a b) :
+    Mole.InteriorDeletionProperty M S a b := by
+  obtain ⟨n, hc⟩ := sourceVC_chain h
+  intro v hv hva hvb
+  have hadj : M.Adj a b := by
+    have h2 : s(M.atom e, M.atom (M.mate e)) = s(a, b) := hends
+    rcases Sym2.eq_iff.mp h2 with ⟨h1, h3⟩ | ⟨h1, h3⟩
+    · exact ⟨e, h1, h3⟩
+    · exact ⟨M.mate e, h3, by rw [M.mate_mate]; exact h1⟩
+  have tr : ∀ {U : Finset V}, Mole.GroupConnected (Mole.eraseBond M e) U → Mole.GroupConnected M U :=
+    fun {U} hU => ⟨hU.1, fun u hu w hw => eraseBond_induced_path M e U (hU.2 u hu w hw)⟩
+  rcases chain_interior_deletion hF hc hv hva hvb with hcn | ⟨U, W, hUW, _, hU, hW, haU, hbW, _⟩
+  · exact Or.inl (tr hcn)
+  · left
+    have hUS : U ⊆ S.erase v := hUW ▸ subset_union_left
+    have hWS : W ⊆ S.erase v := hUW ▸ subset_union_right
+    have hU' := tr hU
+    have hW' := tr hW
+    refine ⟨⟨a, hUS haU⟩, fun u hu w hw => ?_⟩
+    have all : ∀ x ∈ S.erase v, (Mole.induced M (S.erase v)).SameComponent a x := by
+      intro x hx
+      have hx' : x ∈ U ∪ W := hUW ▸ hx
+      rcases mem_union.mp hx' with hxU | hxW
+      · exact induced_path_mono M hUS (hU'.2 a haU x hxU)
+      · refine Relation.EqvGen.trans _ _ _ (Relation.EqvGen.rel _ _
+          ((Mole.induced_adj_iff M (S.erase v) a b).mpr ⟨hadj, hUS haU, hWS hbW⟩))
+          (induced_path_mono M hWS (hW'.2 b hbW x hxW))
+    exact Relation.EqvGen.trans _ _ _ (Relation.EqvGen.symm _ _ (all u hu)) (all w hw)
+
+/-- All premises of the overlap classification (DH23 Lemma 4.11) hold for every actual
+designated vine-like object. -/
+theorem object_overlap_premises (hF : FamFacts γv) {M : Molecule V D} (O : Object γv M) :
+    Nonempty (Mole.BlockRealization M O.atoms O.upper O.lower) ∧
+    Mole.InteriorDeletionProperty M O.atoms O.upper O.lower ∧
+    (∀ x ∈ O.atoms \ {O.upper, O.lower}, ∀ y ∈ O.atoms \ {O.upper, O.lower},
+      (Mole.induced M (O.atoms \ {O.upper, O.lower})).SameComponent x y) := by
+  rcases O with ⟨S, a, b, shape⟩
+  cases shape with
+  | vc h =>
+    obtain ⟨n, hc⟩ := sourceVC_chain h
+    refine ⟨⟨Mole.BlockRealization.block h.1 ⟨⟨a, (chain_joints_mem hc).1⟩,
+      chain_connected hc⟩⟩, sourceVC_interior_deletion hF h, chain_interior_connected hF hc⟩
+  | hyper R =>
+    obtain ⟨n, hc⟩ := sourceVC_chain R.adjoint
+    refine ⟨⟨Mole.BlockRealization.hyper R.added R.ends_eq R.adjoint.1
+      ⟨⟨a, (chain_joints_mem hc).1⟩, chain_connected hc⟩⟩,
+      hyperAdjoint_interior_deletion hF R.ends_eq R.adjoint, ?_⟩
+    intro x hx y hy
+    exact eraseBond_induced_path M R.added _ (chain_interior_connected hF hc x hx y hy)
+
+end Objects
+
+end WaveTurbulence.GammaLow.Famc

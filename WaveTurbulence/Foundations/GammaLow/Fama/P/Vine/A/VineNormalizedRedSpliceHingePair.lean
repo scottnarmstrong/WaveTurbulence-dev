@@ -1,0 +1,516 @@
+/- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
+-- L5a port of main `WaveTurbulence.Foundations.Vine.A.VineNormalizedRedSpliceHingePair` (sha256 in COPIED-SHA256SUMS) over L6's 𝒱_γ carrier `Src`.
+module
+public import WaveTurbulence.Foundations.GammaLow.Fama.Vine.IsoStmt
+public import WaveTurbulence.Foundations.GammaLow.Fama.P.Vine.A.VineNormalizedRedSpliceDesig
+public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.SurvData
+import Mathlib.Tactic
+public import WaveTurbulence.Foundations.Vine.A.VineNormalizedRedSpliceHingePair
+public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Amend7
+public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.CL
+public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.CN
+public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Coll
+public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Coll2
+public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Cover
+public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Data
+public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Deg
+public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Desig
+public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Final
+public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Gap
+public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Greg
+public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Group
+public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.HVC
+public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.HVCTop
+public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.HVCTop2
+public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.HingePair
+public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.IP
+public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Ingr
+public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Marked
+public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Obj
+public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Obj2
+public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Obj3
+public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Pairs
+public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Piece
+public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Rev
+public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Runs
+public import WaveTurbulence.Foundations.GammaLow.Fama.P.FinalCount.RedSpliceRunsMK
+public import WaveTurbulence.Foundations.GammaLow.Fama.P.FinalCount.RedSpliceRunsMK2
+public import WaveTurbulence.Foundations.GammaLow.Fama.P.FinalCount.RedSpliceRunsMK3
+public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Skip
+public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Spine
+public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Split
+public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Stage
+public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Top
+public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.TripleDesig
+public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.TripleHinge
+public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.UnitBlocks
+public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Units
+public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Units2
+public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.V0
+public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.VC
+public import WaveTurbulence.Foundations.GammaLow.Fama.Coll.Basic
+public import WaveTurbulence.Foundations.GammaLow.Fama.Coll.Collection
+public import WaveTurbulence.Foundations.GammaLow.Fama.Inputs
+public import WaveTurbulence.Foundations.GammaLow.Fama.Vine.Chain
+public import WaveTurbulence.Foundations.GammaLow.Fama.P.Molecule.VineChainEraseEndpoints
+public import WaveTurbulence.Foundations.GammaLow.Fama.P.Molecule.VineChainInteriorConnected
+public import WaveTurbulence.Foundations.GammaLow.Fama.Vine.Facts
+public import WaveTurbulence.Foundations.GammaLow.Fama.P.Molecule.VineLocalDartChains
+public import WaveTurbulence.Foundations.GammaLow.FinalCount.Src.Counting
+public import WaveTurbulence.Foundations.GammaLow.FinalCount.Src.Objects
+public import WaveTurbulence.Foundations.GammaLow.Fama.P.Spine.VineDelObjects
+public import WaveTurbulence.Foundations.GammaLow.Fama.P.Stage1.Represents.RepSel
+public import WaveTurbulence.Foundations.GammaLow.Fama.P.Stage1.Shared.S1VInvChain
+public import WaveTurbulence.Foundations.GammaLow.Fama.P.Stage1.Shared.S1VInvEquiv
+public import WaveTurbulence.Foundations.GammaLow.Fama.P.Stage1.Shared.S1VInvFamily
+public import WaveTurbulence.Foundations.GammaLow.Fama.P.Stage1.Shared.S1VInvGood
+public import WaveTurbulence.Foundations.GammaLow.Fama.P.Stage1.Shared.S1VInvIng
+public import WaveTurbulence.Foundations.GammaLow.Fama.P.Stage1.Shared.S1VInvIso
+public import WaveTurbulence.Foundations.GammaLow.Fama.P.Stage1.Shared.S1VInvMap
+public import WaveTurbulence.Foundations.GammaLow.Fama.P.Vine.A.VineCoarseGroupCode
+public import WaveTurbulence.Foundations.GammaLow.Fama.P.Vine.A.VineDVGroupKey
+public import WaveTurbulence.Foundations.GammaLow.Fama.P.Vine.A.VineFamily
+public import WaveTurbulence.Foundations.GammaLow.Fama.P.Vine.A.VineGroupPickCarrier
+public import WaveTurbulence.Foundations.GammaLow.Fama.P.Vine.A.VineHVGroupKey
+public import WaveTurbulence.Foundations.GammaLow.Fama.P.Vine.A.VineMarkTransport
+public import WaveTurbulence.Foundations.GammaLow.Fama.P.Vine.A.VineNormalizationNames
+public import WaveTurbulence.Foundations.GammaLow.Fama.P.Vine.A.VineNormalizedRedSpliceColl
+public import WaveTurbulence.Foundations.GammaLow.Fama.P.Vine.A.VineNormalizedRedSpliceColl2
+public import WaveTurbulence.Foundations.GammaLow.Fama.P.Vine.A.VinePrescription
+public import WaveTurbulence.Foundations.GammaLow.Fama.P.Vine.A.VinePrimeState
+public import WaveTurbulence.Foundations.GammaLow.Fama.P.Vine.A.VineSelectedTransport
+
+
+/-!
+R83 successor copy of pinned/r83-RedSpliceHingePair.lean (original SHA in COPIED-SHA256SUMS).
+
+# REDSPLICE-DEF (S2a), R28: the hinge pairs and the choice data `C_1` of `G_sb`
+
+(R28) `hingePair γ G σ v`, the pair `(ℓ_1, ℓ_2)` of TARGET subpro(5) at the hinge `v` (always a `ProperPair`, i.e. the lift of an
+external out/in pair of the unit with crown `v` at one of its joints):
+1. if `v` is the designated atom of a group `S`: the LIFT of `hingeOrigPair` of `S` (so `Cs.first/second` is the entry pair of
+   `gapSpecification` at `v`);
+2. otherwise the lift of a pair `HingeSpec γ G S u.upper p` of the unit `u` with crown `v` (for a hinge of a skipped vine
+   it lies inside the residual object);
+3. otherwise a proper pair.
+0. (B2c, o75 Theorem 7.5′(5) and 75-F1, taken first) at a joint of a survivor: the lift of the pair of the survivor
+   removed first (`survPairAt`).
+`collectionChoices γ G σ`, `structural_collectionChoices`, `hingeOutsideFirst_collectionChoices`: as before.
+-/
+
+@[expose] public section
+set_option autoImplicit false
+open WaveTurbulence.Induct WaveTurbulence.GammaLow.FinalCount
+set_option linter.unusedSectionVars false
+namespace WaveTurbulence.GammaLow.Fama.VineA.NormalizedSplice
+open WaveTurbulence.VineA.NormalizedSplice WaveTurbulence.GammaLow.FinalCount
+open Finset WaveTurbulence WaveTurbulence.RedSplice WaveTurbulence.Mole TTree WaveTurbulence.Stage1 WaveTurbulence.LGSpine WaveTurbulence.GammaLow.FinalCount
+  WaveTurbulence.LGSpine.SourceVine
+
+variable {w : ℕ} {G : Garden w} {γ : ℝ} [Fact TVineF1Input] [Fact VinechainlemPrimeInput] [Fact (γ ≤ 1 / 2)] [Fact TVineIsoInvariant]
+
+/-- The designated atom of the group `S` in `G_sb`. -/
+@[expose] noncomputable def groupAtom (γ : ℝ) [Fact (γ ≤ 1 / 2)] (G : Garden w) (σ : Prescription G) (S : Finset (GBranch G.tree))
+    (Mk : Set (CLVineG γ G) := ∅) : Option (GBranch (stSt γ G σ Mk).G.tree) :=
+  (groupJoint γ G S Mk).map ((stSt γ G σ Mk).M.pi (stSt γ G σ Mk).hcls)
+
+/-- The lift to `G_sb` (at the atom `v`) of a pair of darts of the original garden: darts of `G_sb` whose images
+under `od` are the given darts and which form a `TripleAt` at `v`. -/
+@[expose] noncomputable def liftPair (γ : ℝ) [Fact (γ ≤ 1 / 2)] (G : Garden w) (σ : Prescription G) {Mk : Set (CLVineG γ G)}
+    (v : GBranch (stSt γ G σ Mk).G.tree)
+    (p : GardenDart G × GardenDart G) : Option (GardenDart (stSt γ G σ Mk).G × GardenDart (stSt γ G σ Mk).G) := by
+  classical
+  exact if h : ∃ q : GardenDart (stSt γ G σ Mk).G × GardenDart (stSt γ G σ Mk).G,
+      (stSt γ G σ Mk).M.od q.1 = p.1 ∧ (stSt γ G σ Mk).M.od q.2 = p.2 ∧ TripleAt (stSt γ G σ Mk).G v q.1 q.2
+  then some (Classical.choose h) else none
+
+/-- B1b (Mk-general form of `liftPair_of_exists`). -/
+theorem liftPair_of_existsMk {σ : Prescription G} {Mk : Set (CLVineG γ _)} {v : GBranch (stSt γ (Mk := Mk) G σ).G.tree} {p : GardenDart G × GardenDart G}
+    (h : ∃ q : GardenDart (stSt γ (Mk := Mk) G σ).G × GardenDart (stSt γ (Mk := Mk) G σ).G,
+      (stSt γ (Mk := Mk) G σ).M.od q.1 = p.1 ∧ (stSt γ (Mk := Mk) G σ).M.od q.2 = p.2 ∧ TripleAt (stSt γ (Mk := Mk) G σ).G v q.1 q.2) :
+    ∃ q, liftPair γ G σ v p = some q ∧ (stSt γ (Mk := Mk) G σ).M.od q.1 = p.1 ∧ (stSt γ (Mk := Mk) G σ).M.od q.2 = p.2 ∧
+      TripleAt (stSt γ (Mk := Mk) G σ).G v q.1 q.2 := by
+  classical
+  refine ⟨Classical.choose h, ?_, Classical.choose_spec h⟩
+  unfold liftPair
+  rw [dite_eq_left h]
+
+theorem liftPair_of_exists {σ : Prescription G} {v : GBranch (stSt γ G σ).G.tree} {p : GardenDart G × GardenDart G}
+    (h : ∃ q : GardenDart (stSt γ G σ).G × GardenDart (stSt γ G σ).G,
+      (stSt γ G σ).M.od q.1 = p.1 ∧ (stSt γ G σ).M.od q.2 = p.2 ∧ TripleAt (stSt γ G σ).G v q.1 q.2) :
+    ∃ q, liftPair γ G σ v p = some q ∧ (stSt γ G σ).M.od q.1 = p.1 ∧ (stSt γ G σ).M.od q.2 = p.2 ∧
+      TripleAt (stSt γ G σ).G v q.1 q.2 := liftPair_of_existsMk (Mk := ∅) h
+
+/-- B1b (Mk-general form of `liftPair_spec`). -/
+theorem liftPair_specMk {σ : Prescription G} {Mk : Set (CLVineG γ _)} {v : GBranch (stSt γ (Mk := Mk) G σ).G.tree} {p : GardenDart G × GardenDart G}
+    {q : GardenDart (stSt γ (Mk := Mk) G σ).G × GardenDart (stSt γ (Mk := Mk) G σ).G} (h : liftPair γ G σ v p = some q) :
+    (stSt γ (Mk := Mk) G σ).M.od q.1 = p.1 ∧ (stSt γ (Mk := Mk) G σ).M.od q.2 = p.2 ∧ TripleAt (stSt γ (Mk := Mk) G σ).G v q.1 q.2 := by
+  classical
+  unfold liftPair at h
+  split_ifs at h with hex
+  · rw [Option.some.injEq] at h
+    exact h ▸ Classical.choose_spec hex
+
+theorem liftPair_spec {σ : Prescription G} {v : GBranch (stSt γ G σ).G.tree} {p : GardenDart G × GardenDart G}
+    {q : GardenDart (stSt γ G σ).G × GardenDart (stSt γ G σ).G} (h : liftPair γ G σ v p = some q) :
+    (stSt γ G σ).M.od q.1 = p.1 ∧ (stSt γ G σ).M.od q.2 = p.2 ∧ TripleAt (stSt γ G σ).G v q.1 q.2 := liftPair_specMk (Mk := ∅) h
+
+/-- The pair at a hinge designated atom: the lift of `hingeOrigPair`. -/
+@[expose] noncomputable def hingeEntryPair (γ : ℝ) [Fact (γ ≤ 1 / 2)] (G : Garden w) (σ : Prescription G) (S : Finset (GBranch G.tree))
+    {Mk : Set (CLVineG γ G)} (v : GBranch (stSt γ G σ Mk).G.tree) :
+    Option (GardenDart (stSt γ G σ Mk).G × GardenDart (stSt γ G σ Mk).G) :=
+  (hingeOrigPair γ G S Mk).bind (liftPair γ G σ v)
+
+
+/-- B2c (o75 Theorem 7.5′(5), 75-F1): the first survivor (in `survivorsMk` order, i.e. chain by chain along the spine)
+having a joint at `v` in `G_sb`, with that joint (its lower joint if both map to `v`). -/
+@[expose] noncomputable def survJointAt (γ : ℝ) [Fact (γ ≤ 1 / 2)] (G : Garden w) (σ : Prescription G) {Mk : Set (CLVineG γ G)}
+    (v : GBranch (stSt γ G σ Mk).G.tree) : Option (Finset (GBranch G.tree) × GBranch G.tree) := by
+  classical
+  exact ((survivorsMk γ G σ Mk).find? (fun t => decide ((stSt γ G σ Mk).M.pi (stSt γ G σ Mk).hcls t.2.2 = v ∨
+      (stSt γ G σ Mk).M.pi (stSt γ G σ Mk).hcls t.2.1 = v))).map
+    (fun t => (t.1, if (stSt γ G σ Mk).M.pi (stSt γ G σ Mk).hcls t.2.2 = v then t.2.2 else t.2.1))
+
+/-- B2c (75-F1): the designated pair at a joint `v` of a survivor (hinge or not): the lift of the pair, at that joint,
+of the survivor removed first. -/
+@[expose] noncomputable def survPairAt (γ : ℝ) [Fact (γ ≤ 1 / 2)] (G : Garden w) (σ : Prescription G) {Mk : Set (CLVineG γ G)}
+    (v : GBranch (stSt γ G σ Mk).G.tree) : Option (GardenDart (stSt γ G σ Mk).G × GardenDart (stSt γ G σ Mk).G) :=
+  (survJointAt γ G σ v).bind fun Tj => (survOrigPair G Tj.1 Tj.2).bind (liftPair γ G σ v)
+
+theorem survPairAt_empty (σ : Prescription G) (v : GBranch (stSt γ G σ).G.tree) : survPairAt γ G σ v = none := by
+  unfold survPairAt survJointAt
+  simp [survivorsMk_empty]
+
+theorem not_exists_survPairAt_empty (σ : Prescription G) (v : GBranch (stSt γ G σ).G.tree) :
+    ¬ ∃ q, survPairAt γ G σ v = some q := by
+  rw [survPairAt_empty]; simp
+
+/-- B2c (ruling R171, o75 (2.3)): `v` carries the gap entry of the survivor `t` of the group `S`, i.e. `v` is the
+image in `G_sb` of the upper joint of `t`.  Every survivor of a marked group carries an entry (of the group's kind), so
+the indicator `𝒵` checks the gap of every survivor on any decoration of `G_sb`. -/
+@[expose] def MarkedEntryAt (γ : ℝ) [Fact (γ ≤ 1 / 2)] (G : Garden w) (σ : Prescription G) (S : Finset (GBranch G.tree)) {Mk : Set (CLVineG γ G)}
+    (t : Finset (GBranch G.tree) × GBranch G.tree × GBranch G.tree) (v : GBranch (stSt γ G σ Mk).G.tree) : Prop :=
+  t ∈ groupSurvMk γ G Mk S ∧ (stSt γ G σ Mk).M.pi (stSt γ G σ Mk).hcls t.2.1 = v
+
+/-- B2c (R171): the pair of the gap entry of the survivor `t` at `v`: the lift of the chosen pair of `t` at its upper
+joint. -/
+@[expose] noncomputable def markedEntryPair (γ : ℝ) [Fact (γ ≤ 1 / 2)] (G : Garden w) (σ : Prescription G) {Mk : Set (CLVineG γ G)}
+    (t : Finset (GBranch G.tree) × GBranch G.tree × GBranch G.tree) (v : GBranch (stSt γ G σ Mk).G.tree) :
+    Option (GardenDart (stSt γ G σ Mk).G × GardenDart (stSt γ G σ Mk).G) :=
+  (survOrigPair G t.1 t.2.1).bind (liftPair γ G σ v)
+
+
+/-- **The hinge pair of TARGET subpro(5)** (R28): see the module docstring.  B1a: with the marked vine set `Mk`
+the units are `groupUnitsMk` (runs in a marked group, with the run pair `HingeSpecRun`). -/
+@[expose] noncomputable def hingePair (γ : ℝ) [Fact (γ ≤ 1 / 2)] (G : Garden w) (σ : Prescription G) {Mk : Set (CLVineG γ G)}
+    (v : GBranch (stSt γ G σ Mk).G.tree) :
+    Option (GardenDart (stSt γ G σ Mk).G × GardenDart (stSt γ G σ Mk).G) := by
+  classical
+  exact if h0 : ∃ q, survPairAt γ G σ v = some q then some (Classical.choose h0)
+  else if h : ∃ p : GardenDart (stSt γ G σ Mk).G × GardenDart (stSt γ G σ Mk).G, ∃ S ∈ maximalGroupsG γ G.molecule,
+      groupAtom γ G σ S Mk = some v ∧ hingeEntryPair γ G σ S v = some p ∧ ProperPair γ G σ v p.1 p.2
+  then some (Classical.choose h)
+  else if h2 : ∃ q : GardenDart (stSt γ G σ Mk).G × GardenDart (stSt γ G σ Mk).G, ∃ S ∈ maximalGroupsG γ G.molecule,
+      ∃ u ∈ groupUnitsMk γ G Mk S, (stSt γ G σ Mk).M.ob v = u.upper ∧
+        ∃ p, (¬ markedGroup γ G Mk S → HingeSpec γ G S u.upper p) ∧ (markedGroup γ G Mk S → HingeSpecRun G u p) ∧
+          liftPair γ G σ v p = some q ∧ ProperPair γ G σ v q.1 q.2
+  then some (Classical.choose h2)
+  else if h3 : ∃ p : GardenDart (stSt γ G σ Mk).G × GardenDart (stSt γ G σ Mk).G, ProperPair γ G σ v p.1 p.2
+  then some (Classical.choose h3) else none
+
+/-- **The choice data `C_1`, hinges and hinge pairs of `G_sb`.**  B1a: trailing marked vine set `Mk` (default `∅`). -/
+@[expose] noncomputable def collectionChoices (γ : ℝ) [Fact (γ ≤ 1 / 2)] (G : Garden w) (σ : Prescription G) (Mk : Set (CLVineG γ G) := ∅) :
+    Src.SubproChoices γ (stSt γ G σ Mk).G where
+  count := (objects γ G σ Mk).length
+  collection := fun i => (objects γ G σ Mk).get i
+  hinges := (stSt γ G σ Mk).hinges
+  first := fun v => (hingePair γ G σ v).map Prod.fst
+  second := fun v => (hingePair γ G σ v).map Prod.snd
+
+/-- B1b (Mk-general form of `structural_collectionChoices`). -/
+theorem structural_collectionChoicesMk (hM : G.molecule.IsMolecule) (σ : Prescription G)
+    (hno : ∀ a b, G.molecule.bondsBetween a b ≠ 3) {Mk : Set (CLVineG γ _)} : (collectionChoices γ (Mk := Mk) G σ).Structural := by
+  refine ⟨?_, ?_, ?_⟩
+  · intro i
+    obtain ⟨_, _, _, _, hS⟩ := mem_objectsMk (Mk := Mk) (List.get_mem (objects γ (Mk := Mk) G σ) i)
+    exact hS.allowed
+  · intro i j hne
+    have hp := List.pairwise_iff_get.mp (objects_pairwiseMk (Mk := Mk) hM σ)
+    rcases lt_or_gt_of_ne (fun h => hne (Fin.ext h)) with h | h
+    · exact hp i j h
+    · exact (hp j i h).symm
+  · intro a b hab
+    exact (stSt γ (Mk := Mk) G σ).triple_hinge hno a b hab
+
+
+/-- B1b (Mk-general form of `hingeOutsideFirst_collectionChoices`). -/
+theorem hingeOutsideFirst_collectionChoicesMk (σ : Prescription G) {Mk : Set (CLVineG γ _)} :
+    ∀ v ∈ (collectionChoices γ (Mk := Mk) G σ).hinges, ∀ i, ¬ ((collectionChoices γ (Mk := Mk) G σ).collection i).IsInterior v := by
+  intro v hv i hint
+  obtain ⟨_, _, _, _, hS⟩ := mem_objectsMk (Mk := Mk) (List.get_mem (objects γ (Mk := Mk) G σ) i)
+  have hcn : (stSt γ (Mk := Mk) G σ).cls ((stSt γ (Mk := Mk) G σ).M.ob v) ≠ none := ((stSt γ (Mk := Mk) G σ).mem_hinges v).mp hv
+  rcases hS.hinge v hcn hint.1 with h | h
+  · exact hint.2.1 h
+  · exact hint.2.2 h
+
+
+
+/-- B1b (Mk-general form of `properPair_congr`). -/
+theorem properPair_congrMk {σ : Prescription G} {Mk : Set (CLVineG γ _)} {v : GBranch (stSt γ (Mk := Mk) G σ).G.tree}
+    {y1 y2 q1 q2 : GardenDart (stSt γ (Mk := Mk) G σ).G} (h : ProperPair γ G σ v y1 y2)
+    (h1 : (stSt γ (Mk := Mk) G σ).M.od q1 = (stSt γ (Mk := Mk) G σ).M.od y1) (h2 : (stSt γ (Mk := Mk) G σ).M.od q2 = (stSt γ (Mk := Mk) G σ).M.od y2)
+    (hT : TripleAt (stSt γ (Mk := Mk) G σ).G v q1 q2) : ProperPair γ G σ v q1 q2 := by
+  obtain ⟨-, u, hu, hc, j, hj, e1, e2, n1, n2⟩ := h
+  exact ⟨hT, u, hu, hc, j, hj, by rw [h1]; exact e1, by rw [h2]; exact e2, by rw [h1]; exact n1,
+    by rw [h2]; exact n2⟩
+
+theorem properPair_congr {σ : Prescription G} {v : GBranch (stSt γ G σ).G.tree}
+    {y1 y2 q1 q2 : GardenDart (stSt γ G σ).G} (h : ProperPair γ G σ v y1 y2)
+    (h1 : (stSt γ G σ).M.od q1 = (stSt γ G σ).M.od y1) (h2 : (stSt γ G σ).M.od q2 = (stSt γ G σ).M.od y2)
+    (hT : TripleAt (stSt γ G σ).G v q1 q2) : ProperPair γ G σ v q1 q2 := properPair_congrMk (Mk := ∅) h h1 h2 hT
+
+section cases
+variable (hM : G.molecule.IsMolecule) (σ : Prescription G)
+include hM
+
+/-- A hinge not at a joint of an object of `C_1` is the designated atom of a whole-group unit group, and the lift of
+the `hingeOrigPair` of the group is a proper pair at it. -/
+theorem hinge_entry {v : GBranch (stSt γ G σ).G.tree} (hv : v ∈ (stSt γ G σ).hinges)
+    (hno : ¬ ∃ O ∈ objects γ G σ, O.upper = v ∨ O.lower = v) :
+    ∃ p : GardenDart (stSt γ G σ).G × GardenDart (stSt γ G σ).G, ∃ S ∈ maximalGroupsG γ G.molecule,
+      groupAtom γ G σ S = some v ∧ hingeEntryPair γ G σ S v = some p ∧ ProperPair γ G σ v p.1 p.2 := by
+  classical
+  have hcn := ((stSt γ G σ).mem_hinges v).mp hv
+  by_cases h : ∃ u ∈ unitBlocks γ G σ, (stSt γ G σ).M.ob v ∈ u.atoms
+  swap
+  · push Not at h
+    exact absurd (stSt_cls_none hM σ h) hcn
+  obtain ⟨u, hu, hvu⟩ := h
+  have h1 := stSt_cls_mem hM σ hu hvu
+  have hcr : (stSt γ G σ).M.ob v = u.upper := by
+    have := ((stSt γ G σ).M.ob_range ((stSt γ G σ).M.ob v)).mp ⟨v, rfl⟩
+    rcases this with h3 | h3
+    · rw [h1] at h3; cases h3
+    · rw [h1] at h3; exact (Option.some.inj h3).symm
+  obtain ⟨S, hSm, hσ, hmem⟩ := mem_unitBlocks.mp hu
+  rcases hsk : (groupUnitsOf γ G S).skip with _ | sk
+  · -- whole-group unit
+    have hUS := (groupUnitsOf γ G S).noskip_units hsk u hmem
+    obtain ⟨a0, ha0⟩ := exists_groupJoint_eq hSm
+    have ha0S := (groupJoint_kind ha0).1
+    have ha0u : a0 ∈ u.atoms := hUS ▸ ha0S
+    obtain ⟨p, hp, hspec⟩ := hingeOrigPair_spec ha0 ⟨u, hmem, ha0u⟩
+    obtain ⟨u', hu', hau', j, hj, hT, hn1, hn2, hrel⟩ := hspec
+    have huu : u' = u := by
+      have hu'b : u' ∈ unitBlocks γ G σ := mem_unitBlocks.mpr ⟨S, hSm, hσ, hu'⟩
+      exact unit_eq_of_mem hM σ hu'b hu hau' ha0u
+    subst huu
+    obtain ⟨-, hjw⟩ := hrel.2 hsk
+    have hat : (stSt γ G σ).M.pi (stSt γ G σ).hcls a0 = v := by
+      apply (stSt γ G σ).M.ob_inj
+      rw [(stSt γ G σ).M.ob_pi (stSt γ G σ).hcls a0, hcr]
+      exact stSt_repC_mem hM σ hu ha0u
+    obtain ⟨y1, y2, hy1, hy2, hP⟩ := ext_lift_darts hM σ hu hcr (by rcases hjw with rfl | rfl; exact u'.isBlock.2.1; exact u'.isBlock.2.2.1) hjw
+      hT.1 hT.2.1 hn1 hn2 hT.2.2.2
+    obtain ⟨q, hq, hq1, hq2, hqT⟩ := liftPair_of_exists (σ := σ) (v := v) (p := p) ⟨(y1, y2), hy1, hy2, hP.1⟩
+    refine ⟨q, S, hSm, ?_, ?_, ?_⟩
+    · unfold groupAtom; rw [ha0]; simp [hat]
+    · unfold hingeEntryPair; rw [hp]; exact hq
+    · exact properPair_congr hP (by rw [hq1, hy1]) (by rw [hq2, hy2]) hqT
+  · -- a skipped vine: the hinge is a joint of the object of the group
+    exfalso
+    apply hno
+    have hoS : HasObj γ G S := Or.inr ⟨sk, hsk⟩
+    have hSg : S ∈ sgGroups γ G σ := mem_sgGroups.mpr ⟨hSm, hσ⟩
+    have hex : objOf γ G σ S = some (Classical.choose (exists_obj hM σ hSm hσ hoS)) := by
+      unfold objOf
+      rw [dite_eq_left ⟨hM, hSm, hσ, hoS, not_markedGroup_empty G S, exists_obj hM σ hSm hσ hoS⟩]
+    set O := Classical.choose (exists_obj hM σ hSm hσ hoS)
+    have hOm : O ∈ objects γ G σ := List.mem_filterMap.mpr ⟨S, hSg, hex⟩
+    obtain ⟨-, -, -, hOspec⟩ := objOf_spec (Option.mem_def.mpr hex)
+    obtain ⟨A, -, -, -, hsrc⟩ := hOspec.src
+    rcases hsrc with ⟨⟨hhv, hnh⟩, -⟩ | ⟨sk', hsk', -, hup, hlo, -, -⟩
+    · have := (groupUnitsOf γ G S).hv_empty hhv hnh
+      rw [this] at hmem
+      cases hmem
+    · rw [hsk] at hsk'
+      cases hsk'
+      have hsu := (groupUnitsOf γ G S).skip_units sk hsk
+      refine ⟨O, hOm, ?_⟩
+      rcases hsu.1 u hmem with ⟨hL, hl⟩ | ⟨hR, hr⟩
+      · have hxu : sk.x ∈ u.atoms := by
+          rcases hl with ⟨_, h2⟩ | ⟨h2, _⟩
+          · rw [← h2]; exact u.isBlock.2.2.1
+          · rw [← h2]; exact u.isBlock.2.1
+        have : (stSt γ G σ).M.pi (stSt γ G σ).hcls sk.x = v := by
+          apply (stSt γ G σ).M.ob_inj
+          rw [(stSt γ G σ).M.ob_pi (stSt γ G σ).hcls sk.x, hcr]
+          exact stSt_repC_mem hM σ hu hxu
+        exact Or.inl (hup.trans this)
+      · have hxu : sk.y ∈ u.atoms := by
+          rcases hr with ⟨h2, _⟩ | ⟨_, h2⟩
+          · rw [← h2]; exact u.isBlock.2.1
+          · rw [← h2]; exact u.isBlock.2.2.1
+        have : (stSt γ G σ).M.pi (stSt γ G σ).hcls sk.y = v := by
+          apply (stSt γ G σ).M.ob_inj
+          rw [(stSt γ G σ).M.ob_pi (stSt γ G σ).hcls sk.y, hcr]
+          exact stSt_repC_mem hM σ hu hxu
+        exact Or.inr (hlo.trans this)
+
+end cases
+
+theorem x_mem_A' {S : Finset (GBranch G.tree)} (sk : SkipData γ G S) : sk.x ∈ sk.A ∧ sk.y ∈ sk.A := by
+  have hX := sk.vine
+  exact ⟨(Src.isBlock_of_isSomeVine hX).2.1, (Src.isBlock_of_isSomeVine hX).2.2.1⟩
+
+/-- A joint of a skipped vine lying in a unit of its group is a joint of the unit. -/
+theorem skip_joint {S : Finset (GBranch G.tree)} (sk : SkipData γ G S) (hsk : (groupUnitsOf γ G S).skip = some sk)
+    {u : CLBlock G} (hu : u ∈ (groupUnitsOf γ G S).units) {j : GBranch G.tree} (hj : j ∈ u.atoms)
+    (hjxy : j = sk.x ∨ j = sk.y) : j = u.upper ∨ j = u.lower := by
+  have hxy : sk.x ≠ sk.y := (isSomeVine_ends sk.vine).2.2
+  rcases ((groupUnitsOf γ G S).skip_units sk hsk).1 u hu with ⟨hL, hl⟩ | ⟨hR, hr⟩
+  · rw [hL] at hj
+    rcases hjxy with rfl | rfl
+    · rcases hl with ⟨-, h⟩ | ⟨h, -⟩
+      · exact Or.inr h.symm
+      · exact Or.inl h.symm
+    · exfalso
+      rcases sk.left with ⟨h0, -⟩ | ⟨-, -, -, hLA⟩
+      · rw [h0] at hj; cases hj
+      · have : sk.y ∈ sk.L0 ∩ sk.A := mem_inter.mpr ⟨hj, (x_mem_A' sk).2⟩
+        rw [hLA, mem_singleton] at this
+        exact hxy this.symm
+  · rw [hR] at hj
+    rcases hjxy with rfl | rfl
+    · exfalso
+      rcases sk.right with ⟨h0, -⟩ | ⟨-, -, -, hRA⟩
+      · rw [h0] at hj; cases hj
+      · have : sk.x ∈ sk.R0 ∩ sk.A := mem_inter.mpr ⟨hj, (x_mem_A' sk).1⟩
+        rw [hRA, mem_singleton] at this
+        exact hxy this
+    · rcases hr with ⟨h, -⟩ | ⟨-, h⟩
+      · exact Or.inl h.symm
+      · exact Or.inr h.symm
+
+section pairs
+variable (hM : G.molecule.IsMolecule) (σ : Prescription G)
+include hM
+
+/-- Every hinge carries the lift of a `HingeSpec` pair of its unit, which is proper. -/
+theorem hinge_unit_pair {v : GBranch (stSt γ G σ).G.tree} (hv : v ∈ (stSt γ G σ).hinges) :
+    ∃ q : GardenDart (stSt γ G σ).G × GardenDart (stSt γ G σ).G, ∃ S ∈ maximalGroupsG γ G.molecule,
+      ∃ u ∈ (groupUnitsOf γ G S).units, (stSt γ G σ).M.ob v = u.upper ∧
+        ∃ p, HingeSpec γ G S u.upper p ∧ liftPair γ G σ v p = some q ∧ ProperPair γ G σ v q.1 q.2 := by
+  classical
+  have hcn := ((stSt γ G σ).mem_hinges v).mp hv
+  by_cases h : ∃ u ∈ unitBlocks γ G σ, (stSt γ G σ).M.ob v ∈ u.atoms
+  swap
+  · push Not at h
+    exact absurd (stSt_cls_none hM σ h) hcn
+  obtain ⟨u, hu, hvu⟩ := h
+  have h1 := stSt_cls_mem hM σ hu hvu
+  have hcr : (stSt γ G σ).M.ob v = u.upper := by
+    have := ((stSt γ G σ).M.ob_range ((stSt γ G σ).M.ob v)).mp ⟨v, rfl⟩
+    rcases this with h3 | h3
+    · rw [h1] at h3; cases h3
+    · rw [h1] at h3; exact (Option.some.inj h3).symm
+  obtain ⟨S, hSm, hσ, hmem⟩ := mem_unitBlocks.mp hu
+  obtain ⟨p, hsp⟩ := exists_hingeSpec (S := S) (a := u.upper) ⟨u, hmem, u.isBlock.2.1⟩
+  have hsp' := hsp
+  obtain ⟨u', hu', hau', j, hj, hT, hn1, hn2, hrel⟩ := hsp'
+  have huu : u' = u :=
+    unit_eq_of_mem hM σ (mem_unitBlocks.mpr ⟨S, hSm, hσ, hu'⟩) hu hau' u.isBlock.2.1
+  subst huu
+  have hjj : j = u'.upper ∨ j = u'.lower := by
+    rcases hsk : (groupUnitsOf γ G S).skip with _ | sk
+    · exact (hrel.2 hsk).2
+    · exact skip_joint sk hsk hu' hj (hrel.1 sk hsk).1
+  obtain ⟨y1, y2, hy1, hy2, hP⟩ := ext_lift_darts hM σ hu hcr hj hjj hT.1 hT.2.1 hn1 hn2 hT.2.2.2
+  obtain ⟨q, hq, hq1, hq2, hqT⟩ := liftPair_of_exists (σ := σ) (v := v) (p := p) ⟨(y1, y2), hy1, hy2, hP.1⟩
+  exact ⟨q, S, hSm, u', hu', hcr, p, hsp, hq, properPair_congr hP (by rw [hq1, hy1]) (by rw [hq2, hy2]) hqT⟩
+
+end pairs
+
+/-- A merged first joint lies in a unit of its group. -/
+theorem hinge_unit (hM : G.molecule.IsMolecule) (σ : Prescription G) {S : Finset (GBranch G.tree)}
+    (hS : S ∈ maximalGroupsG γ G.molecule) {a : GBranch G.tree} (ha : groupJoint γ G S = some a)
+    (hh : (stSt γ G σ).M.pi (stSt γ G σ).hcls a ∈ (stSt γ G σ).hinges) :
+    σ S = Molecule.GapKind.SG ∧ ∃ u ∈ (groupUnitsOf γ G S).units, a ∈ u.atoms := by
+  have haS := (groupJoint_kind ha).1
+  have h1 := ((stSt γ G σ).mem_hinges _).mp hh
+  rw [(stSt γ G σ).M.ob_pi] at h1
+  by_cases h : ∃ u ∈ unitBlocks γ G σ, a ∈ u.atoms
+  · obtain ⟨u, hu, hau⟩ := h
+    obtain ⟨S'', hS''m, hσ, hmem⟩ := mem_unitBlocks.mp hu
+    have hsub := (groupUnitsOf γ G S'').sub u hmem hau
+    by_cases hSS : S = S''
+    · subst hSS
+      exact ⟨hσ, u, hmem, hau⟩
+    · exact absurd haS (Finset.disjoint_left.mp (groups_disjoint hM hS hS''m hSS) |> fun f => fun h => f h hsub)
+  · push Not at h
+    have : repC (stSt γ G σ).cls a = a := stSt_repC_none hM σ h
+    rw [this, stSt_cls_none hM σ h] at h1
+    exact absurd rfl h1
+
+/-- **The hinge pair exists at every hinge and is proper.**  It is the lift of a `HingeSpec` pair of the unit with crown
+`v`, and the entry pair of the group when `v` is its designated atom; a hinge that is not a joint of an object of `C_1`
+is such a designated atom (`hinge_entry`). -/
+theorem hingePair_spec (hM : G.molecule.IsMolecule) (σ : Prescription G)
+    {v : GBranch (stSt γ G σ).G.tree} (hv : v ∈ (stSt γ G σ).hinges) :
+    ∃ x y, hingePair γ G σ v = some (x, y) ∧ ProperPair γ G σ v x y ∧
+      (∃ S ∈ maximalGroupsG γ G.molecule, ∃ u ∈ (groupUnitsOf γ G S).units, (stSt γ G σ).M.ob v = u.upper ∧
+        ∃ p, HingeSpec γ G S u.upper p ∧ (stSt γ G σ).M.od x = p.1 ∧ (stSt γ G σ).M.od y = p.2) ∧
+      ((¬ ∃ O ∈ objects γ G σ, O.upper = v ∨ O.lower = v) →
+        ∃ S ∈ maximalGroupsG γ G.molecule, groupAtom γ G σ S = some v ∧ hingeEntryPair γ G σ S v = some (x, y)) := by
+  classical
+  have hunit := hinge_unit_pair hM σ hv
+  have hentry : (¬ ∃ O ∈ objects γ G σ, O.upper = v ∨ O.lower = v) →
+      ∃ p : GardenDart (stSt γ G σ).G × GardenDart (stSt γ G σ).G, ∃ S ∈ maximalGroupsG γ G.molecule,
+        groupAtom γ G σ S = some v ∧ hingeEntryPair γ G σ S v = some p ∧ ProperPair γ G σ v p.1 p.2 :=
+    fun hno => hinge_entry hM σ hv hno
+  unfold hingePair
+  rw [dif_neg (not_exists_survPairAt_empty σ v)]
+  by_cases h : ∃ p : GardenDart (stSt γ G σ).G × GardenDart (stSt γ G σ).G, ∃ S ∈ maximalGroupsG γ G.molecule,
+      groupAtom γ G σ S = some v ∧ hingeEntryPair γ G σ S v = some p ∧ ProperPair γ G σ v p.1 p.2
+  · rw [dite_eq_left h]
+    obtain ⟨S, hS, hga, hep, hP⟩ := Classical.choose_spec h
+    refine ⟨(Classical.choose h).1, (Classical.choose h).2, rfl, hP, ?_, ?_⟩
+    · obtain ⟨a, ha, hav⟩ : ∃ a, groupJoint γ G S = some a ∧ (stSt γ G σ).M.pi (stSt γ G σ).hcls a = v := by
+        unfold groupAtom at hga
+        cases hg : groupJoint γ G S with
+        | none => rw [hg] at hga; cases hga
+        | some a => rw [hg] at hga; exact ⟨a, rfl, Option.some.inj hga⟩
+      obtain ⟨-, u0, hu0, hau0⟩ := hinge_unit hM σ hS ha (hav ▸ hv)
+      obtain ⟨p1, hp1, hs1⟩ := hingeOrigPair_spec ha ⟨u0, hu0, hau0⟩
+      unfold hingeEntryPair at hep
+      rw [hp1] at hep
+      simp only [Option.bind_some] at hep
+      obtain ⟨hq1, hq2, -⟩ := liftPair_spec hep
+      obtain ⟨u, hu, hau, j, hj, hrest⟩ := hs1
+      refine ⟨S, hS, u, hu, ?_, p1, ⟨u, hu, u.isBlock.2.1, j, hj, hrest⟩, hq1, hq2⟩
+      have huB : u ∈ unitBlocks γ G σ := by
+        obtain ⟨-, σS⟩ := (mem_sgGroups.mp ((mem_sgGroups (σ := σ)).mpr ⟨hS, (hinge_unit hM σ hS ha (hav ▸ hv)).1⟩))
+        exact mem_unitBlocks.mpr ⟨S, hS, (hinge_unit hM σ hS ha (hav ▸ hv)).1, hu⟩
+      rw [← hav, (stSt γ G σ).M.ob_pi, stSt_repC_mem hM σ huB hau]
+    · intro _
+      exact ⟨S, hS, hga, hep⟩
+  · rw [dite_eq_right h]
+    have hno : ∃ O ∈ objects γ G σ, O.upper = v ∨ O.lower = v := by
+      by_contra hno
+      exact h (hentry hno)
+    obtain ⟨q, S, hS, u, hu, hob, p, hsp, hq, hP⟩ := hunit
+    have h2 : ∃ q : GardenDart (stSt γ G σ).G × GardenDart (stSt γ G σ).G, ∃ S ∈ maximalGroupsG γ G.molecule,
+        ∃ u ∈ groupUnitsMk γ G ∅ S, (stSt γ G σ).M.ob v = u.upper ∧
+          ∃ p, (¬ markedGroup γ G ∅ S → HingeSpec γ G S u.upper p) ∧ (markedGroup γ G ∅ S → HingeSpecRun G u p) ∧
+            liftPair γ G σ v p = some q ∧ ProperPair γ G σ v q.1 q.2 :=
+      ⟨q, S, hS, u, by rwa [groupUnitsMk_empty], hob, p, fun _ => hsp,
+        fun hm => (not_markedGroup_empty G S hm).elim, hq, hP⟩
+    rw [dite_eq_left h2]
+    obtain ⟨S2, hS2, u2, hu2, hob2, p2, hsp2, -, hq2, hP2⟩ := Classical.choose_spec h2
+    obtain ⟨hl1, hl2, -⟩ := liftPair_spec hq2
+    rw [groupUnitsMk_empty] at hu2
+    exact ⟨(Classical.choose h2).1, (Classical.choose h2).2, rfl, hP2,
+      ⟨S2, hS2, u2, hu2, hob2, p2, hsp2 (not_markedGroup_empty G S2), hl1, hl2⟩,
+      fun hno' => absurd hno hno'⟩
+
+end WaveTurbulence.GammaLow.Fama.VineA.NormalizedSplice
