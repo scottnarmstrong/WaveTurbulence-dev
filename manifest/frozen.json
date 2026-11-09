@@ -18287,7 +18287,7 @@
         "mode": "NOT_SPLIT",
         "ruling_ref": "docs/DECISIONS.md#D7"
       },
-      "abi_sha256": "ae0ce36636b12aa0b8952e3c4dfd31eb79cd35af4754d7717a1a3c7eea180140",
+      "abi_sha256": "92b0b3e853d27ce9620781008f2421fbbdbc727b8ca61b739843af1737873b42",
       "definition_closure": [
         {
           "path": "WaveTurbulence/Frozen/Defs/CollisionOp.lean",
