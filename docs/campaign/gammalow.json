@@ -1,6 +1,6 @@
 {
  "title": "The γ ≤ 1/2 campaign",
- "updated": "2026-11-09 21:10 UTC",
+ "updated": "2026-11-09 22:16 UTC",
  "convention": "Weights are the estimated size of each work package (thousands of new Lean lines; non-Lean steps get an equivalent weight). A finished package counts fully once it passes its checks and an independent re-run of its audit. A running package counts by the orchestrator's estimate at its last checkpoint (what is proved against what remains); before its first checkpoint it counts by the Lean it has compiled, capped at 75 %. Line counts alone overstate progress, because several packages first port large amounts of the existing proof.",
  "next": "PROVED: Theorem 1.1 for all 0 < γ < 1 now holds in Lean in the work area (all five full-range statements, standard axioms only). Remaining: acceptance build of the flower area, landing on main, sealing the five statements, and two independent audits of each.",
  "risks": [
@@ -302,11 +302,11 @@
      "name": "landing, seals, two-key audits",
      "w": 6,
      "status": "running",
-     "done": 0.4,
-     "note": "Lean work complete and accepted; final landing on main running (land_check + ABI); then the five seals and ten audits",
+     "done": 0.6,
+     "note": "landed on main (d0961baf: 1,673 modules, land_check OK, ABI 328/328); sealing the five anchors in one batch now; then two independent audits",
      "lines": 0,
      "lines_compiled": 0,
-     "credit": 0.4
+     "credit": 0.6
     }
    ]
   }
