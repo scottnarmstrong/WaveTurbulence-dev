@@ -209,8 +209,8 @@
      ],
      "note": "gate, pieces, normalized pieces and the stage-1 assembly proved; waits on the class count (L5c) and the vine case (helper L5a-G)",
      "done": 0.85,
-     "lines": 58770,
-     "lines_compiled": 58770,
+     "lines": 58799,
+     "lines_compiled": 58799,
      "credit": 0.85
     },
     {
@@ -256,8 +256,8 @@
      ],
      "note": "all T-vine inputs proved; marked stage 1: I-SLOTSO 103/106, I-SLOTS 105/156, I-UNITS 13/35, I-SLOTSI 9/158 declarations built; marked count waits on L6's port",
      "done": 0.45,
-     "lines": 81975,
-     "lines_compiled": 37749,
+     "lines": 81084,
+     "lines_compiled": 40487,
      "credit": 0.45
     }
    ]
