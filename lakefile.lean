@@ -21,7 +21,6 @@ builds them as extra globs beside its root. -/
 private def quarantinedModules : Array Lean.Name := #[
   `WaveTurbulence.Frozen.Theorems.Main, `WaveTurbulence.Provider.Main,
   `WaveTurbulence.Frozen.Theorems.LayergardenFlower, `WaveTurbulence.Provider.LayergardenFlower,
-  `WaveTurbulence.Frozen.Theorems.Propansatz, `WaveTurbulence.Provider.Propansatz,
   `WaveTurbulence.Frozen.Theorems.LayergardenFlowerV2, `WaveTurbulence.Provider.LayergardenFlowerV2
 ]
 

@@ -2543,6 +2543,7 @@ public import WaveTurbulence.Frozen.Theorems.LayergardenFlowerV4
 public import WaveTurbulence.Frozen.Theorems.LayergardenV2
 public import WaveTurbulence.Frozen.Theorems.MainV2
 public import WaveTurbulence.Frozen.Theorems.NlsAkBridge
+public import WaveTurbulence.Frozen.Theorems.Propansatz
 public import WaveTurbulence.Frozen.Theorems.PropansatzV2
 public import WaveTurbulence.Frozen.Theorems.QuadExpSum2
 public import WaveTurbulence.Frozen.Theorems.QuadExpSum3
