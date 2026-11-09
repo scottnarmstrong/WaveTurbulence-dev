@@ -150,8 +150,8 @@
      ],
      "note": "Prop 9.6 at γ ≤ 1/2 fully proved; main's run ported by 8 layer helpers, all inputs discharged except the ghost chain covers (ruling R194, in progress)",
      "done": 0.5,
-     "lines": 52168,
-     "lines_compiled": 32006,
+     "lines": 53844,
+     "lines_compiled": 34940,
      "credit": 0.5
     },
     {
@@ -163,8 +163,8 @@
       "GammaLow/FinalCount/Ghost"
      ],
      "note": "accepted: the ghost step (E20) and its Operation-1 cone (L6E2), 26 modules / 446 theorems; audits re-run by wt-orch",
-     "lines": 6082,
-     "lines_compiled": 6082,
+     "lines": 6379,
+     "lines_compiled": 6268,
      "credit": 1.0
     },
     {
@@ -210,8 +210,8 @@
      ],
      "note": "gate, pieces, normalized pieces and the stage-1 assembly proved; waits on the class count (L5c) and the vine case (helper L5a-G)",
      "done": 0.85,
-     "lines": 60475,
-     "lines_compiled": 30671,
+     "lines": 58827,
+     "lines_compiled": 32220,
      "credit": 0.85
     },
     {
@@ -224,7 +224,7 @@
      ],
      "note": "accepted: vineest′ for all 0<γ<1 (207 modules, 848 theorems; audit re-run by wt-orch); uses L4's Theorem C",
      "lines": 21110,
-     "lines_compiled": 20921,
+     "lines_compiled": 21038,
      "credit": 1.0
     },
     {
@@ -258,8 +258,8 @@
      ],
      "note": "statement and five parts proved; marked stage 1 across five helpers (about half built, rest waits on L5a's last ports); marked count waits on L6's port",
      "done": 0.4,
-     "lines": 45330,
-     "lines_compiled": 23709,
+     "lines": 45051,
+     "lines_compiled": 27489,
      "credit": 0.4
     }
    ]
