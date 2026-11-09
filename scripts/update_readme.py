@@ -219,9 +219,9 @@ def main():
     stamp = now.strftime("%Y-%m-%d %H:%M UTC")
     updated = (f"> **Last updated: {stamp}** · frozen theorems sealed: {sealed} / {frozen_total} "
                f"(+ {frozen_defs} frozen definitions) · **{main_lines:,} lines of Lean on main** ({main_files} files) · "
-               f"overall completion of the whole project (full range 0 < γ < 1 and public release): {pct:.1f} %")
+               f"overall completion of the whole project (full range 0 < γ < 1): {pct:.1f} %")
     progress = "\n".join([
-        f"### Overall completion (whole project: full range 0 < γ < 1 and public release): **{pct:.1f} %**",
+        f"### Overall completion (whole project: full range 0 < γ < 1): **{pct:.1f} %**",
         "",
         f"`{bar(pct / 100, 30)}` {pct:.1f} %",
         "",
