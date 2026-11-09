@@ -90,7 +90,7 @@ variable {w d : ℕ}
 
 /-- **The top-pin cut** (revision 5, HELPER8 S5, pre-approved by wt-orch; R187): at every pinned native top (a root of
 the native object, pinned at `v` by `fixCap … pat`) the clock of its side is at least `v`. On the consumed slot times
-this always holds: a pinned clock carries a pin `≥ v` (pins are monotone along ancestry, `RelaxPins.mono`), a root clock
+this always holds: a pinned clock carries a pin `≥ v` (pins are monotone along ancestry, `RelaxPins.monoLow`), a root clock
 is `t ≥ v`, and a free clock carries R187's lower bound `lbGen = s = v` (the core domain has `τ_π > s`). It is the
 constraint R187 moved into the core domain; on the cap side it is β's `capPatBox` clause (R176's `cfg.box`, F-H3-2). -/
 def TopCutLow {w : ℕ} (a : Fama.VineA.PrescribedPrimeGarden γF w) (J : Finset (Fin w)) (pat : Fin w → FixPat) (t s : ℝ) :

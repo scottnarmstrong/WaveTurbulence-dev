@@ -12,6 +12,7 @@ public import WaveTurbulence.Foundations.GammaLow.FinalCount.Ghost.ChainLowL
 public import WaveTurbulence.Foundations.GammaLow.Famc.Coarse.Gate
 public import WaveTurbulence.Foundations.TVine.Struct.Final
 public import WaveTurbulence.Foundations.GammaLow.Flower.FinalMK.H2.Final
+public import WaveTurbulence.Foundations.GammaLow.Fama.Final
 
 /-!
 # The two `γ ≤ 1/2` halves, with every proved input discharged (wt-orch, final assembly)
@@ -46,5 +47,14 @@ theorem flower_low_of_stage1 {C₀ : ℕ} (hC₀ : 1 ≤ C₀) {cθ : ℝ} (hcθ
     (h5a : Fama.Stage1ReductionGateLow) (hI : Flower.Stage1MKGateLow C₀ 452 cθ) :
     Flower.LayergardenFlowerLowGate :=
   Flower.flowerest1_low_of_items5 hC₀ hcθ h5a hI Flower.H2.finalCountAtMKLAt_holds
+
+/-- **The layergarden low half, closed** (L5a's unconditional stage-1 gate). -/
+theorem layergarden_low_closed : LGLow.LayergardenLowGate :=
+  layergarden_low_of_stage1 Fama.stage1ReductionGateLow
+
+/-- The flower low half, given only L8's marked stage 1. -/
+theorem flower_low_of_marked {C₀ : ℕ} (hC₀ : 1 ≤ C₀) {cθ : ℝ} (hcθ : 1 ≤ cθ)
+    (hI : Flower.Stage1MKGateLow C₀ 452 cθ) : Flower.LayergardenFlowerLowGate :=
+  flower_low_of_stage1 hC₀ hcθ Fama.stage1ReductionGateLow hI
 
 end WaveTurbulence.GammaLow.Close
