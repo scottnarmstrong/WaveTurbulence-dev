@@ -1,8 +1,8 @@
 {
  "title": "The γ ≤ 1/2 campaign",
- "updated": "2026-11-09 12:52 UTC",
+ "updated": "2026-11-09 13:05 UTC",
  "convention": "Weights are the estimated size of each work package (thousands of new Lean lines; non-Lean steps get an equivalent weight). A finished package counts fully once it passes its checks and an independent re-run of its audit. A running package counts by the orchestrator's estimate at its last checkpoint (what is proved against what remains); before its first checkpoint it counts by the Lean it has compiled, capped at 75 %. Line counts alone overstate progress, because several packages first port large amounts of the existing proof.",
- "next": "The full range now reduces to four γ ≤ 1/2 inputs: L5a's stage-1 gate, L6's final-count gate (port of the run under way), L3's T-vine structure statements, L8's flower low half.",
+ "next": "All T-vine combinatorics is proved except one ladder lemma. Remaining: the port of main's final-count run to the enlarged vine family (L6, with the run-wide ghost assembly), the γ ≤ 1/2 flower estimate (L8), the stage-1 assembly (L5a), then landing, sealing and audits.",
  "risks": [
   "account quota (weekly limits",
   " claude-1 carries most packages)",
@@ -93,14 +93,14 @@
      "dirs": [
       "TVine/Struct"
      ],
-     "note": "piece shape, layervine (N3 Thm 6) and Lemma A proved (conditional on L1 Φ and L2 bases); sub-object bridges and family induction remaining",
+     "note": "T-vine structure proved unconditionally (Thm 1.15, Prop 1.17, N3 Thm 6, Lemma A, Cor 1.16′); only the ladder statement (Thm 6 (iv)) remains (helper L3-LAD)",
      "exclude": [
       "TVine/Struct/Drawn"
      ],
-     "done": 0.55,
-     "lines": 10515,
-     "lines_compiled": 10488,
-     "credit": 0.55
+     "done": 0.92,
+     "lines": 11357,
+     "lines_compiled": 11330,
+     "credit": 0.92
     },
     {
      "id": "L3D",
@@ -119,15 +119,14 @@
      "id": "L4",
      "name": "charts (parametrizations) of all T-vines",
      "w": 11.5,
-     "status": "running",
+     "status": "done",
      "dirs": [
       "TVine/Chart"
      ],
-     "done": 0.5,
-     "note": "chart contract and family bridge published; generic chart theorem under way",
+     "note": "accepted: Theorem C (charts of all T-vines) proved unconditionally; 42 modules, 2,021 theorems",
      "lines": 9803,
      "lines_compiled": 9803,
-     "credit": 0.5
+     "credit": 1.0
     }
    ]
   },
@@ -149,11 +148,11 @@
       "GammaLow/FinalCount/Count",
       "GammaLow/FinalCount/Step1"
      ],
-     "note": "Prop 9.6 at γ ≤ 1/2 fully proved; T-vine transports done; porting main's run with 7 layer helpers",
-     "done": 0.35,
-     "lines": 50671,
-     "lines_compiled": 18324,
-     "credit": 0.35
+     "note": "Prop 9.6 at γ ≤ 1/2 fully proved; porting main's run (8 layer helpers, ~25–40 % compiled); ghost assembly over the run under way",
+     "done": 0.45,
+     "lines": 51120,
+     "lines_compiled": 19013,
+     "credit": 0.45
     },
     {
      "id": "L6E",
@@ -211,8 +210,8 @@
      ],
      "note": "gate, collections, units, splice and normalized pieces (F) proved; vine case (G) and assembly (J) remaining",
      "done": 0.7,
-     "lines": 56102,
-     "lines_compiled": 21628,
+     "lines": 56067,
+     "lines_compiled": 22960,
      "credit": 0.7
     },
     {
@@ -238,8 +237,8 @@
      ],
      "note": "CoarseSpliced′, cover′, layervine′, spine code and subpro′ proved; class count (I) in progress",
      "done": 0.85,
-     "lines": 20754,
-     "lines_compiled": 17336,
+     "lines": 20801,
+     "lines_compiled": 18373,
      "credit": 0.85
     }
    ]
@@ -257,11 +256,11 @@
      "dirs": [
       "GammaLow/Flower"
      ],
-     "note": "statement + carriers B, C, F, G and H1 proved (hmarg fixed); marked stage 1 and marked count remaining",
-     "done": 0.3,
-     "lines": 43552,
-     "lines_compiled": 18761,
-     "credit": 0.3
+     "note": "statement and five parts proved; marked stage 1 split over five helpers; marked count waits on L6's port",
+     "done": 0.35,
+     "lines": 44546,
+     "lines_compiled": 20929,
+     "credit": 0.35
     }
    ]
   },
