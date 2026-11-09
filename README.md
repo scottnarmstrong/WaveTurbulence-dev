@@ -9,7 +9,7 @@ together with the results it relies on from the authors' earlier papers and from
 [Papers](#papers) below). Every step is checked by Lean; nothing is assumed beyond Lean's standard axioms.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-11-09 22:40 UTC** · frozen theorems sealed: 21 / 28 (+ 300 frozen definitions) · **1,994,123 lines of Lean on main** (14409 files) · overall completion of the whole project (full range 0 < γ < 1): 93.7 %
+> **Last updated: 2026-11-09 22:45 UTC** · frozen theorems sealed: 26 / 28 (+ 300 frozen definitions) · **1,994,316 lines of Lean on main** (14409 files) · overall completion of the whole project (full range 0 < γ < 1): 94.2 %
 <!-- /AUTO:updated -->
 
 ## At a glance
@@ -108,13 +108,13 @@ SEALED: 21 theorems (incl. main_v2, PROVED with two-key audits) + 300 definition
 ## Progress on 0 < γ ≤ 1/2
 
 <!-- AUTO:gammalow -->
-### The γ ≤ 1/2 campaign: **98.7 %**
+### The γ ≤ 1/2 campaign: **99.3 %**
 
-`██████████████████████████████` 98.7 % · 18 of 19 work packages done, 1 running, 0 not started · **321,681 lines of new Lean compiling** (322,407 written) in the γ ≤ 1/2 work area, not yet on main · ledger updated 2026-11-09 22:16 UTC
+`██████████████████████████████` 99.3 % · 18 of 19 work packages done, 1 running, 0 not started · **321,681 lines of new Lean compiling** (322,407 written) in the γ ≤ 1/2 work area, not yet on main · ledger updated 2026-11-09 22:44 UTC
 
 This meter tracks the extension of the formal proof of Theorem 1.1 from 1/2 < γ < 1 to the full range 0 < γ < 1 (see [docs/GAMMA-LE-HALF.md](docs/GAMMA-LE-HALF.md)). Weights are the estimated size of each work package (thousands of new Lean lines; non-Lean steps get an equivalent weight). A finished package counts fully once it passes its checks and an independent re-run of its audit. A running package counts by the orchestrator's estimate at its last checkpoint (what is proved against what remains); before its first checkpoint it counts by the Lean it has compiled, capped at 75 %. Line counts alone overstate progress, because several packages first port large amounts of the existing proof.
 
-- **Next:** PROVED: Theorem 1.1 for all 0 < γ < 1 now holds in Lean in the work area (all five full-range statements, standard axioms only). Remaining: acceptance build of the flower area, landing on main, sealing the five statements, and two independent audits of each.
+- **Next:** SEALED: Theorem 1.1 for all 0 < γ < 1 is sealed on main. Two independent audits are running; when both pass, the result is marked PROVED.
 - **Risks:** account quota (weekly limits;  claude-1 carries most packages); new mathematics may need local repairs once formalized; integration: about a dozen packages must meet at exact interfaces
 
 | Stage | What it does | Packages | Done | Completion |
@@ -126,8 +126,8 @@ This meter tracks the extension of the formal proof of Theorem 1.1 from 1/2 < γ
 | Moving the proof to the enlarged vine family | stage 1, the vine estimate and the source objects with T-vines | 3 | 3 | `██████████` 100 % |
 | Flower estimate for γ ≤ 1/2 | the marked stage 1 and the marked final count in the low range | 1 | 1 | `██████████` 100 % |
 | Assembly | joining the two halves γ ≤ 1/2 and γ > 1/2 | 2 | 2 | `██████████` 100 % |
-| Landing, sealing and audits | land on main; seal main, propansatz, fixedpoint, layergarden and the flower statement; two independent audits each | 1 | 0 | `██████░░░░` 60 % |
-| **Total** | | 19 | 18 | **98.7 %** |
+| Landing, sealing and audits | land on main; seal main, propansatz, fixedpoint, layergarden and the flower statement; two independent audits each | 1 | 0 | `████████░░` 80 % |
+| **Total** | | 19 | 18 | **99.3 %** |
 
 <details><summary>All work packages</summary>
 
@@ -151,7 +151,7 @@ This meter tracks the extension of the formal proof of Theorem 1.1 from 1/2 < γ
 | Flower estimate for γ ≤ 1/2 | L8 | flower estimate, low half | 30 | 89,905 / 90,490 | ✅ done | 100 % | accepted: the γ ≤ 1/2 flower estimate proved with no inputs (marked stage 1 + marked count + ghost cover); 232 modules / 10,105 theorems audited by wt-orch |
 | Assembly | L0 | glue lemmas | 1 | 741 / 741 | ✅ done | 100 % | accepted; closed: Close.*_full prove the five full-range statements (verified) |
 | Assembly | L7 | layergarden, low half | 2 | 3,263 / 3,263 | ✅ done | 100 % | accepted: LG-low and the flower couple clause from the low gates; audit re-run by wt-orch (19 modules, 401 theorems) |
-| Landing, sealing and audits | L9 | landing, seals, two-key audits | 6 | — | 🔄 running | 60 % | landed on main (d0961baf: 1,673 modules, land_check OK, ABI 328/328); sealing the five anchors in one batch now; then two independent audits |
+| Landing, sealing and audits | L9 | landing, seals, two-key audits | 6 | — | 🔄 running | 80 % | all five full-range statements SEALED on main (5c19b015: exact types, axioms, ABI 328/328, land_check OK); two independent audits running |
 
 </details>
 
@@ -164,20 +164,20 @@ The percentage below measures the **whole project**, i.e. the full range 0 < γ 
 complete; the remaining percentage is mostly the γ ≤ 1/2 work.
 
 <!-- AUTO:progress -->
-### Overall completion (whole project: full range 0 < γ < 1): **93.7 %**
+### Overall completion (whole project: full range 0 < γ < 1): **94.2 %**
 
-`████████████████████████████░░` 93.7 %
+`████████████████████████████░░` 94.2 %
 
 | Part of the project | Items | Weight | Done | Completion |
 |---|---|---|---|---|
 | Sources, paper maps, blueprint (P0–P1) | 1 | 30 | 27.0 | `█████████░` 90 % |
 | Exact Lean statements, frozen (P2) | 1 | 20 | 18.6 | `█████████░` 93 % |
 | Lean proofs (P4) | 85 | 918 | 881.1 | `██████████` 96 % |
-| Frozen theorems sealed | 28 | 28 | 21.0 | `████████░░` 75 % |
+| Frozen theorems sealed | 28 | 28 | 26.0 | `█████████░` 93 % |
 | Release (P5) | 1 | 15 | 0.0 | `░░░░░░░░░░` 0 % |
-| **Total** | | 1011 | 947.7 | **93.7 %** |
+| **Total** | | 1011 | 952.7 | **94.2 %** |
 
-Lean lines: 1,994,123 on main + 2,643 on worker branches. (The original blueprint estimate, ≈ 273,000 lines, was set before the project's scope and the errata were known; it is no longer a useful yardstick.)
+Lean lines: 1,994,316 on main + 2,643 on worker branches. (The original blueprint estimate, ≈ 273,000 lines, was set before the project's scope and the errata were known; it is no longer a useful yardstick.)
 
 <details><summary>All Lean work packets (blueprint §E) with weight and status</summary>
 
@@ -305,7 +305,7 @@ Campaign bookkeeping, refreshed automatically; may lag behind the actual session
 <!-- AUTO:workers -->
 | tmux | model / account | packet | branch: last commit | brief |
 |---|---|---|---|---|
-| wt-orch | Claude Opus / claude-1 | Task 34: snapshot-8 delta audit + freeze branch rebuild; done: letter draft, many audits | `w/orch`: 11 min ago, 226 unlanded | [brief](docs/campaign/orch/TASK4.md) |
+| wt-orch | Claude Opus / claude-1 | Task 34: snapshot-8 delta audit + freeze branch rebuild; done: letter draft, many audits | `w/orch`: 1 min ago, 227 unlanded | [brief](docs/campaign/orch/TASK4.md) |
 | wt-gauss-hc | Claude Opus / claude-10 | FLOWER-SPINE: B1.12 layergardenFlower from named spine inputs (X2, X3 closed: fixedpoint from B1.12+B1.2+B1.5) | `w/waveb-infra`: — | [brief](docs/campaign/briefs/FLOWER-SPINE.md) |
 | wt-torus | Claude Opus / claude-14 | G7 MOLEPROP4 (revived, repaired): DH23 ylem1′, ylem2, Prop 10.4 (A23-HALF done) | `w/approxnt`: 130 h ago | [brief](docs/campaign/briefs/MOLEPROP4.md) |
 | wt-wke | Claude Opus / claude-13 | L3+L4: TARGET Props 6.1-6.3 (proplayer2-4); J1-J3, B̃ bridge, tree Prop 5.1 done | `w/jr-ops`: 130 h ago | [brief](docs/campaign/briefs/PL234.md) |
