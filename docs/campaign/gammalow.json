@@ -1,6 +1,6 @@
 {
  "title": "The γ ≤ 1/2 campaign",
- "updated": "2026-11-09 14:27 UTC",
+ "updated": "2026-11-09 14:53 UTC",
  "convention": "Weights are the estimated size of each work package (thousands of new Lean lines; non-Lean steps get an equivalent weight). A finished package counts fully once it passes its checks and an independent re-run of its audit. A running package counts by the orchestrator's estimate at its last checkpoint (what is proved against what remains); before its first checkpoint it counts by the Lean it has compiled, capped at 75 %. Line counts alone overstate progress, because several packages first port large amounts of the existing proof.",
  "next": "T-vine combinatorics complete (all unconditional). Remaining: the ghost chain covers in the ported run (R194), the rest of the run port and the marked stage 1, the vine case of stage 1; then landing, sealing, audits (preparation under way).",
  "risks": [
@@ -147,11 +147,11 @@
       "GammaLow/FinalCount/Count",
       "GammaLow/FinalCount/Step1"
      ],
-     "note": "Prop 9.6 at γ ≤ 1/2 fully proved; main's run ported by 8 layer helpers, all inputs discharged except the ghost chain covers (ruling R194, in progress)",
-     "done": 0.5,
-     "lines": 53997,
-     "lines_compiled": 43812,
-     "credit": 0.5
+     "note": "Prop 9.6 at γ ≤ 1/2 fully proved; 374 of 437 port modules compile (85 %); the run-wide ghost chain cover (R194) being proved",
+     "done": 0.65,
+     "lines": 53970,
+     "lines_compiled": 43976,
+     "credit": 0.65
     },
     {
      "id": "L6E",
@@ -209,8 +209,8 @@
      ],
      "note": "gate, pieces, normalized pieces and the stage-1 assembly proved; waits on the class count (L5c) and the vine case (helper L5a-G)",
      "done": 0.85,
-     "lines": 58651,
-     "lines_compiled": 39260,
+     "lines": 58652,
+     "lines_compiled": 39937,
      "credit": 0.85
     },
     {
@@ -255,11 +255,11 @@
      "dirs": [
       "GammaLow/Flower"
      ],
-     "note": "statement and five parts proved; marked stage 1 across five helpers (about half built, rest waits on L5a's last ports); marked count waits on L6's port",
-     "done": 0.4,
+     "note": "all T-vine inputs proved; marked stage 1: I-SLOTSO 103/106, I-SLOTS 105/156, I-UNITS 13/35, I-SLOTSI 9/158 declarations built; marked count waits on L6's port",
+     "done": 0.45,
      "lines": 44781,
      "lines_compiled": 28678,
-     "credit": 0.4
+     "credit": 0.45
     }
    ]
   },
