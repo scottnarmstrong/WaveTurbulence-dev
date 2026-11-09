@@ -1,8 +1,8 @@
 {
  "title": "The γ ≤ 1/2 campaign",
- "updated": "2026-11-09 16:34 UTC",
+ "updated": "2026-11-09 16:38 UTC",
  "convention": "Weights are the estimated size of each work package (thousands of new Lean lines; non-Lean steps get an equivalent weight). A finished package counts fully once it passes its checks and an independent re-run of its audit. A running package counts by the orchestrator's estimate at its last checkpoint (what is proved against what remains); before its first checkpoint it counts by the Lean it has compiled, capped at 75 %. Line counts alone overstate progress, because several packages first port large amounts of the existing proof.",
- "next": "T-vine combinatorics complete (all unconditional). Remaining: the ghost chain covers in the ported run (R194), the rest of the run port and the marked stage 1, the vine case of stage 1; then landing, sealing, audits (preparation under way).",
+ "next": "The γ ≤ 1/2 final count is proved. Remaining: the stage-1 vine case (last port modules), the γ ≤ 1/2 flower estimate (marked stage 1 and marked count), then landing, sealing and two-key audits.",
  "risks": [
   "account quota (weekly limits",
   " claude-1 carries most packages)",
@@ -147,11 +147,11 @@
       "GammaLow/FinalCount/Count",
       "GammaLow/FinalCount/Step1"
      ],
-     "note": "the γ ≤ 1/2 final count is proved given ONE theorem (the LOW ghost chain cover, in progress); all 436 port modules compile; REG ghost cover proved",
-     "done": 0.85,
-     "lines": 59276,
-     "lines_compiled": 59276,
-     "credit": 0.85
+     "note": "FinalCountGateLow PROVED unconditionally (verified by wt-orch): Prop 9.6 at γ ≤ 1/2, the run-wide ghost repair (E20) and the port of main's run; final rebuild and audit under way",
+     "done": 0.95,
+     "lines": 59314,
+     "lines_compiled": 59293,
+     "credit": 0.95
     },
     {
      "id": "L6E",
@@ -162,7 +162,7 @@
       "GammaLow/FinalCount/Ghost"
      ],
      "note": "accepted: the ghost step (E20) and its Operation-1 cone (L6E2), 26 modules / 446 theorems; audits re-run by wt-orch",
-     "lines": 10622,
+     "lines": 10643,
      "lines_compiled": 10622,
      "credit": 1.0
     },
@@ -256,8 +256,8 @@
      ],
      "note": "all T-vine inputs proved; marked stage 1: I-SLOTSO 103/106, I-SLOTS 105/156, I-UNITS 13/35, I-SLOTSI 9/158 declarations built; marked count waits on L6's port",
      "done": 0.45,
-     "lines": 50773,
-     "lines_compiled": 36492,
+     "lines": 80709,
+     "lines_compiled": 36567,
      "credit": 0.45
     }
    ]
