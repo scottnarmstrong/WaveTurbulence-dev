@@ -149,8 +149,8 @@
      ],
      "note": "Prop 9.6 at γ ≤ 1/2 and the run-wide ghost chain cover (REG) PROVED; port 78 % compiling; LOW chain cover next",
      "done": 0.7,
-     "lines": 59197,
-     "lines_compiled": 56420,
+     "lines": 59204,
+     "lines_compiled": 57541,
      "credit": 0.7
     },
     {
@@ -162,8 +162,8 @@
       "GammaLow/FinalCount/Ghost"
      ],
      "note": "accepted: the ghost step (E20) and its Operation-1 cone (L6E2), 26 modules / 446 theorems; audits re-run by wt-orch",
-     "lines": 9058,
-     "lines_compiled": 9058,
+     "lines": 9535,
+     "lines_compiled": 9535,
      "credit": 1.0
     },
     {
@@ -210,7 +210,7 @@
      "note": "gate, pieces, normalized pieces and the stage-1 assembly proved; waits on the class count (L5c) and the vine case (helper L5a-G)",
      "done": 0.85,
      "lines": 58770,
-     "lines_compiled": 57696,
+     "lines_compiled": 58770,
      "credit": 0.85
     },
     {
@@ -256,8 +256,8 @@
      ],
      "note": "all T-vine inputs proved; marked stage 1: I-SLOTSO 103/106, I-SLOTS 105/156, I-UNITS 13/35, I-SLOTSI 9/158 declarations built; marked count waits on L6's port",
      "done": 0.45,
-     "lines": 50775,
-     "lines_compiled": 26923,
+     "lines": 50197,
+     "lines_compiled": 33581,
      "credit": 0.45
     }
    ]
