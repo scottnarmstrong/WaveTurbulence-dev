@@ -27,10 +27,6 @@ namespace WaveTurbulence.NumberTheory
 @[expose] noncomputable def periodicBernoulliTwo (x : ℝ) : ℝ :=
   Int.fract x ^ 2 - Int.fract x + 1 / 6
 
-@[simp] theorem periodicBernoulliTwo_add_intCast (x : ℝ) (n : ℤ) :
-    periodicBernoulliTwo (x + n) = periodicBernoulliTwo x := by
-  simp only [periodicBernoulliTwo, Int.fract_add_intCast]
-
 private theorem bernoulli_forward_algebra {t v h k : ℝ}
     (ht : 0 ≤ v) (hk : k = 0 ∨ 1 ≤ k) (hrel : v = t + h - k) :
     (v ^ 2 - v + 1 / 6) - (t ^ 2 - t + 1 / 6) ≤

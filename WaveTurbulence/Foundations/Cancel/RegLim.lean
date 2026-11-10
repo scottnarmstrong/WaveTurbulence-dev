@@ -61,11 +61,6 @@ theorem RegLim2.limit_lip {R : ℝ → ℝ → ℝ → ℂ} {J : ℝ → ℝ →
   have h1 := ((h.lim t ht s hs).sub (h.lim t' ht' s' hs')).norm
   exact le_of_tendsto h1 (hL.mono fun θ hθ => hθ t ht s hs t' ht' s' hs')
 
-theorem RegLim2.limit_bound {R : ℝ → ℝ → ℝ → ℂ} {J : ℝ → ℝ → ℂ} (h : RegLim2 R J) :
-    ∃ M, ∀ t ∈ Icc (0 : ℝ) 1, ∀ s ∈ Icc (0 : ℝ) 1, ‖J t s‖ ≤ M := by
-  obtain ⟨M, hM⟩ := h.bound
-  exact ⟨M, fun t ht s hs => le_of_tendsto (h.lim t ht s hs).norm (hM.mono fun θ hθ => hθ t ht s hs)⟩
-
 /-! ### Clamping onto the square -/
 
 theorem abs_clamp01_sub_le (x y : ℝ) : |clamp01 x - clamp01 y| ≤ |x - y| := by
@@ -98,15 +93,6 @@ theorem continuous_of_lip2 {f : ℝ → ℝ → ℂ} {L : ℝ}
   have h1 := le_max_left |p.1 - q.1| |p.2 - q.2|
   have h2 := le_max_right |p.1 - q.1| |p.2 - q.2|
   nlinarith
-
-theorem continuous_of_lip1 {f : ℝ → ℂ} {L : ℝ} (hf : ∀ x y, ‖f x - f y‖ ≤ L * |x - y|) :
-    Continuous f := by
-  have hL : 0 ≤ L := by
-    have := hf 1 0
-    norm_num at this
-    exact (norm_nonneg _).trans this
-  refine (LipschitzWith.of_dist_le_mul (K := ⟨L, hL⟩) fun x y => ?_).continuous
-  rw [dist_eq_norm, Real.dist_eq]; exact hf x y
 
 /-! ### The inner integral of the type 1 step -/
 

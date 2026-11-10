@@ -5,7 +5,7 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.Cancel.Lemma71
+public import WaveTurbulence.Foundations.Cancel.Cores
 public import Mathlib.MeasureTheory.Integral.Pi
 
 /-!
@@ -109,12 +109,6 @@ theorem mInt_wgt {θ : ℝ} (hθ : 0 < θ) (ζ : V → ℤ) (Z S : Finset V) (α
   simp_rw [wgt_updateFinset]
   rw [volume_pi]
   exact Integrable.fintype_prod fun i => integrable_omg hθ _ _
-
-theorem mint_wgt (θ : ℝ) (ζ : V → ℤ) (Z S : Finset V) (α₀ : V → ℝ) :
-    mint S (wgt θ ζ Z S) α₀ = ∏ w ∈ S, ∫ x : ℝ, omg θ (ζ w) (decide (w ∈ Z)) x := by
-  unfold mint
-  simp_rw [wgt_updateFinset]
-  rw [volume_pi, integral_fintype_prod_eq_prod, ← Finset.prod_coe_sort S]
 
 /-- A bounded continuous function times the weight is integrable. -/
 theorem mInt_mul_wgt {θ : ℝ} (hθ : 0 < θ) (ζ : V → ℤ) (Z S : Finset V) (α₀ : V → ℝ)

@@ -18,10 +18,13 @@ public import Mathlib.MeasureTheory.Integral.DominatedConvergence
 public import Mathlib.Analysis.SpecificLimits.Basic
 public import Mathlib.MeasureTheory.Integral.IntegralEqImproper
 public import Mathlib.Analysis.Calculus.Taylor
-public import WaveTurbulence.Foundations.NumberTheory.SawtoothFourier
+public import Mathlib.Algebra.Order.Round
+public import Mathlib.Analysis.Calculus.IteratedDeriv.Lemmas
+public import Mathlib.Analysis.SumIntegralComparisons
+public import Mathlib.Analysis.SpecialFunctions.ImproperIntegrals
+public import Mathlib.Analysis.Calculus.MeanValue
 public import Mathlib.Analysis.Calculus.Deriv.Add
 public import Mathlib.Analysis.Calculus.ContDiff.Defs
-public import WaveTurbulence.Foundations.NumberTheory.CircleDualAScale
 public import Mathlib.Algebra.BigOperators.Module
 public import Mathlib.Analysis.Normed.Module.Basic
 public import Mathlib.Algebra.BigOperators.Group.Finset.Basic
@@ -32,7 +35,6 @@ public import Mathlib.Analysis.Fourier.PoissonSummation
 public import Mathlib.Analysis.Fourier.RiemannLebesgueLemma
 public import Mathlib.Topology.Order.IntermediateValue
 public import Mathlib.Tactic
-public import WaveTurbulence.Foundations.Counting.CircleEndpointTransfer
 import Mathlib.Tactic
 
 /-! # Exact four-label coordinates for DH23 basiccount(3)

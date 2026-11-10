@@ -79,55 +79,6 @@ theorem latticeTriangleDet_eq_zero_of_thin_frame {p q r : Fin 2 → ℤ}
   rw [he]
   exact hb.trans_lt hsmall
 
-/-- A finite planar lattice set with every triangle degenerate has an injective
-coordinate projection. This includes empty sets and singletons. -/
-theorem exists_injective_coord_of_triangleDet_eq_zero (s : Finset (Fin 2 → ℤ))
-    (hdet : ∀ p ∈ s, ∀ q ∈ s, ∀ r ∈ s, latticeTriangleDet p q r = 0) :
-    ∃ i : Fin 2, Set.InjOn (fun p : Fin 2 → ℤ => p i) (s : Set (Fin 2 → ℤ)) := by
-  classical
-  by_cases hsingle : ∀ p ∈ s, ∀ q ∈ s, p = q
-  · exact ⟨0, fun p hp q hq _ => hsingle p hp q hq⟩
-  push Not at hsingle
-  obtain ⟨p,hp,q,hq,hpq⟩ := hsingle
-  have hn : q 0-p 0 ≠ 0 ∨ q 1-p 1 ≠ 0 := by
-    by_cases h0 : q 0-p 0 = 0
-    · by_cases h1 : q 1-p 1 = 0
-      · exfalso
-        apply hpq
-        ext i
-        fin_cases i
-        · exact (sub_eq_zero.mp h0).symm
-        · exact (sub_eq_zero.mp h1).symm
-      · exact Or.inr h1
-    · exact Or.inl h0
-  rcases hn with hn | hn
-  · refine ⟨0, ?_⟩
-    intro r hr t ht he
-    have hd₁ := hdet p hp q hq r hr
-    have hd₂ := hdet p hp q hq t ht
-    simp only [latticeTriangleDet,latticeDet,Pi.sub_apply] at hd₁ hd₂
-    dsimp only at he
-    rw [he] at hd₁
-    have hm : (q 0-p 0)*(r 1-t 1) = 0 := by nlinarith only [hd₁,hd₂]
-    have hrt : r 1 = t 1 := sub_eq_zero.mp ((mul_eq_zero.mp hm).resolve_left hn)
-    ext i
-    fin_cases i
-    · exact he
-    · exact hrt
-  · refine ⟨1, ?_⟩
-    intro r hr t ht he
-    have hd₁ := hdet p hp q hq r hr
-    have hd₂ := hdet p hp q hq t ht
-    simp only [latticeTriangleDet,latticeDet,Pi.sub_apply] at hd₁ hd₂
-    dsimp only at he
-    rw [he] at hd₁
-    have hm : (q 1-p 1)*(r 0-t 0) = 0 := by nlinarith only [hd₁,hd₂]
-    have hrt : r 0 = t 0 := sub_eq_zero.mp ((mul_eq_zero.mp hm).resolve_left hn)
-    ext i
-    fin_cases i
-    · exact hrt
-    · exact he
-
 /-- A nonvertical degenerate lattice triangle lies on the affine graph through
 its first two vertices. -/
 theorem exists_affine_graph_of_triangleDet_eq_zero (s : Finset (Fin 2 → ℤ))

@@ -42,20 +42,4 @@ theorem sawtooth_lt_half (x : ℝ) : sawtooth x < (1 / 2 : ℝ) := by
 theorem abs_sawtooth_le_half (x : ℝ) : |sawtooth x| ≤ (1 / 2 : ℝ) :=
   abs_le.mpr ⟨neg_half_le_sawtooth x, (sawtooth_lt_half x).le⟩
 
-@[simp] theorem sawtooth_intCast (n : ℤ) : sawtooth n = -(1 / 2 : ℝ) := by
-  simp only [sawtooth, Int.fract_intCast, zero_sub]
-
-@[simp] theorem sawtooth_add_intCast (x : ℝ) (n : ℤ) :
-    sawtooth (x + n) = sawtooth x := by
-  simp only [sawtooth, Int.fract_add_intCast]
-
-theorem sawtooth_periodic : Function.Periodic sawtooth 1 := by
-  intro x
-  simpa only [Int.cast_one] using sawtooth_add_intCast x 1
-
-theorem sawtooth_neg {x : ℝ} (hx : Int.fract x ≠ 0) :
-    sawtooth (-x) = -sawtooth x := by
-  simp only [sawtooth, Int.fract_neg hx]
-  ring
-
 end WaveTurbulence.NumberTheory
