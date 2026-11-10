@@ -86,6 +86,50 @@ a smaller γ means a stronger nonlinearity and a shorter kinetic time.
    [`docs/audits/full-range/`](docs/audits/full-range/README.md); those for the earlier 1/2 < γ < 1 version are in
    [`docs/audits/v2-chain/`](docs/audits/v2-chain/README.md).
 
+## How to verify
+
+You need git and [elan](https://github.com/leanprover/elan), which installs the Lean version pinned in
+[`lean-toolchain`](lean-toolchain) (v4.35.0). In a clone of this repository:
+
+```bash
+lake exe cache get   # download Mathlib's prebuilt files (Mathlib v4.35.0)
+lake build           # build the project: Lean checks every proof
+```
+
+`lake build` builds the library `WaveTurbulence`, including the five sealed full-range theorems (`WaveTurbulence.main`
+and the four statements it is assembled from). It succeeds only if Lean accepts every proof.
+
+**What a full build costs.** Even with Mathlib taken from its cache, building the project from scratch is heavy.
+Measured on this repository in November 2026:
+- about 27 CPU-hours on an AMD Ryzen 7 7700 (8 cores, 16 threads);
+- one file needs about 11 GB of RAM at its peak;
+- the build writes about 73 GB to disk. Most of it is Lake's per-module `*.setup.json` files under `.lake/build/ir/`,
+  which are not needed once their module is built and can be deleted as the build proceeds.
+
+So a full build needs a workstation-class machine; it does not fit on a standard CI runner.
+
+**Fast checks (minutes, no build needed).** These check the bookkeeping that guards the statements:
+
+```bash
+python3 -I scripts/check_frozen_anchors.py --root . --manifest manifest/frozen.json
+python3 -I scripts/check_lean_modules.py
+python3 -I scripts/check_pinned_texts.py
+scripts/check_index.sh
+```
+
+- `check_frozen_anchors.py`: every frozen statement and definition is byte-for-byte the approved text (hashes in
+  [`manifest/frozen.json`](manifest/frozen.json)), its state is recorded, there is no `sorry` outside the registered
+  unproved statements, and those are imported by nothing else. About 2.5 minutes here.
+- `check_lean_modules.py`: every Lean file is a Lean module and within the size limit. Under a second.
+- `check_pinned_texts.py`: the approved T-vine definitions
+  ([`WaveTurbulence/Foundations/TVine/Defs.lean`](WaveTurbulence/Foundations/TVine/Defs.lean)) are byte-for-byte
+  the pinned text. Under a second.
+- `check_index.sh`: the first two checks, run on exactly the committed tree.
+
+**Independent kernel replays.** Each of the two independent audits of the sealed theorems replayed the entire proof in
+Lean's kernel. Their records are in [`docs/audits/full-range/`](docs/audits/full-range/README.md) (full range) and
+[`docs/audits/v2-chain/`](docs/audits/v2-chain/README.md) (the earlier 1/2 < γ < 1 version).
+
 ## Current status
 
 - **Proved (sealed and audited):** Theorem 1.1 for the full range 0 < γ < 1, `main`, and the four statements it is
