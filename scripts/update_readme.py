@@ -79,7 +79,14 @@ def frozen_counts():
         total += 1
         if entry.get("state") == "SEALED":
             sealed += 1
+        else:
+            OPEN_THEOREMS.append(entry.get("id", "?"))
     return sealed, total, defs
+
+
+# Draft theorem anchors kept frozen for the record but superseded by sealed successors (E34).
+SUPERSEDED = {"layergardenFlower_v1", "layergardenFlower_v2"}
+OPEN_THEOREMS = []
 
 
 def age(ts):
@@ -348,7 +355,10 @@ def main():
     est_total = prog.get("lines_est_total", 0)
     now = datetime.datetime.now(datetime.timezone.utc)
     stamp = now.strftime("%Y-%m-%d %H:%M UTC")
-    updated = (f"> **Last updated: {stamp}** · frozen theorems sealed: {sealed} / {frozen_total} "
+    open_note = (f", the other {frozen_total - sealed} being superseded drafts"
+                 if OPEN_THEOREMS and set(OPEN_THEOREMS) <= SUPERSEDED else "")
+    updated = (f"> **Last changed: {stamp}** (checked every 10 minutes) · frozen theorems sealed: {sealed} / "
+               f"{frozen_total}{open_note} "
                f"(+ {frozen_defs} frozen definitions) · **{main_lines:,} lines of Lean on main** ({main_files} files) · "
                f"overall completion of the whole project (full range 0 < γ < 1): {pct:.1f} %")
     progress = "\n".join([
@@ -377,8 +387,8 @@ def main():
         "[`docs/campaign/progress.json`](docs/campaign/progress.json); history: "
         "[`docs/campaign/history.csv`](docs/campaign/history.csv).",
     ])
-    text = README.read_text(encoding="utf8")
-    blocks = [("updated", updated), ("progress", progress), ("workers", workers_block())]
+    old_text = text = README.read_text(encoding="utf8")
+    blocks = [("updated", updated), ("progress", progress)]
     if fl is not None:
         blocks.append(("flower", fl[0]))
     if gl is not None:
@@ -386,6 +396,11 @@ def main():
     for key, body in blocks:
         text = re.sub(rf"(<!-- AUTO:{key} -->).*?(<!-- /AUTO:{key} -->)",
                       lambda m, body=body: m.group(1) + "\n" + body + "\n" + m.group(2), text, flags=re.S)
+    def norm(s):  # the timestamp alone is not a change
+        return re.sub(r"Last (?:updated|changed): [0-9-]+ [0-9:]+ UTC", "", s)
+    if norm(text) == norm(old_text):
+        print("no substantive change: README and histories left as they are")
+        return
     README.write_text(text, encoding="utf8")
     new = not HISTORY.exists()
     with open(HISTORY, "a", encoding="utf8") as h:
