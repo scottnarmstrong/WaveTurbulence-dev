@@ -25,8 +25,6 @@ abbrev LadderFourierAt (P : WTParams) : Prop :=
         Molecule.ladderWeight P.L P.γ P.δ (scales S) ^ Molecule.ladderLength S)
 
 
-theorem LadderFourierGate_at_eq : LadderFourierGate = WTPrefix LadderFourierAt := rfl
-
 abbrev FinalCountAt (P : WTParams) : Prop :=
   ∀ p : ℕ, p < P.D → ∀ R : ℕ, 1 ≤ R → R ≤ 10 * P.R (p + 1) →
   ∀ G : Garden (2 * R), G.IsPlain → G.Irreducible → IsBalancedSig G.sig →
@@ -41,7 +39,5 @@ abbrev FinalCountAt (P : WTParams) : Prop :=
         (P.L ^ (-4 * P.η ^ 6 * (G.molecule.rho + C.numCriticalSG)) *
           P.L ^ (((R : ℝ) - 1) * ((P.d : ℝ) - P.γ - 1 / 4 - 1 / 40)))
 
-
-theorem FinalCountGate_at_eq : FinalCountGate = WTPrefix FinalCountAt := rfl
 
 end WaveTurbulence.LGSpine

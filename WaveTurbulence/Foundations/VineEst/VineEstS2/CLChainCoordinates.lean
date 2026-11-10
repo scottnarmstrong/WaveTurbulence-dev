@@ -47,13 +47,4 @@ theorem clChainCoordinateEquiv_bond {L : ℝ} (hL : L ≠ 0)
   exact (congrArg (fun k : Bond G.molecule U → (Fin d → ℤ) => k e) hl).trans
     (chainFlowChart_decode hM9 B (β 2) (β 2-β 3) _ e)
 
-/-- Exact reindexing of the actual regional lattice sum, without a
-summability premise or alteration of its integrand. -/
-theorem clChainCoordinateEquiv_tsum {L : ℝ} (hL : L ≠ 0)
-    (B : CLChainAssembly G R n) (base : Mom d) (β : Fin 4 → (Fin d → ℤ))
-    (hβ : ((G.sign a.toNode : ℤ) • (β 0-β 1)) = β 2-β 3) (hM9 : VINEPARAM)
-    (F : CLLocalDecoration R L base (fun j => base+latticePoint L (β j)) → ℂ) :
-    (∑' κ, F κ) = ∑' x, F ((clChainCoordinateEquiv hL B base β hβ hM9).symm x) :=
-  ((clChainCoordinateEquiv hL B base β hβ hM9).symm.tsum_eq F).symm
-
 end WaveTurbulence.VineEstS2

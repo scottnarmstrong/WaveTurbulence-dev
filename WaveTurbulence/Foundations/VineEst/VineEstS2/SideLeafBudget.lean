@@ -34,14 +34,4 @@ theorem card_sideLeaves_eq (v : GBranch tree) (i : Fin 3) :
   change (sideLeaves v i).card + (v.child i).leavesBelow.card = _ at hc
   omega
 
-/-- Every actual predecessor side sum has at most twice the second-largest
-child subtree leaf count, before any pairing cancellation. -/
-theorem card_sideLeaves_heavy_le (v : GBranch tree) :
-    (sideLeaves v (heavyBranchChild v)).card ≤
-      2*medianThree (leafCount (Comb.nodeSubtree (v.child 0)))
-        (leafCount (Comb.nodeSubtree (v.child 1))) (leafCount (Comb.nodeSubtree (v.child 2))) := by
-  rw [card_sideLeaves_eq]
-  have h := sideChildCost_le (fun i => (v.child i).leavesBelow.card)
-  simpa only [heavyBranchChild,card_leavesBelow_eq] using h
-
 end WaveTurbulence.VineEstS2

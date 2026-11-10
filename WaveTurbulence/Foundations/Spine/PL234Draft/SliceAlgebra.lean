@@ -42,13 +42,6 @@ theorem sliceAddress_of_topAll (LG : LayeredGarden w) (r : ℕ) :
       rw [addrExt_append, ← hu, List.drop_left]
     · rfl
 
-theorem takeLayer_of_topAll (LG : LayeredGarden w) (r : ℕ) :
-    ∀ (X : RegChain) (a : Fin w × Path), TopAll LG r a X → takeLayer LG a r X = X
-  | .nil, _, _ => rfl
-  | .pair m Qr Qg inner rest, a, ⟨ha, hT⟩ => by
-    unfold takeLayer
-    rw [ite_eq_left ha, takeLayer_of_topAll LG r rest _ hT]
-
 theorem chainSlice_of_topAll (LG : LayeredGarden w) (r : ℕ) :
     ∀ (X : RegChain) (a : Fin w × Path), TopAll LG r a X → SourceApp.chainSlice LG a r X = X
   | .nil, _, _ => rfl

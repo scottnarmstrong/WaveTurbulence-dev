@@ -2,7 +2,6 @@
 module
 
 public import WaveTurbulence.Foundations.Flower.MkUnitsL.MemberL
-public import WaveTurbulence.Foundations.Flower.V5W.Foreign
 public import WaveTurbulence.Foundations.Flower.Stage1WVine.WClass
 
 /-! # MK-UNITS-L (B3-2): list-T4, the weighted class factorization with per-unit top filters

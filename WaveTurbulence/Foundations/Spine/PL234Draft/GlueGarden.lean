@@ -131,8 +131,6 @@ def ι₁ (x : GNode G₁.tree) : GNode G.tree :=
 /-- The node map of the bottom garden. -/
 def ι₂ (y : GNode G₂.tree) : GNode G.tree := ⟨botAddr X.lonePath y.1, (h.bot_iff y.1).1.mpr y.2⟩
 
-theorem ι₁_val (x : GNode G₁.tree) : (h.ι₁ x).1 = ((0 : Fin w), x.1.2) := rfl
-
 theorem ι₂_val (y : GNode G₂.tree) : (h.ι₂ y).1 = botAddr X.lonePath y.1 := rfl
 
 /-- Unplugging an address of the bottom region. -/

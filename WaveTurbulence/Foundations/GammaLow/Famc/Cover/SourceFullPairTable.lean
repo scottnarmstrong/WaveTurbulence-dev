@@ -38,7 +38,8 @@ public import WaveTurbulence.Foundations.GammaLow.Famc.Cover.SourceUpperJointPai
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.Src.Objects
 public import WaveTurbulence.Foundations.GammaLow.Famc.Cover.Base
 public import WaveTurbulence.Foundations.GammaLow.Famc.Cover.VineDelObjects
-public import WaveTurbulence.Foundations.Spine.SourcePrimaryPairTable
+public import WaveTurbulence.Foundations.Spine.SourcePrimaryPairChoices
+public import WaveTurbulence.Foundations.Spine.SourcePairTableEncoding
 public import WaveTurbulence.Foundations.Spine.SourceCanonicalDesignation
 public import WaveTurbulence.Foundations.Spine.SourceRestrictedCarrier
 /-! TARGET L2108–L2112 requirements (d), (e) for C1, C2 and the hinges simultaneously: the pair

@@ -90,18 +90,6 @@ lemma KindY.mul {R : ℝ} {ι₁ ι₂ : Pt d → ℝ} (h₁ : KindY R ι₁) (h
   · exact hs₁ x (left_ne_zero_of_mul hx)
   · simp only [he₁, he₂]
 
-lemma KindZ.mul_left {N : ℝ} {ι₁ ι₂ : Pt d → ℝ} (h₁ : KindZ N ι₁) (h₂ : ∀ p, |ι₂ p| ≤ 1) :
-    KindZ N (fun p => ι₁ p * ι₂ p) := by
-  obtain ⟨hb, T, hT, hs⟩ := h₁
-  refine ⟨fun p => ?_, T, hT, fun p hp => hs p (left_ne_zero_of_mul hp)⟩
-  rw [abs_mul]; exact mul_le_one₀ (hb p) (abs_nonneg _) (h₂ p)
-
-lemma KindZ.mul_right {N : ℝ} {ι₁ ι₂ : Pt d → ℝ} (h₂ : KindZ N ι₂) (h₁ : ∀ p, |ι₁ p| ≤ 1) :
-    KindZ N (fun p => ι₁ p * ι₂ p) := by
-  obtain ⟨hb, T, hT, hs⟩ := h₂
-  refine ⟨fun p => ?_, T, hT, fun p hp => hs p (right_ne_zero_of_mul hp)⟩
-  rw [abs_mul]; exact mul_le_one₀ (h₁ p) (abs_nonneg _) (hb p)
-
 lemma KindX.abs_le {R : ℝ} {ι : Pt d → ℝ} (h : KindX R ι) : ∀ p, |ι p| ≤ 1 := by
   obtain ⟨q, f, hf, _, he⟩ := h
   intro p; rw [he]; exact hf _

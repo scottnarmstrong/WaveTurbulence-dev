@@ -55,34 +55,4 @@ theorem clRealizedNode_sourceOrigin (hU : G.molecule.IsBlock U a b) (R : CLRegio
       rw [hl,ho] at he
       exact he
 
-theorem clBond_sourceOrigin (hU : G.molecule.IsBlock U a b) (R : CLRegionData G U a b)
-    (hG : G.IsPlain) (Ei : CLIntOrder hU R) (Ep : ↥(clRegionalPairs hG U) ≃ Fin (clLocalOrder1 R)) (e : Bond G.molecule U) :
-    ∃ o : CLSourceOrigin R, ∀ {E : Type*} [AddCommGroup E] (κ : GNode G.tree → E),
-      (∀ ℓ, Mole.IsInternalLeaf G U ℓ → κ ℓ.toNode = κ (G.pair ℓ).toNode) →
-        Mole.restrictLabels G κ e.1 = clSourceOriginValue hU R hG Ei Ep κ o := by
-  let d := internalBondDart G.molecule U (e,false)
-  exact clRealizedNode_sourceOrigin hU R hG Ei Ep (Mole.dartNode G d.1)
-    ((mem_clRealizationNodes _).mpr (internalDart_node_realization d))
-    (clInternalDart_node_ne_upper R d)
-
-/-- The two remaining origin tags are exactly the actual lower boundary
-nodes, not unspecified affine combinations. -/
-theorem clOrigin_sourceOrigin (hU : G.molecule.IsBlock U a b) (R : CLRegionData G U a b)
-    (hG : G.IsPlain) (Ei : CLIntOrder hU R) (Ep : ↥(clRegionalPairs hG U) ≃ Fin (clLocalOrder1 R)) (p : Bond G.molecule U ⊕ Fin 2) :
-    ∃ o : CLSourceOrigin R, ∀ {E : Type*} [AddCommGroup E] (κ : GNode G.tree → E),
-      (∀ ℓ, Mole.IsInternalLeaf G U ℓ → κ ℓ.toNode = κ (G.pair ℓ).toNode) →
-      origin G.molecule U (fun e => Mole.restrictLabels G κ e.1)
-        (κ (clBoundaryNodes R 2)) (κ (clBoundaryNodes R 2)-κ (clBoundaryNodes R 3)) p =
-        clSourceOriginValue hU R hG Ei Ep κ o := by
-  cases p with
-  | inl e => exact clBond_sourceOrigin hU R hG Ei Ep e
-  | inr j =>
-    by_cases hj : j = 0
-    · refine ⟨.inr (.inr 2),?_⟩
-      intro E _ κ _
-      simp only [origin,hj,ite_true,clSourceOriginValue]
-    · refine ⟨.inr (.inr 3),?_⟩
-      intro E _ κ _
-      simp only [origin,hj,ite_false,sub_sub_cancel,clSourceOriginValue]
-
 end WaveTurbulence.VineEstS2

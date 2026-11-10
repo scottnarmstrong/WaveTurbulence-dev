@@ -28,7 +28,4 @@ def canonicalSub {M : Molecule V D} (rk : D → ℕ) (K : Set (Object M)) : Set 
   {P | P ∈ K ∧ ∀ Q ∈ K, Q.atoms = P.atoms → (∃ R, P.shape = .hyper R) →
     (∃ R, Q.shape = .hyper R) → P.hyperRank rk ≤ Q.hyperRank rk}
 
-theorem canonicalSub_subset {M : Molecule V D} (rk : D → ℕ) (K : Set (Object M)) :
-    canonicalSub rk K ⊆ K := fun _ h => h.1
-
 end WaveTurbulence.LGSpine

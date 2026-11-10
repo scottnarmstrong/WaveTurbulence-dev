@@ -20,9 +20,6 @@ noncomputable def oneFamily (P : WTParams) {w : ℕ} (g : TProf P.d w) (b : NNRe
   b _ := b
   sign_abs_le _ := by simp
 
-theorem univ_unit_eq (inst : Fintype Unit) : (@Finset.univ Unit inst) = {()} := by
-  ext x; simp
-
 theorem evalV_gate_bound (C₀ : ℕ) (P : WTParams) (hs : PieceSmall P)
     (hcoarse : CoarseSplicedAt P) (hfourier : LadderFourierAt P) (hcount : FinalCountAt P)
     (habs : FinalAbsorptionAt (6 * C₀) P) (hlog : 1 ≤ Real.log P.L) (hd : 1 ≤ P.d)

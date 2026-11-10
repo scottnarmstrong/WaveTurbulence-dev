@@ -1,7 +1,8 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 public import WaveTurbulence.Foundations.Spine.IncoherentGeometricNorm
-public import WaveTurbulence.Foundations.Spine.CoupleSpatialRegularity
+public import WaveTurbulence.Foundations.Spine.LeafwiseLayerInputs
+public import WaveTurbulence.Foundations.Spine.SpatialInputBounds
 /-! Literal specialization of the high-order leafwise decay estimate to a canonical layered couple. -/
 public section
 set_option autoImplicit false

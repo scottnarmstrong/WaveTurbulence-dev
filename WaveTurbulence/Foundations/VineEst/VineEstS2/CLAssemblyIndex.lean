@@ -22,9 +22,6 @@ variable {w : ℕ} {G : Garden w}
 namespace CLChainAssembly
 variable {U : Finset (GBranch G.tree)} {a b : GBranch G.tree} {R : CLRegionData G U a b} {n : ℕ}
 
-/-- The region is an exact index of the source assembly, not a new choice. -/
-def region (_B : CLChainAssembly G R n) : CLRegionData G U a b := R
-
 noncomputable def terminalRegion {S T : Finset (GBranch G.tree)} {a b c : GBranch G.tree}
     {RP : CLRegionData G S a b} {n : ℕ} (B : CLChainAssembly G RP n)
     {X : VineType} (hT : G.molecule.IsVine X T b c) (hi : S ∩ T = {b})

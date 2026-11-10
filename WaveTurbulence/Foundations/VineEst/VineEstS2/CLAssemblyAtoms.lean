@@ -31,11 +31,6 @@ noncomputable def assemblyAtomEquiv (hM9 : VINEPARAM)
       ((Equiv.sumComm _ _).trans ((Equiv.Finset.union _ _ (chainInterior_disjoint S T a b hi)).trans
         (Set.equivOfEq (congrArg (fun q : Finset (GBranch G.tree) => (q : Set (GBranch G.tree))) hp.symm))))
 
-noncomputable def assemblyVectorAtomEquiv (hM9 : VINEPARAM)
-    {U : Finset (GBranch G.tree)} {a b : GBranch G.tree} {R : CLRegionData G U a b} {n : ℕ}
-    (B : CLChainAssembly G R n) : (assemblyShape hM9 B).VIdx ≃ ↥(U.erase a) :=
-  (assemblyVectorEquiv hM9 B).symm.trans (assemblyAtomEquiv hM9 B)
-
 noncomputable def assemblyClockAtomEquiv (hM9 : VINEPARAM)
     {U : Finset (GBranch G.tree)} {a b : GBranch G.tree} {R : CLRegionData G U a b} {n : ℕ}
     (B : CLChainAssembly G R n) : (assemblyShape hM9 B).TVar ≃ ↥(U.erase a) :=

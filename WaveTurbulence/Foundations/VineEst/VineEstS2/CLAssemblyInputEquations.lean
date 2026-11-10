@@ -35,9 +35,4 @@ theorem assemblyInputEquiv_append_zero_symm (hM9 : VINEPARAM)
     (j : Fin (assemblyChartAt hM9 (.append B hT hi hU R) 0).indexing.shape.n) :
     (assemblyInputEquiv hM9 (.append B hT hi hU R)).symm ⟨0,j⟩ = .inl j := rfl
 
-theorem assemblyInputEquiv_append_succ_symm (hM9 : VINEPARAM) (i : Fin n)
-    (j : Fin (assemblyChartAt hM9 B i).indexing.shape.n) :
-    (assemblyInputEquiv hM9 (.append B hT hi hU R)).symm ⟨i.succ,j⟩ =
-      .inr ((assemblyInputEquiv hM9 B).symm ⟨i,j⟩) := rfl
-
 end WaveTurbulence.VineEstS2

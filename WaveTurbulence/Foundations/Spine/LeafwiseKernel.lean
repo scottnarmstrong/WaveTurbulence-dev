@@ -51,17 +51,4 @@ theorem kernelLeaves_eq_kernelK {w d : ℕ} (L γ δ : ℝ) (LG : LayeredGarden 
   intro ℓ hℓ
   rw [hH ℓ hℓ]
 
-/-- The source translation reduction is an equality of literal summands, with no convergence premise. -/
-theorem kernelLeaves_translate {w d : ℕ} (L γ δ : ℝ) (LG : LayeredGarden w)
-    (H : LeafProfiles w d) (up : GBranch LG.garden.tree → ℝ) (s : ℝ) (k₀ : Mom d)
-    (nroot : Fin w → (Fin d → ℤ)) (nfl : Fin d → ℤ) :
-    kernelLeaves L γ δ LG H up s k₀ nroot nfl =
-      kernelLeaves L γ δ LG (fun a x => H a (k₀ + x)) up s 0 nroot nfl := by
-  unfold kernelLeaves
-  congr 1
-  apply tsum_congr
-  intro κ
-  rw [phaseIntegral_coset_eq_zero L γ δ LG.garden _ s k₀ κ.1 κ.2.1]
-  simp only [cosetDecoration, zero_add]
-
 end WaveTurbulence.LGSpine

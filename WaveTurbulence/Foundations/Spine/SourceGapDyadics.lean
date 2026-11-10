@@ -23,18 +23,6 @@ open Set Filter
   exact exists_source_dyadic_scale (inv_pos.mpr hL) hcap
     (inv_scale_le_norm_gap hL base κ x y hne) hbound
 
- theorem eventually_small_gap_scale_capacity {γ η : ℝ} (hγ : γ < 1) (hη : 0 ≤ η) :
-    ∀ᶠ L : ℝ in atTop, 2 * L⁻¹ ≤ L ^ (-γ + η) := by
-  have he : 0 < 1 - γ + η := by linarith
-  have hh := (tendsto_rpow_atTop he).eventually (eventually_ge_atTop (2 : ℝ))
-  filter_upwards [hh, eventually_gt_atTop (0 : ℝ)] with L hpow hL
-  have hm := mul_le_mul_of_nonneg_left hpow (inv_nonneg.mpr hL.le)
-  have hp : L⁻¹ * L ^ (1 - γ + η) = L ^ (-γ + η) := by
-    rw [← Real.rpow_neg_one, ← Real.rpow_add hL]
-    congr 1
-    ring
-  simpa only [hp, mul_comm L⁻¹ 2] using hm
-
 private theorem exists_source_dyadic_scale_lt {a b r : ℝ} (ha : 0 < a) (hab : 2 * a ≤ b)
     (har : a ≤ r) (hrb : r < b) :
     ∃ P : ℝ, SourceVine.IsDyadicScale P ∧ a ≤ P ∧ P < b ∧ P / 2 ≤ r ∧ r ≤ 2 * P := by

@@ -131,10 +131,6 @@ lemma glueT_end_eq (L L' : ChainLab n E) (ha0 : L.a 0 = L'.a 0) (hb0 : L.b 0 = L
       subst this; exact hbn
 
 
-/-- Replace the interior chain of a dart labelling by the chain with chart `(a0, b0, P)`. -/
-noncomputable def replaceChain (κ : D → E) (a0 b0 : E) (P : Fin n → E × E) : D → E :=
-  fun x => κ x - C.glueT (C.chainOf κ) x + C.glueT (C.signs.inv a0 b0 P) x
-
 lemma inv_a_last (S : ChainSigns n) (a0 b0 : E) (P : Fin n → E × E) :
     (S.inv a0 b0 P).a (Fin.last n) = a0 + ∑ k, (S.tau P k 2 - S.tau P k 3) := by
   simp [ChainSigns.inv, ChainSigns.railU]
@@ -174,11 +170,6 @@ noncomputable def swapChain (κ : Xint C E) (L' : {L : ChainLab n E // C.signs.I
 
 lemma chain_swapChain (κ : Xint C E) (L' : {L : ChainLab n E // C.signs.IsSol L}) :
     (C.xintEquiv (C.swapChain κ L')).2 = L' := by
-  unfold swapChain
-  rw [Equiv.apply_symm_apply]
-
-lemma uset_swapChain (κ : Xint C E) (L' : {L : ChainLab n E // C.signs.IsSol L}) :
-    (C.xintEquiv (C.swapChain κ L')).1 = (C.xintEquiv κ).1 := by
   unfold swapChain
   rw [Equiv.apply_symm_apply]
 

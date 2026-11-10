@@ -1,7 +1,8 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 
-public import WaveTurbulence.Foundations.Flower.V5W.Analytic
+public import WaveTurbulence.Foundations.Flower.V5W.Defs
+public import WaveTurbulence.Foundations.Flower.Stage1W.TypeBound
 
 /-! # V5W-0, row 0c (part 1): the weighted member kernel in `sumint` form, with selected rows
 

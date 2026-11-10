@@ -35,24 +35,6 @@ variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimension
 variable {G : Type*} [NormedAddCommGroup G] [NormedSpace ℝ G]
 variable {Z : Type*} [MeasurableSpace Z]
 
-/-- Iterated derivatives of order `≤ N` of a function `C^N` in `e` and measurable in `z` are
-measurable in `z`. -/
-theorem stronglyMeasurable_iteratedFDeriv_param_of_le {N : ℕ} {f : E → Z → G}
-    (hf : ∀ z, ContDiff ℝ N (f · z)) (hm : ∀ e, StronglyMeasurable (f e)) :
-    ∀ k : ℕ, k ≤ N → ∀ e : E, StronglyMeasurable fun z => iteratedFDeriv ℝ k (f · z) e := by
-  intro k
-  induction k with
-  | zero =>
-    intro _ e
-    simp only [iteratedFDeriv_zero_eq_comp, Function.comp_apply]
-    exact (continuousMultilinearCurryFin0 ℝ E G).symm.continuous.comp_stronglyMeasurable (hm e)
-  | succ k ih =>
-    intro hk e
-    simp only [iteratedFDeriv_succ_eq_comp_left, Function.comp_apply]
-    refine (LinearIsometryEquiv.continuous _).comp_stronglyMeasurable
-      (ClassJR.stronglyMeasurable_fderiv_param (g := fun e z => iteratedFDeriv ℝ k (f · z) e)
-        (fun z => (hf z).differentiable_iteratedFDeriv (by exact_mod_cast hk)) (ih (by omega)) e)
-
 section Integral
 
 variable [CompleteSpace G] {X : Type*} [MeasurableSpace X] {μ : Measure X}

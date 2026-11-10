@@ -24,54 +24,6 @@ structure Stage1Data (P : WTParams) (R : ℕ) where
 @[expose] noncomputable def Stage1PieceD.rbar {d R : ℕ} (π : Stage1PieceD d R) : ℕ :=
   π.Gsb.molecule.rho + π.Cs.hinges.card
 
-/-- The pieces `(class, sigma)` with data `(g, r)`: each class carries at most `m` pieces (`m = 3^n`, one per
-SG/LG/ZG prescription, TARGET L1950), so their number is at most `m` times the number of classes having
-such a piece (RULINGS R19 (3)). -/
-theorem piece_count_le_class_count {Pc Cl : Type} [Fintype Pc] [Fintype Cl] (cls : Pc → Cl)
-    (gb rb : Pc → ℕ) (m g r : ℕ)
-    (hmult : ∀ c, ((univ : Finset Pc).filter fun π => cls π = c).card ≤ m) :
-    ((univ : Finset Pc).filter fun π => gb π = g ∧ rb π = r).card ≤
-      m * ((univ : Finset Cl).filter fun c => ∃ π, cls π = c ∧ gb π = g ∧ rb π = r).card := by
-  set T : Finset Pc := (univ : Finset Pc).filter fun π => gb π = g ∧ rb π = r with hT
-  have h1 := Finset.card_le_mul_card_image T m (f := cls) (fun c _ =>
-    (Finset.card_le_card (fun π hπ =>
-      Finset.mem_filter.mpr ⟨Finset.mem_univ _, (Finset.mem_filter.mp hπ).2⟩)).trans (hmult c))
-  refine h1.trans (Nat.mul_le_mul_left _ (Finset.card_le_card ?_))
-  intro c hc
-  obtain ⟨π, hπ, rfl⟩ := Finset.mem_image.mp hc
-  have hπ' := (Finset.mem_filter.mp hπ).2
-  exact Finset.mem_filter.mpr ⟨Finset.mem_univ _, π, rfl, hπ'⟩
-
-/-- Pieces counted through their classes satisfy the piece count with constant `6 * C₀` (the factor `3^n`
-of the prescriptions is absorbed in the constant). -/
-theorem piece_count_of_class_count {Pc Cl : Type} [Fintype Pc] [Fintype Cl] (cls : Pc → Cl)
-    (gb rb : Pc → ℕ) (n R C₀ : ℕ) (C₂ : ℝ) (hC₂ : 0 ≤ C₂)
-    (hmult : ∀ c, ((univ : Finset Pc).filter fun π => cls π = c).card ≤ 6 ^ n)
-    (hcnt : ∀ g r, ((((univ : Finset Cl).filter fun c => ∃ π, cls π = c ∧ gb π = g ∧ rb π = r).card : ℕ) : ℝ) ≤
-      (C₀ : ℝ) ^ n * (((C₀ * r).factorial : ℕ) : ℝ) * (((C₀ * R).factorial : ℕ) : ℝ) * C₂ ^ (g + r)) :
-    ∀ g r, ((((univ : Finset Pc).filter fun π => gb π = g ∧ rb π = r).card : ℕ) : ℝ) ≤
-      ((6 * C₀ : ℕ) : ℝ) ^ n * ((((6 * C₀) * r).factorial : ℕ) : ℝ) *
-        ((((6 * C₀) * R).factorial : ℕ) : ℝ) * C₂ ^ (g + r) := by
-  intro g r
-  have h1 := piece_count_le_class_count cls gb rb (6 ^ n) g r hmult
-  have h1' : ((((univ : Finset Pc).filter fun π => gb π = g ∧ rb π = r).card : ℕ) : ℝ) ≤
-      (6 : ℝ) ^ n * (((univ : Finset Cl).filter fun c => ∃ π, cls π = c ∧ gb π = g ∧ rb π = r).card : ℝ) := by
-    exact_mod_cast h1
-  refine h1'.trans ?_
-  refine (mul_le_mul_of_nonneg_left (hcnt g r) (by positivity)).trans ?_
-  have f1 : (((C₀ * r).factorial : ℕ) : ℝ) ≤ ((((6 * C₀) * r).factorial : ℕ) : ℝ) := by
-    exact_mod_cast Nat.factorial_le (by nlinarith)
-  have f2 : (((C₀ * R).factorial : ℕ) : ℝ) ≤ ((((6 * C₀) * R).factorial : ℕ) : ℝ) := by
-    exact_mod_cast Nat.factorial_le (by nlinarith)
-  have e : ((6 * C₀ : ℕ) : ℝ) ^ n = (6 : ℝ) ^ n * (C₀ : ℝ) ^ n := by
-    push_cast; rw [mul_pow]
-  rw [e]
-  have p0 : (0 : ℝ) ≤ C₂ ^ (g + r) := pow_nonneg hC₂ _
-  calc (6 : ℝ) ^ n * ((C₀ : ℝ) ^ n * (((C₀ * r).factorial : ℕ) : ℝ) * (((C₀ * R).factorial : ℕ) : ℝ) * C₂ ^ (g + r))
-      = (6 : ℝ) ^ n * (C₀ : ℝ) ^ n * (((C₀ * r).factorial : ℕ) : ℝ) * (((C₀ * R).factorial : ℕ) : ℝ) * C₂ ^ (g + r) := by ring
-    _ ≤ (6 : ℝ) ^ n * (C₀ : ℝ) ^ n * ((((6 * C₀) * r).factorial : ℕ) : ℝ) * ((((6 * C₀) * R).factorial : ℕ) : ℝ) * C₂ ^ (g + r) := by
-        gcongr
-
 /-- AMEND10 (R56): the direct piece count `3^n C₀^n (C₀ r)! (C₀ R)! C₂^{g+r}` implies the count with constant `6 C₀`. -/
 theorem piece_count_of_direct_count {Pc : Type} [Fintype Pc]
     (gb rb : Pc → ℕ) (n R C₀ : ℕ) (C₂ : ℝ) (hC₂ : 0 ≤ C₂)
@@ -180,28 +132,3 @@ theorem stage1_sum_bound_int (P : WTParams) (hs : PieceSmall P)
   rw [hsum, norm_div, Complex.norm_real, Real.norm_of_nonneg hs0.le, div_le_iff₀ hs0] at this
   rw [mul_comm]
   convert this using 2
-
-/-- TARGET L2236-L2255: `stage1_sum_bound_int` for the full `Represents`. -/
-theorem stage1_sum_bound (P : WTParams) (hs : PieceSmall P)
-    (hcoarse : CoarseSplicedAt P) (hfourier : LadderFourierAt P) (hcount : FinalCountAt P)
-    {p R n : ℕ} (hp : p < P.D) (hR : 1 ≤ R) (hRmax : R ≤ 10 * P.R (p + 1))
-    (S : Stage1Data P R) (base : Mom P.d) (roots : Fin (2 * R) → (Fin P.d → ℤ)) (C₀ : ℕ)
-    (tt : Fin (2 * R) → ℝ) (Cl : Type) [Fintype Cl] (cls : S.Pc → Cl)
-    (members : Cl → Finset (LayeredGarden (2 * R)))
-    (sel : S.Pc → ∀ LG : LayeredGarden (2 * R), GenDecoration LG.garden P.d roots 0 → Prop)
-    (F : LeafFamily P (2 * R)) (s : ℝ) (hs0 : 0 < s)
-    (hsound : ∀ π, (S.piece π).Sound p base roots)
-    (hnsb : ∀ π, (S.piece π).Gsb.order ≤ n)
-    (hrep : ∀ π, (S.piece π).Represents n tt base roots (members (cls π)) (sel π) F s (S.val π))
-    (hrb : ∀ π, 1 ≤ (S.piece π).rbar ∧ (S.piece π).rbar ≤ n)
-    (hgb : ∀ π, (S.piece π).gbar ≤ n)
-    (hpc : ∀ g r, ((((@univ S.Pc S.fin).filter fun π => (S.piece π).gbar = g ∧ (S.piece π).rbar = r).card : ℕ) : ℝ) ≤
-      (3 : ℝ) ^ n * (C₀ : ℝ) ^ n * (((C₀ * r).factorial : ℕ) : ℝ) * (((C₀ * R).factorial : ℕ) : ℝ) * P.C₂ ^ (g + r))
-    (hT2 : P.C₂ * P.L ^ (-(P.ν * P.η)) ≤ 1 / 2)
-    (hS2 : (((6 * C₀) * n : ℕ) : ℝ) ^ (6 * C₀) * P.C₂ * P.L ^ (-P.η ^ 6 / 4) ≤ 1 / 2) :
-    ‖@Finset.sum S.Pc ℂ _ (@univ S.Pc S.fin) S.val‖ ≤ s *
-      (4 * (P.C₂ * (P.C₁ ^ 6 * P.δ ^ (10 * P.ν)) ^ n * P.L ^ (-((R : ℝ) - 1) * (1 / 4 + 1 / 60)) *
-        ((6 * C₀ : ℕ) : ℝ) ^ n * ((((6 * C₀) * R).factorial : ℕ) : ℝ) *
-        ((((6 * C₀) * n : ℕ) : ℝ) ^ (6 * C₀) * P.C₂ * P.L ^ (-P.η ^ 6 / 4)))) :=
-  stage1_sum_bound_int P hs hcoarse hfourier hcount hp hR hRmax S tt base roots C₀ Cl cls s hs0
-    hsound hnsb (fun π => (hrep π).2) hrb hgb hpc hT2 hS2

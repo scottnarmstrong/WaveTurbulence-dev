@@ -168,75 +168,7 @@ theorem phaseIntegral_glue (L γ δ : ℝ) {d : ℕ}
 
 end GlueData
 
-/-- The summand of the one kernel. -/
-noncomputable def kernelSummand (L γ δ : ℝ) {w d : ℕ} (F : ℕ → Mom d → ℝ) (LG : LayeredGarden w)
-    (up : GBranch LG.garden.tree → ℝ) (s : ℝ) (k₀ : Mom d) {nroot : Fin w → (Fin d → ℤ)}
-    {nfl : Fin d → ℤ} (κ : GenDecoration LG.garden d nroot nfl) : ℂ :=
-  (epsDec LG.garden κ.1 : ℂ) *
-    phaseIntegral L γ δ LG.garden (kDomain LG up s) s (cosetDecoration LG.garden L k₀ κ.1) *
-    ∏ ℓ ∈ inputLeaves LG.garden,
-      (F (LG.layer ℓ.toNode) (cosetDecoration LG.garden L k₀ κ.1 ℓ.toNode) : ℂ)
-
-theorem kernelK_eq_tsum (L γ δ : ℝ) {w d : ℕ} (F : ℕ → Mom d → ℝ) (LG : LayeredGarden w)
-    (up : GBranch LG.garden.tree → ℝ) (s : ℝ) (k₀ : Mom d) (nroot : Fin w → (Fin d → ℤ))
-    (nfl : Fin d → ℤ) :
-    kernelK L γ δ F LG up s k₀ nroot nfl = (coupling d L γ δ : ℂ) ^ LG.garden.order *
-      LG.garden.zeta * ∑' κ : GenDecoration LG.garden d nroot nfl,
-        kernelSummand L γ δ F LG up s k₀ κ := rfl
-
 theorem noFlowerParent_of_noFlower {w : ℕ} {G : Garden w} (hfl : ∀ ℓ : GLeaf G.tree, ¬ G.IsFlower ℓ)
     (b : GBranch G.tree) : ¬ G.IsFlowerParent b := fun ⟨ℓ, hℓ, _⟩ => hfl ℓ hℓ
-
-/-- **The one kernel of a glued garden is the product of the kernels of the two pieces**
-(TARGET (prooflayer1-1), (prooflayer1-2)), given the product structure of the time domain, the split
-of the input factors, and absolutely summable decoration sums. -/
-theorem kernelK_glue (L γ δ : ℝ) {d : ℕ} (F : ℕ → Mom d → ℝ) {LG : LayeredGarden w}
-    {LG₁ : LayeredGarden 1} {LG₂ : LayeredGarden w} {X : RegChain}
-    (h : GlueData LG.garden LG₁.garden LG₂.garden X) (hs : h.DecSplit (Fin d → ℤ))
-    (hg : GlueData.DecGlue (G := LG.garden) (G₁ := LG₁.garden) (G₂ := LG₂.garden) (X := X)
-      (Fin d → ℤ))
-    (hfl : ∀ ℓ : GLeaf LG.garden.tree, ¬ LG.garden.IsFlower ℓ)
-    (hfl₁ : ∀ ℓ : GLeaf LG₁.garden.tree, ¬ LG₁.garden.IsFlower ℓ)
-    (hfl₂ : ∀ ℓ : GLeaf LG₂.garden.tree, ¬ LG₂.garden.IsFlower ℓ)
-    (up : GBranch LG.garden.tree → ℝ) (s : ℝ) (up₁ : GBranch LG₁.garden.tree → ℝ) (s₁ : ℝ)
-    (up₂ : GBranch LG₂.garden.tree → ℝ) (s₂ : ℝ)
-    (hD : ∀ τ, τ ∈ kDomain LG up s ↔ (fun x => τ (h.ofSum (.inl x))) ∈ kDomain LG₁ up₁ s₁ ∧
-      (fun y => τ (h.ofSum (.inr y))) ∈ kDomain LG₂ up₂ s₂)
-    (k : Mom d)
-    (hin : ∀ κ : GNode LG.garden.tree → (Fin d → ℤ),
-      ∏ ℓ ∈ inputLeaves LG.garden,
-          (F (LG.layer ℓ.toNode) (cosetDecoration LG.garden L k κ ℓ.toNode) : ℂ) =
-        (∏ ℓ ∈ inputLeaves LG₁.garden,
-          (F (LG₁.layer ℓ.toNode) (cosetDecoration LG₁.garden L k (κ ∘ h.ι₁) ℓ.toNode) : ℂ)) *
-        ∏ ℓ ∈ inputLeaves LG₂.garden,
-          (F (LG₂.layer ℓ.toNode) (cosetDecoration LG₂.garden L k (κ ∘ h.ι₂) ℓ.toNode) : ℂ))
-    (hsum₁ : Summable fun κ : GenDecoration LG₁.garden d (fun _ => 0) 0 =>
-      ‖kernelSummand L γ δ F LG₁ up₁ s₁ k κ‖)
-    (hsum₂ : Summable fun κ : GenDecoration LG₂.garden d (fun _ => 0) 0 =>
-      ‖kernelSummand L γ δ F LG₂ up₂ s₂ k κ‖) :
-    kernelK L γ δ F LG up s k (fun _ => 0) 0 =
-      kernelK L γ δ F LG₁ up₁ s₁ k (fun _ => 0) 0 * kernelK L γ δ F LG₂ up₂ s₂ k (fun _ => 0) 0 := by
-  let e := h.decEquiv hs hg hfl hfl₁ hfl₂
-  have hsplit : ∀ p : GenDecoration LG₁.garden d (fun _ => 0) 0 × GenDecoration LG₂.garden d (fun _ => 0) 0,
-      kernelSummand L γ δ F LG up s k (e.symm p) =
-        kernelSummand L γ δ F LG₁ up₁ s₁ k p.1 * kernelSummand L γ δ F LG₂ up₂ s₂ k p.2 := by
-    intro p
-    have hp := e.apply_symm_apply p
-    have h1 : (e.symm p).1 ∘ h.ι₁ = p.1.1 := congrArg (fun q => q.1.1) hp
-    have h2 : (e.symm p).1 ∘ h.ι₂ = p.2.1 := congrArg (fun q => q.2.1) hp
-    unfold kernelSummand
-    rw [h.epsDec_glue, h.phaseIntegral_glue L γ δ (noFlowerParent_of_noFlower hfl)
-      (noFlowerParent_of_noFlower hfl₁) (noFlowerParent_of_noFlower hfl₂) _ _ _ (hD) s s₁ s₂,
-      hin]
-    have c1 : cosetDecoration LG.garden L k (e.symm p).1 ∘ h.ι₁ =
-        cosetDecoration LG₁.garden L k ((e.symm p).1 ∘ h.ι₁) := rfl
-    have c2 : cosetDecoration LG.garden L k (e.symm p).1 ∘ h.ι₂ =
-        cosetDecoration LG₂.garden L k ((e.symm p).1 ∘ h.ι₂) := rfl
-    rw [c1, c2, h1, h2]
-    push_cast
-    ring
-  rw [kernelK_eq_tsum, kernelK_eq_tsum, kernelK_eq_tsum, h.order_glue, pow_add, h.zeta_glue,
-    ← e.symm.tsum_eq, tsum_congr hsplit, ← tsum_mul_tsum_of_summable_norm hsum₁ hsum₂]
-  ring
 
 end WaveTurbulence.PL234

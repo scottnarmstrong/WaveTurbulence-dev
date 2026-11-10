@@ -5,7 +5,7 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.Spine.SourceSeparation
+public import WaveTurbulence.Foundations.WaveB.MoleculeStatements
 public import WaveTurbulence.Foundations.VineEst.VineEstS3.FSKernel
 
 /-! # Elementary facts on the time boxes `timeBox q q'`, `timeBoxGt q q'` (V5, hypotheses of the engine) -/

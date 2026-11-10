@@ -6,7 +6,6 @@ public import WaveTurbulence.Foundations.Spine.WordDSum
 public import WaveTurbulence.Foundations.Spine.LeafwiseKernelSpatial
 public import WaveTurbulence.Foundations.Spine.SpatialNormFromWords
 public import WaveTurbulence.Foundations.Spine.ZeroRemainderNorm
-public import WaveTurbulence.Foundations.Spine.CoupleSpatialRegularity
 public import WaveTurbulence.Foundations.Spine.CoupleZeroRemainder
 /-! TARGET term (b), AMEND6' (design P*): the spatial norm of the sum over nonregular couples. The weighted
 coordinate derivatives `jbr^{4 Lambda} wordD word (sum K)` are finite sums over root-weight choices of operation
@@ -27,11 +26,6 @@ theorem stage1Carries_of_nonregular_couple (P : WTParams) {p N : ℕ} (LG : Laye
   unfold IsBalancedSig
   rw [hs]
   simp
-
-theorem nonregularCoupleSum_eq_sum (P : WTParams) (F : ℕ → Mom P.d → ℝ) (q N : ℕ) (t : ℝ) :
-    nonregularCoupleSum P F q N t = fun k =>
-      ∑ LG ∈ (coupleCarrier P q N).filter (fun (LG : LayeredGarden 2) => ¬ IsRegularCouple LG.garden),
-        KQ P.L P.γ P.δ F LG t k := rfl
 
 /-- The nonregular canonical couples of order `N` at stage `p + 1`. -/
 @[expose] noncomputable def coupleSet (P : WTParams) (p N : ℕ) : Finset (LayeredGarden 2) :=

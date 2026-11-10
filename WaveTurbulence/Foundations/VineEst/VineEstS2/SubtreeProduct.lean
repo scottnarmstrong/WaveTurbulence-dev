@@ -49,14 +49,4 @@ theorem leafCount_mul_secondLeafProduct (T : TTree) :
         Nat.mul_le_mul_left 3 (Nat.mul_le_mul (Nat.mul_le_mul hl hm) hr)
       _ = 3^(TTree.node l m r).order := by rw [TTree.order]; simp only [pow_add,pow_one]; ring
 
-/-- The displayed real-valued form of DH21 auxineq. -/
-theorem secondLeafProduct_le (T : TTree) :
-    (secondLeafProduct T : ℝ) ≤ (3:ℝ)^T.order / (2*T.order+1) := by
-  apply (le_div_iff₀ (by positivity : (0:ℝ)<2*T.order+1)).mpr
-  have h := leafCount_mul_secondLeafProduct T
-  have hc : ((leafCount T*secondLeafProduct T : ℕ) : ℝ) ≤ ((3^T.order : ℕ) : ℝ) :=
-    Nat.cast_le.mpr h
-  simpa only [Nat.cast_mul,Nat.cast_pow,Nat.cast_ofNat,leafCount,Nat.cast_add,Nat.cast_one,
-    mul_comm] using hc
-
 end WaveTurbulence.VineEstS2

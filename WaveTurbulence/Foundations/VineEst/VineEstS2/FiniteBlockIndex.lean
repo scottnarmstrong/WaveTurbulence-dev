@@ -30,10 +30,4 @@ def sigmaFinSuccEquiv (α : Fin (n+1) → Type*) :
   right_inv := by
     rintro (x | ⟨j,x⟩) <;> rfl
 
-theorem sigmaFinSuccEquiv_zero (α : Fin (n+1) → Type*) (x : α 0) :
-    sigmaFinSuccEquiv α ⟨0,x⟩ = .inl x := rfl
-
-theorem sigmaFinSuccEquiv_succ (α : Fin (n+1) → Type*) (i : Fin n) (x : α i.succ) :
-    sigmaFinSuccEquiv α ⟨i.succ,x⟩ = .inr ⟨i,x⟩ := rfl
-
 end WaveTurbulence.VineEstS2

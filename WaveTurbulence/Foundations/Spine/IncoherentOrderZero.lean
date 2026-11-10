@@ -1,6 +1,11 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
-public import WaveTurbulence.Foundations.Spine.IncoherentSumBound
+public import WaveTurbulence.Foundations.Spine.RemainderInputs
+public import WaveTurbulence.Foundations.RegularAsymptotics.KernelContinuity
+public import WaveTurbulence.Foundations.Spine.TimeBoxGeometry
+public import WaveTurbulence.Foundations.Spine.XNormPointwise
+public import WaveTurbulence.Foundations.Spine.RegularLayeringCount
+public import WaveTurbulence.Foundations.Spine.FiniteCoverSum
 public import WaveTurbulence.Foundations.Spine.ZeroRemainderNorm
 /-! The incoherent carrier is empty at order zero by the proved incoherency/order bound. -/
 public section

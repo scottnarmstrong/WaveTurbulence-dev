@@ -1,7 +1,8 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 public import WaveTurbulence.Foundations.Spine.SpineInputsV2
-public import WaveTurbulence.Foundations.Spine.PL2330Draft.Gate30C
+public import WaveTurbulence.Foundations.Spine.PL2330Draft.Gate30
+public import WaveTurbulence.Foundations.Spine.PL234Draft.SliceApp
 public import WaveTurbulence.Foundations.Spine.PL234Draft.CoherentTaylor
 public import WaveTurbulence.Foundations.Spine.RA1LW.Gate
 public import WaveTurbulence.Foundations.Spine.IncohLeafwise.Gate
@@ -18,10 +19,6 @@ namespace WaveTurbulence.Spine
 theorem leafwise_regular_asymptotics : LGSpine.LeafwiseRegularAsymptoticsGate :=
   RA1Leafwise.leafwiseRegularAsymptotics
 
-/-- Prop 6.1 at the literal 30d norm. -/
-theorem coherent_approximation : LGSpine.CoherentApproximationGate :=
-  PL2330.coherentApproximationGate30 regularAsymptotics leafwise_regular_asymptotics
-
 /-- Prop 6.1 with separate leaf profiles. -/
 theorem leafwise_coherent_approximation : LGSpine.LeafwiseCoherentApproximationGate :=
   PL2330.leafwiseCoherentApproximationGate30 regularAsymptotics leafwise_regular_asymptotics
@@ -36,9 +33,6 @@ theorem leafwise_incoherent_decay : LGSpine.LeafwiseIncoherentDecayGate :=
 
 /-- The ladder Fourier estimate on the source time domain. -/
 theorem ladder_fourier : LGSpine.LadderFourierGate := Ladder.ladderFourier_prefix
-
-/-- The source ladder decay estimate. -/
-theorem ladder_decay : LGSpine.LadderDecayGate := LadderDecay.ladderDecayGate
 
 /-- The coarse estimate on the canonical spliced kernel. -/
 theorem coarse_spliced : LGSpine.CoarseSplicedGate := CoarseSpliced.coarseSplicedGatePinned

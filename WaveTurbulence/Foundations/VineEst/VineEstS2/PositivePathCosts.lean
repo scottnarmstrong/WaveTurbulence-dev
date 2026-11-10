@@ -15,18 +15,6 @@ set_option autoImplicit false
 namespace WaveTurbulence.VineEstS2
 open TTree
 
-/-- An elementary finite product absorbs the sum of nonnegative costs and
-one terminal leaf; this avoids a factor depending on the skipped path length. -/
-theorem one_add_sum_le_prod_one_add {α : Type*} [DecidableEq α] (S : Finset α) (f : α → ℕ) :
-    1+∑ a ∈ S, f a ≤ ∏ a ∈ S, (1+f a) := by
-  induction S using Finset.induction_on with
-  | empty => simp only [Finset.sum_empty,Finset.prod_empty,add_zero,le_refl]
-  | @insert a S ha ih =>
-    rw [Finset.sum_insert ha,Finset.prod_insert ha]
-    calc
-      _ ≤ (1+f a)*(1+∑ b ∈ S, f b) := by nlinarith only [Nat.zero_le (f a*(∑ b ∈ S, f b))]
-      _ ≤ (1+f a)*(∏ b ∈ S, (1+f b)) := Nat.mul_le_mul_left _ ih
-
 noncomputable def branchPredecessorCost {w : ℕ} {tree : Fin w → TTree} (v : GBranch tree) : ℕ :=
   3*medianThree (v.child 0).leavesBelow.card (v.child 1).leavesBelow.card (v.child 2).leavesBelow.card
 

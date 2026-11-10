@@ -11,9 +11,6 @@ open SourceVine Finset
 
 variable {V D : Type*} [DecidableEq V] [Fintype D] [DecidableEq D] {M : Molecule V D}
 
-theorem isBlock_congr {N : Molecule V D} {X Y : Finset V} {a b : V} (h : X = Y)
-    (hB : N.IsBlock X a b) : N.IsBlock Y a b := h ▸ hB
-
 theorem isContained_of_vc_left (P U : Object M) (hP : ∃ h, P.shape = .vc h)
     (hsub : P.atoms ⊆ U.atoms) : P.IsContained U := by
   obtain ⟨hh, hs⟩ := hP

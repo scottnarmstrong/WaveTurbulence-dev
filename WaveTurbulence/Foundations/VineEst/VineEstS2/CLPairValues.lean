@@ -30,15 +30,4 @@ theorem clPairLeaves_value_eq {E : Type*} [AddCommGroup E]
   exact (congrArg κ (clPairSecondLeaf_node hU R hG p)).trans
     (hk.symm.trans (congrArg κ (clPairFirstLeaf_node hU R hG p)).symm)
 
-/-- Actual local decoration matching supplies the pair-equality premise of
-coefficient cancellation, including the physical common lattice coset. -/
-theorem clPairLeaves_local_momenta_eq {d : ℕ} (hU : G.molecule.IsBlock U a b)
-    (R : CLRegionData G U a b) (hG : G.IsPlain) (p : ↥(clRegionalPairs hG U))
-    (L : ℝ) (base : Mom d) (boundary : Fin 4 → Mom d) (κ : CLLocalDecoration R L base boundary) :
-    cosetDecoration G L base (clExtendIndices R κ.1) (clTreeNode R (clPairSecondLeaf hU R hG p).toNode) =
-      cosetDecoration G L base (clExtendIndices R κ.1) (clTreeNode R (clPairFirstLeaf hU R hG p).toNode) := by
-  apply clPairLeaves_value_eq hU R hG p
-  intro ℓ hℓ
-  exact congrArg (fun z => base+latticePoint L z) (κ.2.2.1 ℓ hℓ)
-
 end WaveTurbulence.VineEstS2

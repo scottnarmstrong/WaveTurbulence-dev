@@ -1,7 +1,7 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 public import WaveTurbulence.Foundations.Spine.ParameterExponentBounds
-public import WaveTurbulence.Foundations.Spine.UniformHighCostAbsorption
+public import WaveTurbulence.Foundations.Spine.IncoherentAbsorption
 /-! Parameter thresholds for coherent spatial estimates, in the source dependency order. -/
 public section
 set_option autoImplicit false
@@ -33,25 +33,5 @@ open Filter Set
   filter_upwards [ha, hc] with L h₁ h₂
   simp only [pow_zero, mul_one] at h₁ h₂
   linarith
-
-/-- A single final large-L threshold pays the fixed high cost at every stage. -/
-theorem eventually_uniform_coherent_decay (P : WTParams) (hη : 0 < P.η)
-    {a H : ℝ} (ha : 2 * P.η ^ 20 < a) (hH : 0 ≤ H) :
-    ∀ᶠ L : ℝ in atTop, ∀ p < P.D,
-      H * (L ^ (-a) + L ^ (-P.theta p)) ≤
-        L ^ (-((4 * P.theta (p + 1) + P.theta p) / 5)) := by
-  have hp (p : Fin P.D) : ∀ᶠ L : ℝ in atTop,
-      H * (L ^ (-a) + L ^ (-P.theta p.1)) ≤
-        L ^ (-((4 * P.theta (p.1 + 1) + P.theta p.1) / 5)) := by
-    apply eventually_fixed_cost_two_decays hH
-    · have h₀ := theta_le_two_eta_pow P p.1
-      have h₁ := theta_le_two_eta_pow P (p.1 + 1)
-      linarith
-    · have hstep := theta_step_lt P hη p.1
-      linarith
-  have hh := Filter.eventually_all.mpr hp
-  filter_upwards [hh] with L hL
-  intro p hp
-  exact hL ⟨p, hp⟩
 
 end WaveTurbulence.LGSpine

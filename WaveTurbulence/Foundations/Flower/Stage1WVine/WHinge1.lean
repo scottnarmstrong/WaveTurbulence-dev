@@ -3,8 +3,10 @@ module
 
 public import WaveTurbulence.Foundations.Flower.Stage1WVine.WAlign1
 public import WaveTurbulence.Foundations.Flower.Stage1WNoVine.Core1
-public import WaveTurbulence.Foundations.Flower.V5W.ContClass
-public import WaveTurbulence.Foundations.Flower.V5W.Foreign
+public import WaveTurbulence.Foundations.Flower.V5W.ContMember
+public import WaveTurbulence.Foundations.Flower.V5W.Statements
+public import WaveTurbulence.Foundations.Flower.V5W.Rigid
+public import WaveTurbulence.Foundations.Flower.V5W.Weight
 public import WaveTurbulence.Foundations.Stage1.Represents.RepVD15
 
 /-! # STAGE1W-VINE (T6, part 1): the weighted unit class kernels and their hinge data

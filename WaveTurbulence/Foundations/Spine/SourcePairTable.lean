@@ -32,14 +32,4 @@ noncomputable def sourcePairFirst {w : ℕ} (G : Garden w) (T : SourcePairTable 
 noncomputable def sourcePairSecond {w : ℕ} (G : Garden w) (T : SourcePairTable G) :
     GBranch G.tree → Option (GardenDart G) := fun v => (T v).map (fun p => p.2.1)
 
- theorem sourcePairTable_hasChosenPair_iff {w : ℕ} (G : Garden w) (T : SourcePairTable G)
-    (v : GBranch G.tree) (P : GardenDart G → GardenDart G → Prop) :
-    SourceVine.HasChosenPair (sourcePairFirst G T v) (sourcePairSecond G T v) P ↔
-      ∃ p, T v = some p ∧ P p.1.1 p.2.1 := by
-  cases h : T v with
-  | none => simp only [SourceVine.HasChosenPair, sourcePairFirst, sourcePairSecond, h, Option.map_none]
-            simp
-  | some p =>
-    simp [SourceVine.HasChosenPair, sourcePairFirst, sourcePairSecond, h]
-
 end WaveTurbulence.LGSpine

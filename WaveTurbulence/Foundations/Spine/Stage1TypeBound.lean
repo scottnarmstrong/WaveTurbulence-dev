@@ -1,6 +1,9 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
-public import WaveTurbulence.Foundations.Spine.Stage1Bound
+public import WaveTurbulence.Foundations.Spine.Stage1Gate
+public import WaveTurbulence.Foundations.Spine.StageOrderGrowth
+public import WaveTurbulence.Foundations.Spine.WeightedLeafKernel
+public import WaveTurbulence.Foundations.Spine.LeafwisePointwise
 public import WaveTurbulence.Foundations.Spine.TypeFamily
 /-! AMEND6' (R47-FINAL): the Stage 1 bound applied to a pair-type family (the new gate `Stage1ReductionAt`):
 `stage1_type_bound` is `stage1_family_bound` with `F := U.toLF`, `U.Bounded p` in place of `Controlled`, and the

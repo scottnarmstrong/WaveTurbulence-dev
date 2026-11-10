@@ -135,14 +135,6 @@ theorem chainSlice_of_topNe {w : ℕ} (LG : LayeredGarden w) (r : ℕ) :
     rw [chainSlice_pair, ite_eq_right hne]
     exact chainSlice_of_topNe LG r rest _ hT
 
-theorem TopAll.of_chainNodes {w : ℕ} (LG : LayeredGarden w) (r : ℕ) :
-    ∀ (X : RegChain) (ζ : ℤˣ) (a : Fin w × Path), (∀ z ∈ chainNodesSet X ζ a, layerAt LG z = r) →
-      TopAll LG r a X
-  | .nil, _, _, _ => trivial
-  | .pair m Qr Qg inner rest, ζ, a, h => by
-    refine ⟨h a (root_mem_chainNodesSet _ _ _ _ _ _ _), TopAll.of_chainNodes LG r rest _ _
-      fun z hz => h z (mem_chainNodesSet_rest hz)⟩
-
 theorem botAddr_comp_tree (π π' : Path) (z : Fin 1 × Path) :
     botAddr π (botAddr π' z) = botAddr (π ++ π') z := by
   obtain ⟨j, p⟩ := z

@@ -12,7 +12,6 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS2.SignedPhaseExp
 public import WaveTurbulence.Foundations.VineEst.VineEstS2.M9WeightedPhases
 public import WaveTurbulence.Foundations.VineEst.VineEstS2.M9SlotSums
 public import WaveTurbulence.Foundations.VineEst.VineEstS2.SumintJointFlip
-public import WaveTurbulence.Foundations.VineEst.VineEstS2.GapPhaseNormalization
 public import WaveTurbulence.Foundations.VineEst.VineEstS2.BlockPhaseAlgebra
 
 /-! # The summed source phase exponent equals the frozen signed phase exponent -/

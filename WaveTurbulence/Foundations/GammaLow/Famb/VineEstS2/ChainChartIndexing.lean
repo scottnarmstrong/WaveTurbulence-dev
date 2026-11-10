@@ -5,7 +5,6 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.VineEst.VineEstS2.ChainPieceCoding
 public import WaveTurbulence.Foundations.VineEst.VineEstS2.M9ShapeSlots
 public import WaveTurbulence.Foundations.VineEst.VineEstS2.ChartNormalize
 public import WaveTurbulence.Foundations.VineEst.VineEstS2.ChartNormalizeGroups

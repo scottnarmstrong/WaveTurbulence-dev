@@ -40,30 +40,6 @@ section Semantics
 variable {d w : ℕ} {Y : Type*} [CommRing Y] [Algebra ℝ Y] (V : TProf d w → Y) (M : ℕ) (lam : ℝ)
   (Adm : ℕ → TProf d w → Prop) (fv : Fin w → Fin d → Y)
 
-/-- Forms only: the list of root linear forms multiplies the value by the product of the forms. -/
-theorem evalOps_forms
-    (hadm : ∀ n g (O : TOp d w) (μ : ℝ), Adm (n + 1) g → Adm n (TProf.perturb g (O.apply g) μ))
-    (hM : ∀ n g j0 i, Adm (n + 1) g → ∑ m ∈ range (2 * M + 1), (cw M m / lam) •
-      V (TProf.perturb g (TProf.form j0 i g) (lam * ((m : ℝ) - M))) = fv j0 i * V g) :
-    ∀ (fs : List (Fin w × Fin d)) (h : TProf d w), Adm fs.length h →
-      evalOps V M lam (fs.map fun f => TOp.form f.1 f.2) h = (fs.map fun f => fv f.1 f.2).prod * V h := by
-  intro fs
-  induction fs with
-  | nil => intro h _; simp [evalOps_nil]
-  | cons f fs ih =>
-    intro h hh
-    simp only [List.map_cons, evalOps_cons, List.prod_cons]
-    have e : ∀ m ∈ range (2 * M + 1),
-        (cw M m / lam) • evalOps V M lam (fs.map fun f => TOp.form f.1 f.2)
-            (TProf.perturb h ((TOp.form f.1 f.2).apply h) (lam * ((m : ℝ) - M))) =
-          (fs.map fun f => fv f.1 f.2).prod * ((cw M m / lam) •
-            V (TProf.perturb h (TProf.form f.1 f.2 h) (lam * ((m : ℝ) - M)))) := by
-      intro m _
-      rw [ih _ (hadm _ h _ _ hh)]
-      simp only [TOp.apply, smul_mul_assoc, mul_smul_comm]
-    rw [sum_congr rfl e, ← mul_sum, hM _ h f.1 f.2 hh]
-    ring
-
 end Semantics
 
 end WaveTurbulence.LGSpine

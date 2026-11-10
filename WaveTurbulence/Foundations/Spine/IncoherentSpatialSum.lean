@@ -1,7 +1,7 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 public import WaveTurbulence.Foundations.Spine.IncoherentLayeredGeometric
-public import WaveTurbulence.Foundations.Spine.IncoherentSumBound
+public import WaveTurbulence.Foundations.Spine.RegularLayeringCount
 public import WaveTurbulence.Foundations.Spine.SpatialNormFiniteCover
 /-! Count and sum the actual truncated incoherent carrier in its full high-order spatial norm. -/
 public section

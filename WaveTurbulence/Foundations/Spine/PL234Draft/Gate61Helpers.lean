@@ -87,78 +87,14 @@ variable (P : WTParams) {p : ℕ} {C : ℝ} (O : Oracle P p C)
 
 include O
 
-theorem couple_same {q n : ℕ} (hqp : q ≤ p) (hnN : n ≤ P.N (p + 1) ^ 4) (Q : RegCpl)
-    (hsize : Q.size = 2 * n) (LG : LayeredGarden 2) (hcoh : IsCoherentCoupleAt p q q Q LG)
-    (H : LeafProfiles 2 P.d) (Bd : (Fin 2 × Path) → NNReal) (hH : LeafwiseControlled LG H Bd) :
-    R00 P.η (timeBox q q) Set.univ (fun ts k => wt k *
-        (coupleLeaves P.L P.γ P.δ LG H (ts 0) (ts 1) k - LeafApp.coherentCouple P.δ LG H Q q q (ts 0) (ts 1) k)) ≤
-      ENNReal.ofReal (C * (C * P.δ) ^ n * gainΛ P * leafSizeProduct LG Bd) ∧
-    SepRep (1 - P.η) P.δ (30 * P.d) (30 * P.d) n (timeBox q q)
-      (fun ts k => LeafApp.coherentCouple P.δ LG H Q q q (ts 0) (ts 1) k) (C * C ^ n)
-      (C * C ^ n * leafSizeProduct LG Bd) := by
-  have hlay := coherentCouple_layer_eq hcoh
-  obtain ⟨hE, hJ, hM⟩ := O.couple q n hqp hnN Q hcoh.1 hsize LG hcoh.2.1 hlay H Bd hH
-  have hA : ∀ t s k, LeafApp.coherentCouple P.δ LG H Q q q t s k = LeafApp.couple P.δ q H Q t s k :=
-    fun t s k => by simp [LeafApp.coherentCouple]
-  constructor
-  · simp only [hA]
-    refine (NormBridgeScratch.XNorm00Restr_eq_mixedRestrictionNorm00 P.η (timeBox (q : ℝ) q) Set.univ
-      (fun ts k => wt k * (coupleLeaves P.L P.γ P.δ LG H (ts 0) (ts 1) k -
-        LeafApp.couple P.δ q H Q (ts 0) (ts 1) k))).symm.le.trans ?_
-    exact (XNorm00Restr_weight_le_XNormRestr P.η (30 * P.d) (30 * P.d) _ _ _).trans hE
-  · refine (sepRep_couple (q : ℝ) H Q hsize (fun ts => ts 0) (fun ts => ts 1) (continuous_apply 0)
-      (continuous_apply 1) (fun hdom => (NormBridgeScratch.XNorm00Restr_eq_mixedRestrictionNorm00 (1 - P.η) _ _
-        (fun ts (_ : Unit) => (Q.JB q (ts 0) (ts 1) : ℂ))).symm.le.trans (hJ hdom)) hM).congr
-      fun ts _ k => hA _ _ _
-
-theorem tree_same {q n : ℕ} (hqp : q ≤ p) (hnN : n ≤ P.N (p + 1) ^ 4) (X : RegChain)
-    (hsize : X.size = 2 * n) (LG : LayeredGarden 1) (hcoh : IsCoherentTreeAt p q q X LG)
-    (H : LeafProfiles 1 P.d) (Bd : (Fin 1 × Path) → NNReal) (hH : LeafwiseControlled LG H Bd) :
-    R00 P.η (timeBoxGt q q) Set.univ (fun ts k =>
-        treeLeaves P.L P.γ P.δ LG H (ts 0) (ts 1) k - LeafApp.coherentTree P.δ LG H X q q (ts 0) (ts 1) k) ≤
-      ENNReal.ofReal (C * (C * P.δ) ^ n * gainΛ P * leafSizeProduct LG Bd) ∧
-    SepRep (1 - P.η) P.δ (30 * P.d) 0 n (timeBoxGt q q)
-      (fun ts k => LeafApp.coherentTree P.δ LG H X q q (ts 0) (ts 1) k) (C * C ^ n)
-      (C * C ^ n * leafSizeProduct LG Bd) := by
-  have hlay := coherentTree_layer_eq hcoh
-  have hlay' : ∀ a : GNode LG.garden.tree, LG.layer a = if a.1.2 = X.lonePath then q else q := fun a => by
-    rw [hlay a]
-    split_ifs <;> rfl
-  obtain ⟨hE, hJ, hM⟩ := O.tree q q n hqp le_rfl hnN X hcoh.1 hsize LG hcoh.2.1 hlay' H Bd hH
-  have hA : ∀ t s k, LeafApp.coherentTree P.δ LG H X q q t s k =
-      LeafApp.tree P.δ q H X (LG.garden.sig 0) t s k := fun t s k => by simp [LeafApp.coherentTree]
-  constructor
-  · simp only [hA]
-    refine (NormBridgeScratch.XNorm00Restr_eq_mixedRestrictionNorm00 P.η (timeBoxGt (q : ℝ) q) Set.univ
-      (fun ts k => treeLeaves P.L P.γ P.δ LG H (ts 0) (ts 1) k -
-        LeafApp.tree P.δ q H X (LG.garden.sig 0) (ts 0) (ts 1) k)).symm.le.trans ?_
-    exact (XNorm00Restr_le_XNormRestr _ _ _ _ _ _).trans hE
-  · refine (sepRep_tree (q : ℝ) H X (LG.garden.sig 0) hsize (fun ts => ts 0) (fun ts => ts 1) (continuous_apply 0)
-      (continuous_apply 1) (fun hdom => (NormBridgeScratch.XNorm00Restr_eq_mixedRestrictionNorm00 (1 - P.η) _ _
-        (fun ts (_ : Unit) => (X.JBtree q (ts 0) (ts 1) : ℂ))).symm.le.trans (hJ hdom)) hM).congr
-      fun ts _ k => hA _ _ _
-
 end Same
 
 /-! ### Constants and the gate -/
-
-/-- The constant of Prop 6.1, from the data fixed before `C₁` and the two B2.1 constants. -/
-noncomputable def g61 (P₀ : WTParams) (x y : ℝ) : ℝ :=
-  max 1 (max (Cf P₀.η (max x y)) (max (KJ (1 - P₀.η) (max x y)) (KM (30 * P₀.d) P₀.d (max x y))))
 
 /-- The threshold on `η`. -/
 noncomputable def η61 (d : ℕ) (γ : ℝ) : ℝ := min (1 / 2) (ηTaylor d γ)
 
 theorem η61_pos (d : ℕ) (γ : ℝ) : 0 < η61 d γ := lt_min (by norm_num) (ηTaylor_pos d γ)
-
-theorem le_Cf {θ C : ℝ} (hθ : 0 ≤ θ) (hC : 1 ≤ C) : C ≤ Cf θ C := by
-  have hK := one_le_Ktr hθ
-  have h1 : C ≤ C ^ 4 := by
-    calc C = C ^ 1 := (pow_one C).symm
-      _ ≤ C ^ 4 := pow_le_pow_right₀ hC (by norm_num)
-  have h2 : (1 : ℝ) ≤ 6 * Ktr θ ^ 2 := by nlinarith [one_le_pow₀ (n := 2) hK]
-  unfold Cf
-  nlinarith [pow_nonneg (show (0 : ℝ) ≤ C by linarith) 4]
 
 
 end WaveTurbulence.PL234

@@ -37,30 +37,6 @@ namespace WaveTurbulence.WaveBBridges
 
 /-! ### S2: the `a`-system and cumulants -/
 
-theorem epsCoef_eq_nls {d : ℕ} (n₁ n₂ n₃ : Fin d → ℤ) : epsCoef n₁ n₂ n₃ = NLS.epsCoef n₁ n₂ n₃ :=
-  rfl
-
-theorem resFactor_latticePoint_eq_resonance {d : ℕ} (L : ℝ) (n₁ n₂ n₃ n : Fin d → ℤ) :
-    resFactor (latticePoint L n₁) (latticePoint L n₂) (latticePoint L n₃) (latticePoint L n) =
-      NLS.resonance L n₁ n₂ n₃ n := rfl
-
-theorem omegaNode_latticeDecoration_eq_resonance {w d : ℕ} (G : Garden w) (L : ℝ)
-    (κ : GNode G.tree → (Fin d → ℤ)) (b : GBranch G.tree) :
-    omegaNode G (cosetDecoration G L 0 κ) b =
-      NLS.resonance L (κ (b.child 0)) (κ (b.child 1)) (κ (b.child 2)) (κ b.toNode) := by
-  simp only [omegaNode, cosetDecoration, zero_add]
-  rfl
-
-theorem aNonlin_eq_nls {d : ℕ} (L γ δ : ℝ) (ζ : ℤ) (t : ℝ) (f g h : (Fin d → ℤ) → ℂ)
-    (n : Fin d → ℤ) : aNonlin L γ δ ζ t f g h n = NLS.aNonlin L γ δ ζ t f g h n := rfl
-
-theorem isASolution_iff_nls {d : ℕ} (L γ δ T : ℝ) (c : (Fin d → ℤ) → ℂ)
-    (a : ℝ → (Fin d → ℤ) → ℂ) : IsASolution L γ δ T c a ↔ NLS.IsAkSolution L γ δ T c a :=
-  Iff.rfl
-
-theorem jointCumulant_eq_cumulant {Ω ι : Type*} [MeasurableSpace Ω] [DecidableEq ι]
-    (μ : Measure Ω) (X : ι → Ω → ℂ) (s : Finset ι) : jointCumulant μ X s = cumulant μ X s := rfl
-
 /-! ### S1: the cutoff -/
 
 /-- Wave B's `χ₀(x) = ψ(2 - 2|x|)` is the Foundations `Fourier.chi0` (proof as in Infra-review-2's
@@ -73,9 +49,6 @@ theorem chi0_eq_fourier_chi0 (x : ℝ) : chi0 x = Fourier.chi0 x := by
   · rw [abs_of_nonpos hx, Real.smoothTransition.one_of_one_le (x := 2 - 2 * x) (by linarith),
       one_mul]
     ring_nf
-
-theorem chi0Vec_eq_chi0Tensor {d : ℕ} (x : Mom d) : chi0Vec x = Fourier.chi0Tensor fun i => x i := by
-  simp only [chi0Vec, Fourier.chi0Tensor, chi0_eq_fourier_chi0]
 
 /-! ### S4: WKE Taylor terms -/
 

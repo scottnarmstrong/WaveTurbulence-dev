@@ -86,11 +86,6 @@ def SpineMono (LG : LayeredGarden w) : (Fin w × Path) → RegChain → Prop
     (∀ m' Qr' Qg' inner' rest', rest = .pair m' Qr' Qg' inner' rest' →
       layerAt LG (nextAddr a m inner) ≤ layerAt LG a) ∧ SpineMono LG (nextAddr a m inner) rest
 
-/-- The top layer of a chain (`0` for the empty chain). -/
-def topLayer' (LG : LayeredGarden w) (a : Fin w × Path) : RegChain → ℕ
-  | .nil => 0
-  | .pair .. => layerAt LG a
-
 theorem chainSlice_eq_nil (LG : LayeredGarden w) {r : ℕ} :
     ∀ (a : Fin w × Path) (X : RegChain), SpineMono LG a X → (X ≠ .nil → layerAt LG a < r) →
       SourceApp.chainSlice LG a r X = .nil

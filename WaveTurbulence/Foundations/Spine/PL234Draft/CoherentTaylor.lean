@@ -42,8 +42,6 @@ def CTBody (P : WTParams) : Prop :=
       P.C₁ * (P.C₁ * P.δ) ^ n * jbr k ^ (-(30 * P.d : ℝ)) *
         P.L ^ (-(P.theta (p + 1) + 4 * P.theta p) / 5)
 
-theorem coherentTaylor_gate_eq : CoherentTaylorGate = WTPrefix CTBody := rfl
-
 /-- The constant of Prop 6.2. -/
 noncomputable def gT (P₀ : WTParams) (x y : ℝ) : ℝ := 24 * 12 ^ 9 * x * y * βφ P₀ ^ 2
 

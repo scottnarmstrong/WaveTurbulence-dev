@@ -65,11 +65,4 @@ noncomputable def clChainPrefixRegion {n : ℕ} (hS : Vine.Chain G.molecule S a 
   let hB := chain_prefix_currentBlock G.molecule (Mole.garden_isMolecule G) hS hT hi hU
   exact clRegionData G hB (clBlockConcat_parentPatterns hB hT.1 hi hU R).1
 
-noncomputable def clChainTerminalRegion {n : ℕ} (hS : Vine.Chain G.molecule S a b n)
-    {X : VineType} (hT : G.molecule.IsVine X T b c) (hi : S ∩ T = {b})
-    (hU : G.molecule.IsBlock (S ∪ T) a c) (R : CLRegionData G (S ∪ T) a c) :
-    CLRegionData G T b c := by
-  let hB := chain_prefix_currentBlock G.molecule (Mole.garden_isMolecule G) hS hT hi hU
-  exact clRegionData G hT.1 (clBlockConcat_parentPatterns hB hT.1 hi hU R).2
-
 end WaveTurbulence.VineEstS2

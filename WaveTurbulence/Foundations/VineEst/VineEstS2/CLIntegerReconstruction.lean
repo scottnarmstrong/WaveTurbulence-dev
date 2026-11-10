@@ -16,16 +16,6 @@ open WaveTurbulence.VineParamContract
 namespace WaveTurbulence.VineEstS2
 open VineParamContract TTree RegRed
 
-/-- Additive maps preserve exactly the three defining source flow equations. -/
-noncomputable def mapFlowFiber {V D E F : Type*} [DecidableEq V] [Fintype D]
-    [AddCommGroup E] [AddCommGroup F] {M : Molecule V D} {S : Finset V} {a b : V} {r : E}
-    (f : E →+ F) (k : FlowFiber M S a b E r) : FlowFiber M S a b F (f r) := by
-  refine ⟨fun e => f (k.1 e),?_,?_,?_⟩
-  · rw [← map_flow,k.2.1,map_neg]
-  · rw [← map_flow,k.2.2.1]
-  · intro v hv ha hb
-    rw [← map_flow,k.2.2.2 v hv ha hb,map_zero]
-
 variable {w d : ℕ} {G : Garden w} {U : Finset (GBranch G.tree)} {a b : GBranch G.tree}
 
 /-- No integrality or inverse-matrix premise is hidden: the integer source

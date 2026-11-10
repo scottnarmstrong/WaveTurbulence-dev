@@ -213,8 +213,6 @@ theorem lcaBody30_of (P : WTParams) (C₁' C₂' : ℝ) (hS : Standing P (η61 P
           (hpow n _ (zero_le_one.trans (one_le_KJ (by linarith) hC)) hGJ)
           (mul_le_mul_of_nonneg_right (hpow n _ (zero_le_one.trans (one_le_KM _ hd hC)) hGM) hβ0)
 
-theorem leafwiseCoherent_gate_eq30 : PL2330Pin.LeafwiseCoherentApproximationGate = WTPrefix LCABody30 := rfl
-
 /-- **TARGET Prop 6.1, leafwise, at `Λ₁ = 30d`** (L1097–1111 at the leaf inputs of L2065–2067) from B2.1. -/
 theorem leafwiseCoherentApproximationGate30 (hA : RegularAsymptoticsGate)
     (hB : LeafwiseRegularAsymptoticsGate) : PL2330Pin.LeafwiseCoherentApproximationGate :=

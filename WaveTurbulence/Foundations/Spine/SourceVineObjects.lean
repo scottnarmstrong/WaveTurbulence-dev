@@ -41,10 +41,6 @@ no other common atom. Sharing the joint-to-joint bond is allowed. -/
   ∃ A B : Finset V, M.IsVine .V A a b ∧ M.IsVine .V B a b ∧
     A ∩ B = {a,b} ∧ S = A ∪ B
 
-/-- TARGET defvine: the three classes called vine-like (DV is excluded). -/
-@[expose] def IsVineLike (M : Molecule V D) (S : Finset V) (a b : V) : Prop :=
-  IsVC M S a b ∨ IsHV M S a b ∨ IsHVC M S a b
-
 /-- Actual source data for a hyper-vine-like object, retaining the bond
 which defines its adjoint VC and therefore its decorated gap. -/
 structure HyperLikeRealization (M : Molecule V D) (S : Finset V) (a b : V) where

@@ -56,12 +56,5 @@ theorem continuous_LeafApp_coherentCouple {d : ℕ} (δ : ℝ) (H : LeafProfiles
     simp only [LeafApp.coherentCouple]
     split_ifs <;> fun_prop
 
-theorem continuous_LeafApp_coherentTree {d : ℕ} (δ : ℝ) (H : LeafProfiles 1 d)
-    (LG : LayeredGarden 1) (X : RegChain) (q q' : ℕ) (k : Mom d) :
-    Continuous (fun p : ℝ × ℝ => LeafApp.coherentTree δ LG H X q q' p.1 p.2 k) := by
-  classical
-  unfold LeafApp.coherentTree
-  split_ifs <;> fun_prop
-
 
 end WaveTurbulence.LGSpine

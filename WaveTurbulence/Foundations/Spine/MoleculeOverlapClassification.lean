@@ -121,20 +121,4 @@ theorem molecule_overlap_classification (hM : M.IsMolecule) {A B : Finset V} {a1
       exact ⟨block_transport_joints M heA hA,block_transport_joints M heB hB,
         Or.inr (Or.inl ⟨hj,hdis,a,b,c,heA,heB,hab,RA'.joints_mem_ne.2.2,RB'.joints_mem_ne.2.2,hi,hconcat⟩)⟩
 
-omit [DecidableEq V] in
-/-- The three joint-set guards in the overlap theorem are pairwise
-exclusive, proving the source's “exactly one” qualification. -/
-theorem overlap_joint_guards_exclusive {JA JB : Finset V} (hne : JA.Nonempty) :
-    (¬ (JA = JB ∧ (JA ≠ JB ∧ ¬ Disjoint JA JB))) ∧
-      (¬ (JA = JB ∧ Disjoint JA JB)) ∧
-      (¬ ((JA ≠ JB ∧ ¬ Disjoint JA JB) ∧ Disjoint JA JB)) := by
-  refine ⟨?_,?_,?_⟩
-  · rintro ⟨he,hn,_hd⟩
-    exact hn he
-  · rintro ⟨he,hd⟩
-    obtain ⟨x,hx⟩ := hne
-    exact Finset.disjoint_left.mp hd hx (he ▸ hx)
-  · rintro ⟨⟨_hn,hd⟩,hd'⟩
-    exact hd hd'
-
 end WaveTurbulence.Mole

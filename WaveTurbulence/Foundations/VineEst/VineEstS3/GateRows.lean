@@ -5,7 +5,7 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.Spine.SourceSeparation
+public import WaveTurbulence.Foundations.WaveB.MoleculeStatements
 public import WaveTurbulence.Foundations.Spine.CoherentConjugacyData
 public import WaveTurbulence.Foundations.VineEst.VineEstS3.ThetaMono
 public import WaveTurbulence.Foundations.Spine.PL2330Draft.Lead

@@ -49,10 +49,6 @@ theorem append_child_mem_nodes : ∀ (t : TTree) (p : Path), p ∈ t.branching �
       · exact ihm p hp i
       · exact ihr p hp i
 
-/-- An address map commuting with extension of addresses. -/
-def AddrHom {v w : ℕ} (φ : Fin v × Path → Fin w × Path) : Prop :=
-  ∀ x q, φ (addrExt x q) = addrExt (φ x) q
-
 theorem nodeRel_comp {v w : ℕ} {φ : Fin v × Path → Fin w × Path} (hφ : ∀ x q, φ (addrExt x q) = addrExt (φ x) q)
     (f : Fin w × Path → V) (x : Fin v × Path) : NodeRel (f ∘ φ) x ↔ NodeRel f (φ x) := by
   unfold NodeRel

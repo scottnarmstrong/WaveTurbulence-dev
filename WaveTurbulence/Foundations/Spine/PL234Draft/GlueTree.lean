@@ -5,7 +5,7 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.Spine.PL234Draft.SameLayerGate
+public import WaveTurbulence.Foundations.Spine.PL234Draft.SameLayerApprox
 public import WaveTurbulence.Foundations.RegStruct.ChainAppend
 
 /-!

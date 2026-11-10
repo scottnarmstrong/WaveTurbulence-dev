@@ -18,16 +18,6 @@ open VineParamContract Finset RegRed
 variable {V D : Type*} [DecidableEq V] [Fintype D] {M : Molecule V D}
 variable {S T : Finset V} {a b c : V}
 
-open Classical in
-theorem block_concat_internalBondSet_union (hM : M.IsMolecule)
-    (hS : M.IsBlock S a b) (hT : M.IsBlock T b c) (hi : S ∩ T = {b})
-    (hU : M.IsBlock (S ∪ T) a c) :
-    internalBondSet M (S ∪ T) = internalBondSet M S ∪ internalBondSet M T := by
-  classical
-  ext e
-  simp only [internalBondSet,mem_filter,mem_union,block_concat_inGroup_iff M hM hS hT hi hU e]
-  tauto
-
 theorem block_concat_internalBondSet_disjoint
     (hT : M.IsBlock T b c) (hi : S ∩ T = {b}) :
     Disjoint (internalBondSet M S) (internalBondSet M T) := by

@@ -77,23 +77,6 @@ theorem leaves_subset_nodes : ∀ t : TTree, t.leaves ⊆ t.nodes
     · obtain ⟨q, hq, rfl⟩ := mem_pre.1 h
       exact Or.inr (Or.inr (mem_pre.2 ⟨q, leaves_subset_nodes r hq, rfl⟩))
 
-/-- The children of a branching node are nodes. -/
-theorem child_mem_nodes : ∀ (t : TTree) {p : Path}, p ∈ t.branching → ∀ i : Fin 3,
-    p ++ [i] ∈ t.nodes
-  | leaf, p, h, _ => by simp [branching] at h
-  | node l m r, [], _, i => by
-    simp only [List.nil_append, nodes, Finset.mem_insert, Finset.mem_union, cons_mem_pre]
-    fin_cases i <;> simp [nil_mem_nodes]
-  | node l m r, j :: p, h, i => by
-    simp only [branching, Finset.mem_insert, Finset.mem_union, cons_mem_pre,
-      reduceCtorEq, false_or] at h
-    simp only [List.cons_append, nodes, Finset.mem_insert, Finset.mem_union, cons_mem_pre,
-      reduceCtorEq, false_or]
-    rcases h with (⟨rfl, h⟩ | ⟨rfl, h⟩) | ⟨rfl, h⟩
-    · exact Or.inl (Or.inl ⟨rfl, child_mem_nodes l h i⟩)
-    · exact Or.inl (Or.inr ⟨rfl, child_mem_nodes m h i⟩)
-    · exact Or.inr ⟨rfl, child_mem_nodes r h i⟩
-
 /-- The parent of a node is a node (node sets are prefix closed). -/
 theorem dropLast_mem_nodes : ∀ (t : TTree) {p : Path}, p ∈ t.nodes → p.dropLast ∈ t.nodes
   | leaf, p, h => by
@@ -135,70 +118,7 @@ end Forest
 
 /-! ## The cutoff (from `WaveB1-System` §G) -/
 
-/-- `χ₀ = 0` off `(-1, 1)`. -/
-theorem chi0_eq_zero_of_one_le_abs {x : ℝ} (hx : 1 ≤ |x|) : chi0 x = 0 :=
-  Real.smoothTransition.zero_of_nonpos (by linarith)
-
-/-- Only finitely many lattice points `n/L` lie in the support of `χ₀(· - a)` (post-snapshot; makes the
-lattice sums of `quadExpSum2`, `quadExpSum3` finite sums). -/
-theorem finite_chi0Vec_lattice {d : ℕ} {L : ℝ} (hL : 0 < L) (a : Mom d) :
-    {n : Fin d → ℤ | chi0Vec (latticePoint L n - a) ≠ 0}.Finite := by
-  refine (Set.finite_Icc (fun j => ⌊L * (a j - 1)⌋) (fun j => ⌈L * (a j + 1)⌉)).subset ?_
-  intro n hn
-  simp only [Set.mem_ofPred_eq, chi0Vec, Finset.prod_ne_zero_iff, Finset.mem_univ, true_imp_iff] at hn
-  have hj : ∀ j, |(n j : ℝ) / L - a j| < 1 := by
-    intro j
-    by_contra h
-    exact hn j (chi0_eq_zero_of_one_le_abs (by simpa [latticePoint] using not_lt.1 h))
-  constructor
-  · intro j
-    have := (abs_lt.1 (hj j)).1
-    rw [lt_sub_iff_add_lt, lt_div_iff₀ hL] at this
-    exact Int.floor_le_iff.2 (by exact_mod_cast (by linarith : L * (a j - 1) < (n j : ℝ) + 1))
-  · intro j
-    have := (abs_lt.1 (hj j)).2
-    rw [sub_lt_iff_lt_add, div_lt_iff₀ hL] at this
-    exact Int.le_ceil_iff.2 (by exact_mod_cast (by linarith : (n j : ℝ) - 1 < L * (a j + 1)))
-
 /-! ## Lattice sums (from `WaveB1-Statements`, B1.9–B1.10) -/
-
-/-- The lattice sum of `quadExpSum2` has finitely many nonzero terms (post-snapshot). -/
-theorem finite_support_quadSum2 {d : ℕ} {L : ℝ} (hL : 0 < L) (a b : Mom d)
-    (φ : (Fin d → ℤ) × (Fin d → ℤ) → ℂ) :
-    (Function.support fun q : (Fin d → ℤ) × (Fin d → ℤ) =>
-      ((chi0Vec (latticePoint L q.1 - a) * chi0Vec (latticePoint L q.2 - b) : ℝ) : ℂ) *
-        φ q).Finite := by
-  refine ((finite_chi0Vec_lattice hL a).prod (finite_chi0Vec_lattice hL b)).subset ?_
-  intro q hq
-  simp only [Function.mem_support, ne_eq, mul_eq_zero, Complex.ofReal_eq_zero, not_or] at hq
-  exact ⟨hq.1.1, hq.1.2⟩
-
-/-- The lattice sum of `quadExpSum3` has finitely many nonzero terms (post-snapshot). -/
-theorem finite_support_quadSum3 {d : ℕ} {L : ℝ} (hL : 0 < L) (a b c : Mom d)
-    (φ : (Fin d → ℤ) × (Fin d → ℤ) × (Fin d → ℤ) → ℂ) :
-    (Function.support fun q : (Fin d → ℤ) × (Fin d → ℤ) × (Fin d → ℤ) =>
-      ((chi0Vec (latticePoint L q.1 - a) * chi0Vec (latticePoint L q.2.1 - b) *
-        chi0Vec (latticePoint L q.2.2 - c) : ℝ) : ℂ) * φ q).Finite := by
-  refine ((finite_chi0Vec_lattice hL a).prod ((finite_chi0Vec_lattice hL b).prod
-    (finite_chi0Vec_lattice hL c))).subset ?_
-  intro q hq
-  simp only [Function.mem_support, ne_eq, mul_eq_zero, Complex.ofReal_eq_zero, not_or] at hq
-  exact ⟨hq.1.1.1, hq.1.1.2, hq.1.2⟩
-
-/-- Hence the lattice sums of `quadExpSum2`, `quadExpSum3` are summable (finite sums; no junk
-`tsum`). -/
-theorem summable_quadSum2 {d : ℕ} {L : ℝ} (hL : 0 < L) (a b : Mom d)
-    (φ : (Fin d → ℤ) × (Fin d → ℤ) → ℂ) :
-    Summable fun q : (Fin d → ℤ) × (Fin d → ℤ) =>
-      ((chi0Vec (latticePoint L q.1 - a) * chi0Vec (latticePoint L q.2 - b) : ℝ) : ℂ) * φ q :=
-  summable_of_hasFiniteSupport (finite_support_quadSum2 hL a b φ)
-
-theorem summable_quadSum3 {d : ℕ} {L : ℝ} (hL : 0 < L) (a b c : Mom d)
-    (φ : (Fin d → ℤ) × (Fin d → ℤ) × (Fin d → ℤ) → ℂ) :
-    Summable fun q : (Fin d → ℤ) × (Fin d → ℤ) × (Fin d → ℤ) =>
-      ((chi0Vec (latticePoint L q.1 - a) * chi0Vec (latticePoint L q.2.1 - b) *
-        chi0Vec (latticePoint L q.2.2 - c) : ℝ) : ℂ) * φ q :=
-  summable_of_hasFiniteSupport (finite_support_quadSum3 hL a b c φ)
 
 /-! ## Proofs of the obligations (post-snapshot, see DESIGN.md Changelog) -/
 
@@ -813,41 +733,7 @@ theorem card_lone_le_one {w : ℕ} {G : Garden w}
   Finset.card_le_one.2 fun ℓ hℓ ℓ' hℓ' =>
     h ℓ ℓ' (Finset.mem_filter.1 hℓ).2.2 (Finset.mem_filter.1 hℓ').2.2
 
-/-- **`K*_T` is an absolutely convergent sum (B2, paired trees).** For a layered garden of width
-`1` with at most one lone leaf (every paired tree, `IsPairedTree.eq_of_isLone`), the decoration
-sum defining `KTstar L γ δ F LG t s k` converges absolutely when every input leaf has summable
-values on the coset `k + ℤ_L^d`. -/
-theorem summable_KTstar_summand {d : ℕ} (L γ δ : ℝ) (F : ℕ → Mom d → ℝ) (LG : LayeredGarden 1)
-    (hlone : ∀ ℓ ℓ' : GLeaf LG.garden.tree, LG.garden.IsLone ℓ → LG.garden.IsLone ℓ' → ℓ = ℓ')
-    (t s : ℝ) (k : Mom d) (hF : ∀ ℓ ∈ inputLeaves LG.garden,
-      Summable fun n : Fin d → ℤ => |F (LG.layer ℓ.toNode) (k + latticePoint L n)|) :
-    Summable fun κ : GenDecoration LG.garden d (fun _ => 0) 0 =>
-      ‖(epsDec LG.garden κ.1 : ℂ) *
-        phaseIntegral L γ δ LG.garden (kDomain LG (fun _ => t) s) s
-          (cosetDecoration LG.garden L k κ.1) *
-        ∏ ℓ ∈ inputLeaves LG.garden,
-          (F (LG.layer ℓ.toNode) (cosetDecoration LG.garden L k κ.1 ℓ.toNode) : ℂ)‖ :=
-  summable_kernelK_summand L γ δ F LG _ s k _ 0 (card_lone_le_one hlone) hF
-
-/-- The paired-tree form: `K*_T(t, s, k)` of a paired tree is an absolutely convergent sum. -/
-theorem IsPairedTree.summable_KTstar_summand {d : ℕ} (L γ δ : ℝ) (F : ℕ → Mom d → ℝ)
-    (LG : LayeredGarden 1) (hT : IsPairedTree LG.garden) (t s : ℝ) (k : Mom d)
-    (hF : ∀ ℓ ∈ inputLeaves LG.garden,
-      Summable fun n : Fin d → ℤ => |F (LG.layer ℓ.toNode) (k + latticePoint L n)|) :
-    Summable fun κ : GenDecoration LG.garden d (fun _ => 0) 0 =>
-      ‖(epsDec LG.garden κ.1 : ℂ) *
-        phaseIntegral L γ δ LG.garden (kDomain LG (fun _ => t) s) s
-          (cosetDecoration LG.garden L k κ.1) *
-        ∏ ℓ ∈ inputLeaves LG.garden,
-          (F (LG.layer ℓ.toNode) (cosetDecoration LG.garden L k κ.1 ℓ.toNode) : ℂ)‖ :=
-  _root_.WaveTurbulence.summable_KTstar_summand L γ δ F LG (fun _ _ h h' => hT.eq_of_isLone h h')
-    t s k hF
-
 /-! ### Regularity from a finite `𝔖` norm -/
-
-/-- `Λ_q = (40d)^{𝔇+1-q} ≠ 0` in positive dimension (all of `WTPrefix` has `d ≥ 3`). -/
-theorem WTParams.Lambda_ne_zero (P : WTParams) (hd : P.d ≠ 0) (q : ℕ) : P.Lambda q ≠ 0 :=
-  pow_ne_zero _ (by omega)
 
 /-- For `Λ₁ ≠ 0`, a finite `𝔖^{Λ₁,Λ₂}` norm forces `C^{Λ₁}` (stage-3 audit R1, proof from its
 `contDiff_of_remainderBoundB`): `RemainderBound` and `AnsatzAt` (2) need no smoothness conjunct (their

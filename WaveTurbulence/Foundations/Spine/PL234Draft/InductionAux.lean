@@ -37,14 +37,6 @@ theorem appendChain_linksAt (X Y : RegChain) (ζ : ℤˣ) (a : Fin w × Path) :
       RegChain.lonePath, addrExt_append, List.append_assoc, List.cons_append]
 termination_by structural X
 
-theorem chainNodesSet_append_left (X Y : RegChain) (ζ : ℤˣ) (a : Fin w × Path) :
-    chainNodesSet X ζ a ⊆ chainNodesSet (appendChain X Y) ζ a := by
-  intro z hz
-  unfold chainNodesSet at hz ⊢
-  rw [appendChain_linksAt, appendChain_pairsAt, pairEndpoints_append, pairEndpoints_append]
-  simp only [Finset.mem_union] at hz ⊢
-  tauto
-
 theorem chainNodesSet_append_right (X Y : RegChain) (ζ : ℤˣ) (a : Fin w × Path) :
     chainNodesSet Y ζ (addrExt a X.lonePath) ⊆ chainNodesSet (appendChain X Y) ζ a := by
   intro z hz
@@ -117,14 +109,6 @@ theorem absorb_base_err (hC : 1 ≤ C) (hδ : 0 ≤ δ) (hΛ : 0 ≤ Λ) (hβ : 
     _ ≤ K * (C ^ 2 * C ^ (4 * m)) * δ ^ m * Λ * β := by gcongr
     _ = 1 * (K * C ^ 2) * (C ^ 4) ^ m * δ ^ m * Λ * β := by rw [pow_mul]; ring
     _ ≤ 3 ^ (m + 1) * (K * C ^ 2) * (2 * C ^ 4) ^ m * δ ^ m * Λ * β := by gcongr
-
-theorem absorb_base_app (hC : 1 ≤ C) (hδ : 0 ≤ δ) (hβ : 0 ≤ β) {K : ℝ} (hK : 0 ≤ K) (m : ℕ) :
-    δ ^ m * 2 ^ m * (C * C ^ m * β) * (K * (C * C ^ m)) ≤ (K * C ^ 2) * (2 * C ^ 4) ^ m * δ ^ m * β := by
-  have h1 : C ^ (2 * m) ≤ C ^ (4 * m) := pow_le_pow_right₀ hC (by omega)
-  calc δ ^ m * 2 ^ m * (C * C ^ m * β) * (K * (C * C ^ m)) =
-      (K * C ^ 2) * (2 ^ m * C ^ (2 * m)) * δ ^ m * β := by ring
-    _ ≤ (K * C ^ 2) * (2 ^ m * C ^ (4 * m)) * δ ^ m * β := by gcongr
-    _ = (K * C ^ 2) * (2 * C ^ 4) ^ m * δ ^ m * β := by rw [mul_pow, pow_mul]
 
 /-- **The recursion of the step** absorbs into the normalized bounds. -/
 theorem absorb_step {D₀ M₀ ε α E₂ A₂ β₁ β₂ : ℝ} (hD : 0 ≤ D₀) (hM : 0 ≤ M₀) (hδ : 0 ≤ δ) (hΛ0 : 0 ≤ Λ)

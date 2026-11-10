@@ -17,14 +17,8 @@ namespace WaveTurbulence.Ladder
 noncomputable def br (x : ℝ) : ℝ := Real.sqrt (1 + x ^ 2)
 
 theorem br_pos (x : ℝ) : 0 < br x := Real.sqrt_pos.mpr (by positivity)
-theorem one_le_br (x : ℝ) : 1 ≤ br x := by
-  unfold br
-  calc (1:ℝ) = Real.sqrt 1 := by simp
-    _ ≤ _ := Real.sqrt_le_sqrt (by nlinarith [sq_nonneg x])
 theorem br_le_of_abs_lt_one {x : ℝ} (h : |x| < 1) : br x ≤ 2 := by
   unfold br; rw [Real.sqrt_le_left (by norm_num)]; nlinarith [sq_abs x, abs_nonneg x]
-theorem br_le_mul_abs {x : ℝ} (h : 1 ≤ |x|) : br x ≤ 2 * |x| := by
-  unfold br; rw [Real.sqrt_le_left (by positivity)]; nlinarith [sq_abs x]
 
 abbrev Par (n : ℕ) := Fin n → Option (Fin n)
 def ParOK {n : ℕ} (par : Par n) : Prop := ∀ v w, par v = some w → v < w

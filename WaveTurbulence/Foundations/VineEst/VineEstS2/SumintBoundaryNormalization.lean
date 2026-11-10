@@ -49,18 +49,4 @@ theorem sumintBoundary_gap {E : Type*} [AddCommGroup E] (ζ : ℤˣ) (β : Fin 4
     sumintBoundary ζ β 0-sumintBoundary ζ β 1 = -(β 2-β 3) := by
   rw [sumintBoundary_momentum ζ β hβ,(sumintBoundary_lower ζ β).1,(sumintBoundary_lower ζ β).2,neg_sub]
 
-/-- Source and sumint diagonal/nonzero cases are exactly the same. -/
-theorem sumintBoundary_ne_iff {E : Type*} [AddCommGroup E] (ζ : ℤˣ) (β : Fin 4 → E)
-    (hβ : (ζ : ℤ) • (β 0-β 1) = β 2-β 3) :
-    sumintBoundary ζ β 0 ≠ sumintBoundary ζ β 1 ↔ β 2 ≠ β 3 := by
-  have he : sumintBoundary ζ β 0 = sumintBoundary ζ β 1 ↔ β 2 = β 3 := by
-    rw [← sub_eq_zero,sumintBoundary_gap ζ β hβ,neg_eq_zero,sub_eq_zero]
-  exact not_congr he
-
-/-- All source parameters remain in the same physical lattice coset after
-this fixed finite permutation. -/
-theorem sumintBoundary_mem {E : Type*} (ζ : ℤˣ) (β : Fin 4 → E) (P : E → Prop)
-    (hβ : ∀ c, P (β c)) : ∀ c, P (sumintBoundary ζ β c) :=
-  fun c => hβ (sumintBoundaryPermutation ζ c)
-
 end WaveTurbulence.VineEstS2

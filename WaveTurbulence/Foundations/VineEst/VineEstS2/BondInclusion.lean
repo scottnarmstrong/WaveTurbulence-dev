@@ -28,16 +28,8 @@ theorem includeBond_injective (hST : S ⊆ T) : Function.Injective (includeBond 
   intro e f he
   exact Subtype.ext (congrArg (fun q : Bond M T => q.1) he)
 
-theorem includeBond_trans (hST : S ⊆ T) (hTU : T ⊆ U) (e : Bond M S) :
-    includeBond hTU (includeBond hST e) = includeBond (hST.trans hTU) e := Subtype.ext rfl
-
 noncomputable def restrictBondLabels {E : Type*} (hST : S ⊆ T) (k : Bond M T → E) : Bond M S → E :=
   fun e => k (includeBond hST e)
-
-theorem restrictBondLabels_trans {E : Type*} (hST : S ⊆ T) (hTU : T ⊆ U) (k : Bond M U → E) :
-    restrictBondLabels hST (restrictBondLabels hTU k) = restrictBondLabels (hST.trans hTU) k := by
-  funext e
-  exact congrArg k (includeBond_trans hST hTU e)
 
 /-- There is no incidence at a vertex outside the actual atom group. -/
 theorem flow_eq_zero_of_not_mem {E : Type*} [AddCommGroup E] (M : Molecule V D) (S : Finset V)

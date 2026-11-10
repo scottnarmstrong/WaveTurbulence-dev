@@ -19,11 +19,6 @@ noncomputable def oneJointUnionObject {S T : Finset V} {a b c : V} {n m : ℕ}
     (hB : M.IsBlock (S ∪ T) a b) : Object M :=
   ⟨S ∪ T, a, b, .vc ⟨hB, n + m, chain_union_of_one_joint hS hT hST⟩⟩
 
-theorem oneJointUnionObject_atoms {S T : Finset V} {a b c : V} {n m : ℕ}
-    (hS : Chain M S a c n) (hT : Chain M T c b m) (hST : S ∩ T = {c})
-    (hB : M.IsBlock (S ∪ T) a b) :
-    (oneJointUnionObject hS hT hST hB).atoms = S ∪ T := rfl
-
 /-- Block gaps of an ordinary object persist to any larger ordinary object with the same
 first joint: the joint dart pair is unchanged. -/
 theorem blockGap_mono {S U : Finset V} {a : V} {d : ℕ} {L : ℝ} {w : Mom d}

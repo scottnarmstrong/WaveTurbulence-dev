@@ -48,9 +48,4 @@ theorem cropTree_branching_subset (T : TTree) (keep : Path → Bool) :
         (Finset.image_mono _ (hl _)) (Finset.image_mono _ (hm _))) (Finset.image_mono _ (hr _))
     · exact Finset.empty_subset _
 
-theorem cropTree_order_le (T : TTree) (keep : Path → Bool) :
-    (cropTree T keep).order ≤ T.order := by
-  rw [← Comb.card_branching,← Comb.card_branching]
-  exact Finset.card_le_card (cropTree_branching_subset T keep)
-
 end WaveTurbulence.VineEstS2

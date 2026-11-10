@@ -6,7 +6,6 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.VineEst.VineEstS3.RowAlign
-public import WaveTurbulence.Foundations.VineEst.VineEstS2.CLCoordinateSourceDifferences
 public import WaveTurbulence.Foundations.VineEst.VineEstS2.SumintJointFlip
 public import WaveTurbulence.Foundations.VineEst.VineEstS2.CLSumintMatrices
 public import WaveTurbulence.Foundations.GammaLow.Famb.Family

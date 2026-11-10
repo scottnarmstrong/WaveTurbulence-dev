@@ -148,25 +148,4 @@ theorem lintegral_Bd_le (K : ℝ≥0∞) : ∀ (n : ℕ) (par : Par n) (S : Fin 
       _ = (2 * K) ^ (n + 1) := by rw [pow_succ]; ring
 
 
-/-- DH21 Lemma 10.2 integrated against `α ∈ ∏ S_v` (TARGET L2006–L2013 Step 3, (targettimeint2)). -/
-theorem lintegral_Uint_le (K : ℝ≥0∞) {n : ℕ} (par : Par n) (hp : ParOK par) (l u : Fin n → ℝ)
-    (hlu : ∀ v, u v - l v ≤ 1) (S : Fin n → Set ℝ) (hS : ∀ v, MeasurableSet (S v))
-    (hK : ∀ v (β : ℝ), ∫⁻ a in S v, ENNReal.ofReal (br (a + β))⁻¹ ≤ K) :
-    (∫⁻ α : Fin n → ℝ, (Set.pi univ S).indicator (fun α => ‖Uint par l u α‖ₑ) α) ≤
-      ENNReal.ofReal (3 ^ n) * (2 * K) ^ n := by
-  have h := lintegral_Bd_le K n par S hS hK 0
-  calc _ ≤ ∫⁻ α : Fin n → ℝ, ENNReal.ofReal (3 ^ n) * (Set.pi univ S).indicator
-        (fun α => ENNReal.ofReal (Bd n par (α + 0))) α := by
-        refine lintegral_mono (fun α => ?_)
-        by_cases hα : α ∈ Set.pi univ S
-        · simp only [Set.indicator_of_mem hα, add_zero]
-          rw [← ENNReal.ofReal_mul (by positivity)]
-          rw [← ofReal_norm]
-          exact ENNReal.ofReal_le_ofReal (Uint_bound n par hp l u α hlu)
-        · simp [Set.indicator_of_notMem hα]
-    _ = ENNReal.ofReal (3 ^ n) * ∫⁻ α : Fin n → ℝ, (Set.pi univ S).indicator
-        (fun α => ENNReal.ofReal (Bd n par (α + 0))) α := by
-        rw [lintegral_const_mul']; exact ENNReal.ofReal_ne_top
-    _ ≤ _ := by gcongr
-
 end WaveTurbulence.Ladder

@@ -159,44 +159,6 @@ theorem constraint_parent_clock (t : Fin 3 → ℝ) (τ : (assemblyShape hM9 B).
   rw [parentClock_nonroot _ _ _ hn, hp]
   exact clLocalClock_slot hM9 B t τ c.2
 
-/-- The source clock domain lies in the sumint input time domain (when both excluded lower
-children are branching nodes, i.e. `t', t''` are node times). -/
-theorem assemblyTimeDomain_of_source (hI : 0 < (assemblyShape hM9 B).I) (layerB : GBranch G.tree → ℕ)
-    (t : Fin 3 → ℝ) (τ : (assemblyShape hM9 B).TVar → ℝ)
-    (hb1 : (b.child R.positive).1.2 ∈ (G.tree (b.child R.positive).1.1).branching)
-    (hb2 : (b.child R.negative).1.2 ∈ (G.tree (b.child R.negative).1.1).branching)
-    (h : assemblyClockEquiv hM9 B τ ∈ clLocalTimeDomain R layerB t) :
-    τ ∈ assemblyTimeDomain hM9 B layerB hI t := by
-  obtain ⟨hmain, hpos, hneg⟩ := h
-  have hslot : ∀ s, (assemblyClockEquiv hM9 B τ) (assemblyClockAtomEquiv hM9 B s) = τ s :=
-    fun s => assemblyClock_apply_slot hM9 B t τ s
-  have hlt : ∀ s, τ s < t 0 := by
-    intro s
-    have hs' := Finset.mem_erase.mp (assemblyClockAtomEquiv hM9 B s).2
-    have hyp : ∀ v ∈ U, v ≠ a → clLocalClock R t (assemblyClockEquiv hM9 B τ) v <
-        parentClock (t 0) (clLocalClock R t (assemblyClockEquiv hM9 B τ)) v.toNode := by
-      intro v hv hva
-      have hv' : v ∈ clInteriorBranches R := Finset.mem_erase.mpr ⟨hva, hv⟩
-      have e := clLocalClock_internal R t (assemblyClockEquiv hM9 B τ) ⟨v, hv'⟩
-      have := (hmain ⟨v, hv'⟩).2.2.2
-      rwa [← e] at this
-    have h0 := interior_clock_lt_top B.isBlock R (t 0) (clLocalClock R t (assemblyClockEquiv hM9 B τ))
-      (clLocalClock_upper R t _) hyp _ _ rfl hs'.2 hs'.1
-    rwa [clLocalClock_slot hM9 B t τ s] at h0
-  have hb : (assemblyClockAtomEquiv hM9 B (.inl ⟨⟨0,hI⟩,0⟩)).1 = b := assemblyClockAtom_first hM9 B hI
-  have hbclock : clLocalClock R t (assemblyClockEquiv hM9 B τ) b = τ (.inl ⟨⟨0,hI⟩,0⟩) := by
-    have := clLocalClock_slot hM9 B t τ (.inl ⟨⟨0,hI⟩,0⟩)
-    rwa [hb] at this
-  refine ⟨fun s => ?_, ?_, fun c hc => ?_⟩
-  · have h := hmain (assemblyClockAtomEquiv hM9 B s)
-    rw [hslot s] at h
-    exact ⟨h.1.le, h.2.1.le, hlt s⟩
-  · rw [max_lt_iff, ← hbclock]
-    exact ⟨hpos hb1, hneg hb2⟩
-  · have h1 := (hmain (assemblyClockAtomEquiv hM9 B c.1)).2.2.2
-    rw [hslot c.1, constraint_parent_clock hM9 B t τ c hc] at h1
-    exact h1
-
 /-- Conversely, off the unit-interval boundaries the sumint input time domain lies in the source
 clock domain. -/
 theorem source_of_assemblyTimeDomain (hI : 0 < (assemblyShape hM9 B).I) (layerB : GBranch G.tree → ℕ)
@@ -243,32 +205,5 @@ theorem measurableSet_assemblyTimeDomain (hI : 0 < (assemblyShape hM9 B).I)
         (measurableSet_lt (by fun_prop) (by fun_prop)))
   · exact measurableSet_lt (by fun_prop) (by fun_prop)
   · exact measurableSet_lt (by fun_prop) (by fun_prop)
-
-/-- The source clock-domain indicator integral is the integral over the sumint input time
-domain: the two domains differ only on the finitely many unit-interval boundary hyperplanes. -/
-theorem integral_clockDomain_eq (hI : 0 < (assemblyShape hM9 B).I) (layerB : GBranch G.tree → ℕ)
-    (t : Fin 3 → ℝ)
-    (hb1 : (b.child R.positive).1.2 ∈ (G.tree (b.child R.positive).1.1).branching)
-    (hb2 : (b.child R.negative).1.2 ∈ (G.tree (b.child R.negative).1.1).branching)
-    (f : ((assemblyShape hM9 B).TVar → ℝ) → ℂ) :
-    ∫ τ, (assemblyClockEquiv hM9 B ⁻¹' clLocalTimeDomain R layerB t).indicator f τ =
-      ∫ τ in assemblyTimeDomain hM9 B layerB hI t, f τ := by
-  rw [← integral_indicator (measurableSet_assemblyTimeDomain hM9 B hI layerB t)]
-  refine integral_congr_ae ?_
-  have hae : ∀ᵐ τ : (assemblyShape hM9 B).TVar → ℝ, ∀ s, τ s ≠ assemblyTimeQ hM9 B layerB s ∧
-      τ s ≠ assemblyTimeQ hM9 B layerB s + 1 := by
-    rw [ae_all_iff]
-    intro s
-    exact (Measure.ae_eval_ne (fun _ => (volume : Measure ℝ)) s _).and
-      (Measure.ae_eval_ne (fun _ => (volume : Measure ℝ)) s _)
-  filter_upwards [hae] with τ hτ
-  by_cases hmem : τ ∈ assemblyTimeDomain hM9 B layerB hI t
-  · rw [Set.indicator_of_mem hmem]
-    exact Set.indicator_of_mem (s := assemblyClockEquiv hM9 B ⁻¹' clLocalTimeDomain R layerB t)
-      (source_of_assemblyTimeDomain hM9 B hI layerB t τ hmem hτ) f
-  · rw [Set.indicator_of_notMem hmem]
-    refine Set.indicator_of_notMem (s := assemblyClockEquiv hM9 B ⁻¹' clLocalTimeDomain R layerB t)
-      (fun h => hmem ?_) f
-    exact assemblyTimeDomain_of_source hM9 B hI layerB t τ hb1 hb2 h
 
 end WaveTurbulence.VineEstS2

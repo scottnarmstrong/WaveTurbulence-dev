@@ -61,26 +61,6 @@ theorem stage1Carries_largeConstants {P : WTParams} (c₁ c₂ : ℝ) {p N w : �
   refine ⟨h1, ?_, h3, h4, h5⟩
   simpa only [N_largeConstants] using h2
 
-theorem stage1ReductionAtOld_largeConstantMonotone (C₀ : ℕ) : LargeConstantMonotone (Stage1ReductionAtOld C₀) := by
-  intro P c₁ c₂ hC hC₂ hδ hL h₁ h₂ h
-  intro p hp R hR hRmax N hN1 hN A hA tt htt base roots F s hs0 hctrl hsize
-  rw [R_largeConstants] at hRmax
-  rw [N_largeConstants] at hN
-  obtain ⟨S, Cl, hCl, cls, members, sel, hpart, hrep, hsound, hord, hcounts⟩ := h p hp R hR hRmax N hN1 hN A
-    (fun LG hLG => stage1Carries_largeConstants c₁ c₂ LG (hA LG hLG)) tt htt base roots F s hs0 hctrl hsize
-  refine ⟨⟨S.Pc, S.fin, S.piece, S.val⟩, Cl, hCl, cls, members, sel, hpart, ?_, ?_, hord, ?_⟩
-  · intro π
-    exact Represents_largeConstants c₁ c₂ h₁ (by linarith) hδ.le (by linarith) (S.piece π) N tt base roots
-      (members (cls π)) (sel π) F s hs0.le (S.val π) (hrep π)
-  · intro π
-    exact Sound_largeConstants c₁ c₂ (S.piece π) p base roots (hsound π)
-  · obtain ⟨hr, hg, hcnt⟩ := hcounts
-    refine ⟨hr, hg, ?_⟩
-    intro g r
-    refine (hcnt g r).trans ?_
-    have hC₂0 : 0 ≤ P.C₂ := by linarith
-    exact mul_le_mul_of_nonneg_left (pow_le_pow_left₀ hC₂0 h₂ _) (by positivity)
-
 theorem stage1ReductionAt_largeConstantMonotone (C₀ : ℕ) : LargeConstantMonotone (Stage1ReductionAt C₀) := by
   intro P c₁ c₂ hC hC₂ hδ hL h₁ h₂ h
   intro p hp R hR hRmax N hN1 hN A hA hcl tt htt base roots U s hs0 hb hsize

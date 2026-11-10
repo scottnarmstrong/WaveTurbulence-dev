@@ -75,27 +75,4 @@ theorem SNorm_LeafApp_tree_le {δ : ℝ} (hδ : 0 ≤ δ) (r : ℝ) (H : LeafPro
     rw [e, SNorm_eq_spatialNorm, spatialNorm_zero_fun]
     exact zero_le
 
-/-- **The leading term of a couple code at fixed times in `𝔖^{Λ,Λ₂}`.** -/
-theorem SNorm_LeafApp_couple_le {δ : ℝ} (hδ : 0 ≤ δ) (r : ℝ) (H : LeafProfiles 2 d) (Q : RegCpl)
-    {n : ℕ} (hsize : Q.size = 2 * n) (t s : ℝ) {cJ cM : ℝ} {Λ Λ₂ : ℕ} (hΛ : Λ ≠ 0)
-    (hcJ : 0 ≤ cJ) (hcM : 0 ≤ cM) (hJ : Q.dominant = true → |Q.JB r t s| ≤ cJ)
-    (hM : Q.dominant = true → ∀ Z ∈ specialSets Q.links,
-      SNormR Λ Λ₂ (LeafApp.cplMstar H Z Q (0, []) (1, [])) ≤ ENNReal.ofReal cM) :
-    SNorm Λ Λ₂ (fun k => LeafApp.couple δ r H Q t s k) ≤ ENNReal.ofReal (δ ^ n * 2 ^ n * cJ * cM) := by
-  by_cases hdom : Q.dominant = true
-  · have e : (fun k => LeafApp.couple δ r H Q t s k) =
-        fun k => ∑ Z ∈ specialSets Q.links, coupleMz δ H Q Z k * (Q.JB r t s : ℂ) :=
-      funext fun k => couple_eq_sum H Q hdom t s k
-    rw [e]
-    have h := SNorm_sum_Mz_le (specialSets Q.links) (fun Z k => coupleMz δ H Q Z k)
-      (Q.JB r t s : ℂ) hΛ (m := δ ^ n * cM) (by positivity) hcJ
-      (by simpa using hJ hdom) (fun Z hZ => SNorm_coupleMz_le hδ H Q hsize hΛ hcM Z (hM hdom Z hZ))
-      (card_specialSets_couple_le hsize)
-    refine h.trans (ENNReal.ofReal_le_ofReal ?_)
-    nlinarith [mul_nonneg hcJ hcM]
-  · have e : (fun k => LeafApp.couple δ r H Q t s k) = fun _ => 0 :=
-      funext fun k => couple_eq_zero H Q hdom t s k
-    rw [e, SNorm_eq_spatialNorm, spatialNorm_zero_fun]
-    exact zero_le
-
 end WaveTurbulence.PL2330

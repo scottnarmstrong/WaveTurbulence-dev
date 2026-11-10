@@ -21,11 +21,4 @@ theorem modification_order_budget (P : WTParams) (hd : 1 ≤ P.d) {p : ℕ} (hp 
     _ ≤ 9 * P.Lambda (p + 1) := by omega
     _ ≤ _ := Nat.mul_le_mul_right _ (by omega : 9 ≤ 40 * P.d)
 
-theorem weighted_derivative_input_orders (P : WTParams) (hd : 1 ≤ P.d) {p : ℕ}
-    (hp : p < P.D) {a b : ℕ} (ha : a ≤ 4 * P.Lambda (p + 1))
-    (hb : b ≤ 8 * P.Lambda (p + 1)) :
-    40 * P.d + a ≤ P.Lambda p ∧ 40 * P.d + b ≤ P.Lambda p := by
-  have hh := modification_order_budget P hd hp
-  constructor <;> omega
-
 end WaveTurbulence.LGSpine

@@ -30,10 +30,6 @@ def DiagF (m : Pt d →+ (Fin d → ℤ)) : Prop :=
 lemma eqInd_abs_le (m : Pt d →+ (Fin d → ℤ)) (c : Fin d → ℤ) (p : Pt d) : |eqInd m c p| ≤ 1 := by
   unfold eqInd; split_ifs <;> simp
 
-lemma ballInd_abs_le (L ρ : ℝ) (m : Pt d →+ (Fin d → ℤ)) (c : Fin d → ℤ) (p : Pt d) :
-    |ballInd L ρ m c p| ≤ 1 := by
-  unfold ballInd; split_ifs <;> simp
-
 lemma goodTerm_one (L R : ℝ) (a b : Fin d → ℝ) : GoodTerm L R a b (fun _ => (1 : ℝ)) :=
   Or.inl (fun _ => rfl)
 

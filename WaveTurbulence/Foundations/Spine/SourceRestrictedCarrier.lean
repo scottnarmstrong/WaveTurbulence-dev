@@ -18,57 +18,6 @@ open SourceVine Finset
 
 variable {w d : ℕ}
 
-/-- The candidate predicate read literally off `SubproSupport.contained` (L2040–L2051, subpro(4))
-and L2101–L2104. -/
-@[expose] def literalSecondCandidate {G : Garden w} (C : SubproChoices G) (L γ η : ℝ) (base : Mom d)
-    (κ : GardenDart G → (Fin d → ℤ)) (P : Object G.molecule) : Prop :=
-  P.HasGapKind L γ η base κ .SG ∧ C.OutsideAtoms P ∧ Disjoint P.atoms C.hinges ∧
-    ((∃ S a b, Vine.IsDV G.molecule S a b ∧ P.atoms ⊆ S ∧
-      Disjoint S C.hinges ∧ ∀ i, Disjoint S (C.collection i).atoms) ∨
-    ∃ Q : Object G.molecule, P.atoms ⊆ Q.atoms ∧
-      (Q.HasGapKind L γ η base κ .LG ∨ Q.HasGapKind L γ η base κ .ZG) ∧
-      Disjoint Q.atoms C.hinges ∧ ∀ i, Disjoint Q.atoms (C.collection i).atoms)
-
-theorem disjoint_forbidden_iff {G : Garden w} (C : SubproChoices G) (S : Finset (GBranch G.tree)) :
-    Disjoint (↑S : Set (GBranch G.tree)) C.forbidden ↔
-      Disjoint S C.hinges ∧ ∀ i, Disjoint S (C.collection i).atoms := by
-  unfold SubproChoices.forbidden
-  rw [Set.disjoint_union_right, Set.disjoint_iUnion_right]
-  simp only [Finset.disjoint_coe]
-
-/-- Every eligible object (designation-level containment `Object.IsContained`) satisfies the atom-set
-candidate predicate (R28 (3)). -/
-theorem eligibleSecondObject_to_literal {G : Garden w} (C : SubproChoices G) (L γ η : ℝ)
-    (base : Mom d) (κ : GardenDart G → (Fin d → ℤ)) (P : Object G.molecule)
-    (h : eligibleSecondObject G L γ η base κ C.forbidden P) :
-    literalSecondCandidate C L γ η base κ P := by
-  have hne : P.upper ∈ P.atoms := object_mem_of_joint P (Or.inl rfl)
-  obtain ⟨hsg, h | ⟨D, hPD, hDF⟩⟩ := h
-  · obtain ⟨Q, hPQ, hk, hQF⟩ := h
-    obtain ⟨hQ1, hQ2⟩ := (disjoint_forbidden_iff C _).mp hQF
-    have hPsub := hPQ
-    refine ⟨hsg, fun i hPi => ?_, Finset.disjoint_of_subset_left hPsub hQ1,
-      Or.inr ⟨Q, hPsub, hk, hQ1, hQ2⟩⟩
-    exact Finset.disjoint_left.mp (hQ2 i) (hPsub hne) (hPi hne)
-  · obtain ⟨h1, h2⟩ := (disjoint_forbidden_iff C _).mp hDF
-    refine ⟨hsg, fun i hPi => ?_, Finset.disjoint_of_subset_left hPD h1,
-      Or.inl ⟨D.first ∪ D.second, D.upper, D.lower,
-        ⟨D.first, D.second, D.first_vine, D.second_vine, D.overlap, rfl⟩, hPD, h1, h2⟩⟩
-    exact Finset.disjoint_left.mp (h2 i) (hPD hne) (hPi hne)
-
-/-- AMEND5 (R42(2)): with atom-level `eligibleSecondObject` the converse holds, so the second-collection
-eligibility IS the literal candidate predicate of subpro(4) (and `source_literal_object_classification`
-classifies every eligible object). -/
-theorem literal_to_eligibleSecondObject {G : Garden w} (C : SubproChoices G) (L γ η : ℝ)
-    (base : Mom d) (κ : GardenDart G → (Fin d → ℤ)) (P : Object G.molecule)
-    (h : literalSecondCandidate C L γ η base κ P) :
-    eligibleSecondObject G L γ η base κ C.forbidden P := by
-  obtain ⟨hsg, _, _, h | ⟨Q, hPQ, hk, hQ1, hQ2⟩⟩ := h
-  · obtain ⟨S, a, b, ⟨f, s, hf, hs, hov, rfl⟩, hPS, hS1, hS2⟩ := h
-    exact ⟨hsg, Or.inr ⟨⟨f, s, a, b, hf, hs, hov⟩, hPS,
-      (disjoint_forbidden_iff C _).mpr ⟨hS1, hS2⟩⟩⟩
-  · exact ⟨hsg, Or.inl ⟨Q, hPQ, hk, (disjoint_forbidden_iff C _).mpr ⟨hQ1, hQ2⟩⟩⟩
-
 /-- TARGET L2116, second half (`C_2` side): no hinge atom lies in any object of the (canonical,
 restricted) second collection, in particular no hinge is interior to one. This is derived from the
 restricted carrier, not assumed. -/

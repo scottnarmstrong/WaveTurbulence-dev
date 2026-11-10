@@ -7,7 +7,8 @@ module
 
 public import WaveTurbulence.Foundations.VineEst.VineEstS2.CLPredecessorRows
 public import WaveTurbulence.Foundations.VineEst.VineEstS2.SourceBranchCost
-public import WaveTurbulence.Foundations.VineEst.VineEstS2.CLInternalEnumeration
+public import Mathlib.Data.Finset.Sort
+public import Mathlib.Order.Prod.Lex.Basic
 
 /-! # Transport of actual interior branches to the cropped tree -/
 
@@ -47,13 +48,5 @@ theorem clInteriorCrop_depth (hU : G.molecule.IsBlock U a b) (R : CLRegionData G
   have hp := congrArg (fun x : GNode G.tree => x.1.2) (clInteriorCrop_node hU R v)
   change a.1.2++(clInteriorCrop hU R v).1.2 = v.1.1.2 at hp
   rw [← hp,List.length_append]
-
-/-- All strict descendants, including same-sign successors separated by
-several heavy edges, precede their parent in this actual node enumeration. -/
-theorem exists_clInteriorDepthEnumeration (R : CLRegionData G U a b) :
-    ∃ e : ↥(clInteriorBranches R) ≃ Fin (clLocalOrder1 R),
-      ∀ v u : ↥(clInteriorBranches R), v.1.1.2.length < u.1.1.2.length → e u < e v := by
-  obtain ⟨e,he⟩ := exists_depth_enumeration ↥(clInteriorBranches R) (fun v => v.1.1.2.length)
-  exact ⟨e.trans (finCongr (Fintype.card_coe _)),he⟩
 
 end WaveTurbulence.VineEstS2

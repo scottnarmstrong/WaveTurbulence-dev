@@ -66,19 +66,4 @@ theorem prod_mappedQuadratic_leaf_factorization {I T : Type*} [Fintype I] [Decid
   rw [prod_mul_distrib, prod_monomialLeafProfile, Fintype.prod_prod_type]
   ring
 
-/-- Once the root-weight choices are fixed, every oscillatory summand is a scalar sign
-times the same kernel with separate modified input leaves. All finite choices are independent
-of the momentum decoration. -/
-theorem prod_quadratic_leaf_factorization {I T : Type*} [Fintype I] [DecidableEq I]
-    [Fintype T] {d : ℕ} (H : I → Mom d → ℝ) (ε : T → I → ℤˣ)
-    (c : T → RootQuadraticChoice I d) (v : I → Mom d) :
-    (∏ l, H l (v l)) * (∏ t, rootQuadraticTerm (ε t) v (c t)) =
-      (∏ t, quadraticSign (ε t) (c t)) *
-        ∏ l, monomialLeafProfile H
-          (fun tb : T × Bool => quadraticCoordinate (c tb.1) tb.2) l (v l) := by
-  classical
-  simp_rw [rootQuadraticTerm_factor]
-  rw [prod_mul_distrib, prod_monomialLeafProfile, Fintype.prod_prod_type]
-  ring
-
 end WaveTurbulence.LGSpine

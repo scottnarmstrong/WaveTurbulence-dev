@@ -1,6 +1,6 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
-public import WaveTurbulence.Foundations.Spine.RootWeightTransfer
+public import WaveTurbulence.Foundations.XChain.LatticeBracketBounds
 public import Mathlib.Algebra.BigOperators.Ring.Finset
 /-! Exact finite expansion of the even root weights in TARGET L2065, preserving oscillatory sums. -/
 @[expose] public section
@@ -50,17 +50,6 @@ theorem card_rootQuadraticChoice (ι : Type*) [Fintype ι] (d : ℕ) :
     Fintype.card (RootQuadraticChoice ι d) = 1 + d * Fintype.card ι * Fintype.card ι := by
   simp only [RootQuadraticChoice, Fintype.card_option, Fintype.card_prod, Fintype.card_fin]
   ring
-
-/-- Each root is expanded independently before the finite choices are distributed across leaves. -/
-theorem root_weight_product_expansion {J : Type*} [Fintype J] [DecidableEq J]
-    {ι : J → Type*} [∀ j, Fintype (ι j)] {d : ℕ}
-    (ε : ∀ j, ι j → ℤˣ) (v : ∀ j, ι j → Mom d) (m : ℕ) :
-    (∏ j, jbr (∑ i, (ε j i : ℤ) • v j i) ^ (2 * m)) =
-      ∑ choice : ∀ j, Fin m → RootQuadraticChoice (ι j) d,
-        ∏ j, ∏ a, rootQuadraticTerm (ε j) (v j) (choice j a) := by
-  classical
-  simp_rw [jbr_sum_units_even_expansion]
-  exact Fintype.prod_sum _
 
 /-- Exact size of the decoration-independent expansion index. -/
 theorem card_root_weight_choices {J : Type*} [Fintype J] [DecidableEq J]

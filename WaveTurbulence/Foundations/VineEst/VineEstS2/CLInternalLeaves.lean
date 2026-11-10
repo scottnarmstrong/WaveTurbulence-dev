@@ -35,15 +35,4 @@ theorem clInternalLeaf_surjective (hU : G.molecule.IsBlock U a b) (R : CLRegionD
       (clTreeNode_branch R z).symm.trans he
     exact (Mole.branch_toNode_ne_leaf _ ℓ hz).elim
 
-/-- An original internal leaf has a unique cropped preimage, because the
-node embedding is literal and injective. -/
-theorem clInternalLeaf_existsUnique (hU : G.molecule.IsBlock U a b) (R : CLRegionData G U a b)
-    (ℓ : GLeaf G.tree) (hℓ : Mole.IsInternalLeaf G U ℓ) :
-    ∃! l : GLeaf (CLTreeForest R), clTreeNode R l.toNode = ℓ.toNode := by
-  obtain ⟨l,hl⟩ := clInternalLeaf_surjective hU R ℓ hℓ
-  refine ⟨l,hl,?_⟩
-  intro m hm
-  have he := clTreeNode_injective R (hm.trans hl.symm)
-  exact Subtype.ext (congrArg (fun x : GNode (CLTreeForest R) => x.1) he)
-
 end WaveTurbulence.VineEstS2
