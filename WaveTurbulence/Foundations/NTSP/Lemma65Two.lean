@@ -349,10 +349,14 @@ theorem lintegral_modeSum_le (hd : 3 ≤ d) {κ η L lam : ℝ} (hκ : 0 < κ) (
           have k4 : fullConst d κ * sInt d * L₀ ^ e * L ^ (-1 + η) ≥ 0 := by positivity
           have k5 : sInt d * (iξ + iζ) ≤ C₁ * (iξ + iζ) := by
             refine mul_le_mul_of_nonneg_right ?_ (by positivity)
-            simp only [C₁]
+            rw [hC₁def]
             have : 0 ≤ fullConst d κ * sInt d * L₀ ^ e := by positivity
-            nlinarith
-          nlinarith
+            have h1 : 0 ≤ fullConst d κ * tailInt := mul_nonneg hF hT
+            linarith only [this, h1, hFa, hNe]
+          have hC₁L : C₁ * L ^ (-1 + η) = (fullConst d κ * tailInt + 8 * farConst d κ + 4 * nearConst d +
+              sInt d + fullConst d κ * sInt d * L₀ ^ e) * L ^ (-1 + η) := by rw [hC₁def]
+          have hSL : 0 ≤ sInt d * L ^ (-1 + η) := mul_nonneg hS hLη
+          linarith only [k1, k2, k3, k4, k5, hC₁L, hSL]
   · -- small `L`
     have hsmall : L ^ (7 / 60 : ℝ) < 8 * Real.sqrt d := not_le.1 hbig
     set A := fullConst d κ * lam ^ (2 * (d + 1))
