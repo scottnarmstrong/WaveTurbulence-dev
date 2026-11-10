@@ -164,8 +164,19 @@ theorem pa_aux (hT : T6Ctx G v₁ v₂) {k : ℕ} (hk : k + 1 < L.t) {K : Finset
     have h1 : x ∈ L.X (k + 1) → x ∈ G.verts := fun h => L.sub (k + 1) h
     have h2 : x ∈ L.X k → x ∉ K := fun h hH => Finset.disjoint_left.mp hdk hH h
     have h3 : x ∈ L.E (k + 1) ↔ x ∈ L.X (k + 1) ∧ x ∉ L.X k := Finset.mem_sdiff
+    have h4 : x ∈ K → x ∈ L.X (k + 1) := fun h => hKX1 h
     simp only [Finset.mem_sdiff, Finset.mem_union, h3]
-    tauto
+    constructor
+    · rintro ⟨hG, hK⟩
+      by_cases hk0 : x ∈ L.X k
+      · exact Or.inl hk0
+      · by_cases hk1 : x ∈ L.X (k + 1)
+        · exact Or.inr (Or.inl ⟨⟨hk1, hk0⟩, hK⟩)
+        · exact Or.inr (Or.inr ⟨hG, hk1⟩)
+    · rintro (hk0 | ⟨⟨hk1, -⟩, hK⟩ | ⟨hG, hk1⟩)
+      · exact ⟨h1 (h0 hk0), h2 hk0⟩
+      · exact ⟨h1 hk1, hK⟩
+      · exact ⟨hG, fun hK => hk1 (h4 hK)⟩
   have hd1 : Disjoint (L.E (k + 1) \ K) (G.verts \ L.X (k + 1)) :=
     Finset.disjoint_left.mpr fun x h1 h2 => (Finset.mem_sdiff.mp h2).2
       (L.E_subset_X le_rfl (Finset.mem_sdiff.mp h1).1)
