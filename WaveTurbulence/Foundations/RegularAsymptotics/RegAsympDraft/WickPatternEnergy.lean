@@ -22,12 +22,6 @@ theorem wickLatticeEnergy_insert_zero {d n : ℕ} (L μ : ℝ) (σ : Fin n → F
     wickLatticeEnergy L μ (wickPatternInsert σ u) j = 0 :=
   wickPattern_energy_zero L μ (prod_wickPatternTerm_insert_ne_zero σ u) hj
 
-/-- The two surviving enumerations preserve exactly the same original label. -/
-theorem wickSurvivorEquiv_symm_val {n : ℕ} (σ : Fin n → Fin 4)
-    (i : Fin (Fintype.card {j : Fin n // j ∉ wickTracedLinks σ})) :
-    ((wickSurvivorEquiv σ).symm i).val =
-      ((survivingEnergyEquiv (wickTracedLinks σ)).symm i).val := rfl
-
 /-- A source pattern meeting a special link vanishes identically, before
 any coefficient estimate or summation. -/
 theorem resProfile_wickPatternInsert_eq_zero {d n : ℕ} (L μ : ℝ)

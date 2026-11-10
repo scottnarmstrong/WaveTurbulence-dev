@@ -46,24 +46,6 @@ theorem tendsto_pvTrunc_address_source_block {d : ℕ} (hd : 3 ≤ d)
   exact tendsto_pvTrunc_source_block hd hQ hG hn hK hM hB hF
     (markedLinkIndices Q Z) L hL j hj k x y
 
-/-- Lawful scalar extraction in the original chosen-address source
-kernel is a consequence of the input norm, not a premise on a PV limit. -/
-theorem pvOp_const_mul_address_source_block {d : ℕ} (hd : 3 ≤ d)
-    {G : Garden 2} {Q : RegCpl} (hQ : Q.Decodes G) (hG : IsCouple G) (hn : 0 < Q.links.length)
-    {K M : ℕ} {F : Mom d → ℂ} {B : ℝ} (hK : d+2 ≤ K) (hM : 2*d ≤ M) (hB : 0 ≤ B)
-    (hF : Fourier.spatialNorm K M F ≤ ENNReal.ofReal B)
-    (Z : Finset (Fin 2 × TTree.Path)) (L : List (Fin Q.links.length))
-    (hL : L.Nodup) (j : Fin Q.links.length) (hj : j ∉ L) (k : Mom d)
-    (x y : Fin Q.links.length → Mom d) (c : ℂ) :
-    pvOp (fun a b => c*addressAppAlong Z (L.map (chosenNode Q))
-      (fun θ => cplLeafProduct F θ Q (0,[]) (1,[]) k)
-      (update (paramFun Q (fun i => (x i,y i))) (chosenNode Q j) (a,b))) =
-    c*pvOp (fun a b => addressAppAlong Z (L.map (chosenNode Q))
-      (fun θ => cplLeafProduct F θ Q (0,[]) (1,[]) k)
-      (update (paramFun Q (fun i => (x i,y i))) (chosenNode Q j) (a,b))) :=
-  pvOp_const_mul_of_tendsto c
-    (tendsto_pvTrunc_address_source_block hd hQ hG hn hK hM hB hF Z L hL j hj k x y)
-
 /-- Cutoff convergence is independent of the values assigned away from
 chosen source nodes. This form applies inside recursive source blocks. -/
 theorem tendsto_pvTrunc_address_source_block_at {d : ℕ} (hd : 3 ≤ d)

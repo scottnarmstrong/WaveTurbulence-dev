@@ -1,7 +1,7 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 
-public import WaveTurbulence.Foundations.RegularAsymptotics.RA1Trees.TreeScalarEstimate
+public import WaveTurbulence.Foundations.RegularAsymptotics.RA1Trees.TreeScalarProfile
 
 /-! # A finite actual coefficient family shares one original-frequency tree envelope -/
 

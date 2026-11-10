@@ -2,7 +2,8 @@
 module
 
 public import WaveTurbulence.Foundations.RegularAsymptotics.RegAsympDraft.SourcePairEnumeration
-public import WaveTurbulence.Foundations.RegAsymp.SingularRootRecursion
+public import WaveTurbulence.Foundations.ApproxNT.AppRep
+public import Mathlib.Data.Fin.Tuple.Basic
 
 /-! # Exact original source momentum kernel at order zero -/
 
@@ -37,20 +38,5 @@ theorem source_input_triv {G : Garden 2} (hQ : RegCpl.triv.Decodes G) (hG : IsCo
     (x : Fin RegCpl.triv.links.length → Fin 2 → Mom d) :
     (∏ a, F ((coupleMomentumData hQ hG).inputMomentum k x a)) = F k := by
   rw [prod_source_input_eq_cplLeafProduct hQ hG,cplLeafProduct_triv]
-
-/-- The original zero-order singular factor agrees with the literal
-recursive B2 Mstar factor; no positive-order localization is invoked. -/
-theorem singInt_source_triv_eq_Mstar {G : Garden 2} (hQ : RegCpl.triv.Decodes G) (hG : IsCouple G)
-    {d : ℕ} (F : Mom d → ℝ) (Z : Finset (Fin 2 × TTree.Path)) (k : Mom d)
-    (J : Finset (Fin RegCpl.triv.links.length)) :
-    singInt J (fun x y => ∏ a, ((F ((coupleMomentumData hQ hG).inputMomentum k
-      (fun j i => if i=0 then x j else y j) a)):ℂ)) = (RegCpl.triv.Mstar F Z (0,[]) (1,[]) k:ℂ) := by
-  have he : (fun (x y : Fin RegCpl.triv.links.length → Mom d) =>
-      ∏ a, ((F ((coupleMomentumData hQ hG).inputMomentum k
-        (fun j i => if i=0 then x j else y j) a)):ℂ)) = fun _ _ => (F k:ℂ) := by
-    funext x y
-    exact source_input_triv hQ hG (fun k => (F k:ℂ)) k _
-  rw [he]
-  rfl
 
 end WaveTurbulence.RegAsymp

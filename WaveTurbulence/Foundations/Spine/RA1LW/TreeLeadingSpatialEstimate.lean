@@ -1,7 +1,6 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 
-public import WaveTurbulence.Foundations.Spine.RA1LW.Base
 public import WaveTurbulence.Foundations.RegularAsymptotics.RA1Trees.TreeScalarProfile
 public import WaveTurbulence.Foundations.RegAsymp.TreeRootSpatialMixture
 public import WaveTurbulence.Foundations.RegularAsymptotics.RegAsympDraft.HalfCellSingularRepresentation

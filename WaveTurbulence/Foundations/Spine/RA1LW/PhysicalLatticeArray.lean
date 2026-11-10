@@ -3,7 +3,7 @@ module
 
 public import WaveTurbulence.Foundations.Spine.RA1LW.LeafFam
 public import WaveTurbulence.Foundations.Spine.RA1LW.SourcePhaseBound
-public import WaveTurbulence.Foundations.Spine.RA1LW.ActualLeafSpectrum
+public import WaveTurbulence.Foundations.Spine.RA1LW.FiniteCellDecomposition
 public import WaveTurbulence.Foundations.RegularAsymptotics.RegAsympDraft.WickSupport
 public import WaveTurbulence.Foundations.RegAsymp.SourceLatticeLocalization
 

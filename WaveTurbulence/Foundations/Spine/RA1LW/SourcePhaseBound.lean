@@ -1,7 +1,8 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 
-public import WaveTurbulence.Foundations.Spine.RA1LW.PhysicalClassifiedProfile
+public import WaveTurbulence.Foundations.Spine.RA1LW.PhysicalProfileKernel
+public import WaveTurbulence.Foundations.Spine.RA1LW.CoupleProfilesClassified
 import Mathlib.MeasureTheory.Integral.Bochner.Set
 
 /-! # Uniform elementary bounds on the original source phase integrals -/

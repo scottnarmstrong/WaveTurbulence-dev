@@ -26,34 +26,6 @@ namespace WaveTurbulence.Resonant
 
 variable {d : ℕ}
 
-/-- The normal parameter cannot exceed the norm of the sliced point. -/
-theorem abs_le_norm_smul_unitVec_add {ℓ : Mom d} (hℓ : ℓ ≠ 0) (t : ℝ)
-    (w : ↥(ℝ ∙ ℓ)ᗮ) : |t| ≤ ‖t • unitVec ℓ + (w : Mom d)‖ := by
-  have h := norm_sq_smul_unitVec_add hℓ t w
-  nlinarith [sq_nonneg ‖(w : Mom d)‖, norm_nonneg (t • unitVec ℓ + (w : Mom d)),
-    abs_nonneg t, sq_abs t]
-
-/-- A support radius in the second momentum bounds the support of every slice. -/
-theorem sliceInt_eq_zero_of_radius {F : Mom d → Mom d → ℝ} {R : ℝ}
-    (hs : ∀ ℓ x, R < ‖x‖ → F ℓ x = 0) {ℓ : Mom d} (hℓ : ℓ ≠ 0)
-    {t : ℝ} (ht : R < |t|) : sliceInt F ℓ t = 0 := by
-  unfold sliceInt
-  have hz : (fun w : ↥(ℝ ∙ ℓ)ᗮ => F ℓ (t • unitVec ℓ + w)) = fun _ => 0 := by
-    funext w
-    exact hs ℓ _ (ht.trans_le (abs_le_norm_smul_unitVec_add hℓ t w))
-  rw [hz, integral_zero]
-
-theorem hasCompactSupport_sliceInt {F : Mom d → Mom d → ℝ} {R : ℝ}
-    (hs : ∀ ℓ x, R < ‖x‖ → F ℓ x = 0) {ℓ : Mom d} (hℓ : ℓ ≠ 0) :
-    HasCompactSupport (sliceInt F ℓ) := by
-  apply HasCompactSupport.of_support_subset_isCompact (K := Icc (-R) R) isCompact_Icc
-  intro t ht
-  by_contra hn
-  have hout : R < |t| := by
-    by_contra hnot
-    exact hn (abs_le.mp (le_of_not_gt hnot))
-  exact ht (sliceInt_eq_zero_of_radius hs hℓ hout)
-
 /-- A normal derivative is dominated by an integrable hyperplane profile. -/
 theorem normalDeriv_bound
     {D : Mom d → Mom d → Mom d →L[ℝ] ℝ} {B : Mom d → ℝ}

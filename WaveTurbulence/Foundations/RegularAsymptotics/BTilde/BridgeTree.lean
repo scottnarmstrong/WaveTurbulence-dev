@@ -122,20 +122,6 @@ theorem treeAstar_eq_Atilde {G : Garden 1} {X : RegChain} (hX : X.DecodesTree G)
   funext t'
   simp [treeIntL, LoneOK]
 
-/-- **Regular trees through gardens.** `hstructT` is the named obligation
-`existsUnique_regChain_decodesTree` (REG-STRUCT, statement verbatim). Every regular tree `G` has a
-unique well-formed code `X`, and `𝒜*_𝒯 = Ã_𝒯` under the link relation. -/
-theorem treeAstar_garden
-    (hstructT : ∀ G : Garden 1, IsRegularTree G → ∃! X : RegChain, X.wf = true ∧ X.DecodesTree G)
-    (G : Garden 1) (hG : IsRegularTree G) :
-    ∃! X : RegChain, (X.wf = true ∧ X.DecodesTree G) ∧
-      ∀ α : Fin 1 × TTree.Path → ℝ,
-        (∀ l ∈ (toJRc X).linksAt (G.sig 0) (rootT (G.sig 0)), LinkRel (liftT α) l) →
-        ∀ t s : ℝ, 0 ≤ t → s < t → treeAstar G t s α = chainAtilde X (G.sig 0) (liftT α) t s := by
-  obtain ⟨X, hX, huniq⟩ := hstructT G hG
-  exact ⟨X, ⟨hX, fun α hα t s ht hst => treeAstar_eq_Atilde hX.2 hα ht hst⟩,
-    fun X' hX' => huniq X' hX'.1⟩
-
 /-- A decoded paired tree has no flowers. -/
 theorem not_isFlowerParent_of_decodesTree {G : Garden 1} {X : RegChain} (hX : X.DecodesTree G)
     (b : GBranch G.tree) : ¬ G.IsFlowerParent b := by

@@ -6,7 +6,6 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.RegularAsymptotics.MexpDraft.ECode
-public import WaveTurbulence.Foundations.RegularAsymptotics.EnhancedDraft.ShapeLocal
 
 /-!
 # DH21 Prop 7.7 (`multiexp`, L1814–L1837): `ℳ*_{(𝒬,Z)}` depends only on the equivalence class
@@ -157,26 +156,5 @@ theorem nstar_eq_mtuples (F : Mom d → ℝ) (Z : Finset (Fin w × Path)) : (X :
     rw [eR, eG, nstar_eq_mtuples F Z rest hs, red_fst, green_fst]
     simp only [Npair, decide_eq_true_eq, mul_one]
 end
-
-/-- **DH21 Prop 7.7** (`multiexp`, L1814): equivalent enhanced dominant couples have the same momentum
-factor `ℳ*`, which is therefore `ℳ*_X` of the class `X` (given by `Mshape`, with the type 1 and type 2
-recursions (inductm01)–(inductm05)). -/
-theorem prop77 (F : Mom d → ℝ) {Q Q' : RegCpl} (hQ : Q.dominant = true) (hQ' : Q'.dominant = true)
-    {Z Z' : Finset (Fin 2 × Path)}
-    (h : Shape.Equiv (cplShape Z Q (0, []) (1, [])) (cplShape Z' Q' (0, []) (1, []))) :
-    Q.Mstar F Z (0, []) (1, []) = Q'.Mstar F Z' (0, []) (1, []) := by
-  rw [mstar_eq_mshape F Z Q hQ, mstar_eq_mshape F Z' Q' hQ', mshape_congr F h]
-
-/-- The type 1 recursion (inductm01). -/
-theorem mshape_type1 (F : Mom d → ℝ) (X₁ X₂ X₃ : Shape) (k : Mom d) :
-    Mshape F (.type1 X₁ X₂ X₃) k =
-      resIntegral (fun k₁ k₂ k₃ => Mshape F X₁ k₁ * Mshape F X₂ k₂ * Mshape F X₃ k₃) k := rfl
-
-/-- The type 2 recursion (inductm02): `ℳ*_X = ℳ*_𝒴 ∏_j ℳ*_{(j)}`. -/
-theorem mshape_type2 (F : Mom d → ℝ) (L : Tuples) (Y : Shape) (k : Mom d) :
-    Mshape F (.type2 L Y) k = Mshape F Y k * ∏ i, Npair (L.get i).1 (L.get i).2.1
-      (Mshape F (L.get i).2.2.1) (Mshape F (L.get i).2.2.2) k := by
-  show Mshape F Y k * Mtuples F L k = _
-  rw [mtuples_eq_prod]
 
 end WaveTurbulence.Mexp

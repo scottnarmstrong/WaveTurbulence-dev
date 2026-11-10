@@ -2,8 +2,8 @@
 module
 
 public import WaveTurbulence.Foundations.Spine.RA1LW.LeafFam
-public import WaveTurbulence.Foundations.Spine.RA1LW.Base
-public import WaveTurbulence.Foundations.Spine.RA1LW.PhysicalErrorProfiles
+public import WaveTurbulence.Foundations.Spine.RA1LW.SourceLeadingApp
+public import WaveTurbulence.Foundations.Spine.RA1LW.PhysicalProfileSplit
 public import WaveTurbulence.Foundations.Spine.RA1LW.PhysicalGlobalUniform
 
 /-! # Uniform source-kernel error assembly before the couple-code quantifier -/

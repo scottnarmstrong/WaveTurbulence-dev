@@ -43,11 +43,4 @@ def treeCoefficientSubsetEquiv (X : RegChain) (ζ : ℤˣ) :
   Equiv.ofBijective (treeCoefficientSubsetMap X ζ)
     ⟨treeCoefficientSubsetMap_injective X ζ,treeCoefficientSubsetMap_surjective X ζ⟩
 
-/-- The exact coefficient index under this equivalence is the original marked index set. -/
-theorem treeCoefficientSubsetEquiv_marked (X : RegChain) (ζ : ℤˣ)
-    (Z : (WaveTurbulence.chosenSet (X.treeLinks ζ)).powerset) :
-    treeMarkedIndices (treeChosenAddress X ζ) (treeCoefficientSubsetEquiv X ζ Z).val =
-      univ.filter (fun j => treeChosen X ζ j ∈ Z.val) :=
-  treeMarkedIndices_coefficient_image X ζ Z.val
-
 end WaveTurbulence.RegAsymp

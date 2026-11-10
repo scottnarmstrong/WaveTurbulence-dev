@@ -51,8 +51,6 @@ theorem lonePath_toJRc : ∀ X : RegChain, (toJRc X).lonePath = X.lonePath
       lonePath_toJRc rest]
     rfl
 
-theorem slotSign_eq (ζ : ℤˣ) (i : Fin 3) : ClassJR.slotSign ζ i = slotSign ζ i := rfl
-
 theorem slotSign_val (ζ : ℤˣ) (i : Fin 3) :
     ((slotSign ζ i : ℤˣ) : ℤ) = if i = 1 then -(ζ : ℤ) else ζ := by
   unfold slotSign; split_ifs <;> simp

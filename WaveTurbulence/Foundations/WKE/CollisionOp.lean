@@ -205,12 +205,6 @@ theorem continuous_kernel (h : CollisionInputs φ₁ φ₂ φ₃ C N) (j : Fin 4
   | 3 => k + ℓ
   | _ => k
 
-theorem abs_mul3_le {x y z C : ℝ} (hx : |x| ≤ C) (hy : |y| ≤ C) (hz : |z| ≤ C) :
-    |x * y * z| ≤ C * C * C := by
-  rw [abs_mul, abs_mul]
-  have h0 : 0 ≤ C := (abs_nonneg _).trans hx
-  exact mul_le_mul (mul_le_mul hx hy (abs_nonneg _) h0) hz (abs_nonneg _) (by positivity)
-
 theorem kernel_bound (h : CollisionInputs φ₁ φ₂ φ₃ C N) (j : Fin 4) (k ℓ x : Mom d) :
     |collisionKernel j φ₁ φ₂ φ₃ k ℓ x| ≤
       kernelWeight C N k j ℓ * (1 + ‖kernelShift k j ℓ + x‖) ^ (-(N / 2)) := by

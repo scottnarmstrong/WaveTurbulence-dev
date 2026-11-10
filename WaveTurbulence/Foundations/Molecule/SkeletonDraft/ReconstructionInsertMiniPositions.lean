@@ -33,12 +33,4 @@ theorem ReconstructionData.insertMini_position {w : ℕ} {S : Garden w}
   inflatedPosition_transport_of_local_holes D (D.insertMini hS target.1 m) target.1 m
     (D.insertMini_local_hole hS target m) a
 
-theorem ReconstructionData.insertMini_corePosition {w : ℕ} {S : Garden w}
-    (D : ReconstructionData S) (hS : S.IsPlain) (target : GNode (D.forest hS))
-    (m : MiniTreeCode) (b : GBranch S.tree) :
-    (D.insertMini hS target.1 m).corePosition b = relocate target.1 m.c m.lone (D.corePosition b) := by
-  unfold ReconstructionData.corePosition
-  rw [D.insertMini_position hS target m b.toNode]
-  exact D.insertMini_local_hole hS target m b
-
 end WaveTurbulence.Reg.Skeleton

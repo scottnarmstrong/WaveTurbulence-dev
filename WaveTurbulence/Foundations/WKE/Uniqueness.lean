@@ -75,10 +75,6 @@ theorem exists_uniform_decayBound {φ : ℝ → 𝓢(Mom d, ℝ)} {T : ℝ} (hφ
 
 /-! ### Lipschitz bound for `𝒦` in the weighted sup norm -/
 
-theorem _root_.WaveTurbulence.DecayBound.of_schwartz (φ : 𝓢(Mom d, ℝ)) (N : ℝ) : ∃ C, DecayBound C N φ := by
-  obtain ⟨C, -, hC⟩ := exists_norm_le_of_schwartz φ N
-  exact ⟨C, fun y => by rw [← Real.norm_eq_abs]; exact hC y⟩
-
 /-- `(1 + |k|)^s |𝒦(a,a,a)(k) - 𝒦(b,b,b)(k)| ≤ 36 C(d) R² D`, `s = 2d + 1`. -/
 theorem abs_collisionOp_sub_le (hd : 2 ≤ d) (a b : 𝓢(Mom d, ℝ)) {R D : ℝ}
     (ha : DecayBound R (2 * d + 1) a) (hb : DecayBound R (2 * d + 1) b)

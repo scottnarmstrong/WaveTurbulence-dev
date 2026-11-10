@@ -54,17 +54,6 @@ noncomputable def KTstarLeaf (LG : LayeredGarden 1) (Fl : GLeaf LG.garden.tree �
     (k : Mom d) : ℂ :=
   kernelKLeaf L γ δ LG Fl (fun _ => t) s k (fun _ => 0) 0
 
-theorem kernelK_eq_kernelKLeaf {w : ℕ} (F : ℕ → Mom d → ℝ) (LG : LayeredGarden w)
-    (up : GBranch LG.garden.tree → ℝ) (s : ℝ) (k₀ : Mom d) (nroot : Fin w → (Fin d → ℤ)) (nfl : Fin d → ℤ) :
-    kernelK L γ δ F LG up s k₀ nroot nfl =
-      kernelKLeaf L γ δ LG (fun ℓ => F (LG.layer ℓ.toNode)) up s k₀ nroot nfl := rfl
-
-theorem KQstar_eq_KQstarLeaf (F : ℕ → Mom d → ℝ) (LG : LayeredGarden 2) (t s : ℝ) (k : Mom d) :
-    KQstar L γ δ F LG t s k = KQstarLeaf L γ δ LG (fun ℓ => F (LG.layer ℓ.toNode)) t s k := rfl
-
-theorem KTstar_eq_KTstarLeaf (F : ℕ → Mom d → ℝ) (LG : LayeredGarden 1) (t s : ℝ) (k : Mom d) :
-    KTstar L γ δ F LG t s k = KTstarLeaf L γ δ LG (fun ℓ => F (LG.layer ℓ.toNode)) t s k := rfl
-
 /-! ### Summability, continuity -/
 
 variable {L γ δ}
@@ -112,15 +101,6 @@ theorem summable_leafMajorant {w : ℕ} (LG : LayeredGarden w) (Fl : GLeaf LG.ga
   rw [← Finset.prod_coe_sort]
   rfl
 
-theorem summable_kernelKLeaf_summand {w : ℕ} (LG : LayeredGarden w) (Fl : GLeaf LG.garden.tree → Mom d → ℝ)
-    (up : GBranch LG.garden.tree → ℝ) (s : ℝ) (k₀ : Mom d) (nroot : Fin w → (Fin d → ℤ)) (nfl : Fin d → ℤ)
-    (hlone : ∀ j, (Finset.univ.filter fun ℓ : GLeaf LG.garden.tree =>
-      ℓ.1.1 = j ∧ LG.garden.IsLone ℓ).card ≤ 1)
-    (hF : ∀ ℓ ∈ inputLeaves LG.garden, Summable fun n : Fin d → ℤ => |Fl ℓ (k₀ + latticePoint L n)|) :
-    Summable (leafSummand (L := L) (γ := γ) (δ := δ) LG Fl up s k₀ (nroot := nroot) (nfl := nfl)) :=
-  Summable.of_norm_bounded (summable_leafMajorant LG Fl k₀ nroot nfl hlone hF)
-    (norm_leafSummand_le LG Fl up s k₀)
-
 /-- **Continuity of the leafwise kernel in all times** (no flower parents, at most one lone leaf per tree). -/
 theorem continuous_kernelKLeaf_time {w : ℕ} (LG : LayeredGarden w) (Fl : GLeaf LG.garden.tree → Mom d → ℝ)
     (k₀ : Mom d) (nroot : Fin w → (Fin d → ℤ)) (nfl : Fin d → ℤ)
@@ -154,86 +134,7 @@ theorem continuous_KTstarLeaf_time (LG : LayeredGarden 1) (hT : IsPairedTree LG.
     kernelKLeaf L γ δ LG Fl x.1 x.2 k (fun _ => 0) 0) ∘ u)
   exact hc.comp hu
 
-theorem continuous_KQstarLeaf_time (LG : LayeredGarden 2) (hplain : LG.garden.IsPlain)
-    (Fl : GLeaf LG.garden.tree → Mom d → ℝ) (k : Mom d)
-    (hF : ∀ ℓ ∈ inputLeaves LG.garden, Summable fun n : Fin d → ℤ => |Fl ℓ (k + latticePoint L n)|) :
-    Continuous (fun ts : Fin 2 → ℝ => KQstarLeaf L γ δ LG Fl (ts 0) (ts 1) k) := by
-  have hc := continuous_kernelKLeaf_time (L := L) (γ := γ) (δ := δ) LG Fl k (fun _ => 0) 0
-    (LGSpine.no_flowerParent_of_plain LG.garden hplain) (LGSpine.card_lone_le_one_of_plain LG.garden hplain) hF
-  let u : (Fin 2 → ℝ) → ((GBranch LG.garden.tree → ℝ) × ℝ) :=
-    fun ts => ((fun b => if b.1.1 = 0 then ts 0 else ts 1), 0)
-  have hu : Continuous u := by
-    apply Continuous.prodMk _ continuous_const
-    apply continuous_pi
-    intro b
-    by_cases h : b.1.1 = 0
-    · simpa only [h, ite_true] using (continuous_apply (0 : Fin 2))
-    · simpa only [h, ite_false] using (continuous_apply (1 : Fin 2))
-  change Continuous ((fun x : (GBranch LG.garden.tree → ℝ) × ℝ =>
-    kernelKLeaf L γ δ LG Fl x.1 x.2 k (fun _ => 0) 0) ∘ u)
-  exact hc.comp hu
-
 /-! ### Multilinearity in each input leaf -/
-
-theorem kernelKLeaf_eq_tsum {w : ℕ} (LG : LayeredGarden w) (Fl : GLeaf LG.garden.tree → Mom d → ℝ)
-    (up : GBranch LG.garden.tree → ℝ) (s : ℝ) (k₀ : Mom d) (nroot : Fin w → (Fin d → ℤ)) (nfl : Fin d → ℤ) :
-    kernelKLeaf L γ δ LG Fl up s k₀ nroot nfl = (coupling d L γ δ : ℂ) ^ LG.garden.order * LG.garden.zeta *
-      ∑' κ : GenDecoration LG.garden d nroot nfl, leafSummand (L := L) (γ := γ) (δ := δ) LG Fl up s k₀ κ := rfl
-
-theorem leafSummand_update {w : ℕ} (LG : LayeredGarden w) (Fl : GLeaf LG.garden.tree → Mom d → ℝ)
-    (up : GBranch LG.garden.tree → ℝ) (s : ℝ) (k₀ : Mom d) {nroot : Fin w → (Fin d → ℤ)} {nfl : Fin d → ℤ}
-    {ℓ₀ : GLeaf LG.garden.tree} (h₀ : ℓ₀ ∈ inputLeaves LG.garden) (G : Mom d → ℝ)
-    (κ : GenDecoration LG.garden d nroot nfl) :
-    leafSummand (L := L) (γ := γ) (δ := δ) LG (Function.update Fl ℓ₀ G) up s k₀ κ =
-      (G (cosetDecoration LG.garden L k₀ κ.1 ℓ₀.toNode) : ℂ) *
-        ((epsDec LG.garden κ.1 : ℂ) *
-          phaseIntegral L γ δ LG.garden (kDomain LG up s) s (cosetDecoration LG.garden L k₀ κ.1) *
-          ∏ ℓ ∈ (inputLeaves LG.garden).erase ℓ₀, (Fl ℓ (cosetDecoration LG.garden L k₀ κ.1 ℓ.toNode) : ℂ)) := by
-  classical
-  unfold leafSummand
-  rw [← Finset.mul_prod_erase _ _ h₀, Function.update_self]
-  have hrest : ∏ ℓ ∈ (inputLeaves LG.garden).erase ℓ₀,
-      (Function.update Fl ℓ₀ G ℓ (cosetDecoration LG.garden L k₀ κ.1 ℓ.toNode) : ℂ) =
-      ∏ ℓ ∈ (inputLeaves LG.garden).erase ℓ₀, (Fl ℓ (cosetDecoration LG.garden L k₀ κ.1 ℓ.toNode) : ℂ) :=
-    Finset.prod_congr rfl fun ℓ hℓ => by rw [Function.update_of_ne (Finset.ne_of_mem_erase hℓ)]
-  rw [hrest]
-  ring
-
-/-- **Homogeneity in one input leaf.** -/
-theorem kernelKLeaf_update_smul {w : ℕ} (LG : LayeredGarden w) (Fl : GLeaf LG.garden.tree → Mom d → ℝ)
-    (up : GBranch LG.garden.tree → ℝ) (s : ℝ) (k₀ : Mom d) (nroot : Fin w → (Fin d → ℤ)) (nfl : Fin d → ℤ)
-    {ℓ₀ : GLeaf LG.garden.tree} (h₀ : ℓ₀ ∈ inputLeaves LG.garden) (c : ℝ) (G : Mom d → ℝ) :
-    kernelKLeaf L γ δ LG (Function.update Fl ℓ₀ (c • G)) up s k₀ nroot nfl =
-      (c : ℂ) * kernelKLeaf L γ δ LG (Function.update Fl ℓ₀ G) up s k₀ nroot nfl := by
-  rw [kernelKLeaf_eq_tsum, kernelKLeaf_eq_tsum]
-  have : ∀ κ : GenDecoration LG.garden d nroot nfl,
-      leafSummand (L := L) (γ := γ) (δ := δ) LG (Function.update Fl ℓ₀ (c • G)) up s k₀ κ =
-        (c : ℂ) * leafSummand (L := L) (γ := γ) (δ := δ) LG (Function.update Fl ℓ₀ G) up s k₀ κ := by
-    intro κ
-    rw [leafSummand_update LG Fl up s k₀ h₀, leafSummand_update LG Fl up s k₀ h₀]
-    simp only [Pi.smul_apply, smul_eq_mul, Complex.ofReal_mul]
-    ring
-  simp only [this, tsum_mul_left]
-  ring
-
-/-- **Additivity in one input leaf** (under the leafwise summability of both terms). -/
-theorem kernelKLeaf_update_add {w : ℕ} (LG : LayeredGarden w) (Fl : GLeaf LG.garden.tree → Mom d → ℝ)
-    (up : GBranch LG.garden.tree → ℝ) (s : ℝ) (k₀ : Mom d) (nroot : Fin w → (Fin d → ℤ)) (nfl : Fin d → ℤ)
-    {ℓ₀ : GLeaf LG.garden.tree} (h₀ : ℓ₀ ∈ inputLeaves LG.garden) (G₁ G₂ : Mom d → ℝ)
-    (h₁ : Summable (leafSummand (L := L) (γ := γ) (δ := δ) LG (Function.update Fl ℓ₀ G₁) up s k₀
-      (nroot := nroot) (nfl := nfl)))
-    (h₂ : Summable (leafSummand (L := L) (γ := γ) (δ := δ) LG (Function.update Fl ℓ₀ G₂) up s k₀
-      (nroot := nroot) (nfl := nfl))) :
-    kernelKLeaf L γ δ LG (Function.update Fl ℓ₀ (G₁ + G₂)) up s k₀ nroot nfl =
-      kernelKLeaf L γ δ LG (Function.update Fl ℓ₀ G₁) up s k₀ nroot nfl +
-        kernelKLeaf L γ δ LG (Function.update Fl ℓ₀ G₂) up s k₀ nroot nfl := by
-  rw [kernelKLeaf_eq_tsum, kernelKLeaf_eq_tsum, kernelKLeaf_eq_tsum, ← mul_add, ← h₁.tsum_add h₂]
-  congr 1
-  refine tsum_congr fun κ => ?_
-  rw [leafSummand_update LG Fl up s k₀ h₀, leafSummand_update LG Fl up s k₀ h₀,
-    leafSummand_update LG Fl up s k₀ h₀]
-  simp only [Pi.add_apply, Complex.ofReal_add]
-  ring
 
 /-! ### Translation, relayering and `s`-independence, leafwise -/
 

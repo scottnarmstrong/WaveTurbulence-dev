@@ -155,9 +155,6 @@ theorem ntIntegral_eq_swap {N : ℕ} {D lam : ℝ} {Φ : Mom d → Mom d → ℂ
 theorem decayW_nonneg (N : ℕ) (r : ℝ) : 0 ≤ decayW N r := by
   unfold decayW; positivity
 
-theorem decayW_le_one (N : ℕ) (r : ℝ) : decayW N r ≤ 1 :=
-  inv_le_one_of_one_le₀ (one_le_pow₀ (by linarith [le_max_right r 0]))
-
 theorem decayW_anti (N : ℕ) {r r' : ℝ} (h : r ≤ r') : decayW N r' ≤ decayW N r := by
   unfold decayW
   gcongr

@@ -2,8 +2,8 @@
 module
 
 public import WaveTurbulence.Foundations.Spine.RA1LW.LeafFam
-public import WaveTurbulence.Foundations.Spine.RA1LW.Base
-public import WaveTurbulence.Foundations.Spine.RA1LW.SourceBlockProducts
+public import WaveTurbulence.Foundations.Spine.RA1LW.SourcePlacedFactors
+public import WaveTurbulence.Foundations.Spine.RA1LW.SourceAddressFreeze
 
 /-! # Scalar factors through two actual source child blocks -/
 

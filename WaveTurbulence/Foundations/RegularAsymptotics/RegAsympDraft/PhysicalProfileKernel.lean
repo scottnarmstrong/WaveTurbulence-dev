@@ -1,7 +1,7 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 
-public import WaveTurbulence.Foundations.RegularAsymptotics.RegAsympDraft.ActualProfileExpansion
+public import WaveTurbulence.Foundations.RegularAsymptotics.RegAsympDraft.SourceProfileExpansion
 public import WaveTurbulence.Foundations.RegularAsymptotics.RegAsympDraft.KernelReindex
 
 /-! # Exact physical-energy profile expansion of the source couple kernel -/
@@ -25,44 +25,5 @@ theorem alphaOmega_integerLinkEquiv_chosen {d : ℕ} {G : Garden 2} {Q : RegCpl}
     (cosetDecoration G L k ((integerLinkEquiv hQ hQ.1 d).symm θ).val) (chosenBranch hQ j) = _
   rw [chosen_energy_integerLinkEquiv hQ hQ.1 d θ L k j]
   ring
-
-/-- The literal source KQstar expands with the actual squared Wick factor,
-its original leaf inputs, and NT profiles at the physical parameter2delta.
-The finite special-set sum remains inside the lattice sum at this stage. -/
-theorem KQstar_physical_profile_expansion {η A : ℝ}
-    (hη : 0 < η) (hη2 : η ≤ 2) (hA : ClassJR.A1 ≤ A)
-    (Q : RegCpl) (hwf : Q.wf = true) :
-    ∃ C : (Z : (chosenSet Q.links).powerset) →
-        ({j : Fin Q.links.length // j ∉ markedLinkIndices Q Z.val} → ℝ) → ℝ × ℝ → ℂ,
-      (∀ Z, SRep (1-η/8) (η/4) (1-η/2) A
-        (C0 (1-η/8) (η/4) (1-η/2)^(2*Q.size+1)) (C Z)) ∧
-      ∀ (d : ℕ) (L γ δ : ℝ) (LG : LayeredGarden 2)
-        (_h0 : ∀ a, LG.layer a = 0) (hQ : Q.Decodes LG.garden),
-      ∀ (F : Mom d → ℝ) (t : ℝ), t ∈ Icc (0:ℝ) 1 →
-      ∀ s ∈ Icc (0:ℝ) 1, ∀ k : Mom d,
-      KQstar L γ δ (fun _ => F) LG t s k =
-        (coupling d L γ δ : ℂ)^LG.garden.order*LG.garden.zeta*
-        ∑' θ : Fin Q.links.length → (Fin d → ℤ) × (Fin d → ℤ),
-          let κ := ((integerLinkEquiv hQ hQ.1 d).symm θ).val
-          ((∏ j, epsXY (θ j).1 (θ j).2^2 : ℝ):ℂ) *
-            (∑ Z : (chosenSet Q.links).powerset,
-              (∏ z ∈ Z.val, ((Cancel.zetaA z : ℂ)*Real.pi*Complex.I)⁻¹)*
-                ∫ lam, ApproxNT.resProfile (markedLinkIndices Q Z.val)
-                  (fun Ω => C Z (WithLp.ofLp Ω) lam)
-                  (fun j => (2*δ*L^(2*γ))*inner ℝ (latticePoint L (θ j).1)
-                    (latticePoint L (θ j).2))*e2 lam t s) *
-            ∏ ℓ ∈ inputLeaves LG.garden, (F (cosetDecoration LG.garden L k κ ℓ.toNode):ℂ) := by
-  classical
-  obtain ⟨C,hC,hphase⟩ := actual_couple_profile_expansion hη hη2 hA Q hwf
-  refine ⟨C,hC,?_⟩
-  intro d L γ δ LG h0 hQ F t ht s hs k
-  rw [KQstar_integerLinkEquiv L γ δ F LG hQ hQ.1 t s k]
-  apply congrArg (fun v : ℂ => (coupling d L γ δ : ℂ)^LG.garden.order*LG.garden.zeta*v)
-  apply tsum_congr
-  intro θ
-  dsimp only
-  rw [hphase d L γ δ LG h0 hQ _
-    (isDecoration_coset ((integerLinkEquiv hQ hQ.1 d).symm θ).property.1 L k) t ht s hs 0 0]
-  simp_rw [alphaOmega_integerLinkEquiv_chosen]
 
 end WaveTurbulence.RegAsymp

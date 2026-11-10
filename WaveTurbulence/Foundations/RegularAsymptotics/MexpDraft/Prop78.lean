@@ -313,38 +313,4 @@ theorem classSum_eq_zero (n : ℕ) : ∀ S : Shape, S.zcount ≠ 0 → ∀ t, r 
 
 /-! ### DH21 Prop 7.8 for B2's codes -/
 
-/-- **DH21 Prop 7.8** (`nonemptyZ`, L1838, with the F61-corrected weight): for every class `S` of enhanced
-dominant couples with `|Z| ≠ 0` and `t ≥ r`,
-`∑_{(𝒬,Z) ∼ S} ∏_{𝔫∈Z} (−ζ_𝔫 π i)^{-1} 𝒥ℬ*_𝒬(t,t) = 0` (sum over the well-formed dominant couple codes of
-order `2n` and their special subsets). -/
-theorem prop78 {t : ℝ} (hrt : r ≤ t) (n : ℕ) (S : Shape) (hS : S.zcount ≠ 0) :
-    ∑ Q ∈ domCodes n, ∑ Z ∈ specialSets Q.links,
-      (if Shape.Equiv (cplShape Z Q rt₀ rt₁) S then specialWeight ![1, -1] Z * (Q.JB r t t : ℂ)
-        else 0) = 0 := by
-  refine Eq.trans ?_ (classSum_eq_zero r n S hS t hrt)
-  rw [classSum, ← sum_domCodes_specialSets]
-  refine Finset.sum_congr rfl fun Q hQ => Finset.sum_congr rfl fun Z hZ => ?_
-  have hd := (mem_domCodes.1 hQ).2.1
-  rw [shape_enh, specialWeight_eq_sw hd hZ, ECpl.JB, code_enh Z Q hd]
-
-/-- **DH21 Prop 7.8 with the momentum factor**: the leading terms
-`∏_{𝔫∈Z} (−ζ_𝔫 π i)^{-1} 𝒥ℬ*_𝒬(t,t) ℳ*_{(𝒬,Z)}(k)` sum to zero over a class with `|Z| ≠ 0` (`ℳ*` is
-constant on the class, Prop 7.7). -/
-theorem prop78_mstar {d : ℕ} (F : Mom d → ℝ) {t : ℝ} (hrt : r ≤ t) (n : ℕ) (S : Shape)
-    (hS : S.zcount ≠ 0) (k : Mom d) :
-    ∑ Q ∈ domCodes n, ∑ Z ∈ specialSets Q.links,
-      (if Shape.Equiv (cplShape Z Q rt₀ rt₁) S then
-        specialWeight ![1, -1] Z * (Q.JB r t t : ℂ) * (Q.Mstar F Z rt₀ rt₁ k : ℂ) else 0) = 0 := by
-  have h := prop78 r hrt n S hS
-  calc _ = ∑ Q ∈ domCodes n, ∑ Z ∈ specialSets Q.links,
-        (if Shape.Equiv (cplShape Z Q rt₀ rt₁) S then
-          specialWeight ![1, -1] Z * (Q.JB r t t : ℂ) else 0) * (Mshape F S k : ℂ) := by
-        refine Finset.sum_congr rfl fun Q hQ => Finset.sum_congr rfl fun Z _ => ?_
-        have hd := (mem_domCodes.1 hQ).2.1
-        split_ifs with hc
-        · rw [mstar_eq_mshape F Z Q hd, mshape_congr F hc]
-        · simp
-    _ = 0 := by
-        simp only [← Finset.sum_mul, h, zero_mul]
-
 end WaveTurbulence.Mexp

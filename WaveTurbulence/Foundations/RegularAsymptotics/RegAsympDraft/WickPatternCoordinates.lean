@@ -114,13 +114,6 @@ theorem tsum_wickPatternTerm_mul {d n : ℕ} (σ : Fin n → Fin 4)
   · simp [P,h]
   · simp [P,h]
 
-/-- Exactly one NT pair is removed for each traced energy. -/
-theorem card_wickPattern_survivors {n : ℕ} (σ : Fin n → Fin 4) :
-    Fintype.card {j : Fin n // σ j = 0} = n - (wickTracedLinks σ).card := by
-  classical
-  simpa only [not_not,Fintype.card_fin,Fintype.card_subtype,wickTracedLinks] using
-    Fintype.card_subtype_compl (fun j : Fin n => σ j ≠ 0)
-
 /-- Each traced link introduces at most one free lattice vector. -/
 theorem card_wickPattern_single_le {n : ℕ} (σ : Fin n → Fin 4) :
     Fintype.card {j : Fin n // σ j = 1 ∨ σ j = 2} ≤ (wickTracedLinks σ).card := by

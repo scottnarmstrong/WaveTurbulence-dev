@@ -56,13 +56,4 @@ theorem lintegral_gevrey_envelope_le {Λ : Type*} [MeasurableSpace Λ] {μ : Mea
       congr 1
       ring
 
-/-- The common derivative envelope is finite in integral, hence finite ae. -/
-theorem lintegral_gevrey_envelope_lt_top {Λ : Type*} [MeasurableSpace Λ] {μ : Measure Λ}
-    (G : ℕ → Λ → ℝ≥0∞) (hGm : ∀ k, Measurable (G k)) {N A : ℝ}
-    (hN : 0 ≤ N) (hA : 0 ≤ A)
-    (hG : ∀ k, ∫⁻ ω, G k ω ∂μ ≤ ENNReal.ofReal (N * A ^ k * (2*k).factorial)) :
-    ∫⁻ ω, (∑' k : ℕ, ENNReal.ofReal (1 / ((4*k).factorial : ℝ)) * G k ω) ∂μ < ⊤ := by
-  exact (lintegral_gevrey_envelope_le G hGm hN hG).trans_lt
-    (ENNReal.mul_lt_top ENNReal.ofReal_lt_top (summable_gevrey_ratio A hA).tsum_ofReal_lt_top)
-
 end WaveTurbulence.RegAsymp

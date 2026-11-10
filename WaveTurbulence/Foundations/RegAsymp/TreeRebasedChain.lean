@@ -15,46 +15,6 @@ namespace WaveTurbulence.RegAsymp
 open MeasureTheory Set Filter Cancel ClassJR
 open scoped Topology
 
-/-- Rebasing pair times preserves their actual regularized-limit invariant. -/
-theorem tree_shiftedKernelFamily {R : ℕ → ℝ → ℝ → ℝ → ℂ} {R₀ : ℕ → ℝ → ℝ → ℂ}
-    (hR : KFam R R₀) (s : ℝ) :
-    KFam (fun j ε u v => R j ε (clamp01 (u+s)) (clamp01 (v+s)))
-      (fun j u v => R₀ j (clamp01 (u+s)) (clamp01 (v+s))) := by
-  obtain ⟨M,hM⟩ := hR.bound
-  obtain ⟨L,hL⟩ := hR.lip
-  refine ⟨⟨M,?_⟩,⟨max L 0,?_⟩,?_⟩
-  · filter_upwards [hM] with ε hε
-    exact fun j u v => hε j _ _
-  · filter_upwards [hL] with ε hε
-    intro j u v u' v'
-    have hu : |clamp01 (u+s)-clamp01 (u'+s)| ≤ |u-u'| := by
-      simpa only [add_sub_add_right_eq_sub] using abs_clamp01_sub_le (u+s) (u'+s)
-    have hv : |clamp01 (v+s)-clamp01 (v'+s)| ≤ |v-v'| := by
-      simpa only [add_sub_add_right_eq_sub] using abs_clamp01_sub_le (v+s) (v'+s)
-    calc
-      _ ≤ L*(|clamp01 (u+s)-clamp01 (u'+s)|+|clamp01 (v+s)-clamp01 (v'+s)|) := hε j _ _ _ _
-      _ ≤ max L 0*(|clamp01 (u+s)-clamp01 (u'+s)|+|clamp01 (v+s)-clamp01 (v'+s)|) :=
-        mul_le_mul_of_nonneg_right (le_max_left _ _) (add_nonneg (abs_nonneg _) (abs_nonneg _))
-      _ ≤ max L 0*(|u-u'|+|v-v'|) :=
-        mul_le_mul_of_nonneg_left (add_le_add hu hv) (le_max_right _ _)
-  · intro j u _ v _
-    exact hR.lim j _ (clamp01_mem _) _ (clamp01_mem _)
-
-/-- The exact shifted chain has the landed adjacent-pair limit for every forward source
-endpoint. This includes empty chains and non-adjacent pair codes. -/
-theorem tree_rebased_chain_limit {R : ℕ → ℝ → ℝ → ℝ → ℂ} {R₀ : ℕ → ℝ → ℝ → ℂ}
-    (hR : KFam R R₀) (bb : ℕ → Bool) (c : LegalCode) (q : ℕ) {t s : ℝ}
-    (hs : 0 ≤ s) (hst : s < t) (ht : t ≤ 1) :
-    Tendsto (fun ε => chainK
-      (kP bb (fun j ε u v => R j ε (clamp01 (u+s)) (clamp01 (v+s))) ε)
-      c q (t-s) (fun _ => 1)) (𝓝[>] (0:ℝ))
-      (𝓝 (chainL (kD bb (fun j u v => R₀ j (clamp01 (u+s)) (clamp01 (v+s)))) c q (t-s) (fun _ => 1))) := by
-  exact tendsto_chainK (tree_shiftedKernelFamily hR s) c q
-    (Eventually.of_forall (fun _ => continuous_const))
-    (G := 1) (Eventually.of_forall (fun _ _ _ => by simp)) (t-s)
-    ⟨sub_nonneg.mpr hst.le,by linarith⟩
-    (fun _ _ => tendsto_const_nhds) (fun _ => tendsto_const_nhds)
-
 /-- The landed two-chain regularization theorem also gives the single chain with
 constant continuation. No second root clock is introduced in this result. -/
 theorem tree_chain_const_regularized {V : Type} [DecidableEq V]

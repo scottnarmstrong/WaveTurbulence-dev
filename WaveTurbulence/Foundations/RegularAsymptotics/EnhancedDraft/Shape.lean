@@ -65,16 +65,6 @@ def append : Tuples → Tuples → Tuples
   | nil, L' => L'
   | cons I c X₁ X₂ rest, L' => cons I c X₁ X₂ (rest.append L')
 
-theorem length_append : (L L' : Tuples) → (L.append L').length = L.length + L'.length
-  | nil, L' => by simp [append, length]
-  | cons I c X₁ X₂ rest, L' => by simp [append, length, length_append rest L']; omega
-
-theorem get_cons_zero (I : Bool) (c : Fin 3) (X₁ X₂ : Shape) (rest : Tuples) (h) :
-    (cons I c X₁ X₂ rest).get ⟨0, h⟩ = (I, c, X₁, X₂) := rfl
-
-theorem get_cons_succ (I : Bool) (c : Fin 3) (X₁ X₂ : Shape) (rest : Tuples) (k : ℕ) (h) :
-    (cons I c X₁ X₂ rest).get ⟨k + 1, h⟩ = rest.get ⟨k, Nat.lt_of_succ_lt_succ h⟩ := rfl
-
 /-- Sums over the tuples, by position. -/
 theorem sum_cons {M : Type*} [AddCommMonoid M] (I : Bool) (c : Fin 3) (X₁ X₂ : Shape)
     (rest : Tuples) (f : Bool × Fin 3 × Shape × Shape → M) :
@@ -174,13 +164,6 @@ def Tuples.zcount : Tuples → ℕ
   | .cons I _ X₁ X₂ rest => (if I then 1 else 0) + X₁.zcount + X₂.zcount + rest.zcount
 end
 
-theorem Tuples.size_eq_sum : (L : Tuples) →
-    L.size = ∑ i, ((L.get i).2.2.1.size + (L.get i).2.2.2.size + 2)
-  | .nil => by show (0 : ℕ) = ∑ i : Fin 0, _; simp
-  | .cons I c X₁ X₂ rest => by
-    rw [Tuples.sum_cons (f := fun t => t.2.2.1.size + t.2.2.2.size + 2), ← Tuples.size_eq_sum rest]
-    simp [Tuples.size]
-
 theorem Tuples.zcount_eq_sum : (L : Tuples) →
     L.zcount = ∑ i, ((if (L.get i).1 then 1 else 0) + (L.get i).2.2.1.zcount +
       (L.get i).2.2.2.zcount)
@@ -189,17 +172,6 @@ theorem Tuples.zcount_eq_sum : (L : Tuples) →
     rw [Tuples.sum_cons (f := fun t => (if t.1 then 1 else 0) + t.2.2.1.zcount + t.2.2.2.zcount),
       ← Tuples.zcount_eq_sum rest]
     simp [Tuples.zcount]
-
-/-- **Equivalent objects have the same order** (DH21 L873: `n(𝒬) = n(𝒬')`). -/
-theorem Shape.Equiv.size_eq {s t : Shape} (h : Shape.Equiv s t) : s.size = t.size := by
-  induction h with
-  | triv => rfl
-  | type1 _ _ _ ih₁ ih₂ ih₃ => simp [Shape.size, ih₁, ih₂, ih₃]
-  | @type2 L L' Y Y' e _ _ _ _ _ ih₁ ih₂ ihY =>
-    simp only [Shape.size, Tuples.size_eq_sum, ihY]
-    congr 1
-    rw [← Equiv.sum_comp e (fun j => (L'.get j).2.2.1.size + (L'.get j).2.2.2.size + 2)]
-    exact Finset.sum_congr rfl fun i _ => by rw [ih₁ i, ih₂ i]
 
 /-- **Equivalent enhanced objects have the same number of special nodes** (DH21 L873:
 `|Z| = |Z'|`). -/
@@ -213,15 +185,5 @@ theorem Shape.Equiv.zcount_eq {s t : Shape} (h : Shape.Equiv s t) : s.zcount = t
     rw [← Equiv.sum_comp e (fun j => (if (L'.get j).1 then 1 else 0) + (L'.get j).2.2.1.zcount +
       (L'.get j).2.2.2.zcount)]
     exact Finset.sum_congr rfl fun i _ => by rw [hI i, ih₁ i, ih₂ i]
-
-/-- The type of a shape: `0` trivial, `1`, `2`. -/
-def Shape.type : Shape → ℕ
-  | .triv => 0
-  | .type1 .. => 1
-  | .type2 .. => 2
-
-/-- **Equivalent objects have the same type.** -/
-theorem Shape.Equiv.type_eq {s t : Shape} (h : Shape.Equiv s t) : s.type = t.type := by
-  cases h <;> rfl
 
 end WaveTurbulence.Links

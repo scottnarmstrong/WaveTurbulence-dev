@@ -2,7 +2,6 @@
 module
 
 public import WaveTurbulence.Foundations.Spine.RA1LW.LeafScalarFubini
-public import WaveTurbulence.Foundations.Spine.RA1LW.MaskedLeafSpatialRemainder
 
 /-! # Literal source-density support, scalar operations and temporal inversion -/
 
@@ -49,18 +48,6 @@ theorem maskedLeafScalarDensity_add (lam : ℝ × ℝ)
   classical
   simp only [maskedLeafScalarDensity_eq_if]
   split_ifs <;> ring
-
-/-- The arbitrary-scalar transport density is exactly the original NT
-remainder density used in the full spatial estimate. -/
-theorem maskedLeafScalarDensity_localRemainder_eq (L δ γ : ℝ) (J : Finset (Fin Q.links.length))
-    (C : ({j : Fin Q.links.length // j ∉ J} → ℝ) → ℝ × ℝ → ℂ) (lam : ℝ × ℝ)
-    (p : LeafSpatialSample d Q.links.length (2*Q.links.length+1)) (k : Mom d) :
-    maskedLeafScalarDensity hQ hG (fun lam β γ' z => localRemainder L δ γ J C β γ' lam z)
-      F S (lam,p) k = maskedLeafSpatialRemainderDensity hQ hG L δ γ J C F S lam p k := by
-  classical
-  rw [maskedLeafScalarDensity_eq_if]
-  unfold maskedLeafSpatialRemainderDensity maskedLeafLocalDensity leafLocalDensity
-  split_ifs <;> rfl
 
 /-- Temporal inversion retains the same actual support and amplitude;
 the original scalar source alone is inverted in time. -/

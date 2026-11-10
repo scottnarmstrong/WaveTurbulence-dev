@@ -74,13 +74,6 @@ noncomputable def collapsePairedTreeGarden {w : ℕ} {G : Garden w} {a b : GNode
   Comb.gardenOnLeafEmbedding G.sig (pairedTreeLeafEmbedding h)
     (pairedTreeLeafEmbedding_closed h) (pairedTreeLeafEmbedding_sign h)
 
-theorem collapsePairedTreeGarden_sig {w : ℕ} {G : Garden w} {a b : GNode G.tree}
-    (h : Comb.IsSubPairedTree G a b) : (collapsePairedTreeGarden h).sig = G.sig := rfl
-
-theorem collapsePairedTreeGarden_tree {w : ℕ} {G : Garden w} {a b : GNode G.tree}
-    (h : Comb.IsSubPairedTree G a b) :
-    (collapsePairedTreeGarden h).tree = Comb.replaceNodeForest G.tree a (Comb.nodeSubtree b) := rfl
-
 /-- Exact source partner transport in the collapsed garden. -/
 theorem collapsePairedTreeGarden_pair {w : ℕ} {G : Garden w} {a b : GNode G.tree}
     (h : Comb.IsSubPairedTree G a b) (x : GLeaf (collapsePairedTreeGarden h).tree) :
@@ -91,14 +84,5 @@ theorem collapsePairedTreeGarden_pair {w : ℕ} {G : Garden w} {a b : GNode G.tr
 theorem collapsePairedTreeGarden_plain {w : ℕ} {G : Garden w} {a b : GNode G.tree}
     (h : Comb.IsSubPairedTree G a b) (hG : G.IsPlain) : (collapsePairedTreeGarden h).IsPlain :=
   Comb.gardenOnLeafEmbedding_plain G.sig _ (pairedTreeLeafEmbedding_closed h) (pairedTreeLeafEmbedding_sign h) hG
-
-/-- The collapse removes exactly the source embedded paired-tree order. -/
-theorem collapsePairedTreeGarden_order {w : ℕ} {G : Garden w} {a b : GNode G.tree}
-    (h : Comb.IsSubPairedTree G a b) :
-    (collapsePairedTreeGarden h).order + (Comb.embeddedPairedTree h).order = G.order := by
-  have ho := Comb.replaceNodeForest_order G.tree a (Comb.nodeSubtree b)
-  have ht := Comb.embeddedPairedTree_order h
-  change (collapsePairedTreeGarden h).order + (Comb.nodeSubtree a).order = G.order + (Comb.nodeSubtree b).order at ho
-  omega
 
 end WaveTurbulence.Reg.Skeleton

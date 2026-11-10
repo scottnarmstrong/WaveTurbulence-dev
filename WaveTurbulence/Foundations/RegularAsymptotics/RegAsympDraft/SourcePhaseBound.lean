@@ -1,7 +1,8 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 
-public import WaveTurbulence.Foundations.RegularAsymptotics.RegAsympDraft.PhysicalClassifiedProfile
+public import WaveTurbulence.Foundations.RegularAsymptotics.RegAsympDraft.PhysicalProfileKernel
+public import WaveTurbulence.Foundations.RegularAsymptotics.RegAsympDraft.CoupleProfilesClassified
 import Mathlib.MeasureTheory.Integral.Bochner.Set
 
 /-! # Uniform elementary bounds on the original source phase integrals -/

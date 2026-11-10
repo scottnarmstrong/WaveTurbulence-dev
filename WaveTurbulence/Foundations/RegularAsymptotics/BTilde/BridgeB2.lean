@@ -59,9 +59,6 @@ theorem chosenSet_toJR (Q : RegCpl) : ClassJR.chosenSet (toJR Q).links = chosenS
 
 theorem zetaA_eq_nodeSgn : Cancel.zetaA = ClassJR.nodeSgn := funext zetaA_eq
 
-theorem BtJR_root (Q : RegCpl) :
-    BtJR Q ((0 : Fin 2), []) ((1 : Fin 2), []) = (toJR Q).Btilde := rfl
-
 /-- **DH21 Proposition 5.1 for `BtJR`**, in the form of the hypotheses of wt-torus's
 `Cancel.maincancel` and `Cancel.regcplcal`. -/
 theorem maincoef_BtJR {θ a b A : ℝ} (hθ0 : 0 ≤ θ) (hθ1 : θ < 1) (ha : 0 < a) (hb : 0 ≤ b)
@@ -81,12 +78,6 @@ theorem maincoef_BtJR_DH23 {η A : ℝ} (hη : 0 < η) (hη2 : η ≤ 2) (hA : C
   maincoef_BtJR (by linarith) (by linarith) (by linarith) (by linarith) (by linarith)
     (by linarith) hA Q hQ
 
-/-- **The garden-defined `B̃_Q` is `BtJR Q root root`** (B2's links). -/
-theorem cplB_eq_BtJR {G : Garden 2} {Q : RegCpl} (hQ : Q.Decodes G) {α : ClassJR.Addr → ℝ}
-    (hα : ∀ l ∈ Q.links, LinkRel α l) {t s : ℝ} (ht : 0 ≤ t) (hs : 0 ≤ s) :
-    cplB G t s α = BtJR Q ((0 : Fin 2), []) ((1 : Fin 2), []) α t s :=
-  cplB_eq_Btilde hQ (by rw [links_toJR]; exact hα) ht hs
-
 /-- **Wave B's phase integral of a decoded couple is `BtJR Q root root`** (B2's links). -/
 theorem phaseIntegral_kDomain_eq_BtJR {d : ℕ} (L γ δ : ℝ) (LG : LayeredGarden 2)
     (h0 : ∀ a, LG.layer a = 0) {Q : RegCpl} (hQ : Q.Decodes LG.garden)
@@ -97,37 +88,12 @@ theorem phaseIntegral_kDomain_eq_BtJR {d : ℕ} (L γ δ : ℝ) (LG : LayeredGar
       BtJR Q ((0 : Fin 2), []) ((1 : Fin 2), []) (alphaOmega L γ δ LG.garden k) t s :=
   phaseIntegral_kDomain_eq_Btilde L γ δ LG h0 hQ k (by rw [links_toJR]; exact hα) ht hs s₁ s₂
 
-/-- **DH21 Proposition 5.1 for regular couples through gardens**, with B2's links. `hstruct` is the
-named obligation `existsUnique_regCpl_decodes` (REG-STRUCT, statement verbatim). -/
-theorem maincoef_garden_B2
-    (hstruct : ∀ G : Garden 2, IsRegularCouple G → ∃! Q : RegCpl, Q.wf = true ∧ Q.Decodes G)
-    {θ a b A : ℝ} (hθ0 : 0 ≤ θ) (hθ1 : θ < 1) (ha : 0 < a) (hb : 0 ≤ b) (hab1 : a + b < 1)
-    (hab : a + b ≤ θ) (hA : ClassJR.A1 ≤ A) (G : Garden 2) (hG : IsRegularCouple G) :
-    ∃! Q : RegCpl, (Q.wf = true ∧ Q.Decodes G) ∧
-      (∀ α : ClassJR.Addr → ℝ, (∀ l ∈ Q.links, LinkRel α l) → ∀ t s : ℝ, 0 ≤ t → 0 ≤ s →
-        cplB G t s α = BtJR Q ((0 : Fin 2), []) ((1 : Fin 2), []) α t s) ∧
-      ClassJR.MCExp θ a b A (ClassJR.C0 θ a b ^ (2 * Q.size + 1)) Cancel.zetaA (chosenSet Q.links)
-        (BtJR Q ((0 : Fin 2), []) ((1 : Fin 2), [])) := by
-  obtain ⟨Q, hQ, huniq⟩ := hstruct G hG
-  exact ⟨Q, ⟨hQ, fun α hα t s ht hs => cplB_eq_BtJR hQ.2 hα ht hs,
-    maincoef_BtJR hθ0 hθ1 ha hb hab1 hab hA Q hQ.1⟩, fun Q' hQ' => huniq Q' hQ'.1⟩
-
 /-! ### The link relation with the garden's signs -/
 
 /-- **The link relation** `ζ_{𝔫'}α_{𝔫'} = -ζ_𝔫α_𝔫` with the signs of the garden `G`. -/
 def LinkRelG {w : ℕ} (G : Garden w) (α : Fin w × TTree.Path → ℝ)
     (l : (Fin w × TTree.Path) × (Fin w × TTree.Path)) : Prop :=
   (((nodeSign G.sig l.2 : ℤˣ) : ℤ) : ℝ) * α l.2 = -((((nodeSign G.sig l.1 : ℤˣ) : ℤ) : ℝ) * α l.1)
-
-theorem linkRelG_iff_couple {G : Garden 2} (hG : G.sig = ![1, -1]) (α : ClassJR.Addr → ℝ)
-    (l : ClassJR.Addr × ClassJR.Addr) : LinkRelG G α l ↔ LinkRel α l := by
-  simp only [LinkRelG, LinkRel, hG, nodeSign_couple_eq]
-
-/-- **The garden-defined `B̃_Q` is `BtJR Q root root`**, with the garden's signs on B2's links. -/
-theorem cplB_eq_BtJR_G {G : Garden 2} {Q : RegCpl} (hQ : Q.Decodes G) {α : ClassJR.Addr → ℝ}
-    (hα : ∀ l ∈ Q.links, LinkRelG G α l) {t s : ℝ} (ht : 0 ≤ t) (hs : 0 ≤ s) :
-    cplB G t s α = BtJR Q ((0 : Fin 2), []) ((1 : Fin 2), []) α t s :=
-  cplB_eq_BtJR hQ (fun l hl => (linkRelG_iff_couple hQ.1.2 α l).1 (hα l hl)) ht hs
 
 mutual
 /-- Links do not depend on the tree indices of the roots. -/
@@ -175,16 +141,5 @@ theorem linkRelG_iff_tree (G : Garden 1) (α : Fin 1 × TTree.Path → ℝ)
   obtain rfl := fin_one_eq_zero' j₁
   obtain rfl := fin_one_eq_zero' j₂
   simp only [LinkRelG, LinkRel, e, liftT]
-
-/-- **The garden-defined `𝒜*_𝒯` is the code-defined `Ã_𝒯`**, with the garden's signs on B2's tree
-links. -/
-theorem treeAstar_eq_Atilde_G {G : Garden 1} {X : RegChain} (hX : X.DecodesTree G)
-    {α : Fin 1 × TTree.Path → ℝ} (hα : ∀ l ∈ X.treeLinks (G.sig 0), LinkRelG G α l)
-    {t s : ℝ} (ht : 0 ≤ t) (hst : s < t) :
-    treeAstar G t s α = chainAtilde X (G.sig 0) (liftT α) t s := by
-  refine treeAstar_eq_Atilde hX (fun l hl => ?_) ht hst
-  rw [linksAt_rootT, List.mem_map] at hl
-  obtain ⟨l', hl', rfl⟩ := hl
-  exact (linkRelG_iff_tree G α l').1 (hα l' hl')
 
 end WaveTurbulence.MainCoef

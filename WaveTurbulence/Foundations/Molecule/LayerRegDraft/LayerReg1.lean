@@ -191,19 +191,6 @@ theorem layerreg1_type2 {Xp Xm : RegChain} {Qlp : RegCpl} {a b : Fin w × Path}
     have ub := (chain_endpoints_region Xm (-1) b z hz).1
     exact (layerAt_le_of_under LG hE.nodeB nz ub).trans (layerAt_le_parAt LG p hcan.1 hE.nodeB)
 
-/-- **TARGET's normalized form (`q ≥ q'`)**: the `-` side of a type-2 couple (its chain and its
-couples, and `𝒬_lp`) is entirely in layer `q'`. -/
-theorem layerreg1_type2_minus {Xp Xm : RegChain} {Qlp : RegCpl} {a b : Fin w × Path}
-    (hwf : (RegCpl.type2 Xp Xm Qlp).wf = true) (hE : Embeds LG.garden (.type2 Xp Xm Qlp) a b)
-    (hcoh : CohOn LG ((RegCpl.type2 Xp Xm Qlp).linksAt a b))
-    (hqq : parAt LG p b ≤ parAt LG p a) :
-    (∀ z ∈ chainNodesSet Xm (-1) b, layerAt LG z = parAt LG p b) ∧
-    (∀ z ∈ cplNodes Qlp (addrExt a Xp.lonePath) (addrExt b Xm.lonePath),
-      layerAt LG z = parAt LG p b) := by
-  obtain ⟨hL, -, -, -, hM⟩ := layerreg1_type2 hcan hplain hwf hE hcoh
-  rw [min_eq_right hqq] at hL hM
-  exact ⟨fun z hz => le_antisymm (hM z hz).2 (hM z hz).1, hL⟩
-
 /-- **TARGET `layerreg1` (1), regular trees**: an embedded coherent regular tree (code `X`, root at
 `a`, lone position `addrExt a X.lonePath`): each pair and its couples are in one layer, and all nodes
 are between the lone leaf's layer `q'` and the parent layer `q`, non-increasing along the chain. -/

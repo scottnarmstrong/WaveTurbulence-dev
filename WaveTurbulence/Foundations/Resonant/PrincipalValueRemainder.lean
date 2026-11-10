@@ -5,7 +5,7 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.Resonant.PrincipalValueBounds
+public import WaveTurbulence.Foundations.Resonant.PrincipalValueOneDim
 
 /-!
 # The integrable remainder in a principal-value Fourier integral

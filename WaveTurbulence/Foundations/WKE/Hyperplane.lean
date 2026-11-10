@@ -100,16 +100,6 @@ theorem integral_eq_integral_slice {ℓ : Mom d} (hℓ : ℓ ≠ 0) {g : Mom d �
   simp only [sliceEquiv_apply]
   exact h
 
-/-- Integrability of slices of an integrable function, for almost every `t`. -/
-theorem integrable_slice_ae {ℓ : Mom d} (hℓ : ℓ ≠ 0) {g : Mom d → ℝ} (hg : Integrable g) :
-    ∀ᵐ t : ℝ, Integrable (fun w : ↥(ℝ ∙ ℓ)ᗮ => g (t • unitVec ℓ + w)) := by
-  have hmp := measurePreserving_sliceEquiv hℓ
-  have hint : Integrable (g ∘ sliceEquiv hℓ) (volume : Measure (ℝ × ↥(ℝ ∙ ℓ)ᗮ)) :=
-    hmp.integrable_comp_emb (sliceEquiv hℓ).measurableEmbedding |>.mpr hg
-  rw [show (volume : Measure (ℝ × ↥(ℝ ∙ ℓ)ᗮ)) = volume.prod volume from rfl] at hint
-  filter_upwards [hint.prod_right_ae] with t ht
-  simpa [sliceEquiv_apply, Function.comp_def] using ht
-
 /-! ### Orthogonal decomposition of a point relative to `ℓ` -/
 
 /-- The component of `c` in the hyperplane `ℓ^⊥`. -/

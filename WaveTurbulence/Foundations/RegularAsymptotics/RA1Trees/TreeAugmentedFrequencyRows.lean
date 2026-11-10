@@ -36,21 +36,4 @@ theorem norm_tree_augmented_profileRow_le {G : Garden 1} {X : RegChain}
     change ‖momentumUnitRow (some p) j‖ ≤ _
     exact (norm_tree_unitRow_le _ _).trans (le_add_of_nonneg_right (Nat.cast_nonneg _))
 
-/-- The actual localized Fourier shifts have only a linear loss in tree order. -/
-theorem norm_tree_augmented_spectralShift_le {d : ℕ} {G : Garden 1} {X : RegChain}
-    (hX : X.DecodesTree G)
-    (ξ : LocalizedCellIndex (X.treeLinks (G.sig 0)).length (Fintype.card (TPlus G)+1) → Fin d → ℝ)
-    (j : MomentumCoordinate (X.treeLinks (G.sig 0)).length) :
-    ‖(treeCarrier hX).withRootInput.spectralShift ξ j‖ ≤
-      (1+(X.size:ℝ)) * ∑ i, ‖toLp 2 (ξ i)‖ := by
-  unfold MomentumTreeData.spectralShift
-  calc
-    _ ≤ ∑ i, ‖(treeCarrier hX).withRootInput.profileRow i j • toLp 2 (ξ i)‖ := norm_sum_le _ _
-    _ ≤ ∑ i, (1+(X.size:ℝ))*‖toLp 2 (ξ i)‖ := by
-      apply Finset.sum_le_sum
-      intro i _
-      rw [← Int.cast_smul_eq_zsmul ℝ, norm_smul, Int.norm_cast_real]
-      exact mul_le_mul_of_nonneg_right (norm_tree_augmented_profileRow_le hX i j) (norm_nonneg _)
-    _ = _ := (Finset.mul_sum _ _ _).symm
-
 end WaveTurbulence.RegAsymp

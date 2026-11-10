@@ -2,7 +2,6 @@
 module
 
 public import WaveTurbulence.Foundations.Spine.RA1LW.TreeFam
-public import WaveTurbulence.Foundations.Spine.RA1LW.Base
 public import WaveTurbulence.Foundations.Spine.RA1LW.TreeKernelProfileMixtures
 public import WaveTurbulence.Foundations.Spine.RA1LW.TreeLeadingApp
 public import WaveTurbulence.Foundations.Spine.RA1LW.TreePhysicalMixtureSplit

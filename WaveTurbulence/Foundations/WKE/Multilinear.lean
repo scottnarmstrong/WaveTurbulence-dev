@@ -112,25 +112,6 @@ theorem collisionKernel_sub (j : Fin 4) (k ℓ x : Mom d) :
         + collisionKernel j b₁ b₂ (fun y => a₃ y - b₃ y) k ℓ x := by
   fin_cases j <;> simp only [collisionKernel] <;> ring
 
-/-- **Telescoping identity** for `𝒦ⱼ` on decaying continuous inputs. -/
-theorem collisionTerm_sub_sub_sub (hd : 2 ≤ d) {C N : ℝ}
-    (ha : CollisionInputs a₁ a₂ a₃ C N) (hb : CollisionInputs b₁ b₂ b₃ C N)
-    (h₁ : CollisionInputs (fun y => a₁ y - b₁ y) a₂ a₃ C N)
-    (h₂ : CollisionInputs b₁ (fun y => a₂ y - b₂ y) a₃ C N)
-    (h₃ : CollisionInputs b₁ b₂ (fun y => a₃ y - b₃ y) C N) (j : Fin 4) (k : Mom d) :
-    collisionTerm j a₁ a₂ a₃ k - collisionTerm j b₁ b₂ b₃ k =
-      collisionTerm j (fun y => a₁ y - b₁ y) a₂ a₃ k
-        + collisionTerm j b₁ (fun y => a₂ y - b₂ y) a₃ k
-        + collisionTerm j b₁ b₂ (fun y => a₃ y - b₃ y) k := by
-  have hd0 : 0 < d := by omega
-  have i₁ := h₁.deltaIntegrable hd j k
-  have i₂ := h₂.deltaIntegrable hd j k
-  have i₃ := h₃.deltaIntegrable hd j k
-  simp only [collisionTerm]
-  rw [← (ha.deltaIntegrable hd j k).deltaInt_sub (hb.deltaIntegrable hd j k) hd0,
-    ← i₁.deltaInt_add i₂ hd0, ← (i₁.add i₂ hd0).deltaInt_add i₃ hd0]
-  exact deltaInt_congr fun ℓ x => collisionKernel_sub j k ℓ x
-
 end Telescoping
 
 /-! ### Translation invariance -/

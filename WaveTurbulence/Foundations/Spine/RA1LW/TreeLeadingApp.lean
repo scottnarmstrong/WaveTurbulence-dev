@@ -2,7 +2,6 @@
 module
 
 public import WaveTurbulence.Foundations.Spine.RA1LW.TreeFam
-public import WaveTurbulence.Foundations.Spine.RA1LW.Base
 public import WaveTurbulence.Foundations.Spine.RA1LW.TreeLeadingSum
 public import WaveTurbulence.Foundations.Spine.RA1LW.TreeLeadingNormalizedProfile
 public import WaveTurbulence.Foundations.Spine.RA1LW.SourceGardenSign
