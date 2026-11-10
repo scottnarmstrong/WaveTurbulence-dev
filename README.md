@@ -10,7 +10,7 @@ together with the results it relies on from the authors' earlier papers and from
 0 < γ < 1. Every step is checked by Lean; nothing is assumed beyond Lean's standard axioms.
 
 <!-- AUTO:updated -->
-> **Last changed: 2026-11-10 05:36 UTC** (checked every 10 minutes) · frozen theorems sealed: 26 / 28, the other 2 being superseded drafts (+ 300 frozen definitions) · **1,994,316 lines of Lean on main** (14409 files) · overall completion of the whole project (full range 0 < γ < 1): 98.8 %
+> **Last changed: 2026-11-10 07:20 UTC** (checked every 10 minutes) · frozen theorems sealed: 26 / 28, the other 2 being superseded drafts (+ 300 frozen definitions) · **1,994,316 lines of Lean on main** (14409 files) · overall completion of the whole project (full range 0 < γ < 1): 98.8 %
 <!-- /AUTO:updated -->
 
 ## At a glance
@@ -134,7 +134,7 @@ the only open part is the public release. The authoritative state is [Current st
 | Release (P5) | 1 | 15 | 3.0 | `██░░░░░░░░` 20 % |
 | **Total** | | 1009 | 997.0 | **98.8 %** |
 
-Lean lines: 1,994,316 on main + 3,577 on worker branches. (The original blueprint estimate, ≈ 273,000 lines, was set before the project's scope and the errata were known; it is no longer a useful yardstick.)
+Lean lines: 1,994,316 on main + 2,643 on worker branches. (The original blueprint estimate, ≈ 273,000 lines, was set before the project's scope and the errata were known; it is no longer a useful yardstick.)
 
 <details><summary>All Lean work packets (blueprint §E) with weight and status</summary>
 
