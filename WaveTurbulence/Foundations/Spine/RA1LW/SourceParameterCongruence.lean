@@ -10,7 +10,6 @@ public import WaveTurbulence.Foundations.IncohInst.Links.Construct5
 public section
 noncomputable section
 namespace WaveTurbulence.RA1Leafwise
-open WaveTurbulence.RegAsymp
 open Links Reg TTree
 
 variable {V : Type*} [AddCommGroup V] {w : ℕ}

@@ -9,7 +9,6 @@ public import WaveTurbulence.Foundations.Spine.RA1LW.SourceParameterCongruence
 public section
 noncomputable section
 namespace WaveTurbulence.RA1Leafwise
-open WaveTurbulence.RegAsymp
 open Links Reg TTree
 
 variable {V : Type*} {w w' : ℕ}

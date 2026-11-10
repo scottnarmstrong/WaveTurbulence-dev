@@ -9,7 +9,6 @@ public import WaveTurbulence.Foundations.Spine.RA1LW.SourceChainProducts
 public section
 noncomputable section
 namespace WaveTurbulence.RA1Leafwise
-open WaveTurbulence.RegAsymp
 open Links Reg TTree
 
 variable {V : Type*} [AddCommGroup V] {w : ℕ}
