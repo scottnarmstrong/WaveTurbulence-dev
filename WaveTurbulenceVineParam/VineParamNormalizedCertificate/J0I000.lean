@@ -25,7 +25,7 @@ open Finset VineParamContract
 @[expose] def atomVector : Fin 1 → Fin 2 := fun _i => 0
 
 /-- Every actual included atom differs from the excluded joint. -/
-theorem atomVector_ne : ∀ i,atomVector i ≠ (1 : Fin 2) := by decide
+theorem atomVector_ne : ∀ i,atomVector i ≠ (1 : Fin 2) := by decide +kernel
 
 /-- Explicit actual included-atom bijection. -/
 @[expose] noncomputable def atomEquiv : Fin 1 ≃ {v : Fin 2 // v ≠ (1 : Fin 2)} :=

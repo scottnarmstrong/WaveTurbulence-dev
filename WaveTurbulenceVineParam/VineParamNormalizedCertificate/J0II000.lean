@@ -25,7 +25,7 @@ open Finset VineParamContract
 @[expose] def atomVector : Fin 3 → Fin 4 := fun i => if i.1 < 1 then (0) else (if i.1 < 2 then (2) else (3))
 
 /-- Every actual included atom differs from the excluded joint. -/
-theorem atomVector_ne : ∀ i,atomVector i ≠ (1 : Fin 4) := by decide
+theorem atomVector_ne : ∀ i,atomVector i ≠ (1 : Fin 4) := by decide +kernel
 
 /-- Explicit actual included-atom bijection. -/
 @[expose] noncomputable def atomEquiv : Fin 3 ≃ {v : Fin 4 // v ≠ (1 : Fin 4)} :=
@@ -66,16 +66,16 @@ theorem atomVector_ne : ∀ i,atomVector i ≠ (1 : Fin 4) := by decide
 
 private theorem rung0_s_row_0 : ∀ j : Fin 4,(integerChart.phaseMatrix (3 : Fin 4)) (0 : Fin 4) j=(-(intOuter (freePhaseRow shape (shape.xSlot (⟨0,by decide⟩ : Fin shape.m))) (freePhaseRow shape (shape.ySlot (⟨0,by decide⟩ : Fin shape.m)))+intOuter (freePhaseRow shape (shape.ySlot (⟨0,by decide⟩ : Fin shape.m))) (freePhaseRow shape (shape.xSlot (⟨0,by decide⟩ : Fin shape.m))))) 0 j := by
   exact integer_row_eq_of_decide (fun j : Fin 4 => (integerChart.phaseMatrix (3 : Fin 4)) (0 : Fin 4) j)
-    (fun j : Fin 4 => (-(intOuter (freePhaseRow shape (shape.xSlot (⟨0,by decide⟩ : Fin shape.m))) (freePhaseRow shape (shape.ySlot (⟨0,by decide⟩ : Fin shape.m)))+intOuter (freePhaseRow shape (shape.ySlot (⟨0,by decide⟩ : Fin shape.m))) (freePhaseRow shape (shape.xSlot (⟨0,by decide⟩ : Fin shape.m))))) 0 j) (by decide)
+    (fun j : Fin 4 => (-(intOuter (freePhaseRow shape (shape.xSlot (⟨0,by decide +kernel⟩ : Fin shape.m))) (freePhaseRow shape (shape.ySlot (⟨0,by decide +kernel⟩ : Fin shape.m)))+intOuter (freePhaseRow shape (shape.ySlot (⟨0,by decide +kernel⟩ : Fin shape.m))) (freePhaseRow shape (shape.xSlot (⟨0,by decide +kernel⟩ : Fin shape.m))))) 0 j) (by decide +kernel)
 private theorem rung0_s_row_1 : ∀ j : Fin 4,(integerChart.phaseMatrix (3 : Fin 4)) (1 : Fin 4) j=(-(intOuter (freePhaseRow shape (shape.xSlot (⟨0,by decide⟩ : Fin shape.m))) (freePhaseRow shape (shape.ySlot (⟨0,by decide⟩ : Fin shape.m)))+intOuter (freePhaseRow shape (shape.ySlot (⟨0,by decide⟩ : Fin shape.m))) (freePhaseRow shape (shape.xSlot (⟨0,by decide⟩ : Fin shape.m))))) 1 j := by
   exact integer_row_eq_of_decide (fun j : Fin 4 => (integerChart.phaseMatrix (3 : Fin 4)) (1 : Fin 4) j)
-    (fun j : Fin 4 => (-(intOuter (freePhaseRow shape (shape.xSlot (⟨0,by decide⟩ : Fin shape.m))) (freePhaseRow shape (shape.ySlot (⟨0,by decide⟩ : Fin shape.m)))+intOuter (freePhaseRow shape (shape.ySlot (⟨0,by decide⟩ : Fin shape.m))) (freePhaseRow shape (shape.xSlot (⟨0,by decide⟩ : Fin shape.m))))) 1 j) (by decide)
+    (fun j : Fin 4 => (-(intOuter (freePhaseRow shape (shape.xSlot (⟨0,by decide +kernel⟩ : Fin shape.m))) (freePhaseRow shape (shape.ySlot (⟨0,by decide +kernel⟩ : Fin shape.m)))+intOuter (freePhaseRow shape (shape.ySlot (⟨0,by decide +kernel⟩ : Fin shape.m))) (freePhaseRow shape (shape.xSlot (⟨0,by decide +kernel⟩ : Fin shape.m))))) 1 j) (by decide +kernel)
 private theorem rung0_s_row_2 : ∀ j : Fin 4,(integerChart.phaseMatrix (3 : Fin 4)) (2 : Fin 4) j=(-(intOuter (freePhaseRow shape (shape.xSlot (⟨0,by decide⟩ : Fin shape.m))) (freePhaseRow shape (shape.ySlot (⟨0,by decide⟩ : Fin shape.m)))+intOuter (freePhaseRow shape (shape.ySlot (⟨0,by decide⟩ : Fin shape.m))) (freePhaseRow shape (shape.xSlot (⟨0,by decide⟩ : Fin shape.m))))) 2 j := by
   exact integer_row_eq_of_decide (fun j : Fin 4 => (integerChart.phaseMatrix (3 : Fin 4)) (2 : Fin 4) j)
-    (fun j : Fin 4 => (-(intOuter (freePhaseRow shape (shape.xSlot (⟨0,by decide⟩ : Fin shape.m))) (freePhaseRow shape (shape.ySlot (⟨0,by decide⟩ : Fin shape.m)))+intOuter (freePhaseRow shape (shape.ySlot (⟨0,by decide⟩ : Fin shape.m))) (freePhaseRow shape (shape.xSlot (⟨0,by decide⟩ : Fin shape.m))))) 2 j) (by decide)
+    (fun j : Fin 4 => (-(intOuter (freePhaseRow shape (shape.xSlot (⟨0,by decide +kernel⟩ : Fin shape.m))) (freePhaseRow shape (shape.ySlot (⟨0,by decide +kernel⟩ : Fin shape.m)))+intOuter (freePhaseRow shape (shape.ySlot (⟨0,by decide +kernel⟩ : Fin shape.m))) (freePhaseRow shape (shape.xSlot (⟨0,by decide +kernel⟩ : Fin shape.m))))) 2 j) (by decide +kernel)
 private theorem rung0_s_row_3 : ∀ j : Fin 4,(integerChart.phaseMatrix (3 : Fin 4)) (3 : Fin 4) j=(-(intOuter (freePhaseRow shape (shape.xSlot (⟨0,by decide⟩ : Fin shape.m))) (freePhaseRow shape (shape.ySlot (⟨0,by decide⟩ : Fin shape.m)))+intOuter (freePhaseRow shape (shape.ySlot (⟨0,by decide⟩ : Fin shape.m))) (freePhaseRow shape (shape.xSlot (⟨0,by decide⟩ : Fin shape.m))))) 3 j := by
   exact integer_row_eq_of_decide (fun j : Fin 4 => (integerChart.phaseMatrix (3 : Fin 4)) (3 : Fin 4) j)
-    (fun j : Fin 4 => (-(intOuter (freePhaseRow shape (shape.xSlot (⟨0,by decide⟩ : Fin shape.m))) (freePhaseRow shape (shape.ySlot (⟨0,by decide⟩ : Fin shape.m)))+intOuter (freePhaseRow shape (shape.ySlot (⟨0,by decide⟩ : Fin shape.m))) (freePhaseRow shape (shape.xSlot (⟨0,by decide⟩ : Fin shape.m))))) 3 j) (by decide)
+    (fun j : Fin 4 => (-(intOuter (freePhaseRow shape (shape.xSlot (⟨0,by decide +kernel⟩ : Fin shape.m))) (freePhaseRow shape (shape.ySlot (⟨0,by decide +kernel⟩ : Fin shape.m)))+intOuter (freePhaseRow shape (shape.ySlot (⟨0,by decide +kernel⟩ : Fin shape.m))) (freePhaseRow shape (shape.xSlot (⟨0,by decide +kernel⟩ : Fin shape.m))))) 3 j) (by decide +kernel)
 
 /-- Exact finite integer source phase certificate. -/
 theorem rung0_s : integerChart.phaseMatrix (3 : Fin 4)=-(intOuter (freePhaseRow shape (shape.xSlot (⟨0,by decide⟩ : Fin shape.m))) (freePhaseRow shape (shape.ySlot (⟨0,by decide⟩ : Fin shape.m)))+intOuter (freePhaseRow shape (shape.ySlot (⟨0,by decide⟩ : Fin shape.m))) (freePhaseRow shape (shape.xSlot (⟨0,by decide⟩ : Fin shape.m)))) := by
@@ -88,16 +88,16 @@ theorem rung0_s : integerChart.phaseMatrix (3 : Fin 4)=-(intOuter (freePhaseRow 
 
 private theorem rung0_sum_row_0 : ∀ j : Fin 4,(integerChart.phaseMatrix (2 : Fin 4)+integerChart.phaseMatrix (3 : Fin 4)) (0 : Fin 4) j=(intOuter (gapPhaseRow shape) (pairCorrectionRow shape zeta (⟨0,by decide⟩ : Fin shape.m))+intOuter (pairCorrectionRow shape zeta (⟨0,by decide⟩ : Fin shape.m)) (gapPhaseRow shape)) 0 j := by
   exact integer_row_eq_of_decide (fun j : Fin 4 => (integerChart.phaseMatrix (2 : Fin 4)+integerChart.phaseMatrix (3 : Fin 4)) (0 : Fin 4) j)
-    (fun j : Fin 4 => (intOuter (gapPhaseRow shape) (pairCorrectionRow shape zeta (⟨0,by decide⟩ : Fin shape.m))+intOuter (pairCorrectionRow shape zeta (⟨0,by decide⟩ : Fin shape.m)) (gapPhaseRow shape)) 0 j) (by decide)
+    (fun j : Fin 4 => (intOuter (gapPhaseRow shape) (pairCorrectionRow shape zeta (⟨0,by decide +kernel⟩ : Fin shape.m))+intOuter (pairCorrectionRow shape zeta (⟨0,by decide +kernel⟩ : Fin shape.m)) (gapPhaseRow shape)) 0 j) (by decide +kernel)
 private theorem rung0_sum_row_1 : ∀ j : Fin 4,(integerChart.phaseMatrix (2 : Fin 4)+integerChart.phaseMatrix (3 : Fin 4)) (1 : Fin 4) j=(intOuter (gapPhaseRow shape) (pairCorrectionRow shape zeta (⟨0,by decide⟩ : Fin shape.m))+intOuter (pairCorrectionRow shape zeta (⟨0,by decide⟩ : Fin shape.m)) (gapPhaseRow shape)) 1 j := by
   exact integer_row_eq_of_decide (fun j : Fin 4 => (integerChart.phaseMatrix (2 : Fin 4)+integerChart.phaseMatrix (3 : Fin 4)) (1 : Fin 4) j)
-    (fun j : Fin 4 => (intOuter (gapPhaseRow shape) (pairCorrectionRow shape zeta (⟨0,by decide⟩ : Fin shape.m))+intOuter (pairCorrectionRow shape zeta (⟨0,by decide⟩ : Fin shape.m)) (gapPhaseRow shape)) 1 j) (by decide)
+    (fun j : Fin 4 => (intOuter (gapPhaseRow shape) (pairCorrectionRow shape zeta (⟨0,by decide +kernel⟩ : Fin shape.m))+intOuter (pairCorrectionRow shape zeta (⟨0,by decide +kernel⟩ : Fin shape.m)) (gapPhaseRow shape)) 1 j) (by decide +kernel)
 private theorem rung0_sum_row_2 : ∀ j : Fin 4,(integerChart.phaseMatrix (2 : Fin 4)+integerChart.phaseMatrix (3 : Fin 4)) (2 : Fin 4) j=(intOuter (gapPhaseRow shape) (pairCorrectionRow shape zeta (⟨0,by decide⟩ : Fin shape.m))+intOuter (pairCorrectionRow shape zeta (⟨0,by decide⟩ : Fin shape.m)) (gapPhaseRow shape)) 2 j := by
   exact integer_row_eq_of_decide (fun j : Fin 4 => (integerChart.phaseMatrix (2 : Fin 4)+integerChart.phaseMatrix (3 : Fin 4)) (2 : Fin 4) j)
-    (fun j : Fin 4 => (intOuter (gapPhaseRow shape) (pairCorrectionRow shape zeta (⟨0,by decide⟩ : Fin shape.m))+intOuter (pairCorrectionRow shape zeta (⟨0,by decide⟩ : Fin shape.m)) (gapPhaseRow shape)) 2 j) (by decide)
+    (fun j : Fin 4 => (intOuter (gapPhaseRow shape) (pairCorrectionRow shape zeta (⟨0,by decide +kernel⟩ : Fin shape.m))+intOuter (pairCorrectionRow shape zeta (⟨0,by decide +kernel⟩ : Fin shape.m)) (gapPhaseRow shape)) 2 j) (by decide +kernel)
 private theorem rung0_sum_row_3 : ∀ j : Fin 4,(integerChart.phaseMatrix (2 : Fin 4)+integerChart.phaseMatrix (3 : Fin 4)) (3 : Fin 4) j=(intOuter (gapPhaseRow shape) (pairCorrectionRow shape zeta (⟨0,by decide⟩ : Fin shape.m))+intOuter (pairCorrectionRow shape zeta (⟨0,by decide⟩ : Fin shape.m)) (gapPhaseRow shape)) 3 j := by
   exact integer_row_eq_of_decide (fun j : Fin 4 => (integerChart.phaseMatrix (2 : Fin 4)+integerChart.phaseMatrix (3 : Fin 4)) (3 : Fin 4) j)
-    (fun j : Fin 4 => (intOuter (gapPhaseRow shape) (pairCorrectionRow shape zeta (⟨0,by decide⟩ : Fin shape.m))+intOuter (pairCorrectionRow shape zeta (⟨0,by decide⟩ : Fin shape.m)) (gapPhaseRow shape)) 3 j) (by decide)
+    (fun j : Fin 4 => (intOuter (gapPhaseRow shape) (pairCorrectionRow shape zeta (⟨0,by decide +kernel⟩ : Fin shape.m))+intOuter (pairCorrectionRow shape zeta (⟨0,by decide +kernel⟩ : Fin shape.m)) (gapPhaseRow shape)) 3 j) (by decide +kernel)
 
 /-- Exact finite integer source phase certificate. -/
 theorem rung0_sum : integerChart.phaseMatrix (2 : Fin 4)+integerChart.phaseMatrix (3 : Fin 4)=intOuter (gapPhaseRow shape) (pairCorrectionRow shape zeta (⟨0,by decide⟩ : Fin shape.m))+intOuter (pairCorrectionRow shape zeta (⟨0,by decide⟩ : Fin shape.m)) (gapPhaseRow shape) := by
