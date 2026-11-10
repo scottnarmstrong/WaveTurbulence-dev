@@ -152,7 +152,7 @@ theorem damaged_arith {η γ γ0 ρ Va Vb Z w K : ℝ} (hη : 0 < η) (hK : 2 * 
   have e : η ^ 3 * (-η ^ 2 * ρ + K * (w + 1)) + (1 - η ^ 3) * 0 =
       -(η ^ 5) * ρ + η ^ 3 * (K * (w + 1)) := by ring
   rw [e]
-  nlinarith [h2, h3, h4, h5, h6]
+  linarith [h2, h3, h4, h5, h6]
 
 end
 
@@ -187,7 +187,7 @@ theorem prop96_damaged (d : ℕ) (hd : 3 ≤ d) (γ : ℝ) (hγ : γ ∈ Set.Ioo
   have hM : M.IsMolecule := hS.isMolecule
   have hA2 := hL₀ L hLL₀ M cls Adm P hS hF hsz hP hMA
   have hθ0 : 0 ≤ η ^ 3 := by positivity
-  have hη1 : η ≤ 1 := by nlinarith
+  have hη1 : η ≤ 1 := by linarith
   have hθ1 : η ^ 3 ≤ 1 := pow_le_one₀ hη.le hη1
   have hPM := pmol_damaged hS
   have hLG : ∀ κ, (Adm κ ∧ CellGapRestriction M L (0 : Mom d) (fun S => P (Mole.appbLinkParent M S)) (GapScale L) κ) →
@@ -230,14 +230,14 @@ theorem prop96_damaged (d : ℕ) (hd : 3 ≤ d) (γ : ℝ) (hγ : γ ∈ Set.Ioo
   have hK : 2 * (16 * (d : ℝ) + 28) * η ^ 2 ≤ 1 := by
     have h1 : 2 * (16 * (d : ℝ) + 28) * η ^ 2 = 2 * η * (16 * ((d : ℝ) * η) + 28 * η) := by ring
     rw [h1]
-    have h2 : 16 * ((d : ℝ) * η) + 28 * η ≤ 1 := by nlinarith
+    have h2 : 16 * ((d : ℝ) * η) + 28 * η ≤ 1 := by linarith
     have h3 : 2 * η ≤ 1 := by linarith
     have h4 : 0 ≤ 16 * ((d : ℝ) * η) + 28 * η := by positivity
     nlinarith
   have := damaged_arith (η := η) (γ := γ) (γ0 := min γ (1 - γ)) (ρ := (M.rho : ℝ))
     (Va := ((alphaAtoms M.atoms cls).card : ℝ)) (Vb := ((betaAtoms M.atoms cls).card : ℝ))
     (Z := (epsDefect M cls : ℝ)) (w := ((M.atoms.filter fun a => M.deg a ≠ 4).card : ℝ))
-    (K := 16 * (d : ℝ) + 28) hη hK (by positivity) (by nlinarith) hηγ (Nat.cast_nonneg _) (Nat.cast_nonneg _)
+    (K := 16 * (d : ℝ) + 28) hη hK (by positivity) (by linarith) hηγ (Nat.cast_nonneg _) (Nat.cast_nonneg _)
     (by exact_mod_cast hw1) hcR
   linarith
 
