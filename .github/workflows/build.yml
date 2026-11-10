@@ -1,0 +1,58 @@
+# Full build and verification on a self-hosted runner (the build is too large for GitHub's hosted runners; see
+# "How to verify" in the README). Runs on pushes to main and on manual dispatch only, never on pull requests, so code
+# from forks never runs on the self-hosted machine.
+name: Build and verify
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: build-and-verify
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build:
+    runs-on: [self-hosted, linux, lean-build]
+    timeout-minutes: 1440
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          clean: false   # keep .lake between runs, so later pushes rebuild only what changed
+
+      - name: Toolchain (elan; the version comes from lean-toolchain)
+        run: |
+          if ! command -v elan >/dev/null 2>&1 && [ ! -x "$HOME/.elan/bin/elan" ]; then
+            curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh \
+              | sh -s -- -y --default-toolchain none
+          fi
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+
+      - name: Mathlib's prebuilt cache
+        run: lake exe cache get
+
+      - name: Build (Lean checks every proof)
+        run: |
+          nproc; free -g; df -h .
+          /usr/bin/time -v lake build 2>&1 | tail -80
+
+      - name: Axioms of every sealed theorem (only propext, Classical.choice, Quot.sound; no sorryAx)
+        run: python3 -I scripts/check_axioms.py --all-sealed
+
+      - name: Frozen statements, module rules, pinned texts
+        run: |
+          python3 -I scripts/check_frozen_anchors.py --root . --manifest manifest/frozen.json
+          python3 -I scripts/check_lean_modules.py
+          python3 -I scripts/check_pinned_texts.py --root .
+
+      - name: Free disk (Lake's per-module setup files, regenerated when needed; frozen modules' kept for the axiom check)
+        if: always()
+        run: find .lake/build/ir -name '*.setup.json' -not -path '*/Frozen/*' -delete 2>/dev/null || true
