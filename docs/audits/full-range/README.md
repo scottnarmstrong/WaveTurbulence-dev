@@ -44,8 +44,7 @@ Each auditor replays the joint dependency closure of the five theorems once in t
 certificate theorems of `WaveTurbulenceVineParam` whose proofs use no constant outside that library are checked by
 statement only (their proofs are kernel-checked by every build), and Mathlib and Lean's core library are inserted
 unchecked as the trusted base (KEY-A §1.2, KEY-B §1.3). Both replays adapt the same tool (`Replay.lean`, `replay.sh`)
-and read the same build, and they ran at the same time on the same machine; so they are two runs of one method, not two
-independent checks. Otherwise the two keys are given different primary refutation targets and different methods, so
+and read the same build, so they are two runs of one method, not two independent checks. Otherwise the two keys are given different primary refutation targets and different methods, so
 that they do not share blind spots. A theorem is recorded as PROVED only if both keys pass it.
 
 *In progress: a full-mode replay, and an independent check of the proof with the NanoDa kernel through the comparator.*
