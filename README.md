@@ -114,68 +114,11 @@ SEALED: 26 theorems + 300 definitions. Full range: main, propansatz, fixedpoint,
 ```
 </details>
 
-## Progress of the γ ≤ 1/2 extension
-
-This meter tracked the formalization of the γ ≤ 1/2 repair; it is kept as a record. Its package names are the
-project's internal work packages.
-
-<!-- AUTO:gammalow -->
-### The γ ≤ 1/2 campaign: **100.0 %**
-
-`██████████████████████████████` 100.0 % · 19 of 19 work packages done, 0 running, 0 not started · **321,681 lines of new Lean compiling** (322,407 written) in the γ ≤ 1/2 work area, not yet on main · ledger updated 2026-11-10 05:20 UTC
-
-This meter tracks the extension of the formal proof of Theorem 1.1 from 1/2 < γ < 1 to the full range 0 < γ < 1 (see [docs/GAMMA-LE-HALF.md](docs/GAMMA-LE-HALF.md)). Weights are the estimated size of each work package (thousands of new Lean lines; non-Lean steps get an equivalent weight). A finished package counts fully once it passes its checks and an independent re-run of its audit. A running package counts by the orchestrator's estimate at its last checkpoint (what is proved against what remains); before its first checkpoint it counts by the Lean it has compiled, capped at 75 %. Line counts alone overstate progress, because several packages first port large amounts of the existing proof.
-
-- **Next:** COMPLETE: Theorem 1.1 is proved in Lean for every 0 < γ < 1, as printed (sealed 2026-11-09; both independent audits passed 2026-11-10). Next: removing unused code and speeding up the build, then preparing the repository for publication.
-- **Risks:** none open for the theorem itself
-
-| Stage | What it does | Packages | Done | Completion |
-|---|---|---|---|---|
-| Mathematics on paper | the repair for γ ≤ 1/2, proved and checked by independent referees | 1 | 1 | `██████████` 100 % |
-| Statements | the new full-range flower statement: audited, then frozen | 2 | 2 | `██████████` 100 % |
-| T-vine combinatorics | the enlarged vine family: structure, a verified checker, parametrizations | 5 | 5 | `██████████` 100 % |
-| Counting estimates for γ ≤ 1/2 | DH23 Props 9.4–9.6 and 10.4 in the low range, and the ghost step | 4 | 4 | `██████████` 100 % |
-| Moving the proof to the enlarged vine family | stage 1, the vine estimate and the source objects with T-vines | 3 | 3 | `██████████` 100 % |
-| Flower estimate for γ ≤ 1/2 | the marked stage 1 and the marked final count in the low range | 1 | 1 | `██████████` 100 % |
-| Assembly | joining the two halves γ ≤ 1/2 and γ > 1/2 | 2 | 2 | `██████████` 100 % |
-| Landing, sealing and audits | land on main; seal main, propansatz, fixedpoint, layergarden and the flower statement; two independent audits each | 1 | 1 | `██████████` 100 % |
-| **Total** | | 19 | 19 | **100.0 %** |
-
-<details><summary>All work packages</summary>
-
-| Stage | Package | Content | Weight | Lean lines (compiling / written) | Status | Credit | Note |
-|---|---|---|---|---|---|---|---|
-| Mathematics on paper | RESEARCH | T-vines, the ghost step, the counting and flower re-checks (notes N1–N3, M1–M4) | 20 | — | ✅ done | 100 % | all refereed (R191) |
-| Statements | AUDIT-V4 | independent audit of layergardenFlower_v4 | 1 | — | ✅ done | 100 % | fidelity PASS, 0 extra hypotheses |
-| Statements | FREEZE-V4 | freeze layergardenFlower_v4, pin the T-vine text | 1 | — | ✅ done | 100 % | landed on main 8bbfb3b8 (ABI 328 OK; T-vine text pinned in land_check) |
-| T-vine combinatorics | L1 | core API, rung surgery, gap criterion | 15 | 12,115 / 12,115 | ✅ done | 100 % | accepted: every core item proved (N2 1.5, 1.9, 1.10–1.12, 1.14, N3 4.1, 6.2; path surgery); 47 modules, 576 theorems; audit re-run by wt-orch |
-| T-vine combinatorics | L2 | verified checker for the small cases | 8 | 7,924 / 7,924 | ✅ done | 100 % | accepted: verified checker; completeness (OM7) proved, so the finite base cases are kernel-checked, not Python-only; 37 modules, 685 theorems |
-| T-vine combinatorics | L3 | structure theorems (pieces, sub-objects) | 13 | 11,368 / 11,395 | ✅ done | 100 % | accepted: all nine T-vine structure statements proved unconditionally (with helpers L3D, L3-LP, L3-LAD); 62 modules, 1,988 theorems; audit re-run by wt-orch |
-| T-vine combinatorics | L3D | drawn vines are T-vines (N2 Lemma 5.2), Lemma 8.1′ | 3 | 3,314 / 3,314 | ✅ done | 100 % | accepted (part of L3): Lemma 5.2 and Lemma 8.1′, both unconditional |
-| T-vine combinatorics | L4 | charts (parametrizations) of all T-vines | 11.5 | 9,803 / 9,803 | ✅ done | 100 % | accepted: Theorem C (charts of all T-vines) proved unconditionally; 42 modules, 2,021 theorems |
-| Counting estimates for γ ≤ 1/2 | L6 | final count: gate, Prop 9.6, assembly | 30 | 59,202 / 59,223 | ✅ done | 100 % | accepted: the γ ≤ 1/2 final count, with Prop 9.6, the run-wide ghost repair (E20) and the full port of main's run; 643 modules, 5,729 theorems; audit re-run by wt-orch on L6's final build |
-| Counting estimates for γ ≤ 1/2 | L6E | the ghost step (erratum E20) | 4 | 10,622 / 10,643 | ✅ done | 100 % | accepted: the ghost step (E20) and its Operation-1 cone (L6E2), 26 modules / 446 theorems; audits re-run by wt-orch |
-| Counting estimates for γ ≤ 1/2 | L6-COUNT | volume counts and operations (App. A, Prop 10.4) | 5 | 6,860 / 6,860 | ✅ done | 100 % | accepted: Prop 10.4 counts, operations (d)/(e), and Case6TopLow; Prop 9.6 at γ ≤ 1/2 now needs only one T-vine lemma (L3); audit re-run by wt-orch |
-| Counting estimates for γ ≤ 1/2 | L6-STEP1 | Step-1 deviation for T-vines | 3 | 5,809 / 5,809 | ✅ done | 100 % | accepted: 51 modules, 306 theorems, audit re-run by wt-orch (standard axioms only) |
-| Moving the proof to the enlarged vine family | L5a | stage 1 and the class count | 8 | 59,105 / 59,105 | ✅ done | 100 % | accepted: the γ ≤ 1/2 stage-1 gate proved unconditionally, with the vine case (L5a-G); 296 modules, 5,223 theorems; audit re-run by wt-orch |
-| Moving the proof to the enlarged vine family | L5b | the vine estimate for T-vines | 12 | 21,038 / 21,110 | ✅ done | 100 % | accepted: vineest′ for all 0<γ<1 (207 modules, 848 theorems; audit re-run by wt-orch); uses L4's Theorem C |
-| Moving the proof to the enlarged vine family | L5c | source objects, spliced count, subpro | 10 | 20,612 / 20,612 | ✅ done | 100 % | accepted: CoarseSpliced′, cover′, layervine′, subpro′, spine code and class count all proved, no inputs; 144 modules, 3,222 theorems; audit re-run by wt-orch |
-| Flower estimate for γ ≤ 1/2 | L8 | flower estimate, low half | 30 | 89,905 / 90,490 | ✅ done | 100 % | accepted: the γ ≤ 1/2 flower estimate proved with no inputs (marked stage 1 + marked count + ghost cover); 232 modules / 10,105 theorems audited by wt-orch |
-| Assembly | L0 | glue lemmas | 1 | 741 / 741 | ✅ done | 100 % | accepted; closed: the five full-range statements are assembled from the two γ ≤ 1/2 halves (GammaLow/Close) and sealed as WaveTurbulence.main and its four companions |
-| Assembly | L7 | layergarden, low half | 2 | 3,263 / 3,263 | ✅ done | 100 % | accepted: LG-low and the flower couple clause from the low gates; audit re-run by wt-orch (19 modules, 401 theorems) |
-| Landing, sealing and audits | L9 | landing, seals, two-key audits | 6 | — | ✅ done | 100 % | done: all five full-range statements sealed on main (5c19b015) and PROVED: both independent audits passed for all five (records in docs/audits/full-range/) |
-
-</details>
-
-Source: [`docs/campaign/gammalow.json`](docs/campaign/gammalow.json); history: [`docs/campaign/gammalow-history.csv`](docs/campaign/gammalow-history.csv).
-<!-- /AUTO:gammalow -->
-
 ## Progress
 
 The percentage below is the project's internal bookkeeping for the **whole project**: sources, statements, proofs,
-seals and the public release. Its per-package figures were last reviewed on 2026-11-07, before the full-range proof
-was completed, and several of them are below 100 % only because they have not been re-reviewed since. The
-authoritative state is [Current status](#current-status) above.
+seals and the public release. It was reassessed on 2026-11-10, after the full-range proof was sealed and audited;
+the only open part is the public release. The authoritative state is [Current status](#current-status) above.
 
 <!-- AUTO:progress -->
 ### Overall completion (whole project: full range 0 < γ < 1): **98.8 %**

@@ -12,8 +12,7 @@ for i in 1 2 3; do
   git fetch -q origin || { echo "$(ts) fetch failed (attempt $i)"; sleep 30; continue; }
   git reset -q --hard origin/main || exit 1
   python3 -I scripts/update_readme.py >/dev/null 2>&1 || { echo "$(ts) update_readme.py failed"; exit 1; }
-  git add README.md docs/campaign/history.csv docs/campaign/flower.json docs/campaign/flower-history.csv \
-    docs/campaign/gammalow.json docs/campaign/gammalow-history.csv
+  git add README.md docs/campaign/history.csv docs/campaign/flower.json docs/campaign/flower-history.csv
   git diff --cached --quiet && { echo "$(ts) no change"; exit 0; }
   git commit -qm "HQ auto-update (progress meter)"
   if git push -q origin HEAD:main; then echo "$(ts) pushed $(git rev-parse --short HEAD)"; exit 0; fi

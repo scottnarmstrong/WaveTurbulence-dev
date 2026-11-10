@@ -20,7 +20,6 @@ import subprocess
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 README = ROOT / "README.md"
 PROGRESS = ROOT / "docs" / "campaign" / "progress.json"
-WORKERS = ROOT / "docs" / "campaign" / "workers.json"
 HISTORY = ROOT / "docs" / "campaign" / "history.csv"
 # Flower estimate (flowerest1): the orchestrator's packet ledger lives beside the flower world; it is copied into
 # docs/campaign/flower.json at every run. Its weight and completion replace packet X2's in the overall meter.
@@ -169,154 +168,9 @@ def flower_block():
     return md, tw, frac, cnt, wl
 
 
-# The γ ≤ 1/2 campaign: the orchestrator's packet ledger lives beside the γ ≤ 1/2 world; it is copied into
-# docs/campaign/gammalow.json at every run. Running packets earn partial credit from the Lean lines in their world
-# areas (capped), so the meter moves between ledger updates.
-GL_LEDGER = pathlib.Path("/home/scott/wt-scratch/gh-core/GH-STATUS.json")
-GL_COPY = ROOT / "docs" / "campaign" / "gammalow.json"
-GL_HISTORY = ROOT / "docs" / "campaign" / "gammalow-history.csv"
-GL_WORLD = pathlib.Path("/home/scott/wt-scratch/gh-core/world/src/WaveTurbulence/Foundations")
-GL_CAP = 0.75
-GL_LEDGER_BUILD = pathlib.Path("/home/scott/wt-scratch/gh-core/world/build/LEDGER.json")
-_GL_BUILT = None
-
-
-def gl_built():
-    """Modules compiled by the world's fail-closed build, with the source sha256 they were compiled from."""
-    global _GL_BUILT
-    if _GL_BUILT is None:
-        try:
-            _GL_BUILT = {m: r.get("source_sha256") for m, r in json.load(open(GL_LEDGER_BUILD, encoding="utf8")).items()}
-        except (OSError, json.JSONDecodeError, AttributeError):
-            _GL_BUILT = {}
-    return _GL_BUILT
-GL_ICON = {"done": "✅", "checkpoint": "🟡", "running": "🔄", "queued": "⬜"}
-
-
-def gl_lines(pk):
-    """(all lines, lines of modules that compile as they stand) in the packet's world areas."""
-    import hashlib
-    n = nc = 0
-    built = gl_built()
-    src_root = GL_WORLD.parents[1]
-    excl = [GL_WORLD / e for e in pk.get("exclude", [])]
-    for d in pk.get("dirs", []):
-        base = GL_WORLD / d
-        if not base.exists():
-            continue
-        for f in base.rglob("*.lean"):
-            if any(e in f.parents for e in excl):
-                continue
-            try:
-                raw = f.read_bytes()
-            except OSError:
-                continue
-            k = raw.count(b"\n")
-            n += k
-            mod = ".".join(f.relative_to(src_root).with_suffix("").parts)
-            if built.get(mod) == hashlib.sha256(raw).hexdigest():
-                nc += k
-    return n, nc
-
-
-def gl_credit(pk, lines):
-    if pk["status"] == "done":
-        return 1.0
-    if pk["status"] == "queued":
-        return 0.0
-    if "done" in pk:
-        return float(pk["done"])
-    if pk.get("dirs"):
-        return min(GL_CAP, lines / (1000.0 * pk["w"]))
-    return 0.0
-
-
-def gammalow_block():
-    """Render the γ ≤ 1/2 progress meter. Returns (markdown, done fraction, counts, world lines) or None."""
-    try:
-        led = json.load(open(GL_LEDGER, encoding="utf8"))
-    except (OSError, json.JSONDecodeError):
-        return None
-    rows, prow = [], []
-    tw = td = 0.0
-    wl = wc = 0
-    cnt = {"done": 0, "checkpoint": 0, "running": 0, "queued": 0}
-    for g in led["groups"]:
-        gw = gd = 0.0
-        for p in g["packets"]:
-            ln, lc = gl_lines(p)
-            p["lines"], p["lines_compiled"] = ln, lc
-            wl += ln
-            wc += lc
-            c = gl_credit(p, lc)
-            p["credit"] = round(c, 3)
-            gw += p["w"]
-            gd += p["w"] * c
-            cnt[p["status"]] = cnt.get(p["status"], 0) + 1
-            lines = f"{lc:,} / {ln:,}" if p.get("dirs") else "—"
-            prow.append(f"| {g['name']} | {p['id']} | {p['name']} | {p['w']:g} | {lines} | "
-                        f"{GL_ICON.get(p['status'], '?')} {p['status']} | {round(100 * c)} % | {p.get('note', '')} |")
-        tw += gw
-        td += gd
-        frac = gd / gw if gw else 0.0
-        st = [p["status"] for p in g["packets"]]
-        rows.append(f"| {g['name']} | {g['what']} | {len(st)} | {st.count('done')} | "
-                    f"`{bar(frac)}` {round(100 * frac)} % |")
-    frac = td / tw if tw else 0.0
-    GL_COPY.write_text(json.dumps(led, indent=1, ensure_ascii=False) + "\n", encoding="utf8")
-    n = sum(cnt.values())
-    md = "\n".join([
-        f"### The γ ≤ 1/2 campaign: **{100 * frac:.1f} %**",
-        "",
-        f"`{bar(frac, 30)}` {100 * frac:.1f} % · {cnt['done']} of {n} work packages done, {cnt['running']} running, "
-        f"{cnt['queued']} not started · **{wc:,} lines of new Lean compiling** ({wl:,} written) in the γ ≤ 1/2 work "
-        f"area, not yet on main "
-        f"· ledger updated {led.get('updated', '?')}",
-        "",
-        "This meter tracks the extension of the formal proof of Theorem 1.1 from 1/2 < γ < 1 to the full range "
-        "0 < γ < 1 (see [docs/GAMMA-LE-HALF.md](docs/GAMMA-LE-HALF.md)). "
-        + led.get("convention", ""),
-        "",
-        f"- **Next:** {led.get('next', '')}",
-        "- **Risks:** " + "; ".join(led.get("risks", [])),
-        "",
-        "| Stage | What it does | Packages | Done | Completion |",
-        "|---|---|---|---|---|",
-        *rows,
-        f"| **Total** | | {n} | {cnt['done']} | **{100 * frac:.1f} %** |",
-        "",
-        "<details><summary>All work packages</summary>",
-        "",
-        "| Stage | Package | Content | Weight | Lean lines (compiling / written) | Status | Credit | Note |",
-        "|---|---|---|---|---|---|---|---|",
-        *prow,
-        "",
-        "</details>",
-        "",
-        "Source: [`docs/campaign/gammalow.json`](docs/campaign/gammalow.json); history: "
-        "[`docs/campaign/gammalow-history.csv`](docs/campaign/gammalow-history.csv).",
-    ])
-    return md, frac, cnt, wl, wc
-
-
-def workers_block():
-    try:
-        workers = json.load(open(WORKERS, encoding="utf8"))
-    except (OSError, json.JSONDecodeError):
-        return "_no workers.json_"
-    rows = ["| tmux | model / account | packet | branch: last commit | brief |", "|---|---|---|---|---|"]
-    for w in workers:
-        ts = git("log", "-1", "--format=%ct", w["branch"]).strip() if w.get("branch") else ""
-        ahead = git("rev-list", "--count", f"main..{w['branch']}").strip() if w.get("branch") else ""
-        br = f"`{w['branch']}`: {age(ts)}" + (f", {ahead} unlanded" if ahead not in ("", "0") else "")
-        rows.append(f"| {w['tmux']} | {w['model']} / {w['account']} | {w['packet']} | {br} | [brief]({w['brief']}) |")
-    return "\n".join(rows)
-
-
 def main():
     prog = json.load(open(PROGRESS, encoding="utf8"))
     fl = flower_block()
-    gl = gammalow_block()
     if fl is not None:
         for part in prog["parts"]:
             for i in part.get("items", []):
@@ -392,8 +246,6 @@ def main():
     blocks = [("updated", updated), ("progress", progress)]
     if fl is not None:
         blocks.append(("flower", fl[0]))
-    if gl is not None:
-        blocks.append(("gammalow", gl[0]))
     for key, body in blocks:
         text = re.sub(rf"(<!-- AUTO:{key} -->).*?(<!-- /AUTO:{key} -->)",
                       lambda m, body=body: m.group(1) + "\n" + body + "\n" + m.group(2), text, flags=re.S)
@@ -417,14 +269,6 @@ def main():
             c = fl[3]
             h.write(f"{now.strftime('%Y-%m-%dT%H:%MZ')},{100 * fl[2]:.2f},{c['done']},{c['checkpoint']},{c['running']},"
                     f"{c['queued']},{fl[4]}\n")
-    if gl is not None:
-        newg = not GL_HISTORY.exists()
-        with open(GL_HISTORY, "a", encoding="utf8") as h:
-            if newg:
-                h.write("utc,gammalow_pct,done,running,queued,world_lines,world_lines_compiled\n")
-            c = gl[2]
-            h.write(f"{now.strftime('%Y-%m-%dT%H:%MZ')},{100 * gl[1]:.2f},{c['done']},{c['running']},{c['queued']},"
-                    f"{gl[3]},{gl[4]}\n")
     print(f"README updated: {pct:.1f} % overall, {lean_pct:.1f} % Lean, {main_lines} + {branch_lines} lines, "
           f"{sealed}/{frozen_total} sealed")
 
