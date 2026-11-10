@@ -56,8 +56,4 @@ theorem card_position_codes_le (hM : M.IsMolecule) :
     _ ≤ 4^(4*M.atoms.card) := Nat.pow_le_pow_right (by norm_num) (card_darts_le_four_mul_atoms M hM)
     _ = _ := by rw [pow_mul]; norm_num
 
-/-- Ordered root placements have the exact factorial count. -/
-theorem card_root_orders (R : ℕ) : Fintype.card (Equiv.Perm (Fin (2*R))) = (2*R).factorial := by
-  rw [Fintype.card_perm,Fintype.card_fin]
-
 end WaveTurbulence.Mole

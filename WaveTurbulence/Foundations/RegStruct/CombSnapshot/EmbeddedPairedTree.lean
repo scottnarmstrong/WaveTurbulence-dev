@@ -49,33 +49,4 @@ theorem CollapseData.pair_ne (D : CollapseData a b) (h : IsSubPairedTree G a b) 
     (CollapseData.leafEmbedding D) (CollapseData.closed_partner D h) (CollapseData.pair_ne D h)
     (CollapseData.leafEmbedding_sign D)
 
-/-- The source condition really produces a paired tree, with exactly one lone leaf. -/
-theorem embeddedPairedTree_isPairedTree (h : IsSubPairedTree G a b) :
-    IsPairedTree (embeddedPairedTree h) := by
-  let D := collapseDataOfDesc h.1
-  exact pairedTreeFromLeafEmbedding_isPairedTree
-    (collapseAt D.upper D.path) (G.sign a) (collapsedLone D.lower_eq)
-    (CollapseData.leafEmbedding D) (CollapseData.closed_partner D h) (CollapseData.pair_ne D h)
-    (CollapseData.leafEmbedding_sign D)
-
-/-- The paired tree's root has the sign of the source upper node. -/
-theorem embeddedPairedTree_signature (h : IsSubPairedTree G a b) :
-    (embeddedPairedTree h).sig 0 = G.sign a := rfl
-
-/-- Embedded paired-tree order is upper order minus lower order (TARGET L846). -/
-theorem embeddedPairedTree_order (h : IsSubPairedTree G a b) :
-    (embeddedPairedTree h).order + (nodeSubtree b).order = (nodeSubtree a).order := by
-  let D := collapseDataOfDesc h.1
-  have he : (embeddedPairedTree h).order = (collapseAt D.upper D.path).order := by
-    change (∑ _ : Fin 1, (collapseAt D.upper D.path).order) = _
-    simp
-  rw [he]
-  exact order_collapseAt D.lower_eq
-
-/-- The new lone leaf accounts for the one remaining lower-root leaf after collapse. -/
-theorem embeddedPairedTree_leaf_count (h : IsSubPairedTree G a b) :
-    ((embeddedPairedTree h).tree 0).leaves.card + (nodeSubtree b).leaves.card =
-      (nodeSubtree a).leaves.card + 1 :=
-  leaves_collapseAt (collapseDataOfDesc h.1).lower_eq
-
 end WaveTurbulence.Comb

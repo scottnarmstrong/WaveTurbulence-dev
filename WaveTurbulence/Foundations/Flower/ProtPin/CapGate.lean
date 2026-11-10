@@ -2,7 +2,6 @@
 module
 
 public import WaveTurbulence.Foundations.Flower.ProtPin.CapMore
-public import WaveTurbulence.Foundations.Flower.ProtPin.CapNil
 public import WaveTurbulence.Foundations.Flower.ProtPin.TChildTrace
 public import WaveTurbulence.Foundations.Flower.ProtPin.GateMain
 public import WaveTurbulence.Foundations.Flower.ProtPin.GateF
@@ -137,30 +136,6 @@ theorem capc_cfgU_rest {θ : ℝ} (hθ0 : 0 ≤ θ) (hθ1 : θ ≤ 1 / 4) :
     fun _ w LG X cfg _ _ hs => capc_selRest_cover w LG X cfg hs
   exact ⟨Cr, by positivity, hU⟩
 
-/-- **(P7), caps, as a `CfgU` slice**, given TChild's root-trace bound `TcTraceU θ Ct`. -/
-theorem capc_cfgU_tchild_of_traceU {θ : ℝ} (hθ0 : 0 ≤ θ) (hθ1 : θ ≤ 1 / 4) :
-    ∃ Cr : ℝ, 0 ≤ Cr ∧ ∀ {Ct : ℝ}, 0 ≤ Ct → TcTraceU θ Ct →
-      CfgU θ (Cr * Ct * 2) (fun w _ _ cfg => w = 2 ∧ ∃ i, cfg = .termChild i) := by
-  obtain ⟨Cr, hCr, hfin⟩ := capc_termChild_final_of hθ0 hθ1
-  refine ⟨Cr, hCr, ?_⟩
-  intro Ct hCt hT P C₁a C₂a C₁b C₂b K hη CL hCL hC11 hLOE _hbig hbig2 p hp n hn w LG X hsh hsz cfg hval hamb hsel
-    s t hps hst htp q' _hq' S ω cω hpres F M hM Fu Mu hMu ind hind _hind1 H B hH b₀ c₀
-  obtain ⟨rfl, i, rfl⟩ := hsel
-  exact hfin hCt hT K (pieceLoss_eta hη) le_rfl hCL hC11 hLOE hbig2 hp hn LG X hsh hsz hamb i hval hps hst htp q'
-    S ω cω hpres F M hM Fu Mu hMu ind hind H B hH b₀ c₀
-
-/-- **(P7), caps, as a `CfgU` slice**, from the two open cases of the root-trace bound (the third case is
-`tc_trace_t1_move`); the same hypotheses as the tree slice `cfgU_termChild_tree_of`. -/
-theorem capc_cfgU_tchild_of_cases {θ : ℝ} (hθ0 : 0 ≤ θ) (hθ1 : θ ≤ 1 / 4) {Ct : ℝ} (hCt : 0 ≤ Ct)
-    (hF : TcTraceOn θ Ct tcT1F) (h2 : TcTraceOn θ Ct tcT2) :
-    ∃ Cr : ℝ, 0 ≤ Cr ∧ CfgU θ Cr (fun w _ _ cfg => w = 2 ∧ ∃ i, cfg = .termChild i) := by
-  obtain ⟨Cr, hCr, hcfg⟩ := capc_cfgU_tchild_of_traceU hθ0 hθ1
-  obtain ⟨C₁, _hC₁, hM⟩ := tc_trace_t1_move hθ0 hθ1
-  have hCm0 : 0 ≤ max Ct C₁ := le_max_of_le_left hCt
-  have hT : TcTraceU θ (max Ct C₁) := tc_traceU_of_cases (tcTraceOn_mono (le_max_right _ _) hM)
-    (tcTraceOn_mono (le_max_left _ _) hF) (tcTraceOn_mono (le_max_left _ _) h2)
-  exact ⟨Cr * max Ct C₁ * 2, by positivity, hcfg hCm0 hT⟩
-
 /-- **The cap slice `selCap` of the gate**, from any `CfgUF` cap slice for `termChild`. -/
 theorem capc_cfgU_cap_of {θ : ℝ} (hθ0 : 0 ≤ θ) (hθ1 : θ ≤ 1 / 4)
     (hTC : ∃ Ct : ℝ, 0 ≤ Ct ∧ CfgUF θ Ct (fun w _ _ cfg => w = 2 ∧ ∃ i, cfg = .termChild i)) :
@@ -172,12 +147,5 @@ theorem capc_cfgU_cap_of {θ : ℝ} (hθ0 : 0 ≤ θ) (hθ1 : θ ≤ 1 / 4)
   have hU : CfgUF θ (Cr1 + Cr2) selCap := CfgUF.weaken (CfgUF.or hA hB)
     fun _ w LG X cfg _ _ hs => capc_selCap_cover w LG X cfg hs
   exact ⟨Cr1 + Cr2, by linarith, hU⟩
-
-/-- **The cap slice `selCap` of the gate**, from the two open cases of TChild's root-trace bound. -/
-theorem capc_cfgU_cap_of_cases {θ : ℝ} (hθ0 : 0 ≤ θ) (hθ1 : θ ≤ 1 / 4) {Ct : ℝ} (hCt : 0 ≤ Ct)
-    (hF : TcTraceOn θ Ct tcT1F) (h2 : TcTraceOn θ Ct tcT2) :
-    ∃ Cr : ℝ, 0 ≤ Cr ∧ CfgUF θ Cr selCap := by
-  obtain ⟨Cr, hCr, h⟩ := capc_cfgU_tchild_of_cases hθ0 hθ1 hCt hF h2
-  exact capc_cfgU_cap_of hθ0 hθ1 ⟨Cr, hCr, CfgU.toF h⟩
 
 end WaveTurbulence.Flower.ProtPin

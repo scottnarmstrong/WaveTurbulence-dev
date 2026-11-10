@@ -21,11 +21,6 @@ open TTree Reg Reg.Skeleton Twist Links RegRed WaveTurbulence.LFTwist
 variable {w p : ℕ} {kind : Bool} {ι : Type*} {A : FamilyReconstruction w ι} {i j : ι}
   (P : PairCtx p kind A i j)
 
-theorem PairCtx.core_pin_cross (con : LFConstruction P.srcI true) (b : GBranch A.skeleton.tree) :
-    layerAt A.layered (A.data.corePosition b) =
-      layerAt con.output (con.data.corePosition (coreBranchEquiv A.skeleton (A.family.placement i) b)) :=
-  con.coreLayers b
-
 theorem PairCtx.core_cross_of (con : LFConstruction P.srcI true) {x : GBranch A.skeleton.tree}
     {y : GBranch (unitTwistGarden A.skeleton (A.family.placement i)).tree}
     (h : y = coreBranchEquiv A.skeleton (A.family.placement i) x) :

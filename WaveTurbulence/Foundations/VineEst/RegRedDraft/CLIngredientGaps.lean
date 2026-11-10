@@ -52,16 +52,4 @@ theorem cl_lower_gap {U : Finset (GBranch G.tree)} {a b : GBranch G.tree}
       _ = 0 := h0
   exact sub_eq_zero.mp he
 
-/-- With positive/negative lower children ordered by their actual signs, the
-signed gap is unchanged at each bottom-to-top ingredient junction, including
-zero-gap decorations. Nonzero propagation is a separate case distinction. -/
-theorem cl_ingredient_gap_eq {A B : Finset (GBranch G.tree)} {a b c : GBranch G.tree}
-    (hA : G.molecule.IsBlock A c a) (hB : G.molecule.IsBlock B b c)
-    (RA : CLRegionData G A c a) (RB : CLRegionData G B b c)
-    (hi : A ∩ B = {c}) (k : GNode G.tree → Mom d) (hk : IsDecoration G k) :
-    k (a.child RA.positive)-k (a.child RA.negative) =
-      k (c.child RB.positive)-k (c.child RB.negative) := by
-  rw [← cl_boundary_momentum hA RA k hk,cl_ingredient_shared_child hA hB RA RB hi]
-  exact cl_lower_gap RB k hk
-
 end WaveTurbulence.RegRed

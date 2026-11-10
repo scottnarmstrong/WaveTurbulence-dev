@@ -25,25 +25,6 @@ namespace WaveTurbulence.Flower.ProtPin
 open WaveTurbulence.Flower.ProtDefs WaveTurbulence.Flower.ProtCut
 open TTree WaveTurbulence.Links WaveTurbulence.Reg WaveTurbulence.PL234
 
-/-- **The root-trace bound of a side couple** (uniform). -/
-def TcTraceU (θ Ct : ℝ) : Prop :=
-  ∀ {P : WTParams} {C₁a C₂a C₁b C₂b : ℝ} (_K : AlphaConsts P C₁a C₂a C₁b C₂b) (_hθc : PieceLoss P θ 0)
-    {p : ℕ} (_hp : p < P.D) {nr : ℕ} (_hn : nr ≤ P.N (p + 1) ^ 4) (Q : RegCpl) (LGc : LayeredGarden 2)
-    (_hwf : Q.wf = true) (_hsz : Q.size = 2 * nr) (_hdec : Q.Decodes LGc.garden) (_hle : ∀ a, LGc.layer a ≤ p)
-    (_hamb : TcCplAmb p Q LGc) (j : Fin 2) (_hj : layerAt LGc (j, []) = p)
-    (_hjb : ([] : TTree.Path) ∈ (LGc.garden.tree j).branching) {s : ℝ} (_hps : (p : ℝ) < s) (_hsp : s < p + 1)
-    (Hc : LeafProfiles 2 P.d) (Bc : (Fin 2 × TTree.Path) → NNReal) (_hHc : LeafwiseControlled LGc Hc Bc)
-    (S : Finset (GNode LGc.garden.tree)) (ω : GNode LGc.garden.tree → Flower.IncTop.Star P.d → ℂ)
-    (cω : GNode LGc.garden.tree → ℝ) (_hpres : ∀ a ∈ S, Flower.IncTop.StarPresented (30 * P.d) (ω a) (cω a))
-    (F : Finset (GBranch LGc.garden.tree)) (M : GBranch LGc.garden.tree → ℝ) (_hM : ∀ b ∈ F, P.L ≤ M b)
-    (Fu : Finset (GBranch LGc.garden.tree)) (Mu : GBranch LGc.garden.tree → ℝ) (_hMu : ∀ b ∈ Fu, P.L ≤ Mu b)
-    (k : Mom P.d),
-    rn θ (win p) (fun y => kernelProt P.L P.γ P.δ LGc Hc
-        (gateM S ω F M Fu Mu) (fun b => if b.1.1 = j then s else y 0) 0 (trFix j s) k (fun _ => 0) 0) ≤
-      ENNReal.ofReal (Ct * (P.L * (coupling P.d P.L P.γ P.δ ^ 2 *
-        (P.C₁ ^ 2 * rb P (nr - 1) (LGc.incoherency Q.links)) * leafSizeProduct LGc Bc * starCost S cω))) *
-          tcWt P.L k
-
 /-- A branching root forces a nontrivial couple: `1 ≤ n`. -/
 theorem tc_size_pos {Q : RegCpl} {LGc : LayeredGarden 2} (hwf : Q.wf = true) (hdec : Q.Decodes LGc.garden) {j : Fin 2}
     (hjb : ([] : TTree.Path) ∈ (LGc.garden.tree j).branching) {n : ℕ} (hsz : Q.size = 2 * n) : 1 ≤ n := by

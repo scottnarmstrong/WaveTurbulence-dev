@@ -40,14 +40,6 @@ def CoreGOfComponents : Prop :=
   ∀ B : ℝ, 0 ≤ B → B ≤ 24000 → WTPrefixP (MarkedComponentBoundAtI B) →
     WTPrefixP (Fam.FlowerCoreGainAt BcMK)
 
-/-- B0's budget (`B = 16500`, per-protected-vertex costs with `|Π| ≤ 25R`) fits under the cap `B ≤ 24000` of the two
-exports, and `4B ≤ 10⁵`, i.e. `4 B d ≤ BcMK d`. -/
-theorem budget_B0 : (16500 : ℝ) ≤ 24000 ∧ ∀ d : ℕ, 4 * 16500 * (d : ℝ) ≤ BcMK d := by
-  refine ⟨by norm_num, fun d => ?_⟩
-  unfold BcMK
-  have : (0 : ℝ) ≤ d := Nat.cast_nonneg d
-  nlinarith
-
 /-- The final consumer, as on main (`layergardenFlower_v3_of_cores`), at `BcMK`. -/
 theorem flower_v3_of_marked (hF : CoreFOfComponents)
     (hG : CoreGOfComponents) (B : ℝ) (hB0 : 0 ≤ B)

@@ -34,9 +34,6 @@ theorem PairCtx.exc_cross (con : LFConstruction P.srcI true) :
   exact (congrArg (fun l => pairOfLeaf (unitTwistGarden A.skeleton (A.family.placement i))
     (unitTwistGarden_plain A.skeleton (A.family.placement i) A.plain) l) h1).trans h2.symm
 
-theorem PairCtx.lowerJ_ne' : P.srcJ.placement.lower ≠ P.srcI.placement.lower := P.lowerJ_ne
-theorem PairCtx.excJ_ne' : P.srcJ.exceptional ≠ P.srcI.exceptional := P.excJ_ne
-
 theorem PairCtx.hord_T (con : LFConstruction P.srcI true) {ε : Bool} (hj : LFConstruction P.srcJ ε) :
     hj.newTree.size + hj.newCouple.size =
       ((P.srcJT con).data.tree (P.srcJT con).placement.lower).size +

@@ -6,7 +6,6 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.VineEst.RegRedDraft.RelativeFactorIdentities
-public import WaveTurbulence.Foundations.VineEst.RegRedDraft.TimeDomainReconstruction
 public import WaveTurbulence.Foundations.VineEst.RegRedDraft.PairedTreeLowerClock
 
 /-! # Source time domains with one exterior upper clock per root (REGRED-LEAF)

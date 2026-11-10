@@ -192,28 +192,6 @@ theorem mem_clRealizationNodes {o : GNode S.tree} (h : Mole.InIncidenceRealizati
   unfold RegRed.clRealizationNodes
   exact Finset.mem_filter.mpr ⟨Finset.mem_univ _, h⟩
 
-/-- The replaced nodes `u₂, u₂₃, u₀` are realization nodes other than the upper joint. -/
-theorem replaced_active (hB : S.molecule.IsBlock U u P.lower) (hCL : Mole.CLParentPattern S U u P.lower)
-    (hP : IsPlacementAt S U P.lower P) :
-    ∀ o ∈ replacedNodes P, o ∈ RegRed.clRealizationNodes S U ∧ o ≠ u.toNode := by
-  have hpair := placement_pair_in_realization S P hB hP
-  intro o ho
-  rw [mem_replacedNodes] at ho
-  rcases ho with rfl | rfl | rfl
-  · refine ⟨mem_clRealizationNodes (Or.inl ⟨P.lower, hB.2.2.1, rfl⟩), fun h => ?_⟩
-    have e : P.lower = u := toNode_injective h
-    exact hCL.1 (e ▸ hCL.2)
-  · refine ⟨mem_clRealizationNodes ?_, leaf_ne_branch _ _⟩
-    apply (Mole.leaf_incidence_realization_iff S U _).mpr
-    exact (Mole.internal_leaf_pair_iff S U P.retained).mp ((Mole.leaf_incidence_realization_iff S U _).mp hpair)
-  · exact ⟨mem_clRealizationNodes hpair, leaf_ne_branch _ _⟩
-
-/-- **`own(u₂) ∪ own(u₂₃) ∪ own(u₀) ⊆ 𝐀(𝕍)`.** -/
-theorem replaced_sub_activeSet (X : GBranch S.tree → RegChain) (hB : S.molecule.IsBlock U u P.lower)
-    (hCL : Mole.CLParentPattern S U u P.lower) (hP : IsPlacementAt S U P.lower P) :
-    ownedBy S X (replacedNodes P) ⊆ activeSet S X U u :=
-  fun _ hz => replaced_active P hB hCL hP _ hz
-
 end Active
 
 /-! ## The export: one LF step carries the capped stem over -/
@@ -221,40 +199,6 @@ end Active
 section Export
 variable {S : Garden w} (hS : S.IsPlain) (P : CorePlacement S) (D : ReconstructionData S)
   (X : RegChain) (Q : RegCpl) (hX : X.wf = true) (hQ : Q.wf = true)
-
-/-- **Stem transport along one LF step** (either choice `ε`; `𝕍 = (U, u)` the twisted member, `P` its designated
-placement). If the capped stems of `LG` avoid `𝐀(𝕍)`, then the coordinate map of the step fixes every capped-stem
-address (which lies off the replaced region), the output has the same capped flowers, the same capped stems (tree by
-tree, as address sets, so with the same depths) and the same depth-`k` stem vertices as the input, its capped stems
-avoid the image of the replaced region, and stem-avoidance of the replaced nodes of any other placement `Pj` is
-carried over to its transported placement `Pj'`. -/
-theorem lf_stem_transport (ε : Bool) {U : Finset (GBranch S.tree)} {u : GBranch S.tree}
-    (hB : S.molecule.IsBlock U u P.lower) (hCL : Mole.CLParentPattern S U u P.lower)
-    (hP : IsPlacementAt S U P.lower P) {LG LG' : LayeredGarden w} (hd : D.Decodes hS LG.garden)
-    (hd' : (lfReconstructionChoice S P hS D ε X Q hX hQ).Decodes (chosenSkeleton_plain S P hS ε) LG'.garden)
-    {J : Finset (Fin w)} (hcl : StemAvoid LG J (activeSet S D.tree U u)) :
-    (∀ ℓ, CapFlowerAt LG' J ℓ ↔ CapFlowerAt LG J ℓ) ∧
-      (∀ j z, CapStemAt LG' J j z ↔ CapStemAt LG J j z) ∧
-      (∀ ℓ, CapFlowerAt LG J ℓ → ∀ z, AddrBelow z ℓ → z ∉ ownedBy S D.tree (replacedNodes P) ∧
-        (lfCoord hS P D X Q hX hQ (pair_retained_tree' P hB hCL hP) ε).map z = z) ∧
-      (∀ j k z, (∃ b, stemAt LG' J j k = some b ∧ b.1 = z) ↔ (∃ b, stemAt LG J j k = some b ∧ b.1 = z)) ∧
-      (∀ (Pj : CorePlacement S) (Pj' : CorePlacement (chosenSkeleton S P ε)),
-        Pj'.lower = chosenBranchEquiv S P ε Pj.lower → Pj'.retained = chosenLeafEquiv S P ε Pj.retained →
-        StemAvoid LG J (ownedBy S D.tree (replacedNodes Pj)) →
-        StemAvoid LG' J (ownedBy (chosenSkeleton S P ε) (lfReconstructionChoice S P hS D ε X Q hX hQ).tree
-          (replacedNodes Pj'))) := by
-  have hsame := pair_retained_tree' P hB hCL hP
-  set C := lfCoord hS P D X Q hX hQ hsame ε
-  have hs : StemAvoid LG J (ownedBy S D.tree C.Rsk) := by
-    rw [lfCoord_rsk]
-    exact stemAvoid_mono (replaced_sub_activeSet P D.tree hB hCL hP) hcl
-  obtain ⟨h1, h2, h3, h4, -, h6⟩ := C.stem_transport (lfPair hS P D X Q hX hQ hsame ε) hd hd'
-    (lfCoord_root hS P D X Q hX hQ hsame ε) (lfCoord_pairR hS P D X Q hX hQ hsame ε)
-    (lfCoord_root' hS P D X Q hX hQ hsame ε) (lfCoord_pairR' hS P D X Q hX hQ hsame ε) hs
-  refine ⟨h1, h2, ?_, h4, fun Pj Pj' e1 e2 => h6 _ _ fun o _ => lf_replaced_iff hS P D X Q hX hQ hsame ε Pj Pj' e1 e2 o⟩
-  intro ℓ hℓ z hz
-  have := h3 ℓ hℓ z hz
-  rwa [lfCoord_rsk] at this
 
 end Export
 

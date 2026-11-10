@@ -118,21 +118,5 @@ theorem vinesV_preimage {c' : CLVine Z.target} (hc : c' ∈ vinesV Z.target) :
   · exact Z.iso.e.apply_symm_apply _
   · exact Z.iso.e.apply_symm_apply _
 
-/-- **`vinesV` is equivariant along `unitTwistDirectedIso`**: as sets of (atoms, upper joint, lower
-joint), `vinesV` of the twisted skeleton is the image of `vinesV` of the skeleton under the branch
-bijection `coreBranchEquiv` (`= (unitTwistDirectedIso G P).branches`). -/
-theorem vinesV_equivariant :
-    {t | ∃ c' ∈ vinesV Z.target, t = (c'.atoms, c'.upper, c'.lower)} =
-      {t | ∃ c ∈ vinesV G, t = (twistedAtoms G Z.P c.atoms, coreBranchEquiv G Z.P c.upper,
-        coreBranchEquiv G Z.P c.lower)} := by
-  ext t
-  constructor
-  · rintro ⟨c', hc', rfl⟩
-    obtain ⟨c, hc, h1, h2, h3⟩ := Z.vinesV_preimage hc'
-    exact ⟨c, hc, Prod.ext h1.symm (Prod.ext h2.symm h3.symm)⟩
-  · rintro ⟨c, hc, rfl⟩
-    obtain ⟨c', hc', h1, h2, h3⟩ := Z.vinesV_image hc
-    exact ⟨c', hc', Prod.ext h1.symm (Prod.ext h2.symm h3.symm)⟩
-
 end TwistGroupSite
 end WaveTurbulence.Stage1

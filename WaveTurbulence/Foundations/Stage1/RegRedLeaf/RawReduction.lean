@@ -6,7 +6,6 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.Stage1.RegRedLeaf.ReducedDecomp
-public import WaveTurbulence.Foundations.VineEst.RegRedDraft.KernelNativeReduction
 
 /-! # Skeleton reduction of the node-profile kernel, with a skeleton-level decoration restriction
 

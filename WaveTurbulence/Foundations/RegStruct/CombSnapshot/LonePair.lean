@@ -76,28 +76,4 @@ theorem pairWithLone_eq_iff (lone : α) (p : {a : α // a ≠ lone} → {a : α 
     rw [show pairWithLone lone p ℓ = (p ⟨ℓ, hℓ⟩).1 from pairWithLone_other lone p ⟨ℓ, hℓ⟩]
     exact hs ⟨ℓ, hℓ⟩
 
-/-- The construction has exactly one marked leaf, tagged `lower`. -/
-theorem pairedTreeWithLone_isPairedTree (t : TTree) (ζ : ℤˣ)
-    (lone : GLeaf (fun _ : Fin 1 => t))
-    (p : {ℓ : GLeaf (fun _ : Fin 1 => t) // ℓ ≠ lone} → {ℓ : GLeaf (fun _ : Fin 1 => t) // ℓ ≠ lone})
-    (hp : Function.Involutive p) (hn : ∀ ℓ, p ℓ ≠ ℓ)
-    (hs : ∀ ℓ, nodeSign (fun _ : Fin 1 => ζ) (p ℓ).1.1 =
-      -nodeSign (fun _ : Fin 1 => ζ) ℓ.1.1) :
-    IsPairedTree (pairedTreeWithLone t ζ lone p hp hn hs) := by
-  classical
-  constructor
-  · change (Finset.univ.filter (fun ℓ => (if ℓ = lone then some MarkTag.lower else none) ≠ none)).card = 1
-    have he : (Finset.univ.filter (fun ℓ : GLeaf (fun _ : Fin 1 => t) =>
-        (if ℓ = lone then some MarkTag.lower else none) ≠ none)) = {lone} := by
-      ext ℓ
-      by_cases h : ℓ = lone <;> simp [h]
-    rw [he]
-    rfl
-  · intro ℓ hℓ
-    dsimp only [pairedTreeWithLone] at hℓ
-    dsimp only [Garden.IsLone, pairedTreeWithLone]
-    split_ifs with he
-    · rfl
-    · exact (hℓ (ite_eq_right he)).elim
-
 end WaveTurbulence.Comb

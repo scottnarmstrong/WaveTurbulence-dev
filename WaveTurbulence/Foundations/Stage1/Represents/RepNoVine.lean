@@ -6,7 +6,8 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.Stage1.Represents.RepGap
-public import WaveTurbulence.Foundations.Stage1.Geometry.SubproFinal2
+public import WaveTurbulence.Foundations.Stage1.Geometry.SubproCross2
+public import WaveTurbulence.Foundations.FinalCount.SubproSupportA
 import Mathlib.Tactic
 
 /-!

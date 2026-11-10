@@ -283,10 +283,6 @@ theorem img_symm_img (S : Finset V') : F.img (F.symm.img S) = S := by
   rw [F.mem_img']
   exact F.symm.mem_img S v
 
-theorem isStage1Group_img_iff {S : Finset V} : IsStage1Group N (F.img S) ↔ IsStage1Group M S := by
-  refine ⟨fun h => ?_, F.isStage1Group_img⟩
-  simpa [F.img_img_symm] using F.symm.isStage1Group_img h
-
 theorem maximalGroups_img {S : Finset V} (h : S ∈ maximalGroups M) : F.img S ∈ maximalGroups N := by
   refine ⟨F.isStage1Group_img h.1, fun T hT hST => ?_⟩
   have hT' : IsStage1Group M (F.symm.img T) := F.symm.isStage1Group_img hT

@@ -77,26 +77,4 @@ theorem graftLeafMap_injective (ℓ : GLeaf tree) (s : TTree) :
     | inl b => exact (graftInsertedLeaf_ne_other tree ℓ b.1 b.2 s a hab).elim
     | inr b => exact congrArg Sum.inr (graftInsertedLeaf_injective tree ℓ s hab)
 
-/-- The forward map has the exact cardinality of the new leaf set. -/
-theorem graftLeafMap_card (ℓ : GLeaf tree) (s : TTree) :
-    Fintype.card ({q : GLeaf tree // q ≠ ℓ} ⊕ GLeaf (fun _ : Fin 1 => s)) =
-      Fintype.card (GLeaf (graftLeafForest tree ℓ s)) := by
-  have hold : Fintype.card {q : GLeaf tree // q ≠ ℓ} + 1 = Fintype.card (GLeaf tree) := by
-    simpa only [Fintype.card_option] using Fintype.card_congr (Equiv.optionSubtypeNe ℓ)
-  have hs : Fintype.card (GLeaf (fun _ : Fin 1 => s)) = 2 * s.order + 1 := by
-    simp only [card_gleaf, Fin.sum_univ_one]
-  have hnew := card_gleaf (graftLeafForest tree ℓ s)
-  rw [graftLeafForest_order] at hnew
-  have hbase := card_gleaf tree
-  rw [Fintype.card_sum, hs]
-  omega
-
-/-- The exact surviving/inserted leaf bijection of the graft. -/
-@[expose] noncomputable def graftLeafEquiv (ℓ : GLeaf tree) (s : TTree) :
-    ({q : GLeaf tree // q ≠ ℓ} ⊕ GLeaf (fun _ : Fin 1 => s)) ≃
-      GLeaf (graftLeafForest tree ℓ s) :=
-  Equiv.ofBijective (graftLeafMap tree ℓ s)
-    ((Fintype.bijective_iff_injective_and_card _).mpr
-      ⟨graftLeafMap_injective tree ℓ s, graftLeafMap_card tree ℓ s⟩)
-
 end WaveTurbulence.Comb

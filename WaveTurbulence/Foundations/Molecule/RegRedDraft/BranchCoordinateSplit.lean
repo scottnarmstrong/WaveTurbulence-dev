@@ -64,10 +64,6 @@ noncomputable def sourceTimeSplit {w : ℕ} {S : Garden w} (D : ReconstructionDa
   (MeasurableEquiv.piCongrLeft (fun _ => ℝ) (sourceBranchEquiv D hS)).symm.trans
     (MeasurableEquiv.sumPiEquivProdPi (fun _ => ℝ))
 
-theorem sourceTimeSplit_core {w : ℕ} {S : Garden w} (D : ReconstructionData S)
-    (hS : S.IsPlain) (τ : GBranch (D.forest hS) → ℝ) (b : GBranch S.tree) :
-    (sourceTimeSplit D hS τ).1 b = τ (D.coreBranch hS b) := rfl
-
 theorem measurePreserving_sourceTimeSplit {w : ℕ} {S : Garden w} (D : ReconstructionData S)
     (hS : S.IsPlain) : MeasurePreserving (sourceTimeSplit D hS) volume
       ((volume : Measure (GBranch S.tree → ℝ)).prod (volume : Measure (ReplacementBranchIndex D → ℝ))) := by

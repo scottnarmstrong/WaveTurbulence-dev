@@ -104,11 +104,6 @@ theorem graftPairLeafMap_card (ℓ q : GLeaf tree) (hq : q ≠ ℓ) (s r : TTree
     ((Fintype.bijective_iff_injective_and_card _).mpr
       ⟨graftPairLeafMap_injective tree ℓ q hq s r, graftPairLeafMap_card tree ℓ q hq s r⟩)
 
-/-- Old leaf addresses remain literal under the pair bijection. -/
-theorem graftPairLeafEquiv_old (ℓ q : GLeaf tree) (hq : q ≠ ℓ) (s r : TTree)
-    (x : PairOutside tree ℓ q) :
-    (graftPairLeafEquiv tree ℓ q hq s r (.inl (.inl x))).1 = x.1.1 := rfl
-
 /-- The first inserted leaf addresses are prefixed by the first slot address. -/
 theorem graftPairLeafEquiv_left (ℓ q : GLeaf tree) (hq : q ≠ ℓ) (s r : TTree)
     (x : GLeaf (fun _ : Fin 1 => s)) :

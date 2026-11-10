@@ -44,29 +44,4 @@ theorem order_graft_leaf {t : TTree} {p : Path} (h : p ∈ t.leaves) (s : TTree)
     (replaceAt t p s).order = t.order + s.order := by
   simpa only [order, Nat.add_zero] using order_replaceAt (subtree_of_mem_leaves h) s
 
-/-- Grafting into a leaf removes one leaf and inserts all leaves of the new tree. -/
-theorem leaves_graft_leaf {t : TTree} {p : Path} (h : p ∈ t.leaves) (s : TTree) :
-    (replaceAt t p s).leaves.card + 1 = t.leaves.card + s.leaves.card := by
-  simpa only [leaves, Finset.card_singleton] using leaves_replaceAt (subtree_of_mem_leaves h) s
-
-/-- A paired tree used as a context is grafted at its unique lone leaf. -/
-@[expose] def graftPairedTree (H : Garden 1) (lone : GLeaf H.tree) (s : TTree) : TTree :=
-  replaceAt (H.tree 0) lone.1.2 s
-
-/-- Grafting a paired-tree context adds its order to the inserted subtree order. -/
-theorem graftPairedTree_order (H : Garden 1) (lone : GLeaf H.tree) (s : TTree) :
-    (graftPairedTree H lone s).order = H.order + s.order := by
-  have hl : lone.1.2 ∈ (H.tree 0).leaves := by
-    have hi : lone.1.1 = 0 := Subsingleton.elim _ _
-    simpa only [hi] using lone.2
-  rw [graftPairedTree, order_graft_leaf hl]
-  simp only [Garden.order, Fin.sum_univ_one]
-
-/-- Grafting the actual lower tree into the extracted paired tree restores the upper tree. -/
-theorem embeddedPairedTree_graft {w : ℕ} {G : Garden w} {a b : GNode G.tree}
-    (h : IsSubPairedTree G a b) :
-    replaceAt ((embeddedPairedTree h).tree 0) (collapseDataOfDesc h.1).path (nodeSubtree b) =
-      nodeSubtree a :=
-  graft_collapse_eq (collapseDataOfDesc h.1).lower_eq
-
 end WaveTurbulence.Comb

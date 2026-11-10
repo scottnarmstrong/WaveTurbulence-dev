@@ -20,16 +20,6 @@ open TTree Reg Reg.Skeleton Twist Links RegRed WaveTurbulence.LFTwist
 
 variable {w p : ℕ} {kind : Bool} {LG : LayeredGarden w}
 
-theorem unitLayerTwist_eq_of_eq {LG1 LG2 : LayeredGarden w} (e : LG1 = LG2)
-    {P1 : CorePlacement LG1.garden} {P2 : CorePlacement LG2.garden}
-    (hP : (congrArg LayeredGarden.garden e ▸ P1 : CorePlacement LG2.garden) = P2)
-    (h1 : SameLowerLayer LG1 P1) :
-    ∃ h2 : SameLowerLayer LG2 P2, unitLayerTwist LG1 P1 h1 = unitLayerTwist LG2 P2 h2 := by
-  subst e
-  have : P1 = P2 := hP
-  subst this
-  exact ⟨h1, rfl⟩
-
 theorem unitLayerTwist_involutive_of_eq {LG1 normA : LayeredGarden w} {PA : CorePlacement normA.garden}
     {hA : SameLowerLayer normA PA} (e : LG1 = unitLayerTwist normA PA hA) {P1 : CorePlacement LG1.garden}
     (hP : (congrArg LayeredGarden.garden e ▸ P1 : CorePlacement (unitLayerTwist normA PA hA).garden) =

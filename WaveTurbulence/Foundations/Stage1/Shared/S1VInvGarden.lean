@@ -56,10 +56,6 @@ variable {G : Garden w} (Z : TwistSite G)
   mate_comm := twistDartEquiv_mate G Z.P
   out_comm := twistDartEquiv_out G Z.P
 
-theorem iso_e (v : GBranch G.tree) : Z.iso.e v = coreBranchEquiv G Z.P v := rfl
-
-theorem iso_img (T : Finset (GBranch G.tree)) : Z.iso.img T = twistedAtoms G Z.P T := rfl
-
 /-- `T` contains the twisted block or meets it in at most one atom. -/
 @[expose] def Good (T : Finset (GBranch G.tree)) : Prop :=
   Z.S0 ⊆ T ∨ SeparatedGroups Z.S0 T

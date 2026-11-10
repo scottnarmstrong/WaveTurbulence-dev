@@ -102,10 +102,6 @@ theorem atoms_sub_obj (hM : G.molecule.IsMolecule) (σ : Prescription G) {S : Fi
     {O : Object (stSt G σ).G.molecule} (hO : objOf G σ S = some O) {P : Finset (GBranch (stSt G σ).G.tree)}
     (hP : ∀ c ∈ P, (stSt G σ).M.ob c ∈ S ∧ (stSt G σ).cls ((stSt G σ).M.ob c) = none) : P ⊆ O.atoms := atoms_sub_objMk (Mk := ∅) hM σ hO hP
 
-theorem obj_group_of_mem (σ : Prescription G) {O : Object (stSt G σ).G.molecule} (hO : O ∈ objects G σ) :
-    ∃ S, G.molecule.IsMolecule ∧ S ∈ maximalGroups G.molecule ∧ objOf G σ S = some O :=
-  mem_objects' hO
-
 
 /-- B1b (Mk-general form of `mem_objects_of`). -/
 theorem mem_objects_ofMk (σ : Prescription G) {S : Finset (GBranch G.tree)} {Mk : Set (Stage1.CLVine _)} {O : Object (stSt (Mk := Mk) G σ).G.molecule}

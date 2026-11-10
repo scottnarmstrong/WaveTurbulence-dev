@@ -40,8 +40,6 @@ theorem box_of_pinsRoot {cfg : ProtCfg} {X : RegChain} (h : cfg.pinsRoot X = tru
   rw [h]
   rfl
 
-theorem box_none (X : RegChain) (t p q' : ℝ) : ProtCfg.none.box X t p q' = timeBoxGt p q' := rfl
-theorem box_term (X : RegChain) (t p q' : ℝ) : ProtCfg.term.box X t p q' = timeBoxGt p q' := rfl
 theorem box_trace (X : RegChain) (t p q' : ℝ) : ProtCfg.trace.box X t p q' = timeBoxGt p q' := rfl
 theorem box_termChild (i : Fin 3) (X : RegChain) (t p q' : ℝ) :
     (ProtCfg.termChild i).box X t p q' = timeBoxGt p q' := rfl
@@ -72,9 +70,6 @@ def ProtBoundAlphaAt (P : WTParams) : Prop :=
       (∏ a ∈ S, ENNReal.ofReal (cω a)) * ENNReal.ofReal (P.L ^ c) * regBound P n (protIncoh X LG) *
         ENNReal.ofReal (leafSizeProduct LG B)
 
-/-- Milestone α as a gate. -/
-def ProtBoundAlphaGate : Prop := WTPrefix ProtBoundAlphaAt
-
 /-- **The `none` configuration of `ProtBoundAt`**, with star weights and filters: `ProtDefs.ProtBoundAt P`'s binders
 and conclusion verbatim, with the hypothesis `cfg = .none` added. -/
 def ProtBoundNoneAt (P : WTParams) : Prop :=
@@ -97,9 +92,6 @@ def ProtBoundNoneAt (P : WTParams) : Prop :=
         (fun _ => ts 0) (ts 1) (cfg.fix X s t (ts 0)) k (fun _ => 0) 0) ≤
       (∏ a ∈ S, ENNReal.ofReal (cω a)) * ENNReal.ofReal (P.L ^ c) * regBound P n (protIncoh X LG) *
         ENNReal.ofReal (leafSizeProduct LG B)
-
-/-- The `none` configuration as a gate. -/
-def ProtBoundNoneGate : Prop := WTPrefix ProtBoundNoneAt
 
 /-- **The configurations `none` and `term` of `ProtBoundAt`** (the two configurations with weight `1/4`), with star
 weights, filters and the dagger: `ProtDefs.ProtBoundAt P`'s binders and conclusion verbatim, with the hypothesis
@@ -124,9 +116,6 @@ def ProtBoundNTAt (P : WTParams) : Prop :=
         (fun _ => ts 0) (ts 1) (cfg.fix X s t (ts 0)) k (fun _ => 0) 0) ≤
       (∏ a ∈ S, ENNReal.ofReal (cω a)) * ENNReal.ofReal (P.L ^ c) * regBound P n (protIncoh X LG) *
         ENNReal.ofReal (leafSizeProduct LG B)
-
-/-- The configurations `none` and `term` as a gate. -/
-def ProtBoundNTGate : Prop := WTPrefix ProtBoundNTAt
 
 /-- **The flat coherent bound** (FiltCoh's single-layer oracles `D5CoupleKOracle`/`D5TreeKOracle` in prefix form):
 regular couples with every node in one layer `r`, and regular paired trees with every node in `r` except the lone

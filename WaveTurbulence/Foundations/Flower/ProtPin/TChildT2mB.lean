@@ -87,9 +87,6 @@ def tc2BX (B : (Fin 2 × TTree.Path) → NNReal) : (Fin 1 × TTree.Path) → NNR
 def tc2BQ (Xp : RegChain) (B : (Fin 2 × TTree.Path) → NNReal) : (Fin 2 × TTree.Path) → NNReal :=
   fun a => B (botAddr Xp.lonePath a)
 
-omit D in
-theorem tc2BX_def (B : (Fin 2 × TTree.Path) → NNReal) (a : Fin 1 × TTree.Path) : tc2BX B a = B (topAddr a) := rfl
-
 theorem tc2_leafwise {d : ℕ} {H : LeafProfiles 2 d} {B : (Fin 2 × TTree.Path) → NNReal}
     (hH : LeafwiseControlled LG H B) :
     LeafwiseControlled LGX (t2HX H) (tc2BX B) ∧ LeafwiseControlled LGQ (t2HQ Xp H) (tc2BQ Xp B) := by

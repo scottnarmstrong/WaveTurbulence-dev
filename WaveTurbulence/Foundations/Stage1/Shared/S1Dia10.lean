@@ -26,8 +26,6 @@ variable {w : ℕ}
 @[expose] def castPair {S S' : Garden w} (hs : S = S') (q : SourcePair S) : SourcePair S' :=
   ⟨q.1, (congrArg (fun G : Garden w => q.1 ∈ sourcePairs G) hs).mp q.2⟩
 
-theorem castBranch_val {S S' : Garden w} (hs : S = S') (b : GBranch S.tree) : (castBranch hs b).1 = b.1 := rfl
-
 theorem heq_recon {S S' : Garden w} (hs : S = S') (D : ReconstructionData S) (D' : ReconstructionData S')
     (ht : ∀ b : GBranch S.tree, D.tree b = D'.tree (castBranch hs b))
     (hc : ∀ q : SourcePair S, D.couple q = D'.couple (castPair hs q)) : HEq D D' := by
@@ -36,13 +34,6 @@ theorem heq_recon {S S' : Garden w} (hs : S = S') (D : ReconstructionData S) (D'
   apply ReconstructionData.ext_tree_couple
   · funext b; exact ht b
   · funext q; exact hc q
-
-theorem pair_addr_cast {S S' : Garden w} (hs : S = S') (l : GLeaf S.tree) (l' : GLeaf S'.tree)
-    (h : l.1 = l'.1) : (S.pair l).1 = (S'.pair l').1 := by
-  subst hs
-  have : l = l' := Subtype.ext h
-  subst this
-  rfl
 
 theorem decodes_of_heq {S S' : Garden w} (hs : S = S') (D : ReconstructionData S) (D' : ReconstructionData S')
     (hD : HEq D D') (hS : S.IsPlain) (hS' : S'.IsPlain) {G : Garden w} (h' : D'.Decodes hS' G) :

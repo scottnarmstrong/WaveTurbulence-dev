@@ -37,8 +37,6 @@ theorem glueT : GlueT g.glued1 g.To (g.FD.garden (s.chosen_plain ε)) (g.FD.tree
 /-- The glued layered garden after both reinsertions. -/
 @[expose] noncomputable def glued2 : LayeredGarden w := g.glueT.glued
 
-theorem glued2_garden : g.glued2.garden = g.FD.garden (s.chosen_plain ε) := rfl
-
 theorem treeInsertion_aux :
     CoherentTreeInsertion p g.glued1 g.glued2
       (inflatedPosition (s.chosen ε) (s.midData ε g.Q g.hQ).tree (s.branches ε s.placement.lower).toNode)

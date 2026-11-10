@@ -30,12 +30,6 @@ theorem leafPairPullback_spec (f : GLeaf tree ↪ GLeaf G.tree)
     (hc : ∀ ℓ, ∃ ℓ', f ℓ' = G.pair (f ℓ)) (ℓ : GLeaf tree) :
     f (leafPairPullback f hc ℓ) = G.pair (f ℓ) := Classical.choose_spec (hc ℓ)
 
-/-- Injectivity makes the pulled-back partner unique. -/
-theorem leafPairPullback_unique (f : GLeaf tree ↪ GLeaf G.tree)
-    (hc : ∀ ℓ, ∃ ℓ', f ℓ' = G.pair (f ℓ)) {ℓ ℓ' : GLeaf tree}
-    (h : f ℓ' = G.pair (f ℓ)) : ℓ' = leafPairPullback f hc ℓ :=
-  f.injective (h.trans (leafPairPullback_spec f hc ℓ).symm)
-
 /-- Build a garden on a leaf embedding whose image is closed under pairing.
 Sign preservation is literal equality of the node signs at the embedded leaves. -/
 @[expose] noncomputable def gardenOnLeafEmbedding (sig : Fin v → ℤˣ)

@@ -77,42 +77,6 @@ theorem pathSign_append (ζ : ℤˣ) (p q : Path) :
     pathSign ζ (p ++ q) = pathSign (pathSign ζ p) q := by
   simp only [pathSign, List.count_append, pow_add, mul_assoc]
 
-/-- A left child has its parent's sign (TARGET L629). -/
-theorem pathSign_left (ζ : ℤˣ) (p : Path) : pathSign ζ (p ++ [0]) = pathSign ζ p := by
-  rw [pathSign_append]
-  simp [pathSign]
-
-/-- A middle child has the opposite sign (TARGET L629). -/
-theorem pathSign_mid (ζ : ℤˣ) (p : Path) : pathSign ζ (p ++ [1]) = -pathSign ζ p := by
-  rw [pathSign_append]
-  simp [pathSign]
-
-/-- A right child has its parent's sign (TARGET L629). -/
-theorem pathSign_right (ζ : ℤˣ) (p : Path) : pathSign ζ (p ++ [2]) = pathSign ζ p := by
-  rw [pathSign_append]
-  simp [pathSign]
-
-/-- Conjugating a signed tree reverses every node sign (TARGET L631). -/
-theorem pathSign_neg (ζ : ℤˣ) (p : Path) : pathSign (-ζ) p = -pathSign ζ p := by
-  simp [pathSign]
-
-/-- The tree phase ζ(𝒯), with its sign supplied separately (TARGET L630). -/
-@[expose] noncomputable def treeZeta (t : TTree) (ζ : ℤˣ) : ℂ :=
-  ∏ p ∈ t.branching, Complex.I * (((pathSign ζ p : ℤˣ) : ℤ) : ℂ)
-
-/-- Strong induction in the branching order, convenient for later combinatorics. -/
-theorem tree_order_induction {P : TTree → Prop}
-    (h : ∀ t, (∀ s, s.order < t.order → P s) → P t) (t : TTree) : P t := by
-  have hh : ∀ n, ∀ t : TTree, t.order = n → P t := by
-    intro n
-    induction n using Nat.strong_induction_on with
-    | h n ih =>
-      intro t ht
-      apply h t
-      intro s hs
-      exact ih s.order (by omega) s rfl
-  exact hh t.order t rfl
-
 /-- Bounded-order trees form a finite type (TARGET L628). -/
 instance finite_boundedOrder (n : ℕ) : Finite {t : TTree // t.order ≤ n} :=
   (finite_order_le n).to_subtype
@@ -120,15 +84,5 @@ instance finite_boundedOrder (n : ℕ) : Finite {t : TTree // t.order ≤ n} :=
 /-- A Fintype interface for sums over bounded-order trees. -/
 noncomputable instance fintype_boundedOrder (n : ℕ) : Fintype {t : TTree // t.order ≤ n} :=
   Fintype.ofFinite _
-
-/-- Conjugating a signed tree conjugates its phase (TARGET L630–L631). -/
-theorem treeZeta_neg (t : TTree) (ζ : ℤˣ) :
-    treeZeta t (-ζ) = (starRingEnd ℂ) (treeZeta t ζ) := by
-  unfold treeZeta
-  rw [map_prod]
-  apply Finset.prod_congr rfl
-  intro p hp
-  rw [pathSign_neg]
-  simp
 
 end WaveTurbulence.Comb

@@ -8,7 +8,6 @@ module
 public import WaveTurbulence.Foundations.VineEst.RegRedDraft.CLLocalDecorations
 public import WaveTurbulence.Foundations.VineEst.RegRedDraft.CLLocalTimes
 public import WaveTurbulence.Foundations.VineEst.RegRedDraft.SkeletonReduction
-public import WaveTurbulence.Foundations.VineEst.RegRedDraft.NativeRegularity
 public import WaveTurbulence.Foundations.VineEst.RowSel.Basic
 
 /-! # Exact regional factors and source orders in the CL-local expression -/

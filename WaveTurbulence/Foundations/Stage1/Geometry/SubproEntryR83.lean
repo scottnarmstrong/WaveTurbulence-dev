@@ -39,11 +39,6 @@ theorem atom_eq_piMk (σ : Prescription G) {Mk : Set (Stage1.CLVine _)} (f : Gar
   · apply (stSt (Mk := Mk) G σ).M.ob_inj
     rw [(stSt (Mk := Mk) G σ).M.ob_pi, (stSt (Mk := Mk) G σ).M.ob_atom, (stSt (Mk := Mk) G σ).M.od_mate]
 
-theorem atom_eq_pi (σ : Prescription G) (f : GardenDart (stSt G σ).G) :
-    (stSt G σ).G.molecule.atom f = (stSt G σ).M.pi (stSt G σ).hcls (G.molecule.atom ((stSt G σ).M.od f)) ∧
-    (stSt G σ).G.molecule.atom ((stSt G σ).G.molecule.mate f) =
-      (stSt G σ).M.pi (stSt G σ).hcls (G.molecule.atom (G.molecule.mate ((stSt G σ).M.od f))) := atom_eq_piMk (Mk := ∅) σ f
-
 /-- B1b (Mk-general form of `containsDart_of_orig`). -/
 theorem containsDart_of_origMk (σ : Prescription G) {Mk : Set (Stage1.CLVine _)} {O : Object (stSt (Mk := Mk) G σ).G.molecule} {A : Finset (GBranch G.tree)}
     (hOa : O.atoms = A.image ((stSt (Mk := Mk) G σ).M.pi (stSt (Mk := Mk) G σ).hcls)) {f : GardenDart (stSt (Mk := Mk) G σ).G}

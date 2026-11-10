@@ -24,25 +24,6 @@ theorem pair_ne_of_unmarked {ℓ : GLeaf G.tree} (h : G.mark ℓ = none) : G.pai
 theorem pair_ne_of_plain (h : G.IsPlain) (ℓ : GLeaf G.tree) : G.pair ℓ ≠ ℓ :=
   pair_ne_of_unmarked (h ℓ)
 
-/-- Pairing is injective, including in gardens with marked leaves. -/
-theorem pair_injective (G : Garden w) : Function.Injective G.pair :=
-  Function.LeftInverse.injective G.pair_pair
-
-/-- The pairing as an honest involutive permutation. -/
-@[expose] def pairEquiv (G : Garden w) : Equiv.Perm (GLeaf G.tree) where
-  toFun := G.pair
-  invFun := G.pair
-  left_inv := G.pair_pair
-  right_inv := G.pair_pair
-
-/-- The pairing preserves the set of unmarked leaves. -/
-theorem mark_pair_eq_none_iff (ℓ : GLeaf G.tree) : G.mark (G.pair ℓ) = none ↔ G.mark ℓ = none := by
-  have hf : G.pair (G.pair ℓ) = G.pair ℓ ↔ G.pair ℓ = ℓ := by
-    rw [G.pair_pair]
-    exact eq_comm
-  have h := (G.pair_eq_iff (G.pair ℓ)).symm.trans (hf.trans (G.pair_eq_iff ℓ))
-  simpa only [not_not] using not_congr h
-
 /-- A completely paired finite set has cancellation of every paired-constant labelling. -/
 theorem sum_signed_completelyPaired {V : Type*} [AddCommGroup V]
     {S : Finset (GLeaf G.tree)} (hS : G.CompletelyPaired S)

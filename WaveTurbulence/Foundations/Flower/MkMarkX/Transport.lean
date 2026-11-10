@@ -314,9 +314,6 @@ theorem markInvariantBatchV_markIX : MarkInvariantBatchV (markIX J pat t s kSel)
   intro c c' hc'
   exact or_congr (hI c c' hc') (hX c c' hc')
 
-theorem markInvariantBatchVF_markIX : MarkInvariantBatchVF (markIX J pat t s kSel) (fun _ _ => True) :=
-  fun h hA hfam _ => markInvariantBatchV_markIX J pat t s kSel h hA hfam trivial
-
 /-- Main's form (`Stage1Mk.MarkInvariantBatchV`, the same body). -/
 theorem stage1Mk_markInvariantBatchV_markIX :
     Stage1Mk.MarkInvariantBatchV (markIX J pat t s kSel) (fun _ => True) :=
@@ -329,70 +326,7 @@ theorem fineTransportedAt_markIX (a : VineA.PrescribedPrimeGarden w) : a.FineTra
 
 /-! ### Inclusions -/
 
-theorem protI0_subset_protI (LG : LayeredGarden w) : protI0 LG J pat t s ⊆ protI LG J pat t s kSel := by
-  intro a ha
-  obtain ⟨σ, hn, hσ⟩ := (mem_protI0_iff pat t s a).mp ha
-  exact (mem_protI_iff pat t s kSel a).mpr ⟨a.2, σ, hn, Or.inl hσ⟩
-
-/-- **`FineMarking.sub`.** -/
-theorem markI_subset_markIX :
-    ∀ {LG : LayeredGarden w} (B : VineA.PrimeData LG), markI J pat t s kSel B ⊆ markIX J pat t s kSel B := by
-  intro LG B c hc
-  exact Or.inl hc
-
-/-- **`mkC ⊆ mkF`** (the `hsub` of main's `stage1Partition_prodMk`). -/
-theorem markI0_subset_markIX {LG : LayeredGarden w} (B : VineA.PrimeData LG) :
-    markI0 J pat t s B ⊆ markIX J pat t s kSel B := by
-  rintro c ⟨hv, b, hb, hbu, a, ha, hn⟩
-  exact Or.inl ⟨hv, b, hb, hbu, a, protI0_subset_protI J pat t s kSel LG ha, hn⟩
-
-/-- **`FineMarking.stem`.** -/
-theorem unclean_mem_markIX :
-    ∀ {LG : LayeredGarden w} (B : VineA.PrimeData LG), ∀ c ∈ Stage1.vinesV B.skeleton,
-      ¬ MkMark.StemCleanAt J B c.atoms c.upper → c ∈ markIX J pat t s kSel B := by
-  intro LG B c hc hn
-  exact Or.inr ⟨hc, hn⟩
-
-/-- **`FineMarking.le`.** -/
-theorem markIX_le :
-    ∀ {LG : LayeredGarden w} (B : VineA.PrimeData LG), ∀ c ∈ markIX J pat t s kSel B,
-      c ∈ markI J pat t s kSel B ∨ (c ∈ Stage1.vinesV B.skeleton ∧ ¬ MkMark.StemCleanAt J B c.atoms c.upper) := by
-  intro LG B c hc
-  exact hc
-
 /-! ### The stem-free case: `markI` alone -/
-
-theorem selSetCap_of_none (LG : LayeredGarden w) (hk : ∀ i, kSel i = none) : selSetCap LG J kSel = ∅ := by
-  ext b
-  simp [selSetCap, selCap, hk]
-
-/-- With no depth selection, `markI = markI0`. -/
-theorem markI_eq_markI0_of_none (hk : ∀ i, kSel i = none) {LG : LayeredGarden w} (B : VineA.PrimeData LG) :
-    markI J pat t s kSel B = markI0 J pat t s B := by
-  show markedVinesRaw B.skeleton B.data.tree (protI LG J pat t s kSel) =
-    markedVinesRaw B.skeleton B.data.tree (protI0 LG J pat t s)
-  unfold protI protI0
-  rw [selSetCap_of_none J kSel LG hk]
-
-/-- With no depth selection, `markI` alone is carried by every batch from every point (B2b's
-`markInvariantBatchV_markI0`). -/
-theorem stage1Mk_markInvariantBatchV_markI_of_none (hk : ∀ i, kSel i = none) :
-    Stage1Mk.MarkInvariantBatchV (markI J pat t s kSel) (fun _ => True) := by
-  intro p kind ι L A B h hA hfam _
-  have eA := markI_eq_markI0_of_none J pat t s kSel hk (⟨A.skeleton, hA, A.data, A.decodes⟩ : VineA.PrimeData A.layered)
-  have eB := markI_eq_markI0_of_none J pat t s kSel hk
-    (⟨B.skeleton, VineA.batch_prime h hA, B.data, B.decodes⟩ : VineA.PrimeData B.layered)
-  have h0 := markInvariantBatchV_markI0 J pat t s h hA (fun i => by
-    obtain ⟨c, hc, he, hm⟩ := hfam i
-    exact ⟨c, hc, he, fun h' => hm ((Set.ext_iff.mp eA c).mpr h')⟩) trivial
-  intro c c' hc'
-  exact (Set.ext_iff.mp eA c).trans ((h0 c c' hc').trans (Set.ext_iff.mp eB c').symm)
-
-/-- **Stem-free `FineMarking.fine`**: with `kSel ≡ none`, `markI` is FineTransportedAt at every point. -/
-theorem fineTransportedAt_markI_of_none (hk : ∀ i, kSel i = none) (a : VineA.PrescribedPrimeGarden w) :
-    a.FineTransportedAt (markI J pat t s kSel) :=
-  VineA.PrescribedPrimeGarden.fineTransportedAt_of_markInvariantBatchV (Clean := fun _ => True)
-    (stage1Mk_markInvariantBatchV_markI_of_none J pat t s kSel hk) a trivial
 
 end Final
 

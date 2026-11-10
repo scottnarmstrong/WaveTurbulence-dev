@@ -41,12 +41,4 @@ theorem replacementBranchProjection_bijective {w : ℕ} {S : Garden w} (D : Reco
     obtain ⟨slot,hslot⟩ := D.node_covered hS b.toNode
     exact ⟨⟨slot,⟨b,hslot⟩⟩,rfl⟩
 
-/-- No new or missing clock coordinates: every actual branch is represented once. -/
-noncomputable def replacementBranchEquiv {w : ℕ} {S : Garden w} (D : ReconstructionData S)
-    (hS : S.IsPlain) : ReplacementBranchOccurrence D hS ≃ GBranch (D.forest hS) :=
-  Equiv.ofBijective (fun p => p.2.1) (replacementBranchProjection_bijective D hS)
-
-theorem replacementBranchEquiv_apply {w : ℕ} {S : Garden w} (D : ReconstructionData S)
-    (hS : S.IsPlain) (p : ReplacementBranchOccurrence D hS) : replacementBranchEquiv D hS p = p.2.1 := rfl
-
 end WaveTurbulence.RegRed

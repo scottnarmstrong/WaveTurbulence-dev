@@ -56,11 +56,4 @@ theorem measurePreserving_replacementTimeSplit {w : ℕ} {S : Garden w} (D : Rec
       (fun _ : (Σ s : ReplacementSlot S, NativeClockBranch D s) => (volume : Measure ℝ))
       (replacementTimeIndexEquiv D))
 
-theorem integral_replacementTimeSplit_prod {w : ℕ} {S : Garden w} (D : ReconstructionData S)
-    (f : (s : ReplacementSlot S) → NativeTimeBlock D s → ℂ) :
-    (∫ τ : ReplacementBranchIndex D → ℝ, ∏ s, f s (replacementTimeSplit D τ s)) =
-      ∏ s, ∫ τ, f s τ :=
-  ((measurePreserving_replacementTimeSplit D).integral_comp' (fun τ => ∏ s, f s (τ s))).trans
-    (integral_fintype_prod_volume_eq_prod f)
-
 end WaveTurbulence.RegRed

@@ -61,22 +61,6 @@ theorem component_completelyPaired (G : Garden w) (hG : G.IsPlain) (i : Fin w) :
     component] at hℓ ⊢
   exact hℓ.trans (reachable_pair G ℓ)
 
-/-- Two components containing a common tree coincide. -/
-theorem component_eq_of_mem (G : Garden w) {i j : Fin w} (h : j ∈ component G i) :
-    component G i = component G j := by
-  have hij : (treeGraph G).Reachable i j := (Finset.mem_filter.mp h).2
-  ext k
-  simp only [component, Finset.mem_filter, Finset.mem_univ, true_and]
-  exact ⟨fun hik => hij.symm.trans hik, fun hjk => hij.trans hjk⟩
-
-/-- Distinct components are disjoint: together with membership this is a partition. -/
-theorem component_eq_or_disjoint (G : Garden w) (i j : Fin w) :
-    component G i = component G j ∨ Disjoint (component G i) (component G j) := by
-  by_cases h : Disjoint (component G i) (component G j)
-  · exact Or.inr h
-  · obtain ⟨k, hi, hj⟩ := Finset.not_disjoint_iff.mp h
-    exact Or.inl ((component_eq_of_mem G hi).trans (component_eq_of_mem G hj).symm)
-
 
 /-- A pairing-closed set of trees contains every tree reachable from one of its members. -/
 theorem reachable_preserves_closed (G : Garden w) {A : Finset (Fin w)}
@@ -114,35 +98,6 @@ theorem irreducible_iff_preconnected (G : Garden w) (hG : G.IsPlain) :
     intro ℓ hℓ
     exact (Finset.mem_filter.mp ((hclosed ℓ (Finset.mem_filter.mpr ⟨Finset.mem_univ _, hℓ⟩)).2)).2
 
-/-- Components are the minimal nonempty completely paired sets of trees. -/
-theorem component_minimal (G : Garden w) {i : Fin w} {A : Finset (Fin w)}
-    (hA : A.Nonempty) (hsub : A ⊆ component G i)
-    (hclosed : G.CompletelyPaired (G.leavesOf A)) : A = component G i := by
-  obtain ⟨j, hj⟩ := hA
-  apply Finset.Subset.antisymm hsub
-  intro k hk
-  have hij : (treeGraph G).Reachable i j := (Finset.mem_filter.mp (hsub hj)).2
-  have hik : (treeGraph G).Reachable i k := (Finset.mem_filter.mp hk).2
-  refine reachable_preserves_closed G (i := j) ?_ (hij.symm.trans hik) hj
-  intro ℓ hℓ
-  exact (Finset.mem_filter.mp ((hclosed ℓ (Finset.mem_filter.mpr ⟨Finset.mem_univ _, hℓ⟩)).2)).2
-
-/-- Every nonempty pairing-closed indecomposable block is one component;
-this gives uniqueness of the decomposition in TARGET L636. -/
-theorem eq_component_of_minimal (G : Garden w) (hG : G.IsPlain)
-    {A : Finset (Fin w)} (hA : A.Nonempty)
-    (hclosed : G.CompletelyPaired (G.leavesOf A))
-    (hmin : ∀ B : Finset (Fin w), B.Nonempty → B ⊆ A →
-      G.CompletelyPaired (G.leavesOf B) → B = A) :
-    ∃ i, A = component G i := by
-  obtain ⟨i, hi⟩ := hA
-  refine ⟨i, (hmin (component G i) ⟨i, mem_component_self G i⟩ ?_
-    (component_completelyPaired G hG i)).symm⟩
-  intro j hj
-  refine reachable_preserves_closed G (i := i) ?_ (Finset.mem_filter.mp hj).2 hi
-  intro ℓ hℓ
-  exact (Finset.mem_filter.mp ((hclosed ℓ (Finset.mem_filter.mpr ⟨Finset.mem_univ _, hℓ⟩)).2)).2
-
 /-- A multi-couple has components of width two (TARGET L636). -/
 @[expose] def IsMultiCouple (G : Garden w) : Prop :=
   G.IsPlain ∧ ∀ i : Fin w, (component G i).card = 2
@@ -150,20 +105,5 @@ theorem eq_component_of_minimal (G : Garden w) (hG : G.IsPlain)
 instance (G : Garden w) : Decidable (IsMultiCouple G) := by
   unfold IsMultiCouple
   infer_instance
-
-/-- Order of one connected component, with each tree counted once. -/
-@[expose] noncomputable def componentOrder (G : Garden w)
-    (c : (treeGraph G).ConnectedComponent) : ℕ := by
-  classical
-  exact ∑ j : Fin w with (treeGraph G).connectedComponentMk j = c, (G.tree j).order
-
-/-- Component orders sum to the garden order (TARGET L636). -/
-theorem sum_component_orders (G : Garden w) :
-    (∑ c : (treeGraph G).ConnectedComponent, componentOrder G c) = G.order := by
-  classical
-  unfold componentOrder
-  change (∑ c, ∑ j : Fin w with (treeGraph G).connectedComponentMk j = c, (G.tree j).order) =
-    ∑ j, (G.tree j).order
-  exact Finset.sum_fiberwise Finset.univ (treeGraph G).connectedComponentMk (fun j => (G.tree j).order)
 
 end WaveTurbulence.Comb

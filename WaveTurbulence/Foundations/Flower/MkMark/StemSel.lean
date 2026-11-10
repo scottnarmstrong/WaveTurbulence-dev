@@ -245,18 +245,6 @@ theorem OutIso.stem_transport (hR : RegionOK LG R) (hR' : RegionOK LG' R') (hs :
     have := (I.node z hzn hzR).2
     rwa [I.stem_fix hs hc z hz] at this
 
-include hinv in
-/-- **Depth-`k` stem vertices and selected vertices are carried over** (same addresses). -/
-theorem OutIso.stemAt_transport (hR : RegionOK LG R) (hR' : RegionOK LG' R') (hs : StemAvoid LG J R)
-    (j : Fin w) (k : ℕ) (z : Address w) :
-    (∃ b, stemAt LG' J j k = some b ∧ b.1 = z) ↔ (∃ b, stemAt LG J j k = some b ∧ b.1 = z) :=
-  stemAt_congr (I.stem_transport I' hinv hR hR' hs).2.1 j k z
-
-include hinv in
-theorem OutIso.selAt_transport (hR : RegionOK LG R) (hR' : RegionOK LG' R') (hs : StemAvoid LG J R)
-    (kSel : Fin w → Option ℕ) (σ : Address w) : SelAt LG' J kSel σ ↔ SelAt LG J kSel σ :=
-  selAt_congr (I.stem_transport I' hinv hR hR' hs).2.1 kSel σ
-
 end Two
 
 end WaveTurbulence.Flower.MkMark

@@ -47,11 +47,6 @@ theorem isIngredient_vc_or_hvc {S T : Finset V} (h : IsIngredient M S T) :
   · exact Or.inl ⟨a, b, hB, n, VineA.NormalizedSplice.chain_ofVine (Vine.chainIngredient_spec hI).1⟩
   · exact Or.inr ⟨a, b, e, he, hB, n, hn, VineA.NormalizedSplice.chain_ofVine (Vine.chainIngredient_spec hI).1⟩
 
-/-- **(D), exclusion.** A group that is neither a VC nor an HVC (an HV-only or a pure DV group) has no ingredient. -/
-theorem not_isIngredient_of_not_vc_hvc {S : Finset V} (hvc : ¬ ∃ a b, IsVC M S a b)
-    (hhvc : ¬ ∃ a b, IsHVC M S a b) (T : Finset V) : ¬ IsIngredient M S T :=
-  fun h => (isIngredient_vc_or_hvc h).elim hvc hhvc
-
 theorem isBlock_swap {S : Finset V} {a b : V} (h : M.IsBlock S a b) : M.IsBlock S b a := by
   obtain ⟨h0, ha, hb, hab, h1, h2, h3, h4, h5, h6⟩ := h
   exact ⟨h0, hb, ha, fun e => hab e.symm, h3, h4, h1, h2, fun v hv hvb hva => h5 v hv hva hvb, h6⟩

@@ -6,7 +6,6 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.Stage1.Represents.RepPr8
-public import WaveTurbulence.Foundations.Stage1.Geometry.RedSpliceCoverThm
 import Mathlib.Tactic
 
 /-!

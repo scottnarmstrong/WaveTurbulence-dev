@@ -129,9 +129,6 @@ theorem theta_range {P : WTParams} {θ c : ℝ} (hη0 : 0 ≤ P.η) (hη : P.η 
   · exact ⟨hη0, hη⟩
   · norm_num
 
-theorem one_le_Lpow {P : WTParams} (hL : 1 ≤ P.L) {c : ℝ} (hc : 0 ≤ c) : 1 ≤ P.L ^ c :=
-  Real.one_le_rpow hL hc
-
 theorem c_nonneg {P : WTParams} {θ c : ℝ}
     (h : (θ = P.η ∧ c = 31 * P.d + 6) ∨ (θ = 1 / 4 ∧ c = 47 * P.d + 2)) : 0 ≤ c := by
   rcases h with ⟨-, hc⟩ | ⟨-, hc⟩ <;> subst hc <;> positivity
@@ -394,43 +391,5 @@ theorem none_cap {P : WTParams} {C₁a C₂a C₁b C₂b : ℝ} (K : AlphaConsts
       (hle' _) hroot1 (by rw [hinc]; omega) S ω cω hpres F (fun _ => false) M hM Fu Mu hMu H B hH).trans ?_
     rw [hinc]
     exact star_rhs_le K.ha0 K.ha K.hδ K.hL hcc n _ _ _
-
-/-- **`none`, protected paired tree**, milestone α form (no stars, no filters). -/
-theorem alpha_none_tree {P : WTParams} {C₁a C₂a C₁b C₂b : ℝ} (K : AlphaConsts P C₁a C₂a C₁b C₂b)
-    {p : ℕ} (hp : p < P.D) {n : ℕ} (hn : n ≤ P.N (p + 1) ^ 4) (LG : LayeredGarden 1) (X : RegChain)
-    (hsh : ProtShape p X LG) (hsz : protSize X LG = 2 * n) (hamb : ProtAmbient p X LG) {θ c : ℝ}
-    (hθc : (θ = P.η ∧ c = 31 * P.d + 6) ∨ (θ = 1 / 4 ∧ c = 47 * P.d + 2)) (s t : ℝ) {q' : ℕ} (hq' : q' ≤ p)
-    (ω : GNode LG.garden.tree → Flower.IncTop.Star P.d → ℂ) (M Mu : GBranch LG.garden.tree → ℝ)
-    (ind : (GNode LG.garden.tree → Mom P.d) → ℝ) (hind : ∀ κ, ind κ = 1)
-    (H : LeafProfiles 1 P.d) (B : (Fin 1 × TTree.Path) → NNReal) (hH : LeafwiseControlled LG H B)
-    (b₀ c₀ : Mom P.d) :
-    XNormRestr θ (30 * P.d) 0 (timeBoxGt p q') (latticeBall P.L b₀ c₀)
-      (fun ts k => kernelProt P.L P.γ P.δ LG H
-        (fun κ => Flower.IncTop.starWeight ∅ ω κ * filtWeight ∅ (fun _ => false) M κ *
-          filtWeight ∅ (fun _ => false) Mu κ * (ind κ : ℂ))
-        (fun _ => ts 0) (ts 1) (ProtCfg.none.fix X s t (ts 0)) k (fun _ => 0) 0) ≤
-      ENNReal.ofReal (P.L ^ c) * regBound P n (protIncoh X LG) * ENNReal.ofReal (leafSizeProduct LG B) := by
-  have h := none_tree K hp hn LG X hsh hsz hamb hθc s t hq' ∅ ω (fun _ => 0) (by simp) ∅ M (by simp) ∅ Mu
-    (by simp) ind hind H B hH b₀ c₀
-  rwa [Finset.prod_empty, one_mul] at h
-
-/-- **`none`, protected cap couple**, milestone α form (no stars, no filters). -/
-theorem alpha_none_cap {P : WTParams} {C₁a C₂a C₁b C₂b : ℝ} (K : AlphaConsts P C₁a C₂a C₁b C₂b)
-    {p : ℕ} (hp : p < P.D) {n : ℕ} (hn : n ≤ P.N (p + 1) ^ 4) (LG : LayeredGarden 2) (X : RegChain)
-    (hsh : ProtShape p X LG) (hsz : protSize X LG = 2 * n) (hamb : ProtAmbient p X LG) {θ c : ℝ}
-    (hθc : (θ = P.η ∧ c = 31 * P.d + 6) ∨ (θ = 1 / 4 ∧ c = 47 * P.d + 2)) (s t : ℝ) {q' : ℕ} (hq' : q' ≤ p)
-    (ω : GNode LG.garden.tree → Flower.IncTop.Star P.d → ℂ) (M Mu : GBranch LG.garden.tree → ℝ)
-    (ind : (GNode LG.garden.tree → Mom P.d) → ℝ) (hind : ∀ κ, ind κ = 1)
-    (H : LeafProfiles 2 P.d) (B : (Fin 2 × TTree.Path) → NNReal) (hH : LeafwiseControlled LG H B)
-    (b₀ c₀ : Mom P.d) :
-    XNormRestr θ (30 * P.d) 0 (timeBoxGt p q') (latticeBall P.L b₀ c₀)
-      (fun ts k => kernelProt P.L P.γ P.δ LG H
-        (fun κ => Flower.IncTop.starWeight ∅ ω κ * filtWeight ∅ (fun _ => false) M κ *
-          filtWeight ∅ (fun _ => false) Mu κ * (ind κ : ℂ))
-        (fun _ => ts 0) (ts 1) (ProtCfg.none.fix X s t (ts 0)) k (fun _ => 0) 0) ≤
-      ENNReal.ofReal (P.L ^ c) * regBound P n (protIncoh X LG) * ENNReal.ofReal (leafSizeProduct LG B) := by
-  have h := none_cap K hp hn LG X hsh hsz hamb hθc s t hq' ∅ ω (fun _ => 0) (by simp) ∅ M (by simp) ∅ Mu
-    (by simp) ind hind H B hH b₀ c₀
-  rwa [Finset.prod_empty, one_mul] at h
 
 end WaveTurbulence.Flower.ProtPin

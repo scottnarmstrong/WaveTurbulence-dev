@@ -123,9 +123,6 @@ theorem triC_subset_closure (p : ℝ) : triC p ⊆ closure (triO p) := by
 theorem timeBoxGt_subset_triC (p : ℝ) : timeBoxGt p p ⊆ triC p := fun _ hx =>
   ⟨hx.1.2.1, hx.2.le, hx.1.1.2⟩
 
-theorem triO_subset_timeBoxGt (p : ℝ) : triO p ⊆ timeBoxGt p p := fun _ hx =>
-  ⟨⟨⟨by linarith [hx.1, hx.2.1], hx.2.2.le⟩, ⟨hx.1.le, by linarith [hx.2.1, hx.2.2]⟩⟩, hx.2.1⟩
-
 /-! ### The cutoff of the square -/
 
 /-- The unit cutoff of `[p, p+1]²`. -/

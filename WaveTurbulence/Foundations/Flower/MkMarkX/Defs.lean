@@ -32,14 +32,4 @@ theorem mem_markX_iff (J : Finset (Fin w)) {LG : LayeredGarden w} (A : VineA.Pri
     (c : CLVine A.skeleton) :
     c ∈ markX J A ↔ c ∈ vinesV A.skeleton ∧ ¬ StemCleanAt J A c.atoms c.upper := Iff.rfl
 
-theorem mem_markIX_iff (J : Finset (Fin w)) (pat : Fin w → FixPat) (t s : ℝ) (kSel : Fin w → Option ℕ)
-    {LG : LayeredGarden w} (A : VineA.PrimeData LG) (c : CLVine A.skeleton) :
-    c ∈ markIX J pat t s kSel A ↔ c ∈ markI J pat t s kSel A ∨ c ∈ markX J A := Iff.rfl
-
-theorem markIX_subset_vinesV (J : Finset (Fin w)) (pat : Fin w → FixPat) (t s : ℝ) (kSel : Fin w → Option ℕ)
-    {LG : LayeredGarden w} (A : VineA.PrimeData LG) : markIX J pat t s kSel A ⊆ vinesV A.skeleton := by
-  rintro c (hc | hc)
-  · exact hc.1
-  · exact hc.1
-
 end WaveTurbulence.Flower.MkMarkX
