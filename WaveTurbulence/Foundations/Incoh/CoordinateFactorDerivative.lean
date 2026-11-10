@@ -1,7 +1,9 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 
-public import WaveTurbulence.Foundations.Fourier.BalancedAmplitude
+public import WaveTurbulence.Foundations.Fourier.BalancedPhase
+public import WaveTurbulence.Foundations.Fourier.CoordinateCutoffDerivative
+public import WaveTurbulence.Foundations.Fourier.DirectionalFourierMoments
 
 /-!
 # A product of coordinate factors and its common-clock derivative

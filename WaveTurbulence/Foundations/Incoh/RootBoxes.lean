@@ -89,9 +89,4 @@ theorem RootCoordinates.volume_rootBox {d n : ℕ} {r : ℕ} (R : RootCoordinate
     volume (R.rootBox Q) = 1 := by
   simp only [rootBox, Real.volume_Icc_pi, add_sub_cancel_left, ENNReal.ofReal_one, Finset.prod_const_one]
 
-/-- The remaining internal box has unit volume as well. -/
-theorem RootCoordinates.volume_restBox {d n : ℕ} {r : ℕ} (R : RootCoordinates n r) (Q : Fin n → LayerLink d) :
-    volume (R.restBox Q) = 1 := by
-  simp only [restBox, Real.volume_Icc_pi, add_sub_cancel_left, ENNReal.ofReal_one, Finset.prod_const_one]
-
 end WaveTurbulence.Incoh

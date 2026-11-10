@@ -104,9 +104,6 @@ theorem integrable_fourier (hf : SmoothFilter f) : Integrable (𝓕 (fun x => (f
 /-- The moment constant `K_f = ∫ ‖𝓕f v‖ (1 + 2|v|)² dv` of a smooth filter. -/
 def momentConst (f : ℝ → ℝ) : ℝ := ∫ v : ℝ, ‖𝓕 (fun x => (f x : ℂ)) v‖ * (1 + 2 * |v|) ^ 2
 
-theorem momentConst_nonneg (f : ℝ → ℝ) : 0 ≤ momentConst f :=
-  integral_nonneg fun v => by positivity
-
 /-- **o82 (14.2) for one filter**: `u ↦ f(|2u|/M)` is `K_f`-presented at every scale `0 ≤ L ≤ M`. -/
 theorem presentedMult (hf : SmoothFilter f) {L M : ℝ} (hL : 0 ≤ L) (hLM : L ≤ M) :
     PresentedMult L (momentConst f) (fun u => ((f (|2 * u| / M) : ℝ) : ℂ)) := by

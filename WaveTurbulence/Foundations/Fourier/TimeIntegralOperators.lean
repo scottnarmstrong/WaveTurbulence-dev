@@ -41,12 +41,6 @@ namespace WaveTurbulence.Fourier
     (F : (Fin 2 → ℝ) → Mom d → ℂ) (t : Fin 2 → ℝ) (k : Mom d) : ℂ :=
   cutoffTriangleIntegral χ (fun u => F u k) t
 
-/-- TARGET A.3, L2384: the phase-modulated triangular operator `𝒰χ`. -/
-@[expose] noncomputable def cutoffU {d : ℕ} (χ : ℝ → ℝ) (Γ : Mom d → ℝ)
-    (F : (Fin 2 → ℝ) → Mom d → ℂ) (t : Fin 2 → ℝ) (k : Mom d) : ℂ :=
-  cutoffTriangleIntegral χ
-    (fun u => Complex.exp ((Γ k * (u 0 - u 1) : ℝ) * Complex.I) * F u k) t
-
 /-- TARGET A.3, L2385–L2387: the fourfold ordered operator `𝒱χ`. -/
 @[expose] noncomputable def cutoffV {d : ℕ} (χ : ℝ → ℝ) (Γ₁ Γ₂ : Mom d → ℝ)
     (F : (Fin 2 → ℝ) → Mom d → ℂ) (t : Fin 2 → ℝ) (k : Mom d) : ℂ :=
@@ -56,31 +50,9 @@ namespace WaveTurbulence.Fourier
         Complex.exp ((Γ₁ k * (u - a) : ℝ) * Complex.I) *
         Complex.exp ((Γ₂ k * (b - v) : ℝ) * Complex.I) * F ![a, b] k
 
-/-- The mixed time derivative in the RHS of TARGET A.3, using the frozen partial derivative. -/
-@[expose] noncomputable def mixedTimePartial (F : (Fin 2 → ℝ) → ℂ) : (Fin 2 → ℝ) → ℂ :=
-  WaveTurbulence.partialDeriv 0 (WaveTurbulence.partialDeriv 1 F)
-
 /-- The pointwise momentum supremum of time `L¹` norms, as used in TARGET A.2–A.3. -/
 @[expose] noncomputable def uniformTimeL1 {d : ℕ}
     (F : (Fin 2 → ℝ) → Mom d → ℂ) : ℝ≥0∞ :=
   ⨆ k, eLpNorm (fun t => F t k) 1
-
-/-- The tensor product DNY21 kernel in TARGET L2365–L2368. -/
-@[expose] noncomputable def doubleDuhamelKernel (χ : ℝ → ℝ)
-    (ξ ξ' : Fin 2 → ℝ) : ℂ :=
-  duhamelKernel χ (ξ 0) (ξ' 0) * duhamelKernel χ (ξ 1) (ξ' 1)
-
-/-- TARGET L2368 / DNY21 Lemma 3.1: the tensor kernel has four-bracket decay. -/
-theorem norm_doubleDuhamelKernel_le {χ : ℝ → ℝ} (hχ : ContDiff ℝ ∞ χ)
-    (hc : HasCompactSupport χ) (ξ ξ' : Fin 2 → ℝ) :
-    ‖doubleDuhamelKernel χ ξ ξ'‖ ≤ duhamelDecayConstant χ ^ 2 /
-      (Real.sqrt (1 + (ξ 0) ^ 2) * Real.sqrt (1 + (ξ 0 - ξ' 0) ^ 2) *
-       Real.sqrt (1 + (ξ 1) ^ 2) * Real.sqrt (1 + (ξ 1 - ξ' 1) ^ 2)) := by
-  have h0 := norm_duhamelKernel_le_brackets hχ hc (ξ 0) (ξ' 0)
-  have h1 := norm_duhamelKernel_le_brackets hχ hc (ξ 1) (ξ' 1)
-  have h := mul_le_mul h0 h1 (norm_nonneg _) ((norm_nonneg _).trans h0)
-  rw [doubleDuhamelKernel, norm_mul]
-  convert h using 1
-  ring
 
 end WaveTurbulence.Fourier

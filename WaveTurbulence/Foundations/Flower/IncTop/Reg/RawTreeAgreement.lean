@@ -4,10 +4,8 @@ module
 public import WaveTurbulence.Foundations.Flower.IncTop.Reg.MovingTreeFamily
 public import WaveTurbulence.Foundations.Incoh.ParameterTreeDecay
 public import WaveTurbulence.Foundations.Flower.IncTop.Reg.SpectralTreeClocks
-public import WaveTurbulence.Foundations.Incoh.UniformParameterMixture
 public import WaveTurbulence.Foundations.Incoh.CutoffPointwiseL1
 public import WaveTurbulence.Foundations.Incoh.PointwiseMixtureIntegrability
-public import WaveTurbulence.Foundations.Incoh.FiniteSelectionIntegral
 public import WaveTurbulence.Foundations.Flower.IncTop.Reg.RawSourceCellIntegral
 
 /-! Ported by source from C2-B-TOP `Cut2BReg.RawTreeAgreement` (sha256 in COPIED-SHA256SUMS); mechanical edits only.

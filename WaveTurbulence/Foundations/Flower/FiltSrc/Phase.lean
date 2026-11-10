@@ -31,10 +31,6 @@ variable {d n : ℕ}
 def arrayFiltWeight (L : ℝ) (φ : Fin n → ℝ → ℂ) (p : (Fin n × Fin 2) → Fin d → ℤ) : ℂ :=
   ∏ i, φ i (linkBilinear L (p (i, 0), p (i, 1)))
 
-theorem arrayFiltWeight_one (L : ℝ) (p : (Fin n × Fin 2) → Fin d → ℤ) :
-    arrayFiltWeight L (fun _ _ => (1 : ℂ)) p = 1 := by
-  simp only [arrayFiltWeight, Finset.prod_const_one]
-
 theorem norm_arrayFiltWeight_le (L : ℝ) (φ : Fin n → ℝ → ℂ) {Bφ : ℝ} (hφ : ∀ i u, ‖φ i u‖ ≤ Bφ)
     (p : (Fin n × Fin 2) → Fin d → ℤ) : ‖arrayFiltWeight L φ p‖ ≤ Bφ ^ n := by
   rw [arrayFiltWeight, norm_prod]
@@ -58,11 +54,6 @@ theorem sourceTemporalPhaseFilt_eq (L γ δ : ℝ) (Q : Fin n → LayerLink d) (
   apply Finset.prod_congr rfl
   intro i _
   ring
-
-theorem sourceTemporalPhaseFilt_one (L γ δ : ℝ) (Q : Fin n → LayerLink d) :
-    sourceTemporalPhaseFilt L γ δ Q (fun _ _ => 1) = sourceTemporalPhase L γ δ Q := by
-  funext p t
-  rw [sourceTemporalPhaseFilt_eq, arrayFiltWeight_one, mul_one]
 
 /-- Filtered source phases are continuous in all vertex clocks. -/
 theorem continuous_sourceTemporalPhaseFilt (L γ δ : ℝ) (Q : Fin n → LayerLink d) (φ : Fin n → ℝ → ℂ)
@@ -110,11 +101,6 @@ theorem sourceTemporalPhaseSpatialFilt_eq (L γ δ : ℝ) (Q : Fin n → LayerLi
   apply Finset.prod_congr rfl
   intro i _
   ring
-
-theorem sourceTemporalPhaseSpatialFilt_one (L γ δ : ℝ) (Q : Fin n → LayerLink d) :
-    sourceTemporalPhaseSpatialFilt L γ δ Q (fun _ _ => 1) = sourceTemporalPhaseSpatial L γ δ Q := by
-  funext p t
-  rw [sourceTemporalPhaseSpatialFilt_eq, arrayFiltWeight_one, mul_one]
 
 theorem continuous_sourceTemporalPhaseSpatialFilt (L γ δ : ℝ) (Q : Fin n → LayerLink d)
     (φ : Fin n → ℝ → ℂ) (p : (Fin n × Fin 2) → Fin d → ℤ) :

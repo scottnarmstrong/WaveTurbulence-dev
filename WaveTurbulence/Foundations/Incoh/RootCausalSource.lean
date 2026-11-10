@@ -62,24 +62,4 @@ theorem RootCoordinates.cutoff_linkDensity_eq_self {d n : ℕ} (R : RootCoordina
     simp only [Complex.ofReal_one, one_mul]
   · rw [R.linkDensity_eq_zero_of_notMem_rootBox L γ δ Q hbox hu, mul_zero]
 
-/-- The estimated causal extension agrees pointwise with the literal source kernel. -/
-theorem RootCoordinates.treeCausalExtension_agrees {d n : ℕ} (R : RootCoordinates n)
-    {L : ℝ} (hL : 0 < L) (γ δ : ℝ) (Q : Mom d → Fin n → LayerLink d)
-    (I : Mom d → Set (Fin n → Fin 2 → ℝ)) (k : Mom d) (hI : MeasurableSet (I k))
-    (hbox : I k ⊆ univ.pi (fun i => linkBox (Q k i))) {χ : ℝ → ℝ}
-    (hχ : ∀ u ∈ R.rootBox (Q k), ∀ j, χ (u j) = 1)
-    {t : Fin 2 → ℝ} (ht : t 1 ≤ t 0) (htχ : ∀ j, χ (t j) = 1) :
-    R.treeCausalExtension χ L γ δ Q I t k = R.causalKernel L γ δ (Q k) (I k) t := by
-  have he (x y : ℝ) : (χ x : ℂ) * (χ y : ℂ) * R.linkDensity L γ δ (Q k) (I k) ![x, y] =
-      R.linkDensity L γ δ (Q k) (I k) ![x, y] :=
-    R.cutoff_linkDensity_eq_self L γ δ (Q k) hbox hχ ![x, y]
-  change (χ (t 0) : ℂ) * (χ (t 1) : ℂ) *
-    (∫ x in t 1..t 0, ∫ y in t 1..x,
-      (χ x : ℂ) * (χ y : ℂ) * R.linkDensity L γ δ (Q k) (I k) ![x, y]) = _
-  rw [htχ 0, htχ 1]
-  simp only [Complex.ofReal_one, one_mul]
-  simp_rw [he]
-  rw [integral_triangle_eq_setIntegral (R.integrable_linkDensity hL γ δ (Q k) hI hbox) ht]
-  exact (R.causalKernel_eq_setIntegral hL γ δ (Q k) hI hbox t).symm
-
 end WaveTurbulence.Incoh

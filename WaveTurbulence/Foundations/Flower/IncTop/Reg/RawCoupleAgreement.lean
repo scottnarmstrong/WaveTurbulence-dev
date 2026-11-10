@@ -4,7 +4,9 @@ module
 public import WaveTurbulence.Foundations.Flower.IncTop.Reg.SpectralCoupleMeasurability
 public import WaveTurbulence.Foundations.Incoh.CouplePhysicalL1
 public import WaveTurbulence.Foundations.Incoh.UniformL1MixtureIntegrability
-public import WaveTurbulence.Foundations.Incoh.CoupleSpectralMixtureDecay
+public import WaveTurbulence.Foundations.Incoh.RootCutoff
+public import WaveTurbulence.Foundations.Incoh.RootCumulativeLocal
+public import WaveTurbulence.Foundations.Incoh.TwoTimeBoxIntegral
 public import WaveTurbulence.Foundations.Incoh.CouplePointwiseL1
 public import WaveTurbulence.Foundations.Incoh.PointwiseMixtureIntegrability
 public import Mathlib.MeasureTheory.Integral.Bochner.SumMeasure

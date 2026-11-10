@@ -2,7 +2,6 @@
 module
 
 public import WaveTurbulence.Foundations.Incoh.CausalBoxBound
-public import WaveTurbulence.Foundations.Incoh.OrderedPhysicalLimit
 public import WaveTurbulence.Foundations.Incoh.RectangleKernelDominator
 
 /-!
@@ -28,18 +27,6 @@ theorem norm_causalBoxAmplitude_le (m : ℕ) {χ : ℝ → ℝ} (h : Fourier.Cut
   have hlim : Tendsto ε atTop (𝓝 0) := tendsto_one_div_add_atTop_nhds_zero_nat
   exact le_of_tendsto (tendsto_smoothCausalBoxAmplitude m χ hε hlim phase a b hab v).norm
     (Filter.Eventually.of_forall (fun n => norm_smoothCausalBoxAmplitude_le m h (hε n) phase a b hab v))
-
-/-- Pointwise approximation holds at every external clock pair, including layer boundaries. -/
-theorem tendsto_smoothCausalBoxKernel (m : ℕ) {χ : ℝ → ℝ} (hχ : ContDiff ℝ ∞ χ)
-    (h : Fourier.CutoffControl χ) {ε : ℕ → ℝ} (hε : ∀ n, 0 < ε n)
-    (hlim : Tendsto ε atTop (𝓝 0)) (phase a b : Fin (m + 2) → ℝ) (hab : a ≤ b) (t : Fin 2 → ℝ) :
-    Tendsto (fun n => smoothCausalBoxKernel m χ (ε n) phase a b t) atTop
-      (𝓝 (causalBoxKernel m χ phase a b t)) :=
-  tendsto_weightedOrderedIntegral_of_bounded h (m + 2)
-    (pow_nonneg (zero_le_one.trans h.one_le_bound) (m + 2))
-    (fun n => contDiff_smoothCausalBoxAmplitude m hχ (ε n) phase a b)
-    (fun n v => norm_smoothCausalBoxAmplitude_le m h (hε n) phase a b hab v)
-    (fun v => tendsto_smoothCausalBoxAmplitude m χ hε hlim phase a b hab v) t
 
 /-- One common integrable time dominator works for every phase and every interval endpoint. -/
 theorem norm_causalBoxKernel_le (m : ℕ) {χ : ℝ → ℝ} (h : Fourier.CutoffControl χ)

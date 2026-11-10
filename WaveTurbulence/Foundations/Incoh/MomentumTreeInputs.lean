@@ -27,18 +27,6 @@ namespace WaveTurbulence.Incoh
     {V : Type*} [AddCommGroup V] (k : V) (x : Fin n → Fin 2 → V) (a : Fin m) : V :=
   momentumRowEval (rootLinkMomenta k x) (P.inputRow a)
 
-/-- TARGET (incohproof3): the input's root coefficient is exactly one. -/
-theorem MomentumTreeData.inputMomentum_eq_root_add {n m w : ℕ} (P : MomentumTreeData n m w)
-    {V : Type*} [AddCommGroup V] (k : V) (x : Fin n → Fin 2 → V) (a : Fin m) :
-    P.inputMomentum k x a = k + P.inputMomentum 0 x a := by
-  simp [inputMomentum, momentumRowEval, rootLinkMomenta, P.input_root_column]
-
-/-- The forest roots carry the actual free root momentum. -/
-theorem MomentumTreeData.nodeMomentum_root {n m w : ℕ} (P : MomentumTreeData n m w)
-    {V : Type*} [AddCommGroup V] (u : MomentumCoordinate n → V) (i : Fin w) :
-    P.nodeMomentum u i [] = u none := by
-  rw [nodeMomentum, P.root_row, momentumRowEval_unit]
-
 /-- Every source leaf is the specified input or the root-valued lone leaf. -/
 theorem MomentumTreeData.nodeMomentum_leaf {n m w : ℕ} (P : MomentumTreeData n m w)
     {V : Type*} [AddCommGroup V] (k : V) (x : Fin n → Fin 2 → V)

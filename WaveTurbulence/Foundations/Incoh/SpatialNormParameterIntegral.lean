@@ -2,7 +2,7 @@
 module
 
 public import WaveTurbulence.Foundations.Incoh.IteratedDerivativeIntegral
-public import WaveTurbulence.Foundations.Incoh.CoordinateDerivativeComponent
+public import Mathlib.Analysis.Calculus.ContDiff.Bounds
 public import WaveTurbulence.Foundations.Incoh.SpatialCenterDecay
 
 /-! # Spatial norms of actual dominated parameter integrals

@@ -25,19 +25,4 @@ theorem orderedIntegral_two (F : (Fin 2 → ℝ) → ℂ) (t s : ℝ) :
   intro v _
   congr 1
 
-/-- The fourfold ordered integral, in the paper's coordinates. -/
-theorem orderedIntegral_four (F : (Fin 4 → ℝ) → ℂ) (t s : ℝ) :
-    orderedIntegral 4 F t s =
-      ∫ u in s..t, ∫ a in s..u, ∫ b in s..a, ∫ v in s..b, F ![u, a, b, v] := by
-  simp only [orderedIntegral]
-  apply intervalIntegral.integral_congr
-  intro u _
-  apply intervalIntegral.integral_congr
-  intro a _
-  apply intervalIntegral.integral_congr
-  intro b _
-  apply intervalIntegral.integral_congr
-  intro v _
-  congr 1
-
 end WaveTurbulence.Fourier

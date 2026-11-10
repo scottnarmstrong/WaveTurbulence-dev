@@ -45,12 +45,6 @@ theorem PresentedMult.mono {L K K' : ℝ} {φ : ℝ → ℂ} (h : PresentedMult 
   obtain ⟨Ω, m, μ, hμ, G, T, hG, hT, hi, he, hk⟩ := h
   exact ⟨Ω, m, μ, hμ, G, T, hG, hT, hi, he, hk.trans (ENNReal.ofReal_le_ofReal hK)⟩
 
-theorem PresentedMult.mono_scale {L L' K : ℝ} {φ : ℝ → ℂ} (h : PresentedMult L K φ) (hL' : 0 ≤ L')
-    (hLL : L' ≤ L) : PresentedMult L' K φ := by
-  obtain ⟨Ω, m, μ, hμ, G, T, hG, hT, hi, he, hk⟩ := h
-  refine ⟨Ω, m, μ, hμ, G, T, hG, hT, hi, he, le_trans (lintegral_mono fun ω => ?_) hk⟩
-  gcongr
-
 theorem measurable_shiftWeight {Ω : Type*} [MeasurableSpace Ω] {T : Ω → ℝ} (hT : Measurable T) (L : ℝ) :
     Measurable fun x => ENNReal.ofReal ((1 + L * |T x|) ^ 2) :=
   ENNReal.measurable_ofReal.comp

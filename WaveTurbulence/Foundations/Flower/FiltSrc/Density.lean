@@ -58,11 +58,6 @@ theorem tsum_linkArraySummandFilt {L : ℝ} (hL : 0 < L) (γ δ : ℝ)
     _ = ∏ i, ∑' p, f i p := WeylSums.tsum_pi_prod_of_finite_support f hf
     _ = _ := rfl
 
-theorem linkArraySummandFilt_one (L γ δ : ℝ) (Q : Fin n → LayerLink d) :
-    linkArraySummandFilt L γ δ Q (fun _ _ => 1) = linkArraySummand L γ δ Q := by
-  funext t p
-  simp only [linkArraySummandFilt, linkArraySummand, mul_one]
-
 /-! ### `NormalizedIntegrand`, root densities, couple extension -/
 
 /-- The filtered localized product with its source coupling and time-order indicator
@@ -72,22 +67,11 @@ def normalizedLinkIntegrandFilt (L γ δ : ℝ) (Q : Fin n → LayerLink d) (φ 
   (((δ / (2 * L ^ ((d : ℝ) - γ))) ^ (2 * n) : ℝ) : ℂ) *
     I.indicator (fun t => ∏ i, filtLinkTimeFactor L γ δ (Q i) (φ i) (t i)) t
 
-theorem normalizedLinkIntegrandFilt_one (L γ δ : ℝ) (Q : Fin n → LayerLink d)
-    (I : Set (Fin n → Fin 2 → ℝ)) :
-    normalizedLinkIntegrandFilt L γ δ Q (fun _ _ => 1) I = normalizedLinkIntegrand L γ δ Q I := by
-  funext t
-  simp only [normalizedLinkIntegrandFilt, normalizedLinkIntegrand, filtLinkTimeFactor_one]
-
 /-- The filtered source root density (twin of `RootCoordinates.linkDensity`). -/
 def RootCoordinates.linkDensityFilt {r : ℕ} (R : RootCoordinates n r)
     (L γ δ : ℝ) (Q : Fin n → LayerLink d) (φ : Fin n → ℝ → ℂ) (I : Set (Fin n → Fin 2 → ℝ)) :
     (Fin r → ℝ) → ℂ :=
   R.density (normalizedLinkIntegrandFilt L γ δ Q φ I)
-
-theorem RootCoordinates.linkDensityFilt_one {r : ℕ} (R : RootCoordinates n r)
-    (L γ δ : ℝ) (Q : Fin n → LayerLink d) (I : Set (Fin n → Fin 2 → ℝ)) :
-    RootCoordinates.linkDensityFilt R L γ δ Q (fun _ _ => 1) I = R.linkDensity L γ δ Q I := by
-  simp only [RootCoordinates.linkDensityFilt, RootCoordinates.linkDensity, normalizedLinkIntegrandFilt_one]
 
 /-- The filtered root density in clocks measured from their integer layers (twin of
 `RootCoordinates.localLinkDensity`). -/
@@ -96,24 +80,10 @@ def RootCoordinates.localLinkDensityFilt {r : ℕ} (R : RootCoordinates n r)
     (t : Fin r → ℝ) : ℂ :=
   RootCoordinates.linkDensityFilt R L γ δ Q φ I (t + R.baseRootTimes Q)
 
-theorem RootCoordinates.localLinkDensityFilt_one {r : ℕ} (R : RootCoordinates n r)
-    (L γ δ : ℝ) (Q : Fin n → LayerLink d) (I : Set (Fin n → Fin 2 → ℝ)) :
-    RootCoordinates.localLinkDensityFilt R L γ δ Q (fun _ _ => 1) I = R.localLinkDensity L γ δ Q I := by
-  funext t
-  simp only [RootCoordinates.localLinkDensityFilt, RootCoordinates.localLinkDensity,
-    RootCoordinates.linkDensityFilt_one]
-
 /-- The filtered cutoff double integral in the original root clocks (twin of `RootCoordinates.coupleExtension`). -/
 def RootCoordinates.coupleExtensionFilt (R : RootCoordinates n)
     (χ : ℝ → ℝ) (L γ δ : ℝ) (Q : Fin n → LayerLink d) (φ : Fin n → ℝ → ℂ) (I : Set (Fin n → Fin 2 → ℝ))
     (t : Fin 2 → ℝ) : ℂ :=
   Fourier.cutoffDoubleIntegral χ (RootCoordinates.localLinkDensityFilt R L γ δ Q φ I) (t - R.baseRootTimes Q)
-
-theorem RootCoordinates.coupleExtensionFilt_one (R : RootCoordinates n)
-    (χ : ℝ → ℝ) (L γ δ : ℝ) (Q : Fin n → LayerLink d) (I : Set (Fin n → Fin 2 → ℝ)) :
-    RootCoordinates.coupleExtensionFilt R χ L γ δ Q (fun _ _ => 1) I = R.coupleExtension χ L γ δ Q I := by
-  funext t
-  simp only [RootCoordinates.coupleExtensionFilt, RootCoordinates.coupleExtension,
-    RootCoordinates.localLinkDensityFilt_one]
 
 end WaveTurbulence.Flower.FiltSrc

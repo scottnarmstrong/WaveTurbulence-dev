@@ -95,15 +95,4 @@ theorem mixedFourierNorm00_unit {r : ℕ} (θ : ℝ) (f : (Fin r → ℝ) → �
   rw [he]
   simp only [mixedFourierEnvelope00, iSup_unique]
 
-/-- On momentum space the generalized norm agrees exactly with the landed order-zero norm. -/
-theorem mixedFourierNorm00_eq_mixedFourierNorm {r d : ℕ} (θ : ℝ)
-    (F : (Fin r → ℝ) → Mom d → ℂ) :
-    mixedFourierNorm00 θ F = mixedFourierNorm θ 0 0 F := by
-  by_cases hF : ∀ k, Integrable (fun t => F t k)
-  · rw [mixedFourierNorm00_eq_lintegral hF, mixedFourierNorm_zero_order θ 0 F hF]
-    simp only [mixedFourierEnvelope00, momentumSupNorm, pow_zero, ENNReal.ofReal_one,
-      one_mul, mixedTimeFourier]
-  · rw [mixedFourierNorm00_of_not_integrable hF,
-      mixedFourierNorm_of_not_admissible (by simpa only [mixedFourierAdmissible_zero_iff] using hF)]
-
 end WaveTurbulence.Fourier

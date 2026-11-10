@@ -43,7 +43,4 @@ theorem rootCutoff_eq_one {t : ℝ} (ht : |t| ≤ 1) : rootCutoff t = 1 := by
   rw [abs_div, abs_of_pos (by norm_num : (0 : ℝ) < 2)]
   exact div_le_div_of_nonneg_right ht (by norm_num)
 
-theorem rootCutoff_eq_one_on_unitInterval {t : ℝ} (ht : t ∈ Icc (0 : ℝ) 1) : rootCutoff t = 1 :=
-  rootCutoff_eq_one (abs_le.mpr ⟨by linarith [ht.1], ht.2⟩)
-
 end WaveTurbulence.Incoh

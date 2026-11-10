@@ -1,7 +1,7 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 
-public import WaveTurbulence.Foundations.Incoh.FiniteSpectralDecomposition
+public import WaveTurbulence.Foundations.Incoh.LocalizedSpectralMassBound
 
 /-!
 # Actual finite lattice support of localized source pieces

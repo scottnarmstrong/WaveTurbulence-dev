@@ -2,7 +2,8 @@
 module
 
 public import WaveTurbulence.Foundations.RegularAsymptotics.RegAsympDraft.LatticeCoordinates
-public import WaveTurbulence.Foundations.Incoh.IntegerLeafCoordinates
+public import Mathlib.Basic.Real.Basic
+public import Mathlib.LinearAlgebra.Matrix.Kronecker
 import Mathlib.Logic.Equiv.Fin.Basic
 
 /-! # Actual regular couples supply the structural leaf-coordinate data

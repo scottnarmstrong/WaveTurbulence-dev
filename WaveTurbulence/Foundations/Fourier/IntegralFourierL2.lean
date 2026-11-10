@@ -66,12 +66,6 @@ theorem integral_fourier_ae_eq_L2 {f : V → ℂ} (hf : Integrable f) (hf2 : Mem
       apply integral_congr_ae
       exact ae_of_all _ fun x => by dsimp only; rw [hψ, Complex.real_smul, smul_eq_mul]
 
-/-- Plancherel membership for the ordinary Fourier integral. -/
-theorem integral_fourier_memLp_two {f : V → ℂ} (hf : Integrable f) (hf2 : MemLp f 2) :
-    MemLp (𝓕 f) 2 :=
-  (Lp.memLp (𝓕 (hf2.toLp f) : Lp (α := V) ℂ 2 (volume : Measure V))).ae_eq
-    (integral_fourier_ae_eq_L2 hf hf2).symm
-
 /-- Plancherel equality for the ordinary Fourier integral on `L¹ ∩ L²`. -/
 theorem integral_fourier_eLpNorm_two {f : V → ℂ} (hf : Integrable f) (hf2 : MemLp f 2) :
     eLpNorm (𝓕 f) 2 = eLpNorm f 2 := by

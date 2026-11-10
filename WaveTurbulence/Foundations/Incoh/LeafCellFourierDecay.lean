@@ -56,13 +56,4 @@ theorem timeFourierNorm_leafCell_le {d K M : ℕ} {f : Mom d → ℂ} {B : ℝ}
       simp only [leafCellFourierConstant, cellCenterWeight, div_eq_mul_inv]
       ring
 
-/-- The actual localized Fourier norms have a finite total coefficient over all centers. -/
-theorem tsum_timeFourierNorm_leafCell_lt_top {d K M : ℕ} {f : Mom d → ℂ} {B : ℝ}
-    (hK : d + 1 ≤ K) (hM : 2 * d ≤ M) (hB : 0 ≤ B)
-    (h : Fourier.spatialNorm K M f ≤ ENNReal.ofReal B) :
-    (∑' c : Fin d → ℤ,
-      Fourier.timeFourierNorm 0 (fun x : Fin d → ℝ => leafCell f c (toLp 2 x))) < ⊤ := by
-  apply lt_of_le_of_lt (ENNReal.tsum_le_tsum (fun c => timeFourierNorm_leafCell_le hK hB h c))
-  exact ((summable_cellCenterWeight hM).mul_left (leafCellFourierConstant d M * B)).tsum_ofReal_lt_top
-
 end WaveTurbulence.Incoh

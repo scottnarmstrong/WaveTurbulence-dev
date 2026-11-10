@@ -103,16 +103,6 @@ theorem lintegral_difference_box_le {I J : Set ℝ} (hI : MeasurableSet I)
   simpa only [mul_one] using
     mul_le_mul' (le_refl (f r)) ((volume_differenceFiber_le I J r).trans hvol)
 
-/-- TARGET (incohproof15): a separating time replaces the zeroth moment by the first moment. -/
-theorem lintegral_difference_box_le_firstMoment {I J : Set ℝ} (hI : MeasurableSet I)
-    (hJ : MeasurableSet J) {q : ℝ}
-    (hsep : (∀ x ∈ I, x ≤ q) ∧ (∀ y ∈ J, q ≤ y))
-    {f : ℝ → ℝ≥0∞} (hf : Measurable f) :
-    (∫⁻ z : ℝ × ℝ, (I ×ˢ J).indicator (fun z => f (z.2 - z.1)) z) ≤
-      ∫⁻ r, f r * ENNReal.ofReal |r| := by
-  rw [lintegral_difference_box hI hJ hf]
-  exact lintegral_mono fun r => mul_le_mul' le_rfl (volume_differenceFiber_le_abs hsep r)
-
 /-- The first-moment gain holds for either fixed orientation of two separated intervals. -/
 theorem lintegral_difference_box_le_firstMoment_of_separated {I J : Set ℝ}
     (hI : MeasurableSet I) (hJ : MeasurableSet J) {q : ℝ}

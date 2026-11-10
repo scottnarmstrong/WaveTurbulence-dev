@@ -53,19 +53,4 @@ theorem fourier_pairing_L2_real {f g : V → ℂ} (hf : Integrable f)
     (fourier_pairing_L2 (g := g) hf hf2)
   simpa only [ENNReal.toReal_mul, toReal_enorm, toReal_eLpNorm] using h
 
-/-- Finite linearity of the ordinary Fourier integral. -/
-theorem integral_fourier_finsetSum {ι : Type*} (s : Finset ι) (f : ι → V → ℂ)
-    (hf : ∀ i ∈ s, Integrable (f i)) (ξ : V) :
-    𝓕 (fun x => ∑ i ∈ s, f i x) ξ = ∑ i ∈ s, 𝓕 (f i) ξ := by
-  simp_rw [Real.fourier_eq, Finset.smul_sum]
-  exact integral_finsetSum s fun i hi =>
-    (VectorFourier.fourierIntegral_convergent_iff Real.continuous_fourierChar
-      (L := innerₗ V) continuous_inner ξ).mpr (hf i hi)
-
-/-- Complex scalar linearity of the ordinary Fourier integral. -/
-theorem integral_fourier_smul (c : ℂ) (f : V → ℂ) (ξ : V) :
-    𝓕 (fun x => c • f x) ξ = c • 𝓕 f ξ := by
-  exact congrFun (VectorFourier.fourierIntegral_const_smul
-    Real.fourierChar volume (innerₗ V) f c) ξ
-
 end WaveTurbulence.Fourier

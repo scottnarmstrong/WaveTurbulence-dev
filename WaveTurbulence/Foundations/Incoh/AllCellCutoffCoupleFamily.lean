@@ -1,7 +1,11 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 
-public import WaveTurbulence.Foundations.Incoh.AllCellSourceFamily
+public import WaveTurbulence.Foundations.Incoh.SourceCellMassBound
+public import WaveTurbulence.Foundations.Incoh.SpectralCoupleMeasurability
+public import WaveTurbulence.Foundations.Incoh.RootCutoff
+public import WaveTurbulence.Foundations.Incoh.RootCumulativeLocal
+public import WaveTurbulence.Foundations.Incoh.TwoTimeBoxIntegral
 
 /-! # Actual all-cell couple kernels with an arbitrary fixed smooth cutoff -/
 

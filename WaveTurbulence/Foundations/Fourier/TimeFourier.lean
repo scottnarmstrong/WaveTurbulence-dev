@@ -52,12 +52,6 @@ convention is one, so that every real power is meaningful. -/
   classical
   exact if Integrable f then ∫⁻ ξ, timeWeight θ ξ * ‖timeFourier f ξ‖ₑ else ⊤
 
-/-- TARGET `(locnorm)`: infimum over extensions agreeing at every point of
-`B`. An empty family of extensions has value infinity. -/
-@[expose] noncomputable def timeRestrictionNorm {r : ℕ} (θ : ℝ)
-    (B : Set (Fin r → ℝ)) (f : B → ℂ) : ℝ≥0∞ :=
-  ⨅ (g : (Fin r → ℝ) → ℂ) (_ : ∀ t : B, g t = f t), timeFourierNorm θ g
-
 @[simp] theorem timeFourier_zero (r : ℕ) :
     timeFourier (r := r) (fun _ => 0) = 0 := by
   ext ξ
@@ -75,21 +69,6 @@ theorem timeFourierNorm_eq_lintegral {r : ℕ} {θ : ℝ}
     {f : (Fin r → ℝ) → ℂ} (hf : Integrable f) :
     timeFourierNorm θ f = ∫⁻ ξ, timeWeight θ ξ * ‖timeFourier f ξ‖ₑ := by
   simp [timeFourierNorm, hf]
-
-theorem timeRestrictionNorm_le_extension {r : ℕ} {θ : ℝ}
-    {B : Set (Fin r → ℝ)} {f : B → ℂ} (g : (Fin r → ℝ) → ℂ)
-    (hg : ∀ t : B, g t = f t) : timeRestrictionNorm θ B f ≤ timeFourierNorm θ g :=
-  iInf_le_of_le g (iInf_le_of_le hg le_rfl)
-
-theorem timeRestrictionNorm_le {r : ℕ} (θ : ℝ)
-    (B : Set (Fin r → ℝ)) (f : (Fin r → ℝ) → ℂ) :
-    timeRestrictionNorm θ B (fun t => f t) ≤ timeFourierNorm θ f :=
-  timeRestrictionNorm_le_extension f (fun _ => rfl)
-
-@[simp] theorem timeRestrictionNorm_zero {r : ℕ} (θ : ℝ)
-    (B : Set (Fin r → ℝ)) : timeRestrictionNorm θ B (fun _ => 0) = 0 := by
-  apply le_antisymm _ bot_le
-  exact (timeRestrictionNorm_le θ B (fun _ => 0)).trans (by simp)
 
 /-- Translation changes the Fourier transform by a unit complex phase. -/
 theorem timeFourier_translate {r : ℕ} (f : (Fin r → ℝ) → ℂ) (a : Fin r → ℝ) :

@@ -34,26 +34,4 @@ theorem tsum_ofReal_div_momentumBracket_intVec {d M : ℕ} (hM : 2 * d ≤ M) {A
     ← ENNReal.ofReal_tsum_of_nonneg (cellCenterWeight_nonneg M) (summable_cellCenterWeight hM),
     ← ENNReal.ofReal_mul hA]
 
-/-- The full actual higher-moment localization mass has an explicit exponential bound. -/
-theorem tsum_lintegral_enorm_localizedSpectralMomentReference_le {d n m K M : ℕ} (J : ℕ)
-    (f : Fin m → Mom d → ℂ) {B : ℝ} (hK : d + 1 + J ≤ K)
-    (hM : 2 * d ≤ M) (hB : 0 ≤ B)
-    (h : ∀ a, Fourier.spatialNorm K M (f a) ≤ ENNReal.ofReal B) :
-    (∑' c : Fin m → Fin d → ℤ,
-      ∫⁻ ξ : LocalizedCellIndex n m → Fin d → ℝ, ‖localizedSpectralMomentReference J f c ξ‖ₑ) ≤
-        ENNReal.ofReal (leafMomentLocalizationConstant d J M * B) ^ m *
-          ENNReal.ofReal (halfCellFourierConstant d) ^ (2 * n) := by
-  apply (ENNReal.tsum_le_tsum (fun c =>
-    lintegral_enorm_localizedSpectralMomentReference_le J f c hK hB h)).trans_eq
-  rw [ENNReal.tsum_mul_right, tsum_fin_product_ennreal m (fun (_ : Fin m) c =>
-    ENNReal.ofReal (leafCellFourierMomentConstant d J M * B /
-      Fourier.momentumBracket (NTSP.intVec c) ^ M))]
-  simp_rw [tsum_ofReal_div_momentumBracket_intVec hM
-    (mul_nonneg (leafCellFourierMomentConstant_nonneg d J M) hB)]
-  congr 1
-  simp only [Finset.prod_const, Finset.card_univ, Fintype.card_fin]
-  congr 2
-  unfold leafMomentLocalizationConstant
-  ring
-
 end WaveTurbulence.Incoh

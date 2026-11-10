@@ -36,10 +36,6 @@ structure LinkParameters (d : ℕ) where
 @[expose] def linkEpsilon (x y : Fin d → ℤ) : ℝ :=
   1 - (if x = 0 then 1 else 0) - (if y = 0 then 1 else 0)
 
-theorem abs_linkEpsilon_le (x y : Fin d → ℤ) : |linkEpsilon x y| ≤ 1 := by
-  classical
-  by_cases hx : x = 0 <;> by_cases hy : y = 0 <;> norm_num [linkEpsilon, hx, hy]
-
 /-- The single-node coefficient has the source three cases; F62 requires its square per paired link. -/
 theorem linkEpsilon_eq_source (x y : Fin d → ℤ) :
     linkEpsilon x y = if x = 0 ∧ y = 0 then -1 else if x = 0 ∨ y = 0 then 0 else 1 := by
@@ -50,12 +46,6 @@ theorem linkEpsilon_eq_source (x y : Fin d → ℤ) :
 @[expose] def linkWickFactor (x y : Fin d → ℤ) : ℝ := (linkEpsilon x y) ^ 2
 
 theorem abs_linkWickFactor_le (x y : Fin d → ℤ) : |linkWickFactor x y| ≤ 1 := by
-  classical
-  by_cases hx : x = 0 <;> by_cases hy : y = 0 <;> norm_num [linkWickFactor, linkEpsilon, hx, hy]
-
-/-- The true paired factor is `1,0,1`, including `1` at the double-zero lattice point. -/
-theorem linkWickFactor_eq_cases (x y : Fin d → ℤ) :
-    linkWickFactor x y = if x = 0 ∧ y = 0 then 1 else if x = 0 ∨ y = 0 then 0 else 1 := by
   classical
   by_cases hx : x = 0 <;> by_cases hy : y = 0 <;> norm_num [linkWickFactor, linkEpsilon, hx, hy]
 

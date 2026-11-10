@@ -2,7 +2,7 @@
 module
 
 public import WaveTurbulence.Foundations.Incoh.SourceRootMaskBounds
-public import WaveTurbulence.Foundations.Incoh.SourceAmplitudeDerivativeMeasurable
+public import WaveTurbulence.Foundations.Incoh.SourceAmplitudeDerivative
 public import WaveTurbulence.Foundations.Incoh.ParameterIteratedDerivative
 public import Mathlib.Analysis.InnerProductSpace.Calculus
 public import Mathlib.Analysis.SpecialFunctions.ExpDeriv

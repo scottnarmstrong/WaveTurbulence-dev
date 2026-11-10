@@ -52,25 +52,6 @@ theorem ordered_lower_face_contDiff {n : ℕ} {A : (Fin (n + 1) → ℝ) → ℂ
   · fun_prop
   · fun_prop
 
-/-- Smoothness of the mixed boundary face in the source's insertion order. -/
-theorem ordered_mixed_face_contDiff {n : ℕ} {A : (Fin (n + 2) → ℝ) → ℂ}
-    (hA : ContDiff ℝ ∞ A) :
-    ContDiff ℝ ∞ (fun t : Fin 2 → ℝ =>
-      orderedIntegral n (fun v => A (Fin.snoc (Fin.cons (t 0) v) (t 1))) (t 0) (t 1)) := by
-  apply contDiff_orderedIntegral n
-    (F := fun p : (Fin 2 → ℝ) × (Fin n → ℝ) => A (Fin.snoc (Fin.cons (p.1 0) p.2) (p.1 1)))
-    (a := fun t : Fin 2 → ℝ => t 1) (b := fun t : Fin 2 → ℝ => t 0)
-  · have hp : ContDiff ℝ ∞ (fun p : (Fin 2 → ℝ) × (Fin n → ℝ) => (p.1 0, p.2)) := by fun_prop
-    have hcons : ContDiff ℝ ∞ (fun p : (Fin 2 → ℝ) × (Fin n → ℝ) =>
-        (Fin.cons (p.1 0) p.2 : Fin (n + 1) → ℝ)) := by
-      simpa only [Function.comp_def] using (contDiff_fin_cons n).comp hp
-    have hs : ContDiff ℝ ∞ (fun p : (Fin 2 → ℝ) × (Fin n → ℝ) =>
-        ((Fin.cons (p.1 0) p.2 : Fin (n + 1) → ℝ), p.1 1)) :=
-      hcons.prodMk (by fun_prop)
-    exact hA.comp (by simpa only [Function.comp_def] using (contDiff_fin_snoc (n + 1)).comp hs)
-  · fun_prop
-  · fun_prop
-
 /-- Multiplication by the two smooth endpoint factors preserves smoothness. -/
 theorem endpoint_product_contDiff {a b : ℝ → ℝ} {G : (Fin 2 → ℝ) → ℂ}
     (ha : ContDiff ℝ ∞ a) (hb : ContDiff ℝ ∞ b) (hG : ContDiff ℝ ∞ G) :

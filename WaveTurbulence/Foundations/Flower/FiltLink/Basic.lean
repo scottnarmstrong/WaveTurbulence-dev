@@ -47,24 +47,6 @@ def filtLinkPhaseCoefficient (L : ℝ) (Q : LayerLink d) (φ : ℝ → ℂ)
 
 /-! ### `φ ≡ 1` is main's literal link -/
 
-theorem filtLinkLatticeSum_one (L s : ℝ) (A : LinkParameters d) :
-    filtLinkLatticeSum L s A (fun _ => 1) = linkLatticeSum L s A := by
-  simp only [filtLinkLatticeSum, linkLatticeSum, mul_one]
-
-theorem filtLinkTimeFactor_one (L γ δ : ℝ) (Q : LayerLink d) :
-    filtLinkTimeFactor L γ δ Q (fun _ => 1) = linkTimeFactor L γ δ Q := by
-  funext t
-  simp only [filtLinkTimeFactor, linkTimeFactor, filtLinkLatticeSum_one]
-
-theorem filtLayerLinkMass_one (L lam : ℝ) (Q : LayerLink d) :
-    filtLayerLinkMass L lam Q (fun _ => 1) = layerLinkMass L lam Q := by
-  simp only [filtLayerLinkMass, layerLinkMass, filtLinkLatticeSum_one]
-
-theorem filtLinkPhaseCoefficient_one (L : ℝ) (Q : LayerLink d) :
-    filtLinkPhaseCoefficient L Q (fun _ => 1) = linkPhaseCoefficient L Q := by
-  funext p
-  simp only [filtLinkPhaseCoefficient, mul_one]
-
 /-- The filtered mass at `lam = δ L^{2γ}` is the integral of the filtered time factor. -/
 theorem filtLayerLinkMass_eq (L γ δ : ℝ) (Q : LayerLink d) (φ : ℝ → ℂ) :
     filtLayerLinkMass L (δ * L ^ (2 * γ)) Q φ = ∫⁻ t in linkBox Q, ‖filtLinkTimeFactor L γ δ Q φ t‖ₑ := by
@@ -138,11 +120,6 @@ theorem norm_filtLinkLatticeSum_le {L : ℝ} (hL : 1 ≤ L) (s : ℝ) (A : LinkP
   rw [tsum_mul_left]
   exact mul_le_mul_of_nonneg_left (tsum_norm_cutoffAmplitude_le hL A) hB
 
-theorem norm_filtLinkTimeFactor_le {L : ℝ} (hL : 1 ≤ L) (γ δ : ℝ) (Q : LayerLink d)
-    (φ : ℝ → ℂ) {B : ℝ} (hB : 0 ≤ B) (hφ : ∀ u, ‖φ u‖ ≤ B) (t : Fin 2 → ℝ) :
-    ‖filtLinkTimeFactor L γ δ Q φ t‖ ≤ B * (5 * L) ^ (2 * d) :=
-  norm_filtLinkLatticeSum_le hL _ _ φ hB hφ
-
 /-- The filtered phase coefficients have absolute mass at most `‖φ‖_∞ (5L)^{2d}`. -/
 theorem tsum_norm_filtLinkPhaseCoefficient_le {L : ℝ} (hL : 1 ≤ L) (Q : LayerLink d)
     (φ : ℝ → ℂ) {B : ℝ} (hB : 0 ≤ B) (hφ : ∀ u, ‖φ u‖ ≤ B) :
@@ -165,20 +142,6 @@ theorem finite_support_filtLinkPhaseCoefficient {L : ℝ} (hL : 0 < L) (Q : Laye
   apply (finite_support_linkPhaseCoefficient hL Q).subset
   intro p hp hz
   exact hp (by simp only [filtLinkPhaseCoefficient, hz, zero_mul])
-
-/-- The filtered mass is at most `‖φ‖_∞ (5L)^{2d}` (the box has unit volume): the trivial replacement mass. -/
-theorem filtLayerLinkMass_le_trivial {L : ℝ} (hL : 1 ≤ L) (lam : ℝ) (Q : LayerLink d)
-    (φ : ℝ → ℂ) {B : ℝ} (hB : 0 ≤ B) (hφ : ∀ u, ‖φ u‖ ≤ B) :
-    filtLayerLinkMass L lam Q φ ≤ ENNReal.ofReal (B * (5 * L) ^ (2 * d)) := by
-  unfold filtLayerLinkMass
-  calc
-    _ ≤ ∫⁻ _t in linkBox Q, ENNReal.ofReal (B * (5 * L) ^ (2 * d)) := by
-      apply lintegral_mono
-      intro t
-      dsimp only
-      rw [← ofReal_norm]
-      exact ENNReal.ofReal_le_ofReal (norm_filtLinkLatticeSum_le hL _ _ φ hB hφ)
-    _ = _ := by rw [setLIntegral_const, volume_linkBox, mul_one]
 
 /-! ### The finite phase expansion (main's `linkTimeFactor_eq_phase_sum` with the multiplier) -/
 

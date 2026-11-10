@@ -5,7 +5,6 @@ public import WaveTurbulence.Foundations.Flower.IncTop.Reg.AllCellTreeFamily
 public import WaveTurbulence.Foundations.Flower.IncTop.Reg.MaskedCellFamily
 public import WaveTurbulence.Foundations.Flower.IncTop.Reg.MovingTreeFamily
 public import WaveTurbulence.Foundations.Flower.IncTop.Reg.SpectralTreeClocks
-public import WaveTurbulence.Foundations.Incoh.UniformParameterMixture
 public import WaveTurbulence.Foundations.Incoh.CouplePointwiseL1
 public import WaveTurbulence.Foundations.Incoh.PointwiseMixtureIntegrability
 public import Mathlib.MeasureTheory.Integral.Bochner.SumMeasure

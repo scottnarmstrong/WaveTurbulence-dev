@@ -38,10 +38,6 @@ theorem hasSum_leafCell {d : ℕ} (f : Mom d → ℂ) (x : Mom d) :
   rw [← Finset.mul_sum, ← Complex.ofReal_sum, ApproxNT.sum_thetaMom,
     Complex.ofReal_one, mul_one]
 
-/-- Exact recovery of a leaf input from its countable smooth momentum cells. -/
-theorem tsum_leafCell {d : ℕ} (f : Mom d → ℂ) (x : Mom d) :
-    (∑' c : Fin d → ℤ, leafCell f c x) = f x := (hasSum_leafCell f x).tsum_eq
-
 /-- Localization preserves the finite source smoothness order. -/
 theorem contDiff_leafCell {d : ℕ} {K : ℕ} {f : Mom d → ℂ} (hf : ContDiff ℝ K f)
     (c : Fin d → ℤ) : ContDiff ℝ K (leafCell f c) := by

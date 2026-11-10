@@ -24,13 +24,6 @@ namespace WaveTurbulence.Fourier
 @[expose] noncomputable def negativeFrequencyConstant (η : ℝ) : ℝ :=
   1 + ∫ ξ, negativeFrequencyEnvelope η ξ
 
-/-- Positivity is independent of the integrability argument. -/
-theorem one_le_negativeFrequencyConstant (η : ℝ) : 1 ≤ negativeFrequencyConstant η := by
-  have hn : 0 ≤ ∫ ξ, negativeFrequencyEnvelope η ξ :=
-    integral_nonneg (fun ξ => negativeFrequencyEnvelope_nonneg η ξ)
-  dsimp [negativeFrequencyConstant]
-  linarith
-
 /-- Weighted pointwise Fourier control by the endpoint moments. -/
 theorem timeWeight_mul_enorm_timeFourier_le_four_moments {η : ℝ} (hη : 0 ≤ η)
     {f : (Fin 2 → ℝ) → ℂ} (hf : ContDiff ℝ ∞ f) (hc : HasCompactSupport f)
@@ -59,35 +52,5 @@ theorem timeWeight_mul_enorm_timeFourier_le_four_moments {η : ℝ} (hη : 0 ≤
   rw [← ofReal_norm, ← ENNReal.ofReal_mul hw,
     ← ENNReal.ofReal_mul (mul_nonneg (by norm_num) (negativeFrequencyEnvelope_nonneg η ξ))]
   exact ENNReal.ofReal_le_ofReal hr
-
-/-- The negative mixed norm is controlled by the uniform four-moment sum. -/
-theorem mixedFourierNorm_negative_le_four_moments {η : ℝ} (hη : 0 < η) {d : ℕ}
-    {F : (Fin 2 → ℝ) → Mom d → ℂ}
-    (hF : ∀ k, ContDiff ℝ ∞ (fun t => F t k))
-    (hc : ∀ k, HasCompactSupport (fun t => F t k)) :
-    mixedFourierNorm (-η) 0 0 F ≤ ENNReal.ofReal (4 * negativeFrequencyConstant η) *
-      ⨆ k, fourTimeMomentNorm (fun t => F t k) := by
-  let M := ⨆ k, fourTimeMomentNorm (fun t => F t k)
-  let B := fun ξ => ENNReal.ofReal (4 * negativeFrequencyEnvelope η ξ)
-  have hi := (negativeFrequencyEnvelope_integrable hη).const_mul (4 : ℝ)
-  have hB : Measurable B := by
-    apply Measurable.ennreal_ofReal
-    unfold negativeFrequencyEnvelope inverseBracketPower
-    fun_prop
-  have hp (ξ : Fin 2 → ℝ) (k : Mom d) :
-      timeWeight (-η) ξ * ‖mixedTimeFourier F ξ k‖ₑ ≤ B ξ * M :=
-    (timeWeight_mul_enorm_timeFourier_le_four_moments hη.le (hF k) (hc k) ξ).trans
-      (mul_le_mul_right (le_iSup (fun k => fourTimeMomentNorm (fun t => F t k)) k) _)
-  apply (mixedFourierNorm_zero_le_weighted_majorant (-η)
-    (fun k => (hF k).continuous.integrable_of_hasCompactSupport (hc k)) hB M hp).trans
-  apply mul_le_mul_left
-  have hn : 0 ≤ᵐ[volume] (fun ξ => 4 * negativeFrequencyEnvelope η ξ) :=
-    ae_of_all _ fun ξ => mul_nonneg (by norm_num) (negativeFrequencyEnvelope_nonneg η ξ)
-  rw [show (∫⁻ ξ, B ξ) = ENNReal.ofReal (∫ ξ, 4 * negativeFrequencyEnvelope η ξ) from
-    (ofReal_integral_eq_lintegral_ofReal hi hn).symm]
-  apply ENNReal.ofReal_le_ofReal
-  rw [integral_const_mul]
-  dsimp [negativeFrequencyConstant]
-  linarith
 
 end WaveTurbulence.Fourier

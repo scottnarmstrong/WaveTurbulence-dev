@@ -6,8 +6,8 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.Regref.FourierAE
-public import WaveTurbulence.Foundations.Incoh.MixedTimeTraceBound
-public import WaveTurbulence.Foundations.Incoh.TimeTraceBasic
+public import WaveTurbulence.Foundations.Incoh.FrozenModulationMeasurable
+public import WaveTurbulence.Foundations.Incoh.DominatedFourierMixture
 public import WaveTurbulence.Foundations.Fourier.Norm00VRestriction
 
 /-!

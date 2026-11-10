@@ -52,20 +52,4 @@ theorem mixedFourierNorm00_mul_cutoff_le {r : ℕ} {V : Type*} (θ : ℝ)
       mul_le_mul_right (mixedFourierNorm00_const_param_le |θ| κ) _
     _ = _ := by simp only [cutoffMultiplierConstant, mul_assoc, mul_comm, mul_left_comm]
 
-theorem mixedFourierNorm00_mul_cutoff_lt_top {r : ℕ} {V : Type*} (θ : ℝ)
-    {F : (Fin r → ℝ) → V → ℂ} {κ : (Fin r → ℝ) → ℂ}
-    (hF : mixedFourierNorm00 θ F < ⊤) (hκ : HasCompactSupport κ) (hs : ContDiff ℝ ∞ κ) :
-    mixedFourierNorm00 θ (fun t v => F t v * κ t) < ⊤ :=
-  (mixedFourierNorm00_mul_cutoff_le θ hF hκ hs).trans_lt
-    (ENNReal.mul_lt_top (cutoffMultiplierConstant_lt_top θ hκ hs) hF)
-
-/-- The same cutoff estimate supplies a pointwise agreeing restricted extension. -/
-theorem mixedRestrictionNorm00_mul_cutoff_le {r : ℕ} {V : Type*} (θ : ℝ)
-    (B : Set (Fin r → ℝ)) (K : Set V) {F : (Fin r → ℝ) → V → ℂ} {κ : (Fin r → ℝ) → ℂ}
-    (hF : mixedFourierNorm00 θ F < ⊤) (hκ : HasCompactSupport κ) (hs : ContDiff ℝ ∞ κ) :
-    mixedRestrictionNorm00 θ B K (fun t v => F t v * κ t) ≤
-      cutoffMultiplierConstant θ κ * mixedFourierNorm00 θ F :=
-  (mixedRestrictionNorm00_le θ B K (fun t v => F t v * κ t)).trans
-    (mixedFourierNorm00_mul_cutoff_le θ hF hκ hs)
-
 end WaveTurbulence.Fourier

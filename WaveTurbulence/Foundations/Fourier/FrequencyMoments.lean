@@ -25,29 +25,6 @@ theorem japaneseBracket_le_one_add_abs (x : ℝ) :
   have hn := Real.sqrt_nonneg (1 + x ^ 2)
   nlinarith [sq_abs x, abs_nonneg x]
 
-/-- A square-free moment bound for every subset gives joint Japanese-bracket decay.
-This is an algebraic helper; the Fourier moment bounds are proved for each operator separately. -/
-theorem frequency_decay_of_moments {ι : Type*} [Fintype ι]
-    (z : ℂ) (ξ : ι → ℝ) (C : ℝ)
-    (h : ∀ s : Finset ι, (∏ i ∈ s, |ξ i|) * ‖z‖ ≤ C) :
-    ‖z‖ ≤ (2 : ℝ) ^ Fintype.card ι * C / (∏ i, Real.sqrt (1 + ξ i ^ 2)) := by
-  classical
-  have hp : 0 < ∏ i, Real.sqrt (1 + ξ i ^ 2) :=
-    Finset.prod_pos fun i _ => Real.sqrt_pos.mpr (by positivity)
-  apply (le_div_iff₀ hp).mpr
-  have hprod : (∏ i, Real.sqrt (1 + ξ i ^ 2)) ≤ ∏ i, (1 + |ξ i|) :=
-    Finset.prod_le_prod₀ (fun i _ => Real.sqrt_nonneg _) (fun i _ => japaneseBracket_le_one_add_abs _)
-  calc
-    ‖z‖ * (∏ i, Real.sqrt (1 + ξ i ^ 2)) ≤ ‖z‖ * (∏ i, (1 + |ξ i|)) :=
-      mul_le_mul_of_nonneg_left hprod (norm_nonneg _)
-    _ = ∑ s ∈ (Finset.univ : Finset ι).powerset, ‖z‖ * ∏ i ∈ s, |ξ i| := by
-      rw [Finset.prod_one_add, Finset.mul_sum]
-    _ ≤ ∑ _s ∈ (Finset.univ : Finset ι).powerset, C := by
-      apply Finset.sum_le_sum
-      intro s _
-      simpa only [mul_comm] using h s
-    _ = _ := by simp
-
 /-- Two-frequency specialization, with separate moment hypotheses for convenient use. -/
 theorem frequency_decay_two (z : ℂ) (x y C : ℝ)
     (h0 : ‖z‖ ≤ C) (hx : |x| * ‖z‖ ≤ C) (hy : |y| * ‖z‖ ≤ C)

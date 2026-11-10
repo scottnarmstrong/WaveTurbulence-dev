@@ -39,19 +39,6 @@ theorem layerLinkMass_eq_ofReal_integral {d : ℕ} {L : ℝ} (hL : 0 < L)
   exact (ofReal_integral_eq_lintegral_ofReal (integrableOn_linkTimeFactor hL γ δ Q).norm
     (Filter.Eventually.of_forall fun _ => norm_nonneg _)).symm
 
-/-- Actual kernel integration over every source subdomain is bounded by the product of literal masses. -/
-theorem enorm_linkProduct_integral_le {d n : ℕ} {L : ℝ} (hL : 0 < L) (γ δ : ℝ)
-    (Q : Fin n → LayerLink d) {I : Set (Fin n → Fin 2 → ℝ)}
-    (hI : I ⊆ univ.pi (fun i => linkBox (Q i))) :
-    ‖∫ t in I, ∏ i, linkTimeFactor L γ δ (Q i) (t i)‖ₑ ≤
-      ∏ i, layerLinkMass L (δ * L ^ (2 * γ)) (Q i) := by
-  rw [← ofReal_norm]
-  apply (ENNReal.ofReal_le_ofReal (norm_linkProduct_integral_le hL γ δ Q hI)).trans_eq
-  rw [ENNReal.ofReal_prod_of_nonneg (fun _ _ => integral_nonneg fun _ => norm_nonneg _)]
-  apply Finset.prod_congr rfl
-  intro i _
-  exact (layerLinkMass_eq_ofReal_integral hL γ δ (Q i)).symm
-
 /-- Absolute product domination, the form needed for the root-density L¹ estimate. -/
 theorem lintegral_linkProduct_enorm_le {d n : ℕ} {L : ℝ} (hL : 0 < L) (γ δ : ℝ)
     (Q : Fin n → LayerLink d) {I : Set (Fin n → Fin 2 → ℝ)}

@@ -40,10 +40,6 @@ constants `C = exp 4`, `A = 16 + 16 * exp 2`; see `chi0_gevreyTwoBound`. -/
 @[expose] noncomputable def chi0Tensor {d : ℕ} (x : Fin d → ℝ) : ℝ :=
   ∏ i, chi0 (x i)
 
-/-- The complement of the tensor cutoff, for vector arguments in TARGET L623. -/
-@[expose] noncomputable def chiInfinityTensor {d : ℕ} (x : Fin d → ℝ) : ℝ :=
-  1 - chi0Tensor x
-
 theorem chi0_nonneg (x : ℝ) : 0 ≤ chi0 x :=
   mul_nonneg (Real.smoothTransition.nonneg _) (Real.smoothTransition.nonneg _)
 
@@ -125,18 +121,5 @@ theorem chi0Tensor_hasCompactSupport (d : ℕ) : HasCompactSupport (chi0Tensor (
   push Not at hi
   obtain ⟨i, hi⟩ := hi
   exact chi0Tensor_eq_zero i hi.le
-
-theorem chi0Tensor_even {d : ℕ} (x : Fin d → ℝ) : chi0Tensor (-x) = chi0Tensor x := by
-  simp only [chi0Tensor, Pi.neg_apply, chi0_even]
-
-theorem chiInfinityTensor_nonneg {d : ℕ} (x : Fin d → ℝ) : 0 ≤ chiInfinityTensor x :=
-  sub_nonneg.mpr (chi0Tensor_le_one x)
-
-theorem chiInfinityTensor_le_one {d : ℕ} (x : Fin d → ℝ) : chiInfinityTensor x ≤ 1 :=
-  sub_le_self _ (chi0Tensor_nonneg x)
-
-@[fun_prop] theorem chiInfinityTensor_contDiff {d : ℕ} {n : ℕ∞} :
-    ContDiff ℝ n (chiInfinityTensor (d := d)) :=
-  contDiff_const.sub chi0Tensor_contDiff
 
 end WaveTurbulence.Fourier

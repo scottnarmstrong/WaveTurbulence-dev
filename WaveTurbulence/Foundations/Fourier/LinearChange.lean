@@ -62,27 +62,4 @@ theorem timeFourier_comp_matrix {r : ℕ} {A : Matrix (Fin r) (Fin r) ℝ}
       Real.fourierChar (-timePairing r (A *ᵥ t) ξ) • f (A *ᵥ t)
     rw [hpair]
 
-/-- The Fourier-L¹ norm is invariant under every determinant-one-in-absolute-
-value real change of coordinates, including all unimodular integer changes. -/
-theorem timeFourierNorm_zero_comp_matrix {r : ℕ} {A : Matrix (Fin r) (Fin r) ℝ}
-    (hA : |A.det| = 1) (f : (Fin r → ℝ) → ℂ) :
-    timeFourierNorm 0 (fun t => f (A *ᵥ t)) = timeFourierNorm 0 f := by
-  classical
-  have hAT : |Aᵀ.det| = 1 := by simpa only [Matrix.det_transpose] using hA
-  have hi := (matrix_measurePreserving hA).integrable_comp_emb
-    (matrix_measurableEmbedding hA) (g := f)
-  unfold timeFourierNorm
-  change (if Integrable (f ∘ Matrix.toLin' A) then _ else _) = _
-  rw [hi]
-  split_ifs
-  · simp only [timeWeight, Real.rpow_zero, ENNReal.ofReal_one, one_mul]
-    rw [← (matrix_measurePreserving hAT).lintegral_comp_emb
-      (matrix_measurableEmbedding hAT)
-      (fun ξ => ‖timeFourier (fun t => f (A *ᵥ t)) ξ‖ₑ)]
-    apply lintegral_congr
-    intro ξ
-    simp only [Matrix.toLin'_apply]
-    rw [timeFourier_comp_matrix hA]
-  · rfl
-
 end WaveTurbulence.Fourier

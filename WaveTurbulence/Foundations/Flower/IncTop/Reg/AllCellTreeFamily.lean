@@ -3,7 +3,9 @@ module
 
 public import WaveTurbulence.Foundations.Flower.IncTop.Reg.SourceCellMassBound
 public import WaveTurbulence.Foundations.Flower.IncTop.Reg.SpectralCoupleMeasurability
-public import WaveTurbulence.Foundations.Incoh.CoupleExtensionAgreement
+public import WaveTurbulence.Foundations.Incoh.RootCutoff
+public import WaveTurbulence.Foundations.Incoh.RootCumulativeLocal
+public import WaveTurbulence.Foundations.Incoh.TwoTimeBoxIntegral
 public import WaveTurbulence.Foundations.Flower.IncTop.Reg.SpectralTreeMeasurability
 public import WaveTurbulence.Foundations.Incoh.ParameterTreeDecay
 

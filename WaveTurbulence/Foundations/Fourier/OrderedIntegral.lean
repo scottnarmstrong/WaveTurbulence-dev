@@ -113,11 +113,4 @@ theorem contDiff_fin_cons (n : ℕ) :
 @[simp] theorem orderedIntegral_self (n : ℕ) (F : (Fin (n + 1) → ℝ) → ℂ) (t : ℝ) :
     orderedIntegral (n + 1) F t t = 0 := by simp [orderedIntegral]
 
-/-- Negation commutes with ordered integration, with no integrability side conditions. -/
-theorem orderedIntegral_neg (n : ℕ) (F : (Fin n → ℝ) → ℂ) (t s : ℝ) :
-    orderedIntegral n (fun v => -F v) t s = -orderedIntegral n F t s := by
-  induction n generalizing t s with
-  | zero => rfl
-  | succ n ih => simp only [orderedIntegral, ih, intervalIntegral.integral_neg]
-
 end WaveTurbulence.Fourier

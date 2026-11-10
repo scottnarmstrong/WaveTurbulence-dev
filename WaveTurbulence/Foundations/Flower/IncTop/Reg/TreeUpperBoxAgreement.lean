@@ -4,7 +4,6 @@ module
 public import WaveTurbulence.Foundations.Flower.IncTop.Reg.MovingTreeFamily
 public import WaveTurbulence.Foundations.Incoh.ParameterTreeDecay
 public import WaveTurbulence.Foundations.Flower.IncTop.Reg.SpectralTreeClocks
-public import WaveTurbulence.Foundations.Incoh.UniformParameterMixture
 public import WaveTurbulence.Foundations.Incoh.CutoffPointwiseL1
 public import WaveTurbulence.Foundations.Incoh.PointwiseMixtureIntegrability
 public import WaveTurbulence.Foundations.Incoh.TreeCausalGlobalSource

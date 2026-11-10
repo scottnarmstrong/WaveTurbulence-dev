@@ -35,13 +35,6 @@ theorem lintegral_two_coordinates {f : (Fin 2 → ℝ) → ℝ≥0∞} (hf : Mea
     _ = ∫⁻ z : ℝ × ℝ, f ![z.1, z.2] := by rw [he]; rfl
     _ = _ := lintegral_prod _ hmeas.aemeasurable
 
-/-- Coordinate Tonelli formula with the second coordinate integrated outside. -/
-theorem lintegral_two_coordinates_symm {f : (Fin 2 → ℝ) → ℝ≥0∞} (hf : Measurable f) :
-    (∫⁻ x, f x) = ∫⁻ v : ℝ, ∫⁻ u : ℝ, f ![u, v] := by
-  have hmeas : Measurable (fun z : ℝ × ℝ => f ![z.1, z.2]) := hf.comp (by fun_prop)
-  rw [lintegral_two_coordinates hf]
-  exact lintegral_lintegral_swap hmeas.aemeasurable
-
 /-- Tonelli on a fixed two-coordinate box, with the product restricted measure. -/
 theorem lintegral_two_coordinates_box {f : (Fin 2 → ℝ) → ℝ≥0∞} (hf : Measurable f) (R : ℝ) :
     (∫⁻ x in Set.Icc (fun _ : Fin 2 => -R) (fun _ => R), f x) =

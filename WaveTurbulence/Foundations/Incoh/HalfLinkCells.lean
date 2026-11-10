@@ -24,11 +24,6 @@ namespace WaveTurbulence.Incoh
 @[expose] def halfLinkCell {d : ℕ} (c : Fin d → ℤ) (x : Mom d) : ℂ :=
   (ApproxNT.thetaMom d ((2 : ℝ) • x - NTSP.intVec c) : ℂ)
 
-/-- Exact smooth partition of unity in every link momentum. -/
-theorem hasSum_halfLinkCell {d : ℕ} (x : Mom d) :
-    HasSum (fun c : Fin d → ℤ => halfLinkCell c x) 1 := by
-  simpa only [halfLinkCell, leafCell, one_mul] using hasSum_leafCell (fun _ : Mom d => (1 : ℂ)) ((2 : ℝ) • x)
-
 /-- Every nonzero half-cell lies where the fixed analytic cutoff is identically one. -/
 theorem latticeCutoff_eq_one_of_halfLinkCell_ne_zero {d : ℕ} {c : Fin d → ℤ} {x : Mom d}
     (hx : halfLinkCell c x ≠ 0) : WeylSums.latticeCutoff (x - halfCellCenter c) = 1 := by

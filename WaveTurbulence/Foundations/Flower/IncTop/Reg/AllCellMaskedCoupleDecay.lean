@@ -3,7 +3,6 @@ module
 
 public import WaveTurbulence.Foundations.Flower.IncTop.Reg.MaskedCellFamily
 public import WaveTurbulence.Foundations.Flower.IncTop.Reg.AllCellCutoffCoupleFamily
-public import WaveTurbulence.Foundations.Incoh.CoupleExtensionAgreement
 public import WaveTurbulence.Foundations.Incoh.CouplePhysicalL1
 public import WaveTurbulence.Foundations.Incoh.UniformL1MixtureIntegrability
 public import WaveTurbulence.Foundations.Incoh.SpectralSpatialMixture

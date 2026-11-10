@@ -31,11 +31,6 @@ open WaveTurbulence.Incoh
 def linkFiltWeight {ι : Type*} [DecidableEq ι] (E F Fu : Finset ι) (ann : ι → Bool) (M Mu : ι → ℝ) (u : ℝ) : ℂ :=
   linkFiltMult (F ∩ E) ann M u * linkFiltMult (Fu ∩ E) (fun _ => false) Mu u
 
-theorem linkFiltWeight_empty {ι : Type*} [DecidableEq ι] (F Fu : Finset ι) (ann : ι → Bool) (M Mu : ι → ℝ) :
-    linkFiltWeight ∅ F Fu ann M Mu = fun _ => 1 := by
-  funext u
-  simp only [linkFiltWeight, linkFiltMult, Finset.inter_empty, Finset.prod_empty, mul_one]
-
 /-- **o82 (14.2)** for one link: the two-layer multiplier is `filtMomentConst⁴`-presented at scale `L ≤ M, Mu`. -/
 theorem presentedMult_linkFiltWeight {ι : Type*} [DecidableEq ι] (E F Fu : Finset ι) (ann : ι → Bool) (M Mu : ι → ℝ)
     {L : ℝ} (hL : 0 ≤ L) (hE : E.card ≤ 2) (hM : ∀ b ∈ F, L ≤ M b) (hMu : ∀ b ∈ Fu, L ≤ Mu b) :
@@ -66,60 +61,11 @@ theorem exists_linkFiltWeight_bound : ∃ B : ℝ, 1 ≤ B ∧ ∀ {ι : Type*} 
     _ = B ^ ((F ∩ E).card + (Fu ∩ E).card) := (pow_add _ _ _).symm
     _ ≤ B ^ 4 := pow_le_pow_right₀ hB (by omega)
 
-/-- **o82 Lemma 14.1, the sup bound** (the trivial supremum, unchanged up to a fixed factor `B`): the filtered lattice
-sum, the filtered phase coefficients and the filtered link mass of one link. -/
-theorem exists_filtLink_trivial (d : ℕ) : ∃ B : ℝ, 1 ≤ B ∧ ∀ {ι : Type*} [DecidableEq ι] (E F Fu : Finset ι)
-    (ann : ι → Bool) (M Mu : ι → ℝ), E.card ≤ 2 → ∀ L : ℝ, 1 ≤ L →
-    (∀ (s : ℝ) (A : LinkParameters d),
-      ‖filtLinkLatticeSum L s A (linkFiltWeight E F Fu ann M Mu)‖ ≤ B * (5 * L) ^ (2 * d)) ∧
-    (∀ Q : LayerLink d,
-      (∑' p, ‖filtLinkPhaseCoefficient L Q (linkFiltWeight E F Fu ann M Mu) p‖) ≤ B * (5 * L) ^ (2 * d)) ∧
-    (∀ (lam : ℝ) (Q : LayerLink d),
-      filtLayerLinkMass L lam Q (linkFiltWeight E F Fu ann M Mu) ≤ ENNReal.ofReal (B * (5 * L) ^ (2 * d))) := by
-  obtain ⟨B, hB, hb⟩ := exists_linkFiltWeight_bound
-  refine ⟨B, hB, fun E F Fu ann M Mu hE L hL => ⟨fun s A => ?_, fun Q => ?_, fun lam Q => ?_⟩⟩
-  · exact norm_filtLinkLatticeSum_le hL s A _ (zero_le_one.trans hB) (hb E F Fu ann M Mu hE)
-  · exact tsum_norm_filtLinkPhaseCoefficient_le hL Q _ (zero_le_one.trans hB) (hb E F Fu ann M Mu hE)
-  · exact filtLayerLinkMass_le_trivial hL lam Q _ (zero_le_one.trans hB) (hb E F Fu ann M Mu hE)
-
-/-- **o82 Lemma 14.1, (14.1)** (the pair mass), in the form of main's `Incoh.exists_oneLink_decay`: one link with the
-filters of `filtWeight F ann M * filtWeight Fu false Mu` on its branch set `E` (`#E ≤ 2`, scales `≥ L`) has the
-literal link's one-link bounds, with a new base constant `C₀` depending only on `d`, uniformly in `E, F, Fu, ann,
-M, Mu`, the centers, shifts, orientation and layers. -/
-theorem exists_filtLink_decay (d : ℕ) (hd : 3 ≤ d) :
-    ∃ C₀ : ℝ, 0 < C₀ ∧ ∀ γ : ℝ, γ ∈ Ioo (0 : ℝ) 1 →
-      ∀ η : ℝ, 0 < η → η < incoherenceExponent d γ →
-      ∀ δ : ℝ, 0 < δ → ∀ D : ℝ, 0 < D →
-      ∃ C₂ L₀ : ℝ, 1 ≤ C₂ ∧ 1 ≤ L₀ ∧ ∀ L ≥ L₀, ∀ Q : LayerLink d,
-        |(Q.leftLayer : ℝ) - Q.rightLayer| + 1 ≤ D →
-        ∀ {ι : Type*} [DecidableEq ι] (E F Fu : Finset ι) (ann : ι → Bool) (M Mu : ι → ℝ), E.card ≤ 2 →
-        (∀ b ∈ F, L ≤ M b) → (∀ b ∈ Fu, L ≤ Mu b) →
-        (filtLayerLinkMass L (δ * L ^ (2 * γ)) Q (linkFiltWeight E F Fu ann M Mu) ≤
-          ENNReal.ofReal (C₀ * kineticLinkScale d γ δ L)) ∧
-        (Q.IsIncoherent → filtLayerLinkMass L (δ * L ^ (2 * γ)) Q (linkFiltWeight E F Fu ann M Mu) ≤
-          ENNReal.ofReal (C₀ * C₂ * kineticLinkScale d γ δ L * L ^ (-(incoherenceExponent d γ - η)))) := by
-  obtain ⟨C, hC, hb⟩ := exists_filtOneLink_decay d hd
-  refine ⟨filtMomentConst ^ 4 * C, mul_pos (by positivity [one_le_filtMomentConst]) hC, ?_⟩
-  intro γ hγ η hη hηg δ hδ D hD
-  obtain ⟨C₂, L₀, hC₂, hL₀, hb⟩ := hb γ hγ η hη hηg δ hδ D hD
-  refine ⟨C₂, L₀, hC₂, hL₀, ?_⟩
-  intro L hL Q hspan ι _ E F Fu ann M Mu hE hM hMu
-  have hL0 : 0 ≤ L := zero_le_one.trans (hL₀.trans hL)
-  have h := hb L hL Q hspan _ _ (presentedMult_linkFiltWeight E F Fu ann M Mu hL0 hE hM hMu)
-  refine ⟨h.1.trans_eq ?_, fun hQ => (h.2 hQ).trans_eq ?_⟩ <;> (congr 1; ring)
-
 /-! ### The decoration bridge: branch filters are link-frequency filters -/
 
 section Bridge
 
 variable {w d : ℕ} {G : Garden w}
-
-/-- On a decoration, the filter of branch `b` is its link-frequency form (`Ω_b = 2⟨x_b, y_b⟩`, TARGET L983). -/
-theorem filtFactor_eq_link {κ : GNode G.tree → Mom d} (hκ : IsDecoration G κ) (a : Bool) (M : ℝ)
-    (b : GBranch G.tree) :
-    filtProf a (|omegaNode G κ b| / M) =
-      filtProf a (|2 * inner ℝ (Links.xNode κ b) (Links.yNode κ b)| / M) := by
-  rw [Links.omegaNode_eq hκ]
 
 /-- Linked branches have the same `|Ω|`: from `ζ_{b'}Ω_{b'} = −ζ_bΩ_b` (`zeta_omega_link`, `TreeLinks`). -/
 theorem abs_omega_eq_of_signed {κ : GNode G.tree → Mom d} {b b' : GBranch G.tree}

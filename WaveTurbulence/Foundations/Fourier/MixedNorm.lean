@@ -86,11 +86,6 @@ particular `K` can be a lattice or a lattice coset. -/
   ⨅ (G : (Fin r → ℝ) → Mom d → ℂ)
     (_ : ∀ (t : B) (k : K), G t k = F t k), mixedFourierNorm θ Λ₁ Λ₂ G
 
-/-- Restriction of `(normX2)` to an arbitrary set of momenta. -/
-@[expose] noncomputable def spatialRestrictionNorm {d : ℕ} (Λ₁ Λ₂ : ℕ)
-    (K : Set (Mom d)) (f : K → ℂ) : ℝ≥0∞ :=
-  ⨅ (g : Mom d → ℂ) (_ : ∀ k : K, g k = f k), spatialNorm Λ₁ Λ₂ g
-
 /-- At order zero, admissibility requires only integrability of every time slice. -/
 @[simp] theorem mixedFourierAdmissible_zero_iff {r d : ℕ}
     (F : (Fin r → ℝ) → Mom d → ℂ) :
@@ -120,10 +115,5 @@ theorem mixedRestrictionNorm_le_extension {r d : ℕ} {θ : ℝ} {Λ₁ Λ₂ : 
     (hG : ∀ (t : B) (k : K), G t k = F t k) :
     mixedRestrictionNorm θ Λ₁ Λ₂ B K F ≤ mixedFourierNorm θ Λ₁ Λ₂ G :=
   iInf_le_of_le G (iInf_le_of_le hG le_rfl)
-
-theorem spatialRestrictionNorm_le_extension {d : ℕ} {Λ₁ Λ₂ : ℕ}
-    {K : Set (Mom d)} {f : K → ℂ} (g : Mom d → ℂ) (hg : ∀ k : K, g k = f k) :
-    spatialRestrictionNorm Λ₁ Λ₂ K f ≤ spatialNorm Λ₁ Λ₂ g :=
-  iInf_le_of_le g (iInf_le_of_le hg le_rfl)
 
 end WaveTurbulence.Fourier

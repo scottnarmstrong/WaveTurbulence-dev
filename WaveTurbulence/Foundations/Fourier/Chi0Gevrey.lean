@@ -86,27 +86,4 @@ theorem chiInfinity_gevreyTwoBound :
     (show |(1 : ℝ)| ≤ 1 by norm_num) (show 0 ≤ 16 + 16 * Real.exp 2 by positivity)
   exact hc.add chi0_gevreyTwoBound.neg contDiff_const chi0_contDiff.neg
 
-/-- The tensor cutoff has uniform Gevrey-2 bounds on every affine line.
-The prefactor is `exp(4)^d`, and the exponential constant is the scalar
-constant times the coordinate `ℓ¹` size of the direction. -/
-theorem chi0Tensor_line_gevreyTwoBound {d : ℕ} (x v : Fin d → ℝ) :
-    GevreyTwoBound (fun t => chi0Tensor (fun i => x i + t * v i))
-      (Real.exp 4 ^ d) ((16 + 16 * Real.exp 2) * ∑ i, |v i|) := by
-  have h := GevreyTwoBound.finset_prod Finset.univ
-    (fun i t => chi0 (v i * t + x i)) (fun _ => Real.exp 4)
-    (fun i => |v i| * (16 + 16 * Real.exp 2))
-    (fun i _ => chi0_gevreyTwoBound.comp_affine chi0_contDiff (v i) (x i))
-    (fun i _ => by fun_prop) (fun _ _ => (Real.exp_pos 4).le)
-    (fun _ _ => mul_nonneg (abs_nonneg _) (by positivity))
-  convert h using 1
-  · funext t
-    unfold chi0Tensor
-    apply Finset.prod_congr rfl
-    intro i _
-    congr 1
-    ring
-  · simp
-  · rw [← Finset.sum_mul]
-    ring
-
 end WaveTurbulence.Fourier
