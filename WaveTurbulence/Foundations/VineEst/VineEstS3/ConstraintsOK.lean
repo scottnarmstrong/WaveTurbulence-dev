@@ -42,11 +42,6 @@ def ConstraintsOK (hM9 : VINEPARAM) (B : CLChainAssembly G R n)
   assemblyTimeConstraints hM9 B ⊆ W.constraints ∧
     ∀ c ∈ W.constraints, c ∉ assemblyTimeConstraints hM9 B → W.q c.1 + 1 ≤ W.q c.2
 
-theorem constraintsOK_of_eq (hM9 : VINEPARAM) (B : CLChainAssembly G R n)
-    (W : SumintWeightClockData (assemblyShape hM9 B) d) (hc : W.constraints = assemblyTimeConstraints hM9 B) :
-    ConstraintsOK hM9 B W :=
-  ⟨hc.symm.subset, fun _ h h' => absurd (hc ▸ h) h'⟩
-
 theorem constraintsOK_union (hM9 : VINEPARAM) (B : CLChainAssembly G R n)
     (W : SumintWeightClockData (assemblyShape hM9 B) d)
     (hc : W.constraints = assemblyTimeConstraints hM9 B ∪ layerOrderPairs W.q) :

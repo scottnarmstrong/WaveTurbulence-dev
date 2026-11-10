@@ -58,21 +58,6 @@ inductive ReachB (p : ℕ) (kind : Bool) :
   | apply {L A tb B tb'} {i : ι} (op : FamilyOperation (p := p) (kind := kind) A i)
       (h : ReachB p kind L op.output (BlkAt.nextA A tb i op.choice) B tb') : ReachB p kind (i :: L) A tb B tb'
 
-theorem batch_reachB {p : ℕ} {kind : Bool} {L : List ι} {A B : FamilyReconstruction w ι}
-    (h : FamilyBatch p kind L A B) (tb : BlkAt A.skeleton) :
-    ∃ tb' : BlkAt B.skeleton, ReachB p kind L A tb B tb' := by
-  induction h with
-  | nil A => exact ⟨tb, .nil A tb⟩
-  | skip i h ih => obtain ⟨tb', hc⟩ := ih tb; exact ⟨tb', .skip i hc⟩
-  | apply op h ih => obtain ⟨tb', hc⟩ := ih (BlkAt.nextA _ tb _ op.choice); exact ⟨tb', .apply op hc⟩
-
-theorem ReachB.batch {p : ℕ} {kind : Bool} {L : List ι} {A B : FamilyReconstruction w ι} {tb : BlkAt A.skeleton}
-    {tb' : BlkAt B.skeleton} (h : ReachB p kind L A tb B tb') : FamilyBatch p kind L A B := by
-  induction h with
-  | nil A tb => exact .nil A
-  | skip i h ih => exact .skip i ih
-  | apply op h ih => exact .apply op ih
-
 /-- A block is determined by the raw addresses of `U`, `a`, `b`. -/
 theorem BlkAt.heq_of_raw {S S' : Garden w} (hs : S = S') (tb : BlkAt S) (tb' : BlkAt S')
     (hU : tb.U.image Subtype.val = tb'.U.image Subtype.val) (ha : tb.a.1 = tb'.a.1) (hb : tb.b.1 = tb'.b.1) :

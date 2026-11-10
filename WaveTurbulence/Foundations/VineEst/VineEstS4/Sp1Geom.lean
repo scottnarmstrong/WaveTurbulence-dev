@@ -5,7 +5,7 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.VineEst.VineEstS4.Cls1State
+public import WaveTurbulence.Foundations.VineEst.VineEstS4.Rg5SSum
 
 /-! # The split geometry of a twist at a member below the split joint (V5 Step 4b, step 4, WP-D part 1)
 

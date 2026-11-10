@@ -7,7 +7,7 @@ module
 
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.FlatMod.TwistLF
 public import WaveTurbulence.Foundations.VineEst.VineEstS4.SplitFubiniInputs
-public import WaveTurbulence.Foundations.VineEst.VineEstS4.Sp12Sok
+public import WaveTurbulence.Foundations.VineEst.VineEstS4.Sp11Lin
 public import WaveTurbulence.Foundations.VineEst.VineEstS4.AbsMeas
 
 /-! # FLAT-MOD (R60), kernel level 3: the Fubini split of the modulated kernel at a joint

@@ -109,75 +109,10 @@ theorem SNorm_one_le (A : ℕ) : SNorm A 0 (fun _ : Mom d => (1 : ℂ)) ≤ ENNR
   · simp
   · rw [iteratedFDeriv_const_of_ne (Nat.pos_iff_ne_zero.mp hn)]; simp
 
-theorem contDiff_diffQuot {A : ℕ} {f : Mom d → ℂ} (hf : ContDiff ℝ (A + 1) f) (a : Mom d) :
-    ContDiff ℝ A (diffQuot a f) := by
-  unfold diffQuot
-  exact contDiff_const.mul (((hf.of_le (by exact_mod_cast Nat.le_succ A)).comp
-    (contDiff_id.add contDiff_const)).sub (hf.of_le (by exact_mod_cast Nat.le_succ A)))
-
 section Rows
 
 variable {A W : ℕ} (hd : 1 ≤ d) {MQ MT : Mom d → ℂ} {βQ βT : ℝ} (hβQ : 0 ≤ βQ) (hβT : 0 ≤ βT)
   (hQ : SNorm (A + 1) W MQ ≤ ENNReal.ofReal βQ) (hT : SNorm (A + 1) 0 MT ≤ ENNReal.ofReal βT)
-
-include hQ in
-theorem contDiff_Q : ContDiff ℝ (A + 1) MQ := contDiff_of_SNorm_le' (Nat.succ_ne_zero A) MQ βQ hQ
-
-include hT in
-theorem contDiff_T : ContDiff ℝ (A + 1) MT := contDiff_of_SNorm_le' (Nat.succ_ne_zero A) MT βT hT
-
-include hβQ hQ in
-theorem SNorm_Q_mono : SNorm A W MQ ≤ ENNReal.ofReal βQ :=
-  SNorm_mono_bound (Nat.le_succ A) le_rfl MQ (contDiff_Q hQ) βQ hβQ hQ
-
-include hβT hT in
-theorem SNorm_T_mono : SNorm A 0 MT ≤ ENNReal.ofReal βT :=
-  SNorm_mono_bound (Nat.le_succ A) le_rfl MT (contDiff_T hT) βT hβT hT
-
-include hβQ hβT hQ hT in
-/-- **Row (b), couple, Vine II-a** (`T` at `ℓ₁`, the `Q`-difference at `k₁`): `K`-slot weight
-`diffQuot a M_Q ∈ 𝔖^{A,W}`, `L`-slot weight `M_T ∈ 𝔖^{A,0}`. -/
-theorem kq_IIa (a : Mom d) (ha : ‖a‖ ≤ 1) :
-    SNorm A W (diffQuot a MQ) ≤ ENNReal.ofReal ((2 : ℝ) ^ W * (d : ℝ) ^ (A + 1) * βQ) ∧
-      SNorm A 0 MT ≤ ENNReal.ofReal βT :=
-  ⟨SNorm_diffQuot_le hβQ hQ a ha, SNorm_T_mono hβT hT⟩
-
-include hd hβQ hβT hQ hT in
-/-- **Row (b), couple, Vine II-b** (`T` at `k₁`): `K`-slot weight `M_T · diffQuot a M_Q`, `L`-slot
-weight `1`. -/
-theorem kq_IIb (a : Mom d) (ha : ‖a‖ ≤ 1) :
-    SNorm A W (fun k => MT k * diffQuot a MQ k) ≤
-      ENNReal.ofReal ((2 : ℝ) ^ A * (d : ℝ) ^ A * βT * ((2 : ℝ) ^ W * (d : ℝ) ^ (A + 1) * βQ)) ∧
-      SNorm A 0 (fun _ : Mom d => (1 : ℂ)) ≤ ENNReal.ofReal 1 := by
-  refine ⟨SNorm_mul_le hd MT (diffQuot a MQ)
-    (contDiff_T hT |>.of_le (by exact_mod_cast Nat.le_succ A))
-    (contDiff_diffQuot (contDiff_Q hQ) a) hβT (by positivity) (SNorm_T_mono hβT hT)
-    (SNorm_diffQuot_le hβQ hQ a ha), SNorm_one_le A⟩
-
-include hd hβQ hβT hQ hT in
-/-- **Row (b), tree, Vine II-b** (`Q` at `k₁`, the `T`-difference moved to `k₁`): `K`-slot weight
-`M_Q · diffQuot a M_T`, `L`-slot weight `1`. -/
-theorem kt_IIb (a : Mom d) (ha : ‖a‖ ≤ 1) :
-    SNorm A W (fun k => diffQuot a MT k * MQ k) ≤
-      ENNReal.ofReal ((2 : ℝ) ^ A * (d : ℝ) ^ A * ((2 : ℝ) ^ 0 * (d : ℝ) ^ (A + 1) * βT) * βQ) ∧
-      SNorm A 0 (fun _ : Mom d => (1 : ℂ)) ≤ ENNReal.ofReal 1 := by
-  refine ⟨SNorm_mul_le hd (diffQuot a MT) MQ (contDiff_diffQuot (contDiff_T hT) a)
-    (contDiff_Q hQ |>.of_le (by exact_mod_cast Nat.le_succ A)) (by positivity) hβQ
-    (SNorm_diffQuot_le hβT hT a ha) (SNorm_Q_mono hβQ hQ), SNorm_one_le A⟩
-
-include hd hβQ hβT hQ hT in
-/-- **Row (b), tree, Vine II-a** (`Q` at `ℓ₁ = k₁ + a`): `K`-slot weight
-`M_Q(· + a) · diffQuot a M_T`, `L`-slot weight `1`. -/
-theorem kt_IIa (a : Mom d) (ha : ‖a‖ ≤ 1) :
-    SNorm A W (fun k => diffQuot a MT k * MQ (k + a)) ≤
-      ENNReal.ofReal ((2 : ℝ) ^ A * (d : ℝ) ^ A * ((2 : ℝ) ^ 0 * (d : ℝ) ^ (A + 1) * βT) *
-        ((2 : ℝ) ^ W * (d : ℝ) ^ A * βQ)) ∧
-      SNorm A 0 (fun _ : Mom d => (1 : ℂ)) ≤ ENNReal.ofReal 1 := by
-  have hQc : ContDiff ℝ A MQ := contDiff_Q hQ |>.of_le (by exact_mod_cast Nat.le_succ A)
-  have hsh := SNorm_translate_le hd hQc hβQ (SNorm_Q_mono hβQ hQ) a ha
-  refine ⟨SNorm_mul_le hd (diffQuot a MT) (fun k => MQ (k + a)) (contDiff_diffQuot (contDiff_T hT) a)
-    (hQc.comp (contDiff_id.add contDiff_const)) (by positivity) (by positivity)
-    (SNorm_diffQuot_le hβT hT a ha) hsh, SNorm_one_le A⟩
 
 end Rows
 

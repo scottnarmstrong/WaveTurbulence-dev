@@ -133,12 +133,4 @@ theorem hasSum_coeff_at {θ : ℝ} (hθ : 0 ≤ θ) (q : Fin r → ℝ) {B : Set
   have := hasSum_coeff_slice hθ q hB hgn hGf hfc ht
   simpa only [coeff, NormBridgeScratch.timeFT_eq_timeFourier] using this
 
-/-- **Value identity** for an extension `G` of a time-continuous `f` on `B ⊆ Q_q`. -/
-theorem hasSum_coeff {θ : ℝ} (hθ : 0 ≤ θ) (q : Fin r → ℝ) {B : Set (Fin r → ℝ)} (hB : B ⊆ cell q)
-    {G f : (Fin r → ℝ) → Mom d → ℂ} (hGf : ∀ t ∈ B, ∀ k, G t k = f t k)
-    (hfc : ∀ k, Continuous fun t => f t k) (hG : XNorm00 θ G < ⊤) {t : Fin r → ℝ}
-    (ht : t ∈ closure (interior B)) (k : Mom d) :
-    HasSum (fun m : Fin r → ℤ => coeff q G m k * fsPhase m t) (f t k) :=
-  hasSum_coeff_at hθ q hB (fun t htB => hGf t htB k) (hfc k) hG ht
-
 end WaveTurbulence.VineEstS3.FS

@@ -33,50 +33,6 @@ section KDomainVanishing
 
 variable {w : ℕ}
 
-/-- If the upper time of a branching node is `≤` its layer, the time domain is empty. -/
-theorem kDomain_eq_empty_of_up_le (LG : LayeredGarden w) (up : GBranch LG.garden.tree → ℝ) (s : ℝ)
-    (b : GBranch LG.garden.tree) (h : up b ≤ (LG.layer b.toNode : ℝ)) :
-    kDomain LG up s = ∅ := by
-  ext τ
-  simp only [kDomain, Set.mem_ofPred_eq, Set.mem_empty_iff_false, iff_false]
-  intro hall
-  have h1 := hall b
-  linarith [h1.1, h1.2.2.2.1]
-
-theorem kernelK_eq_zero_of_kDomain_empty {d : ℕ} (L γ δ : ℝ) (F : ℕ → Mom d → ℝ)
-    (LG : LayeredGarden w) (up : GBranch LG.garden.tree → ℝ) (s : ℝ) (k₀ : Mom d)
-    (nroot : Fin w → (Fin d → ℤ)) (nfl : Fin d → ℤ) (hD : kDomain LG up s = ∅) :
-    kernelK L γ δ F LG up s k₀ nroot nfl = 0 := by
-  unfold kernelK
-  have hz : ∀ k' : GNode LG.garden.tree → Mom d,
-      phaseIntegral (d := d) L γ δ LG.garden (kDomain LG up s) s k' = 0 := by
-    intro k'
-    simp [phaseIntegral, hD]
-  simp [hz]
-
-/-- `K*_𝒬(t,s,k) = 0` if the `𝒯⁺` branching node `b` has layer `≥ t`. -/
-theorem KQstar_eq_zero_of_le_plus {d : ℕ} (L γ δ : ℝ) (F : ℕ → Mom d → ℝ) (LG : LayeredGarden 2)
-    (t s : ℝ) (k : Mom d) (b : GBranch LG.garden.tree) (hb : b.1.1 = 0)
-    (h : t ≤ (LG.layer b.toNode : ℝ)) : KQstar L γ δ F LG t s k = 0 := by
-  unfold KQstar
-  refine kernelK_eq_zero_of_kDomain_empty L γ δ F LG _ 0 k _ _ (kDomain_eq_empty_of_up_le LG _ 0 b ?_)
-  simpa [hb] using h
-
-/-- `K*_𝒬(t,s,k) = 0` if the `𝒯⁻` branching node `b` has layer `≥ s`. -/
-theorem KQstar_eq_zero_of_le_minus {d : ℕ} (L γ δ : ℝ) (F : ℕ → Mom d → ℝ) (LG : LayeredGarden 2)
-    (t s : ℝ) (k : Mom d) (b : GBranch LG.garden.tree) (hb : b.1.1 ≠ 0)
-    (h : s ≤ (LG.layer b.toNode : ℝ)) : KQstar L γ δ F LG t s k = 0 := by
-  unfold KQstar
-  refine kernelK_eq_zero_of_kDomain_empty L γ δ F LG _ 0 k _ _ (kDomain_eq_empty_of_up_le LG _ 0 b ?_)
-  simpa [hb] using h
-
-/-- `K*_𝒯(t,s,k) = 0` if a branching node `b` has layer `≥ t`. -/
-theorem KTstar_eq_zero_of_le {d : ℕ} (L γ δ : ℝ) (F : ℕ → Mom d → ℝ) (LG : LayeredGarden 1)
-    (t s : ℝ) (k : Mom d) (b : GBranch LG.garden.tree) (h : t ≤ (LG.layer b.toNode : ℝ)) :
-    KTstar L γ δ F LG t s k = 0 := by
-  unfold KTstar
-  exact kernelK_eq_zero_of_kDomain_empty L γ δ F LG _ s k _ _ (kDomain_eq_empty_of_up_le LG _ s b h)
-
 end KDomainVanishing
 
 

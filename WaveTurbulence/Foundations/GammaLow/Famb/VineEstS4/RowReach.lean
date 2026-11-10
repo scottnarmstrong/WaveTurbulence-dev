@@ -5,7 +5,6 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.VineEst.VineEstS4.RowStep
 public import WaveTurbulence.Foundations.VineEst.VineEstS4.AssemblyReach
 public import WaveTurbulence.Foundations.VineEst.VineEstS4.Kernel
 public import WaveTurbulence.Foundations.GammaLow.Famb.Family

@@ -33,12 +33,6 @@ theorem assemblyBranchBij_assemblyBranchOf (v : (assemblyShape hM9 B).VIdx) :
     rw [h]; simp
   simpa [assemblyIntOrder] using h2
 
-/-- The branch carried by a row of block `i` lies in the vine `i`. -/
-theorem vineOf_assemblyBranchOf (v : (assemblyShape hM9 B).VIdx) :
-    (vineOf hM9 B (assemblyBranchOf hM9 B v) : ℕ) = (v.1 : ℕ) := by
-  have := congrArg (fun x : (assemblyShape hM9 B).VIdx => (x.1 : ℕ)) (assemblyBranchBij_assemblyBranchOf hM9 B v)
-  simpa [assemblyBranchBij_fst] using this
-
 variable (hG : G.IsPlain)
 
 theorem assemblyPairBij_assemblyPairOf (v : (assemblyShape hM9 B).VIdx) :

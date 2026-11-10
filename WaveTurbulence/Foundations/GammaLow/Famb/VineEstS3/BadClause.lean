@@ -6,7 +6,6 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.VineEst.VineEstS3.BadClauseD
-public import WaveTurbulence.Foundations.VineEst.VineEstS3.AdmissibleAssembly
 public import WaveTurbulence.Foundations.VineEst.VineEstS3.Step3At
 public import WaveTurbulence.Foundations.GammaLow.Famb.Family
 public import WaveTurbulence.Foundations.VineEst.VineEstS3.BadClause

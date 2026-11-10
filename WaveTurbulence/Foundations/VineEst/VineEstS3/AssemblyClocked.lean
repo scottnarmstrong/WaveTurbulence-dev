@@ -104,13 +104,6 @@ noncomputable def assemblyClockedS (hM9 : VINEPARAM) (B : CLChainAssembly G R n)
     | Sum.inr v => if i = 0 then nodeSlot hM9 B (assemblyBranchOf hM9 B v).1.toNode
         else Sum.inl (branchSlot hM9 B (assemblyBranchOf hM9 B v))
 
-/-- The selected rows have the slots of `assemblyClocked`. -/
-theorem assemblyClockedS_slot (hM9 : VINEPARAM) (B : CLChainAssembly G R n) (RD : ReconstructionData G)
-    (hG : G.IsPlain) (W : SumintWeightClockData (assemblyShape hM9 B) d) (L γ δ : ℝ) (F : ℕ → Mom d → ℝ)
-    (layer : GNode (RD.forest hG) → ℕ) (hLayer : IsLayering (RD.garden hG) layer) :
-    (assemblyClockedS hM9 B RD hG W L γ δ F layer hLayer).slot =
-      (assemblyClocked hM9 B RD hG W L γ δ F layer hLayer).slot := rfl
-
 /-- The integrand of `clockedExpr` for `assemblyClockedS` is the integrand of V4's endpoint. -/
 theorem clockedIntegrand_assembly (hM9 : VINEPARAM) (B : CLChainAssembly G R n) (RD : ReconstructionData G)
     (hG : G.IsPlain) (W : SumintWeightClockData (assemblyShape hM9 B) d) (L γ δ : ℝ) (F : ℕ → Mom d → ℝ)

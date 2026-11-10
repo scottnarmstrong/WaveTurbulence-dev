@@ -5,11 +5,9 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.VineEst.VineEstS4.CanonStatement
 public import WaveTurbulence.Foundations.VineEst.VineEstS5B.Final3
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.RestrictState
 public import WaveTurbulence.Foundations.VineEst.VineEstS4.Sp17Suffix
-public import WaveTurbulence.Foundations.VineEst.VineEstS4.Sp18Geom
 public import WaveTurbulence.Foundations.GammaLow.Famb.Family
 public import WaveTurbulence.Foundations.GammaLow.Famb.VineEstS2.ChainPrefixBlocks
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.NestGeom

@@ -40,10 +40,4 @@ theorem stShape_hmom_oneMk (hM : S.molecule.IsMolecule) (σ : Prescription S)
     exact ht.trans (node_last_of_eq_child _ ho _ _ he)
   exact (parent_child_eq_node n hn).symm.trans (by rw [hc, hk])
 
-/-- The upper external boundary node sits at the original excluded child slot. -/
-theorem stShape_hmom_one (hM : S.molecule.IsMolecule) (σ : Prescription S)
-    (j : Fin (unitBlocks S σ).length) :
-    (stShape hM σ).hmom (unitBlk_disj hM σ) j 1 =
-      ((stShape hM σ).hinge (unitBlk_disj hM σ) j).child (regionOf (unitBlk hM σ j)).excluded := stShape_hmom_oneMk (Mk := ∅) hM σ j
-
 end WaveTurbulence.VineAlign

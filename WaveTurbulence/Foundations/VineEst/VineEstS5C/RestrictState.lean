@@ -5,7 +5,6 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.VineEst.VineEstS4.CanonStatement
 public import WaveTurbulence.Foundations.VineEst.VineEstS5B.Final3
 
 /-! # Restricting a core family to a set of members (V5 Step 4d part C, WP-I)

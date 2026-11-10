@@ -7,7 +7,7 @@ module
 
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.GenMerge
 public import WaveTurbulence.Foundations.VineEst.VineEstS4.BaseCase
-public import WaveTurbulence.Foundations.VineEst.VineEstS4.CanonStatement
+public import WaveTurbulence.Foundations.VineEst.VineEstS4.Canon
 
 /-! # The base case of the induction over the core vines, and the native summand as an abstract summand (WP-I)
 

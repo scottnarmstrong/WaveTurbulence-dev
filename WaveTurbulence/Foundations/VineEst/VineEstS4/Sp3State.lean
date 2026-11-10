@@ -7,7 +7,6 @@ module
 
 public import WaveTurbulence.Foundations.VineEst.VineEstS4.Sp2Split
 public import WaveTurbulence.Foundations.VineEst.VineEstS4.Sp1Geom
-public import WaveTurbulence.Foundations.VineEst.VineEstS4.Cls1State
 public import WaveTurbulence.Foundations.VineEst.VineEstS4.RegionUnique
 public import WaveTurbulence.Foundations.VineEst.VineEstS2.CLChainSplit
 
@@ -72,21 +71,8 @@ theorem clST : Mole.CLParentPattern S sp.sb.U sp.sb.a sp.sb.b ∧ Mole.CLParentP
 
 end SplitAt
 
-theorem clLocalKernel_idx {w d : ℕ} {G : Garden w} {U U' : Finset (GBranch G.tree)} {a a' b b' : GBranch G.tree}
-    (hU : U = U') (ha : a = a') (hb : b = b') (R : CLRegionData G U a b) (R' : CLRegionData G U' a' b')
-    (D : ReconstructionData G) (hG : G.IsPlain) (L γ δ : ℝ) (F : ℕ → Mom d → ℝ) (layer : GNode (D.forest hG) → ℕ)
-    (hLayer : IsLayering (D.garden hG) layer) (base : Mom d) (t0 t1 t2 : ℝ) (e f g h : Mom d) :
-    clLocalKernel D hG R L γ δ F layer hLayer base t0 t1 t2 e f g h =
-      clLocalKernel D hG R' L γ δ F layer hLayer base t0 t1 t2 e f g h := by
-  subst hU ha hb
-  rw [regionData_subsingleton R R']
-
 section State
 variable {d : ℕ} {pstar : ι} {J : Set ι} (κ : KPar d) (X : FamilyReconstruction w ι) (sp : SplitAt X.skeleton X.family pstar J)
-
-/-- `K^U` of the state at its chain region. -/
-@[expose] noncomputable def kU : ℂ :=
-  twistedLocalKernel X sp.c κ.L κ.γ κ.δ κ.F κ.base κ.t0 κ.t1 κ.t2 κ.e κ.f κ.g κ.h
 
 /-- The lower kernel `K^T(t, t₁, t₂; E, F', g, h)` of the state. -/
 @[expose] noncomputable def kT : ℝ → Mom d → Mom d → ℂ := fun t E F' =>
@@ -96,22 +82,6 @@ variable {d : ℕ} {pstar : ι} {J : Set ι} (κ : KPar d) (X : FamilyReconstruc
 @[expose] noncomputable def sSumAt (Φ : ℝ → Mom d → Mom d → ℂ) : ℂ :=
   sSum sp.RS X.data X.plain κ.L κ.γ κ.δ κ.F (stateLayer X) (stateLayer_isLayering X) κ.base κ.t0 κ.t1 κ.t2 κ.e κ.f
     sp.sb.b.toNode (sp.sb.b.child sp.RS.kept) Φ
-
-theorem kU_eq_sSumAt (hL : κ.L ≠ 0) (hF : HF X.data X.plain κ.L κ.F (stateLayer X) κ.base) :
-    kU κ X sp = sSumAt κ X sp (kT κ X sp) := by
-  have hex : sp.RT.excluded = sp.RS.kept :=
-    split_excluded_b sp.sb.block sp.hT sp.hi sp.hU sp.RS sp.RT
-  have h1 := clLocalKernel_eq_sSum sp.sb.block sp.hT sp.hi sp.hU sp.RU sp.RS sp.RT X.data X.plain κ.L κ.γ κ.δ κ.F
-    (stateLayer X) (stateLayer_isLayering X) κ.base κ.t0 κ.t1 κ.t2 κ.e κ.f κ.g κ.h hL hF
-  unfold kU twistedLocalKernel
-  rw [clLocalKernel_idx sp.union sp.sa.symm sp.tbb.symm (clRegionData X.skeleton sp.c.block sp.c.cl) sp.RU]
-  rw [h1]
-  unfold sSumAt kT
-  have hb0 : clBoundaryNodes sp.RT 0 = sp.sb.b.toNode := rfl
-  have hb1 : clBoundaryNodes sp.RT 1 = sp.sb.b.child sp.RS.kept := by
-    change sp.sb.b.child sp.RT.excluded = _
-    rw [hex]
-  rw [hb0, hb1]
 
 end State
 

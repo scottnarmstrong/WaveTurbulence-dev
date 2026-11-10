@@ -6,7 +6,8 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.VineEst.VineEstS4.Tw8Kernel
-public import WaveTurbulence.Foundations.VineEst.VineEstS4.RowStep
+public import WaveTurbulence.Foundations.VineEst.VineEstS4.RowCanon
+public import WaveTurbulence.Foundations.VineEst.VineEstS4.OrderStep
 public import WaveTurbulence.Foundations.VineEst.VineEstS4.AtomLayers
 
 /-! # K^T twist invariance, native layered objects of the ordinary rows (V5 Step 4b, step 3, part 9)

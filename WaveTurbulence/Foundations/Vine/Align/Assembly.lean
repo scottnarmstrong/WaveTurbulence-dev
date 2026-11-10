@@ -56,9 +56,4 @@ theorem assemblyVine_memMk {σ : Prescription G} {u : CLBlock G}
   have hcv : c = assemblyVine B i := clVine_eq_of_atoms he
   exact hcv ▸ hc
 
-/-- Every assembly piece of a selected unit belongs to the exact V0 carrier. -/
-theorem assemblyVine_mem {σ : Prescription G} {u : CLBlock G}
-    (hu : u ∈ unitBlocks G σ) {n : ℕ} (B : CLChainAssembly G (VineB.regionOf u) n) (i : Fin n) :
-    assemblyVine B i ∈ vinesV0 G σ := assemblyVine_memMk (Mk := ∅) hu B i
-
 end WaveTurbulence.VineAlign

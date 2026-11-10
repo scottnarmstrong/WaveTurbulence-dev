@@ -6,7 +6,14 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.VineEst.VineEstS4.Class
-public import WaveTurbulence.Foundations.VineEst.VineEstS3.Step3Prefix
+public import WaveTurbulence.Foundations.VineEst.VineEstS3.Step3Final
+public import WaveTurbulence.Foundations.VineEst.VineEstS3.StepMono
+public import WaveTurbulence.Foundations.VineEst.VineEstS3.LeafChild
+public import WaveTurbulence.Foundations.VineEst.VineEstS3.ClockedCont
+public import WaveTurbulence.Foundations.VineEst.VineEstS3.PointwiseDecay
+public import WaveTurbulence.Foundations.VineEst.VineEstS3.LeafTrace
+public import WaveTurbulence.Foundations.VineEst.VineEstS3.LeafWire
+public import WaveTurbulence.Foundations.VineEst.VineEstS3.BadClause
 
 /-! # TARGET Proposition `vineest` (L1730-L1752), the full statement with the LF-twist sum (V5 Step 4a)
 
@@ -38,29 +45,5 @@ open scoped ENNReal
   Complex.exp (((-(Real.pi * δ * L ^ (2 * γ)) * tUpper * boundaryEnergyFromMomenta (G.sign a.toNode) e f g h : ℝ) : ℂ) *
     Complex.I) *
     ∑ x ∈ Z, twistedLocalKernel x.1 x.2 L γ δ F base tUpper tPositive tNegative e f g h
-
-/-- **TARGET Proposition `vineest` (L1730-L1752), full statement.**  Same binders and bound as `Step3Statement`, without
-the case premise `CoreVinesNoTwist`; the kernel is (vineest1), summed over any set of representatives `Z` of the twist
-class of the chain `U` of `G` (`ClassSection`). -/
-@[expose] def VineEstFull (P : WTParams) : Prop :=
-  ∀ {p : ℕ}, p < P.D → ∀ {Rin : ℕ → Mom P.d → ℝ}, (∀ r ≤ p, InputRemainder P (Rin r) r) →
-    ∀ {w : ℕ} {G : Garden w} {U : Finset (GBranch G.tree)} {a b : GBranch G.tree} {R : CLRegionData G U a b}
-      {n : ℕ} (hM9 : VINEPARAM) (B : CLChainAssembly G R n) (RD : ReconstructionData G) (hG : G.IsPlain)
-      (layer : GNode (RD.forest hG) → ℕ) (hLayer : IsLayering (RD.garden hG) layer), (∀ x, layer x ≤ p) →
-    (RD.garden hG).order ≤ P.N (p + 1) ^ 4 → clLocalOrder1 R ≤ P.N 1 ^ 4 →
-    ∀ (centre : Fin 4 → Mom P.d) (wBar : Mom P.d),
-    RowCoherent hM9 B RD hG layer hLayer (step3W hM9 B RD hG layer hLayer (canonBadKind hM9 B RD hG layer) (qOutOf RD hG layer a b R) centre wBar)
-      P.L P.γ P.δ (inputsF P Rin) p →
-    ∀ (kind : Bool) (Z : Finset (Σ Bs : FamilyReconstruction w (assemblySourceFamily B).CoreIndex, ChainAt Bs.skeleton Bs.family)),
-    ClassSectionK p kind (startState B RD hG layer hLayer) (chainStart B) Z →
-    XNorm00Restr (2 * P.η ^ 8) (outBox (step3D hM9 B RD hG layer hLayer (canonBadKind hM9 B RD hG layer) (qOutOf RD hG layer a b R) centre wBar))
-      (outSet (step3D hM9 B RD hG layer hLayer (canonBadKind hM9 B RD hG layer) (qOutOf RD hG layer a b R) centre wBar) P.L P.γ P.η)
-      (fun tt E => twistedRecentered (rowSel := VineEst.RowSel.plain) G a Z P.L P.γ P.δ (inputsF P Rin) wBar
-        (tt 0) (tt 1) (tt 2) (sumintBoundary (G.sign a.toNode) E 0) (sumintBoundary (G.sign a.toNode) E 1)
-        (sumintBoundary (G.sign a.toNode) E 2) (sumintBoundary (G.sign a.toNode) E 3)) ≤
-    ENNReal.ofReal ((P.C₁ * Real.sqrt P.δ) ^ clLocalOrder2 RD hG R *
-      P.L ^ (-(P.η ^ 8 * ((cohmolIndex B RD hG layer +
-        (step3D hM9 B RD hG layer hLayer (canonBadKind hM9 B RD hG layer) (qOutOf RD hG layer a b R) centre wBar).M₁ : ℕ) : ℝ)) -
-        P.η ^ 2 * ((Finset.univ.filter fun i => (assemblyShape hM9 B).nor i = false).card : ℝ) + P.η ^ 7))
 
 end WaveTurbulence.VineEstS4

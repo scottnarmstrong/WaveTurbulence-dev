@@ -5,7 +5,8 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.VineEst.VineEstS4.RowStep
+public import WaveTurbulence.Foundations.VineEst.VineEstS4.RowCanon
+public import WaveTurbulence.Foundations.VineEst.VineEstS4.OrderStep
 public import WaveTurbulence.Foundations.VineEst.VineEstS4.AssemblyReach
 public import WaveTurbulence.Foundations.VineEst.VineEstS4.Kernel
 
@@ -28,23 +29,6 @@ namespace WaveTurbulence.VineEstS4
 open WaveTurbulence WaveTurbulence.Twist WaveTurbulence.LFTwist WaveTurbulence.VineEstS2 WaveTurbulence.VineEstS3
   WaveTurbulence.Links WaveTurbulence.RegRed WaveTurbulence.Reg.Skeleton VineParamContract TTree
 variable {w : ℕ} {ι : Type*}
-
-theorem localInc_step {p : ℕ} {kind : Bool} (A : FamilyReconstruction w ι) (c : ChainAt A.skeleton A.family) (i : ι)
-    (op : FamilyOperation (p := p) (kind := kind) A i) :
-    localInc A.data A.plain A.layered c.U c.a ≤
-      localInc op.output.data op.output.plain op.output.layered (ChainAt.nextA A c i op.choice).U
-        (ChainAt.nextA A c i op.choice).a := by
-  rw [nextA_U, nextA_a]
-  exact localInc_step_le op.construction (c.atoms_sub i)
-
-/-- **`M₁` does not decrease along a batch.** -/
-theorem Reach.localInc_le {p : ℕ} {kind : Bool} {M : List ι} {A B : FamilyReconstruction w ι}
-    {c : ChainAt A.skeleton A.family} {c' : ChainAt B.skeleton B.family} (h : Reach p kind M A c B c') :
-    localInc A.data A.plain A.layered c.U c.a ≤ localInc B.data B.plain B.layered c'.U c'.a := by
-  induction h with
-  | nil A c => exact le_rfl
-  | skip i h ih => exact ih
-  | apply op h ih => exact (localInc_step _ _ _ op).trans ih
 
 /-- Either no operation was applied, or the reached state is canonical. -/
 theorem Reach.canonical_or_eq {p : ℕ} {kind : Bool} {M : List ι} {A B : FamilyReconstruction w ι}
@@ -82,14 +66,6 @@ variable {p : ℕ} {kind : Bool} {M : List ι} {A B : FamilyReconstruction w ι}
   (B0 : CLChainAssembly A.skeleton (clRegionData A.skeleton c.block c.cl) n)
   (B1 : CLChainAssembly B.skeleton (clRegionData B.skeleton c'.block c'.cl) n)
 include h
-
-/-- **`M₁` of the reached garden is at least `M₁` of the start** (for any assemblies of the two regions). -/
-theorem Reach.m1_ge {d : ℕ} (bk0 : Fin (assemblyShape hM9 B0).I → Fin 4) (q0 : Fin 3 → ℕ)
-    (bk1 : Fin (assemblyShape hM9 B1).I → Fin 4) (q1 : Fin 3 → ℕ) (centre : Fin 4 → Mom d) (wBar : Mom d) :
-    (step3D hM9 B0 A.data A.plain (stateLayer A) (stateLayer_isLayering A) bk0 q0 centre wBar).M₁ ≤
-      (step3D hM9 B1 B.data B.plain (stateLayer B) (stateLayer_isLayering B) bk1 q1 centre wBar).M₁ := by
-  rw [step3D_M1, step3D_M1, stateLayer_spec, stateLayer_spec]
-  exact h.localInc_le
 
 /-- **`RowCoherent` of the reached garden** (any assembly of the reached region) follows from `RowCoherent` of the
 start (any assembly of the start region). -/

@@ -102,9 +102,6 @@ theorem atom_ne_lower (C : FullVineChart M X S a b) {i : Fin C.indexing.shape.n}
 theorem atom_mem (C : FullVineChart M X S a b) (i : Fin C.indexing.shape.n) : (C.indexing.atom i).1 ∈ S :=
   (Finset.mem_erase.mp (C.indexing.atom i).2).2
 
-theorem atom_ne_upper (C : FullVineChart M X S a b) (i : Fin C.indexing.shape.n) : (C.indexing.atom i).1 ≠ a :=
-  (Finset.mem_erase.mp (C.indexing.atom i).2).1
-
 theorem junction_none (C : FullVineChart M .II S a b) : C.junction = none := by
   have h := C.junction_type
   revert h

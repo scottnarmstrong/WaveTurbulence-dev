@@ -8,7 +8,6 @@ module
 public import WaveTurbulence.Foundations.Flower.V5WB.B.Member
 
 public import WaveTurbulence.Foundations.VineEst.VineEstS4.Rg4Time
-public import WaveTurbulence.Foundations.VineEst.VineEstS4.Tw10Final
 public import WaveTurbulence.Foundations.VineEst.VineEstS4.Rg5SSum
 public import WaveTurbulence.Foundations.VineEst.VineEstS4.Sp11Lin
 public import WaveTurbulence.Foundations.VineEst.VineEstS4.Sp1Geom

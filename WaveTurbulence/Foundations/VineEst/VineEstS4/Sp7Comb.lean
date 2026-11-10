@@ -134,9 +134,6 @@ end Comb
 section Uniq
 variable [DecidableEq ι] {A : FamilyReconstruction w ι} {pstar : ι}
 
-theorem sigStar_of_batch {M : List ι} {A y : FamilyReconstruction w ι} (hp : pstar ∉ M)
-    (h : FamilyBatch p kind M A y) : sigStar y pstar = sigStar A pstar := sigStar_batch h hp
-
 /-- Two states reached from `A` by batches avoiding `pstar`, with the same successor under `[pstar]`, coincide. -/
 theorem y_unique (hA : IsPrimeGarden A.skeleton) {M1 M2 : List ι} (h1 : pstar ∉ M1) (h2 : pstar ∉ M2)
     {y1 y2 x : FamilyReconstruction w ι} (hy1 : FamilyBatch p kind M1 A y1) (hy2 : FamilyBatch p kind M2 A y2)

@@ -6,7 +6,6 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W13.BadCount
-public import WaveTurbulence.Foundations.VineEst.VineEstS3.Step3Prefix
 
 /-! # P4-W3 (WP-F): the number of unrolled terms and the final constants
 

@@ -145,28 +145,6 @@ theorem realizedIncoherencyIndex_eq_card {L : Type*} [DecidableEq L] {M : Molecu
   ext s
   simp [realizedGroupSets]
 
-/-- Transporting the atoms and the layering along a bijection does not change the number of non-monochromatic sets. -/
-theorem card_image_filter_nonmono {L : Type*} [DecidableEq L] (A : Finset (Finset V)) (e : V ≃ V') (l0 : V → L) (l1 : V' → L)
-    (hl : ∀ x, l1 (e x) = l0 x) :
-    ((A.image (Finset.image e)).filter (fun s => ¬∀ u ∈ s, ∀ v ∈ s, l1 u = l1 v)).card =
-      (A.filter (fun s => ¬∀ u ∈ s, ∀ v ∈ s, l0 u = l0 v)).card := by
-  have hinj : Function.Injective (Finset.image e) := Finset.image_injective e.injective
-  rw [Finset.filter_image, Finset.card_image_of_injective _ hinj]
-  congr 1
-  apply Finset.filter_congr
-  intro s _
-  have : (∀ u ∈ s.image e, ∀ v ∈ s.image e, l1 u = l1 v) ↔ ∀ u ∈ s, ∀ v ∈ s, l0 u = l0 v := by
-    simp only [Finset.mem_image, forall_exists_index, and_imp]
-    constructor
-    · intro h u hu v hv
-      have := h (e u) u hu rfl (e v) v hv rfl
-      rwa [hl, hl] at this
-    · intro h x u hu hux y v hv hvy
-      subst hux hvy
-      rw [hl, hl]
-      exact h u hu v hv
-  exact not_congr this
-
 end Index
 
 end WaveTurbulence.VineEstS4

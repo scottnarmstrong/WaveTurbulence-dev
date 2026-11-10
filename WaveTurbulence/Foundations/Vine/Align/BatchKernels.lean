@@ -12,13 +12,6 @@ variable {w p d : ℕ} {kind : Bool} {ι : Type*}
 theorem slotCast_trans {G H K : Garden w} (e : G = H) (f : H = K) (s : ReplacementSlot G) :
     slotCast f (slotCast e s) = slotCast (e.trans f) s := by subst H; subst K; rfl
 
-theorem spliceKernel_congr (A : FamilyReconstruction w ι) {σ τ : Prescription A.skeleton}
-    (h : σ = τ) {G : Garden w} (e : G = (stSt A.skeleton σ).G) (e' : G = (stSt A.skeleton τ).G)
-    (f : ℕ → Fin w → Fin w → Mom d → ℝ) (L γ δ : ℝ) (s : ReplacementSlot G) :
-    spliceKernel A σ f L γ δ (slotCast e s) = spliceKernel A τ f L γ δ (slotCast e' s) := by
-  subst τ
-  rfl
-
 /-- B1b-3 (Mk-general form of `spliceKernel_congr`). -/
 theorem spliceKernel_congrMk (A : FamilyReconstruction w ι) {σ τ : Prescription A.skeleton}
     (Mk : Set (CLVine A.skeleton)) (h : σ = τ) {G : Garden w} (e : G = (stSt A.skeleton σ Mk).G)
@@ -53,14 +46,5 @@ theorem batch_spliceKernelMk {A B : FamilyReconstruction w ι} {xs : List ι}
         congrArg _ (slotCast_trans e0 e1 s).symm
       _ = spliceKernelMk op.output τ _ f L γ δ (slotCast e0 s) := ih τ h2 hB (slotCast e0 s)
       _ = _ := operation_spliceKernelMk hA op h1 f L γ δ s
-
-/-- R-SLOT for an arbitrary actual selected-operation trace, at all times and momenta. -/
-theorem batch_spliceKernel {A B : FamilyReconstruction w ι} {xs : List ι}
-    {F : MolIso A.skeleton.molecule B.skeleton.molecule} (h : BatchIso p kind xs A B F)
-    (σ : Prescription A.skeleton) (hA : IsV0Fam A.family σ)
-    (f : ℕ → Fin w → Fin w → Mom d → ℝ) (L γ δ : ℝ) (s : ReplacementSlot (stSt A.skeleton σ).G) :
-    spliceKernel B (transportPrescription F σ) f L γ δ (slotCast (h.splice_garden_eq σ hA).symm s) =
-      spliceKernel A σ f L γ δ s :=
-  batch_spliceKernelMk h σ (Stage1Mk.markTransported_empty F) hA f L γ δ s
 
 end WaveTurbulence.VineAlign

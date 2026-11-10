@@ -7,7 +7,6 @@ module
 
 public import WaveTurbulence.Foundations.VineEst.RowSel.RowDataLF
 public import WaveTurbulence.Foundations.VineEst.RowSel.RowTransport
-public import WaveTurbulence.Foundations.VineEst.VineEstS4.Tw10Final
 public import WaveTurbulence.Foundations.VineEst.VineEstS4.SplitFubiniInputs
 
 /-! # The local kernel reads the reconstruction data only through native rows (V5 Step 4b, step 4)
@@ -73,81 +72,10 @@ theorem clLocalTimeDomain_congr_data (t : Fin 3 → ℝ) :
   refine and_congr (forall_congr' fun v => ?_) Iff.rfl
   rw [hl v.1 v.2]
 
-include hC hT hl hCi hTi hq hqT in
-theorem clLocalKernel_congr_data (t0 t1 t2 : ℝ) (e f g k : Mom d) :
-    clLocalKernel D1 hG R L γ δ F layer1 hLayer1 base t0 t1 t2 e f g k =
-      clLocalKernel D2 hG R L γ δ F layer2 hLayer2 base t0 t1 t2 e f g k := by
-  unfold clLocalKernel
-  congr 1
-  refine tsum_congr fun κ => ?_
-  refine integral_congr_ae (Filter.Eventually.of_forall fun τ => ?_)
-  unfold clLocalSummand
-  have hstar : ∀ (κ' : GNode G.tree → (Fin d → ℤ)) (t' : Fin 3 → ℝ) (τ' : CLInternalTime R),
-      clLocalStarProduct D1 hG R L γ δ F layer1 hLayer1 base κ' t' τ' =
-        clLocalStarProduct D2 hG R L γ δ F layer2 hLayer2 base κ' t' τ' :=
-    fun κ' t' τ' => clLocalStarProduct_congr_dataS R hG D1 D2 L γ δ F layer1 hLayer1 layer2 hLayer2 base hC hT hCi hTi hq hqT κ' t' τ'
-  simp only [hstar]
-  rw [clLocalTimeDomain_congr_data R hG D1 D2 layer1 layer2 hl]
-
 end Congr
 
 section False
 variable {p : ℕ} {kind : Bool} {LG : LayeredGarden w} (s : LFSource p kind LG) (h : LFConstruction s false)
-
-/-- **`K^T` invariance for a FALSE-choice construction** (no skeleton change, no label swap): the kernel of the output
-reconstruction at a CL block `T` whose upper joint is the lower joint of the placement is the kernel of the source. -/
-theorem clLocalKernel_false_LF {T : Finset (GBranch s.skeleton.tree)} {z : GBranch s.skeleton.tree}
-    (hB : s.skeleton.molecule.IsBlock T s.placement.lower z) (hCL : Mole.CLParentPattern s.skeleton T s.placement.lower z)
-    (R : CLRegionData s.skeleton T s.placement.lower z)
-    (layer : GNode (s.data.forest s.plain) → ℕ) (hLayer : IsLayering (s.data.garden s.plain) layer)
-    (hspec : layeredReconstruction s.data s.plain layer hLayer = LG)
-    (layer' : GNode (h.data.forest (s.chosen_plain false)) → ℕ)
-    (hLayer' : IsLayering (h.data.garden (s.chosen_plain false)) layer')
-    (hspec' : layeredReconstruction h.data (s.chosen_plain false) layer' hLayer' = h.output)
-    (L γ δ : ℝ) (F : ℕ → Mom d → ℝ) (base : Mom d) (t0 t1 t2 : ℝ) (e f g k : Mom d) :
-    clLocalKernel h.data (s.chosen_plain false) R L γ δ F layer' hLayer' base t0 t1 t2 e f g k =
-      clLocalKernel s.data s.plain R L γ δ F layer hLayer base t0 t1 t2 e f g k := by
-  refine clLocalKernel_congr_data R s.plain h.data s.data L γ δ F layer' hLayer' layer hLayer base ?_ ?_ ?_ ?_ ?_ ?_ ?_ t0 t1 t2 e f g k
-  · intro q hq
-    have hint := (mem_clRegionalPairs s.skeleton).mp hq
-    have hne : q ≠ s.exceptional := by
-      intro hqe
-      have hqe' : q = pairOfLeaf s.skeleton s.plain s.placement.retained := hqe
-      subst hqe'
-      have hq' := pairOfLeaf_first_or_partner s.skeleton s.plain s.placement.retained
-      rcases hq' with hq' | hq'
-      · exact not_internal_retained s.placement hB hCL (hq' ▸ hint)
-      · exact not_internal_pair s.placement hB hCL (hq' ▸ hint)
-    have := native_couple_eq h layer hLayer hspec layer' hLayer' hspec' q hne
-    have hp : s.pairs false q = q := pairOfLeaf_firstLeaf s.skeleton s.plain q
-    rwa [hp] at this
-  · intro v hv
-    have hvl : v ≠ s.placement.lower := (Finset.mem_erase.mp hv).1
-    exact native_tree_eq h layer hLayer hspec layer' hLayer' hspec' v hvl
-  · intro v _
-    exact coreLayer_eq h layer hLayer hspec layer' hLayer' hspec' v
-  · intro q hq
-    have hint := (mem_clRegionalPairs s.skeleton).mp hq
-    have hne : q ≠ s.exceptional := by
-      intro hqe
-      have hqe' : q = pairOfLeaf s.skeleton s.plain s.placement.retained := hqe
-      subst hqe'
-      have hq' := pairOfLeaf_first_or_partner s.skeleton s.plain s.placement.retained
-      rcases hq' with hq' | hq'
-      · exact not_internal_retained s.placement hB hCL (hq' ▸ hint)
-      · exact not_internal_pair s.placement hB hCL (hq' ▸ hint)
-    have := Flower.V5W.coupleIncoh_LF h layer hLayer hspec layer' hLayer' hspec' q hne
-    have hp : s.pairs false q = q := pairOfLeaf_firstLeaf s.skeleton s.plain q
-    rwa [hp] at this
-  · intro v hv
-    have hvl : v ≠ s.placement.lower := (Finset.mem_erase.mp hv).1
-    exact Flower.V5W.treeIncoh_LF h layer hLayer hspec layer' hLayer' hspec' v hvl
-  · intro pp q hq i
-    exact VineEst.coupleRootParents_congr hB R s.plain h.data s.data layer' hLayer' layer hLayer
-      (fun v _ => coreLayer_eq h layer hLayer hspec layer' hLayer' hspec' v) pp hq i
-  · intro pp v hv
-    exact VineEst.treeRootParent_congr hB R s.plain h.data s.data layer' hLayer' layer hLayer
-      (fun v _ => coreLayer_eq h layer hLayer hspec layer' hLayer' hspec' v) pp hv
 
 end False
 

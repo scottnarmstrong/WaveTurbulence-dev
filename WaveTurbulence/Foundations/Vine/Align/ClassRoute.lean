@@ -114,9 +114,4 @@ variable {p : ℕ} {kind : Bool}
     (unitsStart (alignedAssembly hM σ) (unitBlk_disj hM σ) D hS layer hLayer)
     (unitsRegion (alignedAssembly hM σ) (unitBlk_disj hM σ)) Y vs) (hn : L.Nodup)
 
-/-- R-GSB: the actual per-member route is the representative's route. -/
-theorem commonShape_route (hG : (stSt S σ).G.IsPlain) :
-    (commonShape hM σ D hS layer hLayer hr hn).route Y.plain hG = (stShape hM σ).route hS hG :=
-  commonShape_routeMk hM σ D hS layer hLayer hr hn (Stage1Mk.markTransported_empty _) hG
-
 end WaveTurbulence.VineAlign

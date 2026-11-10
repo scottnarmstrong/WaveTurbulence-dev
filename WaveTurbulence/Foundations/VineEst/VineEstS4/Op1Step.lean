@@ -81,38 +81,4 @@ theorem sSum_op_false (con : LFConstruction (A.source i hcan hel htc hcc) false)
     (stateLayer_spec (FamilyOperation.output (⟨hcan, hel, htc, hcc, false, con⟩ : FamilyOperation (p := p) (kind := kind) A i)))
     L γ δ F base t0 t1 t2 e f n0 n1 Φ
 
-/-- **`K^T` at the member `i` itself, TRUE operation: the first two boundary momenta are exchanged.** -/
-theorem kernelT_op_true (con : LFConstruction (A.source i hcan hel htc hcc) true)
-    {T : Finset (GBranch A.skeleton.tree)} {z : GBranch A.skeleton.tree}
-    (hB : A.skeleton.molecule.IsBlock T (A.family.placement i).lower z)
-    (hCL : Mole.CLParentPattern A.skeleton T (A.family.placement i).lower z)
-    (R : CLRegionData A.skeleton T (A.family.placement i).lower z) (R' : TwRegion (A.family.placement i) T z)
-    {d : ℕ} (L γ δ : ℝ) (F : ℕ → Mom d → ℝ) (base : Mom d) (t0 t1 t2 : ℝ) (e f g k : Mom d) :
-    clLocalKernel (FamilyOperation.output (⟨hcan, hel, htc, hcc, true, con⟩ : FamilyOperation (p := p) (kind := kind) A i)).data
-        (FamilyOperation.output (⟨hcan, hel, htc, hcc, true, con⟩ : FamilyOperation (p := p) (kind := kind) A i)).plain
-        R' L γ δ F (stateLayer (FamilyOperation.output
-          (⟨hcan, hel, htc, hcc, true, con⟩ : FamilyOperation (p := p) (kind := kind) A i)))
-        (stateLayer_isLayering _) base t0 t1 t2 e f g k =
-      clLocalKernel A.data A.plain R L γ δ F (stateLayer A) (stateLayer_isLayering A) base t0 t1 t2 f e g k :=
-  clLocalKernel_twist_LF (A.source i hcan hel htc hcc) con hB hCL R R' _ _ (stateLayer_spec A) _ _
-    (stateLayer_spec (FamilyOperation.output (⟨hcan, hel, htc, hcc, true, con⟩ : FamilyOperation (p := p) (kind := kind) A i)))
-    L γ δ F base t0 t1 t2 e f g k
-
-/-- **`K^T` at the member `i` itself, FALSE operation: no exchange.** -/
-theorem kernelT_op_false (con : LFConstruction (A.source i hcan hel htc hcc) false)
-    {T : Finset (GBranch A.skeleton.tree)} {z : GBranch A.skeleton.tree}
-    (hB : A.skeleton.molecule.IsBlock T (A.family.placement i).lower z)
-    (hCL : Mole.CLParentPattern A.skeleton T (A.family.placement i).lower z)
-    (R : CLRegionData A.skeleton T (A.family.placement i).lower z)
-    {d : ℕ} (L γ δ : ℝ) (F : ℕ → Mom d → ℝ) (base : Mom d) (t0 t1 t2 : ℝ) (e f g k : Mom d) :
-    clLocalKernel (FamilyOperation.output (⟨hcan, hel, htc, hcc, false, con⟩ : FamilyOperation (p := p) (kind := kind) A i)).data
-        (FamilyOperation.output (⟨hcan, hel, htc, hcc, false, con⟩ : FamilyOperation (p := p) (kind := kind) A i)).plain
-        R L γ δ F (stateLayer (FamilyOperation.output
-          (⟨hcan, hel, htc, hcc, false, con⟩ : FamilyOperation (p := p) (kind := kind) A i)))
-        (stateLayer_isLayering _) base t0 t1 t2 e f g k =
-      clLocalKernel A.data A.plain R L γ δ F (stateLayer A) (stateLayer_isLayering A) base t0 t1 t2 e f g k :=
-  clLocalKernel_false_LF (A.source i hcan hel htc hcc) con hB hCL R _ _ (stateLayer_spec A) _ _
-    (stateLayer_spec (FamilyOperation.output (⟨hcan, hel, htc, hcc, false, con⟩ : FamilyOperation (p := p) (kind := kind) A i)))
-    L γ δ F base t0 t1 t2 e f g k
-
 end WaveTurbulence.VineEstS4

@@ -112,44 +112,6 @@ theorem rowCouple_layer_le (hlay : ∀ x, layer x ≤ p) (v : (assemblyShape hM9
 theorem rowTree_layer_le (hlay : ∀ x, layer x ≤ p) (v : (assemblyShape hM9 B).VIdx) :
     ∀ x, (rowTreeLG hM9 B RD hG layer hLayer v).layer x ≤ p := fun x => hlay _
 
-/-- **Row bound, couples.** -/
-theorem coupleRow_le (W : SumintWeightClockData (assemblyShape hM9 B) P.d) {Rin : ℕ → Mom P.d → ℝ} (hgate : CoherentGateAt P) (hinc : IncoherentGateAt P)
-    (hd : 1 ≤ P.d) (hη6 : 6 * P.η ^ 6 ≤ P.η) (hη2 : P.η ≤ 1 / 2)
-    (hC : 1 ≤ P.C₁) (hδ : 0 ≤ P.δ) (hL : 1 ≤ P.L) (hw : 0 ≤ P.gamma1 - Real.sqrt P.η)
-    (hp : p < P.D) (hR : ∀ r ≤ p, InputRemainder P (Rin r) r)
-    (hlay : ∀ x, layer x ≤ p) (v : (assemblyShape hM9 B).VIdx)
-    (hel : CoupleEligible hM9 B RD hG W P.L P.γ P.δ (inputsF P Rin) layer hLayer (P.N (p + 1) ^ 4) p v) :
-    XNormRestr (6 * P.η ^ 6) (30 * P.d) (30 * P.d)
-      (timeBox (rowQ hM9 B RD hG W P.L P.γ P.δ (inputsF P Rin) layer hLayer (Sum.inl v)).1
-        (rowQ hM9 B RD hG W P.L P.γ P.δ (inputsF P Rin) layer hLayer (Sum.inl v)).2) Set.univ
-      (fun ts k => KQstar P.L P.γ P.δ (inputsF P Rin) (rowCoupleLG hM9 B RD hG layer hLayer v) (ts 0) (ts 1) k) ≤
-      ENNReal.ofReal (rowB P ((rowCouple hM9 B RD hG v).size / 2) (rowCoupleG hM9 B RD hG layer hLayer v)) := by
-  obtain ⟨hq, hq', hn, hr0, hr1, hcoh⟩ := hel
-  have hwf : (rowCouple hM9 B RD hG v).wf = true := RD.couple_wf _
-  have hsize : (rowCouple hM9 B RD hG v).size = 2 * ((rowCouple hM9 B RD hG v).size / 2) :=
-    (Nat.two_mul_div_two_of_even (code_size_even _)).symm
-  exact WaveTurbulence.ConjCoh.couple_row_le_both hgate hinc hd hη6 hη2 hC hδ hL hw hp hR hn hq hq' hwf hsize (rowCouple_decodes v)
-    (rowCouple_layer_le hlay v) hr0 hr1 hcoh
-
-/-- **Row bound, trees.** -/
-theorem treeRow_le (W : SumintWeightClockData (assemblyShape hM9 B) P.d) {Rin : ℕ → Mom P.d → ℝ} (hgate : CoherentGateAt P) (hinc : IncoherentGateAt P)
-    (hd : 1 ≤ P.d) (hη6 : 6 * P.η ^ 6 ≤ P.η) (hη2 : P.η ≤ 1 / 2)
-    (hC : 1 ≤ P.C₁) (hδ : 0 ≤ P.δ) (hL : 1 ≤ P.L) (hw : 0 ≤ P.gamma1 - Real.sqrt P.η)
-    (hp : p < P.D) (hR : ∀ r ≤ p, InputRemainder P (Rin r) r)
-    (hlay : ∀ x, layer x ≤ p) (v : (assemblyShape hM9 B).VIdx)
-    (hel : TreeEligible hM9 B RD hG W P.L P.γ P.δ (inputsF P Rin) layer hLayer (P.N (p + 1) ^ 4) p v) :
-    XNormRestr (6 * P.η ^ 6) (30 * P.d) 0
-      (timeBoxGt (rowQ hM9 B RD hG W P.L P.γ P.δ (inputsF P Rin) layer hLayer (Sum.inr v)).1
-        (rowQ hM9 B RD hG W P.L P.γ P.δ (inputsF P Rin) layer hLayer (Sum.inr v)).2) Set.univ
-      (fun ts k => KTstar P.L P.γ P.δ (inputsF P Rin) (rowTreeLG hM9 B RD hG layer hLayer v) (ts 0) (ts 1) k) ≤
-      ENNReal.ofReal (rowB P ((rowTree hM9 B RD v).size / 2) (rowTreeG hM9 B RD hG layer hLayer v)) := by
-  obtain ⟨hqq, hqp, hn, hr0, hlone, hcoh⟩ := hel
-  have hwf : (rowTree hM9 B RD v).wf = true := RD.tree_wf _
-  have hsize : (rowTree hM9 B RD v).size = 2 * ((rowTree hM9 B RD v).size / 2) :=
-    (Nat.two_mul_div_two_of_even (chain_size_even _)).symm
-  exact tree_row_le hgate hinc hd hη6 hη2 hC hδ hL hw hp hR hn hqq hqp hwf hsize (rowTree_decodes v)
-    (rowTree_layer_le hlay v) hr0 hlone hcoh
-
 end
 
 end WaveTurbulence.VineEstS3

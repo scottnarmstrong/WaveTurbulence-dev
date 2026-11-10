@@ -8,9 +8,6 @@ module
 public import WaveTurbulence.Foundations.VineEst.RowSel.Bounds
 public import WaveTurbulence.Foundations.VineEst.VineEstS3.NativeRows
 public import WaveTurbulence.Foundations.VineEst.VineEstS3.TreeClockOrder
-public import WaveTurbulence.Foundations.VineEst.VineEstS3.InputsSummable
-public import WaveTurbulence.Foundations.VineEst.VineEstS3.Continuity
-public import WaveTurbulence.Foundations.VineEst.VineEstS3.AdmissibleAssembly
 public import WaveTurbulence.Foundations.VineEst.VineEstS3.EpsLabels
 public import WaveTurbulence.Foundations.VineEst.VineEstS3.ConstraintsOK
 public import WaveTurbulence.Foundations.GammaLow.Famb.Family

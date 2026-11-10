@@ -52,17 +52,4 @@ theorem sum_canonSp_eq_canon (A : FamilyReconstruction w ι) (sp0 : SplitAt A.sk
   · intro x hx
     rfl
 
-/-- **(tildeJ2) over the canonical representatives** (TARGET Prop `vineest` Step 4; the sum is the literal `canonFinset` sum of
-`twistedLocalKernel`, the split only appears on the right-hand side). -/
-theorem tildeJ2_canon (κ : KPar d) (A : FamilyReconstruction w ι) (sp0 : SplitAt A.skeleton A.family pstar J)
-    (hA : IsPrimeGarden A.skeleton)
-    (hA0 : ∀ j, j ∉ J → j ≠ pstar → IsEmpty (FamilyOperation (p := p) (kind := kind) A j))
-    (hL : κ.L ≠ 0) (hF : ∀ k : ℕ, Summable fun n : Fin d → ℤ => |κ.F k (κ.base + latticePoint κ.L n)|) :
-    ∑ y ∈ canonFinsetK p kind A sp0.c,
-        twistedLocalKernel y.1 y.2 κ.L κ.γ κ.δ κ.F κ.base κ.t0 κ.t1 κ.t2 κ.e κ.f κ.g κ.h =
-      ∑ G ∈ zpFinset p kind pstar J A sp0 hA, sSumAt κ G.1 G.2 (ktilde (p := p) (kind := kind) κ A sp0 hA G) := by
-  rw [← sum_canonSp_eq_canon A sp0 hA
-    (fun y => twistedLocalKernel y.1 y.2 κ.L κ.γ κ.δ κ.F κ.base κ.t0 κ.t1 κ.t2 κ.e κ.f κ.g κ.h)]
-  exact tildeJ2_of_split κ A sp0 hA hA0 hL hF
-
 end WaveTurbulence.VineEstS4

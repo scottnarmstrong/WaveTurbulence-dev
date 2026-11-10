@@ -5,7 +5,7 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.VineEst.VineEstS3Par.SignedBound
+public import WaveTurbulence.Foundations.VineEst.VineEstS3Par.SignedParam
 
 /-! # Kind-2 phase: continuity and the norm of `signedPhase` (V5 Step 4d-A, item 1)
 

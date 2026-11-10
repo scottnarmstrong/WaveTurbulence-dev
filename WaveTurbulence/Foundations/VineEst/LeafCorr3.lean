@@ -1,7 +1,7 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 
-public import WaveTurbulence.Foundations.VineEst.LeafCorr2
+public import WaveTurbulence.Foundations.VineEst.LeafCorr
 
 /-! # Layers, signs, partners and tree indices along `OrdCorr` (LFTWIST-LEAFMAP, step 4) -/
 
@@ -20,13 +20,6 @@ theorem LFConstruction.OrdCorr.layer {x : GLeaf (s.data.forest s.plain)}
     exact h.ordinaryCoupleLayers q hq ℓ.1.1 ℓ.1.2 (TTree.leaves_subset_nodes _ ℓ.2)
   · rw [chainLeaf_addr, chainLeaf_addr, ← he]
     exact h.ordinaryTreeLayers b hb ℓ.1.1.2 (TTree.leaves_subset_nodes _ ℓ.1.2)
-
-theorem LFConstruction.OrdCorr.sign {x : GLeaf (s.data.forest s.plain)}
-    {y : GLeaf (h.data.forest (s.chosen_plain ε))} (hc : h.OrdCorr x y) :
-    nodeSign s.skeleton.sig x.1 = nodeSign (s.chosen ε).sig y.1 := by
-  rcases hc with ⟨q, hq, ℓ, ℓ', he, rfl, rfl⟩ | ⟨b, hb, ℓ, ℓ', he, rfl, rfl⟩
-  · rw [coupleLeaf_sign, coupleLeaf_sign, ← he]
-  · rw [chainLeaf_sign, chainLeaf_sign, ← he, s.ordinary_branch_sign ε b hb]
 
 theorem LFConstruction.OrdCorr.index {x : GLeaf (s.data.forest s.plain)}
     {y : GLeaf (h.data.forest (s.chosen_plain ε))} (hc : h.OrdCorr x y) : x.1.1 = y.1.1 := by

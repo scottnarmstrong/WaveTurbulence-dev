@@ -104,18 +104,6 @@ theorem clLocalSummand_congr (D : ReconstructionData G) (hG : G.IsPlain) (R : CL
   unfold clLocalSummand clLocalStarProduct
   simp only [hc, hd, h0]
 
-theorem clRecenteredLocalKernel_congr (D : ReconstructionData G) (hG : G.IsPlain) (R : CLRegionData G U a b)
-    (L γ δ : ℝ) (F : ℕ → Mom d → ℝ) (layer : GNode (D.forest hG) → ℕ)
-    (hLayer : IsLayering (D.garden hG) layer) (base : Mom d) (tU tP tN tP' tN' : ℝ) (e f g h : Mom d)
-    (hp : (b.child R.positive).1.2 ∉ (G.tree (b.child R.positive).1.1).branching ∨ tP = tP')
-    (hn : (b.child R.negative).1.2 ∉ (G.tree (b.child R.negative).1.1).branching ∨ tN = tN') :
-    clRecenteredLocalKernel D hG R L γ δ F layer hLayer base tU tP tN e f g h =
-      clRecenteredLocalKernel D hG R L γ δ F layer hLayer base tU tP' tN' e f g h := by
-  unfold clRecenteredLocalKernel clLocalKernel
-  congr 2
-  refine tsum_congr fun κ => integral_congr_ae (Filter.Eventually.of_forall fun τ => ?_)
-  exact clLocalSummand_congr D hG R L γ δ F layer hLayer base ![e,f,g,h] ![tU,tP,tN] ![tU,tP',tN'] rfl hp hn κ τ
-
 
 variable (hM9 : VINEPARAM) (B : CLChainAssembly G R n)
 
@@ -198,100 +186,6 @@ theorem integral_clockDomain_eq' (hI : 0 < (assemblyShape hM9 B).I) (layerB : GB
 
 
 
-/-- `vineChain_eq_sumintForm` without `hb1/hb2`: the lower children may be leaves provided their dummy times do not
-exceed the lower window end of the lower joint. -/
-theorem vineChain_eq_sumintForm' (D : ReconstructionData G) (hG : G.IsPlain)
-    (W : SumintWeightClockData (assemblyShape hM9 B) d)
-    (hpar : ∀ v, W.param v = 0) (hbad : ∀ i, W.badKind i ≠ 2)
-    {L : ℝ} (hL : L ≠ 0) (γ δ η : ℝ) (F : ℕ → Mom d → ℝ) (layer : GNode (D.forest hG) → ℕ)
-    (hLayer : IsLayering (D.garden hG) layer)
-    (hq : W.q = assemblyTimeQ hM9 B (fun v => layer (D.coreBranch hG v).toNode))
-    (hok : ConstraintsOK hM9 B W)
-    (base : Mom d) (β : Fin 4 → (Fin d → ℤ))
-    (hβ : ((G.sign a.toNode : ℤ) • (β 0-β 1)) = β 2-β 3) (t : Fin 3 → ℝ)
-    (hp : (b.child R.positive).1.2 ∈ (G.tree (b.child R.positive).1.1).branching ∨
-      t 1 ≤ assemblyTimeQ hM9 B (fun v => layer (D.coreBranch hG v).toNode)
-        (.inl ⟨⟨0,assemblyShape_I_pos hM9 B⟩,0⟩))
-    (hn : (b.child R.negative).1.2 ∈ (G.tree (b.child R.negative).1.1).branching ∨
-      t 2 ≤ assemblyTimeQ hM9 B (fun v => layer (D.coreBranch hG v).toNode)
-        (.inl ⟨⟨0,assemblyShape_I_pos hM9 B⟩,0⟩)) :
-    clRecenteredLocalKernel D hG R L γ δ F layer hLayer base (t 0) (t 1) (t 2)
-      (base+latticePoint L (β 0)) (base+latticePoint L (β 1))
-      (base+latticePoint L (β 2)) (base+latticePoint L (β 3)) =
-    (coupling d L γ δ : ℂ)^clLocalOrder1 R * clLocalZeta R *
-      ∑' x : (assemblyShape hM9 B).VIdx → (Fin d → ℤ),
-        (clRegionalEpsilon G U (clExtendIndices R ((clNormalizedChainEquiv hL B base β hβ hM9).symm x).1) : ℂ) *
-        ∫ τ in (sourceSumintDatum hM9 B hG W).timeDom (assemblyShape_I_pos hM9 B) (t 0) (t 1) (t 2),
-          signedPhase (sourceSumintDatum hM9 B hG W)
-              (assemblyCoreFirstSign hM9 B) (assemblyCoreSign hM9 B) L γ (2*δ) η x
-              (sumintBoundary (G.sign a.toNode) (fun j => base + latticePoint L (β j)) 0 -
-                sumintBoundary (G.sign a.toNode) (fun j => base + latticePoint L (β j)) 1) (t 0) τ *
-            ∏ v, (assemblyWK hM9 B D hG L γ δ F layer hLayer t (assemblyClockEquiv hM9 B τ) v
-                ((sourceSumintDatum hM9 B hG W).kVec L x
-                  (sumintBoundary (G.sign a.toNode) (fun j => base + latticePoint L (β j))) v) *
-              assemblyWL hM9 B D hG L γ δ F layer hLayer t (assemblyClockEquiv hM9 B τ) v
-                ((sourceSumintDatum hM9 B hG W).ℓVec L x
-                  (sumintBoundary (G.sign a.toNode) (fun j => base + latticePoint L (β j))) v)) := by
-  rw [clLocalKernel_reindexed hL hM9 B D hG γ δ F layer hLayer base β hβ t]
-  congr 1
-  refine tsum_congr (fun x => ?_)
-  rw [integral_congr_ae (Filter.Eventually.of_forall (fun τ =>
-    clLocalRecenteredSummand_sumint hM9 B D hG W hpar hbad hL γ δ η F layer hLayer base β hβ x t τ)),
-    integral_const_mul,
-    integral_clockDomain_eq' hM9 B (assemblyShape_I_pos hM9 B) _ t hp hn,
-    ← setIntegral_timeDom_eq_assembly hM9 B hG W _ hq hok]
-
-
-open WaveTurbulence.DegenVine in
-/-- **The kernel as `coupling^{n₁} ζ · clockedExprEps`** at points of the `sumint` output set. -/
-theorem kernel_eq_clockedExprEps' (hM9 : VINEPARAM) (B : CLChainAssembly G R n) (RD : ReconstructionData G)
-    (hG : G.IsPlain) (W : SumintWeightClockData (assemblyShape hM9 B) d)
-    (hpar : ∀ v, W.param v = 0) (hbad : ∀ i, W.badKind i ≠ 2)
-    {L : ℝ} (hL : L ≠ 0) (γ δ η : ℝ) (F : ℕ → Mom d → ℝ) (layer : GNode (RD.forest hG) → ℕ)
-    (hLayer : IsLayering (RD.garden hG) layer)
-    (hq : W.q = assemblyTimeQ hM9 B (fun v => layer (RD.coreBranch hG v).toNode))
-    (hok : ConstraintsOK hM9 B W)
-    (tt : Fin 3 → ℝ)
-    (hp : (b.child R.positive).1.2 ∈ (G.tree (b.child R.positive).1.1).branching ∨
-      tt 1 ≤ assemblyTimeQ hM9 B (fun v => layer (RD.coreBranch hG v).toNode)
-        (.inl ⟨⟨0,assemblyShape_I_pos hM9 B⟩,0⟩))
-    (hn : (b.child R.negative).1.2 ∈ (G.tree (b.child R.negative).1.1).branching ∨
-      tt 2 ≤ assemblyTimeQ hM9 B (fun v => layer (RD.coreBranch hG v).toNode)
-        (.inl ⟨⟨0,assemblyShape_I_pos hM9 B⟩,0⟩)) (E : Fin 4 → Mom d)
-    (hE : ∀ c, ∃ nv : Fin d → ℤ, E c = W.wBar + latticePoint L nv) (hgap : E 0 - E 1 = E 3 - E 2) :
-    clRecenteredLocalKernel RD hG R L γ δ F layer hLayer W.wBar (tt 0) (tt 1) (tt 2)
-        (sumintBoundary (G.sign a.toNode) E 0) (sumintBoundary (G.sign a.toNode) E 1)
-        (sumintBoundary (G.sign a.toNode) E 2) (sumintBoundary (G.sign a.toNode) E 3) =
-      (coupling d L γ δ : ℂ) ^ clLocalOrder1 R * clLocalZeta R *
-        clockedExprEps (fun v : ↥U => childLabel hM9 B hG v.1 0) (fun v : ↥U => childLabel hM9 B hG v.1 1)
-          (fun v : ↥U => childLabel hM9 B hG v.1 2) (assemblyClockedS hM9 B RD hG W L γ δ F layer hLayer)
-          (assemblyCoreFirstSign hM9 B) (assemblyCoreSign hM9 B) (assemblyShape_I_pos hM9 B) L γ (2 * δ) η tt E := by
-  obtain ⟨β, hβ, rfl⟩ := outSet_exists_beta hL (G.sign a.toNode) W.wBar E hE hgap
-  have hfun : (fun c => sumintBoundary (G.sign a.toNode)
-      (sumintBoundary (G.sign a.toNode) (fun j => W.wBar + latticePoint L (β j))) c) =
-      fun j => W.wBar + latticePoint L (β j) := by
-    rw [sumintBoundary_invol]
-  have h0 := vineChain_eq_sumintForm' hM9 B RD hG W hpar hbad hL γ δ η F layer hLayer hq hok W.wBar β hβ tt hp hn
-  have e0 : sumintBoundary (G.sign a.toNode)
-      (sumintBoundary (G.sign a.toNode) (fun j => W.wBar + latticePoint L (β j))) 0 =
-      W.wBar + latticePoint L (β 0) := by rw [sumintBoundary_invol]
-  have e1 : sumintBoundary (G.sign a.toNode)
-      (sumintBoundary (G.sign a.toNode) (fun j => W.wBar + latticePoint L (β j))) 1 =
-      W.wBar + latticePoint L (β 1) := by rw [sumintBoundary_invol]
-  have e2 : sumintBoundary (G.sign a.toNode)
-      (sumintBoundary (G.sign a.toNode) (fun j => W.wBar + latticePoint L (β j))) 2 =
-      W.wBar + latticePoint L (β 2) := by rw [sumintBoundary_invol]
-  have e3 : sumintBoundary (G.sign a.toNode)
-      (sumintBoundary (G.sign a.toNode) (fun j => W.wBar + latticePoint L (β j))) 3 =
-      W.wBar + latticePoint L (β 3) := by rw [sumintBoundary_invol]
-  rw [e0, e1, e2, e3, h0]
-  unfold clockedExprEps
-  congr 1
-  refine tsum_congr fun x => ?_
-  rw [clRegionalEpsilon_eq_epsOf hM9 B hG W hL W.wBar β hβ x]
-  congr 1
-  refine integral_congr_ae (Filter.Eventually.of_forall fun τ => ?_)
-  exact (clockedIntegrand_assembly hM9 B RD hG W L γ δ F layer hLayer _ _ γ (2 * δ) η x _ tt τ).symm
 
 
 end WaveTurbulence.VineEstS3

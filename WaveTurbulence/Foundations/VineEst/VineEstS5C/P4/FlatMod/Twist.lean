@@ -6,7 +6,6 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.Cont.ModKernel
-public import WaveTurbulence.Foundations.VineEst.VineEstS4.Tw10Final
 public import WaveTurbulence.Foundations.VineEst.VineEstS4.Tw11Data
 public import WaveTurbulence.Foundations.VineEst.VineEstS4.Tw7Summand
 

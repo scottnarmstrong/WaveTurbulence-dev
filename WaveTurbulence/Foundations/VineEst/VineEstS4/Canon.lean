@@ -32,10 +32,6 @@ variable {w : ℕ} {ι : Type*} [Fintype ι] {kind : Bool}
     Set (Σ Bs : FamilyReconstruction w ι, ChainAt Bs.skeleton Bs.family) :=
   {x | ∃ M : List ι, M.Perm Finset.univ.toList ∧ Reach p kind M A c x.1 x.2}
 
-/-- The `kind = true` (garden) class of representatives: the V5 uni statement. -/
-@[expose] def CanonReps (p : ℕ) (A : FamilyReconstruction w ι) (c : ChainAt A.skeleton A.family) :
-    Set (Σ Bs : FamilyReconstruction w ι, ChainAt Bs.skeleton Bs.family) := CanonRepsK p true A c
-
 theorem perm_univ_nodup {M : List ι} (h : M.Perm Finset.univ.toList) : M.Nodup :=
   h.nodup_iff.mpr (Finset.nodup_toList _)
 
@@ -99,18 +95,6 @@ theorem mem_canonFinset {p : ℕ} {A : FamilyReconstruction w ι} (hA : IsPrimeG
   split_ifs with h
   · exact Set.Finite.mem_toFinset _
   · exact absurd (canonReps_finite p kind hA c) h
-
-/-- The canonical representatives form a class section, and it is the only one. -/
-theorem classSection_canonFinset (p : ℕ) (kind : Bool) {A : FamilyReconstruction w ι} (hA : IsPrimeGarden A.skeleton)
-    (c : ChainAt A.skeleton A.family) : ClassSectionK p kind A c (canonFinsetK p kind A c) := by
-  obtain ⟨Z, hZ⟩ := exists_classSection p kind A c
-  have hset := classSection_eq_canonReps hA hZ
-  have hZe : canonFinsetK p kind A c = Z := by
-    ext x
-    rw [mem_canonFinset hA, ← hset]
-    exact Finset.mem_coe
-  rw [hZe]
-  exact hZ
 
 theorem classSection_eq {p : ℕ} {A : FamilyReconstruction w ι} (hA : IsPrimeGarden A.skeleton)
     {c : ChainAt A.skeleton A.family}

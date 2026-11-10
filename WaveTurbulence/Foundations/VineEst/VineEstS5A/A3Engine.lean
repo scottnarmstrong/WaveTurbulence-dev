@@ -6,7 +6,8 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.Vine.DegenVinePar.ScaledSumintMix
-public import WaveTurbulence.Foundations.VineEst.VineEstS3Par.ClockedBound
+public import WaveTurbulence.Foundations.VineEst.VineEstS3Par.EngineAux
+public import WaveTurbulence.Foundations.VineEst.VineEstS3.OutMod
 public import WaveTurbulence.Foundations.VineEst.VineEstS5A.A3Bounds
 public import WaveTurbulence.Foundations.VineEst.VineEstS5A.A3Modes
 public import WaveTurbulence.Foundations.VineEst.VineEstS5A.A3Expand

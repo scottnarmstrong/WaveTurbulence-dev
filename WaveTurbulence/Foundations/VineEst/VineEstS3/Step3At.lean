@@ -37,18 +37,4 @@ noncomputable abbrev step3D {w d : ℕ} {G : Garden w} {U : Finset (GBranch G.tr
     (qOut : Fin 3 → ℕ) (centre : Fin 4 → Mom d) (wBar : Mom d) : SumintDatum d :=
   sourceSumintDatum hM9 B hG (step3W hM9 B RD hG layer hLayer badKind qOut centre wBar)
 
-/-- The right-hand side of the engine bound. -/
-noncomputable def step3Bound {w : ℕ} {G : Garden w} {U : Finset (GBranch G.tree)} {a b : GBranch G.tree}
-    {R : CLRegionData G U a b} {n : ℕ} (P : WTParams) (Cfs : ℝ≥0∞) (hM9 : VINEPARAM) (B : CLChainAssembly G R n)
-    (RD : ReconstructionData G) (hG : G.IsPlain) (layer : GNode (RD.forest hG) → ℕ)
-    (hLayer : IsLayering (RD.garden hG) layer) (badKind : Fin (assemblyShape hM9 B).I → Fin 4)
-    (qOut : Fin 3 → ℕ) (centre : Fin 4 → Mom P.d) (wBar : Mom P.d) : ℝ≥0∞ :=
-  let W := step3W hM9 B RD hG layer hLayer badKind qOut centre wBar
-  let D := sourceSumintDatum hM9 B hG W
-  ENNReal.ofReal ((coupling P.d P.L P.γ P.δ) ^ clLocalOrder1 R) *
-    ((ccη P.η + 1) * ENNReal.ofReal ((3 : ℝ) ^ Fintype.card ↥U *
-        (engineConst P.η (Fintype.card (Row D)) * maxPar D ^ (P.η ^ 6) * sumintRHS0 P D *
-          ∏ ρ, P.L ^ (weightExp P.d P.γ P.η * rowG D ρ))) *
-      ∏ ρ, (Cfs * ENNReal.ofReal (2 * rowBound hM9 B RD hG layer hLayer P W ρ)))
-
 end WaveTurbulence.VineEstS3

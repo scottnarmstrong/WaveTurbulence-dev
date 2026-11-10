@@ -6,7 +6,7 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.Vine.DegenVinePar.MixCounted
-public import WaveTurbulence.Foundations.VineEst.VineEstS3Par.ClockedExpand2
+public import WaveTurbulence.Foundations.VineEst.VineEstS3Par.ClockedExpand
 
 /-! # The multiplied clocked `sumint` expression and its mode expansion (DEGEN-VINE)
 

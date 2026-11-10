@@ -46,11 +46,6 @@ theorem batch_prime {L : List ι} {A B : FamilyReconstruction w ι} (h : FamilyB
   | skip i h ih => exact ih hA
   | apply op h ih => exact ih (prime_output op hA)
 
-theorem Reach.prime {L : List ι} {A B : FamilyReconstruction w ι} {c : ChainAt A.skeleton A.family}
-    {c' : ChainAt B.skeleton B.family} (h : Reach p kind L A c B c') (hA : IsPrimeGarden A.skeleton) :
-    IsPrimeGarden B.skeleton :=
-  batch_prime h.batch hA
-
 /-- The reconstruction data over a prime skeleton is determined by the decoded garden (SKELETON, L833). -/
 theorem data_eq_of_prime (B B' : FamilyReconstruction w ι) (hS : B.skeleton = B'.skeleton)
     (hB : IsPrimeGarden B.skeleton) (hg : B.layered.garden = B'.layered.garden) :

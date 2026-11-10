@@ -38,31 +38,4 @@ theorem shift_sub_eq_norm_mul_diffQuot (f : Mom d → ℂ) (a k : Mom d) :
   · have h' : ((‖a‖ : ℝ) : ℂ) ≠ 0 := by exact_mod_cast h
     field_simp
 
-/-- Couple, Vine II-a. -/
-theorem rowB_couple_IIa {MQ MT : Mom d → ℂ} (hQ : ∀ k, conj (MQ k) = MQ k) (a k : Mom d) :
-    conj (MQ k - MQ (k + a)) * MT (k + a) =
-      -(((‖a‖ : ℝ) : ℂ) * (diffQuot a MQ k * MT (k + a))) := by
-  have h := shift_sub_eq_norm_mul_diffQuot MQ a k
-  rw [map_sub, hQ, hQ]
-  linear_combination (-(MT (k + a))) * h
-
-/-- Couple, Vine II-b. -/
-theorem rowB_couple_IIb {MQ MT : Mom d → ℂ} (hQ : ∀ k, conj (MQ k) = MQ k) (a k : Mom d) :
-    conj (MQ (k + a) - MQ k) * MT k = ((‖a‖ : ℝ) : ℂ) * (MT k * diffQuot a MQ k) := by
-  rw [map_sub, hQ, hQ, shift_sub_eq_norm_mul_diffQuot MQ a k]; ring
-
-/-- Tree, Vine II-a. -/
-theorem rowB_tree_IIa {MQ MT : Mom d → ℂ} (hT : ∀ k, conj (MT k) = MT k) (a k : Mom d) :
-    MQ (k + a) * conj (MT (k + a) - MT k) =
-      ((‖a‖ : ℝ) : ℂ) * (diffQuot a MT k * MQ (k + a)) := by
-  rw [map_sub, hT, hT, shift_sub_eq_norm_mul_diffQuot MT a k]; ring
-
-/-- Tree, Vine II-b. -/
-theorem rowB_tree_IIb {MQ MT : Mom d → ℂ} (hT : ∀ k, conj (MT k) = MT k) (a k : Mom d) :
-    MQ k * conj (MT k - MT (k + a)) =
-      -(((‖a‖ : ℝ) : ℂ) * (diffQuot a MT k * MQ k)) := by
-  have h := shift_sub_eq_norm_mul_diffQuot MT a k
-  rw [map_sub, hT, hT]
-  linear_combination (-(MQ k)) * h
-
 end WaveTurbulence.VineEstS4c

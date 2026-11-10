@@ -73,10 +73,6 @@ theorem clExtendIndices_ofExt {U : Finset (GBranch G.tree)} (R : CLRegionData G 
     apply Subtype.ext
     exact clExtendIndices_ofExt R e.1 e.2.1.1
 
-theorem clExtEquiv_val {U : Finset (GBranch G.tree)} (R : CLRegionData G U a b) (L : ℝ) (base : Mom d)
-    (β : Fin 4 → Mom d) (z : CLLocalDecoration R L base β) :
-    (clExtEquiv R L base β z).1 = clExtendIndices R z.1 := rfl
-
 /-! ## Splitting a decoration -/
 
 section Split3

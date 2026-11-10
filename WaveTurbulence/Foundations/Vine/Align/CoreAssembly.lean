@@ -38,17 +38,6 @@ noncomputable def coreAssembly {U : Finset (GBranch G.tree)} {a b : GBranch G.tr
   | .single hV R => .single (coreLabel_vine hV) R
   | .append B hT hi hU R => .append (coreAssembly B) (coreLabel_vine hT) hi hU R
 
-/-- Core-label normalization preserves the complete geometric vine at every index. -/
-theorem coreAssembly_vine (B : CLChainAssembly G R n) (i : Fin n) :
-    assemblyVine (coreAssembly B) i = assemblyVine B i := by
-  apply clVine_eq_of_atoms
-  induction B with
-  | single hV R => rfl
-  | append B hT hi hU R ih =>
-    rcases Fin.eq_zero_or_eq_succ i with rfl | ⟨k, rfl⟩
-    · rfl
-    · exact ih k
-
 /-- Each normalized piece recognizes exactly the existential core carrier. -/
 theorem coreAssembly_piece_core (B : CLChainAssembly G R n) (i : Fin n)
     (h : ∃ Y, IsCoreCLVine G Y (assemblyPieceAt (coreAssembly B) i).atoms

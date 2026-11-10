@@ -8,7 +8,6 @@ module
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.Free
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P2.Datum
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P2.Cph
-public import WaveTurbulence.Foundations.VineEst.VineEstS3.AdmissibleAssembly
 
 /-! # P4-W2 (session 9, step 4): the ambient engine data `AmbW` of an engine datum
 

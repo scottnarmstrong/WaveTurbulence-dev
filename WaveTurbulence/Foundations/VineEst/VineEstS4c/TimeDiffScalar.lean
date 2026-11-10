@@ -25,37 +25,9 @@ open scoped ENNReal
 
 namespace WaveTurbulence.VineEstS4c.TimeDiff
 
-/-- `∫⁻_{(0,m]} s^p` for `p > -1`. -/
-theorem lintegral_Ioc_rpow {p : ℝ} (hp : -1 < p) {m : ℝ} (hm : 0 < m) :
-    ∫⁻ s in Ioc 0 m, ENNReal.ofReal (s ^ p) = ENNReal.ofReal (m ^ (p + 1) / (p + 1)) := by
-  have hi : IntegrableOn (fun s : ℝ => s ^ p) (Ioc 0 m) := by
-    have := (intervalIntegral.intervalIntegrable_rpow' (a := 0) (b := m) hp)
-    exact (intervalIntegrable_iff_integrableOn_Ioc_of_le hm.le).mp this
-  rw [← ofReal_integral_eq_lintegral_ofReal hi
-    ((ae_restrict_iff' measurableSet_Ioc).mpr (Filter.Eventually.of_forall fun s hs =>
-      Real.rpow_nonneg hs.1.le p))]
-  congr 1
-  rw [← intervalIntegral.integral_of_le hm.le, integral_rpow (Or.inl hp)]
-  have : (0 : ℝ) ^ (p + 1) = 0 := Real.zero_rpow (by linarith)
-  rw [this, sub_zero]
-
-/-- `∫⁻_{(m,∞)} s^p` for `p < -1`. -/
-theorem lintegral_Ioi_rpow {p : ℝ} (hp : p < -1) {m : ℝ} (hm : 0 < m) :
-    ∫⁻ s in Ioi m, ENNReal.ofReal (s ^ p) = ENNReal.ofReal (-m ^ (p + 1) / (p + 1)) := by
-  have hi := integrableOn_Ioi_rpow_of_lt hp hm
-  rw [← ofReal_integral_eq_lintegral_ofReal hi
-    ((ae_restrict_iff' measurableSet_Ioi).mpr (Filter.Eventually.of_forall fun s hs =>
-      Real.rpow_nonneg (hm.trans hs).le p))]
-  rw [integral_Ioi_rpow_of_lt hp hm]
-
 /-- The integrand of the scale integral. -/
 @[expose] noncomputable def scaleInt (b θ μ s : ℝ) : ℝ :=
   s ^ (b / 2 - 1) * (((1 + s) * (1 + μ ^ 2 / s)) ^ (θ / 2) * min 1 (|μ| / √s))
-
-theorem scaleInt_nonneg (b θ μ : ℝ) {s : ℝ} (hs : 0 < s) : 0 ≤ scaleInt b θ μ s := by
-  unfold scaleInt
-  have : 0 ≤ min 1 (|μ| / √s) := le_min zero_le_one (by positivity)
-  positivity
 
 theorem scaleInt_le_low {b θ : ℝ} (hθ0 : 0 ≤ θ) (hθ1 : θ ≤ 1) (μ : ℝ) {s : ℝ} (hs : 0 < s)
     (hsm : s ≤ 1 + μ ^ 2) :

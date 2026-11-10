@@ -6,7 +6,7 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.Vine.DegenVine.ClockedBoundMix
-public import WaveTurbulence.Foundations.VineEst.VineEstS3.ClockedBoundRestr
+public import WaveTurbulence.Foundations.VineEst.VineEstS3.FSMain
 
 /-! # The multiplied engine from restriction norms (DEGEN-VINE)
 

@@ -5,7 +5,8 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.VineEst.VineEstS4.CanonStatement
+public import WaveTurbulence.Foundations.VineEst.VineEstS4.Statement
+public import WaveTurbulence.Foundations.VineEst.VineEstS4.Canon
 public import WaveTurbulence.Foundations.XChain.SNormOperations
 
 /-! # `VineEstCanonLayer`: TARGET Prop `vineest` for an arbitrary layer-indexed input family (R45, step 5)

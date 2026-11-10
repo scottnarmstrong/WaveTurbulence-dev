@@ -108,14 +108,6 @@ theorem continuousOn_timeDom_integral (D : SumintDatum d) (hI : 0 < D.S.I) (C : 
 
 
 
-theorem continuous_signedPhase_joint (D : SumintDatum d) (hbad : ∀ i, D.badKind i ≠ 2)
-    (coreFirstSign coreSign : Fin D.S.I → ℤˣ) (L γ δ η : ℝ) (x : D.S.VIdx → (Fin d → ℤ)) (r : Mom d) :
-    Continuous (fun p : ℝ × (D.S.TVar → ℝ) => signedPhase D coreFirstSign coreSign L γ δ η x r p.1 p.2) := by
-  have h : ∀ i, ¬ (D.S.nor i = false ∧ D.badKind i = 2 ∧ 0 < D.S.m i) := fun i h => hbad i h.2.1
-  unfold signedPhase
-  simp only [h, dite_false]
-  fun_prop
-
 
 
 theorem continuous_slotVal_joint (D : SumintDatum d) (s : Slot D) :
@@ -155,49 +147,5 @@ theorem continuous_integrand_joint {D : SumintDatum d} (hbad : ∀ i, D.badKind 
       ∏ ρ, cr.W ρ (cr.clock p.2 p.1 ρ) (rowMom D L x E ρ)) :=
     continuous_finsetProd _ fun ρ _ => (hcont ρ _).comp (continuous_clock_joint cr ρ)
   exact h1.mul h2
-
-theorem continuousOn_clockedExprEps {ι : Type*} [Fintype ι] {D : SumintDatum d} (hbad : ∀ i, D.badKind i ≠ 2)
-    (l₁ l₂ l₃ : ι → Row D ⊕ Fin 4) (cr : ClockedRows D) (cfs cs : Fin D.S.I → ℤˣ) (hI : 0 < D.S.I)
-    (L γ δ η : ℝ) (E : Fin 4 → Mom d) (hcont : ∀ ρ k, Continuous fun c => cr.W ρ c k)
-    (C : Set (Fin 3 → ℝ)) (Bx : (D.S.VIdx → (Fin d → ℤ)) → ℝ) (hBx : Summable Bx) (hBx0 : ∀ x, 0 ≤ Bx x)
-    (hbd : ∀ x, ∀ tt ∈ C, ∀ τ ∈ D.timeDom hI (tt 0) (tt 1) (tt 2),
-      ∏ ρ, ‖cr.W ρ (cr.clock τ tt ρ) (rowMom D L x E ρ)‖ ≤ Bx x) :
-    ContinuousOn (fun tt => clockedExprEps l₁ l₂ l₃ cr cfs cs hI L γ δ η tt E) C := by
-  unfold clockedExprEps
-  have hjoint := fun x => continuous_integrand_joint hbad cr cfs cs L γ δ η x E hcont
-  refine continuousOn_tsum (u := Bx) (fun x => ?_) hBx (fun x tt htt => ?_)
-  · refine continuousOn_const.mul (continuousOn_timeDom_integral D hI C _ (hjoint x) (Bx x) ?_)
-    intro tt htt τ hτ
-    unfold clockedIntegrand
-    rw [norm_mul]
-    calc ‖signedPhase D cfs cs L γ δ η x (E 0 - E 1) (tt 0) τ‖ * ‖∏ ρ, cr.W ρ (cr.clock τ tt ρ) (rowMom D L x E ρ)‖
-        ≤ 1 * ∏ ρ, ‖cr.W ρ (cr.clock τ tt ρ) (rowMom D L x E ρ)‖ := by
-          rw [norm_prod]
-          exact mul_le_mul_of_nonneg_right (norm_signedPhase_le D hbad cfs cs L γ δ η x _ _ _)
-            (Finset.prod_nonneg fun _ _ => norm_nonneg _)
-      _ ≤ Bx x := by rw [one_mul]; exact hbd x tt htt τ hτ
-  · rw [norm_mul]
-    have hε : ‖((epsOf D L l₁ l₂ l₃ x E : ℝ) : ℂ)‖ ≤ 1 := by
-      rw [Complex.norm_real, Real.norm_eq_abs]; exact abs_epsOf_le_one D L l₁ l₂ l₃ x E
-    have hI' : ‖∫ τ in D.timeDom hI (tt 0) (tt 1) (tt 2), clockedIntegrand cr cfs cs L γ δ η x E tt τ‖ ≤ Bx x := by
-      have hvol : volume (D.timeDom hI (tt 0) (tt 1) (tt 2)) < ⊤ :=
-        lt_of_le_of_lt (volume_timeDom_le D hI _ _ _) ENNReal.one_lt_top
-      have := norm_setIntegral_le_of_norm_le_const (μ := volume) hvol
-        (C := Bx x) (f := clockedIntegrand cr cfs cs L γ δ η x E tt) (fun τ hτ => by
-          unfold clockedIntegrand
-          rw [norm_mul, norm_prod]
-          calc ‖signedPhase D cfs cs L γ δ η x (E 0 - E 1) (tt 0) τ‖ * ∏ ρ, ‖cr.W ρ (cr.clock τ tt ρ) (rowMom D L x E ρ)‖
-              ≤ 1 * ∏ ρ, ‖cr.W ρ (cr.clock τ tt ρ) (rowMom D L x E ρ)‖ :=
-                mul_le_mul_of_nonneg_right (norm_signedPhase_le D hbad cfs cs L γ δ η x _ _ _)
-                  (Finset.prod_nonneg fun _ _ => norm_nonneg _)
-            _ ≤ Bx x := by rw [one_mul]; exact hbd x tt htt τ hτ)
-      refine this.trans ?_
-      have : (volume.real (D.timeDom hI (tt 0) (tt 1) (tt 2))) ≤ 1 := by
-        have h1 := volume_timeDom_le D hI (tt 0) (tt 1) (tt 2)
-        simp only [Measure.real]
-        exact ENNReal.toReal_le_of_le_ofReal zero_le_one (by simpa using h1)
-      exact mul_le_of_le_one_right (hBx0 x) this
-    calc _ ≤ 1 * Bx x := mul_le_mul hε hI' (norm_nonneg _) zero_le_one
-      _ = Bx x := one_mul _
 
 end WaveTurbulence.VineEstS3.Eng

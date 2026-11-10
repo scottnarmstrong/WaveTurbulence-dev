@@ -112,10 +112,4 @@ theorem commonShape_hmom :
       (stShape hM σ).hmom (unitBlk_disj hM σ) :=
   commonShape_hmomMk hM σ D hS layer hLayer hr hn (Stage1Mk.markTransported_empty _)
 
-/-- All three actual exterior clock sources are common across the class. -/
-theorem commonShape_hclk :
-    (commonShape hM σ D hS layer hLayer hr hn).hclk (member_disj hM σ D hS layer hLayer hr hn) =
-      (stShape hM σ).hclk (unitBlk_disj hM σ) :=
-  commonShape_hclkMk hM σ D hS layer hLayer hr hn (Stage1Mk.markTransported_empty _)
-
 end WaveTurbulence.VineAlign

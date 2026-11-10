@@ -8,9 +8,8 @@ module
 public import WaveTurbulence.Foundations.VineEst.RowSel.Bounds
 public import WaveTurbulence.Foundations.VineEst.VineEstS3.NativeRows
 public import WaveTurbulence.Foundations.VineEst.VineEstS3.TreeClockOrder
-public import WaveTurbulence.Foundations.VineEst.VineEstS3.InputsSummable
-public import WaveTurbulence.Foundations.VineEst.VineEstS3.Continuity
-public import WaveTurbulence.Foundations.VineEst.VineEstS3.AdmissibleAssembly
+public import WaveTurbulence.Foundations.Spine.SchwartzCosetSummability
+public import WaveTurbulence.Foundations.VineEst.VineEstS3.Pointwise
 public import WaveTurbulence.Foundations.VineEst.VineEstS3.EpsLabels
 public import WaveTurbulence.Foundations.VineEst.VineEstS3.ConstraintsOK
 
@@ -90,75 +89,6 @@ theorem rowBx_closure (W : SumintWeightClockData (assemblyShape hM9 B) d) (L γ 
   rcases ρ with v | v
   · exact timeBox_subset_closure_interior _ _
   · exact timeBoxGt_subset_closure_interior (by exact_mod_cast hqq v)
-
-theorem slotVal_mem (W : SumintWeightClockData (assemblyShape hM9 B) d) (hG' : G.IsPlain)
-    (tt : Fin 3 → ℝ)
-    (htt : tt ∈ outBox (sourceSumintDatum hM9 B hG' W)) (τ : (assemblyShape hM9 B).TVar → ℝ)
-    (hτ : τ ∈ (sourceSumintDatum hM9 B hG' W).timeDom (assemblyShape_I_pos hM9 B) (tt 0) (tt 1) (tt 2))
-    (s : Eng.Slot (sourceSumintDatum hM9 B hG' W)) :
-    slotVal (sourceSumintDatum hM9 B hG' W) τ tt s ∈
-      Set.Icc ((qslot (sourceSumintDatum hM9 B hG' W) s : ℕ) : ℝ) ((qslot (sourceSumintDatum hM9 B hG' W) s : ℕ) + 1) := by
-  rcases s with v | c
-  · exact ⟨(hτ.1 v).1, (hτ.1 v).2.1⟩
-  · exact (htt.1 c)
-
-/-- **`hclock` of the engine**: the clock pair of a row lies in its time box. -/
-theorem rows_clock_mem (W : SumintWeightClockData (assemblyShape hM9 B) d)
-    (hok : ConstraintsOK hM9 B W) (L γ δ : ℝ) (F : ℕ → Mom d → ℝ)
-    (tt : Fin 3 → ℝ) (htt : tt ∈ outBox (sourceSumintDatum hM9 B hG W)) (τ : (assemblyShape hM9 B).TVar → ℝ)
-    (hτ : τ ∈ (sourceSumintDatum hM9 B hG W).timeDom (assemblyShape_I_pos hM9 B) (tt 0) (tt 1) (tt 2))
-    (ρ : Row (sourceSumintDatum hM9 B hG W)) :
-    (assemblyClockedS hM9 B RD hG W L γ δ F layer hLayer).clock τ tt ρ ∈
-      rowBx hM9 B RD hG layer hLayer W L γ δ F ρ := by
-  have hbox : ∀ i : Fin 2, (assemblyClockedS hM9 B RD hG W L γ δ F layer hLayer).clock τ tt ρ i ∈
-      Set.Icc (((if i = 0 then (rowQ hM9 B RD hG W L γ δ F layer hLayer ρ).1
-        else (rowQ hM9 B RD hG W L γ δ F layer hLayer ρ).2 : ℕ)) : ℝ)
-        ((if i = 0 then (rowQ hM9 B RD hG W L γ δ F layer hLayer ρ).1
-        else (rowQ hM9 B RD hG W L γ δ F layer hLayer ρ).2 : ℕ) + 1) := by
-    intro i
-    fin_cases i
-    · exact slotVal_mem hM9 B W hG tt htt τ hτ _
-    · exact slotVal_mem hM9 B W hG tt htt τ hτ _
-  rcases ρ with v | v
-  · exact ⟨hbox 0, hbox 1⟩
-  · refine ⟨⟨hbox 0, hbox 1⟩, ?_⟩
-    have hz := clock_lt_parentClock hM9 B hG W hok tt τ hτ (assemblyBranchOf hM9 B v)
-    have h3 := nodeSlot_spec hM9 B (assemblyBranchOf hM9 B v).1.toNode
-      ((branch_mem_clRealizationNodes (assemblyBranchOf hM9 B v).1).mpr
-        (Finset.mem_erase.mp (assemblyBranchOf hM9 B v).2).2)
-      (interior_ne (assemblyBranchOf hM9 B v)) tt τ
-    have h4 := branchSlot_spec hM9 B (assemblyBranchOf hM9 B v) tt τ
-    have e1 : (assemblyClockedS hM9 B RD hG W L γ δ F layer hLayer).clock τ tt (Sum.inr v) 1 =
-        τ (branchSlot hM9 B (assemblyBranchOf hM9 B v)) := by
-      simp [ClockedRows.clock, assemblyClockedS, slotVal]
-      rfl
-    have e0 : (assemblyClockedS hM9 B RD hG W L γ δ F layer hLayer).clock τ tt (Sum.inr v) 0 =
-        Sum.elim τ tt (nodeSlot hM9 B (assemblyBranchOf hM9 B v).1.toNode) := by
-      simp [ClockedRows.clock, assemblyClockedS, slotVal]
-      rfl
-    show (assemblyClockedS hM9 B RD hG W L γ δ F layer hLayer).clock τ tt (Sum.inr v) 1 <
-      (assemblyClockedS hM9 B RD hG W L γ δ F layer hLayer).clock τ tt (Sum.inr v) 0
-    rw [e1, e0, ← h3, ← h4]
-    exact hz
-
-/-- **`hcont` of the engine**: the starred kernels are continuous in the clock pair. -/
-theorem rows_continuous {P : WTParams} {p : ℕ} {Rin : ℕ → Mom P.d → ℝ} (hd : 1 ≤ P.d) (hL : 1 ≤ P.L)
-    (hR : ∀ r ≤ p, InputRemainder P (Rin r) r) (hlay : ∀ x, layer x ≤ p)
-    (W : SumintWeightClockData (assemblyShape hM9 B) P.d) (ρ : Row (sourceSumintDatum hM9 B hG W)) (k : Mom P.d) :
-    Continuous fun t : Fin 2 → ℝ =>
-      (assemblyClockedS hM9 B RD hG W P.L P.γ P.δ (inputsF P Rin) layer hLayer).W ρ t k := by
-  rcases ρ with v | v
-  · have hplain : (rowCoupleLG hM9 B RD hG layer hLayer v).garden.IsPlain := by
-      unfold rowCoupleLG
-      rw [nativeCoupleLayered_garden]
-      exact (decodedCouple_decodes _).1.1
-    exact VineEst.continuous_KQsel_time _ _ _ P.L P.γ P.δ (inputsF P Rin) (rowCoupleLG hM9 B RD hG layer hLayer v) hplain k
-      (fun ℓ _ => summable_inputsF_of_InputRemainder P Rin hd hL (hR _ (hlay _)) k)
-  · have hT : IsPairedTree (rowTreeLG hM9 B RD hG layer hLayer v).garden := by
-      unfold rowTreeLG
-      exact decodedTree_isPairedTree _ _
-    exact VineEst.continuous_KTsel_time _ _ P.L P.γ P.δ (inputsF P Rin) (rowTreeLG hM9 B RD hG layer hLayer v) hT k
-      (fun ℓ _ => summable_inputsF_of_InputRemainder P Rin hd hL (hR _ (hlay _)) k)
 
 end Rows
 

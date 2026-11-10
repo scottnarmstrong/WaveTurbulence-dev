@@ -55,18 +55,8 @@ theorem integral_gam : ∫ x, gam x = 1 := by
 theorem ee_add (x y : ℝ) : ee (x + y) = ee x * ee y := by
   unfold ee; rw [← Complex.exp_add]; congr 1; push_cast; ring
 
-theorem ee_neg (x : ℝ) : ee (-x) = (ee x)⁻¹ := by
-  unfold ee; rw [← Complex.exp_neg]; congr 1; push_cast; ring
-
 theorem norm_ee (x : ℝ) : ‖ee x‖ = 1 := by
   unfold ee; exact Complex.norm_exp_ofReal_mul_I _
-
-theorem ee_zero : ee 0 = 1 := by simp [ee]
-
-theorem ee_sub (x y : ℝ) : ee (x - y) = ee x * (ee y)⁻¹ := by
-  rw [sub_eq_add_neg, ee_add, ee_neg]
-
-theorem ee_ne_zero (x : ℝ) : ee x ≠ 0 := Complex.exp_ne_zero _
 
 @[fun_prop] theorem continuous_ee : Continuous ee := by
   unfold ee; fun_prop

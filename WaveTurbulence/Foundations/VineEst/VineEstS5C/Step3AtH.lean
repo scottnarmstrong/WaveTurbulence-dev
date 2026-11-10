@@ -6,7 +6,6 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.NativeRowsH
-public import WaveTurbulence.Foundations.VineEst.VineEstS3.Step3AtLeaf
 
 /-! # Step 3 at a fixed parameter `P` for the layer family `h` with leaf cost (R45 port of `Step3AtLeaf`)
 
