@@ -13,7 +13,8 @@ the printed proof of TARGET's main theorem breaks in that range. We give a repai
 analytic estimate is needed), and the repaired proof is the one formalized here. Several other entries show that an
 intermediate statement or identity is false as printed (class ERROR), but each has a repair that keeps what the proof
 needs. The remaining entries are omitted or invalid steps whose conclusions survive, usually with a repair that we
-give.
+give. Every entry of class ERROR or GAP is CONFIRMED by an independent refute-first check; the last 14 of them were
+verified on 2026-11-10 against the pinned sources ([`audits/errata/`](audits/errata/README.md)).
 
 ## Summary of findings
 
@@ -33,15 +34,15 @@ DH21, DH23 and GIT20 are the papers listed under "Pinned sources" below, and L-n
    adjustments to the proof of `layergarden`. A complete proof also needs: a layered fixed-time estimate in place of
    "fix the value of Ω" (E30; DH21 L2684–L2694 has the unlayered mechanism); a restated `subpro` for the vines left
    unspliced (E31); an extraction of the M₁ gain that keeps the twist-class cancellation (E33); face estimates for the
-   M₂ time integration, whose per-tree gain goes beyond the cited DH21 corollary (E35); arguments for the upper M₂
-   filters that L2299 says "play no role", inside regular stem objects and on large-gap ladder rungs (E39, E44); and
-   the corrected Stage 1 clock identity (E26). The internal cutoffs themselves are absorbed by the paper's own
-   Fourier-L¹ and |r| mechanisms (E36–E38, exposition). A written completion for 1/2 < γ < 1 supplies all of these;
+   M₂ time integration, whose per-tree gain goes beyond the cited DH21 corollary (E35); an argument for the upper M₂
+   filters on large-gap ladder rungs, which L2299 says "play no role" (E44); and the corrected Stage 1 clock identity
+   (E26). The internal cutoffs themselves are absorbed by the paper's own Fourier-L¹ and |r| mechanisms, and the upper
+   M₂ filters inside regular stem objects by a short spectral check (E36–E39, exposition). A written completion for 1/2 < γ < 1 supplies all of these;
    each piece of the estimate passed an independent referee with no failure, except the weighted clock identity
    (E26), whose referee is pending. No counterexample to `flowerest1` is known, and an independent assessment found
    that the missing arguments build on mechanisms already in DH21 and DH23 without establishing that any needs a new
-   idea. The statement needs the normalization fix E41 and the order-zero reading E42; the dagger and derivative
-   variants used for `fixedpoint` add one more gap (E45, partly refereed).
+   idea. The statement needs the normalization fix E41 and the order-zero reading E42; the derivative variants used for
+   `fixedpoint` inherit these gaps and need two routine additions (E45).
    *Update 2026-11-09:* the flower estimate is now formally proved in Lean for 1/2 < γ < 1 (`layergardenFlower_v3`,
    sealed and two-key audited), and in its full-range form `layergardenFlower_v4` (sealed and two-key audited). The
    completion was re-checked at γ ≤ 1/2 use by use; none of its 75 uses of γ > 1/2 fails there
@@ -51,23 +52,27 @@ DH21, DH23 and GIT20 are the papers listed under "Pinned sources" below, and L-n
      needs a factor (−1)^{|Z|} (E2a, CONFIRMED).
    - TARGET L2264–L2265 and DH23 L1995–L1996 keep the γ = 1 prefactor (δ/(2L^{d−1}))ⁿ; it should be
      (δ/(2L^{d−γ}))ⁿ, and the difference L^{(1−γ)n} is not absorbable (E41, CONFIRMED).
-   - TARGET (redvine), L1954–L1957, is false as an identity; an exact replacement gives the same conclusion (E26).
-   - TARGET L2152: a zero-gap atom v₃ in Operation 2 need not be tame when it is a hinge (E16).
-   - DH23 Lemma `ylem1` misses several molecules (E2b); DH23's operation count in Prop 10.2 (E2c); the relative sign
-     of the core in `vineest` for vines (V)–(VIII) (E2d); TARGET L1918 for trivial couples and trees (E18).
-   - Smaller slips and readings, harmless in context: E3, E6, E9, E19, E25, E27, E43, and minor items m1–m51.
+   - TARGET (redvine), L1954–L1957, is false as an identity; an exact replacement gives the same conclusion (E26,
+     CONFIRMED).
+   - TARGET L2152: a zero-gap atom v₃ in Operation 2 need not be tame when it is a hinge (E16, CONFIRMED).
+   - DH23 Lemma `ylem1` misses several molecules (E2b, CONFIRMED).
+   - Smaller slips and readings, harmless in context: E2d (the relative sign of the nonlinear vine cores in
+     `vineest`) and E18 (TARGET L1918 for trivial couples and trees), both CONFIRMED; E3, E6, E9, E19, E25, E27, E43;
+     and minor items m1–m51.
 4. **Gaps that needed a new argument, outside the flower section.** "Replace ε by 1 … sum trivially" fails for long
-   vine chains (E4, CONFIRMED); moving weights and derivatives onto decoration-dependent leaves breaks the twist
-   cancellation of `vineest` (E24); "cut at v and proceed normally" can feed Prop 9.6 a component on which it fails,
-   and single-atom erasure leaves components with no usable bound (E11, E17); triangles through already-cut atoms
-   (E20); atoms of degree 0–2 and self-loops in the stage-1 molecule (E23); the d-dimensional trilinear estimate of
-   GIT20 that TARGET Prop 3.2 cites (E2g). All are repaired; E20 for every 0 < γ < 1.
+   vine chains (E4, CONFIRMED); moving the k-derivatives onto decoration-dependent leaves breaks the twist cancellation
+   of `vineest`, and the corresponding weight inequality is not an identity (E24, CONFIRMED); "cut at v and proceed
+   normally" can feed Prop 9.6 a component for which (finalcount) fails, and single-atom erasure can leave components
+   that the printed proof does not bound (E11, E17, CONFIRMED); triangles through already-cut atoms (E20, CONFIRMED).
+   All are repaired; E20 for every 0 < γ < 1.
 5. **Exposition gaps** (omitted, routinely fillable):
-   - the counting run of DH23 §§9–10 as reused by TARGET: E5, E7, E8, E10, E12, E13, E21, E22, E28; at γ < 1/2, E47
+   - the counting run of DH23 §§9–10 as reused by TARGET: E2c (the operation count of DH23 Prop 10.2), E5, E7, E8,
+     E10, E12, E13, E21, E22, E23 (atoms of degree 0–2 and self-loops in the stage-1 molecule), E28; at γ < 1/2, E47
      and E48;
    - regular objects and the vine and ladder estimates: E2e (order ranges), E14, E15, E40 (the `ladderl1new` sketch);
-   - the flower section: E29, E32, E36–E38, E46;
-   - the proof of Theorem 1.1: E2f.
+   - the flower section: E29, E32, E36–E39, E46;
+   - the proof of Theorem 1.1: E2f;
+   - Prop 3.2 in dimension d ≥ 4 (the d-dimensional trilinear estimate of GIT20): E2g.
 
 **Deviations.** The main theorem `main` is TARGET Theorem 1.1 as printed for 0 < γ < 1 on the square torus; the
 case γ = 1 on rectangular tori with generic side lengths is out of scope (decision D2). The flower statement reads the
@@ -129,12 +134,12 @@ in [`docs/research/flowerest1/`](research/flowerest1/); an earlier referee of th
 |---|---|---|---|---|---|
 | E1 | DH23 Prop 9.6, L1818–L1822, L1885; DH23 L1681–L1690; TARGET L2192–L2197, L2114 | DH23 Prop 9.6 case (4), and the statements built on it, are false for 0 < γ ≤ 1/2 (necklace counterexample) | ERROR | CONFIRMED | broke the printed proof for γ ≤ 1/2; repaired in Lean for all 0 < γ < 1 (γ > 1/2: new argument F75; γ ≤ 1/2: T-vines and a re-proved Prop 9.6) |
 | E2a | DH21 L1070, L1079, L1737, L1767; TARGET L1154 | sign of the χ_∞ term in DH21 Lemmas 5.8/7.3: 𝒥B̃_{𝒬,Z} = (−1)^{\|Z\|}𝒥B̃_𝒬, so the per-couple weight in TARGET (regref1-3) needs (−1)^{\|Z\|} | ERROR | CONFIRMED | none (main sums unaffected); per-couple bound corrected in Lean |
-| E2b | DH23 Lemma `ylem1`, L1937–L1948 | the lemma misses several molecules (Q, T, a 5-atom molecule, two infinite families) | ERROR | CANDIDATE | none directly; it underlies E1 |
-| E2c | DH23 L1911–L1912 | in the proof of Prop 10.2, "the total number of operations is ≤ C(r₁+r₂)" is false | ERROR | CANDIDATE | none (short repair) |
-| E2d | TARGET L1814, L1817 | for vines (V)–(VIII) the same-direction core has the opposite relative sign; `sumint` must be used in a signed form | ERROR | CANDIDATE | repaired (signed `sumint`, proved in Lean on main) |
+| E2b | DH23 Lemma `ylem1`, L1937–L1948 | the lemma misses several molecules (Q, T, a 5-atom molecule, two infinite families) | ERROR | CONFIRMED | none directly; it underlies E1 |
+| E2c | DH23 L1911–L1912 | in the proof of Prop 10.2, "the total number of operations is ≤ C(r₁+r₂)" should read "the number of operations other than (3D3-1N)", and its positivity needs one line | EXPOSITION | CONFIRMED | none (short repair) |
+| E2d | TARGET L1814, L1817 | every nonlinear normal-vine core (vines (III)–(VIII)) has the opposite relative sign; `sumint` must be used in a signed form, which its printed proof gives | MINOR | CONFIRMED | repaired (signed `sumint`, proved in Lean on main) |
 | E2e | DH23 L1002, L1168; TARGET L951; DH21-2 L587, L602 | regular-couple asymptotics are used at orders beyond the range in which they are stated | EXPOSITION | CANDIDATE | repaired (range extension of DH23 Prop 6.4 in Lean) |
 | E2f | TARGET L752–L758, L314–L316, L817–L821 | three steps of the proof of Theorem 1.1 are asserted without proof | EXPOSITION | CANDIDATE | none |
-| E2g | GIT20 Remark 2.6 (L593); TARGET L2515 | the d-dimensional L²_s trilinear estimate is asserted without proof; GIT20's d = 3 argument fails for d ≥ 4 at one step | GAP | CANDIDATE | none (only the blow-up criterion of Prop 3.2 uses it); repaired on paper |
+| E2g | GIT20 Remark 2.6 (L593); TARGET L2515 | the d-dimensional L²_s trilinear estimate is stated in a remark without proof; GIT20's d = 3 argument does not transfer to d ≥ 4 at one step | EXPOSITION | CONFIRMED | none (Theorem 1.1 uses only a Schwartz solution on [0, τ_*]; the estimate enters Appendix C's proof of Prop 3.2: local well-posedness in Z_{s,m} and the blow-up criterion); repaired in Lean and on paper |
 | E2-m | see the table in E2 | minor items m1–m51 (m28 moved to E41) | MINOR | CANDIDATE | none |
 | E3 | DH23 Def 5.1, L1421, L1481 | vine (II) must include the one-double-bond case m = 1 | MINOR | CANDIDATE | none with this reading |
 | E4 | TARGET L1846 | "replace ε by 1 … sum trivially" fails for vine chains longer than d/γ | GAP | CONFIRMED | repaired (reduction in Lean; one input proved only in a working note) |
@@ -144,22 +149,22 @@ in [`docs/research/flowerest1/`](research/flowerest1/); an earlier referee of th
 | E8 | DH23 L1876 | Prop 9.6 proof, "only remove ε-atoms": degree-1 α/β atoms must also be deleted | EXPOSITION | CANDIDATE | none |
 | E9 | TARGET L2185, L2189 | "at most R imperfect components" fails after tame-atom removals (R + 2t) | MINOR | CANDIDATE | none |
 | E10 | DH23 L1815 | "the vine is not changed" although its joints are cut | EXPOSITION | CANDIDATE | none |
-| E11 | TARGET L2152, L2218 | Remark `remtame` (i), "cut at v and proceed normally", is not trivial; Prop 9.6 fails on a resulting component | GAP | CANDIDATE (part (a) CONFIRMED) | repaired in Lean |
+| E11 | TARGET L2152, L2218 | Remark `remtame` (i), "cut at v and proceed normally", is not trivial; (finalcount) fails for a resulting component | GAP | CONFIRMED | repaired in Lean |
 | E12 | DH23 L1876 | the odd-component argument is written for a degree-1 odd atom | EXPOSITION | CANDIDATE | none |
 | E13 | TARGET L2101 | the DV selection rule leaves a case unspecified | EXPOSITION | CANDIDATE | none |
 | E14 | TARGET L1747 | the time domain 𝔅 is not the kernel's domain when a lower child is a leaf | EXPOSITION | CANDIDATE | none |
 | E15 | various | further exposition points | EXPOSITION | CANDIDATE | none |
-| E16 | TARGET L2152 | "a ZG v₃ in Operation 2 must be tame by `subpro` (3)" is false when v₃ is a hinge atom | ERROR | CANDIDATE | repaired in Lean |
-| E17 | TARGET L2152, L2218, L2189, L2193–L2197 | single-atom erasure leaves components with no usable bound; "imperfect = odd" contradicts L2218 | GAP | CANDIDATE | repaired in Lean |
-| E18 | TARGET L1918 | "J̃_𝒬(t,s) equals 0 if t = L_r" is false for trivial couples and trees | ERROR | CANDIDATE | none after repair (in Lean) |
+| E16 | TARGET L2152 | "a ZG v₃ in Operation 2 must be tame by `subpro` (3)" is false when v₃ is a hinge atom | ERROR | CONFIRMED | repaired in Lean |
+| E17 | TARGET L2152, L2218, L2189, L2192–L2197 | single-atom erasure can leave components that the printed proof does not bound; "imperfect = odd" contradicts L2218 | GAP | CONFIRMED | repaired in Lean |
+| E18 | TARGET L1918 | "J̃_𝒬(t,s) equals 0 if t = L_r" is false for trivial couples and trees, which do not occur where the vanishing is used | MINOR | CONFIRMED | none (the repair is in Lean) |
 | E19 | TARGET L2213 | "p_sb ≤ p_op" should be "p_sb ≤ 2p_op" | MINOR | CANDIDATE | none |
-| E20 | DH23 L1777, L1791–L1795; TARGET L2126, L2142, L2189 | triangles containing an already-cut atom ("ghosts"): the per-step bound fails | GAP | CANDIDATE | repaired in Lean for all 0 < γ < 1 |
+| E20 | DH23 L1777, L1791–L1795; TARGET L2126, L2142, L2189 | triangles containing an already-cut atom ("ghosts"): the per-step bound fails in a configuration allowed by the run's rules | GAP | CONFIRMED | repaired in Lean for all 0 < γ < 1 |
 | E21 | DH23 L1803; TARGET L2131 | the ι ball when the hitting cut has been deleted | EXPOSITION | CANDIDATE | none |
 | E22 | TARGET L2140 | a triple bond need not lie in a collected object | EXPOSITION | CANDIDATE | none |
-| E23 | TARGET L2122, L1306 | the stage-1 molecule can have atoms of degree 0, 1, 2 and self-loops, which DH23's proof does not cover | GAP | CANDIDATE | repaired in Lean |
-| E24 | TARGET L2065, L2067 | moving weights and derivatives onto decoration-dependent leaves breaks the twist-class cancellation of `vineest` | GAP | CANDIDATE | repaired (key identity in Lean) |
+| E23 | TARGET L2117, L1306 | the stage-1 molecule can have atoms of degree 0, 1, 2 and self-loops, which DH23's proof does not cover | EXPOSITION | CONFIRMED | repaired in Lean |
+| E24 | TARGET L2065, L2067 | moving the k-derivatives onto decoration-dependent leaves breaks the twist-class cancellation of `vineest`; the weight inequality is not an identity | GAP | CONFIRMED | repaired (key identity in Lean) |
 | E25 | TARGET L1909 | the class count consumes part of the bad-vine gain | MINOR | CANDIDATE | repaired (half the gain suffices; in Lean) |
-| E26 | TARGET L1954–L1957 | the printed (redvine) factorization is false as an identity: lower-child slots keep the lower joint's clock | ERROR | CANDIDATE (independent referee pending) | repaired: exact replacement identity; unweighted case in Lean (sealed `layergarden_v2`), weighted flower case on paper |
+| E26 | TARGET L1954–L1957 | the printed (redvine) factorization is false as an identity: lower-child slots keep the lower joint's clock | ERROR | CONFIRMED | repaired in Lean: unweighted case in the sealed `layergarden_v2`, weighted flower case within the sealed flower estimate; exact replacement identity on paper |
 | E27 | TARGET L1944 | "at most 2ⁿ" refined classes can fail | MINOR | CANDIDATE | none (the final count survives) |
 | E28 | TARGET L2126, L2138, L2156–L2161 | degree-2 cuts need explicit bookkeeping of the isolated half | EXPOSITION | CANDIDATE | none |
 | E29 | TARGET L2259, L2261, L2287 | reusing the skeleton and twist machinery for flower gardens needs marked bookkeeping (caps, components) that is not written; the skeleton theorem itself holds for any garden | EXPOSITION | CONFIRMED | repaired on paper (refereed) |
@@ -172,13 +177,13 @@ in [`docs/research/flowerest1/`](research/flowerest1/); an earlier referee of th
 | E36 | TARGET L2294, L2297; L1452, L1902 | the cutoff weights are not checked to agree across twist classes (exactly, or up to \|r\|-terms) | EXPOSITION | CONFIRMED | repaired on paper (refereed) |
 | E37 | TARGET L2294; `vineest` L1742–L1752; `sumint` L1595–L1625 | a cutoff inside a spliced vine must enter the vine estimate's weight | EXPOSITION | CONFIRMED | repaired on paper (refereed) |
 | E38 | TARGET L2294, L2297; `proplayer1` L953–L956, L1007–L1013 | a cutoff inside an incoherent regular object needs `proplayer1` with that factor | EXPOSITION | CONFIRMED | repaired on paper (refereed) |
-| E39 | TARGET L2299 | "these cutoffs play no role" fails for upper M₂ cutoffs inside coherent regular trees on the stem | GAP | CANDIDATE | repaired on paper (refereed: o82 Thm 8.2′) |
+| E39 | TARGET L2299 | "these cutoffs play no role" is not justified for the upper M₂ cutoffs left at unselected stem nodes inside coherent regular trees; they must be carried through the coherent asymptotics, which takes a short spectral check | EXPOSITION | CONFIRMED | repaired in Lean (`layergardenFlower_v3`/`v4`) and on paper (refereed: o82 Thm 8.2′) |
 | E40 | TARGET L1981, L1989–L1991 | the sketch of `ladderl1new` does not handle the gap indicators (G2) or the conservation law coupling the last rung sum (G3) | EXPOSITION | CANDIDATE | none (filled on paper, refereed, and in Lean) |
 | E41 | TARGET L2264–L2265; DH23 L1995–L1996 | the flower prefactor (δ/(2L^{d−1}))ⁿ should be (δ/(2L^{d−γ}))ⁿ; the difference L^{(1−γ)n} is not absorbable | ERROR | CONFIRMED | none once corrected |
 | E42 | TARGET L2264, L2270–L2273 | the order-zero flower tree must be read as the identity: 𝒳 = I + 𝒳_reg, and (flowerest2) bounds 𝒳_reg | DEVIATION (reading) | — | none |
 | E43 | TARGET L2295, L2297, L2299 | the intermediate loss figures (L^{20d} per vine, L^{200dP}, L^{100dP}) are not established; larger L^{O(dP)} losses fit | MINOR | CANDIDATE | none |
 | E44 | TARGET L2299, L2081 | "these cutoffs play no role" fails for upper M₂ filters on large-gap ladder rungs | GAP | CONFIRMED | repaired on paper (refereed: o83 Thm 8.3) |
-| E45 | TARGET L2327–L2331 | the dagger and derivative variants used for `fixedpoint` add an unprotected grandparent pin and coincident faces | GAP | CANDIDATE | repaired on paper (o104 Thm 10.4), partly refereed |
+| E45 | TARGET L2327–L2331 | the derivative variants (with the † kernel) used for `fixedpoint` inherit E30 and E31, put a pin at the flower's grandparent, which L2297 does not protect, and create coincident pins at time s | GAP (through E30, E31) | CONFIRMED | repaired in Lean (clauses of `layergardenFlower_v3`/`v4`) and on paper (o104 Thm 10.4) |
 | E46 | TARGET L2290 | the expansion remainders are not shown to carry the cutoff gains | EXPOSITION | CANDIDATE | repaired on paper (refereed) |
 | E47 | DH23 L1861–L1862, L1878 | at γ < 1/2, case (2) of Prop 9.6 needs the sharp form of the count (operc), from Lemma A.3(1) | EXPOSITION | CONFIRMED | repaired in Lean |
 | E48 | DH23 L1869–L1871; TARGET L2459–L2461 | at γ ≤ 1/2, operation (e) needs the uncapped bound of Lemma A.2(1); TARGET's restatement `countlem` keeps only the capped one | EXPOSITION | CONFIRMED | repaired in Lean |
@@ -209,8 +214,10 @@ Lean: `WaveTurbulence.main` (0 < γ < 1) and its earlier restricted version `Wav
 
 ### B. Proposition 3.2 (`wkelwp`, TARGET L598–L601)
 
-Frozen as printed; no deviation is recorded. For d ≥ 4 its blow-up criterion rests on GIT20 Remark 2.6, which is
-unproved as written there (E2g).
+Frozen as printed; no deviation is recorded. For d ≥ 4 its proof (TARGET Appendix C: local well-posedness in Z_{s,m}
+and the blow-up criterion) rests on GIT20 Remark 2.6, which is stated there without proof (E2g). The d-dimensional
+estimate is proved in Lean (`WaveTurbulence/Foundations/WKEL2/`), and the sealed `wkelwp` uses it for its blow-up
+criterion (`WKEL2.wkelwp_blowup`).
 
 ### C. The intermediate statements used by the proof of Theorem 1.1
 
@@ -619,12 +626,14 @@ per-couple bound (regref1-1) for R*_𝒬 = K*_𝒬 − (K*_𝒬)_app, for domina
 
 ## E2b — DH23 Lemma `ylem1` (L1937–L1948) misses several molecules
 
-**Status:** CANDIDATE. **Class:** ERROR. **Main theorem:** no direct effect; DH23 L1885 (E1) rests on this lemma.
+**Status:** CONFIRMED (independently verified on 2026-11-10; [report EV-A](audits/errata/EV-A.md)). **Class:** ERROR. **Main theorem:** no direct
+effect; DH23 L1885 (E1) rests on this lemma.
 - Found while formalizing DH23 Prop 10.4 (ledger F69): a kernel-checked 5-atom counterexample (working note, not
   included).
 - An independent investigation confirmed the counterexample and found further omissions by exhaustive enumeration:
-  [`docs/research/ylem1-investigation.md`](research/ylem1-investigation.md). The ledger records the finding as a DH23
-  erratum; no separate refute-first verdict is recorded, so the status is left as CANDIDATE.
+  [`docs/research/ylem1-investigation.md`](research/ylem1-investigation.md).
+- An independent refute-first verifier, who did not write this entry, confirmed the lemma false as printed and the list
+  of omissions with its own enumeration to 19 atoms.
 
 **Source text.** DH23 L1937:
 
@@ -641,7 +650,8 @@ most two (Y) sequences with last operation (Y2)."
   would make it a vine minus its two joints, that is, a vine with 7 atoms; no vine (I)–(VIII) has 7 atoms (vine (I)
   has 2, vine (II) an even number ≥ 6, the others ≥ 9).
 - **The full list of omissions** (exhaustive inverse enumeration, against all vine closures):
-  - Q and T themselves, reached by zero (Y) sequences;
+  - Q and T themselves, reached by zero (Y) sequences (Q only on the figure's reading m ≥ 2 of vine (II); with E3's
+    m ≥ 1, Q is the closure of the m = 1 vine);
   - the 5-atom T₁ above, reached by one sequence of length 1;
   - two infinite families with two triple bonds, both from the "(VI)" bullet (L1946); the smallest has 7 atoms, with
     two triple bonds in series.
@@ -659,9 +669,10 @@ becomes "vine (II), m ≥ 1".
 
 ---
 
-## E2c — DH23 proof of Prop 10.2, "Conclusion" (L1912): "the total number of operations is ≤ C(r₁+r₂)" is false
+## E2c — DH23 proof of Prop 10.2, "Conclusion" (L1912): "the total number of operations is ≤ C(r₁+r₂)" should read "the number of operations other than (3D3-1N)", and its positivity needs one line
 
-**Status:** CANDIDATE. **Class:** ERROR (in a proof). **Main theorem:** none (a short repair).
+**Status:** CONFIRMED (independently verified on 2026-11-10; [report EV-A](audits/errata/EV-A.md)). **Class:** EXPOSITION (a misstatement in a proof,
+with a one-line omitted justification). **Main theorem:** none (a short repair).
 - Found while formalizing the algorithm of DH23 §10 and Appendix B.
 - Evidence: [`docs/research/dh23-prop102-proof-errata.md`](research/dh23-prop102-proof-errata.md).
 
@@ -679,8 +690,9 @@ DH23 L1912:
 > 𝔄 ≲ L^{−η/3}.
 
 **What is wrong.** The total number of operations includes the (3D3-1N) steps, which L1911 and the first sentence of
-L1912 say are not controlled by C(r₁+r₂). Long double-rung ladders have arbitrarily many such steps. So the bound on the
-total, and with it the deduction of r₁ + r₂ ≥ 1, does not follow as written.
+L1912 say are not controlled by C(r₁+r₂). Long double-rung ladders have arbitrarily many such steps. Read literally,
+the bound on the total is false. Read as the count of non-(3D3-1N) steps, which is what "as shown above" refers to, it
+holds, but its positivity is not justified.
 
 **Repair.** The conclusion needs only r₁ + r₂ ≥ 1 when E = 2V − 2 > 0. A nonempty terminating run contains a step
 other than a normal (3D3-1N): such a step leaves degree-3 atoms on the boundary, so it cannot be the last step. Hence
@@ -688,13 +700,14 @@ the number of non-(3D3-1N) steps is positive, and these are counted by C(r₁+r�
 
 ---
 
-## E2d — TARGET `vineest` Step 2, case (C-ii) (L1817): "the same results will hold" fails for the same-direction core of vines (V)–(VIII)
+## E2d — TARGET `vineest` Step 2, cases (C-i) and (C-ii) (L1814, L1817): every nonlinear normal-vine core, vines (III)–(VIII), has the opposite relative sign
 
-**Status:** CANDIDATE. **Class:** ERROR. **Main theorem:** none, provided `sumint` is used in a signed form (its proof
-goes through with the sign). That signed form is now proved in Lean on main, as a special case of a signed, weighted
+**Status:** CONFIRMED (independently verified on 2026-11-10; [report EV-B](audits/errata/EV-B.md); the verifier extended the scope to vines (III) and
+(IV)). **Class:** MINOR: the printed claim is false, but the needed signed `sumint` follows from the printed proof
+(below). **Main theorem:** none, provided `sumint` is used in a signed form (its proof goes through with the sign). That signed form is now proved in Lean on main, as a special case of a signed, weighted
 `sumint` (`WaveTurbulence.SumintPar.signed_of_sumintPar`, from `SumintPar.sumint`; on main after commit `5c6d256c`).
 - Found while formalizing the vine parametrization (ledger F79). The computation is kernel-checked in a working note
-  (not included), including a determinant obstruction; an independent audit of the signed reading is pending.
+  (not included), including a determinant obstruction.
 - Evidence: [`docs/research/target-vine-core-sign-check.md`](research/target-vine-core-sign-check.md).
 
 **Source text.** TARGET L1814, case (C-i) (vine (III)): "Then we have ω₁ = 2u₁·u₂, while ω₂ equals 2u₁·u₃ in the first
@@ -713,12 +726,20 @@ Each is a quadratic form of rank 2, and they sum to 0. The printed pair 2⟨u₁
 (minus their sum) of rank 3. No real linear change of variables, and no change of sign of individual factors, maps the
 actual triple to the printed one (the symmetric coefficient determinant of the printed third form is −4, while all
 actual ones vanish). In suitable coordinates the actual pair is 2⟨u₁,u₂⟩ and −2⟨u₃, u₁+u₂−u₃⟩: the relative sign is
-reversed. A scalar check: at a = b = 1, c = g_* = 0 the actual −Γ(w₁) is −2, while the displayed 2(a−e)(b−e) is +2.
-For the linear alternative the printed forms have a common factor that the actual triple lacks.
+reversed. The printed coordinates also give the opposite sign for ω₁: at a = b = 1, c = g_* = 0 the actual −Γ(w₁)
+is −2, while the displayed 2(a−e)(b−e) is +2. That alone is a global sign, which u₁ ↦ −u₁ removes; the determinant
+argument above carries the relative-sign claim. For the linear alternative the printed forms have a common factor that
+the actual triple lacks.
 
-**Consequence.** TARGET Prop `sumint` (L1595–L1640), as printed, takes two positive core forms. For vines (V)–(VIII)
+The same reversed relative sign occurs in case (C-i) for Vine (III) when the bonds c, d have the same direction (with
+the printed coordinates, Γ(w₁) = 2⟨u₁,u₂⟩ and Γ(w₃) = −2⟨u₃,u₁+u₂−u₃⟩), and for Vine (IV) ("similar", L1814): every
+nonlinear core of a normal vine has opposite relative sign. The linear (opposite-direction) cores are correct up to
+the choice of coordinates.
+
+**Consequence.** TARGET Prop `sumint` (L1595–L1640), as printed, takes two positive core forms. For vines (III)–(VIII)
 its input has a signed nonlinear core. The proof of `sumint` does not use the sign, so a signed version holds by the
-same proof. The frozen `sumint` is faithful to the printed statement; the proof chain uses the signed version
+same proof: the (t, s)-domains of Lemmas `lemcubic0` and `lemcubic` are symmetric in s, so the proof is invariant
+under s ↦ −s. This makes the slip harmless. The frozen `sumint` is faithful to the printed statement; the proof chain uses the signed version
 (`SumintSigned`, `WaveTurbulence/Foundations/VineEst/VineEstS2/SumintSigned.lean`).
 
 ---
@@ -779,13 +800,17 @@ We claim no counterexample and no difficulty beyond careful standard analysis fo
 
 ---
 
-## E2g — GIT20 Remark 2.6 (L592–L594), used by TARGET Prop 3.2: the d-dimensional L²_s theory is asserted without proof
+## E2g — GIT20 Remark 2.6 (L592–L594), used by TARGET Prop 3.2: the d-dimensional L²_s theory is stated in a remark without proof
 
 This entry concerns GIT20 (Germain, Ionescu and Tran), not a paper of Deng and Hani; it is listed because TARGET relies
 on it.
 
-**Status:** CANDIDATE. **Class:** GAP (in GIT20, as used by TARGET). **Main theorem:** none. Theorem 1.1 does not use
-the blow-up criterion of Prop 3.2; the estimate is proved for all d ≥ 3 in a research note.
+**Status:** CONFIRMED (independently verified on 2026-11-10; [report EV-C](audits/errata/EV-C.md)). **Class:** EXPOSITION (in GIT20, as used by
+TARGET): the omitted step is filled by a weighted Cauchy–Schwarz and Hölder/Young on S^{d−1}. **Main theorem:** none;
+repaired in Lean and on paper. Theorem 1.1 uses only a Schwartz solution on [0, τ_*]; the estimate enters TARGET's
+proof of Prop 3.2 (Appendix C). The general-dimension weighted L² trilinear estimate is proved in Lean
+(`WaveTurbulence/Foundations/WKEL2/`), and the sealed `wkelwp` uses it for its blow-up criterion
+(`WKEL2.wkelwp_blowup`); the research note proves it on paper.
 - Ledger: F18, F32. The failing step was located during the formalization of TARGET Appendix C.
 - Research note with a proof for all d ≥ 3: [`docs/research/git20-general-d.md`](research/git20-general-d.md).
   An independent audit found the proof correct (internal record, removed from the repository at publication; it
@@ -798,15 +823,17 @@ the blow-up criterion of Prop 3.2; the estimate is proved for all d ≥ 3 in a r
 > local well-posedness theory.
 
 TARGET L2515: "It is proved in [GIT20], see Lemmas 4.1–4.3 of [GIT20] (also Remark 2.6 of [GIT20]), that each 𝒦_j
-satisfies the trilinear estimate" (schappend8) in Z_s, which TARGET uses for all d ≥ 3 and s > d/2 − 1 to obtain the
-blow-up criterion of Prop 3.2 (L598–L601).
+satisfies the trilinear estimate" (schappend8) in Z_s, which TARGET uses for all d ≥ 3 and s > d/2 − 1 to obtain local
+well-posedness in Z_s and Z_{s,m} and the blow-up criterion of Prop 3.2 (L598–L601). (In the arXiv version of GIT20 the
+Q₃ lemma is Lemma 4.4; Lemma 4.3 is a technical lemma.)
 
 **What is missing.** GIT20 proves the trilinear estimates only for d = 3. For d ≥ 4 the d = 3 argument does not
 transfer at one step: in GIT20 Lemma 4.2, before inequality (bil7), a radial Cauchy–Schwarz step leads to
-sup_p ∫₀^∞ ⟨rθ+p⟩^{−2s} r^{d−3} dr, which grows like R^{d−3} at p = −Rθ when d ≥ 4. Lemma 4.1 would need a
-d-dimensional dispersive bound that is not proved.
+sup_p ∫₀^∞ ⟨rθ+p⟩^{−2s} r^{d−3} dr, which grows like R^{d−3} at p = −Rθ when d ≥ 4. Lemma 4.1 uses the dispersive bound
+(ma13), which GIT20 calls standard; its d-dimensional form, |K(y,t)| ≲ |t|^{s−d/2} for |t| ≤ 1 and ≲ |t|^{−d/2} for
+|t| ≥ 1, follows by the same standard argument, and Lemma 4.3(ii) transfers for 2s > d − 2.
 
-**Repair (on paper, audited).** The research note proves (schappend8) for every d ≥ 3, s > d/2 − 1 (its Theorem 7:
+**Repair (on paper, audited; in Lean).** The research note proves (schappend8) for every d ≥ 3, s > d/2 − 1 (its Theorem 7:
 polar coordinates, one linear change of variables, Hölder, a weighted Schur step that moves the radial weight onto the
 integrated variable, and a symmetry of the resonant measure). GIT20's (bil7) itself is true in all d ≥ 3; only the
 preceding step must be replaced. The blow-up criterion then follows through TARGET Appendix C. The note also shows that
@@ -1028,6 +1055,8 @@ and deletes the degree-0 remainder (the class `Cls.ghost`).
 
 **Effect on the formalization.** None on any frozen statement.
 
+The same observation, for an α-ghost under TARGET's cut-all reading, is noted in E20; it is classified here, as MINOR.
+
 ---
 
 ## E7 — DH23 L1793–L1794 (Prop 9.4, triangle with ΔF = 1): the pair count assumes a nonzero fixed difference
@@ -1112,8 +1141,9 @@ The Lean proof adds both arguments.
 
 ## E11 — TARGET Remark `remtame` case (i) (L2152, L2218): "cut at v and proceed normally" / "modified trivially" is not trivial
 
-**Status:** CANDIDATE overall; part (a) is CONFIRMED (ledger F48, independently checked in an internal audit, removed
-from the repository at publication; it remains in the git history). **Class:** GAP. **Main theorem:** repaired in
+**Status:** CONFIRMED (independently verified on 2026-11-10; [report EV-A](audits/errata/EV-A.md)); part (a) had already been checked independently
+(ledger F48, in an internal audit, removed from the repository at publication; it remains in the git history).
+**Class:** GAP. **Main theorem:** repaired in
 Lean; (finalcount1) is unaffected.
 - Research with mechanical checks: [`docs/research/remtame-case-i-notes.txt`](research/remtame-case-i-notes.txt). Part
   (a) is also written up in [`docs/research/erratum-remtame.md`](research/erratum-remtame.md).
@@ -1133,9 +1163,10 @@ whether the resulting α- or β-atoms have zero gap. We then cut at v and procee
 - **(b) The pin does not survive the cut.** Where the values are pinned, they are pinned by the charges of the
   molecule before the cut. After the β-cut, the zero-gap half of v can lie in a component whose own charges do not pin
   them. TARGET's product over components (L2203) cannot use the pin.
-- **(c) Prop 9.6 (`lgmolect`) is false for a component with an unpinned zero-gap β-atom.**
-  - **Counterexample.** X = {a, b, c, v₁} with bonds c→a ×2, a→b, a→v₁, v₁→b, b→c ×2. It is perfect, with V_α = 0 and
-    V_β = 1, and conservation forces gap(v₁) = 0.
+- **(c) (finalcount) fails for a component with an unpinned zero-gap β-atom.** `finalmol` (L2185) excludes such
+  atoms, but the cut of case (i) can create one.
+  - **Counterexample (graph-level example).** X = {a, b, c, v₁} with bonds c→a ×2, a→b, a→v₁, v₁→b, b→c ×2. It is
+    perfect, with V_α = 0 and V_β = 1, and conservation forces gap(v₁) = 0.
   - A pigeonhole count gives 𝔄(X) ≥ c·C₁⁻⁴. But (finalcount) requires L^{−γ₀−3η²−η⁵ρ}.
   - So "cut and proceed normally" can feed Prop 9.6 a component it does not cover.
 
@@ -1229,8 +1260,8 @@ no time variable of its own.
 
 ## E16 — TARGET L2152: "a ZG v₃ in Operation 2 must be tame by `subpro` (3)" is false when v₃ is a hinge atom
 
-**Status:** CANDIDATE (written by the finder and re-derived by an independent refute-first referee).
-**Class:** ERROR. **Main theorem:** repaired in Lean; (finalcount1) holds with TARGET's exponents for 1/2 < γ < 1, and
+**Status:** CONFIRMED (re-derived by an independent refute-first referee, and independently verified on 2026-11-10,
+[report EV-B](audits/errata/EV-B.md)). **Class:** ERROR. **Main theorem:** repaired in Lean; (finalcount1) holds with TARGET's exponents for 1/2 < γ < 1, and
 for 0 < γ ≤ 1/2 over the enlarged vine family of E1.
 - Research: [`docs/research/remtame-hinge-notes.txt`](research/remtame-hinge-notes.txt) §3.2.
 - Referee scripts and outputs: [`docs/research/remtame-hinge-referee/`](research/remtame-hinge-referee/)
@@ -1243,21 +1274,23 @@ any such atom v is ZG, then it must be tame by Proposition subpro (3)".
 - 6 atoms and 11 bonds;
 - degrees (3, 3, 4, 4, 4, 4);
 - no loop and no triple bond;
-- prime, with no mini couple, mini tree or sibling pair.
+- prime, with no mini couple, mini tree or sibling pair (primality checked directly by the verifier).
 
 **Why it is a counterexample.**
 - **The vine.** The only block is {u1, u2}. It is a (CL) vine (I-a), non-root (joint degree sum 8 > 6), and SG under
   the decoration, so stage 1 merges it into a hinge h.
-- **The decoration.** Take decorations with D = E. Then M(Q_sk) has no zero gap, so no atom is degenerate and h is not
-  tame. The referee found this in 300 of 300 random decorations.
+- **The decoration.** Take a decoration with D = E that is otherwise generic (for example the explicit one in the
+  notes, §3.2). Then M(Q_sk) has no zero-gap pair, so no atom is degenerate and h is not tame. A hinge is never tame:
+  its designated pair has SG, hence nonzero, gap.
 - **The triangle.** In M_sb the unique Operation-2-eligible triangle is (P, u21 | v₃ = h). Its pair at h is a crossing
   pair with gap ±(D − E) = 0.
 - So v₃ is ZG but not tame.
 
 **Consequence.**
 - **The literal cut breaks a needed property.** Cutting h along that pair leaves a degree-2 β-atom with zero gap. At a
-  charge-0 degree-4 atom, complementary pairs have opposite gaps, so this breaks the nonzero-gap property of β-atoms
-  that DH23 Prop 9.6 needs.
+  charge-0 degree-4 atom, complementary pairs have opposite gaps, so this breaks the non-degeneracy of α- and β-atoms
+  asserted at DH23 L1985, on which the proof of DH23 Prop 9.6 relies. We do not claim that (finalcount1) itself fails
+  for this couple.
 - **DH23 has the same gap.** It appears in DH23 L1777 against L1985, under DH23's reading that "SG triples are fixed".
 - **A related gap.** With 0 < |D − E| SG, Operation 2 cuts h along a crossing (non-designated) pair. DH23 L1815's
   argument that vines are LG assumes hinges are cut along designated pairs. This is a CANDIDATE exposition gap at DH23
@@ -1271,19 +1304,24 @@ any such atom v is ZG, then it must be tame by Proposition subpro (3)".
 
 ---
 
-## E17 — TARGET L2152/L2218 (`remtame`) and L2193/L2197 (`finalmol`, R = 1): single-atom erasure and "imperfect = odd"
+## E17 — TARGET L2152/L2218 (`remtame`) and L2192–L2197 (`lgmolect` and its proof, R = 1): single-atom erasure and "imperfect = odd"
 
-**Status:** CANDIDATE (refereed together with E16). **Class:** GAP. **Main theorem:** repaired in Lean.
+**Status:** CONFIRMED (refereed together with E16; independently verified on 2026-11-10, [report EV-A](audits/errata/EV-A.md)). **Class:** GAP.
+**Main theorem:** repaired in Lean.
 - Evidence: as for E16.
 
-**(a) Single-atom erasure leaves components with no usable bound.** Two graph-level examples:
+**(a) Single-atom erasure can leave components for which neither (finalcount) nor 𝔄 ≲ 1 holds, and to which DH23
+§10.5(4) does not apply.** In the two examples the erasure gain covers the shortfall, but the printed proof gives no
+bound for such components in general. Two graph-level examples:
 - **C1.** The chain R₁–e⇄u⇄v⇄f–R₂, with all of e, u, v, f tame. Erasing e and f leaves an isolated tame double bond
-  {u, v} whose shared value is unpinned. Then 𝔄 ~ L^γ.
+  {u, v} whose shared value is unpinned. Then 𝔄 ~ L^γ. As drawn, e falls under case (i) of the printed split. The same
+  isolated pair arises from printed case-(ii) erasures, for example when two tame atoms are each joined to both u and
+  v.
 - **C0.** A similar chain isolates a degree-0 tame atom, so 𝔄 = 1, while TARGET's R = 1 bound requires L^{−η⁵}.
 
 The repair is cluster erasure at the end of the run (E16).
 
-**(b) TARGET L2193/L2197.** For R = 1 these lines set Z = 0 and call the imperfect components "odd". That
+**(b) TARGET L2195/L2197.** For R = 1, L2195 sets Z = 0 and L2197 calls the imperfect components "odd". That
 identification is false by TARGET's own text: L2189 says "exactly R if R=1", but L2218 says a case-(ii) removal
 "increases the number of imperfect components by 2". The Z = 0 failure is shown at graph level only. Harmless.
 
@@ -1291,7 +1329,9 @@ identification is false by TARGET's own text: L2189 says "exactly R if R=1", but
 
 ## E18 — TARGET L1918 (ii): "J̃_𝒬(t,s) equals 0 if t = L_r" fails for trivial couples and trees
 
-**Status:** CANDIDATE. **Class:** ERROR. **Main theorem:** none after the repair below, which is in Lean.
+**Status:** CONFIRMED (independently verified on 2026-11-10; [report EV-B](audits/errata/EV-B.md)). **Class:** MINOR (a reading slip harmless in
+context). **Main theorem:** none: the vanishing is used only for roots in layer ≥ L_{u4}+1 (L1922), and such objects
+are nontrivial type-2 objects, for which (ii) holds. The repair below is in Lean.
 - Found while formalizing Step 4 of `vineest`; the trivial-couple case is checked in Lean in a working note (not
   included).
 
@@ -1299,13 +1339,13 @@ identification is false by TARGET's own text: L2189 says "exactly R if R=1", but
 
 **Counterexample.** For the trivial couple the coherent approximant is the input itself: `RegCpl.app δ r F triv t s k
 = F(k)` for all t and s, so J̃ ≡ 1 on [q, q+1] and does not vanish at t = L_r. The trivial tree behaves the same way.
-The true kernel K*_triv = F(k)·1_{t>q} does vanish there. There are also two other configurations where the
-approximant is nonzero:
-- type 1 with q′ < q, where the approximant does not depend on t;
-- type 1 with q = q′ and s < q.
+The true kernel K*_triv = F(k)·1_{t>q} does vanish there. In the formalization, the approximant's values outside the
+domain 𝔅 of TARGET (type 1 with q′ < q off [q, q+1]; s < q′) also needed a convention; these are not failures of the
+printed claim.
 
-**Consequence.** The constant-in-t extension of the approximants, used for the case L_{u3} > L_{u4}, gives F where the
-true kernel gives 0.
+**Consequence.** For trivial objects the constant extension of L1918 is identically 1, not 0 below L_r. TARGET uses the
+vanishing only at L1922, for roots in layer ≥ L_{u4}+1, where trivial objects do not occur, so the argument is
+unaffected. The formal proof states the exact kernel for trivial objects (see the repair below).
 
 **Repair (used in Lean).**
 - For trivial 𝒬 and 𝒯, the exact kernel F·1_{t>q} replaces the approximant (no remainder arises).
@@ -1332,7 +1372,8 @@ number of operations.
 
 ## E20 — DH23 Prop 9.4 (L1777, L1791–L1795) and TARGET Operation 2 (L2142, L2165): triangles containing an already-cut atom ("ghost")
 
-**Status:** CANDIDATE. **Class:** GAP. **Main theorem:** repaired in Lean for all 0 < γ < 1.
+**Status:** CONFIRMED (independently verified on 2026-11-10; [report EV-A](audits/errata/EV-A.md)). **Class:** GAP. **Main theorem:** repaired in Lean
+for all 0 < γ < 1.
 - Found while formalizing the triangle step, and independently re-derived by a research check with a lattice count up
   to L ≤ 400: [`docs/research/ghost-triangle-notes.txt`](research/ghost-triangle-notes.txt).
 - The repair for γ ≤ 1/2: [`docs/research/gamma-le-half-ghost-step-notes.md`](research/gamma-le-half-ghost-step-notes.md),
@@ -1344,15 +1385,19 @@ number of operations.
 - DH23 L1777 cuts only triangle atoms of degree ≥ 3, so an already-cut degree-2 atom (a "ghost", for example the
   α-atom left at a joint of a vine removed in Step 1) is not cut again.
 - DH23's per-step proof (L1791–L1795) only covers triangles with no ghosts: there ΔF ∈ {0, 1, 2} and Δχ = ΔF − 3.
-- With an α-ghost, the per-step bound (excesseqn2), written with the true ΔF and ΔV_β, FAILS. In the explicit
+  DH23's own run contains ghost triangles: the proof of Prop 9.5 (L1813) relies on Step 2 removing "any triangle with
+  at least two SG atoms", whose atoms may already be α-atoms.
+- With an α-ghost, the per-step bound (excesseqn2), written with the true ΔF and ΔV_β, fails. In the explicit
   configuration v₁, v₂ have degree 4, v₃ is an α-ghost, and the outer bonds form private double bonds. The count then
-  exceeds the allowed bound by ≈ L^{γ₀}. This happens in every one of the 21 patterns that contain an α-ghost.
+  exceeds the allowed bound by ≈ L^{γ₀}. This happens in every one of the 21 patterns that contain an α-ghost. The
+  configuration satisfies the run's rules. Whether it arises from the stage-1 molecule of an actual garden has not
+  been settled (ghost-triangle note §1b); the printed proof gives no exclusion, and the repair does not depend on it.
 - (together2) drops the ghost's own label factor T_g ≤ 1, which was paid when the ghost was created and is never used
   again.
 
 **Under TARGET's cut-all reading.** The Remark at L2126 together with L2142 also cuts degree-2 atoms. Each step's
-bound then holds, but the invariant claimed at L2189 ("at most R imperfect components") fails. This part is an
-erratum (CANDIDATE).
+bound then holds, but the invariant claimed at L2189 ("at most R imperfect components") fails. This is the failure
+recorded as E6 (MINOR).
 
 **Repair for 1/2 < γ < 1 (used in Lean).**
 - Charge the ghost's label factor at the triangle step: 𝔇 ≤ C · excessRHS(true Δ's) · ∏_{α-ghosts} T(Q_g, κ_g)⁻¹.
@@ -1423,16 +1468,18 @@ property (N2) still holds.
 
 ---
 
-## E23 — TARGET L2122 ("essentially the same as in Sections 9–10 of [DH23]") and the proof of `propcplmol`: the stage-1 molecule can have atoms of degree 0, 1 or 2, and self-loops
+## E23 — TARGET L2117 ("essentially the same as in Sections 9–10 of [DH23]") and the proof of `propcplmol`: the stage-1 molecule can have atoms of degree 0, 1 or 2, and self-loops
 
-**Status:** CANDIDATE; no counterexample to (finalcount1) itself is known. **Class:** GAP. **Main theorem:** repaired
-in Lean (a low-degree extension of the cutting run).
+**Status:** CONFIRMED (independently verified on 2026-11-10; [report EV-A](audits/errata/EV-A.md)); no counterexample to (finalcount1) itself is
+known. **Class:** EXPOSITION: each ingredient of the repair is a routine extension, TARGET sketches most of them in
+passing, and the non-routine parts are E11, E17 and E28. **Main theorem:** repaired in Lean (a low-degree extension of
+the cutting run).
 - Found in the assembly of the final counting argument and settled by a research study of the counting geometry. The
   examples are Lean-checked in a working note (not included).
 - Evidence for the repair: [`docs/research/low-degree-cuts-handoff.md`](research/low-degree-cuts-handoff.md).
 
 **Location.**
-- TARGET L2122: "The proof is essentially the same as in Sections 9–10 of [DH23], with only minor differences due to
+- TARGET L2117: "The proof is essentially the same as in Sections 9–10 of [DH23], with only minor differences due to
   the fact that here we are dealing with general gardens instead of couples."
 - The proof of Prop `propcplmol` (L1306) adds that "some discussion is needed when some trees of 𝒢 is trivial".
 
@@ -1440,6 +1487,8 @@ in Lean (a low-degree extension of the cutting run).
 - DH23 Props 9.4–9.6 assume every atom has degree 3 or 4 and that there are no self-loops (Remark `moleremark`, DH23
   L682).
 - DH23 §10.5(2) removes only a degenerate degree-2 atom, and that for couples.
+- DH23 §10.5(2) (L1983) defers self-connecting bonds to its treatment of degenerate atoms (§10.5(4), L1987), in the
+  couple setting. In TARGET such loop atoms are tame and fall under `remtame` (see E11, E17).
 
 **Where M_sb violates this.** In a plain garden every branching node v has four legs, and
 deg v = 4 − f(v), with f(v) = [v is a root] + #{children of v that are leaves paired with the root of a trivial tree}.
@@ -1462,8 +1511,9 @@ below are prime, irreducible, plain and balanced, and satisfy the full counting 
 - (finalcount1) holds, since the ε-support forces the loop momentum, giving 𝔄 ≤ L^{−(d−γ)}·C₁⁻¹δ^{1/2}.
 
 **Example C, a non-cut degree-2 atom with a gap pair.**
-- A root whose left and right children are leaves paired with two trivial roots gives an atom of degree 2 with two
-  bonds of opposite direction.
+- A root exactly one of whose outer children (of the root's sign) is a leaf paired with a trivial root has degree 2,
+  with two bonds of opposite direction (to its middle child and its other outer child). (A root with two such children
+  has degree 1: the degree-1 case.)
 - Its fixed offset is c_v = k_j − k_{j′}, a difference of two root momenta, so whether it is ZG, SG or LG depends only
   on the roots.
 - Its two neighbours share a double bond, so it is not a cut atom.
@@ -1493,10 +1543,11 @@ below are prime, irreducible, plain and balanced, and satisfy the full counting 
 
 ---
 
-## E24 — TARGET §redcount0, L2065 and L2067: moving the weights and the k-derivatives onto individual leaves breaks the twist-class cancellation of `vineest`
+## E24 — TARGET §redcount0, L2065 and L2067: moving the k-derivatives onto individual leaves breaks the twist-class cancellation of `vineest`, and the weight inequality is not an identity
 
-**Status:** CANDIDATE (the diagnosis was confirmed by an independent referee). **Class:** GAP. **Main theorem:**
-repaired; the key extraction identity is in Lean.
+**Status:** CONFIRMED (the diagnosis was confirmed by an independent referee, and independently verified on
+2026-11-10, [report EV-B](audits/errata/EV-B.md)). **Class:** GAP (borderline EXPOSITION). **Main theorem:** repaired; the key extraction identity is in
+Lean.
 - Found independently in three parts of the formalization (the Stage 1 reduction, the leaf map of LF twists, and
   `vineest`). Diagnosed in [`docs/research/twist-profiles-notes.md`](research/twist-profiles-notes.md); referee report
   [`docs/research/twist-profiles-referee.md`](research/twist-profiles-referee.md).
@@ -1510,9 +1561,10 @@ repaired; the key extraction identity is in Lean.
 **The gap.**
 - **(i) The weights.** The leaf 𝔩_j depends on the decoration, so L2065 is a pointwise inequality inside oscillatory
   sums: the decoration sum and the twist-class sum of `vineest`. It is not a change of input function. Any rigorous
-  replacement is a decoration-independent identity, such as a polynomial expansion of ⟨k_j⟩^{4Λ} over leaves or a
-  Leibniz distribution of ∂_k over leaves. Those produce terms whose modified leaf lies inside the regular tree T_(u₂)
-  or the regular couple Q_(u₂₃,u₀) of a vine.
+  replacement is a decoration-independent identity. For the derivatives (L2067), the Leibniz distribution of ∂_k over
+  leaves produces terms whose modified leaf lies inside the regular tree T_(u₂) or the regular couple Q_(u₂₃,u₀) of a
+  vine. For the weights (L2065), the defect is only that the inequality is not an identity: an expansion of
+  ⟨k_j⟩^{4Λ} over the leaves of T_j paired outside T_j avoids every vine interior (repair (b) below).
 - **(ii) Why such terms break the cancellation.**
   - Under a layered full twist (Def `lftwist`, L1466–L1480), T_(u₂) and Q_(u₂₃,u₀) are replaced by free coherent
     objects T′ and Q′. These are constrained only by (q, q′), their total order and their number of layer-p nodes, so
@@ -1520,7 +1572,8 @@ repaired; the key extraction identity is in Lean.
   - A term with a modified leaf inside them therefore has no counterpart in the twisted garden.
   - Prop `vineest` is a sum over the LF-twist class with IDENTICAL inputs, and it uses the realness (layerregest10) of
     a common real input. It cannot be applied term by term.
-- **(iii) Supporting facts.**
+- **(iii) Supporting facts** (evidence from the formalization: Lean checks, and the layer-uniform form of the vine
+  estimate adopted for the formal proof; not needed to establish the gap in the printed text).
   - The leaf correspondence of an LF twist exists only on ordinary leaves (checked in Lean).
   - The realness statement holds only for symmetric (common) profile assignments.
   - With layer-dependent bounds, the region leaf-cost product is not twist-invariant.
@@ -1601,11 +1654,14 @@ The implication `vineEstCanonLayerHalf_of_C2` is proved; it does not by itself d
 
 ## E26 — TARGET (redvine), L1954–L1957: lower-child slots retain an integrated lower-joint clock, so the printed factorization is false as an identity
 
-**Status:** CANDIDATE. The mismatch was re-derived independently by the integrated flower supplement (§12.3) and by the
-U-clock resolution (§0); an independent refute-first referee of that resolution is pending, so the status is not
-upgraded. **Class:** ERROR (in an intermediate identity; the estimate (redvine2) that it is used to prove survives).
-**Main theorem:** repaired. The unweighted case is proved in Lean (the sealed `layergarden_v2`); the weighted flower
-case is proved on paper, referee pending.
+**Status:** CONFIRMED (independently verified on 2026-11-10, [report EV-B](audits/errata/EV-B.md); the mismatch had been re-derived independently by
+the integrated flower supplement (§12.3) and by the U-clock resolution (§0)). **Class:** ERROR (in an intermediate
+identity; the estimate (redvine2) that it is used to prove survives). **Main theorem:** repaired in Lean. The
+unweighted case is in the proof of the sealed `layergarden_v2`. The weighted flower case is covered by the Lean proof
+of the flower estimate (`layergardenFlower_v3`, `layergardenFlower_v4`, sealed and audited): it is kernel-checked,
+so it does not rest on the false identity, and it carries a weighted, modulated vine estimate (for example in
+`WaveTurbulence/Foundations/Flower/V5WT/`). The written weighted repair (Theorem U-clock) has not had an independent
+referee.
 - Found while formalizing the Stage 1 splicing identity.
 - Evidence: [`docs/research/redvine-lower-clock-handoff.md`](research/redvine-lower-clock-handoff.md);
   [`docs/research/flowerest1/uclock-RESOLUTION.md`](research/flowerest1/uclock-RESOLUTION.md) (the weighted repair,
@@ -1621,6 +1677,10 @@ the outer tree/couple slots on L1956.
 > variables as fixed. (L1737)
 
 > ∏_{𝔪∈𝒩_sb} 𝒦*_{𝒯_(𝔪)}(t_{𝔪^pr}, t_𝔪, k_𝔪) (L1956)
+
+**When it fails.** (redvine) fails as an identity whenever the slot at a lower external child of a spliced unit
+depends on its first clock on the range between t_{u2} and t_{u1}; for example, a nontrivial regular tree or couple
+there with a node in the layer of the lower joint.
 
 **Configuration (p = 0).** Take an eligible non-root (CL) unit U with upper joint a = u₁ and lower joint b = u₂. All
 nodes have layer 0 and clocks in (0,1). Let the lower external child c = u₂₁ be a branch, and reconstruct there a
@@ -1661,7 +1721,8 @@ is not a coordinate of the spliced garden.
   replacement with frontier cutoffs, stem filters, the retained marked vines and the pinned lower slots (the cap couple
   of an original tree and two derivative-pattern cases). The explicit boundary phases of the pinned slots depend only on
   the fixed flower time s, not on τ_b, so the slots keep a positive time weight and no new power of L appears
-  (resolution §6.3–§6.4, §15). An independent referee of this resolution is pending.
+  (resolution §6.3–§6.4, §15). An independent referee of this resolution is pending; the flower estimate itself is
+  proved in Lean (see the status above).
 
 ---
 
@@ -2257,13 +2318,15 @@ The weighted vine class bound that would consume it was only scoped.
 
 ## E39 — TARGET L2299: "otherwise these cutoffs play no role": the upper M₂ cutoffs can sit inside coherent regular trees on the stem
 
-**Status:** CANDIDATE (upgraded from SUSPECTED; held at CANDIDATE because the gap claim rests on a single
-independent assessment, not a refute-first referee check of this specific claim). The independent assessment
+**Status:** CONFIRMED (independently verified on 2026-11-10 by a refute-first verifier; [report EV-C](audits/errata/EV-C.md)). The independent
+assessment
 ([`docs/research/astra-flowerest1-report.md`](research/astra-flowerest1-report.md), §2 (6), §3.5 and §3.6) finds that
 the upper cutoffs left at the unselected stem nodes "cannot be deleted inside an oscillatory decoration sum merely
 because their absolute values are at most one" and that inside regular stem chains they need a spectral argument.
-**Class:** GAP. **Main theorem:** repaired on paper: Theorem 8.2′ of the o82 resolution, refereed (REFEREE-82: no FAIL;
-Theorem 8.2′ PASS; its sufficiency PASS after a scope fix).
+**Class:** EXPOSITION: the omitted step is real, but an expert in the DH21/DH23 machinery fills it routinely (the
+verification report gives a short fill). **Main theorem:** repaired in Lean (`layergardenFlower_v3`,
+`layergardenFlower_v4`) and on paper: Theorem 8.2′ of the o82 resolution, refereed (REFEREE-82: no FAIL; Theorem 8.2′
+PASS; its sufficiency PASS after a scope fix).
 - Found by research and supported by the Lean analysis.
 - Repair: [`docs/research/flowerest1/o82-RESOLUTION.md`](research/flowerest1/o82-RESOLUTION.md) (§§10–11, 15, 18–19);
   referee report [`docs/research/flowerest1/REFEREE-82.md`](research/flowerest1/REFEREE-82.md).
@@ -2300,11 +2363,12 @@ whole, at a cost L^{(47d+5)} per such incidence, with M₂^{−1/18} per selecte
 
 **Fairness.** DH21 faces the same partition in its short-time setting (DH21 L2735). It treats the marked stem node when
 it lies inside a regular couple or tree (case (a), DH21 L2703), and, like TARGET, it does not discuss the upper cutoffs
-left at the other stem nodes. So this point is shared with DH21's argument.
+left at the other stem nodes. So this point is shared with DH21's argument. DH21 Cor 11.3 likewise asserts its gain
+with "one (or more)" cutoffs inserted (DH21 L2699) and does not discuss their effect elsewhere.
 
-**State of our Lean attempt.** A weighted coherent approximation was proved in a scratch build; it failed its first
-independent review and passed a second after repair, in a build that had not passed our consistent-rebuild check. It is
-not on main.
+**In Lean.** The frozen statement of `layergardenFlower_v3` and `layergardenFlower_v4` contains the product-form M₂
+cutoffs (`cutWeight2P`, `prodDyadicCut`) on full gardens, so the upper filters at every stem node are inside a proved
+Lean statement (both sealed and independently audited).
 
 ---
 
@@ -2492,15 +2556,17 @@ a constant 𝔟(ψ), independent of L and δ, with no loss of incoherency gains 
 
 ---
 
-## E45 — TARGET L2327–L2331 (proof of `fixedpoint`): the dagger and derivative variants of the flower estimate are not covered by "the same way"
+## E45 — TARGET L2327–L2331 (proof of `fixedpoint`): the derivative variants (with the † kernel) inherit E30 and E31, put a pin at the flower's grandparent, which L2297 does not protect, and create coincident pins at time s
 
-**Status:** CANDIDATE. Found by the independent referee of the supplement
+**Status:** CONFIRMED (independently verified on 2026-11-10; [report EV-C](audits/errata/EV-C.md)). Found by the independent referee of the supplement
 ([`docs/research/flowerest1/REFEREE.md`](research/flowerest1/REFEREE.md), §4.2, item M4); the face estimates the repair
 uses passed the referee of the o73 resolution
 ([`docs/research/flowerest1/REFEREE-73.md`](research/flowerest1/REFEREE-73.md), rows 7–9: PASS AFTER FIX), but no
-referee has given a verdict on the assembling theorem (o104 Theorem 10.4) or on its revision. **Class:** GAP: it
-inherits E30 and E31, and adds a pinned node that L2297 does not protect. **Main theorem:** repaired on paper (o104
-Theorem 10.4), partly refereed.
+referee has given a verdict on the assembling theorem (o104 Theorem 10.4) or on its revision. **Class:** GAP (through
+E30, E31): the points E45 adds (protecting the grandparent, and treating the coincident pins and the pinned child face)
+are routine once E30 and E31 are repaired. **Main theorem:** repaired in Lean (clauses of `layergardenFlower_v3` and
+`layergardenFlower_v4`: the frozen statement contains the patterns `dRoot`, `dParent`, `dChild` and the † option, and
+it is proved) and on paper (o104 Theorem 10.4).
 - Repair: [`docs/research/flowerest1/o104-RESOLUTION.md`](research/flowerest1/o104-RESOLUTION.md) (Theorem 10.4,
   Lemmas 3.1–3.3, 6.1–6.3, Props 7.2–7.4).
 
@@ -2518,9 +2584,12 @@ Theorem 10.4), partly refereed.
   grandparent, which is not among L2297's special nodes; so the paper's protection of the truncation data against LF
   twists does not cover it.
 - **Coincident pins.** The new pin and the flower-parent pin both sit at time s. This creates a lower face at the
-  grandparent and an off-stem pinned child face, which neither adjustment (2) nor adjustment (6) treats, and both
-  inherit E30's problem with the time trace.
+  grandparent and an off-stem pinned child face, which adjustment (2) does not treat; the derivative terms do not need
+  the M₂ gain of (6) (L2331). Both inherit E30's problem with the time trace.
 - (A harmless overcount: only branching children in layer p contribute to "non-flower child".)
+
+**Fairness.** DH21 treats its time-derivative terms in one sentence each (DH21 L2716, L2733); TARGET L2331 follows that
+practice.
 
 **Repair (on paper).** Theorem 10.4 of the o104 resolution: each derivative pattern adds exactly one time pin per tree;
 the root pin is the top face of the exact time-integration identity (supplement Lemma 9.1), the grandparent pin a lower

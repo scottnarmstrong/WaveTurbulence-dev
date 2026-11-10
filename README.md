@@ -27,7 +27,8 @@ together with the results it relies on from the authors' earlier papers and from
   is in Lean.
 - 📄 **Errata and deviations.** Formalizing a long proof surfaces mistakes and gaps. Every defect we found in the
   published arguments, and every way our formal statements differ from the printed ones, is recorded with evidence
-  and a repair. **→ [docs/ERRATA-AND-DEVIATIONS.md](docs/ERRATA-AND-DEVIATIONS.md)**
+  and a repair. Every claimed error or gap has been confirmed by an independent, refute-first check
+  ([records](docs/audits/errata/README.md)). **→ [docs/ERRATA-AND-DEVIATIONS.md](docs/ERRATA-AND-DEVIATIONS.md)**
 
 ## What the theorem says, in brief
 
@@ -206,6 +207,7 @@ SEALED: 26 theorems + 300 definitions. Full range: main, propansatz, fixedpoint,
   range 0 < γ < 1 and its chain.
 - [docs/audits/v2-chain/](docs/audits/v2-chain/README.md): the two-key seal audits of Theorem 1.1 for 1/2 < γ < 1 and
   its chain.
+- [docs/audits/errata/](docs/audits/errata/README.md): the independent verification of the errata (2026-11-10).
 - [docs/research/](docs/research/INDEX.md): research notes, referee reports and scripts behind the errata.
 - [docs/DECISIONS.md](docs/DECISIONS.md): the author's decisions (scope, statement versions, approvals).
 - [docs/review/](docs/review/README.md): the approval pages behind these decisions (dated records).
