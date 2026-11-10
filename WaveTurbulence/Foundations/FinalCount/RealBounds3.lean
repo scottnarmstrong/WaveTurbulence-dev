@@ -53,7 +53,7 @@ theorem alphaDev_kappa50 (d : ℕ) {L γ η δ C₁ R : ℝ} (hd : 3 ≤ d) (hη
   · -- case A
     have h3 : (2 * ρ * L + 1) ^ d ≤ 3 ^ d * (ρ ^ d * L ^ d) := by
       rw [← mul_pow, ← mul_pow]
-      exact pow_le_pow_left₀ (by positivity) (by nlinarith) d
+      exact pow_le_pow_left₀ (by positivity) (by linarith) d
     have hρd : ρ ^ d ≤ L ^ (-150 * η) * R ^ d := by
       rw [hρdef, mul_pow]
       have h1 : (L ^ (-50 * η)) ^ d ≤ (L ^ (-50 * η)) ^ 3 :=
@@ -120,7 +120,7 @@ theorem alphaDev_kappa50 (d : ℕ) {L γ η δ C₁ R : ℝ} (hd : 3 ≤ d) (hη
       _ = _ := by ring
   · -- case B
     push Not at hρL
-    have h3 : (2 * ρ * L + 1) ^ d ≤ 3 ^ d := pow_le_pow_left₀ (by positivity) (by nlinarith) d
+    have h3 : (2 * ρ * L + 1) ^ d ≤ 3 ^ d := pow_le_pow_left₀ (by positivity) (by linarith) d
     have hRL : 1 ≤ R * L := by
       have := mul_le_mul_of_nonneg_right hRl hL0.le
       rwa [inv_mul_cancel₀ hL0.ne'] at this

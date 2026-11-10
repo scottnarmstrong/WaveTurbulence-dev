@@ -47,14 +47,14 @@ theorem cluster_exponents_s {d : ℕ} (hd : 3 ≤ d) {γ η C₀ : ℝ} (hγ0 : 
   have hηe : η * e ≤ η * (4 * m) := mul_le_mul_of_nonneg_left heR hη.le
   have hA : eraseA γ η = 2 * gam0 γ + 5 * η ^ 2 := rfl
   have hAle : eraseA γ η ≤ 2 * (1 - γ) + 5 * η ^ 2 := by rw [hA]; linarith
-  have hu : 0 ≤ ((d : ℝ) - γ) - eraseA γ η := by rw [hA]; nlinarith
+  have hu : 0 ≤ ((d : ℝ) - γ) - eraseA γ η := by rw [hA]; linarith
   have hcoef : 0 ≤ 2 * gam0 γ - 9 * η := by linarith
   refine ⟨fun hj => ?_, fun hj => ?_⟩
   · have hjR : (0 : ℝ) ≤ j := by exact_mod_cast hj
     have h1 : 0 ≤ (((d : ℝ) - γ) - eraseA γ η) * j := mul_nonneg hu hjR
     have h2 : 0 ≤ (7 / 4 * gam0 γ - 9 * η) * ((m : ℝ) - 1) := mul_nonneg (by linarith) (by linarith)
     have h3 : 3 * η + η ^ 3 ≤ 7 / 4 * gam0 γ - 9 * η := by linarith
-    have h4 : 2 * gam0 γ * (m : ℝ) ≤ eraseA γ η * m := mul_le_mul_of_nonneg_right (by rw [hA]; nlinarith [sq_nonneg η]) (by linarith)
+    have h4 : 2 * gam0 γ * (m : ℝ) ≤ eraseA γ η * m := mul_le_mul_of_nonneg_right (by rw [hA]; linarith [sq_nonneg η]) (by linarith)
     rw [hA] at h1 ⊢
     nlinarith
   · have hjR : ((m : ℝ) + 1) ≤ j := by exact_mod_cast hj
@@ -63,7 +63,7 @@ theorem cluster_exponents_s {d : ℕ} (hd : 3 ≤ d) {γ η C₀ : ℝ} (hγ0 : 
     have hh : gam0 γ ≤ 1 / 2 := by linarith
     have h3 : 3 * η + η ^ 3 ≤ 1 / 10 := by linarith
     rw [hA] at h1 hAle ⊢
-    nlinarith
+    linarith
 
 theorem cluster_table_s {d : ℕ} (hd : 3 ≤ d) {γ η C₀ : ℝ} (hγ0 : 0 < γ) (hγ1 : γ < 1) (hη : 0 < η)
     (hη1 : η ≤ gam0 γ / 1000) (hC0 : 0 ≤ C₀) (hC0η : C₀ * η ^ 4 ≤ 1) (c₀ : ℕ) :

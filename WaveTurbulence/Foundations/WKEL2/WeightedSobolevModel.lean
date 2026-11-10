@@ -72,14 +72,14 @@ theorem denseRange_schwartzToWeightedSobolevCLM (s : ℝ) (m : ℕ) :
     DenseRange (schwartzToWeightedSobolevCLM (d := d) s m) := by
   have H := (denseRange_weightedJetCoreInclusion (d := d) s m).comp
     (weightedJetCoreEquiv (d := d) s m).surjective.denseRange
-    (weightedJetCoreInclusion s m).continuous
+    (weightedJetCoreInclusion (d := d) s m).continuous
   exact H
 
 /-- The completed jet still has exactly its original finite supremum norm. -/
 theorem norm_schwartzToWeightedSobolevCLM (s : ℝ) (m : ℕ) (f : 𝓢(Mom d, ℝ)) :
     ‖schwartzToWeightedSobolevCLM s m f‖ = ‖weightedJetCLM s m f‖ := by
-  change ‖weightedJetCoreInclusion s m (weightedJetCoreCLM s m f)‖ = _
-  rw [(weightedJetCoreInclusion s m).norm_map]
+  change ‖weightedJetCoreInclusion (d := d) s m (weightedJetCoreCLM (d := d) s m f)‖ = _
+  rw [(weightedJetCoreInclusion (d := d) s m).norm_map]
   rfl
 
 /-- Recover the unique Schwartz representative of a core jet. -/

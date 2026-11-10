@@ -124,7 +124,7 @@ theorem case_two (d : ℕ) (hd : 3 ≤ d) (γ : ℝ) (hγ : γ ∈ Set.Ioo (1 / 
         (((M.atoms.filter fun a => M.deg a ≠ 4).card : ℝ) + 1)) + (1 - η ^ 3) * ((1 - γ) + η ^ 2 / 8) ≤ e := by
     rw [he_def, card_deg_ne_four_even hS hnodd, card_nonEps, hγ0, if_neg hnodd]
     push_cast
-    nlinarith [hkey]
+    linarith [hkey]
   have hend := endgame hL1 le_rfl hA1 hA2' hθ0 hθ1 he
   exact hend.trans (ENNReal.ofReal_le_ofReal (by rw [one_mul]; exact hfin'))
 
@@ -219,7 +219,7 @@ theorem case_three (d : ℕ) (hd : 3 ≤ d) (γ : ℝ) (hγ : γ ∈ Set.Ioo (1 
         ≤ ((3 ^ d * (2 * (d : ℝ) * δ⁻¹ + 1)) * g) * Real.log L ^ (8 : ℝ) :=
           mul_le_mul_of_nonneg_right hsum hlog0
       _ ≤ ((2 * (3 ^ d * (2 * (d : ℝ) * δ⁻¹ + 1))) * Real.log L ^ (8 : ℝ)) * g := by
-          nlinarith [mul_nonneg (mul_nonneg hCnn hg0) hlog0]
+          linarith [mul_nonneg (mul_nonneg hCnn hg0) hlog0]
       _ ≤ L ^ (η ^ 2 / 8) * g := mul_le_mul_of_nonneg_right (hR3 L hLR3) hg0
       _ = f * L ^ (-(γ - 3 * η) / 2 + η ^ 2 / 8) := by
           rw [hg, Real.rpow_add hLp]; ring

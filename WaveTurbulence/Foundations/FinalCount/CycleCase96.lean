@@ -64,16 +64,21 @@ theorem rest_ge_real {γ η Va Vb ρ0 : ℝ} (hγ1 : 1 / 2 < γ) (hγ2 : γ < 1)
     (2 * γ - 1) / 2 - (γ - 3 * η) / 2 ≤
       (Va - 1) * ((γ - 5 * η) / 2) + ((1 - γ + 2 * η ^ 2) * Vb - (2 * (1 - γ) + 5 * η ^ 2) * 1) +
         (-(η ^ 5) * ρ0) := by
-  have hη3 : η ≤ 1 / 100 := by linarith
-  have hη2' : η ^ 2 ≤ η / 100 := by nlinarith
+  have hη3 : η ≤ 1 / 100 := by linarith only [hη1, hγ1]
+  have hη2' : η ^ 2 ≤ η / 100 := by
+    calc η ^ 2 = η * η := sq η
+      _ ≤ η * (1 / 100) := mul_le_mul_of_nonneg_left hη3 hη.le
+      _ = η / 100 := by ring
   have hη5 : η ^ 5 ≤ η ^ 2 / 10 := by
-    have h1 : η ^ 3 ≤ 1 / 10 := by nlinarith [pow_pos hη 2]
-    nlinarith [pow_pos hη 2]
+    have h1 : η ^ 3 ≤ 1 / 10 := (pow_le_of_le_one hη.le (by linarith) (by norm_num)).trans (by linarith)
+    calc η ^ 5 = η ^ 2 * η ^ 3 := by ring
+      _ ≤ η ^ 2 * (1 / 10) := mul_le_mul_of_nonneg_left h1 (by positivity)
+      _ = η ^ 2 / 10 := by ring
   have h5 : η ^ 5 * ρ0 ≤ η ^ 5 * (Va + Vb) := mul_le_mul_of_nonneg_left hρ (by positivity)
   set m : ℝ := (1 - γ) / 2 + 3 * η / 2 + 3 * η ^ 2 + 2 * η ^ 5 with hm
   have hm0 : 0 ≤ m := by positivity
-  have hc1 : m ≤ (γ - 5 * η) / 2 - η ^ 5 := by nlinarith [pow_pos hη 2, pow_pos hη 5]
-  have hc2 : m ≤ 1 - γ + 2 * η ^ 2 - η ^ 5 := by nlinarith [pow_pos hη 2, pow_pos hη 5]
+  have hc1 : m ≤ (γ - 5 * η) / 2 - η ^ 5 := by linarith [pow_pos hη 2, pow_pos hη 5]
+  have hc2 : m ≤ 1 - γ + 2 * η ^ 2 - η ^ 5 := by linarith [pow_pos hη 2, pow_pos hη 5]
   have hu : 0 ≤ Va - 1 := by linarith
   have hw : 0 ≤ Vb - 1 := by linarith
   nlinarith [mul_nonneg hu (sub_nonneg.mpr hc1), mul_nonneg hw (sub_nonneg.mpr hc2),
@@ -161,7 +166,11 @@ theorem cycle_double {d : ℕ} (hd : 3 ≤ d) {L γ η δ C1 : ℝ} (hγ : γ �
     have := rho_le_card_of_deg_le_two M (fun a ha => (hdeg a ha).le)
     rw [hcard] at this; exact_mod_cast this
   have hη5 : η ^ 5 ≤ η ^ 2 := pow_le_pow_of_le_one hη.le (by linarith) (by norm_num)
-  have hη2 : η ^ 2 ≤ η / 10 := by nlinarith
+  have hη2 : η ^ 2 ≤ η / 10 := by
+    have hη10 : η ≤ 1 / 10 := by have := min_le_right γ (1 - γ); linarith [hγ.1]
+    calc η ^ 2 = η * η := sq η
+      _ ≤ η * (1 / 10) := mul_le_mul_of_nonneg_left hη10 hη.le
+      _ = η / 10 := by ring
   nlinarith [mul_le_mul_of_nonneg_left hρ0 (by positivity : (0:ℝ) ≤ η ^ 5)]
 
 
@@ -232,8 +241,10 @@ theorem cycle_noalpha {d : ℕ} (hd : 3 ≤ d) {L γ η δ C1 : ℝ} (hγ : γ �
   have hη5 : η ^ 5 ≤ η ^ 2 / 10 := by
     have h1 : η ^ 3 ≤ 1 / 10 := by
       have : η ≤ 1 / 100 := by linarith [hγ.1, hγ.2, hηs]
-      nlinarith [pow_pos hη 2]
-    nlinarith [pow_pos hη 2]
+      exact (pow_le_of_le_one hη.le (by linarith) (by norm_num)).trans (by linarith)
+    calc η ^ 5 = η ^ 2 * η ^ 3 := by ring
+      _ ≤ η ^ 2 * (1 / 10) := mul_le_mul_of_nonneg_left h1 (by positivity)
+      _ = η ^ 2 / 10 := by ring
   rw [hγ0]
   nlinarith [mul_le_mul_of_nonneg_left hρ0 (by positivity : (0:ℝ) ≤ η ^ 5), pow_pos hη 2]
 
@@ -309,7 +320,7 @@ theorem cycle_alpha {d : ℕ} (hd : 3 ≤ d) {L γ η δ C1 : ℝ} (hγ : γ ∈
         _ = T := by rw [hT, Real.rpow_add hLp]; ring
     have : (R0 / 2)⁻¹ = 2 * R0⁻¹ := by rw [inv_div]; field_simp
     rw [this]
-    nlinarith [h1, h2]
+    linarith only [h1, h2]
   have hterm2 : 3 ^ d * L ^ (γ - 1) ≤ T / 2 := by
     have h1 : 2 * 3 ^ d * L ^ (γ - 1) ≤ L ^ (1 / 2 - η) * L ^ (γ - 1) :=
       mul_le_mul_of_nonneg_right hK2 (Real.rpow_nonneg hLp.le _)

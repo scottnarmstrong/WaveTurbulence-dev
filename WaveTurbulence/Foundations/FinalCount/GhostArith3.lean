@@ -97,7 +97,7 @@ theorem arith_B2_beta (d : ℕ) {L γ η δ C₁ na R ρ : ℝ} (c κ : ℕ) (hd
     push_cast
     have : η ^ 2 ≤ η := by nlinarith
     have : η ^ 3 ≤ η := by nlinarith [sq_nonneg η, pow_pos hη 3]
-    nlinarith
+    linarith
   have hLm : 0 ≤ L ^ (min γ (1 - γ)) * L ^ (-(3 * γ / 2 - η / 2)) := by positivity
   calc 3 * 5 ^ d * 5 ^ d * Real.log L ^ (c + 12) * (L ^ (min γ (1 - γ)) * L ^ (-(3 * γ / 2 - η / 2))) *
         (L ^ ((γ + 3 * η) / 2 - (κ : ℝ) * η) * R)
@@ -154,7 +154,7 @@ theorem arith_B2_alpha (d : ℕ) {L γ η δ C₁ na R ρ Qg : ℝ} (c κ κg : 
             push_cast
             have : η ^ 2 ≤ η := by nlinarith
             have : η ^ 3 ≤ η := by nlinarith [sq_nonneg η, pow_pos hη 3]
-            nlinarith
+            linarith
     calc _ = (L ^ (η ^ 2) * (L ^ (min γ (1 - γ)) * L ^ (-(3 * γ / 2 - η / 2)))) *
             (L ^ ((γ + 3 * η) / 2 - (κg : ℝ) * η) * Qg) *
             (L ^ ((γ + 3 * η) / 2 - (κ : ℝ) * η) * R) := by ring

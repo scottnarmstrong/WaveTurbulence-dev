@@ -105,6 +105,9 @@ theorem seven_label_deletion_count_bound (d : ℕ) (hd : 3 ≤ d) (γ : ℝ)
       · intro second
         have hm := virtual_cut_shared_integer_eq M hLp.ne' ha hxy hxz hyz hxr hxs hrs hA U hU hcut hκA.1 hκ0.1 second
         have he := virtual_cut_shared_energy M L γ δ hτ ha hxy hxz hyz hxr hxs hrs hA U hU hcut hκA.1 hκA.2.1 second
+        have h7 : sevenFirstFive (actualSevenProfile x y z r s t u κ) = doubleFiveProfile x y z r s κ := by
+          funext i; fin_cases i <;> rfl
+        rw [h7]
         constructor
         · cases second <;> exact hm
         · exact he

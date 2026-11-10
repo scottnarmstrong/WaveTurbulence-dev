@@ -67,18 +67,18 @@ theorem sum_big_le (n : ℕ) :
     have h1 := card_ysF_le (by omega) hLp hτ.le b α hX0
     have h2 := card_zsF_le (by omega) hLp hτ.le c nv β hXv
     have hq1 : 2 * τ * L ^ 2 / supNat X ≤ 2 := by
-      rw [div_le_iff₀ (by linarith)]; nlinarith [hX'.1]
+      rw [div_le_iff₀ (by linarith)]; linarith [hX'.1]
     have hq2 : 2 * τ * L ^ 2 / supNat (X - nv) ≤ 2 := by
-      rw [div_le_iff₀ (by linarith)]; nlinarith [hX'.2]
+      rw [div_le_iff₀ (by linarith)]; linarith [hX'.2]
     simp only [show n + 3 - 1 = n + 2 by omega] at h1 h2
     have hP : 0 ≤ (2 * L + 1) ^ (n + 2) := by positivity
     constructor
     · refine h1.trans ?_
       simp only [M']
-      nlinarith [mul_le_mul_of_nonneg_left hq1 hP]
+      linarith [mul_le_mul_of_nonneg_left hq1 hP]
     · refine h2.trans ?_
       simp only [M']
-      nlinarith [mul_le_mul_of_nonneg_left hq2 hP]
+      linarith [mul_le_mul_of_nonneg_left hq2 hP]
   have hMnat : ∀ X ∈ B, (ysF L b α τ X).card ≤ M := fun X hX =>
     Nat.le_floor (by exact_mod_cast (hbig X hX).1)
   -- pointwise splitting
@@ -94,12 +94,12 @@ theorem sum_big_le (n : ℕ) :
     have t3 : (0 : ℝ) ≤ (if (k₀ : ℝ) ≤ Ny X then M' * Ny X else 0) := by split_ifs <;> positivity
     by_cases h1 : Ny X < k₀
     · rw [ite_eq_left h1]
-      nlinarith [mul_le_mul_of_nonneg_right h1.le hNz]
+      linarith [mul_le_mul_of_nonneg_right h1.le hNz]
     · by_cases h2 : Nz X < k₀
       · rw [ite_eq_left h2]
-        nlinarith [mul_le_mul_of_nonneg_left h2.le hNy]
+        linarith [mul_le_mul_of_nonneg_left h2.le hNy]
       · rw [ite_eq_left (le_of_not_gt h1)]
-        nlinarith [mul_le_mul_of_nonneg_left (hbig X hX).2 hNy]
+        linarith [mul_le_mul_of_nonneg_left (hbig X hX).2 hNy]
   refine (Finset.sum_le_sum hpt).trans ?_
   rw [Finset.sum_add_distrib, Finset.sum_add_distrib]
   have hBA : B ⊆ A := Finset.filter_subset _ _
@@ -125,7 +125,7 @@ theorem sum_big_le (n : ℕ) :
       2 * k₀ * max Cy Cz * τ * L ^ (2 * ((n + 3 : ℕ) : ℝ)) := by
     have hk0 : (0 : ℝ) ≤ k₀ := by positivity
     have hX : 0 ≤ τ * L ^ (2 * ((n + 3 : ℕ) : ℝ)) := by positivity
-    nlinarith [mul_le_mul_of_nonneg_left (le_max_left Cy Cz) (mul_nonneg hk0 hX),
+    linarith [mul_le_mul_of_nonneg_left (le_max_left Cy Cz) (mul_nonneg hk0 hX),
       mul_le_mul_of_nonneg_left (le_max_right Cy Cz) (mul_nonneg hk0 hX)]
   linarith
 

@@ -45,8 +45,9 @@ theorem arith_ba (d : ℕ) {L γ η δ C₁ na R ρ : ℝ} (c κ : ℕ) (hd : 3 
     rw [← Real.rpow_add hL0, ← Real.rpow_add hL0]
     apply Real.rpow_le_rpow_of_exponent_le hL1
     have h1 : min γ (1 - γ) ≤ γ := min_le_left _ _
-    have : η ^ 3 ≤ η := by nlinarith [sq_nonneg η, pow_pos hη 3]
-    nlinarith
+    have hηle : η ≤ 1 := by linarith only [hη1, hγ1]
+    have : η ^ 3 ≤ η := pow_le_of_le_one hη.le hηle (by norm_num)
+    linarith
   calc F * B * ((L ^ (-((d : ℝ) - γ))) ^ 2 * qq δ C₁ ^ 2) * P ^ 12
       = (F * L ^ (-((d : ℝ) - γ)) * qq δ C₁) * (B * L ^ (-((d : ℝ) - γ))) * qq δ C₁ * P ^ 12 := by ring
     _ ≤ (3 * 5 ^ d * (δ⁻¹ * qq δ C₁) * P ^ c * L ^ (min γ (1 - γ))) *
@@ -62,7 +63,7 @@ theorem arith_ba (d : ℕ) {L γ η δ C₁ na R ρ : ℝ} (c κ : ℕ) (hd : 3 
         have h2 := mul_le_mul h1 hlog (by positivity) (by positivity)
         have h3 := mul_le_mul_of_nonneg_right h2 hLm
         have h4 := mul_le_mul_of_nonneg_right h3 hT
-        nlinarith [h4]
+        linarith only [h4]
     _ = (3 * 5 ^ d * 5 ^ d * (((c + 12 : ℕ) : ℝ) / η ^ 2) ^ (c + 12)) *
           (L ^ (min γ (1 - γ)) * (L ^ (η ^ 2) * L ^ (-(3 * γ / 2 - η / 2)))) *
           (L ^ ((γ + 3 * η) / 2 - (κ : ℝ) * η) * R) := by ring
@@ -116,9 +117,10 @@ theorem arith_aa (d : ℕ) {L γ η δ C₁ R₀ R₁ ρ₀ ρ₁ : ℝ} (κ₀ 
     rw [← Real.rpow_add hL0, ← Real.rpow_add hL0, ← Real.rpow_add hL0]
     apply Real.rpow_le_rpow_of_exponent_le hL1
     have h1 : min γ (1 - γ) ≤ γ := min_le_left _ _
-    have : η ^ 3 ≤ η := by nlinarith [sq_nonneg η, pow_pos hη 3]
-    have h2 : η ^ 2 ≤ η := by nlinarith
-    nlinarith
+    have hηle : η ≤ 1 := by linarith only [hη1, hγ1]
+    have : η ^ 3 ≤ η := pow_le_of_le_one hη.le hηle (by norm_num)
+    have h2 : η ^ 2 ≤ η := pow_le_of_le_one hη.le hηle (by norm_num)
+    linarith
   push_cast
   calc ((2 * (⌊2 * L⌋₊ : ℝ) + 1) ^ d * ((((⌊2 * ρ₀ * L⌋₊ : ℝ) + 1)) ^ d * (((⌊2 * ρ₁ * L⌋₊ : ℝ) + 1)) ^ d)) *
         ((L ^ (-((d : ℝ) - γ))) ^ 3 * qq δ C₁ ^ 3) * P ^ 12

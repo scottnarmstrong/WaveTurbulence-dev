@@ -344,7 +344,9 @@ theorem approxnt_conclusion2 (hd : 3 ≤ d) {γ : ℝ} (hγ : γ ∈ Set.Ioo (0 
       have hπ := Real.pi_gt_three
       have hn0 : (0 : ℝ) ≤ n := Nat.cast_nonneg _
       have h3 : 0 ≤ (n : ℝ) * freqNorm τ.1 τ.2 := mul_nonneg hn0 hF0
-      nlinarith [mul_nonneg h3 Real.pi_pos.le]
+      have h4 := mul_le_mul_of_nonneg_right (by linarith : (2 : ℝ) ≤ 4 * Real.pi) h3
+      have h5 : 0 ≤ Real.pi * freqNorm τ.1 τ.2 := mul_nonneg Real.pi_pos.le hF0
+      linarith only [h1, h4, h5, hn0]
     have hS0 : 0 ≤ S := sum_nonneg fun _ _ => by positivity
     have hn0 : (0 : ℝ) ≤ n := Nat.cast_nonneg _
     calc (L ^ (2 * d)) ^ n * ‖multiInt μ (truncProfile J (cellLevels μ pq) Ψ₁) (cellData pq τ).p
@@ -401,7 +403,9 @@ theorem approxnt_conclusion2 (hd : 3 ≤ d) {γ : ℝ} (hγ : γ ∈ Set.Ioo (0 
           rw [show (K₂ * Cplus * X) ^ n = (K₂ * X) ^ n * Cplus ^ n by ring, ← h7]; ring
       _ ≤ (∏ j, lam j) ^ (2 * d) * ((C₁' + 12 * c * K₂) * Cplus * X) ^ n := by
           refine mul_le_mul_of_nonneg_left (pow_le_pow_left₀ (by positivity) ?_ n) (by positivity)
-          have : K₂ ≤ C₁' + 12 * c * K₂ := by nlinarith
+          have : K₂ ≤ C₁' + 12 * c * K₂ := by
+            have h12 : K₂ ≤ 12 * c * K₂ := le_mul_of_one_le_left hK₂ (by linarith only [hc])
+            linarith only [h12, hC₁']
           gcongr
       _ = _ := by simp only [X]; ring
   · -- `|I - I_app|`

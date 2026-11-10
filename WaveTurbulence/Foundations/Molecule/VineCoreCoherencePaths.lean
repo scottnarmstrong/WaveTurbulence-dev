@@ -29,7 +29,7 @@ theorem template_group_intrinsic_paths (X : VineType) :
     i=j ∨ (CoreCoherenceEdge X i j ∨ CoreCoherenceEdge X j i) ∨
       ∃ m : Fin X.template.n,(CoreCoherenceEdge X i m ∨ CoreCoherenceEdge X m i) ∧
         (CoreCoherenceEdge X m j ∨ CoreCoherenceEdge X j m) := by
-  cases X <;> decide
+  cases X <;> decide +kernel
 
 /-- Any edge used by the undoubled triangle clause survives all insertions. -/
 theorem template_triangle_attachment_unmarked (X : VineType) :
@@ -40,6 +40,6 @@ theorem template_triangle_attachment_unmarked (X : VineType) :
     ∀ s ∈ X.template.slots,
       ((i.1,j.1) ≠ s.1 ∧ (i.1,j.1) ≠ s.2) ∧
       ((j.1,i.1) ≠ s.1 ∧ (j.1,i.1) ≠ s.2) := by
-  cases X <;> decide
+  cases X <;> decide +kernel
 
 end WaveTurbulence.Vine

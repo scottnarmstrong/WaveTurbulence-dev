@@ -13,77 +13,134 @@ namespace WaveTurbulence.Vine.Param.Profiles.VI
 private theorem outgoing_row_0 (k : Fin 21 → ℕ) : baseOutgoing .VI k 0=k ⟨0,by decide⟩+k ⟨1,by decide⟩ := by
   change (∑ i : Fin 21, if ((baseBundles .VI)[i.1]).1.1=0 then k i else
     if ((baseBundles .VI)[i.1]).1.2=0 then ((baseBundles .VI)[i.1]).2-k i else 0)=_
-  simp [baseBundles,Fin.sum_univ_succ]
+  simp only [baseBundles, Fin.sum_univ_succ, Fin.isValue, Fin.coe_ofNat_eq_mod, Nat.zero_mod,
+    List.getElem_cons_zero, ↓reduceIte, Fin.val_succ, List.getElem_cons_succ, Fin.succ_zero_eq_one,
+    OfNat.ofNat_ne_zero, one_ne_zero, Finset.univ_unique, Fin.default_eq_zero, Fin.val_eq_zero, zero_add,
+    Finset.sum_const_zero, add_zero, Fin.zero_eta, Fin.mk_one]
 
 private theorem outgoing_row_1 (k : Fin 21 → ℕ) : baseOutgoing .VI k 1=k ⟨13,by decide⟩+k ⟨14,by decide⟩ := by
   change (∑ i : Fin 21, if ((baseBundles .VI)[i.1]).1.1=1 then k i else
     if ((baseBundles .VI)[i.1]).1.2=1 then ((baseBundles .VI)[i.1]).2-k i else 0)=_
-  simp [baseBundles,Fin.sum_univ_succ]
+  simp only [baseBundles, Fin.sum_univ_succ, Fin.isValue, Fin.coe_ofNat_eq_mod, Nat.zero_mod,
+    List.getElem_cons_zero, zero_ne_one, ↓reduceIte, OfNat.ofNat_ne_one, Fin.val_succ, List.getElem_cons_succ,
+    Fin.succ_zero_eq_one, Fin.succ_one_eq_two, Fin.reduceSucc, Finset.univ_unique, Fin.default_eq_zero,
+    Fin.val_eq_zero, zero_add, Finset.sum_const_zero, add_zero, Fin.reduceFinMk]
 
 private theorem outgoing_row_2 (k : Fin 21 → ℕ) : baseOutgoing .VI k 2=(1-k ⟨0,by decide⟩)+k ⟨2,by decide⟩+k ⟨15,by decide⟩ := by
   change (∑ i : Fin 21, if ((baseBundles .VI)[i.1]).1.1=2 then k i else
     if ((baseBundles .VI)[i.1]).1.2=2 then ((baseBundles .VI)[i.1]).2-k i else 0)=_
-  simp [baseBundles,Fin.sum_univ_succ,Nat.add_assoc]
+  simp only [baseBundles, Fin.sum_univ_succ, Fin.isValue, Fin.coe_ofNat_eq_mod, Nat.zero_mod,
+    List.getElem_cons_zero, OfNat.zero_ne_ofNat, ↓reduceIte, Fin.val_succ, List.getElem_cons_succ, Nat.succ_ne_self,
+    Fin.succ_zero_eq_one, Fin.succ_one_eq_two, Nat.reduceEqDiff, OfNat.one_ne_ofNat, Fin.reduceSucc,
+    Finset.univ_unique, Fin.default_eq_zero, Fin.val_eq_zero, zero_add, Finset.sum_const_zero, add_zero,
+    Fin.zero_eta, Fin.reduceFinMk, Nat.add_assoc]
 
 private theorem outgoing_row_3 (k : Fin 21 → ℕ) : baseOutgoing .VI k 3=(1-k ⟨1,by decide⟩)+(2-k ⟨2,by decide⟩)+k ⟨16,by decide⟩ := by
   change (∑ i : Fin 21, if ((baseBundles .VI)[i.1]).1.1=3 then k i else
     if ((baseBundles .VI)[i.1]).1.2=3 then ((baseBundles .VI)[i.1]).2-k i else 0)=_
-  simp [baseBundles,Fin.sum_univ_succ,Nat.add_assoc]
+  simp only [baseBundles, Fin.sum_univ_succ, Fin.isValue, Fin.coe_ofNat_eq_mod, Nat.zero_mod,
+    List.getElem_cons_zero, OfNat.zero_ne_ofNat, ↓reduceIte, Nat.reduceEqDiff, Fin.val_succ, List.getElem_cons_succ,
+    Fin.succ_zero_eq_one, Fin.succ_one_eq_two, Nat.succ_ne_self, OfNat.one_ne_ofNat, Fin.reduceSucc,
+    Finset.univ_unique, Fin.default_eq_zero, Fin.val_eq_zero, zero_add, Finset.sum_const_zero, add_zero, Fin.mk_one,
+    Fin.reduceFinMk, Nat.add_assoc]
 
 private theorem outgoing_row_4 (k : Fin 21 → ℕ) : baseOutgoing .VI k 4=k ⟨3,by decide⟩+k ⟨4,by decide⟩+(1-k ⟨15,by decide⟩) := by
   change (∑ i : Fin 21, if ((baseBundles .VI)[i.1]).1.1=4 then k i else
     if ((baseBundles .VI)[i.1]).1.2=4 then ((baseBundles .VI)[i.1]).2-k i else 0)=_
-  simp [baseBundles,Fin.sum_univ_succ,Nat.add_assoc]
+  simp only [baseBundles, Fin.sum_univ_succ, Fin.isValue, Fin.coe_ofNat_eq_mod, Nat.zero_mod,
+    List.getElem_cons_zero, OfNat.zero_ne_ofNat, ↓reduceIte, Nat.reduceEqDiff, Fin.val_succ, List.getElem_cons_succ,
+    Fin.succ_zero_eq_one, Fin.succ_one_eq_two, Fin.reduceSucc, Nat.succ_ne_self, OfNat.one_ne_ofNat,
+    Finset.univ_unique, Fin.default_eq_zero, Fin.val_eq_zero, zero_add, Finset.sum_const_zero, add_zero,
+    Fin.reduceFinMk, Nat.add_assoc]
 
 private theorem outgoing_row_5 (k : Fin 21 → ℕ) : baseOutgoing .VI k 5=(2-k ⟨3,by decide⟩)+k ⟨5,by decide⟩+(1-k ⟨16,by decide⟩) := by
   change (∑ i : Fin 21, if ((baseBundles .VI)[i.1]).1.1=5 then k i else
     if ((baseBundles .VI)[i.1]).1.2=5 then ((baseBundles .VI)[i.1]).2-k i else 0)=_
-  simp [baseBundles,Fin.sum_univ_succ,Nat.add_assoc]
+  simp only [baseBundles, Fin.sum_univ_succ, Fin.isValue, Fin.coe_ofNat_eq_mod, Nat.zero_mod,
+    List.getElem_cons_zero, OfNat.zero_ne_ofNat, ↓reduceIte, Nat.reduceEqDiff, Fin.val_succ, List.getElem_cons_succ,
+    Fin.succ_zero_eq_one, Fin.succ_one_eq_two, Fin.reduceSucc, Nat.succ_ne_self, OfNat.one_ne_ofNat,
+    Finset.univ_unique, Fin.default_eq_zero, Fin.val_eq_zero, zero_add, Finset.sum_const_zero, add_zero,
+    Fin.reduceFinMk, Nat.add_assoc]
 
 private theorem outgoing_row_6 (k : Fin 21 → ℕ) : baseOutgoing .VI k 6=(1-k ⟨4,by decide⟩)+k ⟨6,by decide⟩+k ⟨19,by decide⟩ := by
   change (∑ i : Fin 21, if ((baseBundles .VI)[i.1]).1.1=6 then k i else
     if ((baseBundles .VI)[i.1]).1.2=6 then ((baseBundles .VI)[i.1]).2-k i else 0)=_
-  simp [baseBundles,Fin.sum_univ_succ,Nat.add_assoc]
+  simp only [baseBundles, Fin.sum_univ_succ, Fin.isValue, Fin.coe_ofNat_eq_mod, Nat.zero_mod,
+    List.getElem_cons_zero, OfNat.zero_ne_ofNat, ↓reduceIte, Nat.reduceEqDiff, Fin.val_succ, List.getElem_cons_succ,
+    Fin.succ_zero_eq_one, Fin.succ_one_eq_two, Fin.reduceSucc, Nat.succ_ne_self, OfNat.one_ne_ofNat,
+    Finset.univ_unique, Fin.default_eq_zero, Fin.val_eq_zero, zero_add, Finset.sum_const_zero, add_zero,
+    Fin.reduceFinMk, Nat.add_assoc]
 
 private theorem outgoing_row_7 (k : Fin 21 → ℕ) : baseOutgoing .VI k 7=(2-k ⟨6,by decide⟩)+k ⟨7,by decide⟩+k ⟨20,by decide⟩ := by
   change (∑ i : Fin 21, if ((baseBundles .VI)[i.1]).1.1=7 then k i else
     if ((baseBundles .VI)[i.1]).1.2=7 then ((baseBundles .VI)[i.1]).2-k i else 0)=_
-  simp [baseBundles,Fin.sum_univ_succ,Nat.add_assoc]
+  simp only [baseBundles, Fin.sum_univ_succ, Fin.isValue, Fin.coe_ofNat_eq_mod, Nat.zero_mod,
+    List.getElem_cons_zero, OfNat.zero_ne_ofNat, ↓reduceIte, Nat.reduceEqDiff, Fin.val_succ, List.getElem_cons_succ,
+    Nat.succ_ne_self, Fin.succ_zero_eq_one, Fin.succ_one_eq_two, Fin.reduceSucc, OfNat.one_ne_ofNat,
+    Finset.univ_unique, Fin.default_eq_zero, Fin.val_eq_zero, zero_add, Finset.sum_singleton, Fin.reduceFinMk,
+    Nat.add_assoc]
 
 private theorem outgoing_row_8 (k : Fin 21 → ℕ) : baseOutgoing .VI k 8=(1-k ⟨5,by decide⟩)+k ⟨8,by decide⟩+k ⟨17,by decide⟩ := by
   change (∑ i : Fin 21, if ((baseBundles .VI)[i.1]).1.1=8 then k i else
     if ((baseBundles .VI)[i.1]).1.2=8 then ((baseBundles .VI)[i.1]).2-k i else 0)=_
-  simp [baseBundles,Fin.sum_univ_succ,Nat.add_assoc]
+  simp only [baseBundles, Fin.sum_univ_succ, Fin.isValue, Fin.coe_ofNat_eq_mod, Nat.zero_mod,
+    List.getElem_cons_zero, OfNat.zero_ne_ofNat, ↓reduceIte, Nat.reduceEqDiff, Fin.val_succ, List.getElem_cons_succ,
+    Fin.succ_zero_eq_one, Fin.succ_one_eq_two, Fin.reduceSucc, Nat.succ_ne_self, OfNat.one_ne_ofNat,
+    Finset.univ_unique, Fin.default_eq_zero, Fin.val_eq_zero, zero_add, Finset.sum_const_zero, add_zero,
+    Fin.reduceFinMk, Nat.add_assoc]
 
 private theorem outgoing_row_9 (k : Fin 21 → ℕ) : baseOutgoing .VI k 9=(1-k ⟨7,by decide⟩)+(2-k ⟨8,by decide⟩)+k ⟨18,by decide⟩ := by
   change (∑ i : Fin 21, if ((baseBundles .VI)[i.1]).1.1=9 then k i else
     if ((baseBundles .VI)[i.1]).1.2=9 then ((baseBundles .VI)[i.1]).2-k i else 0)=_
-  simp [baseBundles,Fin.sum_univ_succ,Nat.add_assoc]
+  simp only [baseBundles, Fin.sum_univ_succ, Fin.isValue, Fin.coe_ofNat_eq_mod, Nat.zero_mod,
+    List.getElem_cons_zero, OfNat.zero_ne_ofNat, ↓reduceIte, Nat.reduceEqDiff, Fin.val_succ, List.getElem_cons_succ,
+    Fin.succ_zero_eq_one, Fin.succ_one_eq_two, Fin.reduceSucc, Nat.succ_ne_self, OfNat.one_ne_ofNat,
+    Finset.univ_unique, Fin.default_eq_zero, Fin.val_eq_zero, zero_add, Finset.sum_const_zero, add_zero,
+    Fin.reduceFinMk, Nat.add_assoc]
 
 private theorem outgoing_row_10 (k : Fin 21 → ℕ) : baseOutgoing .VI k 10=k ⟨9,by decide⟩+k ⟨10,by decide⟩+(1-k ⟨17,by decide⟩) := by
   change (∑ i : Fin 21, if ((baseBundles .VI)[i.1]).1.1=10 then k i else
     if ((baseBundles .VI)[i.1]).1.2=10 then ((baseBundles .VI)[i.1]).2-k i else 0)=_
-  simp [baseBundles,Fin.sum_univ_succ,Nat.add_assoc]
+  simp only [baseBundles, Fin.sum_univ_succ, Fin.isValue, Fin.coe_ofNat_eq_mod, Nat.zero_mod,
+    List.getElem_cons_zero, OfNat.zero_ne_ofNat, ↓reduceIte, Nat.reduceEqDiff, Fin.val_succ, List.getElem_cons_succ,
+    Fin.succ_zero_eq_one, Fin.succ_one_eq_two, Fin.reduceSucc, Nat.succ_ne_self, OfNat.one_ne_ofNat,
+    Finset.univ_unique, Fin.default_eq_zero, Fin.val_eq_zero, zero_add, Finset.sum_const_zero, add_zero,
+    Fin.reduceFinMk, Nat.add_assoc]
 
 private theorem outgoing_row_11 (k : Fin 21 → ℕ) : baseOutgoing .VI k 11=(1-k ⟨9,by decide⟩)+k ⟨11,by decide⟩+(1-k ⟨18,by decide⟩) := by
   change (∑ i : Fin 21, if ((baseBundles .VI)[i.1]).1.1=11 then k i else
     if ((baseBundles .VI)[i.1]).1.2=11 then ((baseBundles .VI)[i.1]).2-k i else 0)=_
-  simp [baseBundles,Fin.sum_univ_succ,Nat.add_assoc]
+  simp only [baseBundles, Fin.sum_univ_succ, Fin.isValue, Fin.coe_ofNat_eq_mod, Nat.zero_mod,
+    List.getElem_cons_zero, OfNat.zero_ne_ofNat, ↓reduceIte, Nat.reduceEqDiff, Fin.val_succ, List.getElem_cons_succ,
+    Fin.succ_zero_eq_one, Fin.succ_one_eq_two, Fin.reduceSucc, Nat.succ_ne_self, OfNat.one_ne_ofNat,
+    Finset.univ_unique, Fin.default_eq_zero, Fin.val_eq_zero, zero_add, Finset.sum_const_zero, add_zero,
+    Fin.reduceFinMk, Nat.add_assoc]
 
 private theorem outgoing_row_12 (k : Fin 21 → ℕ) : baseOutgoing .VI k 12=(2-k ⟨10,by decide⟩)+(2-k ⟨11,by decide⟩) := by
   change (∑ i : Fin 21, if ((baseBundles .VI)[i.1]).1.1=12 then k i else
     if ((baseBundles .VI)[i.1]).1.2=12 then ((baseBundles .VI)[i.1]).2-k i else 0)=_
-  simp [baseBundles,Fin.sum_univ_succ]
+  simp only [baseBundles, Fin.sum_univ_succ, Fin.isValue, Fin.coe_ofNat_eq_mod, Nat.zero_mod,
+    List.getElem_cons_zero, OfNat.zero_ne_ofNat, ↓reduceIte, Nat.reduceEqDiff, Fin.val_succ, List.getElem_cons_succ,
+    Fin.succ_zero_eq_one, Fin.succ_one_eq_two, Fin.reduceSucc, Nat.succ_ne_self, OfNat.one_ne_ofNat,
+    Finset.univ_unique, Fin.default_eq_zero, Fin.val_eq_zero, zero_add, Finset.sum_const_zero, add_zero,
+    Fin.reduceFinMk]
 
 private theorem outgoing_row_13 (k : Fin 21 → ℕ) : baseOutgoing .VI k 13=k ⟨12,by decide⟩+(1-k ⟨13,by decide⟩)+(1-k ⟨19,by decide⟩) := by
   change (∑ i : Fin 21, if ((baseBundles .VI)[i.1]).1.1=13 then k i else
     if ((baseBundles .VI)[i.1]).1.2=13 then ((baseBundles .VI)[i.1]).2-k i else 0)=_
-  simp [baseBundles,Fin.sum_univ_succ,Nat.add_assoc]
+  simp only [baseBundles, Fin.sum_univ_succ, Fin.isValue, Fin.coe_ofNat_eq_mod, Nat.zero_mod,
+    List.getElem_cons_zero, OfNat.zero_ne_ofNat, ↓reduceIte, Nat.reduceEqDiff, Fin.val_succ, List.getElem_cons_succ,
+    Fin.succ_zero_eq_one, Fin.succ_one_eq_two, Fin.reduceSucc, OfNat.one_ne_ofNat, Nat.succ_ne_self,
+    Finset.univ_unique, Fin.default_eq_zero, Fin.val_eq_zero, zero_add, Finset.sum_const_zero, add_zero,
+    Fin.reduceFinMk, Nat.add_assoc]
 
 private theorem outgoing_row_14 (k : Fin 21 → ℕ) : baseOutgoing .VI k 14=(2-k ⟨12,by decide⟩)+(1-k ⟨14,by decide⟩)+(1-k ⟨20,by decide⟩) := by
   change (∑ i : Fin 21, if ((baseBundles .VI)[i.1]).1.1=14 then k i else
     if ((baseBundles .VI)[i.1]).1.2=14 then ((baseBundles .VI)[i.1]).2-k i else 0)=_
-  simp [baseBundles,Fin.sum_univ_succ,Nat.add_assoc]
+  simp only [baseBundles, Fin.sum_univ_succ, Fin.isValue, Fin.coe_ofNat_eq_mod, Nat.zero_mod,
+    List.getElem_cons_zero, OfNat.zero_ne_ofNat, ↓reduceIte, Nat.reduceEqDiff, Fin.val_succ, List.getElem_cons_succ,
+    Fin.succ_zero_eq_one, Fin.succ_one_eq_two, Fin.reduceSucc, OfNat.one_ne_ofNat, Finset.univ_unique,
+    Fin.default_eq_zero, Fin.val_eq_zero, zero_add, Finset.sum_singleton, Fin.reduceFinMk, Nat.add_assoc]
 
 /-- Every normalized source-balanced orientation has an actual profile index. -/
 theorem exists_profile (k : Fin (baseBundles .VI).length → ℕ)

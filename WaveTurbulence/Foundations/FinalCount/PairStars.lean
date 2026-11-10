@@ -133,7 +133,7 @@ theorem stars34 (M : Molecule V D) (hcap : ∀ v ∈ M.atoms, M.outdeg v ≤ 2 �
     rw [hu', hv'] at hout hin
     cases hx : M.out x <;> cases hy : M.out y <;> cases hr : M.out r <;> simp_all
   have hBstar' : M.dartsAt b = {M.mate x, M.mate y, v, u} := by
-    rw [hBstar]; ext z; simp only [mem_insert, mem_singleton]; tauto
+    rw [hBstar, Finset.pair_comm u v]
   have hnt2 : u ∉ ({M.mate x, M.mate y, v} : Finset D) := by simp [hu1.symm, hu2.symm, huv]
   rcases hv_or with h | h
   · exact ⟨x, y, r, u, v, hxy, hxr, hyr, hmxy, hu1, hu2, hnt', hAstar, hBstar, h⟩
