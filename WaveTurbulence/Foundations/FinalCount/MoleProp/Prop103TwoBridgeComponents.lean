@@ -52,48 +52,6 @@ theorem eraseTwoBonds_three_separated (M : Molecule V D) {e f : D}
       Relation.EqvGen.rel _ _ ⟨f',hatom,rfl⟩
     exact hnot (Relation.EqvGen.trans _ _ _ hedge (Relation.EqvGen.symm _ _ hpath))
 
-/-- In a connected graph these three actual components exhaust the result.
-The cardinal is derived by two genuine bridge component increments. -/
-theorem componentSets_eraseTwoBonds_eq_three (M : Molecule V D) {e f : D}
-    (hf : f ≠ e ∧ f ≠ M.mate e) (heB : IsBridge M e) (hfB : IsBridge M f)
-    (hatom : M.atom f = M.atom e)
-    (hconn : ∀ a ∈ M.atoms, ∀ b ∈ M.atoms, M.SameComponent a b) :
-    let P := eraseTwoBonds M e f hf
-    componentSets P = {componentSet P (M.atom e),componentSet P (M.atom (M.mate e)),
-      componentSet P (M.atom (M.mate f))} := by
-  classical
-  let N := eraseBond M e
-  let f' : WithoutBondDart M e := ⟨f,hf⟩
-  let P := eraseTwoBonds M e f hf
-  have hF := Mole.numComponents_eq_one M ⟨M.atom e,M.atom_mem e⟩ hconn
-  have hF1 := numComponents_eraseBond_eq_add_one M e heB
-  have hfB' := (isBridge_eraseBond_iff M e heB f').mpr hfB
-  have hF2 := numComponents_eraseBond_eq_add_one N f' hfB'
-  change N.numComponents = M.numComponents + 1 at hF1
-  change P.numComponents = N.numComponents + 1 at hF2
-  have hF3 : P.numComponents = 3 := by omega
-  have hc : (componentSets P).card = 3 := by rw [← numComponents_eq_card_componentSets]; exact hF3
-  have hsep := eraseTwoBonds_three_separated M hf heB hfB hatom
-  have hb : M.atom e ∈ P.atoms := M.atom_mem e
-  have hu : M.atom (M.mate e) ∈ P.atoms := M.atom_mem _
-  have hw : M.atom (M.mate f) ∈ P.atoms := M.atom_mem _
-  have h01 : componentSet P (M.atom e) ≠ componentSet P (M.atom (M.mate e)) :=
-    fun h => hsep.1 ((componentSet_eq_iff P hb).mp h)
-  have h02 : componentSet P (M.atom e) ≠ componentSet P (M.atom (M.mate f)) :=
-    fun h => hsep.2.1 ((componentSet_eq_iff P hb).mp h)
-  have h12 : componentSet P (M.atom (M.mate e)) ≠ componentSet P (M.atom (M.mate f)) :=
-    fun h => hsep.2.2 ((componentSet_eq_iff P hu).mp h)
-  have hsub : {componentSet P (M.atom e),componentSet P (M.atom (M.mate e)),componentSet P (M.atom (M.mate f))} ⊆
-      componentSets P := by
-    simp only [insert_subset_iff,singleton_subset_iff]
-    exact ⟨mem_image.mpr ⟨_,hb,rfl⟩,mem_image.mpr ⟨_,hu,rfl⟩,mem_image.mpr ⟨_,hw,rfl⟩⟩
-  change componentSets P = {componentSet P (M.atom e),componentSet P (M.atom (M.mate e)),
-    componentSet P (M.atom (M.mate f))}
-  symm
-  apply Finset.eq_of_subset_of_card_le hsub
-  rw [hc]
-  simp [h01,h02,h12]
-
 /-- An actual component of the twice-pruned graph can cross only the two
 bonds that were actually deleted. -/
 theorem boundary_component_eraseTwoBonds_subset (M : Molecule V D) (e f : D)

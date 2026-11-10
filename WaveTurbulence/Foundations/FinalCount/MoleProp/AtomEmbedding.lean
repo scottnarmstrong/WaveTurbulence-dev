@@ -93,30 +93,4 @@ theorem mapAtoms_circuitRank (M : Molecule V D) (f : V ↪ W) :
   unfold Molecule.circuitRank
   rw [mapAtoms_numComponents,hV,hE]
 
-theorem mapAtoms_countEFree_le (M : Molecule V D) (f : V ↪ W) {d : ℕ}
-    (L γ δ : ℝ) (w : Mom d) (Adm : (D → (Fin d → ℤ)) → Prop) :
-    countEFree M L γ δ w Adm ≤ countEFree (mapAtoms M f) L γ δ w Adm := by
-  classical
-  unfold countEFree
-  refine iSup_le fun c => iSup_le fun β => iSup_le fun k0 => iSup_le fun hk0 => ?_
-  let c' := Function.extend f c (fun _ => 0)
-  let β' := Function.extend f β (fun _ => 0)
-  have hc (a : V) : c' (f a) = c a := f.injective.extend_apply c _ a
-  have hb (a : V) : β' (f a) = β a := f.injective.extend_apply β _ a
-  apply le_trans (Set.encard_mono (b := {κ | (mapAtoms M f).IsDecoration L w c' κ ∧
-      (mapAtoms M f).IsRestricted L γ δ w β' k0 κ ∧ Adm κ}) ?_)
-  · exact le_iSup_of_le c' (le_iSup_of_le β' (le_iSup_of_le k0 (le_iSup_of_le hk0 le_rfl)))
-  · intro κ hκ
-    refine ⟨⟨hκ.1.1,?_⟩,⟨?_,hκ.2.1.2⟩,hκ.2.2⟩
-    · intro a ha
-      obtain ⟨b,hbM,rfl⟩ := mem_map.mp ha
-      change (∑ x ∈ (mapAtoms M f).dartsAt (f b), M.dartSign x • Molecule.kvec L w κ x) = c' (f b)
-      rw [mapAtoms_dartsAt,hc]
-      exact hκ.1.2 b hbM
-    · intro a ha
-      obtain ⟨b,hbM,rfl⟩ := mem_map.mp ha
-      change |(∑ x ∈ (mapAtoms M f).dartsAt (f b), M.dartSign x * ‖Molecule.kvec L w κ x‖^2)-β' (f b)| ≤ δ⁻¹*L^(-2*γ)
-      rw [mapAtoms_dartsAt,hb]
-      exact hκ.2.1.1 b hbM
-
 end WaveTurbulence.MoleProp

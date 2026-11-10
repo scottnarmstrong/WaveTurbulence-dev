@@ -21,10 +21,6 @@ variable {V D : Type*} [DecidableEq V] [Fintype D] [DecidableEq D]
 namespace TwoExit
 variable {N : Molecule V D} (T : TwoExit N)
 
-theorem post_atom_inl (z : Degen.RetainedDart N T.Y) : T.post.atom (Sum.inl z) = N.atom z.val := rfl
-theorem post_atom_inr_true : T.post.atom (Sum.inr true) = T.d := rfl
-theorem post_atom_inr_false : T.post.atom (Sum.inr false) = T.c := rfl
-
 /-- The constraint vectors at the two ends of the new bond, flagged by the exit they are compared with. -/
 noncomputable def lgTargets {d : ℕ} (L : ℝ) (w : Mom d) (κ : D → (Fin d → ℤ)) : Finset (Mom d × Bool) :=
   ((univ.filter fun z : D => N.atom z = T.c ∧ N.out z = true).image fun z => (Molecule.kvec L w κ z, true)) ∪

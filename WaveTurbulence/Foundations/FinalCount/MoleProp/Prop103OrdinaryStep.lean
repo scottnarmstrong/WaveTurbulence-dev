@@ -32,23 +32,6 @@ theorem circuitRank_erase_three_of_bridgeless (M : Molecule V D)
   rw [hcard,hi,hv3] at hχ
   omega
 
-/-- A connected simple minimum-degree-three input cannot disappear under
-one ordinary R step followed by removal of all bridges: a genuine
-nonisolated core vertex remains. -/
-theorem exists_positive_degree_after_ordinary_step (M : Molecule V D)
-    (hloop : ∀ x, M.atom x ≠ M.atom (M.mate x))
-    (hsimple : ∀ a b, a ≠ b → M.bondsBetween a b ≤ 1)
-    (hbridge : ∀ e, ¬ IsBridge M e)
-    (hconn : ∀ a ∈ M.atoms, ∀ b ∈ M.atoms, M.SameComponent a b)
-    (hmin : ∀ a ∈ M.atoms, 3 ≤ M.deg a)
-    {v : V} (hv : v ∈ M.atoms) (hv3 : M.deg v = 3) :
-    ∃ a ∈ (eraseAtoms M {v}).atoms, 0 < (bridgeCore (eraseAtoms M {v})).deg a := by
-  have hχ := circuitRank_ge_three_of_simple_min_degree M hloop hsimple ⟨v,hv⟩ hmin hconn
-  have hR := circuitRank_erase_three_of_bridgeless M hloop hbridge hv hv3
-  have hB := (bridgeCore_bridgefree_and_circuitRank (eraseAtoms M {v})).2
-  have hh : 0 < (bridgeCore (eraseAtoms M {v})).circuitRank := by omega
-  exact exists_positive_degree_of_circuitRank_pos _ hh
-
 /-- Selecting any actual core component after R strictly decreases the
 old atom count. This is the well-founded measure of the source search. -/
 theorem coreComponent_card_lt_after_removal (M : Molecule V D) {v : V}
@@ -132,44 +115,6 @@ theorem bridgeCore_profile_of_no_degree_good (M : Molecule V D)
       exact mem_filter
     · first | exact Or.inl ⟨hd,hb⟩ | exact Or.inr (Or.inl ⟨hd,hb⟩) |
         exact Or.inr (Or.inr ⟨hd,hb⟩)
-
-/-- Actual local exhaustion after R: either one of the degree/bridge good
-configurations is present, or actual B pruning supplies a next degree-three
-vertex in a strictly smaller old induced vertex set. No schedule is assumed. -/
-theorem ordinary_step_degree_exhaustion (M : Molecule V D) (hM : M.IsMolecule)
-    (hloop : ∀ x, M.atom x ≠ M.atom (M.mate x))
-    (hsimple : ∀ a b, a ≠ b → M.bondsBetween a b ≤ 1)
-    (hbridge : ∀ e, ¬ IsBridge M e)
-    (hconn : ∀ a ∈ M.atoms, ∀ b ∈ M.atoms, M.SameComponent a b)
-    (hmin : ∀ a ∈ M.atoms, 3 ≤ M.deg a)
-    {v : V} (hv : v ∈ M.atoms) (hv3 : M.deg v = 3) :
-    (∃ a ∈ (eraseAtoms M {v}).atoms, OrdinaryDegreeGood (eraseAtoms M {v}) a) ∨
-    ∃ a ∈ (eraseAtoms M {v}).atoms,
-      (bridgeCore (eraseAtoms M {v})).deg a = 3 ∧
-      (componentSet (bridgeCore (eraseAtoms M {v})) a).card < M.atoms.card := by
-  classical
-  let N := eraseAtoms M {v}
-  by_cases hg : ∃ a ∈ N.atoms, OrdinaryDegreeGood N a
-  · exact Or.inl hg
-  right
-  have hp : ∀ a ∈ N.atoms, (bridgeCore N).deg a = 0 ∨
-      (bridgeCore N).deg a = 3 ∨ (bridgeCore N).deg a = 4 := by
-    intro a ha
-    have hprof := degree_profile_after_removing_three M hM hsimple hmin v a ha
-    apply bridgeCore_degree_profile N a hprof.1 hprof.2
-    all_goals
-      intro hd hb
-      apply hg
-      refine ⟨a,ha,(N.dartsAt a).filter (IsBridge N),?_,?_⟩
-      · intro x
-        exact mem_filter
-      · first | exact Or.inl ⟨hd,hb⟩ | exact Or.inr (Or.inl ⟨hd,hb⟩) |
-          exact Or.inr (Or.inr ⟨hd,hb⟩)
-  have hχ := circuitRank_ge_three_of_simple_min_degree M hloop hsimple ⟨v,hv⟩ hmin hconn
-  have hR := circuitRank_erase_three_of_bridgeless M hloop hbridge hv hv3
-  obtain ⟨a,ha,h3⟩ := exists_degree_three_after_bridge_pruning N
-    (isMolecule_eraseAtoms M hM {v}) (by change 0 < (eraseAtoms M {v}).circuitRank; omega) hp
-  exact ⟨a,ha,h3,coreComponent_card_lt_after_removal M hv a⟩
 
 /-- The auxiliary source phase has a genuine one-circuit gain at every
 actual degree-two atom of a bridgeless loopless graph. -/

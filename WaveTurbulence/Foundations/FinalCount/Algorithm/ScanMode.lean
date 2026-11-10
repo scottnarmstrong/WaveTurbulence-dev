@@ -26,11 +26,6 @@ structure LadderHead (s : State.{u,v} V) where
   noBridges : ∀ e : s.Dart,¬Degen.IsBridge s.graph e
   connected : ∀ a ∈ s.graph.atoms,∀ b ∈ s.graph.atoms,s.graph.SameComponent a b
 
-inductive ScanMode (s : State.{u,v} V)
-  | globalScan : ScanMode s
-  | ladder (head : LadderHead s) : ScanMode s
-  | terminalComponent (noDouble : ¬HasDegreeThreePair s.graph 2) : ScanMode s
-
 /-- The next displayed head is an actual oriented realization, with
 bridgelessness and connectedness derived from the old source graph. -/
 noncomputable def LadderHead.afterContinuing {D : Type u} [Fintype D] [DecidableEq D]
@@ -56,16 +51,5 @@ theorem LadderHead.afterContinuing_heads {D : Type u} [Fintype D] [DecidableEq D
       (LadderHead.afterContinuing r hc hb h).figure.vertex 2 = r.vertex 4 := by
   have ht := Classical.choose_spec h.oriented
   exact ⟨ht.1,ht.2.1⟩
-
-/-- Source terminal-rung transition. The no-double flag is produced by
-the actual graph argument, not stored as a new assumption on the input. -/
-def terminalComponentMode {D : Type u} [Fintype D] [DecidableEq D]
-    (M : Molecule V D) (hM : M.IsMolecule) (hno : AppbNoLoops M) (hnt : AppbNoTripleBonds M)
-    (hc : ∀ a ∈ M.atoms,∀ b ∈ M.atoms,M.SameComponent a b)
-    (r : AppbRealization M AppbPatternKind.d33.pattern) (ho : AppbD33BoundaryOpposite M r)
-    (hn : ¬D33Continues r) (ht : ¬HasD33ResidualCommon r)
-    (hreg : ∀ b ∈ M.atoms,M.SameComponent (r.vertex 1) b → b ∉ r.removedAtoms → M.deg b = 4) :
-    ScanMode (ofMolecule r.post) :=
-  .terminalComponent (terminal_rung_next_priority M hM hno hnt hc r ho hn ht hreg).2.1
 
 end WaveTurbulence.Mole.AppbAlgorithm

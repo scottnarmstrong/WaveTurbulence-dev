@@ -35,25 +35,6 @@ theorem degreeDeficit_le_nonFour (M : Molecule V D) (w : ℕ)
     _ ≤ w*4 := Nat.mul_le_mul_right 4 hw
     _ = 4*w := by ring
 
-theorem balancedPotential_ge_nonFour (M : Molecule V D) (hM : M.IsMolecule)
-    (hne : M.atoms.Nonempty) (hc : ∀ a ∈ M.atoms,∀ b ∈ M.atoms,M.SameComponent a b) (w : ℕ)
-    (hw : (M.atoms.filter (fun a => M.deg a ≠ 4)).card ≤ w) :
-    -(396 : ℤ)*w ≤ balancedPotential M := by
-  have hF := numComponents_eq_one M hne hc
-  have hd := degreeDeficit_le_nonFour M w hw
-  have hh := degree_sum_add_deficit M hM
-  have hs := special_count_le_two_degreeThree M hM
-  have hnu : appbNu M = (degreeDeficit M : ℤ)-4 := by
-    unfold appbNu; rw [hF]; simp only [Nat.cast_one]
-    have : (2*M.bonds.card+degreeDeficit M : ℤ) = 4*M.atoms.card := by exact_mod_cast hh
-    linarith only [this]
-  have h3 : (0 : ℤ) ≤ (appbDegreeAtoms M 3).card := by positivity
-  have h2 : (0 : ℤ) ≤ (simpleDegreeTwoAtoms M).card := by positivity
-  have hsz : ((appbSpecialBonds M).card : ℤ) ≤ 2*(appbDegreeAtoms M 3).card := by exact_mod_cast hs
-  have hdz : (degreeDeficit M : ℤ) ≤ 4*w := by exact_mod_cast hd
-  unfold balancedPotential
-  omega
-
 theorem sourceRho_le_active_add_one (M : Molecule V D) (hM : M.IsMolecule)
     (hc : ∀ a ∈ M.atoms,∀ b ∈ M.atoms,M.SameComponent a b) :
     (sourceRho M : ℤ) ≤ activeLinkPotential M+1 := by

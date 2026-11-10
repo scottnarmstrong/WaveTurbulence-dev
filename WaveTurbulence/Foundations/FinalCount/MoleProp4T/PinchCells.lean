@@ -85,12 +85,6 @@ theorem aux_loop_free (hloop : ∀ z, N.atom z ≠ N.atom (N.mate z)) :
     have := (T.aux_atom_none (z := T.aux.mate z)).mp h.symm
     exact z.property ⟨h1, this⟩
 
-theorem aux_deg_le (hcap : ∀ v ∈ N.atoms, N.outdeg v ≤ 2 ∧ N.indeg v ≤ 2) :
-    ∀ o ∈ T.aux.atoms, T.aux.deg o ≤ 4 := fun o ho => by
-  have h := T.aux_caps hcap o ho
-  have := Mole.outdeg_add_indeg T.aux o
-  omega
-
 /-- The new atom lies in no cell. -/
 theorem none_notMem_cell (hloop : ∀ z, N.atom z ≠ N.atom (N.mate z)) {S : Finset (Option V)}
     (hS : S ∈ MoleProp.ladderCells T.aux) : none ∉ S := by

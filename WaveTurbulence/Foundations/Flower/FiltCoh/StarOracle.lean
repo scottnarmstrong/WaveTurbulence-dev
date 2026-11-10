@@ -2,7 +2,6 @@
 module
 
 public import WaveTurbulence.Foundations.Flower.FiltCoh.TreeStarLayer
-public import WaveTurbulence.Foundations.Flower.FiltCoh.Oracle
 
 /-! # FILT-COH (c3): the single-layer `X^{1/4}` bounds with star weights (bound-only oracle)
 

@@ -69,32 +69,4 @@ theorem not_mem_sourceLadder_of_no_operation_b (M : Molecule V D) (hM : M.IsMole
   obtain ⟨b,hb,hab,ha3,hb34,hd⟩ := operation_b_pair_of_sourceLadder_mem M hM hsmall hS hzS
   exact hno ⟨z,hz,b,hb,hab,ha3,hb34,hd⟩
 
-/-- Operation (a), performed only when (b) is unavailable, leaves the
-literal maximal selected-ladder family unchanged. -/
-theorem sourceMaximalLadders_erase_eq_of_no_operation_b (M : Molecule V D) (hM : M.IsMolecule)
-    {z : V} (hz : z ∈ M.atoms) (hsmall : M.deg z ≤ 3)
-    (hno : ¬ ∃ a ∈ M.atoms, ∃ b ∈ M.atoms, a ≠ b ∧ M.deg a = 3 ∧
-      (M.deg b = 3 ∨ M.deg b = 4) ∧ M.bondsBetween a b = 2) :
-    sourceMaximalLadders (eraseAtoms M {z}) = sourceMaximalLadders M := by
-  apply sourceMaximalLadders_erase_eq_of_all_disjoint M {z}
-  intro S hS
-  exact disjoint_singleton_right.mpr (not_mem_sourceLadder_of_no_operation_b M hM hz hsmall hno S hS)
-
-/-- The finite algorithm always has an actual priority-respecting next
-removal: either an operation-(b) pair, or a low-degree atom whose deletion
-preserves the molecule axioms and its maximal selected-ladder family. -/
-theorem exists_priority_removal (M : Molecule V D) (hM : M.IsMolecule)
-    (hne : M.atoms.Nonempty) :
-    (∃ a ∈ M.atoms, ∃ b ∈ M.atoms, a ≠ b ∧ M.deg a = 3 ∧
-      (M.deg b = 3 ∨ M.deg b = 4) ∧ M.bondsBetween a b = 2) ∨
-    ∃ z ∈ M.atoms, M.deg z ≤ 3 ∧ (eraseAtoms M {z}).IsMolecule ∧
-      sourceMaximalLadders (eraseAtoms M {z}) = sourceMaximalLadders M := by
-  classical
-  by_cases hb : ∃ a ∈ M.atoms, ∃ b ∈ M.atoms, a ≠ b ∧ M.deg a = 3 ∧
-      (M.deg b = 3 ∨ M.deg b = 4) ∧ M.bondsBetween a b = 2
-  · exact Or.inl hb
-  · obtain ⟨z,hz,hsmall⟩ := exists_atom_degree_le_three M hM hne
-    exact Or.inr ⟨z,hz,hsmall,isMolecule_eraseAtoms M hM {z},
-      sourceMaximalLadders_erase_eq_of_no_operation_b M hM hz hsmall hb⟩
-
 end WaveTurbulence.MoleProp

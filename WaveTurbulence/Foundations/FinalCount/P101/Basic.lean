@@ -32,14 +32,6 @@ def LargeGapOff (B : Finset V) (M : Molecule V D) {d : ℕ} (L γ η : ℝ) (w :
     (κ : D → (Fin d → ℤ)) : Prop :=
   ∀ v : V, v ∉ B → LargeGapAt M v L γ η w κ
 
-theorem largeGapAt_of_off {B : Finset V} {M : Molecule V D} {d : ℕ} {L γ η : ℝ} {w : Mom d}
-    {κ : D → (Fin d → ℤ)} (h : LargeGapOff B M L γ η w κ) {v : V} (hv : v ∉ B) :
-    LargeGapAt M v L γ η w κ := h v hv
-
-theorem largeGapAt_of_largeGap {M : Molecule V D} {d : ℕ} {L γ η : ℝ} {w : Mom d}
-    {κ : D → (Fin d → ℤ)} (h : LargeGap M L γ η w κ) (v : V) :
-    LargeGapAt M v L γ η w κ := fun x y hx hy hd => h x y (hx.trans hy.symm) hd
-
 /-- Large gap at `v` is inherited by erasure of other atoms. -/
 theorem largeGapAt_erase (M : Molecule V D) {d : ℕ} (L γ η : ℝ) (w : Mom d)
     (Y : Finset V) {κ : D → (Fin d → ℤ)} {v : V} (hv : v ∉ Y) (h : LargeGapAt M v L γ η w κ) :

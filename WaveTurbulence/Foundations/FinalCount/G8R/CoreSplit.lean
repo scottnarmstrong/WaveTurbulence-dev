@@ -41,18 +41,6 @@ theorem exists_mul_log_rpow_le (c B : ℝ) {θ : ℝ} (hθ : 0 < θ) :
     _ ≤ 1 * L ^ θ := by gcongr
     _ = L ^ θ := one_mul _
 
-/-- Two statements of the form "for large `C1`, every `δ`, and large `L`" combine. -/
-theorem uniform_and {P Q : ℝ → ℝ → ℝ → Prop}
-    (hP : ∃ Cstar : ℝ, 1 ≤ Cstar ∧ ∀ C1 ≥ Cstar, ∀ δ ∈ Set.Ioc (0 : ℝ) 1, ∃ R : ℝ, ∀ L ≥ R, P C1 δ L)
-    (hQ : ∃ Cstar : ℝ, 1 ≤ Cstar ∧ ∀ C1 ≥ Cstar, ∀ δ ∈ Set.Ioc (0 : ℝ) 1, ∃ R : ℝ, ∀ L ≥ R, Q C1 δ L) :
-    ∃ Cstar : ℝ, 1 ≤ Cstar ∧ ∀ C1 ≥ Cstar, ∀ δ ∈ Set.Ioc (0 : ℝ) 1, ∃ R : ℝ, ∀ L ≥ R, P C1 δ L ∧ Q C1 δ L := by
-  obtain ⟨C₁, h₁, hP⟩ := hP
-  obtain ⟨C₂, h₂, hQ⟩ := hQ
-  refine ⟨max C₁ C₂, h₁.trans (le_max_left _ _), fun C1 hC1 δ hδ => ?_⟩
-  obtain ⟨R₁, hR₁⟩ := hP C1 ((le_max_left _ _).trans hC1) δ hδ
-  obtain ⟨R₂, hR₂⟩ := hQ C1 ((le_max_right _ _).trans hC1) δ hδ
-  exact ⟨max R₁ R₂, fun L hL => ⟨hR₁ L ((le_max_left _ _).trans hL), hR₂ L ((le_max_right _ _).trans hL)⟩⟩
-
 /-- `uniform_and` with the size parameter `m` quantified after the constant (the constant is `m`-independent). -/
 theorem uniform_and_m {P Q : ℕ → ℝ → ℝ → ℝ → Prop}
     (hP : ∃ Cstar : ℝ, 1 ≤ Cstar ∧ ∀ m : ℕ, ∀ C1 ≥ Cstar, ∀ δ ∈ Set.Ioc (0 : ℝ) 1, ∃ R : ℝ, ∀ L ≥ R, P m C1 δ L)

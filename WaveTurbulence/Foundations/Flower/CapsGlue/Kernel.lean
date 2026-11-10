@@ -80,10 +80,6 @@ noncomputable def freeEquivN (σ : (Σ c : Fin m, Fin (a c)) ≃ Fin w) (TA : �
       obtain ⟨⟨c, x⟩, rfl⟩ := (glueBranchN σ TA).surjective b
       exact ⟨⟨c, x, by simpa using hb⟩, rfl⟩)
 
-theorem freeEquivN_apply (σ : (Σ c : Fin m, Fin (a c)) ≃ Fin w) (TA : ∀ c, Fin (a c) → TTree)
-    (fix : ∀ c, GBranch (TA c) → Option ℝ) (c : Fin m) (x : {x : GBranch (TA c) // fix c x = none}) :
-    ((freeEquivN σ TA fix ⟨c, x⟩).1) = glueBranchN σ TA ⟨c, x.1⟩ := rfl
-
 theorem extendFix_glueN (σ : (Σ c : Fin m, Fin (a c)) ≃ Fin w) (GA : ∀ c, Garden (a c))
     (fix : ∀ c, GBranch (GA c).tree → Option ℝ)
     (τ : {b : GBranch (glueGardenN σ GA).tree // gBr σ (fun c => (GA c).tree) fix b = none} → ℝ) :

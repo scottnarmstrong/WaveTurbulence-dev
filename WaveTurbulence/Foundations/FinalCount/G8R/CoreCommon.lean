@@ -106,10 +106,6 @@ namespace IsCore
 variable {M : Molecule V D} (hM : IsCore M) (e : D)
 include hM
 
-omit [DecidableEq D] in
-/-- The ends of `ℓ` are distinct. -/
-theorem ends_ne : M.atom e ≠ M.atom (M.mate e) := hM.loop e
-
 theorem eraseBond_deg_p : (MoleProp.eraseBond M e).deg (M.atom e) = 3 := by
   have h := deg_eraseBond_add M e (M.atom e)
   rw [ite_of_pos rfl, ite_of_not (Ne.symm (hM.loop e)), hM.reg _ (M.atom_mem e)] at h

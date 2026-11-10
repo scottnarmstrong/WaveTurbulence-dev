@@ -31,12 +31,6 @@ theorem forestSlack_nonladder {V : Type v} [DecidableEq V] {d : ℕ} {L γ η c 
     exact absurd hm (h p hp head)
   · rfl
 
-theorem good_le_fine (γ η L : ℝ) (hη : 0 < η) (hηγ : η ≤ min γ (1-γ)) (hL : 1 ≤ L) :
-    ENNReal.ofReal (L^(-5*min γ (1-γ)/8)) ≤ ENNReal.ofReal (L^(-η/2)) := by
-  apply ENNReal.ofReal_le_ofReal
-  apply Real.rpow_le_rpow_of_exponent_le hL
-  linarith only [hη,hηγ]
-
 theorem forestSlack_ladder {V : Type v} [DecidableEq V] {d : ℕ} {L γ η c : ℝ} {w : Mom d} {B : ℕ}
     (F : CountingForest.{u,v} V d L γ η w c B) (p : Problem.{u,v} V d L w c F.gap) (hp : p ∈ F.problems)
     (head : LadderHead p.state) (h : F.mode = .ladder p hp head)

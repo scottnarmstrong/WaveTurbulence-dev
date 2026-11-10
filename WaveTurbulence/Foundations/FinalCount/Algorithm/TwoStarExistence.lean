@@ -14,16 +14,6 @@ namespace WaveTurbulence.Mole.AppbAlgorithm
 open Finset
 variable {V D : Type*} [DecidableEq V] [Fintype D] [DecidableEq D]
 
-theorem exists_two_star_realization (M : Molecule V D) (hno : AppbNoLoops M)
-    {v : V} (hv : v ∈ M.atoms) (hd : M.deg v = 2) :
-    (∃ r : AppbRealization M AppbPatternKind.r21.pattern,r.vertex 1 = v) ∨
-      (∃ r : AppbRealization M AppbPatternKind.r22.pattern,r.vertex 1 = v) := by
-  classical
-  let st := starOfDegree M hno v 2 hd
-  by_cases heq : st.neighbor 0 = st.neighbor 1
-  · exact Or.inl ⟨st.doubleRealization hv heq,rfl⟩
-  · exact Or.inr ⟨st.singleRealization hv heq,rfl⟩
-
 theorem Star.neighbor_degree_pos {M : Molecule V D} {v : V} {k : ℕ}
     (st : Star M v k) (i : Fin k) : 0 < M.deg (st.neighbor i) := by
   rcases Sym2.eq_iff.mp (st.endpoints i) with h | h

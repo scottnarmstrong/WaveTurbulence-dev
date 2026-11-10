@@ -3,7 +3,6 @@ module
 
 public import WaveTurbulence.Foundations.FinalCount.Algorithm.ForestSetting
 public import WaveTurbulence.Foundations.FinalCount.Algorithm.CountingForestReplace
-public import WaveTurbulence.Foundations.FinalCount.Algorithm.CountingForestMove
 public import WaveTurbulence.Foundations.FinalCount.Algorithm.ForestProgress
 import Mathlib.Tactic
 

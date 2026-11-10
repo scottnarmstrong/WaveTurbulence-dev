@@ -49,25 +49,6 @@ theorem k4_large_total_exponent (d γ : ℝ) :
   rw [k4_planar_exponent_identity]
   ring
 
-/-- The small-radius planar height bound retains an exponent gap before
-any logarithmic absorption. -/
-theorem k4_small_height_exponent {γ : ℝ} (hγ : 0 ≤ γ) (hγ1 : γ ≤ 1) :
-    1-γ ≤ 1-min γ (1-γ)/20 := by
-  have hm := min_le_left γ (1-γ)
-  have hmin0 : 0 ≤ min γ (1-γ) := le_min hγ (by linarith only [hγ1])
-  linarith only [hm,hmin0]
-
-/-- A full extra hundredth γ₀ remains after allowing three hundredths for
-all logarithms in the small-radius branch. -/
-theorem k4_small_log_margin {g : ℝ} (hg : 0 ≤ g) :
-    -(21 : ℝ)/20*g+(3 : ℝ)/100*g ≤ -(101 : ℝ)/100*g := by
-  linarith only [hg]
-
-/-- The analogous large-radius branch has still more slack. -/
-theorem k4_large_log_margin {g : ℝ} (hg : 0 ≤ g) :
-    -(11 : ℝ)/10*g+(3 : ℝ)/100*g ≤ -(101 : ℝ)/100*g := by
-  linarith only [hg]
-
 /-- Every fixed-coefficient exceptional fiber has enough power saving
 already from its literal two-free-label box count. -/
 theorem k4_exception_exponent_le {d γ : ℝ} (hd : 3 ≤ d) (hγ : 0 ≤ γ) (hγ1 : γ ≤ 1) :

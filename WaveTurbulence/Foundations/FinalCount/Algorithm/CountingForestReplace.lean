@@ -43,9 +43,6 @@ noncomputable def CountingForest.replace (F : CountingForest.{u,v} V d L γ η w
     mode := .globalScan
     reserve_eq := by rw [hGraphs] }
 
-noncomputable def CountingForest.withMode (F : CountingForest.{u,v} V d L γ η w c B)
-    (mode : ForestScanMode F.problems) : CountingForest.{u,v} V d L γ η w c B := {F with mode := mode}
-
 theorem CountingForest.replace_graphs (F : CountingForest.{u,v} V d L γ η w c B)
     (pre tail : List (Problem.{u,v} V d L w c F.gap)) (p : Problem.{u,v} V d L w c F.gap)
     (hlist : F.problems = pre++p::tail) {g0 : ℝ} (q : Problem.{u,v} V d L w c g0)

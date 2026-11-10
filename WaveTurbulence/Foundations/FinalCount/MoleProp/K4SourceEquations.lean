@@ -117,23 +117,6 @@ theorem dartsAt_canonical_2 (M : Molecule V D)
     · exact Or.inr ⟨3,rfl,rfl⟩
     · exact Or.inl ⟨5,rfl,rfl⟩
 
-/-- The literal canonical incidence set at atom 3. -/
-theorem dartsAt_canonical_3 (M : Molecule V D)
-    (e : Fin 4 ≃ {a // a ∈ M.atoms}) (b : Fin 6 ≃ {x // x ∈ M.bonds})
-    (he : ∀ r, M.atom (b r).val = (e (k4BondStart r)).val ∧
-      M.atom (M.mate (b r).val) = (e (k4BondEnd r)).val) :
-    M.dartsAt (e 3).val = {(b 0).val,M.mate (b 4).val,M.mate (b 5).val} := by
-  ext x
-  rw [mem_dartsAt_canonical_iff M e b he 3 x]
-  constructor
-  · rintro (⟨r,hr,rfl⟩ | ⟨r,hr,rfl⟩) <;> fin_cases r <;> simp_all [k4BondStart,k4BondEnd]
-  · intro hx
-    simp only [mem_insert,mem_singleton] at hx
-    rcases hx with rfl | rfl | rfl
-    · exact Or.inl ⟨0,rfl,rfl⟩
-    · exact Or.inr ⟨4,rfl,rfl⟩
-    · exact Or.inr ⟨5,rfl,rfl⟩
-
 private theorem sum_three {A : Type*} [AddCommMonoid A] (f : D → A)
     {x y z : D} (hxy : x ≠ y) (hxz : x ≠ z) (hyz : y ≠ z) :
     (∑ a ∈ ({x,y,z} : Finset D), f a) = f x + f y + f z := by
@@ -177,18 +160,6 @@ theorem sum_dartsAt_canonical_2 (M : Molecule V D)
   · exact mate_bond_ne_mate M b (by decide : (2 : Fin 6) ≠ 3)
   · exact (bond_ne_mate M b 5 2).symm
   · exact (bond_ne_mate M b 5 3).symm
-
-theorem sum_dartsAt_canonical_3 (M : Molecule V D)
-    (e : Fin 4 ≃ {a // a ∈ M.atoms}) (b : Fin 6 ≃ {x // x ∈ M.bonds})
-    (he : ∀ r, M.atom (b r).val = (e (k4BondStart r)).val ∧
-      M.atom (M.mate (b r).val) = (e (k4BondEnd r)).val)
-    {A : Type*} [AddCommMonoid A] (f : D → A) :
-    (∑ x ∈ M.dartsAt (e 3).val, f x) = f ((b 0).val) + f (M.mate (b 4).val) + f (M.mate (b 5).val) := by
-  rw [dartsAt_canonical_3 M e b he]
-  apply sum_three
-  · exact bond_ne_mate M b 0 4
-  · exact bond_ne_mate M b 0 5
-  · exact mate_bond_ne_mate M b (by decide : (4 : Fin 6) ≠ 5)
 
 /-- The three actual source momentum equations in canonical bond order.
 The fixed charges are arbitrary; no degree-four conservation is invoked. -/

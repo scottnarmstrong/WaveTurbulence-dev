@@ -100,12 +100,5 @@ theorem removedDartsAt_eq {v : V} (hv : v ∉ T.Y) :
       · rw [mem_singleton.mp h]; exact ⟨hd ▸ rfl, by rw [N.mate_mate]; exact T.atom_y⟩
       · simp at h
 
-/-- The darts of `N` at atoms of `Y`: internal ones and the exits. -/
-theorem atom_mem_Y_cases {z : D} (hz : N.atom z ∈ T.Y) :
-    N.atom (N.mate z) ∈ T.Y ∨ z = T.x ∨ z = T.y := by
-  by_cases h : N.atom (N.mate z) ∈ T.Y
-  · exact Or.inl h
-  · exact Or.inr (T.eq_of_cross hz h)
-
 end TwoExit
 end WaveTurbulence.MoleProp4

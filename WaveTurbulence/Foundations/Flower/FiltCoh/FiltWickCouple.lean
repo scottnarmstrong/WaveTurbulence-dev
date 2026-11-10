@@ -46,10 +46,6 @@ theorem arrayFiltWeight_linkPair {n : ℕ} {μ : ℝ} (hμ : μ ≠ 0) (L : ℝ)
     one_ne_zero]
   field_simp
 
-theorem norm_arrayFiltWeight_le' {n : ℕ} (L : ℝ) (φ : Fin n → ℝ → ℂ) {B : ℝ} (hB : ∀ j u, ‖φ j u‖ ≤ B)
-    (p : (Fin n × Fin 2) → Fin d → ℤ) : ‖FiltSrc.arrayFiltWeight L φ p‖ ≤ B ^ n :=
-  FiltSrc.norm_arrayFiltWeight_le L φ hB p
-
 /-- **Filtered temporal interchange** (main's `physicalWeightedCellSymbol_temporal_interchange`). -/
 theorem filt_temporal_interchange {n : ℕ} {L : ℝ} (hL : 0 < L)
     (δ γ t s : ℝ) (ψ : Fin n → ℝ → ℂ) (z : (Fin n × Fin 2) → Fin d → ℤ) (β γ' : Fin n → Mom d)

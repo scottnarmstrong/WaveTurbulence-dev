@@ -182,14 +182,6 @@ theorem exists_extra_old_single_boundary (M : Molecule V D) (hM : M.IsMolecule)
   have htS : M.atom (M.mate t) ∉ S := fun hmem => disjoint_left.mp hdis htU hmem
   exact ⟨t,U,hbt,htS,hsubM,hdis,hcut⟩
 
-/-- The structural extra label is fixed by OLD source charges, with no
-dependence on the unknown labels at the first removed atom. -/
-theorem extra_label_unique_of_old_single_boundary (M : Molecule V D)
-    {d : ℕ} {L : ℝ} (hL : L ≠ 0) {w : Mom d} {c : V → Mom d}
-    {κ κ' : D → (Fin d → ℤ)} (hd : M.IsDecoration L w c κ) (hd' : M.IsDecoration L w c κ')
-    {t : D} {U : Finset V} (hcut : boundaryDarts M U = {M.mate t}) : κ t = κ' t :=
-  incident_label_unique_of_single_boundary M hL hd hd' hcut
-
 /-- The old singleton cut belongs to the extra dart of any already chosen
 actual paired star, not merely to a fresh existentially selected dart. -/
 theorem exists_extra_old_single_boundary_of_selected_star (M : Molecule V D) (hM : M.IsMolecule)

@@ -67,12 +67,4 @@ theorem D33Continues.no_new_bridge {M : Molecule V D}
     ∀ e : Degen.RetainedDart M r.removedAtoms,¬Degen.IsBridge r.post e :=
   d33_no_new_bridge M r hb h.double_boundary
 
-/-- The continuing rung's zero resource charge is derived from its actual
-figure and old molecule data, rather than imposed as a trace annotation. -/
-theorem D33Continues.zero_charge {M : Molecule V D}
-    {r : AppbRealization M AppbPatternKind.d33.pattern} (h : D33Continues r)
-    (hM : M.IsMolecule) (ho : AppbD33BoundaryOpposite M r) :
-    ChargedStep (ofMolecule M) (ofMolecule r.post) 0 :=
-  d33_zero_charge_of_double (ofMolecule M) hM r h.boundary_four.1 h.boundary_four.2 h.double_boundary ho
-
 end WaveTurbulence.Mole.AppbAlgorithm

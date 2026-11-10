@@ -2,7 +2,6 @@
 module
 
 public import WaveTurbulence.Foundations.Flower.FiltCoh.CoupleStarMix
-public import WaveTurbulence.Foundations.Flower.FiltCoh.CoupleBound
 
 /-! # FILT-COH (b): star-weighted layer-zero couples at weight `θ ≤ 1 - η/8`
 

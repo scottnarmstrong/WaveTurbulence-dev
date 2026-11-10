@@ -2,7 +2,7 @@
 module
 
 public import WaveTurbulence.Foundations.FinalCount.Algorithm.GeometricPotentialBound
-public import WaveTurbulence.Foundations.FinalCount.Algorithm.ChargedTrace
+public import WaveTurbulence.Foundations.FinalCount.Algorithm.NormalActivePotential
 public import WaveTurbulence.Foundations.FinalCount.Algorithm.PriorityTests
 public import WaveTurbulence.Foundations.FinalCount.Algorithm.ComponentStatistics
 public import WaveTurbulence.Foundations.FinalCount.Algorithm.ClosedSideMolecule

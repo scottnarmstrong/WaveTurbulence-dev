@@ -104,26 +104,6 @@ theorem bondsBetween_eraseBond_le' (p q : V) : (MoleProp.eraseBond M e).bondsBet
   have := bondsBetween_eraseBond_add M e p q
   omega
 
-omit [DecidableEq V] [Fintype D] [DecidableEq D] in
-theorem ends_ne_of_left {p q : V} (h : M.atom e ≠ p) (h' : M.atom e ≠ q) : M.ends e ≠ s(p, q) := by
-  intro he
-  have : M.atom e ∈ s(p, q) := by rw [← he]; exact Sym2.mem_mk_left _ _
-  rcases Sym2.mem_iff.mp this with h1 | h1
-  · exact h h1
-  · exact h' h1
-
-omit [DecidableEq V] [Fintype D] [DecidableEq D] in
-theorem ends_ne_of_right {p q : V} (h : M.atom (M.mate e) ≠ p) (h' : M.atom (M.mate e) ≠ q) :
-    M.ends e ≠ s(p, q) := by
-  intro he
-  have : M.atom (M.mate e) ∈ s(p, q) := by rw [← he]; exact Sym2.mem_mk_right _ _
-  rcases Sym2.mem_iff.mp this with h1 | h1
-  · exact h h1
-  · exact h' h1
-
-omit [DecidableEq V] [Fintype D] [DecidableEq D] in
-theorem eraseBond_atoms : (MoleProp.eraseBond M e).atoms = M.atoms := rfl
-
 end EraseBond
 
 namespace Y2End

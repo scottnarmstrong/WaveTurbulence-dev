@@ -47,9 +47,4 @@ theorem ordered_star_energy (M : Molecule V D) {d r : ℕ} (L γ δ : ℝ) (w : 
   rw [← sum_dartsAt_eq_ordered M v e (fun x => M.dartSign x * ‖Molecule.kvec L w κ x‖ ^ 2)]
   exact hr.1 v hv
 
-/-- A lattice coset shift is absent in the original DH23 local problems. -/
-theorem kvec_zero (M : Molecule V D) {d : ℕ} (L : ℝ) (κ : D → (Fin d → ℤ)) (x : D) :
-    Molecule.kvec L (0 : Mom d) κ x = latticePoint L (κ x) := by
-  simp only [Molecule.kvec,zero_add]
-
 end WaveTurbulence.MoleProp

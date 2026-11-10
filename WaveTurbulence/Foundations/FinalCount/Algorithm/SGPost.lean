@@ -44,13 +44,6 @@ noncomputable def ProblemSG.post {ws : ℕ} (p : ProblemSG.{u,v} V d L w c g ws)
     rw [← hr]
     exact appb_largeGapOff_eraseAtoms p.state.graph r.removedAtoms hg
 
-theorem ProblemSG.post_value {ws : ℕ} (p : ProblemSG.{u,v} V d L w c g ws) {P : AppbPattern}
-    (r : AppbRealization p.state.graph P) (q : Fin P.edges.length → (Fin d → ℤ)) (γ δ C1 : ℝ) :
-    (p.post r q).value γ δ C1 = appbLinkCountA r.post L γ δ C1 w
-      (r.conditionedPostAdmissibility
-        (fun κ => p.admissible κ ∧ AppbLargeGapOff p.state.graph r.removedAtoms L w κ g) q)
-      p.scales := rfl
-
 variable {D : Type*} [Fintype D] [DecidableEq D]
 
 theorem balancedPotential_ge_nonFour_disconnected (M : Molecule V D) (hM : M.IsMolecule) (w : ℕ)

@@ -21,17 +21,6 @@ def FirstProfileCut (M : Molecule V D) (x y z p : D) : Prop :=
     ∃ U : Finset V, U ⊆ M.atoms ∧ M.mate p ∈ Degen.boundaryDarts M U ∧
       Degen.boundaryDarts M U ⊆ {M.mate p,M.mate x,M.mate y,M.mate z}
 
-theorem firstProfileCut_of_pair_cut (M : Molecule V D) {x y z p : D}
-    (U : Finset V) (hU : U ⊆ M.atoms)
-    (hcut : Degen.boundaryDarts M U={M.mate p,M.mate x}) : FirstProfileCut M x y z p := by
-  right
-  refine ⟨U,hU,?_,?_⟩
-  · rw [hcut]; simp
-  · rw [hcut]
-    intro w hw
-    simp only [mem_insert,mem_singleton] at hw ⊢
-    exact hw.elim Or.inl (fun h => Or.inr (Or.inl h))
-
 theorem firstProfileCut_mate_first (M : Molecule V D) (x y z : D) :
     FirstProfileCut M x y z (M.mate x) := by
   left

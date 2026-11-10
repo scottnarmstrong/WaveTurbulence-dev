@@ -28,12 +28,6 @@ def DoublePairMomentum {E : Type*} [AddCommGroup E] (same : Bool) (a b : E) (k :
 def doublePairCoordinates {E : Type*} [AddCommGroup E] (same : Bool) (a : E) (k : Fin 4 → E) : E × E :=
   (k 0-a,if same then k 1-a else k 2-a)
 
-theorem doublePairLabels_momentum {E : Type*} [AddCommGroup E] (same : Bool) (a b x y : E) :
-    DoublePairMomentum same a b (doublePairLabels same a b x y) := by
-  cases same <;> simp [DoublePairMomentum,doublePairLabels]
-  all_goals try constructor
-  all_goals abel_nf
-
 theorem doublePairLabels_reconstruct {E : Type*} [AddCommGroup E] (same : Bool)
     (a b : E) (k : Fin 4 → E) (hk : DoublePairMomentum same a b k) :
     k = doublePairLabels same a b (doublePairCoordinates same a k).1 (doublePairCoordinates same a k).2 := by
@@ -51,18 +45,6 @@ theorem doublePairLabels_reconstruct {E : Type*} [AddCommGroup E] (same : Bool)
     have h3 : k 3 = k 0+k 1+b := by rw [← h.2]; abel
     funext i
     fin_cases i <;> simp [doublePairLabels,doublePairCoordinates,h2,h3] <;> abel
-
-/-- The strip coefficient is exactly the appropriate external rail difference. -/
-theorem doublePair_rail_difference {E : Type*} [AddCommGroup E] (same : Bool)
-    (a b : E) (k : Fin 4 → E) (hk : DoublePairMomentum same a b k) :
-    (if same then k 3-k 2 else k 2-k 3) = a+b := by
-  cases same
-  · change k 0-k 1+k 2=a ∧ -k 0+k 1-k 3=b at hk
-    simp only [Bool.false_eq_true,ite_false]
-    rw [← hk.1,← hk.2]; abel
-  · change k 0+k 1-k 2=a ∧ -k 0-k 1+k 3=b at hk
-    simp only [ite_true]
-    rw [← hk.1,← hk.2]; abel
 
 /-- First vertex's signed physical energy. -/
 noncomputable def doublePairEnergyOne {d : ℕ} (same : Bool) (k : Fin 4 → Mom d) : ℝ :=

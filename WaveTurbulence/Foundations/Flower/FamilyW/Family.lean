@@ -20,14 +20,6 @@ def UniformFlowerFamilyW (P : WTParams) (F : ℕ → Mom P.d → ℝ) (p N : ℕ
     ‖flowerWeighted P F p N kind pat dagger
       (fun LG k => W LG k * flowerFamilyWeight LG p M A tail small z k) ζ t s n n'‖ ≤ B
 
-theorem familyW_one (P : WTParams) (F : ℕ → Mom P.d → ℝ) (p N : ℕ) {w : ℕ}
-    (kind : FlowerKind) (pat : Fin w → FixPat) (dagger : Option (Fin w → Fin 3 → Mom P.d))
-    (ζ : ℤˣ) (t s : ℝ) (n n' : Fin P.d → ℤ) (M A : ℝ) (ρ : Fin w → ℝ) (B : ℝ) :
-    UniformFlowerFamilyW P F p N kind pat dagger ζ t s n n' (fun _ _ => 1) M A ρ B ↔
-      FC23UniformFlowerFamily P F p N kind pat dagger ζ t s n n' M A ρ B := by
-  unfold UniformFlowerFamilyW FC23UniformFlowerFamily
-  simp only [one_mul]
-
 variable (P : WTParams) (F : ℕ → Mom P.d → ℝ) (p N : ℕ) {w : ℕ}
     (kind : FlowerKind) (pat : Fin w → FixPat) (dagger : Option (Fin w → Fin 3 → Mom P.d))
     (ζ : ℤˣ) (t s : ℝ) (n n' : Fin P.d → ℤ)

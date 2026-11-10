@@ -2,7 +2,7 @@
 module
 
 public import WaveTurbulence.Foundations.FinalCount.MoleProp.PropositionOne
-public import WaveTurbulence.Foundations.FinalCount.MoleProp.CellGapEquivalence
+public import WaveTurbulence.Foundations.FinalCount.Degen.SourceLadderIntervals
 import Mathlib.Tactic
 
 /-! # DH23 Proposition 10.1

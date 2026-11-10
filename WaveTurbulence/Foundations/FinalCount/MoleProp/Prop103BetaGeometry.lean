@@ -50,43 +50,6 @@ theorem isBridge_cut_of_isBridge (M : Molecule V D) {v w : V} {x y e : D}
   rw [hf e,hf (M.mate e)] at hh
   exact hh
 
-/-- Bridge deletion commutes with a split whose selected darts survive.
-This is the literal atom-map identity on the actual surviving dart carrier. -/
-theorem numComponents_eraseBond_cut_eq (M : Molecule V D) {v w : V} {x y e : D}
-    (hx : x ≠ e ∧ x ≠ M.mate e) (hy : y ≠ e ∧ y ≠ M.mate e) :
-    (eraseBond (M.cut v w x y) e).numComponents =
-      ((eraseBond M e).cut v w ⟨x,hx⟩ ⟨y,hy⟩).numComponents := by
-  classical
-  let f : WithoutBondDart (M.cut v w x y) e ≃ WithoutBondDart M e := Equiv.refl _
-  refine (numComponents_and_circuitRank_eq_of_dart_equiv
-    (eraseBond (M.cut v w x y) e) ((eraseBond M e).cut v w ⟨x,hx⟩ ⟨y,hy⟩)
-    f rfl ?_ ?_ (fun _ => rfl)).1
-  · intro z
-    change (if M.atom z.val = v ∧ z ≠ ⟨x,hx⟩ ∧ z ≠ ⟨y,hy⟩ then w else M.atom z.val) =
-      (if M.atom z.val = v ∧ z.val ≠ x ∧ z.val ≠ y then w else M.atom z.val)
-    have hzx : (z ≠ ⟨x,hx⟩) ↔ z.val ≠ x :=
-      ⟨fun h he => h (Subtype.ext he),fun h he => h (congrArg Subtype.val he)⟩
-    have hzy : (z ≠ ⟨y,hy⟩) ↔ z.val ≠ y :=
-      ⟨fun h he => h (Subtype.ext he),fun h he => h (congrArg Subtype.val he)⟩
-    simp only [hzx,hzy]
-  · intro z
-    exact Subtype.ext rfl
-
-/-- A source beta split disconnects by exactly the same component increment
-before or after deleting an old bridge away from its chosen darts.  Thus B
-cannot newly enable that split. -/
-theorem cut_component_increment_eraseBond_eq (M : Molecule V D) {v w : V} {x y e : D}
-    (hd : M.IsCutData v w x y) (he : IsBridge M e)
-    (hx : x ≠ e ∧ x ≠ M.mate e) (hy : y ≠ e ∧ y ≠ M.mate e) :
-    (((eraseBond M e).cut v w ⟨x,hx⟩ ⟨y,hy⟩).numComponents : ℤ) -
-        (eraseBond M e).numComponents =
-      ((M.cut v w x y).numComponents : ℤ) - M.numComponents := by
-  have hcut := isBridge_cut_of_isBridge M hd he
-  have hF := numComponents_eraseBond_eq_add_one M e he
-  have hFC := numComponents_eraseBond_eq_add_one (M.cut v w x y) e hcut
-  rw [numComponents_eraseBond_cut_eq M hx hy] at hFC
-  omega
-
 /-- An avoiding path after splitting projects to an OLD avoiding path. -/
 theorem cut_avoiding_path_projects (M : Molecule V D) {v w : V} {x y e : D}
     (hd : M.IsCutData v w x y) {a b : V}

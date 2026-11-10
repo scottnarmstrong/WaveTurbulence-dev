@@ -2,7 +2,9 @@
 module
 
 public import WaveTurbulence.Foundations.FinalCount.Algorithm.CountingForest
-public import WaveTurbulence.Foundations.FinalCount.Algorithm.CountingForestMove
+public import WaveTurbulence.Foundations.FinalCount.Algorithm.CountingForestSplit
+public import WaveTurbulence.Foundations.FinalCount.Algorithm.CountingForestDiscard
+public import WaveTurbulence.Foundations.FinalCount.Algorithm.CountingForestReplaceValue
 public import WaveTurbulence.Foundations.FinalCount.Algorithm.BalancedForestTrace
 import Mathlib.Tactic
 

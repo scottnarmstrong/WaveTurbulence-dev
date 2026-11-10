@@ -80,8 +80,6 @@ theorem Ufam_pos : ∀ P p, 0 < Ufam P p := by
     · exact le_rfl
   linarith
 
-theorem Ufam_L (P : WTParams) (L : ℝ) (p : ℕ) : Ufam {P with L := L} p = Ufam P p := rfl
-
 theorem Ufam_one (P : WTParams) (p : ℕ) : 1 ≤ Ufam P p := by
   have := Ufam_pos P p
   unfold Ufam at *

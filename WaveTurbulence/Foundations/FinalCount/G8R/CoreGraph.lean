@@ -119,13 +119,6 @@ theorem piece_connected_of_cross (N : Molecule V D) {k : ℕ} (hk : ∀ T ⊆ N.
   omega
 
 omit [DecidableEq D] in
-/-- **Parity of a cut**: `|∂S| ≡ ∑_{S} deg (mod 2)`. -/
-theorem cross_add_sum_even (N : Molecule V D) {S : Finset V} (hS : S ⊆ N.atoms) :
-    (crossDarts N S).card + ∑ v ∈ S, N.deg v = 2 * ((piece N S).bonds.card + (crossDarts N S).card) := by
-  have := two_mul_piece_bonds N hS
-  omega
-
-omit [DecidableEq D] in
 /-- In a 4-regular molecule, every cut has an even number of crossing darts. -/
 theorem cross_even_of_reg (N : Molecule V D) (h4 : ∀ v ∈ N.atoms, N.deg v = 4) {S : Finset V} (hS : S ⊆ N.atoms) :
     Even (crossDarts N S).card := by

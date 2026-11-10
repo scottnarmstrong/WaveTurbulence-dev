@@ -45,12 +45,6 @@ noncomputable def forestSlack (F : CountingForest.{u,v} V d L γ η w c B) : ℤ
       then 0 else 16000
   | _ => 0
 
-theorem forestSlack_nonneg (F : CountingForest.{u,v} V d L γ η w c B) : 0 ≤ forestSlack F := by
-  unfold forestSlack
-  split
-  · split_ifs <;> norm_num
-  · exact le_rfl
-
 theorem forestSlack_le (F : CountingForest.{u,v} V d L γ η w c B) : forestSlack F ≤ 16000 := by
   unfold forestSlack
   split

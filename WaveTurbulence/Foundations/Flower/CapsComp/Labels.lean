@@ -167,22 +167,6 @@ section Glue
 
 variable {m w : ℕ} {a : Fin m → ℕ}
 
-theorem card_filter_glueBranchN (σ : (Σ c : Fin m, Fin (a c)) ≃ Fin w) (TA : ∀ c, Fin (a c) → TTree)
-    (Q : GBranch (CapsGlue.gT σ TA) → Prop) (c : Fin m)
-    (hQ : ∀ c' (y : GBranch (TA c')), Q (glueBranchN σ TA ⟨c', y⟩) → c' = c) :
-    (univ.filter Q).card = (univ.filter fun y : GBranch (TA c) => Q (glueBranchN σ TA ⟨c, y⟩)).card := by
-  symm
-  apply Finset.card_bij (fun y _ => glueBranchN σ TA ⟨c, y⟩)
-  · intro y hy; simpa using hy
-  · intro y _ y' _ e
-    have := (glueBranchN σ TA).injective e
-    simpa using this
-  · intro b hb
-    obtain ⟨⟨c', y⟩, rfl⟩ := (glueBranchN σ TA).surjective b
-    have hc := hQ c' y (by simpa using hb)
-    subst hc
-    exact ⟨y, by simpa using hb, rfl⟩
-
 theorem glueBranchN_tree_eq (σ : (Σ c : Fin m, Fin (a c)) ≃ Fin w) (TA : ∀ c, Fin (a c) → TTree)
     {c c' : Fin m} (i : Fin (a c)) (y : GBranch (TA c')) :
     (glueBranchN σ TA ⟨c', y⟩).1.1 = σ ⟨c, i⟩ ↔ ∃ h : c' = c, h ▸ y.1.1 = i := by

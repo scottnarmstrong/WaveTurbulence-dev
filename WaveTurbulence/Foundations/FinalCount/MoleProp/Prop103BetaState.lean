@@ -42,17 +42,6 @@ theorem isCutData_withFreshAtom (M : Molecule V D) {v : V} {x y : D}
   change (some a : Option V) = none at ha
   cases ha
 
-/-- Both actual beta joints have degree two. -/
-theorem beta_joint_degrees (M : Molecule V D) {v : V} {x y : D}
-    (hd : (withFreshAtom M).IsCutData (some v) none x y) (hv4 : M.deg v = 4) :
-    ((withFreshAtom M).cut (some v) none x y).deg (some v) = 2 ∧
-      ((withFreshAtom M).cut (some v) none x y).deg none = 2 := by
-  have h1 := Mole.cut_deg_old (withFreshAtom M) hd
-  have h2 := Mole.cut_deg_new_add_two (withFreshAtom M) hd
-  have hdeg : (withFreshAtom M).deg (some v) = M.deg v := by
-    exact congrArg Finset.card (mapAtoms_dartsAt M (someAtomEmbedding V) v)
-  exact ⟨h1,by omega⟩
-
 /-- Injectively renaming atom names preserves actual bridges. -/
 theorem mapAtoms_isBridge_iff {W : Type*} [DecidableEq W]
     (M : Molecule V D) (f : V ↪ W) (e : D) : IsBridge (mapAtoms M f) e ↔ IsBridge M e := by

@@ -44,12 +44,6 @@ theorem FineGeometryStep.geometric {s t : State.{u,v} V} (h : FineGeometryStep s
   | table k hk r hp hB => exact .delete s k r
   | common r hp hB => exact .common s r
 
-theorem FineGeometryStep.molecule {s t : State.{u,v} V} (h : FineGeometryStep s t)
-    (hM : s.graph.IsMolecule) : t.graph.IsMolecule := by
-  cases h with
-  | table k hk r hp hB => exact appb_eraseAtoms_isMolecule s.graph hM r.removedAtoms
-  | common r hp hB => exact appb_eraseAtoms_isMolecule s.graph hM r.removedAtoms
-
 theorem fine_table_defect_mono (M : Molecule V D) (hM : M.IsMolecule) (k : AppbPatternKind)
     (hk : k ∈ ([AppbPatternKind.r21,.r22,.r23,.r23triangle,.r24] : List _))
     (r : AppbRealization M k.pattern) (hp : FineProfile M k r)
@@ -93,18 +87,5 @@ theorem FineGeometryStep.balanced_drop_le {s t : State.{u,v} V} (h : FineGeometr
   cases h with
   | table k hk r hp hB => exact pattern_deletion_balanced_drop_le s.graph hM k r
   | common r hp hB => exact common_deletion_balanced_drop_le s.graph hM r
-
-theorem DegreeTwoSelection.exists_fine_step {s : State.{u,v} V}
-    (hB : ∀ e : s.Dart,¬Degen.IsBridge s.graph e)
-    (hNoThree : ∀ a ∈ s.graph.atoms,s.graph.deg a ≠ 3) (h : DegreeTwoSelection s.graph) :
-    ∃ t : State.{u,v} V,FineGeometryStep s t := by
-  cases h with
-  | doubleFour r h2 => exact ⟨ofMolecule r.post,.table s .r21 (by simp) r h2 hB⟩
-  | singleFour r h2 h3 => exact ⟨ofMolecule r.post,.table s .r22 (by simp) r ⟨h2,h3⟩ hB⟩
-  | triangle r => exact ⟨ofMolecule r.post,.table s .r23triangle (by simp) r trivial hB⟩
-  | common r => exact ⟨ofMolecule r.post,.common s r (hNoThree _ (r.vertex_mem 4 (by decide))) hB⟩
-  | chain r => exact ⟨ofMolecule r.post,.table s .r23 (by simp) r
-      ⟨hNoThree _ (r.vertex_mem 4 (by decide)),hNoThree _ (r.vertex_mem 5 (by decide))⟩ hB⟩
-  | doubleTwo r => exact ⟨ofMolecule r.post,.table s .r24 (by simp) r trivial hB⟩
 
 end WaveTurbulence.Mole.AppbAlgorithm

@@ -1,7 +1,6 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 
-public import WaveTurbulence.Foundations.Flower.FiltCoh.MultiPieces
 public import WaveTurbulence.Foundations.Flower.FiltCoh.MultiStep
 public import WaveTurbulence.Foundations.Flower.FiltCoh.D5Oracle
 

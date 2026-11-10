@@ -68,28 +68,4 @@ theorem set_eq_atoms (hdeg : M.deg (C.a C.n) + M.deg (C.b C.n) = 6)
 
 end YChain
 
-/-- **DH23 Lemma `ylem2`, first statement, (Y1) case 1**: a connected molecule whose (Y) chain has no extra bond at
-its last pair is the chain itself (so `𝕄′` is empty), and `𝔄(𝕄) ≤ 1`. -/
-theorem ylem2_Y1c1 (d : ℕ) (hd : 3 ≤ d) (γ : ℝ) (hγ : γ ∈ Set.Ioo (0 : ℝ) 1) (η : ℝ) (hη : 0 < η)
-    (hηmax : η ≤ min γ (1 - γ) / 2) :
-    ∃ Cstar : ℝ, 1 ≤ Cstar ∧ ∀ C1 ≥ Cstar, ∀ δ ∈ Set.Ioc (0 : ℝ) 1, ∃ R : ℝ, ∀ L ≥ R,
-    ∀ {V D : Type*} [DecidableEq V] [Fintype D] [DecidableEq D] (M : Molecule V D),
-      (∀ v ∈ M.atoms, M.outdeg v ≤ 2 ∧ M.indeg v ≤ 2) →
-      (∀ u ∈ M.atoms, ∀ v ∈ M.atoms, M.SameComponent u v) → ∀ C : YChain M,
-      M.deg (C.a C.n) + M.deg (C.b C.n) = 6 →
-        C.set = M.atoms ∧ ∀ P : Finset V → ℝ, (∀ S ∈ MoleProp.ladderCells M, 0 ≤ P S) →
-          AFree M d L γ δ η C1 P ≤ 1 := by
-  obtain ⟨Cstar, hCstar, h101⟩ := MoleProp.molecule_count_bound d hd γ hγ η hη hηmax
-  refine ⟨Cstar, hCstar, fun C1 hC1 δ hδ => ?_⟩
-  obtain ⟨R, hR⟩ := h101 C1 hC1 δ hδ
-  refine ⟨R, fun L hL => ?_⟩
-  intro V D _ _ _ M hcap hconn C hdeg
-  refine ⟨C.set_eq_atoms hdeg hconn, fun P hP => ?_⟩
-  have ha := C.card_away_last_a
-  have hmol : M.IsMolecule := by
-    refine ⟨hcap, fun v hv => ⟨C.a C.n, (C.mem C.n le_rfl).1, hconn v hv _ (C.mem C.n le_rfl).1, ?_⟩⟩
-    have hb := C.card_away_last_b
-    omega
-  exact hR L hL M hmol _ P (fun κ h => h.1) (fun κ h => h.2) hP
-
 end WaveTurbulence.MoleProp4

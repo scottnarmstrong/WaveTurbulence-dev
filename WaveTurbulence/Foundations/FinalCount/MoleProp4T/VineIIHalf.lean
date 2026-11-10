@@ -83,14 +83,6 @@ def bondSet : Finset (Sym2 V) :=
   insert C.tripleE ((range C.n).image C.rungE ∪ (range C.n).image C.railAE ∪ (range C.n).image C.railBE)
 
 omit [DecidableEq D] in
-theorem a_inj {i j : ℕ} (hi : i ≤ C.n) (hj : j ≤ C.n) : C.a i = C.a j ↔ i = j :=
-  ⟨C.inj_a i hi j hj, fun h => h ▸ rfl⟩
-
-omit [DecidableEq D] in
-theorem b_inj {i j : ℕ} (hi : i ≤ C.n) (hj : j ≤ C.n) : C.b i = C.b j ↔ i = j :=
-  ⟨C.inj_b i hi j hj, fun h => h ▸ rfl⟩
-
-omit [DecidableEq D] in
 theorem triple_notMem : C.tripleE ∉ (range C.n).image C.rungE ∪ (range C.n).image C.railAE ∪
     (range C.n).image C.railBE := by
   simp only [mem_union, mem_image, mem_range, not_or, not_exists, not_and]

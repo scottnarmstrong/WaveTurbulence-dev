@@ -51,8 +51,6 @@ theorem eq_addrExt_of_prefix {z y : Address w} (h1 : z.1 = y.1) (h2 : z.2 <+: y.
   show y.2 = z.2 ++ y.2.drop z.2.length
   rw [← hr, List.drop_left]
 
-theorem layerAt_node' (a : GNode LG.garden.tree) : LG.layer a = layerAt LG a.1 := (layerAt_node LG a).symm
-
 end Basic
 
 /-! ## One correspondence -/

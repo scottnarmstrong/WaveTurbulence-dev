@@ -128,14 +128,6 @@ theorem filtFamily_explicit (Bc : ℕ → ℝ)
   obtain ⟨h1, h2, h3, h4, h5, h6, h7, h8, h9⟩ := hF
   exact filt_fixed Bc Pm {P with L := L} h1 h2 h3 h4 h5 h6 h7 h8 h9 (hQ L hL)
 
-/-- **`filtFamily_of_core`.** -/
-theorem filtFamily_of_core (Bc : ℕ → ℝ)
-    (hBc : ∀ d, 3 ≤ d → Bc d + 80 * d + 3 < (100 * (d : ℝ)) ^ 3)
-    (H : WTPrefixP (FlowerCoreFiltAt Bc)) :
-    ∃ (C : ℕ → ℝ) (U : WTParams → ℕ → ℝ), (∀ d, 0 < C d) ∧ (∀ P p, 0 < U P p) ∧
-      WTPrefixP (FlowerFiltFamilyAt C U) :=
-  ⟨Cfam, Ufam, Cfam_pos, Ufam_pos, filtFamily_explicit Bc hBc H⟩
-
 /-- **`gainFamily_of_core`** (same `C`, `U`). -/
 theorem gainFamily_of_core (Bc : ℕ → ℝ)
     (hBc : ∀ d, 3 ≤ d → Bc d + 80 * d + 3 < (100 * (d : ℝ)) ^ 3)

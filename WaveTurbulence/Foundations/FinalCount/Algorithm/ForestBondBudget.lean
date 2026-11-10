@@ -38,11 +38,4 @@ theorem ForestMove.bonds_le {F G : List (State.{u,v} V)} (h : ForestMove F G) :
     simp only [forestBonds,List.map_append,List.sum_append,List.map_cons,List.sum_cons]
     omega
 
-theorem forestBonds_edit_decrease (pre tail : List (State.{u,v} V))
-    {s t : State.{u,v} V} (h : GeometricStep s t) :
-    forestBonds (pre++t::tail)+1 ≤ forestBonds (pre++s::tail) := by
-  have hh := h.bondPotential_lt
-  simp only [forestBonds,List.map_append,List.sum_append,List.map_cons,List.sum_cons]
-  omega
-
 end WaveTurbulence.Mole.AppbAlgorithm

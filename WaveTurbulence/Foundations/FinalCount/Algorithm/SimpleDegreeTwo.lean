@@ -50,11 +50,4 @@ theorem Star.simpleDegreeTwo_iff {M : Molecule V D} {v : V} (hv : v ∈ M.atoms)
     exact ⟨hd,st.neighbor 0,st.neighbor_mem 0,st.neighbor 1,st.neighbor_mem 1,
       (st.neighbor_ne 0).symm,(st.neighbor_ne 1).symm,hne,h1,h2⟩
 
-theorem simpleDegreeTwoAtoms_le_degreeTwo (M : Molecule V D) :
-    (simpleDegreeTwoAtoms M).card ≤ (appbDegreeAtoms M 2).card := by
-  classical
-  apply card_le_card
-  intro v hv
-  exact mem_filter.mpr ⟨(mem_filter.mp hv).1,(mem_filter.mp hv).2.1⟩
-
 end WaveTurbulence.Mole.AppbAlgorithm

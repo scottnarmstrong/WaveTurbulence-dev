@@ -77,17 +77,6 @@ theorem erase_low_degree_sameComponent (M : Molecule V D)
   exact (eraseAtoms_sameComponent_iff M {v} u w).mpr
     ((mem_residualComponent M {v} u w).mp hwself).2.2
 
-/-- The declared component quotient after low-degree removal has cardinal
-at most one, including the empty post graph. -/
-theorem numComponents_erase_low_degree_le_one (M : Molecule V D)
-    (hbridge : ∀ e, ¬Degen.IsBridge M e)
-    (hconn : ∀ u ∈ M.atoms, ∀ w ∈ M.atoms, M.SameComponent u w)
-    {v : V} (hv : v ∈ M.atoms) (hdeg : M.deg v ≤ 3) :
-    (eraseAtoms M {v}).numComponents ≤ 1 := by
-  rw [numComponents_eraseAtoms_eq_card_newComponents M hconn {v}
-    (singleton_nonempty v) (singleton_subset_iff.mpr hv)]
-  exact card_newComponents_singleton_le_one M hbridge hdeg
-
 /-- DH23 Proposition 10.3 R step: degree at most three suffices for
 connectivity after removal in any connected bridgeless graph. The empty
 post graph is allowed; no beta-cut hypothesis is needed. -/

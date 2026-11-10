@@ -24,15 +24,4 @@ theorem d33_realization_has_pair {M : Molecule V D}
     omega
   · exact (r.bondsBetween_vertices_eq 1 2 (by decide) (by decide)).trans (by decide)
 
-theorem d33same_realization_has_pair {M : Molecule V D}
-    (r : AppbRealization M AppbPatternKind.d33same.pattern) : HasDegreeThreePair M 2 := by
-  refine ⟨r.vertex 1,r.vertex_mem 1 (by decide),r.vertex 2,r.vertex_mem 2 (by decide),?_,?_,?_,?_⟩
-  · exact (r.deleted_degree 1 (by decide)).trans (by decide)
-  · exact (r.deleted_degree 2 (by decide)).trans (by decide)
-  · intro h
-    have hh := r.vertex_injective (by decide : 1 ∈ AppbPatternKind.d33same.pattern.vertices)
-      (by decide : 2 ∈ AppbPatternKind.d33same.pattern.vertices) h
-    omega
-  · exact (r.bondsBetween_vertices_eq 1 2 (by decide) (by decide)).trans (by decide)
-
 end WaveTurbulence.Mole.AppbAlgorithm

@@ -1,7 +1,6 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 
-public import WaveTurbulence.Foundations.Flower.FiltCoh.TreeBound
 public import WaveTurbulence.Foundations.Flower.FiltCoh.ZeroStar
 public import WaveTurbulence.Foundations.Flower.FiltCoh.CoupleStarBound
 public import WaveTurbulence.Foundations.Spine.RA1LW.TreeKernelReindex
