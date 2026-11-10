@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "If you use this formalization, please cite it as below."
+title: "A Lean 4 formalization of Deng–Hani's long time justification of wave turbulence theory"
+abstract: "A formal proof, checked by the Lean 4 proof assistant, of Theorem 1.1 of Y. Deng and Z. Hani, Long time justification of wave turbulence theory (arXiv:2311.10082), for the full range 0 < γ < 1 on the square torus."
+authors:
+  - given-names: Scott
+    family-names: Armstrong
+  - given-names: Ahmed
+    family-names: Bou-Rabee
+license: Apache-2.0
+repository-code: "https://github.com/scottnarmstrong/WaveTurbulence-dev"
+type: software
+references:
+  - type: article
+    title: "Long time justification of wave turbulence theory"
+    authors:
+      - given-names: Yu
+        family-names: Deng
+      - given-names: Zaher
+        family-names: Hani
+    identifiers:
+      - type: other
+        value: "arXiv:2311.10082"
+        description: "arXiv identifier"
+    url: "https://arxiv.org/abs/2311.10082"
