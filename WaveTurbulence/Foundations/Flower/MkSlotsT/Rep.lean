@@ -59,9 +59,6 @@ theorem unitsRep_disj (mkF : Stage1Mk.MarkFn w) (a : PrescribedPrimeGarden w) : 
 abbrev shapeRep (mkF : Stage1Mk.MarkFn w) (a : PrescribedPrimeGarden w) : SpliceShape (unitsRep mkF a) (stA mkF a).G :=
   VineB.stShape (Mole.garden_isMolecule a.prime.skeleton) a.totalSigma (classMk mkF a)
 
-theorem shapeRep_br (mkF : Stage1Mk.MarkFn w) (a : PrescribedPrimeGarden w) :
-    (shapeRep mkF a).br = (stA mkF a).M.ob := rfl
-
 theorem shapeRep_hinges (mkF : Stage1Mk.MarkFn w) (a : PrescribedPrimeGarden w) :
     (shapeRep mkF a).hinges (unitsRep_disj mkF a) = (stA mkF a).hinges :=
   VineB.stShape_hingesMk (Mole.garden_isMolecule a.prime.skeleton) a.totalSigma (classMk mkF a)
@@ -110,10 +107,5 @@ theorem onStemAddr_of_mem_stemSetCap {LG : LayeredGarden w} {J : Finset (Fin w)}
     {b : GBranch LG.garden.tree} (hb : b ∈ stemSetCap LG J j) : OnStemAddr LG J b.1 := by
   obtain ⟨-, -, hst, -⟩ := (MkMark.mem_stemSetCap_iff LG J j b).mp hb
   exact hst
-
-/-- Stem addresses only depend on the layered garden through its garden (transport along an equality). -/
-theorem onStemAddr_congr {LG LG' : LayeredGarden w} (h : LG = LG') (J : Finset (Fin w)) (z : Address w) :
-    OnStemAddr LG J z ↔ OnStemAddr LG' J z := by
-  subst h; exact Iff.rfl
 
 end WaveTurbulence.Flower.MkSlotsT

@@ -47,12 +47,6 @@ variable {w d : ℕ}
 /-- The smallest radius of a nonempty list. -/
 def rmin (r : ℝ) (rs : List ℝ) : ℝ := rs.foldl min r
 
-theorem rmin_le_head (r : ℝ) (rs : List ℝ) : rmin r rs ≤ r := by
-  unfold rmin
-  induction rs generalizing r with
-  | nil => exact le_rfl
-  | cons r' rs ih => exact (ih (min r r')).trans (min_le_left _ _)
-
 theorem le_rmin (r : ℝ) (rs : List ℝ) (c : ℝ) (hr : c ≤ r) (hrs : ∀ x ∈ rs, c ≤ x) : c ≤ rmin r rs := by
   unfold rmin
   induction rs generalizing r with
@@ -125,10 +119,6 @@ def SUStem (j : ι) : List ℝ :=
   if StemB D hS layer hLayer J (coreLG D hS layer hLayer (blk j).upper) then
     rad (coreLG D hS layer hLayer (blk j).upper) else []
 
-/-- **The per-slot factors** (kind (c)). -/
-def ThetaStem (k : GNode (D.forest hS) → Mom d) (s : ReplacementSlot S) : ℂ :=
-  slotFac D hS (brExt (stemBW (layeredReconstruction D hS layer hLayer) J rad k)) s
-
 omit [DecidableEq ι] in
 theorem filtStem_hinge (c : GBranch Gsb.tree) (hc : c ∈ Φ.hinges hd) :
     filtStem D hS Φ hd layer hLayer J rad hrad c = none := by
@@ -144,77 +134,7 @@ theorem filtStem_ok (c : GBranch Gsb.tree) (q : ℝ × SchwartzMap ℝ ℂ)
   split_ifs at hq with h
   · exact ⟨h.1, filtOfRad_ok _ _ q hq⟩
 
-omit [Fintype ι] [DecidableEq ι] in
-include hrad in
-theorem SUStem_pos (j : ι) : ∀ s ∈ SUStem D hS layer hLayer J rad (blk := blk) j, 0 < s := by
-  intro s hs
-  unfold SUStem at hs
-  split_ifs at hs
-  · exact lt_of_lt_of_le zero_lt_one (hrad _ s hs)
-  · cases hs
-
 variable {n : Fin w → (Fin d → ℤ)} {nfl : Fin d → ℤ}
-
-/-- **T4 (the member weight factor).** Under `StemRet`, on every decoration `κ` of the reconstruction: the generic
-stem filter weight is the atom part (the piece's atom filters `filtStem` at the skeleton resonance factors
-`Ω_{Φ.br c}` of the collapsed decoration) times the top part (B3-2's unit top filters at radii `SUStem`) times the
-slot part (`ThetaStem`). -/
-theorem stemFiltG_factor (hR : StemRet S D.tree blk (layeredReconstruction D hS layer hLayer) J)
-    (κ : GenDecoration (D.garden hS) d n nfl) (L : ℝ) (base : Mom d) :
-    (stemFiltG (layeredReconstruction D hS layer hLayer) J rad
-        (cosetDecoration (D.garden hS) L base κ.1) : ℂ) =
-      (∏ c ∈ univ.filter (fun c => c ∉ Φ.hinges hd),
-          filtW (filtStem D hS Φ hd layer hLayer J rad hrad c)
-            (omegaNode S (cosetDecoration S L base (collapseGenDecoration D hS κ).1) (Φ.br c))) *
-        (∏ j, VineSpaceK.nodeWeight (V5W2L.topFilterWeightL (SUStem D hS layer hLayer J rad (blk := blk) j)) L base
-          (blk j).upper (collapseGenDecoration D hS κ).1) *
-        ∏ s, ThetaStem D hS layer hLayer J rad (cosetDecoration (D.garden hS) L base κ.1) s := by
-  refine (stemFiltG_eq_prod _ J rad _).trans ?_
-  have hG : ∀ z : GNode (D.forest hS), ¬ OnStemAddr (layeredReconstruction D hS layer hLayer) J z.1 →
-      brExt (stemBW (layeredReconstruction D hS layer hLayer) J rad
-        (cosetDecoration (D.garden hS) L base κ.1)) z = 1 := by
-    intro z hz
-    unfold brExt
-    split_ifs with hb
-    · unfold stemBW
-      rw [if_neg]
-      rintro ⟨j, hj⟩
-      exact hz (onStemAddr_of_mem_stemSetCap hj)
-    · rfl
-  refine (stem_split D hS Φ hd hR _ hG).trans ?_
-  congr 1
-  congr 1
-  · refine Finset.prod_congr rfl fun c hc => ?_
-    have hc' : c ∉ Φ.hinges hd := (Finset.mem_filter.mp hc).2
-    refine (brExt_toNode _ (coreLG D hS layer hLayer (Φ.br c))).trans ?_
-    have hω : omegaNode (layeredReconstruction D hS layer hLayer).garden (cosetDecoration (D.garden hS) L base κ.1)
-        (coreLG D hS layer hLayer (Φ.br c)) =
-        omegaNode S (cosetDecoration S L base (collapseGenDecoration D hS κ).1) (Φ.br c) :=
-      omegaNode_core_collapse D hS κ L base (Φ.br c)
-    unfold stemBW filtStem
-    by_cases hst : StemB D hS layer hLayer J (coreLG D hS layer hLayer (Φ.br c))
-    · have hst' := hst
-      unfold StemB at hst'
-      rw [if_pos hst', if_pos ⟨hc', hst⟩, filtW_filtOfRad, hω]
-    · have hst' := hst
-      unfold StemB at hst'
-      rw [if_neg hst', if_neg (fun h => hst h.2)]
-      rfl
-  · refine Finset.prod_congr rfl fun j _ => ?_
-    refine (brExt_toNode _ (coreLG D hS layer hLayer (blk j).upper)).trans ?_
-    have hω : omegaNode (layeredReconstruction D hS layer hLayer).garden (cosetDecoration (D.garden hS) L base κ.1)
-        (coreLG D hS layer hLayer (blk j).upper) =
-        omegaNode (D.garden hS) (cosetDecoration (D.garden hS) L base κ.1) (D.coreBranch hS (blk j).upper) := rfl
-    rw [← radProd_core_eq_nodeWeight D hS κ L base, ← hω]
-    unfold stemBW SUStem
-    by_cases hst : StemB D hS layer hLayer J (coreLG D hS layer hLayer (blk j).upper)
-    · have hst' := hst
-      unfold StemB at hst'
-      rw [if_pos hst', if_pos hst]
-    · have hst' := hst
-      unfold StemB at hst'
-      rw [if_neg hst', if_neg hst]
-      rfl
 
 end Data
 

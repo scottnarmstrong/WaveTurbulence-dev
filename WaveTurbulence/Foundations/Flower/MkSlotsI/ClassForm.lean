@@ -127,17 +127,6 @@ def pieceGenAt (P : WTParams) {R : ℕ} (J : Finset (Fin (2 * R))) (pat : Fin (2
     (protAt J pat t s kSel a Mk) (protI a.layered J pat t s kSel).card (fixAt J pat t s a Mk)
     (filtGenAt J P.L σ kSel Rs a Mk) (indGenAt J P.L σ kSel a Mk dag) (lbGenAt J pat t s a Mk)
 
-/-- At B4's class marking the residual selected atoms are `MkSlotsG.selRGen` (definitionally). -/
-theorem selRAt_classMk (J : Finset (Fin w)) (kSel : Fin w → Option ℕ) (mkF : Stage1Mk.MarkFn w)
-    (a : PrescribedPrimeGarden w) : selRAt J kSel a (classMk mkF a) = MkSlotsG.selRGen J kSel mkF a := rfl
-
-/-- **At B4's class marking the piece is `MkSlotsG.pieceGen`** (definitionally). -/
-theorem pieceGenAt_classMk (P : WTParams) {R : ℕ} (J : Finset (Fin (2 * R))) (pat : Fin (2 * R) → FixPat)
-    (t s : ℝ) (kSel σ : Fin (2 * R) → Option ℕ) (Rs : Fin (2 * R) → ℝ) (mkF : Stage1Mk.MarkFn (2 * R))
-    (a : PrescribedPrimeGarden (2 * R)) (dag : Option (Fin (2 * R) → Fin 3 → Mom P.d)) :
-    pieceGenAt P J pat t s kSel σ Rs a (classMk mkF a) dag = MkSlotsG.pieceGen P J pat t s kSel σ Rs mkF a dag :=
-  rfl
-
 variable (P : WTParams) {R : ℕ} (J : Finset (Fin (2 * R))) (pat : Fin (2 * R) → FixPat) (t s : ℝ)
   (kSel σ : Fin (2 * R) → Option ℕ) (Rs : Fin (2 * R) → ℝ) (a : PrescribedPrimeGarden (2 * R))
   (dag : Option (Fin (2 * R) → Fin 3 → Mom P.d))
@@ -312,10 +301,6 @@ def centreForm {P : WTParams} {R : ℕ} (π : Stage1PieceMK P.d R) (hS : π.Gsb.
 `hasSum_sigma_centred`). -/
 def domOf {d R : ℕ} (π : Stage1PieceMK d R) (tt : Fin (2 * R) → ℝ) : Set (GBranch π.Gsb.tree → ℝ) :=
   splicedTimeDomainFix π.Gsb π.layer tt π.fix ∩ MkSlotsB.lbDomR π.lb
-
-/-- The domain of a piece is the engine's `fixLB` (so `CentreEngine`'s `hsliceD` holds by `Iff.rfl`). -/
-theorem domOf_eq_fixLB {d R : ℕ} (π : Stage1PieceMK d R) (tt : Fin (2 * R) → ℝ) :
-    domOf π tt = MkSlotsS.fixLB π.Gsb π.layer tt π.fix π.lb := rfl
 
 variable {R : ℕ}
 

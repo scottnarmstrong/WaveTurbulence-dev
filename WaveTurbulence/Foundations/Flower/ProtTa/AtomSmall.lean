@@ -112,11 +112,4 @@ theorem psi_uniform {θ : ℝ} (hθ0 : 0 ≤ θ) (hθ1 : θ ≤ 1) :
   · exact (psi_large hθ0 hθ1 h).trans (le_max_left _ _)
   · exact (psi_small hθ0 hθ1 (not_le.mp h).le).trans (le_max_right _ _)
 
-/-- Prop 5.1 uniformly in the layer index: translating the unit layer by `q` (both times) does not change the norm. -/
-theorem psi_uniform_translate {θ : ℝ} (hθ0 : 0 ≤ θ) (hθ1 : θ ≤ 1) :
-    ∃ B : ℝ≥0∞, B < ⊤ ∧ ∀ (z : ℝ) (q : Fin 2 → ℝ),
-      timeFourierNorm θ (fun y => psi z (y + q)) ≤ B := by
-  obtain ⟨B, hB, h⟩ := psi_uniform hθ0 hθ1
-  exact ⟨B, hB, fun z q => by rw [timeFourierNorm_translate]; exact h z⟩
-
 end WaveTurbulence.Flower.ProtTa

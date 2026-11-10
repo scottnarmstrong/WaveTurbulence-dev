@@ -87,17 +87,6 @@ variable {LG : LayeredGarden 2} {Xp : RegChain} {c : MiniCplCode} {Q₁ Q₂ Q�
   {LG₁ LG₂ LG₃ : LayeredGarden 2} (h : T1Data c Q₁ Q₂ Q₃ LGQ.garden LG₁.garden LG₂.garden LG₃.garden)
 include D h
 
-/-- **A branch-local multiplier satisfies the hypotheses of `kernelProt_t2m`.** -/
-theorem multFactors_local {d : ℕ} (f : GBranch LG.garden.tree → (Fin 4 → Mom d) → ℂ) :
-    (∀ K, (∏ b, f b (bstar K b)) = (fun K' => ∏ x, f (D.gd.ofSum (.inl x)) (bstar K' x)) (K ∘ D.gd.ι₁) *
-        (fun K' => ∏ y, f (D.gd.ofSum (.inr y)) (bstar K' y)) (K ∘ D.gd.ι₂)) ∧
-      h.MultFactors (fun K' => ∏ y, f (D.gd.ofSum (.inr y)) (bstar K' y))
-        (fun A B => f (D.gd.ofSum (.inr (h.rt 0))) A * f (D.gd.ofSum (.inr (h.rt 1))) B)
-        (fun K => ∏ x, f (D.gd.ofSum (.inr (h.βA x))) (bstar K x))
-        (fun K => ∏ x, f (D.gd.ofSum (.inr (h.βB x))) (bstar K x))
-        (fun K => ∏ x, f (D.gd.ofSum (.inr (h.βC x))) (bstar K x)) :=
-  ⟨fun K => D.multGlue_local f K, h.multFactors_local (fun y => f (D.gd.ofSum (.inr y)))⟩
-
 end T2mData
 
 end WaveTurbulence.Flower.ProtCut

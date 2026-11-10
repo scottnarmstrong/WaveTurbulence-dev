@@ -27,21 +27,6 @@ open WaveTurbulence.Flower.MkDefs WaveTurbulence.Flower.FinalMKDefs WaveTurbulen
 
 namespace WaveTurbulence.Flower.MkSlotsI
 
-/-- The mass parameter of `RepresentsIntMKSel` is monotone. -/
-theorem representsIntMKSel_mono_s {P : WTParams} {R : ℕ} (π : Stage1PieceMK P.d R)
-    (sel : Finset (GBranch π.Gsb.tree)) {n : ℕ} {cP : ℝ} {tt : Fin (2 * R) → ℝ} {base : Mom P.d}
-    {roots : Fin (2 * R) → (Fin P.d → ℤ)} {s s' : ℝ} {val : ℂ} (hss : s ≤ s') (hL : 0 ≤ P.L) (hC : 0 ≤ P.C₁)
-    (hδ : 0 ≤ P.δ) (h : RepresentsIntMKSel π sel n cP tt base roots s val) :
-    RepresentsIntMKSel π sel n cP tt base roots s' val := by
-  obtain ⟨Ξ, hΞ, μ, w, ctr, edge, hinge, freq, h1, h2, h3, h4, h5⟩ := h
-  refine ⟨Ξ, hΞ, μ, w, ctr, edge, hinge, freq, h1, h2, h3, h4.trans ?_, h5⟩
-  have hK : 0 ≤ (P.C₁ * Real.sqrt P.δ) ^ (n - π.Gsb.order) * P.C₁ ^ (π.Gsb.order + 2 * R) *
-      P.L ^ (-P.η ^ 8 * (π.gsk : ℝ) - P.η ^ 2 / 2 * (π.bsk : ℝ) + P.η ^ 7 * (π.Cs.hinges.card : ℝ)) *
-      P.L ^ (cP * P.d * (π.nProt : ℝ)) * P.L ^ (7 * (47 * P.d + 2) * (sel.card : ℝ)) := by
-    have := Real.sqrt_nonneg P.δ
-    positivity
-  exact mul_le_mul_of_nonneg_left hss hK
-
 /-- **A loss carried by the mass parameter moves into the protected factor.** -/
 theorem representsIntMKSel_absorb {P : WTParams} {R : ℕ} (π : Stage1PieceMK P.d R)
     (sel : Finset (GBranch π.Gsb.tree)) {n : ℕ} {cP₀ cP ℓ : ℝ} (hL : 1 ≤ P.L)

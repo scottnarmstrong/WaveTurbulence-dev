@@ -49,14 +49,6 @@ theorem join_apply_ne (v : ι) (τ' : {i // i ≠ v} → ℝ) (x : ℝ) {i : ι}
   simp [join, joinEquiv, MeasurableEquiv.piEquivPiSubtypeProd, Equiv.piEquivPiSubtypeProd, h]
   rfl
 
-omit [Fintype ι] in
-theorem join_eq_update (v : ι) (τ' : {i // i ≠ v} → ℝ) (x : ℝ) :
-    join v τ' x = Function.update (join v τ' 0) v x := by
-  funext i
-  by_cases h : i = v
-  · subst h; rw [Function.update_self, join_apply_self]
-  · rw [Function.update_of_ne h, join_apply_ne v τ' x h, join_apply_ne v τ' 0 h]
-
 theorem pi_fintype_irrel {κ : Type*} (i1 i2 : Fintype κ) (μ : κ → Measure ℝ) :
     @Measure.pi κ (fun _ => ℝ) i1 _ μ = @Measure.pi κ (fun _ => ℝ) i2 _ μ := by
   obtain rfl : i1 = i2 := Subsingleton.elim _ _

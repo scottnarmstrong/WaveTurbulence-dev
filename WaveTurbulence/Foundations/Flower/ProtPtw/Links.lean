@@ -44,26 +44,6 @@ def treePsi (hX : X.DecodesTree LG.garden) (L : ℝ) (F Fu : Finset (GBranch LG.
     Fin (X.treeLinks (LG.garden.sig 0)).length → LPair d → ℂ :=
   fun i q => treeLinkFilt hX F Fu ann M Mu i (linkBilinear L q) * dag i q
 
-/-- **The multiplier on link arrays.** -/
-theorem tree_mult_eq (hX : X.DecodesTree LG.garden) (L : ℝ) (k : Mom d)
-    (S : Finset (GNode LG.garden.tree)) (ω : GNode LG.garden.tree → Star d → ℂ) (cω : GNode LG.garden.tree → ℝ)
-    (hω : ∀ a ∈ S, StarPresented (30 * d) (ω a) (cω a))
-    (F Fu : Finset (GBranch LG.garden.tree)) (ann : GBranch LG.garden.tree → Bool) (M Mu : GBranch LG.garden.tree → ℝ)
-    (ind : (GNode LG.garden.tree → Mom d) → ℝ) (dag : Fin (X.treeLinks (LG.garden.sig 0)).length → LPair d → ℂ)
-    (hdag : ∀ p : Fin (X.treeLinks (LG.garden.sig 0)).length × Fin 2 → Fin d → ℤ,
-      (ind (cosetDecoration LG.garden L k (treeDecOfParams hX (0 : Fin d → ℤ) (fun j => (p (j, 0), p (j, 1)))).1) : ℂ) =
-        ∏ i, dag i (p (i, 0), p (i, 1)))
-    (p : Fin (X.treeLinks (LG.garden.sig 0)).length × Fin 2 → Fin d → ℤ) :
-    (fun κ => starWeight S ω κ * filtWeight F ann M κ * filtWeight Fu (fun _ => false) Mu κ * (ind κ : ℂ))
-        (cosetDecoration LG.garden L k (treeDecOfParams hX (0 : Fin d → ℤ) (fun j => (p (j, 0), p (j, 1)))).1) =
-      ((starRootMeasure (30 * d) S ω cω hω (treeRow hX)).at k).value (pairedLattice L p) *
-        arrayWeight (treePsi hX L F Fu ann M Mu dag) p := by
-  dsimp only
-  rw [tree_starFiltWeight_eq hX (30 * d) S ω cω hω L k F Fu ann M Mu p, hdag p, mul_assoc]
-  congr 1
-  unfold arrayFiltWeight arrayWeight treePsi
-  rw [Finset.prod_mul_distrib]
-
 theorem norm_treePsi_le (hX : X.DecodesTree LG.garden) {L : ℝ} (hL : 0 ≤ L) (F Fu : Finset (GBranch LG.garden.tree))
     (ann : GBranch LG.garden.tree → Bool) (M Mu : GBranch LG.garden.tree → ℝ) (hM : ∀ b ∈ F, L ≤ M b)
     (hMu : ∀ b ∈ Fu, L ≤ Mu b) (dag : Fin (X.treeLinks (LG.garden.sig 0)).length → LPair d → ℂ)

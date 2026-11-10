@@ -2,7 +2,8 @@
 module
 
 public import WaveTurbulence.Foundations.Flower.ProtOpsTerm.Agree
-public import WaveTurbulence.Foundations.Flower.ProtTa.Op
+public import WaveTurbulence.Foundations.Flower.ProtTa.AtomFT
+public import WaveTurbulence.Foundations.Flower.ProtTa.Congr
 public import WaveTurbulence.Foundations.Sumint.ParametricFourierMeasurability
 
 /-! # PROT-OPS-TERM: the Fourier side of `T_A` with spectators

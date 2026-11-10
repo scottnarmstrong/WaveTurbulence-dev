@@ -136,14 +136,6 @@ theorem kernelProt_smul_m (L γ δ : ℝ) {w d : ℕ} (LG : LayeredGarden w) (H 
   rw [tsum_mul_left]
   ring
 
-/-- The zero multiplier gives the zero kernel. -/
-theorem kernelProt_zero_m (L γ δ : ℝ) {w d : ℕ} (LG : LayeredGarden w) (H : LeafProfiles w d)
-    (up : GBranch LG.garden.tree → ℝ) (s : ℝ)
-    (fix : GBranch LG.garden.tree → Option ℝ) (k₀ : Mom d) (nroot : Fin w → (Fin d → ℤ))
-    (nfl : Fin d → ℤ) :
-    kernelProt L γ δ LG H (fun _ => 0) up s fix k₀ nroot nfl = 0 := by
-  simp [kernelProt]
-
 /-- Without lone parents the lone-port constraint is vacuous. -/
 theorem loneConstraint_vacuous {w : ℕ} (LG : LayeredGarden w) (up : GBranch LG.garden.tree → ℝ) (s : ℝ)
     (fix : GBranch LG.garden.tree → Option ℝ) (hl : ∀ b, ¬ LG.garden.IsLoneParent b) :
@@ -151,18 +143,5 @@ theorem loneConstraint_vacuous {w : ℕ} (LG : LayeredGarden w) (up : GBranch LG
       kDomainFix LG up fix := by
   ext τ
   exact ⟨fun h => h.1, fun h => ⟨h, fun b hb => absurd hb (hl b)⟩⟩
-
-/-- With no lone parents, `kernelProt` is main's stub kernel `FlowerP1.kernelLeavesFix` with the multiplier `m`. -/
-theorem kernelProt_eq_fix_of_no_lone (L γ δ : ℝ) {w d : ℕ} (LG : LayeredGarden w) (H : LeafProfiles w d)
-    (m : (GNode LG.garden.tree → Mom d) → ℂ) (up : GBranch LG.garden.tree → ℝ) (s : ℝ)
-    (fix : GBranch LG.garden.tree → Option ℝ) (k₀ : Mom d) (nroot : Fin w → (Fin d → ℤ))
-    (nfl : Fin d → ℤ) (hl : ∀ b, ¬ LG.garden.IsLoneParent b) :
-    kernelProt L γ δ LG H m up s fix k₀ nroot nfl =
-      (coupling d L γ δ : ℂ) ^ LG.garden.order * LG.garden.zeta *
-        ∑' κ : GenDecoration LG.garden d nroot nfl,
-          m (cosetDecoration LG.garden L k₀ κ.1) *
-            FlowerP1.kernelLeavesFixTerm L γ δ LG H up fix k₀ κ := by
-  unfold kernelProt FlowerP1.kernelLeavesFixTerm
-  simp only [loneConstraint_vacuous LG up s fix hl]
 
 end WaveTurbulence.Flower.ProtDefs

@@ -41,9 +41,6 @@ theorem dropLast_ne_nil_of_long {P : Path} (h2 : 2 ≤ P.length) : P.dropLast �
   have := congrArg List.length h0
   rw [List.length_dropLast] at this; simp at this; omega
 
-theorem dropLast_ne_dropLast_dropLast {P : Path} (hP : P.dropLast ≠ []) : P.dropLast.dropLast ≠ P.dropLast :=
-  dropLast_ne_self hP
-
 /-- **(ii), address form (o104 Prop 7.2 (G1)).** On the branching vertices of a stem chain, the intrinsic pins
 `fixCap` are the pins of the configuration `objCfg`. -/
 theorem fixCap_eq_pins (hG : CapGeo LG J p) (hS : StemChain LG J X ζ u h) (pat : Fin w → FixPat) (t s up : ℝ)
@@ -172,38 +169,6 @@ theorem objCfg_valid_objTree {pat : Fin w → FixPat} (hpat : CapPatValid LG J p
     · exact hq0
     · trivial
 
-/-- **(ii), validity for cap couples** (code `normChain ζ X`, same lone path). -/
-theorem objCfg_valid_objCpl {pat : Fin w → FixPat} (hpat : CapPatValid LG J pat p)
-    {c : Fin w} (hC : CapChain LG J X ζ u c) :
-    (objCfg LG J pat X u).Valid (normChain ζ X) (objCpl LG X ζ u c hC.stem.emb hC.pair) p := by
-  have hS := hC.stem
-  obtain ⟨v, hv, -⟩ := hS.meets
-  obtain ⟨q, hq, -⟩ := mem_branchAddresses'.mp hv
-  have hq0 := lone_ne_nil_of_branch X ζ hq
-  have hL := normChain_lonePath ζ X
-  have hq0' : (normChain ζ X).lonePath ≠ [] := by rw [hL]; exact hq0
-  have hlen : (normChain ζ X).lonePath.length = X.lonePath.length := by rw [hL]
-  cases hp : pat u.1 with
-  | plain => simp only [objCfg, hp]; split_ifs <;> first | exact hq0' | trivial
-  | dRoot =>
-    simp only [objCfg, hp]
-    split_ifs with h1 h2 <;> first | exact hq0' | exact (hlen ▸ h2.2 : 2 ≤ (normChain ζ X).lonePath.length) | trivial
-  | dParent =>
-    simp only [objCfg, hp]
-    split_ifs with h1 h2 <;> first | exact hq0' | exact (hlen ▸ h2 : 2 ≤ (normChain ζ X).lonePath.length) | trivial
-  | dChild i =>
-    simp only [objCfg, hp]
-    split_ifs with h1 h2
-    · obtain ⟨hl, hbr, hlay⟩ := termChild_data hpat hS hq0 h1 hp h2
-      have hbr' : X.lonePath.dropLast ++ [i] ∈ ((decodedCouple (capCode ζ X)).tree 0).branching := by
-        rw [decodedCouple_capCode_tree]; simpa using hbr
-      refine ⟨hq0', by rw [hL]; exact hl, ⟨((0 : Fin 2), X.lonePath.dropLast ++ [i]), hbr'⟩,
-        rfl, by rw [hL], ?_⟩
-      show cplLayer LG u c ((0 : Fin 2), X.lonePath.dropLast ++ [i]) = p
-      rw [cplLayer_of_zero rfl]; exact hlay
-    · exact hq0'
-    · trivial
-
 /-! ## Extraction forms -/
 
 /-- **(ii), paired trees.** `fixCap` at the lifted branch equals `ProtCfg.fix` of `objCfg` on `objTree`. -/
@@ -213,15 +178,5 @@ theorem fixCap_objTree (hG : CapGeo LG J p) (hS : StemChain LG J X ζ u h) (pat 
   rw [fixCap_eq_pins hG hS pat t s up (q := b'.1.2) b'.2 rfl]
   unfold ProtCfg.fix
   rw [ite_eq_left (Fin.val_eq_zero b'.1.1)]
-
-/-- **(ii), cap couples.** `fixCap` at the lifted branch equals `ProtCfg.fix` of `objCfg` on `objCpl`. -/
-theorem fixCap_objCpl (hG : CapGeo LG J p) {c : Fin w} (hC : CapChain LG J X ζ u c) (pat : Fin w → FixPat)
-    (t s up : ℝ) (b' : GBranch (objCpl LG X ζ u c hC.stem.emb hC.pair).garden.tree) :
-    fixCap LG J pat t s (embBr hC.stem.emb b'.1.2 (capCode_branch b').2) =
-      (objCfg LG J pat X u).fix (normChain ζ X) s t up b' := by
-  rw [fixCap_eq_pins hG hC.stem pat t s up (q := b'.1.2) (capCode_branch b').2 rfl]
-  unfold ProtCfg.fix
-  have h0 : b'.1.1.val = 0 := congrArg Fin.val (capCode_branch b').1
-  rw [ite_eq_left h0, pins_congr _ (normChain_lonePath ζ X).symm]
 
 end WaveTurbulence.Flower.ProtGeo

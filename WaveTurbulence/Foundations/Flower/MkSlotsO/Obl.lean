@@ -291,41 +291,4 @@ def IsCapSlot : SlotPred := fun a J _ _ _ _ _ sl =>
 def IsCplSlot : SlotPred := fun a J _ _ _ _ _ sl =>
   ∃ q, sl = .inl q ∧ ¬ IsCapPair a.prime.skeleton a.prime.prime.1 J q
 
-/-- The chain slot of a skeleton root branch. -/
-def IsRootChainSlot : SlotPred := fun _ _ _ _ _ _ _ sl => ∃ β, sl = .inr β ∧ β.1.2 = []
-
-/-- The chain slot of a non-root skeleton branch. -/
-def IsInnerChainSlot : SlotPred := fun _ _ _ _ _ _ _ sl => ∃ β, sl = .inr β ∧ β.1.2 ≠ []
-
-/-- The four kinds cover every slot. -/
-theorem slot_kinds {R : ℕ} (a : PrescribedPrimeGarden (2 * R)) (J : Finset (Fin (2 * R)))
-    (pat : Fin (2 * R) → FixPat) (t s : ℝ) (kSel σ : Fin (2 * R) → Option ℕ) (sl : ReplacementSlot a.prime.skeleton) :
-    (IsCapSlot a J pat t s kSel σ sl ∨ IsCplSlot a J pat t s kSel σ sl) ∨
-      (IsRootChainSlot a J pat t s kSel σ sl ∨ IsInnerChainSlot a J pat t s kSel σ sl) := by
-  cases sl with
-  | inl q =>
-    by_cases hq : IsCapPair a.prime.skeleton a.prime.prime.1 J q
-    · exact Or.inl (Or.inl ⟨q, rfl, hq⟩)
-    · exact Or.inl (Or.inr ⟨q, rfl, hq⟩)
-  | inr β =>
-    by_cases hβ : β.1.2 = []
-    · exact Or.inr (Or.inl ⟨β, rfl, hβ⟩)
-    · exact Or.inr (Or.inr ⟨β, rfl, hβ⟩)
-
-/-- **The obligation from the four kinds.** -/
-theorem genSlotObligation_of_kinds {K₁ K₂ K₃ K₄ : ℕ → ℝ → ℝ} (hK₁ : ∀ d η, 1 ≤ K₁ d η)
-    (hcap : WTPrefix (GenSlotOnAt IsCapSlot K₁)) (hcpl : WTPrefix (GenSlotOnAt IsCplSlot K₂))
-    (hroot : WTPrefix (GenSlotOnAt IsRootChainSlot K₃)) (hinner : WTPrefix (GenSlotOnAt IsInnerChainSlot K₄)) :
-    GenSlotObligation := by
-  refine ⟨fun d η => max (max (K₁ d η) (K₂ d η)) (max (K₃ d η) (K₄ d η)),
-    fun d η => (hK₁ d η).trans ((le_max_left _ _).trans (le_max_left _ _)), ?_⟩
-  have h12 := prefix_genSlotOnAt_or (Q := fun a J pat t s kSel σ sl =>
-    IsCapSlot a J pat t s kSel σ sl ∨ IsCplSlot a J pat t s kSel σ sl) (fun _ _ _ _ _ _ _ _ h => h) hcap hcpl
-  have h34 := prefix_genSlotOnAt_or (Q := fun a J pat t s kSel σ sl =>
-    IsRootChainSlot a J pat t s kSel σ sl ∨ IsInnerChainSlot a J pat t s kSel σ sl) (fun _ _ _ _ _ _ _ _ h => h)
-    hroot hinner
-  have hall := prefix_genSlotOnAt_or (Q := fun _ _ _ _ _ _ _ _ => True)
-    (fun a J pat t s kSel σ sl _ => slot_kinds a J pat t s kSel σ sl) h12 h34
-  exact prefix_guard hall fun P _ _ _ H => (genSlotObligationAt_iff_on _ P).2 H
-
 end WaveTurbulence.Flower.MkSlotsO

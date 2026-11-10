@@ -124,32 +124,4 @@ theorem flower_root_coord {w d : ℕ} (LG : LayeredGarden w) (L : ℝ) (k₀ : M
   push_cast
   ring
 
-theorem hone_of_flowerGarden {w : ℕ} (G : Garden w) (hFG : G.IsFlowerGarden) (j : Fin w) :
-    (univ.filter fun ℓ : GLeaf G.tree => ℓ.1.1 = j ∧ G.IsFlower ℓ).card = 1 := by
-  rw [← hFG.1 j]
-  congr 1
-  ext ℓ
-  simp only [mem_filter, mem_univ, true_and]
-  constructor
-  · rintro ⟨h1, h2⟩
-    refine ⟨h1, ?_⟩
-    intro h0
-    have : G.mark ℓ = some MarkTag.equal := h2
-    rw [h0] at this
-    exact absurd this (by simp)
-  · rintro ⟨h1, h2⟩
-    exact ⟨h1, hFG.2.1 ℓ h2⟩
-
-/-- The plan's `flower_rootform` for flower gardens (every tree has exactly one flower) and `k₀ = 0`. -/
-theorem flower_rootform_of_flowerGarden {w d : ℕ} (LG : LayeredGarden w) (L : ℝ)
-    (n : Fin w → (Fin d → ℤ)) (n' : Fin d → ℤ) (ζ : ℤˣ)
-    (hfl : ∀ ℓ : GLeaf LG.garden.tree, LG.garden.IsFlower ℓ →
-      LG.garden.sign ℓ.toNode = ζ * LG.garden.sig ℓ.1.1)
-    (hFG : LG.garden.IsFlowerGarden)
-    (κ : GenDecoration LG.garden d n n') (j : Fin w) :
-    latticePoint L (n j) - (ζ : ℤ) • latticePoint L n' =
-      ∑ ℓ ∈ nonFlowerLeavesOf LG.garden j, (leafSignRel LG.garden ℓ : ℤ) •
-        cosetDecoration LG.garden L 0 κ.1 ℓ.toNode :=
-  flower_rootform LG L 0 n n' ζ hfl κ j (hone_of_flowerGarden LG.garden hFG j) (by simp)
-
 end WaveTurbulence.Flower.Polar

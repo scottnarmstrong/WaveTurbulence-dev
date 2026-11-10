@@ -219,10 +219,6 @@ theorem capF_pointwise {P : WTParams} (hD3 : ProtBoundAt P) (D : CapG LG j0 c X 
 
 /-! ### D6 at `term` with one selected chain vertex -/
 
-/-- `term` pins do not see the top time. -/
-theorem term_fix_t (s t t' up : ℝ) {w : ℕ} {T : Fin w → TTree} :
-    (ProtCfg.term.fix X s t up : GBranch T → Option ℝ) = ProtCfg.term.fix X s t' up := rfl
-
 /-- **D6 at `term` with one selected chain vertex `v`**, on the window box, at one momentum. -/
 theorem capA_xnorm {P : WTParams} (hD6 : ProtAnnBoundAt P) (D : CapG LG j0 c X ζ) {p n : ℕ}
     (hp : p < P.D) (hn : n ≤ P.N (p + 1) ^ 4) (hshape : ProtShape p X D.T1) (hsz : protSize X D.T1 = 2 * n)

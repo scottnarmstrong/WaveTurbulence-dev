@@ -272,20 +272,12 @@ abbrev pcB (b : GBranch (nativeChainLayered D hS layer hLayer β).garden.tree) :
 /-- The tree of the chain. -/
 abbrev pcj : Fin w := (inflatedPosition S D.tree β.toNode).1
 
-theorem pcB_fst (b : GBranch (nativeChainLayered D hS layer hLayer β).garden.tree) :
-    (pcB D hS layer hLayer β b).1.1 = pcj D β := rfl
-
 /-- The per-slot factor of a chain slot as a function of the momenta of its native chain. -/
 def pcΘ (K : GNode (nativeChainLayered D hS layer hLayer β).garden.tree → Mom d) : ℂ :=
   ∏ a : GNode (decodedTree (D.tree β) (nodeSign S.sig β.1)).tree,
     if ∃ β' : GBranch S.tree, chainContextNode D hS β a = (D.coreBranch hS β').toNode then 1
     else MkSlotsI.genNW (layeredReconstruction D hS layer hLayer) J L σ kSel Rs (chainContextNode D hS β a)
       (MkSlotsS.omegaAt K a)
-
-theorem genΘs_inr (k : Mom d) (κ : NativeRelativeDecoration D hS d (.inr β)) :
-    MkSlotsI.genΘs D hS layer hLayer J L σ kSel Rs (.inr β) k κ =
-      pcΘ D hS layer hLayer β J L σ kSel Rs
-        (cosetDecoration (nativeChainLayered D hS layer hLayer β).garden L k κ.1) := rfl
 
 /-- A branch of the native chain is on the capped stem. -/
 def PcSt (b : GBranch (nativeChainLayered D hS layer hLayer β).garden.tree) : Prop :=
@@ -304,10 +296,6 @@ def pcFsh : Finset (GBranch (nativeChainLayered D hS layer hLayer β).garden.tre
 def pcFsel : Finset (GBranch (nativeChainLayered D hS layer hLayer β).garden.tree) :=
   Finset.univ.filter fun b => PcSt D hS layer hLayer β J b ∧
     pcB D hS layer hLayer β b ∈ selSetCap (layeredReconstruction D hS layer hLayer) J kSel
-
-theorem pc_prod_ite_mem {α : Type*} [Fintype α] (F : Finset α) (f : α → ℂ) :
-    ∏ b, (if b ∈ F then f b else 1) = ∏ b ∈ F, f b := by
-  rw [Finset.prod_ite_mem, Finset.univ_inter]
 
 /-- **The per-slot factor of a chain slot**: σ filters, selection shells and selected filters over the branches
 of the native chain. -/

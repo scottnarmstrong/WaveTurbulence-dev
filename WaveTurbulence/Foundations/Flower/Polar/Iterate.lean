@@ -17,12 +17,6 @@ variable {w d : ℕ}
 def pert (j : Fin w) (i : Fin d) (g : TProf d w) (lam : ℝ) (M m : ℕ) : TProf d w :=
   TProf.perturb g (polForm ((-1 : ℝ) ^ (j : ℕ)) j i g) (lam * ((m : ℝ) - M))
 
-theorem Adm.mono_u {p A B : ℕ} {os : List (Fin w)} {u u' : ℝ} {g : TProf d w}
-    (h : Adm p A B os u g) (huu : u ≤ u') : Adm p A B os u' g := by
-  intro q hq j1 j2
-  obtain ⟨h1, h2⟩ := h q hq j1 j2
-  exact ⟨h1, h2.trans (ENNReal.ofReal_le_ofReal huu)⟩
-
 theorem Adm.pert_step {p A B : ℕ} {j : Fin w} {os : List (Fin w)} {u : ℝ} {g : TProf d w}
     (h : Adm p A B (j :: os) u g) (hu : 0 ≤ u) (i : Fin d) (lam : ℝ) (hlam : 0 < lam) (M m : ℕ)
     (hm : m ∈ range (2 * M + 1)) :

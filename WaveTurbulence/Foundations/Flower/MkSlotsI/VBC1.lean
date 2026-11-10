@@ -346,49 +346,6 @@ section SwapX
 variable {S : Garden w} {J : Type} [Fintype J] [DecidableEq J] {blk : J → CLBlock S} {Gsb : Garden w}
 variable (Φ : SpliceShape blk Gsb) {hS : S.IsPlain} {Fs : SlotFamW S d} {L : ℝ} {base : Mom d}
 
-/-- **The superposition of `famX X` reproduces the outer slot kernel** at every consumed momentum of a decoration of
-non-zero weight `chiX X` (non-centred slots: `hcons`, `hexp₀`; centred slots: the node ball, `hexpC`). -/
-theorem famVal_famX_eq (hd : Disj blk) (hSb : Gsb.IsPlain) {roots : Fin w → (Fin d → ℤ)}
-    (fam₀ : SlotFam Gsb d) (famC : CentredSlot Gsb → (Fin d → ℤ) → ChainPiece d)
-    (Box : ReplacementSlot Gsb → Set (Fin 2 → ℝ)) (Cons : ReplacementSlot Gsb → Mom d → Prop)
-    (hcons : ∀ κ : GenDecoration S d roots 0, ∀ s', ¬ IsCentred s' →
-      Cons s' (base + latticePoint L (κ.1 (slotNode hS (Φ.iota hS hSb s')))))
-    (hexp₀ : ∀ s', ¬ IsCentred s' → ∀ ts ∈ Box s', ∀ x, Cons s' x →
-      HasSum (fun l => (fam₀.w s' l : ℂ) * fam₀.a s' l x * fsPhase (fam₀.m s' l) ts) (Fs.fs (Φ.iota hS hSb s') ts x))
-    (hexpC : ∀ (c : CentredSlot Gsb) (y : Fin d → ℤ), ∀ ts ∈ Box (.inr c.1), ∀ x, ‖x - latPt d y‖ ≤ 1 →
-      HasSum (fun l => ((famC c y).w l : ℂ) * (famC c y).a l x * fsPhase ((famC c y).m l) ts)
-        (Fs.fs (Φ.iota hS hSb (.inr c.1)) ts x))
-    (X : CentredSlot Gsb → (Fin d → ℤ)) (κ : GenDecoration S d roots 0)
-    (hκ : chiX L base X (Φ.resDec hS hd κ) ≠ 0) (s' : ReplacementSlot Gsb) (ts : Fin 2 → ℝ) (hts : ts ∈ Box s') :
-    famVal (famX fam₀ famC X) s' ts (base + latticePoint L (κ.1 (slotNode hS (Φ.iota hS hSb s')))) =
-      Fs.fs (Φ.iota hS hSb s') ts (base + latticePoint L (κ.1 (slotNode hS (Φ.iota hS hSb s')))) := by
-  refine (hasSum_famVal _ s' ts _).unique ?_
-  by_cases hs : IsCentred s'
-  · rcases s' with q | c
-    · exact hs.elim
-    · have e : κ.1 (slotNode hS (Φ.iota hS hSb (.inr c))) =
-          (Φ.resDec hS hd κ).1 (⟨c, hs⟩ : CentredSlot Gsb).1.toNode := by
-        show κ.1 (Φ.br c).toNode = κ.1 (Φ.node c.toNode)
-        rw [Φ.br_node]
-      have hball := norm_sub_le_one_of_chiX_ne_zero hκ ⟨c, hs⟩
-      rw [← e] at hball
-      exact hasSum_famX_centred fam₀ famC X ⟨c, hs⟩ ts _ (hexpC ⟨c, hs⟩ (X ⟨c, hs⟩) ts hts _ hball)
-  · exact hasSum_famX_of_not fam₀ famC X hs ts _ (hexp₀ s' hs ts hts _ (hcons κ s' hs))
-
-/-- The expansions `hcons`, `hexp₀`, `hexpC` give the agreement at every centre assignment. -/
-theorem centreAgree_of (hd : Disj blk) (hSb : Gsb.IsPlain) {roots : Fin w → (Fin d → ℤ)}
-    (fam₀ : SlotFam Gsb d) (famC : CentredSlot Gsb → (Fin d → ℤ) → ChainPiece d)
-    (Box : ReplacementSlot Gsb → Set (Fin 2 → ℝ)) (Cons : ReplacementSlot Gsb → Mom d → Prop)
-    (hcons : ∀ κ : GenDecoration S d roots 0, ∀ s', ¬ IsCentred s' →
-      Cons s' (base + latticePoint L (κ.1 (slotNode hS (Φ.iota hS hSb s')))))
-    (hexp₀ : ∀ s', ¬ IsCentred s' → ∀ ts ∈ Box s', ∀ x, Cons s' x →
-      HasSum (fun l => (fam₀.w s' l : ℂ) * fam₀.a s' l x * fsPhase (fam₀.m s' l) ts) (Fs.fs (Φ.iota hS hSb s') ts x))
-    (hexpC : ∀ (c : CentredSlot Gsb) (y : Fin d → ℤ), ∀ ts ∈ Box (.inr c.1), ∀ x, ‖x - latPt d y‖ ≤ 1 →
-      HasSum (fun l => ((famC c y).w l : ℂ) * (famC c y).a l x * fsPhase ((famC c y).m l) ts)
-        (Fs.fs (Φ.iota hS hSb (.inr c.1)) ts x))
-    (X : CentredSlot Gsb → (Fin d → ℤ)) : CentreAgree Φ hS hSb hd L base roots Fs fam₀ famC Box X :=
-  fun κ hκ s' ts hts => famVal_famX_eq Φ hd hSb fam₀ famC Box Cons hcons hexp₀ hexpC X κ hκ s' ts hts
-
 /-- The swap at the centre assignment `X` under the agreement hypothesis (summand). -/
 theorem skelTermWZ_swapFsX_agree (hd : Disj blk) (hSb : Gsb.IsPlain) (γ δ : ℝ) {roots : Fin w → (Fin d → ℤ)}
     (tt : Fin w → ℝ) (Zs : GenDecoration S d roots 0 → ℂ)
@@ -403,28 +360,6 @@ theorem skelTermWZ_swapFsX_agree (hd : Disj blk) (hSb : Gsb.IsPlain) (γ δ : �
       skelTermWZ blk hS L γ δ base roots tt (fun κ => Zs κ * chiX L base X (Φ.resDec hS hd κ)) Fs A fixS κ :=
   skelTermWZ_swapFs Φ hS hSb L γ δ base tt _ Fs _ A fixS κ fun hz τ hτ hA' s' =>
     hA κ (right_ne_zero_of_mul hz) s' _ (hbox τ hτ hA' s')
-
-/-- **The swap at the centre assignment `X`** does not change the weighted skeleton summand at the weight
-`Zs · chiX X ∘ resDec`. -/
-theorem skelTermWZ_swapFsX (hd : Disj blk) (hSb : Gsb.IsPlain) (γ δ : ℝ) {roots : Fin w → (Fin d → ℤ)}
-    (tt : Fin w → ℝ) (Zs : GenDecoration S d roots 0 → ℂ)
-    (fam₀ : SlotFam Gsb d) (famC : CentredSlot Gsb → (Fin d → ℤ) → ChainPiece d)
-    (Box : ReplacementSlot Gsb → Set (Fin 2 → ℝ)) (Cons : ReplacementSlot Gsb → Mom d → Prop)
-    (hcons : ∀ κ : GenDecoration S d roots 0, ∀ s', ¬ IsCentred s' →
-      Cons s' (base + latticePoint L (κ.1 (slotNode hS (Φ.iota hS hSb s')))))
-    (hexp₀ : ∀ s', ¬ IsCentred s' → ∀ ts ∈ Box s', ∀ x, Cons s' x →
-      HasSum (fun l => (fam₀.w s' l : ℂ) * fam₀.a s' l x * fsPhase (fam₀.m s' l) ts) (Fs.fs (Φ.iota hS hSb s') ts x))
-    (hexpC : ∀ (c : CentredSlot Gsb) (y : Fin d → ℤ), ∀ ts ∈ Box (.inr c.1), ∀ x, ‖x - latPt d y‖ ≤ 1 →
-      HasSum (fun l => ((famC c y).w l : ℂ) * (famC c y).a l x * fsPhase ((famC c y).m l) ts)
-        (Fs.fs (Φ.iota hS hSb (.inr c.1)) ts x))
-    (A : Set (GBranch S.tree → ℝ)) (fixS : GBranch S.tree → Option ℝ)
-    (hbox : ∀ τ, PinnedAt fixS τ → τ ∈ A → ∀ s', slotTs hS tt τ (Φ.iota hS hSb s') ∈ Box s')
-    (X : CentredSlot Gsb → (Fin d → ℤ)) (κ : GenDecoration S d roots 0) :
-    skelTermWZ blk hS L γ δ base roots tt (fun κ => Zs κ * chiX L base X (Φ.resDec hS hd κ))
-        (swapFs Φ hS hSb Fs (famX fam₀ famC X)) A fixS κ =
-      skelTermWZ blk hS L γ δ base roots tt (fun κ => Zs κ * chiX L base X (Φ.resDec hS hd κ)) Fs A fixS κ :=
-  skelTermWZ_swapFsX_agree Φ hd hSb γ δ tt Zs fam₀ famC Box A fixS hbox X
-    (centreAgree_of Φ hd hSb fam₀ famC Box Cons hcons hexp₀ hexpC X) κ
 
 /-- The swap at the centre assignment `X` under the agreement hypothesis (relaxed pinned skeleton value). -/
 theorem skelValWZRL_swapFsX_agree (hd : Disj blk) (hSb : Gsb.IsPlain) (γ δ : ℝ) (D : ReconstructionData S)
@@ -443,32 +378,6 @@ theorem skelValWZRL_swapFsX_agree (hd : Disj blk) (hSb : Gsb.IsPlain) (γ δ : �
         fixS lbS := by
   unfold skelValWZRL skelValWZ
   rw [tsum_congr fun κ => skelTermWZ_swapFsX_agree Φ hd hSb γ δ tt Zs fam₀ famC Box _ fixS hbox X hA κ]
-
-/-- **The swap at the centre assignment `X`** does not change the relaxed pinned skeleton value at the weight
-`Zs · chiX X ∘ resDec`. -/
-theorem skelValWZRL_swapFsX (hd : Disj blk) (hSb : Gsb.IsPlain) (γ δ : ℝ) (D : ReconstructionData S)
-    (layer : GNode (D.forest hS) → ℕ) {roots : Fin w → (Fin d → ℤ)} (tt : Fin w → ℝ)
-    (Zs : GenDecoration S d roots 0 → ℂ)
-    (fam₀ : SlotFam Gsb d) (famC : CentredSlot Gsb → (Fin d → ℤ) → ChainPiece d)
-    (Box : ReplacementSlot Gsb → Set (Fin 2 → ℝ)) (Cons : ReplacementSlot Gsb → Mom d → Prop)
-    (hcons : ∀ κ : GenDecoration S d roots 0, ∀ s', ¬ IsCentred s' →
-      Cons s' (base + latticePoint L (κ.1 (slotNode hS (Φ.iota hS hSb s')))))
-    (hexp₀ : ∀ s', ¬ IsCentred s' → ∀ ts ∈ Box s', ∀ x, Cons s' x →
-      HasSum (fun l => (fam₀.w s' l : ℂ) * fam₀.a s' l x * fsPhase (fam₀.m s' l) ts) (Fs.fs (Φ.iota hS hSb s') ts x))
-    (hexpC : ∀ (c : CentredSlot Gsb) (y : Fin d → ℤ), ∀ ts ∈ Box (.inr c.1), ∀ x, ‖x - latPt d y‖ ≤ 1 →
-      HasSum (fun l => ((famC c y).w l : ℂ) * (famC c y).a l x * fsPhase ((famC c y).m l) ts)
-        (Fs.fs (Φ.iota hS hSb (.inr c.1)) ts x))
-    (fixS lbS : GBranch S.tree → Option ℝ)
-    (hbox : ∀ τ, PinnedAt fixS τ →
-      τ ∈ coreTimeDomainWR (fun b => layer (D.coreBranch hS b).toNode) tt fixS ∩ lbDomR lbS →
-        ∀ s', slotTs hS tt τ (Φ.iota hS hSb s') ∈ Box s')
-    (X : CentredSlot Gsb → (Fin d → ℤ)) :
-    skelValWZRL blk D hS L γ δ base roots tt layer (fun κ => Zs κ * chiX L base X (Φ.resDec hS hd κ))
-        (swapFs Φ hS hSb Fs (famX fam₀ famC X)) fixS lbS =
-      skelValWZRL blk D hS L γ δ base roots tt layer (fun κ => Zs κ * chiX L base X (Φ.resDec hS hd κ)) Fs
-        fixS lbS :=
-  skelValWZRL_swapFsX_agree Φ hd hSb γ δ D layer tt Zs fam₀ famC Box fixS lbS hbox X
-    (centreAgree_of Φ hd hSb fam₀ famC Box Cons hcons hexp₀ hexpC X)
 
 /-- The per-centre mode form under the agreement hypothesis. -/
 theorem hasSum_modes_centred_agree (RB : RegBoundW blk hS Fs L base) (hd : Disj blk) (hSb : Gsb.IsPlain)
@@ -501,74 +410,6 @@ theorem hasSum_modes_centred_agree (RB : RegBoundW blk hS Fs L base) (hd : Disj 
   rw [unitKernelMGW_swapFs, skelValWZRL_swapFsX_agree Φ hd hSb γ δ D layer tt Zs fam₀ famC Box fixS lbS hbox X
     hA] at h
   exact h
-
-/-- **The per-centre mode form** (VBZ2 for the swapped family `swapFs … (famX fam₀ famC X)` and the weight
-`Zw · chiX X`): the weighted relaxed pinned skeleton value at `Zs · chiX X ∘ resDec` is the mode sum of the pinned outer
-values of `G_sb` with the modes of `famX fam₀ famC X` and the ORIGINAL unit kernels `unitKernelMGW … Fs …`. -/
-theorem hasSum_modes_centred (RB : RegBoundW blk hS Fs L base) (hd : Disj blk) (hSb : Gsb.IsPlain)
-    (hL0 : 0 < L) (γ δ : ℝ) (D : ReconstructionData S) (layer : GNode (D.forest hS) → ℕ)
-    {roots : Fin w → (Fin d → ℤ)} (tt : Fin w → ℝ)
-    (Zs : GenDecoration S d roots 0 → ℂ) (Zw : GenDecoration Gsb d roots 0 → ℂ) (hZw : ∀ z, ‖Zw z‖ ≤ 1)
-    (hZ : ∀ κ : GenDecoration S d roots 0, Zs κ = Zw (Φ.resDec hS hd κ))
-    (fam₀ : SlotFam Gsb d) (famC : CentredSlot Gsb → (Fin d → ℤ) → ChainPiece d)
-    (Box : ReplacementSlot Gsb → Set (Fin 2 → ℝ)) (Cons : ReplacementSlot Gsb → Mom d → Prop)
-    (hcons : ∀ κ : GenDecoration S d roots 0, ∀ s', ¬ IsCentred s' →
-      Cons s' (base + latticePoint L (κ.1 (slotNode hS (Φ.iota hS hSb s')))))
-    (hexp₀ : ∀ s', ¬ IsCentred s' → ∀ ts ∈ Box s', ∀ x, Cons s' x →
-      HasSum (fun l => (fam₀.w s' l : ℂ) * fam₀.a s' l x * fsPhase (fam₀.m s' l) ts) (Fs.fs (Φ.iota hS hSb s') ts x))
-    (hexpC : ∀ (c : CentredSlot Gsb) (y : Fin d → ℤ), ∀ ts ∈ Box (.inr c.1), ∀ x, ‖x - latPt d y‖ ≤ 1 →
-      HasSum (fun l => ((famC c y).w l : ℂ) * (famC c y).a l x * fsPhase ((famC c y).m l) ts)
-        (Fs.fs (Φ.iota hS hSb (.inr c.1)) ts x))
-    (fixS lbS : GBranch S.tree → Option ℝ) (hU : ∀ j, ∀ a ∈ inter blk j, fixS a = none)
-    (hlbU : ∀ j, ∀ a ∈ inter blk j, lbS a = none)
-    (hP : RelaxPinsS (fun b => layer (D.coreBranch hS b).toNode) tt fixS)
-    (hbox : ∀ τ, PinnedAt fixS τ →
-      τ ∈ coreTimeDomainWR (fun b => layer (D.coreBranch hS b).toNode) tt fixS ∩ lbDomR lbS →
-        ∀ s', slotTs hS tt τ (Φ.iota hS hSb s') ∈ Box s')
-    (X : CentredSlot Gsb → (Fin d → ℤ)) :
-    HasSum (fun ξ : ∀ s, (famX fam₀ famC X).Λ s => ((modeWt (famX fam₀ famC X) ξ : ℝ) : ℂ) *
-      outerValMμD Gsb L γ δ base roots tt
-        (splicedTimeDomainFix Gsb (fun c => layer (D.coreBranch hS (Φ.br c)).toNode) tt (fun c => fixS (Φ.br c)) ∩
-          lbDomR (fun c => lbS (Φ.br c)))
-        (Φ.hinges hd) (fun z => Zw z * chiX L base X z) hSb (fixMeasure (fun c => fixS (Φ.br c)))
-        (fun s' => (famX fam₀ famC X).a s' (ξ s')) (fun s' => (famX fam₀ famC X).m s' (ξ s'))
-        (Φ.route hS hSb) (Φ.hclk hd) (Φ.hmom hd) (unitKernelMGW blk D hS Fs L γ δ layer base))
-      (skelValWZRL blk D hS L γ δ base roots tt layer (fun κ => Zs κ * chiX L base X (Φ.resDec hS hd κ)) Fs
-        fixS lbS) :=
-  hasSum_modes_centred_agree Φ RB hd hSb hL0 γ δ D layer tt Zs Zw hZw hZ fam₀ famC Box fixS lbS hU hlbU hP hbox X
-    (centreAgree_of Φ hd hSb fam₀ famC Box Cons hcons hexp₀ hexpC X)
-
-/-- The per-centre ξ-summability. -/
-theorem summable_modes_centred (RB : RegBoundW blk hS Fs L base) (hd : Disj blk) (hSb : Gsb.IsPlain)
-    (hL0 : 0 < L) (γ δ : ℝ) (D : ReconstructionData S) (layer : GNode (D.forest hS) → ℕ)
-    {roots : Fin w → (Fin d → ℤ)} (tt : Fin w → ℝ)
-    (Zs : GenDecoration S d roots 0 → ℂ) (Zw : GenDecoration Gsb d roots 0 → ℂ) (hZw : ∀ z, ‖Zw z‖ ≤ 1)
-    (hZ : ∀ κ : GenDecoration S d roots 0, Zs κ = Zw (Φ.resDec hS hd κ))
-    (fam₀ : SlotFam Gsb d) (famC : CentredSlot Gsb → (Fin d → ℤ) → ChainPiece d)
-    (Box : ReplacementSlot Gsb → Set (Fin 2 → ℝ)) (Cons : ReplacementSlot Gsb → Mom d → Prop)
-    (hcons : ∀ κ : GenDecoration S d roots 0, ∀ s', ¬ IsCentred s' →
-      Cons s' (base + latticePoint L (κ.1 (slotNode hS (Φ.iota hS hSb s')))))
-    (hexp₀ : ∀ s', ¬ IsCentred s' → ∀ ts ∈ Box s', ∀ x, Cons s' x →
-      HasSum (fun l => (fam₀.w s' l : ℂ) * fam₀.a s' l x * fsPhase (fam₀.m s' l) ts) (Fs.fs (Φ.iota hS hSb s') ts x))
-    (hexpC : ∀ (c : CentredSlot Gsb) (y : Fin d → ℤ), ∀ ts ∈ Box (.inr c.1), ∀ x, ‖x - latPt d y‖ ≤ 1 →
-      HasSum (fun l => ((famC c y).w l : ℂ) * (famC c y).a l x * fsPhase ((famC c y).m l) ts)
-        (Fs.fs (Φ.iota hS hSb (.inr c.1)) ts x))
-    (fixS lbS : GBranch S.tree → Option ℝ) (hU : ∀ j, ∀ a ∈ inter blk j, fixS a = none)
-    (hlbU : ∀ j, ∀ a ∈ inter blk j, lbS a = none)
-    (hP : RelaxPinsS (fun b => layer (D.coreBranch hS b).toNode) tt fixS)
-    (hbox : ∀ τ, PinnedAt fixS τ →
-      τ ∈ coreTimeDomainWR (fun b => layer (D.coreBranch hS b).toNode) tt fixS ∩ lbDomR lbS →
-        ∀ s', slotTs hS tt τ (Φ.iota hS hSb s') ∈ Box s')
-    (X : CentredSlot Gsb → (Fin d → ℤ)) :
-    Summable (fun ξ : ∀ s, (famX fam₀ famC X).Λ s => ((modeWt (famX fam₀ famC X) ξ : ℝ) : ℂ) *
-      outerValMμD Gsb L γ δ base roots tt
-        (splicedTimeDomainFix Gsb (fun c => layer (D.coreBranch hS (Φ.br c)).toNode) tt (fun c => fixS (Φ.br c)) ∩
-          lbDomR (fun c => lbS (Φ.br c)))
-        (Φ.hinges hd) (fun z => Zw z * chiX L base X z) hSb (fixMeasure (fun c => fixS (Φ.br c)))
-        (fun s' => (famX fam₀ famC X).a s' (ξ s')) (fun s' => (famX fam₀ famC X).m s' (ξ s'))
-        (Φ.route hS hSb) (Φ.hclk hd) (Φ.hmom hd) (unitKernelMGW blk D hS Fs L γ δ layer base)) :=
-  (hasSum_modes_centred Φ RB hd hSb hL0 γ δ D layer tt Zs Zw hZw hZ fam₀ famC Box Cons hcons hexp₀ hexpC fixS lbS hU
-    hlbU hP hbox X).summable
 
 end SwapX
 

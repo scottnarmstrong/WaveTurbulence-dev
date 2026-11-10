@@ -393,37 +393,6 @@ theorem norm_skelTermWZ_glue_le_centred_agree (RB : RegBoundW blk hS Fs L base) 
   rw [mul_assoc, mul_comm (ampBound hSb L base (ampQ fam₀ M) z) P]
   exact mul_le_mul_of_nonneg_left (mul_le_mul_of_nonneg_left hPi hP0) hchi0
 
-/-- **The decoration bound of the skeleton terms** (at a glued decoration): with the majorant amplitude `ampQ fam₀ M`,
-`|skelTermWZ … Zs Fs … (glue z κs)| ≤ kBoundGW … (ampQ fam₀ M) ⟨z, κs⟩`. -/
-theorem norm_skelTermWZ_glue_le_centred (RB : RegBoundW blk hS Fs L base) (hd : Disj blk) (hSb : Gsb.IsPlain)
-    (hL0 : 0 < L) (γ δ : ℝ) (D : ReconstructionData S) (layer : GNode (D.forest hS) → ℕ)
-    {roots : Fin w → (Fin d → ℤ)} (tt : Fin w → ℝ)
-    (Zs : GenDecoration S d roots 0 → ℂ) (Zw : GenDecoration Gsb d roots 0 → ℂ) (hZw : ∀ z, ‖Zw z‖ ≤ 1)
-    (hZ : ∀ κ : GenDecoration S d roots 0, Zs κ = Zw (Φ.resDec hS hd κ))
-    (fam₀ : SlotFam Gsb d) (famC : CentredSlot Gsb → (Fin d → ℤ) → ChainPiece d)
-    (Box : ReplacementSlot Gsb → Set (Fin 2 → ℝ)) (Cons : ReplacementSlot Gsb → Mom d → Prop)
-    (hcons : ∀ κ : GenDecoration S d roots 0, ∀ s', ¬ IsCentred s' →
-      Cons s' (base + latticePoint L (κ.1 (slotNode hS (Φ.iota hS hSb s')))))
-    (hexp₀ : ∀ s', ¬ IsCentred s' → ∀ ts ∈ Box s', ∀ x, Cons s' x →
-      HasSum (fun l => (fam₀.w s' l : ℂ) * fam₀.a s' l x * fsPhase (fam₀.m s' l) ts) (Fs.fs (Φ.iota hS hSb s') ts x))
-    (hexpC : ∀ (c : CentredSlot Gsb) (y : Fin d → ℤ), ∀ ts ∈ Box (.inr c.1), ∀ x, ‖x - latPt d y‖ ≤ 1 →
-      HasSum (fun l => ((famC c y).w l : ℂ) * (famC c y).a l x * fsPhase ((famC c y).m l) ts)
-        (Fs.fs (Φ.iota hS hSb (.inr c.1)) ts x))
-    {M : ℝ} (hM0 : 0 ≤ M) (hM : ∀ c y, ∑' l, (famC c y).w l ≤ M)
-    (fixS lbS : GBranch S.tree → Option ℝ) (hU : ∀ j, ∀ a ∈ inter blk j, fixS a = none)
-    (hlbU : ∀ j, ∀ a ∈ inter blk j, lbS a = none)
-    (hP : RelaxPinsS (fun b => layer (D.coreBranch hS b).toNode) tt fixS)
-    (hbox : ∀ τ, PinnedAt fixS τ →
-      τ ∈ coreTimeDomainWR (fun b => layer (D.coreBranch hS b).toNode) tt fixS ∩ lbDomR lbS →
-        ∀ s', slotTs hS tt τ (Φ.iota hS hSb s') ∈ Box s')
-    (z : GenDecoration Gsb d roots 0)
-    (κs : ∀ j, CLLocalDecoration (regionOf (blk j)) L base (Φ.bdry L base z.1 j)) :
-    ‖skelTermWZ blk hS L γ δ base roots tt Zs Fs
-        (coreTimeDomainWR (fun b => layer (D.coreBranch hS b).toNode) tt fixS ∩ lbDomR lbS) fixS
-        (Φ.glueDec hS hd hL0.ne' base z κs)‖ ≤ kBoundGW Φ RB hSb (ampQ fam₀ M) ⟨z, κs⟩ :=
-  norm_skelTermWZ_glue_le_centred_agree Φ RB hd hSb hL0 γ δ D layer tt Zs Zw hZw hZ fam₀ famC Box hM0 hM fixS lbS hU
-    hlbU hP hbox (centreAgree_of Φ hd hSb fam₀ famC Box Cons hcons hexp₀ hexpC) z κs
-
 /-- The absolute decoration summability under the agreement hypothesis. -/
 theorem summable_norm_skelTermWZ_centred_agree (RB : RegBoundW blk hS Fs L base) (hd : Disj blk) (hSb : Gsb.IsPlain)
     (hL0 : 0 < L) (γ δ : ℝ) (D : ReconstructionData S) (layer : GNode (D.forest hS) → ℕ)
@@ -453,34 +422,6 @@ theorem summable_norm_skelTermWZ_centred_agree (RB : RegBoundW blk hS Fs L base)
       ((Φ.decSplit hS hd hL0.ne' base roots) κ).2 = κ := (Φ.decSplit hS hd hL0.ne' base roots).symm_apply_apply κ
   rw [hκ] at h
   exact h
-
-/-- **The decoration sum of the skeleton terms is absolutely summable** (the input of the partition over the centre
-assignments). -/
-theorem summable_norm_skelTermWZ_centred (RB : RegBoundW blk hS Fs L base) (hd : Disj blk) (hSb : Gsb.IsPlain)
-    (hL0 : 0 < L) (γ δ : ℝ) (D : ReconstructionData S) (layer : GNode (D.forest hS) → ℕ)
-    {roots : Fin w → (Fin d → ℤ)} (tt : Fin w → ℝ)
-    (Zs : GenDecoration S d roots 0 → ℂ) (Zw : GenDecoration Gsb d roots 0 → ℂ) (hZw : ∀ z, ‖Zw z‖ ≤ 1)
-    (hZ : ∀ κ : GenDecoration S d roots 0, Zs κ = Zw (Φ.resDec hS hd κ))
-    (fam₀ : SlotFam Gsb d) (famC : CentredSlot Gsb → (Fin d → ℤ) → ChainPiece d)
-    (Box : ReplacementSlot Gsb → Set (Fin 2 → ℝ)) (Cons : ReplacementSlot Gsb → Mom d → Prop)
-    (hcons : ∀ κ : GenDecoration S d roots 0, ∀ s', ¬ IsCentred s' →
-      Cons s' (base + latticePoint L (κ.1 (slotNode hS (Φ.iota hS hSb s')))))
-    (hexp₀ : ∀ s', ¬ IsCentred s' → ∀ ts ∈ Box s', ∀ x, Cons s' x →
-      HasSum (fun l => (fam₀.w s' l : ℂ) * fam₀.a s' l x * fsPhase (fam₀.m s' l) ts) (Fs.fs (Φ.iota hS hSb s') ts x))
-    (hexpC : ∀ (c : CentredSlot Gsb) (y : Fin d → ℤ), ∀ ts ∈ Box (.inr c.1), ∀ x, ‖x - latPt d y‖ ≤ 1 →
-      HasSum (fun l => ((famC c y).w l : ℂ) * (famC c y).a l x * fsPhase ((famC c y).m l) ts)
-        (Fs.fs (Φ.iota hS hSb (.inr c.1)) ts x))
-    {M : ℝ} (hM0 : 0 ≤ M) (hM : ∀ c y, ∑' l, (famC c y).w l ≤ M)
-    (fixS lbS : GBranch S.tree → Option ℝ) (hU : ∀ j, ∀ a ∈ inter blk j, fixS a = none)
-    (hlbU : ∀ j, ∀ a ∈ inter blk j, lbS a = none)
-    (hP : RelaxPinsS (fun b => layer (D.coreBranch hS b).toNode) tt fixS)
-    (hbox : ∀ τ, PinnedAt fixS τ →
-      τ ∈ coreTimeDomainWR (fun b => layer (D.coreBranch hS b).toNode) tt fixS ∩ lbDomR lbS →
-        ∀ s', slotTs hS tt τ (Φ.iota hS hSb s') ∈ Box s') :
-    Summable fun κ : GenDecoration S d roots 0 => ‖skelTermWZ blk hS L γ δ base roots tt Zs Fs
-      (coreTimeDomainWR (fun b => layer (D.coreBranch hS b).toNode) tt fixS ∩ lbDomR lbS) fixS κ‖ :=
-  summable_norm_skelTermWZ_centred_agree Φ RB hd hSb hL0 γ δ D layer tt Zs Zw hZw hZ fam₀ famC Box hM0 hM fixS lbS hU
-    hlbU hP hbox (centreAgree_of Φ hd hSb fam₀ famC Box Cons hcons hexp₀ hexpC)
 
 end Bound
 

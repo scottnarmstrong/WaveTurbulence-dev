@@ -110,49 +110,4 @@ theorem selROf_not_unitClock {J : Finset (Fin w)} (pat : Fin w → FixPat) (t s 
 
 /-! ## The kinds of a selected vertex (helper γ's classification) -/
 
-/-- The forest node of a branch of the layered garden of `a`. -/
-def forestNode (a : PrescribedPrimeGarden w) (v : GBranch a.layered.garden.tree) :
-    GNode (a.prime.data.forest a.prime.prime.1) :=
-  ⟨v.1, by rw [forest_eq]; exact v.toNode.2⟩
-
-/-- **A selected vertex is never a unit top** (its core would be a unit atom carrying a selection). -/
-theorem kindRep_sel_ne_top {J : Finset (Fin w)} (pat : Fin w → FixPat) (t s : ℝ) (kSel : Fin w → Option ℕ)
-    (mkF : Stage1Mk.MarkFn w) (hsub : ∀ {LG : LayeredGarden w} (B : PrimeData LG), markI J pat t s kSel B ⊆ mkF B)
-    {a : PrescribedPrimeGarden w} (hcl : CleanPt J a) {v : GBranch a.layered.garden.tree}
-    (hv : v ∈ selSetCap a.layered J kSel) (j : Fin (nUnits mkF a)) :
-    kindRep mkF a (forestNode a v) ≠ StemKind.top j := by
-  intro htop
-  have hst : OnStemAddr a.layered J (forestNode a v).1 :=
-    onStemAddr_of_mem_stemSetCap (selCap_spec (selCap_of_mem_selSetCap hv)).2
-  have h := ((kindRep_spec mkF hcl hst).2.1 j).1 htop
-  have hval : v.1 = (a.prime.data.decodedCoreBranch a.prime.prime.1 a.prime.decodes
-      (unitsRep mkF a j).upper).1 := by
-    have := congrArg Subtype.val h
-    exact this
-  have hveq : v = a.prime.data.decodedCoreBranch a.prime.prime.1 a.prime.decodes (unitsRep mkF a j).upper :=
-    Subtype.ext hval
-  exact coreBranch_unit_not_sel pat t s kSel mkF hsub a (List.get_mem _ _) (VineB.upper_mem _) (hveq ▸ hv)
-
-/-- **The atom kind of a selected vertex is a residual selected atom.** -/
-theorem kindRep_sel_atom_iff {J : Finset (Fin w)} {kSel : Fin w → Option ℕ} (mkF : Stage1Mk.MarkFn w)
-    {a : PrescribedPrimeGarden w} (hcl : CleanPt J a) {v : GBranch a.layered.garden.tree}
-    (hv : v ∈ selSetCap a.layered J kSel) (c : GBranch (stA mkF a).G.tree) :
-    kindRep mkF a (forestNode a v) = StemKind.atom c ↔ c ∈ selROf J kSel mkF a ∧ coreOf mkF a c = v ∧
-      c ∉ (stA mkF a).hinges := by
-  have hst : OnStemAddr a.layered J (forestNode a v).1 :=
-    onStemAddr_of_mem_stemSetCap (selCap_spec (selCap_of_mem_selSetCap hv)).2
-  rw [((kindRep_spec mkF hcl hst).1 c)]
-  constructor
-  · rintro ⟨h, hh⟩
-    have hval : v.1 = (coreOf mkF a c).1 := by
-      have := congrArg Subtype.val h
-      exact this
-    have hveq : coreOf mkF a c = v := (Subtype.ext hval).symm
-    exact ⟨mem_selROf.2 (hveq ▸ hv), hveq, hh⟩
-  · rintro ⟨-, hc, hh⟩
-    refine ⟨?_, hh⟩
-    apply Subtype.ext
-    show v.1 = (coreOf mkF a c).1
-    rw [hc]
-
 end WaveTurbulence.Flower.MkSlotsS

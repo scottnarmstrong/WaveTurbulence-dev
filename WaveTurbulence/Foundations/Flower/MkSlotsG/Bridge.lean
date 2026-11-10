@@ -48,8 +48,6 @@ namespace WaveTurbulence.Flower.MkSlotsG
 /-- **The filter constant of the general piece**: `max 1 (max twoLayerB (filterB chiDN))`. -/
 def cθGen : ℝ := max 1 (max twoLayerB (filterB ⇑MkSlotsS.chiDNS))
 
-theorem one_le_cθGen : 1 ≤ cθGen := le_max_left _ _
-
 theorem twoLayerB_le_cθGen : twoLayerB ≤ cθGen := (le_max_left _ _).trans (le_max_right _ _)
 
 theorem filterB_chiDNS_le_cθGen : filterB ⇑MkSlotsS.chiDNS ≤ cθGen := (le_max_right _ _).trans (le_max_right _ _)

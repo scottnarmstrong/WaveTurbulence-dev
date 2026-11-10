@@ -68,10 +68,6 @@ theorem selE_eq_zero_of_not_adj (s : ReplacementSlot G) (h : ¬ AdjS route sel s
   rw [if_neg]
   exact fun hv => h ⟨i, hv⟩
 
-@[simp] theorem selE_empty (s : ReplacementSlot G) (i : Fin 2) : selE route ∅ s i = 0 := by simp [selE]
-
-@[simp] theorem selF_empty (s : ReplacementSlot G) : selF route ∅ s = 1 := by simp [selF, AdjS]
-
 /-- The per-slot constant dominates `3^{2c + Σ_i selE s i}` for `c ≤ 1`. -/
 theorem three_rpow_le_selF (s : ReplacementSlot G) {c : ℝ} (hc : 0 ≤ c) (hc1 : c ≤ 1) :
     (3 : ℝ) ^ (2 * c + (selE route sel s 0 + selE route sel s 1)) ≤ 9 * selF route sel s := by
@@ -227,64 +223,5 @@ theorem slot_moment_le (m : Fin 2 → ℤ) (e : Fin 2 → ℝ) {c θ K : ℝ} (h
     exact mul_le_mul hK h5 (by positivity) hK0
   calc _ ≤ ENNReal.ofReal (K * X ^ θ) := ENNReal.ofReal_le_ofReal h6
     _ = ENNReal.ofReal K * ENNReal.ofReal (X ^ θ) := ENNReal.ofReal_mul hK0
-
-/-- **The mode sum with selection moments** (main's `modes_mass_le` + U1's `ModesMomentSel`, two moments per slot,
-per-slot time weights `θ s` and per-slot constants `Ks s ≥ 3^{2c + Σ_i e s i}`). -/
-theorem modes_mass_sel_le {G : Garden w} {J : Type} [Fintype J] [DecidableEq J]
-    (route : ReplacementSlot G → Fin 2 → ClkSrc G ⊕ J) {Λ : ReplacementSlot G → Type}
-    (W : ∀ s, Λ s → ℝ) (hW : ∀ s l, 0 ≤ W s l) (m : ∀ s, Λ s → Fin 2 → ℤ) {c : ℝ} (hc : 0 ≤ c)
-    (e : ReplacementSlot G → Fin 2 → ℝ) (he : ∀ s i, 0 ≤ e s i) (θ : ReplacementSlot G → ℝ)
-    (hθ : ∀ s, 2 * c + (e s 0 + e s 1) ≤ θ s) (Ks : ReplacementSlot G → ℝ)
-    (hKs : ∀ s, (3 : ℝ) ^ (2 * c + (e s 0 + e s 1)) ≤ Ks s) (μ : ReplacementSlot G → ℝ≥0∞)
-    (hμ : ∀ s, ∑' l, maxBracketPow (θ s) (half (m s l)) * ENNReal.ofReal (W s l) ≤ μ s) (Kc : ℝ) (hKc : 0 ≤ Kc) :
-    ∑' ξ : ∀ s, Λ s, ENNReal.ofReal (‖(((∏ s, W s (ξ s) : ℝ)) : ℂ)‖ *
-      (Kc * ∏ j, (1 + |((modLam (fun s => m s (ξ s)) route j : ℤ) : ℝ)|) ^ c) *
-      ∏ s, ∏ i, (1 + |(m s (ξ s) i : ℝ)|) ^ e s i) ≤
-      ENNReal.ofReal Kc * ∏ s, (ENNReal.ofReal (Ks s) * μ s) := by
-  have h1 : ∀ ξ : ∀ s, Λ s, ENNReal.ofReal (‖(((∏ s, W s (ξ s) : ℝ)) : ℂ)‖ *
-      (Kc * ∏ j, (1 + |((modLam (fun s => m s (ξ s)) route j : ℤ) : ℝ)|) ^ c) *
-      ∏ s, ∏ i, (1 + |(m s (ξ s) i : ℝ)|) ^ e s i) ≤
-      ENNReal.ofReal Kc * ∏ s, (ENNReal.ofReal (Ks s) *
-        (maxBracketPow (θ s) (half (m s (ξ s))) * ENNReal.ofReal (W s (ξ s)))) := by
-    intro ξ
-    have hb := prod_modLam_le (fun s => m s (ξ s)) route hc
-    have hp : 0 ≤ ∏ s, W s (ξ s) := Finset.prod_nonneg fun s _ => hW s _
-    have hq : 0 ≤ ∏ s, ∏ i, (1 + |(m s (ξ s) i : ℝ)|) ^ e s i :=
-      Finset.prod_nonneg fun s _ => Finset.prod_nonneg fun i _ => by positivity
-    rw [Complex.norm_real, Real.norm_of_nonneg hp]
-    calc ENNReal.ofReal ((∏ s, W s (ξ s)) * (Kc * ∏ j, (1 + |((modLam (fun s => m s (ξ s)) route j : ℤ) : ℝ)|) ^ c) *
-          ∏ s, ∏ i, (1 + |(m s (ξ s) i : ℝ)|) ^ e s i)
-        ≤ ENNReal.ofReal ((∏ s, W s (ξ s)) * (Kc * ∏ s, ∏ i, (1 + |((m s (ξ s) i : ℤ) : ℝ)|) ^ c) *
-          ∏ s, ∏ i, (1 + |(m s (ξ s) i : ℝ)|) ^ e s i) := by
-          refine ENNReal.ofReal_le_ofReal ?_
-          exact mul_le_mul_of_nonneg_right (mul_le_mul_of_nonneg_left
-            (mul_le_mul_of_nonneg_left hb hKc) hp) hq
-      _ = ENNReal.ofReal (Kc * ∏ s, (W s (ξ s) * ((∏ i, (1 + |((m s (ξ s) i : ℤ) : ℝ)|) ^ c) *
-            ∏ i, (1 + |(m s (ξ s) i : ℝ)|) ^ e s i))) := by
-          rw [Finset.prod_mul_distrib, Finset.prod_mul_distrib]; ring_nf
-      _ = ENNReal.ofReal Kc * ∏ s, ENNReal.ofReal (W s (ξ s) * ((∏ i, (1 + |((m s (ξ s) i : ℤ) : ℝ)|) ^ c) *
-            ∏ i, (1 + |(m s (ξ s) i : ℝ)|) ^ e s i)) := by
-          rw [ENNReal.ofReal_mul hKc, ENNReal.ofReal_prod_of_nonneg fun s _ => mul_nonneg (hW s _)
-            (mul_nonneg (Finset.prod_nonneg fun i _ => by positivity) (Finset.prod_nonneg fun i _ => by positivity))]
-      _ ≤ _ := by
-          gcongr with s
-          rw [ENNReal.ofReal_mul (hW s _)]
-          calc _ ≤ ENNReal.ofReal (W s (ξ s)) *
-                (ENNReal.ofReal (Ks s) * maxBracketPow (θ s) (half (m s (ξ s)))) := by
-                gcongr
-                exact slot_moment_le _ (e s) hc (he s) (hθ s) (hKs s)
-            _ = _ := by ring
-  calc _ ≤ ∑' ξ : ∀ s, Λ s, ENNReal.ofReal Kc * ∏ s, (ENNReal.ofReal (Ks s) *
-        (maxBracketPow (θ s) (half (m s (ξ s))) * ENNReal.ofReal (W s (ξ s)))) := ENNReal.tsum_le_tsum h1
-    _ = ENNReal.ofReal Kc * ∏ s, ∑' l, ENNReal.ofReal (Ks s) *
-          (maxBracketPow (θ s) (half (m s l)) * ENNReal.ofReal (W s l)) := by
-        rw [ENNReal.tsum_mul_left]
-        congr 1
-        exact ennreal_tsum_pi_prod_fintype
-          (fun s l => ENNReal.ofReal (Ks s) * (maxBracketPow (θ s) (half (m s l)) * ENNReal.ofReal (W s l)))
-    _ ≤ _ := by
-        gcongr with s
-        rw [ENNReal.tsum_mul_left]
-        gcongr; exact hμ s
 
 end WaveTurbulence.Flower.MkSlotsS

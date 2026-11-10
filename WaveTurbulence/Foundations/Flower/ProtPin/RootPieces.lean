@@ -2,7 +2,6 @@
 module
 
 public import WaveTurbulence.Foundations.Flower.ProtPin.PairPack
-public import WaveTurbulence.Foundations.Flower.ProtCut.CheckRoot
 public import WaveTurbulence.Foundations.Flower.ProtPin.TermStarCap
 
 /-! # D3 PROT-PIN: the pieces of the root cut with a suffix (`RootData`)

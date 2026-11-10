@@ -1,7 +1,7 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 
-public import WaveTurbulence.Foundations.Flower.ProtGeo.Incid
+public import WaveTurbulence.Foundations.Flower.ProtGeo.Sel
 
 /-! # D2b PROT-GEO (8): item (iv), no unmarked vine has a selected time argument (o73 §17)
 
@@ -151,14 +151,6 @@ theorem sel_mem_protI (pat : Fin w → FixPat) (t s : ℝ) {kSel : Fin w → Opt
   unfold protI protectedSet
   refine Finset.mem_filter.mpr ⟨Finset.mem_univ _, v.toNode, ⟨rfl, Or.inl rfl⟩, Or.inr ⟨v, rfl, Or.inr hv⟩⟩
 
-theorem selChild_mem_protI (pat : Fin w → FixPat) (t s : ℝ) {kSel : Fin w → Option ℕ}
-    {v : GBranch LG.garden.tree} (hv : v ∈ selSetCap LG J kSel) (i : Fin 3) :
-    v.child i ∈ protI LG J pat t s kSel := by
-  unfold protI protectedSet
-  refine Finset.mem_filter.mpr ⟨Finset.mem_univ _, v.toNode, ⟨rfl, Or.inr (Or.inr ⟨by simp [GBranch.child], ?_⟩)⟩,
-    Or.inr ⟨v, rfl, Or.inr hv⟩⟩
-  simp [GBranch.child, GBranch.toNode]
-
 /-! ## The internal bond of the upper joint -/
 
 /-- **The upper joint of a (CL) vine has a child toward the vine**: a branching child that is a non-upper atom, or a
@@ -215,39 +207,5 @@ theorem upper_internal_child {S : Garden w} (c : Stage1.CLVine S) :
     · exact ⟨rfl, (S.pair ℓ).1.2.getLast hl2, (List.dropLast_append_getLast hl2).symm⟩
 
 /-! ## Marking -/
-
-/-- **o73 §17 (`u₂₁`, `u₂₂`).** If the carrier vertex of a child of the lower joint of a vine of `𝒱` is selected,
-the vine is marked. -/
-theorem marked_of_sel_lowerChild (A : VineA.PrimeData LG) (pat : Fin w → FixPat) (t s : ℝ)
-    (kSel : Fin w → Option ℕ) (c : Stage1.CLVine A.skeleton) (hc : c ∈ Stage1.vinesV A.skeleton)
-    (y : GBranch A.skeleton.tree) (i : Fin 3) (hy : y.toNode = c.lower.child i)
-    {v : GBranch LG.garden.tree} (hv : v ∈ selSetCap LG J kSel)
-    (hvy : v.1 = skelAddr A.skeleton A.data.tree y) : c ∈ markI J pat t s kSel A := by
-  obtain ⟨Xt, hV⟩ := c.isVine
-  refine ⟨hc, c.lower, hV.1.2.2.1, fun h => hV.1.2.2.2.1 h.symm, v.toNode, sel_mem_protI pat t s hv, ?_⟩
-  apply mem_nearRegion_child i
-  rw [← hy]
-  show v.1 ∈ _
-  rw [hvy]
-  exact skelAddr_mem_ownRegion _ _ y
-
-/-- **o73 §17 (`u₁`).** If the carrier vertex of the upper joint of a vine of `𝒱` is selected, the vine is marked. -/
-theorem marked_of_sel_upper (A : VineA.PrimeData LG) (pat : Fin w → FixPat) (t s : ℝ)
-    (kSel : Fin w → Option ℕ) (c : Stage1.CLVine A.skeleton) (hc : c ∈ Stage1.vinesV A.skeleton)
-    {v : GBranch LG.garden.tree} (hv : v ∈ selSetCap LG J kSel)
-    (hvy : v.1 = skelAddr A.skeleton A.data.tree c.upper) : c ∈ markI J pat t s kSel A := by
-  obtain ⟨i, b, hb, hbne, hbi⟩ := upper_internal_child c
-  have hpos : (v.child i).1 = inflatedPosition A.skeleton A.data.tree (c.upper.child i) := by
-    rw [inflatedPosition_child]
-    show (v.1.1, v.1.2 ++ [i]) = _
-    rw [hvy]; simp [skelAddr, addrExt, List.append_assoc]
-  refine ⟨hc, b, hb, hbne, v.child i, selChild_mem_protI pat t s hv i, ?_⟩
-  rw [hpos]
-  rcases hbi with hbi | ⟨ℓ, hℓ, hbp⟩
-  · apply mem_nearRegion_own
-    rw [hbi]; exact inflatedPosition_mem_ownRegion _ _ _
-  · apply mem_nearRegion_partner hbp
-    rw [A.skeleton.pair_pair, hℓ]
-    exact inflatedPosition_mem_ownRegion _ _ _
 
 end WaveTurbulence.Flower.ProtGeo

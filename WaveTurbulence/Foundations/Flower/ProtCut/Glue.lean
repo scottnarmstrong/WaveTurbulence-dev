@@ -70,14 +70,6 @@ def glueFreeEquiv (fix : GBranch G.tree → Option ℝ) :
       show fix b = none ↔ fix (h.ofSum (h.toSum b)) = none
       rw [h.ofSum_toSum])).trans Equiv.subtypeSum
 
-theorem glueFreeEquiv_symm_inl (fix : GBranch G.tree → Option ℝ)
-    (x : {x : GBranch G₁.tree // fix (h.ofSum (.inl x)) = none}) :
-    ((glueFreeEquiv h fix).symm (Sum.inl x)).1 = h.ofSum (.inl x.1) := rfl
-
-theorem glueFreeEquiv_symm_inr (fix : GBranch G.tree → Option ℝ)
-    (y : {y : GBranch G₂.tree // fix (h.ofSum (.inr y)) = none}) :
-    ((glueFreeEquiv h fix).symm (Sum.inr y)).1 = h.ofSum (.inr y.1) := rfl
-
 theorem extendFix_glue_inl (fix : GBranch G.tree → Option ℝ)
     (σ : {x : GBranch G₁.tree // fix (h.ofSum (.inl x)) = none} ⊕
         {y : GBranch G₂.tree // fix (h.ofSum (.inr y)) = none} → ℝ) (x : GBranch G₁.tree) :

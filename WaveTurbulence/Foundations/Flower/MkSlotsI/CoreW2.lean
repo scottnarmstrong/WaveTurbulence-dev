@@ -98,13 +98,6 @@ theorem selOK_eq_one_iff (LG : LayeredGarden w) (J : Finset (Fin w)) (kSel : Fin
   · exact ⟨fun _ => h, fun _ => rfl⟩
   · exact ⟨fun h1 => absurd h1 (by norm_num), fun h1 => absurd h1 h⟩
 
-/-- Two gardens with `selOK = 1` have the same selected-vertex existence. -/
-theorem isSome_iff_of_selOK {LG LG' : LayeredGarden w} {J : Finset (Fin w)} {kSel : Fin w → Option ℕ}
-    (h : selOK LG J kSel = 1) (h' : selOK LG' J kSel = 1) (j : Fin w) :
-    (selCap LG J kSel j).isSome ↔ (selCap LG' J kSel j).isSome := by
-  rw [selOK_eq_one_iff] at h h'
-  exact ⟨fun hs => h' j (kSel_isSome_of_selCap hs), fun hs => h j (kSel_isSome_of_selCap hs)⟩
-
 /-- The radii of the stem filters at a unit top: σ's dyadic radius and the selection shell of a selected tree. -/
 def radTGen (L : ℝ) (σ kSel : Fin w → Option ℕ) (Rs : Fin w → ℝ) (j : Fin w) : List ℝ :=
   (σ j).elim [] (fun i => [2 ^ i * L]) ++ (if (kSel j).isSome then [Rs j] else [])
@@ -135,12 +128,6 @@ theorem radRaw_eq_radTGen {LG : LayeredGarden w} {J : Finset (Fin w)} {L : ℝ} 
   by_cases hk : (kSel b.1.1).isSome
   · rw [ite_eq_left ((shell_iff b).2 ⟨hok _ hk, hne⟩), ite_eq_left hk]
   · rw [ite_eq_right (fun h => hk (kSel_isSome_of_selCap ((shell_iff b).1 h).1)), ite_eq_right hk]
-
-/-- The top filter at a skeleton branch is `radProd` at its skeleton resonance factor. -/
-theorem radProd_eq_nodeWeight {d : ℕ} {S : Garden w} (rs : List ℝ) (L : ℝ) (base : Mom d)
-    (x : GNode S.tree → (Fin d → ℤ)) (β : GBranch S.tree) :
-    (MkSlotsT.radProd rs (omegaNode S (cosetDecoration S L base x) β) : ℂ) =
-      VineSpaceK.nodeWeight (V5W2L.topFilterWeightL rs) L base β x := rfl
 
 /-- At a stem branch that is not a selected vertex of a garden with `selOK = 1`, the stem node weight is the
 filter `radProd` with the radii `radTGen` of its tree (none off the stem). -/
@@ -286,103 +273,8 @@ theorem zatom_member
       (cosetDecoration (stSt a.prime.skeleton a.totalSigma (mk a.prime)).G L 0
         ((memShape a mk y hy).resDec y.1.plain (source_disjMk a mk y hy) κ).1) (fun _ => rfl) c hnu]
 
-include hy hcapA hcapY hG hrepU hc honeA honeY in
-/-- **Item 3: the unit tops.** If every requested selected vertex of the member exists (`selOK = 1`) and no
-representative unit top is a selected vertex (`hrepS`, e.g. `rep_units_not_sel`), the top factor of the member's core
-multiplier is B3-2's top weight with the representative's unit radius lists `SURep a mk J (radTGen L σ kSel Rs)`
-(σ's radius and the shell `Rs j` of a selected tree; no unit top is a selected vertex). -/
-theorem top_member
-    (hselY : ∀ j, (kSel j).isSome → (selCap (layeredReconstruction y.1.data y.1.plain (stateLayer y.1)
-      (stateLayer_isLayering y.1)) J kSel j).isSome)
-    (hrepS : ∀ j, a.prime.data.coreBranch a.prime.prime.1
-      (unitBlkMk (Mole.garden_isMolecule a.prime.skeleton) a.totalSigma (mk a.prime) j).upper ∉
-        selSetCap (recLG a) J kSel)
-    {d : ℕ} {roots : Fin (2 * R) → (Fin d → ℤ)} (κ : GenDecoration y.1.skeleton d roots 0) :
-    ∏ j, genNW (layeredReconstruction y.1.data y.1.plain (stateLayer y.1) (stateLayer_isLayering y.1)) J L σ kSel Rs
-        (y.1.data.coreBranch y.1.plain (unitClBlock (y.2 j)).upper).toNode
-        (omegaNode y.1.skeleton (cosetDecoration y.1.skeleton L 0 κ.1) (unitClBlock (y.2 j)).upper) =
-      ∏ j, VineSpaceK.nodeWeight (V5W2L.topFilterWeightL (MkSlotsT.SURep a mk J (radTGen L σ kSel Rs) j)) L 0
-        (y.2 j).blk.a κ.1 := by
-  refine Finset.prod_congr rfl fun j _ => ?_
-  set Φ₁ := stShape (Mole.garden_isMolecule a.prime.skeleton) a.totalSigma (mk a.prime)
-  set hd₁ := unitBlkMk_disj (Mole.garden_isMolecule a.prime.skeleton) a.totalSigma (mk a.prime)
-  set c := Φ₁.hinge hd₁ j
-  have hh : (memShape a mk y hy).hinge (source_disjMk a mk y hy) j = c :=
-    MkSlotsT.hinge_eq_of_hmom Φ₁ (memShape a mk y hy) hd₁ (source_disjMk a mk y hy)
-      (fun j i => congrFun (congrFun (memShape_hmom a mk y hy) j) i) j
-  have hu₂ : (unitClBlock (y.2 j)).upper = (memShape a mk y hy).br c := by
-    rw [← hh, (memShape a mk y hy).br_hinge]
-  have hu₁ : (unitBlkMk (Mole.garden_isMolecule a.prime.skeleton) a.totalSigma (mk a.prime) j).upper = Φ₁.br c :=
-    (Φ₁.br_hinge hd₁ j).symm
-  have hSU : MkSlotsT.SURep a mk J (radTGen L σ kSel Rs) j =
-      MkSlotsT.SUStem y.1.data y.1.plain (stateLayer y.1) (stateLayer_isLayering y.1) J
-        (fun b => radTGen L σ kSel Rs b.1.1) (blk := fun j => unitClBlock (y.2 j)) j :=
-    (MkSlotsT.SUStem_member_eq a mk y hy J hcapA hcapY hG hrepU (radTGen L σ kSel Rs) j).symm
-  have hblk : (y.2 j).blk.a = (unitClBlock (y.2 j)).upper := rfl
-  rw [hSU, hblk, ← radProd_eq_nodeWeight]
-  have hnsY : (y.1.data.coreBranch y.1.plain (unitClBlock (y.2 j)).upper : GBranch (layeredReconstruction y.1.data
-      y.1.plain (stateLayer y.1) (stateLayer_isLayering y.1)).garden.tree) ∉ selSetCap (layeredReconstruction
-        y.1.data y.1.plain (stateLayer y.1) (stateLayer_isLayering y.1)) J kSel := by
-    intro h
-    have h' : y.1.data.coreBranch y.1.plain ((memShape a mk y hy).br c) ∈ selSetCap (layeredReconstruction
-        y.1.data y.1.plain (stateLayer y.1) (stateLayer_isLayering y.1)) J kSel := by
-      rw [← hu₂]; exact h
-    have hA := (coreY_mem_selSetCap_iff a mk y hy J hcapA hcapY hG hrepU hc honeA honeY kSel c).1 h'
-    apply hrepS j
-    have he : coreRec a (mk a.prime) c = a.prime.data.coreBranch a.prime.prime.1
-        (unitBlkMk (Mole.garden_isMolecule a.prime.skeleton) a.totalSigma (mk a.prime) j).upper := by
-      rw [hu₁]; rfl
-    rwa [he] at hA
-  refine (genNW_top_aux hselY _ hnsY _).trans ?_
-  unfold MkSlotsT.SUStem
-  exact congrArg (fun rs => ((MkSlotsT.radProd rs _ : ℝ) : ℂ)) (ite_congr rfl (fun _ => rfl) (fun _ => rfl))
-
-include hy hcapA hcapY hG hrepU hc honeA honeY in
-/-- **The core multiplier of a run-class member** (`genCoreW`, base `0`, at a skeleton decoration `κ` of the member):
-the representative's selection constant, times the atom weight `zatomG` at the restricted decoration, times B3-2's top
-weight with the representative's unit radius lists `SURep a mk J (radTGen …)`. Hypotheses: `hex` (per-tree existence of
-the selected vertex common, `CoreW4.selCap_isSome_member_iff`), `hselY` (the member's `selOK = 1`), `hrepS`. -/
-theorem genCoreW_member
-    (hex : ∀ j, (selCap (layeredReconstruction y.1.data y.1.plain (stateLayer y.1) (stateLayer_isLayering y.1)) J
-      kSel j).isSome ↔ (selCap (recLG a) J kSel j).isSome)
-    (hselY : ∀ j, (kSel j).isSome → (selCap (layeredReconstruction y.1.data y.1.plain (stateLayer y.1)
-      (stateLayer_isLayering y.1)) J kSel j).isSome)
-    (hrepS : ∀ j, a.prime.data.coreBranch a.prime.prime.1
-      (unitBlkMk (Mole.garden_isMolecule a.prime.skeleton) a.totalSigma (mk a.prime) j).upper ∉
-        selSetCap (recLG a) J kSel)
-    {d : ℕ} {roots : Fin (2 * R) → (Fin d → ℤ)} (κ : GenDecoration y.1.skeleton d roots 0) :
-    genCoreW y.1.data y.1.plain (stateLayer y.1) (stateLayer_isLayering y.1) (memShape a mk y hy)
-        (source_disjMk a mk y hy) J L σ kSel Rs 0 κ =
-      (∏ j, (selCap (recLG a) J kSel j).elim 1 (fun _ => (((Rs j)⁻¹ : ℝ) : ℂ))) *
-        (zatomG J L σ kSel Rs a (mk a.prime) ((memShape a mk y hy).resDec y.1.plain (source_disjMk a mk y hy) κ) *
-          ∏ j, VineSpaceK.nodeWeight (V5W2L.topFilterWeightL (MkSlotsT.SURep a mk J (radTGen L σ kSel Rs) j)) L 0
-            (y.2 j).blk.a κ.1) := by
-  unfold genCoreW
-  rw [selConst_congr J kSel Rs hex, zatom_member a mk y hy J hcapA hcapY hG hrepU hc honeA honeY kSel L σ Rs hex κ,
-    top_member a mk y hy J hcapA hcapY hG hrepU hc honeA honeY kSel L σ Rs hselY hrepS κ]
-
 end Class
 
 /-! ## γ's unit top filters for the radii `radTGen` -/
-
-/-- **B3-2's `UnitTopFilters`** for the unit radius lists `SURep a mk J (radTGen L σ kSel Rs)` (γ's
-`unitTopFilters_stem`; radii `≥ 1` for `1 ≤ L ≤ Rs j`). -/
-theorem unitTopFilters_gen {R p d : ℕ} (a : PrescribedPrimeGarden (2 * R)) (mk : Stage1Mk.MarkFn (2 * R))
-    (J : Finset (Fin (2 * R))) (hc : CleanPt J a)
-    (hcapA : ∀ j ∈ J, (a.prime.data.garden a.prime.prime.1).tree j = TTree.leaf)
-    (hG : (stSt a.prime.skeleton a.totalSigma (mk a.prime)).G.IsPlain)
-    (hrepU : ∀ j, ∀ b ∈ (unitBlkMk (Mole.garden_isMolecule a.prime.skeleton) a.totalSigma (mk a.prime) j).atoms,
-      ¬ IsCapFlowerParent (layeredReconstruction a.prime.data a.prime.prime.1 (sourceLayer a)
-        (sourceLayer_isLayering a)) J (a.prime.data.coreBranch a.prime.prime.1 b))
-    (hcapY : ∀ y ∈ sourceClass a p (objKind (2 * R)) mk, ∀ j ∈ J, (y.1.data.garden y.1.plain).tree j = TTree.leaf)
-    (honeY : ∀ y ∈ sourceClass a p (objKind (2 * R)) mk,
-      MkSlotsS.OneFlower (layeredReconstruction y.1.data y.1.plain (stateLayer y.1) (stateLayer_isLayering y.1)) J)
-    (L : ℝ) (σ kSel : Fin (2 * R) → Option ℕ) (Rs : Fin (2 * R) → ℝ) (hL : 1 ≤ L) (hRs : ∀ j, L ≤ Rs j)
-    (base : Mom d) (roots : Fin (2 * R) → (Fin d → ℤ)) :
-    MkUnitsL.UnitTopFilters L p a (mk a.prime) (MkSlotsT.SURep a mk J (radTGen L σ kSel Rs)) base roots
-      (MkSlotsT.topE L base J (MkSlotsT.topTree a mk) (MkSlotsT.topDepth a mk)
-        (MkSlotsT.SURep a mk J (radTGen L σ kSel Rs))) :=
-  MkSlotsT.unitTopFilters_stem a mk J hc hcapA hG hrepU hcapY honeY (radTGen L σ kSel Rs)
-    (one_le_radTGen hL hRs) L base roots
 
 end WaveTurbulence.Flower.MkSlotsI

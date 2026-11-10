@@ -35,9 +35,6 @@ def atomWF {G : Garden w} (filt : GBranch G.tree → Option (ℝ × SchwartzMap 
     (ind : (GNode G.tree → Mom d) → ℝ) (k : GNode G.tree → Mom d) : ℂ :=
   (∏ a : GBranch G.tree, (filt a).elim 1 fun q => q.2 (omegaNode G k a / q.1)) * (ind k : ℂ)
 
-theorem atomW_eq_atomWF {G : Garden w} (D : SplicedKernelDataMK G d) (k : GNode G.tree → Mom d) :
-    D.atomW k = atomWF D.filt D.ind k := rfl
-
 theorem norm_atomWF_le {G : Garden w} (filt : GBranch G.tree → Option (ℝ × SchwartzMap ℝ ℂ))
     (ind : (GNode G.tree → Mom d) → ℝ) (hfilt : ∀ a q, filt a = some q → ∀ u, ‖q.2 u‖ ≤ 1)
     (hind : ∀ k, 0 ≤ ind k ∧ ind k ≤ 1) (k : GNode G.tree → Mom d) : ‖atomWF filt ind k‖ ≤ 1 := by
@@ -57,15 +54,6 @@ theorem norm_atomWF_le {G : Garden w} (filt : GBranch G.tree → Option (ℝ × 
 does not depend on the other data fields). -/
 def pieceAtomW {d R : ℕ} (π : Stage1PieceMK d R) (k : GNode π.Gsb.tree → Mom d) : ℂ :=
   (∏ a, (π.filt a).elim 1 fun q => q.2 (omegaNode π.Gsb k a / q.1)) * (π.ind k : ℂ)
-
-theorem pieceAtomW_eq_atomWF {d R : ℕ} (π : Stage1PieceMK d R) (k : GNode π.Gsb.tree → Mom d) :
-    pieceAtomW π k = atomWF π.filt π.ind k := rfl
-
-theorem pieceAtomW_eq_atomW {P : WTParams} {R : ℕ} (π : Stage1PieceMK P.d R) (tt : Fin (2 * R) → ℝ)
-    (center : GardenDart π.Gsb → Mom P.d) (edge : GardenDart π.Gsb → Mom P.d → ℂ)
-    (hinge : (HingeDarts π.Gsb π.Cs.hinges → Mom P.d) → ℂ) (freq : GBranch π.Gsb.tree → ℝ)
-    (k : GNode π.Gsb.tree → Mom P.d) :
-    pieceAtomW π k = (π.dataMK tt center edge hinge freq).atomW k := rfl
 
 /-! ## The pinned measure on the spliced time domain -/
 

@@ -81,39 +81,6 @@ theorem skelTermWZ_eq_integral (blk : J → CLBlock S) (Fs : SlotFamW S d) (hS :
   unfold skelTermWZ modeGWD
   rw [integral_const_mul]
 
-open scoped Classical in
-/-- **Sanity bridge (summand)**: with the indicator weight, `skelTermWZ` is β's `skelTermWD`. -/
-theorem skelTermWZ_ind (blk : J → CLBlock S) (hS : S.IsPlain) (L γ δ : ℝ) (base : Mom d)
-    (roots : Fin w → (Fin d → ℤ)) (tt : Fin w → ℝ) (selSk : GenDecoration S d roots 0 → Prop) (Fs : SlotFamW S d)
-    (A : Set (GBranch S.tree → ℝ)) (fixS : GBranch S.tree → Option ℝ) (κ : GenDecoration S d roots 0) :
-    skelTermWZ blk hS L γ δ base roots tt (fun κ => if selSk κ then 1 else 0) Fs A fixS κ =
-      skelTermWD blk hS L γ δ base roots tt selSk Fs A fixS κ := by
-  unfold skelTermWZ skelTermWD
-  by_cases hs : selSk κ
-  · simp only [hs, ↓reduceIte, one_mul]
-  · simp only [hs, ↓reduceIte, zero_mul]
-
-open scoped Classical in
-/-- **Sanity bridge (value)**: with the indicator weight, `skelValWZ` is β's `skelValWD`. -/
-theorem skelValWZ_ind (blk : J → CLBlock S) (hS : S.IsPlain) (L γ δ : ℝ) (base : Mom d)
-    (roots : Fin w → (Fin d → ℤ)) (tt : Fin w → ℝ) (selSk : GenDecoration S d roots 0 → Prop) (Fs : SlotFamW S d)
-    (A : Set (GBranch S.tree → ℝ)) (fixS : GBranch S.tree → Option ℝ) :
-    skelValWZ blk hS L γ δ base roots tt (fun κ => if selSk κ then 1 else 0) Fs A fixS =
-      skelValWD blk hS L γ δ base roots tt selSk Fs A fixS := by
-  unfold skelValWZ skelValWD
-  simp_rw [skelTermWZ_ind]
-
-open scoped Classical in
-/-- **Sanity bridge**: with the indicator weight `Zs κ = if selSk κ then 1 else 0`, the weighted relaxed pinned
-skeleton value `skelValWZRL` is β's `skelValWFRL … selSk …`. -/
-theorem skelValWZRL_ind (blk : J → CLBlock S) (D : ReconstructionData S) (hS : S.IsPlain) (L γ δ : ℝ)
-    (base : Mom d) (roots : Fin w → (Fin d → ℤ)) (tt : Fin w → ℝ) (layer : GNode (D.forest hS) → ℕ)
-    (selSk : GenDecoration S d roots 0 → Prop) (Fs : SlotFamW S d) (fixS lbS : GBranch S.tree → Option ℝ) :
-    skelValWZRL blk D hS L γ δ base roots tt layer (fun κ => if selSk κ then 1 else 0) Fs fixS lbS =
-      skelValWFRL blk D hS L γ δ base roots tt layer selSk Fs fixS lbS := by
-  unfold skelValWZRL skelValWFRL
-  exact skelValWZ_ind blk hS L γ δ base roots tt selSk Fs _ fixS
-
 end Skel
 
 /-! ## The pinned glue with a complex weight -/

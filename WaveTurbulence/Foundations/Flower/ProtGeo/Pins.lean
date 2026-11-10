@@ -41,16 +41,6 @@ def objCfg (LG : LayeredGarden w) (J : Finset (Fin w)) (pat : Fin w → FixPat) 
         (if u.2 ++ X.lonePath.dropLast ++ [i] ∈ (LG.garden.tree u.1).branching then .termChild i else .term)
       else .none
 
-theorem objCfg_ne_trace (LG : LayeredGarden w) (J : Finset (Fin w)) (pat : Fin w → FixPat) (X : RegChain)
-    (u : Fin w × Path) : objCfg LG J pat X u ≠ .trace := by
-  unfold objCfg
-  split <;> (repeat' split) <;> simp
-
-/-- The pinned paths of a configuration depend on the chain code only through its lone path. -/
-theorem pins_congr (cfg : ProtCfg) {X Y : RegChain} (h : X.lonePath = Y.lonePath) (s t up : ℝ) :
-    cfg.pins X s t up = cfg.pins Y s t up := by
-  cases cfg <;> simp [ProtCfg.pins, h]
-
 theorem lookup_cons' {β : Type*} (a k : Path) (v : β) (l : List (Path × β)) :
     ((k, v) :: l).lookup a = if a = k then some v else l.lookup a := by
   by_cases h : a = k

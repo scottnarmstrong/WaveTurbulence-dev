@@ -36,10 +36,6 @@ theorem slotC_ne_slotA (c : MiniCplCode) (t : Fin 2) : slotC c t ≠ slotA c t :
 theorem slot_cases_t1 (c : MiniCplCode) (t : Fin 2) (i : Fin 3) : i = slotA c t ∨ i = 1 ∨ i = slotC c t := by
   fin_cases c <;> fin_cases t <;> fin_cases i <;> decide
 
-theorem t1A_nil (c : MiniCplCode) (t : Fin 2) : t1A c (t, []) = addrExt (t, []) [slotA c t] := rfl
-theorem t1B_nil (t : Fin 2) : t1B (t, []) = addrExt (t1sw t, []) [1] := rfl
-theorem t1C_nil (c : MiniCplCode) (t : Fin 2) : t1C c (t, []) = addrExt (t, []) [slotC c t] := rfl
-
 /-- **The exceptional data of a type-1 couple**: the values at the roots of the three sub-couples, related by the
 node relation at the roots. -/
 def T1E (d : ℕ) : Type := {y : (Fin d → ℤ) × (Fin d → ℤ) × (Fin d → ℤ) // y.1 - y.2.1 + y.2.2 = 0}

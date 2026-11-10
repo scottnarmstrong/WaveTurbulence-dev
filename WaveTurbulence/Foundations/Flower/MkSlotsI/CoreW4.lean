@@ -37,12 +37,6 @@ open WaveTurbulence.Flower.MkSlots (recLG)
 
 namespace WaveTurbulence.Flower.MkSlotsI
 
-/-- The general piece's dagger sibling indicator is α's `sibIndAt` at the class marking. -/
-theorem sibIndOf_eq_sibIndAt {w d : ℕ} (J : Finset (Fin w)) (mkF : Stage1Mk.MarkFn w) (a : PrescribedPrimeGarden w)
-    (dag : Option (Fin w → Fin 3 → Mom d)) :
-    MkSlots.sibIndOf J mkF a dag (MkSlotsG.flwGen J mkF a) =
-      MkSlots.sibIndAt J a (classMk mkF a) dag (MkSlots.flwAt J a (classMk mkF a)) := rfl
-
 /-- The representative's unit tops are not selected vertices (from the fine marking). -/
 theorem rep_tops_not_sel {R : ℕ} (J : Finset (Fin (2 * R))) (pat : Fin (2 * R) → FixPat) (t s : ℝ)
     (kSel : Fin (2 * R) → Option ℕ) (mkF : Stage1Mk.MarkFn (2 * R))
@@ -137,29 +131,6 @@ theorem zatom_member' (L : ℝ) (σ kSel : Fin (2 * R) → Option ℕ) (Rs : Fin
       zatomG J L σ kSel Rs a (mk a.prime) ((memShape a mk y hy).resDec y.1.plain (source_disjMk a mk y hy) κ) :=
   zatom_member a mk y hy J hcapA hcapY hG hrepU hc honeA honeY kSel L σ Rs
     (selCap_isSome_member_iff a mk y hy J hcapA hcapY hG hc honeA honeY kSel) κ
-
-include hy hcapA hcapY hG hrepU hc honeA honeY in
-/-- **The core multiplier of a run-class member** (`genCoreW`, base `0`): if every requested selected vertex of the
-representative exists (`selOK = 1`, the non-zero case) and no representative unit top is a selected vertex
-(`rep_tops_not_sel`), it is the representative's selection constant times the atom weight `zatomG` of `G_sb` at the
-restricted decoration times B3-2's top weight with the unit radius lists `SURep a mk J (radTGen L σ kSel Rs)`. -/
-theorem genCoreW_member' (L : ℝ) (σ kSel : Fin (2 * R) → Option ℕ) (Rs : Fin (2 * R) → ℝ)
-    (hselA : selOK (recLG a) J kSel = 1)
-    (hrepS : ∀ j, a.prime.data.coreBranch a.prime.prime.1
-      (unitBlkMk (Mole.garden_isMolecule a.prime.skeleton) a.totalSigma (mk a.prime) j).upper ∉
-        selSetCap (recLG a) J kSel)
-    {d : ℕ} {roots : Fin (2 * R) → (Fin d → ℤ)} (κ : GenDecoration y.1.skeleton d roots 0) :
-    genCoreW y.1.data y.1.plain (stateLayer y.1) (stateLayer_isLayering y.1) (memShape a mk y hy)
-        (source_disjMk a mk y hy) J L σ kSel Rs 0 κ =
-      (∏ j, (selCap (recLG a) J kSel j).elim 1 (fun _ => (((Rs j)⁻¹ : ℝ) : ℂ))) *
-        (zatomG J L σ kSel Rs a (mk a.prime) ((memShape a mk y hy).resDec y.1.plain (source_disjMk a mk y hy) κ) *
-          ∏ j, VineSpaceK.nodeWeight (V5W2L.topFilterWeightL (MkSlotsT.SURep a mk J (radTGen L σ kSel Rs) j)) L 0
-            (y.2 j).blk.a κ.1) := by
-  have hex := selCap_isSome_member_iff a mk y hy J hcapA hcapY hG hc honeA honeY kSel
-  have hselY : selOK (layeredReconstruction y.1.data y.1.plain (stateLayer y.1) (stateLayer_isLayering y.1)) J
-      kSel = 1 := (selOK_member a mk y hy J hcapA hcapY hG hc honeA honeY kSel).trans hselA
-  exact genCoreW_member a mk y hy J hcapA hcapY hG hrepU hc honeA honeY kSel L σ Rs hex
-    ((selOK_eq_one_iff _ J kSel).1 hselY) hrepS κ
 
 end Class
 

@@ -88,8 +88,6 @@ theorem gd : GlueData LG.garden LGp.garden GZ Xp := glueData_tree D.dec D.decP D
 abbrev LGZ : LayeredGarden 1 :=
   ⟨GZ, fun y => LG.layer ((D.gd hZ hsZ).ι₂ y), (botLayered_tree D.dec D.decP D.sigP hZ hsZ).isLayering⟩
 
-theorem LGZ_garden : (D.LGZ hZ hsZ).garden = GZ := rfl
-
 theorem LGZ_layer (y : GNode GZ.tree) : (D.LGZ hZ hsZ).layer y = LG.layer ((D.gd hZ hsZ).ι₂ y) := rfl
 
 /-- The closing pair and its three pieces. -/
