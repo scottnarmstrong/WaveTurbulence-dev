@@ -42,10 +42,11 @@ item:
 
 Each auditor replays the joint dependency closure of the five theorems once in the kernel, in quick mode: the 40,618
 certificate theorems of `WaveTurbulenceVineParam` whose proofs use no constant outside that library are checked by
-statement only (their proofs are kernel-checked by every build), and Mathlib and Lean's core library are inserted
-unchecked as the trusted base (KEY-A §1.2, KEY-B §1.3). Both replays adapt the same tool (`Replay.lean`, `replay.sh`)
-and read the same build, so they are two runs of one method, not two independent checks. Otherwise the two keys are given different primary refutation targets and different methods, so
-that they do not share blind spots. A theorem is recorded as PROVED only if both keys pass it.
+statement only (their proofs are kernel-checked by every build), and all library modules outside this project (Lean
+core, Mathlib and its dependencies such as Batteries and Aesop) are inserted unchecked as the trusted base (KEY-A §1.2,
+KEY-B §1.3). Both replays adapt the same tool (`Replay.lean`, `replay.sh`) and read the same build, so they are two runs
+of one method, not two independent checks. Otherwise the two keys are given different primary refutation targets and
+different methods, so that they do not share blind spots. A theorem is recorded as PROVED only if both keys pass it.
 
 *In progress: a full kernel check of the release commit with the public tool lean4checker (`--fresh`).*
 

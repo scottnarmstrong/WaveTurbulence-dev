@@ -186,10 +186,11 @@ scripts/check_index.sh
 
 **Kernel replays in the audits.** Each audit of the sealed theorems also replayed the proof in Lean's kernel, in quick
 mode: the 40,618 certificate theorems of `WaveTurbulenceVineParam` whose proofs stay inside that library were checked by
-statement only (their proofs are kernel-checked by every build), and Mathlib and Lean's core library were taken as the
-trusted base. The two replays of the full-range theorems used the same replay tool on the same build, so they are two
-runs of one method, not two independent checks. Records: [`docs/audits/full-range/`](docs/audits/full-range/README.md)
-(full range) and [`docs/audits/v2-chain/`](docs/audits/v2-chain/README.md) (the earlier 1/2 < γ < 1 version).
+statement only (their proofs are kernel-checked by every build), and all library modules outside this project (Lean
+core, Mathlib and its dependencies such as Batteries and Aesop) were taken as the trusted base. The two replays of the
+full-range theorems used the same replay tool on the same build, so they are two runs of one method, not two independent
+checks. Records: [`docs/audits/full-range/`](docs/audits/full-range/README.md) (full range) and
+[`docs/audits/v2-chain/`](docs/audits/v2-chain/README.md) (the earlier 1/2 < γ < 1 version).
 
 **Which commit the audits cover.** The full-range audits cover main at commit `5c19b015`. From there to commit
 `f121830e`, 3,979 Lean files changed (`git diff --shortstat 5c19b015 f121830e -- '*.lean'`): 1,056 were deleted and
@@ -289,7 +290,8 @@ SEALED: 26 theorems + 300 definitions. Full range: main, propansatz, fixedpoint,
   its chain.
 - [docs/audits/errata/](docs/audits/errata/README.md): the independent verification of the errata (2026-11-10).
 - [docs/research/](docs/research/INDEX.md): research notes, referee reports and scripts behind the errata.
-- [docs/DECISIONS.md](docs/DECISIONS.md): the author's decisions (scope, statement versions, approvals).
+- [docs/DECISIONS.md](docs/DECISIONS.md): the decisions on scope, statement versions and approvals: Scott Armstrong's,
+  and the coordinating agent's under his standing authorization (D13, D16, D17).
 - [docs/review/](docs/review/README.md): the approval pages behind these decisions (dated records).
 - [docs/FINDINGS.md](docs/FINDINGS.md): the running ledger of source findings.
 - [docs/THIRD-PARTY.md](docs/THIRD-PARTY.md): third-party code (Apache 2.0, attributed).
