@@ -1,0 +1,164 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/mathlib-initiative/formalization.yaml/main/schema/formalization.schema.json
+version: "v0.4"
+
+project:
+  name: "Wave turbulence in Lean 4: Deng–Hani's long time justification of wave turbulence theory"
+  description: >-
+    A Lean 4 and Mathlib formalization of Theorem 1.1 of Y. Deng and Z. Hani, Long time justification of wave
+    turbulence theory (arXiv:2311.10082v2), for the full range 0 < gamma < 1 of the scaling exponent, on the
+    square torus of size L in dimension d >= 3: for the cubic nonlinear Schrodinger equation with random
+    initial data, the expected squared Fourier modes follow the solution of the wave kinetic equation up to an
+    error L^(-theta), on the kinetic time scale, with probability at least 1 - exp(-(log L)^(40 d)). Everything
+    the proof relies on is formalized, including the needed results of the authors' earlier papers. For
+    0 < gamma <= 1/2 the printed proof relies on a counting proposition (DH23 Prop 9.6) that is false in that
+    range; the formalization proves a repaired argument (an enlarged family of vines, the counting proposition
+    re-proved for it, and a corrected step of the counting procedure). Errata found while formalizing are
+    recorded in docs/ERRATA-AND-DEVIATIONS.md.
+  authors: ["Scott Armstrong", "Ahmed Bou-Rabee"]
+  responsible_maintainers: ["Scott Armstrong", "Ahmed Bou-Rabee"]
+  affiliations:
+    - "Scott Armstrong: CNRS & Laboratoire Jacques-Louis Lions, Sorbonne Université and Courant Institute School of Mathematics, Computing, and Data Science, New York University"
+  license: "Apache-2.0"
+
+classification:
+  arxiv: ["math.AP", "math-ph"]
+  msc2020: ["35Q55", "35Q20", "35R60", "82C40"]
+
+sources:
+  - title: "Long time justification of wave turbulence theory"
+    authors: ["Yu Deng", "Zaher Hani"]
+    id: "arXiv:2311.10082"
+    type: "article"
+    location: "https://arxiv.org/abs/2311.10082v2"
+    relationship: "formalizes"
+    note: >-
+      Theorem 1.1, for 0 < gamma < 1 on the square torus, as printed (WaveTurbulence.main), and the
+      propositions it is assembled from. For 0 < gamma <= 1/2 the proof follows a repaired argument; see
+      docs/GAMMA-LE-HALF.md and docs/ERRATA-AND-DEVIATIONS.md.
+  - title: "Derivation of the wave kinetic equation: full range of scaling laws"
+    authors: ["Yu Deng", "Zaher Hani"]
+    id: "arXiv:2301.07063"
+    type: "article"
+    location: "https://arxiv.org/abs/2301.07063"
+    relationship: "formalizes"
+    note: >-
+      The results the main paper uses, among them the molecule counting of Sections 9-10; Proposition 9.6 is
+      false for 0 < gamma <= 1/2 (erratum E1) and is replaced there by a repaired statement.
+  - title: "Full derivation of the wave kinetic equation"
+    authors: ["Yu Deng", "Zaher Hani"]
+    id: "doi:10.1007/s00222-023-01189-2"
+    type: "article"
+    location: "https://arxiv.org/abs/2104.11204"
+    relationship: "formalizes"
+    note: "Invent. Math. 233 (2023) 543-724. The results the main paper uses."
+  - title: "Propagation of chaos and higher order statistics in wave kinetic theory"
+    authors: ["Yu Deng", "Zaher Hani"]
+    id: "arXiv:2110.04565"
+    type: "article"
+    location: "https://arxiv.org/abs/2110.04565"
+    relationship: "formalizes"
+    note: "The results the main paper uses."
+  - title: "On the derivation of the wave kinetic equation for NLS"
+    authors: ["Yu Deng", "Zaher Hani"]
+    id: "arXiv:1912.09518"
+    type: "article"
+    location: "https://arxiv.org/abs/1912.09518"
+    relationship: "formalizes"
+    note: "Forum Math. Pi 9 (2021) e6. The results the main paper uses."
+  - title: "Optimal local well-posedness theory for the kinetic wave equation"
+    authors: ["Pierre Germain", "Alexandru D. Ionescu", "Minh-Binh Tran"]
+    id: "arXiv:1711.05587"
+    type: "article"
+    location: "https://arxiv.org/abs/1711.05587"
+    relationship: "formalizes"
+    note: "J. Funct. Anal. (2020). The well-posedness results the main paper uses (see erratum E2g)."
+
+automation:
+  methods:
+    - method: "manual"
+      prompting_notes: >-
+        Scott Armstrong set the scope and approved the frozen statements of the main results, including
+        Theorem 1.1 (docs/DECISIONS.md, D1, D2 and D6-D11). Later, under his standing authorization of
+        5 November 2026, the coordinating agent approved two successor statements, each after an independent
+        statement audit (D13, D16), and sealed the full-range theorems after two seal audits (D17).
+    - method: "agent"
+      models: ["claude-opus-5-5"]
+      framework: "Claude Code"
+      tool_setup: >-
+        Claude Opus 5.5 directed the work, coordinated the other agents, wrote the hardest parts, the research
+        notes behind the repairs and their referee reports, and ran the statement audits, the seal audits and
+        the check of the errata, each review in a session that had not written what it checked.
+    - method: "agent"
+      models: ["claude-sonnet-5-5"]
+      framework: "Claude Code"
+      tool_setup: "Wrote large parts of the Lean code."
+    - method: "agent"
+      models: ["gpt-6.1-sol"]
+      framework: "OpenAI Codex CLI"
+      tool_setup: "Wrote large parts of the Lean code and some reviews."
+    - method: "agent"
+      models: ["gpt-6-astra"]
+      framework: "OpenAI Codex CLI"
+      tool_setup: "Wrote an independent assessment of the printed flower estimate."
+  cost:
+    wall_time: "3-10 November 2026"
+    spend_usd: "not separately tracked (subscriptions)"
+    hardware: "one AMD Ryzen 7 7700 (8 cores, 16 threads) / 124 GB RAM Linux machine"
+  notes: >-
+    The factual account is in README.md, under "How this was made". In this repository, "independent" means a
+    separate agent session, not a human referee. Correctness of the proofs rests on Lean's kernel, which
+    checks every proof against the frozen statements, and on the comparator check of Theorem 1.1; there is no
+    human line-by-line review of the proofs.
+
+review:
+  status: "agent-reviewed"
+  notes: >-
+    Statement audits, two seal audits of the five full-range theorems (each with a kernel replay in quick mode,
+    by one replay tool on one build), and a refute-first check of the 14 errata that claim an error or gap in
+    the papers, all by separate Claude Opus 5.5 sessions. Scott Armstrong approved the frozen statements of the
+    main results. A full build and axiom check on an external machine (the "Build and verify" workflow, on a
+    self-hosted runner) and a lean4checker --fresh run are pending.
+
+status:
+  scope: >-
+    Complete for Theorem 1.1 of arXiv:2311.10082v2 for the full range 0 < gamma < 1 on the square torus, as
+    printed, together with the four statements it is assembled from (propansatz, fixedpoint, layergarden and
+    the flower estimate in the corrected form layergardenFlower_v4) and the earlier sealed version for
+    1/2 < gamma < 1 (main_v2). The library also contains two superseded draft statements of the flower
+    estimate (layergardenFlower_v1, _v2), kept frozen with the body sorry as a record and imported by nothing
+    (erratum E34); they are the only sorry in the library. The comparator Challenge contains one intentional
+    sorry. Not formalized: other tori, and the paper's remarks outside Theorem 1.1.
+  sorry_count: 2
+  sorry_in_definitions: 0
+  axioms: ["propext", "Classical.choice", "Quot.sound"]
+  main_results:
+    - declaration: "WaveTurbulence.main"
+      file: "WaveTurbulence/Frozen/Theorems/Main.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparator.json"
+    - declaration: "WaveTurbulenceChallenge.main"
+      file: "WaveTurbulenceSolution.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparator.json"
+    - declaration: "WaveTurbulence.propansatz"
+      file: "WaveTurbulence/Frozen/Theorems/Propansatz.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+    - declaration: "WaveTurbulence.fixedpoint"
+      file: "WaveTurbulence/Frozen/Theorems/Fixedpoint.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+    - declaration: "WaveTurbulence.layergarden"
+      file: "WaveTurbulence/Frozen/Theorems/Layergarden.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+    - declaration: "WaveTurbulence.layergardenFlower_v4"
+      file: "WaveTurbulence/Frozen/Theorems/LayergardenFlowerV4.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+    - declaration: "WaveTurbulence.main_v2"
+      file: "WaveTurbulence/Frozen/Theorems/MainV2.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
