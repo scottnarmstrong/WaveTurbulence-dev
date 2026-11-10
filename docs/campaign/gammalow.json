@@ -1,6 +1,6 @@
 {
  "title": "The γ ≤ 1/2 campaign",
- "updated": "2026-11-10 03:13 UTC",
+ "updated": "2026-11-10 05:20 UTC",
  "convention": "Weights are the estimated size of each work package (thousands of new Lean lines; non-Lean steps get an equivalent weight). A finished package counts fully once it passes its checks and an independent re-run of its audit. A running package counts by the orchestrator's estimate at its last checkpoint (what is proved against what remains); before its first checkpoint it counts by the Lean it has compiled, capped at 75 %. Line counts alone overstate progress, because several packages first port large amounts of the existing proof.",
  "next": "COMPLETE: Theorem 1.1 is proved in Lean for every 0 < γ < 1, as printed (sealed 2026-11-09; both independent audits passed 2026-11-10). Next: removing unused code and speeding up the build, then preparing the repository for publication.",
  "risks": [
@@ -269,7 +269,7 @@
      "dirs": [
       "GammaLow/Glue"
      ],
-     "note": "accepted; closed: Close.*_full prove the five full-range statements (verified)",
+     "note": "accepted; closed: the five full-range statements are assembled from the two γ ≤ 1/2 halves (GammaLow/Close) and sealed as WaveTurbulence.main and its four companions",
      "lines": 741,
      "lines_compiled": 741,
      "credit": 1.0
