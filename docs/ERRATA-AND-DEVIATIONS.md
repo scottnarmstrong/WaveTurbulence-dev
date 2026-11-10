@@ -566,9 +566,9 @@ relative to `WaveTurbulence`:
 - **The two γ ≤ 1/2 halves**: `GammaLow.Close.layergarden_low_closed` and `GammaLow.Close.flower_low_closed`, joined
   to the γ > 1/2 proof at γ = 1/2 (γ = 1/2 belongs to the low half) by `GammaLow.Glue.wtPrefix_of_halves` and
   `GammaLow.Glue.wtPrefixP_of_halves`.
-- **The full-range statements**: `GammaLow.Close.main_full` and its four companions in
-  `WaveTurbulence/Foundations/GammaLow/Close/Final.lean`, which prove the frozen `main`, `propansatz`, `fixedpoint`,
-  `layergarden` and `layergardenFlower_v4`, with standard axioms only.
+- **The full-range statements** are the sealed theorems `main`, `propansatz`, `fixedpoint`, `layergarden` and
+  `layergardenFlower_v4`, proved with standard axioms only. Each provider (`WaveTurbulence/Provider/`) applies the
+  glue theorem for its statement (for example `GammaLow.Glue.main_of_low`) to the two halves above.
 
 A plain-language account is [GAMMA-LE-HALF.md](GAMMA-LE-HALF.md).
 

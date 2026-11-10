@@ -18,10 +18,11 @@ two audits.
 | `WaveTurbulence.propansatz` | TARGET Prop `propansatz` | `6f4a03d2` | 2026-11-04 |
 | **`WaveTurbulence.main`** | **TARGET Theorem 1.1, 0 < γ < 1, as printed** | `bfbb5546` | 2026-11-03 |
 
-TARGET is Deng–Hani, *Long time justification of wave turbulence theory*, arXiv:2311.10082v2. Each proof is assembled
-in `WaveTurbulence/Foundations/GammaLow/Close/Final.lean` from the earlier, audited proof for 1/2 < γ < 1
-([`../v2-chain/`](../v2-chain/README.md)) and the new proof for 0 < γ ≤ 1/2
-([GAMMA-LE-HALF.md](../../GAMMA-LE-HALF.md)).
+TARGET is Deng–Hani, *Long time justification of wave turbulence theory*, arXiv:2311.10082v2. Each proof joins the
+earlier, audited proof for 1/2 < γ < 1 ([`../v2-chain/`](../v2-chain/README.md)) and the new proof for 0 < γ ≤ 1/2
+([GAMMA-LE-HALF.md](../../GAMMA-LE-HALF.md)): its provider applies the glue theorem for its statement (for example
+`GammaLow.Glue.main_of_low`) to the closed γ ≤ 1/2 halves `GammaLow.Close.flower_low_closed` and
+`GammaLow.Close.layergarden_low_closed`.
 
 ## How the audits work
 
@@ -49,4 +50,5 @@ so that they do not share blind spots. A theorem is recorded as PROVED only if b
 | A | [KEY-A.md](KEY-A.md) | PASS for all five theorems |
 | B | [KEY-B.md](KEY-B.md) | PASS for all five theorems |
 
-The reports are the auditors' complete working records, unedited apart from paths: `<work>/` stands for the auditor's local working files (scripts, logs, probe outputs), which are not part of the repository, and `<sources>/` for the pinned LaTeX sources of the papers.
+The reports are the auditors' complete working records, unedited apart from paths: `<work>/` stands for the auditor's local working files (scripts, logs, probe outputs), which are not part of the repository, and `<sources>/` for the pinned LaTeX sources of the papers. Both audits are of main at `5c19b015`; Lean names in them refer to the repository at that
+commit, and a later clean-up removed some unused helpers, which remain in the git history there.

@@ -3,7 +3,9 @@
 This directory holds the notes, referee reports and small scripts that support the entries of
 [`../ERRATA-AND-DEVIATIONS.md`](../ERRATA-AND-DEVIATIONS.md). They are working documents of the project, copied
 verbatim: they use the project's internal names (packets, rulings, scratch paths) and may refer to files that are not
-included. The errata file is the reader-facing summary; these files are the evidence behind it.
+included. The errata file is the reader-facing summary; these files are the evidence behind it. Lean names in these files
+refer to the repository at the time of writing; a later clean-up removed some unused helpers, which remain in the git
+history at the commits cited.
 
 No Lean code from the project's working directories is copied here. Lean checks that exist only there are marked
 "(working note, not included)" in the errata file.

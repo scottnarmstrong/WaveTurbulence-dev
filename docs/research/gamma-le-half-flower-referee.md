@@ -15,7 +15,9 @@
   [ghost-step note](gamma-le-half-ghost-step-notes.md), the [counting note](gamma-le-half-counting-notes.md) and the
   [T-vine blueprint note](gamma-le-half-tvine-blueprint-notes.md).
 - *Provenance: independent refute-first referee report, November 2026. The referee did not write the note under
-  review.* The scripts named in the text are not included in this repository.
+  review.* The scripts named in the text are not included in this repository. Lean names refer to the repository at the
+  time of writing (the commits the report cites); a later clean-up removed some unused helpers, which remain in the git
+  history at the commits cited.
 - **Abbreviations:** as in the [note's preface](gamma-le-half-flower-notes.md#readers-preface); "the note" is the
   flower note, and S in "S Lemma 4.2" is SUPP.
 

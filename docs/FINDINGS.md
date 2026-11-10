@@ -331,7 +331,7 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   integrals established). **Main theorems not refuted. AUTHOR DECISION REQUIRED** (`docs/review/ESCALATION-F69b.md`).
   **Resolved (2026-11-09).** Decided by D9/D10 (restrict for the time being, research a repair). Repair: the T-type
   blocks are spliced in stage 1 as an enlarged vine family (T-vines, D11), and Prop 9.6 is re-proved over that family
-  for γ ≤ 1/2 (Lean: `GammaLow.FinalCount.prop96_low_closed`). The full-range statements are sealed (D17). Errata
+  for γ ≤ 1/2 (Lean: `GammaLow.FinalCount.prop96_low_closed`). The full-range statements are proved (D17). Errata
   E1; overview `docs/GAMMA-LE-HALF.md`.
 - F70 — DH21 (integralK) L1782 — the weight `e^{−πθα²}` should be `e^{−πθ²α²}`. Minor typo. Found by wt-torus (CANCEL7),
   which also implements the corrected F61 sign in DH21 Lemma 7.3 and Prop 7.5 (`𝒥B̃_{Q,Z} = (−1)^{|Z|}𝒥B̃_Q`); its route

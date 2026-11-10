@@ -14,7 +14,9 @@ R2 is erratum E47 and Finding 2 with remark K2 is erratum E48; the ghost lemma G
 *Provenance: independent refute-first referee report, November 2026. The referee did not write the note under
 review.* The scripts named in the text are not included in this repository. Abbreviations are as in the note's
 preface; "the note" is the counting note, and D9 is the project decision, taken when erratum E1 was found, to restrict
-the formal target to 1/2 < γ < 1 while γ ≤ 1/2 was being repaired (see E1 in ERRATA).
+the formal target to 1/2 < γ < 1 while γ ≤ 1/2 was being repaired (see E1 in ERRATA). Lean names refer to the repository
+at the time of writing (the commits the report cites); a later clean-up removed some unused helpers, which remain in the
+git history at the commits cited.
 
 ---------------------------------------------------------------------------------------------------------------------
 

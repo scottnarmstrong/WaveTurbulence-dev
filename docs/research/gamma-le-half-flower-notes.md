@@ -33,7 +33,9 @@ which works for every γ (`Bank.lean` above). This corrects this note, not the p
 Lean formalization and are not folded into this text.
 
 *Provenance: written and independently refereed in November 2026.* The scripts named in the text are not included in
-this repository.
+this repository. Lean names refer to the repository at the time of writing (this preface: commit `5c19b015`; the text:
+the commit it cites, where it cites one); a later clean-up removed some unused helpers, which remain in the git history
+at the commits cited.
 
 **Abbreviations.**
 - TARGET or T: Y. Deng, Z. Hani, *Long time justification of wave turbulence theory*, arXiv:2311.10082v2; line

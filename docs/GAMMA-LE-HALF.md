@@ -176,20 +176,20 @@ Source: [`gamma-le-half-flower-notes.md`](research/gamma-le-half-flower-notes.md
 
 The proof splits at γ = 1/2, with γ = 1/2 itself in the low half. For γ > 1/2 it uses the sealed, audited theorems
 `layergarden_v2` and `layergardenFlower_v3`. For γ ≤ 1/2 it uses the two new halves,
-`GammaLow.Close.layergarden_low_closed` and `GammaLow.Close.flower_low_closed`. The glue lemmas
+`GammaLow.Close.layergarden_low_closed` (`WaveTurbulence/Foundations/GammaLow/Close/Halves.lean`) and
+`GammaLow.Close.flower_low_closed` (`WaveTurbulence/Foundations/GammaLow/Close/Final.lean`). The glue lemmas
 `GammaLow.Glue.wtPrefix_of_halves` and `GammaLow.Glue.wtPrefixP_of_halves` join the two halves (the split is
-`by_cases h : 1 / 2 < γ`).
+`by_cases h : 1 / 2 < γ`). For each frozen statement, its provider in `WaveTurbulence/Provider/` applies the glue
+theorem for that statement (for example `GammaLow.Glue.main_of_low`) to the two halves, and the sealed statement's
+proof is a one-line reference to that provider.
 
 ```text
 γ > 1/2: layergarden_v2, layergardenFlower_v3      (sealed and audited)
 γ ≤ 1/2: GammaLow.Close.layergarden_low_closed,
          GammaLow.Close.flower_low_closed            (new)
-          │  GammaLow.Glue.*_of_low
+          │  glue GammaLow.Glue.*_of_low, applied by each provider (WaveTurbulence/Provider/)
           ▼
-GammaLow.Close:        layergardenFlower_v4_full, layergarden_full, fixedpoint_full, propansatz_full, main_full
-          │  (one-line provider per statement, WaveTurbulence/Provider/)
-          ▼
-frozen statements:     layergardenFlower_v4, layergarden, fixedpoint, propansatz, main
+sealed statements:     layergardenFlower_v4, layergarden, fixedpoint, propansatz, main
 ```
 
 The frozen statements proved this way:
@@ -212,9 +212,9 @@ flower statement (E34, E41, E42; deviations in the errata file).
   refute it. All four were accepted with small repairs, which were applied in the Lean formalization.
 - **The new statement.** `layergardenFlower_v4` was audited independently before it was frozen: it is faithful to the
   source and has no hypothesis beyond it.
-- **Lean.** No `sorry` and no added axiom anywhere. `#print axioms` of each of the five final theorems in
-  `WaveTurbulence/Foundations/GammaLow/Close/Final.lean` lists only `propext`, `Classical.choice` and `Quot.sound`.
-  Each of the five was checked to have exactly the type of its frozen statement.
+- **Lean.** No `sorry` and no added axiom anywhere. `#print axioms` of each of the five sealed theorems (`main`,
+  `propansatz`, `fixedpoint`, `layergarden`, `layergardenFlower_v4`) lists only `propext`, `Classical.choice` and
+  `Quot.sound`. Before sealing, each proof was checked to have exactly the type of its frozen statement.
 - **Sealing (2026-11-09).** Each frozen statement's placeholder proof was replaced by a one-line reference to its
   proof, and tooling checked that the statement itself did not change. Seal commits on main: `4558dd65`
   (`layergardenFlower_v4`), `2e2c16ef` (`layergarden`), `008e27f9` (`fixedpoint`), `6f4a03d2` (`propansatz`),
@@ -249,7 +249,7 @@ All paths are under `WaveTurbulence/Foundations/`. Together, the two areas below
 | `GammaLow/FinalCount` | the final count for γ ≤ 1/2: DH23 Props 9.4–9.6 and 10.4, and the ghost step |
 | `GammaLow/Flower` | the flower estimate for γ ≤ 1/2: marked stage 1 and marked count |
 | `GammaLow/LGLow` | `layergarden` for γ ≤ 1/2 |
-| `GammaLow/Glue`, `GammaLow/Close` | the split at γ = 1/2 and the five full-range theorems |
+| `GammaLow/Glue`, `GammaLow/Close` | the split at γ = 1/2 (the glue) and the two closed γ ≤ 1/2 halves |
 
 ## 10. History
 

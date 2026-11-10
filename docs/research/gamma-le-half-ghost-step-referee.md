@@ -10,7 +10,9 @@
   counts; §3), and checked every load-bearing step by hand (§4). The repairs were applied in the Lean formalization
   and are not folded into the note's text.
 - *Provenance: independent refute-first referee report, November 2026. The referee did not write the note under
-  review.* The scripts named in the text are not included in this repository.
+  review.* The scripts named in the text are not included in this repository. Lean names refer to the repository at the
+  time of writing (the commits the report cites); a later clean-up removed some unused helpers, which remain in the git
+  history at the commits cited.
 - **Abbreviations:** as in the note's preface. In addition, ERRATA is
   [`../ERRATA-AND-DEVIATIONS.md`](../ERRATA-AND-DEVIATIONS.md), and "the planning notes" are the notes drawn up when
   the extension to γ ≤ 1/2 was planned, including a list of open steps (not included).

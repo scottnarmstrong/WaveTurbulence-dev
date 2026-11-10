@@ -151,8 +151,8 @@ Format: D<n> — date (UTC) — who — decision — reason.
     `layergarden` (`2e2c16ef`), `fixedpoint` (`008e27f9`), `propansatz` (`6f4a03d2`) and `main` (`bfbb5546`), i.e.
     the four originals of D6/D7 as printed, for 0 < γ < 1, and the flower successor of D16. No frozen statement
     changed; each proof body is now a one-line reference to its provider in `WaveTurbulence/Provider/`.
-  - The proof. Each provider is a theorem of `WaveTurbulence/Foundations/GammaLow/Close/Final.lean`. It splits γ at
-    1/2 (γ = 1/2 in the low half). The high half uses the sealed `layergarden_v2` and `layergardenFlower_v3`. The low
+  - The proof. Each provider applies the glue theorem for its statement (for example `GammaLow.Glue.main_of_low`),
+    which splits γ at 1/2 (γ = 1/2 in the low half). The high half uses the sealed `layergarden_v2` and `layergardenFlower_v3`. The low
     half uses the closed γ ≤ 1/2 theorems `GammaLow.Close.layergarden_low_closed` and
     `GammaLow.Close.flower_low_closed`, which are built on the enlarged vine family of D11 (erratum E1, repair) and the
     ghost-step repair (erratum E20).
