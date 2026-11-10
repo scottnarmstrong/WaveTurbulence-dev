@@ -218,6 +218,22 @@ SEALED: 26 theorems + 300 definitions. Full range: main, propansatz, fixedpoint,
 - [docs/FINDINGS.md](docs/FINDINGS.md): the running ledger of source findings.
 - [docs/THIRD-PARTY.md](docs/THIRD-PARTY.md): third-party code (Apache 2.0, attributed).
 
+## How this was made
+
+The Lean code was written by AI coding agents under the supervision of the authors, between 3 and 10 November 2026.
+Claude Opus 5.5 directed the work, coordinated the other agents and wrote the hardest parts; Claude Sonnet 5.5 and
+GPT-6.1 (sol, through Codex) wrote large parts of the code. The research notes behind the repairs, their referee
+reports, the statement audits, the seal audits and the check of the errata were also written by AI models, mainly
+Claude Opus 5.5; GPT-6 (astra) wrote an independent assessment of the printed flower estimate. Each review was done
+by a session that had not written what it checked. In this repository, "independent" refers to such separate
+sessions, not to human referees.
+
+Scott Armstrong set the scope and approved the frozen statements of the main results, including Theorem 1.1
+([DECISIONS.md](docs/DECISIONS.md), D1, D2 and D6–D11). Later, under his standing authorization of 5 November 2026,
+the coordinating agent approved two successor statements, each after an independent statement audit (D13, D16), and
+sealed the full-range theorems after two seal audits (D17). Lean's kernel checks every proof against the frozen
+statements, and the comparator files let anyone check the statement of Theorem 1.1 independently.
+
 ## License
 
 This repository is released under the Apache License 2.0; see [`LICENSE`](LICENSE). Third-party code that it includes
