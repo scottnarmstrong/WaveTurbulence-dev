@@ -11,10 +11,6 @@ together with the results it relies on from the authors' earlier papers and from
 
 **Authors:** Scott Armstrong and Ahmed Bou-Rabee.
 
-<!-- AUTO:updated -->
-> **Last changed: 2026-11-10 09:40 UTC** (checked every 10 minutes) · frozen theorems sealed: 26 / 28, the other 2 being superseded drafts (+ 300 frozen definitions) · **1,994,316 lines of Lean on main** (14409 files) · overall completion of the whole project (full range 0 < γ < 1): 98.8 %
-<!-- /AUTO:updated -->
-
 ## At a glance
 
 - ✅ **Theorem 1.1 is formally proved for the full range 0 < γ < 1.** The Lean statement (`WaveTurbulence.main`) is
@@ -27,8 +23,8 @@ together with the results it relies on from the authors' earlier papers and from
 - 🔧 **What it took for γ ≤ 1/2.** There the printed proof has a gap: it relies on a counting proposition (DH23
   Prop 9.6) that is false in that range. The repair enlarges the family of "vines" that the proof splices out,
   re-proves the counting proposition for the enlarged family, and corrects one step of the counting procedure (the
-  "ghost" step). **→
-  [docs/GAMMA-LE-HALF.md](docs/GAMMA-LE-HALF.md)** explains the problem, the repair and where it is in Lean.
+  "ghost" step). **→ [docs/GAMMA-LE-HALF.md](docs/GAMMA-LE-HALF.md)** explains the problem, the repair and where it
+  is in Lean.
 - 📄 **Errata and deviations.** Formalizing a long proof surfaces mistakes and gaps. Every defect we found in the
   published arguments, and every way our formal statements differ from the printed ones, is recorded with evidence
   and a repair. **→ [docs/ERRATA-AND-DEVIATIONS.md](docs/ERRATA-AND-DEVIATIONS.md)**
@@ -39,6 +35,37 @@ Wave turbulence theory predicts that, for a large system of weakly interacting w
 across frequencies evolves according to an effective *wave kinetic equation*. Deng and Hani's Theorem 1.1 proves this
 rigorously for the cubic nonlinear Schrödinger equation on a large square torus in dimension d ≥ 3, with random
 initial data, on long time scales.
+
+### The statement in Lean
+
+This is the frozen Lean statement of Theorem 1.1, verbatim from
+[`WaveTurbulence/Frozen/Theorems/Main.lean`](WaveTurbulence/Frozen/Theorems/Main.lean) (namespace `WaveTurbulence`; its
+proof follows the `:=`). In words: for every dimension d ≥ 3 and 0 < γ < 1 there is θ > 0 such that, for every
+nonnegative Schwartz initial profile `φin`, every τ* > 0 and every solution `φ` of the wave kinetic equation on [0, τ*]
+with initial data `φin`, and every large enough L, with α = L^(−γ) and T = τ* · T_kin: on any probability space carrying
+independent standard complex Gaussians `g n` (the random initial data), the event F that the cubic NLS has a smooth
+solution up to time T is measurable and has probability at least 1 − exp(−(log L)^(40d)); and for every such solution,
+every t ∈ [0, T] and every n ∈ ℤ^d, the expectation E[1_F |û(t, n)|²] is within L^(−θ) of φ(t/T_kin, n/L).
+
+```lean
+/-- **Deng–Hani, Theorem 1.1** (case `0 < γ < 1`, square torus). -/
+theorem main (d : ℕ) (hd : 3 ≤ d) (γ : ℝ) (hγ : γ ∈ Ioo (0 : ℝ) 1) :
+    ∃ θ > (0 : ℝ), ∀ φin : 𝓢(Mom d, ℝ), (∀ k, 0 ≤ φin k) →
+      ∀ τstar > (0 : ℝ), ∀ φ : ℝ → 𝓢(Mom d, ℝ), IsWKESolution φin τstar φ →
+      ∃ L₀ : ℝ, ∀ L ≥ L₀, ∀ α T : ℝ, α = L ^ (-γ) → T = τstar * kineticTime α →
+      ∀ (Ω : Type u) [MeasurableSpace Ω] (P : Measure Ω) [IsProbabilityMeasure P]
+        (g : (Fin d → ℤ) → Ω → ℂ),
+        (∀ n, Measurable (g n)) → iIndepFun g P → (∀ n, P.map (g n) = stdComplexGaussian) →
+        MeasurableSet (solvableEvent L α T φin g) ∧
+        1 - Real.exp (-(Real.log L ^ (40 * d))) ≤ P.real (solvableEvent L α T φin g) ∧
+        ∀ U : Ω → ℝ → (Fin d → ℝ) → ℂ,
+          (∀ ω ∈ solvableEvent L α T φin g,
+            IsSmoothNLSSolution L α T (initialCoeff L φin g ω) (U ω)) →
+          ∀ t ∈ Icc 0 T, ∀ n : Fin d → ℤ,
+            |(∫ ω, (solvableEvent L α T φin g).indicator
+                  (fun ω => ‖torusFourierCoeff L (U ω t) n‖ ^ 2) ω ∂P)
+              - φ (t / kineticTime α) (latticePoint L n)| ≤ L ^ (-θ) :=
+```
 
 ### The exponent γ, and the values that matter physically
 
@@ -145,8 +172,6 @@ Lean's kernel. Their records are in [`docs/audits/full-range/`](docs/audits/full
 - **Not proved, by design:** the two original flower statements `layergardenFlower` (v1) and `layergardenFlower_v2`.
   Their cutoffs mis-transcribe the paper's (erratum E34); `layergardenFlower_v3` and `layergardenFlower_v4` replace
   them, and nothing depends on them.
-- **In progress:** removing code that the final proof does not use (the code base grew large while alternative routes
-  were explored; a first pass removed about 48,000 lines), and preparing the public release.
 
 <details><summary>Technical status fields</summary>
 
@@ -159,123 +184,6 @@ SEALED: 26 theorems + 300 definitions. Full range: main, propansatz, fixedpoint,
         sealed 2026-11-09 (main 5c19b015), PROVED with two-key audits. 1/2 < γ < 1: main_v2 PROVED (two-key audits).
 ```
 </details>
-
-## Progress
-
-The percentage below is the project's internal bookkeeping for the **whole project**: sources, statements, proofs,
-seals and the public release. It was reassessed on 2026-11-10, after the full-range proof was sealed and audited;
-the only open part is the public release. The authoritative state is [Current status](#current-status) above.
-
-<!-- AUTO:progress -->
-### Overall completion (whole project: full range 0 < γ < 1): **98.8 %**
-
-`██████████████████████████████` 98.8 %
-
-| Part of the project | Items | Weight | Done | Completion |
-|---|---|---|---|---|
-| Sources, paper maps, blueprint (P0–P1) | 1 | 30 | 30.0 | `██████████` 100 % |
-| Exact Lean statements, frozen (P2) | 1 | 20 | 20.0 | `██████████` 100 % |
-| Lean proofs (P4) | 85 | 918 | 918.0 | `██████████` 100 % |
-| Frozen theorems sealed | 26 | 26 | 26.0 | `██████████` 100 % |
-| Release (P5) | 1 | 15 | 3.0 | `██░░░░░░░░` 20 % |
-| **Total** | | 1009 | 997.0 | **98.8 %** |
-
-Lean lines: 1,994,316 on main + 3,102 on worker branches. (The original blueprint estimate, ≈ 273,000 lines, was set before the project's scope and the errata were known; it is no longer a useful yardstick.)
-
-<details><summary>All Lean work packets (blueprint §E) with weight and status</summary>
-
-| Packet | Name | Weight | Lines (est.) | Done | Note |
-|---|---|---|---|---|---|
-| B1 | NLS-A | 6 | ≈1,600 | ✅ 100 % | landed: Fourier equation, mass, reduction |
-| B2 | NLS-B | 9 | ≈3,200 | ✅ 100 % | done: LWP/persistence, inverse reduction, uniqueness; NLS bridge helpers landed (4639fe2) |
-| B3 | NLS-C | 10 | ≈3,000 | ✅ 100 % | done: nlsAkBridge (all 4 conjuncts) proved at the exact snapshot-5 type (scratch, wt-l2s); moves to Foundations at the Wave B freeze |
-| C1 | REG-STRUCT | 11 | ≈4,000 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
-| C2 | LINKS | 11 | ≈3,000 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
-| C3 | SKELETON | 15 | ≈5,200 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
-| C4 | LAYERREG | 8 | ≈4,000 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
-| C5 | ENHANCED | 9 | ≈3,150 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
-| D1 | COMB-CORE | 8 | ≈2,020 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
-| D2 | SYS-DEFS | 14 | ≈3,400 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
-| D3 | CANON | 9 | ≈3,950 | ✅ 100 % | CANON: canonicalCharacterization sealed and second-key audited PROVED (audits/SEAL-B1-second-key.md) |
-| D4 | REG-DEFS | 8 | ≈2,400 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
-| F1 | FINAL-RED | 4 | ≈1,200 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
-| F2 | PLG | 12 | ≈4,150 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
-| F3 | FINAL-COUNT | 4 | ≈900 | ✅ 100 % | FINAL-COUNT: unconditional finalCount_half : FinalCountGateHalf (REG half R59 + LOW half via treatment A, R79) landed on main as PORT batch 5 (1,801 modules, e58db09) |
-| G0 | MOLE-COUNT-BASICS | 4 | ≈1,400 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
-| G1 | STAGE2-DEF | 10 | ≈2,600 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
-| G2 | EXCESS-DH23 | 8 | ≈3,500 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
-| G3 | EXCESS-T | 10 | ≈3,500 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
-| G4 | APPB-OPS | 8 | ≈4,000 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
-| G5 | APPB-ALG | 8 | ≈4,000 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
-| G6 | MOLEPROP13 | 6 | ≈2,400 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
-| G7 | MOLEPROP4 | 12 | ≈4,500 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
-| G8 | RIGID | 10 | ≈4,600 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
-| I1 | INDUCT-A | 10 | ≈4,000 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
-| I2 | INDUCT-B | 10 | ≈3,050 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
-| J1 | BCOEF | 7 | ≈3,800 | ✅ 100 % | done: time coefficients, class J/R operators, DH21 Lemmas 5.3-5.5 |
-| J2 | CLASSJR2 | 8 | ≈4,000 | ✅ 100 % | done: DH21 Lemmas 5.6-5.10 (legal-partition induction, ≤ 2^m expansion); sign F61 open (traced in J3) |
-| J3 | MAINCOEF | 4 | ≈3,000 | ✅ 100 % | MAINCOEF done: DH21 Prop 5.1 for couples and trees (DH23 weights), garden↔code B̃ bridge |
-| J4 | CANCEL7 | 6 | ≈3,400 | ✅ 100 % | CANCEL7 done with the F61 correction; BtRec discharged by the B̃ bridge |
-| J5 | MEXP | 6 | ≈2,700 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
-| J6 | WKE-ID | 6 | ≈2,800 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
-| J7 | REGCANCEL | 4 | ≈2,000 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
-| L1 | PL1A | 7 | ≈2,800 | ✅ 100 % | done: B2.2 incoherentDecay proved at the exact type (INCOH-INST, e77e692); seals at the B2 freeze |
-| L2 | PL1B | 9 | ≈4,650 | ✅ 100 % | PL1 done: abstract TARGET Prop 5.1 incl. one-clock case (541d4c8); garden instantiation = INCOH-INST |
-| L3 | PL23 | 4 | ≈1,700 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
-| L4 | PL4 | 4 | ≈2,500 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
-| M1 | MOLE | 15 | ≈4,900 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
-| M2 | BLOCKS | 6 | ≈1,600 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
-| M3 | CLCN | 10 | ≈3,500 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
-| M4 | VINES | 10 | ≈3,300 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
-| M5 | MOLECPL | 4 | ≈1,500 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
-| M6 | TWIST | 8 | ≈2,800 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
-| M7 | LFTWIST | 13 | ≈4,200 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
-| M8 | LAYERCNT | 6 | ≈2,100 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
-| M9 | VINEPARAM | 4 | ≈1,500 | ✅ 100 % | VINEPARAM: catalogue on main as the separate lean_lib WaveTurbulenceVineParam (D12, PORT batch 4a, 97036a3) |
-| N1 | AN-FOURIER | 9 | ≈3,500 | ✅ 100 % | landed: χ₀ (Gevrey 2, F41), 𝔛 norms, restriction norms, Fourier-L¹ products |
-| N2 | AN-PHASE | 5 | ≈1,700 | ✅ 100 % | landed: Poisson on ℤ_L^d, non-stationary and bilinear stationary phase |
-| N3 | AN-HY | 10 | ≈4,500 | ✅ 100 % | done: Hausdorff–Young, phase/time-integral bounds (TARGET A.2, A.3) |
-| N4 | AN-SOB | 7 | ≈2,700 | ✅ 100 % | landed: Sobolev variants, (10.5), simplex volumes, DH21 L10.2 |
-| N5 | RESONANT | 6 | ≈2,800 | ✅ 100 % | landed: resonant measure, p.v. 1/Ω, DH21 Lemma 6.3 |
-| NT-EXPSUM | NT-EXPSUM | 14 | ≈5,300 | ✅ 100 % | landed: circle discrepancy + annulus with exponent 27/41 (B-process, pair (11/30,16/30)); F3 resolved |
-| NT1 | GAUSSSUM | 5 | ≈2,100 | ✅ 100 % | landed 59220dc: Dirichlet, sharp interval and log-free smooth Gauss sum bounds |
-| NT10 | LEMLIN | 4 | ≈1,500 | ✅ 100 % | landed: lemlin (+F23 second bound), lemcubic0 |
-| NT11 | LEMCUBIC | 6 | ≈3,000 | ✅ 100 % | landed: TARGET lemcubic (quadExpSum3 drafted form) |
-| NT2 | HUA | 8 | ≈3,500 | ✅ 100 % | landed: Hua L⁴/L⁶, Weyl reduction, L^{3d/2} moments |
-| NT3 | MINOR1 | 6 | ≈2,000 | ✅ 100 % | landed: DH23 6.6(1), three-vector count |
-| NT4 | MINOR2 | 5 | ≈3,200 | ✅ 100 % | landed: DH23 6.6(2), TARGET Lemma 5.3 (quadExpSum2 drafted form) |
-| NT5 | NTSP | 8 | ≈4,300 | ✅ 100 % | landed: TARGET 5.2, DH23 6.5, 6.7 |
-| NT6 | APPROXNT | 12 | ≈6,200 | ✅ 100 % | done: DH23 Prop 6.4 with the large-order extension (F33, F54) |
-| NT7 | COUNT0 | 7 | ≈3,050 | ✅ 100 % | done: countLemma_bound exactly the audited B1.7 draft (landed f56f6bb) |
-| NT8 | COUNT | 7 | ≈3,800 | ✅ 100 % | done: atomCountLemma_bound exactly the audited B1.8 draft + DH23 A.2(2) (landed f56f6bb) |
-| NT9 | LINALG | 4 | ≈1,400 | ✅ 100 % | landed: TARGET Lemmas A.6, A.7 (MISC-A) |
-| R-CUMUL | CUMUL | 13 | ≈3,560 | ✅ 100 % | landed fea3516 |
-| R-GAUSS | GAUSS-HC | 4 | ≈2,500 | ✅ 100 % | landed f986d35 (off-route, F34) |
-| R-NTC | NT-CIRCLE | 6 | ≈3,300 | ✅ 100 % | landed: circle 2/3, elementary annulus, estcross |
-| R-TF | TORUS-FOURIER | 4 | ≈2,500 | ✅ 100 % | landed 5beb902 |
-| R-WKE | WKE | 24 | ≈9,810 | ✅ 100 % | done: WKE LWP, uniqueness, Taylor, general-d L²_s trilinear estimate (Theorem 7), blow-up; frozen wkelwp SEALED 2026-11-03 |
-| RA1 | REGASYMP | 10 | ≈5,800 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
-| RA2 | REGREF | 13 | ≈4,100 | ✅ 100 % | REGREF: B2.1 regularAsymptotics proved and SEALED on main (PORT batch 2b, 675cf6c; second-key audit PASS) |
-| S1 | STAGE1-COMB | 7 | ≈2,400 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
-| S2 | REDSPLICE | 6 | ≈2,400 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
-| S2a | REDSPLICE-DEF | 2 | ≈800 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
-| S3 | LADDER | 8 | ≈4,200 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
-| S4 | SUBPRO | 8 | ≈3,000 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
-| V1 | SUMINT-A | 7 | ≈4,200 | ✅ 100 % | sumint (B1.6) proved at the exact snapshot-8 type (wt-anfourier, 436 axiom checks); seals at the freeze |
-| V2 | SUMINT-B | 5 | ≈2,200 | ✅ 100 % | sumint (B1.6) proved at the exact snapshot-8 type (wt-anfourier, 436 axiom checks); seals at the freeze |
-| V3 | REGRED | 6 | ≈1,900 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
-| V4 | VINEEST-S2 | 4 | ≈2,500 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
-| V5 | VINEEST | 13 | ≈5,100 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
-| WA | Wave A definitions | 5 | ≈230 | ✅ 100 % | frozen D6 |
-| X1 | FLOWER-DEF | 10 | ≈3,100 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
-| X2 | FLOWEREST | 253 | ≈8,900 | ✅ 100 % | FLOWEREST: weight and completion from the flower ledger (76 packets done, 0 running, 0 queued) |
-| X3 | FIXEDPT | 9 | ≈3,400 | ✅ 100 % | FIXEDPT closed: fixedpoint_of_closed_gates from B1.12, B1.2, B1.5 only (O-X2-EXP, O-X3-CPL proved) |
-| Z1 | MAIN | 3 | ≈860 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
-
-</details>
-
-Done fractions last reviewed: **2026-11-10 05:36 UTC**. Source: [`docs/campaign/progress.json`](docs/campaign/progress.json); history: [`docs/campaign/history.csv`](docs/campaign/history.csv).
-<!-- /AUTO:progress -->
 
 ## Papers
 
@@ -304,3 +212,13 @@ Done fractions last reviewed: **2026-11-10 05:36 UTC**. Source: [`docs/campaign/
 - [docs/FINDINGS.md](docs/FINDINGS.md): the running ledger of source findings.
 - [docs/THIRD-PARTY.md](docs/THIRD-PARTY.md): third-party code (Apache 2.0, attributed).
 
+## License
+
+This repository is released under the Apache License 2.0; see [`LICENSE`](LICENSE). Third-party code that it includes
+is listed, with its license and attribution, in [`docs/THIRD-PARTY.md`](docs/THIRD-PARTY.md).
+
+## Citation
+
+Citation metadata for this formalization is in [`CITATION.cff`](CITATION.cff). Please also cite the paper it
+formalizes: Y. Deng and Z. Hani, *Long time justification of wave turbulence theory*,
+[arXiv:2311.10082](https://arxiv.org/abs/2311.10082).
