@@ -127,8 +127,12 @@ lake build           # build the project: Lean checks every proof
 `lake build` builds the library `WaveTurbulence`, including the five sealed full-range theorems (`WaveTurbulence.main`
 and the four statements it is assembled from). It succeeds only if Lean accepts every proof.
 
+**Size.** The repository has 13,353 Lean files with about 1.80 million lines: the library `WaveTurbulence` (11,529
+files including its root module, about 1.30 million lines) and the certificate library `WaveTurbulenceVineParam`
+(1,824 files, about 505,000 lines).
+
 **What a full build costs.** Even with Mathlib taken from its cache, building the project from scratch is heavy.
-Measured on this repository in November 2026:
+Measured in November 2026, before a clean-up removed about 191,000 lines of unused code (1,056 files):
 - about 27 CPU-hours on an AMD Ryzen 7 7700 (8 cores, 16 threads);
 - one file needs about 11 GB of RAM at its peak;
 - the build writes about 73 GB to disk. Most of it is Lake's per-module `*.setup.json` files under `.lake/build/ir/`,

@@ -234,8 +234,8 @@ flower statement (E34, E41, E42; deviations in the errata file).
 
 ## 9. Where things are in Lean
 
-All paths are under `WaveTurbulence/Foundations/`. Together, the two areas below have about 315,000 lines in about
-1,670 modules.
+All paths are under `WaveTurbulence/Foundations/`. Together, the two areas below have about 277,000 lines in about
+1,480 modules.
 
 | Directory | Contents |
 |---|---|

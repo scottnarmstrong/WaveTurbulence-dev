@@ -71,8 +71,8 @@ Format: D<n> — date (UTC) — who — decision — reason.
     - Q3: the groups of a T-vine are its pieces.
 - D12 — 2026-11-05 ~15:58 — Scott (same reply) — **Home of the VINEPARAM catalogue:** option (iii) of the plan for
   moving it to the main branch.
-  - The certificate catalogue (about 4.5k modules, ~878k lines) goes in a separate `lean_lib` of this package,
-    `WaveTurbulenceVineParam`.
+  - The certificate catalogue (about 4.5k modules, ~878k lines at the time; 1,824 modules and about 505,000 lines
+    today) goes in a separate `lean_lib` of this package, `WaveTurbulenceVineParam`.
   - It is rebuilt on the canonical universe, with its ~580 Vine*/Molecule* copies dropped in favour of
     Foundations.Molecule.*.
   - The main library imports only `Vine.Param.vineparam` and `vineparam_grouped`.
