@@ -182,11 +182,11 @@ def cfgR5 : LocalChart 2 2 6 where
 def rungTable : List (LocalChart 2 2 6) := [cfgR0, cfgR1, cfgR2, cfgR3, cfgR4, cfgR5]
 
 theorem rungTable_ok : ∀ c ∈ rungTable, c.Valid ∧ PairOK c ∧ rungShape.RoleCompat c ∧ c.Rel 1 1 0 ∧ c.ExtrasOK ∧ c.mu = 2 := by
-  decide
+  decide +kernel
 
 theorem rungTable_cover : ∀ b0 b1 b2 b3 b4 b5 : Bool, rungShape.OK ![b0, b1, b2, b3, b4, b5] →
     ∃ c ∈ rungTable, c.src = rungShape.src ![b0, b1, b2, b3, b4, b5] ∧ c.dst = rungShape.dst ![b0, b1, b2, b3, b4, b5] := by
-  decide
+  decide +kernel
 
 /-- Local chart `cfgRP0`: kind RP, orientation bits 001010, atoms ['P0', 'P1']. -/
 def cfgRP0 : LocalChart 2 2 6 where
@@ -348,11 +348,11 @@ def cfgRP5 : LocalChart 2 2 6 where
 def pendRungTable : List (LocalChart 2 2 6) := [cfgRP0, cfgRP1, cfgRP2, cfgRP3, cfgRP4, cfgRP5]
 
 theorem pendRungTable_ok : ∀ c ∈ pendRungTable, c.Valid ∧ PairOK c ∧ rungShape.RoleCompat c ∧ c.Rel 0 0 0 ∧ c.ExtrasOK ∧ c.mu = 2 := by
-  decide
+  decide +kernel
 
 theorem pendRungTable_cover : ∀ b0 b1 b2 b3 b4 b5 : Bool, rungShape.OK ![b0, b1, b2, b3, b4, b5] →
     ∃ c ∈ pendRungTable, c.src = rungShape.src ![b0, b1, b2, b3, b4, b5] ∧ c.dst = rungShape.dst ![b0, b1, b2, b3, b4, b5] := by
-  decide
+  decide +kernel
 
 /-- Local chart `cfgJ0`: kind J, orientation bits 0011010, atoms ['P0', 'P1']. -/
 def cfgJ0 : LocalChart 2 2 7 where
@@ -514,11 +514,11 @@ def cfgJ5 : LocalChart 2 2 7 where
 def junctionTable : List (LocalChart 2 2 7) := [cfgJ0, cfgJ1, cfgJ2, cfgJ3, cfgJ4, cfgJ5]
 
 theorem junctionTable_ok : ∀ c ∈ junctionTable, c.Valid ∧ PairOK c ∧ junctionShape.RoleCompat c ∧ c.Rel 1 1 0 ∧ c.ExtrasOK ∧ c.mu = 1 := by
-  decide
+  decide +kernel
 
 theorem junctionTable_cover : ∀ b0 b1 b2 b3 b4 b5 b6 : Bool, junctionShape.OK ![b0, b1, b2, b3, b4, b5, b6] →
     ∃ c ∈ junctionTable, c.src = junctionShape.src ![b0, b1, b2, b3, b4, b5, b6] ∧ c.dst = junctionShape.dst ![b0, b1, b2, b3, b4, b5, b6] := by
-  decide
+  decide +kernel
 
 /-- Local chart `cfgK0`: kind K, orientation bits 0, atoms []. -/
 def cfgK0 : LocalChart 0 0 3 where
@@ -572,8 +572,8 @@ def cfgK1 : LocalChart 0 0 3 where
   σ₂ := 0
   ξ := ![0, 0, 0, 0]
 
-theorem cfgK0_ok : cfgK0.Valid ∧ cfgK0.Rel 1 1 0 ∧ cfgK0.ExtrasOK ∧ (∀ x, cfgK0.X₁ x = 2 ∧ cfgK0.X₂ x = 0) := by decide
+theorem cfgK0_ok : cfgK0.Valid ∧ cfgK0.Rel 1 1 0 ∧ cfgK0.ExtrasOK ∧ (∀ x, cfgK0.X₁ x = 2 ∧ cfgK0.X₂ x = 0) := by decide +kernel
 
-theorem cfgK1_ok : cfgK1.Valid ∧ cfgK1.Rel 1 1 0 ∧ cfgK1.ExtrasOK ∧ (∀ x, cfgK1.X₁ x = 2 ∧ cfgK1.X₂ x = 1) := by decide
+theorem cfgK1_ok : cfgK1.Valid ∧ cfgK1.Rel 1 1 0 ∧ cfgK1.ExtrasOK ∧ (∀ x, cfgK1.X₁ x = 2 ∧ cfgK1.X₂ x = 1) := by decide +kernel
 
 end WaveTurbulence.TVine.Chart

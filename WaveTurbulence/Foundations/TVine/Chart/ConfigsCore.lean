@@ -286,11 +286,11 @@ def cfgB9 : LocalChart 3 3 8 where
 def coreBTable : List (LocalChart 3 3 8) := [cfgB0, cfgB1, cfgB2, cfgB3, cfgB4, cfgB5, cfgB6, cfgB7, cfgB8, cfgB9]
 
 theorem coreBTable_ok : ∀ c ∈ coreBTable, c.Valid ∧ CoreOK c ∧ coreBShape.RoleCompat c ∧ c.Rel 1 1 0 ∧ c.ExtrasOK := by
-  decide
+  decide +kernel
 
 theorem coreBTable_cover : ∀ b0 b1 b2 b3 b4 b5 b6 b7 : Bool, coreBShape.OK ![b0, b1, b2, b3, b4, b5, b6, b7] →
     ∃ c ∈ coreBTable, c.src = coreBShape.src ![b0, b1, b2, b3, b4, b5, b6, b7] ∧ c.dst = coreBShape.dst ![b0, b1, b2, b3, b4, b5, b6, b7] := by
-  decide
+  decide +kernel
 
 /-- Local chart `cfgC0`: kind C, orientation bits 00001010, atoms ['w1', 'w2', 'w3']. -/
 def cfgC0 : LocalChart 3 3 8 where
@@ -556,11 +556,11 @@ def cfgC9 : LocalChart 3 3 8 where
 def coreCTable : List (LocalChart 3 3 8) := [cfgC0, cfgC1, cfgC2, cfgC3, cfgC4, cfgC5, cfgC6, cfgC7, cfgC8, cfgC9]
 
 theorem coreCTable_ok : ∀ c ∈ coreCTable, c.Valid ∧ CoreOK c ∧ coreCShape.RoleCompat c ∧ c.Rel 1 1 0 ∧ c.ExtrasOK := by
-  decide
+  decide +kernel
 
 theorem coreCTable_cover : ∀ b0 b1 b2 b3 b4 b5 b6 b7 : Bool, coreCShape.OK ![b0, b1, b2, b3, b4, b5, b6, b7] →
     ∃ c ∈ coreCTable, c.src = coreCShape.src ![b0, b1, b2, b3, b4, b5, b6, b7] ∧ c.dst = coreCShape.dst ![b0, b1, b2, b3, b4, b5, b6, b7] := by
-  decide
+  decide +kernel
 
 /-- Local chart `cfgD0`: kind D, orientation bits 0000110, atoms ['p', 'r', 'q']. -/
 def cfgD0 : LocalChart 3 3 7 where
@@ -826,10 +826,10 @@ def cfgD9 : LocalChart 3 3 7 where
 def coreDTable : List (LocalChart 3 3 7) := [cfgD0, cfgD1, cfgD2, cfgD3, cfgD4, cfgD5, cfgD6, cfgD7, cfgD8, cfgD9]
 
 theorem coreDTable_ok : ∀ c ∈ coreDTable, c.Valid ∧ CoreOK c ∧ coreDShape.RoleCompat c ∧ c.Rel 0 0 0 ∧ c.ExtrasOK := by
-  decide
+  decide +kernel
 
 theorem coreDTable_cover : ∀ b0 b1 b2 b3 b4 b5 b6 : Bool, coreDShape.OK ![b0, b1, b2, b3, b4, b5, b6] →
     ∃ c ∈ coreDTable, c.src = coreDShape.src ![b0, b1, b2, b3, b4, b5, b6] ∧ c.dst = coreDShape.dst ![b0, b1, b2, b3, b4, b5, b6] := by
-  decide
+  decide +kernel
 
 end WaveTurbulence.TVine.Chart
