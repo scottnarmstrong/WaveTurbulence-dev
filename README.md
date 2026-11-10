@@ -10,7 +10,7 @@ together with the results it relies on from the authors' earlier papers and from
 0 < γ < 1. Every step is checked by Lean; nothing is assumed beyond Lean's standard axioms.
 
 <!-- AUTO:updated -->
-> **Last updated: 2026-11-10 02:30 UTC** · frozen theorems sealed: 26 / 28 (+ 300 frozen definitions) · **1,994,316 lines of Lean on main** (14409 files) · overall completion of the whole project (full range 0 < γ < 1): 94.2 %
+> **Last updated: 2026-11-10 02:40 UTC** · frozen theorems sealed: 26 / 28 (+ 300 frozen definitions) · **1,994,316 lines of Lean on main** (14409 files) · overall completion of the whole project (full range 0 < γ < 1): 94.2 %
 <!-- /AUTO:updated -->
 
 ## At a glance
