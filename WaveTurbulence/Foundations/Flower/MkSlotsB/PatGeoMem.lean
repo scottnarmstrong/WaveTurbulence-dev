@@ -330,43 +330,6 @@ section Piece
 variable {w : ℕ} (J : Finset (Fin w)) (pat : Fin w → FixPat) (t s : ℝ) (a : PrescribedPrimeGarden w)
   (Mk : Set (Stage1.CLVine a.prime.skeleton))
 
-/-- `val` for the pins `fixAt` of the piece at `Mk` (layers of the core branches, root time `t`). -/
-theorem fixAt_val {p : ℕ} (hG : CapGeo a.layered J p) (hpat : CapPatValid a.layered J pat p)
-    (hroot : ∀ j ∉ J, ∃ ℓ : GLeaf a.layered.garden.tree, IsCapFlower a.layered J ℓ ∧ ℓ.1.1 = j)
-    (hs : s ∈ Set.Ioo (p : ℝ) t) (ht : t < p + 1) (c : GBranch (stM a Mk).G.tree) (v : ℝ)
-    (h : fixAt J pat t s a Mk c = some v) :
-    (a.layered.layer (coreAt a Mk c).toNode : ℝ) < v ∧ v ≤ a.layered.layer (coreAt a Mk c).toNode + 1 ∧ v ≤ t :=
-  fixCap_val hG hpat hroot hs ht h
-
-/-- **`mono` for `fixAt`, adjacent version**: a pinned child atom carries a pin `≤` its pinned parent's. -/
-theorem fixAt_mono_child (hst : s ≤ t) {c c' : GBranch (stM a Mk).G.tree} (hcc : c'.IsChildOf c) {v v' : ℝ}
-    (h : fixAt J pat t s a Mk c = some v) (h' : fixAt J pat t s a Mk c' = some v') : v' ≤ v := by
-  have hnr : c'.1.2 ≠ [] := by
-    obtain ⟨-, i, hi⟩ := hcc
-    rw [hi]; simp
-  have hob : ((stM a Mk).M.ob c').1.2 ≠ [] := fun h0 =>
-    hnr ((br_root_iff (stShape (Mole.garden_isMolecule a.prime.skeleton) a.totalSigma Mk) c').mp h0)
-  have hv' : v' = s := by
-    rcases fixCap_value h' with hv | ⟨-, h0, -⟩
-    · exact hv
-    · exact absurd h0 (LFTwist.decodedCoreBranch_nonroot a.prime.data a.prime.prime.1 a.prime.decodes _ hob)
-  rcases fixCap_value h with hv | ⟨hv, -, -⟩
-  · rw [hv', hv]
-  · rw [hv', hv]; exact hst
-
-/-- **Hinge clocks are free** for `fixAt` (every pattern; `hMk`: the marked vines of `𝒱₀(σ)` lie in `Mk`). -/
-theorem fixAt_hinge (kSel : Fin w → Option ℕ)
-    (hMk : ∀ c ∈ markI J pat t s kSel a.prime, c ∈ vinesV0 a.prime.skeleton a.totalSigma → c ∈ Mk)
-    (c : GBranch (stM a Mk).G.tree) (hc : c ∈ (stM a Mk).hinges) : fixAt J pat t s a Mk c = none := by
-  rw [← VineB.stShape_hingesMk, VineB.SpliceShape.mem_hinges] at hc
-  obtain ⟨j, hj⟩ := hc
-  have hy : (stM a Mk).M.ob c ∈
-      (VineB.unitBlkMk (Mole.garden_isMolecule a.prime.skeleton) a.totalSigma Mk j).atoms := by
-    rw [show (stM a Mk).M.ob c = (VineB.stShape (Mole.garden_isMolecule a.prime.skeleton) a.totalSigma Mk).br c
-      from rfl, hj]
-    exact VineB.upper_mem _
-  exact hU_rep_pat J pat t s kSel a Mk hMk j _ hy
-
 end Piece
 
 end WaveTurbulence.Flower.MkSlotsB

@@ -6,7 +6,8 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.Flower.MkSlotsB.PVBR2
-public import WaveTurbulence.Foundations.Flower.MkSlotsW.PVBWInteg
+public import WaveTurbulence.Foundations.Flower.MkSlots.PVBInteg
+public import WaveTurbulence.Foundations.Flower.MkUnitsL.WIntegW
 public import WaveTurbulence.Foundations.Flower.MkSlots.OuterFixD
 
 /-! # B3s-HELPER3 B2 (3): the domain-generic VINE-B♯ with unit top weights — definitions, glue, pinned Fubini
@@ -65,60 +66,6 @@ def skelValWD (blk : J → CLBlock S) (hS : S.IsPlain) (L γ δ : ℝ) (base : M
     (A : Set (GBranch S.tree → ℝ)) (fixS : GBranch S.tree → Option ℝ) : ℂ :=
   (coupling d L γ δ : ℂ) ^ S.order * S.zeta *
     ∑' κ : GenDecoration S d roots 0, skelTermWD blk hS L γ δ base roots tt selSk Fs A fixS κ
-
-/-- **The relaxed pinned skeleton value with the units' top weights**: `MkSlotsW.skelValWF` with the relaxed core
-domain `coreTimeDomainWR … fixS` in place of `coreTimeDomainW …`. -/
-def skelValWFR (blk : J → CLBlock S) (D : ReconstructionData S) (hS : S.IsPlain) (L γ δ : ℝ) (base : Mom d)
-    (roots : Fin w → (Fin d → ℤ)) (tt : Fin w → ℝ) (layer : GNode (D.forest hS) → ℕ)
-    (selSk : GenDecoration S d roots 0 → Prop) (Fs : SlotFamW S d) (fixS : GBranch S.tree → Option ℝ) : ℂ :=
-  skelValWD blk hS L γ δ base roots tt selSk Fs
-    (coreTimeDomainWR (fun b => layer (D.coreBranch hS b).toNode) tt fixS) fixS
-
-/-- **The relaxed pinned skeleton value with lower bounds** (ruling R187): the core domain is
-`coreTimeDomainWR … fixS ∩ lbDomR lbS`. -/
-def skelValWFRL (blk : J → CLBlock S) (D : ReconstructionData S) (hS : S.IsPlain) (L γ δ : ℝ) (base : Mom d)
-    (roots : Fin w → (Fin d → ℤ)) (tt : Fin w → ℝ) (layer : GNode (D.forest hS) → ℕ)
-    (selSk : GenDecoration S d roots 0 → Prop) (Fs : SlotFamW S d) (fixS lbS : GBranch S.tree → Option ℝ) : ℂ :=
-  skelValWD blk hS L γ δ base roots tt selSk Fs
-    (coreTimeDomainWR (fun b => layer (D.coreBranch hS b).toNode) tt fixS ∩ lbDomR lbS) fixS
-
-open scoped Classical in
-/-- The explicit form of `skelValWFR`. -/
-theorem skelValWFR_eq (blk : J → CLBlock S) (D : ReconstructionData S) (hS : S.IsPlain) (L γ δ : ℝ) (base : Mom d)
-    (roots : Fin w → (Fin d → ℤ)) (tt : Fin w → ℝ) (layer : GNode (D.forest hS) → ℕ)
-    (selSk : GenDecoration S d roots 0 → Prop) (Fs : SlotFamW S d) (fixS : GBranch S.tree → Option ℝ) :
-    skelValWFR blk D hS L γ δ base roots tt layer selSk Fs fixS =
-      (coupling d L γ δ : ℂ) ^ S.order * S.zeta *
-        ∑' κ : GenDecoration S d roots 0, if selSk κ then (epsDec S κ.1 : ℂ) * ∫ τ : GBranch S.tree → ℝ,
-          (coreTimeDomainWR (fun b => layer (D.coreBranch hS b).toNode) tt fixS).indicator
-            (fun τ => phaseProd L γ δ S (cosetDecoration S L base κ.1) τ *
-              ((∏ s, Fs.fs s (slotTs hS tt τ s) (base + latticePoint L (κ.1 (slotNode hS s)))) *
-                topW blk Fs L base κ.1)) τ ∂(fixMeasure fixS) else 0 := rfl
-
-/-- **No lower bounds**: `skelValWFRL … fixS (fun _ => none) = skelValWFR … fixS`. -/
-theorem skelValWFRL_lbnone (blk : J → CLBlock S) (D : ReconstructionData S) (hS : S.IsPlain) (L γ δ : ℝ)
-    (base : Mom d) (roots : Fin w → (Fin d → ℤ)) (tt : Fin w → ℝ) (layer : GNode (D.forest hS) → ℕ)
-    (selSk : GenDecoration S d roots 0 → Prop) (Fs : SlotFamW S d) (fixS : GBranch S.tree → Option ℝ) :
-    skelValWFRL blk D hS L γ δ base roots tt layer selSk Fs fixS (fun _ => none) =
-      skelValWFR blk D hS L γ δ base roots tt layer selSk Fs fixS := by
-  unfold skelValWFRL skelValWFR
-  rw [lbDomR_none, Set.inter_univ]
-
-/-- On `coreTimeDomainW` the generic skeleton value is `MkSlotsW.skelValWF`. -/
-theorem skelValWD_coreTimeDomainW (blk : J → CLBlock S) (D : ReconstructionData S) (hS : S.IsPlain) (L γ δ : ℝ)
-    (base : Mom d) (roots : Fin w → (Fin d → ℤ)) (tt : Fin w → ℝ) (layer : GNode (D.forest hS) → ℕ)
-    (selSk : GenDecoration S d roots 0 → Prop) (Fs : SlotFamW S d) (fixS : GBranch S.tree → Option ℝ) :
-    skelValWD blk hS L γ δ base roots tt selSk Fs (coreTimeDomainW (fun b => layer (D.coreBranch hS b).toNode) tt)
-      fixS = MkSlotsW.skelValWF blk D hS L γ δ base roots tt layer selSk Fs fixS := rfl
-
-/-- **No pins**: `skelValWFR` is `MkUnitsL.skelValW`. -/
-theorem skelValWFR_none (blk : J → CLBlock S) (D : ReconstructionData S) (hS : S.IsPlain) (L γ δ : ℝ)
-    (base : Mom d) (roots : Fin w → (Fin d → ℤ)) (tt : Fin w → ℝ) (layer : GNode (D.forest hS) → ℕ)
-    (selSk : GenDecoration S d roots 0 → Prop) (Fs : SlotFamW S d) :
-    skelValWFR blk D hS L γ δ base roots tt layer selSk Fs (fun _ => none) =
-      skelValW blk D hS L γ δ base roots tt layer selSk Fs := by
-  unfold skelValWFR
-  rw [coreTimeDomainWR_none, skelValWD_coreTimeDomainW, MkSlotsW.skelValWF_none]
 
 /-- The skeleton integrand on the core domain `A`. -/
 def modeGWD (blk : J → CLBlock S) (Fs : SlotFamW S d) (hS : S.IsPlain) (L γ δ : ℝ) (base : Mom d)

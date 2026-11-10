@@ -42,11 +42,6 @@ def openSbR (G : Garden w) (layer : GBranch G.tree → ℕ) (tt : Fin w → ℝ)
   {τ | (∀ c, fix c = none → (layer c : ℝ) < τ c ∧ τ c < layer c + 1) ∧
     (∀ v u, v.IsChildOf u → (fix v = none ∨ fix u = none) → τ v < τ u) ∧ ∀ v, fix v = none → τ v < tt v.1.1}
 
-theorem openSbR_none (G : Garden w) (layer : GBranch G.tree → ℕ) (tt : Fin w → ℝ) :
-    openSbR G layer tt (fun _ => none) = openSb G layer tt := by
-  ext τ
-  simp only [openSbR, openSb, Set.mem_ofPred_eq, true_or, forall_const]
-
 theorem measurableSet_openSbR (G : Garden w) (layer : GBranch G.tree → ℕ) (tt : Fin w → ℝ)
     (fix : GBranch G.tree → Option ℝ) : MeasurableSet (openSbR G layer tt fix) := by
   have he : openSbR G layer tt fix =
@@ -74,10 +69,6 @@ theorem measurableSet_openSbR (G : Garden w) (layer : GBranch G.tree → ℕ) (t
 def lbDomR {tree : Fin w → TTree} (lb : GBranch tree → Option ℝ) : Set (GBranch tree → ℝ) :=
   {t | ∀ v x, lb v = some x → x < t v}
 
-theorem lbDomR_none {tree : Fin w → TTree} : lbDomR (fun _ : GBranch tree => (none : Option ℝ)) = Set.univ := by
-  ext t
-  simp [lbDomR]
-
 theorem measurableSet_lbDomR {tree : Fin w → TTree} (lb : GBranch tree → Option ℝ) :
     MeasurableSet (lbDomR lb) := by
   have he : lbDomR lb = ⋂ v, {t : GBranch tree → ℝ | ∀ x, lb v = some x → x < t v} := by
@@ -103,13 +94,6 @@ theorem measurableSet_lbDomR {tree : Fin w → TTree} (lb : GBranch tree → Opt
 def boxSbR {G : Garden w} (layer : GBranch G.tree → ℕ) (fix : GBranch G.tree → Option ℝ) :
     Set (GBranch G.tree → ℝ) :=
   Set.pi Set.univ fun c => (fix c).elim (Set.Icc (layer c : ℝ) (layer c + 1)) fun _ => Set.univ
-
-theorem measurableSet_boxSbR {G : Garden w} (layer : GBranch G.tree → ℕ) (fix : GBranch G.tree → Option ℝ) :
-    MeasurableSet (boxSbR layer fix) := by
-  refine MeasurableSet.univ_pi fun c => ?_
-  rcases fix c with _ | v
-  · exact measurableSet_Icc
-  · exact MeasurableSet.univ
 
 theorem fixMeasure_boxSbR_le {G : Garden w} (layer : GBranch G.tree → ℕ) (fix : GBranch G.tree → Option ℝ) :
     MkSlots.fixMeasure fix (boxSbR layer fix) ≤ 1 := by

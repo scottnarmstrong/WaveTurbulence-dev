@@ -36,22 +36,6 @@ variable {w : ℕ}
 def lbDomC {tree : Fin w → TTree} (lb : GBranch tree → Option ℝ) : Set (GBranch tree → ℝ) :=
   {τ | ∀ c x, lb c = some x → x < τ c}
 
-theorem measurableSet_lbDomC {tree : Fin w → TTree} (lb : GBranch tree → Option ℝ) : MeasurableSet (lbDomC lb) := by
-  have he : lbDomC lb = ⋂ c, {τ : GBranch tree → ℝ | ∀ x, lb c = some x → x < τ c} := by
-    ext τ; simp [lbDomC]
-  rw [he]
-  refine MeasurableSet.iInter fun c => ?_
-  cases h : lb c with
-  | none => simp
-  | some x =>
-    have : {τ : GBranch tree → ℝ | ∀ x', some x = some x' → x' < τ c} = {τ | x < τ c} := by
-      ext τ; simp
-    rw [this]
-    exact measurableSet_lt measurable_const (measurable_pi_apply c)
-
-theorem lbDomC_none {tree : Fin w → TTree} : lbDomC (fun _ : GBranch tree => (none : Option ℝ)) = univ := by
-  ext τ; simp [lbDomC]
-
 variable {S : Garden w} (D : ReconstructionData S) (hS : S.IsPlain) (layer : GNode (D.forest hS) → ℕ)
   (hLayer : IsLayering (D.garden hS) layer) (tt : Fin w → ℝ) (fixG : GBranch (D.forest hS) → Option ℝ)
 
@@ -60,22 +44,12 @@ def nativeClockNode : (s : ReplacementSlot S) → NativeClockBranch D s → GNod
   | .inl p, q => coupleLeafNode hS p q.1.1
   | .inr b, _ => b.toNode
 
-/-- The upper clock of a native branch. -/
-def nativeUp (τS : GBranch S.tree → ℝ) (s : ReplacementSlot S) (q : NativeClockBranch D s) : ℝ :=
-  parentClockWith tt τS (nativeClockNode D hS s q)
-
 /-- **The relaxed native domains with the clock constraints of pinned branches removed** (R187). -/
 def nativeDomainWRL (τ : GBranch S.tree → ℝ) : (s : ReplacementSlot S) → Set (NativeTimeBlock D s)
   | .inl p => kDomainR (nativeCoupleLayered D hS layer hLayer p) (fun q => nativeCoupleUpperW D hS tt τ p q.1.1) 0
       (MkSlots.fixNative D hS fixG (.inl p)) (fun _ => False) False
   | .inr b => kDomainR (nativeChainLayered D hS layer hLayer b) (fun _ => parentClockWith tt τ b.toNode) (τ b)
       (MkSlots.fixNative D hS fixG (.inr b)) (fun _ => False) (MkSlots.fixCore D hS fixG b = none)
-
-theorem measurableSet_nativeDomainWRL (τ : GBranch S.tree → ℝ) (s : ReplacementSlot S) :
-    MeasurableSet (nativeDomainWRL D hS layer hLayer tt fixG τ s) := by
-  cases s with
-  | inl p => exact measurableSet_kDomainR _ _ _ _ _ _
-  | inr b => exact measurableSet_kDomainR _ _ _ _ _ _
 
 /-- The native branch is a root (top) of its native object. -/
 def NativeTop : (s : ReplacementSlot S) → NativeClockBranch D s → Prop

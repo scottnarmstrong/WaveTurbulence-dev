@@ -87,10 +87,6 @@ def kernelAllIntegrandD {nroot : Fin w → (Fin d → ℤ)} {nfl : Fin d → ℤ
     Dom.indicator (phaseProd L γ δ LG.garden (cosetDecoration LG.garden L k₀ κ.1)) τ *
     ∏ ℓ ∈ inputLeaves LG.garden, (A ℓ.toNode (cosetDecoration LG.garden L k₀ κ.1 ℓ.toNode) : ℂ)
 
-theorem kernelAllIntegrandD_kDomain (up : GBranch LG.garden.tree → ℝ) (s : ℝ) {nroot : Fin w → (Fin d → ℤ)}
-    {nfl : Fin d → ℤ} (κ : GenDecoration LG.garden d nroot nfl) :
-    kernelAllIntegrandD L γ δ LG A (kDomain LG up s) k₀ κ = kernelAllIntegrandN L γ δ LG A up s k₀ κ := rfl
-
 variable {Dom}
 
 theorem measurable_kernelAllIntegrandD (hD : MeasurableSet Dom) {nroot : Fin w → (Fin d → ℤ)} {nfl : Fin d → ℤ}
@@ -177,12 +173,6 @@ theorem kernelNodeWR_eq_tsum_integral_all (nroot : Fin w → (Fin d → ℤ)) (n
   exact tsum_congr fun κ => (integral_kernelAllIntegrandNWD_fix L γ δ LG A m Dom k₀ Θn κ fix).symm
 
 variable {Dom}
-
-theorem integrable_kernelAllIntegrandNWD_fix {fix : GBranch LG.garden.tree → Option ℝ} (hD : MeasurableSet Dom)
-    (hsub : Dom ⊆ unitBoxR LG fix) {nroot : Fin w → (Fin d → ℤ)} {nfl : Fin d → ℤ}
-    (Θn : GenDecoration LG.garden d nroot nfl → ℂ) (κ : GenDecoration LG.garden d nroot nfl) :
-    Integrable (kernelAllIntegrandNWD L γ δ LG A m Dom k₀ Θn κ) (fixMeasure fix) :=
-  (integrable_kernelAllIntegrandD_fix L γ δ LG A k₀ hD hsub κ).const_mul _
 
 theorem integral_norm_kernelAllIntegrandNWD_fix_le {fix : GBranch LG.garden.tree → Option ℝ}
     (hsub : Dom ⊆ unitBoxR LG fix) (Mm : ℝ) (hm : ∀ k, ‖m k‖ ≤ Mm) {nroot : Fin w → (Fin d → ℤ)}

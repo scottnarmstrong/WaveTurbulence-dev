@@ -149,12 +149,6 @@ theorem mem_protDom_up_iff {w : ℕ} (LG : LayeredGarden w) (fix : GBranch LG.ga
 /-- The per-tree clock of a couple. -/
 def cplUp {T : Fin 2 → TTree} (ts : Fin 2 → ℝ) : GBranch T → ℝ := fun b => if b.1.1 = 0 then ts 0 else ts 1
 
-theorem cplUp_mem {T : Fin 2 → TTree} (ts : Fin 2 → ℝ) (b : GBranch T) : cplUp ts b = ts 0 ∨ cplUp ts b = ts 1 := by
-  unfold cplUp
-  split_ifs
-  · exact Or.inl rfl
-  · exact Or.inr rfl
-
 theorem continuousAt_protIntegrand_cpl (L γ δ s : ℝ) (LG : LayeredGarden 2)
     (fix : GBranch LG.garden.tree → Option ℝ) (K : GNode LG.garden.tree → Mom d) (ts₀ : Fin 2 → ℝ)
     (τ : {b : GBranch LG.garden.tree // fix b = none} → ℝ) (hτ : ∀ b, τ b ≠ ts₀ 0 ∧ τ b ≠ ts₀ 1) :
@@ -245,67 +239,6 @@ theorem timeBox_eq_cell (q q' : ℝ) : timeBox q q' = cell (cell2 q q') := by
   · intro h
     have h' : ∀ i, ts i ∈ Icc (cell2 q q' i) (cell2 q q' i + 1) := h
     exact ⟨by simpa [cell2] using h' 0, by simpa [cell2] using h' 1⟩
-
-theorem timeBoxGt_cut_subset_cell (q q' s : ℝ) : timeBoxGt q q' ∩ {ts | ts 1 < s} ⊆ cell (cell2 q q') := by
-  intro ts hts
-  rw [← timeBox_eq_cell]
-  exact hts.1.1
-
-theorem convex_timeBox (q q' : ℝ) : Convex ℝ (timeBox q q') := by
-  intro x hx y hy a b ha hb hab
-  obtain ⟨⟨hx1, hx2⟩, hx3, hx4⟩ := hx
-  obtain ⟨⟨hy1, hy2⟩, hy3, hy4⟩ := hy
-  have e : ∀ i, (a • x + b • y) i = a * x i + b * y i := fun i => by simp [smul_eq_mul]
-  have hb' : b = 1 - a := by linarith
-  subst hb'
-  refine ⟨⟨?_, ?_⟩, ?_, ?_⟩ <;> rw [e] <;> nlinarith
-
-theorem timeBox_subset_closure_interior (q q' : ℝ) : timeBox q q' ⊆ closure (interior (timeBox q q')) := by
-  have hne : (interior (timeBox q q')).Nonempty := by
-    let U : Set (Fin 2 → ℝ) := {ts | q < ts 0 ∧ ts 0 < q + 1 ∧ q' < ts 1 ∧ ts 1 < q' + 1}
-    have hUo : IsOpen U := by
-      simp only [U, Set.ofPred_and]
-      exact (isOpen_lt continuous_const (continuous_apply 0)).inter ((isOpen_lt (continuous_apply 0)
-        continuous_const).inter ((isOpen_lt continuous_const (continuous_apply 1)).inter
-          (isOpen_lt (continuous_apply 1) continuous_const)))
-    have hUsub : U ⊆ timeBox q q' := fun ts h => ⟨⟨h.1.le, h.2.1.le⟩, ⟨h.2.2.1.le, h.2.2.2.le⟩⟩
-    refine ⟨![q + 1 / 2, q' + 1 / 2], interior_maximal hUsub hUo ?_⟩
-    refine ⟨?_, ?_, ?_, ?_⟩ <;> simp <;> norm_num
-  rw [(convex_timeBox q q').closure_interior_eq_closure_of_nonempty_interior hne]
-  exact subset_closure
-
-theorem timeBoxGt_cut_subset_closure_interior (q q' s : ℝ) (hqq : q' ≤ q) (hs : q < s) :
-    timeBoxGt q q' ∩ {ts | ts 1 < s} ⊆ closure (interior (timeBoxGt q q' ∩ {ts | ts 1 < s})) := by
-  have hcv : Convex ℝ (timeBoxGt q q' ∩ {ts : Fin 2 → ℝ | ts 1 < s}) := by
-    refine (MkSlots.convex_timeBoxGt q q').inter ?_
-    intro x hx y hy a b ha hb hab
-    show a * x 1 + b * y 1 < s
-    have hx' : x 1 < s := hx
-    have hy' : y 1 < s := hy
-    rcases ha.lt_or_eq with ha' | ha'
-    · have h1 := mul_lt_mul_of_pos_left hx' ha'
-      have h2 := mul_le_mul_of_nonneg_left hy'.le hb
-      have h3 : a * s + b * s = s := by rw [← add_mul, hab, one_mul]
-      linarith
-    · subst ha'; simp at hab; subst hab; simpa using hy'
-  have hne : (interior (timeBoxGt q q' ∩ {ts : Fin 2 → ℝ | ts 1 < s})).Nonempty := by
-    let U : Set (Fin 2 → ℝ) := {ts | q < ts 0 ∧ ts 0 < q + 1 ∧ q' < ts 1 ∧ ts 1 < q' + 1 ∧ ts 1 < ts 0 ∧ ts 1 < s}
-    have hUo : IsOpen U := by
-      simp only [U, Set.ofPred_and]
-      exact (isOpen_lt continuous_const (continuous_apply 0)).inter ((isOpen_lt (continuous_apply 0)
-        continuous_const).inter ((isOpen_lt continuous_const (continuous_apply 1)).inter
-          ((isOpen_lt (continuous_apply 1) continuous_const).inter ((isOpen_lt (continuous_apply 1)
-            (continuous_apply 0)).inter (isOpen_lt (continuous_apply 1) continuous_const)))))
-    have hUsub : U ⊆ timeBoxGt q q' ∩ {ts | ts 1 < s} := fun ts h =>
-      ⟨⟨⟨⟨h.1.le, h.2.1.le⟩, ⟨h.2.2.1.le, h.2.2.2.1.le⟩⟩, h.2.2.2.2.1⟩, h.2.2.2.2.2⟩
-    set m := min (1 / 2 : ℝ) (s - q') with hm
-    have hm0 : 0 < m := lt_min (by norm_num) (by linarith)
-    have hm1 : m ≤ 1 / 2 := min_le_left _ _
-    have hm2 : m ≤ s - q' := min_le_right _ _
-    refine ⟨![q + 1 / 2, q' + m / 2], interior_maximal hUsub hUo ?_⟩
-    refine ⟨?_, ?_, ?_, ?_, ?_, ?_⟩ <;> simp <;> linarith
-  rw [hcv.closure_interior_eq_closure_of_nonempty_interior hne]
-  exact subset_closure
 
 theorem timeBoxGt_cut2_subset_cell (q q' s : ℝ) :
     timeBoxGt q q' ∩ {ts | ts 1 < s ∧ s ≤ ts 0} ⊆ cell (cell2 q q') := by

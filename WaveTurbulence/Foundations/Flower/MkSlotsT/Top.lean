@@ -6,7 +6,6 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.Flower.MkSlotsS.SelClass
-public import WaveTurbulence.Foundations.Flower.MkUnitsL.Defs
 
 /-! # B3s-HELPER5 (γ) T2: the unit top filters of a class (`MkUnitsL.UnitTopFilters`)
 

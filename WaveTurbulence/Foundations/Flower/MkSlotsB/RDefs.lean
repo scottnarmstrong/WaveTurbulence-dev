@@ -118,11 +118,6 @@ theorem clockFree_child {tree : Fin w → TTree} (fix : GBranch tree → Option 
   unfold clockFree
   rw [nodeToSlot_child]
 
-theorem clockFree_root {tree : Fin w → TTree} (fix : GBranch tree → Option ℝ) (j : Fin w) :
-    ¬ clockFree fix (GNode.root tree j) := by
-  unfold clockFree nodeToSlot
-  simp [GNode.root]
-
 /-- **The relaxed core domain** (`RegRedLeaf.coreTimeDomainW` relaxed): windows and positivity at free branches; the
 order with the parent clock unless the branch and its parent clock are both pinned (a root's clock counts as
 pinned). -/
@@ -130,39 +125,6 @@ def coreTimeDomainWR {tree : Fin w → TTree} (layer : GBranch tree → ℕ) (to
     (fix : GBranch tree → Option ℝ) : Set (GBranch tree → ℝ) :=
   {τ | ∀ b, (fix b = none → (layer b : ℝ) < τ b ∧ τ b < layer b + 1 ∧ 0 < τ b) ∧
     ((fix b = none ∨ clockFree fix b.toNode) → τ b < parentClockWith top τ b.toNode)}
-
-theorem coreTimeDomainWR_none {tree : Fin w → TTree} (layer : GBranch tree → ℕ) (top : Fin w → ℝ) :
-    coreTimeDomainWR layer top (fun _ => none) = coreTimeDomainW layer top := by
-  ext τ
-  simp only [coreTimeDomainWR, coreTimeDomainW, Set.mem_ofPred_eq, true_or, true_implies, and_assoc]
-
-theorem measurable_parentClockWith {tree : Fin w → TTree} (top : Fin w → ℝ) (a : GNode tree) :
-    Measurable fun τ : GBranch tree → ℝ => parentClockWith top τ a := by
-  unfold parentClockWith
-  cases nodeToSlot a with
-  | inl j => exact measurable_const
-  | inr x => exact measurable_pi_apply x.1
-
-theorem measurableSet_coreTimeDomainWR {tree : Fin w → TTree} (layer : GBranch tree → ℕ) (top : Fin w → ℝ)
-    (fix : GBranch tree → Option ℝ) : MeasurableSet (coreTimeDomainWR layer top fix) := by
-  have he : coreTimeDomainWR layer top fix =
-      ⋂ b, ({τ | fix b = none → (layer b : ℝ) < τ b} ∩ {τ | fix b = none → τ b < (layer b : ℝ) + 1} ∩
-        {τ | fix b = none → (0 : ℝ) < τ b} ∩
-        {τ | (fix b = none ∨ clockFree fix b.toNode) → τ b < parentClockWith top τ b.toNode}) := by
-    ext τ
-    simp only [coreTimeDomainWR, mem_ofPred_eq, mem_iInter, mem_inter_iff]
-    refine forall_congr' fun b => ?_
-    constructor
-    · rintro ⟨h1, h2⟩
-      exact ⟨⟨⟨fun hb => (h1 hb).1, fun hb => (h1 hb).2.1⟩, fun hb => (h1 hb).2.2⟩, h2⟩
-    · rintro ⟨⟨⟨h1, h1'⟩, h1''⟩, h2⟩
-      exact ⟨fun hb => ⟨h1 hb, h1' hb, h1'' hb⟩, h2⟩
-  rw [he]
-  exact MeasurableSet.iInter fun b =>
-    (((measurableSet_imp_lt _ measurable_const (measurable_pi_apply b)).inter
-      (measurableSet_imp_lt _ (measurable_pi_apply b) measurable_const)).inter
-      (measurableSet_imp_lt _ measurable_const (measurable_pi_apply b))).inter
-      (measurableSet_imp_lt _ (measurable_pi_apply b) (measurable_parentClockWith top b.toNode))
 
 /-! ## The relaxed native domains of a reconstruction -/
 
@@ -189,21 +151,5 @@ def nativeDomainWR (D : ReconstructionData S) (hS : S.IsPlain) (layer : GNode (D
   | .inr b => kDomainR (nativeChainLayered D hS layer hLayer b) (fun _ => parentClockWith tt τ b.toNode) (τ b)
       (MkSlots.fixNative D hS fixG (.inr b)) (fun _ => clockFree (MkSlots.fixCore D hS fixG) b.toNode)
       (MkSlots.fixCore D hS fixG b = none)
-
-/-- Without pins the relaxed native domains are main's `nativeDomainW`. -/
-theorem nativeDomainWR_none (D : ReconstructionData S) (hS : S.IsPlain) (layer : GNode (D.forest hS) → ℕ)
-    (hLayer : IsLayering (D.garden hS) layer) (tt : Fin w → ℝ) (τ : GBranch S.tree → ℝ) (s : ReplacementSlot S) :
-    nativeDomainWR D hS layer hLayer tt τ (fun _ => none) s = nativeDomainW D hS layer hLayer tt τ s := by
-  cases s with
-  | inl p => exact kDomainR_none _ _ _ _ _
-  | inr b => exact kDomainR_none _ _ _ _ _
-
-theorem measurableSet_nativeDomainWR (D : ReconstructionData S) (hS : S.IsPlain) (layer : GNode (D.forest hS) → ℕ)
-    (hLayer : IsLayering (D.garden hS) layer) (tt : Fin w → ℝ) (τ : GBranch S.tree → ℝ)
-    (fixG : GBranch (D.forest hS) → Option ℝ) (s : ReplacementSlot S) :
-    MeasurableSet (nativeDomainWR D hS layer hLayer tt τ fixG s) := by
-  cases s with
-  | inl p => exact measurableSet_kDomainR _ _ _ _ _ _
-  | inr b => exact measurableSet_kDomainR _ _ _ _ _ _
 
 end WaveTurbulence.Flower.MkSlotsB

@@ -118,24 +118,4 @@ theorem exists_shift_mem_splicedTimeDomain (G : Garden w) (layer : GBranch G.tre
     exact (hpos.and (h1.and (h2.and h3))).mono fun ε ⟨h0, ha, hb, hc⟩ => ⟨h0, ha, hb, hc⟩
   exact hall.exists
 
-/-- The pinned mass of the relaxed spliced domain is at most `1` (unit windows at free coordinates, Dirac mass `1` at
-the pins). -/
-theorem fixMeasure_splicedTimeDomainFix_le (G : Garden w) (layer : GBranch G.tree → ℕ) (rt : Fin w → ℝ)
-    (fix : GBranch G.tree → Option ℝ) :
-    MkSlots.fixMeasure fix (splicedTimeDomainFix G layer rt fix) ≤ 1 := by
-  have hsub : splicedTimeDomainFix G layer rt fix ⊆
-      Set.pi Set.univ (fun v : GBranch G.tree =>
-        (fix v).elim (Set.Icc (layer v : ℝ) (layer v + 1)) fun _ => Set.univ) := by
-    intro t ht v _
-    simp only
-    rcases h : fix v with _ | x
-    · exact (ht.1 v h).1
-    · exact Set.mem_univ _
-  refine (measure_mono hsub).trans ?_
-  rw [MkSlots.fixMeasure, Measure.pi_pi]
-  refine Finset.prod_le_one fun v _ => ?_
-  rcases fix v with _ | x
-  · simp [MkSlots.fixFactor, Real.volume_Icc]
-  · simp [MkSlots.fixFactor]
-
 end WaveTurbulence.Flower.MkSlotsB

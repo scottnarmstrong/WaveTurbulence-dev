@@ -80,13 +80,6 @@ theorem hU_rep_pat_recon (j : Fin (unitBlocks a.prime.skeleton a.totalSigma Mk).
     (sourceLayer_reconstructs a) a.prime.decodes]
   exact hU_rep_pat J pat t s kSel a Mk hMk j y hy
 
-include hMk in
-/-- **`hU` of `MkSlots.hasSum_skelValF_outerValMμ`** at the representative, for every pattern: the unit interiors
-of `unitBlkMk … Mk` carry no skeleton pin `fixCore (fixCap (recLG a) J pat t s)`. -/
-theorem hU_pat_inter : ∀ j, ∀ x ∈ VineB.inter (VineB.unitBlkMk (Mole.garden_isMolecule a.prime.skeleton) a.totalSigma Mk) j,
-    fixCore a.prime.data a.prime.prime.1 (fixCap (recLG a) J pat t s) x = none :=
-  fixU_of_atoms _ fun j x hx => hU_rep_pat_recon J pat t s kSel a Mk hMk j x hx
-
 /-- The marked set of the class piece satisfies `hMk` (`FineMarking.sub`). -/
 theorem classMk_hMk (mkF : Stage1Mk.MarkFn w)
     (hsub : ∀ {LG : LayeredGarden w} (B : PrimeData LG), markI J pat t s kSel B ⊆ mkF B) :
