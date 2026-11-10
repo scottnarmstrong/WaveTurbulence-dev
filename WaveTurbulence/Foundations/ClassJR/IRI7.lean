@@ -112,10 +112,6 @@ theorem integrable_rcoef {θ A N : ℝ} {R : RSym ι} (hR : R.Bound θ A N) (α 
   rw [rcoef, norm_mul]
   exact mul_le_mul_of_nonneg_left (norm_chiInvR_le _) (norm_nonneg _)
 
-theorem measurable_rcoef_args :
-    (Measurable fun γ : ℝ × ℝ × ℝ => γ.1) ∧ (Measurable fun γ : ℝ × ℝ × ℝ => γ.2.1) :=
-  ⟨measurable_fst, measurable_fst.comp measurable_snd⟩
-
 /-- **The kernel of `I_e ℛ I_b`** as three compositions of superpositions with `J_{0;0,b}`. -/
 theorem kcomp_IRI_eq {θ A N : ℝ} (R : RSym ι) (hR : R.Bound θ A N) (e b : ℝ)
     (α : Option ι → ℝ) {t s : ℝ} (h0 : 0 ≤ t - s) (h1 : t - s ≤ 1) :

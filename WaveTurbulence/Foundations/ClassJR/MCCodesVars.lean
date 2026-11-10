@@ -31,17 +31,12 @@ section Up
 
 theorem self_mem_up (x : Addr) : x ∈ Up x := ⟨rfl, List.prefix_refl _⟩
 
-theorem addrExt_mem_up (x : Addr) (p : Path) : addrExt x p ∈ Up x :=
-  ⟨rfl, List.prefix_append _ _⟩
-
 theorem up_addrExt_subset (x : Addr) (p : Path) : Up (addrExt x p) ⊆ Up x :=
   fun _ hv => ⟨hv.1, (List.prefix_append _ _).trans hv.2⟩
 
 theorem addrExt_addrExt (x : Addr) (p q : Path) :
     addrExt (addrExt x p) q = addrExt x (p ++ q) := by
   simp [addrExt, List.append_assoc]
-
-theorem addrExt_nil (x : Addr) : addrExt x [] = x := by simp [addrExt]
 
 /-- Subtrees at different children are disjoint. -/
 theorem disjoint_up_cons (x : Addr) {i j : Fin 3} (hij : i ≠ j) (p q : Path) :
@@ -65,11 +60,6 @@ theorem notMem_up_cons (x : Addr) (i : Fin 3) (p : Path) : x ∉ Up (addrExt x (
   rintro ⟨-, h⟩
   have := h.length_le
   simp [addrExt] at this
-
-theorem addrExt_cons_notMem_up_self {x : Addr} (i : Fin 3) (p : Path) {v : Addr}
-    (hv : v ∈ Up (addrExt x (i :: p))) : v ∉ ({x} : Set Addr) := by
-  rintro rfl
-  exact notMem_up_cons v i p hv
 
 end Up
 
@@ -120,11 +110,6 @@ theorem chosenSet_append {w : ℕ} (L₁ L₂ : List ((Fin w × Path) × (Fin w 
 theorem subset_up_diff {S : Set Addr} {a x lp : Addr} (hS : S ⊆ Up a) (hax : Up a ⊆ Up x)
     (hd : Disjoint (Up a) (Up lp)) : S ⊆ Up x \ Up lp :=
   fun _ hv => ⟨hax (hS hv), Set.disjoint_left.1 hd (hS hv)⟩
-
-/-- The address `x⬝(c :: l ++ [k])` below the node `x⬝(c :: l)`. -/
-theorem addrExt_chain (x : Addr) (c : Fin 3) (l : Path) (p : Path) :
-    addrExt x ([c] ++ l ++ p) = addrExt (addrExt x (c :: l)) p := by
-  rw [addrExt_addrExt]; simp
 
 mutual
 /-- **The chosen nodes of a couple code lie below its roots.** -/

@@ -167,9 +167,6 @@ theorem measurable_K1z : StronglyMeasurable (Function.uncurry K1z) := by
   rw [h]
   exact (measurable_K1.comp (by fun_prop)).stronglyMeasurable
 
-theorem dnorm_K1z (j : ℕ) (α : Unit → ℝ) (z : ZC1) (q : QC1) :
-    dnorm j K1z α (z, q) = dnorm j (K1 (lst z) (lss z)) α q := rfl
-
 /-- The weight of the type 1 coupling: `(1 + |v₁|)^{a₁} (1 + |v₂|)^{a₂} (1 + |α_𝔯 + λ*|)^{b₁}`. -/
 @[expose] noncomputable def wK1 (a₁ a₂ b₁ : ℝ) (α : Unit → ℝ) (p : ZC1 × QC1) : ℝ≥0∞ :=
   (1 + ‖p.2.1.1‖ₑ) ^ a₁ * (1 + ‖p.2.2.1‖ₑ) ^ a₂ * (1 + ‖α () + lst p.1‖ₑ) ^ b₁
@@ -194,9 +191,6 @@ variable {ι₁ ι₂ ι₃ : Type*} [Fintype ι₁] [Fintype ι₂] [Fintype ι
 /-- The reordering `((v₁, v₂), (z, (τ₁, τ₂))) ↦ (z, ((v₁, τ₁), (v₂, τ₂)))`. -/
 @[expose] noncomputable def rho1 : (ℝ × ℝ) × (ZC1 × (ℝ × ℝ)) ≃ᵐ ZC1 × QC1 :=
   frontSwap.trans ((MeasurableEquiv.refl ZC1).prodCongr mswap)
-
-theorem rho1_apply (ζ : (ℝ × ℝ) × (ZC1 × (ℝ × ℝ))) :
-    rho1 ζ = (ζ.2.1, ((ζ.1.1, ζ.2.2.1), (ζ.1.2, ζ.2.2.2))) := rfl
 
 theorem rho1_symm_fst (x : ZC1 × QC1) : (rho1.symm x).1 = (x.2.1.1, x.2.2.1) := by
   have : rho1.symm x = ((x.2.1.1, x.2.2.1), (x.1, (x.2.1.2, x.2.2.2))) := by

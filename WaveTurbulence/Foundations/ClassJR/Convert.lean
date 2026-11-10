@@ -315,25 +315,6 @@ theorem measurable_wR (θ : ℝ) :
   unfold wR
   fun_prop
 
-/-- **Generalized class `J` representations.** A kernel `∫ a(α, u, η) J_{ℓ; u + b(η)} du dη` with
-a regular symbol `a` and the weighted bounds evaluated at `γ' = u + b(η)` is a basic class `J`
-kernel with the same bound. -/
-theorem JSym.ofGen {y : ι → ℤ} (hy : IsBundle y) {a : (ι → ℝ) → (ℝ × ℝ) × Q → ℂ}
-    (ha : SymReg a) {b : Q → ℝ × ℝ} (hb : Measurable b) {θ A N : ℝ} (hN : 0 ≤ N)
-    (hnorm : ∀ k, ∫⁻ α, ∫⁻ ζ, wJ θ α (ζ.1.1 + (b ζ.2).1) * dnorm k a α ζ ≤ gev N A k) :
-    ∃ R : JSym ι, R.y = y ∧ R.Bound θ A N ∧ ∀ α t s, R.kernel α t s =
-      ∫ ζ, a α ζ * jker (bundle y α) (ζ.1.1 + (b ζ.2).1) (ζ.1.2 + (b ζ.2).2) t s := by
-  refine ⟨⟨y, pushSym a b⟩, rfl, ⟨hN, hy, pushSym_symReg ha hb, fun k => ?_⟩, fun α t s => ?_⟩
-  · refine le_trans ?_ (hnorm k)
-    have := lintegral_weight_pushSym_le ha hb (measurable_wJ (ι := ι) θ) k
-    simpa only [jNorm, Prod.fst_add] using this
-  · have hcont : Continuous fun γ : ℝ × ℝ => jker (bundle y α) γ.1 γ.2 t s := by
-      unfold jker; fun_prop
-    have := integral_pushSym_mul ha hb α hcont.aestronglyMeasurable (C := 1) (fun γ => by
-      rw [jker, Complex.norm_exp]
-      simp)
-    simpa only [JSym.kernel, Prod.fst_add, Prod.snd_add] using this
-
 end Corollaries
 
 end WaveTurbulence.ClassJR

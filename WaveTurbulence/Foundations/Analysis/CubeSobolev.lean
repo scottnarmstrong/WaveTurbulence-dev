@@ -73,45 +73,6 @@ theorem contDiff_deriv_cons {n : ℕ} {f : (Fin (n + 1) → ℝ) → E}
     (k := fun _ : Fin n → ℝ => (1 : ℝ)) contDiff_const contDiff_const (by simp)
   simpa only [fderiv_apply_one_eq_deriv] using hd
 
-/-- One-dimensional elementary inequality in extended-norm form. -/
-theorem enorm_le_interval_sobolev_L1 {f : ℝ → E} (hf : ContDiff ℝ 1 f)
-    {t : ℝ} (ht : t ∈ Icc (0 : ℝ) 1) :
-    ‖f t‖ₑ ≤ (∫⁻ x in Icc (0 : ℝ) 1, ‖f x‖ₑ) +
-      ∫⁻ x in Icc (0 : ℝ) 1, ‖deriv f x‖ₑ := by
-  have h := norm_le_interval_sobolev_L1 hf (by norm_num : (0 : ℝ) < 1) ht
-  simp only [sub_zero, inv_one, one_mul] at h
-  have he := ENNReal.ofReal_le_ofReal h
-  rw [ENNReal.ofReal_add (integral_nonneg fun _ => norm_nonneg _)
-    (integral_nonneg fun _ => norm_nonneg _), ofReal_norm,
-    ofReal_integral_norm_eq_lintegral_enorm hf.continuous.integrableOn_Icc.integrable,
-    ofReal_integral_norm_eq_lintegral_enorm
-      hf.continuous_deriv_one.integrableOn_Icc.integrable] at he
-  exact he
-
-/-- DH21 (10.5), L2428, in its iterated-integral form: smooth functions on
-the unit cube are bounded by the sum of the `L¹` norms of their square-free
-mixed derivatives. This is pointwise, including the boundary of the cube. -/
-theorem enorm_le_cubeSobolevL1 : ∀ (n : ℕ) {f : (Fin n → ℝ) → E},
-    ContDiff ℝ ∞ f → ∀ x, (∀ i, x i ∈ Icc (0 : ℝ) 1) →
-      ‖f x‖ₑ ≤ cubeSobolevL1 n f := by
-  intro n
-  induction n with
-  | zero =>
-      intro f _ x _
-      exact le_of_eq (congrArg (fun y => ‖f y‖ₑ) (Subsingleton.elim _ _))
-  | succ n ih =>
-      intro f hf x hx
-      have hs := enorm_le_interval_sobolev_L1
-        ((hf.comp (contDiff_cons_curve (Fin.tail x))).of_le (by simp)) (hx 0)
-      simp only [Function.comp_apply, Fin.cons_self_tail] at hs
-      refine hs.trans (add_le_add ?_ ?_)
-      · apply lintegral_mono
-        intro t
-        exact ih (hf.comp (contDiff_cons_const t)) (Fin.tail x) (fun i => hx i.succ)
-      · apply lintegral_mono
-        intro t
-        exact ih (contDiff_deriv_cons hf t) (Fin.tail x) (fun i => hx i.succ)
-
 /-- The whole-space analogue of `cubeSobolevL1`: the sum of the integrals
 of all square-free mixed derivatives, of orders at most `n`, on `ℝ^n`.
 As in the cube version, the formula uses iterated Lebesgue integrals. -/
@@ -120,43 +81,5 @@ As in the cube version, the formula uses iterated Lebesgue integrals. -/
   | n + 1, f =>
       (∫⁻ t, wholeSobolevL1 n (fun x => f (Fin.cons t x))) +
       ∫⁻ t, wholeSobolevL1 n (fun x => deriv (fun s => f (Fin.cons s x)) t)
-
-/-- The one-dimensional whole-space `W¹,¹` bound. -/
-theorem enorm_le_whole_sobolev_L1 {f : ℝ → E} (hf : ContDiff ℝ 1 f) (t : ℝ) :
-    ‖f t‖ₑ ≤ (∫⁻ x, ‖f x‖ₑ) + ∫⁻ x, ‖deriv f x‖ₑ := by
-  have h := norm_le_interval_sobolev_L1 hf (by linarith : t < t + 1)
-    (show t ∈ Icc t (t + 1) from ⟨le_rfl, by linarith⟩)
-  simp only [add_sub_cancel_left, inv_one, one_mul] at h
-  have he := ENNReal.ofReal_le_ofReal h
-  rw [ENNReal.ofReal_add (integral_nonneg fun _ => norm_nonneg _)
-    (integral_nonneg fun _ => norm_nonneg _), ofReal_norm,
-    ofReal_integral_norm_eq_lintegral_enorm hf.continuous.integrableOn_Icc.integrable,
-    ofReal_integral_norm_eq_lintegral_enorm
-      hf.continuous_deriv_one.integrableOn_Icc.integrable] at he
-  exact he.trans (add_le_add (lintegral_mono' Measure.restrict_le_self le_rfl)
-    (lintegral_mono' Measure.restrict_le_self le_rfl))
-
-/-- The smooth `W^{n,1}(ℝ^n) → L∞` estimate underlying TARGET
-(incohproof4), L998. Only the square-free mixed derivatives are needed.
-The constant is one for the displayed sum norm. -/
-theorem enorm_le_wholeSobolevL1 : ∀ (n : ℕ) {f : (Fin n → ℝ) → E},
-    ContDiff ℝ ∞ f → ∀ x, ‖f x‖ₑ ≤ wholeSobolevL1 n f := by
-  intro n
-  induction n with
-  | zero =>
-      intro f _ x
-      exact le_of_eq (congrArg (fun y => ‖f y‖ₑ) (Subsingleton.elim _ _))
-  | succ n ih =>
-      intro f hf x
-      have hs := enorm_le_whole_sobolev_L1
-        ((hf.comp (contDiff_cons_curve (Fin.tail x))).of_le (by simp)) (x 0)
-      simp only [Function.comp_apply, Fin.cons_self_tail] at hs
-      refine hs.trans (add_le_add ?_ ?_)
-      · apply lintegral_mono
-        intro t
-        exact ih (hf.comp (contDiff_cons_const t)) (Fin.tail x)
-      · apply lintegral_mono
-        intro t
-        exact ih (contDiff_deriv_cons hf t) (Fin.tail x)
 
 end WaveTurbulence.Analysis

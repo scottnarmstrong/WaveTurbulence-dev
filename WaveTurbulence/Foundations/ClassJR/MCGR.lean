@@ -478,9 +478,6 @@ theorem lintegral_optionPi {F : (Option ι → ℝ) → ℝ≥0∞} (hF : Measur
   (1 + |ℓ₁ + γ.2.2|)⁻¹ * ((1 + |ℓ₂ + γ.1|) ^ a / (1 + |γ.2.1 + L0 - ℓ₂|) +
     (1 + |γ.2.1 + L0 - ℓ₂|) ^ (a - 1))
 
-theorem PhiR1_nonneg (ℓ₁ ℓ₂ L0 a : ℝ) (γ : ℝ × ℝ × ℝ) : 0 ≤ PhiR1 ℓ₁ ℓ₂ L0 a γ := by
-  unfold PhiR1; positivity
-
 theorem measurable_PhiR1 (L0 a : ℝ) :
     Measurable fun p : (ℝ × ℝ) × (ℝ × ℝ × ℝ) => PhiR1 p.1.1 p.1.2 L0 a p.2 := by
   unfold PhiR1; fun_prop

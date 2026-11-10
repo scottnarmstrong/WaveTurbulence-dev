@@ -47,13 +47,6 @@ theorem FRep.mono {θ a b A N N' : ℝ} {fr : Ξ → ℝ} {H : (ι → ℝ) → 
   norm k := (h.norm k).trans (gev_mono hN hA le_rfl (h.nonneg.trans hN) k)
   wnorm i := (h.wnorm i).trans (ENNReal.ofReal_le_ofReal hN)
 
-theorem FRep.zero {θ a b A N : ℝ} {fr : Ξ → ℝ} (hN : 0 ≤ N) :
-    FRep θ a b A N fr (fun (_ : ι → ℝ) (_ : Ξ) => (0 : ℂ)) where
-  nonneg := hN
-  reg := symReg_zero
-  norm k := by simp only [dnorm_zero_fun, mul_zero, lintegral_zero]; exact bot_le
-  wnorm i := by simp only [enorm_zero, mul_zero, lintegral_zero]; exact bot_le
-
 end FRepDef
 
 section FinSum

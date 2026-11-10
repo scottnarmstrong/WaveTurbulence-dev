@@ -33,17 +33,6 @@ namespace WaveTurbulence.ApproxNT
 
 variable {d : ℕ}
 
-/-- For fixed `δ ∈ (0,1]`, `L^{-η/2} ≤ δ` as soon as `L ≥ δ^{-2/η}`. -/
-theorem rpow_neg_half_le {η δ L : ℝ} (hη : 0 < η) (hδ : 0 < δ) (hL : δ ^ (-(2 / η)) ≤ L) :
-    L ^ (-(η / 2)) ≤ δ := by
-  have h0 : 0 < δ ^ (-(2 / η)) := Real.rpow_pos_of_pos hδ _
-  calc L ^ (-(η / 2)) ≤ (δ ^ (-(2 / η))) ^ (-(η / 2)) :=
-        Real.rpow_le_rpow_of_nonpos h0 hL (by linarith)
-    _ = δ := by
-        rw [← Real.rpow_mul hδ.le]
-        have : -(2 / η) * -(η / 2) = 1 := by field_simp
-        rw [this, Real.rpow_one]
-
 /-- **DH23 Proposition 6.4** (`approxnt`, `Revision_Submit.tex` L984–L1010; proof DH21 Prop 6.1,
 `Inventiones-Final_Version.tex` L1504–L1657), extended to orders `n ≤ (log L)^A` and arbitrary box
 sizes (`GAP.largeOrder.nt`). See `approxnt_conclusion1` and `approxnt_conclusion2` for the reading

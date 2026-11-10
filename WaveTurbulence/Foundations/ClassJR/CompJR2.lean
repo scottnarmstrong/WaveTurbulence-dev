@@ -69,18 +69,6 @@ theorem formsV_JR_one {Q : Type*} (α : (ι₁ ⊕ ι₂) ⊕ Unit → ℝ)
   simp [bundle]
   ring
 
-omit [Fintype ι₁] [Fintype ι₂] in
-theorem vS_elim (a : ι₁ ⊕ ι₂ → ℝ) (s : Unit → ℝ) : (Sum.elim a s : (ι₁ ⊕ ι₂) ⊕ Unit → ℝ)
-    (Sum.inr ()) = s () := rfl
-
-omit [Fintype ι₁] [Fintype ι₂] in
-theorem vA_elim (a : ι₁ ⊕ ι₂ → ℝ) (s : Unit → ℝ) :
-    vA (Sum.elim a s : (ι₁ ⊕ ι₂) ⊕ Unit → ℝ) = fun i => a (Sum.inl i) := rfl
-
-omit [Fintype ι₁] [Fintype ι₂] in
-theorem vB_elim (a : ι₁ ⊕ ι₂ → ℝ) (s : Unit → ℝ) :
-    vB (Sum.elim a s : (ι₁ ⊕ ι₂) ⊕ Unit → ℝ) = fun i => a (Sum.inr i) := rfl
-
 end Data
 
 section Weights
@@ -632,60 +620,6 @@ theorem measurable_bP2R : Measurable bP2R := by unfold bP2R; fun_prop
 
 /-- The bundle `ℓ₃ + εα₁` of the first `χ_∞` piece of `J R`. -/
 @[expose] def yJRR (R₂ : RSym ι₂) : (ι₁ ⊕ ι₂) ⊕ Unit → ℤ := y3 0 R₂.y₂ R₂.ε
-
-theorem exists_piece_JR_M (h0 : 0 ≤ θ) (h1 : θ ≤ 1) (hA : A0 ≤ A) (h₁ : R₁.Bound θ A N₁)
-    (h₂ : R₂.Bound θ A N₂) :
-    ∃ S : JSym ((ι₁ ⊕ ι₂) ⊕ Unit),
-      S.Bound θ A (3 * (16 * N₁ * (3 * N₂) * (16 * (CkM * IM) * CPhi))) ∧ ∀ α t s,
-      S.kernel α t s = ∫ z, tripleS R₁.m R₂.m KMR (LsJR R₁ R₂) (csJR (ℝ × ℝ)) α z *
-        jker (bundle (yJRL (ι₂ := ι₂) R₁) α)
-          ((eJR (ℝ × ℝ) z).1.1 + (bMR (eJR (ℝ × ℝ) z).2).1)
-          ((eJR (ℝ × ℝ) z).1.2 + (bMR (eJR (ℝ × ℝ) z).2).2) t s := by
-  have hN₁ := h₁.nonneg
-  have hN₂ := h₂.nonneg
-  have hC : 0 ≤ 16 * (CkM * IM) * CPhi := by
-    have := kerM_bound.1; have := IM_nonneg; have := CPhi_nonneg; positivity
-  obtain ⟨S, -, hS, hk⟩ := JSym.ofGenE
-    (isBundle_y3 h₁.bundle isBundle_zero (show |(0 : ℤ)| ≤ 1 by simp)) (symReg_piece_JR_M h₁ h₂)
-    (eJR (ℝ × ℝ)) (measurePreserving_eJR _) measurable_bMR (by positivity)
-    (norm_piece_JR_M h0 h1 hA h₁ h₂)
-  exact ⟨S, hS, hk⟩
-
-theorem exists_piece_JR_P1 (h0 : 0 ≤ θ) (h1 : θ < 1) (hA : A0 ≤ A) (h₁ : R₁.Bound θ A N₁)
-    (h₂ : R₂.Bound θ A N₂) :
-    ∃ S : JSym ((ι₁ ⊕ ι₂) ⊕ Unit),
-      S.Bound θ A (3 * (16 * (2 * N₁) * (6 * N₂) * (16 * Cθ θ * (CPhi * CPhi)))) ∧ ∀ α t s,
-      S.kernel α t s = ∫ z, tripleS R₁.m R₂.m KPR (LsJR R₁ R₂) (csJR Unit) α z *
-        jker (bundle (yJRR (ι₁ := ι₁) R₂) α)
-          ((eJR Unit z).1.1 + (bP1R (eJR Unit z).2).1)
-          ((eJR Unit z).1.2 + (bP1R (eJR Unit z).2).2) t s := by
-  have hN₁ := h₁.nonneg
-  have hN₂ := h₂.nonneg
-  have hC : 0 ≤ 16 * Cθ θ * (CPhi * CPhi) := by
-    have := Cθ_nonneg h0 h1; have := CPhi_nonneg; positivity
-  obtain ⟨S, -, hS, hk⟩ := JSym.ofGenE
-    (isBundle_y3 isBundle_zero h₂.bundle₂ (abs_sign_le h₂.sign)) (symReg_piece_JR_P1 h₁ h₂)
-    (eJR Unit) (measurePreserving_eJR _) measurable_bP1R (by positivity)
-    (norm_piece_JR_P1 h0 h1 hA h₁ h₂)
-  exact ⟨S, hS, hk⟩
-
-theorem exists_piece_JR_P2 (h0 : 0 ≤ θ) (h1 : θ < 1) (hA : A0 ≤ A) (h₁ : R₁.Bound θ A N₁)
-    (h₂ : R₂.Bound θ A N₂) :
-    ∃ S : JSym ((ι₁ ⊕ ι₂) ⊕ Unit),
-      S.Bound θ A (3 * (16 * N₁ * (3 * N₂) * (16 * Cθ θ * (CPhi * CPhi)))) ∧ ∀ α t s,
-      S.kernel α t s = ∫ z, tripleS R₁.m R₂.m KPRn (LsJR R₁ R₂) (csJR Unit) α z *
-        jker (bundle (yJRL (ι₂ := ι₂) R₁) α)
-          ((eJR Unit z).1.1 + (bP2R (eJR Unit z).2).1)
-          ((eJR Unit z).1.2 + (bP2R (eJR Unit z).2).2) t s := by
-  have hN₁ := h₁.nonneg
-  have hN₂ := h₂.nonneg
-  have hC : 0 ≤ 16 * Cθ θ * (CPhi * CPhi) := by
-    have := Cθ_nonneg h0 h1; have := CPhi_nonneg; positivity
-  obtain ⟨S, -, hS, hk⟩ := JSym.ofGenE
-    (isBundle_y3 h₁.bundle isBundle_zero (show |(0 : ℤ)| ≤ 1 by simp)) (symReg_piece_JR_P2 h₁ h₂)
-    (eJR Unit) (measurePreserving_eJR _) measurable_bP2R (by positivity)
-    (norm_piece_JR_P2 h0 h1 hA h₁ h₂)
-  exact ⟨S, hS, hk⟩
 
 end Regular
 

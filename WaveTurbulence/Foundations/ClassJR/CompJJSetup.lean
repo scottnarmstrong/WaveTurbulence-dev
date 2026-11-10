@@ -89,29 +89,6 @@ theorem SymReg.comp_equiv {Z' : Type*} [MeasureSpace Z'] {m : (ι → ℝ) → Z
     rw [hE.lintegral_comp_emb E.measurableEmbedding]
     exact h.dom k
 
-/-- **Generalized class `J` representations through a measure-preserving equivalence.** -/
-theorem JSym.ofGenE {y : ι → ℤ} (hy : IsBundle y) {a : (ι → ℝ) → Z → ℂ} (ha : SymReg a)
-    (E : Z ≃ᵐ (ℝ × ℝ) × Q) (hE : MeasurePreserving E) {b : Q → ℝ × ℝ} (hb : Measurable b)
-    {θ A N : ℝ} (hN : 0 ≤ N)
-    (hnorm : ∀ k, ∫⁻ α, ∫⁻ z, wJ θ α ((E z).1.1 + (b (E z).2).1) * dnorm k a α z ≤ gev N A k) :
-    ∃ R : JSym ι, R.y = y ∧ R.Bound θ A N ∧ ∀ α t s, R.kernel α t s =
-      ∫ z, a α z * jker (bundle y α) ((E z).1.1 + (b (E z).2).1) ((E z).1.2 + (b (E z).2).2)
-        t s := by
-  have ha' : SymReg fun α ζ => a α (E.symm ζ) := ha.comp_equiv E.symm (hE.symm E)
-  obtain ⟨R, hRy, hRb, hRk⟩ := JSym.ofGen (θ := θ) (A := A) hy ha' hb hN (fun k => by
-    refine le_trans (le_of_eq ?_) (hnorm k)
-    refine lintegral_congr fun α => ?_
-    rw [← hE.lintegral_comp_emb E.measurableEmbedding]
-    refine lintegral_congr fun z => ?_
-    have key : lift1 (fun α ζ => a α (E.symm ζ)) (E z) = lift1 a z := by
-      funext β
-      simp [lift1]
-    simp only [dnorm, key])
-  refine ⟨R, hRy, hRb, fun α t s => ?_⟩
-  rw [hRk, ← hE.integral_comp' (g := fun ζ => a α (E.symm ζ) *
-    jker (bundle y α) (ζ.1.1 + (b ζ.2).1) (ζ.1.2 + (b ζ.2).2) t s)]
-  simp only [MeasurableEquiv.symm_apply_apply]
-
 end OfGenE
 
 section Bundles
@@ -201,10 +178,6 @@ theorem sum_rpow_le_wJ {θ : ℝ} (h0 : 0 ≤ θ) (α : ι → ℝ) (γ₁ : ℝ
     (∑ j, ‖α j‖ₑ) ^ θ ≤ wJ θ α γ₁ := by
   unfold wJ
   exact rpow_mono' h0 (by rw [add_assoc, add_comm, add_assoc]; exact le_self_add)
-
-theorem measurable_wJ' {θ : ℝ} :
-    Measurable (Function.uncurry fun (α : ι → ℝ) (γ : ℝ × ℝ) => wJ θ α γ.1) :=
-  measurable_wJ θ
 
 end Weights
 

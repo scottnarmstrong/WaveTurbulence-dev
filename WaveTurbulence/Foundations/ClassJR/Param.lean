@@ -89,16 +89,6 @@ structure RSymP.Bound (R : RSymP P ι) (θ A N : ℝ) : Prop where
   ∃ (n : ℕ) (R : Fin n → RSymP P ι) (c : Fin n → ℝ), (∀ i, (R i).Bound θ A (c i)) ∧
     ∑ i, c i ≤ N ∧ ∀ p α, KEqOn (T p α) fun t s => ∑ i, ((R i).get p).kernel α t s
 
-theorem ClassJP.classJ {θ A N : ℝ} {T : P → (ι → ℝ) → ℝ → ℝ → ℂ} (h : ClassJP θ A N T)
-    (p : P) : ClassJ θ A N (T p) := by
-  obtain ⟨n, R, c, hb, hs, he⟩ := h
-  exact ⟨n, fun i => (R i).get p, c, fun i => (hb i).bound p, hs, fun α => he p α⟩
-
-theorem ClassRP.classR {θ A N : ℝ} {T : P → (Option ι → ℝ) → ℝ → ℝ → ℂ} (h : ClassRP θ A N T)
-    (p : P) : ClassR θ A N (T p) := by
-  obtain ⟨n, R, c, hb, hs, he⟩ := h
-  exact ⟨n, fun i => (R i).get p, c, fun i => (hb i).bound p, hs, fun α => he p α⟩
-
 end Defs
 
 section PushParam

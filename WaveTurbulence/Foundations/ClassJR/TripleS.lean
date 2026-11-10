@@ -307,13 +307,6 @@ theorem lintegral_special_le {F₁ : P → ℝ≥0∞} {F₂ : P' → ℝ≥0∞
         ring
 
 omit [SFinite (volume : Measure Q)] in
-theorem measurable_enorm_iteratedFDeriv_K (hK : ∀ q, ContDiff ℝ ∞ fun x => K x q)
-    (hKm : StronglyMeasurable (Function.uncurry K)) (c : ℕ) :
-    Measurable fun p : (Fin n → ℝ) × Q => ‖iteratedFDeriv ℝ c (fun x => K x p.2) p.1‖ₑ :=
-  (stronglyMeasurable_uncurry_iteratedFDeriv_param (f := K) hK
-    (fun _ => hKm.comp_measurable (measurable_const.prodMk measurable_id)) c).enorm
-
-omit [SFinite (volume : Measure Q)] in
 theorem measurable_enorm_iteratedFDeriv_K_comp {X : Type*} [MeasurableSpace X]
     (hK : ∀ q, ContDiff ℝ ∞ fun x => K x q) (hKm : StronglyMeasurable (Function.uncurry K))
     (c : ℕ) {g : X → Fin n → ℝ} {h : X → Q} (hg : Measurable g) (hh : Measurable h) :

@@ -125,12 +125,4 @@ theorem enorm_prod_add_sub_prod_le {ι : Type*} [Fintype ι] [DecidableEq ι] (a
   refine (enorm_sum_le _ _).trans (sum_le_sum fun F _ => ?_)
   rw [enorm_mul, enorm_finset_prod, enorm_finset_prod]
 
-/-- A product of sums, expanded. -/
-theorem prod_enorm_add_le {ι : Type*} [Fintype ι] [DecidableEq ι] (a b : ι → ℂ) :
-    ∏ i, ‖a i + b i‖ₑ ≤
-      ∑ F ∈ (univ : Finset ι).powerset, (∏ i ∈ F, ‖b i‖ₑ) * ∏ i ∈ univ \ F, ‖a i‖ₑ := by
-  calc ∏ i, ‖a i + b i‖ₑ ≤ ∏ i, (‖b i‖ₑ + ‖a i‖ₑ) :=
-        Finset.prod_le_prod fun i _ => (enorm_add_le _ _).trans (le_of_eq (add_comm _ _))
-    _ = _ := prod_add _ _ _
-
 end WaveTurbulence.ApproxNT

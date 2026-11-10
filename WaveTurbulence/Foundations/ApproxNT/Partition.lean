@@ -163,8 +163,6 @@ theorem sum_thetaMom (x : Mom d) : ∑ g ∈ thetaSupport x, thetaMom d (x - NTS
 @[expose] def thetaSchwartz (d : ℕ) : 𝓢(Mom d, ℝ) :=
   hasCompactSupport_thetaMom.toSchwartzMap contDiff_thetaMom
 
-theorem thetaSchwartz_apply (x : Mom d) : thetaSchwartz d x = thetaMom d x := rfl
-
 /-- Derivative bounds of the cutoff. -/
 @[expose] def thetaDerivConst (d k : ℕ) : ℝ := SchwartzMap.seminorm ℝ 0 k (thetaSchwartz d)
 

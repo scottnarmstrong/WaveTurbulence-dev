@@ -131,12 +131,6 @@ section Rep
 theorem measurable_ind01 : Measurable ind01 :=
   measurable_const.indicator measurableSet_Icc
 
-theorem norm_ind01_le (τ : ℝ) : ‖ind01 τ‖ ≤ 1 := by
-  unfold ind01
-  by_cases h : τ ∈ Icc (0 : ℝ) 1
-  · simp [Set.indicator_of_mem h]
-  · simp [Set.indicator_of_notMem h]
-
 theorem integral_ind01 : ∫ τ, ind01 τ = 1 := by
   unfold ind01
   rw [integral_indicator_const _ measurableSet_Icc]
@@ -860,16 +854,6 @@ theorem lintegral_gEDbd_le_split {a : ℝ} (h0 : 0 ≤ a) (h1 : a ≤ 1) (j : �
     rw [hsplit, hX]
     field_simp
     ring
-
-/-- **The weighted diagonal derivative bounds of `gE`** (Lemma G, DH21 (propertyG)):
-`∫ (1+|λ+g|)^a |∂_u^j gE(c-u; λ-u, τ)| dλ dτ ≤ 3 C_E Ir(2) A₁^j (2j)! (1+|u+g|)^a (1+|c-u|)^{a-1}`. -/
-theorem lintegral_gED_le {a : ℝ} (h0 : 0 ≤ a) (h1 : a ≤ 1) (j : ℕ) (c u g : ℝ) :
-    ∫⁻ q : ℝ × ℝ, ((1 : ℝ≥0∞) + ‖q.1 + g‖ₑ) ^ a *
-        ‖iteratedDeriv j (fun y => gE (c - y) (q.1 - y, q.2)) u‖ₑ ≤
-      ENNReal.ofReal (3 * CE * Ir 2 * A1 ^ j * (Nat.factorial (2 * j) : ℝ) *
-        ((1 + |u + g|) ^ a * (1 + |c - u|) ^ (a - 1))) :=
-  (lintegral_mono fun q => mul_le_mul' le_rfl (enorm_iteratedDeriv_gED_le_bd j c u q)).trans
-    (lintegral_gEDbd_le h0 h1 j c u g)
 
 end IntegratedDiag
 

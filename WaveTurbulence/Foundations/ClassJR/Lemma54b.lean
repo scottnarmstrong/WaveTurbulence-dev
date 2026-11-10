@@ -32,12 +32,6 @@ variable {ι₁ ι₂ : Type*} [Fintype ι₁] [Fintype ι₂]
 @[expose] def optA (β : (ι₁ ⊕ ι₂) ⊕ Unit → ℝ) : Option ι₁ → ℝ :=
   fun o => o.elim (β (Sum.inr ())) fun i => β (Sum.inl (Sum.inl i))
 
-omit [Fintype ι₁] [Fintype ι₂] in
-theorem nsp_optA (β : (ι₁ ⊕ ι₂) ⊕ Unit → ℝ) : nsp (optA β) = vA β := rfl
-
-omit [Fintype ι₁] [Fintype ι₂] in
-theorem optA_none (β : (ι₁ ⊕ ι₂) ⊕ Unit → ℝ) : optA β none = β (Sum.inr ()) := rfl
-
 /-- **The kernel identity of `R J`** for basic operators. -/
 theorem kcomp_RJ_basic_eq (R₁ : RSym ι₁) (R₂ : JSym ι₂) {θ A N₁ N₂ : ℝ}
     (h₁ : R₁.Bound θ A N₁) (h₂ : R₂.Bound θ A N₂) (α : (ι₁ ⊕ ι₂) ⊕ Unit → ℝ) {t s : ℝ}
@@ -153,64 +147,6 @@ section Assembly
 
 variable {ι₁ ι₂ : Type*} [Fintype ι₁] [Fintype ι₂]
 
-/-- **`R J` for basic operators.** -/
-theorem rsym_comp_RJ {θ A N₁ N₂ : ℝ} (h0 : 0 ≤ θ) (h1 : θ < 1) (hA : A0 ≤ A) {R₁ : RSym ι₁}
-    {R₂ : JSym ι₂} (h₁ : R₁.Bound θ A N₁) (h₂ : R₂.Bound θ A N₂) :
-    ∃ (S : Fin 3 → JSym ((ι₁ ⊕ ι₂) ⊕ Unit)) (c : Fin 3 → ℝ), (∀ p, (S p).Bound θ A (c p)) ∧
-      ∑ p, c p = CJR θ * N₁ * N₂ ∧
-      ∀ α, KEqOn (kcomp (R₁.kernel (optA α)) (R₂.kernel (vB α)))
-        fun t s => ∑ p, (S p).kernel α t s := by
-  obtain ⟨SM, hSM, hkM⟩ := exists_piece_RJ_M h0 h1.le hA h₁ h₂
-  obtain ⟨S1, hS1, hk1⟩ := exists_piece_RJ_P1 h0 h1 hA h₁ h₂
-  obtain ⟨S2, hS2, hk2⟩ := exists_piece_RJ_P2 h0 h1 hA h₁ h₂
-  refine ⟨![SM, S1, S2], ![3 * (16 * (3 * N₁) * N₂ * (16 * (CkM * IM) * CPhi)),
-    3 * (16 * (6 * N₁) * (2 * N₂) * (16 * Cθ θ * (CPhi * CPhi))),
-    3 * (16 * (3 * N₁) * N₂ * (16 * Cθ θ * (CPhi * CPhi)))], ?_, ?_, ?_⟩
-  · intro p; fin_cases p
-    · exact hSM
-    · exact hS1
-    · exact hS2
-  · simp only [Fin.sum_univ_three, Matrix.cons_val, CJR]
-    ring
-  · intro α t s _ hst ht1
-    simp only [Fin.sum_univ_three, Matrix.cons_val]
-    rw [hkM, hk1, hk2]
-    exact kcomp_RJ_basic_eq _ _ h₁ h₂ α hst (by linarith)
-
-/-- `R J` on the variables `(ι₁ ⊕ ι₂) ⊕ Unit`. -/
-theorem ClassR.comp_J' {θ A N₁ N₂ : ℝ} (h0 : 0 ≤ θ) (h1 : θ < 1) (hA : A0 ≤ A)
-    {T₁ : (Option ι₁ → ℝ) → ℝ → ℝ → ℂ} {T₂ : (ι₂ → ℝ) → ℝ → ℝ → ℂ} (hT₁ : ClassR θ A N₁ T₁)
-    (hT₂ : ClassJ θ A N₂ T₂) :
-    ClassJ θ A (CJR θ * N₁ * N₂) fun α : (ι₁ ⊕ ι₂) ⊕ Unit → ℝ =>
-      kcomp (T₁ (optA α)) (T₂ (vB α)) := by
-  obtain ⟨n₁, Ra, ca, hba, hsa, hea⟩ := hT₁
-  obtain ⟨n₂, Rb, cb, hbb, hsb, heb⟩ := hT₂
-  choose S c hSb hcs hSk using fun i j => rsym_comp_RJ h0 h1 hA (hba i) (hbb j)
-  have hca : 0 ≤ ∑ i, ca i := Finset.sum_nonneg fun i _ => (hba i).nonneg
-  have hcb : 0 ≤ ∑ j, cb j := Finset.sum_nonneg fun j _ => (hbb j).nonneg
-  have hC := CJR_nonneg h0 h1
-  refine ClassJ.of_fintype (B := Fin n₁ × Fin n₂ × Fin 3) (fun b => S b.1 b.2.1 b.2.2)
-    (fun b => c b.1 b.2.1 b.2.2) (fun b => hSb _ _ _) ?_ _ ?_
-  · simp_rw [Fintype.sum_prod_type, hcs]
-    calc ∑ i, ∑ j, CJR θ * ca i * cb j = CJR θ * (∑ i, ca i) * ∑ j, cb j := by
-          rw [mul_assoc, Finset.sum_mul_sum, Finset.mul_sum]
-          refine Finset.sum_congr rfl fun i _ => ?_
-          rw [Finset.mul_sum]
-          refine Finset.sum_congr rfl fun j _ => ?_
-          ring
-      _ ≤ CJR θ * N₁ * N₂ :=
-          mul_le_mul (mul_le_mul_of_nonneg_left hsa hC) hsb hcb (mul_nonneg hC (hca.trans hsa))
-  · intro α t s h0' hst ht1
-    rw [KEqOn.kcomp (hea _) (heb _) t s h0' hst ht1,
-      kcomp_finsetSum _ _ (fun i => RSym.continuous_kernel _ (hba i) _)
-        (fun j => JSym.continuous_kernel _ (hbb j).reg _)]
-    beta_reduce
-    rw [Fintype.sum_prod_type]
-    refine Finset.sum_congr rfl fun i _ => ?_
-    rw [Fintype.sum_prod_type]
-    refine Finset.sum_congr rfl fun j _ => ?_
-    exact hSk i j α t s h0' hst ht1
-
 /-- The relabelling `(ι₁ ⊕ ι₂) ⊕ Unit ≃ Option ι₁ ⊕ ι₂`. -/
 @[expose] def eRJvars : (ι₁ ⊕ ι₂) ⊕ Unit ≃ Option ι₁ ⊕ ι₂ where
   toFun x := match x with
@@ -223,21 +159,6 @@ theorem ClassR.comp_J' {θ A N₁ N₂ : ℝ} (h0 : 0 ≤ θ) (h1 : θ < 1) (hA 
     | Sum.inr j => Sum.inl (Sum.inr j)
   left_inv x := by rcases x with (i | j) | u <;> rfl
   right_inv y := by rcases y with (_ | i) | j <;> rfl
-
-/-- **DH21 Lemma 5.4, `R J`** (L1018): if `T₁` has class `R` (variables `α ∘ inl`, special
-variable `α (inl none)`) and `T₂` has class `J` (variables `α ∘ inr`), then `T₁ T₂` has class `J`
-with norm at most `CJR θ ‖T₁‖ ‖T₂‖`, for `0 ≤ θ < 1` and `A ≥ A0`. -/
-theorem ClassR.comp_J {θ A N₁ N₂ : ℝ} (h0 : 0 ≤ θ) (h1 : θ < 1) (hA : A0 ≤ A)
-    {T₁ : (Option ι₁ → ℝ) → ℝ → ℝ → ℂ} {T₂ : (ι₂ → ℝ) → ℝ → ℝ → ℂ} (hT₁ : ClassR θ A N₁ T₁)
-    (hT₂ : ClassJ θ A N₂ T₂) :
-    ClassJ θ A (CJR θ * N₁ * N₂) fun α : Option ι₁ ⊕ ι₂ → ℝ =>
-      kcomp (T₁ fun o => α (Sum.inl o)) (T₂ fun j => α (Sum.inr j)) := by
-  have h := (ClassR.comp_J' h0 h1 hA hT₁ hT₂).reindex (eRJvars (ι₁ := ι₁) (ι₂ := ι₂))
-  have e : ∀ α : Option ι₁ ⊕ ι₂ → ℝ,
-      optA (fun i => α (eRJvars i)) = fun o => α (Sum.inl o) := fun α => by
-    funext o; cases o <;> rfl
-  simp only [e] at h
-  exact h
 
 end Assembly
 

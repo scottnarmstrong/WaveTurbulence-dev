@@ -186,10 +186,6 @@ theorem formsV_RR_two {Q : Type*} (α : (ι₁ ⊕ ι₂) ⊕ Fin 2 → ℝ)
   push_cast
   ring
 
-omit [Fintype ι₁] [Fintype ι₂] in
-theorem vS_elim2 (a : ι₁ ⊕ ι₂ → ℝ) (s : Fin 2 → ℝ) (r : Fin 2) :
-    (Sum.elim a s : (ι₁ ⊕ ι₂) ⊕ Fin 2 → ℝ) (Sum.inr r) = s r := rfl
-
 end Data
 
 section Couplings

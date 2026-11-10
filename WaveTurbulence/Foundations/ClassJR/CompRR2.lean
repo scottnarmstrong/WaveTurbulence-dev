@@ -339,57 +339,6 @@ theorem symReg_piece_RR_P2 (h₁ : R₁.Bound θ A N₁) (h₂ : R₂.Bound θ A
 /-- The bundle `ℓ₄ + ε₂α₂` of the first `χ_∞` piece of `R R`. -/
 @[expose] def yRRR (R₂ : RSym ι₂) : (ι₁ ⊕ ι₂) ⊕ Fin 2 → ℤ := y4 0 R₂.y₂ 0 R₂.ε
 
-theorem exists_piece_RR_M (h0 : 0 ≤ θ) (h1 : θ < 1) (hA : A0 ≤ A) (h₁ : R₁.Bound θ A N₁)
-    (h₂ : R₂.Bound θ A N₂) :
-    ∃ S : JSym ((ι₁ ⊕ ι₂) ⊕ Fin 2),
-      S.Bound θ A (3 * (16 * (3 * N₁) * (3 * N₂) * NMRR θ)) ∧ ∀ α t s,
-      S.kernel α t s = ∫ z, tripleS R₁.m R₂.m KMRR (LsRR R₁ R₂) (csRR (ℝ × ℝ)) α z *
-        jker (bundle (yRRL (ι₂ := ι₂) R₁) α)
-          ((eRR (ℝ × ℝ) z).1.1 + (bMRR (eRR (ℝ × ℝ) z).2).1)
-          ((eRR (ℝ × ℝ) z).1.2 + (bMRR (eRR (ℝ × ℝ) z).2).2) t s := by
-  have hN₁ := h₁.nonneg
-  have hN₂ := h₂.nonneg
-  have hC := NMRR_nonneg θ
-  obtain ⟨S, -, hS, hk⟩ := JSym.ofGenE
-    (isBundle_y4 h₁.bundle₂ isBundle_zero (abs_sign_le h₁.sign) (show |(0 : ℤ)| ≤ 1 by simp))
-    (symReg_piece_RR_M h₁ h₂) (eRR (ℝ × ℝ)) (measurePreserving_eRR _) measurable_bMRR
-    (by positivity) (norm_piece_RR_M h0 h1 hA h₁ h₂)
-  exact ⟨S, hS, hk⟩
-
-theorem exists_piece_RR_P1 (h0 : 0 ≤ θ) (h1 : θ < 1) (hA : A0 ≤ A) (h₁ : R₁.Bound θ A N₁)
-    (h₂ : R₂.Bound θ A N₂) :
-    ∃ S : JSym ((ι₁ ⊕ ι₂) ⊕ Fin 2),
-      S.Bound θ A (3 * (16 * (6 * N₁) * (6 * N₂) * NPRR θ)) ∧ ∀ α t s,
-      S.kernel α t s = ∫ z, tripleS R₁.m R₂.m KPRR (LsRR R₁ R₂) (csRR Unit) α z *
-        jker (bundle (yRRR (ι₁ := ι₁) R₂) α)
-          ((eRR Unit z).1.1 + (bP1RR (eRR Unit z).2).1)
-          ((eRR Unit z).1.2 + (bP1RR (eRR Unit z).2).2) t s := by
-  have hN₁ := h₁.nonneg
-  have hN₂ := h₂.nonneg
-  have hC := NPRR_nonneg θ
-  obtain ⟨S, -, hS, hk⟩ := JSym.ofGenE
-    (isBundle_y4 isBundle_zero h₂.bundle₂ (show |(0 : ℤ)| ≤ 1 by simp) (abs_sign_le h₂.sign))
-    (symReg_piece_RR_P1 h₁ h₂) (eRR Unit) (measurePreserving_eRR _) measurable_bP1RR
-    (by positivity) (norm_piece_RR_P1 h0 h1 hA h₁ h₂)
-  exact ⟨S, hS, hk⟩
-
-theorem exists_piece_RR_P2 (h0 : 0 ≤ θ) (h1 : θ < 1) (hA : A0 ≤ A) (h₁ : R₁.Bound θ A N₁)
-    (h₂ : R₂.Bound θ A N₂) :
-    ∃ S : JSym ((ι₁ ⊕ ι₂) ⊕ Fin 2),
-      S.Bound θ A (3 * (16 * (3 * N₁) * (3 * N₂) * NPRR θ)) ∧ ∀ α t s,
-      S.kernel α t s = ∫ z, tripleS R₁.m R₂.m KPRRn (LsRR R₁ R₂) (csRR Unit) α z *
-        jker (bundle (yRRL (ι₂ := ι₂) R₁) α)
-          ((eRR Unit z).1.1 + (bP2RR (eRR Unit z).2).1)
-          ((eRR Unit z).1.2 + (bP2RR (eRR Unit z).2).2) t s := by
-  have hN₁ := h₁.nonneg
-  have hN₂ := h₂.nonneg
-  have hC := NPRR_nonneg θ
-  obtain ⟨S, -, hS, hk⟩ := JSym.ofGenE
-    (isBundle_y4 h₁.bundle₂ isBundle_zero (abs_sign_le h₁.sign) (show |(0 : ℤ)| ≤ 1 by simp))
-    (symReg_piece_RR_P2 h₁ h₂) (eRR Unit) (measurePreserving_eRR _) measurable_bP2RR
-    (by positivity) (norm_piece_RR_P2 h0 h1 hA h₁ h₂)
-  exact ⟨S, hS, hk⟩
-
 end Regular
 
 end WaveTurbulence.ClassJR

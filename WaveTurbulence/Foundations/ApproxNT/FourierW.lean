@@ -34,8 +34,6 @@ variable {d n : ℕ}
   (MeasurableEquiv.piCongrRight fun _ => (MeasurableEquiv.toLp 2 (Fin d → ℝ)).symm).trans
     (MeasurableEquiv.curry (Fin n) (Fin d) ℝ).symm
 
-theorem flatE_apply (x : Fin n → Mom d) (p : Fin n × Fin d) : flatE n d x p = x p.1 p.2 := rfl
-
 theorem measurePreserving_uncurry (n d : ℕ) :
     MeasurePreserving (MeasurableEquiv.curry (Fin n) (Fin d) ℝ).symm := by
   let e := (MeasurableEquiv.curry (Fin n) (Fin d) ℝ).symm

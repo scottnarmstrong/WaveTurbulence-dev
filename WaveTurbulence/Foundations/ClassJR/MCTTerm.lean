@@ -46,9 +46,6 @@ section Shear
     show Measurable fun w : ZT c × (ℝ × ℝ) => (w.1, (w.2.1, w.2.2 + Λsum c w.1))
     fun_prop
 
-theorem shearZ_apply (c : LegalCode) (w : ZT c × (ℝ × ℝ)) :
-    shearZ c w = (w.1, (w.2.1, w.2.2 - Λsum c w.1)) := rfl
-
 theorem shearZ_symm_apply (c : LegalCode) (w : ZT c × (ℝ × ℝ)) :
     (shearZ c).symm w = (w.1, (w.2.1, w.2.2 + Λsum c w.1)) := rfl
 
@@ -85,10 +82,6 @@ variable {c : LegalCode} {ι ιb : Type} [Fintype ι] [Fintype ιb]
 @[expose] noncomputable def shearM (MS : (ι → ℝ) → ZT c → ℂ) (Cb : (ιb → ℝ) → ℝ × ℝ → ℂ) :
     (ι ⊕ ιb → ℝ) → ZT c × (ℝ × ℝ) → ℂ :=
   fun β w => pprod MS Cb β (shearZ c w)
-
-theorem dnorm_shearM (MS : (ι → ℝ) → ZT c → ℂ) (Cb : (ιb → ℝ) → ℝ × ℝ → ℂ) (k : ℕ)
-    (β : ι ⊕ ιb → ℝ) (w : ZT c × (ℝ × ℝ)) :
-    dnorm k (shearM MS Cb) β w = dnorm k (pprod MS Cb) β (shearZ c w) := rfl
 
 /-- Integrals against `M'` are integrals against `M` with the weight of `λ₂` shifted by `Λ(z)`. -/
 theorem lintegral_shearM (MS : (ι → ℝ) → ZT c → ℂ) (Cb : (ιb → ℝ) → ℝ × ℝ → ℂ)

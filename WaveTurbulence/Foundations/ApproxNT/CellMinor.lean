@@ -36,9 +36,6 @@ theorem natCast_le_infty (m : ℕ) : ((m : ℕ) : WithTop ℕ∞) ≤ ((⊤ : �
   (PiLp.continuousLinearEquiv 2 ℝ (fun _ : Fin d => ℝ)).symm.toContinuousLinearMap.comp
     (ContinuousLinearMap.pi fun j => PiLp.proj 2 (fun _ : Fin d × Fin 2 => ℝ) (j, k))
 
-theorem unpackCLM_apply (k : Fin 2) (z : EuclideanSpace ℝ (Fin d × Fin 2)) :
-    unpackCLM d k z = WeylSums.unpackBilinear z k := rfl
-
 /-- The packed cell amplitude centered at the origin. -/
 @[expose] def cellG (d : ℕ) (z : EuclideanSpace ℝ (Fin d × Fin 2)) : ℂ :=
   cellAmp 0 0 (WeylSums.unpackBilinear z 0) (WeylSums.unpackBilinear z 1)

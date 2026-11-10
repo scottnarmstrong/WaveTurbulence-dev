@@ -108,18 +108,4 @@ theorem norm_le_interval_sobolev_L2 {f : ℝ → E} (hf : ContDiff ℝ 1 f)
   exact h.trans (add_le_add (integral_norm_le_sqrt_integral_sq hf.continuous a)
     (integral_norm_le_sqrt_integral_sq hf.continuous_deriv_one a))
 
-/-- The counting-measure version of TARGET (sobolev). The index set can in
-particular be `Fin d → ℤ`, representing the scaled lattice. Both square sums
-are inside the time integral; the constant is independent of the index set. -/
-theorem norm_apply_le_interval_sobolev_L2 {ι : Type*}
-    {f : ℝ → lp (fun _ : ι => E) 2} (hf : ContDiff ℝ 1 f)
-    {a t : ℝ} (ht : t ∈ Icc a (a + 1)) (k : ι) :
-    ‖f t k‖ ≤ Real.sqrt (∫ x in Icc a (a + 1), ∑' j, ‖f x j‖ ^ 2) +
-      Real.sqrt (∫ x in Icc a (a + 1), ∑' j, ‖deriv f x j‖ ^ 2) := by
-  have heq (v : lp (fun _ : ι => E) 2) : ‖v‖ ^ 2 = ∑' j, ‖v j‖ ^ 2 := by
-    simpa only [ENNReal.toReal_ofNat, Real.rpow_two] using
-      lp.norm_rpow_eq_tsum (p := 2) (by norm_num) v
-  simpa only [heq] using (lp.norm_apply_le_norm (by norm_num : (2 : ℝ≥0∞) ≠ 0)
-    (f t) k).trans (norm_le_interval_sobolev_L2 hf ht)
-
 end WaveTurbulence.Analysis

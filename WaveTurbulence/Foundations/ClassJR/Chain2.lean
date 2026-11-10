@@ -225,11 +225,6 @@ theorem kcomp_const_mul_right (c : ℂ) (K L : ℝ → ℝ → ℂ) (t s : ℝ) 
   simp only [kcomp, e]
   exact intervalIntegral.integral_const_mul _ _
 
-theorem continuous_const_mul_kernel (c : ℂ) {K : ℝ → ℝ → ℂ}
-    (hK : Continuous fun x : ℝ × ℝ => K x.1 x.2) :
-    Continuous fun x : ℝ × ℝ => c * K x.1 x.2 :=
-  continuous_const.mul hK
-
 /-- `K (Σ bⱼ Lⱼ) = Σ bⱼ K Lⱼ`. -/
 theorem kcomp_sum_smul_right {ι : Type*} (S : Finset ι) (b : ι → ℂ) (K : ℝ → ℝ → ℂ)
     (L : ι → ℝ → ℝ → ℂ) (hK : Continuous fun x : ℝ × ℝ => K x.1 x.2)
@@ -438,28 +433,6 @@ section Link
 
 variable {P : Type*} {V : Type} (σ : ℕ → V) (ε : ℕ → ℤ) (μf : ℕ → P → ℝ)
 
-theorem chainX_node (X : ℕ → Option (P → (V → ℝ) → ℝ → ℝ → ℂ)) (i r : LegalCode) (o q : ℕ) :
-    chainX X σ ε μf (.node i r) o q = ocomp (X o) (ocomp (some (swO (ε q) (σ q) (μf q)
-      (chainX X σ ε μf i (o + 1) (q + 1)))) (chainX X σ ε μf r (o + 2 * i.size + 2) (q + i.size + 1))) :=
-  rfl
-
-/-- `pchain` is the regular chain operator of Lemma 5.9 with every `X_a` the identity. -/
-theorem chainX_none : ∀ (c : LegalCode) (o q : ℕ), c ≠ .nil →
-    chainX (fun _ => none) σ ε μf c o q = some (pchain σ ε μf c q)
-  | .nil, _, _, h => absurd rfl h
-  | .node .nil .nil, o, q, _ => rfl
-  | .node .nil (.node a b), o, q, _ => by
-    rw [chainX_node, chainX_none (.node a b) _ _ (by simp)]
-    simp only [LegalCode.size, add_zero]
-    rfl
-  | .node (.node a b) .nil, o, q, _ => by
-    rw [chainX_node, chainX_none (.node a b) (o + 1) (q + 1) (by simp)]
-    rfl
-  | .node (.node a b) (.node c d), o, q, _ => by
-    rw [chainX_node, chainX_none (.node a b) (o + 1) (q + 1) (by simp),
-      chainX_none (.node c d) _ _ (by simp)]
-    rfl
-
 end Link
 
 /-! ### The class bounds -/
@@ -524,9 +497,6 @@ theorem le_C510 : max 1 (N58 θ) ≤ C510 θ := by
   unfold C510
   exact le_mul_of_one_le_left (zero_le_one.trans (le_max_left _ _))
     (one_le_mul_of_one_le_of_one_le (le_max_left _ _) (le_max_left _ _))
-
-theorem Ccp_nonneg' (h0 : 0 ≤ θ) (h1 : θ < 1) : 0 ≤ Ccp θ := by
-  have := CJJ_nonneg; have := CJR_nonneg h0 h1; have := CRR_nonneg θ; unfold Ccp; positivity
 
 theorem C510_bound_comp {N₁ N₂ : ℝ} (hN₁ : 0 ≤ N₁) (hN₂ : 0 ≤ N₂)
     (h₁ : N₁ ≤ max 1 (N58 θ)) : Ccp θ * N₁ * N₂ ≤ C510 θ * N₂ := by
