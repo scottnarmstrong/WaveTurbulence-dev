@@ -9,6 +9,8 @@ together with the results it relies on from the authors' earlier papers and from
 [Papers](#papers) below). The main result, Theorem 1.1, is formalized for the full range of its scaling exponent,
 0 < γ < 1. Every step is checked by Lean; nothing is assumed beyond Lean's standard axioms.
 
+**Authors:** Scott Armstrong and Ahmed Bou-Rabee.
+
 <!-- AUTO:updated -->
 > **Last changed: 2026-11-10 07:20 UTC** (checked every 10 minutes) · frozen theorems sealed: 26 / 28, the other 2 being superseded drafts (+ 300 frozen definitions) · **1,994,316 lines of Lean on main** (14409 files) · overall completion of the whole project (full range 0 < γ < 1): 98.8 %
 <!-- /AUTO:updated -->
