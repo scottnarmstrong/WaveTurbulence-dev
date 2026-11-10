@@ -36,44 +36,6 @@ theorem capExtendFix_eq (G : Garden w) (fix : GBranch G.tree → Option ℝ)
   unfold Garden.extendFix extendFixI
   rfl
 
-/-- Pins with a free parent: every pinned value is in its layer window, positive, and its branch has a free parent
-whose upper time is at most its own; no parent–child pair is pinned; no lone leaves. -/
-structure CapPins (LG : LayeredGarden w) (up : GBranch LG.garden.tree → ℝ) (fix : GBranch LG.garden.tree → Option ℝ) :
-    Prop where
-  val : ∀ b v, fix b = some v → (LG.layer b.toNode : ℝ) < v ∧ v < LG.layer b.toNode + 1 ∧ 0 < v
-  par : ∀ b v, fix b = some v → ∃ b' : GBranch LG.garden.tree, b.IsChildOf b' ∧ fix b' = none ∧ up b' ≤ up b
-  adj : ∀ b b' : GBranch LG.garden.tree, b'.IsChildOf b → fix b = none ∨ fix b' = none
-  nolone : ∀ b, ¬ LG.garden.IsLoneParent b
-
-theorem mem_kDomain_iff_protDom {LG : LayeredGarden w} {up : GBranch LG.garden.tree → ℝ}
-    {fix : GBranch LG.garden.tree → Option ℝ} (hP : CapPins LG up fix) (τ : {b : GBranch LG.garden.tree // fix b = none} → ℝ) :
-    LG.garden.extendFix fix τ ∈ kDomain LG up 0 ↔ LG.garden.extendFix fix τ ∈ protDom LG up 0 fix := by
-  set T := LG.garden.extendFix fix τ with hT
-  have hTv : ∀ b v, fix b = some v → T b = v := fun b v hb => by
-    rw [hT, capExtendFix_eq]; exact extendFixI_some fix τ hb
-  constructor
-  · intro h
-    refine ⟨fun b => ⟨fun _ => ?_, fun b' hb' _ => (h b).2.2.2.2.1 b' hb'⟩, fun b hb => absurd hb (hP.nolone b)⟩
-    obtain ⟨h1, h2, h3, h4, -, -⟩ := h b
-    exact ⟨h1, h2, h3, h4⟩
-  · rintro ⟨h, -⟩ b
-    have hord : ∀ b', b'.IsChildOf b → T b' < T b := fun b' hb' => by
-      refine (h b).2 b' hb' ?_
-      rcases hP.adj b b' hb' with h0 | h0
-      · exact Or.inr h0
-      · exact Or.inl h0
-    have hown : (LG.layer b.toNode : ℝ) < T b ∧ T b < LG.layer b.toNode + 1 ∧ 0 < T b ∧ T b < up b := by
-      cases hfb : fix b with
-      | none => exact (h b).1 hfb
-      | some v =>
-        obtain ⟨v1, v2, v3⟩ := hP.val b v hfb
-        obtain ⟨b', hbb', hfb', hup⟩ := hP.par b v hfb
-        have hlt : T b < T b' := (h b').2 b hbb' (Or.inr hfb')
-        have hup' : T b' < up b' := ((h b').1 hfb').2.2.2
-        rw [hTv b v hfb] at hlt ⊢
-        exact ⟨v1, v2, v3, by linarith⟩
-    exact ⟨hown.1, hown.2.1, hown.2.2.1, hown.2.2.2, hord, fun hb => absurd hb (hP.nolone b)⟩
-
 /-- The leaf profiles of a node function (`0` off the nodes). -/
 def capProfiles (LG : LayeredGarden w) (A : GNode LG.garden.tree → Mom d → ℝ) : LeafProfiles w d :=
   fun z => if h : z.2 ∈ (LG.garden.tree z.1).nodes then A ⟨z, h⟩ else 0
@@ -83,30 +45,6 @@ theorem capProfiles_leaf (LG : LayeredGarden w) (A : GNode LG.garden.tree → Mo
   unfold capProfiles
   rw [dif_pos (show ℓ.1.2 ∈ (LG.garden.tree ℓ.1.1).nodes from ℓ.toNode.2)]
   rfl
-
-/-- **The pinned native kernel is the protected kernel** (pins with a free parent, lower time `0`). -/
-theorem kernelNodeWF_eq_kernelProt (L γ δ : ℝ) (LG : LayeredGarden w) (A : GNode LG.garden.tree → Mom d → ℝ)
-    (m : (GNode LG.garden.tree → Mom d) → ℂ) (up : GBranch LG.garden.tree → ℝ) (k₀ : Mom d)
-    (nroot : Fin w → (Fin d → ℤ)) (nfl : Fin d → ℤ) (fix : GBranch LG.garden.tree → Option ℝ)
-    (hP : CapPins LG up fix) :
-    kernelNodeWF L γ δ LG A m up 0 k₀ nroot nfl fix =
-      kernelProt L γ δ LG (capProfiles LG A) m up 0 fix k₀ nroot nfl := by
-  rw [kernelProt_eq_tsum]
-  unfold kernelNodeWF
-  congr 1
-  refine tsum_congr fun κ => ?_
-  unfold protSummand protTime
-  congr 2
-  · congr 1
-    rw [integral_fixMeasure]
-    refine integral_congr_ae (ae_of_all _ fun τ => ?_)
-    simp only [Set.indicator]
-    rw [← capExtendFix_eq]
-    by_cases h : LG.garden.extendFix fix τ ∈ kDomain LG up 0
-    · rw [if_pos h, if_pos ((mem_kDomain_iff_protDom hP τ).1 h)]
-    · rw [if_neg h, if_neg (fun h' => h ((mem_kDomain_iff_protDom hP τ).2 h'))]
-  · refine Finset.prod_congr rfl fun ℓ _ => ?_
-    rw [capProfiles_leaf]
 
 /-! ### The cap couple and its paired tree -/
 

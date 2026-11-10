@@ -142,42 +142,4 @@ theorem superposition_any {r d : ℕ} {θ : ℝ} (hθ : 0 ≤ θ) (Λ : ℕ) :
     exact ⟨w, a, h1, fun m => snorm_zero_zero_le_one (a m) (h2 m), h3, h4, h5⟩
   · exact RepAnalytic.fourier_superposition (r := r) (d := d) hθ (Λ₂ := 0) hΛ.ne'
 
-/-- **`ProtSlotSupM`** (D0 §5, repaired by ruling R179): an OK protected slot whose function is continuous in its
-clocks on the box is, on `box × out`, a `SupM` superposition with normalized amplitudes and moment mass
-`C · mass`. -/
-theorem protSlotSupM : ProtDefs.ProtSlotSupM := by
-  intro d θ hθ
-  obtain ⟨C, hC, hfs⟩ := superposition_any (r := 2) (d := d) hθ (30 * d)
-  refine ⟨2 * C, ENNReal.mul_ne_top (by simp) hC, fun σ hσθ hBc hBi hFc hn => ?_⟩
-  rw [hσθ] at hn
-  set X := ENNReal.ofReal σ.mass with hX
-  by_cases hX0 : X = 0
-  · refine ⟨fun _ _ => 0, fun t ht k hk => ?_, Represents.SupM.zero θ _ _ _ (fun _ _ _ => rfl) _⟩
-    show (0 : ℂ) = σ.F t k
-    by_contra hne
-    have hpos : 0 < ‖σ.F t k‖ₑ := enorm_pos.2 fun h0 => hne h0.symm
-    rw [hX0] at hn
-    obtain ⟨-, -, -, -, hlt⟩ := exists_continuous_version hθ hBi hFc (lt_of_le_of_lt hn hpos)
-    exact lt_irrefl _ (hlt t ht k hk)
-  · have hXt : X ≠ ⊤ := ENNReal.ofReal_ne_top
-    have hlt : XNormRestr θ (30 * d) 0 σ.box σ.out σ.F < 2 * X := by
-      calc _ ≤ X := hn
-        _ < X + X := ENNReal.lt_add_right hXt hX0
-        _ = 2 * X := (two_mul X).symm
-    obtain ⟨h, hhc, hhF, hhn, -⟩ := exists_continuous_version hθ hBi hFc hlt
-    obtain ⟨w, a, hw0, ha, hsum, hws, hmass⟩ :=
-      hfs (fun _ => 0) σ.box σ.out h (2 * X) (ENNReal.mul_ne_top (by simp) hXt) hBc hBi (fun k _ => hhc k) hhn
-    have hsm : ∀ t k, Summable fun m => (w m : ℂ) * a m k * fsPhase m t := by
-      intro t k
-      refine Summable.of_norm_bounded hws fun m => ?_
-      rw [norm_mul, norm_mul, Complex.norm_real, Real.norm_eq_abs, abs_of_nonneg (hw0 m)]
-      have hph : ‖fsPhase m t‖ = 1 := by unfold fsPhase; exact Circle.norm_coe _
-      rw [hph, mul_one]
-      exact mul_le_of_le_one_right (hw0 m) (Represents.snorm_le_one_pointwise _ (a m) (ha m) k)
-    refine ⟨fun t k => ∑' m, (w m : ℂ) * a m k * fsPhase m t, fun t ht k hk => ?_, ?_⟩
-    · rw [← hhF t ht k hk]
-      exact (hsum t ht k hk).tsum_eq
-    · exact ⟨Fin 2 → ℤ, inferInstance, w, id, a, hw0, hws, ha, fun t _ k => (hsm t k).hasSum,
-        hmass.trans (le_of_eq (by ring))⟩
-
 end WaveTurbulence.Flower.MkSlots

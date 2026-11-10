@@ -2,7 +2,7 @@
 module
 
 public import WaveTurbulence.Foundations.Flower.MkUnitsL.HingeL
-public import WaveTurbulence.Foundations.Flower.MkUnits.WAssembly
+public import WaveTurbulence.Foundations.Flower.Stage1WVine.WAssembly
 
 /-! # MK-UNITS-L (B3-2): the weighted vine case at a marking with per-unit top filters, at one parameter record
 

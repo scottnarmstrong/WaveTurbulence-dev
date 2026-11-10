@@ -147,22 +147,4 @@ theorem prod_capSlot {M : Type*} [CommMonoid M] (G : Garden w) (hG : G.IsPlain) 
   rw [h2, mul_one, Finset.prod_congr rfl fun q _ => h1 q, Finset.prod_ite, Finset.prod_const_one, mul_one,
     Finset.prod_const, card_capPairs G hG J hcap hcc]
 
-/-- **The roots of the non-cap trees are protected**: `R ≤ |Π|` when `|J| = R`. -/
-theorem card_le_protI {R : ℕ} (LG : LayeredGarden (2 * R)) (J : Finset (Fin (2 * R))) (hJ : J.card = R)
-    (pat : Fin (2 * R) → FixPat) (t s : ℝ) (kSel : Fin (2 * R) → Option ℕ) :
-    R ≤ (protI LG J pat t s kSel).card := by
-  have hc : (univ.filter fun j : Fin (2 * R) => j ∉ J).card = R := by
-    have h := card_filter_add_card_filter_not (s := (univ : Finset (Fin (2 * R)))) (fun j => j ∈ J)
-    rw [Finset.card_univ, Fintype.card_fin] at h
-    have hJ' : (univ.filter fun j : Fin (2 * R) => j ∈ J).card = J.card := by
-      congr 1; ext j; simp
-    omega
-  refine (le_of_eq hc.symm).trans ?_
-  refine Finset.card_le_card_of_injOn (fun j => GNode.root LG.garden.tree j) (fun j hj => ?_)
-    (fun j _ j' _ h => ?_)
-  · unfold protI protectedSet
-    refine mem_filter.mpr ⟨mem_univ _, GNode.root LG.garden.tree j, ⟨rfl, Or.inl rfl⟩, Or.inl ⟨?_, rfl⟩⟩
-    exact (mem_filter.mp hj).2
-  · exact congrArg (fun z : GNode LG.garden.tree => z.1.1) h
-
 end WaveTurbulence.Flower.MkSlots.IntAsm

@@ -1,7 +1,9 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 
-public import WaveTurbulence.Foundations.Flower.Stage1WVine.WSlotData
+public import WaveTurbulence.Foundations.Flower.Stage1WVine.WClass
+public import WaveTurbulence.Foundations.Flower.Stage1WVine.WSlotM1
+public import WaveTurbulence.Foundations.Flower.Stage1WNoVine.Core2
 public import WaveTurbulence.Foundations.Stage1.Represents.RepVB17
 
 /-! # STAGE1W-VINE (T6, part 4): the frontier weight budget of a vine piece

@@ -1,7 +1,7 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 
-public import WaveTurbulence.Foundations.Flower.Stage1WVine.GenModes
+public import WaveTurbulence.Foundations.Flower.Stage1WVine.GenVB2
 public import WaveTurbulence.Foundations.Flower.V5W.RowData
 public import WaveTurbulence.Foundations.Flower.Stage1WNoVine.WLeaves
 public import WaveTurbulence.Foundations.FlowerTop.Port.P7.CapFreeLayer
@@ -37,17 +37,6 @@ open TTree WaveTurbulence WaveTurbulence.RegRed WaveTurbulence.RedSplice Finset 
   WaveTurbulence.VineB WaveTurbulence.Flower.Stage1W WaveTurbulence.Flower.V5W
 
 /-! ## Generic facts on the weighted leaf kernel -/
-
-theorem kernelLeavesW_congr_H {w d : ℕ} (L γ δ : ℝ) (LG : LayeredGarden w) (H H' : LeafProfiles w d)
-    (hH : ∀ ℓ ∈ inputLeaves LG.garden, H ℓ.1 = H' ℓ.1)
-    (up : GBranch LG.garden.tree → ℝ) (s : ℝ) (k₀ : Mom d) (nroot : Fin w → (Fin d → ℤ)) (nfl : Fin d → ℤ)
-    (m : (GNode LG.garden.tree → Mom d) → ℂ) :
-    kernelLeavesW L γ δ LG H up s k₀ nroot nfl m = kernelLeavesW L γ δ LG H' up s k₀ nroot nfl m := by
-  unfold kernelLeavesW
-  congr 1
-  refine tsum_congr fun κ => ?_
-  congr 2
-  exact Finset.prod_congr rfl fun ℓ hℓ => by rw [hH ℓ hℓ]
 
 theorem kernelLeavesW_one {w d : ℕ} (L γ δ : ℝ) (LG : LayeredGarden w) (H : LeafProfiles w d)
     (up : GBranch LG.garden.tree → ℝ) (s : ℝ) (k₀ : Mom d) (nroot : Fin w → (Fin d → ℤ)) (nfl : Fin d → ℤ)
@@ -120,20 +109,6 @@ theorem norm_kernelLeavesW_le {w d : ℕ} (L γ δ : ℝ) (F : ℕ → Mom d →
 def fwNodeV {w d : ℕ} (LG : LayeredGarden w) (p : ℕ) (g : Fin w → Mom d → ℂ) (z : GNode LG.garden.tree)
     (x : Mom d) : ℂ :=
   if z.1.2 ≠ [] then topPsi p (g z.1.1) (LG.layer z) (LG.parentLayer p z) x else 1
-
-theorem fwWeight_eq_prod_fwNodeV {P : WTParams} {R : ℕ} (p : ℕ) (g : Fin (2 * R) → Mom P.d → ℂ) (base : Mom P.d)
-    {roots : Fin (2 * R) → (Fin P.d → ℤ)} (LG : LayeredGarden (2 * R))
-    (κ : GenDecoration LG.garden P.d roots 0) :
-    fwWeight p g base LG κ = ∏ z, fwNodeV LG p g z (cosetDecoration LG.garden P.L base κ.1 z) := rfl
-
-theorem norm_fwNodeV_le {w d : ℕ} (LG : LayeredGarden w) (p : ℕ) (g : Fin w → Mom d → ℂ) (cψ : ℝ)
-    (hc : 1 ≤ cψ) (hg : ∀ j x, ‖g j x‖ ≤ cψ) (z : GNode LG.garden.tree) (x : Mom d) :
-    ‖fwNodeV LG p g z x‖ ≤ cψ := by
-  unfold fwNodeV topPsi
-  split_ifs
-  · exact hg _ _
-  · simpa using hc
-  · simpa using hc
 
 theorem parentLayer_nonroot {w : ℕ} (LG : LayeredGarden w) (top : ℕ) (a : GNode LG.garden.tree)
     (ha : a.1.2 ≠ []) : LG.parentLayer top a = LG.layer (a.parent ha).toNode := by

@@ -5,7 +5,9 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.Flower.MkSlots.EngInt
+public import WaveTurbulence.Foundations.Flower.MkSlots.OuterFix
+public import WaveTurbulence.Foundations.Flower.MkSlots.Slice
+public import WaveTurbulence.Foundations.Flower.SelRes.Triv
 
 /-! # B3s-HELPER3 B3 (1): the assembled expansion on a general time domain
 

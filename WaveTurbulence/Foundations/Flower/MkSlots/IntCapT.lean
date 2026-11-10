@@ -122,24 +122,6 @@ def capT_prof (J : Finset (Fin w)) (N : LayeredGarden 2) (ri : Fin 2 → Fin w) 
   else if (capT_pt N ri a).2 ∈ J then (fun x => if x = latticePoint L (roots (capT_pt N ri a).2) then 1 else 0)
   else h (N.layer a) (capT_pt N ri a).1 (capT_pt N ri a).2
 
-/-- The pinned cap slot kernel of a layered couple `N` with root indices `ri` and last root letters `rl`. -/
-def capT_kernel (L γ δ : ℝ) (p : ℕ) (s : ℝ) (J : Finset (Fin w)) (h : ℕ → Fin w → Fin w → Mom d → ℝ)
-    (roots : Fin w → (Fin d → ℤ)) (Rf : Fin w → Option ℝ) (dag : Option (Fin w → Fin 3 → Mom d))
-    (N : LayeredGarden 2) (ri : Fin 2 → Fin w) (rl : Fin 2 → Option (Fin 3)) (ts : Fin 2 → ℝ) (k : Mom d) : ℂ :=
-  kernelNodeWF L γ δ N (fun a => capT_prof J N ri h L roots a)
-    (fun k' => ∏ a, capT_nodeW L γ δ p s J Rf dag N ri rl a (k' a))
-    (fun b => if b.1.1 = 0 then ts 0 else ts 1) 0 k (fun _ => 0) 0
-    (fun b => if capT_IsFP N ri J b then some s else none)
-
-/-- Congruence of the pinned weighted kernel in the profiles, the multiplier and the pins. -/
-theorem capT_kernelNodeWF_congr (L γ δ : ℝ) (N : LayeredGarden 2) {A A' : GNode N.garden.tree → Mom d → ℝ}
-    {m m' : (GNode N.garden.tree → Mom d) → ℂ} (up : GBranch N.garden.tree → ℝ) (s : ℝ) (k₀ : Mom d)
-    (nroot : Fin 2 → (Fin d → ℤ)) (nfl : Fin d → ℤ) {fix fix' : GBranch N.garden.tree → Option ℝ}
-    (hA : A = A') (hm : m = m') (hf : fix = fix') :
-    kernelNodeWF L γ δ N A m up s k₀ nroot nfl fix = kernelNodeWF L γ δ N A' m' up s k₀ nroot nfl fix' := by
-  subst hA hm hf
-  rfl
-
 section Generic
 
 variable (LG : LayeredGarden w) (E : Comb.RootedSubforest LG.garden.tree 2)
@@ -568,16 +550,6 @@ theorem capT_prof_eq (h : ℕ → Fin w → Fin w → Mom d → ℝ) (L : ℝ) (
   rfl
 
 include hri in
-/-- **The plain intrinsic pin at a couple branch.** -/
-theorem capT_fix_eq (t s : ℝ) (b : GBranch (rootedLayeredGarden LG E hc).garden.tree) :
-    fixCap LG J (fun _ => FixPat.plain) t s (capT_bemb LG E hc b) =
-      if capT_IsFP (rootedLayeredGarden LG E hc) ri J b then some s else none := by
-  unfold fixCap
-  by_cases hb : capT_IsFP (rootedLayeredGarden LG E hc) ri J b
-  · rw [ite_eq_left ((capT_cfp_iff LG E hc J ri hri b).mpr hb), ite_eq_left hb]
-  · rw [ite_eq_right (mt (capT_cfp_iff LG E hc J ri hri b).mp hb), ite_eq_right hb]
-
-include hri in
 /-- **The cap node weight at a couple node.** -/
 theorem capT_nodeW_eq {p : ℕ} (hG : CapGeo LG J p) (hcp : ∃ c₀, ri c₀ ∈ J) (L γ δ s : ℝ)
     (Rf : Fin w → Option ℝ) (dag : Option (Fin w → Fin 3 → Mom d)) (rl : Fin 2 → Option (Fin 3))
@@ -617,77 +589,9 @@ theorem capT_exists_cap {S : Garden w} (D : ReconstructionData S) (hS : S.IsPlai
     rw [inflatedPosition_index]
     exact h1
 
-/-- **The pinned cap slot kernel of a cap pair is the couple kernel `capT_kernel`** of its native couple, its root
-indices and the last letters of its root addresses. -/
-theorem capT_slot_eq {S : Garden w} (D : ReconstructionData S) (hS : S.IsPlain)
-    (layer : GNode (D.forest hS) → ℕ) (hLayer : IsLayering (D.garden hS) layer)
-    (J : Finset (Fin w)) (p : ℕ) (q : SourcePair S) (hq : IsCapPair S hS J q)
-    (hG : CapGeo (layeredReconstruction D hS layer hLayer) J p)
-    (L γ δ t s : ℝ) (h : ℕ → Fin w → Fin w → Mom d → ℝ) (roots : Fin w → (Fin d → ℤ))
-    (Rf : Fin w → Option ℝ) (dag : Option (Fin w → Fin 3 → Mom d)) (ts : Fin 2 → ℝ) (k : Mom d) :
-    slotFnNWF D hS L γ δ (anchProfiles J (layeredReconstruction D hS layer hLayer) h L roots)
-        (capNodeW L γ δ p s (layeredReconstruction D hS layer hLayer) J Rf dag) layer hLayer
-        (fixCap (layeredReconstruction D hS layer hLayer) J (fun _ => FixPat.plain) t s) (.inl q) ts k =
-      capT_kernel L γ δ p s J h roots Rf dag (nativeCoupleLayered D hS layer hLayer q)
-        (fun c => (coupleRoot D hS q c).1) (fun c => (coupleRoot D hS q c).2.getLast?) ts k := by
-  have hri : ∀ c, ((nativeCoupleForest D hS q).root c).1.1 = (coupleRoot D hS q c).1 := fun c => by
-    rw [capT_root_val]
-  have hrl : ∀ c, ((nativeCoupleForest D hS q).root c).1.2.getLast? = (coupleRoot D hS q c).2.getLast? :=
-    fun c => by rw [capT_root_val]
-  have hcp := capT_exists_cap D hS J q hq
-  have hc := nativeCoupleForest_closed D hS q
-  have e1 : (fun a : GNode (nativeCoupleLayered D hS layer hLayer q).garden.tree =>
-      anchProfiles J (layeredReconstruction D hS layer hLayer) h L roots
-        ((nativeCoupleForest D hS q).nodeEmbedding a).1) =
-      fun a => capT_prof J (nativeCoupleLayered D hS layer hLayer q) (fun c => (coupleRoot D hS q c).1) h L roots a :=
-    funext fun a => capT_prof_eq (layeredReconstruction D hS layer hLayer) (nativeCoupleForest D hS q) hc J _ hri
-      h L roots a
-  have e2 : (fun k' : GNode (nativeCoupleLayered D hS layer hLayer q).garden.tree → Mom d =>
-      ∏ a, capNodeW L γ δ p s (layeredReconstruction D hS layer hLayer) J Rf dag
-        ((nativeCoupleForest D hS q).nodeEmbedding a) (k' a)) =
-      fun k' => ∏ a, capT_nodeW L γ δ p s J Rf dag (nativeCoupleLayered D hS layer hLayer q)
-        (fun c => (coupleRoot D hS q c).1) (fun c => (coupleRoot D hS q c).2.getLast?) a (k' a) :=
-    funext fun k' => Finset.prod_congr rfl fun a _ =>
-      capT_nodeW_eq (layeredReconstruction D hS layer hLayer) (nativeCoupleForest D hS q) hc J _ hri hG hcp
-        L γ δ s Rf dag _ hrl a (k' a)
-  have e3 : fixNative D hS (fixCap (layeredReconstruction D hS layer hLayer) J (fun _ => FixPat.plain) t s) (.inl q) =
-      fun b => if capT_IsFP (nativeCoupleLayered D hS layer hLayer q) (fun c => (coupleRoot D hS q c).1) J b then
-        some s else none :=
-    funext fun b => capT_fix_eq (layeredReconstruction D hS layer hLayer) (nativeCoupleForest D hS q) hc J _ hri t s b
-  exact capT_kernelNodeWF_congr L γ δ _ _ 0 k _ 0 e1 e2 e3
-
 end WaveTurbulence.Flower.MkSlots.IntCapT
 
 namespace WaveTurbulence.Flower.MkSlots
-
-/-- **The pinned cap-slot kernel depends only on the native couple and the root addresses.** For two cap pairs of
-two reconstructions with the capped geometry, the same layered native couple, the same root tree indices and the same
-last letters of the root addresses, the pinned weighted cap slot kernels (anchored profiles, frontier × dagger node
-weight, plain intrinsic pins) coincide. -/
-theorem capSlot_transfer {w d : ℕ} {S₁ S₂ : Garden w} (D₁ : ReconstructionData S₁) (hS₁ : S₁.IsPlain)
-    (layer₁ : GNode (D₁.forest hS₁) → ℕ) (hLayer₁ : IsLayering (D₁.garden hS₁) layer₁)
-    (D₂ : ReconstructionData S₂) (hS₂ : S₂.IsPlain)
-    (layer₂ : GNode (D₂.forest hS₂) → ℕ) (hLayer₂ : IsLayering (D₂.garden hS₂) layer₂)
-    (J : Finset (Fin w)) (p : ℕ) (q₁ : SourcePair S₁) (q₂ : SourcePair S₂)
-    (hq₁ : IsCapPair S₁ hS₁ J q₁) (hq₂ : IsCapPair S₂ hS₂ J q₂)
-    (hG₁ : CapGeo (layeredReconstruction D₁ hS₁ layer₁ hLayer₁) J p)
-    (hG₂ : CapGeo (layeredReconstruction D₂ hS₂ layer₂ hLayer₂) J p)
-    (hN : nativeCoupleLayered D₁ hS₁ layer₁ hLayer₁ q₁ = nativeCoupleLayered D₂ hS₂ layer₂ hLayer₂ q₂)
-    (hidx : ∀ i, (coupleRoot D₁ hS₁ q₁ i).1 = (coupleRoot D₂ hS₂ q₂ i).1)
-    (hlast : ∀ i, (coupleRoot D₁ hS₁ q₁ i).2.getLast? = (coupleRoot D₂ hS₂ q₂ i).2.getLast?)
-    (L γ δ : ℝ) (t s : ℝ) (h : ℕ → Fin w → Fin w → Mom d → ℝ) (roots : Fin w → (Fin d → ℤ))
-    (Rf : Fin w → Option ℝ) (dag : Option (Fin w → Fin 3 → Mom d)) :
-    slotFnNWF D₁ hS₁ L γ δ (anchProfiles J (layeredReconstruction D₁ hS₁ layer₁ hLayer₁) h L roots)
-        (capNodeW L γ δ p s (layeredReconstruction D₁ hS₁ layer₁ hLayer₁) J Rf dag) layer₁ hLayer₁
-        (fixCap (layeredReconstruction D₁ hS₁ layer₁ hLayer₁) J (fun _ => FixPat.plain) t s) (.inl q₁) =
-      slotFnNWF D₂ hS₂ L γ δ (anchProfiles J (layeredReconstruction D₂ hS₂ layer₂ hLayer₂) h L roots)
-        (capNodeW L γ δ p s (layeredReconstruction D₂ hS₂ layer₂ hLayer₂) J Rf dag) layer₂ hLayer₂
-        (fixCap (layeredReconstruction D₂ hS₂ layer₂ hLayer₂) J (fun _ => FixPat.plain) t s) (.inl q₂) := by
-  funext ts k
-  rw [IntCapT.capT_slot_eq D₁ hS₁ layer₁ hLayer₁ J p q₁ hq₁ hG₁ L γ δ t s h roots Rf dag ts k,
-    IntCapT.capT_slot_eq D₂ hS₂ layer₂ hLayer₂ J p q₂ hq₂ hG₂ L γ δ t s h roots Rf dag ts k, hN]
-  exact congrArg₂ (fun ri rl => IntCapT.capT_kernel L γ δ p s J h roots Rf dag
-    (nativeCoupleLayered D₂ hS₂ layer₂ hLayer₂ q₂) ri rl ts k) (funext hidx) (funext hlast)
 
 end WaveTurbulence.Flower.MkSlots
 

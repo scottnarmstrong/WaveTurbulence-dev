@@ -6,7 +6,8 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.Flower.MkSlots.IntCore3
-public import WaveTurbulence.Foundations.Flower.MkSlots.IntSlotFam
+public import WaveTurbulence.Foundations.Flower.MkSlots.PVB1
+public import WaveTurbulence.Foundations.Flower.MkSlots.OuterFix
 public import WaveTurbulence.Foundations.Flower.MkSlots.IntWeight
 public import WaveTurbulence.Foundations.Flower.MkSlots.CapFin
 public import WaveTurbulence.Foundations.RegularAsymptotics.CosetSummability
@@ -32,41 +33,6 @@ open WaveTurbulence.RedSplice WaveTurbulence.VineB WaveTurbulence.Represents Wav
   WaveTurbulence.Flower.Stage1WNoVine
 
 namespace WaveTurbulence.Flower.MkSlots.IntMember
-
-/-- **A constant times an indicator in the multiplier.** -/
-theorem kernelLeavesSelNWF_mul_ind {w d : ℕ} (L γ δ : ℝ) (LG : LayeredGarden w) (H : LeafProfiles w d)
-    (up : GBranch LG.garden.tree → ℝ) (s : ℝ) (k₀ : Mom d) (nroot : Fin w → (Fin d → ℤ)) (nfl : Fin d → ℤ)
-    (sel Q : GenDecoration LG.garden d nroot nfl → Prop) (m₀ r : (GNode LG.garden.tree → Mom d) → ℂ) (c : ℂ)
-    (hr : ∀ κ : GenDecoration LG.garden d nroot nfl,
-      r (cosetDecoration LG.garden L k₀ κ.1) = if Q κ then c else 0)
-    (fix : GBranch LG.garden.tree → Option ℝ) :
-    kernelLeavesSelNWF L γ δ LG H up s k₀ nroot nfl sel (fun k => m₀ k * r k) fix =
-      c * kernelLeavesSelNWF L γ δ LG H up s k₀ nroot nfl (fun κ => sel κ ∧ Q κ) m₀ fix := by
-  unfold kernelLeavesSelNWF
-  rw [mul_left_comm c]
-  congr 1
-  refine (tsum_congr fun κ => ?_).trans tsum_mul_left
-  simp only [hr κ]
-  by_cases hs : sel κ <;> by_cases hq : Q κ <;> simp [hs, hq] <;> ring
-
-/-- **The capped kernel of a decoded garden is the one of the reconstruction.** -/
-theorem capKernel_reconstruction (P : WTParams) {w : ℕ} {S : Garden w} (D : ReconstructionData S)
-    (hS : S.IsPlain) (hprime : IsPrimeGarden S) (layer : GNode (D.forest hS) → ℕ)
-    (hLayer : IsLayering (D.garden hS) layer) (LG : LayeredGarden w)
-    (hspec : layeredReconstruction D hS layer hLayer = LG) (hd : D.Decodes hS LG.garden)
-    (σ : NormalizedSplice.GroupPrescription S) (J : Finset (Fin w)) (p : ℕ) (t s : ℝ)
-    (h : ℕ → Fin w → Fin w → Mom P.d → ℝ) (roots : Fin w → (Fin P.d → ℤ)) (Rf : Fin w → Option ℝ)
-    (dag : Option (Fin w → Fin 3 → Mom P.d)) :
-    kernelLeavesSelNWF P.L P.γ P.δ LG (anchProfiles J LG h P.L roots) (fun _ => t) 0 0 roots 0
-        (fun κ => selAt P 0 ⟨S, hprime, D, hd⟩ σ κ)
-        (fun k => ∏ z, capNodeW P.L P.γ P.δ p s LG J Rf dag z (k z)) (fixCap LG J (fun _ => FixPat.plain) t s) =
-      kernelLeavesSelNWF P.L P.γ P.δ (layeredReconstruction D hS layer hLayer)
-        (anchProfiles J (layeredReconstruction D hS layer hLayer) h P.L roots) (fun _ => t) 0 0 roots 0
-        (fun κ => NormalizedSplice.selOf σ P.L P.γ P.η 0 (collapseGenDecoration D hS κ).1)
-        (fun k => ∏ z, capNodeW P.L P.γ P.δ p s (layeredReconstruction D hS layer hLayer) J Rf dag z (k z))
-        (fixCap (layeredReconstruction D hS layer hLayer) J (fun _ => FixPat.plain) t s) := by
-  subst hspec
-  rfl
 
 /-- The chain node weight is bounded by `1`. -/
 theorem norm_chainW_le {w d : ℕ} {S : Garden w} (D : ReconstructionData S) (hS : S.IsPlain)
@@ -151,18 +117,5 @@ theorem capTreeOf_iota (q : SourcePair G) :
   rw [Φ.iota_first hS hG q, Φ.iota_second hS hG q, leaf_fst, leaf_fst]
 
 end Shape
-
-/-- The cap swap only reads the non-cap slots of the old family. -/
-theorem capSwap_congr {w d : ℕ} {S : Garden w} (hS : S.IsPlain) (J : Finset (Fin w))
-    (Fs Fs' : ReplacementSlot S → (Fin 2 → ℝ) → Mom d → ℂ) (Fcap : SourcePair S → (Fin 2 → ℝ) → Mom d → ℂ)
-    (h : ∀ sl : ReplacementSlot S, (∀ q, sl = Sum.inl q → ¬ IsCapPair S hS J q) → Fs sl = Fs' sl) :
-    capSwap hS J Fs Fcap = capSwap hS J Fs' Fcap := by
-  funext sl
-  rcases sl with q | b
-  · show (if IsCapPair S hS J q then Fcap q else Fs (.inl q)) = (if IsCapPair S hS J q then Fcap q else Fs' (.inl q))
-    by_cases hq : IsCapPair S hS J q
-    · rw [if_pos hq, if_pos hq]
-    · rw [if_neg hq, if_neg hq, h (.inl q) (fun q' he => by cases he; exact hq)]
-  · exact h (.inr b) (fun q he => by cases he)
 
 end WaveTurbulence.Flower.MkSlots.IntMember

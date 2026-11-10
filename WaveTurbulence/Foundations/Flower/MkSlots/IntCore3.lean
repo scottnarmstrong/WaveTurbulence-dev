@@ -212,12 +212,6 @@ theorem cfp_decoded_iff {w : ℕ} {S : Garden w} (D : ReconstructionData S) (hS 
   subst hspec
   exact Iff.rfl
 
-/-- Plain intrinsic pins: a capped flower parent is pinned at `s`, nothing else. -/
-theorem fixCap_plain {w : ℕ} (LG : LayeredGarden w) (J : Finset (Fin w)) (t s : ℝ) (b : GBranch LG.garden.tree) :
-    fixCap LG J (fun _ => FixPat.plain) t s b = if IsCapFlowerParent LG J b then some s else none := by
-  unfold fixCap
-  split_ifs <;> rfl
-
 /-! ### The run class -/
 
 section Class
@@ -240,31 +234,6 @@ theorem cfp_coreAt_iff (c : GBranch (stSt a.prime.skeleton a.totalSigma (mk a.pr
           ((stShape (Mole.garden_isMolecule a.prime.skeleton) a.totalSigma (mk a.prime)).br c)) :=
   cfp_decoded_iff a.prime.data a.prime.prime.1 (sourceLayer a) (sourceLayer_isLayering a) a.layered
     (sourceLayer_reconstructs a) a.prime.decodes J _
-
-include hG hcapA hcapY hrepU in
-/-- **The pins of a member at the `G_sb` atoms are the pins of the α piece.** -/
-theorem member_fixCap (t s : ℝ) (c : GBranch (stSt a.prime.skeleton a.totalSigma (mk a.prime)).G.tree) :
-    fixCap (layeredReconstruction y.1.data y.1.plain (stateLayer y.1) (stateLayer_isLayering y.1)) J
-        (fun _ => FixPat.plain) t s (y.1.data.coreBranch y.1.plain ((memShape a mk y hy).br c)) =
-      fixAt J (fun _ => FixPat.plain) t s a (mk a.prime) c := by
-  unfold fixAt
-  refine (fixCap_plain _ J t s _).trans (Eq.trans ?_ (fixCap_plain _ J t s _).symm)
-  by_cases h : IsCapFlowerParent (layeredReconstruction a.prime.data a.prime.prime.1 (sourceLayer a)
-      (sourceLayer_isLayering a)) J (a.prime.data.coreBranch a.prime.prime.1
-        ((stShape (Mole.garden_isMolecule a.prime.skeleton) a.totalSigma (mk a.prime)).br c))
-  · rw [if_pos ((member_cfp_iff a mk y hy hG J hcapA hcapY hrepU c).mpr h),
-      if_pos ((cfp_coreAt_iff a mk J c).mpr h)]
-  · rw [if_neg (fun h' => h ((member_cfp_iff a mk y hy hG J hcapA hcapY hrepU c).mp h')),
-      if_neg (fun h' => h ((cfp_coreAt_iff a mk J c).mp h'))]
-
-include hy hG hcapA hcapY hrepU in
-/-- **No core of an atom of a unit of a member is pinned.** -/
-theorem member_fix_unit (t s : ℝ) (j : Fin (unitBlocks a.prime.skeleton a.totalSigma (mk a.prime)).length)
-    (b : GBranch y.1.skeleton.tree) (hb : b ∈ (unitClBlock (y.2 j)).atoms) :
-    fixCap (layeredReconstruction y.1.data y.1.plain (stateLayer y.1) (stateLayer_isLayering y.1)) J
-      (fun _ => FixPat.plain) t s (y.1.data.coreBranch y.1.plain b) = none := by
-  refine (fixCap_plain _ J t s _).trans ?_
-  rw [if_neg (member_unit_not_cfp a mk y hy hG J hcapA hcapY hrepU j b hb)]
 
 include hG hcapA hcapY hrepU in
 theorem member_hrange (b : GBranch y.1.skeleton.tree)

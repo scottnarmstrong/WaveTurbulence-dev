@@ -5,7 +5,8 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.Flower.MkSlots.CapSlotN
+public import WaveTurbulence.Foundations.Flower.MkSlots.CapMass
+public import WaveTurbulence.Foundations.Flower.MkSlots.CapCen
 public import WaveTurbulence.Foundations.Flower.MkSlots.CapTriv
 
 /-! # B3s MK-SLOTS (cap slots): the trivial case and the mass comparison

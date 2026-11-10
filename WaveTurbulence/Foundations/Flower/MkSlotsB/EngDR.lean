@@ -6,7 +6,6 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.Flower.MkSlotsB.EngDRep
-public import WaveTurbulence.Foundations.Flower.MkSlots.EngVN
 public import WaveTurbulence.Foundations.Flower.MkSlotsB.EngDShift
 public import WaveTurbulence.Foundations.Flower.FinalMKFine.LBPin
 

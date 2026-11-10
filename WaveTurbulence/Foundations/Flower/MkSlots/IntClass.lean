@@ -5,10 +5,12 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.Flower.MkSlots.IntT4
+public import WaveTurbulence.Foundations.Flower.MkSlots.OuterFix
+public import WaveTurbulence.Foundations.Flower.MkUnits.WHinge
+public import WaveTurbulence.Foundations.Flower.Stage1WVine.WSlotM1
+public import WaveTurbulence.Foundations.Flower.Stage1WNoVine.Core2
+public import WaveTurbulence.Foundations.Flower.MkSlots.IntPiece
 public import WaveTurbulence.Foundations.Flower.MkSlots.IntAdm
-public import WaveTurbulence.Foundations.Flower.MkUnits.WSlot
-public import WaveTurbulence.Foundations.Flower.MkSlots.IntPlan
 public import WaveTurbulence.Foundations.Flower.Stage1MKGate.Marking
 
 /-! # B3s MK-SLOTS (integration): the class value as a sum over the run class

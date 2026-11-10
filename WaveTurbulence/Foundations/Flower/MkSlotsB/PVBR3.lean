@@ -6,7 +6,7 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.Flower.MkSlotsB.PVBR2
-public import WaveTurbulence.Foundations.Flower.MkSlots.PVBInteg
+public import WaveTurbulence.Foundations.Flower.MkSlots.PVB1
 public import WaveTurbulence.Foundations.Flower.MkUnitsL.WIntegW
 public import WaveTurbulence.Foundations.Flower.MkSlots.OuterFixD
 

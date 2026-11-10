@@ -5,7 +5,6 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.Flower.MkSlots.Rest
 public import WaveTurbulence.Foundations.Flower.MkSlots.IntCount
 
 /-! # B3s-HELPER3 B4 (1/4): the values and layers of the pattern pins

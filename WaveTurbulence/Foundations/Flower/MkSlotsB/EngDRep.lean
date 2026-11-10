@@ -6,7 +6,6 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.Flower.MkSlotsB.EngDInt
-public import WaveTurbulence.Foundations.Flower.MkSlots.EngRep
 public import WaveTurbulence.Foundations.Flower.MkSlots.OuterFixD
 
 /-! # B3s-HELPER3 B3 (2): pinned representations of the per-mode outer forms on a general domain

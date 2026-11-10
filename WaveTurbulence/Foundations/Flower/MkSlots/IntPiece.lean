@@ -62,23 +62,4 @@ def sibIndAt {d : ℕ} (J : Finset (Fin w)) (a : PrescribedPrimeGarden w) (Mk : 
     if IsCapFlowerParent a.layered J (coreAt a Mk c) then
       ∏ i : Fin 3, (if flw c i then 1 else if k (c.child i) = cc c.1.1 i then 1 else 0) else 1
 
-/-- **The α piece at a marked set `Mk`.** -/
-def pieceAt (P : WTParams) {R : ℕ} (J : Finset (Fin (2 * R))) (t s : ℝ) (kSel : Fin (2 * R) → Option ℕ)
-    (a : PrescribedPrimeGarden (2 * R)) (Mk : Set (Stage1.CLVine a.prime.skeleton))
-    (dag : Option (Fin (2 * R) → Fin 3 → Mom P.d)) : Stage1PieceMK P.d R :=
-  MkSubpro.stage1PieceMKOf P a.prime.prime.1 a.layered a.prime.decodes a.totalSigma Mk
-    (protAt J (fun _ => FixPat.plain) t s kSel a Mk) (protI a.layered J (fun _ => FixPat.plain) t s kSel).card
-    (fixAt J (fun _ => FixPat.plain) t s a Mk) (fun _ => none) (sibIndAt J a Mk dag (flwAt J a Mk))
-
-/-- A representation by the α piece at a marked set `Mk` is one at every equal marked set. -/
-theorem representsIntMK_pieceAt_congr (P : WTParams) {R : ℕ} (J : Finset (Fin (2 * R))) (t s : ℝ)
-    (kSel : Fin (2 * R) → Option ℕ) (a : PrescribedPrimeGarden (2 * R))
-    (dag : Option (Fin (2 * R) → Fin 3 → Mom P.d)) {Mk Mk' : Set (Stage1.CLVine a.prime.skeleton)}
-    (hMk : Mk = Mk') {n : ℕ} {cP : ℝ} {tt : Fin (2 * R) → ℝ} {base : Mom P.d}
-    {roots : Fin (2 * R) → (Fin P.d → ℤ)} {m : ℝ} {val : ℂ}
-    (h : (pieceAt P J t s kSel a Mk dag).RepresentsIntMK n cP tt base roots m val) :
-    (pieceAt P J t s kSel a Mk' dag).RepresentsIntMK n cP tt base roots m val := by
-  subst hMk
-  exact h
-
 end WaveTurbulence.Flower.MkSlots

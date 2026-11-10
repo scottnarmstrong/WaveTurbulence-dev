@@ -6,7 +6,6 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.Flower.MkSlotsO.UnGeo
-public import WaveTurbulence.Foundations.Flower.Stage1WVine.WSlotM2
 public import WaveTurbulence.Foundations.Flower.ProtPin.TChildConj
 public import WaveTurbulence.Foundations.Flower.IncTop.TopWeight
 public import WaveTurbulence.Foundations.Flower.MkSlots.CapTriv

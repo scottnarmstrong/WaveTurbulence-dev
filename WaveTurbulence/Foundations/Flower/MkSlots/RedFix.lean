@@ -68,44 +68,4 @@ theorem measurePreserving_sourceNativeTimeSplit_fix (fixG : GBranch (D.forest hS
     rfl
   exact hp.comp hS1
 
-/-- **The pinned time factorization** of a fixed decoration: the `fixMeasure` integral of the full integrand is the
-pinned core integral of the core integrand times the pinned native integrals. -/
-theorem integral_kernelAllIntegrandN_reconstruction_fix {d : ℕ} (L γ δ : ℝ) (A : GNode (D.forest hS) → Mom d → ℝ)
-    (layer : GNode (D.forest hS) → ℕ) (hLayer : IsLayering (D.garden hS) layer)
-    (tt : Fin w → ℝ) (k₀ : Mom d) {n : Fin w → (Fin d → ℤ)} {nfl : Fin d → ℤ}
-    (κ : GenDecoration (D.garden hS) d n nfl) (fixG : GBranch (D.forest hS) → Option ℝ)
-    (hf : Integrable (kernelAllIntegrandN L γ δ (layeredReconstruction D hS layer hLayer) A (fun b => tt b.1.1) 0
-      k₀ κ) (fixMeasure fixG)) :
-    (∫ τ, kernelAllIntegrandN L γ δ (layeredReconstruction D hS layer hLayer) A (fun b => tt b.1.1) 0 k₀ κ τ
-        ∂(fixMeasure fixG)) =
-      ∫ τ, coreKernelIntegrandW D hS L γ δ layer tt k₀ (collapseGenDecoration D hS κ).1 τ *
-        ∏ s : ReplacementSlot S, ∫ t, nativeKernelIntegrandN D hS L γ δ A layer hLayer tt k₀
-          (collapseGenDecoration D hS κ).1 τ s (restrictRelativeDecorations D hS κ s) t
-            ∂(fixMeasure (fixNative D hS fixG s))
-        ∂(fixMeasure (fixCore D hS fixG)) := by
-  let f : (GBranch (D.forest hS) → ℝ) → ℂ :=
-    kernelAllIntegrandN L γ δ (layeredReconstruction D hS layer hLayer) A (fun b => tt b.1.1) 0 k₀ κ
-  have hmp := measurePreserving_sourceNativeTimeSplit_fix D hS fixG
-  have hi := hmp.symm.integrable_comp_of_integrable hf
-  change ∫ τ, f τ ∂(fixMeasure fixG) = _
-  apply ((hmp.symm.integral_comp' f).symm.trans (integral_prod _ hi)).trans
-  refine integral_congr_ae (ae_of_all _ fun τ => ?_)
-  have he : (fun t => f ((sourceNativeTimeSplit D hS).symm (τ, t))) =
-      (fun t : (s : ReplacementSlot S) → NativeTimeBlock D s =>
-        coreKernelIntegrandW D hS L γ δ layer tt k₀ (collapseGenDecoration D hS κ).1 τ *
-          ∏ s, nativeKernelIntegrandN D hS L γ δ A layer hLayer tt k₀
-            (collapseGenDecoration D hS κ).1 τ s (restrictRelativeDecorations D hS κ s) (t s)) := by
-    funext t
-    have h := kernelAllIntegrandN_reconstruction D hS L γ δ A layer hLayer tt k₀ κ
-      ((sourceNativeTimeSplit D hS).symm (τ, t))
-    have hc := congrArg Prod.fst (sourceNativeTimeSplit_symm_clocks D hS τ t)
-    have hn := congrArg Prod.snd (sourceNativeTimeSplit_symm_clocks D hS τ t)
-    change nativeCoreClock D hS ((sourceNativeTimeSplit D hS).symm (τ, t)) = τ at hc
-    change nativeTimeRestriction D hS ((sourceNativeTimeSplit D hS).symm (τ, t)) = t at hn
-    rw [hc, hn] at h
-    exact h
-  change (∫ t, f ((sourceNativeTimeSplit D hS).symm (τ, t)) ∂(Measure.pi fun s => fixMeasure (fixNative D hS fixG s)))
-    = _
-  rw [he, integral_const_mul, integral_fintype_prod_eq_prod]
-
 end WaveTurbulence.Flower.MkSlots

@@ -50,48 +50,6 @@ variable {w d : ℕ} {S : Garden w} {J : Type} [Fintype J] [DecidableEq J] {blk 
 
 /-! ## The pinned skeleton expression -/
 
-open scoped Classical in
-/-- **The pinned skeleton expression**: main's `VineB.skelVal` with the core time integral against the pinned product
-measure `fixMeasure fixS` (Lebesgue at free branches, Dirac at pinned values). -/
-def skelValF (D : ReconstructionData S) (hS : S.IsPlain) (L γ δ : ℝ) (base : Mom d)
-    (roots : Fin w → (Fin d → ℤ)) (tt : Fin w → ℝ) (layer : GNode (D.forest hS) → ℕ)
-    (selSk : GenDecoration S d roots 0 → Prop)
-    (Fs : ReplacementSlot S → (Fin 2 → ℝ) → Mom d → ℂ) (fixS : GBranch S.tree → Option ℝ) : ℂ :=
-  (coupling d L γ δ : ℂ) ^ S.order * S.zeta *
-    ∑' κ : GenDecoration S d roots 0, if selSk κ then (epsDec S κ.1 : ℂ) * ∫ τ : GBranch S.tree → ℝ,
-      (coreTimeDomainW (fun b => layer (D.coreBranch hS b).toNode) tt).indicator
-        (fun τ => phaseProd L γ δ S (cosetDecoration S L base κ.1) τ *
-          ∏ s, Fs s (slotTs hS tt τ s) (base + latticePoint L (κ.1 (slotNode hS s)))) τ ∂(fixMeasure fixS) else 0
-
-open scoped Classical in
-/-- The summand of `skelValF` at a skeleton decoration. -/
-def skelTermF (D : ReconstructionData S) (hS : S.IsPlain) (L γ δ : ℝ) (base : Mom d)
-    (roots : Fin w → (Fin d → ℤ)) (tt : Fin w → ℝ) (layer : GNode (D.forest hS) → ℕ)
-    (selSk : GenDecoration S d roots 0 → Prop)
-    (Fs : ReplacementSlot S → (Fin 2 → ℝ) → Mom d → ℂ) (fixS : GBranch S.tree → Option ℝ)
-    (κ : GenDecoration S d roots 0) : ℂ :=
-  if selSk κ then (epsDec S κ.1 : ℂ) * ∫ τ : GBranch S.tree → ℝ,
-      (coreTimeDomainW (fun b => layer (D.coreBranch hS b).toNode) tt).indicator
-        (fun τ => phaseProd L γ δ S (cosetDecoration S L base κ.1) τ *
-          ∏ s, Fs s (slotTs hS tt τ s) (base + latticePoint L (κ.1 (slotNode hS s)))) τ ∂(fixMeasure fixS) else 0
-
-theorem skelValF_eq (D : ReconstructionData S) (hS : S.IsPlain) (L γ δ : ℝ) (base : Mom d)
-    (roots : Fin w → (Fin d → ℤ)) (tt : Fin w → ℝ) (layer : GNode (D.forest hS) → ℕ)
-    (selSk : GenDecoration S d roots 0 → Prop) (Fs : ReplacementSlot S → (Fin 2 → ℝ) → Mom d → ℂ)
-    (fixS : GBranch S.tree → Option ℝ) :
-    skelValF D hS L γ δ base roots tt layer selSk Fs fixS =
-      (coupling d L γ δ : ℂ) ^ S.order * S.zeta *
-        ∑' κ : GenDecoration S d roots 0, skelTermF D hS L γ δ base roots tt layer selSk Fs fixS κ := rfl
-
-/-- **No pins**: `skelValF` is main's `skelVal`. -/
-theorem skelValF_none (D : ReconstructionData S) (hS : S.IsPlain) (L γ δ : ℝ) (base : Mom d)
-    (roots : Fin w → (Fin d → ℤ)) (tt : Fin w → ℝ) (layer : GNode (D.forest hS) → ℕ)
-    (selSk : GenDecoration S d roots 0 → Prop) (Fs : ReplacementSlot S → (Fin 2 → ℝ) → Mom d → ℂ) :
-    skelValF D hS L γ δ base roots tt layer selSk Fs (fun _ => none) =
-      skelVal D hS L γ δ base roots tt layer selSk Fs := by
-  unfold skelValF skelVal
-  rw [fixMeasure_none]
-
 /-! ## Measure step 1: the pinned time split -/
 
 /-- Unit interiors are unpinned as soon as every atom of every unit is unpinned. -/
@@ -126,28 +84,6 @@ theorem measurePreserving_timeSplit_fix (Φ : SpliceShape blk Gsb) (hd : Disj bl
 
 /-! ## Measure step 2: the boxes have pinned measure at most one -/
 
-theorem fixFactor_Icc_le_one (o : Option ℝ) (a : ℝ) : fixFactor o (Set.Icc a (a + 1)) ≤ 1 := by
-  cases o with
-  | none => simp [fixFactor]
-  | some v =>
-    show (Measure.dirac v) (Set.Icc a (a + 1)) ≤ 1
-    exact prob_le_one
-
-theorem fixMeasure_boxSb_le (layerSb : GBranch Gsb.tree → ℕ) (fix : GBranch Gsb.tree → Option ℝ) :
-    fixMeasure fix (boxSb layerSb) ≤ 1 := by
-  unfold boxSb fixMeasure
-  rw [Measure.pi_pi]
-  exact Finset.prod_le_one fun c _ => fixFactor_Icc_le_one (fix c) _
-
-theorem fixMeasure_boxQ_le (D : ReconstructionData S) (hS : S.IsPlain) (layer : GNode (D.forest hS) → ℕ)
-    (layerSb : GBranch Gsb.tree → ℕ) (fix : GBranch Gsb.tree → Option ℝ) :
-    ((fixMeasure fix).prod (volume : Measure (∀ j, CLInternalTime (regionOf (blk j)))))
-      (SpliceShape.boxQ (blk := blk) D hS layer layerSb) ≤ 1 := by
-  unfold SpliceShape.boxQ
-  rw [Measure.prod_prod, volume_pi_pi]
-  simp only [volume_boxU, Finset.prod_const_one, mul_one]
-  exact fixMeasure_boxSb_le layerSb fix
-
 /-- A constant on a set of measure `≤ 1` is integrable. -/
 theorem integrable_indicator_const_of_le_one {α : Type*} [MeasurableSpace α] {μ : Measure α} {s : Set α}
     (hs : MeasurableSet s) (h1 : μ s ≤ 1) (c : ℝ) : Integrable (s.indicator fun _ => c) μ :=
@@ -162,47 +98,5 @@ theorem integral_indicator_const_le_of_le_one {α : Type*} [MeasurableSpace α] 
     _ = c := one_mul c
 
 /-! ## Measure step 3: closed and open spliced domains agree a.e. on the pinned slice -/
-
-theorem fixFactor_singleton_null (o : Option ℝ) (x : ℝ) (h : o ≠ some x) : fixFactor o {x} = 0 := by
-  cases o with
-  | none => simp [fixFactor]
-  | some v =>
-    show (Measure.dirac v) {x} = 0
-    rw [Measure.dirac_apply' _ (measurableSet_singleton x)]
-    have hv : v ∉ ({x} : Set ℝ) := fun hv => h (by rw [Set.mem_singleton_iff.mp hv])
-    exact Set.indicator_of_notMem hv _
-
-/-- **The closed and open spliced domains differ by a null set of the pinned measure**, provided no pinned value is an
-endpoint of its layer window. -/
-theorem indicator_openSb_ae_fix (G : Garden w) (layer : GBranch G.tree → ℕ) (tt : Fin w → ℝ)
-    (fix : GBranch G.tree → Option ℝ)
-    (hW : ∀ c v, fix c = some v → v ≠ (layer c : ℝ) ∧ v ≠ (layer c : ℝ) + 1) {E : Type*} [Zero E]
-    (f : (GBranch G.tree → ℝ) → E) :
-    (splicedTimeDomain G layer tt).indicator f =ᵐ[fixMeasure fix] (openSb G layer tt).indicator f := by
-  have hne : ∀ c (x : ℝ), (x = layer c ∨ x = layer c + 1) → fix c ≠ some x := by
-    intro c x hx hc
-    obtain ⟨h1, h2⟩ := hW c x hc
-    rcases hx with hx | hx
-    · exact h1 hx
-    · exact h2 hx
-  have hN : (fixMeasure fix)
-      (⋃ c, (Function.eval c ⁻¹' {(layer c : ℝ)} ∪ Function.eval c ⁻¹' {(layer c : ℝ) + 1})) = 0 := by
-    refine measure_iUnion_null fun c => measure_union_null ?_ ?_
-    · exact Measure.pi_eval_preimage_null _ (fixFactor_singleton_null _ _ (hne c _ (Or.inl rfl)))
-    · exact Measure.pi_eval_preimage_null _ (fixFactor_singleton_null _ _ (hne c _ (Or.inr rfl)))
-  refine (measure_eq_zero_iff_ae_notMem.1 hN).mono fun τ hτ => ?_
-  simp only [Set.mem_iUnion, Set.mem_union, Set.mem_preimage, Function.eval, Set.mem_singleton_iff,
-    not_exists, not_or] at hτ
-  by_cases h : τ ∈ splicedTimeDomain G layer tt
-  · have ho : τ ∈ openSb G layer tt := ⟨fun c => ⟨lt_of_le_of_ne (h.1 c).1 (Ne.symm (hτ c).1),
-      lt_of_le_of_ne (h.1 c).2 (hτ c).2⟩, h.2.1, h.2.2⟩
-    rw [Set.indicator_of_mem h, Set.indicator_of_mem ho]
-  · rw [Set.indicator_of_notMem h, Set.indicator_of_notMem (fun ho => h (openSb_subset G layer tt ho))]
-
-/-- Pinned values strictly inside their layer windows avoid the endpoints. -/
-theorem fixW_of_mem_Ioo {G : Garden w} (layer : GBranch G.tree → ℕ) (fix : GBranch G.tree → Option ℝ)
-    (h : ∀ c v, fix c = some v → (layer c : ℝ) < v ∧ v < layer c + 1) :
-    ∀ c v, fix c = some v → v ≠ (layer c : ℝ) ∧ v ≠ (layer c : ℝ) + 1 :=
-  fun c v hc => ⟨(h c v hc).1.ne', (h c v hc).2.ne⟩
 
 end WaveTurbulence.Flower.MkSlots

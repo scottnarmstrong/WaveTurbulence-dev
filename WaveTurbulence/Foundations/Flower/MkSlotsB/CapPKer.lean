@@ -6,7 +6,8 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.Flower.MkSlotsB.RLeavesL
-public import WaveTurbulence.Foundations.Flower.MkSlots.CapSlotN
+public import WaveTurbulence.Foundations.Flower.MkSlots.CapMass
+public import WaveTurbulence.Foundations.Flower.MkSlots.CapCen
 
 /-! # B3s-HELPER3 (B5): the pattern cap slot kernel is D2a's protected kernel of the paired tree
 

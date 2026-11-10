@@ -159,13 +159,6 @@ theorem dropLast_lonePath_ne {X : RegChain} (hX : X ≠ .nil) : X.lonePath.dropL
   have := two_le_lonePath hX
   omega
 
-theorem dropLast_lonePath_ne_nil {X : RegChain} (hX : X ≠ .nil) : X.lonePath.dropLast ≠ [] := by
-  intro h
-  have h1 := congrArg List.length h
-  rw [List.length_dropLast, List.length_nil] at h1
-  have := two_le_lonePath hX
-  omega
-
 /-! ### The data of a nontrivial cap slot -/
 
 /-- **A nontrivial cap slot**: the chain side `j0` (skeleton leaf `leaf`), the cap side `c` (skeleton leaf

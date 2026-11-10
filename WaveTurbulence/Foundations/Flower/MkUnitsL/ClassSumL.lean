@@ -2,7 +2,6 @@
 module
 
 public import WaveTurbulence.Foundations.Flower.MkUnitsL.ClassL
-public import WaveTurbulence.Foundations.Flower.MkUnits.WClass
 
 /-! # MK-UNITS-L (B3-2): the weighted class sum of a fine′ piece with per-unit top filters
 

@@ -85,18 +85,6 @@ def restConst (L γ δ s : ℝ) (J : Finset (Fin w)) (roots : Fin w → (Fin d �
       Complex.exp (((-(capTheta L γ δ s (layeredReconstruction D hS layer hLayer).garden (D.coreBranch hS b) *
         childSign i * ‖cc b.1.1 i‖ ^ 2) : ℝ) : ℂ) * Complex.I)
 
-/-- The constant is unimodular. -/
-theorem norm_restConst (L γ δ s : ℝ) (J : Finset (Fin w)) (roots : Fin w → (Fin d → ℤ))
-    (cc : Fin w → Fin 3 → Mom d) : ‖restConst D hS layer hLayer L γ δ s J roots cc‖ = 1 := by
-  unfold restConst
-  rw [norm_prod]
-  refine Finset.prod_eq_one fun b _ => ?_
-  rw [norm_mul, Complex.norm_exp_ofReal_mul_I, one_mul, norm_prod]
-  refine Finset.prod_eq_one fun i _ => ?_
-  split_ifs
-  · exact norm_one
-  · exact Complex.norm_exp_ofReal_mul_I _
-
 /-- With no dagger datum the remaining dagger weight is `1`. -/
 theorem restW_none (L γ δ s : ℝ) (J : Finset (Fin w)) (k : GNode (D.forest hS) → Mom d) :
     restW D hS layer hLayer L γ δ s J none k = 1 := by
