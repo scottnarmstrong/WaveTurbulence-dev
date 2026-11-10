@@ -1,5 +1,8 @@
 # Wave turbulence in Lean 4
 
+[![Build and verify](https://github.com/scottnarmstrong/WaveTurbulence-dev/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/scottnarmstrong/WaveTurbulence-dev/actions/workflows/build.yml)
+[![Checks](https://github.com/scottnarmstrong/WaveTurbulence-dev/actions/workflows/checks.yml/badge.svg?branch=main)](https://github.com/scottnarmstrong/WaveTurbulence-dev/actions/workflows/checks.yml)
+
 This repository is a formalization, in the [Lean 4](https://lean-lang.org) proof assistant, of
 
 > Y. Deng and Z. Hani, *Long time justification of wave turbulence theory*,
