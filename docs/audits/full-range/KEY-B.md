@@ -1,6 +1,6 @@
 # KEY-B — seal audit (key B) of the five full-range anchors (0 < γ < 1)
 
-> **Reading note.** This is the key-B record of the two-key seal audit of the five full-range anchors. Paths under `<work>/` are the auditor's local working files (scripts, logs, probe outputs); they are not part of the repository. `<sources>/` is the pinned LaTeX source of the papers. All other paths are relative to the repository root. The audit is of main at `5c19b015`; Lean names refer to the repository at that commit, and a later clean-up removed some unused helpers, which remain in the git history there.
+> **Reading note.** This is the key-B record of the two-key seal audit of the five full-range anchors. Paths under `<work>/` are the auditor's local working files (scripts, logs, probe outputs); they are not part of the repository. `<sources>/` is the pinned LaTeX source of the papers. All other paths are relative to the repository root. The audit is of main at `5c19b015`, and Lean names refer to the repository at that commit; for what has changed in Lean since then (unused code removed, proof-only rewrites of 29 files; no frozen statement changed), see the [README](README.md) of this directory.
 
 
 Auditor: KEY-B (independent; I wrote none of the anchors, providers, glue, proof chain or seal script). Brief:

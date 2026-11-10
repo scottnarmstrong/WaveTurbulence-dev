@@ -10,8 +10,9 @@ Opus 5.5). Each auditor worked separately and did not write the proof. They chec
 - (d) hidden hypotheses and vacuity;
 - (e) the ABI hashes;
 - (f) a replay of the proof in Lean's kernel, in quick mode: 40,618 certificate theorems of `WaveTurbulenceVineParam`
-  were checked by statement only (their proofs are kernel-checked by every build), with Mathlib and Lean's core library
-  as the trusted base; full mode was not run;
+  were checked by statement only (their proofs are kernel-checked by every build), with all library modules outside this
+  project (Lean core, Mathlib and its dependencies such as Batteries and Aesop) as the trusted base; full mode was not
+  run;
 - (g) the status fields;
 - (h) a five-bin binder table built from the paper's TeX source. It classifies every hypothesis, and **zero EXCESS**
   (no hypothesis beyond the source, standing assumptions, typing and approved rulings) is required.

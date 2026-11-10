@@ -31,8 +31,19 @@ lean_lib «WaveTurbulence» where
   globs := #[.one `WaveTurbulence] ++ quarantinedModules.map .one
   leanOptions := projectLeanOptions
 
-/-- VINEPARAM certificate catalogue (D12). Built explicitly until a main-library consumer imports its roots. -/
+/-- VINEPARAM certificate catalogue (D12). Main-library modules import it, and its whole catalogue (both roots
+included) is in the main library's import closure, so `lake build` builds it with the main library. -/
 lean_lib «WaveTurbulenceVineParam» where
   roots := #[`WaveTurbulenceVineParam.VineParamMain, `WaveTurbulenceVineParam.VineParamGrouped]
   globs := #[.submodules `WaveTurbulenceVineParam]
   leanOptions := projectLeanOptions
+
+/-- Mathlib-only statement of Theorem 1.1, with one intentional `sorry` (the comparator challenge). -/
+@[default_target]
+lean_lib «WaveTurbulenceChallenge» where
+  roots := #[`WaveTurbulenceChallenge]
+
+/-- The comparator challenge's statement, proved from the library. -/
+@[default_target]
+lean_lib «WaveTurbulenceSolution» where
+  roots := #[`WaveTurbulenceSolution]
