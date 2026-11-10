@@ -6,7 +6,7 @@ placeholder proof by a one-line reference to its formal proof, and tooling check
 change. A sealed theorem is recorded as **PROVED** only after two independent audits pass. This directory holds those
 two audits.
 
-**Status: both audits passed for all five theorems, which are recorded as PROVED.**
+**Status: both audits passed for all five theorems (completed 2026-11-10 UTC), which are recorded as PROVED.**
 
 ## What was sealed
 
@@ -49,4 +49,4 @@ so that they do not share blind spots. A theorem is recorded as PROVED only if b
 | A | [KEY-A.md](KEY-A.md) | PASS for all five theorems |
 | B | [KEY-B.md](KEY-B.md) | PASS for all five theorems |
 
-The reports are working documents: they mention internal paths and tools of the formalization campaign.
+The reports are the auditors' complete working records, unedited apart from paths: `<work>/` stands for the auditor's local working files (scripts, logs, probe outputs), which are not part of the repository, and `<sources>/` for the pinned LaTeX sources of the papers.
