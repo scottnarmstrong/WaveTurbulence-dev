@@ -9,7 +9,6 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.RemFar3
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.RemFar4
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W13.SFF
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W13.Analysis
-public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P2.Gate1
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.RemFar3
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.RemFar4
 

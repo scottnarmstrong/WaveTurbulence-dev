@@ -38,9 +38,6 @@ variable {D}
 namespace ClockedModes3
 variable {θ : ℝ} (M : ClockedModes3 D θ)
 
-theorem one_le_mbp (hθ : 0 ≤ θ) {r : ℕ} (lam : Fin r → ℝ) : 1 ≤ maxBracketPow θ lam :=
-  WaveTurbulence.VineEstS3.FS.one_le_maxBracketPow hθ lam
-
 /-- The `r`-uniform spatial norm of a mode coefficient. -/
 noncomputable def sn (ρ : Row D) (m : Fin 3 → ℤ) : ℝ≥0∞ := ⨆ r : Mom d, SNorm D.wN (rowOrder D ρ) (M.c ρ m r)
 

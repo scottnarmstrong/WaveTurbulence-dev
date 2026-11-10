@@ -108,54 +108,8 @@ theorem pieceAll_MA2 (G : AmbP A P) :
   refine h0.congr (fun tt htt => Filter.Eventually.of_forall fun τ hd r k hr => ?_)
   rw [map_neg, neg_neg, tA2_swap_conj]
 
-/-- The zero row (all modes `0`). -/
-noncomputable def zeroRow {D : SumintPar.SumintDatum P.d} (ρ : Row D) (slot : Fin 3 → WaveTurbulence.VineEstS3Par.Eng.Slot D) :
-    RowData D (6 * P.η ^ 6) ρ :=
-  RowData.ofModes (θ := 6 * P.η ^ 6) ρ slot (fun _ _ _ => 0) 0 ENNReal.zero_ne_top
-    (by
-      unfold coefBound
-      simp only [SNorm_zero_fun, iSup_const, mul_zero, tsum_zero, le_refl])
-    (fun _ _ _ _ _ _ => rfl)
-
-theorem zeroRow_W {D : SumintPar.SumintDatum P.d} (ρ : Row D) (slot : Fin 3 → WaveTurbulence.VineEstS3Par.Eng.Slot D)
-    (cl : Fin 3 → ℝ) (r k : Mom P.d) : (zeroRow (P := P) ρ slot).W cl r k = 0 := by
-  simp [zeroRow, RowData.ofModes]
-
-/-- A vanishing exceptional factor (for instance A1, A2, TQ, TT of a type-I record, where `s₁ = t₁`) has the trivial representation. -/
-theorem pieceRep_zero (hη0 : 0 < P.η) {D : SumintPar.SumintDatum P.d} (hI : 0 < D.S.I) (vp vb : D.S.VIdx) (ε : ℝ)
-    (fac : (D.S.TVar → ℝ) → Mom P.d → ℂ) (X : (D.S.TVar → ℝ) → (Fin 3 → ℝ) → Mom P.d → Mom P.d → ℂ) (Bx : Set (Fin 3 → ℝ))
-    (sK sL : Fin 3 → WaveTurbulence.VineEstS3Par.Eng.Slot D)
-    (hX : ∀ tt ∈ Bx, ∀ᵐ τ : D.S.TVar → ℝ, τ ∈ D.timeDom hI (tt 0) (tt 1) (tt 2) → ∀ r k : Mom P.d, ‖r‖ ≤ 1 → X τ tt r k = 0) :
-    PieceRep (P := P) hI vp vb ε fac X 0 0 Bx := by
-  have hθ : 0 ≤ 6 * P.η ^ 6 := by positivity
-  refine ⟨zeroRow (Sum.inl vp) sK, zeroRow (Sum.inr vb) sL, RowData.ofModes_ae hθ hI _ _ _ _ _ _ _,
-    RowData.ofModes_ae hθ hI _ _ _ _ _ _ _, le_rfl, le_rfl, fun tt htt => ?_⟩
-  filter_upwards [hX tt htt] with τ hτ hd r k hr
-  rw [hτ hd r k hr, zeroRow_W, zeroRow_W]; ring
-
 section TypeI
 variable {β : Type*} {d : ℕ} (S : SepTerms β d) (t0 t : ℝ) (x y : Mom d) (b : β) (i : Fin (S.mQ b)) (j : Fin (S.mT b))
-
-/-- Type I (`s₁ = t₁`): the pieces A1, A2, TQ, TT vanish. -/
-theorem tA1_self : tA1 S t0 t t x y b i j = 0 := by
-  unfold tA1
-  rw [if_neg]
-  rintro ⟨h1, h2⟩
-  exact absurd (h1.trans_lt h2) (lt_irrefl _)
-
-theorem tA2_self : tA2 S t0 t t x y b i j = 0 := by
-  unfold tA2
-  rw [if_neg]
-  rintro ⟨h1, h2⟩
-  exact absurd (h1.trans_lt h2) (lt_irrefl _)
-
-theorem tTQ_self : tTQ S t0 t t x b i j = 0 := by
-  unfold tTQ
-  split_ifs <;> simp
-
-theorem tTT_self : tTT S t0 t t x b i j = 0 := by
-  unfold tTT
-  split_ifs <;> simp
 
 end TypeI
 

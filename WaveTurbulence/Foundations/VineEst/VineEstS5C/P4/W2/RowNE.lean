@@ -150,19 +150,6 @@ theorem tRow_lvl (lv : Lvl B) (L γ δ : ℝ) (F : ℕ → Mom d → ℝ) (base 
   intro hl
   rfl
 
-theorem psiNat_lvl (lv : Lvl B) {U' : Finset (GBranch G.tree)} {a' b' : GBranch G.tree} (R' : CLRegionData G U' a' b')
-    (L γ δ : ℝ) (F : ℕ → Mom d → ℝ) (base : Mom d) :
-    psiNat (lv.state B RD hG layer hLayer).data (lv.state B RD hG layer hLayer).plain R' L γ δ F
-      (stateLayer (lv.state B RD hG layer hLayer)) (stateLayer_isLayering (lv.state B RD hG layer hLayer)) base =
-    psiNat RD hG R' L γ δ F layer hLayer base := by
-  have h := stateLayer_lvl B RD hG layer hLayer lv
-  change psiNat RD hG R' L γ δ F (stateLayer (lv.state B RD hG layer hLayer)) (stateLayer_isLayering (lv.state B RD hG layer hLayer)) base = _
-  generalize stateLayer_isLayering (lv.state B RD hG layer hLayer) = hl
-  revert hl
-  rw [h]
-  intro hl
-  rfl
-
 end Lvl
 
 end WaveTurbulence.VineEstS5C.P4.W2

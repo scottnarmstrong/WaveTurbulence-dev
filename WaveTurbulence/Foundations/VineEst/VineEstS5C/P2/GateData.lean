@@ -33,18 +33,6 @@ structure SepFam (P : WTParams) (Wm : ℕ) (B : Set (Fin 2 → ℝ)) (q : Fin 2 
   term : Fin m → SepT P Wm B q CJ CM
   expand : ∀ t0 s0 : ℝ, ![t0, s0] ∈ B → ∀ k, f t0 s0 k = ∑ i, sepTerm (term i).c (term i).J (term i).M t0 s0 k
 
-/-- Conjugate of a separated term (`J ↦ conj J`). -/
-def SepT.conj {Wm : ℕ} {B : Set (Fin 2 → ℝ)} {q : Fin 2 → ℝ} {CJ CM : ℝ} (s : SepT P Wm B q CJ CM) : SepT P Wm B q CJ CM where
-  c := s.c
-  J := cJ s.J
-  M := s.M
-  hcell := s.hcell
-  hint := s.hint
-  hCJ := s.hCJ
-  hCM := s.hCM
-  hJ := s.hJc
-  hM := s.hM
-
 /-- **A `LeafwiseSeparated` approximant has a separated expansion** with the constants of the gate (one factor `2` of slack in `J`
 for the strict inequality). -/
 theorem sepFam_of_leafwise {n W : ℕ} {T : Set (Fin 2 → ℝ)} {q : Fin 2 → ℝ} (hc : T ⊆ cell q) (hi : T ⊆ closure (interior T))

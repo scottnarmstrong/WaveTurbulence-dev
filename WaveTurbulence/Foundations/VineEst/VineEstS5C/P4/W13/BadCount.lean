@@ -34,22 +34,12 @@ open WaveTurbulence.VineEstS5C WaveTurbulence.VineEstS5C.P4 VineParamContract
 
 set_option linter.unusedSectionVars false
 
-/-- **An operative vine is a bad vine** (TARGET Def `lftwist`: the LF twist acts on vines of type I or II only). -/
-theorem op_kind_bad {w p : ℕ} {kind : Bool} {ι : Type*} {A : FamilyReconstruction w ι} {j : ι}
-    (op : FamilyOperation (p := p) (kind := kind) A j) : (A.family.kind j).IsBad = true := by
-  rcases op.eligible with h | ⟨h, _⟩ <;> rw [h] <;> rfl
-
 variable {w : ℕ} {G : Garden w} {U : Finset (GBranch G.tree)} {a b : GBranch G.tree} {R : CLRegionData G U a b} {n : ℕ}
 variable (B : CLChainAssembly G R n)
 
 /-- Every core vine of the chain is bad. -/
 theorem core_kind_bad (i : (assemblySourceFamily B).CoreIndex) : ((assemblySourceFamily B).kind i.1).IsBad = true := by
   rcases i.2.2.2 with h | ⟨h, _⟩ <;> rw [h] <;> rfl
-
-/-- The atoms of a core vine form a bad vine set (`IsBadVineSet`). -/
-theorem core_badVineSet (i : (assemblySourceFamily B).CoreIndex) :
-    ∃ (X : VineType) (u l : GBranch G.tree), X.IsBad = true ∧ G.molecule.IsVine X ((assemblySourceFamily B).atoms i.1) u l :=
-  ⟨_, _, _, core_kind_bad B i, (assemblySourceFamily B).vine i.1⟩
 
 /-- The row block of a core vine is a `Bad` block of the sumint shape. -/
 theorem core_nor_false (hM9 : VINEPARAM) (i : (assemblySourceFamily B).CoreIndex) :

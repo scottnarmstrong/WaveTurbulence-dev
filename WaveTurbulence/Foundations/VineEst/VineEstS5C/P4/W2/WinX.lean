@@ -32,10 +32,4 @@ theorem win_of_domX {U : Finset (GBranch G.tree)} {a b : GBranch G.tree} (R : CL
   · have hi : v ∈ clInteriorBranches R := Finset.mem_erase.mpr ⟨hva, hV hv⟩
     exact ⟨(hD.1 v hi).1, (hD.1 v hi).2.1⟩
 
-/-- The positivity of the interior clocks and the parent-clock condition off `Bex`. -/
-theorem parent_of_domX {U : Finset (GBranch G.tree)} {a b : GBranch G.tree} (R : CLRegionData G U a b) (lay : GBranch G.tree → ℕ)
-    (Bex : Finset (GBranch G.tree)) (t0 t1 t2 : ℝ) (u : GBranch G.tree → ℝ) (hD : DomX R lay Bex t0 t1 t2 u)
-    {v : GBranch G.tree} (hv : v ∈ clInteriorBranches R) (hvB : v ∉ Bex) : u v < parentClock t0 u v.toNode :=
-  (hD.1 v hv).2.2.2 hvB
-
 end WaveTurbulence.VineEstS5C.P4.W2

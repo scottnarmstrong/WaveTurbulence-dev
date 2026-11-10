@@ -47,30 +47,6 @@ theorem excw_A1 (G : AmbP A P) :
     exact ⟨hord, ⟨(w_cq_s1 _ hs _ h0 (fun h => absurd h (by decide))).1, (w_cq_s1 _ hs _ h0 (fun h => absurd h (by decide))).2⟩, ⟨(w_ct_t1 _ ht _ h0 (fun _ => hord.2)).1, (w_ct_t1 _ ht _ h0 (fun _ => hord.2)).2⟩⟩
   exact @h D hI hwN hwDec vp vb ε ex ey hfl t0 s1 t1 β S b i j BK BL qK qL CJq CMq CJt CMt cq ct Bx hG'
 
-theorem excw_A2 (G : AmbP A P) :
-    ∃ C : ℝ≥0∞, C ≠ ⊤ ∧ ∀ (D : SumintPar.SumintDatum P.d) (hI : 0 < D.S.I) (hwN : D.wN + 1 = 30 * P.d) (hwDec : D.wDec = 30 * P.d)
-      (vp vb : D.S.VIdx) (ε ex ey : ℝ) (hfl : FlagXY ε ex ey) (t0 s1 t1 : WaveTurbulence.VineEstS3Par.Eng.Slot D)
-      {β : Type*} (S : SepTerms β P.d) (b : β) (i : Fin (S.mQ b)) (j : Fin (S.mT b))
-      {BK BL : Set (Fin 2 → ℝ)} {qK qL : Fin 2 → ℝ} {CJq CMq CJt CMt : ℝ}
-      (cq : CertTerm P (30 * P.d) BK qK CJq CMq (S.sQ b i)) (ct : CertTerm P 0 BL qL CJt CMt (S.sT b j)) (Bx : Set (Fin 3 → ℝ)) (Is It I0 : Set ℝ) (w_cq_t1 : WinOK cq.V cq.Bc It I0 false) (w_ct_s1 : WinOK ct.V ct.Bc Is I0 true),
-      (∀ tt ∈ Bx, ∀ᵐ τ : D.S.TVar → ℝ, τ ∈ D.timeDom hI (tt 0) (tt 1) (tt 2) →
-        (slotVal D τ tt t1 ≤ slotVal D τ tt t0 ∧ slotVal D τ tt t0 < slotVal D τ tt s1) ∧ slotVal D τ tt s1 ∈ Is ∧ slotVal D τ tt t1 ∈ It ∧ slotVal D τ tt t0 ∈ I0) →
-      PieceRep (P := P) hI vp vb ε (fun _ _ => 1)
-        (fun τ tt r k => tA2 S (slotVal D τ tt t0) (slotVal D τ tt s1) (slotVal D τ tt t1) (k + ex • r) (k + ey • r) b i j)
-        (C * ENNReal.ofReal CJq * ENNReal.ofReal (spConst P.d D.wN D.wDec (cq.c * ct.c) CMq CMt))
-        (C * ENNReal.ofReal CJt * ENNReal.ofReal 1) Bx := by
-  obtain ⟨C, hC, h⟩ := pieceAll_A2 G
-  refine ⟨C, hC, fun D hI hwN hwDec vp vb ε ex ey hfl t0 s1 t1 β S b i j BK BL qK qL CJq CMq CJt CMt cq ct Bx Is It I0 w_cq_t1 w_ct_s1 hG => ?_⟩
-  have hG' : (∀ tt ∈ Bx, ∀ᵐ τ : D.S.TVar → ℝ, τ ∈ D.timeDom hI (tt 0) (tt 1) (tt 2) →
-        (slotVal D τ tt t1 ≤ slotVal D τ tt t0 ∧ slotVal D τ tt t0 < slotVal D τ tt s1) ∧
-        (![slotVal D τ tt t1, slotVal D τ tt t0] ∈ cq.V ∧ ![slotVal D τ tt t1, slotVal D τ tt t0] ∈ cq.Bc) ∧
-        (![slotVal D τ tt s1, slotVal D τ tt t0] ∈ ct.V ∧ ![slotVal D τ tt s1, slotVal D τ tt t0] ∈ ct.Bc)) := by
-    intro tt htt
-    filter_upwards [hG tt htt] with τ hg hd
-    obtain ⟨hord, hs, ht, h0⟩ := hg hd
-    exact ⟨hord, ⟨(w_cq_t1 _ ht _ h0 (fun h => absurd h (by decide))).1, (w_cq_t1 _ ht _ h0 (fun h => absurd h (by decide))).2⟩, ⟨(w_ct_s1 _ hs _ h0 (fun _ => hord.2)).1, (w_ct_s1 _ hs _ h0 (fun _ => hord.2)).2⟩⟩
-  exact @h D hI hwN hwDec vp vb ε ex ey hfl t0 s1 t1 β S b i j BK BL qK qL CJq CMq CJt CMt cq ct Bx hG'
-
 theorem excw_KQ (G : AmbP A P) :
     ∃ C : ℝ≥0∞, C ≠ ⊤ ∧ ∀ (D : SumintPar.SumintDatum P.d) (hI : 0 < D.S.I) (hwN : D.wN + 1 = 30 * P.d) (hwDec : D.wDec = 30 * P.d)
       (vp vb : D.S.VIdx) (ε ex ey : ℝ) (hfl : FlagXY ε ex ey) (t0 s1 t1 : WaveTurbulence.VineEstS3Par.Eng.Slot D)

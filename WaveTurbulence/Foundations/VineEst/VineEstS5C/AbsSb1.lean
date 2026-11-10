@@ -27,12 +27,6 @@ theorem sAbs_congr_clock (RS : CLRegionData G S a b) (L : ℝ) (base : Mom d)
   refine forall_congr' fun t => forall_congr' fun e => forall_congr' fun f => ?_
   simp_rw [h t e f]
 
-theorem sAbs_mono (RS : CLRegionData G S a b) (L : ℝ) (base : Mom d)
-    (Ψ : (GNode G.tree → (Fin d → ℤ)) → (GBranch G.tree → ℝ) → ℂ) {C C' : ℝ} (hC : C ≤ C') (h : SAbs RS L base Ψ C) :
-    SAbs RS L base Ψ C' := fun t e f => by
-  obtain ⟨h1, h2, h3⟩ := h t e f
-  exact ⟨h1, h2, h3.trans hC⟩
-
 theorem sAbs_const_mul (RS : CLRegionData G S a b) (L : ℝ) (base : Mom d)
     (Ψ : (GNode G.tree → (Fin d → ℤ)) → (GBranch G.tree → ℝ) → ℂ) (c : ℂ) {C : ℝ} (h : SAbs RS L base Ψ C) :
     SAbs RS L base (fun x u => c * Ψ x u) (‖c‖ * C) := fun t e f => by

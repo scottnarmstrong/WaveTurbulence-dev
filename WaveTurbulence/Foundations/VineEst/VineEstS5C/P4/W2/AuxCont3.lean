@@ -112,16 +112,6 @@ theorem certT_J_contOn_lo (b : ST w ι pstar J) (i : Fin (certT (κ := κ) A sp0
     exact_mod_cast hq
 
 include hcan hel htc hcc E hN in
-/-- **Low window, full**: when the index is trivial or its root layer is `≤ L₄`. -/
-theorem certT_J_contOn_lo_full (b : ST w ι pstar J)
-    (hlow : ¬ (b ∈ bsA p kind J A sp0 hA ∨ b ∈ bsB p kind J A sp0 hA) ∨ treeRootLayer (zpObjT b.1 pstar) ≤ zpQ4 A pstar)
-    (i : Fin (certT (κ := κ) A sp0 hA hcan hel htc hcc E hN b).m) :
-    ContinuousOn ((certT (κ := κ) A sp0 hA hcan hel htc hcc E hN b).J i) (winTl A pstar) := by
-  obtain ⟨q, -, -, hq, hJ⟩ := certT_gate A sp0 hA hcan hel htc hcc E hN b
-  rw [hq hlow] at hJ
-  exact (hJ i).mono_ge fun ts hts => hts.1.1.1
-
-include hcan hel htc hcc E hN in
 /-- The high-window `SepTC` of a certified couple term. -/
 noncomputable def certT_hiTC (b : ST w ι pstar J) (i : Fin (certT (κ := κ) A sp0 hA hcan hel htc hcc E hN b).m) :
     SepTC P 0 (winTh A pstar) (cornH A pstar) (certT (κ := κ) A sp0 hA hcan hel htc hcc E hN b).CJ

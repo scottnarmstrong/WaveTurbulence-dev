@@ -97,12 +97,6 @@ section Clock
 variable {G : Garden w} {U : Finset (GBranch G.tree)} {a b : GBranch G.tree} {R : CLRegionData G U a b} {n : ℕ}
 variable (hM9 : VINEPARAM) (B : CLChainAssembly G R n)
 
-/-- **The clock of the lower joint of the piece `i` is `t₀ⁱ`.** -/
-theorem clock_lower_piece (tt : Fin 3 → ℝ) (τ : (assemblyShape hM9 B).TVar → ℝ) (i : Fin n) :
-    clLocalClock R tt (assemblyClockEquiv hM9 B τ) (assemblyPieceAt B i).lower = τ (.inl ⟨i, 0⟩) := by
-  rw [← clock_t0 hM9 B i]
-  exact clLocalClock_slot hM9 B tt τ _
-
 open Classical in
 /-- The slot (sumint clock or exterior clock) of a branch of the region. -/
 noncomputable def brSlot (v : GBranch G.tree) : (assemblyShape hM9 B).TVar ⊕ Fin 3 :=

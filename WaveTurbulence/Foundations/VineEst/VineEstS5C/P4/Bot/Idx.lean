@@ -75,16 +75,6 @@ open Classical in
 /-- The II-a state standing for the index `b`. -/
 noncomputable def botSigma (τ : BT w ι → BT w ι) (b : BT w ι) : BT w ι := if nuOf b.1 pstar = 1 then b else τ b
 
-/-- The source approximant (at the parameters `zpQQ`) of the carrier-side couple of the index `b`. -/
-noncomputable def botSrcQ (κ : KPar d) (b : BT w ι) : ℝ → ℝ → Mom d → ℂ :=
-  fun t s k => LGSpine.SourceApp.couple κ.δ κ.F (zpObjC b.1 pstar) (zpCodeC b.1 pstar) (zpQQ b.1 pstar).1
-    (zpQQ b.1 pstar).2 t s k
-
-/-- The source approximant (at the parameters `zpBranchQ`) of the carrier-side tree of the index `b`. -/
-noncomputable def botSrcT (κ : KPar d) (b : BT w ι) : ℝ → ℝ → Mom d → ℂ :=
-  fun t s k => LGSpine.SourceApp.tree κ.δ κ.F (zpObjT b.1 pstar) (zpCodeT b.1 pstar) (zpBranchQ b.1 pstar).1
-    (zpBranchQ b.1 pstar).2 t s k
-
 /-- The remainder of the carrier-side couple: exact kernel minus approximant. -/
 noncomputable def botRemQ (κ : KPar d) (Qf : BT w ι → ℝ → ℝ → Mom d → ℂ) (b : BT w ι) : ℝ → ℝ → Mom d → ℂ :=
   fun t s k => KQstar κ.L κ.γ κ.δ κ.F (zpObjC b.1 pstar) t s k - Qf b t s k

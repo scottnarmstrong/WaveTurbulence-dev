@@ -128,11 +128,6 @@ variable {U : Finset (GBranch G.tree)} {R : CLRegionData G U a b} {n : ℕ} {p :
 variable (B : CLChainAssembly G R n) (RD : ReconstructionData G) (hG : G.IsPlain)
   (layer : GNode (RD.forest hG) → ℕ) (hLayer : IsLayering (RD.garden hG) layer)
 
-/-- An operation at a member of a level is an operation at the start state (restriction isomorphism). -/
-theorem Lvl.op_start (lv : Lvl B) (j : lv.ι) (h : lv.Op (p := p) (kind := kind) B RD hG layer hLayer j) :
-    Nonempty (FamilyOperation (p := p) (kind := kind) (startState B RD hG layer hLayer) (lv.e j)) :=
-  ⟨opOfRestrict (startState B RD hG layer hLayer) lv.e lv.he h.some⟩
-
 end Bottom
 
 end WaveTurbulence.VineEstS5C

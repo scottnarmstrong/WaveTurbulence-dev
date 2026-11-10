@@ -41,9 +41,4 @@ noncomputable def Lvl.top : Lvl B where
   hca := (jointAt_top B).symm
   hcb := rfl
 
-theorem Lvl.top_classSum (κ0 : KPar d) (t0 t1 t2 : ℝ) (e f g h : Mom d) :
-    (Lvl.top B).classSum (p := p) (kind := kind) B RD hG layer hLayer κ0 t0 t1 t2 e f g h =
-      ∑ z ∈ canonFinsetK p kind (startState B RD hG layer hLayer) (chainStart B),
-        twistedLocalKernel z.1 z.2 κ0.L κ0.γ κ0.δ κ0.F κ0.base t0 t1 t2 e f g h := rfl
-
 end WaveTurbulence.VineEstS5C

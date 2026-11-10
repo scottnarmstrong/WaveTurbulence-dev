@@ -13,7 +13,6 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.RecMerge
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.RecFree
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.RecRegion
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.RecInd
-public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.TermNat4
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.Free
 public import WaveTurbulence.Foundations.GammaLow.Famb.Family
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.RecCertDefs

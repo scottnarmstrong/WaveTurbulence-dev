@@ -5,7 +5,7 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.TermNat3
+public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.TermNat2
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.ExcRec
 
 /-! # P4-W2 (session 13, step 2b): leaf-child independence of a term with exceptional records
@@ -25,9 +25,6 @@ open scoped ENNReal
 
 variable {w d : ℕ} {G : Garden w} {U : Finset (GBranch G.tree)} {a b : GBranch G.tree}
 variable {R : CLRegionData G U a b} {n : ℕ}
-
-theorem xqOf_indep (recs : List (ExcRec G d)) (p : SourcePair G) (t t' : Fin 3 → ℝ) (u : GBranch G.tree → ℝ)
-    (x : GNode G.tree → (Fin d → ℤ)) : xqOf recs p t u x = xqOf recs p t' u x := rfl
 
 theorem domX_leaf_congr (lay : GBranch G.tree → ℕ) (Bex : Finset (GBranch G.tree)) (t t' : Fin 3 → ℝ) (u : GBranch G.tree → ℝ)
     (h0 : t 0 = t' 0)

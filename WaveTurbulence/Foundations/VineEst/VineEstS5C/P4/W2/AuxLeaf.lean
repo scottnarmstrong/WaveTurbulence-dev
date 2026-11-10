@@ -153,13 +153,4 @@ theorem layerCost_const {w : ℕ} (B0 : ℝ) (LG : LayeredGarden w) :
   unfold layerCost
   rw [Finset.prod_const]
 
-include hcan hel htc hcc in
-/-- **The leaf-cost identity** (exceptional rows): for every bundle member `b`, the leaf cost of the carrier-side couple and tree (constant layer
-bound `B₀`) equals that of the native couple at the pair `p₀` and the native tree at the lower branch, `B₀^{2 zpN + 1}`. -/
-theorem zp_leafCost_eq (b : ST w ι pstar J) (hb : b ∈ zpFinset p kind pstar J A sp0 hA) (B0 : ℝ) :
-    layerCost (fun _ => B0) (zpObjC b.1 pstar) * layerCost (fun _ => B0) (zpObjT b.1 pstar) =
-      layerCost (fun _ => B0) (sigStar A pstar).2.1 * layerCost (fun _ => B0) (sigStar A pstar).2.2 := by
-  rw [layerCost_const, layerCost_const, layerCost_const, layerCost_const, ← pow_add, ← pow_add,
-    zp_leafCard A sp0 hA hcan hel htc hcc b hb, native_leafCard A]
-
 end WaveTurbulence.VineEstS5C.P4.W2

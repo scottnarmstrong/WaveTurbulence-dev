@@ -71,33 +71,4 @@ theorem scalar_modes {θ θ' : ℝ} (hθ : 0 ≤ θ) (hθθ : θ ≤ θ') (r : �
     rw [h1]
     exact mul_le_mul_right (hmono.trans hGn.le) _
 
-/-- The two-clock expansion as a three-clock expansion (zero third mode). -/
-theorem scalar2_modes3 {θ θ' : ℝ} (hθ : 0 ≤ θ) (hθθ : θ ≤ θ') :
-    ∃ C : ℝ≥0∞, C ≠ ⊤ ∧ ∀ (q : Fin 2 → ℝ) (B : Set (Fin 2 → ℝ)) (J : (Fin 2 → ℝ) → ℂ) (β : ℝ≥0∞),
-      B ⊆ cell q → B ⊆ closure (interior B) →
-      XNorm00Restr (V := Unit) θ' B Set.univ (fun ts _ => J ts) < β →
-      ∃ ĥ : (Fin 3 → ℤ) → ℂ,
-        (∀ᵐ t : Fin 2 → ℝ, t ∈ B → ∀ s : Fin 3 → ℝ, ![s 0, s 1] = t →
-          HasSum (fun m : Fin 3 → ℤ => ĥ m * fsPhase m s) (J t)) ∧
-        ∑' m : Fin 3 → ℤ, maxBracketPow θ (half m) * ‖ĥ m‖ₑ ≤ C * β := by
-  obtain ⟨C, hC, hF⟩ := scalar_modes hθ hθθ 2
-  refine ⟨C, hC, fun q B J β hc hi hJ => ?_⟩
-  obtain ⟨ĥ, hae, hs⟩ := hF q B J β hc hi hJ
-  refine ⟨embed2 ĥ, ?_, ?_⟩
-  · filter_upwards [hae] with t ht htB s hs'
-    subst hs'
-    exact hasSum_embed2 ĥ s (ht htB)
-  · rw [tsum_embed2]; exact hs
-
-/-- An a.e. statement on `ℝⁿ`, pulled back along an injective choice `v` of internal times, restricted to the time domain. -/
-theorem ae_clock_box {d : ℕ} {D : SumintPar.SumintDatum d} (hI : 0 < D.S.I) (tt : Fin 3 → ℝ) {n : ℕ}
-    (v : Fin n → D.S.TVar) (hv : Function.Injective v) {P : (Fin n → ℝ) → Prop} (h : ∀ᵐ x : Fin n → ℝ, P x)
-    {B : Set (Fin n → ℝ)} (hB : ∀ τ ∈ D.timeDom hI (tt 0) (tt 1) (tt 2), (fun i => τ (v i)) ∈ B)
-    {Q : (D.S.TVar → ℝ) → Prop} (hQ : ∀ τ, P (fun i => τ (v i)) → (fun i => τ (v i)) ∈ B → Q τ) :
-    ∀ᵐ τ ∂(volume.restrict (D.timeDom hI (tt 0) (tt 1) (tt 2))), Q τ := by
-  have h1 := ae_pullback_coords v hv h
-  rw [ae_restrict_iff' (measurableSet_timeDom D hI _ _ _)]
-  filter_upwards [h1] with τ hτ hmem
-  exact hQ τ hτ (hB τ hmem)
-
 end WaveTurbulence.VineEstS5C.P2

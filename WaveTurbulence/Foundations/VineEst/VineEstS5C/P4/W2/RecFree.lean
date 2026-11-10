@@ -8,7 +8,6 @@ module
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.RecRow
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.RecClock
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.TermNat1
-public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.FreeNE
 
 /-! # P4-W2 (session 13, step 2e): `FreeDict` of a term with exceptional records
 

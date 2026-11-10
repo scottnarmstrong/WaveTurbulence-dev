@@ -6,7 +6,7 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.NatRows
-public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.FreeNE
+public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.DomEng
 
 /-! # P4-W2 (session 10, step 4.4): the native rows inside the clocked integrand
 
@@ -59,74 +59,6 @@ variable (hM9 : VINEPARAM) (B : CLChainAssembly G R n) (hG : G.IsPlain)
     (Rw ρ).W cl r k = (assemblyClockedS hM9 B RD hG W L γ δ F layer hLayer).W ρ ![cl 0, cl 1] k)
   (hRS : ∀ ρ i, (Rw ρ).slot i = natSlot hM9 B hG ρ i)
 
-include hRW hRS in
-/-- **The weights of the family `Rw` at the clocks of `τ` are the native weights** (clocks in the row boxes). -/
-theorem allCR_W_eq_natCR3 (τ : (assemblyShape hM9 B).TVar → ℝ) (tt : Fin 3 → ℝ)
-    (hclk : ∀ ρ, (assemblyClockedS hM9 B RD hG W L γ δ F layer hLayer).clock τ tt ρ ∈
-      rowBx hM9 B RD hG layer hLayer W L γ δ F ρ) (ρ : Row (engDatum hM9 B hG W wN wDec bk cons g g')) (r k : Mom d) :
-    (allCR Rw).W ρ ((allCR Rw).clock τ tt ρ) r k =
-      (natCR3 hM9 B hG W wN wDec bk cons g g' RD L γ δ F layer hLayer).W ρ
-        ((natCR3 hM9 B hG W wN wDec bk cons g g' RD L γ δ F layer hLayer).clock τ tt ρ) r k := by
-  have hcl : (allCR Rw).clock τ tt ρ =
-      (natCR3 hM9 B hG W wN wDec bk cons g g' RD L γ δ F layer hLayer).clock τ tt ρ := by
-    funext i
-    change slotVal (engDatum hM9 B hG W wN wDec bk cons g g') τ tt ((Rw ρ).slot i) =
-      slotVal (engDatum hM9 B hG W wN wDec bk cons g g') τ tt (natSlot hM9 B hG ρ i)
-    rw [hRS]
-  rw [hcl, natCR3_W_eq]
-  have hmem := hclk ρ
-  rw [← natCR3_clock_eq hM9 B hG W wN wDec bk cons g g' RD L γ δ F layer hLayer τ tt ρ] at hmem
-  exact hRW ρ _ hmem r k
-
-
-include hRW hRS in
-/-- **The row identity of a term with native rows only**, for the family `Rw` of native rows. -/
-theorem hrow_native_allCR (hL : L ≠ 0) (η : ℝ) (base : Mom d) (β : Fin 4 → (Fin d → ℤ))
-    (hβ : ((G.sign a.toNode : ℤ) • (β 0 - β 1)) = β 2 - β 3) (tt : Fin 3 → ℝ) (x : (assemblyShape hM9 B).VIdx → (Fin d → ℤ))
-    (τ : (assemblyShape hM9 B).TVar → ℝ) (hbk : ∀ i, bk i ≠ 1 ∧ bk i ≠ 2)
-    (hclk : ∀ ρ, (assemblyClockedS hM9 B RD hG W L γ δ F layer hLayer).clock τ tt ρ ∈
-      rowBx hM9 B RD hG layer hLayer W L γ δ F ρ) :
-    (∏ p ∈ clRegionalPairs hG U, qRow RD hG L γ δ F layer hLayer base (tt 0)
-        (clExtendIndices R ((clNormalizedChainEquiv hL B base β hβ hM9).symm x).1)
-        (clLocalClock R tt (assemblyClockEquiv hM9 B τ)) p) *
-      (∏ v ∈ U.erase a, tRow RD hG L γ δ F layer hLayer base (tt 0)
-        (clExtendIndices R ((clNormalizedChainEquiv hL B base β hβ hM9).symm x).1)
-        (clLocalClock R tt (assemblyClockEquiv hM9 B τ)) v) =
-      ((kind1Pref (D := engDatum hM9 B hG W wN wDec bk cons g g')
-          (sumintBoundary (G.sign a.toNode) (fun j => base + latticePoint L (β j))) : ℝ) : ℂ) * k2c bk η τ *
-        ∏ ρ, (allCR Rw).W ρ ((allCR Rw).clock τ tt ρ)
-          (sumintBoundary (G.sign a.toNode) (fun j => base + latticePoint L (β j)) 0 -
-            sumintBoundary (G.sign a.toNode) (fun j => base + latticePoint L (β j)) 1)
-          (rowMom (engDatum hM9 B hG W wN wDec bk cons g g') L x
-            (sumintBoundary (G.sign a.toNode) (fun j => base + latticePoint L (β j))) ρ) := by
-  rw [kind1Pref_eq_one hM9 B hG W wN wDec bk _ g g' (fun i => (hbk i).1),
-    k2c_eq_one bk (fun i => (hbk i).2), Complex.ofReal_one, one_mul, one_mul]
-  have hnat := allCR_W_eq_natCR3 hM9 B hG W wN wDec bk cons g g' RD L γ δ F layer hLayer Rw hRW hRS τ tt hclk
-  have h := hrow_of_rowwise (a := a) hM9 B hG
-    (fun p => qRow RD hG L γ δ F layer hLayer base (tt 0)
-      (clExtendIndices R ((clNormalizedChainEquiv hL B base β hβ hM9).symm x).1)
-      (clLocalClock R tt (assemblyClockEquiv hM9 B τ)) p)
-    (fun v => tRow RD hG L γ δ F layer hLayer base (tt 0)
-      (clExtendIndices R ((clNormalizedChainEquiv hL B base β hβ hM9).symm x).1)
-      (clLocalClock R tt (assemblyClockEquiv hM9 B τ)) v)
-    (fun ρ => (allCR Rw).W ρ ((allCR Rw).clock τ tt ρ)
-      (sumintBoundary (G.sign a.toNode) (fun j => base + latticePoint L (β j)) 0 -
-        sumintBoundary (G.sign a.toNode) (fun j => base + latticePoint L (β j)) 1)
-      (rowMom (engDatum hM9 B hG W wN wDec bk cons g g') L x
-        (sumintBoundary (G.sign a.toNode) (fun j => base + latticePoint L (β j))) ρ))
-    (fun _ => 1) (fun _ => 1)
-    (fun v => ((qRow_eq_natCR3 hM9 B hG W wN wDec bk cons g g' RD L γ δ F layer hLayer base
-        (clExtendIndices R ((clNormalizedChainEquiv hL B base β hβ hM9).symm x).1) tt τ
-        (sumintBoundary (G.sign a.toNode) (fun j => base + latticePoint L (β j)) 0 -
-          sumintBoundary (G.sign a.toNode) (fun j => base + latticePoint L (β j)) 1) v).trans
-      (by rw [← pairMom_eq hM9 B hG W wN wDec bk cons g g' hL base β hβ x v]; exact (hnat (Sum.inl v) _ _).symm)).trans (one_mul _).symm)
-    (fun v => ((tRow_eq_natCR3 hM9 B hG W wN wDec bk cons g g' RD L γ δ F layer hLayer base
-        (clExtendIndices R ((clNormalizedChainEquiv hL B base β hβ hM9).symm x).1) tt τ
-        (sumintBoundary (G.sign a.toNode) (fun j => base + latticePoint L (β j)) 0 -
-          sumintBoundary (G.sign a.toNode) (fun j => base + latticePoint L (β j)) 1) v).trans
-      (by rw [← branchMom_eq hM9 B hG W wN wDec bk cons g g' hL base β hβ x v]; exact (hnat (Sum.inr v) _ _).symm)).trans (one_mul _).symm)
-  simp only [Finset.prod_const_one, mul_one, one_mul] at h
-  exact h
 
 end
 

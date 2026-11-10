@@ -105,18 +105,4 @@ theorem hAdm_of_struct {D : SumintPar.SumintDatum d} {A L γ η : ℝ} {Dsteps :
   refine admissible_of_struct (D := { D with param := p, wK := a, wL := b }) ?_ hbad hwb
   exact structAdm_update hS p a b
 
-/-- Bad-case clause at a block of kind `0` (clause (a)): the two order constraints. -/
-theorem badAt_kind0 {D : SumintPar.SumintDatum d} (i : Fin D.S.I) (hm : 0 < D.S.m i)
-    (hc : (((.inr (.inl ⟨i, ⟨0, hm⟩⟩) : D.S.TVar), (.inl ⟨i, 0⟩ : D.S.TVar)) ∈ D.constraints ∧
-        ((.inl ⟨i, 0⟩ : D.S.TVar), (.inl ⟨i, ⟨1, by omega⟩⟩ : D.S.TVar)) ∈ D.constraints) ∨
-      (((.inl ⟨i, ⟨1, by omega⟩⟩ : D.S.TVar), (.inl ⟨i, 0⟩ : D.S.TVar)) ∈ D.constraints ∧
-        ((.inl ⟨i, 0⟩ : D.S.TVar), (.inr (.inl ⟨i, ⟨0, hm⟩⟩) : D.S.TVar)) ∈ D.constraints)) :
-    D.badKind i = 0 → ∃ h : 0 < D.S.m i,
-      let t0 : D.S.TVar := .inl ⟨i, 0⟩
-      let t1 : D.S.TVar := .inl ⟨i, ⟨1, by omega⟩⟩
-      let s1 : D.S.TVar := .inr (.inl ⟨i, ⟨0, h⟩⟩)
-      ((s1, t0) ∈ D.constraints ∧ (t0, t1) ∈ D.constraints) ∨
-        ((t1, t0) ∈ D.constraints ∧ (t0, s1) ∈ D.constraints) :=
-  fun _ => ⟨hm, hc⟩
-
 end WaveTurbulence.VineEstS5C.P2

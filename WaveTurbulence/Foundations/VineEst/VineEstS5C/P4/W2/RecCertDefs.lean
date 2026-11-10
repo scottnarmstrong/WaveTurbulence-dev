@@ -13,7 +13,7 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.RecMerge
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.RecFree
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.RecRegion
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.RecInd
-public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.TermNat4
+public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.FlatMod.FlatBase
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.Free
 
 /-! # P4-W2 (session 18, step 4a): definitions for the certificate of a term with records
@@ -90,22 +90,6 @@ noncomputable abbrev recEng {d : ℕ} (hM9 : VINEPARAM) (B : CLChainAssembly G R
   engDatum hM9 B hG (recW hM9 B RD hG layer hLayer recs kd zc centre wBar lam) (30 * d - 1) (30 * d)
     (recBk B RD hG layer hM9 recs kd zc) (consX hM9 B (layC RD hG layer) (bexOf recs) (recAdd B hM9 recs zc addr))
     (recG B hM9 hG recs kd (rowCoupleG hM9 B RD hG layer hLayer)) (rowTreeG hM9 B RD hG layer hLayer)
-
-theorem recEng_outBox_eq {d : ℕ} (hM9 : VINEPARAM) (B : CLChainAssembly G R n) (RD : ReconstructionData G) (hG : G.IsPlain)
-    (layer : GNode (RD.forest hG) → ℕ) (hLayer : IsLayering (RD.garden hG) layer) (recs : List (ExcRec G d))
-    (kd : ExcRec G d → ℕ) (zc : ExcRec G d → Prop)
-    (addr : ExcRec G d → Finset ((assemblyShape hM9 B).TVar × (assemblyShape hM9 B).TVar))
-    (centre : Fin 4 → Mom d) (wBar : Mom d) (lam : ℝ) :
-    WaveTurbulence.VineEstS3Par.Eng.outBox (recEng hM9 B RD hG layer hLayer recs kd zc addr centre wBar lam) =
-      WaveTurbulence.VineEstS3Par.Eng.outBox (natEng hM9 B RD hG layer hLayer (qOutOf RD hG layer a b R) centre wBar lam) := rfl
-
-theorem recEng_outSet_eq {d : ℕ} (hM9 : VINEPARAM) (B : CLChainAssembly G R n) (RD : ReconstructionData G) (hG : G.IsPlain)
-    (layer : GNode (RD.forest hG) → ℕ) (hLayer : IsLayering (RD.garden hG) layer) (recs : List (ExcRec G d))
-    (kd : ExcRec G d → ℕ) (zc : ExcRec G d → Prop)
-    (addr : ExcRec G d → Finset ((assemblyShape hM9 B).TVar × (assemblyShape hM9 B).TVar))
-    (centre : Fin 4 → Mom d) (wBar : Mom d) (lam : ℝ) (L γ η : ℝ) :
-    WaveTurbulence.VineEstS3Par.Eng.outSet (recEng hM9 B RD hG layer hLayer recs kd zc addr centre wBar lam) L γ η =
-      WaveTurbulence.VineEstS3Par.Eng.outSet (natEng hM9 B RD hG layer hLayer (qOutOf RD hG layer a b R) centre wBar lam) L γ η := rfl
 
 theorem exists_row_maps {d : ℕ} (hM9 : VINEPARAM) (B : CLChainAssembly G R n) (hG : G.IsPlain) (recs : List (ExcRec G d))
     (hreg : ∀ r ∈ recs, r.p0 ∈ clRegionalPairs hG U) (hbjI : ∀ r ∈ recs, r.bj ∈ clInteriorBranches R) :

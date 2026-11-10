@@ -5,7 +5,6 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.NatCert
 public import WaveTurbulence.Foundations.VineEst.VineEstS3.EpsLabels
 public import WaveTurbulence.Foundations.VineEst.VineEstS3.Step3Facts
 public import WaveTurbulence.Foundations.Vine.DegenVine.Degenerate

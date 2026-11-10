@@ -28,8 +28,6 @@ variable {w : ℕ} {G : Garden w} {P : CorePlacement G} {S : Finset (GBranch G.t
 
 namespace STw
 
-theorem order1 : clLocalOrder1 RS' = clLocalOrder1 RS := order1_rigid P RS RS'
-
 include h in
 theorem zeta : clLocalZeta RS' = - clLocalZeta RS := by
   classical

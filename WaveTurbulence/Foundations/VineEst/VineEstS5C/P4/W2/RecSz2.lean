@@ -53,27 +53,3 @@ theorem rowBoundH_inr_bij (hM9 : VineParamContract.VINEPARAM) (W : SumintWeightC
       rowB P ((RD.tree c0.1).size / 2) (rowTreeG hM9 B RD hG layer hLayer (assemblyBranchBij hM9 B c0)) *
         layerCost Bh (nativeChainLayered RD hG layer hLayer c0.1) := by
   simp only [rowBoundH, rowBound, rowCostH, rowTree, rowTreeLG, assemblyBranchOf_bij hM9 B c0]
-
-theorem sz_le_rows (hC1 : 1 ≤ P.C₁) (hδ : 0 < P.δ) (hcb : 0 < rowCb P) {nC' nT' N : ℕ} (hs' : nC' + nT' = N)
-    (cc tt cc' tt' T : ℝ) (hc : cc * tt = cc' * tt') (hcc' : 0 ≤ cc') (htt' : 0 ≤ tt') :
-    4 * T ^ 2 * P.C₁ ^ 4 * (P.C₁ ^ 2 * P.δ) ^ N * (cc * tt) ≤
-      (4 * T ^ 2 / rowCb P ^ 2) * (rowB P nC' 0 * cc' * (rowB P nT' 0 * tt')) := by
-  have hC0 : 0 < P.C₁ := by linarith
-  have e1 : rowB P nC' 0 * rowB P nT' 0 = rowCb P ^ 2 * P.C₁ ^ 4 * (2 * P.C₁ ^ 2 * P.δ) ^ N := by
-    unfold rowB
-    simp only [Nat.cast_zero, mul_zero, Real.rpow_zero, mul_one]
-    rw [← hs', pow_add]
-    ring
-  have e2 : rowB P nC' 0 * cc' * (rowB P nT' 0 * tt') = (rowB P nC' 0 * rowB P nT' 0) * (cc' * tt') := by ring
-  rw [e2, e1, hc]
-  have h2N : (P.C₁ ^ 2 * P.δ) ^ N ≤ (2 * P.C₁ ^ 2 * P.δ) ^ N := by
-    apply pow_le_pow_left₀ (by positivity)
-    nlinarith [sq_nonneg P.C₁, mul_pos (pow_pos hC0 2) hδ]
-  have hnn : 0 ≤ cc' * tt' := mul_nonneg hcc' htt'
-  have hcb2 : rowCb P ^ 2 ≠ 0 := by positivity
-  calc 4 * T ^ 2 * P.C₁ ^ 4 * (P.C₁ ^ 2 * P.δ) ^ N * (cc' * tt')
-      ≤ 4 * T ^ 2 * P.C₁ ^ 4 * (2 * P.C₁ ^ 2 * P.δ) ^ N * (cc' * tt') := by
-        apply mul_le_mul_of_nonneg_right _ hnn
-        apply mul_le_mul_of_nonneg_left h2N (by positivity)
-    _ = 4 * T ^ 2 / rowCb P ^ 2 * (rowCb P ^ 2 * P.C₁ ^ 4 * (2 * P.C₁ ^ 2 * P.δ) ^ N * (cc' * tt')) := by
-        field_simp

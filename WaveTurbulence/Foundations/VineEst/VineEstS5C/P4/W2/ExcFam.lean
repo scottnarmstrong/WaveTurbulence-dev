@@ -105,14 +105,6 @@ theorem botFrameShapeX_bundleBotFamOf :
   unfold botTerm botX
   ring
 
-theorem rowFormNE_termsB_fam (hL : κ0.L ≠ 0) :
-    ∀ (m : ℕ) (lv : Lvl B), ∀ ψ ∈ Lvl.termsB (p := p) (kind := kind) B RD hG layer hLayer
-        (bundleFamOf B RD hG layer hLayer hR SFF) (bundleBotFamOf B RD hG layer hLayer hprime' hR BSFF) m lv,
-      QNE B RD hG layer hLayer (bundleFamOf B RD hG layer hLayer hR SFF) (bundleBotFamOf B RD hG layer hLayer hprime' hR BSFF)
-        (stepX B RD hG layer hLayer hR SFF) (botX B RD hG layer hLayer hR hprime' BSFF) lv ψ :=
-  rowFormNE_termsB B RD hG layer hLayer _ _ _ _ hL (frameShapeX_bundleFamOf B RD hG layer hLayer hR SFF)
-    (botFrameShapeX_bundleBotFamOf B RD hG layer hLayer hR hprime' BSFF)
-
 end Fam
 
 end WaveTurbulence.VineEstS5C.P4.W2

@@ -111,12 +111,6 @@ theorem bundleBotFamOf_term (hprime : IsPrimeGarden G) (hR : P1.RealityAll) (SFF
     (bundleBotFamOf B RD hG layer hLayer hprime hR SFF lv pstar h0 hop hmax).term c x t u =
       botTerm p kind pstar (lv.state B RD hG layer hLayer) lv.c κ0 (SFF lv pstar h0 hop hmax) _ _ c x t u := rfl
 
-/-- **`hq2`** at a bottom level (the state-level ZP-SURJ bound `zpQ2_le_of_state`, from the operation fields of `hop`). -/
-theorem hq2_of_bot (lv : Lvl B) (pstar : lv.ι) (hop : lv.Op (p := p) (kind := kind) B RD hG layer hLayer pstar) :
-    zpQ2 (lv.state B RD hG layer hLayer) pstar ≤
-      layOf (lv.state B RD hG layer hLayer) (qrOf ((lv.state B RD hG layer hLayer).family.placement pstar)) :=
-  hq2_of_op B RD hG layer hLayer lv pstar hop
-
 /-- **The windows of the bottom family hold under the exterior window** (`WinOfExtBot`). -/
 theorem winOfExtBot_bundleBotFamOf (hprime : IsPrimeGarden G) (hR : P1.RealityAll) (SFF : BotSepFamFam (p := p) (kind := kind) B RD hG layer hLayer κ0) :
     WinOfExtBot B RD hG layer hLayer (bundleBotFamOf B RD hG layer hLayer hprime hR SFF) := by

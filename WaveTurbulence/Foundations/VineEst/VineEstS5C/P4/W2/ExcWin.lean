@@ -50,10 +50,6 @@ variable (A : FamilyReconstruction w ι) (sp0 : SplitAt A.skeleton A.family psta
 def WinOK (V Bc : Set (Fin 2 → ℝ)) (I1 I0 : Set ℝ) (gt : Bool) : Prop :=
   ∀ t ∈ I1, ∀ s ∈ I0, (gt = true → s < t) → ![t, s] ∈ V ∧ ![t, s] ∈ Bc
 
-theorem WinOK.mono {V Bc : Set (Fin 2 → ℝ)} {I1 I1' I0 I0' : Set ℝ} {gt : Bool} (h : WinOK V Bc I1 I0 gt)
-    (h1 : I1' ⊆ I1) (h0 : I0' ⊆ I0) : WinOK V Bc I1' I0' gt :=
-  fun t ht s hs hg => h t (h1 ht) s (h0 hs) hg
-
 include hcan hel htc hcc E hN in
 theorem certC_loCT_win {b : ST w ι pstar J} (hb : b ∈ bsA p kind J A sp0 hA ∨ b ∈ bsB p kind J A sp0 hA)
     (i : Fin (certC (κ := κ) A sp0 hA hcan hel htc hcc E hN b).m) :

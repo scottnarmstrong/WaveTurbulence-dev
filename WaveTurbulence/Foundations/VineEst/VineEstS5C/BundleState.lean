@@ -37,16 +37,6 @@ theorem units_ne_one_iff (ν : ℤˣ) : ν ≠ 1 ↔ ν = -1 := by
 section
 variable {w : ℕ} {ι : Type*} {p : ℕ} {kind : Bool} {pstar : ι} {J : Set ι} {d : ℕ} [Fintype ι] [DecidableEq ι]
 
-/-- The source approximant (at the parameters `zpQQ`) of the carrier-side couple of the index `b`. -/
-noncomputable def srcQ (κ : KPar d) (b : ST w ι pstar J) : ℝ → ℝ → Mom d → ℂ :=
-  fun t s k => LGSpine.SourceApp.couple κ.δ κ.F (zpObjC b.1 pstar) (zpCodeC b.1 pstar) (zpQQ b.1 pstar).1
-    (zpQQ b.1 pstar).2 t s k
-
-/-- The source approximant (at the parameters `zpBranchQ`) of the carrier-side tree of the index `b`. -/
-noncomputable def srcT (κ : KPar d) (b : ST w ι pstar J) : ℝ → ℝ → Mom d → ℂ :=
-  fun t s k => LGSpine.SourceApp.tree κ.δ κ.F (zpObjT b.1 pstar) (zpCodeT b.1 pstar) (zpBranchQ b.1 pstar).1
-    (zpBranchQ b.1 pstar).2 t s k
-
 /-- The remainder of the carrier-side couple: exact kernel minus approximant. -/
 noncomputable def remQ (κ : KPar d) (Qf : ST w ι pstar J → ℝ → ℝ → Mom d → ℂ) (b : ST w ι pstar J) : ℝ → ℝ → Mom d → ℂ :=
   fun t s k => KQstar κ.L κ.γ κ.δ κ.F (zpObjC b.1 pstar) t s k - Qf b t s k

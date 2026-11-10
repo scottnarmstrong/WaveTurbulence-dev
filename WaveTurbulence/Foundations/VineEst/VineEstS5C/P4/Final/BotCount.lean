@@ -56,26 +56,6 @@ theorem botSffOf_bounded (hprime : IsPrimeGarden G) (E : GateEnv P κ0 p Bh)
     botCertT_m_le (lv.state B RD hG layer hLayer) lv.c hprime hop.some.canonical hop.some.eligible hop.some.treeCoherent
       hop.some.coupleCoherent (hup_of_max B RD hG layer hLayer lv pstar h0 hmax) E (zpN_lvl_le B RD hG layer hLayer hord lv pstar) b⟩
 
-/-- The couple terms of `botSffOf` are those of `botCertC` (definitional). -/
-theorem botSffOf_sQ (hprime : IsPrimeGarden G) (E : GateEnv P κ0 p Bh)
-    (hord : (RD.garden hG).order ≤ P.N (p + 1) ^ 4) (lv : Lvl B) (pstar : lv.ι) (h0 : (lv.e pstar).1.val = 0)
-    (hop : lv.Op (p := p) (kind := kind) B RD hG layer hLayer pstar)
-    (hmax : ∀ j, lv.Op (p := p) (kind := kind) B RD hG layer hLayer j → (lv.e j).1.val ≤ (lv.e pstar).1.val) (b : BT w lv.ι) :
-    (botSffOf B RD hG layer hLayer hprime E hord lv pstar h0 hop hmax).S.sQ b =
-      (botCertC (lv.state B RD hG layer hLayer) lv.c hprime hop.some.canonical hop.some.eligible hop.some.treeCoherent
-        hop.some.coupleCoherent (hup_of_max B RD hG layer hLayer lv pstar h0 hmax) E
-        (zpN_lvl_le B RD hG layer hLayer hord lv pstar) b).term := rfl
-
-/-- The tree terms of `botSffOf` are those of `botCertT` (definitional). -/
-theorem botSffOf_sT (hprime : IsPrimeGarden G) (E : GateEnv P κ0 p Bh)
-    (hord : (RD.garden hG).order ≤ P.N (p + 1) ^ 4) (lv : Lvl B) (pstar : lv.ι) (h0 : (lv.e pstar).1.val = 0)
-    (hop : lv.Op (p := p) (kind := kind) B RD hG layer hLayer pstar)
-    (hmax : ∀ j, lv.Op (p := p) (kind := kind) B RD hG layer hLayer j → (lv.e j).1.val ≤ (lv.e pstar).1.val) (b : BT w lv.ι) :
-    (botSffOf B RD hG layer hLayer hprime E hord lv pstar h0 hop hmax).S.sT b =
-      (botCertT (lv.state B RD hG layer hLayer) lv.c hprime hop.some.canonical hop.some.eligible hop.some.treeCoherent
-        hop.some.coupleCoherent (hup_of_max B RD hG layer hLayer lv pstar h0 hmax) E
-        (zpN_lvl_le B RD hG layer hLayer hord lv pstar) b).term := rfl
-
 open Classical in
 /-- **The bottom bundle size** is at most `wtOf p (lv.e pstar)` (the hypothesis `hChB` of `Lvl.card_termsB_le_prod`). -/
 theorem card_bundleBotFamOf_le (hprime : IsPrimeGarden G) (hR : RealityAll) (E : GateEnv P κ0 p Bh)

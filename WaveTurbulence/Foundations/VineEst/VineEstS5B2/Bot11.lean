@@ -51,18 +51,6 @@ open Classical in
     (u : GBranch A.skeleton.tree → ℝ) : ℂ :=
   epsOf A pstar G * botKernel κ A c0 pstar (decide (twAt A G pstar)) (nuOf G pstar) (rowQ κ G pstar) (rowT κ G pstar) x t u
 
-/-- The per-state conclusion: the kernel of the state at its chain region is `c ζ ∑' ∫ stBot` in the chart of `A`, with `BOKd`. -/
-@[expose] def BotGoal (κ : KPar d) (A : FamilyReconstruction w ι) (c0 : ChainAt A.skeleton A.family) (pstar : ι)
-    (z : Σ Bs : FamilyReconstruction w ι, ChainAt Bs.skeleton Bs.family) : Prop :=
-  twistedLocalKernel z.1 z.2 κ.L κ.γ κ.δ κ.F κ.base κ.t0 κ.t1 κ.t2 κ.e κ.f κ.g κ.h =
-      (coupling d κ.L κ.γ κ.δ : ℂ) ^ clLocalOrder1 (botR A c0) * clLocalZeta (botR A c0) *
-        ∑' κd : CLLocalDecoration (botR A c0) κ.L κ.base ![κ.e, κ.f, κ.g, κ.h], ∫ τ : CLInternalTime (botR A c0),
-          stBot κ A c0 pstar z.1 (clExtendIndices (botR A c0) κd.1) ![κ.t0, κ.t1, κ.t2]
-            (clLocalClock (botR A c0) ![κ.t0, κ.t1, κ.t2] τ) ∧
-    BOKd (botR A c0) κ.L κ.base ![κ.e, κ.f, κ.g, κ.h] fun κd τ =>
-      stBot κ A c0 pstar z.1 (clExtendIndices (botR A c0) κd.1) ![κ.t0, κ.t1, κ.t2]
-        (clLocalClock (botR A c0) ![κ.t0, κ.t1, κ.t2] τ)
-
 variable {pstar : ι}
 
 /-- Same-chart states (skip, FALSE choice): `sameIntB` is `botKernel` with the pattern `tw = false`. -/
@@ -130,44 +118,5 @@ theorem rowT_false_eq (con : LFConstruction (A.source pstar hcan hel htc hcc) fa
   rfl
 
 end Ops
-
-open Classical in
-theorem botState_skip (κ : KPar d) (A : FamilyReconstruction w ι) (c0 : ChainAt A.skeleton A.family)
-    (hb0 : c0.b = (A.family.placement pstar).lower) (hL : κ.L ≠ 0)
-    (hF : ∀ k : ℕ, Summable fun n : Fin d → ℤ => |κ.F k (κ.base + latticePoint κ.L n)|) :
-    BotGoal κ A c0 pstar ⟨A, c0⟩ := by
-  have hS := chain_slow c0 pstar hb0
-  have hn : ¬ twAt A A pstar := not_twAt_of_eq rfl
-  have hint : ∀ (κd : CLLocalDecoration (botR A c0) κ.L κ.base ![κ.e, κ.f, κ.g, κ.h]) (τ : CLInternalTime (botR A c0)),
-      stBot κ A c0 pstar A (clExtendIndices (botR A c0) κd.1) ![κ.t0, κ.t1, κ.t2]
-        (clLocalClock (botR A c0) ![κ.t0, κ.t1, κ.t2] τ) =
-      clLocalSummand A.data A.plain (botR A c0) κ.L κ.γ κ.δ κ.F (stateLayer A) (stateLayer_isLayering A) κ.base
-        ![κ.e, κ.f, κ.g, κ.h] ![κ.t0, κ.t1, κ.t2] κd τ := by
-    intro κd τ
-    have hFree : FreeDec (botR A c0) (clExtendIndices (botR A c0) κd.1) :=
-      ⟨fun y hy => clExtendIndices_of_notMem _ _ hy, κd.2.1, κd.2.2.1⟩
-    have hpx : PairedAt (A.family.placement pstar) (clExtendIndices (botR A c0) κd.1) :=
-      hFree.2.2 _ hS.retained_internal
-    rw [summand_same A.plain A.data A.data κ.L κ.γ κ.δ κ.F (stateLayer A) (stateLayer_isLayering A) (stateLayer A)
-      (stateLayer_isLayering A) κ.base (botR A c0) (pairOfLeaf A.skeleton A.plain (A.family.placement pstar).retained)
-      hS.b_mem_erase hS.p0_mem (fun _ _ => rfl) (fun _ _ => rfl) (fun _ _ => rfl) (VineEst.SelDataEq.refl _ _ _ _ _ _)]
-    rw [sameIntB_eq_botKernel κ A c0 hb0 A A.data (stateLayer A) (stateLayer_isLayering A) rfl rfl rfl _ hpx]
-    unfold stBot epsOf
-    have hd : decide (twAt A A pstar) = false := by simp [hn]
-    rw [hd, if_neg hn, one_mul]
-  have hfun : (fun (κd : CLLocalDecoration (botR A c0) κ.L κ.base ![κ.e, κ.f, κ.g, κ.h]) (τ : CLInternalTime (botR A c0)) =>
-      stBot κ A c0 pstar A (clExtendIndices (botR A c0) κd.1) ![κ.t0, κ.t1, κ.t2]
-        (clLocalClock (botR A c0) ![κ.t0, κ.t1, κ.t2] τ)) =
-      fun κd τ => clLocalSummand A.data A.plain (botR A c0) κ.L κ.γ κ.δ κ.F (stateLayer A) (stateLayer_isLayering A) κ.base
-        ![κ.e, κ.f, κ.g, κ.h] ![κ.t0, κ.t1, κ.t2] κd τ := funext fun κd => funext fun τ => hint κd τ
-  refine ⟨?_, ?_⟩
-  · unfold twistedLocalKernel clLocalKernel
-    show (coupling d κ.L κ.γ κ.δ : ℂ) ^ clLocalOrder1 (botR A c0) * clLocalZeta (botR A c0) * _ = _
-    congr 1
-    refine tsum_congr fun κd => integral_congr_ae (Filter.Eventually.of_forall fun τ => ?_)
-    exact (hint κd τ).symm
-  · refine BOKd.congr ?_ hfun.symm
-    exact BOKd_of_inputs c0.block (botR A c0) A.data A.plain κ.L κ.γ κ.δ κ.F (stateLayer A) (stateLayer_isLayering A)
-      κ.base hL (HF_of_all _ _ _ _ _ _ hF) _ _
 
 end WaveTurbulence.VineEstS5B2

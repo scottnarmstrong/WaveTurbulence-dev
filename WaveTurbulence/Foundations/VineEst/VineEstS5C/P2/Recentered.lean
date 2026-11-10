@@ -42,40 +42,6 @@ variable {κ0 : KPar d} {hprime : IsPrimeGarden G}
 noncomputable def termFnR (σ : ℤˣ) (κ0 : KPar d) (lv : Lvl B) (ψ : PsiT G d) (s : ℤˣ) : (Fin 3 → ℝ) → (Fin 4 → Mom d) → ℂ :=
   fun tt E => recFac σ s κ0.L κ0.γ κ0.δ tt E * termFn B κ0 lv ψ s tt E
 
-/-- The recentered class sum of a level. -/
-noncomputable def clsFnR (σ : ℤˣ) (κ0 : KPar d) (lv : Lvl B) (s : ℤˣ) : (Fin 3 → ℝ) → (Fin 4 → Mom d) → ℂ :=
-  fun tt E => recFac σ s κ0.L κ0.γ κ0.δ tt E * clsFn (p := p) (kind := kind) B RD hG layer hLayer κ0 lv s tt E
-
 variable (BE : BundleExpFam (p := p) (kind := kind) B RD hG layer hLayer κ0 hprime)
-
-/-- **The recentered unrolled bound.**  As `P3.unrolled_bound`, with `termFnR`/`clsFnR` (the recentering factor is a common factor of all
-terms). -/
-theorem unrolled_bound_recentered (σ : ℤˣ) (hL : κ0.L ≠ 0)
-    (hF : ∀ k : ℕ, Summable fun n : Fin d → ℤ => |κ0.F k (κ0.base + latticePoint κ0.L n)|) (lv : Lvl B) (s : ℤˣ)
-    {θ : ℝ} (hθ : 0 ≤ θ) (q : Fin 3 → ℝ) {Bx : Set (Fin 3 → ℝ)} (hBx : Bx ⊆ cell q) {K : Set (Fin 4 → Mom d)} (hK : K.Countable)
-    (hWin : ∀ tt ∈ Bx, ∀ E ∈ K, ∀ κ : CLLocalDecoration lv.region κ0.L κ0.base (sumintBoundary s E), ∀ᵐ τ : CLInternalTime lv.region,
-      Lvl.winOf (p := p) (kind := kind) B RD hG layer hLayer BE (Fintype.card lv.ι + 1) lv (clExtendIndices lv.region κ.1) tt
-        (clLocalClock lv.region tt τ))
-    (habs : ∀ ψ ∈ Lvl.terms (p := p) (kind := kind) B RD hG layer hLayer BE (Fintype.card lv.ι + 1) lv, ∀ tt ∈ Bx, ∀ E ∈ K,
-      LkAbs lv.region κ0.L κ0.base ψ tt (sumintBoundary s E))
-    (β : ℝ≥0∞)
-    (TermBoundR : ∀ ψ ∈ Lvl.terms (p := p) (kind := kind) B RD hG layer hLayer BE (Fintype.card lv.ι + 1) lv,
-      XNorm00Restr θ Bx K (termFnR B σ κ0 lv ψ s) ≤ β) :
-    XNorm00Restr θ Bx K (clsFnR (p := p) (kind := kind) B RD hG layer hLayer σ κ0 lv s) ≤
-      (cutoffMultiplierConstant θ (cutQ q) + 1) *
-        ((Multiset.card (Lvl.terms (p := p) (kind := kind) B RD hG layer hLayer BE (Fintype.card lv.ι + 1) lv) : ℝ≥0∞) * β) := by
-  classical
-  set T := Lvl.terms (p := p) (kind := kind) B RD hG layer hLayer BE (Fintype.card lv.ι + 1) lv with hT
-  have hmem : ∀ j : Fin T.toList.length, T.toList[j] ∈ T := fun j => Multiset.mem_toList.mp (List.getElem_mem j.2)
-  have h1 := XNorm00Restr_finsum_le hθ q hBx hK (fun j : Fin T.toList.length => termFnR B σ κ0 lv T.toList[j] s)
-    (clsFnR (p := p) (kind := kind) B RD hG layer hLayer σ κ0 lv s) (fun tt htt E hE => by
-      unfold clsFnR termFnR
-      rw [clsFn_eq_sum_terms (p := p) (kind := kind) B RD hG layer hLayer BE hL hF lv s tt E (hWin tt htt E hE) (fun ψ hψ => habs ψ hψ tt htt E hE),
-        multiset_sum_eq_fin, Finset.mul_sum])
-  refine h1.trans (mul_le_mul' le_rfl ?_)
-  calc ∑ j : Fin T.toList.length, XNorm00Restr θ Bx K (termFnR B σ κ0 lv T.toList[j] s)
-      ≤ ∑ _j : Fin T.toList.length, β := Finset.sum_le_sum fun j _ => TermBoundR _ (hmem j)
-    _ = (Multiset.card T : ℝ≥0∞) * β := by
-        simp [Finset.sum_const, nsmul_eq_mul, Multiset.length_toList]
 
 end WaveTurbulence.VineEstS5C.P2

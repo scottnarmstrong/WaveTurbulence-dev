@@ -66,7 +66,4 @@ theorem pairedAt_ext {d : ℕ} {L : ℝ} {base β0 β1 : Mom d} (x : ExtS RS L b
 
 end SLow
 
-theorem STw.toSLow {RS' : CLRegionData (unitTwistGarden G P) (twistedAtoms G P S) (eB P a) (eB P b)}
-    (h : STw P RS RS') : SLow P RS := ⟨h.block, h.lower, h.keep⟩
-
 end WaveTurbulence.VineEstS5B

@@ -3,7 +3,6 @@ module
 
 public import WaveTurbulence.Foundations.Flower.V5WB.W2.RowsS
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.NatRows
-public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.TermNat4
 
 /-! # V5W-B-WORLD B3: all selected rows, and the certificate of a native term
 
