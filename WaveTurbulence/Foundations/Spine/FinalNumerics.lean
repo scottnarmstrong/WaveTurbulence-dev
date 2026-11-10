@@ -107,13 +107,14 @@ theorem eventually_final_absorption (C₀ κ : ℕ) (hC₀ : 1 ≤ C₀) (c₂ �
       rw [this]
       apply mul_le_mul_of_nonneg_right _ (by linarith)
       apply mul_le_mul_of_nonneg_left _ (by positivity)
-      nlinarith
+      exact mul_le_mul_of_nonneg_right (by linarith) hε0.le
     rw [h128] at h2
     linarith
   have hη6 : η ^ 6 ≤ 1 := pow_le_one₀ hη.le (by linarith)
   have hη7 : η ^ 7 ≤ η ^ 6 / 8 := by
     have : η ^ 7 = η ^ 6 * η := by ring
-    rw [this]; nlinarith [pow_pos hη 6]
+    have h := mul_le_mul_of_nonneg_left hη8 (pow_pos hη 6).le
+    rw [this]; linarith only [h]
   have habs : Real.log (4 * c₂ ^ 2) ≤ |Real.log (4 * c₂ ^ 2)| := le_abs_self _
   have habs2 : Real.log (2 * c₂) ≤ |Real.log (2 * c₂)| := le_abs_self _
   have habs3 : Real.log (C₀ : ℝ) ≤ |Real.log C₀| := le_abs_self _
@@ -177,7 +178,7 @@ theorem eventually_final_absorption (C₀ κ : ℕ) (hC₀ : 1 ≤ C₀) (c₂ �
     rw [Real.exp_add, Real.exp_add, Real.exp_log (by positivity), ← hXe] at hexp
     calc ((C₀ * n : ℕ) : ℝ) ^ C₀ * c₂ * Real.exp (-η ^ 6 / 4 * ℓ)
         ≤ X ^ C₀ * c₂ * Real.exp (-η ^ 6 / 4 * ℓ) := by gcongr
-      _ ≤ 1 / 2 := by nlinarith only [hexp, Real.exp_pos (-η ^ 6 / 4 * ℓ)]
+      _ ≤ 1 / 2 := by linarith only [hexp]
   · -- the main absorption
     simp only [hLexp]
     have hXlog : Real.exp (Real.log X) = X := Real.exp_log (by linarith only [hXpos])
@@ -213,6 +214,6 @@ theorem eventually_final_absorption (C₀ κ : ℕ) (hC₀ : 1 ≤ C₀) (c₂ �
       have := mul_le_mul_of_nonneg_right hη7 (by linarith only [hℓ1] : (0 : ℝ) ≤ ℓ)
       linarith only [this]
     push_cast
-    nlinarith only [hprod, hη7ℓ, hlogA4, hAℓ', hCX1, hnn, hCX2, hr1]
+    linarith only [hprod, hη7ℓ, hlogA4, hAℓ', hCX1, hnn, hCX2, hr1]
 
 end WaveTurbulence.LGSpine

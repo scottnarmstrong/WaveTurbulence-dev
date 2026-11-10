@@ -48,7 +48,7 @@ theorem final_arith {ι : Type} [Fintype ι] (d : ℕ) (hd : 3 ≤ d) (γ η δ 
     rw [div_pow, mul_pow, hLp, Real.rpow_neg hL0.le, ← div_eq_mul_inv]
     have h2 : (1 : ℝ) ≤ 2 ^ r := one_le_pow₀ (by norm_num)
     apply div_le_div_of_nonneg_left (by positivity) hLpos
-    nlinarith
+    exact le_mul_of_one_le_left hLpos.le h2
   have h3L : (3 * L) ^ (2 * d * r) = 3 ^ (2 * d * r) * L ^ ((2 * (d : ℝ) * r)) := by
     rw [mul_pow, ← Real.rpow_natCast L (2 * d * r)]
     congr 2
@@ -70,12 +70,19 @@ theorem final_arith {ι : Type} [Fintype ι] (d : ℕ) (hd : 3 ≤ d) (γ η δ 
     have hq0 : (0 : ℝ) ≤ q := Nat.cast_nonneg _
     have h1 : η * (Inc : ℝ) ≤ x * J + 20 * E := by
       have : η * (Inc : ℝ) ≤ η * (4 * J + 20 * E) := mul_le_mul_of_nonneg_left hSA' hη0
-      nlinarith
+      have ha : 4 * η * (J : ℝ) ≤ x * J := mul_le_mul_of_nonneg_right hηx hJ0
+      have hb : η * (E : ℝ) ≤ 1 * E := mul_le_mul_of_nonneg_right hη1 hE0
+      linarith only [this, ha, hb]
     have h2 : ((d : ℝ) + γ) * r ≤ 16 * d * E := by
       have : ((d : ℝ) + γ) ≤ 2 * d := by linarith
-      nlinarith
-    have h3 : 20 * (d : ℝ) * q ≤ 40 * d * E := by nlinarith
-    nlinarith
+      calc ((d : ℝ) + γ) * r ≤ (2 * d) * r := mul_le_mul_of_nonneg_right this hr0
+        _ ≤ (2 * d) * (8 * E) := mul_le_mul_of_nonneg_left hSC' (by positivity)
+        _ = 16 * d * E := by ring
+    have h3 : 20 * (d : ℝ) * q ≤ 40 * d * E := by
+      have := mul_le_mul_of_nonneg_left hSB' (by positivity : (0 : ℝ) ≤ 20 * d)
+      linarith only [this]
+    have h4 : (E : ℝ) ≤ d * E := le_mul_of_one_le_left hE0 (by linarith only [hd'])
+    linarith only [h1, h2, h3, h4]
   have hLle : L ^ (-(((d : ℝ) - γ) * (r : ℝ)) + 2 * (d : ℝ) * r + (-x * (J : ℝ) + 20 * (d : ℝ) * (q : ℝ))) ≤
       L ^ (-η * (Inc : ℝ) + 80 * (d : ℝ) * (E : ℝ)) :=
     Real.rpow_le_rpow_of_exponent_le hL hexp
