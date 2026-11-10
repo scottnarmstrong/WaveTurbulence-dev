@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Orchestrator landing gate: duplicate-declaration scan, full root build, then the staged-tree guard.
+# Maintainer landing gate: duplicate-declaration scan, full root build, then the staged-tree guard.
 # Exits non-zero (and prints why) if any step fails. Usage, from the repository root: scripts/land_check.sh
 set -uo pipefail
 root=$(git rev-parse --show-toplevel)

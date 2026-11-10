@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Orchestrator helper: merge a worker branch into main, rebuilding the root WaveTurbulence.lean import list as the union
+# Maintainer helper: merge a development branch into main, rebuilding the root WaveTurbulence.lean import list as the union
 # of all tracked modules under WaveTurbulence/Frozen/Defs, WaveTurbulence/Foundations and WaveTurbulence/Paper, plus the
 # theorem anchors that manifest/frozen.json lists as SEALED (DRAFT_SORRY anchors and their providers stay quarantined and
 # are never imported by the root). Stages the result; run scripts/land_check.sh before committing.

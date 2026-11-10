@@ -16,7 +16,7 @@ Usage:
 
 Check mode exits 0 when every `abi_sha256` in the manifest matches. `--write` rewrites only the
 `abi_sha256` fields (the manifest is otherwise preserved); the checker has no update command of its
-own, so this is for the orchestrator at a freeze or an author-approved successor only.
+own, so this is for the maintainer at a freeze or an author-approved successor only.
 """
 from __future__ import annotations
 
