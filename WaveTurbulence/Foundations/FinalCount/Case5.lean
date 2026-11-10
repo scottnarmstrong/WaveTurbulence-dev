@@ -134,7 +134,7 @@ theorem case_five_of_vine (d : ℕ) (hd : 3 ≤ d) (γ : ℝ) (hγ : γ ∈ Set.
   have hKge : 1 ≤ K * Real.log L ^ B := by
     have h1 : 1 ≤ K := by rw [hK]; have := le_max_right Kd 0; linarith
     have h2 : 1 ≤ Real.log L ^ B := Real.one_le_rpow hlog (le_max_right Bd 0)
-    nlinarith
+    linarith [mul_le_mul h1 h2 zero_le_one (by linarith : (0 : ℝ) ≤ K)]
   -- the common bound
   have hbound : M.countA L γ δ C1 (0 : Mom d) Adm P ≤ ENNReal.ofReal
       (3 ^ d * ((d : ℝ) * δ⁻¹ * (R0 / 2)⁻¹ * L ^ (-γ) + L ^ (γ - 1)) * Real.log L ^ (8 : ℝ) *
@@ -158,7 +158,7 @@ theorem case_five_of_vine (d : ℕ) (hd : 3 ≤ d) (γ : ℝ) (hγ : γ ∈ Set.
       rw [← ENNReal.ofReal_mul hcost0]
       refine ENNReal.ofReal_le_ofReal ?_
       have hX := Real.rpow_nonneg hLp.le (-(4 / 7 * min γ (1 - γ)))
-      nlinarith [mul_le_mul_of_nonneg_left hKge hcost0, mul_nonneg hcost0 hX]
+      linarith [mul_le_mul_of_nonneg_right (mul_le_mul_of_nonneg_left hKge hcost0) hX]
     · have hKeq : K0 = {a₀} := by
         ext x; constructor
         · intro hx; rcases hKsub x hx with rfl | rfl
