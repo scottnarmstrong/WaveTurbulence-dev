@@ -2,7 +2,7 @@
 
 Target: Deng–Hani arXiv:2311.10082v2 (TARGET), Theorem 1.1 for 0<γ<1, square torus, d≥3 (D1, D2). Companion of
 `GRAPH.md` (node IDs `T.*`, `DH23.*`, … refer to its §A). Written 2026-11-03. Sources are cited as `T Lxxx` (TARGET
-TeX), `DH23 L…`, `DH21 L…`, `DH212 L…`; figures are the PNG files in `~/wave-turbulence/references/src-*/`.
+TeX), `DH23 L…`, `DH21 L…`, `DH212 L…`; figures are the PNG files in `<sources>/references/src-*/`.
 Revised the same day after the topology review `docs/campaign/orch/audits/GRAPH-topology.md` (§4 G-1…G-5, §5
 reconciliation with `docs/campaign/orch/figure-defs.md`); the changes are listed in §0.3. Finding numbers refer to
 `docs/FINDINGS.md`.

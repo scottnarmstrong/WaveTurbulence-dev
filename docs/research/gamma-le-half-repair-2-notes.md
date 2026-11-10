@@ -1,14 +1,14 @@
 # Closing the remaining gaps of the γ ≤ 1/2 repair (research note 2)
 
 Date: 2026-11-05. Author: research agent launched by wt-orch (packet "research-gamma-half-2"). No Lean. Nothing outside
-`/home/scott/wt-scratch/research-gamma-half-2/` was edited. Inputs read only; the files this note relies on are pinned
+`<scratch>/research-gamma-half-2/` was edited. Inputs read only; the files this note relies on are pinned
 in `pinned/` with hashes in `pinned/PINNED_SHA256.txt`.
 
 **Sources** (line numbers refer to these files):
 - **TARGET** = `wave-turbulence/paper/source/WKE-Longer_times_Final_arXiv.tex`;
 - **DH23** = `wave-turbulence/references/src-2301.07063/Revision_Submit.tex`;
-- **N1** = the first research note, `wt-scratch/research-gamma-half/NOTES.md` (pinned copy `pinned/NOTES.md`);
-- **REF** = the referee report, `wt-scratch/research-gamma-half-referee/REPORT.md` (pinned `pinned/REPORT.md`);
+- **N1** = the first research note, `<scratch>/research-gamma-half/NOTES.md` (pinned copy `pinned/NOTES.md`);
+- **REF** = the referee report, `<scratch>/research-gamma-half-referee/REPORT.md` (pinned `pinned/REPORT.md`);
 - **YLEM1**, **CASE4**, **F75** = `docs/research/ylem1-investigation.md`, `dh23-prop96-case4.md`,
   `case4-gamma-above-half.txt`.
 

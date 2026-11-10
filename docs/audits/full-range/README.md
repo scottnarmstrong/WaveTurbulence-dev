@@ -51,4 +51,4 @@ so that they do not share blind spots. A theorem is recorded as PROVED only if b
 | B | [KEY-B.md](KEY-B.md) | PASS for all five theorems |
 
 The reports are the auditors' complete working records, unedited apart from paths: `<work>/` stands for the auditor's local working files (scripts, logs, probe outputs), which are not part of the repository, and `<sources>/` for the pinned LaTeX sources of the papers. Both audits are of main at `5c19b015`; Lean names in them refer to the repository at that
-commit, and a later clean-up removed some unused helpers, which remain in the git history there.
+commit, and a later clean-up removed some unused helpers, which remain in the git history there. Internal working records they cite (planning and audit records) were removed from the repository at publication and remain in the git history.

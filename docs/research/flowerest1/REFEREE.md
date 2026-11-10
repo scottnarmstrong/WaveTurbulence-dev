@@ -4,7 +4,7 @@ Referee: independent, refute-first (wt-orch request, 2026-11-07). Read-only on a
 
 ## 0. Pins
 
-- Supplement: `/home/scott/wt-scratch/flower-open/SUPPLEMENT-v1.md`, sha256 `ddd81fe1238e7c51379a69981b4d10aa68690ced46d0fc1b115200fc0c3774d7` (verified at first read; 808 lines). A pinned copy was taken at first read.
+- Supplement: `<scratch>/flower-open/SUPPLEMENT-v1.md`, sha256 `ddd81fe1238e7c51379a69981b4d10aa68690ced46d0fc1b115200fc0c3774d7` (verified at first read; 808 lines). A pinned copy was taken at first read.
 - T: sha256 `493eef6b…727cb` (verified). D21: `50d0e236…fe402` (verified). D23: `c7e47dfa…5475` (verified).
 - Line numbers below are "S<line>" for the supplement, "T/D21/D23<line>" for the sources.
 

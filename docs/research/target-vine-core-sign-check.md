@@ -11,8 +11,8 @@ warnings/errors):
 - `WaveTurbulence.Vine.Param.TriangleCore.phases_sum`
 - `WaveTurbulence.Vine.Param.TriangleCore.displayed_sign_counterexample`
 
-Files: `/home/scott/wt-scratch/vines/src/VineParamTriangleCore.lean`;
-audit: `/home/scott/wt-scratch/vines/param/Axioms-Checkpoint.lean` and `.log`.
+Files: `<scratch>/vines/src/VineParamTriangleCore.lean`;
+audit: `<scratch>/vines/param/Axioms-Checkpoint.lean` and `.log`.
 For Figure (D)'s same-direction core, at g=0 and conservation e=a+b,
 d=a+b−c, the actual Gamma factors are
 

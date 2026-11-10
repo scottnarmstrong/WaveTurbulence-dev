@@ -68,22 +68,22 @@ SHA-256 checked at first read; drafts of other packets were copied at first read
 
 | Abbrev. | File | SHA-256 |
 |---|---|---|
-| S | /home/scott/wt-scratch/flower-open/SUPPLEMENT-v1.md | `ddd81fe1238e7c51379a69981b4d10aa68690ced46d0fc1b115200fc0c3774d7` |
-| T | /home/scott/wave-turbulence/paper/source/WKE-Longer_times_Final_arXiv.tex | `493eef6b7dec448bc5f9f1c3974c0cad7a85eca9bc428f5b35e968aad76727cb` |
-| D21 | /home/scott/wave-turbulence/references/src-2104.11204/Inventiones-Final_Version.tex | `50d0e236a2df0cfd2b98bace6f0256043ee88fc05079ee44c3524ca9482fe402` |
-| D23 | /home/scott/wave-turbulence/references/src-2301.07063/Revision_Submit.tex | `c7e47dfabf5a4cca6e3ad0399fc377f2809c12f58e1563640407fe0992335475` |
+| S | <scratch>/flower-open/SUPPLEMENT-v1.md | `ddd81fe1238e7c51379a69981b4d10aa68690ced46d0fc1b115200fc0c3774d7` |
+| T | <sources>/paper/source/WKE-Longer_times_Final_arXiv.tex | `493eef6b7dec448bc5f9f1c3974c0cad7a85eca9bc428f5b35e968aad76727cb` |
+| D21 | <sources>/references/src-2104.11204/Inventiones-Final_Version.tex | `50d0e236a2df0cfd2b98bace6f0256043ee88fc05079ee44c3524ca9482fe402` |
+| D23 | <sources>/references/src-2301.07063/Revision_Submit.tex | `c7e47dfabf5a4cca6e3ad0399fc377f2809c12f58e1563640407fe0992335475` |
 | COMMON | flower-open/COMMON.md | `a165bad5bed0600d51c0495d1db27cc8d15dcedfeba0de53d7bafb22ce38a5ac` |
 | BRIEF | flower-open/o104/BRIEF.md | `a9d4847ab4ddfd022dff2ccf132e83f05ba021e4e9cce98d8230dce3f9301948` |
 | REF | flower-open/ref/REFEREE.md (item M4, lines 175–181) | `c31ee38a03ddace8d565828f7f467008ee16c64cb6803ba0e70fd539e4d88d6d` |
 | o63 | flower-open/o63/RESOLUTION.md (Theorem 6.3′, Prop. 10.3′) | `c28aad09eb865b13645a1e88bbf74cc6c33efeebd2baa18a5893b887b2ee7ad9` |
 | o102 | flower-open/o102/RESOLUTION.md (Theorem R, §8.4) | `772bac47097eb4c307b0df4993007857df23c5594a9949e5e03d6cfce4a555ab` |
 | o73 | flower-open/o73/RESOLUTION.md (live; read at this hash; §§3, 4, 12–15) | `eb26e89a5ace5c4ad4f9a7391e94aee0604bd59b2f38ea909f3976d48370b928` |
-| HANDOFF | /home/scott/wt-scratch/port-ft1/HANDOFF.md ("The three inputs, exact text") | `e6b9987af7e85244aed68ae4c5013bb14f2dde26f23ee0acab2946a50eaf663a` |
+| HANDOFF | <scratch>/port-ft1/HANDOFF.md ("The three inputs, exact text") | `e6b9987af7e85244aed68ae4c5013bb14f2dde26f23ee0acab2946a50eaf663a` |
 
-Frozen Lean definitions: main checkout /home/scott/WaveTurbulence-dev at `89e2e136` (the frozen tree is identical to
+Frozen Lean definitions: main checkout <repo> at `89e2e136` (the frozen tree is identical to
 `7e34a835`; `git diff --stat` on `WaveTurbulence/Frozen` is empty). "F:File:n" means
 `WaveTurbulence/Frozen/Defs/File.lean`, line n. The three inputs are read in the port worktree
-/home/scott/WaveTurbulence-worktrees/port-ft1 at `e2ec222b` (text-identical to HANDOFF).
+<worktrees>/port-ft1 at `e2ec222b` (text-identical to HANDOFF).
 
 "T n" is a line of T, "S n" a line of S, "S-L x.y" a lemma of S, "S(x.y)" a display of S. o73 is still OPEN; I use
 only results it states as proved (its Prop. 3.1, Prop. 4.1, Lemma 12.1, Lemma 12.2, Prop. 13.1, Prop. 13.2,

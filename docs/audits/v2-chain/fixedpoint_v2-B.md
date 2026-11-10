@@ -4,8 +4,8 @@
 - Seal commits: `793a7363` "Seal fixedpoint_v2 with its proved assembly (SEAL-PREP chain)", `f78bcabf4e3813a5baccd9243dadb1194760f8e4`
   "manifest: ABI hash of the sealed fixedpoint_v2". Freeze: `8d7ccb4a` (D10). Final pushed main `1987105a` (main checkout clean
   at that commit; its build was used for all probes and the replay).
-- Clean export: `git archive f78bcabf | tar -x` → `/home/scott/wt-scratch/seal-audit-fixedpoint_v2-B/export`.
-- All work in `/home/scott/wt-scratch/seal-audit-fixedpoint_v2-B/`; nothing outside it was written. Lean processes were niced (10),
+- Clean export: `git archive f78bcabf | tar -x` → `<scratch>/seal-audit-fixedpoint_v2-B/export`.
+- All work in `<scratch>/seal-audit-fixedpoint_v2-B/`; nothing outside it was written. Lean processes were niced (10),
   one heavy process at a time, run through the throttled `wt-throttled` wrapper (real binary Lean 4.35.0 eb6cafb7).
 - Rules: `seal-prep/audit-briefs/AUDIT-COMMON.md`; item specifics `AUDIT-fixedpoint_v2.md`; skill `lean-statement-audit`.
 
@@ -145,7 +145,7 @@ FixedpointV2Gate` :=
 
 ## (f) Kernel replay
 
-- Adapted `/home/scott/wt-scratch/seal-lg2/replay/` (template `Replay.lean` sha256 `6c943568…e98e`, read in full). Diffs:
+- Adapted `<scratch>/seal-lg2/replay/` (template `Replay.lean` sha256 `6c943568…e98e`, read in full). Diffs:
   `replay/Replay.diff` (root module `WaveTurbulence.Frozen.Theorems.FixedpointV2`, root constant `WaveTurbulence.fixedpoint_v2`; new
   `wanted` list; new EXACT section: anchor/provider values and types, gate abbreviations vs anchor types) and `replay/replay.sh.diff`
   (own exe; `nice -n 10`; `LEAN_PATH` set explicitly from the anchor's Lake trace instead of `lake env` in the main checkout; index
@@ -283,9 +283,9 @@ Seal script logs (`seal-prep/logs/live-20261108T193926Z/`):
 ## Dependency
 
 The brief requires both keys of `layergardenFlower_v3` (this chain's first seal) to be PASS before this key can PASS.
-`/home/scott/wt-scratch/flower-core/status/SEALAUDIT-layergardenFlower_v3-A.txt` (2026-11-09 00:05:48 UTC): `PASS layergardenFlower_v3 A`;
+`<scratch>/flower-core/status/SEALAUDIT-layergardenFlower_v3-A.txt` (2026-11-09 00:05:48 UTC): `PASS layergardenFlower_v3 A`;
 `…/SEALAUDIT-layergardenFlower_v3-B.txt` (00:14:56 UTC): `PASS layergardenFlower_v3 B`. I read only these status lines, not those
 audits. Recorded PROVED evidence for the other consumed sealed anchors, per the brief: `layergarden_v2` (audits/Seal-layergarden_v2.md,
-R152), `wkeTaylor` (/home/scott/wt-scratch/audit-b2a). Their axioms and proofs are re-checked in (c) and (f) here.
+R152), `wkeTaylor` (<scratch>/audit-b2a). Their axioms and proofs are re-checked in (c) and (f) here.
 
 `fixedpoint_v2` may be recorded as PROVED (key B)

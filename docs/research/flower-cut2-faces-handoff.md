@@ -299,16 +299,16 @@ There is no need to import a WaveB provider or assume a Sumint adapter theorem.
 ## Checks and axioms
 
 All eleven library modules compile serially through `nice -n 5 lake env lean`
-in `/home/scott/WaveTurbulence-dev`, with `LEAN_PATH` pointing at this packet's
+in `<repo>`, with `LEAN_PATH` pointing at this packet's
 `build/`. For each module `NAME`, the exact compilation command was:
 
 ```sh
-cd /home/scott/WaveTurbulence-dev
-LEAN_PATH=/home/scott/wt-scratch/research-cut2/c2d/build nice -n 5 lake env lean \
-  --root=/home/scott/wt-scratch/research-cut2/c2d/src \
-  -o /home/scott/wt-scratch/research-cut2/c2d/build/Cut2D/NAME.olean \
-  /home/scott/wt-scratch/research-cut2/c2d/src/Cut2D/NAME.lean \
-  > /home/scott/wt-scratch/research-cut2/c2d/build/NAME.log 2>&1
+cd <repo>
+LEAN_PATH=<scratch>/research-cut2/c2d/build nice -n 5 lake env lean \
+  --root=<scratch>/research-cut2/c2d/src \
+  -o <scratch>/research-cut2/c2d/build/Cut2D/NAME.olean \
+  <scratch>/research-cut2/c2d/src/Cut2D/NAME.lean \
+  > <scratch>/research-cut2/c2d/build/NAME.log 2>&1
 ```
 
 `checks/Audit.lean` imports the full export module and checks zero marks, an

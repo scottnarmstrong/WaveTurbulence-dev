@@ -1,6 +1,6 @@
 # DEGEN-VINE handoff (GAP.degenerate.vine, F21; ruling R13)
 
-Scratch: /home/scott/wt-scratch/degen-vine, namespace `WaveTurbulence.DegenVine`. READY degen-vine (see the end).
+Scratch: <scratch>/degen-vine, namespace `WaveTurbulence.DegenVine`. READY degen-vine (see the end).
 
 ## 1. Determination: what is the correct statement, and is TARGET L1844-L1846 wrong?
 
@@ -43,7 +43,7 @@ alone (`epsilon - 1`, supported where some node is degenerate, `exists_degenerat
 `|I| = |U|` (regional nodes of the chain) `<= M + O(1)`, so `3^{|I|}` is absorbed into `C_1` exactly as the engine constants.
 No gain `L^{-0.1 gamma_0}` is claimed or needed; TARGET's sentence should be reworded (see 6).
 
-## 2. Files (all in /home/scott/wt-scratch/degen-vine/DegenVine/, 21 modules, 2456 lines, max 229 lines)
+## 2. Files (all in <scratch>/degen-vine/DegenVine/, 21 modules, 2456 lines, max 229 lines)
 
 Light (no `sumint` proof closure; importable together with V5's flat engine modules):
 * `Eps` : `epsCoef = 1 - 1[b=a] - 1[b=c]`, support, `prod_eps_sub_one` (defect expansion), `|eps - 1| <= 2`.

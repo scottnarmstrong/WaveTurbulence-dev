@@ -297,7 +297,7 @@ stage1STBLDψTop_of_inputs (hinc : LeafwiseIncoherentDecayGate) (hcoh : Leafwise
 
 ## 6. Validation
 
-- Compiled one at a time with `cd /home/scott/WaveTurbulence-dev && nice -n 5 lake env lean <file>`, against main's
+- Compiled one at a time with `cd <repo> && nice -n 5 lake env lean <file>`, against main's
   live lib (HEAD bf597bcf). Both files: exit 0, no output.
 - A deliberate-error copy of probe 2 confirmed that it elaborates.
 - `#print axioms` gives `[propext, Classical.choice, Quot.sound]` for `kernelKW_one`, `kernelLeavesW_one`,

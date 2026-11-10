@@ -2,11 +2,11 @@ DH23 PROP 9.6, CASE (4), FOR 1/2 < gamma < 1: THE T-TYPE COMPONENTS
 Date: 2026-11-04.  No Lean compiled.  Scripts and outputs are in this directory (Section 7); run with python3 -I.
 
 Sources and line numbers:
-  DH23   = /home/scott/wave-turbulence/references/src-2301.07063/Revision_Submit.tex
-  TARGET = /home/scott/wave-turbulence/paper/source/WKE-Longer_times_Final_arXiv.tex
-  CASE4  = /home/scott/WaveTurbulence-dev/docs/research/dh23-prop96-case4.md (setting, Lemmas 1.1, 2.1-2.4, 4.1, 5.1)
-  YLEM1  = /home/scott/WaveTurbulence-dev/docs/research/ylem1-investigation.md (R1, R2: Y-exceptional, exception list)
-  VINE2  = /home/scott/WaveTurbulence-dev/docs/research/vine2-m1.txt (vine (II) with m = 1, i.e. (E0))
+  DH23   = <sources>/references/src-2301.07063/Revision_Submit.tex
+  TARGET = <sources>/paper/source/WKE-Longer_times_Final_arXiv.tex
+  CASE4  = <repo>/docs/research/dh23-prop96-case4.md (setting, Lemmas 1.1, 2.1-2.4, 4.1, 5.1)
+  YLEM1  = <repo>/docs/research/ylem1-investigation.md (R1, R2: Y-exceptional, exception list)
+  VINE2  = <repo>/docs/research/vine2-m1.txt (vine (II) with m = 1, i.e. (E0))
 
 =====================================================================================================================
 0. VERDICT: CLOSED FOR EVERY gamma IN (1/2, 1).

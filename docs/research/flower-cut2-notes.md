@@ -22,9 +22,9 @@ The immutable manifest is `probe/manifest.json`; file contents are stored by SHA
 
 Principal sources (all citations below refer to these frozen contents):
 
-* T = `/home/scott/wave-turbulence/paper/source/WKE-Longer_times_Final_arXiv.tex`: flowerest1 L2279–2305; fixedpoint Part 2 L2318–2333; regular estimates L950–1095; sumint L1596–1720; vine cancellation L1840–1924; reduction L1944–1976.
-* DH21 = `/home/scott/wave-turbulence/references/src-2104.11204/Inventiones-Final_Version.tex`: `maincoef` L935–943, time-denominator lemma L2431–2444, Corollary `extragaincor` L2699–2705, dyadic construction L2731/L2735.
-* DH23 = `/home/scott/wave-turbulence/references/src-2301.07063/Revision_Submit.tex`: L961–969/L1163–1168 and flower/endgame L1992–2024.
+* T = `<sources>/paper/source/WKE-Longer_times_Final_arXiv.tex`: flowerest1 L2279–2305; fixedpoint Part 2 L2318–2333; regular estimates L950–1095; sumint L1596–1720; vine cancellation L1840–1924; reduction L1944–1976.
+* DH21 = `<sources>/references/src-2104.11204/Inventiones-Final_Version.tex`: `maincoef` L935–943, time-denominator lemma L2431–2444, Corollary `extragaincor` L2699–2705, dyadic construction L2731/L2735.
+* DH23 = `<sources>/references/src-2301.07063/Revision_Submit.tex`: L961–969/L1163–1168 and flower/endgame L1992–2024.
 * Required predecessor NOTES, FlowerCut.lean, design-C NOTES/referee REPORT, and R47/R58/R61/R62 were read. R61's referee corrections are part of the design assumed here, including root excision for Y/W and splitting adjacent fixed nodes.
 * Main: `LayeredGardenFixPat`, `KDomainFix`, `LayeredGardenCutWeight2`, `FlowerSum`, `KernelKgen`; `LayergardenFlowerV2`; X2Kernel, FlowerTop, X2Est, V2Chain/FixedpointS and the X3 Part-2 chain.
 * LG-spine `Stage1Interface`, `Stage1Gate`, `SourceSplicedKernel`, `TypeFamily`.
@@ -315,10 +315,10 @@ Read-only source/consumer inspection and independent refutation are complete at 
 
 ### Final validation and limitation addendum
 
-Command (from `/home/scott/WaveTurbulence-dev`):
+Command (from `<repo>`):
 
 ```sh
-nice -n 5 lake env lean /home/scott/wt-scratch/research-cut2/probe/Cut2Checks.lean
+nice -n 5 lake env lean <scratch>/research-cut2/probe/Cut2Checks.lean
 ```
 
 Exit 0; no Lean warnings or errors. All four printed declarations depend only on `propext`, `Classical.choice`, and `Quot.sound`. The other arithmetic declarations also compiled. No `sorry`, custom axiom, or heartbeat override occurs in the probe. The toolchain was the existing `wt-throttled` override; elapsed time included a substantial shared compile-gate wait. An initial relative-path file creation failed before writing anything; an accidentally queued duplicate invocation was terminated while waiting at the wrapper. Only one actual Lean probe completed. No dependency compilation was invoked.

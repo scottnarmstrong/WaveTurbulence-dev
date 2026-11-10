@@ -14,10 +14,10 @@ The full excision/gluing construction and the analytic adapter are not formalize
 
 Main was read at commit `55deb4a46046f5554f0d4e0e64baeaa8b4eef1a9`. All source references below are to:
 
-- T: `/home/scott/wave-turbulence/paper/source/WKE-Longer_times_Final_arXiv.tex`.
-- Main: `/home/scott/WaveTurbulence-dev` at the commit above; in particular `Foundations/Molecule/LFTwist/{FamilyState,FamilyBatch,FamilyOutputs}.lean` and frozen `LayeredGarden{CanonCriterion,ParentLayer,TopOrder,TreeKindOK,FlowerKindOK}`.
-- P3: `/home/scott/wt-scratch/flower-p3/src/FlowerP3/{OperationStub,AnchorPairs,Stem}.lean` and its compiled leaf-map dependencies. P3's global STATUS remains RUNNING; this report uses particular compiled declarations, not that packet's completion status.
-- Design C and its referee: `/home/scott/wt-scratch/research-flower/NOTES.md`, `/home/scott/wt-scratch/research-flower-referee/REPORT.md`.
+- T: `<sources>/paper/source/WKE-Longer_times_Final_arXiv.tex`.
+- Main: `<repo>` at the commit above; in particular `Foundations/Molecule/LFTwist/{FamilyState,FamilyBatch,FamilyOutputs}.lean` and frozen `LayeredGarden{CanonCriterion,ParentLayer,TopOrder,TreeKindOK,FlowerKindOK}`.
+- P3: `<scratch>/flower-p3/src/FlowerP3/{OperationStub,AnchorPairs,Stem}.lean` and its compiled leaf-map dependencies. P3's global STATUS remains RUNNING; this report uses particular compiled declarations, not that packet's completion status.
+- Design C and its referee: `<scratch>/research-flower/NOTES.md`, `<scratch>/research-flower-referee/REPORT.md`.
 - R47-FINAL (pair-type coefficient extraction), R48 (ordinary counting includes low-degree atoms), R61 (Design C), R63 (the present open lemma), in the orchestrator's `RULINGS.md`.
 
 The ordinary regular, vine, ladder, and counting estimates are mathematical inputs from T, including its garden counting theorem with low-degree atoms. Their campaign implementation remains a shared dependency; this note does not prove G3-LOWDEG, FC3, or the complete Stage-1/2 chain.
@@ -201,10 +201,10 @@ For `d≥3`, `424d+3 < 1000d² < (100d)³`. These inequalities are also checked 
 
 The missing Lean work is implementation of the explicit cut/glue forest and its node/leaf embeddings; the resulting frozen `topCountBelow` partition equalities and two-way gluing canonicality; and the analytic time/flux/normalization wrappers of §4. These are not passed as hypotheses to a claimed complete theorem. Momentum decorations and clocks are not fields of bare `FamilyReconstruction`, so the geometric theorem alone cannot formally assert their transport.
 
-Check command, from `/home/scott/WaveTurbulence-dev`:
+Check command, from `<repo>`:
 
 ```sh
-LEAN_PATH=/home/scott/wt-scratch/flower-p3/build nice -n 5 lake env lean /home/scott/wt-scratch/research-cut2/fiber/lean/FiberCore.lean
+LEAN_PATH=<scratch>/flower-p3/build nice -n 5 lake env lean <scratch>/research-cut2/fiber/lean/FiberCore.lean
 ```
 
 The extra search path reuses P3's compiled main-compatible modules; no dependency was rebuilt or modified. An initial attempt referred to P3's newly written unit anchor convenience theorem, which had not yet reached its compiled artifact. The final proof instead uses its already compiled trace theorem directly. A second attempt corrected a local equality-substitution issue. The final command exited 0 without errors or linter warnings. Final result and axiom checks are recorded in `lean/FiberCore.log`; only `propext`, `Classical.choice`, and `Quot.sound` occur in the checked core. No placeholder, custom axiom, heartbeat override, or source edit was used.
@@ -215,10 +215,10 @@ No new contradiction to TARGET is claimed. The address/parent wording is a neces
 
 ## 6. Source/artifact fingerprints
 SHA256, recorded after the final check (the complete P3 source may include additional declarations beyond the reused compiled interface):
-- `/home/scott/wave-turbulence/paper/source/WKE-Longer_times_Final_arXiv.tex`: `493eef6b7dec448bc5f9f1c3974c0cad7a85eca9bc428f5b35e968aad76727cb`
-- `/home/scott/wt-scratch/flower-p3/src/FlowerP3/OperationStub.lean`: `c5c2db076398046534298b21119f3e621350a5d05547c332ab62b92cfb7e52e1`
-- `/home/scott/wt-scratch/flower-p3/src/FlowerP3/AnchorPairs.lean`: `23cd0185dd7be17c5daa692c055f18d21bfe05cf4bcf3d0f4edf54db4552fa86`
-- `/home/scott/wt-scratch/flower-p3/build/FlowerP3/OperationStub.olean`: `830695acae78e7362ddb594c8ebbb54ae6d3e2a68146ebbe7773dc3b33dcc510`
-- `/home/scott/wt-scratch/flower-p3/build/FlowerP3/AnchorPairs.olean`: `f291e7d5233bb23c95e88bee73a9eb7a662e7b70095898574dc36896c3895abc`
+- `<sources>/paper/source/WKE-Longer_times_Final_arXiv.tex`: `493eef6b7dec448bc5f9f1c3974c0cad7a85eca9bc428f5b35e968aad76727cb`
+- `<scratch>/flower-p3/src/FlowerP3/OperationStub.lean`: `c5c2db076398046534298b21119f3e621350a5d05547c332ab62b92cfb7e52e1`
+- `<scratch>/flower-p3/src/FlowerP3/AnchorPairs.lean`: `23cd0185dd7be17c5daa692c055f18d21bfe05cf4bcf3d0f4edf54db4552fa86`
+- `<scratch>/flower-p3/build/FlowerP3/OperationStub.olean`: `830695acae78e7362ddb594c8ebbb54ae6d3e2a68146ebbe7773dc3b33dcc510`
+- `<scratch>/flower-p3/build/FlowerP3/AnchorPairs.olean`: `f291e7d5233bb23c95e88bee73a9eb7a662e7b70095898574dc36896c3895abc`
 - P3 `src` tree aggregate (sorted relative paths and individual SHA256 values, newline delimited): `bc75cd5f32a060d6c05eae2a3379e46b57d0d1f6a0c13cc209ea40213f895831`.
 - P3 `build` tree aggregate (sorted relative paths and individual SHA256 values, newline delimited): `e6831b9fbd487ff626b29e061939cc50e5042c345fb365a952133afda2c8dcc4`.

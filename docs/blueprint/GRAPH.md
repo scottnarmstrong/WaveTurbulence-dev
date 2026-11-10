@@ -1,11 +1,11 @@
 # Blueprint: node-level dependency graph for Deng–Hani, *Long time justification of wave turbulence theory*
 
 Target: arXiv:2311.10082v2, Theorem 1.1 (`main`) for `0 < γ < 1`, square torus `𝕋_L^d = [0,L]^d`, `d ≥ 3`
-(rulings D1 "everything proved in Lean", D2 "0<γ<1, square torus"; `~/WaveTurbulence-dev/docs/DECISIONS.md`).
+(rulings D1 "everything proved in Lean", D2 "0<γ<1, square torus"; `<repo>/docs/DECISIONS.md`).
 
 Written 2026-11-03 (revised the same day after the refute-first topology review
-`docs/campaign/orch/audits/GRAPH-topology.md`, see §G) from the maps `~/wave-turbulence/maps/{T-part1,T-part2,DH23,DH21}.md`, the TeX sources, the figures
-in `~/wave-turbulence/references/src-*/`, the Wave A draft `~/WaveTurbulence-dev/scratch/Draft.lean`, the findings
+`docs/campaign/orch/audits/GRAPH-topology.md`, see §G) from the maps `<sources>/maps/{T-part1,T-part2,DH23,DH21}.md`, the TeX sources, the figures
+in `<sources>/references/src-*/`, the Wave A draft `<repo>/scratch/Draft.lean`, the findings
 ledger F1–F29 and the five running infrastructure briefs. Companion file: `WAVE-B.md` (frozen-statement proposal).
 
 Contents
@@ -36,7 +36,7 @@ totals, critical path and packet dependencies in §D–§F were computed from th
 - **Kinds.** `def` (definition, possibly frozen), `thm` (source result), `step` (substantive proof step or unlabelled
   claim), `gap` (missing argument), `infra` (imported external / standard result, now an internal node to prove).
 - **Source.** `T Lxxx–Lyyy` = TARGET TeX lines; `DH23 L…`, `DH21 L…`, `DH212 L…`, `GIT20 L…` = lines of the pinned
-  reference TeX; `F<n>` = `~/WaveTurbulence-dev/docs/FINDINGS.md` entry.
+  reference TeX; `F<n>` = `<repo>/docs/FINDINGS.md` entry.
 - **deps** = direct dependencies (IDs; `—` none). Definitions a node merely mentions through a statement it uses are
   not repeated. **consumer** = the main TARGET-side node that consumes it (one representative).
 - **d** = difficulty, weight `L=1`, `M=2`, `H=4`, `VH=8`; `0` = design note (weight 0). **lines** = rough Lean size (proof + local API, not counting

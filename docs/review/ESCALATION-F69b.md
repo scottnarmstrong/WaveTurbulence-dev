@@ -53,7 +53,7 @@ pending.
 4. An independent adversarial referee tried every route to refute it and confirmed it with its own code
    (`docs/research/dh23-prop96-referee.txt`).
 
-The scripts are in `/home/scott/wt-scratch/prop96-case4/` and `/home/scott/wt-scratch/prop96-verify/`.
+The scripts are in `<scratch>/prop96-case4/` and `<scratch>/prop96-verify/`.
 
 ### Related points
 

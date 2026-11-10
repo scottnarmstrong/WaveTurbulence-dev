@@ -10,7 +10,7 @@ theorem WaveTurbulence.FinalCountG8.prop96 (d : ℕ) (hd : 3 ≤ d) (γ : ℝ) (
 Proof: `prop96_of_smallcell … (case4SmallCell_proved …)` (Final96c.lean).
 
 ## Files / gluing
-* Scratch `/home/scott/wt-scratch/finalcount-g8` (namespace `WaveTurbulence.FinalCountG8`).
+* Scratch `<scratch>/finalcount-g8` (namespace `WaveTurbulence.FinalCountG8`).
 * g8-xroute's `XRoute/{Base,Basic,Cell,Route,Ring,Small,RouteBound,XMinus,TheoremAX,Branch}.lean` copied byte-for-byte
   (sha256 in `XROUTE-COPIED-SHA256SUMS`, compared with the g8-xroute originals: identical). Its inputs
   (C4NonExc, C4Main, C4Route, PairGain(Input), G8R/ThmA, ThmARoute, CoreCaseI, CoreInputs) were checked to have the same
@@ -75,7 +75,7 @@ STATUS: **F6-1 DONE; one named input remains: `Case4SmallCell` (C4NonExc.lean).*
 The non-exceptional branch of case (4) is proved (decoration-level consumption of `SplitBound`) except when the
 closure `𝕄₁` reaches a small cell (F6-2, pending an orchestrator ruling) or has at most four atoms.
 
-Scratch: `/home/scott/wt-scratch/finalcount-g8` (namespace `WaveTurbulence.FinalCountG8`). PROGRESS.md has the module log.
+Scratch: `<scratch>/finalcount-g8` (namespace `WaveTurbulence.FinalCountG8`). PROGRESS.md has the module log.
 
 ## Session 7: F6-1 (all exit 0, no sorry; axioms propext, Classical.choice, Quot.sound: Axioms10.lean)
 | module | content |

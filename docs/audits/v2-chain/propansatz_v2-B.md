@@ -4,7 +4,7 @@ Anchor `WaveTurbulence.propansatz_v2` (`WaveTurbulence/Frozen/Theorems/Propansat
 `a2216712` ("Seal propansatz_v2 with its proved assembly") and `7d98ae17dae8fc7cf902e852badd5ab0a494e1c8` ("manifest: ABI
 hash of the sealed propansatz_v2"). Final main `1987105a` (= origin/main; the only later commits are main_v2's seal and
 ABI, outside this closure). Freeze `8d7ccb4a` (D10). Binding rules: `seal-prep/audit-briefs/AUDIT-COMMON.md`; anchor brief
-`AUDIT-propansatz_v2.md`. Work dir `/home/scott/wt-scratch/seal-audit-propansatz_v2-B/`. Clean export: `export/` =
+`AUDIT-propansatz_v2.md`. Work dir `<scratch>/seal-audit-propansatz_v2-B/`. Clean export: `export/` =
 `git archive 7d98ae17`. Nothing outside this directory was edited, and nothing was pushed. Every Lean process was run niced
 (`nice -n 10`), one heavy process at a time.
 
@@ -163,7 +163,7 @@ replay, which reads all olean parts, reports each as `theorem`.)
 
 ## (f) Kernel replay
 
-- **Adaptation.** Adapted from `/home/scott/wt-scratch/seal-lg2/replay/Replay.lean` (sha256 `6c943568…`) and `replay.sh`
+- **Adaptation.** Adapted from `<scratch>/seal-lg2/replay/Replay.lean` (sha256 `6c943568…`) and `replay.sh`
   (`b8298ed6…`). The diff is `replay/Replay.diff`: root module/constant `PropansatzV2`/`propansatz_v2`; this chain's
   `wanted` list; Expr checks (provider vs anchor; gates vs anchors); the dump of reachable modules. The driver runs index
   batches until the closure's project count is covered (the template hard-coded 6×2000; this closure has 12,126 project
@@ -187,7 +187,7 @@ replay, which reads all olean parts, reports each as `theorem`.)
   - Each trace's output hashes for `.olean`/`.olean.server`/`.olean.private` equal `computeBinFileHash` of the files on disk.
     The `.hash` files agree, and all traces name Lean 4.35.0 eb6cafb.
   - 0 problems (`trace/trace-check.out`). 1,815 VineParam traces record their source under
-    `/home/scott/WaveTurbulence-worktrees/port-vp/`, with hashes equal to the seal sources.
+    `<worktrees>/port-vp/`, with hashes equal to the seal sources.
   - All 11,170 replayed modules are among the checked ones (0 unchecked).
 
 ## (g) Status fields (at seal commit 7d98ae17)
@@ -283,7 +283,7 @@ verdict:
    manifest gives 7.
 4. **`check_index.sh` needs a git checkout.** It cannot run on a `git archive` export; I ran its two scripts directly.
 
-## Evidence (paths relative to `/home/scott/wt-scratch/seal-audit-propansatz_v2-B/`; sha256 in `evidence/SHA256SUMS`)
+## Evidence (paths relative to `<scratch>/seal-audit-propansatz_v2-B/`; sha256 in `evidence/SHA256SUMS`)
 
 | What | Path |
 |---|---|

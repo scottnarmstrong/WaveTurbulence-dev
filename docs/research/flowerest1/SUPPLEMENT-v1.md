@@ -8,9 +8,9 @@ The distinction matters: an algebraic cancellation, a bound for an individual os
 
 We use the following frozen local sources; line numbers below refer to these files.
 
-- **T:** `/home/scott/wave-turbulence/paper/source/WKE-Longer_times_Final_arXiv.tex`, SHA256 `493eef6b7dec448bc5f9f1c3974c0cad7a85eca9bc428f5b35e968aad76727cb`.
-- **D21:** `/home/scott/wave-turbulence/references/src-2104.11204/Inventiones-Final_Version.tex`, SHA256 `50d0e236a2df0cfd2b98bace6f0256043ee88fc05079ee44c3524ca9482fe402`.
-- **D23:** `/home/scott/wave-turbulence/references/src-2301.07063/Revision_Submit.tex`, SHA256 `c7e47dfabf5a4cca6e3ad0399fc377f2809c12f58e1563640407fe0992335475`.
+- **T:** `<sources>/paper/source/WKE-Longer_times_Final_arXiv.tex`, SHA256 `493eef6b7dec448bc5f9f1c3974c0cad7a85eca9bc428f5b35e968aad76727cb`.
+- **D21:** `<sources>/references/src-2104.11204/Inventiones-Final_Version.tex`, SHA256 `50d0e236a2df0cfd2b98bace6f0256043ee88fc05079ee44c3524ca9482fe402`.
+- **D23:** `<sources>/references/src-2301.07063/Revision_Submit.tex`, SHA256 `c7e47dfabf5a4cca6e3ad0399fc377f2809c12f58e1563640407fe0992335475`.
 
 The constants $C_0,C_1,C_2,\nu,\eta,\Lambda_p,N_p$ have the meanings and dependencies in T606–615. In particular, $C_2$ may depend on $\delta$; it cannot be used indiscriminately as the base of an exponential in the order. Choose $P$ first, $\delta$ second, and $L$ last. Constants depending on $\delta$ but independent of the order can be absorbed by increasing the final threshold for $L$. A factor $C_2^n$ cannot be absorbed by choosing $\delta$ smaller without an additional argument. A factor $L^{Cn}$ is inadmissible.
 

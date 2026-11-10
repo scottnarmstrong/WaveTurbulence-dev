@@ -1,4 +1,4 @@
-# HANDOFF g3-lowdeg (G3-LOWDEG, R48), session 2 (final). Scratch /home/scott/wt-scratch/g3-lowdeg
+# HANDOFF g3-lowdeg (G3-LOWDEG, R48), session 2 (final). Scratch <scratch>/g3-lowdeg
 
 Files: `src/GL1..GL29`, `src/GM01..GM08`, `src/GV01..GV14` (ports), `src/Ex1`, `src/AxL1..AxL6`; `build.sh`, `chain.sh` (stop-at-first-failure), `rebuild.sh` (fresh
 rebuild of the whole closure, `exits.log`); `port/mk3.py` (the sed/port generator); `COPIED-SHA256SUMS` (sha256 of every copied G3 source).

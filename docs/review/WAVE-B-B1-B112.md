@@ -11,7 +11,7 @@ for every use in `fixedpoint`. The audit's two edits are applied:
 - F2: the per-tree choices are disclosed in the docstring.
 
 The draft compiles on snapshot 5, and its bridges and identities use only the standard axioms. Nothing else in
-snapshot 5 changes. New text: `/home/scott/wt-scratch/flower/Flower-Gate.lean` (sha256 `768d4953bf97…`).
+snapshot 5 changes. New text: `<scratch>/flower/Flower-Gate.lean` (sha256 `768d4953bf97…`).
 
 ## Decisions for the author (with recommendations)
 
@@ -35,8 +35,8 @@ Approving B1 as in `WAVE-B-B1.md` together with decision 1 freezes 12 theorem an
 
 # Snapshot 6 delta: B1.12 `layergardenFlower` (packet X1, final)
 
-**Base:** snapshot 5 (`/home/scott/wt-scratch/waveb-snap-5/`, CL-19).
-**New text:** `/home/scott/wt-scratch/flower/Flower-Gate.lean` (sha256 `768d4953bf975d3b770b84c9e9bb219511457e09617212b136a0fc9dd82092b9`), with probes in
+**Base:** snapshot 5 (`<scratch>/waveb-snap-5/`, CL-19).
+**New text:** `<scratch>/flower/Flower-Gate.lean` (sha256 `768d4953bf975d3b770b84c9e9bb219511457e09617212b136a0fc9dd82092b9`), with probes in
 `Flower-Gate-probes.lean` (sha256 `6c7e469b9e5222c1bb0d21f1c6518f80c883b300d77d569e6f0dc45ed66c4ee5`).
 **Audit:** wt-orch `FLOWER-redraft.md` (be8484c) found the redraft faithful and sufficient. Its edits F1 and F2 are
 applied (FLOWER-DESIGN.md changelog FL-2). Kept as instructed: `δ^{2νN}` for flowers (TARGET L2305, literal) and

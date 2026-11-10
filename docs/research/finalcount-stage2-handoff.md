@@ -1,7 +1,7 @@
 # HANDOFF: FINALCOUNT-G3 (DH23 Prop 9.5 / TARGET finalmol), INTERIM (not READY) -- see SESSION 4 block at the end
 
-Scratch: /home/scott/wt-scratch/finalcount-g3 (namespace WaveTurbulence.FinalCountG3), build.sh / rebuild.sh, deps = main read-only lake env + lg-spine +
-snapshot of wt-scratch/finalcount build (G2). Sources: DH23 = references/src-2301.07063/Revision_Submit.tex (L1773-L1817), TARGET = WKE-Longer_times_Final_arXiv.tex (L2100-L2200).
+Scratch: <scratch>/finalcount-g3 (namespace WaveTurbulence.FinalCountG3), build.sh / rebuild.sh, deps = main read-only lake env + lg-spine +
+snapshot of <scratch>/finalcount build (G2). Sources: DH23 = references/src-2301.07063/Revision_Submit.tex (L1773-L1817), TARGET = WKE-Longer_times_Final_arXiv.tex (L2100-L2200).
 
 ## Files (all exit 0, no sorry; last full chain in rebuild.sh)
 State/model: G3State, G3Steps (Step1..4, Run), G3Inv, G3CutDeg, G3InvCut, G3InvDel, G3Vine, G3Tri, G3Run (Inv/Clean/Good along Run), G3Init (SubHyp, Run.good),
@@ -128,7 +128,7 @@ Deviation: IsVine is symmetric in the joints (the set {f j1,f j2}={0,1}); used f
 `BUILD=.../build-fresh3 ./rebuild.sh`: 70 modules, all exit 0 (before the session-7 refactor). After it: `BUILD=.../build-fresh4 ./rebuild.sh` (see PROGRESS.md for the result).
 
 ## Step 2: remtame (E9), corrected `finalmol` -- files (all exit 0, no sorry)
-In-place changes to accepted modules (needed so that the invariants survive an erasure; backup of the old tree: /home/scott/wt-scratch/finalcount-g3-backup-s7):
+In-place changes to accepted modules (needed so that the invariants survive an erasure; backup of the old tree: <scratch>/finalcount-g3-backup-s7):
 * `Inv` (G3InvCut): `eps : ε-atoms have 1 ≤ deg` (was `3 ≤ deg`), field `odd` removed (parity count is recovered from `Flat` below).
 * `Step1..4`, `HStep1..4` got trailing hypotheses `h3a h3b` (Step 1: `3 ≤ deg` of both joints), `h3` (Step 2: `3 ≤ deg (t j)` for every ε triangle atom; Steps 3/4: `3 ≤ deg v`). Source: DH23 L1777
   "If deg v_j ≥ 3 then we cut", L1779, L1781 "degree 3 or 4". (Previously derived from `Inv.eps`; an ε-atom of degree 1 or 2 only exists after an erasure.)
@@ -166,7 +166,7 @@ perfect component has a β-atom; cycles and chains for components whose ε-atoms
   (b) 'the run is valid for every admissible decoration' (Adm0 ⊆ {k0 | GapSim ... for all steps}); (c) IotaHit(kappa) => IotaReading(Adm): the earlier cut's gap is ± the charge of an atom still present (the kept half
       of the earlier cut; its charge is -gap(x1',x2') by definition, and for the other half by `cut_v2_gap`), independent of kappa' in Adm; (d) P inheritance (hPinh/hP1..hP3) from the ladder scale of M_sub;
   (e) n_sub <= (log L)^c (hn) for atoms; (f) the vine classification `SingleVineVC K ∨ Nonempty (DoubleShape K)` at each Step-1 application from the universe's `subsetvc_classification` + subpro (a),(e).
-* (3) universe `cnblock_component_excess_bound` (/home/scott/wt-scratch/universe/src/CNBlockExcess.lean) is stated for `removeBlockFamily G F` of a Garden over the Mole universe: a bridge to `HStep1` (new component <=> β) is needed.
+* (3) universe `cnblock_component_excess_bound` (<scratch>/universe/src/CNBlockExcess.lean) is stated for `removeBlockFamily G F` of a Garden over the Mole universe: a bridge to `HStep1` (new component <=> β) is needed.
 * The remtame (ii) erasure also needs its own estimate (TARGET remtame2 L2218: extra gain L^{-(d-2γ-2η)-(2γ_0+5η²)}); not in G2.
 
 ## Session 7 checks run (exact)
@@ -184,8 +184,8 @@ perfect component has a β-atom; cycles and chains for components whose ε-atoms
 # SESSION 9 (continuation; wt-orch ticket FINALCOUNT G3 steps 1-6)
 
 Build: `./b.sh <Module>` (build-fresh4, incremental), fresh closure rebuild `rebuild5.sh` -> `build-fresh5/`, `exits5.log`.
-deps: `deps/s1-src` got the missing .server/.private oleans (deps/s1-src-extra-SHA256SUMS); `deps/fc-build2` got TriSib1-4 from /home/scott/wt-scratch/g2-sibling (deps/fc-build2-sib-SHA256SUMS).
-Pre-session-9 tree backup: /home/scott/wt-scratch/finalcount-g3-backup-s9 (taken before the in-place R27 generalization).
+deps: `deps/s1-src` got the missing .server/.private oleans (deps/s1-src-extra-SHA256SUMS); `deps/fc-build2` got TriSib1-4 from <scratch>/g2-sibling (deps/fc-build2-sib-SHA256SUMS).
+Pre-session-9 tree backup: <scratch>/finalcount-g3-backup-s9 (taken before the in-place R27 generalization).
 
 ## Readings recorded (accepted by wt-orch)
 * **PinnedM0**: the charges (chargeAt M0 k0 a) are constant on Adm0; ASSEMBLY obligation: the final count fixes the external momenta (k1..k_2R), so the charges are fixed. Discharged by the FINAL ASSEMBLY.
@@ -323,7 +323,7 @@ G2-GHOST became READY (`TriData.triangle_excess_ghost`, g2-ghost/GhostMain4.lean
 Errata (candidates, per R37/R38): DH23 L1777/L1791-1795 and TARGET L2142/L2165 ghost-triangle bound; TARGET L2140 triple bonds not in C₁∪C₂; DH23 L1784/L1803, TARGET L2150 dead-hit ball centre.
 
 # SESSION 15 (GhostTriInput discharged; TripleDesig >= 4 case) -- build dir build-fresh10, `./rebuild15.sh` (uses b3.sh = b2.sh + g2-ghost/build + g2-sibling/build read-only), closure15.txt (140 modules), exits15.log
-## Files (new/changed, all in /home/scott/wt-scratch/finalcount-g3, namespace WaveTurbulence.FinalCountG3)
+## Files (new/changed, all in <scratch>/finalcount-g3, namespace WaveTurbulence.FinalCountG3)
 * G3TriBridge.lean (compiled now; copy of finalcount-asm AsmTriBridge `isA0_iff`, `isA1_iff`; sha in COPIED-SHA256SUMS).
 * G3Ex2G1.lean: `blobM_closed`, `not_all_alpha_of_compBeta` (hnot3), `ghostQ/ghostK(_eq)`, `labelProd_eq_ghostCharge`, `alphaLabels_eq_triAlphaNew`.
 * G3Ex2G2.lean: `triSt_atoms_gen`, `triKeep_dartless`, `triSt_numComponents_ghost` (F(post)+g = F(kept)), `betaCount_pre/post`, `betaCount_incr` (= 3 - #newα - g - gβ).

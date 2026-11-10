@@ -8,7 +8,7 @@
 - Provider: `WaveTurbulence.Provider.layergardenFlower_v3` := `WaveTurbulence.Flower.Top.layergardenFlower_v3_proof`
   (`WaveTurbulence.Foundations.Flower.Top.Proof`), landed by the flower port `14451183` and merged at `c43c7b36`.
 - Auditor: KEY-B. I wrote none of the anchor, the provider, the proof chain or the seal script, and never saw KEY-A's
-  work. Work directory: `/home/scott/wt-scratch/seal-audit-layergardenFlower_v3-B/`. The clean export is
+  work. Work directory: `<scratch>/seal-audit-layergardenFlower_v3-B/`. The clean export is
   `export/` (`git archive 1e51bebf`). Everything outside my directory was only read.
 - Order of work: I wrote the (h) source reconstruction from raw TeX before reading any Lean
   (`h-source-reconstruction.md`). I wrote the (h) table before opening the claim appendix (`h-binder-table.md`). I
@@ -198,7 +198,7 @@ independent check.
 
 ## (f) Kernel replay
 
-- Adapted from `/home/scott/wt-scratch/seal-lg2/replay/` (`Replay.lean` sha256 `6c943568…`). I read it first. Diff:
+- Adapted from `<scratch>/seal-lg2/replay/` (`Replay.lean` sha256 `6c943568…`). I read it first. Diff:
   `replay/Replay.diff`, 75 lines. Changes:
   - root module and constant;
   - `wanted` chain list;
@@ -231,8 +231,8 @@ independent check.
     recorded in each module's `.trace` equals the Lake hash of the file in my clean `git archive 1e51bebf`.
   - All **35,013** olean parts (`.olean`, `.olean.server`, `.olean.private`) hash to the trace's output hashes.
     Problems: 0. Output: `trace-check-replay-closure.out`.
-  - Source roots: 9,856 in `/home/scott/WaveTurbulence-dev`. 1,815 VineParam modules were built in
-    `/home/scott/WaveTurbulence-worktrees/port-vp`, with identical source content.
+  - Source roots: 9,856 in `<repo>`. 1,815 VineParam modules were built in
+    `<worktrees>/port-vp`, with identical source content.
   - Dependency checkouts (mathlib `56a00585…` v4.35.0, batteries, aesop, Qq, proofwidgets, plausible, importGraph,
     LeanSearchClient, Cli) are clean at their `lake-manifest.json` revisions. That manifest is identical at
     `1e51bebf`. Toolchain: Lean 4.35.0, commit `eb6cafb7…` (trace); binary sha256 `bf8d54e4…`.

@@ -10,10 +10,10 @@ The SHA-256 hashes checked on 2026-11-07 are:
 
 | Abbreviation | Source | SHA-256 |
 |---|---|---|
-| S | `/home/scott/wt-scratch/flower-open/SUPPLEMENT-v1.md` | `ddd81fe1238e7c51379a69981b4d10aa68690ced46d0fc1b115200fc0c3774d7` |
-| T | `/home/scott/wave-turbulence/paper/source/WKE-Longer_times_Final_arXiv.tex` | `493eef6b7dec448bc5f9f1c3974c0cad7a85eca9bc428f5b35e968aad76727cb` |
-| D21 | `/home/scott/wave-turbulence/references/src-2104.11204/Inventiones-Final_Version.tex` | `50d0e236a2df0cfd2b98bace6f0256043ee88fc05079ee44c3524ca9482fe402` |
-| D23 | `/home/scott/wave-turbulence/references/src-2301.07063/Revision_Submit.tex` | `c7e47dfabf5a4cca6e3ad0399fc377f2809c12f58e1563640407fe0992335475` |
+| S | `<scratch>/flower-open/SUPPLEMENT-v1.md` | `ddd81fe1238e7c51379a69981b4d10aa68690ced46d0fc1b115200fc0c3774d7` |
+| T | `<sources>/paper/source/WKE-Longer_times_Final_arXiv.tex` | `493eef6b7dec448bc5f9f1c3974c0cad7a85eca9bc428f5b35e968aad76727cb` |
+| D21 | `<sources>/references/src-2104.11204/Inventiones-Final_Version.tex` | `50d0e236a2df0cfd2b98bace6f0256043ee88fc05079ee44c3524ca9482fe402` |
+| D23 | `<sources>/references/src-2301.07063/Revision_Submit.tex` | `c7e47dfabf5a4cca6e3ad0399fc377f2809c12f58e1563640407fe0992335475` |
 
 The target is S440–456, in particular the phrases “with the same derivative orders, time-frequency weights” and “including all modulations subsequently consumed.” The endpoint requirement is S450 and Lemma 9.1, S572–590. A pointwise decoration-sum estimate is therefore strictly short of the requested result.
 

@@ -2,13 +2,13 @@
 
 ## Result
 `WaveTurbulence.Ladder.ladderFourier_prefix : WTPrefix LadderFourierAt` (file Final4c.lean), exact-type checked against the pinned
-/home/scott/wt-scratch/ladder/in/MolecularSpineAt.lean (sha256 b8a8692faa11c091e0b916a74efa46cfabf7032cf6478b43f85d978c7fba4700, equal to the live lg-spine copy at the end):
+<scratch>/ladder/in/MolecularSpineAt.lean (sha256 b8a8692faa11c091e0b916a74efa46cfabf7032cf6478b43f85d978c7fba4700, equal to the live lg-spine copy at the end):
 `example : LadderFourierGate := ladderFourier_prefix` and `example : WTPrefix LadderFourierAt := ladderFourier_prefix` (transient ExactCheck.lean, deleted after the final run).
 The bare `LadderFourierAt P` is proved only under the analytic hypotheses `LFHyps P` (Final4a `ladder_fourier_param`); the gate chooses the thresholds:
 C1 = 128*(180 d)*(64*(1+d*2^(d-1))) (depends on d only), nu0 = 1, delta0 = min 1 ((1/(2 tau*))^(1/(5 nu))), C2 = 1, L0 from `Filter.eventually_atTop`
 (Final4c `eventually_conditions`, `Y_bound`, `delta_small`).
 
-## Files (all in /home/scott/wt-scratch/ladder, namespace WaveTurbulence.Ladder; < 1500 lines each, max 737)
+## Files (all in <scratch>/ladder, namespace WaveTurbulence.Ladder; < 1500 lines each, max 737)
 Session 1: ElemIneq, TimeLemma..TimeLemma5, AlphaInt, KLemma, PhiFamily, BoxSup, TimeWeights, Core1 (core1 now with per-coordinate radii).
 Generic bridge/sum: GenBridge1-5 (Th: iota->R ≃ᵐ Fin k->R × Fin m->R, Phi_eq_Bprod, gen_core), GenSum (sum_sup_le), GenSplit (exists_split(_with)), Valley (volume_Vset_le, NP_sub), GroupVol (volume_groups), GenClass1-4 (pattern partition, theta_bound, class_bound).
 Algebra/geometry: LocAlg (loc_alg, loc_shift), LinMaxVolume/LinBoundedSpanning (copies of main LinAlg, lincomblem), LadderDisj (copy of waveb2 Ladders.lean: maximalLadders_pairwiseDisjoint), MolRung, MolGamma (rung identity), MolLadder (flux_const, flux_zero_eq_gap), MolTree (no_peak), MolPres (ladder_eq_of_two), SpecFacts, Count, Local (rung_sum_relation).

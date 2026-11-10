@@ -14,9 +14,9 @@ The verdict and classifications were fixed in `SOURCE-VERDICT.md` before opening
 
 | Source | File | SHA-256 |
 |---|---|---|
-| T | `/home/scott/wave-turbulence/paper/source/WKE-Longer_times_Final_arXiv.tex` | `493eef6b7dec448bc5f9f1c3974c0cad7a85eca9bc428f5b35e968aad76727cb` |
-| 21 | `/home/scott/wave-turbulence/references/src-2104.11204/Inventiones-Final_Version.tex` | `50d0e236a2df0cfd2b98bace6f0256043ee88fc05079ee44c3524ca9482fe402` |
-| 23 | `/home/scott/wave-turbulence/references/src-2301.07063/Revision_Submit.tex` | `c7e47dfabf5a4cca6e3ad0399fc377f2809c12f58e1563640407fe0992335475` |
+| T | `<sources>/paper/source/WKE-Longer_times_Final_arXiv.tex` | `493eef6b7dec448bc5f9f1c3974c0cad7a85eca9bc428f5b35e968aad76727cb` |
+| 21 | `<sources>/references/src-2104.11204/Inventiones-Final_Version.tex` | `50d0e236a2df0cfd2b98bace6f0256043ee88fc05079ee44c3524ca9482fe402` |
+| 23 | `<sources>/references/src-2301.07063/Revision_Submit.tex` | `c7e47dfabf5a4cca6e3ad0399fc377f2809c12f58e1563640407fe0992335475` |
 
 Bibliographic identities were checked against the primary arXiv records: [TARGET v2](https://arxiv.org/abs/2311.10082v2), [DH21](https://arxiv.org/abs/2104.11204), and [DH23](https://arxiv.org/abs/2301.07063). The mathematical evidence here is the local TeX, not the abstracts or a later replacement version.
 

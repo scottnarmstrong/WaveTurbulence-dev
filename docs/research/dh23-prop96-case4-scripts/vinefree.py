@@ -12,9 +12,9 @@ every block of N_m is a union of consecutive T-blocks, and no vine template (any
 removal disconnects the template.
 Usage: python3 -I vinefree.py [mmax] [K]
 """
-import sys, itertools
+import os, sys, itertools
 from collections import Counter
-sys.path.insert(0, '/home/scott/wt-scratch/prop96-case4')
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from graphs import mk, canon
 from necklace import necklace
 

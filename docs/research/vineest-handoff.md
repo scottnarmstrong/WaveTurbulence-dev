@@ -188,7 +188,7 @@ None new in TARGET.  (W2-D1 and F-W2-BOT are Lean-interface gaps, not source err
 * VINEPARAM `hM9` is a binder of the statement itself (VINEPARAM-U).
 * NO others: `ZpSurj`, `ZpLayers`, `hq2` are DISCHARGED (P4/Family, ZP-SURJ exports, from the `FamilyOperation` fields of the operative member); the code counts are proved in-world (`coupleCodeCount_le_pow`, `chainCodeCount_le_pow`, universe), not the sorry'd snapshot `regular_count_le`.
 
-## Files added this session (uni/src/VineEstS5C/P4/, all `module`, no sorry, build `uni/build5c4.sh VineEstS5C.P4.<M>`, LEAN_PATH now includes /home/scott/wt-scratch/zp-surj/build-fresh read-only)
+## Files added this session (uni/src/VineEstS5C/P4/, all `module`, no sorry, build `uni/build5c4.sh VineEstS5C.P4.<M>`, LEAN_PATH now includes <scratch>/zp-surj/build-fresh read-only)
 UnrollR (design R), WinChain (top level + null boundary), Family (bundleFamOf, ZpSurj/ZpLayers/hq2 discharged), Statement (R54 statements + (ii) from (i)),
 CohCount, CohCountTree, ZpCount, ChCount (count bridge), AllRows (engine bound with every row given; W2(a)).  2,700 lines.  Exact names: PROGRESS.md.
 
@@ -297,7 +297,7 @@ READY vineest-P1
 
 # HANDOFF vineest-C session 6 ADDENDUM (read first)  --  CHECKPOINT vineest-C (not READY)
 Done this session (R51; all `uni/build5c.sh VineEstS5C.<M>` exit 0, no sorry, axioms [propext, Classical.choice, Quot.sound], hygiene clean):
-* `ZpSurjStmt` (145 lines): **`structure ZpSurj p pstar J A sp0 hA : Prop`** = the exact statement for packet ZP-SURJ (R51): fields `coherent`, `twin`, `carrier` (see PROGRESS.md top).  `/home/scott/wt-scratch/zp-surj` did not exist at session start; ZP-SURJ should target `VineEstS5C.ZpSurj` verbatim (conjLayered-involution-free formulation).  Open question for ZP-SURJ: whether `coherent` (carrier-side objects coherent at (zpQQ, zpBranchQ) for every Zp state, including roots > L4) and the root-layer-lowering implicit in `twin`/`carrier` (II-a: Q at (L3,L2), T at (L4,L2); II-b: Q at (L4,L2), T at (L3,L2); carrier at (L4,L2)) hold; if not, ZP-SURJ STOPs with the mismatch (R51 option C).
+* `ZpSurjStmt` (145 lines): **`structure ZpSurj p pstar J A sp0 hA : Prop`** = the exact statement for packet ZP-SURJ (R51): fields `coherent`, `twin`, `carrier` (see PROGRESS.md top).  `<scratch>/zp-surj` did not exist at session start; ZP-SURJ should target `VineEstS5C.ZpSurj` verbatim (conjLayered-involution-free formulation).  Open question for ZP-SURJ: whether `coherent` (carrier-side objects coherent at (zpQQ, zpBranchQ) for every Zp state, including roots > L4) and the root-layer-lowering implicit in `twin`/`carrier` (II-a: Q at (L3,L2), T at (L4,L2); II-b: Q at (L4,L2), T at (L3,L2); carrier at (L4,L2)) hold; if not, ZP-SURJ STOPs with the mismatch (R51 option C).
 * WP-B steps 1-3: `BundleAlg` (`psiSB_eq_dict`), `BundleAbs` (`exact_eq_repl_add_rem`), `BundleState` (**`bundle_eq_repl`**: the exact bundle in pairing form with remainder rows, for ANY approximant families; no approximant-conjugation theorem), `CarrierSum` (**`carrier_sum_eq`**: reality_all's carrier finsum = finite sum over states).
 * NOT done: R35 case facts and `replSum_decomp_ext` application (see PROGRESS.md "R35 FINDINGS" and "REMAINING FOR WP-B"), remainder-row bounds, engine datum for the vine rows, unrolling over levels, WP-F, prefix theorem and `VineEstCanon` corollary, fresh rebuild, exact-type example.
 * Named inputs so far (unchanged + new): `SumintMixSignedDoubled` (owner: sumint/B1), the leafwise gates `LeafwiseCoherentApproximationGate`, `LeafwiseIncoherentDecayGate` (owners: lg-spine-u / PL23-30D), `hreal` = type of PL234 `reality_all` (owner PL234), VINEPARAM `hM9` (owner VINEPARAM-U), and now **`hZpSurj : ZpSurj ..` (owner ZP-SURJ; must be discharged, not kept)**.
@@ -473,8 +473,8 @@ READY vineest-4dA
 
 # HANDOFF vineest-full (V5 Step 4d), session 1 (Sonnet 5.5): CHECKPOINT, NOT READY
 
-## Files (scratch /home/scott/wt-scratch/vineest-s3/uni; new this session)
-* uni/src/VineEstS4c/{TimeDiffKernel,TimeDiffNorm,TimeDiff,TimeDiffRestr,DefectRows,Bs2Vanish,SourceAppVanish}.lean: the 4c frozen-world modules, ported into the uni (draft) world by IMPORT SUBSTITUTION ONLY (sha256 orig/ported: uni/COPIED-SHA256SUMS-s4c).  The draft-world 4c modules (SumintPar/*, ReplaceAlgebra, TimeDiffGauss, TimeDiffScalar, WeightDiff, LeibnizPack, RowForms, CoordinateDerivativeBound) are used read-only from /home/scott/wt-scratch/vineest-s4c/build.
+## Files (scratch <scratch>/vineest-s3/uni; new this session)
+* uni/src/VineEstS4c/{TimeDiffKernel,TimeDiffNorm,TimeDiff,TimeDiffRestr,DefectRows,Bs2Vanish,SourceAppVanish}.lean: the 4c frozen-world modules, ported into the uni (draft) world by IMPORT SUBSTITUTION ONLY (sha256 orig/ported: uni/COPIED-SHA256SUMS-s4c).  The draft-world 4c modules (SumintPar/*, ReplaceAlgebra, TimeDiffGauss, TimeDiffScalar, WeightDiff, LeibnizPack, RowForms, CoordinateDerivativeBound) are used read-only from <scratch>/vineest-s4c/build.
 * uni/src/DegenVinePar/{MixLocalized,MixNorm,MixCounted,MixRecomb,MixSumint,SumintMix,SumintMixDoubled,ScaledSumintMix,ClockedExprMul,ClockedBoundMix}.lean: DEGEN-VINE character-mixture layer and engine over `SumintPar.SumintDatum` (r-dependent K weights).
 * uni/src/VineEstS3Par/{SignedParam,SignedBound,ClockPhase,ClockedExpr,TimeDomMeas,DecaySum,DecayX,ClockedExpand,ClockedExpand2,ScaledSumint,ClockedModes,ModeBounds,ModeBounds2,EngineAux,ClockedBound}.lean: the clocked engine over SumintPar (ClockedModes rewritten with the r-sup inside the mode sum).
 * Scripts: uni/build4d.sh (one module; LEAN_PATH buildS4c:buildS4b:buildN:stage1/build-fresh4:vineest-s4c/build), uni/fresh-s5.sh (fresh rebuild of all 32 new modules into a new dir), uni/portpar.py (mechanical porting helper), probes uni/probe5/{Co2,Ax1,Ax2}.lean.  PROGRESS.md top has the architecture and the exact next steps.
@@ -499,7 +499,7 @@ CHECKPOINT vineest-full: exact next step = PROGRESS.md item 2(a) (kind-2 phase b
 
 # HANDOFF vineest-s4b (session 4b-8): class assembly (tildeJ2), TARGET Prop `vineest` Step 4
 
-## Files (scratch /home/scott/wt-scratch/vineest-s3/uni/src/VineEstS4/, all < 200 lines)
+## Files (scratch <scratch>/vineest-s3/uni/src/VineEstS4/, all < 200 lines)
 27 new modules, in build order (uni/build-s4b.sh): Cls4Ext Cls5Inj Cls6Zp Cls7Inj Bl1Reach Sp2Split Sp3State Sp4Rigid Sp5Reach Sp6KT Sp7Comb
 Sp8Fib Sp9Fib Sp10KT Sp11Lin Sp12Sok Sp13Rig Sp14Op Sp15SokOp Sp16Main Sp17Suffix and (this session) Sp18Comb Sp18Geom Sp19Canon Sp19Bottom Sp19Final.
 
@@ -636,7 +636,7 @@ Nothing outside `uni/src/VineEstS4/{PrimeState,Region,Canon,CanonStatement,Invar
 
 ## Results (exact names)
 R31(1). TARGET `propstructure2` (L870) = SKELETON's `SkeletonDraft.SourceStructure.existsUnique_prime_with_replacements` (unique prime skeleton and unique replacement data; includes the L833 general-couple uniqueness). REG-STRUCT alone does NOT give it (its HANDOFF: "No C3
-general-skeleton uniqueness claim"); the universe src omits SKELETON's C3 chain, so I imported it from /home/scott/wt-scratch/skeleton and rebuilt the 43 modules downstream of `SkeletonDraft.PrimeGraph` against the universe's `PrimeGardenDefs` (one change: PrimeGraph's `IsPrimeGarden` def deleted in favour of `public import PrimeGardenDefs`, the two defs are identical).
+general-skeleton uniqueness claim"); the universe src omits SKELETON's C3 chain, so I imported it from <scratch>/skeleton and rebuilt the 43 modules downstream of `SkeletonDraft.PrimeGraph` against the universe's `PrimeGardenDefs` (one change: PrimeGraph's `IsPrimeGarden` def deleted in favour of `public import PrimeGardenDefs`, the two defs are identical).
 * `batch_prime` / `prime_output` / `Reach.prime`: LF twists preserve a prime skeleton (`unitTwist_prime`).
 * `eq_of_prime_layered`: two nodup-batch outputs from a prime-skeleton start with equal LAYERED garden are the same state (skeleton, family, data, layered). `Reach.region_unique`: they also carry the same transported region (order of the batch irrelevant; via `ChainAt.heq_of_raw`, `doubleBranch_comm`, `foldR_perm`).
 * `canonReps_unique`, `classSection_eq_canonReps`, `canonReps_finite`, `canonFinset`, `classSection_canonFinset`, `classSection_eq`: exactly one canonical (state, region) per garden of the class and every `ClassSection` equals `canonFinset`.
@@ -695,7 +695,7 @@ Nothing was edited outside uni/src/VineEstS4, PROGRESS.md (backup PROGRESS.md.pr
 # HANDOFF vineest-s3 -- SESSION 8 (V5 part 1, TARGET `vineest` Step 3, no twist) -- READ THIS SECTION FIRST
 
 Environment: `uni/` (universe-ported tree). `uni/run.sh VineEstS3.Step3Prefix` = DONE 458 bad 0 (log `uni/drv.out`); fresh rebuild in `uni/buildS8` (log `uni/drvS8.out`, see 8.6).
-Read-only external build dirs on LEAN_PATH (build.sh, probe.sh, drv.py): `/home/scott/wt-scratch/vineparam-groups/build` (sha256s in that dir's `FINAL-SHA256SUMS`; `Contract.lean` sha cd16890b... identical to uni's) and `/home/scott/wt-scratch/vineparam/current/build`.
+Read-only external build dirs on LEAN_PATH (build.sh, probe.sh, drv.py): `<scratch>/vineparam-groups/build` (sha256s in that dir's `FINAL-SHA256SUMS`; `Contract.lean` sha cd16890b... identical to uni's) and `<scratch>/vineparam/current/build`.
 Copied sources (sha256 in `uni/COPIED-SHA256SUMS`): CONJ-COH `NormSwapConj, CodeConj, CodeConjPairs, GardenConj, ConjCanon, ConjEmbed, ConjCoherent, CoupleRowConj, PL234Draft/P4KConj`.
 Originals of every edited V4/V5 file: `uni/port-orig/*.s7pre-align.lean`, `NativeRows.s8pre-conj.lean`, `LayerFacts.s8pre-conj.lean`, `Step3Prefix.s8pre-cohmol.lean`, `ChainChartIndexing.v4-pre-normalize.lean`, `M9ChosenChart.v4-pre-normalize.lean`.
 
@@ -786,7 +786,7 @@ bound `ofReal ((C₁ √δ)^{n_(2)} L^{-η⁸ (M₀+M₁) - η² b + η⁷})` wi
 (2) `ε` kept (DEGEN-VINE, R13); (3) `BadClause`, `RowCoherent`, `RowSizes` are premises (above); (4) the constant `C₁` is chosen large (TARGET: "C_1 an arbitrary large constant"), and the prefix form `WTPrefix` supplies `C_2, L`.
 
 
-Scratch `/home/scott/wt-scratch/vineest-s3`, namespace `WaveTurbulence.VineEstS3` (+ `.Eng`, `.FS`), modules `VineEstS3.*`, copies in `src/`.
+Scratch `<scratch>/vineest-s3`, namespace `WaveTurbulence.VineEstS3` (+ `.Eng`, `.FS`), modules `VineEstS3.*`, copies in `src/`.
 Previous sessions' handoff (engine, FS route, sumint): `validation/HANDOFF-previous-sessions.md` (still valid).
 **Single environment** (new): `build-v4.sh` (dev) / `build-g.sh` (fresh, dir `buildG`): V4 snapshot-9 closure (`vineest-s2/snap9`) + engine + DEGEN-VINE light
 modules + gate chain + PL23-30D tensor lemmas, all in ONE `LEAN_PATH`.  Fresh rebuild: `./fresh2.sh VineEstS3.Step3Prefix` (log `logsG/EXIT.txt`).
@@ -809,7 +809,7 @@ theorem vineestStep3 (hS : SumintMixSignedDoubled) (hG : CoherentApproximationGa
     `example : SumintMixSignedDoubled := sumintMixSignedDoubled`, axioms `[propext, Classical.choice, Quot.sound]`.  The statement's defining modules
     `src/DegenVine/{SumintMixDoubled,ScaledSumintMix}.lean` are byte-identical (`cmp`) to degen-vine's.
   * `CoherentApproximationGate30d` = `WTPrefix CoherentGateAt`; body text-identical (whitespace-normalised, checked by script) to the 0814 pin
-    `/home/scott/wt-scratch/pl234/pinned/SpineInputs.lean.0814` (sha256 54637750...003f).  Proved by PL23-30D from the two B2.1 gates.
+    `<scratch>/pl234/pinned/SpineInputs.lean.0814` (sha256 54637750...003f).  Proved by PL23-30D from the two B2.1 gates.
   * `IncoherentDecayGate` = `WTPrefix IncoherentGateAt`; body text-identical to the frozen anchor `Frozen/Theorems/IncoherentDecay.lean` (B2.2, sealed).
 * The remaining hypotheses are INSIDE `Step3Statement` (typing/standing data of Section regred, TARGET L946-L951, L1724ff) — **see section 3, they are the open items**.
 
@@ -939,7 +939,7 @@ theorem twistedRecentered_continuousOn {P : WTParams}
 **Uncertainties.** (1) Not compiled against the final W13/W2 definitions. (2) No `BadClause`/order-N1 hypotheses are used (not needed for continuity). (3) The conclusion on the cube relies on `q0 = qOutOf` of the start for members; no member-specific q is needed.
 
 
-## F-QOUT (packet S-FQOUT; scratch /home/scott/wt-scratch/vineest-s3/uni-qout/)
+## F-QOUT (packet S-FQOUT; scratch <scratch>/vineest-s3/uni-qout/)
 
 **Finding.** The layers can differ. `IsLayering` only demands `𝔏(child) ≤ 𝔏(parent)` and equal layers on paired leaves,
 so the top `attachedNode c = (core b).child i` of the native chain at a branch child `c` and `coreBranch c` (below it in the
@@ -955,7 +955,7 @@ So fix (a) is local: only the *definition* `qOutOf` and the two lemmas change. E
 `Step3PrefixH`, `Cont/Class`, `Cont/ModClass`, `P4/Statement`, `P4/W2/ModStatement`, `P4/Final/Core`) compiles UNCHANGED
 (`hqOut` still closes by `simp only [qOutOf]; exact hlay _`).
 
-**Patch to apply to uni/ (one file): `/home/scott/wt-scratch/vineest-s3/uni-qout/LayerFacts.patch`** (diff -u against uni/src/VineEstS3/LayerFacts.lean,
+**Patch to apply to uni/ (one file): `<scratch>/vineest-s3/uni-qout/LayerFacts.patch`** (diff -u against uni/src/VineEstS3/LayerFacts.lean,
 sha256 of uni original 3c4ad8b2..., patched e9805d4b...; patched file uni-qout/src/VineEstS3/LayerFacts.lean). Content:
 ```lean
 noncomputable def outNode (RD) (hG) (c' : GNode G.tree) : GNode (RD.forest hG) :=

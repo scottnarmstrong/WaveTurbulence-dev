@@ -211,7 +211,7 @@ plain clause (no cutoffs) first; open FLOWER-CUT as research with STOP authority
 
 ## 7. Lean checks (transient, probe/PendantBlock.lean, sha in probe/SHA256SUMS; log logs/PendantBlock.log)
 
-Run: `cd /home/scott/WaveTurbulence-dev && nice -n 5 lake env lean …/probe/PendantBlock.lean` → exit 0.
+Run: `cd <repo> && nice -n 5 lake env lean …/probe/PendantBlock.lean` → exit 0.
 - `two_le_deg_of_mem_block : M.IsBlock S j₁ j₂ → v ∈ S → 2 ≤ M.deg v` and
   `not_mem_block_of_deg_le_one` (main `Foundations/WaveB/Molecules`); axioms propext, Classical.choice,
   Quot.sound.

@@ -1,6 +1,6 @@
 # Seal audit: `WaveTurbulence.layergarden_v2` (B1.2 `layergarden`, γ ∈ (1/2, 1) successor), tag seal-lg2
 
-Auditor: independent Opus (O-SEAL-LG2; brief `/home/scott/wt-scratch/sonnet-briefs/O-SEAL-LG2.md`, sha256 `902015ad…`,
+Auditor: independent Opus (O-SEAL-LG2; brief `<scratch>/sonnet-briefs/O-SEAL-LG2.md`, sha256 `902015ad…`,
 pinned copy `brief.pinned.md`). Refute-first, following the lean-statement-audit seal checks. Date: 2026-11-07.
 I did not write any of the anchor, the provider or the proof chain.
 
@@ -10,7 +10,7 @@ I did not write any of the anchor, the provider or the proof chain.
   - `cd80ff86` "manifest: ABI hash of the sealed layergarden_v2 (scripts/abi_hash_setup.py)".
 - Proof landing: batch 4b-3, `6b8a1414` (merge of w/port-b4b3) and `68820285` (root import of `VineEst.V5Proof`).
 - Statement freeze: `8d7ccb4a` "Freeze the gamma in (1/2,1) versioned successors (ruling D10)".
-- `origin/main` = `cd80ff86` = HEAD of `/home/scott/WaveTurbulence-dev`, with a clean working tree.
+- `origin/main` = `cd80ff86` = HEAD of `<repo>`, with a clean working tree.
 
 **Manifest entry `layergarden_v2`.**
 - export `WaveTurbulence.layergarden_v2`, path `WaveTurbulence/Frozen/Theorems/LayergardenV2.lean`, kind theorem, state
@@ -230,7 +230,7 @@ Five-bin count:
 
 ## (f) Kernel replay
 
-**Tool.** `replay/Replay.lean` is adapted from `/home/scott/wt-scratch/port-b4b3/probe/Replay.lean` (sha256
+**Tool.** `replay/Replay.lean` is adapted from `<scratch>/port-b4b3/probe/Replay.lean` (sha256
 `b6bb1126…`; diff in the file header).
 - Changes:
   - root module `WaveTurbulence.Frozen.Theorems.LayergardenV2`;
@@ -240,7 +240,7 @@ Five-bin count:
 - `lean --run` cannot bind the `@[extern "lean_environment_add"]` shim in the interpreter (first attempt:
   `replay/Replay-quick.attempt1-interpreter.out`). As the earlier auditor did, I compiled it as a standalone `lean_exe`
   in `replay/exe/`, a scratch Lake project that depends only on Lean core (same toolchain commit `eb6cafb7`).
-- `replay/replay.sh quick` ran from `/home/scott/WaveTurbulence-dev` under `lake env`, `nice -n 5`, as one process,
+- `replay/replay.sh quick` ran from `<repo>` under `lake env`, `nice -n 5`, as one process,
   with no other Lean process running.
 
 **Method (R143).**
@@ -280,7 +280,7 @@ The run's exactness lines confirm the seal chain:
 - For all 10,085 project modules of the closure, the source hash in the module's Lake `.trace` equals Lake's
   `Hash.ofText` of the same file in the clean `cd80ff86` export: 0 mismatches (`evidence/tracecheck.out`).
 - My Python `Hash.ofText` (`evidence/lakehash.py`) was first validated against three Lean-computed values.
-- 1,791 `WaveTurbulenceVineParam` modules record the build root `WaveTurbulence-worktrees/port-vp`; their source text
+- 1,791 `WaveTurbulenceVineParam` modules record the build root `<worktrees>/port-vp`; their source text
   is identical to main's.
 
 **Scope of quick mode.**
@@ -290,7 +290,7 @@ The run's exactness lines confirm the seal chain:
 - Every cross-library proof (92,875 VineParam theorems, including the R136 DegreeBlock/`realization_directed_degrees`
   family) was replayed with its proof.
 - Full mode was not run: quick alone took 1h38m single-threaded. It is
-  `/home/scott/wt-scratch/seal-lg2/replay/replay.sh full`, if wt-orch wants the extra 40,618 proofs replayed.
+  `<scratch>/seal-lg2/replay/replay.sh full`, if wt-orch wants the extra 40,618 proofs replayed.
 
 This completes the R143 requirement that batch 4b-3 left open.
 
@@ -324,7 +324,7 @@ This completes the R143 requirement that batch 4b-3 left open.
    elaborated type is `Expr.equal` to the anchor's. Remove it at the next edit.
 2. `abi_hash_setup.py` is a manual single-anchor tool. A note in `abi_hash.py`, or a `--setup` mode there, would keep
    one definition of the quantity.
-3. `git fetch` (remote-tracking refs only) was run once in `/home/scott/WaveTurbulence-dev` at the start. It changed
+3. `git fetch` (remote-tracking refs only) was run once in `<repo>` at the start. It changed
    nothing: origin/main was already `cd80ff86`. No other write was made in any repository checkout.
 
 ## Addendum: concurrent landing during the audit
@@ -342,7 +342,7 @@ Another session landed PORT FT1 on main while the replay ran: `e2ec222b`, `51ae1
 - The post-seal `abi_hash.py` change makes `abi_hash.py` call `abi_hash_setup.py` when the plain probe hits the map
   limit. This matches (e)'s finding that both compute the same quantity, and removes minor observation 2.
 
-## Probes and evidence (`/home/scott/wt-scratch/seal-lg2/`, untracked)
+## Probes and evidence (`<scratch>/seal-lg2/`, untracked)
 
 | File | Purpose | sha256 |
 |---|---|---|

@@ -6,9 +6,9 @@ For each order, list the final components with (V_alpha, V_beta) and flag the T-
 V_alpha = 0, V_beta = 2 (DH23 Prop 9.6 proof, case (4), L1883).
 Usage: python3 -I cuts.py [m]
 """
-import sys, itertools
+import os, sys, itertools
 from collections import Counter
-sys.path.insert(0, '/home/scott/wt-scratch/prop96-case4')
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from necklace import necklace
 
 def components(natoms, bonds, alive):

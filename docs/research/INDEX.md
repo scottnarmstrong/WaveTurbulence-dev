@@ -7,13 +7,24 @@ included. The errata file is the reader-facing summary; these files are the evid
 refer to the repository at the time of writing; a later clean-up removed some unused helpers, which remain in the git
 history at the commits cited.
 
+Absolute local paths in these records were replaced in November 2026 by placeholders: `<scratch>/` (the project's
+private working directory), `<repo>/` (a checkout of this repository), `<worktrees>/` (development checkouts),
+`<sources>/` (a local copy of the papers' LaTeX sources and maps) and `<tools>/` (private tooling); none of these is
+part of the repository. Internal working records they cite (planning and audit records, working notes kept beside the Lean files, and the
+agents' instructions) were removed from the repository at publication; those that were on the main branch
+remain in its git history.
+
 No Lean code from the project's working directories is copied here. Lean checks that exist only there are marked
 "(working note, not included)" in the errata file.
 
 ## Copied for the errata list (2026-11-07)
 
-Source paths are relative to the project's scratch directory `/home/scott/wt-scratch/`. Each copy is byte-identical
-to its source at copy time (sha256 below).
+Source paths are relative to the project's private working directory (`<scratch>/`, not included). Each copy is
+byte-identical to its source at copy time (sha256 below), except for three edits made in November 2026: the
+placeholders for absolute local paths described above; one line of `gamma-le-half-repair-1-notes.md` (the heading of
+"What to ask Deng and Hani"), re-worded because it referred to a file that is no longer in the repository; and, in
+`dh23-prop96-case4-scripts/cuts.py` and `vinefree.py`, the helper modules are now found in the scripts' own directory
+instead of a local path. One copy was renamed: `vineest-early-handoff.md` (first copied under a longer name).
 
 | File | Source | sha256 | Entry |
 |---|---|---|---|
@@ -38,7 +49,7 @@ to its source at copy time (sha256 below).
 | `dh23-appendix-b-errata.md` | `appb/ERRATA.md` | `e01dadd9f124717481917a2f18aca0a21d569e3235146b575c66d822ff3ccf15` | minor item m42 |
 | `layervine-count-handoff.md` | `layercnt/HANDOFF.md` | `cff6dff63a522a37e4a8f15e045929d4182837b38564e52a3ebc383c75b78782` | minor item m16 |
 | `ladderl1-handoff.md` | `ladder/HANDOFF.md` | `98e84be1906fada3bc235d3c9ddae4ec122ed85b36bc95e558c607c7da41f6c8` | minor items m24, m25 |
-| `vineest-early-sessions-handoff.md` | `vineest-s3/validation/HANDOFF-previous-sessions.md` | `96c5520b303b83267cf4d62c01ca56df1d8d1e6fc56afadb063378da9db07b18` | minor item m18 |
+| `vineest-early-handoff.md` | `vineest-s3/validation/HANDOFF-previous-sessions.md` | `96c5520b303b83267cf4d62c01ca56df1d8d1e6fc56afadb063378da9db07b18` | minor item m18 |
 | `vineest-step3-epsilon-handoff.md` | `degen-vine/HANDOFF.md` | `36e387551f93522c5e63a603b88b05d5cc66580c6226185c71a20cc90904b550` | E4 |
 | `finalsbest1-ladder-coupling-handoff.md` | `coarse-spliced/HANDOFF.md` | `65e476609d32114263976795e1ab40f25360d5f8141f81f2b7f1bddfa55d3cde` | E5 |
 | `finalcount-stage2-handoff.md` | `finalcount-g3/HANDOFF.md` | `7b1dc352f8fb723c7c7415076765608deeb2f22ac9c13676166d7a46b86ac9a1` | E6, E9, E10, E13 |
@@ -74,7 +85,7 @@ The written completion of TARGET Prop `flowerest1` for 1/2 < γ < 1, its resolut
 referee reports. Snapshots taken between about 15:20 and 15:45 UTC on 2026-11-07; the integrated supplement was still receiving
 editorial revisions, so a later version may exist. The independent assessment of the printed proof is
 `astra-flowerest1-report.md` (source `astra-flowerest1/REPORT.md`, sha256
-`fc37a6b443b228e9dbac34a623e4d778c928aec8f63fdf580d12e7b3442b0e1f`). Sources below are relative to `/home/scott/wt-scratch/flower-open/`.
+`fc37a6b443b228e9dbac34a623e4d778c928aec8f63fdf580d12e7b3442b0e1f`). Sources below are relative to `<scratch>/flower-open/`.
 
 | File | Source | sha256 | Entries |
 |---|---|---|---|
@@ -116,7 +127,7 @@ the notes. The scripts named in the notes are not included. Overview: [`../GAMMA
 | [`gamma-le-half-flower-referee.md`](gamma-le-half-flower-referee.md) | its referee report | E1, E29–E46 |
 
 Also copied: `seal-layergarden_v2-audit.md`, the independent seal audit of the Lean proof of `layergarden_v2` on main
-(source: the orchestration records, `docs/campaign/orch/audits/Seal-layergarden_v2.md` in the `w/orch` worktree;
+(source: an internal audit record of the formalization, not part of the repository;
 sha256 `a6e054b1bcc12371009c99db415188c0c1d932bf85d3094b23d045fcd921d025`). Evidence for the Lean claims in E26.
 
 ## Already in the repository before 2026-11-07
