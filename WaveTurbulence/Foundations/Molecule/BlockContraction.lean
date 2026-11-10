@@ -53,12 +53,4 @@ theorem contractVertex_outside_injective {S : Finset V} {u v : V}
     (hu : u ∉ S) (hv : v ∉ S) (he : contractVertex S u = contractVertex S v) : u = v := by
   simpa only [contractVertex,dite_eq_right hu,dite_eq_right hv,Option.some.injEq,Subtype.mk.injEq] using he
 
-/-- A surviving incidence at the merged atom is exactly an actual outgoing
-boundary incidence of the old group (independently of bond orientation). -/
-theorem contract_merged_dart_iff {S : Finset V} (x : ContractDart M S) :
-    (contractGroup M S).atom x = none ↔ M.atom x.1 ∈ S ∧ M.atom (M.mate x.1) ∉ S := by
-  change contractVertex S (M.atom x.1) = none ↔ _
-  rw [contractVertex_eq_none]
-  exact ⟨fun h => ⟨h,fun hm => x.2 ⟨h,hm⟩⟩,fun h => h.1⟩
-
 end WaveTurbulence.Mole

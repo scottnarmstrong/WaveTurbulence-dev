@@ -1,7 +1,8 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 
-public import WaveTurbulence.Foundations.Molecule.VineCapFrontBranches
+public import WaveTurbulence.Foundations.Molecule.VineCapFrontJoints
+public import WaveTurbulence.Foundations.Molecule.VineFullRungRailEdges
 public import WaveTurbulence.Foundations.Molecule.VineHyperAdjointVC
 public import WaveTurbulence.Foundations.Molecule.VineShortGraphConnectivity
 public import WaveTurbulence.Foundations.Molecule.VineCapIncidenceRealization

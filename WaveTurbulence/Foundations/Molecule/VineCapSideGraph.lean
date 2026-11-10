@@ -32,13 +32,6 @@ theorem sideToCap_bonds (N k : ℕ) (hN : 9 ≤ N) :
     h4,h5,h6,h7,h8]
   rfl
 
-/-- The same identity preserves the full undirected multiset, which is the
-form consumed by actual vine realizations and designated-bond erasure. -/
-theorem sideToCap_bondMultiset (N k : ℕ) (hN : 9 ≤ N) :
-    (rawBondMultiset (sideBonds N k)).map (Sym2.map (sideToCap N k))=
-      rawBondMultiset (capAdjointBonds N k) := by
-  rw [← rawBondMultiset_map,sideToCap_bonds N k hN]
-
 /-- A cap with k+1 full rungs is the side adjoint plus exactly one extra
 joint-to-joint bond, retaining multiplicities in either endpoint order. -/
 theorem capBonds_bondMultiset (N k : ℕ) :

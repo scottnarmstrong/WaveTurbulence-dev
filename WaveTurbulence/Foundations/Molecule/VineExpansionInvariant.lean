@@ -42,18 +42,4 @@ theorem fold_insertRungs_invariant (P : VineTemplate → Prop)
       (step T sk.1 sk.2 (ha sk (List.mem_cons_self)) hT hmem1 ((List.mem_erase_of_ne hne).mpr hmem2))
       (fun q hq => ha q (List.mem_cons_of_mem _ hq)) htail hsurvive
 
-/-- TARGET defvine: every expanded template has degree two at its joints
-and degree four at every other atom. -/
-theorem expand_degreeProfile (X : VineType) (k : List ℕ)
-    (hk : k.length=X.template.slots.length) : DegreeProfile (X.expand k) := by
-  have hslots : slotMembers (X.template.slots.zip k) =
-      X.template.slots.flatMap (fun s => [s.1,s.2]) := by
-    conv_rhs => rw [← List.map_fst_zip (l₂ := k) hk.symm.le]
-    rw [List.flatMap_map]
-    rfl
-  have hr := template_slots_ready X
-  exact fold_insertRungs_invariant DegreeProfile (fun _ => True)
-    (fun T s k _ => insertRungs_degreeProfile T s k) _ _
-    (template_degreeProfile X) (fun _ _ => trivial) (hslots ▸ hr.1) (hslots ▸ hr.2)
-
 end WaveTurbulence.Vine

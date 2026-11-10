@@ -2,7 +2,6 @@
 module
 
 public import WaveTurbulence.Foundations.Molecule.VineSideVIICardinality
-public import WaveTurbulence.Foundations.Molecule.VineSideVIIBranches
 public import WaveTurbulence.Foundations.Molecule.VineBranchingEnds
 public import WaveTurbulence.Foundations.Molecule.VineShortGraphConnectivity
 public import WaveTurbulence.Foundations.Molecule.VineSelectedBonds

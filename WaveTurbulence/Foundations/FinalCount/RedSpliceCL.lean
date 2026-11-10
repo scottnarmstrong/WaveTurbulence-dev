@@ -5,7 +5,6 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.Molecule.CLCN
 public import WaveTurbulence.Foundations.FinalCount.RedSpliceSplit
 public import WaveTurbulence.Foundations.FinalCount.RedSpliceIter
 import Mathlib.Tactic

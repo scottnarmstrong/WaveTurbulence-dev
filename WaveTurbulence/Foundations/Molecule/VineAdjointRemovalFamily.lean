@@ -2,7 +2,6 @@
 module
 
 public import WaveTurbulence.Foundations.Molecule.VineRemovalConnectivity
-public import WaveTurbulence.Foundations.Molecule.VineRemovalJoints
 public import WaveTurbulence.Foundations.Molecule.MoleculeHyperBlocks
 import Mathlib.Tactic
 

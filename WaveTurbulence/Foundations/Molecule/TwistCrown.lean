@@ -1,8 +1,9 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 
-public import WaveTurbulence.Foundations.Molecule.Molecpl
-public import WaveTurbulence.Foundations.Molecule.Replacement
+public import WaveTurbulence.Foundations.Molecule.TypeILeafPair
+public import WaveTurbulence.Foundations.Molecule.TypeIIScenarios
+public import WaveTurbulence.Foundations.Molecule.ConnectedGeometryBridge
 
 /-! # The free-child switch in a unit twist
 

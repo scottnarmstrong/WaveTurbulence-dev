@@ -25,17 +25,4 @@ theorem isVine_counts {M : Molecule V D} {X : VineType} {S : Finset V} {a b : V}
   rw [expand_bonds X k hk] at hb
   exact ⟨k,hk,hc,hb⟩
 
-/-- Every vine has E=2V-2, without a connectivity or orientation assumption
-beyond the exact pinned vine predicate. -/
-theorem isVine_bond_atom_count {M : Molecule V D} {X : VineType} {S : Finset V} {a b : V}
-    (h : M.IsVine X S a b) : (M.groupBonds S).card+2=2*S.card := by
-  obtain ⟨k,_hk,hc,hb⟩ := isVine_counts h
-  have ht := template_bond_count X
-  omega
-
-/-- Actual vine joints have degree two within the vine. -/
-theorem isVine_joint_degrees {M : Molecule V D} {X : VineType} {S : Finset V} {a b : V}
-    (h : M.IsVine X S a b) : M.degIn S a=2 ∧ M.degIn S b=2 :=
-  Mole.block_joint_degrees M h.1
-
 end WaveTurbulence.Vine

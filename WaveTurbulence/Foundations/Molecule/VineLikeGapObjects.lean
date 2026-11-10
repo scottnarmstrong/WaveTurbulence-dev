@@ -38,12 +38,6 @@ hyper groups. All other object pairs use ordinary atom-set inclusion. -/
   | .hyper P,.hyper C => P.IsContained C
   | _,_ => A ⊆ S
 
-/-- Erasing designation data gives the exact original existential shape predicate. -/
-theorem shape (C : VineLikeObject M S a b) : IsVineLike M S a b := by
-  cases C with
-  | vc h => exact Or.inl h
-  | hyper R => exact Or.inr (hyperLike_iff_realization.mpr ⟨R⟩)
-
 /-- Every designated-object containment includes the actual atom containment. -/
 theorem atoms_subset (P : VineLikeObject M A x y) (C : VineLikeObject M S a b)
     (h : P.IsContained C) : A ⊆ S := by

@@ -43,48 +43,4 @@ theorem isRegularTree_exists_wf_matching (G : Garden 1) (hG : IsRegularTree G) :
   have hm := (hrep.matchesTreeCouple_iff G).mp hM
   exact ⟨Q,hw,(matchingTree_order Q G hm).symm,hm⟩
 
-/-- Actual source-regular trees with fixed sign and branching order. -/
-abbrev SourceTrees (ζ : ℤˣ) (m : ℕ) :=
-  {G : Garden 1 // IsRegularTree G ∧ G.sig 0 = ζ ∧ G.order = 2*m}
-
-/-- Choose well-formed structure data for an actual regular tree. -/
-noncomputable def sourceTreeCode (ζ : ℤˣ) (m : ℕ) (G : SourceTrees ζ m) :
-    {Q : RegCpl // Q.wf = true ∧ Q.size = 2*m} := by
-  classical
-  let h := isRegularTree_exists_wf_matching G.1 G.2.1
-  let Q := Classical.choose h
-  have hQ := Classical.choose_spec h
-  exact ⟨Q,hQ.1,hQ.2.1.trans G.2.2.2⟩
-
-/-- The chosen code retains the source tree-to-couple matching relation. -/
-theorem sourceTreeCode_matching (ζ : ℤˣ) (m : ℕ) (G : SourceTrees ζ m) :
-    G.1.MatchesTreeCouple (sourceTreeCode ζ m G).1.raw :=
-  (Classical.choose_spec (isRegularTree_exists_wf_matching G.1 G.2.1)).2.2
-
-/-- Chosen data distinguish actual regular trees at a fixed sign. -/
-theorem sourceTreeCode_injective (ζ : ℤˣ) (m : ℕ) : Function.Injective (sourceTreeCode ζ m) := by
-  intro G H he
-  apply Subtype.ext
-  have hs : G.1.sig = H.1.sig := by
-    funext j
-    fin_cases j
-    exact G.2.2.1.trans H.2.2.1.symm
-  have hM := sourceTreeCode_matching ζ m H
-  rw [← he] at hM
-  exact tree_carrier_unique G.2.1.1 H.2.1.1 hs (sourceTreeCode_matching ζ m G) hM
-
-/-- Finiteness of actual source-regular trees at a fixed sign and order. -/
-theorem finite_sourceTrees (ζ : ℤˣ) (m : ℕ) : Finite (SourceTrees ζ m) := by
-  let _ := finite_coupleCodes m
-  exact Finite.of_injective (sourceTreeCode ζ m) (sourceTreeCode_injective ζ m)
-
-/-- Number of actual source-regular trees with fixed root sign. -/
-noncomputable def sourceTreeCount (ζ : ℤˣ) (m : ℕ) : ℕ := Nat.card (SourceTrees ζ m)
-
-/-- TARGET Proposition 4.4: actual regular trees have an absolute exponential bound. -/
-theorem sourceTreeCount_le_pow (ζ : ℤˣ) (m : ℕ) : sourceTreeCount ζ m ≤ (12^9)^m := by
-  let _ := finite_coupleCodes m
-  exact (Nat.card_le_card_of_injective (sourceTreeCode ζ m) (sourceTreeCode_injective ζ m)).trans
-    (coupleCodeCount_le_pow m)
-
 end WaveTurbulence.Reg

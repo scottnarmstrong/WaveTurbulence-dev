@@ -6,7 +6,6 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.Vine.A.VineIngredientCarrier
-public import WaveTurbulence.Foundations.Molecule.VineHyperGapAmbiguity
 public import WaveTurbulence.Foundations.Vine.A.VineBatchTreeIndex
 public import WaveTurbulence.Foundations.Vine.A.VineProducer
 public import WaveTurbulence.Foundations.Stage1.Represents.RepGateA

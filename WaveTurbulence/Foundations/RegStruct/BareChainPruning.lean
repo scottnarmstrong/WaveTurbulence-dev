@@ -6,7 +6,6 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.RegStruct.ChainExternalSegments
-public import WaveTurbulence.Foundations.RegStruct.SaturatedChainShape
 
 /-! # Adjacent-pair pruning of actual bare chain codes -/
 

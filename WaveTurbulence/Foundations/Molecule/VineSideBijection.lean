@@ -60,13 +60,4 @@ theorem sideInverse_spec (N m a : ℕ) (hN : 9 ≤ N)
           · rw [sideEmbedding_lower]
             omega
 
-/-- Injectivity on the finite canonical label range follows from the literal
-left inverse, without a cardinality argument. -/
-theorem sideEmbedding_injOn (N m : ℕ) (hN : 9 ≤ N) :
-    Set.InjOn (sideEmbedding N m) {i | i<9+2*m} := by
-  intro i hi j hj he
-  have := congrArg (sideInverse N m) he
-  rwa [sideInverse_sideEmbedding N m i hN hi,
-    sideInverse_sideEmbedding N m j hN hj] at this
-
 end WaveTurbulence.Vine

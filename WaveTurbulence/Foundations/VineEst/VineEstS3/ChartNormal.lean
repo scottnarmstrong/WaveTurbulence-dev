@@ -7,7 +7,6 @@ module
 
 public import WaveTurbulence.Foundations.VineEst.VineEstS2.ChartNormalize
 public import WaveTurbulence.Foundations.Molecule.EndRungLowerDarts
-public import WaveTurbulence.Foundations.Molecule.EndRungBondCounts
 public import WaveTurbulence.Foundations.Molecule.TypeIIEndRung
 public import WaveTurbulence.Foundations.Molecule.TypeIILowerParent
 

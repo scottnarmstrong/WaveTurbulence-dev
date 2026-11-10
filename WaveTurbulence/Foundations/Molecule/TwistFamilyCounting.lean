@@ -47,18 +47,4 @@ theorem familyBatch_garden_injective (s : FamilyState w ι) :
   exact familyBatch_disjoint_garden_ne _ _ hdisj hnonempty (familyBatch (S ∩ T) s)
     ((congrArg Sigma.fst hs).symm.trans (he.trans (congrArg Sigma.fst ht)))
 
-/-- Actual gardens obtainable by finite subset twisting at the designated core family. -/
-@[expose] noncomputable def familyTwists (s : FamilyState w ι) : Set (Garden w) :=
-  Set.range (fun S : Finset ι => (familyBatch S s).1)
-
-/-- Exact cardinality of the actual source twist collection with r core members. -/
-theorem familyTwists_ncard [Fintype ι] (s : FamilyState w ι) :
-    (familyTwists s).ncard = 2 ^ Fintype.card ι := by
-  exact (Set.ncard_range_of_injective (familyBatch_garden_injective s)).trans
-    ((Nat.card_eq_fintype_card).trans Fintype.card_finset)
-
-/-- The actual collection is finite, independently of the infinite ambient garden carrier. -/
-theorem familyTwists_finite [Fintype ι] (s : FamilyState w ι) : (familyTwists s).Finite :=
-  Set.finite_range _
-
 end WaveTurbulence.Twist

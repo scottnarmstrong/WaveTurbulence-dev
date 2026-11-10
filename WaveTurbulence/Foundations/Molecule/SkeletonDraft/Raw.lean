@@ -5,7 +5,9 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.Molecule.RegStructWork
+public import Mathlib.Data.Fintype.BigOperators
+public import WaveTurbulence.Foundations.Molecule.B2CharacterizationProofs
+public import WaveTurbulence.Foundations.Molecule.DominantChains
 
 /-! # Literal forest and oriented-pair data for the source skeleton operations
 

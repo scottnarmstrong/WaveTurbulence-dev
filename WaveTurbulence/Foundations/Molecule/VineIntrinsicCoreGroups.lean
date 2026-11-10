@@ -38,12 +38,6 @@ theorem template_slot_nonjoint_cross_disjoint (X : VineType) :
     (i.1=s.1.1 ∨ i.1=s.1.2) → ¬(i.1=s.2.1 ∨ i.1=s.2.2) := by
   cases X <;> decide
 
-/-- Internal source-group edges are never among the subdivided slot edges. -/
-theorem template_group_edges_unmarked (X : VineType) :
-    ∀ g ∈ X.template.groups, ∀ e ∈ X.template.bonds,
-    e.1 ∈ g → e.2 ∈ g → ∀ s ∈ X.template.slots,e ≠ s.1 ∧ e ≠ s.2 := by
-  cases X <;> decide
-
 /-- Core parallel multiplicity is encoded wholly in one orientation. -/
 theorem template_double_oriented (X : VineType) :
     ∀ i j : Fin X.template.n,2 ≤ i.1 → 2 ≤ j.1 → i ≠ j →

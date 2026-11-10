@@ -85,12 +85,4 @@ theorem addBond_deg (a b v : V) :
   by_cases ha : a = v <;> by_cases hb : b = v <;> simp [ha,hb]
   all_goals decide
 
-/-- The two joints of an actual block become degree three in its adjoint. -/
-theorem block_adjoint_joint_degrees {S : Finset V} {j1 j2 : V} (hB : M.IsBlock S j1 j2) :
-    (addBond (induced M S) j1 j2).deg j1 = 3 ∧
-    (addBond (induced M S) j1 j2).deg j2 = 3 := by
-  obtain ⟨h1,h2⟩ := block_joint_degrees M hB
-  have hne := hB.2.2.2.1
-  simp [addBond_deg,induced_deg,h1,h2,hne,Ne.symm hne]
-
 end WaveTurbulence.Mole

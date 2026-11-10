@@ -45,22 +45,6 @@ theorem twoOutside_degree_le_two (M : Molecule V D) (hM : M.IsMolecule)
   have htotal := Mole.deg_le_four M hM hxM
   omega
 
-/-- Every double-bond pair has matched membership in any hyper-block. -/
-theorem hyperBlock_double_pair_membership (M : Molecule V D) (hM : M.IsMolecule)
-    {S : Finset V} {a b x y : V} (hH : Mole.IsHyperBlock M S a b)
-    (R : TwoIncidences M x y) : x ∈ S ↔ y ∈ S := by
-  constructor
-  · intro hx
-    by_contra hy
-    have hlo := hyperBlock_degree_ge_three M hH hx
-    have hhi := twoOutside_degree_le_two M hM R hy
-    omega
-  · intro hy
-    by_contra hx
-    have hlo := hyperBlock_degree_ge_three M hH hy
-    have hhi := twoOutside_degree_le_two M hM R.mates hx
-    omega
-
 /-- A block can split a double-bond pair only at one of its joints. -/
 theorem block_split_double_is_joint (M : Molecule V D) (hM : M.IsMolecule)
     {S : Finset V} {a b x y : V} (hB : M.IsBlock S a b)

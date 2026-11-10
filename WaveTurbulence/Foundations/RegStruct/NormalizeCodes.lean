@@ -55,29 +55,6 @@ theorem normalizeChain_wf (X : RegChain) : (normalizeChain X).wf = true := by
 termination_by structural X
 end
 
-mutual
-/-- Normalization preserves couple order. -/
-theorem normalizeCouple_size (Q : RegCpl) : (normalizeCouple Q).size = Q.size := by
-  cases Q with
-  | triv => rfl
-  | type1 c a b d =>
-    simp only [normalizeCouple, RegCpl.size, normalizeCouple_size a,
-      normalizeCouple_size b, normalizeCouple_size d]
-  | type2 p m q =>
-    simp only [normalizeCouple, attachChains_size, RegCpl.size,
-      normalizeChain_size p, normalizeChain_size m, normalizeCouple_size q]
-termination_by structural Q
-
-/-- Normalization preserves chain order. -/
-theorem normalizeChain_size (X : RegChain) : (normalizeChain X).size = X.size := by
-  cases X with
-  | nil => rfl
-  | pair m r g i s =>
-    simp only [normalizeChain, RegChain.size, normalizeCouple_size r,
-      normalizeCouple_size g, normalizeChain_size i, normalizeChain_size s]
-termination_by structural X
-end
-
 /-- Normalizing side couples leaves the source chain's lone path unchanged. -/
 theorem normalizeChain_lonePath (X : RegChain) :
     (normalizeChain X).lonePath = X.lonePath := by
@@ -86,30 +63,6 @@ theorem normalizeChain_lonePath (X : RegChain) :
   | pair m r g i s =>
     simp only [normalizeChain, RegChain.lonePath, normalizeChain_lonePath i, normalizeChain_lonePath s]
 termination_by structural X
-
-mutual
-/-- Normalization retains both decoded tree shapes. -/
-theorem normalizeCouple_trees (Q : RegCpl) : (normalizeCouple Q).trees = Q.trees := by
-  cases Q with
-  | triv => rfl
-  | type1 c a b d =>
-    simp only [normalizeCouple, RegCpl.trees, normalizeCouple_trees a,
-      normalizeCouple_trees b, normalizeCouple_trees d]
-  | type2 p m q =>
-    simp only [normalizeCouple, attachChains_trees, normalizeCouple_trees q,
-      normalizeChain_plug p, normalizeChain_plug m, RegCpl.trees]
-termination_by structural Q
-
-/-- Normalization retains the entire chain context, for every inserted subtree. -/
-theorem normalizeChain_plug (X : RegChain) (ζ : ℤˣ) (h : TTree) :
-    (normalizeChain X).plug ζ h = X.plug ζ h := by
-  cases X with
-  | nil => rfl
-  | pair m r g i s =>
-    simp only [normalizeChain, RegChain.plug, normalizeChain_plug i, normalizeChain_plug s,
-      normalizeCouple_trees r, normalizeCouple_trees g]
-termination_by structural X
-end
 
 mutual
 /-- Normalization retains every oriented couple leaf pair. -/
@@ -141,12 +94,5 @@ theorem mem_normalizeChain_pairsAt {w : ℕ} (X : RegChain) (ζ : ℤˣ) (a : Fi
         mem_normalizeCouple_pairsAt g, mem_normalizeChain_pairsAt i, mem_normalizeChain_pairsAt s]
 termination_by structural X
 end
-
-/-- Every garden decoding any intermediate couple code decodes its well-formed normalization. -/
-theorem decodes_normalizeCouple_iff (Q : RegCpl) (G : Garden 2) :
-    (normalizeCouple Q).Decodes G ↔ Q.Decodes G := by
-  apply matchesCouple_congr G (normalizeCouple_trees Q)
-  intro z
-  exact mem_normalizeCouple_pairsAt Q _ _ z
 
 end WaveTurbulence.Reg

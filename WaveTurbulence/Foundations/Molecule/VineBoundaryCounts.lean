@@ -40,18 +40,6 @@ theorem boundary_subset_joints (hM : M.IsMolecule) {S : Finset V} {a b : V}
     · exact False.elim (hx'.2 (Mole.full_degree_no_exit M hM (hS hx'.1)
         (hint _ hx'.1 ha hb) rfl))
 
-/-- A block has at most four boundary bonds (two at each joint). -/
-theorem block_boundary_card_le_four (hM : M.IsMolecule) {S : Finset V} {a b : V}
-    (hB : M.IsBlock S a b) : (boundary M S).card ≤ 4 := by
-  obtain ⟨ha,hb⟩ := Mole.block_joint_degrees M hB
-  have hda := Mole.deg_le_four M hM (hB.1 hB.2.1)
-  have hdb := Mole.deg_le_four M hM (hB.1 hB.2.2.1)
-  have hoa := outsideAt_card_add M S a
-  have hob := outsideAt_card_add M S b
-  have hcard := (card_le_card (boundary_subset_joints M hM hB.1 hB.2.2.2.2.2.2.2.2.1)).trans
-    (card_union_le (outsideAt M S a) (outsideAt M S b))
-  omega
-
 /-- A hyper-block has at most two boundary bonds (one at each joint). -/
 theorem hyperBlock_boundary_card_le_two (hM : M.IsMolecule) {S : Finset V} {a b : V}
     (hB : Mole.IsHyperBlock M S a b) : (boundary M S).card ≤ 2 := by

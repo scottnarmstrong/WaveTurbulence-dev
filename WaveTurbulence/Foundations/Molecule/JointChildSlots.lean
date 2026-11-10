@@ -51,17 +51,4 @@ theorem outer_child_sign (v : GBranch G.tree) (i : Fin 3) (hi : i ≠ 1) :
   · exact (hi rfl).elim
   · simp [Garden.sign,nodeSign,TTree.pathSign,GBranch.child,List.count_append,GBranch.toNode]
 
-/-- Actual CL joint slots: one excluded child above and one retained child below. -/
-theorem cl_joint_child_slots {S : Finset (GBranch G.tree)} {a b : GBranch G.tree}
-    (hB : G.molecule.IsBlock S a b) (hCL : CLParentPattern G S a b) :
-    ∃ excluded kept : Fin 3,
-      G.sign (a.child excluded) = G.sign a.toNode ∧
-      G.sign (b.child kept) = G.sign b.toNode ∧
-      (∀ i : Fin 3, i.succ ∈ internalPositions G S a ↔ i ≠ excluded) ∧
-      (∀ i : Fin 3, i.succ ∈ internalPositions G S b ↔ i = kept) := by
-  obtain ⟨i,hi,he⟩ := no_parent_joint_excluded_child G hB.2.1 hB.2.2.2.2.1 hB.2.2.2.2.2.1 hCL.1
-  obtain ⟨j,hj,hk⟩ := with_parent_joint_retained_child G hB.2.2.1 hB.2.2.2.2.2.2.1
-    hB.2.2.2.2.2.2.2.1 hCL.2
-  exact ⟨i,j,outer_child_sign G a i hi,outer_child_sign G b j hj,he,hk⟩
-
 end WaveTurbulence.Mole

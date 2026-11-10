@@ -8,7 +8,6 @@ module
 public import WaveTurbulence.Foundations.Flower.V5WA.VineSpaceK.Engine
 public import WaveTurbulence.Foundations.Cut2A.SpatialMeasure
 public import WaveTurbulence.Foundations.Molecule.TwistBondLabels
-public import WaveTurbulence.Foundations.Molecule.UnitTwistMolecule
 public import WaveTurbulence.Foundations.VineEst.VineEstS4.Tw4DecEq
 
 /-! # V5-SPACE-EXT: the bond weight of a CL region and its exact twist transport

@@ -62,10 +62,6 @@ theorem CLSpliceSlots.excluded_missing (D : CLSpliceSlots G S a b) :
     (hCL : CLParentPattern G S a b) : Garden w :=
   clSplicedGardenOfSlots hB hCL (clSpliceSlotsOfBlock hB hCL)
 
-theorem clSplicedGardenOfSlots_tree (hB : G.molecule.IsBlock S a b)
-    (hCL : CLParentPattern G S a b) (D : CLSpliceSlots G S a b) :
-    (clSplicedGardenOfSlots hB hCL D).tree = spliceForest G a (clSpliceBoundary hB hCL D).node := rfl
-
 theorem clSplicedGardenOfSlots_plain (hB : G.molecule.IsBlock S a b)
     (hCL : CLParentPattern G S a b) (D : CLSpliceSlots G S a b) (hP : G.IsPlain) :
     (clSplicedGardenOfSlots hB hCL D).IsPlain := by

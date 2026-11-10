@@ -2,8 +2,6 @@
 module
 
 public import WaveTurbulence.Foundations.Molecule.TwistCrown
-public import WaveTurbulence.Foundations.Molecule.ReplacementLeaves
-public import WaveTurbulence.Foundations.Molecule.Subtrees
 
 /-! # Inserting a tree at an actual forest leaf
 
@@ -75,14 +73,5 @@ theorem subtree_insertLeaf {w : ℕ} (F : Fin w → TTree) (h : GLeaf F) (t : TT
     Comb.subtree (insertLeaf F h t h.1.1) h.1.2 = some t := by
   rw [insertLeaf_at]
   exact Comb.subtree_replaceAt ((subtree_leaf_iff _ _).mpr h.2) t
-
-/-- Inserting a leaf restores the common forest exactly. -/
-theorem insertLeaf_leaf {w : ℕ} (F : Fin w → TTree) (h : GLeaf F) : insertLeaf F h .leaf = F := by
-  funext j
-  by_cases hj : j = h.1.1
-  · subst j
-    rw [insertLeaf_at]
-    exact Comb.replaceAt_self ((subtree_leaf_iff _ _).mpr h.2)
-  · exact insertLeaf_other F h .leaf j hj
 
 end WaveTurbulence.Twist

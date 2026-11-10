@@ -95,13 +95,4 @@ theorem removal_path_congr_of_equivalent (M : Molecule V D) (S : Finset V)
   | symm u v _ ih => exact Relation.EqvGen.symm _ _ ih
   | trans u v w _ _ ih1 ih2 => exact Relation.EqvGen.trans _ _ _ ih1 ih2
 
-/-- Families with identical membership have identical removal data. -/
-theorem removalFamilyEquivalent_of_mem_iff {ps qs : List (RemovalPiece V D)}
-    (h : ∀ P,P ∈ ps ↔ P ∈ qs) : RemovalFamilyEquivalent ps qs := by
-  constructor
-  · intro P hP
-    exact ⟨P,(h P).mp hP,rfl,rfl,rfl⟩
-  · intro Q hQ
-    exact ⟨Q,(h Q).mpr hQ,rfl,rfl,rfl⟩
-
 end WaveTurbulence.Vine

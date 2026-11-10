@@ -32,17 +32,6 @@ theorem coreLeafEquiv_twice_val (l : GLeaf G.tree) :
     (pairedHole G P) P.keep (lowerCrown G P.lower)
     (forestLeafCast (restore_commonForest G P.lower).symm l)
 
-/-- Equality of all computational garden fields determines the garden. -/
-theorem garden_eq_of_fields {H K : Garden w} (hs : H.sig = K.sig) (ht : H.tree = K.tree)
-    (hp : HEq H.pair K.pair) (hm : HEq H.mark K.mark) : H = K := by
-  cases H
-  cases K
-  cases hs
-  cases ht
-  cases hp
-  cases hm
-  rfl
-
 /-- A leaf bijection with unchanged addresses and conjugate pairing determines garden equality. -/
 theorem garden_eq_of_leaf_transport {H K : Garden w} (hs : H.sig = K.sig) (ht : H.tree = K.tree)
     (e : GLeaf K.tree ≃ GLeaf H.tree) (hv : ∀ l, (e l).1 = l.1)

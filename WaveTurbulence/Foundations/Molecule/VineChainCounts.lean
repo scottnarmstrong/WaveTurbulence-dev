@@ -26,18 +26,6 @@ theorem isVine_card_ge_two {M : Molecule V D} {X : VineType} {S : Finset V} {a b
   rw [card_pair h.1.2.2.2.1] at hh
   exact hh
 
-/-- A chain of n nonempty vine ingredients has at least n+1 atoms. -/
-theorem chain_card_ge {M : Molecule V D} {S : Finset V} {a b : V} {n : ℕ}
-    (h : Chain M S a b n) : n+1 ≤ S.card := by
-  induction h with
-  | single h => obtain ⟨X,hX⟩ := h; exact isVine_card_ge_two hX
-  | @append S T a b c n hS hT hi _hne ih =>
-    obtain ⟨X,hX⟩ := hT
-    have htwo := isVine_card_ge_two hX
-    have hc := card_union_add_card_inter S T
-    rw [hi,card_singleton] at hc
-    omega
-
 /-- The only vine with fewer than four atoms is type I. -/
 theorem isVine_typeI_of_card_lt_four {M : Molecule V D} {X : VineType}
     {S : Finset V} {a b : V} (h : M.IsVine X S a b) (hc : S.card<4) : X=.I := by

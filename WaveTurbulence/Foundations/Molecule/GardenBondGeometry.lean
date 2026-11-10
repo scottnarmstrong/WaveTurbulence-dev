@@ -57,13 +57,4 @@ theorem pc_dart_unique {x y : GardenDart G} (hx : IsPCDart G x) (hy : IsPCDart G
   · have hc : c = d := Subtype.ext hb
     exact congrArg (fun z => (Sum.inl (z,true):GardenDart G)) hc
 
-/-- At least one incidence in any doubled pair is an LP incidence. -/
-theorem doubled_has_lp {a b : GBranch G.tree} (R : Vine.TwoIncidences G.molecule a b) :
-    ∃ i : Fin 2, ¬ IsPCDart G (R.dart i) := by
-  by_contra! h
-  have he := pc_dart_unique G (h 0) (h 1)
-    ((R.atom_eq 0).trans (R.atom_eq 1).symm)
-    ((R.neighbor_eq 0).trans (R.neighbor_eq 1).symm)
-  exact (by decide : (0:Fin 2) ≠ 1) (R.injective he)
-
 end WaveTurbulence.Molecpl

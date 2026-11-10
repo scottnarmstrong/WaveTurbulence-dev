@@ -65,21 +65,4 @@ theorem stemStarts_absent (M : Molecule V D) (hM : M.IsMolecule)
       R.injOn hv (R.coreAtom ⟨c.lower,hl⟩).2 (h.trans (R.label_coreAtom ⟨c.lower,hl⟩).symm)
     simpa only [he] using hempty.2
 
-/-- TARGET subsetvc, first stem stage: source SG and outer LG/ZG gap
-conditions force all listed stem-start pairs to be absent from an inner
-VC larger than one double bond. Rung counts are completely arbitrary. -/
-theorem SG_stemStarts_absent {d : ℕ} (M : Molecule V D) (hM : M.IsMolecule)
-    {X : VineType} {S : Finset V} {a b : V} (R : VineRealization M X S a b)
-    (hS : M.IsBlock S a b) {A : Finset V} {x y : V} (hVC : IsVC M A x y)
-    (hAS : A ⊆ S) (hcard : 2<A.card) (L γ η : ℝ) (w : Mom d)
-    (c : V → Mom d) (κ : D → (Fin d → ℤ)) (hκ : M.IsDecoration L w c κ)
-    (hc : ∀ v ∈ M.atoms,M.deg v=4 → c v=0) {r r' : Mom d}
-    (hr : M.IsBlockGap L w κ S a r) (hr' : M.IsBlockGap L w κ A x r')
-    (houter : Molecule.gapKind L γ η r=.LG ∨ Molecule.gapKind L γ η r=.ZG)
-    (hsmall : Molecule.gapKind L γ η r'=.SG) :
-    ∀ c ∈ stemStarts X,∀ v ∈ S,R.f v=c.upper ∨ R.f v=c.lower → v ∉ A := by
-  have hj := SG_block_outer_joints_absent M hM hS hVC.1 hAS L γ η w c κ hκ hc hr hr' houter hsmall
-  intro st hst
-  exact stemStarts_absent M hM R hS hVC.1 (isVC_connected hVC) hcard hj.1 hj.2 st hst
-
 end WaveTurbulence.Vine

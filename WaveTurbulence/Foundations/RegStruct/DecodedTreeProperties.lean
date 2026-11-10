@@ -75,9 +75,4 @@ theorem decodedTree_isRegular_of_aux (X : RegChain) (ζ : ℤˣ)
   change (decodedTree X ζ).MatchesTreeCouple (treeAuxCode X ζ).raw at hM
   exact ⟨decodedTree_isPairedTree X ζ,R,hR,(hrep.matchesTreeCouple_iff _).mpr hM⟩
 
-/-- Every bare legal-chain code has an actual source-regular tree carrier of either sign. -/
-theorem bareChain_decodedTree_isRegular (X : RegChain) (hX : BareChain X) (ζ : ℤˣ) :
-    IsRegularTree (decodedTree X ζ) :=
-  decodedTree_isRegular_of_aux X ζ (bareChain_aux_isRegular X hX ζ)
-
 end WaveTurbulence.Reg

@@ -1,7 +1,7 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 public import WaveTurbulence.Foundations.FinalCount.RedSpliceIter
-public import WaveTurbulence.Foundations.Molecule.TwistSplicedGarden
+public import WaveTurbulence.Foundations.Molecule.BoundaryAddressAlgebra
 public import WaveTurbulence.Foundations.Stage1.Shared.S1VInvIso
 /-! VINE-A4 fallback infrastructure: two actual splice maps with identical
 merge classes have canonically isomorphic quotient molecules, using old names. -/

@@ -41,29 +41,6 @@ theorem lonePath_sign (X : RegChain) (ζ : ℤˣ) : pathSign ζ X.lonePath = ζ 
     fin_cases c <;> fin_cases b <;> simp [MiniTreeCode.lone, pathSign]
 termination_by structural X
 
-/-- Total subtree extraction composes along path concatenation. -/
-theorem subtreeAt_append (t : TTree) (p q : Path) :
-    t.subtreeAt (p ++ q) = (t.subtreeAt p).subtreeAt q := by
-  induction p generalizing t with
-  | nil => rfl
-  | cons i p ih =>
-    cases t with
-    | leaf => cases q <;> rfl
-    | node l m r =>
-      fin_cases i <;> simp [TTree.subtreeAt, ih]
-
-/-- Filling the lone slot leaves the inserted subtree exactly at `lonePath`. -/
-theorem plug_subtreeAt_lonePath (X : RegChain) (ζ : ℤˣ) (h : TTree) :
-    (X.plug ζ h).subtreeAt X.lonePath = h := by
-  cases X with
-  | nil => rfl
-  | pair m r g i s =>
-    obtain ⟨c,b⟩ := m
-    fin_cases c <;> fin_cases b <;>
-      simp [RegChain.plug, RegChain.lonePath, node3, MiniTreeCode.lone,
-        subtreeAt_append, TTree.subtreeAt, plug_subtreeAt_lonePath i, plug_subtreeAt_lonePath s]
-termination_by structural X
-
 /-- Bare chains are automatically well formed. -/
 theorem bareChain_wf (X : RegChain) (hX : BareChain X) : X.wf = true := by
   cases X with
@@ -72,23 +49,5 @@ theorem bareChain_wf (X : RegChain) (hX : BareChain X) : X.wf = true := by
     obtain ⟨rfl,rfl,hi,hs⟩ := hX
     simp only [RegChain.wf, RegCpl.wf, Bool.true_and, bareChain_wf i hi, bareChain_wf s hs]
 termination_by structural X
-
-/-- A bare chain has two branching nodes for each pair in its Catalan shape. -/
-theorem bareChain_size (X : RegChain) (hX : BareChain X) :
-    X.size = 2 * (chainShape X).numNodes := by
-  cases X with
-  | nil => rfl
-  | pair m r g i s =>
-    obtain ⟨rfl,rfl,hi,hs⟩ := hX
-    simp only [RegChain.size, RegCpl.size, chainShape, BinaryTree.numNodes,
-      bareChain_size i hi, bareChain_size s hs]
-    omega
-termination_by structural X
-
-/-- DH21 Prop 4.7's order identity for a decoded bare chain. -/
-theorem bareChain_order (X : RegChain) (hX : BareChain X) (ζ : ℤˣ) :
-    (X.plug ζ .leaf).order = 2 * (chainShape X).numNodes := by
-  rw [code_plug_order, bareChain_size X hX]
-  rfl
 
 end WaveTurbulence.Reg

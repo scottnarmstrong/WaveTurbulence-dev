@@ -21,12 +21,6 @@ variable {w : ℕ} (G : Garden w) (P : CorePlacement G)
   transportGardenPairing G (coreTwistForest G P) G.sig (coreLeafEquiv G P)
     (coreLeafMultiplier G P) (coreLeafMultiplier_pair G P) (coreLeafEquiv_sign G P)
 
-/-- The signature is unchanged by the concrete unit twist. -/
-theorem unitTwistGarden_sig : (unitTwistGarden G P).sig = G.sig := rfl
-
-/-- Its forest is exactly the specified ordered subtree exchange. -/
-theorem unitTwistGarden_tree : (unitTwistGarden G P).tree = coreTwistForest G P := rfl
-
 /-- The pairing follows the actual leaf transport. -/
 theorem unitTwistGarden_pair (l : GLeaf G.tree) :
     (unitTwistGarden G P).pair (coreLeafEquiv G P l) = coreLeafEquiv G P (G.pair l) :=
@@ -46,12 +40,5 @@ theorem unitTwistGarden_plain (hplain : G.IsPlain) : (unitTwistGarden G P).IsPla
 theorem unitTwistGarden_couple {G : Garden 2} (P : CorePlacement G) (h : IsCouple G) :
     IsCouple (unitTwistGarden G P) :=
   ⟨unitTwistGarden_plain G P h.1,h.2⟩
-
-/-- Every core source vine produces a valid actual twisted garden. -/
-theorem unitTwistGarden_exists {X : VineType} {S : Finset (GBranch G.tree)} {a b : GBranch G.tree}
-    (hcore : IsCoreCLVine G X S a b) :
-    ∃ P : CorePlacement G, P.lower = b ∧ (unitTwistGarden G P).tree = coreTwistForest G P := by
-  obtain ⟨P,hP⟩ := corePlacement_exists G hcore
-  exact ⟨P,hP,rfl⟩
 
 end WaveTurbulence.Twist

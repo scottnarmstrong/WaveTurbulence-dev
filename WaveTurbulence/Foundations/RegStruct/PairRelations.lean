@@ -47,11 +47,4 @@ theorem matchesCouple_congr (G : Garden 2) {T S : TTree × TTree}
   · rintro ⟨hg,h₀,h₁,hpair⟩
     exact ⟨hg,h₀,h₁,fun ℓ => (symmPairs_congr hp _).mpr (hpair ℓ)⟩
 
-/-- Normalization is faithful to the source garden, not merely to its order. -/
-theorem decodes_attachChains_iff (Xp Xm : RegChain) (Q : RegCpl) (G : Garden 2) :
-    (attachChains Xp Xm Q).Decodes G ↔ (RegCpl.type2 Xp Xm Q).Decodes G := by
-  apply matchesCouple_congr G (attachChains_trees Xp Xm Q)
-  intro z
-  simp only [RegCpl.raw, mem_attachChains_pairsAt, RegCpl.pairsAt, List.mem_append, or_assoc]
-
 end WaveTurbulence.Reg

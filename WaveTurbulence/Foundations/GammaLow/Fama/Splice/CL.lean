@@ -2,7 +2,6 @@
 -- L5a port of main `WaveTurbulence.Foundations.FinalCount.RedSpliceCL` (sha256 in COPIED-SHA256SUMS) over L6's 𝒱_γ carrier `Src`.
 module
 
-public import WaveTurbulence.Foundations.Molecule.CLCN
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Split
 public import WaveTurbulence.Foundations.FinalCount.RedSpliceCL
 import Mathlib.Tactic

@@ -1,7 +1,7 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 
-public import WaveTurbulence.Foundations.Molecule.EndRungBondCounts
+public import WaveTurbulence.Foundations.Molecule.EndRungData
 
 /-! # The two actual internal darts at the lower type-II joint
 

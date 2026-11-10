@@ -27,14 +27,6 @@ theorem connected_to_induced {S : Finset V} (hne : S.Nonempty) (h : M.GroupConne
   obtain ⟨x,hx,hxa,hxb⟩ := hab
   exact ⟨⟨x,hx⟩,hxa,hxb⟩
 
-/-- Induced-molecule connectedness gives the literal current B2 path relation. -/
-theorem induced_to_connected {S : Finset V} (h : Mole.GroupConnected M S) : M.GroupConnected S := by
-  intro u hu v hv
-  apply Relation.EqvGen.mono _ u v (h.2 u hu v hv)
-  intro a b hab
-  obtain ⟨x,hxa,hxb⟩ := hab
-  exact ⟨x.1,x.2,hxa,hxb⟩
-
 /-- The accepted CLCN block segment is constructed from a current B2 block. -/
 @[expose] def currentBlockSegment {w : ℕ} (G : Garden w)
     {S : Finset (GBranch G.tree)} {a b : GBranch G.tree} (hB : G.molecule.IsBlock S a b) :
@@ -44,12 +36,5 @@ theorem induced_to_connected {S : Finset V} (h : Mole.GroupConnected M S) : M.Gr
   rightJoint := b
   block := hB
   connected := connected_to_induced G.molecule ⟨a,hB.2.1⟩ hB.2.2.2.2.2.2.2.2.2
-
-/-- Every actual current CL vine, normal or bad, has the complete accepted source geometry. -/
-theorem vine_CL_geometry {w : ℕ} (G : Garden w) {X : VineType}
-    {S : Finset (GBranch G.tree)} {a b : GBranch G.tree}
-    (hV : G.molecule.IsVine X S a b) (hCL : Mole.CLParentPattern G S a b) :
-    Nonempty (Mole.CLGeometricData G S a b) :=
-  Mole.cl_geometric_data G hV.1 hCL
 
 end WaveTurbulence.Molecpl

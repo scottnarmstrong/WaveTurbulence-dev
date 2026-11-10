@@ -1,7 +1,7 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 
-public import WaveTurbulence.Foundations.Molecule.UnitTwistMolecule
+public import WaveTurbulence.Foundations.Molecule.TwistDartDirections
 
 /-! # Concrete node-label transport for the unit twist
 

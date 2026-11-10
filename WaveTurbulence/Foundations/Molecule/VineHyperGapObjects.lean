@@ -50,16 +50,5 @@ are distinct non-nested objects (see the triple-bond audit example). -/
     (R : HyperLikeRealization M S a b) : Prop :=
   A ⊆ S ∧ (A=S → P.added=R.added ∨ P.added=M.mate R.added)
 
-/-- For a fixed designated hyper-object and ordered joint, the gap is unique. -/
-theorem gap_unique {d : ℕ} (L : ℝ) (w : Mom d) (κ : D → (Fin d → ℤ)) {r r' : Mom d}
-    (hr : R.IsGap L w κ r) (hr' : R.IsGap L w κ r') : r=r' :=
-  blockGap_unique (Mole.eraseBond M R.added) R.adjoint.1 hr hr'
-
-/-- In particular a fixed object cannot have two different gap kinds. -/
-theorem gapKind_unique {d : ℕ} (L γ η : ℝ) (w : Mom d) (κ : D → (Fin d → ℤ)) {r r' : Mom d}
-    (hr : R.IsGap L w κ r) (hr' : R.IsGap L w κ r') :
-    Molecule.gapKind L γ η r=Molecule.gapKind L γ η r' :=
-  congrArg (Molecule.gapKind L γ η) (R.gap_unique L w κ hr hr')
-
 end HyperLikeRealization
 end WaveTurbulence.Vine

@@ -37,16 +37,4 @@ theorem nested_block_gap_eq (M : Molecule V D) {A S : Finset V} {a b c : V}
   unfold groupFlow
   rw [internal_darts_eq_of_nested_degree M hAS a (ha.trans hs.symm)]
 
-/-- TARGET subsetvc, gap separation: an SG nested block cannot share its
-specified joint with an LG or ZG outer block. -/
-theorem not_nested_SG_at_outer_joint {d : ℕ} (M : Molecule V D)
-    {A S : Finset V} {a b c : V} (hAS : A ⊆ S)
-    (hA : M.IsBlock A a b) (hS : M.IsBlock S a c)
-    (L γ η : ℝ) (w : Mom d) (κ : D → (Fin d → ℤ)) {r r' : Mom d}
-    (hr : M.IsBlockGap L w κ A a r) (hr' : M.IsBlockGap L w κ S a r')
-    (hsmall : Molecule.gapKind L γ η r=.SG)
-    (houter : Molecule.gapKind L γ η r'=.LG ∨ Molecule.gapKind L γ η r'=.ZG) : False := by
-  have he := nested_block_gap_eq M hAS hA hS (Molecule.kvec L w κ) hr hr'
-  exact (SG_gap_separated L γ η hsmall houter).1 he
-
 end WaveTurbulence.Vine

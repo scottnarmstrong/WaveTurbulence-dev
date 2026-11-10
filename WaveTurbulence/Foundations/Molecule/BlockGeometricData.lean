@@ -48,20 +48,6 @@ structure CLGeometricData (S : Finset (GBranch G.tree)) (upper lower : GBranch G
   complete_pairing : ∀ l : GLeaf G.tree, InIncidenceRealization G S l.toNode →
     G.mark l = none ∧ InIncidenceRealization G S (G.pair l).toNode
 
-structure CNGeometricData (S : Finset (GBranch G.tree)) (a b : GBranch G.tree) where
-  parentPattern : CNParentPattern G S a b
-  excludedA : Fin 3
-  excludedB : Fin 3
-  excludedA_sign : G.sign (a.child excludedA) = G.sign a.toNode
-  excludedB_sign : G.sign (b.child excludedB) = G.sign b.toNode
-  separatedA : (a.child excludedA).IsDesc b.toNode ∨ ¬ a.toNode.IsDesc b.toNode
-  separatedB : (b.child excludedB).IsDesc a.toNode ∨ ¬ b.toNode.IsDesc a.toNode
-  realization : ∀ v : GNode G.tree, InIncidenceRealization G S v ↔
-    (a.toNode.IsDesc v ∧ ¬ (a.child excludedA).IsDesc v) ∨
-    (b.toNode.IsDesc v ∧ ¬ (b.child excludedB).IsDesc v)
-  complete_pairing : ∀ l : GLeaf G.tree, InIncidenceRealization G S l.toNode →
-    G.mark l = none ∧ InIncidenceRealization G S (G.pair l).toNode
-
 theorem incidence_complete_pairing (S : Finset (GBranch G.tree)) (l : GLeaf G.tree)
     (hl : InIncidenceRealization G S l.toNode) :
     G.mark l = none ∧ InIncidenceRealization G S (G.pair l).toNode := by

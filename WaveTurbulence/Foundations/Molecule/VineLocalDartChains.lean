@@ -66,16 +66,5 @@ theorem doubleChain_to {S : Finset V} {a b : V} {n : ℕ} (h : DoubleChain N S a
     exact DoubleChain.append (ih (Finset.subset_union_left.trans hUA))
       ((F.isVine_iff .I _ (Finset.subset_union_right.trans hUA) _ _).mp hT) hi hne
 
-include F in
-/-- Every original double chain lifts to the identified local graph. -/
-theorem doubleChain_of {S : Finset V} {a b : V} {n : ℕ} (h : DoubleChain M S a b n) :
-    S ⊆ A → DoubleChain N S a b n := by
-  induction h with
-  | single h => intro hSA; exact DoubleChain.single ((F.isVine_iff .I _ hSA _ _).mpr h)
-  | @append S T a b c n hS hT hi hne ih =>
-    intro hUA
-    exact DoubleChain.append (ih (Finset.subset_union_left.trans hUA))
-      ((F.isVine_iff .I _ (Finset.subset_union_right.trans hUA) _ _).mpr hT) hi hne
-
 end LocalDartEmbedding
 end WaveTurbulence.Vine
