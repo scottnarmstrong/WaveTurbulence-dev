@@ -83,10 +83,4 @@ theorem subObjects (I : Thm115Inputs.{u}) : SubObjectsStatement.{u, v} := by
     exact gapFree_of_gapFreeU hT U hks.1
       (subObj_single I _ (groupGraph M S) j₁ j₂ rfl hTU (suOf U) ks hks).2.1
 
-/-- **N2 Theorem 1.15** from the open inputs only (L1's 1.14(c′), L2's size bound and base statements). -/
-theorem subObjects_of_open (O : Thm115Open.{u}) : SubObjectsStatement.{u, v} := subObjects O.toInputs
-
-/-- **N3 Corollary 1.16′** from the open inputs only. -/
-theorem cor116Single_of_open (O : Thm115Open.{u}) : Cor116SingleStatement.{u, v} := cor116Single O.toInputs
-
 end WaveTurbulence.TVine.Struct

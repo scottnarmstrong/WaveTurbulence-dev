@@ -411,13 +411,6 @@ theorem long_bond (hT : T6Ctx G v₁ v₂) {a b : ℕ} (hab : a + 2 ≤ b) (hb :
     (lt_of_lt_of_le hpos (L.le_skip (Nat.le_succ a) (by omega)))).1
   exact L.not_two_Hp (show a + 1 ≠ a + 1 + 1 by omega) (by omega) h1 h2
 
-/-- Bonds between layers at distance `≥ 3` do not exist. -/
-theorem eW_far (hT : T6Ctx G v₁ v₂) {a b : ℕ} (hab : a + 3 ≤ b) (hb : b ≤ L.t) :
-    eW (wG G) (L.E a) (L.E b) = 0 := by
-  by_contra hpos
-  have := (L.long_bond hT (by omega) hb (Nat.pos_of_ne_zero hpos)).1
-  omega
-
 end XLayers
 
 end WaveTurbulence.TVine.Struct

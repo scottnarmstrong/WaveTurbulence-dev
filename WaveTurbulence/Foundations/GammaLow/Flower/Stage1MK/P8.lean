@@ -89,15 +89,6 @@ open WaveTurbulence WaveTurbulence.LGSpine WaveTurbulence.RedSplice WaveTurbulen
 open WaveTurbulence.GammaLow.FinalCount
 variable {γF : ℝ} [Fact (γF ≤ 1 / 2)] [Fact Fama.TVineF1Input] [Fact Fama.VinechainlemPrimeInput] [Fact Fama.TVineIsoInvariant]
 
-/-- B1b-2: **the class count for Stage 1′ pieces** at admissible marked sets (truncation-free carrier). The B2c/B4
-target behind `prod_stage1CountsMk`; at `Adm = (· = ∅)` it is `ClassCountStmtW` (`classCountStmtW_of_Mk`). -/
-def ClassCountStmtMkLow (Adm : MarkAdmLow (γF := γF)) : Prop :=
-  ∃ C₀ K : ℕ, 2 ≤ C₀ ∧ ∀ P : WTParams, K ^ (P.D + 1) ≤ P.C₂ → ∀ p, p < P.D →
-    ∀ R, 1 ≤ R → ∀ N, 1 ≤ N → ∀ g r : ℕ, ∀ A : Finset (LayeredGarden (2 * R)),
-    (∀ LG ∈ A, Stage1Mk.Stage1CarriesW P p N LG ∧ HasPieceDataMkLow (γF := γF) Adm P.d LG g r) →
-      (A.card : ℝ) ≤ (C₀ : ℝ) ^ N * (((C₀ * r).factorial : ℕ) : ℝ) * (((C₀ * R).factorial : ℕ) : ℝ) *
-        P.C₂ ^ (g + r)
-
 end
 
 section

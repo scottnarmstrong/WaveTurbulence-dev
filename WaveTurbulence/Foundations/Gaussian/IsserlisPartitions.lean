@@ -219,33 +219,9 @@ theorem pairingOfPartition_pairingPartition {J : Type*} [DecidableEq J] {s : Fin
   · exact pairingOfPartition_mem _ _ a
   · exact Finset.mem_image.mpr ⟨a, Finset.mem_univ _, rfl⟩
 
-/-- The bijection carrier for DH21 Lemma A.2 is equivalent to its source carrier:
-partitions of the positions into opposite-sign two-element blocks. -/
-@[expose] noncomputable def signedPairingEquivFinpartition {J : Type*} [DecidableEq J] (s : Finset J) (ζ : J → Bool) :
-    SignedPairing s ζ ≃ {P : Finpartition s // IsOppositeSignPartition ζ P} where
-  toFun e := ⟨pairingPartition e, pairingPartition_isOppositeSign e⟩
-  invFun P := pairingOfPartition P.1 P.2
-  left_inv e := pairingOfPartition_pairingPartition e
-  right_inv P := Subtype.ext (pairingPartition_pairingOfPartition P.1 P.2)
-
 end WaveTurbulence.GaussianPairings
 
 namespace WaveTurbulence.GaussianPairings
 open scoped Classical
-
-/-- A product over the source partition is the product over its positive positions,
-with each unordered pair counted exactly once. -/
-theorem prod_pairingPartition_parts {J M : Type*} [DecidableEq J] [CommMonoid M]
-    {s : Finset J} {ζ : J → Bool} (e : SignedPairing s ζ) (w : Finset J → M) :
-    (∏ B ∈ (pairingPartition e).parts, w B) =
-      ∏ a : SignedPositions s ζ true, w {a.1.1, (e a).1.1} := by
-  change (∏ B ∈ Finset.univ.image (fun a : SignedPositions s ζ true =>
-    ({a.1.1, (e a).1.1} : Finset J)), w B) = _
-  apply Finset.prod_image
-  intro a _ b _ hab
-  change ({a.1.1, (e a).1.1} : Finset J) = {b.1.1, (e b).1.1} at hab
-  apply (positive_mem_pair_iff e a b).mp
-  rw [← hab]
-  exact Finset.mem_insert_self _ _
 
 end WaveTurbulence.GaussianPairings

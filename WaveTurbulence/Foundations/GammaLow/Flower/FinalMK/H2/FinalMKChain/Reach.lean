@@ -641,12 +641,6 @@ section inv
 variable {M₀ : Molecule V D₀} {m : ℕ} {C : CollDataMK M₀} {Un : (D₀ → (Fin d → ℤ)) → Set (Src.Object Src.γL M₀)}
   {Fst : Set (Src.Object Src.γL M₀)} {E : Fin m → Src.Object Src.γL M₀} {L γ η : ℝ} {w : Mom d} {κ : D₀ → (Fin d → ℤ)} {Rn : ℕ}
 
-theorem invL_D3E (hS : SubHypL Rn M₀)
-    (h0 : ∀ a ∈ M₀.atoms, M₀.deg a = 4 → ∑ x ∈ M₀.dartsAt a, M₀.dartSign x • Molecule.kvec L w κ x = 0) {h : HSt V D₀}
-    (hr : ReachD3E C Un Fst E L γ η w κ h) : ∃ R', R' ≤ Rn ∧ InvL M₀ R' L γ η w κ h := by
-  obtain ⟨h₁, a, -, c⟩ := hr
-  exact FinalCount.H.invL_chain (fun a b hs R' hI => hI.stepD3'L hs) c (invL_reach1E hS h0 a)
-
 theorem invL_reach2E (hS : SubHypL Rn M₀)
     (h0 : ∀ a ∈ M₀.atoms, M₀.deg a = 4 → ∑ x ∈ M₀.dartsAt a, M₀.dartSign x • Molecule.kvec L w κ x = 0) {h : HSt V D₀}
     (hr : Reach2LE C Un Fst E L γ η w κ h) : ∃ R', R' ≤ Rn ∧ InvL M₀ R' L γ η w κ h := by
@@ -661,15 +655,6 @@ theorem invL_reach3E (hS : SubHypL Rn M₀)
   exact FinalCount.H.invL_chain (fun a b hs R' hI => ⟨R', le_rfl, hI.step3 hs.toHStep3⟩) g
     (FinalCount.H.invL_chain (fun a b hs R' hI => ⟨R', le_rfl, hI.step2 hs.toHStep2⟩) e
       (FinalCount.H.invL_chain (fun a b hs R' hI => hI.stepD3'L hs) c (invL_reach1E hS h0 a)))
-
-theorem invL_reach4E (hS : SubHypL Rn M₀)
-    (h0 : ∀ a ∈ M₀.atoms, M₀.deg a = 4 → ∑ x ∈ M₀.dartsAt a, M₀.dartSign x • Molecule.kvec L w κ x = 0) {h : HSt V D₀}
-    (hr : Reach4LE C Un Fst E L γ η w κ h) : ∃ R', R' ≤ Rn ∧ InvL M₀ R' L γ η w κ h := by
-  obtain ⟨h₁, h₂, h₃, h₄, a, -, c, -, e, -, g, -, j⟩ := hr
-  exact FinalCount.H.invL_chain (fun a b hs R' hI => ⟨R', le_rfl, hI.step4 hs⟩) j
-    (FinalCount.H.invL_chain (fun a b hs R' hI => ⟨R', le_rfl, hI.step3 hs.toHStep3⟩) g
-      (FinalCount.H.invL_chain (fun a b hs R' hI => ⟨R', le_rfl, hI.step2 hs.toHStep2⟩) e
-        (FinalCount.H.invL_chain (fun a b hs R' hI => hI.stepD3'L hs) c (invL_reach1E hS h0 a))))
 
 theorem d3info_auxE (hS : SubHypL Rn M₀)
     (h0 : ∀ a ∈ M₀.atoms, M₀.deg a = 4 → ∑ x ∈ M₀.dartsAt a, M₀.dartSign x • Molecule.kvec L w κ x = 0) {h₁ h₂ : HSt V D₀}

@@ -236,13 +236,4 @@ theorem eqOn_truncFlow (hR : 0 ≤ R) {z : ℝ → L1 d} {x : L1 d} (hz0 : z 0 =
   rw [zero_mul] at h
   exact dist_le_zero.1 h
 
-/-- The truncated flow moves at speed at most `κ R³`. -/
-theorem norm_truncFlow_sub_le (hR : 0 ≤ R) (x : L1 d) {t : ℝ} (ht : t ∈ Icc 0 𝔇) :
-    ‖truncFlow L γ δ R 𝔇 x t - x‖ ≤ |δ / (2 * L ^ ((d : ℝ) - γ))| * R ^ 3 * t := by
-  have h := (convex_Icc (0 : ℝ) 𝔇).norm_image_sub_le_of_norm_hasDerivWithin_le
-    (f := truncFlow L γ δ R 𝔇 x)
-    (fun s hs => hasDerivWithinAt_truncFlow hR x hs)
-    (fun s _ => norm_truncField_le L γ δ s hR _) ⟨le_rfl, ht.1.trans ht.2⟩ ht
-  rwa [truncFlow_zero, sub_zero, Real.norm_of_nonneg ht.1] at h
-
 end WaveTurbulence.NLS

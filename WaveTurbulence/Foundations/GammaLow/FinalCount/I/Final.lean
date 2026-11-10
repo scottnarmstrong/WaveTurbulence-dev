@@ -26,8 +26,4 @@ theorem finalCountGateLow_of_ghost (hL : H.ChainCoverLowL') : FinalCountGateLow 
   haveI : Src.LowInputs := ⟨hL⟩
   finalCountGateLow_of_lowInputs
 
-/-- **The final-count gate at `0 < γ ≤ 1/2`** (packet L6), with no hypotheses. -/
-theorem finalCountGateLow : FinalCountGateLow :=
-  finalCountGateLow_of_ghost Ghost.chainCoverLowL'_holds
-
 end WaveTurbulence.GammaLow.FinalCount

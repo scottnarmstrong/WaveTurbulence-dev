@@ -270,14 +270,4 @@ theorem coupleClauseLow_of_three (h5a : Fama.Stage1ReductionGateLow) (h6 : Final
     (hSO : Famc.SubObjectsInput) : WaveTurbulence.GammaLow.Flower.CoupleClauseLowInput :=
   coupleClauseLow h5a Famc.coarseSplicedGateLow h6 hSO
 
-/-- `coupleClauseLow` with L3's `Famc.SubObjectsInput` discharged (`TVine.Struct.subObjects_holds`, proved). -/
-theorem coupleClauseLow_proved (h5a : Fama.Stage1ReductionGateLow) (h5c : Famc.CoarseSplicedGateLow)
-    (h6 : FinalCount.FinalCountGateLow) : WaveTurbulence.GammaLow.Flower.CoupleClauseLowInput :=
-  coupleClauseLow h5a h5c h6 TVine.Struct.subObjects_holds
-
-/-- **L8's `CoupleClauseLowInput` from L5a's and L6's gates alone** (L5c's finalsbest1 and L3's Thm 1.15 proved). -/
-theorem coupleClauseLow_of_two (h5a : Fama.Stage1ReductionGateLow) (h6 : FinalCount.FinalCountGateLow) :
-    WaveTurbulence.GammaLow.Flower.CoupleClauseLowInput :=
-  coupleClauseLow_of_three h5a h6 TVine.Struct.subObjects_holds
-
 end WaveTurbulence.GammaLow.LGLow.CC

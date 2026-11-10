@@ -53,12 +53,5 @@ theorem topOrder (j : Fin w) : h.output.topOrder p j = LG.topOrder p j := by
     (by have hh := h.exceptional_topCounts_eq j; omega)
   omega
 
-/-- The source total-order bound makes attached-component truncation redundant;
-full truncation is therefore preserved by the literal unit LF construction. -/
-theorem isTrunc (Ntop Natt : ℕ) (hn : LG.garden.order ≤ Natt) :
-    h.output.IsTrunc p Ntop Natt ↔ LG.IsTrunc p Ntop Natt := by
-  rw [trunc_iff_topOrder _ _ _ _ (h.order.trans_le hn),trunc_iff_topOrder _ _ _ _ hn]
-  simp only [h.topOrder]
-
 end LFConstruction
 end WaveTurbulence.LFTwist

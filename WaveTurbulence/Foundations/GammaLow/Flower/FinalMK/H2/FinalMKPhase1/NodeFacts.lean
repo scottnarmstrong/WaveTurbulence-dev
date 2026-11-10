@@ -719,7 +719,6 @@ theorem AtomRelU.vinePostRC {h : HSt V D₀} (hR : AtomRelU Adm0 L w h) (hpin : 
     rw [chargeAt_cut_other h.s.M K.cut_a K.ab_ne.symm K.fa_ne_b.symm]
     exact hcl k0 hk0
 
-alias _root_.WaveTurbulence.Flower.FinalMKPhase1.AtomRelU.vinePostRCH2 := _root_.WaveTurbulence.GammaLow.Flower.H2.AtomRelU.vinePostRC
 /-- **`UCtx` along a re-cut**: the index drops by `jeps K` (C1a's `Inv.vineStRC`). -/
 theorem UCtx.stepRC {C : FinalCount.H.CollData M₀} {h h' : HSt V D₀} (hs : UStepRC C L γ η w Adm0 h h')
     (hp : PinnedM0 Adm0 L w M₀) (hc : UCtx M₀ Rn Adm0 L w h) :
@@ -730,7 +729,6 @@ theorem UCtx.stepRC {C : FinalCount.H.CollData M₀} {h h' : HSt V D₀} (hs : U
     exact ⟨jeps K, R', e, ⟨⟨hI, FinalCount.H.clean_vineStG hc.good.2 K⟩, hc.anc.vinePostGL K, hc.rel.vineStGL K,
       AtomRelU.vinePostRC hc.atom (hc.eps hp) K hu hl⟩⟩
 
-alias _root_.WaveTurbulence.Flower.FinalMKPhase1.UCtx.stepRCH2 := _root_.WaveTurbulence.GammaLow.Flower.H2.UCtx.stepRC
 /-- `epsCount` drops along `vineStG` when the lower joint is `ε` (main's `epsCount_vineStG_lt` at the other joint). -/
 theorem epsCount_vineStG_lt' (s : St.{u} V D₀) (K : Step1.VineCut Src.γL s.M) (hl : s.cls K.C.lower = .eps) :
     epsCount (FinalCount.H.vineStG s K) < epsCount s := by

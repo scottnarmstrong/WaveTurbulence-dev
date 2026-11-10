@@ -22,9 +22,6 @@ variable {w : ℕ} (LG : LayeredGarden w) {a b : GNode LG.garden.tree}
 @[expose] noncomputable def collapsedRightLeaf : GLeaf (collapseCoupleGarden h).tree :=
   collapseLeafEquiv LG.garden.tree a b (Comb.subCouple_incomparable h) (.inr 1)
 
-theorem collapsedLeftLeaf_val : (collapsedLeftLeaf LG h).1 = a.1 := rfl
-theorem collapsedRightLeaf_val : (collapsedRightLeaf LG h).1 = b.1 := rfl
-
 theorem collapseCouple_embeds_triv (hi : Indep a.1 b.1) :
     Embeds (collapseCoupleGarden h) .triv a.1 b.1 where
   indep := hi

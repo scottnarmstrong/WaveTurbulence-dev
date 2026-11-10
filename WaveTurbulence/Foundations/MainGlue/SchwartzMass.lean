@@ -32,21 +32,4 @@ theorem integral_initial_mass_restrict_le {d : ℕ} {Ω : Type*} [MeasurableSpac
   integral_gaussian_mass_restrict_le g hg _ (fun _ => hφ _)
     (summable_schwartz_lattice φ hL) A
 
-/-- G6 combined with G7, retaining the correct constant hierarchy. -/
-theorem initial_mass_event_bound {d : ℕ} (φ : 𝓢(Mom d, ℝ)) (hφ : ∀ k, 0 ≤ φ k) :
-    ∃ C : ℝ, 0 ≤ C ∧ ∀ {L : ℝ}, 1 ≤ L →
-      ∀ {Ω : Type*} [MeasurableSpace Ω] (P : Measure Ω) [IsProbabilityMeasure P]
-        (g : (Fin d → ℤ) → Ω → ℂ), (∀ n, HasLaw (g n) stdComplexGaussian P) → ∀ A : Set Ω,
-      (∫ ω in A, ∑' n, φ (latticePoint L n) * ‖g n ω‖ ^ 2 ∂P) ≤
-        Real.sqrt 2 * Real.sqrt (P.real A) * C * L ^ d := by
-  obtain ⟨C, hC, hbound⟩ := schwartz_lattice_sum_le φ
-  refine ⟨C, hC, ?_⟩
-  intro L hL Ω _ P _ g hg A
-  calc
-    _ ≤ Real.sqrt 2 * Real.sqrt (P.real A) * ∑' n, φ (latticePoint L n) :=
-      integral_initial_mass_restrict_le (by linarith only [hL]) φ hφ g hg A
-    _ ≤ Real.sqrt 2 * Real.sqrt (P.real A) * (C * L ^ d) :=
-      mul_le_mul_of_nonneg_left (hbound hL) (by positivity)
-    _ = _ := by ring
-
 end WaveTurbulence.MainGlue

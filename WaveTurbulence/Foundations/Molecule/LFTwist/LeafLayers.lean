@@ -52,27 +52,4 @@ theorem canonical_leaf_layer (LG : LayeredGarden w) {p : ℕ}
   · have h := hc.2 l.toNode (LG.garden.pair l).toNode (leaves_incomparable (Ne.symm hn)) hclosed
     simpa only [← LG.isLayering.2 l, max_self] using h
 
-/-- A canonical extension is unique once every branching-node layer is fixed.
-Existence from coherent reconstruction is a separate statement. -/
-theorem canonical_layer_unique (G : Garden w) (f g : GNode G.tree → ℕ)
-    (hf : IsLayering G f) (hg : IsLayering G g) (hplain : G.IsPlain) (p : ℕ)
-    (hcf : (LayeredGarden.mk G f hf).CanonCriterion p)
-    (hcg : (LayeredGarden.mk G g hg).CanonCriterion p)
-    (hb : ∀ b : GBranch G.tree, f b.toNode = g b.toNode) : f = g := by
-  have hp (n : GNode G.tree) :
-      (LayeredGarden.mk G f hf).parentLayer p n =
-        (LayeredGarden.mk G g hg).parentLayer p n := by
-    by_cases hn : n.1.2 = []
-    · simp only [LayeredGarden.parentLayer, hn, ite_true]
-    · rw [parentLayer_nonroot ⟨G,f,hf⟩ p n hn, parentLayer_nonroot ⟨G,g,hg⟩ p n hn]
-      exact hb (GNode.parent n hn)
-  funext n
-  obtain ⟨q,rfl⟩ := (nodePieceEquiv G.tree).surjective n
-  cases q with
-  | inl b => exact hb b
-  | inr l =>
-    exact (canonical_leaf_layer ⟨G,f,hf⟩ hcf hplain l).trans
-      ((congrArg₂ min (hp l.toNode) (hp (G.pair l).toNode)).trans
-        (canonical_leaf_layer ⟨G,g,hg⟩ hcg hplain l).symm)
-
 end WaveTurbulence.LFTwist

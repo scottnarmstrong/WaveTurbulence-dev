@@ -622,8 +622,6 @@ abbrev Un0F (C : Src.CountingChoices Src.γL G d) (S : SurvivorDataG Src.γL G) 
     Set (Src.Object Src.γL (inlMol G.molecule)) :=
   FinalCount.H.objMap (ι := inlEmb _) '' unGF C S L γ η κ
 
-theorem C0MK_forb (C : Src.CountingChoices Src.γL G d) (S : SurvivorDataG Src.γL G) : (C0MK C S).forb = survAtomsM (E0 S) := rfl
-
 theorem poolF_C0MK (C : Src.CountingChoices Src.γL G d) (S : SurvivorDataG Src.γL G) :
     poolF (C0MK C S) = FinalCount.H.collMap (inlEmb _) (gColF C S) := by
   have h : C.subpro.hinges.map (inlEmb _) ∪ survAtomsM (E0 S) =

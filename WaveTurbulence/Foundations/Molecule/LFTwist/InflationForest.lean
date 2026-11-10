@@ -29,10 +29,6 @@ open TTree Reg Reg.Skeleton Twist
     have hm := (Comb.subtree_leaves_iff hs' []).mp (Finset.mem_singleton_self [])
     simpa only [List.nil_append, List.append_nil, addrExt] using hm⟩
 
-theorem inflatedLeaf_index {w : ℕ} (σ : Fin w → ℤˣ) (X : Address w → RegChain)
-    (Y : Address w → TTree) (F : Fin w → TTree) (h : GLeaf F) (hY : Y h.1 = .leaf) :
-    (inflatedLeaf σ X Y F h hY).1.1 = h.1.1 := rfl
-
 /-- Inflation of a leaf insertion is actual insertion at the inflated leaf. -/
 theorem inflateForest_insertLeaf {w : ℕ} (σ : Fin w → ℤˣ)
     (X : Address w → RegChain) (Y : Address w → TTree) (F : Fin w → TTree)

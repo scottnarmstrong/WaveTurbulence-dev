@@ -1,7 +1,7 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 
-public import WaveTurbulence.Foundations.Molecule.LFTwist.SkeletonExtension
+public import WaveTurbulence.Foundations.Molecule.LFTwist.CoupleErasureCoherence
 import Mathlib.Tactic
 
 /-! # Erasing a chosen set of coherent regular attachments (TARGET Remark `sublayer`, region version)

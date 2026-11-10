@@ -11,9 +11,6 @@ The port of main's `Spine.MolecularSpineAt` (`H.FinalCountAt`, over `Src.Countin
 set_option autoImplicit false
 namespace WaveTurbulence.GammaLow.FinalCount
 
-/-- The ported gate body is `FinalCountLAt` (definitional). -/
-theorem finalCountAt_iff_L (P : WTParams) : H.FinalCountAt P ↔ FinalCountLAt P := Iff.rfl
-
 /-- **`FinalCountGateLow` from the ported run's low half** (`H.FinalCountGateHalf`, restated for `γ ≤ 1/2`). -/
 theorem finalCountGateLow_of_H (h : WTPrefix fun P => P.γ ≤ 1 / 2 → H.FinalCountAt P) : FinalCountGateLow :=
   finalCountGateLow_of_L h

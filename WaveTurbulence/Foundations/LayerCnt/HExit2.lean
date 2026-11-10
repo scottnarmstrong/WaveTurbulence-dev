@@ -18,13 +18,6 @@ variable {w : ℕ}
     (hp : (G.pair ℓ).1.2 ≠ []) : GardenDart G :=
   Sum.inr ⟨ℓ, hm, hr, hp⟩
 
-theorem lpDart_atom (G : Garden w) (ℓ : GLeaf G.tree) (hm : G.mark ℓ = none) (hr : ℓ.1.2 ≠ [])
-    (hp : (G.pair ℓ).1.2 ≠ []) : G.molecule.atom (lpDart G ℓ hm hr hp) = GNode.parent ℓ.toNode hr := rfl
-
-theorem lpDart_mate_atom (G : Garden w) (ℓ : GLeaf G.tree) (hm : G.mark ℓ = none) (hr : ℓ.1.2 ≠ [])
-    (hp : (G.pair ℓ).1.2 ≠ []) :
-    G.molecule.atom (G.molecule.mate (lpDart G ℓ hm hr hp)) = GNode.parent (G.pair ℓ).toNode hp := rfl
-
 theorem leaf_not_isDesc_branch {G : Garden w} (ℓ : GLeaf G.tree) :
     ∀ n, ∀ b : GBranch G.tree, b.1.2.length = n → ¬ ℓ.toNode.IsDesc b.toNode := by
   intro n

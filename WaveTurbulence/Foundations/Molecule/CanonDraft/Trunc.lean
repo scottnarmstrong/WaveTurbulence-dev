@@ -127,25 +127,6 @@ theorem truncSum_couple_eq_truncSumC (P : WTParams) (F : ℕ → Mom P.d → ℝ
   · exact absurd (hiff.2 hC) hA
   · rfl
 
-/-- **`truncSumC` is untruncated for `N ≤ N_q`** (couple analogue of `truncSum_untruncated`). -/
-theorem truncSumC_untruncated (P : WTParams) (F : ℕ → Mom P.d → ℝ) {q N : ℕ} (hN : N ≤ P.N q)
-    (t : ℝ) (k : Mom P.d) :
-    truncSumC P F q N t k =
-      ∑ᶠ (LG : LayeredGarden 2) (_ : IsCanonC q LG ∧ LG.garden.order = N), KQ P.L P.γ P.δ F LG t k := by
-  unfold truncSumC
-  refine finsum_congr fun LG => finsum_congr_Prop (propext ?_) fun _ => rfl
-  constructor
-  · rintro ⟨h1, -, h3⟩
-    exact ⟨h1, h3⟩
-  · rintro ⟨h1, h3⟩
-    refine ⟨h1, ⟨fun j => ?_, fun u _ => ?_⟩, h3⟩
-    · exact (LG.topOrder_le_order _ j).trans (h3 ▸ hN)
-    · have hq : 1 ≤ q := by
-        rcases q with _ | q
-        · exact absurd h1 id
-        · omega
-      exact (LG.attachedOrder_le_order _ u).trans ((h3 ▸ hN).trans (P.N_le_N_pred hq))
-
 /-! ### Unbalanced root labels -/
 
 /-- **Decorations exist only for balanced root labels**: a decoration of a plain garden satisfies
@@ -174,35 +155,5 @@ theorem isEmpty_genDecoration_of_unbalanced {w d : ℕ} (G : Garden w) (hP : G.I
   · have hne : G.pair ℓ ≠ ℓ := fun hp => ((G.pair_eq_iff ℓ).1 hp) (hP ℓ)
     rw [G.pair_sign ℓ hne, ← κ.2.1.2 ℓ, Units.val_neg, neg_smul, add_neg_cancel]
   · exact fun hp => ((G.pair_eq_iff ℓ).1 hp) (hP ℓ)
-
-theorem kernelK_eq_zero_of_unbalanced {w d : ℕ} (L γ δ : ℝ) (F : ℕ → Mom d → ℝ)
-    (LG : LayeredGarden w) (hP : LG.garden.IsPlain) (up : GBranch LG.garden.tree → ℝ) (s : ℝ)
-    (k₀ : Mom d) (nroot : Fin w → (Fin d → ℤ)) (n' : Fin d → ℤ)
-    (h : ∑ j, ((LG.garden.sig j : ℤˣ) : ℤ) • nroot j ≠ 0) :
-    kernelK L γ δ F LG up s k₀ nroot n' = 0 := by
-  have := isEmpty_genDecoration_of_unbalanced LG.garden hP nroot n' h
-  rw [kernelK, tsum_empty, mul_zero]
-
-/-- **The garden sums vanish for unbalanced root labels.** -/
-theorem truncSum_eq_zero_of_unbalanced (P : WTParams) (F : ℕ → Mom P.d → ℝ) (q N : ℕ) {w : ℕ}
-    (t : ℝ) (ζ : Fin w → ℤˣ) (n : Fin w → (Fin P.d → ℤ))
-    (h : ∑ j, ((ζ j : ℤˣ) : ℤ) • n j ≠ 0) : truncSum P F q N t ζ n = 0 := by
-  unfold truncSum
-  refine (finsum_congr fun LG => finsum_congr fun hLG => (?_ : _ = (0 : ℂ))).trans (by simp)
-  have hP : LG.garden.IsPlain := by
-    rcases q with _ | p
-    · exact absurd hLG.1 id
-    · exact hLG.1.1
-  exact kernelK_eq_zero_of_unbalanced _ _ _ F LG hP _ _ _ n 0 (hLG.2.2.1 ▸ h)
-
-/-- **`layergarden` (2)(a)**: the lattice couple sum vanishes off the diagonal. -/
-theorem truncSum_couple_offDiag (P : WTParams) (F : ℕ → Mom P.d → ℝ) (q N : ℕ) (t : ℝ)
-    (n : Fin 2 → (Fin P.d → ℤ)) (h : n 0 ≠ n 1) :
-    truncSum P F q N t ![1, -1] n = 0 := by
-  refine truncSum_eq_zero_of_unbalanced P F q N t _ n ?_
-  simp only [Fin.sum_univ_two, Matrix.cons_val_zero, Matrix.cons_val_one, Units.val_one,
-    one_smul, Units.val_neg, neg_smul]
-  intro h0
-  exact h (sub_eq_zero.1 (by simpa [sub_eq_add_neg] using h0))
 
 end WaveTurbulence.Canon

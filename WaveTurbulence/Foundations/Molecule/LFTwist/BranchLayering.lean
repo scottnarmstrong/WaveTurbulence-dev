@@ -71,25 +71,6 @@ theorem extendBranchLayers_isLayering (G : Garden w) (f : GBranch G.tree → ℕ
     (p : ℕ) (hf : IsBranchPrelayering G f) : LayeredGarden w :=
   ⟨G, extendBranchLayers G f p, extendBranchLayers_isLayering G f p hf⟩
 
-/-- The constructed extension respects the ambient top-layer bound. -/
-theorem extendBranchLayers_le (G : Garden w) (f : GBranch G.tree → ℕ)
-    (p : ℕ) (hf : ∀ b, f b ≤ p) (n : GNode G.tree) :
-    extendBranchLayers G f p n ≤ p := by
-  obtain ⟨q,rfl⟩ := (nodePieceEquiv G.tree).surjective n
-  cases q with
-  | inl b =>
-    change extendBranchLayers G f p b.toNode ≤ p
-    rw [extendBranchLayers_branch]
-    exact hf b
-  | inr l =>
-    change extendBranchLayers G f p l.toNode ≤ p
-    rw [extendBranchLayers_leaf]
-    apply (min_le_left _ _).trans
-    unfold branchParentValue
-    split
-    · exact le_rfl
-    · exact hf _
-
 /-- Parent values computed solely from branch layers are the actual parent layers. -/
 theorem branchParentValue_eq_parentLayer (LG : LayeredGarden w) (p : ℕ)
     (n : GNode LG.garden.tree) :

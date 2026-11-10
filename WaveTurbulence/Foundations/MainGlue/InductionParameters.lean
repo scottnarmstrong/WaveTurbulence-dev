@@ -50,18 +50,4 @@ theorem eventually_final_exponent {d : ℕ} (hd : 1 ≤ d) :
   obtain ⟨L₁, hL₁, hbound⟩ := eventually_log_pow_ge_four hd
   exact ⟨L₁, hL₁, fun L hL => log_pow_le_final_exponent hd (hbound L hL)⟩
 
-/-- G10(a,c) with the source's actual terminal floor-power exponent substituted. -/
-theorem induction_error_absorption_final {d : ℕ} (hd : 1 ≤ d) {η C : ℝ}
-    (hη : 0 < η) (hC : 0 ≤ C) (D : ℕ) :
-    ∃ L₁ : ℝ, 1 ≤ L₁ ∧ ∀ L ≥ L₁, ∀ p ≤ D,
-      2 * L ^ (-(η ^ 20 * (1 + (2 : ℝ)⁻¹ ^ p))) +
-        2 * Real.sqrt 2 * C * L ^ d *
-          Real.exp (-((⌊Real.log L ^ (40 * d)⌋₊ : ℝ) ^ (40 * d)) / 2) ≤
-            L ^ (-(η ^ 20)) := by
-  obtain ⟨A, hA, habsorb⟩ := induction_error_absorption hd hη hC D
-  obtain ⟨B, _, hprob⟩ := eventually_final_exponent hd
-  refine ⟨max A B, hA.trans (le_max_left _ _), ?_⟩
-  intro L hL p hp
-  exact habsorb L ((le_max_left _ _).trans hL) p hp _ (hprob L ((le_max_right _ _).trans hL))
-
 end WaveTurbulence.MainGlue

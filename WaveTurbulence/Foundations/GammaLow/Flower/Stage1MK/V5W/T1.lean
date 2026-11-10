@@ -254,13 +254,6 @@ open scoped ENNReal
 variable {γF : ℝ}
 variable {w d : ℕ} {G : Garden w} {U : Finset (GBranch G.tree)} {a b : GBranch G.tree}
 
-theorem enginePullbackOut_monoΓ (R : CLRegionData G U a b) (L : ℝ) (base : Mom d)
-    {m : (GNode G.tree → Fin d → ℤ) → ℂ} {mass mass' : ℝ} (h : EnginePullbackOutΓ (γF := γF) R L base m mass)
-    (hm : mass ≤ mass') : EnginePullbackOutΓ (γF := γF) R L base m mass' := by
-  intro n hM9 B hL
-  obtain ⟨N, hN, he⟩ := h n hM9 B hL
-  exact ⟨N, hN.trans hm, he⟩
-
 end
 
 section

@@ -83,42 +83,4 @@ theorem vine_sum_le (B : ℝ) (hB : 1 ≤ B) (G : Garden w) (X : VineType) (S : 
         congr 2
         rw [mul_pow, mul_pow, ← pow_mul, ← pow_mul, ← pow_mul]
 
-/-- **TARGET `layervine`, first bound** (L1513–L1521). `R` is a realization of the vine `𝕍` (atom set `S`,
-joints `a, b`, type `X`) in `𝕄(𝒢)`; its groups give the incoherency index (`cohmol`). `S` has `2m+2` atoms for a
-bad vine (types (I), (II)) and `2m+5` for a normal vine, and incoherency index `g` (`≤ m` resp. `≤ m+1`). For every
-finite family `𝓕` of pre-layerings of `𝒢` with values `≤ 𝔇`, pairwise distinct on the atoms of `𝕍`, the sum over the
-members of incoherency index `g` of `∏_ℓ B^{|𝔏_v − 𝔏_{v'}|}` over the bonds `ℓ` joining atoms of `𝕍` is at most
-`C_0^m C_2^{g+1}` (constants as in `layerlad`). Neither (CL) nor canonicity is needed for this bound; with `𝒢` the
-skeleton `𝒢_sk` and `f` the induced pre-layering (T.L1463) this is the source statement. -/
-theorem layervine_bound (B : ℝ) (hB : 1 ≤ B) :
-    ∃ C₀ : ℝ, 1 ≤ C₀ ∧ ∀ (G : Garden w) (X : VineType) (S : Finset (GBranch G.tree)) (a b : GBranch G.tree),
-      G.molecule.IsVine X S a b → ∀ (R : VineRealization G.molecule X S a b) (m : ℕ),
-      (X.IsBad = true → S.card = 2 * m + 2) → (X.IsBad = false → S.card = 2 * m + 5) →
-      ∀ (𝔇 : ℕ) (C₂ : ℝ), C₀ ^ (𝔇 + 1) ≤ C₂ → ∀ g : ℕ,
-      (X.IsBad = true → g ≤ m) → (X.IsBad = false → g ≤ m + 1) →
-      ∀ 𝓕 : Finset (GBranch G.tree → ℕ),
-        (∀ f ∈ 𝓕, LFTwist.IsBranchPrelayering G f ∧ ∀ x, f x ≤ 𝔇) →
-        (∀ f ∈ 𝓕, ∀ f' ∈ 𝓕, (∀ x ∈ S, f x = f' x) → f = f') →
-        ∑ f ∈ 𝓕.filter (fun f => realizedIncoherencyIndex R f = g),
-            ∏ x ∈ bondsIn G.molecule S,
-              B ^ dst (f (G.molecule.atom x)) (f (G.molecule.atom (G.molecule.mate x))) ≤
-          C₀ ^ m * C₂ ^ (g + 1) := by
-  refine ⟨max 9 ((2 : ℝ) ^ 21 * 3 ^ 48 * B ^ 60), le_trans (by norm_num) (le_max_left _ _), ?_⟩
-  intro G X S a b _ R m hbad hnorm 𝔇 C₂ hC₂ g _ _ 𝓕 hf hinj
-  set C₀ : ℝ := max 9 ((2 : ℝ) ^ 21 * 3 ^ 48 * B ^ 60) with hC₀
-  have hC1 : 1 ≤ C₀ := le_trans (by norm_num) (le_max_left _ _)
-  have hpr : ∀ f : GBranch G.tree → ℕ,
-      ∏ x ∈ bondsIn G.molecule S,
-        B ^ dst (f (G.molecule.atom x)) (f (G.molecule.atom (G.molecule.mate x))) =
-      B ^ bondExp G.molecule S f := fun f => by
-    unfold bondExp; rw [Finset.prod_pow_eq_pow_sum]
-  simp only [hpr]
-  refine (vine_sum_le B hB G X S a b R m hbad hnorm 𝔇 g 𝓕 hf hinj).trans ?_
-  have h9 : (9 : ℝ) ^ m ≤ C₀ ^ m := pow_le_pow_left₀ (by norm_num) (le_max_left _ _) m
-  have hK1 : ((2 : ℝ) ^ 21 * 3 ^ 48 * B ^ 60) ^ 𝔇 ≤ C₂ := by
-    calc _ ≤ C₀ ^ 𝔇 := pow_le_pow_left₀ (by positivity) (le_max_right _ _) 𝔇
-      _ ≤ C₀ ^ (𝔇 + 1) := pow_le_pow_right₀ hC1 (by omega)
-      _ ≤ C₂ := hC₂
-  exact mul_le_mul h9 (pow_le_pow_left₀ (by positivity) hK1 (g + 1)) (by positivity) (by positivity)
-
 end WaveTurbulence.LayerCnt

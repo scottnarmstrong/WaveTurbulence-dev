@@ -282,12 +282,6 @@ theorem _root_.WaveTurbulence.IsSmoothNLSSolution.hasSum_normSq_torusFourierCoef
   rw [hs0.tsum_eq, ← hu.integral_normSq_eq hL ht]
   exact hasSum_sq_torusFourierCoeff hL (hu.contDiff ht).continuous (hu.isTorusPeriodic ht)
 
-theorem _root_.WaveTurbulence.IsSmoothNLSSolution.summable_normSq (hL : 0 < L) (hu : IsSmoothNLSSolution L α T c u)
-    (h0 : (0 : ℝ) ∈ Icc 0 T) : Summable fun n => ‖c n‖ ^ 2 := by
-  have hs0 := hasSum_sq_torusFourierCoeff hL (hu.contDiff h0).continuous (hu.isTorusPeriodic h0)
-  simp only [hu.2.2.1] at hs0
-  exact hs0.summable
-
 /-- The bound used at TARGET L818–L820: `|û(t, n)|² ≤ ∑ₘ |c m|²`. -/
 theorem _root_.WaveTurbulence.IsSmoothNLSSolution.norm_torusFourierCoeff_sq_le (hL : 0 < L)
     (hu : IsSmoothNLSSolution L α T c u) {t : ℝ} (ht : t ∈ Icc 0 T) (n : Fin d → ℤ) :
@@ -390,17 +384,5 @@ theorem _root_.WaveTurbulence.IsSmoothNLSSolution.eq_of_eq (hL : 0 < L) {w : ℝ
   exact sub_eq_zero.1 (congrFun hz x)
 
 end Solutions
-
-/-- On `solvableEvent`, any two selections of smooth solutions (as in the frozen Theorem 1.1)
-agree on `[0, T] × ℝ^d` (uniqueness; FINDINGS F8). -/
-theorem eq_of_mem_solvableEvent {Ω : Type*} {L α T : ℝ} (hL : 0 < L) {φin : Mom d → ℝ}
-    {g : (Fin d → ℤ) → Ω → ℂ} {U V : Ω → ℝ → (Fin d → ℝ) → ℂ}
-    (hU : ∀ o ∈ solvableEvent L α T φin g,
-      IsSmoothNLSSolution L α T (initialCoeff L φin g o) (U o))
-    (hV : ∀ o ∈ solvableEvent L α T φin g,
-      IsSmoothNLSSolution L α T (initialCoeff L φin g o) (V o))
-    {o : Ω} (ho : o ∈ solvableEvent L α T φin g) :
-    ∀ t ∈ Icc 0 T, ∀ x, U o t x = V o t x :=
-  fun _ ht x => congrFun ((hU o ho).eq_of_eq hL (hV o ho) ht) x
 
 end WaveTurbulence.NLS

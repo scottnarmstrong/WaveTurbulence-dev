@@ -607,11 +607,6 @@ def Ex1RCUniform (d : ℕ) : Prop :=
         (P : Finset V → ℝ),
       Ex1RC L γ η δ C₁ w M₀ C P (Cs * ν * (1 + δ⁻¹) ^ 2 * (((4 + 8 : ℕ) : ℝ) / (η ^ 2 - η ^ 3)) ^ (4 + 8)) ν
 
-/-- **C1a target 3: the invariant along a re-cut** (index non-increasing; it drops only at an `ε` joint of degree 2). -/
-def InvLStepRC (M₀ : Molecule V D₀) (C : FinalCount.H.CollData M₀) (L γ η : ℝ) (w : Mom d) (κ : D₀ → (Fin d → ℤ)) : Prop :=
-  ∀ {R : ℕ} {h h' : HSt V D₀}, HStepRC C L γ η w κ h h' → InvL M₀ R L γ η w κ h →
-    ∃ R', R' ≤ R ∧ InvL M₀ R' L γ η w κ h'
-
 /-- The LOW run's Step-1 step with re-cuts (`HStep1L` of GL6 plus `HStepRC`). -/
 inductive HStep1LE {M₀ : Molecule V D₀} (C : FinalCount.H.CollData M₀) (L γ η : ℝ) (w : Mom d) (κ : D₀ → (Fin d → ℤ)) :
     HSt V D₀ → HSt V D₀ → Prop
@@ -627,11 +622,6 @@ def HRunLE {M₀ : Molecule V D₀} (C : FinalCount.H.CollData M₀) (L γ η : 
     Relation.ReflTransGen (FinalCount.H.HStep2C C L γ η w κ) h₂ h₃ ∧ FinalCount.H.NoEligibleTriangle C L γ η w κ h₃ ∧
     Relation.ReflTransGen (FinalCount.H.HStep3C C L γ η w κ) h₃ h₄ ∧ NoSGLeft L γ η w κ h₀.s h₄.s ∧
     Relation.ReflTransGen (HStep4 L w κ) h₄ hf ∧ NoBetaCut L w κ hf.s
-
-theorem HRunL.toE {M₀ : Molecule V D₀} {C : FinalCount.H.CollData M₀} {L γ η : ℝ} {w : Mom d} {κ : D₀ → (Fin d → ℤ)}
-    {h₀ hf : HSt V D₀} (h : FinalCount.H.HRunL C L γ η w κ h₀ hf) : HRunLE C L γ η w κ h₀ hf := by
-  obtain ⟨h₁, h₂, h₃, h₄, a, b, c, e, f, g, i, j, k, l⟩ := h
-  exact ⟨h₁, h₂, h₃, h₄, Relation.ReflTransGen.mono (fun _ _ hs => HStep1LE.base hs) _ _ a, b, c, e, f, g, i, j, k, l⟩
 
 /-! ### C1b: survivors in the LOW Step 1 (molecule level) -/
 

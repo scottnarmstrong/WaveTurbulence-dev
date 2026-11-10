@@ -94,11 +94,6 @@ L2104; DH23 L1775): a hyper member's adjoint bond is kept (`Src.Object.ContainsD
 def remAdj {γ : ℝ} (M : Molecule V D) (S : Finset V) {n : ℕ} (U : Fin n → Src.Object γ M) (a b : V) : Prop :=
   ∃ x : D, M.InGroup S x ∧ (∀ i, ¬ (U i).ContainsDart x) ∧ M.atom x = a ∧ M.atom (M.mate x) = b
 
-/-- Adjacency in `S` after removing **every** bond of each member, its adjoint included (N2's stronger semantics,
-used in N2 Thm 1.15 (F5) for a single T-vine; REF-M4 R5). -/
-def remAdjAll {γ : ℝ} (M : Molecule V D) (S : Finset V) {n : ℕ} (U : Fin n → Src.Object γ M) (a b : V) : Prop :=
-  ∃ x : D, M.InGroup S x ∧ (∀ i, ¬ M.InGroup (U i).atoms x) ∧ M.atom x = a ∧ M.atom (M.mate x) = b
-
 /-- `remAdj` without the bond `f` (Lemma P: `G − f`). -/
 def remAdjWithout {γ : ℝ} (M : Molecule V D) (S : Finset V) {n : ℕ} (U : Fin n → Src.Object γ M) (f : D)
     (a b : V) : Prop :=
@@ -202,14 +197,6 @@ def LayervineStructure (M : Molecule V D) (S : Finset V) (v₁ v₂ : V) : Prop 
 def CrossesIn (M : Molecule V D) (S X : Finset V) (x : D) : Prop :=
   M.InGroup S x ∧ (M.atom x ∈ X ↔ M.atom (M.mate x) ∉ X)
 
-/-- TARGET `vinechainlem` (L1930–L1933) with `𝒱_γ` and DV′: main's `LGSpine.IsSourceVinePartition` verbatim over the
-`𝒱_γ` carrier `Src` (D11; `Src.IsDV` is `IsDVPrime`). -/
-def IsSourceVinePartitionGamma (γ : ℝ) (M : Molecule V D) (collection : Set (Finset V)) : Prop :=
-  (∀ S ∈ collection, ∃ a b,
-    Src.IsHV γ M S a b ∨ Src.IsVC γ M S a b ∨ Src.IsHVC γ M S a b ∨ Src.IsDV γ M S a b) ∧
-  collection.Pairwise (fun S T => Disjoint S T) ∧
-  ∀ P : Src.Object γ M, ∃ S ∈ collection, P.atoms ⊆ S
-
 end vocab
 
 /-! ## The statements -/
@@ -305,18 +292,5 @@ def AttachStatement : Prop :=
     ∀ X ⊆ S, ∀ e ∈ M.bonds, ∀ f ∈ M.bonds, e ≠ f → CrossesIn M S X e → CrossesIn M S X f →
       (∀ g ∈ M.bonds, CrossesIn M S X g → g = e ∨ g = f) →
       ∀ w : V, w ≠ j₁ → w ≠ j₂ → ¬ (w ∈ M.ends e ∧ w ∈ M.ends f)
-
-/-- **N2 Lemma 5.2 (`𝒱_{>1/2} ⊂ 𝒱_{≤1/2}`).** Every expansion of a drawn template (III)–(VIII) is a T-vine.
-(= L6 `DrawnTVineInput`.) -/
-def DrawnTVineStatement : Prop :=
-  ∀ {V : Type u} {D : Type v} [DecidableEq V] [Fintype D] [DecidableEq D] (M : Molecule V D) (X : VineType)
-    (S : Finset V) (a b : V), X ≠ .I → X ≠ .II → M.IsVine X S a b → M.IsTVine S a b
-
-/-- **Lemma 8.1′ (TARGET `vinechainlem` L1930–L1933 / DH23 Lemma 8.1 with DV′; N2 N6).** For `γ ≤ 1/2` and every
-molecule there is a unique collection of disjoint atomic groups, each an HV, VC, HVC or DV′ of `𝒱_γ`, such that every
-vine-like object is contained in one of them. -/
-def VinechainStatement : Prop :=
-  ∀ {V : Type u} {D : Type v} [DecidableEq V] [Fintype D] [DecidableEq D] (γ : ℝ), γ ≤ 1 / 2 →
-    ∀ M : Molecule V D, M.IsMolecule → ∃! collection, IsSourceVinePartitionGamma γ M collection
 
 end WaveTurbulence.TVine.Struct

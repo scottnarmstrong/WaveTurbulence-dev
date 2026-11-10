@@ -37,17 +37,4 @@ theorem treeClockEdges_ne {G : Garden 1} {X : RegChain} (hX : X.DecodesTree G)
   simp only [List.length_append, List.length_singleton] at hl
   omega
 
-/-- Almost every actual branching clock vector avoids all graph-edge equality hyperplanes. -/
-theorem ae_treeClockEdges_ne {G : Garden 1} {X : RegChain} (hX : X.DecodesTree G) :
-    ∀ᵐ t : (Fin (X.treeLinks (G.sig 0)).length × Fin 2) → ℝ,
-      ∀ v w, (v,w) ∈ treeClockEdges hX → t v ≠ t w := by
-  apply ae_all_iff.mpr
-  intro v
-  apply ae_all_iff.mpr
-  intro w
-  by_cases he : (v,w) ∈ treeClockEdges hX
-  · filter_upwards [ae_clock_ne_clock v w (treeClockEdges_ne hX he)] with t ht
-    exact fun _ => ht
-  · exact Filter.Eventually.of_forall fun _ h => False.elim (he h)
-
 end WaveTurbulence.IncohInst

@@ -570,7 +570,6 @@ theorem BP.step1RLE (hbp : BP B h) (hA : AncRel M₀ h.s h.anc) (H : BHypE M₀ 
   | survD1 K i hs hc ho => exact hbp.vineGL K (survCut_notMem hbp hA H hc) rfl
   | survRC K i hs hc ho => exact hbp.vineGL K (survCut_notMem hbp hA H hc) rfl
 
-alias _root_.WaveTurbulence.Flower.FinalMKChain.BP.step1RLEH2 := _root_.WaveTurbulence.GammaLow.Flower.H2.BP.step1RLE
 /-- The ancestor relation along a Step-1 step with re-cuts. -/
 theorem AncRel.step1LE {C : FinalCount.H.CollData M₀} (hs : HStep1LE C L γ η w κ h h') (hA : AncRel M₀ h.s h.anc) :
     AncRel M₀ h'.s h'.anc := by
@@ -580,7 +579,6 @@ theorem AncRel.step1LE {C : FinalCount.H.CollData M₀} (hs : HStep1LE C L γ η
     obtain ⟨K, -, -, -, -, -, -, -, rfl⟩ := HStepRC.data hs
     exact hA.vinePostGL K
 
-alias _root_.WaveTurbulence.Flower.FinalMKChain.AncRel.step1LEH2 := _root_.WaveTurbulence.GammaLow.Flower.H2.AncRel.step1LE
 theorem QB.step1RLE (H : BHypE M₀ B C Un E L γ η w κ) (hs : HStep1RLE C Un Fst E L γ η w κ h h')
     (hq : FinalCount.H.QB M₀ C.toCollData Rn L γ η w κ B h) : FinalCount.H.QB M₀ C.toCollData Rn L γ η w κ B h' := by
   obtain ⟨ha, ⟨R', hR', hI⟩, hb⟩ := hq

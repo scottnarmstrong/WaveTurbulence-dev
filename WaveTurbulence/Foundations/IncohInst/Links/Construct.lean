@@ -240,9 +240,6 @@ theorem cplVal_root (θ : Fin w × Path → V × V) (Q : RegCpl) (a b : Fin w ×
 theorem slot_cases (m : MiniTreeCode) (i : Fin 3) : i = m.red.1 ∨ i = m.green.1 ∨ i = m.c := by
   obtain ⟨c, b⟩ := m; fin_cases c <;> fin_cases b <;> fin_cases i <;> decide
 
-theorem slot_cases2 (m : MiniTreeCode) (i : Fin 3) : i = m.red.2 ∨ i = m.green.2 ∨ i = m.lone := by
-  obtain ⟨c, b⟩ := m; fin_cases c <;> fin_cases b <;> fin_cases i <;> decide
-
 /-- The second node of a chain pair satisfies the node relation once the first does. -/
 theorem miniTree_consistent (m : MiniTreeCode) (u : V) (A B : Fin 3 → V)
     (hA : u = A 0 - A 1 + A 2) (hl : B m.lone = u) (hr : B m.red.2 = A m.red.1)

@@ -94,9 +94,6 @@ def decOfParams (hQ : Q.Decodes G) (r : V) (θ : Fin Q.links.length → V × V) 
       · exact (cplVal_root _ Q _ _ r indep_roots).1
       · exact (cplVal_root _ Q _ _ r indep_roots).2⟩
 
-theorem chosenNode_mem (Q : RegCpl) (j : Fin Q.links.length) :
-    (Q.links.get j, chosenNode Q j) = (Q.links.get j, (Q.links.get j).1) := rfl
-
 /-- **The unimodular change of variables** (TARGET (incohproof1)): decorations with root value `r`
 correspond bijectively to the link parameters `(x_𝔫, y_𝔫)_{𝔫 ∈ 𝒩^ch}`. -/
 def decEquiv (hQ : Q.Decodes G) (hG : IsCouple G) (r : V) :

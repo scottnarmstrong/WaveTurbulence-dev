@@ -707,20 +707,6 @@ theorem recut_hone {h : HSt V D₀} (hA : AncRel M₀ h.s h.anc) {ps qs : List (
   · exact hne (e1.symm.trans (he.trans e2))
   · exact hne (e2.symm.trans (he.symm.trans e1))
 
-/-- **Obligation 2**: C1a's non-closing configuration (a re-cut whose two joints are both `α/β` remnants) does not
-occur from a state with the bookkeeping. -/
-theorem recut_not_both_ab {h : HSt V D₀} (hA : AncRel M₀ h.s h.anc) {ps qs : List (Src.Object Src.γL M₀ × Quad D₀)}
-    (B : BookE M₀ C Un Fst E L γ η w κ h ps qs)
-    (hsd : ∀ U, CollectedF C (Un κ) L γ η w κ U → ∀ i, Disjoint U.atoms (E i).atoms)
-    (hchain : ∀ i j, i ≠ j → ¬ Disjoint (E i).atoms (E j).atoms →
-      (i.val + 1 = j.val ∨ j.val + 1 = i.val) ∧ ((E i).atoms ∩ (E j).atoms).card = 1)
-    (K : Step1.VineCut Src.γL h.s.M) (i : Fin m) (hc : SurvCut E i h K) :
-    ¬ ((h.s.cls K.C.upper).IsAB ∧ (h.s.cls K.C.lower).IsAB) := by
-  rintro ⟨hu, hl⟩
-  rcases recut_hone hA B hsd hchain K i hc with e | e
-  · rw [e] at hu; exact hu
-  · rw [e] at hl; exact hl
-
 /-- **The re-cut pays one pending re-cut** (`hpend` of C1a's `hW_RCp32`, via `pendRC_step`). -/
 theorem recut_pend {h : HSt V D₀} (hA : AncRel M₀ h.s h.anc) (hD : DartRel M₀ h.s)
     {ps qs : List (Src.Object Src.γL M₀ × Quad D₀)} (B : BookE M₀ C Un Fst E L γ η w κ h ps qs)

@@ -164,13 +164,6 @@ theorem chainDec_pairs (f : Fin w × Path → V) (X : RegChain) (ζ : ℤˣ) (a 
 termination_by structural X
 end
 
-/-- **`CplDec` in list form.** -/
-theorem cplDec_iff_lists (f : Fin w × Path → V) (Q : RegCpl) (a b : Fin w × Path) :
-    CplDec f Q a b ↔ (∀ x ∈ pairEndpoints (Q.linksAt a b), NodeRel f x) ∧
-      ∀ p ∈ Q.pairsAt a b, f p.1 = f p.2 :=
-  ⟨fun h => ⟨cplDec_nodeRel f Q a b h, cplDec_pairs f Q a b h⟩,
-    fun h => cplDec_of_lists f Q a b h.1 h.2⟩
-
 /-! ### Carrier decorations -/
 
 /-- A function on the nodes of a forest, extended by `0` to all global addresses. -/

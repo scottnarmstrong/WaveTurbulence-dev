@@ -33,15 +33,6 @@ def TypeGateAt (P : WTParams) : Prop :=
     ‖∑ LG ∈ A, U.toLF.value tt base roots LG‖ ≤ s *
       (P.δ ^ (8 * P.ν * N) * (P.L ^ (-P.η ^ 7) * P.L ^ (-((R : ℝ) - 1) * (1 / 4 + 1 / 70))))
 
-/-- Consistency: main's gates (drawn family) give the waist, by main's own `stage1_type_bound`. -/
-theorem typeGateAt_of_main (C₀ : ℕ) (P : WTParams) (hs : PieceSmall P)
-    (hcoarse : CoarseSplicedAt P) (hfourier : LadderFourierAt P) (hcount : FinalCountAt P)
-    (habs : FinalAbsorptionAt (6 * C₀) P) (hlog : 1 ≤ Real.log P.L) (hd : 1 ≤ P.d)
-    (hgate : Stage1ReductionAt C₀ P) : TypeGateAt P :=
-  fun hp hR hRmax hN1 hN A hA hcl tt htt base roots U s hs0 hU hsize =>
-    stage1_type_bound C₀ P hs hcoarse hfourier hcount habs hlog hd hgate hp hR hRmax hN1 hN A hA hcl tt htt
-      base roots U s hs0 hU hsize
-
 /-- Main's `evalV_gate_bound` through the waist. -/
 theorem evalV_typeGate_bound (P : WTParams) (hTG : TypeGateAt P)
     {p R N : ℕ} (hp : p < P.D) (hR : 1 ≤ R) (hRmax : R ≤ 10 * P.R (p + 1)) (hN1 : 1 ≤ N)

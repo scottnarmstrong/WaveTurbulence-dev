@@ -1,6 +1,8 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
-public import WaveTurbulence.Foundations.MainGlue.SealInputs
+public import WaveTurbulence.Foundations.MainGlue.InductionParameters
+public import WaveTurbulence.Foundations.MainGlue.SchwartzMass
+public import WaveTurbulence.Foundations.MainGlue.SmoothData
 public import WaveTurbulence.Foundations.Probability.RandomRapidDecay
 /-! Integrable mass and event comparison for the conditional Theorem 1.1 assembly. -/
 public section

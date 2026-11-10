@@ -31,18 +31,6 @@ structure ExitData (G : Garden w) (K : Finset (GBranch G.tree)) (d1 d2 : GardenD
 @[expose] def downDart (G : Garden w) (c : GBranch G.tree) (hc : c.1.2 ≠ []) : GardenDart G :=
   Sum.inl (⟨c, hc⟩, true)
 
-theorem upDart_atom (G : Garden w) (c : GBranch G.tree) (hc : c.1.2 ≠ []) :
-    G.molecule.atom (upDart G c hc) = c := rfl
-
-theorem upDart_mate_atom (G : Garden w) (c : GBranch G.tree) (hc : c.1.2 ≠ []) :
-    G.molecule.atom (G.molecule.mate (upDart G c hc)) = GNode.parent c.toNode hc := rfl
-
-theorem downDart_atom (G : Garden w) (c : GBranch G.tree) (hc : c.1.2 ≠ []) :
-    G.molecule.atom (downDart G c hc) = GNode.parent c.toNode hc := rfl
-
-theorem downDart_mate_atom (G : Garden w) (c : GBranch G.tree) (hc : c.1.2 ≠ []) :
-    G.molecule.atom (G.molecule.mate (downDart G c hc)) = c := rfl
-
 namespace ExitData
 variable {G : Garden w} {K : Finset (GBranch G.tree)} {d1 d2 : GardenDart G}
 

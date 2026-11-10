@@ -52,19 +52,6 @@ theorem via_group (R : VineRealization M X S a b) {f : V → ℕ} (hcoh : Cohere
 end helpers
 
 
-theorem rung_pos (X : VineType) (ks : List ℕ) {c : ℕ} (hc : c < X.template.slots.length)
-    (hck : c < ks.length) {i : ℕ} (hi1 : 1 ≤ i) (hi2 : i ≤ ks[c]'hck) {v : ℕ}
-    (hv : v ∈ rungGroup X ks c i) : v = pos1 X ks c hc hck i ∨ v = pos2 X ks c hc hck i := by
-  have hgd : ks.getD c 0 = ks[c]'hck := by simp [List.getD_eq_getElem?_getD, hck]
-  unfold rungGroup at hv
-  rw [hgd] at hv
-  simp only [List.mem_cons, List.not_mem_nil, or_false] at hv
-  unfold pos1 pos2 railSeq
-  rw [if_neg (by omega), if_pos hi2, if_neg (by omega), if_pos hi2]
-  rcases hv with rfl | rfl
-  · left; simp
-  · right; simp
-
 
 section cover
 variable {V D : Type*} [DecidableEq V] [Fintype D] [DecidableEq D] {M : Molecule V D} {X : VineType}

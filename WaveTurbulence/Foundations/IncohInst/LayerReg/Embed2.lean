@@ -48,8 +48,6 @@ theorem green2_ne_lone' (m : MiniTreeCode) : m.green.2 ≠ m.lone := by
 theorem green2_ne_red2 (m : MiniTreeCode) : m.green.2 ≠ m.red.2 := by
   obtain ⟨c, b⟩ := m; fin_cases c <;> fin_cases b <;> decide
 
-theorem treeOfSign_one (T : TTree × TTree) : treeOfSign T 1 = T.1 := rfl
-
 theorem treeOfSign_neg_one (T : TTree × TTree) : treeOfSign T (-1) = T.2 := by
   unfold treeOfSign; rw [ite_neg_of (by decide)]
 

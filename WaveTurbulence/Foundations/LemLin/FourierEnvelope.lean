@@ -26,10 +26,6 @@ open scoped FourierTransform
 @[expose] noncomputable def scalarEnvelope (f g h : ScalarCutoff) (A B C : ℝ) : ℝ :=
   ∫ z : ℝ, ∫ y : ℝ, ‖g y‖ * ‖h z‖ * ‖𝓕 f.schwartz (A + B * y + C * z)‖
 
-theorem scalarEnvelope_nonneg (f g h : ScalarCutoff) (A B C : ℝ) :
-    0 ≤ scalarEnvelope f g h A B C :=
-  integral_nonneg (fun z => integral_nonneg (fun y => by positivity))
-
 /-- The envelope is integrable before any nonzero-slope assumption. -/
 theorem integrable_scalarEnvelope (f g h : ScalarCutoff) (A B C : ℝ) :
     Integrable (fun p : ℝ × ℝ =>

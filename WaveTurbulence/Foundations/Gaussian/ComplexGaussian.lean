@@ -33,19 +33,6 @@ instance : IsProbabilityMeasure stdComplexGaussian := by
   unfold stdComplexGaussian
   infer_instance
 
-/-- Coordinates on the canonical product space have the normalized complex Gaussian law. -/
-theorem hasLaw_stdComplexGaussian_eval {ι : Type*} (i : ι) :
-    HasLaw (fun ω : ι → ℂ => ω i) stdComplexGaussian
-      (Measure.infinitePi (fun _ : ι => stdComplexGaussian)) :=
-  (measurePreserving_eval_infinitePi (fun _ : ι => stdComplexGaussian) i).hasLaw
-
-/-- The canonical complex Gaussian coordinates are mutually independent, even without
-countability of the index type. -/
-theorem iIndepFun_stdComplexGaussian_eval {ι : Type*} :
-    iIndepFun (fun i (ω : ι → ℂ) => ω i)
-      (Measure.infinitePi (fun _ : ι => stdComplexGaussian)) :=
-  iIndepFun_infinitePi (X := fun (_ : ι) (z : ℂ) => z) (fun _ => measurable_id)
-
 /-- Every finite absolute moment of the normalized complex Gaussian is finite. -/
 theorem memLp_id_stdComplexGaussian (p : ℝ≥0) :
     MemLp (fun z : ℂ => z) p stdComplexGaussian := by
@@ -68,49 +55,6 @@ theorem integrable_monomial_stdComplexGaussian (a b : ℕ) :
   exact Filter.Eventually.of_forall fun z => by
     simp only [norm_mul, norm_pow, norm_star, pow_add]
     exact le_rfl
-
-/-- The normalized complex Gaussian is centered (DH21 Lemma A.2, degree one). -/
-theorem integral_id_stdComplexGaussian :
-    ∫ z : ℂ, z ∂stdComplexGaussian = 0 := by
-  rw [stdComplexGaussian, integral_map measurable_complexFromPair.aemeasurable
-    (by fun_prop)]
-  change (∫ x : ℝ × ℝ, Complex.equivRealProdCLM.symm x
-    ∂((gaussianReal 0 (1 / 2)).prod (gaussianReal 0 (1 / 2)))) = 0
-  rw [ContinuousLinearEquiv.integral_comp_comm]
-  have h := memLp_id_gaussianReal (μ := 0) (v := 1 / 2) 1
-  have hf := (h.comp_fst (gaussianReal 0 (1 / 2))).integrable (by simp)
-  have hs := (h.comp_snd (gaussianReal 0 (1 / 2))).integrable (by simp)
-  simp only [id_eq] at hf hs
-  have hp := integral_pair hf hs
-  simp only [Prod.mk.eta] at hp
-  rw [hp]
-  rw [integral_prod _ hf, integral_prod _ hs]
-  simp [integral_id_gaussianReal]
-
-private theorem integral_sq_halfGaussian :
-    ∫ x : ℝ, x ^ 2 ∂gaussianReal 0 (1 / 2) = 1 / 2 := by
-  have h := variance_of_integral_eq_zero
-    (μ := gaussianReal 0 (1 / 2)) measurable_id.aemeasurable
-    (integral_id_gaussianReal (μ := 0) (v := 1 / 2))
-  rw [variance_id_gaussianReal] at h
-  simp only [id_eq] at h
-  exact h.symm
-
-/-- Unit second absolute moment, fixing the normalization in DH21 Lemma A.2. -/
-theorem integral_norm_sq_stdComplexGaussian :
-    ∫ z : ℂ, ‖z‖ ^ 2 ∂stdComplexGaussian = 1 := by
-  rw [stdComplexGaussian, integral_map measurable_complexFromPair.aemeasurable (by fun_prop)]
-  have hi : Integrable (fun x : ℝ => x ^ 2) (gaussianReal 0 (1 / 2)) :=
-    (memLp_id_gaussianReal (μ := 0) (v := 1 / 2) 2).integrable_sq
-  have hf := hi.comp_fst (gaussianReal 0 (1 / 2))
-  have hs := hi.comp_snd (gaussianReal 0 (1 / 2))
-  have he : (fun x : ℝ × ℝ => ‖Complex.equivRealProd.symm x‖ ^ 2) =
-      fun x => x.1 ^ 2 + x.2 ^ 2 := by
-    funext x
-    rw [Complex.sq_norm, Complex.normSq_apply]
-    simp [Complex.equivRealProd_symm_apply, pow_two]
-  rw [he, integral_add hf hs, integral_prod _ hf, integral_prod _ hs]
-  norm_num [integral_sq_halfGaussian]
 
 private lemma charFunDual_halfGaussian (L : StrongDual ℝ ℝ) :
     charFunDual (gaussianReal 0 (1 / 2)) L = Complex.exp (- (L 1 : ℂ) ^ 2 / 4) := by
@@ -170,13 +114,6 @@ theorem map_mul_stdComplexGaussian (c : ℂ) (hc : ‖c‖ = 1) :
   change -(L (c * 1) ^ 2 + L (c * Complex.I) ^ 2) / 4 = _
   rw [he]
 
-/-- Circular symmetry of the normalized complex Gaussian. -/
-theorem map_rotation_stdComplexGaussian (θ : ℝ) :
-    stdComplexGaussian.map (fun z => Complex.exp (θ * Complex.I) * z) =
-      stdComplexGaussian := by
-  apply map_mul_stdComplexGaussian
-  simp
-
 /-- Mixed moments of the centered normalized complex Gaussian (DH21 Lemma A.2).
 In particular the covariance is one and all unbalanced moments vanish. -/
 theorem integral_monomial_stdComplexGaussian (a b : ℕ) :
@@ -207,14 +144,5 @@ theorem integrable_monomial_of_hasLaw_stdComplexGaussian {Ω : Type*} [Measurabl
     {P : Measure Ω} {g : Ω → ℂ} (hg : HasLaw g stdComplexGaussian P) (a b : ℕ) :
     Integrable (fun ω => g ω ^ a * star (g ω) ^ b) P :=
   hg.integrable_comp (integrable_monomial_stdComplexGaussian a b)
-
-/-- Rotation of any variable with the normalized complex Gaussian law preserves its law. -/
-theorem hasLaw_rotation_stdComplexGaussian {Ω : Type*} [MeasurableSpace Ω]
-    {P : Measure Ω} {g : Ω → ℂ} (hg : HasLaw g stdComplexGaussian P) (θ : ℝ) :
-    HasLaw (fun ω => Complex.exp (θ * Complex.I) * g ω) stdComplexGaussian P := by
-  have hr : HasLaw (fun z : ℂ => Complex.exp (θ * Complex.I) * z)
-      stdComplexGaussian stdComplexGaussian :=
-    ⟨by fun_prop, map_rotation_stdComplexGaussian θ⟩
-  exact hr.comp hg
 
 end WaveTurbulence

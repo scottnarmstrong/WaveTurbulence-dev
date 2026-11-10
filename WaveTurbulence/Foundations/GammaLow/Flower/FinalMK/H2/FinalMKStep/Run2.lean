@@ -721,23 +721,4 @@ theorem HRunLE.prop95L [Infinite V] {C : FinalCount.H.CollData M₀} {Tm : V →
     N2 := fun hL hη v₁ h1 v₂ h2 b hb R₁ R₂ c1 c2 cb g₁ g₂ gb a1' a2' ab s₁ s₂ hs₁ hs₂ hsum =>
       hI.hrec.N2 hL hη h1 h2 hb c1 c2 cb a1' a2' ab s₁ s₂ hs₁ hs₂ hsum }
 
-/-- **The run facts of the LOW run with re-cuts** (the inputs of G3-LOWDEG's final-state lemmas, e.g. `no_SGL`): the
-invariants at some index `≤ R`, the auxiliary invariants, no eligible triangle, and `Prop95ConclL`. -/
-theorem HRunLE.runFacts [Infinite V] {C : FinalCount.H.CollData M₀} {Tm : V → Prop} {hf : HSt V D₀}
-    (hr : HRunLE C L γ η w κ (HSt.init M₀) hf) (hS : SubHypL R M₀) (hH : HingeSG C L γ η w κ)
-    (hT3 : FinalCount.H.TripleDesig C) (hdeg : DegenSGT M₀ L γ η w κ Tm)
-    (h0 : ∀ a ∈ M₀.atoms, M₀.deg a = 4 → ∑ x ∈ M₀.dartsAt a, M₀.dartSign x • Molecule.kvec L w κ x = 0) :
-    (∃ R', R' ≤ R ∧ InvL M₀ R' L γ η w κ hf) ∧ FinalCount.H.RunAux M₀ C hf ∧ FinalCount.H.NoEligibleTriangle C L γ η w κ hf ∧
-      Prop95ConclL L γ η w κ Tm R hf :=
-  ⟨HRunLE.inv hr (InvL.init hS h0), (HRunLE.final hr hS hH h0 rfl).1, (HRunLE.final hr hS hH h0 rfl).2,
-    HRunLE.prop95L hr hS hH hT3 hdeg h0⟩
-
-/-- `HRunLE` from a run without re-cuts and the `SubproOblG` of main (bridge: main's facts are recovered). -/
-theorem HRunL.prop95L_viaE [Infinite V] {C : FinalCount.H.CollData M₀} {Tm : V → Prop} {hf : HSt V D₀}
-    (hr : FinalCount.H.HRunL C L γ η w κ (HSt.init M₀) hf) (hS : SubHypL R M₀) (obl : FinalCount.H.SubproOblG C L γ η w κ)
-    (hT3 : FinalCount.H.TripleDesig C) (hdeg : DegenSGT M₀ L γ η w κ Tm)
-    (h0 : ∀ a ∈ M₀.atoms, M₀.deg a = 4 → ∑ x ∈ M₀.dartsAt a, M₀.dartSign x • Molecule.kvec L w κ x = 0) :
-    Prop95ConclL L γ η w κ Tm R hf :=
-  HRunLE.prop95L (HRunL.toE hr) hS (SubproOblG.hingeSGP obl) hT3 hdeg h0
-
 end WaveTurbulence.GammaLow.Flower.H2

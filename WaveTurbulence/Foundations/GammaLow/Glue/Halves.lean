@@ -72,8 +72,4 @@ theorem wtPrefixP_of_halves {Q : ℕ → WTParams → Prop}
 theorem toFull {Q : WTParams → Prop} (h : V2Chain.WTPrefixS Set.univ Q) : WTPrefix Q :=
   fun d hd γ hγ => h d hd γ hγ (Set.mem_univ γ)
 
-/-- `WTPrefixPS univ Q → WTPrefixP Q`: the restriction `γ ∈ univ` is vacuous. -/
-theorem toFullP {Q : ℕ → WTParams → Prop} (h : V2Chain.WTPrefixPS Set.univ Q) : WTPrefixP Q :=
-  fun d hd γ hγ => h d hd γ hγ (Set.mem_univ γ)
-
 end WaveTurbulence.GammaLow.Glue

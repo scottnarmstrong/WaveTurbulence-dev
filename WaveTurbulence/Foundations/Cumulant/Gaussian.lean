@@ -6,7 +6,8 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.Cumulant.Inversion
-public import WaveTurbulence.Foundations.Gaussian.Isserlis
+public import WaveTurbulence.Foundations.Gaussian.IsserlisMoments
+public import WaveTurbulence.Foundations.Gaussian.IsserlisPartitions
 
 /-!
 # Gaussian cumulants

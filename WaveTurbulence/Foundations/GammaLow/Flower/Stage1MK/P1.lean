@@ -178,15 +178,6 @@ open WaveTurbulence.GammaLow.FinalCount
 variable {γF : ℝ} [Fact (γF ≤ 1 / 2)] [Fact Fama.TVineF1Input] [Fact Fama.VinechainlemPrimeInput] [Fact Fama.TVineIsoInvariant]
 variable {w : ℕ} {G : Garden w}
 
-/-- **Every run of a marked group has a spine of unmarked `𝒱`-ingredients** (B0 §5: `unitBlocks_selected_spine`
-for runs). -/
-theorem groupUnitsMk_spine_of_markedMKLow {Mk : Set (Fama.CLVineG γF G)} {S : Finset (GBranch G.tree)}
-    (h : Fama.markedGroup γF G Mk S) {u : CLBlock G} (hu : u ∈ Fama.groupUnitsMk γF G Mk S) :
-    ∃ L, Fama.Spine γF G.molecule L u.atoms u.upper u.lower ∧ ∀ t ∈ L, ∃ c : Fama.CLVineG γF G,
-      c ∈ Fama.vinesVG γF G ∧ c ∉ Mk ∧ Fama.IsIngredientG γF G.molecule S c.atoms ∧ c.atoms = t.1 := by
-  rw [groupUnitsMk_of_markedMKLow h] at hu
-  exact (markedUnitsOfMKLow h).spine u hu
-
 end
 
 section

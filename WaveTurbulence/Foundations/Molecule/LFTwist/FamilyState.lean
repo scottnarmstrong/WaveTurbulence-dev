@@ -99,8 +99,5 @@ theorem output_order : h.output.layered.garden.order = A.layered.garden.order :=
 
 theorem output_topOrder (j : Fin w) : h.output.layered.topOrder p j = A.layered.topOrder p j := h.construction.topOrder j
 
-theorem output_isTrunc (Ntop Natt : ℕ) (hn : A.layered.garden.order ≤ Natt) :
-    h.output.layered.IsTrunc p Ntop Natt ↔ A.layered.IsTrunc p Ntop Natt := h.construction.isTrunc Ntop Natt hn
-
 end FamilyOperation
 end WaveTurbulence.LFTwist

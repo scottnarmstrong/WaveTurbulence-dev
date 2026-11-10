@@ -577,14 +577,6 @@ theorem numComponents_vineStRC (hd2 : s.M.deg K.C.upper = 2 ∨ s.M.deg K.C.lowe
   have h3 := FinalCount.H.vine_F_le_succ K
   omega
 
-/-- **The whole-component removal** (both joints of degree `2`): the object with its joints is a whole component and
-disappears with its two ghost halves, `F' + 1 = F`. -/
-theorem numComponents_vineStRC_two (hu2 : s.M.deg K.C.upper = 2) (hl2 : s.M.deg K.C.lower = 2) :
-    (FinalCount.H.vineStG s K).M.numComponents + 1 = s.M.numComponents := by
-  have h1 := numComponents_vineStRC s K (Or.inl hu2)
-  have h2 : FinalCount.H.jdeg2 K = 2 := by unfold FinalCount.H.jdeg2; simp [hu2, hl2]
-  omega
-
 /-- With exactly one `α/β` joint, `jdeg2 = jeps + 1`. -/
 theorem jdeg2_eq_of_one (hu : RCJoint s K.C.upper) (hl : RCJoint s K.C.lower)
     (hrc : s.cls K.C.upper ≠ .eps ∨ s.cls K.C.lower ≠ .eps) (hone : s.cls K.C.upper = .eps ∨ s.cls K.C.lower = .eps) :

@@ -118,28 +118,6 @@ def MarkedPieceBoundAtG (cP cθ : ℝ) (P : WTParams) : Prop :=
         P.L ^ (-P.η ^ 6 * ((π.Gsb.molecule.rho : ℝ) + (π.Cs.hinges.card : ℝ)) / 4) *
         P.L ^ (-((R : ℝ) - 1) * (1 / 4 + 1 / 60)))
 
-/-- The C5 piece deliverable (fixed parameters, main's `stage1_piece_bound_int` pattern). -/
-def MarkedPieceTargetG : Prop :=
-  ∀ (cP cθ : ℝ), 0 ≤ cP → 1 ≤ cθ → ∀ P : WTParams, 1 ≤ P.d → PieceSmall P →
-    CoarseSplicedAtMK P → FineSplicedAtMKG P → MarkedPieceBoundAtG cP cθ P
-
-/-- **C5 target 2, the class sum** (main's `stage1_sum_bound_int` with marked pieces; the per-piece extra is a uniform
-`L^X`; the class count is main's `Stage1Counts` on the forgetful data). -/
-def MarkedSumBoundAtG (cP cθ X : ℝ) (P : WTParams) : Prop :=
-  ∀ {p R n : ℕ}, p < P.D → 1 ≤ R → R ≤ 10 * P.R (p + 1) →
-  ∀ (S : Stage1DataMKG P R) (tt : Fin (2 * R) → ℝ) (base : Mom P.d) (roots : Fin (2 * R) → (Fin P.d → ℤ)) (C₀ : ℕ)
-    (Cl : Type) (hCl : Fintype Cl) (cls : S.Pc → Cl) (s : ℝ), 0 < s →
-    (∀ π, SoundMKFullG (S.piece π) p base roots cθ) → (∀ π, (S.piece π).Gsb.order ≤ n) → ((n : ℝ) + 1) ≤ P.L →
-    (∀ π, (S.piece π).RepresentsIntMK n cP tt base roots s (S.val π)) →
-    (∀ π, markedExtraG cP (S.piece π) ≤ X) →
-    Fama.Stage1CountsG C₀ P R n S.toData Cl hCl cls →
-    P.C₂ * P.L ^ (-(P.ν * P.η)) ≤ 1 / 2 →
-    (((6 * C₀) * n : ℕ) : ℝ) ^ (6 * C₀) * P.C₂ * P.L ^ (-P.η ^ 6 / 4) ≤ 1 / 2 →
-    ‖@Finset.sum S.Pc ℂ _ (@univ S.Pc S.fin) S.val‖ ≤ s * P.L ^ X *
-      (4 * (P.C₂ * (cθ ^ (40 * P.ν) * P.C₁ ^ 6 * P.δ ^ (10 * P.ν)) ^ n * P.L ^ (-((R : ℝ) - 1) * (1 / 4 + 1 / 60)) *
-        ((6 * C₀ : ℕ) : ℝ) ^ n * ((((6 * C₀) * R).factorial : ℕ) : ℝ) *
-        ((((6 * C₀) * n : ℕ) : ℝ) ^ (6 * C₀) * P.C₂ * P.L ^ (-P.η ^ 6 / 4))))
-
 /-- **RepresentsIntMKSelG** (D0, F-D0-4): the world's `RepresentsIntMK` with the selected residual moments
 `∏_{v ∈ sel} (1+|ξ_v|)^{1/18}` inside the weight mass, paid by the `X^{1/4}` slots adjacent to `v` at cost
 `L^{7(47d+2)}` per selected vertex (o73 (20.2); U1 `ModesMomentSel`). -/
@@ -186,33 +164,6 @@ def MarkedPieceBoundSelAtG (cP cθ : ℝ) (P : WTParams) : Prop :=
         P.L ^ (-P.η ^ 6 * ((π.Gsb.molecule.rho : ℝ) + (π.Cs.hinges.card : ℝ)) / 4) *
         P.L ^ (-((R : ℝ) - 1) * (1 / 4 + 1 / 60))) *
       P.L ^ (400 * (P.d : ℝ) * (sel.card : ℝ)) * M₂ ^ (-((sel.card : ℝ) / 18))
-
-/-- D7's deliverable in C5 form (consumes C2's and C4's exports; FL-FACE, U1, D3/D5 are lemma inputs). -/
-def MarkedPieceSelTargetG : Prop :=
-  ∀ (cP cθ : ℝ), 0 ≤ cP → 1 ≤ cθ → ∀ P : WTParams, 1 ≤ P.d → PieceSmall P →
-    CoarseSplicedAtMK P → FineSplicedAtMKG P → LadderFourierAtMKFace P → MarkedPieceBoundSelAtG cP cθ P
-
-/-- **C5 target 2′, the class sum with selections** (the consumer of `MarkedPieceBoundSelAtG`; `a` selected atoms per
-piece, all at scale `M₂`). -/
-def MarkedSumBoundSelAtG (cP cθ X : ℝ) (a : ℕ) (M₂ : ℝ) (P : WTParams) : Prop :=
-  ∀ {p R n : ℕ}, p < P.D → 1 ≤ R → R ≤ 10 * P.R (p + 1) →
-  ∀ (S : Stage1DataMKG P R) (sel : ∀ π, Finset (GBranch (S.piece π).Gsb.tree)) (tt : Fin (2 * R) → ℝ) (base : Mom P.d)
-    (roots : Fin (2 * R) → (Fin P.d → ℤ)) (C₀ : ℕ) (Cl : Type) (hCl : Fintype Cl) (cls : S.Pc → Cl) (s : ℝ), 0 < s →
-    P.L ≤ M₂ → (∀ π, (sel π).card = a) →
-    (∀ π, ∀ v ∈ sel π, (S.piece π).fix v = none ∧
-      ∃ ψ : SchwartzMap ℝ ℂ, (S.piece π).filt v = some (M₂, ψ) ∧ ∀ u, ψ u = (chiDN u : ℂ)) →
-    (∀ π, ∀ v ∈ sel π, ∀ v' ∈ sel π, v.1.1 = v'.1.1 → v = v') → (∀ π, ∀ v ∈ sel π, (S.piece π).lb v = none) →
-    (∀ π, SoundMKFullG (S.piece π) p base roots cθ) → (∀ π, (S.piece π).Gsb.order ≤ n) → ((n : ℝ) + 1) ≤ P.L →
-    (∀ π, RepresentsIntMKSelG (S.piece π) (sel π) n cP tt base roots s (S.val π)) →
-    (∀ π, markedExtraG cP (S.piece π) ≤ X) →
-    Fama.Stage1CountsG C₀ P R n S.toData Cl hCl cls →
-    P.C₂ * P.L ^ (-(P.ν * P.η)) ≤ 1 / 2 →
-    (((6 * C₀) * n : ℕ) : ℝ) ^ (6 * C₀) * P.C₂ * P.L ^ (-P.η ^ 6 / 4) ≤ 1 / 2 →
-    ‖@Finset.sum S.Pc ℂ _ (@univ S.Pc S.fin) S.val‖ ≤ s * P.L ^ X * P.L ^ (400 * (P.d : ℝ) * (a : ℝ)) *
-      M₂ ^ (-((a : ℝ) / 18)) *
-      (4 * (P.C₂ * (cθ ^ (40 * P.ν) * P.C₁ ^ 6 * P.δ ^ (10 * P.ν)) ^ n * P.L ^ (-((R : ℝ) - 1) * (1 / 4 + 1 / 60)) *
-        ((6 * C₀ : ℕ) : ℝ) ^ n * ((((6 * C₀) * R).factorial : ℕ) : ℝ) *
-        ((((6 * C₀) * n : ℕ) : ℝ) ^ (6 * C₀) * P.C₂ * P.L ^ (-P.η ^ 6 / 4))))
 
 /-- **`MarkedPieceBoundSelAtTG`** (D7-2, finding F-C5b-1): `MarkedPieceBoundSelAtG` with per-tree scales. The selected
 atom `v` carries `filt v = (Ms v.1.1, chiDN)` with `L ≤ Ms v.1.1`, and the gain is `∏_{v ∈ sel} Ms(v.1.1)^{-1/18}`.

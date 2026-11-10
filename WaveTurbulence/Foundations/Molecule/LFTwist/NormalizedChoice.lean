@@ -100,13 +100,4 @@ theorem normalizedChoice_canonical (ε : Bool) :
       ((D.eraseTree P.lower).eraseCouple_at (pairOfLeaf S hS P.retained)) hcore hP
       (normalization_eligible LG D hS hd P helig)
 
-/-- The optional unit preserves every normalized top-tree count. -/
-theorem normalizedChoice_topOrder (ε : Bool) (j : Fin w) :
-    (normalizedChoiceLayered LG D hS hd P hc ht hq hcore hP helig ε).topOrder p j =
-      (normalizedLayered LG D hS hd P.lower (pairOfLeaf S hS P.retained) p).topOrder p j := by
-  cases ε
-  · rfl
-  · exact unitLayerTwist_topOrder _ _ (normalization_sameLower LG D hS hd P hc ht hq hcore hP helig)
-      (sourceExpanded_same_tree _ _ hS _ P _ hcore hP) p j
-
 end WaveTurbulence.LFTwist

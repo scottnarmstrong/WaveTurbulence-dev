@@ -526,8 +526,6 @@ def HingeSG (C : FinalCount.H.CollData M₀) (L γ η : ℝ) (w : Mom d) (κ : D
   ∀ v ∈ C.hinges, HasChosenPair (C.first v) (C.second v) (fun x y =>
     TripleAtM M₀ v x y ∧ Molecule.gapKind L γ η (Molecule.gapAt L w κ x y) = .SG)
 
-theorem SubproOblG.hingeSGP {C : FinalCount.H.CollData M₀} (obl : FinalCount.H.SubproOblG C L γ η w κ) : HingeSG C L γ η w κ := obl.hingeSG
-
 theorem SubproOblGMK.hingeSGP {C : FinalCount.H.CollData M₀} {m : ℕ} {E : Fin m → Src.Object Src.γL M₀} (obl : SubproOblGMK C E L γ η w κ) :
     HingeSG C L γ η w κ := obl.hingeSG
 
@@ -543,7 +541,6 @@ theorem InvL.step1LE {C : FinalCount.H.CollData M₀} (hs : HStep1LE C L γ η w
     obtain ⟨K, R', e, -, hI⟩ := InvL.stepRC hs hr
     exact ⟨R', by omega, hI⟩
 
-alias _root_.WaveTurbulence.Flower.FinalMKStep.InvL.step1LEH2 := _root_.WaveTurbulence.GammaLow.Flower.H2.InvL.step1LE
 /-- `DesRecN` along a re-cut (main's `DesRecN.vineD1`, GL8, with the `HStepRC` constructor). -/
 theorem DesRecN.recut {C : FinalCount.H.CollData M₀} (hD : FinalCount.H.DesRecN C h) (hs : HStepRC C L γ η w κ h h') : FinalCount.H.DesRecN C h' := by
   cases hs with

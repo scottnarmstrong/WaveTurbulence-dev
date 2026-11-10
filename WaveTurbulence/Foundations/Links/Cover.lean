@@ -46,13 +46,4 @@ theorem exists_unit_cover_at (R : ℝ) : ∃ F : Finset E, ∀ c x : E, ‖x - c
   obtain ⟨p, hp, hxp⟩ := hF (x - c) hx
   exact ⟨p, hp, by rwa [sub_add_eq_sub_sub]⟩
 
-/-- An integer within `1/2` of a real number `x` with `|x| ≤ M`. -/
-theorem exists_int_center (x M : ℝ) (hx : |x| ≤ M) :
-    ∃ j : ℤ, |x - j| ≤ 1 / 2 ∧ |(j : ℝ)| ≤ M + 1 / 2 := by
-  refine ⟨round x, abs_sub_round x, ?_⟩
-  have h := abs_sub_round x
-  calc |((round x : ℤ) : ℝ)| = |x - (x - round x)| := by ring_nf
-    _ ≤ |x| + |x - round x| := abs_sub _ _
-    _ ≤ M + 1 / 2 := add_le_add hx h
-
 end WaveTurbulence.Links

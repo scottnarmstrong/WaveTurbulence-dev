@@ -607,7 +607,6 @@ theorem Inv.vineStRC (hI : Inv R s) (K : Step1.VineCut Src.γL s.M) (hu : RCJoin
     rw [hdl'] at this
     rw [show ((s.M.cut K.C.upper K.fa K.x₁ K.x₂).cut K.C.lower K.fb K.y₁ K.y₂).deg K.fb = 0 by omega]; rfl
 
-alias _root_.WaveTurbulence.Flower.FinalMKStep.Inv.vineStRCH2 := _root_.WaveTurbulence.GammaLow.Flower.H2.Inv.vineStRC
 end inv
 
 section gap
@@ -644,7 +643,6 @@ theorem HGap.vinePostRC {h : HSt V D₀} (hG : HGap L w κ h) (hI : Inv R h.s) (
   rw [hj] at g2
   exact g2.delSt _ (FinalCount.H.VineKeep.closed K)
 
-alias _root_.WaveTurbulence.Flower.FinalMKStep.HGap.vinePostRCH2 := _root_.WaveTurbulence.GammaLow.Flower.H2.HGap.vinePostRC
 end gap
 
 section invL
@@ -682,14 +680,6 @@ theorem InvL.stepRC {C : FinalCount.H.CollData M₀} {h h' : HSt V D₀} (hs : H
       comp := hr.comp.vineStGL K
       bal := hr.bal.vineStGL K
       rel := hr.rel.vineStGL K }⟩
-
-alias _root_.WaveTurbulence.Flower.FinalMKStep.InvL.stepRCH2 := _root_.WaveTurbulence.GammaLow.Flower.H2.InvL.stepRC
-/-- **C1a target 3: `InvLStepRC`** (the run invariant along a re-cut; the index does not increase). -/
-theorem invLStepRC (M₀ : Molecule V D₀) (C : FinalCount.H.CollData M₀) (L γ η : ℝ) (w : Mom d) (κ : D₀ → (Fin d → ℤ)) :
-    InvLStepRC M₀ C L γ η w κ := by
-  intro R h h' hs hr
-  obtain ⟨K, R', e, -, hI⟩ := InvL.stepRC hs hr
-  exact ⟨R', by omega, hI⟩
 
 end invL
 

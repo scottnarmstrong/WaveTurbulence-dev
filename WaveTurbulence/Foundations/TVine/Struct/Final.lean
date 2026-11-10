@@ -47,10 +47,6 @@ theorem pieceShape_holds : PieceShapeStatement.{u, v} :=
 theorem layervine_holds : LayervineStatement.{u, v} :=
   layervine_of_L2 Checker.sizeBound Checker.pieceShapeBase
 
-/-- **M4 Lemma A** (= L4 `AttachInput`). -/
-theorem attach_holds : AttachStatement.{u, v} :=
-  attach_of_L2 Checker.sizeBound Checker.pieceShapeBase
-
 /-- **N2 Theorem 1.15 (F1)–(F6)** (= L5c / L07 `SubObjectsInput`). -/
 theorem subObjects_holds : SubObjectsStatement.{u, v} := subObjects thm115Inputs_holds
 

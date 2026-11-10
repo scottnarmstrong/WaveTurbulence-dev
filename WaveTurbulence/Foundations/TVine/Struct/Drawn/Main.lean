@@ -111,7 +111,4 @@ theorem drawnTVine : GammaLow.FinalCount.DrawnTVineInput.{u, v} := by
   rw [isTVine_iff M]
   exact ⟨h.1, isTVineU_of_isVineXU hX1 hX2 h.2⟩
 
-/-- The same statement, as L3's `Struct.DrawnTVineStatement`. -/
-theorem drawnTVineStatement : Struct.DrawnTVineStatement.{u, v} := drawnTVine
-
 end WaveTurbulence.TVine.Struct.Drawn
