@@ -5,7 +5,7 @@ Auditor: KEY-B (Opus 5.5), 2026-11-08. Binding rules: `flower-core/seal-prep/aud
 Subject: frozen anchor `WaveTurbulence.main_v2` (`WaveTurbulence/Frozen/Theorems/MainV2.lean`), sealed by
 `b9711f35` "Seal main_v2 with its proved assembly (SEAL-PREP chain)" + `1987105a` "manifest: ABI hash of the sealed
 main_v2" (= origin/main at launch). Clean export: `git archive 1987105ac00b88c879ffebf4a56e30aa02b4f92f` →
-`/home/scott/wt-scratch/seal-audit-main_v2-B/export/`. Main's checkout moved during the audit to `7c955833`, then
+`<scratch>/seal-audit-main_v2-B/export/`. Main's checkout moved during the audit to `7c955833`, then
 `e1449ba4` (HQ auto-updates: README.md and docs/campaign only; no Lean source, manifest, lakefile or toolchain change).
 
 ## Verdict table
@@ -63,7 +63,7 @@ main_v2" (= origin/main at launch). Clean export: `git archive 1987105ac00b88c87
 
 ## Details and evidence
 
-All paths below are relative to `/home/scott/wt-scratch/seal-audit-main_v2-B/` unless absolute. Lean probes: stock
+All paths below are relative to `<scratch>/seal-audit-main_v2-B/` unless absolute. Lean probes: stock
 v4.35.0 (`~/.elan/toolchains/leanprover--lean4---v4.35.0/bin/lean`, githash `eb6cafb7…`, the compiler recorded in the
 build traces), `nice -n 10`, one at a time, through my own Lake-setup generator `tools/mksetup.py` (from Lake's
 `.lake/build/ir/<M>.setup.json` in main; no `lake env`, nothing written in any checkout). Each probe: ~2–3 s wall,
@@ -180,7 +180,7 @@ anchors, all project `.olean.private` parts, `import all`): `[propext, Classical
   imports.
 
 ### (f) Kernel replay
-**PASS (quick mode).** Kit adapted from `/home/scott/wt-scratch/seal-lg2/replay/` (read first; copies
+**PASS (quick mode).** Kit adapted from `<scratch>/seal-lg2/replay/` (read first; copies
 `replay/Replay.lg2.lean` sha256 `6c943568…`, `replay/replay.lg2.sh` `b8298ed6…`). My versions: `replay/exe/Replay.lean`
 (`8dd676e8…`), `replay/replay.sh` (`72cda253…`); diffs recorded in `replay/replay-diff-vs-lg2.diff` (88 lines) and
 `replay/replay-sh-diff-vs-lg2.diff` (27 lines). Changes: root module `WaveTurbulence.Frozen.Theorems.MainV2`, root
@@ -193,10 +193,10 @@ olean headers, library base from exported parts, project constants from all thre
 Run: `replay/replay.sh quick` → `replay/Replay-quick.out` (sha256 `92821652…5e096`).
 - Closure: 23,129 modules = 10,976 library + **12,153 project** (= my source closure; every one has all three olean
   parts). The olean bytes are the seal commit's: all 12,153 trace source hashes equal Lake's `Hash.ofText` of the
-  export sources (`tools/tracecheck.py`, `evidence-tracecheck.out`; 10,338 built in `/home/scott/WaveTurbulence-dev`,
-  1,815 VineParam modules built in `…/WaveTurbulence-worktrees/port-vp`, same content hashes), and all 36,459
+  export sources (`tools/tracecheck.py`, `evidence-tracecheck.out`; 10,338 built in `<repo>`,
+  1,815 VineParam modules built in `<worktrees>/port-vp`, same content hashes), and all 36,459
   `.olean/.olean.server/.olean.private` files equal their trace output hashes (`tools/oleancheck.py`,
-  `evidence-oleancheck.out`). Build compiler: `/home/scott/wt-tools/sysroot/bin/lean` (the `wt-throttled` elan
+  `evidence-oleancheck.out`). Build compiler: `<tools>/sysroot/bin/lean` (the `wt-throttled` elan
   override), a throttle script that `exec`s the stock v4.35.0 binary (githash `eb6cafb7…`); `lake` is a hardlink to the
   stock one.
 - Reachable from `main_v2`: 230,216 names; **219,644 project constants in 11,207 modules** (inductive 585, ctor 802,
@@ -301,7 +301,7 @@ wording; the script itself claims only pp.all), F4 (the logged full ABI check ab
 axioms of the anchor and provider only; I also checked the assembly, helpers and consumed anchors (all standard).
 
 ### Files
-Report and evidence: `/home/scott/wt-scratch/seal-audit-main_v2-B/` — `export/` (clean archive), `freeze-MainV2.lean`,
+Report and evidence: `<scratch>/seal-audit-main_v2-B/` — `export/` (clean archive), `freeze-MainV2.lean`,
 `notes/` (01 source reconstruction, 02 five-bin table, 03 own results before the appendix), `probes/` (P1–P4 sources and
 outputs, setup files), `abi/` (pre/post `#print`, pp.all, repr), `preseal/` (overlay build of the freeze sources),
 `replay/` (kit, diffs, `Replay-quick.out`), `fullabi/`, `tools/` (own scripts: setup generator, prefix/suffix, manifest

@@ -1,7 +1,7 @@
 RESEARCH-DAMAGED: damaged final components, surviving tame ZG eps-atoms, and the hinge v3 of Operation 2
 ==========================================================================================================
 Date: 2026-11-05.  Author: research subagent for wt-orch (ticket DAMAGED, RULINGS R27 item 5).
-Directory: /home/scott/wt-scratch/research-damaged
+Directory: <scratch>/research-damaged
 Files: NOTES.txt (this file); check_damaged.py (run `python3 -I check_damaged.py`, all asserts pass, output in
 check_damaged.out); pinned/ (copies of G3/G8 HANDOFF and Prop96Statement.lean taken at first read, SHA256SUMS.txt).
 

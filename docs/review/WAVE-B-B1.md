@@ -1,6 +1,6 @@
 # Wave B (tier B1) — freeze candidate for author approval
 
-Snapshot `/home/scott/wt-scratch/waveb-snap-9` · prepared 2026-11-04 (supersedes snapshots 5–8: FINDINGS F56, B1.12, F68, F78, F80 fixes). **This is the exact Lean to be frozen** (one declaration per file under
+Snapshot `<scratch>/waveb-snap-9` · prepared 2026-11-04 (supersedes snapshots 5–8: FINDINGS F56, B1.12, F68, F78, F80 fixes). **This is the exact Lean to be frozen** (one declaration per file under
 `WaveTurbulence/Frozen/`, theorems with body `by sorry` as `DRAFT_SORRY` anchors, definitions sealed), exactly as for
 Wave A (D6). File hashes: `WaveB1-Core.lean` 0b8477d9943a…, `WaveB1-System.lean` cc53aad3acd7…, `WaveB1-Statements.lean` e72e32df7fa0…, `WaveB1-Sumint.lean` 9750d760d676…, `WaveB1-Flower.lean` fd2b5e501d04….
 

@@ -4,27 +4,27 @@ This supplement proves the corrected `flowerest1` estimate and its fixed-time pa
 
 **Review status at assembly.** `REFEREE-82` is now available and its fixes are incorporated; it is no longer pending. The latest status of `REFEREE-73` is reported in Section 13. Mathematical theorem assertions below cite the packet proofs; a pending independent review is identified separately and is not silently treated as a proof or as a theorem hypothesis.
 
-**Packet notation.** All paths in this list lie under `/home/scott/wt-scratch/flower-open/`. Exact input hashes appear in Section 13.
+**Packet notation.** All paths in this list lie under `<scratch>/flower-open/`. Exact input hashes appear in Section 13.
 
 | Notation | Packet and adopted result |
 |---|---|
-| O63 | [o63/RESOLUTION.md](/home/scott/wt-scratch/flower-open/o63/RESOLUTION.md): Theorem 6.3′, Lemmas A–D, Proposition 10.3′, revision 2 |
-| O73 | [o73/RESOLUTION.md](/home/scott/wt-scratch/flower-open/o73/RESOLUTION.md): Theorem 7.3′, §21; elementary results §§3, 5, 12–13 and completed estimates §§17–22 |
-| O75 | [o75/RESOLUTION.md](/home/scott/wt-scratch/flower-open/o75/RESOLUTION.md): Theorem 7.5′, revision 1; numerical estimates §7 and aggregate count §8, with all §11 corrections |
-| O82 | [o82/RESOLUTION.md](/home/scott/wt-scratch/flower-open/o82/RESOLUTION.md): Theorem 8.2′, §19, and its proofs §§10–18; earlier conditional marked-coefficient proposals are not used |
-| O83 | [o83/RESOLUTION.md](/home/scott/wt-scratch/flower-open/o83/RESOLUTION.md): Theorem 8.3, Theorem K, Corollary 8.3.A and §§6–8 |
-| O102 | [o102/RESOLUTION.md](/home/scott/wt-scratch/flower-open/o102/RESOLUTION.md): Theorem R and the absolute remainder proof §§2–5 |
-| O104 | [o104/RESOLUTION.md](/home/scott/wt-scratch/flower-open/o104/RESOLUTION.md): Theorem 10.4, pattern identities §§3, 6–8; its former child-face obligation is supplied by O73 §21 |
+| O63 | [o63/RESOLUTION.md](<scratch>/flower-open/o63/RESOLUTION.md): Theorem 6.3′, Lemmas A–D, Proposition 10.3′, revision 2 |
+| O73 | [o73/RESOLUTION.md](<scratch>/flower-open/o73/RESOLUTION.md): Theorem 7.3′, §21; elementary results §§3, 5, 12–13 and completed estimates §§17–22 |
+| O75 | [o75/RESOLUTION.md](<scratch>/flower-open/o75/RESOLUTION.md): Theorem 7.5′, revision 1; numerical estimates §7 and aggregate count §8, with all §11 corrections |
+| O82 | [o82/RESOLUTION.md](<scratch>/flower-open/o82/RESOLUTION.md): Theorem 8.2′, §19, and its proofs §§10–18; earlier conditional marked-coefficient proposals are not used |
+| O83 | [o83/RESOLUTION.md](<scratch>/flower-open/o83/RESOLUTION.md): Theorem 8.3, Theorem K, Corollary 8.3.A and §§6–8 |
+| O102 | [o102/RESOLUTION.md](<scratch>/flower-open/o102/RESOLUTION.md): Theorem R and the absolute remainder proof §§2–5 |
+| O104 | [o104/RESOLUTION.md](<scratch>/flower-open/o104/RESOLUTION.md): Theorem 10.4, pattern identities §§3, 6–8; its former child-face obligation is supplied by O73 §21 |
 
-The frozen v1 is `SUPPLEMENT-v1.md`, SHA256 `ddd81fe1238e7c51379a69981b4d10aa68690ced46d0fc1b115200fc0c3774d7`. Sections 2–5 below retain its numbered lemmas, with the changes required by [REFEREE.md](/home/scott/wt-scratch/flower-open/ref/REFEREE.md). Additional referee fixes and all interface resolutions are listed in Section 12.
+The frozen v1 is `SUPPLEMENT-v1.md`, SHA256 `ddd81fe1238e7c51379a69981b4d10aa68690ced46d0fc1b115200fc0c3774d7`. Sections 2–5 below retain its numbered lemmas, with the changes required by [REFEREE.md](<scratch>/flower-open/ref/REFEREE.md). Additional referee fixes and all interface resolutions are listed in Section 12.
 
 ## 1. Sources, constants, and the target statement
 
 We use the following frozen local sources; line numbers below refer to these files.
 
-- **T:** `/home/scott/wave-turbulence/paper/source/WKE-Longer_times_Final_arXiv.tex`, SHA256 `493eef6b7dec448bc5f9f1c3974c0cad7a85eca9bc428f5b35e968aad76727cb`.
-- **D21:** `/home/scott/wave-turbulence/references/src-2104.11204/Inventiones-Final_Version.tex`, SHA256 `50d0e236a2df0cfd2b98bace6f0256043ee88fc05079ee44c3524ca9482fe402`.
-- **D23:** `/home/scott/wave-turbulence/references/src-2301.07063/Revision_Submit.tex`, SHA256 `c7e47dfabf5a4cca6e3ad0399fc377f2809c12f58e1563640407fe0992335475`.
+- **T:** `<sources>/paper/source/WKE-Longer_times_Final_arXiv.tex`, SHA256 `493eef6b7dec448bc5f9f1c3974c0cad7a85eca9bc428f5b35e968aad76727cb`.
+- **D21:** `<sources>/references/src-2104.11204/Inventiones-Final_Version.tex`, SHA256 `50d0e236a2df0cfd2b98bace6f0256043ee88fc05079ee44c3524ca9482fe402`.
+- **D23:** `<sources>/references/src-2301.07063/Revision_Submit.tex`, SHA256 `c7e47dfabf5a4cca6e3ad0399fc377f2809c12f58e1563640407fe0992335475`.
 
 Assume $d\ge3$ and $1/2<\gamma<1$. Choose $\eta$ sufficiently small depending on $d,\gamma$, including $8\eta\le2\gamma-1$. The constants $C_0,C_1,C_2,\nu,\eta,\Lambda_p,N_p$ have the meanings and dependencies in T606–615. In particular, $C_2$ may depend on $\delta$; it cannot be used indiscriminately as the base of an exponential in the order. Choose $P$ first, $\delta$ second, and $L$ last. Constants depending on $\delta$ but independent of the order can be absorbed by increasing the final threshold for $L$. A factor $C_2^n$ cannot be absorbed by choosing $\delta$ smaller without an additional argument. A factor $L^{Cn}$ is inadmissible.
 
@@ -716,7 +716,7 @@ The mathematical statement proved here is explicitly the $d-\gamma$ normalizatio
 
 ### 12.1 Source repairs used
 
-The named E entries below refer to [ERRATA-AND-DEVIATIONS.md](/home/scott/WaveTurbulence-worktrees/report/docs/ERRATA-AND-DEVIATIONS.md), at the line locations listed here. These are mathematical repairs used by the packets, not assertions that this supplement independently verified their Lean implementations. Long graph proofs remain incorporated through O75's exact references and the linked repair discussions.
+The named E entries below refer to [ERRATA-AND-DEVIATIONS.md](<worktrees>/report/docs/ERRATA-AND-DEVIATIONS.md), at the line locations listed here. These are mathematical repairs used by the packets, not assertions that this supplement independently verified their Lean implementations. Long graph proofs remain incorporated through O75's exact references and the linked repair discussions.
 
 | Entry and source location | Repair used in this proof |
 |---|---|
@@ -786,7 +786,7 @@ Source references to the ordinary reduction use these repairs where supplied. E2
 The editorial source corrections in REFEREE-82 are also adopted: T1050 is the strong tree estimate, T1030 the relevant regular-couple statement, and D23 1012–1034 is the cited nontrivial-chain approximation range. The supremum-inside-Fourier-integral correction in REFEREE.md is applied in Lemma 4.1. The Fourier-measure estimates in Lemma 3.2 use matrix-valued affine coefficients and total variation; they do not assert that multiplying a cutoff must increase a norm.
 ### 12.3 Remaining source-interface issue: E26, the native lower clock
 
-**This issue prevents an unconditional closure claim.** It is separate from the seven flower packet obligations. O75 invokes the Stage-1 factorization T1954–1957; the local weighted-vine lemma estimates its stated local kernel. Neither is an explicit theorem for the lower-clock expression identified in E26. The diagnosis is recorded in [the E26 entry](/home/scott/WaveTurbulence-worktrees/report/docs/ERRATA-AND-DEVIATIONS.md:1420), and [the lower-clock handoff](/home/scott/WaveTurbulence-worktrees/report/docs/research/redvine-lower-clock-handoff.md:12). The main checkout's errata entry, at `docs/ERRATA-AND-DEVIATIONS.md:868–890`, also distinguishes the adopted repair from a proof of the factorization.
+**This issue prevents an unconditional closure claim.** It is separate from the seven flower packet obligations. O75 invokes the Stage-1 factorization T1954–1957; the local weighted-vine lemma estimates its stated local kernel. Neither is an explicit theorem for the lower-clock expression identified in E26. The diagnosis is recorded in [the E26 entry](<worktrees>/report/docs/ERRATA-AND-DEVIATIONS.md:1420), and [the lower-clock handoff](<worktrees>/report/docs/research/redvine-lower-clock-handoff.md:12). The main checkout's errata entry, at `docs/ERRATA-AND-DEVIATIONS.md:868–890`, also distinguishes the adopted repair from a proof of the factorization.
 
 Here is the exact algebraic mismatch. Let an unmarked spliced unit have upper joint $a$, lower joint $b$, and a lower external branching child $c$. Attach a nontrivial regular tree at $c$, in the same layer. Before splicing its factor is
 \[
@@ -846,4 +846,4 @@ The noncircular order is: O73 geometry/terminal identities → O82 ordinary disc
 | O102 | Lemmas R.0–R.5, §§2–5; Theorem R and its weighted/pattern extension §8.4. |
 | O104 | Lemmas 3.1, 3.3, 6.1–6.3, Propositions 7.2–7.4 and cases P1–P8; Proposition 8.1; Theorem 10.4. Use the corrected port-domain/root-phase interpretation, the reunited upper faces, and the non-excision dagger argument of Section 11. Its old H1/H2 flower contracts are discharged by the listed packets; its H3 route is replaced, not assumed. |
 
-The exact frozen flower carrier was read at `/home/scott/WaveTurbulence-dev/WaveTurbulence/Frozen/`: `Theorems/LayergardenFlowerV3.lean:93–106`; `Defs/FlowerSumP.lean:68–82`; `Defs/FixPat.lean:30–34`; `Defs/LayeredGardenFixPat.lean:41–50`; `Defs/LayeredGardenPatValid.lean:43–48`; `Defs/KDomainFix.lean:40–44`; `Defs/KernelKgen.lean:54–66`; `Defs/PhaseProdOff.lean:39–43`; `Defs/LayeredGardenSibWeight.lean:44–48`. This is a mathematical correspondence check, not a Lean build or proof-status audit.
+The exact frozen flower carrier was read at `<repo>/WaveTurbulence/Frozen/`: `Theorems/LayergardenFlowerV3.lean:93–106`; `Defs/FlowerSumP.lean:68–82`; `Defs/FixPat.lean:30–34`; `Defs/LayeredGardenFixPat.lean:41–50`; `Defs/LayeredGardenPatValid.lean:43–48`; `Defs/KDomainFix.lean:40–44`; `Defs/KernelKgen.lean:54–66`; `Defs/PhaseProdOff.lean:39–43`; `Defs/LayeredGardenSibWeight.lean:44–48`. This is a mathematical correspondence check, not a Lean build or proof-status audit.

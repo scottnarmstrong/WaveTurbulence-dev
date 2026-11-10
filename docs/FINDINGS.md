@@ -1,6 +1,8 @@
 # Source findings ledger (candidate errata, gaps, ambiguities)
 
 Format: F<n> — source, TeX line — quoted text — finding — evidence — status (candidate / confirmed by audit / confirmed in Lean / withdrawn).
+Tags such as "T-part1 Q2", "T-part2 Q5", "DH21 map E3" or "DH23 map Q1" refer to entries of the source maps of TARGET,
+DH21 and DH23 (working files, not included).
 
 - F1 — TARGET L795–L823 (proof of Thm `main`) — "so P(F) ≥ P(F_p) ≥ P(F_D) ≥ 1 - e^{-(log L)^{20d}}" vs. the theorem's
   "with probability ≥ 1 - e^{-(log L)^{40d}}" (L314). Harmless: Prop `propansatz`(1) gives P(F_D) ≥ 1 - e^{-N_D} with
@@ -10,16 +12,16 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   statement follows the proof (indicator, unconditional). Status: reading choice, to rule.
 - F3 — DH23 L2027–L2037 (Lemma `basiccount0pre`(1)) — "using the error term bound of Huxley [Hux93] for counting the
   number of lattice points inside a disc" giving `Q ρ + Q^{7/11}`. Scope risk under D1 (Huxley is deep).
-  **Revised 2026-11-03 (wt-nt audit, commit 3229554 on w/nt-circle, `ExponentAudit.lean`):** the orchestrator's first
-  analysis (exponent 2/3 suffices everywhere) was wrong for `basiccount0`(2): it used the printed three-entry min at
+  **Revised 2026-11-03 (exponent audit, commit 3229554, `ExponentAudit.lean`):** the first analysis recorded here
+  (exponent 2/3 suffices everywhere) was wrong for `basiccount0`(2): it used the printed three-entry min at
   L2082, but (disclattice) is a two-branch min whose second branch is a *sum* (F31). With discrepancy exponent `e`,
   the uses (1), (3) and `basiccount`(5) work for `e = 2/3` (saving L^{-(2γ−1)/3} ≫ L^{-10η}); use (2) (γ > 4/5 − 10η)
   needs `e < 2/3` strictly (at γ = 4/5, Q = L^{6/5} the 2/3 bound gives exactly L^{4/5}); any fixed `e < 2/3` suffices
   once η is small. Exponent-pair calculus: circle error `Q^{(κ+λ)/(1+κ)}`; the A-process alone (pair (1/6,2/3)) does
   not beat 2/3; the classical pair (11/30, 16/30) (A- and B-processes) gives `e = 27/41 ≈ 0.659`. **Route:** prove a
   circle-problem bound with some `e < 2/3` by van der Corput's method (Weyl differencing + Poisson/stationary-phase
-  B-process), not Huxley. Status: route set; packet NT-EXPSUM.
-- F4 — DH23 map (maps/DH23.md, open questions) lists candidate typos: flower-tree formulas with γ=1 normalization
+  B-process), not Huxley. Status: route set.
+- F4 — DH23 map (open questions; working file, not included) lists candidate typos: flower-tree formulas with γ=1 normalization
   (L1996–L1999), `brprop` "Δν = 2" vs computed −2, undefined `⟨x_j,y_j⟩_β` in `approxnt`, a (Cρ)! vs (Cρ)^C slip.
   Status: candidates, to verify.
 - F5 — TARGET L686–L688 — constant hierarchy displayed as `C_0 ≪ η^{-1} ≪ C_1 ≪ δ^{-1} ≪ C_2`; the order actually used
@@ -33,7 +35,7 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   proof". Proof obligation: formalize the inductive step at general t′. Status: gap (expository). Source: T-part1 Q3.
 - F8 — TARGET L314 — "smooth solution" of (NLS) is not defined; the proof produces an `a`-system solution with decay
   ⟨k⟩^{-50d}. Bridging to a C^∞ NLS solution needs inverse gauge transform, persistence of regularity, uniqueness,
-  measurability of F. Proof obligations (NLS packet). Status: gap (standard). Source: T-part1 Q4.
+  measurability of F. Proof obligations (NLS part of the formalization). Status: gap (standard). Source: T-part1 Q4.
 - F9 — TARGET L712 (defjt) — leaf factor should be `a_{k_ℓ}(p)^{ζ_ℓ}` (conjugates on negative leaves), as in DH23;
   also implicit in eqnbk1.5. Status: candidate typo. Source: T-part1 Q5.
 - F10 — TARGET L752–L758 — convergence of the WKE Taylor series over one step and `‖𝒰_n‖_{𝔖^{4Λ,4Λ}} ≤ C_2 (C_1 δ)^n`
@@ -48,7 +50,8 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   Wave B. Sources: T-part1 Q9–Q10, DH23 map Q2, DH21 map E9.
 - F13 — DH21 (genericity) — DH21 Secs 6, 8, 9 are for γ = 1 / generic tori; the claimed extension to γ < 1 holds only
   near 1. Route: use DH21 Secs 4, 5, 7 (γ-free) and the DH23/TARGET versions of Secs 6, 8, 9. Source: DH21 map E2.
-- F14 — DH21-2 Prop 6.3 — **WITHDRAWN** (wt-orch, docs/campaign/orch/figure-defs.md §9): the DH21 map's
+- F14 — DH21-2 Prop 6.3 — **WITHDRAWN** (internal figure definitions, §9; internal record, removed from the
+  repository at publication; it remains in the git history): the DH21 map's
   "counterexample" is a multi-couple (two couples), not a mixed garden; Prop 6.3 is true (one-line repair of its proof
   for trivial trees), and TARGET does not depend on it (L370 is motivational; substantive DH21-2 uses are Props
   4.4–4.6 and 6.4). Status: withdrawn.
@@ -91,23 +94,24 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   the union of some of the sets B ∈ 𝒫": read literally, A = ∅ always qualifies (empty union of blocks), so no
   partition would be admissible; the intended condition is "no nonempty proper subset". Also the groups S_i must be
   nonempty: for an unnormalized measure (expectations "assuming F", mass m ≠ 1), S₁ = ∅, S₂ = {j} gives
-  κ(1, X_j) = (1 − m)∫X_j while the irreducible sum is empty (all TARGET uses have nonempty S_i). Found by wt-cumul;
-  both adopted in the Lean statement. Status: candidate (wording).
+  κ(1, X_j) = (1 − m)∫X_j while the irreducible sum is empty (all TARGET uses have nonempty S_i). Found during the
+  formalization of the cumulants; both adopted in the Lean statement. Status: candidate (wording).
 - F31 — DH23 L2082 — "min(L^{2/5}+Q^{7/11}, L^{1/5}+L^{8/5}Q^{-1}, L^{6/5}Q^{-1/3})": the comma before the last
   term should be "+" (deduced from the two-branch (disclattice) L2029). With Huxley's 7/11 the argument still works
   (split at Q = L^{99/80}: 63/80 < 4/5 − 10^{-4}). Also L2077 "with ρ ∼ L^{2−2γ}" should be Qρ ∼ L^{2−2γ}.
-  Found by wt-nt. Status: candidate typos.
+  Found during the number-theory formalization. Status: candidate typos.
 - F32 — GIT20 Remark 2.6 (Kin8.tex L592–L594) — the d-dimensional trilinear estimate (s > (d−2)/2) is asserted without
   proof; GIT20 proves only d = 3, and TARGET (L2516) relies on the remark for all d ≥ 3. Confirms F18. Under D1 the
-  d ≥ 4 case is new work in packet WKE. Source: wt-orch delta audit Q5. Status: gap (external).
+  d ≥ 4 case is new work in the WKE part of the formalization. Source: an internal audit. Status: gap (external).
 - F33 — TARGET L949 vs DH23 L1168 — regular-couple asymptotics are used for orders up to N_{p+1}^4 = (log L)^{C(𝔇)},
   but DH21/DH23 prove them only for n ≤ N³ = (log L)^{12} (`approxnt` with λ_j ≤ (log L)^4). Same nature as F15.
-  Gap: the extension must be proved. Source: blueprint GRAPH §F.2a (GAP.largeOrder). wt-orch topology review I13: a
-  crude bound absorbed by δⁿ is not available (the trivial bound on K_Q loses ≈ L^γ per order), so the regular-couple
-  asymptotics must genuinely be extended to orders up to N_{p+1}^4 (route R14 decided).
+  Gap: the extension must be proved. Source: blueprint GRAPH §F.2a (GAP.largeOrder). Topology review of the
+  blueprint, item I13: a crude bound absorbed by δⁿ is not available (the trivial bound on K_Q loses ≈ L^γ per order),
+  so the regular-couple asymptotics must genuinely be extended to orders up to N_{p+1}^4 (route decided).
 - F34 — Route: TARGET never uses Gaussian hypercontractivity; its large-deviation bounds (fixedest1–3) come from
-  2P-th moments computed with the cumulant ansatz plus Chebyshev (L2306–L2335). Packet GAUSS-HC (DH21 Lemma A.3, done)
-  is off-route; landed as infrastructure only. Source: blueprint GRAPH §F.2a, verified by the orchestrator.
+  2P-th moments computed with the cumulant ansatz plus Chebyshev (L2306–L2335). The formalization of DH21 Lemma A.3
+  (Gaussian hypercontractivity, done) is off-route; kept as infrastructure only. Source: blueprint GRAPH §F.2a,
+  verified by an audit.
 - F35 — TARGET Prop `canonequiv` (L889) condition (ii) must be read for incomparable nodes (nested/equal nodes can
   never be completely paired); the Lean definition states it. Source: blueprint.
 - F36 — TARGET (atomcountbd3) (L2474) is unused in L1293–L2339; `layergarden`'s proof uses the induction hypothesis
@@ -116,173 +120,196 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   defines length = #rungs − 1 with no lower bound; with the figure's insertion rule TARGET's literal vine family misses
   every vine in which a dashed pair carries exactly one extra rung (DH23's family includes them). Reading adopted for
   Wave B: "each dashed pair carries k ≥ 0 extra rungs" (DH23's family); "length ≥ 1" only for standalone ladders.
-  Source: wt-orch figure-defs §1 (V1). Status: candidate erratum.
+  Source: the internal figure definitions, §1 (internal record, removed from the repository at publication; it
+  remains in the git history). Status: candidate erratum.
 - F38 — TARGET §7.3 (L1427–L1434) — the unit twist is one uniform operation in all six core cases (swap the slot of
   𝔲₂ with the leaf 𝔲₀; 𝔲₂₃ keeps its position; 𝒯₁, 𝒯₂ keep root signs and swap positions); this replaces "exactly two
-  options" (F20); congruence being an equivalence relation still needs three stated lemmas. Source: wt-orch
-  figure-defs §3. Status: resolution of F20 (definition), lemmas to prove.
+  options" (F20); congruence being an equivalence relation still needs three stated lemmas. Source: the internal
+  figure definitions, §3. Status: resolution of F20 (definition), lemmas to prove.
 - F39 — TARGET L2271 — 𝒳's kernel uses flower trees of order ≥ 1, so (1−ℒ₁)𝒳 = 1+𝒴 needs an identity term from
-  somewhere; check against DH21 §11 (part of F26). Source: wt-orch figure-defs §7. Status: open.
+  somewhere; check against DH21 §11 (part of F26). Source: the internal figure definitions, §7. Status: open.
 - F40 — Cutting at an atom with a self-loop (paired siblings) is ambiguous (TARGET L2118–L2127); encode molecules with
-  half-edges. (II-a) vs (II-b) is a labelling convention only. Source: wt-orch figure-defs §2, §4. Status: design notes.
-- F32 (update, wt-wke 2026-11-03) — failing step located: in GIT20 Lemma 4.2, inequality (bil7), the radial
+  half-edges. (II-a) vs (II-b) is a labelling convention only. Source: the internal figure definitions, §2, §4.
+  Status: design notes.
+- F32 (update, 2026-11-03) — failing step located: in GIT20 Lemma 4.2, inequality (bil7), the radial
   Cauchy–Schwarz step becomes sup_p ∫₀^∞ ⟨rθ+p⟩^{-2s} r^{d−3} dr, which grows like R^{d−3} at p = −Rθ for d ≥ 4; Lemma
   4.3(ii) transfers for 2s > d−2; Lemma 4.1 needs an unproved d-dimensional dispersive bound. Consequence: the frozen
   `wkelwp` conjunct 3 (L²_s blow-up for every s > d/2−1, d ≥ 4) has no written proof. TARGET never uses the blow-up
-  criterion after Prop `wkelwp`; Theorem 1.1 (`main`) does not depend on it. Author decision pending; research agent
-  investigating the general-d estimate.
+  criterion after Prop `wkelwp`; Theorem 1.1 (`main`) does not depend on it. Author decision pending; the general-d
+  estimate under investigation.
 - F41 — TARGET L617–L623 — "χ_0 … in Gevrey class 2 (i.e. the m-th order derivatives are bounded by (2m)!)": the
   literal bound is impossible for a cutoff equal to 1 on [−1/2,1/2] and 0 off (−1,1) (m = 1: |χ₀′| ≤ 2 forces slope
   −2 on all of (1/2,1), contradicting smoothness at 1/2). Reading adopted: |χ₀^{(m)}| ≤ C·A^m·(2m)! with absolute
-  constants (Gevrey 2). Found by wt-anfourier. Status: candidate erratum (wording); also affects WAVE-B §2.6.
-- F32 (update 2, 2026-11-03 ~17:15) — research note `docs/research/git20-general-d.md` (Opus research agent) claims a
+  constants (Gevrey 2). Found during the formalization of the cutoff and its Gevrey bounds. Status: candidate erratum
+  (wording); also affects WAVE-B §2.6.
+- F32 (update 2, 2026-11-03 ~17:15) — research note `docs/research/git20-general-d.md` claims a
   complete proof of (schappend8) for every d ≥ 3, s > d/2 − 1, j = 0..3 (Theorem 7: Tonelli, polar coordinates, one
   linear change of variables, Hölder, a weighted Schur/AM–GM step that moves the radial weight A_k(θ) onto the
   integrated variable, and the ℓ₁ ↔ ℓ₃ symmetry of the resonant measure); sharpness for s < d/2 − 1; blow-up criterion
   then follows through Appendix C unchanged; GIT20's (bil7) is true in all d ≥ 3 and only the preceding radial
-  Cauchy–Schwarz step needs replacing. Status: claimed; independent refute-first audit by wt-orch pending. If it
-  survives, the frozen `wkelwp` stays unchanged (no owner decision needed) and a packet formalizes Theorem 7.
-- F32 (resolved on the mathematics, 2026-11-03 ~17:20) — wt-orch's refute-first audit
-  (`docs/campaign/orch/audits/GIT20-general-d.md`) finds Theorem 7 of `docs/research/git20-general-d.md` CORRECT: the
+  Cauchy–Schwarz step needs replacing. Status: claimed; independent refute-first audit pending. If it survives, the
+  frozen `wkelwp` stays unchanged (no owner decision needed) and Theorem 7 is to be formalized.
+- F32 (resolved on the mathematics, 2026-11-03 ~17:20) — a refute-first audit (internal record, removed from the
+  repository at publication; it remains in the git history) finds Theorem 7 of `docs/research/git20-general-d.md` CORRECT: the
   L²_s trilinear estimate holds for all d ≥ 3, s > d/2 − 1, j = 0..3; every condition reduces to 2s > d − 2; the blow-up
   passage through Appendix C goes through with three routine supporting lemmas (Leibniz/weight identities for Z_{s,m}
   inputs; equivalence of `IsWKESolution` with the Z_s mild solution; 𝒮 = ⋂ Z_{s,m}). **The frozen `wkelwp` stays
-  unchanged; no owner decision needed.** Formalization: packet WKE-L2S. Erratum for the authors: GIT20 Remark 2.6 is
+  unchanged; no owner decision needed.** Formalization: a separate part of the WKE formalization. Erratum for the authors: GIT20 Remark 2.6 is
   unproved as written for d ≥ 4 (one radial Cauchy–Schwarz step fails; fixed by Theorem 7) and false for d = 2 (§8.3).
 - F42 — TARGET Lemma A.3 (L2380–L2420, `timeintlem2`) — the printed bound ‖𝒰_χF‖_{𝔛^{1/4,0,0}} ≲ ‖∂∂F‖_{L^∞_kL¹} is false for
   arbitrary F (F ≡ 1: right side 0, while 𝒰_χF(t,0) = t²/2 on (0,1/2) for χ = χ₀); the proof uses smooth compactly
-  supported F, which is the class at the use site (T.pl1.S4). Lean statement takes that hypothesis. Found by wt-anfourier.
+  supported F, which is the class at the use site (T.pl1.S4). Lean statement takes that hypothesis. Found during the
+  formalization of TARGET's Appendix A lemmas.
   Status: candidate erratum (missing hypothesis).
 - F43 — TARGET (atomcountbd) L2472 (Lemma `atomcountlem`) — the first bound is stated without k ≠ 0; it is false at k = 0
   with signs (+,−) and γ > 1/2 (≈ L^d solutions vs. the claimed C·L^{d+1−2γ}); DH23 Lemma A.3(1) has |k₁−k₂| ∼ R ≥ L⁻¹,
   i.e. k ≠ 0. Consumers (degenerate atoms, F21) must exclude or handle k = 0. Found by the independent Wave B stage-3
-  auditor (docs/campaign/orch/audits/WaveB-stage3.md R4). Status: candidate erratum (missing hypothesis).
+  audit (internal record, removed from the repository at publication; it remains in the git history). Status:
+  candidate erratum (missing hypothesis).
 - F44 — Lean pitfall (not a source issue): in this Mathlib `ContDiff ℝ ⊤` means real-analytic (`ω`); C^∞ is
-  `ContDiff ℝ (⊤ : ℕ∞)` / `∞`. Wave A uses `(⊤ : ℕ∞)` (correct); the Wave B drafts used `⊤` (R1). Every brief and audit
-  must check this.
+  `ContDiff ℝ (⊤ : ℕ∞)` / `∞`. Wave A uses `(⊤ : ℕ∞)` (correct); the Wave B drafts used `⊤` (flagged by the stage-3
+  audit, cf. F43). Every statement draft and audit must check this.
 - F45 — DH23 L1099 — after the change to (p,q) variables the phase is written `p·ξ + y·ζ`; it must be `p·ξ + q·ζ`. Typo.
   TARGET L1567 — "|t′| ≥ L⁻¹ forces a ≠ 0": at the boundary t′ = L⁻¹, a = 0, q = 1 satisfies the weak Dirichlet error;
-  harmless (null endpoint). Found by wt-gausssum (HUA). Status: candidate typos.
+  harmless (null endpoint). Found during the formalization of Hua's inequality (DH21 Lemma A.5). Status: candidate
+  typos.
 - F47 — TARGET L1541–L1542 (proof of `lemlin`) — after the Poisson identity with prefactor L^d, the displayed majorant
-  (lemlin3) omits that factor; needed to recover (lemlin2). Typo. Found by wt-cumul (LEMLIN). Status: candidate.
-- F3 (RESOLVED, 2026-11-03 ~21:30) — wt-ansob (packet NT-BPROC, `Foundations/VdCB/**`, commit ca5a6f6) proved the
+  (lemlin3) omits that factor; needed to recover (lemlin2). Typo. Found during the formalization of `lemlin`. Status:
+  candidate.
+- F3 (RESOLVED, 2026-11-03 ~21:30) — the formalization (`Foundations/VdCB/**`, commit ca5a6f6) proved the
   B-process for the actual circle family and the exponent pair (11/30, 16/30), giving unconditional circle-problem
   discrepancy and annulus bounds with exponent 27/41 < 2/3. Huxley's 7/11 is not needed; DH23 Lemma A.2(2) can be proved
-  with 27/41 (packet COUNT).
+  with 27/41.
 - F48 — TARGET L2152 (`remtame`) — "some component contains exactly one atom adjacent to v" is used to conclude that all
   labels incident to a removed tame atom v are fixed; false: explicit prime 4-tree garden counterexample (two residual
   components, each with one atom adjacent to v but two opposite-oriented crossing bonds with equal labels that cancel in the
   cut identity, so the label varies over ≳ L choices). Correction adopted: replace both occurrences by "exactly one bond
   connecting the component to v" (the bridge criterion of DH21 Lemmas 9.13–9.14 and DH23 §10.5(4)); case (ii) negated
-  consistently. Found by wt-ansob (DEGEN), confirmed by its independent reviewer; write-up docs/research/erratum-remtame.md;
-  independent check by wt-orch pending. Status: candidate erratum (substantive; local fix).
+  consistently. Found during the formalization of the degenerate cases, confirmed by an independent reviewer; write-up
+  docs/research/erratum-remtame.md; independent check pending. Status: candidate erratum (substantive; local fix).
 - F49 — TARGET Appendix A.2–A.3 proofs (L2370, L2392–L2394, L2417–L2419) — (i) the convolution step at L2370 (proofichi-2)
   suppresses a logarithm (map Q13a); (ii) "a simple calculation yields" uniform low-frequency Fourier decay (weakdecay) is
   false before localization; (iii) "bounded in Schwartz class ... uniformly in ξ and k" (timeintproof2-4) is false globally
   (at Γ₁(k) = ξ the tail integral of χ² is nonzero). All three were repaired in the Lean proofs without changing the lemma
-  statements (beyond F42). Found by wt-anfourier (AN-PHASE-HY). Status: candidate errata (expository).
-- F48 (CONFIRMED by wt-orch, docs/campaign/orch/audits/F48-check.md): counterexample verified mechanically (valid prime
+  statements (beyond F42). Found during the formalization of the stationary-phase and Hausdorff–Young lemmas.
+  Status: candidate errata (expository).
+- F48 (CONFIRMED by an audit; internal record, removed from the repository at publication; it remains in the git
+  history): counterexample verified mechanically (valid prime
   garden, ε = −1, c_v/Γ_v fixed, k free over L/4+1 values, Δχ = −2); the bridge correction is exactly what remtame (i)/(ii),
   remtame2 and DH21 increF/cutlem need; no B1/B2 statement affected.
 - F50 — DH23 L1147–L1155 (Lemma 6.7, `NTintlem`) — `μ⁻¹∫ψ(μΩ)…` should be `μ∫ψ(μΩ)…` in (1) and (2); the error
   `μ^{1−2η}` in (2) should be `μ^{−(1−2η)}` (cf. DH21 Lemma 6.5); the bound is bilinear in the Φ- and ψ-norms. Corrected
-  in the Lean statements (wt-torus, NTSP). Source: wt-orch Infra-review-3 R1(a). Status: candidate errata.
-- F51 — DH23 L2040 — `#(A ∩ ℤ^d)` should be `#(A ∩ ℤ²)`. Typo. Found by wt-nt (NT-CIRCLE v2). Source: Infra-review-3 R1(b).
+  in the Lean statements (formalization of DH23 Lemmas 6.5, 6.7). Source: an internal infrastructure review (internal
+  record, removed from the repository at publication; it remains in the git history). Status: candidate errata.
+- F51 — DH23 L2040 — `#(A ∩ ℤ^d)` should be `#(A ∩ ℤ²)`. Typo. Found during the formalization of the circle problem.
+  Source: the same internal infrastructure review.
 - F52 — TARGET L1308–L1325 (decorations of molecules ↔ decorations of gardens) — the correspondence fails for gardens
   with directly paired trivial roots: e.g. four trivial trees, signs (+,−,+,−), root values (0,1,1,0) satisfy global
   conservation but admit no garden decoration, while the (empty) molecule admits one. Correction adopted: state the
   correspondence under root-pair compatibility (directly paired roots have equal prescribed values), which is exactly the
-  indicator the garden sums carry. Found by wt-nt (MOLE), Lean counterexample in scratch
-  (`mole/src/MoleculeDecorationEdgeCase.lean`). Status: candidate erratum (missing hypothesis; local).
-- F53 — Wave B2 draft `IsLadder` (`wt-scratch/waveb2/WaveB2-Molecules.lean` L305) vs TARGET L1384–L1386 / DH23
+  indicator the garden sums carry. Found during the formalization of molecules; Lean counterexample
+  `MoleculeDecorationEdgeCase.lean` (working file, not included). Status: candidate erratum (missing hypothesis; local).
+- F53 — Wave B2 draft `IsLadder` (draft file `WaveB2-Molecules.lean` L305, working file, not included) vs TARGET
+  L1384–L1386 / DH23
   Def 5.1 L789–L808 (F37) — the draft requires the induced atom group of a ladder of length m to carry exactly 4m+2
-  bonds; this excludes maximal source ladders with an end-to-end chord. Kernel counterexample (wt-ansob, DEGEN):
+  bonds; this excludes maximal source ladders with an end-to-end chord. Kernel counterexample (from the formalization
+  of the degenerate cases):
   `Degen.MaximalLadderDisjoint.chordLadder`, six atoms, eleven bonds, an actual nonsaturated molecule, whose two
   overlapping four-atom induced B2 ladders are both maximal while the six-atom selected ladder fails the count (11 vs
-  10). DEGEN proved its results with the selected rung/rail reading (`SourceLadder`: double rungs, single opposite
+  10). The degenerate-case formalization proved its results with the selected rung/rail reading (`SourceLadder`: double rungs, single opposite
   rails, no induced-card clause). Status: **B2 draft defect** (ours, not the source's); fix `IsLadder` before the B2
-  freeze — queued for the B2 drafter after O-FK. Record: `wt-scratch/degen/ERRATUM-B2-LADDER.md`.
+  freeze — queued for the B2 drafts. Record: an internal note (working file, not included).
 - F54 — DH23 L1003, L1005 (Prop 6.4, (conclusion1), (intappr)) — the inner product `⟨x_j, y_j⟩_β` is carried over from
-  DH21; DH23 has no `β` (square torus). Read as `⟨·,·⟩`. Typo. Found by wt-torus (APPROXNT). Also (F33 addendum, same
-  packet): DH23 Prop 6.4 assumes `n ≤ (log L)^3` (L1002) but L1168 applies it to orders up to `N^3 ≈ (log L)^{12}`; the
-  landed extension holds for every fixed power of `log L`, so both F33 readings are covered.
-  F53 addendum (2026-11-04): the B2 fix is B2-CL-3 (wt-gauss-hc): `IsLadder` = wt-ansob's `Degen.SourceLadder` verbatim
-  (double rungs, rails of multiplicity exactly 1 and oppositely directed, no induced clause). An intermediate version
-  (B2-CL-2) had dropped the single-rail requirement, which admits a length-1 ladder with a double rail (wt-orch's
-  `dblRail` probe, audits/DEGEN-F53.md); B2-CL-3 restores it. Audits: NLS-BRIDGE PASS, APPROXNT PASS (η₀ ≤
+  DH21; DH23 has no `β` (square torus). Read as `⟨·,·⟩`. Typo. Found during the formalization of DH23 Prop 6.4
+  (`approxnt`). Also (F33 addendum, same part of the formalization): DH23 Prop 6.4 assumes `n ≤ (log L)^3` (L1002) but
+  L1168 applies it to orders up to `N^3 ≈ (log L)^{12}`; the formalized extension holds for every fixed power of
+  `log L`, so both F33 readings are covered.
+  F53 addendum (2026-11-04): the B2 fix: `IsLadder` = `Degen.SourceLadder` verbatim (double rungs, rails of
+  multiplicity exactly 1 and oppositely directed, no induced clause). An intermediate revision of the fix had dropped
+  the single-rail requirement, which admits a length-1 ladder with a double rail (the `dblRail` probe of an internal
+  audit); the final revision restores it. Audits: NLS bridge PASS, `approxnt` PASS (η₀ ≤
   min(1/20, (d−1)(1−γ), γ) inside Π; n ≤ (log L)^A with A = A(d, 𝔇) covers F33).
 - F55 — DH21 Cor 4.9 (proof; counting of regular couples) — the proof miscounts the choices for double chains; the
-  corollary (≤ C₀^m regular couples of order 2m) still holds, and REG-STRUCT's proof (C₀ = 12^9, codes and actual
-  couples/trees) does not use the faulty step. Found by wt-orch (Task 15, audits/REG-STRUCT-prefreeze.md R15-4).
-  Status: erratum in a proof, statement unaffected. Related B2 drafting items (R15-1, R15-2): add the count
-  obligation (couples and trees, tree count with the root sign fixed — it fails at m = 0 otherwise) to the B2 §4
-  statements before the B2 freeze; R15-3: the general-couple skeleton uniqueness (DH21 L833, GAP.skeletonUniq) is
-  packet C3's, not discharged by REG-STRUCT.
+  corollary (≤ C₀^m regular couples of order 2m) still holds, and the formal proof of the structure theorem
+  (C₀ = 12^9, codes and actual couples/trees) does not use the faulty step. Found by an internal pre-freeze audit of
+  the structure theorem of regular couples. Status: erratum in a proof, statement unaffected. Related B2 drafting
+  items from the same audit: add the count obligation (couples and trees, tree count with the root sign fixed — it
+  fails at m = 0 otherwise) to the B2 §4 statements before the B2 freeze; the general-couple skeleton uniqueness
+  (DH21 L833, GAP.skeletonUniq) belongs to the formalization of prime skeletons and is not discharged by the
+  structure-theorem formalization.
 - F56 — Wave B snapshot 5 `WaveB1-Sumint.lean` `SumintDatum.phase` (L197–L215) vs TARGET (sumintI1) L1608–L1611 —
   **our statement bug**: `∏ i, (…) * ∏ i : {i // D.S.nor i = true}, …` parses as `∏ i, ((…) * ∏ i' : Nor, …)`
   (Mathlib's `∏ x, body` parses `body` at precedence 67, and `*` is 70), so the normal-block product is repeated `I`
-  times. Fix: `(∏ i, (…)) * ∏ i : Nor, …`, in snapshot 6 (with B1.12). Found by wt-anfourier (SUMINT). Lesson:
+  times. Fix: `(∏ i, (…)) * ∏ i : Nor, …`, in snapshot 6 (with B1.12). Found during the formalization of `sumint`.
+  Lesson:
   sweep every frozen candidate for big-operator scope errors (`∑`/`∏` bodies continuing past `*`, `•`, `^`); `∑`
   stops before `+` (65 < 67) but not before `*`.
 - F57 — TARGET `defblock` L1328–L1331 and DH23 Def 4.10 (concatenation of blocks) — the claim that the concatenation
   of two (degree-only) blocks sharing a joint is a block/hyper-block is false: kernel counterexample
   `MoleculeBlockEdgeCase` (loops at atoms 0, 2, 4, opposite double bonds 1–2, 3–4; A = {0,1,2}, B = {0,3,4}). The
-  minimal correction is internal connectedness of each block/adjoint, used throughout MOLE's overlap proof. **B2
-  drafting item:** the B2 block definitions are degree-only and must add connectedness before the B2 freeze. Found by
-  wt-nt (MOLE). Status: candidate erratum (missing hypothesis).
+  minimal correction is internal connectedness of each block/adjoint, used throughout the formal overlap proof for
+  molecules. **B2 drafting item:** the B2 block definitions are degree-only and must add connectedness before the B2
+  freeze. Found during the formalization of molecules. Status: candidate erratum (missing hypothesis).
 - F58 — TARGET `propcplmol` L1304–L1306 — the irreducible-garden sentence omits the qualifier "nontrivial" that the
   couple sentence has; the trivial paired roots give n = E = 0, contradicting E = 2n − R at R = 1. The B2
-  characterization already assumes positive order. Found by wt-nt (MOLE). Status: minor erratum.
+  characterization already assumes positive order. Found during the formalization of molecules. Status: minor
+  erratum.
 - F59 — Wave B2 draft (deviation ratio docstring) — identifies the deviation ratio with a least operation bound with no
-  denominator condition; fails at (1, 0) (`deviation_zero_denominator_counterexample`). MOLE's cut API handles the
-  zero case. **B2 drafting item** (docstring/statement precision). Found by wt-nt (MOLE).
-- F60 — DH21-2 L830 (reconstruction proof) — "this does affect the result" should read "does not". Typo. Found by
-  wt-nt (MOLE).
+  denominator condition; fails at (1, 0) (`deviation_zero_denominator_counterexample`). The formalized cut API for
+  molecules handles the zero case. **B2 drafting item** (docstring/statement precision). Found during the
+  formalization of molecules.
+- F60 — DH21-2 L830 (reconstruction proof) — "this does affect the result" should read "does not". Typo. Found
+  during the formalization of molecules.
 - F61 — DH21 Lemma 7.3 (L1737) vs DH21 Lemma 5.8 (proof) — Lemma 7.3 writes `+χ_∞(α)/(επiα)·I_μ`, while the proof of
-  Lemma 5.8 and the landed Lean identity (`ClassJR`, JR-OPS) give `−I_μ`, and DH21 sets `ε_j = ζ_n` with no extra
+  Lemma 5.8 and the formalized Lean identity (`ClassJR`) give `−I_μ`, and DH21 sets `ε_j = ζ_n` with no extra
   sign. Read literally, the `Z`-terms of the Prop 5.1 expansion pick up `(−1)^{|Z|}`, contradicting TARGET
   (regref1-3)'s claim that `𝒥ℬ*` does not depend on `Z` unless the per-node sign of `Ω = −2⟨k₁−k, k₃−k⟩` compensates.
   The final WKE identity is probably unaffected, but the Wave B2 per-couple bound B2.1(1) would be false with a wrong
-  sign. Found by wt-orch (Task 16, audits/JR-OPS.md W2). **Status: CONFIRMED source erratum (2026-11-04).** wt-wke's
-  trace (`wt-scratch/wke/F61-sign-trace.md`): the composition kernel `I_{εα}I_{μ−εα}` has `χ_∞` part
-  `−χ_∞(α)/(επiα)·I_μ` (DH21 Lemma 5.8's own term II; Lean `iker_comp_decompP`; checked by hand by the orchestrator),
+  sign. Found by an internal audit of the class J/R operators. **Status: CONFIRMED source erratum (2026-11-04).**
+  Sign trace (`docs/research/dh21-lemma73-sign-trace.md`): the composition kernel `I_{εα}I_{μ−εα}` has `χ_∞` part
+  `−χ_∞(α)/(επiα)·I_μ` (DH21 Lemma 5.8's own term II; Lean `iker_comp_decompP`; also checked by hand),
   so `𝒥B̃_{Q,Z} = (−1)^{|Z|}𝒥B̃_Q` (DH21 Prop 7.5 "independent of Z" is false), and the per-couple leading term of DH21
   (reducedom) / TARGET (regref1-3) L1154 needs `∏_{𝔫∈Z} (−1)/(ζ_𝔫πi)`. The Ω convention does not compensate (same
   `Ω_𝔫 = 2⟨x_𝔫,y_𝔫⟩` in (newsum1) and in `α_𝔫`). Unaffected: DH21 Props 7.8–7.10 and the main theorems (`|Z|` is
   constant on equivalence classes; the `Z ≠ ∅` classes cancel either way); TARGET (regref2-3), (regref1-5). Affected:
-  TARGET's per-couple bound (regref1-1) as printed is false for dominant Q with odd |Z| terms. B2 fix (ruling,
-  orchestrator): `specialWeight σ Z := ∏_{z∈Z} (−ζ_z π i)⁻¹` for couples and trees (B2-CL-11).
-  F57 addendum (2026-11-04, wt-orch Task 17, audits/MOLE-prefreeze.md): the same molecule satisfies every premise of
+  TARGET's per-couple bound (regref1-1) as printed is false for dominant Q with odd |Z| terms. B2 fix (adopted for the
+  formalization): `specialWeight σ Z := ∏_{z∈Z} (−ζ_z π i)⁻¹` for couples and trees.
+  F57 addendum (2026-11-04, internal pre-freeze audit of the molecule formalization): the same molecule satisfies every premise of
   TARGET `disjointlem` (DH23 Lemma 4.11: connected interiors, vertex deletion) while its only applicable alternative
   (b, concatenation) fails, so Lemma 4.11's premises do not make a block connected either. B2 fix: add a
-  `GroupConnected` conjunct to `IsBlock` (exact text in the audit; a one-line bridge to MOLE's definition; `IsVine`
+  `GroupConnected` conjunct to `IsBlock` (exact text in the audit; a one-line bridge to the molecule formalization's
+  definition; `IsVine`
   unchanged) and define hyper-blocks through a connected adjoint block. F59 addendum: the deviation docstring fails in
   three ℝ≥0∞ cases (a, 0), (a, ⊤), (⊤, ⊤); state operation bounds directly as `𝔄_pre ≤ ℐ · 𝔄_pos`. F58: B2's
   `propcplmol` already requires positive order; fix its docstring ("connected" is not asserted by `IsMolecule`).
 - F62 — TARGET (incohproof10) L1019–L1058 (Wick factor per link) — TARGET writes a per-link factor `ε_𝔫 ∈ {1,0,−1}`,
   but `ε_ℐ` is a product over all branching nodes and the two nodes of a link carry the same `ε`, so the true per-link
-  factor is `ε_𝔫² ∈ {1,0,1}` (proved: `epsDec_eq_prod_links`, LINKS scratch). Estimates unaffected; an exact
-  formalization needs the square. Found by wt-torus (LINKS, E1). Status: erratum (local).
-- F63 — TARGET `treelemma` (1) L2422 — "−" should be "±", and the first node has no earlier node to anchor to. Found by
-  wt-torus (LINKS, E2). Status: typo/precision.
+  factor is `ε_𝔫² ∈ {1,0,1}` (proved: `epsDec_eq_prod_links`, working file, not included). Estimates unaffected; an
+  exact formalization needs the square. Found during the formalization of links. Status: erratum (local).
+- F63 — TARGET `treelemma` (1) L2422 — "−" should be "±", and the first node has no earlier node to anchor to. Found
+  during the formalization of links. Status: typo/precision.
 - F64 — DH23 Lemma A.4 (2) — "the interval does not depend on r" cannot hold literally; formalized as what the proof
-  counts: a finite family of centres chosen per decoration and r. Found by wt-torus (LINKS, E3). Status: imprecision.
+  counts: a finite family of centres chosen per decoration and r. Found during the formalization of links. Status:
+  imprecision.
 - F65 — DH21 Def 4.11 — "if 𝒬 = × then 𝒩^ch contains the root of + sign" is a slip (the trivial couple has no
-  branching nodes). Found by wt-torus (LINKS, E4). Status: typo.
+  branching nodes). Found during the formalization of links. Status: typo.
 - F66 — Wave B2 draft `RegChain.JBtree` (`WaveB2-Regular.lean` L515–L517) vs TARGET (regref2-2) L1185 — **our statement
   bug**: the tree approximation integrates down to `s`, but `K*_𝒯(t,s,k)` does not depend on `s` once `s ≤ r` (the time
   constraint is implied by the layer bound); TARGET states (regref2-2) only for `s ∈ [r, r+1]`. So B2.1 item (2) and the
-  tree half of item (3) are false when `q' < r` (Lean probe `P5.lean` on the project's own `miniTree10LG`: `K*_𝒯` constant
+  tree half of item (3) are false when `q' < r` (Lean probe `P5.lean`, working file, not included, on the project's
+  own `miniTree10LG`: `K*_𝒯` constant
   in `s ≤ 1` while `app(t,s) − app(t,1) = (1−s)·c(k)` with `c(k)` independent of `L`). Fix: lower limit `max s r`
-  (`X.JBchain r (max s r) t fun _ => 1`). Found by the independent B2 audit
-  (`docs/campaign/orch/audits/WaveB2-independent-audit.md` F-1). Status: fix queued (B2-CL-13). The same audit reopens
-  stage-2/3 R1 (self-loop halves accepted as a bond pair in the B2.3 gap hypotheses: add `x₂ ≠ M.mate x₁`) and R2
-  (zero-gap tame ε-atoms, T L2183/L2152), keeps B2.3 out of the B2 freeze pending the author's ruling on DESIGN Q7, and
-  requires the p.v. characterization for decaying kernels (F-5) and named instances + a B2 freeze list (F-6).
+  (`X.JBchain r (max s r) t fun _ => 1`). Found by the independent B2 audit (internal record, removed from the
+  repository at publication; it remains in the git history). Status: fix queued. The same audit reopens two items of
+  the B2 stage-2/3 audits (self-loop halves accepted as a bond pair in the B2.3 gap hypotheses: add
+  `x₂ ≠ M.mate x₁`; zero-gap tame ε-atoms, T L2183/L2152), keeps B2.3 out of the B2 freeze pending an author decision
+  on an open design question, and requires the p.v. characterization for decaying kernels and named instances + a B2
+  freeze list.
 - F67 — DH23 L1924 (Prop 10.3, case (3)) — "v4 and v5 are not bridges" refers to the bonds ℓ4, ℓ5. Notation typo. Found
-  by wt-ansob (MOLEPROP13). Also recorded (no erratum yet, check at the G-chain audit): DH23 Def 4.1 L633 forbids loops,
-  while TARGET L1295 permits loops with a guarded large-gap convention; MOLEPROP13 proves DH23 Prop 10.1 on DH23's
-  loop-free domain and claims no loop-counting extension for TARGET's use.
+  during the formalization of DH23 Props 10.1 and 10.3. Also recorded (no erratum yet, check at the audit of the
+  Stage-2 and rigidity chain): DH23 Def 4.1 L633 forbids loops, while TARGET L1295 permits loops with a guarded
+  large-gap convention; that formalization proves DH23 Prop 10.1 on DH23's loop-free domain and claims no
+  loop-counting extension for TARGET's use.
 - F68 — Wave B snapshot 6 B1.12 `layergardenFlower`, `LayeredGarden.PatValid` (`dChild i` clause) vs TARGET L2331 —
   **our statement defect**: the clause only requires the `i`-th child of `𝔣^pr` to be a branching node, so under
   `IsCanonH (p+1)` it may be the root of an attached lower-layer garden (layer `< p`); `fixPat` then designates that
@@ -290,12 +317,12 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   non-flower child of `𝔣^pr` is a top-layer branching node or a leaf. So `flowerSum (dChild i)` contains gardens the
   moment expansion never produces, and B1.12's bound for them is not justified by TARGET. Fix (snapshot 7): add
   `LG.layer b.toNode = p` to the `dChild` clause. `dParent` is fine (the parent of `𝔣^pr` is on the stem). The
-  consumer `fixedpoint` (X3) uses only `plain` and `dRoot`. Found by wt-gauss-hc (X2-HANDOFF FINDING).
-- F69 — DH23 §10.4 Lemma `ylem1` (L1937–L1942) vs our B2 vine family — **open**: wt-ansob (MOLEPROP4) gives a
-  kernel-checked 5-atom molecule (bonds 1→0, 1→2, 2→1, 2→0, 0→2, 0→3, 3→4, 3→4, 4→3, 4→1; 4-regular, loop-free,
+  consumer `fixedpoint` uses only `plain` and `dRoot`. Found during the formalization of the flower estimate.
+- F69 — DH23 §10.4 Lemma `ylem1` (L1937–L1942) vs our B2 vine family — **open**: the formalization of DH23 Lemmas
+  ylem1/2 and Prop 10.4 gives a kernel-checked 5-atom molecule (bonds 1→0, 1→2, 2→1, 2→0, 0→2, 0→3, 3→4, 3→4, 4→3, 4→1; 4-regular, loop-free,
   one triple bundle) whose single (Y2) step at 3, 4 gives the doubled triangle, while no vine in our B2 family has 7
   atoms (type I: 2, type II: even ≥ 6, others ≥ 9), so ylem1's conclusion fails for it
-  (`/home/scott/wt-scratch/moleprop4/src/MoleProp4/ShortYCounterexample.lean`). Either our vine templates are too
+  (`ShortYCounterexample.lean`, working file, not included). Either our vine templates are too
   narrow (F19/F37 readings) or ylem1 misses a small case. Independent investigation commissioned
   (`docs/research/ylem1-investigation.md`). **Resolved (2026-11-04) as a DH23 erratum:** our eight vine templates match
   `Vines.png` (DH23 L798–L800, Remark 5.2(c)); `ylem1` is false, missing Q and T themselves (zero sequences), the
@@ -333,17 +360,17 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   blocks are spliced in stage 1 as an enlarged vine family (T-vines, D11), and Prop 9.6 is re-proved over that family
   for γ ≤ 1/2 (Lean: `GammaLow.FinalCount.prop96_low_closed`). The full-range statements are proved (D17). Errata
   E1; overview `docs/GAMMA-LE-HALF.md`.
-- F70 — DH21 (integralK) L1782 — the weight `e^{−πθα²}` should be `e^{−πθ²α²}`. Minor typo. Found by wt-torus (CANCEL7),
-  which also implements the corrected F61 sign in DH21 Lemma 7.3 and Prop 7.5 (`𝒥B̃_{Q,Z} = (−1)^{|Z|}𝒥B̃_Q`); its route
+- F70 — DH21 (integralK) L1782 — the weight `e^{−πθα²}` should be `e^{−πθ²α²}`. Minor typo. Found during the
+  formalization of DH21 Lemmas 7.1–7.3 and Props 7.4, 7.5, which also implements the corrected F61 sign in DH21 Lemma 7.3 and Prop 7.5 (`𝒥B̃_{Q,Z} = (−1)^{|Z|}𝒥B̃_Q`); its route
   (Gaussian-regularized limit of B̃_Q) shows the Z-component integral is the same for every expansion, stronger than
   DH21, and does not need DH21's (additionvanish) step.
-- F71 — TARGET `subsetvc` (hyper-blocks HV / vine-like containment) — reading (orchestrator ruling 2026-11-04, VINES):
-  a hyper-block is the pair (atom group, designated adjoint bond), as in B2 `IsHyperBlock` via `eraseBond`; its gap
+- F71 — TARGET `subsetvc` (hyper-blocks HV / vine-like containment) — reading (adopted for the formalization
+  of the vine definitions, 2026-11-04): a hyper-block is the pair (atom group, designated adjoint bond), as in B2 `IsHyperBlock` via `eraseBond`; its gap
   and SG/LG class are those of that designated adjoint. On a triple bond, different valid adjoint deletions give
-  different gaps for the same atom group (wt-gausssum, kernel-checked), so containment of hyper-blocks with the same
+  different gaps for the same atom group (kernel-checked), so containment of hyper-blocks with the same
   atom group requires the same designated bond (up to mates); otherwise plain atom-set inclusion would make an inner
   SG object whose adjoint is a single double bond — outside `subsetvc`'s case list. Status: reading, flagged for the
-  VINES audit (possible source imprecision).
+  audit of the vine definitions (possible source imprecision).
 - F72 — DH23 Def 5.1 / vine (II) (L1421, L1481) and our B2 template — vine (II) must include the **one-double-bond case
   (m = 1)**, the 4-atom Q-block. Research check (2026-11-04, `docs/research/vine2-m1.txt`): every vine estimate and the
   twist cancellation in DH23 and TARGET go through unchanged at m = 1 (DH23 itself notes "m ≥ 1 for vines (II)" at L1481;
@@ -354,7 +381,8 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   and γ ≤ 1/2. Also: `ylem1`'s quadruple-bond branch becomes exactly "vine (II), m ≥ 1", and Prop 10.4(1)'s length-1
   omission is the m = 1 vine. Minor DH23 slips: L1481 cites Lemma A.2(2) outside its range (A.2(1) closes it); the
   δ-bookkeeping in (twoestbadv1) is off but absorbed by L^{−5η}. **B2 change required:** add the m = 1 instance to vine
-  (II) (reverses R4 of the ylem1 investigation); re-run template enumerations (VINES, MOLEPROP13).
+  (II) (reverses the ylem1 investigation's recommendation of no change to B2); re-run template enumerations (vine
+  templates; DH23 Props 10.1, 10.3).
 - F73 — DH23 `kqmainest1` (L1632–L1640) and TARGET (finalsbest2) (L2078) — the analytic per-class bounds also fail on the
   necklace couples for 0 < γ < 1/2 (and γ = 1/2 with δ small): research note `docs/research/kqmainest1-necklace.txt`
   computes K_Q(t,t,k) = ζ(Q) 2^{−n} δ^{2m+2−d} L^{−γ(2d−1)} [A_m + o(1)], n = 4m+3, with A_m ≠ 0 for explicit data —
@@ -368,13 +396,13 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   **Resolved (2026-11-09)** by the splicing route: the T-beads are T-vines, spliced in stage 1 and bounded by the vine
   estimate over the enlarged family (Lean: `GammaLow.Famb.vineEstGammaHalfMK`), so the failing per-class bound is not
   needed for them. See F69b and errata E1.
-- F74 — TARGET L708 (`F₀ = Ω` in Prop `propansatz`) — proof-level reading, orchestrator ruling (recorded 2026-11-04 after
-  wt-orch's INDUCT audit I-1): INDUCT takes `Fev 0 = initialRapidEvent`, the measurable, symmetric event that the
+- F74 — TARGET L708 (`F₀ = Ω` in Prop `propansatz`) — proof-level reading adopted for the formalization (recorded
+  2026-11-04 after an internal audit of the induction): the formal induction takes `Fev 0 = initialRapidEvent`, the measurable, symmetric event that the
   initial coefficients decay rapidly, with `μ.real (Fev 0) = 1` and `μ.restrict (Fev 0) = μ`. So every level-0
   expectation and cumulant is the full Gaussian one; the reading differs from L708 by a null set. It is needed because
   the class condition is pointwise: for an arbitrary version of the Gaussian data, outcomes whose data do not decay have
-  no classed solution. No statement changes (the frozen statements are unaffected). Note: the approval recorded in
-  INDUCT's WORKLOG as the "user's" was the orchestrator's ruling, not the author's.
+  no classed solution. No statement changes (the frozen statements are unaffected). Note: this reading was adopted
+  within the formalization, not approved by the author.
 - F75 — DH23 Prop 9.6 case (4) for γ ∈ (1/2, 1): **closed by new argument** (research note
   `docs/research/case4-gamma-above-half.txt`, Theorem A; independent check commissioned). For a case-(4) component
   whose closure 𝕄₁ (Y)-reduces to T: operation (c) on the first β-chain (Lemma A.3(1), cost L^{γ₀}), operation (d) on the
@@ -397,58 +425,67 @@ Format: F<n> — source, TeX line — quoted text — finding — evidence — s
   precision: the B2 audit's reduction to the slice s = r holds pointwise, but at the norm level it is a trace
   statement (the line s = r has measure zero, and the restriction norm requires extensions to agree pointwise), so it
   needs continuity of K*_𝒯 − app on the closed box plus a slice lemma for the 𝔛 norm. B2.1 remains true; TARGET's
-  sentence does not cover this step. Found by wt-torus (RA2 REGREF); proved inside RA2 (route (a)).
+  sentence does not cover this step. Found during the formalization of TARGET Props 6.6–6.8; proved there (route
+  (a)).
 - F77 — DH21 Cor 4.16, proof L850/L852 — the displayed bound `Σ_{n_1+⋯+n_m≤n} C_0^{n_1}⋯C_0^{n_m} ≤ (2C_0)^n` fails as
   written (even scales, m = n = 8: 330 terms at total scale 8 > 256). The exponential count itself is true and is proved in
-  SKELETON with larger explicit constants. Found by wt-resonant (C3 SKELETON), which also proves DH21 L833 / DH21-2 L641's
-  omitted E4 argument (general-couple skeleton uniqueness; R15-3). Status: minor erratum in a proof.
+  the formalization of prime skeletons with larger explicit constants. Found during that formalization, which also
+  proves DH21 L833 / DH21-2 L641's omitted E4 argument (general-couple skeleton uniqueness; cf. F55). Status: minor
+  erratum in a proof.
 - F78 — Wave B snapshot 7 B1.12, `coupleSum` with `dt = true` (∂_t clause) vs TARGET L2312 — **our statement defect** (∂_t
   analogue of F68): the clause only asks each root to be a branching node (`∀ j, ∃ b, b.1 = (j, [])`), with no layer
   condition. `IsCanonC (p+1)` forces only one root into layer p, so it admits a couple whose other top tree is the
   single leaf • with a lower-layer garden attached at its root; that root's time is pinned at t and its kernel counted.
   But ∂_t 𝒥_• = 0, so ∂_t a^tr involves only trees of order ≥ 1 and its second moment never produces these couples
   (TARGET's δ(t_𝔯 − t) is the time derivative of the tree expansion, both roots top-layer branching nodes). So the
-  obligation O-X3-CPL for ∂_t a^tr is false as stated. Fix (snapshot 8): `∀ j, ∃ b, b.1 = (j, []) ∧ LG.layer b.toNode =
-  p` (equivalently: every top tree nontrivial). ∂_t ℒ₀ is unaffected. Found by wt-gauss-hc (CPL-3).
+  fixed-point proof's couple obligation for ∂_t a^tr is false as stated. Fix (snapshot 8): `∀ j, ∃ b, b.1 = (j, []) ∧ LG.layer b.toNode =
+  p` (equivalently: every top tree nontrivial). ∂_t ℒ₀ is unaffected. Found during the formalization of the flower
+  estimate.
 - F79 — TARGET Step 2(C-ii) L1813–L1817 (vine parametrization, nonlinear core alternative) — **candidate sign erratum**:
   for the directed zero-gap triangle of Figure (D), conservation gives e = a+b−g, d = a+b−c; with g = 0 the three
   molecular Γ factors are 2ab, −2(c−a)(c−b), 2c(c−a−b), each a rank-2 quadratic form, whereas the stated triple
   (2u₁u₂, +2u₃(u₁+u₂−u₃), minus their sum) has a rank-3 third form (and the linear alternative has a common factor the
-  actual triple lacks). Ruling: use explicit signed core normal forms with the corrected nonlinear sign, flagged for
-  audit. Found by wt-gausssum (M9 VINEPARAM); kernel check in progress.
+  actual triple lacks). Reading adopted: use explicit signed core normal forms with the corrected nonlinear sign,
+  flagged for audit. Found during the formalization of the vine parametrizations; a kernel check was in progress at
+  the time.
   Consequence (2026-11-04): TARGET's `sumint` (B1.6, frozen candidate, faithful to TARGET's printed statement) uses two
   positive core forms; if F79 holds, vineest Step 2 produces a signed nonlinear core, so the chain needs a signed
-  extension `SumintSigned` (orchestrator ruling: B1.6 unchanged; V4 uses `SumintSigned` as a named obligation; its proof,
-  generalizing the landed sumint proof, goes to wt-anfourier once the F79 kernel check confirms).
+  extension `SumintSigned` (adopted for the formalization: B1.6 unchanged; vineest Step 2 uses `SumintSigned` as an
+  explicit obligation; its proof, generalizing the formal sumint proof, is to follow once the F79 kernel check
+  confirms).
 - F80 — Wave B 𝔛-type restriction norms (B1 `WaveB1-System.lean`: XNorm/XNormRestr and relatives) — **open faithfulness
-  question**: two provers independently found that at derivative order ≥ 1 the norm integrand need not be measurable, so
-  the (lower) lintegral is not subadditive (wt-wke, `wt-scratch/pl234/ISSUE-XNORM.md`, Bernstein-set counterexample), and
-  that B2's XNormRestr controls non-smooth frequencies only in inner measure (wt-torus, REGREF; it uses the landed
-  `Fourier.mixedRestrictionNorm` with `XNormRestr ≤ mixedRestrictionNorm` proved). Local fix adopted for the Prop 6.1
+  question**: two independent proof attempts found that at derivative order ≥ 1 the norm integrand need not be
+  measurable, so the (lower) lintegral is not subadditive (Bernstein-set counterexample; working file, not included),
+  and that B2's XNormRestr controls non-smooth frequencies only in inner measure (in the formalization of TARGET
+  Props 6.6–6.8; it uses the formalized `Fourier.mixedRestrictionNorm` with `XNormRestr ≤ mixedRestrictionNorm`
+  proved). Local fix adopted for the Prop 6.1
   spine inputs (order-0 restriction norm of ⟨k⟩^{30d}(K − 𝒜)). Whether the frozen candidate norms are faithful to TARGET's
-  (and whether B1/B2 statements become weaker/stronger) is with the independent auditor before the freeze. Also: TARGET
-  Prop 6.2 "at most 2^n terms" is 2^{2n+1} − 1 (still ≤ C₁^n) (wt-wke).
+  (and whether B1/B2 statements become weaker/stronger) is with an independent audit before the freeze. Also: TARGET
+  Prop 6.2 "at most 2^n terms" is 2^{2n+1} − 1 (still ≤ C₁^n).
   **Resolved (2026-11-04, independent audit 'Norm measurability'):** no frozen statement is false; the sup norms and the
   order-0 𝔛 norms are robust (all B1 statements, B2.1 item 3). The defect is B1 `XNorm` at derivative order ≥ 1 (and
   `XNormRestr`): its integrand is ⊤ off a set of frequencies that need not be measurable, so `∫⁻` is a lower integral —
   Lean norm ≤ TARGET's, no triangle inequality, no a.e. smoothness. Used only in conclusions (B2.1 items 1–2, B2.2), which
   are therefore weaker than TARGET (still true). Fix (snapshot 9, REQUIRED before the freeze): `XNorm`'s guard becomes
   `(∀ k, Integrable fun t => F t k) ∧ (Λ₁ = 0 ∨ ∀ᵐ lam, ContDiff ℝ Λ₁ (timeFT F lam))` with no per-frequency ⊤ —
-  TARGET's (normX) and the landed `MixedFourierAdmissible`; conservative (`XNormRestr ≤` fixed, proved); no statement text
+  TARGET's (normX) and the formalized `MixedFourierAdmissible`; conservative (`XNormRestr ≤` fixed, proved); no statement text
   changes; B2 freeze set unchanged.
-- F81 — DH23 Appendix B (L2162–L2292) — errata from APPB-OPS (wt-nt, `wt-scratch/appb/ERRATA.md`): (brprop) Δν sign
+- F81 — DH23 Appendix B (L2162–L2292) — errata from the formalization of the Appendix B operations
+  (`docs/research/dh23-appendix-b-errata.md`): (brprop) Δν sign
   ("Δν = 2" vs the computed −2, as the map flagged); the 3D3-3G proof's opposite/same internal-direction typo;
   basiccount(4)'s quadratic-defect sign; a missing C_pos factor in the 3D3-3G prose raw-count bound; typos (D_s/D_f,
   bond/bound, tall bonds). Operation and proposition statements otherwise unchanged. The figure-defined atomic groups
-  (3S3, 3S3New, 3D3, 3D3New, 3D4, 3S2, 3RProof) are transcribed in `TRANSCRIPTIONS.md` and flagged for pre-freeze review,
+  (3S3, 3S3New, 3D3, 3D3New, 3D4, 3S2, 3RProof) are transcribed in a working file (not included) and flagged for
+  pre-freeze review,
   together with the local-link invariant and an explicit component-hull relaxation.
-- F82 — internal obligation O-X2-EXP (X2 flower moments), cutoff variants — the M₂ cutoff (some stem node with |Ω| ~
+- F82 — internal proof obligation of the flower estimate (flower moments), cutoff variants — the M₂ cutoff (some stem node with |Ω| ~
   2^{j₂}L) gives no decay on the expansion's error terms: with cut1 the leaves are small and k ≈ ζk', so Ω ranges over
   all sizes including 0, the error terms bound the oscillating time integrals by 1, and the order tail lies outside B1.12's
-  range N ≤ N_{p+1}^4. Ruling: option (a) — the error for cutoff variants is ⟨k−ζk'⟩^{−4Λ_{p+1}P}·e^{−101N_{p+1}} (no
-  M₁/M₂ factors on the error), provided X3's fixedpoint proof uses the M-gains only on main terms (wt-gauss-hc to
-  confirm by rebuilding X3). No frozen text changes (B1.12 unchanged). Found by wt-gauss-hc (X2E-4).
+  range N ≤ N_{p+1}^4. Reading adopted: option (a) — the error for cutoff variants is
+  ⟨k−ζk'⟩^{−4Λ_{p+1}P}·e^{−101N_{p+1}} (no M₁/M₂ factors on the error), provided the `fixedpoint` proof uses the
+  M-gains only on main terms (to be confirmed by rebuilding that proof). No frozen text changes (B1.12 unchanged).
+  Found during the formalization of the flower estimate.
   **Superseded (2026-11-04):** option (c) works — a single stem-node time integral with |Ω| > 2^{j₂−2}L gives
   |fkCoef| ≤ 8/(πδL^{2γ}M₂) per tree on the cutoff's support, bounding the deterministic coefficient shared by main and
-  error terms, so O-X2-EXP holds as originally stated (M₁ from the leaf weights); X2 and X3 unchanged
-  (`wt-scratch/x2e/FINDING-X2E5.md`).
+  error terms, so the obligation holds as originally stated (M₁ from the leaf weights); the flower estimate and the
+  fixed-point proof unchanged (internal note; working file, not included).

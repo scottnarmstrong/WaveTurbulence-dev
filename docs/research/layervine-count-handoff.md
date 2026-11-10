@@ -1,4 +1,4 @@
-# HANDOFF M8 LAYERCNT (scratch /home/scott/wt-scratch/layercnt, namespace `WaveTurbulence.LayerCnt`)
+# HANDOFF M8 LAYERCNT (scratch <scratch>/layercnt, namespace `WaveTurbulence.LayerCnt`)
 
 Status: `layerlad` PROVED. `layervine`: the first bound (sumofexp0) PROVED; the improved bound C_0^{m+|q-q'|} is
 PROVED ONLY CONDITIONALLY on a layer-range claim (upper half proved, lower half NOT proved). So the packet is not

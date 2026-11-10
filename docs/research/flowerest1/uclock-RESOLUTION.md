@@ -43,16 +43,16 @@ allowance `L^{400d}` of their own pin incidence (§11).
 
 | Input | Path | sha256 |
 |---|---|---|
-| T (TARGET) | /home/scott/wave-turbulence/paper/source/WKE-Longer_times_Final_arXiv.tex | `493eef6b7dec448bc5f9f1c3974c0cad7a85eca9bc428f5b35e968aad76727cb` |
-| SUPPLEMENT-v2 (live; pinned copy in my session scratchpad) | /home/scott/wt-scratch/flower-open/SUPPLEMENT-v2.md | `b1d6d780e9f08fa447d075d14d0d72242b876900ae89b260982120c6b2047511` |
+| T (TARGET) | <sources>/paper/source/WKE-Longer_times_Final_arXiv.tex | `493eef6b7dec448bc5f9f1c3974c0cad7a85eca9bc428f5b35e968aad76727cb` |
+| SUPPLEMENT-v2 (live; pinned copy in my session scratchpad) | <scratch>/flower-open/SUPPLEMENT-v2.md | `b1d6d780e9f08fa447d075d14d0d72242b876900ae89b260982120c6b2047511` |
 | O73 | flower-open/o73/RESOLUTION.md | `2735f3321bd5cc9eab77f87037e92695083c0a70abad4562a6f8d8ab30285e23` |
 | O75 | flower-open/o75/RESOLUTION.md | `47513e351d6a3e0b2dc2bef465e9278e880812f4ab3fa9ad69a6a3528587c96d` |
 | O104 | flower-open/o104/RESOLUTION.md | `2d711cbdd4c38275cbc1a6b3659eab9183b414e428bd6bdc561cbd2a05b2c5f2` |
-| E26 / E14 (errata) | /home/scott/WaveTurbulence-worktrees/report/docs/ERRATA-AND-DEVIATIONS.md (E26 at 1420–1464, E14 at 1036–1047) | `2d77a162e123c84f13f3e6d8f765271b50d63e97da95d809b89db083aa41a140` |
+| E26 / E14 (errata) | <worktrees>/report/docs/ERRATA-AND-DEVIATIONS.md (E26 at 1420–1464, E14 at 1036–1047) | `2d77a162e123c84f13f3e6d8f765271b50d63e97da95d809b89db083aa41a140` |
 | Lower-clock handoff | …/report/docs/research/redvine-lower-clock-handoff.md | `246db1920132016a7e69ba08b74454a16cd1b5613fa8a57a84d4c1ee9ea5b005` |
-| RULINGS (R58 at 1427) | /home/scott/WaveTurbulence-worktrees/orch/docs/campaign/orch/RULINGS.md | `3b179a5d93eb4a52450a9f0d2919d8b207e4aa848276fd7a8b957924412b61d1` |
-| S-V5W SCOPE | /home/scott/wt-scratch/flower-core/scope/S-V5W/SCOPE.md | `5ea1262f5ead9e95b710c55cdc5db02af57e5dc3846338d11fca9ebe19e37d33` |
-| Main (Lean) | /home/scott/WaveTurbulence-dev, HEAD `796c0f5f5d0c66a4ee92438b2e8cfcf71f0a7c2b` (seal audit of `layergarden_v2`: orch `docs/campaign/orch/audits/Seal-layergarden_v2.md`) | — |
+| RULINGS (R58 at 1427) | <worktrees>/orch/docs/campaign/orch/RULINGS.md | `3b179a5d93eb4a52450a9f0d2919d8b207e4aa848276fd7a8b957924412b61d1` |
+| S-V5W SCOPE | <scratch>/flower-core/scope/S-V5W/SCOPE.md | `5ea1262f5ead9e95b710c55cdc5db02af57e5dc3846338d11fca9ebe19e37d33` |
+| Main (Lean) | <repo>, HEAD `796c0f5f5d0c66a4ee92438b2e8cfcf71f0a7c2b` (seal audit of `layergarden_v2`: orch `docs/campaign/orch/audits/Seal-layergarden_v2.md`) | — |
 
 Line numbers "T…" refer to T, "S…" to the pinned SUPPLEMENT-v2, "O73 L…" etc. to the packet files above.
 

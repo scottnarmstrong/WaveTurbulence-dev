@@ -4,7 +4,7 @@
 
 **Verdict: ADOPT_WITH_FIXES.** The core of design C is right. The defects I found are local and each has a straightforward fix, but four of them must go into the AMEND-ST text before you hand out the work.
 
-**REPORT.md was not written.** The harness blocks subagents from writing report files, so the full report is below. `/home/scott/wt-scratch/research-flower-referee/` exists but is empty, and I edited nothing else.
+**REPORT.md was not written.** The harness blocks subagents from writing report files, so the full report is below. `<scratch>/research-flower-referee/` exists but is empty, and I edited nothing else.
 
 **Pinned inputs.**
 - I copied NOTES.md at first read (sha256 `6779f0a6…3c`, 263 lines); the hash was unchanged at the end.

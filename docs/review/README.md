@@ -3,7 +3,8 @@
 These pages were prepared during the formalization for the project owner's decisions. Each is a dated record of what
 was shown for approval; the decisions themselves are recorded in [`../DECISIONS.md`](../DECISIONS.md). Lean names in
 these pages refer to the repository at the time of writing; a later clean-up removed some unused helpers, which remain
-in the git history at the commits cited.
+in the git history at the commits cited. Absolute local paths in these records were replaced in November 2026 by placeholders: `<scratch>/` (the project's private working directory), `<repo>/` (a checkout of this repository), `<worktrees>/` (development checkouts), `<sources>/` (a local copy of the papers' LaTeX sources and maps) and `<tools>/` (private tooling); none of these is part of the repository. Internal working records they cite (planning and audit records, working notes kept beside the Lean files, and the
+agents' instructions) were removed from the repository at publication; those that were on the main branch remain in its git history.
 
 | Page | What it asked | Decision |
 |---|---|---|

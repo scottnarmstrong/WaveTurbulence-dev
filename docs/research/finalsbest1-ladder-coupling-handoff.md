@@ -1,10 +1,10 @@
 # S3c COARSE-SPLICED handoff
 
 Packet: S3c COARSE-SPLICED. Target `WTPrefix CoarseSplicedAt` (`CoarseSplicedGate`), TARGET finalsbest1, L2075-L2077 of
-/home/scott/wave-turbulence/paper/source/WKE-Longer_times_Final_arXiv.tex (upstream redladder2 L1978-L1992, redvine3 L1976).
-Pinned: /home/scott/wt-scratch/ladder/in/SourceSplicedBounds.lean sha256 38b561144f7153faf94ef3c59bf1b3ebd80e15b8817e49cc3599a3037602d9ba;
-live /home/scott/wt-scratch/lg-spine/SourceSplicedBounds.lean has the identical hash (checked at start and at end).
-Scratch: /home/scott/wt-scratch/coarse-spliced (namespace WaveTurbulence.CoarseSpliced; three files in WaveTurbulence.LadderDecay).
+<sources>/paper/source/WKE-Longer_times_Final_arXiv.tex (upstream redladder2 L1978-L1992, redvine3 L1976).
+Pinned: <scratch>/ladder/in/SourceSplicedBounds.lean sha256 38b561144f7153faf94ef3c59bf1b3ebd80e15b8817e49cc3599a3037602d9ba;
+live <scratch>/lg-spine/SourceSplicedBounds.lean has the identical hash (checked at start and at end).
+Scratch: <scratch>/coarse-spliced (namespace WaveTurbulence.CoarseSpliced; three files in WaveTurbulence.LadderDecay).
 Build: `./build.sh <Mod>` (env.sh); fresh closure `./build2.sh` into build2/ (logs build2-<Mod>.log).
 Inputs are private snapshots taken at first read: lg-snap/ (lg-spine), sumint-snap/, ld-snap/ (ladder-decay build + merged);
 COPIED-SHA256SUMS records the pinned file and the copied WaveB2-Ladders.lean.
@@ -42,7 +42,7 @@ Steps (all compiled):
 5. Count: #classes <= (2L+1)^(d * (#bonds - sum internal bonds)); LadderCounts: a ladder has >= 4m+2 bonds in its group (the active `IsLadder` has no
    group-bond-count clause: chords between end atoms are allowed), |ladder atoms| = 2m+2.
 6. Selection: the ACTIVE `Molecule.IsLadder` (WaveB2Draft/Molecules, B2-CL-3, no 4m+2 clause) makes maximal ladders pairwise disjoint
-   (`LadderDisjoint.maximalLadders_pairwiseDisjoint`, MaxLadderDisjoint.lean = copy of /home/scott/wt-scratch/waveb2-snap-final/WaveB2-Ladders.lean,
+   (`LadderDisjoint.maximalLadders_pairwiseDisjoint`, MaxLadderDisjoint.lean = copy of <scratch>/waveb2-snap-final/WaveB2-Ladders.lean,
    sha256 in COPIED-SHA256SUMS).  Hinge atoms are removed one at a time (`Lad.remove_atom`): the affected ladder is replaced by at most two sub-ladders of
    consecutive rungs (`Lad.IsL.sub`), losing <= 6 atoms, <= 3 incoherency, creating <= 1 extra ladder.  Result `selection_claim`:
    Inc <= 4 sum(inc_i) + 20(rho+h), q' <= 2(rho+h), (n - sum(2m_i+2)) + q' <= 8(rho+h).

@@ -4,7 +4,7 @@ Auditor: KEY-A (Opus 5.5), 2026-11-08/09. I had no access to KEY-B's work. I wro
 proof chain or the seal script. The binding rules are `flower-core/seal-prep/audit-briefs/AUDIT-COMMON.md`, the anchor brief
 `AUDIT-propansatz_v2.md` and the skill `lean-statement-audit`. I opened the claim appendix and the seal logs only after
 recording my own results; see `RESULTS-BEFORE-APPENDIX.md` (sha256 `c2175f2b…`) and the comparison section below. All
-relative paths below are under `/home/scott/wt-scratch/seal-audit-propansatz_v2-A/`.
+relative paths below are under `<scratch>/seal-audit-propansatz_v2-A/`.
 
 - Seal commits on origin/main: `a2216712` (seal) and `7d98ae17dae8fc7cf902e852badd5ab0a494e1c8` (ABI). The final pushed
   main is `1987105a`. Between 7d98ae17 and 1987105a only the MainV2 files, the root, the lakefile and the manifest
@@ -156,7 +156,7 @@ Fev is excluded for large L, because N_p → ∞ forces ℙ(Fev p) → 1, and th
 
 ## (f) Kernel replay — details
 
-- Kit: adapted from `/home/scott/wt-scratch/seal-lg2/replay/` (`Replay.lean` sha256 `6c943568…`, `replay.sh` `b8298ed6…`;
+- Kit: adapted from `<scratch>/seal-lg2/replay/` (`Replay.lean` sha256 `6c943568…`, `replay.sh` `b8298ed6…`;
   I read both before use). My versions are `replay/Replay.lean` (`71f55926…`) and `replay/replay.sh` (`276ac01a…`); the
   diff is in `replay/Replay.diff` (`9a032009…`). Changes:
   - root module `Frozen.Theorems.PropansatzV2` and root constant `WaveTurbulence.propansatz_v2`;
@@ -186,7 +186,7 @@ Fev is excluded for large L, because N_p → ∞ forces ℙ(Fev p) → 1, and th
   - For all 12,103 indexed modules, the trace-recorded source hash equals the Lake text hash of the clean export's file: 0 mismatches.
   - For all 36,309 olean parts, the on-disk bytes match the trace output hashes (`BinHash.lean`): 0 mismatches.
   - The 11,170 replayed modules are a subset of the checked set.
-  - 1,791 VineParam traces record their source path under the sibling worktree `../WaveTurbulence-worktrees/port-vp/`.
+  - 1,791 VineParam traces record their source path under the sibling worktree `<worktrees>/port-vp/`.
     Their content hashes still equal the seal commit's files.
 
 ## (g) Status fields — details (independent: `tools/status_fields.py` on the export, own comment/string masking)

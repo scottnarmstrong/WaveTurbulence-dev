@@ -7,7 +7,7 @@ later commits, which touch only the other three seals, the root, lakefile, manif
 Freeze `f8874a9b` (D13). Provider `WaveTurbulence/Provider/LayergardenFlowerV3.lean`, export
 `WaveTurbulence.Provider.layergardenFlower_v3`. FLOWER_THM = `WaveTurbulence.Flower.Top.layergardenFlower_v3_proof` in
 `WaveTurbulence.Foundations.Flower.Top.Proof` (port `14451183`, merged `c43c7b36`).
-Work directory: `/home/scott/wt-scratch/seal-audit-layergardenFlower_v3-A/` (clean `git archive 1e51bebf` in `export/`).
+Work directory: `<scratch>/seal-audit-layergardenFlower_v3-A/` (clean `git archive 1e51bebf` in `export/`).
 Toolchain: Lean 4.35.0 (eb6cafb7). All Lean processes niced 10, one heavy process at a time.
 
 ## Verdict table
@@ -129,7 +129,7 @@ Chain (each row: conditional theorem → its named inputs → the closed term su
   notation drift from the new imports.
 
 ## (f) Kernel replay (`replay/`)
-- Adapted from `/home/scott/wt-scratch/seal-lg2/replay/Replay.lean` (sha256 `6c943568…`).
+- Adapted from `<scratch>/seal-lg2/replay/Replay.lean` (sha256 `6c943568…`).
 - Diff (`replay/Replay.diff`, sha256 `199eaebf…`):
   - root module and constant;
   - the `wanted` list (flower chain);

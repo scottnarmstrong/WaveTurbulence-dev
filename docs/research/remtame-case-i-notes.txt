@@ -1,14 +1,14 @@
 RESEARCH-REMTAME-I: TARGET Remark remtame case (i), N1/N2, and the final count
 ==========================================================================
-Date: 2026-11-05.  Author: research subagent for wt-orch.  Directory: /home/scott/wt-scratch/research-remtame-i
+Date: 2026-11-05.  Author: research subagent for wt-orch.  Directory: <scratch>/research-remtame-i
 Files: NOTES.txt (this file), check_remtame.py (graph-level checks; run `python3 -I check_remtame.py`, all asserts pass).
 
 Labels: PROVED = complete argument written here; CHECKED = verified by script or exact text reading, the argument is
 complete at graph level; OPEN = not settled here.
 
 Pinned inputs (sha256 at first read):
-  TARGET  /home/scott/wave-turbulence/paper/source/WKE-Longer_times_Final_arXiv.tex   493eef6b7dec...d76727cb
-  DH23    /home/scott/wave-turbulence/references/src-2301.07063/Revision_Submit.tex  c7e47dfabf5a...92335475
+  TARGET  <sources>/paper/source/WKE-Longer_times_Final_arXiv.tex   493eef6b7dec...d76727cb
+  DH23    <sources>/references/src-2301.07063/Revision_Submit.tex  c7e47dfabf5a...92335475
   G3 HANDOFF  7c80924a...  G8 HANDOFF 8e035688... (session 6; changed mid-task to 7494d6dc..., session 7: F6-1 done,
   no change to FinalDec/Prop96At; Prop96Statement.lean still 972561be...)  G8 CaseV96.lean 10ec1eef...
   RULINGS.md a725ac26...   G3EraseSt.lean 4aae0e1c...   check_remtame.py bce6b241...

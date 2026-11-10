@@ -2,14 +2,14 @@ REFEREE REPORT: "DH23 PROP 9.6, CASE (4), FOR 1/2 < gamma < 1: THE T-TYPE COMPON
 Date: 2026-11-04.  Independent referee (I did not write the note).  No Lean compiled.
 
 Note under review:
-  /home/scott/WaveTurbulence-dev/docs/research/case4-gamma-above-half.txt
-  This is byte-identical to /home/scott/wt-scratch/case4-gamma-half/NOTE.txt.  SHA256SUMS in that directory verify.
+  <repo>/docs/research/case4-gamma-above-half.txt
+  This is byte-identical to <scratch>/case4-gamma-half/NOTE.txt.  SHA256SUMS in that directory verify.
 Sources:
-  DH23   = /home/scott/wave-turbulence/references/src-2301.07063/Revision_Submit.tex
-  TARGET = /home/scott/wave-turbulence/paper/source/WKE-Longer_times_Final_arXiv.tex
+  DH23   = <sources>/references/src-2301.07063/Revision_Submit.tex
+  TARGET = <sources>/paper/source/WKE-Longer_times_Final_arXiv.tex
 Background read: CASE4 (dh23-prop96-case4.md), YLEM1 (ylem1-investigation.md), the DH23 text of section 9, section 10,
   Appendix A and L1979-L1990, and TARGET L600-L612, L2109-L2133, L2188-L2200 and L2462-L2480.
-Referee files (all in /home/scott/wt-scratch/case4-referee/; run with python3 -I):
+Referee files (all in <scratch>/case4-referee/; run with python3 -I):
   REFEREE.txt                 this report
   check_reparam.py   + out_check_reparam.txt   Lemma 2.1 identities, all sign patterns (random integer test)
   count_cyclic.py    + out_count_cyclic.txt    numeric illustration of the CYCLIC form zeta = x+y-v-z (the note

@@ -1,4 +1,4 @@
-> **Note for readers.** This is the verbatim working report of an independent, read-only audit run on 2026-11-07, when development stopped. It uses the campaign's internal work-package names (FC23, C2-E-B, S2-ST, V5, …) and ruling numbers (R…). Scratch paths under `/home/scott/…` refer to working directories that are not included. The public summary is `docs/FORMALIZATION-REPORT.md`.
+> **Note for readers.** This is the verbatim working report of an independent, read-only audit run on 2026-11-07, when development stopped. It uses the campaign's internal work-package names (FC23, C2-E-B, S2-ST, V5, …) and ruling numbers (R…). Paths under `<scratch>/`, `<repo>/` and `<worktrees>/` refer to working directories that are not included. The formalization report it was prepared for has not been published (decisions D14, D15).
 
 # CLOSURE — what stands between origin/main and a proved `main_v2`
 
@@ -17,7 +17,7 @@ The paper analysis (deliverable 4, now the priority) is in **PAPER-GAPS.md**. Ma
     `main_v2_of_propansatz`, `propansatz_v2_of_gates`, `fixedpoint_v2_of_closed_gates_v3`, `wkeTaylor`,
     `nlsAkBridge` (check file `check/AxChain.lean`; sanity: `main_v2` itself shows `sorryAx`).
   - VERIFIED here: **`layergarden_v2` is proved, unlanded.** `WaveTurbulence.VineEst.layergarden_v2_proof` in the
-    batch-4b-3 port worktree (`/home/scott/WaveTurbulence-worktrees/port-b4b3`, branch `w/port-b4b3` from main
+    batch-4b-3 port worktree (`<worktrees>/port-b4b3`, branch `w/port-b4b3` from main
     `bf597bcf`; targeted `lake build` of `VineEst.V5Proof` finished 10:05 UTC, exit 0, 19157 jobs) has exactly the
     frozen type (`rfl`) and standard axioms (check file `check/AxV5f.lean`; sanity: the frozen anchor shows `sorryAx`).
     The packet's own PROGRESS.md still says "build-3 running"; nobody recorded the success. Remaining for the seal:

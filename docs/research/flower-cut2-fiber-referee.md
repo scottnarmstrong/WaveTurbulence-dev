@@ -1,5 +1,5 @@
 <!-- saved by wt-orch from the referee final message, 2026-11-06 -->
-I approve the fiber lemma with three small fixes, none of which blocks it. I could not write `REPORT.md` because the harness blocks subagents from writing report files, so the full report is below and that path does not exist. I edited nothing outside `/home/scott/wt-scratch/research-cut2/fiber-referee/`. In that directory I placed byte-for-byte copies of the inputs in `pinned/` (taken at first read) and the Lean copy, my probe file and their logs in `lean/`.
+I approve the fiber lemma with three small fixes, none of which blocks it. I could not write `REPORT.md` because the harness blocks subagents from writing report files, so the full report is below and that path does not exist. I edited nothing outside `<scratch>/research-cut2/fiber-referee/`. In that directory I placed byte-for-byte copies of the inputs in `pinned/` (taken at first read) and the Lean copy, my probe file and their logs in `lean/`.
 
 ## Scope and inputs
 
@@ -114,17 +114,17 @@ After the unit twist to (I-b), b keeps its sign, layer, owner, ordered children,
 ## Commands run
 
 ```
-mkdir -p /home/scott/wt-scratch/research-cut2/fiber-referee/pinned ; cp <inputs> fiber-referee/pinned/ ; sha256sum fiber-referee/pinned/*
-cd /home/scott/WaveTurbulence-dev; git diff --stat 55deb4a 4d145f6 -- WaveTurbulence/Foundations WaveTurbulence/Frozen   # empty
-sha256sum /home/scott/wt-scratch/flower-p3/src/FlowerP3/{OperationStub,AnchorPairs}.lean /home/scott/wt-scratch/flower-p3/build/FlowerP3/{OperationStub,AnchorPairs}.olean
-cp /home/scott/wt-scratch/research-cut2/fiber/lean/FiberCore.lean /home/scott/wt-scratch/research-cut2/fiber-referee/lean/FiberCore.lean
+mkdir -p <scratch>/research-cut2/fiber-referee/pinned ; cp <inputs> fiber-referee/pinned/ ; sha256sum fiber-referee/pinned/*
+cd <repo>; git diff --stat 55deb4a 4d145f6 -- WaveTurbulence/Foundations WaveTurbulence/Frozen   # empty
+sha256sum <scratch>/flower-p3/src/FlowerP3/{OperationStub,AnchorPairs}.lean <scratch>/flower-p3/build/FlowerP3/{OperationStub,AnchorPairs}.olean
+cp <scratch>/research-cut2/fiber/lean/FiberCore.lean <scratch>/research-cut2/fiber-referee/lean/FiberCore.lean
 grep -n "sorry\|admit\|axiom \|maxHeartbeats\|opaque\|unsafe\|native_decide" .../fiber-referee/lean/FiberCore.lean   # none
-cd /home/scott/WaveTurbulence-dev && LEAN_PATH=/home/scott/wt-scratch/flower-p3/build nice -n 5 lake env lean /home/scott/wt-scratch/research-cut2/fiber-referee/lean/FiberCore.lean   # exit 0
-cd /home/scott/WaveTurbulence-dev && LEAN_PATH=/home/scott/wt-scratch/flower-p3/build nice -n 5 lake env lean /home/scott/wt-scratch/research-cut2/fiber-referee/lean/FiberProbe.lean  # exit 0
+cd <repo> && LEAN_PATH=<scratch>/flower-p3/build nice -n 5 lake env lean <scratch>/research-cut2/fiber-referee/lean/FiberCore.lean   # exit 0
+cd <repo> && LEAN_PATH=<scratch>/flower-p3/build nice -n 5 lake env lean <scratch>/research-cut2/fiber-referee/lean/FiberProbe.lean  # exit 0
 sha256sum <all audited inputs>   # unchanged at 17:59 UTC
 ```
 
-Compiler output is in `/home/scott/wt-scratch/research-cut2/fiber-referee/lean/FiberCore.out` and `/home/scott/wt-scratch/research-cut2/fiber-referee/lean/FiberProbe.out`.
+Compiler output is in `<scratch>/research-cut2/fiber-referee/lean/FiberCore.out` and `<scratch>/research-cut2/fiber-referee/lean/FiberProbe.out`.
 
 REPAIR: SOUND
 P1: OK

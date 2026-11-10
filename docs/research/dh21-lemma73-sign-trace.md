@@ -5,7 +5,7 @@ Date 2026-11-04. Worker wt-wke (w/jr-ops).
 Sources:
 - DH21 = `references/src-2104.11204/Inventiones-Final_Version.tex`;
 - TARGET = `paper/source/WKE-Longer_times_Final_arXiv.tex`;
-- B2 = `wt-scratch/waveb2/WaveB2-Regular.lean`, sha256 `ad72ce4b…c3c53`.
+- B2 = `<scratch>/waveb2/WaveB2-Regular.lean`, sha256 `ad72ce4b…c3c53`.
 
 ## 1. The kernel (direct computation and machine check)
 

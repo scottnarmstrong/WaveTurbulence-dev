@@ -317,7 +317,7 @@ Write g_R(k) = χ₀(‖k‖/R) and φ_M = g_M − g_{M/2} ≥ 0 (support ‖k�
 
 ## 8. Lean checks (transient; probe/FlowerCut.lean, sha in probe/SHA256SUMS, log logs/FlowerCut.log)
 
-Run: `cd /home/scott/WaveTurbulence-dev && nice -n 5 lake env lean …/probe/FlowerCut.lean`. Exit 0 in ~75 s
+Run: `cd <repo> && nice -n 5 lake env lean …/probe/FlowerCut.lean`. Exit 0 in ~75 s
 wall, no maxHeartbeats. The only `sorry` is the successor anchor `layergardenFlower_v3`, which is intentional. All
 other declarations depend only on propext, Classical.choice and Quot.sound.
 

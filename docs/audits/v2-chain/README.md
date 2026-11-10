@@ -28,6 +28,13 @@ The upstream theorem `layergarden_v2` was sealed and audited earlier, in the sam
 These theorems are restricted to 1/2 < γ < 1. The full-range theorem, 0 < γ < 1, uses them for γ > 1/2; its seal
 audits are in [`../full-range/`](../full-range/README.md).
 
-The reports are working documents: they mention internal paths and tools of the formalization campaign. Lean names
+The reports are working documents: they mention internal paths and tools of the formalization. Lean names
 in them refer to the repository at the time of writing (the commits each report cites); a later clean-up removed some
 unused helpers, which remain in the git history at those commits.
+
+Absolute local paths in these records were replaced in November 2026 by placeholders: `<scratch>/` (the project's
+private working directory), `<repo>/` (a checkout of this repository), `<worktrees>/` (development checkouts),
+`<sources>/` (a local copy of the papers' LaTeX sources and maps) and `<tools>/` (private tooling); none of these is
+part of the repository. Internal working records they cite (planning and audit records, working notes kept beside the Lean files, and the
+agents' instructions) were removed from the repository at publication; those that were on the main branch
+remain in its git history.

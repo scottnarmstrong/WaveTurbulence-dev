@@ -22,14 +22,14 @@ Prepared by wt-orch on 2026-11-05 (overnight). Nothing on this page is frozen or
 
 | Stage | Location | Result |
 |---|---|---|
-| Research note 1 | `/home/scott/wt-scratch/research-gamma-half/NOTES.md` | T-vines meet the hypotheses of the analytic estimate (`sumint`) literally |
+| Research note 1 | `<scratch>/research-gamma-half/NOTES.md` | T-vines meet the hypotheses of the analytic estimate (`sumint`) literally |
 | Referee 1 | same tree, `-referee` | route sound |
 | Research note 2 | `-2` | gaps closed; `IsTVine` proposed |
 | Referee 2 | `-referee-2` | items 2–5 confirmed; two repairs supplied |
 | Research note 3 | `-3/NOTES.txt` | the `layervine` structure proved for **all** sizes; corrected statements |
 | Referee 3 | `-referee-3/REPORT.md` | **"yes, can go to the author"** |
-| Lean definitions | `/home/scott/wt-scratch/tvine-defs` | written, compile, sanity theorems with standard axioms |
-| Independent Lean review | `/home/scott/wt-scratch/tvine-review` | **all 16 declarations BODY_MATCH OK; "yes, as is"** |
+| Lean definitions | `<scratch>/tvine-defs` | written, compile, sanity theorems with standard axioms |
+| Independent Lean review | `<scratch>/tvine-review` | **all 16 declarations BODY_MATCH OK; "yes, as is"** |
 
 ## What the reviewer checked
 
@@ -106,7 +106,7 @@ public import WaveB2Draft.Molecules
 /-!
 # The enlarged vine family for `0 < γ ≤ 1/2` (DRAFT for author review)
 
-Implements research note 3 Sec. 4 (`/home/scott/wt-scratch/research-gamma-half-3/NOTES.txt`) and research
+Implements research note 3 Sec. 4 (`<scratch>/research-gamma-half-3/NOTES.txt`) and research
 note 2 Def 1.2 / Def 5.1, over the B2 molecule API (`Molecule`, `IsBlock`, `IsVine`, `bondsBetween`, `groupBonds`).
 See `REVIEW-DRAFT.txt` for the correspondence and the reading choices.
 -/

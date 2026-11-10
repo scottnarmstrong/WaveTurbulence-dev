@@ -1,10 +1,10 @@
-> **Note for readers.** This is the verbatim working report of an independent, read-only audit run on 2026-11-07, when development stopped. It uses the campaign's internal work-package names (FC23, C2-E-B, S2-ST, V5, …) and ruling numbers (R…). Scratch paths under `/home/scott/…` refer to working directories that are not included. The public summary is `docs/FORMALIZATION-REPORT.md`.
+> **Note for readers.** This is the verbatim working report of an independent, read-only audit run on 2026-11-07, when development stopped. It uses the campaign's internal work-package names (FC23, C2-E-B, S2-ST, V5, …) and ruling numbers (R…). Paths under `<scratch>/`, `<repo>/` and `<worktrees>/` refer to working directories that are not included. The formalization report it was prepared for has not been published (decisions D14, D15).
 
 # PAPER-GAPS — where the formal proof could not follow Deng–Hani, arXiv:2311.10082v2
 
 Auditor: O-CLOSURE-MAP (Opus), 2026-11-07, read-only. Status: **draft 2 (complete)**.
 
-- TARGET = `/home/scott/wave-turbulence/paper/source/WKE-Longer_times_Final_arXiv.tex`, sha256 `493eef6b…727cb`
+- TARGET = `<sources>/paper/source/WKE-Longer_times_Final_arXiv.tex`, sha256 `493eef6b…727cb`
   (re-hashed in this audit; it matches the manifest pin). All line numbers are TARGET lines unless prefixed DH21/DH23.
 - Every quotation below of TARGET was re-read in the TeX in this audit (L1464–L1484, L1903–L1909, L2063–L2067,
   L2240–L2338).

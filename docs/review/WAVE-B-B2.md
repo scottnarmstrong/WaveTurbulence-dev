@@ -1,6 +1,6 @@
 # Wave B (tier B2) — freeze candidate for author approval
 
-Snapshot `/home/scott/wt-scratch/waveb2-snap-final` · prepared 2026-11-04 (B2-CL-1 to B2-CL-22; supersedes the audited
+Snapshot `<scratch>/waveb2-snap-final` · prepared 2026-11-04 (B2-CL-1 to B2-CL-22; supersedes the audited
 snap-2 and snap-3).
 
 **This is the exact Lean to be frozen**, exactly as for Wave A (D6) and as prepared for Wave B tier B1 (D7, pending):
@@ -746,7 +746,7 @@ DH21 Lemma 7.3 (L1737). The source has a sign error there: the `χ_∞` part of 
 compensate. So the `Z`-coefficient of a dominant couple is `(−1)^{|Z|}` times the `Z`-independent `𝒥ℬ*`. The
 per-couple leading term therefore carries `∏_{𝔫∈Z} (−1)/(ζ_𝔫 π i)`. The sum over an equivalence class
 (Prop 7.8, (regref2-3)) and the WKE identification (regref1-5) are unaffected, since `|Z|` is constant on a class.
-Trace: `/home/scott/wt-scratch/wke/F61-sign-trace.md` (wt-wke). Ruling: F61 CONFIRMED (orchestrator, 2026-11-04).
+Trace: `<scratch>/wke/F61-sign-trace.md` (wt-wke). Ruling: F61 CONFIRMED (orchestrator, 2026-11-04).
 Probe `specialWeight_eq_neg_one_pow_mul_old`: the new weight is `(−1)^{|Z|}` times the old one. -/
 noncomputable def specialWeight {w : ℕ} (σ : Fin w → ℤˣ) (Z : Finset (Fin w × Path)) : ℂ :=
   ∏ z ∈ Z, (-((((nodeSign σ z : ℤˣ) : ℤ) : ℂ) * Real.pi * Complex.I))⁻¹
@@ -859,7 +859,7 @@ quantified as pairs (code, carrier) with `Decodes` (structure data = the unique 
 `existsUnique_regCpl_decodes`); (D5) inputs with finite `𝔖^{40d,40d}` norm instead of `C^∞` (O3); (D6) the
 order range `n ≤ N_{p+1}^4` (F33, route R14; the main proof risk); (D7) the special-subset weight of
 `(K*)_app` is `∏_{𝔫∈Z} (−ζ_𝔫 π i)^{-1}`, not T (regref1-3)'s `(ζ_𝔫 π i)^{-1}` (F61, confirmed: DH21 Lemma 7.3
-sign error; trace `/home/scott/wt-scratch/wke/F61-sign-trace.md`; B2-CL-11). Item 4 is unaffected, since `|Z|`
+sign error; trace `<scratch>/wke/F61-sign-trace.md`; B2-CL-11). Item 4 is unaffected, since `|Z|`
 is constant on each equivalence class. -/
 theorem regularAsymptotics : WTPrefix fun P =>
     ∀ p : ℕ, p < P.D → ∀ r : ℕ, r ≤ p → ∀ R : Mom P.d → ℝ, InputRemainder P R r →

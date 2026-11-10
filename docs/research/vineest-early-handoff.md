@@ -1,6 +1,6 @@
 # VINEEST-S3 (V5 part 1, TARGET vineest Step 3, no twist) — HANDOFF (CHECKPOINT state)
 
-Scratch /home/scott/wt-scratch/vineest-s3, namespace `WaveTurbulence.VineEstS3` (+ `.FS`, `.Eng`, `.Mink`).
+Scratch <scratch>/vineest-s3, namespace `WaveTurbulence.VineEstS3` (+ `.FS`, `.Eng`, `.Mink`).
 Build: `./build.sh VineEstS3.<Mod>` (LEAN_PATH = ./build + vineest-s2/snap9 + b21-snap9/build + universe/build +
 sumint-signed-fresh + WaveTurbulence-dev lake env (read-only, Foundations modules that do not import frozen B1)).
 Foundations modules that import the frozen B1 (e.g. Foundations.Sumint.*) clash with the WaveBDraft draft namespace;

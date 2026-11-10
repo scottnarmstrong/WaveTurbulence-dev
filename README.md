@@ -299,8 +299,8 @@ Done fractions last reviewed: **2026-11-10 05:36 UTC**. Source: [`docs/campaign/
 - [docs/audits/v2-chain/](docs/audits/v2-chain/README.md): the two-key seal audits of Theorem 1.1 for 1/2 < γ < 1 and
   its chain.
 - [docs/research/](docs/research/INDEX.md): research notes, referee reports and scripts behind the errata.
-- [docs/DECISIONS.md](docs/DECISIONS.md): the author's decisions (scope, statement versions, rulings).
+- [docs/DECISIONS.md](docs/DECISIONS.md): the author's decisions (scope, statement versions, approvals).
+- [docs/review/](docs/review/README.md): the approval pages behind these decisions (dated records).
 - [docs/FINDINGS.md](docs/FINDINGS.md): the running ledger of source findings.
 - [docs/THIRD-PARTY.md](docs/THIRD-PARTY.md): third-party code (Apache 2.0, attributed).
-- [docs/campaign/](docs/campaign/): internal campaign records (plan, blueprint, rulings, audits).
 

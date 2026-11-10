@@ -1,7 +1,7 @@
 # VINE-B (S2 REPRESENTS, vine case, single-state redvine factorization): STOPPED on F-LOWCLOCK
 
-Scratch: /home/scott/wt-scratch/vine-b. No Lean was written: the factorization planned in
-/home/scott/wt-scratch/represents/PLAN-VINE.md (component VINE-B) is not an identity, and no ruling covers this.
+Scratch: <scratch>/vine-b. No Lean was written: the factorization planned in
+<scratch>/represents/PLAN-VINE.md (component VINE-B) is not an identity, and no ruling covers this.
 Nothing in represents, V5, regred-leaf, redsplice, lg-spine-u or the universe was edited.
 
 ## The planned statement (PLAN-VINE.md, VINE-B)
@@ -144,8 +144,8 @@ right-hand side changes a constraint that bounds integrated chain times.
     at `u2^j` in (sumintI1), which `sumint` permits.
 
 ## Files
-- /home/scott/wt-scratch/vine-b/HANDOFF.md (this file)
-- /home/scott/wt-scratch/vine-b/PROGRESS.md
+- <scratch>/vine-b/HANDOFF.md (this file)
+- <scratch>/vine-b/PROGRESS.md
 
 ## Checks run
 - Read-only inspection of the files and line ranges cited above.

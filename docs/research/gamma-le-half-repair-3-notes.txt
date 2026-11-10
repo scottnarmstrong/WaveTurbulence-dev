@@ -3,7 +3,7 @@ Corollary 1.16, base cases, and the Lean-facing vine family
 ==================================================================================================================
 
 Date: 2026-11-05.  Author: research agent launched by wt-orch (packet "research-gamma-half-3").
-No Lean was run.  Nothing outside /home/scott/wt-scratch/research-gamma-half-3/ was edited.
+No Lean was run.  Nothing outside <scratch>/research-gamma-half-3/ was edited.
 Python was run as `python3 -I`.  All computations together took under 10 minutes of wall time.
 
 SOURCES (line numbers refer to these files; sha256 in pinned/PINNED_SHA256.txt)

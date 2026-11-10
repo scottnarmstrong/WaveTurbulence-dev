@@ -1,7 +1,7 @@
 # Repairing the TARGET/DH23 proof chain for 0 < γ ≤ 1/2 (F69b / E1): research notes
 
 Date: 2026-11-04. Author: research agent launched by wt-orch (packet "research-gamma-half"). No Lean. No repository
-or other scratch directory was edited (the earlier enumeration `wt-scratch/case4-gamma-half/classes.json` is read only
+or other scratch directory was edited (the earlier enumeration `<scratch>/case4-gamma-half/classes.json` is read only
 to cross-check my own, independent enumeration).
 
 Sources, with line numbers:

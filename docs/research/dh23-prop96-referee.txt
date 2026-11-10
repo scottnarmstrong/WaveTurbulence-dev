@@ -1,5 +1,5 @@
 REFEREE REPORT: "DH23 Prop 9.6, case (4): the small-gap components (F69b)"
-Note: /home/scott/WaveTurbulence-dev/docs/research/dh23-prop96-case4.md (= /home/scott/wt-scratch/prop96-case4/NOTE.md,
+Note: <repo>/docs/research/dh23-prop96-case4.md (= <scratch>/prop96-case4/NOTE.md,
 SHA256SUMS verified: all 10 files OK).  Referee date: 2026-11-04.  No Lean.
 
 Sources: DH23 = references/src-2301.07063/Revision_Submit.tex; TARGET = paper/source/WKE-Longer_times_Final_arXiv.tex.
@@ -39,7 +39,7 @@ Strongest defensible form:
 
 The main theorems (DH23 Thm 1.1, TARGET Thm 1.2, L314) are NOT refuted; see item 4.
 
-Independent checks (my scripts, in /home/scott/wt-scratch/prop96-verify/; they do not import the note's code):
+Independent checks (my scripts, in <scratch>/prop96-verify/; they do not import the note's code):
   verify_couple.py  -> out_verify_couple.txt, out_verify_couple_Q.txt
      - m = 1..20, T- and Q-beads.
      - Six randomized-DFS couples per m, each a different construction from necklace.py.

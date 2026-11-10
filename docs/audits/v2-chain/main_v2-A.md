@@ -3,11 +3,11 @@
 - Auditor: KEY-A (Claude Opus 5.5), 2026-11-08. I wrote none of the anchor, the provider, the proof chain or the seal script.
 - Subject: frozen anchor `WaveTurbulence.main_v2` (`WaveTurbulence/Frozen/Theorems/MainV2.lean`), Deng–Hani Theorem 1.1
   restricted to 1/2 < γ < 1 (D9, D10, E1).
-- Commits (origin/main = HEAD of /home/scott/WaveTurbulence-dev, clean): seal `b9711f351cebf8346c030fe5aaf122c95c92b57a`
+- Commits (origin/main = HEAD of <repo>, clean): seal `b9711f351cebf8346c030fe5aaf122c95c92b57a`
   ("Seal main_v2 with its proved assembly"), ABI `1987105ac00b88c879ffebf4a56e30aa02b4f92f` ("manifest: ABI hash of the
   sealed main_v2"). Freeze `8d7ccb4a` (D10).
-- Clean export: `git archive 1987105a` → `/home/scott/wt-scratch/seal-audit-main_v2-A/export/`.
-- Work dir: `/home/scott/wt-scratch/seal-audit-main_v2-A/` (all probes, tools and logs referenced below are there).
+- Clean export: `git archive 1987105a` → `<scratch>/seal-audit-main_v2-A/export/`.
+- Work dir: `<scratch>/seal-audit-main_v2-A/` (all probes, tools and logs referenced below are there).
 - Machine discipline: one Lean process at a time, `nice -n 10`; no Lake invocation and no write in the main checkout.
 
 ## Verdict table
@@ -207,7 +207,7 @@ sha256 `6984580b…e027`, rc 0, no `sorry`; log `witness/Witness.out`):
 
 ## (f) Kernel replay — PASS
 
-Adapted from `/home/scott/wt-scratch/seal-lg2/replay/` (`Replay.lean` sha256 `6c943568…e98e`, `replay.sh`
+Adapted from `<scratch>/seal-lg2/replay/` (`Replay.lean` sha256 `6c943568…e98e`, `replay.sh`
 `b8298ed6…5caa`, both read first). My versions: `replay/exe/Replay.lean` (sha256 `389ab36f…9c1f`) and
 `replay/replay.sh` (`f8d4854d…aa3c`); diffs recorded in `replay/replay-diff-vs-lg2.patch` and
 `replay/replaysh-diff-vs-lg2.patch`. Changes: root module `WaveTurbulence.Frozen.Theorems.MainV2`, root
@@ -235,7 +235,7 @@ Result (`replay/Replay-quick.out`, sha256 `c0349c2c…a2d2`):
   source file in the clean `git archive 1987105a` equals the source hash recorded in main's `.trace`, and the
   `.olean`/`.olean.server`/`.olean.private` byte hashes equal the trace's recorded outputs (`logs/tracecheck-reach.tsv`,
   sha256 `a2ac32bf…4a4c`): **11207 OK, 0 BAD**. 1804 of them (WaveTurbulenceVineParam) record their source path in the
-  worktree `/home/scott/WaveTurbulence-worktrees/port-vp/`; their sources are byte-identical to the seal commit's.
+  worktree `<worktrees>/port-vp/`; their sources are byte-identical to the seal commit's.
   (Over all 13162 traced modules of main's build, 47 stale artifacts of modules absent from the seal commit exist;
   none is in main_v2's closure.)
 
@@ -329,7 +329,7 @@ premise; θ before φin; L₀ after φ.
 - **Disagreement with the brief's subject line:** the run ends `SEAL ABORT: full ABI check … RESULT: ABORTED`
   (`full_abi.log`: `probe failed for WaveTurbulence.Mom`).
   - The probe's stdout was the correct `#print`. The failure came from the elan override notice
-    (`note: using toolchain 'wt-throttled' from override set on '/home/scott/WaveTurbulence-dev'`) on stderr, which
+    (`note: using toolchain 'wt-throttled' from override set on '<repo>'`) on stderr, which
     `abi_hash.py` treats as a probe failure.
   - The script then reset local main to 1987105a without pushing. origin/main is nevertheless 1987105a, so it was
     pushed later, outside the script.
@@ -359,7 +359,7 @@ premise; θ before φin; L₀ after φ.
 - **N3 — seal script abort.** `scripts/abi_hash.py` runs `lake env lean` without `ELAN_NO_OVERRIDE_NOTICE=1`, unlike
   `abi_hash_setup.py`. The elan override on the main checkout therefore turns every probe into a "failure".
 - **N4 — build provenance.**
-  - 1804 VineParam oleans in main's build were compiled in `/home/scott/WaveTurbulence-worktrees/port-vp/`. Their
+  - 1804 VineParam oleans in main's build were compiled in `<worktrees>/port-vp/`. Their
     sources are byte-identical to the seal commit's.
   - Main's `.lake` holds 47 stale artifacts of modules absent from the seal commit. None is in main_v2's closure.
 - **N5 — replay mode.** The replay ran in quick mode, the minimum COMMON allows. 40618 VineParam-internal certificate
@@ -368,7 +368,7 @@ premise; θ before φin; L₀ after φ.
 - **N6 — gate abbreviations.** `V2Chain.PropansatzV2Gate` and `V2Chain.NlsAkBridgeGate` are definitionally, not
   syntactically, equal to the sealed anchors' types (see (d)). The difference is proof-irrelevant.
 
-## Evidence index (all under `/home/scott/wt-scratch/seal-audit-main_v2-A/`)
+## Evidence index (all under `<scratch>/seal-audit-main_v2-A/`)
 
 **Source and binder table**
 - `h-source-reconstruction.md`: source reconstruction, written first.

@@ -3,10 +3,10 @@
 Main record. Newest material at the bottom of each section. Lean probes in ./lean/.
 
 ## Sources read (pinned by path; line numbers as of this session)
-- TARGET /home/scott/wave-turbulence/paper/source/WKE-Longer_times_Final_arXiv.tex:
+- TARGET <sources>/paper/source/WKE-Longer_times_Final_arXiv.tex:
   L1345-1418 (block_clcn, molecpl), L1429-1480 (Def twist, Rem twistexplain, Def lftwist), L1481-1488 (lftwistprop),
   L1720-1760 (regred, vineest), L2040-2075 (redcount0: the weights/derivatives paragraph L2062-2067), L609-613 (parameters).
-- DH23 /home/scott/wave-turbulence/references/src-2301.07063/Revision_Submit.tex L741-760 (block_clcn), L810, L852-856 (Def twist).
+- DH23 <sources>/references/src-2301.07063/Revision_Submit.tex L741-760 (block_clcn), L810, L852-856 (Def twist).
 - lg-spine-u: Stage1Gate.lean (L57 Stage1ReductionAt), Stage1Interface.lean (LeafFamilyD L59, Represents L156),
   WeightedFamily.lean, WeightedFamilyValue.lean, NonregularGarden.lean, NonregularCouple.lean, NonregularFinal.lean,
   DecoratedWeightExpansion.lean (RootLeafSlots), RootWeightExpansion.lean, RootModifiedProfiles.lean,

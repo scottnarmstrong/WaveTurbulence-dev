@@ -127,7 +127,7 @@ in the replay; probes/out/C.out); the anchor also in the anchor-only environment
   not needed, since both manifest hashes reproduce by the module method.
 
 ## (f) Kernel replay
-- Adapted from `/home/scott/wt-scratch/seal-lg2/replay/` (Replay.lean sha256 `6c943568…`, read in full). My file
+- Adapted from `<scratch>/seal-lg2/replay/` (Replay.lean sha256 `6c943568…`, read in full). My file
   `replay/exe/Replay.lean` sha256 `0f41db649e3f92d5d0e48c2ca1c1417772ba1dafd45f709a92614373dd747e74`; diff recorded in
   `replay/Replay.diff` (sha256 `88e0b287…`). Changes: root module/constant; `wanted` list and exactness checks for this
   chain; a new `trace` mode; listing of reachable Frozen/Provider constants with real kinds. The replay core
@@ -227,10 +227,10 @@ The brief makes this key's PASS conditional on both keys of `layergardenFlower_v
 (read 2026-11-09 00:15 UTC): `SEALAUDIT-layergardenFlower_v3-A.txt` = `PASS layergardenFlower_v3 A` (00:05:48 UTC),
 `SEALAUDIT-layergardenFlower_v3-B.txt` = `PASS layergardenFlower_v3 B` (00:14:56 UTC). The other consumed sealed anchors
 have recorded PROVED evidence: `layergarden_v2` (docs/campaign/orch/audits/Seal-layergarden_v2.md: "may be recorded as
-PROVED"); `wkeTaylor` (/home/scott/wt-scratch/audit-b2a, cited by the brief); `regularAsymptotics` is SEALED (D8). My
+PROVED"); `wkeTaylor` (<scratch>/audit-b2a, cited by the brief); `regularAsymptotics` is SEALED (D8). My
 replay re-checked all of their proof closures in the kernel ((f), quick mode).
 
-## Evidence files (all under /home/scott/wt-scratch/seal-audit-fixedpoint_v2-A/; sha256)
+## Evidence files (all under <scratch>/seal-audit-fixedpoint_v2-A/; sha256)
 - 01-source-reconstruction.md `eb67331c…`; 02-binder-table.md `ef77494b…`; 03-results-a-e-g.md `386bd7c7…`;
   04-results-d-f.md `f935dac8…` (written before the claim appendix and the logs were opened).
 - hash_anchor.py `6e71bd6e…`; scan_sorry.py `083e1ce8…`; imports.py `2fb31838…`; check_frozen_anchors.out `1cf180b6…`;

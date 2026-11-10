@@ -1,7 +1,7 @@
 # DH23 `ylem1` vs the B2 vine family: independent investigation (2026-11-04)
 
 Investigator: a fresh Opus agent commissioned by the orchestrator. Inputs: the counterexample in
-`/home/scott/wt-scratch/moleprop4/` (wt-ansob, MOLEPROP4); DH23 `Revision_Submit.tex`; TARGET; DH21; B2
+`<scratch>/moleprop4/` (wt-ansob, MOLEPROP4); DH23 `Revision_Submit.tex`; TARGET; DH21; B2
 `WaveB2-Molecules.lean`. The scripts, outputs and figure crops are in this directory (`enum/`, `vine*.png`).
 
 ## Verdict: (b) — a DH23 erratum, not our definitions
@@ -106,7 +106,7 @@ them.
 - Closing this needs a mathematical decision, or the authors.
 
 **Scratch that depends on the templates.** This matters only if the campaign enlarges the vine family instead:
-`/home/scott/wt-scratch/vines/src` (78 of 382 files use the template API). `moleprop13` and `degen` hold only
+`<scratch>/vines/src` (78 of 382 files use the template API). `moleprop13` and `degen` hold only
 definitional snapshots. Under the repair below, nothing needs re-checking.
 
 ## Proposed repair

@@ -17,7 +17,7 @@ Constants: alpha `26*5^d*((8/η)^4+(8/(1-γ))^4)`, beta `10((c+4)/(η²-η³))^(
 `Cf*2^d*((e+9)/(2η-η³))^(e+9)`, vine double the same times `(1+δ⁻¹)`.
 
 ## Files
-Scratch `/home/scott/wt-scratch/finalcount/` (namespace `WaveTurbulence.FinalCount`, `WaveB2Draft.Molecules` from lg-spine),
+Scratch `<scratch>/finalcount/` (namespace `WaveTurbulence.FinalCount`, `WaveB2Draft.Molecules` from lg-spine),
 `build.sh <Module>`, `rebuild.sh <modules topological>` (fresh dir `build-fresh`). Session 3 and earlier modules are listed in
 PROGRESS.md; session 4 added: Prop94Iota, VineRank2, VineArith, VineArith2, VineExcess, VineExcess2, VineExcess3, VineExcess4,
 VineExcess5, Prop94Statement.
@@ -25,7 +25,7 @@ VineExcess5, Prop94Statement.
 ## Vine count: what is missing (the reason for STOPPED)
 `VineCountInput` = for every `ParamOK` parameter triple, `encard (K.labelSet ..) <= Cf L^d (ρL)^d L^{(m-2)(d-γ)} δ^{-m/2} (log L)^e / ∏_{𝕃_j ⊂ VC} 𝔛_j^{z_j}`
 (DH23 L1799-L1801). It is the only unproved ingredient of Prop 9.4. Proving it needs, beyond
-VINEPARAM (`/home/scott/wt-scratch/vines/src/Contract.lean`, sha256 cd16890b2a057220a69846a4c855fdbb69462e493e8605e9c8fde6a51bb62bd3, `FullVineChart`,
+VINEPARAM (`<scratch>/vines/src/Contract.lean`, sha256 cd16890b2a057220a69846a4c855fdbb69462e493e8605e9c8fde6a51bb62bd3, `FullVineChart`,
 `VINEPARAM`, `vineparam_of_base` in VineParamFinal.lean) four things that the contract does NOT provide:
 1. **Universe port.** The contract is stated for `MoleculeDefs.Molecule` (vines/mole universe); our `Molecule` is `WaveB2Draft.Molecules` (same text, different
    declarations; they cannot be imported together). Needs the mechanical port of `Contract.lean` + `IsVine` to `WaveB2Draft`, as at seal time.
@@ -80,7 +80,7 @@ See the end of this file.
 
 ## Files (sessions 1-3)
 
-Scratch `/home/scott/wt-scratch/finalcount/` (namespace `WaveTurbulence.FinalCount`, universe `WaveB2Draft.Molecules` from
+Scratch `<scratch>/finalcount/` (namespace `WaveTurbulence.FinalCount`, universe `WaveB2Draft.Molecules` from
 lg-spine). 34 modules, `build.sh <Module>` (one module), `rebuild.sh <modules in topological order>` (fresh dir `build-fresh`,
 exit codes in `build-fresh/exits.log`). `FCLadders.lean` is a verbatim copy of `waveb2/src/WaveB2Draft/Ladders.lean` (module
 renamed; hashes in `COPIED-SHA256SUMS`). No file above 737 lines (that copy); own files at most 190 lines.
@@ -132,9 +132,9 @@ renamed; hashes in `COPIED-SHA256SUMS`). No file above 737 lines (that copy); ow
   source covers by the exact bond vectors `(k_{ℓ1},k_{ℓ2},k_{ℓ3})` (`𝔉`, L1793). Use `countE_le_mul_of_cover_proj` with the
   triple as the index (post parameters `c'(f_j)=c(t_j)+gap_j`, `β'(f_j)=β(t_j)-g_j(t)` exact), then `removal_isDeviation`.
   For `ΔF=2` the bound of `|T|` uses `atomCountLemma` (1) (`nk≠0`, i.e. gap `≥L⁻¹`, from `abNonzero`) at `2n+3` energy shifts.
-* **Vines (Step 1)** need the molecule-level reparametrisation M9 `VINEPARAM` (`wt-scratch/vineparam-contract/CONTRACT.md`), which
+* **Vines (Step 1)** need the molecule-level reparametrisation M9 `VINEPARAM` (`<scratch>/vineparam-contract/CONTRACT.md`), which
   gausssum is still assembling. After cutting both joints and `restrictP`, `removal_isDeviation` reduces Step 1 to the count `𝔉` of (fbyg).
-* G8-INPUTS: `/home/scott/wt-scratch/finalcount-g8` did not exist when I looked; nothing was imported or exported. `countE_le_mul_of_cover_proj`
+* G8-INPUTS: `<scratch>/finalcount-g8` did not exist when I looked; nothing was imported or exported. `countE_le_mul_of_cover_proj`
   and `removal_isDeviation` are the reusable pieces for its operation estimates (they are in the B2 `Molecule` universe, not `countAFree`).
 * Errata/deviations (source): (i) L1789 writes `(RL)^d(1+RL^{2γ})`, the count is `(RL)^d(1+δRL^{2γ})` (δ dropped); harmless since `δ≤1`.
   (ii) The `ι_v≠0` argument (L1801) says the gap lies in "a fixed ball"; the ball centre is determined by the *parameters* (`c(v')=-r'` of the
