@@ -25,27 +25,12 @@ theorem unitSpliceLP_profile_iffMk (Z : TwistGroupSite G) (σ : Prescription G)
       (not_congr (unitSpliceLeafEquiv_rootMk Z σ hT hsel ((stSt G σ Mk).G.pair q)))
   exact and_congr hm (and_congr hr hp)
 
-/-- The actual full leaf map preserves LP typing in both directions. -/
-theorem unitSpliceLP_profile_iff (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) (q : GLeaf (stSt G σ).G.tree) :
-    ((stSt Z.target (transportPrescription Z.iso σ)).G.mark (unitSpliceLeafEquiv Z σ hsel q) = none ∧
-      (unitSpliceLeafEquiv Z σ hsel q).1.2 ≠ [] ∧
-      ((stSt Z.target (transportPrescription Z.iso σ)).G.pair (unitSpliceLeafEquiv Z σ hsel q)).1.2 ≠ []) ↔
-    ((stSt G σ).G.mark q = none ∧ q.1.2 ≠ [] ∧ ((stSt G σ).G.pair q).1.2 ≠ []) :=
-  unitSpliceLP_profile_iffMk Z σ (Stage1Mk.markTransported_empty Z.iso) hsel q
-
 /-- B1b-2 (Mk-general form of `unitSpliceLPLeafEquiv`). -/
 noncomputable def unitSpliceLPLeafEquivMk (Z : TwistGroupSite G) (σ : Prescription G)
     {Mk : Set (CLVine G)} {Mk' : Set (CLVine Z.target)} (hT : Stage1Mk.MarkTransported Z.iso Mk Mk')
     (hsel : ∃ c ∈ vinesV0 G σ Mk, c.atoms = Z.S0) :
     GardenLPLeaf (stSt G σ Mk).G ≃ GardenLPLeaf (stSt Z.target (transportPrescription Z.iso σ) Mk').G :=
   (unitSpliceLeafEquivMk Z σ hT hsel).subtypeEquiv (fun q => (unitSpliceLP_profile_iffMk Z σ hT hsel q).symm)
-
-/-- The actual LP-leaf carrier correspondence. -/
-noncomputable def unitSpliceLPLeafEquiv (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) :
-    GardenLPLeaf (stSt G σ).G ≃ GardenLPLeaf (stSt Z.target (transportPrescription Z.iso σ)).G :=
-  unitSpliceLPLeafEquivMk Z σ (Stage1Mk.markTransported_empty Z.iso) hsel
 
 /-- B1b-2 (Mk-general form of `unitSplicePCEquiv`). -/
 noncomputable def unitSplicePCEquivMk (Z : TwistGroupSite G) (σ : Prescription G)
@@ -55,13 +40,6 @@ noncomputable def unitSplicePCEquivMk (Z : TwistGroupSite G) (σ : Prescription 
       {c : GBranch (stSt Z.target (transportPrescription Z.iso σ) Mk').G.tree // c.1.2 ≠ []} :=
   (unitSpliceMolIsoMk Z σ hT hsel).e.subtypeEquiv
     (fun c => (not_congr (unitSpliceMolIso_branch_rootMk Z σ hT hsel c)).symm)
-
-/-- The actual nonroot-branch carrier correspondence. -/
-noncomputable def unitSplicePCEquiv (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) :
-    {c : GBranch (stSt G σ).G.tree // c.1.2 ≠ []} ≃
-      {c : GBranch (stSt Z.target (transportPrescription Z.iso σ)).G.tree // c.1.2 ≠ []} :=
-  unitSplicePCEquivMk Z σ (Stage1Mk.markTransported_empty Z.iso) hsel
 
 /-- B1b-2 (Mk-general form of `unitSpliceMolIso_pc`). -/
 theorem unitSpliceMolIso_pcMk (Z : TwistGroupSite G) (σ : Prescription G)
@@ -79,13 +57,6 @@ theorem unitSpliceMolIso_pcMk (Z : TwistGroupSite G) (σ : Prescription G)
     ((congrArg (naiveDartEquiv G Z.P) ((spliceFoldDartTrace (unitBlocks G σ Mk)).pc c side)).trans
       (he.trans ((spliceFoldDartTrace (unitBlocks Z.target (transportPrescription Z.iso σ) Mk')).pc _ side).symm))
 
-/-- Actual surviving PC darts retain their side and follow the actual branch map. -/
-theorem unitSpliceMolIso_pc (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0)
-    (c : {c : GBranch (stSt G σ).G.tree // c.1.2 ≠ []}) (side : Bool) :
-    (unitSpliceMolIso Z σ hsel).d (.inl (c, side)) = .inl (unitSplicePCEquiv Z σ hsel c, side) :=
-  unitSpliceMolIso_pcMk Z σ (Stage1Mk.markTransported_empty Z.iso) hsel c side
-
 /-- B1b-2 (Mk-general form of `unitSpliceMolIso_lp`). -/
 theorem unitSpliceMolIso_lpMk (Z : TwistGroupSite G) (σ : Prescription G)
     {Mk : Set (CLVine G)} {Mk' : Set (CLVine Z.target)} (hT : Stage1Mk.MarkTransported Z.iso Mk Mk')
@@ -101,12 +72,6 @@ theorem unitSpliceMolIso_lpMk (Z : TwistGroupSite G) (σ : Prescription G)
   exact (unitSpliceMolIso_surviving_dart_namesMk Z σ hT hsel (.inr q)).trans
     ((congrArg (naiveDartEquiv G Z.P) ((spliceFoldDartTrace (unitBlocks G σ Mk)).lp q)).trans
       (he.trans ((spliceFoldDartTrace (unitBlocks Z.target (transportPrescription Z.iso σ) Mk')).lp _).symm))
-
-/-- Actual surviving LP darts follow the full actual leaf map. -/
-theorem unitSpliceMolIso_lp (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) (q : GardenLPLeaf (stSt G σ).G) :
-    (unitSpliceMolIso Z σ hsel).d (.inr q) = .inr (unitSpliceLPLeafEquiv Z σ hsel q) :=
-  unitSpliceMolIso_lpMk Z σ (Stage1Mk.markTransported_empty Z.iso) hsel q
 
 /-- B1b-2 (Mk-general form of `unitSplice_bondIndex`). -/
 theorem unitSplice_bondIndexMk (Z : TwistGroupSite G) (σ : Prescription G)
@@ -124,14 +89,5 @@ theorem unitSplice_bondIndexMk (Z : TwistGroupSite G) (σ : Prescription G)
   | inr q =>
     rw [unitSpliceMolIso_lpMk]
     exact congrArg z (unitSpliceNodeEquiv_leafMk Z σ hT hsel q.1)
-
-/-- Exact bond-momentum arguments commute with the actual full node and dart maps. -/
-theorem unitSplice_bondIndex (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0)
-    (z : GNode (stSt Z.target (transportPrescription Z.iso σ)).G.tree → (Fin d → ℤ))
-    (x : GardenDart (stSt G σ).G) :
-    bondIndex (stSt G σ).G (z ∘ unitSpliceNodeEquiv Z σ hsel) x =
-      bondIndex (stSt Z.target (transportPrescription Z.iso σ)).G z ((unitSpliceMolIso Z σ hsel).d x) :=
-  unitSplice_bondIndexMk Z σ (Stage1Mk.markTransported_empty Z.iso) hsel z x
 
 end WaveTurbulence.VineA

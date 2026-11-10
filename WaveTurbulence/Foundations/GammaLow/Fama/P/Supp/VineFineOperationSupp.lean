@@ -8,7 +8,6 @@ public import WaveTurbulence.Foundations.GammaLow.Fama.P.Supp.VinePrimeStateSupp
 public import WaveTurbulence.Foundations.GammaLow.Fama.P.Supp.VineUnitCoverSupp
 public import WaveTurbulence.Foundations.GammaLow.Fama.P.Vine.A.VineFineOperation
 public import WaveTurbulence.Foundations.GammaLow.Fama.P.Vine.A.VineFineFamily
-public import WaveTurbulence.Foundations.Vine.A.VineBadCount
 public import WaveTurbulence.Foundations.Vine.A.VineBatchFamily
 public import WaveTurbulence.Foundations.Vine.A.VineFineOperation
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.CL

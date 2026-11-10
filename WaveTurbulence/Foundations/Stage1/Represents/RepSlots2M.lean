@@ -35,16 +35,6 @@ structure SlotRepM {w : ℕ} (θ : ℝ) (S : Garden w) (hS : S.IsPlain) (d : ℕ
   tr : ∀ b, SupM θ (30 * d) (Box (Sum.inr b)) (Fn (Sum.inr b)) (μ (Sum.inr b))
   hbox : ∀ τ ∈ splicedTimeDomain S layer0 tt, ∀ s, slotTs hS tt τ s ∈ Box s
 
-/-- Forget the moment. -/
-def SlotRepM.toSlotRep {w : ℕ} {θ : ℝ} (hθ : 0 ≤ θ) {S : Garden w} {hS : S.IsPlain} {d : ℕ}
-    {layer0 : GBranch S.tree → ℕ} {tt : Fin w → ℝ} (R : SlotRepM θ S hS d layer0 tt) : SlotRep S hS d layer0 tt where
-  Fn := R.Fn
-  Box := R.Box
-  μ := R.μ
-  cp := fun p => (R.cp p).toCenSup hθ
-  tr := fun b => (R.tr b).toSup hθ
-  hbox := R.hbox
-
 open scoped Classical in
 /-- The explicit moment-carrying slot constant (depends only on `d` and `η`). -/
 noncomputable def KslotM (d : ℕ) (η : ℝ) : ℝ := max (KcplM d η) (KtrM d η)

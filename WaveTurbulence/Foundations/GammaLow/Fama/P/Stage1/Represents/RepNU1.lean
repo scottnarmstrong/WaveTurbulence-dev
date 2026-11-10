@@ -3,7 +3,6 @@
 module
 public import WaveTurbulence.Foundations.GammaLow.Fama.Vine.IsoStmt
 public import WaveTurbulence.Foundations.GammaLow.Fama.P.Stage1.Represents.RepUG1
-public import WaveTurbulence.Foundations.Vine.A.VineAExports
 import Mathlib.Tactic
 public import WaveTurbulence.Foundations.Stage1.Represents.RepNU1
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.CL

@@ -1,6 +1,8 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
-public import WaveTurbulence.Foundations.Vine.A.VinePieceIndex
+public import WaveTurbulence.Foundations.Vine.A.VineChosenIncoherency
+public import WaveTurbulence.Foundations.Vine.A.VineFineBatch
+public import WaveTurbulence.Foundations.VineEst.RegRedDraft.NativeChainLayering
 /-! Actual simultaneous-splice quotient maps along selected LF batches. -/
 @[expose] public section
 set_option autoImplicit false
@@ -29,12 +31,6 @@ theorem BatchIso.splice_classesMk (h : BatchIso p kind L A B F)
     rw [transportPrescription_trans, operation_splice_classesMk hA op h1 b] at hh
     simpa only [Option.map_map, molIsoTrans, Equiv.coe_trans, Function.comp_def] using hh
 
-/-- The actual composed batch map transports every actual merge class. -/
-theorem BatchIso.splice_classes (h : BatchIso p kind L A B F)
-    (σ : Prescription A.skeleton) (hA : IsV0Fam A.family σ) (b : GBranch A.skeleton.tree) :
-    (stSt B.skeleton (transportPrescription F σ)).cls (F.e b) =
-      ((stSt A.skeleton σ).cls b).map F.e := h.splice_classesMk σ (Stage1Mk.markTransported_empty F) hA b
-
 /-- B1b-2 (Mk-general form of `BatchIso.spliceMolIso`). -/
 noncomputable def BatchIso.spliceMolIsoMk (h : BatchIso p kind L A B F)
     (σ : Prescription A.skeleton) {Mk : Set (CLVine A.skeleton)} {Mk' : Set (CLVine B.skeleton)}
@@ -59,26 +55,6 @@ theorem BatchIso.spliceMolIso_branch_namesMk (h : BatchIso p kind L A B F)
     (stSt B.skeleton (transportPrescription F σ) Mk').M.ob ((h.spliceMolIsoMk σ hT hA).e c) =
       F.e ((stSt A.skeleton σ Mk).M.ob c) :=
   quotientBranchEquiv_comm F (h.splice_classesMk σ hT hA) _ _ c
-
-/-- The actual batch splice map keeps the actual original-branch names. -/
-theorem BatchIso.spliceMolIso_branch_names (h : BatchIso p kind L A B F)
-    (σ : Prescription A.skeleton) (hA : IsV0Fam A.family σ) (c : GBranch (stSt A.skeleton σ).G.tree) :
-    (stSt B.skeleton (transportPrescription F σ)).M.ob ((h.spliceMolIso σ hA).e c) =
-      F.e ((stSt A.skeleton σ).M.ob c) := h.spliceMolIso_branch_namesMk σ (Stage1Mk.markTransported_empty F) hA c
-
-/-- B1b-2 (Mk-general form of `BatchIso.spliceMolIso_dart_names`). -/
-theorem BatchIso.spliceMolIso_dart_namesMk (h : BatchIso p kind L A B F)
-    (σ : Prescription A.skeleton) {Mk : Set (CLVine A.skeleton)} {Mk' : Set (CLVine B.skeleton)}
-    (hT : Stage1Mk.MarkTransported F Mk Mk') (hA : IsV0Fam A.family σ Mk) (x : GardenDart (stSt A.skeleton σ Mk).G) :
-    (stSt B.skeleton (transportPrescription F σ) Mk').M.od ((h.spliceMolIsoMk σ hT hA).d x) =
-      F.d ((stSt A.skeleton σ Mk).M.od x) :=
-  quotientDartEquiv_comm F (h.splice_classesMk σ hT hA) _ _ x
-
-/-- The actual batch splice map keeps the actual original-dart names. -/
-theorem BatchIso.spliceMolIso_dart_names (h : BatchIso p kind L A B F)
-    (σ : Prescription A.skeleton) (hA : IsV0Fam A.family σ) (x : GardenDart (stSt A.skeleton σ).G) :
-    (stSt B.skeleton (transportPrescription F σ)).M.od ((h.spliceMolIso σ hA).d x) =
-      F.d ((stSt A.skeleton σ).M.od x) := h.spliceMolIso_dart_namesMk σ (Stage1Mk.markTransported_empty F) hA x
 
 /-- B1b-3: the splice state's hinge set (branches with a splice class, `SpState.hinges`) follows the actual batch
 map at markings carried by the batch. It reads neither hinge pairs nor the gap specification. -/

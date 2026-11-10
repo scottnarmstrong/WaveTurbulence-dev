@@ -6,7 +6,10 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.Stage1.Represents.RepUG1
-public import WaveTurbulence.Foundations.Vine.A.VineAExports
+public import WaveTurbulence.Foundations.Vine.A.VineIngredientCarrier
+public import WaveTurbulence.Foundations.Molecule.VineHyperGapAmbiguity
+public import WaveTurbulence.Foundations.Vine.A.VineBatchTreeIndex
+public import WaveTurbulence.Foundations.Vine.A.VineProducer
 import Mathlib.Tactic
 
 /-!

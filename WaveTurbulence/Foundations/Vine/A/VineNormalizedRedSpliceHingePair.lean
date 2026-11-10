@@ -132,13 +132,6 @@ joint. -/
     Option (GardenDart (stSt G σ Mk).G × GardenDart (stSt G σ Mk).G) :=
   (survOrigPair G t.1 t.2.1).bind (liftPair G σ v)
 
-theorem not_exists_markedEntryAt_empty (σ : Prescription G) (v : GBranch (stSt G σ).G.tree) :
-    ¬ ∃ St : Finset (GBranch G.tree) × (Finset (GBranch G.tree) × GBranch G.tree × GBranch G.tree),
-      St.1 ∈ maximalGroups G.molecule ∧ MarkedEntryAt G σ St.1 St.2 v := by
-  rintro ⟨St, -, h, -⟩
-  rw [groupSurvMk_empty] at h
-  cases h
-
 /-- **The hinge pair of TARGET subpro(5)** (R28): see the module docstring.  B1a: with the marked vine set `Mk`
 the units are `groupUnitsMk` (runs in a marked group, with the run pair `HingeSpecRun`). -/
 @[expose] noncomputable def hingePair (G : Garden w) (σ : Prescription G) {Mk : Set (CLVine G)}
@@ -181,9 +174,6 @@ theorem structural_collectionChoicesMk (hM : G.molecule.IsMolecule) (σ : Prescr
   · intro a b hab
     exact (stSt (Mk := Mk) G σ).triple_hinge hno a b hab
 
-theorem structural_collectionChoices (hM : G.molecule.IsMolecule) (σ : Prescription G)
-    (hno : ∀ a b, G.molecule.bondsBetween a b ≠ 3) : (collectionChoices G σ).Structural := structural_collectionChoicesMk (Mk := ∅) hM σ hno
-
 /-- B1b (Mk-general form of `hingeOutsideFirst_collectionChoices`). -/
 theorem hingeOutsideFirst_collectionChoicesMk (σ : Prescription G) {Mk : Set (Stage1.CLVine _)} :
     ∀ v ∈ (collectionChoices (Mk := Mk) G σ).hinges, ∀ i, ¬ ((collectionChoices (Mk := Mk) G σ).collection i).IsInterior v := by
@@ -193,9 +183,6 @@ theorem hingeOutsideFirst_collectionChoicesMk (σ : Prescription G) {Mk : Set (S
   rcases hS.hinge v hcn hint.1 with h | h
   · exact hint.2.1 h
   · exact hint.2.2 h
-
-theorem hingeOutsideFirst_collectionChoices (σ : Prescription G) :
-    ∀ v ∈ (collectionChoices G σ).hinges, ∀ i, ¬ ((collectionChoices G σ).collection i).IsInterior v := hingeOutsideFirst_collectionChoicesMk (Mk := ∅) σ
 
 
 /-- B1b (Mk-general form of `properPair_congr`). -/

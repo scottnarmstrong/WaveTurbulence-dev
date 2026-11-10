@@ -29,32 +29,6 @@ open Finset WaveTurbulence WaveTurbulence.RedSplice WaveTurbulence.Mole TTree Wa
 
 variable {w : ℕ} {G : Garden w}
 
-/-- Two external darts of one class lift to a `TripleAt` pair at the crown. -/
-theorem SpMap.tripleAt_of_lift {G0 G' : Garden w} {cls : GBranch G0.tree → Option (GBranch G0.tree)}
-    (M : SpMap G0 G' cls) {c : GBranch G'.tree} {d1 d2 : GardenDart G0}
-    (h1 : repC cls (G0.molecule.atom d1) = M.ob c) (h2 : repC cls (G0.molecule.atom d2) = M.ob c)
-    (n1 : ¬ ∃ a, cls (G0.molecule.atom d1) = some a ∧ cls (G0.molecule.atom (G0.molecule.mate d1)) = some a)
-    (n2 : ¬ ∃ a, cls (G0.molecule.atom d2) = some a ∧ cls (G0.molecule.atom (G0.molecule.mate d2)) = some a)
-    (hout : G0.molecule.out d1 ≠ G0.molecule.out d2) (hne : d2 ≠ G0.molecule.mate d1) :
-    ∃ y1 y2, M.od y1 = d1 ∧ M.od y2 = d2 ∧ TripleAt G' c y1 y2 := by
-  obtain ⟨y1, hy1⟩ := (M.od_range d1).mpr n1
-  obtain ⟨y2, hy2⟩ := (M.od_range d2).mpr n2
-  refine ⟨y1, y2, hy1, hy2, ?_, ?_, ?_, ?_⟩
-  · apply M.ob_inj
-    rw [M.ob_atom, hy1, h1]
-  · apply M.ob_inj
-    rw [M.ob_atom, hy2, h2]
-  · intro h
-    apply hne
-    calc d2 = M.od y2 := hy2.symm
-      _ = M.od (G'.molecule.mate y1) := by rw [h]
-      _ = G0.molecule.mate (M.od y1) := M.od_mate y1
-      _ = G0.molecule.mate d1 := by rw [hy1]
-  · intro h
-    apply hout
-    rw [← hy1, ← hy2, M.od_out, M.od_out]
-    exact h
-
 
 section units
 variable (hM : G.molecule.IsMolecule) (σ : Prescription G)
@@ -126,36 +100,6 @@ theorem ext_lift_darts {u : CLBlock G} (hu : u ∈ unitBlocks G σ) {c : GBranch
     (hout : G.molecule.out d1 ≠ G.molecule.out d2) :
     ∃ y1 y2, (stSt G σ).M.od y1 = d1 ∧ (stSt G σ).M.od y2 = d2 ∧ ProperPair G σ c y1 y2 := by apply ext_lift_dartsMk (Mk := ∅) <;> assumption
 
-/-- The crown of a unit carries a proper pair, given an external out/in pair of the unit at one of its joints. -/
-theorem ext_lift {u : CLBlock G} (hu : u ∈ unitBlocks G σ) {c : GBranch (stSt G σ).G.tree}
-    (hc : (stSt G σ).M.ob c = u.upper) {j : GBranch G.tree} (hj : j ∈ u.atoms) (hjj : j = u.upper ∨ j = u.lower)
-    (hext : HasExtPair G.molecule u.atoms j) : ∃ y1 y2, ProperPair G σ c y1 y2 := by
-  obtain ⟨d1, d2, h1, h2, n1, n2, o1, o2⟩ := hext
-  obtain ⟨y1, y2, -, -, hP⟩ := ext_lift_darts hM σ hu hc hj hjj h1 h2 n1 n2 (by rw [o1, o2]; simp)
-  exact ⟨y1, y2, hP⟩
-
-/-- **Every hinge of `G_sb` carries a `TripleAt` pair** (TARGET `subpro` (5), existence). -/
-theorem hinge_proper {c : GBranch (stSt G σ).G.tree} (hc : c ∈ (stSt G σ).hinges) :
-    ∃ y1 y2, ProperPair G σ c y1 y2 := by
-  have hcn := ((stSt G σ).mem_hinges c).mp hc
-  by_cases h : ∃ u ∈ unitBlocks G σ, (stSt G σ).M.ob c ∈ u.atoms
-  · obtain ⟨u, hu, hcu⟩ := h
-    have h1 := stSt_cls_mem hM σ hu hcu
-    have hcr : (stSt G σ).M.ob c = u.upper := by
-      have := ((stSt G σ).M.ob_range ((stSt G σ).M.ob c)).mp ⟨c, rfl⟩
-      rcases this with h3 | h3
-      · rw [h1] at h3; cases h3
-      · rw [h1] at h3; exact (Option.some.inj h3).symm
-    obtain ⟨S, hSm, hσ, hmem⟩ := mem_unitBlocks.mp hu
-    obtain ⟨j, hj, hext⟩ := (groupUnitsOf G S).ext u hmem
-    have hjA : j ∈ u.atoms := by
-      rcases hj with rfl | rfl
-      · exact u.isBlock.2.1
-      · exact u.isBlock.2.2.1
-    exact ext_lift hM σ hu hcr hjA hj hext
-  · push Not at h
-    exact absurd (stSt_cls_none hM σ h) hcn
-
 end units
 
 
@@ -210,14 +154,5 @@ theorem Object.lower_mem {G' : Garden w} (O : Object G'.molecule) : O.lower ∈ 
   cases sh with
   | vc h => exact h.1.2.2.1
   | hyper R => exact R.adjoint.1.2.2.1
-
-theorem objects_eq_of_mem (hM : G.molecule.IsMolecule) (σ : Prescription G)
-    {O O' : Object (stSt G σ).G.molecule} (hO : O ∈ objects G σ) (hO' : O' ∈ objects G σ)
-    {z : GBranch (stSt G σ).G.tree} (hz : z ∈ O.atoms) (hz' : z ∈ O'.atoms) : O = O' := by
-  by_contra hne
-  have : Std.Symm (fun O O' : Object (stSt G σ).G.molecule => Disjoint O.atoms O'.atoms) :=
-    ⟨fun _ _ h => h.symm⟩
-  have := (objects_pairwise hM σ).forall hO hO' hne
-  exact Finset.disjoint_left.mp this hz hz'
 
 end WaveTurbulence.VineA.NormalizedSplice

@@ -38,12 +38,6 @@ decreasing_by
   have hpos := List.length_pos_of_ne_nil hr
   omega
 
-/-- The existing actual full node map fixes every literal ordered address. -/
-theorem unitSpliceNodeEquiv_address (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) (n : GNode (stSt G σ).G.tree) :
-    (unitSpliceNodeEquiv Z σ hsel n).1 = n.1 :=
-  unitSpliceNodeEquiv_addressMk Z σ (Stage1Mk.markTransported_empty Z.iso) hsel n
-
 /-- B1b-2 (Mk-general form of `unitSpliceMolIso_address`). -/
 theorem unitSpliceMolIso_addressMk (Z : TwistGroupSite G) (σ : Prescription G)
     {Mk : Set (CLVine G)} {Mk' : Set (CLVine Z.target)} (hT : Stage1Mk.MarkTransported Z.iso Mk Mk')
@@ -66,12 +60,6 @@ theorem unitSpliceLeafEquiv_addressMk (Z : TwistGroupSite G) (σ : Prescription 
   (congrArg Subtype.val (unitSpliceNodeEquiv_leafMk Z σ hT hsel q)).symm.trans
     (unitSpliceNodeEquiv_addressMk Z σ hT hsel q.toNode)
 
-/-- The actual full leaf correspondence fixes addresses. -/
-theorem unitSpliceLeafEquiv_address (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) (q : GLeaf (stSt G σ).G.tree) :
-    (unitSpliceLeafEquiv Z σ hsel q).1 = q.1 :=
-  unitSpliceLeafEquiv_addressMk Z σ (Stage1Mk.markTransported_empty Z.iso) hsel q
-
 /-- B1b-2 (Mk-general form of `unitSplice_tree_eq`). -/
 theorem unitSplice_tree_eqMk (Z : TwistGroupSite G) (σ : Prescription G)
     {Mk : Set (CLVine G)} {Mk' : Set (CLVine Z.target)} (hT : Stage1Mk.MarkTransported Z.iso Mk Mk')
@@ -92,12 +80,6 @@ theorem unitSplice_tree_eqMk (Z : TwistGroupSite G) (σ : Prescription G)
     have hm := (unitSpliceLeafEquivMk Z σ hT hsel q).2
     simpa only [unitSpliceLeafEquiv_addressMk] using hm
 
-/-- The actual ordered forests agree literally. -/
-theorem unitSplice_tree_eq (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) :
-    (stSt Z.target (transportPrescription Z.iso σ)).G.tree = (stSt G σ).G.tree :=
-  unitSplice_tree_eqMk Z σ (Stage1Mk.markTransported_empty Z.iso) hsel
-
 /-- B1b-2 (Mk-general form of `unitSplice_garden_eq`). -/
 theorem unitSplice_garden_eqMk (Z : TwistGroupSite G) (σ : Prescription G)
     {Mk : Set (CLVine G)} {Mk' : Set (CLVine Z.target)} (hT : Stage1Mk.MarkTransported Z.iso Mk Mk')
@@ -109,11 +91,5 @@ theorem unitSplice_garden_eqMk (Z : TwistGroupSite G) (σ : Prescription G)
     (unitSpliceLeafEquiv_addressMk Z σ hT hsel)
     (fun q => (unitSpliceLeafEquiv_pairMk Z σ hT hsel q).symm)
     (unitSpliceLeafEquiv_markMk Z σ hT hsel)
-
-/-- Ordered normalization of the actual selected splice, including marks and pairing. -/
-theorem unitSplice_garden_eq (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) :
-    (stSt Z.target (transportPrescription Z.iso σ)).G = (stSt G σ).G :=
-  unitSplice_garden_eqMk Z σ (Stage1Mk.markTransported_empty Z.iso) hsel
 
 end WaveTurbulence.VineA

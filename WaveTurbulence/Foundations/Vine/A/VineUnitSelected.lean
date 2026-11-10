@@ -86,23 +86,4 @@ theorem groupUnit_selected_spine {S : Finset (GBranch G.tree)} (U : GroupUnits G
     · exact take_run hat hr.1 hj
     · exact take_run hat hr.2 hj
 
-/-- The actual unit spine consists entirely of V0(sigma) vines. -/
-theorem unitBlocks_selected_spine {σ : Prescription G} {u : CLBlock G} (hu : u ∈ unitBlocks G σ) :
-    ∃ L, Spine G.molecule L u.atoms u.upper u.lower ∧
-      ∀ t ∈ L, ∃ c ∈ vinesV0 G σ, c.atoms = t.1 := by
-  obtain ⟨S, hS, hσ, hum⟩ := mem_unitBlocks.mp hu
-  obtain ⟨L, hs, hsel⟩ := groupUnit_selected_spine (groupUnitsOf G S) hS hum
-  refine ⟨L, hs, ?_⟩
-  intro t ht
-  obtain ⟨c, hc, he⟩ := hsel t ht
-  have hci : IsIngredient G.molecule S c.atoms := by
-    obtain ⟨S', hS', hi', _⟩ := hc
-    have hin : c.atoms ⊆ S := he ▸ (hs.mem_vine ht).2.trans ((groupUnitsOf G S).sub u hum)
-    have heS : S' = S := by
-      by_contra hne
-      exact (disjoint_left.mp (groups_disjoint' (Mole.garden_isMolecule G) hS' hS hne)
-        (ingredient_sub hi' c.upper_mem)) (hin c.upper_mem)
-    exact heS ▸ hi'
-  exact ⟨c, ⟨hc, S, hS, hci, hσ, fun h => h⟩, he⟩
-
 end WaveTurbulence.VineA

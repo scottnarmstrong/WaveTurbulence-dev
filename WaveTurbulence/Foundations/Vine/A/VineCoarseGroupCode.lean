@@ -58,21 +58,4 @@ noncomputable def coarseGroupCode (G : Garden w)
 theorem coarseGroupCode_injective (G : Garden w) : Function.Injective (coarseGroupCode G) :=
   spliced_group_image_injective (fun _ => .SG)
 
-/-- The normalized names carry exactly the original maximal-group index type. -/
-noncomputable def coarseGroupCodeEquiv (G : Garden w) :
-    {S // S ∈ maximalGroups G.molecule} ≃ Set.range (coarseGroupCode G) :=
-  Equiv.ofInjective (coarseGroupCode G) (coarseGroupCode_injective G)
-
-/-- Reindexing by normalized names retains every local coloring, including
-colorings which distinguish different groups in one hypothetical loop orbit. -/
-noncomputable def coarsePrescriptionEquiv (G : Garden w) :
-    GroupPrescription G ≃ (Set.range (coarseGroupCode G) → Molecule.GapKind) :=
-  Equiv.arrowCongr (coarseGroupCodeEquiv G) (Equiv.refl _)
-
-/-- The original color is recovered at the code of every original group. -/
-theorem coarsePrescriptionEquiv_apply (σ : GroupPrescription G)
-    (S : {S // S ∈ maximalGroups G.molecule}) :
-    coarsePrescriptionEquiv G σ (coarseGroupCodeEquiv G S) = σ S :=
-  congrArg σ ((coarseGroupCodeEquiv G).symm_apply_apply S)
-
 end WaveTurbulence.VineA

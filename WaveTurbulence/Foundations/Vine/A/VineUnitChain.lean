@@ -100,10 +100,4 @@ theorem unitBlocks_chainMk {σ : Prescription G} {Mk : Set (Stage1.CLVine G)} {u
   obtain ⟨S, _, _, hm⟩ := mem_unitBlocksMk.mp hu
   exact groupUnitsMk_chain hm
 
-/-- Canonical unit-chain existence, using the actual chosen list. -/
-theorem unitBlocks_chain {σ : Prescription G} {u : CLBlock G} (hu : u ∈ unitBlocks G σ) :
-    ∃ n, Chain G.molecule u.atoms u.upper u.lower n := by
-  obtain ⟨S, _, _, hm⟩ := mem_unitBlocks.mp hu
-  exact groupUnit_chain (groupUnitsOf G S) hm
-
 end WaveTurbulence.VineA

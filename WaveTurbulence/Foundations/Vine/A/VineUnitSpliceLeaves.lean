@@ -21,12 +21,6 @@ noncomputable def unitSpliceLeafEquivMk (Z : TwistGroupSite G) (σ : Prescriptio
     (spliceFoldLeafTrace (unitBlocks Z.target (transportPrescription Z.iso σ) Mk')).injective
     (unitTwist_splice_leaf_rangesMk Z σ hT hsel)
 
-/-- The actual full leaf map between the two simultaneous splices. -/
-noncomputable def unitSpliceLeafEquiv (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) :
-    GLeaf (stSt G σ).G.tree ≃ GLeaf (stSt Z.target (transportPrescription Z.iso σ)).G.tree :=
-  unitSpliceLeafEquivMk Z σ (Stage1Mk.markTransported_empty Z.iso) hsel
-
 /-- B1b-2 (Mk-general form of `unitSpliceLeafEquiv_names`). -/
 theorem unitSpliceLeafEquiv_namesMk (Z : TwistGroupSite G) (σ : Prescription G)
     {Mk : Set (CLVine G)} {Mk' : Set (CLVine Z.target)} (hT : Stage1Mk.MarkTransported Z.iso Mk Mk')
@@ -34,13 +28,6 @@ theorem unitSpliceLeafEquiv_namesMk (Z : TwistGroupSite G) (σ : Prescription G)
     (spliceFoldLeafTrace (unitBlocks Z.target (transportPrescription Z.iso σ) Mk')).leaf (unitSpliceLeafEquivMk Z σ hT hsel q) =
       coreLeafEquiv G Z.P ((spliceFoldLeafTrace (unitBlocks G σ Mk)).leaf q) :=
   equivOfSameRange_comm _ _ _ _ (unitTwist_splice_leaf_rangesMk Z σ hT hsel) q
-
-/-- The full leaf map commutes with literal original names and the actual LF leaf map. -/
-theorem unitSpliceLeafEquiv_names (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) (q : GLeaf (stSt G σ).G.tree) :
-    (spliceFoldLeafTrace (unitBlocks Z.target (transportPrescription Z.iso σ))).leaf (unitSpliceLeafEquiv Z σ hsel q) =
-      coreLeafEquiv G Z.P ((spliceFoldLeafTrace (unitBlocks G σ)).leaf q) :=
-  unitSpliceLeafEquiv_namesMk Z σ (Stage1Mk.markTransported_empty Z.iso) hsel q
 
 /-- B1b-2 (Mk-general form of `unitSpliceLeafEquiv_pair`). -/
 theorem unitSpliceLeafEquiv_pairMk (Z : TwistGroupSite G) (σ : Prescription G)
@@ -56,13 +43,6 @@ theorem unitSpliceLeafEquiv_pairMk (Z : TwistGroupSite G) (σ : Prescription G)
           ((spliceFoldLeafTrace (unitBlocks Z.target (transportPrescription Z.iso σ) Mk')).pair
             (unitSpliceLeafEquivMk Z σ hT hsel q)).symm)))
 
-/-- The full actual leaf pairing commutes through the simultaneous splices. -/
-theorem unitSpliceLeafEquiv_pair (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) (q : GLeaf (stSt G σ).G.tree) :
-    unitSpliceLeafEquiv Z σ hsel ((stSt G σ).G.pair q) =
-      (stSt Z.target (transportPrescription Z.iso σ)).G.pair (unitSpliceLeafEquiv Z σ hsel q) :=
-  unitSpliceLeafEquiv_pairMk Z σ (Stage1Mk.markTransported_empty Z.iso) hsel q
-
 /-- B1b-2 (Mk-general form of `unitSpliceLeafEquiv_mark`). -/
 theorem unitSpliceLeafEquiv_markMk (Z : TwistGroupSite G) (σ : Prescription G)
     {Mk : Set (CLVine G)} {Mk' : Set (CLVine Z.target)} (hT : Stage1Mk.MarkTransported Z.iso Mk Mk')
@@ -72,12 +52,6 @@ theorem unitSpliceLeafEquiv_markMk (Z : TwistGroupSite G) (σ : Prescription G)
   exact ((spliceFoldLeafTrace (unitBlocks Z.target (transportPrescription Z.iso σ) Mk')).mark _).trans
     ((congrArg Z.target.mark (unitSpliceLeafEquiv_namesMk Z σ hT hsel q)).trans
       ((unitTwistGarden_mark G Z.P _).trans ((spliceFoldLeafTrace (unitBlocks G σ Mk)).mark q).symm))
-
-/-- Every actual retained mark is preserved. -/
-theorem unitSpliceLeafEquiv_mark (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) (q : GLeaf (stSt G σ).G.tree) :
-    (stSt Z.target (transportPrescription Z.iso σ)).G.mark (unitSpliceLeafEquiv Z σ hsel q) =
-      (stSt G σ).G.mark q := unitSpliceLeafEquiv_markMk Z σ (Stage1Mk.markTransported_empty Z.iso) hsel q
 
 /-- B1b-2 (Mk-general form of `unitSpliceLeafEquiv_root`). -/
 theorem unitSpliceLeafEquiv_rootMk (Z : TwistGroupSite G) (σ : Prescription G)
@@ -92,12 +66,6 @@ theorem unitSpliceLeafEquiv_rootMk (Z : TwistGroupSite G) (σ : Prescription G)
       (unitSpliceLeafEquiv_namesMk Z σ hT hsel q))).trans
         (ho.trans ((spliceFoldLeafTrace (unitBlocks G σ Mk)).root q)))
 
-/-- The actual full leaf map preserves roots, including leaves absent from the molecule. -/
-theorem unitSpliceLeafEquiv_root (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) (q : GLeaf (stSt G σ).G.tree) :
-    (unitSpliceLeafEquiv Z σ hsel q).1.2 = [] ↔ q.1.2 = [] :=
-  unitSpliceLeafEquiv_rootMk Z σ (Stage1Mk.markTransported_empty Z.iso) hsel q
-
 /-- B1b-2 (Mk-general form of `active_retained_not_surviving`). -/
 theorem active_retained_not_survivingMk (Z : TwistGroupSite G) (σ : Prescription G)
     {Mk : Set (CLVine G)}
@@ -110,11 +78,6 @@ theorem active_retained_not_survivingMk (Z : TwistGroupSite G) (σ : Prescriptio
   intro hr
   exact ((spliceFold_leaf_range (unitBlocks G σ Mk) Z.P.retained).mp hr) ⟨lp, rfl, hd⟩
 
-/-- The exceptional retained leaf is removed by its selected containing unit. -/
-theorem active_retained_not_surviving (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) :
-    ¬ ∃ q, (spliceFoldLeafTrace (unitBlocks G σ)).leaf q = Z.P.retained := active_retained_not_survivingMk Z σ hsel
-
 /-- B1b-2 (Mk-general form of `active_pair_not_surviving`). -/
 theorem active_pair_not_survivingMk (Z : TwistGroupSite G) (σ : Prescription G)
     {Mk : Set (CLVine G)}
@@ -125,12 +88,6 @@ theorem active_pair_not_survivingMk (Z : TwistGroupSite G) (σ : Prescription G)
   refine ⟨(stSt G σ Mk).G.pair q, ?_⟩
   exact ((spliceFoldLeafTrace (unitBlocks G σ Mk)).pair q).trans
     ((congrArg G.pair he).trans (G.pair_pair Z.P.retained))
-
-/-- Both exceptional sign-changing leaves are absent from the retained full-leaf carrier. -/
-theorem active_pair_not_surviving (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) :
-    ¬ ∃ q, (spliceFoldLeafTrace (unitBlocks G σ)).leaf q = G.pair Z.P.retained :=
-  active_pair_not_survivingMk Z σ hsel
 
 /-- B1b-2 (Mk-general form of `unitSpliceLeafEquiv_sign`). -/
 theorem unitSpliceLeafEquiv_signMk (Z : TwistGroupSite G) (σ : Prescription G)
@@ -150,11 +107,5 @@ theorem unitSpliceLeafEquiv_signMk (Z : TwistGroupSite G) (σ : Prescription G)
     ((congrArg (fun l : GLeaf Z.target.tree => Z.target.sign l.toNode)
       (unitSpliceLeafEquiv_namesMk Z σ hT hsel q)).trans
         (hs.trans ((spliceFoldLeafTrace (unitBlocks G σ Mk)).sign q).symm))
-
-/-- Full surviving leaf signs agree: both exceptional sign changes were deleted. -/
-theorem unitSpliceLeafEquiv_sign (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) (q : GLeaf (stSt G σ).G.tree) :
-    (stSt Z.target (transportPrescription Z.iso σ)).G.sign (unitSpliceLeafEquiv Z σ hsel q).toNode =
-      (stSt G σ).G.sign q.toNode := unitSpliceLeafEquiv_signMk Z σ (Stage1Mk.markTransported_empty Z.iso) hsel q
 
 end WaveTurbulence.VineA

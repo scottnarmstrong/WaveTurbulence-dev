@@ -114,29 +114,4 @@ noncomputable def sepMass (P : WTParams) (n : ℕ) (cost : ℝ) : ℝ≥0∞ :=
   ENNReal.ofReal (2 ^ n * (cLeib P.d (30 * P.d) * (P.δ ^ n * (P.C₁ * P.C₁ ^ n * cost)) *
     (P.C₁ * P.C₁ ^ n)))
 
-/-- Couples (`W = 30d`): a leafwise separated app is a centred superposition. -/
-theorem cenSup_of_leafSep (P : WTParams) (hd : 1 ≤ P.d) (hη0 : 0 ≤ P.η) (hη : P.η ≤ 1 / 2)
-    (hC : 0 ≤ P.C₁) (hδ : 0 ≤ P.δ) :
-    ∃ C : ℝ≥0∞, C ≠ ⊤ ∧ ∀ (n : ℕ) (cost : ℝ) (q : Fin 2 → ℝ) (B : Set (Fin 2 → ℝ))
-      (f : (Fin 2 → ℝ) → Mom P.d → ℂ), 0 ≤ cost → LeafwiseSeparated P n (30 * P.d) B f cost →
-      B ⊆ cell q → B ⊆ closure (interior B) → (∀ k, Continuous fun t => f t k) →
-      CenSup (30 * P.d) B f (C * sepMass P n cost) := by
-  obtain ⟨C, hC0, h⟩ := exists_cenSup (r := 2) (d := P.d) hd hη0 (Λ₁ := 30 * P.d)
-    (Λ₂ := 30 * P.d) (by omega) (by omega)
-  refine ⟨C, hC0, fun n cost q B f hcost hsep hBc hBi hfc => h q B f _ ENNReal.ofReal_ne_top hBc hBi hfc ?_⟩
-  rw [PL2330.XNormRestr_eq_rN]
-  exact rN_leafwiseSeparated_le hsep hd (by linarith) hC hδ hcost
-
-/-- Trees (`W = 0`): a leafwise separated app is a superposition. -/
-theorem sup_of_leafSep (P : WTParams) (hd : 1 ≤ P.d) (hη0 : 0 ≤ P.η) (hη : P.η ≤ 1 / 2)
-    (hC : 0 ≤ P.C₁) (hδ : 0 ≤ P.δ) :
-    ∃ C : ℝ≥0∞, C ≠ ⊤ ∧ ∀ (n : ℕ) (cost : ℝ) (q : Fin 2 → ℝ) (B : Set (Fin 2 → ℝ))
-      (f : (Fin 2 → ℝ) → Mom P.d → ℂ), 0 ≤ cost → LeafwiseSeparated P n 0 B f cost →
-      B ⊆ cell q → B ⊆ closure (interior B) → (∀ k, Continuous fun t => f t k) →
-      Sup (30 * P.d) B f (C * sepMass P n cost) := by
-  obtain ⟨C, hC0, h⟩ := exists_sup (r := 2) (d := P.d) hη0 (Λ₁ := 30 * P.d) (by omega)
-  refine ⟨C, hC0, fun n cost q B f hcost hsep hBc hBi hfc => h q B f _ ENNReal.ofReal_ne_top hBc hBi hfc ?_⟩
-  rw [PL2330.XNormRestr_eq_rN]
-  exact rN_leafwiseSeparated_le hsep hd (by linarith) hC hδ hcost
-
 end WaveTurbulence.Represents

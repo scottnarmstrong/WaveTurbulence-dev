@@ -13,18 +13,4 @@ theorem existsUnique_least_key {A K : Type*} [Finite A] [Nonempty A] [LinearOrde
   obtain ⟨x, hx⟩ := Finite.exists_min key
   exact ⟨x, hx, fun y hy => hinj (le_antisymm (hy x) (hx y))⟩
 
-/-- The unique least candidate, constructed only after proving its uniqueness. -/
-noncomputable def leastKey {A K : Type*} [Finite A] [Nonempty A] [LinearOrder K]
-    (key : A → K) (hinj : Function.Injective key) : A :=
-  (existsUnique_least_key key hinj).choose
-
-theorem leastKey_spec {A K : Type*} [Finite A] [Nonempty A] [LinearOrder K]
-    (key : A → K) (hinj : Function.Injective key) (y : A) :
-    key (leastKey key hinj) ≤ key y := (existsUnique_least_key key hinj).choose_spec.1 y
-
-theorem leastKey_unique {A K : Type*} [Finite A] [Nonempty A] [LinearOrder K]
-    (key : A → K) (hinj : Function.Injective key) (x : A)
-    (hx : ∀ y, key x ≤ key y) : x = leastKey key hinj :=
-  (existsUnique_least_key key hinj).choose_spec.2 x hx
-
 end WaveTurbulence.VineA

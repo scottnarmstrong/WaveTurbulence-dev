@@ -52,39 +52,4 @@ theorem gapSpecification_isSome_iff (hM : G.molecule.IsMolecule) (σ : Prescript
     cases hv
     rw [he]; rfl
 
-/-- The entry at the designated atom of a group has the kind prescribed for the group. -/
-theorem gapSpecification_kind (hM : G.molecule.IsMolecule) (σ : Prescription G)
-    {S : Finset (GBranch G.tree)} (hS : S ∈ maximalGroups G.molecule)
-    {v : GBranch (stSt G σ).G.tree} (hv : groupAtom G σ S = some v) :
-    ∃ e, gapSpecification G σ v = some e ∧ e.kind = σ S := by
-  obtain ⟨a, ha, e, he, hk, -⟩ := gapSpecification_group hM σ hS
-  have hat : groupAtom G σ S = some ((stSt G σ).M.pi (stSt G σ).hcls a) := by
-    unfold groupAtom; rw [ha]; rfl
-  rw [hat] at hv
-  cases hv
-  exact ⟨e, he, hk⟩
-
-/-- Every group of `𝒞` has a designated atom in `G_sb`. -/
-theorem groupAtom_isSome (σ : Prescription G) {S : Finset (GBranch G.tree)}
-    (hS : S ∈ maximalGroups G.molecule) : (groupAtom G σ S).isSome := by
-  obtain ⟨a, ha⟩ := exists_groupJoint_eq hS
-  unfold groupAtom; rw [ha]; rfl
-
-/-- **One entry per group, none per ladder**: `S ↦ groupAtom S` is a bijection from the groups of `𝒞` onto the
-atoms of `G_sb` that carry a gap entry; in particular the numbers agree. -/
-theorem ncard_gapEntries (hM : G.molecule.IsMolecule) (σ : Prescription G) :
-    Set.ncard {v : GBranch (stSt G σ).G.tree | (gapSpecification G σ v).isSome} =
-      Set.ncard {S : Finset (GBranch G.tree) | S ∈ maximalGroups G.molecule} := by
-  classical
-  symm
-  refine Set.ncard_congr (fun S hS => (groupAtom G σ S).get (groupAtom_isSome σ hS)) ?_ ?_ ?_
-  · intro S hS
-    exact (gapSpecification_isSome_iff hM σ _).mpr ⟨S, hS, by simp⟩
-  · intro S S' hS hS' h
-    exact groupAtom_inj hM σ hS hS' (v := (groupAtom G σ S).get (groupAtom_isSome σ hS))
-      (Option.some_get _).symm (by rw [h]; exact (Option.some_get _).symm)
-  · intro v hv
-    obtain ⟨S, hS, hSv⟩ := (gapSpecification_isSome_iff hM σ v).mp hv
-    exact ⟨S, hS, by simp [hSv]⟩
-
 end WaveTurbulence.VineA.NormalizedSplice

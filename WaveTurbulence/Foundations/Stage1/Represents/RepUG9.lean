@@ -5,7 +5,8 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.Stage1.Represents.RepV1
+public import WaveTurbulence.Foundations.Stage1.Represents.RepH1
+public import WaveTurbulence.Foundations.VineEst.VineEstS3.Step3Kernel
 public import WaveTurbulence.Foundations.Stage1.Represents.RepH18
 import Mathlib.Tactic
 
@@ -30,9 +31,6 @@ open scoped ENNReal
 /-- The weak output box: the cube with `max (t 1) (t 2) ≤ t 0`. -/
 def outBoxW {d : ℕ} (D : SumintDatum d) : Set (Fin 3 → ℝ) :=
   {t | t ∈ cubeSet D.qOut ∧ max (t 1) (t 2) ≤ t 0}
-
-theorem outBox_subset_outBoxW {d : ℕ} (D : SumintDatum d) : outBox D ⊆ outBoxW D :=
-  fun _ ht => ⟨ht.1, ht.2.le⟩
 
 theorem continuous_fsPhase' {r : ℕ} (m : Fin r → ℤ) : Continuous fun t : Fin r → ℝ => fsPhase m t := by
   have : (fun t : Fin r → ℝ => fsPhase m t) = fun t =>

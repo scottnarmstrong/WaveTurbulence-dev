@@ -153,9 +153,4 @@ theorem coarse_eq_of_relatedMk {p : ℕ} {kind : Bool} {mkF mkC : Stage1Mk.MarkF
   | symm _ _ _ ih => exact ih.symm
   | trans _ _ _ _ _ ih hj => exact ih.trans hj
 
-theorem coarse_eq_of_related {p : ℕ} {kind : Bool} {a b : PrescribedPrimeGarden (2 * R)}
-    (h : Related (p := p) (kind := kind) a b) : coarseOf p kind a = coarseOf p kind b :=
-  coarse_eq_of_relatedMk (mkF := fun _ => ∅) (mkC := fun _ => ∅)
-    (Stage1Mk.markInvariantBatchV_empty fun _ => True) (fun _ => subset_rfl) h
-
 end WaveTurbulence.Represents

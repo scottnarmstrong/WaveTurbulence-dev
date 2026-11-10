@@ -6,7 +6,7 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.Vine.Align.Export
-public import WaveTurbulence.Foundations.Stage1.Represents.RepVC0
+public import WaveTurbulence.Foundations.Stage1.Represents.RepVE3
 public import WaveTurbulence.Foundations.Stage1.Represents.RepPr2
 import Mathlib.Tactic
 
@@ -57,28 +57,6 @@ theorem memberPoint_code (a : PrescribedPrimeGarden w) (y : UState w (unitsSplit
   have hword := BatchIso.fine_coarseAtomWord (batchMolIso_spec hr.batch) a.totalSigma
     (unitsFamily_isV0Fam (Mole.garden_isMolecule _) a.totalSigma)
   exact codedPrescription_map (batchMolIso hr.batch) hword a.sigma
-
-open PrescribedPrimeGarden in
-theorem memberPoint_related (a : PrescribedPrimeGarden w) (y : UState w (unitsSplit (sourceAssembly a)))
-    (M : List (UnitsIndex (sourceAssembly a))) (hM : M.Perm Finset.univ.toList)
-    (hr : ReachU p kind (unitsSplit (sourceAssembly a)).Q M (sourceStart a) (sourceUnits a) y.1 y.2) :
-    Related (p := p) (kind := kind) a (memberPoint a y M hr) := by
-  have hmem : y.1.layered ∈ a.outputs (p := p) (kind := kind) := by
-    rw [prescribed_outputs_eq_unitsStart a (sourceLayer a) (sourceLayer_isLayering a) (sourceLayer_reconstructs a)]
-    exact ⟨M, y.1, hM, hr.batch, rfl⟩
-  obtain ⟨c, hc, hce⟩ := (Set.ext_iff.mp (tauClass_image a) y.1.layered).mpr hmem
-  have hcode : c.code = (memberPoint a y M hr).code := (Related.code_eq hc).symm.trans (memberPoint_code a y M hr).symm
-  have : c = memberPoint a y M hr := eq_of_layered_code hce hcode
-  rw [← this]
-  exact hc
-
-open PrescribedPrimeGarden in
-/-- The member's `A4` data are the representative's. -/
-theorem memberPoint_fullProfile {R : ℕ} (a : PrescribedPrimeGarden (2 * R)) (y : UState (2 * R) (unitsSplit (sourceAssembly a)))
-    (M : List (UnitsIndex (sourceAssembly a))) (hM : M.Perm Finset.univ.toList)
-    (hr : ReachU p kind (unitsSplit (sourceAssembly a)).Q M (sourceStart a) (sourceUnits a) y.1 y.2) :
-    (memberPoint a y M hr).fullProfile = a.fullProfile :=
-  Related.fullProfile_eq (memberPoint_related a y M hM hr)
 
 open PrescribedPrimeGarden in
 /-- Selection of a piece at a garden `LG` is the selection of any related prescribed point over `LG`. -/

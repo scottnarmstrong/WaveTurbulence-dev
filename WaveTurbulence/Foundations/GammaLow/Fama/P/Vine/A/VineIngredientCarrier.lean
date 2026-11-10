@@ -3,7 +3,6 @@
 module
 public import WaveTurbulence.Foundations.GammaLow.Fama.Vine.IsoStmt
 public import WaveTurbulence.Foundations.GammaLow.Famc.ClassCount.VineA.VineUnitSelectedMK
-public import WaveTurbulence.Foundations.Vine.A.VineUnitIngredients
 public import WaveTurbulence.Foundations.Molecule.VineLowDegreeJoints
 public import WaveTurbulence.Foundations.Vine.A.VineIngredientCarrier
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.CL

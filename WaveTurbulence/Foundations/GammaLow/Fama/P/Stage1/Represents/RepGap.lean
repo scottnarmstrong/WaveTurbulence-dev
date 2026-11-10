@@ -3,7 +3,6 @@
 module
 public import WaveTurbulence.Foundations.GammaLow.Fama.Vine.IsoStmt
 public import WaveTurbulence.Foundations.GammaLow.Fama.P.Stage1.Represents.RepSel
-public import WaveTurbulence.Foundations.Stage1.Represents.RepAudit
 public import WaveTurbulence.Foundations.FinalCount.RedSpliceGapKind
 public import WaveTurbulence.Foundations.Spine.SourceBlockJointGaps
 public import WaveTurbulence.Foundations.Spine.GardenDegreeFourSource

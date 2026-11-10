@@ -19,7 +19,6 @@ public import WaveTurbulence.Foundations.GammaLow.Fama.P.Supp.VinePrescriptionSu
 public import WaveTurbulence.Foundations.GammaLow.Fama.P.Supp.VinePrimeStateSupp
 public import WaveTurbulence.Foundations.GammaLow.Fama.P.Supp.VineUnitCoverSupp
 public import WaveTurbulence.Foundations.GammaLow.Fama.P.Vine.A.VineActualCollection
-public import WaveTurbulence.Foundations.Vine.A.VineActualKernel
 public import WaveTurbulence.Foundations.Vine.A.VineFullA4
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.CL
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.CN

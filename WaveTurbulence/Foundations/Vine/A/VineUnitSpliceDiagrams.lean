@@ -28,26 +28,6 @@ theorem unitSplice_pi (Z : TwistGroupSite G) (σ : Prescription G)
     (unitSpliceMolIso Z σ hsel).e ((stSt G σ).M.pi (stSt G σ).hcls v) :=
   unitSplice_piMk Z σ (Stage1Mk.markTransported_empty Z.iso) hsel v
 
-/-- B1b-2 (Mk-general form of `unitSplice_q_diagram`). -/
-theorem unitSplice_q_diagramMk (Z : TwistGroupSite G) (σ : Prescription G)
-    {Mk : Set (CLVine G)} {Mk' : Set (CLVine Z.target)} (hT : Stage1Mk.MarkTransported Z.iso Mk Mk')
-    (hsel : ∃ c ∈ vinesV0 G σ Mk, c.atoms = Z.S0) :
-    gardenBranchCast (unitSplice_garden_eqMk Z σ hT hsel) ∘
-      (stSt Z.target (transportPrescription Z.iso σ) Mk').M.pi
-        (stSt Z.target (transportPrescription Z.iso σ) Mk').hcls ∘ Z.iso.e =
-      (stSt G σ Mk).M.pi (stSt G σ Mk).hcls := by
-  funext v
-  exact (congrArg (gardenBranchCast (unitSplice_garden_eqMk Z σ hT hsel)) (unitSplice_piMk Z σ hT hsel v)).trans
-    (unitSplice_branch_castMk Z σ hT hsel _)
-
-/-- The requested forward atom diagram, with the literal garden equality cast explicit. -/
-theorem unitSplice_q_diagram (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) :
-    gardenBranchCast (unitSplice_garden_eq Z σ hsel) ∘
-      (stSt Z.target (transportPrescription Z.iso σ)).M.pi
-        (stSt Z.target (transportPrescription Z.iso σ)).hcls ∘ Z.iso.e =
-      (stSt G σ).M.pi (stSt G σ).hcls := unitSplice_q_diagramMk Z σ (Stage1Mk.markTransported_empty Z.iso) hsel
-
 /-- The actual inverse old-name map, on exactly its surviving-dart domain. -/
 noncomputable def spliceDartQuotient (st : SpState G)
     (x : {x : GardenDart G // ∃ y, st.M.od y = x}) : GardenDart st.G := x.2.choose
@@ -95,24 +75,5 @@ theorem unitSplice_dartQuotient (Z : TwistGroupSite G) (σ : Prescription G)
       (unitSpliceRetainedDart Z σ hsel x) =
       (unitSpliceMolIso Z σ hsel).d (spliceDartQuotient (stSt G σ) x) :=
   unitSplice_dartQuotientMk Z σ (Stage1Mk.markTransported_empty Z.iso) hsel x
-
-/-- B1b-2 (Mk-general form of `unitSplice_d_diagram`). -/
-theorem unitSplice_d_diagramMk (Z : TwistGroupSite G) (σ : Prescription G)
-    {Mk : Set (CLVine G)} {Mk' : Set (CLVine Z.target)} (hT : Stage1Mk.MarkTransported Z.iso Mk Mk')
-    (hsel : ∃ c ∈ vinesV0 G σ Mk, c.atoms = Z.S0) :
-    gardenDartCast (unitSplice_garden_eqMk Z σ hT hsel) ∘
-      spliceDartQuotient (stSt Z.target (transportPrescription Z.iso σ) Mk') ∘
-        unitSpliceRetainedDartMk Z σ hT hsel = spliceDartQuotient (stSt G σ Mk) := by
-  funext x
-  exact (congrArg (gardenDartCast (unitSplice_garden_eqMk Z σ hT hsel))
-    (unitSplice_dartQuotientMk Z σ hT hsel x)).trans (unitSplice_dart_castMk Z σ hT hsel _)
-
-/-- The requested forward dart diagram, on the exact domain of surviving original darts. -/
-theorem unitSplice_d_diagram (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) :
-    gardenDartCast (unitSplice_garden_eq Z σ hsel) ∘
-      spliceDartQuotient (stSt Z.target (transportPrescription Z.iso σ)) ∘
-        unitSpliceRetainedDart Z σ hsel = spliceDartQuotient (stSt G σ) :=
-  unitSplice_d_diagramMk Z σ (Stage1Mk.markTransported_empty Z.iso) hsel
 
 end WaveTurbulence.VineA

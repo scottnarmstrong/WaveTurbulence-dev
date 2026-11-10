@@ -79,13 +79,4 @@ theorem stateReindex_symm (A : FamilyReconstruction w ι) (e : κ ≃ ι) :
   · rfl
   · rfl
 
-/-- Reindexing changes neither direction of the actual congruence relation. -/
-theorem congruent_reindex_iff [Fintype ι] [Fintype κ] (A B : FamilyReconstruction w ι) (e : κ ≃ ι) :
-    Congruent p kind (stateReindex A e) (stateReindex B e) ↔ Congruent p kind A B := by
-  constructor
-  · intro h
-    have h' := congruent_reindex h e.symm
-    simpa only [stateReindex_symm] using h'
-  · exact fun h => congruent_reindex h e
-
 end WaveTurbulence.VineA

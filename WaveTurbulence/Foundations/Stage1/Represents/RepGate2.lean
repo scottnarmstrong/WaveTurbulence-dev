@@ -66,31 +66,6 @@ theorem xnorm_add_split {r d : ℕ} {θ : ℝ} {Λ₁ Λ₂ : ℕ} (hΛ : Λ₁ 
   · exact (PL2330.XNormRestr_eq_rN θ Λ₁ Λ₂ B (fun ts k => f ts k - app ts k)).symm.le.trans he
   · exact (PL2330.XNormRestr_eq_rN θ Λ₁ Λ₂ B app).symm.le.trans ha
 
-theorem couple_slot_coh (P : WTParams) (hd1 : 1 ≤ P.d) (hL1 : 1 ≤ P.L) (hη0 : 0 ≤ P.η) (hη : P.η ≤ 1 / 2)
-    (hC : 0 ≤ P.C₁) (hδ : 0 ≤ P.δ) (hgcoh : LeafwiseCoherentApproximationAt P) :
-    ∃ C : ℝ≥0∞, C ≠ ⊤ ∧ C = cenCplC P.d P.η ∧ ∀ (p n : ℕ), p < P.D → n ≤ P.N (p + 1) ^ 4 →
-      ∀ (Q : RegCpl) (LG : LayeredGarden 2) (q q' : ℕ), q' ≤ q → q ≤ p → Q.size = 2 * n →
-      IsCoherentCoupleAt p q q' Q LG →
-      ∀ (H : LeafProfiles 2 P.d) (B : (Fin 2 × TTree.Path) → NNReal), LeafwiseControlled LG H B →
-      CenSup (30 * P.d) (timeBox (q : ℝ) q')
-        (fun ts k => coupleLeaves P.L P.γ P.δ LG H (ts 0) (ts 1) k)
-        (C * (regBound P n 1 * ENNReal.ofReal (leafSizeProduct LG B) +
-          sepMass P n (leafSizeProduct LG B))) := by
-  obtain ⟨C, hC0, hCe, h⟩ := cenSup_couple P hd1 hη0
-  refine ⟨C, hC0, hCe, fun p n hp hn Q LG q q' hqq' hqp hsz hcoh H B hctrl => ?_⟩
-  obtain ⟨hXe, -, hsep⟩ := (hgcoh p hp n hn).1 Q LG q q' hqq' hqp hsz hcoh H B hctrl
-  have hcost : 0 ≤ leafSizeProduct LG B := Finset.prod_nonneg fun _ _ => NNReal.coe_nonneg _
-  have hplain : LG.garden.IsPlain := hcoh.2.1.1.1
-  have hKc : ∀ k, Continuous fun ts : Fin 2 → ℝ => coupleLeaves P.L P.γ P.δ LG H (ts 0) (ts 1) k :=
-    fun k => continuous_coupleLeaves_time P.L P.γ P.δ H LG hplain k (hctrl.summable_coset hd1 hL1 k)
-  have hA : XNormRestr P.η (30 * P.d) (30 * P.d) (timeBox (q : ℝ) q') Set.univ
-      (fun ts k => LeafApp.coherentCouple P.δ LG H Q q q' (ts 0) (ts 1) k) ≤
-      sepMass P n (leafSizeProduct LG B) := by
-    rw [PL2330.XNormRestr_eq_rN]
-    exact rN_leafwiseSeparated_le hsep hd1 (by linarith) hC hδ hcost
-  exact h q q' _ _ (ENNReal.add_ne_top.2 ⟨ENNReal.mul_ne_top (regBound_ne_top _ _ _) ENNReal.ofReal_ne_top,
-    ENNReal.ofReal_ne_top⟩) hKc (xnorm_add_split (by omega) _ _ hXe hA)
-
 theorem couple_slot_coh_of (P : WTParams) (hd1 : 1 ≤ P.d) (hL1 : 1 ≤ P.L) (hη0 : 0 ≤ P.η) (hη : P.η ≤ 1 / 2)
     (hC : 0 ≤ P.C₁) (hδ : 0 ≤ P.δ) :
     ∃ C : ℝ≥0∞, C ≠ ⊤ ∧ C = cenCplC P.d P.η ∧ ∀ (n q q' : ℕ) (f : (Fin 2 → ℝ) → Mom P.d → ℂ) (LG : LayeredGarden 2)

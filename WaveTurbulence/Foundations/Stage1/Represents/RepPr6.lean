@@ -5,7 +5,7 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.Stage1.Represents.RepGlue
+public import WaveTurbulence.Foundations.Stage1.Geometry.SubproFinal2
 public import WaveTurbulence.Foundations.Stage1.Geometry.RedSpliceFinalR83
 public import WaveTurbulence.Foundations.Stage1.Geometry.RedSpliceAmend7R83
 public import WaveTurbulence.Foundations.Stage1.Geometry.SubproFinal2R83

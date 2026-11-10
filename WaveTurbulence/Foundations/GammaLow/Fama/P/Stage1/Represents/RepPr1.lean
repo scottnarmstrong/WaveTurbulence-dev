@@ -2,7 +2,6 @@
 -- L5a port of main `WaveTurbulence.Foundations.Stage1.Represents.RepPr1` (sha256 in COPIED-SHA256SUMS) over L6's 𝒱_γ carrier `Src`.
 module
 public import WaveTurbulence.Foundations.GammaLow.Fama.Vine.IsoStmt
-public import WaveTurbulence.Foundations.Vine.A.VineAExports
 public import WaveTurbulence.Foundations.Stage1.Represents.RepGateA
 import Mathlib.Tactic
 public import WaveTurbulence.Foundations.Stage1.Represents.RepPr1

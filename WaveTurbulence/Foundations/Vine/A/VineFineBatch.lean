@@ -68,33 +68,4 @@ theorem BatchIso.unitsMk (h : BatchIso p kind L A B F) :
     rw [transportPrescription_trans] at hb
     exact hp'.trans hb
 
-/-- Actual chosen unit lists transport through every actual batch trace. -/
-theorem BatchIso.units (h : BatchIso p kind L A B F) (σ : Prescription A.skeleton)
-    (hA : IsV0Fam A.family σ) :
-    ((unitBlocks A.skeleton σ).map (fun u => F.img u.atoms)).Perm
-      ((unitBlocks B.skeleton (transportPrescription F σ)).map CLBlock.atoms) :=
-  h.unitsMk σ ∅ ∅ hA (Stage1Mk.markTransported_empty F)
-
-/-- B1b-2 (Mk-general form of `BatchIso.badCount`). -/
-theorem BatchIso.badCountMk (h : BatchIso p kind L A B F) :
-    ∀ (σ : Prescription A.skeleton) (Mk : Set (Stage1.CLVine A.skeleton)) (Mk' : Set (Stage1.CLVine B.skeleton)),
-      IsV0Fam A.family σ Mk → Stage1Mk.MarkTransported F Mk Mk' →
-      bskOf B.skeleton (transportPrescription F σ) Mk' = bskOf A.skeleton σ Mk := by
-  induction h with
-  | nil A =>
-    intro σ Mk Mk' _ hT
-    rw [transportPrescription_refl, ← Stage1Mk.markTransported_refl_eq hT]
-  | skip _ _ ih => exact ih
-  | @apply L A B i op J h ih =>
-    intro σ Mk Mk' hA hT
-    obtain ⟨h1, h2⟩ := Stage1Mk.markTransported_split (operationMolIso op) J hT
-    have hb := ih (transportPrescription (operationMolIso op) σ) _ Mk' (isV0Fam_operationMk hA op h1) h2
-    rw [transportPrescription_trans] at hb
-    exact hb.trans (bskOf_operationMk hA op h1)
-
-/-- The actual b_sk count is invariant along every actual batch trace. -/
-theorem BatchIso.badCount (h : BatchIso p kind L A B F) (σ : Prescription A.skeleton)
-    (hA : IsV0Fam A.family σ) : bskOf B.skeleton (transportPrescription F σ) = bskOf A.skeleton σ :=
-  h.badCountMk σ ∅ ∅ hA (Stage1Mk.markTransported_empty F)
-
 end WaveTurbulence.VineA

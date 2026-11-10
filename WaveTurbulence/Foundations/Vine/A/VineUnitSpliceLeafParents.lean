@@ -31,12 +31,6 @@ theorem unitSpliceLeafEquiv_root_addressMk (Z : TwistGroupSite G) (σ : Prescrip
     ((congrArg Subtype.val (unitSpliceLeafEquiv_namesMk Z σ hT hsel q)).trans
       ((coreLeaf_root_address Z.P _ ho).trans ((spliceFoldLeafTrace (unitBlocks G σ Mk)).root_address q hq)))
 
-/-- Actual full-leaf roots retain their literal addresses after both simultaneous splices. -/
-theorem unitSpliceLeafEquiv_root_address (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) (q : GLeaf (stSt G σ).G.tree)
-    (hq : q.1.2 = []) : (unitSpliceLeafEquiv Z σ hsel q).1 = q.1 :=
-  unitSpliceLeafEquiv_root_addressMk Z σ (Stage1Mk.markTransported_empty Z.iso) hsel q hq
-
 /-- B1b-2 (Mk-general form of `unitSpliceLeafEquiv_parent`). -/
 theorem unitSpliceLeafEquiv_parentMk (Z : TwistGroupSite G) (σ : Prescription G)
     {Mk : Set (CLVine G)} {Mk' : Set (CLVine Z.target)} (hT : Stage1Mk.MarkTransported Z.iso Mk Mk')
@@ -70,14 +64,6 @@ theorem unitSpliceLeafEquiv_parentMk (Z : TwistGroupSite G) (σ : Prescription G
         ((congrArg (repC (stSt Z.target (transportPrescription Z.iso σ) Mk').cls) hp).symm.trans
           (U.parent (e q) hnew hon).symm)))
 
-/-- The full leaf map intertwines every actual surviving parent, including non-LP leaves. -/
-theorem unitSpliceLeafEquiv_parent (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) (q : GLeaf (stSt G σ).G.tree) (hn : q.1.2 ≠ []) :
-    let e := unitSpliceLeafEquiv Z σ hsel
-    let hnew : (e q).1.2 ≠ [] := fun h => hn ((unitSpliceLeafEquiv_root Z σ hsel q).mp h)
-    (unitSpliceMolIso Z σ hsel).e (GNode.parent q.toNode hn) = GNode.parent (e q).toNode hnew :=
-  unitSpliceLeafEquiv_parentMk Z σ (Stage1Mk.markTransported_empty Z.iso) hsel q hn
-
 /-- B1b-2 (Mk-general form of `unitSpliceLeafEquiv_index`). -/
 theorem unitSpliceLeafEquiv_indexMk (Z : TwistGroupSite G) (σ : Prescription G)
     {Mk : Set (CLVine G)} {Mk' : Set (CLVine Z.target)} (hT : Stage1Mk.MarkTransported Z.iso Mk Mk')
@@ -89,11 +75,5 @@ theorem unitSpliceLeafEquiv_indexMk (Z : TwistGroupSite G) (σ : Prescription G)
     have hi := unitSpliceMolIso_branch_indexMk Z σ hT hsel (GNode.parent q.toNode hroot)
     have he := congrArg (fun b : GBranch (stSt Z.target (transportPrescription Z.iso σ) Mk').G.tree => b.1.1) hp
     exact he.symm.trans hi
-
-/-- Tree indices of all actual surviving leaves, hence their root-time indices, agree. -/
-theorem unitSpliceLeafEquiv_index (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) (q : GLeaf (stSt G σ).G.tree) :
-    (unitSpliceLeafEquiv Z σ hsel q).1.1 = q.1.1 :=
-  unitSpliceLeafEquiv_indexMk Z σ (Stage1Mk.markTransported_empty Z.iso) hsel q
 
 end WaveTurbulence.VineA

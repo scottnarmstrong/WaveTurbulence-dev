@@ -1,7 +1,7 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 public import WaveTurbulence.Foundations.Vine.A.VineUnitSelectedMK
-public import WaveTurbulence.Foundations.Vine.A.VineUnitIngredients
+public import WaveTurbulence.Foundations.Vine.A.VineUnitList
 public import WaveTurbulence.Foundations.Molecule.VineLowDegreeJoints
 /-! The actual ChainIngredient carrier of the chosen units is exactly the
 atom-set carrier of V0(sigma). This strengthens the earlier unit-cover result. -/
@@ -46,9 +46,5 @@ theorem mem_unitIngredients_iffMk {σ : Prescription G} {T : Finset (GBranch G.t
     refine ⟨u, hu, u.upper, u.lower, L.length, p, q, ?_⟩
     rw [hat]
     exact hs.ingredient_of_mem hm
-
-/-- The chosen units' actual ingredient carrier equals the selected source carrier. -/
-theorem mem_unitIngredients_iff {σ : Prescription G} {T : Finset (GBranch G.tree)} :
-    T ∈ unitIngredients G σ ↔ ∃ c ∈ vinesV0 G σ, c.atoms = T := mem_unitIngredients_iffMk (Mk := ∅)
 
 end WaveTurbulence.VineA

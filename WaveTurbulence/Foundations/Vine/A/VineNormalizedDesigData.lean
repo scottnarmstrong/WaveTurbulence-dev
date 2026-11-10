@@ -46,28 +46,4 @@ theorem normalizedDesig_dv_data (hS : PureDVGroup G S) {a : GBranch G.tree} {O :
   obtain ⟨A, b, hp, hA, hL, hv, hV⟩ := h.2.2.2.2.2.2.2 hS.skip_none hS.units_empty hS.2.2
   exact ⟨A, b, hp, hA, h.1.symm, hL, hv, by simp only [objectAdded, hV]⟩
 
-/-- Single-HV designated objects are unique, even when joint witnesses were chosen independently. -/
-theorem normalizedDesig_hv_unique (hS : SingleHVGroup G S)
-    {a b : GBranch G.tree} {O P : Object G.molecule}
-    (hO : NormalizedSplice.IsDesig G S a O) (hP : NormalizedSplice.IsDesig G S b P) : O = P := by
-  obtain ⟨c, e, hp, hA, hU, hL, hD⟩ := normalizedDesig_hv_data hS hO
-  obtain ⟨d, f, hq, kA, kU, kL, kD⟩ := normalizedDesig_hv_data hS hP
-  have he := Option.some.inj (hp.symm.trans hq)
-  have hab := congrArg Prod.fst he
-  have hcd := congrArg (fun t => t.2.1) he
-  have hef := congrArg (fun t => t.2.2) he
-  exact object_eq_of_data O P (hA.trans kA.symm) (hU.trans (hab.trans kU.symm))
-    (hL.trans (hcd.trans kL.symm)) (hD.trans ((congrArg some hef).trans kD.symm))
-
-/-- Pure-DV designated objects are unique on the selected whole constituent. -/
-theorem normalizedDesig_dv_unique (hS : PureDVGroup G S)
-    {a b : GBranch G.tree} {O P : Object G.molecule}
-    (hO : NormalizedSplice.IsDesig G S a O) (hP : NormalizedSplice.IsDesig G S b P) : O = P := by
-  obtain ⟨A, c, hp, hA, hU, hL, _, hD⟩ := normalizedDesig_dv_data hS hO
-  obtain ⟨B, d, hq, kA, kU, kL, _, kD⟩ := normalizedDesig_dv_data hS hP
-  have he := Option.some.inj (hp.symm.trans hq)
-  exact object_eq_of_data O P (hA.trans ((congrArg Prod.fst he).trans kA.symm))
-    (hU.trans ((congrArg (fun t => t.2.1) he).trans kU.symm))
-    (hL.trans ((congrArg (fun t => t.2.2) he).trans kL.symm)) (hD.trans kD.symm)
-
 end WaveTurbulence.VineA

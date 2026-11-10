@@ -43,18 +43,6 @@ def CenSupM (θ : ℝ) (A : ℕ) (B : Set (Fin r → ℝ)) (f : (Fin r → ℝ) 
     (∀ t ∈ B, ∀ k, HasSum (fun l => (w l : ℂ) * a l k * fsPhase (m l) t) (f t k)) ∧
     ∑' l, maxBracketPow θ (half (m l)) * ENNReal.ofReal (w l) ≤ μ
 
-theorem SupM.toSup {θ : ℝ} (hθ : 0 ≤ θ) {A : ℕ} {B : Set (Fin r → ℝ)} {f : (Fin r → ℝ) → Mom d → ℂ}
-    {μ : ℝ≥0∞} (h : SupM θ A B f μ) : Sup A B f μ := by
-  obtain ⟨Λ, hc, w, m, a, h1, h2, h3, h4, h5⟩ := h
-  refine ⟨Λ, hc, w, m, a, h1, h2, h3, h4, le_trans (ENNReal.tsum_le_tsum fun l => ?_) h5⟩
-  exact le_mul_of_one_le_left bot_le (RepAnalytic.one_le_maxBracketPow hθ _)
-
-theorem CenSupM.toCenSup {θ : ℝ} (hθ : 0 ≤ θ) {A : ℕ} {B : Set (Fin r → ℝ)} {f : (Fin r → ℝ) → Mom d → ℂ}
-    {μ : ℝ≥0∞} (h : CenSupM θ A B f μ) : CenSup A B f μ := by
-  obtain ⟨Λ, hc, w, m, n, a, h1, h2, h3, h3', h4, h5⟩ := h
-  refine ⟨Λ, hc, w, m, n, a, h1, h2, h3, h3', h4, le_trans (ENNReal.tsum_le_tsum fun l => ?_) h5⟩
-  exact le_mul_of_one_le_left bot_le (RepAnalytic.one_le_maxBracketPow hθ _)
-
 theorem SupM.mono {θ : ℝ} {A : ℕ} {B : Set (Fin r → ℝ)} {f : (Fin r → ℝ) → Mom d → ℂ} {μ μ' : ℝ≥0∞}
     (h : SupM θ A B f μ) (hμ : μ ≤ μ') : SupM θ A B f μ' := by
   obtain ⟨Λ, hc, w, m, a, h1, h2, h3, h4, h5⟩ := h

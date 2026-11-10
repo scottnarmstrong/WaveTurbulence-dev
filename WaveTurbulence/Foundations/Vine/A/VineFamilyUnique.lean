@@ -46,15 +46,4 @@ theorem coreFamilyOf_reindex_data {ι : Type*} (F : CoreFamily G ι) (U : Set (C
   refine ⟨indexEquiv F U hmem hcover, fun i => ?_⟩
   exact ⟨indexEquiv_kind F U hmem hcover i, rfl, rfl, indexEquiv_placement F U hmem hcover i⟩
 
-/-- The geometric identification determines the reindexing uniquely. -/
-theorem indexEquiv_unique {ι : Type*} (F : CoreFamily G ι) (U : Set (CLVine G))
-    (hmem : ∀ i, familyVine F i ∈ U)
-    (hcover : ∀ c ∈ U, (∃ X, IsCoreCLVine G X c.atoms c.upper c.lower) →
-      ∃ i, F.atoms i = c.atoms) (e : ι ≃ CoreIndex U)
-    (he : ∀ i, (e i).1.atoms = F.atoms i) : e = indexEquiv F U hmem hcover := by
-  apply Equiv.ext
-  intro i
-  apply Subtype.ext
-  exact clVine_eq_of_atoms (he i)
-
 end WaveTurbulence.VineA

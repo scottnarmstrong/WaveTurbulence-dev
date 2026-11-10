@@ -3,9 +3,6 @@
 module
 public import WaveTurbulence.Foundations.GammaLow.Fama.Vine.IsoStmt
 public import WaveTurbulence.Foundations.Vine.A.VinePieceProfile
-public import WaveTurbulence.Foundations.Vine.A.VinePlainTauPartition
-public import WaveTurbulence.Foundations.Vine.A.VineNormalizedCollectionGeometry
-public import WaveTurbulence.Foundations.Vine.A.VineNormalizedHingeGapTransport
 public import WaveTurbulence.Foundations.GammaLow.Fama.P.Vine.A.VineMarkedClasses
 public import WaveTurbulence.Foundations.Vine.A.VinePlainA4
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.CL

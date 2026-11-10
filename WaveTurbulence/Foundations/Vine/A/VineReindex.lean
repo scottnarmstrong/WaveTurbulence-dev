@@ -53,13 +53,6 @@ noncomputable def indexEquiv {ι : Type*} (F : CoreFamily G ι) (U : Set (CLVine
     obtain ⟨i, hi⟩ := hcover c.1 c.2.1 c.2.2
     exact ⟨i, Subtype.ext (clVine_eq_of_atoms hi)⟩
 
-/-- Reindexing identifies the entire geometric vine, not only its cardinality. -/
-theorem indexEquiv_vine {ι : Type*} (F : CoreFamily G ι) (U : Set (CLVine G))
-    (hmem : ∀ i, familyVine F i ∈ U)
-    (hcover : ∀ c ∈ U, (∃ X, IsCoreCLVine G X c.atoms c.upper c.lower) →
-      ∃ i, F.atoms i = c.atoms) (i : ι) :
-    (indexEquiv F U hmem hcover i).1 = familyVine F i := rfl
-
 /-- Consequently the chosen actual placements agree under the reindexing. -/
 theorem indexEquiv_placement {ι : Type*} (F : CoreFamily G ι) (U : Set (CLVine G))
     (hmem : ∀ i, familyVine F i ∈ U)

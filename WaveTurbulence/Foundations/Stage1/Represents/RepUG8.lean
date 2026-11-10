@@ -5,7 +5,7 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.Stage1.Represents.RepLfClk2
+public import WaveTurbulence.Foundations.Stage1.Represents.RepLfClk1
 import Mathlib.Tactic
 
 /-!

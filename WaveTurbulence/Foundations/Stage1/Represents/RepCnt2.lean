@@ -86,14 +86,6 @@ theorem card_mergedAtomsMk {Mk : Set (Stage1.CLVine _)} : (mergedAtoms (Mk := Mk
   · rintro ⟨u, hu, hv⟩
     rw [stSt_cls_memMk (Mk := Mk) hM σ hu hv]; simp
 
-theorem card_mergedAtoms : (mergedAtoms σ).card = ((unitBlocks S σ).map fun u => u.atoms.card).sum := card_mergedAtomsMk (Mk := ∅) hM σ
-
-theorem crownAtoms_subset : crownAtoms σ ⊆ mergedAtoms σ := by
-  classical
-  intro v hv
-  simp only [crownAtoms, mergedAtoms, Finset.mem_filter, Finset.mem_univ, true_and] at hv ⊢
-  rw [hv]; simp
-
 /-- B1b (Mk-general form of `card_crownAtoms_le`). -/
 theorem card_crownAtoms_leMk {Mk : Set (Stage1.CLVine _)} : (crownAtoms (Mk := Mk) σ).card ≤ (unitBlocks (Mk := Mk) S σ).length := by
   classical
@@ -112,8 +104,6 @@ theorem card_crownAtoms_leMk {Mk : Set (Stage1.CLVine _)} : (crownAtoms (Mk := M
   refine (Finset.card_le_card this).trans ?_
   exact (List.toFinset_card_le _).trans (by simp)
 
-theorem card_crownAtoms_le : (crownAtoms σ).card ≤ (unitBlocks S σ).length := card_crownAtoms_leMk (Mk := ∅) hM σ
-
 /-- B1b (Mk-general form of `two_mul_units_le`). -/
 theorem two_mul_units_leMk {Mk : Set (Stage1.CLVine _)} : 2 * (unitBlocks (Mk := Mk) S σ).length ≤ (mergedAtoms (Mk := Mk) σ).card := by
   rw [card_mergedAtomsMk (Mk := Mk) hM σ]
@@ -128,8 +118,6 @@ theorem two_mul_units_leMk {Mk : Set (Stage1.CLVine _)} : 2 * (unitBlocks (Mk :=
       have := h u (List.mem_cons_self ..)
       omega
   exact this _ fun u _ => two_le_card_atoms hM u
-
-theorem two_mul_units_le : 2 * (unitBlocks S σ).length ≤ (mergedAtoms σ).card := two_mul_units_leMk (Mk := ∅) hM σ
 
 /-- B1b (Mk-general form of `order_add_merged`). -/
 theorem order_add_mergedMk {Mk : Set (Stage1.CLVine _)} :
@@ -160,9 +148,6 @@ theorem order_add_mergedMk {Mk : Set (Stage1.CLVine _)} :
   rw [hord, hsplit, Finset.card_union_of_disjoint hdisj]
   omega
 
-theorem order_add_merged :
-    (stSt S σ).G.order + (mergedAtoms σ).card = S.order + (crownAtoms σ).card := order_add_mergedMk (Mk := ∅) hM σ
-
 /-- B1b (Mk-general form of `card_hinges_eq`). -/
 theorem card_hinges_eqMk {Mk : Set (Stage1.CLVine _)} : (stSt (Mk := Mk) S σ).hinges.card = (crownAtoms (Mk := Mk) σ).card := by
   classical
@@ -181,8 +166,6 @@ theorem card_hinges_eqMk {Mk : Set (Stage1.CLVine _)} : (stSt (Mk := Mk) S σ).h
     have hr : ∃ c, st.M.ob c = v := (st.M.ob_range v).mpr (Or.inr h)
     obtain ⟨c, hc⟩ := hr
     exact ⟨c, by rw [hc, h]; simp, hc⟩
-
-theorem card_hinges_eq : (stSt S σ).hinges.card = (crownAtoms σ).card := card_hinges_eqMk (Mk := ∅) hM σ
 
 /-- B1b (Mk-general form of `order_add_hinges_le`). -/
 theorem order_add_hinges_leMk {Mk : Set (Stage1.CLVine _)} : (stSt (Mk := Mk) S σ).G.order + (stSt (Mk := Mk) S σ).hinges.card ≤ S.order := by
@@ -216,10 +199,6 @@ theorem order_add_units_leMk {Mk : Set (Stage1.CLVine _)} :
         omega
     exact this _ fun u _ => two_le_card_atoms hM u
   omega
-
-/-- `n_sb + Σ_u (|u.atoms| - 1) ≤ n_sk`. -/
-theorem order_add_units_le :
-    (stSt S σ).G.order + ((unitBlocks S σ).map fun u => u.atoms.card - 1).sum ≤ S.order := order_add_units_leMk (Mk := ∅) hM σ
 
 end Counts
 end WaveTurbulence.Represents

@@ -43,14 +43,6 @@ theorem unitSpliceMolIso_branch_signMk (Z : TwistGroupSite G) (σ : Prescription
       (coreBranchEquiv_sign G Z.P _).trans (ite_eq_right hn)
     _ = _ := ((spliceFoldBranchTrace (unitBlocks G σ Mk)).sign c).symm
 
-/-- The actual spliced branch map preserves signs: its only sign-changing node was deleted. -/
-theorem unitSpliceMolIso_branch_sign (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0)
-    (c : GBranch (stSt G σ).G.tree) :
-    (stSt Z.target (transportPrescription Z.iso σ)).G.sign
-      ((unitSpliceMolIso Z σ hsel).e c).toNode = (stSt G σ).G.sign c.toNode :=
-  unitSpliceMolIso_branch_signMk Z σ (Stage1Mk.markTransported_empty Z.iso) hsel c
-
 /-- B1b-2 (Mk-general form of `unitSpliceMolIso_branch_root`). -/
 theorem unitSpliceMolIso_branch_rootMk (Z : TwistGroupSite G) (σ : Prescription G)
     {Mk : Set (CLVine G)} {Mk' : Set (CLVine Z.target)} (hT : Stage1Mk.MarkTransported Z.iso Mk Mk')
@@ -61,13 +53,6 @@ theorem unitSpliceMolIso_branch_rootMk (Z : TwistGroupSite G) (σ : Prescription
     ((Iff.of_eq (congrArg (fun b : GBranch Z.target.tree => b.1.2 = [])
       (unitSpliceMolIso_branch_namesMk Z σ hT hsel c))).trans
         ((coreBranch_root_iff Z.P _).trans ((stSt G σ Mk).M.ob_root c)))
-
-/-- The actual spliced branch map preserves the root predicate. -/
-theorem unitSpliceMolIso_branch_root (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0)
-    (c : GBranch (stSt G σ).G.tree) :
-    ((unitSpliceMolIso Z σ hsel).e c).1.2 = [] ↔ c.1.2 = [] :=
-  unitSpliceMolIso_branch_rootMk Z σ (Stage1Mk.markTransported_empty Z.iso) hsel c
 
 /-- B1b-2 (Mk-general form of `unitSpliceMolIso_root_address`). -/
 theorem unitSpliceMolIso_root_addressMk (Z : TwistGroupSite G) (σ : Prescription G)
@@ -80,12 +65,6 @@ theorem unitSpliceMolIso_root_addressMk (Z : TwistGroupSite G) (σ : Prescriptio
     ((congrArg Subtype.val (unitSpliceMolIso_branch_namesMk Z σ hT hsel c)).trans
       ((coreBranch_root_address Z.P _ hold).trans
         ((spliceFoldBranchTrace (unitBlocks G σ Mk)).root_address c hroot)))
-
-/-- Actual branching-root addresses are fixed after splicing on both sides of the twist. -/
-theorem unitSpliceMolIso_root_address (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) (c : GBranch (stSt G σ).G.tree)
-    (hroot : c.1.2 = []) : ((unitSpliceMolIso Z σ hsel).e c).1 = c.1 :=
-  unitSpliceMolIso_root_addressMk Z σ (Stage1Mk.markTransported_empty Z.iso) hsel c hroot
 
 /-- B1b-2 (Mk-general form of `unitSpliceMolIso_parent`). -/
 theorem unitSpliceMolIso_parentMk (Z : TwistGroupSite G) (σ : Prescription G)
@@ -116,14 +95,6 @@ theorem unitSpliceMolIso_parentMk (Z : TwistGroupSite G) (σ : Prescription G)
     hp]
   exact (unitBlocks_repC_twistMk Z σ hT hsel (GNode.parent (M.ob c).toNode ho)).symm
 
-/-- Every actual retained branching parent agrees through the induced unit-twist quotient. -/
-theorem unitSpliceMolIso_parent (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) (c : GBranch (stSt G σ).G.tree) (hn : c.1.2 ≠ []) :
-    let F := unitSpliceMolIso Z σ hsel
-    let hnew : (F.e c).1.2 ≠ [] := fun h => hn ((unitSpliceMolIso_branch_root Z σ hsel c).mp h)
-    F.e (GNode.parent c.toNode hn) = GNode.parent (F.e c).toNode hnew :=
-  unitSpliceMolIso_parentMk Z σ (Stage1Mk.markTransported_empty Z.iso) hsel c hn
-
 /-- B1b-2 (Mk-general form of `unitSpliceMolIso_branch_index`). -/
 theorem unitSpliceMolIso_branch_indexMk (Z : TwistGroupSite G) (σ : Prescription G)
     {Mk : Set (CLVine G)} {Mk' : Set (CLVine Z.target)} (hT : Stage1Mk.MarkTransported Z.iso Mk Mk')
@@ -141,11 +112,5 @@ decreasing_by
   rw [List.length_dropLast]
   have hpos := List.length_pos_of_ne_nil hroot
   omega
-
-/-- Actual tree indices, hence root-time indices, agree after simultaneous splicing. -/
-theorem unitSpliceMolIso_branch_index (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) (c : GBranch (stSt G σ).G.tree) :
-    ((unitSpliceMolIso Z σ hsel).e c).1.1 = c.1.1 :=
-  unitSpliceMolIso_branch_indexMk Z σ (Stage1Mk.markTransported_empty Z.iso) hsel c
 
 end WaveTurbulence.VineA

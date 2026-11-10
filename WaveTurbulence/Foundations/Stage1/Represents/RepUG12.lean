@@ -42,13 +42,6 @@ theorem lay_hingeMk (hM : S.molecule.IsMolecule) (σ : Prescription S) {Mk : Set
   show layer (D.coreBranch hS ((stSt (Mk := Mk) S σ).M.ob ((stShape (Mk := Mk) hM σ).hinge (unitBlkMk_disj (Mk := Mk) hM σ) j))).toNode = _
   rw [h']
 
-theorem lay_hinge (hM : S.molecule.IsMolecule) (σ : Prescription S) (j : Fin (unitBlocks S σ).length)
-    (D : ReconstructionData S) (hS : S.IsPlain) (layer : GNode (D.forest hS) → ℕ)
-    (hLayer : IsLayering (D.garden hS) layer) :
-    (stSt S σ).layer (RegRed.coreLayer (layeredReconstruction D hS layer hLayer) D hS (D.garden_decodes hS))
-        ((stShape hM σ).hinge (unitBlk_disj hM σ) j) =
-      layer (D.coreBranch hS (unitBlk hM σ j).upper).toNode := lay_hingeMk (Mk := ∅) hM σ j D hS layer hLayer
-
 /-- B1b (Mk-general form of `lay_branch_child`). -/
 theorem lay_branch_childMk (hM : S.molecule.IsMolecule) (σ : Prescription S) {Mk : Set (Stage1.CLVine _)} (j : Fin (unitBlocks (Mk := Mk) S σ).length)
     (D : ReconstructionData S) (hS : S.IsPlain) (layer : GNode (D.forest hS) → ℕ)
@@ -81,14 +74,6 @@ theorem lay_branch_childMk (hM : S.molecule.IsMolecule) (σ : Prescription S) {M
   show layer (D.coreBranch hS ((stSt (Mk := Mk) S σ).M.ob c)).toNode = _
   rw [hob]
 
-theorem lay_branch_child (hM : S.molecule.IsMolecule) (σ : Prescription S) (j : Fin (unitBlocks S σ).length)
-    (D : ReconstructionData S) (hS : S.IsPlain) (layer : GNode (D.forest hS) → ℕ)
-    (hLayer : IsLayering (D.garden hS) layer) (k : Fin 4) (c : GBranch (stSt S σ).G.tree)
-    (hc : nodeClk (stSt S σ).G ((stShape hM σ).hmom (unitBlk_disj hM σ) j k) = Sum.inr c) :
-    ∃ hb : (bnodes (unitBlk hM σ j) k).1.2 ∈ (S.tree (bnodes (unitBlk hM σ j) k).1.1).branching,
-      (stSt S σ).layer (RegRed.coreLayer (layeredReconstruction D hS layer hLayer) D hS (D.garden_decodes hS)) c =
-        layer (D.coreBranch hS ⟨(bnodes (unitBlk hM σ j) k).1, hb⟩).toNode := lay_branch_childMk (Mk := ∅) hM σ j D hS layer hLayer k c hc
-
 /-- The core layer is monotone along the unit: every atom of the unit has core layer at most that of its upper joint. -/
 theorem layer_core_le_upper (u : CLBlock S) (D : ReconstructionData S) (hS : S.IsPlain)
     (layer : GNode (D.forest hS) → ℕ) (hLayer : IsLayering (D.garden hS) layer) :
@@ -114,27 +99,5 @@ theorem layer_core_le_upper (u : CLBlock S) (D : ReconstructionData S) (hS : S.I
       have h1 := ih _ hlen (v.toNode.parent hnr) rfl hp
       have h2 := hpre (v.toNode.parent hnr) v i hi.symm
       exact le_trans h2 h1
-
-/-- A boundary node of a unit whose `G_sb` clock is a root time is not a branch of the skeleton. -/
-theorem not_branch_of_nodeClk_inl (hM : S.molecule.IsMolecule) (σ : Prescription S) (j : Fin (unitBlocks S σ).length)
-    (k : Fin 4) (r : Fin w)
-    (hc : nodeClk (stSt S σ).G ((stShape hM σ).hmom (unitBlk_disj hM σ) j k) = Sum.inl r) :
-    (bnodes (unitBlk hM σ j) k).1.2 ∉ (S.tree (bnodes (unitBlk hM σ j) k).1.1).branching := by
-  intro h
-  set b' : GBranch S.tree := ⟨(bnodes (unitBlk hM σ j) k).1, h⟩ with hb'
-  have hbn : b'.toNode = bnodes (unitBlk hM σ j) k := rfl
-  have hr : Ret (unitBlk hM σ) b'.toNode := by
-    rw [hbn]; exact (stShape hM σ).ret_bdryNode (unitBlk_disj hM σ) j k
-  obtain ⟨c, hcb⟩ := (stShape hM σ).exists_br hr
-  have h1 : (stShape hM σ).node c.toNode = (stShape hM σ).node ((stShape hM σ).hmom (unitBlk_disj hM σ) j k) := by
-    rw [← (stShape hM σ).br_node, hcb, hbn, (stShape hM σ).node_hmom]
-  have h2 := (stShape hM σ).inj h1
-  rw [← h2] at hc
-  have hcc : nodeClk (stSt S σ).G c.toNode = Sum.inr c := by
-    unfold nodeClk
-    rw [dif_pos (show c.toNode.1.2 ∈ ((stSt S σ).G.tree c.toNode.1.1).branching from c.2)]
-    rfl
-  rw [hcc] at hc
-  exact absurd hc (by simp)
 
 end WaveTurbulence.Represents

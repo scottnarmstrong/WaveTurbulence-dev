@@ -55,20 +55,4 @@ noncomputable def outerVal (G : Garden w) (hS : G.IsPlain) (L γ δ : ℝ) (base
           (∏ s, Fn s (slotTs hS tt τ s) (base + latticePoint L (z.1 (slotNode hS s)))) *
           ∏ j, Hk j (fun c => clockOf G tt τ (hclk j c)) (fun c => base + latticePoint L (z.1 (hmom j c)))) τ
 
-/-- With no units, the outer form is the vine-free skeleton expression (the shape of `represents_noVine`). -/
-theorem outerVal_empty (G : Garden w) (hS : G.IsPlain) (L γ δ : ℝ) (base : Mom d)
-    (roots : Fin w → (Fin d → ℤ)) (tt : Fin w → ℝ) (layer : GBranch G.tree → ℕ)
-    (hinges : Finset (GBranch G.tree)) (Zw : GenDecoration G d roots 0 → ℝ)
-    (Fn : ReplacementSlot G → (Fin 2 → ℝ) → Mom d → ℂ)
-    (hclk : Empty → Fin 3 → ClkSrc G) (hmom : Empty → Fin 4 → GNode G.tree)
-    (Hk : Empty → (Fin 3 → ℝ) → (Fin 4 → Mom d) → ℂ) :
-    outerVal G hS L γ δ base roots tt layer hinges Zw Fn hclk hmom Hk =
-      (coupling d L γ δ : ℂ) ^ G.order * G.zeta *
-        ∑' z : GenDecoration G d roots 0, (splicedEpsilon G hinges z.1 : ℂ) * (Zw z : ℂ) *
-          ∫ τ : GBranch G.tree → ℝ, (splicedTimeDomain G layer tt).indicator (fun τ =>
-            phaseProd L γ δ G (cosetDecoration G L base z.1) τ *
-              ∏ s, Fn s (slotTs hS tt τ s) (base + latticePoint L (z.1 (slotNode hS s)))) τ := by
-  unfold outerVal
-  simp only [Finset.univ_eq_empty, Finset.prod_empty, mul_one]
-
 end WaveTurbulence.Represents

@@ -88,14 +88,6 @@ theorem qOut_le_coreMk (hM : S.molecule.IsMolecule) (σ : Prescription S) {Mk : 
         layer (RD.coreBranch hG (unitBlkMk (Mk := Mk) hM σ j).lower).toNode :=
   ⟨layer_outNode_le RD hG layer hLayer _ _, layer_outNode_le RD hG layer hLayer _ _⟩
 
-theorem qOut_le_core (hM : S.molecule.IsMolecule) (σ : Prescription S) (j : Fin (unitBlocks S σ).length)
-    (RD : ReconstructionData S) (hG : S.IsPlain) (layer : GNode (RD.forest hG) → ℕ)
-    (hLayer : IsLayering (RD.garden hG) layer) :
-    qOutOf RD hG layer (unitBlk hM σ j).upper (unitBlk hM σ j).lower (regionOf (unitBlk hM σ j)) 1 ≤
-        layer (RD.coreBranch hG (unitBlk hM σ j).lower).toNode ∧
-      qOutOf RD hG layer (unitBlk hM σ j).upper (unitBlk hM σ j).lower (regionOf (unitBlk hM σ j)) 2 ≤
-        layer (RD.coreBranch hG (unitBlk hM σ j).lower).toNode := qOut_le_coreMk (Mk := ∅) hM σ j RD hG layer hLayer
-
 /-- B1b (Mk-general form of `hqle_units`). -/
 theorem hqle_unitsMk (hM : S.molecule.IsMolecule) (σ : Prescription S) {Mk : Set (Stage1.CLVine _)} (j : Fin (unitBlocks (Mk := Mk) S σ).length)
     (RD : ReconstructionData S) (hG : S.IsPlain) (layer : GNode (RD.forest hG) → ℕ)

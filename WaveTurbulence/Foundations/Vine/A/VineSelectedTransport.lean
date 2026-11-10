@@ -60,24 +60,4 @@ theorem vinesV0_preimageMk (Z : TwistGroupSite G) (σ : Prescription G) {Mk : Se
   obtain ⟨c, hc, ha, hu, hl⟩ := vinesV0_preimage Z σ hc0
   exact ⟨c, mem_vinesV0.mpr ⟨hc, fun hm => hcM ((hT c c' ha).mp hm)⟩, ha, hu, hl⟩
 
-/-- An actual bijection of the selected vine carriers (including non-core members). -/
-noncomputable def selectedVineEquiv (Z : TwistGroupSite G) (σ : Prescription G) :
-    {c : CLVine G // c ∈ vinesV0 G σ} ≃
-      {c' : CLVine Z.target // c' ∈ vinesV0 Z.target (transportPrescription Z.iso σ)} := by
-  let f : {c : CLVine G // c ∈ vinesV0 G σ} →
-      {c' : CLVine Z.target // c' ∈ vinesV0 Z.target (transportPrescription Z.iso σ)} :=
-    fun c => ⟨(vinesV0_image Z σ c.2).choose, (vinesV0_image Z σ c.2).choose_spec.1⟩
-  apply Equiv.ofBijective f
-  constructor
-  · intro c d hcd
-    have hc := (vinesV0_image Z σ c.2).choose_spec.2.1
-    have hd := (vinesV0_image Z σ d.2).choose_spec.2.1
-    have he : Z.iso.img c.1.atoms = Z.iso.img d.1.atoms :=
-      hc.symm.trans ((congrArg (fun x => x.1.atoms) hcd).trans hd)
-    exact Subtype.ext (clVine_eq_of_atoms (Z.iso.img_injective he))
-  · intro c'
-    obtain ⟨c, hc, ha, hu, hl⟩ := vinesV0_preimage Z σ c'.2
-    refine ⟨⟨c, hc⟩, Subtype.ext ?_⟩
-    exact clVine_eq_of_atoms ((vinesV0_image Z σ hc).choose_spec.2.1.trans ha.symm)
-
 end WaveTurbulence.VineA

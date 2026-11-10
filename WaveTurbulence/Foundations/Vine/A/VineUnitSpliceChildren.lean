@@ -17,11 +17,6 @@ noncomputable def unitSpliceChildSlotMk (Z : TwistGroupSite G) (σ : Prescriptio
   (unitSpliceNodeEquivMk Z σ hT hsel (b.child i)).1.2.getLast
     (fun h => child_nonroot (stSt G σ Mk).G b i ((unitSpliceNodeEquiv_rootMk Z σ hT hsel (b.child i)).mp h))
 
-/-- The actual target slot occupied by a surviving source child. -/
-noncomputable def unitSpliceChildSlot (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) (b : GBranch (stSt G σ).G.tree) (i : Fin 3) : Fin 3 :=
-  unitSpliceChildSlotMk Z σ (Stage1Mk.markTransported_empty Z.iso) hsel b i
-
 /-- B1b-2 (Mk-general form of `unitSpliceNodeEquiv_child`). -/
 theorem unitSpliceNodeEquiv_childMk (Z : TwistGroupSite G) (σ : Prescription G)
     {Mk : Set (CLVine G)} {Mk' : Set (CLVine Z.target)} (hT : Stage1Mk.MarkTransported Z.iso Mk Mk')
@@ -40,12 +35,6 @@ theorem unitSpliceNodeEquiv_childMk (Z : TwistGroupSite G) (σ : Prescription G)
   exact (parent_child_eq_node (unitSpliceNodeEquivMk Z σ hT hsel (b.child i)) hm).symm.trans
     (congrArg (fun a => a.child (unitSpliceChildSlotMk Z σ hT hsel b i)) hp)
 
-/-- Every actual mapped child is the target branch's child at the corresponding slot. -/
-theorem unitSpliceNodeEquiv_child (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) (b : GBranch (stSt G σ).G.tree) (i : Fin 3) :
-    unitSpliceNodeEquiv Z σ hsel (b.child i) = ((unitSpliceMolIso Z σ hsel).e b).child (unitSpliceChildSlot Z σ hsel b i) :=
-  unitSpliceNodeEquiv_childMk Z σ (Stage1Mk.markTransported_empty Z.iso) hsel b i
-
 /-- B1b-2 (Mk-general form of `unitSpliceChildSlot_injective`). -/
 theorem unitSpliceChildSlot_injectiveMk (Z : TwistGroupSite G) (σ : Prescription G)
     {Mk : Set (CLVine G)} {Mk' : Set (CLVine Z.target)} (hT : Stage1Mk.MarkTransported Z.iso Mk Mk')
@@ -58,23 +47,12 @@ theorem unitSpliceChildSlot_injectiveMk (Z : TwistGroupSite G) (σ : Prescriptio
     ((congrArg ((unitSpliceMolIsoMk Z σ hT hsel).e b).child hij).trans
       (unitSpliceNodeEquiv_childMk Z σ hT hsel b j).symm)
 
-/-- Distinct source child slots occupy distinct actual target child slots. -/
-theorem unitSpliceChildSlot_injective (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) (b : GBranch (stSt G σ).G.tree) :
-    Function.Injective (unitSpliceChildSlot Z σ hsel b) :=
-  unitSpliceChildSlot_injectiveMk Z σ (Stage1Mk.markTransported_empty Z.iso) hsel b
-
 /-- B1b-2 (Mk-general form of `unitSpliceChildEquiv`). -/
 noncomputable def unitSpliceChildEquivMk (Z : TwistGroupSite G) (σ : Prescription G)
     {Mk : Set (CLVine G)} {Mk' : Set (CLVine Z.target)} (hT : Stage1Mk.MarkTransported Z.iso Mk Mk')
     (hsel : ∃ c ∈ vinesV0 G σ Mk, c.atoms = Z.S0) (b : GBranch (stSt G σ Mk).G.tree) : Fin 3 ≃ Fin 3 :=
   Equiv.ofBijective (unitSpliceChildSlotMk Z σ hT hsel b)
     ⟨unitSpliceChildSlot_injectiveMk Z σ hT hsel b, Finite.surjective_of_injective (unitSpliceChildSlot_injectiveMk Z σ hT hsel b)⟩
-
-/-- The actual map on the three children is a permutation. -/
-noncomputable def unitSpliceChildEquiv (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) (b : GBranch (stSt G σ).G.tree) : Fin 3 ≃ Fin 3 :=
-  unitSpliceChildEquivMk Z σ (Stage1Mk.markTransported_empty Z.iso) hsel b
 
 /-- B1b-2 (Mk-general form of `unitSpliceChildSlot_middle`). -/
 theorem unitSpliceChildSlot_middleMk (Z : TwistGroupSite G) (σ : Prescription G)
@@ -97,11 +75,5 @@ theorem unitSpliceChildSlot_middleMk (Z : TwistGroupSite G) (σ : Prescription G
   · exact (hne ((Molecpl.child_signs H c).1.symm.trans hs)).elim
   · rfl
   · exact (hne ((Molecpl.child_signs H c).2.2.symm.trans hs)).elim
-
-/-- The actual child permutation fixes the negative middle child. -/
-theorem unitSpliceChildSlot_middle (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) (b : GBranch (stSt G σ).G.tree) :
-    unitSpliceChildSlot Z σ hsel b 1 = 1 :=
-  unitSpliceChildSlot_middleMk Z σ (Stage1Mk.markTransported_empty Z.iso) hsel b
 
 end WaveTurbulence.VineA

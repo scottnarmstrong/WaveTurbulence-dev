@@ -74,17 +74,4 @@ noncomputable def coreFamilyOf (U : Set (CLVine G)) (hU : U ⊆ vinesV G) : Core
   designated i := (corePlacementOf_spec U i).1.symm ▸ corePlacementOf_spec U i
   separated i j hij := vinesV_separated (hU i.2.1) (hU j.2.1) (fun h => hij (Subtype.ext h))
 
-/-- The family indexes exactly the core vines of U, not merely a covering family. -/
-theorem coreFamilyOf_exact (U : Set (CLVine G)) (hU : U ⊆ vinesV G) (c : CLVine G) :
-    (∃ i : CoreIndex U, c.atoms = (coreFamilyOf U hU).atoms i ∧
-      c.upper = (coreFamilyOf U hU).upper i ∧ c.lower = ((coreFamilyOf U hU).placement i).lower) ↔
-    c ∈ U ∧ ∃ X, IsCoreCLVine G X c.atoms c.upper c.lower := by
-  constructor
-  · rintro ⟨i, ha, hu, hl⟩
-    have hi : c = i.1 := clVine_eq_of_atoms ha
-    exact hi ▸ i.2
-  · intro hc
-    refine ⟨⟨c, hc⟩, rfl, rfl, ?_⟩
-    exact (corePlacementOf_spec U ⟨c, hc⟩).1.symm
-
 end WaveTurbulence.VineA

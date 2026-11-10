@@ -15,7 +15,6 @@ public import WaveTurbulence.Foundations.GammaLow.Fama.P.Supp.VinePrescribedPoin
 public import WaveTurbulence.Foundations.GammaLow.Fama.P.Supp.VinePrescriptionSupp
 public import WaveTurbulence.Foundations.GammaLow.Fama.P.Supp.VinePrimeStateSupp
 public import WaveTurbulence.Foundations.GammaLow.Fama.P.Supp.VineUnitCoverSupp
-public import WaveTurbulence.Foundations.Vine.A.VineUnitSpliceTimeDomain
 public import WaveTurbulence.Foundations.Molecule.TwistNodeLabels
 public import WaveTurbulence.Foundations.Vine.A.VineUnitSpliceNodes
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.CL

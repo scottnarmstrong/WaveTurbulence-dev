@@ -36,28 +36,4 @@ theorem transportGroupPrescription_apply (F : MolIso G.molecule H.molecule)
     transportGroupPrescription F σ (groupEquiv F S) = σ S :=
   congrArg σ ((groupEquiv F).symm_apply_apply S)
 
-/-- Restriction to the maximal groups commutes with total-prescription transport. -/
-theorem transport_ofPrescription (F : MolIso G.molecule H.molecule) (σ : Prescription G) :
-    GroupPrescription.ofPrescription (transportPrescription F σ) =
-      transportGroupPrescription F (GroupPrescription.ofPrescription σ) := rfl
-
-/-- For every actual LF batch the source sigma on each transported maximal group is unchanged. -/
-theorem batch_maximalGroups {p : ℕ} {kind : Bool} {ι : Type*} {L : List ι}
-    {A B : WaveTurbulence.LFTwist.FamilyReconstruction w ι}
-    (h : WaveTurbulence.LFTwist.FamilyBatch p kind L A B)
-    (S : Finset (GBranch A.skeleton.tree)) :
-    S ∈ maximalGroups A.skeleton.molecule ↔
-      (batchMolIso h).img S ∈ maximalGroups B.skeleton.molecule :=
-  (batchMolIso h).maximalGroups_img_iff.symm
-
-/-- Sigma's SG condition, and hence the underlying SG-group set, transports literally. -/
-theorem batch_sgGroups {p : ℕ} {kind : Bool} {ι : Type*} {L : List ι}
-    {A B : WaveTurbulence.LFTwist.FamilyReconstruction w ι}
-    (h : WaveTurbulence.LFTwist.FamilyBatch p kind L A B) (σ : Prescription A.skeleton)
-    (S : Finset (GBranch A.skeleton.tree)) :
-    S ∈ sgGroups A.skeleton σ ↔
-      (batchMolIso h).img S ∈ sgGroups B.skeleton (transportPrescription (batchMolIso h) σ) := by
-  rw [mem_sgGroups, mem_sgGroups, (batchMolIso h).maximalGroups_img_iff,
-    transportPrescription_apply]
-
 end WaveTurbulence.VineA

@@ -16,7 +16,6 @@ public import WaveTurbulence.Foundations.GammaLow.Fama.P.Supp.VinePrescribedPoin
 public import WaveTurbulence.Foundations.GammaLow.Fama.P.Supp.VinePrescriptionSupp
 public import WaveTurbulence.Foundations.GammaLow.Fama.P.Supp.VinePrimeStateSupp
 public import WaveTurbulence.Foundations.GammaLow.Fama.P.Supp.VineUnitCoverSupp
-public import WaveTurbulence.Foundations.Vine.A.VineCollectionIndices
 public import WaveTurbulence.Foundations.Vine.A.VineObjectGeometry
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.CL
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.CN

@@ -1,7 +1,7 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 public import WaveTurbulence.Foundations.Vine.A.VineFineFamily
-public import WaveTurbulence.Foundations.Vine.A.VineBadCount
+public import WaveTurbulence.Foundations.Vine.A.VineUnitList
 public import WaveTurbulence.Foundations.Vine.A.VineBatchFamily
 /-! Exact selected-family and actual unit transport for both choices of an
 admissible LF operation. All exceptional reconstruction choices are retained. -/
@@ -75,34 +75,5 @@ theorem operation_unitBlocks_permMk {A : FamilyReconstruction w ι} {i : ι}
         funext fun u => Finset.image_id
       rw [he]
     · exact unitBlocks_image_permMk (selectedMemberSite hF i) σ hT ⟨familyVine A.family i, hF.1 i, rfl⟩
-
-/-- Actual unit lists transport for every admissible operation and either choice. -/
-theorem operation_unitBlocks_perm {A : FamilyReconstruction w ι} {i : ι}
-    {σ : Prescription A.skeleton} (hF : IsV0Fam A.family σ)
-    (op : FamilyOperation (p := p) (kind := kind) A i) :
-    ((unitBlocks A.skeleton σ).map (fun u => (operationMolIso op).img u.atoms)).Perm
-      ((unitBlocks op.output.skeleton (transportPrescription (operationMolIso op) σ)).map CLBlock.atoms) :=
-  operation_unitBlocks_permMk hF op (Stage1Mk.markTransported_empty _)
-
-/-- B1b-2 (Mk-general form of `bskOf_operation`). -/
-theorem bskOf_operationMk {A : FamilyReconstruction w ι} {i : ι}
-    {σ : Prescription A.skeleton} {Mk : Set (CLVine A.skeleton)} (hF : IsV0Fam A.family σ Mk)
-    (op : FamilyOperation (p := p) (kind := kind) A i) {Mk' : Set (CLVine op.output.skeleton)}
-    (hT : Stage1Mk.MarkTransported (operationMolIso op) Mk Mk') :
-    bskOf op.output.skeleton (transportPrescription (operationMolIso op) σ) Mk' = bskOf A.skeleton σ Mk := by
-  cases op with
-  | mk hc he ht hq ε C =>
-    cases ε
-    · have hE : Mk = Mk' := Stage1Mk.markTransported_refl_eq hT
-      subst hE
-      exact congrArg (fun τ => bskOf A.skeleton τ Mk) (transportPrescription_refl σ)
-    · exact bskOf_unitTwistMk (selectedMemberSite hF i) σ hT ⟨familyVine A.family i, hF.1 i, rfl⟩
-
-/-- The actual b_sk contribution is preserved by every admissible LF operation. -/
-theorem bskOf_operation {A : FamilyReconstruction w ι} {i : ι}
-    {σ : Prescription A.skeleton} (hF : IsV0Fam A.family σ)
-    (op : FamilyOperation (p := p) (kind := kind) A i) :
-    bskOf op.output.skeleton (transportPrescription (operationMolIso op) σ) = bskOf A.skeleton σ :=
-  bskOf_operationMk hF op (Stage1Mk.markTransported_empty _)
 
 end WaveTurbulence.VineA

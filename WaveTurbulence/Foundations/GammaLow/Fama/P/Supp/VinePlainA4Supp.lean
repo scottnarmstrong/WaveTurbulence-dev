@@ -20,9 +20,6 @@ public import WaveTurbulence.Foundations.GammaLow.Fama.P.Supp.VinePrescriptionSu
 public import WaveTurbulence.Foundations.GammaLow.Fama.P.Supp.VinePrimeStateSupp
 public import WaveTurbulence.Foundations.GammaLow.Fama.P.Supp.VineUnitCoverSupp
 public import WaveTurbulence.Foundations.GammaLow.Fama.P.Vine.A.VinePlainA4
-public import WaveTurbulence.Foundations.Vine.A.VinePlainTauPartition
-public import WaveTurbulence.Foundations.Vine.A.VineNormalizedCollectionGeometry
-public import WaveTurbulence.Foundations.Vine.A.VineNormalizedHingeGapTransport
 public import WaveTurbulence.Foundations.GammaLow.Fama.P.Vine.A.VineMarkedClasses
 public import WaveTurbulence.Foundations.Vine.A.VinePlainA4
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.CL

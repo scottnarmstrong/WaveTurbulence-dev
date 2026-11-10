@@ -73,40 +73,4 @@ theorem HingeFam.leafWrap_hasSum {J : Type} {d : ℕ} (H : HingeFam J d) (leaf :
   rw [e]
   exact h
 
-/-- `exists_hinge_data_mod` with an arbitrary clock tuple `ck` in place of `clockOf ∘ hclk`. -/
-theorem exists_hinge_data_mod_ck {θ : ℝ} (hθ : 0 ≤ θ) (d : ℕ) :
-    ∃ C : ℝ, 0 ≤ C ∧ ∀ {w : ℕ} (S : Garden w) (J : Type) [Fintype J] (Dj : J → (Fin 4 → Fin d → ℤ) → SumintDatum d)
-      (Kj : J → (Fin 4 → Fin d → ℤ) → Set (Fin 4 → Mom d)) (σ : J → ℤˣ)
-      (HkM : J → ℤ → (Fin 3 → ℝ) → (Fin 4 → Mom d) → ℂ) (M0 : J → ℝ) (c : ℝ), (∀ j, 0 ≤ M0 j) →
-      (∀ j c' lam, ∀ E ∈ Kj j c', ContinuousOn (fun t => HkM j lam t (sumintBoundary (σ j) E)) (cubeSet (Dj j c').qOut)) →
-      (∀ j c' (lam : ℤ), XNorm00Restr θ (outBox (Dj j c')) (Kj j c')
-        (fun t E => HkM j lam t (sumintBoundary (σ j) E)) ≤
-        ENNReal.ofReal ((1 + |(lam : ℝ)|) ^ c * M0 j)) →
-      ∀ (L : ℝ) (base : Mom d) (tt : Fin w → ℝ) (roots : Fin w → Fin d → ℤ)
-        (selSk : GenDecoration S d roots 0 → Prop) (layer : GBranch S.tree → ℕ)
-        (hmom : J → Fin 4 → GNode S.tree) (ck : J → (GBranch S.tree → ℝ) → Fin 3 → ℝ),
-      (∀ κ : GenDecoration S d roots 0, selSk κ → ∀ τ ∈ splicedTimeDomain S layer tt, ∀ j c',
-        (∀ i, ‖(base + latticePoint L (κ.1 (hmom j i))) - latPt d (c' i)‖ ≤ 1) →
-          ck j τ ∈ outBox (Dj j c')) →
-      (∀ κ : GenDecoration S d roots 0, selSk κ → ∀ j c',
-        (∀ i, ‖(base + latticePoint L (κ.1 (hmom j i))) - latPt d (c' i)‖ ≤ 1) →
-          sumintBoundary (σ j) (fun i => base + latticePoint L (κ.1 (hmom j i))) ∈ Kj j c') →
-      ∀ lam : J → ℤ, ∃ (H : HingeFam J d) (Mh : J → ℝ), (∀ j c', ∑' l, H.w j c' l ≤ Mh j) ∧
-        (∀ κ : GenDecoration S d roots 0, selSk κ → ∀ τ ∈ splicedTimeDomain S layer tt, ∀ j c',
-          (∀ i, ‖(base + latticePoint L (κ.1 (hmom j i))) - latPt d (c' i)‖ ≤ 1) →
-          HasSum (fun l => (H.w j c' l : ℂ) * H.a j c' l (fun i => base + latticePoint L (κ.1 (hmom j i))) *
-            fsPhase (H.m j c' l) (ck j τ))
-            (HkM j (lam j) (ck j τ) (fun i => base + latticePoint L (κ.1 (hmom j i))))) ∧
-        ∏ j, Mh j = C ^ Fintype.card J * (∏ j, M0 j) * ∏ j, (1 + |((lam j : ℤ) : ℝ)|) ^ c := by
-  obtain ⟨C, hC, hex⟩ := exists_hingeFam hθ d
-  refine ⟨C, hC, fun {w} S J _ Dj Kj σ HkM M0 c hM0 hcont hbd L base tt roots selSk layer hmom ck G1 G2 lam => ?_⟩
-  obtain ⟨H, hH1, hH2⟩ := hex J Dj Kj σ (fun j => HkM j (lam j))
-    (fun j => (1 + |((lam j : ℤ) : ℝ)|) ^ c * M0 j)
-    (fun j => mul_nonneg (by positivity) (hM0 j)) (fun j c' E hE => hcont j c' (lam j) E hE)
-    (fun j c' => hbd j c' (lam j))
-  refine ⟨H, fun j => C * ((1 + |((lam j : ℤ) : ℝ)|) ^ c * M0 j), fun j c' => hH1 j c', fun κ hκ τ hτ j c' hball =>
-    hH2 j c' _ (G1 κ hκ τ hτ j c' hball) _ (G2 κ hκ j c' hball), ?_⟩
-  rw [Finset.prod_mul_distrib, Finset.prod_mul_distrib, Finset.prod_const, Finset.card_univ]
-  ring
-
 end WaveTurbulence.Represents

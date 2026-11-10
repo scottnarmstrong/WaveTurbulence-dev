@@ -4,7 +4,6 @@ module
 public import WaveTurbulence.Foundations.GammaLow.Fama.Vine.IsoStmt
 public import WaveTurbulence.Foundations.GammaLow.Fama.P.Stage1.Represents.RepPr5
 public import WaveTurbulence.Foundations.GammaLow.Fama.P.Stage1.Represents.RepPr1
-public import WaveTurbulence.Foundations.Stage1.Represents.RepFinal2
 import Mathlib.Tactic
 public import WaveTurbulence.Foundations.Stage1.Represents.RepPr5
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.CL
