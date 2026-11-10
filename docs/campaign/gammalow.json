@@ -1,13 +1,10 @@
 {
  "title": "The γ ≤ 1/2 campaign",
- "updated": "2026-11-09 22:44 UTC",
+ "updated": "2026-11-10 03:13 UTC",
  "convention": "Weights are the estimated size of each work package (thousands of new Lean lines; non-Lean steps get an equivalent weight). A finished package counts fully once it passes its checks and an independent re-run of its audit. A running package counts by the orchestrator's estimate at its last checkpoint (what is proved against what remains); before its first checkpoint it counts by the Lean it has compiled, capped at 75 %. Line counts alone overstate progress, because several packages first port large amounts of the existing proof.",
- "next": "SEALED: Theorem 1.1 for all 0 < γ < 1 is sealed on main. Two independent audits are running; when both pass, the result is marked PROVED.",
+ "next": "COMPLETE: Theorem 1.1 is proved in Lean for every 0 < γ < 1, as printed (sealed 2026-11-09; both independent audits passed 2026-11-10). Next: removing unused code and speeding up the build, then preparing the repository for publication.",
  "risks": [
-  "account quota (weekly limits",
-  " claude-1 carries most packages)",
-  "new mathematics may need local repairs once formalized",
-  "integration: about a dozen packages must meet at exact interfaces"
+  "none open for the theorem itself"
  ],
  "groups": [
   {
@@ -301,12 +298,11 @@
      "id": "L9",
      "name": "landing, seals, two-key audits",
      "w": 6,
-     "status": "running",
-     "done": 0.8,
-     "note": "all five full-range statements SEALED on main (5c19b015: exact types, axioms, ABI 328/328, land_check OK); two independent audits running",
+     "status": "done",
+     "note": "done: all five full-range statements sealed on main (5c19b015) and PROVED: both independent audits passed for all five (records in docs/audits/full-range/)",
      "lines": 0,
      "lines_compiled": 0,
-     "credit": 0.8
+     "credit": 1.0
     }
    ]
   }
