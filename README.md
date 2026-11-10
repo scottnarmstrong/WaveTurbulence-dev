@@ -128,8 +128,27 @@ lake build           # build the project: Lean checks every proof
 ```
 
 `lake build` builds the library `WaveTurbulence`, including the five sealed full-range theorems (`WaveTurbulence.main`
-and the four statements it is assembled from), and the two comparator files described [below](#comparator). It
-succeeds only if Lean accepts every proof.
+and the four statements it is assembled from), and the two comparator files described [below](#comparator); Lean
+checks each proof as it builds. A successful build does not by itself rule out `sorry`: Lean reports a `sorry` only as
+a warning, and the default target also builds three statements whose proofs are `sorry` by design, the two superseded
+flower statements `layergardenFlower` (v1) and `layergardenFlower_v2` (see [Current status](#current-status)) and the
+comparator Challenge (see [below](#comparator)). Lean prints a `declaration uses 'sorry'` warning for each. So, after
+the build, print the axioms of the five sealed theorems:
+
+```bash
+python3 -I scripts/check_axioms.py   # about 25 seconds
+```
+
+For `WaveTurbulence.main`, `propansatz`, `fixedpoint`, `layergarden` and `layergardenFlower_v4` it runs Lean's
+`#print axioms` and prints the report. For `WaveTurbulence.main` the expected report is
+
+```text
+'WaveTurbulence.main' depends on axioms: [propext, Classical.choice, Quot.sound]
+```
+
+and likewise for the other four: only Lean's three standard axioms; a `sorry` would appear as `sorryAx`. The script
+exits with an error if any other axiom appears or a probe fails. With `--all-sealed` it checks all 26 sealed theorems
+(about 2 minutes).
 
 **Size.** The repository has 13,355 Lean files with about 1.80 million lines: the library `WaveTurbulence` (11,529
 files including its root module, about 1.30 million lines), the certificate library `WaveTurbulenceVineParam`
@@ -140,7 +159,8 @@ Measured in November 2026, before a clean-up removed about 191,000 lines of unus
 - about 27 CPU-hours on an AMD Ryzen 7 7700 (8 cores, 16 threads);
 - one file needs about 11 GB of RAM at its peak;
 - the build writes about 73 GB to disk. Most of it is Lake's per-module `*.setup.json` files under `.lake/build/ir/`,
-  which are not needed once their module is built and can be deleted as the build proceeds.
+  which are not needed once their module is built and can be deleted as the build proceeds; keep those under
+  `.lake/build/ir/WaveTurbulence/Frozen/`, which the axiom check reads.
 
 So a full build needs a workstation-class machine; it does not fit on a standard CI runner.
 
