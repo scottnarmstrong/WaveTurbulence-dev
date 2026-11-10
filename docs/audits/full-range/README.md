@@ -47,7 +47,7 @@ unchecked as the trusted base (KEY-A §1.2, KEY-B §1.3). Both replays adapt the
 and read the same build, so they are two runs of one method, not two independent checks. Otherwise the two keys are given different primary refutation targets and different methods, so
 that they do not share blind spots. A theorem is recorded as PROVED only if both keys pass it.
 
-*In progress: a full-mode replay, and an independent check of the proof with the NanoDa kernel through the comparator.*
+*In progress: a full kernel check of the release commit with the public tool lean4checker (`--fresh`).*
 
 ## Reports
 
@@ -56,5 +56,11 @@ that they do not share blind spots. A theorem is recorded as PROVED only if both
 | A | [KEY-A.md](KEY-A.md) | PASS for all five theorems |
 | B | [KEY-B.md](KEY-B.md) | PASS for all five theorems |
 
-The reports are the auditors' complete working records, unedited apart from paths: `<work>/` stands for the auditor's local working files (scripts, logs, probe outputs), which are not part of the repository, and `<sources>/` for the pinned LaTeX sources of the papers. Both audits are of main at `5c19b015`; Lean names in them refer to the repository at that
-commit, and a later clean-up removed some unused helpers, which remain in the git history there. Internal working records they cite (planning and audit records) were removed from the repository at publication and remain in the git history.
+The reports are the auditors' complete working records, unedited apart from paths: `<work>/` stands for the auditor's local working files (scripts, logs, probe outputs), which are not part of the repository, and `<sources>/` for the pinned LaTeX sources of the papers. Both audits cover main at `5c19b015`, and Lean names in them refer to the repository at that commit. From there to commit
+`f121830e`, 3,979 Lean files changed (`git diff --shortstat 5c19b015 f121830e -- '*.lean'`): 1,056 were deleted and
+2,923 modified, with 1,393 lines added and 191,890 removed. Most of this is the removal of unused code (declarations and
+imports that no proof of the sealed theorems uses); 29 files also had their proofs rewritten for speed, proof-only
+(merge `facb1929`). No frozen statement, provider or manifest entry changed. Later commits add the two comparator files
+(see the [README](../../../README.md#comparator)); `git diff --stat 5c19b015 HEAD -- '*.lean'` lists every Lean change
+since the audits. The removed code remains in the git history at `5c19b015`.
+Internal working records they cite (planning and audit records) were removed from the repository at publication and remain in the git history.

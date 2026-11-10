@@ -171,7 +171,15 @@ trusted base. The two replays of the full-range theorems used the same replay to
 runs of one method, not two independent checks. Records: [`docs/audits/full-range/`](docs/audits/full-range/README.md)
 (full range) and [`docs/audits/v2-chain/`](docs/audits/v2-chain/README.md) (the earlier 1/2 < γ < 1 version).
 
-*In progress: a full-mode replay, and an independent check of the proof with the NanoDa kernel through the comparator.*
+**Which commit the audits cover.** The full-range audits cover main at commit `5c19b015`. From there to commit
+`f121830e`, 3,979 Lean files changed (`git diff --shortstat 5c19b015 f121830e -- '*.lean'`): 1,056 were deleted and
+2,923 modified, with 1,393 lines added and 191,890 removed. Most of this is the removal of unused code (declarations and
+imports that no proof of the sealed theorems uses); 29 files also had their proofs rewritten for speed, proof-only
+(merge `facb1929`). No frozen statement, provider or manifest entry changed. Later commits add the two comparator
+files ([below](#comparator)); `git diff --stat 5c19b015 HEAD -- '*.lean'` lists every Lean change since the audits. So
+the audits' replays do not cover the current tree; every build checks it in Lean's kernel.
+
+*In progress: a full kernel check of the release commit with the public tool lean4checker (`--fresh`).*
 
 ### Comparator
 
