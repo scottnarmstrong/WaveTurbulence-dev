@@ -128,11 +128,12 @@ lake build           # build the project: Lean checks every proof
 ```
 
 `lake build` builds the library `WaveTurbulence`, including the five sealed full-range theorems (`WaveTurbulence.main`
-and the four statements it is assembled from). It succeeds only if Lean accepts every proof.
+and the four statements it is assembled from), and the two comparator files described [below](#comparator). It
+succeeds only if Lean accepts every proof.
 
-**Size.** The repository has 13,353 Lean files with about 1.80 million lines: the library `WaveTurbulence` (11,529
-files including its root module, about 1.30 million lines) and the certificate library `WaveTurbulenceVineParam`
-(1,824 files, about 505,000 lines).
+**Size.** The repository has 13,355 Lean files with about 1.80 million lines: the library `WaveTurbulence` (11,529
+files including its root module, about 1.30 million lines), the certificate library `WaveTurbulenceVineParam`
+(1,824 files, about 505,000 lines), and the two comparator files (258 lines).
 
 **What a full build costs.** Even with Mathlib taken from its cache, building the project from scratch is heavy.
 Measured in November 2026, before a clean-up removed about 191,000 lines of unused code (1,056 files):
@@ -155,7 +156,8 @@ scripts/check_index.sh
 
 - `check_frozen_anchors.py`: every frozen statement and definition is byte-for-byte the approved text (hashes in
   [`manifest/frozen.json`](manifest/frozen.json)), its state is recorded, there is no `sorry` outside the registered
-  unproved statements, and those are imported by nothing else. About 2.5 minutes here.
+  unproved statements and the comparator Challenge (below), and those statements are imported by nothing else.
+  About 2.5 minutes here.
 - `check_lean_modules.py`: every Lean file is a Lean module and within the size limit. Under a second.
 - `check_pinned_texts.py`: the approved T-vine definitions
   ([`WaveTurbulence/Foundations/TVine/Defs.lean`](WaveTurbulence/Foundations/TVine/Defs.lean)) are byte-for-byte
@@ -170,6 +172,43 @@ runs of one method, not two independent checks. Records: [`docs/audits/full-rang
 (full range) and [`docs/audits/v2-chain/`](docs/audits/v2-chain/README.md) (the earlier 1/2 < γ < 1 version).
 
 *In progress: a full-mode replay, and an independent check of the proof with the NanoDa kernel through the comparator.*
+
+### Comparator
+
+[`WaveTurbulenceChallenge.lean`](WaveTurbulenceChallenge.lean) states Theorem 1.1 in one file of 129 lines that
+imports only Mathlib. It repeats, verbatim, the twelve definitions the statement uses (from
+[`WaveTurbulence/Frozen/Defs/`](WaveTurbulence/Frozen/Defs)) and the statement of `WaveTurbulence.main`, and leaves
+the proof as `sorry`; to check what is proved, it is enough to read this file against the paper.
+[`WaveTurbulenceSolution.lean`](WaveTurbulenceSolution.lean) has the same declarations, imports the library and proves
+the theorem from `WaveTurbulence.main`. Lean's [comparator](https://github.com/leanprover/comparator), configured by
+[`comparator.json`](comparator.json), builds and exports both files in a sandbox, checks that they state the same
+theorem about the same definitions and that the Solution uses only the standard axioms, and then replays the
+Solution's proof, with everything it depends on (Mathlib included), through Lean's kernel and the independent NanoDa
+kernel.
+
+To run it (requires [bubblewrap](https://github.com/containers/bubblewrap)):
+
+```bash
+lake exe cache get
+lake build
+PATH="$(lean --print-prefix)/bin:$PATH" lake comparator   # reads comparator.json
+```
+
+The `PATH` prefix makes `lake` and `nanoda_bin` the ones bundled with the pinned toolchain.
+[`scripts/verify-comparator.sh`](scripts/verify-comparator.sh) runs the same check with the configuration the Palomar
+registry uses, which adds the con-ron kernel. On Ubuntu 24.04, bubblewrap also needs
+`sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0`.
+
+The comparator exports the Solution together with its whole dependency closure, about 24,200 modules. Reading them
+takes about 73,000 memory mappings in one process, more than the Linux kernel's default `vm.max_map_count` of 65,530
+(some distributions raise it); below that, the export stops with `failed to read file '….olean.private'`. Check the
+limit with `sysctl vm.max_map_count` and, if needed, raise it: `sudo sysctl -w vm.max_map_count=262144`. The export of
+the Solution is about 4.4 GB, and producing it takes about 16 GB of memory.
+
+**What has been run.** The comparator's main check (the two files state the same theorem about the same definitions,
+and the Solution's proof uses only `propext`, `Classical.choice` and `Quot.sound`) accepted the Solution at commit
+`e753c825`, on the machine where the proof was developed. The full kernel replays of the Solution, by Lean's kernel
+and by NanoDa, are to be run on a separate machine; their cost and result will be recorded here.
 
 ## Current status
 
@@ -241,7 +280,7 @@ Scott Armstrong set the scope and approved the frozen statements of the main res
 ([DECISIONS.md](docs/DECISIONS.md), D1, D2 and D6–D11). Later, under his standing authorization of 5 November 2026,
 the coordinating agent approved two successor statements, each after an independent statement audit (D13, D16), and
 sealed the full-range theorems after two seal audits (D17). Lean's kernel checks every proof against the frozen
-statements.
+statements, and the comparator files let anyone check the statement of Theorem 1.1 independently.
 
 ## License
 
