@@ -340,8 +340,9 @@ def main():
                 mark = "✅" if i["done"] >= 1 else ("🟡" if i["done"] > 0 else "⬜")
                 item_rows.append(f"| {i['id']} | {i['item']} | {i['weight']:g} | ≈{i['lines_est']:,} | "
                                  f"{mark} {round(100 * i['done'])} % | {i['note']} |")
-        else:  # sealing
-            w, d, n = frozen_total, sealed, frozen_total
+        else:  # sealing (superseded drafts do not count)
+            n_sup = len(OPEN_THEOREMS) if OPEN_THEOREMS and set(OPEN_THEOREMS) <= SUPERSEDED else 0
+            w, d, n = frozen_total - n_sup, sealed, frozen_total - n_sup
             lean_w += w
             lean_d += d
         tot_w += w

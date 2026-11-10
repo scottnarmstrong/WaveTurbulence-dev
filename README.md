@@ -10,7 +10,7 @@ together with the results it relies on from the authors' earlier papers and from
 0 < γ < 1. Every step is checked by Lean; nothing is assumed beyond Lean's standard axioms.
 
 <!-- AUTO:updated -->
-> **Last changed: 2026-11-10 05:35 UTC** (checked every 10 minutes) · frozen theorems sealed: 26 / 28, the other 2 being superseded drafts (+ 300 frozen definitions) · **1,994,316 lines of Lean on main** (14409 files) · overall completion of the whole project (full range 0 < γ < 1): 94.2 %
+> **Last changed: 2026-11-10 05:36 UTC** (checked every 10 minutes) · frozen theorems sealed: 26 / 28, the other 2 being superseded drafts (+ 300 frozen definitions) · **1,994,316 lines of Lean on main** (14409 files) · overall completion of the whole project (full range 0 < γ < 1): 98.8 %
 <!-- /AUTO:updated -->
 
 ## At a glance
@@ -178,18 +178,18 @@ was completed, and several of them are below 100 % only because they have not be
 authoritative state is [Current status](#current-status) above.
 
 <!-- AUTO:progress -->
-### Overall completion (whole project: full range 0 < γ < 1): **94.2 %**
+### Overall completion (whole project: full range 0 < γ < 1): **98.8 %**
 
-`████████████████████████████░░` 94.2 %
+`██████████████████████████████` 98.8 %
 
 | Part of the project | Items | Weight | Done | Completion |
 |---|---|---|---|---|
-| Sources, paper maps, blueprint (P0–P1) | 1 | 30 | 27.0 | `█████████░` 90 % |
-| Exact Lean statements, frozen (P2) | 1 | 20 | 18.6 | `█████████░` 93 % |
-| Lean proofs (P4) | 85 | 918 | 881.1 | `██████████` 96 % |
-| Frozen theorems sealed | 28 | 28 | 26.0 | `█████████░` 93 % |
-| Release (P5) | 1 | 15 | 0.0 | `░░░░░░░░░░` 0 % |
-| **Total** | | 1011 | 952.7 | **94.2 %** |
+| Sources, paper maps, blueprint (P0–P1) | 1 | 30 | 30.0 | `██████████` 100 % |
+| Exact Lean statements, frozen (P2) | 1 | 20 | 20.0 | `██████████` 100 % |
+| Lean proofs (P4) | 85 | 918 | 918.0 | `██████████` 100 % |
+| Frozen theorems sealed | 26 | 26 | 26.0 | `██████████` 100 % |
+| Release (P5) | 1 | 15 | 3.0 | `██░░░░░░░░` 20 % |
+| **Total** | | 1009 | 997.0 | **98.8 %** |
 
 Lean lines: 1,994,316 on main + 3,577 on worker branches. (The original blueprint estimate, ≈ 273,000 lines, was set before the project's scope and the errata were known; it is no longer a useful yardstick.)
 
@@ -200,14 +200,48 @@ Lean lines: 1,994,316 on main + 3,577 on worker branches. (The original blueprin
 | B1 | NLS-A | 6 | ≈1,600 | ✅ 100 % | landed: Fourier equation, mass, reduction |
 | B2 | NLS-B | 9 | ≈3,200 | ✅ 100 % | done: LWP/persistence, inverse reduction, uniqueness; NLS bridge helpers landed (4639fe2) |
 | B3 | NLS-C | 10 | ≈3,000 | ✅ 100 % | done: nlsAkBridge (all 4 conjuncts) proved at the exact snapshot-5 type (scratch, wt-l2s); moves to Foundations at the Wave B freeze |
+| C1 | REG-STRUCT | 11 | ≈4,000 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
+| C2 | LINKS | 11 | ≈3,000 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
+| C3 | SKELETON | 15 | ≈5,200 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
+| C4 | LAYERREG | 8 | ≈4,000 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
+| C5 | ENHANCED | 9 | ≈3,150 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
+| D1 | COMB-CORE | 8 | ≈2,020 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
+| D2 | SYS-DEFS | 14 | ≈3,400 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
 | D3 | CANON | 9 | ≈3,950 | ✅ 100 % | CANON: canonicalCharacterization sealed and second-key audited PROVED (audits/SEAL-B1-second-key.md) |
+| D4 | REG-DEFS | 8 | ≈2,400 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
+| F1 | FINAL-RED | 4 | ≈1,200 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
+| F2 | PLG | 12 | ≈4,150 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
 | F3 | FINAL-COUNT | 4 | ≈900 | ✅ 100 % | FINAL-COUNT: unconditional finalCount_half : FinalCountGateHalf (REG half R59 + LOW half via treatment A, R79) landed on main as PORT batch 5 (1,801 modules, e58db09) |
+| G0 | MOLE-COUNT-BASICS | 4 | ≈1,400 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
+| G1 | STAGE2-DEF | 10 | ≈2,600 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
+| G2 | EXCESS-DH23 | 8 | ≈3,500 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
+| G3 | EXCESS-T | 10 | ≈3,500 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
+| G4 | APPB-OPS | 8 | ≈4,000 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
+| G5 | APPB-ALG | 8 | ≈4,000 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
+| G6 | MOLEPROP13 | 6 | ≈2,400 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
+| G7 | MOLEPROP4 | 12 | ≈4,500 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
+| G8 | RIGID | 10 | ≈4,600 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
+| I1 | INDUCT-A | 10 | ≈4,000 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
+| I2 | INDUCT-B | 10 | ≈3,050 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
 | J1 | BCOEF | 7 | ≈3,800 | ✅ 100 % | done: time coefficients, class J/R operators, DH21 Lemmas 5.3-5.5 |
 | J2 | CLASSJR2 | 8 | ≈4,000 | ✅ 100 % | done: DH21 Lemmas 5.6-5.10 (legal-partition induction, ≤ 2^m expansion); sign F61 open (traced in J3) |
 | J3 | MAINCOEF | 4 | ≈3,000 | ✅ 100 % | MAINCOEF done: DH21 Prop 5.1 for couples and trees (DH23 weights), garden↔code B̃ bridge |
 | J4 | CANCEL7 | 6 | ≈3,400 | ✅ 100 % | CANCEL7 done with the F61 correction; BtRec discharged by the B̃ bridge |
+| J5 | MEXP | 6 | ≈2,700 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
+| J6 | WKE-ID | 6 | ≈2,800 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
+| J7 | REGCANCEL | 4 | ≈2,000 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
 | L1 | PL1A | 7 | ≈2,800 | ✅ 100 % | done: B2.2 incoherentDecay proved at the exact type (INCOH-INST, e77e692); seals at the B2 freeze |
 | L2 | PL1B | 9 | ≈4,650 | ✅ 100 % | PL1 done: abstract TARGET Prop 5.1 incl. one-clock case (541d4c8); garden instantiation = INCOH-INST |
+| L3 | PL23 | 4 | ≈1,700 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
+| L4 | PL4 | 4 | ≈2,500 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
+| M1 | MOLE | 15 | ≈4,900 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
+| M2 | BLOCKS | 6 | ≈1,600 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
+| M3 | CLCN | 10 | ≈3,500 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
+| M4 | VINES | 10 | ≈3,300 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
+| M5 | MOLECPL | 4 | ≈1,500 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
+| M6 | TWIST | 8 | ≈2,800 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
+| M7 | LFTWIST | 13 | ≈4,200 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
+| M8 | LAYERCNT | 6 | ≈2,100 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
 | M9 | VINEPARAM | 4 | ≈1,500 | ✅ 100 % | VINEPARAM: catalogue on main as the separate lean_lib WaveTurbulenceVineParam (D12, PORT batch 4a, 97036a3) |
 | N1 | AN-FOURIER | 9 | ≈3,500 | ✅ 100 % | landed: χ₀ (Gevrey 2, F41), 𝔛 norms, restriction norms, Fourier-L¹ products |
 | N2 | AN-PHASE | 5 | ≈1,700 | ✅ 100 % | landed: Poisson on ℤ_L^d, non-stationary and bilinear stationary phase |
@@ -231,61 +265,27 @@ Lean lines: 1,994,316 on main + 3,577 on worker branches. (The original blueprin
 | R-NTC | NT-CIRCLE | 6 | ≈3,300 | ✅ 100 % | landed: circle 2/3, elementary annulus, estcross |
 | R-TF | TORUS-FOURIER | 4 | ≈2,500 | ✅ 100 % | landed 5beb902 |
 | R-WKE | WKE | 24 | ≈9,810 | ✅ 100 % | done: WKE LWP, uniqueness, Taylor, general-d L²_s trilinear estimate (Theorem 7), blow-up; frozen wkelwp SEALED 2026-11-03 |
+| RA1 | REGASYMP | 10 | ≈5,800 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
 | RA2 | REGREF | 13 | ≈4,100 | ✅ 100 % | REGREF: B2.1 regularAsymptotics proved and SEALED on main (PORT batch 2b, 675cf6c; second-key audit PASS) |
+| S1 | STAGE1-COMB | 7 | ≈2,400 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
+| S2 | REDSPLICE | 6 | ≈2,400 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
+| S2a | REDSPLICE-DEF | 2 | ≈800 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
+| S3 | LADDER | 8 | ≈4,200 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
+| S4 | SUBPRO | 8 | ≈3,000 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
 | V1 | SUMINT-A | 7 | ≈4,200 | ✅ 100 % | sumint (B1.6) proved at the exact snapshot-8 type (wt-anfourier, 436 axiom checks); seals at the freeze |
 | V2 | SUMINT-B | 5 | ≈2,200 | ✅ 100 % | sumint (B1.6) proved at the exact snapshot-8 type (wt-anfourier, 436 axiom checks); seals at the freeze |
+| V3 | REGRED | 6 | ≈1,900 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
+| V4 | VINEEST-S2 | 4 | ≈2,500 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
+| V5 | VINEEST | 13 | ≈5,100 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
 | WA | Wave A definitions | 5 | ≈230 | ✅ 100 % | frozen D6 |
+| X1 | FLOWER-DEF | 10 | ≈3,100 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
 | X2 | FLOWEREST | 253 | ≈8,900 | ✅ 100 % | FLOWEREST: weight and completion from the flower ledger (76 packets done, 0 running, 0 queued) |
 | X3 | FIXEDPT | 9 | ≈3,400 | ✅ 100 % | FIXEDPT closed: fixedpoint_of_closed_gates from B1.12, B1.2, B1.5 only (O-X2-EXP, O-X3-CPL proved) |
-| F2 | PLG | 12 | ≈4,150 | 🟡 99 % | PLG = LG-SPINE: layergarden_v2_of_V5 on main (batch 4b-2): layergarden_v2 conditional only on V5's VINEEST HalfMK |
-| S3 | LADDER | 8 | ≈4,200 | 🟡 99 % | LADDER: all spine inputs proved; providers re-pinned to the current spine with exact gate checks (cx-repin) |
-| V5 | VINEEST | 13 | ≈5,100 | 🟡 98 % | VINEEST: statement layer and weighted SpatialMeasure statements on main (batches 4b-1/4b-1b); V5-SPACE READY; W2 certificate: all record kinds built (kind 2 cross-window lemmas READY), final constants and integration in progress |
-| I1 | INDUCT-A | 10 | ≈4,000 | 🟡 98 % | INDUCT: propansatz_of_gates; gamma > 1/2 version propansatz_v2_of_gates on main (PORT batch 2a, 3a1b17a) |
-| L3 | PL23 | 4 | ≈1,700 | 🟡 98 % | PL23: Props 6.1 (now at the literal 30d norm, PL23-30D) and 6.2 proved; leafwise B2.1 and B2.2 proved (RA1-LEAFWISE, INCOH-LEAFWISE) |
-| RA1 | REGASYMP | 10 | ≈5,800 | 🟡 98 % | RA1 done: couples and trees on snapshot 9, plus the leafwise version for per-leaf profiles (RA1-LEAFWISE) |
-| Z1 | MAIN | 3 | ≈860 | 🟡 98 % | main <= layergarden + layergardenFlower; gamma > 1/2 links main_v2_of_propansatz and fixedpoint_v2_of_closed_gates on main (3a1b17a); wkeTaylor_v1 sealed |
-| G3 | EXCESS-T | 10 | ≈3,500 | 🟡 97 % | FINALMOL READY: DH23 Prop 9.5 / TARGET finalmol under R29, R37, R38, and the run model extended to atoms of degree 0-2 and self-loops (G3-LOWDEG, errata E23) |
-| G5 | APPB-ALG | 8 | ≈4,000 | 🟡 97 % | APPB-ALG READY: DH23 Prop 10.2 in full (dh23_prop_10_2), fresh 809-module rebuild; GraphOk size deviation recorded |
-| S2 | REDSPLICE | 6 | ≈2,400 | 🟡 97 % | REPRESENTS: on main as PORT batch 4b-2 (96c8e1d): stage1ReductionGate_of_V5' : WTPrefix VineEstCanonLayerHalfMK -> Stage1ReductionGate (vineparam and leafwise gates discharged on main); second key PASS (R123) |
-| G8 | RIGID | 10 | ≈4,600 | 🟡 95 % | RIGID READY in scratch: DH23 Prop 9.6 (gamma > 1/2) with no named input, damaged-component bound, constants independent of the size parameter (R34) |
-| I2 | INDUCT-B | 10 | ≈3,050 | 🟡 95 % | INDUCT done (see I1) |
-| J5 | MEXP | 6 | ≈2,700 | 🟡 95 % | MEXP done: DH21 Props 7.7, 7.8 (corrected weight) |
-| J6 | WKE-ID | 6 | ≈2,800 | 🟡 95 % | WKE-ID done: Σ app = 𝒰_n (wke_identity), B2.1 item (4) proved; route avoids DH21 7.9/7.10 |
-| J7 | REGCANCEL | 4 | ≈2,000 | 🟡 95 % | REGCANCEL done: DH23 Prop 6.3 (statement form chosen over B2 objects, to audit) |
-| M8 | LAYERCNT | 6 | ≈2,100 | 🟡 95 % | LAYERCNT READY: layerlad, layervine (incl. the improved coherent bound) under TARGET's hypotheses; rebase onto the canonical universe pending |
-| S1 | STAGE1-COMB | 7 | ≈2,400 | 🟡 95 % | STAGE1-COMB READY: vinechainlem; LF twist reversal, composition, commutation (Diamond, all four choice cases); congruence is an equivalence relation on V-family states (fresh 111-module rebuild) |
-| S2a | REDSPLICE-DEF | 2 | ≈800 | 🟡 95 % | REDSPLICE-DEF READY: the full Stage 1 construction; stage1Piece_sound now also supplies the triple designation and no-hinge-loop facts (AMEND7+8) |
-| S4 | SUBPRO | 8 | ≈3,000 | 🟡 95 % | SUBPRO done in atom-set form plus the hinge triple-bond designation (R37) |
-| V4 | VINEEST-S2 | 4 | ≈2,500 | 🟡 95 % | VINEEST-S2 done: vineChain_eq_sumintForm (V4 endpoint, ruling R2), 709-module snapshot-9 rebuild OK; obligations VINEPARAM, SumintSigned |
-| X1 | FLOWER-DEF | 10 | ≈3,100 | 🟡 92 % | FLOWER-DEF: product-form cutoff successor layergardenFlower_v3 audited (FIDELITY/CONSUMERS PASS) and frozen (D13); fixedpoint consumers rewired to it (FC1 READY) |
-| C1 | REG-STRUCT | 11 | ≈4,000 | 🟡 90 % | REG-STRUCT done in scratch: structure theorem with uniqueness, decoding, legal/dominant chains, counts (C₀=12^9); F55 |
-| C2 | LINKS | 11 | ≈3,000 | 🟡 90 % | LINKS done in scratch: branchpair, defchoice, linkXY, deflink, defcoh, auxlem, explem, treelemma, incohproof1 (couples); F62-F65 |
-| C3 | SKELETON | 15 | ≈5,200 | 🟡 90 % | SKELETON done in scratch: prime skeletons with uniqueness (incl. DH21's omitted E4 argument), 194 declarations |
-| C4 | LAYERREG | 8 | ≈4,000 | 🟡 90 % | LAYERREG done in scratch: TARGET Props 4.9 (structure, replacement keeps canonicity) and 4.10 (layering count, stronger) |
-| C5 | ENHANCED | 9 | ≈3,150 | 🟡 90 % | ENHANCED done in scratch: dominant couples, special sets, equivalence (DH21 Def 4.18), encoded trees (Props 4.20, 4.23), net signs; + tree incohproof1 |
-| D1 | COMB-CORE | 8 | ≈2,020 | 🟡 90 % | COMB-CORE done in scratch; ports at the freeze |
-| D2 | SYS-DEFS | 14 | ≈3,400 | 🟡 90 % | SYS-DEFS + Duhamel identity done in scratch; ports at the freeze |
-| D4 | REG-DEFS | 8 | ≈2,400 | 🟡 90 % | REG-DEFS done (B2 draft + REG-STRUCT scratch) |
-| G0 | MOLE-COUNT-BASICS | 4 | ≈1,400 | 🟡 90 % | DEGEN done in scratch (DH21 Lemmas 9.13–9.14, DH23 §10.5, GAP.degenerate.tame, corrected remtame); moves to Foundations after the Wave B freeze |
-| G2 | EXCESS-DH23 | 8 | ≈3,500 | 🟡 90 % | EXCESS-DH23 + VINE-COUNT + G2-SIBLING + G2-GHOST: DH23 Prop 9.4 all step types incl. new components and the charged ghost-triangle bound (errata E20) |
-| G4 | APPB-OPS | 8 | ≈4,000 | 🟡 90 % | APPB-OPS done in scratch: DH23 App B operations, 73 audited results; figure transcriptions flagged for review; F81 |
-| G6 | MOLEPROP13 | 6 | ≈2,400 | 🟡 90 % | MOLEPROP13 done in scratch: DH23 Props 10.1, 10.3 (263 modules, against corrected B2) |
-| G7 | MOLEPROP4 | 12 | ≈4,500 | 🟡 90 % | MOLEPROP4 done in scratch (moleprop4-t): DH23 Prop 10.4(2)' + THEOREM-A via named inputs (wt-torus) |
-| L4 | PL4 | 4 | ≈2,500 | 🟡 90 % | PL4 done: kernel conjugation and Prop 6.3(iii) realness; app halves of (i)/(ii) a separate unconsumed node (ruling R1) |
-| M1 | MOLE | 15 | ≈4,900 | 🟡 90 % | MOLE done in scratch: garden molecules, root-compatible decorations, reconstruction (C₀=20736), cuts; moves to Foundations at the freeze |
-| M2 | BLOCKS | 6 | ≈1,600 | 🟡 90 % | blocks, hyper-blocks, realizations, overlap classification (connected convention, F57) in scratch |
-| M3 | CLCN | 10 | ≈3,500 | 🟡 90 % | CLCN done in scratch: (CL)/(CN) dichotomy, splicing, blockchainprop, cnblock component bounds |
-| M4 | VINES | 10 | ≈3,300 | 🟡 90 % | VINES done in scratch: templates incl. m = 1 vine (II) (F72), groups/coherence, subsetvc, VC/HVC/DV/HV (F71 reading), 358 declarations |
-| M5 | MOLECPL | 4 | ≈1,500 | 🟡 90 % | MOLECPL done in scratch (DH23 Prop 5.3 for gardens; 2eacfc5) |
-| M6 | TWIST | 8 | ≈2,800 | 🟡 90 % | TWIST done in scratch: twist involution, invariances, sign cancellation, 2^r gardens (287 modules) |
-| V3 | REGRED | 6 | ≈1,900 | 🟡 90 % | REGRED done in scratch: skeleton reduction, vineest Step 1 (ab8680f); nonzero-gap boundary case separate (F21) |
-| M7 | LFTWIST | 13 | ≈4,200 | 🟡 85 % | LFTWIST on main with the canonical universe; leaf bijection of LF twists on ordinary leaves proved (LFTWIST-LEAFMAP, R45) |
-| F1 | FINAL-RED | 4 | ≈1,200 | 🟡 30 % | FINAL-RED: finalsbest1/finalsbest2 consumed in LG-SPINE's assembly (counting cover, finalproof numerics) proved generically |
-| G1 | STAGE2-DEF | 10 | ≈2,600 | 🟡 20 % | STAGE2-DEF: stage-2 operation datatype (Stage2Op) and TARGET's counting problem (lg-spine CountingChoices) defined |
+| Z1 | MAIN | 3 | ≈860 | ✅ 100 % | closed: Theorem 1.1 is sealed and proved for 0 < γ < 1 (R198); this package's result is part of the proved chain or was superseded by the route used |
 
 </details>
 
-Done fractions last reviewed: **2026-11-07 05:24 UTC**. Source: [`docs/campaign/progress.json`](docs/campaign/progress.json); history: [`docs/campaign/history.csv`](docs/campaign/history.csv).
+Done fractions last reviewed: **2026-11-10 05:36 UTC**. Source: [`docs/campaign/progress.json`](docs/campaign/progress.json); history: [`docs/campaign/history.csv`](docs/campaign/history.csv).
 <!-- /AUTO:progress -->
 
 ## Papers
