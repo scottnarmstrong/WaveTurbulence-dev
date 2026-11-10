@@ -1304,7 +1304,7 @@ The displayed aggregate inequalities have been checked algebraically. The report
 
 ## 22. Revision 1 following REFEREE-82
 
-Applied the fixes requested in REVISE.md and [REFEREE-82](../ref/REFEREE-82.md), §4, on 2026-11-07. The referee reported no failed step and passed Theorem 8.2′, subject to the statement and scope clarifications below. The audited pre-revision file had SHA-256 `7038cf6b5b1a2d3475171de7ab204381df4ce31b3ac19bd8caed1fb254b24e92`.
+Applied the fixes requested in REVISE.md and [REFEREE-82](REFEREE-82.md), §4, on 2026-11-07. The referee reported no failed step and passed Theorem 8.2′, subject to the statement and scope clarifications below. The audited pre-revision file had SHA-256 `7038cf6b5b1a2d3475171de7ab204381df4ce31b3ac19bd8caed1fb254b24e92`.
 
 | Finding | Correction made in place | Effect on the theorem |
 |---|---|---|

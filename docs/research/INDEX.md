@@ -1,5 +1,30 @@
 # Research notes and evidence
 
+> **What these files are.** Every file in this directory was written by an AI session (see "How this was made" in
+> the [README](../../README.md#how-this-was-made)). They are of two kinds.
+>
+> - **Working logs and handoffs of AI agent sessions**: reports a session wrote at the end of its work for the
+>   coordinating agent, full of internal names, paths and tool remarks. These are the `*-handoff.md` files
+>   (`finalcount-prop94-handoff.md`, `finalcount-prop96-handoff.md`, `finalcount-stage2-handoff.md`,
+>   `finalsbest1-ladder-coupling-handoff.md`, `flower-cut2-faces-handoff.md`, `flower-skeleton-handoff.md`,
+>   `ladderl1-handoff.md`, `layervine-count-handoff.md`, `lftwist-class-count-handoff.md`, `low-degree-cuts-handoff.md`,
+>   `redvine-lower-clock-handoff.md`, `vineest-early-handoff.md`, `vineest-handoff.md`,
+>   `vineest-step3-epsilon-handoff.md`), and also `flower-skeleton-obstruction.md` (a stop report),
+>   `internal-weights-notes.md` (a route decision), `dh21-lemma73-sign-trace.md` (a trace),
+>   `dh23-appendix-b-errata.md` and `dh23-prop102-proof-errata.md` (a session's list of source slips),
+>   `target-vine-core-sign-check.md` (a check record), `flowerest1/STATUS.md` (a tracker) and `closure-audit/` (an
+>   audit's working report). The errata cite some of them as the record of a specific finding.
+> - **Research notes and referee reports**, the evidence the errata cite: the `gamma-le-half-*` notes and referee
+>   reports; `dh23-prop96-case4.md` with its scripts and `dh23-prop96-referee.txt`; `case4-gamma-above-half.txt` and
+>   its referee report; `kqmainest1-necklace.txt`, `ylem1-investigation.md`, `vine2-m1.txt`, `ghost-triangle-notes.txt`,
+>   `remtame-case-i-notes.txt`, `remtame-hinge-notes.txt` with `remtame-hinge-referee/`, `erratum-remtame.md`,
+>   `twist-profiles-notes.md` and its referee report, `git20-general-d.md`; for the flower estimate,
+>   `flower-design-notes.md` and its referee report, `flower-cutoff-notes.md`, `flower-cut2-notes.md`,
+>   `flower-cut2-fiber.md` and its referee report, `flower-cut2-review.md`, and in `flowerest1/` the supplements, the
+>   resolution notes (`o…-RESOLUTION.md`, `uclock-RESOLUTION.md`) and the `REFEREE*.md` reports; the independent
+>   assessment `astra-flowerest1-report.md`; and the seal audit `seal-layergarden_v2-audit.md`. The notes are working
+>   documents too and use the same internal names; the γ ≤ 1/2 notes were edited for readers (below).
+
 This directory holds the notes, referee reports and small scripts that support the entries of
 [`../ERRATA-AND-DEVIATIONS.md`](../ERRATA-AND-DEVIATIONS.md). They are working documents of the project, copied
 verbatim: they use the project's internal names (packets, rulings, scratch paths) and may refer to files that are not
@@ -83,7 +108,9 @@ instead of a local path. One copy was renamed: `vineest-early-handoff.md` (first
 
 The written completion of TARGET Prop `flowerest1` for 1/2 < γ < 1, its resolution packets and their independent
 referee reports. Snapshots taken between about 15:20 and 15:45 UTC on 2026-11-07; the integrated supplement was still receiving
-editorial revisions, so a later version may exist. The independent assessment of the printed proof is
+editorial revisions, so a later version may exist. In November 2026 the links in `SUPPLEMENT-v2.md`,
+`o73-RESOLUTION.md` and `o82-RESOLUTION.md` that pointed to the private working directory were pointed at the copies
+in this repository. The independent assessment of the printed proof is
 `astra-flowerest1-report.md` (source `astra-flowerest1/REPORT.md`, sha256
 `fc37a6b443b228e9dbac34a623e4d778c928aec8f63fdf580d12e7b3442b0e1f`). Sources below are relative to `<scratch>/flower-open/`.
 

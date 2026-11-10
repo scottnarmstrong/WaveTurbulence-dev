@@ -989,7 +989,7 @@ The initial OPEN descriptions and “Not established” rows in §§1–15 are r
 
 ## 23. Revision 1 following REFEREE-73
 
-This revision applies all nine o73 fixes requested in REVISE.md. The independent [REFEREE-73 report](../ref/REFEREE-73.md) records **0 FAIL** and Theorem 7.3′ **PASS AFTER FIX**; none of its fixes changes an exponent. The refereed o73 version had SHA-256 `683351431762e5dd0ebff1b84daeb5d623b0ab45ca39807bb7fc90d39a58f7bf`. The report used for this revision has SHA-256 `6b4b64eb1d8467859ba5c21d2312eb45363241a1bfc2459836cd5d8a6c37fd2d`. This section records application of that report, not a claim of a second independent review of the revised text.
+This revision applies all nine o73 fixes requested in REVISE.md. The independent [REFEREE-73 report](REFEREE-73.md) records **0 FAIL** and Theorem 7.3′ **PASS AFTER FIX**; none of its fixes changes an exponent. The refereed o73 version had SHA-256 `683351431762e5dd0ebff1b84daeb5d623b0ab45ca39807bb7fc90d39a58f7bf`. The report used for this revision has SHA-256 `6b4b64eb1d8467859ba5c21d2312eb45363241a1bfc2459836cd5d8a6c37fd2d`. This section records application of that report, not a claim of a second independent review of the revised text.
 
 | Fix | In-place revision |
 |---|---|

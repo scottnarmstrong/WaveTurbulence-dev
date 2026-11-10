@@ -143,7 +143,8 @@ Measured in November 2026, before a clean-up removed about 191,000 lines of unus
 
 So a full build needs a workstation-class machine; it does not fit on a standard CI runner.
 
-**Fast checks (minutes, no build needed).** These check the bookkeeping that guards the statements:
+**Fast checks (minutes, no build needed; Python 3.9 or later).** These check the bookkeeping that guards the
+statements:
 
 ```bash
 python3 -I scripts/check_frozen_anchors.py --root . --manifest manifest/frozen.json
