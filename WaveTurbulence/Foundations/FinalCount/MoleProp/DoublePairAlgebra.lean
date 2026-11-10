@@ -1,7 +1,10 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 
-public import WaveTurbulence.Foundations.CountLemmas.CountTools
+public import WaveTurbulence.Foundations.CountLemmas.AtomCount
+public import WaveTurbulence.Foundations.CountLemmas.CountLemma
+public import Mathlib.Algebra.Ring.GeomSum
+public import WaveTurbulence.Foundations.VdCB.CircleCountingBridge
 import Mathlib.Tactic
 
 /-! # Exact four-label coordinates for DH23 basiccount(3)

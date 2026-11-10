@@ -81,35 +81,4 @@ theorem flowerSeries_polynomial_term (M A : ℝ) (tail small : Fin w → Bool) (
   simp only [apply_ite, Complex.ofReal_one]
   ring
 
-/-- The proposed FC3 family is exactly the convergent polynomial family. -/
-theorem flowerFamily_eq_polynomialFamily (M A : ℝ) (tail small : Fin w → Bool) (z : Fin w → ℝ)
-    (hF : ∀ q, Summable fun m : Fin P.d → ℤ => |F q (latticePoint P.L m)|) :
-    flowerWeighted P F p N kind pat dagger
-      (fun LG k => flowerFamilyWeight LG p M A tail small z k) ζ t s n n' =
-      polynomialFamily (flowerPolynomialK P F p N kind pat dagger ζ t s n n' M tail small)
-        (flowerPolynomialQ P p N kind pat ζ n n' M A tail) (fun j => (z j : ℂ)) := by
-  rw [flowerWeighted_eq_series]
-  · exact tsum_congr (flowerSeries_polynomial_term P F p N kind pat dagger ζ t s n n' M A tail small z)
-  · intro LG
-    exact (flower_family_summable P F LG.1 LG.2.1 pat dagger M A tail small z t s n n' hF).mul_left
-      ((coupling P.d P.L P.γ P.δ : ℂ) ^ LG.1.garden.order * LG.1.garden.zeta)
-
-/-- Actual convergence upgrades the original bound-only FC3 interface to the
-convergent evaluation box required by interpolation. -/
-theorem uniformFlowerFamily_evaluationBox (M A : ℝ) (ρ : Fin w → ℝ) (B : ℝ)
-    (hF : ∀ q, Summable fun m : Fin P.d → ℤ => |F q (latticePoint P.L m)|)
-    (H : FC23UniformFlowerFamily P F p N kind pat dagger ζ t s n n' M A ρ B)
-    (tail small : Fin w → Bool) :
-    FC23UniformEvaluationBox
-      (flowerPolynomialK P F p N kind pat dagger ζ t s n n' M tail small)
-      (flowerPolynomialQ P p N kind pat ζ n n' M A tail) ρ B := by
-  intro z hz
-  constructor
-  · have hs := flowerSeries_summable P F p N kind pat dagger ζ t s n n'
-      (fun LG k => flowerFamilyWeight LG p M A tail small z k) (fun LG =>
-        (flower_family_summable P F LG.1 LG.2.1 pat dagger M A tail small z t s n n' hF).mul_left
-      ((coupling P.d P.L P.γ P.δ : ℂ) ^ LG.1.garden.order * LG.1.garden.zeta))
-    exact hs.congr (flowerSeries_polynomial_term P F p N kind pat dagger ζ t s n n' M A tail small z)
-  · rw [← flowerFamily_eq_polynomialFamily P F p N kind pat dagger ζ t s n n' M A tail small z hF]
-    exact H tail small z hz
 end WaveTurbulence.FC23

@@ -151,37 +151,4 @@ theorem cumulant_signed_eq_zero_of_card_ne_two {Ω J ι : Type*} [MeasurableSpac
   rw [cumulant_signed_eq_gaussianPairWeight hη hlaw s hs k ζ]
   exact ite_eq_right (fun h => hcard h.card_eq_two)
 
-/-- A Gaussian cumulant vanishes when the factors do not form an opposite-sign pair. -/
-theorem cumulant_signed_eq_zero_of_no_opposite_pair {Ω J ι : Type*} [MeasurableSpace Ω]
-    [DecidableEq J] [DecidableEq ι] {P : Measure Ω} {η : ι → Ω → ℂ}
-    (hη : iIndepFun η P) (hlaw : ∀ i, HasLaw (η i) stdComplexGaussian P)
-    (s : Finset J) (hs : s.Nonempty) (k : J → ι) (ζ : J → Bool)
-    (hshape : ¬∃ a b : J, s = {a, b} ∧ ζ a = true ∧ ζ b = false) :
-    cumulant P (fun j ω => if ζ j then η (k j) ω else star (η (k j) ω)) s = 0 := by
-  rw [cumulant_signed_eq_gaussianPairWeight hη hlaw s hs k ζ]
-  exact ite_eq_right (fun h => hshape h.1)
-
-/-- For an opposite-sign pair, the Gaussian cumulant is the index-equality indicator. -/
-theorem cumulant_signed_pair {Ω J ι : Type*} [MeasurableSpace Ω]
-    [DecidableEq J] [DecidableEq ι] {P : Measure Ω} {η : ι → Ω → ℂ}
-    (hη : iIndepFun η P) (hlaw : ∀ i, HasLaw (η i) stdComplexGaussian P)
-    (k : J → ι) (ζ : J → Bool) (a b : J) (ha : ζ a = true) (hb : ζ b = false) :
-    cumulant P (fun j ω => if ζ j then η (k j) ω else star (η (k j) ω)) {a, b} =
-      if k a = k b then 1 else 0 := by
-  rw [cumulant_signed_eq_gaussianPairWeight hη hlaw {a, b} (Finset.insert_nonempty _ _) k ζ]
-  have he : IsGaussianPairBlock k ζ {a, b} ↔ k a = k b := by
-    constructor
-    · intro h
-      exact h.2 a (by simp) b (by simp)
-    · intro h
-      refine ⟨⟨a, b, rfl, ha, hb⟩, ?_⟩
-      intro j hj l hl
-      simp only [Finset.mem_insert, Finset.mem_singleton] at hj hl
-      rcases hj with rfl | rfl <;> rcases hl with rfl | rfl
-      · rfl
-      · exact h
-      · exact h.symm
-      · rfl
-  simp only [gaussianPairWeight, he]
-
 end WaveTurbulence

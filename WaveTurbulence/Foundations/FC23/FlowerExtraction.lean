@@ -64,26 +64,4 @@ theorem flowerSeries_cut_extraction (r : ℕ) (A : ℝ) (hL : 0 < P.L) (hA : 0 <
   dsimp only [flowerPolynomialQ, k]
   ring
 
-theorem flowerExtractedTerm_summable (M A ρ B : ℝ) (hρ : 1 ≤ ρ)
-    (hF : ∀ q, Summable fun m : Fin P.d → ℤ => |F q (latticePoint P.L m)|)
-    (H : FC23UniformFlowerFamily P F p N kind pat dagger ζ t s n n' M A (fun _ => ρ) B)
-    (e : Fin w → Fin 3) :
-    Summable (flowerExtractedTerm P F p N kind pat dagger ζ t s n n' M A e) :=
-  tensor_extraction_summable _ _ (fun _ => 2 * N + 1) (fun _ => by omega)
-    (flowerPolynomialQ_global_degree P p N kind pat ζ n n' M A _) (fun _ => ρ)
-    (fun _ => lt_of_lt_of_le zero_lt_one hρ) _ _
-    (uniformFlowerFamily_evaluationBox P F p N kind pat dagger ζ t s n n' M A (fun _ => ρ) B hF H _ _)
-
-theorem flowerExtractedTerm_bound (M A ρ B : ℝ) (hρ : 1 ≤ ρ) (hB : 0 ≤ B)
-    (hF : ∀ q, Summable fun m : Fin P.d → ℤ => |F q (latticePoint P.L m)|)
-    (H : FC23UniformFlowerFamily P F p N kind pat dagger ζ t s n n' M A (fun _ => ρ) B)
-    (e : Fin w → Fin 3) :
-    ‖∑' i, flowerExtractedTerm P F p N kind pat dagger ζ t s n n' M A e i‖ ≤
-      (4 * Real.exp 1) ^ (w * (2 * N + 1)) * (((2 * N + 1 : ℕ) : ℝ) / ρ) ^ w * B := by
-  apply tensor_common_degree_gain _ _ (by omega)
-    (flowerPolynomialQ_global_degree P p N kind pat ζ n n' M A _) hρ _ _ hB
-    (uniformFlowerFamily_evaluationBox P F p N kind pat dagger ζ t s n n' M A (fun _ => ρ) B hF H _ _)
-  intro j
-  unfold cutChoicePoint
-  split_ifs <;> norm_num
 end WaveTurbulence.FC23

@@ -1,7 +1,7 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 public import WaveTurbulence.Foundations.Flower.FamilyW.Extraction
-public import WaveTurbulence.Foundations.FC23.Cut1ScaleBound
+public import WaveTurbulence.Foundations.FC23.ExtractionThresholds
 /-! The numerical cut1 scale estimate for the `W`-weighted family, with a free `δ`-exponent `c`
 (`c = 6` recovers main's `FC23.cut1_scale_bound`). -/
 @[expose] public section

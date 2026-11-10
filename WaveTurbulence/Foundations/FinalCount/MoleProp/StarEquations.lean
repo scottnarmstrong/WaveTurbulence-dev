@@ -2,7 +2,10 @@
 module
 
 public import WaveTurbulence.Foundations.FinalCount.MoleProp.StarLabels
-public import WaveTurbulence.Foundations.CountLemmas.CountTools
+public import WaveTurbulence.Foundations.CountLemmas.AtomCount
+public import WaveTurbulence.Foundations.CountLemmas.CountLemma
+public import Mathlib.Algebra.Ring.GeomSum
+public import WaveTurbulence.Foundations.VdCB.CircleCountingBridge
 import Mathlib.Tactic
 
 /-! # The exact finite local momentum and energy equations at a removed atom -/

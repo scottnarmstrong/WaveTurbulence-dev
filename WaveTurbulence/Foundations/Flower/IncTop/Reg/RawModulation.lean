@@ -5,7 +5,7 @@ public import WaveTurbulence.Foundations.Flower.IncTop.Reg.RawCoupleAgreement
 public import WaveTurbulence.Foundations.Flower.IncTop.Reg.RawTreeAgreement
 public import WaveTurbulence.Foundations.Incoh.RawCoupleAgreement
 public import WaveTurbulence.Foundations.Incoh.RawTreeAgreement
-public import WaveTurbulence.Foundations.Cut2A.FiniteProducts
+public import WaveTurbulence.Foundations.Cut2A.SpatialMeasure
 
 /-! Ported by source from C2-B-TOP `Cut2BReg.RawModulation` (sha256 in COPIED-SHA256SUMS); mechanical edits only.
  # Internal paired coordinates and literal raw spatial modulation

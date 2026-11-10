@@ -1,6 +1,6 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
-public import WaveTurbulence.Foundations.FC23.FlowerCutBound
+public import WaveTurbulence.Foundations.FC23.FlowerExtraction
 /-! The weighted uniform flower family `UniformFlowerFamilyW` (an extra weight `W`, `|W| ≤ 1`),
 and the convergent polynomial-family bookkeeping for it. Generalizes main's `FC23.FlowerSeries`. -/
 @[expose] public section

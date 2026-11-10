@@ -7,8 +7,6 @@ module
 
 public import WaveTurbulence.Foundations.FlowerTop.FamilyWeightLimit
 public import WaveTurbulence.Foundations.FlowerTop.FinalAssembly
-public import WaveTurbulence.Foundations.Cut2EB.Target
-public import WaveTurbulence.Foundations.FC23.Cut1Prefix
 public import WaveTurbulence.Foundations.FlowerTop.AnalyticSpine
 public import WaveTurbulence.Foundations.FlowerTop.P5Coarse
 public import WaveTurbulence.Foundations.FlowerTop.P5Ladder

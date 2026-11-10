@@ -2,7 +2,10 @@
 module
 
 public import WaveTurbulence.Foundations.FinalCount.MoleProp.SharpPositivePair
-public import WaveTurbulence.Foundations.CountLemmas.CountTools
+public import WaveTurbulence.Foundations.CountLemmas.AtomCount
+public import WaveTurbulence.Foundations.CountLemmas.CountLemma
+public import Mathlib.Algebra.Ring.GeomSum
+public import WaveTurbulence.Foundations.VdCB.CircleCountingBridge
 import Mathlib.Tactic
 
 /-! # DH23 basiccount(1) uniformly over the two actual sign cases -/
