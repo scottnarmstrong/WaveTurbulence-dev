@@ -41,8 +41,12 @@ theorem arith_P5_beta (d : ℕ) {L γ η δ C₁ na : ℝ} (c g : ℕ) (hg : g �
     apply Real.rpow_le_rpow_of_exponent_le hL1
     push_cast
     have hg' : (g : ℝ) ≤ 3 := by exact_mod_cast hg
-    have h3 : η ^ 3 ≤ η ^ 2 / 2 := by nlinarith [sq_nonneg η, pow_pos hη 3]
-    nlinarith [sq_nonneg η]
+    have h3 : η ^ 3 ≤ η ^ 2 / 2 := by
+      have hη2 : η ≤ 1 / 2 := by linarith
+      calc η ^ 3 = η ^ 2 * η := by ring
+        _ ≤ η ^ 2 * (1 / 2) := mul_le_mul_of_nonneg_left hη2 (sq_nonneg η)
+        _ = η ^ 2 / 2 := by ring
+    linarith [mul_nonneg (sq_nonneg η) (by linarith : (0:ℝ) ≤ 3 - (g : ℝ))]
   calc _ = (((min ((⌊2 * (na * (δ⁻¹ * L ^ (-2 * γ)) * L ^ 2)⌋₊ + 1) * (2 * ⌊2 * L⌋₊ + 1) ^ (d - 1))
         ((2 * ⌊2 * L⌋₊ + 1) ^ d) : ℕ) : ℝ) * L ^ (-((d : ℝ) - γ)) * qq δ C₁) * Real.log L ^ 12 := by ring
     _ ≤ (3 * 5 ^ d * (δ⁻¹ * qq δ C₁) * Real.log L ^ c * L ^ (min γ (1 - γ))) * Real.log L ^ 12 :=
@@ -51,7 +55,7 @@ theorem arith_P5_beta (d : ℕ) {L γ η δ C₁ na : ℝ} (c g : ℕ) (hg : g �
     _ ≤ 3 * 5 ^ d * (δ⁻¹ * qq δ C₁) * (((c + 12 : ℕ) : ℝ) / (η ^ 2 / 2)) ^ (c + 12) * L ^ (η ^ 2 / 2) * L ^ (min γ (1 - γ)) := by
         have := mul_le_mul_of_nonneg_left hlog hK0
         have hLg : 0 ≤ L ^ (min γ (1 - γ)) := Real.rpow_nonneg hL0.le _
-        nlinarith [mul_le_mul_of_nonneg_right this hLg]
+        linarith [mul_le_mul_of_nonneg_right this hLg]
     _ ≤ (3 * 5 ^ d * δ ^ (-(1 / 2 : ℝ)) * (((c + 12 : ℕ) : ℝ) / (η ^ 2 / 2)) ^ (c + 12)) *
           L ^ (-η ^ 3 + ((2 * min γ (1 - γ) + 5 * η ^ 2) * (((2 - (g : ℤ) : ℤ)) : ℝ) -
         (min γ (1 - γ) + 2 * η ^ 2) * (((3 - 2 * (g : ℤ) : ℤ)) : ℝ))) := by
@@ -138,9 +142,10 @@ theorem arith_P5_alpha1 (d : ℕ) {L γ η δ C₁ na Q ρ : ℝ} (c κ gb : ℕ
         apply Real.rpow_le_rpow_of_exponent_le hL1
         have hg : (gb : ℝ) ≤ 2 := by exact_mod_cast hgb
         have hk : (0 : ℝ) ≤ (κ : ℝ) * η := by positivity
-        have h3 : η ^ 3 ≤ η ^ 2 := by nlinarith [sq_nonneg η]
-        have h4 : η ^ 2 ≤ η := by nlinarith
-        nlinarith [sq_nonneg η, mul_nonneg (sq_nonneg η) (by linarith : (0:ℝ) ≤ 2 - (gb : ℝ))]
+        have hηle : η ≤ 1 := by linarith
+        have h3 : η ^ 3 ≤ η ^ 2 := pow_le_pow_of_le_one hη.le hηle (by norm_num)
+        have h4 : η ^ 2 ≤ η := pow_le_of_le_one hη.le hηle (by norm_num)
+        linarith [mul_nonneg (sq_nonneg η) (by linarith : (0:ℝ) ≤ 2 - (gb : ℝ))]
 
 /-- `{0|1|2}` with two `α`-ghosts (labels `Q₁, Q₂`) and `gb ≤ 1` `β`-ghosts; the slab is that of `Q₂`.
 Needs `8η ≤ 2γ - 1` (the group D of the research notes). -/
@@ -189,8 +194,12 @@ theorem arith_P5_alpha2 (d : ℕ) {L γ η δ C₁ na Q₁ Q₂ ρ : ℝ} (c κ�
     _ ≤ L ^ (-η ^ 3 - (1 - γ) - 2 * η ^ 2 - (gb : ℝ) * η ^ 2) := by
         apply Real.rpow_le_rpow_of_exponent_le hL1
         have hg : (gb : ℝ) ≤ 1 := by exact_mod_cast hgb
-        have h3 : η ^ 3 ≤ η ^ 2 := by nlinarith [sq_nonneg η]
-        have h4 : η ^ 2 ≤ η := by nlinarith
-        nlinarith [sq_nonneg η, mul_nonneg (sq_nonneg η) (by linarith : (0:ℝ) ≤ 1 - (gb : ℝ))]
+        have hηle : η ≤ 1 / 2 := by linarith only [hη1, hγ1]
+        have h3 : η ^ 3 ≤ η ^ 2 := pow_le_pow_of_le_one hη.le (by linarith) (by norm_num)
+        have h4 : η ^ 2 ≤ η / 2 := by
+          calc η ^ 2 = η * η := sq η
+            _ ≤ η * (1 / 2) := mul_le_mul_of_nonneg_left hηle hη.le
+            _ = η / 2 := by ring
+        linarith [mul_nonneg (sq_nonneg η) (by linarith : (0:ℝ) ≤ 1 - (gb : ℝ))]
 
 end WaveTurbulence.FinalCount

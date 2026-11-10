@@ -78,20 +78,24 @@ theorem odd_arith {d : ℕ} {γ η Va Vb : ℝ} (hγ1 : 1 / 2 < γ) (hγ2 : γ <
   have h1 : η ^ 3 * (16 * (d : ℝ) + 28) ≤ (1 - γ) / 40 := by
     have e : η ^ 3 * (16 * (d : ℝ) + 28) = η ^ 2 * (16 * ((d : ℝ) * η) + 28 * η) := by ring
     rw [e]
-    have h2 : 16 * ((d : ℝ) * η) + 28 * η ≤ 4 * (1 - γ) + 28 * ((1 - γ) / 200) := by nlinarith
-    have h3 : η ^ 2 ≤ 1 / 10000 := by nlinarith
+    have h2 : 16 * ((d : ℝ) * η) + 28 * η ≤ 4 * (1 - γ) + 28 * ((1 - γ) / 200) := by
+      linarith only [hηd, hη1]
+    have h3 : η ^ 2 ≤ 1 / 10000 := by
+      calc η ^ 2 = η * η := sq η
+        _ ≤ (1 / 100) * (1 / 100) := mul_le_mul hη3 hη3 hη.le (by norm_num)
+        _ = 1 / 10000 := by norm_num
     calc η ^ 2 * (16 * ((d : ℝ) * η) + 28 * η) ≤ (1 / 10000) * (4 * (1 - γ) + 28 * ((1 - γ) / 200)) :=
           mul_le_mul h3 h2 (by positivity) (by norm_num)
-      _ ≤ (1 - γ) / 40 := by nlinarith
-  have h4 : (1 - γ) / 10 ≤ (γ - 5 * η) / 2 := by nlinarith
-  have h5 : (1 - γ) / 10 ≤ 1 - γ + 2 * η ^ 2 := by nlinarith [pow_pos hη 2]
+      _ ≤ (1 - γ) / 40 := by linarith only [hγ2]
+  have h4 : (1 - γ) / 10 ≤ (γ - 5 * η) / 2 := by linarith only [hγ1, hη3]
+  have h5 : (1 - γ) / 10 ≤ 1 - γ + 2 * η ^ 2 := by linarith only [hγ2, pow_pos hη 2]
   have hq : ((Va + Vb + 2) + 1) ≤ 4 * (Va + Vb) := by linarith
   have hc : 0 ≤ η ^ 3 * (16 * (d : ℝ) + 28) := by positivity
   calc η ^ 3 * (16 * (d : ℝ) + 28) * ((Va + Vb + 2) + 1) ≤ η ^ 3 * (16 * (d : ℝ) + 28) * (4 * (Va + Vb)) :=
         mul_le_mul_of_nonneg_left hq hc
     _ ≤ ((1 - γ) / 40) * (4 * (Va + Vb)) := mul_le_mul_of_nonneg_right h1 (by linarith)
     _ ≤ Va * ((γ - 5 * η) / 2) + (1 - γ + 2 * η ^ 2) * Vb := by
-        nlinarith [mul_le_mul_of_nonneg_left h4 hVa, mul_le_mul_of_nonneg_left h5 hVb]
+        linarith only [mul_le_mul_of_nonneg_left h4 hVa, mul_le_mul_of_nonneg_left h5 hVb]
 
 
 section
@@ -241,17 +245,23 @@ theorem case_odd (d : ℕ) (hd : 3 ≤ d) (γ : ℝ) (hγ : γ ∈ Set.Ioo (1 / 
     have hη3 : η ^ 3 * (16 * (d : ℝ) + 28) ≤ (1 - γ) / 40 := by
       have e : η ^ 3 * (16 * (d : ℝ) + 28) = η ^ 2 * (16 * ((d : ℝ) * η) + 28 * η) := by ring
       rw [e]
-      have h2 : 16 * ((d : ℝ) * η) + 28 * η ≤ 4 * (1 - γ) + 28 * ((1 - γ) / 200) := by nlinarith
-      have h3 : η ^ 2 ≤ 1 / 10000 := by nlinarith
+      have hm := min_le_right γ (1 - γ)
+      have h2 : 16 * ((d : ℝ) * η) + 28 * η ≤ 4 * (1 - γ) + 28 * ((1 - γ) / 200) := by
+        linarith only [hηd, hη1, hm]
+      have h100 : η ≤ 1 / 100 := by linarith only [hηs, hη]
+      have h3 : η ^ 2 ≤ 1 / 10000 := by
+        calc η ^ 2 = η * η := sq η
+          _ ≤ (1 / 100) * (1 / 100) := mul_le_mul h100 h100 hη.le (by norm_num)
+          _ = 1 / 10000 := by norm_num
       calc η ^ 2 * (16 * ((d : ℝ) * η) + 28 * η) ≤ (1 / 10000) * (4 * (1 - γ) + 28 * ((1 - γ) / 200)) :=
             mul_le_mul h3 h2 (by positivity) (by norm_num)
-        _ ≤ (1 - γ) / 40 := by nlinarith
+        _ ≤ (1 - γ) / 40 := by linarith only [hq]
     have hc0 : 0 ≤ η ^ 3 * (16 * (d : ℝ) + 28) := by positivity
     have hmul := mul_le_mul_of_nonneg_left hcR2 hc0
     have he := odd0_arith (η := η) (γ := γ) (ρ := (M.rho : ℝ)) (K := 16 * (d : ℝ) + 28)
       (c := ((M.atoms.filter fun a => M.deg a ≠ 4).card : ℝ)) hq hη3 (by
         have h : η ≤ 1 / 2 := by linarith [hγ.1, hγ.2]
-        nlinarith [pow_pos hη 2, mul_pos hη hη]) hcR2 (Nat.cast_nonneg _) hη.le (by positivity)
+        exact (pow_le_of_le_one hη.le (by linarith) (by norm_num)).trans h) hcR2 (Nat.cast_nonneg _) hη.le (by positivity)
     have hend := endgame hL1 le_rfl hA2 hA3' hθ0 hθ1 he
     refine hend.trans (ENNReal.ofReal_le_ofReal ?_)
     have hfin := finalRHS_ge M cls odd hL1 hη.le hF.labRange
