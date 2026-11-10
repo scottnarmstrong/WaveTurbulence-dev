@@ -5,9 +5,11 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.Flower.V5WB.Common
+public import WaveTurbulence.Foundations.Flower.V5WB.K.Defs
+public import WaveTurbulence.Foundations.Flower.V5WA.VineSpaceB.Pullback
+public import WaveTurbulence.Foundations.Flower.V5WA.VineSpaceB.Weight
+public import WaveTurbulence.Foundations.Flower.V5WA.VineSpaceK.WeightedMerge
 
-public import WaveTurbulence.Foundations.Flower.V5WB.K.Kernel
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.Final.Trunc
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.WinChain
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.Cont.Member

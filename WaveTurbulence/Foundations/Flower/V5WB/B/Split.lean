@@ -5,12 +5,10 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.Flower.V5WB.Common
 public import WaveTurbulence.Foundations.Flower.V5WB.B.Member
 
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.FlatMod.Fubini2
 public import WaveTurbulence.Foundations.Flower.V5WB.B.SSum
-public import WaveTurbulence.Foundations.Flower.V5WB.K.Kernel
 
 /-! # V5-SPACE-EXT: splitting a weighted member kernel with weights on both blocks
 

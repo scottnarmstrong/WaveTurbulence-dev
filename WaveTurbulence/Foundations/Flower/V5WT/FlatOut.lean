@@ -2,7 +2,9 @@
 module
 
 public import WaveTurbulence.Foundations.Flower.V5WT.Engine
-public import WaveTurbulence.Foundations.Flower.V5WB.K.FlatPrefix
+public import WaveTurbulence.Foundations.Flower.V5WB.K.FlatBound
+public import WaveTurbulence.Foundations.Flower.V5WB.W2.FinalS
+public import WaveTurbulence.Foundations.Flower.Stage1WNoVine.Core2
 
 /-! # V5W-T T5′: the weighted flat bound with an output-dependent multiplier
 

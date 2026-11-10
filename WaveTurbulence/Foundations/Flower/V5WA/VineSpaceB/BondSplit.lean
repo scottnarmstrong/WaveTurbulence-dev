@@ -148,15 +148,6 @@ theorem regionDarts_disjoint {S T : Finset (GBranch G.tree)} {a b c : GBranch G.
   intro y hyS hyT
   exact not_inGroup_both hS hT hi hU (mem_regionDarts.mp hyS) (mem_regionDarts.mp hyT)
 
-/-- **The bond weight of a concatenation is the product of the two block weights.** -/
-theorem bondW_union (ψ : ℕ → ℕ → Mom d → ℂ) (L : ℝ) (base : Mom d) (lay : GBranch G.tree → ℕ)
-    {S T : Finset (GBranch G.tree)} {a b c : GBranch G.tree}
-    (hS : G.molecule.IsBlock S a b) (hT : G.molecule.IsBlock T b c) (hi : S ∩ T = {b})
-    (hU : G.molecule.IsBlock (S ∪ T) a c) (x : GNode G.tree → Fin d → ℤ) :
-    bondW ψ L base G lay (S ∪ T) x = bondW ψ L base G lay S x * bondW ψ L base G lay T x := by
-  unfold bondW
-  rw [regionDarts_union hS hT hi hU, Finset.prod_union (regionDarts_disjoint hS hT hi hU)]
-
 /-- The node read by a region dart lies in the realization of the region. -/
 theorem dartNode_mem_real {U : Finset (GBranch G.tree)} {y : GardenDart G} (hy : y ∈ regionDarts G U) :
     Mole.dartNode G y ∈ clRealizationNodes G U := by
@@ -181,30 +172,6 @@ theorem dartNode_mem_support {T : Finset (GBranch G.tree)} {b c : GBranch G.tree
   Finset.mem_union_left _ (dartNode_mem_real hy)
 
 variable (ψ : ℕ → ℕ → Mom d → ℂ) (L : ℝ) (base : Mom d) (lay : GBranch G.tree → ℕ)
-
-theorem bondW_rA {S : Finset (GBranch G.tree)} {a b : GBranch G.tree} (RS : CLRegionData G S a b)
-    (x : GNode G.tree → Fin d → ℤ) : bondW ψ L base G lay S (rA RS x) = bondW ψ L base G lay S x :=
-  bondW_congr ψ L base G S (fun _ _ => rfl) (fun _y hy => by
-    simp only [rA, dartNode_mem_splitA RS hy, ite_true])
-
-theorem bondW_rB {T : Finset (GBranch G.tree)} {b c : GBranch G.tree} (RT : CLRegionData G T b c)
-    (x : GNode G.tree → Fin d → ℤ) : bondW ψ L base G lay T (rB RT x) = bondW ψ L base G lay T x :=
-  bondW_congr ψ L base G T (fun _ _ => rfl) (fun _y hy => by
-    simp only [rB, dartNode_mem_support RT hy, ite_true])
-
-theorem bondW_glue_S {S : Finset (GBranch G.tree)} {a b : GBranch G.tree} (RS : CLRegionData G S a b)
-    (xS xT : GNode G.tree → Fin d → ℤ) :
-    bondW ψ L base G lay S (glue RS xS xT) = bondW ψ L base G lay S xS :=
-  bondW_congr ψ L base G S (fun _ _ => rfl) (fun _y hy => glue_A RS xS xT (dartNode_mem_splitA RS hy))
-
-theorem bondW_glue_T {S T : Finset (GBranch G.tree)} {a b c : GBranch G.tree}
-    (hS : G.molecule.IsBlock S a b) (hT : G.molecule.IsBlock T b c) (hi : S ∩ T = {b})
-    (hU : G.molecule.IsBlock (S ∪ T) a c) (RS : CLRegionData G S a b) (RT : CLRegionData G T b c)
-    {L' : ℝ} (hL : L' ≠ 0) {base' : Mom d} {xS xT : GNode G.tree → Fin d → ℤ} {β2 β3 : Mom d}
-    (hc : BdAt RT L' base' (bdT RT L' base' xS β2 β3) xT) :
-    bondW ψ L base G lay T (glue RS xS xT) = bondW ψ L base G lay T xT :=
-  bondW_congr ψ L base G T (fun _ _ => rfl) (fun _y hy =>
-    glue_B hS hT hi hU RS RT hL hc (dartNode_mem_support RT hy))
 
 end Garden
 

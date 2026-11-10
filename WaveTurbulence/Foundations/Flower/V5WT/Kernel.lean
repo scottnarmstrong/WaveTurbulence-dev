@@ -242,30 +242,4 @@ theorem exists_source_kernel_interpolated_boundOut (d : ℕ) (hd : 3 ≤ d) (γ 
       dsimp only [E]
       ring
 
-/-- **`SourceKernelInterpolatedOut`** (S-V5W §2.5, statement probed in S-V5W `V5WProbe.lean` §3). -/
-def SourceKernelInterpolatedOut : Prop :=
-  ∀ (d : ℕ), 3 ≤ d → ∀ (γ : ℝ),
-    γ ∈ Ioo (0:ℝ) 1 → ∀ (η : ℝ), 0 < η → η ≤ SumintPar.gammaBase γ →
-    η ≤ 1/24 → γ+η ≤ 1 → Real.sqrt η ≤ SumintPar.gammaBase γ/8 →
-    ∀ (τstar : ℝ), 0 < τstar → ∀ (β : ℝ), 0 < β → β/2 < 2*γ →
-    β/2 < 2*((d:ℝ)-1)*(1-γ)-η → β < 20*γ →
-    (1/2 < γ → β/20 < min (2*γ-1) (1-γ)) → 8*η^8 < 1 →
-    ∃ G : ℝ, 1 ≤ G ∧ ∀ (δ : ℝ) (N : ℕ), δ ∈ Ioc (0:ℝ) (1/16) → τstar = (N:ℝ)*δ →
-      ∃ R : ℝ, 2 ≤ R ∧ ∀ L ≥ R,
-      ∀ (D : SumintPar.SumintDatum d) (A : ℝ), D.Admissible A L γ η N →
-      ∀ (p : D.S.VIdx → Fin d → ℝ),
-      ∀ (V : Type) [Fintype V] (ν : V → D.S.VIdx → Mom d) (r : V → Mom d),
-      (∀ v, 1/L ≤ ‖r v‖ ∧ ‖r v‖ ≤ L^(-γ+η)) →
-      (Fintype.card V:ℝ) ≤ (3*L)^(4*d) → ∀ (hI : 0 < D.S.I) (c : ℝ),
-      XNorm00 (2*η^8) (fun z v => SumintPar.kernelExtension D hI c (L^(-β))
-        (SumintPar.weightedCutoffInput D L γ δ η p (ν v) (r v)) z) ≤
-        ENNReal.ofReal (G^D.S.M*δ^(-(D.S.M:ℝ)/2)*
-          L^((D.S.M:ℝ)*((d:ℝ)-γ)-
-            (SumintPar.gammaBase γ/8)*(((Finset.univ.filter (fun i => D.S.nor i = false)).card:ℝ)+(D.M₁:ℝ))-
-            (1-SumintPar.interpolationWeight η)*(β/20)*(D.M₀:ℝ)+14*(d:ℝ)*SumintPar.interpolationWeight η))
-
-theorem sourceKernelInterpolatedOut : SourceKernelInterpolatedOut :=
-  fun d hd γ hγ η hη hηb hηs hγη hs τ hτ β hβ h1 h2 h3 h4 h5 =>
-    exists_source_kernel_interpolated_boundOut d hd γ hγ η hη hηb hηs hγη hs τ hτ β hβ h1 h2 h3 h4 h5
-
 end WaveTurbulence.Flower.V5WT

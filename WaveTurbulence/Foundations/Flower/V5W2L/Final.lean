@@ -3,7 +3,7 @@ module
 
 public import WaveTurbulence.Foundations.Flower.V5W2L.TopFilter
 public import WaveTurbulence.Foundations.Flower.V5W2L.Class
-public import WaveTurbulence.Foundations.Flower.V5WT.Final
+public import WaveTurbulence.Foundations.Flower.V5WT.FlatOut
 
 /-! # V5W-2L: V5's frontier class bound with a finite product of top filters, and the bridge
 

@@ -5,7 +5,10 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.Flower.V5WB.Common
+public import WaveTurbulence.Foundations.Flower.V5WB.K.Defs
+public import WaveTurbulence.Foundations.Flower.V5WA.VineSpaceB.Pullback
+public import WaveTurbulence.Foundations.Flower.V5WA.VineSpaceB.Weight
+public import WaveTurbulence.Foundations.Flower.V5WA.VineSpaceK.WeightedMerge
 public import WaveTurbulence.Foundations.VineEst.VineSpaceK.StatementDefs
 
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.Final.ClassM

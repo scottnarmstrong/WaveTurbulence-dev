@@ -1,10 +1,13 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 
-public import WaveTurbulence.Foundations.Flower.V5WB.Statement
-public import WaveTurbulence.Foundations.Flower.V5WB.B.Export
+public import WaveTurbulence.Foundations.Flower.V5W.Statements
+public import WaveTurbulence.Foundations.Flower.V5WA.Instance
+public import WaveTurbulence.Foundations.Flower.V5WB.B.Flat
+public import WaveTurbulence.Foundations.Flower.V5WB.K.FlatBound
+public import WaveTurbulence.Foundations.Flower.V5WB.W2.FinalS
+public import WaveTurbulence.Foundations.Flower.Stage1WNoVine.Core2
 public import WaveTurbulence.Foundations.Flower.V5WB.B.Bridge
-public import WaveTurbulence.Foundations.Flower.V5WB.K.FlatPrefix
 public import WaveTurbulence.Foundations.Flower.V5WB.K.WeightedTrunc
 public import WaveTurbulence.Foundations.Flower.IncTop.Gate
 public import WaveTurbulence.Foundations.LemLin.ScalarPeriod
@@ -184,114 +187,5 @@ theorem one_le_topFilterMass : 1 ≤ topFilterMass := by
   exact hle
 
 /-! ## The `S = none` half -/
-
-/-- **The `S = none` half of the weighted vine class bound at a record**, from the weighted flat estimate at that record
-for every row selector. -/
-theorem v5FrontierClassBoundNoneAt_of_flat (P : WTParams) (hd : 1 ≤ P.d) (hL : 1 ≤ P.L)
-    (H : ∀ {u : Unit} [_I : VineEst.RowSel u], VineFlatHalfMX P) : V5FrontierClassBoundOnAt (· = none) P := by
-  intro p hp h B₀ hB₀ hh w G U a b R n hprime hM9 B RD hG layer hLayer kind hcan hlay hord hl1 centre wBar lam
-    g cψ hcψ hpres hreal S hS hSpos hcoh
-  subst hS
-  have hc0 : 0 ≤ cψ := le_trans zero_le_one hcψ
-  obtain ⟨αg, _, Mg, hMg, hvg⟩ := Flower.V5WA.presented_of_gPresented hc0 (hpres a.1.1)
-  have hgle : ∀ x, ‖g a.1.1 x‖ ≤ cψ := fun x => by
-    rw [← hvg]
-    exact (Mg.norm_value_le x).trans hMg
-  let I : VineEst.RowSel () := selW p (g a.1.1) cψ hcψ hgle (hreal a.1.1)
-  have hB : ProfileBound P (truncF p h) (fun _ => B₀) p :=
-    fun r hr => ⟨hB₀, by rw [truncF_eq h r hr]; exact hh r hr⟩
-  have hF : ∀ k : ℕ, Summable fun z : Fin P.d → ℤ => |truncF p h k (wBar + latticePoint P.L z)| := by
-    intro k
-    by_cases hk : k ≤ p
-    · simpa only [truncF, ite_eq_left hk] using P2.summable_layer_coset hB hd hL hk wBar
-    · simp only [truncF, ite_eq_right hk, Pi.zero_apply, abs_zero, summable_zero]
-  have hAl : ∀ x, stateLayer (startState B RD hG layer hLayer) x ≤ p := by
-    rw [stateLayer_startState]
-    exact hlay
-  have hbr : (fun (tt : Fin 3 → ℝ) (E : Fin 4 → Mom P.d) => twistedRecenteredFW p (g a.1.1) none G a
-      (canonFinsetK p kind (startState B RD hG layer hLayer) (chainStart B)) P.L P.γ P.δ h wBar (VineC.modW lam)
-      (tt 0) (tt 1) (tt 2) (sumintBoundary (G.sign a.toNode) E 0) (sumintBoundary (G.sign a.toNode) E 1)
-      (sumintBoundary (G.sign a.toNode) E 2) (sumintBoundary (G.sign a.toNode) E 3)) =
-      flatFnRMX (rowSel := I) (p := p) (kind := kind) B RD hG layer hLayer
-        (lvW B RD hG layer hLayer (wdOf p (g a.1.1) cψ) (kparOf P.L P.γ P.δ (truncF p h) wBar)
-          (Lvl.top B)) lam (G.sign a.toNode) (kparOf P.L P.γ P.δ (truncF p h) wBar) hprime (G.sign a.toNode) := by
-    funext tt E
-    rw [twistedRecenteredFW_none_eq p (g a.1.1) cψ hcψ hgle (hreal a.1.1)]
-    refine (twistedRecenteredModCX_congr_F (rowSel := I) (startState B RD hG layer hLayer) hprime (chainStart B) hAl
-      a P.L P.γ P.δ h (truncF p h) wBar lam _ (tt 0) (tt 1) (tt 2) _ _ _ _ (fun r hr => (truncF_eq h r hr).symm)).trans ?_
-    exact congrFun (congrFun (twistedRecenteredModCX_bond_eq_flatFn (rowSel := I) (p := p) (kind := kind) B RD hG
-      layer hLayer hprime lam (wdOf p (g a.1.1) cψ) cψ hc0
-      (fun q q' k => by
-        show ‖topPsi p (g a.1.1) q q' k‖ ≤ cψ
-        unfold topPsi
-        split_ifs
-        · exact hgle k
-        · simpa using hcψ)
-      P.L P.γ P.δ (truncF p h) wBar (by linarith only [hL]) hF) tt) E
-  set mass : ℝ := cψ ^ (3 * U.card) * ∏ y ∈ regionDarts G U,
-    nodeNorm (startState B RD hG layer hLayer).data (startState B RD hG layer hLayer).plain
-      (stateLayer (startState B RD hG layer hLayer)) (stateLayer_isLayering (startState B RD hG layer hLayer)) cψ
-      (Mole.dartNode G y) with hmassd
-  have hpull : EnginePullback (Lvl.top B).region P.L wBar
-      (lvW B RD hG layer hLayer (wdOf p (g a.1.1) cψ) (kparOf P.L P.γ P.δ (truncF p h) wBar)
-        (Lvl.top B)) mass :=
-    enginePullback_bWN (startState B RD hG layer hLayer) (Lvl.top B).region B.isBlock P.L wBar p (g a.1.1) cψ hcψ
-      ⟨αg, inferInstance, Mg, hMg, hvg⟩
-  have hrow : ∏ y ∈ regionDarts G U,
-      nodeNorm (startState B RD hG layer hLayer).data (startState B RD hG layer hLayer).plain
-        (stateLayer (startState B RD hG layer hLayer)) (stateLayer_isLayering (startState B RD hG layer hLayer)) cψ
-        (Mole.dartNode G y) =
-      rowNorm cψ (startState B RD hG layer hLayer).data (startState B RD hG layer hLayer).plain R
-        (stateLayer (startState B RD hG layer hLayer)) (stateLayer_isLayering (startState B RD hG layer hLayer)) :=
-    prod_nodeNorm_regionDarts _ _ _ _ cψ hc0 B.isBlock R
-  have hrowle := rowNorm_le hcψ (startState B RD hG layer hLayer).data (startState B RD hG layer hLayer).plain
-    B.isBlock R (stateLayer (startState B RD hG layer hLayer)) (stateLayer_isLayering (startState B RD hG layer hLayer))
-  have hrow0 : 0 ≤ rowNorm cψ (startState B RD hG layer hLayer).data (startState B RD hG layer hLayer).plain R
-      (stateLayer (startState B RD hG layer hLayer)) (stateLayer_isLayering (startState B RD hG layer hLayer)) :=
-    hrow ▸ Finset.prod_nonneg fun y _ => by unfold nodeNorm; split_ifs <;> positivity
-  have hmass0 : 0 ≤ mass := by rw [hmassd, hrow]; positivity
-  have hsp : I.weighted = true → I.p = p ∧ GPresented (32 * P.d) (I.g P.d) I.cψ := fun _ =>
-    ⟨rfl, by show GPresented (32 * P.d) (gAt (g a.1.1) P.d) cψ; rw [gAt_self]; exact hpres a.1.1⟩
-  have key := @H () I p hp hsp h B₀ hB₀ hh w G U a b R n hprime hM9 B RD hG layer hLayer kind hcan hlay hord hl1
-    centre wBar lam _ mass hmass0 hpull hcoh
-  rw [hbr]
-  refine key.trans (mul_le_mul' (ENNReal.ofReal_le_ofReal ?_) le_rfl)
-  have hU1 : clLocalOrder1 R ≤ U.card := Finset.card_erase_le
-  have hT := one_le_topFilterMass
-  calc mass = cψ ^ (3 * U.card) * rowNorm cψ (startState B RD hG layer hLayer).data
-        (startState B RD hG layer hLayer).plain R (stateLayer (startState B RD hG layer hLayer))
-        (stateLayer_isLayering (startState B RD hG layer hLayer)) := by rw [hmassd, hrow]
-    _ ≤ cψ ^ (3 * U.card) * cψ ^ (2 * clLocalOrder2 RD hG R + 2 * clLocalOrder1 R) :=
-        mul_le_mul_of_nonneg_left hrowle (by positivity)
-    _ = cψ ^ (3 * U.card + (2 * clLocalOrder2 RD hG R + 2 * clLocalOrder1 R)) := (pow_add _ _ _).symm
-    _ ≤ cψ ^ (9 * U.card + 4 * clLocalOrder2 RD hG R) := pow_le_pow_right₀ hcψ (by omega)
-    _ ≤ cψ ^ (9 * U.card + 4 * clLocalOrder2 RD hG R) * topFilterMass :=
-        le_mul_of_one_le_right (by positivity) hT
-
-/-- **V5W-B: the `S = none` half of the weighted vine class bound** (supplement Lemma 5.3, V5 form), in the gate form of
-the frozen `WTPrefix`, from main's selector certificate (`uniformTermCertKS`), main's leafwise regular-object gates,
-`RealityAll` and INC-TOP's normalized incoherent gate. -/
-theorem v5FrontierClassBoundNone : WTPrefix (V5FrontierClassBoundOnAt (· = none)) := by
-  have H := vineFlatHalfMX_of_uniformCert uniformTermCertKS Spine.leafwise_coherent_approximation
-    Spine.leafwise_incoherent_decay VineEstS5C.P1.realityAll IncTop.topIncoherentDecayGateR
-  intro d hd γ hγ
-  obtain ⟨η₀, hη₀, H1⟩ := H d hd γ hγ
-  refine ⟨η₀, hη₀, ?_⟩
-  intro η hη φin hφin τ hτ φ hsol
-  obtain ⟨C₁, hC₁, ν₀, hν₀, H2⟩ := H1 η hη φin hφin τ hτ φ hsol
-  refine ⟨C₁, hC₁, ν₀, hν₀, ?_⟩
-  intro ν hν
-  obtain ⟨δ₀, hδ₀, H3⟩ := H2 ν hν
-  refine ⟨δ₀, hδ₀, ?_⟩
-  intro δ hδ D hD htime
-  obtain ⟨C₂, hC₂, L₀, hL₀, H4⟩ := H3 δ hδ D hD htime
-  refine ⟨C₂, hC₂, L₀, hL₀, ?_⟩
-  intro L hL
-  exact v5FrontierClassBoundNoneAt_of_flat ⟨d, γ, η, φin, τ, φ, C₁, ν, δ, D, C₂, L⟩
-    (by change 1 ≤ d; omega) (by change 1 ≤ L; linarith only [hL₀, hL]) (H4 L hL)
-
-/-- **The gate `V5FrontierClassBound`** from the `S ≠ none` half (the region-top stem filter, V5W-T). -/
-theorem v5FrontierClassBound_of_top (hT : WTPrefix (V5FrontierClassBoundOnAt (· ≠ none))) : V5FrontierClassBound :=
-  v5FrontierClassBound_of_halves v5FrontierClassBoundNone hT
 
 end WaveTurbulence.Flower.V5WB

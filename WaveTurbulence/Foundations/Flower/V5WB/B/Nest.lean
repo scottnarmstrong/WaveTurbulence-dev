@@ -5,7 +5,6 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.Flower.V5WB.Common
 public import WaveTurbulence.Foundations.Flower.V5WB.B.Member
 
 public import WaveTurbulence.Foundations.Flower.V5WB.B.LowerBundle

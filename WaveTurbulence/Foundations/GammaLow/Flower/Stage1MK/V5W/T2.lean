@@ -4,7 +4,6 @@ module
 public import WaveTurbulence.Foundations.GammaLow.Flower.Stage1MK.V5W.T1
 public import WaveTurbulence.Foundations.Flower.V5WT.FlatT
 public import WaveTurbulence.Foundations.Flower.V5WT.TopFilter
-public import WaveTurbulence.Foundations.Flower.V5WT.Final
 public import WaveTurbulence.Foundations.GammaLow.Famb.Family
 public import WaveTurbulence.Foundations.GammaLow.Famb.VineEstS2.CLAssemblyShape
 public import WaveTurbulence.Foundations.GammaLow.Famb.VineEstS2.CLChainAssembly
