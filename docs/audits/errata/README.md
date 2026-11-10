@@ -4,8 +4,8 @@ Before publication, every entry of [`../../ERRATA-AND-DEVIATIONS.md`](../../ERRA
 ERROR or a GAP in the printed papers and was still marked CANDIDATE was checked independently: 14 entries in all. A
 claim about the authors' papers should not be published on the strength of a single writer's analysis.
 
-**Who checked, and how.** Three verifiers, each working separately and refute-first, and none of whom wrote the
-entries they checked. Each verifier:
+**Who checked, and how.** Three verifiers, separate Claude Opus 5.5 sessions, each working separately and
+refute-first; none had written the entries it checked. Each verifier:
 - read the printed sources first, pinned by sha256 (TARGET `493eef6b…`, DH23 `c7e47dfa…`, and DH21 and GIT20 where
   needed; the same pins as the errata file);
 - quoted the printed text at the cited lines and checked the line numbers;

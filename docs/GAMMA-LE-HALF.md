@@ -219,8 +219,9 @@ flower statement (E34, E41, E42; deviations in the errata file).
   proof, and tooling checked that the statement itself did not change. Seal commits on main: `4558dd65`
   (`layergardenFlower_v4`), `2e2c16ef` (`layergarden`), `008e27f9` (`fixedpoint`), `6f4a03d2` (`propansatz`),
   `bfbb5546` (`main`).
-- **Independent audits.** Two auditors who did not write the proof each audited all five statements: statement
-  fidelity against the paper's source, hidden hypotheses, axioms, and a full replay of the proof in Lean's kernel.
+- **Audits.** Two auditors, separate Claude Opus 5.5 sessions that had not written the proof, each audited all five
+  statements: statement fidelity against the paper's source, hidden hypotheses, axioms, and a replay of the proof in
+  Lean's kernel in quick mode (see the README's [How to verify](../README.md#how-to-verify)).
   Both passed all five. Records: [`audits/full-range/`](audits/full-range/README.md).
 
 **What the formalization caught in our own work** (not errata of the paper):

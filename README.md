@@ -15,9 +15,10 @@ together with the results it relies on from the authors' earlier papers and from
 
 - ✅ **Theorem 1.1 is formally proved for the full range 0 < γ < 1.** The Lean statement (`WaveTurbulence.main`) is
   the printed one for 0 < γ < 1 on the square torus. It was frozen on 2026-11-03, before its proof was written, and
-  never changed. The proof was sealed on 2026-11-09 and passed two independent audits, each including a full replay of
-  the proof in Lean's kernel ([records](docs/audits/full-range/README.md)). It depends only on Lean's standard axioms
-  (`propext`, `Classical.choice`, `Quot.sound`).
+  never changed. The proof was sealed on 2026-11-09 and passed two audits by separate Claude Opus 5.5 sessions that
+  had not written it ([records](docs/audits/full-range/README.md)); each audit also replayed the proof in Lean's
+  kernel, in quick mode ([details](#how-to-verify)). It depends only on Lean's standard axioms (`propext`,
+  `Classical.choice`, `Quot.sound`).
 - ✅ **The earlier version for 1/2 < γ < 1** (`main_v2`; sealed on 2026-11-08, audited on 2026-11-09) is also proved.
   The full-range proof uses it for γ > 1/2.
 - 🔧 **What it took for γ ≤ 1/2.** There the printed proof has a gap: it relies on a counting proposition (DH23
@@ -27,8 +28,9 @@ together with the results it relies on from the authors' earlier papers and from
   is in Lean.
 - 📄 **Errata and deviations.** Formalizing a long proof surfaces mistakes and gaps. Every defect we found in the
   published arguments, and every way our formal statements differ from the printed ones, is recorded with evidence
-  and a repair. Every claimed error or gap has been confirmed by an independent, refute-first check
-  ([records](docs/audits/errata/README.md)). **→ [docs/ERRATA-AND-DEVIATIONS.md](docs/ERRATA-AND-DEVIATIONS.md)**
+  and a repair. Every claimed error or gap has been confirmed by a refute-first check in a separate Claude Opus 5.5
+  session that had not written the entry ([records](docs/audits/errata/README.md)).
+  **→ [docs/ERRATA-AND-DEVIATIONS.md](docs/ERRATA-AND-DEVIATIONS.md)**
 
 ## What the theorem says, in brief
 
@@ -105,10 +107,11 @@ a smaller γ means a stronger nonlinearity and a shorter kinetic time.
 2. **No gaps.** Proofs contain no `sorry` and no added axioms. Automated checks enforce this on every change.
 3. **Sealing.** When the proof is complete, the frozen statement's placeholder is replaced by a one-line reference to
    the proof. Tooling checks that the statement itself is byte-for-byte unchanged.
-4. **Two independent audits.** Two auditors, who did not write the proof, each work separately:
+4. **Two audits.** Two auditors, separate Claude Opus 5.5 sessions that did not write the proof, each work
+   separately:
    - re-derive the statement from the paper's source and check that no extra hypotheses were added;
    - check the axioms used;
-   - replay the entire proof in Lean's kernel.
+   - replay the proof in Lean's kernel, in quick mode (see [How to verify](#how-to-verify)).
 
    The audit records for Theorem 1.1 for the full range are collected in
    [`docs/audits/full-range/`](docs/audits/full-range/README.md); those for the earlier 1/2 < γ < 1 version are in
@@ -158,15 +161,20 @@ scripts/check_index.sh
   the pinned text. Under a second.
 - `check_index.sh`: the first two checks, run on exactly the committed tree.
 
-**Independent kernel replays.** Each of the two independent audits of the sealed theorems replayed the entire proof in
-Lean's kernel. Their records are in [`docs/audits/full-range/`](docs/audits/full-range/README.md) (full range) and
-[`docs/audits/v2-chain/`](docs/audits/v2-chain/README.md) (the earlier 1/2 < γ < 1 version).
+**Kernel replays in the audits.** Each audit of the sealed theorems also replayed the proof in Lean's kernel, in quick
+mode: the 40,618 certificate theorems of `WaveTurbulenceVineParam` whose proofs stay inside that library were checked by
+statement only (their proofs are kernel-checked by every build), and Mathlib and Lean's core library were taken as the
+trusted base. The two replays of the full-range theorems used the same replay tool on the same build, so they are two
+runs of one method, not two independent checks. Records: [`docs/audits/full-range/`](docs/audits/full-range/README.md)
+(full range) and [`docs/audits/v2-chain/`](docs/audits/v2-chain/README.md) (the earlier 1/2 < γ < 1 version).
+
+*In progress: a full-mode replay, and an independent check of the proof with the NanoDa kernel through the comparator.*
 
 ## Current status
 
 - **Proved (sealed and audited):** Theorem 1.1 for the full range 0 < γ < 1, `main`, and the four statements it is
   assembled from: `propansatz`, `fixedpoint`, `layergarden` (all three as printed, for 0 < γ < 1) and the flower
-  estimate `layergardenFlower_v4`. Sealed on 2026-11-09 (decision D17); both independent audits passed for all five
+  estimate `layergardenFlower_v4`. Sealed on 2026-11-09 (decision D17); both audits passed for all five
   ([records](docs/audits/full-range/README.md)). How the proof is put together:
   [docs/GAMMA-LE-HALF.md](docs/GAMMA-LE-HALF.md).
 - **Sealed and audited:** Theorem 1.1 for 1/2 < γ < 1, `main_v2`, and the theorems it is assembled from
