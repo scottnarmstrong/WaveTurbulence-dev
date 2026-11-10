@@ -1,0 +1,10 @@
+{
+  "challenge_module": "WaveTurbulenceChallenge",
+  "solution_module": "WaveTurbulenceSolution",
+  "theorem_names": [
+    "WaveTurbulenceChallenge.main"
+  ],
+  "definition_names": [],
+  "permitted_axioms": ["propext", "Quot.sound", "Classical.choice"],
+  "enable_nanoda": true
+}
