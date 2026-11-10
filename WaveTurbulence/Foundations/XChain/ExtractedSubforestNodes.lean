@@ -16,14 +16,6 @@ noncomputable def subforestBranchMap {w : ℕ} {tree : Fin w → TTree}
   ⟨((subforestRoot U a.1.1).1.1, (subforestRoot U a.1.1).1.2 ++ a.1.2),
     (subtreeAt_branching_iff _ _ (subforestRoot U a.1.1).2 _).mp a.2⟩
 
-theorem subforestBranchMap_toNode {w : ℕ} {tree : Fin w → TTree}
-    (U : Finset (GNode tree)) (b : GBranch (subforestTrees U)) :
-    (subforestBranchMap U b).toNode = subforestNodeMap U b.toNode := rfl
-
-theorem subforestLeafMap_toNode {w : ℕ} {tree : Fin w → TTree}
-    (U : Finset (GNode tree)) (ℓ : GLeaf (subforestTrees U)) :
-    (subforestLeafMap U ℓ).toNode = subforestNodeMap U ℓ.toNode := rfl
-
 theorem subforestBranchMap_child {w : ℕ} {tree : Fin w → TTree}
     (U : Finset (GNode tree)) (b : GBranch (subforestTrees U)) (i : Fin 3) :
     (subforestBranchMap U b).child i = subforestNodeMap U (b.child i) := by
@@ -65,13 +57,5 @@ theorem subforestNodeMap_isDesc_iff {w : ℕ} (LG : LayeredGarden w)
     change ((subforestRoot U a.1.1).1.2 ++ a.1.2) ++ r =
       (subforestRoot U b.1.1).1.2 ++ b.1.2
     rw [List.append_assoc, hr, hp]
-
-theorem subforestNodeMap_injective {w : ℕ} (LG : LayeredGarden w)
-    (U : Finset (GNode LG.garden.tree)) (hU : Canon.Rel.Antichain LG U) :
-    Function.Injective (subforestNodeMap U) := by
-  intro a b he
-  have hab := (subforestNodeMap_isDesc_iff LG U hU a b).mp (he ▸ GNode.isDesc_refl _)
-  have hba := (subforestNodeMap_isDesc_iff LG U hU b a).mp (he.symm ▸ GNode.isDesc_refl _)
-  exact Canon.isDesc_antisymm hab hba
 
 end WaveTurbulence.Induct

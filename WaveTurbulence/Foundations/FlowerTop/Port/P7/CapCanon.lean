@@ -24,11 +24,6 @@ theorem incomparable_lift (a a' : GNode T) : (liftNode a).Incomparable (liftNode
   unfold GNode.Incomparable
   rw [isDesc_lift, isDesc_lift]
 
-theorem root_isDesc_lift (j : Fin 2) (a : GNode T) :
-    (rootBranch T j).toNode.IsDesc (liftNode a) ↔ jOf a.1.1 = j := by
-  unfold GNode.IsDesc
-  simp [rootBranch, GBranch.toNode, liftNode, liftAddr, eq_comm]
-
 theorem lift_not_isDesc_root (j : Fin 2) (a : GNode T) : ¬ (liftNode a).IsDesc (rootBranch T j).toNode := by
   rintro ⟨-, h⟩
   simp [rootBranch, GBranch.toNode, liftNode, liftAddr] at h

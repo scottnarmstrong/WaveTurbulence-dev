@@ -33,13 +33,6 @@ structure SplicedSourcePremisesST {R : ℕ} (P : WTParams) (G : Garden (2 * R))
         (univ.image (fun i => base + latticePoint P.L (roots i))) (bondIndex G z.1)) ∧
     StubPendant G C D.gapSpecification D.stubs
 
-theorem SplicedSourcePremisesST.toOld {R : ℕ} {P : WTParams} {G : Garden (2 * R)}
-    {D : SplicedKernelDataST G P.d} {base : Mom P.d} {roots : Fin (2 * R) → (Fin P.d → ℤ)}
-    (h : SplicedSourcePremisesST P G D base roots) :
-    SplicedSourcePremises P G D.toSplicedKernelData base roots := by
-  obtain ⟨C, hC, hh, hs, _⟩ := h.subpro
-  exact ⟨h.molecule, h.connected, h.atom_count, h.bond_count, ⟨C, hC, hh, hs⟩⟩
-
 theorem SplicedSourcePremisesST.ofOld {R : ℕ} {P : WTParams} {G : Garden (2 * R)}
     {D : SplicedKernelDataST G P.d} (hs : D.stubs = ∅) {base : Mom P.d}
     {roots : Fin (2 * R) → (Fin P.d → ℤ)}
@@ -78,13 +71,6 @@ noncomputable def splicedFourierBST {w : ℕ} (G : Garden w) (layer : GBranch G.
       (fun t => ∏ v : GBranch G.tree, Complex.exp ((Real.pi * α v * t v : ℝ) * Complex.I))
       (G.extendFix fix τ)
 
-noncomputable def splicedFourierBoxSumST {w : ℕ} (G : Garden w)
-    (layer : GBranch G.tree → ℕ) (rootTime : Fin w → ℝ) (fix : GBranch G.tree → Option ℝ)
-    (A : Set (GBranch G.tree → ℝ)) : ℝ≥0∞ :=
-  ∑' σ : sourceFrequencyBoxes G A,
-    ⨆ (α : GBranch G.tree → ℝ) (_ : α ∈ A) (_ : ∀ v, |α v - σ.1 v| ≤ 1),
-      ‖splicedFourierBST G layer rootTime fix α‖ₑ
-
 theorem splicedFourierB_eq_ST {w d : ℕ} {G : Garden w} (D : SplicedKernelDataST G d) (hs : D.stubs = ∅)
     (α : GBranch G.tree → ℝ) :
     splicedFourierB G D.layer D.rootTime α = splicedFourierBST G D.layer D.rootTime D.fix α := by
@@ -106,41 +92,5 @@ theorem splicedFourierB_eq_ST {w d : ℕ} {G : Garden w} (D : SplicedKernelDataS
   refine integral_congr_ae (Filter.Eventually.of_forall fun τ => ?_)
   simp only
   rw [extendFix_of_none G D.fix hfix τ, hdom]
-
-theorem splicedFourierBoxSum_eq_ST {w d : ℕ} {G : Garden w} (D : SplicedKernelDataST G d) (hs : D.stubs = ∅)
-    (A : Set (GBranch G.tree → ℝ)) :
-    splicedFourierBoxSum G D.layer D.rootTime A = splicedFourierBoxSumST G D.layer D.rootTime D.fix A := by
-  unfold splicedFourierBoxSum splicedFourierBoxSumST
-  simp only [splicedFourierB_eq_ST D hs]
-
-/-- TARGET ladderl1old (L1994-L2001) for spliced kernels with pendant stubs (AMEND-ST): the Fourier box sum of the
-time integral over the free branches.
-
-DEPRECATED (R77, AMEND-SX2): this statement is FALSE as written for stub data (its box sum ranges over ALL branch
-frequencies, including the fixed stub clocks, which have no Fourier decay; see spliced-x/SPLICED-X2-OBSTRUCTION.md).
-Use `FlowerP5.LadderFourierAtST'` (module `LadderFourierSTFree`; box sum over the free-clock frequencies). Nothing
-in the AMEND-SX2 chain routes through this statement; the stub-free case is recovered by `ladderFourierAt_of_ST'`. -/
-abbrev LadderFourierAtST (P : WTParams) : Prop :=
-  ∀ p : ℕ, p < P.D → ∀ R : ℕ, 1 ≤ R → R ≤ 10 * P.R (p + 1) →
-  ∀ G : Garden (2 * R), G.IsPlain → G.Irreducible → IsBalancedSig G.sig →
-    1 ≤ G.order → G.order ≤ P.N (p + 1) ^ 4 →
-  ∀ (D : SplicedKernelDataST G P.d) (scales : Finset (GBranch G.tree) → ℝ),
-    (∀ v, D.layer v ≤ p) → SplicedAmplitudeBounds G D.toSplicedKernelData →
-    StubPendantLadder G D.hinges D.gapSpecification D.stubs →
-  ∀ (base : Mom P.d) (roots : Fin (2 * R) → (Fin P.d → ℤ)),
-    splicedFourierBoxSumST G D.layer D.rootTime D.fix
-      (splicedFrequencySpectrum G D.toSplicedKernelData scales P.L P.γ P.η P.δ base roots) ≤
-    ENNReal.ofReal (P.C₁ * (P.C₁ * P.δ ^ (-1 / 2 - 5 * P.ν)) ^ G.order *
-      P.L ^ (P.δ ^ (5 * P.ν) * G.molecule.rho) *
-      ∏ S ∈ G.molecule.maximalLadders,
-        Molecule.ladderWeight P.L P.γ P.δ (scales S) ^ Molecule.ladderLength S)
-
-/-- **Bridge**: the ladder Fourier estimate with stubs implies the current one. -/
-theorem ladderFourierAt_of_ST (P : WTParams) (h : LadderFourierAtST P) : LadderFourierAt P := by
-  intro p hp R hR hRmax G hpl hir hbal hn hnmax D scales hlay hD base roots
-  have := h p hp R hR hRmax G hpl hir hbal hn hnmax D.noStubs scales hlay hD
-    (stubPendantLadder_empty _ _ _) base roots
-  rw [← splicedFourierBoxSum_eq_ST D.noStubs rfl] at this
-  exact this
 
 end WaveTurbulence.LGSpine

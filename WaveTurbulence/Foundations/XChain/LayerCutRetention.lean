@@ -21,20 +21,8 @@ theorem layerCut_leaf_mem_of_layer_ge {w : ℕ} (LG : LayeredGarden w) (p : ℕ)
   mem_cutTree_leaves_of_no_strict_stop _ _ _ ℓ.2
     (no_strict_layerCutStop_of_layer_ge LG p ℓ.toNode hp)
 
-theorem layerCut_node_mem_of_layer_ge {w : ℕ} (LG : LayeredGarden w) (p : ℕ)
-    (a : GNode LG.garden.tree) (hp : p ≤ LG.layer a) :
-    a.1.2 ∈ (layerCutForest LG p a.1.1).nodes :=
-  mem_cutTree_nodes_of_no_strict_stop _ _ _ a.2
-    (no_strict_layerCutStop_of_layer_ge LG p a hp)
-
 noncomputable def topLayerLeafToCut {w : ℕ} (LG : LayeredGarden w) (p : ℕ)
     (ℓ : GLeaf LG.garden.tree) (hp : p ≤ LG.layer ℓ.toNode) : GLeaf (layerCutForest LG p) :=
   ⟨ℓ.1, layerCut_leaf_mem_of_layer_ge LG p ℓ hp⟩
-
-theorem layerCut_top_pair_retained {w : ℕ} (LG : LayeredGarden w) (p : ℕ)
-    (ℓ : GLeaf LG.garden.tree) (hp : LG.layer ℓ.toNode = p) :
-    (LG.garden.pair ℓ).1.2 ∈ (layerCutForest LG p (LG.garden.pair ℓ).1.1).leaves := by
-  have he := LG.isLayering.2 ℓ
-  exact layerCut_leaf_mem_of_layer_ge LG p (LG.garden.pair ℓ) (hp.symm.trans he).le
 
 end WaveTurbulence.Induct

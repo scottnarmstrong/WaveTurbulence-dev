@@ -23,9 +23,4 @@ noncomputable def forestDecorationEquiv {w d : ℕ} (top : Fin w → TTree)
     apply congrArg (κ j).1
     exact Subtype.ext (Prod.ext (Subsingleton.elim _ _) rfl)
 
-theorem forestDecorationEquiv_apply_val {w d : ℕ} (top : Fin w → TTree)
-    (n : Fin w → (Fin d → ℤ)) (κ : ForestDecoration top d n) (j : Fin w)
-    (a : GNode (single (top j))) :
-    (forestDecorationEquiv top n κ j).1 a = κ.1 ⟨(j, a.1.2), a.2⟩ := rfl
-
 end WaveTurbulence.Induct

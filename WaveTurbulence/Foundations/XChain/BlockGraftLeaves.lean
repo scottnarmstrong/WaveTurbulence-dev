@@ -24,21 +24,6 @@ noncomputable def blockLeafEquiv {w : ℕ} (top : Fin w → TTree)
     ((Equiv.sigmaAssoc (fun (B : P.parts) (k : Fin B.1.card) => ↥((low B).tree k).leaves)).trans
       (Equiv.sigmaCongrRight (fun B => (forestLeafSigmaEquiv (low B).tree).symm)))
 
-theorem blockLeafEquiv_block {w : ℕ} (top : Fin w → TTree)
-    (P : Finpartition (univ : Finset (GLeaf top))) (low : (B : P.parts) → Garden B.1.card)
-    (x : AttachedLeaf top (blockGraftTrees top P low)) :
-    (blockLeafEquiv top P low x).1 = (blockRootEquiv top P x.1).1 := rfl
-
-theorem blockLeafEquiv_root {w : ℕ} (top : Fin w → TTree)
-    (P : Finpartition (univ : Finset (GLeaf top))) (low : (B : P.parts) → Garden B.1.card)
-    (x : AttachedLeaf top (blockGraftTrees top P low)) :
-    (blockLeafEquiv top P low x).2.1.1 = (blockRootEquiv top P x.1).2 := rfl
-
-theorem blockLeafEquiv_path {w : ℕ} (top : Fin w → TTree)
-    (P : Finpartition (univ : Finset (GLeaf top))) (low : (B : P.parts) → Garden B.1.card)
-    (x : AttachedLeaf top (blockGraftTrees top P low)) :
-    (blockLeafEquiv top P low x).2.1.2 = x.2.1 := rfl
-
 /-- The root-sign constraint gives equality of inherited and lower-garden signs. -/
 theorem blockLeafEquiv_sign {w : ℕ} (sig : Fin w → ℤˣ) (top : Fin w → TTree)
     (P : Finpartition (univ : Finset (GLeaf top))) (low : (B : P.parts) → Garden B.1.card)

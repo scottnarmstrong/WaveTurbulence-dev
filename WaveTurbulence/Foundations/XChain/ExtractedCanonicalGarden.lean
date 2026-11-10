@@ -20,17 +20,4 @@ theorem extracted_isCanonG_of_canonInd {w : ℕ} (LG : LayeredGarden w)
       extracted_irreducible_of_irreducibleAt LG U hU hcp hirr,
       extracted_criterion_of_relCrit LG U hU hcp q hc⟩
 
-noncomputable def extractedCanonicalGarden {w : ℕ} (LG : LayeredGarden w)
-    (U : Finset (GNode LG.garden.tree)) (p : ℕ) (h : LG.CanonInd p U) : LayeredGarden U.card :=
-  match p with
-  | 0 => False.elim h
-  | _ + 1 => extractedLayeredGarden LG U h.2.1 h.2.2.1
-
-theorem extractedCanonicalGarden_isCanonG {w : ℕ} (LG : LayeredGarden w)
-    (U : Finset (GNode LG.garden.tree)) (p : ℕ) (h : LG.CanonInd p U) :
-    IsCanonG p (extractedCanonicalGarden LG U p h) := by
-  cases p with
-  | zero => exact False.elim h
-  | succ q => exact extracted_isCanonG_of_canonInd LG U h.2.1 h.2.2.1 (q + 1) h
-
 end WaveTurbulence.Induct

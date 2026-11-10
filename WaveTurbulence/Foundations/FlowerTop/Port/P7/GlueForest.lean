@@ -22,25 +22,6 @@ def gT (σ : Fin a ⊕ Fin b ≃ Fin w) (TA : Fin a → TTree) (TB : Fin b → T
 @[simp] theorem gT_inr (σ : Fin a ⊕ Fin b ≃ Fin w) (TA : Fin a → TTree) (TB : Fin b → TTree) (i : Fin b) :
     gT σ TA TB (σ (.inr i)) = TB i := by simp [gT]
 
-/-- Addresses of the glued forest. -/
-def gaddr (σ : Fin a ⊕ Fin b ≃ Fin w) : (Fin a × Path) ⊕ (Fin b × Path) → Fin w × Path
-  | .inl x => (σ (.inl x.1), x.2)
-  | .inr x => (σ (.inr x.1), x.2)
-
-theorem gaddr_bijective (σ : Fin a ⊕ Fin b ≃ Fin w) : Function.Bijective (gaddr σ) := by
-  constructor
-  · rintro (x | x) (y | y) h <;> simp only [gaddr, Prod.mk.injEq, EmbeddingLike.apply_eq_iff_eq,
-      Sum.inl.injEq, Sum.inr.injEq, reduceCtorEq] at h
-    all_goals first
-      | exact h.1.elim
-      | exact congrArg Sum.inl (Prod.ext h.1 h.2)
-      | exact congrArg Sum.inr (Prod.ext h.1 h.2)
-  · rintro ⟨c, p⟩
-    obtain ⟨s, rfl⟩ := σ.surjective c
-    rcases s with i | i
-    · exact ⟨.inl (i, p), rfl⟩
-    · exact ⟨.inr (i, p), rfl⟩
-
 /-- Generic sub-forest sets: addresses `(j, p)` with `p ∈ S (T j)`. -/
 abbrev SubSet {n : ℕ} (T : Fin n → TTree) (S : TTree → Finset Path) : Type :=
   {x : Fin n × Path // x.2 ∈ S (T x.1)}

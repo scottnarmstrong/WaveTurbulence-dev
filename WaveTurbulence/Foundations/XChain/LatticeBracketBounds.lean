@@ -25,17 +25,6 @@ theorem jbr_add_le (x y : Mom d) : jbr (x + y) ≤ Real.sqrt 2 * jbr x * jbr y :
     mul_nonneg (mul_nonneg (Real.sqrt_nonneg 2) (jbr_pos'' x).le) (jbr_pos'' y).le
   exact (pow_le_pow_iff_left₀ (jbr_pos'' _).le h0 two_ne_zero).1 h1
 
-theorem jbr_rpow_add_le {Λ : ℝ} (hΛ : 0 ≤ Λ) (x y : Mom d) :
-    jbr (x + y) ^ Λ ≤ 2 ^ (Λ / 2) * jbr x ^ Λ * jbr y ^ Λ := by
-  have h := Real.rpow_le_rpow (jbr_pos'' _).le (jbr_add_le x y) hΛ
-  have e : (Real.sqrt 2 * jbr x * jbr y) ^ Λ = 2 ^ (Λ / 2) * jbr x ^ Λ * jbr y ^ Λ := by
-    rw [Real.mul_rpow (mul_nonneg (Real.sqrt_nonneg 2) (jbr_pos'' x).le) (jbr_pos'' y).le,
-      Real.mul_rpow (Real.sqrt_nonneg 2) (jbr_pos'' x).le, Real.sqrt_eq_rpow, ← Real.rpow_mul (by norm_num)]
-    congr 3
-    ring
-  rw [e] at h
-  exact h
-
 theorem jbr_neg (x : Mom d) : jbr (-x) = jbr x := by simp [jbr]
 
 theorem jbr_units_smul (ζ : ℤˣ) (x : Mom d) : jbr ((ζ : ℤ) • x) = jbr x := by

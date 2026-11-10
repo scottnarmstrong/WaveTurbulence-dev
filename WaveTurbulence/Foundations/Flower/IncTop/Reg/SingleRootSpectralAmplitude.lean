@@ -63,35 +63,4 @@ theorem MomentumTreeData.norm_iteratedFDeriv_rootCutoffSpectralAmplitude_leSpati
   · have h := MomentumTreeData.weighted_norm_allCellMaskedAmplitudeDerivative_leSpatial (P := P) ζ f S (W := 0) hi x u
     simpa only [pow_zero, one_mul] using h
 
-open WaveTurbulence.Incoh.MomentumTreeData in
-/-- Actual single-root derivative slices are strongly measurable on the counted spectral space. -/
-theorem MomentumTreeData.stronglyMeasurable_rootCutoffAmplitudeDerivativeSpatial {d n m w K M : ℕ}
-    (P : MomentumTreeData n m w) (ζ : Circle) (f : Fin m → Mom d → ℂ)
-    (S : (Fin m → Fin d → ℤ) → Finset ((Fin n × Fin 2) → Fin d → ℤ))
-    {B : ℝ} (hK : d + 1 ≤ K) (hB : 0 ≤ B)
-    (hf : ∀ a, Fourier.spatialNorm K M (f a) ≤ ENNReal.ofReal B)
-    (q : Fin d → ℤ) (k : Mom d) (j : ℕ) :
-    StronglyMeasurable (fun u : SourceCellIndex S × (LocalizedCellIndex n m → Fin d → ℝ) =>
-      iteratedFDeriv ℝ j (fun k => (MomentumTreeData.rootCutoffSpectralAmplitudeSpatial (P := P)) ζ f S q k u) k) := by
-  change StronglyMeasurable (Function.uncurry (fun (u : SourceCellIndex S) ξ =>
-    iteratedFDeriv ℝ j (fun k => (MomentumTreeData.rootCutoffSpectralAmplitudeSpatial (P := P)) ζ f S q k (u, ξ)) k))
-  apply stronglyMeasurable_countable_slices
-  intro u
-  let ψ := fun k : Mom d => treeRootCutoffSpatial q k * sourceRootMask u.1 k
-  have hψ : ContDiff ℝ ∞ ψ := (contDiff_treeRootCutoffSpatial q).mul (contDiff_sourceRootMask u.1)
-  have he (ξ : LocalizedCellIndex n m → Fin d → ℝ) :
-      (fun k => (MomentumTreeData.rootCutoffSpectralAmplitudeSpatial (P := P)) ζ f S q k (u, ξ)) =
-        fun k => ψ k * ((MomentumTreeData.sourceSpectralAmplitudeSpatial (P := P)) ζ f u.1 u.2.val 0 ξ *
-          (Real.fourierChar (inner ℝ (P.spectralShift ξ none) k) : ℂ)) := by
-    funext k
-    simp only [rootCutoffSpectralAmplitudeSpatial, allCellMaskedSpectralAmplitudeSpatial,
-      maskedSourceSpectralAmplitudeSpatial, sourceSpectralAmplitudeSpatial, inner_zero_right,
-      AddChar.map_zero_eq_one, Circle.coe_one, mul_one, ψ]
-    ring
-  simp_rw [he]
-  exact (continuous_iteratedFDeriv_smooth_modulated ψ hψ
-    ((MomentumTreeData.sourceSpectralAmplitudeSpatial (P := P)) ζ f u.1 u.2.val 0)
-    ((MomentumTreeData.continuous_sourceSpectralAmplitudeSpatial (P := P)) ζ f u.1 u.2.val hK hB hf 0)
-    (fun ξ => P.spectralShift ξ none) ((MomentumTreeData.continuous_spectralShiftSpatial (P := P)) none) k j)
-
 end WaveTurbulence.Flower.IncTop

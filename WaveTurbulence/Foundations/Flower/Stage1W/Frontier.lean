@@ -1,7 +1,6 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 
-public import WaveTurbulence.Foundations.FlowerTop.ThreeInputs
 public import WaveTurbulence.Foundations.Flower.Stage1W.Defs
 public import WaveTurbulence.Foundations.Flower.Stage1W.Bridge
 
@@ -147,51 +146,6 @@ theorem gPresented_frontierG (d : ℕ) (o : Option ℝ) (ho : ∀ r, o = some r 
     exact gPresented_frontierCut d r (ho r rfl)
 
 /-! ## 8. The consumer-facing specialisation (frontier cutoffs at scales `≥ L`) -/
-
-/-- `Stage1ReductionAtFW` at the frontier class (R8's one radial class, presented by `bondMeasure`): per-tree optional
-scales `Rf j ≥ L`, size `frontierConst d ^ (16 N) * s`.  This is the form MARKED-F / Core-F instantiates (the cores'
-`frontierW`, §6). -/
-def Stage1ReductionAtFWcut (C₀ : ℕ) (P : WTParams) : Prop :=
-  ∀ p, p < P.D → ∀ R, 1 ≤ R → R ≤ 10 * P.R (p + 1) → ∀ N, 1 ≤ N → N ≤ P.N (p + 1) ^ 4 →
-  ∀ A : Finset (LayeredGarden (2 * R)), (∀ LG ∈ A, Stage1Carries P p N LG) → TwistClosed p A →
-  ∀ tt : Fin (2 * R) → ℝ, (∀ j, tt j ∈ Icc (p : ℝ) (p + 1)) →
-  ∀ (base : Mom P.d) (roots : Fin (2 * R) → (Fin P.d → ℤ)),
-  ∀ (Rf : Fin (2 * R) → Option ℝ), (∀ j r, Rf j = some r → P.L ≤ r) →
-  ∀ (U : TypeFamily P (2 * R)) (s : ℝ), 0 < s → U.Bounded p → (∀ LG ∈ A, U.toLF.size LG ≤ s) →
-  ∃ (S : Stage1Data P R) (Cl : Type) (hCl : Fintype Cl) (cls : S.Pc → Cl)
-    (members : Cl → Finset (LayeredGarden (2 * R)))
-    (sel : S.Pc → ∀ LG : LayeredGarden (2 * R), GenDecoration LG.garden P.d roots 0 → Prop),
-    Stage1Partition roots A members cls sel ∧
-    (∀ π, RepresentsFW (S.piece π) N tt base roots (members (cls π)) (sel π) U.toLF
-      (fwWeight p (fun j => frontierG (Rf j)) base) (frontierConst P.d ^ (16 * N) * s) (S.val π)) ∧
-    (∀ π, (S.piece π).Sound p base roots) ∧ (∀ π, (S.piece π).Gsb.order ≤ N) ∧
-    Stage1Counts C₀ P R N S Cl hCl cls
-
-theorem stage1ReductionAtFWcut_of_FW (C₀ : ℕ) (P : WTParams) (hL : 1 ≤ P.L) (h : Stage1ReductionAtFW C₀ P) :
-    Stage1ReductionAtFWcut C₀ P := by
-  intro p hp R hR1 hR2 N hN1 hN2 A hA hTC tt htt base roots Rf hRf U s hs hU hsz
-  exact h p hp R hR1 hR2 N hN1 hN2 A hA hTC tt htt base roots (fun j => frontierG (Rf j)) (frontierConst P.d)
-    (one_le_frontierConst P.d) (fun j => gPresented_frontierG P.d (Rf j) fun r hr => hL.trans (hRf j r hr))
-    (fun j x => frontierG_im _ x) U s hs hU hsz
-
-/-- The consumer gate form. -/
-def Stage1ReductionGateFWcut : Prop :=
-  ∃ C₀ : ℕ → ℝ → ℕ, (∀ d γ, 2 ≤ C₀ d γ) ∧ WTPrefix (fun P => Stage1ReductionAtFWcut (C₀ P.d P.γ) P)
-
-/-- The abstract gate gives the consumer gate (`WTPrefix` already has `L ≥ L₀ ≥ 2`). -/
-theorem stage1ReductionGateFWcut_of_FW (h : Stage1ReductionGateFW) : Stage1ReductionGateFWcut := by
-  obtain ⟨C₀, hC₀, hpre⟩ := h
-  refine ⟨C₀, hC₀, ?_⟩
-  intro d hd γ hγ
-  obtain ⟨η₀, hη₀, h1⟩ := hpre d hd γ hγ
-  refine ⟨η₀, hη₀, fun η hη φin hφin τ hτ φ hsol => ?_⟩
-  obtain ⟨C₁, hC₁, ν₀, hν₀, h2⟩ := h1 η hη φin hφin τ hτ φ hsol
-  refine ⟨C₁, hC₁, ν₀, hν₀, fun ν hν => ?_⟩
-  obtain ⟨δ₀, hδ₀, h3⟩ := h2 ν hν
-  refine ⟨δ₀, hδ₀, fun δ hδ D hD htime => ?_⟩
-  obtain ⟨C₂, hC₂, L₀, hL₀, h4⟩ := h3 δ hδ D hD htime
-  refine ⟨C₂, hC₂, L₀, hL₀, fun L hL => ?_⟩
-  exact stage1ReductionAtFWcut_of_FW _ _ (show (1 : ℝ) ≤ L by linarith) (h4 L hL)
 
 
 end WaveTurbulence.Flower.Stage1W

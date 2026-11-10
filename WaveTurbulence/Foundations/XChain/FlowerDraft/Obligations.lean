@@ -117,22 +117,4 @@ theorem Wop_eq_kernelOp (p N : ℕ) {aP : (Fin d → ℤ) → ℂ} (haP : Summab
     Wop L γ δ p N aP b = kernelOp p (Wker L γ δ p N aP) b :=
   sum_fOp_eq_kernelOp L γ δ p haP hb (Wind N) bottomOf fun x _ => graft_ne_flower (by simp)
 
-/-- **`(1 − ℒ₁)𝒳 = 1 − 𝒴` for TARGET's kernel-defined operators** (from O-FK). -/
-theorem one_sub_L1op_kernel (p N : ℕ) {aP : (Fin d → ℤ) → ℂ} (haP : Summable fun k => ‖aP k‖)
-    {b : ArrI p d} (hb : Good p b) :
-    (b + kernelOp p (Xker L γ δ p N aP) b) -
-        L1op L γ δ p N aP (b + kernelOp p (Xker L γ δ p N aP) b) =
-      b - kernelOp p (Yker L γ δ p N aP) b := by
-  rw [← Xop_eq_kernelOp L γ δ p N haP hb, ← Yop_eq_kernelOp L γ δ p N haP hb]
-  exact one_sub_L1op_Xop L γ δ p N haP hb
-
-/-- **`𝒳(1 − ℒ₁) = 1 − 𝒲` for TARGET's kernel-defined operators** (from O-FK). -/
-theorem kernel_one_sub_L1op (p N : ℕ) {aP : (Fin d → ℤ) → ℂ} (haP : Summable fun k => ‖aP k‖)
-    {b : ArrI p d} (hb : Good p b) :
-    (b - L1op L γ δ p N aP b) + kernelOp p (Xker L γ δ p N aP) (b - L1op L γ δ p N aP b) =
-      b - kernelOp p (Wker L γ δ p N aP) b := by
-  rw [← Xop_eq_kernelOp L γ δ p N haP (hb.sub (good_L1op L γ δ p N haP hb)),
-    ← Wop_eq_kernelOp L γ δ p N haP hb]
-  exact Xop_one_sub_L1op L γ δ p N haP hb
-
 end WaveTurbulence.SysAPI

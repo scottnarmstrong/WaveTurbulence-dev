@@ -48,13 +48,4 @@ theorem subtreeAt_graftTree_leaf (T : TTree) (f : TTree.Path → TTree)
     · obtain ⟨a, hleaf, rfl⟩ := TTree.mem_pre.mp ha
       simpa [graftTree, subtreeAt] using hr (fun a => f (2 :: a)) hleaf
 
-/-- For a fixed top tree the graft operation is injective in the actual lower trees. -/
-theorem graftTree_injective_on_leaves (T : TTree) (f g : TTree.Path → TTree)
-    (h : graftTree T f = graftTree T g) : ∀ a ∈ T.leaves, f a = g a := by
-  intro a ha
-  calc
-    f a = subtreeAt (graftTree T f) a := (subtreeAt_graftTree_leaf T f ha).symm
-    _ = subtreeAt (graftTree T g) a := congrArg (fun S => subtreeAt S a) h
-    _ = g a := subtreeAt_graftTree_leaf T g ha
-
 end WaveTurbulence.Induct

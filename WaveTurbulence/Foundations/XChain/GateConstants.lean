@@ -45,20 +45,4 @@ theorem fixedpointBody_update_aux (P : WTParams) (C₁ C₂ : ℝ) :
     N_update_aux, R_update_aux]
 
 
-/-- WKE Taylor's two bounds increase monotonically with the auxiliary constants;
-its convergence and exact-sum clauses retain the identical carriers and integrands. -/
-theorem wkeTaylorBody_update_aux (P : WTParams) (hW : WkeTaylorBody P)
-    (hδ : 0 ≤ P.δ) (hC₁ : 0 ≤ P.C₁) (hC₂ : 0 ≤ P.C₂)
-    {C₁ C₂ : ℝ} (h₁ : P.C₁ ≤ C₁) (h₂ : P.C₂ ≤ C₂) :
-    WkeTaylorBody {P with C₁ := C₁, C₂ := C₂} := by
-  intro p hp
-  obtain ⟨h0, h1, h2⟩ := hW p hp
-  refine ⟨h0, h1, ?_⟩
-  intro N t ht
-  apply (h2 N t ht).trans
-  apply ENNReal.ofReal_le_ofReal
-  exact mul_le_mul h₂ (pow_le_pow_left₀ (mul_nonneg hC₁ hδ)
-    (mul_le_mul_of_nonneg_right h₁ hδ) N)
-    (pow_nonneg (mul_nonneg hC₁ hδ) _) (hC₂.trans h₂)
-
 end WaveTurbulence.Induct

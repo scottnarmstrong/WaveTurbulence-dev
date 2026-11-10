@@ -6,7 +6,6 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.Flower.SelRes.Bound
-public import WaveTurbulence.Foundations.Flower.FinalMKPiece.Sum
 
 /-! # D7 SEL-RES / Sum: `MarkedSumBoundSelAt` and `MarkedSumBoundSelAtT` (C5 target 2′, R175, F-C5b-1)
 

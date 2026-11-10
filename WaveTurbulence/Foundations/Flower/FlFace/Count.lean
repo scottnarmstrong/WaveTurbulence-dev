@@ -50,27 +50,4 @@ theorem card_children_le_three (v : GBranch T) : (children v).card ≤ 3 := by
   have := card_le_card_of_injOn f (fun c _ => mem_univ (f c)) hinj
   simpa using this
 
-theorem card_upSet_le (v : GBranch T) : (upSet v).card ≤ 2 :=
-  (card_insert_le _ _).trans (Nat.succ_le_succ (card_image_le.trans (card_parents_le_one v)))
-
-theorem card_lowSet_le (v : GBranch T) : (lowSet v).card ≤ 4 :=
-  (card_insert_le _ _).trans (Nat.succ_le_succ (card_image_le.trans (card_children_le_three v)))
-
-theorem card_endChoices_le (v : GBranch T) : (endChoices v).card ≤ 6 :=
-  (card_union_le _ _).trans (by have := card_upSet_le v; have := card_lowSet_le v; omega)
-
-/-- The faces at `S` number at most `6 ^ #S`. -/
-theorem faceCount_le_six (S : Finset (GBranch T)) : (faces S).card ≤ 6 ^ S.card := by
-  rw [faces, Fintype.card_piFinset]
-  have h : ∀ b : GBranch T, (if b ∈ S then endChoices b else {FaceEnd.top}).card =
-      if b ∈ S then (endChoices b).card else 1 := fun b => by
-    split_ifs <;> simp
-  simp_rw [h]
-  rw [prod_ite_mem, univ_inter]
-  exact prod_le_pow_card S _ 6 fun b _ => card_endChoices_le b
-
-/-- **Face count** (supplement Lemma 9.1): at most `8 ^ a` faces for `a` selected nodes. -/
-theorem faceCount_le (S : Finset (GBranch T)) : (faces S).card ≤ 8 ^ S.card :=
-  (faceCount_le_six S).trans (Nat.pow_le_pow_left (by norm_num) _)
-
 end WaveTurbulence.Flower.FlFace

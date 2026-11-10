@@ -87,10 +87,6 @@ theorem SplicedKernelDataST.fix_eq_none {w d : ℕ} {G : Garden w} (D : SplicedK
   rw [hs]
   exact stubFix_empty _ b
 
-theorem SplicedKernelData.noStubs_fix {w d : ℕ} {G : Garden w} (D : SplicedKernelData G d)
-    (b : GBranch G.tree) : D.noStubs.fix b = none :=
-  D.noStubs.fix_eq_none rfl b
-
 theorem extendFix_of_none {w : ℕ} (G : Garden w) (fix : GBranch G.tree → Option ℝ)
     (hfix : ∀ b, fix b = none) (τ : {b : GBranch G.tree // fix b = none} → ℝ) :
     G.extendFix fix τ = fun b => τ ⟨b, hfix b⟩ := by

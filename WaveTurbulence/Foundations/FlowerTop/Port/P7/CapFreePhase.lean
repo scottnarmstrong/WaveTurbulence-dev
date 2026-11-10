@@ -15,9 +15,6 @@ noncomputable def rootPhaseS (L γ δ : ℝ) (k : Mom d) (s : Fin 2 → ℝ) (n 
   ∏ j : Fin 2, Complex.exp ((Real.pi * (((![1, -1] : Fin 2 → ℤˣ) j : ℤˣ) : ℤ) * δ * L ^ (2 * γ) *
     rootOmega L k (n (idx j 0)) (n (idx j 1)) (n (idx j 2)) * s j : ℝ) * Complex.I)
 
-theorem rootPhaseS_const (L γ δ : ℝ) (k : Mom d) (t : ℝ) (n : Fin (2 * 3) → (Fin d → ℤ)) :
-    rootPhaseS L γ δ k (fun _ => t) n = rootPhase L γ δ k t n := rfl
-
 /-- The times of the cap: the roots at `s`, the other branching nodes from `σ`. -/
 noncomputable def extendCapS (T : Fin (2 * 3) → TTree) (s : Fin 2 → ℝ) (σ : GBranch T → ℝ) :
     GBranch (capTree T) → ℝ :=

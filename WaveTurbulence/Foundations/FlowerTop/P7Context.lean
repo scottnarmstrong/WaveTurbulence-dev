@@ -5,7 +5,7 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.FlowerTop.P7Inputs
+public import WaveTurbulence.Foundations.FlowerTop.Port.P7.Export
 public import WaveTurbulence.Foundations.Spine.NonregularPrefix
 
 /-! Construct P7's LG context and discharge GardenNum/CoupleNum at one late threshold. -/

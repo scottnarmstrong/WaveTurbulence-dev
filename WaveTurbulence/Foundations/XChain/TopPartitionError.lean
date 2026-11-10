@@ -33,19 +33,4 @@ noncomputable def topPartitionError {Ω : Type*} [MeasurableSpace Ω] (μ : Meas
     (p Natt : ℕ) (t : ℝ) (n : Fin w → (Fin d → ℤ)) : ℂ :=
   ∑' κ : ForestDecoration top d n, topPartitionErrorIntegrand μ L γ δ F sig top P c p Natt t n κ
 
-theorem topPartitionErrorIntegrand_eq_error_blocks {Ω : Type*} [MeasurableSpace Ω] (μ : Measure Ω)
-    {w d : ℕ} (L γ δ : ℝ) (F : ℕ → Mom d → ℝ) (sig : Fin w → ℤˣ) (top : Fin w → TTree)
-    (P : Finpartition (univ : Finset (GLeaf top))) (c : Ω → (Fin d → ℤ) → ℂ)
-    (p Natt : ℕ) (t : ℝ) (n : Fin w → (Fin d → ℤ)) (κ : ForestDecoration top d n) :
-    topPartitionErrorIntegrand μ L γ δ F sig top P c p Natt t n κ =
-      (∏ j, topTreeCoefficient L γ δ p top sig n κ (fun _ => t) j) *
-      ∑ T ∈ (univ : Finset P.parts).powerset.erase ∅, (-1 : ℂ) ^ T.card *
-        (∏ B ∈ (univ : Finset P.parts) \ T, topBlockKernel L γ δ F sig top P p Natt κ B) *
-        ∏ B ∈ T, (topBlockKernel L γ δ F sig top P p Natt κ B - topBlockCumulant μ sig top c κ B.1) := by
-  classical
-  exact congrArg (fun z : ℂ => (∏ j, topTreeCoefficient L γ δ p top sig n κ (fun _ => t) j) * z)
-    (prod_difference_eq_error_blocks (univ : Finset P.parts)
-      (fun B : P.parts => topBlockCumulant μ sig top c κ B.1)
-      (fun B : P.parts => topBlockKernel L γ δ F sig top P p Natt κ B))
-
 end WaveTurbulence.Induct

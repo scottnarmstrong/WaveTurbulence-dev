@@ -42,27 +42,4 @@ theorem leaf_eq_of_prefix (T : TTree) {a b : TTree.Path} (ha : a ∈ T.leaves)
   have he : x = y := GLeaf.eq_of_isDesc ⟨rfl, hab⟩
   exact congrArg (fun z => z.1.2) he
 
-/-- Every leaf of the grafted tree is uniquely a top leaf followed by a lower leaf. -/
-noncomputable def graftLeafEquiv (T : TTree) (f : TTree.Path → TTree) :
-    (Σ a : {a // a ∈ T.leaves}, {b // b ∈ (f a.1).leaves}) ≃
-      {q // q ∈ (graftTree T f).leaves} :=
-  Equiv.ofBijective (fun x => ⟨x.1.1 ++ x.2.1,
-    (mem_leaves_graftTree T f _).mpr ⟨x.1.1, x.1.2, x.2.1, x.2.2, rfl⟩⟩) (by
-    constructor
-    · rintro ⟨⟨a, ha⟩, ⟨b, hb⟩⟩ ⟨⟨a', ha'⟩, ⟨b', hb'⟩⟩ h
-      have he : a ++ b = a' ++ b' := congrArg Subtype.val h
-      have h1 : a <+: a ++ b := List.prefix_append _ _
-      have h2 : a' <+: a ++ b := he ▸ List.prefix_append _ _
-      have haa : a = a' := by
-        rcases List.prefix_or_prefix_of_prefix h1 h2 with h | h
-        · exact leaf_eq_of_prefix T ha ha' h
-        · exact (leaf_eq_of_prefix T ha' ha h).symm
-      subst a'
-      have hbb : b = b' := List.append_cancel_left he
-      subst b'
-      rfl
-    · rintro ⟨q, hq⟩
-      obtain ⟨a, ha, b, hb, hab⟩ := (mem_leaves_graftTree T f q).mp hq
-      exact ⟨⟨⟨a, ha⟩, ⟨b, hb⟩⟩, Subtype.ext hab⟩)
-
 end WaveTurbulence.Induct

@@ -30,15 +30,6 @@ theorem graftTree_leaf (T : TTree) : graftTree T (fun _ => .leaf) = T := by
   | leaf => rfl
   | node l m r hl hm hr => simp only [graftTree, hl, hm, hr]
 
-/-- Leaf substitution composes by concatenating the two leaf addresses. -/
-theorem graftTree_assoc (T : TTree) (f g : TTree.Path → TTree) :
-    graftTree (graftTree T f) g =
-      graftTree T (fun a => graftTree (f a) (fun b => g (a ++ b))) := by
-  induction T generalizing f g with
-  | leaf => rfl
-  | node l m r hl hm hr =>
-    simp only [graftTree, hl, hm, hr, List.cons_append]
-
 /-- Grafting adds orders over the leaves, with no multiplicity or symmetry factor. -/
 theorem graftTree_order (T : TTree) (f : TTree.Path → TTree) :
     (graftTree T f).order = T.order + ∑ a ∈ T.leaves, (f a).order := by

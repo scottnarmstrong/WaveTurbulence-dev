@@ -115,8 +115,6 @@ abbrev Un0F (C : CountingChoices G d) (S : SurvivorData G) (L γ η : ℝ) (κ :
     Set (Object (inlMol G.molecule)) :=
   objMap (ι := inlEmb _) '' unGF C S L γ η κ
 
-theorem C0MK_forb (C : CountingChoices G d) (S : SurvivorData G) : (C0MK C S).forb = survAtomsM (E0 S) := rfl
-
 theorem poolF_C0MK (C : CountingChoices G d) (S : SurvivorData G) :
     poolF (C0MK C S) = collMap (inlEmb _) (gColF C S) := by
   have h : C.subpro.hinges.map (inlEmb _) ∪ survAtomsM (E0 S) =

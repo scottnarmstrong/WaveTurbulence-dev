@@ -6,7 +6,9 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.XChain.V2Chain.PrefixS
-public import WaveTurbulence.Foundations.XChain.PropansatzAssembly
+public import WaveTurbulence.Foundations.XChain.PrefixInduction
+public import WaveTurbulence.Foundations.XChain.GateConstants
+public import WaveTurbulence.Foundations.XChain.SmallDeltaChoice
 
 /-!
 # V2-CHAIN: INDUCT's `propansatz_of_gates` with `γ` restricted to `S`

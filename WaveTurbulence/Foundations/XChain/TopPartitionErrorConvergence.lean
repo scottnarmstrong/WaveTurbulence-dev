@@ -32,15 +32,6 @@ variable (F : ℕ → Mom d → ℝ) (Natt : ℕ) (hP : TopPartitionIrreducible 
 
 include hP hpt htp hF
 
-theorem summable_topPartitionErrorIntegrand :
-    Summable (topPartitionErrorIntegrand μ L γ δ F sig top P c p Natt t n) := by
-  have ha := summable_topPartitionCumulantIntegrand L γ δ sig top P c hc hcs hM p t n
-  have hb : Summable (topPartitionKernelIntegrand L γ δ F sig top P p Natt t n) :=
-    summable_lowerKernelSum_graft_series (p := p) (Natt := Natt) L γ δ F sig top P hP t hpt htp n hF
-  apply (ha.sub hb).congr
-  intro κ
-  exact (topPartitionErrorIntegrand_eq_sub μ L γ δ F sig top P c p Natt t n κ).symm
-
 theorem topPartitionCumulant_eq_kernel_add_error :
     (∑' κ : ForestDecoration top d n, topPartitionCumulantIntegrand μ L γ δ sig top P c p t n κ) =
       (∑' κ : ForestDecoration top d n, topPartitionKernelIntegrand L γ δ F sig top P p Natt t n κ) +

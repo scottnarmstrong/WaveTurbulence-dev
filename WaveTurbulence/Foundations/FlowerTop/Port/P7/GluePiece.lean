@@ -50,32 +50,6 @@ theorem kernelKgen_glue_const (L γ δ : ℝ) (F : ℕ → Mom d → ℝ) (σ : 
   rw [gRoot_restrict, up_tt_glue] at this
   exact this
 
-/-- **Product pieces.**  The sum of the six-tree kernels over the glue image of `A × B` is the product of the sums. -/
-theorem finsum_glue_piece (L γ δ : ℝ) (F : ℕ → Mom d → ℝ) (σ : Fin a ⊕ Fin b ≃ Fin w) (A : Set (LayeredGarden a))
-    (B : Set (LayeredGarden b)) (hAf : A.Finite) (hBf : B.Finite)
-    (hAp : ∀ LA ∈ A, LA.garden.IsPlain) (hBp : ∀ LB ∈ B, LB.garden.IsPlain) (tt : Fin w → ℝ) (k : Mom d)
-    (n : Fin w → (Fin d → ℤ))
-    (hF : ∀ q : ℕ, Summable fun m : Fin d → ℤ => |F q (k + latticePoint L m)|) :
-    ∑ᶠ y ∈ (fun x : LayeredGarden a × LayeredGarden b => glueLayered σ x.1 x.2) '' (A ×ˢ B),
-        kernelKgen L γ δ F y (fun _ => none) ∅ (fun _ => 1) (fun x => tt x.1.1) k n 0 =
-      (∑ᶠ LA ∈ A, kernelKgen L γ δ F LA (fun _ => none) ∅ (fun _ => 1) (fun x => tt (σ (.inl x.1.1))) k (fun i => n (σ (.inl i))) 0) *
-        ∑ᶠ LB ∈ B, kernelKgen L γ δ F LB (fun _ => none) ∅ (fun _ => 1) (fun x => tt (σ (.inr x.1.1))) k (fun i => n (σ (.inr i))) 0 := by
-  classical
-  have hinj : Set.InjOn (fun x : LayeredGarden a × LayeredGarden b => glueLayered σ x.1 x.2) (A ×ˢ B) := by
-    intro x _ y _ h
-    have := glueLayered_injective σ h
-    exact Prod.ext this.1 this.2
-  rw [finsum_mem_image hinj]
-  rw [finsum_mem_eq_finite_toFinset_sum _ hAf, finsum_mem_eq_finite_toFinset_sum _ hBf,
-    Finset.sum_mul_sum, finsum_mem_eq_finite_toFinset_sum _ (hAf.prod hBf)]
-  rw [← Finset.sum_product']
-  refine Finset.sum_congr ?_ fun x hx => ?_
-  · ext x
-    simp [Set.Finite.mem_toFinset, Finset.mem_product]
-  · have hx' := Finset.mem_product.1 hx
-    exact kernelKgen_glue_const L γ δ F σ x.1 x.2 (hAp _ (hAf.mem_toFinset.1 hx'.1))
-      (hBp _ (hBf.mem_toFinset.1 hx'.2)) tt k n hF
-
 /-- **Pieces indexed by an arbitrary set of pairs.** -/
 theorem finsum_glue_image (L γ δ : ℝ) (F : ℕ → Mom d → ℝ) (σ : Fin a ⊕ Fin b ≃ Fin w)
     (P : Set (LayeredGarden a × LayeredGarden b))

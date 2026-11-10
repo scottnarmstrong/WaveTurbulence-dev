@@ -59,8 +59,6 @@ abbrev FixedpointBody (P : WTParams) : Prop :=
           c - ℒ 1 c = ℒ 0 b + ℒ 2 b + ℒ 3 b → c' - ℒ 1 c' = ℒ 0 b' + ℒ 2 b' + ℒ 3 b' →
           ZNorm P.L Λ (c - c') ≤ 2⁻¹ * ZNorm P.L Λ (b - b'))
 
-abbrev FixedpointGate : Prop := WTPrefix FixedpointBody.{u}
-
 abbrev WkeTaylorBody (P : WTParams) : Prop :=
     ∀ p : ℕ, p < P.D →
       let U := wkeTaylorTerm (P.φ (P.δ * p)) P.δ p

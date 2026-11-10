@@ -209,30 +209,4 @@ theorem couple_estimate_slice_of_gate (C₀ : ℕ) (P : WTParams) (hs : PieceSma
     _ = _ := by ring
 
 
-/-- **Bridge** (AMEND-ST3): the current estimate is the slice estimate with `A1 = coupleSet P p N`. -/
-theorem couple_estimate_of_gate_of_slice (C₀ : ℕ) (P : WTParams) (hs : PieceSmall P)
-    (hcoarse : CoarseSplicedAt P) (hfourier : LadderFourierAt P) (hcount : FinalCountAt P)
-    (habs : FinalAbsorptionAt (6 * C₀) P) (hlog : 1 ≤ Real.log P.L) (hgate : Stage1ReductionAt C₀ P)
-    (hd : 1 ≤ P.d) (hlowP : LowProfileAt P) (htime : P.τstar = (P.D : ℝ) * P.δ)
-    {Cφ : ℝ} (hCφ : 0 ≤ Cφ)
-    (hφ : ∀ τ ∈ Icc (0 : ℝ) P.τstar,
-      SNormR (P.Lambda 0) (P.Lambda 0) (P.φ τ) ≤ ENNReal.ofReal Cφ)
-    {p : ℕ} (hp : p < P.D) (Rr : ℕ → Mom P.d → ℝ) (hRr : RemainderBound P Rr p)
-    (hR1 : 1 ≤ P.R (p + 1)) {N : ℕ} (hN : N ≤ P.N (p + 1) ^ 4) {t : ℝ} (ht : t ∈ Icc (p : ℝ) (p + 1))
-    (hTC : TwistClosed p (coupleSet P p N))
-    (hnum : ((P.d : ℝ) + 1) ^ (2 * P.Lambda (p + 1)) * coupleT P Cφ p N ^ (8 * P.Lambda (p + 1)) *
-      (2 * P.C₁) ^ (N + 1) * P.δ ^ (6 * P.ν * N) * P.L ^ (-P.η ^ 7) ≤
-      P.L ^ (-((3 * P.theta (p + 1) + 2 * P.theta p) / 5))) :
-    SNorm (4 * P.Lambda (p + 1)) (4 * P.Lambda (p + 1))
-        (fun k => nonregularCoupleSum P (inputsF P Rr) (p + 1) N t k) ≤
-      ENNReal.ofReal (P.δ ^ (2 * P.ν * N) * P.L ^ (-((3 * P.theta (p + 1) + 2 * P.theta p) / 5))) := by
-  have hmemA : ∀ LG ∈ coupleSet P p N, IsCanonC (p + 1) LG ∧ LG.IsTrunc (p + 1 - 1) (P.N (p + 1))
-      (P.N (p + 1 - 1)) ∧ LG.garden.order = N ∧ ¬ IsRegularCouple LG.garden := by
-    intro LG hLG
-    rw [coupleSet, Finset.mem_filter] at hLG
-    have := (Canon.finite_truncSumC_support P (p + 1) N).mem_toFinset.mp hLG.1
-    exact ⟨this.1, this.2.1, this.2.2, hLG.2⟩
-  exact couple_estimate_slice_of_gate C₀ P hs hcoarse hfourier hcount habs hlog hgate hd hlowP htime hCφ hφ hp Rr hRr
-    hR1 hN ht (coupleSet P p N) hmemA hTC hnum
-
 end WaveTurbulence.LGSpine

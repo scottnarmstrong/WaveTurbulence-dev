@@ -45,20 +45,6 @@ theorem integral_phaseCoordinateTermFilt {d : ℕ} {L : ℝ} (hL : 0 < L)
     simp only [measureReal_def, Measure.count_singleton, ENNReal.toReal_one, one_smul, ite_true]
     exact (filtLinkTimeFactor_eq_phase_sum L γ δ Q φ t).symm
 
-/-- The finite product phase integral recovers every selected oscillatory link at once. -/
-theorem integral_phaseArray_termsFilt {d n : ℕ} {L : ℝ} (hL : 0 < L)
-    (γ δ : ℝ) (Q : Fin n → LayerLink d) (φ : Fin n → ℝ → ℂ) (J : Finset (Fin n)) (t : Fin n → Fin 2 → ℝ) :
-    (∫ p : Fin n → ((Fin d → ℤ) × (Fin d → ℤ)),
-      ∏ i, phaseCoordinateTermFilt L γ δ (Q i) (φ i) (decide (i ∈ J)) (t i) (p i)
-      ∂Measure.pi (fun i => phaseCoordinateMeasure d (decide (i ∈ J)))) =
-      ∏ i, if i ∈ J then filtLinkTimeFactor L γ δ (Q i) (φ i) (t i) else 1 := by
-  classical
-  rw [integral_fintype_prod_eq_prod]
-  apply Finset.prod_congr rfl
-  intro i _
-  rw [integral_phaseCoordinateTermFilt hL γ δ (Q i) (φ i) (decide (i ∈ J)) (t i)]
-  simp only [decide_eq_true_eq]
-
 /-- Phase integration recovers the actual factor with its literal layer box. -/
 theorem integral_expandedLinkFactorFilt {d : ℕ} {L : ℝ} (hL : 0 < L) (γ δ : ℝ)
     (Q : LayerLink d) (φ : ℝ → ℂ) (selected : Bool) (t : Fin 2 → ℝ) :

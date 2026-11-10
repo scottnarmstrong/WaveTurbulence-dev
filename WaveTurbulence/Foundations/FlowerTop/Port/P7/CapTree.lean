@@ -38,9 +38,6 @@ theorem idx_injective {j j' : Fin 2} {i i' : Fin 3} (h : idx j i = idx j' i') : 
 def capTree (T : Fin (2 * 3) → TTree) (j : Fin 2) : TTree :=
   .node (T (idx j 0)) (T (idx j 1)) (T (idx j 2))
 
-/-- Children selector. -/
-def childAt (T : Fin (2 * 3) → TTree) (j : Fin 2) (i : Fin 3) : TTree := T (idx j i)
-
 theorem mem_leaves_cap {T : Fin (2 * 3) → TTree} {j : Fin 2} {p : Path} :
     p ∈ (capTree T j).leaves ↔ ∃ i : Fin 3, ∃ q, p = i :: q ∧ q ∈ (T (idx j i)).leaves := by
   simp only [capTree, TTree.leaves, Finset.mem_union, TTree.mem_pre]

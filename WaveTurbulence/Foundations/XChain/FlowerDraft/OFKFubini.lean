@@ -75,9 +75,6 @@ noncomputable def splitAt (c₀ : GBranch (single T)) :
   (MeasurableEquiv.piEquivPiSubtypeProd (fun _ : GBranch (single T) => ℝ) (· = c₀)).trans
     ((MeasurableEquiv.funUnique {c : GBranch (single T) // c = c₀} ℝ).prodCongr (MeasurableEquiv.refl _))
 
-theorem splitAt_symm_apply (c₀ : GBranch (single T)) (z : ℝ × ({c : GBranch (single T) // c ≠ c₀} → ℝ)) :
-    (splitAt c₀).symm z = glueTime c₀ z.1 z.2 := rfl
-
 open Classical in
 theorem measurePreserving_splitAt (c₀ : GBranch (single T)) :
     MeasurePreserving (splitAt c₀) volume ((volume : Measure ℝ).prod volume) := by

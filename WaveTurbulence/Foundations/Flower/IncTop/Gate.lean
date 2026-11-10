@@ -106,8 +106,4 @@ theorem topIncoherentDecayAtR_of_star (P : WTParams) (h : StarIncoherentDecayAt 
 theorem topIncoherentDecayGateR : Stage1W.TopIncoherentDecayGateR :=
   wtPrefix_imp starIncoherentDecay topIncoherentDecayAtR_of_star
 
-/-- The single-weight (verbatim research-internal) gate, as a corollary. -/
-theorem topIncoherentDecayGate : Stage1W.TopIncoherentDecayGate :=
-  wtPrefix_imp topIncoherentDecayGateR Stage1W.topIncoherentDecayAt_of_R
-
 end WaveTurbulence.Flower.IncTop

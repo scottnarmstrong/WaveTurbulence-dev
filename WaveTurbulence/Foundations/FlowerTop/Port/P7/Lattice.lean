@@ -34,9 +34,6 @@ theorem gw_nonneg (L : ℝ) (k : Mom d) (a : ℝ) (m : Fin d → ℤ) : 0 ≤ gw
 theorem gw_le_one (L : ℝ) (k : Mom d) {a : ℝ} (ha : 0 ≤ a) (m : Fin d → ℤ) : gw L k a m ≤ 1 :=
   Real.rpow_le_one_of_one_le_of_nonpos (one_le_jbr _) (by linarith)
 
-theorem gw_zero (L : ℝ) (k : Mom d) (a : ℝ) : gw L k a 0 = jbr k ^ (-a) := by
-  simp [gw, lat_zero]
-
 /-- A `k`-uniform bound for the coset sum of `⟨k + m/L⟩^{-(d+1)}`. -/
 theorem tsum_jbr_coset_le {L : ℝ} (hL : 1 ≤ L) (k : Mom d) :
     ∑' m : Fin d → ℤ, jbr (k + latticePoint L m) ^ (-((d : ℝ) + 1)) ≤

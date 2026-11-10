@@ -14,11 +14,6 @@ theorem layerElim_lift (LG : LayeredGarden (2 * 3)) (p : ℕ) (a : GNode LG.gard
     Sum.elim (fun _ : Fin 2 => p) LG.layer ((capNodeEquiv LG.garden.tree).symm (liftNode a)) = LG.layer a := by
   rw [capNodeEquiv_symm_lift]; rfl
 
-theorem layerElim_root (LG : LayeredGarden (2 * 3)) (p : ℕ) (j : Fin 2) :
-    Sum.elim (fun _ : Fin 2 => p) LG.layer ((capNodeEquiv LG.garden.tree).symm (rootBranch LG.garden.tree j).toNode)
-      = p := by
-  rw [capNodeEquiv_symm_root]; rfl
-
 theorem topCountBelow_cap_lift (LG : LayeredGarden (2 * 3)) (hsig : ∀ c, LG.garden.sig c = childSig c)
     (p : ℕ) (hp : ∀ a, LG.layer a ≤ p) (a : GNode LG.garden.tree) :
     (capLayered LG hsig p hp).topCountBelow p (liftNode a) = LG.topCountBelow p a := by

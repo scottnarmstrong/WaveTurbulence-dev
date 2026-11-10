@@ -52,18 +52,6 @@ theorem filtLayerLinkMass_eq_ofReal_integral {d : ℕ} {L : ℝ} (hL : 0 < L)
   exact (ofReal_integral_eq_lintegral_ofReal (integrableOn_filtLinkTimeFactor hL γ δ Q φ).norm
     (Filter.Eventually.of_forall fun _ => norm_nonneg _)).symm
 
-theorem enorm_linkProduct_integral_leFilt {d n : ℕ} {L : ℝ} (hL : 0 < L) (γ δ : ℝ)
-    (Q : Fin n → LayerLink d) (φ : Fin n → ℝ → ℂ) {I : Set (Fin n → Fin 2 → ℝ)}
-    (hI : I ⊆ univ.pi (fun i => linkBox (Q i))) :
-    ‖∫ t in I, ∏ i, filtLinkTimeFactor L γ δ (Q i) (φ i) (t i)‖ₑ ≤
-      ∏ i, filtLayerLinkMass L (δ * L ^ (2 * γ)) (Q i) (φ i) := by
-  rw [← ofReal_norm]
-  apply (ENNReal.ofReal_le_ofReal (norm_linkProduct_integral_leFilt hL γ δ Q φ hI)).trans_eq
-  rw [ENNReal.ofReal_prod_of_nonneg (fun _ _ => integral_nonneg fun _ => norm_nonneg _)]
-  apply Finset.prod_congr rfl
-  intro i _
-  exact (filtLayerLinkMass_eq_ofReal_integral hL γ δ (Q i) (φ i)).symm
-
 theorem lintegral_linkProduct_enorm_leFilt {d n : ℕ} {L : ℝ} (hL : 0 < L) (γ δ : ℝ)
     (Q : Fin n → LayerLink d) (φ : Fin n → ℝ → ℂ) {I : Set (Fin n → Fin 2 → ℝ)}
     (hI : I ⊆ univ.pi (fun i => linkBox (Q i))) :
@@ -129,26 +117,6 @@ theorem exists_filtLinkMassProduct_decay (d : ℕ) (hd : 3 ≤ d) :
         ← mul_assoc, ← Real.rpow_natCast (L ^ (-(incoherenceExponent d γ - η))) (incoherenceCount Q),
         ← Real.rpow_mul hLp.le]
 
-theorem exists_filtLinkProduct_decay (d : ℕ) (hd : 3 ≤ d) :
-    ∃ C₀ : ℝ, 0 < C₀ ∧ ∀ γ : ℝ, γ ∈ Ioo (0 : ℝ) 1 →
-      ∀ η : ℝ, 0 < η → η < incoherenceExponent d γ →
-      ∀ δ : ℝ, 0 < δ → ∀ D : ℝ, 0 < D →
-      ∃ C₂ L₀ : ℝ, 1 ≤ C₂ ∧ 1 ≤ L₀ ∧ ∀ L ≥ L₀, ∀ n : ℕ, ∀ Q : Fin n → LayerLink d,
-        (∀ i, |((Q i).leftLayer : ℝ) - (Q i).rightLayer| + 1 ≤ D) →
-        ∀ (K : ℝ), 0 ≤ K → ∀ φ : Fin n → ℝ → ℂ, (∀ i, PresentedMult L K (φ i)) →
-        ∀ I : Set (Fin n → Fin 2 → ℝ), I ⊆ univ.pi (fun i => linkBox (Q i)) →
-        ‖∫ t in I, ∏ i, filtLinkTimeFactor L γ δ (Q i) (φ i) (t i)‖ₑ ≤
-          ENNReal.ofReal ((K * (C₀ * kineticLinkScale d γ δ L)) ^ n * C₂ ^ incoherenceCount Q *
-            L ^ (-(incoherenceExponent d γ - η) * incoherenceCount Q)) := by
-  obtain ⟨C₀, hC₀, hb⟩ := exists_filtLinkMassProduct_decay d hd
-  refine ⟨C₀, hC₀, ?_⟩
-  intro γ hγ η hη hηg δ hδ D hD
-  obtain ⟨C₂, L₀, hC₂, hL₀, hb⟩ := hb γ hγ η hη hηg δ hδ D hD
-  refine ⟨C₂, L₀, hC₂, hL₀, ?_⟩
-  intro L hL n Q hspan K hK φ hφ I hI
-  have hLp := zero_lt_one.trans_le (hL₀.trans hL)
-  exact (enorm_linkProduct_integral_leFilt hLp γ δ Q φ hI).trans (hb L hL n Q hspan K hK φ hφ)
-
 /-! ### `AbsorbedProductDecay` -/
 
 theorem exists_absorbed_filtLinkMassProduct_decay (d : ℕ) (hd : 3 ≤ d) :
@@ -182,26 +150,6 @@ theorem exists_absorbed_filtLinkMassProduct_decay (d : ℕ) (hd : 3 ≤ d) :
       rw [mul_assoc, ← Real.rpow_add hLp]
       congr 2
       ring
-
-theorem exists_absorbed_filtLinkProduct_decay (d : ℕ) (hd : 3 ≤ d) :
-    ∃ C₀ : ℝ, 0 < C₀ ∧ ∀ γ : ℝ, γ ∈ Ioo (0 : ℝ) 1 →
-      ∀ η : ℝ, 0 < η → η < incoherenceExponent d γ →
-      ∀ δ : ℝ, 0 < δ → ∀ D : ℝ, 0 < D →
-      ∃ L₀ : ℝ, 1 ≤ L₀ ∧ ∀ L ≥ L₀, ∀ n : ℕ, ∀ Q : Fin n → LayerLink d,
-        (∀ i, |((Q i).leftLayer : ℝ) - (Q i).rightLayer| + 1 ≤ D) →
-        ∀ (K : ℝ), 0 ≤ K → ∀ φ : Fin n → ℝ → ℂ, (∀ i, PresentedMult L K (φ i)) →
-        ∀ I : Set (Fin n → Fin 2 → ℝ), I ⊆ univ.pi (fun i => linkBox (Q i)) →
-        ‖∫ t in I, ∏ i, filtLinkTimeFactor L γ δ (Q i) (φ i) (t i)‖ₑ ≤
-          ENNReal.ofReal ((K * (C₀ * kineticLinkScale d γ δ L)) ^ n *
-            L ^ (-(incoherenceExponent d γ - 2 * η) * incoherenceCount Q)) := by
-  obtain ⟨C₀, hC₀, hb⟩ := exists_absorbed_filtLinkMassProduct_decay d hd
-  refine ⟨C₀, hC₀, ?_⟩
-  intro γ hγ η hη hηg δ hδ D hD
-  obtain ⟨L₀, hL₀, hb⟩ := hb γ hγ η hη hηg δ hδ D hD
-  refine ⟨L₀, hL₀, ?_⟩
-  intro L hL n Q hspan K hK φ hφ I hI
-  have hLp := zero_lt_one.trans_le (hL₀.trans hL)
-  exact (enorm_linkProduct_integral_leFilt hLp γ δ Q φ hI).trans (hb L hL n Q hspan K hK φ hφ)
 
 theorem exists_absolute_filtLinkProduct_decay (d : ℕ) (hd : 3 ≤ d) :
     ∃ C₀ : ℝ, 0 < C₀ ∧ ∀ γ : ℝ, γ ∈ Ioo (0 : ℝ) 1 →

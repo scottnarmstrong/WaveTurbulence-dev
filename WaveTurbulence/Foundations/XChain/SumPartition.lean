@@ -41,18 +41,6 @@ theorem sumPartition_not_mem_part_inr {α β : Type*} [Fintype α] [Fintype β] 
   rw [sumPartition, Finpartition.mem_part_ofSetoid_iff_rel]
   exact Sum.inr_ne_inl
 
-theorem sumPartition_part_inl {α β : Type*} [Fintype α] [Fintype β] [DecidableEq α] [DecidableEq β]
-    (P : Finpartition (univ : Finset α)) (Q : Finpartition (univ : Finset β)) (a : α) :
-    (sumPartition P Q).part (.inl a) = (P.part a).map Function.Embedding.inl := by
-  ext z
-  cases z with
-  | inl b =>
-    rw [sumPartition_mem_part_inl]
-    simp only [Finset.mem_map, Function.Embedding.inl_apply, Sum.inl.injEq, exists_eq_right]
-  | inr b =>
-    have h := sumPartition_not_mem_part_inl P Q a b
-    simp only [h, Finset.mem_map, Function.Embedding.inl_apply, Sum.inl_ne_inr, and_false, exists_false]
-
 theorem sumPartition_part_inr {α β : Type*} [Fintype α] [Fintype β] [DecidableEq α] [DecidableEq β]
     (P : Finpartition (univ : Finset α)) (Q : Finpartition (univ : Finset β)) (a : β) :
     (sumPartition P Q).part (.inr a) = (Q.part a).map Function.Embedding.inr := by

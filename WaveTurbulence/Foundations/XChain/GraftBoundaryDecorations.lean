@@ -1,6 +1,7 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
-public import WaveTurbulence.Foundations.XChain.GraftDecorationEquiv
+public import WaveTurbulence.Foundations.XChain.GraftMatchingLabels
+public import WaveTurbulence.Foundations.XChain.GraftDecoration
 /-! Boundary-labelled top forests and exact restriction of general garden decorations. -/
 @[expose] public section
 namespace WaveTurbulence.Induct
@@ -8,11 +9,6 @@ open Finset
 
 def ForestDecoration {w : ℕ} (top : Fin w → TTree) (d : ℕ) (n : Fin w → (Fin d → ℤ)) : Type :=
   {κ : GNode top → (Fin d → ℤ) // IsBranchConsistent κ ∧ ∀ j, κ (GNode.root top j) = n j}
-
-theorem topNodeEmbedding_root {w : ℕ} (top : Fin w → TTree)
-    (P : Finpartition (univ : Finset (GLeaf top))) (low : (B : P.parts) → Garden B.1.card)
-    (j : Fin w) : topNodeEmbedding top P low (GNode.root top j) =
-      GNode.root (graftForest top (blockGraftTrees top P low)) j := rfl
 
 /-- Restrict a general graft decoration to its top forest and each lower garden. Root labels
 at the lower gardens are the actual top-leaf labels; flower labels are retained. -/

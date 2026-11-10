@@ -85,35 +85,4 @@ theorem MomentumTreeData.norm_sourceTimeIntegrandSpatial_le_of_summable {d n m w
   exact (norm_tsum_le_tsum_norm (hs.of_nonneg_of_le (fun _ => norm_nonneg _) hb)).trans
     ((hs.of_nonneg_of_le (fun _ => norm_nonneg _) hb).tsum_le_tsum hb hs)
 
-open WaveTurbulence.Incoh.MomentumTreeData in
-/-- At zero frequency the modulated raw operator is exactly main's original source operator. -/
-theorem MomentumTreeData.sourceIntegralSpatial_zero {d n m w : ℕ}
-    (P : MomentumTreeData n m w) (ζ : Circle) (L γ δ : ℝ) (Q : Fin n → LayerLink d)
-    (I : Set (Fin n → Fin 2 → ℝ)) (f : Fin m → Mom d → ℂ) (k : Mom d) :
-    (MomentumTreeData.sourceIntegralSpatial (P := P)) ζ L γ δ (spatialFrequencyLinks Q 0) I f k =
-      P.sourceIntegral ζ L γ δ Q I f k := by
-  unfold sourceIntegralSpatial sourceIntegral sourceTimeIntegrandSpatial sourceTimeIntegrand
-  simp only [sourceTemporalPhaseSpatial_eq_character, inner_zero_left, AddChar.map_zero_eq_one,
-    Circle.coe_one, mul_one]
-
-open WaveTurbulence.Incoh.MomentumTreeData in
-/-- Zero characters recover the original couple, including its root cut. -/
-theorem MomentumTreeData.sourceCoupleKernelSpatial_zero {d n m w : ℕ}
-    (P : MomentumTreeData n m w) (ζ : Circle) (R : RootCoordinates n)
-    (L γ δ : ℝ) (Q : Fin n → LayerLink d) (I : Set (Fin n → Fin 2 → ℝ))
-    (f : Fin m → Mom d → ℂ) (t : Fin 2 → ℝ) (k : Mom d) :
-    (MomentumTreeData.sourceCoupleKernelSpatial (P := P)) ζ R L γ δ (spatialFrequencyLinks Q 0) I f t k =
-      P.sourceCoupleKernel ζ R L γ δ Q I f t k :=
-  (MomentumTreeData.sourceIntegralSpatial_zero (P := P)) ζ L γ δ Q (I ∩ R.rootCut t) f k
-
-open WaveTurbulence.Incoh.MomentumTreeData in
-/-- Zero characters recover the original tree, including its causal root cut. -/
-theorem MomentumTreeData.sourceTreeKernelSpatial_zero {d n m w : ℕ}
-    (P : MomentumTreeData n m w) (ζ : Circle) (R : RootCoordinates n)
-    (L γ δ : ℝ) (Q : Fin n → LayerLink d) (I : Set (Fin n → Fin 2 → ℝ))
-    (f : Fin m → Mom d → ℂ) (t : Fin 2 → ℝ) (k : Mom d) :
-    (MomentumTreeData.sourceTreeKernelSpatial (P := P)) ζ R L γ δ (spatialFrequencyLinks Q 0) I f t k =
-      P.sourceTreeKernel ζ R L γ δ Q I f t k :=
-  (MomentumTreeData.sourceIntegralSpatial_zero (P := P)) ζ L γ δ Q (I ∩ R.causalRootCut t) f k
-
 end WaveTurbulence.Flower.IncTop

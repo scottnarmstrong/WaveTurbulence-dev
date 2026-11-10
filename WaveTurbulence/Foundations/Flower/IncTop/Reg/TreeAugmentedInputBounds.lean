@@ -51,9 +51,6 @@ theorem exists_spatialNorm_bound_appendRootPartitionSpatial {d m K M : ℕ}
 @[expose] def treeAugmentedInputBoundSpatial (d K M : ℕ) (B : ℝ) : ℝ :=
   max 1 (max B (treeRootPartitionSpatialBoundSpatial d K M 0))
 
-theorem treeAugmentedInputBound_posSpatial (d K M : ℕ) (B : ℝ) : 0 < treeAugmentedInputBoundSpatial d K M B :=
-  zero_lt_one.trans_le (le_max_left _ _)
-
 /-- Actual augmented leaf Fourier moment totals have a uniform bound independent of the root
 partition cell. Translation invariance, rather than a weighted norm of the translated input,
 is what supplies this estimate. -/

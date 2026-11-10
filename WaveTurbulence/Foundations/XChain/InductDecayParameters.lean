@@ -20,14 +20,6 @@ theorem lambda_quarter_ge_dimension (P : WTParams) (hd : 1 ≤ P.d) {p : ℕ} (h
   have hd' : (1 : ℝ) ≤ P.d := by exact_mod_cast hd
   nlinarith
 
-theorem lambda_quarter_ge_succ (P : WTParams) (hd : 1 ≤ P.d) {p : ℕ} (hp : p < P.D) :
-    (P.Lambda (p + 1) : ℝ) ≤ (P.Lambda p : ℝ) / 4 := by
-  have he : (P.Lambda p : ℝ) = 40 * P.d * P.Lambda (p + 1) := by
-    exact_mod_cast lambda_eq_base_mul_succ P hp
-  have hd' : (1 : ℝ) ≤ P.d := by exact_mod_cast hd
-  have hs : (0 : ℝ) ≤ P.Lambda (p + 1) := Nat.cast_nonneg _
-  nlinarith
-
 theorem lambda_quarter_ge_twice_succ (P : WTParams) (hd : 1 ≤ P.d) {p : ℕ} (hp : p < P.D) :
     2 * (P.Lambda (p + 1) : ℝ) ≤ (P.Lambda p : ℝ) / 4 := by
   have he : (P.Lambda p : ℝ) = 40 * P.d * P.Lambda (p + 1) := by

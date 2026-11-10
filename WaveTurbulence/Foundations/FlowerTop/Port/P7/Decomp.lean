@@ -16,9 +16,6 @@ open TTree Finset
 def Y6Set (P : WTParams) (p N : ℕ) (kind : TreeKind) : Set (LayeredGarden (2 * 3)) :=
   {y | (∀ c, y.garden.sig c = childSig c) ∧ Y6Cond P p N kind y}
 
-theorem Y6Cond_layer_le (P : WTParams) (p N : ℕ) (kind : TreeKind) (y : LayeredGarden (2 * 3))
-    (h : Y6Cond P p N kind y) : ∀ a, y.layer a ≤ p := h.2.1.1
-
 theorem Y6Set_finite (P : WTParams) (p N : ℕ) (kind : TreeKind) : (Y6Set P p N kind).Finite := by
   refine (Canon.finite_layeredGardens (2 * 3) N p).subset fun y hy => ⟨?_, hy.2.2.1.1⟩
   have := hy.2.2.2.2.1

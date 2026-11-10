@@ -35,24 +35,9 @@ only for the pool definitions, never for obligations). -/
 def poolF (C : CollDataMK M₀) : CollData M₀ :=
   { C.toCollData with hinges := C.hinges ∪ C.forb }
 
-theorem inPF_iff (C : CollDataMK M₀) (P : Object M₀) : C.InPF L γ η w κ P ↔ (poolF C).InP L γ η w κ P :=
-  Iff.rfl
-
-theorem c2OfF_eq (C : CollDataMK M₀) (Un : Set (Object M₀)) :
-    C.C2OfF L γ η w κ Un = (poolF C).C2Of L γ η w κ Un := rfl
-
-theorem c2CanF_eq (C : CollDataMK M₀) (Un : Set (Object M₀)) :
-    C.C2CanF L γ η w κ Un = (poolF C).C2Can L γ η w κ Un := rfl
-
-theorem collectedF_iff (C : CollDataMK M₀) (Un : Set (Object M₀)) (U : Object M₀) :
-    CollectedF C Un L γ η w κ U ↔ Collected (poolF C) Un L γ η w κ U := Iff.rfl
-
 theorem unselOKF_iff (C : CollDataMK M₀) (Un : Set (Object M₀)) :
     C.UnselOKF L γ η w κ Un ↔ (poolF C).UnselOK L γ η w κ Un :=
   ⟨fun h => ⟨h.dv⟩, fun h => ⟨h.dv⟩⟩
-
-theorem pieceDataF_iff (C : CollDataMK M₀) (Un : (D₀ → (Fin d → ℤ)) → Set (Object M₀)) (p : Object M₀ × Quad D₀) :
-    PieceDataF C Un L γ η w κ p ↔ PieceData (poolF C) Un L γ η w κ p := Iff.rfl
 
 /-- `subpro` (4) alone (the only obligation read by main's loop transports of the pool). -/
 def PoolContained (C : CollData M₀) (L γ η : ℝ) (w : Mom d) (κ : D₀ → (Fin d → ℤ)) : Prop :=
@@ -98,12 +83,6 @@ theorem poolContained_toF {C : CollDataMK M₀} {E : Fin m → Object M₀} (hfo
     exact Finset.disjoint_left.1 (hE i) hu (hsub hu)
   · rw [Finset.disjoint_union_right]
     exact ⟨hdis'.1, Finset.disjoint_of_subset_right (survJointsM_subset E) hdis'.2⟩
-
-/-- A member of `C2OfF` avoids the hinges, the forbidden atoms and `C₁`. -/
-theorem c2OfF_disjoint {C : CollDataMK M₀} {Un : Set (Object M₀)} {U : Object M₀}
-    (hU : U ∈ C.C2OfF L γ η w κ Un) :
-    (∀ i, Disjoint U.atoms (C.collection i).atoms) ∧ Disjoint U.atoms (C.hinges ∪ C.forb) :=
-  Subpro.c2Of_disjoint_c1_hinges (poolF C) hU
 
 end toF
 
@@ -201,10 +180,6 @@ theorem unselOK_unloopP {Unsel : Set (Object M)} (hC : LoopCtx L w κ R' M) (hP 
 /-- The survivors on `M.unloop`. -/
 noncomputable def unloopE {m : ℕ} (E : Fin m → Object M) : Fin m → Object M.unloop :=
   fun i => (E i).unloop (Object.loopFree _)
-
-theorem survAtomsM_unloopE {m : ℕ} (E : Fin m → Object M) : survAtomsM (unloopE E) = survAtomsM E := rfl
-
-theorem survJointsM_unloopE {m : ℕ} (E : Fin m → Object M) : survJointsM (unloopE E) = survJointsM E := rfl
 
 /-- The designated darts at a hinge are not loops. -/
 theorem first_nonloop (hH : HingeNoLoop C) {v : V} (hv : v ∈ C.hinges)
@@ -307,10 +282,6 @@ theorem SubproOblGMK.unloop {m : ℕ} {E : Fin m → Object M} (hC : LoopCtx L w
 /-- The MK collection data on `M.unloop` (the forbidden atoms unchanged). -/
 noncomputable def unloopMK (C : CollDataMK M) : CollDataMK M.unloop :=
   { C.toCollData.unloop with forb := C.forb }
-
-theorem unloopMK_poolF (C : CollDataMK M) : poolF (unloopMK C) = (poolF C).unloop := rfl
-
-theorem unloopMK_toCollData (C : CollDataMK M) : (unloopMK C).toCollData = C.toCollData.unloop := rfl
 
 end loop
 

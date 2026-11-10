@@ -341,9 +341,7 @@ public import WaveTurbulence.Foundations.Cumulant.Symmetry
 public import WaveTurbulence.Foundations.FinalCount.FinalCountClose
 public import WaveTurbulence.Foundations.FinalCount.RedSpliceSurvMK3
 public import WaveTurbulence.Foundations.Flower.Fam.Top
-public import WaveTurbulence.Foundations.Flower.FinalMKFine.Check
 public import WaveTurbulence.Foundations.Flower.Top.Proof
-public import WaveTurbulence.Foundations.FlowerTop.ThreeInputs
 public import WaveTurbulence.Foundations.Fourier.BalancedAmplitude
 public import WaveTurbulence.Foundations.Fourier.BalancedAmplitudeBox
 public import WaveTurbulence.Foundations.Fourier.BalancedPhase
@@ -4000,7 +3998,6 @@ public import WaveTurbulence.Foundations.XChain.FixedpointBoundedAnalyticStep
 public import WaveTurbulence.Foundations.XChain.FixedpointBoundedExtension
 public import WaveTurbulence.Foundations.XChain.FixedpointDuhamel
 public import WaveTurbulence.Foundations.XChain.FixedpointFinalWeight
-public import WaveTurbulence.Foundations.XChain.FixedpointGateExtension
 public import WaveTurbulence.Foundations.XChain.FixedpointGlue
 public import WaveTurbulence.Foundations.XChain.FixedpointL1Invariant
 public import WaveTurbulence.Foundations.XChain.FixedpointSolution
@@ -4103,7 +4100,6 @@ public import WaveTurbulence.Foundations.XChain.GraftBranchProducts
 public import WaveTurbulence.Foundations.XChain.GraftCanonCriterion
 public import WaveTurbulence.Foundations.XChain.GraftDataPartitionUniqueness
 public import WaveTurbulence.Foundations.XChain.GraftDecoration
-public import WaveTurbulence.Foundations.XChain.GraftDecorationEquiv
 public import WaveTurbulence.Foundations.XChain.GraftDecorationSums
 public import WaveTurbulence.Foundations.XChain.GraftDescendants
 public import WaveTurbulence.Foundations.XChain.GraftDomainIndicator
@@ -4228,7 +4224,6 @@ public import WaveTurbulence.Foundations.XChain.LowerPairKernelSum
 public import WaveTurbulence.Foundations.XChain.LowerRootSelection
 public import WaveTurbulence.Foundations.XChain.MainAsmGateTypes
 public import WaveTurbulence.Foundations.XChain.MainAssembly
-public import WaveTurbulence.Foundations.XChain.MainGlue2
 public import WaveTurbulence.Foundations.XChain.MarkedGardenGraft
 public import WaveTurbulence.Foundations.XChain.MarkedLayeredGraft
 public import WaveTurbulence.Foundations.XChain.MeasurableCoefficient
@@ -4259,14 +4254,12 @@ public import WaveTurbulence.Foundations.XChain.PartitionWeightProduct
 public import WaveTurbulence.Foundations.XChain.PlainGraftEquality
 public import WaveTurbulence.Foundations.XChain.PlainTopCoefficient
 public import WaveTurbulence.Foundations.XChain.PlainTopPhase
-public import WaveTurbulence.Foundations.XChain.PrefixAlignment
 public import WaveTurbulence.Foundations.XChain.PrefixExtension
 public import WaveTurbulence.Foundations.XChain.PrefixInduction
 public import WaveTurbulence.Foundations.XChain.PrefixNextAnsatz
 public import WaveTurbulence.Foundations.XChain.PrefixNextData
 public import WaveTurbulence.Foundations.XChain.PrefixStepQuantitative
 public import WaveTurbulence.Foundations.XChain.PrefixVarianceBound
-public import WaveTurbulence.Foundations.XChain.PropansatzAssembly
 public import WaveTurbulence.Foundations.XChain.ProperTruncSumCarrier
 public import WaveTurbulence.Foundations.XChain.RandomSeries
 public import WaveTurbulence.Foundations.XChain.RealCovarianceError

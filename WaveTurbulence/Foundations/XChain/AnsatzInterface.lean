@@ -8,11 +8,6 @@ public section
 namespace WaveTurbulence.MainGlue
 open MeasureTheory Set
 
-/-- The draft and landed classed a-system predicates have identical bodies. -/
-theorem isASolution_iff_isAkSolution {d : ℕ} (L γ δ T : ℝ)
-    (c : (Fin d → ℤ) → ℂ) (a : ℝ → (Fin d → ℤ) → ℂ) :
-    IsASolution L γ δ T c a ↔ NLS.IsAkSolution L γ δ T c a := Iff.rfl
-
 variable {P : WTParams} {Ω : Type*} [MeasurableSpace Ω] {μ : Measure Ω}
   {g : (Fin P.d → ℤ) → Ω → ℂ} {a : Ω → ℝ → (Fin P.d → ℤ) → ℂ}
   {Fev : ℕ → Set Ω} {R : ℕ → Mom P.d → ℝ} {E : ℕ → (Fin P.d → ℤ) → ℝ}

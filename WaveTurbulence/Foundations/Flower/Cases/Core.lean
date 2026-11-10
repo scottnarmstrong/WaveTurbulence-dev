@@ -4,7 +4,6 @@ public import WaveTurbulence.Foundations.Flower.Cases.ScaleAt
 public import WaveTurbulence.Foundations.Flower.Cases.Shell
 public import WaveTurbulence.Foundations.Flower.Cases.Linear
 public import WaveTurbulence.Foundations.Flower.FamilyW.Plain
-public import WaveTurbulence.Foundations.FlowerTop.PlainOfFamily
 /-! # Fixed-parameter consequences of the two family inputs: cut1 bounds with an extra weight. -/
 @[expose] public section
 set_option autoImplicit false

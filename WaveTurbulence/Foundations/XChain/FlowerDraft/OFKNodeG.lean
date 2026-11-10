@@ -80,10 +80,6 @@ theorem summable_nodeWeightG (D : LeafData (TTree.node l m r) d) (n : Fin d → 
   rw [prod_gLeaf_node (M := ℝ)]
   rfl
 
-theorem nodeWeightG_nonneg (D : LeafData (TTree.node l m r) d) (n : Fin d → ℤ)
-    (x : Σ q : (Fin d → ℤ) × (Fin d → ℤ), DecFiber l m r n q) : 0 ≤ nodeWeightG l m r D n x :=
-  mul_nonneg (leafBound_nonneg _ _ _) (mul_nonneg (leafBound_nonneg _ _ _) (leafBound_nonneg _ _ _))
-
 /-- The joint summand. -/
 noncomputable def nodeSummandG (p : ℕ) (D : LeafData (TTree.node l m r) d) (n : Fin d → ℤ)
     (x : Σ q : (Fin d → ℤ) × (Fin d → ℤ), DecFiber l m r n q) (s : ℝ) : ℂ :=
