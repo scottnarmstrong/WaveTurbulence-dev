@@ -241,7 +241,7 @@ Scott Armstrong set the scope and approved the frozen statements of the main res
 ([DECISIONS.md](docs/DECISIONS.md), D1, D2 and D6–D11). Later, under his standing authorization of 5 November 2026,
 the coordinating agent approved two successor statements, each after an independent statement audit (D13, D16), and
 sealed the full-range theorems after two seal audits (D17). Lean's kernel checks every proof against the frozen
-statements, and the comparator files let anyone check the statement of Theorem 1.1 independently.
+statements.
 
 ## License
 
