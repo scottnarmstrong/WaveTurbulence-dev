@@ -28,10 +28,6 @@ def IotaBall {D : Type*} [Fintype D] [DecidableEq D] (M : Molecule V D) (L γ δ
   ∀ (c : V → Mom d) (β : V → ℝ) (k0 : D → Mom d), ParamOK M c k0 →
     ∃ r₀ : Mom d, ∀ κ' ∈ decSet M L γ δ w Adm c β k0, ‖Molecule.gapAt L w κ' x₁ x₂ - r₀‖ ≤ ρ
 
-theorem IotaBall.of_reading {D : Type*} [Fintype D] [DecidableEq D] {M : Molecule V D} {L γ δ : ℝ} {w : Mom d}
-    {Adm : (D → (Fin d → ℤ)) → Prop} {x₁ x₂ : D} {ρ : ℝ} (h : IotaReading M L w Adm x₁ x₂ ρ) :
-    IotaBall M L γ δ w Adm x₁ x₂ ρ := fun c β k0 hp => ball_of_iota h c β k0 hp
-
 /-- The charge relation of the cut atoms, uniform over the admissible class. -/
 def AtomRelU (Adm0 : (D₀ → (Fin d → ℤ)) → Prop) (L : ℝ) (w : Mom d) (h : HSt V D₀) : Prop :=
   ∀ a ∈ h.s.M.atoms, ∀ q vis, h.crec a = some (q, vis) →

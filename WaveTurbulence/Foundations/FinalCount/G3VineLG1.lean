@@ -152,18 +152,6 @@ structure CollData.UnselOK (C : CollData M₀) (L γ η : ℝ) (w : Mom d) (κ :
 
 theorem objectAtoms_sub' (P : Object M₀) : P.atoms ⊆ M₀.atoms := objectAtoms_sub P
 
-theorem IsContained.symm_of_atoms_eq {P Q : Object M₀} (h : P.IsContained Q) (he : P.atoms = Q.atoms) : Q.IsContained P := by
-  unfold Object.IsContained at *
-  rcases hP : P.shape with hp | hp <;> rcases hQ : Q.shape with hq | hq <;>
-    simp only [hP, hQ, VineLikeObject.IsContained] at h ⊢
-  · exact he.symm.subset
-  · exact he.symm.subset
-  · exact he.symm.subset
-  · refine ⟨he.symm.subset, fun _ => ?_⟩
-    rcases h.2 he with e | e
-    · exact Or.inl e.symm
-    · right; rw [e, M₀.mate_mate]
-
 /-- **Cover.** Every pool object is unselected or its atoms lie in a member of `C₂`. -/
 theorem CollData.cover (C : CollData M₀) (Unsel : Set (Object M₀)) {P : Object M₀}
     (hP : C.InP L γ η w κ P) : P ∈ Unsel ∨ ∃ U ∈ C.C2Of L γ η w κ Unsel, P.atoms ⊆ U.atoms := by

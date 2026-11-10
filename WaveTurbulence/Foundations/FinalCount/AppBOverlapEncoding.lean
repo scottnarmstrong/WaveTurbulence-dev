@@ -25,11 +25,6 @@ theorem appb_overlap_second_index (σ τ : Fin 3 → ℤˣ) (o : AppbOverlapOrde
   have hh := o.second_indices j
   cases hs : o.swap <;> simpa [appbOverlapRaw,hs] using hh
 
-theorem appb_overlap_first_encoding {K : Type*} (σ τ : Fin 3 → ℤˣ) (o : AppbOverlapOrder σ τ)
-    (q : Fin 5 → K) (j : Fin 3) :
-    q (appbOverlapRaw false o.swap (o.first j)) = q (o.index (![0,1,2] j)) :=
-  congrArg q (appb_overlap_first_index σ τ o j)
-
 theorem appb_overlap_second_encoding {K : Type*} (σ τ : Fin 3 → ℤˣ) (o : AppbOverlapOrder σ τ)
     (q : Fin 5 → K) :
     appbStarSecond o.profile (fun i => q (o.index i)) =

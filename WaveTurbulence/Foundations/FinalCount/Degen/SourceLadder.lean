@@ -46,19 +46,6 @@ noncomputable def sourceMaximalLadders (M : Molecule V D) : Finset (Finset V) :=
 noncomputable def sourceLadderProduct (M : Molecule V D) (L γ δ : ℝ) (P : Finset V → ℝ) : ℝ :=
   ∏ S ∈ sourceMaximalLadders M, Molecule.ladderWeight L γ δ (P S) ^ Molecule.ladderLength S
 
-/-- The source countA under the explicitly authorized selected-ladder reading.
-The countE, degree and circuit-rank definitions are the unchanged B2 objects. -/
-noncomputable def sourceCountA (M : Molecule V D) {d : ℕ} (L γ δ C1 : ℝ) (w : Mom d)
-    (Adm : (D → (Fin d → ℤ)) → Prop) (P : Finset V → ℝ) : ℝ≥0∞ :=
-  (M.countE L γ δ w Adm : ℝ≥0∞) * ENNReal.ofReal
-    (L ^ (-((d : ℝ) - γ) * M.circuitRank) * (C1⁻¹ * δ ^ (1 / 2 : ℝ)) ^ M.circuitRank *
-      sourceLadderProduct M L γ δ P)
-
-/-- Every induced B2 ladder is also a selected source ladder. -/
-theorem sourceLadder_of_isLadder (M : Molecule V D) {m : ℕ} {u v : Fin (m + 1) → V}
-    (h : M.IsLadder u v) : SourceLadder M u v :=
-  ⟨h.1, h.2.1, h.2.2.1, h.2.2.2.1, h.2.2.2.2⟩
-
 theorem sourceLadderSet_atoms_subset (M : Molecule V D) {S : Finset V}
     (h : SourceLadderSet M S) : S ⊆ M.atoms := by
   obtain ⟨m, u, v, h, rfl⟩ := h

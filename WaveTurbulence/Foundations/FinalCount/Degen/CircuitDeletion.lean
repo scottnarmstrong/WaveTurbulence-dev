@@ -47,44 +47,4 @@ theorem card_atoms_erase_singleton_add_one (M : Molecule V D) {v : V} (hv : v �
   rw [sdiff_singleton_eq_erase]
   exact card_erase_add_one hv
 
-/-- Circuit-rank loss computed with the exact B2 quotient component count. -/
-theorem circuitRank_erase_singleton_sub (M : Molecule V D)
-    (hconn : ∀ u ∈ M.atoms, ∀ z ∈ M.atoms, M.SameComponent u z)
-    {v : V} (hv : v ∈ M.atoms) :
-    (eraseAtoms M {v}).circuitRank - M.circuitRank =
-      ((newComponents M {v}).card : ℤ) - (incidentBondsAt M v).card := by
-  have hE := card_bonds_erase_singleton_add_incident M v
-  have hV := card_atoms_erase_singleton_add_one M hv
-  have hF := Mole.numComponents_eq_one M ⟨v, hv⟩ hconn
-  have hF' := numComponents_eraseAtoms_eq_card_newComponents M hconn {v}
-    (singleton_nonempty v) (singleton_subset_iff.mpr hv)
-  unfold Molecule.circuitRank
-  rw [hF, hF']
-  have hEZ : ((eraseAtoms M {v}).bonds.card : ℤ) + (incidentBondsAt M v).card = M.bonds.card := by exact_mod_cast hE
-  have hVZ : ((eraseAtoms M {v}).atoms.card : ℤ) + 1 = M.atoms.card := by exact_mod_cast hV
-  omega
-
-/-- Deleting a vertex never increases the actual circuit rank. -/
-theorem circuitRank_erase_singleton_le (M : Molecule V D)
-    (hconn : ∀ u ∈ M.atoms, ∀ z ∈ M.atoms, M.SameComponent u z)
-    {v : V} (hv : v ∈ M.atoms) : (eraseAtoms M {v}).circuitRank ≤ M.circuitRank := by
-  have hc := card_newComponents_le_boundary M {v}
-  have hb := card_boundary_add_twice_self_eq_deg M v
-  have hi := card_incident_add_self_eq_deg M v
-  have hdrop := circuitRank_erase_singleton_sub M hconn hv
-  omega
-
-/-- Corrected TARGET remtame(ii), including self-loops: degree four and
-no single-crossing-bond residual component give a loss of at least two circuits. -/
-theorem circuitRank_erase_four_le_sub_two (M : Molecule V D)
-    (hconn : ∀ u ∈ M.atoms, ∀ z ∈ M.atoms, M.SameComponent u z)
-    {v : V} (hv : v ∈ M.atoms) (hfour : M.deg v = 4)
-    (hnosingle : ∀ S ∈ newComponents M {v}, (boundaryDarts M S).card ≠ 1) :
-    (eraseAtoms M {v}).circuitRank ≤ M.circuitRank - 2 := by
-  have hc := two_mul_card_newComponents_le_of_no_single M {v} hnosingle
-  have hb := card_boundary_add_twice_self_eq_deg M v
-  have hi := card_incident_add_self_eq_deg M v
-  have hdrop := circuitRank_erase_singleton_sub M hconn hv
-  omega
-
 end WaveTurbulence.Degen

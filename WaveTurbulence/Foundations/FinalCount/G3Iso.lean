@@ -53,18 +53,6 @@ theorem deg_eq (v : V) : M'.deg v = M.deg v := by
   unfold Molecule.deg
   rw [← I.dartsAt_map v, Finset.card_map]
 
-theorem outdeg_eq (v : V) : M'.outdeg v = M.outdeg v := by
-  unfold Molecule.outdeg
-  rw [← I.dartsAt_map v, Finset.filter_map, Finset.card_map]
-  congr 1
-  ext x; simp [I.out]
-
-theorem indeg_eq (v : V) : M'.indeg v = M.indeg v := by
-  unfold Molecule.indeg
-  rw [← I.dartsAt_map v, Finset.filter_map, Finset.card_map]
-  congr 1
-  ext x; simp [I.out]
-
 theorem adj_iff (a b : V) : M'.Adj a b ↔ M.Adj a b := by
   constructor
   · rintro ⟨y, h1, h2⟩
@@ -73,11 +61,6 @@ theorem adj_iff (a b : V) : M'.Adj a b ↔ M.Adj a b := by
     · have := I.atom (M.mate (I.e.symm y)); rw [← I.mate, Equiv.apply_symm_apply] at this; rw [← this]; exact h2
   · rintro ⟨x, h1, h2⟩
     exact ⟨I.e x, by rw [I.atom]; exact h1, by rw [I.mate, I.atom]; exact h2⟩
-
-theorem sc_iff (a b : V) : M'.SameComponent a b ↔ M.SameComponent a b := by
-  unfold Molecule.SameComponent
-  have : M'.Adj = M.Adj := by funext a b; exact propext (I.adj_iff a b)
-  rw [this]
 
 theorem numComponents_eq : M'.numComponents = M.numComponents := by
   unfold Molecule.numComponents

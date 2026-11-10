@@ -1,7 +1,8 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 
-public import WaveTurbulence.Foundations.FinalCount.AppBFullStarCount
+public import WaveTurbulence.Foundations.FinalCount.AppBOrderedStarFrame
+public import WaveTurbulence.Foundations.FinalCount.AppBDeletionCounting
 import Mathlib.Tactic
 
 /-! # The actual two triple supports in all seven 3S3 figure groups -/

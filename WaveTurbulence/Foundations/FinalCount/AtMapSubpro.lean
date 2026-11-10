@@ -235,12 +235,6 @@ theorem collMap_unselOK (C : CollData M₀) (Unsel : Set (Object M₀)) :
     change Finset.map ι A ∩ Finset.map ι B.atoms = _
     rw [← Finset.map_inter, hint]; simp [Finset.map_insert]
 
-/-- Every unselected set of `mapAtoms M₀ ι` is the image of one of `M₀`. -/
-theorem collMap_unselOK' (C : CollData M₀) (Unsel' : Set (Object (mapAtoms M₀ ι))) :
-    (collMap ι C).UnselOK L γ η w κ Unsel' ↔
-      C.UnselOK L γ η w κ (objMap (ι := ι) ⁻¹' Unsel') := by
-  rw [← collMap_unselOK ι C, Set.image_preimage_eq _ (objMap_surjective (M := M₀) (ι := ι))]
-
 /-! ### Gap kinds at atoms, `DegenSGT`, `IsTame` -/
 
 theorem mapAtoms_sgat (a : V) :

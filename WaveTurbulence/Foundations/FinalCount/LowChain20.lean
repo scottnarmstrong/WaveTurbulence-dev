@@ -1,6 +1,6 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
-public import WaveTurbulence.Foundations.FinalCount.LowChain19
+public import WaveTurbulence.Foundations.FinalCount.LowChain15
 /-! **FINALCOUNT LOW-CHAIN, session 4 (2): the removal bookkeeping along the LOW Step 1 (`ConnDataL`, `collInv_of_reach1L`, `reach1L_connInv`).**
 `ConnDataL` is `ConnData` without the fields that fail after a Step D1 (the halves of degree-2 joints are deleted): the
 injectivity of `anc`, the removed pieces `ps`, their pairwise disjointness, removal of their atoms, and that every absent dart of `M₀`

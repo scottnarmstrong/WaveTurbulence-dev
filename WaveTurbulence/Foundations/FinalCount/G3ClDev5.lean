@@ -1,7 +1,6 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 public import WaveTurbulence.Foundations.FinalCount.G3ClDev4
-public import WaveTurbulence.Foundations.FinalCount.G3EraseDev5
 /-! **FINALCOUNT-G3 (R29 item 4, step 4): the deviation of a cluster erasure** (set version of `erase0_isDeviation`).
 
 With `𝔈(M) ≤ N 𝔈(M - K)` (`G3ClDev3/4`), the rank drop `j` (`χ(M) = χ(M - K) + j`, `G3ClDev2.circuitRank_eraseSet`) and the ladder ratio `Λ`:

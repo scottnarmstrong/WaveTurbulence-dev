@@ -107,12 +107,6 @@ theorem hstep1C_triple_both [Infinite V] {M₀ : Molecule V D₀} {C : CollData 
   exact ⟨HStep1C.triple h v (fresh h) x₁ x₂ hc ((2 : ℝ) ^ z) (if b then 50 else 0) hR hkp hε hsg hsim hI h3 hdes hhinge u hu hb3 hm₁ hm₂,
     HStep3C.cut h v (fresh h) x₁ x₂ hc ((2 : ℝ) ^ z) (if b then 50 else 0) hR hkp hε hsg hsim hI h3 hdes⟩
 
-theorem hstep1C_triple [Infinite V] {M₀ : Molecule V D₀} {C : CollData M₀} {L γ η : ℝ} {w : Mom d} {h : HSt V D₀}
-    {A : Set (D₀ → (Fin d → ℤ))} {v : V} {x₁ x₂ : h.s.D} {z : ℤ} {b : Bool} {a : V} {sg : Bool}
-    (hn : Node3 L γ η h v x₁ x₂ z b a sg) (hT : TripleCond C h v x₁ x₂) {κ : D₀ → (Fin d → ℤ)}
-    (hk : κ ∈ cls3 L γ η w h A x₁ x₂ z b a sg) :
-    HStep1C C L γ η w κ h (post3 h v x₁ x₂ z b) := (hstep1C_triple_both hn hT hk).1
-
 /-- **Per-node facts of phase 1 (triple nodes)**: from `node3_facts`, with the reach relation of `HStep1C`. -/
 theorem nodeT_facts [Infinite V] {M₀ : Molecule V D₀} {Rn : ℕ} {C : CollData M₀} {L γ η δ C₁ : ℝ} {w : Mom d} {P : Finset V → ℝ}
     {Un : (D₀ → (Fin d → ℤ)) → Set (Object M₀)} {Fst : Set (Object M₀)}

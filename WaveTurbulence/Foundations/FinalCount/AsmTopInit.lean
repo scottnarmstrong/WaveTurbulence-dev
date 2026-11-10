@@ -1,7 +1,6 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 public import WaveTurbulence.Foundations.FinalCount.AsmP1H
-public import WaveTurbulence.Foundations.FinalCount.AsmArithSlack
 public import WaveTurbulence.Foundations.FinalCount.AsmTerm16a
 public import WaveTurbulence.Foundations.FinalCount.AsmTopNum
 public import WaveTurbulence.Foundations.Molecule.MoleculeComponents

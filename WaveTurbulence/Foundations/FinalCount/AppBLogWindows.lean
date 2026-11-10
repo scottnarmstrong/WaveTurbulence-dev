@@ -29,20 +29,6 @@ theorem appbEffectiveDelta_inv (δ L : ℝ) (m : ℕ) :
   rw [inv_div]
   ring
 
-theorem appb_coset_triple_log_window_bound :
-    ∀ d : ℕ, 3 ≤ d → ∀ γ ∈ Ioo (0 : ℝ) 1,
-    ∃ C L₀ : ℝ, ∀ L ≥ L₀, 1 ≤ L → ∀ δ ∈ Ioc (0 : ℝ) 1, ∀ m : ℕ,
-    ∀ w a b c : Mom d, ∀ nk : Fin d → ℤ, ∀ β : ℝ,
-      (appbCosetTripleSet L w a b c nk β (appbWidth δ γ m L)).Finite ∧
-      ((appbCosetTripleSet L w a b c nk β (appbWidth δ γ m L)).ncard : ℝ) ≤
-        C*δ⁻¹*(1+Real.log L)^m*L^(2*((d : ℝ)-γ)) := by
-  intro d hd γ hγ
-  obtain ⟨C,L₀,h⟩ := appb_coset_triple_bound d hd γ hγ
-  refine ⟨C,L₀,?_⟩
-  intro L hL hL1 δ hδ m w a b c nk β
-  have hb := h L hL (appbEffectiveDelta δ L m) (appbEffectiveDelta_mem hδ hL1 m) w a b c nk β
-  simpa only [appbEffectiveDelta_inv,appbWidth,mul_assoc] using hb
-
 theorem appb_coset_positive_pair_log_window_bound {d : ℕ} (hd : 2 ≤ d) {L δ γ : ℝ}
     (hL : 1 ≤ L) (hδ : δ ∈ Ioc (0 : ℝ) 1) (hγ : γ ≤ 1) (m : ℕ)
     (w a b : Mom d) (nk : Fin d → ℤ) (β : ℝ) :

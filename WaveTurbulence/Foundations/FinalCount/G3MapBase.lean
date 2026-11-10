@@ -1,6 +1,7 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
-public import WaveTurbulence.Foundations.FinalCount.G3Prop95
+public import WaveTurbulence.Foundations.FinalCount.G3NoTriple
+public import WaveTurbulence.Foundations.FinalCount.G3Cycle
 public import WaveTurbulence.Foundations.FinalCount.G3FinalCopy
 public import WaveTurbulence.Foundations.FinalCount.G3InvDel
 public import WaveTurbulence.Foundations.FinalCount.G3Dart

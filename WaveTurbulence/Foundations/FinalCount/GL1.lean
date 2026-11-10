@@ -1,7 +1,6 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 public import WaveTurbulence.Foundations.FinalCount.G3RunN
-public import WaveTurbulence.Foundations.FinalCount.G3FinalE4
 /-! **G3-LOWDEG (R48), part 1**: the standing hypothesis `SubHypL` (no `deg3`), the class-change state `betaSt`
 (the cut of a degree-`2` `ε`-atom along both its bonds, TARGET Remark after `defcut`, with the isolated half deleted), and
 the index drop `Good R → Good (R-1)`. -/
@@ -25,14 +24,6 @@ structure SubHypL (R : ℕ) (M₀ : Molecule V D₀) : Prop where
   conn : ∀ a ∈ M₀.atoms, ∀ b ∈ M₀.atoms, M₀.SameComponent a b
   one_le : 1 ≤ R
   deg_pos : ∀ a ∈ M₀.atoms, 1 ≤ M₀.deg a
-
-theorem SubHyp.toL (h : SubHyp R M₀) : SubHypL R M₀ where
-  bounds := h.bounds
-  count := h.count
-  noloop := h.noloop
-  conn := h.conn
-  one_le := h.one_le
-  deg_pos := fun a ha => by have := h.deg3 a ha; omega
 
 theorem SubHypL.inv (h : SubHypL R M₀) : Inv.{_, _, _} R (St.init M₀) := by
   have hD := card_darts_eq_two_bonds M₀
@@ -67,7 +58,6 @@ noncomputable def St.betaSt (s : St.{u} V D₀) (v : V) : St.{u} V D₀ := s.wit
 
 theorem St.betaSt_cls (s : St.{u} V D₀) (v a : V) : (s.betaSt v).cls a = Function.update s.cls v .beta a := rfl
 theorem St.betaSt_M (s : St.{u} V D₀) (v : V) : (s.betaSt v).M = s.M := rfl
-theorem St.betaSt_D (s : St.{u} V D₀) (v : V) : (s.betaSt v).D = s.D := rfl
 theorem St.betaSt_down (s : St.{u} V D₀) (v : V) : (s.betaSt v).down = s.down := rfl
 
 section good

@@ -25,9 +25,6 @@ theorem sgn_cast_real (M : Molecule V D) (z : D) : (((sgn M z : ℤˣ) : ℤ) : 
 theorem sgn_eq_iff (M : Molecule V D) (x y : D) : sgn M x = sgn M y ↔ M.out x = M.out y := by
   unfold sgn; cases M.out x <;> cases M.out y <;> simp
 
-/-- The five labels of a `(3,3)` single pair. -/
-def prof5 (m e2 e3 f4 f5 : D) {K : Type*} (κ : D → K) : Fin 5 → K := ![κ m, κ e2, κ e3, κ f4, κ f5]
-
 theorem pair33_count_bound (d : ℕ) (hd : 3 ≤ d) (γ : ℝ) (hγ : γ ∈ Set.Ioo (1 / 2 : ℝ) 1) :
     ∃ C : ℝ, 0 < C ∧ ∀ δ ∈ Set.Ioc (0 : ℝ) 1, ∃ R : ℝ, ∀ L ≥ R,
     ∀ {V D : Type*} [DecidableEq V] [Fintype D] [DecidableEq D],

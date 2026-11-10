@@ -138,21 +138,6 @@ theorem subHypLoop_of_geometry {R : ℕ} {G : Garden (2 * R)} {C : CountingChoic
   one_le := hR
   nonloop := nonloop_of_two_le hg.connected h2
 
-/-- **`SubHypL R`** for a loop-free garden with amended geometry and at least two atoms. -/
-theorem subHypL_of_geometry {R : ℕ} {G : Garden (2 * R)} {C : CountingChoices G d} (hg : CountingGeometry G C) (hR : 1 ≤ R)
-    (h2 : 2 ≤ G.molecule.atoms.card) (hnl : ∀ x, G.molecule.atom x ≠ G.molecule.atom (G.molecule.mate x)) :
-    SubHypL R G.molecule where
-  bounds := hg.molecule.1
-  count := by rw [hg.atom_count]; exact hg.bond_count
-  noloop := hnl
-  conn := hg.connected
-  one_le := hR
-  deg_pos := by
-    intro a ha
-    obtain ⟨x, hx, -⟩ := nonloop_of_two_le hg.connected h2 a ha
-    unfold Molecule.deg
-    exact Finset.card_pos.2 ⟨x, (Mole.mem_dartsAt G.molecule a x).2 hx⟩
-
 end garden
 
 end WaveTurbulence.FinalCountAsm

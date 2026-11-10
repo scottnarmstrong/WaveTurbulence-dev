@@ -6,7 +6,6 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.Molecule.CLCN
-public import WaveTurbulence.Foundations.FinalCount.RedSpliceContract
 import Mathlib.Tactic
 
 /-!

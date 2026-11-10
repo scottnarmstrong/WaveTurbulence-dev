@@ -198,8 +198,6 @@ end vinealpha
 section vinestate
 variable {s : St.{u} V D₀} (K : VineCut s.M) (c : Cls)
 
-theorem vineSt_M : (vineSt s K c).M = K.post := rfl
-
 theorem vineSt_cls_old {a : V} (haM : a ∈ s.M.atoms) (haC : a ∉ K.C.atoms) :
     (vineSt s K c).cls a = s.cls a := by
   have h1 : a ≠ K.C.upper := fun e => haC (e ▸ K.a_mem)

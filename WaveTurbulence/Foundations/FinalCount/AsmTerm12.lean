@@ -1,6 +1,6 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
-public import WaveTurbulence.Foundations.FinalCount.AsmTerm11
+public import WaveTurbulence.Foundations.FinalCount.AsmTerm10
 /-! **FINALCOUNT-ASSEMBLY, `hterm` part 12: the cluster exponents add up.** -/
 @[expose] public section
 open WaveTurbulence.VineParamContract

@@ -17,25 +17,6 @@ universe u
 variable {V : Type*} [DecidableEq V] {D₀ : Type u} [Fintype D₀] [DecidableEq D₀] {d : ℕ}
 variable {L γ η : ℝ} {w : Mom d} {κ : D₀ → (Fin d → ℤ)}
 
-theorem suffix_of_suffix_le {α : Type*} {l m n : List α} (h1 : l <:+ n) (h2 : m <:+ n)
-    (hlen : l.length ≤ m.length) : l <:+ m := by
-  have h1' : l.reverse <+: n.reverse := List.reverse_prefix.2 h1
-  have h2' : m.reverse <+: n.reverse := List.reverse_prefix.2 h2
-  have := List.prefix_of_prefix_length_le h1' h2' (by simpa using hlen)
-  exact List.reverse_prefix.1 this
-
-theorem rtg_inv {S : HSt V D₀ → HSt V D₀ → Prop} (hS : ∀ a b, S a b → HInv L γ η w κ a → HInv L γ η w κ b)
-    {a b : HSt V D₀} (h : Relation.ReflTransGen S a b) (ha : HInv L γ η w κ a) : HInv L γ η w κ b := by
-  induction h with
-  | refl => exact ha
-  | tail _ hs ih => exact hS _ _ hs ih
-
-theorem HRun.inv {M₀ : Molecule V D₀} {hf : HSt V D₀} (hr : HRun L γ η w κ (HSt.init M₀) hf) :
-    HInv L γ η w κ hf := by
-  obtain ⟨h₁, h₂, h₃, a1, -, a2, -, a3, -, a4, -⟩ := hr
-  exact rtg_inv (fun _ _ hs hI => hs.inv hI) a4 (rtg_inv (fun _ _ hs hI => hs.inv hI) a3
-    (rtg_inv (fun _ _ hs hI => hs.inv hI) a2 (rtg_inv (fun _ _ hs hI => hs.inv hI) a1 (HInv.init M₀))))
-
 /-- The gap of the cut that produced the atom `a`. -/
 def AtomGap (L : ℝ) (w : Mom d) (κ : D₀ → (Fin d → ℤ)) (h : HSt V D₀) (a : V) (g : Mom d) : Prop :=
   ∃ p vis, h.crec a = some (p, vis) ∧ g = pgap L w κ p
@@ -45,12 +26,6 @@ theorem HInv.N1 {h : HSt V D₀} (hI : HInv L γ η w κ h) {b : V} (hb : b ∈ 
     ∃ g, AtomGap L w κ h b g ∧ g ≠ 0 := by
   obtain ⟨p, vis, hr, hnz⟩ := (hI.ok b hb).2 hcb
   exact ⟨pgap L w κ p, ⟨p, vis, hr, rfl⟩, hnz⟩
-
-theorem HInv.alphaGap {h : HSt V D₀} (hI : HInv L γ η w κ h) {a : V} (ha : a ∈ h.s.M.atoms) {R : ℝ} {kp : ℕ}
-    (hc : h.s.cls a = .alpha R kp) :
-    ∃ g, AtomGap L w κ h a g ∧ R / 2 ≤ ‖g‖ ∧ ‖g‖ ≤ 2 * R := by
-  obtain ⟨-, p, vis, hr, hs, -⟩ := (hI.ok a ha).1 R kp hc
-  exact ⟨pgap L w κ p, ⟨p, vis, hr, rfl⟩, hs⟩
 
 theorem norm_pm {ga gc : Mom d} {sa sc : ℝ} (ha : sa = 1 ∨ sa = -1) (hc : sc = 1 ∨ sc = -1) :
     ∃ t : ℝ, (t = 1 ∨ t = -1) ∧ ‖sa • ga + sc • gc‖ = ‖gc + t • ga‖ := by

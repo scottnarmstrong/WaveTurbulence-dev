@@ -75,24 +75,4 @@ of the two outer labels. -/
 def appbR23Common : AppbPattern :=
   ⟨[(1,2),(1,3),(2,4),(3,4)], {1,2,3}⟩
 
-/-- Every listed bond is deleted and no listed bond is a loop. -/
-theorem appb_patterns_incident : ∀ k : AppbPatternKind,
-    ∀ e ∈ k.pattern.edges, (e.1 ∈ k.pattern.removed ∨ e.2 ∈ k.pattern.removed) ∧ e.1 ≠ e.2 := by
-  intro k
-  cases k <;> decide
-
-/-- The figure degrees at the deleted degree-three pair. -/
-theorem appb_s33_degrees : ∀ k ∈ ([AppbPatternKind.s33, .s33new1, .s33new2,
-    .s33new3, .s33new4, .s33new5, .s33new6, .d33, .d33same] : List _),
-    k.pattern.localDegree 1 = 3 ∧ k.pattern.localDegree 2 = 3 := by
-  decide
-
-/-- Degree-three/four and degree-three/two figures have the advertised degrees. -/
-theorem appb_mixed_degrees :
-    (∀ k ∈ ([AppbPatternKind.d34one, .d34two, .d34three, .d34four] : List _),
-      k.pattern.localDegree 1 = 3 ∧ k.pattern.localDegree 2 = 4) ∧
-    (∀ k ∈ ([AppbPatternKind.s32one, .s32two, .s32three, .s32four] : List _),
-      k.pattern.localDegree 1 = 3 ∧ k.pattern.localDegree 2 = 2) := by
-  decide
-
 end WaveTurbulence.Mole

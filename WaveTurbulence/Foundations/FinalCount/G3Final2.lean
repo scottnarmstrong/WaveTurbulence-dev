@@ -99,30 +99,4 @@ theorem FinalStruct.of_good {R : ℕ} {s : St.{u} V D₀} (hg : Good R s) (hC : 
     subst this
     exact Relation.EqvGen.trans _ _ _ hara (Relation.EqvGen.symm _ _ hbrb)
 
-theorem good_flat_rtg {R : ℕ} {step : St.{u} V D₀ → St.{u} V D₀ → Prop}
-    (hstep : ∀ s s', step s s' → Good R s → Flat s → Good R s' ∧ Flat s') {a b : St.{u} V D₀}
-    (h : Relation.ReflTransGen step a b) : Good R a → Flat a → Good R b ∧ Flat b := by
-  induction h with
-  | refl => exact fun g c => ⟨g, c⟩
-  | tail _ hs ih =>
-    exact fun g c => by
-      obtain ⟨g', c'⟩ := ih g c
-      exact hstep _ _ hs g' c'
-
-/-- Along a run, the state is flat. -/
-theorem Run.flat {L γ η : ℝ} {w : Mom d} {κ : D₀ → (Fin d → ℤ)} {R : ℕ} {M₀ : Molecule V D₀}
-    {sf : St.{u} V D₀} (hr : Run L γ η w κ (St.init M₀) sf) (hS : SubHyp R M₀) : Flat sf := by
-  obtain ⟨s₁, s₂, s₃, h1, _, h2, _, h3, _, h4, _⟩ := hr
-  have g0 : Good R (St.init M₀) := ⟨hS.inv, St.init_clean M₀⟩
-  have r1 := good_flat_rtg (fun _ _ h g f => ⟨h.good g, h.flat f⟩) h1 g0 (Flat.init hS)
-  have r2 := good_flat_rtg (fun _ _ h g f => ⟨h.good g, h.flat f g.2⟩) h2 r1.1 r1.2
-  have r3 := good_flat_rtg (fun _ _ h g f => ⟨h.good g, h.flat f⟩) h3 r2.1 r2.2
-  exact (good_flat_rtg (fun _ _ h g f => ⟨h.good g, h.flat f⟩) h4 r3.1 r3.2).2
-
-/-- The structural part of Prop 9.5 for the final molecule of a run of the stage-2 algorithm. -/
-theorem Run.finalStruct {L γ η : ℝ} {w : Mom d} {κ : D₀ → (Fin d → ℤ)} {R : ℕ} {M₀ : Molecule V D₀}
-    {sf : St.{u} V D₀} (hr : Run L γ η w κ (St.init M₀) sf) (hS : SubHyp R M₀) : FinalStruct R sf := by
-  obtain ⟨hg, hC⟩ := hr.goodComp hS
-  exact FinalStruct.of_good hg hC (hr.flat hS)
-
 end WaveTurbulence.FinalCountG3

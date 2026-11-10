@@ -50,25 +50,4 @@ theorem SubHyp.compBeta {R : ℕ} {M₀ : Molecule V D₀} (h : SubHyp R M₀) :
   have : M₀.deg b = 4 := by omega
   rw [this]; decide
 
-theorem good_comp_rtg {R : ℕ} {step : St.{u} V D₀ → St.{u} V D₀ → Prop}
-    (hstep : ∀ s s', step s s' → Good R s → CompBeta s → Good R s' ∧ CompBeta s') {a b : St.{u} V D₀}
-    (h : Relation.ReflTransGen step a b) : Good R a → CompBeta a → Good R b ∧ CompBeta b := by
-  induction h with
-  | refl => exact fun g c => ⟨g, c⟩
-  | tail _ hs ih =>
-    exact fun g c => by
-      obtain ⟨g', c'⟩ := ih g c
-      exact hstep _ _ hs g' c'
-
-/-- Along a run, both `Good` and `CompBeta` hold. -/
-theorem Run.goodComp {L γ η : ℝ} {w : Mom d} {κ : D₀ → (Fin d → ℤ)} {R : ℕ} {M₀ : Molecule V D₀}
-    {sf : St.{u} V D₀} (hr : Run L γ η w κ (St.init M₀) sf) (hS : SubHyp R M₀) :
-    Good R sf ∧ CompBeta sf := by
-  obtain ⟨s₁, s₂, s₃, h1, _, h2, _, h3, _, h4, _⟩ := hr
-  have g0 : Good R (St.init M₀) := ⟨hS.inv, St.init_clean M₀⟩
-  have r1 := good_comp_rtg (fun _ _ h g c => ⟨h.good g, h.compBeta g c⟩) h1 g0 hS.compBeta
-  have r2 := good_comp_rtg (fun _ _ h g c => ⟨h.good g, h.compBeta g c⟩) h2 r1.1 r1.2
-  have r3 := good_comp_rtg (fun _ _ h g c => ⟨h.good g, h.compBeta g c⟩) h3 r2.1 r2.2
-  exact good_comp_rtg (fun _ _ h g c => ⟨h.good g, h.compBeta c⟩) h4 r3.1 r3.2
-
 end WaveTurbulence.FinalCountG3

@@ -102,12 +102,6 @@ Step 1"; subpro (c): a triple bond is among the collected objects). -/
 def NoTripleBond {D : Type*} [Fintype D] [DecidableEq D] (M : Molecule V D) : Prop :=
   ∀ a ∈ M.atoms, ∀ b ∈ M.atoms, a ≠ b → M.bondsBetween a b < 3
 
-/-- Step 2 is complete: no triangle with two SG triples remains. -/
-def NoSGTriangle (L γ η : ℝ) (w : Mom d) (κ : D₀ → (Fin d → ℤ)) (s : St.{u} V D₀) : Prop :=
-  ∀ T : TriData s.M,
-    ¬ (Molecule.gapKind L γ η (Molecule.gapAt L w (κ ∘ s.down) (T.a 0) (T.b 0)) = .SG ∧
-       Molecule.gapKind L γ η (Molecule.gapAt L w (κ ∘ s.down) (T.a 1) (T.b 1)) = .SG)
-
 /-- Step 3 is complete: no `ε`-atom is SG (an atom of `M_sub = s₀.M` is SG if it has an SG triple, TARGET `defdiff`). -/
 def NoSGLeft (L γ η : ℝ) (w : Mom d) (κ : D₀ → (Fin d → ℤ)) (s₀ s : St.{u} V D₀) : Prop :=
   ∀ v ∈ s.M.atoms, s.cls v = .eps → ¬ SGat s₀.M L γ η w (κ ∘ s₀.down) v
@@ -117,14 +111,5 @@ def NoSGLeft (L γ η : ℝ) (w : Mom d) (κ : D₀ → (Fin d → ℤ)) (s₀ s
 def NoBetaCut (L : ℝ) (w : Mom d) (κ : D₀ → (Fin d → ℤ)) (s : St.{u} V D₀) : Prop :=
   ∀ v ∈ s.M.atoms, 3 ≤ s.M.deg v → ∀ v₂ x₁ x₂, s.M.IsCutData v v₂ x₁ x₂ →
     Molecule.gapAt L w (κ ∘ s.down) x₁ x₂ ≠ 0 → s.M.IsAlphaCut v v₂ x₁ x₂
-
-/-- **A run of the stage-2 algorithm** from `s₀` to `s_f`: Steps 1, 2, 3, 4 in this order (TARGET "Order of these
-operations", L2146), each carried out until its stopping condition holds. -/
-def Run (L γ η : ℝ) (w : Mom d) (κ : D₀ → (Fin d → ℤ)) (s₀ sf : St.{u} V D₀) : Prop :=
-  ∃ s₁ s₂ s₃ : St.{u} V D₀,
-    Relation.ReflTransGen (Step1 L γ η w κ) s₀ s₁ ∧ NoTripleBond s₁.M ∧
-    Relation.ReflTransGen (Step2 L γ η w κ) s₁ s₂ ∧ NoSGTriangle L γ η w κ s₂ ∧
-    Relation.ReflTransGen (Step3 L γ η w κ) s₂ s₃ ∧ NoSGLeft L γ η w κ s₀ s₃ ∧
-    Relation.ReflTransGen Step4 s₃ sf ∧ NoBetaCut L w κ sf
 
 end WaveTurbulence.FinalCountG3

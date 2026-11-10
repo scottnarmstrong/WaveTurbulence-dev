@@ -150,33 +150,4 @@ theorem Step4.epsLe {s s' : St.{u} V D₀} (h : Step4 s s') : EpsLe s s' := by
   cases h with
   | cut v v₂ x₁ x₂ hcd hε hβ h3 => exact EpsLe.cutSt s x₁ x₂ hcd.1 hcd.2.1 _ _ (by simp) (by simp)
 
-theorem epsLe_rtg {step : St.{u} V D₀ → St.{u} V D₀ → Prop} (hstep : ∀ s s', step s s' → EpsLe s s')
-    {a b : St.{u} V D₀} (h : Relation.ReflTransGen step a b) : EpsLe a b := by
-  induction h with
-  | refl => exact EpsLe.refl _
-  | tail _ hs ih => exact ih.trans (hstep _ _ hs)
-
-/-- **No triple bond in `𝕄_fin`** (L1806, L1816). -/
-theorem Run.noTriple {sf s₀ : St.{u} V D₀} (hr : Run L γ η w κ s₀ sf) (hg : Good R sf) :
-    NoTripleBond sf.M := by
-  obtain ⟨s₁, s₂, s₃, h1, n1, h2, -, h3, -, h4, -⟩ := hr
-  have e := ((epsLe_rtg (fun _ _ h => h.epsLe) h2).trans (epsLe_rtg (fun _ _ h => h.epsLe) h3)).trans
-    (epsLe_rtg (fun _ _ h => h.epsLe) h4)
-  intro a ha b hb hab
-  by_contra hcon
-  push Not at hcon
-  have hda : 3 ≤ sf.M.deg a := (hcon.trans' (le_refl _)).trans (bondsBetween_le_deg _ _ _)
-  have hdb : 3 ≤ sf.M.deg b := by
-    have : sf.M.bondsBetween a b = sf.M.bondsBetween b a := by
-      unfold Molecule.bondsBetween
-      simp only [Sym2.eq_swap]
-    rw [this] at hcon
-    exact hcon.trans (bondsBetween_le_deg _ _ _)
-  have hea : sf.cls a = .eps := by
-    by_contra hne; have := (hg.1.ab a ha hne).1; omega
-  have heb : sf.cls b = .eps := by
-    by_contra hne; have := (hg.1.ab b hb hne).1; omega
-  obtain ⟨⟨a1, -⟩, ⟨b1, -⟩, hle⟩ := e a ha b hb hea heb
-  exact absurd (hcon.trans hle) (by have := n1 a a1 b b1 hab; omega)
-
 end WaveTurbulence.FinalCountG3

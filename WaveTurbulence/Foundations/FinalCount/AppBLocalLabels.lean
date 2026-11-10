@@ -47,23 +47,5 @@ theorem labels_injective {κ κ' : D → K}
       simpa only [hκ,hκ'] using he
     · exact r.removed_label_eq hq (mem_filter.mpr ⟨mem_filter.mpr ⟨mem_univ _,hout⟩,hdel⟩)
 
-/-- Exact finite counting consequence of the source label decomposition. -/
-theorem card_le_local_mul_retained [DecidableEq K] (S : Finset (D → K))
-    (hb : ∀ κ ∈ S, ∀ x, κ (M.mate x) = κ x) :
-    S.card ≤ (S.image r.localLabels).card * (S.image r.retainedLabels).card := by
-  let f : (D → K) → (Fin P.edges.length → K) × (Degen.RetainedDart M r.removedAtoms → K) :=
-    fun κ => (r.localLabels κ,r.retainedLabels κ)
-  have hi : Set.InjOn f S := by
-    intro κ hκ κ' hκ' he
-    exact r.labels_injective (hb κ hκ) (hb κ' hκ') (congrArg Prod.fst he) (congrArg Prod.snd he)
-  calc
-    S.card = (S.image f).card := (card_image_of_injOn hi).symm
-    _ ≤ ((S.image r.localLabels) ×ˢ (S.image r.retainedLabels)).card := by
-      apply card_le_card
-      intro q hq
-      obtain ⟨κ,hκ,rfl⟩ := mem_image.mp hq
-      exact mem_product.mpr ⟨mem_image_of_mem _ hκ,mem_image_of_mem _ hκ⟩
-    _ = _ := card_product _ _
-
 end AppbRealization
 end WaveTurbulence.Mole

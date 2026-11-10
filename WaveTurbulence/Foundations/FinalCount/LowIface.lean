@@ -31,84 +31,6 @@ section ports
 universe u
 variable {V : Type*} [DecidableEq V] {D₀ : Type u} [Fintype D₀] [DecidableEq D₀] {d : ℕ}
 
-/-- `card_lowdeg_le` for `SubHypL`: at most `2R` atoms have degree `< 4`. -/
-theorem card_lowdeg_leL {R : ℕ} {M₀ : Molecule V D₀} (hS : SubHypL R M₀) :
-    (M₀.atoms.filter fun a => M₀.deg a < 4).card ≤ 2 * R := by
-  have h1 := sum_deg_eq M₀
-  have h2 := card_darts_eq_two_bonds M₀
-  have h3 := hS.count
-  have hle : ∀ a ∈ M₀.atoms, M₀.deg a ≤ 4 := fun a ha => deg_le_four (M := M₀) (hS.bounds a ha)
-  have key : ∑ a ∈ M₀.atoms, (4 - M₀.deg a) = 2 * R := by
-    have : ∑ a ∈ M₀.atoms, (4 - M₀.deg a) + ∑ a ∈ M₀.atoms, M₀.deg a = ∑ a ∈ M₀.atoms, 4 := by
-      rw [← Finset.sum_add_distrib]
-      exact Finset.sum_congr rfl fun a ha => Nat.sub_add_cancel (hle a ha)
-    simp only [Finset.sum_const, smul_eq_mul] at this
-    omega
-  calc (M₀.atoms.filter fun a => M₀.deg a < 4).card = ∑ a ∈ M₀.atoms.filter (fun a => M₀.deg a < 4), 1 := by simp
-    _ ≤ ∑ a ∈ M₀.atoms.filter (fun a => M₀.deg a < 4), (4 - M₀.deg a) := by
-        refine Finset.sum_le_sum fun a ha => ?_
-        have := (Finset.mem_filter.1 ha).2
-        omega
-    _ ≤ ∑ a ∈ M₀.atoms, (4 - M₀.deg a) := Finset.sum_le_sum_of_subset (Finset.filter_subset _ _)
-    _ = 2 * R := key
-
-theorem labelSet_card_leL {R : ℕ} {M : Molecule V D₀} (hS : SubHypL R M) (kFix : Finset (Mom d)) (hk : kFix.card ≤ 2 * R) :
-    (labelSet M kFix).card ≤ 2 ^ M.atoms.card * (2 * R + 1) ^ (2 * R) := by
-  unfold labelSet
-  rw [Finset.card_product, Finset.card_powerset, Fintype.card_piFinset]
-  refine Nat.mul_le_mul_left _ ?_
-  have h1 : (insert none (kFix.image some) : Finset (Option (Mom d))).card ≤ 2 * R + 1 :=
-    (Finset.card_insert_le _ _).trans (by have := Finset.card_image_le (s := kFix) (f := (some : Mom d → Option (Mom d))); omega)
-  calc ∏ _i : lowAtoms M, (insert none (kFix.image some) : Finset (Option (Mom d))).card
-      ≤ ∏ _i : lowAtoms M, (2 * R + 1) := Finset.prod_le_prod' fun _ _ => h1
-    _ = (2 * R + 1) ^ Fintype.card (lowAtoms M) := by simp
-    _ ≤ (2 * R + 1) ^ (2 * R) := by
-        apply Nat.pow_le_pow_right (by omega)
-        rw [Fintype.card_coe]
-        exact card_lowdeg_leL hS
-
-/-- `exists_classLabel` for `SubHypL` (only `deg ≥ 1` is used: every atom carries a dart). -/
-theorem exists_classLabelL {R : ℕ} {M : Molecule V D₀} (hS : SubHypL R M) (L : ℝ) (w : Mom d) (kFix : Finset (Mom d))
-    (κ : D₀ → (Fin d → ℤ)) (hmate : ∀ x, κ (M.mate x) = κ x) (hL : L ≠ 0) :
-    ∃ lab ∈ labelSet M kFix, InClass M L w kFix lab.1 lab.2 κ := by
-  let Z : Finset V := M.atoms.filter fun v => M.IsTame L w kFix κ v
-  have hdart : ∀ v ∈ M.atoms, ∃ x, M.atom x = v := by
-    intro v hv
-    have h3 := hS.deg_pos v hv
-    have : 0 < (M.dartsAt v).card := by unfold Molecule.deg at h3; omega
-    obtain ⟨x, hx⟩ := Finset.card_pos.mp this
-    exact ⟨x, (Mole.mem_dartsAt M v x).mp hx⟩
-  refine ⟨(Z, fun v => if v.1 ∈ Z then some (Molecule.kvec L w κ (Classical.choose (hdart v.1 (Finset.mem_filter.1 v.2).1))) else none),
-    ?_, ?_, ?_⟩
-  · unfold labelSet
-    refine Finset.mem_product.2 ⟨Finset.mem_powerset.2 (Finset.filter_subset _ _), ?_⟩
-    rw [Fintype.mem_piFinset]
-    intro v
-    by_cases hv : v.1 ∈ Z
-    · have hlow := (Finset.mem_filter.1 v.2).2
-      have hT := (Finset.mem_filter.1 hv).2
-      have hx := Classical.choose_spec (hdart v.1 (Finset.mem_filter.1 v.2).1)
-      simp only [hv, if_true]
-      exact Finset.mem_insert_of_mem (Finset.mem_image.2 ⟨_, hT.2 hlow _ hx, rfl⟩)
-    · simp [hv]
-  · intro v hv
-    simp [Z, hv]
-  · intro v hv x hx
-    simp only [hv, if_true]
-    have hT := (Finset.mem_filter.1 hv).2
-    have hx' := Classical.choose_spec (hdart v.1 (Finset.mem_filter.1 v.2).1)
-    rw [hT.1 _ _ hx' hx]
-
-theorem numComponents_initL {Rn : ℕ} {M₀ : Molecule V D₀} (hS : SubHypL Rn M₀) : M₀.numComponents = 1 := by
-  refine Mole.numComponents_eq_one M₀ ?_ hS.conn
-  by_contra hne
-  have h0 : M₀.atoms = ∅ := Finset.not_nonempty_iff_eq_empty.1 hne
-  have := hS.count
-  rw [h0] at this
-  have h1 := hS.one_le
-  simp at this
-  omega
-
 end ports
 
 section stmts
@@ -188,21 +110,6 @@ def LowClassBound (d : ℕ) (γ η : ℝ) : Prop :=
         ENNReal.ofReal (L ^ (-4 * η ^ 6 * ((M₀.rho : ℝ) + ((M₀.atoms.filter crit).card : ℝ))) *
           L ^ (((Rn : ℝ) - 1) * ((d : ℝ) - γ - 1 / 4 - 1 / 40 - 1 / 20) - (η ^ 5 - 4 * η ^ 6) / 4))
 
-/-- **The molecule-level LOW bound** (the statement of `reg_molecule_bound` with `SubHypL` and `LowClassHyps`). -/
-def LowMoleculeBound (d : ℕ) (γ η : ℝ) : Prop :=
-  ∃ Cstar : ℝ, 1 ≤ Cstar ∧ ∀ m c : ℕ, ∀ C1 ≥ 4 * Cstar, ∀ δ ∈ Ioc (0 : ℝ) 1, ∃ R₀ : ℝ, 1 ≤ R₀ ∧ ∀ L ≥ R₀,
-    ∀ {V : Type} [DecidableEq V] [Infinite V] {D₀ : Type} [Fintype D₀] [DecidableEq D₀] {M₀ : Molecule V D₀} {Rn : ℕ}
-      {P : Finset V → ℝ} {Adm : (D₀ → (Fin d → ℤ)) → Prop} {C : CollData M₀}
-      {Un : (D₀ → (Fin d → ℤ)) → Set (Object M₀)} {Fst : Set (Object M₀)} {crit : V → Prop} (kFix : Finset (Mom d)),
-      SubHypL Rn M₀ → kFix.card ≤ 2 * Rn → (Rn : ℝ) ≤ (1 + Real.log L) ^ c →
-      (∀ κ, Adm κ → ∀ x, κ (M₀.mate x) = κ x) →
-      (∀ lab ∈ labelSet M₀ kFix, (∃ κ, Adm κ ∧ InClass M₀ L (0 : Mom d) kFix lab.1 lab.2 κ) →
-        LowClassHyps (d := d) M₀ Rn P {κ | Adm κ ∧ InClass M₀ L (0 : Mom d) kFix lab.1 lab.2 κ} C Un Fst
-          crit (fun v => v ∈ lab.1) L γ η m) →
-      M₀.countA L γ δ C1 (0 : Mom d) Adm P ≤
-        ENNReal.ofReal (L ^ (-4 * η ^ 6 * ((M₀.rho : ℝ) + ((M₀.atoms.filter crit).card : ℝ))) *
-          L ^ (((Rn : ℝ) - 1) * ((d : ℝ) - γ - 1 / 4 - 1 / 40)))
-
 /-- **LOW-GARDEN target: the garden-level LOW bound** (the statement of `reg_garden_bound` for `¬ RegGeom` gardens, with all premises
 of `FinalCountAtWith`). -/
 def LowGardenBound (d : ℕ) (γ η : ℝ) : Prop :=
@@ -223,72 +130,5 @@ def LowGardenBoundAll : Prop :=
   ∀ d : ℕ, 3 ≤ d → ∀ γ : ℝ, 1 / 2 < γ → γ < 1 → ∃ η₀ : ℝ, 0 < η₀ ∧ ∀ η : ℝ, 0 < η → η ≤ η₀ → LowGardenBound d γ η
 
 end stmts
-
-/-- **The class split of the LOW case** (`reg_molecule_bound` with `SubHypL`; mechanical port). -/
-theorem low_molecule_bound_of {d : ℕ} {γ η : ℝ} (hη : 0 < η) (hη40 : η ≤ 1 / 40) (hcl : LowClassBound d γ η) :
-    LowMoleculeBound d γ η := by
-  obtain ⟨Cs, hCs, hreg⟩ := hcl
-  have hεpos : 0 < (η ^ 5 - 4 * η ^ 6) / 4 := by
-    have h5 : 0 < η ^ 5 := by positivity
-    have : 4 * η ^ 6 < η ^ 5 := by
-      have : η ^ 6 = η * η ^ 5 := by ring
-      rw [this]; nlinarith
-    linarith
-  refine ⟨Cs, hCs, fun m c C1 hC1 δ hδ => ?_⟩
-  obtain ⟨R₁, hR₁, h1⟩ := hreg m (C1 / 4) (by linarith) δ hδ
-  obtain ⟨L₁, hL₁, h2⟩ := absorb_Rpow 36 (by norm_num) c ((η ^ 5 - 4 * η ^ 6) / 4) hεpos
-  refine ⟨max R₁ L₁, le_trans hR₁ (le_max_left _ _), fun L hL V _ _ D₀ _ _ M₀ Rn P Adm C Un Fst crit kFix hS hk hRc hAdm hclass => ?_⟩
-  have hLa : R₁ ≤ L := le_trans (le_max_left _ _) hL
-  have hLb : L₁ ≤ L := le_trans (le_max_right _ _) hL
-  have hL1 : 1 ≤ L := le_trans hR₁ hLa
-  have hL0 : 0 < L := by linarith
-  have hRn : 1 ≤ Rn := hS.one_le
-  set S := labelSet M₀ kFix with hSdef
-  have hcl : ∀ lab ∈ S, M₀.countA L γ δ (C1 / 4) (0 : Mom d) (fun κ => Adm κ ∧ InClass M₀ L (0 : Mom d) kFix lab.1 lab.2 κ) P ≤
-      ENNReal.ofReal (L ^ (-4 * η ^ 6 * ((M₀.rho : ℝ) + ((M₀.atoms.filter crit).card : ℝ))) *
-        L ^ (((Rn : ℝ) - 1) * ((d : ℝ) - γ - 1 / 4 - 1 / 40 - 1 / 20) - (η ^ 5 - 4 * η ^ 6) / 4)) :=
-    fun lab hlab => by
-      by_cases hne : ∃ κ, Adm κ ∧ InClass M₀ L (0 : Mom d) kFix lab.1 lab.2 κ
-      · exact h1 L hLa (hclass lab hlab hne)
-      · push Not at hne
-        have h0 := countA_union_le M₀ L γ δ (C1 / 4) (0 : Mom d) (∅ : Finset Bool)
-          (Adm := fun κ => Adm κ ∧ InClass M₀ L (0 : Mom d) kFix lab.1 lab.2 κ) (fun _ _ => True)
-          (fun κ hκ => absurd hκ.2 (hne κ hκ.1)) P
-        simp only [Finset.sum_empty] at h0
-        exact h0.trans bot_le
-  have hB : 0 ≤ L ^ (-4 * η ^ 6 * ((M₀.rho : ℝ) + ((M₀.atoms.filter crit).card : ℝ))) *
-        L ^ (((Rn : ℝ) - 1) * ((d : ℝ) - γ - 1 / 4 - 1 / 40 - 1 / 20) - (η ^ 5 - 4 * η ^ 6) / 4) := by positivity
-  have hcover : ∀ κ, Adm κ → ∃ lab ∈ S, Adm κ ∧ InClass M₀ L (0 : Mom d) kFix lab.1 lab.2 κ := by
-    intro κ hκ
-    obtain ⟨lab, hl, hc⟩ := exists_classLabelL hS L (0 : Mom d) kFix κ (hAdm κ hκ) hL0.ne'
-    exact ⟨lab, hl, hκ, hc⟩
-  have key := countA_le_sum_classes M₀ L γ δ C1 (0 : Mom d) S (fun lab κ => Adm κ ∧ InClass M₀ L (0 : Mom d) kFix lab.1 lab.2 κ)
-    P hcover hB hcl
-  refine key.trans (ENNReal.ofReal_le_ofReal ?_)
-  have hχ : M₀.circuitRank = (M₀.atoms.card : ℤ) - Rn + 1 := by
-    unfold Molecule.circuitRank
-    rw [numComponents_initL hS]
-    have := hS.count
-    omega
-  have hSc : (S.card : ℝ) ≤ (2 : ℝ) ^ M₀.atoms.card * (2 * (Rn : ℝ) + 1) ^ (2 * Rn) := by
-    have := labelSet_card_leL hS kFix hk
-    exact_mod_cast this
-  have hfac : (S.card : ℝ) * (4 : ℝ) ^ (-M₀.circuitRank) ≤ (36 * (Rn : ℝ) ^ 2) ^ Rn := by
-    rw [hχ]
-    refine le_trans (mul_le_mul_of_nonneg_right hSc (by positivity)) ?_
-    have := class_factor_le M₀.atoms.card Rn hRn
-    convert this using 2
-  have habs := h2 L hLb Rn hRn hRc
-  set E1 : ℝ := -4 * η ^ 6 * ((M₀.rho : ℝ) + ((M₀.atoms.filter crit).card : ℝ))
-  set E2 : ℝ := ((Rn : ℝ) - 1) * ((d : ℝ) - γ - 1 / 4 - 1 / 40 - 1 / 20) - (η ^ 5 - 4 * η ^ 6) / 4
-  have hE : (((Rn : ℝ) - 1) / 20 + (η ^ 5 - 4 * η ^ 6) / 4) + E2 = ((Rn : ℝ) - 1) * ((d : ℝ) - γ - 1 / 4 - 1 / 40) := by
-    simp only [E2]; ring
-  calc (S.card : ℝ) * 4 ^ (-M₀.circuitRank) * (L ^ E1 * L ^ E2)
-      ≤ L ^ (((Rn : ℝ) - 1) / 20 + (η ^ 5 - 4 * η ^ 6) / 4) * (L ^ E1 * L ^ E2) := by
-        gcongr
-        exact hfac.trans habs
-    _ = L ^ E1 * L ^ ((((Rn : ℝ) - 1) / 20 + (η ^ 5 - 4 * η ^ 6) / 4) + E2) := by
-        rw [Real.rpow_add hL0 (((Rn : ℝ) - 1) / 20 + (η ^ 5 - 4 * η ^ 6) / 4) E2]; ring
-    _ = L ^ E1 * L ^ (((Rn : ℝ) - 1) * ((d : ℝ) - γ - 1 / 4 - 1 / 40)) := by rw [hE]
 
 end WaveTurbulence.FinalCountAsm

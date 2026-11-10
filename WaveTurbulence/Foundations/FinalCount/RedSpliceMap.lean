@@ -225,11 +225,6 @@ theorem clPattern_pb {a b : GBranch G.tree} (hCL : CLParentPattern G U a b) {a' 
   ⟨fun h => hCL.1 (ha ▸ (internalParent_pb M hcls hU a').mp h),
    (internalParent_pb M hcls hU b').mpr (hb ▸ hCL.2)⟩
 
-/-- Merge labelling of one block with crown `a`. -/
-@[expose] noncomputable def clsOne {G : Garden w} (S : Finset (GBranch G.tree)) (a : GBranch G.tree)
-    (v : GBranch G.tree) : Option (GBranch G.tree) := by
-  classical exact if v ∈ S then some a else none
-
 /-- Add a block `U` with crown `a` to a merge labelling. -/
 @[expose] noncomputable def clsAdd {G : Garden w} (cls : GBranch G.tree → Option (GBranch G.tree))
     (U : Finset (GBranch G.tree)) (a : GBranch G.tree) (v : GBranch G.tree) : Option (GBranch G.tree) := by
@@ -242,27 +237,6 @@ theorem clsAdd_of_mem {G : Garden w} {cls : GBranch G.tree → Option (GBranch G
 theorem clsAdd_of_notMem {G : Garden w} {cls : GBranch G.tree → Option (GBranch G.tree)}
     {U : Finset (GBranch G.tree)} {a v : GBranch G.tree} (h : v ∉ U) : clsAdd cls U a v = cls v := by
   classical simp [clsAdd, h]
-
-theorem clsOne_of_mem {G : Garden w} {S : Finset (GBranch G.tree)} {a v : GBranch G.tree} (h : v ∈ S) :
-    clsOne S a v = some a := by
-  classical simp [clsOne, h]
-
-theorem clsOne_of_notMem {G : Garden w} {S : Finset (GBranch G.tree)} {a v : GBranch G.tree} (h : v ∉ S) :
-    clsOne S a v = none := by
-  classical simp [clsOne, h]
-
-theorem clsOne_eq_clsAdd {G : Garden w} (S : Finset (GBranch G.tree)) (a : GBranch G.tree) :
-    clsOne S a = clsAdd (fun _ => none) S a := by
-  funext v
-  by_cases h : v ∈ S
-  · rw [clsOne_of_mem h, clsAdd_of_mem h]
-  · rw [clsOne_of_notMem h, clsAdd_of_notMem h]
-
-theorem repC_clsOne {G : Garden w} {S : Finset (GBranch G.tree)} {a : GBranch G.tree} (v : GBranch G.tree) :
-    repC (clsOne S a) v = rep S a v := by
-  by_cases h : v ∈ S
-  · rw [rep_of_mem h]; unfold repC; rw [clsOne_of_mem h]; rfl
-  · rw [rep_of_notMem h]; unfold repC; rw [clsOne_of_notMem h]; rfl
 
 theorem repC_clsAdd {G : Garden w} (cls : GBranch G.tree → Option (GBranch G.tree))
     (U : Finset (GBranch G.tree)) (a v : GBranch G.tree) :
@@ -288,42 +262,6 @@ theorem clsOK_clsAdd {G : Garden w} {cls : GBranch G.tree → Option (GBranch G.
 section Single
 variable {S : Finset (GBranch G.tree)} {a b : GBranch G.tree}
   (hB : G.molecule.IsBlock S a b) (hCL : CLParentPattern G S a b) (D : CLSpliceSlots G S a b)
-
-/-- One CL splice is an `SpMap`. -/
-@[expose] noncomputable def single : SpMap G (clSplicedGardenOfSlots hB hCL D) (clsOne S a) where
-  ob := stepB hB hCL D
-  od := stepD hB hCL D
-  ob_inj := stepB_inj hB hCL D
-  od_inj := stepD_inj hB hCL D
-  ob_range := fun v => by
-    constructor
-    · rintro ⟨c, rfl⟩
-      rcases stepB_mem hB hCL D c with h | h
-      · exact Or.inl (clsOne_of_notMem h)
-      · rw [h]; exact Or.inr (clsOne_of_mem hB.2.1)
-    · intro h
-      apply exists_stepB hB hCL D
-      rcases h with h | h
-      · left; intro hv; rw [clsOne_of_mem hv] at h; simp at h
-      · by_cases hv : v ∈ S
-        · right; rw [clsOne_of_mem hv] at h; exact (Option.some.inj h).symm
-        · left; exact hv
-  od_range := fun x => by
-    constructor
-    · rintro ⟨y, rfl⟩ ⟨a', h1, h2⟩
-      apply stepD_notInGroup hB hCL D y
-      constructor
-      · by_contra hn; rw [clsOne_of_notMem hn] at h1; simp at h1
-      · by_contra hn; rw [clsOne_of_notMem hn] at h2; simp at h2
-    · intro h
-      apply exists_stepD hB hCL D
-      rintro ⟨h1, h2⟩
-      exact h ⟨a, clsOne_of_mem h1, clsOne_of_mem h2⟩
-  od_mate := stepD_mate hB hCL D
-  od_out := stepD_out hB hCL D
-  ob_atom := fun y => by rw [stepB_atom, repC_clsOne]
-  ob_root := stepB_root hB hCL D
-  ob_parent := fun c hn ho => by rw [stepB_parent hB hCL D c hn ho, repC_clsOne]
 
 end Single
 

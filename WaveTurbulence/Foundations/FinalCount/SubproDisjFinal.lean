@@ -37,31 +37,4 @@ theorem c2Of_disjoint_c1_hinges {V : Type*} [DecidableEq V] {D₀ : Type*} [Fint
   · exact Finset.disjoint_of_subset_left hsub (hSC i)
   · exact Finset.disjoint_of_subset_left hsub (hQC i)
 
-/-- **S4-DISJ goal 1 (TARGET L2175) for S2a's construction.** For `C := collectionChoices G σ` and G3's `C₂ = C2Of C Unsel`
-(with `Unsel` the pool members whose atom set is omitted by lg-spine's source second collection `hc`, the literal DV rule of
-TARGET L2101: exactly one vine of each SG double vine is omitted):
-* the members of `C₁` are pairwise atom-disjoint (`Structural`, S2a);
-* the members of `C₂` are disjoint from every member of `C₁` and from the hinges;
-* two members of `C₂` have equal or disjoint atom sets (equal only for two designations of one hyper group). -/
-theorem step1_objects_disjoint {G : Garden w} (hM : G.molecule.IsMolecule) (σ : RedSplice.Prescription G)
-    (hno : ∀ a b, G.molecule.bondsBetween a b ≠ 3) {L γ η : ℝ} {base : Mom d}
-    {κ : GardenDart (RedSplice.stSt G σ).G → (Fin d → ℤ)} {c0 : GBranch (RedSplice.stSt G σ).G.tree → Mom d}
-    (hκ : (RedSplice.stSt G σ).G.molecule.IsDecoration L base c0 κ)
-    (hc0 : ∀ v ∈ (RedSplice.stSt G σ).G.molecule.atoms, (RedSplice.stSt G σ).G.molecule.deg v = 4 → c0 v = 0)
-    {omitted : Set (Finset (GBranch (RedSplice.stSt G σ).G.tree))}
-    {collection : Set (Object (RedSplice.stSt G σ).G.molecule)}
-    (hc : IsSourceSecondCollection (RedSplice.stSt G σ).G L γ η base κ
-      (RedSplice.collectionChoices G σ).forbidden omitted collection) :
-    let C := collDataOf (RedSplice.collectionChoices G σ)
-    let Unsel := unselOf C L γ η base κ omitted
-    (∀ i j, i ≠ j → Disjoint (C.collection i).atoms (C.collection j).atoms) ∧
-    (∀ U ∈ C.C2Of L γ η base κ Unsel, ∀ i, Disjoint U.atoms (C.collection i).atoms) ∧
-    (∀ U ∈ C.C2Of L γ η base κ Unsel, Disjoint U.atoms C.hinges) ∧
-    (∀ U ∈ C.C2Of L γ η base κ Unsel, ∀ U' ∈ C.C2Of L γ η base κ Unsel,
-      U.atoms = U'.atoms ∨ Disjoint U.atoms U'.atoms) := by
-  intro C Unsel
-  refine ⟨(RedSplice.structural_collectionChoices hM σ hno).2.1,
-    fun U hU => (c2Of_disjoint_c1_hinges C hU).1, fun U hU => (c2Of_disjoint_c1_hinges C hU).2,
-    fun U hU U' hU' => c2Of_atoms_eq_or_disjoint (Mole.garden_isMolecule (RedSplice.stSt G σ).G) hκ hc0 C hc hU hU'⟩
-
 end WaveTurbulence.Subpro

@@ -60,12 +60,6 @@ theorem gap_ne_zero {L : ℝ} (hL : L ≠ 0) (w : Mom d) (κ : D → (Fin d → 
   apply h
   rw [gapAt_eq M T L w κ hκ, e, latticePoint_zero']
 
-theorem triG_eq (L : ℝ) (w : Mom d) (z : Fin 3 → (Fin d → ℤ)) (j : Fin 3) :
-    triG L w z j = ‖w + latticePoint L (z j)‖ ^ 2 - ‖w + latticePoint L (z (j - 1))‖ ^ 2 := rfl
-
-theorem sum_cast (n u : Fin d → ℤ) : (∑ k, ((n - u : Fin d → ℤ) k : ℝ) * 1) = ∑ k, ((n k : ℝ) - (u k : ℝ)) := by
-  simp
-
 /-- The energy relation in the form used for slabs. -/
 theorem slab_of_energy (L : ℝ) (hL : 0 < L) (w : Mom d) (zi zj zi' zj' u : Fin d → ℤ) (hi : zi = zi' + u) (hj : zj = zj' + u)
     (R : ℝ) (hR : |(‖w + latticePoint L zi‖ ^ 2 - ‖w + latticePoint L zj‖ ^ 2) -

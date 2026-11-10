@@ -15,8 +15,4 @@ theorem gapAt_base_indep (L : ℝ) (w w' : Mom d) (κ : D → (Fin d → ℤ)) (
     Molecule.gapAt L w' κ x₁ x₂ = Molecule.gapAt L w κ x₁ x₂ := by
   unfold Molecule.gapAt; rw [kvec_shift L w w' κ x₁, kvec_shift L w w' κ x₂]; abel
 
-theorem gapKind_base_indep (L γ η : ℝ) (w w' : Mom d) (κ : D → (Fin d → ℤ)) (x₁ x₂ : D) :
-    Molecule.gapKind L γ η (Molecule.gapAt L w' κ x₁ x₂) = Molecule.gapKind L γ η (Molecule.gapAt L w κ x₁ x₂) := by
-  rw [gapAt_base_indep L w w' κ x₁ x₂]
-
 end WaveTurbulence.FinalCountAsm

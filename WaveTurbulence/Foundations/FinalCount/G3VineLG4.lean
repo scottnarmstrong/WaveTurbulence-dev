@@ -22,15 +22,6 @@ variable {V : Type*} [DecidableEq V] {D₀ : Type u} [Fintype D₀] [DecidableEq
 variable {L γ η : ℝ} {w : Mom d} {κ : D₀ → (Fin d → ℤ)} {R : ℕ} {Tm : V → Prop}
 variable {M₀ : Molecule V D₀} {hf : HSt V D₀} {a₀ j₁ j₂ : V}
 
-theorem Object.atoms_subset_of_contained {P Q : Object M₀} (h : P.IsContained Q) : P.atoms ⊆ Q.atoms := by
-  unfold Object.IsContained at h
-  rcases hP : P.shape with hp | hp <;> rcases hQ : Q.shape with hq | hq <;>
-    simp only [hP, hQ, VineLikeObject.IsContained] at h
-  · exact h
-  · exact h
-  · exact h
-  · exact h.1
-
 /-- Two darts at an `ε`-atom of the final molecule that are distinct bonds of opposite directions have LG gap. -/
 theorem eps_pair_LG (hA : AncRel M₀ hf.s hf.anc) (hD : DartRel M₀ hf.s) (hC : Prop95ConclAt L γ η w κ R hf Tm) {c : V}
     (hc : c ∈ hf.s.M.atoms) (hε : hf.s.cls c = .eps) (hT : TameFree hf Tm c) {f s : D₀} (hf1 : M₀.atom f = c) (hs1 : M₀.atom s = c)
@@ -78,11 +69,6 @@ theorem hinge_interior (hA : AncRel M₀ hf.s hf.anc) (hD : DartRel M₀ hf.s) (
       (fun e => ht.2.2.2 e)
     rw [hsg] at this
     exact Molecule.GapKind.noConfusion this
-
-/-- The recorded-pair condition (retired model conjunct; now the theorem `HRunN.desRec`). -/
-def DesRec (C : CollData M₀) (hf : HSt V D₀) : Prop :=
-  ∀ j ∈ hf.s.M.atoms, ∀ p vis, hf.crec j = some (p, vis) → hf.anc j ∈ C.hinges →
-    ∃ f s, C.first (hf.anc j) = some f ∧ C.second (hf.anc j) = some s ∧ ({p.1, p.2} : Set D₀) = {f, s}
 
 /-- (iv) at a joint, the designated pair is held entirely by the joint half or not at all.  The recorded pair `p0` of the joint is the
 designated pair or its complement (R29, A1 / `Desig`). -/

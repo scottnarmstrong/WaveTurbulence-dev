@@ -1,6 +1,5 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
-public import WaveTurbulence.Foundations.FinalCount.AsmStuck
 public import WaveTurbulence.Foundations.FinalCount.AsmLabel
 public import WaveTurbulence.Foundations.FinalCount.AsmRun3
 /-! **FINALCOUNT-ASSEMBLY, M7 (phase 2): existence of the triangle phase.**  An eligible triangle admits a step `HStep2C`
@@ -67,60 +66,5 @@ theorem card_dart_triSt_lt {s : St.{u} V D₀} (T : TriData s.M) (Q : Fin 2 → 
   refine Fintype.card_subtype_lt (x := T.a 0) ?_
   intro hP
   exact hP 0 (T.m3_atom_tri _ 0 (Or.inl rfl))
-
-theorem card_dart_step2C {C : CollData M₀} {h h' : HSt V D₀} (hs : HStep2C C L γ η w κ h h') :
-    Fintype.card h'.s.D < Fintype.card h.s.D := by
-  cases hs with
-  | mk T hel hs hT =>
-    obtain ⟨Q, kp, hcl, rfl⟩ := hT
-    exact card_dart_triSt_lt T Q kp hcl
-
-/-- **Step-2 existence**: an eligible triangle admits a step. -/
-theorem exists_step2C {C : CollData M₀} (hL : 0 < L) (h2 : 2 / L ≤ L ^ (-γ + η)) {h : HSt V D₀}
-    (hI : InvE M₀ R 0 L γ η w κ h) (T : TriData h.s.M) (hel : Eligible C L γ η w κ h T) :
-    ∃ h', HStep2C C L γ η w κ h h' := by
-  have hFl := hI.flat rfl
-  have hInv := (hI.good0 rfl).1
-  have hcl : PClosed T.kept (triKeep h.s T) := tri_keep_closed hInv T
-  have h3 : ∀ j, h.s.cls (T.t j) = .eps → 3 ≤ h.s.M.deg (T.t j) :=
-    fun j hj => deg_eps_ge_three hFl (T.t_mem j) hj
-  have hlab : ∀ j : Fin 2, ∃ R', IsLabel L γ η R' ∧
-      GapSim L w (κ ∘ h.s.down) (T.a j.castSucc) (T.b j.castSucc) R' :=
-    fun j => exists_label_of_SG w (κ ∘ h.s.down) _ _ hL h2 (hel.1 j)
-  choose Q hQ hsim using hlab
-  let kp0 : ℕ := if IotaHit L η w κ h.alive (h.s.pr (T.a 0) (T.b 0)) (Q 0) then 50 else 0
-  let kp1 : ℕ := if IotaHit L η w κ (h.triVis1 T) (h.s.pr (T.a 1) (T.b 1)) (Q 1)
-    then 50 else 0
-  let kp : Fin 2 → ℕ := ![kp0, kp1]
-  have hkp : ∀ j : Fin 2, kp j = 0 ∨ kp j = 50 := by
-    intro j; fin_cases j
-    · show kp0 = 0 ∨ kp0 = 50
-      by_cases hh : IotaHit L η w κ h.alive (h.s.pr (T.a 0) (T.b 0)) (Q 0) <;> simp [kp0, hh]
-    · show kp1 = 0 ∨ kp1 = 50
-      by_cases hh : IotaHit L η w κ (h.triVis1 T) (h.s.pr (T.a 1) (T.b 1)) (Q 1) <;>
-        simp [kp1, hh]
-  have hι₀ : kp 0 = 50 ↔ IotaHit L η w κ h.alive (h.s.pr (T.a 0) (T.b 0)) (Q 0) := by
-    show kp0 = 50 ↔ _
-    by_cases hh : IotaHit L η w κ h.alive (h.s.pr (T.a 0) (T.b 0)) (Q 0) <;> simp [kp0, hh]
-  have hι₁ : kp 1 = 50 ↔
-      IotaHit L η w κ (h.triVis1 T) (h.s.pr (T.a 1) (T.b 1)) (Q 1) := by
-    show kp1 = 50 ↔ _
-    by_cases hh : IotaHit L η w κ (h.triVis1 T) (h.s.pr (T.a 1) (T.b 1)) (Q 1) <;>
-      simp [kp1, hh]
-  have hs := HStep2.tri h T Q kp hQ hkp hel.1 hsim hcl hel.2.1 (fun _ => hι₀) (fun _ => hι₁) h3
-  exact ⟨_, HStep2C.mk T hel hs ⟨Q, kp, hcl, rfl⟩⟩
-
-/-- **Phase 2 exists.** -/
-theorem exists_phase2 {C : CollData M₀} (hL : 0 < L) (h2 : 2 / L ≤ L ^ (-γ + η)) (h₁ : HSt V D₀)
-    (hI : InvE M₀ R 0 L γ η w κ h₁) (hA : AncRel M₀ h₁.s h₁.anc) :
-    ∃ h₂ : HSt V D₀, Relation.ReflTransGen (HStep2C C L γ η w κ) h₁ h₂ ∧ InvE M₀ R 0 L γ η w κ h₂ ∧
-      AncRel M₀ h₂.s h₂.anc ∧ NoEligibleTriangle C L γ η w κ h₂ := by
-  obtain ⟨h₂, hr, hP, hstuck⟩ := exists_stuck_inv (HStep2C C L γ η w κ) (fun h => Fintype.card h.s.D)
-    (fun h => InvE M₀ R 0 L γ η w κ h ∧ AncRel M₀ h.s h.anc) (fun _ _ hs => card_dart_step2C hs)
-    (fun _ _ hs hp => ⟨hp.1.step2 hs.toHStep2, hs.toHStep2.anc hp.2⟩) h₁ ⟨hI, hA⟩
-  refine ⟨h₂, hr, hP.1, hP.2, ?_⟩
-  intro T hel
-  obtain ⟨h', hs'⟩ := exists_step2C hL h2 hP.1 T hel
-  exact hstuck _ hs'
 
 end WaveTurbulence.FinalCountAsm

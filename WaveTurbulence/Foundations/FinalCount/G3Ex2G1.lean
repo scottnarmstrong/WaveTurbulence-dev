@@ -62,9 +62,6 @@ noncomputable def ghostK (h : HSt V D₀) (T : TriData h.s.M) (j : Fin 3) : ℕ 
 theorem ghostQ_eq {h : HSt V D₀} {T : TriData h.s.M} {j : Fin 3} {R : ℝ} {k : ℕ} (hc : h.s.cls (T.t j) = .alpha R k) :
     ghostQ h T j = R := by simp [ghostQ, hc]
 
-theorem ghostK_eq {h : HSt V D₀} {T : TriData h.s.M} {j : Fin 3} {R : ℝ} {k : ℕ} (hc : h.s.cls (T.t j) = .alpha R k) :
-    ghostK h T j = k := by simp [ghostK, hc]
-
 theorem labelProd_eq_ghostCharge (L γ η : ℝ) (h : HSt V D₀) (T : TriData h.s.M) :
     labelProd L γ η (alphaGhostList h T) =
       ghostCharge L γ η (fun j => ∃ R k, h.s.cls (T.t j) = .alpha R k) (ghostQ h T) (ghostK h T) := by

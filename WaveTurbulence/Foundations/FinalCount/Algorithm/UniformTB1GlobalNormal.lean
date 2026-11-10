@@ -2,12 +2,13 @@
 module
 
 public import WaveTurbulence.Foundations.FinalCount.Algorithm.UniformThreeBondCount
-public import WaveTurbulence.Foundations.FinalCount.AppBTripleCount
+public import WaveTurbulence.Foundations.FinalCount.AppBNormalDegreeEffects
+public import WaveTurbulence.Foundations.FinalCount.AppBSmallCutEffects
+public import WaveTurbulence.Foundations.FinalCount.AppBTwoComponents
 public import WaveTurbulence.Foundations.FinalCount.Algorithm.TBGlobalCircuitRank
 public import WaveTurbulence.Foundations.FinalCount.AppBNormalNormalization
 public import WaveTurbulence.Foundations.FinalCount.AppBTB1Links
 public import WaveTurbulence.Foundations.FinalCount.AppBTripleBondEffects
-public import WaveTurbulence.Foundations.FinalCount.AppBNormalEffects
 import Mathlib.Tactic
 
 /-! # DH23 TB-1N: actual normal deviation with exact ladder preservation -/

@@ -77,13 +77,6 @@ theorem Reach3.toAny {κ} {h : HSt V D₀} (hr : Reach3 C Un Fst L γ η w κ h)
   exact ((Reach1.toAny a).trans (rtg_mono' (p := HAny L γ η w κ) (fun x y hs => Or.inr (Or.inl hs.toHStep2)) c)).trans
     (rtg_mono' (p := HAny L γ η w κ) (fun x y hs => Or.inr (Or.inr (Or.inl hs.toHStep3))) e)
 
-theorem Reach4.toAny {κ} {h : HSt V D₀} (hr : Reach4 C Un Fst L γ η w κ h) :
-    Relation.ReflTransGen (HAny L γ η w κ) (HSt.init M₀) h := by
-  obtain ⟨h₁, h₂, h₃, a, -, c, -, e, -, g⟩ := hr
-  exact (((Reach1.toAny a).trans (rtg_mono' (p := HAny L γ η w κ) (fun x y hs => Or.inr (Or.inl hs.toHStep2)) c)).trans
-    (rtg_mono' (p := HAny L γ η w κ) (fun x y hs => Or.inr (Or.inr (Or.inl hs.toHStep3))) e)).trans
-    (rtg_mono' (p := HAny L γ η w κ) (fun x y hs => Or.inr (Or.inr (Or.inr hs))) g)
-
 /-- The run `HRunNC` from `Reach4` at a state where Step 4 stops. -/
 theorem Reach4.toRunNC {κ} {h : HSt V D₀} (hr : Reach4 C Un Fst L γ η w κ h) (hn : NoBetaCut L w κ h.s) :
     HRunNC L γ η w κ M₀ h C (Un κ) := by

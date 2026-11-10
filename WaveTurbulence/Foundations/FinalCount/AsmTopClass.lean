@@ -3,7 +3,6 @@ module
 public import WaveTurbulence.Foundations.FinalCount.AsmTopInit
 public import WaveTurbulence.Foundations.FinalCount.AsmTerm16c
 public import WaveTurbulence.Foundations.FinalCount.AsmMaxGap2
-public import WaveTurbulence.Foundations.FinalCount.AsmEx1
 public import WaveTurbulenceVineParam.VineParamMain
 /-! **FINALCOUNT-ASSEMBLY (top level): the class theorem `reg_class_bound`.**  For a molecule `M₀` with the standing hypotheses (`SubHyp`, class
 hypotheses of `hterm_main`, `hmem`, `hend`), at base `0`: `𝔄(M₀; A0) ≤ L^{-4η⁶(ρ+crit)} L^{(R-1)(d-γ-1/4-1/40-1/20) - (η⁵-4η⁶)/4}`.

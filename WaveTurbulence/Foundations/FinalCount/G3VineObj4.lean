@@ -1,6 +1,6 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
-public import WaveTurbulence.Foundations.FinalCount.G3VineObj3
+public import WaveTurbulence.Foundations.FinalCount.G3VineObj2
 /-! **FINALCOUNT-G3: `final_vine_object'`**: the packaged `Object M_sub` of `final_vine_object` with the two dart-set facts
 (its darts, in the sense of `Object.ContainsDart`, are exactly the `down`-images of the darts of the component). -/
 @[expose] public section

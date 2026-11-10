@@ -1,8 +1,9 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 
-public import WaveTurbulence.Foundations.FinalCount.Degen.CountEDeletion
-public import WaveTurbulence.Foundations.FinalCount.Degen.CountEFixedLabel
+public import WaveTurbulence.Foundations.FinalCount.Degen.CommonParameters
+public import WaveTurbulence.Foundations.FinalCount.MoleculeRestrictedCount
+public import WaveTurbulence.Foundations.FinalCount.Degen.LatticeLabels
 import Mathlib.Tactic
 
 /-! # Exact scalar normalization of the source countE inequalities
@@ -17,43 +18,6 @@ open Finset
 open scoped ENNReal
 namespace WaveTurbulence.Degen
 variable {V D : Type*} [DecidableEq V] [Fintype D] [DecidableEq D]
-
-/-- The literal maximal-ladder product in TARGET defcounta2. -/
-noncomputable def ladderProduct (M : Molecule V D) (L γ δ : ℝ) (P : Finset V → ℝ) : ℝ :=
-  ∏ S ∈ M.maximalLadders, Molecule.ladderWeight L γ δ (P S) ^ Molecule.ladderLength S
-
-/-- The literal scalar multiplying countE in the exact B2 countA definition. -/
-noncomputable def normalizationFactor (M : Molecule V D) {d : ℕ} (L γ δ C1 : ℝ)
-    (P : Finset V → ℝ) : ℝ :=
-  L ^ (-((d : ℝ) - γ) * M.circuitRank) * (C1⁻¹ * δ ^ (1 / 2 : ℝ)) ^ M.circuitRank *
-    ladderProduct M L γ δ P
-
-theorem ladderProduct_pos (M : Molecule V D) {L γ δ : ℝ} (hL : 0 ≤ L) (hδ : 0 ≤ δ)
-    (hlog : 0 < Real.log L ^ 2) (P : Finset V → ℝ) (hP : ∀ S ∈ M.maximalLadders, 0 ≤ P S) :
-    0 < ladderProduct M L γ δ P := by
-  unfold ladderProduct
-  apply prod_pos
-  intro S hS
-  apply pow_pos
-  unfold Molecule.ladderWeight
-  apply lt_min hlog
-  have hterm : 0 ≤ δ * L ^ (2 * γ) * P S :=
-    mul_nonneg (mul_nonneg hδ (Real.rpow_nonneg hL _)) (hP S hS)
-  linarith only [hterm]
-
-theorem normalizationFactor_pos (M : Molecule V D) {d : ℕ} {L γ δ C1 : ℝ}
-    (hL : 0 < L) (hδ : 0 < δ) (hC : 0 < C1) (hlog : 0 < Real.log L ^ 2)
-    (P : Finset V → ℝ) (hP : ∀ S ∈ M.maximalLadders, 0 ≤ P S) :
-    0 < normalizationFactor M (d := d) L γ δ C1 P := by
-  unfold normalizationFactor
-  exact mul_pos (mul_pos (Real.rpow_pos_of_pos hL _)
-    (zpow_pos (by positivity : 0 < C1⁻¹ * δ ^ (1 / 2 : ℝ)) _)) (ladderProduct_pos M hL.le hδ.le hlog P hP)
-
-/-- Explicit equality with the source countA; no alternate normalized count. -/
-theorem countA_eq_normalization (M : Molecule V D) {d : ℕ} (L γ δ C1 : ℝ) (w : Mom d)
-    (Adm : (D → (Fin d → ℤ)) → Prop) (P : Finset V → ℝ) :
-    M.countA L γ δ C1 w Adm P =
-      (M.countE L γ δ w Adm : ℝ≥0∞) * ENNReal.ofReal (normalizationFactor M (d := d) L γ δ C1 P) := rfl
 
 /-- Multiplying the count inequality by the exact normalization gives the
 exact normalized ratio, including all actual ladder factors. -/

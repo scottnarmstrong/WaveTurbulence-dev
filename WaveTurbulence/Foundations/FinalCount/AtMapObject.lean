@@ -52,14 +52,6 @@ theorem hlrComap_hlrMap (R : HyperLikeRealization M S a b) : hlrComap (hlrMap (�
 theorem hlrMap_hlrComap (R : HyperLikeRealization (mapAtoms M ι) (S.map ι) (ι a) (ι b)) :
     hlrMap (hlrComap R) = R := rfl
 
-/-- Hyper realizations of `M` on `(S, a, b)` and of `mapAtoms M ι` on `(S.map ι, ι a, ι b)` are in bijection. -/
-def hlrMapEquiv (M : Molecule V D) (ι : V ↪ W) (S : Finset V) (a b : V) :
-    HyperLikeRealization M S a b ≃ HyperLikeRealization (mapAtoms M ι) (S.map ι) (ι a) (ι b) where
-  toFun := hlrMap
-  invFun := hlrComap
-  left_inv := hlrComap_hlrMap
-  right_inv := hlrMap_hlrComap
-
 /-- Every hyper realization on an arbitrary group of `mapAtoms M ι` comes from one of `M`. -/
 theorem exists_hlr_of_mapAtoms {S' : Finset W} {a' b' : W} (R' : HyperLikeRealization (mapAtoms M ι) S' a' b') :
     ∃ (S : Finset V) (a b : V), S' = S.map ι ∧ a' = ι a ∧ b' = ι b ∧
@@ -71,25 +63,6 @@ theorem hlr_isGap_iff (R : HyperLikeRealization M S a b) {d : ℕ} (L : ℝ) (w 
     (r : Mom d) : (hlrMap (ι := ι) R).IsGap L w κ r ↔ R.IsGap L w κ r := by
   unfold HyperLikeRealization.IsGap
   exact mapAtoms_isBlockGap (M.eraseBond R.added) ι L w (fun x => κ x.1) S a r
-
-theorem hlr_isContained_iff {A : Finset V} {x y : V} (P : HyperLikeRealization M A x y)
-    (R : HyperLikeRealization M S a b) :
-    (hlrMap (ι := ι) P).IsContained (hlrMap (ι := ι) R) ↔ P.IsContained R := by
-  unfold HyperLikeRealization.IsContained
-  simp only [Finset.map_subset_map, hlrMap_added, mapAtoms_mate, Finset.map_inj]
-
-theorem mapAtoms_isHV (S : Finset V) (a b : V) :
-    IsHV (mapAtoms M ι) (S.map ι) (ι a) (ι b) ↔ IsHV M S a b := by
-  unfold IsHV
-  refine exists_congr fun e => and_congr (mapAtoms_ends_iff M ι e a b) ?_
-  exact mapAtoms_isSomeVine (M.eraseBond e) ι S a b
-
-theorem mapAtoms_isHVC (S : Finset V) (a b : V) :
-    IsHVC (mapAtoms M ι) (S.map ι) (ι a) (ι b) ↔ IsHVC M S a b := by
-  unfold IsHVC
-  refine exists_congr fun e => and_congr (mapAtoms_ends_iff M ι e a b) ?_
-  exact and_congr (mapAtoms_isBlock (M.eraseBond e) ι S a b)
-    (exists_congr fun n => and_congr Iff.rfl (mapAtoms_chain (M.eraseBond e) ι S a b n))
 
 end Hyper
 
@@ -117,31 +90,11 @@ theorem vlMap_injective : Function.Injective (vlMap (M := M) (ι := ι) (S := S)
       simp only [vlMap, VineLikeObject.hyper.injEq] at h
       rw [← hlrComap_hlrMap (ι := ι) R1, ← hlrComap_hlrMap (ι := ι) R2, h]
 
-theorem vlMap_surjective : Function.Surjective (vlMap (M := M) (ι := ι) (S := S) (a := a) (b := b)) := by
-  intro P'
-  cases P' with
-  | vc h => exact ⟨.vc ((mapAtoms_isVC M ι S a b).mp h), rfl⟩
-  | hyper R => exact ⟨.hyper (hlrComap R), by simp [vlMap, hlrMap_hlrComap]⟩
-
 theorem vl_isGap_iff (C : VineLikeObject M S a b) {d : ℕ} (L : ℝ) (w : Mom d) (κ : D → (Fin d → ℤ))
     (r : Mom d) : (vlMap (ι := ι) C).IsGap L w κ r ↔ C.IsGap L w κ r := by
   cases C with
   | vc h => exact mapAtoms_isBlockGap M ι L w κ S a r
   | hyper R => exact hlr_isGap_iff R L w κ r
-
-theorem vl_isContained_iff {A : Finset V} {x y : V} (P : VineLikeObject M A x y) (C : VineLikeObject M S a b) :
-    (vlMap (ι := ι) P).IsContained (vlMap (ι := ι) C) ↔ P.IsContained C := by
-  cases P with
-  | vc h1 =>
-    cases C with
-    | vc h2 => simp [vlMap, VineLikeObject.IsContained, Finset.map_subset_map]
-    | hyper R => simp [vlMap, VineLikeObject.IsContained, Finset.map_subset_map]
-  | hyper R1 =>
-    cases C with
-    | vc h2 => simp [vlMap, VineLikeObject.IsContained, Finset.map_subset_map]
-    | hyper R2 =>
-      simp only [vlMap, VineLikeObject.IsContained]
-      exact hlr_isContained_iff R1 R2
 
 end VL
 
@@ -183,20 +136,11 @@ theorem objMap_surjective : Function.Surjective (objMap (M := M) (ι := ι)) := 
       change (⟨_, _, _, VineLikeObject.hyper (hlrMap R)⟩ : Object (mapAtoms M ι)) = _
       rw [eq_of_heq hR]⟩
 
-/-- Objects of `M` and of `mapAtoms M ι` are in bijection. -/
-noncomputable def objMapEquiv (M : Molecule V D) (ι : V ↪ W) : Object M ≃ Object (mapAtoms M ι) :=
-  Equiv.ofBijective objMap ⟨objMap_injective, objMap_surjective⟩
-
 theorem objMap_hasGapKind_iff (O : Object M) {d : ℕ} (L γ η : ℝ) (w : Mom d) (κ : D → (Fin d → ℤ))
     (kind : Molecule.GapKind) :
     (objMap (ι := ι) O).HasGapKind L γ η w κ kind ↔ O.HasGapKind L γ η w κ kind := by
   unfold Object.HasGapKind
   exact exists_congr fun r => and_congr_left fun _ => vl_isGap_iff O.shape L w κ r
-
-theorem objMap_isContained_iff (P Q : Object M) :
-    (objMap (ι := ι) P).IsContained (objMap (ι := ι) Q) ↔ P.IsContained Q := by
-  unfold Object.IsContained
-  exact vl_isContained_iff P.shape Q.shape
 
 theorem objMap_containsDart_iff (O : Object M) (x : D) :
     (objMap (ι := ι) O).ContainsDart x ↔ O.ContainsDart x := by
@@ -208,12 +152,6 @@ theorem objMap_containsDart_iff (O : Object M) (x : D) :
 theorem objMap_isInterior_iff (O : Object M) (v : V) :
     (objMap (ι := ι) O).IsInterior (ι v) ↔ O.IsInterior v := by
   simp [Object.IsInterior, Finset.mem_map' ι, ι.injective.ne_iff]
-
-/-- Every atom of an object of `mapAtoms M ι` lies in the image of `ι`. -/
-theorem object_atoms_range (O' : Object (mapAtoms M ι)) {v : W} (hv : v ∈ O'.atoms) : ∃ a, ι a = v := by
-  obtain ⟨O, rfl⟩ := objMap_surjective (M := M) (ι := ι) O'
-  obtain ⟨a, -, rfl⟩ := Finset.mem_map.mp hv
-  exact ⟨a, rfl⟩
 
 end Obj
 

@@ -22,8 +22,6 @@ def inlEmb (V : Type*) : V ↪ V ⊕ ℕ := ⟨Sum.inl, Sum.inl_injective⟩
 
 @[simp] theorem inlEmb_apply {V : Type*} (a : V) : inlEmb V a = Sum.inl a := rfl
 
-theorem infinite_inl (V : Type*) : Infinite (V ⊕ ℕ) := inferInstance
-
 variable {V D : Type*} [DecidableEq V] [Fintype D] [DecidableEq D] {d : ℕ}
 
 /-- The molecule on the infinite atom type `V ⊕ ℕ`. -/
@@ -44,9 +42,6 @@ theorem countA_inl_scale (M : Molecule V D) (L γ δ C₁ : ℝ) (w : Mom d)
   simp only [scaleMap_map]
 
 theorem rho_inl (M : Molecule V D) : (inlMol M).rho = M.rho := mapAtoms_rho M (inlEmb V)
-
-theorem circuitRank_inl (M : Molecule V D) : (inlMol M).circuitRank = M.circuitRank :=
-  mapAtoms_circuitRank M (inlEmb V)
 
 theorem isMolecule_inl {M : Molecule V D} (h : M.IsMolecule) : (inlMol M).IsMolecule :=
   mapAtoms_isMolecule M (inlEmb V) h

@@ -45,17 +45,6 @@ theorem appbNu_eq_rank (M : Molecule V D) :
   unfold appbNu Molecule.circuitRank
   ring
 
-/-- Exact post-minus-pre identities, for actual pre and post molecules.
-No operation effect is stored in a rewrite record. -/
-theorem appb_nu_difference {D' : Type*} [Fintype D'] [DecidableEq D']
-    (M : Molecule V D) (N : Molecule V D') :
-    appbNu N - appbNu M =
-      4 * ((N.atoms.card : ℤ) - M.atoms.card) -
-      2 * ((N.bonds.card : ℤ) - M.bonds.card) -
-      4 * ((N.numComponents : ℤ) - M.numComponents) := by
-  unfold appbNu
-  ring
-
 /-- Survivor degree plus the removed incidences is exactly the old degree. -/
 theorem appb_eraseAtoms_degree (M : Molecule V D) (Y : Finset V) {v : V} (hv : v ∉ Y) :
     (Degen.eraseAtoms M Y).deg v + (Degen.removedDartsAt M Y v).card = M.deg v := by
@@ -66,21 +55,5 @@ theorem appb_eraseAtoms_degree (M : Molecule V D) (Y : Finset V) {v : V} (hv : v
 theorem appb_eraseAtoms_card (M : Molecule V D) (Y : Finset V) (hY : Y ⊆ M.atoms) :
     (Degen.eraseAtoms M Y).atoms.card + Y.card = M.atoms.card := by
   exact card_sdiff_add_card_eq_card hY
-
-/-- Exact degree-three statistic after an arbitrary atom deletion. -/
-theorem appb_eraseAtoms_degreeAtoms (M : Molecule V D) (Y : Finset V) (j : ℕ) :
-    appbDegreeAtoms (Degen.eraseAtoms M Y) j =
-      (M.atoms \ Y).filter (fun v => M.deg v = j + (Degen.removedDartsAt M Y v).card) := by
-  ext v
-  simp only [appbDegreeAtoms, mem_filter]
-  change (v ∈ M.atoms \ Y ∧ (Degen.eraseAtoms M Y).deg v = j) ↔ _
-  simp only [mem_sdiff]
-  constructor
-  · rintro ⟨⟨hv,hY⟩,hj⟩
-    exact ⟨⟨hv,hY⟩, (appb_eraseAtoms_degree M Y hY).symm.trans (by rw [hj])⟩
-  · rintro ⟨⟨hv,hY⟩,hj⟩
-    refine ⟨⟨hv,hY⟩, ?_⟩
-    have hh := appb_eraseAtoms_degree M Y hY
-    omega
 
 end WaveTurbulence.Mole

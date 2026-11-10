@@ -42,18 +42,4 @@ theorem RunInv.init {M₀ : Molecule V D₀} (hS : SubHyp R M₀)
     RunInv R L γ η w κ (HSt.init M₀) :=
   ⟨⟨hS.inv, St.init_clean M₀⟩, HInv.init M₀, HGap.init h0⟩
 
-theorem HRun.runInv {M₀ : Molecule V D₀} {hf : HSt V D₀} (hr : HRun L γ η w κ (HSt.init M₀) hf)
-    (hS : SubHyp R M₀)
-    (h0 : ∀ a ∈ M₀.atoms, M₀.deg a = 4 → ∑ x ∈ M₀.dartsAt a, M₀.dartSign x • Molecule.kvec L w κ x = 0) :
-    RunInv R L γ η w κ hf := by
-  obtain ⟨h₁, h₂, h₃, a1, -, a2, -, a3, -, a4, -⟩ := hr
-  have key : ∀ {S : HSt V D₀ → HSt V D₀ → Prop}, (∀ a b, S a b → RunInv R L γ η w κ a → RunInv R L γ η w κ b) →
-      ∀ {a b : HSt V D₀}, Relation.ReflTransGen S a b → RunInv R L γ η w κ a → RunInv R L γ η w κ b := by
-    intro S hS a b hab ha
-    induction hab with
-    | refl => exact ha
-    | tail _ hs ih => exact hS _ _ hs ih
-  exact key (fun _ _ hs hr => hr.step4 hs) a4 (key (fun _ _ hs hr => hr.step3 hs) a3
-    (key (fun _ _ hs hr => hr.step2 hs) a2 (key (fun _ _ hs hr => hr.step1 hs) a1 (RunInv.init hS h0))))
-
 end WaveTurbulence.FinalCountG3

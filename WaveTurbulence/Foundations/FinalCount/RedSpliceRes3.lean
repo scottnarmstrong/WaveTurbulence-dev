@@ -173,22 +173,6 @@ theorem classInt_L {d : D} (hp : N.InGroup L0 d) :
 theorem classInt_R {d : D} (hp : N.InGroup R0 d) :
     ∃ r, cls (N.atom d) = some r ∧ cls (N.atom (N.mate d)) = some r := H.hRc _ hp.1 _ hp.2
 
-theorem xb (hL : L0 ≠ ∅) : x ≠ b := by
-  intro hxb
-  rcases H.hR with ⟨_, hyb⟩ | ⟨_, hRB, _⟩
-  · exact H.hxy (hxb.trans hyb.symm)
-  · have hbR : b ∈ R0 := hRB.2.2.1
-    have hxL := H.xL hL
-    exact Finset.disjoint_left.mp H.hd hxL (hxb ▸ hbR)
-
-theorem ya (hR : R0 ≠ ∅) : y ≠ a := by
-  intro hya
-  rcases H.hL with ⟨_, hxa⟩ | ⟨_, hLB, _⟩
-  · exact H.hxy (hxa.trans hya.symm)
-  · have haL : a ∈ L0 := hLB.2.1
-    have hyR := H.yR hR
-    exact Finset.disjoint_left.mp H.hd (hya ▸ haL) hyR
-
 /-- A non-class-internal `S`-internal dart at an atom of the vine is internal to the vine. -/
 theorem Aint {d : D} (hS : N.InGroup S d) (hnc : ¬ ∃ r, cls (N.atom d) = some r ∧ cls (N.atom (N.mate d)) = some r)
     (hp : N.atom d ∈ A) : N.InGroup A d := by
@@ -328,14 +312,6 @@ theorem x_notR : x ∉ R0 := by
   · have : x ∈ R0 ∩ A := mem_inter.mpr ⟨hxR, H.hxA⟩
     rw [hi, mem_singleton] at this
     exact H.hxy this
-
-theorem y_notL : y ∉ L0 := by
-  intro hyL
-  rcases H.hL with ⟨h0, _⟩ | ⟨_, _, hi⟩
-  · rw [h0] at hyL; simp at hyL
-  · have : y ∈ L0 ∩ A := mem_inter.mpr ⟨hyL, H.hyA⟩
-    rw [hi, mem_singleton] at this
-    exact H.hxy this.symm
 
 /-- The class of the joint `x`. -/
 theorem classx {p : V} (hp : (cls p).getD p = (cls x).getD x) :

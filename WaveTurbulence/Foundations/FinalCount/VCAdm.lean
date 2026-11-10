@@ -31,13 +31,6 @@ def LadderScaleLow (M : Molecule V D) (L : ℝ) (w : Mom d) (P : Finset V → �
     ∀ S ∈ M.maximalLadders, Molecule.ladderAtoms u v ⊆ S →
       (P S = 0 ∧ r = 0) ∨ (L⁻¹ ≤ P S ∧ P S ≤ 1 ∧ 2⁻¹ * P S ≤ ‖r‖)
 
-theorem ladderScaleLow_of_adm {M : Molecule V D} {L : ℝ} {w : Mom d} {P : Finset V → ℝ} {κ : D → (Fin d → ℤ)}
-    (h : LadderScaleAdm M L w P κ) : LadderScaleLow M L w P κ := by
-  intro m u v hl r hr S hS hsub
-  rcases h m u v hl r hr S hS hsub with h0 | ⟨a, b, c, -⟩
-  · exact Or.inl h0
-  · exact Or.inr ⟨a, b, c⟩
-
 section Gen
 variable {M : Molecule V D} (K : VineCut M)
 
@@ -121,14 +114,6 @@ theorem vcLadderScale_of_low (hM : ∀ a ∈ M.atoms, M.deg a ≤ 4) (L : ℝ) (
   have hgap := vc_gap_gen K hlad L w κ hr
   have := h m u v hMl.1 r hgap S0 hS0 (hat ▸ hsub)
   rw [hP]; exact this
-
-/-- **`VCLadderScale` from the molecule-level restriction of `Adm`** (the original two-sided form; kept as the internal
-route of session 2). -/
-theorem vcLadderScale_of_adm (hM : ∀ a ∈ M.atoms, M.deg a ≤ 4) (L : ℝ) (w : Mom d) (P : Finset V → ℝ)
-    (hP1 : ∀ S' ∈ K.m1.maximalLadders, ∀ S ∈ M.maximalLadders, S' ⊆ S → P S' = P S)
-    (hP2 : ∀ S' ∈ K.cutMol.maximalLadders, ∀ S ∈ K.m1.maximalLadders, S' ⊆ S → P S' = P S)
-    {κ : D → (Fin d → ℤ)} (h : LadderScaleAdm M L w P κ) : VCLadderScale K L w P κ :=
-  vcLadderScale_of_low K hM L w P hP1 hP2 (ladderScaleLow_of_adm h)
 
 end Gen
 

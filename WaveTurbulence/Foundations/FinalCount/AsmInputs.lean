@@ -18,9 +18,6 @@ open WaveTurbulence WaveTurbulence.FinalCount WaveTurbulence.FinalCountG3
 universe u
 variable {V : Type*} [DecidableEq V] {D₀ : Type u} [Fintype D₀] [DecidableEq D₀] {d : ℕ} {M₀ : Molecule V D₀}
 
-/-- The ghosts of a triangle: atoms `t j` that are already cut. -/
-noncomputable def numGhosts {s : St.{u} V D₀} (T : TriData s.M) : ℕ := (univ.filter (fun j : Fin 3 => s.cls (T.t j) ≠ .eps)).card
-
 /-- Number of `β` atoms and the `α`-product of a state (the potential's ingredients). -/
 noncomputable def vBeta (s : St.{u} V D₀) : ℕ := (s.M.atoms.filter (fun a => s.cls a = .beta)).card
 

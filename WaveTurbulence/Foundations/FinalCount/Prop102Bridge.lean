@@ -98,24 +98,6 @@ noncomputable def cellScale (M : Molecule V D) (P : Finset V → ℝ) : Finset V
 def probAdm (M : Molecule V D) {d : ℕ} (L γ η : ℝ) (P : Finset V → ℝ) (κ : D → (Fin d → ℤ)) : Prop :=
   lgAdm M L γ η P κ ∧ ∀ x, κ (M.mate x) = κ x
 
-theorem lgAdm_cellScale (M : Molecule V D) {d : ℕ} (L γ η : ℝ) (P : Finset V → ℝ)
-    (κ : D → (Fin d → ℤ)) : lgAdm M L γ η (cellScale M P) κ ↔ lgAdm M L γ η P κ := by
-  classical
-  have key : ∀ (u v : Fin 2 → V), Degen.SourceLadder M u v →
-      cellScale M P (Molecule.ladderAtoms u v) = P (Molecule.ladderAtoms u v) := by
-    intro u v h
-    have : Molecule.ladderAtoms u v ∈ MoleProp.ladderCells M := by
-      unfold MoleProp.ladderCells
-      rw [Finset.mem_filter, Finset.mem_powerset]
-      exact ⟨MoleProp.isLadderCell_subset_atoms M ⟨u, v, h, rfl⟩, ⟨u, v, h, rfl⟩⟩
-    simp [cellScale, this]
-  unfold lgAdm MoleProp.CellGapRestriction
-  constructor
-  · rintro ⟨h1, h2⟩
-    exact ⟨h1, fun u v h r hr => by have := h2 u v h r hr; rwa [key u v h] at this⟩
-  · rintro ⟨h1, h2⟩
-    exact ⟨h1, fun u v h r hr => by have := h2 u v h r hr; rwa [← key u v h] at this⟩
-
 theorem cellProduct_cellScale (M : Molecule V D) (L γ δ : ℝ) (P : Finset V → ℝ) :
     MoleProp.cellProduct M L γ δ (cellScale M P) = MoleProp.cellProduct M L γ δ P := by
   classical
@@ -215,17 +197,6 @@ noncomputable def mkProblem (M : Molecule V D) (hM : M.IsMolecule) {d : ℕ} {L 
   validLinkScales := pf_valid M hL P κ0 h0
   mateLabels := fun _ h => h.2
   largeGap := pf_largeGap M P
-
-theorem mkProblem_graph (M : Molecule V D) (hM : M.IsMolecule) {d : ℕ} {L γ η : ℝ} (hL : 1 ≤ L)
-    (P : Finset V → ℝ) (hP : ∀ S ∈ MoleProp.ladderCells M, 0 ≤ P S) (κ0 : D → (Fin d → ℤ))
-    (h0 : probAdm M L γ η P κ0) :
-    (mkProblem M hM hL P hP κ0 h0).state.graph = M := rfl
-
-theorem mkProblem_value (M : Molecule V D) (hM : M.IsMolecule) {d : ℕ} {L γ η : ℝ} (hL : 1 ≤ L)
-    (P : Finset V → ℝ) (hP : ∀ S ∈ MoleProp.ladderCells M, 0 ≤ P S) (κ0 : D → (Fin d → ℤ))
-    (h0 : probAdm M L γ η P κ0) (δ C1 : ℝ) (γ' : ℝ) :
-    (mkProblem M hM hL P hP κ0 h0).value γ' δ C1 =
-      WaveTurbulence.Mole.appbLinkCountA M L γ' δ C1 (0 : Mom d) (probAdm M L γ η P) (cellScale M P) := rfl
 
 
 /-- Common step: transfer a bound on every `Problem` to `AFree`, with count zero when no decoration. -/

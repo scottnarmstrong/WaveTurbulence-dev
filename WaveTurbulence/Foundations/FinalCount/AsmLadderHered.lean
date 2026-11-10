@@ -1,6 +1,6 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
-public import WaveTurbulence.Foundations.FinalCount.AsmGarden1
+public import WaveTurbulence.Foundations.FinalCount.AsmTopClass3
 public import WaveTurbulence.Foundations.FinalCount.VCSubLadder
 public import WaveTurbulence.Foundations.FinalCount.VCScale
 /-! **FINALCOUNT-ASSEMBLY (R49 Q1): `LadderHered` from admissibility.**  Two maximal ladders of `M` that contain a common ladder set
@@ -35,10 +35,6 @@ theorem ladClass_finite (M : Molecule V D) (S : Finset V) : (ladClass M S).Finit
 
 theorem exists_maximalLadder' {M : Molecule V D} {S : Finset V} (hS : M.IsLadderSet S) :
     ∃ S₁ ∈ M.maximalLadders, S ⊆ S₁ := exists_maximalLadder hS
-
-theorem ladClass_nonempty {M : Molecule V D} {S : Finset V} (hS : M.IsLadderSet S) : (ladClass M S).Nonempty := by
-  obtain ⟨S₁, h1, h2⟩ := exists_maximalLadder' hS
-  exact ⟨S₁, h1, S₁, h1, h2, Relation.EqvGen.refl _⟩
 
 theorem ladClass_eq {M : Molecule V D} {S' S : Finset V} (hS' : M.IsLadderSet S') (hS : M.IsLadderSet S) (hsub : S' ⊆ S) :
     ladClass M S' = ladClass M S := by

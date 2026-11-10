@@ -212,35 +212,6 @@ theorem QB_reach4 (hS : SubHypL Rn M₀)
   have q4 := rtgH (P := fun x => QB M₀ C Rn L γ η w κ B x) (fun _ _ hs hq => hq.step3 H hs) g q3
   exact rtgH (P := fun x => QB M₀ C Rn L γ η w κ B x) (fun _ _ hs hq => hq.step4 H hs) j q4
 
-theorem QB_reach1 (hS : SubHypL Rn M₀)
-    (h0 : ∀ a ∈ M₀.atoms, M₀.deg a = 4 → ∑ x ∈ M₀.dartsAt a, M₀.dartSign x • Molecule.kvec L w κ x = 0)
-    (H : BHyp M₀ B C Un L γ η w κ) {h : HSt V D₀} (hr : Reach1L C Un Fst L γ η w κ h) :
-    QB M₀ C Rn L γ η w κ B h :=
-  rtgH (P := fun x => QB M₀ C Rn L γ η w κ B x) (fun _ _ hs hq => hq.step1RL H hs) hr (QB.init hS h0 H.sub)
-
-theorem QB_reachD3 (hS : SubHypL Rn M₀)
-    (h0 : ∀ a ∈ M₀.atoms, M₀.deg a = 4 → ∑ x ∈ M₀.dartsAt a, M₀.dartSign x • Molecule.kvec L w κ x = 0)
-    (H : BHyp M₀ B C Un L γ η w κ) {h : HSt V D₀} (hr : ReachD3 C Un Fst L γ η w κ h) :
-    QB M₀ C Rn L γ η w κ B h := by
-  obtain ⟨h₁, a, -, c⟩ := hr
-  exact rtgH (P := fun x => QB M₀ C Rn L γ η w κ B x) (fun _ _ hs hq => hq.stepD3 H hs) c (QB_reach1 hS h0 H a)
-
-theorem QB_reach2 (hS : SubHypL Rn M₀)
-    (h0 : ∀ a ∈ M₀.atoms, M₀.deg a = 4 → ∑ x ∈ M₀.dartsAt a, M₀.dartSign x • Molecule.kvec L w κ x = 0)
-    (H : BHyp M₀ B C Un L γ η w κ) {h : HSt V D₀} (hr : Reach2L C Un Fst L γ η w κ h) :
-    QB M₀ C Rn L γ η w κ B h := by
-  obtain ⟨h₁, h₂, a, s, c, -, e⟩ := hr
-  exact rtgH (P := fun x => QB M₀ C Rn L γ η w κ B x) (fun _ _ hs hq => hq.step2 H hs) e
-    (QB_reachD3 hS h0 H (⟨h₁, a, s, c⟩ : ReachD3 C Un Fst L γ η w κ h₂))
-
-theorem QB_reach3 (hS : SubHypL Rn M₀)
-    (h0 : ∀ a ∈ M₀.atoms, M₀.deg a = 4 → ∑ x ∈ M₀.dartsAt a, M₀.dartSign x • Molecule.kvec L w κ x = 0)
-    (H : BHyp M₀ B C Un L γ η w κ) {h : HSt V D₀} (hr : Reach3L C Un Fst L γ η w κ h) :
-    QB M₀ C Rn L γ η w κ B h := by
-  obtain ⟨h₁, h₂, h₃, a, s, c, n, e, f, g⟩ := hr
-  exact rtgH (P := fun x => QB M₀ C Rn L γ η w κ B x) (fun _ _ hs hq => hq.step3 H hs) g
-    (QB_reach2 hS h0 H (⟨h₁, h₂, a, s, c, n, e⟩ : Reach2L C Un Fst L γ η w κ h₃))
-
 end qb
 
 end WaveTurbulence.FinalCountAsm

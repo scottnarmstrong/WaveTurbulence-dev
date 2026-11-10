@@ -47,34 +47,4 @@ gives a full atom-and-half-edge isomorphism to the original molecule. -/
     mate_comm := fun _ => rfl
     out_comm := fun _ => rfl }
 
-/-- If the endpoints were disconnected, the new bond is actually a bridge. -/
-theorem appb_addBond_isBridge (M : Molecule V D) (a b : V)
-    (hnot : ¬ M.SameComponent a b) : Degen.IsBridge (addBond M a b) (.inr true) := by
-  have hlift : ∀ u v, Relation.EqvGen (Degen.AdjWithoutBond (addBond M a b) (.inr true)) u v →
-      M.SameComponent u v := by
-    intro u v hp
-    induction hp with
-    | rel u v h =>
-      obtain ⟨x,hx,hy,hout,hin⟩ := h
-      cases x with
-      | inl x => exact Relation.EqvGen.rel _ _ ⟨x,hx,hy⟩
-      | inr t =>
-        cases t
-        · exact (hin rfl).elim
-        · exact (hout rfl).elim
-    | refl u => exact Relation.EqvGen.refl u
-    | symm u v _ ih => exact ih.symm
-    | trans u v w _ _ ih ih' => exact Relation.EqvGen.trans _ _ _ ih ih'
-  intro hp
-  exact hnot (hlift a b hp)
-
-/-- Exact merging of two different components by a new bond. -/
-theorem appb_addBond_components_of_not_connected (M : Molecule V D) (a b : V)
-    (ha : a ∈ M.atoms) (hb : b ∈ M.atoms) (hnot : ¬ M.SameComponent a b) :
-    (addBond M a b).numComponents + 1 = M.numComponents := by
-  have hbri := appb_addBond_isBridge M a b hnot
-  have hf := appb_bridge_numComponents (addBond M a b) (.inr true) hbri
-  have he := (appbEraseAddedBondIso M a b ha hb).appb_numComponents_eq
-  omega
-
 end WaveTurbulence.Mole

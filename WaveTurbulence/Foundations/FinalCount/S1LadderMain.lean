@@ -199,14 +199,6 @@ theorem railGap_norm_eq (hM : M.IsMolecule) {m : ℕ} {u v : Fin (m + 1) → V} 
       have : j = ⟨j'.val + n, by omega⟩ := Fin.ext hn
       rw [← this]; exact hr)).symm
 
-/-- All rails of a ladder have the same kind (SG, LG or ZG). -/
-theorem railGap_kind_eq (hM : M.IsMolecule) {m : ℕ} {u v : Fin (m + 1) → V} (h : M.IsLadder u v)
-    {L γ η : ℝ} {w : Mom d} {c : V → Mom d} {κ : D → (Fin d → ℤ)} (hκ : M.IsDecoration L w c κ)
-    (hc : ∀ x ∈ M.atoms, M.deg x = 4 → c x = 0) {j j' : Fin m} {r r' : Mom d}
-    (hr : IsRailGap M L w κ u v j r) (hr' : IsRailGap M L w κ u v j' r') :
-    Molecule.gapKind L γ η r = Molecule.gapKind L γ η r' :=
-  Vine.gapKind_eq_of_norm_eq L γ η (railGap_norm_eq hM h hκ hc hr hr')
-
 /-- The pinned first-rail gap `IsLadderGap` of the ladder is the gap of rail `0`. -/
 theorem isLadderGap_iff_railGap {m : ℕ} {u v : Fin (m + 1) → V} (hm : 1 ≤ m) {L : ℝ} {w : Mom d}
     {κ : D → (Fin d → ℤ)} {r : Mom d} :

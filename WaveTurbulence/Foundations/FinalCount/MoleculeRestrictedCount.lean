@@ -72,18 +72,4 @@ theorem finite_restricted {d : ℕ} {L : ℝ} (hL : 0 < L) (gamma delta : ℝ)
   apply Set.finite_of_encard_le_coe (k := ⌈2*L+1⌉₊^(d*Fintype.card D))
   simpa only [Nat.cast_pow] using restricted_encard_le M hL gamma delta w beta k0
 
-/-- The bound is uniform over every parameter in the exact draft supremum E. -/
-theorem countE_le {d : ℕ} {L : ℝ} (hL : 0 < L) (gamma delta : ℝ) (w : Mom d)
-    (Adm : (D → (Fin d → ℤ)) → Prop) :
-    M.countE L gamma delta w Adm ≤ (⌈2*L+1⌉₊ : ℕ∞)^(d*Fintype.card D) := by
-  unfold Molecule.countE
-  refine iSup_le fun c => iSup_le fun _hc => iSup_le fun beta => iSup_le fun k0 => iSup_le fun _hk0 => ?_
-  exact (Set.encard_mono (fun _kappa h => h.2.1)).trans (restricted_encard_le M hL gamma delta w beta k0)
-
-/-- Positive lattice scale rules out an infinite count, including after
-maximizing over restriction centers and conservation parameters. -/
-theorem countE_ne_top {d : ℕ} {L : ℝ} (hL : 0 < L) (gamma delta : ℝ) (w : Mom d)
-    (Adm : (D → (Fin d → ℤ)) → Prop) : M.countE L gamma delta w Adm ≠ ⊤ := by
-  exact ne_top_of_le_ne_top (by simp) (countE_le M hL gamma delta w Adm)
-
 end WaveTurbulence.Mole

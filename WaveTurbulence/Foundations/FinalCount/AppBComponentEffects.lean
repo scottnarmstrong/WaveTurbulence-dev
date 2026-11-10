@@ -42,14 +42,6 @@ theorem post_numComponents_eq_one_of_small_boundary
 
 end AppbRealization
 
-/-- The nonzero small boundary counts needed by degree-3/4, degree-3/2,
-double degree-3, and elementary removals are kernel-checked figure facts. -/
-theorem appb_small_boundary_patterns :
-    ∀ k ∈ ([AppbPatternKind.d33, .d33same, .d34one, .d34two, .d34three, .d34four,
-      .s32one, .s32two, .s32three, .s32four, .r3, .r21, .r22, .r23] : List _),
-      k.pattern.removed.Nonempty ∧ 0 < k.pattern.boundaryCount ∧ k.pattern.boundaryCount ≤ 3 := by
-  decide
-
 /-- DH23 3D4: the exact circuit-rank change is -3, derived from the figure
 and no-bridge premise, rather than assumed as operation data. -/
 theorem appb_d34_circuit_effect (k : AppbPatternKind)

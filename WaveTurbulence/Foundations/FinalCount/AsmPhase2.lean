@@ -62,11 +62,6 @@ def cls2 (L γ η : ℝ) (w : Mom d) (h : HSt V D₀) (A : Set (D₀ → (Fin d 
       ¬ IotaHit L η w k (if h.s.cls (n.1 0) = .eps then h.s.pr (n.2.1 0) (n.2.2.1 0) :: h.alive else h.alive)
         (h.s.pr (n.2.1 1) (n.2.2.1 1)) ((2 : ℝ) ^ n.2.2.2.1 1))}
 
-theorem node2_T [Infinite V] {L γ η : ℝ} {h : HSt V D₀} {n : T2 h} (hn : Node2 L γ η h n) :
-    ∃ (T : TriData h.s.M) (hcl : PClosed T.kept (triKeep h.s T)), T.t = n.1 ∧ T.a = n.2.1 ∧ T.b = n.2.2.1 ∧ T.f = fresh3 h := by
-  obtain ⟨T, hcl, h1, h2, h3, h4, -⟩ := hn
-  exact ⟨T, hcl, h1, h2, h3, h4⟩
-
 /-- The labels and `kp`'s of a node. -/
 noncomputable def Q2 {h : HSt V D₀} (n : T2 h) : Fin 2 → ℝ := fun j => (2 : ℝ) ^ n.2.2.2.1 j
 def kp2 {h : HSt V D₀} (n : T2 h) : Fin 2 → ℕ := fun j => if n.2.2.2.2.1 j then 50 else 0

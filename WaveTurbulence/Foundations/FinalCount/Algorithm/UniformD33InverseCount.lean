@@ -2,7 +2,7 @@
 module
 
 public import WaveTurbulence.Foundations.FinalCount.Algorithm.UniformTripleCut
-public import WaveTurbulence.Foundations.FinalCount.AppBD33InverseCount
+public import WaveTurbulence.Foundations.FinalCount.AppBD33Reconstruction
 import Mathlib.Tactic
 
 /-! # The inverse-weight double-pair estimate with carrier-uniform constants -/

@@ -58,8 +58,4 @@ vine-like object is contained in one of them. -/
 theorem vinechainlem (hM : M.IsMolecule) : ∃! C : Set (Finset V), IsSourceVinePartition M C :=
   ⟨stage1Collection M, stage1Collection_isPartition hM, fun _ hC => partition_unique hC (stage1Collection_isPartition hM)⟩
 
-/-- The spine's gate `VinePartitionGate` holds. -/
-theorem vinePartitionGate : VinePartitionGate :=
-  fun _ _ _ _ _ _ hM => vinechainlem hM
-
 end WaveTurbulence.Stage1

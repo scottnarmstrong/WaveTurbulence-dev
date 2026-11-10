@@ -30,11 +30,6 @@ theorem St.Sub.delSt (s : St.{u} V D₀) (P : V → Prop) [DecidablePred P] (h :
 
 theorem St.Sub.withCls (s : St.{u} V D₀) (c : V → Cls) : St.Sub (s.withCls c) s := fun _ h => h
 
-theorem HStep1.sub {h h' : HSt V D₀} (hs : HStep1 L γ η w κ h h') : St.Sub h'.s h.s := by
-  cases hs with
-  | vine K R kp hR hkp hu hl ga gb htwin hι₁ hι₂ hsg h3a h3b =>
-    exact (St.Sub.delSt _ _ _).trans (((St.Sub.cutSt _ _ _ _ _ _ _).trans (St.Sub.cutSt _ _ _ _ _ _ _)))
-
 theorem HStep2.sub {h h' : HSt V D₀} (hs : HStep2 L γ η w κ h h') : St.Sub h'.s h.s := by
   cases hs with
   | tri T Q kp hQ hkp hsg hsim hcl hnz hι₀ hι₁ h3 =>

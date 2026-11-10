@@ -109,11 +109,6 @@ theorem numCriticalSG_eq (ι : GBranch G.tree ↪ W) (C : CountingChoices G d) :
   ext a
   simp only [Finset.mem_filter, Finset.mem_univ, true_and, Function.comp_apply, critMap_iff]
 
-/-- Requirement (c) of `Admissible` is `SourceLadderGaps` of the molecule (by definition). -/
-theorem ladderGaps_iff_sourceLadderGaps (C : CountingChoices G d) (L γ η : ℝ) (base : Mom d)
-    (κ : GardenDart G → (Fin d → ℤ)) :
-    C.LadderGaps L γ η base κ ↔ SourceLadderGaps G.molecule L base C.ladderScale κ := Iff.rfl
-
 /-- ... and so holds for the renamed molecule with the ladder scale `scaleMap ι C.ladderScale`. -/
 theorem ladderGaps_mapAtoms (ι : GBranch G.tree ↪ W) (C : CountingChoices G d) (L γ η : ℝ) (base : Mom d)
     (κ : GardenDart G → (Fin d → ℤ)) :

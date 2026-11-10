@@ -2,7 +2,8 @@
 module
 
 public import WaveTurbulence.Foundations.FinalCount.AppBPhysicalTripleStripGood
-public import WaveTurbulence.Foundations.FinalCount.AppBTripleFrameChoices
+public import WaveTurbulence.Foundations.FinalCount.AppBTripleFrameConservation
+public import WaveTurbulence.Foundations.FinalCount.AppBDeletionCounting
 public import WaveTurbulence.Foundations.FinalCount.AppBCutPairLogWindow
 import Mathlib.Tactic
 

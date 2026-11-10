@@ -1,8 +1,7 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
-public import WaveTurbulence.Foundations.FinalCount.GV11
+public import WaveTurbulence.Foundations.FinalCount.GV10
 public import WaveTurbulence.Foundations.FinalCount.G3VineLG7
-public import WaveTurbulence.Foundations.FinalCount.G3Prop95
 public import WaveTurbulence.Foundations.FinalCount.GM08
 /-! **G3-LOWDEG port of `G3VineLG7`** (only the declarations that change: `SubHypL->SubHypL`, `HRunL->HRunL`, `InvL->InvL`, `FinalStructM->FinalStructM`, `Prop95ConclAtL->Prop95ConclAtL`; names get suffix `L`). -/
 @[expose] public section

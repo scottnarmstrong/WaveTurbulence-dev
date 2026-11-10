@@ -44,9 +44,6 @@ theorem epsPin_of_anc {M₀ : Molecule V D₀} {h : HSt V D₀} (hA : AncRel M�
     unfold Molecule.dartSign; rw [hD.out]
   rw [this]; rfl
 
-theorem AtomRelX.noex {ex : V → Prop} {h : HSt V D₀} (hR : AtomRelX ex Adm0 L w h) (hn : ∀ a, ¬ ex a) :
-    AtomRelX (fun _ => False) Adm0 L w h := fun a ha _ => hR a ha (hn a)
-
 /-- A cut at an atom whose charge is pinned keeps the relation (no exemption). -/
 theorem AtomRelX.cut_pin {ex : V → Prop} {h : HSt V D₀} (hR : AtomRelX ex Adm0 L w h) {v v₂ : V}
     {x₁ x₂ : h.s.D} (hcd : h.s.M.IsCutData v v₂ x₁ x₂) (c₁ c₂ : Cls) (nh : List (D₀ × D₀)) (na : V → V)

@@ -1,7 +1,6 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 
-public import WaveTurbulence.Foundations.FinalCount.AppBTripleCount
 public import WaveTurbulence.Foundations.FinalCount.Algorithm.UniformThreeBondChoices
 import Mathlib.Tactic
 

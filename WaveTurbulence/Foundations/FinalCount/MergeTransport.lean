@@ -23,8 +23,6 @@ variable {M : Molecule V D} {v₁ v₂ : V} {hv₁ : v₁ ∈ M.atoms} {hne : v�
 /-- The charges of the merged molecule. -/
 def mcharges {d : ℕ} (v₁ v₂ : V) (c : V → Mom d) : V → Mom d := fun v => if v = v₁ then c v₁ + c v₂ else c v
 
-theorem dartSign_N (z : OffPair M v₁ v₂) : (mergePair M v₁ v₂ hv₁ hne).dartSign z = M.dartSign z.val := rfl
-
 theorem atom_ne_v₂ {v : V} (hv : v ∈ (mergePair M v₁ v₂ hv₁ hne).atoms) : v ≠ v₂ := (mem_erase.mp hv).1
 
 /-- A decoration of `M` restricts to a decoration of the merged molecule. -/

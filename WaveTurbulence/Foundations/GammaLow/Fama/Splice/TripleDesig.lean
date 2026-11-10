@@ -4,7 +4,6 @@ module
 public import WaveTurbulence.Foundations.GammaLow.Fama.Vine.IsoStmt
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Gap
 import Mathlib.Tactic
-public import WaveTurbulence.Foundations.FinalCount.RedSpliceTripleDesig
 
 
 /-!

@@ -44,9 +44,6 @@ def _root_.WaveTurbulence.LGSpine.SourceVine.Object.unloop {M : Molecule V D} (P
 def _root_.WaveTurbulence.LGSpine.SourceVine.Object.lift {M : Molecule V D} (P : Object M.unloop) (h : LoopFreeSet M P.atoms) : Object M :=
   ⟨P.atoms, P.upper, P.lower, P.shape.lift h⟩
 
-theorem _root_.WaveTurbulence.LGSpine.SourceVine.Object.unloop_atoms {M : Molecule V D} (P : Object M) (h : LoopFreeSet M P.atoms) : (P.unloop h).atoms = P.atoms := rfl
-theorem _root_.WaveTurbulence.LGSpine.SourceVine.Object.lift_atoms {M : Molecule V D} (P : Object M.unloop) (h : LoopFreeSet M P.atoms) : (P.lift h).atoms = P.atoms := rfl
-
 theorem _root_.WaveTurbulence.LGSpine.SourceVine.Object.unloop_containsDart {M : Molecule V D} (P : Object M) (h : LoopFreeSet M P.atoms) (x : NonLoop M) :
     (P.unloop h).ContainsDart x ↔ P.ContainsDart x.1 := by
   obtain ⟨S, a, b, sh⟩ := P

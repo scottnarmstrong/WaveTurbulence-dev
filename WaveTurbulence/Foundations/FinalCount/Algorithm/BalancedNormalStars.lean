@@ -7,7 +7,7 @@ public import WaveTurbulence.Foundations.FinalCount.Algorithm.NormalSimpleDegree
 public import WaveTurbulence.Foundations.FinalCount.Algorithm.NewSpecialDeletion
 public import WaveTurbulence.Foundations.FinalCount.Algorithm.R3SpecialComponent
 public import WaveTurbulence.Foundations.FinalCount.Algorithm.S33GlobalStatistics
-public import WaveTurbulence.Foundations.FinalCount.AppBNormalEffects
+public import WaveTurbulence.Foundations.FinalCount.AppBSmallCutEffects
 import Mathlib.Tactic
 
 /-! # Positive scalar-resource increments in normal S33 and R3 steps -/

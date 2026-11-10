@@ -98,17 +98,4 @@ theorem cycles_of_key [Infinite V] {s : St.{u} V D₀}
     · left; omega
     · right; left; omega
 
-theorem cycles_of [Infinite V] {L γ η : ℝ} {w : Mom d} {κ : D₀ → (Fin d → ℤ)} {s : St.{u} V D₀}
-    (hab : ∀ c ∈ s.M.atoms, s.cls c ≠ .eps → s.M.deg c ≤ 2) (hdr : ∀ c ∈ s.M.atoms, 1 ≤ s.M.deg c)
-    (hB : BalS s) (hnl : ∀ x, s.M.atom x ≠ s.M.atom (s.M.mate x))
-    (hNSG : NoSGTriangle L γ η w κ s)
-    (hsgα : ∀ b ∈ s.M.atoms, ∀ ρ kp, s.cls b = .alpha ρ kp → ∀ x y : s.D, s.M.atom x = b → s.M.atom y = b →
-      s.M.out x = false → s.M.out y = true →
-      Molecule.gapKind L γ η (Molecule.gapAt L w (κ ∘ s.down) x y) = .SG)
-    {a : V} (ha : a ∈ s.M.atoms) (hev : EvenComp s.M a) (hne : ∀ b ∈ compAtoms s.M a, s.cls b ≠ .eps) :
-    CycleShape s a :=
-  cycles_of_key hab hdr hB hnl (fun T ⟨r0, k0, h0⟩ ⟨r1, k1, h1⟩ _ => hNSG T
-    ⟨hsgα _ (T.t_mem 0) r0 k0 h0 _ _ (T.atom_a 0) (T.atom_b 0) (T.out_a 0) (T.out_b 0),
-      hsgα _ (T.t_mem 1) r1 k1 h1 _ _ (T.atom_a 1) (T.atom_b 1) (T.out_a 1) (T.out_b 1)⟩) ha hev hne
-
 end WaveTurbulence.FinalCountG3

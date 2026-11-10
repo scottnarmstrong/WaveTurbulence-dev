@@ -57,23 +57,4 @@ theorem boundary_card_ne_one_of_even_degrees (M : Molecule V D)
   have hcut := sum_degrees_cut M S
   omega
 
-/-- Removing a degree-two atom from the original all-even molecule loses
-at least one circuit. This gives DH23 10.5(2)'s fixed-label power gain. -/
-theorem circuitRank_erase_two_le_sub_one_of_even (M : Molecule V D)
-    (hconn : ∀ u ∈ M.atoms, ∀ z ∈ M.atoms, M.SameComponent u z)
-    (heven : ∀ z ∈ M.atoms, Even (M.deg z)) {v : V} (hv : v ∈ M.atoms) (htwo : M.deg v = 2) :
-    (eraseAtoms M {v}).circuitRank ≤ M.circuitRank - 1 := by
-  have hn : ∀ S ∈ newComponents M {v}, (boundaryDarts M S).card ≠ 1 := by
-    intro S hS
-    obtain ⟨hS, _⟩ := mem_filter.mp hS
-    obtain ⟨u, _, rfl⟩ := mem_image.mp hS
-    apply boundary_card_ne_one_of_even_degrees M heven
-    intro z hz
-    exact ((mem_residualComponent M {v} u z).mp hz).1
-  have hc := two_mul_card_newComponents_le_of_no_single M {v} hn
-  have hb := card_boundary_add_twice_self_eq_deg M v
-  have hi := card_incident_add_self_eq_deg M v
-  have hd := circuitRank_erase_singleton_sub M hconn hv
-  omega
-
 end WaveTurbulence.Degen

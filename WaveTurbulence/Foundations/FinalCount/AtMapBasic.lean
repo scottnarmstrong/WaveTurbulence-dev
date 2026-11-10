@@ -90,10 +90,6 @@ theorem mapAtoms_groupBonds (S : Finset V) :
   congr 1
   ext x; simp only [mem_filter, mapAtoms_inGroup]; rfl
 
-/-- `eraseBond` commutes with `mapAtoms` on the nose. -/
-theorem mapAtoms_eraseBond (e : D) :
-    (mapAtoms M ι).eraseBond e = mapAtoms (M.eraseBond e) ι := rfl
-
 /-- Connectedness of an atomic group is preserved and reflected. -/
 theorem mapAtoms_groupConnected (S : Finset V) :
     (mapAtoms M ι).GroupConnected (S.map ι) ↔ M.GroupConnected S := by

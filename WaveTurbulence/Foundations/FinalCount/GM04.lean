@@ -24,9 +24,6 @@ def compAdmL (hf : HSt V D₀) (a₀ : V) (AdmRun : (D₀ → (Fin d → ℤ)) �
     (PDart hf.s.M (compP hf.s.M a₀) → (Fin d → ℤ)) → Prop :=
   fun κ' => ∃ κ, AdmRun κ ∧ κ' = compDecL hf a₀ κ
 
-theorem gapAt_compL (a₀ : V) (κ : D₀ → (Fin d → ℤ)) (x y : PDart hf.s.M (compP hf.s.M a₀)) :
-    Molecule.gapAt L (0 : Mom d) (compDecL hf a₀ κ) x y = Molecule.gapAt L (0 : Mom d) (κ ∘ hf.s.down) x.1 y.1 := rfl
-
 theorem kvec_compL (a₀ : V) (κ : D₀ → (Fin d → ℤ)) (x : PDart hf.s.M (compP hf.s.M a₀)) :
     Molecule.kvec L (0 : Mom d) (compDecL hf a₀ κ) x = Molecule.kvec L (0 : Mom d) (κ ∘ hf.s.down) x.1 := rfl
 

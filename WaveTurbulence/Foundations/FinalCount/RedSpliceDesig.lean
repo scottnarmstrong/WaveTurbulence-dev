@@ -37,16 +37,6 @@ theorem chain_ofVine {V D : Type*} [DecidableEq V] [Fintype D] [DecidableEq D] {
   | single h => exact .single h
   | append h hV hI hne ih => exact .append ih hV hI hne
 
-theorem group_object_at {S : Finset (GBranch G.tree)} {a b : GBranch G.tree}
-    (h : IsHV G.molecule S a b ∨ IsVC G.molecule S a b ∨ IsHVC G.molecule S a b ∨ IsDV G.molecule S a b) :
-    ∃ O : Object G.molecule, O.atoms ⊆ S ∧ a = O.upper ∧ a ∈ S := by
-  rcases h with ⟨e, he, X, hX⟩ | h | ⟨e, he, hb, n, _, hn⟩ | ⟨A, B, hA, hB, _, hS⟩
-  · exact ⟨⟨S, a, b, .hyper ⟨e, he, ⟨hX.1, 1, Chain.single ⟨X, hX⟩⟩⟩⟩, subset_refl _, rfl, hX.1.2.1⟩
-  · exact ⟨⟨S, a, b, .vc h⟩, subset_refl _, rfl, h.1.2.1⟩
-  · exact ⟨⟨S, a, b, .hyper ⟨e, he, ⟨hb, n, hn⟩⟩⟩, subset_refl _, rfl, hb.2.1⟩
-  · exact ⟨⟨A, a, b, .vc ⟨hA.1, 1, Chain.single ⟨.V, hA⟩⟩⟩, by rw [hS]; exact subset_union_left, rfl,
-      by rw [hS]; exact mem_union_left _ hA.1.2.1⟩
-
 /-- The first joint of a group: see the module docstring.  (R28) For an HV group that is not an HVC the joint is that of the
 canonical triple `hvPick`; for a group having a joint of the kind HV, VC or HVC the kind is not DV. -/
 @[expose] def IsGroupJoint (G : Garden w) (S : Finset (GBranch G.tree)) (a : GBranch G.tree) : Prop :=
@@ -64,91 +54,6 @@ canonical triple `hvPick`; for a group having a joint of the kind HV, VC or HVC 
 @[expose] noncomputable def groupJoint (G : Garden w) (S : Finset (GBranch G.tree)) (Mk : Set (CLVine G) := ∅) :
     Option (GBranch G.tree) := by
   classical exact if markedGroup G Mk S then none else if h : ∃ a, IsGroupJoint G S a then some h.choose else none
-
-theorem exists_groupJoint {S : Finset (GBranch G.tree)} (hS : S ∈ maximalGroups G.molecule) :
-    ∃ a, IsGroupJoint G S a := by
-  classical
-  rcases hsk : (groupUnitsOf G S).skip with _ | sk
-  · by_cases hu : (groupUnitsOf G S).units = []
-    · by_cases hv : (∃ a b, IsHV G.molecule S a b) ∧ ¬ (∃ a b, IsHVC G.molecule S a b)
-      · obtain ⟨a0, b0, e0, hpk, hends, hvine⟩ := hvPick_some hv.1
-        exact ⟨a0, (fun sk h => by rw [hsk] at h; cases h), (fun _ h => absurd hu h),
-          (fun _ _ => ⟨b0, Or.inl ⟨e0, hends, hvine⟩⟩), (fun _ _ _ _ => ⟨b0, e0, hpk⟩),
-          (fun _ _ _ => ⟨b0, Or.inl ⟨e0, hends, hvine⟩⟩)⟩
-      · by_cases hvl : ∃ a b, IsHV G.molecule S a b ∨ IsVC G.molecule S a b ∨ IsHVC G.molecule S a b
-        · obtain ⟨a, b, hb⟩ := hvl
-          have hb4 : IsHV G.molecule S a b ∨ IsVC G.molecule S a b ∨ IsHVC G.molecule S a b ∨ IsDV G.molecule S a b := by
-            rcases hb with h | h | h
-            · exact Or.inl h
-            · exact Or.inr (Or.inl h)
-            · exact Or.inr (Or.inr (Or.inl h))
-          exact ⟨a, (fun sk h => by rw [hsk] at h; cases h), (fun _ h => absurd hu h),
-            (fun _ _ => ⟨b, hb4⟩), (fun _ _ hh hn => absurd ⟨hh, hn⟩ hv), (fun _ _ _ => ⟨b, hb⟩)⟩
-        · obtain ⟨a, b, hb⟩ := hS.1
-          exact ⟨a, (fun sk h => by rw [hsk] at h; cases h), (fun _ h => absurd hu h), (fun _ _ => ⟨b, hb⟩),
-            (fun _ _ hh hn => absurd ⟨hh, hn⟩ hv),
-            (fun _ _ h => absurd h hvl)⟩
-    · obtain ⟨a, b, hvc⟩ := (groupUnitsOf G S).whole_vc hsk hu
-      exact ⟨a, (fun sk h => by rw [hsk] at h; cases h), (fun _ _ => ⟨b, hvc⟩), (fun _ h => absurd h hu),
-        (fun _ h => absurd h hu), (fun _ h => absurd h hu)⟩
-  · exact ⟨sk.a, (fun sk' h => by rw [hsk] at h; cases h; rfl), (fun h => by rw [hsk] at h; cases h),
-      (fun h => by rw [hsk] at h; cases h), (fun h => by rw [hsk] at h; cases h),
-      (fun h => by rw [hsk] at h; cases h)⟩
-
-theorem exists_groupJoint_eq {S : Finset (GBranch G.tree)} (hS : S ∈ maximalGroups G.molecule) :
-    ∃ a, groupJoint G S = some a := by
-  classical
-  have h := exists_groupJoint hS
-  refine ⟨h.choose, ?_⟩
-  unfold groupJoint
-  simp only [not_markedGroup_empty G S, ↓reduceIte]
-  rw [dif_pos h]
-
-theorem groupJoint_spec {S : Finset (GBranch G.tree)} {a : GBranch G.tree} (h : groupJoint G S = some a) :
-    IsGroupJoint G S a := by
-  classical
-  unfold groupJoint at h
-  simp only [not_markedGroup_empty G S, ↓reduceIte] at h
-  split_ifs at h with hex
-  · rw [Option.some.injEq] at h
-    exact h ▸ hex.choose_spec
-
-/-- B1a bridge: the first joint of an unmarked group is main's. -/
-theorem groupJoint_of_not_marked {S : Finset (GBranch G.tree)} {Mk : Set (CLVine G)} (h : ¬ markedGroup G Mk S) :
-    groupJoint G S Mk = groupJoint G S := by
-  classical
-  unfold groupJoint
-  simp only [h, not_markedGroup_empty G S, ↓reduceIte]
-
-/-- B1a: a marked group has no first joint (no designated atom, o75 §2.5). -/
-theorem groupJoint_of_marked {S : Finset (GBranch G.tree)} {Mk : Set (CLVine G)} (h : markedGroup G Mk S) :
-    groupJoint G S Mk = none := by
-  classical
-  unfold groupJoint
-  simp only [h, ↓reduceIte]
-
-/-- The first joint of a group is a joint of one of its kinds. -/
-theorem groupJoint_kind {S : Finset (GBranch G.tree)} {a : GBranch G.tree} (h : groupJoint G S = some a) :
-    a ∈ S ∧ ∃ b, IsHV G.molecule S a b ∨ IsVC G.molecule S a b ∨ IsHVC G.molecule S a b ∨ IsDV G.molecule S a b := by
-  have hs := groupJoint_spec h
-  rcases hsk : (groupUnitsOf G S).skip with _ | sk
-  · by_cases hu : (groupUnitsOf G S).units = []
-    · obtain ⟨b, hb⟩ := hs.2.2.1 hsk hu
-      obtain ⟨_, _, _, ha⟩ := group_object_at hb
-      exact ⟨ha, b, hb⟩
-    · obtain ⟨b, hb⟩ := hs.2.1 hsk hu
-      obtain ⟨_, _, _, ha⟩ := group_object_at (Or.inr (Or.inl hb))
-      exact ⟨ha, b, Or.inr (Or.inl hb)⟩
-  · have ha : a = sk.a := hs.1 sk hsk
-    subst ha
-    rcases hb : sk.bond with _ | e
-    · obtain ⟨n, hI⟩ := sk.chainM hb
-      have hv : IsVC G.molecule S sk.a sk.b := ⟨sk.blockM hb, n, (chain_ofVine (Vine.chainIngredient_spec hI).1)⟩
-      exact ⟨(sk.blockM hb).2.1, sk.b, Or.inr (Or.inl hv)⟩
-    · obtain ⟨n, hn, hI⟩ := sk.chainN e hb
-      have hv : IsHVC G.molecule S sk.a sk.b :=
-        ⟨e, (sk.blockN e hb).1, (sk.blockN e hb).2, n, hn, (chain_ofVine (Vine.chainIngredient_spec hI).1)⟩
-      exact ⟨(sk.blockN e hb).2.2.1, sk.b, Or.inr (Or.inr (Or.inl hv))⟩
 
 /-- **The designated object** (R6, R25(a)): `O` is an object of `S` with `a` one of its joints, the whole-group object
 (`atoms = S`) of the shape that the cut of the group uses, never a sub-block. -/
@@ -171,100 +76,11 @@ theorem groupJoint_kind {S : Finset (GBranch G.tree)} {a : GBranch G.tree} (h : 
   ((groupUnitsOf G S).skip = none → (groupUnitsOf G S).units = [] →
     (∃ a b, IsHV G.molecule S a b ∨ IsVC G.molecule S a b ∨ IsHVC G.molecule S a b) → O.atoms = S)
 
-/-- The whole-group hyper object of a canonical HV triple. -/
-theorem hv_object_orig {S : Finset (GBranch G.tree)} {a b : GBranch G.tree} {e : GardenDart G}
-    (hends : G.molecule.ends e = s(a, b)) (hvine : IsSomeVine (Molecule.eraseBond G.molecule e) S a b) :
-    ∃ O : Object G.molecule, O.atoms = S ∧ O.upper = a ∧ O.lower = b ∧
-      ∃ R : HyperLikeRealization G.molecule O.atoms O.upper O.lower,
-        O.shape = VineLikeObject.hyper R ∧ R.added = e := by
-  obtain ⟨X, hX⟩ := hvine
-  exact ⟨⟨S, a, b, .hyper ⟨e, hends, ⟨hX.1, 1, Chain.single ⟨X, hX⟩⟩⟩⟩, rfl, rfl, rfl, _, rfl, rfl⟩
-
-/-- A group with a joint of the kind HV, VC or HVC at `a` has a whole-group object at `a`. -/
-theorem vl_object_orig {S : Finset (GBranch G.tree)} {a b : GBranch G.tree}
-    (h : IsHV G.molecule S a b ∨ IsVC G.molecule S a b ∨ IsHVC G.molecule S a b) :
-    ∃ O : Object G.molecule, O.atoms = S ∧ a = O.upper := by
-  rcases h with ⟨e, he, X, hX⟩ | h | ⟨e, he, hb, n, _, hn⟩
-  · exact ⟨⟨S, a, b, .hyper ⟨e, he, ⟨hX.1, 1, Chain.single ⟨X, hX⟩⟩⟩⟩, rfl, rfl⟩
-  · exact ⟨⟨S, a, b, .vc h⟩, rfl, rfl⟩
-  · exact ⟨⟨S, a, b, .hyper ⟨e, he, ⟨hb, n, hn⟩⟩⟩, rfl, rfl⟩
-
-theorem exists_isDesig {S : Finset (GBranch G.tree)} {a : GBranch G.tree} (h : groupJoint G S = some a) :
-    ∃ O : Object G.molecule, IsDesig G S a O := by
-  have hs := groupJoint_spec h
-  rcases hsk : (groupUnitsOf G S).skip with _ | sk
-  · by_cases hu : (groupUnitsOf G S).units = []
-    · by_cases hv : (∃ a b, IsHV G.molecule S a b) ∧ ¬ (∃ a b, IsHVC G.molecule S a b)
-      · obtain ⟨b0, e0, hpk⟩ := hs.2.2.2.1 hsk hu hv.1 hv.2
-        obtain ⟨hends, hvine⟩ := hvPick_spec hpk
-        obtain ⟨O, hOa, hOu, hOl, R, hR, hRe⟩ := hv_object_orig hends hvine
-        refine ⟨O, hOu.symm, hOa ▸ subset_refl _, (fun sk h => by rw [hsk] at h; cases h),
-          (fun sk e h => by rw [hsk] at h; cases h), (fun _ h => absurd hu h), ?_, ?_⟩
-        · intro _ _ _ _
-          exact ⟨b0, e0, hpk, hOa, hOl, R, hR, hRe⟩
-        · intro _ _ _; exact hOa
-      · by_cases hvl : ∃ a b, IsHV G.molecule S a b ∨ IsVC G.molecule S a b ∨ IsHVC G.molecule S a b
-        · obtain ⟨b, hb⟩ := hs.2.2.2.2 hsk hu hvl
-          obtain ⟨O, hOa, hOu⟩ := vl_object_orig hb
-          exact ⟨O, hOu, hOa ▸ subset_refl _, (fun sk h => by rw [hsk] at h; cases h),
-            (fun sk e h => by rw [hsk] at h; cases h), (fun _ h => absurd hu h),
-            (fun _ _ hh hn => absurd ⟨hh, hn⟩ hv), (fun _ _ _ => hOa)⟩
-        · obtain ⟨b, hb⟩ := hs.2.2.1 hsk hu
-          obtain ⟨O, hO1, hO2, _⟩ := group_object_at hb
-          exact ⟨O, hO2, hO1, (fun sk h => by rw [hsk] at h; cases h), (fun sk e h => by rw [hsk] at h; cases h),
-            (fun _ h => absurd hu h), (fun _ _ hh hn => absurd ⟨hh, hn⟩ hv), (fun _ _ h => absurd h hvl)⟩
-    · obtain ⟨b, hb⟩ := hs.2.1 hsk hu
-      exact ⟨⟨S, a, b, .vc hb⟩, rfl, subset_refl _, (fun sk h => by rw [hsk] at h; cases h),
-        (fun sk e h => by rw [hsk] at h; cases h), (fun _ _ => ⟨rfl, hb, rfl⟩),
-        (fun _ h => absurd h hu), (fun _ h => absurd h hu)⟩
-  · have ha : a = sk.a := hs.1 sk hsk
-    subst ha
-    rcases hb : sk.bond with _ | e
-    · obtain ⟨n, hI⟩ := sk.chainM hb
-      have hv : IsVC G.molecule S sk.a sk.b := ⟨sk.blockM hb, n, (chain_ofVine (Vine.chainIngredient_spec hI).1)⟩
-      refine ⟨⟨S, sk.a, sk.b, .vc hv⟩, rfl, subset_refl _, ?_, ?_, (fun h => by rw [hsk] at h; cases h),
-        (fun h => by rw [hsk] at h; cases h), (fun h => by rw [hsk] at h; cases h)⟩
-      · intro sk' h _
-        rw [hsk] at h; cases h
-        exact ⟨rfl, hv, rfl⟩
-      · intro sk' e' h he'
-        rw [hsk] at h; cases h
-        rw [hb] at he'; cases he'
-    · obtain ⟨n, hn, hI⟩ := sk.chainN e hb
-      let R : HyperLikeRealization G.molecule S sk.a sk.b :=
-        ⟨e, (sk.blockN e hb).1, ⟨(sk.blockN e hb).2, n, (chain_ofVine (Vine.chainIngredient_spec hI).1)⟩⟩
-      refine ⟨⟨S, sk.a, sk.b, .hyper R⟩, rfl, subset_refl _, ?_, ?_, (fun h => by rw [hsk] at h; cases h),
-        (fun h => by rw [hsk] at h; cases h), (fun h => by rw [hsk] at h; cases h)⟩
-      · intro sk' h he'
-        rw [hsk] at h; cases h
-        rw [hb] at he'; cases he'
-      · intro sk' e' h he'
-        rw [hsk] at h; cases h
-        rw [hb] at he'; cases he'
-        exact ⟨rfl, R, rfl, rfl⟩
-
 /-- **The designated object of a group** (a function of the original garden and the group only). -/
 @[expose] noncomputable def designatedObject (G : Garden w) (S : Finset (GBranch G.tree)) (Mk : Set (CLVine G) := ∅) :
     Option (Object G.molecule) := by
   classical
   exact if h : ∃ a, groupJoint G S Mk = some a ∧ ∃ O, IsDesig G S a O then some h.choose_spec.2.choose else none
-
-theorem designatedObject_spec {S : Finset (GBranch G.tree)} (hS : S ∈ maximalGroups G.molecule) :
-    ∃ a O, groupJoint G S = some a ∧ designatedObject G S = some O ∧ IsDesig G S a O := by
-  classical
-  obtain ⟨a, ha⟩ := exists_groupJoint_eq hS
-  have h : ∃ a, groupJoint G S = some a ∧ ∃ O, IsDesig G S a O := ⟨a, ha, exists_isDesig ha⟩
-  refine ⟨h.choose, h.choose_spec.2.choose, h.choose_spec.1, ?_, h.choose_spec.2.choose_spec⟩
-  unfold designatedObject
-  rw [dif_pos h]
-
-theorem designatedObject_isDesig {S : Finset (GBranch G.tree)} {O : Object G.molecule}
-    (h : designatedObject G S = some O) : ∃ a, groupJoint G S = some a ∧ IsDesig G S a O := by
-  classical
-  unfold designatedObject at h
-  split_ifs at h with hex
-  · rw [Option.some.injEq] at h
-    exact ⟨hex.choose, hex.choose_spec.1, h ▸ hex.choose_spec.2.choose_spec⟩
 
 /-! ### The pair inside the designated object (non-hinge entries) -/
 
@@ -274,24 +90,10 @@ theorem designatedObject_isDesig {S : Finset (GBranch G.tree)} {O : Object G.mol
   ∃ a O, groupJoint G S Mk = some a ∧ designatedObject G S Mk = some O ∧ (a = O.upper ∨ a = O.lower) ∧
     TripleAt G a p.1 p.2 ∧ O.ContainsDart p.1 ∧ O.ContainsDart p.2
 
-theorem exists_intSpec {S : Finset (GBranch G.tree)} (hS : S ∈ maximalGroups G.molecule) :
-    ∃ p, IntSpec G S p := by
-  obtain ⟨a, O, ha, hO, hd⟩ := designatedObject_spec hS
-  obtain ⟨x, y, hT, hx, hy⟩ := objectJoint_pair O (Or.inl hd.1)
-  exact ⟨(x, y), a, O, ha, hO, Or.inl hd.1, hT, hx, hy⟩
-
 /-- **The pair of the group in the original garden, chosen once and independently of `σ`.** -/
 @[expose] noncomputable def intPairOrig (G : Garden w) (S : Finset (GBranch G.tree)) (Mk : Set (CLVine G) := ∅) :
     Option (GardenDart G × GardenDart G) := by
   classical exact if h : ∃ p, IntSpec G S p Mk then some h.choose else none
-
-theorem intPairOrig_spec {S : Finset (GBranch G.tree)} (hS : S ∈ maximalGroups G.molecule) :
-    ∃ p, intPairOrig G S = some p ∧ IntSpec G S p := by
-  classical
-  have h := exists_intSpec hS
-  refine ⟨h.choose, ?_, h.choose_spec⟩
-  unfold intPairOrig
-  rw [dif_pos h]
 
 /-! ### The pair at a merged first joint (hinge entries) -/
 
@@ -427,41 +229,10 @@ theorem exists_hingeSpec {S : Finset (GBranch G.tree)} {a : GBranch G.tree}
     ((∃ p', HingeSpec G S a p' ∧ PairSameAtom G p') → PairSameAtom G p) ∧
     ((∃ p', HingeSpec G S a p' ∧ PairSameUnit G p') → PairSameAtom G p ∨ PairSameUnit G p)
 
-theorem exists_hingeBest {S : Finset (GBranch G.tree)} {a : GBranch G.tree}
-    (hu : ∃ u ∈ (groupUnitsOf G S).units, a ∈ u.atoms) : ∃ p, HingeBest G S a p := by
-  classical
-  obtain ⟨p0, hp0⟩ := exists_hingeSpec hu
-  by_cases h1 : ∃ p', HingeSpec G S a p' ∧ PairSameAtom G p'
-  · obtain ⟨p', hp', ht⟩ := h1
-    exact ⟨p', hp', fun _ => ht, fun _ => Or.inl ht⟩
-  · by_cases h2 : ∃ p', HingeSpec G S a p' ∧ PairSameUnit G p'
-    · obtain ⟨p', hp', ht⟩ := h2
-      exact ⟨p', hp', fun h => absurd h h1, fun _ => Or.inr ht⟩
-    · exact ⟨p0, hp0, fun h => absurd h h1, fun h => absurd h h2⟩
-
 /-- **The pair of the group at a merged first joint, chosen once and independently of `σ`** (R37: `HingeBest`, so that when
 a hinge has a triple bond the chosen joint is the one whose external pair lies in the triple bond). -/
 @[expose] noncomputable def hingeOrigPair (G : Garden w) (S : Finset (GBranch G.tree)) (Mk : Set (CLVine G) := ∅) :
     Option (GardenDart G × GardenDart G) := by
   classical exact if h : ∃ p a, groupJoint G S Mk = some a ∧ HingeBest G S a p then some h.choose else none
-
-theorem hingeOrigPair_best {S : Finset (GBranch G.tree)} {a : GBranch G.tree} (ha : groupJoint G S = some a)
-    (hu : ∃ u ∈ (groupUnitsOf G S).units, a ∈ u.atoms) :
-    ∃ p, hingeOrigPair G S = some p ∧ HingeBest G S a p := by
-  classical
-  obtain ⟨p0, hp0⟩ := exists_hingeBest hu
-  have h : ∃ p a, groupJoint G S = some a ∧ HingeBest G S a p := ⟨p0, a, ha, hp0⟩
-  refine ⟨h.choose, ?_, ?_⟩
-  · unfold hingeOrigPair; rw [dif_pos h]
-  · obtain ⟨a', ha', hs⟩ := h.choose_spec
-    rw [ha] at ha'
-    cases ha'
-    exact hs
-
-theorem hingeOrigPair_spec {S : Finset (GBranch G.tree)} {a : GBranch G.tree} (ha : groupJoint G S = some a)
-    (hu : ∃ u ∈ (groupUnitsOf G S).units, a ∈ u.atoms) :
-    ∃ p, hingeOrigPair G S = some p ∧ HingeSpec G S a p := by
-  obtain ⟨p, hp, hb⟩ := hingeOrigPair_best ha hu
-  exact ⟨p, hp, hb.1⟩
 
 end WaveTurbulence.RedSplice

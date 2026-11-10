@@ -1,6 +1,6 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
-public import WaveTurbulence.Foundations.FinalCount.VCNew11
+public import WaveTurbulence.Foundations.FinalCount.VCNew10
 /-! # VINE-COUNT part 34 (session 4): the fixed-set fact at the UPPER joint implies it at the lower joint.
 
 `NewCompFixed` is stated with the lower-joint energy `|k_{y₂}|² - |k_{y₁}|²`. If the new component is attached to the vine

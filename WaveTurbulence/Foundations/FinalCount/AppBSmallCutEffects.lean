@@ -48,18 +48,6 @@ theorem appb_d33_graph_effect (M : Molecule V D)
     show AppbPatternKind.d33.pattern.removed.card = 2 by decide] using
     r.small_boundary_graph_effects hconn hbridge (by decide) (by decide) (by decide)
 
-/-- DH23 3rprop: removing the degree-three star has chi change -2 and
-nu change +2. -/
-theorem appb_r3_graph_effect (M : Molecule V D)
-    (r : AppbRealization M AppbPatternKind.r3.pattern)
-    (hconn : ∀ u ∈ M.atoms, ∀ v ∈ M.atoms, M.SameComponent u v)
-    (hbridge : ∀ e : D, ¬ Degen.IsBridge M e) :
-    r.post.numComponents = M.numComponents ∧
-    r.post.circuitRank - M.circuitRank = -2 ∧ appbNu r.post - appbNu M = 2 := by
-  simpa [show AppbPatternKind.r3.pattern.edges.length = 3 by decide,
-    show AppbPatternKind.r3.pattern.removed.card = 1 by decide] using
-    r.small_boundary_graph_effects hconn hbridge (by decide) (by decide) (by decide)
-
 /-- DH23 3s2prop: each of the four local configurations has chi change -2
 and nu change zero. -/
 theorem appb_s32_graph_effect (M : Molecule V D) (k : AppbPatternKind)

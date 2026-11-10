@@ -1,11 +1,11 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
-public import WaveTurbulence.Foundations.FinalCount.G3HErase
+public import WaveTurbulence.Foundations.FinalCount.G3NoTriple
+public import WaveTurbulence.Foundations.FinalCount.G3Cycle
 public import WaveTurbulence.Foundations.FinalCount.G3BalS
 public import WaveTurbulence.Foundations.FinalCount.G3RelRun
 public import WaveTurbulence.Foundations.FinalCount.G3Flat
 public import WaveTurbulence.Foundations.FinalCount.G3CompRun
-public import WaveTurbulence.Foundations.FinalCount.G3CycChain
 /-! **FINALCOUNT-G3: runs with tame-atom erasures** (`HRunE`) and their invariants.
 
 TARGET Remark `remtame` (L2152): a ZG tame atom `v₃` of Operation 2 or `v` of Operation 4 is either cut with a zero
@@ -122,21 +122,5 @@ theorem InvE.step4 (hs : HStep4 L w κ h h') (hr : InvE M₀ R t L γ η w κ h)
   comp := hs.step.compBeta hr.comp
   bal := hs.step.balS hr.bal
   rel := hs.step.rel hr.rel
-
-theorem InvE.step5 {v : V} (hs : HStep5 L w κ v h h') (hr : InvE M₀ R t L γ η w κ h) :
-    InvE M₀ R (t + (h.s.M.deg v - 2)) L γ η w κ h' := by
-  cases hs with
-  | erase _ _ hv hd hε hzg =>
-    obtain ⟨R', hR', hg⟩ := hr.good
-    obtain ⟨R'', hR'', hg''⟩ := hg.eraseSt hv hd hε
-    exact
-    { good0 := fun ht => by omega
-      good := ⟨R'', by omega, hg''⟩
-      hrec := hr.hrec.eraseH _
-      gap := hr.gap.eraseH hg _
-      flat := fun ht => by omega
-      comp := CompBeta.eraseSt hg hr.comp
-      bal := hr.bal.eraseSt hg _
-      rel := hr.rel.eraseSt _ }
 
 end WaveTurbulence.FinalCountG3

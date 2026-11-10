@@ -50,42 +50,4 @@ theorem appb_d33_reinsert_degree (M : Molecule V D)
   · rw [r.postWithBond_degree]
     omega
 
-/-- Reinsertion changes only the two removed degree-three atoms in V3;
-all surviving degrees are restored exactly. -/
-theorem appb_d33_reinsert_degreeThree (M : Molecule V D)
-    (r : AppbRealization M AppbPatternKind.d33.pattern) :
-    ((appbDegreeAtoms (r.directedPostWithBond 3 4 ⟨2,by decide⟩) 3).card : ℤ)-
-      (appbDegreeAtoms M 3).card = -2 := by
-  have h3 := r.vertex_mem_post 3 (by decide) (by decide)
-  have h4 := r.vertex_mem_post 4 (by decide) (by decide)
-  have hset : appbDegreeAtoms (r.directedPostWithBond 3 4 ⟨2,by decide⟩) 3 =
-      appbDegreeAtoms M 3 \ r.removedAtoms := by
-    ext v
-    have ha : (r.directedPostWithBond 3 4 ⟨2,by decide⟩).atoms = M.atoms \ r.removedAtoms := by
-      unfold AppbRealization.directedPostWithBond
-      split_ifs
-      · exact r.postWithBond_atoms 3 4 (by decide) (by decide) (by decide) (by decide)
-      · exact r.postWithBond_atoms 4 3 (by decide) (by decide) (by decide) (by decide)
-    simp only [appbDegreeAtoms,ha,mem_filter,mem_sdiff]
-    constructor
-    · rintro ⟨⟨hv,hn⟩,hd⟩
-      exact ⟨⟨hv,(appb_d33_reinsert_degree M r hn) ▸ hd⟩,hn⟩
-    · rintro ⟨⟨hv,hd⟩,hn⟩
-      exact ⟨⟨hv,hn⟩,(appb_d33_reinsert_degree M r hn).trans hd⟩
-  have hsub : r.removedAtoms ⊆ appbDegreeAtoms M 3 := by
-    intro v hv
-    obtain ⟨a,ha,rfl⟩ := mem_image.mp hv
-    have hdeg := r.deleted_degree a ha
-    have hn : AppbPatternKind.d33.pattern.localDegree a = 3 := by
-      have hh : a = 1 ∨ a = 2 := by simpa [AppbPatternKind.pattern] using ha
-      rcases hh with rfl | rfl <;> decide
-    exact mem_filter.mpr ⟨r.vertex_mem a (mem_union_left _ ha),hdeg.trans hn⟩
-  have hc := card_sdiff_add_card_eq_card hsub
-  have hcard : r.removedAtoms.card = 2 := by
-    change (AppbPatternKind.d33.pattern.removed.image r.vertex).card = 2
-    rw [card_image_of_injOn (fun a ha b hb he => r.vertex_injective (mem_union_left _ ha) (mem_union_left _ hb) he)]
-    decide
-  rw [hset]
-  omega
-
 end WaveTurbulence.Mole

@@ -52,18 +52,4 @@ theorem Step4.rel {s s' : St.{u} V D₀} (h : Step4 s s') (hr : DartRel M₀ s) 
   cases h with
   | cut v v₂ x₁ x₂ hcd hε hβ h3 => exact hr.cutSt v v₂ x₁ x₂ _ _ (by simp) (by simp) hcd.2.1
 
-theorem rel_rtg {step : St.{u} V D₀ → St.{u} V D₀ → Prop} (hstep : ∀ s s', step s s' → DartRel M₀ s → DartRel M₀ s')
-    {a b : St.{u} V D₀} (h : Relation.ReflTransGen step a b) : DartRel M₀ a → DartRel M₀ b := by
-  induction h with
-  | refl => exact id
-  | tail _ hs ih => exact fun g => hstep _ _ hs (ih g)
-
-theorem Run.dartRel {L γ η : ℝ} {w : Mom d} {κ : D₀ → (Fin d → ℤ)} {sf : St.{u} V D₀}
-    (hr : Run L γ η w κ (St.init M₀) sf) : DartRel M₀ sf := by
-  obtain ⟨s₁, s₂, s₃, h1, _, h2, _, h3, _, h4, _⟩ := hr
-  have r1 := rel_rtg (fun _ _ h g => Step1.rel h g) h1 (DartRel.init M₀)
-  have r2 := rel_rtg (fun _ _ h g => Step2.rel h g) h2 r1
-  have r3 := rel_rtg (fun _ _ h g => Step3.rel h g) h3 r2
-  exact rel_rtg (fun _ _ h g => Step4.rel h g) h4 r3
-
 end WaveTurbulence.FinalCountG3

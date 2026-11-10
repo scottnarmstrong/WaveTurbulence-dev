@@ -1,6 +1,6 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
-public import WaveTurbulence.Foundations.FinalCount.G3VineObj3
+public import WaveTurbulence.Foundations.FinalCount.G3VineObj2
 public import WaveTurbulence.Foundations.FinalCount.G3Final2
 /-! **FINALCOUNT-G3: bridge** from the vine hypothesis `IsVine X C.atoms j₁ j₂` on a component of the final molecule to
 the shape data `FinalJoints` (joints of degree `2` and non-`ε`, all other atoms `ε` of degree `4`). -/

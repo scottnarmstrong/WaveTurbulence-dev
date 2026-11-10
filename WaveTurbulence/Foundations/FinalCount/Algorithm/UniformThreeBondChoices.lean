@@ -1,7 +1,9 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 
-public import WaveTurbulence.Foundations.FinalCount.AppBTripleChoices
+public import WaveTurbulence.Foundations.FinalCount.AppBTripleConservation
+public import WaveTurbulence.Foundations.FinalCount.AppBPhysicalTriple
+public import WaveTurbulence.Foundations.FinalCount.AppBDeletionCounting
 import Mathlib.Tactic
 
 /-! # Carrier-uniform three-bond estimate -/

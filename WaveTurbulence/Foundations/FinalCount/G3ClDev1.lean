@@ -1,7 +1,7 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 public import WaveTurbulence.Foundations.FinalCount.G3Op5a
-public import WaveTurbulence.Foundations.FinalCount.G3EraseDev1
+public import WaveTurbulence.Foundations.FinalCount.G3Ghost
 /-! **FINALCOUNT-G3 (R29 item 4, step 4): components of `M - K`** for a cluster `K` (set version of `G3EraseDev1`).
 
 `nbrS M K` are the atoms outside `K` adjacent to `K`; `cmpS M K a` the component of `a` in `M - K`; `CsS M K` the set of components of
@@ -56,13 +56,6 @@ theorem eraseSet_adj_iff {a b : V} : (eraseSet M K).Adj a b ↔ M.Adj a b ∧ a 
 theorem adjS_symm {a b : V} (h : M.Adj a b) : M.Adj b a := by
   obtain ⟨z, h1, h2⟩ := h
   exact ⟨M.mate z, h2, by rw [M.mate_mate]; exact h1⟩
-
-theorem scS_lift {a b : V} (h : (eraseSet M K).SameComponent a b) : M.SameComponent a b := by
-  induction h with
-  | rel x y hr => exact Relation.EqvGen.rel _ _ (eraseSet_adj_iff.1 hr).1
-  | refl x => exact Relation.EqvGen.refl _
-  | symm x y _ ih => exact Relation.EqvGen.symm _ _ ih
-  | trans x y z _ _ ih1 ih2 => exact Relation.EqvGen.trans _ _ _ ih1 ih2
 
 theorem scS_avoid {a b : V} (h : M.SameComponent a b) :
     (¬ ∃ k ∈ K, M.SameComponent a k) → (eraseSet M K).SameComponent a b := by

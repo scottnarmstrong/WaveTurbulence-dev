@@ -130,12 +130,6 @@ noncomputable def unitBlocks (G : Garden w) (σ : Prescription G) (Mk : Set (Sta
     List (CLBlock G) :=
   (sgGroups G σ).flatMap (groupUnitsMk G Mk)
 
-/-- B1a bridge: at `Mk = ∅`, `unitBlocks` is main's list of units. -/
-theorem unitBlocks_empty (G : Garden w) (σ : Prescription G) :
-    unitBlocks G σ = (sgGroups G σ).flatMap (fun S => (groupUnitsOf G S).units) := by
-  unfold unitBlocks
-  rw [show groupUnitsMk G ∅ = fun S => (groupUnitsOf G S).units from funext (groupUnitsMk_empty G)]
-
 /-- B1a: membership in `unitBlocks` for every marked set. -/
 theorem mem_unitBlocksMk {G : Garden w} {σ : Prescription G} {Mk : Set (Stage1.CLVine G)} {u : CLBlock G} :
     u ∈ unitBlocks G σ Mk ↔ ∃ S, S ∈ maximalGroups G.molecule ∧ σ S = Molecule.GapKind.SG ∧
@@ -185,21 +179,6 @@ theorem unitBlocks_soundMk {G : Garden w} {σ : Prescription G} {Mk : Set (Stage
   refine ⟨c, ⟨hcV, S, hSm, hcI, hσ, hcM⟩, hvc, ?_⟩
   intro z hz
   exact (hiff z).mpr ⟨c, hc, hz⟩
-
-/-- Every atom of a unit lies in a vine of `𝒱_0` contained in the unit. -/
-theorem unitBlocks_sound {G : Garden w} {σ : Prescription G} {u : CLBlock G} (hu : u ∈ unitBlocks G σ) :
-    ∀ v ∈ u.atoms, ∃ c ∈ vinesV0 G σ, v ∈ c.atoms ∧ c.atoms ⊆ u.atoms :=
-  unitBlocks_soundMk hu
-
-/-- The probe's name for the threaded unit list (copied by source from the B0 probe, lines 175–178). -/
-noncomputable def unitBlocksMk (G : Garden w) (σ : Prescription G) (Mk : Set (Stage1.CLVine G)) :
-    List (CLBlock G) :=
-  (sgGroups G σ).flatMap (groupUnitsMk G Mk)
-
-theorem unitBlocksMk_eq (G : Garden w) (σ : Prescription G) (Mk : Set (Stage1.CLVine G)) :
-    unitBlocksMk G σ Mk = unitBlocks G σ Mk := rfl
-
-theorem unitBlocksMk_empty (G : Garden w) (σ : Prescription G) : unitBlocksMk G σ ∅ = unitBlocks G σ := rfl
 
 /-- The survivors `𝒞_E` (in the skeleton), group by group (copied by source from the B0 probe, lines 196–203). -/
 noncomputable def survivorsMk (G : Garden w) (σ : Prescription G) (Mk : Set (Stage1.CLVine G)) :

@@ -7,7 +7,8 @@ module
 
 public import WaveTurbulence.Foundations.Stage1.Geometry.SubproSubst
 public import WaveTurbulence.Foundations.Stage1.Geometry.SubproBlockGeo
-public import WaveTurbulence.Foundations.FinalCount.SubproItems2
+public import WaveTurbulence.Foundations.FinalCount.SubproGap2
+public import WaveTurbulence.Foundations.FinalCount.SubproTame
 import Mathlib.Tactic
 
 /-!

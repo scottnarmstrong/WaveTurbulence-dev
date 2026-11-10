@@ -1,6 +1,6 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
-public import WaveTurbulence.Foundations.FinalCount.TriDev4
+public import WaveTurbulence.Foundations.FinalCount.TriDev3
 public import WaveTurbulence.Foundations.Spine.SourceVineData
 /-! **The stage-2 operations of DH23 §9.3** (Revision_Submit.tex L1773--L1783; TARGET L2117--L2151, Operations 1--4),
 as a literal datatype over molecules (FINALCOUNT-G2).

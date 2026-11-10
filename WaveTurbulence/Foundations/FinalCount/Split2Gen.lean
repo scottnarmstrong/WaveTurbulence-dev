@@ -42,11 +42,6 @@ theorem countAFree_or_le (M : Molecule V D) {d : ℕ} (L γ δ C1 : ℝ) (P : Fi
   have := ENat.toENNReal_mono (countEFree_or_le M L γ δ 0 Adm A B h)
   rwa [ENat.toENNReal_add] at this
 
-theorem countAFree_mono_adm' (M : Molecule V D) {d : ℕ} {L γ δ C1 : ℝ} {P : Finset V → ℝ}
-    {A B : (D → (Fin d → ℤ)) → Prop} (h : ∀ κ, A κ → B κ) :
-    MoleProp.countAFree M L γ δ C1 (0 : Mom d) A P ≤ MoleProp.countAFree M L γ δ C1 (0 : Mom d) B P :=
-  countAFree_mono_adm M h
-
 /-- Goodness of a multiplier, with nothing exempt, is `LargeGap` of the post decoration. -/
 theorem postGoodOff_largeGap {N : Molecule V D} (T : TwoExit N) {d : ℕ} {Bs : Finset V} (hBs : Bs \ T.Y = ∅)
     {L γ η' : ℝ} {κ : D → (Fin d → ℤ)} {g : ℤ} (h : T.PostGoodOff Bs L γ η' κ g) :

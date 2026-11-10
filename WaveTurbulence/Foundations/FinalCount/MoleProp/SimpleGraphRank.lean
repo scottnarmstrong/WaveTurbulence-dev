@@ -2,7 +2,7 @@
 module
 
 public import WaveTurbulence.Foundations.FinalCount.Degen.LadderDeletionGeometry
-public import WaveTurbulence.Foundations.FinalCount.MoleculeGraphBounds
+public import Mathlib.Combinatorics.SimpleGraph.Acyclic
 import Mathlib.Tactic
 
 /-! # DH23 Proposition 10.3: the terminal simple graph is K4

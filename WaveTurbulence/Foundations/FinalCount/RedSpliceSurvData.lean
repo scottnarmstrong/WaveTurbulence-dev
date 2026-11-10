@@ -67,14 +67,6 @@ theorem groupSurvMk_of_marked {G : Garden w} {Mk : Set (Stage1.CLVine G)} {S : F
   classical
   exact if h : ∃ p, SurvPairSpec G T j p then some h.choose else none
 
-theorem survOrigPair_spec {G : Garden w} {T : Finset (GBranch G.tree)} {j : GBranch G.tree}
-    {p : GardenDart G × GardenDart G} (h : survOrigPair G T j = some p) : SurvPairSpec G T j p := by
-  classical
-  unfold survOrigPair at h
-  split_ifs at h with hex
-  · rw [Option.some.injEq] at h
-    exact h ▸ hex.choose_spec
-
 theorem survOrigPair_isSome {G : Garden w} {T : Finset (GBranch G.tree)} {j : GBranch G.tree}
     (h : ∃ p, SurvPairSpec G T j p) : ∃ p, survOrigPair G T j = some p ∧ SurvPairSpec G T j p := by
   classical

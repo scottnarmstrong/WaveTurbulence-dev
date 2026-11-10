@@ -1,6 +1,5 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
-public import WaveTurbulence.Foundations.FinalCount.AsmStuck
 public import WaveTurbulence.Foundations.FinalCount.AsmLabel
 public import WaveTurbulence.Foundations.FinalCount.AsmRun4
 /-! **FINALCOUNT-ASSEMBLY, M7 (phase 3): existence of the SG-cut phase.**  From a state satisfying `InvE` and `AncRel`, the
@@ -34,14 +33,6 @@ theorem eps_lift {s : St.{u} V D₀} {a : V → V} (hA : AncRel M₀ s a) (hD : 
   have h2 : s.M.atom x = v := hA.uniq _ (s.M.atom_mem x) v hv hε h1
   refine ⟨x, hx, h2, ?_⟩
   rw [← hD.out x, hx]
-
-theorem epsCount_step3C {C : CollData M₀} {h h' : HSt V D₀} (hs : HStep3C C L γ η w κ h h') :
-    epsCount h'.s < epsCount h.s := by
-  cases hs with
-  | cut v v₂ x₁ x₂ hc R' kp hR hkp hε hsg hsim hι h3 hdes =>
-    have hab : (if h.s.M.IsAlphaCut v v₂ x₁ x₂ then Cls.alpha R' kp else Cls.beta) ≠ Cls.eps := by
-      split_ifs <;> simp
-    exact epsCount_cutSt_lt h.s hc hε _ _ hab hab
 
 /-- The oriented designated pair of a hinge. -/
 theorem hinge_oriented {C : CollData M₀} (obl : SubproOblG C L γ η w κ) {v : V} (hv : v ∈ C.hinges) :
@@ -111,18 +102,5 @@ theorem exists_step3C [Infinite V] {C : CollData M₀} (obl : SubproOblG C L γ 
     rw [hanc]
     refine ⟨f, s, h1, h2', Or.inl ?_⟩
     simpa [St.pr, hx₁d, hx₂d] using hset
-
-/-- **Phase 3 exists.** -/
-theorem exists_phase3 [Infinite V] {C : CollData M₀} (obl : SubproOblG C L γ η w κ) (hL : 0 < L)
-    (h2 : 2 / L ≤ L ^ (-γ + η)) (h₂ : HSt V D₀) (hI : InvE M₀ R 0 L γ η w κ h₂) (hA : AncRel M₀ h₂.s h₂.anc) :
-    ∃ h₃ : HSt V D₀, Relation.ReflTransGen (HStep3C C L γ η w κ) h₂ h₃ ∧ InvE M₀ R 0 L γ η w κ h₃ ∧
-      AncRel M₀ h₃.s h₃.anc ∧ NoSGLeft L γ η w κ (HSt.init M₀).s h₃.s := by
-  obtain ⟨h₃, hr, hP, hstuck⟩ := exists_stuck_inv (HStep3C C L γ η w κ) (fun h => epsCount h.s)
-    (fun h => InvE M₀ R 0 L γ η w κ h ∧ AncRel M₀ h.s h.anc) (fun _ _ hs => epsCount_step3C hs)
-    (fun _ _ hs hp => ⟨hp.1.step3 hs.toHStep3, hs.toHStep3.anc hp.2⟩) h₂ ⟨hI, hA⟩
-  refine ⟨h₃, hr, hP.1, hP.2, ?_⟩
-  intro v hv hε hSG
-  obtain ⟨h', hs'⟩ := exists_step3C obl hL h2 hP.1 hP.2 hv hε hSG
-  exact hstuck _ hs'
 
 end WaveTurbulence.FinalCountAsm

@@ -34,9 +34,7 @@ variable {N : Molecule V D} (T : Cut2 N)
 def w : V := N.atom (N.mate T.x)
 
 theorem x_mem : T.x ∈ crossDarts N T.Y := by rw [T.cross]; simp
-theorem y_mem : T.y ∈ crossDarts N T.Y := by rw [T.cross]; simp
 theorem atom_x : N.atom T.x ∈ T.Y := (mem_crossDarts.mp T.x_mem).1
-theorem atom_y : N.atom T.y ∈ T.Y := (mem_crossDarts.mp T.y_mem).1
 theorem w_notMem : T.w ∉ T.Y := (mem_crossDarts.mp T.x_mem).2
 
 theorem cross_dart {z : D} (h1 : N.atom z ∈ T.Y) (h2 : N.atom (N.mate z) ∉ T.Y) : z = T.x ∨ z = T.y := by

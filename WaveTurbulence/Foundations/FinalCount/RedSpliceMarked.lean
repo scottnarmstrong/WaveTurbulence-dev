@@ -32,18 +32,6 @@ open Finset WaveTurbulence WaveTurbulence.Vine WaveTurbulence.Mole TTree WaveTur
 
 variable {w : ℕ}
 
-/-- The unmarked selected collection `𝒱₀♮ = 𝒱₀ \ Mk`. -/
-def vinesV0Mk (G : Garden w) (σ : Prescription G) (Mk : Set (Stage1.CLVine G)) : Set (Stage1.CLVine G) :=
-  {c | c ∈ vinesV0 G σ ∧ c ∉ Mk}
-
-theorem vinesV0Mk_empty (G : Garden w) (σ : Prescription G) : vinesV0Mk G σ ∅ = vinesV0 G σ := by
-  ext c; simp [vinesV0Mk]
-
-/-- B1a bridge: the probe's `𝒱₀♮` is main's threaded `vinesV0` at the same marked set. -/
-theorem vinesV0Mk_eq (G : Garden w) (σ : Prescription G) (Mk : Set (Stage1.CLVine G)) :
-    vinesV0Mk G σ Mk = vinesV0 G σ Mk := by
-  ext c; exact mem_vinesV0.symm
-
 /-- A group of `𝒞` with a marked `𝒱`-ingredient (`m_𝕎 ≥ 1`, o75 §2.5). -/
 def markedGroup (G : Garden w) (Mk : Set (Stage1.CLVine G)) (S : Finset (GBranch G.tree)) : Prop :=
   ∃ c ∈ Mk, c ∈ Stage1.vinesV G ∧ Stage1.IsIngredient G.molecule S c.atoms
