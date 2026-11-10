@@ -1,0 +1,32 @@
+# Fast checks that need no Lean build (a few minutes on a standard runner).
+# The full build is too large for a hosted runner (see "How to verify" in the README).
+name: Checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Frozen statements and definitions (hashes, states, quarantine of unproved statements)
+        run: python3 -I scripts/check_frozen_anchors.py --root . --manifest manifest/frozen.json
+
+      - name: Lean module rules (every file a module, size limits)
+        run: python3 -I scripts/check_lean_modules.py
+
+      - name: Pinned T-vine definitions
+        run: python3 -I scripts/check_pinned_texts.py --root .
+
+      - name: The same checks on exactly the committed tree
+        run: scripts/check_index.sh
