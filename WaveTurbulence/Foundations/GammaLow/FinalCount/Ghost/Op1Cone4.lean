@@ -90,37 +90,6 @@ theorem prop94_vine_all_cone {g : ℝ} (hd : 3 ≤ d) {γ : ℝ} (hγ : γ ∈ I
     refine isDeviation_mono this (ENNReal.ofReal_le_ofReal ?_)
     exact cone_const_double d (by positivity) (le_max_right _ _) ht ht2 hδ.1 hE hX0 hXY
 
-/-- **The Operation-1 creation step of `𝒱_γ` with the cone** (cone form of `Step1.prop94_vine_all_gamma`; vine
-hypothesis: L4's Theorem C only). For a removal `K : Step1.VineCut γ M` with `ΔF = 0` whose joints are the later
-ghosts of `k ≤ 2` NC critical pairs (`κ = 0`, critical label, joint gap in the creation cone), the Step-1 deviation
-holds with the extra factor `3·5^d · L^{-5ηk}`. -/
-theorem prop94_vine_all_gamma_cone (hT : TVine.Chart.TVineChartExists) (hd : 3 ≤ d) {γ : ℝ}
-    (hγ : γ ∈ Ioo (0 : ℝ) 1) :
-    ∃ Cs : ℝ, 0 ≤ Cs ∧ ∃ C₂ : ℝ, 1 ≤ C₂ ∧ ∀ δ ∈ Ioc (0 : ℝ) 1, ∃ L₀ : ℝ, Real.exp 1 ≤ L₀ ∧ ∀ L ≥ L₀,
-      ∀ C₁ η : ℝ, C₂ ≤ C₁ → 0 < η → η < 1 → η ≤ γ → 200 * η ≤ γ → 200 * η ≤ 1 - γ →
-      ∀ {V D : Type} [DecidableEq V] [Fintype D] [DecidableEq D] (M : Molecule V D) (K : Step1.VineCut γ M),
-        M.IsMolecule → (∀ a ∈ M.atoms, M.deg a ≤ 4) →
-        (Step1.SingleVineVCGamma K ∨ Nonempty (Step1.DoubleShape K)) →
-        ∀ (w : Mom d) (Adm : (D → (Fin d → ℤ)) → Prop)
-          (Adm' : (PDart K.cutMol (fun a => a ∉ K.C.atoms) → (Fin d → ℤ)) → Prop),
-        (∀ κ, Adm κ → Adm' (fun x => κ x.1)) → ∀ P : Finset V → ℝ, (∀ S, 0 ≤ P S) →
-        VineCount.DecScale M L w Adm (VineCount.SourceLadderGaps M L w P) →
-        (∀ S' ∈ K.m1.maximalLadders, ∀ S ∈ M.maximalLadders, S' ⊆ S → P S' = P S) →
-        (∀ S' ∈ K.cutMol.maximalLadders, ∀ S ∈ K.m1.maximalLadders, S' ⊆ S → P S' = P S) →
-        K.post.numComponents = M.numComponents →
-        ∀ (Rg : ℝ), L⁻¹ ≤ Rg → Rg ≤ L ^ (-γ + η) → Crit L γ η Rg →
-        (∀ κ', Adm κ' → ‖Molecule.gapAt L w κ' K.x₁ K.x₂‖ ≤ 2 * Rg) →
-        (∀ κ', Adm κ' → Rg / 2 ≤ ‖Molecule.gapAt L w κ' K.x₁ K.x₂‖) →
-        JointCone K L γ δ η w Adm → ∀ k : ℕ, k ≤ 2 →
-        IsDeviation (M.countA L γ δ C₁ w Adm P) ((Step1.Stage2Op.vine K).post.countA L γ δ C₁ w Adm' P)
-          (ENNReal.ofReal ((Cs * (2 ^ d * ((13 : ℝ) / (2 * η - η ^ 3)) ^ 13) * (1 + δ⁻¹)) *
-            (3 * 5 ^ d * L ^ (-5 * η * (k : ℝ))) * excessRHS L γ η [(Rg, 0), (Rg, 0)] 0 0)) := by
-  obtain ⟨Cs, hCs, C₂, hC₂, h⟩ := prop94_vine_all_cone (g := γ) hd hγ
-  refine ⟨Cs, hCs, C₂, hC₂, fun δ hδ => ?_⟩
-  obtain ⟨L₀, hL₀, hh⟩ := h δ hδ
-  refine ⟨L₀, hL₀, fun L hL C₁ η hC₁ hη hη1 hηγ h200a h200b V D _ _ _ M K hMol hM hcls => ?_⟩
-  exact hh L hL C₁ η hC₁ hη hη1 hηγ h200a h200b M K hMol hM (hcls.imp_left (Step1.singleVineVC_of_gamma hT hMol K))
-
 /-- **Lemma 6.2(iii) at an Op-1 step**: the cone of the joint gap around the gap of a present degree-2 atom `v` (darts
 `x₁'` out, `x₂'` in; nonzero gap) is a cone around the fixed centre `c v` in each parameter class. For the joint at the
 other end (gap `±r`), use `inCone_neg`. -/

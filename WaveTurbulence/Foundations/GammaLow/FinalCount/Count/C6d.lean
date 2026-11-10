@@ -57,24 +57,6 @@ theorem finalDec_and {M : Molecule V D} {cls : V → Cls} {d : ℕ} {L γ η : �
   noBetaCut := fun κ h => hF.noBetaCut κ h.1
   iota := fun κ h => hF.iota κ h.1
 
-/-- After removing a chain `K₁` with exits `y₁, y₂`: degrees outside the two far ends are unchanged, the far ends lose
-one bond. -/
-theorem erase_deg_far {M : Molecule V D} {K : Finset V} {y₁ y₂ : D} (hcross : crossDarts M K = {y₁, y₂})
-    {w : V} (hwK : w ∉ K) (h1 : M.atom (M.mate y₁) ≠ w) (h2 : M.atom (M.mate y₂) ≠ w) :
-    (Degen.eraseAtoms M K).deg w = M.deg w := by
-  classical
-  have hadd := deg_eraseAtoms_add (N := M) K hwK
-  have h0 : Degen.removedDartsAt M K w = ∅ := by
-    ext z
-    simp only [Degen.removedDartsAt, mem_filter, Molecule.dartsAt, mem_univ, true_and, notMem_empty, iff_false,
-      not_and]
-    intro hz hmz
-    rcases enter_chain hcross (by rw [hz]; exact hwK) hmz with e | e
-    · exact h1 (by rw [← hz, e])
-    · exact h2 (by rw [← hz, e])
-  rw [h0, card_empty, add_zero] at hadd
-  exact hadd
-
 theorem erase_deg_end {M : Molecule V D} {K : Finset V} {y₁ y₂ : D} (hcross : crossDarts M K = {y₁, y₂})
     (hne : M.atom (M.mate y₁) ≠ M.atom (M.mate y₂)) :
     (Degen.eraseAtoms M K).deg (M.atom (M.mate y₁)) + 1 = M.deg (M.atom (M.mate y₁)) := by

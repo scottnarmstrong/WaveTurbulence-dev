@@ -56,12 +56,6 @@ open Finset WaveTurbulence WaveTurbulence.Vine WaveTurbulence.RedSplice WaveTurb
 
 variable {V D : Type} [DecidableEq V] [Fintype D] [DecidableEq D] {γ : ℝ} [Fact TVineF1Input] [Fact VinechainlemPrimeInput] [Fact (γ ≤ 1 / 2)] [Fact TVineIsoInvariant] [Fact TVineStructInputs]
 
-theorem chain_to_source {M : Molecule V D} {S : Finset V} {a b : V} {n : ℕ} (h : Src.Chain γ M S a b n) :
-    Src.Chain γ M S a b n := by
-  induction h with
-  | single hv => exact Src.Chain.single hv
-  | append _ hT hi hne ih => exact Src.Chain.append ih hT hi hne
-
 theorem chain_orient {M : Molecule V D} {P : Finset V} {a' b' up lo : V} {n : ℕ}
     (hC : Src.Chain γ M P a' b' n) (hB' : M.IsBlock P a' b') (hB : M.IsBlock P up lo) :
     ∃ n', Src.Chain γ M P up lo n' := by

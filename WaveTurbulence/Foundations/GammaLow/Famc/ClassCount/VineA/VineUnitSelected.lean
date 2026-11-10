@@ -7,14 +7,12 @@ public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Piece
 public import WaveTurbulence.Foundations.GammaLow.Fama.Vine.IsoStmt
 public import WaveTurbulence.Foundations.GammaLow.Famc.ClassCount.VineA.VineRunSelected
 public import WaveTurbulence.Foundations.Vine.A.VineUnitSelected
-public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Amend7
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.CL
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.CN
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Coll
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Coll2
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Cover
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Data
-public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Deg
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Desig
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Final
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Gap
@@ -30,7 +28,6 @@ public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Marked
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Obj
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Obj2
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Obj3
-public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Pairs
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Piece
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Rev
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Runs
@@ -44,7 +41,6 @@ public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Stage
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.SurvData
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Top
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.TripleDesig
-public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.TripleHinge
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.UnitBlocks
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Units
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Units2
@@ -54,13 +50,10 @@ public import WaveTurbulence.Foundations.GammaLow.Fama.Coll.Basic
 public import WaveTurbulence.Foundations.GammaLow.Fama.Coll.Collection
 public import WaveTurbulence.Foundations.GammaLow.Fama.Inputs
 public import WaveTurbulence.Foundations.GammaLow.Fama.Vine.Chain
-public import WaveTurbulence.Foundations.GammaLow.Fama.P.Molecule.VineChainEraseEndpoints
-public import WaveTurbulence.Foundations.GammaLow.Fama.P.Molecule.VineChainInteriorConnected
 public import WaveTurbulence.Foundations.GammaLow.Fama.Vine.Facts
 public import WaveTurbulence.Foundations.GammaLow.Fama.P.Molecule.VineLocalDartChains
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.Src.Counting
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.Src.Objects
-public import WaveTurbulence.Foundations.GammaLow.Fama.P.Spine.VineDelObjects
 public import WaveTurbulence.Foundations.GammaLow.Fama.P.Stage1.Represents.RepSel
 public import WaveTurbulence.Foundations.GammaLow.Fama.P.Stage1.Shared.S1VInvChain
 public import WaveTurbulence.Foundations.GammaLow.Fama.P.Stage1.Shared.S1VInvEquiv
@@ -169,24 +162,5 @@ theorem groupUnit_selected_spine {S : Finset (GBranch G.tree)} (U : Fama.GroupUn
     rcases (U.skip_units sk hsk).1 u hu with ⟨hat, hj⟩ | ⟨hat, hj⟩
     · exact take_run hat hr.1 hj
     · exact take_run hat hr.2 hj
-
-/-- The actual unit spine consists entirely of V0(sigma) vines. -/
-theorem unitBlocks_selected_spine {σ : Prescription G} {u : CLBlock G} (hu : u ∈ Fama.unitBlocks γ G σ) :
-    ∃ L, Fama.Spine γ G.molecule L u.atoms u.upper u.lower ∧
-      ∀ t ∈ L, ∃ c ∈ Fama.vinesV0 γ G σ, c.atoms = t.1 := by
-  obtain ⟨S, hS, hσ, hum⟩ := Fama.mem_unitBlocks.mp hu
-  obtain ⟨L, hs, hsel⟩ := groupUnit_selected_spine (Fama.groupUnitsOf γ G S) hS hum
-  refine ⟨L, hs, ?_⟩
-  intro t ht
-  obtain ⟨c, hc, he⟩ := hsel t ht
-  have hci : IsIngredientG γ G.molecule S c.atoms := by
-    obtain ⟨S', hS', hi', _⟩ := hc
-    have hin : c.atoms ⊆ S := he ▸ (hs.mem_vine ht).2.trans ((Fama.groupUnitsOf γ G S).sub u hum)
-    have heS : S' = S := by
-      by_contra hne
-      exact (disjoint_left.mp (Fama.groups_disjoint' (Mole.garden_isMolecule G) hS' hS hne)
-        (Fama.ingredient_sub hi' c.upper_mem)) (hin c.upper_mem)
-    exact heS ▸ hi'
-  exact ⟨c, ⟨hc, S, hS, hci, hσ, fun h => h⟩, he⟩
 
 end WaveTurbulence.GammaLow.Famc.VineA

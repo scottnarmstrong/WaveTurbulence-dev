@@ -101,16 +101,4 @@ theorem embed_chain_of (F : Vine.LocalDartEmbedding M N A) {γ : ℝ} {S : Finse
     exact Chain.append (ih (Finset.subset_union_left.trans hUA))
       ((embed_isVineGamma_iff F (Finset.subset_union_right.trans hUA) _ _).mpr hT) hi hne
 
-/-- Every identified `𝒱_γ` chain is a chain of the original molecule (main's `LocalDartEmbedding.chain_to`). -/
-theorem embed_chain_to (F : Vine.LocalDartEmbedding M N A) {γ : ℝ} {S : Finset V} {a b : V} {n : ℕ}
-    (h : Chain γ N S a b n) : S ⊆ A → Chain γ M S a b n := by
-  induction h with
-  | single h =>
-    intro hSA
-    exact Chain.single ((embed_isVineGamma_iff F hSA _ _).mp h)
-  | @append S T a b c n hS hT hi hne ih =>
-    intro hUA
-    exact Chain.append (ih (Finset.subset_union_left.trans hUA))
-      ((embed_isVineGamma_iff F (Finset.subset_union_right.trans hUA) _ _).mp hT) hi hne
-
 end WaveTurbulence.GammaLow.Famc

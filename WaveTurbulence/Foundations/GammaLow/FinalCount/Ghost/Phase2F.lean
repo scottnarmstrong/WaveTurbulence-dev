@@ -26,10 +26,6 @@ noncomputable def nodeSplit [Infinite V] (L γ η : ℝ) (w : Mom d) (h : HSt V 
     {n : T2 h} (hn : Node2 L γ η h n) (σ : Sig) : Set (D₀ → (Fin d → ℤ)) :=
   splitCls L γ η w h (triOf hn) (Q2 n) (kp2 n) (triOf_cl hn) (cls2 L γ η w h A n) σ
 
-theorem rpow_transfer {L η : ℝ} (hL : 0 < L) (ν k : ℕ) (X : ℝ) :
-    L ^ (5 * η * ((ν : ℝ) - k)) * X = L ^ (5 * η * (ν : ℝ)) * (L ^ (-5 * η * (k : ℝ)) * X) := by
-  rw [← mul_assoc, ← Real.rpow_add hL]; congr 2; ring
-
 /-- **The node lemma with the bank.** -/
 theorem node2_bank [Infinite V] {M₀ : Molecule V D₀} {Rn : ℕ} {Rch : (D₀ → (Fin d → ℤ)) → HSt V D₀ → Prop}
     {L γ η δ C₁ : ℝ} {w : Mom d} {P : Finset V → ℝ} {A0 A : Set (D₀ → (Fin d → ℤ))}

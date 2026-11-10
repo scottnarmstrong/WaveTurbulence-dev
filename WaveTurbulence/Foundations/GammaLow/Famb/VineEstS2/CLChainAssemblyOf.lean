@@ -32,14 +32,6 @@ noncomputable def clChainPrefixRegionΓ {S T : Finset (GBranch G.tree)} {a b c :
   let hB := chain_prefix_currentBlockΓ G.molecule (Mole.garden_isMolecule G) hS hT hi hU
   exact clRegionData G hB (clBlockConcat_parentPatterns hB (memBlock hT) hi hU R).1
 
-/-- Current terminal-ingredient region data. -/
-noncomputable def clChainTerminalRegionΓ {S T : Finset (GBranch G.tree)} {a b c : GBranch G.tree} {n : ℕ}
-    (hS : FinalCount.Src.Chain γF G.molecule S a b n) (hT : FinalCount.Src.IsSomeVine γF G.molecule T b c)
-    (hi : S ∩ T = {b}) (hU : G.molecule.IsBlock (S ∪ T) a c) (R : CLRegionData G (S ∪ T) a c) :
-    CLRegionData G T b c := by
-  let hB := chain_prefix_currentBlockΓ G.molecule (Mole.garden_isMolecule G) hS hT hi hU
-  exact clRegionData G (memBlock hT) (clBlockConcat_parentPatterns hB (memBlock hT) hi hU R).2
-
 /-- **Every actual source VC over `𝒱_γ` in a CL region has assembly data.** -/
 theorem nonempty_clChainAssemblyΓ {U : Finset (GBranch G.tree)} {a b : GBranch G.tree} {n : ℕ}
     (h : FinalCount.Src.Chain γF G.molecule U a b n) (hU : G.molecule.IsBlock U a b) (R : CLRegionData G U a b) :

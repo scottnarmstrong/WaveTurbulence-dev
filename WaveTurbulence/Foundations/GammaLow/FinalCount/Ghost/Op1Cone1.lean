@@ -33,10 +33,6 @@ def JointCone {g : ℝ} {V D : Type*} [DecidableEq V] [Fintype D] [DecidableEq D
     ∃ ctr : Mom d, ctr ≠ 0 ∧ ∀ κ ∈ decSet M L γ δ w Adm c β k0,
       InCone (L ^ (-6 * η)) (Molecule.gapAt L w κ K.x₁ K.x₂) ctr
 
-/-- The cone condition is even in the gap. -/
-theorem inCone_neg (θ : ℝ) (r ctr : Mom d) : InCone θ (-r) ctr ↔ InCone θ r ctr := by
-  unfold InCone; rw [norm_neg, inner_neg_left, neg_sq]
-
 /-- The class restricted to decorations with the joint gap `r`. -/
 def AdmFix {g : ℝ} {V D : Type*} [DecidableEq V] [Fintype D] [DecidableEq D] {M : Molecule V D}
     (K : Step1.VineCut g M) (Adm : (D → (Fin d → ℤ)) → Prop) (r : Fin d → ℤ) : (D → (Fin d → ℤ)) → Prop :=

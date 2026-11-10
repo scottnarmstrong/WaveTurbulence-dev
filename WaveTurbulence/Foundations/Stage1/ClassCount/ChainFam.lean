@@ -90,10 +90,6 @@ theorem distinctOn_iff_injOn (A : Finset V) (𝓗 : Finset (V → ℕ)) :
 theorem DistinctOn.subset {A : Finset V} {𝓗 𝓗' : Finset (V → ℕ)} (h : DistinctOn A 𝓗) (hs : 𝓗' ⊆ 𝓗) :
     DistinctOn A 𝓗' := fun f hf f' hf' he => h f (hs hf) f' (hs hf') he
 
-theorem DistinctOn.of_union_left {A B : Finset V} {𝓗 : Finset (V → ℕ)} (h : DistinctOn (A ∪ B) 𝓗) :
-    ∀ f ∈ 𝓗, ∀ f' ∈ 𝓗, (∀ x ∈ A, f x = f' x) → (∀ x ∈ B, f x = f' x) → f = f' :=
-  fun f hf f' hf' h1 h2 => h f hf f' hf' fun x hx => (Finset.mem_union.mp hx).elim (h1 x) (h2 x)
-
 /-- A transversal of the restrictions to `A`. -/
 theorem exists_transversal (A : Finset V) (𝓗 : Finset (V → ℕ)) :
     ∃ 𝓣 ⊆ 𝓗, DistinctOn A 𝓣 ∧ 𝓣.image (restr A) = 𝓗.image (restr A) := by

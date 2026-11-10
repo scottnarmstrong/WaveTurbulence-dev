@@ -58,9 +58,6 @@ def ProtAnnCaseAt (P : WTParams) (case : ∀ {w : ℕ} (LG : LayeredGarden w), B
 /-- **The open case F-D6b-2**: a terminal pin together with a selected annular vertex. -/
 def ProtAnnPinSelAt (P : WTParams) : Prop := ProtAnnCaseAt P (fun _ pin Sel => pin = true ∧ Sel.Nonempty)
 
-/-- Its prefix form (the hypothesis of `protAnnBoundGate_of`). -/
-def ProtAnnPinSelGate : Prop := WTPrefix ProtAnnPinSelAt
-
 /-- The unpinned selected case. -/
 def ProtAnnFreeSelAt (P : WTParams) : Prop := ProtAnnCaseAt P (fun _ pin _ => pin = false)
 
@@ -140,24 +137,5 @@ theorem protAnnCaseAt_mono (case : ∀ {w : ℕ} (LG : LayeredGarden w), Bool �
     a15 a16 H B a17 b₀ c₀).trans
     (mul_le_mul_of_nonneg_right (mul_le_mul_of_nonneg_left
       (regBound_largeConstants_mono P (by linarith) hCC hδ.le (by linarith) n _) zero_le) zero_le)
-
-/-- **`ProtAnnBoundGate` from D3's gate and the two selected cases.** -/
-theorem protAnnBoundGate_of (hD3 : ProtBoundGate) (hfree : WTPrefix ProtAnnFreeSelAt)
-    (hps : ProtAnnPinSelGate) : ProtAnnBoundGate := by
-  have h12 : WTPrefix (fun P => ProtBoundAt P ∧ ProtAnnFreeSelAt P) :=
-    prefix_and hD3 hfree protBoundAt_mono (protAnnCaseAt_mono _)
-  have hall : WTPrefix (fun P => (ProtBoundAt P ∧ ProtAnnFreeSelAt P) ∧ ProtAnnPinSelAt P) :=
-    prefix_and h12 hps (protBoundAt_mono.and (protAnnCaseAt_mono _)) (protAnnCaseAt_mono _)
-  intro d hd γ hγ
-  obtain ⟨η₀, hη₀, H⟩ := hall d hd γ hγ
-  refine ⟨η₀, hη₀, fun η hη φin hφin τ hτ φ hsol => ?_⟩
-  obtain ⟨C₁, hC₁, ν₀, hν₀, H2⟩ := H η hη φin hφin τ hτ φ hsol
-  refine ⟨C₁, hC₁, ν₀, hν₀, fun ν hν => ?_⟩
-  obtain ⟨δ₀, hδ₀, H3⟩ := H2 ν hν
-  refine ⟨δ₀, hδ₀, fun δ hδ D hD htime => ?_⟩
-  obtain ⟨C₂, hC₂, L₀, hL₀, H4⟩ := H3 δ hδ D hD htime
-  refine ⟨C₂, hC₂, L₀, hL₀, fun L hL => ?_⟩
-  obtain ⟨⟨h1, h2⟩, h3⟩ := H4 L hL
-  exact protAnnBoundAt_of_cases _ h1 (show (1 : ℝ) ≤ L by linarith) (show 1 ≤ d by omega) h2 h3
 
 end WaveTurbulence.Flower.ProtWhole

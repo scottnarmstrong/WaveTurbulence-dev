@@ -68,46 +68,6 @@ theorem isSomeVine_connected {γ : ℝ} {M : Molecule V D} {S : Finset V} {a b :
 
 /-! ## Size -/
 
-theorem y2Step_card {G G' : TVine.UMultigraph V} (h : TVine.Y2Step G G') : G'.verts.card + 2 = G.verts.card := by
-  obtain ⟨a, b, c, d, hab, -, -, -, -, -, h3, -, -, -, -, hv, -⟩ := h
-  have ha : a ∈ G.verts := G.supp _ (by rw [h3]; norm_num) a (Sym2.mem_mk_left a b)
-  have hb : b ∈ G.verts := G.supp _ (by rw [h3]; norm_num) b (Sym2.mem_mk_right a b)
-  rw [hv, card_erase_of_mem (mem_erase.mpr ⟨hab.symm, hb⟩), card_erase_of_mem ha]
-  have : 2 ≤ G.verts.card := by
-    have := card_le_card (show ({a, b} : Finset V) ⊆ G.verts by
-      intro x hx; rcases mem_insert.mp hx with rfl | hx
-      · exact ha
-      · rw [mem_singleton.mp hx]; exact hb)
-    rwa [card_pair hab] at this
-  omega
-
-theorem reflTransGen_y2_card {G G' : TVine.UMultigraph V} (h : Relation.ReflTransGen TVine.Y2Step G G') :
-    G'.verts.card ≤ G.verts.card := by
-  induction h with
-  | refl => exact le_rfl
-  | tail _ hs ih => have := y2Step_card hs; omega
-
-/-- A T-vine has at least five atoms (its closure reduces to the doubled triangle). -/
-theorem tvine_card_ge_five {M : Molecule V D} {S : Finset V} {a b : V} (h : M.IsTVine S a b) : 5 ≤ S.card := by
-  obtain ⟨hB, -, G, G', ⟨-, hv, -⟩, hr, ⟨x, y, z, hxy, hxz, hyz, hG', -⟩⟩ := h
-  have h3 : G'.verts.card = 3 := by
-    rw [hG', card_insert_of_notMem (by simp [hxy, hxz]), card_pair hyz]
-  have hle := reflTransGen_y2_card hr
-  rw [hv] at hle
-  have hb' : b ∈ S.erase a := mem_erase.mpr ⟨hB.2.2.2.1.symm, hB.2.2.1⟩
-  rw [card_erase_of_mem hb', card_erase_of_mem hB.2.1] at hle
-  omega
-
-/-- A member of `𝒱_γ` with fewer than four atoms is a double bond (I). -/
-theorem isSomeVine_typeI_of_card_lt_four {γ : ℝ} {M : Molecule V D} {S : Finset V} {a b : V}
-    (h : Src.IsSomeVine γ M S a b) (hc : S.card < 4) : M.IsVine .I S a b := by
-  rcases h with ⟨-, h | h | h⟩ | ⟨-, X, h⟩
-  · exact h
-  · exact absurd (Vine.isVine_typeI_of_card_lt_four h hc) (by decide)
-  · exact absurd (tvine_card_ge_five h) (by omega)
-  · have := Vine.isVine_typeI_of_card_lt_four h hc
-    subst this; exact h
-
 /-! ## Connectivity after removing one atom -/
 
 /-- The named input `TVineF1Input`, carried as an instance (`Fact`) so that it propagates to the lemmas that use it. -/
@@ -192,26 +152,5 @@ theorem isSomeVine_erase_connected [Fact TVineF1Input] {γ : ℝ} {V D : Type} [
   · exact Vine.isVine_erase_connected h z
   · exact tvine_erase_connected h z
   · exact Vine.isVine_erase_connected h z
-
-/-- **The interior of a member of `𝒱_γ` is connected** (main's `Vine.isVine_interior_connected`). -/
-theorem isSomeVine_interior_connected [Fact TVineF1Input] {γ : ℝ} {V D : Type} [DecidableEq V] [Fintype D]
-    [DecidableEq D] {M : Molecule V D} {S : Finset V} {a b : V} (h : Src.IsSomeVine γ M S a b) :
-    Vine.GroupConnected M (S \ {a, b}) := by
-  rcases h with ⟨-, h | h | h⟩ | ⟨-, X, h⟩
-  · exact Vine.isVine_interior_connected h
-  · exact Vine.isVine_interior_connected h
-  · have he : S \ {a, b} = (S.erase a).erase b := by
-      ext v; simp only [mem_sdiff, mem_insert, mem_singleton, mem_erase]; tauto
-    rw [he]
-    exact vineConn_of_molConn (tvineF1 M S a b h).1
-  · exact Vine.isVine_interior_connected h
-
-/-- The joints of a member of `𝒱_γ` are the joints of any block structure on its atoms. -/
-theorem isSomeVine_rejoint {γ : ℝ} {M : Molecule V D} {S : Finset V} {a b x y : V}
-    (h : Src.IsSomeVine γ M S a b) (hB : M.IsBlock S x y) : Src.IsSomeVine γ M S x y := by
-  have hj := Vine.block_joints_unique M (Src.isBlock_of_isSomeVine h) hB
-  rcases Mole.finset_pair_eq_pair_iff.mp hj with ⟨h1, h2⟩ | ⟨h1, h2⟩
-  · subst h1; subst h2; exact h
-  · subst h1; subst h2; exact isSomeVine_swap h
 
 end WaveTurbulence.GammaLow.Fama

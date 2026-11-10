@@ -34,10 +34,6 @@ theorem layer_le_repCMk (S : Garden w) (hM : S.molecule.IsMolecule) (σ : Prescr
   · push_neg at h
     rw [stSt_repC_noneMk (Mk := Mk) hM σ h]
 
-theorem layer_le_repC (S : Garden w) (hM : S.molecule.IsMolecule) (σ : Prescription S)
-    {f : GBranch S.tree → ℕ} (hf : LFTwist.IsBranchPrelayering S f) (v : GBranch S.tree) :
-    f v ≤ f (repC (stSt S σ).cls v) := layer_le_repCMk (Mk := ∅) S hM σ hf v
-
 /-- B1b (Mk-general form of `ob_prelayering`). -/
 theorem ob_prelayeringMk (S : Garden w) (hM : S.molecule.IsMolecule) (σ : Prescription S)
     {f : GBranch S.tree → ℕ} (hf : LFTwist.IsBranchPrelayering S f) {Mk : Set (Stage1.CLVine _)} :
@@ -65,10 +61,5 @@ theorem ob_prelayeringMk (S : Garden w) (hM : S.molecule.IsMolecule) (σ : Presc
     refine this ?_
     exact (Mole.parent_child_eq_node ((stSt (Mk := Mk) S σ).M.ob c).toNode ho).symm
   exact h2.trans (layer_le_repCMk (Mk := Mk) S hM σ hf _)
-
-/-- `f ∘ ob` is a branch pre-layering of the spliced garden. -/
-theorem ob_prelayering (S : Garden w) (hM : S.molecule.IsMolecule) (σ : Prescription S)
-    {f : GBranch S.tree → ℕ} (hf : LFTwist.IsBranchPrelayering S f) :
-    LFTwist.IsBranchPrelayering (stSt S σ).G (f ∘ (stSt S σ).M.ob) := ob_prelayeringMk (Mk := ∅) S hM σ hf
 
 end WaveTurbulence.ClassCount

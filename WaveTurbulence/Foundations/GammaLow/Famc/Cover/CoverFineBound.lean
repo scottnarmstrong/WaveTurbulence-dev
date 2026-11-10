@@ -42,7 +42,6 @@ public import WaveTurbulence.Foundations.GammaLow.Famc.Cover.SourceOrdinaryJoint
 public import WaveTurbulence.Foundations.GammaLow.Famc.Cover.SourcePairsCompatible
 public import WaveTurbulence.Foundations.GammaLow.Famc.Cover.SourcePairsMain
 public import WaveTurbulence.Foundations.GammaLow.Famc.Cover.SourcePrimaryPairChoices
-public import WaveTurbulence.Foundations.GammaLow.Famc.Cover.SourcePrimaryPairTable
 public import WaveTurbulence.Foundations.GammaLow.Famc.Cover.SourceRestrictedCarrier
 public import WaveTurbulence.Foundations.GammaLow.Famc.Defs
 public import WaveTurbulence.Foundations.GammaLow.Famc.Cover.SourceSwapObject
@@ -61,14 +60,11 @@ public import WaveTurbulence.Foundations.GammaLow.Famc.Cover.SplicedFilteredChoi
 public import WaveTurbulence.Foundations.GammaLow.Famc.Cover.SplicedFilteredCountA
 public import WaveTurbulence.Foundations.GammaLow.Famc.Cover.SplicedFilteredGates
 public import WaveTurbulence.Foundations.GammaLow.Famc.Cover.SplicedFilteredRawBound
-public import WaveTurbulence.Foundations.GammaLow.Famc.Cover.SplicedFiniteSupport
 public import WaveTurbulence.Foundations.GammaLow.Famc.Cover.SplicedFrequencyCount
 public import WaveTurbulence.Foundations.GammaLow.Famc.Cover.SplicedFrequencySupport
-public import WaveTurbulence.Foundations.GammaLow.Famc.Cover.SplicedKernelFormula
 public import WaveTurbulence.Foundations.GammaLow.Famc.Cover.SplicedRawPrefactorLog
 public import WaveTurbulence.Foundations.GammaLow.Famc.Cover.SplicedSelectedAbsoluteSum
 public import WaveTurbulence.Foundations.GammaLow.Famc.Cover.SplicedSelectedKernel
-public import WaveTurbulence.Foundations.GammaLow.Famc.Cover.SplicedSumIntegral
 public import WaveTurbulence.Foundations.GammaLow.Famc.Cover.VineDelObjects
 public import WaveTurbulence.Foundations.Spine.CoverFine
 /-! The counting cover assembled: TARGET finalsbest2 (L2078) for the spliced kernel of an actual

@@ -41,10 +41,6 @@ def DoubleVine.recast (D : DoubleVine γ G) : DoubleVine γ' G :=
   ⟨D.first, D.second, D.upper, D.lower, D.sigma_one, isSomeVine_recast hγ hγ' D.first_vine,
     isSomeVine_recast hγ hγ' D.second_vine, D.overlap⟩
 
-theorem ofVine_recast {M : Molecule (GBranch G.tree) (GardenDart G)} {S : Finset (GBranch G.tree)}
-    {a b : GBranch G.tree} (h : IsSomeVine γ M S a b) :
-    Object.ofVine (isSomeVine_recast hγ hγ' h) = (Object.ofVine h).recast hγ hγ' := rfl
-
 theorem mem_recast_image {K : Set (Object γ G.molecule)} {P : Object γ' G.molecule} :
     P ∈ Object.recast hγ hγ' '' K ↔ P.recast hγ' hγ ∈ K := by
   constructor

@@ -51,10 +51,6 @@ def SubproChoices.Structural {γ : ℝ} {G : Garden w} (C : SubproChoices γ G) 
   (∀ i j, i ≠ j → Disjoint (C.collection i).atoms (C.collection j).atoms) ∧
   ∀ a b, G.molecule.bondsBetween a b = 3 → a ∈ C.hinges ∨ b ∈ C.hinges
 
-/-- A small-gap object lies outside every selected object. -/
-def SubproChoices.Outside {γ : ℝ} {G : Garden w} (C : SubproChoices γ G) (P : Object γ G.molecule) : Prop :=
-  ∀ i, ¬ P.IsContained (C.collection i)
-
 /-- Atom-set version of `Outside` (R28 (3)). -/
 def SubproChoices.OutsideAtoms {γ : ℝ} {G : Garden w} (C : SubproChoices γ G) (P : Object γ G.molecule) : Prop :=
   ∀ i, ¬ P.atoms ⊆ (C.collection i).atoms

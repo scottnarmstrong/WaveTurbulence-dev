@@ -98,36 +98,12 @@ theorem tau_nonemptyMk (i : TripIMk S σ Mk Tss) : ((tauMk Tss i).1.erase (tauMk
 
 end tripfactsMk
 
-/-- The index of the canonical ingredient triples of all units. -/
-abbrev TripI (S : Garden w) (σ : Prescription S) (Tss : Fin (unitBlocks S σ).length → List (Trip S)) : Type :=
-  Σ j : Fin (unitBlocks S σ).length, Fin (Tss j).length
-
-/-- The ingredient triple of an index. -/
-def tau {S : Garden w} {σ : Prescription S} (Tss : Fin (unitBlocks S σ).length → List (Trip S))
-    (i : TripI S σ Tss) : Trip S := (Tss i.1).get i.2
-
 section tripfacts
 variable {S : Garden w} {σ : Prescription S} {Tss : Fin (unitBlocks S σ).length → List (Trip S)}
   (h1 : ∀ j, ∃ n, ∀ t ∈ Tss j, ChainIngredient S.molecule ((unitBlocks S σ).get j).atoms
           ((unitBlocks S σ).get j).upper ((unitBlocks S σ).get j).lower n t.1 t.2.1 t.2.2 ∧
           Mole.CLParentPattern S t.1 t.2.1 t.2.2)
   (h2 : ∀ j, ((Tss j).map (fun t => t.1.erase t.2.1)).Pairwise Disjoint)
-
-include h1 in
-theorem tau_spec (i : TripI S σ Tss) :
-    (tau Tss i).1 ⊆ ((unitBlocks S σ).get i.1).atoms ∧ (tau Tss i).2.1 ∈ (tau Tss i).1 ∧
-      (tau Tss i).2.2 ∈ (tau Tss i).1 ∧ (tau Tss i).2.1 ≠ (tau Tss i).2.2 ∧
-      (tau Tss i).1 ∈ unitIngredients S σ :=
-  tau_specMk (Mk := ∅) h1 i
-
-include h1 h2 in
-theorem tau_disjoint {i i' : TripI S σ Tss} (hne : i ≠ i') :
-    Disjoint ((tau Tss i).1.erase (tau Tss i).2.1) ((tau Tss i').1.erase (tau Tss i').2.1) :=
-  tau_disjointMk (Mk := ∅) h1 h2 hne
-
-include h1 in
-theorem tau_nonempty (i : TripI S σ Tss) : ((tau Tss i).1.erase (tau Tss i).2.1).Nonempty :=
-  tau_nonemptyMk (Mk := ∅) h1 i
 
 end tripfacts
 
@@ -195,23 +171,6 @@ theorem E_leMk {S : Garden w} (hS : S.IsPlain) {σ : Prescription S} {Mk : Set (
     _ ≤ _ := by
         have hcard' : (Finset.univ.filter (fun i => RB i)).card ≤ 2 * ∑ s, gs s := hcard
         rw [hsum1]; omega
-
-open Classical in
-/-- **The bad-ingredient exponent.** -/
-theorem E_le {S : Garden w} (hS : S.IsPlain) {σ : Prescription S} (D : ReconstructionData S) (p : ℕ)
-    {Tss : Fin (unitBlocks S σ).length → List (Trip S)}
-    (h1 : ∀ j, ∃ n, ∀ t ∈ Tss j, ChainIngredient S.molecule ((unitBlocks S σ).get j).atoms
-          ((unitBlocks S σ).get j).upper ((unitBlocks S σ).get j).lower n t.1 t.2.1 t.2.2 ∧
-          Mole.CLParentPattern S t.1 t.2.1 t.2.2)
-    (h2 : ∀ j, ((Tss j).map (fun t => t.1.erase t.2.1)).Pairwise Disjoint)
-    (A : Finset (LayeredGarden w)) (gs : ReplacementSlot S → ℕ)
-    (hA : ∀ LG ∈ A, IsCanonGC (p + 1) LG ∧ ∃ hd : D.Decodes hS LG.garden, ∀ s, slotInc D hS LG s = gs s)
-    (gfix : Finset (GBranch S.tree) → ℕ) :
-    ∑ j, (((Tss j).filter (fun t => ¬ GoodIng S hS p (A.image (coreOf D hS)) gfix t)).map
-        (fun t => gfix t.1 + 3)).sum ≤
-      8 * ∑ T ∈ (Finset.univ : Finset (TripI S σ Tss)).image (fun i => (tau Tss i).1), gfix T +
-        6 * ∑ s, gs s :=
-  E_leMk (Mk := ∅) hS D p h1 h2 A gs hA gfix
 
 theorem class_numerics {K0 : ℝ} (hK2 : 2 ≤ K0) {p G Γ ρq E V rt size n : ℕ} {cardA Sg : ℝ} (hSg0 : 0 ≤ Sg)
     (hb1 : cardA ≤ ((2 : ℝ) ^ (9 * p)) ^ G * 2 ^ size * 2 ^ (p * rt) * Sg)
@@ -314,28 +273,5 @@ theorem class_boundMk : ∃ K0 : ℝ, 2 ≤ K0 ∧ ∀ {w : ℕ} (S : Garden w) 
   have hSg0 : 0 ≤ ∑ f ∈ 𝓖, (2 : ℝ) ^ (bondExp S.molecule Finset.univ f) :=
     Finset.sum_nonneg fun f _ => by positivity
   exact class_numerics hK0 hSg0 hb1 hw hEb hrt
-
-open Classical in
-/-- **The class bound.** -/
-theorem class_bound : ∃ K0 : ℝ, 2 ≤ K0 ∧ ∀ {w : ℕ} (S : Garden w) (hS : S.IsPlain) (D : ReconstructionData S)
-    (σ : Prescription S),
-    ∃ Tss : Fin (unitBlocks S σ).length → List (Trip S),
-      (∀ j, ∃ n, ∀ t ∈ Tss j, ChainIngredient S.molecule ((unitBlocks S σ).get j).atoms
-          ((unitBlocks S σ).get j).upper ((unitBlocks S σ).get j).lower n t.1 t.2.1 t.2.2 ∧
-          Mole.CLParentPattern S t.1 t.2.1 t.2.2) ∧
-      (∀ j, ((Tss j).map (fun t => t.1.erase t.2.1)).Pairwise Disjoint) ∧
-      ∀ (p : ℕ) (A : Finset (LayeredGarden w)) (gs : ReplacementSlot S → ℕ)
-        (γ : {T // T ∈ (stSt S σ).G.molecule.maximalLadders} → ℕ) (V : ℕ)
-        (hA : ∀ LG ∈ A, IsCanonGC (p + 1) LG ∧ ∃ hd : D.Decodes hS LG.garden, (∀ s, slotInc D hS LG s = gs s) ∧
-          ∀ i, incoherencyIndex (coreOf D hS LG ∘ (stSt S σ).M.ob)
-            (ladderGroups ((ladderDataOf (stSt S σ).G).upper i) ((ladderDataOf (stSt S σ).G).lower i)) = γ i)
-        (hconst : ∀ LG ∈ A, ∀ LG' ∈ A, ∀ i : TripI S σ Tss,
-          vineIncoh S (coreOf D hS LG) (tau Tss i).1 = vineIncoh S (coreOf D hS LG') (tau Tss i).1)
-        (hV : ∀ LG ∈ A, ∑ T ∈ (Set.toFinite (unitIngredients S σ)).toFinset, vineIncoh S (coreOf D hS LG) T ≤ V),
-      (A.card : ℝ) ≤ (2 : ℝ) ^ D.size * K0 ^ (4 * Fintype.card (GBranch S.tree)) *
-        (K0 ^ (p + 1)) ^ (24 * ((stSt S σ).G.molecule.rho + (unitBlocks S σ).length) + 15 * ∑ s, gs s +
-          ∑ i, γ i + 8 * V) :=
-  let ⟨K0, hK0, h⟩ := class_boundMk
-  ⟨K0, hK0, fun S hS D σ => h S hS D σ ∅⟩
 
 end WaveTurbulence.ClassCount

@@ -48,7 +48,4 @@ def RegularComponentBoundAtI (B : ℝ) (Pm : ℕ) (P : WTParams) : Prop :=
 /-- The D6b target: for every `B ≥ 74`, under the flower prefix. -/
 def RegularComponentTargetI : Prop := ∀ B : ℝ, 74 ≤ B → WTPrefixP (RegularComponentBoundAtI B)
 
-/-- The prefix form of the pointwise per-garden statement. -/
-def RegularComponentPointwiseGate : Prop := WTPrefix RegularComponentPointwiseAt
-
 end WaveTurbulence.Flower.ProtWhole

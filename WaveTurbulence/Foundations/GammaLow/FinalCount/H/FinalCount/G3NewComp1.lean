@@ -25,7 +25,6 @@ public import WaveTurbulence.Foundations.GammaLow.FinalCount.Step1.VCInj
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.Step1.VCLadProd
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.Step1.VCNew1
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.Step1.VCNew10
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.Step1.VCNew11
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.Step1.VCNew12
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.Step1.VCNew13
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.Step1.VCNew3

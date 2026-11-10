@@ -27,14 +27,6 @@ def splicedSelectedCarrier {w d : ℕ} (G : Garden w) (D : SplicedKernelData G d
     (roots : Fin w → (Fin d → ℤ)) : Set (GenDecoration G d roots 0) :=
   {z | splicedMomentumAmplitude G D L γ η base z.1 ≠ 0 ∧ C.Admissible L γ η base (bondIndex G z.1)}
 
-noncomputable def splicedSelectedKernel {w d : ℕ} (G : Garden w) (D : SplicedKernelData G d)
-    (C : CountingChoices γv G d) (L γ η δ : ℝ) (base : Mom d)
-    (roots : Fin w → (Fin d → ℤ)) : ℂ :=
-  (coupling d L γ δ : ℂ) ^ G.order *
-    ∑' z : splicedSelectedCarrier G D C L γ η base roots,
-      splicedMomentumAmplitude G D L γ η base z.1.1 *
-        splicedFourierB G D.layer D.rootTime (splicedFrequency G D L γ δ base z.1.1)
-
 /-- Every selected summand has a realized integer box in the literal ladder input. -/
 noncomputable def splicedSelectedBox {w d : ℕ} (G : Garden w) (D : SplicedKernelData G d)
     (hD : SplicedAmplitudeBounds G D) (C : CountingChoices γv G d)

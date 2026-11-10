@@ -51,19 +51,9 @@ def topFilterWeightL {d : ℕ} (S : List ℝ) : (Fin 4 → Mom d) → ℂ :=
 @[simp] theorem topFilterWeightL_nil {d : ℕ} : (topFilterWeightL [] : (Fin 4 → Mom d) → ℂ) = topFilterWeight none :=
   rfl
 
-@[simp] theorem topFilterWeightL_singleton {d : ℕ} (s : ℝ) :
-    (topFilterWeightL [s] : (Fin 4 → Mom d) → ℂ) = topFilterWeight (some s) := by
-  funext q
-  simp [topFilterWeightL, topFilterWeight]
-
 theorem topFilterWeightL_cons {d : ℕ} (s : ℝ) (S : List ℝ) (q : Fin 4 → Mom d) :
     topFilterWeightL (s :: S) q = topFilterWeight (some s) q * topFilterWeightL S q := by
   simp [topFilterWeightL, topFilterWeight]
-
-/-- `Option.toList` carries the single filter to the product: `topFilterWeightL S.toList = topFilterWeight S`. -/
-@[simp] theorem topFilterWeightL_toList {d : ℕ} (S : Option ℝ) :
-    (topFilterWeightL S.toList : (Fin 4 → Mom d) → ℂ) = topFilterWeight S := by
-  cases S <;> simp
 
 /-! ## §2 The kernels (V5W-0's, verbatim with `topFilterWeightL S`) -/
 
@@ -147,35 +137,5 @@ def V5FrontierClassBoundAtL (P : WTParams) : Prop :=
 def V5FrontierClassBoundL : Prop := WTPrefix V5FrontierClassBoundAtL
 
 /-! ## §4 The single-filter kernels are the `S.toList` instances -/
-
-theorem regionWeightFWL_toList {w d : ℕ} {ι : Type*} (p : ℕ) (g : Mom d → ℂ) (S : Option ℝ) (L : ℝ) (base : Mom d)
-    (X : FamilyReconstruction w ι) (U : Finset (GBranch X.skeleton.tree)) (a : GBranch X.skeleton.tree) :
-    regionWeightFWL p g S.toList L base X U a = regionWeightFW p g S L base X U a := by
-  funext x
-  simp only [regionWeightFWL, regionWeightFW, topFilterWeightL_toList]
-
-theorem twistedLocalKernelFWL_toList {w d : ℕ} {κ : Type*} (p : ℕ) (g : Mom d → ℂ) (S : Option ℝ)
-    (Bs : FamilyReconstruction w κ) (c : ChainAt Bs.skeleton Bs.family) :
-    twistedLocalKernelFWL p g S.toList Bs c = twistedLocalKernelFW p g S Bs c := by
-  funext L γ δ F base W t0 t1 t2 e f g' h
-  simp only [twistedLocalKernelFWL, twistedLocalKernelFW, regionWeightFWL_toList]
-
-theorem twistedRecenteredFWL_toList {w d : ℕ} {κ : Type*} (p : ℕ) (g : Mom d → ℂ) (S : Option ℝ) (G : Garden w)
-    (a : GBranch G.tree) (Z : Finset (Σ Bs : FamilyReconstruction w κ, ChainAt Bs.skeleton Bs.family)) :
-    twistedRecenteredFWL p g S.toList G a Z = twistedRecenteredFW p g S G a Z := by
-  funext L γ δ F base W t0 t1 t2 e f g' h
-  simp only [twistedRecenteredFWL, twistedRecenteredFW, twistedLocalKernelFWL_toList]
-
-theorem unitKernelFWL_toList {w d : ℕ} {ι : Type*} {Q : ι → Prop} (p : ℕ) (g : Mom d → ℂ) (S : Option ℝ)
-    (X : FamilyReconstruction w ι) (u : UnitAt X.skeleton X.family Q) :
-    unitKernelFWL p g S.toList X u = unitKernelFW p g S X u := by
-  funext L γ δ F base W t0 t1 t2 e f g' h
-  simp only [unitKernelFWL, unitKernelFW, regionWeightFWL_toList]
-
-theorem unitRecenteredFWL_toList {w d : ℕ} {ι : Type*} {Q : ι → Prop} (p : ℕ) (g : Mom d → ℂ) (S : Option ℝ)
-    (X : FamilyReconstruction w ι) (u : UnitAt X.skeleton X.family Q) :
-    unitRecenteredFWL p g S.toList X u = unitRecenteredFW p g S X u := by
-  funext L γ δ F base W t0 t1 t2 e f g' h
-  simp only [unitRecenteredFWL, unitRecenteredFW, unitKernelFWL_toList]
 
 end WaveTurbulence.Flower.V5W2L

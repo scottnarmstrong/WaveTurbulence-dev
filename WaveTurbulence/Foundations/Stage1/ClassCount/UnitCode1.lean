@@ -28,10 +28,6 @@ theorem insertRungs_n (T : VineTemplate) (s : (ℕ × ℕ) × (ℕ × ℕ)) (k :
   · subst h; simp
   · rfl
 
-theorem insertRungs_slots (T : VineTemplate) (s : (ℕ × ℕ) × (ℕ × ℕ)) (k : ℕ) :
-    (insertRungs T s k).slots = T.slots := by
-  unfold insertRungs; split_ifs <;> rfl
-
 theorem railBonds_length (z : ℕ) (ws : List ℕ) (z' : ℕ) : (railBonds z ws z').length = ws.length + 1 := by
   unfold railBonds
   rw [List.length_zip]; simp

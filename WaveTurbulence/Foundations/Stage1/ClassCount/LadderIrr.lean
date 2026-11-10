@@ -55,40 +55,6 @@ theorem card_darts_to (a b : V) (hab : a ≠ b) :
     ((M.dartsAt a).filter (fun x => M.atom (M.mate x) = b)).card = M.bondsBetween a b :=
   (Mole.bondsBetween_eq_card_darts M hab).symm
 
-/-- An atom with a rung-type partner of multiplicity `2` and a rail-type partner of multiplicity `1`
-has at most one other dart. -/
-theorem other_darts_le_one (hM : M.IsMolecule) {a b c : V} (ha : a ∈ M.atoms) (hab : a ≠ b) (hac : a ≠ c)
-    (hbc : b ≠ c) (h1 : M.bondsBetween a b = 2) (h2 : M.bondsBetween a c = 1) :
-    ((M.dartsAt a).filter (fun x => M.atom (M.mate x) ≠ b ∧ M.atom (M.mate x) ≠ c)).card ≤ 1 := by
-  classical
-  have hdeg := Mole.deg_le_four M hM ha
-  have e1 := card_darts_to M a b hab
-  have e2 := card_darts_to M a c hac
-  rw [h1] at e1
-  rw [h2] at e2
-  have hsplit : (M.dartsAt a).card =
-      ((M.dartsAt a).filter (fun x => M.atom (M.mate x) = b)).card +
-      ((M.dartsAt a).filter (fun x => M.atom (M.mate x) = c)).card +
-      ((M.dartsAt a).filter (fun x => M.atom (M.mate x) ≠ b ∧ M.atom (M.mate x) ≠ c)).card := by
-    rw [← Finset.card_union_of_disjoint, ← Finset.card_union_of_disjoint]
-    · congr 1
-      ext x
-      simp only [Finset.mem_union, Finset.mem_filter]
-      tauto
-    · rw [Finset.disjoint_left]
-      intro x hx hx'
-      simp only [Finset.mem_union, Finset.mem_filter] at hx hx'
-      rcases hx with ⟨_, h⟩ | ⟨_, h⟩
-      · exact hx'.2.1 h
-      · exact hx'.2.2 h
-    · rw [Finset.disjoint_left]
-      intro x hx hx'
-      simp only [Finset.mem_filter] at hx hx'
-      exact hbc (hx.2.symm.trans hx'.2)
-  have : M.deg a = (M.dartsAt a).card := rfl
-  rw [e1, e2] at hsplit
-  omega
-
 variable {M}
 
 theorem LReg_rung_u (j : Fin (m + 1)) : LReg u v (u j) (v j) := Or.inl ⟨j, Or.inl ⟨rfl, rfl⟩⟩

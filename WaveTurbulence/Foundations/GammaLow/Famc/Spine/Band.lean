@@ -112,12 +112,6 @@ theorem count_flatMap_range_single {α : Type*} [DecidableEq α] (n : ℕ) (g : 
       · rw [if_pos h, if_pos (by omega), add_zero]
       · rw [if_neg h, if_neg (by omega)]
 
-theorem count_flatMap_range_none {α : Type*} [DecidableEq α] (n : ℕ) (g : ℕ → List α) (q : α)
-    (hj : ∀ i, q ∉ g i) : ((List.range n).flatMap g).count q = 0 :=
-  List.count_eq_zero.mpr fun h => by
-    obtain ⟨i, -, hi⟩ := List.mem_flatMap.mp h
-    exact hj i hi
-
 /-- The short part of a band code. -/
 def bandShort (n : ℕ) (mult : ℕ → ℕ → ℕ) : List (ℕ × ℕ) :=
   (List.range n).flatMap fun i => (List.range (2 * bandW + 1)).flatMap fun k =>

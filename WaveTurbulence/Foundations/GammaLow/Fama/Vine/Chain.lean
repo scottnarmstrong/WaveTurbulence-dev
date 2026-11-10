@@ -41,99 +41,12 @@ theorem chain_joints_mem {S : Finset V} {a b : V} {n : ℕ} (h : Src.Chain γ M 
 theorem chain_joints_ne {S : Finset V} {a b : V} {n : ℕ} (h : Src.Chain γ M S a b n) : a ≠ b :=
   (chain_ends h).2.2
 
-/-- Hyper-vines are actual hyper-blocks. -/
-theorem isHV_isHyperBlock {S : Finset V} {a b : V} (h : Src.IsHV γ M S a b) : Mole.IsHyperBlock M S a b := by
-  obtain ⟨e, he, hv⟩ := h
-  exact ⟨e, he, Src.isBlock_of_isSomeVine hv⟩
-
-/-- Hyper-vine-chains are actual hyper-blocks. -/
-theorem isHVC_isHyperBlock {S : Finset V} {a b : V} (h : Src.IsHVC γ M S a b) : Mole.IsHyperBlock M S a b := by
-  obtain ⟨e, he, hB, _⟩ := h
-  exact ⟨e, he, hB⟩
-
 /-- Actual ordered concatenation preserves connectivity. -/
 theorem chain_connected {S : Finset V} {a b : V} {n : ℕ} (h : Src.Chain γ M S a b n) : Vine.GroupConnected M S := by
   induction h with
   | single h => exact isSomeVine_connected h
   | append hS hT _ _ ih =>
     exact Vine.groupConnected_union M ih (isSomeVine_connected hT) (chain_joints_mem hS).2 (isSomeVine_ends hT).1
-
-/-- TARGET defvine: every VC is connected. -/
-theorem isVC_connected {S : Finset V} {a b : V} (h : Src.IsVC γ M S a b) : Vine.GroupConnected M S := by
-  obtain ⟨_hB, n, hn⟩ := h
-  exact chain_connected hn
-
-theorem isSomeVine_card_ge_two {S : Finset V} {a b : V} (h : Src.IsSomeVine γ M S a b) : 2 ≤ S.card := by
-  have hp : ({a, b} : Finset V) ⊆ S := by
-    intro v hv
-    rcases mem_insert.mp hv with rfl | hv
-    · exact (isSomeVine_ends h).1
-    · rw [mem_singleton.mp hv]; exact (isSomeVine_ends h).2.1
-  have hh := card_le_card hp
-  rwa [card_pair (isSomeVine_ends h).2.2] at hh
-
-/-- A chain of `n` vine ingredients has at least `n + 1` atoms. -/
-theorem chain_card_ge {S : Finset V} {a b : V} {n : ℕ} (h : Src.Chain γ M S a b n) : n + 1 ≤ S.card := by
-  induction h with
-  | single h => exact isSomeVine_card_ge_two h
-  | @append S T a b c n hS hT hi _hne ih =>
-    have htwo := isSomeVine_card_ge_two hT
-    have hc := card_union_add_card_inter S T
-    rw [hi, card_singleton] at hc
-    omega
-
-/-- Every small chain consists only of double-bond ingredients (main's `Vine.DoubleChain`). -/
-theorem chain_doubleChain_of_card_lt_four {S : Finset V} {a b : V} {n : ℕ} (h : Src.Chain γ M S a b n)
-    (hc : S.card < 4) : Vine.DoubleChain M S a b n := by
-  induction h with
-  | single h => exact Vine.DoubleChain.single (isSomeVine_typeI_of_card_lt_four h hc)
-  | @append S T a b c n hS hT hi hne ih =>
-    have hcS : S.card < 4 := (card_le_card (subset_union_left : S ⊆ S ∪ T)).trans_lt hc
-    have hcT : T.card < 4 := (card_le_card (subset_union_right : T ⊆ S ∪ T)).trans_lt hc
-    exact Vine.DoubleChain.append (ih hcS) (isSomeVine_typeI_of_card_lt_four hT hcT) hi hne
-
-/-- A VC on at most three atoms is one or two double-bond ingredients. -/
-theorem isVC_doubleChain_of_card_le_three {A : Finset V} {x y : V} (hVC : Src.IsVC γ M A x y) (hc : A.card ≤ 3) :
-    Vine.DoubleChain M A x y 1 ∨ Vine.DoubleChain M A x y 2 := by
-  obtain ⟨_hB, n, hC⟩ := hVC
-  have hp := chain_pos hC
-  have hD := chain_doubleChain_of_card_lt_four hC (by omega)
-  have hcount := Vine.doubleChain_card hD
-  have hn : n = 1 ∨ n = 2 := by have := chain_card_ge hC; omega
-  rcases hn with rfl | rfl
-  · exact Or.inl hD
-  · exact Or.inr hD
-
-theorem chain_one_isSomeVine {S : Finset V} {a b : V} (h : Src.Chain γ M S a b 1) : Src.IsSomeVine γ M S a b := by
-  cases h with
-  | single h => exact h
-  | append hS _ _ _ => exact absurd (chain_pos hS) (by omega)
-
-/-- TARGET defvine: an HV or HVC is exactly an object with a designated joint bond whose deletion is a VC. -/
-theorem hyperLike_iff_adjoint_VC {A : Finset V} {x y : V} :
-    (Src.IsHV γ M A x y ∨ Src.IsHVC γ M A x y) ↔
-      ∃ e : D, M.ends e = s(x, y) ∧ Src.IsVC γ (Molecule.eraseBond M e) A x y := by
-  constructor
-  · rintro (h | h)
-    · obtain ⟨e, he, hV⟩ := h
-      exact ⟨e, he, isVC_of_isSomeVine hV⟩
-    · obtain ⟨e, he, hB, n, _hn, hC⟩ := h
-      exact ⟨e, he, hB, n, hC⟩
-  · rintro ⟨e, he, hB, n, hC⟩
-    by_cases hn : n = 1
-    · subst n
-      exact Or.inl ⟨e, he, chain_one_isSomeVine hC⟩
-    · have hpos := chain_pos hC
-      exact Or.inr ⟨e, he, hB, n, by omega, hC⟩
-
-/-- The adjoint of a three-atom HV/HVC is two concatenated double bonds. -/
-theorem hyperLike_three_atom_adjoint {A : Finset V} {x y : V} (h : Src.IsHV γ M A x y ∨ Src.IsHVC γ M A x y)
-    (hcard : A.card = 3) : ∃ e : D, M.ends e = s(x, y) ∧ Vine.DoubleChain (Molecule.eraseBond M e) A x y 2 := by
-  obtain ⟨e, he, hVC⟩ := hyperLike_iff_adjoint_VC.mp h
-  rcases isVC_doubleChain_of_card_le_three hVC (by omega) with h1 | h2
-  · have hc := Vine.doubleChain_card h1
-    omega
-  · exact ⟨e, he, h2⟩
 
 /-- Concatenation of chains sharing exactly the joining joint. -/
 theorem chain_append_chain {S T : Finset V} {a b c : V} {n m : ℕ}
@@ -262,33 +175,6 @@ theorem chain_prefix_isBlock (M : Molecule V D) (hM : M.IsMolecule) {S T : Finse
     obtain ⟨z, hx, hy⟩ := hxy
     exact ⟨z.1, z.2, hx, hy⟩
   exact Relation.EqvGen.mono hmono u v (chain_connected hS u hu v hv)
-
-/-- A connected-after-any-erasure set inside a chain block lies in a single ingredient (main's
-`Vine.erase_connected_in_chain_ingredient`). -/
-theorem erase_connected_in_chain_ingredient (M : Molecule V D) (hM : M.IsMolecule) {A U : Finset V} {a b : V}
-    {n : ℕ} (hconn : ∀ z, Vine.GroupConnected M (A.erase z)) (h : Src.Chain γ M U a b n) :
-    M.IsBlock U a b → A ⊆ U → ∃ T p q, ChainIngredientG γ M U a b n T p q ∧ A ⊆ T := by
-  induction h with
-  | single h =>
-    intro _hU hAU
-    exact ⟨_, _, _, ChainIngredientG.single h, hAU⟩
-  | @append S T a b c n hS hT hi hne ih =>
-    intro hU hAU
-    have hX := Src.isBlock_of_isSomeVine hT
-    have hside := Vine.connected_erase_subset_side M S T A b (chain_joints_mem hS).2 hX.2.1 hAU
-      (fun v hv hvb u hu huv => Vine.terminal_block_adj_mem M hM hX hU Finset.subset_union_right hv hvb hu huv)
-      (hconn b)
-    rcases hside with hAS | hAT
-    · obtain ⟨B, p, q, hB, hAB⟩ := ih (chain_prefix_isBlock M hM hS hT hi hU) hAS
-      exact ⟨B, p, q, ChainIngredientG.append_left hB hT hi hne, hAB⟩
-    · exact ⟨T, b, c, ChainIngredientG.append_last hS hT hi hne, hAT⟩
-
-/-- TARGET subsetvc's chain step: a member of `𝒱_γ` inside a chain block lies in a single ingredient. -/
-theorem vine_in_chain_ingredient [Fact TVineF1Input] {V D : Type} [DecidableEq V] [Fintype D] [DecidableEq D]
-    (M : Molecule V D) (hM : M.IsMolecule) {A U : Finset V} {x y a b : V} {n : ℕ}
-    (hA : Src.IsSomeVine γ M A x y) (h : Src.Chain γ M U a b n) :
-    M.IsBlock U a b → A ⊆ U → ∃ T p q, ChainIngredientG γ M U a b n T p q ∧ A ⊆ T :=
-  erase_connected_in_chain_ingredient M hM (isSomeVine_erase_connected hA) h
 
 /-- A member of `𝒱_γ` inside a block split at the initial joint of a terminal block lies on one side. -/
 theorem vine_in_terminal_split [Fact TVineF1Input] {V D : Type} [DecidableEq V] [Fintype D] [DecidableEq D]

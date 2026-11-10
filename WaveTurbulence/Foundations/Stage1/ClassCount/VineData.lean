@@ -48,10 +48,6 @@ def vineRealizationSwap {M : Molecule V D} {X : VineType} {S : Finset V} {a b : 
     (R : VineRealization M X S a b) : VineRealization M X S b a :=
   { R with joints_eq := by rw [Finset.pair_comm]; exact R.joints_eq }
 
-theorem realizedIncoherencyIndex_swap {L : Type*} [DecidableEq L] {M : Molecule V D} {X : VineType} {S : Finset V}
-    {a b : V} (R : VineRealization M X S a b) (layer : V → L) :
-    realizedIncoherencyIndex (vineRealizationSwap R) layer = realizedIncoherencyIndex R layer := rfl
-
 theorem realizedIncoherencyIndex_any {L : Type*} [DecidableEq L] {M : Molecule V D} (hM : M.IsMolecule)
     {X Y : VineType} {S : Finset V} {a b a' b' : V} (R : VineRealization M X S a b)
     (R' : VineRealization M Y S a' b') (hB : M.IsBlock S a b) (hB' : M.IsBlock S a' b') (layer : V → L) :

@@ -91,9 +91,4 @@ theorem stage1ReductionAtMKFull_of_B3s (cP cθ : ℝ) (hB : WTPrefix (MarkedClas
     ∃ C₀ : ℕ, 2 ≤ C₀ ∧ WTPrefix (Stage1ReductionAtMKFull C₀ cP cθ) :=
   stage1ReductionAtMKFull_of cP cθ hB b2eIX zeroVanish_prefix
 
-/-- **The frozen form** `MkDefs.Stage1ReductionAtMK` (R177/R180 text) at `cP + 343`, from B3s's hypothesis alone. -/
-theorem stage1ReductionAtMK_of_B3s (cP cθ : ℝ) (hB : WTPrefix (MarkedClassRepresentsMK cP cθ)) :
-    ∃ C₀ : ℕ, 2 ≤ C₀ ∧ WTPrefix (Stage1ReductionAtMK C₀ (cP + 343)) :=
-  stage1ReductionAtMK_of cP cθ hB b2eIX zeroVanish_prefix
-
 end WaveTurbulence.Flower.Stage1MKGate

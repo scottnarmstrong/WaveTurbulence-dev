@@ -79,17 +79,6 @@ theorem pieceRestB3s_largeConstants {P : WTParams} {R : ℕ} (c₁ c₂ : ℝ) (
     (h : PieceRestB3s π cθ) : PieceRestB3s (P := ({P with C₁ := c₁, C₂ := c₂} : WTParams)) π cθ :=
   ⟨h.prot_card, h.fix_prot, h.fix_layer, h.filt_ok, h.ind_ok, h.ind_local, h.lb_free, h.lb_prot, h.lb_layer⟩
 
-theorem classPiece_largeConstants (P : WTParams) {R : ℕ} (c₁ c₂ : ℝ) (mkF : Stage1Mk.MarkFn (2 * R))
-    (a : PrescribedPrimeGarden (2 * R))
-    (prot : Finset (GBranch (RedSplice.stSt a.prime.skeleton a.totalSigma (classMk mkF a)).G.tree)) (n : ℕ)
-    (fix : GBranch (RedSplice.stSt a.prime.skeleton a.totalSigma (classMk mkF a)).G.tree → Option ℝ)
-    (filt : GBranch (RedSplice.stSt a.prime.skeleton a.totalSigma (classMk mkF a)).G.tree →
-      Option (ℝ × SchwartzMap ℝ ℂ))
-    (ind : (GNode (RedSplice.stSt a.prime.skeleton a.totalSigma (classMk mkF a)).G.tree → Mom P.d) → ℝ)
-    (lb : GBranch (RedSplice.stSt a.prime.skeleton a.totalSigma (classMk mkF a)).G.tree → Option ℝ) :
-    classPiece ({P with C₁ := c₁, C₂ := c₂} : WTParams) mkF a prot n fix filt ind lb =
-      classPiece P mkF a prot n fix filt ind lb := rfl
-
 /-- **The B3 + B3s hypothesis is large-constant monotone.** -/
 theorem markedClassRepresentsMK_mono (cP cθ : ℝ) : LargeConstantMonotone (MarkedClassRepresentsMK cP cθ) := by
   intro P c₁ c₂ hC hC₂ hδ hL h₁ h₂ h
@@ -143,17 +132,5 @@ theorem stage1ReductionAtMKFull_of (cP cθ : ℝ) (hB : WTPrefix (MarkedClassRep
   have hQ2 := prefix_with_C2_ge hQ (hm.and prefix_C1_mono) (K : ℝ)
   exact prefix_map (fun P hP => fullAt hcnt hP.2.1 (zero_le_one.trans hP.1.2) (by linarith [hP.2.2]) hP.1.1.1 hIX
     hP.1.1.2) hQ2
-
-/-- **The frozen form `MkDefs.Stage1ReductionAtMK` (R177 text)** at `cP + 343`, from the same inputs. -/
-theorem stage1ReductionAtMK_of (cP cθ : ℝ) (hB : WTPrefix (MarkedClassRepresentsMK cP cθ)) (hIX : B2eIX)
-    (hZ : WTPrefix ZeroVanish) : ∃ C₀ : ℕ, 2 ≤ C₀ ∧ WTPrefix (Stage1ReductionAtMK C₀ (cP + 343)) := by
-  obtain ⟨C₀, K, hC₀, hcnt⟩ := exists_pieceCountAt
-  refine ⟨C₀, hC₀, ?_⟩
-  have hm := (markedClassRepresentsMK_mono cP cθ).and zeroVanish_mono
-  have hQ := prefix_and (prefix_and hB hZ (markedClassRepresentsMK_mono cP cθ) zeroVanish_mono) prefix_C1 hm
-    prefix_C1_mono
-  have hQ2 := prefix_with_C2_ge hQ (hm.and prefix_C1_mono) (K : ℝ)
-  exact prefix_map (fun P hP => frozenAt (cθ := cθ) hcnt hP.2.1 (zero_le_one.trans hP.1.2) (by linarith [hP.2.2])
-    hP.1.1.1 hIX hP.1.1.2) hQ2
 
 end WaveTurbulence.Flower.Stage1MKGate

@@ -71,12 +71,6 @@ variable {γ γ' : ℝ} (hγ : γ ≤ 1 / 2) (hγ' : γ' ≤ 1 / 2) {M : Molecul
   obtain ⟨A, a, b, sh⟩ := U
   cases sh <;> rfl
 
-theorem Object.recast_injective : Function.Injective (Object.recast (M := M) hγ hγ') := fun U U' h => by
-  rw [← Object.recast_recast hγ hγ' U, ← Object.recast_recast hγ hγ' U', h]
-
-theorem Object.recast_surjective : Function.Surjective (Object.recast (M := M) hγ hγ') := fun U =>
-  ⟨U.recast hγ' hγ, Object.recast_recast hγ' hγ U⟩
-
 @[simp] theorem Object.recast_containsDart (U : Object γ M) (x : D) :
     (U.recast hγ hγ').ContainsDart x ↔ U.ContainsDart x := by
   obtain ⟨A, a, b, sh⟩ := U
@@ -93,9 +87,6 @@ theorem Object.recast_surjective : Function.Surjective (Object.recast (M := M) h
   obtain ⟨A, a, b, sh⟩ := U
   obtain ⟨A', a', b', sh'⟩ := U'
   cases sh <;> cases sh' <;> rfl
-
-@[simp] theorem Object.recast_isInterior (U : Object γ M) (v : V) :
-    (U.recast hγ hγ').IsInterior v ↔ U.IsInterior v := Iff.rfl
 
 theorem allowedCollectionObject_recast {w : ℕ} {G : Garden w} (U : Object γ G.molecule) :
     AllowedCollectionObject γ' G (U.recast hγ hγ') ↔ AllowedCollectionObject γ G U := by

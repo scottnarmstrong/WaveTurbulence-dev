@@ -27,10 +27,6 @@ theorem chain_joints_memΓ {M : Molecule V D} {S : Finset V} {a b : V} {n : ℕ}
   | single h => exact ⟨(memBlock h).2.1, (memBlock h).2.2.1⟩
   | append _ hT _ _ ih => exact ⟨mem_union_left _ ih.1, mem_union_right _ (memBlock hT).2.2.1⟩
 
-theorem chain_posΓ {M : Molecule V D} {S : Finset V} {a b : V} {n : ℕ}
-    (h : FinalCount.Src.Chain γF M S a b n) : 1 ≤ n := by
-  cases h <;> omega
-
 theorem chain_joints_neΓ {M : Molecule V D} {S : Finset V} {a b : V} {n : ℕ}
     (h : FinalCount.Src.Chain γF M S a b n) : a ≠ b := by
   cases h with

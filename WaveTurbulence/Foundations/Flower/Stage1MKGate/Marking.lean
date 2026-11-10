@@ -25,15 +25,6 @@ namespace WaveTurbulence.Flower.Stage1MKGate
 
 variable {w : ℕ}
 
-/-- The world's batch form is main's (same body). -/
-theorem markInvariantBatchV_toMain {mk : MarkFn w} {Clean : ∀ {LG : LayeredGarden w}, PrimeData LG → Prop}
-    (h : MkMark.MarkInvariantBatchV mk Clean) : Stage1Mk.MarkInvariantBatchV mk Clean :=
-  fun hb hA hm hc => h hb hA hm hc
-
-theorem markInvariantBatchV_ofMain {mk : MarkFn w} {Clean : ∀ {LG : LayeredGarden w}, PrimeData LG → Prop}
-    (h : Stage1Mk.MarkInvariantBatchV mk Clean) : MkMark.MarkInvariantBatchV mk Clean :=
-  fun hb hA hm hc => h hb hA hm hc
-
 /-- `markedVinesRaw` is monotone in the protected set. -/
 theorem markedVinesRaw_mono {S : Garden w} (X : GBranch S.tree → RegChain) {T : Fin w → TTree}
     {Pi Pi' : Finset (GNode T)} (h : Pi ⊆ Pi') : markedVinesRaw S X Pi ⊆ markedVinesRaw S X Pi' :=

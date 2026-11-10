@@ -73,9 +73,6 @@ theorem _root_.WaveTurbulence.RedSplice.InducedIso.mapObj_atomsFc (O : Src.Objec
 theorem _root_.WaveTurbulence.RedSplice.InducedIso.mapObj_upperFc (O : Src.Object γ N) (hO : O.atoms ⊆ B) :
     (I.mapObjFc O hO).upper = I.π O.upper := rfl
 
-theorem _root_.WaveTurbulence.RedSplice.InducedIso.mapObj_lowerFc (O : Src.Object γ N) (hO : O.atoms ⊆ B) :
-    (I.mapObjFc O hO).lower = I.π O.lower := rfl
-
 /-- A dart of `B` is in the transported object iff it is in the object (main `InducedIso.containsDart_map`). -/
 theorem _root_.WaveTurbulence.RedSplice.InducedIso.containsDart_mapFc (O : Src.Object γ N) (hO : O.atoms ⊆ B) {x : D}
     (hx : N.InGroup B x) : (I.mapObjFc O hO).ContainsDart (I.e ⟨x, hx⟩).1 ↔ O.ContainsDart x := by

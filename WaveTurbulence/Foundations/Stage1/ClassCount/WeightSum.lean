@@ -124,23 +124,6 @@ theorem unit_blockMk : ∃ Cu : ℝ, 2 ≤ Cu ∧ ∀ {w : ℕ} (S : Garden w) (
   have := hbound p p 𝓖 h𝓖 gfix hgfix 𝓗 h𝓗 hd
   simpa only [bw_eq_pow] using this
 
-open Classical in
-/-- **Unit block bound** (`unit_sum` for the unit `u`, with the ingredient list exposed; the list depends only on `u`). -/
-theorem unit_block : ∃ Cu : ℝ, 2 ≤ Cu ∧ ∀ {w : ℕ} (S : Garden w) (hS : S.IsPlain) (σ : Prescription S)
-    (u : CLBlock S) (hu : u ∈ unitBlocks S σ),
-    ∃ Ts : List (Finset (GBranch S.tree) × GBranch S.tree × GBranch S.tree),
-      (∃ n, ∀ t ∈ Ts, ChainIngredient S.molecule u.atoms u.upper u.lower n t.1 t.2.1 t.2.2 ∧
-        Mole.CLParentPattern S t.1 t.2.1 t.2.2) ∧
-      (Ts.map (fun t => t.1.erase t.2.1)).Pairwise Disjoint ∧
-      ∀ (p : ℕ) (𝓖 : Finset (GBranch S.tree → ℕ)) (h𝓖 : ∀ f ∈ 𝓖, LFTwist.IsBranchPrelayering S f ∧ ∀ x, f x ≤ p)
-        (gfix : Finset (GBranch S.tree) → ℕ) (hgfix : ∀ f ∈ 𝓖, ∀ t ∈ Ts, vineIncoh S f t.1 = gfix t.1),
-      ∀ 𝓗 ⊆ 𝓖, DistinctOn u.atoms 𝓗 →
-        ∑ f ∈ 𝓗, (2 : ℝ) ^ (bondExp S.molecule u.atoms f) ≤ Cu ^ (3 * u.atoms.card) *
-          (Cu ^ (p + 1)) ^ (3 + ((Ts.filter (fun t => ¬ GoodIng S hS p 𝓖 gfix t)).map
-            (fun t => gfix t.1 + 3)).sum) :=
-  let ⟨Cu, hCu, h⟩ := unit_blockMk
-  ⟨Cu, hCu, fun S hS σ u hu => h S hS σ ∅ u hu⟩
-
 theorem card_atomsOf {V D : Type*} [DecidableEq V] [Fintype D] [DecidableEq D] {M : Molecule V D} {ι : Type}
     (F : LadderFam M ι) (i : ι) : (F.atomsOf i).card = 2 * (F.len i + 1) := by
   classical
@@ -425,26 +408,5 @@ theorem weight_sum_leMk : ∃ K0 : ℝ, 2 ≤ K0 ∧ ∀ {w : ℕ} (S : Garden w
     have : ((𝓖.card : ℕ) : ℝ) ≤ 1 := by exact_mod_cast hc
     refine this.trans ?_
     exact one_le_mul_of_one_le_of_one_le (one_le_pow₀ hK1) (one_le_pow₀ (one_le_pow₀ hK1))
-
-open Classical in
-/-- **The weight sum over a class of layerings (B2).**  The ingredient lists `Tss` depend only on `(S, σ)`. -/
-theorem weight_sum_le : ∃ K0 : ℝ, 2 ≤ K0 ∧ ∀ {w : ℕ} (S : Garden w) (hS : S.IsPlain) (σ : Prescription S),
-    ∃ Tss : Fin (unitBlocks S σ).length → List (Trip S),
-      (∀ j, ∃ n, ∀ t ∈ Tss j, ChainIngredient S.molecule ((unitBlocks S σ).get j).atoms
-          ((unitBlocks S σ).get j).upper ((unitBlocks S σ).get j).lower n t.1 t.2.1 t.2.2 ∧
-          Mole.CLParentPattern S t.1 t.2.1 t.2.2) ∧
-      (∀ j, ((Tss j).map (fun t => t.1.erase t.2.1)).Pairwise Disjoint) ∧
-      ∀ (p : ℕ) (𝓖 : Finset (GBranch S.tree → ℕ)) (h𝓖 : ∀ f ∈ 𝓖, LFTwist.IsBranchPrelayering S f ∧ ∀ x, f x ≤ p)
-        (γ : {T // T ∈ (stSt S σ).G.molecule.maximalLadders} → ℕ)
-        (hγ : ∀ f ∈ 𝓖, ∀ i, incoherencyIndex (f ∘ (stSt S σ).M.ob)
-          (ladderGroups ((ladderDataOf (stSt S σ).G).upper i) ((ladderDataOf (stSt S σ).G).lower i)) = γ i)
-        (gfix : Finset (GBranch S.tree) → ℕ)
-        (hgfix : ∀ f ∈ 𝓖, ∀ j, ∀ t ∈ Tss j, vineIncoh S f t.1 = gfix t.1),
-      ∑ f ∈ 𝓖, (2 : ℝ) ^ (bondExp S.molecule S.molecule.atoms f) ≤
-        K0 ^ (4 * Fintype.card (GBranch S.tree)) * (K0 ^ (p + 1)) ^
-          (8 * ((stSt S σ).G.molecule.rho + (unitBlocks S σ).length) + ∑ i, γ i +
-            ∑ j, (((Tss j).filter (fun t => ¬ GoodIng S hS p 𝓖 gfix t)).map (fun t => gfix t.1 + 3)).sum) :=
-  let ⟨K0, hK0, h⟩ := weight_sum_leMk
-  ⟨K0, hK0, fun S hS σ => h S hS σ ∅⟩
 
 end WaveTurbulence.ClassCount

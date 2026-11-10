@@ -33,12 +33,9 @@ public import WaveTurbulence.Foundations.GammaLow.Fama.Coll.Basic
 public import WaveTurbulence.Foundations.GammaLow.Fama.Coll.Collection
 public import WaveTurbulence.Foundations.GammaLow.Fama.Inputs
 public import WaveTurbulence.Foundations.GammaLow.Fama.Vine.Chain
-public import WaveTurbulence.Foundations.GammaLow.Fama.P.Molecule.VineChainEraseEndpoints
-public import WaveTurbulence.Foundations.GammaLow.Fama.P.Molecule.VineChainInteriorConnected
 public import WaveTurbulence.Foundations.GammaLow.Fama.Vine.Facts
 public import WaveTurbulence.Foundations.GammaLow.Fama.P.Molecule.VineLocalDartChains
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.Src.Objects
-public import WaveTurbulence.Foundations.GammaLow.Fama.P.Spine.VineDelObjects
 
 
 /-!
@@ -82,15 +79,6 @@ theorem groupUnitsMk_of_markedMK {Mk : Set (CLVineG γ G)} {S : Finset (GBranch 
   simp only [h, exists_markedGroupUnits h, ↓reduceIte, ↓reduceDIte]
   rfl
 
-
-/-- **Every run of a marked group has a spine of unmarked `𝒱`-ingredients** (B0 §5: `unitBlocks_selected_spine`
-for runs). -/
-theorem groupUnitsMk_spine_of_markedMK {Mk : Set (CLVineG γ G)} {S : Finset (GBranch G.tree)}
-    (h : markedGroup γ G Mk S) {u : CLBlock G} (hu : u ∈ groupUnitsMk γ G Mk S) :
-    ∃ L, Spine γ G.molecule L u.atoms u.upper u.lower ∧ ∀ t ∈ L, ∃ c : CLVineG γ G,
-      c ∈ vinesVG γ G ∧ c ∉ Mk ∧ IsIngredientG γ G.molecule S c.atoms ∧ c.atoms = t.1 := by
-  rw [groupUnitsMk_of_markedMK h] at hu
-  exact (markedUnitsOfMK γ h).spine u hu
 
 section units
 variable {σ : Prescription G} {Mk : Set (CLVineG γ G)}

@@ -28,7 +28,6 @@ public import WaveTurbulence.Foundations.GammaLow.Famc.Cover.SourceOrdinaryJoint
 public import WaveTurbulence.Foundations.GammaLow.Famc.Cover.SourcePairsCompatible
 public import WaveTurbulence.Foundations.GammaLow.Famc.Cover.SourcePairsMain
 public import WaveTurbulence.Foundations.GammaLow.Famc.Cover.SourcePrimaryPairChoices
-public import WaveTurbulence.Foundations.GammaLow.Famc.Cover.SourcePrimaryPairTable
 public import WaveTurbulence.Foundations.GammaLow.Famc.Cover.SourceRestrictedCarrier
 public import WaveTurbulence.Foundations.GammaLow.Famc.Cover.SourceSwapObject
 public import WaveTurbulence.Foundations.GammaLow.Famc.Cover.SourceUnionAtoms

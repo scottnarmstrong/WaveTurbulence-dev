@@ -46,30 +46,6 @@ theorem card_support_le (hP : G.IsPlain) (D : SplicedKernelData G d) (hD : Splic
   rw [hk, Finset.card_image_of_injective _ (bondIndex_injective G hP roots)] at h
   simpa using h
 
-theorem norm_splicedFourierBMK_le_one (layer : GBranch G.tree → ℕ) (rootTime : Fin w → ℝ)
-    (fix : GBranch G.tree → Option ℝ) (α : GBranch G.tree → ℝ) :
-    ‖splicedFourierBMK G layer rootTime fix α‖ ≤ 1 := by
-  rw [splicedFourierBMK_eq]
-  set B : Set ({x : GBranch G.tree // fix x = none} → ℝ) :=
-    Set.pi univ fun i => Icc (layer i.1 : ℝ) (layer i.1 + 1) with hB
-  have hBm : MeasurableSet B := MeasurableSet.univ_pi fun _ => measurableSet_Icc
-  have hvol : volume B = 1 := by
-    rw [hB, volume_pi_pi]
-    simp [Real.volume_Icc]
-  have hint : Integrable (B.indicator fun _ => (1 : ℝ)) :=
-    (integrable_indicator_iff hBm).2 (integrableOn_const (by rw [hvol]; simp))
-  refine (norm_integral_le_integral_norm _).trans ?_
-  refine (integral_mono_of_nonneg (Filter.Eventually.of_forall fun τ => norm_nonneg _) hint
-    (Filter.Eventually.of_forall fun τ => ?_)).trans ?_
-  · show ‖(splicedTimeDomainFix G layer rootTime fix).indicator (phaseF α) (G.extendFix fix τ)‖ ≤ _
-    by_cases h : G.extendFix fix τ ∈ splicedTimeDomainFix G layer rootTime fix
-    · have hτ : τ ∈ B := Set.mem_univ_pi.2 fun i => by
-        have := (h.1 i.1 i.2).1
-        rwa [extendFix_of_none fix τ i.1 i.2] at this
-      rw [indicator_of_mem h, indicator_of_mem hτ, norm_phaseF]
-    · rw [indicator_of_notMem h, norm_zero]; exact indicator_nonneg (fun _ _ => zero_le_one) τ
-  · rw [integral_indicator_const _ hBm]; simp [Measure.real, hvol]
-
 /-- **The trivial bound** `‖K‖ ≤ |coupling|^n (2L+1)^{d·#bonds}` (amplitudes and time transforms bounded by one). -/
 theorem norm_kernel_le_trivial (hP : G.IsPlain) (D : SplicedKernelDataMK G d)
     (hD : SplicedAmplitudeBounds G D.toSplicedKernelData)

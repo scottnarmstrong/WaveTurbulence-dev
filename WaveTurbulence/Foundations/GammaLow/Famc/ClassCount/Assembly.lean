@@ -28,13 +28,6 @@ noncomputable def rbarOfMkG (γ : ℝ) [Fact (γ ≤ 1 / 2)] {R : ℕ} (S : Gard
     (Mk : Set (Fama.CLVineG γ S)) : ℕ :=
   (Fama.stSt γ S σ Mk).G.molecule.rho + (Fama.collectionChoices γ S σ Mk).hinges.card
 
-theorem rbarOfG_eq_rbarOfMkG (γ : ℝ) [Fact (γ ≤ 1 / 2)] {R : ℕ} (S : Garden (2 * R)) (σ : Prescription S) :
-    rbarOfG γ S σ = rbarOfMkG γ S σ ∅ := rfl
-
-theorem rbar_stage1PieceOfG (γ : ℝ) [Fact (γ ≤ 1 / 2)] {R : ℕ} (d : ℕ) {S : Garden (2 * R)}
-    {D : ReconstructionData S} (hS : S.IsPlain) (LG : LayeredGarden (2 * R)) (hd : D.Decodes hS LG.garden)
-    (σ : Prescription S) : (Fama.stage1PieceOf γ d hS LG hd σ).rbar = rbarOfG γ S σ := rfl
-
 /-- **Leg 1 over `𝒱_γ`** (main `SkeletonLeg`): plain skeletons of order `≤ N` having a prescription with `ρ̄ = r`
 number at most `C₀^N (C₀ r)! (C₀ R)!`, uniformly in `γ ≤ 1/2`. -/
 def SkeletonLegG : Prop :=

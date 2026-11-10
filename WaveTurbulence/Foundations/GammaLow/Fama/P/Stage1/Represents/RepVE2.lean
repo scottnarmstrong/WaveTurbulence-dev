@@ -224,26 +224,6 @@ variable {G : Garden w} (σ : RedSplice.Prescription G) {J₀ : Type} [Fintype J
   (B₀ : ∀ j, Famb.VineEstS2.CLChainAssemblyΓ γ G (R₀ j) (n₀ j))
   (hcov : ∀ T ∈ unitIngredients γ G σ, ∃ j, IsIngredientG γ G.molecule (U₀ j) T)
 
-include hcov in
-theorem exists_piece_index :
-    ∀ T ∈ unitIngredients γ G σ, ∃ x : (Σ j, Fin (n₀ j)),
-      (Famb.VineEstS2.assemblyPieceAtΓ (B₀ x.1) x.2).atoms = T :=
-  exists_piece_indexMk (Mk := ∅) σ B₀ hcov
-
-include hcov in
-theorem sum_vineIncoh_le_cohmol (layer0 : GBranch G.tree → ℕ) :
-    ∑ T ∈ (Set.toFinite (unitIngredients γ G σ)).toFinset, vineIncoh γ G layer0 T ≤
-      ∑ j, ∑ i : Fin (n₀ j), Famb.groupIncoherency (Famb.famGroups γ G.molecule
-        (Famb.VineEstS2.assemblyPieceAtΓ (B₀ j) i).atoms (Famb.VineEstS2.assemblyPieceAtΓ (B₀ j) i).upper
-        (Famb.VineEstS2.assemblyPieceAtΓ (B₀ j) i).lower) layer0 :=
-  sum_vineIncoh_le_cohmolMk (Mk := ∅) σ B₀ hcov layer0
-
-include hcov in
-theorem card_bad_le (hM9 : Famb.NormalChartSupply γ) :
-    bskOf γ G σ ≤ ∑ j, (Finset.univ.filter fun i : Fin (n₀ j) =>
-      (Famb.VineEstS2.assemblyPieceAtΓ (B₀ j) i).label.IsBad = true).card :=
-  card_bad_leMk (Mk := ∅) σ B₀ hcov hM9
-
 end Cover
 
 end WaveTurbulence.GammaLow.Fama.Represents

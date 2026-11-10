@@ -63,9 +63,6 @@ def covOf {M : Molecule V D₀} (T : TriData M) (σ : Sig) : Finset V :=
   (if σ.1 = 0 then ∅ else {T.f 0}) ∪ (if σ.2.1 = 0 then ∅ else {T.f 1}) ∪
     (if σ.1 = 0 ∧ σ.2.1 = 0 ∧ σ.2.2 = 1 then {T.f 0} else ∅)
 
-theorem kOf_le_two (σ : Sig) : kOf σ ≤ 2 := by
-  unfold kOf; split_ifs <;> simp_all
-
 theorem card_covOf_le {M : Molecule V D₀} (T : TriData M) (σ : Sig) : (covOf T σ).card ≤ kOf σ := by
   unfold covOf kOf
   refine (card_union_le _ _).trans ?_

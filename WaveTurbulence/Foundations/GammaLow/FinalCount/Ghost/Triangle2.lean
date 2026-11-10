@@ -213,32 +213,5 @@ theorem triangle_excess_ghost_low {L γ η δ C₁ : ℝ} (H : TriReal d L γ η
   · exact tri_low_bb T H hM c hn w Adm Adm' hAdm' P hP0 hP1 hP2 hP3 hnz R₀ R₁ κ₀ κ₁ gh ag hag Qg kg hQl hQu hlow
       hnot3 hα0 hα1 ν hν hok
 
-/-- **A creating triangle step has at most one ghost** (so no pair of `α`-ghosts, and `PairOK` / `GhostPairsOK` hold
-vacuously): two distinct ghosts force both cuts to be `β`-cuts. -/
-theorem beta_beta_of_two_ghosts (gh : Fin 3 → Prop) (hgd : ∀ j, gh j → M.deg (T.t j) ≤ 2) (j₁ j₂ : Fin 3)
-    (hj : j₁ ≠ j₂) (h₁ : gh j₁) (h₂ : gh j₂) : ¬ T.IsA0 ∧ ¬ T.IsA1 := by
-  have hA1 : ∀ j, gh j → j ≠ 0 → ¬ T.IsA1 := by
-    intro j hjg hj0
-    rcases (by fin_cases j <;> simp : j = 0 ∨ j = 1 ∨ j = 2) with rfl | rfl | rfl
-    · exact absurd rfl hj0
-    · exact T.not_isA1_of_ghost1 (hgd _ hjg)
-    · exact T.not_isA1_of_ghost2 (hgd _ hjg)
-  have hne0 : j₁ ≠ 0 ∨ j₂ ≠ 0 := by
-    by_contra h; push Not at h; exact hj (h.1.trans h.2.symm)
-  have hb1 : ¬ T.IsA1 := by
-    rcases hne0 with h | h
-    · exact hA1 j₁ h₁ h
-    · exact hA1 j₂ h₂ h
-  refine ⟨fun hα0 => ?_, hb1⟩
-  have h0 : ∀ j, gh j → j ≠ 0 := fun j hjg e => by subst e; exact T.not_isA0_of_ghost (hgd _ hjg) hα0
-  have h12 : gh 1 ∧ gh 2 := by
-    have a1 := h0 j₁ h₁
-    have a2 := h0 j₂ h₂
-    rcases (by fin_cases j₁ <;> simp : j₁ = 0 ∨ j₁ = 1 ∨ j₁ = 2) with rfl | rfl | rfl <;>
-      rcases (by fin_cases j₂ <;> simp : j₂ = 0 ∨ j₂ = 1 ∨ j₂ = 2) with rfl | rfl | rfl <;>
-      simp_all
-  have hsc := T.sc_f0_f1_of_ghost2 (hgd 2 h12.2) hα0
-  exact T.f_ne (by decide : (0 : Fin 3) ≠ 1) (sc_isolated (T.m2_dartless1 (hgd 1 h12.1)) hsc)
-
 end Tri
 end WaveTurbulence.GammaLow.FinalCount.Ghost

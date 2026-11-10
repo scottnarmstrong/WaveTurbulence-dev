@@ -120,15 +120,6 @@ theorem gbar_decompMk {R : ℕ} (d : ℕ) {S : Garden (2 * R)} {D : Reconstructi
     rfl
   rw [Finset.sum_congr rfl fun i _ => this i]
 
-/-- **`ḡ` of a piece is `Σ gs + (vine incoherencies) + Σ γ`.** -/
-theorem gbar_decomp {R : ℕ} (d : ℕ) {S : Garden (2 * R)} {D : ReconstructionData S} (hS : S.IsPlain)
-    (LG : LayeredGarden (2 * R)) (hd : D.Decodes hS LG.garden) (σ : Prescription S) :
-    (stage1PieceOf d hS LG hd σ).gbar = ∑ s, slotInc D hS LG s +
-      ∑ T ∈ (Set.toFinite (unitIngredients S σ)).toFinset, vineIncoh S (coreOf D hS LG) T +
-      ∑ i : {T // T ∈ (stSt S σ).G.molecule.maximalLadders},
-        incoherencyIndex (coreOf D hS LG ∘ (stSt S σ).M.ob)
-          (ladderGroups ((ladderDataOf (stSt S σ).G).upper i) ((ladderDataOf (stSt S σ).G).lower i)) := gbar_decompMk (Mk := ∅) d hS LG hd σ
-
 /-- B1b (Mk-general form of `stSt_eq_of_unitBlocks_eq`). -/
 theorem stSt_eq_of_unitBlocks_eqMk (S : Garden w) (σ σ' : Prescription S)
     {Mk : Set (Stage1.CLVine _)} (h : unitBlocks (Mk := Mk) S σ = unitBlocks (Mk := Mk) S σ') : stSt (Mk := Mk) S σ = stSt (Mk := Mk) S σ' := by
@@ -229,9 +220,6 @@ theorem length_le_hingesMk (S : Garden w) (σ : Prescription S) {Mk : Set (Stage
         rw [hc j, hc j'] at hu
         exact Finset.disjoint_left.1 hd ((unitBlocks (Mk := Mk) S σ).get j).isBlock.2.1 (hu ▸ ((unitBlocks (Mk := Mk) S σ).get j').isBlock.2.1)
 
-theorem length_le_hinges (S : Garden w) (σ : Prescription S) :
-    (unitBlocks S σ).length ≤ (stSt S σ).hinges.card := length_le_hingesMk (Mk := ∅) S σ
-
 /-- B2d: `ρ_sb + #units ≤ ρ̄` at any marked set. -/
 theorem rho_add_length_le_rbarOfMk (S : Garden (2 * w)) (σ : Prescription S) (Mk : Set (Stage1.CLVine S)) :
     (stSt S σ Mk).G.molecule.rho + (unitBlocks S σ Mk).length ≤ rbarOfMk S σ Mk := by
@@ -297,13 +285,5 @@ theorem card_tripI_leMk {S : Garden w} {σ : Prescription S} {Mk : Set (Stage1.C
     Fintype.card (TripIMk S σ Mk Tss) ≤ Fintype.card (GBranch S.tree) :=
   card_le_of_disjoint_nonempty (fun i : TripIMk S σ Mk Tss => (tauMk Tss i).1.erase (tauMk Tss i).2.1)
     (fun i => tau_nonemptyMk h1 i) (fun i i' hne => tau_disjointMk h1 h2 hne)
-
-theorem card_tripI_le {S : Garden w} {σ : Prescription S} {Tss : Fin (unitBlocks S σ).length → List (Trip S)}
-    (h1 : ∀ j, ∃ n, ∀ t ∈ Tss j, ChainIngredient S.molecule ((unitBlocks S σ).get j).atoms
-          ((unitBlocks S σ).get j).upper ((unitBlocks S σ).get j).lower n t.1 t.2.1 t.2.2 ∧
-          Mole.CLParentPattern S t.1 t.2.1 t.2.2)
-    (h2 : ∀ j, ((Tss j).map (fun t => t.1.erase t.2.1)).Pairwise Disjoint) :
-    Fintype.card (TripI S σ Tss) ≤ Fintype.card (GBranch S.tree) :=
-  card_tripI_leMk (Mk := ∅) h1 h2
 
 end WaveTurbulence.ClassCount

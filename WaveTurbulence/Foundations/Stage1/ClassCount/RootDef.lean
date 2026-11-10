@@ -391,11 +391,6 @@ theorem rootThings_leMk (S : Garden w) (hS : S.IsPlain) (σ : Prescription S) (M
       Finset.sum_eq_zero fun v _ => (hemp.false v).elim
     omega
 
-/-- **The root things of the skeleton are bounded by `16 ρ̄`.** -/
-theorem rootThings_le (S : Garden w) (hS : S.IsPlain) (σ : Prescription S) :
-    rootThings hS ≤ 16 * ((stSt S σ).G.molecule.rho + (unitBlocks S σ).length) :=
-  rootThings_leMk S hS σ ∅
-
 end inst
 
 end WaveTurbulence.ClassCount

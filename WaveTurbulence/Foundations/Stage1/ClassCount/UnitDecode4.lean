@@ -52,10 +52,6 @@ theorem ingPosOf_second {sz : ℕ} (hsz : 2 ≤ sz) (sw : Bool) {t : ℕ} (ht : 
     ingPosOf p sz sw t = p + sz - 1 := by
   unfold ingPosOf; split_ifs at ht ⊢ <;> first | omega | contradiction
 
-theorem ingPosOf_pos {sz : ℕ} (hsz : 2 ≤ sz) {sw : Bool} {t : ℕ} (ht : t < sz) (hne : t ≠ if sw then 1 else 0) (p : ℕ) :
-    p + 1 ≤ ingPosOf p sz sw t := by
-  unfold ingPosOf; split_ifs at hne ⊢ <;> first | omega | contradiction
-
 variable {V D : Type*} [DecidableEq V] [Fintype D] [DecidableEq D]
 
 /-- `groupArcs` only depends on the labels of the atoms of the group. -/
@@ -79,10 +75,6 @@ theorem unitArcsAux_append (c : IngCode) : ∀ (cs : List IngCode) (p : ℕ), (�
     simp only [List.cons_append, unitArcsAux, this, List.append_assoc]
     rw [hw]
 
-
-theorem unitWeight_cons (c : IngCode) (cs : List IngCode) :
-    unitWeight (c :: cs) = (c.size - 1) + unitWeight cs := by
-  simp [unitWeight]
 
 theorem unitWeight_append_single (cs : List IngCode) (c : IngCode) :
     unitWeight (cs ++ [c]) = unitWeight cs + (c.size - 1) := by

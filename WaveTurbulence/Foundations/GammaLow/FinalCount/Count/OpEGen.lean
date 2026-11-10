@@ -71,8 +71,6 @@ theorem atom_z₁ : M.atom z₁ = p := (Mole.mem_dartsAt M p z₁).mp (by rw [h.
 
 theorem C_sub : C ⊆ M.atoms := fun v hv => (mem_sdiff.mp (h.atoms_eq ▸ mem_union_left _ hv)).1
 theorem C'_sub : C' ⊆ M.atoms := fun v hv => (mem_sdiff.mp (h.atoms_eq ▸ mem_union_right _ hv)).1
-theorem p_notC {v : V} (hv : v ∈ C ∪ C') : v ≠ p := by
-  intro e; have := (mem_sdiff.mp (h.atoms_eq ▸ hv)).2; rw [e] at this; simp at this
 theorem q_notC {v : V} (hv : v ∈ C ∪ C') : v ≠ q := by
   intro e; have := (mem_sdiff.mp (h.atoms_eq ▸ hv)).2; rw [e] at this; simp at this
 

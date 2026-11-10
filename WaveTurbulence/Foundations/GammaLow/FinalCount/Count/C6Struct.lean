@@ -91,16 +91,6 @@ theorem chain_sub_of_meet {M : Molecule V D} {cls : V → Cls} {K K' : Finset V}
     | trans a c e _ _ ih1 ih2 => exact ih1.trans ih2
   exact (key x y (hK'.2.2.2.2 x hx' y hy)).mp hx
 
-/-- A singleton of a non-`ε` atom none of whose neighbours is non-`ε` is a chain set. -/
-theorem isChainSet_singleton {M : Molecule V D} {cls : V → Cls} {r : V} (hr : r ∈ M.atoms) (hrn : ¬ (cls r).IsEps)
-    (hadj : ∀ w, M.Adj r w → ¬ (cls w).IsEps → w = r) : IsChainSet M cls {r} := by
-  refine ⟨⟨r, mem_singleton_self _⟩, by simpa using hr, fun v hv => by rw [mem_singleton.mp hv]; exact hrn, ?_, ?_⟩
-  · intro u hu w hw hwn
-    rw [mem_singleton.mp hu] at hw
-    exact mem_singleton.mpr (hadj w hw hwn)
-  · intro u hu w hw
-    rw [mem_singleton.mp hu, mem_singleton.mp hw]; exact Relation.EqvGen.refl _
-
 /-- **The remaining chains of case (6)**: with `K₁` the chain of `v₁` and `R = nonEps ∖ K₁`, either `R = ∅`, or `R`
 is one chain, or `R = {v₂, b}` with `{v₂}` and `{b}` two chains. -/
 theorem remaining_cases {M : Molecule V D} {cls : V → Cls} {v₁ v₂ b : V} {K₁ : Finset V}

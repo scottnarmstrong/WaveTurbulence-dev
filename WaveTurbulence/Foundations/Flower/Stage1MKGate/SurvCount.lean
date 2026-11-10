@@ -35,11 +35,6 @@ theorem two_le_card_of_isSomeVine {G : Garden w} {T : Finset (GBranch G.tree)} {
   have hB := hX.1
   exact Finset.one_lt_card.2 ⟨p, hB.2.1, q, hB.2.2.1, hB.2.2.2.1⟩
 
-/-- The atoms of a (CL) vine are nonempty (they contain the upper joint). -/
-theorem CLVine.upper_mem {G : Garden w} (c : CLVine G) : c.upper ∈ c.atoms := by
-  obtain ⟨X, hX⟩ := c.isVine
-  exact hX.1.2.1
-
 /-- The marked `𝒱`-ingredients of a group. -/
 def mkIngr (G : Garden w) (Mk : Set (CLVine G)) (S : Finset (GBranch G.tree)) : Finset (CLVine G) :=
   (Set.toFinite Mk).toFinset.filter fun c => c ∈ vinesV G ∧ IsIngredient G.molecule S c.atoms

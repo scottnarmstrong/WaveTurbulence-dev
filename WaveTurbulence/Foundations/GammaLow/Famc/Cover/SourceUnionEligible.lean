@@ -46,13 +46,4 @@ theorem object_vc_block (O : Object γv M) (h : ∃ h, O.shape = .vc h) :
   | vc h' => exact h'.1
   | hyper R => cases hs
 
-theorem object_contained_of_vc_subset (U C : Object γv M) (hU : ∃ h, U.shape = .vc h)
-    (hsub : U.atoms ⊆ C.atoms) : U.IsContained C := by
-  obtain ⟨hh, hs⟩ := hU
-  rcases U with ⟨A, x, y, Ush⟩
-  rcases C with ⟨S, a, b, Csh⟩
-  cases Ush with
-  | vc h' => cases Csh <;> exact hsub
-  | hyper R => cases hs
-
 end WaveTurbulence.GammaLow.Famc

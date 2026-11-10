@@ -43,23 +43,4 @@ noncomputable def ladderDataOf {w : ℕ} (G : Garden w) : SourceMaximalLadderDat
 
 variable {R : ℕ} {γ : ℝ} [Fact TVineF1Input] [Fact VinechainlemPrimeInput] [Fact (γ ≤ 1 / 2)] [Fact TVineIsoInvariant]
 
-/-- B1b (Mk-general form of `construction_facts`). -/
-theorem construction_factsMk (G : Garden (2 * R)) (hP : Reg.Skeleton.IsPrimeGarden G) (hI : G.Irreducible)
-    (hbal : IsBalancedSig G.sig) (hn : 1 ≤ G.order) (σ : Prescription G) (layer0 : GBranch G.tree → ℕ)
-    (p N : ℕ) (hN : G.order ≤ N) (hlayer : ∀ v, layer0 v ≤ p) {Mk : Set (CLVineG γ _)} :
-    SoundBasics G (stSt γ (Mk := Mk) G σ) layer0 p N ∧ (collectionChoices γ (Mk := Mk) G σ).Structural ∧
-      (∀ v ∈ (collectionChoices γ (Mk := Mk) G σ).hinges, ∀ i,
-        ¬ ((collectionChoices γ (Mk := Mk) G σ).collection i).IsInterior v) := by
-  have hno := prime_noTriple G hP
-  exact ⟨soundBasics G (unitBlocks γ (Mk := Mk) G σ) layer0 p N hP.1 hI hbal hn hN hlayer hno,
-    structural_collectionChoicesMk (Mk := Mk) (garden_isMolecule G) σ hno, hingeOutsideFirst_collectionChoicesMk (Mk := Mk) σ⟩
-
-/-- **The S2a-owned `Sound` facts of the construction.** -/
-theorem construction_facts (G : Garden (2 * R)) (hP : Reg.Skeleton.IsPrimeGarden G) (hI : G.Irreducible)
-    (hbal : IsBalancedSig G.sig) (hn : 1 ≤ G.order) (σ : Prescription G) (layer0 : GBranch G.tree → ℕ)
-    (p N : ℕ) (hN : G.order ≤ N) (hlayer : ∀ v, layer0 v ≤ p) :
-    SoundBasics G (stSt γ G σ) layer0 p N ∧ (collectionChoices γ G σ).Structural ∧
-      (∀ v ∈ (collectionChoices γ G σ).hinges, ∀ i,
-        ¬ ((collectionChoices γ G σ).collection i).IsInterior v) := construction_factsMk (Mk := ∅) G hP hI hbal hn σ layer0 p N hN hlayer
-
 end WaveTurbulence.GammaLow.Fama
