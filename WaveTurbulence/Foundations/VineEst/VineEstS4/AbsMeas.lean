@@ -83,33 +83,6 @@ end Native
 section Meas
 variable {α : Type*} [MeasurableSpace α] {d : ℕ} (L γ δ : ℝ) (F : ℕ → Mom d → ℝ)
 
-theorem measurable_pair {f g : α → ℝ} (hf : Measurable f) (hg : Measurable g) :
-    Measurable (fun τ => (![f τ, g τ] : Fin 2 → ℝ)) := by
-  refine measurable_pi_iff.mpr fun i => ?_
-  fin_cases i
-  · exact hf
-  · exact hg
-
-theorem measurable_KQstar_comp (LG : LayeredGarden 2) (hplain : LG.garden.IsPlain) (k : Mom d)
-    (hF : ∀ ℓ ∈ inputLeaves LG.garden,
-      Summable fun n : Fin d → ℤ => |F (LG.layer ℓ.toNode) (k + latticePoint L n)|)
-    {f g : α → ℝ} (hf : Measurable f) (hg : Measurable g) :
-    Measurable (fun τ => KQstar L γ δ F LG (f τ) (g τ) k) := by
-  have hc : Continuous (fun ts : Fin 2 → ℝ => KQstar L γ δ F LG (ts 0) (ts 1) k) :=
-    continuous_KQstar_time L γ δ F LG hplain k hF
-  have h1 := hc.measurable.comp (measurable_pair hf hg)
-  exact h1
-
-theorem measurable_KTstar_comp (LG : LayeredGarden 1) (hT : IsPairedTree LG.garden) (k : Mom d)
-    (hF : ∀ ℓ ∈ inputLeaves LG.garden,
-      Summable fun n : Fin d → ℤ => |F (LG.layer ℓ.toNode) (k + latticePoint L n)|)
-    {f g : α → ℝ} (hf : Measurable f) (hg : Measurable g) :
-    Measurable (fun τ => KTstar L γ δ F LG (f τ) (g τ) k) := by
-  have hc : Continuous (fun ts : Fin 2 → ℝ => KTstar L γ δ F LG (ts 0) (ts 1) k) :=
-    continuous_KTstar_time L γ δ F LG hT k hF
-  have h1 := hc.measurable.comp (measurable_pair hf hg)
-  exact h1
-
 end Meas
 
 section Clocks

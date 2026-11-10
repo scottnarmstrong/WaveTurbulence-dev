@@ -108,13 +108,6 @@ theorem f_mem_S0_iff (j : Fin 3) : T.f j ∈ T.S0 ↔ j = 0 := by
   · rintro rfl
     exact Finset.mem_filter.mpr ⟨by rw [m1_atoms]; exact Finset.mem_insert_self _ _, Relation.EqvGen.refl _⟩
 
-theorem f_mem_S1_iff (j : Fin 3) (hj : j ≠ 2) : T.f j ∈ T.S1 → j = 1 ∨ j = 0 := by
-  intro h
-  fin_cases j
-  · right; rfl
-  · left; rfl
-  · exact absurd rfl hj
-
 theorem f1_mem_S1 : T.f 1 ∈ T.S1 :=
   Finset.mem_filter.mpr ⟨by rw [m2_atoms]; exact Finset.mem_insert_self _ _, Relation.EqvGen.refl _⟩
 

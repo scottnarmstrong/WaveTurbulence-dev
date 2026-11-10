@@ -1,7 +1,7 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 public import WaveTurbulence.Foundations.Spine.CoverFineBound
-public import WaveTurbulence.Foundations.Spine.SplicedSourceInterpolation
+public import WaveTurbulence.Foundations.Spine.SplicedScaleInterpolation
 public import WaveTurbulence.Foundations.Spine.PieceArithmetic
 public import WaveTurbulence.Foundations.Spine.ClassSumBound
 public import WaveTurbulence.Foundations.Spine.LeafwiseKernel

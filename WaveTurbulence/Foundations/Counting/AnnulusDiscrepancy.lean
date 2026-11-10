@@ -98,22 +98,4 @@ theorem card_annulus_le_two_thirds (s : Finset (Fin 2 → ℤ))
     (by norm_num : (0:ℝ) ≤ 1334) (by norm_num : (0:ℝ) ≤ 2/3) (by norm_num : (2:ℝ)/3 ≤ 1)
     (fun R hR => abs_card_latticeDisc_sub_area_le hR c) hann
 
-/-- Both branches of DH23 `basiccount0pre` (1), conditionally on a circle
-exponent `e`. The elementary branch is fully proved and has its source form. -/
-theorem card_annulus_disc_le_min_of_circle_error (s : Finset (Fin 2 → ℤ))
-    (c d : EuclideanSpace ℝ (Fin 2)) {Q rho L C e : ℝ}
-    (hQ : 2 ≤ Q) (hrho : 0 < rho) (hrhoQ : rho ≤ Q/4) (hscale : 1 ≤ Q*rho)
-    (hL : 0 ≤ L) (hC : 0 ≤ C) (he0 : 0 ≤ e) (he1 : e ≤ 1)
-    (hdisc : ∀ R : ℝ, 1 ≤ R →
-      |((latticeDisc c R).card:ℝ)-Real.pi*R^2| ≤ C*R^e)
-    (hann : ∀ n ∈ s, |‖WaveTurbulence.latticePoint 1 n-c‖-Q| ≤ rho)
-    (hball : ∀ n ∈ s, ‖WaveTurbulence.latticePoint 1 n-d‖ ≤ L) :
-    (s.card:ℝ) ≤ min ((6*Real.pi)*(Q*rho)+(3*C)*Q^e)
-      (640000*(Real.sqrt (Q*rho)+L*(Q*rho)^((3:ℝ)/2)/Q+
-        L*Real.sqrt (Q*rho)*Q^(-((1:ℝ)/3)))) := by
-  apply le_min
-  · exact card_annulus_le_of_circle_error s c hQ hrho hrhoQ hC he0 he1 hdisc hann
-  · exact card_annulus_disc_le_expanded s c d (by linarith only [hQ]) hrho.le
-      (by linarith only [hQ,hrhoQ]) hscale hL hann hball
-
 end WaveTurbulence.Counting

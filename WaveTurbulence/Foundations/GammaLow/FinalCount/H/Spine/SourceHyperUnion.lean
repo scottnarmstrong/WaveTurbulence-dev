@@ -5,7 +5,6 @@ public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineBran
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineChainBlock
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineChainConnected
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineChainCounts
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineChainEnds
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineChainIngredients
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineEraseChainIngredient
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineHyperAdjointVC
@@ -15,16 +14,11 @@ public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineLoca
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineObjects
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineSmallVC
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceChainSwap
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceCountingObjects
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceMaximalObjects
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceObjectFinite
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceObjectUnion
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceOneJointUnion
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceSubproObjects
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceVineData
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceVineGapObjects
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceVineObjectBridge
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceVineObjects
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Api
 /-! **L6-H port of main `WaveTurbulence.Foundations.Spine.SourceHyperUnion`** (sha256 in H/COPIED-SHA256SUMS): only the declarations that
 depend on the vine-family carrier, re-stated over the low family `Src … Src.γL` (and L6-STEP1's
@@ -47,7 +41,6 @@ theorem Src.Chain.ofVine {S : Finset V} {a b : V} {n : ℕ} (h : Src.Chain Src.�
   | single h => exact .single h
   | append h hV hI hne ih => exact .append ih hV hI hne
 
-alias _root_.WaveTurbulence.GammaLow.FinalCount.Src.Chain.ofVine := _root_.WaveTurbulence.GammaLow.FinalCount.H.Src.Chain.ofVine
 theorem hyper_union_object {P Q : Src.Object Src.γL M} {cj : V} {n m : ℕ}
     (hPl : P.lower = cj) (hQu : Q.upper = cj)
     (hPch : Src.Chain Src.γL M P.atoms P.upper cj n) (hQch : Src.Chain Src.γL M Q.atoms cj Q.lower m)

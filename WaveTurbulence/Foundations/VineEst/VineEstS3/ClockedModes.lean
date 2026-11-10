@@ -49,9 +49,6 @@ theorem le_SNorm (Λ₁ Λ₂ : ℕ) (f : Mom d → ℂ) (k : Mom d) :
 namespace ClockedModes
 variable {θ : ℝ} (M : ClockedModes D θ)
 
-theorem one_le_mbp (hθ : 0 ≤ θ) {r : ℕ} (lam : Fin r → ℝ) : 1 ≤ maxBracketPow θ lam :=
-  FS.one_le_maxBracketPow hθ lam
-
 theorem snorm_ne_top (hθ : 0 ≤ θ) (ρ : Row D) (m : Fin 2 → ℤ) : SNorm (30 * d) (rowOrder D ρ) (M.c ρ m) ≠ ⊤ := by
   have h1 : maxBracketPow θ (half m) * SNorm (30 * d) (rowOrder D ρ) (M.c ρ m) ≤ M.b ρ :=
     (ENNReal.le_tsum m).trans (M.fs_bound ρ)

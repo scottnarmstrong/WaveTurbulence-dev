@@ -2,7 +2,6 @@
 module
 
 public import WaveTurbulence.Foundations.Spine.RA1LW.LeafFam
-public import WaveTurbulence.Foundations.Spine.RA1LW.Base
 public import WaveTurbulence.Foundations.Spine.RA1LW.LeadingGeometricBudget
 
 /-! # Geometric full spatial bound on the original source singular leaf kernel -/

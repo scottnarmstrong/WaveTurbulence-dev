@@ -26,9 +26,6 @@ noncomputable def Yz (L γ η ε0 : ℝ) (r : ℤ) : ℝ :=
 theorem Yz_nonneg {L : ℝ} (hL : 0 ≤ L) (γ η ε0 : ℝ) (r : ℤ) : 0 ≤ Yz L γ η ε0 r := by
   unfold Yz; exact Real.rpow_nonneg hL _
 
-theorem Yz_zero (L γ η ε0 : ℝ) : Yz L γ η ε0 0 = 1 := by
-  unfold Yz; simp
-
 theorem Yz_drop {L γ η ε0 : ℝ} (hL : 1 ≤ L) (hη : 0 ≤ η) (hε : 0 ≤ ε0) {r r' : ℤ} {j : ℕ} (h : r' + j = r) :
     Yz L γ η ε0 r' * L ^ (eraseA γ η * (j : ℝ) - ε0) ≤ Yz L γ η ε0 r := by
   have hL0 : 0 < L := by linarith

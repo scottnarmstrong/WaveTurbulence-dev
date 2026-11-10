@@ -79,27 +79,4 @@ theorem subCoupleGarden_isCouple_of_positive_left {a b : GNode G.tree}
     · exact ha
     · exact hb
 
-/-- Every sub-couple condition yields a genuine couple after orienting its two roots. -/
-theorem exists_embedded_couple {a b : GNode G.tree} (h : IsSubCouple G a b) :
-    ∃ E : RootedSubforest G.tree 2,
-      ∃ hc : G.CompletelyPaired (RootedSubforest.leafSet E),
-        IsCouple (RootedSubforest.inducedGarden E hc) ∧
-        RootedSubforest.leafSet E = a.leavesBelow ∪ b.leavesBelow ∧
-        ((E.root 0 = a ∧ E.root 1 = b) ∨ (E.root 0 = b ∧ E.root 1 = a)) := by
-  rcases Int.units_eq_one_or (G.sign a) with ha | ha
-  · exact ⟨twoRootSubforest a b (subCouple_incomparable h), subCouple_forest_closed h,
-      subCoupleGarden_isCouple_of_positive_left h ha, twoRootSubforest_leafSet _ _ _, Or.inl ⟨rfl, rfl⟩⟩
-  · have h' : IsSubCouple G b a := by simpa only [IsSubCouple, Finset.union_comm] using h
-    have hb : G.sign b = 1 := by rw [subCouple_sign h, ha, neg_neg]
-    refine ⟨twoRootSubforest b a (subCouple_incomparable h'), subCouple_forest_closed h',
-      subCoupleGarden_isCouple_of_positive_left h' hb, ?_, Or.inr ⟨rfl, rfl⟩⟩
-    rw [twoRootSubforest_leafSet, Finset.union_comm]
-
-/-- Embedded couple order is the sum of the orders of its two actual subtrees. -/
-theorem subCoupleGarden_order {a b : GNode G.tree} (h : IsSubCouple G a b) :
-    (subCoupleGarden h).order = (nodeSubtree a).order + (nodeSubtree b).order := by
-  change (∑ i : Fin 2, (nodeSubtree (![a, b] i)).order) = _
-  rw [Fin.sum_univ_two]
-  rfl
-
 end WaveTurbulence.Comb

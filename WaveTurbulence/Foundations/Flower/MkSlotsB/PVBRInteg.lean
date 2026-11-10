@@ -55,20 +55,6 @@ def outerIntegrandMD (G : Garden w) (L γ δ : ℝ) (base : Mom d) (roots : Fin 
       ∏ j, HkM j (modLam frq route j) (fun c => clockOf G tt τ (hclk j c))
         (fun c => base + latticePoint L (z.1 (hmom j c)))) τ
 
-/-- The summand of `outerValMμD` is the `μ`-integral of `outerIntegrandMD`. -/
-theorem outerValMμD_eq_outerIntegrandMD (G : Garden w) (L γ δ : ℝ) (base : Mom d)
-    (roots : Fin w → (Fin d → ℤ)) (tt : Fin w → ℝ) (Dom : Set (GBranch G.tree → ℝ))
-    (hinges : Finset (GBranch G.tree)) (Zw : GenDecoration G d roots 0 → ℂ) (hS : G.IsPlain)
-    (μ : Measure (GBranch G.tree → ℝ))
-    (amp : ReplacementSlot G → Mom d → ℂ) (frq : ReplacementSlot G → Fin 2 → ℤ)
-    {J : Type} [Fintype J] [DecidableEq J] (route : ReplacementSlot G → Fin 2 → ClkSrc G ⊕ J)
-    (hclk : J → Fin 3 → ClkSrc G) (hmom : J → Fin 4 → GNode G.tree)
-    (HkM : J → ℤ → (Fin 3 → ℝ) → (Fin 4 → Mom d) → ℂ) :
-    outerValMμD G L γ δ base roots tt Dom hinges Zw hS μ amp frq route hclk hmom HkM =
-      (coupling d L γ δ : ℂ) ^ G.order * G.zeta *
-        ∑' z : GenDecoration G d roots 0, (splicedEpsilon G hinges z.1 : ℂ) * Zw z *
-          ∫ τ, outerIntegrandMD G L γ δ base roots tt Dom hS amp frq route hclk hmom HkM z τ ∂μ := rfl
-
 variable {S : Garden w} {J : Type} [Fintype J] [DecidableEq J] {blk : J → CLBlock S} {Gsb : Garden w}
   {hS : S.IsPlain} {Fs : SlotFamW S d} {L : ℝ} {base : Mom d}
 variable (Φ : SpliceShape blk Gsb)

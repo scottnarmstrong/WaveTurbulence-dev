@@ -141,9 +141,6 @@ noncomputable def indexing (hB : M.IsBlock S a b) : Indexing M false S a b where
       rw [Dc.atomOf_slotS, hi]⟩
   lower := Dc.atomOf_x0
 
-theorem indexing_atom (hB : M.IsBlock S a b) (i : Fin (nshape Dc.m).n) :
-    ((Dc.indexing hB).atom i).1 = Dc.atomOf i := rfl
-
 /-! ## Unit decoding -/
 
 theorem kap_support : ∀ (c : Cell Dc.m Dc.k) (i : Fin (nshape Dc.m).n), (Dc.kap c).1 i ≠ 0 →

@@ -83,16 +83,4 @@ theorem pvOp_const_mul_of_tendsto (c : ℂ) {F : Mom d → Mom d → ℂ} {v : �
   rw [show pvOp F = v from ht.limUnder_eq]
   exact ht'.limUnder_eq
 
-/-- Scalar extraction for the actual countable Fourier-cell class,
-with convergence supplied solely by the original absolute coefficient mass. -/
-theorem pvOp_const_mul_countableCellMixture {I : Type*} [Countable I] (hd : 3 ≤ d)
-    (p q : I → Mom d) (ξ η : I → U → Mom d)
-    (hξ : ∀ i, Measurable (ξ i)) (hη : ∀ i, Measurable (η i))
-    (h : I → U → ℂ) (hsm : ∀ i, StronglyMeasurable (h i))
-    (hi : ∀ i, Integrable (h i) ν) (hsum : Summable (fun i => ∫ u, ‖h i u‖ ∂ν)) (c : ℂ) :
-    pvOp (fun x y => c*(∑' i, cellMixture ν (p i) (q i) (ξ i) (η i) (h i) x y)) =
-      c*pvOp (fun x y => ∑' i, cellMixture ν (p i) (q i) (ξ i) (η i) (h i) x y) :=
-  pvOp_const_mul_of_tendsto c
-    (tendsto_pvTrunc_countableCellMixture ν hd p q ξ η hξ hη h hsm hi hsum)
-
 end WaveTurbulence.RegAsymp

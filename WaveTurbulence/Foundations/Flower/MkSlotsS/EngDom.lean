@@ -79,11 +79,6 @@ def fixLB (G : Garden w) (layer : GBranch G.tree → ℕ) (rt : Fin w → ℝ) (
     (lb : GBranch G.tree → Option ℝ) : Set (GBranch G.tree → ℝ) :=
   splicedTimeDomainFix G layer rt fix ∩ splicedLBDomain lb
 
-/-- Without lower bounds, `fixLB` is the pinned spliced domain. -/
-theorem fixLB_none (G : Garden w) (layer : GBranch G.tree → ℕ) (rt : Fin w → ℝ) (fix : GBranch G.tree → Option ℝ) :
-    fixLB G layer rt fix (fun _ => none) = splicedTimeDomainFix G layer rt fix := by
-  rw [fixLB, splicedLBDomain_none, Set.inter_univ]
-
 /-- The integration domain: the domain of the kernel (`fixLB`) on the pinned slice. -/
 def domFix (G : Garden w) (layer : GBranch G.tree → ℕ) (rt : Fin w → ℝ) (fix : GBranch G.tree → Option ℝ)
     (lb : GBranch G.tree → Option ℝ) : Set (GBranch G.tree → ℝ) :=
@@ -259,33 +254,6 @@ def HkOn (Dom : Set (GBranch S.tree → ℝ)) : Prop :=
       fsPhase (A.H.m j c l) (fun i => clockOf S A.tt τ (A.hclk j i)))
       (A.Hk j (fun i => clockOf S A.tt τ (A.hclk j i)) (fun i => A.base + latticePoint A.L (κ.1 (A.hmom j i))))
 
-open scoped Classical in
-/-- Main's RepH8 `hasSum_gIH` on a domain `Dom`. -/
-theorem hasSum_gIHD (Dom : Set (GBranch S.tree → ℝ)) (hbox : ∀ τ ∈ Dom, ∀ s, slotTs A.hS A.tt τ s ∈ A.Box s)
-    (hHkD : HkOn A Dom) (κ : GenDecoration S d A.roots 0) (τ : GBranch S.tree → ℝ) :
-    HasSum (fun ξh => gIHD A Dom ξh κ τ) ((if A.selSk κ then ((splicedEpsilon S A.hinges κ.1 : ℝ) : ℂ) else 0) *
-      Dom.indicator (fun τ =>
-        phaseProd A.L A.γ A.δ S (cosetDecoration S A.L A.base κ.1) τ * (A.skel κ τ * A.hk κ τ)) τ) := by
-  by_cases hτ : τ ∈ Dom
-  · by_cases hsel : A.selSk κ
-    · simp only [Set.indicator_of_mem hτ, if_pos hsel]
-      have hs := hasSum_assembledH A.fam A.hS A.hd A.Cχ A.hC A.hCpos A.L A.base A.roots A.tt A.Fn κ τ
-        (fun s => A.hFn s _ (hbox τ hτ s) _) A.H A.hmom A.hclk A.Hk A.Mh A.hMh
-        (fun j c hc => hHkD κ hsel τ hτ j c hc)
-      have h2 := hs.mul_left (((splicedEpsilon S A.hinges κ.1 : ℝ) : ℂ) *
-        phaseProd A.L A.γ A.δ S (cosetDecoration S A.L A.base κ.1) τ)
-      convert h2 using 1
-      · funext ξh
-        simp only [gIHD, if_pos hsel, Set.indicator_of_mem hτ]
-        rw [mul_assoc (((splicedEpsilon S A.hinges κ.1 : ℝ) : ℂ)) (phaseProd _ _ _ _ _ _),
-          A.slotTerm_mul_hingeTerm ξh κ τ]
-        ring
-      · unfold AsmCtx.skel AsmCtxH.hk; ring
-    · simp only [gIHD, if_neg hsel, zero_mul]
-      exact hasSum_zero
-  · simp only [gIHD, Set.indicator_of_notMem hτ, mul_zero]
-    exact hasSum_zero
-
 /-- Main's RepH9 `norm_gIH_le` on a domain `Dom`. -/
 theorem norm_gIHD_le (Dom : Set (GBranch S.tree → ℝ)) (ξh : A.Xi) (κ : GenDecoration S d A.roots 0)
     (τ : GBranch S.tree → ℝ) :
@@ -314,15 +282,6 @@ section Generic
 
 variable (Dom : Set (GBranch S.tree → ℝ)) (filt : GBranch S.tree → Option (ℝ × SchwartzMap ℝ ℂ))
   (ind : (GNode S.tree → Mom d) → ℝ)
-
-open scoped Classical in
-theorem hasSum_gIHMD (hbox : ∀ τ ∈ Dom, ∀ s, slotTs A.hS A.tt τ s ∈ A.Box s) (hHkD : HkOn A Dom)
-    (κ : GenDecoration S d A.roots 0) (τ : GBranch S.tree → ℝ) :
-    HasSum (fun ξh => gIHMD A Dom filt ind ξh κ τ) (atomWF filt ind (cosetDecoration S A.L A.base κ.1) *
-      ((if A.selSk κ then ((splicedEpsilon S A.hinges κ.1 : ℝ) : ℂ) else 0) *
-        Dom.indicator (fun τ =>
-          phaseProd A.L A.γ A.δ S (cosetDecoration S A.L A.base κ.1) τ * (A.skel κ τ * A.hk κ τ)) τ)) :=
-  (hasSum_gIHD A Dom hbox hHkD κ τ).mul_left _
 
 theorem meas_gIHD (hDom : MeasurableSet Dom) (μ : Measure (GBranch S.tree → ℝ)) (ξh : A.Xi)
     (κ : GenDecoration S d A.roots 0) : AEStronglyMeasurable (gIHD A Dom ξh κ) μ := by
@@ -457,54 +416,6 @@ theorem tsum_int_gIHMD (ξh : A.Xi) :
   ring
 
 variable {filt ind}
-
-open scoped Classical in
-/-- B3s's `value_eqHM` on the integration domain `domFix S lay A.tt fix lb`. -/
-theorem value_eqHMD (hbox : ∀ τ ∈ domFix S lay A.tt fix lb, ∀ s, slotTs A.hS A.tt τ s ∈ A.Box s)
-    (hHkD : HkOn A (domFix S lay A.tt fix lb))
-    (hfilt : ∀ a q, filt a = some q → ∀ u, ‖q.2 u‖ ≤ 1) (hind : ∀ k, 0 ≤ ind k ∧ ind k ≤ 1) :
-    (coupling d A.L A.γ A.δ : ℂ) ^ S.order * S.zeta *
-      ∑' κ : GenDecoration S d A.roots 0, atomWF filt ind (cosetDecoration S A.L A.base κ.1) *
-        ((if A.selSk κ then ((splicedEpsilon S A.hinges κ.1 : ℝ) : ℂ) else 0) *
-          ∫ τ, (domFix S lay A.tt fix lb).indicator (fun τ =>
-            phaseProd A.L A.γ A.δ S (cosetDecoration S A.L A.base κ.1) τ * (A.skel κ τ * A.hk κ τ)) τ
-            ∂(fixMeasure fix)) =
-      ∑' ξh : A.Xi, (S.zeta * A.constWH ξh) *
-        splicedKernelMK S (DHMKD A lay fix filt ind lb ξh) A.L A.γ A.η A.δ A.base A.roots := by
-  have hμ := fixMeasure_domFix_le S lay A.tt fix lb
-  have hD := measurableSet_domFix S lay A.tt fix lb
-  have h1 : ∀ κ : GenDecoration S d A.roots 0, atomWF filt ind (cosetDecoration S A.L A.base κ.1) *
-      ((if A.selSk κ then ((splicedEpsilon S A.hinges κ.1 : ℝ) : ℂ) else 0) *
-        ∫ τ, (domFix S lay A.tt fix lb).indicator (fun τ =>
-          phaseProd A.L A.γ A.δ S (cosetDecoration S A.L A.base κ.1) τ * (A.skel κ τ * A.hk κ τ)) τ
-          ∂(fixMeasure fix)) =
-      ∫ τ, ∑' ξh, gIHMD A (domFix S lay A.tt fix lb) filt ind ξh κ τ ∂(fixMeasure fix) := by
-    intro κ
-    rw [← integral_const_mul, ← integral_const_mul]
-    exact integral_congr_ae (Filter.Eventually.of_forall fun τ =>
-      ((hasSum_gIHMD A (domFix S lay A.tt fix lb) filt ind hbox hHkD κ τ).tsum_eq).symm)
-  simp_rw [h1]
-  have hswap := (sum_integral_sum_swap (fixMeasure fix) (gIHMD A (domFix S lay A.tt fix lb) filt ind)
-    (meas_gIHMD A (domFix S lay A.tt fix lb) filt ind hD (fixMeasure fix))
-    (sum_lintegral_gIHMD_ne_top A (domFix S lay A.tt fix lb) hfilt hind hD (fixMeasure fix) hμ)).1
-  rw [hswap]
-  calc (coupling d A.L A.γ A.δ : ℂ) ^ S.order * S.zeta *
-        ∑' ξh : A.Xi, ∑' κ : GenDecoration S d A.roots 0,
-          ∫ τ, gIHMD A (domFix S lay A.tt fix lb) filt ind ξh κ τ ∂(fixMeasure fix)
-      = ∑' ξh : A.Xi, (coupling d A.L A.γ A.δ : ℂ) ^ S.order * S.zeta *
-          ∑' κ : GenDecoration S d A.roots 0,
-            ∫ τ, gIHMD A (domFix S lay A.tt fix lb) filt ind ξh κ τ ∂(fixMeasure fix) := by
-        rw [tsum_mul_left]
-    _ = _ := by
-      refine tsum_congr fun ξh => ?_
-      have := tsum_int_gIHMD A lay fix filt ind lb ξh
-      calc (coupling d A.L A.γ A.δ : ℂ) ^ S.order * S.zeta *
-            ∑' κ : GenDecoration S d A.roots 0,
-              ∫ τ, gIHMD A (domFix S lay A.tt fix lb) filt ind ξh κ τ ∂(fixMeasure fix)
-          = S.zeta * ((coupling d A.L A.γ A.δ : ℂ) ^ S.order *
-            ∑' κ : GenDecoration S d A.roots 0,
-              ∫ τ, gIHMD A (domFix S lay A.tt fix lb) filt ind ξh κ τ ∂(fixMeasure fix)) := by ring
-        _ = _ := by rw [this]; ring
 
 end Pinned
 

@@ -96,14 +96,4 @@ theorem radialWeight_nonneg (d : ℕ) (s : ℝ) (k θ : Mom d) :
   exact setIntegral_nonneg measurableSet_Ioi fun ρ hρ =>
     mul_nonneg (Real.rpow_nonneg (by positivity) _) (pow_nonneg hρ.le _)
 
-/-- Joint measurability of the radial weight in its center and direction. -/
-theorem stronglyMeasurable_radialWeight (d : ℕ) (s : ℝ) :
-    StronglyMeasurable (fun p : Mom d × Mom d => radialWeight d s p.1 p.2) := by
-  have hc : Continuous (fun q : (Mom d × Mom d) × ℝ =>
-      (1 + ‖q.1.1 + q.2 • q.1.2‖ ^ 2) ^ (-s) * q.2 ^ (d - 3)) := by
-    have hb : Continuous (fun q : (Mom d × Mom d) × ℝ =>
-        1 + ‖q.1.1 + q.2 • q.1.2‖ ^ 2) := by fun_prop
-    exact (hb.rpow_const (fun _ => Or.inl (by positivity))).mul (continuous_snd.pow _)
-  exact hc.stronglyMeasurable.integral_prod_right
-
 end WaveTurbulence.WKEL2

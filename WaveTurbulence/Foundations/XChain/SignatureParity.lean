@@ -15,10 +15,4 @@ theorem even_card_of_balanced_units {ι : Type*} (ζ : ι → ℤˣ) (s : Finset
     simpa only [Int.cast_sum, hone, Finset.sum_const, nsmul_eq_mul, mul_one] using hz
   exact (ZMod.natCast_eq_zero_iff_even).mp he
 
-theorem two_le_card_of_balanced_units {ι : Type*} (ζ : ι → ℤˣ) (s : Finset ι)
-    (hne : s.Nonempty) (hs : (∑ j ∈ s, (ζ j : ℤ)) = 0) : 2 ≤ s.card := by
-  obtain ⟨k, hk⟩ := even_card_of_balanced_units ζ s hs
-  have hpos := Finset.card_pos.mpr hne
-  omega
-
 end WaveTurbulence.Induct

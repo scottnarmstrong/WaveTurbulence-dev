@@ -106,20 +106,6 @@ theorem card_cells_lost_double_pair_le_one (M : Molecule V D) (hM : M.IsMolecule
     exact hTa ((cell_disjoint_double_pair_iff M hM hab hdouble hTC).mpr ha)
   exact isLadderCell_eq_of_degree_three_mem M hM hdeg hSC hTC haS haT
 
-/-- The actual finite set difference of pre and post cells has size at most one. -/
-theorem card_ladderCells_sdiff_erase_double_pair_le_one (M : Molecule V D) (hM : M.IsMolecule)
-    {a b : V} (hab : a ≠ b) (hdeg : M.deg a = 3) (hdouble : M.bondsBetween a b = 2) :
-    ((ladderCells M) \ ladderCells (eraseAtoms M {a,b})).card ≤ 1 := by
-  classical
-  have he : (ladderCells M) \ ladderCells (eraseAtoms M {a,b}) =
-      (ladderCells M).filter (fun S => ¬ Disjoint S {a,b}) := by
-    rw [ladderCells_erase_eq_filter]
-    ext S
-    simp only [mem_sdiff,mem_filter]
-    tauto
-  rw [he]
-  exact card_cells_lost_double_pair_le_one M hM hab hdeg hdouble
-
 /-- The actual per-position cell family is unchanged in priority operation (a). -/
 theorem ladderCells_erase_eq_of_no_operation_b (M : Molecule V D) (hM : M.IsMolecule)
     {z : V} (hz : z ∈ M.atoms) (hsmall : M.deg z ≤ 3)

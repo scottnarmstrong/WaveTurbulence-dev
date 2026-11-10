@@ -1,6 +1,6 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
-public import WaveTurbulence.Foundations.Spine.GardenBoundarySource
+public import WaveTurbulence.Foundations.Spine.GardenConservation
 /-! Degree-four atoms have zero boundary charge in the actual garden-to-molecule correspondence. -/
 public section
 set_option autoImplicit false

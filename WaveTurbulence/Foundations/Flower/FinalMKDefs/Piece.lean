@@ -63,39 +63,4 @@ structure SoundMKFull {P : WTParams} {R : ℕ} (π : Stage1PieceMK P.d R) (p : �
 noncomputable def markedExtra {P : WTParams} {R : ℕ} (cP : ℝ) (π : Stage1PieceMK P.d R) : ℝ :=
   cP * P.d * (π.nProt : ℝ) + (60 * P.d + 2) * (2 * (π.surv.m : ℝ) + 2 * (π.nProt : ℝ)) + 2 * (π.surv.m : ℝ)
 
-/-- **C5 target 1, the marked piece bound** (o75 (finalproof1′/2′), θ = 40ν), restating B0's `MarkedPieceBound` with
-main's hypotheses (`PieceSmall`, the gates) and every gain kept (needed by the class sum); `cθ^{40ν}` per order. -/
-def MarkedPieceBoundAt (cP cθ : ℝ) (P : WTParams) : Prop :=
-  ∀ {p R n : ℕ}, p < P.D → 1 ≤ R → R ≤ 10 * P.R (p + 1) →
-  ∀ (π : Stage1PieceMK P.d R) (tt : Fin (2 * R) → ℝ) (base : Mom P.d) (roots : Fin (2 * R) → (Fin P.d → ℤ)),
-    SoundMKFull π p base roots cθ → π.Gsb.order ≤ n → ((n : ℝ) + 1) ≤ P.L →
-  ∀ (val : ℂ) (s : ℝ), 0 < s → π.RepresentsIntMK n cP tt base roots s val →
-    ‖val‖ ≤ s * P.L ^ markedExtra cP π *
-      (P.C₂ * (cθ ^ (40 * P.ν) * P.C₁ * P.δ ^ (10 * P.ν)) ^ n * P.C₁ ^ (π.Gsb.order + 2 * R) *
-        P.L ^ (-(P.ν * P.η) * ((π.gsk : ℝ) + (π.gsb : ℝ))) *
-        P.L ^ (-P.η ^ 6 * ((π.Gsb.molecule.rho : ℝ) + (π.Cs.hinges.card : ℝ)) / 4) *
-        P.L ^ (-((R : ℝ) - 1) * (1 / 4 + 1 / 60)))
-
-/-- The C5 piece deliverable (fixed parameters, main's `stage1_piece_bound_int` pattern). -/
-def MarkedPieceTarget : Prop :=
-  ∀ (cP cθ : ℝ), 0 ≤ cP → 1 ≤ cθ → ∀ P : WTParams, 1 ≤ P.d → PieceSmall P →
-    CoarseSplicedAtMK P → FineSplicedAtMK P → MarkedPieceBoundAt cP cθ P
-
-/-- **C5 target 2, the class sum** (main's `stage1_sum_bound_int` with marked pieces; the per-piece extra is a uniform
-`L^X`; the class count is main's `Stage1Counts` on the forgetful data). -/
-def MarkedSumBoundAt (cP cθ X : ℝ) (P : WTParams) : Prop :=
-  ∀ {p R n : ℕ}, p < P.D → 1 ≤ R → R ≤ 10 * P.R (p + 1) →
-  ∀ (S : Stage1DataMK P R) (tt : Fin (2 * R) → ℝ) (base : Mom P.d) (roots : Fin (2 * R) → (Fin P.d → ℤ)) (C₀ : ℕ)
-    (Cl : Type) (hCl : Fintype Cl) (cls : S.Pc → Cl) (s : ℝ), 0 < s →
-    (∀ π, SoundMKFull (S.piece π) p base roots cθ) → (∀ π, (S.piece π).Gsb.order ≤ n) → ((n : ℝ) + 1) ≤ P.L →
-    (∀ π, (S.piece π).RepresentsIntMK n cP tt base roots s (S.val π)) →
-    (∀ π, markedExtra cP (S.piece π) ≤ X) →
-    Stage1Counts C₀ P R n S.toData Cl hCl cls →
-    P.C₂ * P.L ^ (-(P.ν * P.η)) ≤ 1 / 2 →
-    (((6 * C₀) * n : ℕ) : ℝ) ^ (6 * C₀) * P.C₂ * P.L ^ (-P.η ^ 6 / 4) ≤ 1 / 2 →
-    ‖@Finset.sum S.Pc ℂ _ (@univ S.Pc S.fin) S.val‖ ≤ s * P.L ^ X *
-      (4 * (P.C₂ * (cθ ^ (40 * P.ν) * P.C₁ ^ 6 * P.δ ^ (10 * P.ν)) ^ n * P.L ^ (-((R : ℝ) - 1) * (1 / 4 + 1 / 60)) *
-        ((6 * C₀ : ℕ) : ℝ) ^ n * ((((6 * C₀) * R).factorial : ℕ) : ℝ) *
-        ((((6 * C₀) * n : ℕ) : ℝ) ^ (6 * C₀) * P.C₂ * P.L ^ (-P.η ^ 6 / 4))))
-
 end WaveTurbulence.Flower.FinalMKDefs

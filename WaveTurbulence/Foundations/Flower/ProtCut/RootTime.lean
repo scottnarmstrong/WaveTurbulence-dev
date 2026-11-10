@@ -97,12 +97,6 @@ theorem rootFix_bR (σ : ℝ) : rootFix σ D.bR = none := by
   unfold rootFix
   exact if_neg (by rw [D.bR_path]; exact bPath_ne_nil m inner)
 
-omit D in
-theorem lonePos_ne_bPath : lonePos m inner ≠ bPath m inner := by
-  intro h
-  have := congrArg List.length h
-  simp [lonePos] at this
-
 theorem inr_path (y : GBranch LGs.garden.tree) :
     (D.gd.ofSum (.inr y)).1 = ((0 : Fin 1), lonePos m inner ++ y.1.2) := by
   rw [glue_ofSum_inr_path D.gd, cpair_lonePath]

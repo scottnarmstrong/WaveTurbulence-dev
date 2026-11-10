@@ -31,15 +31,9 @@ def decodePort {w : ℕ} (G : Garden w) : Port G → Incidence G
   | .inl j => .inl (GNode.root G.tree j)
   | .inr (b,k) => Fin.cases (.inr b) (fun i => .inl (b.child i)) k
 
-theorem encodeIncidence_parent {w : ℕ} (G : Garden w) (b : GBranch G.tree) :
-    encodeIncidence G (.inr b) = .inr (b,0) := rfl
-
 theorem encodeIncidence_child {w : ℕ} (G : Garden w) (b : GBranch G.tree) (i : Fin 3) :
     encodeIncidence G (.inl (b.child i)) = .inr (b,i.succ) := by
   simp only [encodeIncidence,nodeToSlot_child]
-
-theorem decodePort_parent {w : ℕ} (G : Garden w) (b : GBranch G.tree) :
-    decodePort G (.inr (b,0)) = .inr b := rfl
 
 theorem decodePort_child {w : ℕ} (G : Garden w) (b : GBranch G.tree) (i : Fin 3) :
     decodePort G (.inr (b,i.succ)) = .inl (b.child i) := rfl

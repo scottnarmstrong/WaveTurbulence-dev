@@ -1,6 +1,7 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
-public import WaveTurbulence.Foundations.Cut2A.FiniteProducts
+public import WaveTurbulence.Foundations.Cut2A.SpatialMeasure
+public import Mathlib.MeasureTheory.Integral.Pi
 public import WaveTurbulence.Foundations.Fourier.Chi0
 public import Mathlib.Analysis.Distribution.SchwartzSpace.Fourier
 public import Mathlib.Analysis.Calculus.BumpFunction.InnerProduct
@@ -74,11 +75,6 @@ def bondMeasure (A : W →L[ℝ] V) (b : V) (R : ℝ) : SpatialMeasure W V :=
   (radialMeasure : SpatialMeasure V V).affine (R⁻¹ • A) (R⁻¹ • b)
 
 omit [SecondCountableTopology W] in
-theorem bondMeasure_mass (A : W →L[ℝ] V) (b : V) (R : ℝ) :
-    (bondMeasure A b R).mass = (radialMeasure : SpatialMeasure V V).mass :=
-  SpatialMeasure.affine_mass _ _ _
-
-omit [SecondCountableTopology W] in
 theorem bondMeasure_value (A : W →L[ℝ] V) (b : V) {R : ℝ} (hR : 0 < R) (x : W) :
     (bondMeasure A b R).value x = (Fourier.chi0 (‖A x + b‖ / R) : ℂ) := by
   rw [bondMeasure, SpatialMeasure.affine_value, radialMeasure_value]
@@ -87,19 +83,4 @@ theorem bondMeasure_value (A : W →L[ℝ] V) (b : V) {R : ℝ} (hR : 0 < R) (x 
   congr 2
   ring
 
-/-- A whole finite bond family has mass C_d to the number of bonds, uniformly
-in scales, affine offsets and conservation maps. -/
-theorem bond_product_measure {ι : Type*} [Fintype ι]
-    (A : ι → W →L[ℝ] V) (b : ι → V) (R : ι → ℝ) (hR : ∀ i, 0 < R i) :
-    ∃ F : SpatialMeasure W (ι → V),
-      F.mass = (radialMeasure : SpatialMeasure V V).mass ^ Fintype.card ι ∧
-      ∀ x, F.value x = ∏ i, (Fourier.chi0 (‖A i x + b i‖ / R i) : ℂ) := by
-  refine ⟨SpatialMeasure.finiteProduct (fun i => bondMeasure (A i) (b i) (R i)), ?_, ?_⟩
-  · rw [SpatialMeasure.finiteProduct_mass]
-    simp only [bondMeasure_mass, Finset.prod_const, Finset.card_univ]
-  · intro x
-    rw [SpatialMeasure.finiteProduct_value]
-    apply Finset.prod_congr rfl
-    intro i _
-    exact bondMeasure_value _ _ (hR i) x
 end WaveTurbulence.FC23

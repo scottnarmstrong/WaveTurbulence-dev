@@ -41,20 +41,6 @@ def ClassCountStmt : Prop :=
       (A.card : ℝ) ≤ (C₀ : ℝ) ^ N * (((C₀ * r).factorial : ℕ) : ℝ) * (((C₀ * R).factorial : ℕ) : ℝ) *
         P.C₂ ^ (g + r)
 
-/-- B1b (R156): the class count with the truncation-free carrier `Stage1CarriesW`. -/
-def ClassCountStmtW : Prop :=
-  ∃ C₀ K : ℕ, 2 ≤ C₀ ∧ ∀ P : WTParams, K ^ (P.D + 1) ≤ P.C₂ → ∀ p, p < P.D →
-    ∀ R, 1 ≤ R → ∀ N, 1 ≤ N → ∀ g r : ℕ, ∀ A : Finset (LayeredGarden (2 * R)),
-    (∀ LG ∈ A, Stage1Mk.Stage1CarriesW P p N LG ∧ HasPieceData P.d LG g r) →
-      (A.card : ℝ) ≤ (C₀ : ℝ) ^ N * (((C₀ * r).factorial : ℕ) : ℝ) * (((C₀ * R).factorial : ℕ) : ℝ) *
-        P.C₂ ^ (g + r)
-
-/-- The truncation-free class count implies main's. -/
-theorem classCountStmt_of_W (h : ClassCountStmtW) : ClassCountStmt := by
-  obtain ⟨C₀, K, hC₀, hm⟩ := h
-  exact ⟨C₀, K, hC₀, fun P hK p hp R hR N hN g r A hA => hm P hK p hp R hR N hN g r A
-    (fun LG hLG => ⟨Stage1Mk.stage1CarriesW_of_stage1Carries (hA LG hLG).1, (hA LG hLG).2⟩)⟩
-
 /-- B1b-2: an admissibility predicate for marked vine sets (`Adm LG S Mk`: `Mk` may be used on the skeleton `S` of
 the layered garden `LG`). `fun _ _ Mk => Mk = ∅` is main's Stage 1; the world chooses the markings of Stage 1′. -/
 abbrev MarkAdm := ∀ {R : ℕ} (_LG : LayeredGarden (2 * R)) (S : Garden (2 * R)), Set (Stage1.CLVine S) → Prop
@@ -74,20 +60,5 @@ def ClassCountStmtMk (Adm : MarkAdm) : Prop :=
     (∀ LG ∈ A, Stage1Mk.Stage1CarriesW P p N LG ∧ HasPieceDataMk Adm P.d LG g r) →
       (A.card : ℝ) ≤ (C₀ : ℝ) ^ N * (((C₀ * r).factorial : ℕ) : ℝ) * (((C₀ * R).factorial : ℕ) : ℝ) *
         P.C₂ ^ (g + r)
-
-/-- At the empty marking the Stage 1′ class count is main's (truncation-free) class count. -/
-theorem classCountStmtW_of_Mk (h : ClassCountStmtMk fun _ _ Mk => Mk = ∅) : ClassCountStmtW := by
-  obtain ⟨C₀, K, hC₀, hm⟩ := h
-  refine ⟨C₀, K, hC₀, fun P hK p hp R hR N hN g r A hA => hm P hK p hp R hR N hN g r A fun LG hLG => ?_⟩
-  obtain ⟨hc, S, D, hS, hd, σ, hg, hr⟩ := hA LG hLG
-  exact ⟨hc, S, D, hS, hd, σ, ∅, rfl, hg, hr⟩
-
-/-- Main's (truncation-free) class count is the Stage 1′ class count at the empty marking. -/
-theorem classCountStmtMk_of_W (h : ClassCountStmtW) : ClassCountStmtMk fun _ _ Mk => Mk = ∅ := by
-  obtain ⟨C₀, K, hC₀, hm⟩ := h
-  refine ⟨C₀, K, hC₀, fun P hK p hp R hR N hN g r A hA => hm P hK p hp R hR N hN g r A fun LG hLG => ?_⟩
-  obtain ⟨hc, S, D, hS, hd, σ, Mk, hMk, hg, hr⟩ := hA LG hLG
-  subst hMk
-  exact ⟨hc, S, D, hS, hd, σ, hg, hr⟩
 
 end WaveTurbulence.ClassCount

@@ -113,14 +113,6 @@ theorem vcLadderScale_of_low (hM : ∀ a ∈ M.atoms, M.deg a ≤ 4) (L : ℝ) (
   have := h m u v hMl.1 r hgap S0 hS0 (hat ▸ hsub)
   rw [hP]; exact this
 
-/-- **`VCLadderScale` from the molecule-level restriction of `Adm`** (the original two-sided form; kept as the internal
-route of session 2). -/
-theorem vcLadderScale_of_adm (hM : ∀ a ∈ M.atoms, M.deg a ≤ 4) (L : ℝ) (w : Mom d) (P : Finset V → ℝ)
-    (hP1 : ∀ S' ∈ K.m1.maximalLadders, ∀ S ∈ M.maximalLadders, S' ⊆ S → P S' = P S)
-    (hP2 : ∀ S' ∈ K.cutMol.maximalLadders, ∀ S ∈ K.m1.maximalLadders, S' ⊆ S → P S' = P S)
-    {κ : D → (Fin d → ℤ)} (h : LadderScaleAdm M L w P κ) : VCLadderScale K L w P κ :=
-  vcLadderScale_of_low K hM L w P hP1 hP2 (ladderScaleLow_of_adm h)
-
 end Gen
 
 end WaveTurbulence.GammaLow.FinalCount.Step1

@@ -176,8 +176,6 @@ noncomputable def frameGarden (Q : RegCpl) : Garden 2 :=
 
 theorem frameGarden_plain (Q : RegCpl) : (frameGarden Q).IsPlain := gardenOfPairs_plain _ _ _ _ _ _ _
 
-theorem frameGarden_sig (Q : RegCpl) : (frameGarden Q).sig = ![1, -1] := rfl
-
 theorem frameGarden_tree (Q : RegCpl) : (frameGarden Q).tree = frameForest Q := rfl
 
 /-- **The partner of a frame leaf is its listed partner.** -/

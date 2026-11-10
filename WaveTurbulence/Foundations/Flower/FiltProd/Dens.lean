@@ -156,11 +156,4 @@ theorem RootCoordinates.linkDensityFilt_eq_zero_of_notMem_rootBox {d n r : ℕ} 
   rw [normalizedLinkIntegrandFilt, Set.indicator_of_notMem (s := I) hnot, mul_zero]
   simp only [Pi.zero_apply]
 
-theorem RootCoordinates.localLinkDensityFilt_eq_zero_of_notMem_unitBox {d n r : ℕ} (R : RootCoordinates n r)
-    (L γ δ : ℝ) (Q : Fin n → LayerLink d) (φ : Fin n → ℝ → ℂ) {I : Set (Fin n → Fin 2 → ℝ)}
-    (hbox : I ⊆ univ.pi (fun i => linkBox (Q i))) {t : Fin r → ℝ}
-    (ht : t ∉ Icc (0 : Fin r → ℝ) 1) : RootCoordinates.localLinkDensityFilt R L γ δ Q φ I t = 0 :=
-  RootCoordinates.linkDensityFilt_eq_zero_of_notMem_rootBox R L γ δ Q φ hbox
-    (fun h => ht ((R.local_mem_rootBox_iff Q t).mp h))
-
 end WaveTurbulence.Flower.FiltProd

@@ -66,12 +66,6 @@ theorem structural_recast {C : Src.SubproChoices γ G} {S : SurvivorDataG γ G} 
 theorem survChainOrderG_recast {S : SurvivorDataG γ G} (h : SurvChainOrderG S) :
     SurvChainOrderG (S.recast hγ hγ') := h
 
-@[simp] theorem survFirstJointG_recast (S : SurvivorDataG γ G) (i : Fin S.m) (v : GBranch G.tree) :
-    SurvFirstJointG (S.recast hγ hγ') i v ↔ SurvFirstJointG S i v := Iff.rfl
-
-theorem forbiddenMKG_recast (C : Src.SubproChoices γ G) (S : SurvivorDataG γ G) :
-    forbiddenMKG (C.recast hγ hγ') (S.recast hγ hγ') = forbiddenMKG C S := rfl
-
 theorem subproSupportMKG_recast {L g η : ℝ} {base : Mom d} {kFix : Finset (Mom d)}
     {κ : GardenDart G → (Fin d → ℤ)} {C : Src.SubproChoices γ G} {S : SurvivorDataG γ G}
     (h : SubproSupportMKG G C S L g η base kFix κ) :

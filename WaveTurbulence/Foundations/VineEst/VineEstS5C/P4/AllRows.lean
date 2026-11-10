@@ -5,7 +5,7 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P2.Level
+public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P2.Merge
 
 /-! # P4 (W2(a)): the engine bound with every row given (several operative vines at once)
 
@@ -38,9 +38,6 @@ noncomputable def allCM (R : ∀ ρ : Row D, RowData D θ ρ) : ClockedModes3 D 
   b ρ := (R ρ).b
   b_ne_top ρ := (R ρ).b_ne_top
   fs_bound ρ := (R ρ).fs
-
-theorem allCR_clock (R : ∀ ρ : Row D, RowData D θ ρ) (τ : D.S.TVar → ℝ) (tt : Fin 3 → ℝ) (ρ : Row D) :
-    (allCR R).clock τ tt ρ = (R ρ).clk τ tt := rfl
 
 /-- The a.e. expansion of all rows. -/
 theorem allRows_hser (R : ∀ ρ : Row D, RowData D θ ρ) (hI : 0 < D.S.I) (hAe : ∀ ρ, (R ρ).Ae hI) :

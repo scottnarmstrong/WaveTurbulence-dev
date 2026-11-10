@@ -2,7 +2,6 @@
 module
 
 public import WaveTurbulence.Foundations.FinalCount.AppBOrderedStarFrame
-public import WaveTurbulence.Foundations.FinalCount.AppBStarChoices
 public import WaveTurbulence.Foundations.FinalCount.Algorithm.UniformStarProjection
 import Mathlib.Tactic
 

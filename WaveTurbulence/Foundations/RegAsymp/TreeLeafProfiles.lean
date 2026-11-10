@@ -116,16 +116,4 @@ theorem tsum_lintegral_treeLeafMomentEnvelope {d m K M : ℕ} (J : ℕ)
         (fun a => hmeas a (c a))
     _ = _ := tsum_fin_product_ennreal m (fun a c => leafFourierMomentMass J (f a) c)
 
-/-- The appended moving-root input has a uniform geometric leaf-only Fourier mass.
-Its center-dependent spatial norm is used solely to justify measurability. -/
-theorem tsum_lintegral_treeLeafMomentEnvelope_root_le {d m K M : ℕ} (J : ℕ)
-    (f : Fin m → Mom d → ℂ) {B : ℝ} (hK : d+1+J ≤ K) (hM : 2*d ≤ M) (hB : 0 ≤ B)
-    (hf : ∀ a, Fourier.spatialNorm K M (f a) ≤ ENNReal.ofReal B) (q : Fin d → ℤ) :
-    (∑' c : Fin (m+1) → Fin d → ℤ,
-      ∫⁻ α, treeLeafMomentEnvelope J (appendRootInput f (treeRootPartition q)) c α) ≤
-      ENNReal.ofReal (leafMomentLocalizationConstant d J M * treeAugmentedInputBound d K M B)^(m+1) := by
-  obtain ⟨Bq,hBq,hq⟩ := exists_spatialNorm_bound_appendRootPartition f hf q
-  rw [tsum_lintegral_treeLeafMomentEnvelope J _ (by omega) hBq.le hq]
-  exact prod_leafFourierMomentTotal_appendRootPartition_le J f hK hM hB hf q
-
 end WaveTurbulence.RegAsymp

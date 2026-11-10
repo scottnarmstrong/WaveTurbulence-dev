@@ -52,14 +52,6 @@ theorem sourceNodeRow_root {G : Garden 2} {Q : RegCpl}
   have hh := (coordinateDecoration hQ c).property.2 i
   simpa only [sourceNodeRow,Incoh.momentumUnitRow,eq_comm] using hh
 
-/-- Parent conservation holds as an identity of integer rows. -/
-theorem sourceNodeRow_parent {G : Garden 2} {Q : RegCpl}
-    (hQ : Q.Decodes G) (b : GBranch G.tree) :
-    sourceNodeRow hQ b.toNode = sourceNodeRow hQ (b.child 0) -
-      sourceNodeRow hQ (b.child 1) + sourceNodeRow hQ (b.child 2) := by
-  funext c
-  exact (coordinateDecoration hQ c).property.1.1 b
-
 /-- Paired leaves have identical rows. -/
 theorem sourceNodeRow_pair {G : Garden 2} {Q : RegCpl}
     (hQ : Q.Decodes G) (ℓ : GLeaf G.tree) :

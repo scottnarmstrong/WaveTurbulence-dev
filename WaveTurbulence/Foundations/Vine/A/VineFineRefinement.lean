@@ -72,19 +72,4 @@ theorem PrimeData.mem_fine_outputs_self (A : PrimeData LG) (σ : Prescription A.
   (congruent_layered_iff p kind (A.fineState σ) LG).mpr
     ⟨A.fineState σ, WaveTurbulence.Stage1.Congruent.refl p kind (A.fineState σ), rfl⟩
 
-/-- At every actual garden member, the fine class has a representative with a transported prescription.
-This existential statement does not assert path independence of that prescription. -/
-theorem PrimeData.fine_outputs_rebase_exists (A : PrimeData LG) (B : PrimeData LH)
-    (σ : Prescription A.skeleton) (h : LH ∈ (A.fineState σ).allCoreOutputs (p := p) (kind := kind)) :
-    ∃ τ : Prescription B.skeleton,
-      (A.fineState σ).allCoreOutputs (p := p) (kind := kind) =
-        (B.fineState τ).allCoreOutputs (p := p) (kind := kind) := by
-  obtain ⟨C, ⟨L, hL, hb⟩, he⟩ := (congruent_layered_iff p kind (A.fineState σ) LH).mp h
-  subst LH
-  let B' : PrimeData C.layered := ⟨C.skeleton, batch_prime hb A.prime, C.data, C.decodes⟩
-  have hB : B = B' := primeData_unique B B'
-  subst B
-  exact ⟨transportPrescription (batchMolIso hb) σ,
-    fine_outputs_rebase hb hL A.prime σ (fineState_isV0Fam A σ)⟩
-
 end WaveTurbulence.VineA

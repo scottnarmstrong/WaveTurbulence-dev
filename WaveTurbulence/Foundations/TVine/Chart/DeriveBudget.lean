@@ -306,15 +306,6 @@ noncomputable def jointEmb (v : V) (e₀ e₁ : Bond M S) (h0t : tl e₀ = v) (h
     · exact ⟨0, rfl⟩
     · exact ⟨1, rfl⟩
 
-theorem jointEmb_atom (v : V) (e₀ e₁ : Bond M S) (h0t h0h h1h h1t hdeg) :
-    (jointEmb v e₀ e₁ h0t h0h h1h h1t hdeg).atom 0 = v := rfl
-
-theorem jointEmb_bond0 (v : V) (e₀ e₁ : Bond M S) (h0t h0h h1h h1t hdeg) :
-    (jointEmb v e₀ e₁ h0t h0h h1h h1t hdeg).bond 0 = e₀ := rfl
-
-theorem jointEmb_bond1 (v : V) (e₀ e₁ : Bond M S) (h0t h0h h1h h1t hdeg) :
-    (jointEmb v e₀ e₁ h0t h0h h1h h1t hdeg).bond 1 = e₁ := rfl
-
 /-! ## Placed cells -/
 
 /-- **A placed cell**: a chart with a local embedding whose atoms are `P`, whose input pair is the port of `Xin`, whose

@@ -1,6 +1,7 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
-public import WaveTurbulence.Foundations.Spine.CoherentSourceTypes
+public import WaveTurbulence.Foundations.Spine.CoherentObjects
+public import WaveTurbulence.Foundations.Spine.AnchorTypes
 /-! The source time boxes are the closures of their interiors, including the diagonal endpoints. -/
 public section
 open WaveTurbulence.Induct

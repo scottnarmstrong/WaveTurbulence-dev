@@ -36,14 +36,6 @@ theorem unitSpliceMolIso_branch_namesMk (Z : TwistGroupSite G) (σ : Prescriptio
       ((unitSpliceMolIsoMk Z σ hT hsel).e c) = Z.iso.e ((stSt G σ Mk).M.ob c) :=
   quotientBranchEquiv_comm Z.iso (unitBlocks_cls_twistMk Z σ hT hsel) _ _ c
 
-/-- The induced actual splice atom map commutes with the original LF atom map. -/
-theorem unitSpliceMolIso_branch_names (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0)
-    (c : GBranch (stSt G σ).G.tree) :
-    (stSt Z.target (transportPrescription Z.iso σ)).M.ob
-      ((unitSpliceMolIso Z σ hsel).e c) = Z.iso.e ((stSt G σ).M.ob c) :=
-  unitSpliceMolIso_branch_namesMk Z σ (Stage1Mk.markTransported_empty Z.iso) hsel c
-
 /-- B1b-2 (Mk-general form of `unitSpliceMolIso_dart_names`). -/
 theorem unitSpliceMolIso_dart_namesMk (Z : TwistGroupSite G) (σ : Prescription G)
     {Mk : Set (CLVine G)} {Mk' : Set (CLVine Z.target)} (hT : Stage1Mk.MarkTransported Z.iso Mk Mk')
@@ -52,14 +44,6 @@ theorem unitSpliceMolIso_dart_namesMk (Z : TwistGroupSite G) (σ : Prescription 
     (stSt Z.target (transportPrescription Z.iso σ) Mk').M.od
       ((unitSpliceMolIsoMk Z σ hT hsel).d x) = Z.iso.d ((stSt G σ Mk).M.od x) :=
   quotientDartEquiv_comm Z.iso (unitBlocks_cls_twistMk Z σ hT hsel) _ _ x
-
-/-- The induced actual splice dart map commutes with the original LF dart map. -/
-theorem unitSpliceMolIso_dart_names (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0)
-    (x : GardenDart (stSt G σ).G) :
-    (stSt Z.target (transportPrescription Z.iso σ)).M.od
-      ((unitSpliceMolIso Z σ hsel).d x) = Z.iso.d ((stSt G σ).M.od x) :=
-  unitSpliceMolIso_dart_namesMk Z σ (Stage1Mk.markTransported_empty Z.iso) hsel x
 
 /-- B1b-2 (Mk-general form of `active_lower_not_surviving`). -/
 theorem active_lower_not_survivingMk (Z : TwistGroupSite G) (σ : Prescription G)
@@ -74,10 +58,5 @@ theorem active_lower_not_survivingMk (Z : TwistGroupSite G) (σ : Prescription G
   rcases hr with h | h
   · cases h
   · exact hne (Option.some.inj h)
-
-/-- The sign-changing active lower node is absent from the actual retained branch carrier. -/
-theorem active_lower_not_surviving (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) :
-    ¬ ∃ c, (stSt G σ).M.ob c = Z.P.lower := active_lower_not_survivingMk Z σ hsel
 
 end WaveTurbulence.VineA

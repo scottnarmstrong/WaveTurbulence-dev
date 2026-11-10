@@ -58,11 +58,6 @@ theorem unselOK_base_iff (Unsel : Set (Src.Object Src.γL M)) : C.UnselOK L γ �
     rw [inP_base_eq C L γ η w' w κ, c2Can_base_eq C L γ η w' w κ] at h
     exact ⟨h⟩
 
-theorem collected_base_iff (Un : Set (Src.Object Src.γL M)) (U : Src.Object Src.γL M) :
-    Collected C Un L γ η w κ U ↔ Collected C Un L γ η w' κ U := by
-  unfold Collected
-  rw [c2Can_base_eq C L γ η w w' κ]
-
 /-- **The tame shift.** -/
 theorem isTame_shift (M : Molecule V D) (L : ℝ) (w : Mom d) (kFix : Finset (Mom d)) (κ : D → (Fin d → ℤ)) (v : V) :
     M.IsTame L w kFix κ v ↔ M.IsTame L 0 (kFix.image (fun k => k - w)) κ v := by

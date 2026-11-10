@@ -118,20 +118,4 @@ theorem lintegral_angularMeasure {e : Mom d} (he : ‖e‖ = 1) (hd : 2 ≤ d)
       _ = _ := lintegral_two_radial_cutoffs _ (d - 2) hJ
   rw [hpush, hmass, ← mul_assoc, angular_radial_normalization hd, one_mul]
 
-/-- Angular symmetry in the fixed-sphere coordinates of Corollary 2. -/
-theorem lintegral_angular_coordinates_swap {e : Mom d} (he : ‖e‖ = 1) (hd : 2 ≤ d)
-    {G : Mom d × Mom d → ℝ≥0∞} (hG : Measurable G) :
-    (∫⁻ φ : sphere (0 : Mom d) 1,
-      ∫⁻ θ : sphere (0 : ↥(ℝ ∙ e)ᗮ) 1, G (φ.1, normalReflection e φ.1 θ.1)
-        ∂(volume : Measure ↥(ℝ ∙ e)ᗮ).toSphere
-      ∂(volume : Measure (Mom d)).toSphere) =
-    ∫⁻ φ : sphere (0 : Mom d) 1,
-      ∫⁻ θ : sphere (0 : ↥(ℝ ∙ e)ᗮ) 1, G (normalReflection e φ.1 θ.1, φ.1)
-        ∂(volume : Measure ↥(ℝ ∙ e)ᗮ).toSphere
-      ∂(volume : Measure (Mom d)).toSphere := by
-  exact (lintegral_angularMeasure he hd hG).symm.trans
-    ((lintegral_angular_swap he hd hG).symm.trans
-      (lintegral_angularMeasure he hd (G := fun p => G (p.2, p.1))
-        (hG.comp measurable_swap)))
-
 end WaveTurbulence.WKEL2

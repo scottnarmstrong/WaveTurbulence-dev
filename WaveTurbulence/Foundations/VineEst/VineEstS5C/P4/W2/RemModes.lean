@@ -6,7 +6,6 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.AuxRows
-public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P2.RemAe
 
 /-! # P4-W2 (R78): Fourier modes of a remainder, EVERYWHERE on a continuity set
 

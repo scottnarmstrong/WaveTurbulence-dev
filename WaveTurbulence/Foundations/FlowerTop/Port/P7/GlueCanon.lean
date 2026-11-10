@@ -129,11 +129,6 @@ theorem glue_incomparable_inr (σ : Fin a ⊕ Fin b ≃ Fin w) (TA : Fin a → T
   unfold GNode.Incomparable
   rw [glue_isDesc_inr, glue_isDesc_inr]
 
-theorem glue_incomparable_cross (σ : Fin a ⊕ Fin b ≃ Fin w) (TA : Fin a → TTree) (TB : Fin b → TTree)
-    (x : GNode TA) (x' : GNode TB) :
-    (glueNode σ TA TB (.inl x)).Incomparable (glueNode σ TA TB (.inr x')) :=
-  ⟨not_glue_isDesc_inl_inr σ TA TB x x', not_glue_isDesc_inr_inl σ TA TB x' x⟩
-
 theorem gLayer_dropLast_inl (σ : Fin a ⊕ Fin b ≃ Fin w) (GA : Garden a) (GB : Garden b)
     (lA : GNode GA.tree → ℕ) (lB : GNode GB.tree → ℕ) (c : Fin a) (q : Path)
     (hmem : (σ (.inl c), q.dropLast).2 ∈ ((glueGarden σ GA GB).tree (σ (.inl c))).nodes)

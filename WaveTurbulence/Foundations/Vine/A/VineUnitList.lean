@@ -39,11 +39,4 @@ theorem unitBlocks_image_permMk (Z : TwistGroupSite G) (σ : Prescription G) {Mk
     obtain ⟨u, hu, he, _, _⟩ := unitBlocks_preimageMk Z σ hT hsel hv
     exact List.mem_map.mpr ⟨u, hu, he.symm⟩
 
-/-- Actual atom lists correspond up to permutation under a selected LF unit twist. -/
-theorem unitBlocks_image_perm (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) :
-    ((unitBlocks G σ).map (fun u => Z.iso.img u.atoms)).Perm
-      ((unitBlocks Z.target (transportPrescription Z.iso σ)).map CLBlock.atoms) :=
-  unitBlocks_image_permMk Z σ (Stage1Mk.markTransported_empty Z.iso) hsel
-
 end WaveTurbulence.VineA

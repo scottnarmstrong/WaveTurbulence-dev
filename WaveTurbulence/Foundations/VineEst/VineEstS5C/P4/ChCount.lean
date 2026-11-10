@@ -119,12 +119,4 @@ theorem card_bundleFamOf_le (hR : RealityAll) (SFF : SepFamFam (p := p) (kind :=
     exact hsum.trans hfin
   · exact one_le_wtOf B RD hG layer hLayer p _
 
-/-- **The number of unrolled terms** is at most `∏_{members} wtOf`. -/
-theorem card_terms_le_wt (hR : RealityAll) (SFF : SepFamFam (p := p) (kind := kind) B RD hG layer hLayer κ0 hprime)
-    (hSB : SepFamFam.Bounded B RD hG layer hLayer SFF) (m : ℕ) (lv : Lvl B) (hm : Fintype.card lv.ι ≤ m) :
-    Multiset.card (Lvl.terms (p := p) (kind := kind) B RD hG layer hLayer (bundleFamOf B RD hG layer hLayer hR SFF) m lv) ≤
-      ∏ j : lv.ι, wtOf B RD hG layer hLayer p (lv.e j) :=
-  Lvl.card_terms_le_prod (p := p) (kind := kind) B RD hG layer hLayer (bundleFamOf B RD hG layer hLayer hR SFF) (wtOf B RD hG layer hLayer p)
-    (one_le_wtOf B RD hG layer hLayer p) (card_bundleFamOf_le B RD hG layer hLayer hR SFF hSB) m lv hm
-
 end WaveTurbulence.VineEstS5C.P4

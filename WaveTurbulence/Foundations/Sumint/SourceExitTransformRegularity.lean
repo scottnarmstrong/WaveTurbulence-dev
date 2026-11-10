@@ -46,11 +46,4 @@ theorem sourceExitTransform_first_eq_difference {d : ℕ} (D : SumintDatum d) (h
     (Real.fourierChar x:ℂ)) (by ring : α*u (firstTime D hI)-ζ*u (firstTime D hI) =
       0*u (firstTime D hI)-(ζ-α)*u (firstTime D hI))
 
-/-- The coincident-coordinate frequency amplitude is measurable on the real line. -/
-theorem measurable_sourceExitTransform_first {d : ℕ} (D : SumintDatum d) (hI : 0 < D.S.I)
-    (upper : Bool) (F : (D.S.TVar → ℝ) → ℂ) (hF : Measurable F) (c h : ℝ) :
-    Measurable (fun ζ : ℝ => sourceExitTransform D hI upper (firstTime D hI) F c h 0 ζ) :=
-  (measurable_sourceExitTransform D hI upper (firstTime D hI) F hF c h).comp
-    (measurable_const.prodMk measurable_id)
-
 end WaveTurbulence.Sumint

@@ -5,7 +5,7 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.VineEst.VineEstS4.Sp12Sok
+public import WaveTurbulence.Foundations.VineEst.VineEstS4.Sp11Lin
 public import WaveTurbulence.Foundations.VineEst.VineEstS4.Sp5Reach
 
 /-! # `SOK` is invariant under operations at members below the split (V5 Step 4b, step 4, WP-E, part 3)

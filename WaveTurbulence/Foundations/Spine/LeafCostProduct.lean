@@ -30,11 +30,4 @@ theorem card_modified_le_total_derivatives {ι : Type*} (s : Finset ι) (a : ι 
       simp
     _ ≤ _ := sum_le_sum fun i _ => by split_ifs <;> omega
 
-/-- At most one chosen weight leaf per root, plus at most the total number of derivatives. -/
-theorem card_weight_or_derivative_modified_le {ι : Type*} [DecidableEq ι]
-    (s weights : Finset ι) (a : ι → ℕ) (w A : ℕ)
-    (hw : weights.card ≤ w) (ha : (∑ i ∈ s, a i) ≤ A) :
-    (weights ∪ s.filter (fun i => a i ≠ 0)).card ≤ w + A :=
-  (card_union_le _ _).trans (Nat.add_le_add hw ((card_modified_le_total_derivatives s a).trans ha))
-
 end WaveTurbulence.LGSpine

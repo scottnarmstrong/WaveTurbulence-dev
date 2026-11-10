@@ -32,8 +32,6 @@ variable {s : LFSource p kind LG} {ε : Bool} (g : GlueSpec s ε)
 /-- The glued layered garden after the couple reinsertion. -/
 @[expose] noncomputable def glued1 : LayeredGarden w := g.glueC.glued
 
-theorem glued1_garden : g.glued1.garden = (s.midData ε g.Q g.hQ).garden (s.chosen_plain ε) := rfl
-
 theorem coupleInsertion_aux :
     CoherentCoupleInsertion p (s.base ε) g.glued1
       (coupleRoot (s.baseData ε) (s.chosen_plain ε) (s.pairs ε s.exceptional) 0)

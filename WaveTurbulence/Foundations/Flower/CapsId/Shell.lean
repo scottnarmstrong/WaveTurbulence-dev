@@ -46,51 +46,6 @@ theorem selWeightCap_capSel (LG : LayeredGarden w) (p : ℕ) (hF : OneFlower LG.
   rw [stemSetCap_inl LG p hF, ← Equiv.coe_toEmbedding, ← Finset.map_erase, Finset.prod_map]
   simp only [Equiv.coe_toEmbedding, omegaNode_cBranch, mkDefs_chiD_eq_flShell_chiD, mul_assoc]
 
-/-- **Transport of the `M₂` shell**: `cutWeight2P → selWeightCap` (positive shell `0 < j₂`, `0 < L`). -/
-theorem cutWeight2P_capLayered (LG : LayeredGarden w) (p : ℕ) (hF : OneFlower LG.garden) (L : ℝ) (hL : 0 < L)
-    (j₂ : ℕ) (hj : 0 < j₂) (k : GNode (capGarden LG.garden).tree → Mom d) :
-    LG.cutWeight2P L j₂ (pullK LG.garden k) =
-      ∫ R in Set.univ.pi (fun _ : Fin w => Set.Icc (2 ^ (j₂ - 1) * L) (2 ^ j₂ * L)),
-        ∑ v ∈ Fintype.piFinset (Cases.stemSet LG),
-          selWeightCap (capLayered LG p) (capJ w) (capSel LG.garden v) (capExt R L) k := by
-  rw [FlShell.cutWeight2P_eq_integral LG L hL j₂ hj]
-  simp only [selWeightCap_capSel LG p hF]
-
-/-- The capped weight of the Core-G integrand, in `markedWeight` form (no stem filters; selected vertices and
-scales integrated as in FL-SHELL). Pointwise in the labelling. -/
-theorem capW_coreG (LG : LayeredGarden w) (p : ℕ) (hF : OneFlower LG.garden)
-    (hfl : ∀ ℓ : GLeaf LG.garden.tree, LG.garden.IsFlower ℓ → LG.layer ℓ.toNode = p) (L : ℝ) (hL : 0 < L)
-    (j₂ : ℕ) (hj : 0 < j₂) (Rf : Fin w → ℝ) (h : ℕ → Fin w → Fin w → Mom d → ℝ)
-    (dagger : Option (Fin w → Fin 3 → Mom d)) (k : GNode (capGarden LG.garden).tree → Mom d) :
-    capW LG dagger (fun k => Typed.frontierW LG p (fun j => some (Rf j)) k * LG.cutWeight2P L j₂ k *
-        Typed.leafProd LG h k) k =
-      ∫ R in Set.univ.pi (fun _ : Fin w => Set.Icc (2 ^ (j₂ - 1) * L) (2 ^ j₂ * L)),
-        ∑ v ∈ Fintype.piFinset (Cases.stemSet LG),
-          markedWeight (capLayered LG p) (capJ w) p L (capExt (fun j => some (Rf j)) none) (fun _ => none)
-            (capSel LG.garden v) (capExt R L) (capH h) (capDag dagger) k := by
-  unfold capW pullW
-  dsimp only
-  rw [cutWeight2P_capLayered LG p hF L hL j₂ hj k]
-  have hst : stemFilterCap (capLayered LG p) (capJ w) L (fun _ => none) k = 1 := by
-    simp [stemFilterCap]
-  have hsib : (capDag dagger).elim 1 (fun c => sibWeightCap (capLayered LG p) (capJ w) c k) =
-      dagger.elim 1 (fun c => LG.sibWeight c (pullK LG.garden k)) := by
-    rcases dagger with _ | c
-    · rfl
-    · simp only [capDag, Option.map_some, Option.elim_some, sibWeightCap_capLayered LG p hF]
-  have hmw : ∀ (R : Fin w → ℝ) (v : Fin w → GBranch LG.garden.tree),
-      markedWeight (capLayered LG p) (capJ w) p L (capExt (fun j => some (Rf j)) none) (fun _ => none)
-        (capSel LG.garden v) (capExt R L) (capH h) (capDag dagger) k =
-      (Typed.frontierW LG p (fun j => some (Rf j)) (pullK LG.garden k) * Typed.leafProd LG h (pullK LG.garden k) *
-        dagger.elim 1 (fun c => LG.sibWeight c (pullK LG.garden k))) *
-        selWeightCap (capLayered LG p) (capJ w) (capSel LG.garden v) (capExt R L) k := by
-    intro R v
-    unfold markedWeight
-    rw [frontierW_capLayered LG p hF hfl, hst, leafProdCap_capLayered LG p hF, hsib]
-    ring
-  simp only [hmw, ← Finset.mul_sum, integral_const_mul]
-  ring
-
 /-! ## Selections by stem depth (B0's `selCap`) -/
 
 /-- Depth labels on the capped garden: label `kk j` on the original tree `j`, none at the caps. -/
@@ -244,42 +199,6 @@ theorem sum_stemSet_eq_sum_depth (LG : LayeredGarden w) (p : ℕ) (hF : OneFlowe
     rw [← hdepth, selCap_depth LG p hF v hvmem, h0, mul_zero]
   · intro v hv _
     rw [selOK_depth LG p hF v hv, one_mul, selCap_depth LG p hF v hv]
-
-/-- **Transport of the `M₂` shell, depth form**: `cutWeight2P` as an integral over the shell box of a sum over depth
-labels of `selOK · selWeightCap` (B0's intrinsic selection). -/
-theorem cutWeight2P_capLayered_depth (LG : LayeredGarden w) (p : ℕ) (hF : OneFlower LG.garden) (L : ℝ) (hL : 0 < L)
-    (j₂ : ℕ) (hj : 0 < j₂) (M : ℕ) (hM : ∀ j, ∀ b ∈ Cases.stemSet LG j, b.1.2.length ≤ M)
-    (k : GNode (capGarden LG.garden).tree → Mom d) :
-    LG.cutWeight2P L j₂ (pullK LG.garden k) =
-      ∫ R in Set.univ.pi (fun _ : Fin w => Set.Icc (2 ^ (j₂ - 1) * L) (2 ^ j₂ * L)),
-        ∑ kk ∈ Fintype.piFinset (fun _ : Fin w => Finset.range (M + 1)),
-          selOK (capLayered LG p) (capJ w) (capKSel kk) *
-            selWeightCap (capLayered LG p) (capJ w) (selCap (capLayered LG p) (capJ w) (capKSel kk)) (capExt R L) k := by
-  rw [cutWeight2P_capLayered LG p hF L hL j₂ hj k]
-  congr 1
-  funext R
-  exact sum_stemSet_eq_sum_depth LG p hF M hM (fun v' => selWeightCap (capLayered LG p) (capJ w) v' (capExt R L) k)
-
-/-- **The Core-G weight in `CompData` form**: an integral over the shell box of a sum over depth labels
-`kk ∈ ∏_j range (M+1)` of `selOK · markedWeight` at `kSel = capKSel kk` (no stem filters), pointwise in the
-labelling. -/
-theorem capW_coreG_depth (LG : LayeredGarden w) (p : ℕ) (hF : OneFlower LG.garden)
-    (hfl : ∀ ℓ : GLeaf LG.garden.tree, LG.garden.IsFlower ℓ → LG.layer ℓ.toNode = p) (L : ℝ) (hL : 0 < L)
-    (j₂ : ℕ) (hj : 0 < j₂) (M : ℕ) (hM : ∀ j, ∀ b ∈ Cases.stemSet LG j, b.1.2.length ≤ M) (Rf : Fin w → ℝ)
-    (h : ℕ → Fin w → Fin w → Mom d → ℝ) (dagger : Option (Fin w → Fin 3 → Mom d))
-    (k : GNode (capGarden LG.garden).tree → Mom d) :
-    capW LG dagger (fun k => Typed.frontierW LG p (fun j => some (Rf j)) k * LG.cutWeight2P L j₂ k *
-        Typed.leafProd LG h k) k =
-      ∫ R in Set.univ.pi (fun _ : Fin w => Set.Icc (2 ^ (j₂ - 1) * L) (2 ^ j₂ * L)),
-        ∑ kk ∈ Fintype.piFinset (fun _ : Fin w => Finset.range (M + 1)),
-          selOK (capLayered LG p) (capJ w) (capKSel kk) *
-            markedWeight (capLayered LG p) (capJ w) p L (capExt (fun j => some (Rf j)) none) (fun _ => none)
-              (selCap (capLayered LG p) (capJ w) (capKSel kk)) (capExt R L) (capH h) (capDag dagger) k := by
-  rw [capW_coreG LG p hF hfl L hL j₂ hj Rf h dagger k]
-  congr 1
-  funext R
-  exact sum_stemSet_eq_sum_depth LG p hF M hM (fun v' => markedWeight (capLayered LG p) (capJ w) p L
-    (capExt (fun j => some (Rf j)) none) (fun _ => none) v' (capExt R L) (capH h) (capDag dagger) k)
 
 /-! ## At a fixed shell scale `R` (to compose with CAPS-FUBINI's `coreG_shell_exchange`) -/
 

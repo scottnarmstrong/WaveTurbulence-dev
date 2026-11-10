@@ -6,6 +6,5 @@ public import WaveTurbulence.Foundations.Spine.LeafwiseSpineInputs
 @[expose] public section
 open WaveTurbulence.Induct
 namespace WaveTurbulence.PL2330Pin
-abbrev CoherentApproximationGate : Prop := LGSpine.CoherentApproximationGate
 abbrev LeafwiseCoherentApproximationGate : Prop := LGSpine.LeafwiseCoherentApproximationGate
 end WaveTurbulence.PL2330Pin

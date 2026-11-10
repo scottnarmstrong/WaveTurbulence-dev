@@ -23,9 +23,6 @@ open WaveTurbulence.Flower.ProtWhole
 
 namespace WaveTurbulence.Flower.CompMK
 
-theorem selMassMK_eq {R : ℕ} (N : ℕ) (b : ℝ) (Rs : Fin (2 * R) → ℝ) (kSel : Fin (2 * R) → Option ℕ)
-    (U : Finset (Fin (2 * R))) : selMassMK N b Rs kSel U = selMass N b Rs kSel U := rfl
-
 /-- **B4's Full gate gives the gate this area consumes.** -/
 theorem stage1ReductionAtMKSel_of_full {C₀ : ℕ} {cP cθ : ℝ} {P : WTParams}
     (h : Stage1ReductionAtMKFull C₀ cP cθ P) : Stage1ReductionAtMKSel C₀ cP cθ P := by

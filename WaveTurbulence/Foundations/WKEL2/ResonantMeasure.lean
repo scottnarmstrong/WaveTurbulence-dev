@@ -84,37 +84,4 @@ theorem lintegral_resonantMeasure_chart (e : Mom d) {F : Mom d × Mom d → ℝ�
     (hF.comp (continuous_const.prodMk
       ((normalReflection e a).continuous.comp continuous_subtype_val)).measurable)
 
-/-- The intrinsic nonnegative hyperplane integral depends measurably on its normal. -/
-theorem measurable_lintegral_hyperplane {e : Mom d} (he : ‖e‖ = 1)
-    {F : Mom d × Mom d → ℝ≥0∞} (hF : Measurable F) :
-    Measurable (fun a : Mom d => ∫⁻ w : ↥(ℝ ∙ a)ᗮ, F (a, w)) := by
-  have hm : Measurable (fun a : Mom d =>
-      ∫⁻ w : ↥(ℝ ∙ e)ᗮ, F (a, normalReflection e a w)) :=
-    (hF.comp (measurable_resonantChart e)).lintegral_prod_right'
-  have hi : (fun a : Mom d => ∫⁻ w : ↥(ℝ ∙ a)ᗮ, F (a, w)) =
-      ({0} : Set (Mom d)).piecewise
-        (fun _ => ∫⁻ w : ↥(ℝ ∙ (0 : Mom d))ᗮ, F (0, w))
-        (fun a => ∫⁻ w : ↥(ℝ ∙ e)ᗮ, F (a, normalReflection e a w)) := by
-    funext a
-    by_cases ha : a = 0
-    · subst a
-      simp only [Set.piecewise, mem_singleton_iff, ↓reduceIte]
-    · simp only [Set.piecewise, mem_singleton_iff, ha, ↓reduceIte]
-      exact lintegral_hyperplaneChart he ha (fun x => F (a, x))
-  rw [hi]
-  exact measurable_const.piecewise (measurableSet_singleton 0) hm
-
-/-- Intrinsic hyperplane formula for every nonnegative Borel kernel (Lemma 1's measure). -/
-theorem lintegral_resonantMeasure {e : Mom d} (he : ‖e‖ = 1)
-    {F : Mom d × Mom d → ℝ≥0∞} (hF : Measurable F) :
-    ∫⁻ p, F p ∂resonantMeasure e =
-      ∫⁻ a : Mom d, ENNReal.ofReal (‖a‖⁻¹) * ∫⁻ w : ↥(ℝ ∙ a)ᗮ, F (a, w) := by
-  rw [lintegral_resonantMeasure_chart e hF]
-  apply lintegral_congr
-  intro a
-  by_cases ha : a = 0
-  · subst a
-    simp only [norm_zero, inv_zero, ENNReal.ofReal_zero, zero_mul]
-  · rw [lintegral_hyperplaneChart he ha (fun x => F (a, x))]
-
 end WaveTurbulence.WKEL2

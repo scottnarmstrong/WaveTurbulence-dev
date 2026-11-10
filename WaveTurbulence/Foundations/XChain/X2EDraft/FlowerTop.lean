@@ -55,10 +55,6 @@ noncomputable def treeWeightK (F : FTree) (hF : F ≠ FTree.flower) (dagger : Op
   (cut1.elim 1 fun j₁ => treeCut1K L F j₁ k) * (cut2.elim 1 fun j₂ => treeCut2K L F hF j₂ k) *
     (dagger.elim 1 fun c => treeSibK F hF c k)
 
-theorem treeWeightK_lattice (F : FTree) (hF : F ≠ FTree.flower) (dagger : Option (Fin 3 → Mom d))
-    (cut1 cut2 : Option ℕ) (κ : GNode (single F.toTree) → (Fin d → ℤ)) :
-    treeWeightK L F hF dagger cut1 cut2 (fun a => latticePoint L (κ a)) = treeWeight L F hF dagger cut1 cut2 κ := rfl
-
 end Weight
 
 /-! ## The top data -/

@@ -175,11 +175,4 @@ theorem sum_vineIncoh_le_unitsMk {S : Garden w} (hM : S.molecule.IsMolecule) (σ
         sum_le_sum fun u hu => hper u (List.mem_toFinset.mp hu)
     _ ≤ ((unitBlocks γ S σ Mk).map fun u => u.atoms.card - 1).sum := sum_toFinset_le_list_sum _ _
 
-/-- The unmarked form (main's `sum_vineIncoh_le_units`). -/
-theorem sum_vineIncoh_le_units {S : Garden w} (hM : S.molecule.IsMolecule) (σ : Prescription S)
-    (layer0 : GBranch S.tree → ℕ) :
-    ∑ T ∈ (Set.toFinite (unitIngredients γ S σ)).toFinset, vineIncoh γ S layer0 T ≤
-      ((unitBlocks γ S σ).map fun u => u.atoms.card - 1).sum :=
-  sum_vineIncoh_le_unitsMk (Mk := ∅) hM σ layer0
-
 end WaveTurbulence.GammaLow.Fama

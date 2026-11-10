@@ -231,39 +231,6 @@ theorem lt_certCJ (hC : 1 ≤ P.C₁) (hη : P.η ≤ 1) (n : ℕ) :
   unfold certCJ at hp ⊢
   exact (ENNReal.ofReal_lt_ofReal_iff hp).2 (by linarith)
 
-/-- **The certified expansion from a continuous gate expansion at level `q`.**  `hV`: the identity on `V` (from `zpQ_expand` /
-`zpT_expand`); `hlo`, `hhi`: the window bounds of the clamped factors (from `clamp_bound_C` / `clamp_bound_T`). -/
-noncomputable def ObjCert.ofCont (E : ContExp P n W T F cost) (q : ℝ) (f : ℝ → ℝ → Mom P.d → ℂ) (V : Set (Fin 2 → ℝ))
-    (hV : ∀ t s : ℝ, ![t, s] ∈ V → ∀ k, f t s k = ∑ i, sepTerm (P.δ ^ n) (clampJ q (E.J i)) (E.M i) t s k)
-    {Blo Bhi : Set (Fin 2 → ℝ)} {qlo qhi : Fin 2 → ℝ} (hclo : Blo ⊆ cell qlo) (hilo : Blo ⊆ closure (interior Blo))
-    (hchi : Bhi ⊆ cell qhi) (hihi : Bhi ⊆ closure (interior Bhi)) (hC : 1 ≤ P.C₁) (hη : P.η ≤ 1) (hcost : 0 ≤ cost)
-    (hlo : ∀ i, XNorm00Restr (V := Unit) (1 - P.η) Blo Set.univ (fun ts _ => clampJ q (E.J i) ts) ≤
-      ENNReal.ofReal (TR P.η * (P.C₁ * P.C₁ ^ n)))
-    (hhi : ∀ i, XNorm00Restr (V := Unit) (1 - P.η) Bhi Set.univ (fun ts _ => clampJ q (E.J i) ts) ≤
-      ENNReal.ofReal (TR P.η * (P.C₁ * P.C₁ ^ n))) :
-    ObjCert P W f Blo Bhi qlo qhi where
-  toObjExp := ObjExp.ofPad (P.δ ^ n) (fun i => clampJ q (E.J i)) E.M V hV
-  CJ := certCJ P n
-  CM := certCM P n cost
-  lo := sepTPad hclo hilo (certCJ_pos hC hη n) (by unfold certCM; have h0 : 0 ≤ P.C₁ := (by linarith); exact mul_nonneg (mul_nonneg h0 (pow_nonneg h0 n)) hcost) (P.δ ^ n)
-    (fun i => clampJ q (E.J i)) E.M (fun i => (hlo i).trans_lt (lt_certCJ hC hη n)) E.hM
-  hi := sepTPad hchi hihi (certCJ_pos hC hη n) (by unfold certCM; have h0 : 0 ≤ P.C₁ := (by linarith); exact mul_nonneg (mul_nonneg h0 (pow_nonneg h0 n)) hcost) (P.δ ^ n)
-    (fun i => clampJ q (E.J i)) E.M (fun i => (hhi i).trans_lt (lt_certCJ hC hη n)) E.hM
-  lo_c _ := rfl
-  lo_J _ := rfl
-  lo_M _ := rfl
-  hi_c _ := rfl
-  hi_J _ := rfl
-  hi_M _ := rfl
-
-theorem ObjCert.ofCont_m (E : ContExp P n W T F cost) (q : ℝ) (f : ℝ → ℝ → Mom P.d → ℂ) (V : Set (Fin 2 → ℝ))
-    (hV : ∀ t s : ℝ, ![t, s] ∈ V → ∀ k, f t s k = ∑ i, sepTerm (P.δ ^ n) (clampJ q (E.J i)) (E.M i) t s k)
-    {Blo Bhi : Set (Fin 2 → ℝ)} {qlo qhi : Fin 2 → ℝ} (hclo : Blo ⊆ cell qlo) (hilo : Blo ⊆ closure (interior Blo))
-    (hchi : Bhi ⊆ cell qhi) (hihi : Bhi ⊆ closure (interior Bhi)) (hC : 1 ≤ P.C₁) (hη : P.η ≤ 1) (hcost : 0 ≤ cost)
-    (hlo hhi) :
-    (ObjCert.ofCont E q f V hV hclo hilo hchi hihi hC hη hcost hlo hhi).m ≤ 2 ^ n :=
-  max_le E.hm (Nat.one_le_two_pow)
-
 /-- The certified expansion with no identity set (`ObjExp.triv`, zero certificates). -/
 noncomputable def ObjCert.triv (f : ℝ → ℝ → Mom P.d → ℂ) {Blo Bhi : Set (Fin 2 → ℝ)} {qlo qhi : Fin 2 → ℝ}
     (hclo : Blo ⊆ cell qlo) (hilo : Blo ⊆ closure (interior Blo))

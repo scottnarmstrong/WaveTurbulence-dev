@@ -54,12 +54,6 @@ abbrev SourceCoreCoordinate {d : ℕ} (D : SumintDatum d) (b : FactorIdx D.S) : 
   (MeasurableEquiv.piCongrLeft (fun _ => ℝ) (sourceCoreCoordinateTimeEquiv D).symm).trans
     (MeasurableEquiv.piCurry (fun (b : FactorIdx D.S) (_ : SourceCoreCoordinate D b) => ℝ))
 
-/-- Coarse grouping preserves the actual input-time product Lebesgue measure. -/
-theorem volume_preserving_sourceCoreTimeGrouping {d : ℕ} (D : SumintDatum d) :
-    MeasurePreserving (sourceCoreTimeGrouping D) volume volume := by
-  exact (volume_measurePreserving_piCurry (ι := FactorIdx D.S) (κ := SourceCoreCoordinate D)).comp
-    (volume_measurePreserving_piCongrLeft (fun _ => ℝ) (sourceCoreCoordinateTimeEquiv D).symm)
-
 /-- Coarse grouping evaluates every old factor coordinate at its original source time. -/
 theorem sourceCoreTimeGrouping_apply {d : ℕ} (D : SumintDatum d) (u : D.S.TVar → ℝ)
     (b a : FactorIdx D.S) (ha : sourceCoreGroup D a = b) (j : FactorCoordinate D.S a) :

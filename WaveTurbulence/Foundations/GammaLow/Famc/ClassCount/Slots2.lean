@@ -17,7 +17,6 @@ public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Coll
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Coll2
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Cover
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Data
-public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Deg
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Desig
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Final
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Group
@@ -31,7 +30,6 @@ public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Marked
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Obj
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Obj2
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Obj3
-public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Pairs
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Rev
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Runs
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Skip
@@ -49,13 +47,10 @@ public import WaveTurbulence.Foundations.GammaLow.Fama.Coll.Basic
 public import WaveTurbulence.Foundations.GammaLow.Fama.Coll.Collection
 public import WaveTurbulence.Foundations.GammaLow.Fama.Inputs
 public import WaveTurbulence.Foundations.GammaLow.Fama.Vine.Chain
-public import WaveTurbulence.Foundations.GammaLow.Fama.P.Molecule.VineChainEraseEndpoints
-public import WaveTurbulence.Foundations.GammaLow.Fama.P.Molecule.VineChainInteriorConnected
 public import WaveTurbulence.Foundations.GammaLow.Fama.Vine.Facts
 public import WaveTurbulence.Foundations.GammaLow.Fama.P.Molecule.VineLocalDartChains
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.Src.Counting
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.Src.Objects
-public import WaveTurbulence.Foundations.GammaLow.Fama.P.Spine.VineDelObjects
 
 
 /-!

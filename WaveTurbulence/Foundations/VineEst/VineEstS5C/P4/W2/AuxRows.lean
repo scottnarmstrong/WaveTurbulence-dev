@@ -5,8 +5,8 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.Rows
-public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.RowSlot
+public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P2.PieceRem
+public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.OfModes
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.AuxAe
 
 /-! # P4-W2 AUX (b): slot-general row lemmas (exterior clocks allowed)
@@ -39,11 +39,6 @@ theorem summable_of_bracket {r : ℕ} {θ : ℝ} (hθ : 0 ≤ θ) {h : (Fin r �
 theorem cont_vec2 (i j : Fin 3) : Continuous fun τ : Fin 3 → ℝ => ![τ i, τ j] := by
   refine continuous_pi fun l => ?_
   fin_cases l <;> simp [continuous_apply]
-
-theorem clk_eq {d : ℕ} {D : SumintPar.SumintDatum d} (s : Fin 2 → WaveTurbulence.VineEstS3Par.Eng.Slot D) (τ : D.S.TVar → ℝ) (tt : Fin 3 → ℝ) :
-    ![slotVal D τ tt (![s 0, s 1, s 0] 0), slotVal D τ tt (![s 0, s 1, s 0] 1)] =
-      fun i => slotVal D τ tt (s i) := by
-  funext i; fin_cases i <;> rfl
 
 /-- **A separated row with arbitrary slots.** -/
 theorem sepRowWS (G : AmbP A P) :
@@ -118,16 +113,5 @@ theorem jointRowWS (G : AmbP A P) (Rb : ℝ) :
     hbfin hfs (fun w hw => absurd hw (by simp)),
     fun cl r k hcl => RowData.ofModes_W (hasSum_sepCoef (hall _ hcl) M r k), fun _ => rfl, le_rfl,
     RowData.ofModes_ae hθ0 hI (Sum.inl w₀) _ _ _ _ _ _⟩
-
-/-- **A remainder row with arbitrary slots** (`remRowS` at `θ = 6 η⁶`; `f` time-continuous). -/
-theorem remRowWS (Λ₁ Λ₂ : ℕ) (hΛ : Λ₁ ≠ 0) (hη0 : 0 < P.η) :
-    ∃ C : ℝ≥0∞, C ≠ ⊤ ∧ ∀ (D : SumintPar.SumintDatum P.d) (hI : 0 < D.S.I) (ρ : Row D), D.wN = Λ₁ → rowOrder D ρ = Λ₂ →
-      ∀ (s : Fin 2 → WaveTurbulence.VineEstS3Par.Eng.Slot D) (q : Fin 2 → ℝ) (B : Set (Fin 2 → ℝ))
-      (f : (Fin 2 → ℝ) → Mom P.d → ℂ) (b : ℝ≥0∞),
-      b ≠ ⊤ → B ⊆ cell q → B ⊆ closure (interior B) → (∀ k, Continuous fun t => f t k) →
-      XNormRestr (6 * P.η ^ 6) Λ₁ Λ₂ B Set.univ f < b →
-      ∃ R : RowData D (6 * P.η ^ 6) ρ, (∀ cl r k, ![cl 0, cl 1] ∈ B → R.W cl r k = f ![cl 0, cl 1] k) ∧
-        (∀ i, R.slot i = ![s 0, s 1, s 0] i) ∧ R.b = C * b ∧ R.Ae hI :=
-  remRowS (by positivity) Λ₁ Λ₂ hΛ
 
 end WaveTurbulence.VineEstS5C.P4.W2

@@ -1,7 +1,7 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 
-public import WaveTurbulence.Foundations.Molecule.UnitTwistMolecule
+public import WaveTurbulence.Foundations.Molecule.TwistDartDirections
 
 /-! # Directed isomorphisms between actual garden molecules
 

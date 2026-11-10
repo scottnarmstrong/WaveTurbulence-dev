@@ -1,7 +1,6 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 
-public import WaveTurbulence.Foundations.FlowerTop.ThreeInputs
 public import WaveTurbulence.Foundations.Flower.Stage1W.Defs
 
 /-! # STAGE1W-GLUE: Inputs (ported by source from the S-STAGE1W probe, see COPIED-SHA256SUMS). -/
@@ -42,15 +41,6 @@ def TopIncoherentDecayAt (P : WTParams) : Prop :=
         (fun ts k => treeLeavesTop P.L P.γ P.δ p g q LG H (ts 0) (ts 1) k) ≤
         ENNReal.ofReal (cψ ^ (4 * n + 1)) * regBound P n (LG.incoherency (X.treeLinks (LG.garden.sig 0))) *
           ENNReal.ofReal (leafSizeProduct LG B))
-
-def TopIncoherentDecayGate : Prop := WTPrefix TopIncoherentDecayAt
-
-/-- **Agreement, couples** (verbatim; COH-TRUNK / O6): on a coherent couple the top weight is the single factor at
-the external momentum, present iff `q = p > q'` (Lemma 5.1's `c(q,q')`). -/
-def RowTopAgreementCouple : Prop :=
-  ∀ {d : ℕ} (p q q' : ℕ) (Q : RegCpl) (LG : LayeredGarden 2), q' ≤ q → q ≤ p → IsCoherentCoupleAt p q q' Q LG →
-    ∀ (g : Mom d → ℂ) (L : ℝ) (k : Mom d) (κ : GenDecoration LG.garden d (fun _ => 0) 0),
-      rowTopWeight p g LG ![q, q'] (cosetDecoration LG.garden L k κ.1) = if q' < p ∧ q = p then g k else 1
 
 /-- **Agreement, trees** (verbatim). -/
 def RowTopAgreementTree : Prop :=
@@ -114,16 +104,6 @@ def RowTopAgreementCoupleR : Prop :=
     ∀ (g : Fin 2 → Mom d → ℂ) (L : ℝ) (k : Mom d) (κ : GenDecoration LG.garden d (fun _ => 0) 0),
       rowTopWeightR p g LG ![q, q'] (cosetDecoration LG.garden L k κ.1) =
         if q' < p ∧ q = p then g 0 k else if q < p ∧ q' = p then g 1 k else 1
-
-/-- The verbatim couple agreement (one weight, `q' ≤ q`) follows from the per-arm form. -/
-theorem rowTopAgreementCouple_of_R (h : RowTopAgreementCoupleR) : RowTopAgreementCouple := by
-  intro d p q q' Q LG hqq hqp hcoh g L k κ
-  have := h p q q' Q LG hqp (hqq.trans hqp) hcoh (fun _ => g) L k κ
-  rw [← rowTopWeightR_const, this]
-  by_cases h1 : q' < p ∧ q = p
-  · simp [h1]
-  · have h2 : ¬ (q < p ∧ q' = p) := fun h2 => by omega
-    simp [h1, h2]
 
 
 end WaveTurbulence.Flower.Stage1W

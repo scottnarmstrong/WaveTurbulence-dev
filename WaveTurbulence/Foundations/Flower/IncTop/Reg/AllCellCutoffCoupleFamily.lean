@@ -1,7 +1,11 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 
-public import WaveTurbulence.Foundations.Flower.IncTop.Reg.AllCellSourceFamily
+public import WaveTurbulence.Foundations.Flower.IncTop.Reg.SourceCellMassBound
+public import WaveTurbulence.Foundations.Flower.IncTop.Reg.SpectralCoupleMeasurability
+public import WaveTurbulence.Foundations.Incoh.RootCutoff
+public import WaveTurbulence.Foundations.Incoh.RootCumulativeLocal
+public import WaveTurbulence.Foundations.Incoh.TwoTimeBoxIntegral
 
 /-! Ported by source from C2-B-TOP `Cut2BReg.AllCellCutoffCoupleFamily` (sha256 in COPIED-SHA256SUMS); mechanical edits only.
 

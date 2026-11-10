@@ -1,7 +1,7 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 
-public import WaveTurbulence.Foundations.RegAsymp.PositiveEnvelope
+public import Mathlib.MeasureTheory.Integral.Bochner.Basic
 public import WaveTurbulence.Foundations.ClassJR.MCSRep
 public import Mathlib.Analysis.SpecialFunctions.Gaussian.GaussianIntegral
 

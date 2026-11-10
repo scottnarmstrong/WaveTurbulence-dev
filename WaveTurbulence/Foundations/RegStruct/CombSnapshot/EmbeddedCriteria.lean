@@ -106,30 +106,4 @@ theorem subPairedTree_sign {a b : GNode G.tree} (h : IsSubPairedTree G a b) :
   simp only [smul_eq_mul, mul_one] at he
   exact Units.ext he.symm
 
-/-- Every decoration has equal upper/lower values across an embedded paired tree. -/
-theorem subPairedTree_value {a b : GNode G.tree} (h : IsSubPairedTree G a b)
-    {V : Type*} [AddCommGroup V] {κ : GNode G.tree → V} (hκ : IsDecoration G κ) :
-    κ a = κ b := by
-  have ha := sum_rule G.sig κ hκ.1 a
-  have hb := sum_rule G.sig κ hκ.1 b
-  have hz := sum_signed_completelyPaired h.2 κ hκ.2
-  have he := Finset.sum_sdiff (f := fun ℓ : GLeaf G.tree =>
-    ((nodeSign G.sig ℓ.1 : ℤˣ) : ℤ) • κ ℓ.toNode) (leavesBelow_subset_of_isDesc h.1)
-  rw [hz, zero_add, ← ha, ← hb] at he
-  have hs : nodeSign G.sig a.1 = nodeSign G.sig b.1 := subPairedTree_sign h
-  rw [← hs] at he
-  rcases Int.units_eq_one_or (nodeSign G.sig a.1) with hh | hh <;>
-    rw [hh] at he <;> simpa using he.symm
-
-/-- The relative path of the lower root is a valid node in the upper subtree. -/
-theorem subPairedTree_subtree {a b : GNode G.tree} (h : IsSubPairedTree G a b)
-    {u : TTree} (hu : subtree (G.tree a.1.1) a.1.2 = some u) :
-    ∃ q v, a.1.2 ++ q = b.1.2 ∧ subtree u q = some v := by
-  obtain ⟨hj, q, hq⟩ := h.1
-  have hn : b.1.2 ∈ (G.tree a.1.1).nodes := by rw [hj]; exact b.2
-  obtain ⟨v, hv⟩ := (subtree_exists_iff _ _).mpr hn
-  refine ⟨q, v, hq, ?_⟩
-  rw [← hq, subtree_append, hu] at hv
-  exact hv
-
 end WaveTurbulence.Comb

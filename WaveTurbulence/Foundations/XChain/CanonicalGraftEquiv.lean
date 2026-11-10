@@ -26,21 +26,4 @@ theorem canonicalGraftData_graft_injective {w p : ℕ} {sig : Fin w → ℤˣ} :
       cases hl
       rfl
 
-noncomputable def canonicalGraftEquiv {w p : ℕ} (sig : Fin w → ℤˣ) (hw : 4 ≤ w) :
-    CanonicalGraftData sig p ≃ {LG : LayeredGarden w // IsCanonG (p + 1) LG ∧ LG.garden.sig = sig} :=
-  Equiv.ofBijective (fun C => ⟨C.graft, C.graft_isCanonG hw, rfl⟩) (by
-    constructor
-    · intro C D h
-      exact canonicalGraftData_graft_injective (congrArg Subtype.val h)
-    · rintro ⟨LG, hG, hs⟩
-      obtain ⟨C, he⟩ := exists_canonicalGraftData LG hG
-      have hr : ∃ D : CanonicalGraftData sig p, D.graft = LG := by
-        cases hs
-        exact ⟨C, he⟩
-      obtain ⟨D, hD⟩ := hr
-      exact ⟨D, Subtype.ext hD⟩)
-
-theorem canonicalGraftEquiv_apply {w p : ℕ} (sig : Fin w → ℤˣ) (hw : 4 ≤ w)
-    (C : CanonicalGraftData sig p) : (canonicalGraftEquiv sig hw C).1 = C.graft := rfl
-
 end WaveTurbulence.Induct

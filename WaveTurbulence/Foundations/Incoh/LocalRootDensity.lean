@@ -64,42 +64,4 @@ theorem RootCoordinates.linkDensity_eq_zero_of_notMem_rootBox {d n r : ℕ} (R :
   rw [normalizedLinkIntegrand, Set.indicator_of_notMem (s := I) hnot, mul_zero]
   simp only [Pi.zero_apply]
 
-/-- The physical layer box becomes the unit box in local clocks. -/
-theorem RootCoordinates.local_mem_rootBox_iff {d n r : ℕ} (R : RootCoordinates n r)
-    (Q : Fin n → LayerLink d) (t : Fin r → ℝ) :
-    t + R.baseRootTimes Q ∈ R.rootBox Q ↔ t ∈ Icc (0 : Fin r → ℝ) 1 := by
-  constructor
-  · intro h
-    constructor
-    · intro a
-      have ha := h.1 a
-      change (vertexLayer Q (R.rootVertex a) : ℝ) ≤ t a + (vertexLayer Q (R.rootVertex a) : ℝ) at ha
-      change (0 : ℝ) ≤ t a
-      linarith
-    · intro a
-      have ha := h.2 a
-      change t a + (vertexLayer Q (R.rootVertex a) : ℝ) ≤ (vertexLayer Q (R.rootVertex a) : ℝ) + 1 at ha
-      change t a ≤ (1 : ℝ)
-      linarith
-  · intro h
-    constructor
-    · intro a
-      have ha := h.1 a
-      change (0 : ℝ) ≤ t a at ha
-      change (vertexLayer Q (R.rootVertex a) : ℝ) ≤ t a + (vertexLayer Q (R.rootVertex a) : ℝ)
-      linarith
-    · intro a
-      have ha := h.2 a
-      change t a ≤ (1 : ℝ) at ha
-      change t a + (vertexLayer Q (R.rootVertex a) : ℝ) ≤ (vertexLayer Q (R.rootVertex a) : ℝ) + 1
-      linarith
-
-/-- The actual local-clock density is supported in the unit box. -/
-theorem RootCoordinates.localLinkDensity_eq_zero_of_notMem_unitBox {d n r : ℕ} (R : RootCoordinates n r)
-    (L γ δ : ℝ) (Q : Fin n → LayerLink d) {I : Set (Fin n → Fin 2 → ℝ)}
-    (hbox : I ⊆ univ.pi (fun i => linkBox (Q i))) {t : Fin r → ℝ}
-    (ht : t ∉ Icc (0 : Fin r → ℝ) 1) : R.localLinkDensity L γ δ Q I t = 0 :=
-  R.linkDensity_eq_zero_of_notMem_rootBox L γ δ Q hbox
-    (fun h => ht ((R.local_mem_rootBox_iff Q t).mp h))
-
 end WaveTurbulence.Incoh

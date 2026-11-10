@@ -85,15 +85,6 @@ noncomputable def profileShape {R : ℕ} (a : PrescribedPrimeGarden (2 * R)) :
       a.fullProfile.piece.gap.garden :=
   stShape (Mole.garden_isMolecule a.prime.skeleton) a.totalSigma
 
-/-- Every prescribed member has a shape onto the same literal profile garden. -/
-noncomputable def memberShape {R p : ℕ} {kind : Bool}
-    (a b : PrescribedPrimeGarden (2 * R)) (hσ : b.code = a.code)
-    (hy : b.layered ∈ a.outputs (p := p) (kind := kind)) :
-    SpliceShape (unitBlk (Mole.garden_isMolecule b.prime.skeleton) b.totalSigma)
-      a.fullProfile.piece.gap.garden :=
-  castShape (congrArg (fun P : FullA4Profile (2 * R) => P.piece.gap.garden)
-    (PrescribedPrimeGarden.plainTau_fullA4 hσ hy)) (profileShape b)
-
 /-- The shape's hinge set is exactly the successor producer's hinge set. -/
 theorem profileShape_hinges {R : ℕ} (a : PrescribedPrimeGarden (2 * R)) :
     (profileShape a).hinges (unitBlk_disj (Mole.garden_isMolecule _) a.totalSigma) =

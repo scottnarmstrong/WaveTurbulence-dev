@@ -83,18 +83,6 @@ theorem lastSpineLink_exists (X : RegChain) (hX : X ≠ .nil) (a : Fin w × Path
       simpa only [lastSpineLink] using
         lastSpineLink_exists (.pair m' Qr' Qg' inner' rest') (by simp) _
 
-/-- The first endpoint of every spine link is an actual spine position. -/
-theorem spineLink_fst_mem (X : RegChain) (a : Fin w × Path)
-    {l : (Fin w × Path) × (Fin w × Path)} (h : l ∈ spineLinks X a) :
-    l.1 ∈ spinePos X a := by
-  cases X with
-  | nil => simp only [spineLinks, List.not_mem_nil] at h
-  | pair m Qr Qg inner rest =>
-    simp only [spineLinks, List.mem_cons] at h
-    rcases h with rfl | h
-    · exact List.mem_cons_self
-    · exact List.mem_cons_of_mem _ (spineLink_fst_mem rest _ h)
-
 /-- Every spine link points strictly downward; this is source path geometry. -/
 theorem spineLink_length_lt (X : RegChain) (a : Fin w × Path)
     {l : (Fin w × Path) × (Fin w × Path)} (h : l ∈ spineLinks X a) :

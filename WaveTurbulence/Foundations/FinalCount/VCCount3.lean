@@ -34,14 +34,6 @@ theorem shape_n_normal (hn : X.IsBad = false) : A.indexing.shape.n = 2 * A.index
 
 end Aux
 
-theorem labelSet_nonempty_or {M : Molecule V D} (K : VineCut M) {L γ δ : ℝ} {w : Mom d}
-    {Adm : (D → (Fin d → ℤ)) → Prop} {c : V → Mom d} {β : V → ℝ} {k0 : D → Mom d} (b : ℝ) (hb : 0 ≤ b)
-    (h : (K.labelSet L γ δ w Adm c β k0).Nonempty → (K.labelSet L γ δ w Adm c β k0).encard ≤ ENNReal.ofReal b) :
-    (K.labelSet L γ δ w Adm c β k0).encard ≤ ENNReal.ofReal b := by
-  by_cases hne : (K.labelSet L γ δ w Adm c β k0).Nonempty
-  · exact h hne
-  · rw [Set.not_nonempty_iff_eq_empty.mp hne]; simp
-
 theorem encard_le_ofReal_of_ncard {α : Type*} {s : Set α} (hs : s.Finite) {b : ℝ} (h : (s.ncard : ℝ) ≤ b) :
     s.encard ≤ ENNReal.ofReal b := by
   rw [← hs.cast_ncard_eq]

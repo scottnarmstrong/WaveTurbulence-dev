@@ -5,7 +5,9 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P2.RemAe
+public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P2.FSAe
+public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P2.TimeModes
+public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P2.Merge
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P2.Space
 
 /-! # P2: the continuous witness of a gate remainder (step 3; the continuity ruling)

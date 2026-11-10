@@ -1,6 +1,6 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
-public import WaveTurbulence.Foundations.FC23.FlowerCutBound
+public import WaveTurbulence.Foundations.FC23.FlowerExtraction
 public import WaveTurbulence.Foundations.CountLemmas.PowerAbsorption
 /-! Numerical absorption with moment-dependent small delta and late high norms. -/
 @[expose] public section
@@ -23,25 +23,6 @@ theorem extractionRadius_identity (S N : ℕ) {C U M : ℝ}
   have hD : (((2 * N + 1 : ℕ) : ℝ)) ≠ 0 := by positivity
   rw [div_pow, mul_pow, pow_add]
   field_simp
-
-/-- Early geometric absorption. The base depends only on w, before delta;
-no high-seminorm constant or stage count is hidden in it. -/
-theorem interpolation_delta_absorption {δ ν E : ℝ} (hδ : 0 < δ) (hE : 0 ≤ E)
-    (w N : ℕ) (hsmall : E ^ (2 * w) * δ ^ (6 * ν) ≤ 1) :
-    E ^ (w * (2 * N + 1)) * δ ^ (8 * ν * N) ≤ E ^ w * δ ^ (2 * ν * N) := by
-  have hpow := pow_le_one₀ (mul_nonneg (pow_nonneg hE _) (Real.rpow_nonneg hδ.le _)) hsmall (n := N)
-  have hsplit : E ^ (w * (2 * N + 1)) * δ ^ (8 * ν * N) =
-      E ^ w * (E ^ (2 * w) * δ ^ (6 * ν)) ^ N * δ ^ (2 * ν * N) := by
-    rw [mul_pow, ← pow_mul, ← mul_assoc, ← pow_add]
-    have he : w + 2 * w * N = w * (2 * N + 1) := by ring
-    rw [he, ← Real.rpow_mul_natCast hδ.le]
-    simp only [mul_assoc]
-    rw [← Real.rpow_add hδ]
-    congr 2
-    ring
-  rw [hsplit]
-  exact (mul_le_mul_of_nonneg_right (mul_le_mul_of_nonneg_left hpow (pow_nonneg hE _))
-    (Real.rpow_nonneg hδ.le _)).trans_eq (by ring)
 
 /-- Every fixed polynomial in the original total order is absorbed by a late
 power of L, uniformly over the full polylogarithmic order range. -/

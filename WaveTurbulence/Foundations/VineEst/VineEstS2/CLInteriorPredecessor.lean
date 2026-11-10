@@ -53,11 +53,4 @@ theorem clInteriorPredecessor_deeper (hU : G.molecule.IsBlock U a b) (R : CLRegi
   rw [clInteriorCrop_depth hU R v]
   omega
 
-/-- The same numbering orders every constructed predecessor before its row. -/
-theorem exists_clInteriorPredecessor_order (hU : G.molecule.IsBlock U a b) (R : CLRegionData G U a b) :
-    ∃ e : ↥(clInteriorBranches R) ≃ Fin (clLocalOrder1 R),
-      ∀ v u, clInteriorPredecessor hU R v = some u → e u < e v := by
-  obtain ⟨e,he⟩ := exists_clInteriorDepthEnumeration R
-  exact ⟨e,fun v u hu => he v u (clInteriorPredecessor_deeper hU R v u hu)⟩
-
 end WaveTurbulence.VineEstS2

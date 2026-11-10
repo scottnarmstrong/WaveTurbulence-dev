@@ -49,10 +49,6 @@ no other common atom. Sharing the joint-to-joint bond is allowed. -/
   ∃ A B : Finset V, M.IsVine .V A a b ∧ M.IsVine .V B a b ∧
     A ∩ B = {a,b} ∧ S = A ∪ B
 
-/-- TARGET defvine: the three classes called vine-like (DV is excluded). -/
-@[expose] def IsVineLike (M : Molecule V D) (S : Finset V) (a b : V) : Prop :=
-  IsVC M S a b ∨ IsHV M S a b ∨ IsHVC M S a b
-
 omit [DecidableEq D] in
 /-- Every actual vine is a one-ingredient VC. -/
 theorem isVine_isVC {M : Molecule V D} {X : VineType} {S : Finset V} {a b : V}
@@ -66,17 +62,5 @@ theorem chain_pos {M : Molecule V D} {S : Finset V} {a b : V} {n : ℕ}
   induction h with
   | single => exact le_rfl
   | append _ _ _ _ _ => omega
-
-/-- Hyper-vines are actual hyper-blocks in the half-edge sense. -/
-theorem isHV_isHyperBlock {M : Molecule V D} {S : Finset V} {a b : V}
-    (h : IsHV M S a b) : Mole.IsHyperBlock M S a b := by
-  obtain ⟨e,he,X,hX⟩ := h
-  exact ⟨e,he,hX.1⟩
-
-/-- Hyper-vine-chains are actual hyper-blocks. -/
-theorem isHVC_isHyperBlock {M : Molecule V D} {S : Finset V} {a b : V}
-    (h : IsHVC M S a b) : Mole.IsHyperBlock M S a b := by
-  obtain ⟨e,he,hB,_⟩ := h
-  exact ⟨e,he,hB⟩
 
 end WaveTurbulence.Vine

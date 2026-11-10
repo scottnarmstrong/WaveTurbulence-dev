@@ -49,23 +49,4 @@ theorem lintegral_le_of_le_inv_pow (hd : 2 ≤ d) {f : ℝ → ℝ≥0∞} {C : 
           (Filter.Eventually.of_forall fun s => by positivity)).symm
     _ = ENNReal.ofReal (C * sInt d) := by rw [integral_const_mul, sInt]
 
-/-- **DH23 Lemma 6.5 (1)** (`NTSP`, L1019–L1022). For `d ≥ 2`, `λ ≥ 1` and `Φ(s, ·, ·)`
-satisfying the derivative bounds (NTphibounds) through order `10d` with constant `D` (for every
-`s`), uniformly in `(ξ, ζ, a, b)`:
-`∫_ℝ |∫∫ χ₀((x-a)/λ) χ₀((y-b)/λ) Φ(s,x,y) e(ξ·x + ζ·y + s⟨x,y⟩) dx dy| ds ≤ C D λ^{2d}`. -/
-theorem ntsp_one (d : ℕ) (hd : 2 ≤ d) : ∃ C : ℝ, ∀ (D lam : ℝ) (Φ : ℝ → Mom d → Mom d → ℂ),
-    1 ≤ lam → (∀ s, NTBounds (10 * d) D (Φ s)) → ∀ a b ξ ζ : Mom d,
-      ∫⁻ s, ‖ntIntegral lam (Φ s) a b ξ ζ s‖ₑ ≤ ENNReal.ofReal (C * D * lam ^ (2 * d)) := by
-  refine ⟨termConst d (10 * d) * sInt d, fun D lam Φ hlam hΦ a b ξ ζ => ?_⟩
-  have hD : 0 ≤ D := (hΦ 0).nonneg
-  have hC : 0 ≤ termConst d (10 * d) * D * lam ^ (2 * d) := by
-    have := termConst_nonneg d (10 * d)
-    have : 0 ≤ lam := by linarith
-    positivity
-  refine (lintegral_le_of_le_inv_pow hd hC fun s => ?_).trans (le_of_eq ?_)
-  · rw [← ofReal_norm]
-    exact ENNReal.ofReal_le_ofReal (norm_ntIntegral_le_stat (by omega) (hΦ s) hlam a b ξ ζ s)
-  · congr 1
-    ring
-
 end WaveTurbulence.NTSP

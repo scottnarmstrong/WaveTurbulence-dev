@@ -5,7 +5,6 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.Molecule.CLCN
 public import WaveTurbulence.Foundations.FinalCount.RedSpliceSplit
 public import WaveTurbulence.Foundations.FinalCount.RedSpliceIter
 import Mathlib.Tactic
@@ -73,26 +72,5 @@ theorem chain_cl_end_parent (hM : G.molecule.IsMolecule) {L : Finset (GBranch G.
       · exact Or.inr (internalParent_mono subset_union_right hc.2)
       · exact absurd (not_internalParent_of_inter hi hp hc.2) id
 
-
-/-- A block chain of (CL) ingredients is a (CL) block, with joints `a, x` in one of the two orders. -/
-theorem chain_clPattern (hM : G.molecule.IsMolecule) {L : Finset (GBranch G.tree)} {a x : GBranch G.tree}
-    {m : ℕ} (h : Chain G.molecule L a x m)
-    (hcl : ∀ A p q, ChainIngredient G.molecule L a x m A p q →
-      CLParentPattern G A p q ∨ CLParentPattern G A q p)
-    (hB : G.molecule.IsBlock L a x) :
-    CLParentPattern G L a x ∨ CLParentPattern G L x a := by
-  rcases block_parent_patterns G hB with h1 | h1 | h1
-  · exact Or.inl h1
-  · exact Or.inr h1
-  · exfalso
-    rcases chain_cl_end_parent hM h hcl hB with hp | hp
-    · exact h1.1 hp
-    · exact h1.2 hp
-
-/-- The `CLBlock` of a (CL) pattern run. -/
-@[expose] noncomputable def clBlockOfPattern {L : Finset (GBranch G.tree)} {a x : GBranch G.tree}
-    (hB : G.molecule.IsBlock L a x) (hp : CLParentPattern G L a x ∨ CLParentPattern G L x a) : CLBlock G := by
-  classical exact if h : CLParentPattern G L a x then ⟨L, a, x, hB, h⟩
-  else ⟨L, x, a, block_swap_joints G.molecule hB, hp.resolve_left h⟩
 
 end WaveTurbulence.RedSplice

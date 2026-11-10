@@ -65,12 +65,6 @@ theorem zDecode_zEncode {d p : ℕ} (L Λ : ℝ) (b : ZTime p → (Fin d → ℤ
   change (zWeight L Λ n : ℂ) * b t n / (zWeight L Λ n : ℂ) = b t n
   exact mul_div_cancel_left₀ _ (Complex.ofReal_ne_zero.mpr (zWeight_pos L Λ n).ne')
 
-theorem zEncode_zDecode {d p : ℕ} (L Λ : ℝ) (g : ZModel d p) :
-    zEncode L Λ (zDecode L Λ g) (zDecode_mem_ZSpace L Λ g) = g := by
-  ext n t
-  change (zWeight L Λ n : ℂ) * (g n t / (zWeight L Λ n : ℂ)) = g n t
-  exact mul_div_cancel₀ _ (Complex.ofReal_ne_zero.mpr (zWeight_pos L Λ n).ne')
-
 theorem enorm_zEncode {d p : ℕ} (L Λ : ℝ) (b : ZTime p → (Fin d → ℤ) → ℂ)
     (hb : b ∈ ZSpace L Λ p) : ‖zEncode L Λ b hb‖ₑ = ZNorm L Λ b := by
   rw [← ZNorm_zDecode L Λ (zEncode L Λ b hb), zDecode_zEncode]

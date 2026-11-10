@@ -6,7 +6,7 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.Incoh.ShortTimeProfile
-public import WaveTurbulence.Foundations.Incoh.LayerGeometry
+public import WaveTurbulence.Foundations.Incoh.LayerLink
 public import WaveTurbulence.Foundations.Incoh.UnitOrientation
 public import WaveTurbulence.Foundations.Incoh.TimeBoxCoordinates
 

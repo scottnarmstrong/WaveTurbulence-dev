@@ -45,12 +45,6 @@ theorem encard_le_countEFree (M : Molecule V D) {d : ℕ} (L γ δ : ℝ) (w : M
       countEFree M L γ δ w Adm :=
   le_iSup_of_le c (le_iSup_of_le β (le_iSup_of_le k0 (le_iSup_of_le hk0 le_rfl)))
 
-theorem countE_le_countEFree (M : Molecule V D) {d : ℕ} (L γ δ : ℝ) (w : Mom d)
-    (Adm : (D → (Fin d → ℤ)) → Prop) : M.countE L γ δ w Adm ≤ countEFree M L γ δ w Adm := by
-  conv_lhs => unfold Molecule.countE
-  refine iSup_le fun c => iSup_le fun _ => iSup_le fun β => iSup_le fun k0 => iSup_le fun hk0 => ?_
-  exact encard_le_countEFree M L γ δ w Adm c β k0 hk0
-
 theorem countEFree_mono (M : Molecule V D) {d : ℕ} (L γ δ : ℝ) (w : Mom d)
     {Adm Adm' : (D → (Fin d → ℤ)) → Prop} (h : ∀ κ, Adm κ → Adm' κ) :
     countEFree M L γ δ w Adm ≤ countEFree M L γ δ w Adm' := by

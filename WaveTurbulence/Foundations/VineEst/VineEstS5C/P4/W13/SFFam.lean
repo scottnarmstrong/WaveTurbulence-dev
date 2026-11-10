@@ -76,20 +76,4 @@ theorem sffOf_bounded (E : GateEnv P κ0 p Bh) (hord : (RD.garden hG).order ≤ 
         h.some.canonical h.some.eligible h.some.treeCoherent h.some.coupleCoherent E
         (zpN_lvl_le B RD hG layer hLayer hord lv pstar) b⟩
 
-/-- The couple terms of `sffOf` are those of `certC`. -/
-theorem sffOf_sQ (E : GateEnv P κ0 p Bh) (hord : (RD.garden hG).order ≤ P.N (p + 1) ^ 4) (lv : Lvl B) (pstar : lv.ι)
-    (hk : 1 ≤ (lv.e pstar).1.val) (h : lv.Op (p := p) (kind := kind) B RD hG layer hLayer pstar) (b) :
-    (sffOf (hprime := hprime) B RD hG layer hLayer E hord lv pstar hk h).S.sQ b =
-      (certC (lv.state B RD hG layer hLayer) (lv.split B RD hG layer hLayer pstar hk) hprime
-        h.some.canonical h.some.eligible h.some.treeCoherent h.some.coupleCoherent E
-        (zpN_lvl_le B RD hG layer hLayer hord lv pstar) b).term := rfl
-
-/-- The tree terms of `sffOf` are those of `certT`. -/
-theorem sffOf_sT (E : GateEnv P κ0 p Bh) (hord : (RD.garden hG).order ≤ P.N (p + 1) ^ 4) (lv : Lvl B) (pstar : lv.ι)
-    (hk : 1 ≤ (lv.e pstar).1.val) (h : lv.Op (p := p) (kind := kind) B RD hG layer hLayer pstar) (b) :
-    (sffOf (hprime := hprime) B RD hG layer hLayer E hord lv pstar hk h).S.sT b =
-      (certT (lv.state B RD hG layer hLayer) (lv.split B RD hG layer hLayer pstar hk) hprime
-        h.some.canonical h.some.eligible h.some.treeCoherent h.some.coupleCoherent E
-        (zpN_lvl_le B RD hG layer hLayer hord lv pstar) b).term := rfl
-
 end WaveTurbulence.VineEstS5C.P4.W13

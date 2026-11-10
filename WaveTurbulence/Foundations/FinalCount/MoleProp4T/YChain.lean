@@ -66,21 +66,6 @@ theorem set_sub : C.set ⊆ M.atoms := by
   exacts [(C.mem i hi).1, (C.mem i hi).2]
 
 omit [DecidableEq D] in
-/-- If the bonds of `a` to atoms of `S` (not containing `a`) add up to its degree, every bond of `a` goes into `S`. -/
-theorem darts_into_of_sum {S : Finset V} {v : V} (hloop : ∀ x, M.atom x ≠ M.atom (M.mate x)) (hvS : v ∉ S)
-    (hsum : M.deg v ≤ ∑ w ∈ S, M.bondsBetween v w) {z : D} (hz : M.atom z = v) : M.atom (M.mate z) ∈ S := by
-  classical
-  by_contra hno
-  set w := M.atom (M.mate z)
-  have hvw : v ≠ w := fun h => hloop z (hz.trans h)
-  have h := Degen.sum_neighbor_bonds_le_degree M v (insert w S) (by simp [hvw, hvS])
-  rw [sum_insert hno] at h
-  have hpos : 1 ≤ M.bondsBetween v w := by
-    rw [← Degen.card_neighborDarts M hvw]
-    exact card_pos.mpr ⟨z, (Degen.mem_neighborDarts M v w z).mpr ⟨hz, rfl⟩⟩
-  omega
-
-omit [DecidableEq D] in
 /-- A bond count `≥ 1` gives an adjacency inside any set containing both ends. -/
 theorem piece_adj {S : Finset V} {u v : V} (hu : u ∈ S) (hv : v ∈ S) (hne : u ≠ v)
     (h : 1 ≤ M.bondsBetween u v) : (piece M S).Adj u v := by

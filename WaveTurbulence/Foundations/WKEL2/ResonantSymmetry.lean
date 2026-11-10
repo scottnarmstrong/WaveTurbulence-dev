@@ -56,29 +56,4 @@ theorem map_swap_resonantMeasure {e : Mom d} (he : ‖e‖ = 1) (hd : 2 ≤ d) :
     _ = ∫ p, f p ∂resonantMeasure e :=
       (integral_resonantMeasure_eq_two_deltaInt he hfi).symm
 
-/-- Nonnegative Borel form of research-note Lemma 1, including infinite integrals. -/
-theorem lintegral_resonant_swap {e : Mom d} (he : ‖e‖ = 1) (hd : 2 ≤ d)
-    {F : Mom d × Mom d → ℝ≥0∞} (hF : Measurable F) :
-    (∫⁻ a : Mom d, ENNReal.ofReal (‖a‖⁻¹) * ∫⁻ b : ↥(ℝ ∙ a)ᗮ, F (a, b)) =
-      ∫⁻ b : Mom d, ENNReal.ofReal (‖b‖⁻¹) * ∫⁻ a : ↥(ℝ ∙ b)ᗮ, F (a, b) := by
-  have ht : (∫⁻ p : Mom d × Mom d, F (p.2, p.1) ∂resonantMeasure e) =
-      ∫⁻ p, F p ∂resonantMeasure e := by
-    calc
-      _ = ∫⁻ p, F p ∂Measure.map Prod.swap (resonantMeasure e) :=
-        (lintegral_map hF measurable_swap).symm
-      _ = _ := by rw [map_swap_resonantMeasure he hd]
-  exact (lintegral_resonantMeasure he hF).symm.trans
-    (ht.symm.trans (lintegral_resonantMeasure he
-      (F := fun p => F (p.2, p.1)) (hF.comp measurable_swap)))
-
-/-- Lemma 1 without an auxiliary reference vector in its hypotheses. -/
-theorem lintegral_inv_norm_hyperplane_swap (hd : 2 ≤ d)
-    {F : Mom d × Mom d → ℝ≥0∞} (hF : Measurable F) :
-    (∫⁻ a : Mom d, ENNReal.ofReal (‖a‖⁻¹) * ∫⁻ b : ↥(ℝ ∙ a)ᗮ, F (a, b)) =
-      ∫⁻ b : Mom d, ENNReal.ofReal (‖b‖⁻¹) * ∫⁻ a : ↥(ℝ ∙ b)ᗮ, F (a, b) := by
-  have : Nontrivial (Mom d) := Module.nontrivial_of_finrank_pos (R := ℝ)
-    (by simpa only [finrank_euclideanSpace_fin] using (show 0 < d by omega))
-  obtain ⟨e, he⟩ := exists_norm_eq (Mom d) (show (0 : ℝ) ≤ 1 by norm_num)
-  exact lintegral_resonant_swap he hd hF
-
 end WaveTurbulence.WKEL2

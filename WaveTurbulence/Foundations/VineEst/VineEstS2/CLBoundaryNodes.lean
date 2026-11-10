@@ -5,7 +5,7 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.VineEst.VineEstS2.CLBoundaryIsolation
+public import WaveTurbulence.Foundations.VineEst.VineEstS2.CLInternalLeaves
 
 /-! # The four boundary node addresses are distinct -/
 

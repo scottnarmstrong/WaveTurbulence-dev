@@ -6,7 +6,8 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.Stage1.Represents.RepGap
-public import WaveTurbulence.Foundations.Stage1.Represents.RepGlue
+public import WaveTurbulence.Foundations.Stage1.Geometry.SubproCross2
+public import WaveTurbulence.Foundations.FinalCount.SubproSupportA
 import Mathlib.Tactic
 
 /-!
@@ -28,9 +29,6 @@ variable {w : ℕ} {S : Garden w}
 theorem stSt_eq_init_of_unitBlocks_emptyMk (σ : Prescription S) {Mk : Set (Stage1.CLVine _)} (h : unitBlocks (Mk := Mk) S σ = []) :
     stSt (Mk := Mk) S σ = SpState.init S := by
   unfold stSt; rw [h]; rfl
-
-theorem stSt_eq_init_of_unitBlocks_empty (σ : Prescription S) (h : unitBlocks S σ = []) :
-    stSt S σ = SpState.init S := stSt_eq_init_of_unitBlocks_emptyMk (Mk := ∅) σ h
 
 /-- B1b (Mk-general form of `stSt_G_eq_of_unitBlocks_empty`). -/
 theorem stSt_G_eq_of_unitBlocks_emptyMk (σ : Prescription S) {Mk : Set (Stage1.CLVine _)} (h : unitBlocks (Mk := Mk) S σ = []) :

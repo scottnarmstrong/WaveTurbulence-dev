@@ -33,10 +33,6 @@ noncomputable def gapFactor (L γ η : ℝ) (base : Mom d) (labs : Fin 4 → (Fi
   | some g => if Molecule.gapKind L γ η (base + latticePoint L (labs g.1) -
       (base + latticePoint L (labs g.2.1))) = g.2.2 then 1 else 0
 
-lemma latticePoint_sub' (L : ℝ) (a b : Fin d → ℤ) :
-    latticePoint L (a - b) = latticePoint L a - latticePoint L b := by
-  ext j; simp [latticePoint, sub_div]
-
 /-- Anchors cancel in the epsilon and gap factors. -/
 lemma atom_factor_eq (L γ η : ℝ) (base : Mom d) (labs rel : Fin 4 → (Fin d → ℤ)) (A : Fin d → ℤ)
     (h : ∀ s, labs s = A + rel s) (k : Fin 3 → Fin 4) (S : ChainSigns n) (i : Fin n)

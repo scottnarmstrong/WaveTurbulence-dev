@@ -210,9 +210,6 @@ theorem completelyPaired_of_pairFl (S : Finset (GLeaf LG.garden.tree)) (hS : ∀
   rw [pairFlPair_unmarked LG σ (hS ℓ hℓ)] at h1
   exact h1
 
-theorem parentLayer_pairFl (p : ℕ) (a : GNode LG.garden.tree) :
-    (pairFl LG σ hσ hσne hFG ζ hsig hfl hlay).parentLayer p a = LG.parentLayer p a := rfl
-
 /-- **`CanonCriterion` is unchanged by pairing the flowers**, when the stems are in layer `p`. -/
 theorem canonCriterion_pairFl_iff (p : ℕ) (hstem : ∀ a, LG.OnStem a → LG.layer a = p) :
     (pairFl LG σ hσ hσne hFG ζ hsig hfl hlay).CanonCriterion p ↔ LG.CanonCriterion p := by

@@ -178,17 +178,7 @@ theorem mem_Uf {u : GBranch G.tree} : u ∈ Uf fix v ↔ v.IsChildOf u ∧ fix u
   simp [Uf, mem_parents]
 
 theorem layer_le_cfl : (layer v : ℝ) ≤ cfl layer fix v := Finset.le_max' _ _ (mem_insert_self _ _)
-theorem pinned_child_le_cfl {c : GBranch G.tree} (hc : c.IsChildOf v) {s : ℝ} (hs : fix c = some s) :
-    s ≤ cfl layer fix v :=
-  Finset.le_max' _ _ (mem_insert_of_mem (mem_image.2 ⟨c, mem_filter.2 ⟨mem_children.2 hc, by simp [hs]⟩,
-    by simp [hs]⟩))
 theorem ctop_le_ceil : ctop layer rootTime fix v ≤ (layer v : ℝ) + 1 := Finset.min'_le _ _ (mem_insert_self _ _)
-theorem ctop_le_root : ctop layer rootTime fix v ≤ rootTime v.1.1 :=
-  Finset.min'_le _ _ (mem_insert_of_mem (mem_insert_self _ _))
-theorem ctop_le_pinned_parent {u : GBranch G.tree} (hu : v.IsChildOf u) {s : ℝ} (hs : fix u = some s) :
-    ctop layer rootTime fix v ≤ s :=
-  Finset.min'_le _ _ (mem_insert_of_mem (mem_insert_of_mem (mem_image.2 ⟨u, mem_filter.2
-    ⟨mem_parents.2 hu, by simp [hs]⟩, by simp [hs]⟩)))
 
 theorem cfl_lt_iff {r : ℝ} : cfl layer fix v < r ↔ (layer v : ℝ) < r ∧
     ∀ c, c.IsChildOf v → ∀ s, fix c = some s → s < r := by

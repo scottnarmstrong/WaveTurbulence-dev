@@ -39,10 +39,4 @@ theorem ReconstructionData.corePosition_injective {w : ℕ} {S : Garden w} (D : 
   rw [he]
   exact ⟨rfl,List.prefix_refl _⟩
 
-/-- Actual inherited core embedding in the reconstructed ordered forest. -/
-noncomputable def ReconstructionData.coreBranchEmbedding {w : ℕ} {S : Garden w} (D : ReconstructionData S)
-    (hS : S.IsPlain) : GBranch S.tree ↪ GBranch (D.forest hS) where
-  toFun := D.coreBranch hS
-  inj' := fun _a _b he => D.corePosition_injective (congrArg (fun z : GBranch (D.forest hS) => z.1) he)
-
 end WaveTurbulence.Reg.Skeleton

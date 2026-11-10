@@ -1,7 +1,9 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 
-public import WaveTurbulence.Foundations.Sumint.AffineFacts
+public import WaveTurbulence.Foundations.Sumint.ShapeFacts
+public import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
+public import Mathlib.Algebra.Group.Int.Units
 import Mathlib.Tactic
 
 /-!

@@ -96,16 +96,6 @@ theorem MomentumTreeData.hasSum_sourceCellWeight_of_cover_at {d n m w : ℕ}
     simp_rw [P.sum_sourceCellWeight_fiber_eq_of_cover_at f S k x hS]
     exact hleafA.unique hleaf
   exact he ▸ hs
-/-- For a fixed leaf cell, the selected link cells recover its actual source weight. -/
-theorem MomentumTreeData.sum_sourceCellWeight_fiber_eq {d n m w : ℕ}
-    (P : MomentumTreeData n m w) (f : Fin m → Mom d → ℂ)
-    (S : (Fin m → Fin d → ℤ) → Finset ((Fin n × Fin 2) → Fin d → ℤ))
-    (hS : ∀ c k x, P.inputCellWeight c k x ≠ 0 →
-      ∀ z, halfCellArrayWeight z (fun p : Fin n × Fin 2 => x p.1 p.2) ≠ 0 → z ∈ S c)
-    (k : Mom d) (x : Fin n → Fin 2 → Mom d) (c : Fin m → Fin d → ℤ) :
-    (∑ z : {z : (Fin n × Fin 2) → Fin d → ℤ // z ∈ S c},
-      P.sourceCellWeight f S k x ⟨c, z⟩) = P.localizedLeafWeight f c k x :=
-  P.sum_sourceCellWeight_fiber_eq_of_cover_at f S k x (fun c => hS c k x) c
 
 /-- All selected cell weights recover the raw source input product, with an actual finite
 pointwise support. No analytic convergence premise is assumed. -/

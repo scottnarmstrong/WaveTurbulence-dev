@@ -1,7 +1,7 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 
-public import WaveTurbulence.Foundations.Flower.ProtPin.GateAll
+public import WaveTurbulence.Foundations.Flower.ProtPin.GateMain
 public import WaveTurbulence.Foundations.Flower.FiltCoh.GateD5
 
 /-! # D3 PROT-PIN: slices with FILT-COH's multi-layer coherent gate

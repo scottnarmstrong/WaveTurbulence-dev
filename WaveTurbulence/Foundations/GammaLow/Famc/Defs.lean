@@ -75,9 +75,6 @@ abbrev CoarseSplicedGammaAt (P : WTParams) : Prop :=
         P.L ^ (-P.η * A.totalIncoherency D.layer +
           80 * P.d * (G.molecule.rho + D.hinges.card))
 
-/-- The coarse gate over `𝒱_γ`, for the whole range `0 < γ < 1` of `WTPrefix`. -/
-abbrev CoarseSplicedGammaGate : Prop := WTPrefix CoarseSplicedGammaAt
-
 /-- **The coarse gate for `0 < γ ≤ 1/2`** (the low-half form glued by `wtPrefix_of_halves`; L7 uses it where main's
 `nonregular_prefix` uses `CoarseSplicedGate`). -/
 abbrev CoarseSplicedGateLow : Prop := WTPrefix fun P => P.γ ≤ 1 / 2 → CoarseSplicedGammaAt P

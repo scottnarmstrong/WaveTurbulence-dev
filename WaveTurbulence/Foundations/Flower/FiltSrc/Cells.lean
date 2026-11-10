@@ -294,12 +294,4 @@ theorem RootInputCoordinates.sourceRootMask_mul_localizedSourceIntegralSpatialFi
 
 /-! ### `φ ≡ 1` is INC-TOP's operator -/
 
-theorem MomentumTreeData.localizedSourceIntegralSpatialFilt_one {d n m w : ℕ} (P : MomentumTreeData n m w)
-    (ζ : Circle) (L γ δ : ℝ) (Q : Fin n → LayerLink d) (I : Set (Fin n → Fin 2 → ℝ))
-    (f : Fin m → Mom d → ℂ) (c : Fin m → Fin d → ℤ) (z : (Fin n × Fin 2) → Fin d → ℤ) (k : Mom d) :
-    (MomentumTreeData.localizedSourceIntegralSpatialFilt (P := P)) ζ L γ δ Q (fun _ _ => 1) I f c z k =
-      (MomentumTreeData.localizedSourceIntegralSpatial (P := P)) ζ L γ δ Q I f c z k := by
-  simp only [MomentumTreeData.localizedSourceIntegralSpatialFilt, MomentumTreeData.localizedSourceIntegralSpatial,
-    sourceTemporalPhaseSpatialFilt_one]
-
 end WaveTurbulence.Flower.FiltSrc

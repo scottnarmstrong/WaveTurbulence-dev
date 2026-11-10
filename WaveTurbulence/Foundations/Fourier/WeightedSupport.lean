@@ -51,20 +51,4 @@ theorem weightedOrderedIntegral_hasCompactSupport {n : ℕ} {a b : ℝ → ℝ} 
   intro t ht
   rw [weightedOrderedIntegral, endpoint_product_eq_zero_outside ha hb t ht, zero_mul]
 
-/-- Absolute-value bound for the weighted integral at times inside the fixed box. -/
-theorem enorm_weightedOrderedIntegral_le_box {n : ℕ} {a b : ℝ → ℝ} {R C : ℝ}
-    (hC : 0 ≤ C) (ha : EndpointCutoffBounds a R C) (hb : EndpointCutoffBounds b R C)
-    (A : (Fin n → ℝ) → ℂ) (t : Fin 2 → ℝ)
-    (ht : t ∈ Icc (fun _ : Fin 2 => -R) (fun _ => R)) :
-    ‖weightedOrderedIntegral n a b A t‖ₑ ≤
-      ENNReal.ofReal (C ^ 2) * boxIntegral n (fun v => ‖A v‖ₑ) R := by
-  have hbnds := (mem_two_time_box_iff R t).mp ht
-  have hcoef : ‖(a (t 0) : ℂ) * (b (t 1) : ℂ)‖ₑ ≤ ENNReal.ofReal (C ^ 2) := by
-    rw [← ofReal_norm]
-    exact ENNReal.ofReal_le_ofReal (norm_endpoint_product_le hC ha hb t)
-  change ‖((a (t 0) : ℂ) * (b (t 1) : ℂ)) * orderedIntegral n A (t 0) (t 1)‖ₑ ≤ _
-  rw [enorm_mul]
-  exact mul_le_mul' hcoef (enorm_orderedIntegral_le_boxIntegral n A R (t 0) (t 1)
-    (abs_le.mp hbnds.1) (abs_le.mp hbnds.2))
-
 end WaveTurbulence.Fourier

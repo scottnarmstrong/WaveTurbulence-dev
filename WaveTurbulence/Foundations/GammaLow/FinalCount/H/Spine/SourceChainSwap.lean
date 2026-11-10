@@ -3,9 +3,6 @@ module
 public import WaveTurbulence.Foundations.Spine.SourceChainSwap
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineObjects
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceObjectUnion
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceVineData
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceVineGapObjects
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceVineObjects
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Api
 /-! **L6-H port of main `WaveTurbulence.Foundations.Spine.SourceChainSwap`** (sha256 in H/COPIED-SHA256SUMS): only the declarations that
 depend on the vine-family carrier, re-stated over the low family `Src … Src.γL` (and L6-STEP1's

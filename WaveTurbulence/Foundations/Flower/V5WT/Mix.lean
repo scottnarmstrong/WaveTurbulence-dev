@@ -73,10 +73,6 @@ theorem freeze_val (N : OutCharMix S d) (E E' : Fin 4 → Mom d) (L : ℝ) (x : 
 
 theorem freeze_mass (N : OutCharMix S d) (E : Fin 4 → Mom d) : (N.freeze E).mass = N.mass := rfl
 
-theorem norm_val_le (N : OutCharMix S d) (L : ℝ) (E : Fin 4 → Mom d) (x : S.VIdx → Fin d → ℤ) :
-    ‖N.val L E x‖ ≤ N.mass :=
-  (N.freeze E).norm_val_le L E x
-
 /-- Every `CharMix` is an `OutCharMix` (constant frequencies). -/
 noncomputable def ofCharMix (M : CharMix S d) : OutCharMix S d where
   α := M.α
@@ -86,11 +82,6 @@ noncomputable def ofCharMix (M : CharMix S d) : OutCharMix S d where
   u := M.u
   hu := M.hu
   hu1 := M.hu1
-
-theorem ofCharMix_val (M : CharMix S d) (L : ℝ) (E : Fin 4 → Mom d) (x : S.VIdx → Fin d → ℤ) :
-    (ofCharMix M).val L E x = M.val L E x := rfl
-
-theorem ofCharMix_mass (M : CharMix S d) : (ofCharMix M).mass = M.mass := rfl
 
 /-- The product of a `CharMix` and an `OutCharMix`. -/
 noncomputable def mulC (M : CharMix S d) (N : OutCharMix S d) : OutCharMix S d where

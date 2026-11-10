@@ -54,19 +54,12 @@ lemma expPhase_add_intCast (x : ℝ) (k : ℤ) : expPhase (x + (k : ℝ)) = expP
     push_cast; ring
   simp only [expPhase, h, Complex.exp_add, Complex.exp_int_mul_two_pi_mul_I, mul_one]
 
-@[simp] theorem expPhase_zero : expPhase 0 = 1 := by
-  simp only [expPhase, mul_zero, Complex.ofReal_zero, zero_mul, Complex.exp_zero]
-
 theorem expPhase_neg (x : ℝ) : expPhase (-x) = (expPhase x)⁻¹ := by
   simp only [expPhase, Complex.ofReal_neg, mul_neg, neg_mul, Complex.exp_neg]
 
 theorem conj_expPhase (x : ℝ) : (starRingEnd ℂ) (expPhase x) = expPhase (-x) := by
   rw [expPhase_neg]
   exact (Complex.inv_eq_conj (norm_expPhase x)).symm
-
-theorem expPhase_mul_conj (x y : ℝ) :
-    expPhase x * (starRingEnd ℂ) (expPhase y) = expPhase (x - y) := by
-  rw [conj_expPhase, ← expPhase_add, ← sub_eq_add_neg]
 
 /-- `expPhase` in real cos/sin form. -/
 lemma expPhase_eq_cos_add_sin (s : ℝ) :

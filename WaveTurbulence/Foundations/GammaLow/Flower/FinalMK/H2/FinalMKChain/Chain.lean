@@ -1,14 +1,12 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 public import WaveTurbulence.Foundations.Flower.FinalMKChain.Chain
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.AsmChain2
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.AsmConn1
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.AsmConn2
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.AsmDesig
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.AsmEnd1
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.AsmEnd2
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.AsmEnd3
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.AsmEx1
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.AsmGBase
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.AsmGCn
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.AsmGHost
@@ -43,7 +41,6 @@ public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.AsmPha
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.AsmPhased
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.AsmPrefix
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.AsmRegMol
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.AsmRun2
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.AsmRun3
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.AsmS4Shape
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.AsmTerm15c
@@ -73,36 +70,23 @@ public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.AtMapV
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.FinalCountClose
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3AdmRun
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3Anc
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3Bal
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3CompRun
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3CompVine
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3ConclN
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3CycChain
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3CycN
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3DPInv2
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3DPRun
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3Dart
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3Elig
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3EpsLG
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3Ex1
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3Ex1New
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3Final2
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3FinalCopy
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3FinalE
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3FinalE3
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3FinalE4
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3Flat
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3HInv
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3HRun
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3Hist
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3Init
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3MapDec5
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3N12
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3NewComp1
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3NewComp2
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3NoTriple
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3Prop95
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3Range
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3RelRun
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3Run
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3RunE
@@ -117,7 +101,6 @@ public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3Trip
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3URun
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3UStep
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3Vine
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3VineBall
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3VineF
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3VineLG1
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3VineLG10
@@ -127,7 +110,6 @@ public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3Vine
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3VineLG5
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3VineLG7
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3VineLG8
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3VineObj3
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3VineObj4
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.GL10
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.GL11
@@ -142,7 +124,6 @@ public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.GL23
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.GL25
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.GL26
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.GL27
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.GL28
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.GL29
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.GL3
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.GL4
@@ -151,7 +132,6 @@ public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.GL6
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.GL8
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.GL9
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.GM08
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.GV05
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.GV06
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.GV08
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.GV09
@@ -159,17 +139,12 @@ public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.GV10
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.GV12
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.GV13
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.GV14
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.HyperAtomClassification
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.LowChain10
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.LowChain11
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.LowChain12
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.LowChain13
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.LowChain14
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.LowChain15
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.LowChain16
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.LowChain17
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.LowChain18
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.LowChain19
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.LowChain2
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.LowChain20
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.LowChain21
@@ -180,7 +155,6 @@ public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.LowCha
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.LowChain26
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.LowChain27
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.LowChain28
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.LowChain29
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.LowChain3
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.LowChain30
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.LowChain38
@@ -194,17 +168,14 @@ public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.LowCha
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.LowChain7
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.LowChain8
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.LowChain9
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.LowGardenClass
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.LowGardenCn3
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.LowGardenHost
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.LowGardenLift
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.LowGardenLoopClass3
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.LowGardenLoopData
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.LowGardenLoopFacts
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.LowGardenLoopMain
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.LowGardenLoopMain3
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.LowGardenLoops
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.LowGardenMain
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.LowGardenOne
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.LowGardenSplit3
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.LowGardenUnloop
@@ -212,63 +183,12 @@ public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.LowGar
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.LowGeom
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.LowGlue
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.LowIface
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.LowIface2
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.LowIface3
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.Prop95Core
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.RedSpliceCL
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.RedSpliceCN
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.RedSpliceColl
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.RedSpliceColl2
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.RedSpliceCover
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.RedSpliceData
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.RedSpliceDesig
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.RedSpliceFinal
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.RedSpliceFlowKind
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.RedSpliceGap
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.RedSpliceGapKind
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.RedSpliceGroup
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.RedSpliceHVC
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.RedSpliceHVCTop
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.RedSpliceHVCTop2
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.RedSpliceHingePair
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.RedSpliceIngr
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.RedSpliceMarked
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.RedSpliceObj
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.RedSpliceObj2
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.RedSpliceObj3
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.RedSplicePairs
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.RedSplicePiece
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.RedSpliceRev
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.RedSpliceRuns
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.RedSpliceSkip
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.RedSpliceSpine
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.RedSpliceSplit
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.RedSpliceStage
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.RedSpliceSurvData
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.RedSpliceTop
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.RedSpliceUnitBlocks
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.RedSpliceUnits
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.RedSpliceUnits2
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.RedSpliceV0
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.RedSpliceVC
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.S1Basic
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.S1Collection
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.S1Erase
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.S1Exists
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.S1Gaps
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.S1Overlap
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.S1OverlapMain
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.S1Split
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.S1Unique
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.S1Vinechain
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.SourceVinePartitionInput
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.SubproC2Disj
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.SubproC2Second
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.SubproChainSplit
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.SubproCollDisj
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.SubproDisjFinal
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.SubproGap
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.SubproGap2
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.SubproInterleaved
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.SubproIso2
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.SubproObjMap
@@ -276,7 +196,6 @@ public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.Subpro
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.SubproShapeC1
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.SubproShapeConn
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.SubproShapeDV
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.SubproShapeFinal
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.SubproShapeHost
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.SubproShapeRem
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.SubproShapeStraddle
@@ -286,25 +205,21 @@ public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.Subpro
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.VrHyper3
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineBranchingEnds
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineCapAdjointClassification
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineCapShortAdjoints
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineChainBlock
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineChainConnected
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineChainCounts
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineChainEnds
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineChainEraseEndpoints
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineChainFlows
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineChainIngredients
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineChainInteriorConnected
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineChainJointNorm
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineDVBlockBranchEquality
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineDVDegrees
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineDVHyper
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineDVMissingJoint
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineDVMixedRemoval
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineDVOrdinary
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineDVOrdinaryRemoval
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineDVOrdinaryShapes
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineDVTypeIRemoval
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineEraseChainIngredient
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineHyperAdjointVC
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineHyperBothJoints
@@ -319,7 +234,6 @@ public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineHype
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineHyperOrdinaryRemoval
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineHyperSingleVine
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineHyperVertexConnected
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineLargeVCInTypeV
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineLikeConnected
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineLikeGapObjects
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineLocalDartChains
@@ -327,18 +241,14 @@ public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineLoca
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineObjects
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineOrdinarySplit
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineSGMixedRemovalVC
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineSGNonVII
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineSGOrdinaryRemovalChain
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineSGOrdinaryRemovalSingle
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineSGOrdinaryRemovalVC
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineSGOrdinaryVineShape
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineSGSingleVine
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineSGSplitJoint
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineSGVCInHyperLike
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineSGVCInVC
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineSideVIILength
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineSmallVC
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineStemStarts
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineSubsetVCClassification
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineSubsetVCRemoval
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineSubsetVCVineLike
@@ -346,96 +256,34 @@ public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineTwoJ
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineVCInTypeV
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineVCJointEdge
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineVCLocalization
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.CoverAdmissible
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.CoverBudget
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.CoverFineBound
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.CoverFinite
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.CoverTags
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.EvalAssemble
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.EvalGate
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.FinalCountMonotone
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.MolecularSpineAt
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.NonregularAssembly
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.NonregularCoupleP
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.NonregularFinal
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.NonregularGardenP
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.NonregularPrefix
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceAtomKindAtJoints
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceAtomScaleExists
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceCanonicalDef
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceCanonicalDesignation
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceChainSwap
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceContainerAbsorb
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceCountingCardLimits
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceCountingChoiceScales
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceCountingData
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceCountingObjects
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceDVContainer
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceDVUnion
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceDiamondClosed
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceDiamondContradiction
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceDiamondVine
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceFinalCountInputs
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceFullPairTable
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceHyperAbsorb
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceHyperBlockFalse
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceHyperDiamond
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceHyperDiamondObjects
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceHyperUnion
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceLadderGapExists
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceMaximalObjects
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceObjectFinite
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceObjectJointPairs
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceObjectPairUniqueness
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceObjectUnion
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceOneJointContradiction
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceOneJointPairFalse
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceOneJointUnion
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourcePairsCompatible
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourcePairsMain
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourcePrimaryPairChoices
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourcePrimaryPairTable
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceRestrictedCarrier
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceSecondCollectionExists
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceSplicedBounds
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceSubproObjects
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceSwapObject
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceUnionAtoms
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceUnionContradiction
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceUnionDV
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceUnionEligible
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceUpperJointPair
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceVineData
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceVineGapObjects
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceVineObjectBridge
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceVineObjects
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SpineInputsS10
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SpineInputsV2
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SpliceGateMonotone
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SplicedChoiceScaleAbsorption
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SplicedCircuitRank
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SplicedCoverChoiceScaleBound
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SplicedFilteredBound
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SplicedFilteredChoiceScaleBound
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SplicedFilteredCountA
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SplicedFilteredGates
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SplicedFilteredRawBound
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SplicedFiniteSupport
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SplicedFrequencyCount
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SplicedFrequencySupport
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SplicedKernelFormula
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SplicedRawPrefactorLog
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SplicedSelectedAbsoluteSum
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SplicedSelectedKernel
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SplicedSourceInterpolation
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SplicedSumIntegral
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.Stage1CoreBound
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.Stage1Gate
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.Stage1GateMonotone
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.Stage1Interface
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.Stage1PieceBound
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.Stage1SumBound
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.Stage1TypeBound
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.VineDelObjects
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.Step1.Prop94Ops
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.Step1.Prop94Statement
@@ -460,7 +308,6 @@ public import WaveTurbulence.Foundations.GammaLow.FinalCount.Step1.VCInj
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.Step1.VCLadProd
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.Step1.VCNew1
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.Step1.VCNew10
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.Step1.VCNew11
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.Step1.VCNew12
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.Step1.VCNew13
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.Step1.VCNew3
@@ -612,79 +459,5 @@ theorem P3E [Infinite V] {M₀ : Molecule V D₀} {m Rn : ℕ} {L γ η δ C₁ 
     calc (N : ℝ≥0∞) * QS L γ δ C₁ w P h A ≤ (N : ℝ≥0∞) * ((N : ℝ≥0∞) * WPot L γ η (Yp (RofS h.s)) (gExp η crit) h) :=
           by gcongr
       _ = (N : ℝ≥0∞) ^ 2 * WPot L γ η (Yp (RofS h.s)) (gExp η crit) h := by ring
-
-/-- The Step D3 phase on `ReachD3E` (main's `chain_coverLL`, phase D3). -/
-theorem PD3E [Infinite V] {M₀ : Molecule V D₀} {m Rn : ℕ} {L γ η δ C₁ : ℝ} {w : Mom d}
-    {P : Finset V → ℝ} {A0 : Set (D₀ → (Fin d → ℤ))} {C : CollDataMK M₀} {Un : (D₀ → (Fin d → ℤ)) → Set (Src.Object Src.γL M₀)}
-    {Fst : Set (Src.Object Src.γL M₀)} {E : Fin m → Src.Object Src.γL M₀} {crit : V → Prop}
-    (H : TriReal d L γ η δ C₁) (hS : SubHypL Rn M₀)
-    (hp0 : PinnedM0 (fun k => k ∈ A0) L w M₀) (N : ℕ) (Yp : ℕ → ℝ) (hYp0 : ∀ R, 0 ≤ Yp R)
-    (hN4 : 2 * M₀.atoms.card * Fintype.card D₀ * Fintype.card D₀ + 1 ≤ N) {ε0 : ℝ}
-    (hYpd : ∀ R R' j : ℕ, R' + j = R → Yp R' * L ^ (eraseA γ η * (j : ℝ) - ε0) ≤ Yp R) (hε0 : ε0 ≤ η ^ 2 / 2)
-    (hND3 : (N : ℝ) ≤ L ^ (η ^ 3 - 4 * η ^ 6)) (hγ0 : 0 ≤ min γ (1 - γ))
-    (P2 : ∀ (h : HSt V D₀) (A : Set (D₀ → (Fin d → ℤ))), Inv3L M₀ Rn (Reach2LE C Un Fst E L γ η w) L w A0 A h →
-      QS L γ δ C₁ w P h A ≤ (N : ℝ≥0∞) ^ 3 * WPot L γ η (Yp (RofS h.s)) (gExp η crit) h) :
-    ∀ (h : HSt V D₀) (A : Set (D₀ → (Fin d → ℤ))), Inv3L M₀ Rn (ReachD3E C Un Fst E L γ η w) L w A0 A h →
-      QS L γ δ C₁ w P h A ≤ (N : ℝ≥0∞) ^ 4 * WPot L γ η (Yp (RofS h.s)) (gExp η crit) h := by
-  have hL1 : 1 ≤ L := le_trans (Real.one_le_exp (by norm_num)) H.hL
-  have hη0 : 0 ≤ η := H.hη.le
-  refine FinalCount.H.phaseD3_coverL (C := C.toCollData) H hS hp0 ?_ N hN4
-    (fun h => (N : ℝ≥0∞) ^ 4 * WPot L γ η (Yp (RofS h.s)) (gExp η crit) h) ?_ ?_
-  · intro A h v x₁ x₂ hn hdes k hk hr; exact hextD3LE hn hdes k hk hr
-  · intro A h h' R' hA hap hg hne hs
-    obtain ⟨k, hk⟩ := hne
-    obtain ⟨v, x₁, x₂, hD, rfl⟩ := (hs.hstep hk).data
-    have key := hW_D3p (L := L) (γ := γ) (η := η) hL1 hη0 hγ0 ε0 Yp hYp0 hYpd hε0 crit hg hD hap N hND3
-    exact scale_step (a := 0) (N : ℝ≥0∞) ((N : ℝ≥0∞) ^ 4) key
-  · intro A h hA hn
-    have := P2 h A (hA.map fun κ hκ hr => hr.to2 (hn κ hκ))
-    calc (N : ℝ≥0∞) * QS L γ δ C₁ w P h A ≤
-          (N : ℝ≥0∞) * ((N : ℝ≥0∞) ^ 3 * WPot L γ η (Yp (RofS h.s)) (gExp η crit) h) := by gcongr
-      _ = (N : ℝ≥0∞) ^ 4 * WPot L γ η (Yp (RofS h.s)) (gExp η crit) h := by ring
-
-/-- **The end of Step 1 with survivors** (`hfin` of C1b1's `phase1_coverLE_of_inputs`), from the D3 cover `PD3` and
-the end bound `hend`: at a `Stuck1E` state no re-cut is pending, so `g1E32 = g1 ≤ gExp`. -/
-theorem hfinE_of_PD3 [Infinite V] {M₀ : Molecule V D₀} {m Rn : ℕ} {L γ η δ C₁ : ℝ} {w : Mom d}
-    {P : Finset V → ℝ} {A0 : Set (D₀ → (Fin d → ℤ))} {C : CollDataMK M₀} {Un : (D₀ → (Fin d → ℤ)) → Set (Src.Object Src.γL M₀)}
-    {Fst : Set (Src.Object Src.γL M₀)} {E : Fin m → Src.Object Src.γL M₀} {crit : V → Prop}
-    (H : TriReal d L γ η δ C₁) (N : ℕ) (Yp : ℕ → ℝ) (hYp0 : ∀ R, 0 ≤ Yp R)
-    {Fmax : ℝ}
-    (hend : ∀ (A : Set (D₀ → (Fin d → ℤ))) (h : HSt V D₀), Inv1LE M₀ Rn C Un Fst E L γ η w A0 A h → A ≠ ∅ →
-      (∀ k ∈ A, Stuck1E C L γ η w Un E k h) → (h.s.M.numComponents : ℝ) ≤ Fmax)
-    (hγ0 : 0 ≤ min γ (1 - γ))
-    (PD3 : ∀ (h : HSt V D₀) (A : Set (D₀ → (Fin d → ℤ))), Inv3L M₀ Rn (ReachD3E C Un Fst E L γ η w) L w A0 A h →
-      QS L γ δ C₁ w P h A ≤ (N : ℝ≥0∞) ^ 4 * WPot L γ η (Yp (RofS h.s)) (gExp η crit) h) :
-    ∀ (A : Set (D₀ → (Fin d → ℤ))) (h : HSt V D₀), Inv1LE M₀ Rn C Un Fst E L γ η w A0 A h →
-      (∀ k ∈ A, Stuck1E C L γ η w Un E k h) →
-      (N : ℝ≥0∞) * QS L γ δ C₁ w P h A ≤ (N : ℝ≥0∞) ^ 5 * WPot L γ η (Yp (RofS h.s)) (g1E32 γ η crit Fmax E) h := by
-  have hL1 : 1 ≤ L := le_trans (Real.one_le_exp (by norm_num)) H.hL
-  have hL0 : 0 < L := by linarith
-  intro A h hA hst
-  by_cases hAe : A = ∅
-  · subst hAe; simp [QS_empty]
-  have hap := (hA.2.resolve_left hAe).2.1
-  have hF := hend A h hA hAe hst
-  obtain ⟨κ, hκ⟩ := Set.nonempty_iff_ne_empty.2 hAe
-  have hst' : Stuck1E C L γ η w Un E κ h := hst κ hκ
-  -- `pendRC_zero_of_stuck` (C1b1, Cov6), inlined: its application elaborates slowly here
-  have hpend : pendRCG E h = 0 := by
-    unfold pendRCG
-    rw [Finset.card_eq_zero, Finset.filter_eq_empty_iff]
-    intro i _ hi
-    exact hi.1 (hst'.2.2 i)
-  have hD3 : Inv3L M₀ Rn (ReachD3E C Un Fst E L γ η w) L w A0 A h :=
-    Inv3L.map hA fun κ hκ (hr : Reach1LE C Un Fst E L γ η w κ h) => Reach1LE.toD3 hr (hst κ hκ)
-  have := PD3 h A hD3
-  have hg : g1 γ η crit Fmax h ≤ gExp η crit h := by
-    unfold g1
-    have : 0 ≤ min γ (1 - γ) * (Fmax - (h.s.M.numComponents : ℝ)) := mul_nonneg hγ0 (by linarith)
-    linarith
-  have hWle : WPot L γ η (Yp (RofS h.s)) (gExp η crit) h ≤ WPot L γ η (Yp (RofS h.s)) (g1E32 γ η crit Fmax E) h := by
-    rw [WPot_g1E32_of_pend_zero _ crit Fmax E hpend]
-    exact WPot_mono hL1 (hYp0 _) (apProd_pos hL0 hap) hg
-  calc (N : ℝ≥0∞) * QS L γ δ C₁ w P h A ≤ (N : ℝ≥0∞) * ((N : ℝ≥0∞) ^ 4 * WPot L γ η (Yp (RofS h.s)) (gExp η crit) h) :=
-        by gcongr
-    _ = (N : ℝ≥0∞) ^ 5 * WPot L γ η (Yp (RofS h.s)) (gExp η crit) h := by ring
-    _ ≤ (N : ℝ≥0∞) ^ 5 * WPot L γ η (Yp (RofS h.s)) (g1E32 γ η crit Fmax E) h := by gcongr
 
 end WaveTurbulence.GammaLow.Flower.H2

@@ -6,7 +6,6 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.FlatMod.FlatBase
-public import WaveTurbulence.Foundations.VineEst.VineEstS5B2.Bot19
 
 /-! # FLAT-MOD (R60), the bottom vine, kernel level (modulated `Bot10`)
 

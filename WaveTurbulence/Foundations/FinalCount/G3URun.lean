@@ -64,25 +64,6 @@ theorem UCtx.step4 {h h' : HSt V D₀} {κ : D₀ → (Fin d → ℤ)} (hk : Adm
   cases hs with
   | cut v v₂ x₁ x₂ hcd hε hβ hnz h3 => exact hc.atom.step4 (hc.eps hp) hcd hε
 
-/-- One uniform step (any of Steps 1--4). -/
-def UStepAny (L γ η : ℝ) (w : Mom d) (Adm0 : (D₀ → (Fin d → ℤ)) → Prop) (h h' : HSt V D₀) : Prop :=
-  UStep1 L γ η w Adm0 h h' ∨ UStep2 L γ η w Adm0 h h' ∨ UStep3 L γ η w Adm0 h h' ∨ UStep4 L w Adm0 h h'
-
-/-- States reached from `M_sub` by uniform steps. -/
-def UReach (L γ η : ℝ) (w : Mom d) (Adm0 : (D₀ → (Fin d → ℤ)) → Prop) (M₀ : Molecule V D₀) (h : HSt V D₀) : Prop :=
-  Relation.ReflTransGen (UStepAny L γ η w Adm0) (HSt.init M₀) h
-
-theorem UCtx.step_any {h h' : HSt V D₀} {κ : D₀ → (Fin d → ℤ)} (hk : Adm0 κ) (hs : UStepAny L γ η w Adm0 h h')
-    (hp : PinnedM0 Adm0 L w M₀) (hc : UCtx M₀ Rn Adm0 L w h) : UCtx M₀ Rn Adm0 L w h' := by
-  rcases hs with hs | hs | hs | hs
-  exacts [hc.step1 hk hs hp, hc.step2 hk hs hp, hc.step3 hk hs hp, hc.step4 hk hs hp]
-
-theorem UReach.ctx {h : HSt V D₀} {κ : D₀ → (Fin d → ℤ)} (hk : Adm0 κ) (hS : SubHyp Rn M₀)
-    (hp : PinnedM0 Adm0 L w M₀) (hr : UReach L γ η w Adm0 M₀ h) : UCtx M₀ Rn Adm0 L w h := by
-  induction hr with
-  | refl => exact UCtx.init hS
-  | tail _ hs ih => exact ih.step_any hk hs hp
-
 /-- The number of atoms of a state is at most twice that of `M_sub` (`Σ base = |D| + 2R`, `base ≥ 2` on the
 non-ghost atoms, `|D| ≤ |D₀|`, `|D₀| = 4n - 2R`). -/
 theorem UCtx.card_atoms_le (hS : SubHyp Rn M₀) {h : HSt V D₀} (hc : UCtx M₀ Rn Adm0 L w h) :

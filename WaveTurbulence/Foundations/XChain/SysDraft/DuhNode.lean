@@ -145,12 +145,6 @@ noncomputable def nodeWeight (b : (Fin d → ℤ) → ℂ) (n : Fin d → ℤ)
     ((∏ ℓ : GLeaf (single m), ‖b (x.2.2.1.1 ℓ.toNode)‖) *
       ∏ ℓ : GLeaf (single r), ‖b (x.2.2.2.1 ℓ.toNode)‖)
 
-theorem nodeWeight_nonneg (b : (Fin d → ℤ) → ℂ) (n : Fin d → ℤ)
-    (x : Σ q : (Fin d → ℤ) × (Fin d → ℤ), DecFiber l m r n q) : 0 ≤ nodeWeight l m r b n x :=
-  mul_nonneg (Finset.prod_nonneg fun _ _ => norm_nonneg _)
-    (mul_nonneg (Finset.prod_nonneg fun _ _ => norm_nonneg _)
-      (Finset.prod_nonneg fun _ _ => norm_nonneg _))
-
 theorem summable_nodeWeight {b : (Fin d → ℤ) → ℂ} (hb : Summable fun k => ‖b k‖) (n : Fin d → ℤ) :
     Summable (nodeWeight l m r b n) := by
   have hg := summable_leafNorm_sigma (TTree.node l m r) hb

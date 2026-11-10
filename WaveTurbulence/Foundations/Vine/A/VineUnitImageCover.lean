@@ -41,12 +41,6 @@ theorem unitBlocks_image_subsetMk (Z : TwistGroupSite G) (σ : Prescription G) {
   rw [hat, he] at hcv
   exact hcv
 
-/-- The image of an actual source unit is contained in a single actual target unit. -/
-theorem unitBlocks_image_subset (Z : TwistGroupSite G) (σ : Prescription G)
-    {u : CLBlock G} (hu : u ∈ unitBlocks G σ) :
-    ∃ v ∈ unitBlocks Z.target (transportPrescription Z.iso σ), Z.iso.img u.atoms ⊆ v.atoms :=
-  unitBlocks_image_subsetMk Z σ (Stage1Mk.markTransported_empty Z.iso) hu
-
 /-- B1b-2 (Mk-general form of `unitBlocks_preimage_subset`). -/
 theorem unitBlocks_preimage_subsetMk (Z : TwistGroupSite G) (σ : Prescription G) {Mk : Set (CLVine G)}
     {Mk' : Set (CLVine Z.target)} (hT : Stage1Mk.MarkTransported Z.iso Mk Mk')
@@ -63,11 +57,5 @@ theorem unitBlocks_preimage_subsetMk (Z : TwistGroupSite G) (σ : Prescription G
   refine ⟨u, hu, ?_⟩
   rw [← he, hat, Z.iso.img_img_symm]
   exact hcu
-
-/-- The inverse image of an actual target unit lies in an actual source unit. -/
-theorem unitBlocks_preimage_subset (Z : TwistGroupSite G) (σ : Prescription G)
-    {v : CLBlock Z.target} (hv : v ∈ unitBlocks Z.target (transportPrescription Z.iso σ)) :
-    ∃ u ∈ unitBlocks G σ, Z.iso.symm.img v.atoms ⊆ u.atoms :=
-  unitBlocks_preimage_subsetMk Z σ (Stage1Mk.markTransported_empty Z.iso) hv
 
 end WaveTurbulence.VineA

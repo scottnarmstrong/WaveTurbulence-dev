@@ -2,7 +2,8 @@
 module
 public import WaveTurbulence.Foundations.FinalCount.G3Ex2G
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.Ghost.Triangle2
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.Ghost.Step2Cone
+public import WaveTurbulence.Foundations.GammaLow.FinalCount.Ghost.Step2
+public import WaveTurbulence.Foundations.GammaLow.FinalCount.Ghost.Cone8
 public import WaveTurbulence.Foundations.FinalCount.AsmPhase2
 /-! **Ghost assembly: the charged Step-2 bounds at a given triangle** (L6E's `UStep2.excess_low`, `UStep2.excess_cone`
 with the triangle data explicit).

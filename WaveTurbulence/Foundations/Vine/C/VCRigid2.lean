@@ -44,27 +44,6 @@ open WaveTurbulence WaveTurbulence.Twist WaveTurbulence.LFTwist WaveTurbulence.L
 /-- The modulation `s ↦ e^{πiλs}` (R58). -/
 @[expose] noncomputable def modW (lam : ℝ) : ℝ → ℂ := fun s => Complex.exp (((Real.pi * lam * s : ℝ) : ℂ) * Complex.I)
 
-theorem modW_zero : modW 0 = fun _ => 1 := by
-  funext s
-  simp [modW]
-
-theorem clLocalKernelW_one {w d : ℕ} {G : Garden w} {U : Finset (GBranch G.tree)}
-    {a b : GBranch G.tree} (D : ReconstructionData G) (hG : G.IsPlain) (R : CLRegionData G U a b)
-    (L γ δ : ℝ) (F : ℕ → Mom d → ℝ) (layer : GNode (D.forest hG) → ℕ)
-    (hLayer : IsLayering (D.garden hG) layer) (base : Mom d) (t0 t1 t2 : ℝ) (e f g h : Mom d) :
-    clLocalKernelW D hG R L γ δ F layer hLayer base (fun _ => 1) t0 t1 t2 e f g h =
-      clLocalKernel D hG R L γ δ F layer hLayer base t0 t1 t2 e f g h := by
-  simp only [clLocalKernelW, clLocalKernel, mul_one]
-
-theorem clLocalKernelW_modW_zero {w d : ℕ} {G : Garden w} {U : Finset (GBranch G.tree)}
-    {a b : GBranch G.tree} (D : ReconstructionData G) (hG : G.IsPlain) (R : CLRegionData G U a b)
-    (L γ δ : ℝ) (F : ℕ → Mom d → ℝ) (layer : GNode (D.forest hG) → ℕ)
-    (hLayer : IsLayering (D.garden hG) layer) (base : Mom d) (t0 t1 t2 : ℝ) (e f g h : Mom d) :
-    clLocalKernelW D hG R L γ δ F layer hLayer base (modW 0) t0 t1 t2 e f g h =
-      clLocalKernel D hG R L γ δ F layer hLayer base t0 t1 t2 e f g h := by
-  rw [modW_zero]
-  exact clLocalKernelW_one D hG R L γ δ F layer hLayer base t0 t1 t2 e f g h
-
 variable {w : ℕ} {G : Garden w} {P : CorePlacement G} {U : Finset (GBranch G.tree)} {a b : GBranch G.tree}
   (hB : G.molecule.IsBlock U a b) (hF : FullRigid P U)
   (R : CLRegionData G U a b) (R' : CLRegionData (unitTwistGarden G P) (twistedAtoms G P U) (eB P a) (eB P b))

@@ -69,9 +69,6 @@ theorem mem_leaf_nodes (q : Path) : q ∈ TTree.leaf.nodes ↔ q = [] := by
 theorem mem_leaf_leaves (q : Path) : q ∈ TTree.leaf.leaves ↔ q = [] := by
   simp [TTree.leaves]
 
-theorem not_mem_leaf_branching (q : Path) : q ∉ TTree.leaf.branching := by
-  simp [TTree.branching]
-
 /-- **The interior region.** -/
 theorem mem_pairTree_inner (q : Path) (hq : ¬ inner.lonePath <+: q) :
     (m.c :: q ∈ (pairTree m Qr Qg inner ζ).nodes ↔ q ∈ (inner.plug (slotSign ζ m.c) .leaf).nodes) ∧
@@ -171,9 +168,6 @@ def rTree (j : Fin 2) : TTree := if j = 0 then Qr.trees.1 else Qr.trees.2
 theorem treeOfSign_eq (T : TTree × TTree) (σ : ℤˣ) :
     treeOfSign T σ = if σ = 1 then T.1 else T.2 := rfl
 
-theorem units_ne_neg (σ : ℤˣ) : σ ≠ -σ := by
-  rcases Int.units_eq_one_or σ with rfl | rfl <;> decide
-
 theorem neg_units_eq_one {σ : ℤˣ} (hσ : σ ≠ 1) : -σ = 1 := by
   rcases Int.units_eq_one_or σ with rfl | rfl
   · exact absurd rfl hσ
@@ -246,11 +240,6 @@ theorem regionOf_bPath : regionOf m inner ζ (bPath m inner) = .bnode := by
 theorem regionOf_lonePos : regionOf m inner ζ (lonePos m inner) = .lone := by
   have : m.c :: (inner.lonePath ++ [m.lone]) ≠ bPath m inner := by simp [bPath_eq]
   simp [regionOf, lonePos_eq, this]
-
-theorem prefix_append_self (l q : Path) : l <+: l ++ q := List.prefix_append l q
-
-theorem not_prefix_cons_of_ne {a b : Fin 3} (h : a ≠ b) (l l' : Path) : ¬ (a :: l) <+: (b :: l') := by
-  rw [List.cons_prefix_cons]; exact fun h' => h h'.1
 
 theorem regionOf_rBase (j : Fin 2) (q : Path) : regionOf m inner ζ (rBase m inner ζ j ++ q) = .red j := by
   have h1 := red_ne_c m

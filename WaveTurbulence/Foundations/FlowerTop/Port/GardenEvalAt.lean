@@ -46,15 +46,4 @@ theorem garden_weight_identity_at (hc : EvalCtx P A p M σ) (hσ2 : ∀ j, σ j 
   rw [← Finset.sum_mul, ← Complex.ofReal_sum, ← prod_jbr_pow_expand (fun j => k + latticePoint P.L (nroot j)) nn]
 
 
-/-- **Bridge**: the base-`k` identity at `k = 0` is `garden_weight_identity`. -/
-theorem garden_weight_identity_zero (hc : EvalCtx P A p M σ) (hσ2 : ∀ j, σ j ^ 2 = 1) (tt : Fin w → ℝ)
-    (nroot : Fin w → (Fin P.d → ℤ)) (lam : ℝ) (hlam : lam ≠ 0) (nn : ℕ) (h0 : TProf P.d w)
-    (hadm : ∀ c : Fin w → Fin nn → Option (Fin P.d),
-      AdmI P p ((opsOfChoice c).map fun f => TOp.form f.1 f.2) h0) :
-    (((∏ j, jbr (latticePoint P.L (nroot j)) ^ (2 * nn) : ℝ)) : ℂ) * evalV P A tt nroot h0 0 =
-      ∑ c : Fin w → Fin nn → Option (Fin P.d),
-        evalOps (evalV P A tt nroot) M lam ((opsOfChoice c).map fun f => TOp.form f.1 f.2) h0 0 := by
-  have := garden_weight_identity_at hc hσ2 tt nroot 0 lam hlam nn h0 hadm
-  simpa only [zero_add] using this
-
 end WaveTurbulence.LGSpine

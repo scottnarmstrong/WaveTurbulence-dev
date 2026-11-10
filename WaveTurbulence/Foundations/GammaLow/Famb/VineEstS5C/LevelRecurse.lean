@@ -6,7 +6,6 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.LevelFlat
-public import WaveTurbulence.Foundations.VineEst.VineEstS5B2.Bot19
 public import WaveTurbulence.Foundations.GammaLow.Famb.Family
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.LevelRecurse
 public import WaveTurbulence.Foundations.GammaLow.Famb.VineEstS5C.LevelFlat

@@ -92,22 +92,4 @@ theorem dh23_minor2_normalized_bound (d : ℕ) (hd : 3 ≤ d) (γ : ℝ)
       (Real.rpow_le_rpow_of_exponent_le hL1
         (bilinear_minor_exponent_le (d : ℝ) γ ε η hγ.1.le hε.le hεη)) (by positivity)
 
-/-- An explicit sufficient version of DH23's standing small-`η` convention.
-Thus the uniform decay condition above follows from the source threshold. -/
-theorem source_decay_power_ge_two_dim (d : ℕ) (hd : 3 ≤ d) {η P : ℝ}
-    (hη : 0 < η) (hsmall : η ≤ 1/(2*(d : ℝ))) (hP : η^(-2 : ℝ) < P) :
-    2*(d : ℝ) ≤ P := by
-  have hdR : (3 : ℝ) ≤ d := by exact_mod_cast hd
-  have hdpos : 0 < 2*(d : ℝ) := by linarith
-  have hrec : 2*(d : ℝ) ≤ 1/η := by
-    apply (le_div_iff₀ hη).mpr
-    have hh := (le_div_iff₀ hdpos).mp hsmall
-    nlinarith only [hh]
-  have hsq := (sq_le_sq₀ hdpos.le (by positivity : (0 : ℝ) ≤ 1/η)).mpr hrec
-  have heq : η^(-2 : ℝ) = (1/η)^2 := by
-    rw [Real.rpow_neg hη.le, Real.rpow_two]
-    field_simp
-  rw [heq] at hP
-  nlinarith only [hdR,hsq,hP]
-
 end WaveTurbulence.WeylSums

@@ -40,25 +40,6 @@ theorem leavesBelow_embN (G : Garden w) (a : GNode G.tree) :
     · rintro ⟨ℓ', -, e⟩
       exact absurd e (embL_ne_capL G ℓ' j)
 
-theorem leavesBelow_capN (G : Garden w) (j : Fin w) : (capN G j).leavesBelow = {capL G j} := by
-  ext x
-  simp only [GNode.leavesBelow, mem_filter, mem_univ, true_and, mem_singleton]
-  rcases leaf_cases G x with ⟨ℓ, rfl⟩ | ⟨j', rfl⟩
-  · constructor
-    · rintro ⟨h, -⟩
-      exact absurd ((capσ w).injective h) (by simp)
-    · intro e; exact absurd e (embL_ne_capL G ℓ j)
-  · constructor
-    · rintro ⟨h, -⟩
-      have : j = j' := Sum.inr_injective ((capσ w).injective h)
-      rw [this]
-    · intro e
-      have : j' = j := by
-        have := congrArg (fun x : GLeaf (capGarden G).tree => x.1.1) e
-        exact Sum.inr_injective ((capσ w).injective this)
-      subst this
-      exact GNode.isDesc_refl _
-
 theorem completelyPaired_image_embL (G : Garden w) (hF : OneFlower G) (S : Finset (GLeaf G.tree)) :
     (capGarden G).CompletelyPaired (S.image (embL G)) ↔ G.CompletelyPaired S := by
   constructor

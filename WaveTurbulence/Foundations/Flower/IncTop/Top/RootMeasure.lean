@@ -34,11 +34,6 @@ def rootChar {d : ℕ} (Ξ k : Mom d) : ℂ := (Real.fourierChar (inner ℝ Ξ k
 
 theorem norm_rootChar {d : ℕ} (Ξ k : Mom d) : ‖rootChar Ξ k‖ = 1 := Circle.norm_coe _
 
-theorem continuous_rootChar_uncurry {d : ℕ} :
-    Continuous (fun p : Mom d × Mom d => rootChar p.1 p.2) := by
-  unfold rootChar
-  exact Cut2A.character_smooth.continuous.comp (continuous_fst.inner continuous_snd)
-
 theorem measurable_rootChar {d : ℕ} {α : Type*} [MeasurableSpace α] {Ξ : α → Mom d}
     (hΞ : Measurable Ξ) (k : Mom d) : Measurable (fun a => rootChar (Ξ a) k) := by
   have hc : Continuous (fun x : Mom d => rootChar x k) := by

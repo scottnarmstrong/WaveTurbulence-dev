@@ -4,8 +4,6 @@ public import WaveTurbulence.Foundations.FinalCount.AtMapSubpro
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.AtMapObject
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3RunE
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3VineLG1
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceCountingData
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceVineData
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.Step1.Prop94Ops
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.Step1.Prop94Statement
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.Step1.VCAdm
@@ -255,12 +253,6 @@ theorem collMap_unselOK (C : CollData M₀) (Unsel : Set (Src.Object Src.γL M�
       by simp [hUA], (objMap_shape_vc_iff ι U).mpr hsh⟩
     change Finset.map ι A ∩ Finset.map ι B.atoms = _
     rw [← Finset.map_inter, hint]; simp [Finset.map_insert]
-
-/-- Every unselected set of `mapAtoms M₀ ι` is the image of one of `M₀`. -/
-theorem collMap_unselOK' (C : CollData M₀) (Unsel' : Set (Src.Object Src.γL (mapAtoms M₀ ι))) :
-    (collMap ι C).UnselOK L γ η w κ Unsel' ↔
-      C.UnselOK L γ η w κ (objMap (ι := ι) ⁻¹' Unsel') := by
-  rw [← collMap_unselOK ι C, Set.image_preimage_eq _ (objMap_surjective (M := M₀) (ι := ι))]
 
 /-! ### Gap kinds at atoms, `DegenSGT`, `IsTame` -/
 

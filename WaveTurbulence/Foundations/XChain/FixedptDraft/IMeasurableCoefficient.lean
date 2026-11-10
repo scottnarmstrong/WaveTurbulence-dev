@@ -28,41 +28,4 @@ theorem measurable_indicator_complex_comp_ofFun {ψ : L1 d → ℂ} (hψ : Conti
   · simp only [indicator_of_notMem hc]
     exact tendsto_const_nhds
 
-/-- A pointwise chosen classed solution is measurable coefficientwise after restriction to a
-measurable event with rapidly decreasing data. The proof uses continuous truncated flows. -/
-theorem measurable_indicator_a_coefficient {Ω : Type*} [MeasurableSpace Ω]
-    {L γ δ T : ℝ} (hL : 0 < L) (φ : Mom d → ℝ)
-    {g : (Fin d → ℤ) → Ω → ℂ} (hg : ∀ n, Measurable (g n))
-    (F : Set Ω) (hF : MeasurableSet F) (a : Ω → ℝ → (Fin d → ℤ) → ℂ)
-    (ha : ∀ ω ∈ F, IsASolution L γ δ T (initialCoeff L φ g ω) (a ω))
-    (hrapid : ∀ ω ∈ F, IsRapidDecay (initialCoeff L φ g ω))
-    {t : ℝ} (ht : t ∈ Icc 0 T) (n : Fin d → ℤ) :
-    Measurable (F.indicator fun ω => a ω t n) := by
-  let ψ : ℕ → L1 d → ℂ := fun R x =>
-    lp.evalCLM ℝ (fun _ : Fin d → ℤ => ℂ) 1 n (truncFlow L γ δ R T x t) / (flowWeight n : ℂ)
-  have hψ (R : ℕ) : Continuous (ψ R) :=
-    (((lp.evalCLM ℝ (fun _ : Fin d → ℤ => ℂ) 1 n).continuous.comp
-      (continuous_truncFlow_data (Nat.cast_nonneg R) ht)).div_const _)
-  refine measurable_of_tendsto_metrizable (f := fun R => F.indicator fun ω =>
-    ({c : (Fin d → ℤ) → ℂ | IsRapidDecay c}.indicator fun c => ψ R (L1.ofFun (weightUp c)))
-      (initialCoeff L φ g ω))
-    (fun R => ((measurable_indicator_complex_comp_ofFun (hψ R)).comp
-      (measurable_initialCoeff L φ hg)).indicator hF) (tendsto_pi_nhds.2 fun ω => ?_)
-  by_cases hω : ω ∈ F
-  · have hsol := SysAPI.IsASolution.toNLS (ha ω hω)
-    have hc := hrapid ω hω
-    obtain ⟨Y, hY⟩ := hsol.exists_norm_ofFun_le hL hc
-    refine tendsto_atTop_of_eventually_const (i₀ := ⌈Y⌉₊) fun R hR => ?_
-    have hRY : ∀ s ∈ Icc 0 T,
-        ‖(L1.ofFun (weightUp (a ω s)) : L1 d)‖ ≤ (R : ℝ) :=
-      fun s hs => (hY s hs).trans ((Nat.le_ceil Y).trans (Nat.cast_le.mpr hR))
-    rw [indicator_of_mem hω, indicator_of_mem hω, indicator_of_mem hc]
-    dsimp only [ψ]
-    rw [hsol.truncFlow_eq hL hc hRY t ht]
-    change (L1.ofFun (weightUp (a ω t)) : L1 d) n / (flowWeight n : ℂ) = a ω t n
-    rw [L1.ofFun_apply (hsol.summable_norm_weightUp hL hc ht), weightUp,
-      mul_div_cancel_left₀ _ (Complex.ofReal_ne_zero.mpr (flowWeight_pos n).ne')]
-  · simp only [indicator_of_notMem hω]
-    exact tendsto_const_nhds
-
 end WaveTurbulence.Fixedpt

@@ -1,6 +1,6 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
-public import WaveTurbulence.Foundations.FinalCount.TriDev4
+public import WaveTurbulence.Foundations.FinalCount.TriDev3
 /-! Triangles, sibling part 1 (G2-SIBLING): the **relative-ball** pair count.  DH23 L1796 (`ΔF = 0`) counts the pair of
 `α`-gaps `(r₀, r₁)` of a triangle as `(R₀L)^d (R₁L)^d`; with `ι_{v₂} ≠ 0` caused by the *first cut of the same triangle*
 (Remark `remiota`, L1782: `0 < |r ± r'| ≤ L^{-50η}R₁` with `r' = r₀` the gap of the cut at `v₁`) the second gap lies in a

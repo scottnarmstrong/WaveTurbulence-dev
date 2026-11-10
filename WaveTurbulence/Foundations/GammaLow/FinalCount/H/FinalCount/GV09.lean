@@ -35,10 +35,6 @@ variable {V : Type*} [DecidableEq V] {D₀ : Type u} [Fintype D₀] [DecidableEq
 variable {L γ η : ℝ} {w : Mom d} {κ : D₀ → (Fin d → ℤ)} {R : ℕ} {Tm : V → Prop}
 variable {M₀ : Molecule V D₀} {hf : HSt V D₀} {a₀ j₁ j₂ : V}
 
-def DesRecL (C : CollData M₀) (hf : HSt V D₀) : Prop :=
-  ∀ j ∈ hf.s.M.atoms, ∀ p vis, hf.crec j = some (p, vis) → hf.anc j ∈ C.hinges →
-    ∃ f s, C.first (hf.anc j) = some f ∧ C.second (hf.anc j) = some s ∧ ({p.1, p.2} : Set D₀) = {f, s}
-
 /-- (iv) at a joint, the designated pair is held entirely by the joint half or not at all.  The recorded pair `p0` of the joint is the
 designated pair or its complement (R29, A1 / `Desig`). -/
 theorem hinge_joint_xorL {R₀ : ℕ} {P : Src.Object Src.γL M₀} (hA : AncRel M₀ hf.s hf.anc) (hD : DartRel M₀ hf.s) (hS : SubHypL R₀ M₀)

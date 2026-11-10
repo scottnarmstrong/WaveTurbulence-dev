@@ -209,45 +209,6 @@ theorem hasSum_skelValWZRL_centred_cons (RB : RegBoundW blk hS Fs L base) (hd : 
   hasSum_skelValWZRL_centred_agree Φ RB hd hSb hL0 γ δ D layer tt Zs Zw hZw hZ fam₀ famC Box MC hMC fixS lbS hU hlbU
     hP hbox (centreAgree_of_cons Φ hd hSb fam₀ famC Box Cons hcons hexp₀ ConsC hconsC hexpC')
 
-/-- **The joint family sums to the relaxed pinned skeleton value** (centred expansion at the consumed momenta
-only; `hasSum_sigma_centred` with `hexpC` replaced by `hconsC`, `hexpC'`). -/
-theorem hasSum_sigma_centred_cons (RB : RegBoundW blk hS Fs L base) (hd : Disj blk) (hSb : Gsb.IsPlain)
-    (hL0 : 0 < L) (γ δ : ℝ) (D : ReconstructionData S) (layer : GNode (D.forest hS) → ℕ)
-    {roots : Fin w → (Fin d → ℤ)} (tt : Fin w → ℝ)
-    (Zs : GenDecoration S d roots 0 → ℂ) (Zw : GenDecoration Gsb d roots 0 → ℂ) (hZw : ∀ z, ‖Zw z‖ ≤ 1)
-    (hZ : ∀ κ : GenDecoration S d roots 0, Zs κ = Zw (Φ.resDec hS hd κ))
-    (fam₀ : SlotFam Gsb d) (famC : CentredSlot Gsb → (Fin d → ℤ) → ChainPiece d)
-    (Box : ReplacementSlot Gsb → Set (Fin 2 → ℝ)) (Cons : ReplacementSlot Gsb → Mom d → Prop)
-    (hcons : ∀ κ : GenDecoration S d roots 0, ∀ s', ¬ IsCentred s' →
-      Cons s' (base + latticePoint L (κ.1 (slotNode hS (Φ.iota hS hSb s')))))
-    (hexp₀ : ∀ s', ¬ IsCentred s' → ∀ ts ∈ Box s', ∀ x, Cons s' x →
-      HasSum (fun l => (fam₀.w s' l : ℂ) * fam₀.a s' l x * fsPhase (fam₀.m s' l) ts) (Fs.fs (Φ.iota hS hSb s') ts x))
-    (ConsC : CentredSlot Gsb → Mom d → Prop)
-    (hconsC : ∀ κ : GenDecoration S d roots 0, ∀ c : CentredSlot Gsb,
-      ConsC c (base + latticePoint L (κ.1 (slotNode hS (Φ.iota hS hSb (.inr c.1))))))
-    (hexpC' : ∀ (c : CentredSlot Gsb) (y : Fin d → ℤ), ∀ ts ∈ Box (.inr c.1), ∀ x, ConsC c x →
-      ‖x - latPt d y‖ ≤ 1 →
-      HasSum (fun l => ((famC c y).w l : ℂ) * (famC c y).a l x * fsPhase ((famC c y).m l) ts)
-        (Fs.fs (Φ.iota hS hSb (.inr c.1)) ts x))
-    (MC : ℝ) (hMC : ∀ (c : CentredSlot Gsb) (y : Fin d → ℤ), ∑' l, (famC c y).w l ≤ MC)
-    (fixS lbS : GBranch S.tree → Option ℝ) (hU : ∀ j, ∀ a ∈ inter blk j, fixS a = none)
-    (hlbU : ∀ j, ∀ a ∈ inter blk j, lbS a = none)
-    (hP : RelaxPinsS (fun b => layer (D.coreBranch hS b).toNode) tt fixS)
-    (hbox : ∀ τ, PinnedAt fixS τ →
-      τ ∈ coreTimeDomainWR (fun b => layer (D.coreBranch hS b).toNode) tt fixS ∩ lbDomR lbS →
-        ∀ s', slotTs hS tt τ (Φ.iota hS hSb s') ∈ Box s') :
-    HasSum (fun p : (Σ X : CentredSlot Gsb → (Fin d → ℤ), ∀ s, (famX fam₀ famC X).Λ s) =>
-      ((modeWt (famX fam₀ famC p.1) p.2 : ℝ) : ℂ) *
-        outerValMμD Gsb L γ δ base roots tt
-          (splicedTimeDomainFix Gsb (fun c => layer (D.coreBranch hS (Φ.br c)).toNode) tt (fun c => fixS (Φ.br c)) ∩
-            lbDomR (fun c => lbS (Φ.br c)))
-          (Φ.hinges hd) (fun z => Zw z * chiX L base p.1 z) hSb (fixMeasure (fun c => fixS (Φ.br c)))
-          (fun s' => (famX fam₀ famC p.1).a s' (p.2 s')) (fun s' => (famX fam₀ famC p.1).m s' (p.2 s'))
-          (Φ.route hS hSb) (Φ.hclk hd) (Φ.hmom hd) (unitKernelMGW blk D hS Fs L γ δ layer base))
-      (skelValWZRL blk D hS L γ δ base roots tt layer Zs Fs fixS lbS) :=
-  hasSum_sigma_centred_agree Φ RB hd hSb hL0 γ δ D layer tt Zs Zw hZw hZ fam₀ famC Box MC hMC fixS lbS hU hlbU hP hbox
-    (centreAgree_of_cons Φ hd hSb fam₀ famC Box Cons hcons hexp₀ ConsC hconsC hexpC')
-
 end Cons
 
 end WaveTurbulence.Flower.MkSlotsI

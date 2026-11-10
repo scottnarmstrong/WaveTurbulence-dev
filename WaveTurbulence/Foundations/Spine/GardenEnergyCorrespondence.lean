@@ -6,7 +6,6 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.Spine.GardenLatticeCorrespondence
-public import WaveTurbulence.Foundations.Spine.GardenBoundarySource
 import Mathlib.Tactic
 
 /-! # TARGET `molegammav`: quadratic energies under the actual correspondence -/

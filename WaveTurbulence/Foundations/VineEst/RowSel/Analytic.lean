@@ -176,35 +176,6 @@ end Majorant
 section Bridge
 variable {d : ℕ}
 
-theorem rowTopWeight_one {w : ℕ} (p : ℕ) (LG : LayeredGarden w) (qr : Fin w → ℕ) (k : GNode LG.garden.tree → Mom d) :
-    rowTopWeight p (fun _ => (1 : ℂ)) LG qr k = 1 := by
-  simp [rowTopWeight, topPsi]
-
-theorem kernelLeavesW_one {w : ℕ} (L γ δ : ℝ) (LG : LayeredGarden w) (H : LeafProfiles w d)
-    (up : GBranch LG.garden.tree → ℝ) (s : ℝ) (k₀ : Mom d) (nroot : Fin w → (Fin d → ℤ)) (nfl : Fin d → ℤ) :
-    kernelLeavesW L γ δ LG H up s k₀ nroot nfl (fun _ => 1) = kernelLeaves L γ δ LG H up s k₀ nroot nfl := by
-  simp only [kernelLeavesW, kernelLeaves, one_mul]
-
-/-- **The `g ≡ 1` bridge, couples**: the incoherent couple row at `g ≡ 1` is main's `KQstar`. -/
-theorem coupleLeavesTop_one (L γ δ : ℝ) (p : ℕ) (q q' : ℕ) (F : ℕ → Mom d → ℝ) (LG : LayeredGarden 2)
-    (t s : ℝ) (k : Mom d) :
-    coupleLeavesTop L γ δ p (fun _ => (1 : ℂ)) q q' LG (layerProfiles LG F) t s k = KQstar L γ δ F LG t s k := by
-  unfold coupleLeavesTop
-  have hm : rowTopWeight p (fun _ : Mom d => (1 : ℂ)) LG ![q, q'] = fun _ : GNode LG.garden.tree → Mom d => 1 :=
-    funext fun k => rowTopWeight_one p LG ![q, q'] k
-  rw [hm, kernelLeavesW_one, kernelLeaves_layerProfiles]
-  rfl
-
-/-- **The `g ≡ 1` bridge, trees**: the incoherent tree row at `g ≡ 1` is main's `KTstar`. -/
-theorem treeLeavesTop_one (L γ δ : ℝ) (p : ℕ) (q : ℕ) (F : ℕ → Mom d → ℝ) (LG : LayeredGarden 1)
-    (t s : ℝ) (k : Mom d) :
-    treeLeavesTop L γ δ p (fun _ => (1 : ℂ)) q LG (layerProfiles LG F) t s k = KTstar L γ δ F LG t s k := by
-  unfold treeLeavesTop
-  have hm : rowTopWeight p (fun _ : Mom d => (1 : ℂ)) LG ![q] = fun _ : GNode LG.garden.tree → Mom d => 1 :=
-    funext fun k => rowTopWeight_one p LG ![q] k
-  rw [hm, kernelLeavesW_one, kernelLeaves_layerProfiles]
-  rfl
-
 end Bridge
 
 end WaveTurbulence.Flower.V5W

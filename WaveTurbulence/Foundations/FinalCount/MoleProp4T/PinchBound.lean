@@ -33,8 +33,6 @@ noncomputable def auxEnergy (β : V → ℝ) (τ : ℝ) (j : ℕ) : Option V →
   | some v => β v
   | none => -∑ v ∈ T.Y, β v - T.Y.card * τ + (2 * j + 1) * τ
 
-theorem aux_dartSign (z : MoleProp.DeletedDart N T.Y) : T.aux.dartSign z = N.dartSign z.val := rfl
-
 theorem kvec_deleted {d : ℕ} (L : ℝ) (κ : D → (Fin d → ℤ)) (z : MoleProp.DeletedDart N T.Y) :
     Molecule.kvec L 0 (MoleProp.deletedLabels N T.Y κ) z = Molecule.kvec L 0 κ z.val := rfl
 

@@ -53,8 +53,6 @@ def LRABody (P : WTParams) : Prop :=
         SNormR (30 * P.d) 0 (LeafApp.chainNstar H Z X (LG.garden.sig 0) (0, [])) ≤
           ENNReal.ofReal (P.C₁ * P.C₁ ^ n * leafSizeProduct LG B)))
 
-theorem leafwise_gate_eq : LeafwiseRegularAsymptoticsGate = WTPrefix LRABody := rfl
-
 /-- Every well-formed couple code decodes a couple carrier with all layers `p`. -/
 theorem exists_layered_decodes (Q : RegCpl) (hwf : Q.wf = true) (p : ℕ) :
     ∃ LG : LayeredGarden 2, Q.Decodes LG.garden ∧ ∀ a, LG.layer a = p := by

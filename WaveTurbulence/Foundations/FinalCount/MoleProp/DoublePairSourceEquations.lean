@@ -75,18 +75,6 @@ theorem source_double_pair_energy (M : Molecule V D) {d : ℕ} (L γ δ : ℝ)
   · simpa only [signedDoubleEnergyTwo,doublePairProfile_zero,doublePairProfile_one,doublePairProfile_two,doublePairProfile_three,doubleSign_out_cast,
       hd.1,Degen.dartSign_mate,dartSign_of_opposite_out M ho,neg_mul,sub_eq_add_neg] using hpb
 
-/-- The frozen lattice embedding preserves every signed source sum. -/
-theorem latticePoint_signed_double_sum {d : ℕ} (L : ℝ) (sx sy sr : Bool) (k : Fin 4 → (Fin d → ℤ)) :
-    latticePoint L (doubleSign sx • k 0 + doubleSign sy • k 1 + doubleSign sr • k 2) =
-      doubleSign sx • latticePoint L (k 0) + doubleSign sy • latticePoint L (k 1) + doubleSign sr • latticePoint L (k 2) := by
-  simp only [WeylSums.latticePoint_add_eq,latticePoint_zsmul]
-
-theorem latticePoint_signed_double_sum_two {d : ℕ} (L : ℝ) (sx sy sr : Bool) (k : Fin 4 → (Fin d → ℤ)) :
-    latticePoint L (-(doubleSign sx • k 0) - doubleSign sy • k 1 - doubleSign sr • k 3) =
-      -(doubleSign sx • latticePoint L (k 0)) - doubleSign sy • latticePoint L (k 1) - doubleSign sr • latticePoint L (k 3) := by
-  change latticePointHom L (-(doubleSign sx • k 0)-doubleSign sy • k 1-doubleSign sr • k 3) = _
-  simp only [map_sub,map_neg,map_zsmul,latticePointHom_apply]
-
 /-- Fixed actual source charges give fixed integer momentum parameters
 on the whole old counting fiber, without requiring a source charge to vanish. -/
 theorem source_double_pair_integer_momentum_eq (M : Molecule V D) {d : ℕ} {L : ℝ} (hL : L ≠ 0)

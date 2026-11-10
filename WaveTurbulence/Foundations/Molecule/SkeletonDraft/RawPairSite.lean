@@ -32,17 +32,4 @@ theorem Raw.PairSite.incomparable {w : ℕ} {R : Raw w} {x y : Address w} (h : R
   leaves_incomparable R.tree ⟨x,h.leftLeaf⟩ ⟨y,h.rightLeaf⟩
     (fun he => h.ne (congrArg (fun z : GLeaf R.tree => z.1) he).symm)
 
-theorem Raw.PairSite.incomp {w : ℕ} {R : Raw w} {x y : Address w} (h : R.PairSite x y) :
-    IncompAddr x y := by
-  constructor
-  · intro hh
-    exact h.incomparable.1 ⟨hh.1.symm,hh.2⟩
-  · intro hh
-    exact h.incomparable.2 ⟨hh.1.symm,hh.2⟩
-
-theorem Raw.Valid.pairSite {w : ℕ} {R : Raw w} (hR : R.Valid) {x y : Address w}
-    (hp : (x,y) ∈ R.pairs) : R.PairSite x y := by
-  have h := hR.1 _ hp
-  exact ⟨h.1,h.2.1,h.2.2.1,h.2.2.2,hp⟩
-
 end WaveTurbulence.Reg.Skeleton

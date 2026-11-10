@@ -1,7 +1,7 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 
-public import WaveTurbulence.Foundations.SumintSigned.KernelIntegrability
+public import Mathlib.MeasureTheory.Integral.Prod
 public import WaveTurbulence.Foundations.Fourier.TimeBasic
 
 /-!

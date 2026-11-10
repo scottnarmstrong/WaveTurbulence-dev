@@ -256,48 +256,6 @@ theorem typeProfilesAnchB_eq_anchProfiles (LG : LayeredGarden w) (J : Finset (Fi
 
 /-! ### 5. The weight and the assembly -/
 
-/-- **The capped weight is the node product of `capNodeW`**: with no selection and no stem filter, the rest of the
-marked weight times the removed-phase factor is `∏_z capNodeW`. -/
-theorem capWeight_eq (L γ δ : ℝ) (J : Finset (Fin w)) (p : ℕ) (t s : ℝ) (LG : LayeredGarden w)
-    (hplain : LG.garden.IsPlain) (Rf : Fin w → Option ℝ) (Rs : Fin w → ℝ)
-    (dag : Option (Fin w → Fin 3 → Mom d)) (k : GNode LG.garden.tree → Mom d) :
-    ((selOK LG J (fun _ => none) * (Typed.frontierW LG p Rf k * stemFilterCap LG J L (fun _ => none) k *
-        selWeightCap LG J (selCap LG J (fun _ => none)) Rs k * dag.elim 1 (fun c => sibWeightCap LG J c k)) : ℝ) :
-        ℂ) * offFactor L γ δ LG.garden (offCap LG J dag.isSome) (fixCap LG J (fun _ => FixPat.plain) t s) k =
-      ∏ z, capNodeW L γ δ p s LG J Rf dag z (k z) := by
-  rw [selOK_none, stemFilterCap_none, selWeightCap_none, one_mul, mul_one, mul_one, Complex.ofReal_mul, mul_assoc,
-    dag_prod, frontierW_eq_prod_fwNode LG hplain]
-  unfold capNodeW
-  rw [Finset.prod_mul_distrib]
-
 end IntWeight
-
-open IntWeight in
-/-- **A capped class summand is the pinned weighted cap kernel.** With no selected vertex and no stem filter, the
-frozen summand `kernelKgenSel` (intrinsic plain pins `fixCap`, removed phases `offCap`, marked weight `markedWt`) of a
-plain capped garden is main's pinned weighted leaf kernel `kernelLeavesSelNWF` with the anchored profiles
-`anchProfiles` and the node weight `∏_z capNodeW`. -/
-theorem classSummand_eq_capKernel (P : WTParams) {R : ℕ} (J : Finset (Fin (2 * R))) (p : ℕ) (t s : ℝ)
-    (LG : LayeredGarden (2 * R)) (hG : CapGeo LG J p) (hplain : LG.garden.IsPlain)
-    (hs : s ∈ Set.Ioo (p : ℝ) t) (ht : t ≤ p + 1)
-    (h : ℕ → Fin (2 * R) → Fin (2 * R) → Mom P.d → ℝ) (Rf : Fin (2 * R) → Option ℝ) (Rs : Fin (2 * R) → ℝ)
-    (dag : Option (Fin (2 * R) → Fin 3 → Mom P.d)) (roots : Fin (2 * R) → (Fin P.d → ℤ))
-    (sel : GenDecoration LG.garden P.d roots 0 → Prop) :
-    kernelKgenSel P.L P.γ P.δ LG (fixCap LG J (fun _ => FixPat.plain) t s) (offCap LG J dag.isSome)
-      (markedWt P J p (fun _ => none) h Rf (fun _ => none) Rs dag LG) (fun _ => t) 0 roots sel =
-    kernelLeavesSelNWF P.L P.γ P.δ LG (anchProfiles J LG h P.L roots) (fun _ => t) 0 0 roots 0 sel
-      (fun k => ∏ z, capNodeW P.L P.γ P.δ p s LG J Rf dag z (k z)) (fixCap LG J (fun _ => FixPat.plain) t s) := by
-  rw [markedWt_eq, kernelKgenSel_eq_fixW P.L P.γ P.δ LG J _ _ (offCap_pinned LG J _ t s dag.isSome) h]
-  unfold kernelLeavesFixSelW kernelLeavesSelNWF
-  congr 1
-  refine tsum_congr fun κ => ?_
-  split_ifs with hsel
-  · rw [kernelLeavesFixTerm_eq_fixMeasure P.L P.γ P.δ LG _ _ _ (admissiblePins_plain LG J p hG t s hs ht) 0 κ]
-    congr 1
-    · exact capWeight_eq P.L P.γ P.δ J p t s LG hplain Rf Rs dag _
-    · congr 1
-      refine Finset.prod_congr rfl fun ℓ _ => ?_
-      rw [typeProfilesAnchB_eq_anchProfiles LG J hG.cap_leaf h P.L κ ℓ]
-  · rfl
 
 end WaveTurbulence.Flower.MkSlots

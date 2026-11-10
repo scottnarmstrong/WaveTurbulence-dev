@@ -12,9 +12,6 @@ public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3HRun
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3NoTriple
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3Run
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3Steps
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceSubproObjects
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceVineData
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceVineObjects
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Api
 /-! **L6-H port of main `WaveTurbulence.Foundations.FinalCount.G3VineLG1`** (sha256 in H/COPIED-SHA256SUMS): only the declarations that
 depend on the vine-family carrier, re-stated over the low family `Src … Src.γL` (and L6-STEP1's
@@ -138,19 +135,6 @@ structure CollData.UnselOK (C : CollData M₀) (L γ η : ℝ) (w : Mom d) (κ :
 
 theorem objectAtoms_sub' (P : Src.Object Src.γL M₀) : P.atoms ⊆ M₀.atoms := Step1.objectAtoms_sub P
 
-theorem IsContained.symm_of_atoms_eqL {P Q : Src.Object Src.γL M₀} (h : P.IsContained Q) (he : P.atoms = Q.atoms) : Q.IsContained P := by
-  unfold Src.Object.IsContained at *
-  rcases hP : P.shape with hp | hp <;> rcases hQ : Q.shape with hq | hq <;>
-    simp only [hP, hQ, Src.VineLikeObject.IsContained] at h ⊢
-  · exact he.symm.subset
-  · exact he.symm.subset
-  · exact he.symm.subset
-  · refine ⟨he.symm.subset, fun _ => ?_⟩
-    rcases h.2 he with e | e
-    · exact Or.inl e.symm
-    · right; rw [e, M₀.mate_mate]
-
-alias _root_.WaveTurbulence.FinalCountG3.IsContained.symm_of_atoms_eqL := _root_.WaveTurbulence.GammaLow.FinalCount.H.IsContained.symm_of_atoms_eqL
 /-- **Cover.** Every pool object is unselected or its atoms lie in a member of `C₂`. -/
 theorem CollData.cover (C : CollData M₀) (Unsel : Set (Src.Object Src.γL M₀)) {P : Src.Object Src.γL M₀}
     (hP : C.InP L γ η w κ P) : P ∈ Unsel ∨ ∃ U ∈ C.C2Of L γ η w κ Unsel, P.atoms ⊆ U.atoms := by

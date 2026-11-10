@@ -93,10 +93,4 @@ theorem garden_atoms_nonempty {w : ℕ} (G : Garden w) (hn : 1 ≤ G.order) : G.
   rw [garden_card_atoms]
   omega
 
-/-- The component count in the irreducible source case is exactly one. -/
-theorem irreducible_garden_numComponents {w : ℕ} (G : Garden w) (hP : G.IsPlain)
-    (hI : G.Irreducible) (hn : 1 ≤ G.order) : G.molecule.numComponents = 1 := by
-  exact numComponents_eq_one G.molecule (garden_atoms_nonempty G hn)
-    (fun a _ha b _hb => irreducible_garden_molecule_connected G hP hI a b)
-
 end WaveTurbulence.Mole

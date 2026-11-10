@@ -107,9 +107,6 @@ theorem smooth_verts {G : UMultigraph V} {j n n' : V} (hn : n ∈ G.verts) (hn' 
     rw [Multiset.mem_singleton] at he; subst he
     rcases Sym2.mem_iff.mp hx with rfl | rfl <;> assumption
 
-theorem smooth_comm (G : UMultigraph V) (j n n' : V) : smooth G j n' n = smooth G j n n' := by
-  rw [smooth, smooth, Sym2.eq_swap]
-
 theorem smooth_mult_at (G : UMultigraph V) {j n n' v : V} (hvj : v ≠ j) (x : V) :
     (smooth G j n n').mult s(v, x) = if x = j then 0 else G.mult s(v, x) + (if s(v, x) = s(n, n') then 1 else 0) := by
   rw [smooth_mult]

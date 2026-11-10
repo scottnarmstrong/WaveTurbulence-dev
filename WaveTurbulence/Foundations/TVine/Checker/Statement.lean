@@ -87,23 +87,11 @@ def SizeBoundStatement : Prop :=
   ∀ {V : Type u} [DecidableEq V] (G : UMultigraph V) (j₁ j₂ : V), IsTVineU G j₁ j₂ →
     G.verts.card ≤ 11 + 2 * deletableCount G j₁ j₂
 
-/-- **OM7 completeness.** Every T-vine with at most one deletable rung is isomorphic to an instance of the finite
-family `instList`, the joints going to the joint names. -/
-def CoveredStatement : Prop :=
-  ∀ {V : Type u} [DecidableEq V] (G : UMultigraph V) (j₁ j₂ : V), IsTVineU G j₁ j₂ →
-    deletableCount G j₁ j₂ ≤ 1 → ∃ q ∈ instList, ∃ φ : Iso G (genB q.1 q.2),
-      (φ.f j₁ = q.1.jname ∧ φ.f j₂ = q.1.jname + 1) ∨ (φ.f j₁ = q.1.jname + 1 ∧ φ.f j₂ = q.1.jname)
-
 /-- **F2 (base of N2 Prop 1.17(b)).** A T-vine with at most 13 atoms has one core piece of shape (B), (C) or (D),
 and every other piece is a 2-atom piece of multiplicity 1 or 2. -/
 def PieceShapeBaseStatement : Prop :=
   ∀ {V : Type u} [DecidableEq V] (G : UMultigraph V) (j₁ j₂ : V), IsTVineU G j₁ j₂ → G.verts.card ≤ 13 →
     ∃ core ∈ piecesU G j₁ j₂, CoreShapeU G core ∧ ∀ P ∈ piecesU G j₁ j₂, P ≠ core → TwoAtomPieceU G P
-
-/-- **F3 (base of N2 Thm 1.15 (F1)(i)).** The interior of a T-vine with at most 13 atoms is connected. -/
-def InteriorConnBaseStatement : Prop :=
-  ∀ {V : Type u} [DecidableEq V] (G : UMultigraph V) (j₁ j₂ : V), IsTVineU G j₁ j₂ → G.verts.card ≤ 13 →
-    ConnOn G (interior G j₁ j₂)
 
 /-- **F4 (base of N2 Thm 1.15 (F2)–(F5) for single sub-objects).** In a T-vine with at most 13 atoms, every
 proper sub-object avoids the joints, has type I, VC:I+I or T (block or hyper), is gap free at both of its joints,

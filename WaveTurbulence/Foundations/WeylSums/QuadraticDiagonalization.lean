@@ -2,7 +2,6 @@
 module
 
 public import WaveTurbulence.Foundations.WeylSums.HuaOrthogonality
-public import WaveTurbulence.Foundations.WeylSums.Geometric
 import Mathlib.Tactic.Ring
 
 /-!
@@ -16,18 +15,6 @@ so arbitrary shifted linear frequencies may be included before tensorization.
 
 public section
 namespace WaveTurbulence.WeylSums
-
-/-- The bilinear quadratic form, in diagonal coordinates. -/
-theorem bilinear_diagonalization (x y t ξ ζ : ℝ) :
-    t * x * y + ξ * x + ζ * y =
-      (t / 4) * (x + y)^2 - (t / 4) * (x - y)^2 +
-        ((ξ + ζ) / 2) * (x + y) + ((ξ - ζ) / 2) * (x - y) := by ring
-
-/-- TARGET's three-variable quadratic form and its linear frequencies. -/
-theorem cubic_diagonalization (x y z t s ξ ζ ω : ℝ) :
-    t * x * y + s * z * (x + y - z) + ξ*x + ζ*y + ω*z =
-      ((t+s)/4) * (x+y)^2 - (t/4) * (x-y)^2 - (s/4) * (x+y-2*z)^2 +
-        ((ξ+ζ+ω)/2) * (x+y) + ((ξ-ζ)/2) * (x-y) - (ω/2) * (x+y-2*z) := by ring
 
 /-- The exact image lattice of the bilinear diagonalization. -/
 theorem exists_bilinear_integer_coordinates (p q : ℤ) :

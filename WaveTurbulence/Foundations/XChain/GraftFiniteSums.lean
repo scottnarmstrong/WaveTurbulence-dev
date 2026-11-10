@@ -6,12 +6,6 @@ public section
 namespace WaveTurbulence.Induct
 open Finset
 
-theorem finsum_canonicalGraft {w p : ℕ} (sig : Fin w → ℤˣ) (hw : 4 ≤ w)
-    (f : LayeredGarden w → ℂ) :
-    (∑ᶠ C : CanonicalGraftData sig p, f C.graft) =
-      ∑ᶠ LG : {LG : LayeredGarden w // IsCanonG (p + 1) LG ∧ LG.garden.sig = sig}, f LG.1 :=
-  finsum_eq_of_bijective (canonicalGraftEquiv sig hw) (canonicalGraftEquiv sig hw).bijective (fun _ => rfl)
-
 theorem finsum_canonicalGraft_trunc {w p : ℕ} (sig : Fin w → ℤˣ) (hw : 4 ≤ w)
     (Ntop Natt : ℕ) (f : LayeredGarden w → ℂ) :
     (∑ᶠ C : {C : CanonicalGraftData sig p // C.IsTrunc Ntop Natt}, f C.1.graft) =

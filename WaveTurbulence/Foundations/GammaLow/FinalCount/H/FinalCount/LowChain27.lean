@@ -40,7 +40,6 @@ variable {M₀ : Molecule V D₀} {C : CollData M₀} {Un : (D₀ → (Fin d →
 theorem BP.initL (M₀ : Molecule V D₀) {B : Finset V} (hB : ∀ b ∈ B, b ∈ M₀.atoms) : BP B (HSt.init M₀) :=
   fun b hb => ⟨hB b hb, rfl⟩
 
-alias _root_.WaveTurbulence.FinalCountAsm.BP.initL := _root_.WaveTurbulence.GammaLow.FinalCount.H.BP.initL
 theorem BP.deg_leL (hbp : BP B h) (hA : AncRel M₀ h.s h.anc) (H : BHyp M₀ B C Un L γ η w κ) :
     ∀ b ∈ B, h.s.M.deg b ≤ 2 := fun b hb => by
   rw [deg_eps_eq hA (hbp b hb).1 (hbp b hb).2]; exact H.deg b hb
@@ -171,12 +170,10 @@ theorem AncRel.step1LL (hs : HStep1L C L γ η w κ h h') (hA : AncRel M₀ h.s 
     obtain ⟨K, hu, hl, hd2, htwin, hsg, rfl⟩ := hs.data
     exact hA.vinePostGL K
 
-alias _root_.WaveTurbulence.FinalCountAsm.AncRel.step1LL := _root_.WaveTurbulence.GammaLow.FinalCount.H.AncRel.step1LL
 theorem AncRel.stepD3L (hs : HStepD3 C L γ η w κ h h') (hA : AncRel M₀ h.s h.anc) : AncRel M₀ h'.s h'.anc := by
   obtain ⟨v, x₁, x₂, hDa, rfl⟩ := hs.data
   exact hA.betaSt v
 
-alias _root_.WaveTurbulence.FinalCountAsm.AncRel.stepD3L := _root_.WaveTurbulence.GammaLow.FinalCount.H.AncRel.stepD3L
 theorem QB.initL (hS : SubHypL Rn M₀) (h0 : ∀ a ∈ M₀.atoms, M₀.deg a = 4 → ∑ x ∈ M₀.dartsAt a, M₀.dartSign x • Molecule.kvec L w κ x = 0)
     {B : Finset V} (hB : ∀ b ∈ B, b ∈ M₀.atoms) : QB M₀ C Rn L γ η w κ B (HSt.init M₀) :=
   ⟨AncRel.init M₀, ⟨Rn, le_rfl, InvL.init hS h0⟩, BP.initL M₀ hB⟩
@@ -219,35 +216,6 @@ theorem QB_reach4 (hS : SubHypL Rn M₀)
   have q3 := rtgH (P := fun x => QB M₀ C Rn L γ η w κ B x) (fun _ _ hs hq => hq.step2L H hs) e q2
   have q4 := rtgH (P := fun x => QB M₀ C Rn L γ η w κ B x) (fun _ _ hs hq => hq.step3L H hs) g q3
   exact rtgH (P := fun x => QB M₀ C Rn L γ η w κ B x) (fun _ _ hs hq => hq.step4L H hs) j q4
-
-theorem QB_reach1 (hS : SubHypL Rn M₀)
-    (h0 : ∀ a ∈ M₀.atoms, M₀.deg a = 4 → ∑ x ∈ M₀.dartsAt a, M₀.dartSign x • Molecule.kvec L w κ x = 0)
-    (H : BHyp M₀ B C Un L γ η w κ) {h : HSt V D₀} (hr : Reach1L C Un Fst L γ η w κ h) :
-    QB M₀ C Rn L γ η w κ B h :=
-  rtgH (P := fun x => QB M₀ C Rn L γ η w κ B x) (fun _ _ hs hq => hq.step1RLL H hs) hr (QB.initL hS h0 H.sub)
-
-theorem QB_reachD3 (hS : SubHypL Rn M₀)
-    (h0 : ∀ a ∈ M₀.atoms, M₀.deg a = 4 → ∑ x ∈ M₀.dartsAt a, M₀.dartSign x • Molecule.kvec L w κ x = 0)
-    (H : BHyp M₀ B C Un L γ η w κ) {h : HSt V D₀} (hr : ReachD3 C Un Fst L γ η w κ h) :
-    QB M₀ C Rn L γ η w κ B h := by
-  obtain ⟨h₁, a, -, c⟩ := hr
-  exact rtgH (P := fun x => QB M₀ C Rn L γ η w κ B x) (fun _ _ hs hq => hq.stepD3L H hs) c (QB_reach1 hS h0 H a)
-
-theorem QB_reach2 (hS : SubHypL Rn M₀)
-    (h0 : ∀ a ∈ M₀.atoms, M₀.deg a = 4 → ∑ x ∈ M₀.dartsAt a, M₀.dartSign x • Molecule.kvec L w κ x = 0)
-    (H : BHyp M₀ B C Un L γ η w κ) {h : HSt V D₀} (hr : Reach2L C Un Fst L γ η w κ h) :
-    QB M₀ C Rn L γ η w κ B h := by
-  obtain ⟨h₁, h₂, a, s, c, -, e⟩ := hr
-  exact rtgH (P := fun x => QB M₀ C Rn L γ η w κ B x) (fun _ _ hs hq => hq.step2L H hs) e
-    (QB_reachD3 hS h0 H (⟨h₁, a, s, c⟩ : ReachD3 C Un Fst L γ η w κ h₂))
-
-theorem QB_reach3 (hS : SubHypL Rn M₀)
-    (h0 : ∀ a ∈ M₀.atoms, M₀.deg a = 4 → ∑ x ∈ M₀.dartsAt a, M₀.dartSign x • Molecule.kvec L w κ x = 0)
-    (H : BHyp M₀ B C Un L γ η w κ) {h : HSt V D₀} (hr : Reach3L C Un Fst L γ η w κ h) :
-    QB M₀ C Rn L γ η w κ B h := by
-  obtain ⟨h₁, h₂, h₃, a, s, c, n, e, f, g⟩ := hr
-  exact rtgH (P := fun x => QB M₀ C Rn L γ η w κ B x) (fun _ _ hs hq => hq.step3L H hs) g
-    (QB_reach2 hS h0 H (⟨h₁, h₂, a, s, c, n, e⟩ : Reach2L C Un Fst L γ η w κ h₃))
 
 end qb
 

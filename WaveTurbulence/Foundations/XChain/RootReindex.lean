@@ -23,21 +23,6 @@ noncomputable def reindexBranchEquiv {v w : ℕ} (tree : Fin w → TTree) (e : F
 noncomputable def reindexLeafEquiv {v w : ℕ} (tree : Fin w → TTree) (e : Fin v ≃ Fin w) :
     GLeaf (fun j => tree (e j)) ≃ GLeaf tree := rootPathEquiv tree TTree.leaves e
 
-theorem reindexNodeEquiv_root {v w : ℕ} (tree : Fin w → TTree) (e : Fin v ≃ Fin w) (j : Fin v) :
-    reindexNodeEquiv tree e (GNode.root _ j) = GNode.root tree (e j) := rfl
-
-theorem reindexBranchEquiv_toNode {v w : ℕ} (tree : Fin w → TTree) (e : Fin v ≃ Fin w)
-    (b : GBranch (fun j => tree (e j))) :
-    (reindexBranchEquiv tree e b).toNode = reindexNodeEquiv tree e b.toNode := rfl
-
-theorem reindexLeafEquiv_toNode {v w : ℕ} (tree : Fin w → TTree) (e : Fin v ≃ Fin w)
-    (ℓ : GLeaf (fun j => tree (e j))) :
-    (reindexLeafEquiv tree e ℓ).toNode = reindexNodeEquiv tree e ℓ.toNode := rfl
-
-theorem reindexBranchEquiv_child {v w : ℕ} (tree : Fin w → TTree) (e : Fin v ≃ Fin w)
-    (b : GBranch (fun j => tree (e j))) (i : Fin 3) :
-    (reindexBranchEquiv tree e b).child i = reindexNodeEquiv tree e (b.child i) := rfl
-
 theorem reindexNodeEquiv_isDesc_iff {v w : ℕ} (tree : Fin w → TTree) (e : Fin v ≃ Fin w)
     (a b : GNode (fun j => tree (e j))) :
     (reindexNodeEquiv tree e a).IsDesc (reindexNodeEquiv tree e b) ↔ a.IsDesc b := by

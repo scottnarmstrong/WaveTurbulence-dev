@@ -2,7 +2,7 @@
 module
 
 public import WaveTurbulence.Foundations.Incoh.LocalizedCellProfiles
-public import WaveTurbulence.Foundations.Incoh.SignedLeafDecomposition
+public import WaveTurbulence.Foundations.Fourier.Norm00V
 
 /-!
 # Exact signed spectral identity for the localized source momentum weight

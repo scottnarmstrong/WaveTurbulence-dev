@@ -44,31 +44,6 @@ theorem clExtendIndices_restrict {w d : ℕ} {G : Garden w} {U : Finset (GBranch
     (x : GNode G.tree) (hx : x ∈ clLocalSupport R) :
     clExtendIndices R (fun y => κ y.1) x = κ x := clExtendIndices_apply R _ x hx
 
-/-- Restriction of every actual source decoration is a local decoration with
-its literal four boundary momenta. All local equations are derived. -/
-noncomputable def restrictCLDecoration {w d : ℕ} {G : Garden w} {U : Finset (GBranch G.tree)}
-    {a b : GBranch G.tree} (hU : G.molecule.IsBlock U a b) (R : CLRegionData G U a b)
-    (L : ℝ) (base : Mom d) {n : Fin w → (Fin d → ℤ)} {nfl : Fin d → ℤ}
-    (κ : GenDecoration G d n nfl) :
-    CLLocalDecoration R L base (fun j => cosetDecoration G L base κ.1 (clBoundaryNodes R j)) := by
-  refine ⟨fun x => κ.1 x.1,?_,?_,?_⟩
-  · intro v hv
-    have hp := cl_realization_mem_support R ((branch_mem_clRealizationNodes v).mpr hv)
-    rw [clExtendIndices_restrict R κ.1 _ hp,
-      clExtendIndices_restrict R κ.1 _ (cl_child_mem_support hU R hv 0),
-      clExtendIndices_restrict R κ.1 _ (cl_child_mem_support hU R hv 1),
-      clExtendIndices_restrict R κ.1 _ (cl_child_mem_support hU R hv 2)]
-    exact κ.2.1.1 v
-  · intro ℓ hℓ
-    have hp := cl_realization_mem_support R ((leaf_mem_clRealizationNodes ℓ).mpr hℓ)
-    have hq := cl_realization_mem_support R ((leaf_mem_clRealizationNodes (G.pair ℓ)).mpr
-      ((Mole.internal_leaf_pair_iff G U ℓ).mpr hℓ))
-    rw [clExtendIndices_restrict R κ.1 _ hp,clExtendIndices_restrict R κ.1 _ hq]
-    exact κ.2.1.2 ℓ
-  · intro j
-    exact congrArg (fun z => base+latticePoint L z)
-      (clExtendIndices_restrict R κ.1 _ (clBoundaryNodes_mem_support R j))
-
 theorem latticePoint_injective_of_ne_zero {d : ℕ} {L : ℝ} (hL : L ≠ 0) :
     Function.Injective (latticePoint (d := d) L) := by
   intro u v he

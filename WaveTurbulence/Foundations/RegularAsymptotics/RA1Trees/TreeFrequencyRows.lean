@@ -43,28 +43,4 @@ theorem norm_treeNodeRow_le {G : Garden 1} {X : RegChain} (hX : X.DecodesTree G)
     (momentumUnitRow c none) (fun _ => momentumUnitRow c none) a.val‖ ≤ _
   exact hh.trans (by simpa only [mul_one, add_zero] using add_le_add (hunit none) (le_refl (X.size:ℝ)))
 
-/-- The independent input frequencies pulled through the exact source integer rows. -/
-def treeFrequencyPullback {G : Garden 1} {X : RegChain} (hX : X.DecodesTree G) {d : ℕ}
-    (α : Fin (Fintype.card (TPlus G)) → Mom d)
-    (j : MomentumCoordinate (X.treeLinks (G.sig 0)).length) : Mom d :=
-  ∑ a, (treeNodeRow hX ((treeInputEquiv G).symm a).val.toNode j:ℝ) • α a
-
-theorem treeFrequencyPullback_root {G : Garden 1} {X : RegChain} (hX : X.DecodesTree G) {d : ℕ}
-    (α : Fin (Fintype.card (TPlus G)) → Mom d) : treeFrequencyPullback hX α none = ∑ a, α a := by
-  simp only [treeFrequencyPullback, treeNodeRow, Int.cast_one, one_smul]
-
-theorem norm_treeFrequencyPullback_le {G : Garden 1} {X : RegChain} (hX : X.DecodesTree G) {d : ℕ}
-    (α : Fin (Fintype.card (TPlus G)) → Mom d)
-    (j : MomentumCoordinate (X.treeLinks (G.sig 0)).length) :
-    ‖treeFrequencyPullback hX α j‖ ≤ (1+(X.size:ℝ)) * ∑ a, ‖α a‖ := by
-  unfold treeFrequencyPullback
-  calc
-    _ ≤ ∑ a, ‖(treeNodeRow hX ((treeInputEquiv G).symm a).val.toNode j:ℝ) • α a‖ := norm_sum_le _ _
-    _ ≤ ∑ a, (1+(X.size:ℝ)) * ‖α a‖ := by
-      apply Finset.sum_le_sum
-      intro a _
-      rw [norm_smul, Int.norm_cast_real]
-      exact mul_le_mul_of_nonneg_right (norm_treeNodeRow_le hX _ j) (norm_nonneg _)
-    _ = _ := (Finset.mul_sum _ _ _).symm
-
 end WaveTurbulence.RegAsymp

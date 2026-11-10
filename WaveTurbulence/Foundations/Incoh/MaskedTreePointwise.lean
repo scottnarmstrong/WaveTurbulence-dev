@@ -3,7 +3,8 @@ module
 
 public import WaveTurbulence.Foundations.Incoh.AllCellTreeFamily
 public import WaveTurbulence.Foundations.Incoh.MaskedCellFamily
-public import WaveTurbulence.Foundations.Incoh.MovingTreePointwise
+public import WaveTurbulence.Foundations.Incoh.MovingTreeFamily
+public import WaveTurbulence.Foundations.Incoh.SpectralTreeClocks
 public import WaveTurbulence.Foundations.Incoh.CouplePointwiseL1
 public import WaveTurbulence.Foundations.Incoh.PointwiseMixtureIntegrability
 public import Mathlib.MeasureTheory.Integral.Bochner.SumMeasure

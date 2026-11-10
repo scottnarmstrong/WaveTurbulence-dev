@@ -2,7 +2,40 @@
 module
 
 public import WaveTurbulence.Foundations.FinalCount.MoleProp.StarLabels
-public import WaveTurbulence.Foundations.CountLemmas.CountTools
+public import WaveTurbulence.Foundations.CountLemmas.AtomCount
+public import WaveTurbulence.Foundations.CountLemmas.CountLemma
+public import Mathlib.Algebra.Ring.GeomSum
+public import Mathlib.Analysis.SpecialFunctions.Pow.Deriv
+public import Mathlib.Analysis.Calculus.IteratedDeriv.Defs
+public import Mathlib.Analysis.Calculus.BumpFunction.InnerProduct
+public import Mathlib.Analysis.Calculus.Deriv.Shift
+public import Mathlib.Analysis.SpecialFunctions.ExpDeriv
+public import Mathlib.MeasureTheory.Integral.IntervalIntegral.FundThmCalculus
+public import Mathlib.Analysis.Calculus.ContDiff.Deriv
+public import Mathlib.Analysis.Calculus.Deriv.Pow
+public import Mathlib.Analysis.SpecialFunctions.Gaussian.FourierTransform
+public import Mathlib.Analysis.SpecialFunctions.Pow.Continuity
+public import Mathlib.MeasureTheory.Integral.DominatedConvergence
+public import Mathlib.Analysis.SpecificLimits.Basic
+public import Mathlib.MeasureTheory.Integral.IntegralEqImproper
+public import Mathlib.Analysis.Calculus.Taylor
+public import Mathlib.Algebra.Order.Round
+public import Mathlib.Analysis.Calculus.IteratedDeriv.Lemmas
+public import Mathlib.Analysis.SumIntegralComparisons
+public import Mathlib.Analysis.SpecialFunctions.ImproperIntegrals
+public import Mathlib.Analysis.Calculus.MeanValue
+public import Mathlib.Analysis.Calculus.Deriv.Add
+public import Mathlib.Analysis.Calculus.ContDiff.Defs
+public import Mathlib.Algebra.BigOperators.Module
+public import Mathlib.Analysis.Normed.Module.Basic
+public import Mathlib.Algebra.BigOperators.Group.Finset.Basic
+public import Mathlib.Algebra.BigOperators.Intervals
+public import Mathlib.Analysis.SpecialFunctions.Log.Deriv
+public import Mathlib.MeasureTheory.Function.Floor
+public import Mathlib.Analysis.Fourier.PoissonSummation
+public import Mathlib.Analysis.Fourier.RiemannLebesgueLemma
+public import Mathlib.Topology.Order.IntermediateValue
+public import Mathlib.Tactic
 import Mathlib.Tactic
 
 /-! # The exact finite local momentum and energy equations at a removed atom -/
@@ -46,10 +79,5 @@ theorem ordered_star_energy (M : Molecule V D) {d r : ℕ} (L γ δ : ℝ) (w : 
       δ⁻¹ * L ^ (-2 * γ) := by
   rw [← sum_dartsAt_eq_ordered M v e (fun x => M.dartSign x * ‖Molecule.kvec L w κ x‖ ^ 2)]
   exact hr.1 v hv
-
-/-- A lattice coset shift is absent in the original DH23 local problems. -/
-theorem kvec_zero (M : Molecule V D) {d : ℕ} (L : ℝ) (κ : D → (Fin d → ℤ)) (x : D) :
-    Molecule.kvec L (0 : Mom d) κ x = latticePoint L (κ x) := by
-  simp only [Molecule.kvec,zero_add]
 
 end WaveTurbulence.MoleProp

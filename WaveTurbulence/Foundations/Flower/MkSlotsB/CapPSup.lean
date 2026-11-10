@@ -123,38 +123,6 @@ end Const
 
 variable {LG : LayeredGarden 2} {j0 c : Fin 2} {X : RegChain} {ζ : ℤˣ}
 
-/-- **D3 at a pattern configuration** on `cfg.box`, at one momentum. -/
-theorem capCfg_xnorm {P : WTParams} (hD3 : ProtBoundAt P) (D : CapG LG j0 c X ζ) {p n : ℕ}
-    (hp : p < P.D) (hn : n ≤ P.N (p + 1) ^ 4) (hshape : ProtShape p X D.T1) (hsz : protSize X D.T1 = 2 * n)
-    (cfg : ProtCfg) (hv : cfg.Valid X D.T1 p)
-    (hcfg : cfg = .term ∨ cfg = .rootTerm ∨ cfg = .penTerm ∨ ∃ i, cfg = .termChild i)
-    (hamb : ProtAmbient p X D.T1) {s t : ℝ} (hps : (p : ℝ) < s) (hst : s < t)
-    (htp : t < p + 1) (S : Finset (GNode D.T1.garden.tree)) (ω : GNode D.T1.garden.tree → IncTop.Star P.d → ℂ)
-    (cω : GNode D.T1.garden.tree → ℝ) (hpres : ∀ a ∈ S, IncTop.StarPresented (30 * P.d) (ω a) (cω a))
-    (ind : (GNode D.T1.garden.tree → Mom P.d) → ℝ) (hind : TermChildIndicator X ind)
-    (H1 : LeafProfiles 1 P.d) (B : (Fin 1 × TTree.Path) → NNReal) (hLC : LeafwiseControlled D.T1 H1 B)
-    (k₀ : Mom P.d) :
-    XNormRestr P.η (30 * P.d) 0 (cfg.box X t p p) {k₀}
-      (fun ts k => kernelProt P.L P.γ P.δ D.T1 H1 (fun κ => IncTop.starWeight S ω κ * (ind κ : ℂ))
-        (fun _ => ts 0) (ts 1) (cfg.fix X s t (ts 0)) k (fun _ => 0) 0) ≤
-      (∏ a ∈ S, ENNReal.ofReal (cω a)) * ENNReal.ofReal (P.L ^ (31 * (P.d : ℝ) + 6)) *
-        regBound P n (protIncoh X D.T1) * ENNReal.ofReal (leafSizeProduct D.T1 B) := by
-  have hnot : cfg = .none ∨ cfg = .root ∨ cfg = .trace → False := by
-    rintro (h | h | h) <;> rcases hcfg with h' | h' | h' | ⟨i, h'⟩ <;> rw [h'] at h <;> exact absurd h (by simp)
-  have key := hD3 p hp n hn 1 D.T1 X hshape hsz cfg hv hamb P.η (31 * P.d + 6)
-    (Or.inl ⟨rfl, rfl⟩) s t hps hst htp p le_rfl S ω cω hpres ∅ (fun _ => P.L) (by simp) ∅ (fun _ => P.L)
-    (by simp) ind hind (fun h => (hnot h).elim) H1 B hLC k₀ k₀
-  have hk : ({k₀} : Set (Mom P.d)) ⊆ latticeBall P.L k₀ k₀ := by
-    intro k hk
-    rw [Set.mem_singleton_iff.1 hk]
-    exact ⟨by simp, 0, by simp [WaveTurbulence.Links.latticePoint_zero]⟩
-  refine (xnormRestr_anti_out _ _ _ _ hk _).trans (le_of_eq_of_le ?_ key)
-  congr 1
-  funext ts k
-  congr 1
-  funext κ
-  simp [filtWeight_empty]
-
 /-- The kernel of a pattern configuration at the upper clock `x`, with the lone port void. -/
 def capCfgKer (L γ δ : ℝ) {d : ℕ} (D : CapG LG j0 c X ζ) (H1 : LeafProfiles 1 d)
     (m : (GNode D.T1.garden.tree → Mom d) → ℂ) (cfg : ProtCfg) (s t : ℝ) (k₀ : Mom d) (x : ℝ) : ℂ :=
@@ -186,41 +154,6 @@ theorem continuous_capCfgKer (L γ δ : ℝ) {d : ℕ} (D : CapG LG j0 c X ζ) (
   exact continuous_kernelProt_up L γ δ D.T1 H1 m Cm hm 0 _ k₀
     (PL234.card_lone_le_of_decodesTree (Reg.decodedTree_decodes X ζ)) hH
 
-/-- **The superposition of a configuration that does not pin the root** on the window `[p, p + 1]`, from D3. -/
-theorem capCfg_sup {P : WTParams} (hD3 : ProtBoundAt P) {C : ℝ≥0∞} (hC : CapSupProp P.d P.η C)
-    (hη : 0 ≤ P.η) (hd : 1 ≤ P.d) (hL : 1 ≤ P.L) (D : CapG LG j0 c X ζ) {p n : ℕ}
-    (hp : p < P.D) (hn : n ≤ P.N (p + 1) ^ 4) (hshape : ProtShape p X D.T1) (hsz : protSize X D.T1 = 2 * n)
-    (cfg : ProtCfg) (hv : cfg.Valid X D.T1 p)
-    (hcfg : cfg = .term ∨ cfg = .rootTerm ∨ cfg = .penTerm ∨ ∃ i, cfg = .termChild i)
-    (hroot : cfg.pinsRoot X = false)
-    (hamb : ProtAmbient p X D.T1) {s t : ℝ} (hps : (p : ℝ) < s) (hst : s < t)
-    (htp : t < p + 1) (S : Finset (GNode D.T1.garden.tree)) (ω : GNode D.T1.garden.tree → IncTop.Star P.d → ℂ)
-    (cω : GNode D.T1.garden.tree → ℝ) (hpres : ∀ a ∈ S, IncTop.StarPresented (30 * P.d) (ω a) (cω a))
-    (ind : (GNode D.T1.garden.tree → Mom P.d) → ℝ) (hind : TermChildIndicator X ind)
-    (Cm : ℝ) (hm : ∀ K, ‖IncTop.starWeight S ω K * (ind K : ℂ)‖ ≤ Cm)
-    (H1 : LeafProfiles 1 P.d) (B : (Fin 1 × TTree.Path) → NNReal) (hLC : LeafwiseControlled D.T1 H1 B)
-    (k₀ : Mom P.d) :
-    ∃ (w : (Fin 2 → ℤ) → ℝ) (u : (Fin 2 → ℤ) → ℂ), (∀ m, 0 ≤ w m) ∧ Summable w ∧ (∀ m, ‖u m‖ ≤ 1) ∧
-      (∀ x ∈ Icc (p : ℝ) (p + 1), HasSum (fun m => (w m : ℂ) * u m * fsPhase m ![x, p])
-        (capCfgKer P.L P.γ P.δ D H1 (fun κ => IncTop.starWeight S ω κ * (ind κ : ℂ)) cfg s t k₀ x)) ∧
-      ∑' m, maxBracketPow P.η (half m) * ENNReal.ofReal (w m) ≤
-        C * (2 * ((∏ a ∈ S, ENNReal.ofReal (cω a)) * ENNReal.ofReal (P.L ^ (31 * (P.d : ℝ) + 6)) *
-          regBound P n (protIncoh X D.T1) * ENNReal.ofReal (leafSizeProduct D.T1 B))) := by
-  have hH : ∀ ℓ ∈ inputLeaves D.T1.garden, Summable fun n : Fin P.d → ℤ => |H1 ℓ.1 (k₀ + latticePoint P.L n)| :=
-    hLC.summable_coset hd hL k₀
-  have hbox : cfg.box X t p p = timeBoxGt p p := by
-    unfold ProtCfg.box; rw [hroot]; rfl
-  have hx := capCfg_xnorm hD3 D hp hn hshape hsz cfg hv hcfg hamb hps hst htp S ω cω hpres ind hind H1 B hLC k₀
-  rw [hbox] at hx
-  refine capSup_of_xnorm hη hC p _ (continuous_capCfgKer P.L P.γ P.δ D H1 _ Cm hm cfg hcfg s t k₀ hH)
-    (fun ts k => kernelProt P.L P.γ P.δ D.T1 H1 (fun κ => IncTop.starWeight S ω κ * (ind κ : ℂ))
-      (fun _ => ts 0) (ts 1) (cfg.fix X s t (ts 0)) k (fun _ => 0) 0) k₀
-    (fun ts => capCfgKer_port P.L P.γ P.δ D H1 _ cfg hcfg s t k₀ ts) _ ?_ hx
-  refine ENNReal.mul_ne_top (ENNReal.mul_ne_top (ENNReal.mul_ne_top ?_ ENNReal.ofReal_ne_top) ?_)
-    ENNReal.ofReal_ne_top
-  · exact ENNReal.prod_ne_top fun _ _ => ENNReal.ofReal_ne_top
-  · unfold regBound; exact ENNReal.ofReal_ne_top
-
 /-! ### Configurations that pin the root: a pointwise bound on the cut box -/
 
 theorem convex_cutBox (p t : ℝ) : Convex ℝ {ts : Fin 2 → ℝ | ts ∈ timeBoxGt p p ∧ t ≤ ts 0} := by
@@ -250,57 +183,5 @@ theorem cutBox_subset_closure_interior (p t : ℝ) (htp : t < p + 1) (hpt : p < 
     refine ⟨?_, ?_, ?_, ?_⟩ <;> simp <;> linarith
   rw [(convex_cutBox p t).closure_interior_eq_closure_of_nonempty_interior hne]
   exact subset_closure
-
-/-- **The pointwise bound at a root-pinning configuration**: the kernel at any clock `x ∈ [t, p + 1]` is bounded by
-D3's bound. -/
-theorem capCfg_pointwise {P : WTParams} (hD3 : ProtBoundAt P) (D : CapG LG j0 c X ζ) {p n : ℕ}
-    (hη : 0 ≤ P.η) (hd : 1 ≤ P.d) (hL : 1 ≤ P.L)
-    (hp : p < P.D) (hn : n ≤ P.N (p + 1) ^ 4) (hshape : ProtShape p X D.T1) (hsz : protSize X D.T1 = 2 * n)
-    (cfg : ProtCfg) (hv : cfg.Valid X D.T1 p)
-    (hcfg : cfg = .term ∨ cfg = .rootTerm ∨ cfg = .penTerm ∨ ∃ i, cfg = .termChild i)
-    (hroot : cfg.pinsRoot X = true)
-    (hamb : ProtAmbient p X D.T1) {s t : ℝ} (hps : (p : ℝ) < s) (hst : s < t)
-    (htp : t < p + 1) (S : Finset (GNode D.T1.garden.tree)) (ω : GNode D.T1.garden.tree → IncTop.Star P.d → ℂ)
-    (cω : GNode D.T1.garden.tree → ℝ) (hpres : ∀ a ∈ S, IncTop.StarPresented (30 * P.d) (ω a) (cω a))
-    (ind : (GNode D.T1.garden.tree → Mom P.d) → ℝ) (hind : TermChildIndicator X ind)
-    (Cm : ℝ) (hm : ∀ K, ‖IncTop.starWeight S ω K * (ind K : ℂ)‖ ≤ Cm)
-    (H1 : LeafProfiles 1 P.d) (B : (Fin 1 × TTree.Path) → NNReal) (hLC : LeafwiseControlled D.T1 H1 B)
-    (k₀ : Mom P.d) (x : ℝ) (hx : x ∈ Icc t (p + 1)) :
-    ‖capCfgKer P.L P.γ P.δ D H1 (fun κ => IncTop.starWeight S ω κ * (ind κ : ℂ)) cfg s t k₀ x‖ₑ ≤
-      (∏ a ∈ S, ENNReal.ofReal (cω a)) * ENNReal.ofReal (P.L ^ (31 * (P.d : ℝ) + 6)) *
-        regBound P n (protIncoh X D.T1) * ENNReal.ofReal (leafSizeProduct D.T1 B) := by
-  have hH : ∀ ℓ ∈ inputLeaves D.T1.garden, Summable fun n : Fin P.d → ℤ => |H1 ℓ.1 (k₀ + latticePoint P.L n)| :=
-    hLC.summable_coset hd hL k₀
-  have hbox : cfg.box X t p p = {ts : Fin 2 → ℝ | ts ∈ timeBoxGt p p ∧ t ≤ ts 0} := by
-    unfold ProtCfg.box; simp only [hroot, ↓reduceIte]
-  have hxn := capCfg_xnorm hD3 D hp hn hshape hsz cfg hv hcfg hamb hps hst htp S ω cω hpres ind hind H1 B hLC k₀
-  rw [hbox] at hxn
-  set F : (Fin 2 → ℝ) → Mom P.d → ℂ := fun ts k => kernelProt P.L P.γ P.δ D.T1 H1
-    (fun κ => IncTop.starWeight S ω κ * (ind κ : ℂ)) (fun _ => ts 0) (ts 1) (cfg.fix X s t (ts 0)) k (fun _ => 0) 0
-  have hFG : ∀ ts, F ts k₀ = capCfgKer P.L P.γ P.δ D H1 (fun κ => IncTop.starWeight S ω κ * (ind κ : ℂ)) cfg s t k₀ (ts 0) :=
-    fun ts => capCfgKer_port P.L P.γ P.δ D H1 _ cfg hcfg s t k₀ ts
-  have hcont := continuous_capCfgKer P.L P.γ P.δ D H1 _ Cm hm cfg hcfg s t k₀ hH
-  have hFc : ∀ k ∈ ({k₀} : Set (Mom P.d)), ContinuousOn (fun ts => F ts k)
-      {ts : Fin 2 → ℝ | ts ∈ timeBoxGt p p ∧ t ≤ ts 0} := by
-    intro k hk
-    rw [Set.mem_singleton_iff.1 hk]
-    simp only [hFG]
-    exact (hcont.comp (continuous_apply 0)).continuousOn
-  have hpt : (p : ℝ) < t := hps.trans hst
-  have hmem : (![x, p] : Fin 2 → ℝ) ∈ {ts : Fin 2 → ℝ | ts ∈ timeBoxGt p p ∧ t ≤ ts 0} :=
-    ⟨mem_timeBoxGt_seg ⟨lt_of_lt_of_le hpt hx.1, hx.2⟩, by simpa using hx.1⟩
-  have hfin : (∏ a ∈ S, ENNReal.ofReal (cω a)) * ENNReal.ofReal (P.L ^ (31 * (P.d : ℝ) + 6)) *
-      regBound P n (protIncoh X D.T1) * ENNReal.ofReal (leafSizeProduct D.T1 B) ≠ ⊤ := by
-    refine ENNReal.mul_ne_top (ENNReal.mul_ne_top (ENNReal.mul_ne_top ?_ ENNReal.ofReal_ne_top) ?_)
-      ENNReal.ofReal_ne_top
-    · exact ENNReal.prod_ne_top fun _ _ => ENNReal.ofReal_ne_top
-    · unfold regBound; exact ENNReal.ofReal_ne_top
-  refine ENNReal.le_of_forall_pos_le_add fun ε hε _ => ?_
-  have hlt := lt_of_le_of_lt hxn (ENNReal.lt_add_right hfin (ENNReal.coe_ne_zero.mpr hε.ne'))
-  obtain ⟨-, -, -, -, hb⟩ := exists_continuous_version (Λ := 30 * P.d) hη
-    (cutBox_subset_closure_interior p t htp hpt) hFc hlt
-  have := hb _ hmem k₀ rfl
-  rw [hFG] at this
-  simpa using this.le
 
 end WaveTurbulence.Flower.MkSlotsB

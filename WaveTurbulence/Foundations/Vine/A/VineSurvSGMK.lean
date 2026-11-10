@@ -69,42 +69,6 @@ theorem atom_lift {y : GardenDart (stSt G σ Mk).G} :
   apply (stSt G σ Mk).M.ob_inj
   rw [(stSt G σ Mk).M.ob_atom, (stSt G σ Mk).M.ob_pi]
 
-/-- **A `vc` survivor is small-gap on the support** (`SubproSupportMK.survivorSG`). -/
-theorem survObj_SG_vc {d : ℕ} (L γ η : ℝ) (base : Mom d) (zsb : GNode (stSt G σ Mk).G.tree → (Fin d → ℤ))
-    (D : SplicedKernelData (stSt G σ Mk).G d) (hD : D.gapSpecification = gapSpecificationMk G σ Mk)
-    (hZ : splicedGapIndicator (stSt G σ Mk).G D L γ η base zsb ≠ 0)
-    (hdec : ∃ c : GBranch (stSt G σ Mk).G.tree → Mom d,
-      (stSt G σ Mk).G.molecule.IsDecoration L base c (bondIndex (stSt G σ Mk).G zsb) ∧
-        ∀ v ∈ (stSt G σ Mk).G.molecule.atoms, (stSt G σ Mk).G.molecule.deg v = 4 → c v = 0)
-    {t : Finset (GBranch G.tree) × GBranch G.tree × GBranch G.tree} (ht : t ∈ survivorsMk G σ Mk)
-    (hvc : ∃ hv, (survObj ht).shape = VineLikeObject.vc hv) :
-    (survObj ht).HasGapKind L γ η base (bondIndex (stSt G σ Mk).G zsb) Molecule.GapKind.SG := by
-  obtain ⟨c, hκ, hc0⟩ := hdec
-  obtain ⟨S, hS, hσ, hmk, htm, -⟩ := survivorsMk_group ht
-  obtain ⟨t', p, ht', hv, ⟨⟨hpx, hpy, -, -⟩, hgx, hgy⟩, e, he, hk, h1, h2⟩ :=
-    gapSpecificationMk_marked hM σ hS hmk htm
-  have htt := survivor_upper_inj hM σ hS hσ hmk htm ht' hv
-  subst htt
-  have hgap := Subpro.gapKind_of_Z (stSt G σ Mk).G D L γ η base zsb hZ (q := e) (by rw [hD]; exact he)
-  rw [hk, hσ] at hgap
-  obtain ⟨hat, hup, -, -, -, -, -⟩ := survObj_spec ht
-  obtain ⟨hv0, hsh⟩ := hvc
-  -- the two darts of the entry lie in the survivor object
-  have hin : ∀ y : GardenDart (stSt G σ Mk).G, (stSt G σ Mk).M.od y = p.1 ∨ (stSt G σ Mk).M.od y = p.2 →
-      (survObj ht).ContainsDart y := by
-    intro y hy
-    unfold Object.ContainsDart
-    rw [hsh]
-    have hg : G.molecule.InGroup t'.1 ((stSt G σ Mk).M.od y) := by rcases hy with h | h <;> rw [h] <;> assumption
-    refine ⟨?_, ?_⟩
-    · rw [atom_lift hM σ, hat]
-      exact Finset.mem_image_of_mem _ hg.1
-    · rw [atom_lift hM σ, hat, (stSt G σ Mk).M.od_mate]
-      exact Finset.mem_image_of_mem _ hg.2
-  have hj : (stSt G σ Mk).M.pi (stSt G σ Mk).hcls t'.2.1 = (survObj ht).upper := hup.symm
-  exact Subpro.hasGapKind_of_pair_joint (stSt G σ Mk).G L γ η base c _ hκ hc0 (survObj ht) (Or.inl hj)
-    e.at_first e.at_second (hin _ (Or.inl h1)) (hin _ (Or.inr h2)) e.opposite hgap
-
 /-- **A bond of a survivor lifts to a bond of its image object** (both shapes; for the 75-W1 HV, the added bond is not
 a survivor bond). -/
 theorem survObj_containsDart {t : Finset (GBranch G.tree) × GBranch G.tree × GBranch G.tree}

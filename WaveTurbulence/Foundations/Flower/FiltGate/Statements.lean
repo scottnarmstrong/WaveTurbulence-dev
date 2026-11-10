@@ -24,12 +24,6 @@ namespace WaveTurbulence.Flower.FiltGate
 open WaveTurbulence.IncohInst WaveTurbulence.Incoh WaveTurbulence.Links
 open WaveTurbulence.LGSpine WaveTurbulence.IncohLeafwise WaveTurbulence.Flower.IncTop
 
-/-- The D5 multiplier: star weight times the two filter layers. -/
-def starFiltMult {w d : ℕ} {G : Garden w} (S : Finset (GNode G.tree)) (ω : GNode G.tree → Star d → ℂ)
-    (F : Finset (GBranch G.tree)) (ann : GBranch G.tree → Bool) (M : GBranch G.tree → ℝ)
-    (Fu : Finset (GBranch G.tree)) (Mu : GBranch G.tree → ℝ) (κ : GNode G.tree → Mom d) : ℂ :=
-  starWeight S ω κ * ProtDefs.filtWeight F ann M κ * ProtDefs.filtWeight Fu (fun _ => false) Mu κ
-
 /-- The D5 couple kernel (two root clocks `t`, `s`). -/
 def coupleLeavesStarFilt (L γ δ : ℝ) {d : ℕ} (LG : LayeredGarden 2) (S : Finset (GNode LG.garden.tree))
     (ω : GNode LG.garden.tree → Star d → ℂ) (F : Finset (GBranch LG.garden.tree))

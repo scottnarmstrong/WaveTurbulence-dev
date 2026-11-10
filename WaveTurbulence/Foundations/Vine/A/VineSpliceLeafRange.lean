@@ -44,10 +44,4 @@ theorem spliceFold_leaf_range (l : List (CLBlock G)) (q : GLeaf G.tree) :
         exact ⟨lp'.1, congrArg Subtype.val he⟩
     · exact spliceFold_nonLP_range l q hp
 
-/-- Two actual splice sequences with the same merge classes retain the same full leaf carrier. -/
-theorem spliceFold_leaf_same_range (l m : List (CLBlock G))
-    (hc : (spliceFold G l).cls = (spliceFold G m).cls) (q : GLeaf G.tree) :
-    (∃ q', (spliceFoldLeafTrace l).leaf q' = q) ↔ ∃ q', (spliceFoldLeafTrace m).leaf q' = q := by
-  rw [spliceFold_leaf_range, spliceFold_leaf_range, hc]
-
 end WaveTurbulence.VineA

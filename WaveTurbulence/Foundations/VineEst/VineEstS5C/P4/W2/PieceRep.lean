@@ -5,7 +5,6 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.Rows
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.AuxRows
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.AuxMul
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.SpaceG
@@ -35,13 +34,6 @@ def PieceRep {D : SumintPar.SumintDatum P.d} (hI : 0 < D.S.I) (vp vb : D.S.VIdx)
     RK.Ae hI ∧ RL.Ae hI ∧ RK.b ≤ bK ∧ RL.b ≤ bL ∧
     ∀ tt ∈ Bx, ∀ᵐ τ : D.S.TVar → ℝ, τ ∈ D.timeDom hI (tt 0) (tt 1) (tt 2) → ∀ r k : Mom P.d, ‖r‖ ≤ 1 →
       X τ tt r k = fac τ r * (RK.W (RK.clk τ tt) r k * RL.W (RL.clk τ tt) r (k + ε • r))
-
-theorem PieceRep.mono {D : SumintPar.SumintDatum P.d} {hI : 0 < D.S.I} {vp vb : D.S.VIdx} {ε : ℝ} {fac : (D.S.TVar → ℝ) → Mom P.d → ℂ}
-    {X : (D.S.TVar → ℝ) → (Fin 3 → ℝ) → Mom P.d → Mom P.d → ℂ} {bK bL bK' bL' : ℝ≥0∞} {Bx : Set (Fin 3 → ℝ)}
-    (h : PieceRep (P := P) hI vp vb ε fac X bK bL Bx) (hK : bK ≤ bK') (hL : bL ≤ bL') :
-    PieceRep (P := P) hI vp vb ε fac X bK' bL' Bx := by
-  obtain ⟨RK, RL, h1, h2, h3, h4, h5⟩ := h
-  exact ⟨RK, RL, h1, h2, h3.trans hK, h4.trans hL, h5⟩
 
 theorem PieceRep.congr {D : SumintPar.SumintDatum P.d} {hI : 0 < D.S.I} {vp vb : D.S.VIdx} {ε : ℝ} {fac : (D.S.TVar → ℝ) → Mom P.d → ℂ}
     {X X' : (D.S.TVar → ℝ) → (Fin 3 → ℝ) → Mom P.d → Mom P.d → ℂ} {bK bL : ℝ≥0∞} {Bx : Set (Fin 3 → ℝ)}

@@ -40,22 +40,4 @@ theorem mem_halfCellArrayLatticeBox {d n : ℕ} {L : ℝ} (hL : 0 < L)
     intro hc
     exact hj (by rw [hc,smul_zero])
 
-/-- The actual local unmasked lattice term is the temporal Fourier
-integral of the exact NT sum, justified by its actual finite support. -/
-theorem halfCell_approxSum_temporal_interchange {d n : ℕ} {L : ℝ} (hL : 0 < L)
-    (μ t s : ℝ) (z : (Fin n × Fin 2) → Fin d → ℤ) (β γ : Fin n → Mom d)
-    (J : Finset (Fin n)) {C : ({j // j ∉ J} → ℝ) → ℝ × ℝ → ℂ} (hC : SymReg C) :
-    (∑' g : (Fin n → Fin d → ℤ) × (Fin n → Fin d → ℤ),
-      halfCellAmplitude z β γ (fun j => latticePoint L (g.1 j)) (fun j => latticePoint L (g.2 j))*
-        ∫ lam, resProfile J (fun Ω => C (ofLp Ω) lam)
-          (fun j => μ*inner ℝ (latticePoint L (g.1 j)) (latticePoint L (g.2 j)))*e2 lam t s) =
-      ∫ lam, approxSum L μ (halfCellAmplitude z β γ)
-        (resProfile J (fun Ω => C (ofLp Ω) lam))*e2 lam t s := by
-  apply tsum_integral_resProfile_e2 (halfCellArrayLatticeBox L z)
-    (fun g => halfCellAmplitude z β γ (fun j => latticePoint L (g.1 j))
-      (fun j => latticePoint L (g.2 j))) _ J hC
-  intro g hg
-  by_contra hn
-  exact hg (mem_halfCellArrayLatticeBox hL z β γ g hn)
-
 end WaveTurbulence.RegAsymp

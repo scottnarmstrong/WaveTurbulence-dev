@@ -63,8 +63,6 @@ theorem rep_mem (G : Garden W) (i : Fin W) : rep G i ∈ compOf G i := Finset.mi
 
 theorem rep_le (G : Garden W) (i : Fin W) : rep G i ≤ i := Finset.min'_le _ _ (self_mem_compOf G i)
 
-theorem rep_le_of_mem (G : Garden W) {i j : Fin W} (h : j ∈ compOf G i) : rep G i ≤ j := Finset.min'_le _ _ h
-
 theorem rep_eq_of_compOf_eq {G : Garden W} {i j : Fin W} (h : compOf G j = compOf G i) : rep G j = rep G i := by
   unfold rep
   congr 1
@@ -82,9 +80,6 @@ theorem mem_compOf_iff_rep {G : Garden W} (hG : G.IsPlain) {i j : Fin W} :
 
 theorem rep_rep {G : Garden W} (hG : G.IsPlain) (i : Fin W) : rep G (rep G i) = rep G i :=
   (mem_compOf_iff_rep hG).1 (rep_mem G i)
-
-theorem compOf_rep {G : Garden W} (hG : G.IsPlain) (i : Fin W) : compOf G (rep G i) = compOf G i :=
-  compOf_eq_of_mem hG (rep_mem G i)
 
 end Comp
 

@@ -148,8 +148,6 @@ def onErase (e : D) (hout : ∀ p ∈ C.set, ∀ q ∈ C.set, M.ends e ≠ s(p, 
     rw [deg_eraseBond_of_ne M e h1 h3, deg_eraseBond_of_ne M e h2 h4]
     exact C.sat i hi
 
-theorem onErase_set (e : D) (hout) (hlow) : (C.onErase e hout hlow).set = C.set := rfl
-
 /-- The first `k + 1` pairs of a chain. -/
 def low (k : ℕ) (hk : k ≤ C.n) : YChain M where
   n := k

@@ -162,23 +162,6 @@ theorem hW_RCp (hL1 : 1 ≤ L) (hη : 0 ≤ η) (hη40 : η ≤ 1 / 40) (hγ0 : 
       rw [e]; nlinarith [pow_nonneg hη 2]
     nlinarith [pow_nonneg hη 2, mul_nonneg (pow_nonneg hη 2) hj0]
 
-/-- `hW_RCp` under main's smallness hypothesis `8η ≤ 2γ - 1` (`γ > 1/2`). -/
-theorem hW_RCp_h8 (hL1 : 1 ≤ L) (hη : 0 ≤ η) (hη40 : η ≤ 1 / 40) (hγ0 : 0 ≤ min γ (1 - γ))
-    (h8 : 8 * η ≤ 2 * γ - 1) (ε0 : ℝ) (Yp : ℕ → ℝ) (hYp0 : ∀ R, 0 ≤ Yp R)
-    (hYpd : ∀ R R' j : ℕ, R' + j = R → Yp R' * L ^ (eraseA γ η * (j : ℝ) - ε0) ≤ Yp R) (hε0 : ε0 ≤ η ^ 2 / 2)
-    (crit : V → Prop) (Fmax : ℝ) (E : Fin m → Object M₀)
-    {h h' : HSt V D₀} {R R' j : ℕ} (hRR : R' + j = R) (hI : Inv R h.s) (hI' : Inv R' h'.s)
-    (hap : ApPos h.s) (hApe : apProd L γ η h.s ≤ apProd L γ η h'.s)
-    (hF : (h.s.M.numComponents : ℝ) - j ≤ h'.s.M.numComponents) (hV : (vBeta h'.s : ℝ) + j ≤ vBeta h.s + 1)
-    (hρ : h.s.M.rho ≤ h'.s.M.rho + 88) (hcr : critCount crit h.s ≤ critCount crit h'.s + 2)
-    (hpend : pendRC E h' + 1 ≤ pendRC E h) {CN : ℝ} (hCN : 0 ≤ CN) (N : ℕ)
-    (hN : (N : ℝ) * CN ≤ L ^ (η ^ 3 - 4 * η ^ 6 * (((86 : ℕ) : ℝ) + ((2 : ℕ) : ℝ)))) :
-    (N : ℝ≥0∞) * (ENNReal.ofReal (CN * excessRHS2 L γ η [] 1 2) *
-      WPot L γ η (Yp (RofS h'.s)) (g1E γ η crit Fmax E) h') ≤
-      WPot L γ η (Yp (RofS h.s)) (g1E γ η crit Fmax E) h :=
-  hW_RCp hL1 hη hη40 hγ0 (hmarg_of_h8 hη hη40 h8) ε0 Yp hYp0 hYpd hε0 crit Fmax E hRR hI hI' hap hApe hF hV hρ hcr
-    hpend hCN N hN
-
 /-! ### Lifting main's phase-1 steps to the survivor budget
 
 `W(Y, g1E) = W(Y·L^{pendRC}, g1)`. A Step-1 step that does not create a pending re-cut (`pendRC h' ≤ pendRC h`: every

@@ -51,13 +51,4 @@ theorem shiftedDerivativeCoefficientEnvelope_mass_le {ι : Type} [Fintype ι]
   rw [← lintegral_lintegral_swap (hm k).aemeasurable]
   exact hmain (k+s)
 
-/-- Every fixed source derivative shift has finite strong weighted mass. -/
-theorem shiftedDerivativeCoefficientEnvelope_mass_lt_top {ι : Type} [Fintype ι]
-    (s : ℕ) {C : (ι → ℝ) → ℝ × ℝ → ℂ} (hC : SymReg C) {θ N A : ℝ}
-    (hN : 0 ≤ N) (hA : 0 ≤ A)
-    (hmain : ∀ k, ∫⁻ α, ∫⁻ lam, wL θ lam*dnorm k C α lam ≤ gev N A k) :
-    (∫⁻ lam, wL θ lam*shiftedDerivativeCoefficientEnvelope s C lam) < ⊤ :=
-  (shiftedDerivativeCoefficientEnvelope_mass_le s hC hN hmain).trans_lt
-    (ENNReal.mul_lt_top ENNReal.ofReal_lt_top (summable_shifted_gevrey_ratio A hA s).tsum_ofReal_lt_top)
-
 end WaveTurbulence.RegAsymp

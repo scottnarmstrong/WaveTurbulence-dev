@@ -46,41 +46,11 @@ instance (M : Molecule V D) (op : Stage2Op g M) : DecidableEq op.PostD := by
 
 -- (`prop94_alpha`, `prop94_beta`, `prop94_triangle` concern the family-free operations `.cut`, `.triangle`: main's.)
 
-/-- **The vine label count (the named obligation of L1799--L1801), single vine.** For every admissible parameter triple
-the number of label vectors of the removed vine is at most
-`𝔉 = Cf · L^d (ρL)^d L^{(m-2)(d-γ)} δ^{-m/2} (log L)^e / ∏_{𝕃_j ⊂ 𝕍ℂ} 𝔛_j^{z_j}`, `m = |𝕍ℂ|`
-(`ρ = 2R` if `κ = 0`, `ρ = L^{-50η}R` if `κ = 50`). -/
-def VineCountInput {M : Molecule V D} (K : VineCut g M) (L γ δ ρ Cf : ℝ) (w : Mom d)
-    (Adm : (D → (Fin d → ℤ)) → Prop) (P : Finset V → ℝ) (e : ℕ) : Prop :=
-  ∀ (c : V → Mom d) (β : V → ℝ) (k0 : D → Mom d), ParamOK M c k0 →
-    (K.labelSet L γ δ w Adm c β k0).encard ≤
-      ENNReal.ofReal (vineF d L γ δ ρ Cf (K.ladderProdVC L γ δ P) K.C.atoms.card e)
-
 /-- **The vine label count, a VC formed by two double bonds** (L1801, last sentence). -/
 def VineCountInputDouble {M : Molecule V D} (K : VineCut g M) (L γ δ R ρ Cf : ℝ) (w : Mom d)
     (Adm : (D → (Fin d → ℤ)) → Prop) (e : ℕ) : Prop :=
   ∀ (c : V → Mom d) (β : V → ℝ) (k0 : D → Mom d), ParamOK M c k0 →
     (K.labelSet L γ δ w Adm c β k0).encard ≤ ENNReal.ofReal (vineG d L γ δ R ρ Cf e)
-
-/-- **Prop 9.4, Step 1, a single vine**, given the label count. -/
-theorem prop94_vine_single {M : Molecule V D} (K : VineCut g M) (hd : 3 ≤ d) (hM : ∀ a ∈ M.atoms, M.deg a ≤ 4)
-    (L γ δ C₁ η : ℝ) (w : Mom d) (Adm : (D → (Fin d → ℤ)) → Prop)
-    (Adm' : (PDart K.cutMol (fun a => a ∉ K.C.atoms) → (Fin d → ℤ)) → Prop)
-    (hAdm' : ∀ κ, Adm κ → Adm' (fun x => κ x.1)) (P : Finset V → ℝ)
-    (hL : Real.exp 1 ≤ L) (hδ : 0 < δ) (hC : 1 ≤ C₁) (hP0 : ∀ S, 0 ≤ P S)
-    (hP1 : ∀ S' ∈ K.m1.maximalLadders, ∀ S ∈ M.maximalLadders, S' ⊆ S → P S' = P S)
-    (hP2 : ∀ S' ∈ K.cutMol.maximalLadders, ∀ S ∈ K.m1.maximalLadders, S' ⊆ S → P S' = P S)
-    (hη : 0 < η) (hη1 : η < 1) (hηγ : η ≤ γ)
-    (hF : K.post.numComponents = M.numComponents)
-    (hB : K.vc.bonds.card = 2 * (K.C.atoms.card - 1)) (hm : 2 ≤ K.C.atoms.card)
-    (R : ℝ) (hR0 : 0 ≤ R) (hRu : R ≤ L ^ (-γ + η)) (κ : ℕ) (ρ : ℝ)
-    (hρ : (κ = 0 ∧ ρ = 2 * R) ∨ (κ = 50 ∧ ρ = L ^ (-50 * η) * R ∧ L⁻¹ ≤ ρ))
-    (Cf : ℝ) (hCf : 0 ≤ Cf) (e : ℕ) (hcount : VineCountInput K L γ δ ρ Cf w Adm P e) :
-    IsDeviation (M.countA L γ δ C₁ w Adm P) ((Stage2Op.vine K).post.countA L γ δ C₁ w Adm' P)
-      (ENNReal.ofReal ((Cf * (2 ^ d * (((e + 8 + 1 : ℕ) : ℝ) / (2 * η - η ^ 3)) ^ (e + 8 + 1))) *
-        excessRHS L γ η [(R, κ), (R, κ)] 0 0)) :=
-  K.vine_excess_single hd hM L γ δ C₁ η w Adm Adm' hAdm' P hL hδ hC hP0 hP1 hP2 hη hη1 hηγ hF hB hm R hR0 hRu κ ρ
-    (hρ.imp id (fun h => ⟨h.1, h.2.1⟩)) Cf hCf e hcount
 
 /-- **Prop 9.4, Step 1, a VC formed by two double bonds**, given the label count. -/
 theorem prop94_vine_double {M : Molecule V D} (K : VineCut g M) (hd : 3 ≤ d) (hM : ∀ a ∈ M.atoms, M.deg a ≤ 4)
@@ -101,60 +71,5 @@ theorem prop94_vine_double {M : Molecule V D} (K : VineCut g M) (hd : 3 ≤ d) (
         excessRHS L γ η [(R, κ), (R, κ)] 0 0)) :=
   K.vine_excess_double hd hM L γ δ C₁ η w Adm Adm' hAdm' P hL hδ hδ1 hC hP0 hP1 hP2 hη hη1 hηγ hγ1 hF hB hA hlad
     R hRl hRu κ ρ (hρ.imp id (fun h => ⟨h.1, h.2.1⟩)) Cf hCf e hcount
-
-/-- **Prop 9.4, Step 1, a VC formed by two double bonds `a = x = b`: unconditional** (the count `𝔉` of L1801, last
-sentence, is `DoubleShape.labelSet_le_vineG`). Source facts assumed: the shape `S`; `ΔF = 0` (`hF`, L1798);
-`4` bonds in the VC (`hB`, two double bonds); no ladder in the VC (`hlad`); the label `|r| ~ R` of the new
-`α`-atoms (`hgap`: `|r| <= 2R`, `hlow`: `|r| >= R/2`); for `κ = 50` the `ι` condition (`hι`). -/
-theorem prop94_vine_double_full {M : Molecule V D} (K : VineCut g M) (S : DoubleShape K) (hd : 3 ≤ d)
-    (hM : ∀ a ∈ M.atoms, M.deg a ≤ 4)
-    (L γ δ C₁ η : ℝ) (w : Mom d) (Adm : (D → (Fin d → ℤ)) → Prop)
-    (Adm' : (PDart K.cutMol (fun a => a ∉ K.C.atoms) → (Fin d → ℤ)) → Prop)
-    (hAdm' : ∀ κ, Adm κ → Adm' (fun x => κ x.1)) (P : Finset V → ℝ)
-    (hL : Real.exp 1 ≤ L) (hδ : 0 < δ) (hδ1 : δ ≤ 1) (hC : 1 ≤ C₁) (hP0 : ∀ S, 0 ≤ P S)
-    (hP1 : ∀ S' ∈ K.m1.maximalLadders, ∀ S ∈ M.maximalLadders, S' ⊆ S → P S' = P S)
-    (hP2 : ∀ S' ∈ K.cutMol.maximalLadders, ∀ S ∈ K.m1.maximalLadders, S' ⊆ S → P S' = P S)
-    (hη : 0 < η) (hη1 : η < 1) (hηγ : η ≤ γ) (hγ1 : γ < 1)
-    (hF : K.post.numComponents = M.numComponents)
-    (hB : K.vc.bonds.card = 4) (hlad : K.vc.maximalLadders = ∅)
-    (R : ℝ) (hRl : L⁻¹ ≤ R) (hRu : R ≤ L ^ (-γ + η)) (κ : ℕ) (ρ : ℝ)
-    (hρ : (κ = 0 ∧ ρ = 2 * R) ∨ (κ = 50 ∧ ρ = L ^ (-50 * η) * R ∧ L⁻¹ ≤ ρ))
-    (hgap : ∀ κ', Adm κ' → ‖Molecule.gapAt L w κ' K.x₁ K.x₂‖ ≤ 2 * R)
-    (hlow : ∀ κ', Adm κ' → R / 2 ≤ ‖Molecule.gapAt L w κ' K.x₁ K.x₂‖)
-    (hι : κ = 50 → IotaReading M L w Adm K.x₁ K.x₂ (L ^ (-50 * η) * R)) :
-    IsDeviation (M.countA L γ δ C₁ w Adm P) ((Stage2Op.vine K).post.countA L γ δ C₁ w Adm' P)
-      (ENNReal.ofReal (((9 ^ d * 5 ^ d * (2 * d)) * (2 ^ d * (((0 + 8 + 1 : ℕ) : ℝ) / (2 * η - η ^ 3)) ^ (0 + 8 + 1)) *
-        (1 + δ⁻¹)) * excessRHS L γ η [(R, κ), (R, κ)] 0 0)) := by
-  have hL1 : 1 ≤ L := (Real.one_le_exp (by norm_num)).trans hL
-  have hL0 : 0 < L := by linarith
-  have hR : 0 < R := lt_of_lt_of_le (inv_pos.2 hL0) hRl
-  have hA : K.C.atoms.card = 3 := by
-    rw [S.atoms_eq]
-    have h1 : K.C.upper ≠ S.x := S.x_ne_a.symm
-    have h2 : S.x ≠ K.C.lower := S.x_ne_b
-    have h3 : K.C.upper ≠ K.C.lower := K.ab_ne
-    rw [Finset.card_insert_of_notMem (by simp [h1, h3]), Finset.card_pair h2]
-  have hρ0 : 0 ≤ ρ := by
-    rcases hρ with ⟨-, rfl⟩ | ⟨-, rfl, -⟩
-    · linarith
-    · exact mul_nonneg (Real.rpow_nonneg hL0.le _) hR.le
-  have hρL : 1 ≤ ρ * L := by
-    rcases hρ with ⟨-, rfl⟩ | ⟨-, -, h⟩
-    · have : 1 ≤ R * L := by
-        have := mul_le_mul_of_nonneg_right hRl hL0.le
-        rwa [inv_mul_cancel₀ hL0.ne'] at this
-      nlinarith
-    · have := mul_le_mul_of_nonneg_right h hL0.le
-      rwa [inv_mul_cancel₀ hL0.ne'] at this
-  have hball : ∀ (c : V → Mom d) (β : V → ℝ) (k0 : D → Mom d), ParamOK M c k0 →
-      ∃ r₀ : Mom d, ∀ κ' ∈ decSet M L γ δ w Adm c β k0, ‖Molecule.gapAt L w κ' K.x₁ K.x₂ - r₀‖ ≤ ρ := by
-    intro c β k0 hp
-    rcases hρ with ⟨hκ0, rfl⟩ | ⟨hκ50, rfl, -⟩
-    · exact ⟨0, fun κ' hκ' => by simpa using hgap κ' hκ'.2.2⟩
-    · exact ball_of_iota (hι hκ50) c β k0 hp
-  have hcount : VineCountInputDouble K L γ δ R ρ (9 ^ d * 5 ^ d * (2 * d)) w Adm 0 :=
-    S.labelSet_le_vineG (by omega) hL1 hδ hδ1 R ρ hR hρ0 hρL hlow hball
-  exact prop94_vine_double K hd hM L γ δ C₁ η w Adm Adm' hAdm' P hL hδ hδ1 hC hP0 hP1 hP2 hη hη1 hηγ hγ1 hF hB hA hlad
-    R hRl hRu κ ρ hρ _ (by positivity) 0 hcount
 
 end WaveTurbulence.GammaLow.FinalCount.Step1

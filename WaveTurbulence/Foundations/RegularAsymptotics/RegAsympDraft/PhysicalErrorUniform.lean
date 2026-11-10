@@ -1,7 +1,8 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 
-public import WaveTurbulence.Foundations.RegularAsymptotics.RegAsympDraft.PhysicalErrorProfiles
+public import WaveTurbulence.Foundations.RegularAsymptotics.RegAsympDraft.SourceLeadingApp
+public import WaveTurbulence.Foundations.RegularAsymptotics.RegAsympDraft.PhysicalProfileSplit
 public import WaveTurbulence.Foundations.RegularAsymptotics.RegAsympDraft.PhysicalGlobalUniform
 
 /-! # Uniform source-kernel error assembly before the couple-code quantifier -/

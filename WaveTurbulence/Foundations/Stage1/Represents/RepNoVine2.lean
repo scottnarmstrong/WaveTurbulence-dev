@@ -41,19 +41,6 @@ theorem bondIndex_nodeCast (σ : Prescription S) (h : unitBlocks S σ = []) {d :
     (zS : GNode S.tree → (Fin d → ℤ)) (y : GardenDart (stSt S σ).G) :
     bondIndex (stSt S σ).G (fun n => zS (nodeCast σ h n)) y = bondIndex S zS ((stSt S σ).M.od y) := bondIndex_nodeCastMk (Mk := ∅) σ h zS y
 
-open scoped Classical in
-/-- The spliced gap indicator of the vine-free piece is the `σ`-restriction on skeleton decorations. -/
-theorem gapIndicator_noVine (hM : S.molecule.IsMolecule) (hp : S.IsPlain) (σ : Prescription S)
-    (h : unitBlocks S σ = []) {d : ℕ} {L : ℝ} (hL : L ≠ 0) (γ η : ℝ) (base : Mom d)
-    (roots : Fin w → (Fin d → ℤ)) (zS : GenDecoration S d roots 0)
-    (D : SplicedKernelData (stSt S σ).G d) (hD : D.gapSpecification = gapSpecification S σ) :
-    splicedGapIndicator (stSt S σ).G D L γ η base (fun n => zS.1 (nodeCast σ h n)) =
-      if selOf (GroupPrescription.ofPrescription σ) L γ η base zS.1 then 1 else 0 :=
-  splicedGapIndicator_eq_selOf (G := S) hM σ L γ η base _ zS.1
-    (spliced_molecule_decoration S hp hL base roots zS)
-    (fun v _ hv => gardenSource_eq_zero_of_deg_four S hp _ v hv) _
-    (bondIndex_nodeCast σ h zS.1) D hD
-
 theorem splicedEpsilon_empty {d : ℕ} (G : Garden w) (z : GNode G.tree → (Fin d → ℤ)) :
     splicedEpsilon G ∅ z = epsDec G z := by
   unfold splicedEpsilon epsDec

@@ -129,27 +129,6 @@ theorem finite_canonGC (q n w : ℕ) :
   · simp [IsCanonGC]
   · exact (finite_layeredGardens w n p).subset fun LG h => ⟨h.2, layer_le_of_isCanonGC h.1⟩
 
-/-- The enumeration of `𝒢_q` up to order `n` (width `w`). -/
-noncomputable def canonGFinset (q n w : ℕ) : Finset (LayeredGarden w) := (finite_canonG q n w).toFinset
-
-theorem mem_canonGFinset {q n w : ℕ} {LG : LayeredGarden w} :
-    LG ∈ canonGFinset q n w ↔ IsCanonG q LG ∧ LG.garden.order ≤ n := by
-  simp [canonGFinset]
-
-/-- The enumeration of `𝒞_q` up to order `n`. -/
-noncomputable def canonCFinset (q n : ℕ) : Finset (LayeredGarden 2) := (finite_canonC q n).toFinset
-
-theorem mem_canonCFinset {q n : ℕ} {LG : LayeredGarden 2} :
-    LG ∈ canonCFinset q n ↔ IsCanonC q LG ∧ LG.garden.order ≤ n := by
-  simp [canonCFinset]
-
-/-- The enumeration of `ℋ_q` up to order `n` (width `w`). -/
-noncomputable def canonHFinset (q n w : ℕ) : Finset (LayeredGarden w) := (finite_canonH q n w).toFinset
-
-theorem mem_canonHFinset {q n w : ℕ} {LG : LayeredGarden w} :
-    LG ∈ canonHFinset q n w ↔ IsCanonH q LG ∧ LG.garden.order ≤ n := by
-  simp [canonHFinset]
-
 /-! ### The shared sums as finite sums -/
 
 theorem finite_truncSum_support (P : WTParams) (q N w : ℕ) (ζ : Fin w → ℤˣ) :
@@ -180,21 +159,5 @@ theorem truncSumC_eq_sum (P : WTParams) (F : ℕ → Mom P.d → ℝ) (q N : ℕ
   rfl
 
 /-! ### Counting layerings -/
-
-/-- A fixed garden has at most `(p+1)^{#nodes}` layerings with all layers `≤ p`. -/
-theorem ncard_layerings_le {w : ℕ} (G : Garden w) (p : ℕ) :
-    {𝔏 : GNode G.tree → ℕ | IsLayering G 𝔏 ∧ ∀ a, 𝔏 a ≤ p}.ncard ≤
-      (p + 1) ^ Fintype.card (GNode G.tree) := by
-  set S := {𝔏 : GNode G.tree → ℕ | IsLayering G 𝔏 ∧ ∀ a, 𝔏 a ≤ p}
-  let f : S → (GNode G.tree → Fin (p + 1)) := fun 𝔏 a => ⟨𝔏.1 a, Nat.lt_succ_of_le (𝔏.2.2 a)⟩
-  have hf : Function.Injective f := by
-    intro x y h
-    apply Subtype.ext
-    funext a
-    exact congrArg Fin.val (congrFun h a)
-  rw [← Nat.card_coe_set_eq]
-  calc Nat.card S ≤ Nat.card (GNode G.tree → Fin (p + 1)) := Nat.card_le_card_of_injective f hf
-    _ = (p + 1) ^ Fintype.card (GNode G.tree) := by
-      rw [Nat.card_eq_fintype_card, Fintype.card_fun, Fintype.card_fin]
 
 end WaveTurbulence.Canon

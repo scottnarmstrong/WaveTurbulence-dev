@@ -101,8 +101,6 @@ theorem kept_atoms_card : T.kept.atoms.card = M.atoms.card := by
   change T.kept.atoms.card + T.tcomp.atoms.card = T.m3.atoms.card at h
   omega
 
-theorem m3_bonds : T.m3.bonds = M.bonds := rfl
-
 theorem tcomp_bonds_card : T.tcomp.bonds.card = 3 := by
   unfold Molecule.bonds
   show (Finset.univ.filter fun x : PDart T.m3 (fun a => ¬ T.TP a) => T.m3.out x.1 = true).card = 3

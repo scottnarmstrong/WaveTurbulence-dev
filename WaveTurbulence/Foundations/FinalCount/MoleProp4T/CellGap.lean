@@ -56,14 +56,6 @@ theorem dart_unique_of_single {M : Molecule V D} {a b : V} (hab : a ≠ b) (h1 :
   exact card_le_one.mp hc.le x ((Degen.mem_neighborDarts M a b x).mpr hx) x'
     ((Degen.mem_neighborDarts M a b x').mpr hx')
 
-omit [DecidableEq V] [Fintype D] [DecidableEq D] in
-theorem atom_mate_of_ends {M : Molecule V D} {a b : V} (hab : a ≠ b) {x : D} (he : M.ends x = s(a, b))
-    (hx : M.atom x = a) : M.atom (M.mate x) = b := by
-  have := Sym2.eq_iff.mp he
-  rcases this with ⟨_, h⟩ | ⟨h1, _⟩
-  · exact h
-  · exact absurd (hx.symm.trans h1) hab
-
 omit [DecidableEq D] in
 /-- A cell whose crossed pairs are single bonds too is closed. -/
 theorem not_open_of_crossed {M : Molecule V D} (hloop : ∀ x, M.atom x ≠ M.atom (M.mate x))

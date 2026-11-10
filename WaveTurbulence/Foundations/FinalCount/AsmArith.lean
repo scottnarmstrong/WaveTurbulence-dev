@@ -16,80 +16,12 @@ Pure real arithmetic (no molecules).  Notation: `γ₀ = min γ (1-γ)`, `a = 2�
 set_option autoImplicit false
 namespace WaveTurbulence.FinalCountAsm
 
-/-- Pairing of an `α`-atom's operation factor `L^e Q` with its final-bound factor `L^{-e} Q⁻¹`. -/
-theorem alpha_label_cancel (L e Q : ℝ) (hL : 0 < L) (hQ : 0 < Q) :
-    (L ^ e * Q) * (L ^ (-e) * Q⁻¹) = 1 := by
-  rw [Real.rpow_neg hL.le]
-  field_simp
-
-/-- Product version, over any finite index set of `α`-atoms with labels `(Q i, κ i)`. -/
-theorem alpha_label_prod_cancel {ι : Type*} (s : Finset ι) (L g η : ℝ) (Q : ι → ℝ) (κ : ι → ℝ)
-    (hL : 0 < L) (hQ : ∀ i, 0 < Q i) :
-    (∏ i ∈ s, (L ^ ((g + 3 * η) / 2 - κ i * η) * Q i)) *
-      (∏ i ∈ s, (L ^ (-((g + 3 * η) / 2) + κ i * η) * (Q i)⁻¹)) = 1 := by
-  rw [← Finset.prod_mul_distrib]
-  refine Finset.prod_eq_one fun i _ => ?_
-  have := alpha_label_cancel L ((g + 3 * η) / 2 - κ i * η) (Q i) hL (hQ i)
-  rwa [show -((g + 3 * η) / 2 - κ i * η) = -((g + 3 * η) / 2) + κ i * η by ring] at this
-
-/-- (together2), the `F`/`V_β`/`G` part: with `F_fin = F_im + F_perf` (components are perfect or imperfect),
-`Σ ΔF = F_fin - F_sb`, `F_sb = 1`, `Σ ΔV_β = V_β`, `Σ_comp G = F_perf`, `Σ_comp V_β(comp) = V_β`. -/
-theorem exponent_bookkeeping (a b Ffin Fim Fperf Vb : ℝ) (h : Ffin = Fim + Fperf) :
-    a * (Ffin - 1) - b * Vb + (b * Vb - a * Fperf) = a * (Fim - 1) := by
-  subst h; ring
-
 /-- `4γ₀ ≤ d - γ - 1/2` (the closing remark of TARGET L2229, `d - γ - 4γ₀ ≥ 1/2`), for `3 ≤ d`, `0 < γ < 1`. -/
 theorem d_gamma_slack (d γ : ℝ) (hd : 3 ≤ d) (_hγ0 : 0 < γ) (_hγ1 : γ < 1) :
     4 * min γ (1 - γ) ≤ d - γ - 1 / 2 := by
   rcases le_total γ (1 - γ) with h | h
   · rw [min_eq_left h]; linarith
   · rw [min_eq_right h]; linarith
-
-/-- **(together3), exponent form.**  The exponent of (together2) with the slack `3/4 η³ p_op` per operation (the
-remaining `η³/4` per operation pays for the number of run types and the per-operation constants), bounded by the exponent
-of `finalcount1`.  `γ₀ = min γ (1-γ)`; `p_sb ≤ 2 p_op` is the corrected TARGET L2216 (`p_sb ≤ p_op` there). -/
-theorem final_exponent_le (d γ η R ρsb ρfin psb pop pplus Fim Z C₀ : ℝ)
-    (hd : 3 ≤ d) (hγ0 : 0 < γ) (hγ1 : γ < 1) (hη0 : 0 < η) (hη : η ≤ 1 / 20) (hC₀ : C₀ * η ^ 2 ≤ 1 / 4)
-    (hR : 1 ≤ R) (hFim : Fim ≤ R) (hpplus : pplus ≤ 2 * R - 2) (hZ : Z ≤ 4 * (R - 1))
-    (hρsb : 0 ≤ ρsb) (_hpsb : 0 ≤ psb) (hpop : 0 ≤ pop) (hpsb2 : psb ≤ 2 * pop) (hρ : ρsb - C₀ * pop ≤ ρfin) :
-    (2 * min γ (1 - γ) + 5 * η ^ 2) * (Fim - 1) + min γ (1 - γ) * pplus + η * Z
-        - η ^ 5 * ρfin - (3 / 4) * η ^ 3 * pop ≤
-      -4 * η ^ 6 * (ρsb + psb) + (R - 1) * (d - γ - 1 / 4 - 1 / 40) := by
-  have hγ0' : 0 ≤ min γ (1 - γ) := le_min hγ0.le (by linarith)
-  have hslack := d_gamma_slack d γ hd hγ0 hγ1
-  have hη2 : 0 < η ^ 2 := by positivity
-  have hη3 : 0 < η ^ 3 := by positivity
-  have hη5 : 0 < η ^ 5 := by positivity
-  have hη6 : 0 < η ^ 6 := by positivity
-  have h6 : 4 * η ^ 6 ≤ η ^ 5 := by nlinarith [mul_pos hη5 hη0]
-  have hη3' : η ^ 3 ≤ 1 / 16 := by
-    have : η ^ 3 ≤ (1 / 20) ^ 3 := pow_le_pow_left₀ hη0.le hη 3
-    nlinarith
-  have hC5 : C₀ * η ^ 5 * pop ≤ (1 / 4) * η ^ 3 * pop := by
-    have : C₀ * η ^ 5 = (C₀ * η ^ 2) * η ^ 3 := by ring
-    rw [this]
-    have := mul_le_mul_of_nonneg_right hC₀ hη3.le
-    exact mul_le_mul_of_nonneg_right (by linarith) hpop
-  have hpsb' : 8 * η ^ 6 * pop ≥ 4 * η ^ 6 * psb := by nlinarith
-  have hpsb'' : 8 * η ^ 6 * pop ≤ (1 / 2) * η ^ 3 * pop := by
-    have : 8 * η ^ 6 = (8 * η ^ 3) * η ^ 3 := by ring
-    rw [this]; nlinarith [mul_nonneg hη3.le hpop]
-  have hρ5 : η ^ 5 * ρfin ≥ η ^ 5 * ρsb - C₀ * η ^ 5 * pop := by nlinarith
-  have hρ6 : η ^ 5 * ρsb ≥ 4 * η ^ 6 * ρsb := by nlinarith
-  have hR1 : 0 ≤ R - 1 := by linarith
-  have hS : 4 * η + 5 * η ^ 2 ≤ 9 / 40 := by nlinarith
-  have hA : (2 * min γ (1 - γ) + 5 * η ^ 2) * (Fim - 1) ≤ (2 * min γ (1 - γ) + 5 * η ^ 2) * (R - 1) :=
-    mul_le_mul_of_nonneg_left (by linarith) (by positivity)
-  have hB : min γ (1 - γ) * pplus ≤ min γ (1 - γ) * (2 * (R - 1)) :=
-    mul_le_mul_of_nonneg_left (by linarith) hγ0'
-  have hZ' : η * Z ≤ η * (4 * (R - 1)) := mul_le_mul_of_nonneg_left hZ hη0.le
-  have hT : (4 * min γ (1 - γ) + 4 * η + 5 * η ^ 2) * (R - 1) ≤ (d - γ - 1 / 4 - 1 / 40) * (R - 1) :=
-    mul_le_mul_of_nonneg_right (by linarith) hR1
-  nlinarith
-
-/-- Monotonicity of `L ↦ L^x`, `1 ≤ L`. -/
-theorem rpow_le_rpow_of_le_exp {L x y : ℝ} (hL : 1 ≤ L) (h : x ≤ y) : L ^ x ≤ L ^ y :=
-  Real.rpow_le_rpow_of_exponent_le hL h
 
 /-- Polylogarithmic absorption: `K (1 + log L)^c ≤ L^ε` for all large `L`. -/
 theorem polylog_absorb (K : ℝ) (c : ℕ) (ε : ℝ) (hε : 0 < ε) :

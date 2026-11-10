@@ -40,12 +40,4 @@ theorem Inv3.toInv4 {M₀ : Molecule V D₀} {Rn : ℕ} {R R' : (D₀ → (Fin d
   · exact Or.inl he
   · exact Or.inr ⟨hc, hap, fun κ hκ => hm κ hκ (hr κ hκ)⟩
 
-theorem Inv4.toInv3 {M₀ : Molecule V D₀} {Rn : ℕ} {R R' : (D₀ → (Fin d → ℤ)) → HSt V D₀ → Prop} {L : ℝ} {w : Mom d}
-    {A0 A : Set (D₀ → (Fin d → ℤ))} {h : HSt V D₀} (hA : Inv4 M₀ Rn R L w A0 A h) (hm : ∀ κ ∈ A, R κ h → R' κ h) :
-    Inv3 M₀ Rn R' L w A0 A h := by
-  refine ⟨hA.1, ?_⟩
-  rcases hA.2 with he | ⟨hc, hap, hr⟩
-  · exact Or.inl he
-  · exact Or.inr ⟨hc, hap, fun κ hκ => hm κ hκ (hr κ hκ)⟩
-
 end WaveTurbulence.FinalCountAsm

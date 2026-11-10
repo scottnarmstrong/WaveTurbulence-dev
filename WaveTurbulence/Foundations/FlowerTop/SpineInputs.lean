@@ -5,10 +5,11 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.FlowerTop.Stage1BothBridge
+public import WaveTurbulence.Foundations.FlowerTop.Port.S2ST.AnchorFamilyB
+public import WaveTurbulence.Foundations.XChain.FlowerDraft.GateProbes
+public import WaveTurbulence.Foundations.FlowerTop.Port.FlowerReg.Thresholds
 public import WaveTurbulence.Foundations.FlowerTop.Port.LadderFourierSTFree
 public import WaveTurbulence.Foundations.Spine.SpineInputsV2
-public import WaveTurbulence.Foundations.FlowerTop.Port.FlowerReg.Prefix
 
 /-!
 # R61/R77 replacement for the five-field flower spine
@@ -63,16 +64,5 @@ theorem FlowerSpineInputsV3.ladderGate (S : FlowerSpineInputsV3) : LadderFourier
 /-- Empty anchors and stubs recover LG's native Stage 1 reduction. -/
 theorem FlowerSpineInputsV3.stage1Gate (S : FlowerSpineInputsV3) : Stage1ReductionGate :=
   S.stage1
-
-/-- Existing ordinary estimates follow; this is not a stub/flower estimate. -/
-theorem FlowerSpineInputsV3.nonregularHalf (S : FlowerSpineInputsV3)
-    (hcount : FinalCountGateHalf) :
-    WTPrefix fun P => 1 / 2 < P.γ → NonregularEstimateAt P :=
-  nonregular_prefix_half S.stage1Gate S.coarseGate S.ladderGate hcount
-
-/-- The already established unpinned L0 regular channel, not the missing two-time family theorem. -/
-theorem FlowerSpineInputsV3.regularL0 (S : FlowerSpineInputsV3) :
-    WTPrefix FlowerReg.RegularCouplesL0At :=
-  FlowerReg.regularCouplesL0_of_leafwise S.leafCoherent S.leafDecay
 
 end WaveTurbulence.FlowerTop

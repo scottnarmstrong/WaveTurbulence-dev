@@ -141,13 +141,6 @@ end rung
 section count
 variable {w : ℕ}
 
-/-- A group containing two atoms of different layers is incoherent (stated without `Fintype V`, so that the
-decidability instance is the one of `tvineIncoherency`). -/
-theorem mem_incoherent_filter {V : Type} [DecidableEq V] {groups : Finset (Finset V)} {layer : V → ℕ}
-    {P : Finset V} (hP : P ∈ groups) {x y : V} (hx : x ∈ P) (hy : y ∈ P) (hne : ¬ layer x = layer y) :
-    P ∈ groups.filter (fun g => ¬ ∀ x ∈ g, ∀ y ∈ g, layer x = layer y) :=
-  Finset.mem_filter.mpr ⟨hP, fun h => hne (h x hx y hy)⟩
-
 /-- Abstract counting: rungs `{x i, y i}` (`i ∈ [1, m)`, pairwise disjoint) each inside a group of at most three
 atoms; the incoherent rungs inject into the incoherent groups. -/
 theorem card_incoherent_rungs_le {V : Type} [DecidableEq V] (groups : Finset (Finset V))

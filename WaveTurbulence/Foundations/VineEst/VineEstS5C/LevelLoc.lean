@@ -6,7 +6,6 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.LevelBundle
-public import WaveTurbulence.Foundations.VineEst.VineEstS5C.LevelStep
 
 /-! # Clock locality of the S-side bundle (V5 Step 4d part C, WP-I)
 

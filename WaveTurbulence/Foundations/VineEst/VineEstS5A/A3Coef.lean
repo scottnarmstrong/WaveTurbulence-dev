@@ -47,39 +47,4 @@ theorem coefBound_sep_le (θ : ℝ) (A B : ℕ) (h : (Fin 3 → ℤ) → ℂ) (M
         iSup_mono fun r => SNorm_smul_le A B (h m) (M r)
     _ = ‖h m‖ₑ * ⨆ r : Mom d, SNorm A B (M r) := ENNReal.mul_iSup _ _ |>.symm
 
-/-- Triangle inequality for `SNorm` of a finite sum (`A ≠ 0`). -/
-theorem SNorm_finsetSum_le {ι : Type*} {A B : ℕ} (hA : A ≠ 0) (s : Finset ι) (f : ι → Mom d → ℂ) :
-    SNorm A B (fun x => ∑ i ∈ s, f i x) ≤ ∑ i ∈ s, SNorm A B (f i) := by
-  classical
-  by_cases htop : ∃ i ∈ s, SNorm A B (f i) = ⊤
-  · obtain ⟨i, hi, hit⟩ := htop
-    refine le_trans le_top (le_of_eq ?_)
-    symm
-    rw [ENNReal.sum_eq_top]
-    exact ⟨i, hi, hit⟩
-  have htop' : ∀ i ∈ s, SNorm A B (f i) ≠ ⊤ := fun i hi h => htop ⟨i, hi, h⟩
-  have hcd : ∀ i ∈ s, ContDiff ℝ A (f i) := by
-    intro i hi
-    by_contra hnc
-    apply htop' i hi
-    simp [SNorm, hA, hnc]
-  have hb := SNorm_finset_sum_bound (A := A) (B := B) s f (fun i => (SNorm A B (f i)).toReal) hcd
-    (fun i _ => ENNReal.toReal_nonneg) (fun i hi => (ENNReal.ofReal_toReal (htop' i hi)).symm.le)
-  refine hb.trans (le_of_eq ?_)
-  rw [ENNReal.ofReal_sum_of_nonneg (fun i _ => ENNReal.toReal_nonneg)]
-  exact Finset.sum_congr rfl fun i hi => ENNReal.ofReal_toReal (htop' i hi)
-
-theorem coefBound_finsetSum_le {ι : Type*} (θ : ℝ) {A B : ℕ} (hA : A ≠ 0) (s : Finset ι)
-    (c : ι → (Fin 3 → ℤ) → Mom d → Mom d → ℂ) :
-    coefBound θ A B (fun m r k => ∑ i ∈ s, c i m r k) ≤ ∑ i ∈ s, coefBound θ A B (c i) := by
-  classical
-  unfold coefBound
-  rw [← Summable.tsum_finsetSum (fun _ _ => ENNReal.summable)]
-  refine ENNReal.tsum_le_tsum fun m => ?_
-  rw [← Finset.mul_sum]
-  refine mul_le_mul_right ?_ _
-  refine iSup_le fun r => ?_
-  refine (SNorm_finsetSum_le hA s (fun i => c i m r)).trans ?_
-  exact Finset.sum_le_sum fun i _ => le_iSup (fun r' => SNorm A B (c i m r')) r
-
 end WaveTurbulence.VineEstS5A

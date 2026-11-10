@@ -42,21 +42,6 @@ theorem subtreeAt_branching_iff (T : TTree) (a : TTree.Path) (ha : a ∈ T.nodes
       rw [cons_mem_branching_node]
       exact ih _ ((cons_mem_nodes_node l m r i a).mp ha)
 
-noncomputable def subtreeLeafEquiv (T : TTree) (a : TTree.Path) (ha : a ∈ T.nodes) :
-    ↥(subtreeAt T a).leaves ≃ {q : ↥T.leaves // a <+: q.1} :=
-  Equiv.ofBijective (fun b => ⟨⟨a ++ b.1, (subtreeAt_leaves_iff T a ha b.1).mp b.2⟩,
-    List.prefix_append _ _⟩) (by
-    constructor
-    · intro b c he
-      have hp := congrArg (fun q : {q : ↥T.leaves // a <+: q.1} => q.1.1) he
-      exact Subtype.ext (List.append_cancel_left hp)
-    · rintro ⟨⟨q, hq⟩, hp⟩
-      obtain ⟨b, hb⟩ := hp
-      refine ⟨⟨b, (subtreeAt_leaves_iff T a ha b).mpr (hb.symm ▸ hq)⟩, ?_⟩
-      apply Subtype.ext
-      apply Subtype.ext
-      exact hb)
-
 theorem subtreeAt_eq_leaf_of_mem_leaves (T : TTree) {a : TTree.Path} (ha : a ∈ T.leaves) :
     subtreeAt T a = TTree.leaf := by
   have he := subtreeAt_graftTree_leaf T (fun _ => TTree.leaf) ha

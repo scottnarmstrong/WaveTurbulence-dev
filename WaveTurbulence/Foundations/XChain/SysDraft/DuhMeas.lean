@@ -91,12 +91,6 @@ theorem norm_epsProd_le (S : TTree) (κ : GNode (single S) → (Fin d → ℤ)) 
   unfold epsCoef
   split_ifs <;> simp
 
-theorem norm_leafProd (S : TTree) (b : (Fin d → ℤ) → ℂ) (κ : GNode (single S) → (Fin d → ℤ)) :
-    ‖leafProd S b κ‖ = ∏ ℓ : GLeaf (single S), ‖b (κ ℓ.toNode)‖ := by
-  unfold leafProd
-  rw [norm_prod]
-  simp only [norm_zpowSign]
-
 end Defs
 
 /-! ## Measurability in time -/

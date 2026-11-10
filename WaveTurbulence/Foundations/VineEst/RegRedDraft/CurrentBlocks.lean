@@ -43,11 +43,4 @@ theorem isBlock_iff_degree_connected (M : Molecule V D) (S : Finset V) (a b : V)
   · rintro ⟨⟨h1,h2,h3,h4,h5,h6,h7,h8,h9⟩,hc⟩
     exact ⟨h1,h2,h3,h4,h5,h6,h7,h8,h9,(groupConnected_iff_mole M S ⟨a,h2⟩).mpr hc⟩
 
-/-- CLCN's actual geometry is produced from current B2 premises, without an
-extra supplied realization or connectedness hypothesis. -/
-theorem cl_geometric_data {w : ℕ} (G : Garden w) {S : Finset (GBranch G.tree)}
-    {a b : GBranch G.tree} (hB : G.molecule.IsBlock S a b)
-    (hCL : Mole.CLParentPattern G S a b) : Nonempty (Mole.CLGeometricData G S a b) :=
-  Mole.cl_geometric_data G hB hCL
-
 end WaveTurbulence.RegRed

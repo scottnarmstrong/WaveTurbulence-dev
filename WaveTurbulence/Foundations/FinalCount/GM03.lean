@@ -149,23 +149,6 @@ theorem shape_chainsL (hT : TameFree hf Tm a₀) (hE : LowFree hf a₀) (hn : ¬
       · exact ⟨hd2, hout _ he2⟩
   · intro h; exact h12 (congrArg Subtype.val h)
 
-/-- **`FinalShape` for every component of the final molecule** (the `R = 1` case of Prop 9.5, as in G8's Prop 9.6). -/
-theorem finalShape_compL (hR : CompOddL hf a₀ → R = 1) (hT : TameFree hf Tm a₀) (hE : LowFree hf a₀) :
-    G8Copy.FinalShape (compMol hf.s.M a₀) (fun a => toCls (hf.s.cls a)) (CompOddL hf a₀) where
-  nonempty := shape_nonemptyL hC ha₀
-  caps := shape_capsL hC ha₀
-  noLoop := shape_noLoopL hC ha₀
-  conn := shape_connL hC ha₀
-  degPos := shape_degPosL hC ha₀
-  classes := shape_classesL hC ha₀ hE
-  dir2 := shape_dir2L hC ha₀ hE
-  oddDeg := fun hod => shape_oddDegL hC ha₀ (hR hod) hod
-  evenDeg := shape_evenDegL hC ha₀
-  noTriple := shape_noTripleL hC ha₀
-  evenBeta := shape_evenBetaL hC ha₀ hE
-  cycle := shape_cycleL hC ha₀ hE
-  chains := shape_chainsL hC ha₀ hT hE
-
 end shape3
 
 end WaveTurbulence.FinalCountG3

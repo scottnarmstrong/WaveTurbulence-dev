@@ -2,7 +2,40 @@
 module
 
 public import WaveTurbulence.Foundations.FinalCount.MoleProp.SharpPositivePair
-public import WaveTurbulence.Foundations.CountLemmas.CountTools
+public import WaveTurbulence.Foundations.CountLemmas.AtomCount
+public import WaveTurbulence.Foundations.CountLemmas.CountLemma
+public import Mathlib.Algebra.Ring.GeomSum
+public import Mathlib.Analysis.SpecialFunctions.Pow.Deriv
+public import Mathlib.Analysis.Calculus.IteratedDeriv.Defs
+public import Mathlib.Analysis.Calculus.BumpFunction.InnerProduct
+public import Mathlib.Analysis.Calculus.Deriv.Shift
+public import Mathlib.Analysis.SpecialFunctions.ExpDeriv
+public import Mathlib.MeasureTheory.Integral.IntervalIntegral.FundThmCalculus
+public import Mathlib.Analysis.Calculus.ContDiff.Deriv
+public import Mathlib.Analysis.Calculus.Deriv.Pow
+public import Mathlib.Analysis.SpecialFunctions.Gaussian.FourierTransform
+public import Mathlib.Analysis.SpecialFunctions.Pow.Continuity
+public import Mathlib.MeasureTheory.Integral.DominatedConvergence
+public import Mathlib.Analysis.SpecificLimits.Basic
+public import Mathlib.MeasureTheory.Integral.IntegralEqImproper
+public import Mathlib.Analysis.Calculus.Taylor
+public import Mathlib.Algebra.Order.Round
+public import Mathlib.Analysis.Calculus.IteratedDeriv.Lemmas
+public import Mathlib.Analysis.SumIntegralComparisons
+public import Mathlib.Analysis.SpecialFunctions.ImproperIntegrals
+public import Mathlib.Analysis.Calculus.MeanValue
+public import Mathlib.Analysis.Calculus.Deriv.Add
+public import Mathlib.Analysis.Calculus.ContDiff.Defs
+public import Mathlib.Algebra.BigOperators.Module
+public import Mathlib.Analysis.Normed.Module.Basic
+public import Mathlib.Algebra.BigOperators.Group.Finset.Basic
+public import Mathlib.Algebra.BigOperators.Intervals
+public import Mathlib.Analysis.SpecialFunctions.Log.Deriv
+public import Mathlib.MeasureTheory.Function.Floor
+public import Mathlib.Analysis.Fourier.PoissonSummation
+public import Mathlib.Analysis.Fourier.RiemannLebesgueLemma
+public import Mathlib.Topology.Order.IntermediateValue
+public import Mathlib.Tactic
 import Mathlib.Tactic
 
 /-! # DH23 basiccount(1) uniformly over the two actual sign cases -/

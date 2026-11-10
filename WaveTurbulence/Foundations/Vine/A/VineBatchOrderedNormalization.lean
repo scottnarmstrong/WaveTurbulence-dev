@@ -22,13 +22,6 @@ theorem operation_splice_garden_eqMk {A : FamilyReconstruction w ι} {i : ι}
       exact congrArg (fun τ => (stSt A.skeleton τ Mk).G) (transportPrescription_refl σ)
     · exact unitSplice_garden_eqMk (selectedMemberSite hA i) σ hT ⟨familyVine A.family i, hA.1 i, rfl⟩
 
-/-- Every actual fine operation leaves the literal normalized garden unchanged. -/
-theorem operation_splice_garden_eq {A : FamilyReconstruction w ι} {i : ι}
-    {σ : Prescription A.skeleton} (hA : IsV0Fam A.family σ)
-    (op : FamilyOperation (p := p) (kind := kind) A i) :
-    (stSt op.output.skeleton (transportPrescription (operationMolIso op) σ)).G = (stSt A.skeleton σ).G :=
-  operation_splice_garden_eqMk hA op (Stage1Mk.markTransported_empty _)
-
 /-- B1b-2 (Mk-general form of `BatchIso.splice_garden_eq`). -/
 theorem BatchIso.splice_garden_eqMk {A B : FamilyReconstruction w ι}
     {F : MolIso A.skeleton.molecule B.skeleton.molecule}
@@ -73,15 +66,6 @@ theorem operation_splice_pi_addressMk {A : FamilyReconstruction w ι} {i : ι}
       have hs : ∃ c ∈ vinesV0 A.skeleton σ Mk, c.atoms = Z.S0 := ⟨familyVine A.family i, hA.1 i, rfl⟩
       exact (congrArg Subtype.val (unitSplice_piMk Z σ hT hs v)).trans (unitSpliceMolIso_addressMk Z σ hT hs _)
 
-/-- Quotient atom addresses commute with one actual fine operation. -/
-theorem operation_splice_pi_address {A : FamilyReconstruction w ι} {i : ι}
-    {σ : Prescription A.skeleton} (hA : IsV0Fam A.family σ)
-    (op : FamilyOperation (p := p) (kind := kind) A i) (v : GBranch A.skeleton.tree) :
-    ((stSt op.output.skeleton (transportPrescription (operationMolIso op) σ)).M.pi
-      (stSt op.output.skeleton (transportPrescription (operationMolIso op) σ)).hcls ((operationMolIso op).e v)).1 =
-      ((stSt A.skeleton σ).M.pi (stSt A.skeleton σ).hcls v).1 :=
-  operation_splice_pi_addressMk hA op (Stage1Mk.markTransported_empty _) v
-
 /-- B1b-2 (Mk-general form of `BatchIso.splice_pi_address`). -/
 theorem BatchIso.splice_pi_addressMk {A B : FamilyReconstruction w ι}
     {F : MolIso A.skeleton.molecule B.skeleton.molecule}
@@ -104,16 +88,6 @@ theorem BatchIso.splice_pi_addressMk {A B : FamilyReconstruction w ι}
     rw [transportPrescription_trans] at hb
     exact hb.trans (operation_splice_pi_addressMk hA op h1 v)
 
-/-- The forward quotient diagram in literal addresses for a full actual batch. -/
-theorem BatchIso.splice_pi_address {A B : FamilyReconstruction w ι}
-    {F : MolIso A.skeleton.molecule B.skeleton.molecule}
-    (h : BatchIso p kind L A B F) (σ : Prescription A.skeleton) (hA : IsV0Fam A.family σ)
-    (v : GBranch A.skeleton.tree) :
-    ((stSt B.skeleton (transportPrescription F σ)).M.pi
-      (stSt B.skeleton (transportPrescription F σ)).hcls (F.e v)).1 =
-      ((stSt A.skeleton σ).M.pi (stSt A.skeleton σ).hcls v).1 :=
-  h.splice_pi_addressMk σ (Stage1Mk.markTransported_empty F) hA v
-
 /-- The quotient reverses the old-name map on every surviving branch. -/
 theorem splice_pi_ob {G : Garden w} (st : SpState G) (b : GBranch st.G.tree) : st.M.pi st.hcls (st.M.ob b) = b := by
   apply st.M.ob_inj
@@ -131,13 +105,6 @@ theorem BatchIso.spliceMolIso_addressMk {A B : FamilyReconstruction w ι}
   exact (congrArg Subtype.val hp).trans
     ((h.splice_pi_addressMk σ hT hA _).trans (congrArg Subtype.val (splice_pi_ob _ b)))
 
-/-- The actual full-batch quotient map fixes every literal branch address. -/
-theorem BatchIso.spliceMolIso_address {A B : FamilyReconstruction w ι}
-    {F : MolIso A.skeleton.molecule B.skeleton.molecule}
-    (h : BatchIso p kind L A B F) (σ : Prescription A.skeleton) (hA : IsV0Fam A.family σ)
-    (b : GBranch (stSt A.skeleton σ).G.tree) : ((h.spliceMolIso σ hA).e b).1 = b.1 :=
-  h.spliceMolIso_addressMk σ (Stage1Mk.markTransported_empty F) hA b
-
 /-- B1b-2 (Mk-general form of `BatchIso.splice_branch_cast`). -/
 theorem BatchIso.splice_branch_castMk {A B : FamilyReconstruction w ι}
     {F : MolIso A.skeleton.molecule B.skeleton.molecule}
@@ -147,13 +114,5 @@ theorem BatchIso.splice_branch_castMk {A B : FamilyReconstruction w ι}
     (b : GBranch (stSt A.skeleton σ Mk).G.tree) :
     gardenBranchCast (h.splice_garden_eqMk σ hT hA) ((h.spliceMolIsoMk σ hT hA).e b) = b :=
   Subtype.ext ((gardenBranchCast_val _ _).trans (h.spliceMolIso_addressMk σ hT hA b))
-
-/-- The actual full-batch quotient map is the cast forced by garden equality. -/
-theorem BatchIso.splice_branch_cast {A B : FamilyReconstruction w ι}
-    {F : MolIso A.skeleton.molecule B.skeleton.molecule}
-    (h : BatchIso p kind L A B F) (σ : Prescription A.skeleton) (hA : IsV0Fam A.family σ)
-    (b : GBranch (stSt A.skeleton σ).G.tree) :
-    gardenBranchCast (h.splice_garden_eq σ hA) ((h.spliceMolIso σ hA).e b) = b :=
-  h.splice_branch_castMk σ (Stage1Mk.markTransported_empty F) hA b
 
 end WaveTurbulence.VineA

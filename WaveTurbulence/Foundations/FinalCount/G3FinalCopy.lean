@@ -43,17 +43,8 @@ def IsEps : Cls → Prop
 end Cls
 
 open Classical in
-/-- The protected (non-`ε`) atoms: the `α`- and `β`-atoms. -/
-noncomputable def nonEps {V : Type*} (atoms : Finset V) (cls : V → Cls) : Finset V :=
-  atoms.filter fun v => ¬ (cls v).IsEps
-
-open Classical in
 noncomputable def alphaAtoms {V : Type*} (atoms : Finset V) (cls : V → Cls) : Finset V :=
   atoms.filter fun v => (cls v).IsAlpha
-
-open Classical in
-noncomputable def betaAtoms {V : Type*} (atoms : Finset V) (cls : V → Cls) : Finset V :=
-  atoms.filter fun v => (cls v).IsBeta
 
 open Classical in
 /-- **A chain** of `α`/`β`-atoms (L1806: "all its `α`- and `β`-atoms form several disjoint chains"): a nonempty

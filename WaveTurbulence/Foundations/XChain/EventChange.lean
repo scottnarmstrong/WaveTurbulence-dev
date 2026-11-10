@@ -47,14 +47,6 @@ theorem cumulant_event_change {Ω ι : Type*} [MeasurableSpace Ω] [DecidableEq 
   rw [Finset.prod_congr rfl he]
   exact prod_sub_error_terms P.parts _ _
 
-/-- The selected block family in every S7 error term contains at least one block. -/
-theorem event_change_error_has_block {ι : Type*} [DecidableEq ι] {s : Finset ι}
-    (P : Finpartition s) {T : Finset (Finset ι)} (hT : T ∈ P.parts.powerset.erase ∅) :
-    ∃ J ∈ T, J ∈ P.parts ∧ J.Nonempty := by
-  obtain ⟨J, hJ⟩ := Finset.nonempty_iff_ne_empty.mpr (Finset.mem_erase.mp hT).1
-  have hjP : J ∈ P.parts := (Finset.mem_powerset.mp (Finset.mem_erase.mp hT).2) hJ
-  exact ⟨J, hJ, hjP, P.nonempty_of_mem_parts hjP⟩
-
 /-- The removed-event moment gains the square-root event probability, with expectation
 still under the old event A. This is the Cauchy–Schwarz factor used in S7. -/
 theorem event_change_moment_bound {Ω : Type*} [MeasurableSpace Ω]

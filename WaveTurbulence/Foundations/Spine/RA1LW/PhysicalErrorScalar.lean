@@ -1,8 +1,8 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 
-public import WaveTurbulence.Foundations.Spine.RA1LW.Base
-public import WaveTurbulence.Foundations.Spine.RA1LW.PhysicalErrorProfiles
+public import WaveTurbulence.Foundations.Spine.RA1LW.SourceLeadingApp
+public import WaveTurbulence.Foundations.Spine.RA1LW.PhysicalProfileSplit
 public import WaveTurbulence.Foundations.Spine.RA1LW.SourceCoefficientWeights
 
 /-! # The literal combined scalar source error and its profile -/

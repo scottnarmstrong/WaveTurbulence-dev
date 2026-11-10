@@ -29,10 +29,6 @@ namespace WaveTurbulence.SumintPar
 theorem localizationProfile_nonneg {d : ℕ} (a : Fin d → ℤ) (x : Mom d) :
     0 ≤ localizationProfile a x := ApproxNT.thetaMom_nonneg _
 
-/-- Its magnitude is at most one. -/
-theorem localizationProfile_le_one {d : ℕ} (a : Fin d → ℤ) (x : Mom d) :
-    localizationProfile a x ≤ 1 := ApproxNT.thetaMom_le_one _
-
 /-- The profiles sum exactly to one, with an explicit finite active set at each point. -/
 theorem sum_localizationProfile {d : ℕ} (x : Mom d) :
     ∑ a ∈ ApproxNT.thetaSupport ((2 : ℝ) • x), localizationProfile a x = 1 :=
@@ -68,19 +64,6 @@ theorem localizationProfile_hasCompactSupport {d : ℕ} (a : Fin d → ℤ) :
       continuous_toFun := by fun_prop
       continuous_invFun := by fun_prop }
   exact ApproxNT.hasCompactSupport_thetaMom.comp_homeomorph e
-
-/-- Nonzero pieces lie in the plateau of the source cutoff. -/
-theorem chi0Tensor_eq_one_on_localization {d : ℕ} {a : Fin d → ℤ} {x : Mom d}
-    (hx : localizationProfile a x ≠ 0) :
-    Fourier.chi0Tensor (WithLp.ofLp (x - (1 / 2 : ℝ) • NTSP.intVec a)) = 1 := by
-  apply Fourier.chi0Tensor_eq_one
-  intro i
-  have hi := ApproxNT.abs_lt_one_of_thetaMom_ne_zero hx i
-  change |2 * x i - (a i : ℝ)| < 1 at hi
-  change |x i - (1 / 2 : ℝ) * (a i : ℝ)| ≤ 1 / 2
-  have he : 2 * (x i - (1 / 2 : ℝ) * (a i : ℝ)) = 2 * x i - (a i : ℝ) := by ring
-  rw [← he, abs_mul, abs_of_pos (by norm_num : (0 : ℝ) < 2)] at hi
-  linarith
 
 /-- Uniform finite-order derivative bounds for every localization center. -/
 theorem norm_iteratedFDeriv_localizationProfile_le {d : ℕ} (a : Fin d → ℤ)

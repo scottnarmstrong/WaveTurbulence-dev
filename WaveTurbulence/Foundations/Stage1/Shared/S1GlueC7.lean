@@ -24,8 +24,6 @@ variable {LN T : LayeredGarden w} {G : Garden w} {Q : RegCpl} {a b aT bT : Fin w
   (h : GlueC LN T G Q a b aT bT p)
 include h
 
-theorem glued_garden : h.glued.garden = G := rfl
-
 theorem glued_layerAt_of_mem {z : Fin w × Path} (hz : z.2 ∈ (G.tree z.1).nodes) :
     layerAt h.glued z = glueAt LN T a b aT bT z := by
   have : layerAt h.glued z = h.glued.layer ⟨z, hz⟩ := layerAt_of_mem h.glued hz

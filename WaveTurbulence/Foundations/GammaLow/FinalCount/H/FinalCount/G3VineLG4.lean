@@ -6,7 +6,6 @@ public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3Dart
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3FinalCopy
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3Flat
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3HInv
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3Prop95
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3Run
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3Steps
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3VineLG3
@@ -35,20 +34,6 @@ universe u
 variable {V : Type*} [DecidableEq V] {D₀ : Type u} [Fintype D₀] [DecidableEq D₀] {d : ℕ}
 variable {L γ η : ℝ} {w : Mom d} {κ : D₀ → (Fin d → ℤ)} {R : ℕ} {Tm : V → Prop}
 variable {M₀ : Molecule V D₀} {hf : HSt V D₀} {a₀ j₁ j₂ : V}
-
-theorem Src.Object.atoms_subset_of_contained {P Q : Src.Object Src.γL M₀} (h : P.IsContained Q) : P.atoms ⊆ Q.atoms := by
-  unfold Src.Object.IsContained at h
-  rcases hP : P.shape with hp | hp <;> rcases hQ : Q.shape with hq | hq <;>
-    simp only [hP, hQ, Src.VineLikeObject.IsContained] at h
-  · exact h
-  · exact h
-  · exact h
-  · exact h.1
-
-alias _root_.WaveTurbulence.GammaLow.FinalCount.Src.Object.atoms_subset_of_contained := _root_.WaveTurbulence.GammaLow.FinalCount.H.Src.Object.atoms_subset_of_contained
-def DesRec (C : CollData M₀) (hf : HSt V D₀) : Prop :=
-  ∀ j ∈ hf.s.M.atoms, ∀ p vis, hf.crec j = some (p, vis) → hf.anc j ∈ C.hinges →
-    ∃ f s, C.first (hf.anc j) = some f ∧ C.second (hf.anc j) = some s ∧ ({p.1, p.2} : Set D₀) = {f, s}
 
 /-- (iv) at a joint, the designated pair is held entirely by the joint half or not at all.  The recorded pair `p0` of the joint is the
 designated pair or its complement (R29, A1 / `Desig`). -/

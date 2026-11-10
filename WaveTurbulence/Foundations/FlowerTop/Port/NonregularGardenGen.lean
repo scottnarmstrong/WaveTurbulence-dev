@@ -17,9 +17,6 @@ open scoped Classical ENNReal
 @[expose] noncomputable def jbrProdAt {w d : ℕ} (L : ℝ) (k : Mom d) (n : Fin w → (Fin d → ℤ)) : ℝ :=
   ∏ j, jbr (k + latticePoint L (n j))
 
-theorem jbrProdAt_zero {w d : ℕ} (L : ℝ) (n : Fin w → (Fin d → ℤ)) : jbrProdAt L 0 n = jbrProd L n := by
-  simp [jbrProdAt, jbrProd]
-
 theorem garden_estimate_slice_of_gate (C₀ : ℕ) (P : WTParams) (hs : PieceSmall P)
     (hcoarse : CoarseSplicedAt P) (hfourier : LadderFourierAt P) (hcount : FinalCountAt P)
     (habs : FinalAbsorptionAt (6 * C₀) P) (hlog : 1 ≤ Real.log P.L) (hgate : Stage1ReductionAt C₀ P)
@@ -228,34 +225,5 @@ theorem garden_estimate_slice_of_gate (C₀ : ℕ) (P : WTParams) (hs : PieceSma
   calc _ ≤ _ := this
     _ = _ := by ring
 
-
-/-- **Bridge** (AMEND-ST3): the current base-0 estimate on `gardenSet` is the slice estimate with `A = gardenSet`,
-`k = 0`. -/
-theorem garden_estimate_of_gate_of_slice (C₀ : ℕ) (P : WTParams) (hs : PieceSmall P)
-    (hcoarse : CoarseSplicedAt P) (hfourier : LadderFourierAt P) (hcount : FinalCountAt P)
-    (habs : FinalAbsorptionAt (6 * C₀) P) (hlog : 1 ≤ Real.log P.L) (hgate : Stage1ReductionAt C₀ P)
-    (hd : 1 ≤ P.d) (hlowP : LowProfileAt P) (htime : P.τstar = (P.D : ℝ) * P.δ)
-    {Cφ : ℝ} (hCφ : 0 ≤ Cφ)
-    (hφ : ∀ τ ∈ Icc (0 : ℝ) P.τstar,
-      SNormR (P.Lambda 0) (P.Lambda 0) (P.φ τ) ≤ ENNReal.ofReal Cφ)
-    {p : ℕ} (hp : p < P.D) (Rr : ℕ → Mom P.d → ℝ) (hRr : RemainderBound P Rr p)
-    {m : ℕ} (hm2 : 2 ≤ m) (hmmax : m ≤ 10 * P.R (p + 1)) (ζ : Fin (2 * m) → ℤˣ)
-    (hζ : IsBalancedSig ζ) (n : Fin (2 * m) → (Fin P.d → ℤ)) {N : ℕ}
-    (hN : N ≤ P.N (p + 1) ^ 4) {t : ℝ} (ht : t ∈ Icc (p : ℝ) (p + 1))
-    (hTC : TwistClosed p (gardenSet P p N m ζ))
-    (hnum : ((P.d : ℝ) + 1) ^ (4 * m * P.Lambda (p + 1)) * gardenT P Cφ p m N ^ (8 * m * P.Lambda (p + 1)) *
-      (2 * P.C₁) ^ (N + m) * P.δ ^ (6 * P.ν * N) * P.L ^ (-P.η ^ 7) * P.L ^ (-((m : ℝ) - 1) / 70) ≤ 1) :
-    ‖truncSum P (inputsF P Rr) (p + 1) N t ζ n‖ ≤
-      jbrProd P.L n ^ (-(4 * P.Lambda (p + 1) : ℝ)) * P.L ^ (-((m : ℝ) - 1) / 4) *
-        P.δ ^ (2 * P.ν * N) := by
-  have h := garden_estimate_slice_of_gate C₀ P hs hcoarse hfourier hcount habs hlog hgate hd hlowP htime hCφ hφ
-    hp Rr hRr hm2 hmmax ζ hζ n 0 hN ht (gardenSet P p N m ζ)
-    (fun LG h => (Canon.finite_truncSum_support P (p + 1) N (2 * m) ζ).mem_toFinset.mp h) hTC hnum
-  rw [jbrProdAt_zero] at h
-  convert h using 2
-  rw [Canon.truncSum_eq_sum]
-  refine Finset.sum_congr rfl fun LG _ => ?_
-  rw [kernelLeaves_layerProfiles]
-  rfl
 
 end WaveTurbulence.LGSpine

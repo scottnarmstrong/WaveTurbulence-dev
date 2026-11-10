@@ -175,20 +175,11 @@ theorem ladRail_of_rung {M u w X : ℕ} (huw : IsLadRung M u w) (h : (ladMS M).c
     split_ifs <;> omega
   · rw [if_neg h1, if_neg h2] at h; omega
 
-theorem ladLo_ne_ladHi (M u : ℕ) (hu : 2 ≤ u) : ladLo u ≠ ladHi M u := by
-  unfold ladLo ladHi; split_ifs <;> omega
-
 theorem ladLo_rung {M u w : ℕ} (huw : IsLadRung M u w) (hne : ladLo u ≠ ladLo w) :
     (ladMS M).count s(ladLo u, ladLo w) ≠ 0 := by
   have h : IsLadRung M (ladLo u) (ladLo w) := by
     simp only [IsLadRung, ladLo] at huw hne ⊢; split_ifs at hne ⊢ <;> omega
   rw [count_ladMS, if_pos h]; omega
-
-theorem ladSig_zero {r : ℕ} (tw : Bool) (hr : 2 ≤ r) : ladSig r tw 0 = 0 := by
-  unfold ladSig; rw [if_pos (by omega)]
-
-theorem ladSig_one {r : ℕ} (tw : Bool) (hr : 2 ≤ r) : ladSig r tw 1 = 1 := by
-  unfold ladSig; rw [if_pos (by omega)]
 
 theorem ladSig_spec_false {r U : ℕ} (hUr : U ≠ r) (hUr' : U ≠ r + 1) :
     (U < r ∧ ladSig r false U = U) ∨ (r + 2 ≤ U ∧ ladSig r false U + 2 = U) := by

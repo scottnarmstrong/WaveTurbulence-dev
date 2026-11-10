@@ -25,13 +25,6 @@ namespace WaveTurbulence.Fourier
 @[expose] noncomputable def jointFrequencyConstant : ℝ :=
   1 + ∫ ξ : Fin 2 → ℝ, jointFrequencyEnvelope (ξ 0, ξ 1)
 
-/-- The frequency constant is at least one. -/
-theorem one_le_jointFrequencyConstant : 1 ≤ jointFrequencyConstant := by
-  have h : 0 ≤ ∫ ξ : Fin 2 → ℝ, jointFrequencyEnvelope (ξ 0, ξ 1) :=
-    integral_nonneg (fun _ => jointFrequencyEnvelope_nonneg _)
-  dsimp [jointFrequencyConstant]
-  linarith
-
 /-- The actual derivative-moment sum is nonnegative. -/
 theorem threeTimeMomentSum_nonneg (f : (Fin 2 → ℝ) → ℂ) : 0 ≤ threeTimeMomentSum f := by
   apply List.sum_nonneg
@@ -68,36 +61,5 @@ theorem timeWeight_mul_enorm_timeFourier_le_three_moments {f : (Fin 2 → ℝ) �
     _ ≤ ENNReal.ofReal (8 * jointFrequencyEnvelope (ξ 0, ξ 1) * threeTimeMomentSum f) :=
       ENNReal.ofReal_le_ofReal hreal
     _ = _ := ENNReal.ofReal_mul (mul_nonneg (by norm_num) (jointFrequencyEnvelope_nonneg _))
-
-/-- The quarter-order mixed norm is controlled by the uniform eight-moment sum.
-The time slices alone are assumed smooth and compactly supported. -/
-theorem mixedFourierNorm_quarter_le_three_moments {d : ℕ}
-    {F : (Fin 2 → ℝ) → Mom d → ℂ}
-    (hF : ∀ k, ContDiff ℝ ∞ (fun t => F t k))
-    (hc : ∀ k, HasCompactSupport (fun t => F t k)) :
-    mixedFourierNorm (1 / 4) 0 0 F ≤ ENNReal.ofReal (8 * jointFrequencyConstant) *
-      ⨆ k, ENNReal.ofReal (threeTimeMomentSum (fun t => F t k)) := by
-  let M := ⨆ k, ENNReal.ofReal (threeTimeMomentSum (fun t => F t k))
-  let B := fun ξ : Fin 2 → ℝ => ENNReal.ofReal (8 * jointFrequencyEnvelope (ξ 0, ξ 1))
-  have hB : Measurable B := by
-    exact (measurable_const.mul (jointFrequencyEnvelope_measurable.comp
-      (by fun_prop))).ennreal_ofReal
-  have hpoint (ξ : Fin 2 → ℝ) (k : Mom d) :
-      timeWeight (1 / 4) ξ * ‖mixedTimeFourier F ξ k‖ₑ ≤ B ξ * M :=
-    (timeWeight_mul_enorm_timeFourier_le_three_moments (hF k) (hc k) ξ).trans
-      (mul_le_mul_right (le_iSup (fun k => ENNReal.ofReal (threeTimeMomentSum (fun t => F t k))) k) _)
-  have hnorm := mixedFourierNorm_zero_le_weighted_majorant (1 / 4)
-    (fun k => (hF k).continuous.integrable_of_hasCompactSupport (hc k)) hB M hpoint
-  apply hnorm.trans
-  apply mul_le_mul_left
-  have hi := jointFrequencyEnvelope_coordinates_integrable.const_mul (8 : ℝ)
-  have hn : 0 ≤ᵐ[volume] (fun ξ : Fin 2 → ℝ => 8 * jointFrequencyEnvelope (ξ 0, ξ 1)) :=
-    ae_of_all _ fun _ => mul_nonneg (by norm_num) (jointFrequencyEnvelope_nonneg _)
-  rw [show (∫⁻ ξ, B ξ) = ENNReal.ofReal (∫ ξ : Fin 2 → ℝ,
-    8 * jointFrequencyEnvelope (ξ 0, ξ 1)) from (ofReal_integral_eq_lintegral_ofReal hi hn).symm]
-  apply ENNReal.ofReal_le_ofReal
-  rw [integral_const_mul]
-  dsimp [jointFrequencyConstant]
-  linarith
 
 end WaveTurbulence.Fourier

@@ -103,11 +103,6 @@ theorem boxSw_closure (p : ℝ) : ∀ y ∈ boxSw p, y ∈ closure (interior (bo
   exact fun _ hy => VineEstS5C.P4.W2.inter_open_closure_interior (VineEstS3.timeBox_subset_closure_interior p p)
     (isOpen_lt (continuous_apply 0) (continuous_apply 1)) hy
 
-theorem permT_swap2_invol (y : Fin 2 → ℝ) : ConjCoh.permT swap2 (ConjCoh.permT swap2 y) = y := by
-  rw [permT_swap2_apply, permT_swap2_apply]
-  funext i
-  fin_cases i <;> rfl
-
 theorem rn_boxSw (θ p : ℝ) (W : (Fin 2 → ℝ) → ℂ) :
     rn θ (boxSw p) (fun y => W (ConjCoh.permT swap2 y)) = rn θ (timeBoxGt p p) W := by
   rw [boxSw, rn_swap]

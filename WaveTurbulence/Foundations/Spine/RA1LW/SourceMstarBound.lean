@@ -2,7 +2,6 @@
 module
 
 public import WaveTurbulence.Foundations.Spine.RA1LW.LeafFam
-public import WaveTurbulence.Foundations.Spine.RA1LW.Base
 public import WaveTurbulence.Foundations.Spine.RA1LW.SourceMstarIdentification
 public import WaveTurbulence.Foundations.RegAsymp.SpatialNormScalar
 

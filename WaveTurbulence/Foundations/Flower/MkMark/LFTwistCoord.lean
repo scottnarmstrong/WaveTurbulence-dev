@@ -89,15 +89,6 @@ theorem coreBranch_fixed (b : GBranch S.tree) (hn : ¬ (b.1.1 = P.lower.1.1 ∧ 
   rw [← e] at hl
   exact TTree.not_mem_branching_of_mem_leaves _ hl b.2
 
-/-- The retained leaf is the `keep`-child of the lower joint. -/
-theorem retained_parent_eq (h : P.retained.toNode.1.2 ≠ []) : GNode.parent P.retained.toNode h = P.lower := by
-  have e := P.child
-  apply Subtype.ext
-  show (P.retained.1.1, P.retained.1.2.dropLast) = P.lower.1
-  have e1 : P.retained.1 = (P.lower.1.1, P.lower.1.2 ++ [P.keep]) := congrArg Subtype.val e
-  rw [e1]
-  simp
-
 end Twist
 
 theorem holeOf_leaf {S : Garden w} (D : ReconstructionData S) (l : GLeaf S.tree) : holeOf D l.toNode = none := by

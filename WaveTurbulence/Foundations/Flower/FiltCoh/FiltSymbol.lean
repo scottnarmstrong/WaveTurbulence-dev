@@ -68,11 +68,6 @@ attribute [-instance] WaveTurbulence.Mole.instFintypePositionCode
     Fin (Fintype.card {j : Fin n // j ∉ wickTracedLinks σ}) → ℝ → ℂ :=
   fun i => ψ ((wickSurvivorEquiv σ).symm i).val
 
-theorem filtCellSymbol_one {n : ℕ} (L δ γ : ℝ) (z : (Fin n × Fin 2) → Fin d → ℤ) (β γ' : Fin n → Mom d)
-    (J : Finset (Fin n)) (C : ({j : Fin n // j ∉ J} → ℝ) → ℝ × ℝ → ℂ) (lam : ℝ × ℝ) :
-    filtCellSymbol L δ γ (fun _ _ => 1) z β γ' J C lam = physicalWeightedCellSymbol L δ γ z β γ' J C lam := by
-  simp only [filtCellSymbol, physicalWeightedCellSymbol, filtRes_one]
-
 /-- **Decomposition**: filtered NT sum at energy `2δ` plus the filtered Wick correction. -/
 theorem filtCellSymbol_eq_sum_add_wick {n : ℕ} {L : ℝ} (hL : 0 < L) (δ γ : ℝ) (ψ : Fin n → ℝ → ℂ)
     (z : (Fin n × Fin 2) → Fin d → ℤ) (β γ' : Fin n → Mom d)

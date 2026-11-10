@@ -33,20 +33,4 @@ theorem weighted_coupleLeaves {d : ℕ} (hd : 1 ≤ d) {L : ℝ} (hL : 1 ≤ L)
   rw [hw] at hh
   exact hh
 
-theorem weighted_coupleLeaves_norm_le {d : ℕ} (hd : 1 ≤ d) {L : ℝ} (hL : 1 ≤ L)
-    (γ δ : ℝ) (LG : LayeredGarden 2) (hp : LG.garden.IsPlain) (H : LeafProfiles 2 d)
-    (m : ℕ) (B : RootWeightChoices LG.garden d m → (Fin 2 × TTree.Path) → NNReal)
-    (hH : ∀ c, LeafwiseControlled LG (rootModifiedProfiles LG.garden hp H c) (B c))
-    (t s : ℝ) (k : Mom d) :
-    jbr k ^ (4 * m) * ‖coupleLeaves L γ δ LG H t s k‖ ≤
-      ∑ c : RootWeightChoices LG.garden d m,
-        ‖coupleLeaves L γ δ LG (rootModifiedProfiles LG.garden hp H c) t s k‖ := by
-  have hh := weighted_coupleLeaves hd hL γ δ LG hp H m B hH t s k
-  have hn := norm_sum_le (univ : Finset (RootWeightChoices LG.garden d m))
-    (fun c => ((rootChoiceSign LG.garden c : ℝ) : ℂ) *
-      coupleLeaves L γ δ LG (rootModifiedProfiles LG.garden hp H c) t s k)
-  rw [← hh, norm_mul, Complex.norm_real,
-    Real.norm_of_nonneg (pow_nonneg (jbr_pos k).le _)] at hn
-  simpa only [norm_mul, norm_rootChoiceSign, one_mul] using hn
-
 end WaveTurbulence.LGSpine

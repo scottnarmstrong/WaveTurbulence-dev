@@ -64,10 +64,6 @@ theorem object_of_isVineLikeSet {M : Molecule V D} {S : Finset V} (h : IsVineLik
   · obtain ⟨e, he, hb, n, _, hn⟩ := h
     exact ⟨⟨S, a, b, .hyper ⟨e, he, ⟨hb, n, hn⟩⟩⟩, rfl⟩
 
-theorem isVineLikeSet_iff_object {M : Molecule V D} {S : Finset V} :
-    IsVineLikeSet M S ↔ ∃ P : Object M, P.atoms = S :=
-  ⟨object_of_isVineLikeSet, fun ⟨P, hP⟩ => hP ▸ isVineLikeSet_of_object P⟩
-
 theorem isStage1Group_of_vineLike {M : Molecule V D} {S : Finset V} (h : IsVineLikeSet M S) :
     IsStage1Group M S := by
   obtain ⟨a, b, h | h | h⟩ := h

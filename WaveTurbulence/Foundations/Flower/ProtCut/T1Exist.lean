@@ -130,54 +130,6 @@ theorem multFactors_local (f : GBranch LG.garden.tree → (Fin 4 → Mom d) → 
   rw [h.prod_t1Branch]
   simp only [h.bstar_βA, h.bstar_βB, h.bstar_βC]
 
-/-- Bounds for the factors of a branch-local multiplier. -/
-theorem multFactors_local_bound (f : GBranch LG.garden.tree → (Fin 4 → Mom d) → ℂ)
-    (Cf : GBranch LG.garden.tree → ℝ) (hf : ∀ b ξ, ‖f b ξ‖ ≤ Cf b) (hC : ∀ b, 1 ≤ Cf b) :
-    (∀ A B, ‖f (h.rt 0) A * f (h.rt 1) B‖ ≤ ∏ b, Cf b) ∧
-    (∀ K, ‖∏ x, f (h.βA x) (bstar K x)‖ ≤ ∏ b, Cf b) ∧
-    (∀ K, ‖∏ x, f (h.βB x) (bstar K x)‖ ≤ ∏ b, Cf b) ∧
-    (∀ K, ‖∏ x, f (h.βC x) (bstar K x)‖ ≤ ∏ b, Cf b) := by
-  have one_le : ∀ {ι : Type _} [Fintype ι] (φ : ι → GBranch LG.garden.tree), 1 ≤ ∏ x, Cf (φ x) := by
-    intro ι _ φ
-    calc (1 : ℝ) = ∏ _x : ι, (1 : ℝ) := Finset.prod_const_one.symm
-      _ ≤ ∏ x, Cf (φ x) := Finset.prod_le_prod₀ (fun _ _ => zero_le_one) (fun x _ => hC (φ x))
-  have hnorm : ∀ {ι : Type _} [Fintype ι] (φ : ι → GBranch LG.garden.tree) (K' : ι → Fin 4 → Mom d),
-      ‖∏ x, f (φ x) (K' x)‖ ≤ ∏ x, Cf (φ x) := by
-    intro ι _ φ K'
-    rw [norm_prod]
-    exact Finset.prod_le_prod₀ (fun _ _ => norm_nonneg _) (fun x _ => hf _ _)
-  rw [h.prod_t1Branch]
-  set A := ∏ x, Cf (h.βA x)
-  set B := ∏ x, Cf (h.βB x)
-  set C := ∏ x, Cf (h.βC x)
-  have hA : 1 ≤ A := one_le _
-  have hB : 1 ≤ B := one_le _
-  have hC' : 1 ≤ C := one_le _
-  have h0 := hC (h.rt 0)
-  have h1 := hC (h.rt 1)
-  have hr : 1 ≤ Cf (h.rt 0) * Cf (h.rt 1) := one_le_mul_of_one_le_of_one_le h0 h1
-  have hBC : 1 ≤ B * C := one_le_mul_of_one_le_of_one_le hB hC'
-  have hABC : 1 ≤ A * (B * C) := one_le_mul_of_one_le_of_one_le hA hBC
-  refine ⟨fun A' B' => ?_, fun K => ?_, fun K => ?_, fun K => ?_⟩
-  · rw [norm_mul]
-    calc ‖f (h.rt 0) A'‖ * ‖f (h.rt 1) B'‖ ≤ Cf (h.rt 0) * Cf (h.rt 1) :=
-          mul_le_mul (hf _ _) (hf _ _) (norm_nonneg _) (zero_le_one.trans h0)
-      _ ≤ Cf (h.rt 0) * Cf (h.rt 1) * (A * (B * C)) := le_mul_of_one_le_right (zero_le_one.trans hr) hABC
-  · calc ‖∏ x, f (h.βA x) (bstar K x)‖ ≤ A := hnorm _ _
-      _ ≤ (Cf (h.rt 0) * Cf (h.rt 1) * (B * C)) * A :=
-          le_mul_of_one_le_left (zero_le_one.trans hA) (one_le_mul_of_one_le_of_one_le hr hBC)
-      _ = _ := by ring
-  · calc ‖∏ x, f (h.βB x) (bstar K x)‖ ≤ B := hnorm _ _
-      _ ≤ (Cf (h.rt 0) * Cf (h.rt 1) * (A * C)) * B :=
-          le_mul_of_one_le_left (zero_le_one.trans hB)
-            (one_le_mul_of_one_le_of_one_le hr (one_le_mul_of_one_le_of_one_le hA hC'))
-      _ = _ := by ring
-  · calc ‖∏ x, f (h.βC x) (bstar K x)‖ ≤ C := hnorm _ _
-      _ ≤ (Cf (h.rt 0) * Cf (h.rt 1) * (A * B)) * C :=
-          le_mul_of_one_le_left (zero_le_one.trans hC')
-            (one_le_mul_of_one_le_of_one_le hr (one_le_mul_of_one_le_of_one_le hA hB))
-      _ = _ := by ring
-
 end T1Data
 
 end WaveTurbulence.Flower.ProtCut

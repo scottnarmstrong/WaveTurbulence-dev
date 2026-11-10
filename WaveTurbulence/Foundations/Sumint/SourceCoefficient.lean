@@ -30,14 +30,6 @@ theorem integrable_sourceCoefficient {d : ℕ} (hd : 1 ≤ d) (D : SumintDatum d
     (a b : D.S.VIdx → Fin d → ℤ) : Integrable (sourceCoefficient D a b) :=
   source_tensor_fourier_integrable hd D hL hD (Sum.elim a b)
 
-/-- The coefficient's mass keeps the full source weight-multiplicity gain. -/
-theorem integral_norm_sourceCoefficient_le {d : ℕ} (hd : 1 ≤ d) (D : SumintDatum d)
-    {A L γ η : ℝ} {Dsteps : ℕ} (hL : 0 < L) (hD : D.Admissible A L γ η Dsteps)
-    (a b : D.S.VIdx → Fin d → ℤ) :
-    (∫ ξ, ‖sourceCoefficient D a b ξ‖) ≤
-      cellFourierFactor d^(2*D.S.M)*L^(-(gammaWeight d γ-Real.sqrt η)*D.M₁) :=
-  source_tensor_fourier_mass_le hd D hL hD (Sum.elim a b)
-
 /-- The actual tensor coefficient is continuous in all frequency coordinates. -/
 theorem continuous_sourceCoefficient {d : ℕ} (hd : 1 ≤ d) (D : SumintDatum d)
     {A L γ η : ℝ} {Dsteps : ℕ} (hD : D.Admissible A L γ η Dsteps)
@@ -52,14 +44,6 @@ theorem continuous_sourceCoefficient {d : ℕ} (hd : 1 ≤ d) (D : SumintDatum d
   have hc : Continuous (𝓕 (localizedWeight (Sum.elim a b i) (sourceWeight D i))) :=
     VectorFourier.fourierIntegral_continuous Real.continuous_fourierChar (innerSL ℝ).continuous₂ hi
   exact hc.comp (continuous_apply i)
-
-/-- The modulation times coefficient is genuinely integrable at every lattice input. -/
-theorem integrable_source_modulatedCoefficient {d : ℕ} (hd : 1 ≤ d) (D : SumintDatum d)
-    {A L γ η : ℝ} {Dsteps : ℕ} (hL : 0 < L) (hD : D.Admissible A L γ η Dsteps)
-    (a b : D.S.VIdx → Fin d → ℤ) (x : D.S.VIdx → Fin d → ℤ) (E : Fin 4 → Mom d) :
-    Integrable (fun ξ => tensorCharacter (Sum.elim (D.kVec L x E) (D.ℓVec L x E)) ξ *
-      sourceCoefficient D a b ξ) :=
-  integrable_tensorCharacter_mul _ (integrable_sourceCoefficient hd D hL hD a b)
 
 /-- Exact localized weight expansion in separated character/coefficient form. -/
 theorem source_coefficient_expansion {d : ℕ} (hd : 1 ≤ d) (D : SumintDatum d)

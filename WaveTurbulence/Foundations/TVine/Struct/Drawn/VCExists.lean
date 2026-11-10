@@ -323,11 +323,6 @@ namespace WaveTurbulence.TVine.Struct.Drawn
 
 universe u v
 
-/-- **Lemma 8.1′**, as L3's `Struct.VinechainStatement` (`γ ≤ 1/2`). -/
-theorem vinechain (hF1 : VC.TVineF1Input.{u, v}) : Struct.VinechainStatement.{u, v} := by
-  intro V D _ _ _ γ _ M hM
-  exact VC.vinechainlemPrime hF1 γ hM
-
 /-- **Lemma 8.1′**, as L5a's named input `GammaLow.Fama.VinechainlemPrimeInput` (universe `0`). -/
 theorem vinechainlemPrimeInput (hF1 : VC.TVineF1Input.{0, 0}) : GammaLow.Fama.VinechainlemPrimeInput := by
   intro γ _ V D _ _ _ M hM

@@ -2,7 +2,7 @@
 module
 
 public import WaveTurbulence.Foundations.Flower.MkUnitsL.RegionL
-public import WaveTurbulence.Foundations.Flower.V5W.ContClass
+public import WaveTurbulence.Foundations.Flower.V5W.ContMember
 
 /-! # MK-UNITS-L (B3-2): list-T5, continuity of the weighted class kernel with per-unit top filters
 

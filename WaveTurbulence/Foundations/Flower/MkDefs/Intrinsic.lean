@@ -51,18 +51,6 @@ def protSkOf : ∀ R, MarkRule R := fun _R J fix sel _ι B b =>
   ∃ a ∈ protectedSet B.layered J (fix B.layered) (sel B.layered),
     a.1 ∈ nearRegion B.skeleton B.data.tree b
 
-/-- The marked vines of a prime reconstruction (same rule, on `PrimeData`). -/
-def markedVines {LG : LayeredGarden w} (A : VineA.PrimeData LG) (Pi : Finset (GNode LG.garden.tree)) :
-    Set (Stage1.CLVine A.skeleton) :=
-  {c | ∃ b ∈ c.atoms, b ≠ c.upper ∧ ∃ a ∈ Pi, a.1 ∈ nearRegion A.skeleton A.data.tree b}
-
-theorem protSkOf_state_iff {R : ℕ} {LG : LayeredGarden (2 * R)} (A : VineA.PrimeData LG)
-    (U : Set (Stage1.CLVine A.skeleton)) (hU : U ⊆ Stage1.vinesV A.skeleton) (J : Finset (Fin (2 * R)))
-    (fix : ∀ LG : LayeredGarden (2 * R), GBranch LG.garden.tree → Option ℝ)
-    (sel : ∀ LG : LayeredGarden (2 * R), Finset (GBranch LG.garden.tree)) (b : GBranch A.skeleton.tree) :
-    protSkOf R J fix sel (A.state U hU) b ↔
-      ∃ a ∈ protectedSet LG J (fix LG) (sel LG), a.1 ∈ nearRegion A.skeleton A.data.tree b := Iff.rfl
-
 /-- Intrinsic capped pins: the frozen `fixPat` with capped flower parents (S-MARKED A2 `capFix`). -/
 noncomputable def fixCap (LG : LayeredGarden w) (J : Finset (Fin w)) (pat : Fin w → FixPat) (t s : ℝ)
     (b : GBranch LG.garden.tree) : Option ℝ :=
@@ -132,17 +120,5 @@ def MarkCountBound : Prop :=
 def MarkTransported {S S' : Garden w} (F : Stage1.MolIso S.molecule S'.molecule)
     (M : Set (Stage1.CLVine S)) (M' : Set (Stage1.CLVine S')) : Prop :=
   ∀ (c : Stage1.CLVine S) (c' : Stage1.CLVine S'), c'.atoms = F.img c.atoms → (c ∈ M ↔ c' ∈ M')
-
-/-- **Lemma 2⁺(a) (B2a target), batch form.** A batch at members that are all unmarked for `Π` transports the marking
-(for `mk = markI0` unconditionally; for `mk = markI` on stem-clean reconstructions, via FL-SEP). -/
-def MarkInvariantBatch (mk : MarkFn w) (Clean : ∀ {LG : LayeredGarden w}, VineA.PrimeData LG → Prop) : Prop :=
-  ∀ {p : ℕ} {kind : Bool} {ι : Type} {L : List ι} {A B : LFTwist.FamilyReconstruction w ι}
-    (h : LFTwist.FamilyBatch p kind L A B) (hA : Reg.Skeleton.IsPrimeGarden A.skeleton),
-    (∀ i, (A.family.placement i).lower ∈ A.family.atoms i →
-      ∀ c ∈ mk (⟨A.skeleton, hA, A.data, A.decodes⟩ : VineA.PrimeData A.layered), c.atoms ≠ A.family.atoms i) →
-    Clean (⟨A.skeleton, hA, A.data, A.decodes⟩ : VineA.PrimeData A.layered) →
-    MarkTransported (VineA.batchMolIso h)
-      (mk (⟨A.skeleton, hA, A.data, A.decodes⟩ : VineA.PrimeData A.layered))
-      (mk (⟨B.skeleton, VineA.batch_prime h hA, B.data, B.decodes⟩ : VineA.PrimeData B.layered))
 
 end WaveTurbulence.Flower.MkDefs

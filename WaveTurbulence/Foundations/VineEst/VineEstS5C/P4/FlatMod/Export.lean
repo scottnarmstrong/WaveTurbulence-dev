@@ -55,19 +55,4 @@ theorem twistedRecenteredModC_eq_flat (hprime : IsPrimeGarden G) (lam : ℝ) (κ
     Lvl.top_classSumM]
   rfl
 
-theorem modPsi_zero (b : GBranch G.tree) (Ψ : PsiT G d) : modPsi b 0 Ψ = Ψ := by
-  funext x t u
-  simp [modPsi]
-
-/-- λ = 0: the modulated flat identity gives `Lvl.classSum_eq_flat`. -/
-theorem Lvl.classSum_eq_flat_of_flatM (κ0 : KPar d) (hL : κ0.L ≠ 0)
-    (hF : ∀ k : ℕ, Summable fun n : Fin d → ℤ => |κ0.F k (κ0.base + latticePoint κ0.L n)|) (hprime : IsPrimeGarden G)
-    (lv : Lvl B) (t0 t1 t2 : ℝ) (e f g h : Mom d) :
-    lv.classSum (p := p) (kind := kind) B RD hG layer hLayer κ0 t0 t1 t2 e f g h =
-      (coupling d κ0.L κ0.γ κ0.δ : ℂ) ^ clLocalOrder1 lv.region * clLocalZeta lv.region *
-        lkRaw lv.region κ0.L κ0.base
-          (Lvl.psiFuel (p := p) (kind := kind) B RD hG layer hLayer κ0 hprime (Fintype.card lv.ι + 1) lv) ![t0, t1, t2] ![e, f, g, h] := by
-  rw [← Lvl.classSumM_zero (p := p) (kind := kind) B RD hG layer hLayer κ0 lv,
-    Lvl.classSumM_eq_flatM (p := p) (kind := kind) B RD hG layer hLayer 0 κ0 hL hF hprime lv, modPsi_zero]
-
 end WaveTurbulence.VineEstS5C

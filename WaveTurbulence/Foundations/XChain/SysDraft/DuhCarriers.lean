@@ -81,12 +81,6 @@ theorem embB_child (c : GBranch (single S)) (j : Fin 3) :
 
 theorem embL_toNode (ℓ : GLeaf (single S)) : (h.embL ℓ).toNode = h.embN ℓ.toNode := rfl
 
-theorem embN_injective : Function.Injective h.embN := fun _ _ e =>
-  GNode.ext_path (List.cons_injective (congrArg (fun x => x.1.2) e))
-
-theorem embB_injective : Function.Injective h.embB := fun _ _ e =>
-  GBranch.ext_path (List.cons_injective (congrArg (fun x => x.1.2) e))
-
 theorem embL_injective : Function.Injective h.embL := fun _ _ e =>
   GLeaf.ext_path (List.cons_injective (congrArg (fun x => x.1.2) e))
 
@@ -116,17 +110,6 @@ variable (l m r : TTree)
 
 /-- The root of `node l m r` as a branching node. -/
 def rootB : GBranch (single (TTree.node l m r)) := ⟨(0, []), by simp [single, TTree.branching]⟩
-
-theorem rootB_toNode : (rootB l m r).toNode = GNode.root (single (TTree.node l m r)) 0 := rfl
-
-theorem rootB_child_zero :
-    (rootB l m r).child 0 = (isSubtreeAt_left l m r).embN (GNode.root (single l) 0) := rfl
-
-theorem rootB_child_one :
-    (rootB l m r).child 1 = (isSubtreeAt_mid l m r).embN (GNode.root (single m) 0) := rfl
-
-theorem rootB_child_two :
-    (rootB l m r).child 2 = (isSubtreeAt_right l m r).embN (GNode.root (single r) 0) := rfl
 
 /-- Branching nodes of `node l m r`: the root, then those of `l`, `m`, `r`. -/
 def brMap : Unit ⊕ (GBranch (single l) ⊕ (GBranch (single m) ⊕ GBranch (single r))) →
@@ -378,15 +361,6 @@ noncomputable def decSplit (n : Fin d → ℤ) :
     · exact funext fun a => e (some (.inl a))
     · exact funext fun a => e (some (.inr (.inl a)))
     · exact funext fun a => e (some (.inr (.inr a)))
-
-theorem decSplit_apply_fst (n : Fin d → ℤ) (κ : TreeDecoration (TTree.node l m r) d n) :
-    (decSplit l m r n κ).2.1.1 = (isSubtreeAt_left l m r).res κ.1 := rfl
-
-theorem decSplit_apply_snd (n : Fin d → ℤ) (κ : TreeDecoration (TTree.node l m r) d n) :
-    (decSplit l m r n κ).2.2.1.1 = (isSubtreeAt_mid l m r).res κ.1 := rfl
-
-theorem decSplit_apply_thd (n : Fin d → ℤ) (κ : TreeDecoration (TTree.node l m r) d n) :
-    (decSplit l m r n κ).2.2.2.1 = (isSubtreeAt_right l m r).res κ.1 := rfl
 
 end Node
 

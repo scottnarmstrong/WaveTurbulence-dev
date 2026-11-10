@@ -5,7 +5,8 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.Incoh.NormalizedProductDecay
+public import WaveTurbulence.Foundations.Incoh.AbsorbedProductDecay
+public import WaveTurbulence.Foundations.Incoh.CouplingScale
 
 /-!
 # The normalized localized time integrand

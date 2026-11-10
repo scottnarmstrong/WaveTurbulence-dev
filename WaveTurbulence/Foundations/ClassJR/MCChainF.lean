@@ -85,9 +85,6 @@ theorem integral_ZT_nil (a : ℂ) : ∫ _ : ZT .nil, a = a := by
 
 instance : IsFiniteMeasure (volume : Measure (ZT .nil)) := ⟨by rw [volume_ZT_nil_univ]; simp⟩
 
-theorem volume_ZT_node (i r : LegalCode) : (volume : Measure (ZT (.node i r))) =
-    (volume : Measure (ℝ × ℝ)).prod ((volume : Measure (ZT i)).prod volume) := rfl
-
 end ZT
 
 section Product
@@ -114,17 +111,6 @@ theorem integrable_Mz {Ĉ : ℕ → ℝ × ℝ → ℂ} (hC : ∀ j, Integrable 
     refine h.congr (Eventually.of_forall fun z => ?_)
     simp only [Mz]
     ring
-
-theorem measurable_Mz {Ĉ : ℕ → ℝ × ℝ → ℂ} (hC : ∀ j, Measurable (Ĉ j)) :
-    ∀ (c : LegalCode) (q : ℕ), Measurable (Mz Ĉ c q)
-  | .nil, _ => measurable_const
-  | .node i r, q => by
-    have h1 : Measurable fun z : ZT (.node i r) => Ĉ q z.1 := (hC q).comp measurable_fst
-    have h2 : Measurable fun z : ZT (.node i r) => Mz Ĉ i (q + 1) z.2.1 :=
-      (measurable_Mz hC i (q + 1)).comp (measurable_fst.comp measurable_snd)
-    have h3 : Measurable fun z : ZT (.node i r) => Mz Ĉ r (q + i.size + 1) z.2.2 :=
-      (measurable_Mz hC r (q + i.size + 1)).comp (measurable_snd.comp measurable_snd)
-    exact (h1.mul h2).mul h3
 
 theorem continuous_Λz : ∀ (c : LegalCode) (q j : ℕ), Continuous fun z : ZT c => Λz c q z j
   | .nil, _, _ => continuous_const

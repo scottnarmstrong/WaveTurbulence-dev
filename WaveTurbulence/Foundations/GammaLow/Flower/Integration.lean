@@ -29,22 +29,4 @@ the class representation B3s): for all `cP cθ`, B3s gives the marked Stage-1′
 def Stage1B4Low : Prop :=
   ∀ cP cθ : ℝ, MarkedClassRepresentsGateLow cP cθ → ∃ C₀ : ℕ, 2 ≤ C₀ ∧ Stage1MKGateLow C₀ cP cθ
 
-/-- **FL-low from item I's interface**: L5a's Stage-1 gate, B4 (`Stage1B4Low`), B3s at `cP = 452`
-(I-SLOTSI's `markedClassRepresentsMK_prefixLow`), and the marked count H2. -/
-theorem flowerest1_low_of_B3s {cθ : ℝ} (hcθ : 1 ≤ cθ) (h5a : Fama.Stage1ReductionGateLow) (hB4 : Stage1B4Low)
-    (hB3s : MarkedClassRepresentsGateLow 452 cθ)
-    (hH2 : WTPrefix fun P => P.γ ≤ 1 / 2 → FinalCountAtMKLAt P) : LayergardenFlowerLowGate := by
-  obtain ⟨C₀, hC₀, hI⟩ := hB4 452 cθ hB3s
-  exact flowerest1_low_of_items5 (by omega) hcθ h5a hI hH2
-
-/-- **FL-low with H2 discharged** (L8-H2's `H2.finalCountAtMKLAt_holds`): from L5a's Stage-1 gate and item I. -/
-theorem flowerest1_low_of_items6 {C₀ : ℕ} (hC₀ : 1 ≤ C₀) {cθ : ℝ} (hcθ : 1 ≤ cθ)
-    (h5a : Fama.Stage1ReductionGateLow) (hI : Stage1MKGateLow C₀ 452 cθ) : LayergardenFlowerLowGate :=
-  flowerest1_low_of_items5 hC₀ hcθ h5a hI H2.finalCountAtMKLAt_holds
-
-/-- **FL-low from item I's interface, H2 discharged**: L5a's Stage-1 gate, B4 and B3s. -/
-theorem flowerest1_low_of_B4 {cθ : ℝ} (hcθ : 1 ≤ cθ) (h5a : Fama.Stage1ReductionGateLow) (hB4 : Stage1B4Low)
-    (hB3s : MarkedClassRepresentsGateLow 452 cθ) : LayergardenFlowerLowGate :=
-  flowerest1_low_of_B3s hcθ h5a hB4 hB3s H2.finalCountAtMKLAt_holds
-
 end WaveTurbulence.GammaLow.Flower

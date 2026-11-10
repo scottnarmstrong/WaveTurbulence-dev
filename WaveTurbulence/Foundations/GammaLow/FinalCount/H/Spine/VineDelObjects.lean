@@ -5,7 +5,6 @@ public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineBran
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineChainBlock
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineChainConnected
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineChainCounts
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineChainEnds
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineChainEraseEndpoints
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineChainIngredients
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineChainInteriorConnected
@@ -19,10 +18,7 @@ public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineLike
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineObjects
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineSmallVC
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineTwoJointSeparator
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceVineData
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceVineGapObjects
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceVineObjectBridge
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceVineObjects
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Api
 /-! **L6-H port of main `WaveTurbulence.Foundations.Spine.VineDelObjects`** (sha256 in H/COPIED-SHA256SUMS): only the declarations that
 depend on the vine-family carrier, re-stated over the low family `Src … Src.γL` (and L6-STEP1's

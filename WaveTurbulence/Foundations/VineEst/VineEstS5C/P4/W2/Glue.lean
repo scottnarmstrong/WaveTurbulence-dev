@@ -68,11 +68,6 @@ theorem rA_glue (RS : CLRegionData G S a b) (xS xT : GNode G.tree → (Fin d →
   unfold rA glue
   by_cases hy : y ∈ splitA RS <;> simp [hy]
 
-theorem rA_eq_glue (RS : CLRegionData G S a b) (xS : GNode G.tree → (Fin d → ℤ)) : rA RS xS = glue RS xS 0 := by
-  funext y
-  unfold rA glue
-  by_cases hy : y ∈ splitA RS <;> simp [hy]
-
 include hS hT hi hU in
 theorem rB_glue (RS : CLRegionData G S a b) (RT : CLRegionData G T b c) {L : ℝ} (hL : L ≠ 0) {base : Mom d}
     {xS : GNode G.tree → (Fin d → ℤ)} {β2 β3 : Mom d} (z : ↥(clLocalSupport RT) → (Fin d → ℤ))

@@ -1,7 +1,6 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 
-public import WaveTurbulence.Foundations.FlowerTop.ThreeInputs
 public import WaveTurbulence.Foundations.Flower.Typed.Defs
 public import WaveTurbulence.Foundations.Flower.Cases.Defs
 public import WaveTurbulence.Foundations.Flower.Fam.Defs
@@ -150,15 +149,6 @@ components here, bounded downstream by D6). The flower kinds `Y`, `W` stay as pe
 def MkCarries (P : WTParams) (p n : ℕ) {w : ℕ} (LG : LayeredGarden w) : Prop :=
   IsCanonGC (p + 1) LG ∧ LG.IsTrunc (p + 1 - 1) (P.N (p + 1) ^ 4) (P.N (p + 1 - 1)) ∧
     LG.garden.order = n ∧ IsBalancedSig LG.garden.sig
-
-/-- `Stage1Carries` implies `MkCarries` (`N ≤ N^4`). -/
-theorem mkCarries_of_stage1Carries {P : WTParams} {p n : ℕ} {LG : LayeredGarden w}
-    (h : Stage1Carries P p n LG) : MkCarries P p n LG := by
-  obtain ⟨h1, ⟨ht, ha⟩, h3, h4, -⟩ := h
-  refine ⟨h1, ⟨fun j => (ht j).trans ?_, ha⟩, h3, h4⟩
-  rcases Nat.eq_zero_or_pos (P.N (p + 1)) with h0 | h0
-  · rw [h0]; simp
-  · exact Nat.le_self_pow (by norm_num) _
 
 /-- Layers of a `MkCarries` garden are at most `p`. -/
 theorem layer_le_of_mkCarries {P : WTParams} {p n : ℕ} {LG : LayeredGarden w} (h : MkCarries P p n LG)

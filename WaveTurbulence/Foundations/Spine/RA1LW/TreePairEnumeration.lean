@@ -2,7 +2,6 @@
 module
 
 public import WaveTurbulence.Foundations.Spine.RA1LW.TreeFam
-public import WaveTurbulence.Foundations.Spine.RA1LW.Base
 public import WaveTurbulence.Foundations.IncohInst.InputProductIdentity
 public import WaveTurbulence.Foundations.Spine.RA1LW.SourceChainProducts
 public import WaveTurbulence.Foundations.RegStruct.DecodedTree

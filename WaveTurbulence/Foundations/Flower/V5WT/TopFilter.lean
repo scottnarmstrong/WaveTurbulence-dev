@@ -52,13 +52,6 @@ def toOutCharMix [MeasurableSpace V] (S : SumintShape) (F : SpatialMeasure V α)
   hu := (VineSpaceK.toCharMix S F hamp (fun ξ => ν ξ 0) (hν 0) phase hphase hphaseNorm).hu
   hu1 := (VineSpaceK.toCharMix S F hamp (fun ξ => ν ξ 0) (hν 0) phase hphase hphaseNorm).hu1
 
-theorem toOutCharMix_val [MeasurableSpace V] (S : SumintShape) (F : SpatialMeasure V α) (hamp : Measurable F.amplitude)
-    (ν : V → (Fin 4 → Mom d) → S.VIdx → Mom d) (hν : ∀ E, Measurable fun ξ => ν ξ E)
-    (phase : α → (Fin 4 → Mom d) → ℂ) (hphase : ∀ z, Measurable (fun a => phase a z))
-    (hphaseNorm : ∀ a z, ‖phase a z‖ ≤ 1) (L : ℝ) (E : Fin 4 → Mom d) (x : S.VIdx → Fin d → ℤ) :
-    (toOutCharMix S F hamp ν hν phase hphase hphaseNorm).val L E x =
-      (VineSpaceK.toCharMix S F hamp (fun ξ => ν ξ E) (hν E) phase hphase hphaseNorm).val L E x := rfl
-
 theorem toOutCharMix_mass [MeasurableSpace V] (S : SumintShape) (F : SpatialMeasure V α)
     (hamp : Measurable F.amplitude)
     (ν : V → (Fin 4 → Mom d) → S.VIdx → Mom d) (hν : ∀ E, Measurable fun ξ => ν ξ E)
@@ -149,12 +142,6 @@ section Pull
 open RegRed Reg.Skeleton VineParamContract VineEstS2 VineEstS3 VineEstS4 VineEstS5C VineEstS5C.P3
 variable {w d : ℕ} {G : Garden w} {U : Finset (GBranch G.tree)} {a b : GBranch G.tree}
 
-/-- The top-filter presentation (Lemma 9.3 in V5's normalized chain coordinates; S-V5W probe §3). -/
-def TopFilterPullbackStatement : Prop :=
-  ∀ {w d : ℕ} {G : Garden w} {U : Finset (GBranch G.tree)} {a b : GBranch G.tree}
-    (R : CLRegionData G U a b) (L : ℝ) (base : Mom d) (S : Option ℝ), (∀ s, S = some s → 0 < s) →
-    EnginePullbackOut R L base (VineSpaceK.nodeWeight (V5W.topFilterWeight S) L base a) V5W.topFilterMass
-
 theorem topFilterMass_eq : V5W.topFilterMass = FlAffine.chi0Measure.mass := rfl
 
 /-- The `S = some s` case. -/
@@ -202,17 +189,6 @@ theorem enginePullbackOut_topFilter_some (R : CLRegionData G U a b) (L : ℝ) (b
     congr 1
     simp only [A, c, r, f, map_add, map_sum, ContinuousLinearMap.comp_apply]
     ring
-
-/-- **T4′.** `TopFilterPullbackStatement` (supplement Lemma 9.3 in chain coordinates). -/
-theorem topFilterPullbackStatement : TopFilterPullbackStatement := by
-  intro w d G U a b R L base S _
-  cases S with
-  | some s => exact enginePullbackOut_topFilter_some R L base s
-  | none =>
-    refine enginePullbackOut_mono R L base (enginePullbackOut_congr R L base
-      (enginePullbackOut_of R L base (VineSpaceK.enginePullback_one R L base)) ?_) V5WB.one_le_topFilterMass
-    funext z
-    simp [VineSpaceK.nodeWeight, V5W.topFilterWeight]
 
 end Pull
 

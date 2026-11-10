@@ -8,7 +8,6 @@ module
 public import WaveTurbulence.Foundations.VineEst.RowSel.RowDataLF
 public import WaveTurbulence.Foundations.VineEst.RowSel.SelDataLF
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.BotAbs1
-public import WaveTurbulence.Foundations.VineEst.VineEstS5B2.Bot19
 
 /-! # `UAbs` of the bottom bundle, per state (V5 Step 4d part C, 4d-B2 integration)
 

@@ -57,8 +57,6 @@ theorem triCuts_cls (a : V) : (triCuts s T).cls a =
     else if a = T.t 0 then .beta else s.cls a := by
   simp only [triCuts, St.cutSt, Function.update_apply]
 
-theorem triCuts_M : (triCuts s T).M = T.m3 := rfl
-
 theorem Inv.triCuts {R : ℕ} (hI : Inv R s) (h3 : ∀ j, s.cls (T.t j) = .eps → 3 ≤ s.M.deg (T.t j)) :
     Inv R (triCuts s T) := by
   have t01 : T.t 1 ≠ T.t 0 := T.t_ne (by decide)

@@ -96,15 +96,4 @@ variable {p : ℕ} {kind : Bool}
     (unitsStart (alignedAssembly hM σ) (unitBlk_disj hM σ) D hS layer hLayer)
     (unitsRegion (alignedAssembly hM σ) (unitBlk_disj hM σ)) Y vs) (hn : L.Nodup)
 
-/-- Actual common shapes inherit the ordered first crown port from the actual endpoint splice. -/
-theorem commonShape_firstPort :
-    HasFirstPort (commonShape hM σ D hS layer hLayer hr hn) (member_disj hM σ D hS layer hLayer hr hn) :=
-  commonShape_firstPortMk hM σ D hS layer hLayer hr hn (Stage1Mk.markTransported_empty _)
-
-/-- Slot one of the actual momentum boundary is common to every class member. -/
-theorem commonShape_hmom_one (j : Fin (unitBlocks S σ).length) :
-    (commonShape hM σ D hS layer hLayer hr hn).hmom (member_disj hM σ D hS layer hLayer hr hn) j 1 =
-      (stShape hM σ).hmom (unitBlk_disj hM σ) j 1 :=
-  commonShape_hmom_oneMk hM σ D hS layer hLayer hr hn (Stage1Mk.markTransported_empty _) j
-
 end WaveTurbulence.VineAlign

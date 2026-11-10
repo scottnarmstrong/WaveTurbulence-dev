@@ -18,10 +18,6 @@ variable {w p : ℕ} {kind : Bool} {S : Garden w}
   (D : ReconstructionData S) (hS : S.IsPlain)
   (layer : GNode (D.forest hS) → ℕ) (hLayer : IsLayering (D.garden hS) layer)
 
-/-- B1b-3 (Mk-general form of `unitsRegion_clBlock`). -/
-theorem unitsRegion_clBlockMk (j : Fin (unitBlocks S σ Mk).length) :
-    unitClBlock (unitsRegion (alignedAssemblyMk hM σ Mk) (unitBlkMk_disj hM σ Mk) j) = unitBlkMk hM σ Mk j := rfl
-
 variable {Y : FamilyReconstruction w (UnitsIndex (alignedAssemblyMk hM σ Mk))}
   {vs : ∀ j, UnitAt Y.skeleton Y.family ((unitsSplit (alignedAssemblyMk hM σ Mk)).Q j)}
   {L : List (UnitsIndex (alignedAssemblyMk hM σ Mk))}
@@ -93,11 +89,6 @@ variable {w p : ℕ} {kind : Bool} {S : Garden w}
   (D : ReconstructionData S) (hS : S.IsPlain)
   (layer : GNode (D.forest hS) → ℕ) (hLayer : IsLayering (D.garden hS) layer)
 
-/-- At the start, VINE-C's raw regions are literally the producer's unit blocks. -/
-theorem unitsRegion_clBlock (j : Fin (unitBlocks S σ).length) :
-    unitClBlock (unitsRegion (alignedAssembly hM σ) (unitBlk_disj hM σ) j) = unitBlk hM σ j :=
-  unitsRegion_clBlockMk hM σ j
-
 variable {Y : FamilyReconstruction w (UnitsIndex (alignedAssembly hM σ))}
   {vs : ∀ j, UnitAt Y.skeleton Y.family ((unitsSplit (alignedAssembly hM σ)).Q j)}
   {L : List (UnitsIndex (alignedAssembly hM σ))}
@@ -107,11 +98,6 @@ variable {Y : FamilyReconstruction w (UnitsIndex (alignedAssembly hM σ))}
   (hn : L.Nodup)
 
 include hn
-
-/-- VINE-C's carried blocks have the actual endpoint unit atoms. -/
-theorem member_unit_atoms (j : Fin (unitBlocks S σ).length) :
-    (unitClBlock (vs j)).atoms = (batchMolIso hr.batch).img (unitBlk hM σ j).atoms :=
-  member_unit_atomsMk hM σ D hS layer hLayer hr hn j
 
 /-- Each carried unit is literally an endpoint producer unit. -/
 theorem member_unit_mem (j : Fin (unitBlocks S σ).length) :

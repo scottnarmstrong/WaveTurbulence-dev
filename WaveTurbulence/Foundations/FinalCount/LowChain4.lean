@@ -55,12 +55,6 @@ theorem invL_chain {S : HSt V D₀ → HSt V D₀ → Prop}
     obtain ⟨R'', hR'', hI''⟩ := hS _ _ hs R' hI
     exact ⟨R'', hR''.trans hR', hI''⟩
 
-theorem invL_D3 (hS : SubHypL Rn M₀)
-    (h0 : ∀ a ∈ M₀.atoms, M₀.deg a = 4 → ∑ x ∈ M₀.dartsAt a, M₀.dartSign x • Molecule.kvec L w κ x = 0) {h : HSt V D₀}
-    (hr : ReachD3 C Un Fst L γ η w κ h) : ∃ R', R' ≤ Rn ∧ InvL M₀ R' L γ η w κ h := by
-  obtain ⟨h₁, a, -, c⟩ := hr
-  exact invL_chain (fun a b hs R' hI => hI.stepD3' hs) c (invL_reach1 hS h0 a)
-
 theorem invL_reach2 (hS : SubHypL Rn M₀)
     (h0 : ∀ a ∈ M₀.atoms, M₀.deg a = 4 → ∑ x ∈ M₀.dartsAt a, M₀.dartSign x • Molecule.kvec L w κ x = 0) {h : HSt V D₀}
     (hr : Reach2L C Un Fst L γ η w κ h) : ∃ R', R' ≤ Rn ∧ InvL M₀ R' L γ η w κ h := by
@@ -75,15 +69,6 @@ theorem invL_reach3 (hS : SubHypL Rn M₀)
   exact invL_chain (fun a b hs R' hI => ⟨R', le_rfl, hI.step3 hs.toHStep3⟩) g
     (invL_chain (fun a b hs R' hI => ⟨R', le_rfl, hI.step2 hs.toHStep2⟩) e
       (invL_chain (fun a b hs R' hI => hI.stepD3' hs) c (invL_reach1 hS h0 a)))
-
-theorem invL_reach4 (hS : SubHypL Rn M₀)
-    (h0 : ∀ a ∈ M₀.atoms, M₀.deg a = 4 → ∑ x ∈ M₀.dartsAt a, M₀.dartSign x • Molecule.kvec L w κ x = 0) {h : HSt V D₀}
-    (hr : Reach4L C Un Fst L γ η w κ h) : ∃ R', R' ≤ Rn ∧ InvL M₀ R' L γ η w κ h := by
-  obtain ⟨h₁, h₂, h₃, h₄, a, -, c, -, e, -, g, -, j⟩ := hr
-  exact invL_chain (fun a b hs R' hI => ⟨R', le_rfl, hI.step4 hs⟩) j
-    (invL_chain (fun a b hs R' hI => ⟨R', le_rfl, hI.step3 hs.toHStep3⟩) g
-      (invL_chain (fun a b hs R' hI => ⟨R', le_rfl, hI.step2 hs.toHStep2⟩) e
-        (invL_chain (fun a b hs R' hI => hI.stepD3' hs) c (invL_reach1 hS h0 a))))
 
 end inv
 

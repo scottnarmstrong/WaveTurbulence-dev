@@ -31,10 +31,6 @@ theorem integrable_tensor2 {u v : ℝ → ℂ} (hu : Integrable u) (hv : Integra
     funext x; simp [tensor2, Fin.prod_univ_two]
   rw [← he]; exact h
 
-theorem continuous_tensor2 {u v : ℝ → ℂ} (hu : Continuous u) (hv : Continuous v) :
-    Continuous (tensor2 u v) := by
-  unfold tensor2; fun_prop
-
 theorem oneFT_eq_vector (g : ℝ → ℂ) :
     oneFT g = VectorFourier.fourierIntegral Real.fourierChar volume (LinearMap.mul ℝ ℝ) g := by
   funext z

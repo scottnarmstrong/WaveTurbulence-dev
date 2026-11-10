@@ -57,9 +57,6 @@ def CParam.k₂ (p : CParam) : ℕ :=
   | none => 0
   | some (_, _, k') => k'
 
-/-- The number of atoms of `genC p`. -/
-def CParam.size (p : CParam) : ℕ := 3 + 2 * p.k + 2 * p.k₂
-
 /-- The (fresh) name of the first joint of `genB p`; the second is `p.jname + 1`. -/
 def CParam.jname (p : CParam) : ℕ := 4 * (p.k + p.k₂) + 3
 

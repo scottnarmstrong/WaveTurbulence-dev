@@ -26,11 +26,6 @@ open TTree WaveTurbulence.RegRed WaveTurbulence.RedSplice Finset WaveTurbulence.
 
 variable {w d : ℕ} {S : Garden w}
 
-/-- The hinge membership transported to `(stSt S σ).hinges` (= `(collectionChoices S σ).hinges`). -/
-theorem stSt_hinges_mem (hM : S.molecule.IsMolecule) (σ : Prescription S) (c : GBranch (stSt S σ).G.tree) :
-    c ∈ (stSt S σ).hinges ↔ c ∈ (stShape hM σ).hinges (unitBlk_disj hM σ) := by
-  rw [stShape_hinges]
-
 /-- B1a: `stSt_hinges_mem` for every marked vine set. -/
 theorem stSt_hinges_memMk (hM : S.molecule.IsMolecule) (σ : Prescription S) (Mk : Set (Stage1.CLVine S))
     (c : GBranch (stSt S σ Mk).G.tree) :
@@ -71,31 +66,5 @@ theorem stSrc_root (hM : S.molecule.IsMolecule) (σ : Prescription S) (hSb : (st
     (hr : stSrc hM σ hSb j i = Sum.inr r) (roots : Fin w → (Fin d → ℤ))
     (z : GenDecoration (stSt S σ).G d roots 0) :
     z.1 ((stShape hM σ).hmom (unitBlk_disj hM σ) j i) = roots r := stSrc_rootMk (Mk := ∅) hM σ hSb j i r hr roots z
-
-open scoped Classical in
-/-- **The per-mode single-state factorization for `G_sb = (stSt S σ).G`** (the `hval` shape of S2's
-`representsIntA_of_vineModes`): `Φ = stShape hM σ`, `hinges = (stSt S σ).hinges`, layer of `stage1PieceOf`. -/
-theorem stSt_skelVal_modal_eq_outerValM (hM : S.molecule.IsMolecule) (σ : Prescription S)
-    (hS : S.IsPlain) (hSb : (stSt S σ).G.IsPlain) {L : ℝ} (hL : L ≠ 0)
-    (γ δ : ℝ) (base : Mom d) (D : ReconstructionData S) (layer : GNode (D.forest hS) → ℕ)
-    (hLayer : IsLayering (D.garden hS) layer) (h : ℕ → Fin w → Fin w → Mom d → ℝ)
-    {roots : Fin w → (Fin d → ℤ)} (tt : Fin w → ℝ)
-    (amp : ReplacementSlot (stSt S σ).G → Mom d → ℂ) (frq : ReplacementSlot (stSt S σ).G → Fin 2 → ℤ)
-    (selSk : GenDecoration S d roots 0 → Prop) (Zw : GenDecoration (stSt S σ).G d roots 0 → ℝ)
-    (hZ : ∀ κ : GenDecoration S d roots 0, (if selSk κ then (1 : ℝ) else 0) =
-      Zw ((stShape hM σ).resDec hS (unitBlk_disj hM σ) κ))
-    (hF : ∀ j, HF D hS L (unitProfile (unitBlk hM σ) h j) layer base)
-    (hsum : Summable fun z : GenDecoration (stSt S σ).G d roots 0 => ampBound hSb L base amp z) :
-    skelVal D hS L γ δ base roots tt layer selSk
-      ((stShape hM σ).modalFn hS hSb D L γ δ (typeProfiles (layeredReconstruction D hS layer hLayer) h) layer hLayer amp frq) =
-    outerValM (stSt S σ).G L γ δ base roots tt
-      ((stSt S σ).layer (RegRed.coreLayer (layeredReconstruction D hS layer hLayer) D hS (D.garden_decodes hS)))
-      (stSt S σ).hinges Zw hSb amp frq ((stShape hM σ).route hS hSb)
-      ((stShape hM σ).hclk (unitBlk_disj hM σ)) ((stShape hM σ).hmom (unitBlk_disj hM σ))
-      (unitKernelM (unitBlk hM σ) D hS L γ δ h layer hLayer base) := by
-  have := (stShape hM σ).skelVal_modal_eq_outerValM (unitBlk_disj hM σ) hS hSb hL γ δ base D layer hLayer h tt amp frq
-    selSk Zw hZ hF hsum
-  rw [stShape_hinges] at this
-  exact this
 
 end WaveTurbulence.VineB

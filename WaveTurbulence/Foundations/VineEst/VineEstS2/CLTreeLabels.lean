@@ -40,28 +40,4 @@ theorem clTreeNode_sign (R : CLRegionData G U a b) (x : GNode (CLTreeForest R)) 
   change pathSign (G.sig a.1.1) (a.1.2++x.1.2) = pathSign (pathSign (G.sig a.1.1) a.1.2) x.1.2
   exact Comb.pathSign_append _ _ _
 
-/-- Restriction consumes the original source conservation equations; none is
-assumed for an invented tree or for artificial boundary labels. -/
-theorem clTreeNode_conservation {E : Type*} [AddCommGroup E] (R : CLRegionData G U a b)
-    (κ : GNode G.tree → E)
-    (hκ : ∀ v : GBranch G.tree, κ v.toNode = κ (v.child 0)-κ (v.child 1)+κ (v.child 2))
-    (v : GBranch (CLTreeForest R)) :
-    κ (clTreeNode R v.toNode) = κ (clTreeNode R (v.child 0))-
-      κ (clTreeNode R (v.child 1))+κ (clTreeNode R (v.child 2)) := by
-  rw [clTreeNode_branch,clTreeNode_child,clTreeNode_child,clTreeNode_child]
-  exact hκ _
-
-/-- The signed sum rule on the actual cropped tree, including its physical
-boundary leaves. This is the garden predecessor calculation's leaf expansion. -/
-theorem clTreeNode_sum_rule {E : Type*} [AddCommGroup E] (R : CLRegionData G U a b)
-    (κ : GNode G.tree → E)
-    (hκ : ∀ v : GBranch G.tree, κ v.toNode = κ (v.child 0)-κ (v.child 1)+κ (v.child 2))
-    (x : GNode (CLTreeForest R)) :
-    ((G.sign (clTreeNode R x) : ℤˣ) : ℤ) • κ (clTreeNode R x) =
-      ∑ ℓ ∈ x.leavesBelow, ((G.sign (clTreeNode R ℓ.toNode) : ℤˣ) : ℤ) • κ (clTreeNode R ℓ.toNode) := by
-  simp_rw [clTreeNode_sign]
-  exact WaveTurbulence.sum_rule (tree := CLTreeForest R)
-    (fun _ : Fin 1 => G.sign a.toNode) (fun x => κ (clTreeNode R x))
-    (clTreeNode_conservation R κ hκ) x
-
 end WaveTurbulence.VineEstS2

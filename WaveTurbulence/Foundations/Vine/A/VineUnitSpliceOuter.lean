@@ -45,16 +45,6 @@ theorem unitSplice_old_childMk (Z : TwistGroupSite G) (σ : Prescription G)
       ((spliceOldNode_leaf _ _).trans
         ((congrArg GLeaf.toNode (unitSpliceLeafEquiv_namesMk Z σ hT hsel q)).trans he))
 
-/-- A retained original child of a retained original parent follows its original slot under LF. -/
-theorem unitSplice_old_child (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0)
-    (b : GBranch (stSt G σ).G.tree) (n : GNode (stSt G σ).G.tree) (i : Fin 3)
-    (hc : spliceOldNode (unitBlocks G σ) n = ((stSt G σ).M.ob b).child i) :
-    spliceOldNode (unitBlocks Z.target (transportPrescription Z.iso σ))
-      (unitSpliceNodeEquiv Z σ hsel n) =
-      ((stSt Z.target (transportPrescription Z.iso σ)).M.ob ((unitSpliceMolIso Z σ hsel).e b)).child i :=
-  unitSplice_old_childMk Z σ (Stage1Mk.markTransported_empty Z.iso) hsel b n i hc
-
 /-- B1b-2 (Mk-general form of `unitSpliceChildSlot_of_external`). -/
 theorem unitSpliceChildSlot_of_externalMk (Z : TwistGroupSite G) (σ : Prescription G)
     {Mk : Set (CLVine G)} {Mk' : Set (CLVine Z.target)} (hT : Stage1Mk.MarkTransported Z.iso Mk Mk')
@@ -80,14 +70,6 @@ theorem unitSpliceChildSlot_of_externalMk (Z : TwistGroupSite G) (σ : Prescript
   change n.1.2.getLast hn = i
   exact (spliceOldNode_port l n hn ho hf).trans (node_last_of_eq_child _ ho v i he)
 
-/-- An original port external to every actual unit is fixed by the actual quotient map. -/
-theorem unitSpliceChildSlot_of_external (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0)
-    (b : GBranch (stSt G σ).G.tree) (i : Fin 3)
-    (hext : ∀ u ∈ unitBlocks G σ, i.succ ∉ internalPositions G u.atoms ((stSt G σ).M.ob b)) :
-    unitSpliceChildSlot Z σ hsel b i = i :=
-  unitSpliceChildSlot_of_externalMk Z σ (Stage1Mk.markTransported_empty Z.iso) hsel b i hext
-
 /-- B1b-2 (Mk-general form of `unitSpliceChildSlot_eq`). -/
 theorem unitSpliceChildSlot_eqMk (Z : TwistGroupSite G) (σ : Prescription G)
     {Mk : Set (CLVine G)} {Mk' : Set (CLVine Z.target)} (hT : Stage1Mk.MarkTransported Z.iso Mk Mk')
@@ -98,11 +80,5 @@ theorem unitSpliceChildSlot_eqMk (Z : TwistGroupSite G) (σ : Prescription G)
   have he := child_equiv_eq_refl (unitSpliceChildEquivMk Z σ hT hsel b)
     (unitSpliceChildSlot_middleMk Z σ hT hsel b) j hj (unitSpliceChildSlot_of_externalMk Z σ hT hsel b j hext)
   exact congrArg (fun e : Fin 3 ≃ Fin 3 => e i) he
-
-/-- Ordered normalization: every child slot of the actual selected LF quotient is fixed. -/
-theorem unitSpliceChildSlot_eq (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0)
-    (b : GBranch (stSt G σ).G.tree) (i : Fin 3) : unitSpliceChildSlot Z σ hsel b i = i :=
-  unitSpliceChildSlot_eqMk Z σ (Stage1Mk.markTransported_empty Z.iso) hsel b i
 
 end WaveTurbulence.VineA

@@ -40,9 +40,6 @@ variable {w : ℕ} {S : Garden w} (D : ReconstructionData S) (hS : S.IsPlain)
 def nativeBr (sl : ReplacementSlot S) (q : NativeClockBranch D sl) : GBranch (D.forest hS) :=
   sourceBranchEquiv D hS (.inr ((replacementTimeIndexEquiv D).symm ⟨sl, q⟩))
 
-theorem fixNative_eq (fixG : GBranch (D.forest hS) → Option ℝ) (sl : ReplacementSlot S)
-    (q : NativeClockBranch D sl) : MkSlots.fixNative D hS fixG sl q = fixG (nativeBr D hS sl q) := rfl
-
 theorem slotOf_nativeBr (sl : ReplacementSlot S) (q : NativeClockBranch D sl) :
     slotOf D hS (nativeBr D hS sl q).toNode = sl := by
   cases sl with
@@ -275,40 +272,5 @@ theorem lbComplete_lbS :
   split_ifs with h
   · rfl
   · exact absurd ⟨hfree, sl, q, i, hq, by rw [hv]; rfl, hcl⟩ h
-
-include hcap in
-/-- **A lower-bounded core is free, protected and in layer `p`.** -/
-theorem lbS_spec {p : ℕ} (hG : CapGeo (layeredReconstruction D hS layer hLayer) J p) (kSel : Fin w → Option ℕ)
-    (c : GBranch S.tree) (h : (lbS D hS (fixCap (layeredReconstruction D hS layer hLayer) J pat t s) s c).isSome) :
-    fixCap (layeredReconstruction D hS layer hLayer) J pat t s (D.coreBranch hS c) = none ∧
-      (D.coreBranch hS c).toNode ∈ protI (layeredReconstruction D hS layer hLayer) J pat t s kSel ∧
-      (layeredReconstruction D hS layer hLayer).layer (D.coreBranch hS c).toNode = p := by
-  unfold lbS at h
-  split_ifs at h with hc
-  · obtain ⟨hfree, sl, q, i, hq, hpin, hcl⟩ := hc
-    obtain ⟨v, hv⟩ := Option.isSome_iff_exists.mp hpin
-    have hTc := nativeTop_isChildOf D hS sl q hq c i hcl
-    refine ⟨hfree, ?_, ?_⟩
-    · exact parent_mem_protI kSel hTc hpin
-    · obtain ⟨p', -, -, -, hcs⟩ := pinnedTop_freeClock_cases D hS layer hLayer J hcap pat t s sl q hq hv c i hcl hfree
-      -- the core of `c` is an ancestor of a capped flower
-      obtain ⟨h1, k, h2⟩ := hTc
-      have hstem : ∀ X : GBranch (D.forest hS), IsCapFlowerParent (layeredReconstruction D hS layer hLayer) J X →
-          (D.coreBranch hS c).1.1 = X.1.1 → (D.coreBranch hS c).1.2 <+: X.1.2 →
-          OnCapStem (layeredReconstruction D hS layer hLayer) J (D.coreBranch hS c).toNode := by
-        intro X hX e1 e2
-        obtain ⟨ℓ, hℓ, hℓ1, k', hℓ2⟩ := hX
-        refine ⟨ℓ, hℓ, e1.trans hℓ1.symm, ?_⟩
-        show (D.coreBranch hS c).1.2 <+: ℓ.1.2
-        rw [hℓ2]
-        exact e2.trans (List.prefix_append _ _)
-      refine hG.stem_layer _ ?_
-      rcases hcs with hX | ⟨-, C, hC, hCT⟩
-      · refine hstem _ hX h1.symm ?_
-        rw [h2]; exact List.prefix_append _ _
-      · obtain ⟨g1, k', g2⟩ := hCT
-        refine hstem C hC (h1.symm.trans g1.symm) ?_
-        rw [g2, h2, List.append_assoc]; exact List.prefix_append _ _
-  · exact absurd h (by simp)
 
 end WaveTurbulence.Flower.MkSlotsB

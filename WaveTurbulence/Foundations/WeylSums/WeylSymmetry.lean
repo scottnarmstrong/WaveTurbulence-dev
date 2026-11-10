@@ -31,21 +31,4 @@ theorem weylSupremum_neg {L : ℝ} (hL : 0 < L) (t : ℝ) :
     exact norm_smoothGaussSum_le_weylSupremum hL u (-r) 0
   exact le_antisymm (hh t) (by simpa only [neg_neg] using hh (-t))
 
-/-- Integer shifts of the quadratic frequency leave every lattice sum fixed. -/
-theorem smoothGaussSum_add_int (χ : ℝ → ℂ) (L t r : ℝ) (h k : ℤ) :
-    smoothGaussSum χ L (t+k) r h = smoothGaussSum χ L t r h := by
-  apply tsum_congr
-  intro n
-  have heq : (t+(k : ℝ)) * (n : ℝ)^2 + r*n =
-      (t * (n : ℝ)^2+r*n) + ((k*n^2 : ℤ) : ℝ) := by push_cast; ring
-  rw [heq, e_add, e_int, mul_one]
-
-/-- The supremum is one-periodic in the quadratic frequency. -/
-theorem weylSupremum_add_int (L t : ℝ) (k : ℤ) :
-    weylSupremum L (t+k) = weylSupremum L t := by
-  unfold weylSupremum
-  congr 1
-  funext r
-  rw [smoothGaussSum_add_int]
-
 end WaveTurbulence.WeylSums

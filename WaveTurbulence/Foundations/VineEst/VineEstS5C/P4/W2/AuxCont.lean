@@ -37,15 +37,6 @@ structure SepTC (P : WTParams) (Wm : ℕ) (B : Set (Fin 2 → ℝ)) (q : Fin 2 �
   hBci : Bc ⊆ closure (interior Bc)
   hcont : ContinuousOn J Bc
 
-/-- The case `Bc = B`. -/
-def SepTC.ofCont {P : WTParams} {Wm : ℕ} {B : Set (Fin 2 → ℝ)} {q : Fin 2 → ℝ} {CJ CM : ℝ} (s : SepT P Wm B q CJ CM)
-    (h : ContinuousOn s.J B) : SepTC P Wm B q CJ CM where
-  toSepT := s
-  Bc := B
-  hBcB := subset_rfl
-  hBci := s.hint
-  hcont := h
-
 /-- Restriction of a window to an open set keeps the `closure (interior)` property. -/
 theorem inter_open_closure_interior {B U : Set (Fin 2 → ℝ)} (hB : B ⊆ closure (interior B)) (hU : IsOpen U) :
     B ∩ U ⊆ closure (interior (B ∩ U)) := by
@@ -58,40 +49,9 @@ theorem inter_open_closure_interior {B U : Set (Fin 2 → ℝ)} (hB : B ⊆ clos
 
 /-! ### The clamped factor -/
 
-theorem continuousOn_clampJ_ge {q : ℝ} {Jc : (Fin 2 → ℝ) → ℂ} (hJ : Continuous Jc) :
-    ContinuousOn (clampJ q Jc) {ts | q ≤ ts 0} := by
-  have hc : Continuous fun ts : Fin 2 → ℝ => Jc ![min (ts 0) (q + 1), ts 1] := by
-    refine hJ.comp (continuous_pi fun l => ?_)
-    fin_cases l
-    · exact ((continuous_apply 0).min continuous_const)
-    · exact continuous_apply 1
-  refine hc.continuousOn.congr fun ts hts => ?_
-  unfold clampJ
-  rw [if_neg (not_lt.2 hts)]
-
-theorem continuousOn_clampJ_lt {q : ℝ} {Jc : (Fin 2 → ℝ) → ℂ} :
-    ContinuousOn (clampJ q Jc) {ts | ts 0 < q} := by
-  refine (continuousOn_const (c := (0 : ℂ))).congr fun ts hts => ?_
-  unfold clampJ
-  exact if_pos hts
-
-theorem continuous_padJ {m₀ : ℕ} {J₀ : Fin m₀ → (Fin 2 → ℝ) → ℂ} (h : ∀ i, Continuous (J₀ i)) (i : Fin (max m₀ 1)) :
-    Continuous (padJ J₀ i) := by
-  unfold padJ
-  by_cases hi : i.val < m₀
-  · rw [dif_pos hi]; exact h _
-  · rw [dif_neg hi]; exact continuous_const
-
 /-- The time factors of the padded clamped expansion are continuous on each side of `ts 0 = q`. -/
 def JContLevel (q : ℝ) (J : (Fin 2 → ℝ) → ℂ) : Prop :=
   ContinuousOn J {ts | q ≤ ts 0} ∧ ContinuousOn J {ts | ts 0 < q}
-
-theorem jContLevel_pad {m₀ : ℕ} {q : ℝ} {J₀ : Fin m₀ → (Fin 2 → ℝ) → ℂ} (h : ∀ i, Continuous (J₀ i)) (i : Fin (max m₀ 1)) :
-    JContLevel q (padJ (fun j => clampJ q (J₀ j)) i) := by
-  unfold padJ
-  by_cases hi : i.val < m₀
-  · rw [dif_pos hi]; exact ⟨continuousOn_clampJ_ge (h _), continuousOn_clampJ_lt⟩
-  · rw [dif_neg hi]; exact ⟨continuousOn_const, continuousOn_const⟩
 
 theorem jContLevel_padSel {m₀ : ℕ} {q : ℝ} {fl : Prop} [Decidable fl] {J₀ : Fin m₀ → (Fin 2 → ℝ) → ℂ}
     (h : ∀ i, Continuous (J₀ i)) (i : Fin (max m₀ 1)) :
@@ -106,14 +66,5 @@ theorem JContLevel.mono_ge {q : ℝ} {J : (Fin 2 → ℝ) → ℂ} (h : JContLev
 
 theorem JContLevel.mono_lt {q : ℝ} {J : (Fin 2 → ℝ) → ℂ} (h : JContLevel q J) {B : Set (Fin 2 → ℝ)}
     (hB : ∀ ts ∈ B, ts 0 < q) : ContinuousOn J B := h.2.mono fun ts hts => hB ts hts
-
-theorem ofCont_jContLevel {P : WTParams} {n W : ℕ} {T : Set (Fin 2 → ℝ)} {F : (Fin 2 → ℝ) → Mom P.d → ℂ} {cost : ℝ}
-    (E : ContExp P n W T F cost) (q : ℝ) (f : ℝ → ℝ → Mom P.d → ℂ) (V : Set (Fin 2 → ℝ))
-    (hV : ∀ t s : ℝ, ![t, s] ∈ V → ∀ k, f t s k = ∑ i, sepTerm (P.δ ^ n) (clampJ q (E.J i)) (E.M i) t s k)
-    {Blo Bhi : Set (Fin 2 → ℝ)} {qlo qhi : Fin 2 → ℝ} (hclo : Blo ⊆ cell qlo) (hilo : Blo ⊆ closure (interior Blo))
-    (hchi : Bhi ⊆ cell qhi) (hihi : Bhi ⊆ closure (interior Bhi)) (hC : 1 ≤ P.C₁) (hη : P.η ≤ 1) (hcost : 0 ≤ cost) hlo hhi
-    (i : Fin (ObjCert.ofCont E q f V hV hclo hilo hchi hihi hC hη hcost hlo hhi).m) :
-    JContLevel q ((ObjCert.ofCont E q f V hV hclo hilo hchi hihi hC hη hcost hlo hhi).J i) :=
-  jContLevel_pad E.hJc i
 
 end WaveTurbulence.VineEstS5C.P4.W2

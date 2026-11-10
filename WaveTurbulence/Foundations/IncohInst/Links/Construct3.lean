@@ -26,11 +26,6 @@ variable {V : Type*} [AddCommGroup V] {w : ℕ}
 
 /-! ### Endpoints lie in the region of the code -/
 
-theorem mem_endpoints_append {α : Type*} [DecidableEq α] {P₁ P₂ L₁ L₂ : List (α × α)} {z : α} :
-    z ∈ pairEndpoints (L₁ ++ L₂) ∪ pairEndpoints (P₁ ++ P₂) ↔
-      z ∈ pairEndpoints L₁ ∪ pairEndpoints P₁ ∨ z ∈ pairEndpoints L₂ ∪ pairEndpoints P₂ := by
-  simp only [pairEndpoints_append, Finset.mem_union]; tauto
-
 mutual
 theorem cpl_endpoints_under (Q : RegCpl) (a b : Fin w × Path) :
     ∀ z ∈ pairEndpoints (Q.linksAt a b) ∪ pairEndpoints (Q.pairsAt a b), Under a z ∨ Under b z := by

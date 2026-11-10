@@ -5,7 +5,7 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.RegStruct.NormalizeRetraction
+public import WaveTurbulence.Foundations.RegStruct.NormalizeCodes
 
 /-! # Substitution at an oriented leaf pair (DH21 Proposition 4.8, case 1)
 

@@ -105,10 +105,4 @@ theorem scalarCubicAmplitude_hasCompactSupport (kind : CubicPhase)
   exact Complex.ofRealCLM.contDiff.comp
     (contDiff_const.mul (scalarQuadratic_contDiff kind s t))
 
-theorem scalarCubicAmplitude_integrable (kind : CubicPhase)
-    (f : Fin 3 → ScalarCutoff) (s t : ℝ) :
-    Integrable (scalarCubicAmplitude kind f s t) :=
-  (scalarCubicAmplitude_contDiff kind f s t).continuous.integrable_of_hasCompactSupport
-    (scalarCubicAmplitude_hasCompactSupport kind f s t)
-
 end WaveTurbulence.LemLin

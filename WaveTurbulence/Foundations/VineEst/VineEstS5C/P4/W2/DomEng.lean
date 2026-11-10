@@ -5,7 +5,7 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.NatDict
+public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.RowMatch
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.WinX
 
 /-! # P4-W2 (session 10, step 4.2): the clock domain with exceptional branches
@@ -25,30 +25,6 @@ open VineParamContract TTree Reg Reg.Skeleton RegRed MeasureTheory WaveTurbulenc
   WaveTurbulence.VineEstS5B
 
 variable {w d : ℕ} {G : Garden w} {U : Finset (GBranch G.tree)} {a b : GBranch G.tree}
-
-/-- **Every interior clock is below the top clock**, although the parent-clock condition is dropped on `Bex`, provided each clock in `Bex` is
-below the clock of an interior branch. -/
-theorem interior_lt_top_exc (hU : G.molecule.IsBlock U a b) (R : CLRegionData G U a b) (top : ℝ)
-    (u : GBranch G.tree → ℝ) (hu : u a = top) (Bex : Finset (GBranch G.tree))
-    (h : ∀ v ∈ U, v ≠ a → v ∉ Bex → u v < parentClock top u v.toNode)
-    (hB : ∀ v ∈ Bex, ∃ x ∈ U, x ≠ a ∧ u v < u x) :
-    ∀ v ∈ U, v ≠ a → u v < top := by
-  intro v0 hv0 hva0
-  have hne : (U.erase a).Nonempty := ⟨v0, Finset.mem_erase.mpr ⟨hva0, hv0⟩⟩
-  obtain ⟨vs, hvs, hmax⟩ := Finset.exists_max_image (U.erase a) u hne
-  obtain ⟨hvsa, hvsU⟩ := Finset.mem_erase.mp hvs
-  have hstar : u vs < top := by
-    by_cases hbx : vs ∈ Bex
-    · obtain ⟨x, hxU, hxa, hlt⟩ := hB vs hbx
-      exact absurd (hmax x (Finset.mem_erase.mpr ⟨hxa, hxU⟩)) (not_le.mpr hlt)
-    · have h1 := h vs hvsU hvsa hbx
-      obtain ⟨hn, hp, he⟩ := parentClock_interior hU R top u vs hvsU hvsa
-      rw [he] at h1
-      by_cases hpa : vs.toNode.parent hn = a
-      · rw [hpa, hu] at h1; exact h1
-      · exfalso
-        exact absurd (hmax _ (Finset.mem_erase.mpr ⟨hpa, hp⟩)) (not_le.mpr h1)
-  exact (hmax v0 (Finset.mem_erase.mpr ⟨hva0, hv0⟩)).trans_lt hstar
 
 
 /-- `interior_lt_top_exc` with the weaker exceptional hypothesis: each clock in `Bex` is below the top clock or below the clock of an interior branch. -/
@@ -143,59 +119,6 @@ theorem engDom_to_domX (layer0 : GBranch G.tree → ℕ) (Bex : Finset (GBranch 
   · rw [hbclock]; exact (le_max_left _ _).trans_lt hjoin
   · rw [hbclock]; exact (le_max_right _ _).trans_lt hjoin
 
-
-/-- **`DomX` `⊆` engine domain**, given the extra pairs `add` and that each exceptional clock is below the clock of an interior branch. -/
-theorem domX_to_engDom (layer0 : GBranch G.tree → ℕ) (Bex : Finset (GBranch G.tree))
-    (add : Finset ((assemblyShape hM9 B).TVar × (assemblyShape hM9 B).TVar)) (hI : 0 < (assemblyShape hM9 B).I)
-    (tt : Fin 3 → ℝ) (τ : (assemblyShape hM9 B).TVar → ℝ)
-    (hp : (b.child R.positive).1.2 ∈ (G.tree (b.child R.positive).1.1).branching ∨
-      tt 1 ≤ assemblyTimeQ hM9 B layer0 (.inl ⟨⟨0, hI⟩, 0⟩))
-    (hn : (b.child R.negative).1.2 ∈ (G.tree (b.child R.negative).1.1).branching ∨
-      tt 2 ≤ assemblyTimeQ hM9 B layer0 (.inl ⟨⟨0, hI⟩, 0⟩))
-    (hD : DomX R layer0 Bex (tt 0) (tt 1) (tt 2) (clLocalClock R tt (assemblyClockEquiv hM9 B τ)))
-    (hB : ∀ v ∈ Bex, ∃ x ∈ U, x ≠ a ∧ clLocalClock R tt (assemblyClockEquiv hM9 B τ) v <
-      clLocalClock R tt (assemblyClockEquiv hM9 B τ) x)
-    (hadd : ∀ c ∈ add, τ c.1 < τ c.2) :
-    EngDomP hM9 B (assemblyTimeQ hM9 B layer0) (consX hM9 B layer0 Bex add) hI tt τ := by
-  classical
-  set u := clLocalClock R tt (assemblyClockEquiv hM9 B τ) with hu
-  have hslot : ∀ s, u (assemblyClockAtomEquiv hM9 B s).1 = τ s := fun s => clLocalClock_slot hM9 B tt τ s
-  have hlow : ∀ s, (assemblyTimeQ hM9 B layer0 s : ℝ) < τ s := fun s => by
-    have := (hD.1 _ (assemblyClockAtomEquiv hM9 B s).2).1
-    rwa [hslot s] at this
-  have hup : ∀ s, τ s < assemblyTimeQ hM9 B layer0 s + 1 := fun s => by
-    have := (hD.1 _ (assemblyClockAtomEquiv hM9 B s).2).2.1
-    rwa [hslot s] at this
-  have hlt : ∀ s, τ s < tt 0 := by
-    intro s
-    have hs' := Finset.mem_erase.mp (assemblyClockAtomEquiv hM9 B s).2
-    have hyp : ∀ v ∈ U, v ≠ a → v ∉ Bex → u v < parentClock (tt 0) u v.toNode := fun v hv hva hvB =>
-      (hD.1 v (Finset.mem_erase.mpr ⟨hva, hv⟩)).2.2.2 hvB
-    have h0 := interior_lt_top_exc B.isBlock R (tt 0) u (clLocalClock_upper R tt _) Bex hyp hB _ hs'.2 hs'.1
-    rwa [hslot s] at h0
-  have hb : (assemblyClockAtomEquiv hM9 B (.inl ⟨⟨0, hI⟩, 0⟩)).1 = b := assemblyClockAtom_first hM9 B hI
-  have hbclock : u b = τ (.inl ⟨⟨0, hI⟩, 0⟩) := by
-    have := clLocalClock_slot hM9 B tt τ (.inl ⟨⟨0, hI⟩, 0⟩)
-    rwa [hb] at this
-  refine ⟨fun s => ⟨(hlow s).le, (hup s).le, hlt s⟩, ?_, fun c hc => ?_⟩
-  · rw [max_lt_iff]
-    refine ⟨?_, ?_⟩
-    · rcases hp with hb1 | hle
-      · rw [← hbclock]; exact hD.2.1 hb1
-      · exact lt_of_le_of_lt hle (hlow _)
-    · rcases hn with hb2 | hle
-      · rw [← hbclock]; exact hD.2.2 hb2
-      · exact lt_of_le_of_lt hle (hlow _)
-  · rcases Finset.mem_union.mp hc with hc | hc
-    · obtain ⟨hc1, hnb⟩ := Finset.mem_filter.mp hc
-      rcases Finset.mem_union.mp hc1 with hcn | hcl
-      · have h1 := (hD.1 _ (assemblyClockAtomEquiv hM9 B c.1).2).2.2.2 hnb
-        rw [hslot c.1, constraint_parent_clock hM9 B tt τ c hcn] at h1
-        exact h1
-      · have hq := (mem_layerOrderPairs _ c).mp hcl
-        have hq' : (assemblyTimeQ hM9 B layer0 c.1 : ℝ) + 1 ≤ assemblyTimeQ hM9 B layer0 c.2 := by exact_mod_cast hq
-        exact (hup c.1).trans_le (hq'.trans (hlow c.2).le)
-    · exact hadd c hc
 
 /-- `domX_to_engDom` with the weaker exceptional hypothesis of `interior_lt_top_exc2`. **`DomX` `⊆` engine domain**, given the extra pairs `add` and that each exceptional clock is below the clock of an interior branch. -/
 theorem domX_to_engDom2 (layer0 : GBranch G.tree → ℕ) (Bex : Finset (GBranch G.tree))

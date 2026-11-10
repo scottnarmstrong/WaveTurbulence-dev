@@ -2,7 +2,9 @@
 module
 
 public import WaveTurbulence.Foundations.Flower.V5WB.B.RowsDarts
-public import WaveTurbulence.Foundations.Flower.V5WB.Common
+public import WaveTurbulence.Foundations.Flower.V5WB.K.Defs
+public import WaveTurbulence.Foundations.Flower.V5WA.VineSpaceB.Pullback
+public import WaveTurbulence.Foundations.Flower.V5WA.VineSpaceK.WeightedMerge
 
 /-! # V5W-B-WORLD B5: the pinned class kernel at `S = none` is a selector class with the masked weight
 
@@ -72,37 +74,5 @@ theorem clLocalSummandFW_eq {G : Garden w} {U : Finset (GBranch G.tree)} {a b : 
     ring
   · rw [Set.indicator_of_notMem hτ, Set.indicator_of_notMem hτ]
     ring
-
-/-- **The member kernel**: V5W-0's member kernel at `S = none` is the selector member kernel with `bWN`. -/
-theorem twistedLocalKernelFW_none_eq (p : ℕ) (g : Mom d → ℂ) (cψ : ℝ) (h1 : 1 ≤ cψ) (hg : ∀ x, ‖g x‖ ≤ cψ)
-    (hr : ∀ x, (g x).im = 0) (X : FamilyReconstruction w ι) (c : ChainAt X.skeleton X.family)
-    (L γ δ : ℝ) (F : ℕ → Mom d → ℝ) (base : Mom d) (lam t0 t1 t2 : ℝ) (e f g' h : Mom d) :
-    twistedLocalKernelFW p g none X c L γ δ F base (VineC.modW lam) t0 t1 t2 e f g' h =
-      memberMX (rowSel := selW p g cψ h1 hg hr) X.data X.plain (clRegionData X.skeleton c.block c.cl) L γ δ F
-        (stateLayer X) (stateLayer_isLayering X) base lam
-        (bWN (wdOf p g cψ) (VineEstS5C.P4.kparOf L γ δ F base) X c.U) t0 t1 t2 e f g' h := by
-  have hc : 0 ≤ cψ := by linarith
-  unfold twistedLocalKernelFW clLocalKernelFW memberMX
-  congr 1
-  refine tsum_congr fun κ => MeasureTheory.integral_congr_ae (Filter.Eventually.of_forall fun τ => ?_)
-  beta_reduce
-  rw [bWN_eq_regionWeightFW p g hc, clLocalSummandFW_eq p g cψ h1 hg hr]
-  unfold VineEstS5C.Cont.lowModC VineC.modW
-  change _ = regionWeightFW p g none L base X c.U c.a _ * _ * _
-  ring
-
-/-- **The class kernel**: V5W-0's pinned class kernel at `S = none` is the selector class `twistedRecenteredModCX` at
-`selW` with every member's masked, normalized bond weight. -/
-theorem twistedRecenteredFW_none_eq (p : ℕ) (g : Mom d → ℂ) (cψ : ℝ) (h1 : 1 ≤ cψ) (hg : ∀ x, ‖g x‖ ≤ cψ)
-    (hr : ∀ x, (g x).im = 0) (G : Garden w) (a : GBranch G.tree) (Z : Finset (ClassMember w ι))
-    (L γ δ : ℝ) (F : ℕ → Mom d → ℝ) (base : Mom d) (lam t0 t1 t2 : ℝ) (e f g' h : Mom d) :
-    twistedRecenteredFW p g none G a Z L γ δ F base (VineC.modW lam) t0 t1 t2 e f g' h =
-      twistedRecenteredModCX (rowSel := selW p g cψ h1 hg hr) G a Z
-        (fun z => bWN (wdOf p g cψ) (VineEstS5C.P4.kparOf L γ δ F base) z.1 z.2.U) L γ δ F base lam
-        t0 t1 t2 e f g' h := by
-  unfold twistedRecenteredFW twistedRecenteredModCX VineC.recPhase
-  congr 1
-  exact Finset.sum_congr rfl fun z _ => twistedLocalKernelFW_none_eq p g cψ h1 hg hr z.1 z.2 L γ δ F base lam
-    t0 t1 t2 e f g' h
 
 end WaveTurbulence.Flower.V5WB

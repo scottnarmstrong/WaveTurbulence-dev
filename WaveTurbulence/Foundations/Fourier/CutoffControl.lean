@@ -1,7 +1,13 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 
-public import WaveTurbulence.Foundations.Fourier.DuhamelL1Bounds
+public import Mathlib.Analysis.Fourier.FourierTransform
+public import Mathlib.Analysis.Calculus.ContDiff.Deriv
+public import Mathlib.Analysis.Calculus.ContDiff.Operations
+public import Mathlib.Analysis.SpecialFunctions.ExpDeriv
+public import Mathlib.MeasureTheory.Integral.IntervalIntegral.FundThmCalculus
+public import Mathlib.Analysis.Fourier.FourierTransformDeriv
+public import Mathlib.Analysis.Calculus.Deriv.Support
 import Mathlib.Tactic
 
 /-!

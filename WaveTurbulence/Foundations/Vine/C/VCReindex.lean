@@ -84,15 +84,6 @@ variable {p : ℕ} {kind : Bool} (e : κ → ι) (he : Function.Injective e)
     FamilyOperation (p := p) (kind := kind) A (e k) :=
   ⟨op.canonical, op.eligible, op.treeCoherent, op.coupleCoherent, op.choice, op.construction⟩
 
-theorem opComap_choice {A : FamilyReconstruction w ι} {k : κ} (op : FamilyOperation (p := p) (kind := kind) A (e k)) :
-    (opComap e he op).choice = op.choice := rfl
-
-theorem opLift_choice {A : FamilyReconstruction w ι} {k : κ}
-    (op : FamilyOperation (p := p) (kind := kind) (stComap A e he) k) : (opLift e he op).choice = op.choice := rfl
-
-theorem opComap_opLift {A : FamilyReconstruction w ι} {k : κ}
-    (op : FamilyOperation (p := p) (kind := kind) (stComap A e he) k) : opComap e he (opLift e he op) = op := rfl
-
 theorem nextFamily_comap (A : FamilyReconstruction w ι) (k : κ) (ε : Bool) :
     famComap (A.nextFamily (e k) ε) e he = (stComap A e he).nextFamily k ε := by
   cases ε
@@ -113,24 +104,6 @@ theorem opLift_output {A : FamilyReconstruction w ι} {k : κ}
     op.output = stComap (opLift e he op).output e he :=
   opComap_output e he (opLift e he op)
 
-/-- A batch over `N.map e` restricts to a batch over `N`. -/
-theorem batch_comap : ∀ (N : List κ) {X Y : FamilyReconstruction w ι},
-    FamilyBatch p kind (N.map e) X Y → FamilyBatch p kind N (stComap X e he) (stComap Y e he) := by
-  intro N
-  induction N with
-  | nil =>
-    intro X Y h
-    cases h
-    exact .nil _
-  | cons k N ih =>
-    intro X Y h
-    cases h with
-    | skip _ h' => exact .skip k (ih h')
-    | apply op h' =>
-      refine .apply (opComap e he op) ?_
-      rw [opComap_output]
-      exact ih h'
-
 /-- A batch of the restricted state lifts to a batch over `N.map e`. -/
 theorem batch_lift {N : List κ} {X' Y' : FamilyReconstruction w κ} (h : FamilyBatch p kind N X' Y') :
     ∀ {X : FamilyReconstruction w ι}, stComap X e he = X' →
@@ -148,9 +121,6 @@ theorem batch_lift {N : List κ} {X' Y' : FamilyReconstruction w κ} (h : Family
     subst hX
     obtain ⟨Y, hY, hY'⟩ := ih (opLift_output e he op).symm
     exact ⟨Y, .apply (opLift e he op) hY, hY'⟩
-
-/-- Signatures are read through the restriction. -/
-theorem sigStar_comap (X : FamilyReconstruction w ι) (k : κ) : sigStar (stComap X e he) k = sigStar X (e k) := rfl
 
 end Ops
 

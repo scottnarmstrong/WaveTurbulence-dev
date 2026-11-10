@@ -33,8 +33,6 @@ namespace Lay
 variable (L : Lay M S a b) (hB : M.IsBlock S a b)
 include hB
 
-theorem a_ne_b : a ≠ b := hB.2.2.2.1
-
 theorem Z_sub {i : ℕ} (hi : i ≤ L.r + 1) : L.Z i ⊆ S := by
   rcases Nat.eq_zero_or_pos i with rfl | h0
   · rw [L.Z_zero]; exact singleton_subset_iff.mpr hB.2.2.1
@@ -151,18 +149,6 @@ theorem pend_of {k : ℕ} (hk : k < L.s) :
   rcases L.pend with ⟨h0, -⟩ | h
   · omega
   · exact h
-
-/-- Two pendant blocks joined by a bond are consecutive. -/
-theorem YY_consec {e : Bond M S} {k l : ℕ} (hk : k < L.s) (hl : l < L.s) (h1 : tl e ∈ L.Y k)
-    (h2 : hd e ∈ L.Y l) (hne : k ≠ l) : l = k + 1 ∨ k = l + 1 := by
-  obtain ⟨-, -, -, -, hnon, -⟩ := L.pend_of hk
-  by_contra hc
-  push Not at hc
-  rcases Nat.lt_or_gt_of_ne hne with hlt | hgt
-  · exact not_cross_of_zero (L.Y_sub hB hk) (L.Y_sub hB hl) (hnon k l hl (by omega)) h1 h2
-  · have h0 := hnon l k hk (by omega)
-    rw [← card_cross (L.Y_sub hB hl) (L.Y_sub hB hk), cross_comm, card_cross (L.Y_sub hB hk) (L.Y_sub hB hl)] at h0
-    exact not_cross_of_zero (L.Y_sub hB hk) (L.Y_sub hB hl) h0 h1 h2
 
 /-- The crossing bonds of `H k` are the bonds `Y (k−1) – Y k` for `k ≥ 1`. -/
 theorem cross_H_eq {k : ℕ} (hk : k < L.s) (hk1 : 1 ≤ k) :

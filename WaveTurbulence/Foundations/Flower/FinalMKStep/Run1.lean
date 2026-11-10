@@ -33,8 +33,6 @@ def HingeSG (C : CollData M₀) (L γ η : ℝ) (w : Mom d) (κ : D₀ → (Fin 
   ∀ v ∈ C.hinges, HasChosenPair (C.first v) (C.second v) (fun x y =>
     TripleAtM M₀ v x y ∧ Molecule.gapKind L γ η (Molecule.gapAt L w κ x y) = .SG)
 
-theorem SubproOblG.hingeSGP {C : CollData M₀} (obl : SubproOblG C L γ η w κ) : HingeSG C L γ η w κ := obl.hingeSG
-
 theorem SubproOblGMK.hingeSGP {C : CollData M₀} {m : ℕ} {E : Fin m → Object M₀} (obl : SubproOblGMK C E L γ η w κ) :
     HingeSG C L γ η w κ := obl.hingeSG
 

@@ -43,10 +43,4 @@ theorem incoherent_remainder_of_even_comparison (P : WTParams)
     rw [heq, SNorm_zero_function]
     exact bot_le
 
-theorem incoherent_remainder_prefix
-    (hLeaf : LeafwiseIncoherentDecayGate) :
-    WTPrefix IncoherentRemainderAt :=
-  prefix_map (fun P h => incoherent_remainder_of_even_comparison P h.1 h.2)
-    (prefix_with_coherent_small_parameters (incoherent_even_comparison_prefix hLeaf))
-
 end WaveTurbulence.LGSpine

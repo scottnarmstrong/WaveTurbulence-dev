@@ -37,10 +37,6 @@ theorem repPt_injectiveMk {p : ℕ} {kind : Bool} {A : Finset (LayeredGarden (2 
   have h1 : (Quotient.out π : PtA R A) = Quotient.out π' := Subtype.ext h
   rw [← Quotient.out_eq π, ← Quotient.out_eq π', h1]
 
-/-- The injection `π ↦ repPt π`. -/
-theorem repPt_injective {p : ℕ} {kind : Bool} {A : Finset (LayeredGarden (2 * R))} :
-    Function.Injective (fun π : PcA R p kind A => repPt π) := repPt_injectiveMk (mk := fun _ => ∅)
-
 /-- B1b (Mk-general form of `repPt_mem_range`). -/
 theorem repPt_mem_rangeMk {p : ℕ} {kind : Bool} {A : Finset (LayeredGarden (2 * R))} {mk : Stage1Mk.MarkFn _} (π : PcA (mk := mk) R p kind A)
     (LG : LayeredGarden (2 * R)) (h : (repPt π).layered = LG) (hp : LG.garden.IsPlain) :
@@ -53,12 +49,6 @@ theorem repPt_mem_rangeMk {p : ℕ} {kind : Bool} {A : Finset (LayeredGarden (2 
   have e : pr = primeDataOf LG1 hp := primeData_unique _ _
   subst e
   exact ⟨σ, rfl⟩
-
-/-- Every piece with representative `LG` has representative in the range of the prescriptions on `LG`'s skeleton. -/
-theorem repPt_mem_range {p : ℕ} {kind : Bool} {A : Finset (LayeredGarden (2 * R))} (π : PcA R p kind A)
-    (LG : LayeredGarden (2 * R)) (h : (repPt π).layered = LG) (hp : LG.garden.IsPlain) :
-    repPt π ∈ Set.range (fun σ : GroupPrescription (primeDataOf LG hp).skeleton =>
-      (⟨LG, primeDataOf LG hp, σ⟩ : PrescribedPrimeGarden (2 * R))) := repPt_mem_rangeMk (mk := fun _ => ∅) π LG h hp
 
 /-- B1b (Mk-general form of `fibre_card_le`). -/
 theorem fibre_card_leMk (p : ℕ) (kind : Bool) (A : Finset (LayeredGarden (2 * R))) (LG : LayeredGarden (2 * R))

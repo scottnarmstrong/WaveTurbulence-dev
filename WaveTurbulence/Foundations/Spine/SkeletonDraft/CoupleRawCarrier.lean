@@ -5,7 +5,9 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.Spine.SkeletonDraft.SourcePrimeEquivalence
+public import WaveTurbulence.Foundations.Spine.SkeletonDraft.ForwardAMini
+public import WaveTurbulence.Foundations.Spine.SkeletonDraft.ForwardBMini
+public import WaveTurbulence.Foundations.Spine.SkeletonDraft.SourcePrimeExistence
 
 /-! # Exact canonical finite-pair carrier for the pinned raw regular-couple histories -/
 

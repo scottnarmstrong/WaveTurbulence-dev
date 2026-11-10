@@ -34,9 +34,6 @@ variable {E F : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E]
 theorem coe_unitSphereEquiv (e : E ≃ₗᵢ[ℝ] F) (v : sphere (0 : E) 1) :
     (unitSphereEquiv e v : F) = e (v : E) := rfl
 
-theorem coe_unitSphereEquiv_symm (e : E ≃ₗᵢ[ℝ] F) (v : sphere (0 : F) 1) :
-    ((unitSphereEquiv e).symm v : E) = e.symm (v : F) := rfl
-
 /-- Linear isometries carry radial sectors to the corresponding radial sectors. -/
 theorem preimage_unitSphere_sector (e : E ≃ₗᵢ[ℝ] F) (s : Set (sphere (0 : F) 1)) :
     e ⁻¹' (Ioo (0 : ℝ) 1 • (Subtype.val '' s)) =

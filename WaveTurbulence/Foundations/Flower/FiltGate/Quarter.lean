@@ -103,45 +103,4 @@ theorem kpow_mono {K C C' δ : ℝ} (hK : 0 ≤ K) (hC : 0 ≤ C) (hCC : C ≤ C
   pow_le_pow_left₀ (mul_nonneg (mul_nonneg hK hC) hδ)
     (mul_le_mul_of_nonneg_right (mul_le_mul_of_nonneg_left hCC hK) hδ) n
 
-/-- **o82 Lemma 16.1, incoherent couple** (main's unfiltered extension): the `X^{1/4}` bound with loss `L^{4d}` and the
-incoherency gain at the `100dη` loss of the `X^η` bound (`exists_coupleExtension_cutoffUniform_decay`); the
-dimensional constant precedes the cutoff. -/
-theorem exists_coupleExtension_quarter_decay (d : ℕ) (hd : 3 ≤ d) :
-    ∃ C₀ : ℝ, 0 < C₀ ∧ ∀ η : ℝ, 0 < η →
-      ∀ χ : ℝ → ℝ, ContDiff ℝ ∞ χ → HasCompactSupport χ →
-      ∀ γ : ℝ, γ ∈ Ioo (0 : ℝ) 1 → η < incoherenceExponent d γ →
-      ∀ δ : ℝ, 0 < δ → δ ≤ 1 → ∀ D : ℝ, 0 < D →
-      ∃ L₀ : ℝ, 1 ≤ L₀ ∧ ∀ L ≥ L₀, ∀ n : ℕ, ∀ Q : Fin n → LayerLink d,
-        1 ≤ incoherenceCount Q →
-        (∀ i, |((Q i).leftLayer : ℝ) - (Q i).rightLayer| + 1 ≤ D) →
-        ∀ I : Set (Fin n → Fin 2 → ℝ), MeasurableSet I → I ⊆ univ.pi (fun i => linkBox (Q i)) →
-        ∀ R : RootCoordinates n,
-        Fourier.timeFourierNorm (1 / 4) (R.coupleExtension χ L γ δ Q I) ≤
-          ENNReal.ofReal ((C₀ * δ) ^ n *
-            L ^ (-(incoherenceExponent d γ - 100 * (d : ℝ) * η) * incoherenceCount Q) *
-              L ^ (4 * (d : ℝ))) := by
-  obtain ⟨C₀, hC₀, hb⟩ := exists_rootDensity_endpoint_bounds d hd
-  refine ⟨C₀, hC₀, ?_⟩
-  intro η hη χ hχ hcχ
-  obtain ⟨Cₜ, hCₜ, htime⟩ := exists_translated_quarter_bound hχ hcχ
-  obtain ⟨Lₐ, hLₐ, ha⟩ := exists_constant_absorption_threshold Cₜ hη
-  intro γ hγ hηg δ hδ hδ₁ D hD
-  obtain ⟨Lᵦ, hLᵦ, hb⟩ := hb γ hγ η hη hηg δ hδ hδ₁ D hD
-  refine ⟨max Lₐ Lᵦ, hLₐ.trans (le_max_left _ _), ?_⟩
-  intro L hL n Q hg hspan I hI hbox R
-  have hLa := (le_max_left Lₐ Lᵦ).trans hL
-  have hLb := (le_max_right Lₐ Lᵦ).trans hL
-  have hLone := hLₐ.trans hLa
-  have hLp := zero_lt_one.trans_le hLone
-  obtain ⟨h1, hinf⟩ := hb L hLb n Q hspan I hI hbox R
-  have hgR : (1 : ℝ) ≤ incoherenceCount Q := by exact_mod_cast hg
-  have hCt : Cₜ ≤ L ^ (η * incoherenceCount Q) := (ha L hLa).trans
-    (Real.rpow_le_rpow_of_exponent_le hLone (by nlinarith only [hgR, hη.le]))
-  have hΛ : (1 : ℝ≥0∞) ≤ ENNReal.ofReal (L ^ (2 * (d : ℝ))) := by
-    rw [← ENNReal.ofReal_one]
-    exact ENNReal.ofReal_le_ofReal (Real.one_le_rpow hLone (by positivity))
-  have hq := htime (R.linkDensity L γ δ Q I) (R.baseRootTimes Q)
-    (R.integrable_linkDensity hLp γ δ Q hI hbox).aestronglyMeasurable _ _ hΛ h1 hinf
-  exact hq.trans (quarter_cell_rate_le (by omega) hLone hη.le (by positivity) hCₜ.le hCt)
-
 end WaveTurbulence.Flower.FiltGate

@@ -44,14 +44,4 @@ theorem inducedPrelayer_isBranchPrelayering {w : ℕ} {S : Garden w} (LG : Layer
   intro b c i hc
   exact LG.layer_le_of_isDesc (decodedCoreBranch_child_desc D hS hd b c i hc)
 
-/-- In the literal reconstructed carrier the inherited layer is the actual
-lone-leaf layer of the native regular paired tree, including the nil tree. -/
-theorem inducedPrelayer_eq_lone {w : ℕ} {S : Garden w} (D : ReconstructionData S)
-    (hS : S.IsPlain) (layer : GNode (D.forest hS) → ℕ)
-    (hLayer : IsLayering (D.garden hS) layer) (b : GBranch S.tree) :
-    inducedPrelayer (layeredReconstruction D hS layer hLayer) D hS (D.garden_decodes hS) b =
-      layer (chainContextNode D hS b
-        (chainLoneLeaf (D.tree b) (nodeSign S.sig b.1)).toNode) := by
-  exact congrArg layer (chainContextNode_lone D hS b).symm
-
 end WaveTurbulence.LFTwist

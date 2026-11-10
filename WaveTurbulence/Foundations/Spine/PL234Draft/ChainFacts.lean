@@ -132,22 +132,6 @@ theorem spineMono_map : ∀ (X : RegChain) (a : Fin v × Path), SpineMono LG (f 
     rw [hlay, hlay, hn]
     exact h1 m' Qr' Qg' inner' rest' hrest
 
-theorem takeLayer_map (r : ℕ) :
-    ∀ (X : RegChain) (a : Fin v × Path), takeLayer LG (f a) r X = takeLayer LG' a r X
-  | .nil, _ => rfl
-  | .pair m Qr Qg inner rest, a => by
-    have hn : f (nextAddr a m inner) = nextAddr (f a) m inner := hf _ _
-    unfold takeLayer
-    rw [← hlay, ← hn, takeLayer_map r rest]
-
-theorem dropLayer_map (r : ℕ) :
-    ∀ (X : RegChain) (a : Fin v × Path), dropLayer LG (f a) r X = dropLayer LG' a r X
-  | .nil, _ => rfl
-  | .pair m Qr Qg inner rest, a => by
-    have hn : f (nextAddr a m inner) = nextAddr (f a) m inner := hf _ _
-    unfold dropLayer
-    rw [← hlay, ← hn, dropLayer_map r rest]
-
 end Map
 
 /-! ### Appending -/

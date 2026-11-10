@@ -38,14 +38,6 @@ noncomputable def twistedRecenteredModC {d : ℕ} (G : Garden w) (a : GBranch G.
     ∑ x ∈ Z, clLocalKernelModC x.1.data x.1.plain (clRegionData x.1.skeleton x.2.block x.2.cl) L γ δ F
       (stateLayer x.1) (stateLayer_isLayering x.1) base lam tUpper tPositive tNegative e f g h
 
-theorem twistedRecenteredModC_zero {d : ℕ} (G : Garden w) (a : GBranch G.tree)
-    (Z : Finset (Σ Bs : FamilyReconstruction w ι, ChainAt Bs.skeleton Bs.family))
-    (L γ δ : ℝ) (F : ℕ → Mom d → ℝ) (base : Mom d) (tUpper tPositive tNegative : ℝ) (e f g h : Mom d) :
-    twistedRecenteredModC G a Z L γ δ F base 0 tUpper tPositive tNegative e f g h =
-      twistedRecentered G a Z L γ δ F base tUpper tPositive tNegative e f g h := by
-  unfold twistedRecenteredModC twistedRecentered twistedLocalKernel clLocalKernelModC clLocalKernel lowModC
-  simp
-
 /-- The modulated recentered class sum is the sum of the modulated recentered kernels of the members. -/
 theorem recentered_class_sumMod {d p : ℕ} (lam : ℝ) {kind : Bool} {A : FamilyReconstruction w ι}
     {c : ChainAt A.skeleton A.family}

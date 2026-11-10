@@ -1,7 +1,6 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 public import WaveTurbulence.Foundations.FinalCount.G3FinalCopy
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceVineData
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.Step1.Prop94Ops
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Api
 /-! **L6-H port of main `WaveTurbulence.Foundations.FinalCount.G3FinalCopy`** (sha256 in H/COPIED-SHA256SUMS): only the declarations that

@@ -32,18 +32,4 @@ theorem congruent_equivalence [Fintype ι] [DecidableEq ι] :
     Equivalence (Congruent (w := w) (ι := ι) p kind) :=
   congruent_equivalence_of_commute opsCommute_all
 
-/-- Congruence preserves `IsVFamily`. -/
-theorem congruent_isVFamily [Fintype ι] {A B : FamilyReconstruction w ι}
-    (h : Congruent (w := w) (ι := ι) p kind A B) (hA : IsVFamily A) : IsVFamily B := by
-  obtain ⟨M, _, hM⟩ := h
-  exact isVFamily_batch hM hA
-
-/-- **GAP.congEquiv**: congruence is an equivalence relation on `IsVFamily` states. -/
-theorem congruent_equivalence_isVFamily [Fintype ι] [DecidableEq ι] :
-    Equivalence (fun A B : {A : FamilyReconstruction w ι // IsVFamily A} =>
-      Congruent (w := w) (ι := ι) p kind A.1 B.1) :=
-  ⟨fun A => (congruent_equivalence (p := p) (kind := kind)).refl A.1,
-   fun h => (congruent_equivalence (p := p) (kind := kind)).symm h,
-   fun h1 h2 => (congruent_equivalence (p := p) (kind := kind)).trans h1 h2⟩
-
 end WaveTurbulence.Stage1

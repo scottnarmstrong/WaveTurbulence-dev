@@ -91,9 +91,4 @@ theorem RootedSubforest.leaf_sign (E : RootedSubforest tree v) (sig : Fin w → 
   gardenOnLeafEmbedding (RootedSubforest.signature E G.sig) (RootedSubforest.leafEmbedding E) hc
     (RootedSubforest.leaf_sign E G.sig)
 
-/-- Extracting a subforest preserves its total tree order literally. -/
-theorem RootedSubforest.garden_order {G : Garden w} (E : RootedSubforest G.tree v)
-    (hc : ∀ ℓ, ∃ ℓ', RootedSubforest.leafEmbedding E ℓ' = G.pair (RootedSubforest.leafEmbedding E ℓ)) :
-    (RootedSubforest.garden E hc).order = ∑ i, (E.shape i).order := rfl
-
 end WaveTurbulence.Comb

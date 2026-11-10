@@ -58,13 +58,4 @@ theorem CountingForest.value_singleton (γ η : ℝ)
     (CountingForest.singleton γ η p).value δ C1 = p.value γ δ C1 := by
   simp only [CountingForest.value,CountingForest.singleton,List.map_cons,List.map_nil,List.prod_cons,List.prod_nil,mul_one]
 
-/-- The proved bond-budget lemma supplies the standing half-gap threshold
-for every decorated forest, uniformly over its current graph carriers. -/
-theorem CountingForest.half_gap_eventual (γ η : ℝ) (hη : 0 < η) (m : ℕ) :
-    ∀ᶠ L : ℝ in Filter.atTop,∀ B : ℕ,(B : ℝ) ≤ 2*(1+Real.log L)^m →
-      ∀ F : CountingForest.{u,v} V d L γ η w c B,L^(-γ+η)/2 ≤ F.gap := by
-  filter_upwards [forestGapReserve_half_eventual (V := V) γ η hη m] with L hL B hB F
-  rw [F.reserve_eq]
-  exact hL B hB _
-
 end WaveTurbulence.Mole.AppbAlgorithm

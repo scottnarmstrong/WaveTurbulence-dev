@@ -23,10 +23,4 @@ theorem ladderAtoms_card_of_injective {m : ℕ} {u v : Fin (m + 1) → V}
   simp only [card_univ, Fintype.card_fin]
   omega
 
-theorem ladder_coupling_order {m : ℕ} {u v : Fin (m + 1) → V}
-    (hinj : Function.Injective (Sum.elim u v)) :
-    (Molecule.ladderAtoms u v).card - 1 = 2 * m + 1 := by
-  rw [ladderAtoms_card_of_injective hinj]
-  omega
-
 end WaveTurbulence.LGSpine

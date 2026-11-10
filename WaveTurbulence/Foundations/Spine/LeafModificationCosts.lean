@@ -1,6 +1,7 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
-public import WaveTurbulence.Foundations.Spine.RootModifiedCosts
+public import WaveTurbulence.Foundations.Spine.SelectedInputCount
+public import WaveTurbulence.Foundations.Spine.RootModifiedProfileNorm
 public import WaveTurbulence.Foundations.Spine.LeafDerivativeSupport
 /-! Individual input costs for the union of coordinate-weight and derivative modifications. -/
 @[expose] public section

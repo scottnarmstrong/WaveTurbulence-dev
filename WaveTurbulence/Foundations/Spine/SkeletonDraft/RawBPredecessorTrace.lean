@@ -6,7 +6,7 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.Spine.SkeletonDraft.ReductionTrace
-public import WaveTurbulence.Foundations.Spine.SkeletonDraft.RawBOrdinaryPredecessor
+public import WaveTurbulence.Foundations.Spine.SkeletonDraft.ForwardBCollapse
 
 /-! # Actual B predecessor trace retains every old branch at its exact relocated address -/
 

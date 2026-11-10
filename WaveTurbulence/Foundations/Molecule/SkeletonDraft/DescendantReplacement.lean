@@ -19,12 +19,6 @@ Its image is exactly the complement of the removed upper-minus-lower region.
 namespace WaveTurbulence.Reg.Skeleton
 open TTree
 
-/-- Actual descendant positions have a literal relative path. -/
-theorem descendant_exists_frame {w : ℕ} {tree : Fin w → TTree} (a b : GNode tree) (h : a.IsDesc b) :
-    ∃ p : Path, b.1 = addrExt a.1 p := by
-  obtain ⟨p,hp⟩ := h.2
-  exact ⟨p,Prod.ext h.1.symm hp.symm⟩
-
 /-- Every transported new leaf is an actual original leaf. -/
 theorem replacement_stretch_leaf {w : ℕ} (tree : Fin w → TTree) (a b : GNode tree) (p : Path)
     (hp : b.1 = addrExt a.1 p) (x : Address w)

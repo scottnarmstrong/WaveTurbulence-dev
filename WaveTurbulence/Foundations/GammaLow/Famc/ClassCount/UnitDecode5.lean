@@ -32,12 +32,6 @@ open Finset WaveTurbulence WaveTurbulence.Vine WaveTurbulence.GammaLow.FinalCoun
 
 variable {V D : Type} [DecidableEq V] [Fintype D] [DecidableEq D] {γ : ℝ} [Fact TVineF1Input] [Fact VinechainlemPrimeInput] [Fact (γ ≤ 1 / 2)] [Fact TVineIsoInvariant] [Fact TVineStructInputs]
 
-theorem chain_of_source {M : Molecule V D} {S : Finset V} {a b : V} {n : ℕ}
-    (h : Src.Chain γ M S a b n) : Src.Chain γ M S a b n := by
-  induction h with
-  | single hv => exact Src.Chain.single hv
-  | append _ hT hi hne ih => exact Src.Chain.append ih hT hi hne
-
 /-- A group-connected set meeting a sub-block `R ⊆ S` lies in `R`, provided that no atom of the group is a joint
 of `R` that is not a joint of `S`. -/
 

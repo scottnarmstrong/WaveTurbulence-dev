@@ -2,7 +2,6 @@
 module
 
 public import WaveTurbulence.Foundations.Spine.RA1LW.TreeFam
-public import WaveTurbulence.Foundations.Spine.RA1LW.Base
 public import WaveTurbulence.Foundations.Spine.RA1LW.TreeKernelReindex
 public import WaveTurbulence.Foundations.RegularAsymptotics.RA1Trees.TreeSourcePhaseBound
 public import WaveTurbulence.Foundations.IncohInst.InputProductIdentity
@@ -57,38 +56,5 @@ theorem treeLeaves_eq_original_lattice_source {d : ℕ} (L γ δ : ℝ) (LG : La
   rw [tree_sourceLeafWeight_eqL hX H k]
   unfold treeOriginalLatticeCoefficient
   rw [tree_decOfParams_eq_coset hX L k (fun j => (p (j,0),p (j,1)))]
-
-/-- A root partition value times the literal KTstar is exactly the double original
-cell/lattice series. Its rearrangement is justified by original source spatial norms. -/
-theorem treeLeaves_mul_rootPartition_eq_tsum_cells {d K M : ℕ} (L γ δ : ℝ)
-    (LG : LayeredGarden 1) {X : RegChain} (hX : X.DecodesTree LG.garden)
-    (h0 : ∀ a, LG.layer a = 0) {B : ℝ} (hL : 1 ≤ L) (hK : d+1 ≤ K) (hM : 2*d ≤ M)
-    (H : LGSpine.LeafProfiles 1 d)
-    (hf : ∀ a, Fourier.spatialNorm K M (treeInputFunctionsL LG H a) ≤ ENNReal.ofReal B)
-    (S : (Fin (Fintype.card (TPlus LG.garden)+1) → Fin d → ℤ) →
-      Finset ((Fin (X.treeLinks (LG.garden.sig 0)).length × Fin 2) → Fin d → ℤ))
-    (hcover : ∀ c k x, (treeCarrier hX).withRootInput.inputCellWeight c k x ≠ 0 →
-      ∀ z, halfCellArrayWeight z (fun p => x p.1 p.2) ≠ 0 → z ∈ S c)
-    {Ccover : ℝ} (hS : ∀ c, ((S c).card:ℝ) ≤ Ccover^(X.treeLinks (LG.garden.sig 0)).length)
-    (q : Fin d → ℤ) (t s : ℝ) (k : Mom d) :
-    LGSpine.treeLeaves L γ δ LG H t s k * treeRootPartition q k =
-      (coupling d L γ δ:ℂ)^LG.garden.order*LG.garden.zeta*
-        ∑' u : SourceCellIndex S,
-          ∑' p : (Fin (X.treeLinks (LG.garden.sig 0)).length × Fin 2) → Fin d → ℤ,
-            treeOriginalLatticeCoefficient L γ δ LG hX t s k p *
-              (treeCarrier hX).withRootInput.sourceCellWeight
-                (appendRootInput (treeInputFunctionsL LG H) (treeRootPartition q)) S k
-                  (fun j i => latticePoint L (p (j,i))) u := by
-  obtain ⟨Bq,hBq,hfq⟩ := exists_spatialNorm_bound_appendRootPartition
-    (treeInputFunctionsL LG H) hf q
-  have he := tree_lattice_eq_tsum_cells (treeCarrier hX).withRootInput
-    (appendRootInput (treeInputFunctionsL LG H) (treeRootPartition q)) S k
-    (fun c x => hcover c k x) hS hL hK hM hBq.le hfq
-    (treeOriginalLatticeCoefficient L γ δ LG hX t s k)
-    (treeOriginalLatticeCoefficient_norm_le L γ δ LG hX h0 t s k)
-  rw [← he,treeLeaves_eq_original_lattice_source L γ δ LG hX H t s k]
-  simp_rw [MomentumTreeData.sourceLeafWeight_withRootInput,← mul_assoc]
-  rw [tsum_mul_right]
-  ring
 
 end WaveTurbulence.RA1Leafwise

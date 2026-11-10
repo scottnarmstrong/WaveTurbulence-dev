@@ -56,25 +56,4 @@ def combinedSequentialAdmissibility (r : AppbRealization M P) (s : AppbRealizati
     (ζ : Degen.RetainedDart r.post s.removedAtoms → (Fin d → ℤ)) : Prop :=
   (r.combinedRemoval s v0).conditionedPostAdmissibility A q (ζ ∘ combinedPostDartEquiv r s v0)
 
-/-- The combined-removal estimate transfers with constant one to the
-literal successive-deletion graph used by the source run. -/
-theorem combinedPost_countA_le_sequential (r : AppbRealization M P) (s : AppbRealization r.post Q)
-    (v0 : M.atoms) {d : ℕ} (L γ δ C1 : ℝ) (w : Mom d) (A : (D → (Fin d → ℤ)) → Prop)
-    (q : Fin (r.combinedPattern s).edges.length → (Fin d → ℤ)) (scales : Finset V → ℝ) :
-    appbLinkCountA (r.combinedRemoval s v0).post L γ δ C1 w
-      ((r.combinedRemoval s v0).conditionedPostAdmissibility A q) scales ≤
-    appbLinkCountA s.post L γ δ C1 w (combinedSequentialAdmissibility r s v0 A q) scales := by
-  apply linkCountA_le_of_dart_relabeling (r.combinedRemoval s v0).post s.post
-    (combinedPostDartEquiv r s v0) (combinedPost_atoms_eq r s v0)
-  · intro x
-    rfl
-  · intro x
-    rfl
-  · intro x
-    rfl
-  · intro κ hκ
-    change (r.combinedRemoval s v0).conditionedPostAdmissibility A q
-      (relabelLabels (combinedPostDartEquiv r s v0) κ ∘ combinedPostDartEquiv r s v0)
-    simpa only [relabelLabels,Function.comp_def,Equiv.symm_apply_apply] using hκ
-
 end WaveTurbulence.Mole.AppbAlgorithm

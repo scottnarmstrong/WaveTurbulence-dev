@@ -12,11 +12,6 @@ open TTree
 /-- Extend an actual forest address by a relative subtree address. -/
 @[expose] def appendAddress {w : ℕ} (a : Fin w × Path) (p : Path) : Fin w × Path := (a.1,a.2 ++ p)
 
-/-- The exact CL selector compensates sign reversal by exchanging its two lower pieces. -/
-theorem clBoundarySelector_flip (e i : Fin 3) (same : Bool) :
-    Equiv.swap (1 : Fin 3) 2 (Mole.clBoundarySelector e same i) = Mole.clBoundarySelector e (!same) i := by
-  fin_cases e <;> fin_cases i <;> cases same <;> decide
-
 /-- A prefix entering a subtree is comparable with its root prefix. -/
 theorem prefix_append_comparable {a b p : Path} (h : a <+: b ++ p) : a <+: b ∨ b <+: a :=
   List.prefix_or_prefix_of_prefix h (List.prefix_append b p)

@@ -34,12 +34,6 @@ theorem MomentumTreeData.incoherenceCount_spectralLinks {d n m w : ℕ} (P : Mom
     (ξ : LocalizedCellIndex n m → Fin d → ℝ) :
     incoherenceCount (P.spectralLinks Q z ξ) = incoherenceCount Q := rfl
 
-/-- Fourier localization preserves every literal link time box exactly. -/
-theorem MomentumTreeData.linkBox_spectralLinks {d n m w : ℕ} (P : MomentumTreeData n m w)
-    (Q : Fin n → LayerLink d) (z : (Fin n × Fin 2) → Fin d → ℤ)
-    (ξ : LocalizedCellIndex n m → Fin d → ℝ) (i : Fin n) :
-    linkBox (P.spectralLinks Q z ξ i) = linkBox (Q i) := rfl
-
 /-- The actual unshifted temporal phase, compact cutoff, and linear Fourier character combine
 into precisely one analytic link summand. -/
 theorem temporal_phase_mul_linear_phase {d : ℕ} (L γ δ : ℝ) (Q : LayerLink d)

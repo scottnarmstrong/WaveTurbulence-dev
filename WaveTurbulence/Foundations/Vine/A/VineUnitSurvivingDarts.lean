@@ -1,6 +1,6 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
-public import WaveTurbulence.Foundations.Vine.A.VineUnitSpliceEpsilon
+public import WaveTurbulence.Foundations.Vine.A.VineUnitSpliceChildren
 /-! The exceptional PC/LP exchange fixes all surviving original darts.
 Thus the actual quotient dart map has ordinary branch/leaf names. -/
 @[expose] public section
@@ -29,24 +29,12 @@ theorem exceptionalDartSwap_fixed_of_not_deletedMk (Z : TwistGroupSite G) (σ : 
   change Equiv.swap _ _ (Equiv.swap _ _ d) = d
   rw [swap_fixed_of_not_predicate R hp hl hd, swap_fixed_of_not_predicate R hp' hl' hd]
 
-/-- The actual exceptional exchange fixes every dart retained by the selected simultaneous splice. -/
-theorem exceptionalDartSwap_fixed_of_not_deleted (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) (d : GardenDart G)
-    (hd : ¬ DeletedDart (stSt G σ).cls d) : exceptionalDartSwap G Z.P d = d :=
-  exceptionalDartSwap_fixed_of_not_deletedMk Z σ hsel d hd
-
 /-- B1b-2 (Mk-general form of `twistDartEquiv_eq_naive_of_not_deleted`). -/
 theorem twistDartEquiv_eq_naive_of_not_deletedMk (Z : TwistGroupSite G) (σ : Prescription G)
     {Mk : Set (CLVine G)}
     (hsel : ∃ c ∈ vinesV0 G σ Mk, c.atoms = Z.S0) (d : GardenDart G)
     (hd : ¬ DeletedDart (stSt G σ Mk).cls d) : twistDartEquiv G Z.P d = naiveDartEquiv G Z.P d :=
   congrArg (naiveDartEquiv G Z.P) (exceptionalDartSwap_fixed_of_not_deletedMk Z σ hsel d hd)
-
-/-- The actual LF dart map agrees with ordinary subtree transport at every retained old dart. -/
-theorem twistDartEquiv_eq_naive_of_not_deleted (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) (d : GardenDart G)
-    (hd : ¬ DeletedDart (stSt G σ).cls d) : twistDartEquiv G Z.P d = naiveDartEquiv G Z.P d :=
-  twistDartEquiv_eq_naive_of_not_deletedMk Z σ hsel d hd
 
 /-- B1b-2 (Mk-general form of `unitSpliceMolIso_surviving_dart_names`). -/
 theorem unitSpliceMolIso_surviving_dart_namesMk (Z : TwistGroupSite G) (σ : Prescription G)
@@ -58,12 +46,5 @@ theorem unitSpliceMolIso_surviving_dart_namesMk (Z : TwistGroupSite G) (σ : Pre
     ((stSt G σ Mk).M.od_range _).mp ⟨d, rfl⟩
   exact (unitSpliceMolIso_dart_namesMk Z σ hT hsel d).trans
     (twistDartEquiv_eq_naive_of_not_deletedMk Z σ hsel _ hd)
-
-/-- Literal old dart names commute with ordinary branch/leaf transport on the actual splice quotient. -/
-theorem unitSpliceMolIso_surviving_dart_names (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) (d : GardenDart (stSt G σ).G) :
-    (stSt Z.target (transportPrescription Z.iso σ)).M.od ((unitSpliceMolIso Z σ hsel).d d) =
-      naiveDartEquiv G Z.P ((stSt G σ).M.od d) :=
-  unitSpliceMolIso_surviving_dart_namesMk Z σ (Stage1Mk.markTransported_empty Z.iso) hsel d
 
 end WaveTurbulence.VineA

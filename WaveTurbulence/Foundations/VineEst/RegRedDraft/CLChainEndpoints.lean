@@ -5,7 +5,7 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.VineEst.RegRedDraft.CLVineChain
+public import WaveTurbulence.Foundations.VineEst.RegRedDraft.CLIngredientGaps
 
 /-! # Whole-chain boundary labels agree with its endpoint ingredients -/
 
@@ -28,22 +28,6 @@ theorem cl_endpoint_positions_eq {A B : Finset (GBranch G.tree)} {v : GBranch G.
     Mole.internalPositions G A v = Mole.internalPositions G B v := by
   apply Finset.eq_of_subset_of_card_le (cl_internalPositions_mono hAB v)
   rw [Mole.card_internalPositions,Mole.card_internalPositions,hA,hB]
-
-/-- TARGET vineest Step 1: the last ingredient has the whole chain's upper
-excluded child, not merely the same upper joint. -/
-theorem cl_upper_endpoint_child {A B : Finset (GBranch G.tree)} {a b c : GBranch G.tree}
-    (hA : G.molecule.IsBlock A a b) (hB : G.molecule.IsBlock B a c) (hAB : A ⊆ B)
-    (RA : CLRegionData G A a b) (RB : CLRegionData G B a c) :
-    a.child RA.excluded = a.child RB.excluded := by
-  have ha := (Mole.block_joint_degrees G.molecule hA).1
-  have hb := (Mole.block_joint_degrees G.molecule hB).1
-  have he := cl_endpoint_positions_eq hAB ha hb
-  have hn : RB.excluded = RA.excluded := by
-    by_contra hne
-    have hm := (RA.upper RB.excluded).mpr hne
-    rw [he] at hm
-    exact RB.toCLSpliceSlots.excluded_missing hm
-  exact congrArg a.child hn.symm
 
 /-- TARGET vineest Step 1: the bottom ingredient has the whole chain's two
 sign-ordered lower children. The ordering follows from their actual signs. -/

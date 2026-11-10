@@ -10,13 +10,6 @@ import Mathlib.Tactic
 public section
 namespace WaveTurbulence.RegAsymp
 
-/-- Factoring the source normalization does not divide by a surviving
-normalization and remains valid when no NT variable survives. -/
-theorem wick_normalization_split (q b : ℝ) {n m r : ℕ} (h : m+r = n) :
-    q^(2*n)*b^r = q^(2*m)*(q^2*b)^r := by
-  rw [← h,Nat.mul_add,pow_add,mul_pow,← pow_mul]
-  ring
-
 /-- One free lattice vector and one removed NT pair give the literal
 power L^(-(d-2gamma)), retaining the source delta square. -/
 theorem wick_one_link_normalization {d : ℕ} {L : ℝ} (hL : 0 < L) (δ γ : ℝ) :
@@ -33,13 +26,6 @@ theorem wick_one_link_normalization {d : ℕ} {L : ℝ} (hL : 0 < L) (δ γ : �
   calc
     _ = (2^d*δ^2/4)*(L^d/(L^((d:ℝ)-γ))^2) := by norm_num; ring
     _ = _ := by rw [hquot]
-
-/-- The full actual scalar normalization on a codimension-r Wick plane. -/
-theorem wick_normalization_free_count {d n m r : ℕ} {L : ℝ} (hL : 0 < L)
-    (δ γ : ℝ) (h : m+r = n) :
-    (δ/(2*L^((d:ℝ)-γ)))^(2*n)*(2^d*L^d)^r =
-      (δ/(2*L^((d:ℝ)-γ)))^(2*m)*((2^d*δ^2/4)*L^(-((d:ℝ)-2*γ)))^r := by
-  rw [wick_normalization_split _ _ h,wick_one_link_normalization hL]
 
 /-- Every nonempty Wick slice keeps the required gamma1 decay after
 paying a quarter-power of L for each traced coefficient variable. -/

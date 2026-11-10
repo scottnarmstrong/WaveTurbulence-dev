@@ -30,21 +30,4 @@ theorem clSplicedDartEquiv_atom (x : GardenDart (clSplicedGardenOfSlots hB hCL D
     · exact cl_branch_name_parent_contract hB hCL D c.1 c.2 (clPCChildEquiv hB hCL D c).1.2
   · exact cl_leaf_name_parent_contract hB hCL D l.1 l.2.2.1 (clLPLeafEquiv hB hCL D l).1.2.2.1
 
-/-- TARGET `block_clcn` (2): the constructed garden's actual molecule is
-isomorphic to the old molecule with every block atom merged and every
-internal block bond removed. Both atom and half-edge maps are bijections. -/
-@[expose] noncomputable def clSpliceMoleculeIsoOfSlots :
-    GardenMoleculeIso (clSplicedGardenOfSlots hB hCL D) (contractGroup G.molecule S) where
-  branches := clSplicedBranchAtomEquiv hB hCL D
-  darts := clSplicedDartEquiv hB hCL D
-  atom_comm := clSplicedDartEquiv_atom hB hCL D
-  mate_comm := clSplicedDartEquiv_mate hB hCL D
-  out_comm := clSplicedDartEquiv_out hB hCL D
-
-/-- No slot or pairing hypothesis is added to the source result: the
-canonical slot choices and every commutation law are derived from the CL block. -/
-@[expose] noncomputable def clSpliceMoleculeIso :
-    GardenMoleculeIso (clSplicedGarden hB hCL) (contractGroup G.molecule S) :=
-  clSpliceMoleculeIsoOfSlots hB hCL (clSpliceSlotsOfBlock hB hCL)
-
 end WaveTurbulence.Mole

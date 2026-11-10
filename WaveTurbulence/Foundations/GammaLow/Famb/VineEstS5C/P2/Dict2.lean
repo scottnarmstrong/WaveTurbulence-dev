@@ -5,7 +5,6 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P2.Dict
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P2.Datum
 public import WaveTurbulence.Foundations.VineEst.VineEstS3.TimeDomMeas
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P2.LevelAbs

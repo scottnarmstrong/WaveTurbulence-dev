@@ -2,7 +2,6 @@
 module
 
 public import WaveTurbulence.Foundations.Spine.RA1LW.LeafFam
-public import WaveTurbulence.Foundations.Spine.RA1LW.Base
 public import WaveTurbulence.Foundations.Spine.RA1LW.SourceAddressLeading
 public import WaveTurbulence.Foundations.Spine.RA1LW.SourceAddressIndependence
 public import WaveTurbulence.Foundations.Spine.RA1LW.ActualSingularSpatialBound

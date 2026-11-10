@@ -6,7 +6,6 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.Final.Core
-public import WaveTurbulence.Foundations.VineEst.VineEstS5C.Step3PrefixH
 public import WaveTurbulence.Foundations.Vine.DegenVinePar.SumintMixDoubled
 public import WaveTurbulence.Foundations.GammaLow.Famb.Family
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.Final.Prefix

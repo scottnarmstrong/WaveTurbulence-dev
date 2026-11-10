@@ -74,14 +74,6 @@ theorem integral_rationalArcEnvelope_le {L σ : ℝ} (hL : 0 < L) (hσ : 1 < σ)
     (div_nonneg (arcProfileMass_nonneg σ) (sq_nonneg L))
   simpa only [mul_assoc, mul_left_comm] using hh
 
-/-- The fourth-moment endpoint is the harmonic sum. -/
-theorem arcDenominatorSum_two (N : ℕ) : arcDenominatorSum 2 N = (harmonic N : ℝ) := by
-  unfold arcDenominatorSum
-  norm_num only [show (1 : ℝ) - 2 = -1 by norm_num, Real.rpow_neg_one]
-  rw [harmonic_eq_sum_Icc]
-  push_cast
-  rfl
-
 /-- Above the fourth-moment endpoint the denominator series converges. -/
 theorem summable_arc_denominators {σ : ℝ} (hσ : 2 < σ) :
     Summable (fun q : ℕ => (q : ℝ) ^ (1 - σ)) :=

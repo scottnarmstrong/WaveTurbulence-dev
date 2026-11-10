@@ -128,23 +128,6 @@ theorem fullAt (hcnt : PieceCountAt C₀ K) (hK : (K : ℝ) ^ (P.D + 1) ≤ P.C�
         hRf hRs hhigh)
   exact ⟨S, Cl, hCl, cls, members, sel, selR, h1, h2, h3, h4, h5⟩
 
-/-- **The frozen form** `MkDefs.Stage1ReductionAtMK` (R177 text) at `cP + 343`, from the same inputs. -/
-theorem frozenAt (hcnt : PieceCountAt C₀ K) (hK : (K : ℝ) ^ (P.D + 1) ≤ P.C₂) (hC : 0 ≤ P.C₁) (hL : 0 < P.L)
-    (hB : MarkedClassRepresentsMK cP cθ P) (hIX : B2eIX) (hZ : ZeroVanish P) :
-    Stage1ReductionAtMK C₀ (cP + 343) P := by
-  intro p hp R hR hRmax N hN1 hNb J hJ pat dag kSel t ht s hs A hA hpl hTC roots wt b hwc
-  obtain ⟨hb, h, Rf, σ, Rs, dagv, hdag, hh, hRf, hRs, hwt, hhigh⟩ := hwc
-  have hF := fineMarking_fineMk hIX J pat t s kSel σ
-  obtain ⟨S, Cl, hCl, cls, members, sel, selR, h1, h2, h3, h4, h5, h6⟩ :=
-    gate_of_good P p N J pat kSel t s A roots h b Rf σ Rs dagv cP cθ (fineMk J pat t s kSel σ) C₀ K hcnt hK hp hR
-      hN1 hA (fun B => (markI0_sub_markI J pat t s kSel B).trans (hF.sub B))
-      (gate_good hB hIX hZ hC hL hp hR hRmax hN1 hNb J hJ pat kSel ht hs A hA hpl hTC roots h b Rf σ Rs dagv hb hh
-        hRf hRs hhigh)
-  refine ⟨S, Cl, hCl, cls, members, sel, h1, fun π => ⟨?_, h6 π, (h2 π).2.2.1⟩, fun π => (h3 π).toSoundMK, h4, h5⟩
-  rw [(h2 π).1, ← hdag]
-  refine Finset.sum_congr rfl fun LG _ => ?_
-  rw [hwt LG]
-
 end Gate
 
 end WaveTurbulence.Flower.Stage1MKGate

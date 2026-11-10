@@ -93,10 +93,6 @@ section Layer
 variable {p : ℕ} {kind : Bool} {LG : LayeredGarden w} (s : LFSource p kind LG) {ε : Bool}
   (h : LFConstruction s ε)
 
-theorem decodedCouple_tree_zero (Q : RegCpl) : (decodedCouple Q).tree 0 = Q.trees.1 := rfl
-
-theorem decodedCouple_tree_one (Q : RegCpl) : (decodedCouple Q).tree 1 = Q.trees.2 := rfl
-
 /-- **Layers off the replaced region are kept.** -/
 theorem layer_map {D' : ReconstructionData (s.chosen ε)} (hD' : D' = h.data)
     (C : CoordData s.data s.plain D' (s.chosen_plain ε)) (E : PairData C)

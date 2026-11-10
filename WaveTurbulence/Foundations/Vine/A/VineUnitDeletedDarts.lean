@@ -56,12 +56,6 @@ theorem exceptionalDartSwap_deletedMk (Z : TwistGroupSite G) (σ : Prescription 
   change R (Equiv.swap _ _ (Equiv.swap _ _ d)) ↔ R d
   exact (swap_predicate_iff R hp' hl' _).trans (swap_predicate_iff R hp hl d)
 
-/-- The four exceptional darts of a selected twist are deleted by its actual unit. -/
-theorem exceptionalDartSwap_deleted (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) (d : GardenDart G) :
-    DeletedDart (spliceFold G (unitBlocks G σ)).cls (exceptionalDartSwap G Z.P d) ↔
-      DeletedDart (spliceFold G (unitBlocks G σ)).cls d := exceptionalDartSwap_deletedMk Z σ hsel d
-
 /-- B1b-2 (Mk-general form of `naiveDart_deleted_iff`). -/
 theorem naiveDart_deleted_iffMk (Z : TwistGroupSite G) (σ : Prescription G)
     {Mk : Set (CLVine G)} {Mk' : Set (CLVine Z.target)} (hT : Stage1Mk.MarkTransported Z.iso Mk Mk')
@@ -78,12 +72,5 @@ theorem naiveDart_deleted_iffMk (Z : TwistGroupSite G) (σ : Prescription G)
   have hx := exceptionalDartSwap_deletedMk Z σ hsel x
   rw [show exceptionalDartSwap G Z.P x = d from Equiv.apply_symm_apply _ _] at hx
   exact h.trans hx.symm
-
-/-- The ordinary carrier map preserves deletion after the exceptional exchange is removed. -/
-theorem naiveDart_deleted_iff (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) (d : GardenDart G) :
-    DeletedDart (spliceFold Z.target (unitBlocks Z.target (transportPrescription Z.iso σ))).cls
-      (naiveDartEquiv G Z.P d) ↔ DeletedDart (spliceFold G (unitBlocks G σ)).cls d :=
-  naiveDart_deleted_iffMk Z σ (Stage1Mk.markTransported_empty Z.iso) hsel d
 
 end WaveTurbulence.VineA

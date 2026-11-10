@@ -1,7 +1,7 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 
-public import WaveTurbulence.Foundations.Flower.ProtCut.CheckRoot
+public import WaveTurbulence.Foundations.Flower.ProtCut.RootIncoh
 
 /-! # D2c PROT-CUT: one-pair chains — (P2) and the root cut without suffix (time and summand level)
 

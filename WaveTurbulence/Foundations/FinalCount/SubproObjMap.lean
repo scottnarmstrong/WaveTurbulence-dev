@@ -103,9 +103,6 @@ theorem InducedIso.mapObj_atoms (O : Object N) (hO : O.atoms ⊆ B) :
 theorem InducedIso.mapObj_upper (O : Object N) (hO : O.atoms ⊆ B) :
     (I.mapObj O hO).upper = I.π O.upper := rfl
 
-theorem InducedIso.mapObj_lower (O : Object N) (hO : O.atoms ⊆ B) :
-    (I.mapObj O hO).lower = I.π O.lower := rfl
-
 theorem InducedIso.inGroup_map_iff {A : Finset V} (hA : A ⊆ B) {x : D} (hx : N.InGroup B x) :
     N'.InGroup (A.image I.π) (I.e ⟨x, hx⟩).1 ↔ N.InGroup A x := by
   constructor

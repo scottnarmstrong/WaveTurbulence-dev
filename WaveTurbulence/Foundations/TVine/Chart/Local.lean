@@ -74,8 +74,6 @@ abbrev graph : LocalGraph := ⟨nA, nB, c.src, c.dst⟩
 def inc (u : Fin nA) (l : Fin nB) : ℤ :=
   (if c.src l = some u then 1 else 0) - (if c.dst l = some u then 1 else 0)
 
-theorem graph_inc (u : Fin nA) (l : Fin nB) : c.graph.inc u l = c.inc u l := rfl
-
 /-- Inputs. -/
 def IsInput (l : Fin nB) : Prop := l = c.eO ∨ l = c.eI
 

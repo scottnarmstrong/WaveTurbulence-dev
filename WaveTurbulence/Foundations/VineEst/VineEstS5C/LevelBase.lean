@@ -7,7 +7,7 @@ module
 
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.GenMerge
 public import WaveTurbulence.Foundations.VineEst.VineEstS4.BaseCase
-public import WaveTurbulence.Foundations.VineEst.VineEstS4.CanonStatement
+public import WaveTurbulence.Foundations.VineEst.VineEstS4.Canon
 
 /-! # The base case of the induction over the core vines, and the native summand as an abstract summand (WP-I)
 
@@ -67,17 +67,6 @@ theorem clLocalSummand_eq_psiNat (D : ReconstructionData G) (hG : G.IsPlain) (R 
   · rw [Set.indicator_of_mem hτ, if_pos ((mem_clLocalTimeDomain_iff R _ t τ).mp hτ)]
     rw [clLocalStarProduct_eq]
   · rw [Set.indicator_of_notMem hτ, if_neg (fun h => hτ ((mem_clLocalTimeDomain_iff R _ t τ).mpr h))]
-
-theorem clLocalKernel_eq_lkRaw (D : ReconstructionData G) (hG : G.IsPlain) (R : CLRegionData G U a b) (L γ δ : ℝ)
-    (F : ℕ → Mom d → ℝ) (layer : GNode (D.forest hG) → ℕ) (hLayer : IsLayering (D.garden hG) layer) (base : Mom d)
-    (t0 t1 t2 : ℝ) (e f g h : Mom d) :
-    clLocalKernel D hG R L γ δ F layer hLayer base t0 t1 t2 e f g h =
-      (coupling d L γ δ : ℂ) ^ clLocalOrder1 R * clLocalZeta R *
-        lkRaw R L base (psiNat D hG R L γ δ F layer hLayer base) ![t0, t1, t2] ![e, f, g, h] := by
-  unfold clLocalKernel lkRaw
-  congr 1
-  refine tsum_congr fun κ => integral_congr_ae (Filter.Eventually.of_forall fun τ => ?_)
-  exact clLocalSummand_eq_psiNat D hG R L γ δ F layer hLayer base _ _ κ τ
 
 /-- Region index congruence for `lkRaw`. -/
 theorem lkRaw_idx {U U' : Finset (GBranch G.tree)} {a a' b b' : GBranch G.tree} (hU : U = U') (ha : a = a') (hb : b = b')

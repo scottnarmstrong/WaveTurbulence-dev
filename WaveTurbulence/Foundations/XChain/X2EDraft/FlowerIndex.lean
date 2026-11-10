@@ -189,9 +189,6 @@ noncomputable def pairPartitionEquiv :
     change (withPairs tops (dropPairs tops P.1 P.2)).parts = P.1.parts
     rw [withPairs_parts, dropPairs_parts, sdiff_union_of_subset (pairSet_subset tops P.1 P.2)]
 
-theorem pairPartitionEquiv_symm_parts (P : {P : Finpartition (univ : Finset (GLeaf (ftop tops))) //
-    ∀ j, pbF tops j ∈ P.parts}) : ((pairPartitionEquiv tops).symm P).parts = P.1.parts \ pairSet tops := rfl
-
 end Partitions
 
 /-! ## Lower data -/

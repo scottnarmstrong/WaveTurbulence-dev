@@ -25,8 +25,4 @@ theorem couple_const {d : ℕ} (δ r : ℝ) (F : Mom d → ℝ) (Q : RegCpl) (t 
     couple δ r (fun _ => F) Q t s k = Q.app δ r F t s k := by
   simp only [couple, RegCpl.app, cplMstar_const]
 
-theorem tree_const {d : ℕ} (δ r : ℝ) (F : Mom d → ℝ) (X : RegChain) (ζ : ℤˣ)
-    (t s : ℝ) (k : Mom d) : tree δ r (fun _ => F) X ζ t s k = X.app δ r F ζ t s k := by
-  simp only [tree, RegChain.app, chainNstar_const]
-
 end WaveTurbulence.LGSpine.LeafApp

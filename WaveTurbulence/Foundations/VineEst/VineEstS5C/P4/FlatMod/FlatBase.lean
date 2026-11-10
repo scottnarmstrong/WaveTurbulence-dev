@@ -38,10 +38,6 @@ theorem lkRaw_modPsi {U : Finset (GBranch G.tree)} {a b b' : GBranch G.tree} (R 
   subst hb
   rfl
 
-theorem norm_modPsi (b : GBranch G.tree) (lam : ℝ) (Ψ : PsiT G d) (x t u) : ‖modPsi b lam Ψ x t u‖ = ‖Ψ x t u‖ := by
-  unfold modPsi
-  rw [norm_mul, Complex.norm_exp_ofReal_mul_I, one_mul]
-
 theorem clLocalKernelModC_eq_lkRaw {U : Finset (GBranch G.tree)} {a b b' : GBranch G.tree} (D : ReconstructionData G)
     (hG : G.IsPlain) (R : CLRegionData G U a b') (hb : b' = b) (lam L γ δ : ℝ) (F : ℕ → Mom d → ℝ)
     (layer : GNode (D.forest hG) → ℕ) (hLayer : IsLayering (D.garden hG) layer) (base : Mom d) (t0 t1 t2 : ℝ)

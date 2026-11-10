@@ -49,16 +49,6 @@ theorem ZeroNormalData.boundary_four {s : State.{u,v} V} (h : ZeroNormalData s) 
   | continuing hc => exact d33_boundary_four_table h.figure hc.boundary_four.1 hc.boundary_four.2
   | terminalRung hc hn ht hreg => exact d33_terminal_boundary_four h.figure hreg
 
-theorem ZeroNormalData.geometry {s : State.{u,v} V} (h : ZeroNormalData s) :
-    NormalGeometryStep s h.target 0 := .d33 s h.figure h.noBridges h.boundary_four
-
-noncomputable def ZeroNormalData.outputMode {s : State.{u,v} V} (h : ZeroNormalData s)
-    (hM : s.graph.IsMolecule) (hno : AppbNoLoops s.graph) (hnt : AppbNoTripleBonds s.graph) :
-    ScanMode h.target :=
-  match h.stage with
-  | .continuing hc => .ladder (LadderHead.afterContinuing h.figure h.connected h.noBridges hc)
-  | .terminalRung hc hn ht hreg => terminalComponentMode s.graph hM hno hnt h.connected h.figure h.opposite hc ht hreg
-
 /-- The graph resource charge is zero precisely for the continuing stage;
 the terminal normal rung has the explicit loss two. -/
 theorem ZeroNormalData.active_change {s : State.{u,v} V} (h : ZeroNormalData s)

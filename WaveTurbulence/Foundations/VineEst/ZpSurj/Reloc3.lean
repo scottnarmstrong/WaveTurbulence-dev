@@ -32,18 +32,6 @@ theorem shiftTo_addrExt_self (a₁ : Fin w × Path) (a₂ : Fin w' × Path) (r :
     shiftTo a₁ a₂ (addrExt a₁ r) = addrExt a₂ r := by
   simp [shiftTo, addrExt]
 
-/-- One-root relocation: the layers below `a₂` are those below `a₁`. -/
-theorem treePatternN_reloc {H1 : LayeredGarden w} {H2 : LayeredGarden w'} (pa : ℕ) (X : RegChain) (ζ : ℤˣ)
-    (a₁ : Fin w × Path) (a₂ : Fin w' × Path)
-    (hlay : ∀ r, layerAt H2 (addrExt a₂ r) = layerAt H1 (addrExt a₁ r)) :
-    TreePatternN H2 pa X ζ a₂ ↔ TreePatternN H1 pa X ζ a₁ := by
-  have := treePatternN_map (fun z => Under a₁ z) (shiftTo a₁ a₂)
-    (fun x q hx => under_trans hx (under_ext x q)) (fun x q hx => shiftTo_addrExt a₂ hx q)
-    (H1 := H1) (H2 := H2) (fun z hz => by
-      obtain ⟨r, rfl⟩ := under_of_addrExt hz
-      rw [shiftTo_addrExt_self]; exact hlay r) pa X ζ a₁ (under_refl _)
-  rwa [shiftTo_self] at this
-
 /-- Two-root relocation. -/
 theorem layerPatternN_reloc {H1 : LayeredGarden w} {H2 : LayeredGarden w'} (pa pb : ℕ) (Q : RegCpl)
     (a₁ b₁ : Fin w × Path) (hab : Indep a₁ b₁) (a₂ b₂ : Fin w' × Path)

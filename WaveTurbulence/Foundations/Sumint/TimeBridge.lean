@@ -76,26 +76,6 @@ theorem sum_le_zero_iff {d : ℕ} (ρ : Fin d → ℕ) : (∑ j, ρ j ≤ 0) ↔
   simp only [Nat.le_zero, Finset.sum_eq_zero_iff, Finset.mem_univ, forall_const]
   exact ⟨fun h => funext h, fun h j => congrFun h j⟩
 
-theorem XNorm_zero_order_eq_mixedFourierNorm {r d : ℕ} (θ : ℝ) (Λ₂ : ℕ)
-    (F : (Fin r → ℝ) → Mom d → ℂ) :
-    XNorm θ 0 Λ₂ F = Fourier.mixedFourierNorm θ 0 Λ₂ F := by
-  by_cases hi : ∀ k, Integrable (fun t => F t k)
-  · rw [Fourier.mixedFourierNorm_zero_order θ Λ₂ F hi, XNorm,
-      ite_eq_left (And.intro hi (Or.inl rfl))]
-    simp only [sum_le_zero_iff, iSup_iSup_eq_left]
-    apply lintegral_congr
-    intro ξ
-    rw [maxBracketPow_eq_timeWeight]
-    congr 1
-    unfold Fourier.momentumSupNorm
-    apply iSup_congr
-    intro k
-    rw [ENNReal.ofReal_mul (show 0 ≤ jbr k ^ Λ₂ from pow_nonneg (Real.sqrt_nonneg _) _), ofReal_norm]
-    rw [iterPartial_zero, timeFT_eq_timeFourier]
-    rfl
-  · rw [XNorm, ite_eq_right (not_and_of_not_left _ hi),
-      Fourier.mixedFourierNorm_of_not_admissible (by simpa only [Fourier.mixedFourierAdmissible_zero_iff] using hi)]
-
 theorem XNorm_zero_eq_XNorm00 {r d : ℕ} (θ : ℝ) (F : (Fin r → ℝ) → Mom d → ℂ) :
     XNorm θ 0 0 F = XNorm00 θ F := by
   unfold XNorm XNorm00
@@ -104,28 +84,5 @@ theorem XNorm_zero_eq_XNorm00 {r d : ℕ} (θ : ℝ) (F : (Fin r → ℝ) → Mo
   · exact (h₂ h₁.1).elim
   · exact (h₁ ⟨h₂, Or.inl rfl⟩).elim
   · rfl
-
-theorem XNorm_zero_eq_mixedFourierNorm {r d : ℕ} (θ : ℝ) (F : (Fin r → ℝ) → Mom d → ℂ) :
-    XNorm θ 0 0 F = Fourier.mixedFourierNorm θ 0 0 F := by
-  rw [XNorm_zero_eq_XNorm00, XNorm00_eq_mixedFourierNorm00, Fourier.mixedFourierNorm00_eq_mixedFourierNorm]
-
-theorem XNormRestr_zero_eq_mixedRestrictionNorm {r d : ℕ} (θ : ℝ)
-    (B : Set (Fin r → ℝ)) (K : Set (Mom d)) (F : (Fin r → ℝ) → Mom d → ℂ) :
-    XNormRestr θ 0 0 B K F = Fourier.mixedRestrictionNorm θ 0 0 B K (fun t k => F t k) := by
-  unfold XNormRestr
-  rw [← Fourier.mixedRestrictionNorm00_eq_mixedRestrictionNorm,
-    Fourier.mixedRestrictionNorm00_eq_agreement]
-  simp only [XNorm_zero_eq_XNorm00, XNorm00_eq_mixedFourierNorm00]
-/-- The unrestricted equality passes through the infimum over every ambient extension. -/
-theorem XNormRestr_zero_order_eq_mixedRestrictionNorm {r d : ℕ} (θ : ℝ) (Λ₂ : ℕ)
-    (B : Set (Fin r → ℝ)) (K : Set (Mom d)) (F : (Fin r → ℝ) → Mom d → ℂ) :
-    XNormRestr θ 0 Λ₂ B K F = Fourier.mixedRestrictionNorm θ 0 Λ₂ B K (fun t k => F t k) := by
-  unfold XNormRestr Fourier.mixedRestrictionNorm
-  apply iInf_congr
-  intro G
-  have he : (∀ t ∈ B, ∀ k ∈ K, G t k = F t k) ↔
-      (∀ (t : B) (k : K), G t k = F t k) :=
-    ⟨fun h t k => h t t.property k k.property, fun h t ht k hk => h ⟨t, ht⟩ ⟨k, hk⟩⟩
-  rw [he, XNorm_zero_order_eq_mixedFourierNorm]
 
 end WaveTurbulence.NormBridgeScratch

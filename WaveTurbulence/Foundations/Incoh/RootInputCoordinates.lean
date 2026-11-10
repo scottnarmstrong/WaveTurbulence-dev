@@ -33,11 +33,4 @@ theorem RootInputCoordinates.abs_cast_sigma_le {n m w : ℕ} {P : MomentumTreeDa
     (C : RootInputCoordinates P) (a : Fin m) : |(C.sigma a : ℝ)| ≤ 1 := by
   exact_mod_cast C.abs_sigma_le a
 
-/-- The root coefficients sum to one, as forced by the literal input root column. -/
-theorem RootInputCoordinates.sum_sigma {n m w : ℕ} {P : MomentumTreeData n m w}
-    (C : RootInputCoordinates P) : (∑ a, C.sigma a) = 1 := by
-  have h := congrFun C.root_row none
-  simp only [Finset.sum_apply, Pi.smul_apply, momentumUnitRow, ite_true] at h
-  simpa [P.input_root_column] using h
-
 end WaveTurbulence.Incoh

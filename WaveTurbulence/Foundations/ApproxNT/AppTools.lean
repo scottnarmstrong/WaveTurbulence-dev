@@ -106,13 +106,6 @@ theorem le_wmax {θ : ℝ} (hθ : 0 ≤ θ) (Ω : κ → ℝ) (i : κ) : |Ω i| 
   rw [Real.le_sqrt (abs_nonneg _) (by positivity), sq_abs]
   linarith
 
-theorem wmax_nonneg {θ : ℝ} (Ω : κ → ℝ) : 0 ≤ wmax θ Ω := by
-  rcases isEmpty_or_nonempty κ with h | h
-  · simp [wmax]
-  · obtain ⟨i⟩ := h
-    exact le_trans (Real.rpow_nonneg (Real.sqrt_nonneg _) _)
-      (le_ciSup (f := fun i => Real.sqrt (1 + Ω i ^ 2) ^ θ) (Set.finite_range _).bddAbove i)
-
 /-- A Hölder bound at the origin for the Fourier transform. -/
 theorem norm_fourier_sub_fourier_zero_le {f : EuclideanSpace ℝ κ → ℂ} (hfi : Integrable f)
     {θ : ℝ} (hθ0 : 0 < θ) (hθ1 : θ ≤ 1) {H : ℝ} (hH0 : 0 ≤ H)

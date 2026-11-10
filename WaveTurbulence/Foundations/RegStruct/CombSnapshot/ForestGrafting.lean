@@ -72,12 +72,4 @@ theorem graftLeafPairForest_leaves (ℓ q : GLeaf tree) (hne : q ≠ ℓ) (s r :
   rw [card_gleaf, card_gleaf, graftLeafPairForest_order, card_leaves, card_leaves]
   omega
 
-/-- A couple inserted into a leaf pair adds exactly its garden order. -/
-theorem graftCouple_order (ℓ q : GLeaf tree) (hne : q ≠ ℓ) (Q : Garden 2) :
-    (∑ j, (graftLeafPairForest tree ℓ q hne (Q.tree 0) (Q.tree 1) j).order) =
-      (∑ j, (tree j).order) + Q.order := by
-  rw [graftLeafPairForest_order]
-  simp only [Garden.order, Fin.sum_univ_two]
-  omega
-
 end WaveTurbulence.Comb

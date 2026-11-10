@@ -42,13 +42,4 @@ theorem prefix_add_regular_comparisons {A : WTParams → Prop}
       incoherent_remainder_of_even_comparison P h.1.2 h.2⟩)
     (prefix_with_coherent_small_parameters hi)
 
-theorem regular_comparisons_prefix
-    (hLeaf : LeafwiseCoherentApproximationGate) (hTaylor : CoherentTaylorGate)
-    (hDecay : LeafwiseIncoherentDecayGate) :
-    WTPrefix (fun P => CoherentRemainderAt P ∧ IncoherentRemainderAt P) := by
-  have h₀ : WTPrefix (fun P => True ∧ RegularAnalyticSourcesAt P) :=
-    prefix_map (fun _ h => ⟨True.intro, h⟩) (regular_analytic_sources_prefix hLeaf hTaylor hDecay)
-  have h := prefix_add_regular_comparisons h₀
-  exact prefix_map (fun _ h => h.2) h
-
 end WaveTurbulence.LGSpine

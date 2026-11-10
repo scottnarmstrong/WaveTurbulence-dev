@@ -137,32 +137,6 @@ theorem vineEstCanonLayerHalf_of_C2 (H : WTPrefix VineEstCanonLayerC2) : WTPrefi
   exact half_of_C2_real (pow_nonneg (mul_nonneg (by linarith) hδ0) _)
     (regionLeafSize_const_nonneg RD hG R layer hLayer hB₀) hLpos (C2_pow_le _ hη.1 hC₂ hLC)
 
-/-- **TARGET Proposition `vineest`, layer-uniform form, with the class-count factor `C₂ ^ b` (R54 (i)).**  Identical to
-`VineEstCanonLayer` except for the factor `P.C₂ ^ b` on the right-hand side, `b` the number of bad vines of the chain. -/
-def VineEstCanonLayerC2K (P : WTParams) : Prop :=
-  ∀ {p : ℕ}, p < P.D → ∀ (h : ℕ → Mom P.d → ℝ) (B₀ : ℝ), 0 ≤ B₀ →
-    (∀ r ≤ p, SNormR (40 * P.d) (40 * P.d) (h r) ≤ ENNReal.ofReal B₀) →
-    ∀ {w : ℕ} {G : Garden w} {U : Finset (GBranch G.tree)} {a b : GBranch G.tree} {R : CLRegionData G U a b}
-      {n : ℕ} (_hprime : IsPrimeGarden G) (hM9 : VINEPARAM) (B : CLChainAssembly G R n) (RD : ReconstructionData G)
-      (hG : G.IsPlain)
-      (layer : GNode (RD.forest hG) → ℕ) (hLayer : IsLayering (RD.garden hG) layer) (kind : Bool), CanonicalObject p kind (layeredReconstruction RD hG layer hLayer) → (∀ x, layer x ≤ p) →
-    (RD.garden hG).order ≤ P.N (p + 1) ^ 4 → clLocalOrder1 R ≤ P.N 1 ^ 4 →
-    ∀ (centre : Fin 4 → Mom P.d) (wBar : Mom P.d),
-    RowCoherent hM9 B RD hG layer hLayer (step3W hM9 B RD hG layer hLayer (canonBadKind hM9 B RD hG layer) (qOutOf RD hG layer a b R) centre wBar)
-      P.L P.γ P.δ h p →
-    XNorm00Restr (2 * P.η ^ 8) (outBox (step3D hM9 B RD hG layer hLayer (canonBadKind hM9 B RD hG layer) (qOutOf RD hG layer a b R) centre wBar))
-      (outSet (step3D hM9 B RD hG layer hLayer (canonBadKind hM9 B RD hG layer) (qOutOf RD hG layer a b R) centre wBar) P.L P.γ P.η)
-      (fun tt E => twistedRecentered (rowSel := VineEst.RowSel.plain) G a (canonFinsetK p kind (startState B RD hG layer hLayer) (chainStart B))
-        P.L P.γ P.δ h wBar
-        (tt 0) (tt 1) (tt 2) (sumintBoundary (G.sign a.toNode) E 0) (sumintBoundary (G.sign a.toNode) E 1)
-        (sumintBoundary (G.sign a.toNode) E 2) (sumintBoundary (G.sign a.toNode) E 3)) ≤
-    ENNReal.ofReal ((P.C₁ * Real.sqrt P.δ) ^ clLocalOrder2 RD hG R *
-      P.L ^ (-(P.η ^ 8 * ((cohmolIndex B RD hG layer +
-        (step3D hM9 B RD hG layer hLayer (canonBadKind hM9 B RD hG layer) (qOutOf RD hG layer a b R) centre wBar).M₁ : ℕ) : ℝ)) -
-        P.η ^ 2 * ((Finset.univ.filter fun i => (assemblyShape hM9 B).nor i = false).card : ℝ) + P.η ^ 7) *
-      regionLeafSize RD hG R layer hLayer (fun _ => B₀) *
-      P.C₂ ^ (Finset.univ.filter fun i => (assemblyShape hM9 B).nor i = false).card)
-
 /-- **TARGET Proposition `vineest`, layer-uniform form, with the halved bad-vine gain `L^{-(η²/2) b}` (R54 (ii)).**  Identical to
 `VineEstCanonLayer` except for the exponent `-(η²/2) b` in place of `-η² b`. -/
 def VineEstCanonLayerHalfK (P : WTParams) : Prop :=
@@ -187,27 +161,5 @@ def VineEstCanonLayerHalfK (P : WTParams) : Prop :=
         (step3D hM9 B RD hG layer hLayer (canonBadKind hM9 B RD hG layer) (qOutOf RD hG layer a b R) centre wBar).M₁ : ℕ) : ℝ)) -
         P.η ^ 2 / 2 * ((Finset.univ.filter fun i => (assemblyShape hM9 B).nor i = false).card : ℝ) + P.η ^ 7) *
       regionLeafSize RD hG R layer hLayer (fun _ => B₀))
-
-/-- **R54 (ii) from (i)**: the halved-gain statement follows from the `C₂ ^ b` statement in prefix form (enlarge `L₀` to `C₂^{2/η²}`). -/
-theorem vineEstCanonLayerHalfK_of_C2K (H : WTPrefix VineEstCanonLayerC2K) : WTPrefix VineEstCanonLayerHalfK := by
-  intro d hd γ hγ
-  obtain ⟨η₀, hη₀, H1⟩ := H d hd γ hγ
-  refine ⟨η₀, hη₀, fun η hη φin hφin τ hτ φ hsol => ?_⟩
-  obtain ⟨C₁, hC₁, ν₀, hν₀, H2⟩ := H1 η hη φin hφin τ hτ φ hsol
-  refine ⟨C₁, hC₁, ν₀, hν₀, fun ν hν => ?_⟩
-  obtain ⟨δ₀, hδ₀, H3⟩ := H2 ν hν
-  refine ⟨δ₀, hδ₀, fun δ hδ D hD htime => ?_⟩
-  obtain ⟨C₂, hC₂, L₀, hL₀, H4⟩ := H3 δ hδ D hD htime
-  refine ⟨C₂, hC₂, max L₀ (C₂ ^ (2 / η ^ 2)), le_max_of_le_left hL₀, fun L hL => ?_⟩
-  have hLL₀ : L₀ ≤ L := (le_max_left _ _).trans hL
-  have hLC : C₂ ^ (2 / η ^ 2) ≤ L := (le_max_right _ _).trans hL
-  have hLpos : 0 < L := by linarith
-  have key : VineEstCanonLayerC2K ⟨d, γ, η, φin, τ, φ, C₁, ν, δ, D, C₂, L⟩ := H4 L hLL₀
-  intro p hp h B₀ hB₀ hh w G U a b R n hprime hM9 B RD hG layer hLayer kind hcan hlay hord hl1 centre wBar hcoh
-  refine (key hp h B₀ hB₀ hh hprime hM9 B RD hG layer hLayer kind hcan hlay hord hl1 centre wBar hcoh).trans ?_
-  refine ENNReal.ofReal_le_ofReal ?_
-  have hδ0 : 0 ≤ Real.sqrt δ := Real.sqrt_nonneg _
-  exact half_of_C2_real (pow_nonneg (mul_nonneg (by linarith) hδ0) _)
-    (regionLeafSize_const_nonneg RD hG R layer hLayer hB₀) hLpos (C2_pow_le _ hη.1 hC₂ hLC)
 
 end WaveTurbulence.VineEstS5C

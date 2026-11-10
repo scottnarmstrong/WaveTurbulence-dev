@@ -5,7 +5,6 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.Molecule.RegStructWork
 public import WaveTurbulence.Foundations.Molecule.SkeletonDraft.Raw
 public import WaveTurbulence.Foundations.Molecule.SkeletonDraft.BContext.RelocationGeometry
 public import WaveTurbulence.Foundations.Molecule.SkeletonDraft.BContext.ChainContinuationSeparation

@@ -2,7 +2,7 @@
 module
 
 public import WaveTurbulence.Foundations.Fourier.CutoffOrderedIntegral
-public import WaveTurbulence.Foundations.Fourier.OrderedMixedDerivative
+public import WaveTurbulence.Foundations.Fourier.OrderedBoundaryDerivative
 public import WaveTurbulence.Foundations.Fourier.TimeDerivatives
 import Mathlib.Tactic
 

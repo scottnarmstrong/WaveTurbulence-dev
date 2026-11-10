@@ -35,9 +35,6 @@ theorem splice_swap (G : UMultigraph V) (a b : V) (A : Multiset (Sym2 V)) : spli
   · exact Finset.erase_right_comm
   · intro e; rw [splice_mult, splice_mult]; exact if_congr or_comm rfl rfl
 
-theorem splice_congr_adds (G : UMultigraph V) (a b : V) {A B : Multiset (Sym2 V)} (h : A = B) :
-    splice G a b A = splice G a b B := h ▸ rfl
-
 /-- After a splice at `{a, b}`, the bonds at an atom `v ∉ {a, b}`. -/
 theorem splice_mult_at (G : UMultigraph V) {a b v : V} (A : Multiset (Sym2 V)) (hva : v ≠ a) (hvb : v ≠ b)
     (x : V) : (splice G a b A).mult s(v, x) = if x = a ∨ x = b then 0 else G.mult s(v, x) + A.count s(v, x) := by

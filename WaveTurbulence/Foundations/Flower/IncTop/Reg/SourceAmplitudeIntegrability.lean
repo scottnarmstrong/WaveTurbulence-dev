@@ -45,21 +45,6 @@ theorem MomentumTreeData.enorm_sourceSpectralAmplitudeSpatial {d n m w : ℕ}
   exact P.enorm_localizedSourceSpectralDensity ζ f c z k (fun _ _ => 0) ξ
 
 open WaveTurbulence.Incoh.MomentumTreeData in
-/-- Actual source spatial bounds give spectral amplitude integrability at every root momentum. -/
-theorem MomentumTreeData.integrable_sourceSpectralAmplitudeSpatial {d n m w K M : ℕ}
-    (P : MomentumTreeData n m w) (ζ : Circle) (f : Fin m → Mom d → ℂ)
-    (c : Fin m → Fin d → ℤ) (z : (Fin n × Fin 2) → Fin d → ℤ)
-    {B : ℝ} (hK : d + 1 ≤ K) (hB : 0 ≤ B)
-    (h : ∀ a, Fourier.spatialNorm K M (f a) ≤ ENNReal.ofReal B) (k : Mom d) :
-    Integrable ((MomentumTreeData.sourceSpectralAmplitudeSpatial (P := P)) ζ f c z k) := by
-  have he : (MomentumTreeData.sourceSpectralAmplitudeSpatial (P := P)) ζ f c z k =
-      P.localizedSourceSpectralDensity ζ f c z k (fun _ _ => 0) := by
-    funext ξ
-    exact (MomentumTreeData.sourceSpectralAmplitude_eq_density_zeroSpatial (P := P)) ζ f c z k ξ
-  rw [he]
-  exact P.integrable_localizedSourceSpectralDensity ζ f c z hK hB h k (fun _ _ => 0)
-
-open WaveTurbulence.Incoh.MomentumTreeData in
 /-- The actual Fourier coefficient and computed root phase give a continuous spectral amplitude. -/
 theorem MomentumTreeData.continuous_sourceSpectralAmplitudeSpatial {d n m w K M : ℕ}
     (P : MomentumTreeData n m w) (ζ : Circle) (f : Fin m → Mom d → ℂ)

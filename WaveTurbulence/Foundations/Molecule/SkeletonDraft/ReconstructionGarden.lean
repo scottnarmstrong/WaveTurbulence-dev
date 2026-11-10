@@ -42,10 +42,6 @@ theorem ReconstructionData.raw_valid {w : ℕ} {S : Garden w}
     (D : ReconstructionData S) (hS : S.IsPlain) : (D.raw hS).Valid :=
   D.garden_raw hS ▸ rawOfGarden_valid (D.garden hS) (D.garden_plain hS)
 
-theorem ReconstructionData.exists_decodes {w : ℕ} {S : Garden w}
-    (D : ReconstructionData S) (hS : S.IsPlain) : ∃ G : Garden w, D.Decodes hS G :=
-  ⟨D.garden hS,D.garden_decodes hS⟩
-
 theorem ReconstructionData.existsUnique_decodes {w : ℕ} {S : Garden w}
     (D : ReconstructionData S) (hS : S.IsPlain) : ∃! G : Garden w, D.Decodes hS G := by
   refine ⟨D.garden hS,D.garden_decodes hS,?_⟩

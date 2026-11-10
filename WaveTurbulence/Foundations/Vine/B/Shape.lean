@@ -176,8 +176,6 @@ noncomputable def nodeEquiv : GNode Gsb.tree ≃ {x : GNode S.tree // Ret blk x}
       obtain ⟨y, hy⟩ := (Φ.range _).mpr x.2
       exact ⟨y, Subtype.ext hy⟩⟩
 
-theorem nodeEquiv_apply (y : GNode Gsb.tree) : (Φ.nodeEquiv y).1 = Φ.node y := rfl
-
 theorem node_nodeEquiv_symm (x : {x : GNode S.tree // Ret blk x}) : Φ.node (Φ.nodeEquiv.symm x) = x.1 := by
   have := Φ.nodeEquiv.apply_symm_apply x
   exact congrArg Subtype.val this

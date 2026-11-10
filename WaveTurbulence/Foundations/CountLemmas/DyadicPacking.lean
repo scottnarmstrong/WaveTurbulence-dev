@@ -1,7 +1,9 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 
-public import WaveTurbulence.Foundations.Counting.DyadicPowerBlocks
+public import WaveTurbulence.Foundations.Counting.DyadicBlocks
+public import Mathlib.Analysis.SpecialFunctions.Pow.Real
+public import Mathlib.Analysis.Complex.Basic
 public import Mathlib.Algebra.Order.Field.GeomSum
 
 /-! # Summing geometric shell counts without a logarithmic loss -/

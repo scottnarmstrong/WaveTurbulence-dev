@@ -45,17 +45,6 @@ theorem block_region_roots_are_joints {S : Finset (GBranch G.tree)} {a b r : GBr
   push_neg at hn
   exact hr.2 (block_interior_has_parent G hB hr.1 hn.1 hn.2)
 
-/-- The precise root set of a CN region consists of both joints. -/
-theorem block_two_region_roots {S : Finset (GBranch G.tree)} {a b : GBranch G.tree}
-    (hB : G.molecule.IsBlock S a b) (ha : ¬ InternalParent G S a)
-    (hb : ¬ InternalParent G S b) (r : GBranch G.tree) :
-    IsRegionRoot G S r ↔ r = a ∨ r = b := by
-  constructor
-  · exact block_region_roots_are_joints G hB
-  · rintro (rfl | rfl)
-    · exact ⟨hB.2.1,ha⟩
-    · exact ⟨hB.2.2.1,hb⟩
-
 /-- The precise root set of a CL region consists of its upper joint. -/
 theorem block_one_region_root {S : Finset (GBranch G.tree)} {a b : GBranch G.tree}
     (hB : G.molecule.IsBlock S a b) (ha : ¬ InternalParent G S a)

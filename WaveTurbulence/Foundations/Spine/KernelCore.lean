@@ -41,12 +41,6 @@ lemma edgeF_supp (D : SplicedKernelData G d) (hD : SplicedAmplitudeBounds G D) (
     (x : Mom d) (hx : 1 < ‖x - C.edgeCtr D c‖) : C.edgeF D c x = 0 :=
   (hD.2.1 (C.outDart c) (by simp [Molecule.bonds, C.out_outDart c])).2 x hx
 
-include C in
-lemma norm_edgeF_le (D : SplicedKernelData G d) (hD : SplicedAmplitudeBounds G D) (c : LadderDarts.Ctx.Code n)
-    (x : Mom d) : ‖C.edgeF D c x‖ ≤ 1 := by
-  have h := Sumint.weighted_norm_le_of_SNorm_le (N := 30 * d) (K := 0) (by norm_num) (C.edgeF_snorm D hD c) x
-  simpa using h
-
 
 lemma chainLab_eval_labOf {n : ℕ} (S : ChainSigns n) (a0 b0 : Fin d → ℤ) (P : Fin n → Pt d)
     (c : LadderDarts.Ctx.Code n) :
@@ -252,17 +246,6 @@ theorem class_bound (hP : G.IsPlain) {L : ℝ} (hL0 : 0 < L) (base : Mom d)
       (fun k => by simp) (fun k => by simp) (fun k => by simp) (fun k => by simp)
       (fun k => windowOK_of_layers hL0 hδ (by positivity) (by positivity) (hlay _) (hlay _)) hcut
     exact hcb
-
-include C in
-lemma intAtoms_subset_ladder : intAtoms u v ⊆ Molecule.ladderAtoms u v := by
-  intro a ha
-  unfold intAtoms at ha
-  unfold Molecule.ladderAtoms
-  rcases Finset.mem_union.mp ha with h | h
-  · obtain ⟨i, -, rfl⟩ := Finset.mem_image.mp h
-    exact Finset.mem_union_left _ (Finset.mem_image.mpr ⟨_, Finset.mem_univ _, rfl⟩)
-  · obtain ⟨i, -, rfl⟩ := Finset.mem_image.mp h
-    exact Finset.mem_union_right _ (Finset.mem_image.mpr ⟨_, Finset.mem_univ _, rfl⟩)
 
 include C in
 lemma ir_injective : Function.Injective (LadderDarts.ir (n := n)) := fun a b h => by

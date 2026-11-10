@@ -1,7 +1,7 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 
-public import WaveTurbulence.Foundations.FinalCount.MoleProp.CutLabelEquations
+public import WaveTurbulence.Foundations.FinalCount.MoleProp.DoublePairSourceEquations
 import Mathlib.Tactic
 
 /-! # Old cut momentum fixes one label once the others are fixed

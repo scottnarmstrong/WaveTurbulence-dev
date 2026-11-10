@@ -5,7 +5,6 @@ public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineBran
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineChainBlock
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineChainConnected
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineChainCounts
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineChainEnds
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineChainIngredients
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineEraseChainIngredient
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineHyperAdjointVC
@@ -45,18 +44,6 @@ variable {M : Molecule V D} {S : Finset V} {a b : V} (R : Src.HyperLikeRealizati
 
 -- (`HyperLikeRealization.IsGap`: defined by L6 as `Src.HyperLikeRealization.IsGap`)
 -- (`HyperLikeRealization.IsContained`: defined by L6 as `Src.HyperLikeRealization.IsContained`)
-/-- For a fixed designated hyper-object and ordered joint, the gap is unique. -/
-theorem gap_unique {d : ℕ} (L : ℝ) (w : Mom d) (κ : D → (Fin d → ℤ)) {r r' : Mom d}
-    (hr : R.IsGap L w κ r) (hr' : R.IsGap L w κ r') : r=r' :=
-  blockGap_unique (Mole.eraseBond M R.added) R.adjoint.1 hr hr'
 
-alias _root_.WaveTurbulence.GammaLow.FinalCount.Src.HyperLikeRealization.gap_unique := _root_.WaveTurbulence.GammaLow.FinalCount.H.Src.HyperLikeRealization.gap_unique
-/-- In particular a fixed object cannot have two different gap kinds. -/
-theorem gapKind_unique {d : ℕ} (L γ η : ℝ) (w : Mom d) (κ : D → (Fin d → ℤ)) {r r' : Mom d}
-    (hr : R.IsGap L w κ r) (hr' : R.IsGap L w κ r') :
-    Molecule.gapKind L γ η r=Molecule.gapKind L γ η r' :=
-  congrArg (Molecule.gapKind L γ η) (R.gap_unique L w κ hr hr')
-
-alias _root_.WaveTurbulence.GammaLow.FinalCount.Src.HyperLikeRealization.gapKind_unique := _root_.WaveTurbulence.GammaLow.FinalCount.H.Src.HyperLikeRealization.gapKind_unique
 end Src.HyperLikeRealization
 end WaveTurbulence.GammaLow.FinalCount.H

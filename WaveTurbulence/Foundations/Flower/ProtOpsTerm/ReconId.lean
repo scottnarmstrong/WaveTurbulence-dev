@@ -25,8 +25,6 @@ def uHat (A : ℝ) (h : (Fin (r + 3) → ℝ) → ℂ) (ζ : Fin (r + 2) → ℝ
 def invN {n : ℕ} (u : (Fin n → ℝ) → ℂ) (x : Fin n → ℝ) : ℂ :=
   ∫ l, Real.fourierChar (timePairing n l x) • u l
 
-theorem reconN_eq_invN {n : ℕ} (h : (Fin n → ℝ) → ℂ) : reconN h = invN (timeFourier h) := rfl
-
 theorem pairing_split' {n m : ℕ} (l ts : Fin (n + m) → ℝ) :
     timePairing (n + m) l ts = timePairing n (hd l) (hd ts) + timePairing m (tl l) (tl ts) := by
   conv_lhs => rw [← append_hd_tl ts]

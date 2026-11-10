@@ -5,7 +5,7 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.Stage1.Represents.RepUG13
+public import WaveTurbulence.Foundations.Stage1.Represents.RepUG12
 public import WaveTurbulence.Foundations.Stage1.Represents.RepUG8
 import Mathlib.Tactic
 
@@ -150,19 +150,5 @@ theorem qOut_le_qOut_zeroMk (hM : S.molecule.IsMolecule) (σ : Prescription S) {
   have hle := layer_core_le_upper (unitBlkMk (Mk := Mk) hM σ j) RD hG layer hLayer (unitBlkMk (Mk := Mk) hM σ j).lower
     (unitBlkMk (Mk := Mk) hM σ j).isBlock.2.2.1
   exact ⟨hb.1.trans hle, hb.2.trans hle⟩
-
-/-- `qOut 1, qOut 2 ≤ qOut 0` from the V5 fact that the output layers of the lower children are at most the layer of the core
-of the lower joint (`layer_outNode_le` in the R74 box) and the monotonicity of core layers along the unit. -/
-theorem qOut_le_qOut_zero (hM : S.molecule.IsMolecule) (σ : Prescription S) (j : Fin (unitBlocks S σ).length)
-    (RD : ReconstructionData S) (hG : S.IsPlain) (layer : GNode (RD.forest hG) → ℕ)
-    (hLayer : IsLayering (RD.garden hG) layer)
-    (hb : qOutOf RD hG layer (unitBlk hM σ j).upper (unitBlk hM σ j).lower (regionOf (unitBlk hM σ j)) 1 ≤
-        layer (RD.coreBranch hG (unitBlk hM σ j).lower).toNode ∧
-      qOutOf RD hG layer (unitBlk hM σ j).upper (unitBlk hM σ j).lower (regionOf (unitBlk hM σ j)) 2 ≤
-        layer (RD.coreBranch hG (unitBlk hM σ j).lower).toNode) :
-    qOutOf RD hG layer (unitBlk hM σ j).upper (unitBlk hM σ j).lower (regionOf (unitBlk hM σ j)) 1 ≤
-        qOutOf RD hG layer (unitBlk hM σ j).upper (unitBlk hM σ j).lower (regionOf (unitBlk hM σ j)) 0 ∧
-      qOutOf RD hG layer (unitBlk hM σ j).upper (unitBlk hM σ j).lower (regionOf (unitBlk hM σ j)) 2 ≤
-        qOutOf RD hG layer (unitBlk hM σ j).upper (unitBlk hM σ j).lower (regionOf (unitBlk hM σ j)) 0 := qOut_le_qOut_zeroMk (Mk := ∅) hM σ j RD hG layer hLayer hb
 
 end WaveTurbulence.Represents

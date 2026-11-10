@@ -32,10 +32,6 @@ theorem isBlock_iff_degree_connected {S : Finset V} {a b : V} :
   · rintro ⟨⟨hS,ha,hb,hn,hoa,hia,hob,hib,hf⟩,hc⟩
     exact ⟨hS,ha,hb,hn,hoa,hia,hob,hib,hf,hc⟩
 
-/-- Current B2 vine realizations imply the degree-only compatibility realizations. -/
-theorem isVine_degree [DecidableEq D] {X : VineType} {S : Finset V} {a b : V} (h : M.IsVine X S a b) :
-    M.IsVineDeg X S a b := ⟨isBlock_degree M h.1,h.2⟩
-
 /-- The accepted type-I incidence extraction applies to the actual current B2 predicate. -/
 theorem typeI_twoIncidences [DecidableEq D] {S : Finset V} {a b : V} (h : M.IsVine .I S a b) :
     Nonempty (Vine.TwoIncidences M a b) := Vine.typeI_twoIncidences h

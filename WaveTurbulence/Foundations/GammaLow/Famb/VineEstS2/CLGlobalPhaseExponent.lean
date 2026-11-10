@@ -12,7 +12,6 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS2.SignedPhaseExp
 public import WaveTurbulence.Foundations.VineEst.VineEstS2.M9WeightedPhases
 public import WaveTurbulence.Foundations.VineEst.VineEstS2.M9SlotSums
 public import WaveTurbulence.Foundations.VineEst.VineEstS2.SumintJointFlip
-public import WaveTurbulence.Foundations.VineEst.VineEstS2.GapPhaseNormalization
 public import WaveTurbulence.Foundations.VineEst.VineEstS2.BlockPhaseAlgebra
 public import WaveTurbulence.Foundations.GammaLow.Famb.Family
 public import WaveTurbulence.Foundations.VineEst.VineEstS2.CLGlobalPhaseExponent

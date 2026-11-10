@@ -26,16 +26,6 @@ open WaveTurbulence.LFTwist WaveTurbulence.Twist
 
 variable {w : ℕ} {ι : Type*}
 
-/-- Member `i` of the family of `A` is the (CL) vine `c` of the skeleton. -/
-@[expose] def FamilyRealizes (A : FamilyReconstruction w ι) (i : ι) (c : CLVine A.skeleton) : Prop :=
-  c.atoms = A.family.atoms i ∧ c.upper = A.family.upper i ∧ c.lower = (A.family.placement i).lower
-
-/-- The family of `A` is the core part of `𝒱` of the skeleton of `A`. -/
-@[expose] def IsVFamily (A : FamilyReconstruction w ι) : Prop :=
-  (∀ i, ∃ c ∈ vinesV A.skeleton, FamilyRealizes A i c) ∧
-  (∀ c ∈ vinesV A.skeleton, (∃ X, IsCoreCLVine A.skeleton X c.atoms c.upper c.lower) →
-    ∃ i, FamilyRealizes A i c)
-
 /-- **Congruence** (TARGET `defcong`, L1936): `B` is obtained from `A` by an LF twist at the vines of the
 family, i.e. by a once-per-member batch of admissible LF operations over all members. -/
 @[expose] def Congruent (p : ℕ) (kind : Bool) [Fintype ι] (A B : FamilyReconstruction w ι) : Prop :=

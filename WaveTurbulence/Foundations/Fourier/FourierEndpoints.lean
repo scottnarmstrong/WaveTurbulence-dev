@@ -33,9 +33,4 @@ theorem integral_fourier_eLpNorm_top_le {f : V → ℂ} (hf : Integrable f) :
   exact eLpNormEssSup_le_of_ae_bound
     (ae_of_all _ fun ξ => Real.norm_fourier_le_integral_norm f ξ)
 
-/-- Fourier transforms of integrable functions are essentially bounded. -/
-theorem integral_fourier_memLp_top {f : V → ℂ} (hf : Integrable f) :
-    MemLp (𝓕 f) ∞ :=
-  (integral_fourier_eLpNorm_top_le hf).trans_lt (memLp_one_iff_integrable.mpr hf)
-
 end WaveTurbulence.Fourier

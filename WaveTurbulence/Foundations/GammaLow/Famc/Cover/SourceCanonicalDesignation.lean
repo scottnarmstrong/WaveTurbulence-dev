@@ -47,24 +47,6 @@ open Finset
 
 variable {V D : Type} [DecidableEq V] [Fintype D] [DecidableEq D]
 
-/-- The canonical part still covers every atom set of the collection (and keeps the hyper
-shape). -/
-theorem canonicalSub_covers [Fintype V] {M : Molecule V D} (rk : D → ℕ) (K : Set (Object γv M))
-    (P : Object γv M) (hP : P ∈ K) :
-    ∃ Q ∈ canonicalSub rk K, Q.atoms = P.atoms ∧
-      ((∃ R, P.shape = .hyper R) → ∃ R, Q.shape = .hyper R) := by
-  classical
-  by_cases hh : ∃ R, P.shape = .hyper R
-  · let : Fintype (Object γv M) := Fintype.ofFinite _
-    let S : Finset (Object γv M) :=
-      Finset.univ.filter (fun Q => Q ∈ K ∧ Q.atoms = P.atoms ∧ ∃ R, Q.shape = .hyper R)
-    have hPS : P ∈ S := Finset.mem_filter.mpr ⟨Finset.mem_univ _, hP, rfl, hh⟩
-    obtain ⟨Q, hQS, hmin⟩ := S.exists_min_image (fun Q => Q.hyperRank rk) ⟨P, hPS⟩
-    obtain ⟨_, hQK, hQat, hQh⟩ := Finset.mem_filter.mp hQS
-    refine ⟨Q, ⟨hQK, fun Q' hQ' hat _ hQ'h => ?_⟩, hQat, fun _ => hQh⟩
-    exact hmin Q' (Finset.mem_filter.mpr ⟨Finset.mem_univ _, hQ', hat.trans hQat, hQ'h⟩)
-  · refine ⟨P, ⟨hP, fun _ _ _ h => absurd h hh⟩, rfl, fun h => absurd h hh⟩
-
 theorem hyper_bond_eq_of_rank_eq {M : Molecule V D} (rk : D → ℕ) (hrk : Function.Injective rk)
     {P Q : Object γv M} {R : HyperLikeRealization γv M P.atoms P.upper P.lower}
     {R' : HyperLikeRealization γv M Q.atoms Q.upper Q.lower}

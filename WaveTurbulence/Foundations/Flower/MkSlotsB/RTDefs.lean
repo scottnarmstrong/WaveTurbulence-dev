@@ -35,16 +35,6 @@ namespace WaveTurbulence.Flower.MkSlotsB
 
 variable {w : ℕ}
 
-/-- **A root-trace slot**: the slot of the pinned `dChild i` child `r` (a non-core branch) of a CORE capped flower
-parent `F = core β`. -/
-def RootTraceSlot (a : PrescribedPrimeGarden w) (J : Finset (Fin w)) (pat : Fin w → FixPat)
-    (sl : ReplacementSlot a.prime.skeleton) : Prop :=
-  ∃ (β : GBranch a.prime.skeleton.tree) (i : Fin 3) (r : GBranch (a.prime.data.forest a.prime.prime.1)),
-    IsCapFlowerParent (MkSlots.recLG a) J (a.prime.data.coreBranch a.prime.prime.1 β) ∧
-    pat β.1.1 = FixPat.dChild i ∧ r.toNode = (a.prime.data.coreBranch a.prime.prime.1 β).child i ∧
-    (∀ β' : GBranch a.prime.skeleton.tree, (a.prime.data.coreBranch a.prime.prime.1 β').toNode ≠ r.toNode) ∧
-    MkSlots.slotOf a.prime.data a.prime.prime.1 r.toNode = sl
-
 /-- The frontier nodes of a native object (for the star weights of the frontier cutoffs). -/
 def frontNat (a : PrescribedPrimeGarden w) {T : Fin 1 → TTree} (e : GNode T → GNode (MkSlots.recLG a).garden.tree) (p : ℕ) :
     Finset (GNode T) :=

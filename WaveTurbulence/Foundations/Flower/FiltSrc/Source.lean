@@ -274,22 +274,6 @@ theorem MomentumTreeData.weightedSourceTreeKernelFilt_eq_integral_of_summable
   (MomentumTreeData.weightedSourceIntegralFilt_eq_integral_of_summable (P := P)) F ζ L γ δ Q φ hφ
     (I ∩ R.causalRootCut t) (inter_subset_left.trans hbox) f k hs
 
-/-- Exact internally weighted filtered one-clock insertion. -/
-theorem weightedSourceOneClockKernelFilt_eq_integral_of_summable
-    {d n m w : ℕ} {α : Type*} [MeasurableSpace α]
-    (P : MomentumTreeData n m w) (F : SpatialMeasure (PairedMomentum d n) α)
-    (ζ : Circle) (R : RootCoordinates n) (a : Fin 2) (L γ δ : ℝ) (Q : Fin n → LayerLink d)
-    (φ : Fin n → ℝ → ℂ) {Bφ : ℝ} (hφ : ∀ i u, ‖φ i u‖ ≤ Bφ)
-    (I : Set (Fin n → Fin 2 → ℝ)) (hbox : I ⊆ univ.pi (fun i => linkBox (Q i)))
-    (f : Fin m → Mom d → ℂ) (k : Mom d)
-    (hs : Summable (fun p : (Fin n × Fin 2) → Fin d → ℤ =>
-      ‖P.sourceLeafWeight f k (fun i j => latticePoint L (p (i, j)))‖)) (t : Fin 2 → ℝ) :
-    weightedSourceOneClockKernelFilt P F ζ R a L γ δ Q φ I f t k =
-      ∫ b, F.amplitude b * sourceOneClockKernelSpatialFilt P ζ R a L γ δ
-        (spatialFrequencyLinks Q (F.frequency b)) φ I f t k ∂F.μ :=
-  (MomentumTreeData.weightedSourceIntegralFilt_eq_integral_of_summable (P := P)) F ζ L γ δ Q φ hφ
-    (I ∩ R.oneClockCut a (t a)) (inter_subset_left.trans hbox) f k hs
-
 /-! ### `Reg/RootInputSourceIdentity` -/
 
 open WaveTurbulence.Incoh.MomentumTreeData in
@@ -332,30 +316,5 @@ theorem MomentumTreeData.sourceTreeKernel_withRootInputSpatialFilt {d n m w : �
   (MomentumTreeData.sourceIntegral_withRootInputSpatialFilt (P := P)) ζ L γ δ Q φ (I ∩ R.causalRootCut t) f h k
 
 /-! ### `φ ≡ 1` is INC-TOP's operator -/
-
-theorem MomentumTreeData.sourceTimeIntegrandSpatialFilt_one {d n m w : ℕ} (P : MomentumTreeData n m w)
-    (ζ : Circle) (L γ δ : ℝ) (Q : Fin n → LayerLink d) (f : Fin m → Mom d → ℂ) (k : Mom d) :
-    (MomentumTreeData.sourceTimeIntegrandSpatialFilt (P := P)) ζ L γ δ Q (fun _ _ => 1) f k =
-      (MomentumTreeData.sourceTimeIntegrandSpatial (P := P)) ζ L γ δ Q f k := by
-  funext t
-  simp only [MomentumTreeData.sourceTimeIntegrandSpatialFilt, MomentumTreeData.sourceTimeIntegrandSpatial,
-    sourceTemporalPhaseSpatialFilt_one]
-
-theorem MomentumTreeData.sourceIntegralSpatialFilt_one {d n m w : ℕ} (P : MomentumTreeData n m w)
-    (ζ : Circle) (L γ δ : ℝ) (Q : Fin n → LayerLink d) (I : Set (Fin n → Fin 2 → ℝ))
-    (f : Fin m → Mom d → ℂ) (k : Mom d) :
-    (MomentumTreeData.sourceIntegralSpatialFilt (P := P)) ζ L γ δ Q (fun _ _ => 1) I f k =
-      (MomentumTreeData.sourceIntegralSpatial (P := P)) ζ L γ δ Q I f k := by
-  simp only [MomentumTreeData.sourceIntegralSpatialFilt, MomentumTreeData.sourceIntegralSpatial,
-    MomentumTreeData.sourceTimeIntegrandSpatialFilt_one]
-
-theorem MomentumTreeData.weightedSourceIntegralFilt_one {d n m w : ℕ} {α : Type*} [MeasurableSpace α]
-    (P : MomentumTreeData n m w) (F : SpatialMeasure (PairedMomentum d n) α) (ζ : Circle) (L γ δ : ℝ)
-    (Q : Fin n → LayerLink d) (I : Set (Fin n → Fin 2 → ℝ)) (f : Fin m → Mom d → ℂ) (k : Mom d) :
-    (MomentumTreeData.weightedSourceIntegralFilt (P := P)) F ζ L γ δ Q (fun _ _ => 1) I f k =
-      (MomentumTreeData.weightedSourceIntegral (P := P)) F ζ L γ δ Q I f k := by
-  simp only [MomentumTreeData.weightedSourceIntegralFilt, MomentumTreeData.weightedSourceIntegral,
-    MomentumTreeData.weightedSourceTimeIntegrandFilt, MomentumTreeData.weightedSourceTimeIntegrand,
-    sourceTemporalPhaseFilt_one]
 
 end WaveTurbulence.Flower.FiltSrc

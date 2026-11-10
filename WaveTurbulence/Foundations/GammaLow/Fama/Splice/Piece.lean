@@ -7,7 +7,7 @@ public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Gap
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Greg
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Data
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Final
-public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Amend7
+public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.TripleDesig
 public import WaveTurbulence.Foundations.Molecule.RegRedDraft.Clocks
 import Mathlib.Tactic
 public import WaveTurbulence.Foundations.FinalCount.RedSplicePiece
@@ -65,35 +65,5 @@ def SubproObligation {P : WTParams} (π : Stage1PieceG P R) (base : Mom P.d)
       P.L P.γ P.η base z.1 ≠ 0 →
     Src.SubproSupport P.γ π.Gsb π.Cs P.L P.γ P.η base
       (Finset.univ.image (fun i => base + latticePoint P.L (roots i))) (bondIndex π.Gsb z.1)
-
-/-- **`Stage1PieceG.Sound` for the construction**, given the skeleton hypotheses, `n ≤ N_{p+1}^4`, the layering bound
-and the S4 obligation (main's `RedSplice.stage1Piece_sound`). -/
-theorem stage1Piece_sound [Fact TVineF1Input] [Fact VinechainlemPrimeInput] [Fact TVineIsoInvariant]
-    (P : WTParams) [Fact (P.γ ≤ 1 / 2)] {S : Garden (2 * R)} {D : ReconstructionData S}
-    (hS : S.IsPlain) (LG : LayeredGarden (2 * R)) (hd : D.Decodes hS LG.garden) (σ : Prescription S)
-    (hP : IsPrimeGarden S) (hI : S.Irreducible) (hbal : IsBalancedSig S.sig) (hn : 1 ≤ S.order)
-    (p : ℕ) (hN : S.order ≤ P.N (p + 1) ^ 4) (hlayer : ∀ v, RegRed.coreLayer LG D hS hd v ≤ p)
-    (base : Mom P.d) (roots : Fin (2 * R) → (Fin P.d → ℤ))
-    (hsub : SubproObligation (P := P) (stage1PieceOf P.γ P.d hS LG hd σ) base roots) :
-    Stage1PieceG.Sound (P := P) (stage1PieceOf P.γ P.d hS LG hd σ) p base roots := by
-  obtain ⟨hB, hStr, hHinge⟩ := construction_facts (γ := P.γ) S hP hI hbal hn σ (RegRed.coreLayer LG D hS hd) p
-    (P.N (p + 1) ^ 4) hN hlayer
-  exact
-    { plain := hB.plain
-      irreducible := hB.irreducible
-      balanced := hB.balanced
-      order_pos := hB.order_pos
-      order_le := hB.order_le
-      layer_le := hB.layer_le
-      molecule := hB.molecule
-      connected := hB.connected
-      atom_count := hB.atom_count
-      bond_count := hB.bond_count
-      structural := hStr
-      support := hsub
-      hingeOutsideFirst := hHinge
-      tripleDesignated :=
-        tripleDesignated_collectionChoices (γ := P.γ) (garden_isMolecule S) (prime_noTriple S hP) σ
-      hingeNoLoop := hingeNoLoop_collectionChoices (γ := P.γ) σ }
 
 end WaveTurbulence.GammaLow.Fama

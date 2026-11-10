@@ -76,9 +76,6 @@ theorem filter_sum_singleton_of_all {α : Type*} (p : α → Prop) [DecidablePre
 theorem notMem01 {x y : ℕ} (hx : 2 ≤ x) (hy : 2 ≤ y) : (0 : ℕ) ∉ s(x, y) ∧ (1 : ℕ) ∉ s(x, y) := by
   simp only [Sym2.mem_iff, not_or]; omega
 
-theorem coe_pair_eq (a : Sym2 ℕ) : (([a, a] : List (Sym2 ℕ)) : Multiset (Sym2 ℕ)) = 2 • {a} := by
-  rw [two_nsmul, Multiset.singleton_add]; rfl
-
 /-- The vine (II) template with `k ≥ 1` inserted rungs. -/
 theorem expand_II_bonds {k : ℕ} (hk : k ≠ 0) :
     (VineType.II.expand [k]).bonds = [(0, 2), (0, 3), (2, 3), (2, 3)] ++

@@ -34,24 +34,5 @@ theorem UCtx.step1L {h h' : HSt V D₀} {κ : D₀ → (Fin d → ℤ)} (hk : Ad
   | vine K R kp hR hkp hu hl ga gb htwin hι hι0 hsg h3a h3b => exact hc.atom.step1L (hc.eps hp) K hu hl R kp
 
 alias _root_.WaveTurbulence.FinalCountG3.UCtx.step1L := _root_.WaveTurbulence.GammaLow.FinalCount.H.UCtx.step1L
-/-- One uniform step (any of Steps 1--4). -/
-def UStepAny (L γ η : ℝ) (w : Mom d) (Adm0 : (D₀ → (Fin d → ℤ)) → Prop) (h h' : HSt V D₀) : Prop :=
-  UStep1 L γ η w Adm0 h h' ∨ UStep2 L γ η w Adm0 h h' ∨ UStep3 L γ η w Adm0 h h' ∨ UStep4 L w Adm0 h h'
-
-/-- States reached from `M_sub` by uniform steps. -/
-def UReach (L γ η : ℝ) (w : Mom d) (Adm0 : (D₀ → (Fin d → ℤ)) → Prop) (M₀ : Molecule V D₀) (h : HSt V D₀) : Prop :=
-  Relation.ReflTransGen (UStepAny L γ η w Adm0) (HSt.init M₀) h
-
-theorem UCtx.step_anyL {h h' : HSt V D₀} {κ : D₀ → (Fin d → ℤ)} (hk : Adm0 κ) (hs : UStepAny L γ η w Adm0 h h')
-    (hp : PinnedM0 Adm0 L w M₀) (hc : UCtx M₀ Rn Adm0 L w h) : UCtx M₀ Rn Adm0 L w h' := by
-  rcases hs with hs | hs | hs | hs
-  exacts [hc.step1L hk hs hp, hc.step2 hk hs hp, hc.step3 hk hs hp, hc.step4 hk hs hp]
-
-alias _root_.WaveTurbulence.FinalCountG3.UCtx.step_anyL := _root_.WaveTurbulence.GammaLow.FinalCount.H.UCtx.step_anyL
-theorem UReach.ctx {h : HSt V D₀} {κ : D₀ → (Fin d → ℤ)} (hk : Adm0 κ) (hS : SubHyp Rn M₀)
-    (hp : PinnedM0 Adm0 L w M₀) (hr : UReach L γ η w Adm0 M₀ h) : UCtx M₀ Rn Adm0 L w h := by
-  induction hr with
-  | refl => exact UCtx.init hS
-  | tail _ hs ih => exact ih.step_anyL hk hs hp
 
 end WaveTurbulence.GammaLow.FinalCount.H

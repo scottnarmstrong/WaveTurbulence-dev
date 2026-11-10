@@ -78,21 +78,9 @@ theorem mint_eq_of_dependsOn {W : Finset V} {f : (V → ℝ) → ℂ} (hf : Depe
   refine integral_congr_ae (Eventually.of_forall fun y => hf fun i hi => ?_)
   simp [updateFinset, Finset.mem_coe.1 hi]
 
-theorem mInt_of_dependsOn {W : Finset V} {f : (V → ℝ) → ℂ} (hf : DependsOn f ↑W) {α₀ : V → ℝ}
-    (h : MInt W f α₀) (α₁ : V → ℝ) : MInt W f α₁ := by
-  unfold MInt at h ⊢
-  refine h.congr (Eventually.of_forall fun y => hf fun i hi => ?_)
-  simp [updateFinset, Finset.mem_coe.1 hi]
-
 theorem wgt_union {A B : Finset V} (h : Disjoint A B) (θ : ℝ) (ζ : V → ℤ) (Z : Finset V)
     (α : V → ℝ) : wgt θ ζ Z (A ∪ B) α = wgt θ ζ Z A α * wgt θ ζ Z B α := by
   unfold wgt; rw [Finset.prod_union h]
-
-theorem mInt_coef {θ : ℝ} (hθ : 0 < θ) (ζ : V → ℤ) (Z S : Finset V) {F : (V → ℝ) → ℝ → ℝ → ℂ}
-    (hF : NiceCoef S F) {t s : ℝ} (ht : t ∈ Icc (0 : ℝ) 1) (hs : s ∈ Icc (0 : ℝ) 1) (α₀ : V → ℝ) :
-    MInt S (fun α => F α t s * wgt θ ζ Z S α) α₀ := by
-  obtain ⟨B, hB⟩ := hF.bdd
-  exact mInt_mul_wgt hθ ζ Z S α₀ (continuous_at_times hF.cont t s) (fun α => hB α t ht s hs)
 
 /-- **Fubini for a product of functions of disjoint groups, with the weights.** -/
 theorem mint_mul_wgt {θ : ℝ} (hθ : 0 < θ) (ζ : V → ℤ) (Z : Finset V) {A B : Finset V}

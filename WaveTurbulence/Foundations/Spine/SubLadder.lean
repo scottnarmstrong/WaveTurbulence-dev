@@ -26,18 +26,6 @@ noncomputable def Lad.inc (layer : GBranch G.tree → ℕ) (ℓ : Lad G) : ℕ :
 def Lad.sub (ℓ : Lad G) (s m' : ℕ) : Lad G :=
   ⟨m', fun t => ℓ.2.1 ⟨min (s + t) ℓ.1, by omega⟩, fun t => ℓ.2.2 ⟨min (s + t) ℓ.1, by omega⟩⟩
 
-lemma Lad.sub_u (ℓ : Lad G) (s m' : ℕ) (hs : s + m' ≤ ℓ.1) (t : Fin (m' + 1)) :
-    (ℓ.sub s m').2.1 t = ℓ.2.1 ⟨s + t, by omega⟩ := by
-  have h : (⟨min (s + t) ℓ.1, by omega⟩ : Fin (ℓ.1 + 1)) = ⟨s + t, by omega⟩ :=
-    Fin.ext (by simp only; omega)
-  simp only [Lad.sub, h]
-
-lemma Lad.sub_v (ℓ : Lad G) (s m' : ℕ) (hs : s + m' ≤ ℓ.1) (t : Fin (m' + 1)) :
-    (ℓ.sub s m').2.2 t = ℓ.2.2 ⟨s + t, by omega⟩ := by
-  have h : (⟨min (s + t) ℓ.1, by omega⟩ : Fin (ℓ.1 + 1)) = ⟨s + t, by omega⟩ :=
-    Fin.ext (by simp only; omega)
-  simp only [Lad.sub, h]
-
 theorem Lad.IsL.sub {ℓ : Lad G} (h : ℓ.IsL) (s m' : ℕ) (hs : s + m' ≤ ℓ.1) (hm' : 1 ≤ m') :
     (ℓ.sub s m').IsL := by
   obtain ⟨-, hinj, hmem, hbb, hrail⟩ := h
@@ -72,12 +60,6 @@ theorem Lad.IsL.sub {ℓ : Lad G} (h : ℓ.IsL) (s m' : ℕ) (hs : s + m' ≤ �
     have := hrail ⟨s + j, by omega⟩
     rw [← e1, ← e2] at this
     exact this
-
-theorem Lad.IsL.card_atoms {ℓ : Lad G} (h : ℓ.IsL) : ℓ.atoms.card = 2 * ℓ.1 + 2 :=
-  card_ladderAtoms_ladder h
-
-theorem Lad.IsL.atoms_subset {ℓ : Lad G} (h : ℓ.IsL) : ℓ.atoms ⊆ G.molecule.atoms :=
-  ladderAtoms_subset_atoms h
 
 theorem Lad.mem_atoms_iff (ℓ : Lad G) (x : GBranch G.tree) :
     x ∈ ℓ.atoms ↔ ∃ k : Fin (ℓ.1 + 1), x = ℓ.2.1 k ∨ x = ℓ.2.2 k := by

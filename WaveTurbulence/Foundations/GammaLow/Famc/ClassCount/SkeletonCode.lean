@@ -12,14 +12,12 @@ public import WaveTurbulence.Foundations.WaveB.Ladders
 public import WaveTurbulence.Foundations.Spine.SourceSplicedBounds
 import Mathlib.Tactic
 public import WaveTurbulence.Foundations.Stage1.ClassCount.SkeletonCode
-public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Amend7
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.CL
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.CN
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Coll
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Coll2
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Cover
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Data
-public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Deg
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Desig
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Final
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Gap
@@ -35,7 +33,6 @@ public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Marked
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Obj
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Obj2
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Obj3
-public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Pairs
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Piece
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Rev
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Runs
@@ -46,7 +43,6 @@ public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Stage
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.SurvData
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Top
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.TripleDesig
-public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.TripleHinge
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.UnitBlocks
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Units
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Units2
@@ -56,15 +52,11 @@ public import WaveTurbulence.Foundations.GammaLow.Fama.Coll.Basic
 public import WaveTurbulence.Foundations.GammaLow.Fama.Coll.Collection
 public import WaveTurbulence.Foundations.GammaLow.Fama.Inputs
 public import WaveTurbulence.Foundations.GammaLow.Fama.Vine.Chain
-public import WaveTurbulence.Foundations.GammaLow.Fama.P.Molecule.VineChainEraseEndpoints
-public import WaveTurbulence.Foundations.GammaLow.Fama.P.Molecule.VineChainInteriorConnected
 public import WaveTurbulence.Foundations.GammaLow.Fama.Vine.Facts
 public import WaveTurbulence.Foundations.GammaLow.Fama.P.Molecule.VineLocalDartChains
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.Src.Counting
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.Src.Objects
-public import WaveTurbulence.Foundations.GammaLow.Fama.P.Spine.VineDelObjects
 public import WaveTurbulence.Foundations.GammaLow.Famc.ClassCount.Assembly
-public import WaveTurbulence.Foundations.GammaLow.Famc.ClassCount.Layout
 public import WaveTurbulence.Foundations.GammaLow.Famc.ClassCount.UnitChain
 public import WaveTurbulence.Foundations.GammaLow.Famc.ClassCount.UnitCodes
 public import WaveTurbulence.Foundations.GammaLow.Famc.ClassCount.UnitDecode4
@@ -189,10 +181,6 @@ theorem spliceDataOf_repMk (S : Garden w) (hM : S.molecule.IsMolecule) (σ : Pre
     {i : ℕ} (hi : i < (Fama.unitBlocks γ S σ Mk).length) :
     (spliceDataOfMk γ S hM σ Mk v0).rep i = ((Fama.unitBlocks γ S σ Mk).get ⟨i, hi⟩).upper := by
   simp [spliceDataOfMk, dif_pos hi]
-
-theorem spliceDataOf_qMk (S : Garden w) (hM : S.molecule.IsMolecule) (σ : Prescription S) (Mk : Set (CLVineG γ S))
-    (v0 : GBranch S.tree) :
-    (spliceDataOfMk γ S hM σ Mk v0).q = (Fama.unitBlocks γ S σ Mk).length := rfl
 
 
 /-- The ladders of the spliced garden as a `LadderFam`. -/

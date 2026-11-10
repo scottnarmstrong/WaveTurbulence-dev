@@ -5,7 +5,8 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.Flower.MkSlotsB.PatGeoLbPiece
+public import WaveTurbulence.Foundations.Flower.MkSlotsB.PatGeoLb
+public import WaveTurbulence.Foundations.Flower.MkSlotsB.PatGeoU
 public import WaveTurbulence.Foundations.Flower.ProtGeo.Couple
 public import WaveTurbulence.Foundations.RegStruct.OperationBRoots
 
@@ -192,29 +193,6 @@ open WaveTurbulence.VineA WaveTurbulence.VineA.PrescribedPrimeGarden WaveTurbule
 
 variable {w : ℕ} (J : Finset (Fin w)) (pat : Fin w → FixPat) (t s : ℝ) (a : PrescribedPrimeGarden w)
   (Mk : Set (Stage1.CLVine a.prime.skeleton))
-
-theorem rep_hcap {p : ℕ} (hG : CapGeo a.layered J p) :
-    ∀ j ∈ J, (a.prime.data.garden a.prime.prime.1).tree j = TTree.leaf := fun j hj => by
-  have h := congrArg (fun LG : LayeredGarden w => LG.garden.tree j) (sourceLayer_reconstructs a)
-  exact h.trans (hG.cap_leaf j hj)
-
-/-- **The lower bounds of the piece sit only on `dParent` trees.** -/
-theorem lbAt_dParent {p : ℕ} (hG : CapGeo a.layered J p) (c : GBranch (MkSlots.stM a Mk).G.tree)
-    (h : (lbAt J pat t s a Mk c).isSome) : pat c.1.1 = FixPat.dParent := by
-  have h1 := lbS_dParent a.prime.data a.prime.prime.1 (sourceLayer a) (sourceLayer_isLayering a) J (rep_hcap J a hG)
-    pat t s _ h
-  have h2 := (VineB.stShape (Mole.garden_isMolecule a.prime.skeleton) a.totalSigma Mk).tree_eq c.toNode
-  rw [← VineB.SpliceShape.br_node] at h2
-  rw [show ((MkSlots.stM a Mk).M.ob c).1.1 = c.1.1 from h2] at h1
-  exact h1
-
-/-- Atoms of trees whose pattern is not `dParent` (e.g. the trees of selected vertices, `pat = plain`) carry no lower
-bound (R187's `sel_lb`). -/
-theorem lbAt_eq_none {p : ℕ} (hG : CapGeo a.layered J p) (c : GBranch (MkSlots.stM a Mk).G.tree)
-    (h : pat c.1.1 ≠ FixPat.dParent) : lbAt J pat t s a Mk c = none := by
-  cases hc : lbAt J pat t s a Mk c with
-  | none => rfl
-  | some x => exact absurd (lbAt_dParent J pat t s a Mk hG c (by rw [hc]; rfl)) h
 
 end Piece
 

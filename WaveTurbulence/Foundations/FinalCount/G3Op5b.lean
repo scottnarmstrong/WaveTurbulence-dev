@@ -37,12 +37,8 @@ noncomputable def St.eraseSetSt (s : St.{u} V D₀) (E : Finset V) : St.{u} V D�
 section inv
 variable {s : St.{u} V D₀} {R : ℕ} {E : Finset V}
 
-theorem eraseSetSt_atoms : (s.eraseSetSt E).M.atoms = (s.M.atoms \ E).filter (keepS s E) := rfl
-
 theorem eraseSetSt_deg {a : V} (ha : keepS s E a) : (s.eraseSetSt E).M.deg a = (eraseSet s.M E).deg a :=
   restrictP_deg (eraseSet s.M E) (keepS s E) (keepS_closed s E) ha
-
-theorem eraseSetSt_cls (a : V) : (s.eraseSetSt E).cls a = s.cls a := rfl
 
 /-- **`Good` after erasing a set of `ε`-atoms** (R29 item 3): `2R' + 4|E| ≤ 2R + tch(E)`. -/
 theorem Good.erase_set (hg : Good R s) (hE : ∀ v ∈ E, v ∈ s.M.atoms ∧ s.cls v = .eps) :

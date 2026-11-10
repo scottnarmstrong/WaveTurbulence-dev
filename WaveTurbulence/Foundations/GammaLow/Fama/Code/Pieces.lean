@@ -43,14 +43,6 @@ theorem pieces_subset {S : Finset V} {j₁ j₂ : V} {P : Finset V} (hP : P ∈ 
   obtain ⟨u, -, h⟩ := (mem_pieces_iff M).mp hP
   exact fun w hw => ((h w).mp hw).1
 
-/-- Every interior atom lies in a piece. -/
-theorem exists_piece {S : Finset V} {j₁ j₂ : V} {u : V} (hu : u ∈ (S.erase j₁).erase j₂) :
-    ∃ P ∈ M.pieces S j₁ j₂, u ∈ P := by
-  classical
-  refine ⟨((S.erase j₁).erase j₂).filter fun w => M.SamePiece S u w, ?_, ?_⟩
-  · exact (mem_pieces_iff M).mpr ⟨u, hu, fun w => by simp [Finset.mem_filter]⟩
-  · exact Finset.mem_filter.mpr ⟨hu, samePiece_refl M S u⟩
-
 /-- Two pieces sharing an atom are equal. -/
 theorem piece_eq_of_mem {S : Finset V} {j₁ j₂ : V} {P Q : Finset V} (hP : P ∈ M.pieces S j₁ j₂)
     (hQ : Q ∈ M.pieces S j₁ j₂) {z : V} (hzP : z ∈ P) (hzQ : z ∈ Q) : P = Q := by
@@ -63,9 +55,5 @@ theorem piece_eq_of_mem {S : Finset V} {j₁ j₂ : V} {P Q : Finset V} (hP : P 
   rw [hu w, hv w]
   exact ⟨fun ⟨h, h'⟩ => ⟨h, samePiece_trans M (samePiece_symm M huv) h'⟩,
     fun ⟨h, h'⟩ => ⟨h, samePiece_trans M huv h'⟩⟩
-
-theorem pieces_disjoint {S : Finset V} {j₁ j₂ : V} {P Q : Finset V} (hP : P ∈ M.pieces S j₁ j₂)
-    (hQ : Q ∈ M.pieces S j₁ j₂) (hne : P ≠ Q) : Disjoint P Q :=
-  Finset.disjoint_left.mpr fun _ hz hz' => hne (piece_eq_of_mem M hP hQ hz hz')
 
 end WaveTurbulence.GammaLow.Fama.ClassCount

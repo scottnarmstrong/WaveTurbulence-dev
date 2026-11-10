@@ -125,20 +125,6 @@ noncomputable def kernelKgenSel (L γ δ : ℝ) {w d : ℕ} (LG : LayeredGarden 
 
 /-! ## Carriers (ruling R156). -/
 
-/-- The truncation-free carrier that main's Stage-1 producer actually uses (it never reads `IsTrunc`). -/
-def Stage1CarriesW (P : WTParams) (p N : ℕ) {w : ℕ} (LG : LayeredGarden w) : Prop :=
-  IsCanonGC (p + 1) LG ∧ LG.garden.order = N ∧ IsBalancedSig LG.garden.sig ∧
-    (∀ h : w = 2, ¬ IsRegularCouple (h ▸ LG.garden : Garden 2))
-
-theorem stage1CarriesW_of_stage1Carries {P : WTParams} {p N w : ℕ} {LG : LayeredGarden w}
-    (h : Stage1Carries P p N LG) : Stage1CarriesW P p N LG :=
-  ⟨h.1, h.2.2.1, h.2.2.2.1, h.2.2.2.2⟩
-
-theorem stage1CarriesW_of_mkCarries {P : WTParams} {p N w : ℕ} {LG : LayeredGarden w}
-    (h : MkCarries P p N LG) (hnr : ∀ h : w = 2, ¬ IsRegularCouple (h ▸ LG.garden : Garden 2)) :
-    Stage1CarriesW P p N LG :=
-  ⟨h.1, h.2.2.1, h.2.2.2, hnr⟩
-
 /-! ## The Stage-1′ piece, soundness, weight class and gate (corrected: intrinsic data, `nProt`; `lb` restored by
 ruling R187). -/
 
@@ -201,54 +187,6 @@ structure Stage1DataMK (P : WTParams) (R : ℕ) where
 def Stage1DataMK.toData {P : WTParams} {R : ℕ} (S : Stage1DataMK P R) : Stage1Data P R :=
   ⟨S.Pc, S.fin, fun π => (S.piece π).toStage1PieceD, S.val⟩
 
-/-- The intrinsic marked weight class: `markedWeight` at the depth-selected stem vertices (weight `0` if a requested
-selected vertex is absent), anchored profiles bounded by `b`, frontier scales `≥ L/2`, high roots when filters or
-selections are present. -/
-def MarkedWeightClassI (P : WTParams) (p : ℕ) {R : ℕ} (J : Finset (Fin (2 * R))) (dag : Bool)
-    (kSel : Fin (2 * R) → Option ℕ) (roots : Fin (2 * R) → (Fin P.d → ℤ))
-    (wt : ∀ LG : LayeredGarden (2 * R), (GNode LG.garden.tree → Mom P.d) → ℝ) (b : ℝ) : Prop :=
-  1 ≤ b ∧ ∃ (h : ℕ → Fin (2 * R) → Fin (2 * R) → Mom P.d → ℝ) (Rf : Fin (2 * R) → Option ℝ)
-    (σ : Fin (2 * R) → Option ℕ) (Rs : Fin (2 * R) → ℝ) (dagv : Option (Fin (2 * R) → Fin 3 → Mom P.d)),
-    dagv.isSome = dag ∧
-    (∀ q ≤ p, ∀ j j', SNormR (40 * P.d) (40 * P.d) (h q j j') ≤ ENNReal.ofReal b) ∧
-    (∀ j r, Rf j = some r → P.L / 2 ≤ r) ∧ (∀ j, P.L ≤ Rs j) ∧
-    (∀ LG, wt LG = fun k => selOK LG J kSel * markedWeight LG J p P.L Rf σ (selCap LG J kSel) Rs h dagv k) ∧
-    (((∃ i, σ i ≠ none) ∨ ∃ i, kSel i ≠ none) → ∀ j, j ∉ J → ∃ r, Rf j = some r ∧
-      (∀ j' x, ‖x‖ ≥ r → h p j j' x = 0 ∧ h p j' j x = 0) ∧ r ^ 10 ≤ ‖latticePoint P.L (roots j)‖)
-
-/-- **Stage1ReductionAtMK** (Stage 1′, o75 §2.5 + Theorem 7.5′(1)–(6′) + U-clock with the enlarged marking): the
-analogue of main's `Stage1ReductionAt` for capped, pinned, marked component families closed under twists at
-unmarked vines, with intrinsic pins `fixCap`, dagger `offCap` and depth selections `kSel`.
-Ruling R177 (B4, findings F-B4-1/F-B4-2): stated at coset base `0` (the high-root clause of `MarkedWeightClassI`
-reads `latticePoint P.L (roots j)`, the root momentum only at base `0`; the consumer's `compValue` has `k₀ = 0`),
-with the protected count bounded at ONE member of the class, and with the plain-pattern hypothesis on selected
-trees of `MarkedComponentBoundAtI` (F-D0-8; needed to derive this form from `Stage1ReductionAtMKFull`). Ruling R185
-(F-B3s-8): `J.card = R` after the cap set, as in `MarkedComponentBoundAtI`. -/
-def Stage1ReductionAtMK (C₀ : ℕ) (cP : ℝ) (P : WTParams) : Prop :=
-  ∀ p, p < P.D → ∀ R, 1 ≤ R → R ≤ 10 * P.R (p + 1) → ∀ N, 1 ≤ N → N ≤ P.N (p + 1) ^ 4 →
-  ∀ (J : Finset (Fin (2 * R))), J.card = R →
-  ∀ (pat : Fin (2 * R) → FixPat) (dag : Bool) (kSel : Fin (2 * R) → Option ℕ),
-  ∀ t ∈ Ioo (p : ℝ) (p + 1), ∀ s ∈ Ioo (p : ℝ) t,
-  ∀ A : Finset (LayeredGarden (2 * R)),
-    (∀ LG ∈ A, MkCarries P p N LG ∧ (∀ h : 2 * R = 2, ¬ IsRegularCouple (h ▸ LG.garden : Garden 2)) ∧
-      LG.garden.Irreducible ∧ (∀ j ∈ J, LG.garden.tree j = TTree.leaf) ∧ CapGeo LG J p ∧ CapPatValid LG J pat p) →
-    (∀ j, (kSel j).isSome → pat j = FixPat.plain) →
-    MarkedTwistClosed p A (protSkOf R J (fun LG => fixCap LG J pat t s) (fun LG => selSetCap LG J kSel)) →
-  ∀ (roots : Fin (2 * R) → (Fin P.d → ℤ))
-    (wt : ∀ LG : LayeredGarden (2 * R), (GNode LG.garden.tree → Mom P.d) → ℝ) (b : ℝ),
-    MarkedWeightClassI P p J dag kSel roots wt b →
-  ∃ (S : Stage1DataMK P R) (Cl : Type) (hCl : Fintype Cl) (cls : S.Pc → Cl)
-    (members : Cl → Finset (LayeredGarden (2 * R)))
-    (sel : S.Pc → ∀ LG : LayeredGarden (2 * R), GenDecoration LG.garden P.d roots 0 → Prop),
-    Stage1Partition roots A members cls sel ∧
-    (∀ π, S.val π = ∑ LG ∈ members (cls π),
-        kernelKgenSel P.L P.γ P.δ LG (fixCap LG J pat t s) (offCap LG J dag) (wt LG) (fun _ => t) 0 roots
-          (sel π LG) ∧
-      (S.piece π).RepresentsIntMK N cP (fun _ => t) 0 roots (b ^ N) (S.val π) ∧
-      ∃ LG ∈ members (cls π), (S.piece π).nProt ≤ (protI LG J pat t s kSel).card) ∧
-    (∀ π, SoundMK (P := P) (S.piece π) p) ∧ (∀ π, (S.piece π).Gsb.order ≤ N) ∧
-    Stage1Counts C₀ P R N S.toData Cl hCl cls
-
 /- (A2-R) B0's `MarkedPieceBound` (probe lines 407–415) is NOT copied: C0 finding F-C0-4 (false as an unconditional
 `∀ P`, drops gains); C0 restates it as `MarkedPieceBoundAt` in its own statement module. -/
 
@@ -280,16 +218,5 @@ def MarkedComponentBoundAtI (B : ℝ) (Pm : ℕ) (P : WTParams) : Prop :=
         ∏ j : Fin (2 * R), (if (kSel j).isSome then (Rs j)⁻¹ * (Rs j) ^ (-(1 / 18 : ℝ)) else 1)
 
 /-! ## The budget with the enlarged marking (math check, §5 of SCOPE). -/
-
-/-- Per protected vertex: split `(60d+2)·14`, survivors `2·6`, Theorem 7.3′ `400d`, Theorem 8.2′ `47d+5`; with
-`|Π| ≤ 25R` per component of width `2R` this is inside `L^{B·d·2R}` for `B = 16500`, and `4B ≤ 10⁵ = BcMK/d`. -/
-theorem enlarged_budget (d : ℕ) (hd : 3 ≤ d) :
-    ((60 * d + 2) * 14 + 2 * 6 + 400 * d + (47 * d + 5)) * 25 ≤ 16500 * 2 * d ∧ 4 * 16500 ≤ 100000 := by
-  constructor <;> omega
-
-/-- The unenlarged rule (o75 as printed), same accounting: split `(60d+2)·6`, survivors `2·2`. -/
-theorem printed_budget (d : ℕ) (hd : 3 ≤ d) :
-    ((60 * d + 2) * 6 + 2 * 2 + 400 * d + (47 * d + 5)) * 25 ≤ 10500 * 2 * d := by
-  omega
 
 end WaveTurbulence.Flower.MkDefs

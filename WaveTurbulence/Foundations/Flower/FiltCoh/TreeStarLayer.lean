@@ -251,49 +251,4 @@ theorem treeW_kernel_item_le (L γ δ : ℝ) (H : LeafProfiles 1 d)
       _ ≤ M := hM'
       _ ≤ traceConst (r := 2) θ chiUnit * M := le_mul_of_one_le_left zero_le hK1
 
-/-- **Single-layer star-weighted paired trees in layer `r`** (lone leaf in a layer `q'' ≤ r), individual leaf
-bounds, positive order: `‖K‖_{X^{θ,30d,0}} ≤ K_tr(θ) · Ck (Ck δ)^n ∏ cω ∏ B_ℓ`, every `0 ≤ θ ≤ 1 - η/8`. -/
-theorem tree_star_layer_bound (hd : 3 ≤ d) {γ η : ℝ}
-    (hγ : γ ∈ Set.Ioo (0:ℝ) 1) (hη0 : 0 < η) (hη : η ≤ 1/20)
-    (hηγ : η ≤ ((d:ℝ)-1)*(1-γ)) {θ : ℝ} (hθ0 : 0 ≤ θ) (hθ : θ ≤ 1-η/8) :
-    ∃ Ck : ℝ, 1 ≤ Ck ∧ ∀ Aorder : ℝ, ∃ L₀ : ℝ, ∀ L : ℝ, L₀ ≤ L →
-      ∀ δ : ℝ, L^(-(η/2)) ≤ 2*δ → 2*δ ≤ 1 →
-      ∀ n : ℕ, 0 < n → (n:ℝ) ≤ Real.log L^Aorder →
-      ∀ (r q'' : ℕ) (X : RegChain), q'' ≤ r → X.wf = true → X.size = 2*n →
-      ∀ LG : LayeredGarden 1, X.DecodesTree LG.garden →
-      (∀ a : GNode LG.garden.tree, LG.layer a = if a.1.2 = X.lonePath then q'' else r) →
-      ∀ (H : LeafProfiles 1 d) (B : (Fin 1 × Path) → NNReal), LeafwiseControlled LG H B →
-      ∀ (Sset : Finset (GNode LG.garden.tree)) (ω : GNode LG.garden.tree → IncTop.Star d → ℂ)
-        (cω : GNode LG.garden.tree → ℝ), (∀ a ∈ Sset, IncTop.StarPresented (30*d) (ω a) (cω a)) →
-      XNormRestr θ (30*d) 0 (timeBoxGt r q'') Set.univ
-        (fun ts k => Flower.Stage1W.kernelLeavesW L γ δ LG H (fun _ => ts 0) (ts 1) k (fun _ => 0) 0
-          (IncTop.starWeight Sset ω)) ≤
-        traceConst (r := 2) θ chiUnit * (ENNReal.ofReal (Ck*(Ck*δ)^n) * (∏ a ∈ Sset, ENNReal.ofReal (cω a)) *
-          ENNReal.ofReal (leafSizeProduct LG B)) := by
-  obtain ⟨Ck, hCk, hst⟩ := exists_tree_star_bound_theta hd hγ hη0 hη hηγ hθ0 hθ zero_le_one
-  refine ⟨Ck, hCk, fun Aorder => ?_⟩
-  obtain ⟨L₀, hL₀⟩ := hst Aorder
-  refine ⟨max L₀ 1, fun L hL δ hδ hδ1 n hn hnlog r q'' X hq hwf hsz LG hdec hlay H B hctl Sset ω cω hpres => ?_⟩
-  have hd1 : 1 ≤ d := by omega
-  have hL0 : L₀ ≤ L := (le_max_left _ _).trans hL
-  have hL1 : 1 ≤ L := (le_max_right _ _).trans hL
-  have hctl0 : LeafwiseControlled (layer0 LG) H B := hctl
-  have hdec0 : X.DecodesTree (layer0 LG).garden := hdec
-  have hfin : ENNReal.ofReal (Ck*(Ck*δ)^n) * (∏ a ∈ Sset, ENNReal.ofReal (cω a)) ≠ ⊤ :=
-    ENNReal.mul_ne_top ENNReal.ofReal_ne_top (ENNReal.prod_ne_top fun _ _ => ENNReal.ofReal_ne_top)
-  have hsc := treeW_kernel_scaled L γ δ θ hd1 (layer0 LG) (IncTop.starWeight Sset ω) (timeBoxGt 0 0) _ hfin
-    (fun H' hH' => by
-      have hF : ∀ z, spatialNorm (40*d) (40*d) (addrFam H' z) ≤ ENNReal.ofReal 1 := fun z => by
-        have := hH' z
-        rwa [NormBridgeScratch.SNormR_eq_spatialNorm] at this
-      exact hL₀ L hL0 δ hδ hδ1 n hn hnlog X hwf hsz (layer0 LG) hdec0 (fun _ => rfl) H' hF Sset ω cω hpres) H B hctl0
-  have hFs : ∀ ℓ ∈ inputLeaves LG.garden, ∀ k : Mom d,
-      Summable fun m : Fin d → ℤ => |H ℓ.1 (k + latticePoint L m)| := fun ℓ hℓ k =>
-    summable_abs_coset_of_SNormR (by linarith) (by omega : d + 1 ≤ 40 * d)
-      (B ℓ.1).2 (H ℓ.1) (hctl ℓ hℓ) k
-  refine (treeW_kernel_item_le L γ δ H hdec hFs hq hlay (IncTop.starWeight Sset ω) _
-    (norm_starWeight_le Sset ω cω hpres) hθ0 (Λ := 30 * d) (by omega) hsc).trans ?_
-  have e0 : leafSizeProduct (layer0 LG) B = leafSizeProduct LG B := rfl
-  rw [e0, mul_comm (ENNReal.ofReal (leafSizeProduct LG B))]
-
 end WaveTurbulence.Flower.FiltCoh

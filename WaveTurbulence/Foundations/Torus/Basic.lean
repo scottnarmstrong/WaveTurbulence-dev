@@ -94,16 +94,8 @@ theorem add_int_mul (hf : IsTorusPeriodic L f) (k : Fin d → ℤ) (x : Fin d �
 theorem comp (hf : IsTorusPeriodic L f) (g : E → F) : IsTorusPeriodic L (fun x => g (f x)) :=
   fun j x => by simp only [hf j x]
 
-theorem comp_add (hf : IsTorusPeriodic L f) (h : Fin d → ℝ) :
-    IsTorusPeriodic L (fun x => f (x + h)) :=
-  fun j x => by simp only [add_right_comm x _ h, hf j]
-
 theorem mul [Mul E] {g : (Fin d → ℝ) → E} (hf : IsTorusPeriodic L f) (hg : IsTorusPeriodic L g) :
     IsTorusPeriodic L (fun x => f x * g x) :=
-  fun j x => by simp only [hf j x, hg j x]
-
-theorem add [Add E] {g : (Fin d → ℝ) → E} (hf : IsTorusPeriodic L f) (hg : IsTorusPeriodic L g) :
-    IsTorusPeriodic L (fun x => f x + g x) :=
   fun j x => by simp only [hf j x, hg j x]
 
 theorem const (c : E) : IsTorusPeriodic L (fun _ : Fin d → ℝ => c) := fun _ _ => rfl
@@ -205,9 +197,6 @@ variable {E : Type*} {L : ℝ}
 /-- The function on the unit torus corresponding to `f` on `[0, L]^d`: `y ↦ f (L • torusRep y)`. -/
 @[expose] def torusLift (L : ℝ) (f : (Fin d → ℝ) → E) : UnitAddTorus (Fin d) → E :=
   fun y => f (L • torusRep y)
-
-theorem torusRep_mem (y : UnitAddTorus (Fin d)) (j : Fin d) : torusRep y j ∈ Ioc (0 : ℝ) 1 := by
-  simpa [torusRep] using (AddCircle.equivIoc (1 : ℝ) 0 (y j)).2
 
 theorem coe_torusRep (y : UnitAddTorus (Fin d)) (j : Fin d) :
     ((torusRep y j : ℝ) : UnitAddCircle) = y j :=

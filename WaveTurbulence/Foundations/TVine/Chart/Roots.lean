@@ -28,16 +28,4 @@ theorem tvineChart_of_L2 (hsize : Checker.SizeBoundStatement.{0})
   tvineChart_of_inputs (Struct.pieceShape_of_L2 hsize hbase) (Struct.layervine_of_L2 hsize hbase)
     (Struct.attach_of_L2 hsize hbase)
 
-/-- **The `𝒱_γ` chart contract from L2's roots.** -/
-theorem vineGammaChart_of_L2 (hsize : Checker.SizeBoundStatement.{0})
-    (hbase : Checker.PieceShapeBaseStatement.{0}) : VineGammaChartStatement :=
-  vineGammaChart_of_inputs (Struct.pieceShape_of_L2 hsize hbase) (Struct.layervine_of_L2 hsize hbase)
-    (Struct.attach_of_L2 hsize hbase)
-
-/-- **The cell decompositions from L2's roots.** -/
-theorem decompExists_of_L2 (hsize : Checker.SizeBoundStatement.{0})
-    (hbase : Checker.PieceShapeBaseStatement.{0}) : DecompExists :=
-  decompExists_of_inputs (Struct.pieceShape_of_L2 hsize hbase) (Struct.layervine_of_L2 hsize hbase)
-    (Struct.attach_of_L2 hsize hbase)
-
 end WaveTurbulence.TVine.Chart

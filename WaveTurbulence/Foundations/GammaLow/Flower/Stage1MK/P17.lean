@@ -48,10 +48,8 @@ public import WaveTurbulence.Foundations.GammaLow.Fama.P.Vine.A.VineNormalizedRe
 public import WaveTurbulence.Foundations.GammaLow.Fama.P.Vine.A.VineNormalizedRedSplicePairs
 public import WaveTurbulence.Foundations.GammaLow.Fama.P.Vine.A.VinePrescribedPoints
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Coll
-public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Deg
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Marked
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Obj
-public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Pairs
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Skip
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Stage
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.UnitBlocks
@@ -90,33 +88,6 @@ open WaveTurbulence.GammaLow.FinalCount
 variable {γF : ℝ} [Fact (γF ≤ 1 / 2)] [Fact Fama.TVineF1Input] [Fact Fama.VinechainlemPrimeInput] [Fact Fama.TVineIsoInvariant]
 variable {w : ℕ} {G : Garden w}
 variable {V D : Type} [DecidableEq V] [Fintype D] [DecidableEq D] {d : ℕ}
-
-/-- **Case 1.** An out/in pair of darts inside an object, at one of its joints, has the gap kind of the object. -/
-theorem obj_pair_gapKindLow (M : Molecule V D) (hM : M.IsMolecule) (L γ η : ℝ) (w : Mom d) (c : V → Mom d)
-    (κ : D → (Fin d → ℤ)) (hκ : M.IsDecoration L w c κ) (hc0 : ∀ v ∈ M.atoms, M.deg v = 4 → c v = 0)
-    (O : Src.Object γF M) {k : Molecule.GapKind} (hk : O.HasGapKind L γ η w κ k) {j : V}
-    (hj : j = O.upper ∨ j = O.lower) {x y : D} (hx : M.atom x = j) (hy : M.atom y = j)
-    (hcx : O.ContainsDart x) (hcy : O.ContainsDart y) (hne : M.out x ≠ M.out y) :
-    Molecule.gapKind L γ η (Molecule.gapAt L w κ x y) = k := by
-  obtain ⟨r, hr, rfl⟩ := hk
-  obtain ⟨hk1, hc1⟩ := RedSplice.kvec_cons L w c κ hκ hc0
-  unfold Src.VineLikeObject.IsGap at hr
-  unfold Src.Object.ContainsDart at hcx hcy
-  cases hs : O.shape with
-  | vc hv =>
-    rw [hs] at hr hcx hcy
-    have hn := pair_norm_block' M hM hv.1 hj (Molecule.kvec L w κ) hk1 hc1 hx hy hcx hcy hne
-    exact kind_of_flow_norm M hv.1 L γ η w κ hr hn
-  | hyper R =>
-    rw [hs] at hr hcx hcy
-    obtain ⟨e, he, hadj⟩ := R
-    have hne' := Vine.ends_distinct_of_pair M e he hadj.1.2.2.2.1
-    have hN := Vine.eraseBond_isMolecule M hM e hne'
-    obtain ⟨cN, hκN, hcN⟩ := Vine.eraseBond_decoration_exists M hM e hne' L w c κ hκ hc0
-    obtain ⟨hk2, hc2⟩ := RedSplice.kvec_cons L w cN (fun z => κ z.1) hκN hcN
-    have hn := pair_norm_block' (Mole.eraseBond M e) hN hadj.1 hj (Molecule.kvec L w (fun z => κ z.1)) hk2 hc2
-      (x := ⟨x, hcx.1, hcx.2.1⟩) (y := ⟨y, hcy.1, hcy.2.1⟩) hx hy hcx.2.2 hcy.2.2 hne
-    exact kind_of_flow_norm (Mole.eraseBond M e) hadj.1 L γ η w (fun z => κ z.1) hr hn
 
 end
 
@@ -289,22 +260,6 @@ open WaveTurbulence WaveTurbulence.LGSpine WaveTurbulence.LGSpine.SourceVine Fin
 open WaveTurbulence.GammaLow.FinalCount
 variable {γF : ℝ} [Fact (γF ≤ 1 / 2)] [Fact Fama.TVineF1Input] [Fact Fama.VinechainlemPrimeInput] [Fact Fama.TVineIsoInvariant]
 
-/-- An object with an opposite pair of darts inside it at one of its joints whose gap has kind `k` has gap kind `k`
-(needs conservation of the decoration at the atoms of degree four). -/
-theorem hasGapKind_of_pair_jointLow {w d : ℕ} (G' : Garden w) (L γ η : ℝ) (base : Mom d)
-    (c : GBranch G'.tree → Mom d) (κ : GardenDart G' → (Fin d → ℤ))
-    (hκ : G'.molecule.IsDecoration L base c κ) (hc0 : ∀ v ∈ G'.molecule.atoms, G'.molecule.deg v = 4 → c v = 0)
-    (O : Src.Object γF G'.molecule) {j : GBranch G'.tree} (hj : j = O.upper ∨ j = O.lower)
-    {x y : GardenDart G'} (hx : G'.molecule.atom x = j) (hy : G'.molecule.atom y = j)
-    (hcx : O.ContainsDart x) (hcy : O.ContainsDart y) (hxy : G'.molecule.out x ≠ G'.molecule.out y)
-    {k : Molecule.GapKind} (hk : Molecule.gapKind L γ η (Molecule.gapAt L base κ x y) = k) :
-    O.HasGapKind L γ η base κ k := by
-  obtain ⟨p, q, hT, hp, hq⟩ := Fama.objectJoint_pair O (Or.inl rfl : O.upper = O.upper ∨ O.upper = O.lower)
-  have h0 := Fama.hasGapKind_of_pair O L γ η base κ p q hT.1 hT.2.1 hT.2.2.2 hp hq _ rfl
-  have := obj_pair_gapKindLow G'.molecule (WaveTurbulence.Mole.garden_isMolecule G') L γ η base c κ hκ hc0 O h0 hj hx hy hcx hcy hxy
-  rw [← hk, this]
-  exact h0
-
 end
 
 section
@@ -379,8 +334,6 @@ variable {N : Molecule V D} {N' : Molecule V' D'} {B : Finset V} {B' : Finset V'
 theorem mapObj_atomsLow (O : Src.Object γF N) (hO : O.atoms ⊆ B) :
     (I.mapObjLow O hO).atoms = O.atoms.image I.π := rfl
 
-alias _root_.WaveTurbulence.RedSplice.InducedIso.mapObj_atomsLow := mapObj_atomsLow
-
 end
 
 section
@@ -426,8 +379,6 @@ variable {N : Molecule V D} {N' : Molecule V' D'} {B : Finset V} {B' : Finset V'
 
 theorem mapObj_upperLow (O : Src.Object γF N) (hO : O.atoms ⊆ B) :
     (I.mapObjLow O hO).upper = I.π O.upper := rfl
-
-alias _root_.WaveTurbulence.RedSplice.InducedIso.mapObj_upperLow := mapObj_upperLow
 
 end
 

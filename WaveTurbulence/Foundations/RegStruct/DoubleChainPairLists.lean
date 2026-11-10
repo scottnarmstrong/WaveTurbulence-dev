@@ -5,7 +5,7 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.RegStruct.ChainAuxiliaryB
+public import WaveTurbulence.Foundations.RegStruct.ChainMiniFidelity
 
 /-! # Literal pair lists and actual source positions of double-chain templates -/
 

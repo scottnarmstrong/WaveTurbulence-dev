@@ -41,22 +41,4 @@ theorem exists_compact_fourier_representation {m : ℕ}
   obtain ⟨F, hf⟩ := exists_schwartz_fourier_representation χ hc hs
   exact ⟨F, F.integrable, hf⟩
 
-/-- Every compact joint cutoff admits a tensor product of fixed smooth
-coordinate cutoffs equal to one on its support. -/
-theorem exists_compact_tensor_plateau {m : ℕ}
-    (χ : EuclideanSpace ℝ (Fin m) → ℂ) (hc : HasCompactSupport χ) :
-    ∃ R : ℝ, 0 < R ∧ ∀ x, χ x ≠ 0 → ∀ i,
-      Fourier.chi0 (x i / (2 * R)) = 1 := by
-  obtain ⟨R, hR, hb⟩ := hc.isCompact.isBounded.subset_closedBall_lt 0 0
-  refine ⟨R, hR, ?_⟩
-  intro x hx i
-  have hxball := hb (subset_tsupport χ (Function.mem_support.mpr hx))
-  have hnorm : ‖x‖ ≤ R := by simpa only [Metric.mem_closedBall, dist_zero_right] using hxball
-  have hcoord0 : |x i| ≤ ‖x‖ := by
-    simpa only [Real.norm_eq_abs] using PiLp.norm_apply_le x i
-  have hcoord : |x i| ≤ R := hcoord0.trans hnorm
-  apply Fourier.chi0_eq_one
-  rw [abs_div, abs_of_pos (by positivity : 0 < 2 * R), div_le_iff₀ (by positivity : 0 < 2 * R)]
-  linarith
-
 end WaveTurbulence.WeylSums

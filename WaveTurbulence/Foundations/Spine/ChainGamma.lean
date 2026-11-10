@@ -97,26 +97,6 @@ lemma in_rail (L : ChainLab n E) (h : S.IsSol L) (i : Fin n) :
   rw [eq_neg_iff_add_eq_zero]
   exact this
 
-lemma qrel_succ (L : ChainLab n E) (h : S.IsSol L) (i j : Fin n) (hij : i.1 + 1 = j.1) :
-    S.qrel L j = S.qrel L i := by
-  have h1 := S.in_rail L h j
-  have hl := S.link i j hij
-  have hs : j.castSucc = i.succ := by ext; simp; omega
-  rw [hl, hs, neg_smul] at h1
-  exact (neg_inj.mp h1).symm
-
-lemma qrel_const (L : ChainLab n E) (h : S.IsSol L) (i j : Fin n) : S.qrel L i = S.qrel L j := by
-  have key : ∀ k : ℕ, ∀ hk : k < n, ∀ hn : 0 < n, S.qrel L ⟨k, hk⟩ = S.qrel L ⟨0, hn⟩ := by
-    intro k
-    induction k with
-    | zero => intro hk hn; rfl
-    | succ k ih =>
-      intro hk hn
-      rw [S.qrel_succ L h ⟨k, by omega⟩ ⟨k + 1, hk⟩ rfl]
-      exact ih _ _
-  have hn : 0 < n := Nat.lt_of_le_of_lt (Nat.zero_le _) i.2
-  rw [key i.1 i.2 hn, key j.1 j.2 hn]
-
 
 lemma a_succ_sub (L : ChainLab n E) (h : S.IsSol L) (i : Fin n) :
     L.a i.succ - L.a i.castSucc = S.tau (S.pairs L) i 2 - S.tau (S.pairs L) i 3 := by

@@ -102,21 +102,4 @@ theorem stage1_piece_bound_int (P : WTParams) (hs : PieceSmall P)
     _ = s * (((∫ ξ, ‖w ξ‖ ∂μ) / s) * M) := by field_simp
     _ ≤ _ := mul_le_mul_of_nonneg_left hcls hs0.le
 
-/-- TARGET (finalproof2), L2224-L2227, for one Stage 1 piece: `stage1_piece_bound_int` for the integral
-conjunct of `Represents`. -/
-theorem stage1_piece_bound (P : WTParams) (hs : PieceSmall P)
-    (hcoarse : CoarseSplicedAt P) (hfourier : LadderFourierAt P) (hcount : FinalCountAt P)
-    {p R n : ℕ} (hp : p < P.D) (hR : 1 ≤ R) (hRmax : R ≤ 10 * P.R (p + 1))
-    (π : Stage1Piece P R) (base : Mom P.d) (roots : Fin (2 * R) → (Fin P.d → ℤ))
-    (hπ : π.Sound p base roots) (hnsb : π.Gsb.order ≤ n) (val : ℂ)
-    (tt : Fin (2 * R) → ℝ) (members : Finset (LayeredGarden (2 * R)))
-    (sel : ∀ LG : LayeredGarden (2 * R), GenDecoration LG.garden P.d roots 0 → Prop)
-    (F : LeafFamily P (2 * R))
-    (s : ℝ) (hs0 : 0 < s) (hval : π.Represents n tt base roots members sel F s val) :
-    ‖val‖ ≤ s * (P.C₂ * (P.C₁ * P.δ ^ (10 * P.ν)) ^ n * P.C₁ ^ (π.Gsb.order + 2 * R) *
-      P.L ^ (-(P.ν * P.η) * ((π.gsk : ℝ) + (π.gsb : ℝ))) *
-      P.L ^ (-P.η ^ 6 * ((π.Gsb.molecule.rho : ℝ) + (π.Cs.hinges.card : ℝ)) / 4) *
-      P.L ^ (-((R : ℝ) - 1) * (1 / 4 + 1 / 60))) :=
-  stage1_piece_bound_int P hs hcoarse hfourier hcount hp hR hRmax π tt base roots hπ hnsb val s hs0 hval.2
-
 end WaveTurbulence.LGSpine

@@ -28,9 +28,4 @@ theorem coefficient_index_card {Q : RegCpl} {n : ℕ} (hsize : Q.size = 2*n) :
     (chosenSet Q.links).powerset.card = 2^n := by
   rw [card_powerset,chosenSet_card_eq_half hsize]
 
-/-- The surviving leading-term special indices obey the same bound. -/
-theorem specialSets_card_le {Q : RegCpl} {n : ℕ} (hsize : Q.size = 2*n) :
-    (specialSets Q.links).card ≤ 2^n := by
-  exact (card_filter_le _ _).trans_eq (coefficient_index_card hsize)
-
 end WaveTurbulence.RegAsymp

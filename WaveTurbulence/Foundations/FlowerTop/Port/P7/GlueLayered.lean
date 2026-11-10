@@ -10,9 +10,6 @@ open TTree Finset
 
 variable {a b w : ℕ}
 
-theorem glueGarden_tree (σ : Fin a ⊕ Fin b ≃ Fin w) (GA : Garden a) (GB : Garden b) :
-    (glueGarden σ GA GB).tree = gT σ GA.tree GB.tree := rfl
-
 /-- The glued layering. -/
 noncomputable def gLayer (σ : Fin a ⊕ Fin b ≃ Fin w) (GA : Garden a) (GB : Garden b)
     (lA : GNode GA.tree → ℕ) (lB : GNode GB.tree → ℕ) : GNode (glueGarden σ GA GB).tree → ℕ :=

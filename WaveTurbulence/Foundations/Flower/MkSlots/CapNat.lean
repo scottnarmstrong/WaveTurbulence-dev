@@ -28,15 +28,6 @@ open WaveTurbulence TTree WaveTurbulence.Reg WaveTurbulence.Reg.Skeleton WaveTur
 
 namespace WaveTurbulence.Flower.MkSlots
 
-theorem term_fix_eq (X : RegChain) (s t up : ℝ) {T : Fin 1 → TTree} (b1 : GBranch T) :
-    ProtCfg.term.fix X s t up b1 = if b1.1.2 = X.lonePath.dropLast then some s else none := by
-  unfold ProtCfg.fix
-  rw [if_pos (Fin.val_eq_zero b1.1.1)]
-  simp only [ProtCfg.pins, List.lookup]
-  by_cases h : b1.1.2 = X.lonePath.dropLast
-  · simp [h]
-  · rw [beq_false_of_ne h, if_neg h]
-
 namespace CapSide
 
 variable {w : ℕ} {S : Garden w} {D : ReconstructionData S} {hS : S.IsPlain} {J : Finset (Fin w)}
@@ -76,11 +67,6 @@ theorem capStem : StemChain (layeredReconstruction D hS layer hLayer) J K.X K.ζ
 theorem portFlower : PortFlower (layeredReconstruction D hS layer hLayer) J K.X K.u :=
   ⟨K.flower, K.isCapFlower layer hLayer, rfl⟩
 
-theorem objCfg_plain :
-    objCfg (layeredReconstruction D hS layer hLayer) J (fun _ => FixPat.plain) K.X K.u = .term := by
-  unfold objCfg
-  simp [K.portFlower layer hLayer]
-
 /-! ### The paired tree is the reconstruction's `objTree` -/
 
 theorem emb_ι (a1 : GNode (K.Dq layer hLayer).T1.garden.tree) :
@@ -113,95 +99,6 @@ theorem capT1_eq : (K.Dq layer hLayer).T1 = objTree (layeredReconstruction D hS 
 /-! ### The pins -/
 
 variable {p : ℕ} (hGeo : CapGeo (layeredReconstruction D hS layer hLayer) J p)
-
-include hGeo in
-/-- **The intrinsic plain pins on the paired tree are the `term` pins.** -/
-theorem capFix (t s up : ℝ) (b1 : GBranch (K.Dq layer hLayer).T1.garden.tree) :
-    fixNative D hS (fixCap (layeredReconstruction D hS layer hLayer) J (fun _ => FixPat.plain) t s) (.inl q)
-      ((K.Dq layer hLayer).βc b1) = ProtCfg.term.fix K.X s t up b1 := by
-  have hb : subforestBranchEmbedding (nativeCoupleForest D hS q) ((K.Dq layer hLayer).βc b1) =
-      embBr (K.capStem layer hLayer).emb b1.1.2 b1.2 := by
-    refine Subtype.ext ?_
-    show (((nativeCoupleForest D hS q).root K.j0).1.1, ((nativeCoupleForest D hS q).root K.j0).1.2 ++ b1.1.2) = _
-    rw [K.root_j0]
-    rfl
-  show fixCap (layeredReconstruction D hS layer hLayer) J _ t s
-    (subforestBranchEmbedding (nativeCoupleForest D hS q) ((K.Dq layer hLayer).βc b1)) = _
-  rw [hb, fixCap_objTree hGeo (K.capStem layer hLayer) _ t s up b1, K.objCfg_plain layer hLayer]
-  rfl
-
-include hGeo in
-theorem capFix_eq (t s up : ℝ) (b : GBranch (nativeCoupleLayered D hS layer hLayer q).garden.tree) :
-    fixNative D hS (fixCap (layeredReconstruction D hS layer hLayer) J (fun _ => FixPat.plain) t s) (.inl q) b =
-      if b.1.2 = K.X.lonePath.dropLast then some s else none := by
-  have hb : b = (K.Dq layer hLayer).βc ((K.Dq layer hLayer).βc.symm b) := (Equiv.apply_symm_apply _ b).symm
-  rw [hb, K.capFix layer hLayer hGeo t s up, term_fix_eq]
-  rfl
-
-include K hGeo in
-/-- **The pins of a nontrivial cap slot have a free parent.** -/
-theorem capPins (t s : ℝ) (hps : (p : ℝ) < s) (hsp : s < p + 1) (up : GBranch (nativeCoupleLayered D hS layer hLayer q).garden.tree → ℝ)
-    (hup : ∀ b b', up b = up b') :
-    CapPins (nativeCoupleLayered D hS layer hLayer q) up
-      (fixNative D hS (fixCap (layeredReconstruction D hS layer hLayer) J (fun _ => FixPat.plain) t s) (.inl q)) := by
-  set Dq := K.Dq layer hLayer
-  have hfix := K.capFix_eq layer hLayer hGeo t s 0
-  have hpin : ∀ (b : GBranch (nativeCoupleLayered D hS layer hLayer q).garden.tree) (v : ℝ),
-      fixNative D hS (fixCap (layeredReconstruction D hS layer hLayer) J (fun _ => FixPat.plain) t s)
-      (.inl q) b = some v → b.1.2 = K.X.lonePath.dropLast ∧ v = s := by
-    intro b v hb
-    rw [hfix] at hb
-    by_cases h : b.1.2 = K.X.lonePath.dropLast
-    · rw [if_pos h] at hb
-      exact ⟨h, (Option.some.inj hb).symm⟩
-    · rw [if_neg h] at hb
-      exact absurd hb (by simp)
-  refine ⟨fun b v hb => ?_, fun b v hb => ?_, fun b b' hbb' => ?_, fun b => Dq.not_loneParent b⟩
-  · obtain ⟨h, rfl⟩ := hpin b v hb
-    obtain ⟨b1, rfl⟩ := Dq.βc.surjective b
-    have hl : (nativeCoupleLayered D hS layer hLayer q).layer (Dq.βc b1).toNode = p := by
-      rw [Dq.βc_toNode, Dq.layer_ι, K.capT1_layer layer hLayer]
-      have hq : b1.1.2 = K.X.lonePath.dropLast := h
-      show layerAt (layeredReconstruction D hS layer hLayer) (addrExt K.u b1.1.2) = p
-      rw [hq]
-      exact (K.capStem layer hLayer).chain_layer hGeo (List.dropLast_prefix _) (dropLast_lonePath_ne K.ne)
-    rw [hl]
-    exact ⟨hps, hsp, lt_of_le_of_lt (Nat.cast_nonneg p) hps⟩
-  · obtain ⟨h, -⟩ := hpin b v hb
-    obtain ⟨b1, rfl⟩ := Dq.βc.surjective b
-    have hpre : K.X.lonePath.dropLast.dropLast <+: K.X.lonePath :=
-      (List.dropLast_prefix _).trans (List.dropLast_prefix _)
-    have hne : K.X.lonePath.dropLast.dropLast ≠ K.X.lonePath := by
-      intro he
-      have := congrArg List.length he
-      simp only [List.length_dropLast] at this
-      have := two_le_lonePath K.ne
-      omega
-    have hbr := prefix_lone_branching K.X K.ζ hpre hne
-    let b1' : GBranch Dq.T1.garden.tree := ⟨((0 : Fin 1), K.X.lonePath.dropLast.dropLast), hbr⟩
-    refine ⟨Dq.βc b1', ⟨rfl, ?_⟩, ?_, le_of_eq (hup _ _)⟩
-    · refine ⟨K.X.lonePath.dropLast.getLast (dropLast_lonePath_ne_nil K.ne), ?_⟩
-      rw [h]
-      exact (List.dropLast_append_getLast _).symm
-    · rw [hfix, if_neg]
-      intro he
-      have h3 : (Dq.βc b1').1.2 = K.X.lonePath.dropLast.dropLast := rfl
-      rw [h3] at he
-      have := congrArg List.length he
-      simp only [List.length_dropLast] at this
-      have := two_le_lonePath K.ne
-      omega
-  · by_contra hc
-    push_neg at hc
-    obtain ⟨h1, h2⟩ := hc
-    obtain ⟨v1, hv1⟩ := Option.ne_none_iff_exists'.1 h1
-    obtain ⟨v2, hv2⟩ := Option.ne_none_iff_exists'.1 h2
-    obtain ⟨e1, -⟩ := hpin b v1 hv1
-    obtain ⟨e2, -⟩ := hpin b' v2 hv2
-    obtain ⟨-, i, hi⟩ := hbb'
-    have := congrArg List.length hi
-    rw [e1, e2] at this
-    simp at this
 
 end CapSide
 

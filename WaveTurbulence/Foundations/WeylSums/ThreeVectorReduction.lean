@@ -105,11 +105,6 @@ theorem threeVectorDifferences_injOn {d : ℕ} (L : ℝ) (nk : Fin d → ℤ)
       simp only [threeVectorDifferences,Pi.sub_apply,Pi.add_apply] at h₁ h₂ h₃ h₄
       omega
 
-theorem finite_threeVectorBandSet {d : ℕ} {L : ℝ} (hL : 0 < L) (nk : Fin d → ℤ)
-    (a b c : Mom d) (β τ : ℝ) : (threeVectorBandSet L nk a b c β τ).Finite :=
-  Set.Finite.of_injOn (threeVectorDifferences_mapsTo L nk a b c β τ)
-    (threeVectorDifferences_injOn L nk a b c β τ) (finite_bilinearBandSet hL _ _ _ _)
-
 /-- The cardinality reduction retains all source spatial centers and the
 arbitrary conserved lattice momentum. -/
 theorem threeVectorBandSet_ncard_le {d : ℕ} {L : ℝ} (hL : 0 < L) (nk : Fin d → ℤ)

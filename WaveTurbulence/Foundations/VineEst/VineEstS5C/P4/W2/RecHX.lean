@@ -35,12 +35,6 @@ def PieceRepW {D : SumintPar.SumintDatum P.d} (hI : 0 < D.S.I) {vp vb : D.S.VIdx
     ∀ tt ∈ Bx, ∀ᵐ τ : D.S.TVar → ℝ, τ ∈ D.timeDom hI (tt 0) (tt 1) (tt 2) → ∀ r k : Mom P.d, ‖r‖ ≤ 1 →
       X τ tt r k = f0 τ r * (RK.W (RK.clk τ tt) r k * RL.W (RL.clk τ tt) r (k + ε • r))
 
-theorem pieceRepU_iff {D : SumintPar.SumintDatum P.d} (hI : 0 < D.S.I) (vp vb : D.S.VIdx) (ε : ℝ)
-    (f0 : (D.S.TVar → ℝ) → Mom P.d → ℂ) (X : (D.S.TVar → ℝ) → (Fin 3 → ℝ) → Mom P.d → Mom P.d → ℂ) (bnd : ℝ≥0∞)
-    (Bx : Set (Fin 3 → ℝ)) :
-    PieceRepU hI vp vb ε f0 X bnd Bx ↔ ∃ (RK : RowData D (6 * P.η ^ 6) (Sum.inl vp)) (RL : RowData D (6 * P.η ^ 6) (Sum.inr vb)),
-      PieceRepW hI RK RL ε f0 X bnd Bx := Iff.rfl
-
 open Classical in
 theorem rows_merge {D : SumintPar.SumintDatum P.d} (hI : 0 < D.S.I) (Rw : ∀ ρ : Row D, RowData D (6 * P.η ^ 6) ρ)
     {κ : Type*} (S : Finset κ) (vpf vbf : κ → D.S.VIdx)

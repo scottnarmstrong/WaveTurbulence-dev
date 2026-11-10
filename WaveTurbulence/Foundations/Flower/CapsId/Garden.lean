@@ -67,8 +67,6 @@ theorem capNodeF_eq (c : GNode (capForest w)) : c = capNodeF c.1.1 := by
   subst hq'
   rfl
 
-theorem capLeafF_toNode (j : Fin w) : (capLeafF j).toNode = capNodeF j := rfl
-
 instance capForest_branch_isEmpty : IsEmpty (GBranch (capForest w)) :=
   ⟨fun b => by simpa [TTree.branching] using b.2⟩
 
@@ -84,11 +82,6 @@ theorem flowerOf_spec {G : Garden w} {j : Fin w} {ℓ : GLeaf G.tree} (h : flowe
   split_ifs at h with hex
   cases h
   exact hex.choose_spec
-
-theorem flowerOf_eq_none {G : Garden w} {j : Fin w} :
-    flowerOf G j = none ↔ ¬ ∃ ℓ : GLeaf G.tree, ℓ.1.1 = j ∧ G.IsFlower ℓ := by
-  unfold flowerOf
-  split_ifs with hex <;> simp [hex]
 
 /-- Exactly one flower in every tree. -/
 def OneFlower (G : Garden w) : Prop := ∀ j, ∃! ℓ : GLeaf G.tree, ℓ.1.1 = j ∧ G.IsFlower ℓ
@@ -287,9 +280,6 @@ abbrev capL (G : Garden w) (j : Fin w) : GLeaf (capGarden G).tree := cLeaf G (.i
 @[simp] theorem cBranch_val (G : Garden w) (b : GBranch G.tree) :
     (cBranch G b).1 = (capσ w (.inl b.1.1), b.1.2) := rfl
 
-theorem cBranch_apply (G : Garden w) (b : GBranch G.tree) :
-    cBranch G b = glueBranch (capσ w) G.tree (capForest w) (.inl b) := rfl
-
 @[simp] theorem cBranch_toNode (G : Garden w) (b : GBranch G.tree) : (cBranch G b).toNode = embN G b.toNode :=
   rfl
 
@@ -311,9 +301,6 @@ theorem embN_injective (G : Garden w) : Function.Injective (embN G) := fun _ _ h
 
 theorem embL_injective (G : Garden w) : Function.Injective (embL G) := fun _ _ h =>
   Sum.inl_injective ((cLeaf G).injective h)
-
-theorem embN_ne_capN (G : Garden w) (a : GNode G.tree) (j : Fin w) : embN G a ≠ capN G j := fun h =>
-  Sum.inl_ne_inr ((cNode G).injective h)
 
 theorem embL_ne_capL (G : Garden w) (ℓ : GLeaf G.tree) (j : Fin w) : embL G ℓ ≠ capL G j := fun h =>
   Sum.inl_ne_inr ((cLeaf G).injective h)
@@ -363,12 +350,6 @@ theorem capGarden_sig_inr (G : Garden w) (j : Fin w) :
     (capGarden G).sign (embN G a) = G.sign a := by
   show nodeSign (gSig (capσ w) G.sig (capSigCaps G)) (capσ w (.inl a.1.1), a.1.2) = nodeSign G.sig a.1
   rw [nodeSign_glue_inl (capσ w) G.sig (capSigCaps G) a.1]
-
-@[simp] theorem capGarden_sign_capN (G : Garden w) (j : Fin w) :
-    (capGarden G).sign (capN G j) = capSigCaps G j := by
-  show nodeSign (gSig (capσ w) G.sig (capSigCaps G)) (capσ w (.inr j), []) = _
-  rw [nodeSign_glue_inr (capσ w) G.sig (capSigCaps G) (j, [])]
-  simp [nodeSign, TTree.pathSign]
 
 theorem capGarden_pair_embL (G : Garden w) (ℓ : GLeaf G.tree) :
     (capGarden G).pair (embL G ℓ) =
@@ -436,18 +417,6 @@ theorem capGarden_not_isFlower (G : Garden w) (hF : OneFlower G) (x : GLeaf (cap
     · rw [capGarden_mark_flower G hF hℓ]; exact (Option.some_ne_none _).symm
     · rw [capGarden_mark_nonflower G hF hℓ]; exact hℓ
   · rw [capGarden_mark_capL_of G hF]; exact (Option.some_ne_none _).symm
-
-/-- **Lemma 2.1(1)**: on a flower garden the capped garden is an ordinary (plain) garden. -/
-theorem capGarden_isPlain (G : Garden w) (hG : G.IsFlowerGarden) : (capGarden G).IsPlain := by
-  have hF := oneFlower_of_isFlowerGarden hG
-  intro x
-  rcases leaf_cases G x with ⟨ℓ, rfl⟩ | ⟨j, rfl⟩
-  · by_cases hℓ : G.IsFlower ℓ
-    · exact capGarden_mark_flower G hF hℓ
-    · rw [capGarden_mark_nonflower G hF hℓ]
-      by_contra hm
-      exact hℓ (hG.2.1 ℓ hm)
-  · exact capGarden_mark_capL_of G hF j
 
 /-- **Lemma 2.1(1)**: the order is unchanged. -/
 theorem capGarden_order (G : Garden w) : (capGarden G).order = G.order := by

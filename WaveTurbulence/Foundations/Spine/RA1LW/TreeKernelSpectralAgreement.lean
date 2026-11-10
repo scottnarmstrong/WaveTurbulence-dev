@@ -2,7 +2,6 @@
 module
 
 public import WaveTurbulence.Foundations.Spine.RA1LW.TreeFam
-public import WaveTurbulence.Foundations.Spine.RA1LW.Base
 public import WaveTurbulence.Foundations.RegularAsymptotics.RA1Trees.TreeBoundedSourceAgreement
 public import WaveTurbulence.Foundations.Spine.RA1LW.TreePhaseRootIndependent
 

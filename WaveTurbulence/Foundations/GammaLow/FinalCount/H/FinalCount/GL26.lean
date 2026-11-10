@@ -164,5 +164,4 @@ theorem DegenSGT.unloopL {Tm : V → Prop} (hC : LoopCtx L w κ R' M) (hdeg : De
     exact ⟨⟨x₀, hnx⟩, ⟨y₀, hny⟩, h1, h2, h3, h4, fun e => h5 (congrArg Subtype.val e), h6⟩
   · exact Or.inr hT
 
-alias _root_.WaveTurbulence.FinalCountG3.DegenSGT.unloopL := _root_.WaveTurbulence.GammaLow.FinalCount.H.DegenSGT.unloopL
 end WaveTurbulence.GammaLow.FinalCount.H

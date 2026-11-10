@@ -28,15 +28,6 @@ open Finset TTree WaveTurbulence WaveTurbulence.RedSplice WaveTurbulence.LGSpine
 
 variable {R : ℕ}
 
-/-- The successor piece has the same `ḡ` as the original producer's piece (the definitions agree). -/
-theorem normalized_gbar_eq (d : ℕ) {S : Garden (2 * R)} {D : ReconstructionData S} (hS : S.IsPlain)
-    (LG : LayeredGarden (2 * R)) (hd : D.Decodes hS LG.garden) (σ : Prescription S) :
-    (VineA.NormalizedSplice.stage1PieceOf d hS LG hd σ).gbar = (RedSplice.stage1PieceOf d hS LG hd σ).gbar := rfl
-
-theorem normalized_rbar_eq (d : ℕ) {S : Garden (2 * R)} {D : ReconstructionData S} (hS : S.IsPlain)
-    (LG : LayeredGarden (2 * R)) (hd : D.Decodes hS LG.garden) (σ : Prescription S) :
-    (VineA.NormalizedSplice.stage1PieceOf d hS LG hd σ).rbar = (RedSplice.stage1PieceOf d hS LG hd σ).rbar := rfl
-
 /-- B1b (Mk-general form of `stage1Piece_rbar_bounds`). -/
 theorem stage1Piece_rbar_boundsMk (d : ℕ) {S : Garden (2 * R)} {D : ReconstructionData S} (hS : S.IsPlain)
     (LG : LayeredGarden (2 * R)) (hd : D.Decodes hS LG.garden) (σ : Prescription S) {N : ℕ}

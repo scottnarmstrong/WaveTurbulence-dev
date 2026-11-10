@@ -8,7 +8,6 @@ module
 public import WaveTurbulence.Foundations.VineEst.RowSel.RowDataLF
 public import WaveTurbulence.Foundations.VineEst.RowSel.RowTransport
 public import WaveTurbulence.Foundations.VineEst.VineEstS4.Rg4Time
-public import WaveTurbulence.Foundations.VineEst.VineEstS4.Tw10Final
 
 /-! # The S-side of (tildeJ2) is rigidly twist invariant (V5 Step 4b, step 4, WP-B part 5)
 

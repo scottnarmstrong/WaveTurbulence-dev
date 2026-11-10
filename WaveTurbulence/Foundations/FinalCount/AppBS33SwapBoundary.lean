@@ -48,8 +48,6 @@ noncomputable def s33SwapBoundary : AppbRealization M AppbPatternKind.s33.patter
       fin_cases i <;> rfl
   }
 
-theorem s33SwapBoundary_vertex (a : ℕ) : r.s33SwapBoundary.vertex a = r.vertex (Equiv.swap 5 6 a) := rfl
-
 theorem s33SwapBoundary_removed : r.s33SwapBoundary.removedAtoms = r.removedAtoms := by
   change ({1,2} : Finset ℕ).image (fun j => r.vertex (Equiv.swap 5 6 j)) = ({1,2} : Finset ℕ).image r.vertex
   simp only [image_insert,image_singleton]
@@ -59,11 +57,6 @@ theorem s33SwapBoundary_sameComponent (a b : V) :
     r.s33SwapBoundary.post.SameComponent a b ↔ r.post.SameComponent a b := by
   change (Degen.eraseAtoms M r.s33SwapBoundary.removedAtoms).SameComponent a b ↔
     (Degen.eraseAtoms M r.removedAtoms).SameComponent a b
-  rw [r.s33SwapBoundary_removed]
-
-theorem s33SwapBoundary_components : r.s33SwapBoundary.post.numComponents = r.post.numComponents := by
-  change (Degen.eraseAtoms M r.s33SwapBoundary.removedAtoms).numComponents =
-    (Degen.eraseAtoms M r.removedAtoms).numComponents
   rw [r.s33SwapBoundary_removed]
 
 end AppbRealization

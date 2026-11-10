@@ -66,11 +66,6 @@ theorem order_le_of_mem_l0Trees {N : ℕ} {T : TTree} (h : T ∈ l0Trees N) : T.
   simp only [TTree.order]
   omega
 
-theorem lt_order_of_mem_l0Trees {N : ℕ} {T : TTree} (h : T ∈ l0Trees N) : N < T.order := by
-  obtain ⟨l, m, r, rfl, -, -, -, h⟩ := mem_l0Trees.mp h
-  simp only [TTree.order]
-  omega
-
 theorem l0Trees_subset (N : ℕ) : l0Trees N ⊆ truncatedTrees (3 * N + 1) :=
   fun _ h => mem_truncatedTrees.mpr (order_le_of_mem_l0Trees h)
 

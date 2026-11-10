@@ -250,40 +250,6 @@ theorem maskedProd_congr {G : Garden w} (U : Finset (GBranch G.tree)) (ψ : ℕ 
   have hy' : G.molecule.InGroup U y := (Finset.mem_filter.mp hy).2
   rw [hinc y hy', hlay _ hy'.1, hlay _ hy'.2]
 
-/-- **`regionWeightFW` along a rigid TRUE operation.** -/
-theorem regionWeightFW_true (con : LFConstruction (A.source i hcan hel htc hcc) true) (pw : ℕ) (g : Mom d → ℂ)
-    (S : Option ℝ) (L : ℝ) (base : Mom d) {U : Finset (GBranch A.skeleton.tree)} {a : GBranch A.skeleton.tree}
-    (hF : FullRigid (A.family.placement i) U) (ha : a ∈ U)
-    (x' : GNode (unitTwistGarden A.skeleton (A.family.placement i)).tree → Fin d → ℤ) :
-    regionWeightFW pw g S L base (opOut A i hcan hel htc hcc con) (twistedAtoms A.skeleton (A.family.placement i) U)
-        (coreBranchEquiv A.skeleton (A.family.placement i) a) x' =
-      regionWeightFW pw g S L base A U a (fun y => x' (naiveNodeEquiv A.skeleton (A.family.placement i) y)) := by
-  unfold regionWeightFW
-  refine congrArg₂ (· * ·) ?_ ?_
-  · exact maskedProd_naive (A.family.placement i) hF.lower_notMem (topPsi pw g) L base
-      (nodeRowIncoh A.data A.plain (stateLayer A) (stateLayer_isLayering A))
-      (nodeRowIncoh (opOut A i hcan hel htc hcc con).data (opOut A i hcan hel htc hcc con).plain
-        (stateLayer (opOut A i hcan hel htc hcc con)) (stateLayer_isLayering (opOut A i hcan hel htc hcc con)))
-      (stateCoreLayer A) (stateCoreLayer (opOut A i hcan hel htc hcc con))
-      (nodeRowIncoh_opOut_true A i hcan hel htc hcc con hF.lower_notMem)
-      (fun v _ => stateCoreLayer_opOut A i hcan hel htc hcc con v) x'
-  · exact nodeWeight_naive (A.family.placement i) hF ha (topFilterWeight S) L base x'
-
-/-- **`regionWeightFW` along a FALSE operation whose lower joint is outside the region.** -/
-theorem regionWeightFW_false (con : LFConstruction (A.source i hcan hel htc hcc) false) (pw : ℕ) (g : Mom d → ℂ)
-    (S : Option ℝ) (L : ℝ) (base : Mom d) {U : Finset (GBranch A.skeleton.tree)} (a : GBranch A.skeleton.tree)
-    (hlow : (A.family.placement i).lower ∉ U) (x : GNode A.skeleton.tree → Fin d → ℤ) :
-    regionWeightFW pw g S L base (opOut A i hcan hel htc hcc con) U a x = regionWeightFW pw g S L base A U a x := by
-  unfold regionWeightFW
-  refine congrArg₂ (· * ·) ?_ rfl
-  exact maskedProd_congr U (topPsi pw g) L base
-    (nodeRowIncoh A.data A.plain (stateLayer A) (stateLayer_isLayering A))
-    (nodeRowIncoh (opOut A i hcan hel htc hcc con).data (opOut A i hcan hel htc hcc con).plain
-      (stateLayer (opOut A i hcan hel htc hcc con)) (stateLayer_isLayering (opOut A i hcan hel htc hcc con)))
-    (stateCoreLayer A) (stateCoreLayer (opOut A i hcan hel htc hcc con))
-    (nodeRowIncoh_opOut_false A i hcan hel htc hcc con hlow)
-    (fun v _ => stateCoreLayer_opOut A i hcan hel htc hcc con v) x
-
 end Op
 
 end WaveTurbulence.Flower.V5W

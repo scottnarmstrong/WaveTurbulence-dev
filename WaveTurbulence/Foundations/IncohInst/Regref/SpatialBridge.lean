@@ -63,16 +63,4 @@ theorem SNormR_eq_spatialNorm {d Λ₁ Λ₂ : ℕ} (F : Mom d → ℝ) :
     SNormR Λ₁ Λ₂ F = Fourier.spatialNorm Λ₁ Λ₂ (fun k => (F k : ℂ)) :=
   SNorm_eq_spatialNorm _
 
-/-- Spatial restrictions, with the ambient agreement formulation explicit at every order. -/
-theorem SNorm_restriction_eq_spatialRestrictionNorm {d Λ₁ Λ₂ : ℕ}
-    (K : Set (Mom d)) (F : Mom d → ℂ) :
-    (⨅ (G : Mom d → ℂ) (_ : ∀ k ∈ K, G k = F k), SNorm Λ₁ Λ₂ G) =
-      Fourier.spatialRestrictionNorm Λ₁ Λ₂ K (fun k => F k) := by
-  unfold Fourier.spatialRestrictionNorm
-  apply iInf_congr
-  intro G
-  have he : (∀ k ∈ K, G k = F k) ↔ (∀ k : K, G k = F k) :=
-    ⟨fun h k => h k k.property, fun h k hk => h ⟨k, hk⟩⟩
-  rw [he, SNorm_eq_spatialNorm]
-
 end WaveTurbulence.NormBridgeScratch

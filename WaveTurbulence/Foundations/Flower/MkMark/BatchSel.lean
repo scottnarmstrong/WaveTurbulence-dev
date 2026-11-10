@@ -187,29 +187,6 @@ end Op
 
 /-! ## The statements -/
 
-/-- **Lemma 2⁺(a), batch form, with a family-relative clean condition** (F-MK-1 member hypothesis). -/
-def MarkInvariantBatchVF (mk : MarkFn w)
-    (Clean : ∀ {ι : Type} (A : LFTwist.FamilyReconstruction w ι), Reg.Skeleton.IsPrimeGarden A.skeleton → Prop) :
-    Prop :=
-  ∀ {p : ℕ} {kind : Bool} {ι : Type} {L : List ι} {A B : LFTwist.FamilyReconstruction w ι}
-    (h : LFTwist.FamilyBatch p kind L A B) (hA : Reg.Skeleton.IsPrimeGarden A.skeleton),
-    (∀ i, ∃ c ∈ vinesV A.skeleton, c.atoms = A.family.atoms i ∧
-      c ∉ mk (⟨A.skeleton, hA, A.data, A.decodes⟩ : VineA.PrimeData A.layered)) →
-    Clean A hA →
-    MarkTransported (VineA.batchMolIso h)
-      (mk (⟨A.skeleton, hA, A.data, A.decodes⟩ : VineA.PrimeData A.layered))
-      (mk (⟨B.skeleton, VineA.batch_prime h hA, B.data, B.decodes⟩ : VineA.PrimeData B.layered))
-
-/-- **Family-relative stem cleanliness**: the capped stems avoid `𝐀(𝕍)` for every member `𝕍` of the family. -/
-def StemCleanFam (J : Finset (Fin w)) {ι : Type} (A : LFTwist.FamilyReconstruction w ι)
-    (hA : Reg.Skeleton.IsPrimeGarden A.skeleton) : Prop :=
-  ∀ i, StemCleanAt J (⟨A.skeleton, hA, A.data, A.decodes⟩ : VineA.PrimeData A.layered)
-    (A.family.atoms i) (A.family.upper i)
-
-/-- **Stem cleanliness for all of `𝒱`**: the capped stems avoid `𝐀(𝕍)` for every vine `𝕍 ∈ 𝒱`. -/
-def StemCleanV (J : Finset (Fin w)) : ∀ {LG : LayeredGarden w}, VineA.PrimeData LG → Prop :=
-  fun A => ∀ c ∈ vinesV A.skeleton, StemCleanAt J A c.atoms c.upper
-
 /-- `own(u₂) ∪ own(u₂₃) ∪ own(u₀) ⊆ 𝐀(U, u)` for any upper joint `u ≠ u₂` of a block with atoms `U`. -/
 theorem replaced_sub_activeSet' {S : Garden w} (P : CorePlacement S) (X : GBranch S.tree → RegChain)
     {U : Finset (GBranch S.tree)} {a u : GBranch S.tree} (hB : S.molecule.IsBlock U a P.lower)
@@ -229,40 +206,6 @@ theorem replaced_sub_activeSet' {S : Garden w} (P : CorePlacement S) (X : GBranc
 
 section Final
 variable (J : Finset (Fin w)) (pat : Fin w → FixPat) (t s : ℝ) (kSel : Fin w → Option ℕ)
-
-/-- **Lemma 2⁺(a), batch, fine marking (stem half)**, family-relative stem cleanliness. -/
-theorem markInvariantBatchVF_markI :
-    MarkInvariantBatchVF (markI J pat t s kSel) (fun A hA => StemCleanFam J A hA) := by
-  intro p kind ι L A B h hA hfam hcl
-  refine (batch_markI J pat t s kSel (VineA.batchMolIso_spec h) hfam ?_).1
-  intro i
-  have h0 := (stemCleanAt_iff J _ _ _).mp (hcl i)
-  exact stemAvoid_mono (replaced_sub_activeSet (A.family.placement i) A.data.tree (A.family.core i).1.1
-    (A.family.core i).2.1 (A.family.designated i)) h0
-
-/-- **Lemma 2⁺(a), batch, fine marking (stem half)** in the `MarkInvariantBatchV` form, with stem cleanliness for all
-of `𝒱`. -/
-theorem markInvariantBatchV_markI : MarkInvariantBatchV (markI J pat t s kSel) (StemCleanV J) := by
-  intro p kind ι L A B h hA hfam hcl
-  refine (batch_markI J pat t s kSel (VineA.batchMolIso_spec h) hfam ?_).1
-  intro i
-  obtain ⟨c, hc, he, -⟩ := hfam i
-  have h0 := (stemCleanAt_iff J _ _ _).mp (hcl c hc)
-  have hne : (A.family.placement i).lower ≠ c.upper := by
-    intro heq
-    obtain ⟨h1, h2⟩ := (A.family.core i).2.1.2
-    apply c.notParentUpper
-    refine ⟨heq ▸ h1, ?_⟩
-    rw [he]
-    have e : GNode.parent c.upper.toNode (heq ▸ h1) = GNode.parent (A.family.placement i).lower.toNode h1 := by
-      congr 1
-      rw [heq]
-    rw [e]
-    exact h2
-  have hsub := replaced_sub_activeSet' (A.family.placement i) A.data.tree (A.family.core i).1.1
-    (A.family.designated i) hne
-  rw [← he] at hsub
-  exact stemAvoid_mono hsub h0
 
 end Final
 

@@ -83,36 +83,6 @@ variable {V : Type*} [DecidableEq V]
 def JointsAt {G : UMultigraph V} {es : Edges} (φ : Iso G es) (j₁ j₂ : V) (J : ℕ) : Prop :=
   (φ.f j₁ = J ∧ φ.f j₂ = J + 1) ∨ (φ.f j₁ = J + 1 ∧ φ.f j₂ = J)
 
-omit [DecidableEq V] in
-/-- Pull back a path of the instance inside a set. -/
-theorem rtg_pullback {G : UMultigraph V} {es : Edges} (φ : Iso G es) {X : Finset V} {P : ℕ → Prop}
-    (hP : ∀ z, InEnds es z → P z → φ.g z ∈ X) {x y : ℕ}
-    (h : Relation.ReflTransGen (fun a b => P a ∧ P b ∧ mult es a b ≠ 0) x y) :
-    Relation.ReflTransGen (AdjIn G X) (φ.g x) (φ.g y) := by
-  induction h with
-  | refl => exact Relation.ReflTransGen.refl
-  | @tail b c _ hbc ih =>
-    have hb := (inEnds_of_mult_ne_zero hbc.2.2).1
-    have hc := (inEnds_of_mult_ne_zero hbc.2.2).2
-    exact ih.tail ⟨hP b hb hbc.1, hP c hc hbc.2.1, by rw [φ.mult_g hb hc]; exact hbc.2.2⟩
-
-/-- `connB` on the instance gives connectivity in `G`. -/
-theorem connOn_of_connB {G : UMultigraph V} {es : Edges} (φ : Iso G es) {X : Finset V} {W : ℕ}
-    (hb : connB W (inside W es) = true) (hXW : ∀ v ∈ X, mem (φ.f v) W = true)
-    (hWX : ∀ z, InEnds es z → mem z W = true → φ.g z ∈ X) (hX : X ⊆ G.verts) : ConnOn G X := by
-  have conv : ∀ {a b}, Relation.ReflTransGen (Adj (inside W es)) a b →
-      Relation.ReflTransGen (fun a b => mem a W = true ∧ mem b W = true ∧ mult es a b ≠ 0) a b := by
-    intro a b h
-    induction h with
-    | refl => exact Relation.ReflTransGen.refl
-    | tail _ hbc ih =>
-      obtain ⟨h1, h2, h3⟩ := adj_inside hbc
-      exact ih.tail ⟨h1, h2, h3⟩
-  intro u hu v hv
-  have hp' := conv (connB_sound hb (hXW u hu) (hXW v hv))
-  have := rtg_pullback φ (fun z hz hzW => hWX z hz hzW) hp'
-  rwa [φ.gf u (hX hu), φ.gf v (hX hv)] at this
-
 /-- The interior on the instance side. -/
 theorem mem_interior_iff {G : UMultigraph V} {es : Edges} (φ : Iso G es) {j₁ j₂ : V} {J : ℕ}
     (hJ : JointsAt φ j₁ j₂ J) (hj₁ : j₁ ∈ G.verts) (hj₂ : j₂ ∈ G.verts) :
@@ -136,13 +106,5 @@ theorem mem_interior_iff {G : UMultigraph V} {es : Edges} (φ : Iso G es) {j₁ 
       rcases hJ with ⟨e1, e2⟩ | ⟨e1, e2⟩ <;> omega
     · have := congrArg φ.f h; rw [φ.fg z hz] at this
       rcases hJ with ⟨e1, e2⟩ | ⟨e1, e2⟩ <;> omega
-
-/-- **F3 soundness.** -/
-theorem interior_sound {G : UMultigraph V} {es : Edges} (φ : Iso G es) {j₁ j₂ : V} {J : ℕ}
-    (hJ : JointsAt φ j₁ j₂ J) (hj₁ : j₁ ∈ G.verts) (hj₂ : j₂ ∈ G.verts)
-    (hb : interiorConnB (maskOf es) es J (J + 1) = true) : ConnOn G (Core.interior G j₁ j₂) := by
-  obtain ⟨h1, h2⟩ := mem_interior_iff φ hJ hj₁ hj₂
-  exact connOn_of_connB φ hb h1 h2 (fun v hv => by
-    simp only [Core.interior, Finset.mem_erase] at hv; exact hv.2.2)
 
 end WaveTurbulence.TVine.Checker

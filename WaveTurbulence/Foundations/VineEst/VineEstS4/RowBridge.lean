@@ -74,54 +74,6 @@ theorem layerAt_nativeTree (D : ReconstructionData S) (hS : S.IsPlain) (layer : 
   · rfl
   · fin_cases i; rfl
 
-/-- The global link count as a count over the couple-local links. -/
-theorem coupleCnt_eq_local (D : ReconstructionData S) (hS : S.IsPlain) (LG : LayeredGarden w) (q : SourcePair S) :
-    coupleCnt D hS LG q = ((D.couple q).links.filter fun l =>
-      decide (layerAt LG (coupleAddr D hS q l.1) ≠ layerAt LG (coupleAddr D hS q l.2))).length := by
-  let f : Fin 2 × Path → Address w := coupleAddr D hS q
-  have h0 : RespectsAt f ((0 : Fin 2), []) := by
-    intro p; simp [f, coupleAddr, addrExt, coupleRoot]
-  have h1 : RespectsAt f ((1 : Fin 2), []) := by
-    intro p; simp [f, coupleAddr, addrExt, coupleRoot]
-  have hm := couple_linksAt_map_local (D.couple q) f _ _ h0 h1
-  have e0 : f ((0 : Fin 2), []) = coupleRoot D hS q 0 := by simp [f, coupleAddr, addrExt]
-  have e1 : f ((1 : Fin 2), []) = coupleRoot D hS q 1 := by simp [f, coupleAddr, addrExt]
-  rw [e0, e1] at hm
-  unfold coupleCnt linkCount
-  rw [hm, List.filter_map, List.length_map]
-  rfl
-
-/-- The global link count of a tree as a count over the tree-local links. -/
-theorem treeCnt_eq_local (D : ReconstructionData S) (LG : LayeredGarden w) (b : GBranch S.tree) :
-    treeCnt D LG b = (((D.tree b).treeLinks (nodeSign S.sig b.1)).filter fun l =>
-      decide (layerAt LG (treeAddr D b l.1) ≠ layerAt LG (treeAddr D b l.2))).length := by
-  let a := inflatedPosition S D.tree b.toNode
-  let f : Fin 1 × Path → Address w := treeAddr D b
-  have h0 : RespectsAt f ((0 : Fin 1), []) := by
-    intro p; simp [f, treeAddr, addrExt]
-  have hm := chain_linksAt_map_local (D.tree b) f _ h0 (nodeSign S.sig b.1)
-  have e0 : f ((0 : Fin 1), []) = a := by simp [f, treeAddr, addrExt, a]
-  rw [e0] at hm
-  unfold treeCnt linkCount
-  rw [hm, List.filter_map, List.length_map]
-  rfl
-
-/-- The endpoints of the couple-local links are nodes of the decoded couple. -/
-theorem couple_link_nodes (D : ReconstructionData S) (q : SourcePair S) {l : (Fin 2 × Path) × Fin 2 × Path}
-    (hl : l ∈ (D.couple q).links) :
-    l.1.2 ∈ ((decodedCouple (D.couple q)).tree l.1.1).nodes ∧ l.2.2 ∈ ((decodedCouple (D.couple q)).tree l.2.1).nodes := by
-  have hb := link_branching (decodedCouple_decodes (D.couple q)) hl
-  exact ⟨TTree.branching_subset_nodes _ hb.1, TTree.branching_subset_nodes _ hb.2.1⟩
-
-/-- The endpoints of the tree-local links are nodes of the plugged tree. -/
-theorem tree_link_nodes (D : ReconstructionData S) (b : GBranch S.tree)
-    {l : (Fin 1 × Path) × Fin 1 × Path} (hl : l ∈ (D.tree b).treeLinks (nodeSign S.sig b.1)) :
-    l.1.2 ∈ ((D.tree b).plug (nodeSign S.sig b.1) .leaf).nodes ∧ l.2.2 ∈ ((D.tree b).plug (nodeSign S.sig b.1) .leaf).nodes := by
-  have hX : (D.tree b).DecodesTree (decodedTree (D.tree b) (nodeSign S.sig b.1)) := decodedTree_decodes _ _
-  have hb1 := (tree_mem_pairEndpoints_links_iff hX l.1).1 ((mem_pairEndpoints_iff _ _).2 ⟨l, hl, Or.inl rfl⟩)
-  have hb2 := (tree_mem_pairEndpoints_links_iff hX l.2).1 ((mem_pairEndpoints_iff _ _).2 ⟨l, hl, Or.inr rfl⟩)
-  exact ⟨TTree.branching_subset_nodes _ hb1, TTree.branching_subset_nodes _ hb2⟩
-
 /-- **Couple bridge.**  The incoherency index of the native layered couple is the global link count. -/
 theorem incoherency_native_couple (D : ReconstructionData S) (hS : S.IsPlain) (layer : GNode (D.forest hS) → ℕ)
     (hLayer : IsLayering (D.garden hS) layer) (q : SourcePair S) :

@@ -1,6 +1,7 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
-public import WaveTurbulence.Foundations.Spine.LeafwiseModifications
+public import WaveTurbulence.Foundations.Spine.LeafwiseSpineInputs
+public import WaveTurbulence.Foundations.XChain.SNormPointwise
 /-! The original layer profiles as a literal specialization of the individual-leaf kernel. -/
 @[expose] public section
 set_option autoImplicit false

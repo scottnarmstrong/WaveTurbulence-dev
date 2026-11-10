@@ -55,11 +55,6 @@ theorem RungCore.sum_mult_a (hR : RungCore G a b xm xp ym yp Km Kp) (T : Finset 
         · simp [h1, h2, h3]
   simp only [h, Finset.sum_add_distrib, ← Finset.mul_sum, ind_sum_eq]
 
-theorem RungCore.sum_mult_b (hR : RungCore G a b xm xp ym yp Km Kp) (T : Finset V) :
-    ∑ w ∈ T, G.mult s(b, w) =
-      2 * (if a ∈ T then 1 else 0) + (if ym ∈ T then 1 else 0) + (if yp ∈ T then 1 else 0) :=
-  hR.swapAB.sum_mult_a T
-
 /-- The bonds of `E(S)` leaving `Km ∩ S`: the rails `a–xm` and `b–ym` when present. -/
 theorem RungCore.cut_induce_Km (hR : RungCore G a b xm xp ym yp Km Kp) {S : Finset V} (hS : S ⊆ G.verts) :
     cut (induce G S) (Km ∩ S) =

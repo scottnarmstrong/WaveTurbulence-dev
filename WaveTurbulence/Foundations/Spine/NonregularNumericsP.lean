@@ -12,9 +12,6 @@ namespace WaveTurbulence.LGSpine
 open WaveTurbulence.Induct
 open Set Filter
 
-theorem Lambda_withL (P : WTParams) (L : ℝ) (q : ℕ) :
-    ({P with L := L} : WTParams).Lambda q = P.Lambda q := rfl
-
 theorem delta_pow_absorbP {C₁ δ ν : ℝ} (hC₁ : 0 ≤ C₁) (hδ0 : 0 < δ) (hX : 2 * C₁ * δ ^ (6 * ν) ≤ 1)
     (N : ℕ) : (2 * C₁) ^ N * δ ^ (6 * ν * (N : ℝ)) ≤ 1 := by
   rw [Real.rpow_mul_natCast hδ0.le, ← mul_pow]

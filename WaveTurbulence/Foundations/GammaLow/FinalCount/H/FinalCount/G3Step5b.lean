@@ -11,8 +11,9 @@ public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3Run
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3Step5a
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3Steps
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineLikeConnected
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceCountingData
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceVineData
+public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceObjectUnion
+public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineChainJointNorm
+public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineLikeGapObjects
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.Step1.Prop94Ops
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.Step1.Prop94Statement
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.Step1.VCAdm
@@ -50,7 +51,6 @@ public import WaveTurbulence.Foundations.GammaLow.FinalCount.Step1.VineExcess3
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.Step1.VineExcess5
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.Step1.VineRank
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.Step1.VineRank2
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.S1Gaps
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Api
 /-! **L6-H port of main `WaveTurbulence.Foundations.FinalCount.G3Step5b`** (sha256 in H/COPIED-SHA256SUMS): only the declarations that
 depend on the vine-family carrier, re-stated over the low family `Src … Src.γL` (and L6-STEP1's

@@ -117,14 +117,6 @@ theorem lonePath_eq_nil_iff (X : RegChain) : X.lonePath = [] ↔ X.isNil = true 
 theorem addrExt_inj {a : Fin w × Path} {p q : Path} (h : addrExt a p = addrExt a q) : p = q := by
   simpa [addrExt] using congrArg Prod.snd h
 
-theorem mem_link_cond {L : List ((Fin w × Path) × (Fin w × Path))} {z : Fin w × Path}
-    (h : ∃ i : Fin 3, (z, addrExt z [i]) ∈ L) (L' : List ((Fin w × Path) × (Fin w × Path)))
-    (hs : L.Sublist L' ∨ ∀ x ∈ L, x ∈ L') : ∃ i : Fin 3, (z, addrExt z [i]) ∈ L' := by
-  obtain ⟨i, hi⟩ := h
-  rcases hs with hs | hs
-  · exact ⟨i, hs.subset hi⟩
-  · exact ⟨i, hs _ hi⟩
-
 mutual
 /-- **The two definitions of special nodes agree, couples**: a node is a recursive special
 candidate iff it is linked with one of its children (needs only that the two roots are
@@ -278,17 +270,5 @@ theorem specialList_nodup (Q : RegCpl) :
 theorem tree_specialList_nodup (X : RegChain) (ζ : ℤˣ) :
     (chainSpecial X ζ ((0 : Fin 1), ([] : Path))).Nodup :=
   (chainSpecial_sublist X ζ _).nodup (tree_chosen_nodup X ζ)
-
-/-- **The type-1 root is never special** (DH21 Def 4.18: "`𝔯` is not in `Z`"). -/
-theorem root_not_mem_specialList (c : MiniCplCode) (Q₁ Q₂ Q₃ : RegCpl) :
-    ((0 : Fin 2), ([] : Path)) ∉ cplSpecial (RegCpl.type1 c Q₁ Q₂ Q₃) (0, []) (1, []) := by
-  intro h
-  obtain ⟨i, hi⟩ := (mem_cplSpecial_iff _ _ _ indep_roots2 _).1 h
-  -- the link of the root `(0,[])` is the root link `((0,[]), (1,[]))`
-  have hnd2 := couple_links_flat_nodup (RegCpl.type1 c Q₁ Q₂ Q₃)
-  have hroot : (((0 : Fin 2), ([] : Path)), ((1 : Fin 2), ([] : Path))) ∈
-      (RegCpl.type1 c Q₁ Q₂ Q₃).links := List.mem_cons_self
-  have := eq_of_flat_nodup hnd2 hi hroot (Or.inl rfl) (Or.inl rfl)
-  simp [addrExt] at this
 
 end WaveTurbulence.Links

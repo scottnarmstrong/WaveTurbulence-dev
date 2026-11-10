@@ -23,15 +23,6 @@ theorem GroupIso.isVineT (G : GroupIso M S M' S' φ ι) {j₁ j₂ : V} (hS' : S
     (hv : M.IsTVine S j₁ j₂) : M'.IsTVine S' (φ j₁) (φ j₂) :=
   isTVine_map_of_groupBonds G.φinj G.img G.groupBonds_eq (G.isBlock hS' hv.1) hv
 
-/-- Low-family form of `FinalCountG3.GroupIso.isVine` (main's lemma at (I), (II), and `GroupIso.isVineT`). -/
-theorem GroupIso.isVineS (G : GroupIso M S M' S' φ ι) {j₁ j₂ : V} (hS' : S' ⊆ M'.atoms)
-    (hv : Src.IsSomeVine Src.γL M S j₁ j₂) : Src.IsSomeVine Src.γL M' S' (φ j₁) (φ j₂) := by
-  rcases hv.cases with h | h | h
-  · exact Src.isSomeVine_of_I (G.isVine hS' h)
-  · exact Src.isSomeVine_of_II (G.isVine hS' h)
-  · exact Src.isSomeVine_of_T (GroupIso.isVineT G hS' h)
-
 alias _root_.WaveTurbulence.FinalCountG3.GroupIso.isVineT := GroupIso.isVineT
-alias _root_.WaveTurbulence.FinalCountG3.GroupIso.isVineS := GroupIso.isVineS
 
 end WaveTurbulence.GammaLow.FinalCount.H.TV

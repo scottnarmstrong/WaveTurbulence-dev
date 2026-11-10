@@ -30,28 +30,5 @@ namespace LabelledGarden
       G.portEmbedding (.inr (D.v,D.perm i))
     rw [G.graph_mate_embedding,D.internal i hi]
 
-/-- Any actual embedded source mini produces a genuine labelled graph contraction. -/
-theorem graph_not_normal_of_mini {w : ℕ} {B : Type*} [DecidableEq B]
-    (G : LabelledGarden w B) (hG : G.garden.IsPlain) (h : MiniOccurrence G.garden) :
-    ¬ PortMatching.Normal G.graph := by
-  have hd : Nonempty (Dipole G.graph.mate) := by
-    cases h with
-    | opA b c k hm => exact ⟨G.graphDipole_of_branch hG (hm.branchDipole hG)⟩
-    | opB b c m hm => exact ⟨G.graphDipole_of_branch hG hm.branchDipole⟩
-  obtain ⟨D⟩ := hd
-  intro hn
-  exact hn ⟨D.contract,D.contract_involutive G.graph.involutive⟩ ⟨D,rfl⟩
-
-/-- Literal source primeness is exactly terminality of its labelled graph. -/
-theorem isPrimeGarden_iff_graph_normal {w : ℕ} {B : Type*} [DecidableEq B]
-    (G : LabelledGarden w B) (hG : G.garden.IsPlain) :
-    IsPrimeGarden G.garden ↔ PortMatching.Normal G.graph := by
-  constructor
-  · exact G.graph_normal_of_prime
-  · intro hn
-    refine ⟨hG,?_⟩
-    rintro ⟨hm⟩
-    exact G.graph_not_normal_of_mini hG hm hn
-
 end LabelledGarden
 end WaveTurbulence.Reg.Skeleton

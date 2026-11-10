@@ -39,10 +39,6 @@ theorem familySlotEquiv_x (X : Fin I → VineType) (A : ∀ i, Shape (X i)) (i :
 theorem familySlotEquiv_y (X : Fin I → VineType) (A : ∀ i, Shape (X i)) (i : Fin I) (j : Fin (A i).m) :
     familySlotEquiv X A i ((A i).ySlot j) = ((shapeFamily X A).ySlot i j).2 := Fin.ext rfl
 
-theorem shapeFamily_M (X : Fin I → VineType) (A : ∀ i, Shape (X i)) :
-    (shapeFamily X A).M = ∑ i, (A i).n := by
-  exact Finset.sum_congr rfl (fun i _ => shapeFamily_n X A i)
-
 noncomputable def familyTimeEquiv (X : Fin I → VineType) (A : ∀ i, Shape (X i)) :
     (shapeFamily X A).TVar ≃ Σ i, Fin (A i).n :=
   (Sumint.timeVectorEquiv (shapeFamily X A)).trans (Equiv.sigmaCongrRight (familySlotEquiv X A)).symm

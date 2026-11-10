@@ -1,6 +1,5 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
-public import WaveTurbulence.Foundations.FinalCount.AsmStuck
 public import WaveTurbulence.Foundations.FinalCount.G3RunN
 /-! **FINALCOUNT-ASSEMBLY, M7 (phase 4): existence of the `β`-cut phase.**  `epsCount` (the number of `ε` atoms) strictly
 decreases along every cut `ε → β,β`; `HStep4` is such a cut; so from every state satisfying `InvE` there is a reachable state in which no
@@ -46,25 +45,5 @@ theorem epsCount_cutSt_lt (s : St.{u} V D₀) {v v₂ : V} {x₁ x₂ : s.D} (hc
   unfold epsCount
   refine lt_of_le_of_lt (Finset.card_le_card hsub) ?_
   exact Finset.card_erase_lt_of_mem (Finset.mem_filter.2 ⟨hv, hε⟩)
-
-theorem epsCount_step4 {h h' : HSt V D₀} (hs : HStep4 L w κ h h') : epsCount h'.s < epsCount h.s := by
-  cases hs with
-  | cut v v₂ x₁ x₂ hc hε hβ hnz h3 =>
-    exact epsCount_cutSt_lt h.s hc hε .beta .beta (by simp) (by simp)
-
-/-- **Phase 4 exists**: from any state satisfying `InvE` the `β`-cut phase can be run to its stop condition. -/
-theorem exists_phase4 (h₃ : HSt V D₀) (hI : InvE M₀ R 0 L γ η w κ h₃) :
-    ∃ hf : HSt V D₀, Relation.ReflTransGen (HStep4 L w κ) h₃ hf ∧ InvE M₀ R 0 L γ η w κ hf ∧
-      NoBetaCut L w κ hf.s := by
-  obtain ⟨hf, hr, hP, hstuck⟩ := exists_stuck_inv (HStep4 L w κ) (fun h => epsCount h.s)
-    (InvE M₀ R 0 L γ η w κ) (fun _ _ hs => epsCount_step4 hs) (fun _ _ hs hI => hI.step4 hs) h₃ hI
-  refine ⟨hf, hr, hP, ?_⟩
-  intro v hv hdeg v₂ x₁ x₂ hc hnz
-  by_contra hβ
-  have hε : hf.s.cls v = .eps := by
-    by_contra hne
-    have := ((hP.good0 rfl).1.ab v hv hne).1
-    omega
-  exact hstuck _ (HStep4.cut hf v v₂ x₁ x₂ hc hε hβ hnz hdeg)
 
 end WaveTurbulence.FinalCountAsm

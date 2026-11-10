@@ -6,7 +6,6 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.VineEst.VineEstS3.Step3At
-public import WaveTurbulence.Foundations.VineEst.VineEstS3.NumericCore
 public import WaveTurbulence.Foundations.GammaLow.Famb.Family
 public import WaveTurbulence.Foundations.VineEst.VineEstS3.Step3Facts
 public import WaveTurbulence.Foundations.GammaLow.Famb.VineEstS3.Step3At

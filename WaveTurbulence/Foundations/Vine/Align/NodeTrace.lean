@@ -71,10 +71,6 @@ theorem stShape_leaf_eqMk (hM : S.molecule.IsMolecule) (σ : Prescription S) {Mk
   exact fold_leaf_eq (unitBlocks (Mk := Mk) S σ) (unitBlocks_pairwiseMk (Mk := Mk) hM σ) _ _
     (FoldInv.init S) (spliceLeafTrace_init S) rfl (fun _ _ _ h => h.elim)
 
-/-- VINE-B's actual shape leaf map equals VINE-A's actual original-leaf trace. -/
-theorem stShape_leaf_eq (hM : S.molecule.IsMolecule) (σ : Prescription S) :
-    (stShape hM σ).leaf = (spliceFoldLeafTrace (unitBlocks S σ)).leaf := stShape_leaf_eqMk (Mk := ∅) hM σ
-
 /-- B1b (Mk-general form of `stShape_node_eq`). -/
 theorem stShape_node_eqMk (hM : S.molecule.IsMolecule) (σ : Prescription S)
     {Mk : Set (Stage1.CLVine _)} (n : GNode (stSt (Mk := Mk) S σ).G.tree) :
@@ -83,10 +79,5 @@ theorem stShape_node_eqMk (hM : S.molecule.IsMolecule) (σ : Prescription S)
   · exact ((stShape (Mk := Mk) hM σ).br_node b).symm.trans (spliceOldNode_branch _ b).symm
   · rw [← (stShape (Mk := Mk) hM σ).leaf_node, stShape_leaf_eqMk (Mk := Mk)]
     exact (spliceOldNode_leaf _ l).symm
-
-/-- VINE-B's actual shape node map is VINE-A's complete original-node map. -/
-theorem stShape_node_eq (hM : S.molecule.IsMolecule) (σ : Prescription S)
-    (n : GNode (stSt S σ).G.tree) :
-    (stShape hM σ).node n = spliceOldNode (unitBlocks S σ) n := stShape_node_eqMk (Mk := ∅) hM σ n
 
 end WaveTurbulence.VineAlign

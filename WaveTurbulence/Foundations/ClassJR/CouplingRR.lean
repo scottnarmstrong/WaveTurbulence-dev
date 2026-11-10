@@ -268,9 +268,6 @@ theorem lintegral_lintegral_add3 {F₁ F₂ F₃ : ℝ → ℝ → ℝ≥0∞} (
     (1 + |x0|) ^ (-1 : ℝ) * (1 + |x1|) ^ (-(1 - θ)) * (1 + |x2|) ^ (-1 : ℝ) +
       (1 + |x0|) ^ (-1 : ℝ) * (1 + |x1|) ^ (-1 : ℝ) * (1 + |x2|) ^ (-(1 - θ))
 
-theorem tri3_nonneg (θ x0 x1 x2 : ℝ) : 0 ≤ tri3 θ x0 x1 x2 := by
-  unfold tri3; positivity
-
 /-- The constant of `lintegral_tri3_le`. -/
 @[expose] noncomputable def D3 (θ : ℝ) : ℝ := 12 * (Ir ((3 - θ) / 2) * Ir ((3 - θ) / 2))
 

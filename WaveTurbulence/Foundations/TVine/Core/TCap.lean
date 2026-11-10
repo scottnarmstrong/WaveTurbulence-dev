@@ -78,21 +78,6 @@ theorem rungDel_block_of_tvine {X : UMultigraph V} {p q a b xm xp ym yp : V} {Km
 
 /-! ## Indicators -/
 
-theorem ind_eq_zero_of_mem {e : Sym2 V} {v x y : V} (hv : v ∈ e) (hx : x ≠ v) (hy : y ≠ v) :
-    (if e = s(x, y) then 1 else 0) = 0 := by
-  rw [if_neg]
-  rintro rfl
-  rcases Sym2.mem_iff.mp hv with h | h
-  exacts [hx h.symm, hy h.symm]
-
-theorem rungAdds_count_eq_zero {xm xp ym yp p q : V} {μ : Bool} {e : Sym2 V}
-    (h : ∀ f ∈ rungAdds xm xp ym yp μ, p ∈ f ∨ q ∈ f) (hp : p ∉ e) (hq : q ∉ e) :
-    (rungAdds xm xp ym yp μ).count e = 0 := by
-  apply Multiset.count_eq_zero.mpr
-  intro he
-  rcases h e he with h' | h'
-  exacts [hp h', hq h']
-
 theorem sym2_ne_of {u x y z : V} (hy : u ≠ y) (hz : u ≠ z) : s(u, x) ≠ s(y, z) := by
   intro h
   rcases Sym2.eq_iff.mp h with ⟨h1, -⟩ | ⟨h1, -⟩

@@ -85,29 +85,6 @@ theorem corePosition_heq (h : T = S) {D1 : ReconstructionData T} {D2 : Reconstru
   subst this
   rw [Subtype.ext hb]
 
-theorem tree_heq (h : T = S) {D1 : ReconstructionData T} {D2 : ReconstructionData S}
-    (hD : HEq D1 D2) {b1 : GBranch T.tree} {b2 : GBranch S.tree} (hb : b1.1 = b2.1) :
-    D1.tree b1 = D2.tree b2 := by
-  subst h
-  have := eq_of_heq hD
-  subst this
-  rw [Subtype.ext hb]
-
-theorem couple_heq (h : T = S) {D1 : ReconstructionData T} {D2 : ReconstructionData S}
-    (hD : HEq D1 D2) {q1 : SourcePair T} {q2 : SourcePair S} (hq : q1.1 = q2.1) :
-    D1.couple q1 = D2.couple q2 := by
-  subst h
-  have := eq_of_heq hD
-  subst this
-  rw [Subtype.ext hq]
-
-theorem garden_heq (h : T = S) {D1 : ReconstructionData T} {D2 : ReconstructionData S}
-    (hD : HEq D1 D2) (h1 : T.IsPlain) (h2 : S.IsPlain) : D1.garden h1 = D2.garden h2 := by
-  subst h
-  have := eq_of_heq hD
-  subst this
-  rfl
-
 theorem decodes_heq (h : T = S) {D1 : ReconstructionData T} {D2 : ReconstructionData S}
     (hD : HEq D1 D2) (h1 : T.IsPlain) (h2 : S.IsPlain) (G : Garden w) :
     D1.Decodes h1 G ↔ D2.Decodes h2 G := by

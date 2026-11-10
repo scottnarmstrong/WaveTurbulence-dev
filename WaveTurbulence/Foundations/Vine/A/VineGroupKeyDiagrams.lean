@@ -28,17 +28,6 @@ theorem hvGroupKey_twist (hS : SingleHVGroup G S) (t : {t // HVCandidate G S t})
     coarseAtomWord Z.target (Z.iso.e t.1.2.1), _] = _
   rw [coarseAtomWord_twist Z hsel, coarseAtomWord_twist Z hsel]
 
-/-- The entire finite normalized HV candidate set agrees, not just the chosen key. -/
-theorem hvNormalizedCandidates_twist (hS : SingleHVGroup G S) :
-    Set.range (hvGroupKey (hS.map Z.iso)) = Set.range (hvGroupKey hS) := by
-  ext k
-  constructor
-  · rintro ⟨t, rfl⟩
-    obtain ⟨u, rfl⟩ := (hvCandidateEquiv Z.iso S).surjective t
-    exact ⟨u, (hvGroupKey_twist Z hsel hS u).symm⟩
-  · rintro ⟨t, rfl⟩
-    exact ⟨hvCandidateEquiv Z.iso S t, hvGroupKey_twist Z hsel hS t⟩
-
 /-- Complete normalized support words agree under the actual atom map. -/
 theorem coarseSupportWord_twist (A : Finset (GBranch G.tree)) :
     coarseSupportWord Z.target (Z.iso.img A) = coarseSupportWord G A := by
@@ -57,17 +46,5 @@ theorem dvGroupKey_twist (t : Finset (GBranch G.tree) × GBranch G.tree × GBran
     [coarseAtomWord Z.target (Z.iso.e t.2.2)]] = _
   rw [coarseSupportWord_twist Z hsel, coarseAtomWord_twist Z hsel, coarseAtomWord_twist Z hsel]
   rfl
-
-/-- The entire finite normalized DV candidate set agrees before minimization. -/
-theorem dvNormalizedCandidates_twist :
-    Set.range (fun t : {t // DVCandidate Z.target (Z.iso.img S) t} => dvGroupKey Z.target t.1) =
-      Set.range (fun t : {t // DVCandidate G S t} => dvGroupKey G t.1) := by
-  ext k
-  constructor
-  · rintro ⟨t, rfl⟩
-    obtain ⟨u, rfl⟩ := (dvCandidateEquiv Z.iso S).surjective t
-    exact ⟨u, (dvGroupKey_twist Z hsel u.1).symm⟩
-  · rintro ⟨t, rfl⟩
-    exact ⟨dvCandidateEquiv Z.iso S t, dvGroupKey_twist Z hsel t.1⟩
 
 end WaveTurbulence.VineA

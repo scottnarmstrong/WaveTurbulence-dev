@@ -14,18 +14,6 @@ open WaveTurbulence.Vine
 open Finset
 variable {V D : Type*} [DecidableEq V] [Fintype D] [DecidableEq D]
 
-/-- A chain of n nonempty vine ingredients has at least n+1 atoms. -/
-theorem chain_card_ge {M : Molecule V D} {S : Finset V} {a b : V} {n : ℕ}
-    (h : Src.Chain Src.γL M S a b n) : n+1 ≤ S.card := by
-  induction h with
-  | single h => have hX := h; exact (Src.IsSomeVine.card_ge_two hX)
-  | @append S T a b c n hS hT hi _hne ih =>
-    have hX := hT
-    have htwo := (Src.IsSomeVine.card_ge_two hX)
-    have hc := card_union_add_card_inter S T
-    rw [hi,card_singleton] at hc
-    omega
-
 omit [Fintype D] [DecidableEq D] in
 /-- (Y2) steps only delete vertices. -/
 theorem y2_verts_subset {G G' : TVine.UMultigraph V} (hr : Relation.ReflTransGen TVine.Y2Step G G') :

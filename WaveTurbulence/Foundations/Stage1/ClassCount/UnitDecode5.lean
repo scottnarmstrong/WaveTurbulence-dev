@@ -181,31 +181,4 @@ theorem right_run_eq (N : Molecule V D) (hN : N.IsMolecule) {S A L0 R0 L R : Fin
           (by rw [hS1]; exact Finset.subset_union_right) (by rw [hS0]) hB0.2.1 hL0
 
 
-/-- Erasing a bond not inside a group does not change the arcs of the group. -/
-theorem groupArcs_erase (M : Molecule V D) (e : D) (S : Finset V)
-    (hS : ¬ (M.atom e ∈ S ∧ M.atom (M.mate e) ∈ S)) (lab : V → ℕ) :
-    groupArcs (M.eraseBond e) S lab = groupArcs M S lab := by
-  classical
-  unfold groupArcs
-  have hne : ∀ x : D, M.InGroup S x → x ≠ e ∧ x ≠ M.mate e := by
-    intro x hx
-    constructor
-    · rintro rfl; exact hS hx
-    · rintro rfl
-      exact hS ⟨hx.2 |> fun h => by rw [M.mate_mate] at h; exact h, hx.1⟩
-  have hmap : ((Finset.univ : Finset {x : D // x ≠ e ∧ x ≠ M.mate e}).filter
-      fun x => (M.eraseBond e).out x = true ∧ (M.eraseBond e).InGroup S x).map
-        ⟨Subtype.val, Subtype.val_injective⟩ =
-      (Finset.univ : Finset D).filter fun x => M.out x = true ∧ M.InGroup S x := by
-    ext x
-    simp only [Finset.mem_map, Finset.mem_filter, Finset.mem_univ, true_and, Function.Embedding.coeFn_mk]
-    constructor
-    · rintro ⟨y, hy, rfl⟩; exact hy
-    · intro hx
-      exact ⟨⟨x, hne x hx.2⟩, hx, rfl⟩
-  have hval := congrArg Finset.val hmap
-  rw [Finset.map_val] at hval
-  rw [← hval, Multiset.map_map]
-  rfl
-
 end WaveTurbulence.ClassCount

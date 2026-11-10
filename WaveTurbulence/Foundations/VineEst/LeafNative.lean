@@ -95,22 +95,4 @@ theorem chainLeaf_pair (b : GBranch S.tree) (ℓ : NativeLeaf D (.inr b)) :
     exact congrArg Subtype.val (h7.symm.trans h8)
 
 
-theorem coupleRoot_sign (p : SourcePair S) (i : Fin 2) :
-    nodeSign S.sig (coupleRoot D hS p i) = if i = 0 then 1 else -1 := by
-  have hv := ((rawOfGarden_valid S hS).1 p.1 p.2)
-  unfold coupleRoot
-  split_ifs with h
-  · rw [inflatedPosition_sign]; exact hv.2.2.1
-  · rw [inflatedPosition_sign]; exact hv.2.2.2
-
-theorem coupleLeaf_sign (p : SourcePair S) (ℓ : NativeLeaf D (.inl p)) :
-    nodeSign S.sig (nativeLeafAt D hS (.inl p) ℓ).1 =
-      pathSign (if ℓ.1.1 = 0 then 1 else -1) ℓ.1.2 := by
-  rw [coupleLeaf_addr, nodeSign_addrExt, coupleRoot_sign]
-
-theorem chainLeaf_sign (b : GBranch S.tree) (ℓ : NativeLeaf D (.inr b)) :
-    nodeSign S.sig (nativeLeafAt D hS (.inr b) ℓ).1 = pathSign (nodeSign S.sig b.1) ℓ.1.1.2 := by
-  rw [chainLeaf_addr, nodeSign_addrExt, inflatedPosition_sign]
-  rfl
-
 end WaveTurbulence.LFTwist

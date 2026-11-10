@@ -197,17 +197,6 @@ theorem memShape_slotBox (hG : (stSt a.prime.skeleton a.totalSigma (mk a.prime))
     simp only [SpliceShape.iota] at h0 h1 ⊢
     simp only [slotBox, h0, h1]
 
-/-- Main's `sourceShape_hbox` at a marking. -/
-theorem memShape_hbox (hG : (stSt a.prime.skeleton a.totalSigma (mk a.prime)).G.IsPlain)
-    (tt : Fin (2 * R) → ℝ) (htt : ∀ j, tt j ∈ Set.Icc (p : ℝ) (p + 1)) :
-    ∀ τ ∈ coreTimeDomainW (fun b => stateLayer y.1 (y.1.data.coreBranch y.1.plain b).toNode) tt,
-      ∀ s, slotTs y.1.plain tt τ ((memShape a mk y hy).iota y.1.plain hG s) ∈
-        slotBox p (fun b => sourceLayer a (a.prime.data.coreBranch a.prime.prime.1 b).toNode) a.prime.prime.1
-          ((stShape (Mole.garden_isMolecule a.prime.skeleton) a.totalSigma (mk a.prime)).iota a.prime.prime.1 hG s) := by
-  intro τ hτ s
-  rw [← memShape_slotBox a mk y hy hG s]
-  exact slotTs_mem_slotBox p _ y.1.plain tt htt τ (coreTimeDomainW_subset_spliced _ _ _ hτ) _
-
 end Shape
 
 /-! ## The common selection at a marking -/

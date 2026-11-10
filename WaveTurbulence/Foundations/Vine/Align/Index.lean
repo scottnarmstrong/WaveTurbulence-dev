@@ -18,15 +18,4 @@ theorem member_upper_tree_index (hr : ReachU p kind Q L A us B vs) (hn : L.Nodup
   have h := reachU_coordinates hr hn (batchMolIso_spec hr.batch) j
   exact (congrArg (fun b => b.1.1) h.2.1).trans ((batchMolIso_spec hr.batch).tree_index _)
 
-/-- The leaf profile used by each unit is the common representative profile. -/
-theorem member_unitProfile {J : Type} {Q : J → ι → Prop}
-    {us : ∀ j, UnitAt A.skeleton A.family (Q j)} {vs : ∀ j, UnitAt B.skeleton B.family (Q j)}
-    (hr : ReachU p kind Q L A us B vs) (hn : L.Nodup) {d : ℕ}
-    (f : ℕ → Fin w → Fin w → Mom d → ℝ) :
-    unitProfile (fun j => unitClBlock (vs j)) f = unitProfile (fun j => unitClBlock (us j)) f := by
-  funext j
-  unfold unitProfile
-  rw [show (unitClBlock (vs j)).upper.1.1 = (unitClBlock (us j)).upper.1.1 from
-    member_upper_tree_index hr hn j]
-
 end WaveTurbulence.VineAlign

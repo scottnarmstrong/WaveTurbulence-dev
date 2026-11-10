@@ -105,41 +105,6 @@ theorem cplB_eq_Btilde {G : Garden 2} {Q : RegCpl} (hQ : Q.Decodes G) {α : Clas
   rw [cplB_eq G ht hs, treeBeta_eq_betaAt hsig, treeBeta_eq_betaAt hsig, h0, h1]
   exact treesProp α Q _ _ nodeSgn_root_plus nodeSgn_root_minus hα t s
 
-/-- **DH21 Proposition 5.1 for regular couples, through gardens** (with the DH23 weights of
-`ClassJR.RegCpl.maincoef`). `hstruct` is the named obligation `existsUnique_regCpl_decodes`
-(REG-STRUCT, statement verbatim). Every regular couple `G` has a unique well-formed code `Q`; the
-garden coefficient `B_Q` of `G` is `B̃_Q` under the link relation; and `B̃_Q` has the expansion
-(maincoef1)–(maincoef3) over `𝒩^ch`. -/
-theorem maincoef_garden
-    (hstruct : ∀ G : Garden 2, IsRegularCouple G → ∃! Q : RegCpl, Q.wf = true ∧ Q.Decodes G)
-    {θ a b A : ℝ} (hθ0 : 0 ≤ θ) (hθ1 : θ < 1) (ha : 0 < a) (hb : 0 ≤ b) (hab1 : a + b < 1)
-    (hab : a + b ≤ θ) (hA : ClassJR.A1 ≤ A) (G : Garden 2) (hG : IsRegularCouple G) :
-    ∃! Q : RegCpl, (Q.wf = true ∧ Q.Decodes G) ∧
-      (∀ α : ClassJR.Addr → ℝ, (∀ l ∈ (toJR Q).links, LinkRel α l) → ∀ t s : ℝ, 0 ≤ t → 0 ≤ s →
-        cplB G t s α = (toJR Q).Btilde α t s) ∧
-      ClassJR.MCExp θ a b A (ClassJR.C0 θ a b ^ (2 * Q.size + 1)) ClassJR.nodeSgn
-        (ClassJR.chosenSet (toJR Q).links) (toJR Q).Btilde := by
-  obtain ⟨Q, hQ, huniq⟩ := hstruct G hG
-  refine ⟨Q, ⟨hQ, fun α hα t s ht hs => cplB_eq_Btilde hQ.2 hα ht hs, ?_⟩,
-    fun Q' hQ' => huniq Q' hQ'.1⟩
-  have h := ClassJR.RegCpl.maincoef hθ0 hθ1 ha hb hab1 hab hA (toJR Q) (by rw [wf_toJR]; exact hQ.1)
-  rwa [size_toJR] at h
-
-/-- `maincoef_garden` with the weights of DH23 (L955–L969): `θ = 1 - η/8`, `a = η/4`,
-`b = 1 - η/2`. -/
-theorem maincoef_garden_DH23
-    (hstruct : ∀ G : Garden 2, IsRegularCouple G → ∃! Q : RegCpl, Q.wf = true ∧ Q.Decodes G)
-    {η A : ℝ} (hη : 0 < η) (hη2 : η ≤ 2) (hA : ClassJR.A1 ≤ A) (G : Garden 2)
-    (hG : IsRegularCouple G) :
-    ∃! Q : RegCpl, (Q.wf = true ∧ Q.Decodes G) ∧
-      (∀ α : ClassJR.Addr → ℝ, (∀ l ∈ (toJR Q).links, LinkRel α l) → ∀ t s : ℝ, 0 ≤ t → 0 ≤ s →
-        cplB G t s α = (toJR Q).Btilde α t s) ∧
-      ClassJR.MCExp (1 - η / 8) (η / 4) (1 - η / 2) A
-        (ClassJR.C0 (1 - η / 8) (η / 4) (1 - η / 2) ^ (2 * Q.size + 1)) ClassJR.nodeSgn
-        (ClassJR.chosenSet (toJR Q).links) (toJR Q).Btilde :=
-  maincoef_garden hstruct (by linarith) (by linarith) (by linarith) (by linarith) (by linarith)
-    (by linarith) hA G hG
-
 /-! ### The kernel form (Wave B's `kDomain`, `phaseIntegral`) -/
 
 /-- **Wave B's phase integral of a decoded couple is `B̃_Q`**: for a layered couple in layer `0`

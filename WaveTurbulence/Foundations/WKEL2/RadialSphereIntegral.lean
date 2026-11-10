@@ -25,11 +25,6 @@ variable {d : ℕ}
 
 attribute [local instance] referenceMeasureSpace referenceBorelSpace
 
-/-- Measurable ambient inclusion of a great sphere. -/
-theorem measurable_greatSphere_inclusion (ℓ : Mom d) :
-    Measurable (fun θ : sphere (0 : ↥(ℝ ∙ ℓ)ᗮ) 1 => (θ.1 : Mom d)) :=
-  (continuous_subtype_val.comp continuous_subtype_val).measurable
-
 /-- Measurability of the radial weight on a fixed great sphere. -/
 theorem measurable_radialWeight_sphere (s : ℝ) (ℓ k : Mom d) :
     Measurable (fun θ : sphere (0 : ↥(ℝ ∙ ℓ)ᗮ) 1 => radialWeight d s k θ.1) := by

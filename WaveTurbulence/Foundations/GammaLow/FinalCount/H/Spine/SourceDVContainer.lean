@@ -1,7 +1,6 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 public import WaveTurbulence.Foundations.Spine.SourceDVContainer
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineDVDegrees
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineDVMissingJoint
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineObjects
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceDiamondContradiction

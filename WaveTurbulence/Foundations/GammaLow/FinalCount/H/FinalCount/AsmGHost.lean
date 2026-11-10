@@ -83,13 +83,6 @@ theorem adjOf_hyper {M : Molecule V D} (O : Src.Object Src.γL M) (hh : ∃ R, O
   | vc _ => cases hR
   | hyper R' => exact ⟨_, rfl⟩
 
-theorem adjOf_vc {M : Molecule V D} (O : Src.Object Src.γL M) (hvc : ∃ h, O.shape = .vc h) : adjOf O = none := by
-  obtain ⟨S, a, b, sh⟩ := O
-  obtain ⟨h, hh⟩ := hvc
-  cases sh with
-  | vc _ => rfl
-  | hyper R' => cases hh
-
 theorem containsDart_inGroup' {M : Molecule V D} (O : Src.Object Src.γL M) {z : D} (h : O.ContainsDart z) : M.InGroup O.atoms z := by
   unfold Src.Object.ContainsDart at h
   split at h

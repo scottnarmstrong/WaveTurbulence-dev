@@ -87,62 +87,6 @@ theorem snorm_plain_le (hA : A ≠ 0) (c : ℝ) (hβ : 0 ≤ βM)
   refine mul_le_mul' (le_of_eq ?_) hM
   rw [← ofReal_norm, Complex.norm_real, Real.norm_eq_abs]
 
-theorem snorm_diff_le (c : ℝ) (hβ : 0 ≤ βM) {ε : ℝ} (hε : |ε| ≤ 1)
-    (hM : SNorm (A + 1) W (cm M) ≤ ENNReal.ofReal βM) :
-    ⨆ r : Mom d, SNorm A W (spDiff c M ε r) ≤ ENNReal.ofReal (|c| * ((2 : ℝ) ^ W * (d : ℝ) ^ (A + 1) * βM)) := by
-  refine snorm_cutW_le _ fun r hr => ?_
-  refine (VineEstS3.Eng.SNorm_smul_le A W (c : ℂ) _).trans ?_
-  have h2 := SNorm_diffQuot_le hβ hM (ε • r) (norm_smul_unit hε hr)
-  rw [ENNReal.ofReal_mul (abs_nonneg c)]
-  refine mul_le_mul' (le_of_eq ?_) h2
-  rw [← ofReal_norm, Complex.norm_real, Real.norm_eq_abs]
-
-theorem snorm_shift_le (hd : 1 ≤ d) (hA : A ≠ 0) (c : ℝ) (hβ : 0 ≤ βM) {ε : ℝ} (hε : |ε| ≤ 1)
-    (hM : SNorm (A + 1) W (cm M) ≤ ENNReal.ofReal βM) :
-    ⨆ r : Mom d, SNorm A W (spShift c M ε r) ≤
-      ENNReal.ofReal (|c| * ((2 : ℝ) ^ W * (d : ℝ) ^ A * βM)) := by
-  have hQc : ContDiff ℝ A (cm M) :=
-    (contDiff_of_SNorm_le' (Nat.succ_ne_zero A) (cm M) βM hM).of_le (by exact_mod_cast Nat.le_succ A)
-  have hmono : SNorm A W (cm M) ≤ ENNReal.ofReal βM := SNorm_mono_bound (Nat.le_succ A) le_rfl (cm M)
-    (contDiff_of_SNorm_le' (Nat.succ_ne_zero A) (cm M) βM hM) βM hβ hM
-  refine snorm_cutW_le _ fun r hr => ?_
-  have hsh := SNorm_translate_le hd hQc hβ hmono (ε • r) (norm_smul_unit hε hr)
-  refine (VineEstS3.Eng.SNorm_smul_le A W (c : ℂ) _).trans ?_
-  rw [ENNReal.ofReal_mul (abs_nonneg c)]
-  refine mul_le_mul' (le_of_eq ?_) hsh
-  rw [← ofReal_norm, Complex.norm_real, Real.norm_eq_abs]
-
-theorem snorm_prodDiff_le (hd : 1 ≤ d) (hA : A ≠ 0) (c : ℝ) (hβM : 0 ≤ βM) (hβN : 0 ≤ βN) {ε : ℝ} (hε : |ε| ≤ 1)
-    (hM : SNorm (A + 1) W (cm M) ≤ ENNReal.ofReal βM) (hN : SNorm (A + 1) 0 (cm N) ≤ ENNReal.ofReal βN) :
-    ⨆ r : Mom d, SNorm A W (spProdDiff c M N ε r) ≤
-      ENNReal.ofReal (|c| * ((2 : ℝ) ^ A * (d : ℝ) ^ A * ((2 : ℝ) ^ 0 * (d : ℝ) ^ (A + 1) * βN) * βM)) := by
-  refine snorm_cutW_le _ fun r hr => ?_
-  have h := (kt_IIb (A := A) (W := W) hd (MQ := cm M) (MT := cm N) hβM hβN hM hN (ε • r) (norm_smul_unit hε hr)).1
-  refine (VineEstS3.Eng.SNorm_smul_le A W (c : ℂ) _).trans ?_
-  rw [ENNReal.ofReal_mul (abs_nonneg c)]
-  refine mul_le_mul' (le_of_eq ?_) ?_
-  · rw [← ofReal_norm, Complex.norm_real, Real.norm_eq_abs]
-  · exact le_trans (le_of_eq (by congr 1)) h
-
-theorem snorm_prod_le (hd : 1 ≤ d) (hA : A ≠ 0) (c : ℝ) (hβM : 0 ≤ βM) (hβN : 0 ≤ βN)
-    (hM : SNorm (A + 1) W (cm M) ≤ ENNReal.ofReal βM) (hN : SNorm (A + 1) 0 (cm N) ≤ ENNReal.ofReal βN) :
-    ⨆ r : Mom d, SNorm A W (spProd c M N r) ≤
-      ENNReal.ofReal (|c| * ((2 : ℝ) ^ A * (d : ℝ) ^ A * βN * βM)) := by
-  have hMc : ContDiff ℝ A (cm M) :=
-    (contDiff_of_SNorm_le' (Nat.succ_ne_zero A) (cm M) βM hM).of_le (by exact_mod_cast Nat.le_succ A)
-  have hNc : ContDiff ℝ A (cm N) :=
-    (contDiff_of_SNorm_le' (Nat.succ_ne_zero A) (cm N) βN hN).of_le (by exact_mod_cast Nat.le_succ A)
-  have hM' : SNorm A W (cm M) ≤ ENNReal.ofReal βM := SNorm_mono_bound (Nat.le_succ A) le_rfl (cm M)
-    (contDiff_of_SNorm_le' (Nat.succ_ne_zero A) (cm M) βM hM) βM hβM hM
-  have hN' : SNorm A 0 (cm N) ≤ ENNReal.ofReal βN := SNorm_mono_bound (Nat.le_succ A) le_rfl (cm N)
-    (contDiff_of_SNorm_le' (Nat.succ_ne_zero A) (cm N) βN hN) βN hβN hN
-  have h := SNorm_mul_le hd (cm N) (cm M) hNc hMc hβN hβM hN' hM'
-  refine iSup_le fun r => ?_
-  refine (VineEstS3.Eng.SNorm_smul_le A W (c : ℂ) _).trans ?_
-  rw [ENNReal.ofReal_mul (abs_nonneg c)]
-  refine mul_le_mul' (le_of_eq ?_) h
-  rw [← ofReal_norm, Complex.norm_real, Real.norm_eq_abs]
-
 theorem snorm_one_le' (A : ℕ) : ⨆ r : Mom d, SNorm A 0 (spOne r) ≤ ENNReal.ofReal 1 :=
   iSup_le fun _ => SNorm_one_le A
 

@@ -5,7 +5,6 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.Flower.MkSlots.Rest
 public import WaveTurbulence.Foundations.Flower.MkSlots.IntCount
 
 /-! # B3s-HELPER3 B4 (1/4): the values and layers of the pattern pins
@@ -206,25 +205,6 @@ theorem fixCap_val {LG : LayeredGarden w} {J : Finset (Fin w)} {p : ℕ} {pat : 
   · exact ⟨hs.1, by linarith [hs.2], hs.2.le⟩
   · exact ⟨hs.1.trans hs.2, ht.le, le_rfl⟩
 
-/-- **`mono` for the member pins**: if `b'` is a strict descendant of `b` (same tree, `b`'s address a proper prefix
-of `b'`'s) and both are pinned, then the pin of `b'` is at most that of `b` (the lower pin is `s`, a non-root). -/
-theorem fixCap_mono {LG : LayeredGarden w} {J : Finset (Fin w)} {pat : Fin w → FixPat} {t s : ℝ} (hst : s ≤ t)
-    {b b' : GBranch LG.garden.tree} (hdesc : b.toNode.IsDesc b'.toNode) (hne : b ≠ b') {v v' : ℝ}
-    (h : fixCap LG J pat t s b = some v) (h' : fixCap LG J pat t s b' = some v') : v' ≤ v := by
-  have hnr : b'.1.2 ≠ [] := by
-    intro h0
-    apply hne
-    have hp : b.1.2 <+: b'.1.2 := hdesc.2
-    rw [h0, List.prefix_nil] at hp
-    exact Subtype.ext (Prod.ext hdesc.1 (hp.trans h0.symm))
-  have hv' : v' = s := by
-    rcases fixCap_value h' with hv | ⟨-, h0, -⟩
-    · exact hv
-    · exact absurd h0 hnr
-  rcases fixCap_value h with hv | ⟨hv, -, -⟩
-  · rw [hv', hv]
-  · rw [hv', hv]; exact hst
-
 /-! ## The pins of the class piece on `G_sb` -/
 
 section Piece
@@ -305,49 +285,5 @@ theorem fixOf_hinge (kSel : Fin w → Option ℕ)
 end Piece
 
 /-! ## The six B3s fields with the pattern pins -/
-
-/-- **The six B3s fields for the pattern data** (`Rest.pieceRest_alpha` for an arbitrary pattern). `hroot`: every
-non-cap tree of the representative carries a capped flower (`pieceRest_patJ` derives it from `J.card = R`). -/
-theorem pieceRest_pat (P : WTParams) {R : ℕ} (J : Finset (Fin (2 * R))) (p : ℕ) (pat : Fin (2 * R) → FixPat)
-    (mkF : Stage1Mk.MarkFn (2 * R)) (a : PrescribedPrimeGarden (2 * R)) (hG : CapGeo a.layered J p)
-    (hpat : CapPatValid a.layered J pat p)
-    (hroot : ∀ j ∉ J, ∃ ℓ : GLeaf a.layered.garden.tree, IsCapFlower a.layered J ℓ ∧ ℓ.1.1 = j)
-    (t s : ℝ) (hs : s ∈ Ioo (p : ℝ) t) (ht : t < p + 1) (kSel : Fin (2 * R) → Option ℕ)
-    (dag : Option (Fin (2 * R) → Fin 3 → Mom P.d)) (flw : GBranch (stA mkF a).G.tree → Fin 3 → Prop) (cθ : ℝ) :
-    PieceRestB3s (classPiece P mkF a (protOf J pat t s kSel mkF a) (protI a.layered J pat t s kSel).card
-      (fixOf J pat t s mkF a) (fun _ => none) (sibIndOf J mkF a dag flw)) cθ where
-  prot_card := (card_protOf_le J _ t s kSel mkF a).trans (Nat.le_mul_of_pos_left _ (by norm_num))
-  fix_prot b hb := fixOf_prot b hb
-  fix_layer b x hb := by
-    have hb' : fixOf J pat t s mkF a b = some x := hb
-    have := fixOf_val J pat t s mkF a hG hpat hroot hs ht b x hb'
-    exact ⟨this.1.le, this.2.1⟩
-  filt_ok a q hq := by
-    change (none : Option (ℝ × SchwartzMap ℝ ℂ)) = some q at hq
-    exact absurd hq (by simp)
-  ind_ok k := sibIndOf_mem J mkF a dag flw k
-  ind_local k k' h := sibIndOf_local J pat t s kSel mkF a dag flw k k'
-    fun c hc i => (h c (Finset.mem_union_right _ hc) i).1
-  lb_free b hb := by
-    change ((none : Option ℝ)).isSome = true at hb
-    simp at hb
-  lb_prot b hb := by
-    change ((none : Option ℝ)).isSome = true at hb
-    simp at hb
-  lb_layer b x hb := by
-    change (none : Option ℝ) = some x at hb
-    simp at hb
-
-/-- **`pieceRest_pat` from `J.card = R`** (with the plainness and irreducibility of the representative's garden). -/
-theorem pieceRest_patJ (P : WTParams) {R : ℕ} (J : Finset (Fin (2 * R))) (hJ : J.card = R) (p : ℕ)
-    (pat : Fin (2 * R) → FixPat) (mkF : Stage1Mk.MarkFn (2 * R)) (a : PrescribedPrimeGarden (2 * R))
-    (hG : CapGeo a.layered J p) (hpat : CapPatValid a.layered J pat p) (hpl : a.layered.garden.IsPlain)
-    (hirr : a.layered.garden.Irreducible)
-    (t s : ℝ) (hs : s ∈ Ioo (p : ℝ) t) (ht : t < p + 1) (kSel : Fin (2 * R) → Option ℕ)
-    (dag : Option (Fin (2 * R) → Fin 3 → Mom P.d)) (flw : GBranch (stA mkF a).G.tree → Fin 3 → Prop) (cθ : ℝ) :
-    PieceRestB3s (classPiece P mkF a (protOf J pat t s kSel mkF a) (protI a.layered J pat t s kSel).card
-      (fixOf J pat t s mkF a) (fun _ => none) (sibIndOf J mkF a dag flw)) cθ :=
-  pieceRest_pat P J p pat mkF a hG hpat (exists_capFlower_of_capGeo hG hpl hirr (by rw [hJ])) t s hs ht kSel dag
-    flw cθ
 
 end WaveTurbulence.Flower.MkSlotsB

@@ -51,9 +51,6 @@ def k1Of (σ : Sig1) : ℕ := if σ.1 = 0 ∧ σ.2 = 0 then 0 else 2
 def cov1Of (n : Fin 2 → V) (σ : Sig1) : Finset V :=
   (if σ.1 = 0 then ∅ else {n 0}) ∪ (if σ.2 = 0 then ∅ else {n 1})
 
-theorem k1Of_le_two (σ : Sig1) : k1Of σ ≤ 2 := by
-  unfold k1Of; split_ifs <;> omega
-
 theorem card_cov1Of_le (n : Fin 2 → V) (σ : Sig1) : (cov1Of n σ).card ≤ k1Of σ := by
   unfold cov1Of k1Of
   refine (card_union_le _ _).trans ?_
@@ -71,11 +68,6 @@ theorem k1Of_eq_zero {σ : Sig1} (h : ∀ j, sOf σ j = 0) : k1Of σ = 0 := by
   have h1 : σ.1 = 0 := by simpa [sOf] using h 0
   have h2 : σ.2 = 0 := by simpa [sOf] using h 1
   unfold k1Of; simp [h1, h2]
-
-theorem cov1Of_eq_empty (n : Fin 2 → V) {σ : Sig1} (h : ∀ j, sOf σ j = 0) : cov1Of n σ = ∅ := by
-  have h1 : σ.1 = 0 := by simpa [sOf] using h 0
-  have h2 : σ.2 = 0 := by simpa [sOf] using h 1
-  unfold cov1Of; simp [h1, h2]
 
 theorem k1Of_eq_two {σ : Sig1} (h : ∃ j, sOf σ j ≠ 0) : k1Of σ = 2 := by
   obtain ⟨j, hj⟩ := h

@@ -66,11 +66,6 @@ theorem timeExitWeight_mem_Icc {d : ℕ} (D : SumintDatum d) (hI : 0 < D.S.I)
     timeExitWeight D hI upper v u ∈ Set.Icc (0:ℝ) 1 :=
   endpointMatchWeight_mem_Icc _ _ u (timeExitEndpoint_attained D hI upper u) v
 
-/-- Both source endpoint weights form exact finite partitions of one. -/
-theorem sum_timeExitWeight {d : ℕ} (D : SumintDatum d) (hI : 0 < D.S.I)
-    (upper : Bool) (u : D.S.TVar → ℝ) : ∑ v, timeExitWeight D hI upper v u = 1 :=
-  sum_endpointMatchWeight _ _ u (timeExitEndpoint_attained D hI upper u)
-
 /-- Any actual source endpoint formula splits exactly into the weighted coordinate formulas. -/
 theorem timeExit_formula_eq_weighted_sum {d : ℕ} (D : SumintDatum d) (hI : 0 < D.S.I)
     (upper : Bool) (u : D.S.TVar → ℝ) (H : ℝ → ℂ) :

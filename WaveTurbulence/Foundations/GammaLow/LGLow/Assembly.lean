@@ -96,21 +96,4 @@ theorem layergarden_low (h5a : Fama.Stage1ReductionGateLow) (h5c : Famc.CoarseSp
     Spine.leafwise_incoherent_decay
     (nonregular_prefix_low h5a h5c Spine.ladder_fourier h6 (fineSplicedGammaInput_of_subObjects hSO))
 
-/-- `layergarden_low` with L5c's proved finalsbest1 over `𝒱_γ` (`Famc.coarseSplicedGateLow`) discharged. -/
-theorem layergarden_low_of_three (h5a : Fama.Stage1ReductionGateLow) (h6 : FinalCount.FinalCountGateLow)
-    (hSO : Famc.SubObjectsInput) : LayergardenLowGate :=
-  layergarden_low h5a Famc.coarseSplicedGateLow h6 hSO
-
-/-- **LG-low from the three low gates alone**: `layergarden_low` with L3's `Famc.SubObjectsInput` discharged by L3's
-unconditional Thm 1.15 (`TVine.Struct.subObjects_holds`). -/
-theorem layergarden_low_proved (h5a : Fama.Stage1ReductionGateLow) (h5c : Famc.CoarseSplicedGateLow)
-    (h6 : FinalCount.FinalCountGateLow) : LayergardenLowGate :=
-  layergarden_low h5a h5c h6 TVine.Struct.subObjects_holds
-
-/-- **LG-low from L5a's and L6's gates**: `layergarden_low_of_three` with L3's input discharged
-(`TVine.Struct.subObjects_holds`). -/
-theorem layergarden_low_of_two (h5a : Fama.Stage1ReductionGateLow) (h6 : FinalCount.FinalCountGateLow) :
-    LayergardenLowGate :=
-  layergarden_low_of_three h5a h6 TVine.Struct.subObjects_holds
-
 end WaveTurbulence.GammaLow.LGLow

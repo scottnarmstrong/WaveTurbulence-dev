@@ -54,30 +54,4 @@ theorem norm_cutoffPhaseSum_eq_groupedSourceNorm {d : ℕ} (D : SumintDatum d) {
   simp_rw [timeCoordinateGrouping_linear,hx,hy,hn]
   ring
 
-/-- The explicit grouped source norm is measurable under its actual product time measure. -/
-theorem measurable_groupedSourceNorm {d : ℕ} (D : SumintDatum d) {L : ℝ}
-    (hL : 0 < L) (γ δ η : ℝ) (p : D.S.VIdx → Fin d → ℝ)
-    (ν : D.S.VIdx → Mom d) (r : Mom d) (t : ℝ) :
-    Measurable (groupedSourceNorm D L γ δ η p ν r t) := by
-  have he (z : GroupedTimes D.S) : groupedSourceNorm D L γ δ η p ν r t z =
-      ‖cutoffPhaseSum D L γ δ η p ν r t ((measurableTimeGrouping D.S).symm z)‖ := by
-    rw [norm_cutoffPhaseSum_eq_groupedSourceNorm D hL γ δ η p ν r t]
-    rw [MeasurableEquiv.apply_symm_apply]
-  rw [funext he]
-  exact (measurable_cutoffPhaseSum D hL γ δ η p ν r t).norm.comp
-    (measurableTimeGrouping D.S).symm.measurable
-
-/-- Exact time-family integral representation of the actual nonnegative source norm. -/
-theorem lintegral_norm_cutoffPhaseSum_grouped {d : ℕ} (D : SumintDatum d) {L : ℝ}
-    (hL : 0 < L) (γ δ η : ℝ) (p : D.S.VIdx → Fin d → ℝ)
-    (ν : D.S.VIdx → Mom d) (r : Mom d) (t : ℝ) :
-    (∫⁻ τ : D.S.TVar → ℝ, ENNReal.ofReal ‖cutoffPhaseSum D L γ δ η p ν r t τ‖) =
-      ∫⁻ u : Fin D.S.I → ℝ,
-        ∫⁻ q : (Σ i : Fin D.S.I, Fin (D.S.m i)) → ℝ × ℝ,
-          ∫⁻ n : {i : Fin D.S.I // D.S.nor i = true} → Fin 3 → ℝ,
-            ENNReal.ofReal (groupedSourceNorm D L γ δ η p ν r t (u,q,n)) := by
-  simp_rw [norm_cutoffPhaseSum_eq_groupedSourceNorm D hL γ δ η p ν r t]
-  exact lintegral_grouped_time_families D.S _
-    (ENNReal.measurable_ofReal.comp (measurable_groupedSourceNorm D hL γ δ η p ν r t))
-
 end WaveTurbulence.SumintPar

@@ -72,24 +72,4 @@ theorem blockFourier_eq_flattened {n d : ℕ}
     change Real.fourierChar (-(∑ i, timePairing d (x i) (ξ i))) • F x = _
     rw [flattenBlocks_pairing]
 
-/-- The block and scalar-coordinate Fourier-L¹ norms agree. -/
-theorem blockFourierL1_eq_flattened {n d : ℕ}
-    (F : (Fin n → Fin d → ℝ) → ℂ) :
-    blockFourierL1 F = timeFourierNorm 0 (fun z => F ((flattenBlocks n d).symm z)) := by
-  classical
-  have hi := (flattenBlocks_measurePreserving n d).symm.integrable_comp_emb
-    (flattenBlocks n d).symm.measurableEmbedding (g := F)
-  simp only [Function.comp_def] at hi
-  unfold blockFourierL1 timeFourierNorm
-  rw [hi]
-  split_ifs
-  · simp only [timeWeight, Real.rpow_zero, ENNReal.ofReal_one, one_mul]
-    rw [← (flattenBlocks_measurePreserving n d).lintegral_comp_emb
-      (flattenBlocks n d).measurableEmbedding
-      (fun z => ‖timeFourier (fun z => F ((flattenBlocks n d).symm z)) z‖ₑ)]
-    apply lintegral_congr
-    intro ξ
-    rw [blockFourier_eq_flattened]
-  · rfl
-
 end WaveTurbulence.Fourier

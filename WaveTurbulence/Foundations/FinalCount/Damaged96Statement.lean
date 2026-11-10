@@ -61,10 +61,6 @@ structure DamagedDec {V D : Type*} [DecidableEq V] [Fintype D] [DecidableEq D] (
     ∀ x y, M.atom x = a → M.atom y = a → M.out x ≠ M.out y →
       L ^ (-γ + η) < ‖Molecule.kvec L (0 : Mom d) κ x - Molecule.kvec L (0 : Mom d) κ y‖
 
-theorem FinalDec.toDamaged {V D : Type*} [DecidableEq V] [Fintype D] [DecidableEq D] {M : Molecule V D}
-    {cls : V → Cls} {d : ℕ} {L γ η : ℝ} {Adm : (D → (Fin d → ℤ)) → Prop} (h : FinalDec M cls L γ η Adm) :
-    DamagedDec M cls L γ η Adm := ⟨h.labRange, h.epsLG⟩
-
 /-- **DCB** (R29 item 5), for `d ≥ 3`, `0 < γ < 1`, with `Cstar` depending only on `(d, γ, η)` (ruling R34): the size
 exponent `m` is quantified after `Cstar` and enters only through `R₀`. -/
 def Prop96DamagedAt.{u, v} (d : ℕ) (γ η : ℝ) : Prop :=

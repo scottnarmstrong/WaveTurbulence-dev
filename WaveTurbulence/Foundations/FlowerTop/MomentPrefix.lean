@@ -23,15 +23,6 @@ theorem prefixP_lift {A : WTParams → Prop} (hA : WTPrefix A) : WTPrefixP (fun 
   intro ν hν
   exact ⟨0, fun Pm _ => hA ν hν⟩
 
-/-- The couple clause is unchanged by the two large constants. -/
-theorem coupleClause_largeConstantMonotone :
-    LargeConstantMonotone (fun P => 1 / 2 < P.γ → CoupleClauseAt P) := by
-  intro P c₁ c₂ _ _ _ _ _ _ h hγ p hp R hR t ht k N hN kind dt hkdt
-  rw [N_largeConstants] at hN
-  have H := h hγ p hp R hR t ht k N hN kind dt hkdt
-  have hF : inputsF {P with C₁ := c₁, C₂ := c₂} R = inputsF P R := rfl
-  simpa only [coupleSum, N_largeConstants, hF, WTParams.Lambda] using H
-
 /-- P7 supplies the entire couple half in the moment-order prefix of frozen v3. -/
 theorem couple_clause_moment_prefix (S : FlowerSpineInputsV3) (hcount : FinalCountGateHalf) :
     WTPrefixP (fun _ P => 1 / 2 < P.γ → CoupleClauseAt P) :=

@@ -47,13 +47,4 @@ theorem leafCell_eq_fourierIntegral {d K M : ℕ} {f : Mom d → ℂ} {B : ℝ}
     (ENNReal.ofReal_lt_top : ENNReal.ofReal (leafCellFourierConstant d M * B * cellCenterWeight M c) < ⊤)
   simpa only [Function.comp_def, toLp_ofLp] using eq_positiveFourierIntegral_of_norm_lt_top hc hf (ofLp x)
 
-/-- The actual half-width link cell is recovered from its actual Fourier density. -/
-theorem halfLinkCell_eq_fourierIntegral {d : ℕ} (c : Fin d → ℤ) (x : Mom d) :
-    halfLinkCell c x = ∫ ξ : Fin d → ℝ,
-      Real.fourierChar (Fourier.timePairing d ξ (ofLp x)) •
-        Fourier.timeFourier (fun y : Fin d → ℝ => halfLinkCell c (toLp 2 y)) ξ := by
-  have hc := (contDiff_halfLinkCell c).continuous.comp (PiLp.continuous_toLp 2 _)
-  simpa only [Function.comp_def, toLp_ofLp] using eq_positiveFourierIntegral_of_norm_lt_top hc
-    (timeFourierNorm_halfLinkCell_lt_top 0 c) (ofLp x)
-
 end WaveTurbulence.Incoh

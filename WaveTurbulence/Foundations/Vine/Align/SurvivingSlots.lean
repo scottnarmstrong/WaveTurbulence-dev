@@ -22,11 +22,6 @@ theorem leafCast_val (e : G = H) (l : GLeaf G.tree) : (leafCast e l).1 = l.1 := 
 theorem slotCast_inr (e : G = H) (b : GBranch G.tree) :
     slotCast e (.inr b) = .inr (gardenBranchCast e b) := by subst H; rfl
 
-theorem slotCast_inl (e : G = H) (hG : G.IsPlain) (hH : H.IsPlain) (q : SourcePair G) :
-    slotCast e (.inl q) = .inl (pairOfLeaf H hH (leafCast e (q.firstLeaf hG))) := by
-  subst H
-  exact congrArg Sum.inl (pairOfLeaf_firstLeaf G hG q).symm
-
 theorem cast_iota {S : Garden w} {J : Type} [Fintype J] [DecidableEq J]
     {blk : J → CLBlock S} (e : G = H) (Φ : SpliceShape blk G)
     (hS : S.IsPlain) (hG : G.IsPlain) (hH : H.IsPlain) (s : ReplacementSlot H) :
@@ -59,13 +54,6 @@ theorem surviving_pair_neMk (Z : TwistGroupSite G) (σ : Prescription G)
   · exact active_retained_not_survivingMk Z σ hsel ⟨l, he⟩
   · exact active_pair_not_survivingMk Z σ hsel ⟨l, he⟩
 
-/-- No surviving pair is the exceptional pair of a selected operation. -/
-theorem surviving_pair_ne (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) (hG : G.IsPlain)
-    (l : GLeaf (stSt G σ).G.tree) :
-    pairOfLeaf G hG ((stShape (Mole.garden_isMolecule G) σ).leaf l) ≠
-      pairOfLeaf G hG Z.P.retained := surviving_pair_neMk Z σ hsel hG l
-
 /-- B1b-2 (Mk-general form of `unit_leaf_cast`). -/
 theorem unit_leaf_castMk (Z : TwistGroupSite G) (σ : Prescription G)
     {Mk : Set (CLVine G)} {Mk' : Set (CLVine Z.target)} (hT : Stage1Mk.MarkTransported Z.iso Mk Mk')
@@ -79,14 +67,6 @@ theorem unit_leaf_castMk (Z : TwistGroupSite G) (σ : Prescription G)
   rw [he]
   exact unitSpliceLeafEquiv_namesMk Z σ hT hsel l
 
-/-- Ordered normalization transports each actual original leaf name. -/
-theorem unit_leaf_cast (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) (l : GLeaf (stSt G σ).G.tree) :
-    (stShape (Mole.garden_isMolecule Z.target) (transportPrescription Z.iso σ)).leaf
-      (leafCast (unitSplice_garden_eq Z σ hsel).symm l) =
-    coreLeafEquiv G Z.P ((stShape (Mole.garden_isMolecule G) σ).leaf l) :=
-  unit_leaf_castMk Z σ (Stage1Mk.markTransported_empty Z.iso) hsel l
-
 /-- B1b-2 (Mk-general form of `unit_branch_cast`). -/
 theorem unit_branch_castMk (Z : TwistGroupSite G) (σ : Prescription G)
     {Mk : Set (CLVine G)} {Mk' : Set (CLVine Z.target)} (hT : Stage1Mk.MarkTransported Z.iso Mk Mk')
@@ -98,12 +78,5 @@ theorem unit_branch_castMk (Z : TwistGroupSite G) (σ : Prescription G)
     Subtype.ext ((gardenBranchCast_val _ _).trans (unitSpliceMolIso_addressMk Z σ hT hsel b).symm)
   rw [he]
   exact unitSpliceMolIso_branch_namesMk Z σ hT hsel b
-
-/-- Ordered normalization transports each actual original branch name. -/
-theorem unit_branch_cast (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) (b : GBranch (stSt G σ).G.tree) :
-    (stSt Z.target (transportPrescription Z.iso σ)).M.ob
-      (gardenBranchCast (unitSplice_garden_eq Z σ hsel).symm b) =
-    Z.iso.e ((stSt G σ).M.ob b) := unit_branch_castMk Z σ (Stage1Mk.markTransported_empty Z.iso) hsel b
 
 end WaveTurbulence.VineAlign

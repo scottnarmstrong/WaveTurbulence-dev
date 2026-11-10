@@ -54,16 +54,6 @@ theorem timeFourier_fderiv_apply {r : ℕ} {f : (Fin r → ℝ) → ℂ}
     neg_smul, smul_neg, neg_neg, Complex.real_smul, smul_eq_mul, mul_assoc,
     mul_neg, neg_mul, timeFourier] using h
 
-/-- Fourier multiplier for the frozen coordinate partial derivative. -/
-theorem timeFourier_partialDeriv {r : ℕ} {f : (Fin r → ℝ) → ℂ}
-    (hf : Integrable f) (hd : Differentiable ℝ f) (hdf : Integrable (fderiv ℝ f))
-    (j : Fin r) (ξ : Fin r → ℝ) :
-    timeFourier (WaveTurbulence.partialDeriv j f) ξ =
-      (2 * Real.pi * Complex.I * (ξ j : ℂ)) * timeFourier f ξ := by
-  rw [WaveTurbulence.partialDeriv_eq_fderiv_fun hd j]
-  have h := timeFourier_fderiv_apply hf hd hdf (Pi.single j 1) ξ
-  simpa [timePairing, dotProduct, Pi.single_apply] using h
-
 /-- Coordinate partial derivatives of a differentiable compactly supported function
 remain compactly supported. -/
 theorem hasCompactSupport_partialDeriv {r : ℕ} {f : (Fin r → ℝ) → ℂ}
@@ -71,15 +61,5 @@ theorem hasCompactSupport_partialDeriv {r : ℕ} {f : (Fin r → ℝ) → ℂ}
     HasCompactSupport (WaveTurbulence.partialDeriv j f) := by
   rw [WaveTurbulence.partialDeriv_eq_fderiv_fun hd j]
   exact hc.fderiv_apply ℝ (Pi.single j 1)
-
-/-- Compact smooth functions need no separate integrability assumptions
-for the derivative Fourier identity. -/
-theorem timeFourier_partialDeriv_smooth_compact {r : ℕ} {f : (Fin r → ℝ) → ℂ}
-    (hf : ContDiff ℝ ∞ f) (hc : HasCompactSupport f) (j : Fin r) (ξ : Fin r → ℝ) :
-    timeFourier (WaveTurbulence.partialDeriv j f) ξ =
-      (2 * Real.pi * Complex.I * (ξ j : ℂ)) * timeFourier f ξ :=
-  timeFourier_partialDeriv (hf.continuous.integrable_of_hasCompactSupport hc)
-    (hf.differentiable (by simp))
-    ((hf.continuous_fderiv (by simp)).integrable_of_hasCompactSupport (hc.fderiv ℝ)) j ξ
 
 end WaveTurbulence.Fourier

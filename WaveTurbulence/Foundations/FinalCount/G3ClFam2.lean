@@ -59,9 +59,6 @@ theorem resAdm_empty (Adm : (D → (Fin d → ℤ)) → Prop) (M : Molecule V D)
 section step
 variable {M : Molecule V D} {K : Finset V} {𝒦 : Finset (Finset V)}
 
-theorem FamData.nb (h : FamData M 𝒦) {K K' : Finset V} (hK : K ∈ 𝒦) (hK' : K' ∈ 𝒦) (hne : K ≠ K') :
-    ∀ x, M.atom x ∈ K → M.atom (M.mate x) ∉ K' := h.cl.nobond K hK K' hK' hne
-
 theorem FamData.step (h : FamData M (insert K 𝒦)) (hK : K ∉ 𝒦) : FamData (eraseSet M K) 𝒦 where
   cl := by
     refine ⟨fun A hA B hB hne => h.cl.disj A (Finset.mem_insert_of_mem hA) B (Finset.mem_insert_of_mem hB) hne,

@@ -5,8 +5,8 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.FinalCount.SubproContained2
-public import WaveTurbulence.Foundations.FinalCount.SubproItems2
+public import WaveTurbulence.Foundations.FinalCount.SubproGap2
+public import WaveTurbulence.Foundations.FinalCount.SubproTame
 import Mathlib.Tactic
 
 /-!
@@ -53,43 +53,5 @@ structure SubproSupportA {w d : ℕ} (G : Garden w) (C : SubproChoices G) (L γ 
           HasChosenPair (C.first v) (C.second v) (fun x y => Xor (P.ContainsDart x) (P.ContainsDart y))))
 
 variable {R : ℕ} {G : Garden (2 * R)}
-
-theorem sbDec_of_gen (σ : Prescription G) {d : ℕ} (hpl : (stSt G σ).G.IsPlain) {L : ℝ} (hL : L ≠ 0) (base : Mom d)
-    (roots : Fin (2 * R) → (Fin d → ℤ)) (z : GenDecoration (stSt G σ).G d roots 0) :
-    SbDec G σ L base (bondIndex (stSt G σ).G z.1) :=
-  ⟨_, spliced_molecule_decoration (stSt G σ).G hpl hL base roots z,
-    fun _ _ hdeg => gardenSource_eq_zero_of_deg_four _ hpl _ _ hdeg⟩
-
-theorem contained_support (σ : Prescription G) {d : ℕ}
-    (D : SplicedKernelData (stSt G σ).G d) (hD : D.gapSpecification = gapSpecification G σ)
-    (L γ η : ℝ) (base : Mom d) (z : GNode (stSt G σ).G.tree → (Fin d → ℤ))
-    (hZ : splicedGapIndicator (stSt G σ).G D L γ η base z ≠ 0) :
-    ∀ P : Object (stSt G σ).G.molecule,
-      P.HasGapKind L γ η base (bondIndex (stSt G σ).G z) .SG →
-      (∀ i, ¬ P.atoms ⊆ ((collectionChoices G σ).collection i).atoms) →
-      Disjoint P.atoms (collectionChoices G σ).hinges →
-      (∃ S a b, IsDV (stSt G σ).G.molecule S a b ∧ P.atoms ⊆ S ∧
-        Disjoint S (collectionChoices G σ).hinges ∧
-          ∀ i, Disjoint S ((collectionChoices G σ).collection i).atoms) ∨
-      ∃ Q : Object (stSt G σ).G.molecule, P.atoms ⊆ Q.atoms ∧
-        (Q.HasGapKind L γ η base (bondIndex (stSt G σ).G z) .LG ∨
-          Q.HasGapKind L γ η base (bondIndex (stSt G σ).G z) .ZG) ∧
-        Disjoint Q.atoms (collectionChoices G σ).hinges ∧
-          ∀ i, Disjoint Q.atoms ((collectionChoices G σ).collection i).atoms := by
-  intro P _ hout hdis
-  have hM : G.molecule.IsMolecule := WaveTurbulence.Mole.garden_isMolecule G
-  have hout' : ∀ O ∈ objects G σ, ¬ P.atoms ⊆ O.atoms := by
-    intro O hO
-    obtain ⟨i, hi⟩ := List.mem_iff_get.mp hO
-    have := hout i
-    simp only [collectionChoices] at this
-    rw [hi] at this
-    exact this
-  have key := contained_atoms hM σ D hD L γ η base z hZ P hout' hdis
-  have hobj : ∀ S : Finset (GBranch (stSt G σ).G.tree), (∀ O ∈ objects G σ, Disjoint S O.atoms) →
-      ∀ i, Disjoint S ((collectionChoices G σ).collection i).atoms := fun S h i => h _ (List.get_mem _ _)
-  rcases key with ⟨S, a, b, h1, h2, h3, h4⟩ | ⟨Q, h1, h2, h3, h4⟩
-  · exact Or.inl ⟨S, a, b, h1, h2, h3, hobj S h4⟩
-  · exact Or.inr ⟨Q, h1, h2, h3, hobj Q.atoms h4⟩
 
 end WaveTurbulence.Subpro

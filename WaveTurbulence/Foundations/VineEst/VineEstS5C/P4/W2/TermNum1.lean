@@ -5,7 +5,8 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.TermNat4
+public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.TermNat2
+public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.FlatMod.FlatBase
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.Step3FinalH
 
 /-! # P4-W2 (session 12, step 5a): the product of the native row sizes

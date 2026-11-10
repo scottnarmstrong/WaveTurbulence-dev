@@ -181,45 +181,4 @@ def unitRecenteredFW {w d : ℕ} {ι : Type*} {Q : ι → Prop} (p : ℕ) (g : M
 
 /-! ## Sanity (S-V5W probe §8, proved there; re-proved here) -/
 
-/-- `topPsi p g` is top-supported in main's sense (`VineSpaceB.TopSupported`: far `< p`, near `= p`). -/
-theorem topPsi_topSupported {w d : ℕ} (p : ℕ) (g : Fin w → Mom d → ℂ) :
-    TopSupported p (fun j => topPsi p (g j)) := by
-  intro j q q' h
-  funext k
-  simp [topPsi, h]
-
-/-- On a region whose rows are all coherent the selected factor is main's `clLocalStarProduct`. -/
-theorem clLocalStarProductFW_of_coherent {w d : ℕ} {G : Garden w} {U : Finset (GBranch G.tree)}
-    {a b : GBranch G.tree} (p : ℕ) (g : Mom d → ℂ) (D : ReconstructionData G) (hG : G.IsPlain)
-    (R : CLRegionData G U a b) (L γ δ : ℝ) (F : ℕ → Mom d → ℝ) (layer : GNode (D.forest hG) → ℕ)
-    (hLayer : IsLayering (D.garden hG) layer) (base : Mom d) (κ : GNode G.tree → (Fin d → ℤ))
-    (t : Fin 3 → ℝ) (τ : CLInternalTime R)
-    (hC : ∀ pr ∈ clRegionalPairs hG U, coupleIncoh D hG layer hLayer pr = 0)
-    (hT : ∀ v ∈ clInteriorBranches R, treeIncoh D hG layer hLayer v = 0) :
-    clLocalStarProductFW p g D hG R L γ δ F layer hLayer base κ t τ =
-      clLocalStarProduct D hG R L γ δ F layer hLayer base κ t τ := by
-  unfold clLocalStarProductFW clLocalStarProduct
-  simp only
-  rw [Finset.prod_congr rfl (fun pr hpr => ite_eq_left_iff.mpr (fun h => absurd (hC pr hpr) h)),
-    Finset.prod_congr rfl (fun v hv => ite_eq_left_iff.mpr (fun h => absurd (hT v hv) h))]
-  -- main 416902c8 (V5W-B): `clLocalStarProduct` reads the selected rows, which are `KQstar`/`KTstar` under `RowSel.plain`
-  rfl
-
-/-- With all rows coherent and no filter, the multiplier is main's `regionBondWeight` (so (B) ⊇ (A)). -/
-theorem regionWeightFW_of_coherent {w d : ℕ} {ι : Type*} (p : ℕ) (g : Mom d → ℂ) (L : ℝ) (base : Mom d)
-    (z : ClassMember w ι) (x : GNode z.1.skeleton.tree → Fin d → ℤ)
-    (h : ∀ y ∈ Finset.univ.filter (z.1.skeleton.molecule.InGroup z.2.U),
-      nodeRowIncoh z.1.data z.1.plain (stateLayer z.1) (stateLayer_isLayering z.1) (Mole.dartNode z.1.skeleton y) = 0) :
-    regionWeightFW p g none L base z.1 z.2.U z.2.a x = regionBondWeight (topPsi p g) L base z x := by
-  unfold regionWeightFW regionBondWeight
-  rw [Finset.prod_congr rfl (fun y hy => ite_eq_left_iff.mpr (fun h' => absurd (h y hy) h'))]
-  simp [nodeWeight, topFilterWeight, stateCoreLayer, memberCoreLayer]
-
-/-- `g ≡ 1` and no filter: the multiplier is `1`. -/
-theorem regionWeightFW_one {w d : ℕ} {ι : Type*} (p : ℕ) (L : ℝ) (base : Mom d)
-    (X : FamilyReconstruction w ι) (U : Finset (GBranch X.skeleton.tree)) (a : GBranch X.skeleton.tree)
-    (x : GNode X.skeleton.tree → Fin d → ℤ) :
-    regionWeightFW p (fun _ => (1 : ℂ)) none L base X U a x = 1 := by
-  simp [regionWeightFW, topPsi, nodeWeight, topFilterWeight]
-
 end WaveTurbulence.Flower.V5W

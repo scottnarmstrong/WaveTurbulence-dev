@@ -32,10 +32,4 @@ namespace WaveTurbulence.Incoh
   remaining_mem_box := T.remaining_mem_box
   interval_mem_box := T.interval_mem_box
 
-/-- The literal source time domain is unchanged by spectral localization. -/
-theorem MomentumTreeData.timeDomain_spectralTreeClockFibers {d n m w l : ℕ}
-    (P : MomentumTreeData n m w) (Q : Fin n → LayerLink d) (T : TreeClockFibers l Q)
-    (z : (Fin n × Fin 2) → Fin d → ℤ) (ξ : LocalizedCellIndex n m → Fin d → ℝ) :
-    (P.spectralTreeClockFibers Q T z ξ).timeDomain = T.timeDomain := rfl
-
 end WaveTurbulence.Incoh

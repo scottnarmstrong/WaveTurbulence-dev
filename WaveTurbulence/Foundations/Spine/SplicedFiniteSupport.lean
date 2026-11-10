@@ -34,10 +34,4 @@ theorem finite_bounded_garden_decorations {w d : ℕ} (G : Garden w) (hp : G.IsP
     have hh := hballs (G.molecule.mate x) hm
     simpa only [hdec.1 x, hD.1 x] using hh
 
- theorem finite_splicedSelectedCarrier {w d : ℕ} (G : Garden w) (hp : G.IsPlain)
-    (D : SplicedKernelData G d) (hD : SplicedAmplitudeBounds G D) (C : SourceVine.CountingChoices G d)
-    {L : ℝ} (hL : 0 < L) (γ η : ℝ) (base : Mom d) (roots : Fin w → (Fin d → ℤ)) :
-    (splicedSelectedCarrier G D C L γ η base roots).Finite :=
-  (finite_spliced_amplitude_support G hp D hD hL γ η base roots).subset (fun _ h => h.1)
-
 end WaveTurbulence.LGSpine

@@ -36,11 +36,4 @@ theorem spliced_counting_exponent_le {c c₀ u l b a e ν n R ρ p q : ℝ}
   have hgainL := mul_le_mul_of_nonneg_right hgain hl
   nlinarith
 
-/-- Normalize the count and the Fourier L1 prefactors using chi=n-R+1. -/
-theorem spliced_counting_prefactor_identity (n R d γ c u l ν : ℝ) :
-    n * (u - (d - γ) * l) + (n - R + 1) * ((d - γ) * l + c - u / 2) +
-        n * (c - (1 / 2 + 5 * ν) * u) =
-      n * (2 * c - 5 * ν * u) + (R - 1) * (u / 2 - c) - (R - 1) * (d - γ) * l := by
-  ring
-
 end WaveTurbulence.LGSpine

@@ -19,10 +19,6 @@ open MeasureTheory Set
 
 namespace WaveTurbulence.Sumint
 
-/-- The closed unit box of input times in the exact datum. -/
-@[expose] def inputTimeBox {d : ℕ} (D : SumintDatum d) : Set (D.S.TVar → ℝ) :=
-  Icc (fun v => (D.q v : ℝ)) (fun v => (D.q v : ℝ) + 1)
-
 /-- The source polytope is measurable for every output triple. -/
 theorem measurableSet_timeDom {d : ℕ} (D : SumintDatum d) (hI : 0 < D.S.I)
     (t t' t'' : ℝ) : MeasurableSet (D.timeDom hI t t' t'') := by
@@ -42,23 +38,5 @@ theorem measurableSet_timeDom {d : ℕ} (D : SumintDatum d) (hI : 0 < D.S.I)
       apply MeasurableSet.iInter
       intro _
       exact measurableSet_lt (measurable_pi_apply _) (measurable_pi_apply _)
-
-/-- The order restrictions only remove points from the input unit box. -/
-theorem timeDom_subset_inputTimeBox {d : ℕ} (D : SumintDatum d) (hI : 0 < D.S.I)
-    (t t' t'' : ℝ) : D.timeDom hI t t' t'' ⊆ inputTimeBox D := by
-  intro τ hτ
-  exact ⟨fun v => (hτ.1 v).1, fun v => (hτ.1 v).2.1⟩
-
-/-- The full input unit box has volume one, including all normal-block times. -/
-theorem volume_inputTimeBox {d : ℕ} (D : SumintDatum d) : volume (inputTimeBox D) = 1 := by
-  classical
-  rw [inputTimeBox, Real.volume_Icc_pi]
-  simp
-
-/-- The actual time integration domain has volume at most one. -/
-theorem volume_timeDom_le_one {d : ℕ} (D : SumintDatum d) (hI : 0 < D.S.I)
-    (t t' t'' : ℝ) : volume (D.timeDom hI t t' t'') ≤ 1 := by
-  exact (measure_mono (timeDom_subset_inputTimeBox D hI t t' t'')).trans_eq
-    (volume_inputTimeBox D)
 
 end WaveTurbulence.Sumint

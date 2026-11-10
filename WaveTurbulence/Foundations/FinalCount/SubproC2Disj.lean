@@ -35,9 +35,6 @@ def collDataOf {G : Garden w} (C : SubproChoices G) : CollData G.molecule :=
 def forbiddenOf {G : Garden w} (C : CollData G.molecule) : Set (GBranch G.tree) :=
   ↑C.hinges ∪ ⋃ i, (↑(C.collection i).atoms : Set (GBranch G.tree))
 
-theorem forbiddenOf_collDataOf {G : Garden w} (C : SubproChoices G) :
-    forbiddenOf (collDataOf C) = C.forbidden := rfl
-
 /-- The unselected vines: pool members whose atom set is omitted. -/
 def unselOf {G : Garden w} (C : CollData G.molecule) (L γ η : ℝ) (base : Mom d)
     (κ : GardenDart G → (Fin d → ℤ)) (omitted : Set (Finset (GBranch G.tree))) : Set (Object G.molecule) :=

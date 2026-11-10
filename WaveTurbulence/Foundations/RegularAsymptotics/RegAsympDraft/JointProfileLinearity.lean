@@ -52,11 +52,4 @@ theorem pairedInverseProfile_integral_finsetSum {U I : Type*} [MeasurableSpace U
       rw [hl]
     _ = _ := pairedInverseProfile_finsetSum S _ (fun i hi' => (hi i hi').integral_prod_left) t
 
-/-- Complex scaling commutes with both actual integrals unconditionally. -/
-theorem pairedInverseProfile_integral_const_mul {U : Type*} [MeasurableSpace U]
-    (μ : Measure U) (c : ℂ) (A : (ℝ × ℝ) × U → ℂ) (t : Fin 2 → ℝ) :
-    pairedInverseProfile (fun lam => ∫ u, c*A (lam,u) ∂μ) t =
-      c*pairedInverseProfile (fun lam => ∫ u, A (lam,u) ∂μ) t := by
-  simp only [integral_const_mul,pairedInverseProfile_const_mul]
-
 end WaveTurbulence.RegAsymp

@@ -5,7 +5,6 @@ public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineBran
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineChainBlock
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineChainConnected
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineChainCounts
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineChainEnds
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineChainIngredients
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineEraseChainIngredient
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineHyperAdjointVC
@@ -34,13 +33,7 @@ variable {M : Molecule V D} {S A : Finset V} {a b x y : V}
 
 -- (`VineLikeObject.IsGap`: defined by L6 as `Src.VineLikeObject.IsGap`)
 -- (`VineLikeObject.IsContained`: defined by L6 as `Src.VineLikeObject.IsContained`)
-/-- Erasing designation data gives the exact original existential shape predicate. -/
-theorem shape (C : Src.VineLikeObject Src.γL M S a b) : Src.IsVineLike Src.γL M S a b := by
-  cases C with
-  | vc h => exact Or.inl h
-  | hyper R => exact Or.inr (hyperLike_iff_realization.mpr ⟨R⟩)
 
-alias _root_.WaveTurbulence.GammaLow.FinalCount.Src.VineLikeObject.shape := _root_.WaveTurbulence.GammaLow.FinalCount.H.Src.VineLikeObject.shape
 /-- Every designated-object containment includes the actual atom containment. -/
 theorem atoms_subset (P : Src.VineLikeObject Src.γL M A x y) (C : Src.VineLikeObject Src.γL M S a b)
     (h : P.IsContained C) : A ⊆ S := by

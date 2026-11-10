@@ -1,7 +1,8 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 public import WaveTurbulence.Foundations.XChain.MainAsmGateTypes
-public import WaveTurbulence.Foundations.XChain.MainGlue2
+public import WaveTurbulence.Foundations.XChain.AnsatzMass
+public import WaveTurbulence.Foundations.XChain.AnsatzIdentification
 public import WaveTurbulence.Foundations.XChain.ExpectationComparison
 /-! Conditional event and expectation assembly from the exact Wave B gates, SEAL-PLAN B.2–B.4. -/
 public section

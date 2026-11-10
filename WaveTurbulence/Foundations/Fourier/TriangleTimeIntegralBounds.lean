@@ -51,26 +51,4 @@ theorem fourTimeMomentNorm_triangle_le {χ : ℝ → ℝ} (hχ : ContDiff ℝ �
       _ ≤ _ := mul_le_mul_right lintegral_enorm_le_eLpNorm_one _
   exact (mul_le_mul_right hb _).trans_eq (by ring)
 
-/-- TARGET A.2's triangular bound for arbitrary smooth time slices and arbitrary momentum dependence. -/
-theorem mixedFourierNorm_cutoffJ_smooth_le {η : ℝ} (hη : 0 < η) {d : ℕ}
-    {χ : ℝ → ℝ} (hχ : ContDiff ℝ ∞ χ) (hcχ : HasCompactSupport χ)
-    (h : CutoffControl χ) {F : (Fin 2 → ℝ) → Mom d → ℂ}
-    (hF : ∀ k, ContDiff ℝ ∞ (fun t => F t k)) :
-    mixedFourierNorm (-η) 0 0 (cutoffJ χ F) ≤
-      (ENNReal.ofReal (4 * negativeFrequencyConstant η) *
-        orderedFourMomentFactor h.radius h.bound * ENNReal.ofReal (h.bound ^ 2)) *
-          uniformTimeL1 F := by
-  have hb := mixedFourierNorm_negative_le_four_moments hη
-    (fun k => cutoffTriangleIntegral_contDiff hχ (hF k))
-    (fun k => cutoffTriangleIntegral_hasCompactSupport hcχ (fun t => F t k))
-  apply hb.trans
-  have hs : (⨆ k, fourTimeMomentNorm (fun t => cutoffJ χ F t k)) ≤
-      (orderedFourMomentFactor h.radius h.bound * ENNReal.ofReal (h.bound ^ 2)) *
-        uniformTimeL1 F := by
-    apply iSup_le
-    intro k
-    exact (fourTimeMomentNorm_triangle_le hχ h (hF k)).trans
-      (mul_le_mul_right (le_iSup (fun k => eLpNorm (fun t => F t k) 1) k) _)
-  exact (mul_le_mul_right hs _).trans_eq (by ring)
-
 end WaveTurbulence.Fourier

@@ -4,7 +4,7 @@ module
 public import WaveTurbulence.Foundations.Molecule.VineSlotFullDistinct
 public import WaveTurbulence.Foundations.Molecule.VineSlotBoundaryEdges
 public import WaveTurbulence.Foundations.Molecule.VinePrependSequence
-public import WaveTurbulence.Foundations.Molecule.VineExtendSequenceEdges
+public import WaveTurbulence.Foundations.Molecule.VineAssembleIncidences
 public import WaveTurbulence.Foundations.Molecule.VineCoreJointEdges
 import Mathlib.Tactic
 

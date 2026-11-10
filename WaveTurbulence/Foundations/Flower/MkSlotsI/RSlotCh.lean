@@ -98,10 +98,6 @@ def genT (N : LayeredGarden 1) (ri : Fin w) (lp : Path) (sb : Prop) (rd : ℕ) (
       genD L σ kSel Rs (a.1.2 <+: lp ∧ sb) ri (rd + a.1.2.length) (ex ri) v
     else 1
 
-theorem chain_val (a : GNode (nativeChainLayered D hS layer hLayer β).garden.tree) :
-    (chainContextNode D hS β a).1 =
-      ((inflatedPosition S D.tree β.toNode).1, (inflatedPosition S D.tree β.toNode).2 ++ a.1.2) := rfl
-
 theorem chain_subtree :
     Comb.subtree (D.forest hS (inflatedPosition S D.tree β.toNode).1) (inflatedPosition S D.tree β.toNode).2 =
       some ((D.tree β).plug (nodeSign S.sig β.1) (node3 fun i => D.inflateNode hS (β.child i))) :=
@@ -259,11 +255,6 @@ theorem lone_not_branch (b : GBranch (nativeChainLayered D hS layer hLayer β).g
   rw [h] at hb
   exact Comb.TreePath.not_mem_branching_of_mem_leaves _
     (chain_lone_mem_leaves (D.tree β) (nodeSign S.sig β.1)) hb
-
-omit hcap in
-theorem cfp_nativeBr_ch' (b : GBranch (nativeChainLayered D hS layer hLayer β).garden.tree) :
-    (MkSlotsB.nativeBr D hS (.inr β) b).1 =
-      ((inflatedPosition S D.tree β.toNode).1, (inflatedPosition S D.tree β.toNode).2 ++ b.1.2) := rfl
 
 /-- A chain branch is never a capped flower parent. -/
 theorem cfp_nativeBr_ch (b : GBranch (nativeChainLayered D hS layer hLayer β).garden.tree) :

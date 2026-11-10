@@ -36,27 +36,4 @@ theorem Step1.epsLe {s s' : St.{u} V D₀} (h : Step1 L γ η w κ s s') : EpsLe
       (alphaOrBeta K.post.numComponents s.M.numComponents R kp)) K.y₁ K.y₂ K.cut_b.1 K.cut_b.2.1 _ _ hab hab
     exact (e1.trans e2).trans (EpsLe.delSt _ _ K.closed)
 
-/-- **No triple bond in `𝕄_fin`** (L1806, L1816). -/
-theorem Run.noTriple {sf s₀ : St.{u} V D₀} (hr : Run L γ η w κ s₀ sf) (hg : Good R sf) :
-    NoTripleBond sf.M := by
-  obtain ⟨s₁, s₂, s₃, h1, n1, h2, -, h3, -, h4, -⟩ := hr
-  have e := ((epsLe_rtg (fun _ _ h => h.epsLe) h2).trans (epsLe_rtg (fun _ _ h => h.epsLe) h3)).trans
-    (epsLe_rtg (fun _ _ h => h.epsLe) h4)
-  intro a ha b hb hab
-  by_contra hcon
-  push Not at hcon
-  have hda : 3 ≤ sf.M.deg a := (hcon.trans' (le_refl _)).trans (bondsBetween_le_deg _ _ _)
-  have hdb : 3 ≤ sf.M.deg b := by
-    have : sf.M.bondsBetween a b = sf.M.bondsBetween b a := by
-      unfold Molecule.bondsBetween
-      simp only [Sym2.eq_swap]
-    rw [this] at hcon
-    exact hcon.trans (bondsBetween_le_deg _ _ _)
-  have hea : sf.cls a = .eps := by
-    by_contra hne; have := (hg.1.ab a ha hne).1; omega
-  have heb : sf.cls b = .eps := by
-    by_contra hne; have := (hg.1.ab b hb hne).1; omega
-  obtain ⟨⟨a1, -⟩, ⟨b1, -⟩, hle⟩ := e a ha b hb hea heb
-  exact absurd (hcon.trans hle) (by have := n1 a a1 b b1 hab; omega)
-
 end WaveTurbulence.GammaLow.FinalCount.H

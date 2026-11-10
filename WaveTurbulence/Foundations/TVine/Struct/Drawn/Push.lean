@@ -59,9 +59,6 @@ theorem ofMS_mult_of_wf {vs : Finset V} {B : Multiset (Sym2 V)} (h : WF vs B) (e
   · rfl
   · exact (Multiset.count_eq_zero.mpr fun hm => he (h e hm)).symm
 
-theorem WF.mono {vs vs' : Finset V} {B : Multiset (Sym2 V)} (h : WF vs B) (hv : vs ⊆ vs') : WF vs' B :=
-  fun e he => Finset.mem_sym2_iff.mpr fun x hx => hv (Finset.mem_sym2_iff.mp (h e he) x hx)
-
 theorem WF.add {vs : Finset V} {A B : Multiset (Sym2 V)} (hA : WF vs A) (hB : WF vs B) : WF vs (A + B) := by
   intro e he
   rcases Multiset.mem_add.mp he with h | h

@@ -1,7 +1,10 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 
-public import WaveTurbulence.Foundations.Incoh.CoupleExtensionAgreement
+public import WaveTurbulence.Foundations.Incoh.CoupleExtension
+public import WaveTurbulence.Foundations.Incoh.RootCutoff
+public import WaveTurbulence.Foundations.Incoh.RootCumulativeLocal
+public import WaveTurbulence.Foundations.Incoh.TwoTimeBoxIntegral
 
 /-! # Exact couple source agreement on external boxes above the root layers -/
 

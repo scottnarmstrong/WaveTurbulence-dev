@@ -28,10 +28,6 @@ noncomputable def clLocalSupport {w : ℕ} {G : Garden w} {U : Finset (GBranch G
     {a b : GBranch G.tree} (R : CLRegionData G U a b) : Finset (GNode G.tree) :=
   clRealizationNodes G U ∪ Finset.univ.image (clBoundaryNodes R)
 
-noncomputable def clInteriorNodes {w : ℕ} {G : Garden w} {U : Finset (GBranch G.tree)}
-    {a b : GBranch G.tree} (_R : CLRegionData G U a b) : Finset (GNode G.tree) :=
-  (clRealizationNodes G U).erase a.toNode
-
 noncomputable def clInteriorBranches {w : ℕ} {G : Garden w} {U : Finset (GBranch G.tree)}
     {a b : GBranch G.tree} (_R : CLRegionData G U a b) : Finset (GBranch G.tree) := U.erase a
 

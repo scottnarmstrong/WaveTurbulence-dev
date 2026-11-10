@@ -1,6 +1,6 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
-public import WaveTurbulence.Foundations.Spine.CoherentTruncation
+public import WaveTurbulence.Foundations.Spine.CoherentTopLayer
 public import WaveTurbulence.Foundations.RegStruct.SourceRegularDecoding
 /-! The full coherent canonical carrier equals the source's top-layer regular carrier.
 The truncation predicate is retained separately and removed only in the proved low-order range. -/

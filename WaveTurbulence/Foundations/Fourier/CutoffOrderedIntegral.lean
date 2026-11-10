@@ -37,11 +37,4 @@ theorem cutoffOrderedIntegral_hasCompactSupport {n : ℕ} {χ : ℝ → ℝ}
     HasCompactSupport (cutoffOrderedIntegral n χ A) :=
   (coordinateCutoff_hasCompactSupport hc).mul_right
 
-/-- Every smooth amplitude gives an integrable time slice after the output cutoffs. -/
-theorem cutoffOrderedIntegral_integrable {n : ℕ} {χ : ℝ → ℝ} {A : (Fin n → ℝ) → ℂ}
-    (hχ : ContDiff ℝ ∞ χ) (hc : HasCompactSupport χ) (hA : ContDiff ℝ ∞ A) :
-    Integrable (cutoffOrderedIntegral n χ A) :=
-  (cutoffOrderedIntegral_contDiff hχ hA).continuous.integrable_of_hasCompactSupport
-    (cutoffOrderedIntegral_hasCompactSupport hc A)
-
 end WaveTurbulence.Fourier

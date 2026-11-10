@@ -114,30 +114,4 @@ theorem hasSum_coeff_slice_ae {θ : ℝ} (hθ : 0 ≤ θ) (q : Fin r → ℝ) {B
   exact hHS
 
 
-/-- **Fourier-series expansion on a unit cell, a.e. version.** -/
-theorem fs_expansion_ae {θ : ℝ} (hθ : 0 ≤ θ) {Λ₁ Λ₂ : ℕ} (hΛ : Λ₁ ≠ 0) :
-    ∃ C : ℝ≥0∞, C ≠ ⊤ ∧ ∀ (q : Fin r → ℝ) (B : Set (Fin r → ℝ)) (f f' : (Fin r → ℝ) → Mom d → ℂ) (b : ℝ≥0∞),
-      B ⊆ cell q → B ⊆ closure (interior B) → (∀ k, Continuous fun t => f' t k) →
-      (∀ᵐ t, t ∈ B → ∀ k, f t k = f' t k) →
-      XNormRestr θ Λ₁ Λ₂ B Set.univ f < b →
-      ∃ c : (Fin r → ℤ) → Mom d → ℂ,
-        (∀ t ∈ B, ∀ k, HasSum (fun m : Fin r → ℤ => c m k * fsPhase m t) (f' t k)) ∧
-        ∑' m : Fin r → ℤ, maxBracketPow θ (half m) * SNorm Λ₁ Λ₂ (c m) ≤ C * b := by
-  obtain ⟨C, hC, hCb⟩ := sum_SNorm_coeff_le (r := r) (d := d) hθ hΛ
-  refine ⟨C, hC, fun q B f f' b hBc hBi hfc hae hb => ?_⟩
-  unfold XNormRestr at hb
-  obtain ⟨G, hG⟩ := iInf_lt_iff.1 hb
-  obtain ⟨hGK, hGb⟩ := iInf_lt_iff.1 hG
-  have hGtop : XNorm θ Λ₁ Λ₂ G < ⊤ := lt_of_lt_of_le hGb le_top
-  refine ⟨coeff q G, fun t htB k => ?_, ?_⟩
-  · have hG0 := (VineEstS3.XNorm00_le_XNorm θ Λ₁ Λ₂ G).trans_lt hGtop
-    have hgn : timeFourierNorm θ (fun s => G s k) < ⊤ := by
-      refine lt_of_le_of_lt ((timeFourierNorm_slice_le_mixedFourierNorm00 θ G k).trans_eq ?_) hG0
-      exact (NormBridgeScratch.XNorm00_eq_mixedFourierNorm00 θ G).symm
-    have hae' : ∀ᵐ t, t ∈ B → G t k = f' t k := by
-      filter_upwards [hae] with t ht htB' using (hGK t htB' k (Set.mem_univ k)).trans (ht htB' k)
-    have := hasSum_coeff_slice_ae hθ q hBc hgn hae' (hfc k) (hBi htB)
-    simpa only [coeff, NormBridgeScratch.timeFT_eq_timeFourier] using this
-  · exact (hCb q G hGtop).trans (mul_le_mul_right hGb.le _)
-
 end WaveTurbulence.VineEstS5C.P2

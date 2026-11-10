@@ -85,15 +85,4 @@ theorem old_shared_star_of_post_degree_two (M : Molecule V D)
   have hs := star_eq_image_erase_union_removed M {v} ha'.2
   exact ⟨by omega,p,hp,hpa,hset,by simpa only [hset] using hs⟩
 
-/-- The unique actually removed edge identifies the repeated-label case
-without assuming that two selected first-star labels are distinct. -/
-theorem first_edge_eq_of_unique_removed_star (M : Molecule V D) {v a : V} {p q : D}
-    (hset : removedDartsAt M {v} a = {M.mate p}) (hq : M.atom q = v)
-    (hqa : M.atom (M.mate q) = a) : q = p := by
-  have hh : M.mate q ∈ removedDartsAt M {v} a := by
-    apply mem_filter.mpr
-    exact ⟨(Mole.mem_dartsAt M a _).mpr hqa,by simpa only [M.mate_mate,hq,mem_singleton]⟩
-  rw [hset] at hh
-  exact Mole.mate_injective M (mem_singleton.mp hh)
-
 end WaveTurbulence.MoleProp

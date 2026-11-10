@@ -25,10 +25,6 @@ variable {w p : ℕ} {kind : Bool} {LG : LayeredGarden w} {S : Garden w} {s : LF
   ((((X.plug ζ .leaf).branching).filter (fun q => layerAt To (addrExt aT2 q) = p)).card) +
     coupleSum Q (fun j r => layerAt Tm (addrExt (if j = 0 then aT else bT) r)) p
 
-theorem coupleRoot_ite (D : ReconstructionData S) (hS : S.IsPlain) (q : SourcePair S) (j : Fin 2) :
-    coupleRoot D hS q j = if j = 0 then inflatedPosition S D.tree (q.firstLeaf hS).toNode
-      else inflatedPosition S D.tree (q.secondLeaf hS).toNode := rfl
-
 theorem new_count_of_h (h : LFConstruction s ε) :
     rawTreeLayerCount h.output h.data (s.chosen_plain ε) p (s.branches ε s.placement.lower) +
       rawCoupleLayerCount h.output h.data (s.chosen_plain ε) p (s.pairs ε s.exceptional) =

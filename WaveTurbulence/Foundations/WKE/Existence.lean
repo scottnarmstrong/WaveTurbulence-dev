@@ -509,15 +509,4 @@ theorem lt_tauMax_iff (hd : 2 ≤ d) (φin : 𝓢(Mom d, ℝ)) {τstar : ℝ} (h
   refine lt_of_lt_of_le ?_ (ofReal_le_tauMax (by linarith) hglue)
   exact (ENNReal.ofReal_lt_ofReal_iff (by linarith)).mpr (by linarith)
 
-/-- **TARGET Prop `wkelwp`, conjuncts 1–2, exactly as in the frozen anchor** (existence of `τ_max`
-with `0 < τ_max`, the characterization of `τ_max`, and uniqueness), for `d ≥ 2`. -/
-theorem wkelwp_conj12 (d : ℕ) (hd : 2 ≤ d) (φin : 𝓢(Mom d, ℝ)) :
-    ∃ τmax : ℝ≥0∞, 0 < τmax ∧
-      (∀ τstar > (0 : ℝ),
-        (ENNReal.ofReal τstar < τmax ↔ ∃ φ : ℝ → 𝓢(Mom d, ℝ), IsWKESolution φin τstar φ)) ∧
-      (∀ τstar > (0 : ℝ), ∀ φ ψ : ℝ → 𝓢(Mom d, ℝ),
-        IsWKESolution φin τstar φ → IsWKESolution φin τstar ψ → ∀ τ ∈ Icc 0 τstar, φ τ = ψ τ) :=
-  ⟨tauMax φin, tauMax_pos hd φin, fun _ hτ => lt_tauMax_iff hd φin hτ,
-    fun _ _ _ _ hφ hψ => isWKESolution_unique hd hφ hψ⟩
-
 end WaveTurbulence.WKE

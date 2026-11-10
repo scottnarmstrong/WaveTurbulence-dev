@@ -52,27 +52,4 @@ theorem SourceVineFamily.corePlacement_at (F : SourceVineFamily G q) (i : F.Core
   designated i := (F.corePlacement_at i).1.symm ▸ F.corePlacement_at i
   separated i j hij := F.separated i j (fun he => hij (Subtype.ext he))
 
-/-- The literal source garden collection, obtained by choosing a subset of core vines. -/
-@[expose] noncomputable def SourceVineFamily.twists (F : SourceVineFamily G q) : Set (Garden w) :=
-  familyTwists ⟨G,F.coreFamily⟩
-
-/-- A source twist collection is finite. -/
-theorem SourceVineFamily.twists_finite (F : SourceVineFamily G q) : F.twists.Finite :=
-  familyTwists_finite ⟨G,F.coreFamily⟩
-
-/-- Exact source twist count: one independent binary choice for each core member. -/
-theorem SourceVineFamily.twists_ncard (F : SourceVineFamily G q) :
-    F.twists.ncard = 2 ^ Fintype.card F.CoreIndex := familyTwists_ncard ⟨G,F.coreFamily⟩
-
-/-- There are at most q core members in the original q-member collection. -/
-theorem SourceVineFamily.core_count_le (F : SourceVineFamily G q) : Fintype.card F.CoreIndex ≤ q := by
-  exact (Fintype.card_subtype_le _).trans_eq (Fintype.card_fin q)
-
-/-- TARGET Definition twist: the number of actual gardens is a power of two
-and at most 2^q, including empty collections and collections without core vines. -/
-theorem SourceVineFamily.twists_count (F : SourceVineFamily G q) :
-    (∃ r ≤ q, F.twists.ncard = 2 ^ r) ∧ F.twists.ncard ≤ 2 ^ q := by
-  refine ⟨⟨Fintype.card F.CoreIndex,F.core_count_le,F.twists_ncard⟩,?_⟩
-  exact F.twists_ncard.le.trans (Nat.pow_le_pow_right (by decide) F.core_count_le)
-
 end WaveTurbulence.Twist

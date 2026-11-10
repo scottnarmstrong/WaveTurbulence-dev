@@ -89,10 +89,6 @@ theorem abs_chiInvR_sub_le (y lam : ℝ) :
           apply mul_le_mul hb hP4 hP.le (by positivity)
       _ ≤ (8 * CPhi + 4) * (1 + |lam|) := by nlinarith [abs_nonneg lam]
 
-theorem norm_phiR_eq (x : ℝ) : ‖phiR x‖ = |chiInvR x| / π := by
-  rw [phiR, norm_div, norm_mul, Complex.norm_I, mul_one, Complex.norm_real, Real.norm_eq_abs,
-    Complex.norm_real, Real.norm_eq_abs, abs_of_pos Real.pi_pos]
-
 theorem norm_phiR_sub_le (y lam : ℝ) :
     ‖phiR (y + lam) - phiR y‖ ≤ (8 * CPhi + 4) * (1 + |lam|) / ((1 + |y|) * (1 + |y + lam|)) := by
   have e : phiR (y + lam) - phiR y = ((chiInvR (y + lam) - chiInvR y : ℝ) : ℂ) / (π * I) := by

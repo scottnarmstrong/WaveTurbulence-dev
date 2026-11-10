@@ -44,16 +44,6 @@ theorem PieceRepU.mono {D : SumintPar.SumintDatum P.d} {hI : 0 < D.S.I} {vp vb :
   obtain ⟨RK, RL, h1, h2, h3, h4, h5, h6⟩ := h
   exact ⟨RK, RL, h1, h2, h3, h4, h5.trans hb, h6⟩
 
-theorem PieceRepU.congr {D : SumintPar.SumintDatum P.d} {hI : 0 < D.S.I} {vp vb : D.S.VIdx} {ε : ℝ}
-    {f0 : (D.S.TVar → ℝ) → Mom P.d → ℂ} {X X' : (D.S.TVar → ℝ) → (Fin 3 → ℝ) → Mom P.d → Mom P.d → ℂ} {bnd : ℝ≥0∞}
-    {Bx : Set (Fin 3 → ℝ)} (h : PieceRepU hI vp vb ε f0 X bnd Bx)
-    (hX : ∀ tt ∈ Bx, ∀ᵐ τ : D.S.TVar → ℝ, τ ∈ D.timeDom hI (tt 0) (tt 1) (tt 2) → ∀ r k : Mom P.d, ‖r‖ ≤ 1 → X' τ tt r k = X τ tt r k) :
-    PieceRepU hI vp vb ε f0 X' bnd Bx := by
-  obtain ⟨RK, RL, h1, h2, h3, h4, h5, h6⟩ := h
-  refine ⟨RK, RL, h1, h2, h3, h4, h5, fun tt htt => ?_⟩
-  filter_upwards [hX tt htt, h6 tt htt] with τ hτ hτ' hd r k hr
-  exact (hτ hd r k hr).trans (hτ' hd r k hr)
-
 /-- **The zero summand** has the zero representation. -/
 theorem pieceRepU_zero {D : SumintPar.SumintDatum P.d} (hI : 0 < D.S.I) (vp vb : D.S.VIdx) (ε : ℝ)
     (f0 : (D.S.TVar → ℝ) → Mom P.d → ℂ) (X : (D.S.TVar → ℝ) → (Fin 3 → ℝ) → Mom P.d → Mom P.d → ℂ) (bnd : ℝ≥0∞)

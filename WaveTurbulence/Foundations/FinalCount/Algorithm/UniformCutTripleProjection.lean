@@ -1,7 +1,6 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 
-public import WaveTurbulence.Foundations.FinalCount.AppBCutTripleCount
 public import WaveTurbulence.Foundations.FinalCount.Algorithm.UniformCutSameSign
 public import WaveTurbulence.Foundations.FinalCount.Algorithm.UniformFixedThirdFine
 import Mathlib.Tactic

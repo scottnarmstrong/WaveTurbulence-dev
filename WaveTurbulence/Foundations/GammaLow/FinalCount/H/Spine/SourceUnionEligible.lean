@@ -5,7 +5,6 @@ public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineBran
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineChainBlock
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineChainConnected
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineChainCounts
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineChainEnds
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineChainEraseEndpoints
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineChainIngredients
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineChainInteriorConnected
@@ -21,16 +20,11 @@ public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineSmal
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineTwoJointSeparator
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceChainSwap
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceContainerAbsorb
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceCountingObjects
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceMaximalObjects
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceObjectFinite
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceObjectUnion
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceOneJointUnion
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceSubproObjects
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceVineData
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceVineGapObjects
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceVineObjectBridge
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceVineObjects
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.VineDelObjects
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Api
 /-! **L6-H port of main `WaveTurbulence.Foundations.Spine.SourceUnionEligible`** (sha256 in H/COPIED-SHA256SUMS): only the declarations that
@@ -63,15 +57,6 @@ theorem object_vc_block (O : Src.Object Src.γL M) (h : ∃ h, O.shape = .vc h) 
   rcases O with ⟨S, a, b, sh⟩
   cases sh with
   | vc h' => exact h'.1
-  | hyper R => cases hs
-
-theorem object_contained_of_vc_subset (U C : Src.Object Src.γL M) (hU : ∃ h, U.shape = .vc h)
-    (hsub : U.atoms ⊆ C.atoms) : U.IsContained C := by
-  obtain ⟨hh, hs⟩ := hU
-  rcases U with ⟨A, x, y, Ush⟩
-  rcases C with ⟨S, a, b, Csh⟩
-  cases Ush with
-  | vc h' => cases Csh <;> exact hsub
   | hyper R => cases hs
 
 end WaveTurbulence.GammaLow.FinalCount.H

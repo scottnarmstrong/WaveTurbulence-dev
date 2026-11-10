@@ -160,38 +160,6 @@ open Set
 open VineEstS5C.P4.Final LGSpine Cut2A
 variable {γF : ℝ}
 
-/-- **(B) `V5FrontierClassBoundAtΓ`** — the minimal weighted vine estimate (supplement Lemma 5.3, V5 form): verbatim
-`Famb.VineEstS5C.VineEstCanonLayerHalfMKΓ` except for the weight binders `g cψ S` with their premises (`g` real and `GPresented`) and
-the class kernel `twistedRecenteredFW p (g a.1.1) S … (modW lam)`; mass `cψ ^ (9|U| + 4 n₍₂₎) · topFilterMass`. -/
-def V5FrontierClassBoundAtΓ (P : WTParams) : Prop :=
-  ∀ {p : ℕ}, p < P.D → ∀ (h : ℕ → Mom P.d → ℝ) (B₀ : ℝ), 0 ≤ B₀ →
-    (∀ r ≤ p, SNormR (40 * P.d) (40 * P.d) (h r) ≤ ENNReal.ofReal B₀) →
-    ∀ {w : ℕ} {G : Garden w} {U : Finset (GBranch G.tree)} {a b : GBranch G.tree} {R : CLRegionData G U a b}
-      {n : ℕ} (_hprime : IsPrimeGarden G) (hM9 : Famb.NormalChartSupply γF) (B : Famb.VineEstS2.CLChainAssemblyΓ γF G R n) (RD : ReconstructionData G)
-      (hG : G.IsPlain)
-      (layer : GNode (RD.forest hG) → ℕ) (hLayer : IsLayering (RD.garden hG) layer) (kind : Bool),
-      CanonicalObject p kind (layeredReconstruction RD hG layer hLayer) → (∀ x, layer x ≤ p) →
-    (RD.garden hG).order ≤ P.N (p + 1) ^ 4 → clLocalOrder1 R ≤ P.N 1 ^ 4 →
-    ∀ (centre : Fin 4 → Mom P.d) (wBar : Mom P.d) (lam : ℝ)
-      (g : Fin w → Mom P.d → ℂ) (cψ : ℝ), 1 ≤ cψ → (∀ j, GPresented (32 * P.d) (g j) cψ) →
-      (∀ j x, (g j x).im = 0) →
-    ∀ (S : Option ℝ), (∀ s, S = some s → 0 < s) →
-    Famb.VineEstS3.RowCoherentΓ hM9 B RD hG layer hLayer (Famb.VineEstS3.step3WΓ hM9 B RD hG layer hLayer (Famb.VineEstS3.canonBadKindΓ hM9 B RD hG layer) (qOutOf RD hG layer a b R) centre wBar)
-      P.L P.γ P.δ h p →
-    XNorm00Restr (2 * P.η ^ 8) (Eng.outBox (Famb.VineEstS3.step3DΓ hM9 B RD hG layer hLayer (Famb.VineEstS3.canonBadKindΓ hM9 B RD hG layer) (qOutOf RD hG layer a b R) centre wBar))
-      (Eng.outSet (Famb.VineEstS3.step3DΓ hM9 B RD hG layer hLayer (Famb.VineEstS3.canonBadKindΓ hM9 B RD hG layer) (qOutOf RD hG layer a b R) centre wBar) P.L P.γ P.η)
-      (fun tt E => twistedRecenteredFW p (g a.1.1) S G a
-        (canonFinsetK p kind (Famb.VineEstS4.startStateΓ B RD hG layer hLayer) (Famb.VineEstS4.chainStartΓ B))
-        P.L P.γ P.δ h wBar (modW lam)
-        (tt 0) (tt 1) (tt 2) (sumintBoundary (G.sign a.toNode) E 0) (sumintBoundary (G.sign a.toNode) E 1)
-        (sumintBoundary (G.sign a.toNode) E 2) (sumintBoundary (G.sign a.toNode) E 3)) ≤
-    ENNReal.ofReal (cψ ^ (9 * U.card + 4 * clLocalOrder2 RD hG R) * topFilterMass) *
-      ENNReal.ofReal ((1 + |lam|) ^ (6 * P.η ^ 6) * ((P.C₁ * Real.sqrt P.δ) ^ clLocalOrder2 RD hG R *
-      P.L ^ (-(P.η ^ 8 * ((Famb.VineEstS3.cohmolIndexΓ B RD hG layer +
-        (Famb.VineEstS3.step3DΓ hM9 B RD hG layer hLayer (Famb.VineEstS3.canonBadKindΓ hM9 B RD hG layer) (qOutOf RD hG layer a b R) centre wBar).M₁ : ℕ) : ℝ)) -
-        P.η ^ 2 / 2 * ((Finset.univ.filter fun i => (Famb.VineEstS2.assemblyShapeΓ hM9 B).nor i = false).card : ℝ) + P.η ^ 7) *
-      regionLeafSize RD hG R layer hLayer (fun _ => B₀)))
-
 end
 
 section
@@ -207,9 +175,6 @@ open scoped ENNReal FourierTransform
 open Set
 open VineEstS5C.P4.Final LGSpine Cut2A
 variable {γF : ℝ}
-
-/-- **`V5FrontierClassBoundΓ`** (gate form, frozen `WTPrefix`). -/
-def V5FrontierClassBoundΓ : Prop := WTPrefix (V5FrontierClassBoundAtΓ (γF := γF))
 
 end
 
@@ -266,35 +231,6 @@ open MeasureTheory DegenVine DegenVinePar VineEstS5C VineEstS5C.P2 VineEstS5C.P3
 open scoped ENNReal
 variable {γF : ℝ}
 variable {w d : ℕ} {G : Garden w} {U : Finset (GBranch G.tree)} {a b : GBranch G.tree}
-
-/-- Generic ψ is sufficient *once* its common-data map has the engine pullback.
-Rows, domains, modulation and all R78 row constants are unchanged. -/
-theorem termCertW_mulΓ {A : ℝ} {P : WTParams} {R : CLRegionData G U a b} {n : ℕ}
-    (B : Famb.VineEstS2.CLChainAssemblyΓ γF G R n) (hG : G.IsPlain) (κ0 : KPar P.d) (lv : Famb.VineEstS5C.LvlΓ B)
-    (ψ : PsiT G P.d) {Bx : Set (Fin 3 → ℝ)} {K : Set (Fin 4 → Mom P.d)} {β' : ℝ≥0∞}
-    (hc : Famb.VineEstS5C.P4.W2.TermCertWΓ (A := A) B hG κ0 lv ψ Bx K β')
-    (m : (GNode G.tree → Fin P.d → ℤ) → ℂ) {mass : ℝ}
-    (hpull : EnginePullbackΓ (γF := γF) lv.region P.L κ0.base m mass) :
-    Famb.VineEstS5C.P4.W2.TermCertWΓ (A := A) B hG κ0 lv (spatialMul m ψ) Bx K (ENNReal.ofReal mass * β') := by
-  obtain ⟨n', hM9, B', W, wN, wDec, bk, cons, g, g', Z, Rw, hL, hAe, hrow, hw, hBx, hK, hinv, hd, hb⟩ := hc
-  have hpullW : EnginePullbackΓ (γF := γF) lv.region P.L W.wBar m mass := by
-    rw [hw]
-    exact hpull
-  obtain ⟨N, hmass, he⟩ := hpullW n' hM9 B' hL
-  change CharMix (Famb.VineEstS5C.P2.engDatumΓ hM9 B' hG W wN wDec bk cons g g').S P.d at N
-  refine ⟨n', hM9, B', W, wN, wDec, bk, cons, g, g', addMix Z N, Rw, hL, hAe, hrow, hw, hBx, hK, ?_, ?_, ?_⟩
-  · intro t β' κ u hu
-    simp only [spatialMul]
-    rw [hinv t β' κ u hu]
-  · intro tt htt β hβ hE
-    apply freeDict_mulΓ hM9 B' hG W hL P.γ P.δ P.η W.wBar β hβ
-      (WaveTurbulence.VineEstS3.leafT (Famb.VineEstS5C.P2.engDatumΓ hM9 B' hG W wN wDec bk cons g g').qOut (Famb.VineEstS5C.P4.W2.LeafPosΓ B lv) (Famb.VineEstS5C.P4.W2.LeafNegΓ B lv) tt) ψ m wN wDec bk cons g g'
-      Z.Mx N (allCR Rw) (hd tt htt β hβ hE)
-    exact he β hβ
-  · rw [addMix_pre]
-    have key := mul_le_mul' (ENNReal.ofReal_le_ofReal hmass) hb
-    refine le_trans (le_of_eq ?_) key
-    ac_rfl
 
 end
 

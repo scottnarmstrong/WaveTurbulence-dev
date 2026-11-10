@@ -127,9 +127,6 @@ theorem α'_not_ZZ (hs : 1 ≤ L.s) {i : ℕ} (hi : i ≤ L.r) : A.α' ∉ cross
   · rw [h4] at h2; exact L.ZY_disj hB (by omega) (by omega) h2 hy'
   · rw [h3] at h1; exact L.ZY_disj hB (by omega) (by omega) h1 hy'
 
-omit hB A in
-theorem flags_pb {i j : ℕ} : (Att.pb j).hx i = decide (j < i) ∧ (Att.pb j).he i = decide (j ≤ i) := ⟨rfl, rfl⟩
-
 /-- **The spine ports.** For the flags `hx` (exit) and `he` (entry): the port is `cross (Z i) (Z (i+1))` plus the extra
 attachment bond of the (P-b) step. -/
 theorem portSet_flag {i : ℕ} (hi : i ≤ L.r) (hh : Bool) (hflag : hh = att.hx i ∨ hh = att.he i) :

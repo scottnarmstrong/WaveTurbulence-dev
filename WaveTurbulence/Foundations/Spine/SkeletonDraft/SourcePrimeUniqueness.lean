@@ -6,7 +6,7 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.Spine.SkeletonDraft.SourceExpansionHistories
-public import WaveTurbulence.Foundations.Spine.SkeletonDraft.PrimeSkeletonExistence
+public import WaveTurbulence.Foundations.Spine.SkeletonDraft.PrimeSkeletonUniqueness
 public import WaveTurbulence.Foundations.Spine.SkeletonDraft.SourcePrimeExistence
 
 /-! # Source-form unique prime skeletons: arbitrary forward A/B construction histories

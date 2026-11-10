@@ -2,7 +2,6 @@
 module
 
 public import WaveTurbulence.Foundations.Spine.RA1LW.LeafFam
-public import WaveTurbulence.Foundations.Spine.RA1LW.Base
 public import WaveTurbulence.Foundations.Spine.RA1LW.SourceChainChosen
 public import WaveTurbulence.Foundations.Spine.RA1LW.SourceAddressIndependence
 

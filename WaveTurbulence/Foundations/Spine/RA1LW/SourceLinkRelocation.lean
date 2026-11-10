@@ -1,7 +1,6 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 
-public import WaveTurbulence.Foundations.Spine.RA1LW.Base
 public import WaveTurbulence.Foundations.Spine.RA1LW.SourceParameterRelocation
 public import WaveTurbulence.Foundations.IncohInst.Links.Param
 
@@ -10,7 +9,6 @@ public import WaveTurbulence.Foundations.IncohInst.Links.Param
 public section
 noncomputable section
 namespace WaveTurbulence.RA1Leafwise
-open WaveTurbulence.RegAsymp
 open Links Reg TTree
 
 variable {w w' : ℕ}

@@ -12,13 +12,6 @@ public section
 namespace WaveTurbulence.LFTwist
 open TTree Reg Reg.Skeleton Links
 
-/-- Literal source coherence of every native regular attachment. -/
-@[expose] def AllAttachmentsCoherent {w : ℕ} {S : Garden w} (LG : LayeredGarden w)
-    (D : ReconstructionData S) (hS : S.IsPlain) : Prop :=
-  (∀ b, CohOn LG ((D.tree b).linksAt (nodeSign S.sig b.1) (inflatedPosition S D.tree b.toNode))) ∧
-  ∀ q, CohOn LG ((D.couple q).linksAt (inflatedPosition S D.tree (q.firstLeaf hS).toNode)
-    (inflatedPosition S D.tree (q.secondLeaf hS).toNode))
-
 theorem decoded_reconstruction_collapse_path {w : ℕ} {S G : Garden w} (D : ReconstructionData S)
     (hS : S.IsPlain) (hd : D.Decodes hS G) (b : GBranch S.tree) :
     (Comb.collapseDataOfDesc (D.decoded_chain_isSubPairedTree hS hd b).1).path = (D.tree b).lonePath := by
@@ -52,26 +45,6 @@ theorem eraseTree_native_layerAt {w : ℕ} {S : Garden w} (LG : LayeredGarden w)
     (Comb.collapseDataOfDesc (D.decoded_chain_isSubPairedTree hS hd b).1).path z) = _ at he
   rw [decoded_reconstruction_collapse_path D hS hd b, ← D.eraseTree_position_at b] at he
   exact he
-
-/-- Every remaining native attachment stays coherent after one tree-slot erasure. -/
-theorem eraseTree_allAttachmentsCoherent {w : ℕ} {S : Garden w} (LG : LayeredGarden w)
-    (D : ReconstructionData S) (hS : S.IsPlain) (hd : D.Decodes hS LG.garden)
-    (b : GBranch S.tree) (hc : AllAttachmentsCoherent LG D hS) :
-    AllAttachmentsCoherent (collapsePairedTreeLayered LG (D.decoded_chain_isSubPairedTree hS hd b))
-      (D.eraseTree b) hS := by
-  constructor
-  · intro c
-    by_cases he : c = b
-    · subst c
-      rw [D.eraseTree_at]
-      simp only [CohOn, RegChain.linksAt, List.not_mem_nil, IsEmpty.forall_iff, implies_true]
-    · have hh := hc.1 c
-      rw [eraseTree_chain_links D b c he] at hh
-      exact (cohOn_map_iff _ _ _ (eraseTree_native_layerAt LG D hS hd b) _).mp hh
-  · intro q
-    have hh := hc.2 q
-    rw [eraseTree_couple_links D hS b q] at hh
-    exact (cohOn_map_iff _ _ _ (eraseTree_native_layerAt LG D hS hd b) _).mp hh
 
 /-- The actual induced branch pre-layering is unchanged by coherent-tree erasure. -/
 theorem eraseTree_inducedPrelayer_eq {w : ℕ} {S : Garden w} (LG : LayeredGarden w)

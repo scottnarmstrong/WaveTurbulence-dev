@@ -9,14 +9,12 @@ public import WaveTurbulence.Foundations.GammaLow.Famc.ClassCount.ClassBound
 public import WaveTurbulence.Foundations.Stage1.ClassCount.KeyCount
 import Mathlib.Tactic
 public import WaveTurbulence.Foundations.Stage1.ClassCount.Classes
-public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Amend7
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.CL
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.CN
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Coll
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Coll2
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Cover
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Data
-public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Deg
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Desig
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Final
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Gap
@@ -32,7 +30,6 @@ public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Marked
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Obj
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Obj2
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Obj3
-public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Pairs
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Piece
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Rev
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Runs
@@ -43,7 +40,6 @@ public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Stage
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.SurvData
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Top
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.TripleDesig
-public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.TripleHinge
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.UnitBlocks
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Units
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Units2
@@ -53,19 +49,14 @@ public import WaveTurbulence.Foundations.GammaLow.Fama.Coll.Basic
 public import WaveTurbulence.Foundations.GammaLow.Fama.Coll.Collection
 public import WaveTurbulence.Foundations.GammaLow.Fama.Inputs
 public import WaveTurbulence.Foundations.GammaLow.Fama.Vine.Chain
-public import WaveTurbulence.Foundations.GammaLow.Fama.P.Molecule.VineChainEraseEndpoints
-public import WaveTurbulence.Foundations.GammaLow.Fama.P.Molecule.VineChainInteriorConnected
 public import WaveTurbulence.Foundations.GammaLow.Fama.Vine.Facts
 public import WaveTurbulence.Foundations.GammaLow.Fama.P.Molecule.VineLocalDartChains
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.Src.Counting
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.Src.Objects
-public import WaveTurbulence.Foundations.GammaLow.Fama.P.Spine.VineDelObjects
 public import WaveTurbulence.Foundations.GammaLow.Famc.ClassCount.Assembly
 public import WaveTurbulence.Foundations.GammaLow.Famc.ClassCount.ChainFam2
 public import WaveTurbulence.Foundations.GammaLow.Famc.ClassCount.ChainFam3
-public import WaveTurbulence.Foundations.GammaLow.Famc.ClassCount.ChainSum
 public import WaveTurbulence.Foundations.GammaLow.Famc.ClassCount.Lab
-public import WaveTurbulence.Foundations.GammaLow.Famc.ClassCount.Layout
 public import WaveTurbulence.Foundations.GammaLow.Famc.ClassCount.RootDef
 public import WaveTurbulence.Foundations.GammaLow.Famc.ClassCount.SkeletonCode
 public import WaveTurbulence.Foundations.GammaLow.Famc.ClassCount.SkeletonLeg
@@ -179,15 +170,6 @@ theorem gbar_decompMk {R : ℕ} (d : ℕ) {S : Garden (2 * R)} {D : Reconstructi
     rfl
   rw [Finset.sum_congr rfl fun i _ => this i]
 
-/-- **`ḡ` of a piece is `Σ gs + (vine incoherencies) + Σ γl`.** -/
-theorem gbar_decomp {R : ℕ} (d : ℕ) {S : Garden (2 * R)} {D : ReconstructionData S} (hS : S.IsPlain)
-    (LG : LayeredGarden (2 * R)) (hd : D.Decodes hS LG.garden) (σ : Prescription S) :
-    (Fama.stage1PieceOf γ d hS LG hd σ).gbar = ∑ s, slotInc D hS LG s +
-      ∑ T ∈ (Set.toFinite (Fama.unitIngredients γ S σ)).toFinset, Fama.vineIncoh γ S (coreOf D hS LG) T +
-      ∑ i : {T // T ∈ (Fama.stSt γ S σ).G.molecule.maximalLadders},
-        incoherencyIndex (coreOf D hS LG ∘ (Fama.stSt γ S σ).M.ob)
-          (ladderGroups ((Fama.ladderDataOf (Fama.stSt γ S σ).G).upper i) ((Fama.ladderDataOf (Fama.stSt γ S σ).G).lower i)) := gbar_decompMk (Mk := ∅) d hS LG hd σ
-
 /-- B1b (Mk-general form of `stSt_eq_of_unitBlocks_eq`). -/
 theorem stSt_eq_of_unitBlocks_eqMk (S : Garden w) (σ σ' : Prescription S)
     {Mk : Set (CLVineG γ _)} (h : Fama.unitBlocks γ (Mk := Mk) S σ = Fama.unitBlocks γ (Mk := Mk) S σ') : Fama.stSt γ (Mk := Mk) S σ = Fama.stSt γ (Mk := Mk) S σ' := by
@@ -288,9 +270,6 @@ theorem length_le_hingesMk (S : Garden w) (σ : Prescription S) {Mk : Set (CLVin
         rw [hc j, hc j'] at hu
         exact Finset.disjoint_left.1 hd ((Fama.unitBlocks γ (Mk := Mk) S σ).get j).isBlock.2.1 (hu ▸ ((Fama.unitBlocks γ (Mk := Mk) S σ).get j').isBlock.2.1)
 
-theorem length_le_hinges (S : Garden w) (σ : Prescription S) :
-    (Fama.unitBlocks γ S σ).length ≤ (Fama.stSt γ S σ).hinges.card := length_le_hingesMk (Mk := ∅) S σ
-
 /-- B2d: `ρ_sb + #units ≤ ρ̄` at any marked set. -/
 theorem rho_add_length_le_rbarOfMk (S : Garden (2 * w)) (σ : Prescription S) (Mk : Set (CLVineG γ S)) :
     (Fama.stSt γ S σ Mk).G.molecule.rho + (Fama.unitBlocks γ S σ Mk).length ≤ rbarOfMkG γ S σ Mk := by
@@ -311,13 +290,5 @@ theorem card_tripI_leMk {S : Garden w} {σ : Prescription S} {Mk : Set (CLVineG 
     Fintype.card (TripIMk γ S σ Mk Tss) ≤ Fintype.card (GBranch S.tree) :=
   card_le_of_disjoint_nonempty (fun i : TripIMk γ S σ Mk Tss => (tauMk γ Tss i).1.erase (tauMk γ Tss i).2.1)
     (fun i => tau_nonemptyMk h1 i) (fun i i' hne => tau_disjointMk h1 h2 hne)
-
-theorem card_tripI_le {S : Garden w} {σ : Prescription S} {Tss : Fin (Fama.unitBlocks γ S σ).length → List (Trip S)}
-    (h1 : ∀ j, ∃ n, ∀ t ∈ Tss j, ChainIngredientG γ S.molecule ((Fama.unitBlocks γ S σ).get j).atoms
-          ((Fama.unitBlocks γ S σ).get j).upper ((Fama.unitBlocks γ S σ).get j).lower n t.1 t.2.1 t.2.2 ∧
-          Mole.CLParentPattern S t.1 t.2.1 t.2.2)
-    (h2 : ∀ j, ((Tss j).map (fun t => t.1.erase t.2.1)).Pairwise Disjoint) :
-    Fintype.card (TripI γ S σ Tss) ≤ Fintype.card (GBranch S.tree) :=
-  card_tripI_leMk (Mk := ∅) h1 h2
 
 end WaveTurbulence.GammaLow.Famc.ClassCount

@@ -29,10 +29,6 @@ open WaveTurbulence.RegAsymp Links Incoh
 @[expose] def addrFam {w d : ℕ} (H : Fin w × TTree.Path → Mom d → ℝ) : Fin w × TTree.Path → Mom d → ℂ :=
   fun z k => (H z k : ℂ)
 
-theorem leafFam_eq_addrFam {G : Garden 2} {Q : RegCpl} (hQ : Q.Decodes G) (hG : IsCouple G) {d : ℕ}
-    (H : LGSpine.LeafProfiles 2 d) (a : Fin (2*Q.links.length+1)) :
-    leafFam hQ hG H a = addrFam H (plusLeafEquiv hQ hG a).val.1 := rfl
-
 /-- The literal leafwise input product in its actual integer-coordinate summand. -/
 theorem actual_coset_leafProduct_eq {G : Garden 2} {Q : RegCpl}
     (hQ : Q.Decodes G) (hG : IsCouple G) {d : ℕ}

@@ -43,29 +43,6 @@ theorem interpolationWeight_bounds {η : ℝ} (hη : 0 ≤ η) (hsmall : 8 * η^
   apply (div_le_iff₀ hp).mpr
   nlinarith [sq_nonneg (η^8)]
 
-/-- A small η makes the enlarged-interval gain stronger than the target incoherence gain. -/
-theorem eta_eight_le_partitionExponent {η : ℝ} (hη : 0 ≤ η) (hη1 : η ≤ 1) :
-    η^8 ≤ partitionExponent η := by
-  have hs : η ≤ Real.sqrt η := by
-    apply (Real.le_sqrt hη hη).mpr
-    nlinarith
-  unfold partitionExponent
-  calc
-    η^8 = η^7 * η := by ring
-    _ ≤ _ := mul_le_mul_of_nonneg_left hs (pow_nonneg hη _)
-
-/-- All displayed partition and Plancherel losses fit in the target `L^{η^7}` allowance. -/
-theorem partition_interpolation_loss_le {d : ℕ} {η : ℝ}
-    (hη : 0 ≤ η) (hsmall : 8 * η^8 ≤ 1)
-    (hmargin : 12 * Real.sqrt η + 168 * (d : ℝ) * η ≤ 1) :
-    12 * partitionExponent η + 14 * (d : ℝ) * interpolationWeight η ≤ η^7 := by
-  have hw := (interpolationWeight_bounds hη hsmall).2.2
-  have hd : 0 ≤ (d : ℝ) := Nat.cast_nonneg _
-  have hm := mul_le_mul_of_nonneg_right hmargin (pow_nonneg hη 7)
-  have ht := mul_le_mul_of_nonneg_left hw (mul_nonneg (by norm_num : (0 : ℝ) ≤ 14) hd)
-  unfold partitionExponent
-  nlinarith only [hm, ht]
-
 /-- Reserve half of the final allowance for global cutoff constants depending on
 `δ` and `Dsteps`; these constants must be absorbed by `L₀`, since `C₁` is chosen first. -/
 theorem partition_interpolation_loss_le_half {d : ℕ} {η : ℝ}

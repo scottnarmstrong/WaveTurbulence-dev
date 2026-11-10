@@ -98,24 +98,6 @@ theorem integrable_norm_randK_pow :
     (fun F hF => order_toTree_le_of_mem_kernelTrees hF) (fkCoef P.L P.γ P.δ p pat dagger cut1 cut2 t s)
     (norm_fkCoef_le P.L P.γ P.δ p pat dagger cut1 cut2 t s hc) Pm hPm hNR n n'
 
-include hG ha hrapid hL hδ hsmall hC hF hΛ hc hPm hNR in
-/-- **X2E-1: the `2P`-th moment identity of the random kernel `𝒦`, under `AnsatzAt`.** -/
-theorem integral_norm_randK_pow_eq :
-    (((∫ ω in Fev p, ‖randK P a p kind pat dagger cut1 cut2 ζ t s n n' ω‖ ^ (2 * Pm) ∂μ : ℝ)) : ℂ) =
-      ∑ tops : Fin (Pm + Pm) → ↥(kernelTrees pat (P.N (p + 1)) kind ζ),
-        ∑ Q : Finpartition (nfLeaves (fun j => (tops j).1)),
-          ((∑' κ : FlowerForestDec (fun j => (tops j).1) P.d (fun _ => n) (fun _ => n'),
-              flowerKerIntegrand P.L P.γ P.δ (inputsF P R) (altSig Pm) (fun j => (tops j).1)
-                (fun j => fkCoef P.L P.γ P.δ p pat dagger cut1 cut2 t s (tops j).1) Q p (P.N p) κ) +
-            flowerError (μ.restrict (Fev p)) P.L P.γ P.δ (inputsF P R) (altSig Pm) (fun j => (tops j).1)
-              (fun j => fkCoef P.L P.γ P.δ p pat dagger cut1 cut2 t s (tops j).1) Q (fun ω => a ω p) p (P.N p)
-              (fun _ => n) (fun _ => n')) := by
-  simp only [randK_eq_famFlowerTerm]
-  exact integral_norm_famFlowerTerm_pow_eq P μ g hG a Fev R E Et p ha hrapid hL hδ hsmall C hC hF hΛ
-    (kernelTrees pat (P.N (p + 1)) kind ζ) (fun F hF => ne_flower_of_mem_kernelTrees pat hF) (3 * P.N (p + 1) + 1)
-    (fun F hF => order_toTree_le_of_mem_kernelTrees hF) (fkCoef P.L P.γ P.δ p pat dagger cut1 cut2 t s)
-    (norm_fkCoef_le P.L P.γ P.δ p pat dagger cut1 cut2 t s hc) Pm hPm hNR n n'
-
 end RandK
 
 end WaveTurbulence.X2E

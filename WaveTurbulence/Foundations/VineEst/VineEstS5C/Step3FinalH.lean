@@ -61,38 +61,4 @@ theorem regionLeafSize_nonneg {P : WTParams} {h : ℕ → Mom P.d → ℝ} {Bh :
   rw [← prod_rowCostH_eq hM9 B RD hG layer hLayer Bh W]
   exact Finset.prod_nonneg fun ρ _ => rowCostH_nonneg (hLayer := hLayer) hB hlay W ρ
 
-theorem step3BoundH_eq {P : WTParams} {h : ℕ → Mom P.d → ℝ} {Bh : ℕ → ℝ} {p : ℕ} (hB : ProfileBound P h Bh p)
-    (Cfs : ℝ≥0∞) (hM9 : VINEPARAM) (B : CLChainAssembly G R n) (RD : ReconstructionData G) (hG : G.IsPlain)
-    (layer : GNode (RD.forest hG) → ℕ) (hLayer : IsLayering (RD.garden hG) layer)
-    (hlay : ∀ x, layer x ≤ p) (badKind : Fin (assemblyShape hM9 B).I → Fin 4)
-    (qOut : Fin 3 → ℕ) (centre : Fin 4 → Mom P.d) (wBar : Mom P.d)
-    (hrb : ∀ ρ, 0 ≤ rowBound hM9 B RD hG layer hLayer P (step3W hM9 B RD hG layer hLayer badKind qOut centre wBar) ρ) :
-    step3BoundH P Bh Cfs hM9 B RD hG layer hLayer badKind qOut centre wBar =
-      step3Bound P Cfs hM9 B RD hG layer hLayer badKind qOut centre wBar *
-        ENNReal.ofReal (regionLeafSize RD hG R layer hLayer Bh) := by
-  classical
-  set W := step3W hM9 B RD hG layer hLayer badKind qOut centre wBar with hW
-  unfold step3BoundH step3Bound
-  dsimp only
-  have hc := rowCostH_nonneg (hLayer := hLayer) hB hlay W
-  have e1 : ∀ ρ : Row (sourceSumintDatum hM9 B hG W),
-      Cfs * ENNReal.ofReal (2 * rowBoundH hM9 B RD hG layer hLayer P Bh W ρ) =
-        (Cfs * ENNReal.ofReal (2 * rowBound hM9 B RD hG layer hLayer P W ρ)) *
-          ENNReal.ofReal (rowCostH hM9 B RD hG layer hLayer Bh W ρ) := by
-    intro ρ
-    unfold rowBoundH
-    have h2 : ENNReal.ofReal (2 * (rowBound hM9 B RD hG layer hLayer P W ρ * rowCostH hM9 B RD hG layer hLayer Bh W ρ)) =
-        ENNReal.ofReal (2 * rowBound hM9 B RD hG layer hLayer P W ρ) *
-          ENNReal.ofReal (rowCostH hM9 B RD hG layer hLayer Bh W ρ) := by
-      rw [← ENNReal.ofReal_mul (by have := hrb ρ; linarith)]; congr 1; ring
-    rw [h2, mul_assoc]
-  have e3 : ∏ ρ : Row (sourceSumintDatum hM9 B hG W),
-        (Cfs * ENNReal.ofReal (2 * rowBoundH hM9 B RD hG layer hLayer P Bh W ρ)) =
-      (∏ ρ : Row (sourceSumintDatum hM9 B hG W), (Cfs * ENNReal.ofReal (2 * rowBound hM9 B RD hG layer hLayer P W ρ))) *
-        ENNReal.ofReal (regionLeafSize RD hG R layer hLayer Bh) := by
-    rw [Finset.prod_congr rfl (fun ρ _ => e1 ρ), Finset.prod_mul_distrib,
-      ← ENNReal.ofReal_prod_of_nonneg (fun ρ _ => hc ρ), prod_rowCostH_eq hM9 B RD hG layer hLayer Bh W]
-  rw [e3]
-  ring
-
 end WaveTurbulence.VineEstS5C

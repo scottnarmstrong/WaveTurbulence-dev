@@ -1,7 +1,10 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 
-public import WaveTurbulence.Foundations.FinalCount.AppBTripleSmallGapChoices
+public import WaveTurbulence.Foundations.FinalCount.AppBTripleFrameConservation
+public import WaveTurbulence.Foundations.FinalCount.AppBPhysicalTripleSmallGap
+public import WaveTurbulence.Foundations.FinalCount.AppBInternalPairOrder
+public import WaveTurbulence.Foundations.FinalCount.AppBDeletionCounting
 import Mathlib.Tactic
 
 /-! # Carrier-uniform local projection estimate -/

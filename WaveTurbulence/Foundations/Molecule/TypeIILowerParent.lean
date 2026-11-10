@@ -38,17 +38,4 @@ theorem EndRungData.lower_parent {w : ℕ} (G : Garden w)
   let x : GardenDart G := .inl (⟨b,hn⟩,false)
   exact ⟨hn,R.lower_neighbor hB (x := x) rfl ⟨hB.2.2.1,hp⟩⟩
 
-/-- The exact adjacent bond multiplicities and actual parent conclusion for every current CL type-II vine. -/
-theorem typeII_adjacent_geometry {w : ℕ} (G : Garden w)
-    {S : Finset (GBranch G.tree)} {a b : GBranch G.tree}
-    (hV : G.molecule.IsVine .II S a b) (hCL : Mole.CLParentPattern G S a b) :
-    ∃ R : EndRungData G.molecule S a b,
-      G.molecule.bondsBetween R.left R.right = 2 ∧
-      G.molecule.bondsBetween b R.left = 1 ∧ G.molecule.bondsBetween b R.right = 1 ∧
-      ∃ hn : b.1.2 ≠ [], GNode.parent b.toNode hn = R.left ∨
-        GNode.parent b.toNode hn = R.right := by
-  obtain ⟨R⟩ := garden_typeII_end_rung G hV
-  exact ⟨R,R.double_count (Mole.garden_isMolecule G),(R.lower_single_counts hV.1).1,
-    (R.lower_single_counts hV.1).2,R.lower_parent G hV.1 hCL⟩
-
 end WaveTurbulence.Molecpl

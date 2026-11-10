@@ -1,7 +1,9 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 public import WaveTurbulence.Foundations.FinalCount.AsmEnd3
-public import WaveTurbulence.Foundations.FinalCount.SubproShapeFinal
+public import WaveTurbulence.Foundations.FinalCount.SubproShapeConn
+public import WaveTurbulence.Foundations.FinalCount.SubproShapeDV
+public import WaveTurbulence.Foundations.FinalCount.SubproShapeC1
 /-! **FINALCOUNT-ASSEMBLY: `HostConn` and `HostConnF` from S4-SHAPE** (census item (b)).
 
 Generic over the molecule (applied to `M₀ = inlMol G.molecule` in the garden instantiation), for one decoration `κ`:
@@ -70,13 +72,6 @@ theorem adjOf_hyper {M : Molecule V D} (O : Object M) (hh : ∃ R, O.shape = .hy
   cases sh with
   | vc _ => cases hR
   | hyper R' => exact ⟨_, rfl⟩
-
-theorem adjOf_vc {M : Molecule V D} (O : Object M) (hvc : ∃ h, O.shape = .vc h) : adjOf O = none := by
-  obtain ⟨S, a, b, sh⟩ := O
-  obtain ⟨h, hh⟩ := hvc
-  cases sh with
-  | vc _ => rfl
-  | hyper R' => cases hh
 
 theorem containsDart_inGroup' {M : Molecule V D} (O : Object M) {z : D} (h : O.ContainsDart z) : M.InGroup O.atoms z := by
   unfold Object.ContainsDart at h

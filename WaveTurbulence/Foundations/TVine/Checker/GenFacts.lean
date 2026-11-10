@@ -150,9 +150,6 @@ theorem gen1_triple (k : ℕ) : mult (gen1 (k + 1)) (4 * k + 3) (4 * k + 4) = 3 
   rw [show 3 + 4 * k = 4 * k + 3 by ring, show 4 * k + 3 + 1 = 4 * k + 4 by ring] at this
   exact this
 
-theorem not_isNew_le_two {k N z : ℕ} (hN : 3 ≤ N) (hz : z ≤ 2) : ¬ IsNew k N z := by
-  rintro ⟨i, _, h⟩; omega
-
 /-- Every other pair of `gen1 (k + 1)` has multiplicity at most 2. -/
 theorem gen1_le_two (k : ℕ) {u v : ℕ} (h : s(u, v) ≠ s(4 * k + 3, 4 * k + 4)) : mult (gen1 (k + 1)) u v ≤ 2 := by
   by_cases hn : IsNew (k + 1) 3 u ∨ IsNew (k + 1) 3 v
@@ -173,9 +170,6 @@ def CParam.Valid (p : CParam) : Prop :=
   match p.second with
   | none => True
   | some (x, y, k') => 1 ≤ p.k ∧ 1 ≤ k' ∧ x < y ∧ mult (gen1 p.k) x y ≠ 0 ∧ mult (gen1 p.k) x y ≤ 2
-
-theorem gen1_x_y_ends {k x y : ℕ} (h : mult (gen1 k) x y ≠ 0) : InEnds (gen1 k) x ∧ InEnds (gen1 k) y :=
-  inEnds_of_mult_ne_zero h
 
 /-- The names of the second ladder are fresh for the first. -/
 theorem fresh_second (k k' : ℕ) : Fresh k' (gen1 k) 5 := by

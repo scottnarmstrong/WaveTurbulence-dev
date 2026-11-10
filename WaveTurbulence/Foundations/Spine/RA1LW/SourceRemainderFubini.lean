@@ -2,8 +2,9 @@
 module
 
 public import WaveTurbulence.Foundations.Spine.RA1LW.LeafScalarFubini
-public import WaveTurbulence.Foundations.Spine.RA1LW.SourceSpatialEstimate
-public import WaveTurbulence.Foundations.Spine.RA1LW.WickSpatialEstimate
+public import WaveTurbulence.Foundations.RegularAsymptotics.RegAsympDraft.CoefficientMassBudget
+public import WaveTurbulence.Foundations.Spine.RA1LW.LeafScalarProfile
+public import WaveTurbulence.Foundations.RegularAsymptotics.RegAsympDraft.WickCorrectionSourceEnvelope
 
 /-! # Actual NT and Wick source premises imply global joint spectral integrability -/
 

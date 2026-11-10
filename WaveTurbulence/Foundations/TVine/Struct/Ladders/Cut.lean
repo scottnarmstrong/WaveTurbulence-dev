@@ -52,9 +52,6 @@ theorem mem_bondSet {M : Molecule V D} {A B : Finset V} {x : D} :
 theorem bondSet_comm (M : Molecule V D) (A B : Finset V) : bondSet M A B = bondSet M B A := by
   ext x; simp only [mem_bondSet]; tauto
 
-theorem crossBonds_comm' (M : Molecule V D) (A B : Finset V) : crossBonds M A B = crossBonds M B A := by
-  rw [← card_bondSet, bondSet_comm, card_bondSet]
-
 theorem bondSet_mono {M : Molecule V D} {A A' B B' : Finset V} (hA : A ⊆ A') (hB : B ⊆ B') :
     bondSet M A B ⊆ bondSet M A' B' := by
   intro x hx
@@ -62,10 +59,6 @@ theorem bondSet_mono {M : Molecule V D} {A A' B B' : Finset V} (hA : A ⊆ A') (
   rcases hx with ⟨hx, ⟨h1, h2⟩ | ⟨h1, h2⟩⟩
   · exact ⟨hx, Or.inl ⟨hA h1, hB h2⟩⟩
   · exact ⟨hx, Or.inr ⟨hB h1, hA h2⟩⟩
-
-theorem crossBonds_le_of_subset {M : Molecule V D} {A A' B B' : Finset V} (hA : A ⊆ A') (hB : B ⊆ B') :
-    crossBonds M A B ≤ crossBonds M A' B' :=
-  Finset.card_le_card (bondSet_mono hA hB)
 
 theorem not_mem_bondSet_of_zero {M : Molecule V D} {A B : Finset V} (h : crossBonds M A B = 0) {x : D} :
     x ∉ bondSet M A B := by
@@ -139,8 +132,6 @@ theorem TV.of (hP : PieceShapeStatement.{u, v}) {M : Molecule V D} (hM : M.IsMol
 section TV
 
 variable {M : Molecule V D} {S : Finset V} {j₁ j₂ : V}
-
-theorem TV.j₁_mem (h : TV M S j₁ j₂) : j₁ ∈ S := h.tv.1.2.1
 
 theorem TV.j₂_mem (h : TV M S j₁ j₂) : j₂ ∈ S := h.tv.1.2.2.1
 

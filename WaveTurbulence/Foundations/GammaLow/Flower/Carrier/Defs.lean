@@ -62,9 +62,6 @@ def SurvivorDataG.Structural {γ : ℝ} {w : ℕ} {G : Garden w} (C : Src.Subpro
   (∀ i j, i ≠ j → ((S.surv i).atoms ∩ (S.surv j).atoms).card ≤ 1) ∧
   (∀ v ∈ C.hinges, ∀ i, ¬ (S.surv i).IsInterior v)
 
-/-- No survivors, nothing protected. -/
-def survEmptyG (γ : ℝ) (G : Garden w) : SurvivorDataG γ G := ⟨0, Fin.elim0, ∅⟩
-
 /-- `v` is a joint of the `i`-th survivor. -/
 def SurvJointG {γ : ℝ} {G : Garden w} (S : SurvivorDataG γ G) (i : Fin S.m) (v : GBranch G.tree) : Prop :=
   v = (S.surv i).upper ∨ v = (S.surv i).lower
@@ -76,14 +73,6 @@ def SurvFirstJointG {γ : ℝ} {G : Garden w} (S : SurvivorDataG γ G) (i : Fin 
 /-- The removal order: survivors meet only index-consecutive survivors (o75 §4.6, Theorem 7.5′(7)). -/
 def SurvChainOrderG {γ : ℝ} {G : Garden w} (S : SurvivorDataG γ G) : Prop :=
   ∀ i j, i ≠ j → ¬ Disjoint (S.surv i).atoms (S.surv j).atoms → i.val + 1 = j.val ∨ j.val + 1 = i.val
-
-theorem chainOrderG_empty (γ : ℝ) (G : Garden w) : SurvChainOrderG (survEmptyG γ G) := fun i => Fin.elim0 i
-
-theorem structuralG_empty {γ : ℝ} {G : Garden w} (C : Src.SubproChoices γ G) : (survEmptyG γ G).Structural C :=
-  ⟨fun i => Fin.elim0 i, fun _ j => Fin.elim0 j, fun i => Fin.elim0 i, fun _ _ i => Fin.elim0 i⟩
-
-theorem jointsG_empty {γ : ℝ} {G : Garden w} : (survEmptyG γ G).joints = ∅ := by
-  ext x; simp [SurvivorDataG.joints, survEmptyG]
 
 /-! ## The marked piece over `𝒱_γ` (main `MkDefs.Stage1MK`) -/
 
@@ -192,34 +181,10 @@ structure SubproSupportMKG {γ : ℝ} (G : Garden w) (C : Src.SubproChoices γ G
         ((v = P.upper ∨ v = P.lower) ∧
           HasChosenPair (C.first v) (C.second v) (fun x y => Xor (P.ContainsDart x) (P.ContainsDart y))))
 
-/-- Non-vacuity: with no survivors, L6's `Src.SubproSupport` gives `SubproSupportMKG` (main's
-`subproSupportMK_of_empty`). -/
-theorem subproSupportMKG_of_empty {γ : ℝ} (G : Garden w) (C : Src.SubproChoices γ G) (L γ' η : ℝ)
-    (base : Mom d) (kFix : Finset (Mom d)) (κ : GardenDart G → (Fin d → ℤ))
-    (h : FinalCount.Src.SubproSupport γ G C L γ' η base kFix κ) :
-    SubproSupportMKG G C (survEmptyG γ G) L γ' η base kFix κ := by
-  have hj := jointsG_empty (γ := γ) (G := G)
-  refine ⟨h.selectedSG, fun i => Fin.elim0 i, h.zeroTame, ?_, h.hingeSG, h.hingeJoint,
-    fun i => Fin.elim0 i, ?_, ?_⟩
-  · intro P hP hout _ hdis
-    rw [hj, Finset.union_empty] at hdis ⊢
-    rcases h.contained P hP hout hdis with ⟨S', a, b, h1, h2, h3, h4⟩ | ⟨Q, h1, h2, h3, h4⟩
-    · exact Or.inl ⟨S', a, b, h1, h2, h3, h4, fun i => Fin.elim0 i⟩
-    · exact Or.inr ⟨Q, h1, h2, h3, h4, fun i => Fin.elim0 i⟩
-  · intro P hP hout _ _ hmeet
-    exact h.crossing P hP hout hmeet
-  · intro P _ hmeet
-    rw [hj] at hmeet
-    simp at hmeet
-
 /-- The forbidden atoms of the second collection with survivors (Theorem 7.5′(7)). -/
 def forbiddenMKG {γ : ℝ} {G : Garden w} (C : Src.SubproChoices γ G) (S : SurvivorDataG γ G) :
     Set (GBranch G.tree) :=
   C.forbidden ∪ ⋃ i, (↑(S.surv i).atoms : Set (GBranch G.tree))
-
-theorem forbiddenMKG_empty {γ : ℝ} {G : Garden w} (C : Src.SubproChoices γ G) :
-    forbiddenMKG C (survEmptyG γ G) = C.forbidden := by
-  simp [forbiddenMKG, survEmptyG]
 
 def SecondCollectionOKMKG {γ : ℝ} {G : Garden w} (C : Src.CountingChoices γ G d) (S : SurvivorDataG γ G)
     (L γ' η : ℝ) (base : Mom d) (κ : GardenDart G → (Fin d → ℤ)) : Prop :=
@@ -235,13 +200,6 @@ def CriticalSGMKG {γ : ℝ} {G : Garden w} (C : Src.CountingChoices γ G d) (S 
 noncomputable def numCriticalSGMKG {γ : ℝ} {G : Garden w} (C : Src.CountingChoices γ G d)
     (S : SurvivorDataG γ G) : ℕ :=
   ((univ : Finset (GBranch G.tree)).filter (CriticalSGMKG C S)).card
-
-theorem numCriticalSGMKG_empty {γ : ℝ} {G : Garden w} (C : Src.CountingChoices γ G d) :
-    numCriticalSGMKG C (survEmptyG γ G) = C.numCriticalSG := by
-  unfold numCriticalSGMKG FinalCount.Src.CountingChoices.numCriticalSG CriticalSGMKG
-  congr 1
-  ext v
-  simp [survEmptyG]
 
 /-- Requirements (b)–(f) with survivors (main's `AdmissibleMK`). -/
 def AdmissibleMKG {γ : ℝ} {G : Garden w} (C : Src.CountingChoices γ G d) (S : SurvivorDataG γ G) (L γ' η : ℝ)
@@ -265,14 +223,6 @@ def AdmissibleMKG {γ : ℝ} {G : Garden w} (C : Src.CountingChoices γ G d) (S 
       C.atomScale v / 2 ≤ ‖Molecule.gapAt L base κ x y‖ ∧
         ‖Molecule.gapAt L base κ x y‖ ≤ 2 * C.atomScale v)) ∧
   C.LadderGaps L γ' η base κ
-
-theorem admissibleMKG_of_empty {γ : ℝ} {G : Garden w} (C : Src.CountingChoices γ G d) (L γ' η : ℝ)
-    (base : Mom d) (κ : GardenDart G → (Fin d → ℤ)) (h : C.Admissible L γ' η base κ) :
-    AdmissibleMKG C (survEmptyG γ G) L γ' η base κ := by
-  obtain ⟨h1, ⟨rk, hrk, K, hK, hC⟩, h3, h4, h5, h6, h7, h8, h9⟩ := h
-  refine ⟨subproSupportMKG_of_empty G C.subpro L γ' η base C.fixedRoots κ h1,
-    ⟨rk, hrk, K, by rw [forbiddenMKG_empty]; exact hK, hC⟩, h3, h4, h5, h6, fun i => Fin.elim0 i, h7,
-    fun v hv => h8 v hv.1, h9⟩
 
 /-- Marked admissibility (the actual ε/gap support plus `AdmissibleMKG`). -/
 def splicedCountingAdmissibleMKG {γ : ℝ} (G : Garden w) (D : SplicedKernelData G d)
@@ -301,16 +251,5 @@ abbrev FinalCountAtMKG (P : WTParams) : Prop :=
 
 /-- **The marked final-count gate for `0 < γ ≤ 1/2`** (PLAN-L8 item H's target; main's `FinalCountGateHalfMK`). -/
 abbrev FinalCountGateLowMK : Prop := WTPrefix fun P => P.γ ≤ 1 / 2 → FinalCountAtMKG P
-
-/-- **Non-vacuity bridge**: at no survivors `FinalCountAtMKG` is L6's `FinalCountGammaAt` (main's
-`finalCountAt_of_MK`). -/
-theorem finalCountGammaAt_of_MKG (P : WTParams) (h : FinalCountAtMKG P) : FinalCount.FinalCountGammaAt P := by
-  intro p hp R h1 h2 G hpl hirr hbal ho1 ho2 D C hD hgeo base roots Adm hAdm
-  have := h p hp R h1 h2 G hpl hirr hbal ho1 ho2 D C (survEmptyG P.γ G) hD hgeo
-    (structuralG_empty C.subpro) (chainOrderG_empty P.γ G) base roots Adm (fun κ hκ => by
-      obtain ⟨hz, hadm⟩ := hAdm κ hκ
-      exact ⟨hz, admissibleMKG_of_empty C P.L P.γ P.η base κ hadm⟩)
-  rw [numCriticalSGMKG_empty] at this
-  simpa [survEmptyG] using this
 
 end WaveTurbulence.GammaLow.Flower

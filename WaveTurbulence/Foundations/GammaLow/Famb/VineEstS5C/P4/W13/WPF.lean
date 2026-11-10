@@ -6,7 +6,6 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W13.BadCount
-public import WaveTurbulence.Foundations.VineEst.VineEstS3.Step3Prefix
 public import WaveTurbulence.Foundations.GammaLow.Famb.Family
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W13.WPF
 public import WaveTurbulence.Foundations.GammaLow.Famb.VineEstS5C.P4.W13.BadCount

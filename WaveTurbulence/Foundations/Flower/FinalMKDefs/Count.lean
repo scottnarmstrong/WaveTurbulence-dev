@@ -27,9 +27,6 @@ open WaveTurbulence.LGSpine.SourceVine WaveTurbulence.Flower.MkDefs
 
 variable {w d : ℕ}
 
-/-- No survivors, nothing protected (on the world's `MkDefs.SurvivorData`). -/
-def survEmpty (G : Garden w) : SurvivorData G := ⟨0, Fin.elim0, ∅⟩
-
 /-- `v` is a joint of the `i`-th survivor. -/
 def SurvJoint {G : Garden w} (S : SurvivorData G) (i : Fin S.m) (v : GBranch G.tree) : Prop :=
   v = (S.surv i).upper ∨ v = (S.surv i).lower
@@ -42,11 +39,6 @@ def SurvFirstJoint {G : Garden w} (S : SurvivorData G) (i : Fin S.m) (v : GBranc
 and Thm 7.5′(7)), so each survivor removal re-cuts at most one joint. B2c/B4 list the survivors chain by chain. -/
 def SurvChainOrder {G : Garden w} (S : SurvivorData G) : Prop :=
   ∀ i j, i ≠ j → ¬ Disjoint (S.surv i).atoms (S.surv j).atoms → i.val + 1 = j.val ∨ j.val + 1 = i.val
-
-theorem chainOrder_empty (G : Garden w) : SurvChainOrder (survEmpty G) := fun i => Fin.elim0 i
-
-theorem structural_empty {G : Garden w} (C : SubproChoices G) : (survEmpty G).Structural C :=
-  ⟨fun i => Fin.elim0 i, fun _ j => Fin.elim0 j, fun i => Fin.elim0 i, fun _ _ i => Fin.elim0 i⟩
 
 /-- Theorem 7.5′ (4), (5) (incl. 75-F1), (6), (6′) on one decoration. -/
 structure SubproSupportMK (G : Garden w) (C : SubproChoices G) (S : SurvivorData G) (L γ η : ℝ)
@@ -85,35 +77,10 @@ structure SubproSupportMK (G : Garden w) (C : SubproChoices G) (S : SurvivorData
         ((v = P.upper ∨ v = P.lower) ∧
           HasChosenPair (C.first v) (C.second v) (fun x y => Xor (P.ContainsDart x) (P.ContainsDart y))))
 
-theorem joints_empty {G : Garden w} : (survEmpty G).joints = ∅ := by
-  ext x; simp [SurvivorData.joints, survEmpty]
-
-theorem subproSupportMK_of_empty (G : Garden w) (C : SubproChoices G) (L γ η : ℝ)
-    (base : Mom d) (kFix : Finset (Mom d)) (κ : GardenDart G → (Fin d → ℤ))
-    (h : SubproSupport G C L γ η base kFix κ) :
-    SubproSupportMK G C (survEmpty G) L γ η base kFix κ := by
-  have hj := joints_empty (G := G)
-  refine ⟨h.selectedSG, fun i => Fin.elim0 i, h.zeroTame, ?_, h.hingeSG, h.hingeJoint,
-    fun i => Fin.elim0 i, ?_, ?_⟩
-  · intro P hP hout _ hdis
-    rw [hj, Finset.union_empty] at hdis ⊢
-    rcases h.contained P hP hout hdis with ⟨S', a, b, h1, h2, h3, h4⟩ | ⟨Q, h1, h2, h3, h4⟩
-    · exact Or.inl ⟨S', a, b, h1, h2, h3, h4, fun i => Fin.elim0 i⟩
-    · exact Or.inr ⟨Q, h1, h2, h3, h4, fun i => Fin.elim0 i⟩
-  · intro P hP hout _ _ hmeet
-    exact h.crossing P hP hout hmeet
-  · intro P _ hmeet
-    rw [hj] at hmeet
-    simp at hmeet
-
 /-- The forbidden atoms of the second collection with survivors (Theorem 7.5′(7): `𝒞₂` from the containers of (4),
 disjoint from `𝒞₁ ∪ 𝒞_E` and `H ∪ B`; `B` ⊆ survivor atoms). -/
 def forbiddenMK {G : Garden w} (C : SubproChoices G) (S : SurvivorData G) : Set (GBranch G.tree) :=
   C.forbidden ∪ ⋃ i, (↑(S.surv i).atoms : Set (GBranch G.tree))
-
-theorem forbiddenMK_empty {G : Garden w} (C : SubproChoices G) :
-    forbiddenMK C (survEmpty G) = C.forbidden := by
-  simp [forbiddenMK, survEmpty]
 
 def SecondCollectionOKMK {G : Garden w} (C : CountingChoices G d) (S : SurvivorData G) (L γ η : ℝ)
     (base : Mom d) (κ : GardenDart G → (Fin d → ℤ)) : Prop :=
@@ -127,13 +94,6 @@ def CriticalSGMK {G : Garden w} (C : CountingChoices G d) (S : SurvivorData G) (
 
 noncomputable def numCriticalSGMK {G : Garden w} (C : CountingChoices G d) (S : SurvivorData G) : ℕ :=
   ((univ : Finset (GBranch G.tree)).filter (CriticalSGMK C S)).card
-
-theorem numCriticalSGMK_empty {G : Garden w} (C : CountingChoices G d) :
-    numCriticalSGMK C (survEmpty G) = C.numCriticalSG := by
-  unfold numCriticalSGMK CountingChoices.numCriticalSG CriticalSGMK
-  congr 1
-  ext v
-  simp [survEmpty]
 
 /-- Requirements (b)–(f) with survivors. -/
 def AdmissibleMK {G : Garden w} (C : CountingChoices G d) (S : SurvivorData G) (L γ η : ℝ)
@@ -157,14 +117,6 @@ def AdmissibleMK {G : Garden w} (C : CountingChoices G d) (S : SurvivorData G) (
       C.atomScale v / 2 ≤ ‖Molecule.gapAt L base κ x y‖ ∧
         ‖Molecule.gapAt L base κ x y‖ ≤ 2 * C.atomScale v)) ∧
   C.LadderGaps L γ η base κ
-
-theorem admissibleMK_of_empty {G : Garden w} (C : CountingChoices G d) (L γ η : ℝ) (base : Mom d)
-    (κ : GardenDart G → (Fin d → ℤ)) (h : C.Admissible L γ η base κ) :
-    AdmissibleMK C (survEmpty G) L γ η base κ := by
-  obtain ⟨h1, ⟨rk, hrk, K, hK, hC⟩, h3, h4, h5, h6, h7, h8, h9⟩ := h
-  refine ⟨subproSupportMK_of_empty G C.subpro L γ η base C.fixedRoots κ h1,
-    ⟨rk, hrk, K, by rw [forbiddenMK_empty]; exact hK, hC⟩, h3, h4, h5, h6, fun i => Fin.elim0 i, h7,
-    fun v hv => h8 v hv.1, h9⟩
 
 /-- Marked admissibility (the actual ε/gap support plus `AdmissibleMK`). -/
 def splicedCountingAdmissibleMK (G : Garden w) (D : SplicedKernelData G d)
@@ -192,27 +144,6 @@ abbrev FinalCountAtMK (P : WTParams) : Prop :=
 
 /-- The C1 deliverable (the gate, `γ > 1/2` as on main). -/
 abbrev FinalCountGateHalfMK : Prop := WTPrefix fun P => 1 / 2 < P.γ → FinalCountAtMK P
-
-/-- **Non-vacuity bridge**: at no survivors `FinalCountAtMK` is `FinalCountAt`. -/
-theorem finalCountAt_of_MK (P : WTParams) (h : FinalCountAtMK P) : FinalCountAt P := by
-  intro p hp R h1 h2 G hpl hirr hbal ho1 ho2 D C hD hgeo base roots Adm hAdm
-  have := h p hp R h1 h2 G hpl hirr hbal ho1 ho2 D C (survEmpty G) hD hgeo
-    (structural_empty C.subpro) (chainOrder_empty G) base roots Adm (fun κ hκ => by
-      obtain ⟨hz, hadm⟩ := hAdm κ hκ
-      exact ⟨hz, admissibleMK_of_empty C P.L P.γ P.η base κ hadm⟩)
-  rw [numCriticalSGMK_empty] at this
-  simpa [survEmpty] using this
-
-theorem finalCountGateHalf_of_MK (h : FinalCountGateHalfMK) : FinalCountGateHalf := by
-  intro d hd γ hγ
-  obtain ⟨η₀, hη₀, h⟩ := h d hd γ hγ
-  refine ⟨η₀, hη₀, fun η hη φin hφin τ hτ φ hφ => ?_⟩
-  obtain ⟨C₁, hC₁, ν₀, hν₀, h⟩ := h η hη φin hφin τ hτ φ hφ
-  refine ⟨C₁, hC₁, ν₀, hν₀, fun ν hν => ?_⟩
-  obtain ⟨δ₀, hδ₀, h⟩ := h ν hν
-  refine ⟨δ₀, hδ₀, fun δ hδ D hD hτD => ?_⟩
-  obtain ⟨C₂, hC₂, L₀, hL₀, h⟩ := h δ hδ D hD hτD
-  exact ⟨C₂, hC₂, L₀, hL₀, fun L hL hγ' => finalCountAt_of_MK _ (h L hL hγ')⟩
 
 
 /-! C0-FINALMK probe, part 2: C1 internal statements (LOW chain with survivors). Appended after part 1. -/
@@ -286,11 +217,6 @@ def Ex1RCUniform (d : ℕ) : Prop :=
         (P : Finset V → ℝ),
       Ex1RC L γ η δ C₁ w M₀ C P (Cs * ν * (1 + δ⁻¹) ^ 2 * (((4 + 8 : ℕ) : ℝ) / (η ^ 2 - η ^ 3)) ^ (4 + 8)) ν
 
-/-- **C1a target 3: the invariant along a re-cut** (index non-increasing; it drops only at an `ε` joint of degree 2). -/
-def InvLStepRC (M₀ : Molecule V D₀) (C : CollData M₀) (L γ η : ℝ) (w : Mom d) (κ : D₀ → (Fin d → ℤ)) : Prop :=
-  ∀ {R : ℕ} {h h' : HSt V D₀}, HStepRC C L γ η w κ h h' → InvL M₀ R L γ η w κ h →
-    ∃ R', R' ≤ R ∧ InvL M₀ R' L γ η w κ h'
-
 /-- The LOW run's Step-1 step with re-cuts (`HStep1L` of GL6 plus `HStepRC`). -/
 inductive HStep1LE {M₀ : Molecule V D₀} (C : CollData M₀) (L γ η : ℝ) (w : Mom d) (κ : D₀ → (Fin d → ℤ)) :
     HSt V D₀ → HSt V D₀ → Prop
@@ -306,11 +232,6 @@ def HRunLE {M₀ : Molecule V D₀} (C : CollData M₀) (L γ η : ℝ) (w : Mom
     Relation.ReflTransGen (HStep2C C L γ η w κ) h₂ h₃ ∧ NoEligibleTriangle C L γ η w κ h₃ ∧
     Relation.ReflTransGen (HStep3C C L γ η w κ) h₃ h₄ ∧ NoSGLeft L γ η w κ h₀.s h₄.s ∧
     Relation.ReflTransGen (HStep4 L w κ) h₄ hf ∧ NoBetaCut L w κ hf.s
-
-theorem HRunL.toE {M₀ : Molecule V D₀} {C : CollData M₀} {L γ η : ℝ} {w : Mom d} {κ : D₀ → (Fin d → ℤ)}
-    {h₀ hf : HSt V D₀} (h : HRunL C L γ η w κ h₀ hf) : HRunLE C L γ η w κ h₀ hf := by
-  obtain ⟨h₁, h₂, h₃, h₄, a, b, c, e, f, g, i, j, k, l⟩ := h
-  exact ⟨h₁, h₂, h₃, h₄, Relation.ReflTransGen.mono (fun _ _ hs => HStep1LE.base hs) _ _ a, b, c, e, f, g, i, j, k, l⟩
 
 /-! ### C1b: survivors in the LOW Step 1 (molecule level) -/
 

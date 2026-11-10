@@ -76,8 +76,4 @@ theorem finalCount_low_half_of_garden (hlow : LowGardenBoundAll) :
     nlinarith
   exact hR L hLR₀ G hpl hirr hbal hn hR1 hRc hord D' C hh hg hlowG base roots Adm hAdm
 
-/-- **`FinalCountGateHalf` from the garden-level LOW bound.** -/
-theorem finalCount_half_of_lowGarden (hlow : LowGardenBoundAll) : FinalCountGateHalf :=
-  finalCount_low_of_low (finalCount_low_half_of_garden hlow)
-
 end WaveTurbulence.GammaLow.FinalCount.H

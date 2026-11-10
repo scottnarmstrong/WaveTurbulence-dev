@@ -108,22 +108,6 @@ theorem ladder_square (h : M.IsLadder u v) (hS : ∀ j, u j ∈ S ∧ v j ∈ S)
   exact ⟨⟨p, p', ρ, ρ', hp1, hp1', hρ1, hρ1', hp2, hp2', hρ2, hρ2', hdir, hnuv _ _, hAA', hnuv _ _,
     (hnuv _ _).symm, hBB', hnuv _ _, (hS _).1, (hS _).2, (hS _).1, (hS _).2⟩⟩
 
-/-- Every rung of a ladder lies in a square with a neighbouring rung. -/
-theorem ladder_square_at (h : M.IsLadder u v) (hS : ∀ j, u j ∈ S ∧ v j ∈ S) (i : Fin (m + 1)) :
-    ∃ t' s', Nonempty (Square M S (u i) (v i) t' s') := by
-  have hm : 1 ≤ m := h.1
-  by_cases hi : i.val < m
-  · obtain ⟨Q⟩ := ladder_square h hS (S := S) ⟨i.val, hi⟩
-    have : (⟨i.val, hi⟩ : Fin m).castSucc = i := Fin.ext rfl
-    rw [this] at Q
-    exact ⟨_, _, ⟨Q⟩⟩
-  · have hi' : i.val = m := by omega
-    have hj : m - 1 < m := by omega
-    obtain ⟨Q⟩ := ladder_square h hS (S := S) ⟨m - 1, hj⟩
-    have : (⟨m - 1, hj⟩ : Fin m).succ = i := Fin.ext (by simp; omega)
-    rw [this] at Q
-    exact ⟨_, _, ⟨Q.flip⟩⟩
-
 end LadderSquare
 
 end WaveTurbulence.VineCount

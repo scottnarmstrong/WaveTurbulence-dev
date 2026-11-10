@@ -39,9 +39,6 @@ theorem timeFT_shift {r : ℕ} {V : Type*} (F : (Fin r → ℝ) → V → ℂ) (
   rw [Complex.ofReal_add, neg_add, add_mul, Complex.exp_add]
   ring
 
-theorem norm_exp_ofReal_mul_I' (x : ℝ) : ‖Complex.exp ((x : ℂ) * Complex.I)‖ = 1 :=
-  Complex.norm_exp_ofReal_mul_I x
-
 theorem partialMom_const_mul (j : Fin d) (u : ℂ) (f : Mom d → ℂ) :
     partialMom j (fun k => u * f k) = fun k => u * partialMom j f k := by
   funext k

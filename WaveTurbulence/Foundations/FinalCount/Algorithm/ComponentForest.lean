@@ -64,8 +64,4 @@ theorem ForestMove.weight_lt {F G : List (State.{u,v} V)} (h : ForestMove F G) :
     simp only [forestWeight,List.map_append,List.sum_append,List.map_cons,List.sum_cons]
     omega
 
-theorem forestMove_wellFounded :
-    WellFounded (fun G F : List (State.{u,v} V) => ForestMove F G) :=
-  Subrelation.wf (fun {_ _} h => h.weight_lt) (InvImage.wf forestWeight Nat.lt_wfRel.wf)
-
 end WaveTurbulence.Mole.AppbAlgorithm

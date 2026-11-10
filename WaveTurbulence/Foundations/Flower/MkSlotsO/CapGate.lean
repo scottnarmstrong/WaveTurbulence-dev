@@ -5,7 +5,10 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.Flower.MkSlotsB.CapPObl
+public import WaveTurbulence.Foundations.Flower.MkSlotsB.CapPNT
+public import WaveTurbulence.Foundations.Flower.MkSlotsB.ROne
+public import WaveTurbulence.Foundations.Flower.MkSlots.CapObl
+public import WaveTurbulence.Foundations.Flower.ProtPin.ProtGate
 public import WaveTurbulence.Foundations.Flower.ProtWhole.AnnFree
 
 /-! # B3s-HELPER8 / CAP: D3 and D6 on a cap couple with stem filters
@@ -218,10 +221,6 @@ theorem capF_pointwise {P : WTParams} (hD3 : ProtBoundAt P) (D : CapG LG j0 c X 
   simpa using this.le
 
 /-! ### D6 at `term` with one selected chain vertex -/
-
-/-- `term` pins do not see the top time. -/
-theorem term_fix_t (s t t' up : ℝ) {w : ℕ} {T : Fin w → TTree} :
-    (ProtCfg.term.fix X s t up : GBranch T → Option ℝ) = ProtCfg.term.fix X s t' up := rfl
 
 /-- **D6 at `term` with one selected chain vertex `v`**, on the window box, at one momentum. -/
 theorem capA_xnorm {P : WTParams} (hD6 : ProtAnnBoundAt P) (D : CapG LG j0 c X ζ) {p n : ℕ}

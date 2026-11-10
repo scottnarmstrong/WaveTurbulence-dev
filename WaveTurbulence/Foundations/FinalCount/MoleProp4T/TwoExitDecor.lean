@@ -21,8 +21,6 @@ variable {V D : Type*} [DecidableEq V] [Fintype D] [DecidableEq D]
 namespace TwoExit
 variable {N : Molecule V D} (T : TwoExit N)
 
-theorem post_dartSign_inl (z : Degen.RetainedDart N T.Y) : T.post.dartSign (Sum.inl z) = N.dartSign z.val := rfl
-
 theorem post_dartSign_inr (t : Bool) : T.post.dartSign (Sum.inr t) = if t then 1 else -1 := by
   unfold Molecule.dartSign; cases t <;> rfl
 

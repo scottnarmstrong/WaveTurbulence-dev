@@ -42,8 +42,6 @@ theorem one_le_momS {ι : Type*} (sel : Finset ι) (f : ι → ℝ) : 1 ≤ momS
 theorem momS_nonneg {ι : Type*} (sel : Finset ι) (f : ι → ℝ) : 0 ≤ momS sel f :=
   zero_le_one.trans (one_le_momS sel f)
 
-@[simp] theorem momS_empty {ι : Type*} (f : ι → ℝ) : momS (∅ : Finset ι) f = 1 := by simp [momS]
-
 /-! ## The count-measure form -/
 
 /-- The count-measure form of `RepresentsIntMKSel` with explicit moment-weighted mass bound `B`. -/
@@ -93,11 +91,6 @@ theorem RepIntCMKS.toRepIntCMK {val : ℂ} {B : ℝ} (h : RepIntCMKS π sel tt b
     le_mul_of_one_le_right (norm_nonneg _) (one_le_momS _ _)
   have hs : Summable fun ξ => ‖w ξ‖ := Summable.of_nonneg_of_le (fun _ => norm_nonneg _) hle h3
   exact ⟨Ξ, hc, w, ctr, edge, hinge, freq, h1, h2, hs, (Summable.tsum_le_tsum hle hs h3).trans h4, h5⟩
-
-/-- At `sel = ∅`, the two count-measure forms agree. -/
-theorem repIntCMKS_empty_iff {val : ℂ} {B : ℝ} :
-    RepIntCMKS π ∅ tt base roots val B ↔ RepIntCMK π tt base roots val B := by
-  simp [RepIntCMKS, RepIntCMK]
 
 theorem RepIntCMKS.mono {val : ℂ} {B B' : ℝ} (h : RepIntCMKS π sel tt base roots val B) (hB : B ≤ B') :
     RepIntCMKS π sel tt base roots val B' := by

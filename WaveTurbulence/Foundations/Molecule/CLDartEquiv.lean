@@ -50,10 +50,6 @@ theorem clSplicedDartEquiv_pc
 theorem clSplicedDartEquiv_lp (l : GardenLPLeaf (clSplicedGardenOfSlots hB hCL D)) :
     (clSplicedDartEquiv hB hCL D (.inr l)).1 = .inr (clLPLeafEquiv hB hCL D l).1 := rfl
 
-theorem clPCChildEquiv_name
-    (c : {c : GBranch (clSplicedGardenOfSlots hB hCL D).tree // c.1.2 ≠ []}) :
-    (clPCChildEquiv hB hCL D c).1.1 = (clSplicedBranchNameEquiv hB hCL D c.1).1 := rfl
-
 theorem clLPLeafEquiv_name (l : GardenLPLeaf (clSplicedGardenOfSlots hB hCL D)) :
     (clLPLeafEquiv hB hCL D l).1.1 = (clSplicedLeafNameEquiv hB hCL D l.1).1 := rfl
 

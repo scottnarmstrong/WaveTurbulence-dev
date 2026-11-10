@@ -8,7 +8,6 @@ module
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.Free
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P2.Datum
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P2.Cph
-public import WaveTurbulence.Foundations.VineEst.VineEstS3.AdmissibleAssembly
 public import WaveTurbulence.Foundations.GammaLow.Famb.Family
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.AmbEng
 public import WaveTurbulence.Foundations.GammaLow.Famb.VineEstS5C.P4.W2.Free

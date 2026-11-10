@@ -101,38 +101,4 @@ theorem vine_ladderLoss_le_of_agree (M : Molecule V D) (hM : M.IsMolecule) (M' :
     · exact absurd hvN₀ (hv.2.2 N₀ hN₀)
   omega
 
-/-- The loss is subadditive: removing `S ∪ T` costs at most the sum of removing `S` and removing `T`. -/
-theorem ladderLoss_union_le (M : Molecule V D) (S T : Finset V) :
-    ladderLoss M (M.atoms \ (S ∪ T)) ≤ ladderLoss M (M.atoms \ S) + ladderLoss M (M.atoms \ T) := by
-  unfold ladderLoss
-  have h1 : (M.maximalLadders.filter fun N => ¬ N ⊆ M.atoms \ (S ∪ T)) ⊆
-      (M.maximalLadders.filter fun N => ¬ N ⊆ M.atoms \ S) ∪ (M.maximalLadders.filter fun N => ¬ N ⊆ M.atoms \ T) := by
-    intro N hN
-    simp only [mem_filter, mem_union] at hN ⊢
-    obtain ⟨hm, hn⟩ := hN
-    have hNa := isLadderSet_subset M ((mem_maximalLadders_iff M).1 hm).1
-    obtain ⟨c, hcN, hc⟩ := Finset.not_subset.1 hn
-    have hcST : c ∈ S ∪ T := by
-      by_contra h; exact hc (mem_sdiff.2 ⟨hNa hcN, h⟩)
-    rcases mem_union.1 hcST with h | h
-    · left; refine ⟨hm, fun hsub => ?_⟩
-      exact (mem_sdiff.1 (hsub hcN)).2 h
-    · right; refine ⟨hm, fun hsub => ?_⟩
-      exact (mem_sdiff.1 (hsub hcN)).2 h
-  have h2 : (M.atoms.filter fun v => v ∉ M.atoms \ (S ∪ T) ∧ ∀ N ∈ M.maximalLadders, v ∉ N) ⊆
-      (M.atoms.filter fun v => v ∉ M.atoms \ S ∧ ∀ N ∈ M.maximalLadders, v ∉ N) ∪
-      (M.atoms.filter fun v => v ∉ M.atoms \ T ∧ ∀ N ∈ M.maximalLadders, v ∉ N) := by
-    intro v hv
-    simp only [mem_filter, mem_union, mem_sdiff, not_and, not_not] at hv ⊢
-    obtain ⟨hva, hvn, hf⟩ := hv
-    rcases hvn hva with h | h
-    · left; exact ⟨hva, fun _ => h, hf⟩
-    · right; exact ⟨hva, fun _ => h, hf⟩
-  have := card_le_card h1
-  have := card_union_le (M.maximalLadders.filter fun N => ¬ N ⊆ M.atoms \ S) (M.maximalLadders.filter fun N => ¬ N ⊆ M.atoms \ T)
-  have := card_le_card h2
-  have := card_union_le (M.atoms.filter fun v => v ∉ M.atoms \ S ∧ ∀ N ∈ M.maximalLadders, v ∉ N)
-    (M.atoms.filter fun v => v ∉ M.atoms \ T ∧ ∀ N ∈ M.maximalLadders, v ∉ N)
-  omega
-
 end WaveTurbulence.VineRho

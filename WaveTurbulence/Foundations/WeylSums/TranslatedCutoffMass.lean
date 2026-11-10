@@ -9,10 +9,6 @@ public section
 open Finset
 namespace WaveTurbulence.WeylSums
 
-theorem summable_translated_chi0 {L : ℝ} (hL : 0 < L) (a : ℝ) :
-    Summable (fun n : ℤ => Fourier.chi0 ((n : ℝ)/L-a)) :=
-  summable_of_hasFiniteSupport (finite_scalar_cutoff hL a)
-
 /-- A translated fixed cutoff has lattice mass at most `5L`, uniformly in
 its arbitrary real center, for every real scale `L≥1`. -/
 theorem tsum_translated_chi0_le {L : ℝ} (hL : 1 ≤ L) (a : ℝ) :

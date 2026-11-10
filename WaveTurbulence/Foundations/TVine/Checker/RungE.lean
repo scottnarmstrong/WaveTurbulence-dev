@@ -37,9 +37,6 @@ def gadget (es : Edges) (x y w₁ w₂ : ℕ) (inner : Edges) : Edges := eraseOn
 
 theorem z1_eq_gadget (es : Edges) (x y a b : ℕ) : z1 es x y a b = gadget es x y a b [(a, b), (a, b), (a, b)] := rfl
 
-theorem placeOne_eq_gadget (es : Edges) (X Y J₁ J₂ : ℕ) :
-    placeOne es X Y J₁ J₂ = gadget es X Y J₁ J₂ [(J₁, J₂)] := rfl
-
 /-- The hypotheses on a gadget: fresh atoms `W ∋ w₁, w₂`, inner bonds inside `W`, `W` connected from `w₁`. -/
 structure GadgetOK (es : Edges) (x y w₁ w₂ : ℕ) (inner : Edges) (W : Finset ℕ) : Prop where
   hxy : mult es x y ≠ 0

@@ -42,18 +42,6 @@ variable {w : ℕ}
 
 /-! ### Generic clauses of the equivalence -/
 
-theorem Shape.equiv_triv_iff (s : Shape) : Shape.Equiv .triv s ↔ s = .triv := by
-  constructor
-  · intro h; cases h; rfl
-  · rintro rfl; exact .triv
-
-theorem Shape.equiv_type1_iff (a b c a' b' c' : Shape) :
-    Shape.Equiv (.type1 a b c) (.type1 a' b' c') ↔
-      Shape.Equiv a a' ∧ Shape.Equiv b b' ∧ Shape.Equiv c c' := by
-  constructor
-  · intro h; cases h with | type1 h₁ h₂ h₃ => exact ⟨h₁, h₂, h₃⟩
-  · rintro ⟨h₁, h₂, h₃⟩; exact .type1 h₁ h₂ h₃
-
 theorem Shape.equiv_type2_iff (L L' : Tuples) (Y Y' : Shape) :
     Shape.Equiv (.type2 L Y) (.type2 L' Y') ↔
       (∃ e : Fin L.length ≃ Fin L'.length, ∀ i,
@@ -101,120 +89,10 @@ def chainTuples (Z : Finset (Fin w × Path)) : RegChain → ℤˣ → (Fin w × 
         (addrExt a ([m.c] ++ inner.lonePath ++ [m.lone])))
 end
 
-/-- The type of a code: `0` trivial, `1`, `2`. -/
-def cplTypeNum : RegCpl → ℕ
-  | .triv => 0
-  | .type1 .. => 1
-  | .type2 .. => 2
-
-theorem cplShape_type (Z : Finset (Fin w × Path)) (Q : RegCpl) (a b : Fin w × Path) :
-    (cplShape Z Q a b).type = cplTypeNum Q := by
-  cases Q <;> rfl
-
-theorem Tuples.size_append : (L L' : Tuples) → (L.append L').size = L.size + L'.size
-  | .nil, L' => by simp [Tuples.append, Tuples.size]
-  | .cons I c X₁ X₂ rest, L' => by
-    simp [Tuples.append, Tuples.size, Tuples.size_append rest L']; omega
-
 theorem Tuples.zcount_append : (L L' : Tuples) → (L.append L').zcount = L.zcount + L'.zcount
   | .nil, L' => by simp [Tuples.append, Tuples.zcount]
   | .cons I c X₁ X₂ rest, L' => by
     simp [Tuples.append, Tuples.zcount, Tuples.zcount_append rest L']; omega
-
-mutual
-/-- For dominant codes the shape has the order of the code. -/
-theorem cplShape_size (Z : Finset (Fin w × Path)) : (Q : RegCpl) → Q.dominant = true →
-    (a b : Fin w × Path) → (cplShape Z Q a b).size = Q.size
-  | .triv, _, _, _ => rfl
-  | .type1 c Q₁ Q₂ Q₃, h, a, b => by
-    simp only [RegCpl.dominant, Bool.and_eq_true] at h
-    simp only [cplShape, Shape.size, RegCpl.size, cplShape_size Z Q₁ h.1.1,
-      cplShape_size Z Q₂ h.1.2, cplShape_size Z Q₃ h.2]
-  | .type2 Xp Xm Qlp, h, a, b => by
-    simp only [RegCpl.dominant, Bool.and_eq_true] at h
-    simp only [cplShape, Shape.size, RegCpl.size, Tuples.size_append,
-      chainTuples_size Z Xp h.1.1, chainTuples_size Z Xm h.1.2, cplShape_size Z Qlp h.2]
-
-theorem chainTuples_size (Z : Finset (Fin w × Path)) : (X : RegChain) → X.dominant = true →
-    (ζ : ℤˣ) → (a : Fin w × Path) → (chainTuples Z X ζ a).size = X.size
-  | .nil, _, _, _ => rfl
-  | .pair m Qr Qg inner rest, h, ζ, a => by
-    simp only [RegChain.dominant, Bool.and_eq_true] at h
-    obtain ⟨⟨⟨hi, hr⟩, hg⟩, hs⟩ := h
-    have hin : inner = .nil := by cases inner <;> simp_all [RegChain.isNil]
-    subst hin
-    have er : (if slotSign ζ m.red.1 = 1 then
-        cplShape Z Qr (addrExt a [m.red.1]) (addrExt a ([m.c] ++ RegChain.nil.lonePath ++ [m.red.2]))
-      else cplShape Z Qr (addrExt a ([m.c] ++ RegChain.nil.lonePath ++ [m.red.2]))
-        (addrExt a [m.red.1])).size = Qr.size := by
-      split_ifs <;> exact cplShape_size Z Qr hr _ _
-    have eg : (if slotSign ζ m.green.1 = 1 then
-        cplShape Z Qg (addrExt a [m.green.1])
-          (addrExt a ([m.c] ++ RegChain.nil.lonePath ++ [m.green.2]))
-      else cplShape Z Qg (addrExt a ([m.c] ++ RegChain.nil.lonePath ++ [m.green.2]))
-        (addrExt a [m.green.1])).size = Qg.size := by
-      split_ifs <;> exact cplShape_size Z Qg hg _ _
-    simp only [chainTuples, Tuples.size, RegChain.size, er, eg, chainTuples_size Z rest hs]
-    omega
-end
-
-mutual
-/-- For dominant codes the special count of the shape counts the special nodes in `Z`. -/
-theorem cplShape_zcount (Z : Finset (Fin w × Path)) : (Q : RegCpl) → Q.dominant = true →
-    (a b : Fin w × Path) → (cplShape Z Q a b).zcount = (cplSpecial Q a b).countP (· ∈ Z)
-  | .triv, _, _, _ => rfl
-  | .type1 c Q₁ Q₂ Q₃, h, a, b => by
-    simp only [RegCpl.dominant, Bool.and_eq_true] at h
-    simp only [cplShape, Shape.zcount, cplSpecial, List.countP_append, cplShape_zcount Z Q₁ h.1.1,
-      cplShape_zcount Z Q₂ h.1.2, cplShape_zcount Z Q₃ h.2]
-  | .type2 Xp Xm Qlp, h, a, b => by
-    simp only [RegCpl.dominant, Bool.and_eq_true] at h
-    simp only [cplShape, Shape.zcount, cplSpecial, Tuples.zcount_append, List.countP_append,
-      chainTuples_zcount Z Xp h.1.1, chainTuples_zcount Z Xm h.1.2, cplShape_zcount Z Qlp h.2]
-
-theorem chainTuples_zcount (Z : Finset (Fin w × Path)) : (X : RegChain) → X.dominant = true →
-    (ζ : ℤˣ) → (a : Fin w × Path) →
-      (chainTuples Z X ζ a).zcount = (chainSpecial X ζ a).countP (· ∈ Z)
-  | .nil, _, _, _ => rfl
-  | .pair m Qr Qg inner rest, h, ζ, a => by
-    simp only [RegChain.dominant, Bool.and_eq_true] at h
-    obtain ⟨⟨⟨hi, hr⟩, hg⟩, hs⟩ := h
-    have hin : inner = .nil := by cases inner <;> simp_all [RegChain.isNil]
-    subst hin
-    have er : (if slotSign ζ m.red.1 = 1 then
-        cplShape Z Qr (addrExt a [m.red.1]) (addrExt a ([m.c] ++ RegChain.nil.lonePath ++ [m.red.2]))
-      else cplShape Z Qr (addrExt a ([m.c] ++ RegChain.nil.lonePath ++ [m.red.2]))
-        (addrExt a [m.red.1])).zcount =
-        (if slotSign ζ m.red.1 = 1 then
-        cplSpecial Qr (addrExt a [m.red.1]) (addrExt a ([m.c] ++ RegChain.nil.lonePath ++ [m.red.2]))
-      else cplSpecial Qr (addrExt a ([m.c] ++ RegChain.nil.lonePath ++ [m.red.2]))
-        (addrExt a [m.red.1])).countP (· ∈ Z) := by
-      split_ifs <;> exact cplShape_zcount Z Qr hr _ _
-    have eg : (if slotSign ζ m.green.1 = 1 then
-        cplShape Z Qg (addrExt a [m.green.1])
-          (addrExt a ([m.c] ++ RegChain.nil.lonePath ++ [m.green.2]))
-      else cplShape Z Qg (addrExt a ([m.c] ++ RegChain.nil.lonePath ++ [m.green.2]))
-        (addrExt a [m.green.1])).zcount =
-        (if slotSign ζ m.green.1 = 1 then
-        cplSpecial Qg (addrExt a [m.green.1])
-          (addrExt a ([m.c] ++ RegChain.nil.lonePath ++ [m.green.2]))
-      else cplSpecial Qg (addrExt a ([m.c] ++ RegChain.nil.lonePath ++ [m.green.2]))
-        (addrExt a [m.green.1])).countP (· ∈ Z) := by
-      split_ifs <;> exact cplShape_zcount Z Qg hg _ _
-    simp only [chainTuples, Tuples.zcount, chainSpecial, RegChain.isNil, ↓reduceIte,
-      List.countP_append, er, eg, chainTuples_zcount Z rest hs, chainSpecial, List.countP_nil,
-      List.countP_singleton]
-    simp only [decide_eq_true_eq]
-    omega
-end
-
-theorem countP_mem_eq_card {α : Type*} [DecidableEq α] {L : List α} (hL : L.Nodup) {Z : Finset α}
-    (hZ : ∀ z ∈ Z, z ∈ L) : L.countP (· ∈ Z) = Z.card := by
-  rw [List.countP_eq_length_filter, ← List.toFinset_card_of_nodup (hL.filter _)]
-  congr 1
-  ext z
-  simp only [List.mem_toFinset, List.mem_filter, decide_eq_true_eq]
-  exact ⟨fun h => h.2, fun h => ⟨hZ z h, h⟩⟩
 
 /-! ### Enhanced dominant couples -/
 
@@ -237,66 +115,6 @@ def EnhCpl.shape (q : EnhCpl) : Shape := cplShape q.Z q.code (0, []) (1, [])
 instance EnhCpl.setoid : Setoid EnhCpl where
   r q q' := Shape.Equiv q.shape q'.shape
   iseqv := ⟨fun _ => Shape.equiv_refl _, Shape.Equiv.symm, Shape.Equiv.trans⟩
-
-theorem EnhCpl.equiv_iff (q q' : EnhCpl) : q ≈ q' ↔ Shape.Equiv q.shape q'.shape := Iff.rfl
-
-/-- Equivalent enhanced dominant couples have the same type. -/
-theorem EnhCpl.typeNum_eq_of_equiv {q q' : EnhCpl} (h : q ≈ q') :
-    cplTypeNum q.code = cplTypeNum q'.code := by
-  have := Shape.Equiv.type_eq h
-  rw [EnhCpl.shape, EnhCpl.shape, cplShape_type, cplShape_type] at this
-  exact this
-
-/-- **Equivalent enhanced dominant couples have the same order** (DH21 L873). -/
-theorem EnhCpl.size_eq_of_equiv {q q' : EnhCpl} (h : q ≈ q') : q.code.size = q'.code.size := by
-  have := Shape.Equiv.size_eq h
-  rwa [EnhCpl.shape, EnhCpl.shape, cplShape_size _ _ q.dominant, cplShape_size _ _ q'.dominant]
-    at this
-
-theorem EnhCpl.zcount_shape (q : EnhCpl) : q.shape.zcount = q.Z.card := by
-  rw [EnhCpl.shape, cplShape_zcount _ _ q.dominant]
-  exact countP_mem_eq_card (specialList_nodup q.code) ((mem_specialSets_iff _ _).1 q.special)
-
-/-- **Equivalent enhanced dominant couples have the same `|Z|`** (DH21 L873). -/
-theorem EnhCpl.card_eq_of_equiv {q q' : EnhCpl} (h : q ≈ q') : q.Z.card = q'.Z.card := by
-  rw [← q.zcount_shape, ← q'.zcount_shape]
-  exact Shape.Equiv.zcount_eq h
-
-/-- The trivial enhanced couple is only equivalent to itself (DH21 Def 4.18). -/
-theorem EnhCpl.equiv_of_triv {q q' : EnhCpl} (hq : q.code = .triv) : q ≈ q' ↔ q'.code = .triv := by
-  rw [EnhCpl.equiv_iff, EnhCpl.shape, hq]
-  show Shape.Equiv .triv _ ↔ _
-  rw [Shape.equiv_triv_iff, EnhCpl.shape]
-  generalize q'.code = Q
-  cases Q <;> simp [cplShape]
-
-/-- **Type 1 clause** (DH21 Def 4.18): `(𝒬, Z) ~ (𝒬', Z')` iff `(𝒬_j, Z_j) ~ (𝒬'_j, Z'_j)`,
-`j = 1, 2, 3`. -/
-theorem cplShape_type1_equiv_iff (Z Z' : Finset (Fin 2 × Path)) (c c' : MiniCplCode)
-    (Q₁ Q₂ Q₃ Q₁' Q₂' Q₃' : RegCpl) (a b a' b' : Fin 2 × Path) :
-    Shape.Equiv (cplShape Z (.type1 c Q₁ Q₂ Q₃) a b) (cplShape Z' (.type1 c' Q₁' Q₂' Q₃') a' b') ↔
-      Shape.Equiv (cplShape Z Q₁ (addrExt a [0]) (addrExt b [c.partner 0]))
-        (cplShape Z' Q₁' (addrExt a' [0]) (addrExt b' [c'.partner 0])) ∧
-      Shape.Equiv (cplShape Z Q₂ (addrExt b [1]) (addrExt a [1]))
-        (cplShape Z' Q₂' (addrExt b' [1]) (addrExt a' [1])) ∧
-      Shape.Equiv (cplShape Z Q₃ (addrExt a [2]) (addrExt b [c.partner 2]))
-        (cplShape Z' Q₃' (addrExt a' [2]) (addrExt b' [c'.partner 2])) :=
-  Shape.equiv_type1_iff _ _ _ _ _ _
-
-/-- **Type 2 clause** (DH21 Def 4.18 (i)–(iii)): `(𝒬, Z) ~ (𝒬', Z')` iff the `m⁺ + m⁻` tuples of
-`𝒬` correspond bijectively to those of `𝒬'` (so `m⁺ + m⁻ = m'⁺ + m'⁻`) with equal `𝙸`, equal
-`𝚌` and equivalent sub-objects, and `𝒴 ~ 𝒴'`. -/
-theorem cplShape_type2_equiv_iff (Z Z' : Finset (Fin 2 × Path)) (Xp Xm Xp' Xm' : RegChain)
-    (Qlp Qlp' : RegCpl) (a b a' b' : Fin 2 × Path) :
-    Shape.Equiv (cplShape Z (.type2 Xp Xm Qlp) a b) (cplShape Z' (.type2 Xp' Xm' Qlp') a' b') ↔
-      (∃ e : Fin ((chainTuples Z Xp 1 a).append (chainTuples Z Xm (-1) b)).length ≃
-          Fin ((chainTuples Z' Xp' 1 a').append (chainTuples Z' Xm' (-1) b')).length, ∀ i,
-        let t := ((chainTuples Z Xp 1 a).append (chainTuples Z Xm (-1) b)).get i
-        let t' := ((chainTuples Z' Xp' 1 a').append (chainTuples Z' Xm' (-1) b')).get (e i)
-        t.1 = t'.1 ∧ t.2.1 = t'.2.1 ∧ Shape.Equiv t.2.2.1 t'.2.2.1 ∧ Shape.Equiv t.2.2.2 t'.2.2.2) ∧
-      Shape.Equiv (cplShape Z Qlp (addrExt a Xp.lonePath) (addrExt b Xm.lonePath))
-        (cplShape Z' Qlp' (addrExt a' Xp'.lonePath) (addrExt b' Xm'.lonePath)) :=
-  Shape.equiv_type2_iff _ _ _ _
 
 /-! ### TARGET's layered versions -/
 
@@ -345,32 +163,5 @@ instance LayEnhTree.setoid : Setoid LayEnhTree where
   r t t' := t.layer = t'.layer ∧ Shape.Equiv t.enh.shape t'.enh.shape
   iseqv := ⟨fun _ => ⟨rfl, Shape.equiv_refl _⟩, fun h => ⟨h.1.symm, h.2.symm⟩,
     fun h h' => ⟨h.1.trans h'.1, h.2.trans h'.2⟩⟩
-
-/-- The tree clause (TARGET Def 6.5): the tuples correspond bijectively. -/
-theorem LayEnhTree.equiv_iff (t t' : LayEnhTree) :
-    t ≈ t' ↔ t.layer = t'.layer ∧ ∃ e : Fin t.enh.tuples.length ≃ Fin t'.enh.tuples.length, ∀ i,
-      (t.enh.tuples.get i).1 = (t'.enh.tuples.get (e i)).1 ∧
-      (t.enh.tuples.get i).2.1 = (t'.enh.tuples.get (e i)).2.1 ∧
-      Shape.Equiv (t.enh.tuples.get i).2.2.1 (t'.enh.tuples.get (e i)).2.2.1 ∧
-      Shape.Equiv (t.enh.tuples.get i).2.2.2 (t'.enh.tuples.get (e i)).2.2.2 := by
-  show t.layer = t'.layer ∧ Shape.Equiv (.type2 _ .triv) (.type2 _ .triv) ↔ _
-  rw [Shape.equiv_type2_iff]
-  exact and_congr_right fun _ => ⟨fun h => h.1, fun h => ⟨h, .triv⟩⟩
-
-theorem EnhTree.zcount_shape (t : EnhTree) : t.shape.zcount = t.Z.card := by
-  rw [EnhTree.shape, Shape.zcount, Shape.zcount, add_zero, EnhTree.tuples,
-    chainTuples_zcount _ _ t.dominant]
-  exact countP_mem_eq_card (tree_specialList_nodup t.code t.sign)
-    ((tree_mem_specialSets_iff _ _ _).1 t.special)
-
-/-- Equivalent enhanced dominant trees have the same order and the same `|Z|`. -/
-theorem LayEnhTree.size_card_eq_of_equiv {t t' : LayEnhTree} (h : t ≈ t') :
-    t.enh.code.size = t'.enh.code.size ∧ t.enh.Z.card = t'.enh.Z.card := by
-  refine ⟨?_, ?_⟩
-  · have := Shape.Equiv.size_eq h.2
-    simpa only [EnhTree.shape, EnhTree.tuples, Shape.size, chainTuples_size _ _ t.enh.dominant,
-      chainTuples_size _ _ t'.enh.dominant, add_zero] using this
-  · rw [← t.enh.zcount_shape, ← t'.enh.zcount_shape]
-    exact Shape.Equiv.zcount_eq h.2
 
 end WaveTurbulence.Links

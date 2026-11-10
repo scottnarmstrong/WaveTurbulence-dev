@@ -4,7 +4,7 @@ module
 public import WaveTurbulence.Foundations.Flower.ProtPin.TChildOps
 public import WaveTurbulence.Foundations.Flower.ProtPin.PieceStar
 public import WaveTurbulence.Foundations.Flower.ProtPin.TermStar
-public import WaveTurbulence.Foundations.Flower.ProtCut.CheckD2c3
+public import WaveTurbulence.Foundations.Flower.ProtCut.Root2Exist
 
 /-! # D3 PROT-PIN (P7): the bookkeeping of a type-1 couple (o104 Prop 7.4 (b))
 

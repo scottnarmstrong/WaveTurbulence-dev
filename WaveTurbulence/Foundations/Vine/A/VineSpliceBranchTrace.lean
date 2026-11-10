@@ -1,6 +1,6 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
-public import WaveTurbulence.Foundations.Vine.A.VineSpliceLeafEquiv
+public import WaveTurbulence.Foundations.Vine.A.VineSpliceLeafRange
 /-! Actual iterated splices retain branching signs and literal branching
 root addresses. Combined with full leaf traces this strengthens the quotient iso. -/
 @[expose] public section

@@ -21,9 +21,6 @@ variable {V : Type*} [DecidableEq V] {D₀ : Type u} [Fintype D₀] [DecidableEq
 section iso
 variable {h : HSt V D₀}
 
-theorem op5_M_eq : (h.op5 Tm).s.M = restrictP (eraseSet h.s.M (tameSet h Tm)) (keepS h.s (tameSet h Tm))
-    (keepS_closed h.s (tameSet h Tm)) := rfl
-
 /-- In a tame-free component of the input, no atom is tame. -/
 theorem tameFree_notin {a b : V} (hT : TameFree h Tm a)
     (hsc : h.s.M.SameComponent a b) : b ∉ tameSet h Tm := by

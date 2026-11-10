@@ -17,20 +17,10 @@ namespace WaveTurbulence.VineEstS2
 open TTree RegRed
 variable {w : ℕ} {G : Garden w} {U : Finset (GBranch G.tree)} {a b : GBranch G.tree}
 
-/-- The default (cardinality) enumeration of the regional pairs; any bijection works. -/
-noncomputable def clPairEnumeration (hU : G.molecule.IsBlock U a b) (R : CLRegionData G U a b)
-    (hG : G.IsPlain) : ↥(clRegionalPairs hG U) ≃ Fin (clLocalOrder1 R) :=
-  (Fintype.equivFin _).trans (finCongr ((Fintype.card_coe _).trans (card_clRegionalPairs hU R hG)))
-
 /-- An enumeration of the interior branches that is increasing along the interior predecessor relation. -/
 structure CLIntOrder (hU : G.molecule.IsBlock U a b) (R : CLRegionData G U a b) where
   e : ↥(clInteriorBranches R) ≃ Fin (clLocalOrder1 R)
   prev : ∀ (v u : ↥(clInteriorBranches R)), clInteriorPredecessor hU R v = some u → e u < e v
-
-/-- The default predecessor-monotone enumeration (an arbitrary choice). -/
-noncomputable def clInteriorEnumeration (hU : G.molecule.IsBlock U a b) (R : CLRegionData G U a b) :
-    CLIntOrder hU R :=
-  ⟨(exists_clInteriorPredecessor_order hU R).choose, (exists_clInteriorPredecessor_order hU R).choose_spec⟩
 
 noncomputable def clOrderedPrev (hU : G.molecule.IsBlock U a b) (R : CLRegionData G U a b) (Ei : CLIntOrder hU R)
     (v : Fin (clLocalOrder1 R)) : Option (Fin (clLocalOrder1 R)) :=

@@ -49,12 +49,6 @@ structure BookE (M₀ : Molecule V D₀) (C : CollDataMK M₀) (Un : (D₀ → (
   hqd : ∀ q ∈ qs, ∃ j, q.1 = E j ∧ Dartless (E j) h ∧ ∀ k, k < j → Dartless (E k) h
   hfo : ((∃ p ∈ ps, p.1 ∉ Fst) ∨ qs ≠ []) → ∀ U ∈ Fst, Dartless U h
 
-/-- `ConnInvLE`: the bookkeeping holds for some removed pieces. -/
-def ConnInvLE (M₀ : Molecule V D₀) (C : CollDataMK M₀) (Un : (D₀ → (Fin d → ℤ)) → Set (Object M₀))
-    (Fst : Set (Object M₀)) (E : Fin m → Object M₀) (L γ η : ℝ) (w : Mom d) (κ : D₀ → (Fin d → ℤ)) (h : HSt V D₀) :
-    Prop :=
-  ∃ ps qs, BookE M₀ C Un Fst E L γ η w κ h ps qs
-
 variable {C : CollDataMK M₀} {Un : (D₀ → (Fin d → ℤ)) → Set (Object M₀)} {Fst : Set (Object M₀)}
   {E : Fin m → Object M₀} {L γ η : ℝ} {w : Mom d} {κ : D₀ → (Fin d → ℤ)}
 

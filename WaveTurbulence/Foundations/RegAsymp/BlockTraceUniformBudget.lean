@@ -70,28 +70,4 @@ theorem derivativeCoefficientEnvelope_blockTrace_mass_uniform_le
       simp only [ENNReal.ofReal_mul (by positivity : 0 ≤ B^r)]
       ac_rfl
 
-/-- The complete source trace mass has only a small power loss per frozen
-link, uniformly throughout every fixed polylogarithmic order range. -/
-theorem exists_blockTrace_mass_threshold {A ε : ℝ} (hA : 0 ≤ A) (hε : 0 < ε)
-    (orderExponent : ℝ) :
-    ∃ L₀ : ℝ, ∀ L : ℝ, L₀ ≤ L → 1 ≤ L ∧
-      ∀ n : ℕ, (n:ℝ) ≤ Real.log L^orderExponent →
-      ∀ r : ℕ, 0 < r → r ≤ n →
-      ∀ (κ : Type) [Fintype κ] (C : (Fin r ⊕ κ → ℝ) → ℝ × ℝ → ℂ),
-      SymReg C → ∀ θ N : ℝ, 0 ≤ N →
-      (∀ k, ∫⁻ α, ∫⁻ lam, wL θ lam*dnorm k C α lam ≤ gev N A k) →
-      (∫⁻ lam, wL θ lam*derivativeCoefficientEnvelope (blockTraceSymbol C) lam) ≤
-        ENNReal.ofReal (L^(ε*(r:ℝ))) *
-          (ENNReal.ofReal N * ∑' k : ℕ,
-            ENNReal.ofReal ((4*A)^k*((2*k).factorial:ℝ)/(4*k).factorial)) := by
-  obtain ⟨L₀,hL₀⟩ := exists_wick_block_trace_threshold
-    (by positivity : 0 ≤ 4*max 1 (4*A)) hε orderExponent
-  refine ⟨L₀,?_⟩
-  intro L hL
-  obtain ⟨hL1,hbound⟩ := hL₀ L hL
-  refine ⟨hL1,?_⟩
-  intro n hn r hr hrn κ _ C hC θ N hN hmain
-  apply (derivativeCoefficientEnvelope_blockTrace_mass_uniform_le hr hC hN hA hmain).trans
-  exact mul_le_mul' (ENNReal.ofReal_le_ofReal (hbound n hn r hrn)) le_rfl
-
 end WaveTurbulence.RegAsymp

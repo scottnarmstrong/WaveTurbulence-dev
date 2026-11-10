@@ -5,7 +5,9 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.Molecule.RegStructWork
+public import Mathlib.Data.Fintype.BigOperators
+public import WaveTurbulence.Foundations.Molecule.B2CharacterizationProofs
+public import WaveTurbulence.Foundations.Molecule.DominantChains
 
 /-! # Replacing exactly the lone subtree of a regular chain context -/
 

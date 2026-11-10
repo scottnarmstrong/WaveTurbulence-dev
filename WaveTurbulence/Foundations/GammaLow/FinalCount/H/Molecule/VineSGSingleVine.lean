@@ -1,8 +1,7 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 public import WaveTurbulence.Foundations.Molecule.VineSGSingleVine
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineSGNonVII
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineSideVIILength
+public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.DS.Member
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Api
 /-! **L6-H port of main `WaveTurbulence.Foundations.Molecule.VineSGSingleVine`** (sha256 in H/COPIED-SHA256SUMS), **restated over the
 low family by L6-HDS** (PLAN-L6 §3e–3f, layer H-DS). Main's statement names the drawn vine types; in the low family
@@ -18,16 +17,6 @@ set_option linter.unusedSectionVars false
 namespace WaveTurbulence.GammaLow.FinalCount.H
 open WaveTurbulence.Vine
 variable {V D : Type*} [DecidableEq V] [Fintype D] [DecidableEq D] {d : ℕ}
-
-/-- A VC with more than three atoms, nested in a vine of the low family and missing one of its joints, is a T-vine. -/
-theorem inner_VC_isTVine (M : Molecule V D)
-    {S : Finset V} {a b : V} (hV : Src.IsSomeVine Src.γL M S a b)
-    {A : Finset V} {x y : V} (hVC : Src.IsVC Src.γL M A x y) (hAS : A ⊆ S)
-    (hcard : 3 < A.card) (hmiss : a ∉ A ∨ b ∉ A) : M.IsTVine A x y := by
-  rcases VC_avoiding_joints_shape M hV hVC hAS hmiss with h | h | h
-  · have := doubleChain_card h; omega
-  · have := doubleChain_card h; omega
-  · exact h
 
 /-- TARGET subsetvc, ordinary VC inside a single outer vine of the low family: the inner SG VC in an LG/ZG vine is one or
 two double bonds, or a T-vine (N3 Cor 1.16′(2)). -/

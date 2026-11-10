@@ -26,14 +26,6 @@ theorem tree_pairedInverseProfile_const_mul (c : ℂ) (A : (ℝ × ℝ) → ℂ)
   apply integral_congr_ae
   exact ae_of_all _ (fun _ => by ring)
 
-/-- Addition uses the actual integrability of both original-frequency densities. -/
-theorem tree_pairedInverseProfile_add {A B : (ℝ × ℝ) → ℂ}
-    (hA : Integrable A) (hB : Integrable B) (t : Fin 2 → ℝ) :
-    pairedInverseProfile (fun lam => A lam+B lam) t = pairedInverseProfile A t+pairedInverseProfile B t := by
-  unfold pairedInverseProfile
-  simp only [add_mul]
-  exact integral_add (tree_integrable_mul_e2 hA t) (tree_integrable_mul_e2 hB t)
-
 /-- Subtraction uses the actual integrability of both original-frequency densities. -/
 theorem tree_pairedInverseProfile_sub {A B : (ℝ × ℝ) → ℂ}
     (hA : Integrable A) (hB : Integrable B) (t : Fin 2 → ℝ) :

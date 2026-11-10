@@ -1,7 +1,6 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 
-public import WaveTurbulence.Foundations.Spine.RA1LW.Base
 public import WaveTurbulence.Foundations.Spine.RA1LW.SourceParameterCongruence
 
 /-! # Relocating source leaf products with their original address parameters -/
@@ -9,7 +8,6 @@ public import WaveTurbulence.Foundations.Spine.RA1LW.SourceParameterCongruence
 public section
 noncomputable section
 namespace WaveTurbulence.RA1Leafwise
-open WaveTurbulence.RegAsymp
 open Links Reg TTree
 
 variable {V : Type*} {w w' : ℕ}

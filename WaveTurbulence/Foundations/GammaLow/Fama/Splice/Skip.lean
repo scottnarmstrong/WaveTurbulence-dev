@@ -33,10 +33,6 @@ theorem units_eq_of_not_disjointMk (hM : G.molecule.IsMolecule) (σ : Prescripti
   haveI : Std.Symm (fun u u' : CLBlock G => Disjoint u.atoms u'.atoms) := ⟨fun _ _ h => h.symm⟩
   exact h ((unitBlocks_pairwiseMk (Mk := Mk) hM σ).forall hu hu' hne)
 
-/-- Distinct units are disjoint. -/
-theorem units_eq_of_not_disjoint (hM : G.molecule.IsMolecule) (σ : Prescription G) {u u' : CLBlock G}
-    (hu : u ∈ unitBlocks γ G σ) (hu' : u' ∈ unitBlocks γ G σ) (h : ¬ Disjoint u.atoms u'.atoms) : u = u' := units_eq_of_not_disjointMk (Mk := ∅) hM σ hu hu' h
-
 section skip
 variable (hM : G.molecule.IsMolecule) (σ : Prescription G) {S : Finset (GBranch G.tree)}
   (hSm : S ∈ maximalGroupsG γ G.molecule) (hσ : σ S = Molecule.GapKind.SG)

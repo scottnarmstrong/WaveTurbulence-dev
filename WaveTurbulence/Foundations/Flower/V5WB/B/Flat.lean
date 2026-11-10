@@ -5,7 +5,6 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.Flower.V5WB.Common
 public import WaveTurbulence.Foundations.Flower.V5WB.B.Member
 
 public import WaveTurbulence.Foundations.Flower.V5WB.B.Nest
@@ -377,25 +376,5 @@ theorem classSumB_flat (lam : ℝ) (ψ : WD d) (C : ℝ) (hC : 0 ≤ C) (hψ : �
         fun j => ⟨fun op => hop ⟨j, ⟨op⟩⟩⟩
       rw [classSumB_base (p := p) (kind := kind) B RD hG layer hLayer lam ψ κ0 hprime lv hno]
       simp only [Lvl.psiFuel, hop, dite_false]
-
-/-- **Bond-weighted FLAT-MOD**: every level's bond-weighted class sum is `c ζ lkRaw` of the level's bond weight
-times the unweighted modulated `psiFuel`. -/
-theorem classSumB_eq_flat (lam : ℝ) (ψ : WD d) (C : ℝ) (hC : 0 ≤ C) (hψ : ∀ q q' k, ‖ψ.ψ q q' k‖ ≤ C)
-    (κ0 : KPar d) (hL : κ0.L ≠ 0)
-    (hF : ∀ k : ℕ, Summable fun n : Fin d → ℤ => |κ0.F k (κ0.base + latticePoint κ0.L n)|) (hprime : IsPrimeGarden G)
-    (lv : Lvl B) (t0 t1 t2 : ℝ) (e f g h : Mom d) :
-    classSumB (p := p) (kind := kind) B RD hG layer hLayer lam ψ lv κ0 t0 t1 t2 e f g h =
-      (coupling d κ0.L κ0.γ κ0.δ : ℂ) ^ clLocalOrder1 lv.region * clLocalZeta lv.region *
-        lkRaw lv.region κ0.L κ0.base
-          (spatialMul (lvW B RD hG layer hLayer ψ κ0 lv)
-            (modPsi b lam (Lvl.psiFuel (p := p) (kind := kind) B RD hG layer hLayer κ0 hprime (Fintype.card lv.ι + 1) lv)))
-          ![t0, t1, t2] ![e, f, g, h] :=
-  classSumB_flat (p := p) (kind := kind) B RD hG layer hLayer lam ψ C hC hψ κ0 hL hF hprime
-    (fun lv pstar hk x _u _u' hu => psiSB_congr (p := p) (kind := kind) κ0 (lv.state B RD hG layer hLayer)
-      (lv.split B RD hG layer hLayer pstar hk) hprime x hu)
-    (fun m lv x t _u _u' hu => Lvl.psiFuel_congr (p := p) (kind := kind) B RD hG layer hLayer κ0 hprime m lv x t hu)
-    (Lvl.hAbs_of_leaves (p := p) (kind := kind) B RD hG layer hLayer κ0 hL hprime
-      (Lvl.absLeaves (p := p) (kind := kind) B RD hG layer hLayer κ0 hL hF hprime))
-    (Fintype.card lv.ι) lv le_rfl t0 t1 t2 e f g h
 
 end WaveTurbulence.Flower.V5WB

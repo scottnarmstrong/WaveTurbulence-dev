@@ -86,20 +86,4 @@ theorem St.init_clean (M₀ : Molecule V D₀) : Clean (St.init M₀) := fun a _
   have : (St.init M₀).cls a = Cls.eps := rfl
   rw [this] at h; exact absurd h (by simp)
 
-theorem good_rtg {R : ℕ} {step : St.{u} V D₀ → St.{u} V D₀ → Prop}
-    (hstep : ∀ s s', step s s' → Good R s → Good R s') {a b : St.{u} V D₀}
-    (h : Relation.ReflTransGen step a b) : Good R a → Good R b := by
-  induction h with
-  | refl => exact id
-  | tail _ hs ih => exact fun g => hstep _ _ hs (ih g)
-
-theorem Run.good {L γ η : ℝ} {w : Mom d} {κ : D₀ → (Fin d → ℤ)} {R : ℕ} {M₀ : Molecule V D₀}
-    {sf : St.{_} V D₀} (hr : Run L γ η w κ (St.init M₀) sf) (hS : SubHyp R M₀) : Good R sf := by
-  obtain ⟨s₁, s₂, s₃, h1, _, h2, _, h3, _, h4, _⟩ := hr
-  have g0 : Good R (St.init M₀) := ⟨hS.inv, St.init_clean M₀⟩
-  have g1 := good_rtg (fun _ _ h g => Step1.good h g) h1 g0
-  have g2 := good_rtg (fun _ _ h g => Step2.good h g) h2 g1
-  have g3 := good_rtg (fun _ _ h g => Step3.good h g) h3 g2
-  exact good_rtg (fun _ _ h g => Step4.good h g) h4 g3
-
 end WaveTurbulence.FinalCountG3

@@ -13,7 +13,6 @@ public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.RecEng
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.RecMerge
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.RecFree
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.RecInd
-public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.TermNat4
 
 /-! # P4-W2 (session 18, step 4b): `termCertWG_rec`, the certificate of a term with exceptional records (kinds 0, 1, 3)
 

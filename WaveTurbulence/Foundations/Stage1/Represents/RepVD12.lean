@@ -54,41 +54,11 @@ theorem outputs_mem_AMk {R : ℕ} {A : Finset (LayeredGarden (2 * R))}
     (canonicalObject_of_isCanonGC (by rw [hB]; exact hcan)) (by rw [hB]; exact haA) hadm y.1.layered
     ⟨M, y.1, List.Perm.refl _, hr.batch, rfl⟩
 
-/-- B1b-2 (Mk-general form of `member_isCanonW`). -/
-theorem member_isCanonMk {R : ℕ} {A : Finset (LayeredGarden (2 * R))} {P : WTParams} {N : ℕ}
-    (hA : ∀ LG ∈ A, Stage1Mk.Stage1CarriesW P p N LG)
-    {Adm : ∀ {ι : Type}, LFTwist.FamilyReconstruction (2 * R) ι → Prop} (hcl : TwistClosedAdm p A Adm)
-    (a : PrescribedPrimeGarden (2 * R)) (mk : Stage1Mk.MarkFn (2 * R)) (hadm : Adm (sourceStart a mk))
-    (haA : a.layered ∈ A)
-    (y : UState (2 * R) (unitsSplit (sourceAssemblyMk a mk))) (hy : y ∈ sourceClass a p (objKind (2 * R)) mk) :
-    IsCanonGC (p + 1) y.1.layered :=
-  (hA _ (outputs_mem_AMk hcl a mk hadm haA (hA _ haA).1 y hy)).1
-
-/-- B1b-2 (Mk-general form of `member_stateLayer_leW`). -/
-theorem member_stateLayer_leMk {R : ℕ} {A : Finset (LayeredGarden (2 * R))} {P : WTParams} {N : ℕ}
-    (hA : ∀ LG ∈ A, Stage1Mk.Stage1CarriesW P p N LG)
-    {Adm : ∀ {ι : Type}, LFTwist.FamilyReconstruction (2 * R) ι → Prop} (hcl : TwistClosedAdm p A Adm)
-    (a : PrescribedPrimeGarden (2 * R)) (mk : Stage1Mk.MarkFn (2 * R)) (hadm : Adm (sourceStart a mk))
-    (haA : a.layered ∈ A)
-    (y : UState (2 * R) (unitsSplit (sourceAssemblyMk a mk))) (hy : y ∈ sourceClass a p (objKind (2 * R)) mk) (x) :
-    stateLayer y.1 x ≤ p := by
-  have h := Canon.layer_le_of_isCanonGC (member_isCanonMk hA hcl a mk hadm haA y hy)
-  rw [← stateLayer_spec y.1] at h
-  exact h x
-
 theorem outputs_mem_A {R : ℕ} {A : Finset (LayeredGarden (2 * R))} (hcl : TwistClosed p A)
     (a : PrescribedPrimeGarden (2 * R)) (haA : a.layered ∈ A) (hcan : IsCanonGC (p + 1) a.layered)
     (y : UState (2 * R) (unitsSplit (sourceAssembly a))) (hy : y ∈ sourceClass a p (objKind (2 * R))) :
     y.1.layered ∈ A :=
   outputs_mem_AMk (twistClosedAdm_of_twistClosed hcl fun _ => True) a (fun _ => ∅) trivial haA hcan y hy
-
-/-- B1b (R156): `member_isCanon` with the truncation-free carrier `Stage1CarriesW`. -/
-theorem member_isCanonW {R : ℕ} {A : Finset (LayeredGarden (2 * R))} {P : WTParams} {N : ℕ}
-    (hA : ∀ LG ∈ A, Stage1Mk.Stage1CarriesW P p N LG) (hcl : TwistClosed p A)
-    (a : PrescribedPrimeGarden (2 * R)) (haA : a.layered ∈ A)
-    (y : UState (2 * R) (unitsSplit (sourceAssembly a))) (hy : y ∈ sourceClass a p (objKind (2 * R))) :
-    IsCanonGC (p + 1) y.1.layered :=
-  (hA _ (outputs_mem_A hcl a haA (hA _ haA).1 y hy)).1
 
 theorem member_isCanon {R : ℕ} {A : Finset (LayeredGarden (2 * R))} {P : WTParams} {N : ℕ}
     (hA : ∀ LG ∈ A, Stage1Carries P p N LG) (hcl : TwistClosed p A)
@@ -96,16 +66,6 @@ theorem member_isCanon {R : ℕ} {A : Finset (LayeredGarden (2 * R))} {P : WTPar
     (y : UState (2 * R) (unitsSplit (sourceAssembly a))) (hy : y ∈ sourceClass a p (objKind (2 * R))) :
     IsCanonGC (p + 1) y.1.layered :=
   (hA _ (outputs_mem_A hcl a haA (hA _ haA).1 y hy)).1
-
-/-- B1b (R156): `member_stateLayer_le` with the truncation-free carrier `Stage1CarriesW`. -/
-theorem member_stateLayer_leW {R : ℕ} {A : Finset (LayeredGarden (2 * R))} {P : WTParams} {N : ℕ}
-    (hA : ∀ LG ∈ A, Stage1Mk.Stage1CarriesW P p N LG) (hcl : TwistClosed p A)
-    (a : PrescribedPrimeGarden (2 * R)) (haA : a.layered ∈ A)
-    (y : UState (2 * R) (unitsSplit (sourceAssembly a))) (hy : y ∈ sourceClass a p (objKind (2 * R))) (x) :
-    stateLayer y.1 x ≤ p := by
-  have h := Canon.layer_le_of_isCanonGC (member_isCanonW hA hcl a haA y hy)
-  rw [← stateLayer_spec y.1] at h
-  exact h x
 
 theorem member_stateLayer_le {R : ℕ} {A : Finset (LayeredGarden (2 * R))} {P : WTParams} {N : ℕ}
     (hA : ∀ LG ∈ A, Stage1Carries P p N LG) (hcl : TwistClosed p A)
@@ -137,57 +97,6 @@ theorem valueSel_false {P : WTParams} {w : ℕ} (F : LeafFamily P w) (tt : Fin w
     F.valueSel tt base roots LG (fun _ => False) = 0 := by
   unfold LeafFamily.valueSel kernelLeavesSel
   simp
-
-open scoped Classical in
-open PrescribedPrimeGarden in
-/-- B1b-2 (Mk-general form of `sum_members_eq`): the sum over the members of the coarse′ class (coarse marking `mkC`)
-of a fine′ piece (fine marking `mkF ⊇ mkC`, carried by every fine batch) is the sum over its fine′ output set; `A` is
-closed under batches of admissible families and the representative's run assembly is admissible. -/
-theorem sum_members_eqMk {R : ℕ} {A : Finset (LayeredGarden (2 * R))}
-    {Adm : ∀ {ι : Type}, LFTwist.FamilyReconstruction (2 * R) ι → Prop} (hcl : TwistClosedAdm p A Adm)
-    {mkF mkC : Stage1Mk.MarkFn (2 * R)} (hFT : ∀ c : PrescribedPrimeGarden (2 * R), c.FineTransportedAt mkF)
-    (hsub : ∀ {LG : LayeredGarden (2 * R)} (B : PrimeData LG), mkC B ⊆ mkF B)
-    (π : PcA R p (objKind (2 * R)) A mkF) (hadm : Adm (sourceStart (repPt π) mkF))
-    (hcan : IsCanonGC (p + 1) (repPt π).layered) (P : WTParams)
-    (F : LeafFamily P (2 * R)) (tt : Fin (2 * R) → ℝ) (base : Mom P.d) (roots : Fin (2 * R) → (Fin P.d → ℤ))
-    (T : Finset (LayeredGarden (2 * R)))
-    (hT : (T : Set (LayeredGarden (2 * R))) = (repPt π).outputs (p := p) (kind := objKind (2 * R)) mkF) :
-    ∑ LG ∈ membersP (clsPMk mkC π), F.valueSel tt base roots LG (selPMk p (objKind (2 * R)) A P base roots mkF π LG) =
-      ∑ LG ∈ T, F.valueSel tt base roots LG (selPMk p (objKind (2 * R)) A P base roots mkF π LG) := by
-  have hzero : ∀ LG, LG ∉ T →
-      F.valueSel tt base roots LG (selPMk p (objKind (2 * R)) A P base roots mkF π LG) = 0 := by
-    intro LG hLG
-    have hf : selPMk p (objKind (2 * R)) A P base roots mkF π LG = fun _ => False := by
-      funext κ
-      apply propext
-      constructor
-      · rintro ⟨b, hb, hrel, -⟩
-        refine absurd ?_ hLG
-        rw [← Finset.mem_coe, hT, ← hb]
-        rw [← tauClass_imageMk hFT (repPt π)]
-        exact ⟨b, hrel, rfl⟩
-      · exact False.elim
-    rw [hf]
-    exact valueSel_false F tt base roots LG
-  have hsub' : T ⊆ membersP (clsPMk mkC π) := by
-    intro LG hLG
-    have hout : LG ∈ (repPt π).outputs (p := p) (kind := objKind (2 * R)) mkF := by
-      rw [← hT]; exact hLG
-    unfold membersP
-    rw [Finset.mem_filter]
-    refine ⟨?_, ?_⟩
-    · have h := prescribed_outputs_eq_unitsStartMk (p := p) (kind := objKind (2 * R)) (repPt π) mkF
-        (sourceLayer (repPt π)) (sourceLayer_isLayering (repPt π)) (sourceLayer_reconstructs (repPt π))
-      rw [h] at hout
-      obtain ⟨M, B', hM, hB, hLB⟩ := hout
-      have hB0 : (sourceStart (repPt π) mkF).layered = (repPt π).layered := sourceLayer_reconstructs (repPt π)
-      exact hcl (objKind (2 * R)) (UnitsIndex (sourceAssemblyMk (repPt π) mkF)) (sourceStart (repPt π) mkF)
-        (Finset.univ.toList) (repPt π).prime.prime
-        (canonicalObject_of_isCanonGC (by rw [hB0]; exact hcan)) (by rw [hB0]; exact repPt_layered_memMk π) hadm LG
-        ⟨M, B', hM, hB, hLB⟩
-    · show LG ∈ coarseOf p (objKind (2 * R)) (repPt π) mkC
-      exact (repPt π).prime.fine_outputs_subset_coarseMk (repPt π).totalSigma (hsub (repPt π).prime) hout
-  exact (Finset.sum_subset hsub' (fun LG _ hLG => hzero LG hLG)).symm
 
 open scoped Classical in
 open PrescribedPrimeGarden in

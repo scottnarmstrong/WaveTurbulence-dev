@@ -5,7 +5,8 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.ExcDisp4
+public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.ExcDisp3
+public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W2.ExcDisp2
 public import WaveTurbulence.Foundations.VineEst.K2.CrossDisp
 
 /-! # P4-W2 (session 20, step 6C): the kind-2 dispatch without `hq` (equal windows or the cross-window gap)
@@ -31,8 +32,6 @@ theorem Kall_le_of_ge_one (d : ℕ) (K : ℝ≥0∞) {x : ℝ} (hx : 1 ≤ x) : 
   Kall_mono d (by
     calc K = K * 1 := (mul_one K).symm
       _ ≤ K * ENNReal.ofReal x := mul_le_mul' le_rfl (by rw [← ENNReal.ofReal_one]; exact ENNReal.ofReal_le_ofReal hx))
-
-theorem Wsel_self (q : ℝ) (s : Bool) : Wsel q q s = Set.Ioo q (q + 1) := by cases s <;> simp [Wsel]
 
 open Classical in
 theorem exc_dispatch_k2x (G : AmbP A P) (Rb : ℝ) :

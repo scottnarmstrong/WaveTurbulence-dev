@@ -35,14 +35,4 @@ theorem inverse_strip_coefficient_le {L τ a D : ℝ}
   have hm := mul_le_mul_of_nonneg_left hgap (by positivity : 0 ≤ 2*τ*L)
   nlinarith only [hm]
 
-/-- When P is at least one lattice spacing, the same coordinate is
-uniformly controlled by `d*c*L`, independently of P. -/
-theorem strip_coordinate_lattice_gap {d : ℕ} {L P c : ℝ} (hL : 0 < L)
-    (hP : L⁻¹ ≤ P) (hPp : 0 < P) (hc : 0 ≤ c) (i : Fin d) (r : Mom d)
-    (hi : 1 ≤ ((d : ℝ)*c/P)*|r i|) :
-    1 ≤ ((d : ℝ)*c*L)*|r i| := by
-  have hinv : P⁻¹ ≤ L := (inv_le_comm₀ hPp hL).mpr hP
-  have hm := mul_le_mul_of_nonneg_left hinv (by positivity : 0 ≤ (d : ℝ)*c*|r i|)
-  exact hi.trans (by convert hm using 1 <;> ring)
-
 end WaveTurbulence.CountLemmas

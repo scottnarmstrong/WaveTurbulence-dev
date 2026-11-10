@@ -63,22 +63,4 @@ theorem certT_good_vals {b : ST w ι pstar J} (hb : b ∈ bsA p kind J A sp0 hA 
   rw [dif_pos hb]
   split_ifs <;> exact ⟨rfl, rfl, rfl⟩
 
-include hcan hel htc hcc E hN in
-open Classical in
-/-- **The size of a good bundle member**: `szQ b · szT b = 4 TR² C₁⁴ (C₁² δ)^{zpN} · (cost_C cost_T)`. -/
-theorem sz_good (hδ : 0 ≤ P.δ) {b : ST w ι pstar J} (hb : b ∈ bsA p kind J A sp0 hA ∨ b ∈ bsB p kind J A sp0 hA) :
-    (certSrcOf (κ := κ) A sp0 hA hcan hel htc hcc E hN).szQ b * (certSrcOf (κ := κ) A sp0 hA hcan hel htc hcc E hN).szT b =
-      4 * TR P.η ^ 2 * P.C₁ ^ 4 * (P.C₁ ^ 2 * P.δ) ^ zpN A pstar *
-        (layerCost Bh (zpObjC b.1 pstar) * layerCost Bh (zpObjT b.1 pstar)) := by
-  obtain ⟨c1, c2, c3⟩ := certC_good_vals (κ := κ) A sp0 hA hcan hel htc hcc E hN hb
-  obtain ⟨t1, t2, t3⟩ := certT_good_vals (κ := κ) A sp0 hA hcan hel htc hcc E hN hb
-  have hs := zp_half_sizes A sp0 hA hcan hel htc hcc b (mem_zpFinset_of_bs A sp0 hA hb)
-  show |(certC (κ := κ) A sp0 hA hcan hel htc hcc E hN b).c| * (certC (κ := κ) A sp0 hA hcan hel htc hcc E hN b).CJ *
-      (certC (κ := κ) A sp0 hA hcan hel htc hcc E hN b).CM * (|(certT (κ := κ) A sp0 hA hcan hel htc hcc E hN b).c| *
-      (certT (κ := κ) A sp0 hA hcan hel htc hcc E hN b).CJ * (certT (κ := κ) A sp0 hA hcan hel htc hcc E hN b).CM) = _
-  rw [c1, c2, c3, t1, t2, t3, abs_of_nonneg (pow_nonneg hδ _), abs_of_nonneg (pow_nonneg hδ _)]
-  unfold certCJ certCM
-  rw [← hs]
-  ring
-
 end WaveTurbulence.VineEstS5C.P4.W2

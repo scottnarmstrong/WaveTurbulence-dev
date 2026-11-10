@@ -6,7 +6,6 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.VineEst.VineEstS2.CLGlobalPhaseExponent
-public import WaveTurbulence.Foundations.VineEst.VineEstS2.CLKernelReindex
 public import WaveTurbulence.Foundations.VineEst.VineEstS2.BlockPhaseAlgebra
 
 /-! # TARGET Step 2: the regional phase is the frozen signed sumint phase

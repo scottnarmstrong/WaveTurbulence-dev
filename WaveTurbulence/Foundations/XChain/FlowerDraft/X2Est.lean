@@ -36,45 +36,6 @@ namespace WaveTurbulence
 
 /-! ## `WTPrefixP` combinators -/
 
-/-- Two `WTPrefixP` statements combine when the first does not depend on the constants `C₁, C₂`. -/
-theorem WTPrefixP.and {Q₁ Q₂ : ℕ → WTParams → Prop}
-    (hC : ∀ Pm (P : WTParams) (C₁ C₂ : ℝ), Q₁ Pm P → Q₁ Pm {P with C₁ := C₁, C₂ := C₂})
-    (h₁ : WTPrefixP Q₁) (h₂ : WTPrefixP Q₂) : WTPrefixP fun Pm P => Q₁ Pm P ∧ Q₂ Pm P := by
-  intro d hd γ hγ
-  obtain ⟨η₁, hη₁, H₁⟩ := h₁ d hd γ hγ
-  obtain ⟨η₂, hη₂, H₂⟩ := h₂ d hd γ hγ
-  refine ⟨min η₁ η₂, lt_min hη₁ hη₂, fun η hη φin hφ τ hτ φ hW => ?_⟩
-  obtain ⟨C₁a, -, ν₁, hν₁, H₁⟩ := H₁ η ⟨hη.1, hη.2.trans (min_le_left _ _)⟩ φin hφ τ hτ φ hW
-  obtain ⟨C₁b, hC₁b, ν₂, hν₂, H₂⟩ := H₂ η ⟨hη.1, hη.2.trans (min_le_right _ _)⟩ φin hφ τ hτ φ hW
-  refine ⟨C₁b, hC₁b, min ν₁ ν₂, lt_min hν₁ hν₂, fun ν hν => ?_⟩
-  obtain ⟨P₁, H₁⟩ := H₁ ν ⟨hν.1, hν.2.trans (min_le_left _ _)⟩
-  obtain ⟨P₂, H₂⟩ := H₂ ν ⟨hν.1, hν.2.trans (min_le_right _ _)⟩
-  refine ⟨max P₁ P₂, fun Pm hPm => ?_⟩
-  obtain ⟨δ₁, hδ₁, H₁⟩ := H₁ Pm ((le_max_left _ _).trans hPm)
-  obtain ⟨δ₂, hδ₂, H₂⟩ := H₂ Pm ((le_max_right _ _).trans hPm)
-  refine ⟨min δ₁ δ₂, lt_min hδ₁ hδ₂, fun δ hδ D hD hτD => ?_⟩
-  obtain ⟨C₂a, -, L₁, hL₁, H₁⟩ := H₁ δ ⟨hδ.1, hδ.2.trans (min_le_left _ _)⟩ D hD hτD
-  obtain ⟨C₂b, hC₂b, L₂, hL₂, H₂⟩ := H₂ δ ⟨hδ.1, hδ.2.trans (min_le_right _ _)⟩ D hD hτD
-  exact ⟨C₂b, hC₂b, max L₁ L₂, hL₁.trans (le_max_left _ _), fun L hL =>
-    ⟨hC _ _ C₁b C₂b (H₁ L ((le_max_left _ _).trans hL)),
-      H₂ L ((le_max_right _ _).trans hL)⟩⟩
-
-/-- `δ` may be taken below a positive function of `ν`, and `P` positive. -/
-theorem WTPrefixP.small {Q : ℕ → WTParams → Prop} (h : WTPrefixP Q) (f : ℝ → ℝ) (hf : ∀ ν, 0 < ν → 0 < f ν) :
-    WTPrefixP fun Pm P => Q Pm P ∧ 1 ≤ Pm ∧ 0 < P.ν ∧ 0 < P.δ ∧ P.δ ≤ f P.ν ∧ 2 ≤ P.L := by
-  intro d hd γ hγ
-  obtain ⟨η₀, hη₀, H⟩ := h d hd γ hγ
-  refine ⟨η₀, hη₀, fun η hη φin hφ τ hτ φ hW => ?_⟩
-  obtain ⟨C₁, hC₁, ν₀, hν₀, H⟩ := H η hη φin hφ τ hτ φ hW
-  refine ⟨C₁, hC₁, ν₀, hν₀, fun ν hν => ?_⟩
-  obtain ⟨P₀, H⟩ := H ν hν
-  refine ⟨max P₀ 1, fun Pm hPm => ?_⟩
-  obtain ⟨δ₀, hδ₀, H⟩ := H Pm ((le_max_left _ _).trans hPm)
-  refine ⟨min δ₀ (f ν), lt_min hδ₀ (hf ν hν.1), fun δ hδ D hD hτD => ?_⟩
-  obtain ⟨C₂, hC₂, L₀, hL₀, H⟩ := H δ ⟨hδ.1, hδ.2.trans (min_le_left _ _)⟩ D hD hτD
-  exact ⟨C₂, hC₂, L₀, hL₀, fun L hL =>
-    ⟨H L hL, (le_max_right _ _).trans hPm, hν.1, hδ.1, hδ.2.trans (min_le_right _ _), hL₀.trans hL⟩⟩
-
 theorem WTPrefixP.mono {Q Q' : ℕ → WTParams → Prop} (h : WTPrefixP Q) (hQ : ∀ Pm P, Q Pm P → Q' Pm P) :
     WTPrefixP Q' := by
   intro d hd γ hγ
@@ -120,9 +81,6 @@ def B112Body (Pm : ℕ) (P : WTParams) : Prop :=
         (dt : Bool), (kind = .tr → dt = true) →
         ‖coupleSum P (inputsF P R) p N kind dt t k‖ ≤
           jbr k ^ (-(4 * P.Lambda (p + 1) : ℝ)) * P.L ^ (100 * P.d : ℝ) * P.δ ^ (P.ν * N))
-
-/-- **The B1.12 gate** (`Flower-Gate.lean`, `layergardenFlower`), as a hypothesis. -/
-def LayergardenFlowerGate : Prop := WTPrefixP B112Body
 
 /-! The next four lemmas are copied from wt-cumul's INDUCT `GateConstants.lean`
 (`/home/scott/wt-scratch/induct/GateConstants.lean`, sha256 `f60851de90d8cddffe11f6ffca0883623221bd2c584eb378c7c5e3287f7cc6f7`),
@@ -319,100 +277,6 @@ theorem sum_pow_le_two_mul {q : ℝ} (hq0 : 0 ≤ q) (hq : q ≤ 1 / 2) (s : Fin
         rw [inv_le_comm₀ (by linarith) two_pos]
         linarith
     _ = 2 * q ^ A := mul_comm _ _
-
-/-- **`flowerest1` from the B1.12 gate and O-X2-EXP.** -/
-theorem flowerest1_of_gates.{u} (hG : LayergardenFlowerGate) (hE : OX2Exp.{u}) : WTPrefixP X2Body.{u} := by
-  refine ((WTPrefixP.and B112Body_const hG hE).small (fun ν => Real.exp (-(25 / ν))) fun ν _ =>
-    Real.exp_pos _).mono ?_
-  rintro Pm P ⟨⟨hB, hX⟩, hPm, hν, hδ, hδν, hL⟩
-  classical
-  intro Ω _ μ _ g hg p hp a Fev R E Et hA t ht s hs n n' ζ kind pat dagger cut1 cut2 hpat hcut
-  obtain ⟨hint, hexp⟩ := hX Ω μ g hg p hp a Fev R E Et hA t ht s hs n n' ζ kind pat dagger cut1 cut2 hpat hcut
-  refine ⟨hint, ?_⟩
-  have hRB : RemainderBound P R p := fun q hq => (hA q hq).2.1.1
-  set Ntr := P.N (p + 1)
-  set B := x2Bound P Pm p ζ n n' (fun _ : Fin (2 * Pm) => pat) cut1 cut2
-  set I := ∫ ω in Fev p, ‖randK P a p kind pat dagger cut1 cut2 ζ t s n n' ω‖ ^ (2 * Pm) ∂μ
-  set fS : ℕ → ℂ := fun N => flowerSumP P (inputsF P R) p N (w := 2 * Pm) kind (fun _ => pat)
-    (dagger.map fun c _ => c) cut1 cut2 ζ t s n n'
-  have hB0 : 0 ≤ B := x2Bound_nonneg P (by linarith) Pm p ζ n n' _ cut1 cut2
-  set q := P.δ ^ (2 * P.ν)
-  have hq0 : 0 ≤ q := Real.rpow_nonneg hδ.le _
-  have hq50 : q ≤ Real.exp (-50) := by
-    calc q ≤ Real.exp (-(25 / P.ν)) ^ (2 * P.ν) := Real.rpow_le_rpow hδ.le hδν (by positivity)
-      _ = Real.exp (-50) := by
-          rw [← Real.exp_mul]
-          congr 1
-          field_simp
-          ring
-  have hq : q ≤ 1 / 2 := hq50.trans (by
-    have := Real.add_one_le_exp (-50 : ℝ)
-    have h2 : Real.exp (-50) * Real.exp 50 = 1 := by rw [← Real.exp_add]; simp
-    have h3 : (51 : ℝ) ≤ Real.exp 50 := by linarith [Real.add_one_le_exp (50 : ℝ)]
-    nlinarith [Real.exp_pos (-50 : ℝ)])
-  -- the per-order bound
-  have hord : ∀ N ∈ Finset.range (Ntr ^ 4 + 1), ‖fS N‖ ≤ B * q ^ N := by
-    intro N hN
-    have hN' : N ≤ Ntr ^ 4 := Nat.lt_succ_iff.1 (Finset.mem_range.1 hN)
-    have h := (hB p hp R hRB).1 t ht s hs n n' ζ N hN' kind (fun _ => pat) (dagger.map fun c _ => c)
-      cut1 cut2 hcut
-    have hq' : P.δ ^ (2 * P.ν * N) = q ^ N := by
-      rw [Real.rpow_mul hδ.le, Real.rpow_natCast]
-    refine h.trans (le_of_eq ?_)
-    rw [hq']
-    simp only [B, x2Bound]
-    ring
-  -- the low orders vanish for `𝒴`, `𝒲`
-  set A : ℕ := if kind = .X then 0 else 2 * Pm * (Ntr + 1)
-  have hlow : ∀ N, N < A → fS N = 0 := by
-    intro N hN
-    by_cases hk : kind = .X
-    · simp [A, hk] at hN
-    · simp only [A, hk, ite_false] at hN
-      exact flowerSum_eq_zero_of_lt P _ p N kind hk _ _ cut1 cut2 ζ t s n n' hN
-  have hsum : ∑ N ∈ Finset.range (Ntr ^ 4 + 1), ‖fS N‖ ≤ 2 * B * q ^ A := by
-    calc ∑ N ∈ Finset.range (Ntr ^ 4 + 1), ‖fS N‖
-        ≤ ∑ N ∈ (Finset.range (Ntr ^ 4 + 1)).filter (A ≤ ·), B * q ^ N := by
-          rw [Finset.sum_filter]
-          refine Finset.sum_le_sum fun N hN => ?_
-          split_ifs with h
-          · exact hord N hN
-          · rw [hlow N (not_le.1 h), norm_zero]
-      _ = B * ∑ N ∈ (Finset.range (Ntr ^ 4 + 1)).filter (A ≤ ·), q ^ N := by rw [Finset.mul_sum]
-      _ ≤ B * (2 * q ^ A) := mul_le_mul_of_nonneg_left
-          (sum_pow_le_two_mul hq0 hq _ A fun N hN => (Finset.mem_filter.1 hN).2) hB0
-      _ = 2 * B * q ^ A := by ring
-  have hI0 : 0 ≤ I := setIntegral_nonneg_of_ae_restrict (ae_of_all _ fun _ => by positivity)
-  have hIle : I ≤ 2 * B * q ^ A + B * Real.exp (-(101 * Ntr : ℝ)) := by
-    have h1 : I = ‖((I : ℝ) : ℂ)‖ := by rw [Complex.norm_real, Real.norm_of_nonneg hI0]
-    rw [h1]
-    calc ‖((I : ℝ) : ℂ)‖ ≤ ‖∑ N ∈ Finset.range (Ntr ^ 4 + 1), fS N‖ +
-          ‖((I : ℝ) : ℂ) - ∑ N ∈ Finset.range (Ntr ^ 4 + 1), fS N‖ := norm_le_insert' _ _
-      _ ≤ ∑ N ∈ Finset.range (Ntr ^ 4 + 1), ‖fS N‖ + B * Real.exp (-(101 * Ntr : ℝ)) :=
-          add_le_add (norm_sum_le _ _) hexp
-      _ ≤ _ := add_le_add hsum le_rfl
-  have he101 : Real.exp (-(101 * Ntr : ℝ)) ≤ Real.exp (-(100 * Ntr : ℝ)) :=
-    Real.exp_le_exp.2 (by have : (0 : ℝ) ≤ Ntr := Nat.cast_nonneg _; linarith)
-  have he100 : Real.exp (-(100 * Ntr : ℝ)) ≤ 1 :=
-    Real.exp_le_one_iff.2 (by have : (0 : ℝ) ≤ Ntr := Nat.cast_nonneg _; linarith)
-  cases kind with
-  | X =>
-    have hA0 : A = 0 := by simp [A]
-    rw [hA0, pow_zero] at hIle
-    show I ≤ 3 * B * 1
-    nlinarith
-  | Y | W =>
-    have hAq : q ^ A ≤ Real.exp (-(100 * Ntr : ℝ)) := by
-      have hA' : 2 * (Ntr + 1) ≤ A := by
-        simp only [A, reduceCtorEq, ite_false]
-        nlinarith
-      calc q ^ A ≤ q ^ (2 * (Ntr + 1)) := pow_le_pow_of_le_one hq0 (hq.trans (by norm_num)) hA'
-        _ ≤ Real.exp (-50) ^ (2 * (Ntr + 1)) := pow_le_pow_left₀ hq0 hq50 _
-        _ = Real.exp (-(100 * (Ntr + 1) : ℝ)) := by
-            rw [← Real.exp_nat_mul]; congr 1; push_cast; ring
-        _ ≤ Real.exp (-(100 * Ntr : ℝ)) := Real.exp_le_exp.2 (by linarith)
-    show I ≤ 3 * B * Real.exp (-(100 * Ntr : ℝ))
-    nlinarith
 
 end X2E
 

@@ -54,14 +54,4 @@ theorem rt_tree_onBox {LG : LayeredGarden 1} (L γ δ : ℝ) {d : ℕ} (H : Leaf
   intro ts hts
   rw [rt_rootPins_tree s, rt_kernel_up L γ δ H m (ts 1) s (ts 0) hts.2.2]
 
-/-- **The restricted norm of clause (i) by the port norm**: on its box the kernel reads only the port clock. -/
-theorem rt_tree_rn_le {θ : ℝ} (hθ : 0 ≤ θ) {LG : LayeredGarden 1} (L γ δ : ℝ) {d : ℕ} (H : LeafProfiles 1 d)
-    (m : (GNode LG.garden.tree → Mom d) → ℂ) (p q' s : ℝ) (k : Mom d) :
-    rn θ (rtBox p q' s) (fun ts => kernelProt L γ δ LG H m (fun _ => ts 0) (ts 1)
-        (MkSlotsO.rootPins (fun _ => True) s) k (fun _ => 0) 0) ≤
-      cutNorm θ * rn θ (win q') (fun y => kernelProt L γ δ LG H m (fun _ => s) (y 0) (rootFix s) k (fun _ => 0) 0) := by
-  rw [rn_congr θ (rt_tree_onBox L γ δ H m p q' s k)]
-  exact rn_lift2 hθ p q' (rtBox_sub p q' s)
-    (fun y => kernelProt L γ δ LG H m (fun _ => s) (y 0) (rootFix s) k (fun _ => 0) 0)
-
 end WaveTurbulence.Flower.ProtRT

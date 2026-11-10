@@ -43,9 +43,4 @@ theorem admitsBetaSplit_before_bridgeCore (M : Molecule V D) (hM : M.IsMolecule)
         exact admitsBetaSplit_before_eraseBond N hN e he hnext
   exact aux _ M rfl hM
 
-/-- Source-facing absence of beta splits is retained by literal B pruning. -/
-theorem not_admitsBetaSplit_bridgeCore (M : Molecule V D) (hM : M.IsMolecule)
-    (hno : ¬ AdmitsBetaSplit M) : ¬ AdmitsBetaSplit (bridgeCore M) :=
-  fun h => hno (admitsBetaSplit_before_bridgeCore M hM h)
-
 end WaveTurbulence.MoleProp

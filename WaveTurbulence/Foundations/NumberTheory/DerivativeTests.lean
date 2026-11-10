@@ -50,48 +50,6 @@ theorem unit_increment_mem_Icc {f f' : ℝ → ℝ} {x l u : ℝ}
   rw [← heq]
   exact hbound y (Set.Ioo_subset_Icc_self hy)
 
-/-- The continuous first-derivative test. The derivative is increasing and
-contained in a single strip at distance at least `δ` from its integer ends. -/
-theorem kusmin_landau {f f' : ℝ → ℝ} {a b : ℕ} {δ : ℝ} {m : ℤ}
-    (hδ0 : 0 < δ) (hδ : δ ≤ 1 / 2)
-    (hf : ∀ x ∈ Set.Icc ((a : ℝ) + 1) ((b : ℝ) + 1), HasDerivAt f (f' x) x)
-    (hmono : MonotoneOn f' (Set.Icc ((a : ℝ) + 1) ((b : ℝ) + 1)))
-    (hbound : ∀ x ∈ Set.Icc ((a : ℝ) + 1) ((b : ℝ) + 1),
-      f' x ∈ Set.Icc ((m : ℝ) + δ) ((m : ℝ) + 1 - δ)) :
-    ‖∑ n ∈ Finset.Ioc a b, expPhase (f n)‖ ≤ 1 / δ := by
-  have hsub (n : ℕ) (han : a < n) (hnb : n ≤ b) :
-      Set.Icc (n : ℝ) ((n : ℝ) + 1) ⊆
-        Set.Icc ((a : ℝ) + 1) ((b : ℝ) + 1) := by
-    have ha : (a : ℝ) + 1 ≤ n := by exact_mod_cast han
-    have hb : (n : ℝ) ≤ b := by exact_mod_cast hnb
-    intro x hx
-    constructor
-    · exact ha.trans hx.1
-    · linarith only [hx.2, hb]
-  have hincr (n : ℕ) (han : a < n) (hnb : n ≤ b) :
-      f ((n : ℝ) + 1) - f n ∈ Set.Icc ((m : ℝ) + δ) ((m : ℝ) + 1 - δ) :=
-    unit_increment_mem_Icc (fun x hx => hf x (hsub n han hnb hx))
-      (fun x hx => hbound x (hsub n han hnb hx))
-  apply kusmin_landau_discrete hδ0 hδ
-  · intro n han hnb
-    simpa only [Nat.cast_add, Nat.cast_one] using (hincr n han hnb).1
-  · intro n han hnb
-    simpa only [Nat.cast_add, Nat.cast_one] using (hincr n han hnb).2
-  · intro n han hnb
-    obtain ⟨x, hx, hxeq⟩ := exists_unit_increment_eq
-      (fun x hx => hf x (hsub n han hnb.le hx))
-    have han' : a < n + 1 := Nat.lt_succ_of_lt han
-    have hnb' : n + 1 ≤ b := hnb
-    obtain ⟨y, hy, hyeq⟩ := exists_unit_increment_eq
-      (fun y hy => hf y (hsub (n + 1) han' hnb' hy))
-    have hxmem := hsub n han hnb.le (Set.Ioo_subset_Icc_self hx)
-    have hymem := hsub (n + 1) han' hnb' (Set.Ioo_subset_Icc_self hy)
-    have hxy : x ≤ y := hx.2.le.trans (by simpa only [Nat.cast_add, Nat.cast_one] using hy.1.le)
-    have h := hmono hxmem hymem hxy
-    rw [hxeq, hyeq] at h
-    simpa only [Nat.cast_add, Nat.cast_one, Nat.cast_ofNat, add_assoc,
-      one_add_one_eq_two] using h
-
 /-- Two successive mean value theorems transfer bounds on the second
 derivative to second unit differences, on exactly the required interval. -/
 theorem second_increment_mem_Icc {f f' f'' : ℝ → ℝ} {x l u : ℝ}
@@ -142,26 +100,6 @@ theorem van_der_corput_second_derivative {f f' f'' : ℝ → ℝ} {a b : ℕ} {l
     simpa only [Nat.cast_add, Nat.cast_one] using (hdiff n han hnb).1
   · intro n han hnb
     simpa only [Nat.cast_add, Nat.cast_one] using (hdiff n han hnb).2
-
-/-- The first-derivative test for a decreasing derivative. -/
-theorem kusmin_landau_of_antitone {f f' : ℝ → ℝ} {a b : ℕ} {δ : ℝ} {m : ℤ}
-    (hδ0 : 0 < δ) (hδ : δ ≤ 1 / 2)
-    (hf : ∀ x ∈ Set.Icc ((a : ℝ) + 1) ((b : ℝ) + 1), HasDerivAt f (f' x) x)
-    (hmono : AntitoneOn f' (Set.Icc ((a : ℝ) + 1) ((b : ℝ) + 1)))
-    (hbound : ∀ x ∈ Set.Icc ((a : ℝ) + 1) ((b : ℝ) + 1),
-      f' x ∈ Set.Icc ((m : ℝ) + δ) ((m : ℝ) + 1 - δ)) :
-    ‖∑ n ∈ Finset.Ioc a b, expPhase (f n)‖ ≤ 1 / δ := by
-  rw [← norm_sum_expPhase_neg]
-  apply kusmin_landau (f := fun x => -f x) (f' := fun x => -f' x)
-    (m := -m - 1) hδ0 hδ
-  · intro x hx
-    exact (hf x hx).neg
-  · intro x hx y hy hxy
-    exact neg_le_neg (hmono hx hy hxy)
-  · intro x hx
-    obtain ⟨hl, hu⟩ := hbound x hx
-    simp only [Set.mem_Icc, Int.cast_sub, Int.cast_neg, Int.cast_one]
-    constructor <;> linarith only [hl, hu]
 
 /-- The second-derivative test for a negative second derivative, with the
 same constant as the positive case. -/

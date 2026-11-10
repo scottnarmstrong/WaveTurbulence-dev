@@ -30,10 +30,6 @@ variable {w : ℕ} {G : Garden w} {P : CorePlacement G} {S : Finset (GBranch G.t
 @[expose] def PairedAt (P : CorePlacement G) {d : ℕ} (x : GNode G.tree → (Fin d → ℤ)) : Prop :=
   x P.retained.toNode = x (G.pair P.retained).toNode
 
-theorem switched_lower {E : Type*} (κ : GNode G.tree → E) :
-    switchedOldLabels G P κ P.lower.toNode = κ P.retained.toNode := by
-  simp [switchedOldLabels]
-
 theorem switched_retained {E : Type*} (κ : GNode G.tree → E) :
     switchedOldLabels G P κ P.retained.toNode = κ P.lower.toNode := by
   have : P.retained.toNode ≠ P.lower.toNode := (Mole.branch_toNode_ne_leaf P.lower P.retained).symm

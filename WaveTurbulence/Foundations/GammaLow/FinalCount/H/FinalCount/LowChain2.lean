@@ -305,46 +305,6 @@ theorem jdeg2_pos {s : St.{u} V D₀} (K : Step1.VineCut Src.γL s.M) (hd2 : s.M
 theorem jdeg2_le {s : St.{u} V D₀} (K : Step1.VineCut Src.γL s.M) : jdeg2 K ≤ 2 := by
   unfold jdeg2; split_ifs <;> omega
 
-/-- **LC-1: the potential inequality of Step D1 from the object data** (no assumption on the true increments: `ΔF`, `ΔV_β`, `ρ`, the
-critical count and the index of `vinePostG K` are computed). -/
-theorem hW_D1' (hL1 : 1 ≤ L) (hη : 0 ≤ η) (hη40 : η ≤ 1 / 40) (hγ0 : 0 ≤ min γ (1 - γ)) (ε0 : ℝ) (crit : V → Prop) (Fmax : ℝ)
-    {h : HSt V D₀} (K : Step1.VineCut Src.γL h.s.M) {R : ℕ} (hI : Inv R h.s) (hap : ApPos h.s)
-    (hu : h.s.cls K.C.upper = .eps) (hl : h.s.cls K.C.lower = .eps)
-    (hd2 : h.s.M.deg K.C.upper = 2 ∨ h.s.M.deg K.C.lower = 2) (hnew : h.s.M.numComponents < K.post.numComponents)
-    (hrem : ∀ a ∈ K.C.atoms, h.s.cls a = .eps) (hint : ∀ a ∈ K.C.atoms, a ≠ K.C.upper → a ≠ K.C.lower → ¬ crit a)
-    (hM : ∀ x ∈ h.s.M.atoms, h.s.M.deg x ≤ 4)
-    (hloss : ladderLoss h.s.M (h.s.M.atoms.filter (fun a => a ∉ K.C.atoms)) ≤ 86) {CN : ℝ} (hCN : 0 ≤ CN) (N : ℕ)
-    (hN : (N : ℝ) * CN ≤ L ^ (η ^ 3 - 4 * η ^ 6 * (((86 : ℕ) : ℝ) + ((2 : ℕ) : ℝ)))) :
-    (N : ℝ≥0∞) * (ENNReal.ofReal (CN * excessRHS2 L γ η [] 1 2) *
-      WPot L γ η (Y0f L γ η ε0 (RofS (h.vinePostGL K).s)) (g1 γ η crit Fmax) (h.vinePostGL K)) ≤
-      WPot L γ η (Y0f L γ η ε0 (RofS h.s)) (g1 γ η crit Fmax) h := by
-  have hju : 3 ≤ h.s.M.deg K.C.upper ∨ h.s.M.deg K.C.upper = 2 := by
-    have := two_le_deg_upper K; omega
-  have hjl : 3 ≤ h.s.M.deg K.C.lower ∨ h.s.M.deg K.C.lower = 2 := by
-    have := two_le_deg_lower K; omega
-  obtain ⟨R', e, hI'⟩ := hI.vineStGL K hu hl hju hjl
-  have hs : (h.vinePostGL K).s = vineStG h.s K := rfl
-  have hF1 : K.post.numComponents = h.s.M.numComponents + 1 := by
-    have := vine_F_le_succ K; omega
-  have hFc := numComponents_vineStG K
-  have hVc := vBeta_vineStG h.s K hrem
-  have hj1 := jdeg2_pos K hd2
-  have hj2 := jdeg2_le K
-  have hρ := rho_vineStG_le K hM hloss
-  refine hW_D1 hL1 hη hη40 hγ0 ε0 crit Fmax (j := jdeg2 K) hj1 hj2 (R := R) (R' := R') e hI (by rw [hs]; exact hI') hap ?_ ?_ ?_ ?_ ?_
-    hCN N hN
-  · rw [hs]; exact apProd_vineStG h.s K L γ η hrem
-  · rw [hs]
-    have : (h.s.M.numComponents : ℝ) + 1 = (vineStG h.s K).M.numComponents + jdeg2 K := by
-      have : h.s.M.numComponents + 1 = (vineStG h.s K).M.numComponents + jdeg2 K := by omega
-      exact_mod_cast this
-    linarith
-  · rw [hs]
-    have : (vBeta (vineStG h.s K) : ℝ) + jdeg2 K = vBeta h.s + 2 := by exact_mod_cast hVc
-    linarith
-  · rw [hs]; omega
-  · rw [hs]; exact critCount_vineStG h.s K crit hint
-
 end hwd1
 
 end WaveTurbulence.GammaLow.FinalCount.H

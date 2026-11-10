@@ -6,7 +6,6 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.NativeRowsH
-public import WaveTurbulence.Foundations.VineEst.VineEstS3.Step3AtLeaf
 public import WaveTurbulence.Foundations.GammaLow.Famb.Family
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.Step3AtH
 public import WaveTurbulence.Foundations.GammaLow.Famb.VineEstS5C.NativeRowsH

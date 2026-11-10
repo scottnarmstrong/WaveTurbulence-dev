@@ -52,26 +52,4 @@ variable {d : ℕ} (hG : G.IsPlain) (D : ReconstructionData G) (D' : Reconstruct
   (hTi : ∀ v ∈ clInteriorBranches R, Flower.V5W.treeIncoh D' (unitTwistGarden_plain G P hG) layer' hLayer' (eB P v) =
       Flower.V5W.treeIncoh D hG layer hLayer v)
 
-include hB hCL hC hT hl hCi hTi in
-/-- **K^T twist invariance (TARGET `twistexplain` (d), local form).** -/
-theorem clLocalKernel_twist :
-    clLocalKernel D' (unitTwistGarden_plain G P hG) R' L γ δ F layer' hLayer' base t0 t1 t2 e f g h =
-      clLocalKernel D hG R L γ δ F layer hLayer base t0 t1 t2 f e g h := by
-  unfold clLocalKernel
-  rw [order1_twist P R R', zeta_twist P R R']
-  congr 1
-  have hint : ∀ κ' : CLLocalDecoration R' L base ![e, f, g, h],
-      ∫ τ' : CLInternalTime R', clLocalSummand D' (unitTwistGarden_plain G P hG) R' L γ δ F layer' hLayer' base
-          ![e, f, g, h] ![t0, t1, t2] κ' τ' =
-        ∫ τ : CLInternalTime R, clLocalSummand D hG R L γ δ F layer hLayer base ![f, e, g, h] ![t0, t1, t2]
-          (decEquiv P hB hCL R R' L base e f g h κ') τ := by
-    intro κ'
-    rw [← (tEquiv_measurePreserving P R R').integral_comp' (g := fun τ' => clLocalSummand D' _ R' L γ δ F layer' hLayer'
-      base ![e, f, g, h] ![t0, t1, t2] κ' τ')]
-    exact integral_congr_ae (Filter.Eventually.of_forall fun τ =>
-      summand_twist P hB hCL R R' hG D D' L γ δ F layer hLayer layer' hLayer' base e f g h hC hT hl hCi hTi _ κ' τ)
-  rw [tsum_congr hint]
-  exact (decEquiv P hB hCL R R' L base e f g h).tsum_eq
-    (fun κ => ∫ τ : CLInternalTime R, clLocalSummand D hG R L γ δ F layer hLayer base ![f, e, g, h] ![t0, t1, t2] κ τ)
-
 end WaveTurbulence.VineEstS4

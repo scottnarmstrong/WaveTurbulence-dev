@@ -99,9 +99,5 @@ theorem sum_vineIncoh_le_unitsMk (hM : S.molecule.IsMolecule) (σ : Prescription
   refine Finset.sum_congr rfl fun j _ => ?_
   simp
 
-theorem sum_vineIncoh_le_units (hM : S.molecule.IsMolecule) (σ : Prescription S) (layer0 : GBranch S.tree → ℕ) :
-    ∑ T ∈ (Set.toFinite (unitIngredients S σ)).toFinset, vineIncoh S layer0 T ≤
-      ((unitBlocks S σ).map fun u => u.atoms.card - 1).sum := sum_vineIncoh_le_unitsMk (Mk := ∅) hM σ layer0
-
 end Units
 end WaveTurbulence.Represents

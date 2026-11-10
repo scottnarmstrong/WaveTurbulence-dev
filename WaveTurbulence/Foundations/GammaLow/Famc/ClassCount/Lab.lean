@@ -5,7 +5,6 @@ public import WaveTurbulence.Foundations.GammaLow.Famc.ClassCount.UnitCodes
 public import WaveTurbulence.Foundations.GammaLow.Famc.Spine.VineCode
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Piece
 public import WaveTurbulence.Foundations.GammaLow.Fama.Vine.IsoStmt
-public import WaveTurbulence.Foundations.GammaLow.Famc.ClassCount.Layout
 public import WaveTurbulence.Foundations.Stage1.ClassCount.M1
 public import WaveTurbulence.Foundations.GammaLow.Famc.ClassCount.UnitDecode6
 import Mathlib.Tactic
@@ -33,12 +32,9 @@ public import WaveTurbulence.Foundations.GammaLow.Fama.Coll.Basic
 public import WaveTurbulence.Foundations.GammaLow.Fama.Coll.Collection
 public import WaveTurbulence.Foundations.GammaLow.Fama.Inputs
 public import WaveTurbulence.Foundations.GammaLow.Fama.Vine.Chain
-public import WaveTurbulence.Foundations.GammaLow.Fama.P.Molecule.VineChainEraseEndpoints
-public import WaveTurbulence.Foundations.GammaLow.Fama.P.Molecule.VineChainInteriorConnected
 public import WaveTurbulence.Foundations.GammaLow.Fama.Vine.Facts
 public import WaveTurbulence.Foundations.GammaLow.Fama.P.Molecule.VineLocalDartChains
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.Src.Objects
-public import WaveTurbulence.Foundations.GammaLow.Fama.P.Spine.VineDelObjects
 public import WaveTurbulence.Foundations.GammaLow.Famc.ClassCount.UnitCodes
 public import WaveTurbulence.Foundations.GammaLow.Famc.ClassCount.UnitDecode4
 public import WaveTurbulence.Foundations.GammaLow.Famc.ClassCount.UnitDecode5

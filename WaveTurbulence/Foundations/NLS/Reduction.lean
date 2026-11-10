@@ -50,9 +50,6 @@ variable {d : ℕ}
   exp (((-(Real.pi * δ * L ^ (2 * γ) * ‖latticePoint L n‖ ^ 2 * t)) : ℝ) * I) *
     torusFourierCoeff L (wickGauge L (L ^ (-γ)) u (δ * kineticTime (L ^ (-γ)) * t)) n
 
-theorem norm_exp_ofReal_mul_I' (θ : ℝ) : ‖exp ((θ : ℂ) * I)‖ = 1 :=
-  Complex.norm_exp_ofReal_mul_I θ
-
 theorem conj_exp_ofReal_mul_I (θ : ℝ) :
     (starRingEnd ℂ) (exp ((θ : ℂ) * I)) = exp (((-θ : ℝ) : ℂ) * I) := by
   rw [← Complex.exp_conj, map_mul, conj_ofReal, conj_I]
@@ -86,10 +83,6 @@ theorem _root_.WaveTurbulence.IsSmoothNLSSolution.massAvg_eq (hL : 0 < L) (hu : 
   have hs0 := hasSum_sq_torusFourierCoeff hL (hu.contDiff h0).continuous (hu.isTorusPeriodic h0)
   simp only [hu.2.2.1] at hs0
   rw [massAvg, hs0.tsum_eq]
-
-theorem _root_.WaveTurbulence.IsSmoothNLSSolution.massAvg_eq_of_mem (hL : 0 < L) (hu : IsSmoothNLSSolution L α T c u)
-    {s : ℝ} (hs : s ∈ Icc 0 T) : massAvg L (u s) = massAvg L (u 0) := by
-  rw [massAvg, massAvg, hu.integral_normSq_eq hL hs]
 
 /-- The Fourier side of the Wick-ordered equation:
 `∂ₜ v̂(t,n) = i (2π|k|² v̂(t,n) + α L^{-d} ∑ ε v̂ conj v̂ v̂)` (TARGET L541–L566). -/
@@ -126,46 +119,6 @@ theorem _root_.WaveTurbulence.IsSmoothNLSSolution.hasDerivWithinAt_wickGauge (hL
     hmass, ← hu.massAvg_eq hL h0, ← hM]
   convert hprod using 1
   push_cast
-  ring
-
-/-- `v = e^{-2iαMt}u` solves the Wick-ordered equation `(i∂ₜ - Δ)v + α(|v|²v - 2⨍|v|²·v) = 0`
-on `[0, T]` (TARGET L540–L541). -/
-theorem _root_.WaveTurbulence.IsSmoothNLSSolution.wickGauge_eq (hL : 0 < L) (hT : 0 < T)
-    (hu : IsSmoothNLSSolution L α T c u) {s : ℝ} (hs : s ∈ Icc 0 T) (x : Fin d → ℝ) :
-    I * derivWithin (fun r => wickGauge L α u r x) (Icc 0 T) s -
-        normLaplacian (wickGauge L α u s) x +
-      (α : ℂ) * ((((‖wickGauge L α u s x‖ ^ 2 : ℝ) : ℂ) * wickGauge L α u s x) -
-        2 * (massAvg L (wickGauge L α u s) : ℂ) * wickGauge L α u s x) = 0 := by
-  set M := massAvg L (u 0) with hM
-  set z : ℂ := exp (((-2 * α * M * s : ℝ) : ℂ) * I) with hz
-  have hzn : ‖z‖ = 1 := Complex.norm_exp_ofReal_mul_I _
-  have hg : HasDerivWithinAt (fun r : ℝ => exp (((-2 * α * M * r : ℝ) : ℂ) * I))
-      (z * (((-2 * α * M : ℝ) : ℂ) * I)) (Icc 0 T) s := by
-    have h : HasDerivWithinAt (fun r : ℝ => (((-2 * α * M * r : ℝ) : ℂ) * I))
-        (((-2 * α * M : ℝ) : ℂ) * I) (Icc 0 T) s := by
-      simpa using
-        ((hasDerivWithinAt_id s (Icc 0 T)).const_mul (-2 * α * M)).ofReal_comp.mul_const I
-    exact h.cexp
-  have hderiv : derivWithin (fun r => wickGauge L α u r x) (Icc 0 T) s =
-      z * (((-2 * α * M : ℝ) : ℂ) * I) * u s x +
-        z * derivWithin (fun r => u r x) (Icc 0 T) s := by
-    simp only [wickGauge]
-    rw [derivWithin_fun_mul hg.differentiableWithinAt (hu.differentiableWithinAt hs x),
-      hg.derivWithin (uniqueDiffOn_Icc hT s hs)]
-  have hlap : normLaplacian (wickGauge L α u s) x = z * normLaplacian (u s) x := by
-    simp only [normLaplacian, partialDeriv, wickGauge, ← hM, ← hz, deriv_const_mul_field',
-      Finset.mul_sum]
-    exact Finset.sum_congr rfl fun j _ => by ring
-  have hmass : massAvg L (wickGauge L α u s) = M := by
-    rw [hM, ← hu.massAvg_eq_of_mem hL hs]
-    simp only [massAvg, wickGauge, norm_mul, Complex.norm_exp_ofReal_mul_I, one_mul]
-  have hnorm : ‖wickGauge L α u s x‖ = ‖u s x‖ := by
-    simp only [wickGauge, norm_mul, Complex.norm_exp_ofReal_mul_I, one_mul]
-  rw [hderiv, hlap, hmass, hnorm, show wickGauge L α u s x = z * u s x from rfl,
-    hu.derivWithin_eq hs x]
-  push_cast
-  ring_nf
-  rw [I_sq]
   ring
 
 /-- The rescaled phase `e^{-πiδL^{2γ}|k|²t}`. -/

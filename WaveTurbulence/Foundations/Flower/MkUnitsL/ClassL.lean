@@ -2,7 +2,6 @@
 module
 
 public import WaveTurbulence.Foundations.Flower.MkUnitsL.MemberL
-public import WaveTurbulence.Foundations.Flower.V5W.Foreign
 public import WaveTurbulence.Foundations.Flower.Stage1WVine.WClass
 
 /-! # MK-UNITS-L (B3-2): list-T4, the weighted class factorization with per-unit top filters
@@ -91,49 +90,6 @@ theorem regionWeightFWL_false (con : LFConstruction (A.source i hcan hel htc hcc
     (fun v _ => stateCoreLayer_opOut A i hcan hel htc hcc con v) x
 
 end Op
-
-/-- **T4.** The τ-class sum of the members' per-mode outer values, each with its OWN weighted unit kernels, equals the
-outer value with the weighted class kernels `twistedRecenteredFWL` of the units. Unit `j` lies in one tree and carries
-`gU j`, `SU j`. Hypotheses as in main's `sum_tauClass_vineD_api` (VINE-B♯ factorization `hV` is O3′'s T3). -/
-def WeightedClassFactorizationL : Prop :=
-  ∀ {w : ℕ} {S : Garden w} (D : ReconstructionData S) (hS : S.IsPlain) (layer : GNode (D.forest hS) → ℕ)
-    (hLayer : IsLayering (D.garden hS) layer) {J₀ : Type} [Fintype J₀] [DecidableEq J₀]
-    {U₀ : J₀ → Finset (GBranch S.tree)} {a₀ b₀ : J₀ → GBranch S.tree} {R₀ : ∀ j, CLRegionData S (U₀ j) (a₀ j) (b₀ j)}
-    {n₀ : J₀ → ℕ} (B₀ : ∀ j, CLChainAssembly S (R₀ j) (n₀ j)) (hdisj₀ : ∀ j j', j ≠ j' → Disjoint (U₀ j) (U₀ j'))
-    (_hprime : IsPrimeGarden S) {p : ℕ} {kind : Bool} (T : Finset (LayeredGarden w))
-    (_hT : (T : Set (LayeredGarden w)) = (unitsStart B₀ hdisj₀ D hS layer hLayer).allCoreOutputs (p := p) (kind := kind))
-    (V : LayeredGarden w → ℂ) {I : Type*} [Fintype I] (sgn : I → ℂ) {Ξ : Type*} (Wt : I → Ξ → ℂ) {d : ℕ}
-    (G : Garden w) (L γ δ : ℝ) (base : Mom d) (roots : Fin w → (Fin d → ℤ)) (tt : Fin w → ℝ)
-    (lay : GBranch G.tree → ℕ) (hinges : Finset (GBranch G.tree)) (Zw : GenDecoration G d roots 0 → ℝ)
-    (hG : G.IsPlain) (amp : I → Ξ → ReplacementSlot G → Mom d → ℂ) (frq : I → Ξ → ReplacementSlot G → Fin 2 → ℤ)
-    (route : ReplacementSlot G → Fin 2 → ClkSrc G ⊕ J₀) (hclk : J₀ → Fin 3 → ClkSrc G)
-    (hmom : J₀ → Fin 4 → GNode G.tree) (F : I → J₀ → ℕ → Mom d → ℝ)
-    (gU : J₀ → Mom d → ℂ) (SU : J₀ → List ℝ),
-    (∀ y ∈ classU (unitsSplit B₀) p kind (unitsStart B₀ hdisj₀ D hS layer hLayer) (unitsRegion B₀ hdisj₀),
-      V y.1.layered = ∑ i, sgn i * ∑' ξ, Wt i ξ *
-        outerValM G L γ δ base roots tt lay hinges Zw hG (amp i ξ) (frq i ξ) route hclk hmom
-          (fun j lam t k => unitRecenteredFWL p (gU j) (SU j) y.1 (y.2 j) L γ δ (F i j) base (modW lam)
-            (t 0) (t 1) (t 2) (k 0) (k 1) (k 2) (k 3))) →
-    (∀ i, ∀ y ∈ classU (unitsSplit B₀) p kind (unitsStart B₀ hdisj₀ D hS layer hLayer) (unitsRegion B₀ hdisj₀),
-      Summable (fun ξ => Wt i ξ *
-        outerValM G L γ δ base roots tt lay hinges Zw hG (amp i ξ) (frq i ξ) route hclk hmom
-          (fun j lam t k => unitRecenteredFWL p (gU j) (SU j) y.1 (y.2 j) L γ δ (F i j) base (modW lam)
-            (t 0) (t 1) (t 2) (k 0) (k 1) (k 2) (k 3)))) →
-    (∀ i ξ, ∀ y ∈ classU (unitsSplit B₀) p kind (unitsStart B₀ hdisj₀ D hS layer hLayer) (unitsRegion B₀ hdisj₀),
-      ∀ z, Integrable (outerIntegrandM G L γ δ base roots tt lay hG (amp i ξ) (frq i ξ) route hclk hmom
-        (fun j lam t k => unitRecenteredFWL p (gU j) (SU j) y.1 (y.2 j) L γ δ (F i j) base (modW lam)
-          (t 0) (t 1) (t 2) (k 0) (k 1) (k 2) (k 3)) z)) →
-    (∀ i ξ, ∀ y ∈ classU (unitsSplit B₀) p kind (unitsStart B₀ hdisj₀ D hS layer hLayer) (unitsRegion B₀ hdisj₀),
-      Summable (fun z : GenDecoration G d roots 0 =>
-        (splicedEpsilon G hinges z.1 : ℂ) * (Zw z : ℂ) *
-          ∫ τ, outerIntegrandM G L γ δ base roots tt lay hG (amp i ξ) (frq i ξ) route hclk hmom
-            (fun j lam t k => unitRecenteredFWL p (gU j) (SU j) y.1 (y.2 j) L γ δ (F i j) base (modW lam)
-              (t 0) (t 1) (t 2) (k 0) (k 1) (k 2) (k 3)) z τ)) →
-    ∑ LG ∈ T, V LG = ∑ i, sgn i * ∑' ξ, Wt i ξ *
-      outerValM G L γ δ base roots tt lay hinges Zw hG (amp i ξ) (frq i ξ) route hclk hmom
-        (fun j lam t k => twistedRecenteredFWL p (gU j) (SU j) S (a₀ j)
-          (canonFinsetK p kind (startState (B₀ j) D hS layer hLayer) (chainStart (B₀ j)))
-          L γ δ (F i j) base (modW lam) (t 0) (t 1) (t 2) (k 0) (k 1) (k 2) (k 3))
 
 /-- T4's key lemma (weighted `VineC.unitKernelW_foreign`): an operation at a member outside the unit leaves the unit's
 weighted kernel unchanged (rows rigid, core layers preserved, region darts untouched). -/
@@ -249,107 +205,5 @@ theorem unitKernelFWL_classProd {A : FamilyReconstruction w ι} (hA : IsPrimeGar
   exact (hk pw g S L γ δ F base W t0 t1 t2 e f g' h).symm
 
 end Coord
-
-/-- **T4: the weighted class factorization** (weighted `VineC.sum_tauClass_vineD_api`). -/
-theorem weightedClassFactorizationL : WeightedClassFactorizationL := by
-  intro w S D hS layer hLayer J₀ instF instD U₀ a₀ b₀ R₀ n₀ B₀ hdisj₀ hprime p kind T hT V I instI sgn Ξ Wt d G L γ δ
-    base roots tt lay hinges Zw hG amp frq route hclk hmom F gU SU hV hξ hint hsm
-  rw [sum_layered_eq_sum_classU (Us := unitsSplit B₀) (A := unitsStart B₀ hdisj₀ D hS layer hLayer) hprime
-    (unitsRegion B₀ hdisj₀) T hT V, Finset.sum_congr rfl hV, Finset.sum_comm]
-  refine Finset.sum_congr rfl fun i _ => ?_
-  rw [← Finset.mul_sum, ← Summable.tsum_finsetSum (hξ i)]
-  congr 1
-  refine tsum_congr fun ξ => ?_
-  rw [← Finset.mul_sum]
-  congr 1
-  have hfg : ∀ y ∈ classU (unitsSplit B₀) p kind (unitsStart B₀ hdisj₀ D hS layer hLayer) (unitsRegion B₀ hdisj₀),
-      ∀ (j : J₀) (lam : ℤ) (t : Fin 3 → ℝ) (k : Fin 4 → Mom d),
-        unitRecenteredFWL p (gU j) (SU j) y.1 (y.2 j) L γ δ (F i j) base (modW lam) (t 0) (t 1) (t 2)
-            (k 0) (k 1) (k 2) (k 3) =
-          recPhase ((unitsStart B₀ hdisj₀ D hS layer hLayer).skeleton.sign
-              ((unitsRegion B₀ hdisj₀) j).blk.a.toNode) L γ δ (t 0) (k 0) (k 1) (k 2) (k 3) *
-            twistedLocalKernelFWL p (gU j) (SU j)
-              (classProd (unitsSplit B₀) p kind (unitsStart B₀ hdisj₀ D hS layer hLayer) (unitsRegion B₀ hdisj₀) y j).1
-              (classProd (unitsSplit B₀) p kind (unitsStart B₀ hdisj₀ D hS layer hLayer) (unitsRegion B₀ hdisj₀) y j).2
-              L γ δ (F i j) base (modW lam) (t 0) (t 1) (t 2) (k 0) (k 1) (k 2) (k 3) := by
-    intro y hy j lam t k
-    obtain ⟨M, _, hR⟩ := (mem_classU hprime).mp hy
-    unfold unitRecenteredFWL
-    rw [hR.sign_upper j, unitKernelFWL_classProd hprime ((mem_classU hprime).mp hy) j]
-    rfl
-  rw [sum_classU_outerValM (Us := unitsSplit B₀) (p := p) (kind := kind)
-    (A := unitsStart B₀ hdisj₀ D hS layer hLayer) hprime (unitsRegion B₀ hdisj₀) G L γ δ base roots tt lay hinges Zw hG
-    (amp i ξ) (frq i ξ) route hclk hmom _
-    (fun j lam t k x => recPhase ((unitsStart B₀ hdisj₀ D hS layer hLayer).skeleton.sign
-        ((unitsRegion B₀ hdisj₀) j).blk.a.toNode) L γ δ (t 0) (k 0) (k 1) (k 2) (k 3) *
-      twistedLocalKernelFWL p (gU j) (SU j) x.1 x.2 L γ δ (F i j) base (modW lam) (t 0) (t 1) (t 2)
-        (k 0) (k 1) (k 2) (k 3))
-    hfg (hint i ξ) (hsm i ξ)]
-  congr 1
-  funext j lam t k
-  unfold twistedRecenteredFWL
-  exact (Finset.mul_sum _ _ _).symm
-
-/-- **T4 with index-dependent mode types**, from V5W-0's `weightedClassFactorization` on `Σ i, Ξ i`. -/
-theorem weightedClassFactorization_depL {w : ℕ} {S : Garden w} (D : ReconstructionData S) (hS : S.IsPlain)
-    (layer : GNode (D.forest hS) → ℕ) (hLayer : IsLayering (D.garden hS) layer) {J₀ : Type} [Fintype J₀]
-    [DecidableEq J₀] {U₀ : J₀ → Finset (GBranch S.tree)} {a₀ b₀ : J₀ → GBranch S.tree}
-    {R₀ : ∀ j, CLRegionData S (U₀ j) (a₀ j) (b₀ j)} {n₀ : J₀ → ℕ} (B₀ : ∀ j, CLChainAssembly S (R₀ j) (n₀ j))
-    (hdisj₀ : ∀ j j', j ≠ j' → Disjoint (U₀ j) (U₀ j')) (hprime : IsPrimeGarden S) {p : ℕ} {kind : Bool}
-    (T : Finset (LayeredGarden w))
-    (hT : (T : Set (LayeredGarden w)) = (unitsStart B₀ hdisj₀ D hS layer hLayer).allCoreOutputs (p := p) (kind := kind))
-    (V : LayeredGarden w → ℂ) {I : Type*} [Fintype I] (sgn : I → ℂ) {Ξ : I → Type*} (Wt : ∀ i, Ξ i → ℂ) {d : ℕ}
-    (G : Garden w) (L γ δ : ℝ) (base : Mom d) (roots : Fin w → (Fin d → ℤ)) (tt : Fin w → ℝ)
-    (lay : GBranch G.tree → ℕ) (hinges : Finset (GBranch G.tree)) (Zw : GenDecoration G d roots 0 → ℝ)
-    (hG : G.IsPlain) (amp : ∀ i, Ξ i → ReplacementSlot G → Mom d → ℂ) (frq : ∀ i, Ξ i → ReplacementSlot G → Fin 2 → ℤ)
-    (route : ReplacementSlot G → Fin 2 → ClkSrc G ⊕ J₀) (hclk : J₀ → Fin 3 → ClkSrc G)
-    (hmom : J₀ → Fin 4 → GNode G.tree) (F : I → J₀ → ℕ → Mom d → ℝ)
-    (gU : J₀ → Mom d → ℂ) (SU : J₀ → List ℝ)
-    (hV : ∀ y ∈ classU (unitsSplit B₀) p kind (unitsStart B₀ hdisj₀ D hS layer hLayer) (unitsRegion B₀ hdisj₀),
-      V y.1.layered = ∑ i, sgn i * ∑' ξ : Ξ i, Wt i ξ *
-        outerValM G L γ δ base roots tt lay hinges Zw hG (amp i ξ) (frq i ξ) route hclk hmom
-          (fun j lam t k => unitRecenteredFWL p (gU j) (SU j) y.1 (y.2 j) L γ δ (F i j) base (modW lam)
-            (t 0) (t 1) (t 2) (k 0) (k 1) (k 2) (k 3)))
-    (hξ : ∀ i, ∀ y ∈ classU (unitsSplit B₀) p kind (unitsStart B₀ hdisj₀ D hS layer hLayer) (unitsRegion B₀ hdisj₀),
-      Summable (fun ξ : Ξ i => Wt i ξ *
-        outerValM G L γ δ base roots tt lay hinges Zw hG (amp i ξ) (frq i ξ) route hclk hmom
-          (fun j lam t k => unitRecenteredFWL p (gU j) (SU j) y.1 (y.2 j) L γ δ (F i j) base (modW lam)
-            (t 0) (t 1) (t 2) (k 0) (k 1) (k 2) (k 3))))
-    (hint : ∀ i i' (ξ : Ξ i'), ∀ y ∈ classU (unitsSplit B₀) p kind (unitsStart B₀ hdisj₀ D hS layer hLayer)
-        (unitsRegion B₀ hdisj₀), ∀ z,
-      Integrable (outerIntegrandM G L γ δ base roots tt lay hG (amp i' ξ) (frq i' ξ) route hclk hmom
-        (fun j lam t k => unitRecenteredFWL p (gU j) (SU j) y.1 (y.2 j) L γ δ (F i j) base (modW lam)
-          (t 0) (t 1) (t 2) (k 0) (k 1) (k 2) (k 3)) z))
-    (hsm : ∀ i i' (ξ : Ξ i'), ∀ y ∈ classU (unitsSplit B₀) p kind (unitsStart B₀ hdisj₀ D hS layer hLayer)
-        (unitsRegion B₀ hdisj₀),
-      Summable (fun z : GenDecoration G d roots 0 =>
-        (splicedEpsilon G hinges z.1 : ℂ) * (Zw z : ℂ) *
-          ∫ τ, outerIntegrandM G L γ δ base roots tt lay hG (amp i' ξ) (frq i' ξ) route hclk hmom
-            (fun j lam t k => unitRecenteredFWL p (gU j) (SU j) y.1 (y.2 j) L γ δ (F i j) base (modW lam)
-              (t 0) (t 1) (t 2) (k 0) (k 1) (k 2) (k 3)) z τ)) :
-    ∑ LG ∈ T, V LG = ∑ i, sgn i * ∑' ξ : Ξ i, Wt i ξ *
-      outerValM G L γ δ base roots tt lay hinges Zw hG (amp i ξ) (frq i ξ) route hclk hmom
-        (fun j lam t k => twistedRecenteredFWL p (gU j) (SU j) S (a₀ j)
-          (canonFinsetK p kind (startState (B₀ j) D hS layer hLayer) (chainStart (B₀ j)))
-          L γ δ (F i j) base (modW lam) (t 0) (t 1) (t 2) (k 0) (k 1) (k 2) (k 3)) := by
-  have key := weightedClassFactorizationL D hS layer hLayer B₀ hdisj₀ hprime T hT V sgn (Ξ := Σ i, Ξ i) (sigWt Wt)
-    G L γ δ base roots tt lay hinges Zw hG (fun _ x => amp x.1 x.2) (fun _ x => frq x.1 x.2) route hclk hmom F gU SU
-    (fun y hy => by
-      rw [hV y hy]
-      refine Finset.sum_congr rfl fun i _ => congrArg _ ?_
-      exact (tsum_sigWt_mul Wt (fun i' ξ => outerValM G L γ δ base roots tt lay hinges Zw hG (amp i' ξ) (frq i' ξ)
-        route hclk hmom (fun j lam t k => unitRecenteredFWL p (gU j) (SU j) y.1 (y.2 j) L γ δ (F i j) base (modW lam)
-          (t 0) (t 1) (t 2) (k 0) (k 1) (k 2) (k 3))) i).symm)
-    (fun i y hy => (summable_sigWt_mul_iff Wt (fun i' ξ => outerValM G L γ δ base roots tt lay hinges Zw hG
-        (amp i' ξ) (frq i' ξ) route hclk hmom (fun j lam t k => unitRecenteredFWL p (gU j) (SU j) y.1 (y.2 j) L γ δ
-          (F i j) base (modW lam) (t 0) (t 1) (t 2) (k 0) (k 1) (k 2) (k 3))) i).2 (hξ i y hy))
-    (fun i x y hy z => hint i x.1 x.2 y hy z)
-    (fun i x y hy => hsm i x.1 x.2 y hy)
-  rw [key]
-  refine Finset.sum_congr rfl fun i _ => congrArg _ ?_
-  exact tsum_sigWt_mul Wt (fun i' ξ => outerValM G L γ δ base roots tt lay hinges Zw hG (amp i' ξ) (frq i' ξ)
-    route hclk hmom (fun j lam t k => twistedRecenteredFWL p (gU j) (SU j) S (a₀ j)
-      (canonFinsetK p kind (startState (B₀ j) D hS layer hLayer) (chainStart (B₀ j)))
-      L γ δ (F i j) base (modW lam) (t 0) (t 1) (t 2) (k 0) (k 1) (k 2) (k 3))) i
 
 end WaveTurbulence.Flower.MkUnitsL

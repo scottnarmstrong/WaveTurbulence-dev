@@ -5,7 +5,9 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.FinalCount.SubproEntry2
+public import WaveTurbulence.Foundations.FinalCount.RedSplicePiece
+public import WaveTurbulence.Foundations.FinalCount.SubproIso3
+public import WaveTurbulence.Foundations.FinalCount.SubproObjMap
 public import WaveTurbulence.Foundations.FinalCount.SubproGap
 public import WaveTurbulence.Foundations.FinalCount.RedSpliceGapKind
 import Mathlib.Tactic

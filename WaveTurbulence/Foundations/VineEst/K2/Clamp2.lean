@@ -71,16 +71,6 @@ theorem sum_clamp2_eq_sum_clamp {d m : ℕ} (c : ℝ) (Jg : Fin m → (Fin 2 →
 section Vanish
 variable {P : WTParams} {n W : ℕ} {T : Set (Fin 2 → ℝ)} {F : (Fin 2 → ℝ) → Mom P.d → ℂ} {cost : ℝ}
 
-/-- `hvan` from the vanishing of the expanded function at `(q, s)`. -/
-theorem sum_clamp2_eq_of_vanish (E : ContExp P n W T F cost) {q s : ℝ} (hmem : ![q, s] ∈ T)
-    (hv : ∀ k, F ![q, s] k = 0) (t : ℝ) (k : Mom P.d) :
-    ∑ i, sepTerm (P.δ ^ n) (clamp2J q (E.J i)) (E.M i) t s k = ∑ i, sepTerm (P.δ ^ n) (clampJ q (E.J i)) (E.M i) t s k := by
-  refine sum_clamp2_eq_sum_clamp _ _ _ t s k ?_
-  have h := E.hexp _ hmem k
-  rw [hv k] at h
-  push_cast
-  exact h.symm
-
 end Vanish
 
 end WaveTurbulence.VineEstS5C.P4.W2.K2

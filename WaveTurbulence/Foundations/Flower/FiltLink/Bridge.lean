@@ -24,15 +24,6 @@ theorem filtWeight_eq_prod (F : Finset (GBranch G.tree)) (ann : GBranch G.tree �
     ProtDefs.filtWeight F ann M κ =
       ∏ b ∈ F, (((if ann b then FlShell.chiD else chi0) (|omegaNode G κ b| / M b) : ℝ) : ℂ) := rfl
 
-/-- **`filtWeight` on a link block** with `|Ω| = |2u|`: the two layers restricted to the block are `linkFiltWeight`. -/
-theorem filtWeight_block_eq (κ : GNode G.tree → Mom d)
-    (E F Fu : Finset (GBranch G.tree)) (ann : GBranch G.tree → Bool) (M Mu : GBranch G.tree → ℝ) (u : ℝ)
-    (hE : ∀ b ∈ E, |omegaNode G κ b| = |2 * u|) :
-    ProtDefs.filtWeight (F ∩ E) ann M κ * ProtDefs.filtWeight (Fu ∩ E) (fun _ => false) Mu κ =
-      linkFiltWeight E F Fu ann M Mu u := by
-  rw [filtWeight_eq_prod, filtWeight_eq_prod]
-  exact prod_filtFactor_two_eq E F Fu ann M Mu u hE
-
 /-- **Link factorization of the two filter layers**: over pairwise disjoint link blocks `E j` (`j ∈ J`) covering
 `F ∪ Fu`, with `|Ω_b| = |2 u_j|` on block `j`, the D5 multiplier `filtWeight F ann M * filtWeight Fu false Mu` is
 `∏_j linkFiltWeight (E j) F Fu ann M Mu (u j)`. -/

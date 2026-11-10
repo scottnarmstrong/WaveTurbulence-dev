@@ -2,7 +2,6 @@
 module
 
 public import WaveTurbulence.Foundations.Flower.FiltCoh.MultiTreeD5
-public import WaveTurbulence.Foundations.Flower.FiltCoh.MultiCoupleGate
 
 /-! # FILT-COH (D5d-d1): coherent regular couples across layers with the D5 multiplier (bound only)
 

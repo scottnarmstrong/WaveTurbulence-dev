@@ -62,10 +62,4 @@ theorem twist_bond_labels {E : Type*} (κ : GNode G.tree → E)
         rw [twistNodeLabels_leaf]
         simp [hl,hp]
 
-/-- Every actual momentum bond vector is unchanged under the corresponding decoration. -/
-theorem unitTwist_bond_vectors {d : ℕ} (κ : GNode G.tree → Mom d) (hκ : IsDecoration G κ)
-    (x : GardenDart G) :
-    Mole.restrictLabels (unitTwistGarden G P) (twistNodeLabels G P κ) (twistDartEquiv G P x) =
-      Mole.restrictLabels G κ x := twist_bond_labels G P κ (hκ.2 P.retained) x
-
 end WaveTurbulence.Twist

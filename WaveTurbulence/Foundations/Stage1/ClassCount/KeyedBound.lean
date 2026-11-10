@@ -44,17 +44,6 @@ noncomputable def keyOfMk {S : Garden (2 * R)} (D : ReconstructionData S) (hS : 
     (fun i => incoherencyIndex (coreOf D hS LG ∘ (stSt S σ Mk).M.ob)
       (ladderGroups ((ladderDataOf (stSt S σ Mk).G).upper i) ((ladderDataOf (stSt S σ Mk).G).lower i))))
 
-/-- The index type of a key. -/
-abbrev KeyIdx {S : Garden (2 * R)} (σ : Prescription S) (Tss : Fin (unitBlocks S σ).length → List (Trip S)) : Type :=
-  ReplacementSlot S ⊕ (TripI S σ Tss ⊕ {T // T ∈ (stSt S σ).G.molecule.maximalLadders})
-
-/-- The key of a layered garden. -/
-noncomputable def keyOf {S : Garden (2 * R)} (D : ReconstructionData S) (hS : S.IsPlain) (σ : Prescription S)
-    (Tss : Fin (unitBlocks S σ).length → List (Trip S)) (LG : LayeredGarden (2 * R)) : KeyIdx σ Tss → ℕ :=
-  Sum.elim (slotInc D hS LG) (Sum.elim (fun i => vineIncoh S (coreOf D hS LG) (tau Tss i).1)
-    (fun i => incoherencyIndex (coreOf D hS LG ∘ (stSt S σ).M.ob)
-      (ladderGroups ((ladderDataOf (stSt S σ).G).upper i) ((ladderDataOf (stSt S σ).G).lower i))))
-
 /-- B2d: the key sum is at most `2 ḡ` (any marked set). -/
 theorem sum_key_leMk {S : Garden (2 * R)} (D : ReconstructionData S) (hS : S.IsPlain) (σ : Prescription S)
     (Mk : Set (Stage1.CLVine S)) {Tss : Fin (unitBlocks S σ Mk).length → List (Trip S)}
@@ -87,17 +76,6 @@ theorem sum_key_leMk {S : Garden (2 * R)} (D : ReconstructionData S) (hS : S.IsP
     ring
   rw [this]
   omega
-
-theorem sum_key_le {S : Garden (2 * R)} (D : ReconstructionData S) (hS : S.IsPlain) (σ : Prescription S)
-    {Tss : Fin (unitBlocks S σ).length → List (Trip S)}
-    (h1 : ∀ j, ∃ n, ∀ t ∈ Tss j, ChainIngredient S.molecule ((unitBlocks S σ).get j).atoms
-          ((unitBlocks S σ).get j).upper ((unitBlocks S σ).get j).lower n t.1 t.2.1 t.2.2 ∧
-          Mole.CLParentPattern S t.1 t.2.1 t.2.2)
-    (h2 : ∀ j, ((Tss j).map (fun t => t.1.erase t.2.1)).Pairwise Disjoint)
-    (LG : LayeredGarden (2 * R)) {g : ℕ}
-    (hg : gbarRHS D hS LG (stSt S σ) (Set.toFinite (unitIngredients S σ)).toFinset = g) :
-    ∑ k, keyOf D hS σ Tss LG k ≤ 2 * g :=
-  sum_key_leMk D hS σ ∅ h1 h2 LG hg
 
 open Classical in
 /-- B2d: **the bound for a family of layered gardens with common `ḡ` over one skeleton, one `σ` and one

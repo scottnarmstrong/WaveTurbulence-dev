@@ -47,10 +47,4 @@ theorem coherent_remainder_of_even_comparison (P : WTParams)
     rw [heq, SNorm_zero_function]
     exact bot_le
 
-theorem coherent_remainder_prefix
-    (hLeaf : LeafwiseCoherentApproximationGate) (hTaylor : CoherentTaylorGate) :
-    WTPrefix CoherentRemainderAt :=
-  prefix_map (fun P h => coherent_remainder_of_even_comparison P h.1 h.2)
-    (prefix_with_coherent_small_parameters (coherent_even_comparison_prefix hLeaf hTaylor))
-
 end WaveTurbulence.LGSpine

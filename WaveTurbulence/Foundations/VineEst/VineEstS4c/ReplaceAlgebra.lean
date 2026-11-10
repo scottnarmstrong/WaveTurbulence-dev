@@ -130,22 +130,5 @@ theorem replSum_decomp_at (Bs₁ Bs₂ Bs₀ : Finset β) (Q Qb T Tb eQ eT : β 
     have hc2 : ¬ (t1 ≤ t0 ∧ t0 < s1) := fun h => absurd h.2 h2
     simp [h1, h2, hc, hc2]
 
-/-- The original (all-points) form of `replSum_decomp_at`. -/
-theorem replSum_decomp (Bs₁ Bs₂ Bs₀ : Finset β) (Q Qb T Tb eQ eT : β → ℝ → ℝ → κ → ℂ)
-    (hQb : ∀ b t s k, Qb b t s k = (starRingEnd ℂ) (Q b s t k) + eQ b t s k)
-    (hTb : ∀ b t s k, Tb b t s k = (starRingEnd ℂ) (T b t s k) + eT b t s k)
-    (h01 : Bs₀ ⊆ Bs₁) (h02 : Bs₀ ⊆ Bs₂)
-    (hvan : ∀ b ∈ Bs₁ ∪ Bs₂, b ∉ Bs₀ → ∀ t0 t1 x, t0 < t1 → Q b t1 t0 x * (starRingEnd ℂ) (T b t1 t0 x) = 0)
-    (hreal : ∀ t1 t0 x, t0 < t1 → (∑ b ∈ Bs₀, Q b t1 t0 x * (starRingEnd ℂ) (T b t1 t0 x)).im = 0)
-    (t0 s1 t1 : ℝ) (x y : κ) :
-    replSum Bs₁ Bs₂ Q Qb T Tb t0 s1 t1 x y =
-      pieceA1 Bs₁ T Qb t0 s1 t1 x y - pieceA2 Bs₂ Q Tb t0 s1 t1 x y +
-      (if t0 < t1 ∧ t0 < s1 then
-        pieceKQ Bs₁ Q T t0 s1 t1 x y + pieceTQ Bs₁ Q T t0 s1 t1 x +
-          pieceKT Bs₂ Q T t0 s1 t1 x y + pieceTT Bs₂ Q T t0 s1 t1 x +
-          pieceDef Bs₁ Bs₂ Q T eQ eT t0 s1 t1 x y else 0) :=
-  replSum_decomp_at Bs₁ Bs₂ Bs₀ Q Qb T Tb eQ eT hQb hTb h01 h02 t0 s1 t1 x y
-    (fun b hb hb0 h => hvan b hb hb0 t0 t1 x h) (fun h => hreal t1 t0 x h)
-
 end WaveTurbulence.VineEstS4c
 end

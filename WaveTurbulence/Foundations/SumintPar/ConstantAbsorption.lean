@@ -39,16 +39,4 @@ theorem exists_constant_log_le_rpow (K : ℝ) {ε : ℝ} (hε : 0 < ε) :
   obtain ⟨R,hR⟩ := eventually_atTop.mp he
   exact ⟨max R 2,le_max_right _ _,fun L hL => hR L ((le_max_left _ _).trans hL)⟩
 
-/-- A single power reserve absorbs the same constant simultaneously in any number of factors. -/
-theorem pow_constant_rpow_le {L K ε a : ℝ} (hL : 0 < L) (hK : 0 ≤ K)
-    (hbound : K ≤ L^ε) (N : ℕ) :
-    (K*L^a)^N ≤ L^((a+ε)*(N:ℝ)) := by
-  have hsingle : K*L^a ≤ L^(a+ε) := by
-    calc
-      _ ≤ L^ε*L^a := mul_le_mul_of_nonneg_right hbound (Real.rpow_nonneg hL.le _)
-      _ = _ := by rw [← Real.rpow_add hL]; congr 1; ring
-  calc
-    _ ≤ (L^(a+ε))^N := pow_le_pow_left₀ (mul_nonneg hK (Real.rpow_nonneg hL.le _)) hsingle N
-    _ = _ := by rw [← Real.rpow_natCast,← Real.rpow_mul hL.le]
-
 end WaveTurbulence.SumintPar

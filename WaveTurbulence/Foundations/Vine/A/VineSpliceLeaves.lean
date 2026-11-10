@@ -1,6 +1,6 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
-public import WaveTurbulence.Foundations.Vine.A.VineSpliceOrder
+public import WaveTurbulence.Foundations.Vine.A.VineSpliceQuotient
 public import WaveTurbulence.Foundations.Molecule.CLLeafNames
 import WaveTurbulence.Foundations.Molecule.CLIncidenceParents
 /-! Actual iterated splices retain injective original leaf names, pairing,

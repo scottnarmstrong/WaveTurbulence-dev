@@ -128,8 +128,6 @@ section Summand
 variable {GZ : Garden 1} (hZ : (cpair m Qr Qg inner).DecodesTree GZ) (hsZ : GZ.sig 0 = LG.garden.sig 0)
 include hZ hsZ
 
-theorem ιP_eq (z : GNode LGp.garden.tree) : D.ιP z = (D.gd hZ hsZ).ι₁ z := rfl
-
 theorem ιI_eq (z : GNode LGi.garden.tree) : D.ιI z = (D.gd hZ hsZ).ι₂ ((D.hp hZ hsZ).ιi z) :=
   Subtype.ext (by simp [ιI, GlueData.ι₂, botAddr, PairData.ιi])
 
@@ -168,8 +166,6 @@ theorem Z_root : (κ.1 ∘ (D.gd hZ hsZ).ι₂) (GNode.root GZ.tree 0) = 0 :=
 theorem Z_extend0 : extend (κ.1 ∘ (D.gd hZ hsZ).ι₂) ((0 : Fin 1), []) = 0 := by
   rw [show ((0 : Fin 1), ([] : Path)) = (GNode.root GZ.tree 0).1 from rfl, extend_node]
   exact D.Z_root hZ hsZ κ
-
-theorem Φ_p : ((D.Φ hZ hsZ d κ).1).1 = κ.1 ∘ (D.gd hZ hsZ).ι₁ := rfl
 
 theorem Φ_e : (D.Φ hZ hsZ d κ).2.1.1 = (extend (κ.1 ∘ (D.gd hZ hsZ).ι₂) ((0 : Fin 1), [m.c]),
     extend (κ.1 ∘ (D.gd hZ hsZ).ι₂) ((0 : Fin 1), rBase m inner (GZ.sig 0) 0),

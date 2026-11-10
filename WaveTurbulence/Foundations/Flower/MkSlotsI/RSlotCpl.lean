@@ -324,11 +324,6 @@ theorem cpl_not_core (a : GNode (nativeCoupleLayered D hS layer hLayer q).garden
   have h3 := congrArg Sigma.fst (nativeNodeMap_injective D hS h2)
   exact Sum.inl_ne_inr h3
 
-theorem nativeBr_inl (b : GBranch (nativeCoupleLayered D hS layer hLayer q).garden.tree) :
-    MkSlotsB.nativeBr D hS (.inl q) b =
-      capT_bemb (layeredReconstruction D hS layer hLayer) (nativeCoupleForest D hS q)
-        (nativeCoupleForest_closed D hS q) b := rfl
-
 /-- **The per-node factor of `genΘs` at a native couple node.** -/
 theorem genNode_cpl (L : ℝ) (σ kSel : Fin w → Option ℕ) (Rs : Fin w → ℝ)
     (hone : MkSlotsS.OneFlower (layeredReconstruction D hS layer hLayer) J)

@@ -1,7 +1,7 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 public import WaveTurbulence.Foundations.Vine.Align.Outputs
-public import WaveTurbulence.Foundations.VineEst.LeafOp2
+public import WaveTurbulence.Foundations.VineEst.LeafCorr3
 /-! Pair-type profiles on the actual ordinary native-leaf correspondence.
 These are ingredients for R-SLOT, not an assertion of slot-kernel invariance. -/
 @[expose] public section
@@ -35,16 +35,6 @@ theorem ordinary_typeProfiles {w p d : ℕ} {kind ε : Bool} {LG : LayeredGarden
     typeProfiles LG f x.1 = typeProfiles h.output f y.1 := by
   rw [typeProfiles_dataLeaf s.data s.plain layer hLayer LG hspec,
     typeProfiles_dataLeaf h.data (s.chosen_plain ε) layer' hLayer' h.output hspec']
-  obtain ⟨x', y', hp, hx, hy⟩ := hc.pair
-  rw [hc.layer, hc.index, hx, hy, hp.index]
-
-/-- The same profile equality on the public actual-family-operation leaf carrier. -/
-theorem operation_typeProfiles {w p d : ℕ} {kind : Bool} {ι : Type*}
-    {A : FamilyReconstruction w ι} {i : ι} (op : FamilyOperation (p := p) (kind := kind) A i)
-    {x : GLeaf A.layered.garden.tree} {y : GLeaf op.output.layered.garden.tree}
-    (hc : op.LeafCorr x y) (f : ℕ → Fin w → Fin w → Mom d → ℝ) :
-    typeProfiles A.layered f x.1 = typeProfiles op.output.layered f y.1 := by
-  rw [typeProfiles_leaf, typeProfiles_leaf]
   obtain ⟨x', y', hp, hx, hy⟩ := hc.pair
   rw [hc.layer, hc.index, hx, hy, hp.index]
 

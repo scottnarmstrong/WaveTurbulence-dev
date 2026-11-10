@@ -34,14 +34,6 @@ noncomputable def chosenVineChart (_hM9 : VINEPARAM) (X : VineType)
   normalizeChart (Classical.choose (WaveTurbulence.Vine.Param.vineparam_grouped _ _ G.molecule
     (Mole.garden_isMolecule G) X U a b hV (chosenRealization hV)))
 
-theorem chosenVineChart_groups (hM9 : VINEPARAM) (X : VineType) (hV : G.molecule.IsVine X U a b) :
-    WaveTurbulence.Vine.Param.chartAtomGroups (chosenVineChart hM9 X hV) =
-      WaveTurbulence.Vine.Param.realizedGroupSet (chosenRealization hV) := by
-  unfold chosenVineChart
-  rw [chartAtomGroups_normalizeChart]
-  exact Classical.choose_spec (WaveTurbulence.Vine.Param.vineparam_grouped _ _ G.molecule
-    (Mole.garden_isMolecule G) X U a b hV (chosenRealization hV))
-
 /-- M9's source atom indexing gives exactly the number of interior garden
 branches, without a separate cardinality assumption. -/
 theorem vineChart_dimension {X : VineType} (R : CLRegionData G U a b)
@@ -49,20 +41,5 @@ theorem vineChart_dimension {X : VineType} (R : CLRegionData G U a b)
   change A.indexing.shape.n = (U.erase a).card
   have hc := Fintype.card_congr A.indexing.atom
   simpa only [Fintype.card_fin,Fintype.card_coe] using hc
-
-/-- The chart atom slots are literal original interior garden branches. -/
-def vineChartInteriorEquiv {X : VineType} (R : CLRegionData G U a b)
-    (A : FullVineChart G.molecule X U a b) : Fin A.indexing.shape.n ≃ ↥(clInteriorBranches R) :=
-  A.indexing.atom
-
-/-- The M9 chart's distinguished zero phase is at the actual lower joint. -/
-theorem vineChart_zero_atom {X : VineType} (R : CLRegionData G U a b)
-    (A : FullVineChart G.molecule X U a b) :
-    (vineChartInteriorEquiv R A A.indexing.shape.x0).1 = b := A.indexing.lower
-
-/-- F72 is preserved by actual chart consumption, including the minimal II. -/
-theorem chosenVineChart_typeII (hM9 : VINEPARAM) (hV : G.molecule.IsVine .II U a b) :
-    1 ≤ (chosenVineChart hM9 .II hV).indexing.shape.m :=
-  (chosenVineChart hM9 .II hV).indexing.shape.typeII rfl
 
 end WaveTurbulence.VineEstS2

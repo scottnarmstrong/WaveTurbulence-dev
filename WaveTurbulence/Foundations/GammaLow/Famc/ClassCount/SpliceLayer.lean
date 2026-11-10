@@ -9,14 +9,12 @@ public import WaveTurbulence.Foundations.GammaLow.Famc.ClassCount.SkeletonCode
 public import WaveTurbulence.Foundations.LayerCnt.LayerRange
 import Mathlib.Tactic
 public import WaveTurbulence.Foundations.Stage1.ClassCount.SpliceLayer
-public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Amend7
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.CL
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.CN
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Coll
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Coll2
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Cover
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Data
-public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Deg
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Desig
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Final
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Gap
@@ -32,7 +30,6 @@ public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Marked
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Obj
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Obj2
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Obj3
-public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Pairs
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Piece
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Rev
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Runs
@@ -43,7 +40,6 @@ public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Stage
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.SurvData
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Top
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.TripleDesig
-public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.TripleHinge
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.UnitBlocks
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Units
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Units2
@@ -53,16 +49,12 @@ public import WaveTurbulence.Foundations.GammaLow.Fama.Coll.Basic
 public import WaveTurbulence.Foundations.GammaLow.Fama.Coll.Collection
 public import WaveTurbulence.Foundations.GammaLow.Fama.Inputs
 public import WaveTurbulence.Foundations.GammaLow.Fama.Vine.Chain
-public import WaveTurbulence.Foundations.GammaLow.Fama.P.Molecule.VineChainEraseEndpoints
-public import WaveTurbulence.Foundations.GammaLow.Fama.P.Molecule.VineChainInteriorConnected
 public import WaveTurbulence.Foundations.GammaLow.Fama.Vine.Facts
 public import WaveTurbulence.Foundations.GammaLow.Fama.P.Molecule.VineLocalDartChains
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.Src.Counting
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.Src.Objects
-public import WaveTurbulence.Foundations.GammaLow.Fama.P.Spine.VineDelObjects
 public import WaveTurbulence.Foundations.GammaLow.Famc.ClassCount.Assembly
 public import WaveTurbulence.Foundations.GammaLow.Famc.ClassCount.Lab
-public import WaveTurbulence.Foundations.GammaLow.Famc.ClassCount.Layout
 public import WaveTurbulence.Foundations.GammaLow.Famc.ClassCount.SkeletonLeg
 public import WaveTurbulence.Foundations.GammaLow.Famc.ClassCount.UnitChain
 public import WaveTurbulence.Foundations.GammaLow.Famc.ClassCount.UnitChain2
@@ -101,10 +93,6 @@ theorem layer_le_repCMk (S : Garden w) (hM : S.molecule.IsMolecule) (σ : Prescr
   · push_neg at h
     rw [Fama.stSt_repC_noneMk (Mk := Mk) hM σ h]
 
-theorem layer_le_repC (S : Garden w) (hM : S.molecule.IsMolecule) (σ : Prescription S)
-    {f : GBranch S.tree → ℕ} (hf : LFTwist.IsBranchPrelayering S f) (v : GBranch S.tree) :
-    f v ≤ f (repC (stSt γ S σ).cls v) := layer_le_repCMk (Mk := ∅) S hM σ hf v
-
 /-- B1b (Mk-general form of `ob_prelayering`). -/
 theorem ob_prelayeringMk (S : Garden w) (hM : S.molecule.IsMolecule) (σ : Prescription S)
     {f : GBranch S.tree → ℕ} (hf : LFTwist.IsBranchPrelayering S f) {Mk : Set (CLVineG γ _)} :
@@ -132,10 +120,5 @@ theorem ob_prelayeringMk (S : Garden w) (hM : S.molecule.IsMolecule) (σ : Presc
     refine this ?_
     exact (Mole.parent_child_eq_node ((stSt γ (Mk := Mk) S σ).M.ob c).toNode ho).symm
   exact h2.trans (layer_le_repCMk (Mk := Mk) S hM σ hf _)
-
-/-- `f ∘ ob` is a branch pre-layering of the spliced garden. -/
-theorem ob_prelayering (S : Garden w) (hM : S.molecule.IsMolecule) (σ : Prescription S)
-    {f : GBranch S.tree → ℕ} (hf : LFTwist.IsBranchPrelayering S f) :
-    LFTwist.IsBranchPrelayering (stSt γ S σ).G (f ∘ (stSt γ S σ).M.ob) := ob_prelayeringMk (Mk := ∅) S hM σ hf
 
 end WaveTurbulence.GammaLow.Famc.ClassCount

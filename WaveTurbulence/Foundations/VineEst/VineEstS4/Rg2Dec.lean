@@ -6,7 +6,6 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.VineEst.VineEstS4.Rg1Geom
-public import WaveTurbulence.Foundations.VineEst.VineEstS4.Tw10Final
 
 /-! # Rigid relocation of the upper block: the extended decorations (V5 Step 4b, step 4, WP-B part 2)
 
@@ -157,10 +156,6 @@ theorem extS_iff (x' : GNode (unitTwistGarden G P).tree → (Fin d → ℤ)) :
     ExtS RS' L base β0 β1 ≃ ExtS RS L base β0 β1 :=
   Equiv.subtypeEquiv ((naiveNodeEquiv G P).symm.arrowCongr (Equiv.refl (Fin d → ℤ)))
     (fun x' => extS_iff P hS hR RS RS' L base β0 β1 x')
-
-theorem extSEquiv_val (hS : G.molecule.IsBlock S a b) (hR : RigidAt P S b) (x' : ExtS RS' L base β0 β1)
-    (y : GNode G.tree) : (extSEquiv P RS RS' L base β0 β1 hS hR x').1 y = x'.1 (naiveNodeEquiv G P y) := by
-  rfl
 
 end Dec
 

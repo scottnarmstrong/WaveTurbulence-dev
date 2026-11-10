@@ -107,14 +107,6 @@ theorem not_mem_branching_of_leaf {w : ℕ} {T : Fin w → TTree} (ℓ : GLeaf T
     ℓ.toNode.1.2 ∉ (T ℓ.toNode.1.1).branching :=
   fun h => TTree.not_mem_branching_of_mem_leaves _ ℓ.2 h
 
-/-- With the multiplier `1`, the weighted leafwise kernel is the leafwise kernel. -/
-theorem kernelLeavesW_one {w d : ℕ} (L γ δ : ℝ) (LG : LayeredGarden w) (H : LeafProfiles w d)
-    (up : GBranch LG.garden.tree → ℝ) (s : ℝ) (k₀ : Mom d) (nroot : Fin w → (Fin d → ℤ)) (nfl : Fin d → ℤ)
-    (m : (GNode LG.garden.tree → Mom d) → ℂ) (hm : ∀ k, m k = 1) :
-    Flower.Stage1W.kernelLeavesW L γ δ LG H up s k₀ nroot nfl m = kernelLeaves L γ δ LG H up s k₀ nroot nfl := by
-  unfold Flower.Stage1W.kernelLeavesW kernelLeaves
-  simp only [hm, one_mul]
-
 /-- Without lone parents the port time `s` is irrelevant. -/
 theorem kernelProt_s_irrel {w d : ℕ} (L γ δ : ℝ) (LG : LayeredGarden w) (H : LeafProfiles w d)
     (m : (GNode LG.garden.tree → Mom d) → ℂ) (up : GBranch LG.garden.tree → ℝ) (s s' : ℝ)
@@ -123,20 +115,6 @@ theorem kernelProt_s_irrel {w d : ℕ} (L γ δ : ℝ) (LG : LayeredGarden w) (H
     kernelProt L γ δ LG H m up s fix k₀ nroot nfl = kernelProt L γ δ LG H m up s' fix k₀ nroot nfl := by
   unfold kernelProt
   rw [loneConstraint_vacuous LG up s fix hl, loneConstraint_vacuous LG up s' fix hl]
-
-/-- The empty-multiplier product with a dagger equal to `1` is `1`. -/
-theorem alphaMult_eq_one {w d : ℕ} {G : Garden w} (ω : GNode G.tree → Flower.IncTop.Star d → ℂ)
-    (M Mu : GBranch G.tree → ℝ) (ind : (GNode G.tree → Mom d) → ℝ) (hind : ∀ κ, ind κ = 1)
-    (κ : GNode G.tree → Mom d) :
-    Flower.IncTop.starWeight ∅ ω κ * filtWeight ∅ (fun _ => false) M κ * filtWeight ∅ (fun _ => false) Mu κ *
-      (ind κ : ℂ) = 1 := by
-  simp [Flower.IncTop.starWeight, filtWeight, hind κ]
-
-/-- The gate multiplier with empty layers is `1`. -/
-theorem gateMult_eq_one {w d : ℕ} {G : Garden w} (ω : GNode G.tree → Flower.IncTop.Star d → ℂ)
-    (ann : GBranch G.tree → Bool) (M Mu : GBranch G.tree → ℝ) (κ : GNode G.tree → Mom d) :
-    Flower.IncTop.starWeight ∅ ω κ * filtWeight ∅ ann M κ * filtWeight ∅ (fun _ => false) Mu κ = 1 := by
-  simp [Flower.IncTop.starWeight, filtWeight]
 
 /-- `XNormRestr` is antitone in the agreement sets. -/
 theorem XNormRestr_mono_set {r d : ℕ} {θ : ℝ} {Λ₁ Λ₂ : ℕ} {B B' : Set (Fin r → ℝ)} {K K' : Set (Mom d)}

@@ -6,7 +6,6 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.VineEst.VineEstS3.Step3At
-public import WaveTurbulence.Foundations.VineEst.VineEstS3.NumericCore
 
 /-! # Step 3: bookkeeping facts (orders, cardinalities, `maxPar`) -/
 
@@ -25,38 +24,12 @@ theorem card_U_eq (B : CLChainAssembly G R n) : Fintype.card ↥U = clLocalOrder
   unfold clLocalOrder1 clInteriorBranches
   exact (Finset.card_erase_add_one ha).symm
 
-theorem card_Row_eq (D : SumintDatum d) : Fintype.card (Row D) = 2 * D.S.M := by
-  unfold Row
-  rw [Fintype.card_sum, Sumint.card_vector_index]; ring
-
 theorem M_pos (hM9 : VINEPARAM) (B : CLChainAssembly G R n) : 1 ≤ clLocalOrder1 R := by
   have hI := assemblyShape_I_pos hM9 B
   have : 0 < Fintype.card (assemblyShape hM9 B).VIdx :=
     Fintype.card_pos_iff.2 ⟨⟨⟨0, hI⟩, ⟨0, by unfold SumintShape.n; split_ifs <;> omega⟩⟩⟩
   rw [Sumint.card_vector_index, assemblyShape_M] at this
   exact this
-
-theorem maxPar_one (D : SumintDatum d) (hI : 0 < D.S.I) (h0 : ∀ v, D.param v = 0) : maxPar D = 1 := by
-  unfold maxPar
-  have : Nonempty D.S.TVar := ⟨Sum.inl ⟨⟨0, hI⟩, 0⟩⟩
-  have : ∀ v, jbr (d := 1) (WithLp.toLp 2 fun _ => D.param v) = 1 := by
-    intro v
-    unfold jbr
-    rw [h0 v]
-    have : (WithLp.toLp 2 fun _ : Fin 1 => (0 : ℝ)) = 0 := by ext i; rfl
-    simp [this]
-  simp only [this, ciSup_const]
-
-theorem sum_rowG (D : SumintDatum d) : ∑ ρ : Row D, (rowG D ρ) = D.M₁ := by
-  unfold Row rowG SumintDatum.M₁
-  rw [Fintype.sum_sum_type, ← Finset.sum_add_distrib]; rfl
-
-theorem prod_rpow_rowG (D : SumintDatum d) {L : ℝ} (hL : 0 < L) (c : ℝ) :
-    ∏ ρ : Row D, L ^ (c * (rowG D ρ : ℝ)) = L ^ (c * (D.M₁ : ℝ)) := by
-  rw [← Real.rpow_sum_of_pos hL, ← Finset.mul_sum]
-  congr 2
-  have := sum_rowG D
-  exact_mod_cast this
 
 theorem order2_eq (hM9 : VINEPARAM) (B : CLChainAssembly G R n) (RD : ReconstructionData G) (hG : G.IsPlain) :
     clLocalOrder2 RD hG R = clLocalOrder1 R + ((∑ v : (assemblyShape hM9 B).VIdx, (rowCouple hM9 B RD hG v).size) +

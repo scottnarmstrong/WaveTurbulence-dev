@@ -45,12 +45,4 @@ theorem garden_lower_isDesc_iff {w : ℕ} (top : Fin w → TTree)
       ((blockNodeEquiv top P low).symm ⟨B, a⟩) ((blockNodeEquiv top P low).symm ⟨B, b⟩)).mpr
     exact ⟨hba.trans (hroot.trans hbb.symm), ha.symm ▸ hb.symm ▸ h.2⟩
 
-theorem garden_lower_incomparable_of_blocks_ne {w : ℕ} (top : Fin w → TTree)
-    (P : Finpartition (univ : Finset (GLeaf top))) (low : (B : P.parts) → Garden B.1.card)
-    (B C : P.parts) (hBC : B ≠ C) (a : GNode (low B).tree) (b : GNode (low C).tree) :
-    (gardenNodeEquiv top P low (.inr ⟨B, a⟩)).Incomparable
-      (gardenNodeEquiv top P low (.inr ⟨C, b⟩)) :=
-  ⟨fun h => hBC (garden_lower_block_eq_of_isDesc top P low B C a b h),
-    fun h => hBC (garden_lower_block_eq_of_isDesc top P low C B b a h).symm⟩
-
 end WaveTurbulence.Induct

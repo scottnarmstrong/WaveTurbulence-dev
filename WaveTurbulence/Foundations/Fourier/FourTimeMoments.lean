@@ -29,14 +29,6 @@ namespace WaveTurbulence.Fourier
 @[expose] noncomputable def fourTimeMomentNorm (f : (Fin 2 → ℝ) → ℂ) : ℝ≥0∞ :=
   ∑ j : Fin 4, ∫⁻ t, ‖fourTimeDerivatives f j t‖ₑ
 
-/-- Every one of the four moments is bounded by their sum. -/
-theorem lintegral_fourTimeDerivative_le (f : (Fin 2 → ℝ) → ℂ) (j : Fin 4) :
-    (∫⁻ t, ‖fourTimeDerivatives f j t‖ₑ) ≤ fourTimeMomentNorm f :=
-by
-  change (∫⁻ t, ‖fourTimeDerivatives f j t‖ₑ) ≤ ∑ k : Fin 4, ∫⁻ t, ‖fourTimeDerivatives f k t‖ₑ
-  exact Finset.single_le_sum (f := fun k : Fin 4 => ∫⁻ t, ‖fourTimeDerivatives f k t‖ₑ)
-    (fun _ _ => bot_le) (Finset.mem_univ j)
-
 private theorem ofReal_word_integral_sum {f : (Fin 2 → ℝ) → ℂ}
     (hf : ContDiff ℝ ∞ f) (hc : HasCompactSupport f) (L : List (List (Fin 2 → ℝ))) :
     ENNReal.ofReal ((L.map (fun w => ∫ t, ‖timeWordDerivative w f t‖)).sum) =

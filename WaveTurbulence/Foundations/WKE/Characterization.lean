@@ -61,109 +61,11 @@ namespace IsMollifier
 
 variable {ψ : ℝ → ℝ}
 
-/-- The reflection `x ↦ ψ(-x)` of a mollifier is a mollifier. -/
-theorem comp_neg (hψ : IsMollifier ψ) : IsMollifier (fun x => ψ (-x)) where
-  cont := hψ.cont.comp continuous_neg
-  compact := hψ.compact.comp_homeomorph (Homeomorph.neg ℝ)
-  integral_eq_one := by
-    have h := Measure.integral_comp_mul_left (fun x => ψ x) (-1)
-    simp only [neg_mul, one_mul, inv_neg, inv_one, abs_neg, abs_one, one_smul] at h
-    rw [h]
-    exact hψ.integral_eq_one
-
 end IsMollifier
 
 section Main
 
 variable {φ₁ φ₂ φ₃ : Mom d → ℝ} {C N : ℝ}
-
-/-- **Delta reading of `collisionOp`** (in the variables `ℓ₁, ℓ₃` of TARGET (schappend5)). -/
-theorem tendsto_mollified_collisionOp (h : CollisionInputs φ₁ φ₂ φ₃ C N) (hd : 2 ≤ d)
-    {ψ : ℝ → ℝ} (hψ : IsMollifier ψ) (k : Mom d) :
-    Tendsto (fun ε => ∫ ℓ₁ : Mom d, ∫ ℓ₃ : Mom d,
-        (φ₁ (k + ℓ₁) * φ₂ (k + ℓ₁ + ℓ₃) * φ₃ (k + ℓ₃)
-          - φ₁ k * φ₂ (k + ℓ₁ + ℓ₃) * φ₃ (k + ℓ₃)
-          + φ₁ (k + ℓ₁) * φ₂ k * φ₃ (k + ℓ₃)
-          - φ₁ (k + ℓ₁) * φ₂ (k + ℓ₁ + ℓ₃) * φ₃ k) * (ε⁻¹ * ψ (2 * ⟪ℓ₁, ℓ₃⟫_ℝ / ε)))
-      (𝓝[>] 0) (𝓝 (collisionOp φ₁ φ₂ φ₃ k)) := by
-  have hd0 : 0 < d := by omega
-  have hK := fun j => h.deltaKernel hd j k
-  have hT : Tendsto (fun ε =>
-      (∫ ℓ₁, molInner ψ ε (collisionKernel 0 φ₁ φ₂ φ₃ k) ℓ₁)
-        - (∫ ℓ₁, molInner ψ ε (collisionKernel 1 φ₁ φ₂ φ₃ k) ℓ₁)
-        + (∫ ℓ₁, molInner ψ ε (collisionKernel 2 φ₁ φ₂ φ₃ k) ℓ₁)
-        - (∫ ℓ₁, molInner ψ ε (collisionKernel 3 φ₁ φ₂ φ₃ k) ℓ₁)) (𝓝[>] 0)
-      (𝓝 (collisionOp φ₁ φ₂ φ₃ k)) := by
-    rw [collisionOp_eq_sum h hd k]
-    exact ((((hK 0).tendsto_integral_molInner hd0 hψ).sub
-      ((hK 1).tendsto_integral_molInner hd0 hψ)).add
-        ((hK 2).tendsto_integral_molInner hd0 hψ)).sub
-          ((hK 3).tendsto_integral_molInner hd0 hψ)
-  refine hT.congr' ?_
-  filter_upwards [self_mem_nhdsWithin] with ε hε
-  have io := fun j => (hK j).integrable_molInner hd0 hψ hε
-  have e1 : ∫ ℓ₁, (molInner ψ ε (collisionKernel 0 φ₁ φ₂ φ₃ k) ℓ₁
-      - molInner ψ ε (collisionKernel 1 φ₁ φ₂ φ₃ k) ℓ₁
-      + molInner ψ ε (collisionKernel 2 φ₁ φ₂ φ₃ k) ℓ₁
-      - molInner ψ ε (collisionKernel 3 φ₁ φ₂ φ₃ k) ℓ₁) =
-      (∫ ℓ₁, molInner ψ ε (collisionKernel 0 φ₁ φ₂ φ₃ k) ℓ₁)
-        - (∫ ℓ₁, molInner ψ ε (collisionKernel 1 φ₁ φ₂ φ₃ k) ℓ₁)
-        + (∫ ℓ₁, molInner ψ ε (collisionKernel 2 φ₁ φ₂ φ₃ k) ℓ₁)
-        - (∫ ℓ₁, molInner ψ ε (collisionKernel 3 φ₁ φ₂ φ₃ k) ℓ₁) := by
-    rw [integral_sub ?_ (io 3), integral_add ?_ (io 2), integral_sub (io 0) (io 1)]
-    · exact (io 0).sub (io 1)
-    · exact ((io 0).sub (io 1)).add (io 2)
-  rw [← e1]
-  refine integral_congr_ae (Eventually.of_forall fun ℓ₁ => ?_)
-  have ii := fun j => (hK j).integrable_mollified_right hψ ε ℓ₁
-  have e2 : ∫ ℓ₃, (collisionKernel 0 φ₁ φ₂ φ₃ k ℓ₁ ℓ₃ * mollifier ψ ε (2 * ⟪ℓ₁, ℓ₃⟫_ℝ)
-      - collisionKernel 1 φ₁ φ₂ φ₃ k ℓ₁ ℓ₃ * mollifier ψ ε (2 * ⟪ℓ₁, ℓ₃⟫_ℝ)
-      + collisionKernel 2 φ₁ φ₂ φ₃ k ℓ₁ ℓ₃ * mollifier ψ ε (2 * ⟪ℓ₁, ℓ₃⟫_ℝ)
-      - collisionKernel 3 φ₁ φ₂ φ₃ k ℓ₁ ℓ₃ * mollifier ψ ε (2 * ⟪ℓ₁, ℓ₃⟫_ℝ)) =
-      molInner ψ ε (collisionKernel 0 φ₁ φ₂ φ₃ k) ℓ₁
-        - molInner ψ ε (collisionKernel 1 φ₁ φ₂ φ₃ k) ℓ₁
-        + molInner ψ ε (collisionKernel 2 φ₁ φ₂ φ₃ k) ℓ₁
-        - molInner ψ ε (collisionKernel 3 φ₁ φ₂ φ₃ k) ℓ₁ := by
-    simp only [molInner]
-    rw [integral_sub ?_ (ii 3), integral_add ?_ (ii 2), integral_sub (ii 0) (ii 1)]
-    · exact (ii 0).sub (ii 1)
-    · exact ((ii 0).sub (ii 1)).add (ii 2)
-  beta_reduce
-  rw [← e2]
-  refine integral_congr_ae (Eventually.of_forall fun ℓ₃ => ?_)
-  simp only [collisionKernel, mollifier]
-  ring
-
-theorem norm_sq_resonance (k ℓ₁ ℓ₃ : Mom d) :
-    ‖k + ℓ₁‖ ^ 2 - ‖k + ℓ₁ + (k + ℓ₃) - k‖ ^ 2 + ‖k + ℓ₃‖ ^ 2 - ‖k‖ ^ 2 =
-      -(2 * ⟪ℓ₁, ℓ₃⟫_ℝ) := by
-  have e : k + ℓ₁ + (k + ℓ₃) - k = (k + ℓ₁) + ℓ₃ := by abel
-  rw [e, norm_add_sq_real (k + ℓ₁) ℓ₃, norm_add_sq_real k ℓ₃, inner_add_left]
-  ring
-
-/-- **Delta reading of `collisionOp`** in the variables of (COL) (TARGET L301–L307): after
-integrating out `δ(k₁ - k₂ + k₃ - k)` (`k₂ = k₁ + k₃ - k`), the energy delta
-`δ(|k₁|² - |k₂|² + |k₃|² - |k|²)` is the limit of `ψ_ε`. -/
-theorem tendsto_mollified_collisionOp_k (h : CollisionInputs φ₁ φ₂ φ₃ C N) (hd : 2 ≤ d)
-    {ψ : ℝ → ℝ} (hψ : IsMollifier ψ) (k : Mom d) :
-    Tendsto (fun ε => ∫ k₁ : Mom d, ∫ k₃ : Mom d,
-        (φ₁ k₁ * φ₂ (k₁ + k₃ - k) * φ₃ k₃
-          - φ₁ k * φ₂ (k₁ + k₃ - k) * φ₃ k₃
-          + φ₁ k₁ * φ₂ k * φ₃ k₃
-          - φ₁ k₁ * φ₂ (k₁ + k₃ - k) * φ₃ k) *
-          (ε⁻¹ * ψ ((‖k₁‖ ^ 2 - ‖k₁ + k₃ - k‖ ^ 2 + ‖k₃‖ ^ 2 - ‖k‖ ^ 2) / ε)))
-      (𝓝[>] 0) (𝓝 (collisionOp φ₁ φ₂ φ₃ k)) := by
-  refine (tendsto_mollified_collisionOp h hd hψ.comp_neg k).congr (fun ε => ?_)
-  symm
-  rw [← integral_add_left_eq_self _ k]
-  refine integral_congr_ae (Eventually.of_forall fun ℓ₁ => ?_)
-  simp only
-  rw [← integral_add_left_eq_self _ k]
-  refine integral_congr_ae (Eventually.of_forall fun ℓ₃ => ?_)
-  simp only
-  rw [norm_sq_resonance k ℓ₁ ℓ₃, neg_div]
-  have e : k + ℓ₁ + (k + ℓ₃) - k = k + ℓ₁ + ℓ₃ := by abel
-  rw [e]
 
 end Main
 
@@ -200,19 +102,5 @@ theorem collisionInputs_of_schwartz (f₁ f₂ f₃ : 𝓢(Mom d, ℝ)) {N : ℝ
   refine ⟨max C₁ (max C₂ C₃), f₁.continuous, f₂.continuous, f₃.continuous,
     h₁.mono_C (le_max_left _ _), h₂.mono_C ((le_max_left _ _).trans (le_max_right _ _)),
     h₃.mono_C ((le_max_right _ _).trans (le_max_right _ _)), hN⟩
-
-/-- **Delta reading for Schwartz inputs.** -/
-theorem tendsto_mollified_collisionOp_schwartz (hd : 2 ≤ d) (f₁ f₂ f₃ : 𝓢(Mom d, ℝ))
-    {ψ : ℝ → ℝ} (hψ : IsMollifier ψ) (k : Mom d) :
-    Tendsto (fun ε => ∫ k₁ : Mom d, ∫ k₃ : Mom d,
-        (f₁ k₁ * f₂ (k₁ + k₃ - k) * f₃ k₃
-          - f₁ k * f₂ (k₁ + k₃ - k) * f₃ k₃
-          + f₁ k₁ * f₂ k * f₃ k₃
-          - f₁ k₁ * f₂ (k₁ + k₃ - k) * f₃ k) *
-          (ε⁻¹ * ψ ((‖k₁‖ ^ 2 - ‖k₁ + k₃ - k‖ ^ 2 + ‖k₃‖ ^ 2 - ‖k‖ ^ 2) / ε)))
-      (𝓝[>] 0) (𝓝 (collisionOp f₁ f₂ f₃ k)) := by
-  obtain ⟨C, hC⟩ := collisionInputs_of_schwartz f₁ f₂ f₃
-    (by linarith : 2 * (d : ℝ) < 2 * d + 1)
-  exact tendsto_mollified_collisionOp_k hC hd hψ k
 
 end WaveTurbulence

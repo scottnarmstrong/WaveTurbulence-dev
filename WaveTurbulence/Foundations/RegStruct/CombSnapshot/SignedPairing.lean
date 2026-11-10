@@ -80,10 +80,4 @@ structure SignedPairing (α : Type*) where
       _ = -P.sign (e ℓ) := P.pair_sign _ hp
       _ = -nodeSign sig ℓ.1 := congrArg Neg.neg (hs ℓ).symm
 
-/-- The constructed garden's pairing commutes with the specified leaf bijection. -/
-theorem gardenFromLeafEquiv_pair {α : Type*} {w : ℕ} (tree : Fin w → TTree) (sig : Fin w → ℤˣ)
-    (P : SignedPairing α) (e : GLeaf tree ≃ α) (hs : ∀ ℓ, nodeSign sig ℓ.1 = P.sign (e ℓ))
-    (ℓ : GLeaf tree) : e ((gardenFromLeafEquiv tree sig P e hs).pair ℓ) = P.pair (e ℓ) :=
-  e.apply_symm_apply _
-
 end WaveTurbulence.Comb

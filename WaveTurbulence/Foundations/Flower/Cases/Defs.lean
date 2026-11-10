@@ -1,7 +1,8 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 public import WaveTurbulence.Foundations.Flower.FamilyW.Family
-public import WaveTurbulence.Foundations.FlowerTop.ThreeInputs
+public import WaveTurbulence.Foundations.FlowerTop.FinalFamily
+public import WaveTurbulence.Foundations.VineEst.V5Proof
 /-! # FL-CASES definitions: stem filters and the two core family statements (PLAN §1.4). -/
 @[expose] public section
 set_option autoImplicit false

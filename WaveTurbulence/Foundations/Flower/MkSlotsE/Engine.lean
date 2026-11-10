@@ -353,13 +353,4 @@ theorem repMK_of_centreModes {P : WTParams} {R : ℕ} (hd1 : 1 ≤ P.d) (hL1 : 1
     _ = repBoundMK P π n (cP + 343) bN := by
         simp only [repCoreMK, repBoundMK, hsplit]; ring
 
-/-- **`CentreEngine` holds** (HELPER7's statement in `MkSlotsI/CentreForm.lean`). -/
-theorem centreEngine : MkSlotsI.CentreEngine := by
-  intro P R hd1 hL1 hη0 π hS tt base roots selSk hgsp Dom hsliceD hfilt hind cP hcP J _ _ route hroute hclk hmom
-    src src_dart src_root sel hselclk I _ sgn fam₀ famC μs HkM c hc hc1 θs hcθ hμ x K Ch hx hK hCh hC sz g lf hlf
-    hμb M0 cl2 gj nj lfj hlfj hM hhinge n s hs hexp hg hb hh hJ val hval
-  exact representsIntMKSel_of_centreModes hd1 hL1 hη0 π hS tt base roots selSk hgsp Dom hsliceD hfilt hind cP hcP
-    route hroute hclk hmom src src_dart src_root sel hselclk sgn fam₀ famC μs HkM hc hc1 θs hcθ hμ x K Ch hx hK hCh
-    hC sz g lf hlf hμb M0 cl2 gj nj lfj hlfj hM hhinge n s hs hexp hg hb hh hJ val hval
-
 end WaveTurbulence.Flower.MkSlotsE

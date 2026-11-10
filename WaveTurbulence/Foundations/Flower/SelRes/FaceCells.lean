@@ -262,13 +262,6 @@ theorem splicedFourierBMK_eq (fix : GBranch G.tree → Option ℝ) (α : GBranch
       ∫ τ : {x : GBranch G.tree // fix x = none} → ℝ,
         (splicedTimeDomainFix G layer rootTime fix).indicator (phaseF α) (G.extendFix fix τ) := rfl
 
-theorem forall_loI {P : Option (GBranch G.tree) → Prop} :
-    (∀ j ∈ loI fix v, P j) ↔ P none ∧ ∀ c ∈ Cf fix v, P (some c) := by
-  simp [loI]
-theorem forall_upI {P : Option (GBranch G.tree) → Prop} :
-    (∀ j ∈ upI fix v, P j) ↔ P none ∧ ∀ u ∈ Uf fix v, P (some u) := by
-  simp [upI]
-
 /-- The rest-time cell integrands. -/
 def Tcell (layer : GBranch G.tree → ℕ) (rootTime : Fin w → ℝ) (fix : GBranch G.tree → Option ℝ)
     (v : GBranch G.tree) (α : GBranch G.tree → ℝ) (i : Option (GBranch G.tree)) (X : GBranch G.tree → ℝ) : ℂ :=

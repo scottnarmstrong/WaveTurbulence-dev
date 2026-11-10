@@ -46,18 +46,4 @@ theorem hasDerivAt_orderedIntegral_diagonal {n : ℕ} {F : (Fin n → ℝ) → �
   funext c
   exact orderedIntegral_translate n F t s c
 
-/-- Directional derivative of the two-time ordered output in the all-ones direction. -/
-theorem fderiv_orderedIntegral_diagonal {n : ℕ} {F : (Fin n → ℝ) → ℂ}
-    (hF : ContDiff ℝ ∞ F) (t : Fin 2 → ℝ) :
-    fderiv ℝ (fun z : Fin 2 → ℝ => orderedIntegral n F (z 0) (z 1)) t (fun _ => 1) =
-      orderedIntegral n (fun v => fderiv ℝ F v (fun _ => 1)) (t 0) (t 1) := by
-  have hs : ContDiff ℝ ∞ (fun z : Fin 2 → ℝ => orderedIntegral n F (z 0) (z 1)) :=
-    contDiff_orderedIntegral n (hF.comp contDiff_snd) (by fun_prop) (by fun_prop)
-  have hc : HasDerivAt (fun c : ℝ => fun i : Fin 2 => t i + c) (fun _ => 1) 0 := by
-    apply hasDerivAt_pi.mpr
-    intro i
-    exact (hasDerivAt_id (0 : ℝ)).const_add (t i)
-  have h := (hs.differentiable (by simp) (fun i => t i + (0 : ℝ))).hasFDerivAt.comp_hasDerivAt 0 hc
-  simpa only [add_zero] using h.unique (hasDerivAt_orderedIntegral_diagonal hF (t 0) (t 1))
-
 end WaveTurbulence.Fourier

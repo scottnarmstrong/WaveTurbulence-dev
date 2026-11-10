@@ -82,24 +82,4 @@ theorem exists_linkMassProduct_decay (d : ℕ) (hd : 3 ≤ d) :
         ← mul_assoc, ← Real.rpow_natCast (L ^ (-(incoherenceExponent d γ - η))) (incoherenceCount Q),
         ← Real.rpow_mul hLp.le]
 
-/-- TARGET (incohproof16), for the actual oscillatory product integral. -/
-theorem exists_linkProduct_decay (d : ℕ) (hd : 3 ≤ d) :
-    ∃ C₀ : ℝ, 0 < C₀ ∧ ∀ γ : ℝ, γ ∈ Ioo (0 : ℝ) 1 →
-      ∀ η : ℝ, 0 < η → η < incoherenceExponent d γ →
-      ∀ δ : ℝ, 0 < δ → ∀ D : ℝ, 0 < D →
-      ∃ C₂ L₀ : ℝ, 1 ≤ C₂ ∧ 1 ≤ L₀ ∧ ∀ L ≥ L₀, ∀ n : ℕ, ∀ Q : Fin n → LayerLink d,
-        (∀ i, |((Q i).leftLayer : ℝ) - (Q i).rightLayer| + 1 ≤ D) →
-        ∀ I : Set (Fin n → Fin 2 → ℝ), I ⊆ univ.pi (fun i => linkBox (Q i)) →
-        ‖∫ t in I, ∏ i, linkTimeFactor L γ δ (Q i) (t i)‖ₑ ≤
-          ENNReal.ofReal ((C₀ * kineticLinkScale d γ δ L) ^ n * C₂ ^ incoherenceCount Q *
-            L ^ (-(incoherenceExponent d γ - η) * incoherenceCount Q)) := by
-  obtain ⟨C₀, hC₀, hb⟩ := exists_linkMassProduct_decay d hd
-  refine ⟨C₀, hC₀, ?_⟩
-  intro γ hγ η hη hηg δ hδ D hD
-  obtain ⟨C₂, L₀, hC₂, hL₀, hb⟩ := hb γ hγ η hη hηg δ hδ D hD
-  refine ⟨C₂, L₀, hC₂, hL₀, ?_⟩
-  intro L hL n Q hspan I hI
-  have hLp := zero_lt_one.trans_le (hL₀.trans hL)
-  exact (enorm_linkProduct_integral_le hLp γ δ Q hI).trans (hb L hL n Q hspan)
-
 end WaveTurbulence.Incoh

@@ -105,8 +105,4 @@ theorem ladderFourierMKFace_prefix : WTPrefix LadderFourierAtMKFace := by
 theorem ladderFourierMK_prefix : WTPrefix LadderFourierAtMK :=
   wtPrefix_mono ladderFourierMKFace_prefix ladderFourierAtMK_of_face
 
-/-- Check: the pinned gate gives main's ladder Fourier gate through the bridge. -/
-theorem ladderFourierGate_viaMK : LadderFourierGate :=
-  wtPrefix_mono ladderFourierMK_prefix ladderFourierAt_of_MK
-
 end WaveTurbulence.Flower.FinalMKPin

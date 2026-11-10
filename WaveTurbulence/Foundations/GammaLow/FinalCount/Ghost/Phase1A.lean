@@ -61,13 +61,11 @@ variable (h : HSt V D₀) (K : Step1.VineCut Src.γL h.s.M) (R : ℝ) (kp : ℕ)
 /-- The survivors of an Operation-1 step: the atoms of the post state other than the fresh joints. -/
 def vineSurv : Set V := {a | a ∈ (h.vinePostL K R kp).s.M.atoms ∧ a ≠ K.fa ∧ a ≠ K.fb}
 
-theorem upper_mem : K.C.upper ∈ h.s.M.atoms := Step1.objectAtoms_sub K.C K.a_mem
 theorem lower_mem : K.C.lower ∈ h.s.M.atoms := Step1.objectAtoms_sub K.C K.b_mem
 theorem fa_notMem : K.fa ∉ h.s.M.atoms := K.cut_a.2.1
 theorem fa_ne_fb : K.fa ≠ K.fb := fun e => K.cut_b.2.1 (by rw [← e]; exact Finset.mem_insert_self _ _)
 theorem fb_notMem : K.fb ∉ h.s.M.atoms := fun hm => K.cut_b.2.1 (Finset.mem_insert_of_mem hm)
 theorem fa_ne_atom {a : V} (ha : a ∈ h.s.M.atoms) : a ≠ K.fa := fun e => fa_notMem h K (e ▸ ha)
-theorem fb_ne_atom {a : V} (ha : a ∈ h.s.M.atoms) : a ≠ K.fb := fun e => fb_notMem h K (e ▸ ha)
 
 theorem vine_atom_of_ne (y : h.s.D) (h1 : K.cutMol.atom y ≠ K.fa) (h2 : K.cutMol.atom y ≠ K.fb) :
     K.cutMol.atom y = h.s.M.atom y := by

@@ -55,74 +55,6 @@ theorem directed_erase_iff (M : Molecule V D) (Y : Finset V) {a b : V}
   · rintro ⟨x,hout,hx,hy⟩
     exact ⟨⟨x,by simpa only [hx] using ha,by simpa only [hy] using hb⟩,hout,hx,hy⟩
 
-theorem card_groupBonds_erase_eq (M : Molecule V D) (Y S : Finset V) (hSY : Disjoint S Y) :
-    ((eraseAtoms M Y).groupBonds S).card = (M.groupBonds S).card := by
-  unfold Molecule.groupBonds
-  rw [Multiset.card_map, Multiset.card_map]
-  change (univ.filter fun x : RetainedDart M Y => M.out x.val = true ∧
-    (M.atom x.val ∈ S ∧ M.atom (M.mate x.val) ∈ S)).card =
-    (univ.filter fun x : D => M.out x = true ∧ (M.atom x ∈ S ∧ M.atom (M.mate x) ∈ S)).card
-  apply card_filter_retained M Y (fun x => M.out x = true ∧ (M.atom x ∈ S ∧ M.atom (M.mate x) ∈ S))
-  intro x hx
-  exact ⟨fun hy => (disjoint_left.mp hSY) hx.2.1 hy,
-    fun hy => (disjoint_left.mp hSY) hx.2.2 hy⟩
-
-/-- The exact ladder predicate is unchanged when all ladder atoms survive. -/
-theorem isLadder_erase_iff (M : Molecule V D) (Y : Finset V) {m : ℕ}
-    (u v : Fin (m+1) → V) (hnot : ∀ j, u j ∉ Y ∧ v j ∉ Y) :
-    (eraseAtoms M Y).IsLadder u v ↔ M.IsLadder u v := by
-  have hatoms : (∀ j, u j ∈ (eraseAtoms M Y).atoms ∧ v j ∈ (eraseAtoms M Y).atoms) ↔
-      (∀ j, u j ∈ M.atoms ∧ v j ∈ M.atoms) := by
-    constructor
-    · intro h j
-      exact ⟨(mem_sdiff.mp (h j).1).1, (mem_sdiff.mp (h j).2).1⟩
-    · intro h j
-      exact ⟨mem_sdiff.mpr ⟨(h j).1,(hnot j).1⟩,mem_sdiff.mpr ⟨(h j).2,(hnot j).2⟩⟩
-  unfold Molecule.IsLadder
-  rw [hatoms]
-  simp_rw [bondsBetween_erase_eq M Y (hnot _).1 (hnot _).2,
-    bondsBetween_erase_eq M Y (hnot _).1 (hnot _).1,
-    bondsBetween_erase_eq M Y (hnot _).2 (hnot _).2,
-    directed_erase_iff M Y (hnot _).1 (hnot _).1,
-    directed_erase_iff M Y (hnot _).2 (hnot _).2]
-
-/-- Actual ladder atom sets after erasure are exactly old ladder sets
-which avoid the removed atoms. -/
-theorem isLadderSet_erase_iff (M : Molecule V D) (Y S : Finset V) :
-    (eraseAtoms M Y).IsLadderSet S ↔ M.IsLadderSet S ∧ Disjoint S Y := by
-  constructor
-  · rintro ⟨m,u,v,hL,rfl⟩
-    have hnot : ∀ j, u j ∉ Y ∧ v j ∉ Y := fun j =>
-      ⟨(mem_sdiff.mp (hL.2.2.1 j).1).2,(mem_sdiff.mp (hL.2.2.1 j).2).2⟩
-    refine ⟨⟨m,u,v,(isLadder_erase_iff M Y u v hnot).mp hL,rfl⟩, ?_⟩
-    apply disjoint_left.mpr
-    intro x hx hy
-    obtain hx | hx := mem_union.mp hx
-    · obtain ⟨j,_,rfl⟩ := mem_image.mp hx
-      exact (hnot j).1 hy
-    · obtain ⟨j,_,rfl⟩ := mem_image.mp hx
-      exact (hnot j).2 hy
-  · rintro ⟨⟨m,u,v,hL,rfl⟩,hSY⟩
-    have hnot : ∀ j, u j ∉ Y ∧ v j ∉ Y := by
-      intro j
-      constructor
-      · exact fun hy => (disjoint_left.mp hSY) (mem_union_left _ (mem_image.mpr ⟨j,mem_univ _,rfl⟩)) hy
-      · exact fun hy => (disjoint_left.mp hSY) (mem_union_right _ (mem_image.mpr ⟨j,mem_univ _,rfl⟩)) hy
-    exact ⟨m,u,v,(isLadder_erase_iff M Y u v hnot).mpr hL,rfl⟩
-
-/-- Every old maximal ladder disjoint from the deletion remains maximal. -/
-theorem maximalLadder_erase_of_disjoint (M : Molecule V D) (Y : Finset V) {S : Finset V}
-    (hS : S ∈ M.maximalLadders) (hSY : Disjoint S Y) :
-    S ∈ (eraseAtoms M Y).maximalLadders := by
-  classical
-  obtain ⟨hsub,hL,hmax⟩ := mem_filter.mp hS
-  apply mem_filter.mpr
-  refine ⟨mem_powerset.mpr ?_, (isLadderSet_erase_iff M Y S).mpr ⟨hL,hSY⟩, ?_⟩
-  · intro x hx
-    exact mem_sdiff.mpr ⟨(mem_powerset.mp hsub) hx, fun hy => (disjoint_left.mp hSY) hx hy⟩
-  · intro S' hL' hSS'
-    exact hmax S' ((isLadderSet_erase_iff M Y S').mp hL').1 hSS'
-
 /-! ## Selected source ladders under the adopted reading -/
 
 /-- Selected rung-and-rail ladders are unchanged when all atoms survive. -/
@@ -184,39 +116,6 @@ theorem exists_sourceMaximalLadder_superset (M : Molecule V D) {S : Finset V}
   have hUC : U ∈ C := mem_filter.mpr
     ⟨mem_powerset.mpr (sourceLadderSet_atoms_subset M hUL),hUL,hST.trans hTU⟩
   exact (eq_of_subset_of_card_le hTU (hmax U hUC)).symm
-
-/-- Old maximal selected ladders avoiding deletion remain maximal. -/
-theorem sourceMaximalLadder_erase_of_disjoint (M : Molecule V D) (Y : Finset V) {S : Finset V}
-    (hS : S ∈ sourceMaximalLadders M) (hSY : Disjoint S Y) :
-    S ∈ sourceMaximalLadders (eraseAtoms M Y) := by
-  classical
-  obtain ⟨hsub,hL,hmax⟩ := mem_filter.mp hS
-  apply mem_filter.mpr
-  refine ⟨mem_powerset.mpr ?_, (sourceLadderSet_erase_iff M Y S).mpr ⟨hL,hSY⟩, ?_⟩
-  · intro x hx
-    exact mem_sdiff.mpr ⟨(mem_powerset.mp hsub) hx, fun hy => (disjoint_left.mp hSY) hx hy⟩
-  · intro S' hL' hSS'
-    exact hmax S' ((sourceLadderSet_erase_iff M Y S').mp hL').1 hSS'
-
-/-- If no old selected ladder meets the deleted atoms, the entire actual
-maximal-ladder family is unchanged. The weak circuit-loss branch can use
-this after its geometric exclusion has been proved. -/
-theorem sourceMaximalLadders_erase_eq_of_all_disjoint (M : Molecule V D) (Y : Finset V)
-    (havoid : ∀ S, SourceLadderSet M S → Disjoint S Y) :
-    sourceMaximalLadders (eraseAtoms M Y) = sourceMaximalLadders M := by
-  classical
-  ext S
-  constructor
-  · intro hS
-    obtain ⟨hsub,hL,hmax⟩ := mem_filter.mp hS
-    have hLold := ((sourceLadderSet_erase_iff M Y S).mp hL).1
-    apply mem_filter.mpr
-    refine ⟨mem_powerset.mpr (sourceLadderSet_atoms_subset M hLold),hLold,?_⟩
-    intro S' hL' hSS'
-    exact hmax S' ((sourceLadderSet_erase_iff M Y S').mpr ⟨hL',havoid S' hL'⟩) hSS'
-  · intro hS
-    have hL := (mem_filter.mp hS).2.1
-    exact sourceMaximalLadder_erase_of_disjoint M Y hS (havoid S hL)
 
 omit [DecidableEq V] [Fintype D] in
 private theorem not_mem_of_ends (M : Molecule V D) (Y : Finset V) {a b : V} {x : D}

@@ -1,7 +1,7 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 public import WaveTurbulence.Foundations.Spine.LeafwiseCoherentApp
-public import WaveTurbulence.Foundations.Spine.SourceSeparation
+public import WaveTurbulence.Foundations.WaveB.MoleculeStatements
 /-! TARGET L2065–2067: author-approved leafwise source estimates. These are separate conditional
 inputs, with literal multilinear kernels and explicit B2 approximation formulas. Providers:
 REGREF (wt-torus), PL234 (wt-wke). No approximation function is supplied as data. -/

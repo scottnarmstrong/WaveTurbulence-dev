@@ -80,14 +80,6 @@ variable (hM9 : VINEPARAM) (B : CLChainAssembly G R n)
 noncomputable def vineOf (z : ↥(U.erase a)) : Fin n :=
   ((assemblyInputEquiv hM9 B) ((assemblyAtomEquiv hM9 B).symm z)).1
 
-theorem vineOf_spec (z : ↥(U.erase a)) :
-    ∃ j, ((assemblyChartAt hM9 B (vineOf hM9 B z)).indexing.atom j).1 = z.1 := by
-  have hs := assemblyAtomEquiv_input hM9 B (vineOf hM9 B z)
-    ((assemblyInputEquiv hM9 B) ((assemblyAtomEquiv hM9 B).symm z)).2
-  refine ⟨((assemblyInputEquiv hM9 B) ((assemblyAtomEquiv hM9 B).symm z)).2, ?_⟩
-  rw [← hs]
-  simp [vineOf]
-
 theorem vineOf_eq (z : ↥(U.erase a)) (i : Fin n) (j : Fin (assemblyChartAt hM9 B i).indexing.shape.n)
     (hz : z.1 = ((assemblyChartAt hM9 B i).indexing.atom j).1) : vineOf hM9 B z = i := by
   have hs := assemblyAtomEquiv_input hM9 B i j

@@ -106,24 +106,6 @@ theorem kerT_transport (L γ δ : ℝ) {N₁ N₂ : LayeredGarden 1} (hN : N₁ 
   subst e1 e2 e3 e4
   rfl
 
-/-- Functions of a layered garden and of one of its nodes agree at equal gardens and equal addresses. -/
-theorem node_fun_congr {n : ℕ} {β : Type*} (F : (N : LayeredGarden n) → GNode N.garden.tree → β)
-    {N₁ N₂ : LayeredGarden n} (hN : N₁ = N₂) (x : Fin n × Path) (h₁ : x.2 ∈ (N₁.garden.tree x.1).nodes)
-    (h₂ : x.2 ∈ (N₂.garden.tree x.1).nodes) : F N₁ ⟨x, h₁⟩ = F N₂ ⟨x, h₂⟩ := by
-  subst hN
-  rfl
-
-/-- Functions of a layered garden and of one of its branches agree at equal gardens and equal addresses. -/
-theorem branch_fun_congr {n : ℕ} {β : Type*} (F : (N : LayeredGarden n) → GBranch N.garden.tree → β)
-    {N₁ N₂ : LayeredGarden n} (hN : N₁ = N₂) (x : Fin n × Path) (h₁ : x.2 ∈ (N₁.garden.tree x.1).branching)
-    (h₂ : x.2 ∈ (N₂.garden.tree x.1).branching) : F N₁ ⟨x, h₁⟩ = F N₂ ⟨x, h₂⟩ := by
-  subst hN
-  rfl
-
-/-- Node membership transfers along equal layered gardens. -/
-theorem nodes_of_eq {n : ℕ} {N₁ N₂ : LayeredGarden n} (hN : N₁ = N₂) {x : Fin n × Path}
-    (h : x.2 ∈ (N₁.garden.tree x.1).nodes) : x.2 ∈ (N₂.garden.tree x.1).nodes := hN ▸ h
-
 theorem branching_of_eq {n : ℕ} {N₁ N₂ : LayeredGarden n} (hN : N₁ = N₂) {x : Fin n × Path}
     (h : x.2 ∈ (N₁.garden.tree x.1).branching) : x.2 ∈ (N₂.garden.tree x.1).branching := hN ▸ h
 

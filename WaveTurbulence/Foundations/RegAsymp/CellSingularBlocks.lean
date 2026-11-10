@@ -20,14 +20,6 @@ def appAlong (J : Finset (Fin n)) : List (Fin n) →
   | [], W => W
   | j::L, W => appStep J j (appAlong J L W)
 
-/-- Concatenation is literal composition of the original integration blocks. -/
-theorem appAlong_append (J : Finset (Fin n)) (L K : List (Fin n))
-    (W : (Fin n → Mom d) → (Fin n → Mom d) → ℂ) :
-    appAlong J (L++K) W = appAlong J L (appAlong J K W) := by
-  induction L with
-  | nil => rfl
-  | cons j L ih => simp only [List.cons_append,appAlong,ih]
-
 /-- Each processed cell contributes its actual delta/PV value. -/
 def blockCellFactor (J : Finset (Fin n)) (L : List (Fin n))
     (p q ξ η x y : Fin n → Mom d) (j : Fin n) : ℂ :=
@@ -204,34 +196,6 @@ theorem appAlong_eq_singInt_countableCellMixture
   apply ae_of_all
   intro u
   simp only [blockCellFactor,hcover,ite_true]
-
-/-- Partial integration depends only on the processed index set on the
-actual coefficient class, without any assumed general PV-Fubini law. -/
-theorem appAlong_perm_countableCellMixture
-    {U I : Type*} [MeasurableSpace U] [Countable I]
-    (ν : Measure U) [SFinite ν] (hd : 3 ≤ d) (J : Finset (Fin n))
-    (p q : I → Fin n → Mom d) (ξ η : I → U → Fin n → Mom d)
-    (hξ : ∀ i, Measurable (ξ i)) (hη : ∀ i, Measurable (η i))
-    (h : I → U → ℂ) (hsm : ∀ i, StronglyMeasurable (h i))
-    (hi : ∀ i, Integrable (h i) ν) (hsum : Summable (fun i => ∫ u, ‖h i u‖ ∂ν))
-    (L K : List (Fin n)) (hL : L.Nodup) (hperm : L.Perm K) :
-    appAlong J L (fun x y => ∑' i, ∫ u, h i u*
-      ∏ j, cellFn (p i j) (q i j) (ξ i u j) (η i u j) (x j) (y j) ∂ν) =
-    appAlong J K (fun x y => ∑' i, ∫ u, h i u*
-      ∏ j, cellFn (p i j) (q i j) (ξ i u j) (η i u j) (x j) (y j) ∂ν) := by
-  funext x y
-  rw [appAlong_countableCellMixture ν hd J p q ξ η hξ hη h hsm hi hsum L hL,
-    appAlong_countableCellMixture ν hd J p q ξ η hξ hη h hsm hi hsum K (hperm.nodup_iff.mp hL)]
-  apply tsum_congr
-  intro i
-  apply integral_congr_ae
-  apply ae_of_all
-  intro u
-  dsimp only
-  congr 1
-  apply prod_congr rfl
-  intro j _
-  simp only [blockCellFactor,hperm.mem_iff]
 
 /-- Every remaining pair after an actual nodup integration block has a
 convergent PV cutoff, with its absolute mass derived from the original

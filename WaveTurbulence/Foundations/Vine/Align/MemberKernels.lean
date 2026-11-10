@@ -85,19 +85,4 @@ variable {w p d : ℕ} {kind : Bool} {S : Garden w}
     (unitsRegion (alignedAssembly hM σ) (unitBlk_disj hM σ)) Y vs)
   (hn : xs.Nodup)
 
-/-- Unit reindexing leaves the endpoint's actual slot embedding unchanged. -/
-theorem endpointShape_iota (hG : (stSt Y.skeleton (transportPrescription (batchMolIso hr.batch) σ)).G.IsPlain) :
-    (endpointShape hM σ D hS layer hLayer hr hn).iota Y.plain hG =
-    (stShape (Mole.garden_isMolecule Y.skeleton) (transportPrescription (batchMolIso hr.batch) σ)).iota Y.plain hG :=
-  endpointShape_iotaMk hM σ D hS layer hLayer hr hn (Stage1Mk.markTransported_empty _) hG
-
-/-- Native outer kernels of every carried member agree on the literal common garden. -/
-theorem commonShape_slotFn (hG : (stSt S σ).G.IsPlain)
-    (f : ℕ → Fin w → Fin w → Mom d → ℝ) (L γ δ : ℝ) (s : ReplacementSlot (stSt S σ).G) :
-    slotFn Y.data Y.plain L γ δ (typeProfiles Y.layered f) (stateLayer Y) (stateLayer_isLayering Y)
-      ((commonShape hM σ D hS layer hLayer hr hn).iota Y.plain hG s) =
-    slotFn D hS L γ δ (typeProfiles (layeredReconstruction D hS layer hLayer) f) layer hLayer
-      ((stShape hM σ).iota hS hG s) :=
-  commonShape_slotFnMk hM σ D hS layer hLayer hr hn (Stage1Mk.markTransported_empty _) hG f L γ δ s
-
 end WaveTurbulence.VineAlign

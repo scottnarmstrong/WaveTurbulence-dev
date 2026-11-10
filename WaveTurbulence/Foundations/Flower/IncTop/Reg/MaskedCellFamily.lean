@@ -34,20 +34,6 @@ theorem MomentumTreeData.contDiff_allCellMaskedSpectralAmplitudeSpatial {d n m w
   (MomentumTreeData.contDiff_maskedSourceSpectralAmplitudeSpatial (P := P)) ζ f u.1.1 u.1.2.val u.2
 
 open WaveTurbulence.Incoh.MomentumTreeData in
-/-- Actual derivatives on the full counted spectral space are strongly measurable. -/
-theorem MomentumTreeData.stronglyMeasurable_allCellMaskedAmplitudeDerivativeSpatial {d n m w K M : ℕ}
-    (P : MomentumTreeData n m w) (ζ : Circle) (f : Fin m → Mom d → ℂ)
-    (S : (Fin m → Fin d → ℤ) → Finset ((Fin n × Fin 2) → Fin d → ℤ)) {B : ℝ}
-    (hK : d + 1 ≤ K) (hB : 0 ≤ B)
-    (h : ∀ a, Fourier.spatialNorm K M (f a) ≤ ENNReal.ofReal B) (k : Mom d) (j : ℕ) :
-    StronglyMeasurable (fun u : SourceCellIndex S × (LocalizedCellIndex n m → Fin d → ℝ) =>
-      iteratedFDeriv ℝ j (fun k => (MomentumTreeData.allCellMaskedSpectralAmplitudeSpatial (P := P)) ζ f S k u) k) := by
-  exact stronglyMeasurable_countable_slices
-    (fun u : SourceCellIndex S => fun ξ : LocalizedCellIndex n m → Fin d → ℝ =>
-      iteratedFDeriv ℝ j (fun k => (MomentumTreeData.maskedSourceSpectralAmplitudeSpatial (P := P)) ζ f u.1 u.2.val k ξ) k)
-    (fun u => (MomentumTreeData.continuous_spectral_maskedSourceAmplitudeDerivativeSpatial (P := P)) ζ f u.1 u.2.val hK hB h k j)
-
-open WaveTurbulence.Incoh.MomentumTreeData in
 /-- The actual all-cell amplitude has the proved common full spatial envelope. -/
 theorem MomentumTreeData.weighted_norm_allCellMaskedAmplitudeDerivative_leSpatial {d n m w J j W : ℕ}
     (P : MomentumTreeData n m w) (ζ : Circle) (f : Fin m → Mom d → ℂ)

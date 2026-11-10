@@ -42,13 +42,6 @@ structure MatchA (h : HSt V D₀) (U : Object M₀) (π : V → V) : Prop where
   anc : ∀ a ∈ U.atoms, h.anc (π a) = a
   lift : ∀ z : D₀, M₀.InGroup U.atoms z → ∃ y : h.s.D, h.s.down y = z
 
-theorem matchA_of_intact {h : HSt V D₀} (hA : AncRel M₀ h.s h.anc) (U : Object M₀) (hint : UIntact U h) :
-    MatchA h U id where
-  inj := Set.injOn_id _
-  mem := fun a ha => (hint a ha).1
-  anc := fun a ha => hA.eps a (hint a ha).1 (hint a ha).2
-  lift := fun z hz => hA.surj _ (hint _ hz.1).1 (hint _ hz.1).2 z rfl
-
 variable {h : HSt V D₀} (hA : AncRel M₀ h.s h.anc) (hD : DartRel M₀ h.s)
   (hinj : ∀ c ∈ h.s.M.atoms, ∀ e ∈ h.s.M.atoms, h.anc c = h.anc e → c = e) {U : Object M₀} {π : V → V}
   (hm : MatchA h U π)

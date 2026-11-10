@@ -5,7 +5,9 @@ public import WaveTurbulence.Foundations.FinalCount.Algorithm.UniformThreeBondCo
 public import WaveTurbulence.Foundations.FinalCount.Algorithm.GlobalSmallBoundaryEffects
 public import WaveTurbulence.Foundations.FinalCount.AppBNormalNormalization
 public import WaveTurbulence.Foundations.FinalCount.AppBSimpleLocalBonds
-public import WaveTurbulence.Foundations.FinalCount.AppBNormalEffects
+public import WaveTurbulence.Foundations.FinalCount.AppBNormalDegreeEffects
+public import WaveTurbulence.Foundations.FinalCount.AppBSmallCutEffects
+public import WaveTurbulence.Foundations.FinalCount.AppBTwoComponents
 import Mathlib.Tactic
 
 /-! # DH23 3R-1N: actual normal deviation with exact ladder preservation -/

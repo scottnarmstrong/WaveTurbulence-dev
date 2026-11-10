@@ -59,37 +59,4 @@ theorem objTree_nodeSign_of (hE : ChainEmb LG.garden X ζ u h) (hζ : ζ = nodeS
   have : nodeSign LG.garden.sig u * ζ = 1 := by rw [hζ, Int.units_mul_self]
   rw [this, one_mul]
 
-/-- **Signs (cap couples), tree `0`.** -/
-theorem objCpl_nodeSign0 {c : Fin w} (hE : ChainEmb LG.garden X ζ u .leaf)
-    (hc : ∀ ℓ : GLeaf LG.garden.tree, ℓ.1 = addrExt u X.lonePath → (LG.garden.pair ℓ).1 = (c, [])) (q : Path) :
-    nodeSign LG.garden.sig (addrExt u q) =
-      nodeSign LG.garden.sig u * nodeSign (objCpl LG X ζ u c hE hc).garden.sig ((0 : Fin 2), q) := by
-  rw [nodeSign_addrExt]
-  show pathSign (nodeSign LG.garden.sig u) q = _ * pathSign (![1, -1] (0 : Fin 2)) q
-  rw [pathSign_eq_mul (nodeSign LG.garden.sig u)]
-  rfl
-
-/-- **Signs (cap couples), the cap.** -/
-theorem objCpl_nodeSign_cap {c : Fin w} (hE : ChainEmb LG.garden X ζ u .leaf)
-    (hc : ∀ ℓ : GLeaf LG.garden.tree, ℓ.1 = addrExt u X.lonePath → (LG.garden.pair ℓ).1 = (c, []))
-    (hP : X.lonePath ≠ []) :
-    nodeSign LG.garden.sig (c, []) =
-      nodeSign LG.garden.sig u * nodeSign (objCpl LG X ζ u c hE hc).garden.sig ((1 : Fin 2), []) := by
-  have hl : (addrExt u X.lonePath).2 ∈ (LG.garden.tree (addrExt u X.lonePath).1).leaves :=
-    (node_iff_of_subtree hE.node hE.tree X.lonePath).2.1.2 (chain_lone_mem_leaves X ζ)
-  let ℓp : GLeaf LG.garden.tree := ⟨_, hl⟩
-  have hp := hc ℓp rfl
-  have hne : LG.garden.pair ℓp ≠ ℓp := by
-    intro he
-    have e1 : (c, ([] : Path)) = addrExt u X.lonePath := hp.symm.trans (congrArg (fun x : GLeaf LG.garden.tree => x.1) he)
-    have e2 : ([] : Path) = u.2 ++ X.lonePath := congrArg Prod.snd e1
-    exact hP (List.append_eq_nil_iff.mp e2.symm).2
-  have hs := LG.garden.pair_sign ℓp hne
-  have e3 : nodeSign LG.garden.sig (LG.garden.pair ℓp).1 = nodeSign LG.garden.sig (c, []) := by rw [hp]
-  rw [e3] at hs
-  change nodeSign LG.garden.sig (c, []) = -nodeSign LG.garden.sig (addrExt u X.lonePath) at hs
-  rw [hs, nodeSign_addrExt, lonePath_sign]
-  show -nodeSign LG.garden.sig u = nodeSign LG.garden.sig u * pathSign (![1, -1] (1 : Fin 2)) []
-  simp [pathSign]
-
 end WaveTurbulence.Flower.ProtGeo

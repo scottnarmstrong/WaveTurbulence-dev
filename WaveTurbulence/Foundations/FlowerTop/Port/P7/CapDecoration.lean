@@ -11,9 +11,6 @@ open TTree Finset
 
 variable {d : ℕ}
 
-theorem root_cap_eq (T : Fin (2 * 3) → TTree) (j : Fin 2) :
-    GNode.root (capTree T) j = (rootBranch T j).toNode := rfl
-
 /-- Restrict a labelling of the capped nodes to the six trees. -/
 def lowerDec {T : Fin (2 * 3) → TTree} (κ : GNode (capTree T) → (Fin d → ℤ)) : GNode T → (Fin d → ℤ) :=
   fun a => κ (liftNode a)

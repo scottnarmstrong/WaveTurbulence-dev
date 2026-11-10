@@ -39,8 +39,6 @@ structure InducedIso (M : Molecule V D) (M' : Molecule V' D') (B : Finset V) (B'
 namespace InducedIso
 variable {M : Molecule V D} {M' : Molecule V' D'} {B : Finset V} {B' : Finset V'} (I : InducedIso M M' B B')
 
-theorem atom_mem_img {x : {x : D // M.InGroup B x}} : M.atom x.1 ∈ B := x.2.1
-
 theorem mem_B' {v' : V'} : v' ∈ B' ↔ ∃ v ∈ B, I.π v = v' := by
   have := Finset.ext_iff.mp I.img v'
   rw [Finset.mem_image] at this
@@ -204,40 +202,6 @@ theorem e_mate_iff {e : D} (he : M.InGroup B e) (x : {x : D // M.InGroup B x}) :
   · intro h
     have : x = ⟨M.mate e, hm⟩ := Subtype.ext h
     rw [this]
-
-/-- Deleting corresponding bonds of the two molecules keeps the induced isomorphism. -/
-noncomputable def erase (e : D) (he : M.InGroup B e) :
-    InducedIso (M.eraseBond e) (M'.eraseBond (I.e ⟨e, he⟩).1) B B' where
-  π := I.π
-  inj := I.inj
-  img := I.img
-  sub := I.sub
-  e :=
-    { toFun := fun x =>
-        ⟨⟨(I.e ⟨x.1.1, x.2⟩).1,
-          fun h => x.1.2.1 ((I.e_eq_iff he ⟨x.1.1, x.2⟩).mp h),
-          fun h => x.1.2.2 ((I.e_mate_iff he ⟨x.1.1, x.2⟩).mp h)⟩, (I.e ⟨x.1.1, x.2⟩).2⟩
-      invFun := fun y =>
-        ⟨⟨(I.e.symm ⟨y.1.1, y.2⟩).1,
-          fun h => y.1.2.1 (by
-            have := (I.e_eq_iff he (I.e.symm ⟨y.1.1, y.2⟩)).mpr h
-            simpa using this),
-          fun h => y.1.2.2 (by
-            have := (I.e_mate_iff he (I.e.symm ⟨y.1.1, y.2⟩)).mpr h
-            simpa using this)⟩, (I.e.symm ⟨y.1.1, y.2⟩).2⟩
-      left_inv := fun x =>
-        Subtype.ext (Subtype.ext (by
-          have h := congrArg Subtype.val (I.e.symm_apply_apply ⟨x.1.1, x.2⟩)
-          exact h))
-      right_inv := fun y =>
-        Subtype.ext (Subtype.ext (by
-          have h := congrArg Subtype.val (I.e.apply_symm_apply ⟨y.1.1, y.2⟩)
-          exact h)) }
-  atom_comm := fun x => I.atom_comm ⟨x.1.1, x.2⟩
-  mate_comm := fun x => by
-    have := I.mate_comm ⟨x.1.1, x.2⟩
-    exact Subtype.ext this
-  out_comm := fun x => I.out_comm ⟨x.1.1, x.2⟩
 
 end InducedIso
 

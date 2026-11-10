@@ -1,7 +1,6 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 public import WaveTurbulence.Foundations.GammaLow.Famc.Cover.ChainFacts
-public import WaveTurbulence.Foundations.Spine.VineDelMolecule
 public import WaveTurbulence.Foundations.Molecule.VineTwoJointSeparator
 public import WaveTurbulence.Foundations.Molecule.VineHyperBothJoints
 public import WaveTurbulence.Foundations.Molecule.VineLikeConnected

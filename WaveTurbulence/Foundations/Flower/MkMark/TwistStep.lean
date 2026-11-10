@@ -34,10 +34,6 @@ variable {S : Garden w} (hS : S.IsPlain) (P : CorePlacement S) (D : Reconstructi
   (X : RegChain) (Q : RegCpl) (hX : X.wf = true) (hQ : Q.wf = true)
   (hsame : (S.pair P.retained).1.1 = P.lower.1.1)
 
-theorem retained_ne_lower : P.retained.toNode ≠ P.lower.toNode := leaf_ne_branch _ _
-
-theorem paired_ne_lower : (S.pair P.retained).toNode ≠ P.lower.toNode := leaf_ne_branch _ _
-
 /-- Slot data of the actual unit twist. -/
 def twistPair : PairData (twistCoord hS P D X Q hX hQ hsame) where
   νB := chosenBranchEquiv S P true

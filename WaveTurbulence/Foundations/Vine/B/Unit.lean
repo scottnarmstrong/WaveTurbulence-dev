@@ -76,18 +76,6 @@ theorem summable_tsum_localBound (hU : G.molecule.IsBlock U a b) (R : CLRegionDa
   refine tsum_comp_le_tsum_of_inj hs (fun z => Finset.prod_nonneg fun i _ => hm0 i (z i)) hX |>.trans_eq' ?_
   rfl
 
-theorem integrable_gUnit (R : CLRegionData G U a b) (hF : HF D hG L F layer base) (lam : ℝ)
-    (β : Fin 4 → Mom d) (t : Fin 3 → ℝ) (κ : CLLocalDecoration R L base β) :
-    Integrable (fun τ : CLInternalTime R => lowModC R lam t τ *
-      clLocalSummand D hG R L γ δ F layer hLayer base β t κ τ) := by
-  have hm : Measurable fun τ : CLInternalTime R => lowModC R lam t τ := by
-    have hb := measurable_clLocalClock_joint R (fun _ : CLInternalTime R => t) (fun τ => τ)
-      (fun i => measurable_const) (fun v => measurable_pi_apply v) b
-    unfold lowModC
-    exact Measurable.cexp ((Complex.measurable_ofReal.comp (hb.const_mul (Real.pi * lam))).mul_const Complex.I)
-  exact (integrable_clLocalSummand (γ := γ) (hLayer := hLayer) R hF β t κ).bdd_mul (c := 1)
-    hm.aestronglyMeasurable (Filter.Eventually.of_forall fun τ => (norm_lowModC R lam t τ).le)
-
 theorem norm_integral_gUnit_le (R : CLRegionData G U a b) (hF : HF D hG L F layer base) (lam : ℝ)
     (β : Fin 4 → Mom d) (t : Fin 3 → ℝ) (κ : CLLocalDecoration R L base β) :
     ‖∫ τ : CLInternalTime R, lowModC R lam t τ *

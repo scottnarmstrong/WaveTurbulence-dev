@@ -19,11 +19,6 @@ noncomputable abbrev SourceMaximalLadderDataC.totalIncoherency {w : ℕ} {G : Ga
     (A : SourceMaximalLadderDataC G) (layer : GBranch G.tree → ℕ) : ℕ :=
   LGSpine.SourceMaximalLadderData.totalIncoherency A layer
 
-abbrev SplicedSourcePremisesC {R : ℕ} (P : WTParams) (G : Garden (2 * R))
-    (D : SplicedKernelData G P.d) (base : Mom P.d)
-    (roots : Fin (2 * R) → (Fin P.d → ℤ)) : Prop :=
-  LGSpine.SplicedSourcePremises P G D base roots
-
 abbrev CoarseSplicedAtC (P : WTParams) : Prop := LGSpine.CoarseSplicedAt P
 
 /-- A family of pairwise disjoint hinge-free ladders. -/

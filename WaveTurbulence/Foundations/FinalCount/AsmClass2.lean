@@ -89,13 +89,4 @@ theorem exists_classLabel {R : ℕ} {M : Molecule V D} (hS : SubHyp R M) (L : �
     have hx' := Classical.choose_spec (hdart v.1 (Finset.mem_filter.1 v.2).1)
     rw [hT.1 _ _ hx' hx]
 
-theorem countA_classes_le {R : ℕ} {M : Molecule V D} (hS : SubHyp R M) (L γ δ C₁ : ℝ) (w : Mom d) (kFix : Finset (Mom d))
-    (hL : L ≠ 0) {Adm : (D → (Fin d → ℤ)) → Prop} (hAdm : ∀ κ, Adm κ → ∀ x, κ (M.mate x) = κ x) (P : Finset V → ℝ) :
-    M.countA L γ δ C₁ w Adm P ≤
-      ∑ lab ∈ labelSet M kFix, M.countA L γ δ C₁ w (fun κ => Adm κ ∧ InClass M L w kFix lab.1 lab.2 κ) P := by
-  refine countA_union_le M L γ δ C₁ w (labelSet M kFix) (fun lab κ => Adm κ ∧ InClass M L w kFix lab.1 lab.2 κ) ?_ P
-  intro κ hκ
-  obtain ⟨lab, hl, hc⟩ := exists_classLabel hS L w kFix κ (hAdm κ hκ) hL
-  exact ⟨lab, hl, hκ, hc⟩
-
 end WaveTurbulence.FinalCountAsm

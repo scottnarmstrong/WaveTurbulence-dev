@@ -41,16 +41,4 @@ theorem lintegral_comp_affine_pos (f : ℝ → ℝ≥0∞) {c : ℝ} (hc : 0 < c
     _ = ∫⁻ s : ℝ, f (c*s) := lintegral_add_right_eq_self (μ := (volume : Measure ℝ)) (fun u => f (c*u)) (-t)
     _ = _ := lintegral_comp_mul_pos f hc
 
-/-- Two independent affine time changes have exactly the reciprocal-square scale. -/
-theorem lintegral_comp_affine_two_pos (f : ℝ × ℝ → ℝ≥0∞) (hf : Measurable f)
-    {c : ℝ} (hc : 0 < c) (t : ℝ) :
-    (∫⁻ s : ℝ, ∫⁻ s' : ℝ, f (c*(s-t),c*(s'-t))) =
-      ENNReal.ofReal c⁻¹ * ENNReal.ofReal c⁻¹ * ∫⁻ z : ℝ × ℝ, f z := by
-  have he (s : ℝ) := lintegral_comp_affine_pos (fun u => f (c*(s-t),u)) hc t
-  simp_rw [he]
-  rw [lintegral_const_mul' _ _ ENNReal.ofReal_ne_top,
-    lintegral_comp_affine_pos (fun v => ∫⁻ w : ℝ, f (v,w)) hc t]
-  rw [Measure.volume_eq_prod,lintegral_prod _ hf.aemeasurable]
-  rw [mul_assoc]
-
 end WaveTurbulence.SumintPar

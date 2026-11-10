@@ -5,11 +5,9 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.VineEst.VineEstS4.CanonStatement
 public import WaveTurbulence.Foundations.VineEst.VineEstS5B.Final3
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.RestrictState
 public import WaveTurbulence.Foundations.VineEst.VineEstS4.Sp17Suffix
-public import WaveTurbulence.Foundations.VineEst.VineEstS4.Sp18Geom
 
 /-! # Interval blocks of a chain assembly and the nested splits (V5 Step 4d part C, WP-I)
 
@@ -171,28 +169,6 @@ theorem piece_atoms_sub_iregion (B : CLChainAssembly G R n) (i j l : ℕ) (hil :
       have hs : iregion B (i - 1) (j - 1) ⊆ iregion (CLChainAssembly.append B hT hi hU R) i j := by
         rw [iregion_append]; exact Finset.subset_union_right
       exact this.trans hs
-
-theorem iregion_union_zero (B : CLChainAssembly G R n) (j l : ℕ) (hjl : j ≤ l) :
-    iregion B 0 j ∪ iregion B j l = iregion B 0 l := by
-  induction B generalizing j l with
-  | single hV R =>
-    unfold iregion
-    by_cases hj : j = 0
-    · subst hj; simp
-    · have : 0 < j := Nat.pos_of_ne_zero hj
-      have hl : 0 < l := by omega
-      simp [hj, this, hl]
-  | append B hT hi hU R ih =>
-    unfold iregion
-    by_cases hj : j = 0
-    · subst hj; simp [iregion_zero_right]
-    · have h1 : 0 < j := Nat.pos_of_ne_zero hj
-      have hl : 0 < l := by omega
-      have := ih (j - 1) (l - 1) (by omega)
-      simp only [true_and, h1, hl, hj, and_false, if_true, if_false, ite_true, ite_false, empty_union, true_and]
-      rw [← this]
-      simp only [Nat.zero_sub]
-      ext x; simp only [mem_union]; tauto
 
 theorem iregion_upper_block (B : CLChainAssembly G R n) :
     ∀ k : ℕ, 1 ≤ k → k < n → G.molecule.IsBlock (iregion B k n) a (jointAt B k) := by

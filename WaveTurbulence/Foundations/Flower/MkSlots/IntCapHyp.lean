@@ -7,7 +7,9 @@ module
 
 public import WaveTurbulence.Foundations.Flower.MkSlots.PRedLeaves
 public import WaveTurbulence.Foundations.Flower.MkSlots.Data
-public import WaveTurbulence.Foundations.Flower.MkUnits.WSlot
+public import WaveTurbulence.Foundations.Flower.MkUnits.WHinge
+public import WaveTurbulence.Foundations.Flower.Stage1WVine.WSlotM1
+public import WaveTurbulence.Foundations.Flower.Stage1WNoVine.Core2
 public import WaveTurbulence.Foundations.Flower.Stage1W.Frontier
 public import WaveTurbulence.Foundations.FlowerTop.Port.S2ST.AnchorFamilyB
 
@@ -112,67 +114,5 @@ def capTreeOf (S : Garden w) (hS : S.IsPlain) (J : Finset (Fin w)) (q : SourcePa
 /-- The reconstruction of a prescribed point at its source layering (it is `a.layered`, `sourceLayer_reconstructs`). -/
 abbrev recLG (a : PrescribedPrimeGarden w) : LayeredGarden w :=
   layeredReconstruction a.prime.data a.prime.prime.1 (sourceLayer a) (sourceLayer_isLayering a)
-
-/-- **The pinned cap slot kernel** of a slot of the reconstruction of `a`: main's slot kernel with the anchored
-profiles `anchProfiles`, the node weight `capNodeW` and the intrinsic plain pins `fixCap … plain`. -/
-def capSlotKer (L γ δ : ℝ) (p : ℕ) (a : PrescribedPrimeGarden w) (J : Finset (Fin w)) (t s : ℝ)
-    (h : ℕ → Fin w → Fin w → Mom d → ℝ) (roots : Fin w → (Fin d → ℤ)) (Rf : Fin w → Option ℝ)
-    (dag : Option (Fin w → Fin 3 → Mom d)) :
-    ReplacementSlot a.prime.skeleton → (Fin 2 → ℝ) → Mom d → ℂ :=
-  slotFnNWF a.prime.data a.prime.prime.1 L γ δ (anchProfiles J (recLG a) h L roots)
-    (capNodeW L γ δ p s (recLG a) J Rf dag) (sourceLayer a) (sourceLayer_isLayering a)
-    (fixCap (recLG a) J (fun _ => FixPat.plain) t s)
-
-/-- **The cap-slot obligation at one parameter record** (constant `Kc d η`). For every `C ≥ C₁`, every prescribed point
-`a` of a capped canonical class (cap trees `J`, layers `≤ p`, size `≤ N_{p+1}^4`, times `p < s < t < p + 1`), every
-anchored profile family `h` bounded by `b` and frontier scales `≥ L/2`, every dagger datum, every cap pair slot `q`
-of the skeleton of `a`, at the cap momentum `x₀ = latticePoint L (roots j)` (`j = capTreeOf … q`): a countable family
-of modes `m l ∈ ℤ²` with weights `wt l ≥ 0` (summable) and amplitudes `amp l` (`‖amp l‖ ≤ 1`,
-`SNorm (30 d) 0 (amp l) ≤ 1`, supported within distance `1` of the lattice point `latPt d (c l)`) such that on the
-slot box
-`ts ↦ capSlotKer … (.inl q) ts x₀ = Σ_l wt l · amp l x₀ · e(m l · ts)`,
-with mode mass `Σ_l ⟨m l / 2⟩^η · wt l ≤ Kc · (C√δ)^{size(q)} · L^{-η⁸·incoh(q)} · c_F^{nr(q)} · b⁻¹ · leaf_b(q) ·
-L^{31d+6}` (`c_F = frontierConst d`, `leaf_b(q) = slotLeaf … (fun _ => b)`). -/
-def CapSlotObligationAt (Kc : ℕ → ℝ → ℝ) (P : WTParams) : Prop :=
-  ∀ C : ℝ, P.C₁ ≤ C →
-  ∀ {R p : ℕ} (a : PrescribedPrimeGarden (2 * R)) (J : Finset (Fin (2 * R))) (t s : ℝ),
-    p < P.D → IsCanonGC (p + 1) a.layered → a.prime.data.size ≤ P.N (p + 1) ^ 4 →
-    CapGeo a.layered J p → a.layered.garden.Irreducible → t ∈ Ioo (p : ℝ) (p + 1) → s ∈ Ioo (p : ℝ) t →
-  ∀ (roots : Fin (2 * R) → (Fin P.d → ℤ)) (h : ℕ → Fin (2 * R) → Fin (2 * R) → Mom P.d → ℝ) (b : ℝ), 1 ≤ b →
-    (∀ q ≤ p, ∀ j j', SNormR (40 * P.d) (40 * P.d) (h q j j') ≤ ENNReal.ofReal b) →
-  ∀ (Rf : Fin (2 * R) → Option ℝ), (∀ j r, Rf j = some r → P.L / 2 ≤ r) →
-  ∀ (dag : Option (Fin (2 * R) → Fin 3 → Mom P.d)),
-  ∀ q : SourcePair a.prime.skeleton, IsCapPair a.prime.skeleton a.prime.prime.1 J q →
-  ∃ (Λ : Type) (_ : Countable Λ) (wt : Λ → ℝ) (m : Λ → Fin 2 → ℤ) (c : Λ → Fin P.d → ℤ)
-    (amp : Λ → Mom P.d → ℂ),
-    (∀ l, 0 ≤ wt l) ∧ Summable wt ∧ (∀ l k, ‖amp l k‖ ≤ 1) ∧ (∀ l, SNorm (30 * P.d) 0 (amp l) ≤ 1) ∧
-    (∀ l k, amp l k ≠ 0 → ‖k - latPt P.d (c l)‖ ≤ 1) ∧
-    (∀ ts ∈ slotBox p (fun b => sourceLayer a (a.prime.data.coreBranch a.prime.prime.1 b).toNode)
-        a.prime.prime.1 (.inl q),
-      HasSum (fun l => (wt l : ℂ) * amp l (latticePoint P.L (roots (capTreeOf a.prime.skeleton a.prime.prime.1 J q))) *
-          fsPhase (m l) ts)
-        (capSlotKer P.L P.γ P.δ p a J t s h roots Rf dag (.inl q) ts
-          (latticePoint P.L (roots (capTreeOf a.prime.skeleton a.prime.prime.1 J q))))) ∧
-    ∑' l, maxBracketPow P.η (half (m l)) * ENNReal.ofReal (wt l) ≤
-      ENNReal.ofReal (Kc P.d P.η * (C * Real.sqrt P.δ) ^ slotSize a.prime.data (.inl q) *
-        P.L ^ (-(P.η ^ 8) * (slotIncoh a.prime.data a.prime.prime.1 (sourceLayer a) (sourceLayer_isLayering a)
-          (.inl q) : ℝ)) *
-        (frontierConst P.d ^ slotNr a.prime.data a.prime.prime.1 (.inl q) *
-          (b⁻¹ * slotLeaf a.prime.data a.prime.prime.1 (sourceLayer a) (sourceLayer_isLayering a)
-            (fun _ => b.toNNReal) (.inl q))) *
-        P.L ^ (31 * (P.d : ℝ) + 6))
-
-/-- **`CapSlotObligation`** — the ONE isolated hypothesis of the integration (B3s, milestone α): a constant
-`Kc d η ≥ 1` (depending on `d, η` only) for which the cap-slot superpositions `CapSlotObligationAt Kc` exist on the
-parameter prefix. To be proved from D3's `ProtPin.protBoundNTGate`, D2c's `ProtCut.CapData.kernelProt_cap`, D6b's
-`ProtWhole.CapG`, D2b's `ProtGeo` (`embeds_stem_cap`, `protShape_objTree`, `protAmbient_objTree`, `objCfg`), main's
-`LFTwist.reconstruction_coupleEmb` and `MkSlots.protSlotSupM` (see the module docstring). -/
-def CapSlotObligation : Prop :=
-  ∃ Kc : ℕ → ℝ → ℝ, (∀ d η, 1 ≤ Kc d η) ∧ WTPrefix (CapSlotObligationAt Kc)
-
-/-- The per-record obligation is monotone in the large constants (it reads `C₁` only through `C ≥ C₁`). -/
-theorem capSlotObligationAt_mono (Kc : ℕ → ℝ → ℝ) : LargeConstantMonotone (CapSlotObligationAt Kc) := by
-  intro P c₁ c₂ _ _ _ _ h₁ _ h C hC R p a J t s hp hcan hsz
-  exact h C (h₁.trans hC) (R := R) (p := p) a J t s hp hcan (by rw [← vineEstHalfMK_N P c₁ c₂ (p + 1)]; exact hsz)
 
 end WaveTurbulence.Flower.MkSlots

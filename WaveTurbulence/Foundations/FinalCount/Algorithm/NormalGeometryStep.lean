@@ -88,12 +88,4 @@ theorem NormalGeometryStep.nonladder_balanced_gain {s t : State.{u,v} V}
   | s33 r hc ht hb => exact s33_normal_balanced_gain s.graph hM r hc ht hb
   | r3 r hB hb hn => exact r3_normal_balanced_gain s.graph r hB hb hn
 
-theorem NormalGeometryStep.molecule {s t : State.{u,v} V} {n : ℕ}
-    (h : NormalGeometryStep s t n) (hM : s.graph.IsMolecule) : t.graph.IsMolecule := by
-  cases h with
-  | bridge e hb hout => exact appb_eraseBond_isMolecule s.graph hM e
-  | s33 r hc ht hb => exact appb_eraseAtoms_isMolecule s.graph hM r.removedAtoms
-  | d33 r hB hb => exact appb_eraseAtoms_isMolecule s.graph hM r.removedAtoms
-  | r3 r hB hb hn => exact appb_eraseAtoms_isMolecule s.graph hM r.removedAtoms
-
 end WaveTurbulence.Mole.AppbAlgorithm

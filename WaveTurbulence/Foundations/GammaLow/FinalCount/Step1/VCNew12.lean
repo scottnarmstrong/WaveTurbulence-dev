@@ -1,7 +1,7 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 public import WaveTurbulence.Foundations.FinalCount.VCNew12
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.Step1.VCNew11
+public import WaveTurbulence.Foundations.GammaLow.FinalCount.Step1.VCNew10
 /-! **L6-STEP1 port of main `WaveTurbulence.Foundations.FinalCount.VCNew12`** (sha256 in Step1/COPIED-SHA256SUMS): only the declarations that
 depend on the Step-1 cut `VineCut`, re-stated over the `𝒱_γ` object carrier `Src.Object g M`; everything else is
 main's, by import.

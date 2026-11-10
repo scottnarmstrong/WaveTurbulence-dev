@@ -170,10 +170,6 @@ noncomputable def assemblyIntOrder : CLIntOrder B.isBlock R where
     · exact Or.inl h
     · exact Or.inr ⟨h, hlen⟩
 
-theorem assemblyIntOrder_block (z : ↥(clInteriorBranches R)) :
-    (assemblyRowEquiv hM9 B ((assemblyIntOrder hM9 B).e z)).1 = (assemblyBranchBij hM9 B z).1 := by
-  simp only [assemblyIntOrder, Equiv.trans_apply, Equiv.apply_symm_apply]
-
 end Align
 
 theorem exists_equiv_extending {X Y D : Type*} [Fintype X] [Fintype Y] [Finite D] (hc : Fintype.card X = Fintype.card Y)

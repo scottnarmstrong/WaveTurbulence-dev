@@ -2,7 +2,6 @@
 -- L5a port of main `WaveTurbulence.Foundations.FinalCount.RedSpliceCL` (sha256 in COPIED-SHA256SUMS) over L6's 𝒱_γ carrier `Src`.
 module
 
-public import WaveTurbulence.Foundations.Molecule.CLCN
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Split
 public import WaveTurbulence.Foundations.FinalCount.RedSpliceCL
 import Mathlib.Tactic
@@ -48,20 +47,5 @@ theorem chain_cl_end_parent (hM : G.molecule.IsMolecule) {L : Finset (GBranch G.
       · exact Or.inr (RedSplice.internalParent_mono subset_union_right hc.2)
       · exact absurd (RedSplice.not_internalParent_of_inter hi hp hc.2) id
 
-
-/-- A block chain of (CL) ingredients is a (CL) block, with joints `a, x` in one of the two orders. -/
-theorem chain_clPattern (hM : G.molecule.IsMolecule) {L : Finset (GBranch G.tree)} {a x : GBranch G.tree}
-    {m : ℕ} (h : Src.Chain γ G.molecule L a x m)
-    (hcl : ∀ A p q, ChainIngredientG γ G.molecule L a x m A p q →
-      CLParentPattern G A p q ∨ CLParentPattern G A q p)
-    (hB : G.molecule.IsBlock L a x) :
-    CLParentPattern G L a x ∨ CLParentPattern G L x a := by
-  rcases block_parent_patterns G hB with h1 | h1 | h1
-  · exact Or.inl h1
-  · exact Or.inr h1
-  · exfalso
-    rcases chain_cl_end_parent hM h hcl hB with hp | hp
-    · exact h1.1 hp
-    · exact h1.2 hp
 
 end WaveTurbulence.GammaLow.Fama

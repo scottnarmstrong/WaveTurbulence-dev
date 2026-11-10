@@ -38,10 +38,4 @@ noncomputable def plainGraftedGarden {w : ℕ} (sig : Fin w → ℤˣ) (top : Fi
         rw [Equiv.apply_symm_apply] at he
         exact congrArg Neg.neg he.symm
 
-theorem plainGraftedGarden_isPlain {w : ℕ} (sig : Fin w → ℤˣ) (top : Fin w → TTree)
-    (f : Fin w → TTree.Path → TTree) (pair : AttachedLeaf top f → AttachedLeaf top f)
-    (hinv : Function.Involutive pair) (hne : ∀ x, pair x ≠ x)
-    (hsign : ∀ x, attachedSign sig (pair x) = -attachedSign sig x) :
-    (plainGraftedGarden sig top f pair hinv hne hsign).IsPlain := fun _ => rfl
-
 end WaveTurbulence.Induct

@@ -49,24 +49,6 @@ theorem treeInterpolationWeight_le_eight_mul {η : ℝ} (hη : 0 ≤ η) :
   apply (div_le_iff₀ (by linarith only [hη])).2
   nlinarith only [sq_nonneg η]
 
-/-- A fixed small-parameter range bounds the high endpoint's weight by one half. -/
-theorem treeInterpolationWeight_le_half {η : ℝ} (hη : 0 ≤ η) (hη1 : η ≤ 1 / 100) :
-    treeInterpolationWeight η ≤ 1 / 2 := by
-  unfold treeInterpolationWeight
-  apply (div_le_iff₀ (by linarith only [hη])).2
-  linarith only [hη1]
-
-/-- Pure algebra for the final exponent; no norm estimate is an assumption here. -/
-theorem tree_interpolation_loss_budget {D η G a : ℝ} (hD : 0 ≤ D) (hη : 0 ≤ η)
-    (hG : 1 ≤ G) (ha : 0 ≤ a) (haHalf : a ≤ 1 / 2) (haη : a ≤ 8 * η) :
-    (1 - a) * (2 * D * η * G) + a * (100 * D * η * G + 4 * D) ≤ 100 * D * η * G := by
-  have hDG : 0 ≤ D * η * G := mul_nonneg (mul_nonneg hD hη) (zero_le_one.trans hG)
-  have H₀ := mul_le_mul_of_nonneg_right (sub_le_self 1 ha) (mul_nonneg (by norm_num : (0 : ℝ) ≤ 2) hDG)
-  have H₁ := mul_le_mul_of_nonneg_right haHalf (mul_nonneg (by norm_num : (0 : ℝ) ≤ 100) hDG)
-  have H₂ := mul_le_mul_of_nonneg_right haη (mul_nonneg (by norm_num : (0 : ℝ) ≤ 4) hD)
-  have H₃ := mul_le_mul_of_nonneg_left hG (mul_nonneg (by norm_num : (0 : ℝ) ≤ 32) (mul_nonneg hD hη))
-  linarith only [H₀, H₁, H₂, H₃, hDG]
-
 /-- The physical interpolation exponent costs at most `3η` powers of the pointwise scale. -/
 theorem couple_interpolation_fraction_le {η : ℝ} (hη : 0 ≤ η) :
     1 - 1 / (1 + 3 * η) ≤ 3 * η := by

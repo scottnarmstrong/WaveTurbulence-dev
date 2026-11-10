@@ -6,7 +6,8 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.VineEst.VineEstS5A.A3Clock
-public import WaveTurbulence.Foundations.VineEst.VineEstS5A.ExprMulCph
+public import WaveTurbulence.Foundations.Vine.DegenVinePar.ClockedExprMul
+public import WaveTurbulence.Foundations.VineEst.VineEstS5A.PhasePhCph
 
 /-! # Arity-3 mode interchange for the multiplied clocked expression (V5 Step 4d-A, item 2)
 

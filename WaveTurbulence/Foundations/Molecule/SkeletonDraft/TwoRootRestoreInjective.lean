@@ -30,13 +30,4 @@ theorem Raw.insertCouple_tree_restore {w : ℕ} (R : Raw w) (x y : Address w)
   simp only [Raw.insertCouple,setAt_eq_replaceAt]
   exact hr
 
-theorem Raw.insertCouple_tree_injective {w : ℕ} (R T : Raw w) (x y : Address w)
-    (hR : R.PairSite x y) (hT : T.PairSite x y) (Q : RegCpl)
-    (he : (R.insertCouple x y Q).tree = (T.insertCouple x y Q).tree) : R.tree = T.tree := by
-  let restore (F : Fin w → TTree) :=
-    let A := Function.update F x.1 (Comb.replaceAt (F x.1) x.2 .leaf)
-    Function.update A y.1 (Comb.replaceAt (A y.1) y.2 .leaf)
-  exact (R.insertCouple_tree_restore x y hR Q).symm.trans
-    ((congrArg restore he).trans (T.insertCouple_tree_restore x y hT Q))
-
 end WaveTurbulence.Reg.Skeleton

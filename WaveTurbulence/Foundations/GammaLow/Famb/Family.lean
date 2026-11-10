@@ -67,23 +67,6 @@ not all lie in one layer. -/
 def groupIncoherency (gs : Finset (Finset V)) (layer : V → ℕ) : ℕ :=
   (gs.filter fun g => ¬ ∀ x ∈ g, ∀ y ∈ g, layer x = layer y).card
 
-omit [Fintype D] [DecidableEq D] in
-/-- The incoherency index of a group set is main's list index `Vine.incoherencyIndex` of its groups. -/
-theorem groupIncoherency_eq_incoherencyIndex (gs : Finset (Finset V)) (layer : V → ℕ) :
-    groupIncoherency gs layer = Vine.incoherencyIndex layer (gs.toList.map Finset.toList) := by
-  classical
-  unfold groupIncoherency Vine.incoherencyIndex
-  rw [List.filter_map, List.length_map]
-  have hp : ∀ g : Finset V, (¬ Vine.GroupCoherent layer g.toList) ↔ ¬ ∀ x ∈ g, ∀ y ∈ g, layer x = layer y := by
-    intro g; simp only [Vine.GroupCoherent, Finset.mem_toList]
-  rw [Finset.card_def, Finset.filter_val, ← Multiset.coe_toList gs.val]
-  rw [Multiset.filter_coe, Multiset.coe_card]
-  have e : (Function.comp (fun g => decide ¬ Vine.GroupCoherent layer g) Finset.toList) =
-      fun g : Finset V => decide ¬ ∀ x ∈ g, ∀ y ∈ g, layer x = layer y := by
-    funext g; exact decide_eq_decide.mpr (hp g)
-  rw [e]
-  rfl
-
 /-- `X` labels a full chart of `(S, a, b)` whose groups are the cohmol groups. -/
 def LabelCharted (γ : ℝ) (M : Molecule V D) (X : VineType) (S : Finset V) (a b : V) : Prop :=
   ∃ F : FullVineChart M X S a b, chartAtomGroups F = famGroups γ M S a b

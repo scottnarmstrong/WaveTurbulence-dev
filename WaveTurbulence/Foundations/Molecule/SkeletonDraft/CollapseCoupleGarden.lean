@@ -28,13 +28,6 @@ noncomputable def collapseCoupleGarden {w : ℕ} {G : Garden w} {a b : GNode G.t
       rw [E.apply_symm_apply] at hs
       exact hs)
 
-theorem collapseCoupleGarden_sig {w : ℕ} {G : Garden w} {a b : GNode G.tree}
-    (h : Comb.IsSubCouple G a b) : (collapseCoupleGarden h).sig = G.sig := rfl
-
-theorem collapseCoupleGarden_tree {w : ℕ} {G : Garden w} {a b : GNode G.tree}
-    (h : Comb.IsSubCouple G a b) :
-    (collapseCoupleGarden h).tree = collapsePairForest G.tree a b (Comb.subCouple_incomparable h) := rfl
-
 /-- Exact compatibility of the new pairing with the complete leaf payload. -/
 theorem collapseCoupleGarden_pair_payload {w : ℕ} {G : Garden w} {a b : GNode G.tree}
     (h : Comb.IsSubCouple G a b) (x : OutsideRoots G.tree a b ⊕ Fin 2) :
@@ -75,14 +68,5 @@ theorem collapseCoupleGarden_plain {w : ℕ} {G : Garden w} {a b : GNode G.tree}
   cases E.symm ℓ with
   | inl x => exact hG x.1
   | inr i => rfl
-
-/-- The source collapse removes exactly the branching nodes of the embedded subcouple. -/
-theorem collapseCoupleGarden_order {w : ℕ} {G : Garden w} {a b : GNode G.tree}
-    (h : Comb.IsSubCouple G a b) :
-    (collapseCoupleGarden h).order + (Comb.nodeSubtree a).order + (Comb.nodeSubtree b).order = G.order := by
-  have ho := Comb.collapseSubCoupleForest_order h
-  change (collapseCoupleGarden h).order + (Comb.subCoupleGarden h).order = G.order at ho
-  rw [Comb.subCoupleGarden_order] at ho
-  omega
 
 end WaveTurbulence.Reg.Skeleton

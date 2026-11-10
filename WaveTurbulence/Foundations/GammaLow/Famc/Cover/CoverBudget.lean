@@ -40,7 +40,6 @@ public import WaveTurbulence.Foundations.GammaLow.Famc.Cover.SourceOrdinaryJoint
 public import WaveTurbulence.Foundations.GammaLow.Famc.Cover.SourcePairsCompatible
 public import WaveTurbulence.Foundations.GammaLow.Famc.Cover.SourcePairsMain
 public import WaveTurbulence.Foundations.GammaLow.Famc.Cover.SourcePrimaryPairChoices
-public import WaveTurbulence.Foundations.GammaLow.Famc.Cover.SourcePrimaryPairTable
 public import WaveTurbulence.Foundations.GammaLow.Famc.Cover.SourceRestrictedCarrier
 public import WaveTurbulence.Foundations.GammaLow.Famc.Defs
 public import WaveTurbulence.Foundations.GammaLow.Famc.Cover.SourceSwapObject
@@ -53,7 +52,7 @@ public import WaveTurbulence.Foundations.GammaLow.FinalCount.Src.Objects
 public import WaveTurbulence.Foundations.GammaLow.Famc.Cover.Base
 public import WaveTurbulence.Foundations.GammaLow.Famc.Cover.VineDelObjects
 public import WaveTurbulence.Foundations.Spine.CoverFinite
-public import WaveTurbulence.Foundations.Spine.SourceChoiceBudget
+public import Mathlib.Data.Fintype.BigOperators
 /-! Weight budget of the finite counting cover: one absolute exponential constant `3^16 * 17`
 pays for the gap table and the pair table, and the logarithmic scale cost `log L / log 2 + 2`
 per ladder and per critical SG atom is paid by the factor `(log L)^(rho + p)` of finalcount1

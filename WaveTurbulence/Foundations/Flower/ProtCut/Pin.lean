@@ -31,33 +31,6 @@ def pinSet (LG : LayeredGarden w) (up : GBranch LG.garden.tree → ℝ) (s : ℝ
     (∀ b : GBranch LG.garden.tree, a.IsChildOf b → ∀ σ, fix b = some σ → u < σ) ∧
     (LG.garden.IsLoneParent a → s < u)}
 
-theorem measurableSet_pinSet (LG : LayeredGarden w) (up : GBranch LG.garden.tree → ℝ) (s : ℝ)
-    (fix : GBranch LG.garden.tree → Option ℝ) (a : GBranch LG.garden.tree) :
-    MeasurableSet (pinSet LG up s fix a) := by
-  unfold pinSet
-  simp only [Set.ofPred_and]
-  refine (measurableSet_lt measurable_const measurable_id).inter
-    ((measurableSet_lt measurable_id measurable_const).inter
-      ((measurableSet_lt measurable_const measurable_id).inter
-        ((measurableSet_lt measurable_id measurable_const).inter ?_)))
-  refine MeasurableSet.inter ?_ (MeasurableSet.inter ?_ (measurableSet_imp _
-    (measurableSet_lt measurable_const measurable_id)))
-  · rw [Set.ofPred_forall]
-    refine MeasurableSet.iInter fun b' => measurableSet_imp _ ?_
-    cases h : fix b' with
-    | none => simp only [reduceCtorEq, false_implies, implies_true]; exact MeasurableSet.univ
-    | some v => simp only [Option.some.injEq, forall_eq']; exact measurableSet_Ioi
-  · rw [Set.ofPred_forall]
-    refine MeasurableSet.iInter fun b => measurableSet_imp _ ?_
-    cases h : fix b with
-    | none => simp only [reduceCtorEq, false_implies, implies_true]; exact MeasurableSet.univ
-    | some v => simp only [Option.some.injEq, forall_eq']; exact measurableSet_Iio
-
-theorem pinSet_subset (LG : LayeredGarden w) (up : GBranch LG.garden.tree → ℝ) (s : ℝ)
-    (fix : GBranch LG.garden.tree → Option ℝ) (a : GBranch LG.garden.tree) :
-    pinSet LG up s fix a ⊆ Ioo (LG.layer a.toNode : ℝ) (LG.layer a.toNode + 1) :=
-  fun _ hu => ⟨hu.1, hu.2.1⟩
-
 theorem isChildOf_ne {T : Fin w → TTree} {b' b : GBranch T} (h : b'.IsChildOf b) : b' ≠ b := by
   rintro rfl
   obtain ⟨-, i, hi⟩ := h

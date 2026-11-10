@@ -32,9 +32,6 @@ variable {d : ℕ}
 @[expose] noncomputable def partialSchwartz (v : Mom d) (φ : 𝓢(Mom d, ℝ)) : 𝓢(Mom d, ℝ) :=
   ∂_{v} φ
 
-theorem partialSchwartz_apply (v : Mom d) (φ : 𝓢(Mom d, ℝ)) (y : Mom d) :
-    partialSchwartz v φ y = fderiv ℝ φ y v := rfl
-
 theorem fderiv_collisionTerm (hd : 2 ≤ d) (φ₁ φ₂ φ₃ : 𝓢(Mom d, ℝ)) (j : Fin 4) (k v : Mom d) :
     fderiv ℝ (collisionTerm j φ₁ φ₂ φ₃) k v =
       collisionTerm j (partialSchwartz v φ₁) φ₂ φ₃ k + collisionTerm j φ₁ (partialSchwartz v φ₂) φ₃ k

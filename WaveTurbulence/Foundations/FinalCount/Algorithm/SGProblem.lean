@@ -70,19 +70,6 @@ noncomputable def ProblemSG.value {ws : ℕ} (p : ProblemSG.{u,v} V d L w c g ws
     ℝ≥0∞ :=
   appbLinkCountA p.state.graph L γ δ C1 w p.admissible p.scales
 
-/-- A problem that is large gap everywhere is an SG problem with no exceptional atoms. -/
-def Problem.toSG (p : Problem.{u,v} V d L w c g) : ProblemSG.{u,v} V d L w c g 0 where
-  state := p.state
-  admissible := p.admissible
-  scales := p.scales
-  molecule := p.molecule
-  noLoops := p.noLoops
-  scales_nonneg := p.scales_nonneg
-  validLinkScales := p.validLinkScales
-  mateLabels := p.mateLabels
-  largeGap := fun κ hκ => ⟨∅,empty_subset _,by simp,fun v hv _ x hx y hy hd hm =>
-    p.largeGap κ hκ v hv x hx y hy hd hm⟩
-
 /-- The finite union bound over the exceptional set. -/
 theorem linkCountA_le_finset_cover {ι : Type*} [DecidableEq ι] (M : Molecule V D) (L γ δ C1 : ℝ)
     (w : Mom d) (P : Finset V → ℝ) (A : ι → (D → (Fin d → ℤ)) → Prop) (T : Finset ι) :

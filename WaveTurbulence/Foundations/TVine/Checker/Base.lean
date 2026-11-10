@@ -215,12 +215,6 @@ theorem exists_inst_of_card {V : Type u} [DecidableEq V] {G : UMultigraph V} {j�
     ∃ q ∈ instList, ∃ φ : Iso G (genB q.1 q.2), JointsAt φ j₁ j₂ q.1.jname :=
   exists_inst hT fun p j hp hj φ _ => by have := card_eq_of_iso hT.1 hp hj φ; omega
 
-/-- **A T-vine with at most one deletable rung is an instance.** -/
-theorem exists_inst_of_del {V : Type u} [DecidableEq V] {G : UMultigraph V} {j₁ j₂ : V}
-    (hT : IsTVineU G j₁ j₂) (hD : deletableCount G j₁ j₂ ≤ 1) :
-    ∃ q ∈ instList, ∃ φ : Iso G (genB q.1 q.2), JointsAt φ j₁ j₂ q.1.jname :=
-  exists_inst hT fun p j hp hj φ hJ => by have := laddersLe hT hp hj φ hJ; omega
-
 /-! ## The facts of a checked instance -/
 
 theorem checkInst_facts {q : CParam × JParam} (h : checkInst q = true) :

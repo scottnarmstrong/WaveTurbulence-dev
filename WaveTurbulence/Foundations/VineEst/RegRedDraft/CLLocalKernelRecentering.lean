@@ -54,32 +54,4 @@ theorem clLocalSummand_recenter {w d : ℕ} {G : Garden w} {U : Finset (GBranch 
     rw [Set.indicator_of_notMem hτ,Set.indicator_of_notMem hτ]
     simp only [mul_zero]
 
-/-- TARGET vineest Step 1, defKtilde: an equality of the actual local kernel
-with its recentered phase formula. The boundary-energy identity and all local
-matching cancellations are proved for every summand, without an extra premise. -/
-theorem clLocalKernel_recentered_formula {w d : ℕ} {G : Garden w} {U : Finset (GBranch G.tree)}
-    {a b : GBranch G.tree} (hU : G.molecule.IsBlock U a b)
-    (D : ReconstructionData G) (hG : G.IsPlain) (R : CLRegionData G U a b)
-    (L γ δ : ℝ) (F : ℕ → Mom d → ℝ) (layer : GNode (D.forest hG) → ℕ)
-    (hLayer : IsLayering (D.garden hG) layer) (base : Mom d)
-    (tUpper tPositive tNegative : ℝ) (e f g h : Mom d) :
-    clRecenteredLocalKernel D hG R L γ δ F layer hLayer base tUpper tPositive tNegative e f g h =
-      (coupling d L γ δ : ℂ)^clLocalOrder1 R * clLocalZeta R *
-        ∑' κ : CLLocalDecoration R L base ![e,f,g,h], ∫ τ : CLInternalTime R,
-          clLocalRecenteredSummand D hG R L γ δ F layer hLayer base ![e,f,g,h]
-            ![tUpper,tPositive,tNegative] κ τ := by
-  let C := (coupling d L γ δ : ℂ)^clLocalOrder1 R * clLocalZeta R
-  let E := Complex.exp (((-(Real.pi*δ*L^(2*γ))*tUpper*
-    boundaryEnergyFromMomenta (G.sign a.toNode) e f g h : ℝ) : ℂ)*Complex.I)
-  unfold clRecenteredLocalKernel clLocalKernel
-  rw [mul_left_comm E C]
-  apply congrArg (fun z => C*z)
-  rw [← tsum_mul_left]
-  apply tsum_congr
-  intro κ
-  rw [← integral_const_mul]
-  exact integral_congr_ae (Filter.Eventually.of_forall (fun τ =>
-    clLocalSummand_recenter hU D hG R L γ δ F layer hLayer base ![e,f,g,h]
-      ![tUpper,tPositive,tNegative] κ τ))
-
 end WaveTurbulence.RegRed

@@ -8,14 +8,12 @@ public import WaveTurbulence.Foundations.GammaLow.Fama.Vine.IsoStmt
 public import WaveTurbulence.Foundations.GammaLow.Fama.P.Vine.A.VineSelectedTransport
 public import WaveTurbulence.Foundations.GammaLow.Fama.P.Vine.A.VineUnitCover
 public import WaveTurbulence.Foundations.Vine.A.VineUnitTransport
-public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Amend7
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.CL
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.CN
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Coll
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Coll2
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Cover
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Data
-public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Deg
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Desig
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Final
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Gap
@@ -31,7 +29,6 @@ public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Marked
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Obj
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Obj2
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Obj3
-public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Pairs
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Piece
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Rev
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Runs
@@ -45,7 +42,6 @@ public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Stage
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.SurvData
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Top
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.TripleDesig
-public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.TripleHinge
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.UnitBlocks
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Units
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Units2
@@ -55,13 +51,10 @@ public import WaveTurbulence.Foundations.GammaLow.Fama.Coll.Basic
 public import WaveTurbulence.Foundations.GammaLow.Fama.Coll.Collection
 public import WaveTurbulence.Foundations.GammaLow.Fama.Inputs
 public import WaveTurbulence.Foundations.GammaLow.Fama.Vine.Chain
-public import WaveTurbulence.Foundations.GammaLow.Fama.P.Molecule.VineChainEraseEndpoints
-public import WaveTurbulence.Foundations.GammaLow.Fama.P.Molecule.VineChainInteriorConnected
 public import WaveTurbulence.Foundations.GammaLow.Fama.Vine.Facts
 public import WaveTurbulence.Foundations.GammaLow.Fama.P.Molecule.VineLocalDartChains
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.Src.Counting
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.Src.Objects
-public import WaveTurbulence.Foundations.GammaLow.Fama.P.Spine.VineDelObjects
 public import WaveTurbulence.Foundations.GammaLow.Fama.P.Stage1.Represents.RepSel
 public import WaveTurbulence.Foundations.GammaLow.Fama.P.Stage1.Shared.S1VInvChain
 public import WaveTurbulence.Foundations.GammaLow.Fama.P.Stage1.Shared.S1VInvEquiv
@@ -149,11 +142,6 @@ theorem unitBlocks_goodMk (Z : Fama.TwistGroupSite γ G) (σ : Prescription G)
       (Fama.unitBlocks_pairwiseMk (Mk := Mk) (Mole.garden_isMolecule G) σ) hu hv huv) hxu)
       (hcv (hat.symm ▸ hx))).elim
 
-/-- Every actual unit either contains the active selected vine, or is disjoint from it. -/
-theorem unitBlocks_good (Z : Fama.TwistGroupSite γ G) (σ : Prescription G)
-    (hsel : ∃ c ∈ Fama.vinesV0 γ G σ, c.atoms = Z.S0) {u : CLBlock G} (hu : u ∈ Fama.unitBlocks γ G σ) :
-    Z.Good u.atoms := unitBlocks_goodMk (Mk := ∅) Z σ hsel hu
-
 /-- The transported actual unit, with its CL property derived from source geometry. -/
 noncomputable def unitImage (γ : ℝ) [Fact (γ ≤ 1 / 2)] (Z : Fama.TwistGroupSite γ G) (u : CLBlock G) (hgood : Z.Good u.atoms) :
     CLBlock Z.target where
@@ -163,10 +151,5 @@ noncomputable def unitImage (γ : ℝ) [Fact (γ ≤ 1 / 2)] (Z : Fama.TwistGrou
   isBlock := Z.iso.isBlock_img u.isBlock
   cl := ⟨fun h => u.cl.1 ((Z.ip_map hgood u.isBlock.2.1).mp h),
     (Z.ip_map hgood u.isBlock.2.2.1).mpr u.cl.2⟩
-
-/-- Distinct actual source units remain distinct actual CL blocks after transport. -/
-theorem unitImage_injective (Z : Fama.TwistGroupSite γ G) {u v : CLBlock G}
-    (hu : Z.Good u.atoms) (hv : Z.Good v.atoms) (h : unitImage γ Z u hu = unitImage γ Z v hv) : u = v :=
-  clBlock_eq_of_atoms (Z.iso.img_injective (congrArg CLBlock.atoms h))
 
 end WaveTurbulence.GammaLow.Famc.VineA

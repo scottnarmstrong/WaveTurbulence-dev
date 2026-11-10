@@ -46,12 +46,6 @@ theorem externalSegment_append {w : ℕ} (G : Garden w) (a : Fin w × Path) (p q
     change (_ ∧ (_ ∧ _)) ↔ ((_ ∧ _) ∧ _)
     exact and_assoc.symm
 
-/-- Every prefix is itself a determined unique-child path. -/
-theorem externalSegment_prefix {w : ℕ} {G : Garden w} {a : Fin w × Path} {p q : Path}
-    (h : ExternalSegment G a q) (hpq : p <+: q) : ExternalSegment G a p := by
-  obtain ⟨r,rfl⟩ := hpq
-  exact ((externalSegment_append G a p r).mp h).1
-
 /-- The maximal stopping rule makes the whole path uniquely determined. -/
 theorem maximalExternalSpine_unique {w : ℕ} (G : Garden w) (a : Fin w × Path) (p q : Path)
     (hp : MaximalExternalSpine G a p) (hq : MaximalExternalSpine G a q) : p = q := by

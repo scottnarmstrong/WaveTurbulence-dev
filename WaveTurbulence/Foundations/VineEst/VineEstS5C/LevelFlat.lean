@@ -176,39 +176,6 @@ noncomputable def Lvl.psiStep (κ0 : KPar d) (lv : Lvl B) (pstar : lv.ι) (hk : 
     (hprime : IsPrimeGarden G) (Ψ' : PsiT G d) : PsiT G d :=
   psiStepSp (p := p) (kind := kind) κ0 (lv.state B RD hG layer hLayer) (lv.split B RD hG layer hLayer pstar hk) hprime Ψ'
 
-/-- **One level of TARGET Step 4, flat form.**  If the class sum of the next level is `c ζ lkRaw` of the summand `Ψ'` (induction
-hypothesis), the S-integrand `psiSB` and the lower summand read the clock only on their blocks, and the glued summands converge
-absolutely, then the class sum of the level is `c ζ lkRaw` of `Lvl.psiStep Ψ'`. -/
-theorem Lvl.classSum_flat_step (κ0 : KPar d) (hL : κ0.L ≠ 0)
-    (hF : ∀ k : ℕ, Summable fun n : Fin d → ℤ => |κ0.F k (κ0.base + latticePoint κ0.L n)|)
-    (hprime : IsPrimeGarden G) (lv : Lvl B) (pstar : lv.ι) (hk : 1 ≤ (lv.e pstar).1.val)
-    (hA0 : ∀ j, j ∉ {j | (lv.e j).1.val < (lv.e pstar).1.val} → j ≠ pstar →
-      IsEmpty (FamilyOperation (p := p) (kind := kind) (lv.state B RD hG layer hLayer) j))
-    (Ψ' : PsiT G d)
-    (hIH : ∀ (t0 t1 t2 : ℝ) (e f g h : Mom d),
-      (lv.next B RD hG layer hLayer pstar hk).classSum (p := p) (kind := kind) B RD hG layer hLayer κ0 t0 t1 t2 e f g h =
-        (coupling d κ0.L κ0.γ κ0.δ : ℂ) ^ clLocalOrder1 (lv.next B RD hG layer hLayer pstar hk).region *
-          clLocalZeta (lv.next B RD hG layer hLayer pstar hk).region *
-          lkRaw (lv.next B RD hG layer hLayer pstar hk).region κ0.L κ0.base Ψ' ![t0, t1, t2] ![e, f, g, h])
-    (hlocS : ∀ x (u u' : GBranch G.tree → ℝ), (∀ v ∈ (lv.split B RD hG layer hLayer pstar hk).sb.U, u v = u' v) →
-      psiSB (p := p) (kind := kind) κ0 (lv.state B RD hG layer hLayer) (lv.split B RD hG layer hLayer pstar hk) hprime x u =
-        psiSB (p := p) (kind := kind) κ0 (lv.state B RD hG layer hLayer) (lv.split B RD hG layer hLayer pstar hk) hprime x u')
-    (hlocT : ∀ x t' (u u' : GBranch G.tree → ℝ), (∀ v ∈ (lv.split B RD hG layer hLayer pstar hk).tb.U, u v = u' v) →
-      Ψ' x t' u = Ψ' x t' u')
-    (t0 t1 t2 : ℝ) (e f g h : Mom d)
-    (hAbs : GlueAbsConv (lv.split B RD hG layer hLayer pstar hk).RU (lv.split B RD hG layer hLayer pstar hk).RS
-      (lv.split B RD hG layer hLayer pstar hk).RT κ0.L κ0.base t0 t1 t2 e f g h
-      (Lvl.psiStep (p := p) (kind := kind) B RD hG layer hLayer κ0 lv pstar hk hprime Ψ')) :
-    lv.classSum (p := p) (kind := kind) B RD hG layer hLayer κ0 t0 t1 t2 e f g h =
-      (coupling d κ0.L κ0.γ κ0.δ : ℂ) ^ clLocalOrder1 lv.region * clLocalZeta lv.region *
-        lkRaw lv.region κ0.L κ0.base (Lvl.psiStep (p := p) (kind := kind) B RD hG layer hLayer κ0 lv pstar hk hprime Ψ')
-          ![t0, t1, t2] ![e, f, g, h] := by
-  rw [Lvl.classSum_nested (p := p) (kind := kind) B RD hG layer hLayer κ0 hL hF hprime lv pstar hk hA0 t0 t1 t2 e f g h]
-  exact flat_merge (p := p) (kind := kind) κ0 hL (lv.state B RD hG layer hLayer) (lv.split B RD hG layer hLayer pstar hk) hprime Ψ'
-    (fun t E F' => (lv.next B RD hG layer hLayer pstar hk).classSum (p := p) (kind := kind) B RD hG layer hLayer κ0 t t1 t2 E F' g h)
-    (lv.next B RD hG layer hLayer pstar hk).region lv.region t0 t1 t2 e f g h
-    (fun t E F' => hIH t t1 t2 E F' g h) hlocS hlocT hAbs
-
 end LvlStep
 
 end WaveTurbulence.VineEstS5C

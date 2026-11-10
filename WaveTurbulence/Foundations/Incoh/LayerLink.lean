@@ -72,11 +72,4 @@ theorem integrableOn_linkProduct {L : ℝ} (hL : 0 < L) (γ δ : ℝ) (Q : Fin n
     IntegrableOn (fun t => ∏ i, linkTimeFactor L γ δ (Q i) (t i)) I :=
   (integrableOn_pi_product (fun i => integrableOn_linkTimeFactor hL γ δ (Q i))).mono_set hI
 
-/-- Product domination for the literal source factors, before their one-link estimates are inserted. -/
-theorem norm_linkProduct_integral_le {L : ℝ} (hL : 0 < L) (γ δ : ℝ) (Q : Fin n → LayerLink d)
-    {I : Set (Fin n → Fin 2 → ℝ)} (hI : I ⊆ univ.pi (fun i => linkBox (Q i))) :
-    ‖∫ t in I, ∏ i, linkTimeFactor L γ δ (Q i) (t i)‖ ≤
-      ∏ i, ∫ t in linkBox (Q i), ‖linkTimeFactor L γ δ (Q i) t‖ :=
-  norm_setIntegral_pi_product_le hI (fun i => integrableOn_linkTimeFactor hL γ δ (Q i))
-
 end WaveTurbulence.Incoh

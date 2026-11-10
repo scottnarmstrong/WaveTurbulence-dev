@@ -81,13 +81,6 @@ variable {w d : ℕ} {S : Garden w} (D : ReconstructionData S) (hS : S.IsPlain)
 /-- The tree index of the chain of `β`. -/
 def pcRI : Fin w := (inflatedPosition S D.tree β.toNode).1
 
-/-- The chain of `β` sits at a garden root. -/
-def pcRR : Prop := (inflatedPosition S D.tree β.toNode).2 = []
-
-
-theorem pc_chain_val (a : GNode (nativeChainLayered D hS layer hLayer β).garden.tree) :
-    (chainContextNode D hS β a).1 =
-      ((inflatedPosition S D.tree β.toNode).1, (inflatedPosition S D.tree β.toNode).2 ++ a.1.2) := rfl
 
 theorem pc_chain_subtree :
     Comb.subtree (D.forest hS (inflatedPosition S D.tree β.toNode).1) (inflatedPosition S D.tree β.toNode).2 =
@@ -197,21 +190,6 @@ theorem pc_anch_ch (hcap : ∀ j ∈ J, (D.garden hS).tree j = TTree.leaf) {d' :
 variable (hcap : ∀ j ∈ J, (D.garden hS).tree j = TTree.leaf)
 include hcap
 
-/-- No branch at a non-lone chain node is a capped flower parent. -/
-theorem pc_not_cfp_chain (x : GNode (nativeChainLayered D hS layer hLayer β).garden.tree)
-    (hx : x.1.2 ≠ (D.tree β).lonePath) (B : GBranch (D.forest hS)) (hB : B.toNode = chainContextNode D hS β x) :
-    ¬ IsCapFlowerParent (layeredReconstruction D hS layer hLayer) J B := by
-  intro hcfp
-  have hnc : ∀ b, B ≠ D.coreBranch hS b := fun b he =>
-    hx ((pc_chain_core_iff D hS layer hLayer β x).mp ⟨b, hB.symm.trans (by rw [he])⟩)
-  have hin := (IntGeo.capParent_inCapNative D hS layer hLayer J hcap B hcfp hnc).1
-  rw [hB] at hin
-  exact IntGeo.not_inCapNative_of_slot D hS J (.inr β) (fun q h => by cases h) x hin
-
-omit hcap in
-theorem pc_nativeBr_inr_node (b : GBranch (nativeChainLayered D hS layer hLayer β).garden.tree) :
-    (MkSlotsB.nativeBr D hS (.inr β) b).toNode = chainContextNode D hS β b.toNode := Subtype.ext rfl
-
 omit hcap in
 theorem pc_lone_not_branch (b : GBranch (nativeChainLayered D hS layer hLayer β).garden.tree) :
     b.1.2 ≠ (D.tree β).lonePath := by
@@ -220,66 +198,6 @@ theorem pc_lone_not_branch (b : GBranch (nativeChainLayered D hS layer hLayer β
   rw [h] at hb
   exact Comb.TreePath.not_mem_branching_of_mem_leaves _
     (chain_lone_mem_leaves (D.tree β) (nodeSign S.sig β.1)) hb
-
-omit hcap in
-theorem pc_cfp_nativeBr_ch' (b : GBranch (nativeChainLayered D hS layer hLayer β).garden.tree) :
-    (MkSlotsB.nativeBr D hS (.inr β) b).1 =
-      ((inflatedPosition S D.tree β.toNode).1, (inflatedPosition S D.tree β.toNode).2 ++ b.1.2) := rfl
-
-/-- A chain branch is never a capped flower parent. -/
-theorem pc_cfp_nativeBr_ch (b : GBranch (nativeChainLayered D hS layer hLayer β).garden.tree) :
-    ¬ IsCapFlowerParent (layeredReconstruction D hS layer hLayer) J (MkSlotsB.nativeBr D hS (.inr β) b) :=
-  pc_not_cfp_chain D hS layer hLayer J β hcap b.toNode (pc_lone_not_branch D hS layer hLayer β b) _
-    (pc_nativeBr_inr_node D hS layer hLayer β b)
-
-omit hcap in
-/-- Root predicate at a chain branch. -/
-theorem pc_root_nativeBr_ch (b : GBranch (nativeChainLayered D hS layer hLayer β).garden.tree) :
-    (MkSlotsB.nativeBr D hS (.inr β) b).1.2 = [] ↔ b.1.2 = [] ∧ pcRR D β := by
-  show (inflatedPosition S D.tree β.toNode).2 ++ b.1.2 = [] ↔ _
-  rw [List.append_eq_nil_iff]
-  exact And.comm
-
-/-- `dParent` predicate at a chain branch: the parent of the lone leaf, below a capped flower parent core. -/
-theorem pc_par_nativeBr_ch (b : GBranch (nativeChainLayered D hS layer hLayer β).garden.tree) :
-    (∃ C : GBranch (D.forest hS), IsCapFlowerParent (layeredReconstruction D hS layer hLayer) J C ∧
-        C.IsChildOf (MkSlotsB.nativeBr D hS (.inr β) b)) ↔
-      (∃ i : Fin 3, b.1.2 ++ [i] = (D.tree β).lonePath) ∧
-        IsCapFlowerParent (layeredReconstruction D hS layer hLayer) J (D.coreBranch hS β) := by
-  constructor
-  · rintro ⟨C, hC, h1, i, h2⟩
-    have hCn : C.toNode = chainContextNode D hS β (b.child i) := by
-      apply Subtype.ext
-      show C.1 = ((inflatedPosition S D.tree β.toNode).1, (inflatedPosition S D.tree β.toNode).2 ++ (b.1.2 ++ [i]))
-      refine Prod.ext h1 ?_
-      rw [h2]
-      exact List.append_assoc _ _ _
-    by_cases hl : b.1.2 ++ [i] = (D.tree β).lonePath
-    · refine ⟨⟨i, hl⟩, ?_⟩
-      have hcore := (pc_chain_core_iff D hS layer hLayer β (b.child i)).mpr hl
-      obtain ⟨β', hβ'⟩ := hcore
-      have hβ : β' = β := by
-        have h3 := (pc_chain_core_iff D hS layer hLayer β (b.child i)).mpr hl
-        have h4 : chainContextNode D hS β (b.child i) = (D.coreBranch hS β).toNode := by
-          have ha : b.child i = (chainLoneLeaf (D.tree β) (nodeSign S.sig β.1)).toNode :=
-            Subtype.ext (Prod.ext (Subsingleton.elim _ _) hl)
-          rw [ha]
-          exact chainContextNode_lone D hS β
-        have h5 : nativeNodeMap D hS ⟨.inr β', (chainLoneLeaf (D.tree β') (nodeSign S.sig β'.1)).toNode⟩ =
-            nativeNodeMap D hS ⟨.inr β, (chainLoneLeaf (D.tree β) (nodeSign S.sig β.1)).toNode⟩ :=
-          (chainContextNode_lone D hS β').trans (hβ'.symm.trans (h4.trans (chainContextNode_lone D hS β).symm))
-        exact Sum.inr_injective (congrArg Sigma.fst (nativeNodeMap_injective D hS h5))
-      subst hβ
-      have hCv := congrArg Subtype.val (hCn.trans hβ')
-      have hCe : C = D.coreBranch hS β' := Subtype.ext hCv
-      rw [← hCe]
-      exact hC
-    · exact (pc_not_cfp_chain D hS layer hLayer J β hcap (b.child i) hl C hCn hC).elim
-  · rintro ⟨⟨i, hi⟩, hcb⟩
-    refine ⟨D.coreBranch hS β, hcb, rfl, i, ?_⟩
-    show (inflatedPosition S D.tree β.toNode).2 ++ (D.tree β).lonePath =
-      ((inflatedPosition S D.tree β.toNode).2 ++ b.1.2) ++ [i]
-    rw [← hi, List.append_assoc]
 
 /-! ### The stem at a chain node -/
 

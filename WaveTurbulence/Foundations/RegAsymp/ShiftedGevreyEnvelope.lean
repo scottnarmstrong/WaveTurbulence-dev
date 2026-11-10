@@ -57,13 +57,4 @@ theorem lintegral_shifted_gevrey_envelope_le {Λ : Type*} [MeasurableSpace Λ] {
       congr 1
       ring
 
-/-- Every fixed derivative shift has finite common weighted mass. -/
-theorem lintegral_shifted_gevrey_envelope_lt_top {Λ : Type*} [MeasurableSpace Λ] {μ : Measure Λ}
-    (s : ℕ) (G : ℕ → Λ → ℝ≥0∞) (hGm : ∀ k, Measurable (G k)) {N A : ℝ}
-    (hN : 0 ≤ N) (hA : 0 ≤ A)
-    (hG : ∀ k, ∫⁻ ω, G k ω ∂μ ≤ ENNReal.ofReal (N*A^(k+s)*(2*(k+s)).factorial)) :
-    ∫⁻ ω, (∑' k : ℕ, ENNReal.ofReal (1/((4*k).factorial:ℝ))*G k ω) ∂μ < ⊤ := by
-  exact (lintegral_shifted_gevrey_envelope_le s G hGm hN hG).trans_lt
-    (ENNReal.mul_lt_top ENNReal.ofReal_lt_top (summable_shifted_gevrey_ratio A hA s).tsum_ofReal_lt_top)
-
 end WaveTurbulence.RegAsymp

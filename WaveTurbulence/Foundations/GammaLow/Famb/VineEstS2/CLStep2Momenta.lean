@@ -6,7 +6,6 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.VineEst.VineEstS3.RowAlign
-public import WaveTurbulence.Foundations.VineEst.VineEstS2.CLStep2Kernel
 public import WaveTurbulence.Foundations.VineEst.VineEstS2.CLAffineBoundaryRows
 public import WaveTurbulence.Foundations.VineEst.VineEstS2.CLLinearSumintDatum
 public import WaveTurbulence.Foundations.VineEst.VineEstS2.SumintBoundaryNormalization

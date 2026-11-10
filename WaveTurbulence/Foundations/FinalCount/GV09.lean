@@ -67,11 +67,6 @@ theorem hinge_interiorL (hA : AncRel M₀ hf.s hf.anc) (hD : DartRel M₀ hf.s) 
     rw [hsg] at this
     exact Molecule.GapKind.noConfusion this
 
-/-- The recorded-pair condition (retired model conjunct; now the theorem `HRunL.desRec`). -/
-def DesRecL (C : CollData M₀) (hf : HSt V D₀) : Prop :=
-  ∀ j ∈ hf.s.M.atoms, ∀ p vis, hf.crec j = some (p, vis) → hf.anc j ∈ C.hinges →
-    ∃ f s, C.first (hf.anc j) = some f ∧ C.second (hf.anc j) = some s ∧ ({p.1, p.2} : Set D₀) = {f, s}
-
 /-- (iv) at a joint, the designated pair is held entirely by the joint half or not at all.  The recorded pair `p0` of the joint is the
 designated pair or its complement (R29, A1 / `Desig`). -/
 theorem hinge_joint_xorL {R₀ : ℕ} {P : Object M₀} (hA : AncRel M₀ hf.s hf.anc) (hD : DartRel M₀ hf.s) (hS : SubHypL R₀ M₀)

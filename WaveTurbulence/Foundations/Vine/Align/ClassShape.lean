@@ -111,20 +111,4 @@ noncomputable def classShape : SpliceShape (fun j => unitClBlock (y.2 j)) (stSt 
     (class_member_trace hM σ D hS layer hLayer hp y hy).choose_spec.2
     (class_member_trace hM σ D hS layer hLayer hp y hy).choose_spec.1
 
-/-- Disjointness of the exact carried unit blocks used in the consumer shape. -/
-theorem class_disj : Disj (fun j => unitClBlock (y.2 j)) :=
-  class_disjMk hM σ D hS layer hLayer hp y hy
-
-/-- R-HINGE in the exact class-member carrier. -/
-theorem classShape_hinges {R : ℕ} (hwidth : w = 2 * R) :
-    (classShape hM σ D hS layer hLayer hp y hy).hinges (class_disj hM σ D hS layer hLayer hp y hy) =
-      (stSt S σ).hinges := by
-  subst w
-  exact classShape_hingesMk hM σ D hS layer hLayer hp y hy (memberMarked_empty p kind hM σ D hS layer hLayer y)
-
-/-- R-IDX for every member of the consumer's finite class. -/
-theorem class_upper_tree_index (j : Fin (unitBlocks S σ).length) :
-    (y.2 j).blk.a.1.1 = (unitBlk hM σ j).upper.1.1 :=
-  class_upper_tree_indexMk hM σ D hS layer hLayer hp y hy j
-
 end WaveTurbulence.VineAlign

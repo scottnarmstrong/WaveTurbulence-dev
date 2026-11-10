@@ -1,7 +1,40 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 
-public import WaveTurbulence.Foundations.CountLemmas.CountTools
+public import WaveTurbulence.Foundations.CountLemmas.AtomCount
+public import WaveTurbulence.Foundations.CountLemmas.CountLemma
+public import Mathlib.Algebra.Ring.GeomSum
+public import Mathlib.Analysis.SpecialFunctions.Pow.Deriv
+public import Mathlib.Analysis.Calculus.IteratedDeriv.Defs
+public import Mathlib.Analysis.Calculus.BumpFunction.InnerProduct
+public import Mathlib.Analysis.Calculus.Deriv.Shift
+public import Mathlib.Analysis.SpecialFunctions.ExpDeriv
+public import Mathlib.MeasureTheory.Integral.IntervalIntegral.FundThmCalculus
+public import Mathlib.Analysis.Calculus.ContDiff.Deriv
+public import Mathlib.Analysis.Calculus.Deriv.Pow
+public import Mathlib.Analysis.SpecialFunctions.Gaussian.FourierTransform
+public import Mathlib.Analysis.SpecialFunctions.Pow.Continuity
+public import Mathlib.MeasureTheory.Integral.DominatedConvergence
+public import Mathlib.Analysis.SpecificLimits.Basic
+public import Mathlib.MeasureTheory.Integral.IntegralEqImproper
+public import Mathlib.Analysis.Calculus.Taylor
+public import Mathlib.Algebra.Order.Round
+public import Mathlib.Analysis.Calculus.IteratedDeriv.Lemmas
+public import Mathlib.Analysis.SumIntegralComparisons
+public import Mathlib.Analysis.SpecialFunctions.ImproperIntegrals
+public import Mathlib.Analysis.Calculus.MeanValue
+public import Mathlib.Analysis.Calculus.Deriv.Add
+public import Mathlib.Analysis.Calculus.ContDiff.Defs
+public import Mathlib.Algebra.BigOperators.Module
+public import Mathlib.Analysis.Normed.Module.Basic
+public import Mathlib.Algebra.BigOperators.Group.Finset.Basic
+public import Mathlib.Algebra.BigOperators.Intervals
+public import Mathlib.Analysis.SpecialFunctions.Log.Deriv
+public import Mathlib.MeasureTheory.Function.Floor
+public import Mathlib.Analysis.Fourier.PoissonSummation
+public import Mathlib.Analysis.Fourier.RiemannLebesgueLemma
+public import Mathlib.Topology.Order.IntermediateValue
+public import Mathlib.Tactic
 public import WaveTurbulence.Foundations.CountLemmas.PositiveAtomReduction
 import Mathlib.Tactic
 
@@ -22,17 +55,6 @@ open CountLemmas
 equations. The three free variables are labels 2,4,3 in source numbering. -/
 def k4Labels {E : Type*} [AddCommGroup E] (a b c x y z : E) : Fin 6 → E :=
   ![x+y-a,x,z,y,b+x-z,c+y+z]
-
-/-- All three fixed source momentum equations are satisfied exactly. -/
-theorem k4Labels_momentum {E : Type*} [AddCommGroup E] (a b c x y z : E) :
-    -k4Labels a b c x y z 0 + k4Labels a b c x y z 1 + k4Labels a b c x y z 3 = a ∧
-    -k4Labels a b c x y z 1 + k4Labels a b c x y z 2 + k4Labels a b c x y z 4 = b ∧
-    -k4Labels a b c x y z 2 - k4Labels a b c x y z 3 + k4Labels a b c x y z 5 = c := by
-  simp only [k4Labels,Matrix.cons_val_zero,Matrix.cons_val_succ]
-  constructor
-  · abel_nf
-    simp [neg_one_zsmul,add_assoc,add_left_comm,add_comm]
-  constructor <;> abel_nf <;> simp [neg_one_zsmul,add_assoc,add_left_comm,add_comm]
 
 /-- Conversely the source momentum equations recover all six labels from
 labels 2,4,3. No choice of lattice coset or loss of a finite multiplicity occurs. -/
@@ -70,30 +92,5 @@ theorem k4_third_energy {d : ℕ} (c y z : Mom d) :
       2*inner ℝ (c+y) z+‖c+y‖^2-‖y‖^2 := by
   rw [norm_add_sq_real]
   ring
-
-/-- The other mixed-sign first tuple is bilinear after the exact change
-of free label x↦x−y; both conserved centers remain arbitrary. -/
-theorem k4_first_energy_minus {d : ℕ} (a x y : Mom d) :
-    -‖x-y-a‖^2+‖x‖^2-‖y‖^2 = 2*inner ℝ (x-y) (y+a)-‖a‖^2 := by
-  simp only [norm_sub_sq_real,inner_sub_left,inner_add_right,real_inner_self_eq_norm_sq]
-  ring
-
-/-- The corresponding reversed internal-edge orientation still gives the
-same literal strip coefficient c−y. -/
-theorem k4_third_energy_minus {d : ℕ} (c y z : Mom d) :
-    -‖z‖^2+‖y‖^2+‖c-y+z‖^2 =
-      2*inner ℝ (c-y) z+‖c-y‖^2+‖y‖^2 := by
-  rw [norm_add_sq_real]
-  ring
-
-/-- The all-equal external-sign case of the three-tuple source problem
-has a positive-shell first fiber, rather than a mixed-sign bilinear one. -/
-theorem k4_first_energy_positive {d : ℕ} (a x y : Mom d) :
-    ‖a-x+y‖^2+‖x‖^2-‖y‖^2 =
-      2*‖x-(1/2 : ℝ) • (a+y)‖^2+‖a+y‖^2/2-‖y‖^2 := by
-  have hs : x+(a-x+y)=a+y := by abel
-  have he := two_vector_square_identity x (a-x+y)
-  rw [hs] at he
-  linarith only [he]
 
 end WaveTurbulence.MoleProp

@@ -2,7 +2,7 @@
 module
 
 public import WaveTurbulence.Foundations.Flower.FiltCoh.CoupleStarBound
-public import WaveTurbulence.Foundations.Flower.FiltCoh.SingleLayer
+public import WaveTurbulence.Foundations.Flower.FiltCoh.SymbolMass
 
 /-! # FILT-COH (b): multiplied couple kernels — leafwise scaling and layer translation
 
@@ -130,50 +130,5 @@ theorem coupleW_kernel_item_le (L γ δ : ℝ) (H : LeafProfiles 2 d) {Q : RegCp
   refine XNormRestr_shift_le θ Λ Λ (fun _ => (r : ℝ)) (fun ts hts => sub_mem_timeBox_self' hts)
     fun ts _ k _ => ?_
   exact kernelLeavesW_couple_shift L γ δ LG hdec.1 H r hlay (ts 0) (ts 1) k m
-
-/-- **Single-layer star-weighted couples in layer `r`**, individual leaf bounds, positive order: the
-`X^{θ,30d,30d}` bound `Ck (Ck δ)^n ∏ cω ∏ B_ℓ` for every `0 ≤ θ ≤ 1 - η/8`. -/
-theorem couple_star_layer_bound (hd : 3 ≤ d) {γ η : ℝ}
-    (hγ : γ ∈ Set.Ioo (0:ℝ) 1) (hη0 : 0 < η) (hη : η ≤ 1/20)
-    (hηγ : η ≤ ((d:ℝ)-1)*(1-γ)) {θ : ℝ} (hθ0 : 0 ≤ θ) (hθ : θ ≤ 1-η/8) :
-    ∃ Ck : ℝ, 1 ≤ Ck ∧ ∀ Aorder : ℝ, ∃ L₀ : ℝ, ∀ L : ℝ, L₀ ≤ L →
-      ∀ δ : ℝ, L^(-(η/2)) ≤ 2*δ → 2*δ ≤ 1 →
-      ∀ n : ℕ, 0 < n → (n:ℝ) ≤ Real.log L^Aorder →
-      ∀ Q : RegCpl, Q.wf = true → Q.size = 2*n →
-      ∀ (LG : LayeredGarden 2), Q.Decodes LG.garden → ∀ r : ℕ, (∀ a, LG.layer a = r) →
-      ∀ (H : LeafProfiles 2 d) (B : Fin 2 × Path → NNReal), LeafwiseControlled LG H B →
-      ∀ (Sset : Finset (GNode LG.garden.tree)) (ω : GNode LG.garden.tree → IncTop.Star d → ℂ)
-        (cω : GNode LG.garden.tree → ℝ), (∀ a ∈ Sset, IncTop.StarPresented (30*d) (ω a) (cω a)) →
-      XNormRestr θ (30*d) (30*d) (timeBox r r) Set.univ
-        (fun ts k => Flower.Stage1W.kernelLeavesW L γ δ LG H
-          (fun b => if b.1.1 = 0 then ts 0 else ts 1) 0 k (fun _ => 0) 0 (IncTop.starWeight Sset ω)) ≤
-        ENNReal.ofReal (Ck*(Ck*δ)^n) * (∏ a ∈ Sset, ENNReal.ofReal (cω a)) *
-          ENNReal.ofReal (leafSizeProduct LG B) := by
-  obtain ⟨Ck, hCk, hst⟩ := exists_couple_star_bound_theta hd hγ hη0 hη hηγ hθ0 hθ zero_le_one
-  refine ⟨Ck, hCk, fun Aorder => ?_⟩
-  obtain ⟨L₀, hL₀⟩ := hst Aorder
-  refine ⟨L₀, fun L hL δ hδ hδ1 n hn hnlog Q hwf hsz LG hdec r hlay H B hctl Sset ω cω hpres => ?_⟩
-  have hd1 : 1 ≤ d := by omega
-  have hT : ∀ t ∈ timeBox (0:ℝ) 0, ∀ i, t i ∈ Set.Icc (0:ℝ) 1 := by
-    intro t ht i
-    have hh : t 0 ∈ Set.Icc (0:ℝ) 1 ∧ t 1 ∈ Set.Icc (0:ℝ) 1 := by
-      simpa only [timeBox,Set.mem_ofPred_eq,zero_add] using ht
-    fin_cases i
-    · exact hh.1
-    · exact hh.2
-  have hctl0 : LeafwiseControlled (layer0 LG) H B := hctl
-  have hdec0 : Q.Decodes (layer0 LG).garden := hdec
-  have hfin : ENNReal.ofReal (Ck*(Ck*δ)^n) * (∏ a ∈ Sset, ENNReal.ofReal (cω a)) ≠ ⊤ :=
-    ENNReal.mul_ne_top ENNReal.ofReal_ne_top (ENNReal.prod_ne_top fun _ _ => ENNReal.ofReal_ne_top)
-  have hsc := coupleW_kernel_scaled L γ δ θ hd1 (layer0 LG) (IncTop.starWeight Sset ω) (timeBox 0 0) _ hfin
-    (fun H' hH' => by
-      have hF : ∀ z, spatialNorm (40*d) (40*d) (addrFam H' z) ≤ ENNReal.ofReal 1 := fun z => by
-        have := hH' z
-        rwa [NormBridgeScratch.SNormR_eq_spatialNorm] at this
-      exact hL₀ L hL δ hδ hδ1 n hn hnlog Q hwf hsz (layer0 LG) hdec0 (fun _ => rfl) H' hF
-        (timeBox 0 0) hT Sset ω cω hpres) H B hctl0
-  refine (coupleW_kernel_item_le L γ δ H hdec hlay (IncTop.starWeight Sset ω) hsc).trans ?_
-  have e0 : leafSizeProduct (layer0 LG) B = leafSizeProduct LG B := rfl
-  rw [e0, mul_comm]
 
 end WaveTurbulence.Flower.FiltCoh

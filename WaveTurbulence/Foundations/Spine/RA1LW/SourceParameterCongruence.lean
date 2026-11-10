@@ -1,7 +1,6 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 
-public import WaveTurbulence.Foundations.Spine.RA1LW.Base
 public import WaveTurbulence.Foundations.Spine.RA1LW.SourceType2Products
 public import WaveTurbulence.Foundations.IncohInst.Links.Construct5
 
@@ -10,7 +9,6 @@ public import WaveTurbulence.Foundations.IncohInst.Links.Construct5
 public section
 noncomputable section
 namespace WaveTurbulence.RA1Leafwise
-open WaveTurbulence.RegAsymp
 open Links Reg TTree
 
 variable {V : Type*} [AddCommGroup V] {w : ℕ}

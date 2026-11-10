@@ -20,15 +20,6 @@ noncomputable def timeIdx (ev eu : Fin n → A) (hinj : Function.Injective (Sum.
   (Equiv.sumCongr (Equiv.ofInjective _ hinj) (Equiv.refl _)).trans
     (Equiv.sumCompl (fun a : A => a ∈ Set.range (Sum.elim ev eu)))
 
-lemma timeIdx_inl_inl (ev eu : Fin n → A) (hinj : Function.Injective (Sum.elim ev eu)) (k : Fin n) :
-    timeIdx ev eu hinj (Sum.inl (Sum.inl k)) = ev k := rfl
-
-lemma timeIdx_inl_inr (ev eu : Fin n → A) (hinj : Function.Injective (Sum.elim ev eu)) (k : Fin n) :
-    timeIdx ev eu hinj (Sum.inl (Sum.inr k)) = eu k := rfl
-
-lemma timeIdx_inr (ev eu : Fin n → A) (hinj : Function.Injective (Sum.elim ev eu))
-    (r : {a : A // a ∉ Set.range (Sum.elim ev eu)}) : timeIdx ev eu hinj (Sum.inr r) = r.1 := rfl
-
 /-- The measure-preserving chart of the time coordinates. -/
 noncomputable def timeChart (ev eu : Fin n → A) (hinj : Function.Injective (Sum.elim ev eu)) :
     (A → ℝ) ≃ᵐ ((Fin n → ℝ × ℝ) × ({a : A // a ∉ Set.range (Sum.elim ev eu)} → ℝ)) :=

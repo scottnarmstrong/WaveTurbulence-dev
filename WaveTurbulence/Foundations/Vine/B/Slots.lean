@@ -31,19 +31,6 @@ open TTree WaveTurbulence.RegRed WaveTurbulence.RedSplice Finset WaveTurbulence.
 variable {w d : ℕ} {S : Garden w} {J : Type} [Fintype J] [DecidableEq J] {blk : J → CLBlock S}
   {Gsb : Garden w}
 
-/-- The mode `e^{πi f t}`. -/
-noncomputable def modeExp (f t : ℝ) : ℂ := Complex.exp (((Real.pi * f * t : ℝ) : ℂ) * Complex.I)
-
-theorem modeExp_zero (t : ℝ) : modeExp 0 t = 1 := by simp [modeExp]
-
-theorem norm_modeExp (f t : ℝ) : ‖modeExp f t‖ = 1 := by
-  unfold modeExp
-  exact Complex.norm_exp_ofReal_mul_I _
-
-theorem continuous_modeExp (f : ℝ) : Continuous (modeExp f) := by
-  unfold modeExp
-  fun_prop
-
 variable (blk) in
 /-- The regional slots of unit `j`. -/
 noncomputable def regSlots (hS : S.IsPlain) (j : J) : Finset (ReplacementSlot S) :=
@@ -140,92 +127,6 @@ theorem clkOfNode_nonroot (x : GNode S.tree) (hn : x.1.2 ≠ []) : clkOfNode S x
   unfold clkOfNode
   rw [nodeToSlot, dite_eq_right hn]
 
-/-- An outer slot reads a unit interior clock only at a lower joint. -/
-theorem argSrc_outer (hS : S.IsPlain) {s : ReplacementSlot S} (hs : s ∈ outerSlots blk hS) (i : Fin 2)
-    {v : GBranch S.tree} {j : J} (hv : argSrc hS s i = Sum.inr v) (hvj : v ∈ inter blk j) : v = (blk j).lower := by
-  have hvm := mem_inter.mp hvj
-  have key : ∀ x : GNode S.tree, x ∉ clRealizationNodes S (blk j).atoms → clkOfNode S x = Sum.inr v →
-      v = (blk j).lower := by
-    intro x hx hc
-    by_cases hn : x.1.2 = []
-    · unfold clkOfNode at hc
-      rw [nodeToSlot, dif_pos hn] at hc
-      cases hc
-    · rw [clkOfNode_nonroot x hn] at hc
-      have hpv : x.parent hn = v := Sum.inr_injective hc
-      obtain ⟨k, hk⟩ := child_parent x hn
-      rw [hpv] at hk
-      rw [← hk] at hx
-      exact (ext_child_lower (blk j) hvm.1 hvm.2 k hx).1
-  rcases s with p | c
-  · have h := outer_pair_not_real hS hs j
-    fin_cases i
-    · exact key _ h.1 (by simpa [argSrc] using hv)
-    · exact key _ h.2 (by simpa [argSrc] using hv)
-  · have h := outer_branch_not_inter hS hs j
-    fin_cases i
-    · have hc : clkOfNode S c.toNode = Sum.inr v := by simpa [argSrc] using hv
-      refine key _ (fun hr => ?_) hc
-      have hca : c ∈ (blk j).atoms := (branch_real_iff _ _).mp hr
-      have hcu : c = (blk j).upper := by
-        by_contra hne; exact h (mem_inter.mpr ⟨hca, hne⟩)
-      by_cases hn : c.toNode.1.2 = []
-      · unfold clkOfNode at hc
-        rw [nodeToSlot, dif_pos hn] at hc
-        cases hc
-      · rw [clkOfNode_nonroot _ hn] at hc
-        have hpv : c.toNode.parent hn = v := Sum.inr_injective hc
-        subst hcu
-        exact upper_parent_not_mem (blk j) hn (hpv ▸ hvm.1)
-    · have : c = v := by simpa [argSrc] using hv
-      subst this
-      exact (h hvj).elim
-
 /-! ## Routing the outer frequencies -/
-
-variable (blk) in
-/-- The total outer frequency at a clock source. -/
-noncomputable def freqAt (hS : S.IsPlain) (m : ReplacementSlot S → Fin 2 → ℝ) (y : ClkSrc S) : ℝ := by
-  classical
-  exact ∑ s ∈ outerSlots blk hS, ∑ i, if argSrc hS s i = y then m s i else 0
-
-theorem route_sum (hS : S.IsPlain) (m : ReplacementSlot S → Fin 2 → ℝ) (c : ClkSrc S → ℝ) :
-    ∑ s ∈ outerSlots blk hS, (Real.pi * m s 0 * c (argSrc hS s 0) + Real.pi * m s 1 * c (argSrc hS s 1)) =
-      ∑ y, Real.pi * freqAt blk hS m y * c y := by
-  classical
-  unfold freqAt
-  simp only [Finset.mul_sum, Finset.sum_mul]
-  rw [Finset.sum_comm]
-  refine Finset.sum_congr rfl fun s _ => ?_
-  rw [Finset.sum_comm, Fin.sum_univ_two]
-  simp only [mul_ite, ite_mul, mul_zero, zero_mul]
-  rw [Finset.sum_ite_eq, Finset.sum_ite_eq]
-  simp
-
-theorem prod_modeExp_route (hS : S.IsPlain) (m : ReplacementSlot S → Fin 2 → ℝ) (c : ClkSrc S → ℝ) :
-    ∏ s ∈ outerSlots blk hS, (modeExp (m s 0) (c (argSrc hS s 0)) * modeExp (m s 1) (c (argSrc hS s 1))) =
-      ∏ y, modeExp (freqAt blk hS m y) (c y) := by
-  have h1 : ∀ s, modeExp (m s 0) (c (argSrc hS s 0)) * modeExp (m s 1) (c (argSrc hS s 1)) =
-      Complex.exp ((((Real.pi * m s 0 * c (argSrc hS s 0) + Real.pi * m s 1 * c (argSrc hS s 1)) : ℝ) : ℂ) *
-        Complex.I) := by
-    intro s
-    unfold modeExp
-    rw [← Complex.exp_add]
-    congr 1
-    push_cast; ring
-  simp_rw [h1]
-  unfold modeExp
-  rw [← Complex.exp_sum, ← Complex.exp_sum, ← Finset.sum_mul, ← Finset.sum_mul]
-  congr 2
-  rw [← Complex.ofReal_sum, ← Complex.ofReal_sum, route_sum]
-
-theorem freqAt_inter (hS : S.IsPlain) (m : ReplacementSlot S → Fin 2 → ℝ) {j : J} {v : GBranch S.tree}
-    (hv : v ∈ inter blk j) (hne : v ≠ (blk j).lower) : freqAt blk hS m (Sum.inr v) = 0 := by
-  classical
-  unfold freqAt
-  refine Finset.sum_eq_zero fun s hs => Finset.sum_eq_zero fun i _ => ?_
-  rw [if_neg]
-  intro h
-  exact hne (argSrc_outer hS hs i h hv)
 
 end WaveTurbulence.VineB

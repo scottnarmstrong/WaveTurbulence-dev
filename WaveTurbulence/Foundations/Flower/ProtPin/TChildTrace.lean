@@ -55,43 +55,6 @@ def tcT1F (Q : RegCpl) (LGc : LayeredGarden 2) (j : Fin 2) (p : ℕ) : Prop :=
 def tcT2 (Q : RegCpl) (_LGc : LayeredGarden 2) (_j : Fin 2) (_p : ℕ) : Prop :=
   ∃ Xp Xm Qlp, Q = RegCpl.type2 Xp Xm Qlp
 
-theorem tcTraceOn_mono {θ Ct Ct' : ℝ} {Cnd : RegCpl → (LGc : LayeredGarden 2) → Fin 2 → ℕ → Prop}
-    (hle : Ct ≤ Ct') (h : TcTraceOn θ Ct Cnd) : TcTraceOn θ Ct' Cnd := by
-  intro P C₁a C₂a C₁b C₂b K hθc p hp nr hn Q LGc hwf hsz hdec hle' hamb j hj hjb hC s hps hsp Hc Bc hHc S ω cω
-    hpres F M hM Fu Mu hMu k
-  refine (h K hθc hp hn Q LGc hwf hsz hdec hle' hamb j hj hjb hC hps hsp Hc Bc hHc S ω cω hpres F M hM Fu Mu hMu
-    k).trans (mul_le_mul' (ENNReal.ofReal_le_ofReal (mul_le_mul_of_nonneg_right hle ?_)) le_rfl)
-  have hL0 : (0 : ℝ) ≤ P.L := by linarith [K.hL]
-  have hC1 : 0 ≤ P.C₁ := K.ha0.trans K.ha
-  have := rb_nonneg hC1 K.hδ hL0 (nr - 1) (LGc.incoherency Q.links)
-  have := starCost_nonneg' S cω
-  have : 0 ≤ leafSizeProduct LGc Bc := Finset.prod_nonneg fun _ _ => NNReal.coe_nonneg _
-  positivity
-
-/-- **`TcTraceU` from its three cases.** -/
-theorem tc_traceU_of_cases {θ Ct : ℝ} (h1 : TcTraceOn θ Ct tcT1M) (h2 : TcTraceOn θ Ct tcT1F)
-    (h3 : TcTraceOn θ Ct tcT2) : TcTraceU θ Ct := by
-  intro P C₁a C₂a C₁b C₂b K hθc p hp nr hn Q LGc hwf hsz hdec hle hamb j hj hjb s hps hsp Hc Bc hHc S ω cω
-    hpres F M hM Fu Mu hMu k
-  cases Q with
-  | triv =>
-    exfalso
-    have ht := tree_of_decodes hdec j
-    split_ifs at ht <;> rw [ht] at hjb <;> simp [RegCpl.trees, TTree.branching] at hjb
-  | type1 c Q₁ Q₂ Q₃ =>
-    have hpl : layerAt LGc (t1sw j, []) ≤ p := by
-      have hm : ([] : TTree.Path) ∈ (LGc.garden.tree (t1sw j)).nodes := TTree.nil_mem_nodes _
-      rw [layerAt_node LGc (⟨(t1sw j, []), hm⟩ : GNode LGc.garden.tree)]
-      exact hle _
-    rcases hpl.lt_or_eq with hlt | heq
-    · exact h2 K hθc hp hn _ LGc hwf hsz hdec hle hamb j hj hjb ⟨⟨c, Q₁, Q₂, Q₃, rfl⟩, hlt⟩ hps hsp Hc Bc hHc
-        S ω cω hpres F M hM Fu Mu hMu k
-    · exact h1 K hθc hp hn _ LGc hwf hsz hdec hle hamb j hj hjb ⟨⟨c, Q₁, Q₂, Q₃, rfl⟩, heq⟩ hps hsp Hc Bc hHc
-        S ω cω hpres F M hM Fu Mu hMu k
-  | type2 Xp Xm Qlp =>
-    exact h3 K hθc hp hn _ LGc hwf hsz hdec hle hamb j hj hjb ⟨Xp, Xm, Qlp, rfl⟩ hps hsp Hc Bc hHc
-      S ω cω hpres F M hM Fu Mu hMu k
-
 /-- **The root trace of a type-1 side couple with both roots in layer `p`** (o104 Prop 7.4 (b), the moving case). -/
 theorem tc_trace_t1_move {θ : ℝ} (hθ0 : 0 ≤ θ) (hθ1 : θ ≤ 1 / 4) : ∃ Ct : ℝ, 0 ≤ Ct ∧ TcTraceOn θ Ct tcT1M := by
   obtain ⟨C, hC, hmove⟩ := tc_t1_move hθ0 hθ1

@@ -210,12 +210,6 @@ theorem att_cases : G.att = .none ∨ (∃ i, G.att = .pa i) ∨ ∃ i, G.att = 
   | pa i => exact Or.inr (Or.inl ⟨i, rfl⟩)
   | pb i => exact Or.inr (Or.inr ⟨i, rfl⟩)
 
-theorem s_pos_of (h : G.att ≠ .none) : 1 ≤ G.L.s := by
-  rcases G.att_cases with h' | ⟨i, h'⟩ | ⟨i, h'⟩
-  · exact absurd h' h
-  · exact (G.A.case_pa h').1
-  · exact (G.A.case_pb h').1
-
 theorem att_ne_none_of_s (hs : 1 ≤ G.L.s) : G.att ≠ .none := fun h => by
   have := (G.A.case_none h).1; omega
 
@@ -231,11 +225,6 @@ theorem core_valid : G.Valid G.core := by
   rcases G.hcore with ⟨-, i, hc, hi, -⟩ | ⟨-, hs, hc, -⟩ <;> rw [hc]
   · exact hi
   · show G.L.s - 1 < G.L.s; omega
-
-theorem jnode_ne_core {n : Node} (h : G.jnode = some n) : n ≠ G.core := by
-  obtain ⟨i, hi, rfl⟩ := G.jnode_eq.mp h
-  rw [G.core_of_ne_none (by rw [hi]; simp)]
-  simp
 
 theorem r_pos (h : G.att ≠ .pb G.L.r) : 1 ≤ G.L.r := by
   by_contra hr

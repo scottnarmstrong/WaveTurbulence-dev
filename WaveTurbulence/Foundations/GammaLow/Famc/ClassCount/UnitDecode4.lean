@@ -36,10 +36,6 @@ open Finset WaveTurbulence WaveTurbulence.Vine WaveTurbulence.GammaLow.FinalCoun
 
 
 
-theorem ingPosOf_pos {sz : ℕ} (hsz : 2 ≤ sz) {sw : Bool} {t : ℕ} (ht : t < sz) (hne : t ≠ if sw then 1 else 0) (p : ℕ) :
-    p + 1 ≤ ingPosOf p sz sw t := by
-  unfold ingPosOf; split_ifs at hne ⊢ <;> first | omega | contradiction
-
 variable {V D : Type} [DecidableEq V] [Fintype D] [DecidableEq D] {γ : ℝ} [Fact TVineF1Input] [Fact VinechainlemPrimeInput] [Fact (γ ≤ 1 / 2)] [Fact TVineIsoInvariant] [Fact TVineStructInputs]
 
 /-- `groupArcs` only depends on the labels of the atoms of the group. -/
@@ -56,10 +52,6 @@ theorem unitArcsAux_append (c : IngCodeG) : ∀ (cs : List IngCodeG) (p : ℕ), 
     simp only [List.cons_append, unitArcsAux, this, List.append_assoc]
     rw [hw]
 
-
-theorem unitWeight_cons (c : IngCodeG) (cs : List IngCodeG) :
-    unitWeight (c :: cs) = (c.size - 1) + unitWeight cs := by
-  simp [unitWeight]
 
 theorem unitWeight_append_single (cs : List IngCodeG) (c : IngCodeG) :
     unitWeight (cs ++ [c]) = unitWeight cs + (c.size - 1) := by

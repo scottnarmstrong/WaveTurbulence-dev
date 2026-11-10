@@ -1,7 +1,8 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 public import WaveTurbulence.Foundations.Spine.CoherentCarrier
-public import WaveTurbulence.Foundations.Spine.CoherentSourceTypes
+public import WaveTurbulence.Foundations.Spine.CoherentObjects
+public import WaveTurbulence.Foundations.Spine.AnchorTypes
 /-! Finite top-layer carriers and the exact low-order split used to consume Prop 6.2. -/
 @[expose] public section
 open WaveTurbulence.Induct

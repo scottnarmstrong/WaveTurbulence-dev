@@ -86,12 +86,4 @@ theorem nodeCentre_count (cl : GLeaf tree → (Fin d → ℤ)) :
   rw [← card_gbranch tree]
   exact hC
 
-/-- **`treelemma` (2), the covering statement.** -/
-theorem mem_nodeCentre_set {cl : GLeaf tree → (Fin d → ℤ)} {cn : GNode tree → (Fin d → ℤ)}
-    (hleaf : ∀ ℓ : GLeaf tree, cn ℓ.toNode = cl ℓ) (δ : GNode tree → Mom d)
-    (hδ : ∀ b : GBranch tree, δ b.toNode = δ (b.child 0) - δ (b.child 1) + δ (b.child 2))
-    (hclose : ∀ a, ‖δ a - latPt d (cn a)‖ ≤ 1) :
-    cn ∈ {cn : GNode tree → (Fin d → ℤ) | NodeCentreAdm cl cn} :=
-  nodeCentreAdm_of_close hleaf δ hδ hclose
-
 end WaveTurbulence.RepAnalytic

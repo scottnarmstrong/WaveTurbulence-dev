@@ -163,17 +163,6 @@ theorem measurable_initialCoeff {Ω : Type*} [MeasurableSpace Ω] (L : ℝ) (φi
 theorem kineticTime_rpow_neg_pos (hL : 0 < L) (γ : ℝ) : 0 < kineticTime (L ^ (-γ)) := by
   rw [kineticTime_rpow_neg hL]; positivity
 
-/-- **Measurability of the solvable event** (packet NLS goal 6; the frozen conjunct
-`MeasurableSet (solvableEvent …)` of Theorem 1.1). -/
-theorem measurableSet_solvableEvent {Ω : Type*} [MeasurableSpace Ω] {α : ℝ} (hL : 0 < L)
-    (hT : 0 < T) (hα : α = L ^ (-γ)) (φin : Mom d → ℝ) {g : (Fin d → ℤ) → Ω → ℂ}
-    (hg : ∀ n, Measurable (g n)) : MeasurableSet (solvableEvent L α T φin g) := by
-  subst hα
-  have hk := kineticTime_rpow_neg_pos hL γ
-  rw [solvableEvent_eq_preimage]
-  exact measurable_initialCoeff L φin hg
-    (measurableSet_smoothDataSet hL one_pos (div_pos hT hk) (by field_simp))
-
 /-- **Measurability of the integrand** of Theorem 1.1 (packet NLS goal 6): for any selection `U`
 of smooth solutions on the solvable event `E`, `ω ↦ 1_E(ω) ‖û(U ω t, n)‖²` is measurable. -/
 theorem measurable_indicator_norm_torusFourierCoeff_sq {Ω : Type*} [MeasurableSpace Ω] {α : ℝ}

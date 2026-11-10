@@ -55,28 +55,5 @@ theorem hyper_front_labels_pos (hM : M.IsMolecule) {x y : V}
   rw [Sym2.map_mk,Sym2.map_mk,C.label_upper r hr le_rfl,C.label_lower r hr le_rfl] at hh
   exact hh.symm
 
-/-- With no selected rung, both triangle legs and no other atoms are the
-hyper-block joints. -/
-theorem hyper_front_joints_zero (hM : M.IsMolecule) {x y : V}
-    (hH : Mole.IsHyperBlock M A x y) (hr : r=0) :
-    ({C.upper,C.lower} : Finset V)={x,y} := by
-  have hfront := C.front_neighbors_absent
-  rw [show r+1=1 by omega] at hfront
-  have huj := hyperBlock_joint_of_degree_le_three M hH C.triangle_mem.2.1
-    (rung_degree_le_three M hM C.side.upper_row C.triangle_mem.2.1 (Or.inr hfront.1))
-  have hvj := hyperBlock_joint_of_degree_le_three M hH C.triangle_mem.2.2
-    (rung_degree_le_three M hM C.side.lower_row C.triangle_mem.2.2 (Or.inr hfront.2))
-  have hne : C.upper ≠ C.lower := by
-    intro hh
-    have he : (1 : Fin 5)=2 := C.side.distinct (by exact hh)
-    have hv := congrArg Fin.val he
-    norm_num at hv
-  rcases huj with hux | huy <;> rcases hvj with hvx | hvy
-  · exact False.elim (hne (hux.trans hvx.symm))
-  · rw [hux,hvy]
-  · rw [huy,hvx]
-    exact pair_comm _ _
-  · exact False.elim (hne (huy.trans hvy.symm))
-
 end CapPrefixData
 end WaveTurbulence.Vine

@@ -67,11 +67,6 @@ theorem UnifRapid.exists_majorant {b : ℝ → (Fin d → ℤ) → ℂ} (hb : Un
     _ = C * ((1 + ‖n‖) ^ (d + 1))⁻¹ := by field_simp
     _ ≤ max C 0 * ((1 + ‖n‖) ^ (d + 1))⁻¹ := by gcongr; exact le_max_left _ _
 
-theorem UnifRapid.summable_weight {b : ℝ → (Fin d → ℤ) → ℂ} (hb : UnifRapid T b) (k : ℕ) :
-    ∃ P : (Fin d → ℤ) → ℝ, Summable P ∧ ∀ t ∈ Icc 0 T, ∀ n, (1 + ‖n‖) ^ k * ‖b t n‖ ≤ P n := by
-  obtain ⟨C, -, hC⟩ := hb.exists_majorant k
-  exact ⟨_, summable_inv_one_add_norm_pow.mul_left C, hC⟩
-
 theorem UnifRapid.of_norm_le {b c : ℝ → (Fin d → ℤ) → ℂ} (hb : UnifRapid T b) {A : ℝ} {k : ℕ}
     (h : ∀ t ∈ Icc 0 T, ∀ n, ‖c t n‖ ≤ A * (1 + ‖n‖) ^ k * ‖b t n‖) : UnifRapid T c := by
   intro N
@@ -174,17 +169,6 @@ theorem GoodCurve.mono {m : ℕ} {b : ℝ → (Fin d → ℤ) → ℂ} (hb : Goo
   | succ m ih =>
     obtain ⟨hc, hr, b', hb', hd⟩ := hb
     exact ⟨hc, hr, b', ih hb', hd⟩
-
-theorem GoodCurve.of_le {m k : ℕ} (hmk : k ≤ m) {b : ℝ → (Fin d → ℤ) → ℂ}
-    (hb : GoodCurve T m b) : GoodCurve T k b := by
-  induction m with
-  | zero => obtain rfl : k = 0 := by omega
-            exact hb
-  | succ m ih =>
-    rcases Nat.lt_or_ge k (m + 1) with h | h
-    · exact ih (by omega) hb.mono
-    · obtain rfl : k = m + 1 := by omega
-      exact hb
 
 /-- Multiplication by a polynomially bounded weight. -/
 theorem GoodCurve.weight {m : ℕ} {b : ℝ → (Fin d → ℤ) → ℂ} (hb : GoodCurve T m b)

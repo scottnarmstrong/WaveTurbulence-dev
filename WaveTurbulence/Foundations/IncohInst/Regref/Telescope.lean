@@ -30,12 +30,6 @@ namespace WaveTurbulence.Regref
 
 open TTree
 
-theorem mem_pre_cons {i j : Fin 3} {S : Finset Path} {q : Path} : j :: q ∈ pre i S ↔ i = j ∧ q ∈ S := by
-  simp only [pre, Finset.mem_image, List.cons.injEq]
-  constructor
-  · rintro ⟨q', hq', rfl, rfl⟩; exact ⟨rfl, hq'⟩
-  · rintro ⟨rfl, hq⟩; exact ⟨q, hq, rfl, rfl⟩
-
 theorem sum_pre {M : Type*} [AddCommMonoid M] (i : Fin 3) (S : Finset Path) (f : Path → M) :
     ∑ p ∈ pre i S, f p = ∑ q ∈ S, f (i :: q) := by
   rw [pre, Finset.sum_image fun _ _ _ _ h => List.cons_injective h]

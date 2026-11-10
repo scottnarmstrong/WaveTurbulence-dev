@@ -257,12 +257,6 @@ class. -/
   clLocalKernelW Bs.data Bs.plain (clRegionData Bs.skeleton c.block c.cl) L γ δ F (stateLayer Bs)
     (stateLayer_isLayering Bs) base W t0 t1 t2 e' f g h
 
-theorem twistedLocalKernelW_one {d : ℕ} (Bs : FamilyReconstruction w κ) (c : ChainAt Bs.skeleton Bs.family)
-    (L γ δ : ℝ) (F : ℕ → Mom d → ℝ) (base : Mom d) (t0 t1 t2 : ℝ) (e' f g h : Mom d) :
-    twistedLocalKernelW Bs c L γ δ F base (fun _ => 1) t0 t1 t2 e' f g h =
-      twistedLocalKernel Bs c L γ δ F base t0 t1 t2 e' f g h :=
-  clLocalKernelW_one _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-
 variable {Q : ι → Prop} (hQ : ∀ k, Q (e k))
 
 /-- The unit kernel of the big state is the weighted twisted kernel of the restricted state. -/

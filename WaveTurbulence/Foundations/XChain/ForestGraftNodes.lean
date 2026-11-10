@@ -53,22 +53,10 @@ noncomputable def graftForestBranchEquiv {w : ℕ} (top : Fin w → TTree)
         (Equiv.sumCongr (forestBranchSigmaEquiv top).symm
           (forestAttachedPathEquiv top f TTree.branching))))).symm
 
-theorem graftForestNodeEquiv_top {w : ℕ} (top : Fin w → TTree)
-    (f : Fin w → TTree.Path → TTree) (b : GBranch top) :
-    (graftForestNodeEquiv top f (.inl b)).1 = b.1 := by
-  rcases b with ⟨⟨j, b⟩, hb⟩
-  rfl
-
 theorem graftForestNodeEquiv_lower {w : ℕ} (top : Fin w → TTree)
     (f : Fin w → TTree.Path → TTree) (x : ForestAttachedNode top f) :
     (graftForestNodeEquiv top f (.inr x)).1 = (x.1.1.1, x.1.1.2 ++ x.2.1) := by
   rcases x with ⟨⟨⟨j, a⟩, ha⟩, ⟨b, hb⟩⟩
-  rfl
-
-theorem graftForestBranchEquiv_top {w : ℕ} (top : Fin w → TTree)
-    (f : Fin w → TTree.Path → TTree) (b : GBranch top) :
-    (graftForestBranchEquiv top f (.inl b)).1 = b.1 := by
-  rcases b with ⟨⟨j, b⟩, hb⟩
   rfl
 
 theorem graftForestBranchEquiv_lower {w : ℕ} (top : Fin w → TTree)

@@ -20,11 +20,6 @@ open WaveTurbulence.Incoh
 @[expose] def rootLocalOverlapConstantSpatial (d : ℕ) : ℝ :=
   (2 * (treeRootCutoffRadiusSpatial d + 1) + 1) ^ d
 
-theorem rootLocalOverlapConstant_posSpatial (d : ℕ) : 0 < rootLocalOverlapConstantSpatial d := by
-  unfold rootLocalOverlapConstantSpatial
-  have hR := treeRootCutoffRadius_nonnegSpatial d
-  positivity
-
 theorem card_rootLocalCover_leSpatial {d : ℕ} (k : Mom d) :
     ((rootLocalCoverSpatial k).card : ℝ) ≤ rootLocalOverlapConstantSpatial d :=
   ApproxNT.card_intBox_le k (by have hR := treeRootCutoffRadius_nonnegSpatial d; positivity)

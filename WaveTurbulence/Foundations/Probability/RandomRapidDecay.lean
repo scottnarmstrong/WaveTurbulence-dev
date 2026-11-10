@@ -66,12 +66,4 @@ theorem ae_initialCoeff_isRapidDecay {Ω : Type*} [MeasurableSpace Ω] {P : Meas
     ∀ᵐ ξ ∂P, IsRapidDecay (initialCoeff L φ g ξ) :=
   ae_isRapidDecay_mul_gaussian (isRapidDecay_sqrt_schwartz hL φ) g hg
 
-/-- TARGET's random initial datum is smooth almost surely. -/
-theorem ae_contDiff_initial_torusSeries {Ω : Type*} [MeasurableSpace Ω] {P : Measure Ω}
-    [IsProbabilityMeasure P] {d : ℕ} {L : ℝ} (hL : 0 < L) (φ : 𝓢(Mom d, ℝ))
-    (g : (Fin d → ℤ) → Ω → ℂ) (hg : ∀ n, HasLaw (g n) stdComplexGaussian P) :
-    ∀ᵐ ξ ∂P, ContDiff ℝ ∞ (torusSeries L (initialCoeff L φ g ξ)) := by
-  filter_upwards [ae_initialCoeff_isRapidDecay hL φ g hg] with ξ hξ
-  exact contDiff_torusSeries hL hξ
-
 end WaveTurbulence.Probability

@@ -1,6 +1,6 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
-public import WaveTurbulence.Foundations.Vine.A.VineUnitSpliceTimeDomain
+public import WaveTurbulence.Foundations.Vine.A.VineUnitSpliceLeafParents
 public import WaveTurbulence.Foundations.Molecule.TwistNodeLabels
 /-! The complete actual node correspondence of selected simultaneous
 splices, with signed rooted-forest and parent compatibility. -/
@@ -19,12 +19,6 @@ noncomputable def unitSpliceNodeEquivMk (Z : TwistGroupSite G) (σ : Prescriptio
     ((Equiv.sumCongr (unitSpliceMolIsoMk Z σ hT hsel).e (unitSpliceLeafEquivMk Z σ hT hsel)).trans
       (nodePieceEquiv (stSt Z.target (transportPrescription Z.iso σ) Mk').G.tree))
 
-/-- The actual node map combines the proved branch and full-leaf maps. -/
-noncomputable def unitSpliceNodeEquiv (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) :
-    GNode (stSt G σ).G.tree ≃ GNode (stSt Z.target (transportPrescription Z.iso σ)).G.tree :=
-  unitSpliceNodeEquivMk Z σ (Stage1Mk.markTransported_empty Z.iso) hsel
-
 /-- B1b-2 (Mk-general form of `unitSpliceNodeEquiv_branch`). -/
 theorem unitSpliceNodeEquiv_branchMk (Z : TwistGroupSite G) (σ : Prescription G)
     {Mk : Set (CLVine G)} {Mk' : Set (CLVine Z.target)} (hT : Stage1Mk.MarkTransported Z.iso Mk Mk')
@@ -35,12 +29,6 @@ theorem unitSpliceNodeEquiv_branchMk (Z : TwistGroupSite G) (σ : Prescription G
   rw [Equiv.symm_apply_apply]
   rfl
 
-/-- Actual branching nodes follow the actual molecular branch map. -/
-theorem unitSpliceNodeEquiv_branch (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) (b : GBranch (stSt G σ).G.tree) :
-    unitSpliceNodeEquiv Z σ hsel b.toNode = ((unitSpliceMolIso Z σ hsel).e b).toNode :=
-  unitSpliceNodeEquiv_branchMk Z σ (Stage1Mk.markTransported_empty Z.iso) hsel b
-
 /-- B1b-2 (Mk-general form of `unitSpliceNodeEquiv_leaf`). -/
 theorem unitSpliceNodeEquiv_leafMk (Z : TwistGroupSite G) (σ : Prescription G)
     {Mk : Set (CLVine G)} {Mk' : Set (CLVine Z.target)} (hT : Stage1Mk.MarkTransported Z.iso Mk Mk')
@@ -50,12 +38,6 @@ theorem unitSpliceNodeEquiv_leafMk (Z : TwistGroupSite G) (σ : Prescription G)
     ((nodePieceEquiv _).symm ((nodePieceEquiv _) (.inr q)))) = _
   rw [Equiv.symm_apply_apply]
   rfl
-
-/-- Actual leaves follow the complete leaf map, including boundary leaves without LP darts. -/
-theorem unitSpliceNodeEquiv_leaf (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) (q : GLeaf (stSt G σ).G.tree) :
-    unitSpliceNodeEquiv Z σ hsel q.toNode = (unitSpliceLeafEquiv Z σ hsel q).toNode :=
-  unitSpliceNodeEquiv_leafMk Z σ (Stage1Mk.markTransported_empty Z.iso) hsel q
 
 /-- B1b-2 (Mk-general form of `unitSpliceNodeEquiv_sign`). -/
 theorem unitSpliceNodeEquiv_signMk (Z : TwistGroupSite G) (σ : Prescription G)
@@ -68,12 +50,6 @@ theorem unitSpliceNodeEquiv_signMk (Z : TwistGroupSite G) (σ : Prescription G)
   | inl b => exact (congrArg _ (unitSpliceNodeEquiv_branchMk Z σ hT hsel b)).trans (unitSpliceMolIso_branch_signMk Z σ hT hsel b)
   | inr q => exact (congrArg _ (unitSpliceNodeEquiv_leafMk Z σ hT hsel q)).trans (unitSpliceLeafEquiv_signMk Z σ hT hsel q)
 
-/-- Every actual surviving node retains its sign. -/
-theorem unitSpliceNodeEquiv_sign (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) (n : GNode (stSt G σ).G.tree) :
-    (stSt Z.target (transportPrescription Z.iso σ)).G.sign (unitSpliceNodeEquiv Z σ hsel n) =
-      (stSt G σ).G.sign n := unitSpliceNodeEquiv_signMk Z σ (Stage1Mk.markTransported_empty Z.iso) hsel n
-
 /-- B1b-2 (Mk-general form of `unitSpliceNodeEquiv_index`). -/
 theorem unitSpliceNodeEquiv_indexMk (Z : TwistGroupSite G) (σ : Prescription G)
     {Mk : Set (CLVine G)} {Mk' : Set (CLVine Z.target)} (hT : Stage1Mk.MarkTransported Z.iso Mk Mk')
@@ -84,12 +60,6 @@ theorem unitSpliceNodeEquiv_indexMk (Z : TwistGroupSite G) (σ : Prescription G)
   | inl b => exact (congrArg (fun n => n.1.1) (unitSpliceNodeEquiv_branchMk Z σ hT hsel b)).trans (unitSpliceMolIso_branch_indexMk Z σ hT hsel b)
   | inr q => exact (congrArg (fun n => n.1.1) (unitSpliceNodeEquiv_leafMk Z σ hT hsel q)).trans (unitSpliceLeafEquiv_indexMk Z σ hT hsel q)
 
-/-- Every surviving node retains its root-tree index. -/
-theorem unitSpliceNodeEquiv_index (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) (n : GNode (stSt G σ).G.tree) :
-    (unitSpliceNodeEquiv Z σ hsel n).1.1 = n.1.1 :=
-  unitSpliceNodeEquiv_indexMk Z σ (Stage1Mk.markTransported_empty Z.iso) hsel n
-
 /-- B1b-2 (Mk-general form of `unitSpliceNodeEquiv_root`). -/
 theorem unitSpliceNodeEquiv_rootMk (Z : TwistGroupSite G) (σ : Prescription G)
     {Mk : Set (CLVine G)} {Mk' : Set (CLVine Z.target)} (hT : Stage1Mk.MarkTransported Z.iso Mk Mk')
@@ -99,12 +69,6 @@ theorem unitSpliceNodeEquiv_rootMk (Z : TwistGroupSite G) (σ : Prescription G)
   cases x with
   | inl b => exact (Iff.of_eq (congrArg (fun n => n.1.2 = []) (unitSpliceNodeEquiv_branchMk Z σ hT hsel b))).trans (unitSpliceMolIso_branch_rootMk Z σ hT hsel b)
   | inr q => exact (Iff.of_eq (congrArg (fun n => n.1.2 = []) (unitSpliceNodeEquiv_leafMk Z σ hT hsel q))).trans (unitSpliceLeafEquiv_rootMk Z σ hT hsel q)
-
-/-- Every surviving root is detected by the full actual node map. -/
-theorem unitSpliceNodeEquiv_root (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) (n : GNode (stSt G σ).G.tree) :
-    (unitSpliceNodeEquiv Z σ hsel n).1.2 = [] ↔ n.1.2 = [] :=
-  unitSpliceNodeEquiv_rootMk Z σ (Stage1Mk.markTransported_empty Z.iso) hsel n
 
 /-- Equality of actual nodes transports their parent branching nodes. -/
 theorem spliceNodeParent_congr {F : Fin w → TTree} {n m : GNode F}
@@ -130,13 +94,5 @@ theorem unitSpliceNodeEquiv_parentMk (Z : TwistGroupSite G) (σ : Prescription G
     have hq : (unitSpliceLeafEquivMk Z σ hT hsel q).1.2 ≠ [] := fun h => hn ((unitSpliceLeafEquiv_rootMk Z σ hT hsel q).mp h)
     exact (unitSpliceLeafEquiv_parentMk Z σ hT hsel q hn).trans
       (spliceNodeParent_congr hq _ (unitSpliceNodeEquiv_leafMk Z σ hT hsel q).symm)
-
-/-- The full actual node map preserves all surviving parent incidences. -/
-theorem unitSpliceNodeEquiv_parent (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) (n : GNode (stSt G σ).G.tree) (hn : n.1.2 ≠ []) :
-    let e := unitSpliceNodeEquiv Z σ hsel
-    let hnew : (e n).1.2 ≠ [] := fun h => hn ((unitSpliceNodeEquiv_root Z σ hsel n).mp h)
-    (unitSpliceMolIso Z σ hsel).e (GNode.parent n hn) = GNode.parent (e n) hnew :=
-  unitSpliceNodeEquiv_parentMk Z σ (Stage1Mk.markTransported_empty Z.iso) hsel n hn
 
 end WaveTurbulence.VineA

@@ -62,16 +62,6 @@ def SplicedGapIndicatorSelOfAt (G : Garden w) (σ : Prescription G) (Mk : Set (C
     splicedGapIndicator (stSt G σ Mk).G D L γ η base zsb =
       if selOf (GroupPrescription.ofPrescription σ) L γ η base z then 1 else 0
 
-/-- B1b-3: B2c's theorem `splicedGapIndicator_eq_selOfMk`, as a proposition (its type, verbatim binders). -/
-def SplicedGapIndicatorEqSelOfMk : Prop :=
-  ∀ {w : ℕ} {G : Garden w} (_hM : G.molecule.IsMolecule) (σ : Prescription G) {Mk : Set (CLVine G)},
-    SplicedGapIndicatorSelOfAt G σ Mk
-
-/-- B1b-3: B2c's theorem gives the hypothesis at every garden, prescription and marking. -/
-theorem splicedGapIndicatorSelOfAt_of (h : SplicedGapIndicatorEqSelOfMk) (G : Garden w) (σ : Prescription G)
-    (Mk : Set (CLVine G)) : SplicedGapIndicatorSelOfAt G σ Mk :=
-  h (Mole.garden_isMolecule G) σ
-
 /-- B1b-3: at the empty marking the hypothesis is main's `splicedGapIndicator_eq_selOf`. -/
 theorem splicedGapIndicatorSelOfAt_empty (G : Garden w) (σ : Prescription G) : SplicedGapIndicatorSelOfAt G σ ∅ :=
   fun L γ η base c z hκ hc0 zsb hlab D hD =>
@@ -199,15 +189,5 @@ theorem unitSplice_actual_gapValueMk (Z : TwistGroupSite G) (σ : Prescription G
   have hc := selDarts_twist Z ⟨u, mem_allSG hu.1, ha⟩ (Represents.GroupPrescription.ofPrescription σ)
     L γ η base c (bondIndex Z.target κ.1) hκ hc0
   exact if_congr hc.symm rfl rfl
-
-/-- Actual target choices agree with actual source choices on every spliced decoration. -/
-theorem unitSplice_actual_gapValue (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) (hH : Z.target.IsPlain)
-    {L : ℝ} (hL : L ≠ 0) (γ η : ℝ) (base : Mom d) (roots : Fin w → (Fin d → ℤ))
-    (z : GenDecoration (stSt Z.target (transportPrescription Z.iso σ)).G d roots 0) :
-    gapValue G σ L γ η base (z.1 ∘ unitSpliceNodeEquiv Z σ hsel) =
-      gapValue Z.target (transportPrescription Z.iso σ) L γ η base z.1 :=
-  unitSplice_actual_gapValueMk Z σ (Stage1Mk.markTransported_empty Z.iso) hsel hH
-    (gapValueSelDartsAt_empty G σ) (gapValueSelDartsAt_empty Z.target _) hL γ η base roots z
 
 end WaveTurbulence.VineA.NormalizedSplice

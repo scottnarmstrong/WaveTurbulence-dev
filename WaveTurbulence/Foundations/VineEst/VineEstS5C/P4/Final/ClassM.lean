@@ -5,7 +5,10 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.Final.Class
+public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.Final.BotCount
+public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.Bot.Unroll
+public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W13.EngineRHS
+public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.WinChain
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.FlatMod.Export
 
 /-! # V5 FINAL (step 2b): the modulated class sum (R58), literal form
@@ -47,12 +50,6 @@ noncomputable def clsFnRM (lam : ℝ) (σ : ℤˣ) (κ0 : KPar d) (hprime : IsPr
     lkRaw (Lvl.top B).region κ0.L κ0.base
       (modPsi b lam (Lvl.psiFuel (p := p) (kind := kind) B RD hG layer hLayer κ0 hprime (Fintype.card (Lvl.top B).ι + 1) (Lvl.top B)))
       tt (sumintBoundary s E))
-
-/-- `modPsi` is additive over a finite sum. -/
-theorem modPsi_sum {ι : Type*} [Fintype ι] (lam : ℝ) (ψ : ι → PsiT G d) (x : GNode G.tree → (Fin d → ℤ)) (t : Fin 3 → ℝ)
-    (u : GBranch G.tree → ℝ) : modPsi b lam (fun x t u => ∑ j, ψ j x t u) x t u = ∑ j, modPsi b lam (ψ j) x t u := by
-  unfold modPsi
-  rw [Finset.mul_sum]
 
 /-- **The modulated top-level bound** (`top_boundRB` with `modPsi b λ`). -/
 theorem top_boundRBM (hW : WinOfExt B RD hG layer hLayer BE) (hWB : WinOfExtBot B RD hG layer hLayer BX) (lam : ℝ) (σ : ℤˣ)

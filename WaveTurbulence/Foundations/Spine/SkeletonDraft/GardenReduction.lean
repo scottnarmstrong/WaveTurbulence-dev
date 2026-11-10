@@ -28,26 +28,6 @@ def GardenReduces {w : ℕ} : Garden w → Garden w → Prop := Relation.ReflTra
 theorem GardenStep.sig_eq {w : ℕ} {G H : Garden w} (h : GardenStep G H) : H.sig = G.sig := by
   cases h <;> rfl
 
-theorem GardenStep.target_plain {w : ℕ} {G H : Garden w} (h : GardenStep G H) : H.IsPlain := by
-  cases h with
-  | opA hG b c k hm => exact collapseCoupleGarden_plain _ hG
-  | opB hG b c k hm => exact collapsePairedTreeGarden_plain _ hG
-
-/-- Every literal source reduction removes exactly two branching nodes. -/
-theorem GardenStep.order {w : ℕ} {G H : Garden w} (h : GardenStep G H) : H.order + 2 = G.order := by
-  cases h with
-  | opA hG b c k hm =>
-    have ho := collapseCoupleGarden_order (hm.isSubCouple hG)
-    rw [hm.left_tree,hm.right_tree] at ho
-    simpa only [TTree.order] using ho
-  | opB hG b c k hm =>
-    have ho := collapsePairedTreeGarden_order (hm.isSubPairedTree hG)
-    have ht := Comb.embeddedPairedTree_order (hm.isSubPairedTree hG)
-    have hu : (Comb.nodeSubtree b.toNode).order = (Comb.nodeSubtree (c.child k.lone)).order + 2 := by
-      rw [hm.upper_tree]
-      exact mini_order k _
-    omega
-
 theorem GardenReduces.sig_eq {w : ℕ} {G H : Garden w} (h : GardenReduces G H) : H.sig = G.sig := by
   induction h with
   | refl => rfl

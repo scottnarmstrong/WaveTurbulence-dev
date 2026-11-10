@@ -87,57 +87,8 @@ theorem layOf_top : layOf ((Lvl.top B).state B RD hG layer hLayer) (Lvl.top B).c
 variable {κ0 : KPar d} {hprime : IsPrimeGarden G}
 variable (BE : BundleExpFam (p := p) (kind := kind) B RD hG layer hLayer κ0 hprime)
 
-/-- **The top-level bound on a closed box** (design R plus the null boundary). -/
-theorem top_boundR (hW : WinOfExt B RD hG layer hLayer BE) (σ : ℤˣ) (hL : κ0.L ≠ 0)
-    (hF : ∀ k : ℕ, Summable fun n : Fin d → ℤ => |κ0.F k (κ0.base + latticePoint κ0.L n)|) (s : ℤˣ)
-    {θ : ℝ} (hθ : 0 ≤ θ) (q : Fin 3 → ℝ) {Bx : Set (Fin 3 → ℝ)} (hBx : Bx ⊆ cell q) {K : Set (Fin 4 → Mom d)} (hK : K.Countable)
-    (hq : ∀ tt ∈ Bx, (layer (RD.coreBranch hG a).toNode : ℝ) ≤ tt 0 ∧ tt 0 ≤ layer (RD.coreBranch hG a).toNode + 1)
-    (habs : ∀ ψ ∈ Lvl.terms (p := p) (kind := kind) B RD hG layer hLayer BE (Fintype.card (Lvl.top B).ι + 1) (Lvl.top B), ∀ tt ∈ Bx, ∀ E ∈ K,
-      LkAbs (Lvl.top B).region κ0.L κ0.base ψ tt (sumintBoundary s E))
-    (β : ℝ≥0∞)
-    (TermBoundR : ∀ ψ ∈ Lvl.terms (p := p) (kind := kind) B RD hG layer hLayer BE (Fintype.card (Lvl.top B).ι + 1) (Lvl.top B),
-      XNorm00Restr θ Bx K (termFnR B σ κ0 (Lvl.top B) ψ s) ≤ β) :
-    XNorm00Restr θ Bx K (clsFnR (p := p) (kind := kind) B RD hG layer hLayer σ κ0 (Lvl.top B) s) ≤
-      (cutoffMultiplierConstant θ (cutQ q) + 1) *
-        ((Multiset.card (Lvl.terms (p := p) (kind := kind) B RD hG layer hLayer BE (Fintype.card (Lvl.top B).ι + 1) (Lvl.top B)) : ℝ≥0∞) * β) := by
-  set q₀ : ℝ := (layer (RD.coreBranch hG a).toNode : ℝ) with hq₀
-  refine (XNorm00Restr_le_openTop θ Bx q₀ K _).trans ?_
-  have hsub := openTop_subset Bx q₀
-  refine unrolled_boundR_ext (p := p) (kind := kind) B RD hG layer hLayer BE hW σ hL hF (Lvl.top B) s hθ q (hsub.trans hBx) hK ?_
-    (fun ψ hψ tt htt E hE => habs ψ hψ tt (hsub htt) E hE) β
-    (fun ψ hψ => (XNorm00Restr_mono_set θ hsub K _).trans (TermBoundR ψ hψ))
-  intro tt htt
-  rw [layOf_top]
-  exact strict_of_openTop hq tt htt
-
-/-- `top_boundR` with the per-vine count `#terms ≤ ∏_{members} wt`. -/
-theorem top_boundR_prod (hW : WinOfExt B RD hG layer hLayer BE) (σ : ℤˣ) (hL : κ0.L ≠ 0)
-    (hF : ∀ k : ℕ, Summable fun n : Fin d → ℤ => |κ0.F k (κ0.base + latticePoint κ0.L n)|) (s : ℤˣ)
-    {θ : ℝ} (hθ : 0 ≤ θ) (q : Fin 3 → ℝ) {Bx : Set (Fin 3 → ℝ)} (hBx : Bx ⊆ cell q) {K : Set (Fin 4 → Mom d)} (hK : K.Countable)
-    (hq : ∀ tt ∈ Bx, (layer (RD.coreBranch hG a).toNode : ℝ) ≤ tt 0 ∧ tt 0 ≤ layer (RD.coreBranch hG a).toNode + 1)
-    (habs : ∀ ψ ∈ Lvl.terms (p := p) (kind := kind) B RD hG layer hLayer BE (Fintype.card (Lvl.top B).ι + 1) (Lvl.top B), ∀ tt ∈ Bx, ∀ E ∈ K,
-      LkAbs (Lvl.top B).region κ0.L κ0.base ψ tt (sumintBoundary s E))
-    (wt : (assemblySourceFamily B).CoreIndex → ℕ) (hwt : ∀ i, 1 ≤ wt i)
-    (hCh : ∀ (lv : Lvl B) (pstar : lv.ι) (hk : 1 ≤ (lv.e pstar).1.val), Fintype.card (BE lv pstar hk).Ch ≤ wt (lv.e pstar))
-    (β : ℝ≥0∞)
-    (TermBoundR : ∀ ψ ∈ Lvl.terms (p := p) (kind := kind) B RD hG layer hLayer BE (Fintype.card (Lvl.top B).ι + 1) (Lvl.top B),
-      XNorm00Restr θ Bx K (termFnR B σ κ0 (Lvl.top B) ψ s) ≤ β) :
-    XNorm00Restr θ Bx K (clsFnR (p := p) (kind := kind) B RD hG layer hLayer σ κ0 (Lvl.top B) s) ≤
-      (cutoffMultiplierConstant θ (cutQ q) + 1) * (((∏ j, wt j : ℕ) : ℝ≥0∞) * β) := by
-  refine (top_boundR (p := p) (kind := kind) B RD hG layer hLayer BE hW σ hL hF s hθ q hBx hK hq habs β TermBoundR).trans ?_
-  refine mul_le_mul' le_rfl (mul_le_mul' ?_ le_rfl)
-  exact_mod_cast Lvl.card_terms_le_prod (p := p) (kind := kind) B RD hG layer hLayer BE wt hwt hCh _ (Lvl.top B) (Nat.le_succ _)
-
 /-- The kernel parameters of `VineEstCanonLayer` (the exterior times and boundary momenta of `KPar` are not read by `Lvl.classSum`). -/
 def kparOf (L γ δ : ℝ) (F : ℕ → Mom d → ℝ) (base : Mom d) : KPar d :=
   ⟨L, γ, δ, F, base, 0, 0, 0, 0, 0, 0, 0⟩
-
-/-- **The integrand of `VineEstCanonLayer` is the recentered class sum of the top level.** -/
-theorem twistedRecentered_eq_clsFnR (L γ δ : ℝ) (F : ℕ → Mom d → ℝ) (wBar : Mom d) :
-    (fun (tt : Fin 3 → ℝ) (E : Fin 4 → Mom d) => twistedRecentered G a
-        (canonFinsetK p kind (startState B RD hG layer hLayer) (chainStart B)) L γ δ F wBar
-        (tt 0) (tt 1) (tt 2) (sumintBoundary (G.sign a.toNode) E 0) (sumintBoundary (G.sign a.toNode) E 1)
-        (sumintBoundary (G.sign a.toNode) E 2) (sumintBoundary (G.sign a.toNode) E 3)) =
-      clsFnR (p := p) (kind := kind) B RD hG layer hLayer (G.sign a.toNode) (kparOf L γ δ F wBar) (Lvl.top B) (G.sign a.toNode) := rfl
 
 end WaveTurbulence.VineEstS5C.P4

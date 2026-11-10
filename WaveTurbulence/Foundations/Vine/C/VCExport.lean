@@ -64,16 +64,6 @@ end Data
 
 section Start
 
-/-- V5's class of a unit only depends on the start state and the raw start region: this identifies
-`canonFinsetK p kind (Us.st A j) (Us.reg us j)` with `canonFinsetK p kind (startState B RD hG layer hLayer) (chainStart B)`
-once the restricted state is the start state of the unit's chain assembly and the regions have the same `(U, a, b)`. -/
-theorem canonFinsetK_congr {κ : Type*} [Fintype κ] {p : ℕ} {kind : Bool} {X X' : FamilyReconstruction w κ} (hX : X = X')
-    {c : ChainAt X.skeleton X.family} {c' : ChainAt X'.skeleton X'.family} (hU : HEq c.U c'.U) (ha : HEq c.a c'.a)
-    (hb : HEq c.b c'.b) : canonFinsetK p kind X c = canonFinsetK p kind X' c' := by
-  have e : (⟨X, c⟩ : Σ Bs : FamilyReconstruction w κ, ChainAt Bs.skeleton Bs.family) = ⟨X', c'⟩ :=
-    sigma_chainAt_ext hX hU ha hb
-  exact congrArg (fun x : Σ Bs : FamilyReconstruction w κ, ChainAt Bs.skeleton Bs.family => canonFinsetK p kind x.1 x.2) e
-
 end Start
 
 section Sum
@@ -101,43 +91,6 @@ theorem sum_layered_eq_sum_classU {A : FamilyReconstruction w ι} (hA : IsPrimeG
 
 variable {J₀ : Type} [Fintype J₀] [DecidableEq J₀] {κ₀ : J₀ → Type*} [∀ j, Fintype (κ₀ j)] [∀ j, DecidableEq (κ₀ j)]
   {Us₀ : UnitSplit ι J₀ κ₀}
-
-/-- **The vine-case τ-class sum (VINE-C over VINE-B♯, INTERFACE v2).**  `V LG` is the (per-mode) value of a garden of the
-class; `hV` is VINE-B♯'s per-state factorization at every class member, with the unit factors the member's recentered
-modulated unit kernels `K̃^{U_j,(λ)}_{(y)}`.  Then the class sum is the factorization with the class kernels of the units
-`K̃^{U_j,(λ)}` over V5's classes of the units. -/
-theorem sum_tauClass_vineB {A : FamilyReconstruction w ι} (hA : IsPrimeGarden A.skeleton)
-    (us : ∀ j, UnitAt A.skeleton A.family (Us₀.Q j)) (T : Finset (LayeredGarden w))
-    (hT : (T : Set (LayeredGarden w)) = A.allCoreOutputs (p := p) (kind := kind)) (V : LayeredGarden w → ℂ)
-    {I : Type*} [Fintype I] (sgn : I → ℂ) {d : ℕ} (G : Garden w) (L γ δ : ℝ) (base : Mom d)
-    (roots : Fin w → (Fin d → ℤ)) (tt : Fin w → ℝ) (layer : GBranch G.tree → ℕ) (hinges : Finset (GBranch G.tree))
-    (Zw : GenDecoration G d roots 0 → ℝ) (hS : G.IsPlain) (amp : I → ReplacementSlot G → Mom d → ℂ)
-    (frq : I → ReplacementSlot G → Fin 2 → ℤ) (route : I → ReplacementSlot G → Fin 2 → ClkSrc G ⊕ J₀)
-    (hclk : J₀ → Fin 3 → ClkSrc G) (hmom : J₀ → Fin 4 → GNode G.tree) (F : I → J₀ → ℕ → Mom d → ℝ)
-    (hV : ∀ y ∈ classU Us₀ p kind A us, V y.1.layered = ∑ i, sgn i *
-      outerValM G L γ δ base roots tt layer hinges Zw hS (amp i) (frq i) (route i) hclk hmom
-        (fun j lam t k => unitRecenteredW y.1 (y.2 j) L γ δ (F i j) base (modW lam) (t 0) (t 1) (t 2)
-          (k 0) (k 1) (k 2) (k 3)))
-    (hint : ∀ i, ∀ y ∈ classU Us₀ p kind A us, ∀ z,
-      Integrable (outerIntegrandM G L γ δ base roots tt layer hS (amp i) (frq i) (route i) hclk hmom
-        (fun j lam t k => unitRecenteredW y.1 (y.2 j) L γ δ (F i j) base (modW lam) (t 0) (t 1) (t 2)
-          (k 0) (k 1) (k 2) (k 3)) z))
-    (hsm : ∀ i, ∀ y ∈ classU Us₀ p kind A us, Summable (fun z : GenDecoration G d roots 0 =>
-      (splicedEpsilon G hinges z.1 : ℂ) * (Zw z : ℂ) *
-        ∫ τ, outerIntegrandM G L γ δ base roots tt layer hS (amp i) (frq i) (route i) hclk hmom
-          (fun j lam t k => unitRecenteredW y.1 (y.2 j) L γ δ (F i j) base (modW lam) (t 0) (t 1) (t 2)
-            (k 0) (k 1) (k 2) (k 3)) z τ)) :
-    ∑ LG ∈ T, V LG = ∑ i, sgn i *
-      outerValM G L γ δ base roots tt layer hinges Zw hS (amp i) (frq i) (route i) hclk hmom
-        (fun j lam t k => twistedRecenteredW A.skeleton (us j).blk.a
-          (canonFinsetK p kind (Us₀.st A j) (Us₀.reg us j)) L γ δ (F i j) base (modW lam) (t 0) (t 1) (t 2)
-          (k 0) (k 1) (k 2) (k 3)) := by
-  rw [sum_layered_eq_sum_classU hA us T hT V, Finset.sum_congr rfl hV, Finset.sum_comm]
-  refine Finset.sum_congr rfl fun i _ => ?_
-  rw [← Finset.mul_sum]
-  congr 1
-  exact sum_classU_outerValM_kernel hA us G L γ δ base roots tt layer hinges Zw hS (amp i) (frq i) (route i) hclk hmom
-    (F i) (hint i) (hsm i)
 
 end Sum
 

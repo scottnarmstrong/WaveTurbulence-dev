@@ -72,9 +72,4 @@ theorem codeToTopRegular_bijective (p n : ℕ) : Function.Bijective (codeToTopRe
       (carrier_unique (uniformDecodedCouple_decodes p Q) hQ)
       (uniformDecodedCouple_layer p Q) LG.2.2.2
 
-/-- A proved equivalence, with the source uniqueness theorem discharged by REG-STRUCT. -/
-noncomputable def topRegularCodeEquiv (p n : ℕ) :
-    {Q : RegCpl // Q.wf = true ∧ Q.size = 2 * n} ≃ {LG // LG ∈ topRegularCarrier p (2 * n)} :=
-  Equiv.ofBijective (codeToTopRegular p n) (codeToTopRegular_bijective p n)
-
 end WaveTurbulence.LGSpine

@@ -131,46 +131,5 @@ theorem Good.damagedShape {s : St.{u} V D₀} (hg : Good R s) (hn : NoTripleBond
 section dam
 variable {L γ η : ℝ} {κ : D₀ → (Fin d → ℤ)} {Tm : V → Prop}
 
-/-- **`DamagedDec` for every component of the state after Operation 5** (strict LG at the surviving `ε`-atoms, label ranges), for the
-decorations of a family `AdmRun` each of which satisfies the conclusions of Prop 9.5 for the input state. -/
-theorem Op5.damagedDec {h : HSt V D₀} {R : ℕ} (hg5 : Good R (h.op5 Tm).s) (AdmRun : (D₀ → (Fin d → ℤ)) → Prop)
-    (hC : ∀ κ, AdmRun κ → Prop95ConclN L γ η (0 : Mom d) κ Tm R h) (hne : ∃ κ, AdmRun κ) {a₀ : V} :
-    G8Copy.DamagedDec (compMol (h.op5 Tm).s.M a₀) (fun a => toCls ((h.op5 Tm).s.cls a)) L γ η
-      (compAdm (h.op5 Tm) a₀ AdmRun) where
-  labRange := by
-    intro a ha hα
-    obtain ⟨κ₀, h₀⟩ := hne
-    obtain ⟨ρ, kp, e⟩ := toCls_isAlpha.1 hα
-    have hl := Op5.label (hC κ₀ h₀) a ((mem_compMol _ _).1 ha).1 ρ kp e
-    rw [e]
-    exact ⟨hl.2.1, hl.2.2⟩
-  epsLG := by
-    rintro κ' ⟨κ, hκ, rfl⟩ a ha hε x y hx hy hxy
-    have haM := ((mem_compMol _ _).1 ha).1
-    have hε' : (h.op5 Tm).s.cls a = .eps := toCls_isEps.1 hε
-    have hx' : (h.op5 Tm).s.M.atom x.1 = a := hx
-    have hy' : (h.op5 Tm).s.M.atom y.1 = a := hy
-    have hlg : ∀ x' y' : (h.op5 Tm).s.D, (h.op5 Tm).s.M.atom x' = a → (h.op5 Tm).s.M.atom y' = a →
-        (h.op5 Tm).s.M.out x' = false → (h.op5 Tm).s.M.out y' = true →
-        L ^ (-γ + η) < ‖Molecule.kvec L (0 : Mom d) (κ ∘ (h.op5 Tm).s.down) x' -
-          Molecule.kvec L (0 : Mom d) (κ ∘ (h.op5 Tm).s.down) y'‖ := by
-      intro x' y' h1 h2 o1 o2
-      exact lt_norm_of_LG (Op5.epsLG (hC κ hκ) a haM hε' x' y' h1 h2 o1 o2
-        (fun e => hg5.1.noloop x' (by rw [← e, h1, h2])))
-    have hxy' : (h.op5 Tm).s.M.out x.1 ≠ (h.op5 Tm).s.M.out y.1 := hxy
-    cases hox : (h.op5 Tm).s.M.out x.1
-    · have hoy : (h.op5 Tm).s.M.out y.1 = true := by
-        cases hoy : (h.op5 Tm).s.M.out y.1
-        · exact absurd (hox.trans hoy.symm) hxy'
-        · rfl
-      exact hlg x.1 y.1 hx' hy' hox hoy
-    · have hoy : (h.op5 Tm).s.M.out y.1 = false := by
-        cases hoy : (h.op5 Tm).s.M.out y.1
-        · rfl
-        · exact absurd (hox.trans hoy.symm) hxy'
-      have := hlg y.1 x.1 hy' hx' hoy hox
-      rw [kvec_comp, kvec_comp, norm_sub_rev]
-      exact this
-
 end dam
 end WaveTurbulence.FinalCountG3

@@ -17,11 +17,6 @@ open scoped ENNReal
 namespace WaveTurbulence.FinalCount
 open WaveTurbulence WaveTurbulence.LGSpine.SourceVine
 
-/-- The bound for the number of choices `𝔉` of the labels of a single vine with `m` atoms (L1799--L1801):
-`L^d (ρL)^d L^{(m-2)(d-γ)} δ^{-m/2} (log L)^e ∏𝔛^{-z}` times a constant. -/
-noncomputable def vineF (d : ℕ) (L γ δ ρ Cf Λ : ℝ) (m e : ℕ) : ℝ :=
-  Cf * L ^ d * (ρ * L) ^ d * L ^(((m : ℝ) - 2) * ((d : ℝ) - γ)) * δ ^ (-(m : ℝ) / 2) * Real.log L ^ e / Λ
-
 theorem encard_le_floor {α : Type*} {s : Set α} {b : ℝ} (h : s.encard ≤ ENNReal.ofReal b) :
     s.encard ≤ ((⌊b⌋₊ : ℕ) : ℕ∞) := by
   have hfin : s.encard ≠ ⊤ := fun ht => by rw [ht] at h; exact absurd h (by simp)

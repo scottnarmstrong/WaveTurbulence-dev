@@ -108,13 +108,6 @@ theorem BatchIso.gapProfileMk {p : ℕ} {kind : Bool} {ι : Type*} {L : List ι}
 noncomputable def gapProfile (G : Garden w) (σ : Prescription G) : GapProfile w :=
   ⟨(stSt G σ).G, fun _ L γ η _ base _ z => NormalizedSplice.gapValue G σ L γ η base z.1⟩
 
-/-- The entire actual gap profile is constant under a selected unit LF twist. -/
-theorem gapProfile_twist (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) (hH : Z.target.IsPlain) :
-    gapProfile Z.target (transportPrescription Z.iso σ) = gapProfile G σ :=
-  gapProfile_twistMk Z σ (Stage1Mk.markTransported_empty Z.iso) hsel hH
-    (NormalizedSplice.gapValueSelDartsAt_empty G σ) (NormalizedSplice.gapValueSelDartsAt_empty Z.target _)
-
 /-- Both actual operation choices preserve the constructed gap profile. -/
 theorem operation_gapProfile {p : ℕ} {kind : Bool} {ι : Type*} {A : FamilyReconstruction w ι} {i : ι}
     {σ : Prescription A.skeleton} (hA : IsV0Fam A.family σ)

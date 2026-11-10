@@ -46,10 +46,4 @@ theorem carrier_unique {Q : RegCpl} {G H : Garden 2} (hG : Q.Decodes G) (hH : Q.
 theorem decodedCouple_unique (Q : RegCpl) (G : Garden 2) (hG : Q.Decodes G) :
     G = decodedCouple Q := carrier_unique hG (decodedCouple_decodes Q)
 
-/-- Normalization preserves the actual garden, not just a collection of invariants. -/
-theorem decodedCouple_normalize (Q : RegCpl) :
-    decodedCouple (normalizeCouple Q) = decodedCouple Q :=
-  carrier_unique ((decodes_normalizeCouple_iff Q _).mp (decodedCouple_decodes _))
-    (decodedCouple_decodes Q)
-
 end WaveTurbulence.Reg

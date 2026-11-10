@@ -66,11 +66,6 @@ theorem unitBlocks_goodMk (Z : TwistGroupSite G) (σ : Prescription G)
       (unitBlocks_pairwiseMk (Mk := Mk) (Mole.garden_isMolecule G) σ) hu hv huv) hxu)
       (hcv (hat.symm ▸ hx))).elim
 
-/-- Every actual unit either contains the active selected vine, or is disjoint from it. -/
-theorem unitBlocks_good (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) {u : CLBlock G} (hu : u ∈ unitBlocks G σ) :
-    Z.Good u.atoms := unitBlocks_goodMk (Mk := ∅) Z σ hsel hu
-
 /-- The transported actual unit, with its CL property derived from source geometry. -/
 noncomputable def unitImage (Z : TwistGroupSite G) (u : CLBlock G) (hgood : Z.Good u.atoms) :
     CLBlock Z.target where
@@ -80,10 +75,5 @@ noncomputable def unitImage (Z : TwistGroupSite G) (u : CLBlock G) (hgood : Z.Go
   isBlock := Z.iso.isBlock_img u.isBlock
   cl := ⟨fun h => u.cl.1 ((Z.ip_map hgood u.isBlock.2.1).mp h),
     (Z.ip_map hgood u.isBlock.2.2.1).mpr u.cl.2⟩
-
-/-- Distinct actual source units remain distinct actual CL blocks after transport. -/
-theorem unitImage_injective (Z : TwistGroupSite G) {u v : CLBlock G}
-    (hu : Z.Good u.atoms) (hv : Z.Good v.atoms) (h : unitImage Z u hu = unitImage Z v hv) : u = v :=
-  clBlock_eq_of_atoms (Z.iso.img_injective (congrArg CLBlock.atoms h))
 
 end WaveTurbulence.VineA

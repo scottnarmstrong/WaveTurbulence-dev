@@ -84,22 +84,4 @@ theorem nodeCentreSet_finite_card (cl : GLeaf tree → (Fin d → ℤ)) :
     rwa [nodeExt_branch, nodeExt_branch] at this
   exact ⟨Set.Finite.of_injOn hmaps hinj hF, (Set.ncard_le_ncard_of_injOn _ hmaps hinj hF).trans hC⟩
 
-/-- **The node partition of unity restricted to the admissible centres**: for every branching-consistent
-`δ` with leaves in the unit balls around `a cl_ℓ`, `∑_{x ∈ nodeCentreSet cl} ∏_b χ_{x_b}(δ_b) = 1`. -/
-theorem sum_nodeCentreSet {cl : GLeaf tree → (Fin d → ℤ)} (hfin : (nodeCentreSet cl).Finite)
-    (δ : GNode tree → Mom d)
-    (hδ : ∀ b : GBranch tree, δ b.toNode = δ (b.child 0) - δ (b.child 1) + δ (b.child 2))
-    (hleaf : ∀ ℓ : GLeaf tree, ‖δ ℓ.toNode - latPt d (cl ℓ)‖ ≤ 1) :
-    ∑ x ∈ hfin.toFinset, ∏ b, chi d (x b) (δ b.toNode) = 1 := by
-  classical
-  have h1 := hasSum_node_chi (tree := tree) δ
-  have hz : ∀ x ∉ hfin.toFinset, ∏ b, chi d (x b) (δ b.toNode) = 0 := by
-    intro x hx
-    by_contra hne
-    exact hx ((Set.Finite.mem_toFinset hfin).2 (nodeCentreAdm_of_prod_ne_zero δ hδ hleaf hne))
-  have h2 : HasSum (fun x : GBranch tree → (Fin d → ℤ) => ∏ b, chi d (x b) (δ b.toNode))
-      (∑ x ∈ hfin.toFinset, ∏ b, chi d (x b) (δ b.toNode)) :=
-    hasSum_sum_of_ne_finset_zero hz
-  exact h2.unique h1
-
 end WaveTurbulence.RepAnalytic

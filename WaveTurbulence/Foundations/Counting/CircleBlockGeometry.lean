@@ -30,16 +30,6 @@ theorem circleHeight_monotone_left {R c : ℝ} :
   have hsq := pow_le_pow_left₀ h1 h2 2
   nlinarith only [hsq]
 
-/-- Circle height is antitone on the right semicircle. -/
-theorem circleHeight_antitone_right {R c : ℝ} :
-    AntitoneOn (circleHeight R c) (Set.Ici c) := by
-  intro x hx y hy hxy
-  apply Real.sqrt_le_sqrt
-  have h1 : 0 ≤ x - c := sub_nonneg.mpr hx
-  have h2 : x - c ≤ y - c := sub_le_sub_right hxy c
-  have hsq := pow_le_pow_left₀ h1 h2 2
-  linarith only [hsq]
-
 /-- Width bound for a left boundary interval. A lower height cutoff is not
 needed for this purely geometric estimate. -/
 theorem circle_left_width_le {R c x y H : ℝ} (hR : 0 < R)
@@ -58,18 +48,5 @@ theorem circle_left_width_le {R c x y H : ℝ} (hR : 0 < R)
     mul_le_mul_of_nonneg_left (by linarith only [hxc]) hR.le
   rw [le_div_iff₀ hR]
   nlinarith only [heq, hh2, hp, hwidth]
-
-/-- Width bound for a right boundary interval, by reflection. -/
-theorem circle_right_width_le {R c x y H : ℝ} (hR : 0 < R)
-    (hcx : c ≤ x) (hxy : x ≤ y) (hyc : y ≤ c + R)
-    (hh : circleHeight R c x ≤ 2 * H) :
-    y - x ≤ 4 * H ^ 2 / R := by
-  have hheight : circleHeight R (-c) (-x) = circleHeight R c x := by
-    dsimp only [circleHeight]
-    congr 2
-    ring
-  have h := circle_left_width_le (c := -c) (x := -y) (y := -x) hR
-    (by linarith only [hyc]) (neg_le_neg hxy) (neg_le_neg hcx) (hheight.symm ▸ hh)
-  linarith only [h]
 
 end WaveTurbulence.Counting

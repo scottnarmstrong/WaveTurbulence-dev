@@ -29,36 +29,11 @@ theorem leavesOf_glue_inl (σ : Fin a ⊕ Fin b ≃ Fin w) (GA : Garden a) (GB :
   · rintro ⟨y, hy, rfl⟩
     exact ⟨y.1.1, hy, by simp⟩
 
-theorem leavesOf_glue_inr (σ : Fin a ⊕ Fin b ≃ Fin w) (GA : Garden a) (GB : Garden b) (T : Finset (Fin b)) :
-    (glueGarden σ GA GB).leavesOf (T.image fun i => σ (.inr i)) =
-      (GB.leavesOf T).image fun ℓ => glueLeaf σ GA.tree GB.tree (.inr ℓ) := by
-  ext ℓ
-  rw [mem_leavesOf, Finset.mem_image]
-  simp only [Finset.mem_image, mem_leavesOf]
-  constructor
-  · rintro ⟨i, hi, h⟩
-    obtain ⟨z, rfl⟩ := (glueLeaf σ GA.tree GB.tree).surjective ℓ
-    rcases z with y | y
-    · exfalso
-      have : σ (.inr i) = σ (.inl y.1.1) := by simpa using h
-      exact absurd (σ.injective this) (by simp)
-    · refine ⟨y, ?_, rfl⟩
-      have : σ (.inr i) = σ (.inr y.1.1) := by simpa using h
-      rw [← Sum.inr_injective (σ.injective this)]; exact hi
-  · rintro ⟨y, hy, rfl⟩
-    exact ⟨y.1.1, hy, by simp⟩
-
 theorem glue_closed_inl (σ : Fin a ⊕ Fin b ≃ Fin w) (GA : Garden a) (GB : Garden b) (T : Finset (Fin a)) :
     ClosedTrees (glueGarden σ GA GB) (T.image fun i => σ (.inl i)) ↔ ClosedTrees GA T := by
   unfold ClosedTrees
   rw [leavesOf_glue_inl]
   exact completelyPaired_glue_inl σ GA GB _
-
-theorem glue_closed_inr (σ : Fin a ⊕ Fin b ≃ Fin w) (GA : Garden a) (GB : Garden b) (T : Finset (Fin b)) :
-    ClosedTrees (glueGarden σ GA GB) (T.image fun i => σ (.inr i)) ↔ ClosedTrees GB T := by
-  unfold ClosedTrees
-  rw [leavesOf_glue_inr]
-  exact completelyPaired_glue_inr σ GA GB _
 
 /-- `G` has no closed proper set of trees containing `i₀`. -/
 def IrrAt {w : ℕ} (G : Garden w) (i₀ : Fin w) : Prop :=

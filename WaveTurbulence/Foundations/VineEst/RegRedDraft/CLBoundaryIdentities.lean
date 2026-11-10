@@ -48,39 +48,4 @@ noncomputable def clBoundaryEnergy {d : ℕ} (D : CLRegionData G S a b) (k : GNo
     ((G.sign (b.child D.negative) : ℤ) : ℝ) * ‖k (b.child D.negative)‖^2 -
     ((G.sign a.toNode : ℤ) : ℝ) * ‖k a.toNode‖^2
 
-/-- TARGET vineest Step 1: the signed sum of actual resonances on the whole CL
-realization (including its upper joint) is exactly the four-boundary energy. -/
-theorem cl_sum_signed_resonance {d : ℕ} (hB : G.molecule.IsBlock S a b) (D : CLRegionData G S a b)
-    (k : GNode G.tree → Mom d) (hk : ∀ ℓ, k ℓ.toNode = k (G.pair ℓ).toNode) :
-    (∑ v ∈ S, ((G.sign v.toNode : ℤ) : ℝ) * omegaNode G k v) = clBoundaryEnergy D k := by
-  have he := cl_slotSum_boundary hB D (fun x => ‖k x‖^2) (fun ℓ => congrArg (fun y => ‖y‖^2) (hk ℓ))
-  have hleft : (∑ v ∈ S, Mole.slotSum G (fun x => ‖k x‖^2) v) =
-      -(∑ v ∈ S, ((G.sign v.toNode : ℤ) : ℝ) * omegaNode G k v) := by
-    simp_rw [Mole.slotSum_energy,neg_mul]
-    rw [Finset.sum_neg_distrib]
-  rw [hleft] at he
-  simp only [smul_eq_mul] at he
-  unfold clBoundaryEnergy
-  linarith only [he]
-
-/-- The source signed gap identity, valid also on diagonal decorations. The
-nonzero-gap case follows by restricting the boundary gap to be nonzero. -/
-theorem cl_boundary_momentum {d : ℕ} (hB : G.molecule.IsBlock S a b) (D : CLRegionData G S a b)
-    (k : GNode G.tree → Mom d) (hk : IsDecoration G k) :
-    ((G.sign a.toNode : ℤ) : ℝ) • (k a.toNode - k (a.child D.excluded)) =
-      k (b.child D.positive) - k (b.child D.negative) := by
-  have he := cl_slotSum_boundary hB D k hk.2
-  have h0 : (∑ v ∈ S, Mole.slotSum G k v) = 0 := by
-    apply Finset.sum_eq_zero
-    intro v _
-    exact (Mole.slotSum_eq_zero_iff G k v).mpr (hk.1 v)
-  rw [h0,Mole.outer_child_sign G a D.excluded D.excluded_ne_middle,D.positive_sign,D.negative_sign] at he
-  simp only [Units.val_one,Units.val_neg,Int.cast_one,Int.cast_neg,one_smul,neg_smul,sub_neg_eq_add] at he
-  apply sub_eq_zero.mp
-  have ht : ((G.sign a.toNode : ℤ) : ℝ) • k a.toNode -
-      ((G.sign a.toNode : ℤ) : ℝ) • k (a.child D.excluded) - k (b.child D.positive) + k (b.child D.negative) =
-      ((G.sign a.toNode : ℤ) : ℝ) • (k a.toNode - k (a.child D.excluded)) -
-        (k (b.child D.positive) - k (b.child D.negative)) := by rw [smul_sub]; abel
-  exact ht.symm.trans he.symm
-
 end WaveTurbulence.RegRed

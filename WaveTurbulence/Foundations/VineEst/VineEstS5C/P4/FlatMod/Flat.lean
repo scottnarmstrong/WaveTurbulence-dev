@@ -223,13 +223,4 @@ theorem Lvl.classSumM_eq_flatM (lam : ℝ) (κ0 : KPar d) (hL : κ0.L ≠ 0)
     (Lvl.hAbs_of_leaves (p := p) (kind := kind) B RD hG layer hLayer κ0 hL hprime (Lvl.absLeaves (p := p) (kind := kind) B RD hG layer hLayer κ0 hL hF hprime))
     (Fintype.card lv.ι) lv le_rfl t0 t1 t2 e f g h
 
-/-- λ = 0 reduces to `Lvl.classSum`: `classSumM 0 = classSum` (via `Cont.twistedRecenteredModC_zero`'s kernel identity). -/
-theorem Lvl.classSumM_zero (κ0 : KPar d) (lv : Lvl B) (t0 t1 t2 : ℝ) (e f g h : Mom d) :
-    Lvl.classSumM (p := p) (kind := kind) B RD hG layer hLayer 0 lv κ0 t0 t1 t2 e f g h =
-      lv.classSum (p := p) (kind := kind) B RD hG layer hLayer κ0 t0 t1 t2 e f g h := by
-  unfold Lvl.classSumM Lvl.classSum
-  refine Finset.sum_congr rfl fun z _ => ?_
-  unfold twistedLocalKernelM twistedLocalKernel clLocalKernelModC clLocalKernel lowModC
-  simp
-
 end WaveTurbulence.VineEstS5C

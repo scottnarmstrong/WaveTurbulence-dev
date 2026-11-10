@@ -36,18 +36,6 @@ theorem parent_child_self (a : GNode tree) (h : a.1.2 ≠ []) :
   show ((a.1.1, a.1.2.dropLast ++ [a.1.2.getLast h]) : Fin w × TTree.Path) = a.1
   rw [List.dropLast_append_getLast h]
 
-/-- The parent of a child is the branch itself. -/
-theorem child_parent (b : GBranch tree) (i : Fin 3) (h : (b.child i).1.2 ≠ []) :
-    (b.child i).parent h = b := by
-  apply Subtype.ext
-  show ((b.1.1, (b.1.2 ++ [i]).dropLast) : Fin w × TTree.Path) = b.1
-  rw [List.dropLast_concat]
-
-/-- The path of a child is never empty. -/
-theorem child_path_ne_nil (b : GBranch tree) (i : Fin 3) : (b.child i).1.2 ≠ [] := by
-  show b.1.2 ++ [i] ≠ []
-  simp
-
 /-- A node with the empty path is the root of its tree. -/
 theorem root_eq_of_path_nil (a : GNode tree) (h : a.1.2 = []) : GNode.root tree a.1.1 = a := by
   apply Subtype.ext
@@ -189,11 +177,6 @@ theorem isDesc_of_addrBelow {a a' : GNode S.tree}
       subst hkm
       exact hm
 
-/-- The inflated positions reflect the ancestor order exactly. -/
-theorem isDesc_iff_addrBelow {a a' : GNode S.tree} :
-    a.IsDesc a' ↔ AddrBelow (inflatedPosition S X a) (inflatedPosition S X a') :=
-  ⟨addrBelow_inflatedPosition S X, isDesc_of_addrBelow S X⟩
-
 /-! ## Own regions partition the addresses -/
 
 /-- Every address has an owner: the deepest skeleton node whose inflated position lies above it. -/
@@ -226,12 +209,6 @@ theorem eq_of_mem_ownRegion {y : Address w} {a a' : GNode S.tree} (h : y ∈ own
   · exact key h h' hle
   · exact (key h' h hle).symm
 
-/-- **Partition.** The own regions of the skeleton nodes partition the addresses (in particular the
-vertices of the inflated garden). -/
-theorem existsUnique_mem_ownRegion (y : Address w) : ∃! a, y ∈ ownRegion S X a := by
-  obtain ⟨a, ha⟩ := exists_mem_ownRegion S X y
-  exact ⟨a, ha, fun a' ha' => eq_of_mem_ownRegion S X ha' ha⟩
-
 /-- The owner of an address: the unique skeleton node whose own region contains it. -/
 def owner (y : Address w) : GNode S.tree := (exists_mem_ownRegion S X y).choose
 
@@ -251,34 +228,6 @@ theorem mem_nearRegion_iff {y : Address w} {b : GBranch S.tree} :
       ∃ ℓ : GLeaf S.tree, b.IsParentOf ℓ ∧ owner S X y = (S.pair ℓ).toNode := by
   simp only [nearRegion, Set.mem_union, Set.mem_iUnion, mem_ownRegion_iff, exists_prop]
   tauto
-
-/-- The near-region branches of an address are its owner (if a branch), the owner's parent, and the parent
-of the owner's leaf partner. -/
-theorem mem_nearRegion_cases {y : Address w} {b : GBranch S.tree} (h : y ∈ nearRegion S X b) :
-    b.toNode = owner S X y ∨ (∃ hn : (owner S X y).1.2 ≠ [], b = (owner S X y).parent hn) ∨
-      ∃ ℓ : GLeaf S.tree, ℓ.toNode = owner S X y ∧
-        ∃ hn : (S.pair ℓ).toNode.1.2 ≠ [], b = (S.pair ℓ).toNode.parent hn := by
-  rcases (mem_nearRegion_iff S X).mp h with h1 | ⟨i, h2⟩ | ⟨ℓ, hℓ, h3⟩
-  · exact Or.inl h1.symm
-  · refine Or.inr (Or.inl ⟨h2 ▸ child_path_ne_nil b i, ?_⟩)
-    have e : ∀ (o : GNode S.tree) (ho : o = b.child i) (hn : o.1.2 ≠ []), b = o.parent hn := by
-      intro o ho hn
-      subst ho
-      exact (child_parent b i hn).symm
-    exact e _ h2 _
-  · refine Or.inr (Or.inr ⟨S.pair ℓ, h3.symm, ?_⟩)
-    rw [S.pair_pair ℓ]
-    obtain ⟨hℓ1, i, hℓ2⟩ := hℓ
-    have hl : ℓ = ⟨(b.1.1, b.1.2 ++ [i]), by rw [← hℓ1, ← hℓ2]; exact ℓ.2⟩ :=
-      Subtype.ext (Prod.ext hℓ1 hℓ2)
-    have hn : ℓ.toNode.1.2 ≠ [] := by
-      show ℓ.1.2 ≠ []
-      rw [hℓ2]
-      simp
-    refine ⟨hn, ?_⟩
-    apply Subtype.ext
-    show b.1 = (ℓ.1.1, ℓ.1.2.dropLast)
-    rw [hℓ1, hℓ2, List.dropLast_concat]
 
 /-- The branches whose near region contains the address `y`. -/
 def nearBranches (y : Address w) : Finset (GBranch S.tree) :=

@@ -5,11 +5,9 @@ public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineBran
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineChainBlock
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineChainConnected
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineChainCounts
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineChainEnds
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineChainEraseEndpoints
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineChainIngredients
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineChainInteriorConnected
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineDVDegrees
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineDVMissingJoint
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineEraseChainIngredient
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineHyperAdjointVC
@@ -24,7 +22,6 @@ public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineSmal
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineTwoJointSeparator
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceChainSwap
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceContainerAbsorb
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceCountingObjects
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceDVContainer
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceDVUnion
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceDiamondClosed
@@ -32,7 +29,6 @@ public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceDiamo
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceDiamondVine
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceHyperAbsorb
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceHyperBlockFalse
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceHyperDiamond
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceHyperDiamondObjects
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceHyperUnion
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceMaximalObjects
@@ -40,16 +36,12 @@ public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceObjec
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceObjectUnion
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceOneJointContradiction
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceOneJointUnion
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceSubproObjects
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceSwapObject
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceUnionAtoms
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceUnionContradiction
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceUnionDV
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceUnionEligible
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceVineData
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceVineGapObjects
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceVineObjectBridge
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceVineObjects
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.VineDelObjects
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Api
 /-! **L6-H port of main `WaveTurbulence.Foundations.Spine.SourceOneJointPairFalse`** (sha256 in H/COPIED-SHA256SUMS): only the declarations that

@@ -48,49 +48,4 @@ theorem cl_geometric_data {S : Finset (GBranch G.tree)} {a b : GBranch G.tree}
     (cl_pruned_region_explicit G D.upper D.lower v)).trans
       (and_congr Iff.rfl (and_congr Iff.rfl (hbottom v)))
 
-theorem cn_geometric_data {S : Finset (GBranch G.tree)} {a b : GBranch G.tree}
-    (hB : G.molecule.IsBlock S a b) (hCN : CNParentPattern G S a b) :
-    Nonempty (CNGeometricData G S a b) := by
-  classical
-  obtain ⟨i,j,hi,hj,hs,ht,hr⟩ := cn_source_realization G hB hCN
-  refine ⟨{ parentPattern := hCN
-            excludedA := i
-            excludedB := j
-            excludedA_sign := hi
-            excludedB_sign := hj
-            separatedA := ?_
-            separatedB := ?_
-            realization := hr
-            complete_pairing := incidence_complete_pairing G S }⟩
-  · by_cases h : a.toNode.IsDesc b.toNode
-    · exact Or.inl (hs h)
-    · exact Or.inr h
-  · by_cases h : b.toNode.IsDesc a.toNode
-    · exact Or.inl (ht h)
-    · exact Or.inr h
-
-/-- TARGET `block_clcn` (1): up to swapping the joints, every connected
-garden block has exactly the source CL or CN geometry, including signs,
-the exact node realization, and complete pairing of its realization leaves. -/
-theorem block_geometric_dichotomy (B : GardenBlockSegment G) :
-    Nonempty (CLGeometricData G B.atoms B.leftJoint B.rightJoint) ∨
-      Nonempty (CLGeometricData G B.atoms B.rightJoint B.leftJoint) ∨
-      Nonempty (CNGeometricData G B.atoms B.leftJoint B.rightJoint) := by
-  rcases block_parent_patterns G B.block with h | h | h
-  · exact Or.inl (cl_geometric_data G B.block h)
-  · exact Or.inr (Or.inl (cl_geometric_data G (block_swap_joints G.molecule B.block) h))
-  · exact Or.inr (Or.inr (cn_geometric_data G B.block h))
-
-theorem geometric_alternatives_exclusive (S : Finset (GBranch G.tree)) (a b : GBranch G.tree) :
-    ¬ (Nonempty (CLGeometricData G S a b) ∧ Nonempty (CLGeometricData G S b a)) ∧
-    ¬ (Nonempty (CLGeometricData G S a b) ∧ Nonempty (CNGeometricData G S a b)) ∧
-    ¬ (Nonempty (CLGeometricData G S b a) ∧ Nonempty (CNGeometricData G S a b)) := by
-  refine ⟨?_,?_,?_⟩
-  · rintro ⟨⟨h⟩,⟨k⟩⟩
-    exact h.parentPattern.1 k.parentPattern.2
-  · rintro ⟨⟨h⟩,⟨k⟩⟩
-    exact k.parentPattern.2 h.parentPattern.2
-  · rintro ⟨⟨h⟩,⟨k⟩⟩
-    exact k.parentPattern.1 h.parentPattern.2
-
 end WaveTurbulence.Mole

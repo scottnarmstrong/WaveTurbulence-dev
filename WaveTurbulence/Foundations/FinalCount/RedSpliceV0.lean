@@ -46,11 +46,6 @@ theorem vinesV0_subset (G : Garden w) (σ : Prescription G) : vinesV0 G σ ⊆ v
 theorem vinesV0_subsetMk (G : Garden w) (σ : Prescription G) (Mk : Set (CLVine G)) : vinesV0 G σ Mk ⊆ vinesV G :=
   fun _ h => h.1
 
-/-- B1a bridge: membership in `vinesV0` at the default `Mk = ∅` is main's membership. -/
-theorem mem_vinesV0_empty {G : Garden w} {σ : Prescription G} {c : CLVine G} :
-    c ∈ vinesV0 G σ ↔ c ∈ vinesV G ∧ ∃ S ∈ maximalGroups G.molecule, IsIngredient G.molecule S c.atoms ∧ σ S = .SG :=
-  ⟨fun ⟨hV, S, hS, hI, hσ, _⟩ => ⟨hV, S, hS, hI, hσ⟩, fun ⟨hV, S, hS, hI, hσ⟩ => ⟨hV, S, hS, hI, hσ, fun h => h⟩⟩
-
 /-- B1a bridge: membership in `vinesV0` for a marked set. -/
 theorem mem_vinesV0 {G : Garden w} {σ : Prescription G} {Mk : Set (CLVine G)} {c : CLVine G} :
     c ∈ vinesV0 G σ Mk ↔ c ∈ vinesV0 G σ ∧ c ∉ Mk :=

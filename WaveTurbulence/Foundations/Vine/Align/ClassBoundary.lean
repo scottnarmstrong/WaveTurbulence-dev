@@ -64,21 +64,4 @@ variable {w p : ℕ} {kind : Bool} {S : Garden w}
     (unitsStart (alignedAssembly hM σ) (unitBlk_disj hM σ) D hS layer hLayer)
     (unitsRegion (alignedAssembly hM σ) (unitBlk_disj hM σ)))
 
-/-- The complete `hmom` function is the representative's function. -/
-theorem classShape_hmom :
-    (classShape hM σ D hS layer hLayer hp y hy).hmom (class_disj hM σ D hS layer hLayer hp y hy) =
-      (stShape hM σ).hmom (unitBlk_disj hM σ) :=
-  classShape_hmomMk hM σ D hS layer hLayer hp y hy (memberMarked_empty p kind hM σ D hS layer hLayer y)
-
-/-- The complete `hclk` function is the representative's function. -/
-theorem classShape_hclk :
-    (classShape hM σ D hS layer hLayer hp y hy).hclk (class_disj hM σ D hS layer hLayer hp y hy) =
-      (stShape hM σ).hclk (unitBlk_disj hM σ) :=
-  classShape_hclkMk hM σ D hS layer hLayer hp y hy (memberMarked_empty p kind hM σ D hS layer hLayer y)
-
-/-- The route of every class member is the same literal common-garden route. -/
-theorem classShape_route (hG : (stSt S σ).G.IsPlain) :
-    (classShape hM σ D hS layer hLayer hp y hy).route y.1.plain hG = (stShape hM σ).route hS hG :=
-  classShape_routeMk hM σ D hS layer hLayer hp y hy (memberMarked_empty p kind hM σ D hS layer hLayer y) hG
-
 end WaveTurbulence.VineAlign

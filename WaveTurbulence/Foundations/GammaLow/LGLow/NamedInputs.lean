@@ -37,8 +37,4 @@ L3's `SubObjectsInput`. -/
 theorem fineSplicedGammaInput_of_subObjects (hSO : Famc.SubObjectsInput) : FineSplicedGammaInput :=
   fun P _ hfourier hcount hs => Famc.fineSplicedChoicesGamma hSO P hfourier hcount hs
 
-/-- `FineSplicedGammaInput`, proved: L3's Thm 1.15 (F1)–(F6) is proved unconditionally (`TVine.Struct.subObjects_holds`). -/
-theorem fineSplicedGammaInput_proved : FineSplicedGammaInput :=
-  fineSplicedGammaInput_of_subObjects TVine.Struct.subObjects_holds
-
 end WaveTurbulence.GammaLow.LGLow

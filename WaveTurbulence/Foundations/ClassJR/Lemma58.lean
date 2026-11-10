@@ -599,16 +599,6 @@ theorem iker_comp_decompP (h0 : 0 ≤ θ) (h1 : θ < 1) (hA : A0 ≤ A) {ε : �
   rw [phiR_jker_eq]
   ring
 
-/-- **DH21 Lemma 5.8** at a fixed `μ₁` (the specialization of `iker_comp_decompP`). -/
-theorem iker_comp_decomp (h0 : 0 ≤ θ) (h1 : θ < 1) (hA : A0 ≤ A) {ε : ℤ}
-    (hε : ε = 1 ∨ ε = -1) (μ : ℝ) :
-    ∃ (T₀ : (Empty → ℝ) → ℝ → ℝ → ℂ) (TJ TR : (Option Empty → ℝ) → ℝ → ℝ → ℂ),
-      ClassJ θ A CM0 T₀ ∧ ClassJ θ A (C58J θ) TJ ∧ ClassR θ A (CM0 * 2) TR ∧
-      ∀ α : Option Empty → ℝ, KEqOn (kcomp (iker (ε * α none)) (iker (μ - ε * α none)))
-        fun t s => phiR (ε * α none) * T₀ isEmptyElim t s + TJ α t s + TR α t s := by
-  obtain ⟨T₀, TJ, TR, h₀, hJ, hR, -, he⟩ := iker_comp_decompP h0 h1 hA hε
-  exact ⟨T₀ μ, TJ μ, TR μ, h₀.classJ μ, hJ.classJ μ, hR.classR μ, he μ⟩
-
 end Assembly
 
 end WaveTurbulence.ClassJR

@@ -2,8 +2,8 @@
 module
 public import WaveTurbulence.Foundations.FinalCount.LowGardenSplit3
 public import WaveTurbulence.Foundations.FinalCount.LowGardenLoopData
-public import WaveTurbulence.Foundations.FinalCount.LowGardenLoopMain
-public import WaveTurbulence.Foundations.FinalCount.LowGardenMain
+public import WaveTurbulence.Foundations.FinalCount.LowGardenOne
+public import WaveTurbulence.Foundations.FinalCount.AsmGReg2
 /-! **LOW-GARDEN (session 3): `LowGardenBound` from `LowLoopClassBound` (R79, treatment A).**
 
 * `lowGardenGE2_of_loopMolecule`: the gardens with at least two atoms (loops allowed, `k ≥ 0`) from `LowLoopMoleculeBound`.

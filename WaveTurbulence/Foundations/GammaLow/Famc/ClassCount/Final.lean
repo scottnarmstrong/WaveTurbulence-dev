@@ -24,8 +24,4 @@ theorem classCountG [Fact Fama.TVineF1Input] [Fact Fama.VinechainlemPrimeInput] 
   have : Fact LayervineTVineFirst := ⟨layervineTVineFirst_of_ladders hLad⟩
   exact classCountG_of_legs ClassCount.decodeSizeLeg (skeletonLegG_of_codeLeg skeletonCodeLegG) layeringLegG
 
-/-- **The Stage 1 class count over `𝒱_γ`, unconditional** (L3's ladder statement discharged). -/
-theorem classCountG_uncond [Fact Fama.TVineF1Input] [Fact Fama.VinechainlemPrimeInput] : ClassCountStmtG :=
-  classCountG laddersInput_holds
-
 end WaveTurbulence.GammaLow.Famc.ClassCount

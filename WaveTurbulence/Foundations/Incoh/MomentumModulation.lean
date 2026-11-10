@@ -32,28 +32,6 @@ theorem contDiff_momentumModulation {d : ℕ} (v : Mom d) :
   exact VectorFourier.contDiff_fourierIntegral (innerSL ℝ) (N := ⊤)
     (fun n _ => integrable_dirac (by simp))
 
-/-- Exact actual derivative formula, retaining the unit root phase. -/
-theorem iteratedFDeriv_momentumModulation {d : ℕ} (v k : Mom d) (j : ℕ) :
-    iteratedFDeriv ℝ j (fun k : Mom d => (Real.fourierChar (inner ℝ v k) : ℂ)) k =
-      Real.fourierChar (inner ℝ v k) •
-        VectorFourier.fourierPowSMulRight (innerSL ℝ) (fun _ : Mom d => (1 : ℂ)) (-v) j := by
-  rw [momentumModulation_eq_dirac_fourier,
-    VectorFourier.iteratedFDeriv_fourierIntegral (innerSL ℝ) (N := (j : ℕ∞))
-      (fun n _ => integrable_dirac (by simp)) aestronglyMeasurable_const (le_refl _)]
-  simp only [VectorFourier.fourierIntegral, integral_dirac]
-  change Real.fourierChar (-(inner ℝ (-v) k)) • _ = _
-  rw [inner_neg_left, neg_neg]
-
-/-- Actual modulation derivatives vary continuously with their frequency parameter. -/
-theorem continuous_iteratedFDeriv_momentumModulation_frequency {d : ℕ} (k : Mom d) (j : ℕ) :
-    Continuous (fun v : Mom d =>
-      iteratedFDeriv ℝ j (fun k : Mom d => (Real.fourierChar (inner ℝ v k) : ℂ)) k) := by
-  simp_rw [iteratedFDeriv_momentumModulation]
-  have hp : Continuous (fun v : Mom d =>
-      VectorFourier.fourierPowSMulRight (innerSL ℝ) (fun _ : Mom d => (1 : ℂ)) (-v) j) :=
-    (Continuous.fourierPowSMulRight (innerSL ℝ) continuous_const j).comp continuous_neg
-  exact (Real.continuous_fourierChar.comp (by fun_prop)).smul hp
-
 /-- The actual `j`-th operator derivative has the expected polynomial frequency bound. -/
 theorem norm_iteratedFDeriv_momentumModulation_le {d : ℕ} (v k : Mom d) (j : ℕ) :
     ‖iteratedFDeriv ℝ j (fun k : Mom d => (Real.fourierChar (inner ℝ v k) : ℂ)) k‖ ≤

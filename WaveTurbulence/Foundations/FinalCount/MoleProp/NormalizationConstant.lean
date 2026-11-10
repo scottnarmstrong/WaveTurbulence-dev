@@ -1,7 +1,7 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 
-public import WaveTurbulence.Foundations.FinalCount.MoleProp.SizeAbsorption
+public import WaveTurbulence.Foundations.FinalCount.MoleProp.FreeNormalization
 import Mathlib.Tactic
 
 /-! # Exact rescaling of the exponential counting constant -/
@@ -33,19 +33,5 @@ theorem countAFree_change_constant (M : Molecule V D) {d : ℕ}
     freeNormalization_change_constant M L γ δ Cold Cnew hCold.ne' P,
     ENNReal.ofReal_mul (zpow_nonneg (div_pos hCold hCnew).le _)]
   ring
-
-theorem size_polynomial_mul_constant_ratio_pow_le_one (n m : ℕ)
-    {Cold Cnew : ℝ} (hCold : 0 < Cold) (hCnew : 0 < Cnew)
-    (hlarge : (2 : ℝ)^m*Cold ≤ Cnew) :
-    ((n : ℝ)+1)^m*(Cold/Cnew)^n ≤ 1 := by
-  have hr : 0 ≤ Cold/Cnew := (div_pos hCold hCnew).le
-  have hb : (2 : ℝ)^m*(Cold/Cnew) ≤ 1 := by
-    rw [← mul_div_assoc]
-    exact (div_le_one hCnew).mpr hlarge
-  calc
-    _ ≤ ((2 : ℝ)^m)^n*(Cold/Cnew)^n :=
-      mul_le_mul_of_nonneg_right (size_polynomial_le_exponential n m) (pow_nonneg hr n)
-    _ = ((2 : ℝ)^m*(Cold/Cnew))^n := (mul_pow _ _ _).symm
-    _ ≤ 1 := pow_le_one₀ (mul_nonneg (by positivity) hr) hb
 
 end WaveTurbulence.MoleProp

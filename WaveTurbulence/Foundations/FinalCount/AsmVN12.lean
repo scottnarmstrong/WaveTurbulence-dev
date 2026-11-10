@@ -1,7 +1,7 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 public import WaveTurbulence.Foundations.FinalCount.AsmVN11
-public import WaveTurbulence.Foundations.FinalCount.HyperAtomClassification
+public import WaveTurbulence.Foundations.Molecule.VineVCJointEdge
 /-! **FINALCOUNT-ASSEMBLY (VineNodeExists, part 12): the shape part of `VHard.hcls`.**
 `doubleShape_of_card_three`: any vine cut of a loop-free molecule of degrees `<= 4` along an object with exactly three atoms is a
 `DoubleShape` (the four darts at the middle atom are the mates of the joint darts).  So `hcls` only needs a classification of the

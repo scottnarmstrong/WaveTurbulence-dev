@@ -5,7 +5,7 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.Spine.SourceSeparation
+public import WaveTurbulence.Foundations.WaveB.MoleculeStatements
 public import WaveTurbulence.Foundations.VineEst.VineEstS3.FSKernel
 
 /-! # Elementary facts on the time boxes `timeBox q q'`, `timeBoxGt q q'` (V5, hypotheses of the engine) -/
@@ -23,9 +23,6 @@ theorem timeBox_subset_cell (q q' : ℝ) : timeBox q q' ⊆ cell ![q, q'] := by
 
 theorem timeBoxGt_subset_cell (q q' : ℝ) : timeBoxGt q q' ⊆ cell ![q, q'] :=
   fun ts hts => timeBox_subset_cell q q' hts.1
-
-theorem timeBox_eq_pi (q q' : ℝ) :
-    timeBox q q' = {ts | ts 0 ∈ Icc q (q + 1)} ∩ {ts | ts 1 ∈ Icc q' (q' + 1)} := rfl
 
 theorem convex_timeBox (q q' : ℝ) : Convex ℝ (timeBox q q') := by
   intro x hx y hy a b ha hb hab

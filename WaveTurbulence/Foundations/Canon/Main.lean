@@ -72,14 +72,6 @@ theorem relCrit_roots_iff (q : ℕ) : RelCrit LG LG.roots q ↔ LG.CanonCriterio
   · rintro ⟨h1, h2⟩
     exact ⟨fun a _ => h1 a, fun a a' _ _ => h2 a a'⟩
 
-theorem relAttach_roots (q : ℕ) : relAttach LG LG.roots q = LG.attachNodes q := by
-  ext a
-  simp [mem_relAttach, LayeredGarden.attachNodes, belowSet_roots, rpl_roots]
-
-theorem relLinked_roots (q : ℕ) : RelLinked LG LG.roots q = LG.AttachLinkedOn q := by
-  funext u u'
-  simp only [RelLinked, LayeredGarden.AttachLinkedOn, relAttach_roots]
-
 theorem leavesBelowSet_roots_sub {A : Finset (GNode LG.garden.tree)} (hA : A ⊆ LG.roots)
     {ℓ : GLeaf LG.garden.tree} :
     ℓ ∈ LG.leavesBelowSet A ↔ GNode.root LG.garden.tree ℓ.1.1 ∈ A := by

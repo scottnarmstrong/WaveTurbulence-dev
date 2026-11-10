@@ -7,7 +7,6 @@ module
 
 public import WaveTurbulence.Foundations.VineEst.VineEstS4.SplitFubiniInputs
 public import WaveTurbulence.Foundations.VineEst.VineEstS4.Rg5SSum
-public import WaveTurbulence.Foundations.VineEst.VineEstS4.Cls1State
 
 /-! # Linearity of the S-side in the lower factor (V5 Step 4b, step 4, WP-E, part 1)
 

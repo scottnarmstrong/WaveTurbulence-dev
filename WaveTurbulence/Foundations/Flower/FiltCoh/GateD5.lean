@@ -2,7 +2,6 @@
 module
 
 public import WaveTurbulence.Foundations.Flower.FiltCoh.MultiCoupleD5
-public import WaveTurbulence.Foundations.Flower.FiltCoh.GatePlain
 public import WaveTurbulence.Foundations.Flower.FiltCoh.FiltWickOracle
 
 /-! # FILT-COH (D5d-d1): the gate `FiltCoherentBoundGate` from the single-layer D5 oracles

@@ -30,14 +30,4 @@ theorem coupleMomentumData_inputMomentum {G : Garden 2} {Q : RegCpl}
   rw [hx]
   exact sourceNodeRow_eval hQ _ r (fun j => (x j 0,x j 1))
 
-/-- The localization weight is the literal product of actual leaf profiles. -/
-theorem coupleMomentumData_inputCellWeight {G : Garden 2} {Q : RegCpl}
-    (hQ : Q.Decodes G) (hG : IsCouple G) {d : ℕ}
-    (c : Fin (2*Q.links.length+1) → Fin d → ℤ) (k : Mom d)
-    (x : Fin Q.links.length → Fin 2 → Mom d) :
-    (coupleMomentumData hQ hG).inputCellWeight c k x =
-      ∏ a, leafCellProfile d (NTSP.intVec (c a))
-        ((decOfParams hQ k (fun j => (x j 0,x j 1))).val (plusLeafEquiv hQ hG a).val.toNode) := by
-  simp only [MomentumTreeData.inputCellWeight,coupleMomentumData_inputMomentum]
-
 end WaveTurbulence.RegAsymp

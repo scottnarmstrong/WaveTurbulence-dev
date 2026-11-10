@@ -108,17 +108,4 @@ noncomputable def commonShape : SpliceShape (fun j => unitClBlock (vs j)) (stSt 
   castShape ((batchMolIso_spec hr.batch).splice_garden_eq σ (unitsFamily_isV0Fam hM σ))
     (endpointShape hM σ D hS layer hLayer hr hn)
 
-/-- The endpoint shape has exactly its independently constructed hinge set. -/
-theorem endpointShape_hinges :
-    (endpointShape hM σ D hS layer hLayer hr hn).hinges (member_disj hM σ D hS layer hLayer hr hn) =
-      (stSt Y.skeleton (transportPrescription (batchMolIso hr.batch) σ)).hinges :=
-  endpointShape_hingesMk hM σ D hS layer hLayer hr hn (Stage1Mk.markTransported_empty _)
-
-/-- R-HINGE: all common shapes have the representative's hinge set. -/
-theorem commonShape_hinges {R : ℕ} (hwidth : w = 2 * R) :
-    (commonShape hM σ D hS layer hLayer hr hn).hinges (member_disj hM σ D hS layer hLayer hr hn) =
-      (stSt S σ).hinges := by
-  subst w
-  exact commonShape_hingesMk hM σ D hS layer hLayer hr hn (Stage1Mk.markTransported_empty _)
-
 end WaveTurbulence.VineAlign

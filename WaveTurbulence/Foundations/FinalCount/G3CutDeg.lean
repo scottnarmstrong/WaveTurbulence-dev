@@ -21,8 +21,6 @@ theorem indeg_eq_sum (N : Molecule V D) (a : V) :
   unfold Molecule.indeg; rw [Finset.card_filter]
 
 theorem cut_out (v v₂ : V) (x₁ x₂ : D) : (M.cut v v₂ x₁ x₂).out = M.out := rfl
-theorem cut_mate (v v₂ : V) (x₁ x₂ : D) : (M.cut v v₂ x₁ x₂).mate = M.mate := rfl
-theorem cut_atoms (v v₂ : V) (x₁ x₂ : D) : (M.cut v v₂ x₁ x₂).atoms = insert v₂ M.atoms := rfl
 
 theorem cut_dartsAt_v (hcd : M.IsCutData v v₂ x₁ x₂) : (M.cut v v₂ x₁ x₂).dartsAt v = {x₁, x₂} := by
   ext x

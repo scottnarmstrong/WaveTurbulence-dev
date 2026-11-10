@@ -1,6 +1,7 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
-public import WaveTurbulence.Foundations.Spine.ExplicitCoherentZero
+public import WaveTurbulence.Foundations.Spine.RegularCodeReindex
+public import WaveTurbulence.Foundations.XChain.LeafPairKernel
 /-! Every actual zero-order couple has the unique trivial regular code. -/
 public section
 set_option autoImplicit false

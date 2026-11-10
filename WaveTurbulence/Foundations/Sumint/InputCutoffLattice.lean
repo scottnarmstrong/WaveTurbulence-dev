@@ -78,13 +78,4 @@ theorem card_inputCutoffBox_le {ι : Type*} [Fintype ι] {d : ℕ} {L : ℝ} (hL
       simpa only [show 2*(4*L)+1 = 8*L+1 by ring] using hc
     _ = _ := by simp only [Finset.prod_const, Finset.card_univ, ← pow_mul]
 
-/-- Every localized Fourier lattice summand is genuinely summable, independently of its phase. -/
-theorem summable_inputCutoff_mul {ι : Type*} [Fintype ι] {d : ℕ} {L : ℝ} (hL : 0 < L)
-    (a : ι → Fin d → ℝ) (F : (ι → Fin d → ℤ) → ℂ) :
-    Summable (fun x => ((∏ i, inputCutoff (a i) (latticePoint L (x i)) : ℝ) : ℂ) * F x) := by
-  classical
-  apply summable_of_ne_finset_zero (s := inputCutoffBox L a)
-  intro x hx
-  rw [inputCutoff_product_eq_zero hL a x hx, Complex.ofReal_zero, zero_mul]
-
 end WaveTurbulence.Sumint

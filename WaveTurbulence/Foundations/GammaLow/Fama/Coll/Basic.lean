@@ -66,24 +66,6 @@ def IsSourceVinePartitionG (γ : ℝ) (M : Molecule V D) (collection : Set (Fins
   collection.Pairwise (fun S T => Disjoint S T) ∧
   ∀ P : Src.Object γ M, ∃ S ∈ collection, P.atoms ⊆ S
 
-theorem IsSourceVinePartitionG.subset_atoms {γ : ℝ} {M : Molecule V D} {collection : Set (Finset V)}
-    (h : IsSourceVinePartitionG γ M collection) {S : Finset V} (hS : S ∈ collection) : S ⊆ M.atoms := by
-  obtain ⟨a, b, hHV | hVC | hHVC | hDV⟩ := h.1 S hS
-  · obtain ⟨e, _, hv⟩ := hHV
-    exact (Src.isBlock_of_isSomeVine hv).1
-  · exact hVC.1.1
-  · obtain ⟨e, _, hblock, _⟩ := hHVC
-    exact hblock.1
-  · obtain ⟨-, A, B, hA, hB, _, rfl⟩ := hDV
-    exact Finset.union_subset (Src.isBlock_of_isSomeVine hA).1 (Src.isBlock_of_isSomeVine hB).1
-
-theorem IsSourceVinePartitionG.finite {γ : ℝ} {M : Molecule V D} {collection : Set (Finset V)}
-    (h : IsSourceVinePartitionG γ M collection) : collection.Finite := by
-  classical
-  apply (M.atoms.powerset.finite_toSet).subset
-  intro S hS
-  exact Finset.mem_powerset.mpr (h.subset_atoms hS)
-
 /-! ## Atomic groups and objects (main `S1Basic`) -/
 
 /-- An atom set that is an HV, VC or HVC over `𝒱_γ`. -/
@@ -123,10 +105,6 @@ theorem object_of_isVineLikeSet {γ : ℝ} {M : Molecule V D} {S : Finset V} (h 
   · exact ⟨⟨S, a, b, .vc h⟩, rfl⟩
   · obtain ⟨e, he, hb, n, _, hn⟩ := h
     exact ⟨⟨S, a, b, .hyper ⟨e, he, ⟨hb, n, hn⟩⟩⟩, rfl⟩
-
-theorem isVineLikeSet_iff_object {γ : ℝ} {M : Molecule V D} {S : Finset V} :
-    IsVineLikeSetG γ M S ↔ ∃ P : Src.Object γ M, P.atoms = S :=
-  ⟨object_of_isVineLikeSet, fun ⟨P, hP⟩ => hP ▸ isVineLikeSet_of_object P⟩
 
 theorem isStage1Group_of_vineLike {γ : ℝ} {M : Molecule V D} {S : Finset V} (h : IsVineLikeSetG γ M S) :
     IsStage1GroupG γ M S := by

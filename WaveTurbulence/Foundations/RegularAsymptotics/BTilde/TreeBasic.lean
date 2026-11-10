@@ -29,8 +29,6 @@ def tchild : TTree → Fin 3 → TTree
 /-- The branching nodes of one tree. -/
 abbrev TB (T : TTree) : Type := {p : TTree.Path // p ∈ T.branching}
 
-theorem branching_leaf : TTree.leaf.branching = ∅ := rfl
-
 theorem nil_mem_branching_node (l m r : TTree) : ([] : TTree.Path) ∈ (TTree.node l m r).branching := by
   simp [TTree.branching]
 

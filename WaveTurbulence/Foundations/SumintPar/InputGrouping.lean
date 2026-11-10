@@ -59,22 +59,6 @@ theorem inputTimeSlot_surjective (S : SumintShape) : Function.Surjective (inputT
   Equiv.ofBijective (inputTimeSlot S) ((Fintype.bijective_iff_surjective_and_card _).mpr
     ⟨inputTimeSlot_surjective S,by rw [card_time_index,card_vector_index]⟩)
 
-/-- The zero input has the distinguished zero-time coordinate. -/
-theorem timeVectorEquiv_zero (S : SumintShape) (i : Fin S.I) :
-    timeVectorEquiv S (.inl ⟨i,0⟩) = S.x0Slot i := rfl
-
-/-- Pair x coordinates have the positive t coordinates. -/
-theorem timeVectorEquiv_x (S : SumintShape) (i : Fin S.I) (j : Fin (S.m i)) :
-    timeVectorEquiv S (.inl ⟨i,j.succ⟩) = S.xSlot i j := rfl
-
-/-- Pair y coordinates have the s coordinates. -/
-theorem timeVectorEquiv_y (S : SumintShape) (i : Fin S.I) (j : Fin (S.m i)) :
-    timeVectorEquiv S (.inr (.inl ⟨i,j⟩)) = S.ySlot i j := rfl
-
-/-- Normal inputs have the three normal time coordinates. -/
-theorem timeVectorEquiv_u (S : SumintShape) (i : {i : Fin S.I // S.nor i = true}) (j : Fin 3) :
-    timeVectorEquiv S (.inr (.inr ⟨i,j⟩)) = S.uSlot i.1 i.2 j := rfl
-
 /-- Explicit grouping of coordinate functions by their source factor. -/
 @[expose] def timeGroupingEquiv (S : SumintShape) (α : Type*) :
     (S.TVar → α) ≃ (Fin S.I → α) ×
@@ -103,19 +87,5 @@ theorem timeVectorEquiv_u (S : SumintShape) (i : {i : Fin S.I // S.nor i = true}
       ((Σ i : Fin S.I, Fin (S.m i)) → α × α) ×
       ({i : Fin S.I // S.nor i = true} → Fin 3 → α) :=
   (Equiv.arrowCongr (timeVectorEquiv S).symm (Equiv.refl α)).trans (timeGroupingEquiv S α)
-
-/-- The linear grouped component is exactly the source zero slot. -/
-theorem inputGroupingEquiv_linear (S : SumintShape) {α : Type*} (x : S.VIdx → α) (i : Fin S.I) :
-    (inputGroupingEquiv S α x).1 i = x (S.x0Slot i) := rfl
-
-/-- The pair grouped component is exactly the source x/y pair. -/
-theorem inputGroupingEquiv_pair (S : SumintShape) {α : Type*} (x : S.VIdx → α)
-    (p : Σ i : Fin S.I, Fin (S.m i)) :
-    (inputGroupingEquiv S α x).2.1 p = (x (S.xSlot p.1 p.2),x (S.ySlot p.1 p.2)) := rfl
-
-/-- The normal grouped component is exactly the source cubic input triple. -/
-theorem inputGroupingEquiv_normal (S : SumintShape) {α : Type*} (x : S.VIdx → α)
-    (i : {i : Fin S.I // S.nor i = true}) (j : Fin 3) :
-    (inputGroupingEquiv S α x).2.2 i j = x (S.uSlot i.1 i.2 j) := rfl
 
 end WaveTurbulence.SumintPar

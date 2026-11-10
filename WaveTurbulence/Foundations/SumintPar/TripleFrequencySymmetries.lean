@@ -49,7 +49,4 @@ theorem volume_preserving_frequencyReflectFirst : MeasurePreserving frequencyRef
   exact (MeasurePreserving.symm tripleFrequencyEquiv volume_preserving_tripleFrequencyEquiv).comp
     (hp.comp volume_preserving_tripleFrequencyEquiv)
 
-/-- The first-frequency reflection has its literal coordinate action. -/
-theorem frequencyReflectFirst_apply (ξ : Fin 3 → ℝ) : frequencyReflectFirst ξ = ![-ξ 0,ξ 1,ξ 2] := rfl
-
 end WaveTurbulence.SumintPar

@@ -32,22 +32,4 @@ momentum coordinates. No extra regularity assumption is supplied by users. -/
 @[simp] theorem chi0MomSchwartz_apply {d : ℕ} (x : EuclideanSpace ℝ (Fin d)) :
     chi0MomSchwartz d x = chi0TensorComplex (ofLp x) := rfl
 
-/-- TARGET L966, L1550: the fixed cutoff's translated non-stationary bound. -/
-theorem chi0_nonstationary_phase {d : ℕ} (N : ℕ) (a w : EuclideanSpace ℝ (Fin d)) :
-    ‖∫ x, Real.fourierChar (inner ℝ x w) • chi0TensorComplex (ofLp (x - a))‖ ≤
-      nonstationaryConstant N (chi0MomSchwartz d) / Real.sqrt (1 + ‖w‖ ^ 2) ^ N := by
-  simpa only [chi0MomSchwartz_apply] using
-    nonstationary_phase_japanese N (chi0MomSchwartz d) a w
-
-/-- TARGET L968; DH23 L1013ff: `⟨s⟩^{-d}` for the fixed tensor cutoff,
-uniformly over all four translations and linear-frequency vectors. -/
-theorem chi0_bilinear_stationary_phase {d : ℕ} (hd : 0 < d)
-    (a b ξ ζ : EuclideanSpace ℝ (Fin d)) (s : ℝ) :
-    ‖bilinearPhaseIntegral (chi0MomSchwartz d) (chi0MomSchwartz d) a b ξ ζ s‖ ≤
-      bilinearPhaseConstant (chi0MomSchwartz d) (chi0MomSchwartz d) /
-        Real.sqrt (1 + s ^ 2) ^ d := by
-  simpa only [finrank_euclideanSpace_fin] using
-    bilinear_stationary_phase (chi0MomSchwartz d) (chi0MomSchwartz d)
-      (by simpa only [finrank_euclideanSpace_fin] using hd) a b ξ ζ s
-
 end WaveTurbulence.Fourier

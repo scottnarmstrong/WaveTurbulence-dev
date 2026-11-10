@@ -165,14 +165,4 @@ theorem phase1_coverLE_of_inputs [Infinite V] {M₀ : Molecule V D₀} {m Rn : �
     (hmemAtLE_of_inputs hS.isMolecule hS (H.hL) hηγ H.hη h2 hmate h0 hdisj hFst hsgC hdesC hsh hHC hcrit hsd hobl
       hchain hshape hcritE) hfin
 
-/-- At the end of Step 1 (`Stuck1E`) no re-cut is pending, so the budget is main's potential there
-(`WPot_g1E_of_pend_zero`); this is how C1b2's `hfin` sees `g1`. -/
-theorem pendRC_zero_of_stuck {M₀ : Molecule V D₀} {m : ℕ} {C : CollDataMK M₀}
-    {Un : (D₀ → (Fin d → ℤ)) → Set (Object M₀)} {E : Fin m → Object M₀} {L γ η : ℝ} {w : Mom d}
-    {κ : D₀ → (Fin d → ℤ)} {h : HSt V D₀} (hst : Stuck1E C L γ η w Un E κ h) : pendRC E h = 0 := by
-  unfold pendRC
-  rw [Finset.card_eq_zero, Finset.filter_eq_empty_iff]
-  intro i _ hi
-  exact hi.1 (hst.2.2 i)
-
 end WaveTurbulence.Flower.FinalMKPhase1

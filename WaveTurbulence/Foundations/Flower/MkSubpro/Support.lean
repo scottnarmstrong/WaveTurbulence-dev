@@ -27,12 +27,6 @@ open WaveTurbulence.LGSpine.SourceVine WaveTurbulence.Flower.MkDefs WaveTurbulen
 
 variable {w : ℕ}
 
-/-- The world's exceptional joints `B` are main's `survJointsOf`. -/
-theorem survData_joints (G : Garden w) (σ : Prescription G) (Mk : Set (Stage1.CLVine G))
-    (prot : Finset (GBranch (stSt G σ Mk).G.tree)) :
-    (survData G σ Mk prot).joints =
-      VineA.NormalizedSplice.Subpro.survJointsOf (VineA.NormalizedSplice.survObjs G σ Mk).get := rfl
-
 /-- **o75 Theorem 7.5′ (2), (4), (5) with 75-F1, (6), (6′)** for the marked splice, as the world's
 `SubproSupportMK`, on one decoration of the support of the epsilon and gap factors. -/
 theorem subproSupportMK_survData {R : ℕ} {G : Garden (2 * R)} (σ : Prescription G) {Mk : Set (Stage1.CLVine G)}

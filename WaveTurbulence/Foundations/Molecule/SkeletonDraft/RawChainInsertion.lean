@@ -29,14 +29,4 @@ theorem miniChain_pairsAt_finset {w : ℕ} (m : MiniTreeCode) (σ : Fin w → �
     by_cases hg : slotSign (nodeSign σ a) m.green.1 = 1 <;>
     simp [miniChain,RegChain.pairsAt,RegCpl.pairsAt,RegChain.lonePath,miniPairs,orient,hr,hg]
 
-theorem Raw.insertChain_miniChain {w : ℕ} (R : Raw w) (a : Address w) (m : MiniTreeCode) :
-    R.insertChain a (miniChain m) = R.opB a m := by
-  classical
-  apply Raw.ext
-  · rfl
-  · simp only [Raw.insertChain,Raw.opB,miniChain_plug]
-    rfl
-  · simp only [Raw.insertChain,Raw.opB,miniChain_lonePath,miniChain_pairsAt_finset]
-    rfl
-
 end WaveTurbulence.Reg.Skeleton

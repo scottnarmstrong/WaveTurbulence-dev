@@ -28,11 +28,6 @@ theorem clamp2J_of_le {q : ℝ} {J : (Fin 2 → ℝ) → ℂ} {ts : Fin 2 → �
   unfold clamp2J
   rw [min_eq_left (by linarith), max_eq_right h, ← vec2_update]
 
-theorem clamp2J_of_mem {q : ℝ} {J : (Fin 2 → ℝ) → ℂ} {ts : Fin 2 → ℝ} (h1 : q ≤ ts 0) (h2 : ts 0 ≤ q + 1) :
-    clamp2J q J ts = J ts := by
-  unfold clamp2J
-  rw [min_eq_left h2, max_eq_left h1, vec2_eta]
-
 /-- The trace point `(q, s)` lies in the closure of the interior of the tree box (`s ≤ q`, `L₂ ≤ q`). -/
 theorem gt_trace_mem_q {q L2 : ℝ} (hq : L2 ≤ q) {s : ℝ} (hs1 : L2 ≤ s) (hs2 : s ≤ L2 + 1) (hsq : s ≤ q) :
     ![q, s] ∈ closure (interior (timeBoxGt q L2)) := by
@@ -134,32 +129,6 @@ end Bound
 section Root
 open WaveTurbulence.VineEstS5C.P1 WaveTurbulence.Reg TTree
 variable {P : WTParams} {h : ℕ → Mom P.d → ℝ} {n p q' : ℕ} {cost : ℝ}
-
-/-- **High-root couple**: with the gate level `q = Lr > L₂`, the two-sided clamp keeps the sum of the separated terms
-(the total vanishes at `t = Lr`, `couple_root_vanish`). -/
-theorem couple_clamp2_eq {Q : RegCpl} {LG : LayeredGarden 2}
-    (E : ContExp P n (30 * P.d) (timeBox (cplRootLayer LG : ℝ) q')
-      (fun ts k => SourceApp.couple P.δ h LG Q (cplRootLayer LG) q' (ts 0) (ts 1) k) cost)
-    (hqq : q' ≤ cplRootLayer LG) (hqp : cplRootLayer LG ≤ p) (hcoh : IsCoherentCoupleAt p (cplRootLayer LG) q' Q LG)
-    (hgt : q' < cplRootLayer LG) {s : ℝ} (hs1 : (q' : ℝ) ≤ s) (hs2 : s ≤ q' + 1) (t : ℝ) (k : Mom P.d) :
-    ∑ i, sepTerm (P.δ ^ n) (clamp2J (cplRootLayer LG : ℝ) (E.J i)) (E.M i) t s k =
-      ∑ i, sepTerm (P.δ ^ n) (clampJ (cplRootLayer LG : ℝ) (E.J i)) (E.M i) t s k := by
-  refine sum_clamp2_eq_of_vanish E (s := s) ?_ (fun k => ?_) t k
-  · exact ⟨⟨by simp, by simp⟩, by simpa using And.intro hs1 hs2⟩
-  · simpa using couple_root_vanish P.δ h hqq hqp hcoh hgt s k
-
-/-- **High-root tree** (the box needs `s < t`, so `L₂ + 1 ≤ Lr` and `s < L₂ + 1`). -/
-theorem tree_clamp2_eq {X : RegChain} {LG : LayeredGarden 1}
-    (E : ContExp P n 0 (timeBoxGt (treeRootLayer LG : ℝ) q')
-      (fun ts k => SourceApp.tree P.δ h LG X (treeRootLayer LG) q' (ts 0) (ts 1) k) cost)
-    (hqq : q' ≤ treeRootLayer LG) (hcoh : IsCoherentTreeAt p (treeRootLayer LG) q' X LG)
-    (hgt : q' < treeRootLayer LG) {s : ℝ} (hs1 : (q' : ℝ) ≤ s) (hs2 : s < q' + 1) (t : ℝ) (k : Mom P.d) :
-    ∑ i, sepTerm (P.δ ^ n) (clamp2J (treeRootLayer LG : ℝ) (E.J i)) (E.M i) t s k =
-      ∑ i, sepTerm (P.δ ^ n) (clampJ (treeRootLayer LG : ℝ) (E.J i)) (E.M i) t s k := by
-  refine sum_clamp2_eq_of_vanish E (s := s) ?_ (fun k => ?_) t k
-  · have h2 : (q' : ℝ) + 1 ≤ (treeRootLayer LG : ℝ) := by exact_mod_cast hgt
-    exact ⟨⟨⟨by simp, by simp⟩, by simpa using And.intro hs1 hs2.le⟩, by simpa using (by linarith : s < treeRootLayer LG)⟩
-  · simpa using tree_root_vanish P.δ h hqq hcoh hgt s k
 
 end Root
 

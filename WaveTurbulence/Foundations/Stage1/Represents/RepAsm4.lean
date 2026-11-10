@@ -22,12 +22,6 @@ open scoped ENNReal
 
 variable {w d : ℕ} {S : Garden w}
 
-theorem chi_le_one (d : ℕ) (n : Fin d → ℤ) (k : Mom d) : chi d n k ≤ 1 := by
-  have h := hasSum_chi d k
-  have := (h.summable.le_tsum n (fun m _ => chi_nonneg d m k))
-  rw [h.tsum_eq] at this
-  exact this
-
 /-- The chi constant: `SNorm (30d) 0 (χ_n H) ≤ Cχ SNorm (30d) 0 H`, `Cχ ≥ 1`. -/
 theorem exists_Cchi (hd : 1 ≤ d) : ∃ C : ℝ, 1 ≤ C ∧ ∀ H : Mom d → ℂ, ContDiff ℝ (30 * d) H →
     ∀ n : Fin d → ℤ, SNorm (30 * d) 0 (fun k => chiC d n k * H k) ≤ ENNReal.ofReal C * SNorm (30 * d) 0 H := by

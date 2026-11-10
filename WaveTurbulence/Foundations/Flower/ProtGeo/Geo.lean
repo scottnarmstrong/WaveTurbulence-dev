@@ -101,11 +101,6 @@ theorem lone_not_prefix_branch {q : Path} (hq : q ∈ (X.plug ζ .leaf).branchin
   subst he
   exact TTree.not_mem_branching_of_mem_leaves _ (chain_lone_mem_leaves X ζ) hq
 
-/-- A node at or below the lone position is the lone position. -/
-theorem lone_prefix_node {q : Path} (hq : q ∈ (X.plug ζ .leaf).nodes) (hP : X.lonePath <+: q) :
-    q = X.lonePath :=
-  (leaf_prefix_node_eq (chain_lone_mem_leaves X ζ) hq hP).symm
-
 /-- The strict prefixes of the lone path are branching nodes (the chain nodes). -/
 theorem prefix_lone_branching {q : Path} (hq : q <+: X.lonePath) (hne : q ≠ X.lonePath) :
     q ∈ (X.plug ζ .leaf).branching := by

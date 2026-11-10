@@ -208,24 +208,6 @@ def FixedSlotBound : Prop :=
       XNormRestr θ 0 0 (Set.pi univ fun _ => Icc q (q + 1)) K (fun y k => G (Fin.snoc y a) k) ≤
         ENNReal.ofReal C * XNorm θ 0 0 G
 
-/-- o104 Lemma 7.1(4): the diagonal trace `g ↦ g(…, s, s)`. `G` is continuous in time (null-set trace; R160). -/
-def DiagonalBound : Prop :=
-  ∀ (d r : ℕ) (θ : ℝ), 0 ≤ θ → ∃ C : ℝ, 0 ≤ C ∧
-    ∀ (q : ℝ) (G : (Fin (r + 2) → ℝ) → Mom d → ℂ) (K : Set (Mom d)),
-      (∀ k, Continuous fun t => G t k) →
-      XNormRestr θ 0 0 (Set.pi univ fun _ => Icc q (q + 1)) K
-          (fun (y : Fin (r + 1) → ℝ) k => G (Fin.snoc y (y (Fin.last r))) k) ≤
-        ENNReal.ofReal C * XNorm θ 0 0 G
-
-/-- o104 Lemma 7.1(5): integration of a modulated slot over a fixed unit interval, uniformly in `A`. -/
-def FixedIntervalBound : Prop :=
-  ∀ (d r : ℕ) (θ : ℝ), 0 ≤ θ → ∃ C : ℝ, 0 ≤ C ∧
-    ∀ (A q q' : ℝ) (G : (Fin (r + 1) → ℝ) → Mom d → ℂ) (K : Set (Mom d)),
-      XNormRestr θ 0 0 (Set.pi univ fun _ => Icc q (q + 1)) K
-          (fun y k => ∫ u in q'..q' + 1,
-            Complex.exp (((Real.pi * A * u : ℝ) : ℂ) * Complex.I) * G (Fin.snoc y u) k) ≤
-        ENNReal.ofReal C * XNorm θ 0 0 G
-
 /-- o82 Lemmas 17.1–17.2 (folding extension and interpolation) at a fixed output, on the unit triangle:
 `‖f‖_{A^η} ≤ C ‖f‖_∞^τ ‖f‖_{A^{1/4}}^{1-τ}`, `τ = (1 - 8η)/9`. -/
 def FoldInterpolation : Prop :=
@@ -319,41 +301,12 @@ def FiltCoherentBoundAt (P : WTParams) : Prop :=
 
 def FiltCoherentBoundGate : Prop := WTPrefix FiltCoherentBoundAt
 
-open scoped FourierTransform in
-/-- **D5c, o82 Prop 2.1**: the filtered extracted pole `g_S(u) = χ_∞(u) χ₀(u/S)/u` has `⟨σ⟩^{-2d}` Fourier decay,
-uniformly in `S ≥ 1` (main's `ApproxNT.norm_mKerHat_mul_le` is the dyadic case `S = 2^{K+1}`). -/
-def FiltPoleFourier : Prop :=
-  ∀ d : ℕ, 1 ≤ d → ∃ K : ℝ, 0 ≤ K ∧ ∀ S : ℝ, 1 ≤ S → ∀ σ : ℝ,
-    ‖𝓕 (fun u : ℝ => ((Fourier.chiInfinity u / u * chi0 (u / S) : ℝ) : ℂ)) σ‖ * (1 + σ ^ 2) ^ d ≤ K
-
 /-- The filtered DH23 profile: main's `ApproxNT.resProfile` with each extracted pole multiplied by `χ₀(·/S_j)`
 (filters on integrable coordinates are absorbed into `Ψ₁` by FL-COEF). -/
 noncomputable def filtProfile {n : ℕ} (J : Finset (Fin n)) (S : Fin n → ℝ)
     (Ψ₁ : EuclideanSpace ℝ {j // j ∉ J} → ℂ) (Ω : Fin n → ℝ) : ℂ :=
   (∏ j ∈ J, ((Fourier.chiInfinity (Ω j) / Ω j * chi0 (Ω j / S j) : ℝ) : ℂ)) *
     Ψ₁ (WithLp.toLp 2 (fun i : {j // j ∉ J} => Ω i))
-
-/-- **D5c FILT-NT, o82 Thm 10.1 (10.5)**: main's `RegAsymp.crude_normalized_sum` for the filtered profile, uniformly in
-the filter scales (with the `C₀^n` Gevrey constant of `ApproxNT.dh23_prop_6_4`). -/
-def FiltCrudeNormalizedSum : Prop :=
-  ∀ {d : ℕ}, 3 ≤ d → ∀ {γ η : ℝ}, γ ∈ Set.Ioo (0 : ℝ) 1 → 0 < η → η ≤ 1 / 20 →
-    η ≤ ((d : ℝ) - 1) * (1 - γ) → η ≤ γ → ∀ C₀ : ℝ, 1 ≤ C₀ →
-    ∃ C : ℝ, 0 < C ∧ ∀ A : ℝ, ∃ L₀ : ℝ, ∀ L : ℝ, L₀ ≤ L →
-      ∀ δ : ℝ, L ^ (-(η / 2)) ≤ δ → δ ≤ 1 → ∀ n : ℕ, 0 < n → (n : ℝ) ≤ Real.log L ^ A →
-      ∀ H : ℝ, 0 ≤ H →
-      ∀ (lt : Fin n → Fin n → Prop) [IsStrictOrder (Fin n) lt] (xs ys : Fin n → ApproxNT.Shift n),
-      (∀ j, (xs j).Below lt j) → (∀ j, (ys j).Below lt j) →
-      ∀ (a b : Fin n → Mom d) (lam : Fin n → ℝ), (∀ j, 1 ≤ lam j) →
-      ∀ W : (Fin n → Mom d) → (Fin n → Mom d) → ℂ, Continuous (Function.uncurry W) →
-      (∀ x y, W x y ≠ 0 → (x, y) ∈ ApproxNT.supportSet xs ys a b lam) →
-      (∫⁻ τ : (Fin n → Mom d) × (Fin n → Mom d), ‖ApproxNT.fourierW W τ.1 τ.2‖ₑ *
-        ENNReal.ofReal (1 + 2 * Real.pi * ApproxNT.freqNorm τ.1 τ.2)) ≤ ENNReal.ofReal H →
-      ∀ (J : Finset (Fin n)) (S : Fin n → ℝ), (∀ j, 1 ≤ S j) →
-      ∀ Ψ : EuclideanSpace ℝ {j // j ∉ J} → ℂ, ContDiff ℝ (⊤ : ℕ∞) Ψ →
-      ApproxNT.WordDerivL1 Ψ (fun k => C₀ ^ n * ((4 * k).factorial : ℝ)) →
-      ‖(((δ / (2 * L ^ ((d : ℝ) - γ))) ^ (2 * n) : ℝ) : ℂ) *
-        ApproxNT.approxSum L (L ^ (2 * γ) * δ) W (filtProfile J S Ψ)‖ ≤
-        (∏ j, lam j) ^ (2 * d) * (C * δ / 4) ^ n * H
 
 /-! ## §4 Pinned protected objects (D3 PROT-PIN) -/
 
@@ -456,62 +409,6 @@ def ProtAnnBoundAt (P : WTParams) : Prop :=
 
 def ProtAnnBoundGate : Prop := WTPrefix ProtAnnBoundAt
 
-/-- **F-4, pointwise per garden (`RegularComponentPointwiseAt`; R172: on a canonical ambient)** (o82 §19: in a wholly regular capped component the output is fixed, so the
-fixed-output bound suffices): a cap couple whose near tree is a whole original tree, at fixed `(t, s, k')`, with any
-valid configuration (and optional selections): the pointwise corollary of `ProtBoundAt`/`ProtAnnBoundAt`
-(`|F(t,s)| ≤ ‖F‖_{X^{θ,0,0}}`). -/
-def RegularComponentPointwiseAt (P : WTParams) : Prop :=
-  ∀ p : ℕ, p < P.D → ∀ n : ℕ, n ≤ P.N (p + 1) ^ 4 → ∀ (LG : LayeredGarden 2) (X : RegChain),
-  ProtShape p X LG → protSize X LG = 2 * n →
-  ∀ (cfg : ProtCfg), cfg.Valid X LG p → ∀ (Sel : Finset (GBranch LG.garden.tree)),
-    (∀ b ∈ Sel, b.1.1.val = 0 ∧ b.1.2 <+: X.lonePath ∧ b.1.2 ≠ X.lonePath ∧
-      cfg.fix X 0 0 0 b = none) →
-    (Sel.Nonempty → cfg = .none ∨ cfg = .term) → ProtAmbient p X LG →
-  ∀ (M₂ : ℝ), P.L ≤ M₂ → ∀ (s t : ℝ), (p : ℝ) < s → s < t → t < p + 1 →
-  ∀ (S : Finset (GNode LG.garden.tree)) (ω : GNode LG.garden.tree → Flower.IncTop.Star P.d → ℂ)
-    (cω : GNode LG.garden.tree → ℝ), (∀ a ∈ S, Flower.IncTop.StarPresented (30 * P.d) (ω a) (cω a)) →
-  ∀ (F : Finset (GBranch LG.garden.tree)) (M : GBranch LG.garden.tree → ℝ), (∀ b ∈ F, P.L ≤ M b) →
-  ∀ (Fu : Finset (GBranch LG.garden.tree)) (Mu : GBranch LG.garden.tree → ℝ), (∀ b ∈ Fu, P.L ≤ Mu b) →
-  ∀ (ind : (GNode LG.garden.tree → Mom P.d) → ℝ), TermChildIndicator X ind →
-    ((cfg = .none ∨ cfg = .root ∨ cfg = .trace) → ∀ κ, ind κ = 1) →
-  ∀ (H : LeafProfiles 2 P.d) (B : (Fin 2 × TTree.Path) → NNReal), LeafwiseControlled LG H B →
-  ∀ k' : Mom P.d,
-    ‖kernelProt P.L P.γ P.δ LG H
-        (fun κ => Flower.IncTop.starWeight S ω κ *
-          filtWeight (F ∪ Sel) (fun b => decide (b ∈ Sel)) (fun b => if b ∈ Sel then M₂ else M b) κ *
-          filtWeight Fu (fun _ => false) Mu κ * (ind κ : ℂ))
-        (fun _ => t) s (cfg.fix X s t t) k' (fun _ => 0) 0‖ₑ ≤
-      (∏ a ∈ S, ENNReal.ofReal (cω a)) *
-        ENNReal.ofReal (P.L ^ ((47 * P.d + 6) * (2 + Sel.card : ℕ)) * M₂ ^ (-((Sel.card : ℝ) / 18))) *
-        regBound P n (protIncoh X LG) * ENNReal.ofReal (leafSizeProduct LG B)
-
 /-! ## §6 The protected-amplitude interface (for B0 / B3b) -/
-
-/-- A **protected slot** of a Stage-1′ piece: the native-clock function of a protected regular object (an exterior
-slot of `G_sb`, never regional), its time box, local output set, weight `θ` and mass. -/
-structure ProtSlot (d : ℕ) where
-  θ : ℝ
-  box : Set (Fin 2 → ℝ)
-  out : Set (Mom d)
-  F : (Fin 2 → ℝ) → Mom d → ℂ
-  mass : ℝ
-
-/-- The interface contract: `θ ≥ η` at a lower slot (U-clock (U.2)), `θ ≥ 1/4` at a slot adjacent to a selected
-residual vertex (o73 (20.2)), `θ ≥ 0` (time weight one) otherwise (o73 §16); local output norm bounded by the mass. -/
-def ProtSlot.OK {d : ℕ} (σ : ProtSlot d) (η : ℝ) (lower selAdj : Bool) : Prop :=
-  0 ≤ σ.θ ∧ (lower = true → η ≤ σ.θ) ∧ (selAdj = true → 1 / 4 ≤ σ.θ) ∧
-    XNormRestr σ.θ (30 * d) 0 σ.box σ.out σ.F ≤ ENNReal.ofReal σ.mass
-
-/-- B3b's conversion (main's `Represents.exists_supM` through an extension agreeing on `box × out`): an OK
-protected slot is a superposition with normalized amplitudes (`SNorm (30d) 0 ≤ 1`) and moment mass `C · mass`.
-Ruling R179 (F-B3s-3): the slot function is continuous in its clocks on the box (a point mass in time has `XNorm` `0`
-but is not `0`, while a `SupM` superposition is continuous on the box). -/
-def ProtSlotSupM : Prop :=
-  ∀ (d : ℕ) (θ : ℝ), 0 ≤ θ → ∃ C : ℝ≥0∞, C ≠ ⊤ ∧ ∀ (σ : ProtSlot d), σ.θ = θ →
-    σ.box ⊆ VineEstS3.FS.cell (fun _ => (0 : ℝ)) → σ.box ⊆ closure (interior σ.box) →
-    (∀ k ∈ σ.out, ContinuousOn (fun ts => σ.F ts k) σ.box) →
-    XNormRestr σ.θ (30 * d) 0 σ.box σ.out σ.F ≤ ENNReal.ofReal σ.mass →
-    ∃ G : (Fin 2 → ℝ) → Mom d → ℂ, (∀ ts ∈ σ.box, ∀ k ∈ σ.out, G ts k = σ.F ts k) ∧
-      Represents.SupM θ (30 * d) σ.box G (C * ENNReal.ofReal σ.mass)
 
 end WaveTurbulence.Flower.ProtDefs

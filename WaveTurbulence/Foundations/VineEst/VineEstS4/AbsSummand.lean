@@ -67,19 +67,6 @@ variable {w d : ℕ} {G : Garden w} (D : ReconstructionData G) (hG : G.IsPlain) 
 
 variable {D hG L γ δ F layer hLayer base}
 
-theorem norm_KQstar_le (hF : HF D hG L F layer base) (p : SourcePair G) (x : Fin d → ℤ) (t s : ℝ) :
-    ‖KQstar L γ δ F (nativeCoupleLayered D hG layer hLayer p) t s (base + latticePoint L x)‖ ≤
-      pairBound D hG L γ δ F layer hLayer base p x :=
-  norm_kernelK_le L γ δ F _ _ _ _ _ _ (native_couple_lone D hG layer hLayer p) (couple_hF hF p x)
-
-theorem norm_KTstar_le (hF : HF D hG L F layer base) (v : GBranch G.tree) (x : Fin d → ℤ) (t s : ℝ) :
-    ‖KTstar L γ δ F (nativeChainLayered D hG layer hLayer v) t s (base + latticePoint L x)‖ ≤
-      chainBound D hG L γ δ F layer hLayer base v := by
-  refine (norm_kernelK_le L γ δ F _ _ _ _ _ _ (native_chain_lone D hG layer hLayer v) (chain_hF hF v x)).trans ?_
-  unfold chainBound
-  exact mul_le_mul_of_nonneg_left (majSum_le L F _ base (native_chain_lone D hG layer hLayer v)
-    (chain_hF_base hF v) _ _ x) (by positivity)
-
 /-- **The selected couple row obeys the same bound** (ruling F2; `VineEst.norm_KQsel_le`). -/
 theorem norm_selCoupleRow_le (hF : HF D hG L F layer base) (p : SourcePair G) (x : Fin d → ℤ) (t s : ℝ) :
     ‖VineEst.selCoupleRow L γ δ F D hG layer hLayer p t s (base + latticePoint L x)‖ ≤

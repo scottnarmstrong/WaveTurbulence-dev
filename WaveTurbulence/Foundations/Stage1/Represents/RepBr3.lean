@@ -30,10 +30,6 @@ theorem couple_decodes (p' : SourcePair S) :
   rw [nativeCoupleLayered_garden]
   exact decodedCouple_decodes _
 
-theorem couple_layer_le (p : ℕ) (hp : ∀ ν, layer ν ≤ p) (p' : SourcePair S)
-    (a : GNode (nativeCoupleLayered D hS layer hLayer p').garden.tree) :
-    (nativeCoupleLayered D hS layer hLayer p').layer a ≤ p := hp _
-
 theorem couple_root_node (p' : SourcePair S) (j : Fin 2) :
     ((nativeCoupleForest D hS p').nodeEmbedding
         (GNode.root (nativeCoupleForest D hS p').shape j)).1 =

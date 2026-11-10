@@ -64,14 +64,6 @@ def miniCoupleCode (c : MiniCplCode) : RegCpl := .type1 c .triv .triv .triv
 def operationA (Q : RegCpl) (x y : Fin 2 × Path) (c : MiniCplCode) : RegCpl :=
   normalizeCouple (substituteCouplePair Q (0,[]) (1,[]) x y (miniCoupleCode c))
 
-/-- Source operation A adds exactly two listed leaf pairs. -/
-theorem raw_opA_pairs_length (R : RawCpl) (x y : Fin 2 × Path) (c : MiniCplCode)
-    (h : (x,y) ∈ R.2) : (R.opA x y c).2.length = R.2.length + 2 := by
-  have he := List.length_erase_add_one h
-  change (R.2.erase (x,y) ++ [_,_,_]).length = _
-  simp only [List.length_append,List.length_cons,List.length_nil]
-  omega
-
 /-- The new code and the source A-step retain exactly the same literal oriented pair list. -/
 theorem operationA_pairs_perm (Q : RegCpl) (x y : Fin 2 × Path) (c : MiniCplCode)
     (h : (x,y) ∈ Q.raw.2) :
@@ -83,16 +75,6 @@ theorem operationA_pairs_perm (Q : RegCpl) (x y : Fin 2 × Path) (c : MiniCplCod
     (decodedPair_nodup Q) h
   simpa only [miniCoupleCode,RegCpl.pairsAt,RawCpl.opA,RegCpl.raw,
     List.singleton_append,List.cons_append,List.nil_append] using hp
-
-/-- Operation A on a genuine listed pair adds exactly two branching nodes. -/
-theorem operationA_size (Q : RegCpl) (x y : Fin 2 × Path) (c : MiniCplCode)
-    (h : (x,y) ∈ Q.raw.2) : (operationA Q x y c).size = Q.size + 2 := by
-  have hl := (operationA_pairs_perm Q x y c h).length_eq
-  rw [raw_opA_pairs_length Q.raw x y c h] at hl
-  change ((operationA Q x y c).pairsAt (0,[]) (1,[])).length =
-    (Q.pairsAt (0,[]) (1,[])).length + 2 at hl
-  rw [couple_pairsAt_length,couple_pairsAt_length] at hl
-  omega
 
 /-- Operation A returns well-formed structure data without any normalization premise. -/
 theorem operationA_wf (Q : RegCpl) (x y : Fin 2 × Path) (c : MiniCplCode) :

@@ -34,13 +34,6 @@ structure CutPinFix (Xp : RegChain) (m : MiniTreeCode) (inner : RegChain) (s : �
   term : ∀ b : GBranch T, b.1.2 = Xp.lonePath ++ bPath m inner → F b = some s
   below : ∀ b σ, F b = some σ → σ = s ∧ ∃ q : Path, q ≠ [] ∧ b.1.2 = Xp.lonePath ++ q
 
-theorem termFix_cutPinFix (Xp : RegChain) (m : MiniTreeCode) (inner : RegChain) (s : ℝ) {T : Fin 1 → TTree} :
-    CutPinFix Xp m inner s (termFix Xp m inner s : GBranch T → Option ℝ) := by
-  refine ⟨fun b hb => by simp [termFix, hb], fun b σ h => ?_⟩
-  unfold termFix at h
-  split_ifs at h with hb
-  exact ⟨(Option.some.inj h).symm, bPath m inner, bPath_ne_nil m inner, hb⟩
-
 /-- A strict prefix of the path of a branching node is a branching node. -/
 theorem mem_branching_of_strict_prefix {w : ℕ} {T : Fin w → TTree} (b0 : GBranch T) (p q : Path) (hq : q ≠ [])
     (h : b0.1.2 = p ++ q) : p ∈ (T b0.1.1).branching := by
@@ -137,9 +130,6 @@ theorem pin_parent (b : GBranch LG.garden.tree) (hb : (D.aB hZ hsZ).IsChildOf b)
     have hq0 : q.length ≠ 0 := fun h0 => hq (List.eq_nil_of_length_eq_zero h0)
     simp only [List.length_append, List.length_singleton] at this
     omega
-
-omit hF in
-theorem ofSum_inr_rootB : (D.gd hZ hsZ).ofSum (.inr (D.hp hZ hsZ).rootB) = D.aB hZ hsZ := rfl
 
 theorem cutU_sub_pin (T s' : ℝ) : cutU LG Xp T s ⊆ pinSet LG (fun _ => T) s' F (D.aB hZ hsZ) := by
   rintro u ⟨h1, h2, h3, h4, h5⟩

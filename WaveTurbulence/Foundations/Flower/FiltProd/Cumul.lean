@@ -119,26 +119,6 @@ def RootCoordinates.treeCausalExtensionFilt {d n : ℕ} (R : RootCoordinates n)
     (I : Mom d → Set (Fin n → Fin 2 → ℝ)) : (Fin 2 → ℝ) → Mom d → ℂ :=
   Fourier.cutoffJ χ (fun t k => RootCoordinates.linkDensityFilt R L γ δ (Q k) (φ k) (I k) t)
 
-/-- The estimated causal extension agrees pointwise with the literal source kernel. -/
-theorem RootCoordinates.treeCausalExtension_agreesFilt {d n : ℕ} (R : RootCoordinates n)
-    {L : ℝ} (hL : 0 < L) (γ δ : ℝ) (Q : Mom d → Fin n → LayerLink d) (φ : Mom d → Fin n → ℝ → ℂ)
-    (I : Mom d → Set (Fin n → Fin 2 → ℝ)) (k : Mom d) (hI : MeasurableSet (I k))
-    (hbox : I k ⊆ univ.pi (fun i => linkBox (Q k i))) {χ : ℝ → ℝ}
-    (hχ : ∀ u ∈ R.rootBox (Q k), ∀ j, χ (u j) = 1)
-    {t : Fin 2 → ℝ} (ht : t 1 ≤ t 0) (htχ : ∀ j, χ (t j) = 1) :
-    RootCoordinates.treeCausalExtensionFilt R χ L γ δ Q φ I t k = RootCoordinates.causalKernelFilt R L γ δ (Q k) (φ k) (I k) t := by
-  have he (x y : ℝ) : (χ x : ℂ) * (χ y : ℂ) * RootCoordinates.linkDensityFilt R L γ δ (Q k) (φ k) (I k) ![x, y] =
-      RootCoordinates.linkDensityFilt R L γ δ (Q k) (φ k) (I k) ![x, y] :=
-    RootCoordinates.cutoff_linkDensity_eq_selfFilt R L γ δ (Q k) (φ k) hbox hχ ![x, y]
-  change (χ (t 0) : ℂ) * (χ (t 1) : ℂ) *
-    (∫ x in t 1..t 0, ∫ y in t 1..x,
-      (χ x : ℂ) * (χ y : ℂ) * RootCoordinates.linkDensityFilt R L γ δ (Q k) (φ k) (I k) ![x, y]) = _
-  rw [htχ 0, htχ 1]
-  simp only [Complex.ofReal_one, one_mul]
-  simp_rw [he]
-  rw [integral_triangle_eq_setIntegral (RootCoordinates.integrable_linkDensityFilt R hL γ δ (Q k) (φ k) hI hbox) ht]
-  exact (RootCoordinates.causalKernel_eq_setIntegralFilt R hL γ δ (Q k) (φ k) hI hbox t).symm
-
 
 
 

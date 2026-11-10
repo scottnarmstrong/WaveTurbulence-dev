@@ -52,15 +52,4 @@ theorem miniBInv_right (m : MiniTreeCode) : Function.RightInverse (miniBInv m) (
 def miniBPerm (m : MiniTreeCode) : Equiv.Perm (Fin 4) :=
   ⟨miniBMap m,miniBInv m,miniBInv_left m,miniBInv_right m⟩
 
-/-- Every completed A port pair has opposite conservation signs. -/
-theorem miniA_port_sign (c : MiniCplCode) (ζ : ℤˣ) (i : Fin 4) :
-    portSign ζ i = -portSign (-ζ) (miniAPerm c i) := by
-  rcases Int.units_eq_one_or ζ with rfl | rfl <;> fin_cases c <;> fin_cases i <;> decide
-
-/-- Every completed B port pair has opposite conservation signs, including the free attachment pair. -/
-theorem miniB_port_sign (m : MiniTreeCode) (ζ : ℤˣ) (i : Fin 4) :
-    portSign ζ i = -portSign (slotSign ζ m.c) (miniBPerm m i) := by
-  obtain ⟨c,b⟩ := m
-  rcases Int.units_eq_one_or ζ with rfl | rfl <;> fin_cases c <;> fin_cases b <;> fin_cases i <;> decide
-
 end WaveTurbulence.Reg.Skeleton

@@ -2,7 +2,6 @@
 module
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.Ghost.Phase1G
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.AsmChainLow
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.AsmChain2
 /-! **Ghost assembly: the low-range `chain_cover`** (RULING R194; design: `CHAIN-DESIGN.md`).
 
 `chainCoverLow'_holds : H.ChainCoverLow'` — H-ASM's field `Src.AsmInputs.chainCover` (`H/FinalCount/AsmChainLow.lean`,

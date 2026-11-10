@@ -93,19 +93,6 @@ theorem timeDirectionalDerivative_single {r : ℕ} {f : (Fin r → ℝ) → ℂ}
     timeDirectionalDerivative (Pi.single j 1) f = WaveTurbulence.partialDeriv j f :=
   (WaveTurbulence.partialDeriv_eq_fderiv_fun hf j).symm
 
-/-- The diagonal derivative is the sum of the two frozen time partials. -/
-theorem timeDirectionalDerivative_diagonal_eq_partials {f : (Fin 2 → ℝ) → ℂ}
-    (hf : Differentiable ℝ f) (t : Fin 2 → ℝ) :
-    timeDirectionalDerivative (fun _ => 1) f t =
-      WaveTurbulence.partialDeriv 0 f t + WaveTurbulence.partialDeriv 1 f t := by
-  rw [WaveTurbulence.partialDeriv_eq_fderiv_fun hf 0,
-    WaveTurbulence.partialDeriv_eq_fderiv_fun hf 1]
-  have hv : (fun _ : Fin 2 => (1 : ℝ)) = Pi.single 0 1 + Pi.single 1 1 := by
-    ext j
-    fin_cases j <;> simp
-  change fderiv ℝ f t (fun _ => 1) = fderiv ℝ f t (Pi.single 0 1) + fderiv ℝ f t (Pi.single 1 1)
-  rw [hv, map_add]
-
 /-- Simultaneous translation has the all-ones tangent vector. -/
 theorem hasDerivAt_time_translation {r : ℕ} (v : Fin r → ℝ) (c : ℝ) :
     HasDerivAt (fun u : ℝ => fun j : Fin r => v j + u) (fun _ => 1) c := by

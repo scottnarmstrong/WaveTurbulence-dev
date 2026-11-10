@@ -45,24 +45,4 @@ theorem chain_atom_ingredient {M : Molecule V D} {U : Finset V} {a b v : V} {n :
       exact ⟨A,x,y,ChainIngredient.append_left hA hT hi hne,hvA⟩
     · exact ⟨_,_,_,ChainIngredient.append_last hS hT hi hne,hv⟩
 
-/-- TARGET subsetvc's geometric chain step: a single vine contained in
-an actual vine chain lies in a single ingredient. The source block premise
-constructs prefix degrees and all separator closure facts automatically. -/
-theorem vine_in_chain_ingredient (M : Molecule V D) (hM : M.IsMolecule)
-    {A U : Finset V} {x y a b : V} {X : VineType} {n : ℕ}
-    (hA : M.IsVine X A x y) (h : Chain M U a b n) :
-    M.IsBlock U a b → A ⊆ U →
-      ∃ T p q,ChainIngredient M U a b n T p q ∧ A ⊆ T := by
-  induction h with
-  | single h =>
-    intro _hU hAU
-    exact ⟨_,_,_,ChainIngredient.single h,hAU⟩
-  | @append S T a b c n hS hT hi hne ih =>
-    intro hU hAU
-    obtain ⟨Y,hY⟩ := hT
-    rcases vine_in_terminal_split M hM hY.1 hU (chain_joints_mem hS).2 hA hAU with hAS | hAT
-    · obtain ⟨B,p,q,hB,hAB⟩ := ih (chain_prefix_isBlock M hM hS hY hi hU) hAS
-      exact ⟨B,p,q,ChainIngredient.append_left hB ⟨Y,hY⟩ hi hne,hAB⟩
-    · exact ⟨T,b,c,ChainIngredient.append_last hS ⟨Y,hY⟩ hi hne,hAT⟩
-
 end WaveTurbulence.Vine

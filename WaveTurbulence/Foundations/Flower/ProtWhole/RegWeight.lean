@@ -260,8 +260,6 @@ def selF (kSel : Fin 2 → Option ℕ) : Finset (GBranch D.T1.garden.tree) :=
     D.stem1.filter fun b1 => b1 ∉ objSelT (J := ({c} : Finset (Fin 2))) D.emb kSel
   else ∅
 
-theorem chiD_eq : MkDefs.chiD = FlShell.chiD := rfl
-
 theorem selWeightCap_eq (Rs : Fin 2 → ℝ) (kSel : Fin 2 → Option ℕ) (K : GNode D.T1.garden.tree → Mom d) :
     ((selWeightCap LG {c} (selCap LG {c} kSel) Rs (fun a => K (D.ρ a)) : ℝ) : ℂ) =
       (regSelConst LG c j0 Rs kSel : ℂ) *

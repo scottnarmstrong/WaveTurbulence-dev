@@ -3,7 +3,8 @@ module
 
 public import WaveTurbulence.Foundations.FinalCount.AppBS33LeftParameters
 public import WaveTurbulence.Foundations.FinalCount.AppBFrameProjectionReindex
-public import WaveTurbulence.Foundations.FinalCount.AppBTripleFixedTuples
+public import WaveTurbulence.Foundations.FinalCount.AppBTripleFrameConservation
+public import WaveTurbulence.Foundations.FinalCount.AppBPhysicalPairGood
 import Mathlib.Tactic
 
 /-! # The new bond in the 35 component fixes the copied boundary coordinate -/

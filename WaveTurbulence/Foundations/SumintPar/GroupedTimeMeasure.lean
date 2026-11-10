@@ -84,19 +84,4 @@ theorem volume_preserving_measurableTimeGrouping (S : SumintShape) :
     ring
   exact MeasurePreserving.symm e.symm hi
 
-/-- Exact Tonelli order: pairs are integrated with the distinguished linear times fixed. -/
-theorem lintegral_grouped_time_families (S : SumintShape) (f : GroupedTimes S → ℝ≥0∞)
-    (hf : Measurable f) :
-    (∫⁻ τ : S.TVar → ℝ, f (measurableTimeGrouping S τ)) =
-      ∫⁻ u : Fin S.I → ℝ,
-        ∫⁻ p : (Σ i : Fin S.I, Fin (S.m i)) → ℝ × ℝ,
-          ∫⁻ n : {i : Fin S.I // S.nor i = true} → Fin 3 → ℝ, f (u,p,n) := by
-  rw [(volume_preserving_measurableTimeGrouping S).lintegral_comp_emb
-    (measurableTimeGrouping S).measurableEmbedding f]
-  rw [Measure.volume_eq_prod,lintegral_prod _ hf.aemeasurable]
-  apply lintegral_congr
-  intro u
-  rw [Measure.volume_eq_prod]
-  exact lintegral_prod _ ((hf.comp (measurable_const.prodMk measurable_id)).aemeasurable)
-
 end WaveTurbulence.SumintPar

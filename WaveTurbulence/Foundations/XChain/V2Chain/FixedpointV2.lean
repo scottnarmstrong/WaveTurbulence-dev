@@ -39,12 +39,4 @@ theorem fixedpoint_v2_of_closed_gates_v3 (hG : LayergardenFlowerV3Gate) (hL : La
     (cplMomentsS_of_gates (WTPrefixPS.ofR hG') (WTPrefixS.ofR hL') (WTPrefixS.ofFull hW') Cpl.oX3Cpl)
     (part2S_of_X2 (flowerest1S_of_gates (WTPrefixPS.ofR hG') X2E.oX2Exp))).toR
 
-/-- Compatibility name for the fixedpoint-v2 consumer after D13. The shared X-chain now uses
-product cutoffs, so this helper takes `LayergardenFlowerV3Gate`. The exact max-cutoff
-`LayergardenFlowerV2Gate` remains available in `GateTypes`; no implication between the two gates
-is asserted. UNOWNED conditional helper. -/
-theorem fixedpoint_v2_of_closed_gates (hG : LayergardenFlowerV3Gate) (hL : LayergardenV2Gate)
-    (hW : WkeTaylorGate) : FixedpointV2Gate.{u} :=
-  fixedpoint_v2_of_closed_gates_v3 hG hL hW
-
 end WaveTurbulence.V2Chain

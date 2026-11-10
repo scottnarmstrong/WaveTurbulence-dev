@@ -40,53 +40,7 @@ theorem protAmbient_objTree {w : ℕ} {LG : LayeredGarden w} {p : ℕ} (hcan : I
     ProtAmbient p X (objTree LG X ζ u hE) :=
   ⟨w, LG, u, h, hcan, hE, hζ, fun _ => rfl⟩
 
-/-- Cap couples: D2b's `objCpl` of a cap chain (code `normChain ζ X`), with the ambient root sign. -/
-theorem protAmbient_objCpl {w : ℕ} {LG : LayeredGarden w} {J : Finset (Fin w)} {p : ℕ}
-    (hcan : IsCanonGC (p + 1) LG) (hG : CapGeo LG J p) {X : RegChain} {ζ : ℤˣ} {u : Fin w × TTree.Path}
-    {c : Fin w} (hC : CapChain LG J X ζ u c) (hζ : nodeSign LG.garden.sig u = ζ) :
-    ProtAmbient p (normChain ζ X) (objCpl LG X ζ u c hC.stem.emb hC.pair) :=
-  ⟨w, LG, u, (c, []), ζ, X, hcan, hC.stem.emb, hζ, rfl, rfl, hG.cap_leaf c hC.cap, hC.pair, fun _ => rfl⟩
-
-/-- `MkCarries` gives the canonicity used above. -/
-theorem canon_of_mkCarries {P : WTParams} {p n w : ℕ} {LG : LayeredGarden w} (h : MkCarries P p n LG) :
-    IsCanonGC (p + 1) LG := h.1
-
 /-! ## (2b) Transport to the pieces of the terminal cut (copied from the D0 probe) -/
-
-/-- **Terminal-cut transport.** For `X = Xp ++ pair m Qr Qg inner nil` the prefix chain, the interior chain and the
-two side couples of the partner pair are embedded in the SAME canonical `H`, with the object's layers. -/
-theorem protAmbient_termCut {p : ℕ} {Xp inner : RegChain} {m : MiniTreeCode} {Qr Qg : RegCpl}
-    {LG : LayeredGarden 1} (hA : ProtAmbient p (appendChain Xp (.pair m Qr Qg inner .nil)) LG) :
-    ∃ (w' : ℕ) (H : LayeredGarden w') (a : Fin w' × TTree.Path) (h : TTree), IsCanonGC (p + 1) H ∧
-      nodeSign H.garden.sig a = LG.garden.sig 0 ∧
-      (∀ z : GNode LG.garden.tree, LG.layer z = layerAt H (addrExt a z.1.2)) ∧
-      ChainEmb H.garden Xp (LG.garden.sig 0) a
-        ((RegChain.pair m Qr Qg inner .nil).plug (LG.garden.sig 0) h) ∧
-      ChainEmb H.garden inner (slotSign (LG.garden.sig 0) m.c) (addrExt (addrExt a Xp.lonePath) [m.c])
-        (pairBottom m Qr Qg .nil (LG.garden.sig 0) h) ∧
-      (if slotSign (LG.garden.sig 0) m.red.1 = 1 then
-          Embeds H.garden Qr (addrExt (addrExt a Xp.lonePath) [m.red.1])
-            (addrExt (addrExt a Xp.lonePath) ([m.c] ++ inner.lonePath ++ [m.red.2]))
-        else Embeds H.garden Qr (addrExt (addrExt a Xp.lonePath) ([m.c] ++ inner.lonePath ++ [m.red.2]))
-            (addrExt (addrExt a Xp.lonePath) [m.red.1])) ∧
-      (if slotSign (LG.garden.sig 0) m.green.1 = 1 then
-          Embeds H.garden Qg (addrExt (addrExt a Xp.lonePath) [m.green.1])
-            (addrExt (addrExt a Xp.lonePath) ([m.c] ++ inner.lonePath ++ [m.green.2]))
-        else Embeds H.garden Qg (addrExt (addrExt a Xp.lonePath) ([m.c] ++ inner.lonePath ++ [m.green.2]))
-            (addrExt (addrExt a Xp.lonePath) [m.green.1])) := by
-  obtain ⟨w', H, a, h, hc, hE, hs, hl⟩ := hA
-  have hL := PL234.chainEmb_append_left hE
-  have hR := PL234.chainEmb_append_right hE
-  obtain ⟨hr, hg, hi, -⟩ := hR.parts
-  exact ⟨w', H, a, h, hc, hs, hl, hL, hi, hr, hg⟩
-
-/-- The same transport for the cap case: the near chain `X₀` in `H` (ambient sign `ζ`). -/
-theorem protAmbient_cap_chain {p : ℕ} {X : RegChain} {LG : LayeredGarden 2} (hA : ProtAmbient p X LG) :
-    ∃ (w' : ℕ) (H : LayeredGarden w') (a : Fin w' × TTree.Path) (ζ : ℤˣ) (X₀ : RegChain),
-      IsCanonGC (p + 1) H ∧ ChainEmb H.garden X₀ ζ a .leaf ∧ nodeSign H.garden.sig a = ζ ∧
-      X = (if ζ = 1 then X₀ else ConjCoh.conjChain X₀) := by
-  obtain ⟨w', H, a, -, ζ, X₀, hc, hE, hs, hX, -⟩ := hA
-  exact ⟨w', H, a, ζ, X₀, hc, hE, hs, hX⟩
 
 /-! ## The sign-free tree ambient -/
 

@@ -39,20 +39,4 @@ theorem source_object_joint_pair_unique {V D : Type*} [DecidableEq V] [Fintype D
     have he := source_joint_pair_unique E R.adjoint.1 hv hp hp'
     exact ⟨congrArg Subtype.val he.1, congrArg Subtype.val he.2⟩
 
-/-- Forgetting the orientation leaves precisely the source's swap ambiguity. -/
-theorem source_object_joint_pair_eq_or_swap {V D : Type*} [DecidableEq V] [Fintype D]
-    [DecidableEq D] {M : Molecule V D} (P : Object M) {v : V}
-    (hv : v = P.upper ∨ v = P.lower) {x y x₀ y₀ : D}
-    (hxy₀ : SourceObjectJointPair P v x₀ y₀)
-    (hx : M.atom x = v) (hy : M.atom y = v) (hgx : P.ContainsDart x) (hgy : P.ContainsDart y)
-    (ho : M.out x ≠ M.out y) :
-    (x = x₀ ∧ y = y₀) ∨ (x = y₀ ∧ y = x₀) := by
-  by_cases hox : M.out x = true
-  · have hoy : M.out y = false := by cases hy' : M.out y <;> simp_all
-    exact Or.inl (source_object_joint_pair_unique P hv ⟨hx, hy, hgx, hgy, hox, hoy⟩ hxy₀)
-  · have hox' : M.out x = false := by cases hx' : M.out x <;> simp_all
-    have hoy : M.out y = true := by cases hy' : M.out y <;> simp_all
-    have hh := source_object_joint_pair_unique P hv ⟨hy, hx, hgy, hgx, hoy, hox'⟩ hxy₀
-    exact Or.inr ⟨hh.2, hh.1⟩
-
 end WaveTurbulence.LGSpine

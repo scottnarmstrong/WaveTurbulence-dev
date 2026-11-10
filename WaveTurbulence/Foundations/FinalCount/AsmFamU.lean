@@ -1,6 +1,6 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
-public import WaveTurbulence.Foundations.FinalCount.AsmTerm11
+public import WaveTurbulence.Foundations.FinalCount.AsmTerm10
 /-! **FINALCOUNT-ASSEMBLY: V-uniform threshold versions** of `erase_family_deviation_sharp` and `terminal_family`.  `WTPrefix` chooses `L₀`
 before the garden, hence before the atom type `V = GBranch G.tree`; here `V` is quantified AFTER `L₀`.  Proofs are copies with the quantifier moved. -/
 @[expose] public section

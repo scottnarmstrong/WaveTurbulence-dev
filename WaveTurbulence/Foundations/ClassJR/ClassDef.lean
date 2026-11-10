@@ -123,15 +123,4 @@ variable is `α₁ = α none`. -/
     rker (bundle R.y₁ (nsp α) + R.ε * α none) (bundle R.y₂ (nsp α) + R.ε * α none)
       γ.1 γ.2.1 γ.2.2 t s
 
-/-- **Class `J` with norm at most `N`** (DH21 Definition 5.2): on the triangle, `T α` is a finite
-sum of basic class `J` kernels whose bounds add up to at most `N`. -/
-@[expose] def ClassJ (θ A N : ℝ) (T : (ι → ℝ) → ℝ → ℝ → ℂ) : Prop :=
-  ∃ (n : ℕ) (R : Fin n → JSym ι) (c : Fin n → ℝ), (∀ i, (R i).Bound θ A (c i)) ∧
-    ∑ i, c i ≤ N ∧ ∀ α, KEqOn (T α) fun t s => ∑ i, (R i).kernel α t s
-
-/-- **Class `R` with norm at most `N`** (DH21 Definition 5.2), special variable `α none`. -/
-@[expose] def ClassR (θ A N : ℝ) (T : (Option ι → ℝ) → ℝ → ℝ → ℂ) : Prop :=
-  ∃ (n : ℕ) (R : Fin n → RSym ι) (c : Fin n → ℝ), (∀ i, (R i).Bound θ A (c i)) ∧
-    ∑ i, c i ≤ N ∧ ∀ α, KEqOn (T α) fun t s => ∑ i, (R i).kernel α t s
-
 end WaveTurbulence.ClassJR

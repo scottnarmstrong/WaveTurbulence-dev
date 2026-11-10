@@ -221,24 +221,6 @@ theorem m1_eq {d : ℕ} (L γ δ s : ℝ) (h : ℕ → Fin w → Fin w → Mom d
     K.dag_prod_coset layer hLayer hGeo L γ δ s _ dag κ]
   ring
 
-include hGeo in
-/-- **The slot's protected kernel with D3's multiplier.** -/
-theorem capTermKer_m1 {d : ℕ} (L γ δ s t : ℝ) (h : ℕ → Fin w → Fin w → Mom d → ℝ) (roots : Fin w → (Fin d → ℤ))
-    (Rf : Fin w → Option ℝ) (dag : Option (Fin w → Fin 3 → Mom d)) (H1 : LeafProfiles 1 d) (x : ℝ) :
-    capTermKer L γ δ (K.Dq layer hLayer) H1
-        (K.m1 layer hLayer (anchProfiles J (layeredReconstruction D hS layer hLayer) h L roots)
-          (capNodeW L γ δ p s (layeredReconstruction D hS layer hLayer) J Rf dag)) s t
-        (latticePoint L (roots K.cleaf.1.1)) x =
-      K.capC0 L γ δ s (latticePoint L (roots K.cleaf.1.1)) dag *
-        capTermKer L γ δ (K.Dq layer hLayer) H1
-          (fun K' => IncTop.starWeight (K.frontS layer hLayer p) (IncTop.topStar (fun _ => frontierG (Rf K.u.1))) K' *
-            (K.capInd layer hLayer dag K' : ℂ)) s t (latticePoint L (roots K.cleaf.1.1)) x := by
-  unfold capTermKer
-  rw [kernelProt_congr_m L γ δ _ H1 _ (fun K' => K.capC0 L γ δ s (latticePoint L (roots K.cleaf.1.1)) dag *
-      (IncTop.starWeight (K.frontS layer hLayer p) (IncTop.topStar (fun _ => frontierG (Rf K.u.1))) K' *
-        (K.capInd layer hLayer dag K' : ℂ))) _ 0 _ _ _ _ (fun κ => K.m1_eq layer hLayer hGeo L γ δ s h roots Rf dag κ)]
-  exact kernelProt_const_mul L γ δ _ H1 _ _ _ 0 _ _ _ _
-
 end CapSide
 
 end WaveTurbulence.Flower.MkSlots

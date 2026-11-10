@@ -15,11 +15,6 @@ theorem zpowSign_integral {Ω : Type*} [MeasurableSpace Ω] (μ : Measure Ω)
   · rfl
   · exact integral_conj.symm
 
-theorem zpowSign_indicator {Ω : Type*} (sig : ℤˣ) (s : Set Ω) (f : Ω → ℂ) (ω : Ω) :
-    zpowSign sig (s.indicator f ω) = s.indicator (fun ω => zpowSign sig (f ω)) ω := by
-  classical
-  by_cases h : ω ∈ s <;> simp [Set.indicator, h, zpowSign]
-
 theorem zpowSign_exp_real_mul_I (sig : ℤˣ) (θ : ℝ) :
     zpowSign sig (Complex.exp ((θ : ℂ) * Complex.I)) =
       Complex.exp (((((sig : ℤ) : ℝ) * θ : ℝ) : ℂ) * Complex.I) := by

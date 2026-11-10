@@ -31,17 +31,4 @@ theorem maximalLadders_eq_source (M : Molecule V D) :
   simp only [Molecule.maximalLadders, Degen.sourceMaximalLadders, mem_filter]
   rfl
 
-theorem countA_le_countAFree (M : Molecule V D) (hM : M.IsMolecule) {d : ℕ} (L γ δ C₁ : ℝ) (w : Mom d)
-    (Adm : (D → (Fin d → ℤ)) → Prop) (P : Finset V → ℝ) :
-    M.countA L γ δ C₁ w Adm P ≤
-      MoleProp.countAFree M L γ δ C₁ w Adm (fun S => P (Mole.appbLinkParent M S)) := by
-  unfold Molecule.countA MoleProp.countAFree
-  refine mul_le_mul' ?_ ?_
-  · exact_mod_cast Mole.countE_le_appbCountE M L γ δ w Adm
-  · refine ENNReal.ofReal_le_ofReal (le_of_eq ?_)
-    congr 1
-    have h := Mole.appbLinkProduct_eq_sourceLadderProduct M hM L γ δ P
-    rw [maximalLadders_eq_source]
-    exact h.symm
-
 end WaveTurbulence.FinalCountG8

@@ -103,37 +103,4 @@ theorem norm_stemProfile_le (r : ℝ) (rs : List ℝ) (r₀ : ℝ) (h : r₀ / r
     ‖stemProfile r rs r₀ h u‖ ≤ 1 :=
   norm_profFun_le (r :: rs) r₀ u
 
-/-- **One layer at the base radius is χ₀ itself.** -/
-theorem stemProfile_single (r : ℝ) (h : r / r ≠ 0) : (stemProfile r [] r h : ℝ → ℂ) = FiltNT.chiS := by
-  funext u
-  rw [stemProfile_apply, FiltNT.chiS_apply]
-  have hr : r ≠ 0 := by rintro rfl; simp at h
-  simp [profFun, div_self hr, Fourier.chi0Complex]
-
-/-- Hence its `𝔟`-norm is `filterB χ₀`. -/
-theorem filterB_stemProfile_single (r : ℝ) (h : r / r ≠ 0) :
-    MkDefs.filterB ⇑(stemProfile r [] r h) = MkDefs.filterB ⇑FiltNT.chiS := by
-  rw [stemProfile_single]
-
-/-- **Two layers with ratio at most `1/2` collapse to one layer**: if `r₀ ≤ r' / 2` then
-`χ₀(u) · χ₀(u r₀ / r') = χ₀(u)`. -/
-theorem stemProfile_two_of_le_half (r₀ r' : ℝ) (h : r₀ / r₀ ≠ 0) (hr₀ : 0 < r₀) (hr' : 2 * r₀ ≤ r') :
-    (stemProfile r₀ [r'] r₀ h : ℝ → ℂ) = FiltNT.chiS := by
-  funext u
-  rw [stemProfile_apply, FiltNT.chiS_apply]
-  simp only [profFun, List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, mul_one,
-    div_self hr₀.ne', Fourier.chi0Complex]
-  by_cases hu : |u| < 1
-  · have hr'0 : 0 < r' := by linarith
-    have hsmall : |u * (r₀ / r')| ≤ 1 / 2 := by
-      rw [abs_mul, abs_of_pos (div_pos hr₀ hr'0)]
-      have h1 : r₀ / r' ≤ 1 / 2 := by rw [div_le_iff₀ hr'0]; linarith
-      calc |u| * (r₀ / r') ≤ 1 * (1 / 2) :=
-            mul_le_mul hu.le h1 (div_pos hr₀ hr'0).le zero_le_one
-        _ = 1 / 2 := one_mul _
-    rw [Fourier.chi0_eq_one hsmall]
-    simp
-  · rw [Fourier.chi0_eq_zero (not_lt.mp hu)]
-    simp
-
 end WaveTurbulence.Flower.MkSlotsT

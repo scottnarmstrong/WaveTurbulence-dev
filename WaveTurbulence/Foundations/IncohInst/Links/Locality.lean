@@ -73,22 +73,6 @@ theorem addrExt_cons_ne (a : Fin w × Path) (i : Fin 3) (p : Path) : addrExt a (
   have := congrArg (fun x => x.2.length) h
   simp [addrExt] at this
 
-theorem not_under_ext_of_lt {a z : Fin w × Path} (p : Path) (hz : Under a z)
-    (hl : z.2.length < a.2.length + p.length) : ¬ Under (addrExt a p) z := by
-  intro h
-  have := under_length h
-  simp [addrExt] at this
-  omega
-
-/-- An address below `a` but not below any child of `a` is `a`. -/
-theorem eq_of_under_not_children {a z : Fin w × Path} (hz : Under a z)
-    (h : ∀ i : Fin 3, ¬ Under (addrExt a [i]) z) : z = a := by
-  obtain ⟨h1, ⟨t, ht⟩⟩ := hz
-  cases t with
-  | nil => exact Prod.ext h1.symm (by simpa using ht.symm)
-  | cons i t =>
-    exact absurd ⟨h1, ⟨t, by simp [addrExt, ← ht]⟩⟩ (h i)
-
 theorem sunder_length {p z : Fin w × Path} (h : SUnder p z) : p.2.length < z.2.length := by
   rcases Nat.lt_or_ge p.2.length z.2.length with hl | hl
   · exact hl
@@ -103,9 +87,6 @@ theorem not_under_branch {a z : Fin w × Path} (p : Path) {i j : Fin 3} (hij : i
   rcases under_total h₁ h₂ with h | h <;> rw [under_ext_iff, List.prefix_append_right_inj] at h
   · exact hij (List.cons_prefix_cons.mp h).1
   · exact hij (List.cons_prefix_cons.mp h).1.symm
-
-theorem addrExt_len (a : Fin w × Path) (p : Path) :
-    (addrExt a p).2.length = a.2.length + p.length := by simp [addrExt]
 
 theorem sunder_of_sunder_ext {p z : Fin w × Path} (q : Path) (h : SUnder (addrExt p q) z) :
     SUnder p z :=

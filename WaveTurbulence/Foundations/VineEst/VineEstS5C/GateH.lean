@@ -5,7 +5,8 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.VineEst.VineEstS4.CanonStatement
+public import WaveTurbulence.Foundations.VineEst.VineEstS4.Statement
+public import WaveTurbulence.Foundations.VineEst.VineEstS4.Canon
 public import WaveTurbulence.Foundations.Spine.PL234Draft.SliceApp
 public import WaveTurbulence.Foundations.Spine.LeafwiseAt
 

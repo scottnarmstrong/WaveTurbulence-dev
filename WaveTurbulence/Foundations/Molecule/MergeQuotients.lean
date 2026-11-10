@@ -30,38 +30,4 @@ variable {V : Type*} [DecidableEq V]
 
 abbrev MergeQuotient (X : Finset V) (groups : List (Finset V)) := Quotient (mergeGroupSetoid X groups)
 
-@[expose] def mergeClass (X : Finset V) (groups : List (Finset V)) (v : ↥X) : MergeQuotient X groups :=
-  Quotient.mk _ v
-
-@[expose] def mergeQuotientLift {X : Finset V} {groups : List (Finset V)} {B : Type*}
-    (f : ↥X → B) (hf : ∀ u v : ↥X, MergeGroupRel groups u.1 v.1 → f u = f v) :
-    MergeQuotient X groups → B :=
-  Quotient.lift f (by
-    intro u v hp
-    induction hp with
-    | rel u v huv => exact hf u v huv
-    | refl u => rfl
-    | symm u v hp ih => exact ih.symm
-    | trans u v z hp hq ih1 ih2 => exact ih1.trans ih2)
-
-theorem mergeQuotientLift_class {X : Finset V} {groups : List (Finset V)} {B : Type*}
-    (f : ↥X → B) (hf : ∀ u v : ↥X, MergeGroupRel groups u.1 v.1 → f u = f v) (v : ↥X) :
-    mergeQuotientLift f hf (mergeClass X groups v) = f v := rfl
-
-/-- Retract a newly attached atomic group to its unique shared joint. -/
-@[expose] def unionJointRetraction (X A : Finset V) (c : V) (hcX : c ∈ X) (v : ↥(X ∪ A)) : ↥X :=
-  if h : v.1 ∈ X then ⟨v.1,h⟩ else ⟨c,hcX⟩
-
-theorem unionJointRetraction_inside (X A : Finset V) (c : V) (hcX : c ∈ X)
-    (v : ↥(X ∪ A)) (hv : v.1 ∈ X) : unionJointRetraction X A c hcX v = ⟨v.1,hv⟩ := by
-  exact dite_eq_left hv
-
-theorem unionJointRetraction_attached (X A : Finset V) (c : V) (hcX : c ∈ X)
-    (hi : X ∩ A = {c}) (v : ↥(X ∪ A)) (hv : v.1 ∈ A) :
-    unionJointRetraction X A c hcX v = ⟨c,hcX⟩ := by
-  by_cases hx : v.1 ∈ X
-  · have he : v.1 = c := mem_singleton.mp (hi ▸ mem_inter.mpr ⟨hx,hv⟩)
-    exact (unionJointRetraction_inside X A c hcX v hx).trans (Subtype.ext he)
-  · exact dite_eq_right hx
-
 end WaveTurbulence.Mole

@@ -2,7 +2,6 @@
 module
 public import WaveTurbulence.Foundations.GammaLow.Flower.FinalMK.H2.Ghost.P2Bank
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.Ghost.LowC
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.LowChain29
 public import WaveTurbulence.Foundations.GammaLow.Flower.FinalMK.H2.FinalMKChain.Ph3
 /-! **Ghost assembly for L8-H2 (C): the marked Phase 2 and Step D3 phase with the bank** (wt-l6ghost).
 

@@ -58,19 +58,4 @@ theorem exists_finite_link_cell_localization (d : ℕ) (hd : 0 < d) :
     apply Finset.mem_biUnion.mpr
     exact ⟨a, ha, mem_halfCellArrayCover (fun p => hclose p.1 p.2) hz⟩
 
-/-- On the actual source leaf-cell region, the finite half-cell weights still sum exactly to one. -/
-theorem sum_halfCellArrayWeight_eq_one_of_cover {d n m w : ℕ} (P : MomentumTreeData n m w)
-    (k : Mom d) (c : Fin m → Fin d → ℤ)
-    (S : Finset ((Fin n × Fin 2) → Fin d → ℤ))
-    (hS : ∀ x : Fin n → Fin 2 → Mom d, P.inputCellWeight c k x ≠ 0 →
-      ∀ z, halfCellArrayWeight z (fun p : Fin n × Fin 2 => x p.1 p.2) ≠ 0 → z ∈ S)
-    (x : Fin n → Fin 2 → Mom d) (hx : P.inputCellWeight c k x ≠ 0) :
-    (∑ z ∈ S, halfCellArrayWeight z (fun p : Fin n × Fin 2 => x p.1 p.2)) = 1 := by
-  have hz (z : (Fin n × Fin 2) → Fin d → ℤ) (hz : z ∉ S) :
-      halfCellArrayWeight z (fun p : Fin n × Fin 2 => x p.1 p.2) = 0 := by
-    by_contra hn
-    exact hz (hS x hx z hn)
-  exact ((hasSum_halfCellArrayWeight (fun p : Fin n × Fin 2 => x p.1 p.2)).unique
-    (hasSum_sum_of_ne_finset_zero hz)).symm
-
 end WaveTurbulence.Incoh

@@ -22,10 +22,6 @@ namespace WaveTurbulence.Sumint
 @[expose] def enlargedInputTimeBox {d : ℕ} (D : SumintDatum d) (c h : ℝ) : Set (D.S.TVar → ℝ) :=
   Icc (fun v => (D.q v : ℝ)-c-h) (fun v => (D.q v : ℝ)+1-c+h)
 
-/-- The enlarged box is compact in all input-time coordinates. -/
-theorem isCompact_enlargedInputTimeBox {d : ℕ} (D : SumintDatum d) (c h : ℝ) :
-    IsCompact (enlargedInputTimeBox D c h) := isCompact_Icc
-
 /-- The enlarged box is measurable. -/
 theorem measurableSet_enlargedInputTimeBox {d : ℕ} (D : SumintDatum d) (c h : ℝ) :
     MeasurableSet (enlargedInputTimeBox D c h) := measurableSet_Icc

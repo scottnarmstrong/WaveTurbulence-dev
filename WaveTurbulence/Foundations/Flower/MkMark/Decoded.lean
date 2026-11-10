@@ -121,8 +121,6 @@ theorem decodes_tree (hd : D.Decodes hS G) : D.forest hS = G.tree := congrArg Ra
 
 theorem decodes_pairs (hd : D.Decodes hS G) : D.attachmentPairs hS = sourcePairs G := congrArg Raw.pairs hd.2
 
-theorem decodes_sig (hd : D.Decodes hS G) : S.sig = G.sig := congrArg Raw.sig hd.2
-
 /-- The owner relation of a pair: one owner, or two paired skeleton leaves. -/
 def PairedOwners (S : Garden w) (o o' : GNode S.tree) : Prop :=
   o = o' ∨ ∃ l : GLeaf S.tree, l.toNode = o ∧ (S.pair l).toNode = o'

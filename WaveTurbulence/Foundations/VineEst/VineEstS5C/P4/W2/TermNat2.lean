@@ -41,10 +41,6 @@ noncomputable def certBeta (P : WTParams) (D : SumintPar.SumintDatum P.d) (mass 
     ((ccη P.η + 1) * ENNReal.ofReal (mass * (engineConst3 P.η (Fintype.card (Row D)) * maxPar D ^ (P.η ^ 6) *
       sumintRHS0 P D * ∏ ρ, P.L ^ (weightExp P.d P.γ P.η * rowG D ρ))) * ∏ ρ, Rb ρ)
 
-theorem certBeta_mono (P : WTParams) (D : SumintPar.SumintDatum P.d) (mass : ℝ) {Rb Rb' : Row D → ℝ≥0∞}
-    (h : ∀ ρ, Rb ρ ≤ Rb' ρ) : certBeta P D mass Rb ≤ certBeta P D mass Rb' :=
-  mul_le_mul' le_rfl (mul_le_mul' le_rfl (Finset.prod_le_prod' fun ρ _ => h ρ))
-
 /-- The engine datum of a native term (no exceptional record): block kinds `canonBadKind`, constraints `consX .. ∅ ∅` (= native constraints with the
 layer-order pairs), native exponents, `wN = 30 d - 1`, `wDec = 30 d`. -/
 noncomputable abbrev natEng (hM9 : VINEPARAM) (B : CLChainAssembly G R n) (RD : ReconstructionData G) (hG : G.IsPlain)

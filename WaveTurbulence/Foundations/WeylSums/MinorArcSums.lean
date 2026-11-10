@@ -1,7 +1,13 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 
-public import WaveTurbulence.Foundations.WeylSums.HuaPacket
+public import WaveTurbulence.Foundations.WeylSums.WeylTensorFactors
+public import WaveTurbulence.Foundations.WeylSums.LatticeBoxes
+public import Mathlib.MeasureTheory.Integral.Bochner.Set
+public import WaveTurbulence.Foundations.WeylSums.FourierTranslations
+public import WaveTurbulence.Foundations.WeylSums.QuadraticDiagonalization
+public import WaveTurbulence.Foundations.WeylSums.WeylSymmetry
+public import WaveTurbulence.Foundations.WeylSums.WeylMoments
 public import WaveTurbulence.Frozen.Defs.LatticePoint
 
 /-!

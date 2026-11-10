@@ -6,15 +6,6 @@ public section
 namespace WaveTurbulence.Induct
 open Finset
 
-theorem prod_graft_leaves {M : Type*} [CommMonoid M] {w : ℕ}
-    (top : Fin w → TTree) (P : Finpartition (univ : Finset (GLeaf top)))
-    (low : (B : P.parts) → Garden B.1.card)
-    (f : GLeaf (graftForest top (blockGraftTrees top P low)) → M) :
-    (∏ ℓ, f ℓ) = ∏ B : P.parts, ∏ ℓ : GLeaf (low B).tree, f (lowerLeafEmbedding top P low B ℓ) := by
-  have he := Fintype.prod_equiv (gardenLeafEquiv top P low).symm
-    (fun z => f ((gardenLeafEquiv top P low).symm z)) f (fun _ => rfl)
-  exact he.symm.trans (by rw [Fintype.prod_sigma]; rfl)
-
 theorem mem_inputLeaves_iff {w : ℕ} (G : Garden w) (ℓ : GLeaf G.tree) :
     ℓ ∈ inputLeaves G ↔ G.sign ℓ.toNode = 1 ∧ G.mark ℓ = none := by
   simp only [inputLeaves, Finset.mem_filter, Finset.mem_univ, true_and]

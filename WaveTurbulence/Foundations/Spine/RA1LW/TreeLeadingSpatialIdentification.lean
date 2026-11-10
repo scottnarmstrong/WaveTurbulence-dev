@@ -2,7 +2,6 @@
 module
 
 public import WaveTurbulence.Foundations.Spine.RA1LW.TreeFam
-public import WaveTurbulence.Foundations.Spine.RA1LW.Base
 public import WaveTurbulence.Foundations.Spine.RA1LW.TreeLeadingSingularExchange
 public import WaveTurbulence.Foundations.Spine.RA1LW.TreeLeadingScalarControl
 public import WaveTurbulence.Foundations.Spine.RA1LW.TreeOriginalSingular

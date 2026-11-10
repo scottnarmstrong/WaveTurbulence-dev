@@ -1,7 +1,6 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 
-public import WaveTurbulence.Foundations.Spine.RA1LW.Base
 public import WaveTurbulence.Foundations.Spine.RA1LW.TreePhysicalScalarSplit
 public import WaveTurbulence.Foundations.RegularAsymptotics.RA1Trees.TreeCoefficientWeights
 public import WaveTurbulence.Foundations.RegularAsymptotics.RegAsympDraft.LocalRemainderJoint

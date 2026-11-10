@@ -13,22 +13,6 @@ namespace WaveTurbulence.Molecpl
 open TTree
 variable {w : ℕ} (G : Garden w)
 
-/-- The other lower bond is either a child branch or the paired-leaf bond. -/
-theorem lower_other_geometry {S : Finset (GBranch G.tree)} {a b : GBranch G.tree}
-    (R : EndRungData G.molecule S a b) (hn : b.1.2 ≠ [])
-    (hp : GNode.parent b.toNode hn = R.left) :
-    (∃ hq : R.right.1.2 ≠ [], GNode.parent R.right.toNode hq = b) ∨
-      LeafPairAt G b R.right := by
-  let x := G.molecule.mate (R.right_row.dart 2)
-  have ha : G.molecule.atom x = b := R.right_row.neighbor_eq 2
-  have hb : G.molecule.atom (G.molecule.mate x) = R.right := by
-    dsimp [x]; rw [G.molecule.mate_mate]; exact R.right_row.atom_eq 2
-  by_cases hpc : IsPCDart G x
-  · rcases pc_dart_parent G hpc ha hb with ⟨hn',hp'⟩ | hq
-    · exact (R.distinct (hp.symm.trans hp')).elim
-    · exact Or.inl hq
-  · exact Or.inr (dart_leaf_pair G hpc ha hb)
-
 /-- A child paired to a selected internal neighbor is the retained outer lower child. -/
 theorem lower_leaf_outer {S : Finset (GBranch G.tree)} {a b c : GBranch G.tree}
     (hB : G.molecule.IsBlock S a b) (hCL : Mole.CLParentPattern G S a b)

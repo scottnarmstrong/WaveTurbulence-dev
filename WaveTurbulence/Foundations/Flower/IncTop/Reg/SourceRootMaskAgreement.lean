@@ -15,16 +15,6 @@ open MeasureTheory
 
 namespace WaveTurbulence.Flower.IncTop
 open WaveTurbulence.Incoh
-open WaveTurbulence.Incoh.RootInputCoordinates in
-/-- The source root mask is exactly one wherever the actual localized leaf product is nonzero. -/
-theorem RootInputCoordinates.sourceRootMask_mul_localizedLeafWeightSpatial {d n m w : ℕ}
-    {P : MomentumTreeData n m w} (C : RootInputCoordinates P)
-    (f : Fin m → Mom d → ℂ) (c : Fin m → Fin d → ℤ) (k : Mom d)
-    (x : Fin n → Fin 2 → Mom d) :
-    sourceRootMask c k * P.localizedLeafWeight f c k x = P.localizedLeafWeight f c k x := by
-  by_cases hz : P.inputCellWeight c k x = 0
-  · simp only [P.localizedLeafWeight_eq, hz, mul_zero]
-  · rw [C.sourceRootMask_eq_one c k x hz, one_mul]
 
 open WaveTurbulence.Incoh.RootInputCoordinates in
 /-- The smooth root mask changes none of the literal localized source operators. No analytic

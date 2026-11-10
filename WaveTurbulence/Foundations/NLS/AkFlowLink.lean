@@ -71,10 +71,6 @@ theorem _root_.WaveTurbulence.IsRapidDecay.summable_norm_weightUp {c : (Fin d �
   simp_rw [norm_weightUp, flowWeight]
   exact (hc.summable_norm_mul_pow (d + 1)).congr fun n => mul_comm _ _
 
-theorem weightUp_unweight (y : (Fin d → ℤ) → ℂ) : weightUp (unweight y) = y := by
-  funext n
-  rw [weightUp, unweight, mul_div_cancel₀ _ (ofReal_ne_zero.2 (flowWeight_pos n).ne')]
-
 theorem unweight_ofFun_weightUp {c : (Fin d → ℤ) → ℂ} (hc : Summable fun n => ‖weightUp c n‖) :
     unweight (L1.ofFun (weightUp c) : (Fin d → ℤ) → ℂ) = c := by
   rw [L1.coe_ofFun hc, unweight_weightUp]

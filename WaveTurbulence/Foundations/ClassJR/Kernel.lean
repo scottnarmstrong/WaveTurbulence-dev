@@ -71,11 +71,6 @@ theorem KEqOn.symm {K L : ℝ → ℝ → ℂ} (h : KEqOn K L) : KEqOn L K :=
 theorem KEqOn.trans {K L N : ℝ → ℝ → ℂ} (h : KEqOn K L) (h' : KEqOn L N) : KEqOn K N :=
   fun t s h1 h2 h3 => (h t s h1 h2 h3).trans (h' t s h1 h2 h3)
 
-/-- `jker` is a product of exponentials. -/
-theorem jker_eq (ℓ γ₁ γ₂ t s : ℝ) :
-    jker ℓ γ₁ γ₂ t s = cexp (π * I * (ℓ * (t - s))) * cexp (π * I * (γ₁ * t + γ₂ * s)) := by
-  rw [jker, ← Complex.exp_add]; congr 1; ring
-
 /-- `E(x, v) = (e^{πixv} - 1)/(πix)` for `x ≠ 0`. -/
 theorem eInt_eq_of_ne {x : ℝ} (hx : x ≠ 0) (v : ℝ) :
     eInt x v = (cexp (π * I * (x * v)) - 1) / (π * I * x) := by

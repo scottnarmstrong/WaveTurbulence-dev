@@ -102,10 +102,6 @@ theorem exists_sum_triple_threshold_bound (d : ℕ) (hd : 1 ≤ d) :
     _ ≤ (C*τ*L^(2*((d+2 : ℕ) : ℝ)))*A := mul_le_mul_of_nonneg_right hproj hA
     _ = _ := by dsimp only [A]; ring
 
-/-- The exponent identity `2D − 2γ + (D − 2) + (4 − 2γ)/3 = 3(D − γ) − (1 − γ) − (2γ − 1)/3`. -/
-theorem cyclic_exponent_eq (D γ : ℝ) :
-    -2*γ+2*D+(D-2)+(4-2*γ)/3 = 3*(D-γ)-(1-γ)-(2*γ-1)/3 := by ring
-
 /-- **DH23 Lemma A.2(3), `γ ≥ 1/2`, sum selectors** (`ζ = x + y − v`, `x + y − v − z`): saving `(2γ − 1)/3`. -/
 theorem coupledTriple_sum_bound_half (d : ℕ) (hd : 3 ≤ d) (γ : ℝ)
     (hγ : γ ∈ Icc (1/2 : ℝ) 1) :

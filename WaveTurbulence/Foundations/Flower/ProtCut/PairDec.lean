@@ -122,15 +122,6 @@ theorem pairGlue_inner (q : Path) (hq : ¬ inner.lonePath <+: q) :
 
 end Glue
 
-theorem rBase_of_top (j : Fin 2) (hj : rBase m inner ζ j = [m.red.1]) (j' : Fin 2) (hj' : j' ≠ j) :
-    rBase m inner ζ j' = bPath m inner ++ [m.red.2] := by
-  rcases rBase_cases m inner ζ j' with h | h
-  · exfalso; apply hj'
-    have := (regionOf_rBase m inner ζ j' []).symm
-    rw [List.append_nil, h, ← hj, ← List.append_nil (rBase m inner ζ j), regionOf_rBase] at this
-    simpa using this
-  · exact h
-
 theorem exists_rBase_top : ∃ j, rBase m inner ζ j = [m.red.1] := by
   by_cases hs : slotSign ζ m.red.1 = 1
   · exact ⟨0, by simp [rBase, hs]⟩

@@ -42,18 +42,4 @@ theorem tsum_localizedSourceExtension_mass_lt_top {d : ℕ} (hd : 1 ≤ d) (D : 
       exact tsum_sourceLocalizationLabel D hD (fun a b => ∑' x : D.S.VIdx → Fin d → ℤ, ‖localizedSourceWeight D L a b E x‖ₑ)
     _ < ⊤ := ENNReal.mul_lt_top ENNReal.ofReal_lt_top (localized_source_weight_mass_lt_top hd D hA hL hD E hE)
 
-/-- The actual source localization family is integrable jointly in counting labels and native output time. -/
-theorem integrable_count_localizedSourceExtension {d : ℕ} (hd : 1 ≤ d) (D : SumintDatum d)
-    (hI : 0 < D.S.I) (N : ℕ) (h : ℝ) {A L γ δ η : ℝ} {Dsteps : ℕ}
-    (hA : 1 ≤ A) (hL : 0 < L) (hη : η ≤ 1/3) (hD : D.Admissible A L γ η Dsteps)
-    (p : SourceLocalizationLabel D hD → D.S.VIdx → Fin d → ℝ)
-    (E : Fin 4 → Mom d) (hE : ∀ j, ‖E j-D.centre j‖ ≤ 1) :
-    Integrable (fun q : SourceLocalizationLabel D hD × (Fin 3 → ℝ) =>
-      localizedSourceExtension D hI N h L γ δ η q.1.1 q.1.2.val (p q.1) E q.2)
-        (Measure.count.prod volume) :=
-  integrable_count_prod_of_sum_mass (fun (j : SourceLocalizationLabel D hD) t =>
-    localizedSourceExtension D hI N h L γ δ η j.1 j.2.val (p j) E t)
-    (fun j => measurable_localizedSourceExtension hd D hI N h hL hη hD j.1 j.2.val (p j) E)
-    (tsum_localizedSourceExtension_mass_lt_top hd D hI N h hA hL hη hD p E hE)
-
 end WaveTurbulence.SumintPar

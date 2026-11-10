@@ -3,7 +3,7 @@ module
 
 public import WaveTurbulence.Foundations.Flower.V5W2L.TopFilter
 public import WaveTurbulence.Foundations.Flower.V5W2L.Class
-public import WaveTurbulence.Foundations.Flower.V5WT.Final
+public import WaveTurbulence.Foundations.Flower.V5WT.FlatOut
 
 /-! # V5W-2L: V5's frontier class bound with a finite product of top filters, and the bridge
 
@@ -150,38 +150,5 @@ theorem v5FrontierClassBoundL : V5FrontierClassBoundL := by
     (by change 1 ≤ d; omega) (by change 1 ≤ L; linarith only [hL₀, hL]) (H4 L hL)
 
 /-! ## The bridge: the single-filter statement is the `S.length ≤ 1` instance -/
-
-theorem topFilterMass_pow_toList_le (S : Option ℝ) : topFilterMass ^ S.toList.length ≤ topFilterMass := by
-  cases S with
-  | none => simpa using one_le_topFilterMass
-  | some s => simp
-
-/-- **Bridge.** The single-filter bound `V5W.V5FrontierClassBoundAt` is the instance `S.toList` (a list of length
-`≤ 1`) of `V5FrontierClassBoundAtL`. -/
-theorem v5FrontierClassBoundAt_of_L {P : WTParams} (H : V5FrontierClassBoundAtL P) : V5FrontierClassBoundAt P := by
-  intro p hp h B₀ hB₀ hh w G U a b R n hprime hM9 B RD hG layer hLayer kind hcan hlay hord hl1 centre wBar lam
-    g cψ hcψ hpres hreal S hSpos hcoh
-  have hS' : ∀ s ∈ S.toList, 0 < s := fun s hs => hSpos s (Option.mem_toList.mp hs)
-  have key := H hp h B₀ hB₀ hh hprime hM9 B RD hG layer hLayer kind hcan hlay hord hl1 centre wBar lam g cψ hcψ
-    hpres hreal S.toList hS' hcoh
-  simp only [twistedRecenteredFWL_toList] at key
-  refine key.trans (mul_le_mul' (ENNReal.ofReal_le_ofReal ?_) le_rfl)
-  have hc0 : 0 ≤ cψ := le_trans zero_le_one hcψ
-  exact mul_le_mul_of_nonneg_left (topFilterMass_pow_toList_le S) (by positivity)
-
-/-- The prefix form of the bridge (cf. main's `FinalCountAsm.prefix_mono`, re-proved here). -/
-theorem v5FrontierClassBound_of_L (H : V5FrontierClassBoundL) : V5FrontierClassBound := by
-  intro d hd γ hγ
-  obtain ⟨η₀, hη₀, H⟩ := H d hd γ hγ
-  refine ⟨η₀, hη₀, fun η hη φin hφin τ hτ φ hsol => ?_⟩
-  obtain ⟨C₁, hC₁, ν₀, hν₀, H⟩ := H η hη φin hφin τ hτ φ hsol
-  refine ⟨C₁, hC₁, ν₀, hν₀, fun ν hν => ?_⟩
-  obtain ⟨δ₀, hδ₀, H⟩ := H ν hν
-  refine ⟨δ₀, hδ₀, fun δ hδ D hD htime => ?_⟩
-  obtain ⟨C₂, hC₂, L₀, hL₀, H⟩ := H δ hδ D hD htime
-  exact ⟨C₂, hC₂, L₀, hL₀, fun L hL => v5FrontierClassBoundAt_of_L (H L hL)⟩
-
-/-- Consistency: V5W-0's single-filter bound recovered through the product statement. -/
-theorem v5FrontierClassBound_viaL : V5FrontierClassBound := v5FrontierClassBound_of_L v5FrontierClassBoundL
 
 end WaveTurbulence.Flower.V5W2L

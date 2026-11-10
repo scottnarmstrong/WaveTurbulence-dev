@@ -6,7 +6,7 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.Final.Core
-public import WaveTurbulence.Foundations.VineEst.VineEstS5C.Step3PrefixH
+public import WaveTurbulence.Foundations.VineEst.VineEstS5C.LeafMono
 public import WaveTurbulence.Foundations.Vine.DegenVinePar.SumintMixDoubled
 
 /-! # V5 FINAL (f2, kind-generic): the prefix theorem for `VineEstCanonLayerC2MK`

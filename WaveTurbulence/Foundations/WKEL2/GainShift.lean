@@ -32,11 +32,6 @@ theorem measurable_gainShift : Measurable (gainShift (d := d)) := by
   unfold gainShift
   fun_prop
 
-theorem gainShift_involutive : Function.Involutive (gainShift (d := d)) := by
-  intro q
-  rcases q with ⟨k, a, b⟩
-  simp only [gainShift, add_neg_cancel_right, neg_neg]
-
 /-- Nonnegative change of variables for the full gain Schur measure. -/
 theorem lintegral_gainShift {e : Mom d} (he : ‖e‖ = 1) (hd : 2 ≤ d)
     {H : Mom d × (Mom d × Mom d) → ℝ≥0∞} (hH : Measurable H) :

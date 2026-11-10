@@ -28,26 +28,4 @@ theorem eq_or_pair_of_positiveRepresentative_eq {w : ℕ} (G : Garden w)
   · have hh := congrArg G.pair h
     exact Or.inr ((G.pair_pair l).symm.trans hh)
 
-/-- A choice of one leaf from each original root tree is injective. -/
-theorem root_leaf_choice_injective {w : ℕ} (G : Garden w) (chooseLeaf : Fin w → GLeaf G.tree)
-    (hroot : ∀ j, (chooseLeaf j).1.1 = j) : Function.Injective chooseLeaf := by
-  intro i j he
-  have hh := congrArg (fun l : GLeaf G.tree => l.1.1) he
-  simpa only [hroot] using hh
-
-/-- The maximum per-input weight budget is 2*M, irrespective of garden width. -/
-theorem card_roots_selecting_input_le_two {w : ℕ} (G : Garden w)
-    (chooseLeaf : Fin w → GLeaf G.tree) (hroot : ∀ j, (chooseLeaf j).1.1 = j)
-    (r : GLeaf G.tree) :
-    ((univ : Finset (Fin w)).filter fun j => positiveRepresentative G (chooseLeaf j) = r).card ≤ 2 := by
-  classical
-  let S := (univ : Finset (Fin w)).filter fun j => positiveRepresentative G (chooseLeaf j) = r
-  have hh : S.card ≤ ({r, G.pair r} : Finset (GLeaf G.tree)).card := by
-    apply card_le_card_of_injOn chooseLeaf
-    · intro j hj
-      have h := eq_or_pair_of_positiveRepresentative_eq G (chooseLeaf j) r (mem_filter.mp hj).2
-      exact mem_insert.mpr (h.imp_right fun he => mem_singleton.mpr he)
-    · exact (root_leaf_choice_injective G chooseLeaf hroot).injOn
-  exact hh.trans card_le_two
-
 end WaveTurbulence.LGSpine

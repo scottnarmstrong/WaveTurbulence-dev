@@ -6,7 +6,6 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.Flower.MkSlotsO.UnGeo
-public import WaveTurbulence.Foundations.Flower.Stage1WVine.WSlotM2
 public import WaveTurbulence.Foundations.Flower.ProtPin.TChildConj
 public import WaveTurbulence.Foundations.Flower.IncTop.TopWeight
 public import WaveTurbulence.Foundations.Flower.MkSlots.CapTriv
@@ -57,19 +56,6 @@ theorem d5_mass_le (P : WTParams) (C : ℝ) {ι : Type*} (S : Finset ι) (cω : 
   refine ENNReal.ofReal_le_ofReal ?_
   have hb := regBound_le_target P C n g hn hc1 hCC hδ hL hκ
   gcongr
-
-/-- **The coherent D5 mass against the slot mass** (incoherency `0`, loss `L^c ≥ 1` allowed). -/
-theorem d5_mass_coh_le (P : WTParams) (C : ℝ) {ι : Type*} (S : Finset ι) (cω : ι → ℝ) (hcω : ∀ a ∈ S, 0 ≤ cω a)
-    (c : ℝ) (hc : 0 ≤ c) (n : ℕ) (hn : 1 ≤ n) (hc1 : 1 ≤ P.C₁) (hCC : P.C₁ ≤ C) (hδ : 0 ≤ P.δ) (hL : 1 ≤ P.L)
-    (hκ : P.η ^ 8 ≤ P.gamma1 - Real.sqrt P.η) (lf : ℝ) (hlf : 0 ≤ lf) :
-    (∏ a ∈ S, ENNReal.ofReal (cω a)) * regBound P n 0 * ENNReal.ofReal lf ≤
-      ENNReal.ofReal ((∏ a ∈ S, cω a) * P.L ^ c *
-        ((C * Real.sqrt P.δ) ^ (2 * n) * P.L ^ (-(P.η ^ 8) * ((0 : ℕ) : ℝ))) * lf) := by
-  refine le_trans ?_ (d5_mass_le P C S cω hcω c n 0 hn hc1 hCC hδ hL hκ lf hlf)
-  have h1 : (1 : ℝ≥0∞) ≤ ENNReal.ofReal (P.L ^ c) := ENNReal.one_le_ofReal.2 (Real.one_le_rpow hL hc)
-  calc (∏ a ∈ S, ENNReal.ofReal (cω a)) * regBound P n 0 * ENNReal.ofReal lf
-      = (∏ a ∈ S, ENNReal.ofReal (cω a)) * 1 * regBound P n 0 * ENNReal.ofReal lf := by rw [mul_one]
-    _ ≤ _ := by gcongr
 
 /-- The moment weights of the slots: `θ = η` (no loss) or `θ = 1/4` (incoherent loss `L^{4d}`). -/
 def ThetaC (P : WTParams) (θ c : ℝ) : Prop := (θ = P.η ∧ c = 0) ∨ (θ = 1 / 4 ∧ c = 4 * P.d)

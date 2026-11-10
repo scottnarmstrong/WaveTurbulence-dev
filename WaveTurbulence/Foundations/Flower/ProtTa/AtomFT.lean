@@ -17,10 +17,6 @@ namespace WaveTurbulence.Flower.ProtTa
 def atom (A : ℝ) (l : Fin 3 → ℝ) (y : Fin 2 → ℝ) : ℂ :=
   Real.fourierChar (timePairing 2 y (nu l)) • psi (A / 2 + l 1) y
 
-theorem atom_of_Phi {A : ℝ} {l : Fin 3 → ℝ} {y : Fin 2 → ℝ} (hy : Phi y = 1) :
-    atom A l y = (Real.fourierChar (timePairing 2 y (nu l)) : ℂ) * hz (A / 2 + l 1) (y 0 - y 1) := by
-  simp only [atom, psi, hy, one_mul, Circle.smul_def, smul_eq_mul]
-
 theorem psi_continuous : Continuous (fun p : ℝ × (Fin 2 → ℝ) => psi p.1 p.2) := by
   simp only [psi]
   have h1 := Phi_contDiff.continuous

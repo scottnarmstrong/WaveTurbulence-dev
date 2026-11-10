@@ -2,7 +2,6 @@
 module
 
 public import WaveTurbulence.Foundations.Spine.RA1LW.LeafFam
-public import WaveTurbulence.Foundations.Spine.RA1LW.Base
 public import WaveTurbulence.Foundations.Spine.RA1LW.SourceRealType1
 public import WaveTurbulence.Foundations.Spine.RA1LW.SourceChainRoot
 public import WaveTurbulence.Foundations.Spine.RA1LW.SourceType2Fold

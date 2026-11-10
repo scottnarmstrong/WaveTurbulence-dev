@@ -71,26 +71,9 @@ theorem norm_denseExtensionCLM_apply_le (e : V →ₗᵢ[ℝ] E) (hdense : Dense
   change ‖denseExtensionLM e hdense f‖ ≤ ‖f‖
   exact norm_denseExtensionLM_le e hdense f
 
-/-- Operator norm of the extension operator. -/
-theorem norm_denseExtensionCLM_le_one (e : V →ₗᵢ[ℝ] E) (hdense : DenseRange e) :
-    ‖denseExtensionCLM (F := F) e hdense‖ ≤ 1 := by
-  apply ContinuousLinearMap.opNorm_le_bound _ zero_le_one
-  intro f
-  change ‖denseExtensionLM e hdense f‖ ≤ 1 * ‖f‖
-  simpa only [one_mul] using norm_denseExtensionLM_le e hdense f
-
 /-- The extension agrees with the original operator at every point of the dense isometric image. -/
 theorem denseExtensionCLM_apply (e : V →ₗᵢ[ℝ] E) (hdense : DenseRange e)
     (f : V →L[ℝ] F) (v : V) : denseExtensionCLM e hdense f (e v) = f v :=
   extend_isometry_apply e hdense f v
-
-/-- Agreement on the dense image characterizes the extension uniquely. -/
-theorem denseExtensionCLM_unique (e : V →ₗᵢ[ℝ] E) (hdense : DenseRange e)
-    (f : V →L[ℝ] F) (g : E →L[ℝ] F) (h : ∀ v, g (e v) = f v) :
-    denseExtensionCLM e hdense f = g := by
-  apply DFunLike.coe_injective
-  apply hdense.equalizer (denseExtensionCLM e hdense f).continuous g.continuous
-  funext v
-  rw [Function.comp_apply, Function.comp_apply, denseExtensionCLM_apply, h v]
 
 end WaveTurbulence.WKEL2

@@ -119,11 +119,6 @@ theorem rtMass_le (P : WTParams) (C : ℝ) (hC : P.C₁ ≤ C) (hC1 : 1 ≤ P.C�
     _ = Kp * ((C * Real.sqrt P.δ) ^ (2 * n) * P.L ^ (-(P.η ^ 8) * (g : ℝ)) * (frontierConst P.d ^ nr * LSb) *
         P.L ^ MkSlotsI.genLossExp P.d) := by ring
 
-theorem maxBracketPow_mono_theta {θ θ' : ℝ} (hθ : θ ≤ θ') (v : Fin 2 → ℝ) :
-    maxBracketPow θ v ≤ maxBracketPow θ' v := by
-  unfold maxBracketPow
-  exact ENNReal.ofReal_le_ofReal (Real.rpow_le_rpow_of_exponent_le (le_max_right _ _) hθ)
-
 /-! ### The chain slot -/
 
 section Chain

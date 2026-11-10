@@ -23,10 +23,4 @@ theorem measurePreserving_finiteTimeCurry {ι : Type*} [Fintype ι] (β : ι →
   simp_rw [volume_pi_pi]
   rw [Fintype.prod_sigma]
 
-theorem integral_finiteTime_prod {ι : Type*} [Fintype ι] (β : ι → Type*) [∀ i, Fintype (β i)]
-    (f : (i : ι) → (β i → ℝ) → ℂ) :
-    (∫ τ : (Σ i, β i) → ℝ, ∏ i, f i (fun b => τ ⟨i, b⟩)) = ∏ i, ∫ τ, f i τ :=
-  ((measurePreserving_finiteTimeCurry β).integral_comp' (fun z => ∏ i, f i (z i))).trans
-    (integral_fintype_prod_volume_eq_prod f)
-
 end WaveTurbulence.Induct

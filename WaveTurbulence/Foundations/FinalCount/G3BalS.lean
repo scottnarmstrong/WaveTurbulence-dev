@@ -71,48 +71,12 @@ theorem BalP.restrict {M : Molecule V D} {E : V → Prop} (hB : BalP M E) (P : V
     rw [restrictP_outdeg M P h h2, restrictP_indeg M P h h2]
     exact hB.2 a h1 he hd
 
-/-- Erasing an atom: atoms satisfying `E` have degree `≤ 2`, so a neighbour of the erased atom (degree drops by `≥ 1`)
-never has degree `2` afterwards. -/
-theorem BalP.erase {M : Molecule V D} {E : V → Prop} (hB : BalP M E) (v : V)
-    (hE2 : ∀ a ∈ M.atoms, E a → M.deg a ≤ 2) : BalP (eraseAt M v) E := by
-  refine ⟨?_, ?_⟩
-  · intro a ha
-    exact ⟨(eraseAt_outdeg_le a).trans (hB.1 a (Finset.mem_of_mem_erase ha)).1,
-      (eraseAt_indeg_le a).trans (hB.1 a (Finset.mem_of_mem_erase ha)).2⟩
-  · intro a ha he hd
-    have haM : a ∈ M.atoms := Finset.mem_of_mem_erase ha
-    have hav : a ≠ v := Finset.ne_of_mem_erase ha
-    have hsum := eraseAt_dartsAt_card M v hav
-    have hm : mult M v a = 0 := by
-      have := hE2 a haM he
-      have hd' : (eraseAt M v).deg a = 2 := hd
-      omega
-    -- the darts are unchanged
-    have hD : (eraseAt M v).outdeg a = M.outdeg a ∧ (eraseAt M v).indeg a = M.indeg a := by
-      have h1 := eraseAt_sum M v hav (fun x => if M.out x = true then 1 else 0)
-      have h2 := eraseAt_sum M v hav (fun x => if M.out x = false then 1 else 0)
-      have hfil : (M.dartsAt a).filter (fun x => ¬ M.atom (M.mate x) = v) = M.dartsAt a := by
-        refine Finset.filter_true_of_mem fun x hx hxv => ?_
-        have : x ∈ (M.dartsAt a).filter fun x => M.atom (M.mate x) = v := Finset.mem_filter.2 ⟨hx, hxv⟩
-        have h0 : ((M.dartsAt a).filter fun x => M.atom (M.mate x) = v).card = 0 := hm
-        rw [Finset.card_eq_zero] at h0
-        rw [h0] at this; simp at this
-      rw [hfil] at h1 h2
-      refine ⟨?_, ?_⟩
-      · rw [outdeg_eq_sum, outdeg_eq_sum]; exact h1
-      · rw [indeg_eq_sum, indeg_eq_sum]; exact h2
-    rw [hD.1, hD.2]
-    have hdd : M.deg a = 2 := by omega
-    exact hB.2 a haM he hdd
-
 end bal
 
 /-- Class-aware balance of a state: `α`/`β`-atoms of degree `2` have one incoming and one outgoing dart. -/
 def BalS (s : St.{u} V D₀) : Prop := BalP s.M (fun a => s.cls a ≠ .eps)
 
 variable {s s' : St.{u} V D₀}
-
-theorem BalS.ofM (hB : BalM s.M) : BalS s := ⟨hB.1, fun a ha _ hd => hB.2 a ha hd⟩
 
 theorem BalS.cutSt (hB : BalS s) {v v₂ : V} {x₁ x₂ : s.D} (hcd : s.M.IsCutData v v₂ x₁ x₂) (c₁ c₂ : Cls) :
     BalS (s.cutSt v v₂ x₁ x₂ c₁ c₂) :=
@@ -125,8 +89,5 @@ theorem BalS.delSt (hB : BalS s) (P : V → Prop) [DecidablePred P] (h : PClosed
 
 theorem BalS.withCls (hB : BalS s) (c : V → Cls) (h : ∀ a ∈ s.M.atoms, c a ≠ .eps → s.cls a ≠ .eps) :
     BalS (s.withCls c) := BalP.mono hB h
-
-theorem BalS.eraseSt {R : ℕ} (hB : BalS s) (hg : Good R s) (v : V) : BalS (s.eraseSt v) :=
-  BalS.delSt (s := s.erase0 v) (BalP.erase hB v (fun a ha he => (hg.1.ab a ha he).1)) _ (keepE_closed s v)
 
 end WaveTurbulence.FinalCountG3

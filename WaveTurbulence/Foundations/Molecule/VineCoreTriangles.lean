@@ -23,11 +23,4 @@ theorem template_triangle_same_group (X : VineType) :
       k.1 ∈ X.template.groups[q.1] := by
   cases X <;> decide
 
-/-- The exceptional type-VII pair is a single bond, so it must be treated
-separately from the doubled-pair rule in TARGET cohmol. -/
-theorem typeVII_exceptional_pair_single :
-    VineType.VII.template.bonds.count (7,8)=1 ∧
-    VineType.VII.template.bonds.count (8,7)=0 ∧
-    [7,8] ∈ VineType.VII.template.groups := by decide
-
 end WaveTurbulence.Vine

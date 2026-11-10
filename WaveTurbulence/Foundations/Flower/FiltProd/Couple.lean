@@ -30,62 +30,6 @@ theorem RootCoordinates.timeFourierNorm_coupleExtensionFilt {d n : ℕ} (R : Roo
     rw [RootCoordinates.coupleExtensionFilt, sub_eq_add_neg]
   rw [heq, Fourier.timeFourierNorm_translate]
 
-/-- TARGET (incohproof20), with the actual localized couple extension and a single base constant. -/
-theorem exists_coupleExtension_timeFourier_boundFilt (d : ℕ) (hd : 3 ≤ d)
-    (η : ℝ) (hη : 0 < η) (hη₁ : η ≤ 1 / 3)
-    {χ : ℝ → ℝ} (hχ : ContDiff ℝ ∞ χ) (hcχ : HasCompactSupport χ) :
-    ∃ C₀ : ℝ, 0 < C₀ ∧ ∀ γ : ℝ, γ ∈ Ioo (0 : ℝ) 1 → η < incoherenceExponent d γ →
-      ∀ δ : ℝ, 0 < δ → δ ≤ 1 → ∀ D : ℝ, 0 < D →
-      ∃ L₀ : ℝ, 1 ≤ L₀ ∧ ∀ L ≥ L₀, ∀ n : ℕ, ∀ Q : Fin n → LayerLink d,
-        1 ≤ incoherenceCount Q →
-        (∀ i, |((Q i).leftLayer : ℝ) - (Q i).rightLayer| + 1 ≤ D) →
-        ∀ (K : ℝ), 0 ≤ K → ∀ φ : Fin n → ℝ → ℂ, (∀ i, PresentedMult L K (φ i)) →
-        ∀ I : Set (Fin n → Fin 2 → ℝ), MeasurableSet I → I ⊆ univ.pi (fun i => linkBox (Q i)) →
-        ∀ R : RootCoordinates n,
-        Fourier.timeFourierNorm η (RootCoordinates.coupleExtensionFilt R χ L γ δ Q φ I) ≤
-          ENNReal.ofReal ((K * C₀ * δ) ^ n *
-            L ^ (-(incoherenceExponent d γ - 100 * (d : ℝ) * η) * incoherenceCount Q)) := by
-  obtain ⟨C, hC, hb⟩ := exists_rootDensityFilt_Lp_bound d hd
-  obtain ⟨Cₜ, hCₜ, htime, _⟩ := Fourier.exists_cutoff_timeIntegral_bounds hη hη₁ hχ hcχ
-  let C₀ : ℝ := (Cₜ + 1) * C
-  have hC₀ : 0 < C₀ := by dsimp [C₀]; positivity
-  refine ⟨C₀, hC₀, ?_⟩
-  intro γ hγ hηg δ hδ hδ₁ D hD
-  obtain ⟨L₀, hL₀, hb⟩ := hb γ hγ η hη hηg δ hδ hδ₁ D hD
-  refine ⟨L₀, hL₀, ?_⟩
-  intro L hL n Q hg hspan K hK φ hφ I hI hbox R
-  have hLone := hL₀.trans hL
-  have hLp := zero_lt_one.trans_le hLone
-  have hn : n ≠ 0 := by have h := one_le_linkCount_of_incoherent Q hg; omega
-  have hCpow : Cₜ ≤ (Cₜ + 1) ^ n :=
-    (by linarith : Cₜ ≤ Cₜ + 1).trans (le_self_pow₀ (by linarith : 1 ≤ Cₜ + 1) hn)
-  have hcoef : Cₜ * (K * C * δ) ^ n ≤ (K * C₀ * δ) ^ n := by
-    calc
-      _ ≤ (Cₜ + 1) ^ n * (K * C * δ) ^ n := mul_le_mul_of_nonneg_right hCpow (by positivity)
-      _ = _ := by rw [← mul_pow]; congr 1; dsimp [C₀]; ring
-  have hexp : -(incoherenceExponent d γ - 8 * (d : ℝ) * η) * incoherenceCount Q ≤
-      -(incoherenceExponent d γ - 100 * (d : ℝ) * η) * incoherenceCount Q := by
-    have h := mul_nonneg (Nat.cast_nonneg d) hη.le
-    apply mul_le_mul_of_nonneg_right _ (Nat.cast_nonneg (incoherenceCount Q))
-    nlinarith only [h]
-  rw [RootCoordinates.timeFourierNorm_coupleExtensionFilt R]
-  apply (htime (RootCoordinates.localLinkDensityFilt R L γ δ Q φ I)).trans
-  calc
-    _ ≤ ENNReal.ofReal Cₜ * ENNReal.ofReal ((K * C * δ) ^ n *
-        L ^ (-(incoherenceExponent d γ - 8 * (d : ℝ) * η) * incoherenceCount Q)) := by
-      apply mul_le_mul' le_rfl
-      rw [RootCoordinates.eLpNorm_localLinkDensityFilt R hLp γ δ Q φ hI hbox]
-      exact hb L hL n Q hg hspan K hK φ hφ I hI hbox R
-    _ = ENNReal.ofReal ((Cₜ * (K * C * δ) ^ n) *
-        L ^ (-(incoherenceExponent d γ - 8 * (d : ℝ) * η) * incoherenceCount Q)) := by
-      rw [← ENNReal.ofReal_mul hCₜ.le]
-      congr 1
-      ring
-    _ ≤ _ := by
-      apply ENNReal.ofReal_le_ofReal
-      exact mul_le_mul (hcoef) (Real.rpow_le_rpow_of_exponent_le hLone hexp)
-        (Real.rpow_nonneg hLp.le _) (by positivity)
-
 
 
 /-- The literal canonical couple extension is time-integrable. -/
@@ -159,35 +103,6 @@ theorem RootCoordinates.coupleExtension_agrees_aboveFilt {d n : ℕ} (R : RootCo
   change Fourier.cutoffDoubleIntegral χ (RootCoordinates.localLinkDensityFilt R L γ δ Q φ I) τ = _
   rw [cutoffDoubleIntegral_eq_on_rectangle _ τ hτ hχ, ← hrect]
   exact (RootCoordinates.cumulativeKernel_eq_localBoxIntegralFilt R hL γ δ Q φ hI hbox t).symm
-
-/-- Literal source kernel, independent of the other external clock. -/
-def RootCoordinates.oneClockKernelFilt {d n : ℕ} (R : RootCoordinates n) (a : Fin 2)
-    (L γ δ : ℝ) (Q : Fin n → LayerLink d) (φ : Fin n → ℝ → ℂ) (I : Set (Fin n → Fin 2 → ℝ))
-    (t : Fin 2 → ℝ) : ℂ := normalizedLinkIntegralFilt L γ δ Q φ (I ∩ R.oneClockCut a (t a))
-
-/-- Complete the auxiliary layer integration; no second source root is assumed. -/
-theorem RootCoordinates.cumulativeKernel_eq_oneClockKernelFilt {d n : ℕ} (R : RootCoordinates n)
-    (a : Fin 2) (L γ δ : ℝ) (Q : Fin n → LayerLink d) (φ : Fin n → ℝ → ℂ) {I : Set (Fin n → Fin 2 → ℝ)}
-    (hbox : I ⊆ univ.pi (fun i => linkBox (Q i))) {t : Fin 2 → ℝ}
-    (ht : ∀ j, j ≠ a → R.baseRootTimes Q j + 1 ≤ t j) :
-    RootCoordinates.cumulativeKernelFilt R L γ δ Q φ I t = RootCoordinates.oneClockKernelFilt R a L γ δ Q φ I t := by
-  have hset : I ∩ R.rootCut t = I ∩ R.oneClockCut a (t a) := by
-    ext w
-    constructor
-    · rintro ⟨hi, hc⟩
-      exact ⟨hi, hc.1 a⟩
-    · rintro ⟨hi, hc⟩
-      refine ⟨hi, ?_⟩
-      have hb : (R.equiv w).1 ∈ R.rootBox Q := by
-        apply ((R.equiv_symm_mem_linkBoxes Q (R.equiv w).1 (R.equiv w).2).mp ?_).1
-        simpa only [Prod.eta, MeasurableEquiv.symm_apply_apply] using hbox hi
-      change (R.equiv w).1 ≤ t ∧ (R.equiv w).2 ∈ univ
-      refine ⟨fun j => ?_, mem_univ _⟩
-      by_cases hj : j = a
-      · subst j
-        exact hc
-      · exact (hb.2 j).trans (ht j hj)
-  rw [RootCoordinates.cumulativeKernelFilt, RootCoordinates.oneClockKernelFilt, hset]
 
 
 

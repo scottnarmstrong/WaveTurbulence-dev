@@ -5,7 +5,6 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P2.TermBound
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.AllRows
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P2.Abs
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.WinChain

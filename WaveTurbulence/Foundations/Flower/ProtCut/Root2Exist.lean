@@ -23,48 +23,6 @@ namespace WaveTurbulence.Flower.ProtCut
 open TTree WaveTurbulence.Links WaveTurbulence.Reg WaveTurbulence.PL234
 open WaveTurbulence.Flower.ProtDefs
 
-/-- **The pieces of a type-2 couple with a nonempty `+` chain exist**, with the layers of the couple. -/
-theorem Root2Data.exists_of_decodes (LG : LayeredGarden 2) (m : MiniTreeCode) (Qr Qg : RegCpl)
-    (inner rest Xm : RegChain) (Qlp : RegCpl)
-    (hd : (RegCpl.type2 (.pair m Qr Qg inner rest) Xm Qlp).Decodes LG.garden)
-    (hwf : (RegCpl.type2 (.pair m Qr Qg inner rest) Xm Qlp).wf = true) :
-    ∃ (LGZ : LayeredGarden 1) (LGB : LayeredGarden 2), Root2Data LG m Qr Qg inner LGZ LGB ∧
-      (cpair m Qr Qg inner).wf = true := by
-  have hwf' : (RegCpl.type2 (appendChain (cpair m Qr Qg inner) rest) Xm Qlp).wf = true := hwf
-  obtain ⟨hwZ, hwB⟩ := wf_split hwf'
-  have hd' : (RegCpl.type2 (appendChain (cpair m Qr Qg inner) rest) Xm Qlp).Decodes LG.garden := hd
-  obtain ⟨GZ, hsZ, hdZ, -⟩ := Reg.wf_chain_exists_regular_decodesTree _ hwZ 1
-  obtain ⟨GB, hdB, -⟩ := Reg.wf_code_exists_regular_decodes _ hwB
-  have gd := glueData_couple hd' hdZ hsZ hdB
-  have hpair : ∀ ℓ : GLeaf GZ.tree, layerAt LG (topAddr ℓ.1) = layerAt LG (topAddr (GZ.pair ℓ).1) := by
-    intro ℓ
-    by_cases hl : ℓ.1.2 = (cpair m Qr Qg inner).lonePath
-    · have hm : GZ.mark ℓ ≠ none := by rw [hdZ.2.1 ℓ]; simp [hl]
-      rw [(GZ.pair_eq_iff ℓ).2 hm]
-    · have hm := hdZ.2.2 ℓ hl
-      rw [mem_symmPairs] at hm
-      have key : ∀ u v : Fin 1 × Path, (u, v) ∈ (cpair m Qr Qg inner).pairsAt (GZ.sig 0) ((0 : Fin 1), []) →
-          layerAt LG (topAddr u) = layerAt LG (topAddr v) := by
-        intro u v huv
-        refine layer_eq_of_decoded_pair hd (p := (topAddr u, topAddr v)) ?_
-        have e := chain_pairsAt_map (cpair m Qr Qg inner) (topAddr (w := 2)) (topAddr_hom (w := 2)) 1
-          ((0 : Fin 1), [])
-        rw [hsZ] at huv
-        have hin : (topAddr u, topAddr v) ∈ (cpair m Qr Qg inner).pairsAt 1 (topAddr (w := 2) ((0 : Fin 1), [])) := by
-          rw [e]; exact List.mem_map.mpr ⟨(u, v), huv, rfl⟩
-        have hin' : (topAddr u, topAddr v) ∈ (RegChain.pair m Qr Qg inner rest).pairsAt 1 ((0 : Fin 2), []) := by
-          rw [show topAddr (w := 2) ((0 : Fin 1), ([] : Path)) = ((0 : Fin 2), []) from rfl] at hin
-          simp only [cpair, RegChain.pairsAt, List.mem_append, List.not_mem_nil, or_false] at hin ⊢
-          tauto
-        simp only [RegCpl.pairsAt, List.mem_append]
-        left; left; exact hin'
-      rcases hm with hm | hm
-      · exact key _ _ hm
-      · exact (key _ _ hm).symm
-  refine ⟨⟨GZ, fun z => layerAt LG (topAddr z.1), isLayering_pullbackW LG GZ topAddr (topAddr_hom (w := 2))
-      (fun x => gd.branch_ofTop x) hpair⟩, botLayered_couple hd' hdZ hsZ hdB,
-    Root2Data.of_decodes hd hdZ hsZ hdB (fun z => rfl) (fun z => (layerAt_node LG (gd.ι₂ z)).symm), hwZ⟩
-
 namespace Root2Data
 
 variable {LG : LayeredGarden 2} {m : MiniTreeCode} {Qr Qg : RegCpl} {inner : RegChain}

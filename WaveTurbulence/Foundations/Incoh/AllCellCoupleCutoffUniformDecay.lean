@@ -4,7 +4,6 @@ module
 public import WaveTurbulence.Foundations.Incoh.AllCellMaskedCoupleDecay
 public import WaveTurbulence.Foundations.Incoh.CoupleCutoffUniformDecay
 public import WaveTurbulence.Foundations.Incoh.AllCellCutoffCoupleFamily
-public import WaveTurbulence.Foundations.Incoh.CoupleExtensionAgreement
 public import WaveTurbulence.Foundations.Incoh.CouplePhysicalL1
 public import WaveTurbulence.Foundations.Incoh.UniformL1MixtureIntegrability
 public import WaveTurbulence.Foundations.Incoh.SpectralSpatialMixture

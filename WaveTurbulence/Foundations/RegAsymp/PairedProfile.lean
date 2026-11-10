@@ -1,7 +1,7 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 
-public import WaveTurbulence.Foundations.RegAsymp.InverseProfile
+public import WaveTurbulence.Foundations.Fourier.TimeProduct
 public import WaveTurbulence.Foundations.ClassJR.MCSRep
 
 /-! # The source two-time inverse profile in its original frequency measure

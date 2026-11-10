@@ -41,8 +41,4 @@ theorem finalCountAt_of_reg_low {P : WTParams} (hr : FinalCountRegAt P) (hl : Fi
   · exact hr p hp R hR hRm G hpl hirr hbal hn hnm D C hh hg hreg base roots Adm hA
   · exact hl p hp R hR hRm G hpl hirr hbal hn hnm D C hh hg hreg base roots Adm hA
 
-theorem finalCountReg_of_at7 {P : WTParams} (h : FinalCountAt P) : FinalCountRegAt P :=
-  fun p hp R hR hRm G hpl hirr hbal hn hnm D C hh hg _ base roots Adm hA =>
-    h p hp R hR hRm G hpl hirr hbal hn hnm D C hh hg base roots Adm hA
-
 end WaveTurbulence.FinalCountAsm

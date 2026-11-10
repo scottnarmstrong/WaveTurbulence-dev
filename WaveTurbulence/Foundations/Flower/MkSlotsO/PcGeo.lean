@@ -61,8 +61,6 @@ theorem pc_LG_eq : nativeChainLayered D hS layer hLayer β =
   rw [layerAt_of_mem (z := addrExt (pcu D β) a.1.2) (pcR D hS layer hLayer) (chainContextNode D hS β a).2]
   rfl
 
-theorem pc_core_val : (D.coreBranch hS β).1 = addrExt (pcu D β) (D.tree β).lonePath := rfl
-
 theorem pcj_eq : pcj D β = β.1.1 := inflatedPosition_index S D.tree β.toNode
 
 theorem pc_u_nil (h : (pcu D β).2 = []) : β.1.2 = [] := by

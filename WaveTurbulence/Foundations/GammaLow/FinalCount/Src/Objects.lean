@@ -55,10 +55,6 @@ def IsHVC (γ : ℝ) (M : Molecule V D) (S : Finset V) (a b : V) : Prop :=
 def IsDV (γ : ℝ) (M : Molecule V D) (S : Finset V) (a b : V) : Prop :=
   M.IsDVPrime γ S a b
 
-/-- TARGET defvine: the three classes called vine-like (DV′ is excluded). -/
-def IsVineLike (γ : ℝ) (M : Molecule V D) (S : Finset V) (a b : V) : Prop :=
-  IsVC γ M S a b ∨ IsHV γ M S a b ∨ IsHVC γ M S a b
-
 /-- Source data for a hyper-vine-like object, retaining the bond which defines its adjoint VC. -/
 structure HyperLikeRealization (γ : ℝ) (M : Molecule V D) (S : Finset V) (a b : V) where
   added : D

@@ -38,9 +38,6 @@ theorem TRpt.symm {L η : ℝ} {r c : Mom d} (h : TRpt L η r c) : TRpt L η c r
 theorem TRpt.neg_left {L η : ℝ} {r c : Mom d} (h : TRpt L η r c) : TRpt L η (-r) c := by
   unfold TRpt at h ⊢; rwa [norm_neg, inner_neg_left, neg_sq]
 
-theorem TRpt.neg_right {L η : ℝ} {r c : Mom d} (h : TRpt L η r c) : TRpt L η r (-c) := by
-  unfold TRpt at h ⊢; rwa [norm_neg, inner_neg_right, neg_sq]
-
 theorem inCone_neg_ctr (θ : ℝ) (r c : Mom d) : InCone θ r (-c) ↔ InCone θ r c := by
   unfold InCone; rw [norm_neg, inner_neg_right, neg_sq]
 

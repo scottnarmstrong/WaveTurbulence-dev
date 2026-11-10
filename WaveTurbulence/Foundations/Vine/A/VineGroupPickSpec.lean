@@ -29,12 +29,6 @@ theorem dvGroupPick_some (hS : PureDVGroup G S) :
   unfold dvGroupPick
   rw [dite_eq_left hS]
 
-/-- DV success has exactly the pure maximal-group case as its meaning. -/
-theorem dvGroupPick_isSome : (dvGroupPick G S).isSome ↔ PureDVGroup G S := by
-  classical
-  unfold dvGroupPick
-  split_ifs with hS <;> simp only [Option.isSome_some, Option.isSome_none, Bool.false_eq_true, hS]
-
 /-- A returned HV triple satisfies the original deleted-bond realization predicate. -/
 theorem hvGroupPick_valid {a b : GBranch G.tree} {e : GardenDart G}
     (h : hvGroupPick G S = some (a, b, e)) :

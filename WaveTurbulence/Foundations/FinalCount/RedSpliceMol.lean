@@ -140,10 +140,4 @@ variable {w : ℕ} {G0 G : Garden w} {cls : GBranch G0.tree → Option (GBranch 
   od_out := fun y => M.od_out y.1
   ob_atom := fun y => M.ob_atom y.1
 
-theorem SpMap.eraseMol_pi (M : SpMap G0 G cls) (hcls : ClsOK cls) (e' : GardenDart G) :
-    (M.eraseMol hcls e').pi = M.pi hcls := rfl
-
-theorem SpMap.toMol_pi (M : SpMap G0 G cls) (hcls : ClsOK cls) :
-    (M.toMol hcls).pi = M.pi hcls := rfl
-
 end WaveTurbulence.RedSplice

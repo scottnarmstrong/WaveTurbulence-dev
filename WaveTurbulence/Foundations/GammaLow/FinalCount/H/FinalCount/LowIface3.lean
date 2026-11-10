@@ -3,7 +3,6 @@ module
 public import WaveTurbulence.Foundations.FinalCount.LowIface3
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.GL26
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.LowIface
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.LowIface2
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Api
 /-! **L6-H port of main `WaveTurbulence.Foundations.FinalCount.LowIface3`** (sha256 in H/COPIED-SHA256SUMS): only the declarations that
 depend on the vine-family carrier, re-stated over the low family `Src … Src.γL` (and L6-STEP1's
@@ -90,52 +89,6 @@ def LowLoopClassBound (d : ℕ) (γ η : ℝ) : Prop :=
         M.unloop.countA L γ δ C1 (0 : Mom d) (fun k => k ∈ A0) P ≤
         ENNReal.ofReal (L ^ (-4 * η ^ 6 * ((M.unloop.rho : ℝ) + ((M.unloop.atoms.filter crit).card : ℝ))) *
           L ^ (((R : ℝ) - 1) * ((d : ℝ) - γ - 1 / 4 - 1 / 40 - 1 / 20) - (η ^ 5 - 4 * η ^ 6) / 4))
-
-/-- The `k = 0` (loop-free) part of `LowLoopClassBound`. -/
-def LowLoopClassBoundK0 (d : ℕ) (γ η : ℝ) : Prop :=
-  ∃ Cstar : ℝ, 1 ≤ Cstar ∧ ∀ m : ℕ, ∀ C1 ≥ Cstar, ∀ δ ∈ Ioc (0 : ℝ) 1, ∃ R₀ : ℝ, 1 ≤ R₀ ∧ ∀ L ≥ R₀,
-    ∀ {V : Type} [DecidableEq V] [Infinite V] {D₀ : Type} [Fintype D₀] [DecidableEq D₀] {M : Molecule V D₀} {R : ℕ}
-      {P : Finset V → ℝ} {A0 : Set (NonLoop M → Fin d → ℤ)} {C : CollData M.unloop}
-      {Un : (NonLoop M → Fin d → ℤ) → Set (Src.Object Src.γL M.unloop)} {Fst : Set (Src.Object Src.γL M.unloop)} {crit Tm : V → Prop},
-      M.loopBonds.card = 0 →
-      LowLoopClassHyps (d := d) M R P A0 C Un Fst crit Tm L γ η m →
-      M.unloop.countA L γ δ C1 (0 : Mom d) (fun k => k ∈ A0) P ≤
-        ENNReal.ofReal (L ^ (-4 * η ^ 6 * ((M.unloop.rho : ℝ) + ((M.unloop.atoms.filter crit).card : ℝ))) *
-          L ^ (((R : ℝ) - 1) * ((d : ℝ) - γ - 1 / 4 - 1 / 40 - 1 / 20) - (η ^ 5 - 4 * η ^ 6) / 4))
-
-theorem LowLoopClassBound.toK0 {d : ℕ} {γ η : ℝ} (h : LowLoopClassBound d γ η) : LowLoopClassBoundK0 d γ η := by
-  obtain ⟨Cs, hCs, h⟩ := h
-  refine ⟨Cs, hCs, fun m C1 hC1 δ hδ => ?_⟩
-  obtain ⟨R₀, hR₀, h'⟩ := h m C1 hC1 δ hδ
-  refine ⟨R₀, hR₀, fun L hL V _ _ D₀ _ _ M R P A0 C Un Fst crit Tm hk hh => ?_⟩
-  have := h' L hL hh
-  rw [hk] at this
-  simpa using this
-
-/-- **`low_loop_k0` (bridge, hypotheses):** with no loop, `LowLoopClassHyps` is exactly `LowClassHyps` on `N = M.unloop`. -/
-theorem LowLoopClassHyps.toLowClassHyps {M : Molecule V D₀} {R : ℕ} {P : Finset V → ℝ} {A0 : Set (NonLoop M → Fin d → ℤ)}
-    {C : CollData M.unloop} {Un : (NonLoop M → Fin d → ℤ) → Set (Src.Object Src.γL M.unloop)} {Fst : Set (Src.Object Src.γL M.unloop)}
-    {crit Tm : V → Prop} {L γ η : ℝ} {m : ℕ} (h : LowLoopClassHyps (d := d) M R P A0 C Un Fst crit Tm L γ η m)
-    (hk : M.loopBonds.card = 0) : LowClassHyps (d := d) M.unloop R P A0 C Un Fst crit Tm L γ η m := by
-  have hB := loopAtoms_eq_empty hk
-  have hnd : ∀ v, effDeg M v = M.unloop.deg v := fun v => by simp [effDeg, hB]
-  have hS : SubHypL R M.unloop := by simpa [hk] using h.subHypL
-  have hcn : CnBound M.unloop C Un Fst L γ η (0 : Mom d) A0 R := h.cnBound
-  have hat : M.unloop.atoms = M.atoms := rfl
-  exact
-    { subHypL := hS, isMol := h.isMol, hP := h.hP, hP0 := h.hP0, pinned := h.pinned, obl := h.obl, trip := h.trip,
-      unsel := h.unsel, degen := h.degen, h0 := h.h0, tameEq := h.tameEq, mate := h.mate
-      fix := fun v hv hT hlt => h.fixEff v (hat ▸ hv) hT (by rw [hnd]; exact hlt)
-      critSG := h.critSG, card := h.card, srcGaps := h.srcGaps, dec := h.dec, disj := h.disj, fst := h.fst, sgC := h.sgC,
-      desC := h.desC, shape := h.shape, hostConn := h.hostConn, critInt := h.critInt, cnBound := hcn,
-      hostConnFL := h.hostConnFL }
-
-/-- **`low_loop_k0` (bridge, bounds):** the loop-free `LowClassBound` gives the `k = 0` part of `LowLoopClassBound`. -/
-theorem low_loop_k0 {d : ℕ} {γ η : ℝ} (h : LowClassBound d γ η) : LowLoopClassBoundK0 d γ η := by
-  obtain ⟨Cs, hCs, h⟩ := h
-  refine ⟨Cs, hCs, fun m C1 hC1 δ hδ => ?_⟩
-  obtain ⟨R₀, hR₀, h'⟩ := h m C1 hC1 δ hδ
-  exact ⟨R₀, hR₀, fun L hL V _ _ D₀ _ _ M R P A0 C Un Fst crit Tm hk hh => h' L hL (hh.toLowClassHyps hk)⟩
 
 end stmts3
 

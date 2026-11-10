@@ -6,7 +6,7 @@ public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3Dart
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3FinalCopy
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3Flat
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3HInv
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3Prop95
+public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3NoTriple
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3Run
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3Steps
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Api

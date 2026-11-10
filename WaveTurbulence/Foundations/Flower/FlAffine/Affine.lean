@@ -83,8 +83,6 @@ def chi0Measure : Cut2A.SpatialMeasure ℝ ℝ where
   amplitude := 𝓕 Fourier.chi0Complex
   amplitude_integrable := LemLin.integrable_fourier_chi0Complex
 
-theorem chi0Measure_mass : chi0Measure.mass = ∫ ξ, ‖𝓕 Fourier.chi0Complex ξ‖ := rfl
-
 theorem chi0Measure_value (x : ℝ) : chi0Measure.value x = ((Fourier.chi0 x : ℝ) : ℂ) := by
   have hc : Continuous Fourier.chi0Complex := Fourier.chi0Complex_contDiff.continuous
   have hi : Integrable Fourier.chi0Complex := by
@@ -102,11 +100,6 @@ theorem chi0Measure_value (x : ℝ) : chi0Measure.value x = ((Fourier.chi0 x : �
 /-- The top filter in the middle-child momentum `a`: `a ↦ χ₀(2 r·(a - f)/M)`. -/
 def topFilterMeasure {d : ℕ} (r f : Mom d) (M : ℝ) : Cut2A.SpatialMeasure (Mom d) ℝ :=
   chi0Measure.affine (innerSL ℝ ((2 / M) • r)) (-((2 / M) * inner ℝ r f))
-
-/-- Mass `∫ ‖𝓕 χ₀‖`, independent of `r, f, M`. -/
-theorem topFilterMeasure_mass {d : ℕ} (r f : Mom d) (M : ℝ) :
-    (topFilterMeasure r f M).mass = ∫ ξ, ‖𝓕 Fourier.chi0Complex ξ‖ :=
-  Cut2A.SpatialMeasure.affine_mass _ _ _
 
 theorem topFilterMeasure_value {d : ℕ} (r f a : Mom d) (M : ℝ) :
     (topFilterMeasure r f M).value a =

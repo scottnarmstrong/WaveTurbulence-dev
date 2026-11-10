@@ -137,31 +137,6 @@ theorem aTr_mul_phase (Ntr : ℕ) (t : ℝ) (n : Fin d → ℤ) :
   exact Finset.sum_congr rfl fun N _ => treeTermN_mul_phase L γ δ hφ p hb N t n
 
 include hφ hb in
-theorem treeTermDt_mul_phase (S : TTree) (t : ℝ) (n : Fin d → ℤ) :
-    treeTermDt L γ δ p S (fun k => φ k * b k) t n = φ n * treeTermDt L γ δ p S b t n := by
-  cases S with
-  | leaf => simp [treeTermDt]
-  | node l m r =>
-    have el : treeTerm L γ δ p l (fun k => φ k * b k) t = fun k => φ k * treeTerm L γ δ p l b t k :=
-      funext fun k => treeTerm_mul_phase L γ δ hφ p hb l t k
-    have em : treeTerm L γ δ p m (fun k => φ k * b k) t = fun k => φ k * treeTerm L γ δ p m b t k :=
-      funext fun k => treeTerm_mul_phase L γ δ hφ p hb m t k
-    have er : treeTerm L γ δ p r (fun k => φ k * b k) t = fun k => φ k * treeTerm L γ δ p r b t k :=
-      funext fun k => treeTerm_mul_phase L γ δ hφ p hb r t k
-    simp only [treeTermDt, el, em, er]
-    exact aNonlin_mul_phase3 L γ δ hφ t _ _ _ n
-
-include hφ hb in
-theorem aTrDt_mul_phase (Ntr : ℕ) (t : ℝ) (n : Fin d → ℤ) :
-    aTrDt L γ δ p Ntr (fun k => φ k * b k) t n = φ n * aTrDt L γ δ p Ntr b t n := by
-  unfold aTrDt
-  simp only [finsum_order_eq]
-  rw [Finset.mul_sum]
-  refine Finset.sum_congr rfl fun N _ => ?_
-  rw [Finset.mul_sum]
-  exact Finset.sum_congr rfl fun S _ => treeTermDt_mul_phase L γ δ hφ p hb S t n
-
-include hφ hb in
 theorem slotValAt_mul_phase (Ntr : ℕ) (o : Slot Ntr) (t : ℝ) :
     slotValAt L γ δ p Ntr (fun k => φ k * b k) o t = fun k => φ k * slotValAt L γ δ p Ntr b o t k := by
   funext k

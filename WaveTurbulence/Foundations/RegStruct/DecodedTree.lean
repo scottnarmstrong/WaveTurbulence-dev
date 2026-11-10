@@ -6,7 +6,7 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.RegStruct.PairSlotsWithLoneProperties
-public import WaveTurbulence.Foundations.RegStruct.ChainAuxiliaryB
+public import WaveTurbulence.Foundations.RegStruct.ChainMiniFidelity
 
 /-! # The actual paired-tree carrier of every chain code -/
 

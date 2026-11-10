@@ -234,51 +234,7 @@ end Bound
 
 section Unit
 
-/-- Pulling a time-independent factor out of an indicator. -/
-theorem indicator_mid_mul' {α : Type*} (s : Set α) (P Q : α → ℂ) (c e ε : ℂ) (τ : α) :
-    e * (ε * s.indicator (fun τ => P τ * (c * Q τ)) τ) = c * (ε * s.indicator (fun τ => P τ * Q τ) τ * e) := by
-  by_cases hτ : τ ∈ s
-  · simp only [Set.indicator_of_mem hτ]
-    ring
-  · simp only [Set.indicator_of_notMem hτ, mul_zero, zero_mul]
-
 variable {w d : ℕ} {ι : Type*} {J : Type} [Fintype J] [DecidableEq J] {Q : J → ι → Prop}
-
-/-- **VINE-B♯'s unit factor of the frontier-weighted slot family is the pinned `unitRecenteredFW`** (at `S = none`,
-the unit's single weight `g j₁` and its layer profile), for the blocks of the unit regions of a state `X` decoded by
-any layering `layer`. -/
-theorem unitKernelMG_slotFW_eq (X : FamilyReconstruction w ι) (us : ∀ j, UnitAt X.skeleton X.family (Q j))
-    (layer : GNode (X.data.forest X.plain) → ℕ) (hL : IsLayering (X.data.garden X.plain) layer)
-    (hspec : layeredReconstruction X.data X.plain layer hL = X.layered) (L γ δ : ℝ)
-    (h : ℕ → Fin w → Fin w → Mom d → ℝ) (p : ℕ) (gT : Fin w → Mom d → ℂ) (base : Mom d)
-    (hcan : IsCanonGC (p + 1) X.layered) (hlay : ∀ x, layer x ≤ p)
-    (j : J) (lam : ℤ) (t : Fin 3 → ℝ) (k : Fin 4 → Mom d) :
-    unitKernelMG (fun j => unitClBlock (us j)) X.data X.plain (slotFW X.data X.plain layer hL L γ δ h p gT)
-        L γ δ layer base j lam t k =
-      unitRecenteredFW p (gT (us j).blk.a.1.1) none X (us j) L γ δ
-        (unitProfile (fun j => unitClBlock (us j)) h j) base (modW lam) (t 0) (t 1) (t 2) (k 0) (k 1) (k 2) (k 3) := by
-  have hl : layer = stateLayer X := layeredReconstruction_inj X.data X.plain (hspec.trans (stateLayer_spec X).symm)
-  subst hl
-  have hcan' : IsCanonGC (p + 1) (layeredReconstruction X.data X.plain (stateLayer X) hL) := by
-    rw [hspec]; exact hcan
-  have hk : ![k 0, k 1, k 2, k 3] = k := by funext i; fin_cases i <;> rfl
-  have ht : ![t 0, t 1, t 2] = t := by funext i; fin_cases i <;> rfl
-  unfold unitKernelMG unitRecenteredFW unitKernelFW clLocalKernelFW unitConst
-  rw [hk, ht]
-  rw [regionData_subsingleton (regionOf (unitClBlock (us j))) (clRegionData X.skeleton (us j).blk.block (us j).cl)]
-  congr 2
-  refine tsum_congr fun κ => integral_congr_ae (Filter.Eventually.of_forall fun τ => ?_)
-  unfold clLocalSummandG clLocalSummandFW
-  simp only [clLocalStarProductG_slotFW X.data X.plain (stateLayer X) hL L γ δ h p gT (unitClBlock (us j)) hcan' hlay]
-  dsimp only [unitClBlock, unitProfile]
-  have hrw : regionWeightFW p (gT (us j).blk.a.1.1) none L base X (us j).blk.U (us j).blk.a
-      (clExtendIndices (clRegionData X.skeleton (us j).blk.block (us j).cl) κ.1) =
-      regionCross X.data X.plain (stateLayer X) hL p (gT (us j).blk.a.1.1) (us j).blk.U (us j).blk.a L base
-        (clExtendIndices (clRegionData X.skeleton (us j).blk.block (us j).cl) κ.1) :=
-    regionWeightFW_eq_regionCross X ⟨(us j).blk.U, (us j).blk.a, (us j).blk.b, (us j).blk.block, (us j).cl⟩ p
-      (gT (us j).blk.a.1.1) L base hcan' hlay (clRegionData X.skeleton (us j).blk.block (us j).cl) _ κ
-  rw [hrw]
-  exact indicator_mid_mul' _ _ _ _ _ _ τ
 
 end Unit
 

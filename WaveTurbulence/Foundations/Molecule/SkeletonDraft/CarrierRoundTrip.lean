@@ -94,10 +94,4 @@ theorem rawOfGarden_injective_plain {w : ℕ} {G H : Garden w} (hG : G.IsPlain) 
   cases hmark
   rfl
 
-/-- Extracting and rebuilding an ordinary garden retains the complete source carrier. -/
-theorem gardenOfRaw_rawOfGarden {w : ℕ} (G : Garden w) (hG : G.IsPlain) :
-    gardenOfRaw (rawOfGarden G) (rawOfGarden_valid G hG) = G := by
-  apply rawOfGarden_injective_plain (gardenOfRaw_plain _ _) hG
-  exact rawOfGarden_gardenOfRaw _ _
-
 end WaveTurbulence.Reg.Skeleton

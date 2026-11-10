@@ -29,20 +29,4 @@ theorem CanonicalObject.plain {p : ℕ} {kind : Bool} {w : ℕ} {LG : LayeredGar
   | garden hc => exact hc.2.1
   | couple hc => exact hc.1.1
 
-theorem CanonicalObject.eraseTree {p : ℕ} {kind : Bool} {w : ℕ} {S : Garden w} {LG : LayeredGarden w}
-    (hc : CanonicalObject p kind LG) (D : ReconstructionData S) (hS : S.IsPlain)
-    (hd : D.Decodes hS LG.garden) (hall : AllAttachmentsCoherent LG D hS) (b : GBranch S.tree) :
-    CanonicalObject p kind (collapsePairedTreeLayered LG (D.decoded_chain_isSubPairedTree hS hd b)) := by
-  cases hc with
-  | garden hc => exact .garden (eraseCoherentTree_canonG LG D hS hd hc b (hall.1 b))
-  | couple hc => exact .couple (eraseCoherentTree_canonC _ D hS hd hc b (hall.1 b))
-
-theorem CanonicalObject.eraseCouple {p : ℕ} {kind : Bool} {w : ℕ} {S : Garden w} {LG : LayeredGarden w}
-    (hc : CanonicalObject p kind LG) (D : ReconstructionData S) (hS : S.IsPlain)
-    (hd : D.Decodes hS LG.garden) (hall : AllAttachmentsCoherent LG D hS) (q : SourcePair S) :
-    CanonicalObject p kind (collapseCoupleLayered LG (D.decoded_couple_isSubCouple hS hd q) p) := by
-  cases hc with
-  | garden hc => exact .garden (eraseCoherentCouple_canonG LG D hS hd hc q (hall.2 q))
-  | couple hc => exact .couple (eraseCoherentCouple_canonC _ D hS hd hc q (hall.2 q))
-
 end WaveTurbulence.LFTwist

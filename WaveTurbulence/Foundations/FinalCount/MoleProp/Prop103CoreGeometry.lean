@@ -185,45 +185,6 @@ theorem exists_degree_three_in_core_component (M : Molecule V D) (hM : M.IsMolec
   · exact h3
   · exact False.elim (hne h4)
 
-/-- An old bridge cannot have both endpoints inside a single actual core
-component.  A core path is already an old path avoiding that bond. -/
-theorem not_isBridge_of_core_component_internal (M : Molecule V D) (v : V) (x : D)
-    (hx : M.InGroup (componentSet (bridgeCore M) v) x) : ¬ IsBridge M x := by
-  have hp : (bridgeCore M).SameComponent (M.atom x) (M.atom (M.mate x)) :=
-    Relation.EqvGen.trans _ _ _
-      (Relation.EqvGen.symm _ _ ((mem_componentSet _ _ _).mp hx.1).2)
-      ((mem_componentSet _ _ _).mp hx.2).2
-  intro hb
-  apply hb
-  apply Relation.EqvGen.mono (fun a b hab => ?_) _ _ hp
-  obtain ⟨e,hea,heb⟩ := hab
-  refine ⟨e.val,hea,heb,?_,?_⟩
-  · intro he
-    exact e.property (he.symm ▸ hb)
-  · intro he
-    exact e.property (he.symm ▸ (isBridge_mate_iff M x).mpr hb)
-
-/-- Selecting one component after the source B operations yields an actual
-induced subgraph of the old graph, with no missing internal bond. -/
-noncomputable def coreComponentDartEquiv (M : Molecule V D) (v : V) :
-    {x : NonBridgeDart M // (bridgeCore M).InGroup (componentSet (bridgeCore M) v) x} ≃
-      {x : D // M.InGroup (componentSet (bridgeCore M) v) x} := by
-  classical
-  exact {
-    toFun := fun x => ⟨x.val.val,x.property⟩
-    invFun := fun x => ⟨⟨x.val,not_isBridge_of_core_component_internal M v x.val x.property⟩,x.property⟩
-    left_inv := fun x => Subtype.ext (Subtype.ext rfl)
-    right_inv := fun x => Subtype.ext rfl }
-
-/-- The selected component's circuit rank is exactly that of the literal old
-induced subgraph, so subsequent neutral discarding can target old atoms. -/
-theorem circuitRank_core_component_eq_induced (M : Molecule V D) (v : V) :
-    (Mole.induced (bridgeCore M) (componentSet (bridgeCore M) v)).circuitRank =
-      (Mole.induced M (componentSet (bridgeCore M) v)).circuitRank := by
-  classical
-  exact circuitRank_eq_of_dart_equiv _ _ (coreComponentDartEquiv M v) rfl
-    (fun _ => rfl) (fun _ => Subtype.ext rfl) (fun _ => rfl)
-
 /-- Positive circuit rank forces a nonisolated atom. -/
 theorem exists_positive_degree_of_circuitRank_pos (M : Molecule V D)
     (hχ : 0 < M.circuitRank) : ∃ v ∈ M.atoms, 0 < M.deg v := by

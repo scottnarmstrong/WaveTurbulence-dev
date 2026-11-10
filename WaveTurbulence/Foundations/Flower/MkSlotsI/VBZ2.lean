@@ -186,32 +186,6 @@ theorem hasSum_skelValWZRL_outerValMμD (RB : RegBoundW blk hS Fs L base) (hd : 
 
 /-! ## The class-sum (T4) inputs for the per-mode outer values -/
 
-/-- **ξ-summability of the weighted per-mode outer values** (the `hξ` input of the class sum): a consequence of
-`hasSum_skelValWZRL_outerValMμD`. -/
-theorem summable_modes_outerValMWZ (RB : RegBoundW blk hS Fs L base) (hd : Disj blk) (hSb : Gsb.IsPlain)
-    (hL0 : 0 < L) (γ δ : ℝ) (D : ReconstructionData S) (layer : GNode (D.forest hS) → ℕ)
-    {roots : Fin w → (Fin d → ℤ)} (tt : Fin w → ℝ)
-    (Zs : GenDecoration S d roots 0 → ℂ) (Zw : GenDecoration Gsb d roots 0 → ℂ) (hZw : ∀ z, ‖Zw z‖ ≤ 1)
-    (hZ : ∀ κ : GenDecoration S d roots 0, Zs κ = Zw (Φ.resDec hS hd κ))
-    (fam : SlotFam Gsb d) (Box : ReplacementSlot Gsb → Set (Fin 2 → ℝ))
-    (hexp : ∀ s', ∀ ts ∈ Box s', ∀ x, HasSum (fun l => (fam.w s' l : ℂ) * fam.a s' l x * fsPhase (fam.m s' l) ts)
-      (Fs.fs (Φ.iota hS hSb s') ts x))
-    (fixS lbS : GBranch S.tree → Option ℝ) (hU : ∀ j, ∀ a ∈ inter blk j, fixS a = none)
-    (hlbU : ∀ j, ∀ a ∈ inter blk j, lbS a = none)
-    (hP : RelaxPinsS (fun b => layer (D.coreBranch hS b).toNode) tt fixS)
-    (hbox : ∀ τ, PinnedAt fixS τ →
-      τ ∈ coreTimeDomainWR (fun b => layer (D.coreBranch hS b).toNode) tt fixS ∩ lbDomR lbS →
-        ∀ s', slotTs hS tt τ (Φ.iota hS hSb s') ∈ Box s') :
-    Summable (fun ξ : ∀ s, fam.Λ s => ((modeWt fam ξ : ℝ) : ℂ) *
-      outerValMμD Gsb L γ δ base roots tt
-        (splicedTimeDomainFix Gsb (fun c => layer (D.coreBranch hS (Φ.br c)).toNode) tt (fun c => fixS (Φ.br c)) ∩
-          lbDomR (fun c => lbS (Φ.br c)))
-        (Φ.hinges hd) Zw hSb (fixMeasure (fun c => fixS (Φ.br c)))
-        (fun s' => fam.a s' (ξ s')) (fun s' => fam.m s' (ξ s')) (Φ.route hS hSb) (Φ.hclk hd) (Φ.hmom hd)
-        (unitKernelMGW blk D hS Fs L γ δ layer base)) :=
-  (hasSum_skelValWZRL_outerValMμD Φ RB hd hSb hL0 γ δ D layer tt Zs Zw hZw hZ fam Box hexp fixS lbS hU hlbU hP
-    hbox).summable
-
 /-- **Integrability of the per-mode relaxed outer integrand** (the `hint` input of the class sum), for every mode
 `ξ` and decoration `z`, against the pinned measure (β's `MkSlotsB.integrable_outerIntegrandMDGW_fixR` at the
 mode amplitudes, with the pins and lower bounds of `G_sb` pulled back from the skeleton). -/
@@ -247,20 +221,5 @@ theorem summable_outer_decorationsGWD_modesR (RB : RegBoundW blk hS Fs L base) (
   summable_outer_decorationsGWD_fixR Φ RB hd D hSb γ δ layer tt (fun s' => fam.a s' (ξ s'))
     (fun s' => fam.m s' (ξ s')) Zw hZw (tsum_ampBound_mode_le fam hSb L hL0 base roots ξ).1
     (fun c => fixS (Φ.br c)) (fun c => lbS (Φ.br c))
-
-/-- The per-mode outer value is the decoration sum of the integrals of β's `outerIntegrandMD` (rfl; the form in
-which the class sum consumes it). -/
-theorem outerValMμD_modes_eq (hd : Disj blk) (D : ReconstructionData S) (hSb : Gsb.IsPlain) (γ δ : ℝ)
-    (layer : GNode (D.forest hS) → ℕ) {roots : Fin w → (Fin d → ℤ)} (tt : Fin w → ℝ) (fam : SlotFam Gsb d)
-    (ξ : ∀ s, fam.Λ s) (Zw : GenDecoration Gsb d roots 0 → ℂ) (Dom : Set (GBranch Gsb.tree → ℝ))
-    (μ : Measure (GBranch Gsb.tree → ℝ)) :
-    outerValMμD Gsb L γ δ base roots tt Dom (Φ.hinges hd) Zw hSb μ
-        (fun s' => fam.a s' (ξ s')) (fun s' => fam.m s' (ξ s')) (Φ.route hS hSb) (Φ.hclk hd) (Φ.hmom hd)
-        (unitKernelMGW blk D hS Fs L γ δ layer base) =
-      (coupling d L γ δ : ℂ) ^ Gsb.order * Gsb.zeta *
-        ∑' z : GenDecoration Gsb d roots 0, (splicedEpsilon Gsb (Φ.hinges hd) z.1 : ℂ) * Zw z *
-          ∫ τ, outerIntegrandMD Gsb L γ δ base roots tt Dom hSb
-            (fun s' => fam.a s' (ξ s')) (fun s' => fam.m s' (ξ s')) (Φ.route hS hSb) (Φ.hclk hd) (Φ.hmom hd)
-            (unitKernelMGW blk D hS Fs L γ δ layer base) z τ ∂μ := rfl
 
 end WaveTurbulence.Flower.MkSlotsI

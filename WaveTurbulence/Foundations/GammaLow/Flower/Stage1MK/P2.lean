@@ -167,13 +167,6 @@ open WaveTurbulence.GammaLow.FinalCount
 variable {γF : ℝ} [Fact (γF ≤ 1 / 2)] [Fact Fama.TVineF1Input] [Fact Fama.VinechainlemPrimeInput] [Fact Fama.TVineIsoInvariant]
 variable {w : ℕ} {G : Garden w}
 
-/-- B1b (Mk-general form of `Fama.VineA.unitBlocks_nodup`). -/
-theorem unitBlocks_nodupMkLow (σ : Prescription G) {Mk : Set (Fama.CLVineG γF _)} : (Fama.unitBlocks γF (Mk := Mk) G σ).Nodup := by
-  apply (Fama.unitBlocks_pairwiseMk (Mk := Mk) (Mole.garden_isMolecule G) σ).imp
-  intro u v hd he
-  subst v
-  exact (disjoint_left.mp hd u.isBlock.2.1) u.isBlock.2.1
-
 end
 
 section
@@ -197,16 +190,6 @@ open Stage1 RedSplice Represents
 open WaveTurbulence.GammaLow.FinalCount
 variable {γF : ℝ} [Fact (γF ≤ 1 / 2)] [Fact Fama.TVineF1Input] [Fact Fama.VinechainlemPrimeInput] [Fact Fama.TVineIsoInvariant]
 variable {w : ℕ} {G H : Garden w}
-
-/-- The fixed-carrier group code commutes with any proved atom-word diagram. -/
-theorem wordGroupCode_mapLow (F : MolIso G.molecule H.molecule)
-    (hd : ∀ v, Fama.VineA.coarseAtomWord γF H (F.e v) = Fama.VineA.coarseAtomWord γF G v)
-    (S : {S // S ∈ Fama.maximalGroupsG γF G.molecule}) :
-    wordGroupCodeLow H (Fama.VineA.groupEquiv γF F S) = wordGroupCodeLow G S := by
-  classical
-  change (S.1.image F.e).image (Fama.VineA.coarseAtomWord γF H) = S.1.image (Fama.VineA.coarseAtomWord γF G)
-  rw [Finset.image_image]
-  exact Finset.image_congr fun v _ => hd v
 
 end
 
@@ -246,10 +229,6 @@ open WaveTurbulence.GammaLow.FinalCount
 variable {γF : ℝ} [Fact (γF ≤ 1 / 2)] [Fact Fama.TVineF1Input] [Fact Fama.VinechainlemPrimeInput] [Fact Fama.TVineIsoInvariant]
 variable {w : ℕ} {G : Garden w}
 
-/-- The group has one of the three whole-group vine-like shapes. -/
-def VineLikeGroupLow (G : Garden w) (S : Finset (GBranch G.tree)) : Prop :=
-  ∃ a b, Src.IsHV γF G.molecule S a b ∨ Src.IsVC γF G.molecule S a b ∨ Src.IsHVC γF G.molecule S a b
-
 end
 
 section
@@ -259,11 +238,6 @@ open Finset Stage1 RedSplice LGSpine.SourceVine
 open WaveTurbulence.GammaLow.FinalCount
 variable {γF : ℝ} [Fact (γF ≤ 1 / 2)] [Fact Fama.TVineF1Input] [Fact Fama.VinechainlemPrimeInput] [Fact Fama.TVineIsoInvariant]
 variable {V D : Type} [DecidableEq V] [Fintype D] [DecidableEq D] {M : Molecule V D}
-
-/-- The only two shape constructors used by actual collection choices. -/
-def objectHyperTagLow (O : Src.Object γF M) : Bool := match O.shape with
-  | .vc _ => false
-  | .hyper _ => true
 
 end
 
@@ -275,25 +249,6 @@ open WaveTurbulence.GammaLow.FinalCount
 variable {γF : ℝ} [Fact (γF ≤ 1 / 2)] [Fact Fama.TVineF1Input] [Fact Fama.VinechainlemPrimeInput] [Fact Fama.TVineIsoInvariant]
 variable {V D : Type} [DecidableEq V] [Fintype D] [DecidableEq D] {M : Molecule V D} {d : ℕ}
 
-/-- Actual ordinary object choices on the same support have identical gap-kind predicates. -/
-theorem ordinary_objects_gapKind_iffLow (hM : M.IsMolecule) (P Q : Src.Object γF M)
-    (h : P.atoms = Q.atoms) (hP : objectHyperTagLow P = false) (hQ : objectHyperTagLow Q = false)
-    (L γ η : ℝ) (base : Mom d) (charge : V → Mom d) (κ : D → (Fin d → ℤ))
-    (hκ : M.IsDecoration L base charge κ) (hc0 : ∀ v ∈ M.atoms, M.deg v = 4 → charge v = 0)
-    (kind : Molecule.GapKind) : P.HasGapKind L γ η base κ kind ↔ Q.HasGapKind L γ η base κ kind := by
-  cases hp : P.shape with
-  | hyper R => simp only [objectHyperTagLow, hp, Bool.true_eq_false] at hP
-  | vc p =>
-    cases hq : Q.shape with
-    | hyper R => simp only [objectHyperTagLow, hq, Bool.true_eq_false] at hQ
-    | vc q =>
-      unfold Src.Object.HasGapKind
-      rw [hp, hq]
-      change (∃ r, M.IsBlockGap L base κ P.atoms P.upper r ∧ Molecule.gapKind L γ η r = kind) ↔
-        ∃ r, M.IsBlockGap L base κ Q.atoms Q.upper r ∧ Molecule.gapKind L γ η r = kind
-      rw [← h]
-      exact block_gapKind_joint_iff hM p.1 (h.symm ▸ q.1) L γ η base charge κ hκ hc0 kind
-
 end
 
 section
@@ -306,11 +261,6 @@ variable {V V' D D' : Type*} [DecidableEq V] [Fintype D] [DecidableEq D]
   [DecidableEq V'] [Fintype D'] [DecidableEq D']
   {M : Molecule V D} {N : Molecule V' D'}
 
-/-- The optional added dart records both the shape tag and its hyper designation. -/
-def objectAddedLow (O : Src.Object γF M) : Option D := match O.shape with
-  | .vc _ => none
-  | .hyper R => some R.added
-
 end
 
 section
@@ -322,31 +272,6 @@ variable {γF : ℝ} [Fact (γF ≤ 1 / 2)] [Fact Fama.TVineF1Input] [Fact Fama.
 variable {V V' D D' : Type*} [DecidableEq V] [Fintype D] [DecidableEq D]
   [DecidableEq V'] [Fintype D'] [DecidableEq D']
   {M : Molecule V D} {N : Molecule V' D'}
-
-/-- These four data fields determine the actual object, including its shape. -/
-theorem object_eq_of_dataLow (O P : Src.Object γF M) (hA : O.atoms = P.atoms)
-    (hU : O.upper = P.upper) (hL : O.lower = P.lower)
-    (hD : objectAddedLow O = objectAddedLow P) : O = P := by
-  rcases O with ⟨A, a, b, C⟩
-  rcases P with ⟨B, c, d, E⟩
-  change A = B at hA
-  change a = c at hU
-  change b = d at hL
-  subst B c d
-  cases C with
-  | vc h =>
-    cases E with
-    | vc k => rfl
-    | hyper R => cases hD
-  | hyper R =>
-    cases E with
-    | vc k => cases hD
-    | hyper T =>
-      have he : R.added = T.added := Option.some.inj hD
-      cases R
-      cases T
-      cases he
-      rfl
 
 end
 
@@ -358,14 +283,6 @@ open WaveTurbulence.GammaLow.FinalCount
 variable {γF : ℝ} [Fact (γF ≤ 1 / 2)] [Fact Fama.TVineF1Input] [Fact Fama.VinechainlemPrimeInput] [Fact Fama.TVineIsoInvariant]
 variable {w : ℕ} {G : Garden w}
 
-/-- An object supported on an ordinary block cannot be a hyper object. -/
-theorem object_tag_of_blockLow {V D : Type} [DecidableEq V] [Fintype D] [DecidableEq D]
-    {M : Molecule V D} (O : Src.Object γF M) {a b : V} (hB : M.IsBlock O.atoms a b) :
-    objectHyperTagLow O = false := by
-  cases hs : O.shape with
-  | vc hv => simp only [objectHyperTagLow, hs]
-  | hyper R => exact (block_not_hyper hB R.added R.ends_eq R.adjoint.1).elim
-
 end
 
 section
@@ -375,35 +292,6 @@ open Finset Stage1 LGSpine.SourceVine
 open WaveTurbulence.GammaLow.FinalCount
 variable {γF : ℝ} [Fact (γF ≤ 1 / 2)] [Fact Fama.TVineF1Input] [Fact Fama.VinechainlemPrimeInput] [Fact Fama.TVineIsoInvariant]
 variable {V D : Type} [DecidableEq V] [Fintype D] [DecidableEq D] {M : Molecule V D} {d : ℕ}
-
-/-- The same actual deleted bond, up to mates, suffices for hyper gap-kind independence. -/
-theorem hyper_gapKind_iff_of_same_bondLow (hM : M.IsMolecule) {S : Finset V} {a b c e : V}
-    (P : Src.HyperLikeRealization γF M S a b) (Q : Src.HyperLikeRealization γF M S c e)
-    (hbond : P.added = Q.added ∨ P.added = M.mate Q.added)
-    (scale γ η : ℝ) (base : Mom d) (charge : V → Mom d) (κ : D → (Fin d → ℤ))
-    (hκ : M.IsDecoration scale base charge κ) (hc0 : ∀ v ∈ M.atoms, M.deg v = 4 → charge v = 0)
-    (kind : Molecule.GapKind) :
-    (∃ r, P.IsGap scale base κ r ∧ Molecule.gapKind scale γ η r = kind) ↔
-      ∃ r, Q.IsGap scale base κ r ∧ Molecule.gapKind scale γ η r = kind := by
-  rcases P with ⟨f, hf, hF⟩
-  rcases Q with ⟨g, hg, hG⟩
-  change f = g ∨ f = M.mate g at hbond
-  rcases hbond with heq | heq
-  · subst g
-    exact erased_block_gapKind_joint_iff hM f hf hF.1 hG.1 scale γ η base charge κ hκ hc0 kind
-  · have heq' : g = M.mate f := by
-      have hh := congrArg M.mate heq
-      rw [M.mate_mate] at hh
-      exact hh.symm
-    subst g
-    let I := Vine.eraseBond_mate_local_embedding M f S
-    have hC : (Mole.eraseBond M f).IsBlock S c e := (I.isBlock_iff S (Subset.refl S) c e).mp hG.1
-    have he := erased_block_gapKind_joint_iff hM f hf hF.1 hC scale γ η base charge κ hκ hc0 kind
-    have hi (r : Mom d) :
-        (Mole.eraseBond M (M.mate f)).IsBlockGap scale base (fun z => κ z.1) S c r ↔
-          (Mole.eraseBond M f).IsBlockGap scale base (fun z => κ z.1) S c r :=
-      I.blockGap_iff S (Subset.refl S) scale base (fun z => κ z.1) c r
-    exact he.trans ((exists_congr fun r => and_congr (hi r) Iff.rfl).symm)
 
 end
 
@@ -416,18 +304,6 @@ open WaveTurbulence.GammaLow.FinalCount
 variable {γF : ℝ} [Fact (γF ≤ 1 / 2)] [Fact Fama.TVineF1Input] [Fact Fama.VinechainlemPrimeInput] [Fact Fama.TVineIsoInvariant]
 variable {V D : Type} [DecidableEq V] [Fintype D] [DecidableEq D] {M : Molecule V D} {d : ℕ}
 
-/-- An ordinary object always has one of the three actual gap kinds. -/
-theorem ordinary_object_hasGapKindLow (O : Src.Object γF M) (hO : objectHyperTagLow O = false)
-    (scale γ η : ℝ) (base : Mom d) (κ : D → (Fin d → ℤ)) :
-    ∃ kind, O.HasGapKind scale γ η base κ kind := by
-  cases hs : O.shape with
-  | hyper R => simp only [objectHyperTagLow, hs, Bool.true_eq_false] at hO
-  | vc hv =>
-    let r := Vine.groupFlow M O.atoms (Molecule.kvec scale base κ) O.upper
-    refine ⟨Molecule.gapKind scale γ η r, r, ?_, rfl⟩
-    rw [hs]
-    exact Vine.block_groupGap_exists M hv.1 _
-
 end
 
 section
@@ -439,11 +315,6 @@ open WaveTurbulence.GammaLow.FinalCount
 variable {γF : ℝ} [Fact (γF ≤ 1 / 2)] [Fact Fama.TVineF1Input] [Fact Fama.VinechainlemPrimeInput] [Fact Fama.TVineIsoInvariant]
 variable {w d : ℕ} {G : Garden w}
 
-/-- Selection on dart labels; the node-label `Fama.VineA.NormalizedSplice.selOf γF` is its bondIndex specialization. -/
-def selDartsLow (σ : Fama.Represents.GroupPrescription γF G) (scale γ η : ℝ) (base : Mom d)
-    (κ : GardenDart G → (Fin d → ℤ)) : Prop :=
-  ∀ S, Fama.VineA.NormalizedSplice.groupGapKind γF G scale γ η base κ S.1 = σ S
-
 end
 
 section
@@ -454,24 +325,6 @@ open Finset WaveTurbulence WaveTurbulence.RedSplice WaveTurbulence.Mole TTree Wa
 open WaveTurbulence.GammaLow.FinalCount
 variable {γF : ℝ} [Fact (γF ≤ 1 / 2)] [Fact Fama.TVineF1Input] [Fact Fama.VinechainlemPrimeInput] [Fact Fama.TVineIsoInvariant]
 variable {w : ℕ} {G : Garden w}
-
-/-- Every vine-like object has a gap (at its upper joint) for any labels. -/
-theorem normalizedSplice_exists_hasGapKindLow {V D : Type} [DecidableEq V] [Fintype D] [DecidableEq D]
-    {M : Molecule V D} (O : Src.Object γF M) {d : ℕ} (L γ η : ℝ) (v : Mom d)
-    (κ : D → (Fin d → ℤ)) : ∃ k, O.HasGapKind L γ η v κ k := by
-  classical
-  cases hs : O.shape with
-  | vc hv =>
-    obtain ⟨r, hr⟩ := source_block_joint_gap_exists M hv.1 (Or.inl rfl) L v κ
-    refine ⟨_, r, ?_, rfl⟩
-    unfold Src.VineLikeObject.IsGap
-    rw [hs]; exact hr
-  | hyper R =>
-    obtain ⟨r, hr⟩ := source_block_joint_gap_exists (Mole.eraseBond M R.added) R.adjoint.1 (Or.inl rfl)
-      L v (fun x => κ x.1)
-    refine ⟨_, r, ?_, rfl⟩
-    unfold Src.VineLikeObject.IsGap
-    rw [hs]; exact hr
 
 end
 
@@ -565,11 +418,6 @@ variable {γF : ℝ} [Fact (γF ≤ 1 / 2)] [Fact Fama.TVineF1Input] [Fact Fama.
 variable {w p : ℕ} {kind : Bool} {ι : Type*}
   {A : FamilyReconstruction w ι} {i : ι} {σ : Prescription A.skeleton}
 
-/-- B1b (Mk-general form of `shape_branch_prescription_cast`). -/
-theorem shape_branch_prescription_castMkLow {S : Garden w} {τ σ : Prescription S} (he : τ = σ)
-    {Mk : Set (Fama.CLVineG γF _)} (e : (Fama.stSt γF (Mk := Mk) S σ).G = (Fama.stSt γF (Mk := Mk) S τ).G) (b : GBranch (Fama.stSt γF (Mk := Mk) S σ).G.tree) :
-    (Fama.stSt γF (Mk := Mk) S τ).M.ob (gardenBranchCast e b) = (Fama.stSt γF (Mk := Mk) S σ).M.ob b := by subst τ; rfl
-
 end
 
 section
@@ -623,13 +471,6 @@ open Finset TTree Reg Reg.Skeleton WaveTurbulence WaveTurbulence.RegRed WaveTurb
 open WaveTurbulence.GammaLow.FinalCount
 variable {γF : ℝ} [Fact (γF ≤ 1 / 2)] [Fact Fama.TVineF1Input] [Fact Fama.VinechainlemPrimeInput] [Fact Fama.TVineIsoInvariant]
 variable {w p : ℕ} {kind : Bool}
-
-theorem ofPrescription_transport_totalLow (a : Fama.VineA.PrescribedPrimeGarden γF w) {H : Garden w}
-    (F : MolIso a.prime.skeleton.molecule H.molecule) :
-    Fama.VineA.NormalizedSplice.GroupPrescription.ofPrescription γF (transportPrescription F a.totalSigma) =
-      Fama.VineA.transportGroupPrescription γF F a.sigma := by
-  rw [Fama.VineA.PrescribedPrimeGarden.totalSigma, Fama.VineA.transport_extendGroupPrescription]
-  exact Fama.VineA.of_extendGroupPrescription _
 
 end
 

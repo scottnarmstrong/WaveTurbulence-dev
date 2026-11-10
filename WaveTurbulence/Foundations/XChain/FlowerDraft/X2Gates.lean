@@ -24,18 +24,8 @@ open scoped ENNReal
 
 abbrev LayergardenBody (P : WTParams) : Prop := Induct.LayergardenBody P
 
-abbrev LayergardenGate : Prop := Induct.LayergardenGate
-
 abbrev FixedpointBody.{u} (P : WTParams) : Prop := Induct.FixedpointBody.{u} P
 
-abbrev FixedpointGate.{u} : Prop := Induct.FixedpointGate.{u}
-
 abbrev WkeTaylorBody (P : WTParams) : Prop := Induct.WkeTaylorBody P
-
-abbrev WkeTaylorGate : Prop := Induct.WkeTaylorGate
-
-abbrev PropansatzBody.{u} (P : WTParams) : Prop := Induct.PropansatzBody.{u} P
-
-abbrev PropansatzGate.{u} : Prop := Induct.PropansatzGate.{u}
 
 end WaveTurbulence.Gates

@@ -69,14 +69,6 @@ def offFactor (L γ δ : ℝ) (G : Garden w) (off : Finset (GBranch G.tree)) (fi
   ∏ b ∈ off, Complex.exp (-(((Real.pi * ((G.sign b.toNode : ℤˣ) : ℤ) * δ * L ^ (2 * γ) * omegaNode G K b *
     (fix b).getD 0 : ℝ) : ℂ) * Complex.I))
 
-theorem norm_offFactor (L γ δ : ℝ) (G : Garden w) (off : Finset (GBranch G.tree)) (fix : GBranch G.tree → Option ℝ)
-    (K : GNode G.tree → Mom d) : ‖offFactor L γ δ G off fix K‖ = 1 := by
-  unfold offFactor
-  rw [norm_prod]
-  refine Finset.prod_eq_one fun b _ => ?_
-  rw [← neg_mul, ← Complex.ofReal_neg]
-  exact Complex.norm_exp_ofReal_mul_I _
-
 theorem prod_off_aux {ι : Type*} [Fintype ι] [DecidableEq ι] (s : Finset ι) (E N : ι → ℂ)
     (h : ∀ i ∈ s, E i * N i = 1) : ∏ i, (if i ∈ s then 1 else E i) = (∏ i, E i) * ∏ i ∈ s, N i := by
   have hpt : ∀ i, (if i ∈ s then (1 : ℂ) else E i) = E i * (if i ∈ s then N i else 1) := fun i => by

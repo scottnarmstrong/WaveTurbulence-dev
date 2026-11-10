@@ -46,9 +46,6 @@ noncomputable def swapD33Heads {M : Molecule V D}
       rw [he]
       fin_cases i <;> first | rfl | exact Sym2.eq_swap }
 
-theorem swapD33Heads_vertex {M : Molecule V D} (r : AppbRealization M AppbPatternKind.d33.pattern)
-    (a : ℕ) : (swapD33Heads r).vertex a = r.vertex (d33HeadPermutation a) := rfl
-
 theorem swapD33Heads_opposite {M : Molecule V D}
     (r : AppbRealization M AppbPatternKind.d33.pattern) (h : AppbD33BoundaryOpposite M r) :
     AppbD33BoundaryOpposite M (swapD33Heads r) := by

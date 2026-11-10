@@ -92,11 +92,6 @@ theorem argSrc_br_of_route (hroute : Φ.route hS hG = Ψ.route hS' hG) (sl : Rep
   · rw [Φ.route_inr hS hG hj] at h
     exact absurd (Sum.inr_injective h) (lower_ne_br Φ c j)
 
-theorem argSrc_br_iff (hroute : Φ.route hS hG = Ψ.route hS' hG) (sl : ReplacementSlot G) (i : Fin 2)
-    (c : GBranch G.tree) :
-    argSrc hS (Φ.iota hS hG sl) i = .inr (Φ.br c) ↔ argSrc hS' (Ψ.iota hS' hG sl) i = .inr (Ψ.br c) :=
-  ⟨argSrc_br_of_route Φ Ψ hS hS' hG hroute sl i c, argSrc_br_of_route Ψ Φ hS' hS hG hroute.symm sl i c⟩
-
 /-- **A lower-joint clock source of an image slot is common to two shapes with the same routes.** -/
 theorem argSrc_lower_iff (hd : Disj blk) (hd' : Disj blk') (hroute : Φ.route hS hG = Ψ.route hS' hG)
     (sl : ReplacementSlot G) (i : Fin 2) (j : Ju) :

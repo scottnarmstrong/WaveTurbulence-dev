@@ -5,7 +5,6 @@ public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineBran
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineChainBlock
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineChainConnected
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineChainCounts
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineChainEnds
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineChainIngredients
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineEraseChainIngredient
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineHyperAdjointVC
@@ -14,15 +13,10 @@ public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineLike
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineObjects
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Molecule.VineSmallVC
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceChainSwap
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceCountingObjects
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceMaximalObjects
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceObjectFinite
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceObjectUnion
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceSubproObjects
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceVineData
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceVineGapObjects
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceVineObjectBridge
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceVineObjects
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Api
 /-! **L6-H port of main `WaveTurbulence.Foundations.Spine.SourceOneJointUnion`** (sha256 in H/COPIED-SHA256SUMS): only the declarations that
 depend on the vine-family carrier, re-stated over the low family `Src … Src.γL` (and L6-STEP1's
@@ -45,11 +39,6 @@ noncomputable def oneJointUnionObject {S T : Finset V} {a b c : V} {n m : ℕ}
     (hS : Src.Chain Src.γL M S a c n) (hT : Src.Chain Src.γL M T c b m) (hST : S ∩ T = {c})
     (hB : M.IsBlock (S ∪ T) a b) : Src.Object Src.γL M :=
   ⟨S ∪ T, a, b, .vc ⟨hB, n + m, chain_union_of_one_joint hS hT hST⟩⟩
-
-theorem oneJointUnionObject_atoms {S T : Finset V} {a b c : V} {n m : ℕ}
-    (hS : Src.Chain Src.γL M S a c n) (hT : Src.Chain Src.γL M T c b m) (hST : S ∩ T = {c})
-    (hB : M.IsBlock (S ∪ T) a b) :
-    (oneJointUnionObject hS hT hST hB).atoms = S ∪ T := rfl
 
 theorem oneJointUnionObject_hasGapKind {S T : Finset V} {a b c : V} {n m : ℕ}
     (hS : Src.Chain Src.γL M S a c n) (hT : Src.Chain Src.γL M T c b m) (hST : S ∩ T = {c})

@@ -104,13 +104,6 @@ def objTree (LG : LayeredGarden w) (X : RegChain) (ζ : ℤˣ) (u : Fin w × Pat
     (hE : ChainEmb LG.garden X ζ u h) : LayeredGarden 1 :=
   ⟨decodedTree X ζ, fun a => layerAt LG (addrExt u a.1.2), objTree_isLayering hE⟩
 
-theorem objTree_layer (LG : LayeredGarden w) (X : RegChain) (ζ : ℤˣ) (u : Fin w × Path) {h : TTree}
-    (hE : ChainEmb LG.garden X ζ u h) (a : GNode (objTree LG X ζ u hE).garden.tree) :
-    (objTree LG X ζ u hE).layer a = layerAt LG (addrExt u a.1.2) := rfl
-
-theorem objTree_tree (LG : LayeredGarden w) (X : RegChain) (ζ : ℤˣ) (u : Fin w × Path) {h : TTree}
-    (hE : ChainEmb LG.garden X ζ u h) : (objTree LG X ζ u hE).garden.tree 0 = X.plug ζ .leaf := rfl
-
 /-- **(i), paired trees (o73 Prop 3.1).** A stem chain, as its own layered garden, is `ProtShape p X`. -/
 theorem protShape_objTree {LG : LayeredGarden w} {J : Finset (Fin w)} {p : ℕ} (hG : CapGeo LG J p)
     {X : RegChain} {ζ : ℤˣ} {u : Fin w × Path} {h : TTree} (hS : StemChain LG J X ζ u h) :
@@ -135,21 +128,6 @@ theorem normChain_lonePath (ζ : ℤˣ) (X : RegChain) : (normChain ζ X).lonePa
   unfold normChain; split_ifs
   · rfl
   · exact ConjCoh.lonePath_conjChain X
-
-theorem normChain_wf (ζ : ℤˣ) (X : RegChain) : (normChain ζ X).wf = X.wf := by
-  unfold normChain; split_ifs
-  · rfl
-  · exact ConjCoh.wf_conjChain X
-
-theorem normChain_size (ζ : ℤˣ) (X : RegChain) : (normChain ζ X).size = X.size := by
-  unfold normChain; split_ifs
-  · rfl
-  · exact ConjCoh.size_conjChain X
-
-theorem normChain_isNil (ζ : ℤˣ) (X : RegChain) : (normChain ζ X).isNil = X.isNil := by
-  unfold normChain; split_ifs
-  · rfl
-  · exact ConjCoh.isNil_conjChain X
 
 /-- Pairs of the normalized code are the pairs of `X` at sign `ζ`, possibly reoriented. -/
 theorem normChain_pairs (ζ : ℤˣ) (X : RegChain) {v : ℕ} (i : Fin v)
@@ -264,43 +242,5 @@ def objCpl (LG : LayeredGarden w) (X : RegChain) (ζ : ℤˣ) (u : Fin w × Path
     (hc : ∀ ℓ : GLeaf LG.garden.tree, ℓ.1 = addrExt u X.lonePath → (LG.garden.pair ℓ).1 = (c, [])) :
     LayeredGarden 2 :=
   ⟨decodedCouple (capCode ζ X), fun a => cplLayer LG u c a.1, objCpl_isLayering hE hc⟩
-
-theorem objCpl_tree (LG : LayeredGarden w) (X : RegChain) (ζ : ℤˣ) (u : Fin w × Path) (c : Fin w)
-    (hE : ChainEmb LG.garden X ζ u .leaf)
-    (hc : ∀ ℓ : GLeaf LG.garden.tree, ℓ.1 = addrExt u X.lonePath → (LG.garden.pair ℓ).1 = (c, [])) :
-    (objCpl LG X ζ u c hE hc).garden.tree = ![X.plug ζ .leaf, .leaf] :=
-  decodedCouple_capCode_tree ζ X
-
-theorem isNil_eq_false {X : RegChain} (h : X ≠ .nil) : X.isNil = false := by
-  cases X with
-  | nil => exact absurd rfl h
-  | pair => rfl
-
-/-- A stem chain's code is not `nil`. -/
-theorem StemChain.ne_nil {LG : LayeredGarden w} {J : Finset (Fin w)} {X : RegChain} {ζ : ℤˣ}
-    {u : Fin w × Path} {h : TTree} (hS : StemChain LG J X ζ u h) : X ≠ .nil := by
-  obtain ⟨v, hv, -⟩ := hS.meets
-  obtain ⟨q, hq, -⟩ := mem_branchAddresses'.mp hv
-  intro hX; subst hX
-  simp [RegChain.plug, TTree.branching] at hq
-
-/-- **(i), cap couples (o73 Prop 3.1).** A cap chain, as its own couple, is `ProtShape p (normChain ζ X)`. -/
-theorem protShape_objCpl {LG : LayeredGarden w} {J : Finset (Fin w)} {p : ℕ} (hG : CapGeo LG J p)
-    {X : RegChain} {ζ : ℤˣ} {u : Fin w × Path} {c : Fin w} (hC : CapChain LG J X ζ u c) :
-    ProtShape p (normChain ζ X) (objCpl LG X ζ u c hC.stem.emb hC.pair) := by
-  have hnil : (normChain ζ X).isNil = false := by
-    rw [normChain_isNil]; exact isNil_eq_false hC.stem.ne_nil
-  refine ⟨?_, decodedCouple_decodes (capCode ζ X), ?_, fun a => ?_, ?_⟩
-  · show (RegCpl.type2 (normChain ζ X) .nil .triv).wf = true
-    simp only [RegCpl.wf, normChain_wf, hC.stem.wf, hnil]
-    rfl
-  · rw [objCpl_tree]; rfl
-  · show cplLayer LG u c a.1 ≤ p
-    unfold cplLayer; split_ifs <;> exact layerAt_le' hG.layer_le _
-  · intro b hb0 hb hne
-    rw [normChain_lonePath] at hb hne
-    show cplLayer LG u c b.1 = p
-    rw [cplLayer_of_zero (Fin.ext hb0)]
-    exact hC.stem.chain_layer hG hb hne
 
 end WaveTurbulence.Flower.ProtGeo

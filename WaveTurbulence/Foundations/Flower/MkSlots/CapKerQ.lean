@@ -59,35 +59,6 @@ theorem up_βc (ts : Fin 2 → ℝ) (b1 : GBranch (K.Dq layer hLayer).T1.garden.
     have : K.j0 = 1 := by omega
     rw [this]
 
-include hGeo in
-/-- **The slot kernel identity.** -/
-theorem capSlot_kernel {d : ℕ} (L γ δ : ℝ) (t s : ℝ) (hps : (p : ℝ) < s) (hsp : s < p + 1)
-    (H : LeafProfiles w d) (W : GNode (D.forest hS) → Mom d → ℂ) (ts : Fin 2 → ℝ) (k : Mom d) :
-    slotFnNWF D hS L γ δ H W layer hLayer
-        (fixCap (layeredReconstruction D hS layer hLayer) J (fun _ => FixPat.plain) t s) (.inl q) ts k =
-      capTermKer L γ δ (K.Dq layer hLayer) (CapG.capH1 K.j0 (Hq (q := q) layer hLayer H)) (K.m1 layer hLayer H W) s t k
-        (ts K.j0) := by
-  set Dq := K.Dq layer hLayer
-  set up : GBranch (nativeCoupleLayered D hS layer hLayer q).garden.tree → ℝ :=
-    fun b => if b.1.1 = 0 then ts 0 else ts 1 with hupdef
-  have hup : ∀ b b', up b = up b' := by
-    intro b b'
-    show (if b.1.1 = 0 then ts 0 else ts 1) = (if b'.1.1 = 0 then ts 0 else ts 1)
-    rw [Dq.branch_j0 b, Dq.branch_j0 b']
-  show kernelNodeWF L γ δ (nativeCoupleLayered D hS layer hLayer q)
-      (fun a => H ((nativeCoupleForest D hS q).nodeEmbedding a).1)
-      (fun k' => ∏ a, W ((nativeCoupleForest D hS q).nodeEmbedding a) (k' a)) up 0 k (fun _ => 0) 0
-      (fixNative D hS (fixCap (layeredReconstruction D hS layer hLayer) J (fun _ => FixPat.plain) t s) (.inl q)) = _
-  refine (kernelNodeWF_eq_kernelProt L γ δ _ _ _ up k _ _ _ (K.capPins layer hLayer hGeo t s hps hsp up hup)).trans
-    ((CapG.kernelProt_capG_T1 Dq L γ δ _ _ up _ k).trans ?_)
-  unfold capTermKer
-  have hu : (fun b => up (Dq.βc b)) = fun _ => ts K.j0 := funext fun b1 => K.up_βc layer hLayer ts b1
-  have hf : (fun b => fixNative D hS (fixCap (layeredReconstruction D hS layer hLayer) J (fun _ => FixPat.plain) t s)
-      (.inl q) (Dq.βc b)) = ProtCfg.term.fix K.X s t (ts K.j0) :=
-    funext fun b1 => K.capFix layer hLayer hGeo t s (ts K.j0) b1
-  rw [hu, hf]
-  rfl
-
 /-! ### Profiles -/
 
 theorem Hq_ι {d : ℕ} (H : LeafProfiles w d) (a1 : GNode (K.Dq layer hLayer).T1.garden.tree) :

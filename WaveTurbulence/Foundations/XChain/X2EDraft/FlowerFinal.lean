@@ -31,30 +31,6 @@ namespace WaveTurbulence.X2E
 open Finset MeasureTheory Set Induct SysAPI Cpl
 open scoped Classical
 
-/-- **The body of O-X2-EXP without cutoffs.** -/
-def OX2ExpNoCutBody.{u} (Pm : ℕ) (P : WTParams) : Prop :=
-  ∀ (Ω : Type u) [MeasurableSpace Ω] (μ : Measure Ω) [IsProbabilityMeasure μ]
-    (g : (Fin P.d → ℤ) → Ω → ℂ), IsGaussianData μ g →
-  ∀ p : ℕ, p < P.D →
-  ∀ (a : Ω → ℝ → (Fin P.d → ℤ) → ℂ) (Fev : ℕ → Set Ω) (R : ℕ → Mom P.d → ℝ)
-    (E : ℕ → (Fin P.d → ℤ) → ℝ)
-    (Et : ℕ → (m : ℕ) → (Fin (2 * m) → ℤˣ) → (Fin (2 * m) → (Fin P.d → ℤ)) → ℂ),
-    (∀ q ≤ p, AnsatzAt P μ g a Fev R E Et q) →
-  ∀ t ∈ Ioo (p : ℝ) (p + 1), ∀ s ∈ Ioo (p : ℝ) t, ∀ n n' : Fin P.d → ℤ, ∀ ζ : ℤˣ,
-  ∀ (kind : FlowerKind) (pat : FixPat) (dagger : Option (Fin 3 → Mom P.d)),
-    (pat = .plain ∨ pat = .dRoot) →
-    Integrable (fun ω => ‖randK P a p kind pat dagger none none ζ t s n n' ω‖ ^ (2 * Pm))
-      (μ.restrict (Fev p)) ∧
-    ‖(((∫ ω in Fev p, ‖randK P a p kind pat dagger none none ζ t s n n' ω‖ ^ (2 * Pm) ∂μ : ℝ)) : ℂ) -
-        ∑ N ∈ Finset.range (P.N (p + 1) ^ 4 + 1),
-          flowerSumP P (inputsF P R) p N (w := 2 * Pm) kind (fun _ => pat) (dagger.map fun c _ => c)
-            none none ζ t s n n'‖ ≤
-      x2Bound P Pm p ζ n n' (fun _ : Fin (2 * Pm) => pat) none none *
-        Real.exp (-(101 * P.N (p + 1) : ℝ))
-
-/-- O-X2-EXP without cutoffs. -/
-def OX2ExpNoCut.{u} : Prop := WTPrefixP OX2ExpNoCutBody.{u}
-
 /-! ## Arithmetic -/
 
 theorem env_mul_tail_le_w {N w : ℕ} (hN : 20 ≤ N) (hw : w ≤ 100 * N) {E q : ℝ}
@@ -95,15 +71,6 @@ theorem bracketW_le (P : WTParams) {p : ℕ} (ζ : ℤˣ) (n n' : Fin P.d → �
   have hPm : (0 : ℝ) ≤ Pm := Nat.cast_nonneg _
   push_cast
   nlinarith
-
-theorem jbr_le_x2Bound (P : WTParams) (hL : 1 ≤ P.L) (Pm p : ℕ) (ζ : ℤˣ) (n n' : Fin P.d → ℤ) (pat : FixPat) :
-    jbr (latticePoint P.L n - (ζ : ℤ) • latticePoint P.L n') ^ (-(4 * P.Lambda (p + 1) * Pm : ℝ)) ≤
-      x2Bound P Pm p ζ n n' (fun _ : Fin (2 * Pm) => pat) none none := by
-  unfold x2Bound
-  simp only [Option.elim, mul_one]
-  have h1 : 1 ≤ P.L ^ ((if ∀ _j : Fin (2 * Pm), pat = .plain then (1 : ℝ) else 2) * (100 * P.d : ℝ) ^ 3 * Pm) :=
-    Real.one_le_rpow hL (by positivity)
-  exact le_mul_of_one_le_right (Real.rpow_nonneg (jbr_pos _).le _) h1
 
 /-! ## Sizes -/
 
@@ -262,34 +229,5 @@ theorem x2_core.{u} (Pm : ℕ) (P : WTParams) (C : ℝ) (hS : X2Sizes Pm P C) (�
       _ ≤ Real.exp (-(101 * (P.N (p + 1) : ℝ))) * (K * bracketW P ζ n n' Pm b) :=
           mul_le_mul_of_nonneg_right (two_exp_le _ (by omega)) hW0
       _ = _ := by ring
-
-theorem ox2ExpNoCut_body.{u} (Pm : ℕ) (P : WTParams) (C : ℝ) (hS : X2Sizes Pm P C) : OX2ExpNoCutBody.{u} Pm P := by
-  classical
-  intro Ω _ μ _ g hG p hp a Fev R E Et ha t ht s hs n n' ζ kind pat dagger hpat
-  obtain ⟨hd, hδ, hδ1, hγ, hq, hLexp, hC, hCL, hbase, hφ, hstage⟩ := hS.cpl
-  obtain ⟨hN, hNdim, hbN⟩ := hstage p hp
-  have hL1 : 1 ≤ P.L := (by linarith [Real.add_one_le_exp (2 : ℝ)] : (1 : ℝ) ≤ Real.exp 2).trans hLexp
-  have hc : |coupling P.d P.L P.γ P.δ| ≤ 1 := abs_coupling_le_one hL1 hγ hδ.le hδ1
-  have hcut : ∀ x : FlIdx (P.N p) (P.N (p + 1)) pat kind ζ Pm p, CutWeightsOK P.L (d := P.d)
-      (fun j => ne_flower_of_mem_kernelTrees pat (x.1 j).2) (mkFlowerAt x.2.1.1 x.2.1.2 x.2.2)
-      (fun j => kernelTrees_sign (P.N (p + 1)) pat kind ζ (x.1 j).2) none none :=
-    fun x => cutWeightsOK_none P.L _ _ _
-  have hcw : CoefW P p kind pat dagger none none ζ t s Pm ((P.Lambda p : ℝ) / 4) 1 := by
-    intro tops κ
-    have h1 := norm_topCoefK_le P p pat dagger none none t s hc κ (tops := fun j => (tops j).1)
-    have hexp : -(2 * ((P.Lambda p : ℝ) / 4)) = -(P.Lambda p : ℝ) / 2 := by ring
-    rw [hexp, one_mul]
-    exact mul_le_of_le_one_left (Real.rpow_nonneg (prod_nonneg fun _ _ => (jbr_pos _).le) _) h1
-  obtain ⟨hint, hbd⟩ := x2_core Pm P C hS Ω μ g hG p hp a Fev R E Et ha t ht s hs n n' ζ kind pat dagger none none
-    hpat hcut ((P.Lambda p : ℝ) / 4) 1 (lambda_quarter_ge_dimension P hd hp) hbN zero_le_one hcw
-  refine ⟨hint, hbd.trans ?_⟩
-  have hB := (bracketW_le P ζ n n' Pm _ (lambda_quarter_ge_twice_succ P hd hp)).trans
-    (jbr_le_x2Bound P hL1 Pm p ζ n n' pat)
-  rw [one_mul, mul_comm]
-  exact mul_le_mul_of_nonneg_right hB (Real.exp_pos _).le
-
-/-- **O-X2-EXP without cutoffs.** -/
-theorem oX2ExpNoCut.{u} : OX2ExpNoCut.{u} :=
-  wtprefixP_x2Sizes.mono fun Pm P ⟨C, hS⟩ => ox2ExpNoCut_body Pm P C hS
 
 end WaveTurbulence.X2E

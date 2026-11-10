@@ -50,14 +50,4 @@ theorem hasFDerivAt_of_uniform_coordinate_limits {I : Type*} {d : ℕ} {l : Filt
       fun {n} hn {y} _ => (hn y).hasFDerivAt⟩
   · exact Filter.Eventually.of_forall hval
 
-theorem partialMom_of_uniform_coordinate_limits {I : Type*} {d : ℕ} {l : Filter I} [NeBot l]
-    (f : I → Mom d → ℂ) (F : Mom d → ℂ) (D : Fin d → Mom d → ℂ)
-    (hf : ∀ᶠ n in l, Differentiable ℝ (f n))
-    (hval : ∀ x, Tendsto (fun n => f n x) l (𝓝 (F x)))
-    (hder : ∀ j, TendstoUniformly (fun n x => partialMom j (f n) x) (D j) l)
-    (j : Fin d) (x : Mom d) : partialMom j F x = D j x := by
-  have h := hasFDerivAt_of_uniform_coordinate_limits f F D hf hval hder x
-  unfold partialMom
-  rw [h.fderiv, coordinateLinearMap_single]
-
 end WaveTurbulence.LGSpine

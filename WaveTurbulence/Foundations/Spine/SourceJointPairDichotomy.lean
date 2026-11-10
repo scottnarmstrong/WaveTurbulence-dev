@@ -40,39 +40,4 @@ theorem groupConnected_of_block {M : Molecule V D} {S : Finset V} {a b : V}
   · exact Relation.EqvGen.refl _
   · exact h
 
-/-- If two distinct ordinary blocks share a joint `v` and use different oriented dart pairs there,
-they are not nested and are in the same-joints or one-joint overlap shape. -/
-theorem joint_pair_dichotomy {M : Molecule V D} (hM : M.IsMolecule) {A B : Finset V}
-    {a1 a2 b1 b2 : V} (hA : M.IsBlock A a1 a2) (hB : M.IsBlock B b1 b2)
-    (hdA : Mole.InteriorDeletionProperty M A a1 a2) (hdB : Mole.InteriorDeletionProperty M B b1 b2)
-    (hiA : ∀ x ∈ A \ {a1, a2}, ∀ y ∈ A \ {a1, a2},
-      (Mole.induced M (A \ {a1, a2})).SameComponent x y)
-    (hiB : ∀ x ∈ B \ {b1, b2}, ∀ y ∈ B \ {b1, b2},
-      (Mole.induced M (B \ {b1, b2})).SameComponent x y)
-    {v : V} (hvA : v = a1 ∨ v = a2) (hvB : v = b1 ∨ v = b2) {x y x' y' : D}
-    (hxy : SourceJointPair M A v x y) (hxy' : SourceJointPair M B v x' y')
-    (hne : ¬ (x = x' ∧ y = y')) :
-    ¬ A ⊆ B ∧ ¬ B ⊆ A ∧
-    ((({a1, a2} : Finset V) = {b1, b2} ∧ A ∩ B = {a1, a2}) ∨
-      (({a1, a2} : Finset V) ≠ {b1, b2} ∧ ∃ a b c : V, ({a1, a2} : Finset V) = {a, c} ∧
-        ({b1, b2} : Finset V) = {b, c} ∧ a ≠ b ∧ A ∩ B = {c} ∧
-        (M.IsBlock (A ∪ B) a b ∨ Mole.IsHyperBlock M (A ∪ B) a b))) := by
-  have hnAB : ¬ A ⊆ B := fun h =>
-    hne (source_nested_joint_pairs_compatible M h hB hvB hxy hxy')
-  have hnBA : ¬ B ⊆ A := fun h =>
-    (fun hh => hne ⟨hh.1.symm, hh.2.symm⟩) (source_nested_joint_pairs_compatible M h hA hvA hxy' hxy)
-  have hne' : (A ∩ B).Nonempty := ⟨v, mem_inter.mpr ⟨hxy.2.2.1.1 |> fun h => by
-    have := hxy.1 ▸ h; exact this, hxy'.1 ▸ hxy'.2.2.1.1⟩⟩
-  obtain ⟨_, _, hcl⟩ := Mole.molecule_overlap_classification M hM
-    (Mole.BlockRealization.block hA (groupConnected_of_block hA))
-    (Mole.BlockRealization.block hB (groupConnected_of_block hB)) hne' hnAB hnBA hdA hdB hiA hiB
-  refine ⟨hnAB, hnBA, ?_⟩
-  rcases hcl with ⟨h1, h2, _⟩ | ⟨h1, _, a, b, c, h2, h3, h4, _, _, h5, h6⟩ | ⟨hdis, _⟩
-  · exact Or.inl ⟨h1, h2⟩
-  · exact Or.inr ⟨h1, a, b, c, h2, h3, h4, h5, h6⟩
-  · exfalso
-    have hv : v ∈ ({a1, a2} : Finset V) ∩ {b1, b2} := by
-      simp only [mem_inter, mem_insert, mem_singleton]; exact ⟨hvA, hvB⟩
-    exact (Finset.disjoint_left.mp hdis) (mem_inter.mp hv).1 (mem_inter.mp hv).2
-
 end WaveTurbulence.LGSpine

@@ -45,14 +45,6 @@ theorem timeFourierNorm_mul_cutoff_le {r : ℕ} (θ : ℝ)
     (timeFourierNorm_lt_top_of_smooth_compact |θ| hκ hs)
   simpa only [cutoffMultiplierConstant, mul_assoc, mul_left_comm, mul_comm] using h
 
-/-- Multiplication preserves finiteness of the weighted norm. -/
-theorem timeFourierNorm_mul_cutoff_lt_top {r : ℕ} (θ : ℝ)
-    {f κ : (Fin r → ℝ) → ℂ} (hf : timeFourierNorm θ f < ⊤)
-    (hκ : HasCompactSupport κ) (hs : ContDiff ℝ ∞ κ) :
-    timeFourierNorm θ (fun t => f t * κ t) < ⊤ :=
-  (timeFourierNorm_mul_cutoff_le θ hf hκ hs).trans_lt
-    (ENNReal.mul_lt_top (cutoffMultiplierConstant_lt_top θ hκ hs) hf)
-
 /-- The tensor cutoff as a complex multiplier. -/
 @[expose] noncomputable def chi0TensorComplex {r : ℕ} (t : Fin r → ℝ) : ℂ := chi0Tensor t
 
@@ -64,14 +56,5 @@ theorem chi0TensorComplex_hasCompactSupport (r : ℕ) :
     ContDiff ℝ ∞ (chi0TensorComplex (r := r)) := by
   unfold chi0TensorComplex
   exact Complex.ofRealCLM.contDiff.comp chi0Tensor_contDiff
-
-/-- The fixed tensor cutoff of TARGET L623 acts boundedly on every
-weighted time Fourier norm. -/
-theorem timeFourierNorm_mul_chi0_le {r : ℕ} (θ : ℝ)
-    {f : (Fin r → ℝ) → ℂ} (hf : timeFourierNorm θ f < ⊤) :
-    timeFourierNorm θ (fun t => f t * chi0TensorComplex t) ≤
-      cutoffMultiplierConstant θ (chi0TensorComplex (r := r)) * timeFourierNorm θ f :=
-  timeFourierNorm_mul_cutoff_le θ hf (chi0TensorComplex_hasCompactSupport r)
-    chi0TensorComplex_contDiff
 
 end WaveTurbulence.Fourier

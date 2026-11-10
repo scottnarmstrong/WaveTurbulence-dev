@@ -2,7 +2,9 @@
 module
 
 public import WaveTurbulence.Foundations.Fourier.Chi0Gevrey
-public import WaveTurbulence.Foundations.Fourier.GevreyDecay
+public import Mathlib.Analysis.SpecialFunctions.Pow.Real
+public import Mathlib.Algebra.Order.Floor.Semiring
+public import Mathlib.Data.Nat.Factorial.Basic
 public import Mathlib.Analysis.Fourier.FourierTransformDeriv
 public import Mathlib.Analysis.Complex.RealDeriv
 import Mathlib.Analysis.Real.Pi.Bounds
@@ -115,30 +117,5 @@ theorem chi0_fourier_moment_le (n : ℕ) (ξ : ℝ) :
   rw [he, norm_smul, norm_pow] at hh
   simpa [Complex.norm_mul, Complex.norm_ofNat, Complex.norm_real, Real.norm_eq_abs,
     abs_of_pos Real.pi_pos, mul_assoc] using hh
-
-/-- The fixed cutoff has the stretched exponential Fourier decay required
-in TARGET L623 and the DH21 Gevrey-weighted operator classes. Both constants
-are explicit and absolute. -/
-theorem chi0_fourier_exp_decay (ξ : ℝ) :
-    ‖𝓕 chi0Complex ξ‖ ≤ 8 * Real.exp 4 *
-      Real.exp (-(Real.log 4 / (4 * Real.sqrt (16 + 16 * Real.exp 2))) * Real.sqrt |ξ|) := by
-  have hA : 0 < 16 + 16 * Real.exp 2 := by positivity
-  have hh := gevrey_moments_exp_decay (u := ‖𝓕 chi0Complex ξ‖)
-    (C := 2 * Real.exp 4) (A := 16 + 16 * Real.exp 2) (x := |ξ|)
-    (by positivity) hA (abs_nonneg ξ) (fun n => by
-      apply le_trans _ (chi0_fourier_moment_le n ξ)
-      apply mul_le_mul_of_nonneg_right _ (norm_nonneg _)
-      apply pow_le_pow_left₀ (abs_nonneg _) _ n
-      have hp := Real.pi_gt_three
-      have hx := abs_nonneg ξ
-      nlinarith)
-  convert hh using 1; ring
-
-/-- Existential form of the scalar Fourier decay, with positive absolute constants. -/
-theorem chi0_fourier_decay : ∃ C c : ℝ, 0 < C ∧ 0 < c ∧
-    ∀ ξ : ℝ, ‖𝓕 chi0Complex ξ‖ ≤ C * Real.exp (-c * Real.sqrt |ξ|) := by
-  refine ⟨8 * Real.exp 4, Real.log 4 / (4 * Real.sqrt (16 + 16 * Real.exp 2)),
-    by positivity, ?_, chi0_fourier_exp_decay⟩
-  exact div_pos (Real.log_pos (by norm_num)) (by positivity)
 
 end WaveTurbulence.Fourier

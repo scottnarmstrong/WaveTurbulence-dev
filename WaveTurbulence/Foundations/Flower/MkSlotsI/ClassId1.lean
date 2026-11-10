@@ -6,7 +6,7 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.Flower.MkSlotsI.VBC4
-public import WaveTurbulence.Foundations.Flower.MkSlotsI.T4D2
+public import WaveTurbulence.Foundations.Flower.MkSlotsI.T4D
 public import WaveTurbulence.Foundations.Flower.MkSlotsI.ClassForm
 
 /-! # B3s-HELPER7 ClassId (part 1): generic tools for the class identity

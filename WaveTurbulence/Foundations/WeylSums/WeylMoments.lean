@@ -59,20 +59,4 @@ theorem weyl_moment_bounds (p : ℝ) (hp : 4 < p) :
     exact hh.trans (mul_le_mul_of_nonneg_right
       (mul_le_mul_of_nonneg_right (by linarith : B ≤ A+B+1) (Real.rpow_nonneg hLpos.le _)) hT)
 
-/-- Substitution of the paper's localized scale, with the exponents combined. -/
-theorem weyl_localized_power_bound (p : ℝ) (hp : 4 < p) (A γ : ℝ) (hA : 0 ≤ A) :
-    ∃ C : ℝ, 0 < C ∧ ∀ L : ℝ, 2 ≤ L →
-      (∫ t : ℝ in {t : ℝ | 1/L ≤ |t| ∧ |t| ≤ A * L^(2*γ-2)}, weylSupremum L t ^ p) ≤
-        C * L^(p-2+(2*γ-2)) := by
-  obtain ⟨C, hC, _, hb⟩ := weyl_moment_bounds p hp
-  refine ⟨C*A+1, by positivity, ?_⟩
-  intro L hL
-  have hLpos : 0 < L := by linarith
-  have hh := hb L (A * L^(2*γ-2)) hL (by positivity)
-  have heq : C * L^(p-2) * (A * L^(2*γ-2)) = (C*A) * L^(p-2+(2*γ-2)) := by
-    rw [Real.rpow_add hLpos]
-    ring
-  rw [heq] at hh
-  exact hh.trans (mul_le_mul_of_nonneg_right (by linarith) (Real.rpow_nonneg hLpos.le _))
-
 end WaveTurbulence.WeylSums

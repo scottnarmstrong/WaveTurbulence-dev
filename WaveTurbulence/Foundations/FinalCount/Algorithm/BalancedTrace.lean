@@ -96,41 +96,4 @@ theorem BalancedStep.potential_bound {s t : State.{u,v} V} {n c : ℕ}
     change balancedPotential s.graph+2*(0 : ℤ)-16000*(1 : ℤ) ≤ balancedPotential t.post
     omega
 
-theorem BalancedStep.geometric {s t : State.{u,v} V} {n c : ℕ}
-    (h : BalancedStep s t n c) : GeometricStep s t := by
-  cases h with
-  | normal h hM hno => exact h.geometric
-  | fine h hM => exact h.geometric
-  | delete k r hM => exact .delete s k r
-  | interior r t hno hb hd h1 h2 h3 h4 => exact .delete s .d33 r
-  | terminalRung r hno hb hd hregular hn => exact .delete s .d33 r
-  | reinsertS33 r hM hp => exact .reinsertS33 s r
-  | reinsertD33 r hM hp => exact .reinsertD33 s r
-  | r32 r t hM => exact .r32 s r t
-
-inductive BalancedTrace : State.{u,v} V → State.{u,v} V → ℕ → ℕ → Prop
-  | nil (s : State.{u,v} V) : BalancedTrace s s 0 0
-  | cons {s t z : State.{u,v} V} {n c m d : ℕ} :
-      BalancedStep s t n c → BalancedTrace t z m d → BalancedTrace s z (n+m) (c+d)
-
-theorem BalancedTrace.potential_bound {s t : State.{u,v} V} {n c : ℕ}
-    (h : BalancedTrace s t n c) :
-    balancedPotential s.graph+2*(n : ℤ)-16000*(c : ℤ) ≤ balancedPotential t.graph := by
-  induction h with
-  | nil s => simp
-  | cons hstep htrace ih =>
-    have hh := hstep.potential_bound
-    push_cast
-    omega
-
-/-- Conditional count endpoint for a constructed run, with explicit
-constant 8000. This is not the source good-operation count theorem. -/
-theorem normal_count_le_controlled_trace {s t : State.{u,v} V} {n c : ℕ}
-    (hM : s.graph.IsMolecule) (hnu : appbNu s.graph ≤ 0)
-    (h : BalancedTrace s t n c) (ht : Terminal t) : n ≤ 8000*c := by
-  have hi := balancedPotential_nonneg_initial s.graph hM hnu
-  have hz := balancedPotential_zero_terminal t.graph ht
-  have hh := h.potential_bound
-  omega
-
 end WaveTurbulence.Mole.AppbAlgorithm

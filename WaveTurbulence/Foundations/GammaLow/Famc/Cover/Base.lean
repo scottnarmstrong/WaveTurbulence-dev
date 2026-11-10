@@ -68,7 +68,4 @@ theorem Object.contained_atoms_subset {γ : ℝ} {M : Molecule V D} (P Q : Objec
   · exact h
   · exact h.1
 
-theorem canonicalSub_subset {γ : ℝ} {M : Molecule V D} (rk : D → ℕ) (K : Set (Object γ M)) :
-    canonicalSub rk K ⊆ K := fun _ h => h.1
-
 end WaveTurbulence.GammaLow.Famc

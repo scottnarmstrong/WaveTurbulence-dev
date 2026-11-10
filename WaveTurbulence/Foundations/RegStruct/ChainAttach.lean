@@ -32,17 +32,6 @@ theorem joinChains_trees (Xp Xm : RegChain) (Q : RegCpl) :
     (joinChains Xp Xm Q).trees = (Xp.plug 1 Q.trees.1, Xm.plug (-1) Q.trees.2) := by
   cases Xp <;> cases Xm <;> simp [joinChains, RegChain.isNil, RegCpl.trees, RegChain.plug]
 
-/-- Terminal normalization preserves both tree shapes. -/
-theorem attachChains_trees (Xp Xm : RegChain) (Q : RegCpl) :
-    (attachChains Xp Xm Q).trees = (Xp.plug 1 Q.trees.1, Xm.plug (-1) Q.trees.2) := by
-  cases Q with
-  | triv => exact joinChains_trees _ _ _
-  | type1 c a b d => exact joinChains_trees _ _ _
-  | type2 Yp Ym q =>
-    rw [attachChains, attachChains_trees, appendChain_plug, appendChain_plug]
-    rfl
-termination_by structural Q
-
 /-- The reduced outer constructor preserves the actual unordered leaf-pair relation. -/
 theorem mem_joinChains_pairsAt {w : ℕ} (Xp Xm : RegChain) (Q : RegCpl)
     (a b : Fin w × Path) (z : (Fin w × Path) × (Fin w × Path)) :
@@ -67,22 +56,6 @@ theorem mem_attachChains_pairsAt {w : ℕ} (Xp Xm : RegChain) (Q : RegCpl)
     simp only [appendChain_pairsAt, appendChain_lonePath, RegCpl.pairsAt,
       List.mem_append, addrExt_append]
     tauto
-termination_by structural Q
-
-/-- The reduced outer constructor has no artificial order cost. -/
-theorem joinChains_size (Xp Xm : RegChain) (Q : RegCpl) :
-    (joinChains Xp Xm Q).size = Xp.size + Xm.size + Q.size := by
-  cases Xp <;> cases Xm <;> simp [joinChains, RegChain.isNil, RegChain.size, RegCpl.size]
-
-/-- Normalization preserves the total order of all the data. -/
-theorem attachChains_size (Xp Xm : RegChain) (Q : RegCpl) :
-    (attachChains Xp Xm Q).size = Xp.size + Xm.size + Q.size := by
-  cases Q with
-  | triv => exact joinChains_size _ _ _
-  | type1 c a b d => exact joinChains_size _ _ _
-  | type2 Yp Ym q =>
-    rw [attachChains, attachChains_size, appendChain_size, appendChain_size, RegCpl.size]
-    omega
 termination_by structural Q
 
 /-- The outer-constructor reduction enforces both uniqueness side conditions. -/

@@ -6,7 +6,6 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.VineEst.VineEstS2.CLGlobalPhaseExponent
-public import WaveTurbulence.Foundations.VineEst.VineEstS2.CLKernelReindex
 public import WaveTurbulence.Foundations.VineEst.VineEstS2.BlockPhaseAlgebra
 public import WaveTurbulence.Foundations.GammaLow.Famb.Family
 public import WaveTurbulence.Foundations.VineEst.VineEstS2.CLGlobalPhase

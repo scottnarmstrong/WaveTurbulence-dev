@@ -7,7 +7,7 @@ module
 
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W13.ZpGeo
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.W13.ObjExp
-public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P1.Rem
+public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P1.Decomp
 
 /-! # P4-W1: the approximant families `zpQfam`, `zpTfam` against a gate expansion at a gate level `q` (TARGET L1893-L1925)
 

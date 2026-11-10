@@ -70,12 +70,4 @@ theorem no_incomparable_partner_roots {a b c : GNode G.tree}
   · exact (Finset.disjoint_left.mp hdab) ha hb
   · exact (Finset.disjoint_left.mp hdbc) hb hc
 
-/-- Partner roots are unique in any family of pairwise incomparable candidates. -/
-theorem partner_root_unique {ι : Type*} (roots : ι → GNode G.tree)
-    (hr : Pairwise fun i j => (roots i).Incomparable (roots j))
-    {a : GNode G.tree} {i j : ι} (hi : Comb.IsSubCouple G a (roots i))
-    (hj : Comb.IsSubCouple G a (roots j)) : i = j := by
-  by_contra hne
-  exact no_incomparable_partner_roots hi hj (hr hne)
-
 end WaveTurbulence.Reg

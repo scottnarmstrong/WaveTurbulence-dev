@@ -1,7 +1,6 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 public import WaveTurbulence.Foundations.FinalCount.G3RunN
-public import WaveTurbulence.Foundations.FinalCount.G3CycChain
 public import WaveTurbulence.Foundations.FinalCount.G3DPRun
 /-! **FINALCOUNT-G3 (R29 item 2): `cycles` from `NoEligibleTriangle`** (the hinge step of A1).  A triangle of two `α`-atoms and a third
 `α`/`β`-atom is ELIGIBLE: SG at `v₁, v₂` (`α` atoms), nonzero gap at `v₃` (`α` is SG, `β` has a nonzero gap, N1), and the triangle pair

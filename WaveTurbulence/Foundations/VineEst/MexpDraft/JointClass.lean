@@ -48,12 +48,6 @@ theorem consShape_comm (I : Bool) (c : Fin 3) (X₁ X₂ : Shape) (I' : Bool) (c
   cases S <;> simp only [consShape] <;> rw [equiv_type2_iff_TEq] <;>
     exact ⟨TEq.swap I c X₁ X₂ I' c' X₁' X₂' _, Shape.equiv_refl _⟩
 
-theorem prependT_congr : (L : Tuples) → {S S' : Shape} → Shape.Equiv S S' →
-    Shape.Equiv (prependT L S) (prependT L S')
-  | .nil, _, _, h => h
-  | .cons I c _ _ L, _, _, h =>
-    consShape_congr I c (Shape.equiv_refl _) (Shape.equiv_refl _) (prependT_congr L h)
-
 theorem prependT_consShape (I : Bool) (c : Fin 3) (X₁ X₂ S : Shape) : (L : Tuples) →
     Shape.Equiv (prependT L (consShape I c X₁ X₂ S)) (consShape I c X₁ X₂ (prependT L S))
   | .nil => Shape.equiv_refl _
@@ -70,11 +64,6 @@ theorem jsh_prepP (m : MiniTreeCode) (I : Bool) (er eg e' : ECpl) (f : EChain) :
     Shape.Equiv (jsh (prepP m I er eg e') f) (consShape I m.c er.shape eg.shape (jsh e' f)) := by
   rw [jsh, shape_prepP]
   exact prependT_consShape _ _ _ _ _ _
-
-theorem jsh_prepM (m : MiniTreeCode) (I : Bool) (er eg e' : ECpl) (f : EChain) :
-    Shape.Equiv (jsh (prepM m I er eg e') f) (consShape I m.c er.shape eg.shape (jsh e' f)) := by
-  rw [jsh]
-  exact (prependT_congr _ (shape_prepM_equiv m I er eg e')).trans (prependT_consShape _ _ _ _ _ _)
 
 theorem zcount_prependT : (L : Tuples) → (S : Shape) → (prependT L S).zcount = L.zcount + S.zcount
   | .nil, S => by simp [prependT, Tuples.zcount]

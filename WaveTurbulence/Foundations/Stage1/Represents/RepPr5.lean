@@ -6,7 +6,7 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.Stage1.Represents.RepPr1
-public import WaveTurbulence.Foundations.Stage1.Represents.RepFinal2
+public import WaveTurbulence.Foundations.Stage1.Represents.RepFinal1
 import Mathlib.Tactic
 
 /-!

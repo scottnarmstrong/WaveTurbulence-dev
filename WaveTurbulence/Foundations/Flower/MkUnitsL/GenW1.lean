@@ -51,16 +51,6 @@ def topW (blk : J → CLBlock S) (Fs : SlotFamW S d) (L : ℝ) (base : Mom d) (x
   ∏ j, nodeWeight (Fs.tw (blk j).upper) L base (blk j).upper x
 
 open scoped Classical in
-/-- The skeleton integrand at a decoration (main's `modeG`), with the units' top weights. -/
-def modeGW (blk : J → CLBlock S) (Fs : SlotFamW S d) (D : ReconstructionData S)
-    (hS : S.IsPlain) (L γ δ : ℝ) (base : Mom d) {roots : Fin w → (Fin d → ℤ)} (tt : Fin w → ℝ)
-    (layer : GNode (D.forest hS) → ℕ) (κ : GenDecoration S d roots 0) (τ : GBranch S.tree → ℝ) : ℂ :=
-  (epsDec S κ.1 : ℂ) * (coreTimeDomainW (fun b => layer (D.coreBranch hS b).toNode) tt).indicator
-    (fun τ => phaseProd L γ δ S (cosetDecoration S L base κ.1) τ *
-      ((∏ s, Fs.fs s (slotTs hS tt τ s) (base + latticePoint L (κ.1 (slotNode hS s)))) *
-        topW blk Fs L base κ.1)) τ
-
-open scoped Classical in
 /-- The summand of `skelValW` at a skeleton decoration (main's `skelTerm` with the units' top weights). -/
 def skelTermW (blk : J → CLBlock S) (D : ReconstructionData S) (hS : S.IsPlain) (L γ δ : ℝ) (base : Mom d)
     (roots : Fin w → (Fin d → ℤ)) (tt : Fin w → ℝ) (layer : GNode (D.forest hS) → ℕ)
@@ -84,17 +74,6 @@ theorem skelValW_eq (blk : J → CLBlock S) (D : ReconstructionData S) (hS : S.I
     skelValW blk D hS L γ δ base roots tt layer selSk Fs =
       (coupling d L γ δ : ℂ) ^ S.order * S.zeta *
         ∑' κ : GenDecoration S d roots 0, skelTermW blk D hS L γ δ base roots tt layer selSk Fs κ := rfl
-
-open scoped Classical in
-theorem skelTermW_eq_integral (blk : J → CLBlock S) (Fs : SlotFamW S d) (D : ReconstructionData S)
-    (hS : S.IsPlain) (L γ δ : ℝ) (base : Mom d) {roots : Fin w → (Fin d → ℤ)} (tt : Fin w → ℝ)
-    (layer : GNode (D.forest hS) → ℕ) (selSk : GenDecoration S d roots 0 → Prop) (κ : GenDecoration S d roots 0) :
-    skelTermW blk D hS L γ δ base roots tt layer selSk Fs κ =
-      if selSk κ then ∫ τ, modeGW blk Fs D hS L γ δ base tt layer κ τ else 0 := by
-  unfold skelTermW modeGW
-  split_ifs
-  · rw [integral_const_mul]
-  · rfl
 
 end Skel
 
@@ -420,64 +399,6 @@ def unitIntGW (Φ : SpliceShape blk Gsb) (D : ReconstructionData S) (hS : S.IsPl
   recExp L γ δ (S.sign (blk j).upper.toNode) (Φ.clocks τ' j 0) (Φ.bdry L base z.1 j) *
     gUnitGW blk D hS Fs L γ δ layer base j (modLam frq (Φ.route hS hSb) j : ℝ) (Φ.bdry L base z.1 j)
       (Φ.clocks τ' j) κ τ
-
-/-- **The pointwise factorization** (cf. `VineB.SpliceShape.integrand_glue`). -/
-theorem integrand_glueGW (Φ : SpliceShape blk Gsb) (hd : Disj blk) (hS : S.IsPlain) (hSb : Gsb.IsPlain) {L : ℝ}
-    (hL : L ≠ 0) (γ δ : ℝ) (base : Mom d) (D : ReconstructionData S) (layer : GNode (D.forest hS) → ℕ)
-    (Fs : SlotFamW S d) {roots : Fin w → (Fin d → ℤ)} (tt : Fin w → ℝ)
-    (amp : ReplacementSlot Gsb → Mom d → ℂ) (frq : ReplacementSlot Gsb → Fin 2 → ℤ)
-    (z : GenDecoration Gsb d roots 0)
-    (κs : ∀ j, CLLocalDecoration (regionOf (blk j)) L base (Φ.bdry L base z.1 j))
-    (τ' : GBranch Gsb.tree → ℝ) (τs : ∀ j, CLInternalTime (regionOf (blk j))) :
-    (epsDec S (Φ.glueDec hS hd hL base z κs).1 : ℂ) *
-      (coreTimeDomainW (fun b => layer (D.coreBranch hS b).toNode) tt).indicator
-        (fun τ => phaseProd L γ δ S (cosetDecoration S L base (Φ.glueDec hS hd hL base z κs).1) τ *
-          ((∏ s, (modalFnGW Φ hS hSb Fs amp frq).fs s (slotTs hS tt τ s)
-            (base + latticePoint L ((Φ.glueDec hS hd hL base z κs).1 (slotNode hS s)))) *
-            topW blk (modalFnGW Φ hS hSb Fs amp frq) L base (Φ.glueDec hS hd hL base z κs).1))
-        (Φ.glueTime hd τ' τs) =
-    (splicedEpsilon Gsb (Φ.hinges hd) z.1 : ℂ) *
-      (openSb Gsb (fun c => layer (D.coreBranch hS (Φ.br c)).toNode) tt).indicator
-        (fun τ' => Φ.sbInt hS hSb L γ δ base tt amp frq z τ' *
-          ∏ j, unitIntGW Φ D hS Fs L γ δ layer base frq hSb z τ' j (κs j) (τs j)) τ' := by
-  obtain ⟨κ, hκ⟩ : ∃ κ, κ = Φ.glueDec hS hd hL base z κs := ⟨_, rfl⟩
-  obtain ⟨τ, hτdef⟩ : ∃ τ, τ = Φ.glueTime hd τ' τs := ⟨_, rfl⟩
-  rw [← hκ, ← hτdef]
-  by_cases hτ : τ ∈ coreTimeDomainW (fun b => layer (D.coreBranch hS b).toNode) tt
-  · subst hτdef
-    obtain ⟨hsb, hloc⟩ := (Φ.dom_iff hd _ tt τ' τs).mp hτ
-    rw [Set.indicator_of_mem hτ, Set.indicator_of_mem hsb]
-    have hκv : κ.1 = Φ.glueFun z.1 (fun j => (κs j).1) := by rw [hκ]; exact Φ.glueDec_val hS hd hL base z κs
-    rw [hκv]
-    rw [prod_modalFnG_topW Φ hd hS hSb Fs amp frq tt (Φ.glueTime hd τ' τs)
-      (fun x => base + latticePoint L (Φ.glueFun z.1 (fun j => (κs j).1) x)) L base
-      (Φ.glueFun z.1 (fun j => (κs j).1))]
-    rw [Φ.amp_glue hS hSb L base z.1 (fun j => (κs j).1) amp, Φ.modes_glue hd hS hSb tt frq τ' τs]
-    have hreg := Finset.prod_congr (s₁ := (Finset.univ : Finset J)) rfl
-      (fun j _ => regional_glueGW Φ hd hS hL base Fs tt z κs τ' τs j)
-    rw [hreg]
-    rw [Φ.eps_glue hd hL base z κs, Φ.phase_glue hd hL γ δ base z κs τ' τs]
-    unfold SpliceShape.sbInt unitIntGW gUnitGW clLocalSummandGW
-    simp only [Set.indicator_of_mem (hloc _), Finset.prod_mul_distrib, Complex.ofReal_mul, Complex.ofReal_prod]
-    ring
-  · rw [Set.indicator_of_notMem hτ, mul_zero]
-    rw [hτdef, (Φ.dom_iff hd _ tt τ' τs).not] at hτ
-    by_cases hsb : τ' ∈ openSb Gsb (fun c => layer (D.coreBranch hS (Φ.br c)).toNode) tt
-    · have : ∃ j, τs j ∉ clLocalTimeDomain (regionOf (blk j)) (fun b => layer (D.coreBranch hS b).toNode)
-          (Φ.clocks τ' j) := by
-        by_contra hc
-        push Not at hc
-        exact hτ ⟨hsb, hc⟩
-      obtain ⟨j, hj⟩ := this
-      rw [Set.indicator_of_mem hsb]
-      have h0 : unitIntGW Φ D hS Fs L γ δ layer base frq hSb z τ' j (κs j) (τs j) = 0 := by
-        unfold unitIntGW gUnitGW clLocalSummandGW
-        rw [Set.indicator_of_notMem hj]
-        simp
-      rw [Finset.prod_eq_zero (Finset.mem_univ j) h0]
-      simp
-    · rw [Set.indicator_of_notMem hsb]
-      simp
 
 theorem measurable_unitIntGW (Φ : SpliceShape blk Gsb) (D : ReconstructionData S) (hS : S.IsPlain)
     (Fs : SlotFamW S d) (L γ δ : ℝ)

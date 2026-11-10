@@ -148,19 +148,6 @@ variable {G : Garden w} (σ : Prescription G) {J₀ : Type} [Fintype J₀] {U₀
   (B₀ : ∀ j, CLChainAssembly G (R₀ j) (n₀ j))
   (hcov : ∀ T ∈ unitIngredients G σ, ∃ j, IsIngredient G.molecule (U₀ j) T)
 
-include hcov in
-theorem exists_piece_index :
-    ∀ T ∈ unitIngredients G σ, ∃ x : (Σ j, Fin (n₀ j)), (assemblyPieceAt (B₀ x.1) x.2).atoms = T := by apply exists_piece_indexMk (Mk := ∅) <;> assumption
-
-include hcov in
-theorem sum_vineIncoh_le_cohmol (layer0 : GBranch G.tree → ℕ) :
-    ∑ T ∈ (Set.toFinite (unitIngredients G σ)).toFinset, vineIncoh G layer0 T ≤
-      ∑ j, ∑ i : Fin (n₀ j), realizedIncoherencyIndex (pieceRealization (B₀ j) i) layer0 := by apply sum_vineIncoh_le_cohmolMk (Mk := ∅) <;> assumption
-
-include hcov in
-theorem card_bad_le :
-    bskOf G σ ≤ ∑ j, (Finset.univ.filter fun i : Fin (n₀ j) => (assemblyPieceAt (B₀ j) i).vineType.IsBad = true).card := by apply card_bad_leMk (Mk := ∅) <;> assumption
-
 end Cover
 
 end WaveTurbulence.Represents

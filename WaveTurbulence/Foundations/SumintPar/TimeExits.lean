@@ -72,14 +72,4 @@ theorem lowerTimeExit_nonneg {d : ℕ} (D : SumintDatum d) (hI : 0 < D.S.I)
   have hq : (0 : ℝ) ≤ D.q v := Nat.cast_nonneg _
   linarith [hu v]
 
-/-- An intersection of unit intervals has length at most one. -/
-theorem upperTimeExit_sub_lower_le_one {d : ℕ} (D : SumintDatum d) (hI : 0 < D.S.I)
-    (u : D.S.TVar → ℝ) : upperTimeExit D hI u - lowerTimeExit D hI u ≤ 1 := by
-  let v := firstTime D hI
-  have hlo : (D.q v : ℝ)-u v ≤ lowerTimeExit D hI u :=
-    Finset.le_sup' (fun v => (D.q v : ℝ)-u v) (mem_univ v)
-  have hhi : upperTimeExit D hI u ≤ (D.q v : ℝ)+1-u v :=
-    Finset.inf'_le (fun v => (D.q v : ℝ)+1-u v) (mem_univ v)
-  linarith
-
 end WaveTurbulence.SumintPar

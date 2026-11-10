@@ -50,39 +50,4 @@ theorem mixedRestrictionNorm00_eq_agreement {r : ℕ} {V : Type*} (θ : ℝ)
     ⟨fun h t ht v hv => h ⟨t, ht⟩ ⟨v, hv⟩, fun h t v => h t t.property v v.property⟩
   rw [he]
 
-/-- Restricting the time and vector domains decreases the extension infimum. -/
-theorem mixedRestrictionNorm00_mono {r : ℕ} {V : Type*} (θ : ℝ)
-    {B B' : Set (Fin r → ℝ)} {K K' : Set V} (hB : B ⊆ B') (hK : K ⊆ K')
-    (F : B' → K' → ℂ) :
-    mixedRestrictionNorm00 θ B K (fun t v => F ⟨t, hB t.property⟩ ⟨v, hK v.property⟩) ≤
-      mixedRestrictionNorm00 θ B' K' F := by
-  apply le_iInf
-  intro G
-  apply le_iInf
-  intro hG
-  exact mixedRestrictionNorm00_le_extension G (fun t v => hG ⟨t, hB t.property⟩ ⟨v, hK v.property⟩)
-
-/-- Changing the vector-variable type by a bijection leaves the unrestricted norm unchanged. -/
-theorem mixedFourierNorm00_equiv {r : ℕ} {V W : Type*} (θ : ℝ) (e : V ≃ W)
-    (F : (Fin r → ℝ) → W → ℂ) :
-    mixedFourierNorm00 θ (fun t v => F t (e v)) = mixedFourierNorm00 θ F := by
-  have he : (∀ v, MeasureTheory.Integrable (fun t => F t (e v))) ↔
-      (∀ w, MeasureTheory.Integrable (fun t => F t w)) :=
-    ⟨fun h w => by simpa only [e.apply_symm_apply] using h (e.symm w), fun h v => h (e v)⟩
-  unfold mixedFourierNorm00
-  rw [he]
-  split_ifs
-  · apply MeasureTheory.lintegral_congr
-    intro ξ
-    congr 1
-    exact e.iSup_comp (g := fun w => ‖timeFourier (fun t => F t w) ξ‖ₑ)
-  · rfl
-
-/-- On momentum space, the restricted norm is the landed mixed restriction at orders zero. -/
-theorem mixedRestrictionNorm00_eq_mixedRestrictionNorm {r d : ℕ} (θ : ℝ)
-    (B : Set (Fin r → ℝ)) (K : Set (Mom d)) (F : B → K → ℂ) :
-    mixedRestrictionNorm00 θ B K F = mixedRestrictionNorm θ 0 0 B K F := by
-  unfold mixedRestrictionNorm00 mixedRestrictionNorm
-  simp only [mixedFourierNorm00_eq_mixedFourierNorm]
-
 end WaveTurbulence.Fourier

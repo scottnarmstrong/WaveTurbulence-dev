@@ -57,25 +57,4 @@ theorem clPairCoefficient_unit (hU : G.molecule.IsBlock U a b) (R : CLRegionData
     by_cases hsecond : clPairSecondLeaf hU R hG p ∈ S <;>
     simp only [clPairCoefficient,hv,hfirst,hsecond,ite_true,ite_false,IsUnitCoeff] <;> norm_num
 
-/-- Conditional algebra helper: the equality premise is exactly the two
-labels of one actual source pair, supplied by local decoration matching. -/
-theorem clPairCoefficient_smul_of_equal {E : Type*} [AddCommGroup E]
-    (hU : G.molecule.IsBlock U a b) (R : CLRegionData G U a b) (hG : G.IsPlain)
-    (S : Finset (GLeaf (CLTreeForest R))) (v : GBranch (CLTreeForest R))
-    (p : ↥(clRegionalPairs hG U)) (K : GLeaf (CLTreeForest R) → E)
-    (hK : K (clPairSecondLeaf hU R hG p) = K (clPairFirstLeaf hU R hG p)) :
-    (if clPairFirstLeaf hU R hG p ∈ S then
-        predecessorLeafCoeff (fun _ : Fin 1 => G.sign a.toNode) v (clPairFirstLeaf hU R hG p) •
-          K (clPairFirstLeaf hU R hG p) else 0) +
-      (if clPairSecondLeaf hU R hG p ∈ S then
-        predecessorLeafCoeff (fun _ : Fin 1 => G.sign a.toNode) v (clPairSecondLeaf hU R hG p) •
-          K (clPairSecondLeaf hU R hG p) else 0) =
-    clPairCoefficient hU R hG S v p • K (clPairFirstLeaf hU R hG p) := by
-  classical
-  by_cases hf : clPairFirstLeaf hU R hG p ∈ S <;>
-    by_cases hs : clPairSecondLeaf hU R hG p ∈ S <;>
-    simp only [clPairCoefficient,predecessorLeafCoeff,clPairFirstLeaf_sign,clPairSecondLeaf_sign,
-      hf,hs,ite_true,ite_false,hK,Units.val_one,Units.val_neg,mul_one,mul_neg,zero_smul,
-      add_zero,zero_add,sub_self,sub_zero,zero_sub,mul_zero,neg_smul,add_neg_cancel]
-
 end WaveTurbulence.VineEstS2

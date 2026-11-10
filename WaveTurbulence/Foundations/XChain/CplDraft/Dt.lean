@@ -305,14 +305,6 @@ theorem cplL0Dt_body (P : WTParams) (C : ℝ) (hS : CplSizes P C) : OX3CplBodyV.
     have hEr := mul_le_mul (env9_mul_input_error_le P hd hp hN henv) hW hW0 (Real.exp_pos _).le
     exact add_le_of_two_exp (by omega) (Real.rpow_nonneg (jbr_pos _).le _) hT hEr
 
-/-- **CPL-3** (`∂_t a^tr` clause of O-X3-CPL). -/
-theorem wtprefix_cplATrDt : WTPrefix (OX3CplBodyV.{u} .aTrDt) :=
-  wtprefix_cplSizes.mono fun P ⟨C, hS⟩ => cplATrDt_body P C hS
-
-/-- **CPL-3** (`∂_t ℒ₀` clause of O-X3-CPL). -/
-theorem wtprefix_cplL0Dt : WTPrefix (OX3CplBodyV.{u} .L0Dt) :=
-  wtprefix_cplSizes.mono fun P ⟨C, hS⟩ => cplL0Dt_body P C hS
-
 /-- **O-X3-CPL**: all four couple-moment clauses, with the parameters of CPL-1. -/
 theorem oX3Cpl : OX3Cpl.{u} :=
   wtprefix_cplSizes.mono fun P ⟨C, hS⟩ => OX3CplBody_of_forall fun v => by

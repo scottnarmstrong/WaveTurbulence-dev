@@ -73,13 +73,6 @@ theorem hsize_mk2 (X Y : EChain) (L : ECpl) (h : X.isNil = true → Y.isNil = tr
   unfold mk2
   cases X <;> cases Y <;> simp [EChain.isNil, ECpl.hsize, EChain.hsize]
 
-theorem wf_mk2 {X Y : EChain} {L : ECpl} (h : (ECpl.type2 X Y L).wf = true) : (mk2 X Y L).wf = true := by
-  simp only [ECpl.wf, Bool.and_eq_true] at h
-  unfold mk2
-  split_ifs
-  · exact h.1.1.2
-  · simp only [ECpl.wf, Bool.and_eq_true]; exact h
-
 theorem wf_mk2' {X Y : EChain} {L : ECpl} (hX : X.wf = true) (hY : Y.wf = true) (hL : L.wf = true)
     (hL2 : L.isType2 = false) : (mk2 X Y L).wf = true := by
   unfold mk2

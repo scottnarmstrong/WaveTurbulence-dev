@@ -188,12 +188,6 @@ theorem lbGen_not_dParent {J : Finset (Fin w)} {pat : Fin w → FixPat} {t s : �
   unfold lbGen
   exact ite_eq_right_of_eq_false _ _ (eq_false fun hc => h hc.1)
 
-/-- **No lower bound for plain patterns** (α). -/
-theorem lbGen_plain (J : Finset (Fin w)) (t s : ℝ) (mkF : Stage1Mk.MarkFn w) (a : PrescribedPrimeGarden w) :
-    lbGen J (fun _ => FixPat.plain) t s mkF a = fun _ => none := by
-  funext c
-  exact lbGen_not_dParent (by simp)
-
 /-! ## The filters and the indicator of the piece -/
 
 /-- **The atom filters of the piece**: `(Rs j, chiDN)` at a residual selected atom, else γ's atom filter (radii
@@ -285,56 +279,7 @@ theorem pieceGen_ind (P : WTParams) {R : ℕ} (J : Finset (Fin (2 * R))) (pat : 
     (a : PrescribedPrimeGarden (2 * R)) (dag : Option (Fin (2 * R) → Fin 3 → Mom P.d)) :
     (pieceGen P J pat t s kSel σ Rs mkF a dag).ind = indGen J P.L σ kSel mkF a dag := rfl
 
-theorem pieceGen_fix (P : WTParams) {R : ℕ} (J : Finset (Fin (2 * R))) (pat : Fin (2 * R) → FixPat) (t s : ℝ)
-    (kSel σ : Fin (2 * R) → Option ℕ) (Rs : Fin (2 * R) → ℝ) (mkF : Stage1Mk.MarkFn (2 * R))
-    (a : PrescribedPrimeGarden (2 * R)) (dag : Option (Fin (2 * R) → Fin 3 → Mom P.d)) :
-    (pieceGen P J pat t s kSel σ Rs mkF a dag).fix = fixOf J pat t s mkF a := rfl
-
-theorem pieceGen_lb (P : WTParams) {R : ℕ} (J : Finset (Fin (2 * R))) (pat : Fin (2 * R) → FixPat) (t s : ℝ)
-    (kSel σ : Fin (2 * R) → Option ℕ) (Rs : Fin (2 * R) → ℝ) (mkF : Stage1Mk.MarkFn (2 * R))
-    (a : PrescribedPrimeGarden (2 * R)) (dag : Option (Fin (2 * R) → Fin 3 → Mom P.d)) :
-    (pieceGen P J pat t s kSel σ Rs mkF a dag).lb = lbGen J pat t s mkF a := rfl
-
-theorem pieceGen_nProt (P : WTParams) {R : ℕ} (J : Finset (Fin (2 * R))) (pat : Fin (2 * R) → FixPat) (t s : ℝ)
-    (kSel σ : Fin (2 * R) → Option ℕ) (Rs : Fin (2 * R) → ℝ) (mkF : Stage1Mk.MarkFn (2 * R))
-    (a : PrescribedPrimeGarden (2 * R)) (dag : Option (Fin (2 * R) → Fin 3 → Mom P.d)) :
-    (pieceGen P J pat t s kSel σ Rs mkF a dag).nProt = (protI a.layered J pat t s kSel).card := rfl
-
 /-! ## The α case -/
-
-/-- Without depth selections there is no residual selected atom. -/
-theorem selRGen_none (J : Finset (Fin w)) (mkF : Stage1Mk.MarkFn w) (a : PrescribedPrimeGarden w) :
-    selRGen J (fun _ => none) mkF a = ∅ := by
-  refine Finset.eq_empty_of_forall_notMem fun c hc => ?_
-  obtain ⟨j, hj⟩ := (Finset.mem_filter.1 (MkSlotsS.mem_selROf.1 hc)).2
-  simp [selCap] at hj
-
-theorem filtOfRad_nil (rs : List ℝ) (hrs : ∀ x ∈ rs, 1 ≤ x) (h : rs = []) : MkSlotsT.filtOfRad rs hrs = none := by
-  subst h
-  rfl
-
-/-- Without σ and selections there are no radii. -/
-theorem radGen_none (LG : LayeredGarden w) (J : Finset (Fin w)) (L : ℝ) (Rs : Fin w → ℝ)
-    (b : GBranch LG.garden.tree) : radGen LG J L (fun _ => none) (fun _ => none) Rs b = [] := by
-  simp [radGen, radRaw, MkSlotsT.radSigma, shellRad, selCap]
-
-/-- **α filters**: without σ and selections the piece has no filter. -/
-theorem filtGen_alpha (J : Finset (Fin w)) (L : ℝ) (Rs : Fin w → ℝ) (mkF : Stage1Mk.MarkFn w)
-    (a : PrescribedPrimeGarden w) : filtGen J L (fun _ => none) (fun _ => none) Rs mkF a = fun _ => none := by
-  funext c
-  rw [filtGen_not_sel (by rw [selRGen_none]; exact Finset.notMem_empty c)]
-  unfold MkSlotsT.filtStem
-  split_ifs
-  · exact filtOfRad_nil _ _ (radGen_none _ J L Rs _)
-  · rfl
-
-/-- **α indicator**: without selections the indicator is the dagger sibling indicator. -/
-theorem indGen_alpha {d : ℕ} (J : Finset (Fin w)) (L : ℝ) (σ : Fin w → Option ℕ) (mkF : Stage1Mk.MarkFn w)
-    (a : PrescribedPrimeGarden w) (dag : Option (Fin w → Fin 3 → Mom d)) :
-    indGen J L σ (fun _ => none) mkF a dag = sibIndOf J mkF a dag (flwGen J mkF a) := by
-  funext k
-  unfold indGen
-  rw [selRGen_none, Finset.prod_empty, mul_one]
 
 /-! ## The analytic core -/
 

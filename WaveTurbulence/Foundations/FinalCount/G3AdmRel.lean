@@ -59,9 +59,6 @@ theorem AtomRelX.toU {h : HSt V D₀} (hR : AtomRelX (fun _ => False) Adm0 L w h
 theorem AtomRelX.init (ex : V → Prop) (M₀ : Molecule V D₀) : AtomRelX ex Adm0 L w (HSt.init M₀) :=
   fun a _ _ q vis h => by simp [HSt.init] at h
 
-theorem AtomRelX.mono {ex ex' : V → Prop} (hex : ∀ a, ex' a → ex a) {h : HSt V D₀} (hR : AtomRelX ex' Adm0 L w h) :
-    AtomRelX ex Adm0 L w h := fun a ha hna => hR a ha (fun h' => hna (hex a h'))
-
 /-- One cut with record; the fresh half `v₂` is exempted unless the charge of the cut atom is pinned. -/
 theorem AtomRelX.cut {ex : V → Prop} {h : HSt V D₀} (hR : AtomRelX ex Adm0 L w h) {v v₂ : V} {x₁ x₂ : h.s.D}
     (hcd : h.s.M.IsCutData v v₂ x₁ x₂) (c₁ c₂ : Cls) (nh : List (D₀ × D₀)) (na : V → V)

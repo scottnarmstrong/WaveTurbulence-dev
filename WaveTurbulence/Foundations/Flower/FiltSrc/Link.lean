@@ -37,24 +37,11 @@ def normalizedLinkIntegralFilt (L γ δ : ℝ) (Q : Fin n → LayerLink d) (φ :
   ((δ / (2 * L ^ ((d : ℝ) - γ))) ^ (2 * n) : ℝ) *
     ∫ t in I, ∏ i, filtLinkTimeFactor L γ δ (Q i) (φ i) (t i)
 
-/-- `φ ≡ 1` is main's normalized link integral. -/
-theorem normalizedLinkIntegralFilt_one (L γ δ : ℝ) (Q : Fin n → LayerLink d)
-    (I : Set (Fin n → Fin 2 → ℝ)) :
-    normalizedLinkIntegralFilt L γ δ Q (fun _ _ => 1) I = normalizedLinkIntegral L γ δ Q I := by
-  simp only [normalizedLinkIntegralFilt, normalizedLinkIntegral, filtLinkTimeFactor_one]
-
 /-- The filtered product integrand is integrable on every source subdomain of the link boxes. -/
 theorem integrableOn_linkProductFilt {L : ℝ} (hL : 0 < L) (γ δ : ℝ) (Q : Fin n → LayerLink d)
     (φ : Fin n → ℝ → ℂ) {I : Set (Fin n → Fin 2 → ℝ)} (hI : I ⊆ univ.pi (fun i => linkBox (Q i))) :
     IntegrableOn (fun t => ∏ i, filtLinkTimeFactor L γ δ (Q i) (φ i) (t i)) I :=
   (integrableOn_pi_product (fun i => integrableOn_filtLinkTimeFactor hL γ δ (Q i) (φ i))).mono_set hI
-
-/-- Product domination for the filtered literal source factors. -/
-theorem norm_linkProduct_integral_leFilt {L : ℝ} (hL : 0 < L) (γ δ : ℝ) (Q : Fin n → LayerLink d)
-    (φ : Fin n → ℝ → ℂ) {I : Set (Fin n → Fin 2 → ℝ)} (hI : I ⊆ univ.pi (fun i => linkBox (Q i))) :
-    ‖∫ t in I, ∏ i, filtLinkTimeFactor L γ δ (Q i) (φ i) (t i)‖ ≤
-      ∏ i, ∫ t in linkBox (Q i), ‖filtLinkTimeFactor L γ δ (Q i) (φ i) t‖ :=
-  norm_setIntegral_pi_product_le hI (fun i => integrableOn_filtLinkTimeFactor hL γ δ (Q i) (φ i))
 
 /-! ### `LinkMixture` twins -/
 
@@ -64,12 +51,6 @@ def linkMixtureFactorFilt (L γ δ : ℝ) (Q : LayerLink d) (φ : ℝ → ℂ) (
     (z : LinkMixturePoint d) : ℂ :=
   (linkBox Q).indicator
     (fun t => if selected then filtLinkPhaseCoefficient L Q φ z.1 else filtLinkTimeFactor L γ δ Q φ t) z.2
-
-/-- `φ ≡ 1` is main's mixture factor. -/
-theorem linkMixtureFactorFilt_one (L γ δ : ℝ) (Q : LayerLink d) (selected : Bool) :
-    linkMixtureFactorFilt L γ δ Q (fun _ => 1) selected = linkMixtureFactor L γ δ Q selected := by
-  funext z
-  simp only [linkMixtureFactorFilt, linkMixtureFactor, filtLinkPhaseCoefficient_one, filtLinkTimeFactor_one]
 
 /-- Filtered lattice coefficients are integrable for counting measure (finite support). -/
 theorem integrable_linkPhaseCoefficientFilt {L : ℝ} (hL : 0 < L) (Q : LayerLink d) (φ : ℝ → ℂ) :

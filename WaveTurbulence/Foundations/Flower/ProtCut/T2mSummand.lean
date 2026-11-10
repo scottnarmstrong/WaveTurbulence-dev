@@ -95,15 +95,6 @@ def decEquiv (d : ℕ) : GenDecoration LG.garden d (fun _ => 0) 0 ≃
       (GenDecoration LG₂.garden d (fun _ => 0) 0 × GenDecoration LG₃.garden d (fun _ => 0) 0))) :=
   (D.gdEquiv d).trans (Equiv.prodCongr (Equiv.refl _) (h.decEquiv d))
 
-omit h in
-theorem gdEquiv_fst (κ : GenDecoration LG.garden d (fun _ => 0) 0) : ((D.gdEquiv d κ).1).1 = κ.1 ∘ D.gd.ι₁ := rfl
-
-omit h in
-theorem gdEquiv_snd (κ : GenDecoration LG.garden d (fun _ => 0) 0) : ((D.gdEquiv d κ).2).1 = κ.1 ∘ D.gd.ι₂ := rfl
-
-theorem decEquiv_apply (κ : GenDecoration LG.garden d (fun _ => 0) 0) :
-    D.decEquiv h d κ = ((D.gdEquiv d κ).1, h.decEquiv d (D.gdEquiv d κ).2) := rfl
-
 /-! ### Leaves -/
 
 omit h in

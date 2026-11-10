@@ -1,7 +1,8 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 
-public import WaveTurbulence.Foundations.RegularAsymptotics.RegAsympDraft.SourceBlockProducts
+public import WaveTurbulence.Foundations.RegularAsymptotics.RegAsympDraft.SourcePlacedFactors
+public import WaveTurbulence.Foundations.RegularAsymptotics.RegAsympDraft.SourceAddressFreeze
 
 /-! # Scalar factors through two actual source child blocks -/
 

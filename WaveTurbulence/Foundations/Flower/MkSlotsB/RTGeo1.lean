@@ -56,10 +56,6 @@ theorem cfp_isDesc_flower {b : GBranch LG.garden.tree} (hb : IsCapFlowerParent L
   obtain ⟨ℓ, hℓ, h1, i, h2⟩ := hb
   exact ⟨ℓ, hℓ, h1.symm, ⟨[i], h2.symm⟩⟩
 
-theorem NoFlowerBelow.mono {x y : GNode LG.garden.tree} (hx : NoFlowerBelow LG J x) (h : x.IsDesc y) :
-    NoFlowerBelow LG J y :=
-  fun ℓ hℓ hy => hx ℓ hℓ (isDesc_trans h hy)
-
 theorem NoFlowerBelow.not_cfp {x : GNode LG.garden.tree} (hx : NoFlowerBelow LG J x) {b : GBranch LG.garden.tree}
     (hb : x.IsDesc b.toNode) : ¬ IsCapFlowerParent LG J b := by
   intro hc
@@ -95,19 +91,6 @@ theorem pinned_below_eq {pat : Fin w → FixPat} {t s : ℝ} {x : GNode LG.garde
     · apply Subtype.ext
       exact Prod.ext hb.1.symm (h2.trans h4.symm)
     · exact absurd hC (hx.not_cfp ⟨hb.1.trans h1, h4⟩)
-
-/-- A pinned non-root branch with no capped flower below is pinned by a `dChild` pattern. -/
-theorem pinned_dChild {pat : Fin w → FixPat} {t s : ℝ} {b : GBranch LG.garden.tree}
-    (hx : NoFlowerBelow LG J b.toNode) (hnr : b.1.2 ≠ []) (hpin : (fixCap LG J pat t s b).isSome) :
-    ∃ i, pat b.1.1 = FixPat.dChild i := by
-  obtain ⟨v, hv⟩ := Option.isSome_iff_exists.mp hpin
-  rcases fixCap_cases hv with ⟨hc, -⟩ | ⟨-, -, h0, -⟩ | ⟨-, -, ⟨C, hC, hCb⟩, -⟩ | ⟨i, -, hp, -, -⟩
-  · exact absurd hc (hx.not_cfp (isDesc_refl _))
-  · exact absurd h0 hnr
-  · exfalso
-    obtain ⟨g1, k, g2⟩ := hCb
-    exact hx.not_cfp ⟨g1.symm, ⟨[k], g2.symm⟩⟩ hC
-  · exact ⟨i, hp⟩
 
 /-- **Below a branching child `r` of a capped flower parent there is no capped flower.** -/
 theorem noFlowerBelow_child {p : ℕ} (hG : CapGeo LG J p) {F r : GBranch LG.garden.tree}
@@ -176,53 +159,6 @@ theorem noFlowerBelow_root_of_notCap {q : SourcePair S} (hnc : ¬ IsCapPair S hS
   have h1 : ((nativeCoupleForest D hS q).root k').1.1 = ((D.garden hS).pair ℓ).1.1 := hk'.1
   exact root_tree_not_cap D hS J hnc k' (h1 ▸ hℓ.2)
 
-/-- **The leaf pair whose root (on the side of `σ`) is a branch `r` with no capped flower below is not a cap pair.** -/
-theorem notCap_of_root (hcap : ∀ j ∈ J, (D.garden hS).tree j = TTree.leaf) (σ : GLeaf S.tree)
-    (r : GBranch (D.forest hS)) (hr : r.toNode = attachedNode D hS σ.toNode) (hσJ : σ.1.1 ∉ J)
-    (hNF : NoFlowerBelow (layeredReconstruction D hS layer hLayer) J r.toNode) :
-    ¬ IsCapPair S hS J (pairOfLeaf S hS σ) := by
-  intro hcp
-  have hpJ : (S.pair σ).1.1 ∈ J := (isCapPair_pairOfLeaf hS J σ hcp).resolve_left hσJ
-  set j1 := (S.pair σ).1.1 with hj1
-  have hj : D.forest hS j1 = TTree.leaf := hcap _ hpJ
-  have hpnil : (S.pair σ).1.2 = [] := IntCore.skel_path_nil D hS hj (S.pair σ) rfl
-  have hroot' : attachedNode D hS (S.pair σ).toNode = GNode.root (D.forest hS) j1 := by
-    have he : (S.pair σ).toNode = GNode.root S.tree j1 := Subtype.ext (Prod.ext rfl hpnil)
-    rw [he]; exact attachedNode_root D hS j1
-  let ℓc : GLeaf (D.garden hS).tree :=
-    ⟨(j1, []), by show [] ∈ (D.forest hS j1).leaves; rw [hj]; simp [TTree.leaves]⟩
-  obtain ⟨k1, hk1⟩ := exists_nativeRoot_eq D hS σ (S.pair σ) (Or.inr rfl)
-  have hmem : ℓc ∈ Comb.RootedSubforest.leafSet (G := D.garden hS) (nativeCoupleForest D hS (pairOfLeaf S hS σ)) := by
-    refine (Comb.RootedSubforest.mem_leafSet_iff (G := D.garden hS) _ ℓc).mpr ⟨k1, ?_⟩
-    rw [hk1, hroot']
-    exact ⟨rfl, List.nil_prefix⟩
-  obtain ⟨hne, hpm⟩ := nativeCoupleForest_closed D hS _ ℓc hmem
-  obtain ⟨k, hk⟩ := (Comb.RootedSubforest.mem_leafSet_iff (G := D.garden hS) _ _).mp hpm
-  rcases nativeRoot_cases D hS σ k with he | he
-  · -- the partner of the cap root is a capped flower below `r`
-    rw [he, ← hr] at hk
-    have hfl : IsCapFlower (layeredReconstruction D hS layer hLayer) J ((D.garden hS).pair ℓc) := by
-      refine ⟨?_, ?_⟩
-      · have e1 : ((D.garden hS).pair ℓc).1.1 = r.1.1 := hk.1.symm
-        have e2 : r.1.1 = σ.1.1 := by
-          have := congrArg (fun z : GNode (D.forest hS) => z.1.1) hr
-          exact this.trans (inflatedPosition_index S D.tree σ.toNode)
-        show ((D.garden hS).pair ℓc).1.1 ∉ J
-        rw [e1, e2]; exact hσJ
-      · show ((D.garden hS).pair ((D.garden hS).pair ℓc)).1.1 ∈ J
-        rw [(D.garden hS).pair_pair]; exact hpJ
-    exact hNF _ hfl hk
-  · -- the partner would be in the single-leaf tree `j1`
-    rw [he, hroot'] at hk
-    apply hne
-    apply Subtype.ext
-    have h1 : ((D.garden hS).pair ℓc).1.1 = j1 := hk.1.symm
-    have h2 := ((D.garden hS).pair ℓc).2
-    have hj' : (D.garden hS).tree j1 = TTree.leaf := hcap _ hpJ
-    rw [h1, hj'] at h2
-    simp only [TTree.leaves, Finset.mem_singleton] at h2
-    exact Prod.ext h1 h2
-
 /-- The roots of the native couple of a non-cap pair are not garden roots (with every non-cap tree carrying a capped
 flower). -/
 theorem root_nonroot_of_notCap {q : SourcePair S} (hnc : ¬ IsCapPair S hS J q)
@@ -271,28 +207,6 @@ theorem rtRec_of (hcan : IsCanonGC (p + 1) a.layered) (hJ : J.card = R) (hG : Ca
   · intro j hj
     have h := congrArg (fun LG : LayeredGarden (2 * R) => LG.garden.tree j) hrec
     exact h.trans (hG.cap_leaf j hj)
-
-/-- **The shape of a root-trace slot**: the pinned branch `r` is attached at the skeleton child `β.child i` of the
-core capped flower parent; it is the top of a nontrivial chain (chain slot) or a root of a native couple (leaf-pair
-slot). -/
-theorem rootTraceSlot_geom {sl : ReplacementSlot a.prime.skeleton} (β : GBranch a.prime.skeleton.tree) (i : Fin 3)
-    (r : GBranch (a.prime.data.forest a.prime.prime.1))
-    (hr : r.toNode = (a.prime.data.coreBranch a.prime.prime.1 β).child i)
-    (hnc : ∀ β' : GBranch a.prime.skeleton.tree, (a.prime.data.coreBranch a.prime.prime.1 β').toNode ≠ r.toNode)
-    (hs : MkSlots.slotOf a.prime.data a.prime.prime.1 r.toNode = sl) :
-    r.toNode = attachedNode a.prime.data a.prime.prime.1 (β.child i) ∧
-      ((∃ γ' : GBranch a.prime.skeleton.tree, γ'.toNode = β.child i ∧ (a.prime.data.tree γ').lonePath ≠ [] ∧
-          r.1 = inflatedPosition a.prime.skeleton a.prime.data.tree γ'.toNode ∧ sl = .inr γ') ∨
-        (∃ σ : GLeaf a.prime.skeleton.tree, σ.toNode = β.child i ∧
-          sl = .inl (pairOfLeaf a.prime.skeleton a.prime.prime.1 σ))) := by
-  have hr' : r.toNode = attachedNode a.prime.data a.prime.prime.1 (β.child i) := by
-    rw [attachedNode_child]; exact hr
-  refine ⟨hr', ?_⟩
-  rcases attachedTop_of_eq a.prime.data a.prime.prime.1 _ r hr' with ⟨b', hb', -, he⟩ | ⟨b', hb', h0, h1, h2⟩ |
-    ⟨σ, hσ, -, h2⟩
-  · exact absurd (congrArg GBranch.toNode he).symm (hnc b')
-  · exact Or.inl ⟨b', hb', h0, h1, hs.symm.trans h2⟩
-  · exact Or.inr ⟨σ, hσ, hs.symm.trans h2⟩
 
 end Point
 

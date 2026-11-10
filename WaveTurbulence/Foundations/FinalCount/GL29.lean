@@ -99,15 +99,4 @@ theorem vineCut_F_lt (K : VineCut M) (hd : M.deg K.C.upper = 2 ∨ M.deg K.C.low
 universe u
 variable {D₀ : Type u} [Fintype D₀] [DecidableEq D₀] {d : ℕ} {L γ η : ℝ} {w : Mom d} {κ : D₀ → (Fin d → ℤ)}
 
-/-- **Step D1 without the hypothesis `hnew`**: it is automatic for an object with a degree-`2` joint (`vineCut_F_lt`). -/
-theorem HStepD1.mk' {M₀ : Molecule V D₀} {C : CollData M₀} (h : HSt V D₀) (K : VineCut h.s.M)
-    (hu : h.s.cls K.C.upper = .eps) (hl : h.s.cls K.C.lower = .eps)
-    (hd2 : h.s.M.deg K.C.upper = 2 ∨ h.s.M.deg K.C.lower = 2)
-    (htwin : pgap L w κ (h.s.pr K.y₁ K.y₂) = pgap L w κ (h.s.pr K.x₁ K.x₂) ∨
-      pgap L w κ (h.s.pr K.y₁ K.y₂) = -pgap L w κ (h.s.pr K.x₁ K.x₂))
-    (hsg : Molecule.gapKind L γ η (Molecule.gapAt L w (κ ∘ h.s.down) K.x₁ K.x₂) = .SG)
-    (hdu : Desig C (h.anc K.C.upper) (h.s.pr K.x₁ K.x₂)) (hdl : Desig C (h.anc K.C.lower) (h.s.pr K.y₁ K.y₂)) :
-    HStepD1 C L γ η w κ h (h.vinePostG K) :=
-  HStepD1.vine h K hu hl hd2 htwin hsg (vineCut_F_lt K hd2) hdu hdl
-
 end WaveTurbulence.FinalCountG3

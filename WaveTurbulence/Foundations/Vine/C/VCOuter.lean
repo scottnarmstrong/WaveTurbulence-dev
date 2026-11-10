@@ -47,15 +47,6 @@ variable {w : ℕ}
     (base : Mom d) (W : ℝ → ℂ) (t0 t1 t2 : ℝ) (e f g h : Mom d) : ℂ :=
   recPhase (G.sign a.toNode) L γ δ t0 e f g h * ∑ x ∈ Z, twistedLocalKernelW x.1 x.2 L γ δ F base W t0 t1 t2 e f g h
 
-theorem twistedRecenteredW_one {κ : Type*} {d : ℕ} (G : Garden w) (a : GBranch G.tree)
-    (Z : Finset (Σ Bs : FamilyReconstruction w κ, ChainAt Bs.skeleton Bs.family)) (L γ δ : ℝ) (F : ℕ → Mom d → ℝ)
-    (base : Mom d) (t0 t1 t2 : ℝ) (e f g h : Mom d) :
-    twistedRecenteredW G a Z L γ δ F base (fun _ => 1) t0 t1 t2 e f g h =
-      twistedRecentered G a Z L γ δ F base t0 t1 t2 e f g h := by
-  unfold twistedRecenteredW twistedRecentered recPhase
-  congr 1
-  exact Finset.sum_congr rfl fun x _ => twistedLocalKernelW_one x.1 x.2 L γ δ F base t0 t1 t2 e f g h
-
 section Sign
 variable {ι J : Type*} {Qm : J → ι → Prop} {p : ℕ} {kind : Bool}
 
@@ -86,29 +77,6 @@ end Sign
 section Class
 variable {ι J : Type*} [Fintype ι] [DecidableEq ι] [Fintype J] [DecidableEq J] {κ : J → Type*}
   [∀ j, Fintype (κ j)] [∀ j, DecidableEq (κ j)] {Us : UnitSplit ι J κ} {p : ℕ} {kind : Bool}
-
-/-- **The class product for the recentered weighted unit kernels**: `Σ_{y ∈ τ} Π_j K̃^{U_j,(W_j)}_{(y)} = Π_j K̃^{U_j,(W_j)}`,
-the class kernel of the unit `j` being taken over V5's class of the unit (`canonFinsetK`), recentered at the start. -/
-theorem sum_classU_prod_recenteredW {A : FamilyReconstruction w ι} (hA : IsPrimeGarden A.skeleton)
-    (us : ∀ j, UnitAt A.skeleton A.family (Us.Q j)) {d : ℕ} (L γ δ : ℝ) (F : J → ℕ → Mom d → ℝ) (base : Mom d)
-    (W : J → ℝ → ℂ) (t0 t1 t2 : J → ℝ) (e f g h : J → Mom d) :
-    ∑ y ∈ classU Us p kind A us, ∏ j, unitRecenteredW y.1 (y.2 j) L γ δ (F j) base (W j) (t0 j) (t1 j) (t2 j)
-        (e j) (f j) (g j) (h j) =
-      ∏ j, twistedRecenteredW A.skeleton (us j).blk.a (canonFinsetK p kind (Us.st A j) (Us.reg us j)) L γ δ (F j) base
-        (W j) (t0 j) (t1 j) (t2 j) (e j) (f j) (g j) (h j) := by
-  have key := sum_classU_prod (p := p) (kind := kind) hA us
-    (fun j y => unitRecenteredW y.1 (y.2 j) L γ δ (F j) base (W j) (t0 j) (t1 j) (t2 j) (e j) (f j) (g j) (h j))
-    (fun j x => recPhase (A.skeleton.sign (us j).blk.a.toNode) L γ δ (t0 j) (e j) (f j) (g j) (h j) *
-      twistedLocalKernelW x.1 x.2 L γ δ (F j) base (W j) (t0 j) (t1 j) (t2 j) (e j) (f j) (g j) (h j))
-    (fun y hy j => by
-      have hy' := (mem_classU hA).mp hy
-      obtain ⟨M, _, hR⟩ := hy'
-      unfold unitRecenteredW
-      rw [hR.sign_upper j, unitKernelW_classProd hA ((mem_classU hA).mp hy) j])
-  rw [key]
-  refine Finset.prod_congr rfl fun j _ => ?_
-  unfold twistedRecenteredW
-  rw [Finset.mul_sum]
 
 end Class
 

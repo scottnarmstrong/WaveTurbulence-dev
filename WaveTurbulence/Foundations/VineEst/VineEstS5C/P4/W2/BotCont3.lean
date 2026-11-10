@@ -113,16 +113,6 @@ theorem botCertT_J_contOn_lo (b : BT w ι) (i : Fin (botCertT (κ := κ) A c0 hA
     exact_mod_cast hq
 
 include hcan hel htc hcc hup E hN in
-/-- **Low window, full**: when the index is trivial or its root layer is `≤ L₄`. -/
-theorem botCertT_J_contOn_lo_full (b : BT w ι)
-    (hlow : ¬ (b ∈ botA p kind pstar A c0 ∨ b ∈ botB p kind pstar A c0) ∨ treeRootLayer (zpObjT b.1 pstar) ≤ zpQ4 A pstar)
-    (i : Fin (botCertT (κ := κ) A c0 hA hcan hel htc hcc hup E hN b).m) :
-    ContinuousOn ((botCertT (κ := κ) A c0 hA hcan hel htc hcc hup E hN b).J i) (winTl A pstar) := by
-  obtain ⟨q, -, -, hq, hJ⟩ := botCertT_gate A c0 hA hcan hel htc hcc hup E hN b
-  rw [hq hlow] at hJ
-  exact (hJ i).mono_ge fun ts hts => hts.1.1.1
-
-include hcan hel htc hcc hup E hN in
 /-- The high-window `SepTC` of a certified couple term. -/
 noncomputable def botCertT_hiTC (b : BT w ι) (i : Fin (botCertT (κ := κ) A c0 hA hcan hel htc hcc hup E hN b).m) :
     SepTC P 0 (winTh A pstar) (cornH A pstar) (botCertT (κ := κ) A c0 hA hcan hel htc hcc hup E hN b).CJ

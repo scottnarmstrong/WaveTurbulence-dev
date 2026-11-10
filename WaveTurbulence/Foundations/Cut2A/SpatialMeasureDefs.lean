@@ -46,7 +46,4 @@ def SpatialMeasure.mass (F : SpatialMeasure V α) : ℝ := ∫ a, ‖F.amplitude
 def SpatialMeasure.value (F : SpatialMeasure V α) (x : V) : ℂ :=
   ∫ a, F.amplitude a * (Real.fourierChar (inner ℝ (F.frequency a) x) : ℂ) ∂F.μ
 
-def SpatialMeasure.measure (F : SpatialMeasure V α) : VectorMeasure V ℂ :=
-  (F.μ.withDensityᵥ F.amplitude).map F.frequency
-
 end WaveTurbulence.Cut2A

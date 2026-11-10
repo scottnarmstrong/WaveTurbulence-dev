@@ -6,14 +6,12 @@ public import WaveTurbulence.Foundations.GammaLow.Fama.Vine.IsoStmt
 public import WaveTurbulence.Foundations.GammaLow.Famc.Subpro.SubproContainedR83
 import Mathlib.Tactic
 public import WaveTurbulence.Foundations.Stage1.Geometry.SubproEntryR83
-public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Amend7
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.CL
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.CN
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Coll
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Coll2
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Cover
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Data
-public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Deg
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Desig
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Final
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Gap
@@ -29,7 +27,6 @@ public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Marked
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Obj
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Obj2
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Obj3
-public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Pairs
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Piece
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Rev
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Runs
@@ -44,7 +41,6 @@ public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.SurvData
 public import WaveTurbulence.Foundations.GammaLow.Famc.ClassCount.VineA.SurvMK
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Top
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.TripleDesig
-public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.TripleHinge
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.UnitBlocks
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Units
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Units2
@@ -57,13 +53,10 @@ public import WaveTurbulence.Foundations.GammaLow.Fama.P.FinalCount.SubproGap
 public import WaveTurbulence.Foundations.GammaLow.Fama.P.FinalCount.SubproIso2
 public import WaveTurbulence.Foundations.GammaLow.Famc.Subpro.SubproObjMap
 public import WaveTurbulence.Foundations.GammaLow.Fama.Vine.Chain
-public import WaveTurbulence.Foundations.GammaLow.Fama.P.Molecule.VineChainEraseEndpoints
-public import WaveTurbulence.Foundations.GammaLow.Fama.P.Molecule.VineChainInteriorConnected
 public import WaveTurbulence.Foundations.GammaLow.Fama.Vine.Facts
 public import WaveTurbulence.Foundations.GammaLow.Fama.P.Molecule.VineLocalDartChains
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.Src.Counting
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.Src.Objects
-public import WaveTurbulence.Foundations.GammaLow.Fama.P.Spine.VineDelObjects
 public import WaveTurbulence.Foundations.GammaLow.Fama.P.Stage1.Represents.RepSel
 public import WaveTurbulence.Foundations.GammaLow.Fama.P.Stage1.Shared.S1VInvChain
 public import WaveTurbulence.Foundations.GammaLow.Fama.P.Stage1.Shared.S1VInvEquiv
@@ -136,11 +129,6 @@ theorem atom_eq_piMk (σ : Prescription G) {Mk : Set (CLVineG γ _)} (f : Garden
     rw [(stSt γ (Mk := Mk) G σ).M.ob_pi, (stSt γ (Mk := Mk) G σ).M.ob_atom]
   · apply (stSt γ (Mk := Mk) G σ).M.ob_inj
     rw [(stSt γ (Mk := Mk) G σ).M.ob_pi, (stSt γ (Mk := Mk) G σ).M.ob_atom, (stSt γ (Mk := Mk) G σ).M.od_mate]
-
-theorem atom_eq_pi (σ : Prescription G) (f : GardenDart (stSt γ G σ).G) :
-    (stSt γ G σ).G.molecule.atom f = (stSt γ G σ).M.pi (stSt γ G σ).hcls (G.molecule.atom ((stSt γ G σ).M.od f)) ∧
-    (stSt γ G σ).G.molecule.atom ((stSt γ G σ).G.molecule.mate f) =
-      (stSt γ G σ).M.pi (stSt γ G σ).hcls (G.molecule.atom (G.molecule.mate ((stSt γ G σ).M.od f))) := atom_eq_piMk (Mk := ∅) σ f
 
 /-- B1b (Mk-general form of `containsDart_of_orig`). -/
 theorem containsDart_of_origMk (σ : Prescription G) {Mk : Set (CLVineG γ _)} {O : Src.Object γ (stSt γ (Mk := Mk) G σ).G.molecule} {A : Finset (GBranch G.tree)}

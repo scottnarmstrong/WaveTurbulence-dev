@@ -47,24 +47,4 @@ theorem hasDerivAt_linearTimePhase_diagonal {n : ℕ} {a : Fin n → ℝ}
   rw [he]
   exact hasDerivAt_const c _
 
-/-- The triangular phase is a balanced two-coordinate phase. -/
-theorem linearTimePhase_two (Γ : ℝ) (v : Fin 2 → ℝ) :
-    linearTimePhase ![Γ, -Γ] v = Complex.exp ((Γ * (v 0 - v 1) : ℝ) * Complex.I) := by
-  have he : (∑ j, (![Γ, -Γ] : Fin 2 → ℝ) j * v j) = Γ * (v 0 - v 1) := by
-    simp only [Fin.sum_univ_two, Matrix.cons_val_zero, Matrix.cons_val_one]
-    ring
-  unfold linearTimePhase
-  rw [he]
-
-/-- The fourfold phase is a balanced four-coordinate phase. -/
-theorem linearTimePhase_four (Γ₁ Γ₂ : ℝ) (v : Fin 4 → ℝ) :
-    linearTimePhase ![Γ₁, -Γ₁, Γ₂, -Γ₂] v =
-      Complex.exp ((Γ₁ * (v 0 - v 1) : ℝ) * Complex.I) *
-        Complex.exp ((Γ₂ * (v 2 - v 3) : ℝ) * Complex.I) := by
-  rw [← Complex.exp_add]
-  unfold linearTimePhase
-  congr 1
-  simp [Fin.sum_univ_succ]
-  ring
-
 end WaveTurbulence.Fourier

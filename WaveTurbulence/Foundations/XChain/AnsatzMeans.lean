@@ -24,10 +24,5 @@ theorem ansatz_input_mean_zero (n : Fin P.d → ℤ) : (∫ ω in Fev p, a ω p 
     ha.1.2.2.2.2.2.1 t (fun _ => n) (fun _ => (1 : ℤˣ)) {0} (by simp)
   simpa only [cumulant_singleton, zpowSign, ite_true, t] using hz
 
-theorem ansatz_signed_input_mean_zero (n : Fin P.d → ℤ) (sig : ℤˣ) :
-    (∫ ω in Fev p, zpowSign sig (a ω p n) ∂μ) = 0 := by
-  rw [← zpowSign_integral, ansatz_input_mean_zero P μ g hG hL a Fev R E Et p ha hrapid n]
-  simp only [zpowSign, map_zero, ite_self]
-
 end
 end WaveTurbulence.Induct

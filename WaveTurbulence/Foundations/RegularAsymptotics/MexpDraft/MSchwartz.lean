@@ -51,10 +51,6 @@ noncomputable def MT (hd : 2 ≤ d) (F : 𝓢(Mom d, ℝ)) : Tuples → 𝓢(Mom
   | .cons _ c X₁ X₂ rest, g => CT hd c (MS hd F X₁) (MS hd F X₂) (MT hd F rest g)
 end
 
-theorem MS_consShape (hd : 2 ≤ d) (F : 𝓢(Mom d, ℝ)) (I : Bool) (c : Fin 3) (X₁ X₂ S : Shape) :
-    MS hd F (consShape I c X₁ X₂ S) = CT hd c (MS hd F X₁) (MS hd F X₂) (MS hd F S) := by
-  cases S <;> rfl
-
 theorem resIntegral_eq_deltaInt (Ψ : Mom d → Mom d → Mom d → ℝ) (k : Mom d) :
     resIntegral Ψ k = deltaInt (fun ℓ x => Ψ (k + ℓ) (k + ℓ + x) (k + x)) := rfl
 

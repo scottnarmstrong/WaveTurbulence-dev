@@ -30,26 +30,6 @@ the runs of the marked groups are spliced (o75's `𝒢_sb`). -/
 @[expose] noncomputable def stSt (γ : ℝ) [Fact (γ ≤ 1 / 2)] (G : Garden w) (σ : Prescription G) (Mk : Set (CLVineG γ G) := ∅) : SpState G :=
   spliceFold G (unitBlocks γ G σ Mk)
 
-/-- **`𝒢_sb`**: the skeleton with all units of `𝒱_0` spliced (TARGET L1953-L1955). -/
-@[expose] noncomputable def gsbOf (γ : ℝ) [Fact (γ ≤ 1 / 2)] (G : Garden w) (σ : Prescription G) (Mk : Set (CLVineG γ G) := ∅) : Garden w :=
-  (stSt γ G σ Mk).G
-
-/-- The Stage-1′ splice state `G_sb` (runs spliced; copied by source from the B0 probe, lines 187–190). -/
-noncomputable def stStMk (γ : ℝ) [Fact (γ ≤ 1 / 2)] (G : Garden w) (σ : Prescription G) (Mk : Set (CLVineG γ G)) : SpState G :=
-  spliceFold G (unitBlocksMk γ G σ Mk)
-
-theorem stStMk_eq (G : Garden w) (σ : Prescription G) (Mk : Set (CLVineG γ G)) :
-    stStMk γ G σ Mk = stSt γ G σ Mk := rfl
-
-theorem stStMk_empty (G : Garden w) (σ : Prescription G) : stStMk γ G σ ∅ = stSt γ G σ := by
-  simp only [stStMk, stSt, unitBlocksMk_empty]
-
-/-- B1a bridge: at `Mk = ∅` the splice state is the fold of main's units. -/
-theorem stSt_empty (G : Garden w) (σ : Prescription G) :
-    stSt γ G σ = spliceFold G ((sgGroups γ G σ).flatMap (fun S => (groupUnitsOf γ G S).units)) := by
-  unfold stSt
-  rw [unitBlocks_empty]
-
 section clsMk
 variable {G : Garden w} (hM : G.molecule.IsMolecule) (σ : Prescription G) (Mk : Set (CLVineG γ G))
 include hM

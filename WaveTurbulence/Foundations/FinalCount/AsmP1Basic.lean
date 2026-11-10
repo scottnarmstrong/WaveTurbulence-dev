@@ -2,7 +2,9 @@
 module
 public import WaveTurbulence.Foundations.FinalCount.AsmPotH
 public import WaveTurbulence.Foundations.FinalCount.AsmPhase3
-public import WaveTurbulence.Foundations.FinalCount.G3Ex1
+public import WaveTurbulence.Foundations.FinalCount.G3VineBall
+public import WaveTurbulence.Foundations.FinalCount.G3SrcGaps
+public import WaveTurbulence.Foundations.FinalCount.G3VineF
 /-! **FINALCOUNT-ASSEMBLY, phase 1 (a): the state after a vine removal (Step 1).**  Atoms, classes, `ε`-count, `apProd`, `vBeta`
 and the positivity of the labels of `vineSt`. -/
 @[expose] public section
@@ -42,10 +44,6 @@ theorem vineSt_cls_fb (s : St.{u} V D₀) (K : VineCut s.M) (c : Cls) : (vineSt 
 theorem fa_mem_vineSt (s : St.{u} V D₀) (K : VineCut s.M) (c : Cls) : K.fa ∈ (vineSt s K c).M.atoms := by
   rw [vineSt_atoms, Finset.mem_filter]
   exact ⟨Finset.mem_insert_of_mem (Finset.mem_insert_self _ _), fun h => K.fa_fresh (objectAtoms_sub K.C h)⟩
-
-theorem fb_mem_vineSt (s : St.{u} V D₀) (K : VineCut s.M) (c : Cls) : K.fb ∈ (vineSt s K c).M.atoms := by
-  rw [vineSt_atoms, Finset.mem_filter]
-  exact ⟨Finset.mem_insert_self _ _, fun h => K.fb_fresh (objectAtoms_sub K.C h)⟩
 
 /-- Every atom of the removed object is `ε` (the joints by hypothesis, the interior by degree). -/
 theorem vine_atoms_eps {s : St.{u} V D₀} {R : ℕ} (hI : Inv R s) (K : VineCut s.M) (hu : s.cls K.C.upper = .eps)

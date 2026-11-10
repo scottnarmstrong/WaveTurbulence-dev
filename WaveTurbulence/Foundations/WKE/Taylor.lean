@@ -92,21 +92,6 @@ theorem eq_taylorSol (hd : 2 ≤ d) {φin : 𝓢(Mom d, ℝ)} {T : ℝ} {φ : �
     (t : ℝ) : 𝓢(Mom d, ℝ) :=
   (δ * (t - p)) ^ n • taylorCoeff hd (φ (p * δ)) n
 
-/-- **(wketaylor)** (TARGET L753). -/
-theorem wketaylor (hd : 2 ≤ d) {φin : 𝓢(Mom d, ℝ)} {T : ℝ} {φ : ℝ → 𝓢(Mom d, ℝ)}
-    (hφ : IsWKESolution φin T φ) {B : ℝ}
-    (hB : ∀ τ ∈ Icc 0 T, ∀ y, (1 + ‖y‖) ^ (2 * (d : ℝ) + 1) * |φ τ y| ≤ B) {δ : ℝ}
-    (hδ : 0 < δ) (hδB : δ ≤ taylorStep d B) {p : ℕ} (hp : ((p : ℝ) + 1) * δ ≤ T) (k : Mom d) :
-    φ (((p : ℝ) + 1) * δ) k = ∑' n, taylorU hd φ δ p n ((p : ℝ) + 1) k := by
-  have ha : 0 ≤ (p : ℝ) * δ := by positivity
-  have h := eq_taylorSol hd hφ hB ha hδ.le hδB (by linarith) δ ⟨hδ.le, le_rfl⟩
-  rw [show ((p : ℝ) + 1) * δ = p * δ + δ by ring, h, taylorSol_apply]
-  have hcl : clampT (φ (p * δ)) δ = δ := clampT_of_mem _ ⟨hδ.le, hδB.trans
-    (taylorStep_le_solTime _ (hB _ ⟨ha, by linarith⟩))⟩
-  rw [hcl]
-  refine tsum_congr fun n => ?_
-  simp [taylorU, smul_apply, smul_eq_mul]
-
 /-- **(wketaylor2)**, `n = 0`. -/
 theorem wketaylor2_zero (hd : 2 ≤ d) (φ : ℝ → 𝓢(Mom d, ℝ)) (δ : ℝ) (p : ℕ) (t : ℝ) :
     taylorU hd φ δ p 0 t = φ (p * δ) := by

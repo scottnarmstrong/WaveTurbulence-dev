@@ -3,7 +3,7 @@ module
 
 public import WaveTurbulence.Foundations.FinalCount.Algorithm.UniformTripleCutGood
 public import WaveTurbulence.Foundations.FinalCount.Algorithm.UniformTripleSmallGap
-public import WaveTurbulence.Foundations.FinalCount.AppBD33BadLabelsCount
+public import WaveTurbulence.Foundations.FinalCount.AppBD33Reconstruction
 import Mathlib.Tactic
 
 /-! # Carrier-uniform failed-label double-pair count -/

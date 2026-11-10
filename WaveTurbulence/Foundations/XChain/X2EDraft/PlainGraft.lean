@@ -69,8 +69,6 @@ theorem lower_branch_layer_lt (C : PlainGraftData sig p) (B : C.partition.parts)
 noncomputable def graft (C : PlainGraftData sig p) : LayeredGarden w :=
   layeredGardenGraft sig C.top C.partition C.low p C.plain C.sign C.layer_bound
 
-theorem graft_sig (C : PlainGraftData sig p) : C.graft.garden.sig = sig := rfl
-
 theorem graft_plain (C : PlainGraftData sig p) : C.graft.garden.IsPlain := fun _ => rfl
 
 theorem graft_criterion (C : PlainGraftData sig p) : C.graft.CanonCriterion p :=
@@ -297,27 +295,6 @@ noncomputable def plainGraftEquiv (sig : Fin w → ℤˣ) :
         exact ⟨C, he⟩
       obtain ⟨D, hD⟩ := hr
       exact ⟨D, Subtype.ext hD⟩)
-
-theorem plainGraftEquiv_apply (sig : Fin w → ℤˣ) (C : PlainGraftData sig p) :
-    (plainGraftEquiv sig C).1 = C.graft := rfl
-
-/-- **The truncated version.** -/
-noncomputable def plainGraftTruncEquiv (sig : Fin w → ℤˣ) (Ntop Natt : ℕ) :
-    {C : PlainGraftData sig p // C.IsTrunc Ntop Natt} ≃
-      {LG : LayeredGarden w // (LG.garden.IsPlain ∧ LG.CanonCriterion p ∧ LG.garden.sig = sig) ∧
-        LG.IsTrunc p Ntop Natt} :=
-  Equiv.ofBijective (fun C => ⟨C.1.graft, ⟨C.1.graft_plain, C.1.graft_criterion, rfl⟩,
-    (C.1.sourceTrunc_iff Ntop Natt).mpr C.2⟩) (by
-    constructor
-    · intro C D he
-      exact Subtype.ext (PlainGraftData.graft_injective (congrArg Subtype.val he))
-    · rintro ⟨LG, ⟨hP, hC, hs⟩, htr⟩
-      have hr : ∃ C : PlainGraftData sig p, C.graft = LG := by
-        cases hs
-        exact exists_plainGraftData LG hP hC
-      obtain ⟨C, he⟩ := hr
-      have hC' := (C.sourceTrunc_iff Ntop Natt).mp (he.symm ▸ htr)
-      exact ⟨⟨C, hC'⟩, Subtype.ext he⟩)
 
 end Inverse
 

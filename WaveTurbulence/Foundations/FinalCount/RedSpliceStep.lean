@@ -5,8 +5,12 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.Molecule.CLCN
-public import WaveTurbulence.Foundations.FinalCount.RedSpliceContract
+public import WaveTurbulence.Foundations.Molecule.BlockGeometricDichotomy
+public import WaveTurbulence.Foundations.Molecule.ChainParentTransfer
+public import WaveTurbulence.Foundations.Molecule.ChainSplicedMolecule
+public import WaveTurbulence.Foundations.Molecule.CNBlockBound
+public import WaveTurbulence.Foundations.Molecule.GeneralizedTrees
+public import Mathlib.SetTheory.Cardinal.Finite
 import Mathlib.Tactic
 
 /-!

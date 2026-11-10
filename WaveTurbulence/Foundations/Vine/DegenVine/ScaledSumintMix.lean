@@ -5,7 +5,7 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.Vine.DegenVine.SumintMixDoubled
+public import WaveTurbulence.Foundations.Vine.DegenVine.SignedExprMix
 public import WaveTurbulence.Foundations.VineEst.VineEstS3.ScaledSumint
 
 /-! # `sumint` for weights of arbitrary size, with a character-mixture multiplier (DEGEN-VINE)
@@ -57,8 +57,6 @@ def SumintMixDoubledAt (A : ℝ) (P : WTParams) : Prop :=
       XNorm00Restr (2 * P.η ^ 8) (outBox D) (outSet D P.L P.γ P.η)
           (fun tt v => signedExprMix D coreFirstSign coreSign M hI P.L P.γ (2 * P.δ) P.η tt v) ≤
         ENNReal.ofReal (M.mass * sumintRHS P D)
-
-theorem sumintMixSignedDoubled_iff : SumintMixSignedDoubled ↔ WTPrefixA SumintMixDoubledAt := Iff.rfl
 
 /-- **`sumint` for weights of arbitrary size.** -/
 def ScaledSumintMixAt (A : ℝ) (P : WTParams) : Prop :=

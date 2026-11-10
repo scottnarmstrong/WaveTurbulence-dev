@@ -30,10 +30,6 @@ variable {V : Type u} {D : Type v} [DecidableEq V] [Fintype D] [DecidableEq D] {
 /-- The low family over `γL` is the enlarged family. -/
 theorem isSomeVine_γL_iff : IsSomeVine γL M S a b ↔ M.IsVineEnl S a b := isSomeVine_low_iff γL_le
 
-/-- The block part of a family member, in the shape `hX.1` of main's destructurings of `∃ X, M.IsVine X S a b`. -/
-theorem IsSomeVine.blk {γ : ℝ} (h : IsSomeVine γ M S a b) : M.IsBlock S a b ∧ True :=
-  ⟨isBlock_of_isSomeVine h, trivial⟩
-
 theorem IsSomeVine.block {γ : ℝ} (h : IsSomeVine γ M S a b) : M.IsBlock S a b := isBlock_of_isSomeVine h
 
 /-- The two joints of a family member are distinct members of its atom set. -/
@@ -48,15 +44,6 @@ theorem IsSomeVine.connected {γ : ℝ} (h : IsSomeVine γ M S a b) : M.GroupCon
 `isVine_connected` for the drawn types). -/
 theorem IsSomeVine.vconnected {γ : ℝ} (h : IsSomeVine γ M S a b) : Vine.GroupConnected M S :=
   (Molecpl.connected_to_induced M ⟨a, h.ends.1⟩ h.connected).2
-
-theorem IsSomeVine.card_ge_two {γ : ℝ} (h : IsSomeVine γ M S a b) : 2 ≤ S.card := by
-  have h2 : ({a, b} : Finset V) ⊆ S := by
-    intro x hx
-    rcases Finset.mem_insert.1 hx with rfl | hx
-    · exact h.ends.1
-    · rw [Finset.mem_singleton.1 hx]; exact h.ends.2.1
-  have := Finset.card_le_card h2
-  rwa [Finset.card_pair h.ends.2.2] at this
 
 /-- Blocks are symmetric in their joints. -/
 theorem isBlock_swap' (h : M.IsBlock S a b) : M.IsBlock S b a :=
@@ -75,15 +62,6 @@ theorem isSomeVine_of_II (h : M.IsVine .II S a b) : IsSomeVine γL M S a b :=
 
 theorem isSomeVine_of_T (h : M.IsTVine S a b) : IsSomeVine γL M S a b :=
   isSomeVine_γL_iff.mpr (Or.inr (Or.inr h))
-
-/-- A drawn vine of any type is a member of the low family (N2 Lemma 5.2 for the types (III)–(VIII)). -/
-theorem isSomeVine_of_isVine (hDT : DrawnTVineInput.{u, v}) {X : VineType} (h : M.IsVine X S a b) :
-    IsSomeVine γL M S a b := by
-  by_cases h1 : X = .I
-  · subst h1; exact isSomeVine_of_I h
-  by_cases h2 : X = .II
-  · subst h2; exact isSomeVine_of_II h
-  exact isSomeVine_of_T (hDT M X S a b h1 h2 h)
 
 /-- Case analysis of a family member: type (I), type (II), or a T-vine. -/
 theorem IsSomeVine.cases (h : IsSomeVine γL M S a b) :
@@ -120,11 +98,6 @@ instance (V : Type u) (D : Type v) : HInputs V D := ⟨⟩
 section inputs
 variable {V : Type u} {D : Type v} [DecidableEq V] [Fintype D] [DecidableEq D] {M : Molecule V D} {S : Finset V}
   {a b : V}
-
-/-- A drawn vine of any type is a member of the low family (N2 Lemma 5.2, `TVine.Struct.Drawn.drawnTVine`, for the
-types (III)–(VIII)). -/
-theorem isSomeVine_of_isVine' {X : VineType} (h : M.IsVine X S a b) : IsSomeVine γL M S a b :=
-  isSomeVine_of_isVine TVine.Struct.Drawn.drawnTVine h
 
 end inputs
 

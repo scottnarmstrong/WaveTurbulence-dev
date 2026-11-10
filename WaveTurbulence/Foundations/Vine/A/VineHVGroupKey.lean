@@ -63,12 +63,6 @@ noncomputable def hvGroupPick (G : Garden w) (S : Finset (GBranch G.tree)) :
   classical
   exact if hS : SingleHVGroup G S then some (hvGroupKey_existsUnique hS).choose.1 else none
 
-/-- Success is exactly the approved single-HV maximal-group case. -/
-theorem hvGroupPick_isSome : (hvGroupPick G S).isSome ↔ SingleHVGroup G S := by
-  classical
-  unfold hvGroupPick
-  split_ifs with hS <;> simp only [Option.isSome_some, Option.isSome_none, Bool.false_eq_true, hS]
-
 /-- The chosen triple is valid and is the unique least normalized candidate. -/
 theorem hvGroupPick_spec {t : GBranch G.tree × GBranch G.tree × GardenDart G}
     (h : hvGroupPick G S = some t) : ∃ hS : SingleHVGroup G S, ∃ ht : HVCandidate G S t,

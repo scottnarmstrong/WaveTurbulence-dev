@@ -80,13 +80,6 @@ structure ObjSpecMk (G : Garden w) (σ : Prescription G) (S : Finset (GBranch G.
         ∀ e, sk.bond = some e → ∃ R : HyperLikeRealization (stSt G σ Mk).G.molecule O.atoms O.upper O.lower,
           O.shape = VineLikeObject.hyper R ∧ (stSt G σ Mk).M.od R.added = e)
 
-/-- The properties of the object of the group `S` in `G_sb` (main's, at the default marked set `∅`).  B1a: the
-Mk-general structure is `ObjSpecMk`; the object's type depends on the marked set, so the default cannot be a trailing
-argument here. -/
-abbrev ObjSpec (G : Garden w) (σ : Prescription G) (S : Finset (GBranch G.tree))
-    (O : Object (stSt G σ).G.molecule) : Prop :=
-  ObjSpecMk G σ S ∅ O
-
 theorem SDecomp.nonmerged_mem {V D : Type*} [DecidableEq V] [Fintype D] [DecidableEq D] {N : Molecule V D}
     {cls : V → Option V} {S A L0 R0 : Finset V} {a b x y : V} (H : SDecomp N cls S A L0 R0 a b x y)
     {z : V} (hz : z ∈ S) (hn : cls z = none) : z ∈ A := by
@@ -99,83 +92,5 @@ theorem SDecomp.nonmerged_mem {V D : Type*} [DecidableEq V] [Fintype D] [Decidab
     · exact h
   · obtain ⟨r, hr, -⟩ := H.hRc z h z h
     rw [hn] at hr; cases hr
-
-theorem objSpec_of_skip (hM : G.molecule.IsMolecule) (σ : Prescription G) {S : Finset (GBranch G.tree)}
-    (sk : SkipData G S) (O : Object (stSt G σ).G.molecule)
-    (hO : AllowedCollectionObject (stSt G σ).G O)
-    (hOa : O.atoms = sk.A.image ((stSt G σ).M.pi (stSt G σ).hcls))
-    (hu : O.upper = (stSt G σ).M.pi (stSt G σ).hcls sk.x)
-    (hl : O.lower = (stSt G σ).M.pi (stSt G σ).hcls sk.y)
-    (hcase : ∀ z ∈ sk.A, (stSt G σ).cls (((stSt G σ).cls z).getD z) ≠ none → z = sk.x ∨ z = sk.y)
-    (hnm : ∀ z ∈ S, (stSt G σ).cls z = none → z ∈ sk.A) (hsk : (groupUnitsOf G S).skip = some sk)
-    (hsh1 : sk.bond = none → ∃ h, O.shape = VineLikeObject.vc h)
-    (hsh2 : ∀ e, sk.bond = some e → ∃ R : HyperLikeRealization (stSt G σ).G.molecule O.atoms O.upper O.lower,
-      O.shape = VineLikeObject.hyper R ∧ (stSt G σ).M.od R.added = e) :
-    ObjSpec G σ S O := by
-  have hc := (stSt G σ).hcls
-  refine ⟨hO, ?_, ?_, ⟨sk.A, ?_, hOa, hnm, Or.inr ⟨sk, hsk, rfl, hu, hl, hsh1, hsh2⟩⟩⟩
-  · intro v hv
-    rw [hOa] at hv
-    obtain ⟨z, hz, rfl⟩ := Finset.mem_image.mp hv
-    have hzS : z ∈ S := by
-      rw [sk.hS]
-      exact mem_union_left _ (mem_union_right _ hz)
-    exact ⟨z, hzS, rfl⟩
-  · intro c hcn hcO
-    rw [hOa] at hcO
-    obtain ⟨z, hz, rfl⟩ := Finset.mem_image.mp hcO
-    rw [(stSt G σ).M.ob_pi hc] at hcn
-    rcases hcase z hz hcn with rfl | rfl
-    · exact Or.inl hu.symm
-    · exact Or.inr hl.symm
-  · intro z hz
-    rw [sk.hS]
-    exact mem_union_left _ (mem_union_right _ hz)
-
-theorem exists_obj (hM : G.molecule.IsMolecule) (σ : Prescription G) {S : Finset (GBranch G.tree)}
-    (hSm : S ∈ maximalGroups G.molecule) (hσ : σ S = Molecule.GapKind.SG) (h : HasObj G S) :
-    ∃ O, ObjSpec G σ S O := by
-  have hc := (stSt G σ).hcls
-  have hsk_or : (((∃ a b, LGSpine.SourceVine.IsHV G.molecule S a b) ∧
-      ¬ ∃ a b, LGSpine.SourceVine.IsHVC G.molecule S a b) ∧ (groupUnitsOf G S).skip = none) ∨
-      ∃ sk : SkipData G S, (groupUnitsOf G S).skip = some sk := by
-    rcases h with hl | hr
-    · rcases hs : (groupUnitsOf G S).skip with _ | sk
-      · exact Or.inl ⟨hl, rfl⟩
-      · exact Or.inr ⟨sk, rfl⟩
-    · exact Or.inr hr
-  rcases hsk_or with ⟨⟨⟨a, b, hhv⟩, hnhvc⟩, hnone⟩ | ⟨sk, hsk⟩
-  · obtain ⟨a0, b0, e0, hpk, hends, hvine⟩ := hvPick_some ⟨a, b, hhv⟩
-    obtain ⟨O, hO, hOa, hou, hol, R, hR, hRe⟩ := hv_object hM σ hSm hnhvc hends hvine
-    refine ⟨O, hO, ?_, ?_, ⟨S, subset_refl _, hOa, fun z hz _ => hz,
-      Or.inl ⟨⟨⟨a, b, hhv⟩, hnhvc⟩, hnone, a0, b0, e0, hpk, hou, hol, R, hR, hRe⟩⟩⟩
-    · intro v hv
-      rw [hOa] at hv
-      obtain ⟨z, hz, rfl⟩ := Finset.mem_image.mp hv
-      exact ⟨z, hz, rfl⟩
-    · intro c hcn hcO
-      exfalso
-      rw [hOa] at hcO
-      obtain ⟨z, hz, rfl⟩ := Finset.mem_image.mp hcO
-      apply hcn
-      rw [(stSt G σ).M.ob_pi hc]
-      have hnone := stSt_cls_none hM σ (no_unit_hv hM σ hSm ⟨a, b, hhv⟩ hnhvc hz)
-      have hr : repC (stSt G σ).cls z = z := by simp [repC, hnone]
-      rw [hr]; exact hnone
-  · rcases hb : sk.bond with _ | e
-    · obtain ⟨O, hO, hOa, hu, hl, hsh⟩ := vc_object hM σ hSm hσ hsk hb
-      have H := skip_sdecomp hM σ hSm hσ hsk G.molecule (sk.skelM hb)
-      exact ⟨O, objSpec_of_skip hM σ sk O hO hOa hu hl (fun z hz hn => H.hinge_cases hz hn)
-        (fun z hz hn => SDecomp.nonmerged_mem H hz hn) hsk (fun _ => hsh)
-        (fun e' he' => by rw [hb] at he'; cases he')⟩
-    · obtain ⟨O, hO, hOa, hu, hl, hsh⟩ := hvc_object hM σ hSm hσ hsk hb
-      have H := skip_sdecomp hM σ hSm hσ hsk (Mole.eraseBond G.molecule e) (sk.skelN e hb)
-      exact ⟨O, objSpec_of_skip hM σ sk O hO hOa hu hl (fun z hz hn => H.hinge_cases hz hn)
-        (fun z hz hn => SDecomp.nonmerged_mem H hz hn) hsk (fun h => by rw [hb] at h; cases h)
-        (fun e' he' => by
-          rw [hb] at he'
-          have : e = e' := Option.some.inj he'
-          subst this
-          exact hsh)⟩
 
 end WaveTurbulence.RedSplice

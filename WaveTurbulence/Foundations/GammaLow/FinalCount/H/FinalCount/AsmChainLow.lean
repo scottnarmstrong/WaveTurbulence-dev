@@ -57,19 +57,6 @@ theorem ghostConstChain_nonneg (d c : ℕ) {η δ : ℝ} (hη : 0 < η) (hδ : 0
   have := ghostConstLow_nonneg d c hη hδ
   unfold ghostConstChain; positivity
 
-theorem ghostConstLow_le_chain (d c : ℕ) {η δ : ℝ} (hη : 0 < η) (hδ : 0 < δ) :
-    Ghost.ghostConstLow d c η δ ≤ ghostConstChain d c η δ := by
-  have h0 := ghostConstLow_nonneg d c hη hδ
-  have h1 : (1 : ℝ) ≤ 9 * 25 ^ d := by have : (1 : ℝ) ≤ 25 ^ d := one_le_pow₀ (by norm_num); linarith
-  unfold ghostConstChain; nlinarith
-
-theorem cone_le_chain (d c : ℕ) {η δ : ℝ} (hη : 0 < η) (hδ : 0 < δ) :
-    9 * 25 ^ d * ghostConst d c η δ ≤ ghostConstChain d c η δ := by
-  have h0 := ghostConstLow_nonneg d c hη hδ
-  have hg := Ghost.ghostConst_le_low d c (η := η) hδ
-  have h1 : (0 : ℝ) ≤ 9 * 25 ^ d := by positivity
-  unfold ghostConstChain; nlinarith
-
 /-- **The low-range `chain_cover`, root form** (the ghost step of the REG chain for `γ ≤ 1/2`; RULING R194; see the
 module docstring). -/
 def ChainCoverLow' : Prop :=

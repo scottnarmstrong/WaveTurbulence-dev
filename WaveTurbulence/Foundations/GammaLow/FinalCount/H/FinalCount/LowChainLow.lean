@@ -1,6 +1,7 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.LowChain29
+public import WaveTurbulence.Foundations.FinalCount.LowChain29
+public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.LowChain28
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.AsmChainLow
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.AsmEx1Cone
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Api

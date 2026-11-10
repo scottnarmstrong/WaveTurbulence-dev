@@ -200,60 +200,6 @@ section Main
 variable (LG : LayeredGarden w) (Fl : GLeaf LG.garden.tree → Prop) (p N : ℕ) {d : ℕ} (r : ℝ)
   (k : GNode LG.garden.tree → Mom d)
 
-/-- **Lemma 9.2 for an abstract flower predicate (high-root separation).** -/
-theorem separationF (hk : IsBranchConsistent k)
-    (hU : ∀ ℓ ℓ' : GLeaf LG.garden.tree, ℓ.1.1 = ℓ'.1.1 → Fl ℓ → Fl ℓ' → ℓ = ℓ')
-    (hlay : ∀ a, LG.layer a ≤ p) (hfl : ∀ a, IsFlowerNodeF LG Fl a → ¬ LG.layer a < p)
-    (hN : ∀ j, LG.topOrder p j ≤ N) (hr0 : 0 ≤ r)
-    (hfr : ∀ a, LG.IsTopLeaf p a → ¬ IsFlowerNodeF LG Fl a → ‖k a‖ ≤ r)
-    {v w : GNode LG.garden.tree} (hv : OnStemF LG Fl v)
-    (hw : IsTopNode LG p w) (hws : ¬ OnStemF LG Fl w)
-    (hK : (2 * (N : ℝ) + 2) * r ≤ ‖k (GNode.root LG.garden.tree v.1.1)‖ / 4) :
-    ‖k (GNode.root LG.garden.tree v.1.1)‖ / 2 ≤ ‖k v - k w‖ := by
-  obtain ⟨s, hs, hse⟩ := stem_errorF LG Fl p r k hk hU hlay hfl hr0 hfr v.1.1 _ v rfl rfl hv
-  have hs1 : ‖s‖ = 1 := by rcases hs with rfl | rfl <;> simp
-  have hcr : (LG.topCountBelow p (GNode.root LG.garden.tree v.1.1) : ℝ) ≤ N := by
-    have := cnt_le_topOrder LG p (GNode.root LG.garden.tree v.1.1)
-    exact_mod_cast this.trans (hN _)
-  have hcw : (LG.topCountBelow p w : ℝ) ≤ N := by
-    have := cnt_le_topOrder LG p w
-    exact_mod_cast this.trans (hN _)
-  have hwb := norm_le_of_offStemF LG Fl p r k hk hlay hr0 hfr w hw hws
-  have hkv : ‖k (GNode.root LG.garden.tree v.1.1)‖ - 2 * N * r ≤ ‖k v‖ := by
-    have h1 : ‖k (GNode.root LG.garden.tree v.1.1)‖ ≤
-        ‖k (GNode.root LG.garden.tree v.1.1) - s • k v‖ + ‖s • k v‖ := by
-      have := norm_add_le (k (GNode.root LG.garden.tree v.1.1) - s • k v) (s • k v)
-      simpa using this
-    rw [norm_smul, hs1, one_mul] at h1
-    have : 2 * ((LG.topCountBelow p (GNode.root LG.garden.tree v.1.1) : ℝ) - LG.topCountBelow p v) * r ≤
-        2 * N * r := by
-      have := Nat.cast_nonneg (α := ℝ) (LG.topCountBelow p v)
-      nlinarith
-    linarith
-  have h2 : ‖k v‖ - ‖k w‖ ≤ ‖k v - k w‖ := by
-    have := norm_sub_norm_le (k v) (k w)
-    exact this
-  nlinarith
-
-/-- **Crown gap.** If a child of the branch `b` is on the stem, its siblings are separated from it by
-`‖k_root‖/2`. -/
-theorem crown_not_gapF (hk : IsBranchConsistent k)
-    (hU : ∀ ℓ ℓ' : GLeaf LG.garden.tree, ℓ.1.1 = ℓ'.1.1 → Fl ℓ → Fl ℓ' → ℓ = ℓ')
-    (hlay : ∀ a, LG.layer a ≤ p) (hfl : ∀ a, IsFlowerNodeF LG Fl a → ¬ LG.layer a < p)
-    (hN : ∀ j, LG.topOrder p j ≤ N) (hr0 : 0 ≤ r)
-    (hfr : ∀ a, LG.IsTopLeaf p a → ¬ IsFlowerNodeF LG Fl a → ‖k a‖ ≤ r)
-    (b : GBranch LG.garden.tree) {i j : Fin 3} (hij : i ≠ j) (hi : OnStemF LG Fl (b.child i))
-    (hK : (2 * (N : ℝ) + 2) * r ≤ ‖k (GNode.root LG.garden.tree b.1.1)‖ / 4) :
-    ‖k (GNode.root LG.garden.tree b.1.1)‖ / 2 ≤ ‖k (b.child i) - k (b.child j)‖ := by
-  have hbst : OnStemF LG Fl b.toNode := by
-    obtain ⟨ℓ, hℓ, hd⟩ := hi
-    exact ⟨ℓ, hℓ, (GBranch.isDesc_child b i).trans hd⟩
-  have hbl : LG.layer b.toNode = p := layer_eq_of_onStemF LG Fl p hlay hfl hbst
-  have e : (b.child i).1.1 = b.1.1 := rfl
-  have := separationF LG Fl p N r k hk hU hlay hfl hN hr0 hfr hi (isTopNode_child LG p hlay b hbl j)
-    (not_onStemF_sibling LG Fl hU b hij hi) (by rw [e]; exact hK)
-  rwa [e] at this
-
 end Main
 
 end WaveTurbulence.Flower.MkMark

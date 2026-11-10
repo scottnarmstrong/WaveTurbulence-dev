@@ -39,22 +39,4 @@ theorem mem_sourceCoreTimeBox_iff {d : ℕ} (D : SumintDatum d) (c h : ℝ)
     rcases j with ⟨a,j⟩
     exact hz a j (Set.mem_univ _)
 
-/-- The product of old-factor masks equals their concrete core mask. -/
-theorem prod_oldFactor_indicator_eq {d : ℕ} (D : SumintDatum d) (c h : ℝ)
-    (b : FactorIdx D.S)
-    (f : (a : FactorIdx D.S) → (FactorCoordinate D.S a → ℝ) → ℝ≥0∞)
-    (z : SourceCoreCoordinate D b → ℝ) :
-    (∏ a : {a : FactorIdx D.S // sourceCoreGroup D a = b},
-      (oldFactorTimeBox D c h a.1).indicator (f a.1) (sourceCoreOldTimes D b z a)) =
-      (sourceCoreTimeBox D c h b).indicator
-        (fun z => ∏ a : {a : FactorIdx D.S // sourceCoreGroup D a = b}, f a.1 (sourceCoreOldTimes D b z a)) z := by
-  by_cases hz : z ∈ sourceCoreTimeBox D c h b
-  · rw [Set.indicator_of_mem hz]
-    apply Finset.prod_congr rfl
-    intro a _
-    exact Set.indicator_of_mem ((mem_sourceCoreTimeBox_iff D c h b z).mp hz a) _
-  · rw [Set.indicator_of_notMem hz]
-    obtain ⟨a,ha⟩ := not_forall.mp (fun hh => hz ((mem_sourceCoreTimeBox_iff D c h b z).mpr hh))
-    exact Finset.prod_eq_zero (Finset.mem_univ a) (Set.indicator_of_notMem ha _)
-
 end WaveTurbulence.Sumint

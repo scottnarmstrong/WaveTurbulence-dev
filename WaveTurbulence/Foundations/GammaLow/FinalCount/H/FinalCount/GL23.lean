@@ -61,9 +61,6 @@ def _root_.WaveTurbulence.GammaLow.FinalCount.Src.Object.unloop {M : Molecule V 
 def _root_.WaveTurbulence.GammaLow.FinalCount.Src.Object.lift {M : Molecule V D} (P : Src.Object Src.γL M.unloop) (h : LoopFreeSet M P.atoms) : Src.Object Src.γL M :=
   ⟨P.atoms, P.upper, P.lower, P.shape.lift h⟩
 
-theorem _root_.WaveTurbulence.GammaLow.FinalCount.Src.Object.unloop_atoms {M : Molecule V D} (P : Src.Object Src.γL M) (h : LoopFreeSet M P.atoms) : (P.unloop h).atoms = P.atoms := rfl
-theorem _root_.WaveTurbulence.GammaLow.FinalCount.Src.Object.lift_atoms {M : Molecule V D} (P : Src.Object Src.γL M.unloop) (h : LoopFreeSet M P.atoms) : (P.lift h).atoms = P.atoms := rfl
-
 theorem _root_.WaveTurbulence.GammaLow.FinalCount.Src.Object.unloop_containsDart {M : Molecule V D} (P : Src.Object Src.γL M) (h : LoopFreeSet M P.atoms) (x : NonLoop M) :
     (P.unloop h).ContainsDart x ↔ P.ContainsDart x.1 := by
   obtain ⟨S, a, b, sh⟩ := P

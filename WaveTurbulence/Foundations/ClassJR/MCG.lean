@@ -115,8 +115,6 @@ section Reorder
     ((MeasurableEquiv.prodComm).prodCongr (MeasurableEquiv.refl ℝ))).trans
     MeasurableEquiv.prodAssoc
 
-theorem eGV_apply (p : (ℝ × ℝ) × (ℝ × ℝ)) : eGV p = (p.2.1, (p.1, p.2.2)) := rfl
-
 theorem measurePreserving_eGV : MeasurePreserving eGV := by
   have h1 : MeasurePreserving (MeasurableEquiv.prodAssoc.symm :
       (ℝ × ℝ) × (ℝ × ℝ) ≃ᵐ ((ℝ × ℝ) × ℝ) × ℝ) := volume_preserving_prodAssoc.symm _
@@ -159,10 +157,6 @@ theorem lintegral_enorm_gE_le (x : ℝ) : ∫⁻ q : ℝ × ℝ, ‖gE x q‖ₑ
     Real.rpow_le_one_of_one_le_of_nonpos (by linarith [abs_nonneg x]) (by norm_num)
   have := CE_nonneg; have := Ir2_nonneg
   exact mul_le_of_le_one_right (by positivity) hp
-
-theorem integrable_gE (x : ℝ) : Integrable (gE x) := by
-  refine ⟨(measurable_gE.comp measurable_prodMk_left).aestronglyMeasurable, ?_⟩
-  exact (lintegral_enorm_gE_le x).trans_lt ENNReal.ofReal_lt_top
 
 theorem sub_shift1 (q : ℝ × ℝ) (c : ℝ) : q - (c, 0) = (q.1 - c, q.2) := by
   ext <;> simp
@@ -312,12 +306,6 @@ theorem dnorm_aG_le {y : ι → ℤ} (hy : IsBundle y) {m : (ι → ℝ) → ℝ
   refine (enorm_iteratedFDeriv_scalar_le (contDiff_gD _ _ _) (bundleL y) (norm_bundleL_le hy) 0 _
     (k - i)).trans_eq ?_
   simp [bundleL_apply]
-
-theorem one_le_wJ_of {θ : ℝ} (h0 : 0 ≤ θ) (α : ι → ℝ) (γ₁ : ℝ) : 1 ≤ wJ θ α γ₁ := by
-  unfold wJ
-  rcases eq_or_lt_of_le h0 with h | h
-  · rw [← h, ENNReal.rpow_zero]
-  · exact ENNReal.one_le_rpow (by simp only [add_assoc]; exact le_self_add) h
 
 /-- The majorant of `dnorm k aG` (`dnorm_aG_le` with `enorm_iteratedDeriv_gED_le_bd`). -/
 @[expose] noncomputable def aGbd (m : (ι → ℝ) → ℝ × ℝ → ℂ) (y : ι → ℤ) (L0 : ℝ) (k : ℕ)
@@ -469,16 +457,6 @@ theorem lintegral_weight_aG_le {θ a A N : ℝ} (h0a : 0 ≤ a) (ha1 : a ≤ 1) 
         gev_conv_le hR.nonneg (by have := CE_nonneg; have := Ir2_nonneg; positivity)
           (A1_nonneg.trans hA) (fun j => hR.norm j) (fun j => le_rfl) k
     _ = gev (12 * CE * Ir 2 * N) A k := by congr 1; ring
-
-/-- **Lemma G, regularity**: the coefficient `aG` is a regular symbol on `ℝ × ((ℝ × ℝ) × ℝ)`. -/
-theorem aG_symReg {θ A N : ℝ} (h0θ : 0 ≤ θ) (hA : A1 ≤ A) {R : JSym ι} (hR : R.Bound θ A N)
-    (L0 : ℝ) : SymReg (aG R.y R.m L0) := by
-  refine SymReg.of_lintegral (contDiff_aG R.y hR.reg.smooth L0)
-    (measurable_aG R.y hR.reg.meas L0).stronglyMeasurable fun k => ?_
-  have h := lintegral_weight_aG_le (a := 0) le_rfl zero_le_one hA hR (ρ := fun _ => 1)
-    (fun α γ₁ => by simpa using one_le_wJ_of h0θ α γ₁) L0 k
-  simp only [ENNReal.rpow_zero, one_mul, mul_one] at h
-  exact ne_top_of_le_ne_top (by simp [gev]) h
 
 end Bounds
 

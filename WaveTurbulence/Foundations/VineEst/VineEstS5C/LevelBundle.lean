@@ -5,7 +5,7 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.VineEst.VineEstS5C.LevelStep
+public import WaveTurbulence.Foundations.VineEst.VineEstS5C.NestGeom
 
 /-! # The bundle of the S-side as an abstract S-integrand (V5 Step 4d part C, WP-I)
 
@@ -56,19 +56,5 @@ noncomputable def psiSB (κ : KPar d) (A : FamilyReconstruction w ι) (sp0 : Spl
     (hA : IsPrimeGarden A.skeleton) (x : GNode A.skeleton.tree → (Fin d → ℤ)) (u : GBranch A.skeleton.tree → ℝ) : ℂ :=
   ∑ G ∈ zpFinset p kind pstar J A sp0 hA, epsOf A pstar G.1 *
     bundleKernel κ A sp0 (decide (twAt A G.1 pstar)) (nuOf G.1 pstar) (rowQ κ G.1 pstar) (rowT κ G.1 pstar) x u
-
-open Classical in
-theorem sum_stInt_eq (κ : KPar d) (A : FamilyReconstruction w ι) (sp0 : SplitAt A.skeleton A.family pstar J)
-    (hA : IsPrimeGarden A.skeleton) (x : ExtS sp0.RS κ.L κ.base κ.e κ.f) (σ : CLInternalTime sp0.RS) :
-    ∑ G ∈ zpFinset p kind pstar J A sp0 hA, stInt (p := p) (kind := kind) κ A sp0 hA G.1 x σ =
-      psiSB (p := p) (kind := kind) κ A sp0 hA x.1 (clLocalClock sp0.RS ![κ.t0, κ.t1, κ.t2] σ) *
-        Ktil (p := p) (kind := kind) κ A sp0 hA (clLocalClock sp0.RS ![κ.t0, κ.t1, κ.t2] σ sp0.sb.b)
-          (κ.base + latticePoint κ.L (x.1 (A.family.placement pstar).lower.toNode))
-          (κ.base + latticePoint κ.L (x.1 (A.family.placement pstar).retained.toNode)) := by
-  unfold psiSB
-  rw [Finset.sum_mul]
-  refine Finset.sum_congr rfl fun G _ => ?_
-  simp only [stInt, bundleInt_eq_kernel]
-  ring
 
 end WaveTurbulence.VineEstS5C

@@ -6,7 +6,7 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.RegStruct.SourceDecorationGrafts
-public import WaveTurbulence.Foundations.RegStruct.ChainAuxiliaryB
+public import WaveTurbulence.Foundations.RegStruct.ChainMiniFidelity
 
 /-! # Bare outer chain templates and their literal source-ordered inserted couples -/
 

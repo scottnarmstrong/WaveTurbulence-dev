@@ -6,8 +6,9 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.Molecule.ExplicitRegions
-public import WaveTurbulence.Foundations.Molecule.Subtrees
-public import WaveTurbulence.Foundations.Molecule.ReplacementLeaves
+public import WaveTurbulence.Foundations.RegStruct.CombSnapshot.Subtrees
+public import WaveTurbulence.Foundations.Molecule.GardenNodeCounts
+public import WaveTurbulence.Foundations.RegStruct.CombSnapshot.ReplacementLeaves
 import Mathlib.Tactic
 
 /-! # The actual forest surgery underlying CL splicing
@@ -60,13 +61,5 @@ theorem spliceForest_leaves (a : GBranch G.tree) (boundary : Fin 3 → GNode G.t
 theorem spliceCrown_child_leaf (boundary : Fin 3 → GNode G.tree) (i : Fin 3) (q : Path) :
     i::q ∈ (spliceCrown G boundary).leaves ↔ q ∈ (spliceNodeSubtree G (boundary i)).leaves := by
   fin_cases i <;> simp [spliceCrown,TTree.leaves,TTree.cons_mem_pre]
-
-/-- Each leaf in a boundary subtree is an actual old leaf, with its
-original address recovered by prefixing that boundary root. -/
-theorem spliceBoundary_leaf_old (boundary : Fin 3 → GNode G.tree) (i : Fin 3) (q : Path)
-    (hq : i::q ∈ (spliceCrown G boundary).leaves) :
-    (boundary i).1.2++q ∈ (G.tree (boundary i).1.1).leaves := by
-  exact (Comb.subtree_leaves_iff (spliceNodeSubtree_spec G (boundary i)) q).mp
-    ((spliceCrown_child_leaf G boundary i q).mp hq)
 
 end WaveTurbulence.Mole

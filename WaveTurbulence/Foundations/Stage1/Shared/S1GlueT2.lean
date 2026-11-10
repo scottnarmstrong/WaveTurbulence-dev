@@ -31,9 +31,6 @@ theorem treePort_respects (a aT : Fin w × Path) : RespectsAt (treePort a aT) a 
   rw [treePort_ext]
   simp [treePort, addrExt]
 
-theorem lonePath_mem_plug' (X : RegChain) (ζ : ℤˣ) (t : TTree) : X.lonePath ∈ (X.plug ζ t).nodes :=
-  lonePath_mem_plug X ζ t
-
 theorem treePort_self (a aT : Fin w × Path) : treePort a aT a = aT := by
   simp [treePort, addrExt]
 

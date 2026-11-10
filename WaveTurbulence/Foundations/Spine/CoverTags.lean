@@ -99,10 +99,6 @@ noncomputable def fullChoice {G : Garden w} (B : CountingChoices G d) {L γ η :
     ladderScale := fun S => if h : S ∈ G.molecule.maximalLadders then
       (match s.1 ⟨S, h⟩ with | none => 0 | some P => P.1) else 0 }
 
-theorem fullChoice_critical {G : Garden w} (B : CountingChoices G d) {L γ η : ℝ}
-    (s : Scales B L γ η) (v : GBranch G.tree) :
-    (fullChoice B s).CriticalSG v ↔ B.CriticalSG v := Iff.rfl
-
 theorem fullChoice_numCritical {G : Garden w} (B : CountingChoices G d) {L γ η : ℝ}
     (s : Scales B L γ η) : (fullChoice B s).numCriticalSG = B.numCriticalSG := rfl
 

@@ -60,9 +60,6 @@ theorem RemC.hXidx {Λ₂ : ℕ} {B : Set (Fin 2 → ℝ)} {q : Fin 2 → ℝ} {
     XNormRestr (6 * P.η ^ 6) Λ₁ Λ₂ B Set.univ R.f < ENNReal.ofReal CR :=
   lt_of_le_of_lt (XNormRestr_mono_idx h le_rfl B _ _) R.hX
 
-theorem wN_ne_zero (G : AmbP A P) {D : SumintPar.SumintDatum P.d} (hwN : D.wN + 1 = 30 * P.d) : 30 * P.d - 1 ≠ 0 := by
-  have := G.hd1; omega
-
 theorem clk2_mem {D : SumintPar.SumintDatum P.d} {θ : ℝ} {ρ : Row D} (R : RowData D θ ρ)
     (s : Fin 2 → WaveTurbulence.VineEstS3Par.Eng.Slot D) (hs : ∀ i, R.slot i = ![s 0, s 1, s 0] i) (τ : D.S.TVar → ℝ)
     (tt : Fin 3 → ℝ) {B : Set (Fin 2 → ℝ)} (h : (fun i => slotVal D τ tt (s i)) ∈ B) : ![R.clk τ tt 0, R.clk τ tt 1] ∈ B := by

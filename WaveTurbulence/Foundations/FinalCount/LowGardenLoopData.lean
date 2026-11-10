@@ -1,7 +1,7 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 public import WaveTurbulence.Foundations.FinalCount.LowGardenUnloopMain
-public import WaveTurbulence.Foundations.FinalCount.LowGardenClass
+public import WaveTurbulence.Foundations.FinalCount.LowGardenLoops
 /-! **FINALCOUNT-ASSEMBLY (LOW-GARDEN, session 2): `LowLoopData` for a garden (loops allowed).**
 
 `lowLoopData_garden`: for a garden `G` with amended geometry and at least two atoms, an admissible set `Adm` (nonempty), the

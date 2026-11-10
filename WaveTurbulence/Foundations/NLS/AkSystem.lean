@@ -226,25 +226,4 @@ theorem cubicConv_const_mul (L : ℝ) {z : ℂ} (hz : ‖z‖ = 1) (b : (Fin d �
   simp_rw [h, tsum_mul_left]
   ring
 
-theorem inner_latticePoint_sub (L : ℝ) (a b c e : Fin d → ℤ) :
-    ⟪latticePoint L a - latticePoint L b, latticePoint L c - latticePoint L e⟫_ℝ =
-      ∑ j, (((a j : ℝ) - b j) / L) * (((c j : ℝ) - e j) / L) := by
-  simp only [latticePoint, PiLp.inner_apply, ← WithLp.toLp_sub, RCLike.inner_apply, conj_trivial,
-    Pi.sub_apply]
-  refine Finset.sum_congr rfl fun j _ => ?_
-  ring
-
-/-- `Ω = 2⟨k₁ - k, k - k₃⟩` on `n₁ - n₂ + n₃ = n` (TARGET (res), L563). -/
-theorem resonance_eq_inner (L : ℝ) {n₁ n₂ n₃ n : Fin d → ℤ} (h : n₁ - n₂ + n₃ = n) :
-    resonance L n₁ n₂ n₃ n =
-      2 * ⟪latticePoint L n₁ - latticePoint L n, latticePoint L n - latticePoint L n₃⟫_ℝ := by
-  have h2 : n₂ = n₁ + n₃ - n := by rw [← h]; abel
-  subst h2
-  rw [resonance, inner_latticePoint_sub, norm_latticePoint_sq, norm_latticePoint_sq,
-    norm_latticePoint_sq, norm_latticePoint_sq, Finset.mul_sum, ← Finset.sum_sub_distrib,
-    ← Finset.sum_add_distrib, ← Finset.sum_sub_distrib]
-  refine Finset.sum_congr rfl fun j _ => ?_
-  simp only [Pi.sub_apply, Pi.add_apply, Int.cast_sub, Int.cast_add]
-  ring
-
 end WaveTurbulence.NLS

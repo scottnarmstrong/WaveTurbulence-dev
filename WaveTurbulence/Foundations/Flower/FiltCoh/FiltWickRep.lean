@@ -49,9 +49,6 @@ theorem GoodFactor.norm_le {K : ℝ} {f : ℝ → ℂ} (h : GoodFactor d K f) (u
         le_mul_of_one_le_right (norm_nonneg _) (one_le_pow₀ (by nlinarith [sq_nonneg t]))
     _ ≤ K := hK
 
-theorem GoodFactor.nonneg {K : ℝ} {f : ℝ → ℂ} (h : GoodFactor d K f) : 0 ≤ K :=
-  (norm_nonneg _).trans (h.norm_le 0)
-
 theorem FiltMul.norm_le {K : ℝ} {N : ℕ} {ψ : ℝ → ℂ} (h : FiltMul d K N ψ) (hK : 1 ≤ K) (u : ℝ) :
     ‖ψ u‖ ≤ K ^ N := by
   obtain ⟨m, f, hm, hf, hψ⟩ := h
@@ -64,9 +61,6 @@ theorem FiltMul.norm_le {K : ℝ} {N : ℕ} {ψ : ℝ → ℂ} (h : FiltMul d K 
 theorem FiltMul.mono {K : ℝ} {N N' : ℕ} {ψ : ℝ → ℂ} (h : FiltMul d K N ψ) (hN : N ≤ N') : FiltMul d K N' ψ := by
   obtain ⟨m, f, hm, hf, hψ⟩ := h
   exact ⟨m, f, hm.trans hN, hf, hψ⟩
-
-theorem filtMul_one (K : ℝ) (N : ℕ) : FiltMul d K N (fun _ => 1) :=
-  ⟨0, Fin.elim0, Nat.zero_le _, fun i => i.elim0, fun _ => by simp⟩
 
 theorem FiltMul.mul {K : ℝ} {N₁ N₂ : ℕ} {ψ₁ ψ₂ : ℝ → ℂ} (h₁ : FiltMul d K N₁ ψ₁) (h₂ : FiltMul d K N₂ ψ₂) :
     FiltMul d K (N₁ + N₂) (fun u => ψ₁ u * ψ₂ u) := by
@@ -241,15 +235,5 @@ theorem filtMul_linkFiltWeight {ι : Type*} [DecidableEq ι] (E F Fu : Finset ι
 @[expose] def filtRes {n : ℕ} (J : Finset (Fin n)) (Ψ₁ : EuclideanSpace ℝ {j // j ∉ J} → ℂ)
     (ψ : Fin n → ℝ → ℂ) (Ω : Fin n → ℝ) : ℂ :=
   resProfile J Ψ₁ Ω * ∏ j, ψ j (Ω j)
-
-theorem filtRes_smul {n : ℕ} (J : Finset (Fin n)) (c : ℂ) (Ψ₁ : EuclideanSpace ℝ {j // j ∉ J} → ℂ)
-    (ψ : Fin n → ℝ → ℂ) (Ω : Fin n → ℝ) :
-    filtRes J (fun x => c • Ψ₁ x) ψ Ω = c * filtRes J Ψ₁ ψ Ω := by
-  simp only [filtRes, resProfile, smul_eq_mul]
-  ring
-
-theorem filtRes_one {n : ℕ} (J : Finset (Fin n)) (Ψ₁ : EuclideanSpace ℝ {j // j ∉ J} → ℂ) (Ω : Fin n → ℝ) :
-    filtRes J Ψ₁ (fun _ _ => 1) Ω = resProfile J Ψ₁ Ω := by
-  simp only [filtRes, Finset.prod_const_one, mul_one]
 
 end WaveTurbulence.Flower.FiltCoh

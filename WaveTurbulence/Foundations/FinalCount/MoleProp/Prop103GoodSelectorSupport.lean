@@ -15,20 +15,6 @@ open WaveTurbulence.Degen
 namespace WaveTurbulence.MoleProp
 variable {V D : Type*} [DecidableEq V] [Fintype D] [DecidableEq D]
 
-theorem Star3Remainder.atom_head {M : Molecule V D} {a : V} {x : D} (A : Star3Remainder M a x) :
-    M.atom x = a := (Mole.mem_dartsAt M a x).mp (by rw [A.star]; simp)
-
-theorem Star3Remainder.atom_y {M : Molecule V D} {a : V} {x : D} (A : Star3Remainder M a x) :
-    M.atom A.y = a := (Mole.mem_dartsAt M a A.y).mp (by rw [A.star]; simp)
-
-theorem Star3Remainder.atom_z {M : Molecule V D} {a : V} {x : D} (A : Star3Remainder M a x) :
-    M.atom A.z = a := (Mole.mem_dartsAt M a A.z).mp (by rw [A.star]; simp)
-
-theorem Star4Remainder.s_not_mem {M : Molecule V D} {a : V} {x y : D} (B : Star4Remainder M a x y) :
-    B.s ∉ ({x,y,B.r} : Finset D) := by
-  simp only [mem_insert,mem_singleton,not_or]
-  exact ⟨Ne.symm B.xs,Ne.symm B.ys,Ne.symm B.rs⟩
-
 /-- A cubic degree produces an actual ordered star, including when the
 ambient dart or vertex type has no globally chosen default element. -/
 theorem exists_star3_order (M : Molecule V D) (a : V) (h3 : M.deg a = 3) :

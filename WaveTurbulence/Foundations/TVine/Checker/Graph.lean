@@ -43,22 +43,11 @@ theorem bit_eq (v : ℕ) : bit v = 2 ^ v := Nat.one_shiftLeft v
 @[simp] theorem mem_or (v R S : ℕ) : mem v (R ||| S) = (mem v R || mem v S) := by
   simp [mem, Nat.testBit_or]
 
-@[simp] theorem mem_and (v R S : ℕ) : mem v (R &&& S) = (mem v R && mem v S) := by
-  simp [mem, Nat.testBit_and]
-
 @[simp] theorem mem_sdiff (v S T : ℕ) : mem v (sdiff S T) = (mem v S && !mem v T) := by
   simp only [sdiff, mem, Nat.testBit_xor, Nat.testBit_and]
   cases S.testBit v <;> cases T.testBit v <;> rfl
 
-@[simp] theorem mem_full (v n : ℕ) : mem v (full n) = decide (v < n) := by
-  simp [mem, full, Nat.one_shiftLeft, Nat.testBit_two_pow_sub_one]
-
 @[simp] theorem mem_zero (v : ℕ) : mem v 0 = false := by simp [mem]
-
-theorem lowBit_mem {S s : ℕ} (h : lowBit S = some s) : mem s S = true := by
-  unfold lowBit at h
-  have := List.find?_some h
-  simpa using this
 
 theorem lowBit_none {S : ℕ} (h : lowBit S = none) {v : ℕ} (hv : v < 32) : mem v S = false := by
   unfold lowBit at h
@@ -142,13 +131,6 @@ theorem rtg_symm {es : Edges} {u v : ℕ} (h : Relation.ReflTransGen (Adj es) u 
   | refl => exact Relation.ReflTransGen.refl
   | tail _ hbc ih => exact Relation.ReflTransGen.head (adj_symm hbc) ih
 
-theorem adj_mono {es es' : Edges} (h : ∀ e ∈ es, e ∈ es') {u v : ℕ} (huv : Adj es u v) : Adj es' u v := by
-  unfold Adj mult at *
-  intro h0
-  apply huv
-  rw [List.length_eq_zero_iff, List.filter_eq_nil_iff] at h0 ⊢
-  exact fun e he => h0 e (h e he)
-
 /-! ## The fixpoint search -/
 
 /-- Invariant of the search: every member of `R` is reachable from `s`. -/
@@ -209,20 +191,6 @@ theorem connB_sound {V : ℕ} {es : Edges} (h : connB V es = true) {u v : ℕ} (
     rw [hV] at hr
     exact (rtg_symm (hr u hu)).trans (hr v hv)
 
-/-- Closedness: a closed set containing `s` contains everything reachable from `s`. -/
-theorem closedB_sound {es : Edges} {X : ℕ} (h : closedB es X = true) {s v : ℕ} (hs : mem s X = true)
-    (hp : Relation.ReflTransGen (Adj es) s v) : mem v X = true := by
-  induction hp with
-  | refl => exact hs
-  | @tail b c _ hbc ih =>
-    obtain ⟨e, he⟩ := List.exists_mem_of_length_pos (Nat.pos_of_ne_zero hbc)
-    rw [List.mem_filter] at he
-    have hcl : (mem e.1 X == mem e.2 X) = true := List.all_eq_true.mp h e he.1
-    have hcl' : mem e.1 X = mem e.2 X := beq_iff_eq.mp hcl
-    rcases (isPair_iff b c e).mp he.2 with ⟨h1, h2⟩ | ⟨h1, h2⟩
-    · rw [← h2, ← hcl', h1]; exact ih
-    · rw [← h1, hcl', h2]; exact ih
-
 /-! ## Explicit isomorphisms between a `UMultigraph` and a bond list -/
 
 variable {V : Type*}
@@ -248,16 +216,6 @@ theorem mult_g {x y : ℕ} (hx : InEnds es x) (hy : InEnds es y) : G.mult s(φ.g
   rw [φ.mult_eq _ (φ.gv x hx) _ (φ.gv y hy), φ.fg x hx, φ.fg y hy]
 
 theorem f_injOn : Set.InjOn φ.f G.verts := fun u hu v hv h => by rw [← φ.gf u hu, h, φ.gf v hv]
-
-/-- Paths of `es` pull back to `G`. -/
-theorem rtg_g {x y : ℕ} (_hx : InEnds es x) (h : Relation.ReflTransGen (Adj es) x y) :
-    Relation.ReflTransGen (fun a b => a ∈ G.verts ∧ b ∈ G.verts ∧ G.mult s(a, b) ≠ 0) (φ.g x) (φ.g y) := by
-  induction h with
-  | refl => exact Relation.ReflTransGen.refl
-  | @tail b c _ hbc ih =>
-    have hb := (inEnds_of_mult_ne_zero hbc).1
-    have hc := (inEnds_of_mult_ne_zero hbc).2
-    exact ih.tail ⟨φ.gv b hb, φ.gv c hc, by rw [φ.mult_g hb hc]; exact hbc⟩
 
 end Iso
 

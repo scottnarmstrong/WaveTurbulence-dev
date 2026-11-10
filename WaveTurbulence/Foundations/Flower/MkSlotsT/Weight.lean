@@ -142,23 +142,6 @@ def stemBW (LG : LayeredGarden w) (J : Finset (Fin w)) (rad : GBranch LG.garden.
     (k : GNode LG.garden.tree → Mom d) (b : GBranch LG.garden.tree) : ℂ :=
   if ∃ j, b ∈ stemSetCap LG J j then (radProd (rad b) (omegaNode LG.garden k b) : ℂ) else 1
 
-/-- The generic stem filter weight is the product of its node weights over all nodes. -/
-theorem stemFiltG_eq_prod (LG : LayeredGarden w) (J : Finset (Fin w)) (rad : GBranch LG.garden.tree → List ℝ)
-    (k : GNode LG.garden.tree → Mom d) :
-    (stemFiltG LG J rad k : ℂ) = ∏ z, brExt (stemBW LG J rad k) z := by
-  rw [prod_brExt]
-  unfold stemFiltG stemBW
-  push_cast
-  have hdisj : ((univ : Finset (Fin w)) : Set (Fin w)).PairwiseDisjoint (fun j => stemSetCap LG J j) := by
-    intro j _ j' _ hne
-    refine Finset.disjoint_left.mpr fun b hb hb' => hne ?_
-    exact (Finset.mem_filter.mp hb).2.1.symm.trans (Finset.mem_filter.mp hb').2.1
-  rw [← Finset.prod_biUnion hdisj]
-  rw [← Finset.prod_filter]
-  refine Finset.prod_congr ?_ fun b _ => rfl
-  ext b
-  simp
-
 /-! ## The partition over the three kinds -/
 
 section Split
@@ -171,12 +154,6 @@ def IsCore (z : GNode (D.forest hS)) : Prop := ∃ β : GBranch S.tree, z = (D.c
 /-- **The slot factor** of a node weight `G`: the product over the non-core native nodes of the slot `s`. -/
 def slotFac (G : GNode (D.forest hS) → ℂ) (s : ReplacementSlot S) : ℂ :=
   ∏ a : NativeNode D s, if IsCore D hS (nativeNodeAt D hS s a) then 1 else G (nativeNodeAt D hS s a)
-
-/-- The slot factor only reads the native nodes of the slot. -/
-theorem slotFac_congr (G G' : GNode (D.forest hS) → ℂ) (s : ReplacementSlot S)
-    (h : ∀ a : NativeNode D s, G (nativeNodeAt D hS s a) = G' (nativeNodeAt D hS s a)) :
-    slotFac D hS G s = slotFac D hS G' s :=
-  Finset.prod_congr rfl fun a _ => by rw [h a]
 
 /-- Nodes = core nodes ⊔ non-core native nodes of the slots. -/
 theorem prod_node_split (G : GNode (D.forest hS) → ℂ) :
@@ -245,17 +222,6 @@ theorem stem_split (hd : Disj blk) (hR : StemRet S D.tree blk LG J) (G : GNode (
   congr 2
   exact Finset.prod_congr rfl fun j _ => by rw [Φ.br_hinge hd j]
 
-/-- A slot that is not retained carries no capped-stem node, so its factor is `1`. -/
-theorem slotFac_eq_one_of_not_slotRet (hR : StemRet S D.tree blk LG J) (G : GNode (D.forest hS) → ℂ)
-    (hG : ∀ z, ¬ OnStemAddr LG J z.1 → G z = 1) (s : ReplacementSlot S) (hs : ¬ SlotRet hS (blk := blk) s) :
-    slotFac D hS G s = 1 := by
-  refine Finset.prod_eq_one fun a _ => ?_
-  split_ifs with hc
-  · rfl
-  · refine hG _ fun hz => hs ?_
-    have := slotRet_of_stem D hS hR hz
-    rwa [MkSlots.slotOf_nativeNodeAt] at this
-
 end Split
 
 /-! ## The interface identities -/
@@ -277,14 +243,6 @@ theorem omegaNode_core_collapse {n : Fin w → (Fin d → ℤ)} {nfl : Fin d →
     exact (chain_attachment_momentum D hS κ.1 κ.2.1 β).symm
   unfold omegaNode cosetDecoration
   erw [hc 0, hc 1, hc 2, hb]
-
-/-- **The top part is B3-2's unit top filter** on the collapsed decoration. -/
-theorem radProd_core_eq_nodeWeight {n : Fin w → (Fin d → ℤ)} {nfl : Fin d → ℤ}
-    (κ : GenDecoration (D.garden hS) d n nfl) (L : ℝ) (base : Mom d) (β : GBranch S.tree) (rs : List ℝ) :
-    (radProd rs (omegaNode (D.garden hS) (cosetDecoration (D.garden hS) L base κ.1) (D.coreBranch hS β)) : ℂ) =
-      VineSpaceK.nodeWeight (V5W2L.topFilterWeightL rs) L base β (collapseGenDecoration D hS κ).1 := by
-  rw [omegaNode_core_collapse D hS κ L base β]
-  rfl
 
 end Omega
 

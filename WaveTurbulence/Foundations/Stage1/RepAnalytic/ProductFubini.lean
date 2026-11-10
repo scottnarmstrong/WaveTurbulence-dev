@@ -25,17 +25,6 @@ namespace WaveTurbulence.RepAnalytic
 open MeasureTheory
 open scoped ENNReal
 
-/-- **Product of superpositions.**  If `u_i(m) ` is dominated by a summable `W_i(m)` and sums to `s_i`, then
-`∏_i u_i(m_i)` is summable over `Ξ = ∏ M_i` with sum `∏ s_i`. -/
-theorem hasSum_prod_superposition {n : ℕ} {M : Fin n → Type*} (u : ∀ i, M i → ℂ) (W : ∀ i, M i → ℝ)
-    (hW : ∀ i, Summable (W i)) (hu : ∀ i m, ‖u i m‖ ≤ W i m) (s : Fin n → ℂ)
-    (hs : ∀ i, HasSum (u i) (s i)) :
-    HasSum (fun m : ∀ i, M i => ∏ i, u i (m i)) (∏ i, s i) := by
-  have hnorm : ∀ i, Summable fun m => ‖u i m‖ := fun i =>
-    Summable.of_nonneg_of_le (fun _ => norm_nonneg _) (hu i) (hW i)
-  have := (hasSum_pi_prod_dep n u hnorm).2
-  simpa only [fun i => (hs i).tsum_eq] using this
-
 /-- The mass of the joint weight is the product of the masses. -/
 theorem tsum_ofReal_prod {n : ℕ} {M : Fin n → Type*} (w : ∀ i, M i → ℝ) (hw : ∀ i m, 0 ≤ w i m) :
     ∑' m : ∀ i, M i, ENNReal.ofReal (∏ i, w i (m i)) = ∏ i, ∑' m, ENNReal.ofReal (w i m) := by
@@ -62,26 +51,5 @@ theorem integral_count_real_eq_tsum {Ξ : Type*} [Countable Ξ] [MeasurableSpace
   rw [integral_countable hint]
   refine tsum_congr fun ξ => ?_
   simp [measureReal_def]
-
-/-- **Fubini against the counting measure on the mode space `Ξ`.**  The sum over `Ξ` inside an integral over
-`X` is the integral over `Ξ` (counting measure) of the integrals over `X`, provided the total absolute
-mass `∑_ξ ∫ |g ξ|` is finite. -/
-theorem integral_tsum_eq_integral_count {X Ξ : Type*} [MeasurableSpace X] (μ : Measure X) [Countable Ξ]
-    [MeasurableSpace Ξ] [MeasurableSingletonClass Ξ] (g : Ξ → X → ℂ)
-    (hmeas : ∀ ξ, AEStronglyMeasurable (g ξ) μ) (hsum : ∑' ξ, ∫⁻ x, ‖g ξ x‖ₑ ∂μ ≠ ⊤) :
-    ∫ x, ∑' ξ, g ξ x ∂μ = ∫ ξ, (∫ x, g ξ x ∂μ) ∂Measure.count ∧
-      Integrable (fun ξ => ∫ x, g ξ x ∂μ) Measure.count := by
-  have hint : ∀ ξ, Integrable (g ξ) μ := fun ξ => by
-    refine ⟨hmeas ξ, ?_⟩
-    have : ∫⁻ x, ‖g ξ x‖ₑ ∂μ ≠ ⊤ :=
-      ne_top_of_le_ne_top hsum (ENNReal.le_tsum (f := fun ξ => ∫⁻ x, ‖g ξ x‖ₑ ∂μ) ξ)
-    exact lt_top_iff_ne_top.2 this
-  have hnorm : Summable fun ξ => ‖∫ x, g ξ x ∂μ‖ := by
-    refine Summable.of_nonneg_of_le (fun _ => norm_nonneg _) (fun ξ => ?_)
-      (ENNReal.summable_toReal hsum)
-    rw [← integral_norm_eq_lintegral_enorm (hmeas ξ)]
-    exact norm_integral_le_integral_norm _
-  obtain ⟨hI, hE⟩ := integral_count_eq_tsum (fun ξ => ∫ x, g ξ x ∂μ) hnorm
-  exact ⟨by rw [hE, integral_tsum hmeas hsum], hI⟩
 
 end WaveTurbulence.RepAnalytic

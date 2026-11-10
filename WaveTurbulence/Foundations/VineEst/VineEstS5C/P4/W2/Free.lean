@@ -5,7 +5,8 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P2.TermBound
+public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P2.Dict2
+public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P2.PieceRem
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.AllRows
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P2.Abs
 public import WaveTurbulence.Foundations.VineEst.VineEstS5C.P4.WinChain
@@ -163,36 +164,6 @@ theorem lkAbs_of_exprAbs_free (hD : FreeDict hM9 B hG W hL γ δ η base β hβ 
     have : Summable fun x => ∫ τ : CLInternalTime R, ψ (clExtendIndices R (e.symm x).1) tt (clLocalClock R tt τ) :=
       (hE.2.mul_left (c⁻¹ * kk)).congr fun x => (hval x).symm
     exact (Equiv.summable_iff e.symm).1 this
-
-open scoped ENNReal in
-/-- **The recentred observable of a term is bounded by `‖c ζ‖ ·` the clocked expression** (free-domain dictionary). -/
-theorem recBound_free {P : WTParams} (hM9 : VINEPARAM) (B : CLChainAssembly G R n) (hG : G.IsPlain)
-    (W : SumintWeightClockData (assemblyShape hM9 B) P.d) (hL : P.L ≠ 0)
-    (ψ : (GNode G.tree → (Fin P.d → ℤ)) → (Fin 3 → ℝ) → (GBranch G.tree → ℝ) → ℂ)
-    (wN wDec : ℕ) (bk : Fin (assemblyShape hM9 B).I → Fin 4)
-    (cons : Finset ((assemblyShape hM9 B).TVar × (assemblyShape hM9 B).TVar)) (g g' : (assemblyShape hM9 B).VIdx → ℕ)
-    (Mx : CharMix (assemblyShape hM9 B) P.d) (cr : ClockedRows3 (engDatum hM9 B hG W wN wDec bk cons g g'))
-    (Bx : Set (Fin 3 → ℝ)) (hBx : Bx ⊆ outBox (engDatum hM9 B hG W wN wDec bk cons g g'))
-    (hD : ∀ tt ∈ Bx, ∀ (β : Fin 4 → (Fin P.d → ℤ))
-      (hβ : ((G.sign a.toNode : ℤ) • (β 0 - β 1)) = β 2 - β 3),
-      sumintBoundary (G.sign a.toNode) (fun j => W.wBar + latticePoint P.L (β j)) ∈
-        outSet (engDatum hM9 B hG W wN wDec bk cons g g') P.L P.γ P.η →
-      FreeDict hM9 B hG W hL P.γ P.δ P.η W.wBar β hβ tt ψ wN wDec bk cons g g' Mx cr) :
-    XNorm00Restr (2 * P.η ^ 8) Bx
-        (outSet (engDatum hM9 B hG W wN wDec bk cons g g') P.L P.γ P.η)
-        (fun tt E => recFac (G.sign a.toNode) (G.sign a.toNode) P.L P.γ P.δ tt E *
-          ((coupling P.d P.L P.γ P.δ : ℂ) ^ clLocalOrder1 R * clLocalZeta R *
-            lkRaw R P.L W.wBar ψ tt (sumintBoundary (G.sign a.toNode) E))) ≤
-      ‖(coupling P.d P.L P.γ P.δ : ℂ) ^ clLocalOrder1 R * clLocalZeta R‖ₑ *
-        XNorm00Restr (2 * P.η ^ 8) (outBox (engDatum hM9 B hG W wN wDec bk cons g g'))
-          (outSet (engDatum hM9 B hG W wN wDec bk cons g g') P.L P.γ P.η)
-          (fun tt E => clockedExprMul3 Mx cr (assemblyShape_I_pos hM9 B) P.L P.γ (2 * P.δ) P.η tt E) := by
-  refine (XNorm00Restr_mono_of_eq _ _ _ _ (fun tt E => (coupling P.d P.L P.γ P.δ : ℂ) ^ clLocalOrder1 R * clLocalZeta R *
-    clockedExprMul3 Mx cr (assemblyShape_I_pos hM9 B) P.L P.γ (2 * P.δ) P.η tt E) ?_).trans
-    ((VineEstS3.Eng.XNorm00Restr_const_mul_le _ _ _ _ _).trans (mul_le_mul' le_rfl (XNorm00Restr_mono_set _ hBx _ _)))
-  intro tt htt E hE
-  obtain ⟨β, hβ, rfl⟩ := outSet_exists_beta hL (G.sign a.toNode) W.wBar E (fun c => (hE.1 c).1) hE.2.1
-  exact termFnR_eq_expr3_free hM9 B hG W hL P.γ P.δ P.η W.wBar β hβ tt ψ wN wDec bk cons g g' Mx cr (hD tt htt β hβ hE)
 
 end Dict
 

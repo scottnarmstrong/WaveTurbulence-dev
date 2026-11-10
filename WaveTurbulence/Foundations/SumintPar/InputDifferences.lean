@@ -52,25 +52,4 @@ theorem choiceVector_eq_rows {d : ℕ} (D : SumintDatum d) (L : ℝ)
   · exact lVec_eq_integerAffineMap D L x E w
   · simp [choiceVector, choiceRowT, choiceRowH, Pi.single_apply]
 
-/-- The exact admissibility premise gives an actual difference identity for every input. -/
-theorem input_is_choice_difference {d : ℕ} (D : SumintDatum d) {A L γ η : ℝ}
-    {Dsteps : ℕ} (hD : D.Admissible A L γ η Dsteps)
-    (x : D.S.VIdx → Fin d → ℤ) (E : Fin 4 → Mom d) (v : D.S.VIdx) :
-    ∃ a b, latticePoint L (x v) = choiceVector D L x E a - choiceVector D L x E b := by
-  classical
-  obtain ⟨a, b, hT, hH⟩ := hD.2.2.2.1 v
-  change (∀ j, choiceRowT D a j - choiceRowT D b j = if j = v then 1 else 0) at hT
-  change (∀ c, choiceRowH D a c - choiceRowH D b c = 0) at hH
-  refine ⟨a, b, ?_⟩
-  rw [choiceVector_eq_rows, choiceVector_eq_rows]
-  have hh :
-      ((∑ j, choiceRowT D a j • latticePoint L (x j)) + ∑ c, choiceRowH D a c • E c) -
-        ((∑ j, choiceRowT D b j • latticePoint L (x j)) + ∑ c, choiceRowH D b c • E c) =
-      (∑ j, (choiceRowT D a j - choiceRowT D b j) • latticePoint L (x j)) +
-        ∑ c, (choiceRowH D a c - choiceRowH D b c) • E c := by
-    simp only [sub_smul, Finset.sum_sub_distrib]
-    abel
-  rw [hh]
-  simp [hT, hH]
-
 end WaveTurbulence.SumintPar

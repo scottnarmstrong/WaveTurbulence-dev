@@ -143,13 +143,6 @@ theorem aTr_of_le (p Ntr : ℕ) (b : (Fin d → ℤ) → ℂ) {t : ℝ} (ht : t 
   rw [Finset.sum_range_succ', Finset.sum_eq_zero fun N _ =>
     treeTermN_of_le L γ δ p (Nat.succ_ne_zero N) b ht n, treeTermN_zero, zero_add]
 
-/-- `ℒ_j b (p) = 0`. -/
-theorem Lop_self (p Ntr : ℕ) (aP : (Fin d → ℤ) → ℂ) (j : ℕ)
-    (b : Icc (p : ℝ) (p + 1) → (Fin d → ℤ) → ℂ) (n : Fin d → ℤ) :
-    Lop L γ δ p Ntr aP j b p n = 0 := by
-  unfold Lop
-  simp
-
 end Values
 
 /-! ## §2 Summability (stage-2 audit O2) -/
@@ -308,12 +301,6 @@ theorem summable_norm_treeTermN (p N : ℕ) {b : (Fin d → ℤ) → ℂ} (hb : 
   simp only [treeTermN_eq_sum]
   exact Summable.of_nonneg_of_le (fun _ => norm_nonneg _) (fun n => norm_sum_le _ _)
     (summable_sum fun T _ => summable_norm_treeTerm L γ δ p T hb t)
-
-theorem summable_norm_aTr (p Ntr : ℕ) {b : (Fin d → ℤ) → ℂ} (hb : Summable fun m => ‖b m‖)
-    (t : ℝ) : Summable fun n => ‖aTr L γ δ p Ntr b t n‖ := by
-  unfold aTr
-  exact Summable.of_nonneg_of_le (fun _ => norm_nonneg _) (fun n => norm_sum_le _ _)
-    (summable_sum fun N _ => summable_norm_treeTermN L γ δ p N hb t)
 
 end Summability
 
@@ -576,19 +563,5 @@ theorem duhamel_iff_Lop (p Ntr : ℕ) {aP : (Fin d → ℤ) → ℂ} (haP : Summ
 end Duhamel
 
 /-! ## §4 From the integral form to the differential form -/
-
-/-- If `u(t) = u(p) + ∫_p^t F` on `[p, q]` with `F` continuous there, then `u' = F` within `[p, q]`
-(the derivative conjunct of `IsASolution`, for `IsASolution.glue`). -/
-theorem hasDerivWithinAt_of_eq_add_integral {u F : ℝ → ℂ} {p q : ℝ}
-    (hu : ∀ t ∈ Icc p q, u t = u p + ∫ s in p..t, F s) (hF : ContinuousOn F (Icc p q))
-    {t : ℝ} (ht : t ∈ Icc p q) : HasDerivWithinAt u (F t) (Icc p q) t := by
-  have : Fact (t ∈ Icc p q) := ⟨ht⟩
-  have hint : IntervalIntegrable F volume p t :=
-    (hF.mono (Icc_subset_Icc le_rfl ht.2)).intervalIntegrable_of_Icc ht.1
-  have hD : HasDerivWithinAt (fun x => ∫ s in p..x, F s) (F t) (Icc p q) t :=
-    intervalIntegral.integral_hasDerivWithinAt_right hint
-      (hF.stronglyMeasurableAtFilter_nhdsWithin measurableSet_Icc t)
-      (hF.continuousWithinAt ht)
-  exact (hD.const_add (u p)).congr (fun x hx => hu x hx) (hu t ht)
 
 end WaveTurbulence.SysAPI

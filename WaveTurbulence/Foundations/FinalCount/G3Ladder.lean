@@ -267,17 +267,6 @@ theorem hPinh_of_hered {P : Finset V → ℝ} (hP : LadderHered M₀ P)
   have h2 := isLadderSet_lift hA hD hE (Finset.mem_filter.1 hS).2.1
   exact hP S' S h1 h2 hsub
 
-/-- **The ladder scale of `M₀` holds at a state** (for the inherited decoration `k0 ∘ s.down`). -/
-theorem ladderScaleLow_state {L : ℝ} {w : Mom d} {P : Finset V → ℝ} {k0 : D₀ → (Fin d → ℤ)}
-    (hP : LadderHered M₀ P) (h0 : VineCount.LadderScaleLow M₀ L w P k0) :
-    VineCount.LadderScaleLow s.M L w P (k0 ∘ s.down) := by
-  intro m u v h r hr S hS hsub
-  have hl := isLadder_lift hA hD hE h
-  have hS' := isLadderSet_lift hA hD hE (Finset.mem_filter.1 hS).2.1
-  obtain ⟨S₁, hS₁, hSS⟩ := exists_maximalLadder hS'
-  have := h0 m u v hl r ((ladderGap_lift hA hD hE h).1 hr) S₁ hS₁ (hsub.trans hSS)
-  rwa [hP S S₁ hS' (Finset.mem_filter.1 hS₁).2.1 hSS]
-
 end transfer
 
 end WaveTurbulence.FinalCountG3

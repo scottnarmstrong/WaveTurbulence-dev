@@ -140,12 +140,6 @@ theorem Inv.vineStRC (hI : Inv R s) (K : VineCut s.M) (hu : RCJoint s K.C.upper)
     rw [hdl'] at this
     rw [show ((s.M.cut K.C.upper K.fa K.x₁ K.x₂).cut K.C.lower K.fb K.y₁ K.y₂).deg K.fb = 0 by omega]; rfl
 
-theorem jepsAt_le (s : St.{u} V D₀) (v : V) : jepsAt s v ≤ 1 := by
-  unfold jepsAt; split_ifs <;> omega
-
-theorem jepsAt_eq_zero {s : St.{u} V D₀} {v : V} (h : s.cls v ≠ .eps) : jepsAt s v = 0 := by
-  unfold jepsAt; rw [ite_eq_right (fun h' => h h'.1)]
-
 end inv
 
 section gap
@@ -232,13 +226,6 @@ theorem InvL.stepRC {C : CollData M₀} {h h' : HSt V D₀} (hs : HStepRC C L γ
       comp := hr.comp.vineStG K
       bal := hr.bal.vineStG K
       rel := hr.rel.vineStG K }⟩
-
-/-- **C1a target 3: `InvLStepRC`** (the run invariant along a re-cut; the index does not increase). -/
-theorem invLStepRC (M₀ : Molecule V D₀) (C : CollData M₀) (L γ η : ℝ) (w : Mom d) (κ : D₀ → (Fin d → ℤ)) :
-    InvLStepRC M₀ C L γ η w κ := by
-  intro R h h' hs hr
-  obtain ⟨K, R', e, -, hI⟩ := InvL.stepRC hs hr
-  exact ⟨R', by omega, hI⟩
 
 end invL
 

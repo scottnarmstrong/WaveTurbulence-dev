@@ -2,8 +2,9 @@
 module
 
 public import WaveTurbulence.Foundations.RegularAsymptotics.RegAsympDraft.LeafScalarFubini
-public import WaveTurbulence.Foundations.RegularAsymptotics.RegAsympDraft.SourceSpatialEstimate
-public import WaveTurbulence.Foundations.RegularAsymptotics.RegAsympDraft.WickSpatialEstimate
+public import WaveTurbulence.Foundations.RegularAsymptotics.RegAsympDraft.CoefficientMassBudget
+public import WaveTurbulence.Foundations.RegularAsymptotics.RegAsympDraft.LeafScalarProfile
+public import WaveTurbulence.Foundations.RegularAsymptotics.RegAsympDraft.WickCorrectionSourceEnvelope
 
 /-! # Actual NT and Wick source premises imply global joint spectral integrability -/
 

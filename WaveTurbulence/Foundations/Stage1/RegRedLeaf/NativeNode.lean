@@ -32,25 +32,6 @@ noncomputable def nativeKernelIntegrandN {w d : ℕ} {S : Garden w} (D : Reconst
       (fun a => A (chainContextNode D hS b a))
       (fun _ => parentClockWith tt τ b.toNode) (τ b) (k₀+latticePoint L (κ b.toNode)) ρ
 
-theorem integrable_nativeKernelIntegrandN {w d : ℕ} {S : Garden w} (D : ReconstructionData S)
-    (hS : S.IsPlain) (L γ δ : ℝ) (A : GNode (D.forest hS) → Mom d → ℝ)
-    (layer : GNode (D.forest hS) → ℕ) (hLayer : IsLayering (D.garden hS) layer)
-    (tt : Fin w → ℝ) (k₀ : Mom d) (κ : GNode S.tree → (Fin d → ℤ)) (τ : GBranch S.tree → ℝ)
-    (s : ReplacementSlot S) (ρ : NativeRelativeDecoration D hS d s) :
-    Integrable (nativeKernelIntegrandN D hS L γ δ A layer hLayer tt k₀ κ τ s ρ) := by
-  cases s with
-  | inl p =>
-    exact integrable_kernelAllIntegrandN L γ δ (nativeCoupleLayered D hS layer hLayer p)
-      (fun a => A ((nativeCoupleForest D hS p).nodeEmbedding a))
-      (noFlowerParent_of_noFlower _ (nativeCouple_noFlower D hS p))
-      (fun q => nativeCoupleUpperW D hS tt τ p q.1.1) 0
-      (k₀+latticePoint L (κ (p.firstLeaf hS).toNode)) ρ
-  | inr b =>
-    exact integrable_kernelAllIntegrandN L γ δ (nativeChainLayered D hS layer hLayer b)
-      (fun a => A (chainContextNode D hS b a))
-      (noFlowerParent_of_noFlower _ (decodedTree_noFlower _ _))
-      (fun _ => parentClockWith tt τ b.toNode) (τ b) (k₀+latticePoint L (κ b.toNode)) ρ
-
 /-- The native regular-part kernels with the pulled-back node profile. -/
 noncomputable def nativeKernelValueN {w d : ℕ} {S : Garden w} (D : ReconstructionData S)
     (hS : S.IsPlain) (L γ δ : ℝ) (A : GNode (D.forest hS) → Mom d → ℝ)

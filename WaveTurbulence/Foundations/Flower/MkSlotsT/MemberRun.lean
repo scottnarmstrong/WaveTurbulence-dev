@@ -115,42 +115,6 @@ theorem stemB_member_iff (c : GBranch (stSt a.prime.skeleton a.totalSigma (mk a.
   have hc := MkSlots.IntCore.member_cfp_iff a mk y hy hG J hcapA hcapY hrepU c
   exact and_congr Iff.rfl (not_congr hc)
 
-include hG hcapA hcapY hrepU in
-/-- **The atom filters are common to the run class** (tree-indexed radii, e.g. σ's `radSigma`). -/
-theorem filtStem_member_eq (radT : Fin (2 * R) → List ℝ) (hradT : ∀ j, ∀ x ∈ radT j, 1 ≤ x)
-    (c : GBranch (stSt a.prime.skeleton a.totalSigma (mk a.prime)).G.tree) :
-    filtStem y.1.data y.1.plain (memShape a mk y hy) (source_disjMk a mk y hy) (stateLayer y.1)
-        (stateLayer_isLayering y.1) J (fun b => radT b.1.1) (fun b => hradT b.1.1) c =
-      filtStem a.prime.data a.prime.prime.1 (stShape (Mole.garden_isMolecule a.prime.skeleton) a.totalSigma (mk a.prime))
-        (unitBlkMk_disj (Mole.garden_isMolecule a.prime.skeleton) a.totalSigma (mk a.prime)) (sourceLayer a)
-        (sourceLayer_isLayering a) J (fun b => radT b.1.1) (fun b => hradT b.1.1) c := by
-  have hh : c ∉ (memShape a mk y hy).hinges (source_disjMk a mk y hy) ↔
-      c ∉ (stShape (Mole.garden_isMolecule a.prime.skeleton) a.totalSigma (mk a.prime)).hinges
-        (unitBlkMk_disj (Mole.garden_isMolecule a.prime.skeleton) a.totalSigma (mk a.prime)) := by
-    rw [memShape_hinges, stShape_hingesMk]
-  have hs := stemB_member_iff a mk y hy J hcapA hcapY hG hrepU c
-  have ht₁ : (coreLG y.1.data y.1.plain (stateLayer y.1) (stateLayer_isLayering y.1)
-      ((memShape a mk y hy).br c)).1.1 = c.1.1 :=
-    (MkSlots.IntRest.coreBranch_fst y.1.data y.1.plain _).trans (shape_br_fst (memShape a mk y hy) c)
-  have ht₂ : (coreLG a.prime.data a.prime.prime.1 (sourceLayer a) (sourceLayer_isLayering a)
-      ((stShape (Mole.garden_isMolecule a.prime.skeleton) a.totalSigma (mk a.prime)).br c)).1.1 = c.1.1 :=
-    (MkSlots.IntRest.coreBranch_fst a.prime.data a.prime.prime.1 _).trans
-      (shape_br_fst (stShape (Mole.garden_isMolecule a.prime.skeleton) a.totalSigma (mk a.prime)) c)
-  unfold filtStem
-  by_cases h1 : c ∉ (memShape a mk y hy).hinges (source_disjMk a mk y hy) ∧
-      StemB y.1.data y.1.plain (stateLayer y.1) (stateLayer_isLayering y.1) J
-        (coreLG y.1.data y.1.plain (stateLayer y.1) (stateLayer_isLayering y.1) ((memShape a mk y hy).br c))
-  · have h2 := And.intro (hh.mp h1.1) (hs.mp h1.2)
-    rw [if_pos h1, if_pos h2]
-    simp only [ht₁, ht₂]
-  · have h2 : ¬ (c ∉ (stShape (Mole.garden_isMolecule a.prime.skeleton) a.totalSigma (mk a.prime)).hinges
-        (unitBlkMk_disj (Mole.garden_isMolecule a.prime.skeleton) a.totalSigma (mk a.prime)) ∧
-        StemB a.prime.data a.prime.prime.1 (sourceLayer a) (sourceLayer_isLayering a) J
-          (coreLG a.prime.data a.prime.prime.1 (sourceLayer a) (sourceLayer_isLayering a)
-            ((stShape (Mole.garden_isMolecule a.prime.skeleton) a.totalSigma (mk a.prime)).br c))) :=
-      fun h => h1 ⟨hh.mpr h.1, hs.mpr h.2⟩
-    rw [if_neg h1, if_neg h2]
-
 include hy hG hcapA hcapY hrepU in
 /-- **The unit radius lists (T2) are common to the run class** (tree-indexed radii). -/
 theorem SUStem_member_eq (radT : Fin (2 * R) → List ℝ)

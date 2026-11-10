@@ -123,39 +123,4 @@ theorem card_topDarts_le (hU : G.molecule.IsBlock U a b) (lay : GBranch G.tree �
   have h3 := Finset.card_sdiff_add_card_eq_card hNsub
   omega
 
-/-- **The engine pullback of the bond weight of a block, with mass `cψ ^ (3 * |U|)`.** -/
-theorem enginePullback_bondW (R : CLRegionData G U a b) (hU : G.molecule.IsBlock U a b) (L : ℝ) (base : Mom d)
-    (ψ : ℕ → ℕ → Mom d → ℂ) (lay : GBranch G.tree → ℕ) (p : ℕ) (cψ : ℝ) (hcψ : 1 ≤ cψ)
-    (htop : ∀ q q', ¬ (q < p ∧ q' = p) → ψ q q' = fun _ => 1)
-    (hpres : ∀ q q', ∃ (α : Type) (_ : MeasurableSpace α) (M : SpatialMeasure (Mom d) α),
-      M.mass ≤ cψ ∧ ∀ x, M.value x = ψ q q' x) :
-    EnginePullback R L base (bondW ψ L base G lay U) (cψ ^ (3 * U.card)) := by
-  classical
-  let P : GardenDart G → Prop := fun y =>
-    lay (G.molecule.atom (G.molecule.mate y)) < p ∧ lay (G.molecule.atom y) = p
-  have hfac : ∀ y ∈ regionDarts G U, EnginePullback R L base
-      (fun z => ψ (lay (G.molecule.atom (G.molecule.mate y))) (lay (G.molecule.atom y))
-        (cosetDecoration G L base z (Mole.dartNode G y))) (if P y then cψ else 1) := by
-    intro y _
-    by_cases hy : P y
-    · rw [ite_eq_left_iff.mpr (fun h => absurd hy h)]
-      obtain ⟨α, _, M, hM, hv⟩ := hpres (lay (G.molecule.atom (G.molecule.mate y))) (lay (G.molecule.atom y))
-      refine enginePullback_mono R L base (enginePullback_congr R L base
-        (enginePullback_nodeValue R L base M (Mole.dartNode G y)) ?_) hM
-      funext z
-      exact hv _
-    · rw [if_neg hy]
-      refine enginePullback_congr R L base (enginePullback_one R L base) ?_
-      funext z
-      rw [htop _ _ hy]
-  have hprod := enginePullback_finsetProd R L base (regionDarts G U) _ _ hfac
-  have hmass : (∏ y ∈ regionDarts G U, if P y then cψ else 1) = cψ ^ (topDarts G lay U p).card := by
-    rw [Finset.prod_ite, Finset.prod_const_one, mul_one, Finset.prod_const]
-    rfl
-  rw [hmass] at hprod
-  refine enginePullback_mono R L base hprod ?_
-  apply pow_le_pow_right₀ hcψ
-  have := card_topDarts_le hU lay p
-  omega
-
 end WaveTurbulence.VineSpaceB

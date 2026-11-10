@@ -64,16 +64,6 @@ theorem linkPartner_of_snd (hQ : Q.Decodes G) {l : (Fin 2 × Path) × (Fin 2 × 
   · rw [e, hb] at h; exact absurd h.symm hne
   · simp [e, hb, Ne.symm hne]
 
-theorem linkPartner_ne (hQ : Q.Decodes G) (b : GBranch G.tree) : linkPartner hQ b ≠ b := by
-  obtain ⟨hl, hb⟩ := linkOf_spec hQ b
-  have hne := (link_branching hQ hl).2.2
-  intro h
-  rcases hb with hb | hb
-  · have := linkPartner_of_fst hQ hl b hb
-    rw [h] at this; exact hne (hb.symm.trans this)
-  · have := linkPartner_of_snd hQ hl b hb
-    rw [h] at this; exact hne (this.symm.trans hb)
-
 theorem linkPartner_linkPartner (hQ : Q.Decodes G) (b : GBranch G.tree) :
     linkPartner hQ (linkPartner hQ b) = b := by
   obtain ⟨hl, hb⟩ := linkOf_spec hQ b
@@ -83,18 +73,6 @@ theorem linkPartner_linkPartner (hQ : Q.Decodes G) (b : GBranch G.tree) :
     rw [linkPartner_of_snd hQ hl _ h1, hb]
   · have h1 := linkPartner_of_snd hQ hl b hb
     rw [linkPartner_of_fst hQ hl _ h1, hb]
-
-/-- **Existence** (DH21 Prop 4.3): the link partner satisfies `ζ_{𝔫'} Ω_{𝔫'} = -ζ_𝔫 Ω_𝔫` for every
-vector decoration. -/
-theorem linkPartner_antisymm {d : ℕ} (hQ : Q.Decodes G) (hG : IsCouple G)
-    {κ : GNode G.tree → Mom d} (hκ : IsDecoration G κ) (b : GBranch G.tree) :
-    ((G.sign (linkPartner hQ b).toNode : ℤ) : ℝ) * omegaNode G κ (linkPartner hQ b) =
-      -(((G.sign b.toNode : ℤ) : ℝ) * omegaNode G κ b) := by
-  obtain ⟨hl, hb⟩ := linkOf_spec hQ b
-  rcases hb with hb | hb
-  · exact zeta_omega_link hQ hG hκ hl b _ hb (linkPartner_of_fst hQ hl b hb)
-  · have := zeta_omega_link hQ hG hκ hl (linkPartner hQ b) b (linkPartner_of_snd hQ hl b hb) hb
-    linarith
 
 /-- **The choice set `𝒩^ch`** (DH21 Def 4.11; TARGET Prop `deflink`, last paragraph) contains exactly one
 node of every link: the chosen node `l.1` and not `l.2`. -/
@@ -128,107 +106,5 @@ theorem latticePoint_sub {d : ℕ} (L : ℝ) (m n : Fin d → ℤ) :
 
 theorem latticePoint_zero {d : ℕ} (L : ℝ) : latticePoint L (0 : Fin d → ℤ) = 0 := by
   ext j; simp [latticePoint]
-
-theorem isDecoration_latticePoint {d : ℕ} {w : ℕ} {G : Garden w} (L : ℝ)
-    {κ : GNode G.tree → (Fin d → ℤ)} (h : IsDecoration G κ) :
-    IsDecoration G (fun a => latticePoint L (κ a)) :=
-  ⟨fun b => by simp only [h.1 b, latticePoint_add, latticePoint_sub],
-    fun ℓ => by simp only [h.2 ℓ]⟩
-
-theorem latticePoint_single_ne {d : ℕ} (hd : 1 ≤ d) {L : ℝ} (hL : L ≠ 0) :
-    latticePoint L (Pi.single (⟨0, hd⟩ : Fin d) 1 : Fin d → ℤ) ≠ 0 := by
-  intro h
-  have := congrArg (fun v : Mom d => v (⟨0, hd⟩ : Fin d)) h
-  simp [latticePoint, hL] at this
-
-/-- **DH21 Proposition 4.3** (`branchpair`, L729–L737; TARGET Prop `deflink`): for a couple carrier
-`G` decoded by `Q` and `d ≥ 1`, the link partner is the unique fixed-point-free involution `P` of
-the branching nodes with `ζ_{P𝔫} Ω_{P𝔫} = -ζ_𝔫 Ω_𝔫` for every lattice decoration `k = κ/L`.
-(Existence holds for every vector decoration: `linkPartner_antisymm`.) -/
-theorem branchpair {d : ℕ} (hd : 1 ≤ d) {L : ℝ} (hL : L ≠ 0) (hQ : Q.Decodes G) (hG : IsCouple G) :
-    ∃! P : GBranch G.tree → GBranch G.tree, (∀ b, P (P b) = b) ∧ (∀ b, P b ≠ b) ∧
-      ∀ κ : GNode G.tree → (Fin d → ℤ), IsDecoration G κ → ∀ b,
-        ((G.sign (P b).toNode : ℤ) : ℝ) * omegaNode G (fun a => latticePoint L (κ a)) (P b) =
-          -(((G.sign b.toNode : ℤ) : ℝ) * omegaNode G (fun a => latticePoint L (κ a)) b) := by
-  refine ⟨linkPartner hQ, ⟨linkPartner_linkPartner hQ, linkPartner_ne hQ,
-    fun κ hκ b => linkPartner_antisymm hQ hG (isDecoration_latticePoint L hκ) b⟩, ?_⟩
-  rintro P ⟨-, hne, hanti⟩
-  funext b
-  obtain ⟨hl, hb⟩ := linkOf_spec hQ b
-  set l := linkOf hQ b
-  obtain ⟨j, hj⟩ := List.mem_iff_get.mp hl
-  set e : Fin d → ℤ := Pi.single (⟨0, hd⟩ : Fin d) 1
-  set θ : Fin Q.links.length → (Fin d → ℤ) × (Fin d → ℤ) :=
-    fun j' => if j' = j then (e, e) else (0, 0)
-  set κ := (decOfParams hQ (0 : Fin d → ℤ) θ).1
-  have hκ : IsDecoration G κ := (decOfParams hQ (0 : Fin d → ℤ) θ).2.1
-  set k : GNode G.tree → Mom d := fun a => latticePoint L (κ a)
-  have hk : IsDecoration G k := isDecoration_latticePoint L hκ
-  have hpar := decParams_decOfParams hQ hG (0 : Fin d → ℤ) θ
-  -- the parameters at the chosen node of every link
-  have hxy : ∀ j' : Fin Q.links.length, ∀ c : GBranch G.tree, c.1 = (Q.links.get j').1 →
-      xNode κ c = (θ j').1 ∧ yNode κ c = (θ j').2 := fun j' c hc => by
-    have := congrFun hpar j'
-    simp only [decParams, chosenNode, Prod.mk.injEq] at this
-    rw [← hc, xv_extend, yv_extend] at this
-    exact ⟨congrArg Prod.fst this, congrArg Prod.snd this⟩
-  have hxk : ∀ c : GBranch G.tree, xNode k c = latticePoint L (xNode κ c) := fun c => by
-    simp only [xNode, k, latticePoint_sub]
-  have hyk : ∀ c : GBranch G.tree, yNode k c = latticePoint L (yNode κ c) := fun c => by
-    simp only [yNode, k, latticePoint_sub]
-  have hsign : ∀ c : GBranch G.tree, ((G.sign c.toNode : ℤ) : ℝ) ≠ 0 := fun c => by
-    rcases Int.units_eq_one_or (G.sign c.toNode) with h | h <;> rw [h] <;> norm_num
-  -- `Ω` vanishes off the link `l`
-  have hvan : ∀ v : GBranch G.tree, omegaNode G k v ≠ 0 → linkOf hQ v = l := fun v hv => by
-    obtain ⟨hl', hv'⟩ := linkOf_spec hQ v
-    obtain ⟨j', hj'⟩ := List.mem_iff_get.mp hl'
-    by_contra hne'
-    have hjj : j' ≠ j := fun h => hne' (by rw [← hj', ← hj, h])
-    set c : GBranch G.tree := ⟨(linkOf hQ v).1, (link_branching hQ hl').1⟩
-    have hc0 : omegaNode G k c = 0 := by
-      obtain ⟨h1, h2⟩ := hxy j' c (by rw [hj'])
-      simp only [θ, hjj, ↓reduceIte] at h1 h2
-      rw [omegaNode_eq hk, hxk, hyk, h1, h2, latticePoint_zero]
-      simp
-    rcases hv' with hv' | hv'
-    · exact hv (by rwa [show v = c from Subtype.ext hv'])
-    · have := zeta_omega_link hQ hG hk hl' c v rfl hv'
-      rw [hc0, mul_zero, neg_zero] at this
-      exact hv ((mul_eq_zero.mp this).resolve_left (hsign v))
-  -- `Ω_b ≠ 0`
-  set c : GBranch G.tree := ⟨l.1, (link_branching hQ hl).1⟩
-  have hcne : omegaNode G k c ≠ 0 := by
-    obtain ⟨h1, h2⟩ := hxy j c (by rw [hj])
-    simp only [θ, ↓reduceIte] at h1 h2
-    rw [omegaNode_eq hk, hxk, hyk, h1, h2, real_inner_self_eq_norm_sq]
-    have := latticePoint_single_ne hd hL
-    have : ‖latticePoint L e‖ ≠ 0 := norm_ne_zero_iff.mpr this
-    positivity
-  have hbne : omegaNode G k b ≠ 0 := by
-    rcases hb with hb | hb
-    · rwa [show b = c from Subtype.ext hb]
-    · have := zeta_omega_link hQ hG hk hl c b rfl hb
-      intro h0
-      rw [h0, mul_zero] at this
-      exact hcne ((mul_eq_zero.mp (neg_eq_zero.mp this.symm)).resolve_left (hsign c))
-  have hPne : omegaNode G k (P b) ≠ 0 := by
-    have := hanti κ hκ b
-    intro h0
-    rw [h0, mul_zero] at this
-    exact hbne ((mul_eq_zero.mp (neg_eq_zero.mp this.symm)).resolve_left (hsign b))
-  have hPl := hvan (P b) hPne
-  obtain ⟨-, hPb⟩ := linkOf_spec hQ (P b)
-  rw [hPl] at hPb
-  have hlne := (link_branching hQ hl).2.2
-  apply Subtype.ext
-  rcases hb with hb | hb
-  · rw [linkPartner_of_fst hQ hl b hb]
-    rcases hPb with h | h
-    · exact absurd (Subtype.ext (h.trans hb.symm)) (hne b)
-    · exact h
-  · rw [linkPartner_of_snd hQ hl b hb]
-    rcases hPb with h | h
-    · exact h
-    · exact absurd (Subtype.ext (h.trans hb.symm)) (hne b)
 
 end WaveTurbulence.Links

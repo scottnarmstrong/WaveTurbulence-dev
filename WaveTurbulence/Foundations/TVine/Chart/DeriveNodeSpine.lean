@@ -148,9 +148,6 @@ theorem perm_xyz (x y z : V) : ({x, y, z} : Finset V) = {y, x, z} := by
 theorem perm_zxy (x y z : V) : ({x, y, z} : Finset V) = {z, x, y} := by
   ext v; simp only [mem_insert, mem_singleton]; tauto
 
-theorem perm_yxz' (x y z : V) : ({x, y, z} : Finset V) = {y, z, x} := by
-  ext v; simp only [mem_insert, mem_singleton]; tauto
-
 namespace Lay
 
 variable (L : Lay M S a b)

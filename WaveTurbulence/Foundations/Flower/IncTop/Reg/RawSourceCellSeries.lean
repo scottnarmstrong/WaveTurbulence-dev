@@ -63,23 +63,4 @@ theorem MomentumTreeData.sourceTimeIntegrand_eq_tsum_cells_of_cover_atSpatial {d
         (fun c => hcover c _)).tsum_eq]
     _ = _ := hs.tsum_comm
 
-open WaveTurbulence.Incoh.MomentumTreeData in
-/-- Compatibility form for a cover uniform in every root momentum. -/
-theorem MomentumTreeData.sourceTimeIntegrand_eq_tsum_cellsSpatial {d n m w K M : ℕ}
-    (P : MomentumTreeData n m w) (ζ : Circle) (L γ δ : ℝ) (Q : Fin n → LayerLink d)
-    (f : Fin m → Mom d → ℂ)
-    (S : (Fin m → Fin d → ℤ) → Finset ((Fin n × Fin 2) → Fin d → ℤ))
-    (hcover : ∀ c k x, P.inputCellWeight c k x ≠ 0 →
-      ∀ z, halfCellArrayWeight z (fun p : Fin n × Fin 2 => x p.1 p.2) ≠ 0 → z ∈ S c)
-    {C : ℝ} (hS : ∀ c, ((S c).card : ℝ) ≤ C ^ n) {B : ℝ}
-    (hL : 1 ≤ L) (hK : d + 1 ≤ K) (hM : 2 * d ≤ M) (hB : 0 ≤ B)
-    (h : ∀ a, Fourier.spatialNorm K M (f a) ≤ ENNReal.ofReal B)
-    (k : Mom d) (t : Fin n → Fin 2 → ℝ) :
-    (MomentumTreeData.sourceTimeIntegrandSpatial (P := P)) ζ L γ δ Q f k t =
-      ∑' u : SourceCellIndex S, ∑' p : (Fin n × Fin 2) → Fin d → ℤ,
-        sourceTemporalPhaseSpatial L γ δ Q p t * ((ζ : ℂ) *
-          P.sourceCellWeight f S k (fun i j => latticePoint L (p (i, j))) u) :=
-  (MomentumTreeData.sourceTimeIntegrand_eq_tsum_cells_of_cover_atSpatial (P := P)) ζ L γ δ Q f S k
-    (fun c x => hcover c k x) hS hL hK hM hB h t
-
 end WaveTurbulence.Flower.IncTop

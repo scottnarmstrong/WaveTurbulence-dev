@@ -3,7 +3,8 @@ module
 
 public import WaveTurbulence.Foundations.FinalCount.Algorithm.UniformS33BadLabelsCount
 public import WaveTurbulence.Foundations.FinalCount.AppBGoodDeletionTransfer
-public import WaveTurbulence.Foundations.FinalCount.AppBS33Normal
+public import WaveTurbulence.Foundations.FinalCount.AppBSimpleLocalBonds
+public import WaveTurbulence.Foundations.FinalCount.AppBNormalNormalization
 import Mathlib.Tactic
 
 /-! # Good deviation for the full failed-label-test branch of 3S3-2G -/

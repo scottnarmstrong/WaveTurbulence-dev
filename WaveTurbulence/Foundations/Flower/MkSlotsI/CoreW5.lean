@@ -90,30 +90,6 @@ variable {R p : ℕ} {kind : Bool} (a : PrescribedPrimeGarden (2 * R)) (mk : Sta
   (y : UState (2 * R) (unitsSplit (sourceAssemblyMk a mk))) (hy : y ∈ sourceClass a p kind mk)
   (J : Finset (Fin (2 * R)))
 
-/-- The top weight of the unit radius lists without σ and selections is `1`. -/
-theorem topW_stemFree (L : ℝ) (Rs : Fin (2 * R) → ℝ) {d : ℕ} {roots : Fin (2 * R) → (Fin d → ℤ)}
-    (κ : GenDecoration y.1.skeleton d roots 0) :
-    ∏ j, VineSpaceK.nodeWeight (V5W2L.topFilterWeightL
-        (MkSlotsT.SURep a mk J (radTGen L (fun _ => none) (fun _ => none) Rs) j)) L 0 (y.2 j).blk.a κ.1 = 1 := by
-  refine Finset.prod_eq_one fun j _ => ?_
-  have hSU : MkSlotsT.SURep a mk J (radTGen L (fun _ => none) (fun _ => none) Rs) j = [] := by
-    rw [radTGen_stemFree]
-    unfold MkSlotsT.SURep MkSlotsT.SUStem
-    split_ifs <;> rfl
-  rw [hSU]
-  simp [VineSpaceK.nodeWeight, V5W2L.topFilterWeightL]
-
-/-- The core multiplier of a member without σ and selections is `1`. -/
-theorem genCoreW_stemFree (L : ℝ) (Rs : Fin (2 * R) → ℝ) {d : ℕ} {roots : Fin (2 * R) → (Fin d → ℤ)}
-    (κ : GenDecoration y.1.skeleton d roots 0) :
-    genCoreW y.1.data y.1.plain (stateLayer y.1) (stateLayer_isLayering y.1) (memShape a mk y hy)
-      (source_disjMk a mk y hy) J L (fun _ => none) (fun _ => none) Rs 0 κ = 1 := by
-  unfold genCoreW
-  rw [selConst_stemFree, one_mul]
-  refine (congrArg₂ (· * ·) (Finset.prod_eq_one fun c _ => ?_) (Finset.prod_eq_one fun j _ => ?_)).trans (mul_one 1)
-  · exact genNW_stemFree _ J L Rs _ _
-  · exact genNW_stemFree _ J L Rs _ _
-
 variable (hcapA : ∀ j ∈ J, (a.prime.data.garden a.prime.prime.1).tree j = TTree.leaf)
   (hcapY : ∀ j ∈ J, (y.1.data.garden y.1.plain).tree j = TTree.leaf)
   (hG : (stSt a.prime.skeleton a.totalSigma (mk a.prime)).G.IsPlain)
@@ -122,59 +98,6 @@ variable (hcapA : ∀ j ∈ J, (a.prime.data.garden a.prime.prime.1).tree j = TT
       (sourceLayer_isLayering a)) J (a.prime.data.coreBranch a.prime.prime.1 b))
   (honeA : MkSlotsS.OneFlower (recLG a) J)
   (honeY : MkSlotsS.OneFlower (layeredReconstruction y.1.data y.1.plain (stateLayer y.1) (stateLayer_isLayering y.1)) J)
-
-include hy hcapA hcapY hG hrepU honeA honeY in
-/-- **The core multiplier of a run-class member, with `selOK`** (stem-clean representative): for every member,
-`selOK(y) · genCoreW(y) κ = selOK(a) · selConst(a) · zatomG (resDec κ) · topW` (the top weight with the unit radius lists
-`SURep a mk J (radTGen L σ kSel Rs)`). -/
-theorem selOK_mul_genCoreW_member (hc : CleanPt J a) (L : ℝ) (σ kSel : Fin (2 * R) → Option ℕ)
-    (Rs : Fin (2 * R) → ℝ)
-    (hrepS : ∀ j, a.prime.data.coreBranch a.prime.prime.1
-      (unitBlkMk (Mole.garden_isMolecule a.prime.skeleton) a.totalSigma (mk a.prime) j).upper ∉
-        selSetCap (recLG a) J kSel)
-    {d : ℕ} {roots : Fin (2 * R) → (Fin d → ℤ)} (κ : GenDecoration y.1.skeleton d roots 0) :
-    (selOK (layeredReconstruction y.1.data y.1.plain (stateLayer y.1) (stateLayer_isLayering y.1)) J kSel : ℂ) *
-        genCoreW y.1.data y.1.plain (stateLayer y.1) (stateLayer_isLayering y.1) (memShape a mk y hy)
-          (source_disjMk a mk y hy) J L σ kSel Rs 0 κ =
-      (selOK (recLG a) J kSel : ℂ) *
-        ((∏ j, (selCap (recLG a) J kSel j).elim 1 (fun _ => (((Rs j)⁻¹ : ℝ) : ℂ))) *
-          (zatomG J L σ kSel Rs a (mk a.prime) ((memShape a mk y hy).resDec y.1.plain (source_disjMk a mk y hy) κ) *
-            ∏ j, VineSpaceK.nodeWeight (V5W2L.topFilterWeightL (MkSlotsT.SURep a mk J (radTGen L σ kSel Rs) j)) L 0
-              (y.2 j).blk.a κ.1)) := by
-  rw [selOK_member a mk y hy J hcapA hcapY hG hc honeA honeY kSel]
-  by_cases h : selOK (recLG a) J kSel = 1
-  · rw [genCoreW_member' a mk y hy J hcapA hcapY hG hc honeA honeY hrepU L σ kSel Rs h hrepS κ]
-  · have h0 : selOK (recLG a) J kSel = 0 := by
-      unfold selOK at h ⊢
-      split_ifs at h ⊢
-      · exact absurd rfl h
-      · rfl
-    rw [h0]
-    simp
-
-include hy hcapA hcapY hG hrepU honeA honeY in
-/-- **The core multiplier of a run-class member under B4's alternative** `¬ StemDep σ kSel ∨ CleanPt J a` (the
-stem-free case: everything is `1`). -/
-theorem selOK_mul_genCoreW_member_gen (L : ℝ) (σ kSel : Fin (2 * R) → Option ℕ) (Rs : Fin (2 * R) → ℝ)
-    (hstem : ¬ StemDep σ kSel ∨ CleanPt J a)
-    (hrepS : ∀ j, a.prime.data.coreBranch a.prime.prime.1
-      (unitBlkMk (Mole.garden_isMolecule a.prime.skeleton) a.totalSigma (mk a.prime) j).upper ∉
-        selSetCap (recLG a) J kSel)
-    {d : ℕ} {roots : Fin (2 * R) → (Fin d → ℤ)} (κ : GenDecoration y.1.skeleton d roots 0) :
-    (selOK (layeredReconstruction y.1.data y.1.plain (stateLayer y.1) (stateLayer_isLayering y.1)) J kSel : ℂ) *
-        genCoreW y.1.data y.1.plain (stateLayer y.1) (stateLayer_isLayering y.1) (memShape a mk y hy)
-          (source_disjMk a mk y hy) J L σ kSel Rs 0 κ =
-      (selOK (recLG a) J kSel : ℂ) *
-        ((∏ j, (selCap (recLG a) J kSel j).elim 1 (fun _ => (((Rs j)⁻¹ : ℝ) : ℂ))) *
-          (zatomG J L σ kSel Rs a (mk a.prime) ((memShape a mk y hy).resDec y.1.plain (source_disjMk a mk y hy) κ) *
-            ∏ j, VineSpaceK.nodeWeight (V5W2L.topFilterWeightL (MkSlotsT.SURep a mk J (radTGen L σ kSel Rs) j)) L 0
-              (y.2 j).blk.a κ.1)) := by
-  rcases hstem with hns | hc
-  · obtain ⟨rfl, rfl⟩ := eq_none_of_not_stemDep hns
-    rw [selOK_stemFree, selOK_stemFree, selConst_stemFree, zatomG_stemFree, topW_stemFree,
-      genCoreW_stemFree]
-    simp
-  · exact selOK_mul_genCoreW_member a mk y hy J hcapA hcapY hG hrepU honeA honeY hc L σ kSel Rs hrepS κ
 
 end Class
 

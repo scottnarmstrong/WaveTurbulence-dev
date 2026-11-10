@@ -156,10 +156,5 @@ theorem isDV_of (hat : M1.atoms = M2.atoms) {a b : V} (h : IsDV M2 S a b) : IsDV
   exact ⟨A, B, ((G.mono (Finset.subset_union_left)).isVine_iff hat).1 hA,
     ((G.mono (Finset.subset_union_right)).isVine_iff hat).1 hB, hAB, rfl⟩
 
-theorem isDV_of' (hat : M1.atoms = M2.atoms) {a b : V} (h : IsDV M1 S a b) : IsDV M2 S a b := by
-  obtain ⟨A, B, hA, hB, hAB, rfl⟩ := h
-  exact ⟨A, B, ((G.mono (Finset.subset_union_left)).isVine_iff hat).2 hA,
-    ((G.mono (Finset.subset_union_right)).isVine_iff hat).2 hB, hAB, rfl⟩
-
 end GEmb
 end WaveTurbulence.FinalCountG3

@@ -101,31 +101,4 @@ theorem summable_kernelGenFactor_bounded {d w : ℕ} (L γ δ : ℝ)
   rw [he, norm_mul, Complex.norm_real, Real.norm_eq_abs]
   exact mul_le_mul_of_nonneg_right (hwt _) (norm_nonneg _)
 
-/-- Actual family-weighted flower summands converge, for summable inputs. -/
-theorem flower_family_summable (P : WTParams) (F : ℕ → Mom P.d → ℝ) {p w : ℕ}
-    (LG : LayeredGarden w) (hc : IsCanonH (p + 1) LG)
-    (pat : Fin w → FixPat) (dagger : Option (Fin w → Fin 3 → Mom P.d))
-    (M A : ℝ) (tail small : Fin w → Bool) (z : Fin w → ℝ) (t s : ℝ)
-    (n n' : Fin P.d → ℤ)
-    (hF : ∀ q, Summable fun m : Fin P.d → ℤ => |F q (latticePoint P.L m)|) :
-    Summable (kernelGenFactor P.L P.γ P.δ F LG (LG.fixPat pat t s)
-      (if dagger.isSome then univ.filter LG.garden.IsFlowerParent else ∅)
-      (fun k => flowerFamilyWeight LG p M A tail small z k *
-        (dagger.elim 1 fun c => LG.sibWeight c k)) (fun _ => t) 0 (n := fun _ => n) (nfl := n')) := by
-  apply summable_kernelGenFactor_bounded (C :=
-    (1 + 2 * ∑ j, |z j|) ^ Fintype.card (GLeaf LG.garden.tree))
-  · positivity
-  · intro k
-    rw [abs_mul]
-    apply (mul_le_mul (flowerFamilyWeight_abs_le LG p M A tail small z k) ?_
-      (abs_nonneg _) (by positivity)).trans_eq (mul_one _)
-    cases dagger with
-    | none => norm_num
-    | some c => exact sibWeight_abs_le LG c k
-  · intro l hl
-    have he := hc.1.2.1 l (by rw [hl]; simp)
-    change LG.garden.mark l = some MarkTag.equal at he
-    rw [hl] at he
-    cases he
-  · simpa only [zero_add] using hF
 end WaveTurbulence.FC23

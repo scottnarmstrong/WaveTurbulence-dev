@@ -60,19 +60,4 @@ theorem operation_spliceKernelMk {A : FamilyReconstruction w ι} {i : ι} {σ : 
     exact fun he => active_lower_not_survivingMk (selectedMemberSite hA i) σ
       ⟨familyVine A.family i, hA.1 i, rfl⟩ ⟨b, he⟩
 
-/-- The actual kernel of a slot of the simultaneously spliced garden. -/
-noncomputable def spliceKernel (A : FamilyReconstruction w ι) (σ : Prescription A.skeleton)
-    (f : ℕ → Fin w → Fin w → Mom d → ℝ) (L γ δ : ℝ)
-    (s : ReplacementSlot (stSt A.skeleton σ).G) : (Fin 2 → ℝ) → Mom d → ℂ :=
-  stateSlotFn A f L γ δ ((stShape (Mole.garden_isMolecule A.skeleton) σ).iota
-    A.plain ((stSt _ _).plain A.plain) s)
-
-/-- Every outer slot is ordinary: the exceptional pair and lower joint have been removed. -/
-theorem operation_spliceKernel {A : FamilyReconstruction w ι} {i : ι} {σ : Prescription A.skeleton}
-    (hA : IsV0Fam A.family σ) (op : FamilyOperation (p := p) (kind := kind) A i)
-    (f : ℕ → Fin w → Fin w → Mom d → ℝ) (L γ δ : ℝ) (s : ReplacementSlot (stSt A.skeleton σ).G) :
-    spliceKernel op.output (transportPrescription (operationMolIso op) σ) f L γ δ
-      (slotCast (operation_splice_garden_eq hA op).symm s) = spliceKernel A σ f L γ δ s :=
-  operation_spliceKernelMk hA op (Stage1Mk.markTransported_empty _) f L γ δ s
-
 end WaveTurbulence.VineAlign

@@ -1,7 +1,7 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 
-public import WaveTurbulence.Foundations.Flower.CompMK.Check
+public import WaveTurbulence.Foundations.Flower.CompMK.Top
 public import WaveTurbulence.Foundations.Flower.SelRes.Check
 
 /-! # C5b COMP-MK: the D7 input discharged

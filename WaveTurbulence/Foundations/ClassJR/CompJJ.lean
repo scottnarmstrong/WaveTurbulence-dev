@@ -106,10 +106,6 @@ theorem phiR_gevrey (c : ℕ) (x : ℝ) :
     _ = (1 + |x|) * ‖iteratedDeriv c chiInvR x‖ := by ring
     _ ≤ _ := chiInvR_gevrey c x
 
-theorem norm_iteratedDeriv_phiR_le (c : ℕ) (x : ℝ) :
-    ‖iteratedDeriv c phiR x‖ ≤ CPhi * Achi ^ c * (Nat.factorial (2 * c) : ℝ) :=
-  le_trans (le_mul_of_one_le_left (norm_nonneg _) (by linarith [abs_nonneg x])) (phiR_gevrey c x)
-
 end Phi
 
 section Couplings
@@ -587,51 +583,6 @@ theorem symReg_piece_P2 (h₁ : R₁.Bound θ A N₁) (h₂ : R₂.Bound θ A N�
       rw [iteratedDeriv_kPhiNeg]
       exact enorm_iteratedDeriv_phiR_le_gPhi c x)
     (fun k => by rw [lintegral_gPhi]; exact gev_ne_top _ _ k)
-
-/-- The basic class `J` operator of the `χ₀` piece. -/
-theorem exists_piece_M (h0 : 0 ≤ θ) (h1 : θ ≤ 1) (hA : A0 ≤ A) (h₁ : R₁.Bound θ A N₁)
-    (h₂ : R₂.Bound θ A N₂) :
-    ∃ S : JSym (ι₁ ⊕ ι₂), S.Bound θ A (3 * (16 * N₁ * N₂ * (CkM * IM))) ∧ ∀ α t s,
-      S.kernel α t s = ∫ z, triple R₁.m R₂.m kerM (yDiff R₁.y R₂.y) cJJ α z *
-        jker (bundle (yL R₁.y) α) ((eJJ (ℝ × ℝ) z).1.1 + (bM (eJJ (ℝ × ℝ) z).2).1)
-          ((eJJ (ℝ × ℝ) z).1.2 + (bM (eJJ (ℝ × ℝ) z).2).2) t s := by
-  have hN₁ := h₁.nonneg
-  have hN₂ := h₂.nonneg
-  have hC : 0 ≤ CkM * IM := mul_nonneg kerM_bound.1 IM_nonneg
-  obtain ⟨S, -, hS, hk⟩ := JSym.ofGenE (isBundle_yL h₁.bundle) (symReg_piece_M h₁ h₂)
-    (eJJ (ℝ × ℝ)) (measurePreserving_eJJ _) measurable_bM (by positivity)
-    (norm_piece_M h0 h1 hA h₁ h₂)
-  exact ⟨S, hS, hk⟩
-
-/-- The basic class `J` operator of the first `χ_∞` piece. -/
-theorem exists_piece_P1 (h0 : 0 ≤ θ) (h1 : θ ≤ 1) (hA : A0 ≤ A) (h₁ : R₁.Bound θ A N₁)
-    (h₂ : R₂.Bound θ A N₂) :
-    ∃ S : JSym (ι₁ ⊕ ι₂), S.Bound θ A (3 * (16 * (2 * N₁) * (2 * N₂) * CPhi)) ∧ ∀ α t s,
-      S.kernel α t s = ∫ z, triple R₁.m R₂.m kPhi (yDiff R₁.y R₂.y) cJJ α z *
-        jker (bundle (yR R₂.y) α) ((eJJ Unit z).1.1 + (bP1 (eJJ Unit z).2).1)
-          ((eJJ Unit z).1.2 + (bP1 (eJJ Unit z).2).2) t s := by
-  have hN₁ := h₁.nonneg
-  have hN₂ := h₂.nonneg
-  have hC := CPhi_nonneg
-  obtain ⟨S, -, hS, hk⟩ := JSym.ofGenE (isBundle_yR h₂.bundle) (symReg_piece_P1 h₁ h₂)
-    (eJJ Unit) (measurePreserving_eJJ _) measurable_bP1 (by positivity)
-    (norm_piece_P1 h0 h1 hA h₁ h₂)
-  exact ⟨S, hS, hk⟩
-
-/-- The basic class `J` operator of the second `χ_∞` piece. -/
-theorem exists_piece_P2 (h0 : 0 ≤ θ) (h1 : θ ≤ 1) (hA : A0 ≤ A) (h₁ : R₁.Bound θ A N₁)
-    (h₂ : R₂.Bound θ A N₂) :
-    ∃ S : JSym (ι₁ ⊕ ι₂), S.Bound θ A (3 * (16 * N₁ * N₂ * CPhi)) ∧ ∀ α t s,
-      S.kernel α t s = ∫ z, triple R₁.m R₂.m kPhiNeg (yDiff R₁.y R₂.y) cJJ α z *
-        jker (bundle (yL R₁.y) α) ((eJJ Unit z).1.1 + (bP2 (eJJ Unit z).2).1)
-          ((eJJ Unit z).1.2 + (bP2 (eJJ Unit z).2).2) t s := by
-  have hN₁ := h₁.nonneg
-  have hN₂ := h₂.nonneg
-  have hC := CPhi_nonneg
-  obtain ⟨S, -, hS, hk⟩ := JSym.ofGenE (isBundle_yL h₁.bundle) (symReg_piece_P2 h₁ h₂)
-    (eJJ Unit) (measurePreserving_eJJ _) measurable_bP2 (by positivity)
-    (norm_piece_P2 h0 h1 hA h₁ h₂)
-  exact ⟨S, hS, hk⟩
 
 end Regular
 

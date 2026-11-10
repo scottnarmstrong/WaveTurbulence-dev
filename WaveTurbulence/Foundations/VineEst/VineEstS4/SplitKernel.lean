@@ -72,29 +72,6 @@ theorem splitLocalEquiv_symm_val (RU : CLRegionData G (S ∪ T) a c) (RS : CLReg
   rfl
 
 
-/-- **P2.3, the sigma form of the splitting of `K^U` at `b`.**  Here `ExtS RS L base e f` are the decorations of the upper
-block (with the boundary `(e, f)` at `a`), and the sum is over the compatible local decorations of `T` (boundary
-`(base + xS b, base + xS (b.child kept), g, h)`). -/
-theorem clLocalKernel_split_sigma (RU : CLRegionData G (S ∪ T) a c) (RS : CLRegionData G S a b)
-    (RT : CLRegionData G T b c) (D : ReconstructionData G) (hG : G.IsPlain) {L : ℝ} (hL : L ≠ 0) (γ δ : ℝ)
-    (F : ℕ → Mom d → ℝ) (layer : GNode (D.forest hG) → ℕ) (hLayer : IsLayering (D.garden hG) layer)
-    (base : Mom d) (t0 t1 t2 : ℝ) (e f g h : Mom d) :
-    clLocalKernel D hG RU L γ δ F layer hLayer base t0 t1 t2 e f g h =
-      (coupling d L γ δ : ℂ) ^ clLocalOrder1 RU * clLocalZeta RU *
-        ∑' p : Σ xS : ExtS RS L base e f, CLLocalDecoration RT L base (bdT RT L base xS.1 g h),
-          ∫ τ : CLInternalTime RU,
-            spart D hG L γ δ F layer hLayer base S a b p.1.1 (clLocalClock RU ![t0, t1, t2] τ) *
-              clLocalSummand D hG RT L γ δ F layer hLayer base (bdT RT L base p.1.1 g h)
-                (tT b RU ![t0, t1, t2] τ) p.2 (restrT hS hT hi hU RU RT τ) := by
-  unfold clLocalKernel
-  congr 1
-  rw [← (splitLocalEquiv hS hT hi hU RU RS RT hL base ![e, f, g, h]).symm.tsum_eq]
-  refine tsum_congr (fun p => ?_)
-  refine integral_congr_ae (Filter.Eventually.of_forall (fun τ => ?_))
-  have hx := splitLocalEquiv_symm_val hS hT hi hU RU RS RT hL base ![e, f, g, h] p
-  exact summand_split hS hT hi hU D hG γ δ F layer hLayer RU RS RT hL
-    (clExtEquiv RT L base _ p.2).2.2 _ p.2 hx rfl ![t0, t1, t2] τ
-
 end Sigma
 
 end WaveTurbulence.VineEstS4

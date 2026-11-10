@@ -50,17 +50,6 @@ theorem prod_interior_rows (hM9 : VINEPARAM) (B : CLChainAssembly G R n) {M : Ty
   rw [← Finset.prod_coe_sort]
   exact (Equiv.prod_comp ((assemblyRowEquiv hM9 B).symm.trans (assemblyIntOrder hM9 B).e.symm) (fun v => f v.1)).symm
 
-/-- **N2(b): the row-form weights as engine rows.** -/
-theorem hrow_of_rowwise (hM9 : VINEPARAM) (B : CLChainAssembly G R n) (hG : G.IsPlain)
-    (qf : SourcePair G → ℂ) (tf : GBranch G.tree → ℂ)
-    (Wv : (assemblyShape hM9 B).VIdx ⊕ (assemblyShape hM9 B).VIdx → ℂ) (cK cL : (assemblyShape hM9 B).VIdx → ℂ)
-    (hK : ∀ v, qf (assemblyPairOf hM9 B hG v).1 = cK v * Wv (Sum.inl v))
-    (hT : ∀ v, tf (assemblyBranchOf hM9 B v).1 = cL v * Wv (Sum.inr v)) :
-    (∏ p ∈ clRegionalPairs hG U, qf p) * (∏ v ∈ U.erase a, tf v) = ((∏ v, cK v) * ∏ v, cL v) * ∏ ρ, Wv ρ := by
-  rw [prod_pairs_rows hM9 B hG, prod_interior_rows hM9 B, Fintype.prod_sum_type]
-  simp only [hK, hT, Finset.prod_mul_distrib]
-  ring
-
 section Mom
 variable (hM9 : VINEPARAM) (B : CLChainAssembly G R n) (hG : G.IsPlain)
   (W : SumintWeightClockData (assemblyShape hM9 B) d) (wN wDec : ℕ) (bk : Fin (assemblyShape hM9 B).I → Fin 4)

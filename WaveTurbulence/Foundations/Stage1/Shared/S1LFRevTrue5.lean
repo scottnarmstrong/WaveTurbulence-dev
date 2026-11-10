@@ -32,9 +32,6 @@ theorem data_couple_other_gen {ε : Bool} (h : LFConstruction s ε) (q : SourceP
 
 variable (h : LFConstruction s true)
 
-theorem revSourceT_pairs_surj (q : SourcePair (unitTwistGarden s.skeleton s.placement)) :
-    ∃ q0 : SourcePair s.skeleton, s.pairs true q0 = q := (s.pairs true).surjective q
-
 
 theorem revSourceT_pairs_twice_val (q0 : SourcePair s.skeleton) :
     ((revSourceT s h).pairs true (s.pairs true q0)).1 = q0.1 := by

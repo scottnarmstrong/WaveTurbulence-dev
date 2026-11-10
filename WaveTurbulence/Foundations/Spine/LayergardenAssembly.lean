@@ -1,6 +1,8 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
-public import WaveTurbulence.Foundations.Spine.LayergardenZero
+public import WaveTurbulence.Foundations.Spine.ProperGardenZero
+public import WaveTurbulence.Foundations.Spine.CoupleZeroRemainder
+public import WaveTurbulence.Foundations.Spine.OffDiagonal
 public import WaveTurbulence.Foundations.Spine.CoupleThreeContributionAssembly
 public import WaveTurbulence.Foundations.Spine.RegularLegPrefix
 public import WaveTurbulence.Foundations.Spine.ThreeContributionReserve

@@ -42,8 +42,6 @@ theorem Op5.atoms_sub {h : HSt V D₀} {a : V} (ha : a ∈ (h.op5 Tm).s.M.atoms)
   have h2 := Finset.mem_sdiff.1 this.1
   exact h2
 
-theorem Op5.cls {h : HSt V D₀} (a : V) : (h.op5 Tm).s.cls a = h.s.cls a := rfl
-
 /-- Strict LG at the `ε`-atoms of the state after Operation 5. -/
 theorem Op5.epsLG {h : HSt V D₀} (hC : Prop95ConclN L γ η w κ Tm R h) :
     ∀ a ∈ (h.op5 Tm).s.M.atoms, (h.op5 Tm).s.cls a = .eps → ∀ x y : (h.op5 Tm).s.D,

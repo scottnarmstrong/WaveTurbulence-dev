@@ -51,16 +51,6 @@ def LeafData.res {T S : TTree} {i : Fin 3} {d : ℕ} (D : LeafData T d) (h : IsS
   nonneg ℓ := D.nonneg (h.embL ℓ)
   bound ℓ := D.bound (h.embL ℓ)
 
-/-- Constant leaf data `a(p)`. -/
-noncomputable def LeafData.const (T : TTree) {d : ℕ} {aP : (Fin d → ℤ) → ℂ} (haP : Summable fun k => ‖aP k‖) :
-    LeafData T d where
-  B _ _ := aP
-  U _ k := ‖aP k‖
-  cont _ _ := continuous_const
-  summ _ := haP
-  nonneg _ _ := norm_nonneg _
-  bound _ _ _ := le_rfl
-
 /-! ## Parent times and leaf factors -/
 
 theorem leaf_dropLast_mem {T : TTree} (ℓ : GLeaf (single T)) (h : ℓ.1.2 ≠ []) :

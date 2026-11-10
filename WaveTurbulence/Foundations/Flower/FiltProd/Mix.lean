@@ -153,27 +153,4 @@ theorem lintegral_normalizedLinkMixtureAmplitudeFilt_le {d n : ℕ} {L δ : ℝ}
   rw [lintegral_const_mul' _ _ ENNReal.ofReal_ne_top]
   exact mul_le_mul' le_rfl (lintegral_productLinkMixtureAmplitudeFilt_le hL γ δ Q φ hK hB J hS)
 
-theorem exists_normalizedLinkMixtureAmplitudeFilt_decay (d : ℕ) (hd : 3 ≤ d) :
-    ∃ C₀ : ℝ, 0 < C₀ ∧ ∀ γ : ℝ, γ ∈ Ioo (0 : ℝ) 1 →
-      ∀ η : ℝ, 0 < η → η < incoherenceExponent d γ →
-      ∀ δ : ℝ, 0 < δ → δ ≤ 1 → ∀ D : ℝ, 0 < D →
-      ∃ L₀ : ℝ, 1 ≤ L₀ ∧ ∀ L ≥ L₀, ∀ n : ℕ, ∀ Q : Fin n → LayerLink d,
-        (∀ i, |((Q i).leftLayer : ℝ) - (Q i).rightLayer| + 1 ≤ D) →
-        ∀ (K : ℝ), 0 ≤ K → ∀ φ : Fin n → ℝ → ℂ, (∀ i, PresentedMult L K (φ i)) →
-        ∀ k : ℕ, ∀ J : Finset (Fin n), J.card ≤ k →
-        ∀ S : Set (Fin n → LinkMixturePoint d), MeasurableSet S →
-        (∫⁻ z, ‖normalizedLinkMixtureAmplitudeFilt L γ δ Q φ J S z‖ₑ ∂productLinkMixtureMeasure d n J) ≤
-          ENNReal.ofReal ((K * C₀ * δ) ^ n *
-            L ^ (-(incoherenceExponent d γ - 2 * η) * incoherenceCount Q) * L ^ ((d : ℝ) * k)) := by
-  obtain ⟨C₀, hC₀, hb⟩ := exists_normalizedReplacedFiltLinkMass_decay d hd
-  refine ⟨C₀, hC₀, ?_⟩
-  intro γ hγ η hη hηg δ hδ hδ₁ D hD
-  obtain ⟨L₀, hL₀, hb⟩ := hb γ hγ η hη hηg δ hδ hδ₁ D hD
-  refine ⟨L₀, hL₀, ?_⟩
-  intro L hL n Q hspan K hK φ hφ k J hJ S hS
-  have hB : ∀ i u, ‖φ i u‖ ≤ K := fun i u =>
-    PresentedMult.norm_le (hφ i) (zero_lt_one.trans_le (hL₀.trans hL)).le hK u
-  exact (lintegral_normalizedLinkMixtureAmplitudeFilt_le (hL₀.trans hL) hδ γ Q φ hK hB J hS).trans
-    (hb L hL n Q hspan K hK φ hφ k J hJ)
-
 end WaveTurbulence.Flower.FiltProd

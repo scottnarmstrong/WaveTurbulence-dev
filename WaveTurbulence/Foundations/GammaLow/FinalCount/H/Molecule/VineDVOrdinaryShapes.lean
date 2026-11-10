@@ -21,15 +21,6 @@ open WaveTurbulence.Vine
 open Finset
 variable {V D : Type*} [DecidableEq V] [Fintype D] [DecidableEq D]
 
-/-- Any vine of the low family contained in a DV′ is type I or a T-vine. -/
-theorem ordinary_vine_in_DV_shape (M : Molecule V D) (hM : M.IsMolecule)
-    {P U : Finset V} {x y a b : V} (hU : Src.IsDV Src.γL M U a b)
-    (hP : Src.IsSomeVine Src.γL M P x y) (hPU : P ⊆ U) : M.IsVine .I P x y ∨ M.IsTVine P x y := by
-  rcases VC_in_DV M hM hU ⟨hP.block, 1, Src.Chain.single hP⟩ hPU with h | h | h
-  · exact Or.inl (DS.typeI_of_card_lt_four hP (by have := doubleChain_card h; omega))
-  · exact Or.inl (DS.typeI_of_card_lt_four hP (by have := doubleChain_card h; omega))
-  · exact Or.inr h
-
 /-- A VC in a DV′ missing one of its joints lies in one branch and is disjoint from the other (its proper sub-objects
 avoid the joints, N3 Cor 1.16′(1)). -/
 theorem vc_in_DV_split_disjoint (M : Molecule V D) (hM : M.IsMolecule)
@@ -62,29 +53,5 @@ theorem vine_in_DV_branch_or_split (M : Molecule V D) (hM : M.IsMolecule)
     · exact Or.inl h
     · exact Or.inr (Or.inl h)
   · exact Or.inr (Or.inr (vc_in_DV_split_disjoint M hM hσ hS hT hi ⟨hP.block, 1, Src.Chain.single hP⟩ hPU hboth))
-
-/-- A double-bond piece in a DV′ lies in one branch and is disjoint from the other (it cannot contain both joints:
-`σ(a, b) = 1`). -/
-theorem typeI_in_DV_split_disjoint (M : Molecule V D) (hM : M.IsMolecule)
-    {S T P : Finset V} {a b x y : V} (hσ : M.sigma a b = 1) (hS : M.IsTVine S a b) (hT : M.IsTVine T a b)
-    (hi : S ∩ T = {a, b}) (hP : M.IsVine .I P x y) (hPU : P ⊆ S ∪ T) :
-    (P ⊆ S ∧ Disjoint P T) ∨ (P ⊆ T ∧ Disjoint P S) := by
-  have hmiss : ¬(a ∈ P ∧ b ∈ P) := by
-    rintro ⟨ha, hb⟩
-    have h2 : M.bondsBetween x y = 2 := LGSpine.isVine_bondsBetween hP
-    have h2' : M.bondsBetween y x = 2 := by
-      unfold Molecule.bondsBetween at h2 ⊢
-      rw [Sym2.eq_swap]
-      exact h2
-    unfold Molecule.sigma at hσ
-    have hab : a ≠ b := hS.1.2.2.2.1
-    rw [Vine.typeI_atoms hP] at ha hb
-    simp only [mem_insert, mem_singleton] at ha hb
-    rcases ha with rfl | rfl <;> rcases hb with rfl | rfl
-    · exact hab rfl
-    · omega
-    · omega
-    · exact hab rfl
-  exact vc_in_DV_split_disjoint M hM hσ hS hT hi ⟨hP.1, 1, Src.Chain.single (Src.isSomeVine_of_I hP)⟩ hPU hmiss
 
 end WaveTurbulence.GammaLow.FinalCount.H

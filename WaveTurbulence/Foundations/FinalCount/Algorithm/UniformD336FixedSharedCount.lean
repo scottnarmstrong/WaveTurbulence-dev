@@ -1,7 +1,8 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 
-public import WaveTurbulence.Foundations.FinalCount.AppBD336ResidualCount
+public import WaveTurbulence.Foundations.FinalCount.AppBD336SecondPair
+public import WaveTurbulence.Foundations.FinalCount.AppBFiveStarFrames
 public import WaveTurbulence.Foundations.FinalCount.Algorithm.UniformFixedSharedStar
 public import WaveTurbulence.Foundations.FinalCount.AppBTripleFrameReindex
 import Mathlib.Tactic

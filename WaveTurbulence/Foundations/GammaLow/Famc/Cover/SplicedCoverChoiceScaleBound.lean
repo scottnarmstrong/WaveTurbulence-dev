@@ -11,14 +11,11 @@ public import WaveTurbulence.Foundations.GammaLow.Famc.Cover.SplicedFilteredChoi
 public import WaveTurbulence.Foundations.GammaLow.Famc.Cover.SplicedFilteredCountA
 public import WaveTurbulence.Foundations.GammaLow.Famc.Cover.SplicedFilteredGates
 public import WaveTurbulence.Foundations.GammaLow.Famc.Cover.SplicedFilteredRawBound
-public import WaveTurbulence.Foundations.GammaLow.Famc.Cover.SplicedFiniteSupport
 public import WaveTurbulence.Foundations.GammaLow.Famc.Cover.SplicedFrequencyCount
 public import WaveTurbulence.Foundations.GammaLow.Famc.Cover.SplicedFrequencySupport
-public import WaveTurbulence.Foundations.GammaLow.Famc.Cover.SplicedKernelFormula
 public import WaveTurbulence.Foundations.GammaLow.Famc.Cover.SplicedRawPrefactorLog
 public import WaveTurbulence.Foundations.GammaLow.Famc.Cover.SplicedSelectedAbsoluteSum
 public import WaveTurbulence.Foundations.GammaLow.Famc.Cover.SplicedSelectedKernel
-public import WaveTurbulence.Foundations.GammaLow.Famc.Cover.SplicedSumIntegral
 public import WaveTurbulence.Foundations.Spine.SplicedFilteredChoiceScaleBound
 public import WaveTurbulence.Foundations.Spine.SplicedFilteredPartition
 public import WaveTurbulence.Foundations.Spine.FiniteCoverRefinement

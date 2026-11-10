@@ -45,13 +45,6 @@ theorem couplePort_b (a b aT bT : Fin w × Path) (hab : Indep a b) (q : Path) :
   simp only [h, under_ext b q, ↓reduceIte]
   simp [addrExt]
 
-theorem couplePort_out (a b aT bT : Fin w × Path) {z : Fin w × Path} (h : ¬ InRegion a b z) :
-    couplePort a b aT bT z = z := by
-  unfold couplePort
-  have h1 : ¬ Under a z := fun h' => h (Or.inl h')
-  have h2 : ¬ Under b z := fun h' => h (Or.inr h')
-  simp only [h1, h2, ↓reduceIte]
-
 open scoped Classical in
 /-- Layer of the glued garden. -/
 @[expose] noncomputable def glueAt (LN T : LayeredGarden w) (a b aT bT : Fin w × Path)

@@ -30,30 +30,6 @@ theorem clPredecessorBudget_pos (R : CLRegionData G U a b) (v : GBranch (CLTreeF
   classical
   exact Finset.one_le_prod (fun u _ => branchPredecessorCost_pos u)
 
-/-- Grouping the actual support by source-pair or boundary origin gives the
-physical subtraction row, with no hypothetical reparametrization premise. -/
-theorem cl_physical_predecessor_row {E : Type*} [AddCommGroup E]
-    (hU : G.molecule.IsBlock U a b) (R : CLRegionData G U a b) (hG : G.IsPlain)
-    (κ : GNode G.tree → E)
-    (hκ : ∀ v : GBranch G.tree, κ v.toNode = κ (v.child 0)-κ (v.child 1)+κ (v.child 2))
-    (hp : ∀ ℓ, Mole.IsInternalLeaf G U ℓ → κ ℓ.toNode = κ (G.pair ℓ).toNode)
-    (v : GBranch (CLTreeForest R)) :
-    κ (clTreeNode R v.toNode)-physicalPredecessor (fun _ : Fin 1 => G.sign a.toNode)
-      (fun x => κ (clTreeNode R x)) v =
-      ∑ o, clOriginCoeff hU R hG (clPredecessorSupport R v) v o • clOriginValue hU R hG κ o := by
-  calc
-    _ = ∑ l ∈ clPredecessorSupport R v,
-        predecessorLeafCoeff (fun _ : Fin 1 => G.sign a.toNode) v l • κ (clTreeNode R l.toNode) :=
-      physical_predecessor_leaf_sum (fun _ : Fin 1 => G.sign a.toNode)
-        (fun x : GNode (CLTreeForest R) => κ (clTreeNode R x)) (clTreeNode_conservation R κ hκ) v
-    _ = ∑ l ∈ clPredecessorSupport R v,
-        predecessorLeafCoeff (fun _ : Fin 1 => G.sign a.toNode) v l •
-          clOriginValue hU R hG κ (clLeafOrigin hU R hG l) := by
-      apply Finset.sum_congr rfl
-      intro l _
-      rw [clLeafOrigin_value hU R hG κ hp]
-    _ = _ := pushSignedCoeff_smul _ _ _ _
-
 open Classical in
 /-- The number of nonzero paired and boundary coefficients obeys the actual
 heavy-route cost, including cancellations of pairs wholly inside the support. -/

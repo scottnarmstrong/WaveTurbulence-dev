@@ -54,24 +54,4 @@ theorem NormalFineForestStep.defect_mono {F G : List (State.{u,v} V)}
     simp only [forestDefectPotential,List.map_append,List.sum_append,List.map_cons,List.sum_cons]
     omega
 
-inductive NormalFineForestTrace : List (State.{u,v} V) → List (State.{u,v} V) → Prop
-  | nil (F : List (State.{u,v} V)) : NormalFineForestTrace F F
-  | cons {F G H : List (State.{u,v} V)} :
-      NormalFineForestStep F G → NormalFineForestTrace G H → NormalFineForestTrace F H
-
-theorem NormalFineForestTrace.defect_mono {F G : List (State.{u,v} V)}
-    (h : NormalFineForestTrace F G) : forestDefectPotential F ≤ forestDefectPotential G := by
-  induction h with
-  | nil F => exact le_refl _
-  | cons hstep htrace ih => exact le_trans hstep.defect_mono ih
-
-/-- A source run from negative initial nu cannot consist entirely of
-normal/fine edits, even when it splits and separately processes components. -/
-theorem no_normalFine_forest_run_of_nu_neg (s : State.{u,v} V) (hnu : appbNu s.graph < 0)
-    (h : NormalFineForestTrace [s] []) : False := by
-  have hp := defectPotential_pos_of_nu_neg s.graph hnu
-  have hh := h.defect_mono
-  simp only [forestDefectPotential,List.map_cons,List.map_nil,List.sum_cons,List.sum_nil,add_zero] at hh
-  omega
-
 end WaveTurbulence.Mole.AppbAlgorithm

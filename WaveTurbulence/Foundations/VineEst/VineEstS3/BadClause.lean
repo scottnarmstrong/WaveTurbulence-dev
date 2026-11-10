@@ -6,7 +6,6 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.VineEst.VineEstS3.BadClauseD
-public import WaveTurbulence.Foundations.VineEst.VineEstS3.AdmissibleAssembly
 public import WaveTurbulence.Foundations.VineEst.VineEstS3.Step3At
 
 /-! # `BadClause` of the canonical bad kinds (TARGET Step 3, L1841-L1847)
@@ -38,35 +37,5 @@ theorem canonBadKind_cases (i : Fin (assemblyShape hM9 B).I) :
     canonBadKind hM9 B RD hG layer i = 0 ∨ canonBadKind hM9 B RD hG layer i = 3 := by
   unfold canonBadKind
   split_ifs <;> simp
-
-include hLayer in
-theorem badClause_canon (hno : CoreVinesNoTwist B RD hG layer hLayer) (qOut : Fin 3 → ℕ) (centre : Fin 4 → Mom d)
-    (wBar : Mom d) :
-    BadClause (step3D hM9 B RD hG layer hLayer (canonBadKind hM9 B RD hG layer) qOut centre wBar) := by
-  classical
-  intro i hnor
-  refine ⟨fun h0 => ?_, fun h2 => ?_, fun h3 => ?_⟩
-  · have : AClause hM9 B RD hG layer i := by
-      by_contra hn
-      have : canonBadKind hM9 B RD hG layer i = 3 := by unfold canonBadKind; rw [if_neg hn]
-      have h0' : canonBadKind hM9 B RD hG layer i = 0 := h0
-      rw [this] at h0'
-      exact absurd h0' (by decide)
-    exact this
-  · have h2' : canonBadKind hM9 B RD hG layer i = 2 := h2
-    rcases canonBadKind_cases hM9 B RD hG layer i with h | h <;> rw [h] at h2' <;> exact absurd h2' (by decide)
-  · have h3' : canonBadKind hM9 B RD hG layer i = 3 := h3
-    have hnA : ¬ AClause hM9 B RD hG layer i := by
-      intro hA
-      have : canonBadKind hM9 B RD hG layer i = 0 := by unfold canonBadKind; rw [if_pos hA]
-      rw [this] at h3'
-      exact absurd h3' (by decide)
-    have hbad : (assemblyPieceAt B i).vineType.IsBad = true := by
-      have : (assemblyShape hM9 B).nor i = false := hnor
-      simpa [assemblyShape, shapeFamily] using this
-    obtain ⟨⟨i', j⟩, hi, hj⟩ := bad_d hM9 B RD hG layer hLayer hno i hbad hnA
-    have hi' : i' = i := hi
-    subst hi'
-    exact ⟨j, hj⟩
 
 end WaveTurbulence.VineEstS3

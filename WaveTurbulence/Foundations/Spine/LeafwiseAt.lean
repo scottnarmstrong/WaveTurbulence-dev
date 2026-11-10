@@ -36,8 +36,6 @@ abbrev LeafwiseRegularAsymptoticsAt (P : WTParams) : Prop :=
         SNormR (30 * P.d) 0 (LeafApp.chainNstar H Z X (LG.garden.sig 0) (0, [])) ≤
           ENNReal.ofReal (P.C₁ * P.C₁ ^ n * leafSizeProduct LG B)))
 
-theorem LeafwiseRegularAsymptoticsAt_gate_eq : LeafwiseRegularAsymptoticsGate = WTPrefix LeafwiseRegularAsymptoticsAt := rfl
-
 /-- The order-zero consequence of `LeafwiseCoherentApproximationAt` (the pre-R33 form, consumed by the
 order-zero spine modules): weighted `XNorm00Restr` of the coherent error. -/
 abbrev LeafwiseCoherentApproximationOrder0At (P : WTParams) : Prop :=
@@ -111,8 +109,6 @@ theorem LeafwiseCoherentApproximationAt.toOrder0 {P : WTParams} (h : LeafwiseCoh
   · obtain ⟨he, hn0, hs⟩ := ht X LG q q' h1 h2 h3 h4 H B hB
     exact ⟨(XNorm00Restr_le_XNormRestr _ (30 * P.d) 0 _ _ _).trans he, hn0, hs⟩
 
-theorem LeafwiseCoherentApproximationAt_gate_eq : LeafwiseCoherentApproximationGate = WTPrefix LeafwiseCoherentApproximationAt := rfl
-
 abbrev LeafwiseIncoherentDecayAt (P : WTParams) : Prop :=
   ∀ p : ℕ, p < P.D → ∀ n : ℕ, n ≤ P.N (p + 1) ^ 4 →
     (∀ (Q : RegCpl), Q.wf = true → Q.size = 2 * n → ∀ (LG : LayeredGarden 2),
@@ -135,7 +131,5 @@ abbrev LeafwiseIncoherentDecayAt (P : WTParams) : Prop :=
         (fun ts k => treeLeaves P.L P.γ P.δ LG H (ts 0) (ts 1) k) ≤
         regBound P n (LG.incoherency (X.treeLinks (LG.garden.sig 0))) *
           ENNReal.ofReal (leafSizeProduct LG B))
-
-theorem LeafwiseIncoherentDecayAt_gate_eq : LeafwiseIncoherentDecayGate = WTPrefix LeafwiseIncoherentDecayAt := rfl
 
 end WaveTurbulence.LGSpine

@@ -1,7 +1,6 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 
-public import WaveTurbulence.Foundations.Flower.FiltCoh.ZeroOrder
 public import WaveTurbulence.Foundations.Flower.FiltCoh.CoupleStarLayer
 public import WaveTurbulence.Foundations.Flower.IncTop.Top.RootMixture
 public import WaveTurbulence.Foundations.Flower.IncTop.Top.GardenPresentation

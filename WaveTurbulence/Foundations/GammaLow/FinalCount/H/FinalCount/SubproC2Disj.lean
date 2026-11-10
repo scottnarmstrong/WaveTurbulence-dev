@@ -3,7 +3,6 @@ module
 public import WaveTurbulence.Foundations.FinalCount.SubproC2Disj
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3VineLG1
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.SubproCollDisj
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceCountingData
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Api
 /-! **L6-H port of main `WaveTurbulence.Foundations.FinalCount.SubproC2Disj`** (sha256 in H/COPIED-SHA256SUMS): only the declarations that
 depend on the vine-family carrier, re-stated over the low family `Src … Src.γL` (and L6-STEP1's
@@ -33,9 +32,6 @@ def collDataOf {G : Garden w} (C : Src.SubproChoices Src.γL G) : CollData G.mol
 /-- The forbidden set of the second collection (TARGET L2101-L2112): hinges and the atoms of `C₁`. -/
 def forbiddenOf {G : Garden w} (C : CollData G.molecule) : Set (GBranch G.tree) :=
   ↑C.hinges ∪ ⋃ i, (↑(C.collection i).atoms : Set (GBranch G.tree))
-
-theorem forbiddenOf_collDataOf {G : Garden w} (C : Src.SubproChoices Src.γL G) :
-    forbiddenOf (collDataOf C) = C.forbidden := rfl
 
 /-- The unselected vines: pool members whose atom set is omitted. -/
 def unselOf {G : Garden w} (C : CollData G.molecule) (L γ η : ℝ) (base : Mom d)

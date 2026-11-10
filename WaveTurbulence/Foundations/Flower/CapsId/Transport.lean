@@ -145,14 +145,6 @@ theorem stemSetCap_inl (LG : LayeredGarden w) (p : ℕ) (hF : OneFlower LG.garde
     EmbeddingLike.apply_eq_iff_eq, Sum.inl.injEq, cBranch_toNode, onCapStem_embN LG p hF,
     isCapFlowerParent_cBranch LG p hF]
 
-/-- The capped stem set of a cap tree is empty. -/
-theorem stemSetCap_inr (LG : LayeredGarden w) (p : ℕ) (j : Fin w) :
-    stemSetCap (capLayered LG p) (capJ w) (capσ w (.inr j)) = ∅ := by
-  ext b
-  obtain ⟨b, rfl⟩ := (cBranch LG.garden).surjective b
-  simp only [stemSetCap, Finset.mem_filter, Finset.mem_univ, true_and, cBranch_val,
-    EmbeddingLike.apply_eq_iff_eq, reduceCtorEq, false_and, Finset.notMem_empty]
-
 theorem prodDyadicCut_map {ι κ : Type*} (L : ℝ) (j : ℕ) (s : Finset ι) (e : ι ↪ κ) (y : κ → ℝ) :
     prodDyadicCut L j (s.map e) y = prodDyadicCut L j s (fun a => y (e a)) := by
   unfold prodDyadicCut
@@ -199,15 +191,6 @@ theorem topOrder_capLayered (LG : LayeredGarden w) (p q : ℕ) (j : Fin w) :
     simp only [Finset.mem_filter, Finset.mem_univ, true_and, cBranch_val, EmbeddingLike.apply_eq_iff_eq,
       Sum.inl.injEq, cBranch_toNode, capLayer_embN]
   rw [this, Finset.card_map]
-
-/-- The caps have top-layer order `0`. -/
-theorem topOrder_capLayered_cap (LG : LayeredGarden w) (p q : ℕ) (j : Fin w) :
-    (capLayered LG p).topOrder q (capσ w (.inr j)) = 0 := by
-  unfold LayeredGarden.topOrder
-  rw [Finset.card_eq_zero, Finset.filter_eq_empty_iff]
-  intro b _
-  obtain ⟨b, rfl⟩ := (cBranch LG.garden).surjective b
-  simp only [cBranch_val, EmbeddingLike.apply_eq_iff_eq, reduceCtorEq, false_and, not_false_eq_true]
 
 /-- **Transport of the frontier cutoffs.** -/
 theorem frontierW_capLayered (LG : LayeredGarden w) (p : ℕ) (hF : OneFlower LG.garden)
@@ -339,22 +322,6 @@ theorem sibWeightCap_capLayered (LG : LayeredGarden w) (p : ℕ) (hF : OneFlower
 
 /-! ## Pins and removed phases -/
 
-/-- B0's intrinsic pins `fixCap` take only the values `s` and `t`. -/
-theorem fixCap_values (LG : LayeredGarden w) (J : Finset (Fin w)) (pat : Fin w → FixPat) (t s : ℝ)
-    (b : GBranch LG.garden.tree) :
-    (fixCap LG J pat t s b).isSome → fixCap LG J pat t s b = some s ∨ fixCap LG J pat t s b = some t := by
-  intro h
-  unfold fixCap at h ⊢
-  by_cases hb : IsCapFlowerParent LG J b
-  · rw [ite_eq_left hb]; exact Or.inl rfl
-  · rw [ite_eq_right hb] at h ⊢
-    generalize pat b.1.1 = q at h ⊢
-    cases q with
-    | plain => simp at h
-    | dRoot => dsimp only at h ⊢; split_ifs at h ⊢ <;> simp_all
-    | dParent => dsimp only at h ⊢; split_ifs at h ⊢ <;> simp_all
-    | dChild i => dsimp only at h ⊢; split_ifs at h ⊢ <;> simp_all
-
 /-- **Transport of the pins**: `fixPat → MkDefs.fixCap`. -/
 theorem capFix_eq_fixCap (LG : LayeredGarden w) (p : ℕ) (hF : OneFlower LG.garden) (pat : Fin w → FixPat)
     (t s : ℝ) : capFix LG pat t s = fixCap (capLayered LG p) (capJ w) (capExt pat .plain) t s := by
@@ -395,13 +362,6 @@ theorem capFix_eq_fixCap (LG : LayeredGarden w) (p : ℕ) (hF : OneFlower LG.gar
           · simp only [cBranch_val, h1]
           · simp only [cBranch_val, h2]
       simp only [he]
-
-/-- The transported flower pins take only the values `s` and `t`. -/
-theorem capFix_values (LG : LayeredGarden w) (p : ℕ) (hF : OneFlower LG.garden) (pat : Fin w → FixPat) (t s : ℝ)
-    (b : GBranch (capGarden LG.garden).tree) :
-    (capFix LG pat t s b).isSome → capFix LG pat t s b = some s ∨ capFix LG pat t s b = some t := by
-  rw [capFix_eq_fixCap LG p hF]
-  exact fixCap_values (capLayered LG p) (capJ w) (capExt pat .plain) t s b
 
 /-- **Transport of the removed phases.** -/
 theorem capOff_eq_offCap (LG : LayeredGarden w) (p : ℕ) (hF : OneFlower LG.garden)

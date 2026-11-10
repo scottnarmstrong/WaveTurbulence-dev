@@ -59,11 +59,6 @@ theorem cls_same_iffMk (S : Garden w) (hM : S.molecule.IsMolecule) (σ : Prescri
   · rintro ⟨i, hi, h1, h2⟩
     exact ⟨_, stSt_cls_memMk (Mk := Mk) hM σ (List.get_mem _ _) h1, stSt_cls_memMk (Mk := Mk) hM σ (List.get_mem _ _) h2⟩
 
-theorem cls_same_iff (S : Garden w) (hM : S.molecule.IsMolecule) (σ : Prescription S) (p p' : GBranch S.tree) :
-    (∃ a, (stSt S σ).cls p = some a ∧ (stSt S σ).cls p' = some a) ↔
-      ∃ i : ℕ, ∃ hi : i < (unitBlocks S σ).length,
-        p ∈ ((unitBlocks S σ).get ⟨i, hi⟩).atoms ∧ p' ∈ ((unitBlocks S σ).get ⟨i, hi⟩).atoms := cls_same_iffMk (Mk := ∅) S hM σ p p'
-
 /-- B2d: the `SpliceData` of a skeleton and its spliced garden at the marked set `Mk`. -/
 noncomputable def spliceDataOfMk (S : Garden w) (hM : S.molecule.IsMolecule) (σ : Prescription S)
     (Mk : Set (Stage1.CLVine S)) (v0 : GBranch S.tree) : SpliceData S.molecule (stSt S σ Mk).G.molecule where
@@ -130,77 +125,7 @@ theorem spliceDataOf_repMk (S : Garden w) (hM : S.molecule.IsMolecule) (σ : Pre
     (spliceDataOfMk S hM σ Mk v0).rep i = ((unitBlocks S σ Mk).get ⟨i, hi⟩).upper := by
   simp [spliceDataOfMk, dif_pos hi]
 
-theorem spliceDataOf_qMk (S : Garden w) (hM : S.molecule.IsMolecule) (σ : Prescription S) (Mk : Set (Stage1.CLVine S))
-    (v0 : GBranch S.tree) :
-    (spliceDataOfMk S hM σ Mk v0).q = (unitBlocks S σ Mk).length := rfl
 
-
-/-- The `SpliceData` of a skeleton and its spliced garden. -/
-noncomputable def spliceDataOf (S : Garden w) (hM : S.molecule.IsMolecule) (σ : Prescription S)
-    (v0 : GBranch S.tree) : SpliceData S.molecule (stSt S σ).G.molecule where
-  ob := (stSt S σ).M.ob
-  od := (stSt S σ).M.od
-  q := (unitBlocks S σ).length
-  U := fun i => if h : i < (unitBlocks S σ).length then ((unitBlocks S σ).get ⟨i, h⟩).atoms else ∅
-  rep := fun i => if h : i < (unitBlocks S σ).length then ((unitBlocks S σ).get ⟨i, h⟩).upper else v0
-  cl := repC (stSt S σ).cls
-  ob_inj := (stSt S σ).M.ob_inj
-  od_inj := (stSt S σ).M.od_inj
-  od_mate := (stSt S σ).M.od_mate
-  od_out := (stSt S σ).M.od_out
-  U_disj := by
-    intro i j hi hj hij
-    simp only [dif_pos hi, dif_pos hj]
-    have hp := List.pairwise_iff_get.mp (unitBlocks_pairwise hM σ)
-    rcases lt_or_gt_of_ne hij with h | h
-    · exact hp ⟨i, hi⟩ ⟨j, hj⟩ h
-    · exact (hp ⟨j, hj⟩ ⟨i, hi⟩ h).symm
-  rep_mem := by
-    intro i hi
-    simp only [dif_pos hi]
-    exact ((unitBlocks S σ).get ⟨i, hi⟩).isBlock.2.1
-  cl_unit := by
-    intro i hi v hv
-    simp only [dif_pos hi] at hv ⊢
-    exact stSt_repC_mem hM σ (List.get_mem _ _) hv
-  cl_free := by
-    intro v hv
-    refine stSt_repC_none hM σ (fun u hu hvu => ?_)
-    obtain ⟨i, hi⟩ := List.mem_iff_get.mp hu
-    have := hv i.1 i.2
-    simp only [dif_pos i.2] at this
-    rw [show (⟨i.1, i.2⟩ : Fin _) = i from rfl, hi] at this
-    exact this hvu
-  ob_atom := (stSt S σ).M.ob_atom
-  ob_range := by
-    intro v
-    rw [(stSt S σ).M.ob_range]
-    simp only [repC]
-    cases h : (stSt S σ).cls v <;> simp
-  od_range := by
-    intro x
-    rw [(stSt S σ).M.od_range]
-    refine not_congr ?_
-    rw [cls_same_iff S hM σ]
-    constructor
-    · rintro ⟨i, hi, h⟩
-      exact ⟨i, hi, by simpa [dif_pos hi] using h⟩
-    · rintro ⟨i, hi, h⟩
-      exact ⟨i, hi, by simpa [dif_pos hi] using h⟩
-
-
-theorem spliceDataOf_U (S : Garden w) (hM : S.molecule.IsMolecule) (σ : Prescription S) (v0 : GBranch S.tree)
-    {i : ℕ} (hi : i < (unitBlocks S σ).length) :
-    (spliceDataOf S hM σ v0).U i = ((unitBlocks S σ).get ⟨i, hi⟩).atoms := by
-  simp [spliceDataOf, dif_pos hi]
-
-theorem spliceDataOf_rep (S : Garden w) (hM : S.molecule.IsMolecule) (σ : Prescription S) (v0 : GBranch S.tree)
-    {i : ℕ} (hi : i < (unitBlocks S σ).length) :
-    (spliceDataOf S hM σ v0).rep i = ((unitBlocks S σ).get ⟨i, hi⟩).upper := by
-  simp [spliceDataOf, dif_pos hi]
-
-theorem spliceDataOf_q (S : Garden w) (hM : S.molecule.IsMolecule) (σ : Prescription S) (v0 : GBranch S.tree) :
-    (spliceDataOf S hM σ v0).q = (unitBlocks S σ).length := rfl
 
 /-- The ladders of the spliced garden as a `LadderFam`. -/
 noncomputable def ladderFamOf (G : Garden w) : LadderFam G.molecule {T // T ∈ G.molecule.maximalLadders} where
@@ -383,26 +308,6 @@ theorem skeletonCodeLegMk : SkeletonCodeLegMk := by
   · obtain ⟨v0⟩ := hne
     exact skeletonCode_nonemptyMk S σ Mk v0
   · exact skeletonCode_emptyMk S σ Mk (not_nonempty_iff.mp hne)
-
-/-- **`SkeletonCodeLeg`** (nonempty case). -/
-theorem skeletonCode_nonempty {R : ℕ} (S : Garden (2 * R)) (σ : Prescription S) (v0 : GBranch S.tree) :
-    ∃ nsb : ℕ, nsb ≤ Fintype.card (GBranch S.tree) ∧ ∃ ℓ : GBranch S.tree ≃ Fin (Fintype.card (GBranch S.tree)),
-      ∃ L ∈ arcLists (Fintype.card (GBranch S.tree)) (4 * rbarOf S σ)
-          (unitFamily (Fintype.card (GBranch S.tree)) nsb (rbarOf S σ) (Fintype.card (GBranch S.tree) - nsb)),
-        ∀ x : Fin (Fintype.card (GBranch S.tree)) × Fin (Fintype.card (GBranch S.tree)),
-          Fintype.card {b : {y : GardenDart S // S.molecule.out y = true} //
-            (ℓ (S.molecule.atom b.1), ℓ (S.molecule.atom (S.molecule.mate b.1))) = x} = L.count x :=
-  skeletonCode_nonemptyMk S σ ∅ v0
-
-/-- In the empty case there is nothing to code. -/
-theorem skeletonCode_empty {R : ℕ} (S : Garden (2 * R)) (σ : Prescription S) (hE : IsEmpty (GBranch S.tree)) :
-    ∃ nsb : ℕ, nsb ≤ Fintype.card (GBranch S.tree) ∧ ∃ ℓ : GBranch S.tree ≃ Fin (Fintype.card (GBranch S.tree)),
-      ∃ L ∈ arcLists (Fintype.card (GBranch S.tree)) (4 * rbarOf S σ)
-          (unitFamily (Fintype.card (GBranch S.tree)) nsb (rbarOf S σ) (Fintype.card (GBranch S.tree) - nsb)),
-        ∀ x : Fin (Fintype.card (GBranch S.tree)) × Fin (Fintype.card (GBranch S.tree)),
-          Fintype.card {b : {y : GardenDart S // S.molecule.out y = true} //
-            (ℓ (S.molecule.atom b.1), ℓ (S.molecule.atom (S.molecule.mate b.1))) = x} = L.count x :=
-  skeletonCode_emptyMk S σ ∅ hE
 
 theorem skeletonCodeLeg : SkeletonCodeLeg := skeletonCodeLeg_of_Mk skeletonCodeLegMk
 

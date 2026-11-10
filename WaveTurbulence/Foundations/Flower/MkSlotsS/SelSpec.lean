@@ -84,26 +84,6 @@ theorem classPiece_selFilt_ok (hsub : ∀ {LG : LayeredGarden (2 * R)} (B : Prim
       1 ≤ (Rs c.1.1, chiDNS).1 ∧ (∀ u, ‖(Rs c.1.1, chiDNS).2 u‖ ≤ 1) ∧ filterB ⇑(Rs c.1.1, chiDNS).2 ≤ cθ :=
   ⟨selROf_not_hinge pat t s hsub hc, hL.trans (hRs _), norm_chiDNS_le_one, hcθ⟩
 
-/-- **`ClassPieceOK.sel_lb`** (ruling R187): when the lower bounds sit only in `dParent` trees (B3s: at the free parents
-of `dParent`-pinned object tops), the residual selected atoms (plain trees) carry none. -/
-theorem classPiece_sel_lb (hplain : ∀ j, (kSel j).isSome → pat j = FixPat.plain)
-    (hlbT : ∀ c, (lb c).isSome → pat c.1.1 = FixPat.dParent) :
-    ∀ v ∈ selROf J kSel mkF a,
-      (classPiece P mkF a prot (protI a.layered J pat t s kSel).card (fixOf J pat t s mkF a) filt ind lb).lb v =
-        none := by
-  intro v hv
-  show lb v = none
-  by_contra h
-  have h1 := hlbT v (Option.ne_none_iff_isSome.1 h)
-  rw [hplain _ (selROf_kSel hv)] at h1
-  exact absurd h1 (by decide)
-
 end Piece
-
-/-- The selected trees of the residual atoms (the set `U` of `selMassMK`). -/
-theorem mem_image_selROf {w : ℕ} {J : Finset (Fin w)} {kSel : Fin w → Option ℕ} {mkF : Stage1Mk.MarkFn w}
-    {a : PrescribedPrimeGarden w} (j : Fin w) :
-    j ∈ (selROf J kSel mkF a).image (fun v => v.1.1) ↔ ∃ c ∈ selROf J kSel mkF a, c.1.1 = j := by
-  simp
 
 end WaveTurbulence.Flower.MkSlotsS

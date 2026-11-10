@@ -141,13 +141,4 @@ end WaveTurbulence.GaussianPairings
 namespace WaveTurbulence.GaussianPairings
 open scoped Classical
 
-/-- The product of equality indicators counts exactly the label-preserving bijections. -/
-theorem sum_equiv_weight {A B C : Type*} [Fintype A] [Fintype B] [DecidableEq A] [DecidableEq B]
-    (f : A → C) (g : B → C) :
-    (∑ e : A ≃ B, ∏ a, if g (e a) = f a then (1 : ℂ) else 0) =
-      (Nat.card {e : A ≃ B // ∀ a, g (e a) = f a} : ℂ) := by
-  simp only [Fintype.prod_boole, Nat.card_eq_fintype_card, Fintype.card_subtype]
-  rw [← Finset.sum_filter]
-  simp only [Finset.sum_const, nsmul_eq_mul, mul_one]
-
 end WaveTurbulence.GaussianPairings

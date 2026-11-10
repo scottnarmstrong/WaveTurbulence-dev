@@ -31,22 +31,6 @@ open TTree WaveTurbulence.Links WaveTurbulence.Reg WaveTurbulence.LGSpine
 
 variable {w v : ℕ}
 
-theorem chainSlice_congr_layers (LG : LayeredGarden w) (LG' : LayeredGarden v) (r : ℕ) :
-    ∀ (X : RegChain) (a : Fin w × Path) (a' : Fin v × Path),
-      (∀ p, layerAt LG (addrExt a p) = layerAt LG' (addrExt a' p)) →
-      SourceApp.chainSlice LG a r X = SourceApp.chainSlice LG' a' r X
-  | .nil, _, _, _ => rfl
-  | .pair m Qr Qg inner rest, a, a', h => by
-    rw [chainSlice_pair, chainSlice_pair]
-    have h0 : layerAt LG a = layerAt LG' a' := by
-      have := h []
-      simpa [addrExt] using this
-    have hn : ∀ p, layerAt LG (addrExt (nextAddr a m inner) p) =
-        layerAt LG' (addrExt (nextAddr a' m inner) p) := fun p => by
-      simp only [nextAddr, addrExt_append]
-      exact h _
-    rw [h0, chainSlice_congr_layers LG LG' r rest _ _ hn]
-
 theorem sliceAddress_pair (LG : LayeredGarden w) (a : Fin w × Path) (r : ℕ) (m : MiniTreeCode)
     (Qr Qg : RegCpl) (inner rest : RegChain) (path : Path) :
     LeafApp.sliceAddress LG a r (.pair m Qr Qg inner rest) path =
@@ -56,32 +40,6 @@ theorem sliceAddress_pair (LG : LayeredGarden w) (a : Fin w × Path) (r : ℕ) (
             (path.drop ([m.c] ++ inner.lonePath ++ [m.lone]).length)
         else addrExt a path
       else LeafApp.sliceAddress LG (nextAddr a m inner) r rest path := rfl
-
-/-- **Relabelling the profile transport along an address map.** -/
-theorem sliceAddress_map (LG : LayeredGarden w) (LG' : LayeredGarden v) (r : ℕ)
-    (φ : Fin v × Path → Fin w × Path) (hφ : ∀ x q, φ (addrExt x q) = addrExt (φ x) q) :
-    ∀ (X : RegChain) (a' : Fin v × Path) (path : Path),
-      (∀ p, layerAt LG (addrExt (φ a') p) = layerAt LG' (addrExt a' p)) →
-      LeafApp.sliceAddress LG (φ a') r X path = φ (LeafApp.sliceAddress LG' a' r X path)
-  | .nil, a', path, _ => by
-    show addrExt (φ a') path = φ (addrExt a' path)
-    rw [hφ]
-  | .pair m Qr Qg inner rest, a', path, h => by
-    rw [sliceAddress_pair, sliceAddress_pair]
-    have h0 : layerAt LG (φ a') = layerAt LG' a' := by
-      have := h []
-      simpa [addrExt] using this
-    have e : φ (nextAddr a' m inner) = nextAddr (φ a') m inner := hφ _ _
-    have hn : ∀ p, layerAt LG (addrExt (φ (nextAddr a' m inner)) p) =
-        layerAt LG' (addrExt (nextAddr a' m inner) p) := fun p => by
-      rw [e]
-      simp only [nextAddr, addrExt_append]
-      exact h _
-    rw [h0]
-    split_ifs
-    · rw [← e, sliceAddress_map LG LG' r φ hφ rest _ _ hn]
-    · exact (hφ a' path).symm
-    · rw [← e, sliceAddress_map LG LG' r φ hφ rest _ _ hn]
 
 /-- All top-level pairs of the chain are in layers other than `r`. -/
 def TopNe (LG : LayeredGarden w) (r : ℕ) : (Fin w × Path) → RegChain → Prop

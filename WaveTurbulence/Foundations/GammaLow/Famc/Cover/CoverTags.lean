@@ -36,7 +36,6 @@ public import WaveTurbulence.Foundations.GammaLow.Famc.Cover.SourceOrdinaryJoint
 public import WaveTurbulence.Foundations.GammaLow.Famc.Cover.SourcePairsCompatible
 public import WaveTurbulence.Foundations.GammaLow.Famc.Cover.SourcePairsMain
 public import WaveTurbulence.Foundations.GammaLow.Famc.Cover.SourcePrimaryPairChoices
-public import WaveTurbulence.Foundations.GammaLow.Famc.Cover.SourcePrimaryPairTable
 public import WaveTurbulence.Foundations.GammaLow.Famc.Cover.SourceRestrictedCarrier
 public import WaveTurbulence.Foundations.GammaLow.Famc.Defs
 public import WaveTurbulence.Foundations.GammaLow.Famc.Cover.SourceSwapObject
@@ -151,10 +150,6 @@ noncomputable def fullChoice {G : Garden w} (B : CountingChoices γv G d) {L γ 
     atomScale := fun v => if h : B.CriticalSG v then (s.2 ⟨v, h⟩).1 else 0
     ladderScale := fun S => if h : S ∈ G.molecule.maximalLadders then
       (match s.1 ⟨S, h⟩ with | none => 0 | some P => P.1) else 0 }
-
-theorem fullChoice_critical {G : Garden w} (B : CountingChoices γv G d) {L γ η : ℝ}
-    (s : Scales B L γ η) (v : GBranch G.tree) :
-    (fullChoice B s).CriticalSG v ↔ B.CriticalSG v := Iff.rfl
 
 theorem fullChoice_numCritical {G : Garden w} (B : CountingChoices γv G d) {L γ η : ℝ}
     (s : Scales B L γ η) : (fullChoice B s).numCriticalSG = B.numCriticalSG := rfl

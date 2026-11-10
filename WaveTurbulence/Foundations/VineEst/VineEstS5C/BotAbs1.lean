@@ -26,12 +26,6 @@ open WaveTurbulence WaveTurbulence.VineEstS2 WaveTurbulence.VineEstS4 WaveTurbul
 section Calc
 variable {w d : ℕ} {G : Garden w} {U : Finset (GBranch G.tree)} {a b : GBranch G.tree}
 
-theorem uAbs_mono (R : CLRegionData G U a b) (L : ℝ) (base : Mom d)
-    (Ψ : (GNode G.tree → (Fin d → ℤ)) → (Fin 3 → ℝ) → (GBranch G.tree → ℝ) → ℂ) {C C' : ℝ} (hC : C ≤ C')
-    (h : UAbs R L base Ψ C) : UAbs R L base Ψ C' := fun t β => by
-  obtain ⟨h1, h2, h3⟩ := h t β
-  exact ⟨h1, h2, h3.trans hC⟩
-
 theorem uAbs_const_mul (R : CLRegionData G U a b) (L : ℝ) (base : Mom d)
     (Ψ : (GNode G.tree → (Fin d → ℤ)) → (Fin 3 → ℝ) → (GBranch G.tree → ℝ) → ℂ) (c : ℂ) {C : ℝ}
     (h : UAbs R L base Ψ C) : UAbs R L base (fun x t u => c * Ψ x t u) (‖c‖ * C) := fun t β => by

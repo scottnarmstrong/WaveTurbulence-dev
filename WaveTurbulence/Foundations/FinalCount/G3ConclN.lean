@@ -2,7 +2,6 @@
 module
 public import WaveTurbulence.Foundations.FinalCount.G3CycN
 public import WaveTurbulence.Foundations.FinalCount.G3TripleThm
-public import WaveTurbulence.Foundations.FinalCount.G3FinalE4
 /-! **FINALCOUNT-G3 (R29 items 2-3): `Prop95ConclN`**, the conclusions of DH23 Prop 9.5 / TARGET `finalmol` for the state after
 Operations 1--4 (`HRunN`), and `HRunN.prop95N`.  Differences from `Prop95ConclE` (t = 0): `ε`-atoms are LG or tame (`Tm`, TARGET
 `subpro` (3)); `chains` only for components without tame atoms (A2); `noBetaCut` is the nonzero-gap `NoBetaCut`;

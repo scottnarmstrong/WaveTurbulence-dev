@@ -23,16 +23,4 @@ theorem fixed_extra_signed_momentum {E : Type*} [AddCommGroup E]
     rw [← h.2]
     abel
 
-theorem fixed_extra_signed_energy {d : ℕ} (sx sy sr : Bool) (k : Fin 5 → Mom d) :
-    signedDoubleEnergyTwo sx sy sr ![k 0,k 1,k 2,k 3] =
-      signedDoubleFiveEnergyTwo sx sy sr k -
-        (doubleSign (doubleExtraSign sx sy sr) : ℝ)*‖k 4‖^2 := by
-  change -(doubleSign sx : ℝ)*‖k 0‖^2-(doubleSign sy : ℝ)*‖k 1‖^2-
-      (doubleSign sr : ℝ)*‖k 3‖^2 =
-    (-(doubleSign sx : ℝ)*‖k 0‖^2-(doubleSign sy : ℝ)*‖k 1‖^2-
-      (doubleSign sr : ℝ)*‖k 3‖^2+
-      (doubleSign (doubleExtraSign sx sy sr) : ℝ)*‖k 4‖^2)-
-      (doubleSign (doubleExtraSign sx sy sr) : ℝ)*‖k 4‖^2
-  ring
-
 end WaveTurbulence.MoleProp

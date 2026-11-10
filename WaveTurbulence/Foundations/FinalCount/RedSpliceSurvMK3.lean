@@ -217,22 +217,4 @@ theorem survivor_imageMK {σ : Prescription G} {Mk : Set (CLVine G)} {S : Finset
           hRc := H.hRc
           hNone := H.hNone }
 
-/-- **o75 Lemma 3 for the survivor list `𝒞_E`** (`survivorsMk`): every survivor has its residual image in `G_sb`,
-a vine or (75-W1) an HV. -/
-theorem survivorsMk_imageMK {σ : Prescription G} {Mk : Set (CLVine G)}
-    {t : Finset (GBranch G.tree) × GBranch G.tree × GBranch G.tree} (ht : t ∈ survivorsMk G σ Mk) :
-    ∃ O : Object (stSt G σ Mk).G.molecule,
-      O.atoms = t.1.image ((stSt G σ Mk).M.pi (stSt G σ Mk).hcls) ∧
-      O.upper = (stSt G σ Mk).M.pi (stSt G σ Mk).hcls t.2.1 ∧
-      O.lower = (stSt G σ Mk).M.pi (stSt G σ Mk).hcls t.2.2 ∧
-      Set.InjOn ((stSt G σ Mk).M.pi (stSt G σ Mk).hcls) t.1 ∧
-      (∀ c, (stSt G σ Mk).cls ((stSt G σ Mk).M.ob c) ≠ none → c ∈ O.atoms → c = O.upper ∨ c = O.lower) ∧
-      (∀ z ∈ t.1, z ≠ t.2.1 → z ≠ t.2.2 → (stSt G σ Mk).cls z = none) ∧
-      ((Vine.IsSomeVine (stSt G σ Mk).G.molecule O.atoms O.upper O.lower ∧
-          ∃ hvc, O.shape = VineLikeObject.vc hvc) ∨
-        (AllowedCollectionObject (stSt G σ Mk).G O ∧ ∃ R, O.shape = VineLikeObject.hyper R)) := by
-  obtain ⟨S, hS, hσ, h, ht'⟩ := mem_survivorsMk_iffMK.mp ht
-  obtain ⟨O, h1, h2, h3, h4, h5, h6, h7⟩ := survivor_imageMK hS hσ h ht'
-  exact ⟨O, h1, h2, h3, h4, h5, h6, h7.imp id fun hh => ⟨hh.1, hh.2.1⟩⟩
-
 end WaveTurbulence.RedSplice

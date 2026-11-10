@@ -5,7 +5,7 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.VineEst.VineEstS3Par.SignedBound
+public import WaveTurbulence.Foundations.VineEst.VineEstS3Par.SignedParam
 
 /-! # Kind-2 phase: continuity and the norm of `signedPhase` (V5 Step 4d-A, item 1)
 
@@ -33,12 +33,6 @@ theorem norm_phase_eq (D : SumintPar.SumintDatum d) (L γ δ η : ℝ) (x : D.S.
   split_ifs with h
   · rw [Complex.norm_real, Real.norm_of_nonneg (Real.rpow_nonneg (abs_nonneg _) _)]
   · simp
-
-theorem kind2Factor_nonneg (D : SumintPar.SumintDatum d) (η : ℝ) (τ : D.S.TVar → ℝ) : 0 ≤ kind2Factor D η τ :=
-  Finset.prod_nonneg fun i _ => by
-    split_ifs
-    · exact Real.rpow_nonneg (abs_nonneg _) _
-    · exact zero_le_one
 
 theorem continuous_phase_of_le (D : SumintPar.SumintDatum d) (L γ δ η : ℝ) (hη : 3 * η ≤ 1)
     (x : D.S.VIdx → (Fin d → ℤ)) (r : Mom d) (t : ℝ) : Continuous (D.phase L γ δ η x r t) := by

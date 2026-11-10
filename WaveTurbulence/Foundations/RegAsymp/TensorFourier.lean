@@ -26,18 +26,6 @@ theorem tensor_fourier_factorization {ι : Type*} [Fintype ι] {d : ℕ}
     (fun i x => (Real.fourierChar (-inner ℝ x (ξ i)) : ℂ) * f i x)]
   simp only [Real.fourier_eq,Circle.smul_def,smul_eq_mul]
 
-/-- The product of modulated profiles has precisely the translated block
-Fourier transforms at the actual pulled-back frequencies. -/
-theorem tensor_fourier_modulation {ι : Type*} [Fintype ι] {d : ℕ}
-    (f : ι → EuclideanSpace ℝ (Fin d) → ℂ)
-    (β ξ : ι → EuclideanSpace ℝ (Fin d)) :
-    (∫ x : ι → EuclideanSpace ℝ (Fin d),
-      Real.fourierChar (-(∑ i, inner ℝ (x i) (ξ i))) •
-        ∏ i, Real.fourierChar (inner ℝ (β i) (x i)) • f i (x i)) =
-      ∏ i, 𝓕 (f i) (ξ i-β i) := by
-  rw [tensor_fourier_factorization (fun i x => Real.fourierChar (inner ℝ (β i) x) • f i x) ξ]
-  simp only [fourier_positive_modulation]
-
 /-- The two-array Fourier transform in the exact NT convention factors
 into the actual fixed-dimensional transforms of the input profiles. -/
 theorem fourierW_tensor_factorization {d n : ℕ}

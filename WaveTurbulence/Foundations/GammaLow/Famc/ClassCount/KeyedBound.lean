@@ -8,14 +8,12 @@ public import WaveTurbulence.Foundations.GammaLow.Fama.Vine.IsoStmt
 public import WaveTurbulence.Foundations.GammaLow.Famc.ClassCount.Classes
 import Mathlib.Tactic
 public import WaveTurbulence.Foundations.Stage1.ClassCount.KeyedBound
-public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Amend7
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.CL
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.CN
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Coll
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Coll2
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Cover
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Data
-public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Deg
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Desig
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Final
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Gap
@@ -31,7 +29,6 @@ public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Marked
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Obj
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Obj2
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Obj3
-public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Pairs
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Piece
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Rev
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Runs
@@ -42,7 +39,6 @@ public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Stage
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.SurvData
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Top
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.TripleDesig
-public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.TripleHinge
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.UnitBlocks
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Units
 public import WaveTurbulence.Foundations.GammaLow.Fama.Splice.Units2
@@ -52,20 +48,15 @@ public import WaveTurbulence.Foundations.GammaLow.Fama.Coll.Basic
 public import WaveTurbulence.Foundations.GammaLow.Fama.Coll.Collection
 public import WaveTurbulence.Foundations.GammaLow.Fama.Inputs
 public import WaveTurbulence.Foundations.GammaLow.Fama.Vine.Chain
-public import WaveTurbulence.Foundations.GammaLow.Fama.P.Molecule.VineChainEraseEndpoints
-public import WaveTurbulence.Foundations.GammaLow.Fama.P.Molecule.VineChainInteriorConnected
 public import WaveTurbulence.Foundations.GammaLow.Fama.Vine.Facts
 public import WaveTurbulence.Foundations.GammaLow.Fama.P.Molecule.VineLocalDartChains
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.Src.Counting
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.Src.Objects
-public import WaveTurbulence.Foundations.GammaLow.Fama.P.Spine.VineDelObjects
 public import WaveTurbulence.Foundations.GammaLow.Famc.ClassCount.Assembly
 public import WaveTurbulence.Foundations.GammaLow.Famc.ClassCount.ChainFam2
 public import WaveTurbulence.Foundations.GammaLow.Famc.ClassCount.ChainFam3
-public import WaveTurbulence.Foundations.GammaLow.Famc.ClassCount.ChainSum
 public import WaveTurbulence.Foundations.GammaLow.Famc.ClassCount.ClassBound
 public import WaveTurbulence.Foundations.GammaLow.Famc.ClassCount.Lab
-public import WaveTurbulence.Foundations.GammaLow.Famc.ClassCount.Layout
 public import WaveTurbulence.Foundations.GammaLow.Famc.ClassCount.RootDef
 public import WaveTurbulence.Foundations.GammaLow.Famc.ClassCount.SkeletonCode
 public import WaveTurbulence.Foundations.GammaLow.Famc.ClassCount.SkeletonLeg
@@ -118,17 +109,6 @@ noncomputable def keyOfMk (γ : ℝ) [Fact (γ ≤ 1 / 2)] {S : Garden (2 * R)} 
     (fun i => incoherencyIndex (coreOf D hS LG ∘ (Fama.stSt γ S σ Mk).M.ob)
       (ladderGroups ((Fama.ladderDataOf (Fama.stSt γ S σ Mk).G).upper i) ((Fama.ladderDataOf (Fama.stSt γ S σ Mk).G).lower i))))
 
-/-- The index type of a key. -/
-abbrev KeyIdx (γ : ℝ) [Fact (γ ≤ 1 / 2)] {S : Garden (2 * R)} (σ : Prescription S) (Tss : Fin (Fama.unitBlocks γ S σ).length → List (Trip S)) : Type :=
-  ReplacementSlot S ⊕ (TripI γ S σ Tss ⊕ {T // T ∈ (Fama.stSt γ S σ).G.molecule.maximalLadders})
-
-/-- The key of a layered garden. -/
-noncomputable def keyOf (γ : ℝ) [Fact (γ ≤ 1 / 2)] {S : Garden (2 * R)} (D : ReconstructionData S) (hS : S.IsPlain) (σ : Prescription S)
-    (Tss : Fin (Fama.unitBlocks γ S σ).length → List (Trip S)) (LG : LayeredGarden (2 * R)) : KeyIdx γ σ Tss → ℕ :=
-  Sum.elim (slotInc D hS LG) (Sum.elim (fun i => Fama.vineIncoh γ S (coreOf D hS LG) (tau γ Tss i).1)
-    (fun i => incoherencyIndex (coreOf D hS LG ∘ (Fama.stSt γ S σ).M.ob)
-      (ladderGroups ((Fama.ladderDataOf (Fama.stSt γ S σ).G).upper i) ((Fama.ladderDataOf (Fama.stSt γ S σ).G).lower i))))
-
 /-- B2d: the key sum is at most `2 ḡ` (any marked set). -/
 theorem sum_key_leMk {S : Garden (2 * R)} (D : ReconstructionData S) (hS : S.IsPlain) (σ : Prescription S)
     (Mk : Set (CLVineG γ S)) {Tss : Fin (Fama.unitBlocks γ S σ Mk).length → List (Trip S)}
@@ -161,17 +141,6 @@ theorem sum_key_leMk {S : Garden (2 * R)} (D : ReconstructionData S) (hS : S.IsP
     ring
   rw [this]
   omega
-
-theorem sum_key_le {S : Garden (2 * R)} (D : ReconstructionData S) (hS : S.IsPlain) (σ : Prescription S)
-    {Tss : Fin (Fama.unitBlocks γ S σ).length → List (Trip S)}
-    (h1 : ∀ j, ∃ n, ∀ t ∈ Tss j, ChainIngredientG γ S.molecule ((Fama.unitBlocks γ S σ).get j).atoms
-          ((Fama.unitBlocks γ S σ).get j).upper ((Fama.unitBlocks γ S σ).get j).lower n t.1 t.2.1 t.2.2 ∧
-          Mole.CLParentPattern S t.1 t.2.1 t.2.2)
-    (h2 : ∀ j, ((Tss j).map (fun t => t.1.erase t.2.1)).Pairwise Disjoint)
-    (LG : LayeredGarden (2 * R)) {g : ℕ}
-    (hg : gbarRHS γ D hS LG (Fama.stSt γ S σ) (Set.toFinite (Fama.unitIngredients γ S σ)).toFinset = g) :
-    ∑ k, keyOf γ D hS σ Tss LG k ≤ 2 * g :=
-  sum_key_leMk D hS σ ∅ h1 h2 LG hg
 
 open Classical in
 /-- B2d: **the bound for a family of layered gardens with common `ḡ` over one skeleton, one `σ` and one

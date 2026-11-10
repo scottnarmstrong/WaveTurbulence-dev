@@ -67,7 +67,6 @@ theorem UCtx.stepD3L {C : CollData M₀} {h h' : HSt V D₀} {κ : D₀ → (Fin
       · rw [Function.update_of_ne e]; exact hc.good.2 a ha⟩,
     hc.anc.betaSt v, hc.rel.betaSt v, hc.atom.betaPost hD⟩⟩
 
-alias _root_.WaveTurbulence.FinalCountG3.UCtx.stepD3L := _root_.WaveTurbulence.GammaLow.FinalCount.H.UCtx.stepD3L
 /-- `UCtx` along Step D1: the index drops by `1` or `2`. -/
 theorem UCtx.stepD1L {C : CollData M₀} {h h' : HSt V D₀} {κ : D₀ → (Fin d → ℤ)} (hk : Adm0 κ)
     (hs : UStepD1 C L γ η w Adm0 h h') (hp : PinnedM0 Adm0 L w M₀) (hc : UCtx M₀ Rn Adm0 L w h) :
@@ -81,5 +80,4 @@ theorem UCtx.stepD1L {C : CollData M₀} {h h' : HSt V D₀} {κ : D₀ → (Fin
       hc.atom.vinePostGL (hc.eps hp) K hu hl⟩
     unfold jdeg2; rcases hd2 with h | h <;> simp [h]
 
-alias _root_.WaveTurbulence.FinalCountG3.UCtx.stepD1L := _root_.WaveTurbulence.GammaLow.FinalCount.H.UCtx.stepD1L
 end WaveTurbulence.GammaLow.FinalCount.H

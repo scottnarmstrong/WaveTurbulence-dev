@@ -5,14 +5,6 @@ public import WaveTurbulence.Foundations.XChain.InductParameters
 public section
 namespace WaveTurbulence.Induct
 
-theorem theta_succ_lt (P : WTParams) (hη : 0 < P.η) (p : ℕ) : P.theta (p + 1) < P.theta p := by
-  have hη20 : 0 < P.η ^ 20 := pow_pos hη _
-  have hp : 0 < ((2 : ℝ)⁻¹) ^ p := pow_pos (by norm_num) _
-  unfold WTParams.theta
-  rw [pow_succ ((2 : ℝ)⁻¹) p]
-  norm_num
-  nlinarith [mul_pos hη20 hp]
-
 theorem two_power_le_half_of_gap {L s θ : ℝ} (hL : 0 < L)
     (hgap : 4 ≤ L ^ (s - θ)) : 2 * L ^ (-s) ≤ (1 / 2) * L ^ (-θ) := by
   have hp : 0 < L ^ (s - θ) := Real.rpow_pos_of_pos hL _

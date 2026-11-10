@@ -24,13 +24,4 @@ theorem N_fourth_le_pred (P : WTParams) {q : ℕ} (hq : 1 ≤ q)
   · exact (pow_le_pow_right' (show 1 ≤ x by omega) (show 4 ≤ 40 * P.d by omega)).trans
       (Nat.le_self_pow (show 40 * P.d ≠ 0 by omega) _)
 
-/-- Truncation in the source fourth-power range tests only top-tree counts. -/
-theorem source_trunc_iff_topOrder {w : ℕ} (LG : LayeredGarden w) (P : WTParams)
-    {p : ℕ} (hD : p + 1 ≤ P.D) (hd : 1 ≤ P.d)
-    (hn : LG.garden.order ≤ P.N (p + 1) ^ 4) :
-    LG.IsTrunc p (P.N (p + 1)) (P.N p) ↔
-      ∀ j, LG.topOrder p j ≤ P.N (p + 1) := by
-  apply trunc_iff_topOrder
-  exact hn.trans (by simpa using N_fourth_le_pred P (q := p + 1) (by omega) hD hd)
-
 end WaveTurbulence.LFTwist

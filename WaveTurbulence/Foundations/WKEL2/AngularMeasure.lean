@@ -74,10 +74,4 @@ theorem lintegral_angular_swap {e : Mom d} (he : ‖e‖ = 1) (hd : 2 ≤ d)
       (lintegral_map hG measurable_swap).symm
     _ = _ := by rw [map_swap_angularMeasure he hd]
 
-/-- Angular measure is finite in the dimensions used in the packet. -/
-theorem angularMeasure_finite (e : Mom d) (hd : 2 ≤ d) : IsFiniteMeasure (angularMeasure e) := by
-  have : IsFiniteMeasure ((resonantMeasure e).restrict (ball 0 1)) :=
-    ⟨by simpa only [Measure.restrict_apply_univ] using resonantMeasure_ball_lt_top e hd 1⟩
-  exact Measure.smul_finite _ ENNReal.ofReal_ne_top
-
 end WaveTurbulence.WKEL2

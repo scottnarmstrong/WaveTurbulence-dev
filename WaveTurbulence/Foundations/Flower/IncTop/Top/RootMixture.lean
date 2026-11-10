@@ -3,7 +3,6 @@ module
 
 public import WaveTurbulence.Foundations.Flower.IncTop.Top.RootMeasure
 public import WaveTurbulence.Foundations.Flower.IncTop.Reg.ProductMixture
-public import WaveTurbulence.Foundations.Flower.IncTop.Reg.ProductRootMixture
 
 /-! Ported by source from C2-B-TOP `C2BTop.RootMixture` (sha256 in COPIED-SHA256SUMS); mechanical edits only.
  # Full spatial norm transport for root-modulated product Fourier measures

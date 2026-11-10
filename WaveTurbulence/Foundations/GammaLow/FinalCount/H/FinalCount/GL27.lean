@@ -108,5 +108,4 @@ theorem UnselOK.unloopL {Unsel : Set (Src.Object Src.γL M)} (hC : LoopCtx L w �
         Src.Object.unloop_shape_vc U _ hUs⟩
       exact CollData.mem_C2Can_of_vc (C2Of_unloop hC hH obl hUC.1) (Src.Object.unloop_shape_vc U _ hUs)
 
-alias _root_.WaveTurbulence.FinalCountG3.UnselOK.unloopL := _root_.WaveTurbulence.GammaLow.FinalCount.H.UnselOK.unloopL
 end WaveTurbulence.GammaLow.FinalCount.H

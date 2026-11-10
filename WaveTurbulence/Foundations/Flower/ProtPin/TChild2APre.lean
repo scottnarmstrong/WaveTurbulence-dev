@@ -37,9 +37,6 @@ theorem tc2a_cmc_eq (θ : ℝ) {r : ℕ} (q : Fin r → ℝ) :
   rw [e, timeFourierNorm_translate]
   rfl
 
-theorem tc2a_norm_Izeta (u : ℤˣ) : ‖Complex.I * (((u : ℤ) : ℂ))‖ = 1 := by
-  rcases Int.units_eq_one_or u with rfl | rfl <;> simp
-
 theorem tc2a_bClock_eq (s y u : ℝ) (t : Fin 2) :
     bClock (fun t' : Fin 2 => if t' = 0 then s else y) u t = (![u, y] : Fin 2 → ℝ) t := by
   fin_cases t <;> simp [bClock]

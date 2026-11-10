@@ -39,18 +39,6 @@ theorem chainIngredientG_spec {γ : ℝ} {M : Molecule V D} {U A : Finset V} {a 
     exact ⟨Src.Chain.append ih.1 hT hi hne, ih.2.1, ih.2.2.trans subset_union_left⟩
   | append_last hS hT hi hne => exact ⟨Src.Chain.append hS hT hi hne, hT, subset_union_right⟩
 
-/-- Every actual atom of a chain belongs to one of its actual ingredients. -/
-theorem chain_atom_ingredientG {γ : ℝ} {M : Molecule V D} {U : Finset V} {a b v : V} {n : ℕ}
-    (h : Src.Chain γ M U a b n) (hv : v ∈ U) :
-    ∃ A x y, ChainIngredientG γ M U a b n A x y ∧ v ∈ A := by
-  induction h with
-  | single h => exact ⟨_, _, _, ChainIngredientG.single h, hv⟩
-  | append hS hT hi hne ih =>
-    rcases mem_union.mp hv with hv | hv
-    · obtain ⟨A, x, y, hA, hvA⟩ := ih hv
-      exact ⟨A, x, y, ChainIngredientG.append_left hA hT hi hne, hvA⟩
-    · exact ⟨_, _, _, ChainIngredientG.append_last hS hT hi hne, hv⟩
-
 /-- The vine ingredients of the group `S` over `𝒱_γ` (main's `Stage1.IsIngredient`): the vines of a chain
 decomposition of a VC `S`, resp. of the adjoint of an HVC `S` (at least two ingredients). -/
 def IsIngredientG (γ : ℝ) (M : Molecule V D) (S T : Finset V) : Prop :=

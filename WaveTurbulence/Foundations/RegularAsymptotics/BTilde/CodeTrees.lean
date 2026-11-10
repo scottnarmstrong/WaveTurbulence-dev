@@ -27,11 +27,6 @@ open scoped Real
 
 /-! ### Translation facts -/
 
-theorem toJRm_c (m : MiniTreeCode) : (toJRm m).c = m.c := rfl
-theorem toJRm_lone (m : MiniTreeCode) : (toJRm m).lone = m.lone := rfl
-theorem toJRm_red (m : MiniTreeCode) : (toJRm m).red = m.red := rfl
-theorem toJRm_green (m : MiniTreeCode) : (toJRm m).green = m.green := rfl
-
 /-! ### The mini-tree tables -/
 
 theorem mt_red1_ne_c (m : MiniTreeCode) : m.red.1 ≠ m.c := by

@@ -1,7 +1,7 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 
-public import WaveTurbulence.Foundations.VineEst.VineSpaceK.Statements
+public import WaveTurbulence.Foundations.VineEst.VineSpaceK.StatementDefs
 public import WaveTurbulence.Foundations.Flower.Stage1W.Defs
 
 /-! # V5W-B-WORLD: the V5-SPACE kernels and flat statements for every row selector
@@ -83,62 +83,6 @@ open WaveTurbulence.VineEstS5C WaveTurbulence.VineEstS5C.P3 WaveTurbulence.VineE
   WaveTurbulence.VineEstS5C.FlatMod
 open scoped ENNReal
 open VineEstS5C.P4.Final LGSpine
-
-/-- Main's `VineSpaceK.VineFlatC2MX` for every selector, with the selector's top layer `p` and presentation
-(`rowSel.weighted = true →`; vacuous for an unweighted selector). -/
-def VineFlatC2MX (P : WTParams) : Prop :=
-  ∀ {p : ℕ}, p < P.D →
-    (rowSel.weighted = true → rowSel.p = p ∧ Flower.Stage1W.GPresented (32 * P.d) (rowSel.g P.d) rowSel.cψ) →
-    ∀ (h : ℕ → Mom P.d → ℝ) (B₀ : ℝ), 0 ≤ B₀ →
-    (∀ r ≤ p, SNormR (40 * P.d) (40 * P.d) (h r) ≤ ENNReal.ofReal B₀) →
-    ∀ {w : ℕ} {G : Garden w} {U : Finset (GBranch G.tree)} {a b : GBranch G.tree} {R : CLRegionData G U a b}
-      {n : ℕ} (hprime : IsPrimeGarden G) (hM9 : VINEPARAM) (B : CLChainAssembly G R n) (RD : ReconstructionData G)
-      (hG : G.IsPlain)
-      (layer : GNode (RD.forest hG) → ℕ) (hLayer : IsLayering (RD.garden hG) layer) (kind : Bool),
-      CanonicalObject p kind (layeredReconstruction RD hG layer hLayer) → (∀ x, layer x ≤ p) →
-    (RD.garden hG).order ≤ P.N (p + 1) ^ 4 → clLocalOrder1 R ≤ P.N 1 ^ 4 →
-    ∀ (centre : Fin 4 → Mom P.d) (wBar : Mom P.d) (lam : ℝ)
-      (m : (GNode G.tree → Fin P.d → ℤ) → ℂ) (mass : ℝ), 0 ≤ mass →
-    EnginePullback (Lvl.top B).region P.L wBar m mass →
-    RowCoherent hM9 B RD hG layer hLayer (step3W hM9 B RD hG layer hLayer (canonBadKind hM9 B RD hG layer) (qOutOf RD hG layer a b R) centre wBar)
-      P.L P.γ P.δ h p →
-    XNorm00Restr (2 * P.η ^ 8) (Eng.outBox (step3D hM9 B RD hG layer hLayer (canonBadKind hM9 B RD hG layer) (qOutOf RD hG layer a b R) centre wBar))
-      (Eng.outSet (step3D hM9 B RD hG layer hLayer (canonBadKind hM9 B RD hG layer) (qOutOf RD hG layer a b R) centre wBar) P.L P.γ P.η)
-      (flatFnRMX (p := p) (kind := kind) B RD hG layer hLayer m lam (G.sign a.toNode)
-        (kparOf P.L P.γ P.δ (truncF p h) wBar) hprime (G.sign a.toNode)) ≤
-    ENNReal.ofReal mass * ENNReal.ofReal ((1 + |lam|) ^ (6 * P.η ^ 6) * ((P.C₁ * Real.sqrt P.δ) ^ clLocalOrder2 RD hG R *
-      P.L ^ (-(P.η ^ 8 * ((cohmolIndex B RD hG layer +
-        (step3D hM9 B RD hG layer hLayer (canonBadKind hM9 B RD hG layer) (qOutOf RD hG layer a b R) centre wBar).M₁ : ℕ) : ℝ)) -
-        P.η ^ 2 * ((Finset.univ.filter fun i => (assemblyShape hM9 B).nor i = false).card : ℝ) + P.η ^ 7) *
-      regionLeafSize RD hG R layer hLayer (fun _ => B₀) *
-      P.C₂ ^ (Finset.univ.filter fun i => (assemblyShape hM9 B).nor i = false).card))
-
-/-- Main's `VineSpaceK.VineFlatHalfMX` for every selector, with the same selector hypothesis. -/
-def VineFlatHalfMX (P : WTParams) : Prop :=
-  ∀ {p : ℕ}, p < P.D →
-    (rowSel.weighted = true → rowSel.p = p ∧ Flower.Stage1W.GPresented (32 * P.d) (rowSel.g P.d) rowSel.cψ) →
-    ∀ (h : ℕ → Mom P.d → ℝ) (B₀ : ℝ), 0 ≤ B₀ →
-    (∀ r ≤ p, SNormR (40 * P.d) (40 * P.d) (h r) ≤ ENNReal.ofReal B₀) →
-    ∀ {w : ℕ} {G : Garden w} {U : Finset (GBranch G.tree)} {a b : GBranch G.tree} {R : CLRegionData G U a b}
-      {n : ℕ} (hprime : IsPrimeGarden G) (hM9 : VINEPARAM) (B : CLChainAssembly G R n) (RD : ReconstructionData G)
-      (hG : G.IsPlain)
-      (layer : GNode (RD.forest hG) → ℕ) (hLayer : IsLayering (RD.garden hG) layer) (kind : Bool),
-      CanonicalObject p kind (layeredReconstruction RD hG layer hLayer) → (∀ x, layer x ≤ p) →
-    (RD.garden hG).order ≤ P.N (p + 1) ^ 4 → clLocalOrder1 R ≤ P.N 1 ^ 4 →
-    ∀ (centre : Fin 4 → Mom P.d) (wBar : Mom P.d) (lam : ℝ)
-      (m : (GNode G.tree → Fin P.d → ℤ) → ℂ) (mass : ℝ), 0 ≤ mass →
-    EnginePullback (Lvl.top B).region P.L wBar m mass →
-    RowCoherent hM9 B RD hG layer hLayer (step3W hM9 B RD hG layer hLayer (canonBadKind hM9 B RD hG layer) (qOutOf RD hG layer a b R) centre wBar)
-      P.L P.γ P.δ h p →
-    XNorm00Restr (2 * P.η ^ 8) (Eng.outBox (step3D hM9 B RD hG layer hLayer (canonBadKind hM9 B RD hG layer) (qOutOf RD hG layer a b R) centre wBar))
-      (Eng.outSet (step3D hM9 B RD hG layer hLayer (canonBadKind hM9 B RD hG layer) (qOutOf RD hG layer a b R) centre wBar) P.L P.γ P.η)
-      (flatFnRMX (p := p) (kind := kind) B RD hG layer hLayer m lam (G.sign a.toNode)
-        (kparOf P.L P.γ P.δ (truncF p h) wBar) hprime (G.sign a.toNode)) ≤
-    ENNReal.ofReal mass * ENNReal.ofReal ((1 + |lam|) ^ (6 * P.η ^ 6) * ((P.C₁ * Real.sqrt P.δ) ^ clLocalOrder2 RD hG R *
-      P.L ^ (-(P.η ^ 8 * ((cohmolIndex B RD hG layer +
-        (step3D hM9 B RD hG layer hLayer (canonBadKind hM9 B RD hG layer) (qOutOf RD hG layer a b R) centre wBar).M₁ : ℕ) : ℝ)) -
-        P.η ^ 2 / 2 * ((Finset.univ.filter fun i => (assemblyShape hM9 B).nor i = false).card : ℝ) + P.η ^ 7) *
-      regionLeafSize RD hG R layer hLayer (fun _ => B₀)))
 
 end Statements
 

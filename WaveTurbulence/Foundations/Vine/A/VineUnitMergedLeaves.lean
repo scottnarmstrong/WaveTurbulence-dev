@@ -30,13 +30,6 @@ theorem unitTwist_mergedLeaf_iffMk (Z : TwistGroupSite G) (σ : Prescription G)
     refine ⟨lpLeafEquiv G Z.P lp, congrArg (coreLeafEquiv G Z.P) he, ?_⟩
     exact (naiveDart_deleted_iffMk Z σ hT hsel (.inr lp)).mpr hd
 
-/-- A leaf is merged on one side exactly when its actual LF image is merged on the other. -/
-theorem unitTwist_mergedLeaf_iff (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) (q : GLeaf G.tree) :
-    MergedLeaf (spliceFold Z.target (unitBlocks Z.target (transportPrescription Z.iso σ))).cls
-      (coreLeafEquiv G Z.P q) ↔ MergedLeaf (spliceFold G (unitBlocks G σ)).cls q :=
-  unitTwist_mergedLeaf_iffMk Z σ (Stage1Mk.markTransported_empty Z.iso) hsel q
-
 /-- B1b-2 (Mk-general form of `unitTwist_splice_leaf_ranges`). -/
 theorem unitTwist_splice_leaf_rangesMk (Z : TwistGroupSite G) (σ : Prescription G)
     {Mk : Set (CLVine G)} {Mk' : Set (CLVine Z.target)} (hT : Stage1Mk.MarkTransported Z.iso Mk Mk')
@@ -52,12 +45,5 @@ theorem unitTwist_splice_leaf_rangesMk (Z : TwistGroupSite G) (σ : Prescription
     ((not_congr (unitTwist_mergedLeaf_iffMk Z σ hT hsel q)).symm.trans
       (spliceFold_leaf_range (unitBlocks Z.target (transportPrescription Z.iso σ) Mk')
         (coreLeafEquiv G Z.P q)).symm))
-
-/-- The complete old-leaf ranges of the two actual simultaneous splices correspond. -/
-theorem unitTwist_splice_leaf_ranges (Z : TwistGroupSite G) (σ : Prescription G)
-    (hsel : ∃ c ∈ vinesV0 G σ, c.atoms = Z.S0) (q' : GLeaf Z.target.tree) :
-    (∃ q, coreLeafEquiv G Z.P ((spliceFoldLeafTrace (unitBlocks G σ)).leaf q) = q') ↔
-      ∃ q, (spliceFoldLeafTrace (unitBlocks Z.target (transportPrescription Z.iso σ))).leaf q = q' :=
-  unitTwist_splice_leaf_rangesMk Z σ (Stage1Mk.markTransported_empty Z.iso) hsel q'
 
 end WaveTurbulence.VineA

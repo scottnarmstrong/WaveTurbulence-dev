@@ -103,14 +103,4 @@ theorem JSym.Bound.reindex (e : ι ≃ ι') {R : JSym ι} {θ A N : ℝ} (h : R.
     simp_rw [hw]
     exact lintegral_reindex e (F := fun α => ∫⁻ γ : ℝ × ℝ, wJ θ α γ.1 * dnorm k R.m α γ)
 
-/-- **Relabelling the variables of a class `J` operator.** -/
-theorem ClassJ.reindex (e : ι ≃ ι') {θ A N : ℝ} {T : (ι → ℝ) → ℝ → ℝ → ℂ}
-    (h : ClassJ θ A N T) : ClassJ θ A N fun α' => T fun i => α' (e i) := by
-  obtain ⟨n, R, c, hb, hs, he⟩ := h
-  refine ⟨n, fun i => (R i).reindex e, c, fun i => (hb i).reindex e, hs, fun α' => ?_⟩
-  intro t s h0 h1 h2
-  beta_reduce
-  rw [he _ t s h0 h1 h2]
-  simp only [JSym.reindex_kernel]
-
 end WaveTurbulence.ClassJR

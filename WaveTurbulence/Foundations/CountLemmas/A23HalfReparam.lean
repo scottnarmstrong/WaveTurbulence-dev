@@ -74,11 +74,6 @@ in the two tuples. -/
 instance (εA εB : Fin 3 → ℤˣ) : Decidable (Admissible12345 εA εB) := by
   unfold Admissible12345; infer_instance
 
-/-- **The admissible sign patterns number 18** (the referee's check 4.2 says 16). -/
-theorem card_admissible12345 :
-    (Finset.univ.filter (fun ε : (Fin 3 → ℤˣ) × (Fin 3 → ℤˣ) => Admissible12345 ε.1 ε.2)).card = 18 := by
-  decide
-
 /-- A normalized tuple `k_p + k_q − k_o = k` with its energy window (Lemma 2.1). -/
 @[expose] def NormTuple (L : ℝ) (n : Fin 5 → Fin d → ℤ) (p q o : Fin 5) (m : Fin d → ℤ)
     (β τ : ℝ) : Prop :=

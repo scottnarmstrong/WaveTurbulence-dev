@@ -3,7 +3,6 @@ module
 
 public import WaveTurbulence.Foundations.Spine.RA1LW.LeafFam
 public import WaveTurbulence.Foundations.Spine.RA1LW.TreeRemainderRestriction
-public import WaveTurbulence.Foundations.Spine.RA1LW.TreeDominantFactors
 public import WaveTurbulence.Foundations.IncohInst.Regref.SpatialBridge
 public import WaveTurbulence.Foundations.Spine.RA1LW.TreeNstarBound
 public import WaveTurbulence.Foundations.RegularAsymptotics.RA1Trees.TreeTimeFactor

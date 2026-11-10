@@ -64,8 +64,6 @@ def SumintMixParDoubledAt (A : ℝ) (P : WTParams) : Prop :=
           (fun tt v => exprMix M hI P.L P.γ (2 * P.δ) P.η tt v) ≤
         ENNReal.ofReal (M.mass * sumintRHS P D)
 
-theorem sumintMixParDoubled_iff : SumintMixParDoubled ↔ WTPrefixA SumintMixParDoubledAt := Iff.rfl
-
 /-- **`sumint` for weights of arbitrary size.** -/
 def ScaledSumintMixAt (A : ℝ) (P : WTParams) : Prop :=
   0 < P.L → ∀ (D : SumintPar.SumintDatum P.d) (hI : 0 < D.S.I) (M : CharMix D.S P.d),

@@ -37,10 +37,4 @@ theorem regularCouple_reconstructs {G : Garden 2} (hG : IsRegularCouple G) :
   rw [rawOfGarden_eq_regular_history G R hR hm]
   exact RawRegular.reconstructs hR
 
-/-- A prime endpoint cannot have a nontrivial incoming reconstruction history. -/
-theorem eq_of_prime_reconstruction {w : ℕ} {S R : Raw w} (h : Reconstructs S R) (hR : Prime R) : S = R := by
-  cases h with
-  | refl => rfl
-  | tail hr hs => exact (hR.2 _ hs).elim
-
 end WaveTurbulence.Reg.Skeleton

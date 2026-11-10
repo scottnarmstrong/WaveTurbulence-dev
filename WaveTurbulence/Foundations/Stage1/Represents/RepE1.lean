@@ -6,7 +6,8 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.Stage1.Represents.RepVineEst
-public import WaveTurbulence.Foundations.Stage1.Represents.RepTF1
+public import WaveTurbulence.Foundations.Stage1.Represents.RepGateA
+public import WaveTurbulence.Foundations.Stage1.Represents.RepFinal1
 
 /-!
 # S2 REPRESENTS, VINE-E (1): the elementary premises of VINEEST for a unit
@@ -45,10 +46,5 @@ theorem clLocalOrder1_le_N1 (P : WTParams) {w : ℕ} {G : Garden w} {U : Finset 
     {a b : GBranch G.tree} (R : CLRegionData G U a b) {p : ℕ} (h : G.order ≤ P.N (p + 1) ^ 4) :
     clLocalOrder1 R ≤ P.N 1 ^ 4 :=
   (clLocalOrder1_le_order R).trans (h.trans (Nat.pow_le_pow_left (N_le_N_one P (by omega)) 4))
-
-/-- VINEEST's input bound for the vine-region profile of a pair-type family. -/
-theorem unitProfile_bound {P : WTParams} {w p : ℕ} (U : TypeFamily P w) (hU : U.Bounded p) (i : U.ι) (j : Fin w) :
-    ∀ r ≤ p, SNormR (40 * P.d) (40 * P.d) (U.h i r j j) ≤ ENNReal.ofReal (U.b i : ℝ) :=
-  fun r hr => hU i r j j hr
 
 end WaveTurbulence.Represents

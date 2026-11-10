@@ -94,21 +94,4 @@ theorem order_replaceAt : ∀ {t : TTree} {p : Path} {u : TTree},
       simp only [order] at ⊢
       omega
 
-/-- Leaf-count bookkeeping for replacing an embedded subtree. -/
-theorem leaves_replaceAt {t u : TTree} {p : Path} (h : subtree t p = some u) (s : TTree) :
-    (replaceAt t p s).leaves.card + u.leaves.card = t.leaves.card + s.leaves.card := by
-  have hi := order_replaceAt h s
-  simp only [card_leaves]
-  omega
-
-/-- Collapsing removes exactly the order of the collapsed subtree. -/
-theorem order_collapseAt {t u : TTree} {p : Path} (h : subtree t p = some u) :
-    (collapseAt t p).order + u.order = t.order := by
-  simpa only [collapseAt, order, Nat.add_zero] using order_replaceAt h .leaf
-
-/-- A collapse removes all leaves of the subtree except its new single leaf. -/
-theorem leaves_collapseAt {t u : TTree} {p : Path} (h : subtree t p = some u) :
-    (collapseAt t p).leaves.card + u.leaves.card = t.leaves.card + 1 := by
-  simpa only [collapseAt, leaves, Finset.card_singleton] using leaves_replaceAt h .leaf
-
 end WaveTurbulence.Comb

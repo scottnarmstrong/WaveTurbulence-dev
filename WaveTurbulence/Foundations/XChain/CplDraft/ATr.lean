@@ -275,46 +275,4 @@ theorem cplATr_body (P : WTParams) (C : ℝ) (hS : CplSizes P C) : OX3CplBodyV.{
       _ = jbr (latticePoint P.L n) ^ (-(4 * P.Lambda (p + 1) : ℝ)) *
             Real.exp (-(101 * (P.N (p + 1) : ℝ))) := mul_comm _ _
 
-/-- **CPL-1** (`a^tr` clause of O-X3-CPL), with `L` large after `(d, 𝔇)` and `δ` small after `ν`. -/
-theorem wtprefix_cplATr : WTPrefix (OX3CplBodyV.{u} .aTr) := by
-  intro d hd γ hγ
-  refine ⟨1, one_pos, fun η hη φin hφin τstar hτ φ hsol => ?_⟩
-  refine ⟨1, le_rfl, 1, one_pos, fun ν hν => ?_⟩
-  let δ₀ := min (1 / 2) (Real.exp (-8000000 / ν))
-  have hδ₀ : 0 < δ₀ := lt_min (by norm_num) (Real.exp_pos _)
-  refine ⟨δ₀, hδ₀, fun δ hδ D hD htime => ?_⟩
-  have hδparts : δ ≤ 1 / 2 ∧ δ ≤ Real.exp (-8000000 / ν) := by simpa only [δ₀, le_min_iff] using hδ.2
-  let P0 : WTParams := ⟨d, γ, η, φin, τstar, φ, 1, ν, δ, D, 1, 1⟩
-  obtain ⟨B, hB, hφB⟩ := uniform_schwartz_bracket_bound τstar φ hsol.1 (4 * P0.Lambda 0)
-  let C := B + 1
-  refine ⟨1, le_rfl, max 2 (assemblySizeThreshold P0 C 0), le_max_left _ _, fun L hL => ?_⟩
-  let P : WTParams := ⟨d, γ, η, φin, τstar, φ, 1, ν, δ, D, 1, L⟩
-  have hd1 : 1 ≤ P.d := by change 1 ≤ d; omega
-  have hsize : assemblySizeThreshold P C 0 ≤ P.L := by
-    change assemblySizeThreshold P0 C 0 ≤ L
-    exact (le_max_right _ _).trans hL
-  obtain ⟨hLexp, hCL, hbase, hst⟩ := assembly_stage_sizes P hd1 hη.1 C 0 hsize
-  have htime' : P.δ * P.D ≤ P.τstar := by
-    change δ * D ≤ τstar
-    rw [htime, mul_comm]
-  have hφ0 : ∀ t ∈ Icc 0 P.τstar, ∀ k, |P.φ t k| ≤ B * jbr k ^ (-(4 * P.Lambda 0 : ℝ)) := by
-    simpa only [P, P0, WTParams.Lambda, Nat.sub_zero, Nat.cast_mul, Nat.cast_ofNat] using hφB
-  apply cplATr_body P C
-  refine ⟨hd1, hδ.1, hδparts.1.trans (by norm_num), ?_,
-    delta_half_power_le_of_threshold hδ.1 hν.1 hδparts.2, hLexp, ?_, hCL, hbase, ?_, ?_⟩
-  · have hd' : (3 : ℝ) ≤ d := by exact_mod_cast hd
-    exact hγ.2.le.trans (by change (1 : ℝ) ≤ d; linarith)
-  · change 2 ≤ B + 1
-    linarith
-  · intro p hp k
-    have h := uniform_phi_stage_weight P hd1 hδ.1.le htime' B (zero_le_one.trans hB) hφ0 hp.le
-      ⟨Nat.cast_nonneg p, le_rfl⟩
-    have h' := phi_stage_input_weight P p B (zero_le_one.trans hB) h k
-    change |P.φ (P.δ * p) k| ≤ (B + 1 - 1) * jbr k ^ (-(P.Lambda p : ℝ))
-    rw [add_sub_cancel_right]
-    exact h'
-  · intro p hp
-    obtain ⟨h1, h2, h3, -⟩ := hst p hp
-    exact ⟨h1, h2, h3⟩
-
 end WaveTurbulence.Cpl

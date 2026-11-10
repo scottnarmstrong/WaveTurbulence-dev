@@ -44,21 +44,4 @@ theorem reversePlacement_at_twistedAtoms (hB : G.molecule.IsBlock S a P.lower)
     IsPlacementAt (unitTwistGarden G P) (twistedAtoms G P S) (coreBranchEquiv G P P.lower) (reversePlacement G P) :=
   ⟨rfl,twisted_lower_slots G P hB hCL hP⟩
 
-/-- The exact old upper excluded and lower retained positions give valid new CL splice slots. -/
-@[expose] noncomputable def twistedSpliceSlots (hB : G.molecule.IsBlock S a P.lower)
-    (hCL : Mole.CLParentPattern G S a P.lower) (hP : IsPlacementAt G S P.lower P)
-    (D : Mole.CLSpliceSlots G S a P.lower) :
-    Mole.CLSpliceSlots (unitTwistGarden G P) (twistedAtoms G P S)
-      (coreBranchEquiv G P a) (coreBranchEquiv G P P.lower) where
-  excluded := D.excluded
-  kept := P.keep
-  excluded_ne_middle := D.excluded_ne_middle
-  kept_ne_middle := P.outer
-  upper i := (internalPositions_twist_other G P S a hB.2.2.2.1 i.succ).trans (D.upper i)
-  lower := twisted_lower_slots G P hB hCL hP
-
-/-- The old splice's kept index equals the designated u23 index. -/
-theorem spliceSlots_kept (hP : IsPlacementAt G S P.lower P) (D : Mole.CLSpliceSlots G S a P.lower) :
-    D.kept = P.keep := ((D.lower P.keep).mp ((hP.2 P.keep).mpr rfl)).symm
-
 end WaveTurbulence.Twist

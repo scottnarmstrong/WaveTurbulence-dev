@@ -53,9 +53,6 @@ theorem swapS33Components_removed {M : Molecule V D} (r : AppbRealization M Appb
   simp only [image_insert,image_singleton]
   exact pair_comm _ _
 
-theorem swapS33Components_vertex {M : Molecule V D} (r : AppbRealization M AppbPatternKind.s33.pattern)
-    (a : ℕ) : (swapS33Components r).vertex a = r.vertex (s33ComponentPermutation a) := rfl
-
 theorem swapS33Components_sameComponent {M : Molecule V D} (r : AppbRealization M AppbPatternKind.s33.pattern)
     (a b : V) : (swapS33Components r).post.SameComponent a b ↔ r.post.SameComponent a b := by
   change (Degen.eraseAtoms M (swapS33Components r).removedAtoms).SameComponent a b ↔

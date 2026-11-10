@@ -54,12 +54,4 @@ theorem partnerPullback_sign (t : TTree) (ζ : ℤˣ) (lone : GLeaf (fun _ : Fin
   pairedTreeWithLone t ζ lone (partnerPullback f hc) (partnerPullback_involutive f hc)
     (partnerPullback_ne f hc hn) (partnerPullback_sign t ζ lone f hc hn hs)
 
-theorem pairedTreeFromLeafEmbedding_isPairedTree
-    (t : TTree) (ζ : ℤˣ) (lone : GLeaf (fun _ : Fin 1 => t))
-    (f : {ℓ : GLeaf (fun _ : Fin 1 => t) // ℓ ≠ lone} ↪ GLeaf G.tree)
-    (hc : ∀ x, ∃ y, f y = G.pair (f x)) (hn : ∀ x, G.pair (f x) ≠ f x)
-    (hs : ∀ x, nodeSign (fun _ : Fin 1 => ζ) x.1.1 = nodeSign G.sig (f x).1) :
-    IsPairedTree (pairedTreeFromLeafEmbedding t ζ lone f hc hn hs) :=
-  pairedTreeWithLone_isPairedTree _ _ _ _ _ _ _
-
 end WaveTurbulence.Comb

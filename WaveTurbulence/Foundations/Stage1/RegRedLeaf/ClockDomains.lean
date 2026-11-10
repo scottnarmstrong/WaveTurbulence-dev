@@ -6,7 +6,6 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.VineEst.RegRedDraft.RelativeFactorIdentities
-public import WaveTurbulence.Foundations.VineEst.RegRedDraft.TimeDomainReconstruction
 public import WaveTurbulence.Foundations.VineEst.RegRedDraft.PairedTreeLowerClock
 
 /-! # Source time domains with one exterior upper clock per root (REGRED-LEAF)
@@ -26,10 +25,6 @@ def coreTimeDomainW {w : ℕ} {tree : Fin w → TTree}
     (layer : GBranch tree → ℕ) (top : Fin w → ℝ) : Set (GBranch tree → ℝ) :=
   {τ | ∀ b, (layer b : ℝ) < τ b ∧ τ b < layer b + 1 ∧ 0 < τ b ∧
     τ b < parentClockWith top τ b.toNode}
-
-theorem coreTimeDomainW_const {w : ℕ} {tree : Fin w → TTree}
-    (layer : GBranch tree → ℕ) (top : ℝ) :
-    coreTimeDomainW layer (fun _ => top) = coreTimeDomain layer top := rfl
 
 /-- For an ordinary layered garden, the literal domain is the original-parent clock domain. -/
 theorem kDomain_eq_coreTimeDomainW {w : ℕ} (LG : LayeredGarden w)
@@ -120,10 +115,6 @@ theorem core_parentClockWith_as_chain_lone {w : ℕ} {S : Garden w} (D : Reconst
 noncomputable def nativeCoupleUpperW {w : ℕ} {S : Garden w} (D : ReconstructionData S)
     (hS : S.IsPlain) (top : Fin w → ℝ) (τ : GBranch S.tree → ℝ) (p : SourcePair S) : Fin 2 → ℝ :=
   ![parentClockWith top τ (p.firstLeaf hS).toNode, parentClockWith top τ (p.secondLeaf hS).toNode]
-
-theorem nativeCoupleUpperW_const {w : ℕ} {S : Garden w} (D : ReconstructionData S)
-    (hS : S.IsPlain) (top : ℝ) (τ : GBranch S.tree → ℝ) (p : SourcePair S) :
-    nativeCoupleUpperW D hS (fun _ => top) τ p = nativeCoupleUpper D hS top τ p := rfl
 
 theorem couple_parentClockWith {w : ℕ} {S : Garden w} (D : ReconstructionData S)
     (hS : S.IsPlain) (top : Fin w → ℝ) (τ : GBranch (D.forest hS) → ℝ) (p : SourcePair S)

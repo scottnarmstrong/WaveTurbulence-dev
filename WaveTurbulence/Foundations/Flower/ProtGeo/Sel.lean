@@ -96,17 +96,6 @@ theorem objCfg_of_sel {pat : Fin w → FixPat} {kSel : Fin w → Option ℕ}
   rw [hbu] at hp
   simp only [objCfg, hp]
 
-/-- **(iii) at most one.** A paired-tree object contains at most one selected vertex. -/
-theorem card_sel_le_one (kSel : Fin w → Option ℕ) (X : RegChain) (ζ : ℤˣ) (u : Fin w × Path) :
-    ((selSetCap LG J kSel).filter fun b => b.1 ∈ branchAddresses (X.plug ζ .leaf) u).card ≤ 1 := by
-  rw [Finset.card_le_one]
-  intro b hb b' hb'
-  obtain ⟨hb1, hb2⟩ := Finset.mem_filter.mp hb
-  obtain ⟨hb1', hb2'⟩ := Finset.mem_filter.mp hb'
-  obtain ⟨q, -, hq⟩ := mem_branchAddresses'.mp hb2
-  obtain ⟨q', -, hq'⟩ := mem_branchAddresses'.mp hb2'
-  exact selSetCap_eq_of_tree hb1 hb1' (by rw [hq, hq']; rfl)
-
 /-! ## Extraction forms (the `Sel` sets of D6) -/
 
 /-- The selected vertices of a paired-tree object, in its own coordinates. -/
@@ -129,14 +118,6 @@ theorem objSelT_spec (hG : CapGeo LG J p) (hS : StemChain LG J X ζ u h) {pat : 
   · rw [← fixCap_objTree hG hS pat t s up b']
     exact sel_fixCap_none hplain t s hsel
 
-theorem objSelT_cfg {pat : Fin w → FixPat} {kSel : Fin w → Option ℕ}
-    (hplain : ∀ j, (kSel j).isSome → pat j = FixPat.plain) (hE : ChainEmb LG.garden X ζ u h)
-    (hne : (objSelT (J := J) hE kSel).Nonempty) :
-    objCfg LG J pat X u = .none ∨ objCfg LG J pat X u = .term := by
-  obtain ⟨b', hb'⟩ := hne
-  rw [objCfg_of_sel (X := X) (u := u) hplain (Finset.mem_filter.mp hb').2 rfl]
-  split_ifs <;> simp
-
 theorem objSelT_card (hE : ChainEmb LG.garden X ζ u h) (kSel : Fin w → Option ℕ) :
     (objSelT (J := J) hE kSel).card ≤ 1 := by
   rw [Finset.card_le_one]
@@ -146,48 +127,5 @@ theorem objSelT_card (hE : ChainEmb LG.garden X ζ u h) (kSel : Fin w → Option
     have := congrArg (fun x : GBranch LG.garden.tree => x.1) e
     exact addrExt_injective u this
   exact Subtype.ext (Prod.ext (Subsingleton.elim _ _) e2)
-
-/-- The selected vertices of a cap couple, in its own coordinates. -/
-def objSelC {c : Fin w} (hE : ChainEmb LG.garden X ζ u .leaf)
-    (hc : ∀ ℓ : GLeaf LG.garden.tree, ℓ.1 = addrExt u X.lonePath → (LG.garden.pair ℓ).1 = (c, []))
-    (kSel : Fin w → Option ℕ) : Finset (GBranch (objCpl LG X ζ u c hE hc).garden.tree) :=
-  Finset.univ.filter fun b' => embBr hE b'.1.2 (capCode_branch b').2 ∈ selSetCap LG J kSel
-
-/-- **(iii), cap couples, D6 shape** (code `normChain ζ X`). -/
-theorem objSelC_spec (hG : CapGeo LG J p) {c : Fin w} (hC : CapChain LG J X ζ u c) {pat : Fin w → FixPat}
-    {kSel : Fin w → Option ℕ} (hplain : ∀ j, (kSel j).isSome → pat j = FixPat.plain) (t s up : ℝ) :
-    ∀ b' ∈ objSelC (J := J) hC.stem.emb hC.pair kSel, b'.1.1.val = 0 ∧ b'.1.2 <+: (normChain ζ X).lonePath ∧
-      b'.1.2 ≠ (normChain ζ X).lonePath ∧
-      (objCfg LG J pat X u = .term → b'.1.2 ≠ (normChain ζ X).lonePath.dropLast) ∧
-      (objCfg LG J pat X u).fix (normChain ζ X) s t up b' = none := by
-  intro b' hb'
-  have hsel := (Finset.mem_filter.mp hb').2
-  rw [normChain_lonePath]
-  obtain ⟨h1, h2, h3⟩ := sel_on_chain hG hC.stem hsel (capCode_branch b').2 rfl
-  refine ⟨congrArg Fin.val (capCode_branch b').1, h1, h2, fun hc he => h3 ⟨?_, he⟩, ?_⟩
-  · rw [objCfg_of_sel (X := X) (u := u) hplain hsel rfl] at hc
-    by_contra hpf; rw [ite_eq_right hpf] at hc; cases hc
-  · rw [← fixCap_objCpl hG hC pat t s up b']
-    exact sel_fixCap_none hplain t s hsel
-
-theorem objSelC_cfg {pat : Fin w → FixPat} {kSel : Fin w → Option ℕ} {c : Fin w}
-    (hplain : ∀ j, (kSel j).isSome → pat j = FixPat.plain) (hE : ChainEmb LG.garden X ζ u .leaf)
-    (hc : ∀ ℓ : GLeaf LG.garden.tree, ℓ.1 = addrExt u X.lonePath → (LG.garden.pair ℓ).1 = (c, []))
-    (hne : (objSelC (J := J) hE hc kSel).Nonempty) :
-    objCfg LG J pat X u = .none ∨ objCfg LG J pat X u = .term := by
-  obtain ⟨b', hb'⟩ := hne
-  rw [objCfg_of_sel (X := X) (u := u) hplain (Finset.mem_filter.mp hb').2 rfl]
-  split_ifs <;> simp
-
-theorem objSelC_card {c : Fin w} (hE : ChainEmb LG.garden X ζ u .leaf)
-    (hc : ∀ ℓ : GLeaf LG.garden.tree, ℓ.1 = addrExt u X.lonePath → (LG.garden.pair ℓ).1 = (c, []))
-    (kSel : Fin w → Option ℕ) : (objSelC (J := J) hE hc kSel).card ≤ 1 := by
-  rw [Finset.card_le_one]
-  intro b hb b' hb'
-  have e := selSetCap_eq_of_tree (Finset.mem_filter.mp hb).2 (Finset.mem_filter.mp hb').2 rfl
-  have e2 : b.1.2 = b'.1.2 := by
-    have := congrArg (fun x : GBranch LG.garden.tree => x.1) e
-    exact addrExt_injective u this
-  exact Subtype.ext (Prod.ext ((capCode_branch b).1.trans (capCode_branch b').1.symm) e2)
 
 end WaveTurbulence.Flower.ProtGeo

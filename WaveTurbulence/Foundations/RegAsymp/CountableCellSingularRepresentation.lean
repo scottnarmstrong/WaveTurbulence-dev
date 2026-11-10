@@ -203,35 +203,4 @@ theorem singInt_countableCellMixture (hd : 3 ≤ d) (J : Finset (Fin n))
   intro u
   simp only [mixtureAppFactor,Nat.le_add_left,ite_true]
 
-/-- The generic representation has a geometric norm bound, independent
-of the cell positions, modulation parameters, and coefficient carrier. -/
-theorem norm_singInt_countableCellMixture_le (hd : 3 ≤ d) {M : ℝ}
-    (hb : ∀ (J : Finset (Fin n)) (j : Fin n) (p q ξ η : Mom d), ‖cellOp J j p q ξ η‖ ≤ M)
-    (J : Finset (Fin n)) (p q : I → Fin n → Mom d) (ξ η : I → U → Fin n → Mom d)
-    (hξ : ∀ i, Measurable (ξ i)) (hη : ∀ i, Measurable (η i))
-    (h : I → U → ℂ) (hsm : ∀ i, StronglyMeasurable (h i))
-    (hi : ∀ i, Integrable (h i) ν) (hsum : Summable (fun i => ∫ u, ‖h i u‖ ∂ν)) :
-    ‖singInt J (fun x y => ∑' i, ∫ u, h i u*
-      ∏ j, cellFn (p i j) (q i j) (ξ i u j) (η i u j) (x j) (y j) ∂ν)‖ ≤
-      M^n*(∑' i, ∫ u, ‖h i u‖ ∂ν) := by
-  rw [singInt_countableCellMixture ν hd J p q ξ η hξ hη h hsm hi hsum]
-  apply tsum_of_norm_bounded (hsum.hasSum.mul_left (M^n))
-  intro i
-  apply (norm_integral_le_integral_norm _).trans
-  calc
-    _ ≤ ∫ u, M^n*‖h i u‖ ∂ν := by
-      apply integral_mono_of_nonneg (ae_of_all _ (fun _ => norm_nonneg _)) ((hi i).norm.const_mul _)
-      apply ae_of_all
-      intro u
-      change ‖h i u*(∏ j, cellOp J j (p i j) (q i j) (ξ i u j) (η i u j))‖ ≤ M^n*‖h i u‖
-      have hprod : ‖∏ j, cellOp J j (p i j) (q i j) (ξ i u j) (η i u j)‖ ≤ M^n := by
-        rw [norm_prod]
-        calc
-          _ ≤ ∏ _j : Fin n, M := prod_le_prod₀ (fun _ _ => norm_nonneg _)
-            (fun j _ => hb J j _ _ _ _)
-          _ = _ := by simp
-      rw [norm_mul,mul_comm (M^n)]
-      exact mul_le_mul_of_nonneg_left hprod (norm_nonneg _)
-    _ = _ := integral_const_mul _ _
-
 end WaveTurbulence.RegAsymp

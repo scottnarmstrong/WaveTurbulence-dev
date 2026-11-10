@@ -56,8 +56,6 @@ theorem measurePreserving_frontSwap [SFinite (volume : Measure A)] [SFinite (vol
   (MeasurableEquiv.prodAssoc.trans ((MeasurableEquiv.refl A).prodCongr
     (frontSwap : B × (C × D) ≃ᵐ C × (B × D)))).trans MeasurableEquiv.prodAssoc.symm
 
-theorem mswap_apply (p : (A × B) × (C × D)) : mswap p = ((p.1.1, p.2.1), (p.1.2, p.2.2)) := rfl
-
 theorem measurePreserving_mswap [SFinite (volume : Measure A)] [SFinite (volume : Measure B)]
     [SFinite (volume : Measure C)] [SFinite (volume : Measure D)] :
     MeasurePreserving (mswap : (A × B) × (C × D) ≃ᵐ (A × C) × (B × D)) := by

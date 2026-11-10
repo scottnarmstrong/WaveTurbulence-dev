@@ -6,8 +6,7 @@ public import WaveTurbulence.Foundations.Flower.V5WB.K.Defs
 public import WaveTurbulence.Foundations.Flower.V5WB.B.Nest
 public import WaveTurbulence.Foundations.Flower.V5WB.B.Flat
 public import WaveTurbulence.Foundations.Flower.V5WB.K.FlatBound
-public import WaveTurbulence.Foundations.Flower.V5WB.B.Export
-public import WaveTurbulence.Foundations.Flower.V5WB.Statement
+public import WaveTurbulence.Foundations.Flower.V5WA.Instance
 public import WaveTurbulence.Foundations.GammaLow.Famb.Family
 public import WaveTurbulence.Foundations.GammaLow.Famb.VineEstS2.CLAssemblyShape
 public import WaveTurbulence.Foundations.GammaLow.Famb.VineEstS2.CLChainAssembly
@@ -103,35 +102,6 @@ open VineEstS5C.P4.Final LGSpine
 variable {γF : ℝ}
 variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
 
-/-- Main's `VineSpaceK.VineFlatC2MX` for every selector, with the selector's top layer `p` and presentation
-(`rowSel.weighted = true →`; vacuous for an unweighted selector). -/
-def VineFlatC2MXΓ (P : WTParams) : Prop :=
-  ∀ {p : ℕ}, p < P.D →
-    (rowSel.weighted = true → rowSel.p = p ∧ Flower.Stage1W.GPresented (32 * P.d) (rowSel.g P.d) rowSel.cψ) →
-    ∀ (h : ℕ → Mom P.d → ℝ) (B₀ : ℝ), 0 ≤ B₀ →
-    (∀ r ≤ p, SNormR (40 * P.d) (40 * P.d) (h r) ≤ ENNReal.ofReal B₀) →
-    ∀ {w : ℕ} {G : Garden w} {U : Finset (GBranch G.tree)} {a b : GBranch G.tree} {R : CLRegionData G U a b}
-      {n : ℕ} (hprime : IsPrimeGarden G) (hM9 : Famb.NormalChartSupply γF) (B : Famb.VineEstS2.CLChainAssemblyΓ γF G R n) (RD : ReconstructionData G)
-      (hG : G.IsPlain)
-      (layer : GNode (RD.forest hG) → ℕ) (hLayer : IsLayering (RD.garden hG) layer) (kind : Bool),
-      CanonicalObject p kind (layeredReconstruction RD hG layer hLayer) → (∀ x, layer x ≤ p) →
-    (RD.garden hG).order ≤ P.N (p + 1) ^ 4 → clLocalOrder1 R ≤ P.N 1 ^ 4 →
-    ∀ (centre : Fin 4 → Mom P.d) (wBar : Mom P.d) (lam : ℝ)
-      (m : (GNode G.tree → Fin P.d → ℤ) → ℂ) (mass : ℝ), 0 ≤ mass →
-    EnginePullbackΓ (γF := γF) (Famb.VineEstS5C.LvlΓ.top B).region P.L wBar m mass →
-    Famb.VineEstS3.RowCoherentΓ hM9 B RD hG layer hLayer (Famb.VineEstS3.step3WΓ hM9 B RD hG layer hLayer (Famb.VineEstS3.canonBadKindΓ hM9 B RD hG layer) (qOutOf RD hG layer a b R) centre wBar)
-      P.L P.γ P.δ h p →
-    XNorm00Restr (2 * P.η ^ 8) (Eng.outBox (Famb.VineEstS3.step3DΓ hM9 B RD hG layer hLayer (Famb.VineEstS3.canonBadKindΓ hM9 B RD hG layer) (qOutOf RD hG layer a b R) centre wBar))
-      (Eng.outSet (Famb.VineEstS3.step3DΓ hM9 B RD hG layer hLayer (Famb.VineEstS3.canonBadKindΓ hM9 B RD hG layer) (qOutOf RD hG layer a b R) centre wBar) P.L P.γ P.η)
-      (flatFnRMXΓ (p := p) (kind := kind) B RD hG layer hLayer m lam (G.sign a.toNode)
-        (kparOf P.L P.γ P.δ (truncF p h) wBar) hprime (G.sign a.toNode)) ≤
-    ENNReal.ofReal mass * ENNReal.ofReal ((1 + |lam|) ^ (6 * P.η ^ 6) * ((P.C₁ * Real.sqrt P.δ) ^ clLocalOrder2 RD hG R *
-      P.L ^ (-(P.η ^ 8 * ((Famb.VineEstS3.cohmolIndexΓ B RD hG layer +
-        (Famb.VineEstS3.step3DΓ hM9 B RD hG layer hLayer (Famb.VineEstS3.canonBadKindΓ hM9 B RD hG layer) (qOutOf RD hG layer a b R) centre wBar).M₁ : ℕ) : ℝ)) -
-        P.η ^ 2 * ((Finset.univ.filter fun i => (Famb.VineEstS2.assemblyShapeΓ hM9 B).nor i = false).card : ℝ) + P.η ^ 7) *
-      regionLeafSize RD hG R layer hLayer (fun _ => B₀) *
-      P.C₂ ^ (Finset.univ.filter fun i => (Famb.VineEstS2.assemblyShapeΓ hM9 B).nor i = false).card))
-
 end
 
 section
@@ -151,33 +121,6 @@ open scoped ENNReal
 open VineEstS5C.P4.Final LGSpine
 variable {γF : ℝ}
 variable {rowSelU : Unit} [rowSel : WaveTurbulence.VineEst.RowSel rowSelU]
-
-/-- Main's `VineSpaceK.VineFlatHalfMX` for every selector, with the same selector hypothesis. -/
-def VineFlatHalfMXΓ (P : WTParams) : Prop :=
-  ∀ {p : ℕ}, p < P.D →
-    (rowSel.weighted = true → rowSel.p = p ∧ Flower.Stage1W.GPresented (32 * P.d) (rowSel.g P.d) rowSel.cψ) →
-    ∀ (h : ℕ → Mom P.d → ℝ) (B₀ : ℝ), 0 ≤ B₀ →
-    (∀ r ≤ p, SNormR (40 * P.d) (40 * P.d) (h r) ≤ ENNReal.ofReal B₀) →
-    ∀ {w : ℕ} {G : Garden w} {U : Finset (GBranch G.tree)} {a b : GBranch G.tree} {R : CLRegionData G U a b}
-      {n : ℕ} (hprime : IsPrimeGarden G) (hM9 : Famb.NormalChartSupply γF) (B : Famb.VineEstS2.CLChainAssemblyΓ γF G R n) (RD : ReconstructionData G)
-      (hG : G.IsPlain)
-      (layer : GNode (RD.forest hG) → ℕ) (hLayer : IsLayering (RD.garden hG) layer) (kind : Bool),
-      CanonicalObject p kind (layeredReconstruction RD hG layer hLayer) → (∀ x, layer x ≤ p) →
-    (RD.garden hG).order ≤ P.N (p + 1) ^ 4 → clLocalOrder1 R ≤ P.N 1 ^ 4 →
-    ∀ (centre : Fin 4 → Mom P.d) (wBar : Mom P.d) (lam : ℝ)
-      (m : (GNode G.tree → Fin P.d → ℤ) → ℂ) (mass : ℝ), 0 ≤ mass →
-    EnginePullbackΓ (γF := γF) (Famb.VineEstS5C.LvlΓ.top B).region P.L wBar m mass →
-    Famb.VineEstS3.RowCoherentΓ hM9 B RD hG layer hLayer (Famb.VineEstS3.step3WΓ hM9 B RD hG layer hLayer (Famb.VineEstS3.canonBadKindΓ hM9 B RD hG layer) (qOutOf RD hG layer a b R) centre wBar)
-      P.L P.γ P.δ h p →
-    XNorm00Restr (2 * P.η ^ 8) (Eng.outBox (Famb.VineEstS3.step3DΓ hM9 B RD hG layer hLayer (Famb.VineEstS3.canonBadKindΓ hM9 B RD hG layer) (qOutOf RD hG layer a b R) centre wBar))
-      (Eng.outSet (Famb.VineEstS3.step3DΓ hM9 B RD hG layer hLayer (Famb.VineEstS3.canonBadKindΓ hM9 B RD hG layer) (qOutOf RD hG layer a b R) centre wBar) P.L P.γ P.η)
-      (flatFnRMXΓ (p := p) (kind := kind) B RD hG layer hLayer m lam (G.sign a.toNode)
-        (kparOf P.L P.γ P.δ (truncF p h) wBar) hprime (G.sign a.toNode)) ≤
-    ENNReal.ofReal mass * ENNReal.ofReal ((1 + |lam|) ^ (6 * P.η ^ 6) * ((P.C₁ * Real.sqrt P.δ) ^ clLocalOrder2 RD hG R *
-      P.L ^ (-(P.η ^ 8 * ((Famb.VineEstS3.cohmolIndexΓ B RD hG layer +
-        (Famb.VineEstS3.step3DΓ hM9 B RD hG layer hLayer (Famb.VineEstS3.canonBadKindΓ hM9 B RD hG layer) (qOutOf RD hG layer a b R) centre wBar).M₁ : ℕ) : ℝ)) -
-        P.η ^ 2 / 2 * ((Finset.univ.filter fun i => (Famb.VineEstS2.assemblyShapeΓ hM9 B).nor i = false).card : ℝ) + P.η ^ 7) *
-      regionLeafSize RD hG R layer hLayer (fun _ => B₀)))
 
 end
 
@@ -566,26 +509,6 @@ variable {w : ℕ} {G : Garden w} {U : Finset (GBranch G.tree)} {a b : GBranch G
 variable (B : Famb.VineEstS2.CLChainAssemblyΓ γF G R n) (RD : ReconstructionData G) (hG : G.IsPlain)
   (layer : GNode (RD.forest hG) → ℕ) (hLayer : IsLayering (RD.garden hG) layer)
 
-/-- **Bond-weighted FLAT-MOD**: every level's bond-weighted class sum is `c ζ lkRaw` of the level's bond weight
-times the unweighted modulated `psiFuel`. -/
-theorem classSumB_eq_flatΓ (lam : ℝ) (ψ : WD d) (C : ℝ) (hC : 0 ≤ C) (hψ : ∀ q q' k, ‖ψ.ψ q q' k‖ ≤ C)
-    (κ0 : KPar d) (hL : κ0.L ≠ 0)
-    (hF : ∀ k : ℕ, Summable fun n : Fin d → ℤ => |κ0.F k (κ0.base + latticePoint κ0.L n)|) (hprime : IsPrimeGarden G)
-    (lv : Famb.VineEstS5C.LvlΓ B) (t0 t1 t2 : ℝ) (e f g h : Mom d) :
-    classSumBΓ (p := p) (kind := kind) B RD hG layer hLayer lam ψ lv κ0 t0 t1 t2 e f g h =
-      (coupling d κ0.L κ0.γ κ0.δ : ℂ) ^ clLocalOrder1 lv.region * clLocalZeta lv.region *
-        lkRaw lv.region κ0.L κ0.base
-          (spatialMul (lvWΓ B RD hG layer hLayer ψ κ0 lv)
-            (modPsi b lam (Famb.VineEstS5C.LvlΓ.psiFuel (p := p) (kind := kind) B RD hG layer hLayer κ0 hprime (Fintype.card lv.ι + 1) lv)))
-          ![t0, t1, t2] ![e, f, g, h] :=
-  classSumB_flatΓ (p := p) (kind := kind) B RD hG layer hLayer lam ψ C hC hψ κ0 hL hF hprime
-    (fun lv pstar hk x _u _u' hu => psiSB_congr (p := p) (kind := kind) κ0 (lv.state B RD hG layer hLayer)
-      (lv.split B RD hG layer hLayer pstar hk) hprime x hu)
-    (fun m lv x t _u _u' hu => Famb.VineEstS5C.LvlΓ.psiFuel_congr (p := p) (kind := kind) B RD hG layer hLayer κ0 hprime m lv x t hu)
-    (Famb.VineEstS5C.LvlΓ.hAbs_of_leaves (p := p) (kind := kind) B RD hG layer hLayer κ0 hL hprime
-      (Famb.VineEstS5C.LvlΓ.absLeaves (p := p) (kind := kind) B RD hG layer hLayer κ0 hL hF hprime))
-    (Fintype.card lv.ι) lv le_rfl t0 t1 t2 e f g h
-
 end
 
 section
@@ -723,24 +646,6 @@ variable {w d p : ℕ} {G : Garden w} {U : Finset (GBranch G.tree)}
 variable (B : Famb.VineEstS2.CLChainAssemblyΓ γF G R n) (RD : ReconstructionData G) (hG : G.IsPlain)
   (layer : GNode (RD.forest hG) → ℕ) (hLayer : IsLayering (RD.garden hG) layer)
 
-theorem twistedRecenteredModCX_bond_eq_flatΓ (hprime : IsPrimeGarden G) (lam : ℝ) (ψ : WD d)
-    (C : ℝ) (hC : 0 ≤ C) (hψ : ∀ q q' k, ‖ψ.ψ q q' k‖ ≤ C)
-    (κ0 : KPar d) (hL : κ0.L ≠ 0)
-    (hF : ∀ k : ℕ, Summable fun z : Fin d → ℤ => |κ0.F k (κ0.base + latticePoint κ0.L z)|)
-    (t0 t1 t2 : ℝ) (e f g h : Mom d) :
-    twistedRecenteredModCX G a (canonFinsetK p kind (Famb.VineEstS4.startStateΓ B RD hG layer hLayer) (Famb.VineEstS4.chainStartΓ B))
-      (fun z => bWN ψ κ0 z.1 z.2.U) κ0.L κ0.γ κ0.δ κ0.F κ0.base lam t0 t1 t2 e f g h =
-    Complex.exp (((-(Real.pi * κ0.δ * κ0.L ^ (2 * κ0.γ)) * t0 *
-      boundaryEnergyFromMomenta (G.sign a.toNode) e f g h : ℝ) : ℂ) * Complex.I) *
-      ((coupling d κ0.L κ0.γ κ0.δ : ℂ) ^ clLocalOrder1 (Famb.VineEstS5C.LvlΓ.top B).region * clLocalZeta (Famb.VineEstS5C.LvlΓ.top B).region *
-        lkRaw (Famb.VineEstS5C.LvlΓ.top B).region κ0.L κ0.base (spatialMul (lvWΓ B RD hG layer hLayer ψ κ0 (Famb.VineEstS5C.LvlΓ.top B))
-          (modPsi b lam (Famb.VineEstS5C.LvlΓ.psiFuel (p := p) (kind := kind) B RD hG layer hLayer κ0 hprime
-            (Fintype.card (Famb.VineEstS5C.LvlΓ.top B).ι + 1) (Famb.VineEstS5C.LvlΓ.top B)))) ![t0,t1,t2] ![e,f,g,h]) := by
-  exact congrArg (fun z => Complex.exp (((-(Real.pi * κ0.δ * κ0.L ^ (2 * κ0.γ)) * t0 *
-    boundaryEnergyFromMomenta (G.sign a.toNode) e f g h : ℝ) : ℂ) * Complex.I) * z)
-    (classSumB_eq_flatΓ (p := p) (kind := kind) B RD hG layer hLayer lam ψ C hC hψ κ0 hL hF hprime
-      (Famb.VineEstS5C.LvlΓ.top B) t0 t1 t2 e f g h)
-
 end
 
 section
@@ -757,25 +662,22 @@ variable {w d p : ℕ} {G : Garden w} {U : Finset (GBranch G.tree)}
 variable (B : Famb.VineEstS2.CLChainAssemblyΓ γF G R n) (RD : ReconstructionData G) (hG : G.IsPlain)
   (layer : GNode (RD.forest hG) → ℕ) (hLayer : IsLayering (RD.garden hG) layer)
 
-theorem twistedRecenteredModCX_bond_eq_flatFnΓ (hprime : IsPrimeGarden G) (lam : ℝ) (ψ : WD d)
-    (C : ℝ) (hC : 0 ≤ C) (hψ : ∀ q q' k, ‖ψ.ψ q q' k‖ ≤ C)
-    (L γ δ : ℝ) (F : ℕ → Mom d → ℝ) (base : Mom d) (hL : L ≠ 0)
-    (hF : ∀ k : ℕ, Summable fun z : Fin d → ℤ => |F k (base + latticePoint L z)|) :
-    (fun (tt : Fin 3 → ℝ) (E : Fin 4 → Mom d) =>
-      twistedRecenteredModCX G a (canonFinsetK p kind (Famb.VineEstS4.startStateΓ B RD hG layer hLayer) (Famb.VineEstS4.chainStartΓ B))
-        (fun z => bWN ψ (kparOf L γ δ F base) z.1 z.2.U) L γ δ F base lam
-        (tt 0) (tt 1) (tt 2) (sumintBoundary (G.sign a.toNode) E 0) (sumintBoundary (G.sign a.toNode) E 1)
-        (sumintBoundary (G.sign a.toNode) E 2) (sumintBoundary (G.sign a.toNode) E 3)) =
-      flatFnRMXΓ (p := p) (kind := kind) B RD hG layer hLayer
-        (lvWΓ B RD hG layer hLayer ψ (kparOf L γ δ F base) (Famb.VineEstS5C.LvlΓ.top B)) lam (G.sign a.toNode)
-        (kparOf L γ δ F base) hprime (G.sign a.toNode) := by
-  funext tt E
-  have hh := twistedRecenteredModCX_bond_eq_flatΓ (p := p) (kind := kind) B RD hG layer hLayer hprime lam ψ C hC hψ
-    (kparOf L γ δ F base) hL hF (tt 0) (tt 1) (tt 2)
-    (sumintBoundary (G.sign a.toNode) E 0) (sumintBoundary (G.sign a.toNode) E 1)
-    (sumintBoundary (G.sign a.toNode) E 2) (sumintBoundary (G.sign a.toNode) E 3)
-  rw [P3.vec3_eta, P3.vec4_eta'] at hh
-  exact hh
+end
+
+section
+open WaveTurbulence.Flower
+open WaveTurbulence.Flower.V5WB
+open WaveTurbulence.Induct
+open WaveTurbulence.VineParamContract
+open WaveTurbulence.Flower.V5W
+open WaveTurbulence WaveTurbulence.Fourier WaveTurbulence.VineEstS3.FS WaveTurbulence.Twist WaveTurbulence.LFTwist WaveTurbulence.VineEstS2 WaveTurbulence.VineEstS3 WaveTurbulence.VineEstS4 WaveTurbulence.VineEstS5B WaveTurbulence.Links WaveTurbulence.Reg.Skeleton WaveTurbulence.RegRed TTree MeasureTheory VineParamContract
+open WaveTurbulence.VineEstS5C WaveTurbulence.VineEstS5C.P1 WaveTurbulence.VineEstS5C.P3 WaveTurbulence.VineEstS5C.P2 WaveTurbulence.VineEstS5C.P4 WaveTurbulence.VineEstS5C.FlatMod
+open WaveTurbulence.VineSpaceK WaveTurbulence.VineSpaceB WaveTurbulence.VineC WaveTurbulence.Represents
+open WaveTurbulence.Flower.Stage1W
+open scoped ENNReal FourierTransform
+open Set
+open VineEstS5C.P4.Final LGSpine Cut2A
+variable {γF : ℝ}
 
 end
 
@@ -794,36 +696,6 @@ open Set
 open VineEstS5C.P4.Final LGSpine Cut2A
 variable {γF : ℝ}
 
-/-- **The bound on a class of top filters** (`V5FrontierClassBoundAtΓ` with the premise `Sok S`). -/
-def V5FrontierClassBoundOnAtΓ (Sok : Option ℝ → Prop) (P : WTParams) : Prop :=
-  ∀ {p : ℕ}, p < P.D → ∀ (h : ℕ → Mom P.d → ℝ) (B₀ : ℝ), 0 ≤ B₀ →
-    (∀ r ≤ p, SNormR (40 * P.d) (40 * P.d) (h r) ≤ ENNReal.ofReal B₀) →
-    ∀ {w : ℕ} {G : Garden w} {U : Finset (GBranch G.tree)} {a b : GBranch G.tree} {R : CLRegionData G U a b}
-      {n : ℕ} (_hprime : IsPrimeGarden G) (hM9 : Famb.NormalChartSupply γF) (B : Famb.VineEstS2.CLChainAssemblyΓ γF G R n) (RD : ReconstructionData G)
-      (hG : G.IsPlain)
-      (layer : GNode (RD.forest hG) → ℕ) (hLayer : IsLayering (RD.garden hG) layer) (kind : Bool),
-      CanonicalObject p kind (layeredReconstruction RD hG layer hLayer) → (∀ x, layer x ≤ p) →
-    (RD.garden hG).order ≤ P.N (p + 1) ^ 4 → clLocalOrder1 R ≤ P.N 1 ^ 4 →
-    ∀ (centre : Fin 4 → Mom P.d) (wBar : Mom P.d) (lam : ℝ)
-      (g : Fin w → Mom P.d → ℂ) (cψ : ℝ), 1 ≤ cψ → (∀ j, GPresented (32 * P.d) (g j) cψ) →
-      (∀ j x, (g j x).im = 0) →
-    ∀ (S : Option ℝ), Sok S → (∀ s, S = some s → 0 < s) →
-    Famb.VineEstS3.RowCoherentΓ hM9 B RD hG layer hLayer (Famb.VineEstS3.step3WΓ hM9 B RD hG layer hLayer (Famb.VineEstS3.canonBadKindΓ hM9 B RD hG layer) (qOutOf RD hG layer a b R) centre wBar)
-      P.L P.γ P.δ h p →
-    XNorm00Restr (2 * P.η ^ 8) (Eng.outBox (Famb.VineEstS3.step3DΓ hM9 B RD hG layer hLayer (Famb.VineEstS3.canonBadKindΓ hM9 B RD hG layer) (qOutOf RD hG layer a b R) centre wBar))
-      (Eng.outSet (Famb.VineEstS3.step3DΓ hM9 B RD hG layer hLayer (Famb.VineEstS3.canonBadKindΓ hM9 B RD hG layer) (qOutOf RD hG layer a b R) centre wBar) P.L P.γ P.η)
-      (fun tt E => twistedRecenteredFW p (g a.1.1) S G a
-        (canonFinsetK p kind (Famb.VineEstS4.startStateΓ B RD hG layer hLayer) (Famb.VineEstS4.chainStartΓ B))
-        P.L P.γ P.δ h wBar (modW lam)
-        (tt 0) (tt 1) (tt 2) (sumintBoundary (G.sign a.toNode) E 0) (sumintBoundary (G.sign a.toNode) E 1)
-        (sumintBoundary (G.sign a.toNode) E 2) (sumintBoundary (G.sign a.toNode) E 3)) ≤
-    ENNReal.ofReal (cψ ^ (9 * U.card + 4 * clLocalOrder2 RD hG R) * topFilterMass) *
-      ENNReal.ofReal ((1 + |lam|) ^ (6 * P.η ^ 6) * ((P.C₁ * Real.sqrt P.δ) ^ clLocalOrder2 RD hG R *
-      P.L ^ (-(P.η ^ 8 * ((Famb.VineEstS3.cohmolIndexΓ B RD hG layer +
-        (Famb.VineEstS3.step3DΓ hM9 B RD hG layer hLayer (Famb.VineEstS3.canonBadKindΓ hM9 B RD hG layer) (qOutOf RD hG layer a b R) centre wBar).M₁ : ℕ) : ℝ)) -
-        P.η ^ 2 / 2 * ((Finset.univ.filter fun i => (Famb.VineEstS2.assemblyShapeΓ hM9 B).nor i = false).card : ℝ) + P.η ^ 7) *
-      regionLeafSize RD hG R layer hLayer (fun _ => B₀)))
-
 end
 
 section
@@ -841,17 +713,6 @@ open Set
 open VineEstS5C.P4.Final LGSpine Cut2A
 variable {γF : ℝ}
 
-/-- **The two halves give the bound.** -/
-theorem v5FrontierClassBoundAt_of_halvesΓ (P : WTParams) (hN : V5FrontierClassBoundOnAtΓ (γF := γF) (· = none) P)
-    (hS : V5FrontierClassBoundOnAtΓ (γF := γF) (· ≠ none) P) : V5FrontierClassBoundAtΓ (γF := γF) P := by
-  intro p hp h B₀ hB₀ hh w G U a b R n hprime hM9 B RD hG layer hLayer kind hcan hlay hord hcl centre wBar lam g cψ
-    hc hgp hre S hSpos hrow
-  by_cases hS0 : S = none
-  · exact hN hp h B₀ hB₀ hh hprime hM9 B RD hG layer hLayer kind hcan hlay hord hcl centre wBar lam g cψ hc hgp hre S
-      hS0 hSpos hrow
-  · exact hS hp h B₀ hB₀ hh hprime hM9 B RD hG layer hLayer kind hcan hlay hord hcl centre wBar lam g cψ hc hgp hre S
-      hS0 hSpos hrow
-
 end
 
 section
@@ -868,53 +729,6 @@ open scoped ENNReal FourierTransform
 open Set
 open VineEstS5C.P4.Final LGSpine Cut2A
 variable {γF : ℝ}
-
-/-- Each restricted bound is monotone in the large constants (the proof of STAGE1W-VINE's `v5FrontierClassBoundAt_mono`). -/
-theorem v5FrontierClassBoundOnAt_monoΓ (Sok : Option ℝ → Prop) : LargeConstantMonotone (V5FrontierClassBoundOnAtΓ (γF := γF) Sok) := by
-  intro P c₁ c₂ hC hC₂ hδ hL h₁ h₂ h
-  intro p hp h' B₀ hB₀ hh w G U a b R n hprime hM9 B RD hG layer hLayer kind hcan hlay hord hcl centre wBar lam g cψ
-    hc hgp hre S hSok hS hrow
-  have hN := vineEstHalfMK_N P c₁ c₂ (p + 1)
-  have key := @h p hp h' B₀ hB₀ hh w G U a b R n hprime hM9 B RD hG layer hLayer kind hcan hlay
-    (by rw [← hN]; exact hord) (by have := vineEstHalfMK_N P c₁ c₂ 1; rw [← this]; exact hcl) centre wBar lam g cψ
-    hc hgp hre S hSok hS hrow
-  refine le_trans key (mul_le_mul' le_rfl (ENNReal.ofReal_le_ofReal ?_))
-  have hL0 : 0 ≤ P.L ^ (-(P.η ^ 8 * ((Famb.VineEstS3.cohmolIndexΓ B RD hG layer +
-        (Famb.VineEstS3.step3DΓ hM9 B RD hG layer hLayer (Famb.VineEstS3.canonBadKindΓ hM9 B RD hG layer) (qOutOf RD hG layer a b R) centre wBar).M₁ : ℕ) : ℝ)) -
-        P.η ^ 2 / 2 * ((Finset.univ.filter fun i => (Famb.VineEstS2.assemblyShapeΓ hM9 B).nor i = false).card : ℝ) + P.η ^ 7) :=
-    Real.rpow_nonneg (by linarith) _
-  have hleaf := WaveTurbulence.VineEstS5C.regionLeafSize_const_nonneg RD hG R layer hLayer hB₀
-  have hs : 0 ≤ Real.sqrt P.δ := Real.sqrt_nonneg _
-  have hc0 : 0 ≤ P.C₁ * Real.sqrt P.δ := mul_nonneg (by linarith) hs
-  have hcc : P.C₁ * Real.sqrt P.δ ≤ c₁ * Real.sqrt P.δ := mul_le_mul_of_nonneg_right h₁ hs
-  have hpow := pow_le_pow_left₀ hc0 hcc (clLocalOrder2 RD hG R)
-  have h1 : 0 ≤ (1 + |lam|) ^ (6 * P.η ^ 6) := Real.rpow_nonneg (by positivity) _
-  show (1 + |lam|) ^ (6 * P.η ^ 6) * ((P.C₁ * Real.sqrt P.δ) ^ clLocalOrder2 RD hG R * _ * _) ≤
-    (1 + |lam|) ^ (6 * P.η ^ 6) * ((c₁ * Real.sqrt P.δ) ^ clLocalOrder2 RD hG R * _ * _)
-  gcongr
-
-end
-
-section
-open WaveTurbulence.Flower
-open WaveTurbulence.Flower.V5WB
-open WaveTurbulence.Induct
-open WaveTurbulence.VineParamContract
-open WaveTurbulence.Flower.V5W
-open WaveTurbulence WaveTurbulence.Fourier WaveTurbulence.VineEstS3.FS WaveTurbulence.Twist WaveTurbulence.LFTwist WaveTurbulence.VineEstS2 WaveTurbulence.VineEstS3 WaveTurbulence.VineEstS4 WaveTurbulence.VineEstS5B WaveTurbulence.Links WaveTurbulence.Reg.Skeleton WaveTurbulence.RegRed TTree MeasureTheory VineParamContract
-open WaveTurbulence.VineEstS5C WaveTurbulence.VineEstS5C.P1 WaveTurbulence.VineEstS5C.P3 WaveTurbulence.VineEstS5C.P2 WaveTurbulence.VineEstS5C.P4 WaveTurbulence.VineEstS5C.FlatMod
-open WaveTurbulence.VineSpaceK WaveTurbulence.VineSpaceB WaveTurbulence.VineC WaveTurbulence.Represents
-open WaveTurbulence.Flower.Stage1W
-open scoped ENNReal FourierTransform
-open Set
-open VineEstS5C.P4.Final LGSpine Cut2A
-variable {γF : ℝ}
-
-/-- **The gate from its two halves** (the `S ≠ none` half is V5W-T's). -/
-theorem v5FrontierClassBound_of_halvesΓ (hN : WTPrefix (V5FrontierClassBoundOnAtΓ (γF := γF) (· = none)))
-    (hS : WTPrefix (V5FrontierClassBoundOnAtΓ (γF := γF) (· ≠ none))) : V5FrontierClassBoundΓ (γF := γF) :=
-  Flower.V5WA.wtPrefix_mono (prefix_and hN hS (v5FrontierClassBoundOnAt_monoΓ _) (v5FrontierClassBoundOnAt_monoΓ _))
-    fun P h => v5FrontierClassBoundAt_of_halvesΓ P h.1 h.2
 
 end
 

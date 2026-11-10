@@ -59,15 +59,6 @@ noncomputable def clRecenteredLocalKernelModC (D : ReconstructionData G) (hG : G
   Complex.exp (((-(Real.pi * δ * L ^ (2 * γ)) * tUpper * boundaryEnergyFromMomenta (G.sign a.toNode) e f g h : ℝ) : ℂ) *
     Complex.I) * clLocalKernelModC D hG R L γ δ F layer hLayer base lam tUpper tPositive tNegative e f g h
 
-theorem clRecenteredLocalKernelModC_zero (D : ReconstructionData G) (hG : G.IsPlain) (R : CLRegionData G U a b)
-    (L γ δ : ℝ) (F : ℕ → Mom d → ℝ) (layer : GNode (D.forest hG) → ℕ)
-    (hLayer : IsLayering (D.garden hG) layer) (base : Mom d)
-    (tUpper tPositive tNegative : ℝ) (e f g h : Mom d) :
-    clRecenteredLocalKernelModC D hG R L γ δ F layer hLayer base 0 tUpper tPositive tNegative e f g h =
-      clRecenteredLocalKernel D hG R L γ δ F layer hLayer base tUpper tPositive tNegative e f g h := by
-  unfold clRecenteredLocalKernelModC clLocalKernelModC clRecenteredLocalKernel clLocalKernel lowModC
-  simp
-
 /-- The modulation does not see the time of a leaf lower child. -/
 theorem lowModC_congr (R : CLRegionData G U a b) (lam : ℝ) (t t' : Fin 3 → ℝ) (h0 : t 0 = t' 0)
     (hp : (b.child R.positive).1.2 ∉ (G.tree (b.child R.positive).1.1).branching ∨ t 1 = t' 1)

@@ -26,11 +26,6 @@ open WaveTurbulence.Induct
 namespace WaveTurbulence.VineEstS5C.P4.KindFinal
 open WaveTurbulence WaveTurbulence.LGSpine WaveTurbulence.VineEstS5C
 
-/-- **VINEEST (i), kind-generic**: `WTPrefix VineEstCanonLayerC2MK` from the two leafwise gates. -/
-theorem vineEstCanonLayerC2MK_of_gates (hG : LeafwiseCoherentApproximationGate) (hI : LeafwiseIncoherentDecayGate) :
-    WTPrefix VineEstCanonLayerC2MK :=
-  Final.vineEstCanonLayerC2MK_of_uniformCert W2.uniformTermCertK hG hI P1.realityAll
-
 /-- **VINEEST (ii), kind-generic** (the statement consumed by S2's `stage1ReductionGate_of_V5` and main's `layergarden_v2_of_V5`):
 `WTPrefix VineEstCanonLayerHalfMK` from the two leafwise gates. -/
 theorem vineEstCanonLayerHalfMK_of_gates (hG : LeafwiseCoherentApproximationGate) (hI : LeafwiseIncoherentDecayGate) :

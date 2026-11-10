@@ -2,7 +2,7 @@
 module
 
 public import WaveTurbulence.Foundations.Molecule.VineIntrinsicPartition
-public import WaveTurbulence.Foundations.Molecule.VineCoherencePermutation
+public import Mathlib.Data.List.Perm.Basic
 import Mathlib.Tactic
 
 /-! # TARGET cohmol: coherence and its index are realization independent -/
@@ -62,14 +62,5 @@ theorem realizedIncoherencyIndex_eq (M : Molecule V D) (hM : M.IsMolecule)
   change incoherencyIndex layer (realizedGroups R)=incoherencyIndex layer (realizedGroups T)
   rw [incoherencyIndex_as_groupSets,incoherencyIndex_as_groupSets]
   exact ((realized_groupSets_perm M hM R T hB).filter _).length_eq
-
-/-- TARGET cohmol: coherence itself is independent of the realization. -/
-theorem realized_coherent_iff (M : Molecule V D) (hM : M.IsMolecule)
-    {X Y : VineType} {S : Finset V} {a b : V}
-    (R : VineRealization M X S a b) (T : VineRealization M Y S a b)
-    (hB : M.IsBlock S a b) (layer : V → L) :
-    Coherent layer (realizedGroups R) ↔ Coherent layer (realizedGroups T) := by
-  rw [← realizedIncoherencyIndex_eq_zero_iff,← realizedIncoherencyIndex_eq_zero_iff,
-    realizedIncoherencyIndex_eq M hM R T hB layer]
 
 end WaveTurbulence.Vine

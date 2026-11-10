@@ -5,7 +5,7 @@ public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceDVUni
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceHyperAbsorb
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceHyperBlockFalse
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceOneJointContradiction
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourcePairsMain
+public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourcePairsCompatible
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.DS.DV
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Api
 /-! **L6-H port of main `WaveTurbulence.Foundations.FinalCount.SubproOneJoint`** (sha256 in H/COPIED-SHA256SUMS): only the declarations that

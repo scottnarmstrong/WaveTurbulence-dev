@@ -30,14 +30,6 @@ open Finset TTree WaveTurbulence WaveTurbulence.Mole WaveTurbulence.RegRed WaveT
 
 variable {w : ℕ} {G0 : Garden w}
 
-theorem foldInv_cast_leaf {P : CLBlock G0 → Prop} {A B : SpState G0} (e : A = B) (X : FoldInv P A) :
-    HEq (e ▸ X : FoldInv P B).leaf X.leaf := by
-  subst e; rfl
-
-theorem trace_cast_leaf {A B : SpState G0} (e : A = B) (X : SpliceLeafTrace A) :
-    HEq (e ▸ X : SpliceLeafTrace B).leaf X.leaf := by
-  subst e; rfl
-
 theorem trace_heq_leaf {A B : SpState G0} (e : A = B) {X : SpliceLeafTrace A} {Y : SpliceLeafTrace B}
     (h : HEq X Y) : HEq X.leaf Y.leaf := by
   subst e; rw [eq_of_heq h]
@@ -122,10 +114,6 @@ theorem stSt_od_nodeMk (hM : S.molecule.IsMolecule) (σ : Prescription S) {Mk : 
     show ((spliceFoldLeafTrace (unitBlocks (Mk := Mk) S σ)).leaf l.1).toNode = _
     rw [h3]
     exact h2
-
-/-- **The original dart `od y` is carried by the image of the node carrying `y`.** -/
-theorem stSt_od_node (hM : S.molecule.IsMolecule) (σ : Prescription S) (y : GardenDart (stSt S σ).G) :
-    dartNode S ((stSt S σ).M.od y) = (stShape hM σ).node (dartNode (stSt S σ).G y) := stSt_od_nodeMk (Mk := ∅) hM σ y
 
 /-- B1b (Mk-general form of `bondIndex_stSt_od`). -/
 theorem bondIndex_stSt_odMk (hM : S.molecule.IsMolecule) (σ : Prescription S) {d : ℕ}

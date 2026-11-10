@@ -29,9 +29,6 @@ private theorem not_sc_t_m3 {x : V} (hx : T.TP x) (j : Fin 3) : ¬ T.m3.SameComp
   have := (PClosed.sc_iff T.m3 T.TP T.pclosed h).1 hx
   exact this j rfl
 
-private theorem sc_t_m3 (i j : Fin 3) : T.m3.SameComponent (T.t i) (T.t j) :=
-  T.sc_t T.m3 (fun _ => rfl) (fun x j h => T.m3_atom_tri x j h) i j
-
 private theorem m3_sc_kept {u w : V} (hu : T.TP u) (h : T.m3.SameComponent u w) : T.kept.SameComponent u w :=
   restrictP_sc_of T.m3 T.TP T.pclosed h hu
 

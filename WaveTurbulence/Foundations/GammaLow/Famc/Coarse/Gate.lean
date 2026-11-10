@@ -20,16 +20,6 @@ theorem coarseSplicedGammaAt_of_core {P : WTParams} (h : CoarseSplicedCoreAt P) 
     h p hp R hR hRmax G hpl hir hbal hn hnmax D hD hl A base roots hprem.molecule hprem.connected
       hprem.atom_count hprem.bond_count
 
-/-- The core statement implies main's `LGSpine.CoarseSplicedAt` (consistency with the sealed statement). -/
-theorem coarseSplicedAt_of_core {P : WTParams} (h : CoarseSplicedCoreAt P) : CoarseSplicedAt P :=
-  fun p hp R hR hRmax G hpl hir hbal hn hnmax D hD hl A base roots hprem =>
-    h p hp R hR hRmax G hpl hir hbal hn hnmax D hD hl A base roots hprem.molecule hprem.connected
-      hprem.atom_count hprem.bond_count
-
-/-- **CoarseSpliced′: TARGET finalsbest1 over `𝒱_γ`** for `0 < γ < 1`. -/
-theorem coarseSplicedGammaGate : CoarseSplicedGammaGate :=
-  prefix_map (fun _ h => coarseSplicedGammaAt_of_core h) coarseSplicedCoreGate
-
 /-- **CoarseSpliced′ for `0 < γ ≤ 1/2`** (the low-half form consumed by L7). -/
 theorem coarseSplicedGateLow : CoarseSplicedGateLow :=
   prefix_map (fun _ h _ => coarseSplicedGammaAt_of_core h) coarseSplicedCoreGate

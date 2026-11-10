@@ -69,15 +69,4 @@ theorem one_le_jbr {d : ℕ} (x : Mom d) : 1 ≤ jbr x := by
   apply Real.le_sqrt_of_sq_le
   nlinarith [sq_nonneg ‖x‖]
 
-/-- Dropping the spatial weight gives a uniform bound on each coordinate derivative. -/
-theorem multiindex_norm_le_of_SNorm_le {d N K : ℕ} {F : Mom d → ℂ} {B : ℝ}
-    (hB : 0 ≤ B) (hF : SNorm N K F ≤ ENNReal.ofReal B)
-    (ρ : Fin d → ℕ) (hρ : ∑ j, ρ j ≤ N) (x : Mom d) :
-    ‖iterPartial ρ F x‖ ≤ B := by
-  have hp : 1 ≤ jbr x ^ K := one_le_pow₀ (one_le_jbr x)
-  have hm := mul_le_mul_of_nonneg_right hp (norm_nonneg (iterPartial ρ F x))
-  calc
-    _ ≤ jbr x ^ K * ‖iterPartial ρ F x‖ := by simpa only [one_mul] using hm
-    _ ≤ B := weighted_multiindex_norm_le_of_SNorm_le hB hF ρ hρ x
-
 end WaveTurbulence.Sumint

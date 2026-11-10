@@ -165,9 +165,6 @@ theorem mem_unit_of_repCMk {u : CLBlock G} {Mk : Set (Stage1.CLVine _)} (hu : u 
     subst this
     exact (hiff m).mp (h.trans hrep.symm)
 
-theorem mem_unit_of_repC {u : CLBlock G} (hu : u ∈ unitBlocks G σ) {m : GBranch G.tree}
-    (h : repC (stSt G σ).cls m = u.upper) : m ∈ u.atoms := mem_unit_of_repCMk (Mk := ∅) hM σ hu h
-
 /-- B1b (Mk-general form of `ob_atom_mate`). -/
 theorem ob_atom_mateMk {Mk : Set (Stage1.CLVine _)} (y : GardenDart (stSt (Mk := Mk) G σ).G) :
     (stSt (Mk := Mk) G σ).M.ob ((stSt (Mk := Mk) G σ).G.molecule.atom ((stSt (Mk := Mk) G σ).G.molecule.mate y)) =

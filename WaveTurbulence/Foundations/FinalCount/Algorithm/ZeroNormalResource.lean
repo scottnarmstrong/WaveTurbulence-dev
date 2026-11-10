@@ -3,7 +3,6 @@ module
 
 public import WaveTurbulence.Foundations.FinalCount.Algorithm.ZeroNormalData
 public import WaveTurbulence.Foundations.FinalCount.Algorithm.BalancedDeletion
-public import WaveTurbulence.Foundations.FinalCount.Algorithm.D33DefectiveBoundarySelection
 import Mathlib.Tactic
 
 /-! # Resource accounting from the actual normal ladder stage

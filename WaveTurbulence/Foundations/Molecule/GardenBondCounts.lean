@@ -72,20 +72,4 @@ theorem irreducible_garden_bonds_identity (G : Garden w) (hP : G.IsPlain)
   have hE := two_mul_card_bonds G.molecule
   omega
 
-/-- TARGET `propcplmol`: E=2n-R, stated without truncated natural subtraction. -/
-theorem irreducible_garden_bonds_add_width_half {R : ℕ} (G : Garden (2*R)) (hP : G.IsPlain)
-    (hI : G.Irreducible) (hn : 1 ≤ G.order) : G.molecule.bonds.card+R = 2*G.order := by
-  have hh := irreducible_garden_bonds_identity G hP hI hn
-  omega
-
-/-- TARGET `propcplmol`: the actual circuit rank is n-R+1. -/
-theorem irreducible_garden_circuitRank {R : ℕ} (G : Garden (2*R)) (hP : G.IsPlain)
-    (hI : G.Irreducible) (hn : 1 ≤ G.order) :
-    G.molecule.circuitRank = (G.order:ℤ)-(R:ℤ)+1 := by
-  have hE : (G.molecule.bonds.card:ℤ)+(R:ℤ) = 2*(G.order:ℤ) := by
-    exact_mod_cast irreducible_garden_bonds_add_width_half G hP hI hn
-  rw [Molecule.circuitRank,garden_card_atoms,irreducible_garden_numComponents G hP hI hn]
-  norm_num only [Nat.cast_one]
-  linarith only [hE]
-
 end WaveTurbulence.Mole

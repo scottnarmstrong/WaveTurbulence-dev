@@ -40,12 +40,6 @@ noncomputable def timeSplit (hd : Disj blk) :
       (MeasurableEquiv.prodCongr (MeasurableEquiv.refl _)
         (MeasurableEquiv.piCurry (fun (j : J) (_ : ↥(inter blk j)) => ℝ))))
 
-theorem timeSplit_fst (hd : Disj blk) (τ : GBranch S.tree → ℝ) (c : GBranch Gsb.tree) :
-    (Φ.timeSplit hd τ).1 c = τ (Φ.br c) := rfl
-
-theorem timeSplit_snd (hd : Disj blk) (τ : GBranch S.tree → ℝ) (j : J) (x : ↥(inter blk j)) :
-    (Φ.timeSplit hd τ).2 j x = τ x.1 := rfl
-
 theorem measurePreserving_timeSplit (hd : Disj blk) :
     MeasurePreserving (Φ.timeSplit hd) volume
       ((volume : Measure (GBranch Gsb.tree → ℝ)).prod (volume : Measure (∀ j, CLInternalTime (regionOf (blk j))))) := by

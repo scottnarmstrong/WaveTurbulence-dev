@@ -56,7 +56,4 @@ theorem GEmb.isBlockGap_iff {V D1 D2 : Type*} [DecidableEq V] [Fintype D1] [Deci
     exact ⟨ι x₁, ι x₂, by rw [G.atom]; exact h1, by rw [G.atom]; exact h2, (G.inGroup_iff S x₁).2 g1,
       (G.inGroup_iff S x₂).2 g2, by rw [G.out]; exact o1, by rw [G.out]; exact o2, hr⟩
 
-theorem nonloop_of_block {M : Molecule V D} {S : Finset V} {a b : V} (hb : M.IsBlock S a b) {e : D} (he : M.ends e = s(a, b)) :
-    M.atom e ≠ M.atom (M.mate e) := ends_ne_of hb.2.2.2.1 he
-
 end WaveTurbulence.FinalCountG3

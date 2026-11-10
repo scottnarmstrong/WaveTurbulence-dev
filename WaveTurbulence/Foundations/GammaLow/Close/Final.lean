@@ -32,24 +32,4 @@ namespace WaveTurbulence.GammaLow.Close
 theorem flower_low_closed : Flower.LayergardenFlowerLowGate :=
   flower_low_of_marked Flower.one_le_C₀L Flower.one_le_cθL Flower.stage1MKGateLow
 
-/-- Full-range flower estimate (the statement of the frozen `layergardenFlower_v4`). -/
-theorem layergardenFlower_v4_full : type_of% (Glue.layergardenFlower_v4_of_low flower_low_closed) :=
-  Glue.layergardenFlower_v4_of_low flower_low_closed
-
-/-- Full-range `layergarden` (the statement of the frozen `layergarden`). -/
-theorem layergarden_full : type_of% (Glue.layergarden_of_low layergarden_low_closed) :=
-  Glue.layergarden_of_low layergarden_low_closed
-
-/-- Full-range `fixedpoint`. -/
-theorem fixedpoint_full : type_of% (Glue.fixedpoint_of_low flower_low_closed layergarden_low_closed) :=
-  Glue.fixedpoint_of_low flower_low_closed layergarden_low_closed
-
-/-- Full-range `propansatz`. -/
-theorem propansatz_full : type_of% (Glue.propansatz_of_low flower_low_closed layergarden_low_closed) :=
-  Glue.propansatz_of_low flower_low_closed layergarden_low_closed
-
-/-- **Theorem 1.1 for the full range `0 < γ < 1`** (the statement of the frozen `main`). -/
-theorem main_full : type_of% (Glue.main_of_low flower_low_closed layergarden_low_closed) :=
-  Glue.main_of_low flower_low_closed layergarden_low_closed
-
 end WaveTurbulence.GammaLow.Close

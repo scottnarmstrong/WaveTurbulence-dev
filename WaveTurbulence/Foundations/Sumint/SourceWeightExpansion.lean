@@ -66,19 +66,6 @@ theorem source_tensor_fourier_integrable {d : ℕ} (hd : 1 ≤ d) (D : SumintDat
     exact Real.rpow_nonneg hL.le _
   · exact sourceWeight_bound D hD
 
-/-- Full source Fourier coefficient mass, exponential only in `M` and with decay in `M₁`. -/
-theorem source_tensor_fourier_mass_le {d : ℕ} (hd : 1 ≤ d) (D : SumintDatum d)
-    {A L γ η : ℝ} {Dsteps : ℕ} (hL : 0 < L) (hD : D.Admissible A L γ η Dsteps)
-    (a : D.S.VIdx ⊕ D.S.VIdx → Fin d → ℤ) :
-    (∫ ξ : (D.S.VIdx ⊕ D.S.VIdx) → Mom d,
-      ‖∏ i, 𝓕 (localizedWeight (a i) (sourceWeight D i)) (ξ i)‖) ≤
-      cellFourierFactor d ^ (2 * D.S.M) * L ^ (-(gammaWeight d γ - Real.sqrt η) * D.M₁) := by
-  have h := integral_norm_tensor_localized_fourier_le (N := 30 * d) (by omega) (by omega)
-    (sourceWeightOrder D) (sourceWeight D)
-    (fun i => L ^ (-(gammaWeight d γ - Real.sqrt η) * sourceWeightMultiplicity D i))
-    (fun _ => Real.rpow_nonneg hL.le _) (sourceWeight_bound D hD) a
-  simpa only [Fintype.card_sum, card_vector_index, ← two_mul, prod_source_decay D hL] using h
-
 /-- Literal simultaneous modulation expansion at the draft's primary and alternative affine maps. -/
 theorem source_localized_weights_expansion {d : ℕ} (hd : 1 ≤ d) (D : SumintDatum d)
     {A L γ η : ℝ} {Dsteps : ℕ} (hL : 0 < L) (hD : D.Admissible A L γ η Dsteps)
