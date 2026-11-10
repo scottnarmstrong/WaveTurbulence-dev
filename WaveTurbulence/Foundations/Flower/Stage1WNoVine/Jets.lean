@@ -60,8 +60,6 @@ theorem norm_jetPairing_le (d : ℕ) : ‖jetPairing d‖ ≤ 1 := by
         mul_le_mul h1 h2 (norm_nonneg _) zero_le_one
     _ = 1 := one_mul 1
 
-theorem jetPairing_apply (v : Mom d × ℂ) (x : Mom d) : jetPairing d v x = -inner ℝ v.1 x := rfl
-
 section Measure
 
 variable (M : Cut2A.SpatialMeasure (Mom d) α)

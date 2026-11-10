@@ -31,11 +31,6 @@ def fwNode {w d : ℕ} (LG : LayeredGarden w) (p : ℕ) (g : Fin w → Mom d →
     (x : Mom d) : ℂ :=
   if z.1.2 ≠ [] then topPsi p (g z.1.1) (LG.layer z) (LG.parentLayer p z) x else 1
 
-theorem fwWeight_eq_prod {P : WTParams} {R : ℕ} (p : ℕ) (g : Fin (2 * R) → Mom P.d → ℂ) (base : Mom P.d)
-    {roots : Fin (2 * R) → (Fin P.d → ℤ)} (LG : LayeredGarden (2 * R))
-    (κ : GenDecoration LG.garden P.d roots 0) :
-    fwWeight p g base LG κ = ∏ z, fwNode LG p g z (cosetDecoration LG.garden P.L base κ.1 z) := rfl
-
 theorem norm_fwNode_le {w d : ℕ} (LG : LayeredGarden w) (p : ℕ) (g : Fin w → Mom d → ℂ) (cψ : ℝ)
     (hc : 1 ≤ cψ) (hg : ∀ j x, ‖g j x‖ ≤ cψ) (z : GNode LG.garden.tree) (x : Mom d) :
     ‖fwNode LG p g z x‖ ≤ cψ := by
@@ -143,125 +138,6 @@ theorem fin2_vec (f : Fin 2 → ℕ) : f = ![f 0, f 1] := by
 
 theorem fin1_vec (f : Fin 1 → ℕ) : f = ![f 0] := by
   funext j; fin_cases j; rfl
-
-/-- **The weighted native couple kernel is `coupleLeavesTopR`.** -/
-theorem slotFnNW_fw_couple (L γ δ : ℝ) (H : LeafProfiles w d) (p : ℕ) (g : Fin w → Mom d → ℂ)
-    (p' : SourcePair S) (ts : Fin 2 → ℝ) (k : Mom d) :
-    slotFnNW D hS L γ δ H (fwNode (layeredReconstruction D hS layer hLayer) p g) layer hLayer (.inl p') ts k =
-      coupleLeavesTopR L γ δ p (cplG D hS g p') (cplQ D hS layer hLayer p p' 0) (cplQ D hS layer hLayer p p' 1)
-        (nativeCoupleLayered D hS layer hLayer p') (nativeCoupleProfiles D hS H p') (ts 0) (ts 1) k := by
-  have hA : (fun a : GNode (nativeCoupleLayered D hS layer hLayer p').garden.tree =>
-      H ((nativeCoupleForest D hS p').nodeEmbedding a).1) = fun a => nativeCoupleProfiles D hS H p' a.1 := by
-    funext a
-    unfold nativeCoupleProfiles
-    split_ifs with h
-    · rfl
-    · exact absurd a.2 h
-  have hm : (fun k' : GNode (nativeCoupleLayered D hS layer hLayer p').garden.tree → Mom d =>
-      ∏ a, fwNode (layeredReconstruction D hS layer hLayer) p g ((nativeCoupleForest D hS p').nodeEmbedding a) (k' a)) =
-      rowTopWeightR p (cplG D hS g p') (nativeCoupleLayered D hS layer hLayer p')
-        ![cplQ D hS layer hLayer p p' 0, cplQ D hS layer hLayer p p' 1] := by
-    funext k'
-    refine (prod_fwNode_embed (layeredReconstruction D hS layer hLayer) (nativeCoupleLayered D hS layer hLayer p')
-      (fun a => (nativeCoupleForest D hS p').nodeEmbedding a) (fun j => ((nativeCoupleForest D hS p').root j).1)
-      (fun a => rfl) (fun a => rfl) p g k').trans ?_
-    rw [← fin2_vec (cplQ D hS layer hLayer p p')]
-    rfl
-  show kernelNodeW L γ δ (nativeCoupleLayered D hS layer hLayer p')
-      (fun a => H ((nativeCoupleForest D hS p').nodeEmbedding a).1)
-      (fun k' => ∏ a, fwNode (layeredReconstruction D hS layer hLayer) p g
-        ((nativeCoupleForest D hS p').nodeEmbedding a) (k' a))
-      (fun b => if b.1.1 = 0 then ts 0 else ts 1) 0 k (fun _ => 0) 0 = _
-  rw [hA, hm]
-  rfl
-
-/-- **The weighted native tree kernel is `treeLeavesTop`.** -/
-theorem slotFnNW_fw_tree (L γ δ : ℝ) (H : LeafProfiles w d) (p : ℕ) (g : Fin w → Mom d → ℂ)
-    (b : GBranch S.tree) (ts : Fin 2 → ℝ) (k : Mom d) :
-    slotFnNW D hS L γ δ H (fwNode (layeredReconstruction D hS layer hLayer) p g) layer hLayer (.inr b) ts k =
-      treeLeavesTop L γ δ p (treeG D g b) (treeQ D hS layer hLayer p b)
-        (nativeChainLayered D hS layer hLayer b) (nativeChainProfiles D hS H b) (ts 0) (ts 1) k := by
-  have hA : (fun a : GNode (nativeChainLayered D hS layer hLayer b).garden.tree =>
-      H (chainContextNode D hS b a).1) = fun a => nativeChainProfiles D hS H b a.1 := by
-    funext a
-    unfold nativeChainProfiles
-    split_ifs with h
-    · rfl
-    · exact absurd a.2 h
-  have hm : (fun k' : GNode (nativeChainLayered D hS layer hLayer b).garden.tree → Mom d =>
-      ∏ a, fwNode (layeredReconstruction D hS layer hLayer) p g (chainContextNode D hS b a) (k' a)) =
-      rowTopWeight p (treeG D g b) (nativeChainLayered D hS layer hLayer b) ![treeQ D hS layer hLayer p b] := by
-    funext k'
-    refine (prod_fwNode_embed (layeredReconstruction D hS layer hLayer) (nativeChainLayered D hS layer hLayer b)
-      (chainContextNode D hS b) (fun _ => inflatedPosition S D.tree b.toNode)
-      (fun a => rfl) (fun a => rfl) p g k').trans ?_
-    rw [← rowTopWeightR_const]
-    have e : embQ (layeredReconstruction D hS layer hLayer) (nativeChainLayered D hS layer hLayer b)
-        (chainContextNode D hS b) (fun _ => inflatedPosition S D.tree b.toNode) p =
-        ![treeQ D hS layer hLayer p b] := fin1_vec _
-    rw [e]
-    rfl
-  show kernelNodeW L γ δ (nativeChainLayered D hS layer hLayer b)
-      (fun a => H (chainContextNode D hS b a).1)
-      (fun k' => ∏ a, fwNode (layeredReconstruction D hS layer hLayer) p g (chainContextNode D hS b a) (k' a))
-      (fun _ => ts 0) (ts 1) k (fun _ => 0) 0 = _
-  rw [hA, hm]
-  rfl
-
-/-- Away from garden roots the weight layers are the clock layers; at a garden root, the root layer. -/
-theorem cplQ_spec (p : ℕ) (p' : SourcePair S) (j : Fin 2) :
-    cplQ D hS layer hLayer p p' j =
-        Represents.clkLayer p (fun b => layer (D.coreBranch hS b).toNode) (Represents.argSrc hS (.inl p') j) ∨
-      (cplQ D hS layer hLayer p p' j =
-          (nativeCoupleLayered D hS layer hLayer p').layer
-            (GNode.root (nativeCoupleLayered D hS layer hLayer p').garden.tree j) ∧
-        Represents.clkLayer p (fun b => layer (D.coreBranch hS b).toNode) (Represents.argSrc hS (.inl p') j) = p) := by
-  set ν : GNode S.tree := if j = 0 then (p'.firstLeaf hS).toNode else (p'.secondLeaf hS).toNode with hν
-  have hcl : Represents.argSrc hS (.inl p') j = Represents.clkOfNode S ν := by
-    fin_cases j <;> simp [Represents.argSrc, hν]
-  rw [hcl]
-  have hroot := Represents.couple_root_node D hS p' j
-  have hpl := Represents.parentLayer_inflated D hS layer hLayer p ν
-    ((nativeCoupleForest D hS p').nodeEmbedding (GNode.root (nativeCoupleForest D hS p').shape j)) hroot
-  unfold cplQ embQ
-  by_cases hr : (((nativeCoupleForest D hS p').root j).1).2 = []
-  · right
-    rw [if_pos hr]
-    refine ⟨rfl, ?_⟩
-    rw [← hpl]
-    unfold LayeredGarden.parentLayer
-    rw [if_pos]
-    show (((nativeCoupleForest D hS p').root j).1).2 ++ [] = []
-    rw [hr]; rfl
-  · left
-    rw [if_neg hr]
-    exact hpl
-
-theorem treeQ_spec (p : ℕ) (b : GBranch S.tree) :
-    treeQ D hS layer hLayer p b =
-        Represents.clkLayer p (fun b => layer (D.coreBranch hS b).toNode) (Represents.argSrc hS (.inr b) 0) ∨
-      (treeQ D hS layer hLayer p b =
-          (nativeChainLayered D hS layer hLayer b).layer
-            (GNode.root (nativeChainLayered D hS layer hLayer b).garden.tree 0) ∧
-        Represents.clkLayer p (fun b => layer (D.coreBranch hS b).toNode) (Represents.argSrc hS (.inr b) 0) = p) := by
-  have hcl : Represents.argSrc hS (.inr b) 0 = Represents.clkOfNode S b.toNode := by simp [Represents.argSrc]
-  rw [hcl]
-  have hroot := Represents.tree_root_node D hS b
-  have hpl := Represents.parentLayer_inflated D hS layer hLayer p b.toNode
-    (chainContextNode D hS b (GNode.root (decodedTree (D.tree b) (nodeSign S.sig b.1)).tree 0)) hroot
-  unfold treeQ embQ
-  by_cases hr : (inflatedPosition S D.tree b.toNode).2 = []
-  · right
-    rw [if_pos hr]
-    refine ⟨rfl, ?_⟩
-    rw [← hpl]
-    unfold LayeredGarden.parentLayer
-    rw [if_pos]
-    show (inflatedPosition S D.tree b.toNode).2 ++ [] = []
-    rw [hr]; rfl
-  · left
-    rw [if_neg hr]
-    exact hpl
 
 /-! ### The frontier exponents -/
 

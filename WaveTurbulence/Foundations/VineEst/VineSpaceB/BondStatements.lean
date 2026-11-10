@@ -5,7 +5,8 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.VineEst.VineSpaceK.WeightedStatements
+public import WaveTurbulence.Foundations.Cut2A.SpatialMeasureDefs
+public import WaveTurbulence.Foundations.VineEst.VineSpaceK.StatementDefs
 public import WaveTurbulence.Foundations.Molecule.GardenLabelExtension
 public import WaveTurbulence.Foundations.IncohInst.Links.Coherence
 public import WaveTurbulence.Foundations.Molecule.SkeletonDraft.InflatedCoreBranches

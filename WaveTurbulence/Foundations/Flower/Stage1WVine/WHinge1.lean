@@ -2,7 +2,6 @@
 module
 
 public import WaveTurbulence.Foundations.Flower.Stage1WVine.WAlign1
-public import WaveTurbulence.Foundations.Flower.Stage1WNoVine.Core1
 public import WaveTurbulence.Foundations.Flower.V5W.ContMember
 public import WaveTurbulence.Foundations.Flower.V5W.Statements
 public import WaveTurbulence.Foundations.Flower.V5W.Rigid

@@ -30,29 +30,7 @@ section KernelDefs
 open MeasureTheory VineEstS5C VineEstS5C.Cont VineEstS4 LFTwist RegRed Reg.Skeleton
 variable {w d : ℕ} {G : Garden w} {U : Finset (GBranch G.tree)} {a b : GBranch G.tree}
 
-/-- Spatial multiplication precedes both the lattice sum and time integration. -/
-def memberMX (D : ReconstructionData G) (hG : G.IsPlain) (R : CLRegionData G U a b)
-    (L γ δ : ℝ) (F : ℕ → Mom d → ℝ) (layer : GNode (D.forest hG) → ℕ)
-    (hLayer : IsLayering (D.garden hG) layer) (base : Mom d) (lam : ℝ)
-    (m : (GNode G.tree → Fin d → ℤ) → ℂ)
-    (tUpper tPositive tNegative : ℝ) (e f g h : Mom d) : ℂ :=
-  (coupling d L γ δ : ℂ) ^ clLocalOrder1 R * clLocalZeta R *
-    ∑' κ : CLLocalDecoration R L base ![e, f, g, h],
-      ∫ τ : CLInternalTime R, m (clExtendIndices R κ.1) *
-        (lowModC R lam ![tUpper, tPositive, tNegative] τ *
-          clLocalSummand D hG R L γ δ F layer hLayer base ![e, f, g, h] ![tUpper, tPositive, tNegative] κ τ)
-
 abbrev ClassMember (w : ℕ) (ι : Type*) := Σ Bs : FamilyReconstruction w ι, ChainAt Bs.skeleton Bs.family
-
-/-- A literal weighted class. The multiplier family is still indexed by each member;
-its covariance must be certified before any common-data factorization is used. -/
-def twistedRecenteredModCX {ι : Type*} (G : Garden w) (a : GBranch G.tree)
-    (Z : Finset (ClassMember w ι))
-    (m : (z : ClassMember w ι) → (GNode z.1.skeleton.tree → Fin d → ℤ) → ℂ)
-    (L γ δ : ℝ) (F : ℕ → Mom d → ℝ) (base : Mom d) (lam t0 t1 t2 : ℝ) (e f g h : Mom d) : ℂ :=
-  Complex.exp (((-(Real.pi * δ * L ^ (2 * γ)) * t0 * boundaryEnergyFromMomenta (G.sign a.toNode) e f g h : ℝ) : ℂ) * Complex.I) *
-    ∑ z ∈ Z, memberMX z.1.data z.1.plain (clRegionData z.1.skeleton z.2.block z.2.cl)
-      L γ δ F (stateLayer z.1) (stateLayer_isLayering z.1) base lam (m z) t0 t1 t2 e f g h
 
 end KernelDefs
 
@@ -116,14 +94,6 @@ variable {w : ℕ} {G : Garden w} {U : Finset (GBranch G.tree)} {a b : GBranch G
   {d : ℕ} {p : ℕ}
 variable (B : CLChainAssembly G R n) (RD : ReconstructionData G) (hG : G.IsPlain)
   (layer : GNode (RD.forest hG) → ℕ) (hLayer : IsLayering (RD.garden hG) layer)
-
-/-- The weighted flat observable of the top level: `recFac · c ζ · lkRaw (modPsi b λ psiFuel)`. -/
-noncomputable def flatFnRMX (m : (GNode G.tree → Fin d → ℤ) → ℂ) (lam : ℝ) (σ : ℤˣ) (κ0 : KPar d) (hprime : IsPrimeGarden G) (s : ℤˣ) :
-    (Fin 3 → ℝ) → (Fin 4 → Mom d) → ℂ :=
-  fun tt E => recFac σ s κ0.L κ0.γ κ0.δ tt E * (Lvl.cst B κ0 (Lvl.top B) *
-    lkRaw (Lvl.top B).region κ0.L κ0.base
-      (spatialMul m (modPsi b lam (Lvl.psiFuel (p := p) (kind := kind) B RD hG layer hLayer κ0 hprime (Fintype.card (Lvl.top B).ι + 1) (Lvl.top B))))
-      tt (sumintBoundary s E))
 
 
 end FlatDefs

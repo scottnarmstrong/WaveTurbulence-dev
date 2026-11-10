@@ -8,7 +8,6 @@ module
 public import WaveTurbulence.Foundations.Flower.V5WA.VineSpaceB.Weight
 public import WaveTurbulence.Foundations.Flower.V5WA.VineSpaceK.WeightedMerge
 public import WaveTurbulence.Foundations.Flower.V5WA.VineSpaceB.Pullback
-public import WaveTurbulence.Foundations.VineEst.VineSpaceK.Statements
 public import WaveTurbulence.Foundations.Flower.V5WA.VineSpaceK.UniformIface
 public import WaveTurbulence.Foundations.Flower.Stage1W.Defs
 

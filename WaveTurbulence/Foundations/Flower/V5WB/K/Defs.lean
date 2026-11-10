@@ -1,7 +1,7 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 
-public import WaveTurbulence.Foundations.VineEst.VineSpaceK.Statements
+public import WaveTurbulence.Foundations.VineEst.VineSpaceK.StatementDefs
 public import WaveTurbulence.Foundations.Flower.Stage1W.Defs
 
 /-! # V5W-B-WORLD: the V5-SPACE kernels and flat statements for every row selector

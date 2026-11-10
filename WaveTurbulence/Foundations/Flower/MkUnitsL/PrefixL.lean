@@ -2,7 +2,6 @@
 module
 
 public import WaveTurbulence.Foundations.Flower.MkUnitsL.AssemblyL
-public import WaveTurbulence.Foundations.Flower.Stage1WNoVine.Class
 public import WaveTurbulence.Foundations.Flower.V5W2L.Final
 
 /-! # MK-UNITS-L (B3-2): the exports on the prefix

@@ -2,7 +2,6 @@
 module
 
 public import WaveTurbulence.Foundations.Flower.MkUnits.WAlign
-public import WaveTurbulence.Foundations.Flower.Stage1WNoVine.Core1
 public import WaveTurbulence.Foundations.Vine.A.VineMarkedGapMK5
 
 /-! # MK-UNITS: the weighted member identity of a run class at a marking
