@@ -2,7 +2,6 @@
 module
 public import WaveTurbulence.Foundations.FinalCount.SubproShapeC1
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.AsmVN13
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.RedSpliceHingePair
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Api
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.RS.Facts
 /-! **L6-H port of main `WaveTurbulence.Foundations.FinalCount.SubproShapeC1`** (sha256 in H/COPIED-SHA256SUMS): only the declarations that
@@ -39,12 +38,6 @@ theorem objVine_of_allowed {G : Garden w} {U : Src.Object Src.γL G.molecule} (h
   · rw [hs] at h
     exact Src.isSomeVine_γL_iff.mp h
 
-/-- **`hC1vine`.** Every object of the first collection `C₁` of `collectionChoices G σ` is `ObjVine` at `M₀ = G_sb.molecule`. -/
-theorem c1_objVine {G : Garden w} (hM : G.molecule.IsMolecule) (σ : RedSplice.Prescription G)
-    (hno : ∀ a b, G.molecule.bondsBetween a b ≠ 3) (i : Fin (collectionChoices G σ).count) :
-    ObjVine (stSt G σ).G.molecule ((collectionChoices G σ).collection i) :=
-  objVine_of_allowed ((structural_collectionChoices hM σ hno).1 i)
-
 /-- A vine has at least four atoms or is a double bond (two atoms): an object classified by `ObjVine` never has exactly three atoms. -/
 theorem objVine_card_ne_three {V : Type*} [DecidableEq V] {D₀ : Type*} [Fintype D₀] [DecidableEq D₀]
     {M : Molecule V D₀} {U : Src.Object Src.γL M} (h : ObjVine M U) : U.atoms.card ≠ 3 := by
@@ -63,12 +56,5 @@ theorem objVine_card_ne_three {V : Type*} [DecidableEq V] {D₀ : Type*} [Fintyp
     have := Vine.typeI_atoms hI
     rw [this, Finset.card_pair hX.block.2.2.2.1] at h3
     omega
-
-/-- **`hC1vine`, in the form `vhard_of_shape` consumes.** -/
-theorem c1_shape {G : Garden w} (hM : G.molecule.IsMolecule) (σ : RedSplice.Prescription G)
-    (hno : ∀ a b, G.molecule.bondsBetween a b ≠ 3) (i : Fin (collectionChoices G σ).count) :
-    ((collectionChoices G σ).collection i).atoms.card = 3 ∨
-      ObjVine (stSt G σ).G.molecule ((collectionChoices G σ).collection i) :=
-  Or.inr (c1_objVine hM σ hno i)
 
 end WaveTurbulence.GammaLow.FinalCount.H

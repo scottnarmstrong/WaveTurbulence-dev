@@ -1,7 +1,6 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 public import WaveTurbulence.Foundations.FinalCount.LowChain43
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.LowChain29
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.LowChain42
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Api
 /-! **L6-H port of main `WaveTurbulence.Foundations.FinalCount.LowChain43`** (sha256 in H/COPIED-SHA256SUMS): only the declarations that

@@ -3,7 +3,6 @@ module
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.Ghost.LowE
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.Ghost.ChainLow
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.LowChainLow
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.LowChain29
 /-! **Ghost assembly: the low-range `chain_coverLL`** (RULING R194; design: `CHAIN-DESIGN.md`).
 
 `chainCoverLowL'_holds : H.ChainCoverLowL'` — H-LOW's field `Src.LowInputs.chainCoverL` (`H/FinalCount/LowChainLow.lean`).

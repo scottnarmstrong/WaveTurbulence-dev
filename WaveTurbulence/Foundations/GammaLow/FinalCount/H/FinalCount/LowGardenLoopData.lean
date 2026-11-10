@@ -1,7 +1,8 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 public import WaveTurbulence.Foundations.FinalCount.LowGardenLoopData
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.LowGardenClass
+public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.LowGardenLoops
+public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.AsmGReg1
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.LowGardenUnloopMain
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Api
 /-! **L6-H port of main `WaveTurbulence.Foundations.FinalCount.LowGardenLoopData`** (sha256 in H/COPIED-SHA256SUMS): only the declarations that

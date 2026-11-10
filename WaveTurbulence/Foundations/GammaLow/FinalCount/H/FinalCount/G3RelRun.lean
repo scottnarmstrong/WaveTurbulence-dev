@@ -30,12 +30,4 @@ theorem Step1.rel {L γ η : ℝ} {w : Mom d} {κ : D₀ → (Fin d → ℤ)} {s
     have h2 := h1.cutSt K.C.lower K.fb K.y₁ K.y₂ _ _ hce hce K.cut_b.2.1
     exact h2.delSt _ K.closed
 
-theorem Run.dartRel {L γ η : ℝ} {w : Mom d} {κ : D₀ → (Fin d → ℤ)} {sf : St.{u} V D₀}
-    (hr : Run L γ η w κ (St.init M₀) sf) : DartRel M₀ sf := by
-  obtain ⟨s₁, s₂, s₃, h1, _, h2, _, h3, _, h4, _⟩ := hr
-  have r1 := rel_rtg (fun _ _ h g => Step1.rel h g) h1 (DartRel.init M₀)
-  have r2 := rel_rtg (fun _ _ h g => Step2.rel h g) h2 r1
-  have r3 := rel_rtg (fun _ _ h g => Step3.rel h g) h3 r2
-  exact rel_rtg (fun _ _ h g => Step4.rel h g) h4 r3
-
 end WaveTurbulence.GammaLow.FinalCount.H

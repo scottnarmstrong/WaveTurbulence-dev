@@ -115,39 +115,6 @@ theorem deg_three_of_eligible {C : CollData M₀} {h₂ h : HSt V D₀}
   · exact hnz k
   · exact k (hel.2.2 j)
 
-/-- **Step-2 existence in the LOW run**: an eligible triangle whose `ε`-atoms have degree `≥ 3` has a step. -/
-theorem exists_step2C_L {C : CollData M₀} (hL : 0 < L) (h2 : 2 / L ≤ L ^ (-γ + η)) {h : HSt V D₀}
-    (hI : InvL M₀ R L γ η w κ h) (T : TriData h.s.M) (hel : Eligible C L γ η w κ h T)
-    (h3 : ∀ j, h.s.cls (T.t j) = .eps → 3 ≤ h.s.M.deg (T.t j)) :
-    ∃ h', HStep2C C L γ η w κ h h' := by
-  have hInv := hI.good.1
-  have hcl : PClosed T.kept (triKeep h.s T) := tri_keep_closed hInv T
-  have hlab : ∀ j : Fin 2, ∃ R', IsLabel L γ η R' ∧
-      GapSim L w (κ ∘ h.s.down) (T.a j.castSucc) (T.b j.castSucc) R' :=
-    fun j => exists_label_of_SG w (κ ∘ h.s.down) _ _ hL h2 (hel.1 j)
-  choose Q hQ hsim using hlab
-  let kp0 : ℕ := if IotaHit L η w κ h.alive (h.s.pr (T.a 0) (T.b 0)) (Q 0) then 50 else 0
-  let kp1 : ℕ := if IotaHit L η w κ (h.triVis1 T) (h.s.pr (T.a 1) (T.b 1)) (Q 1)
-    then 50 else 0
-  let kp : Fin 2 → ℕ := ![kp0, kp1]
-  have hkp : ∀ j : Fin 2, kp j = 0 ∨ kp j = 50 := by
-    intro j; fin_cases j
-    · show kp0 = 0 ∨ kp0 = 50
-      by_cases hh : IotaHit L η w κ h.alive (h.s.pr (T.a 0) (T.b 0)) (Q 0) <;> simp [kp0, hh]
-    · show kp1 = 0 ∨ kp1 = 50
-      by_cases hh : IotaHit L η w κ (h.triVis1 T) (h.s.pr (T.a 1) (T.b 1)) (Q 1) <;>
-        simp [kp1, hh]
-  have hι₀ : kp 0 = 50 ↔ IotaHit L η w κ h.alive (h.s.pr (T.a 0) (T.b 0)) (Q 0) := by
-    show kp0 = 50 ↔ _
-    by_cases hh : IotaHit L η w κ h.alive (h.s.pr (T.a 0) (T.b 0)) (Q 0) <;> simp [kp0, hh]
-  have hι₁ : kp 1 = 50 ↔
-      IotaHit L η w κ (h.triVis1 T) (h.s.pr (T.a 1) (T.b 1)) (Q 1) := by
-    show kp1 = 50 ↔ _
-    by_cases hh : IotaHit L η w κ (h.triVis1 T) (h.s.pr (T.a 1) (T.b 1)) (Q 1) <;>
-      simp [kp1, hh]
-  have hs := HStep2.tri h T Q kp hQ hkp hel.1 hsim hcl hel.2.1 (fun _ => hι₀) (fun _ => hι₁) h3
-  exact ⟨_, HStep2C.mk T hel hs ⟨Q, kp, hcl, rfl⟩⟩
-
 /-- **Step-3 existence in the LOW run** (an `ε` SG atom of degree `≥ 3`). -/
 theorem exists_step3C_L [Infinite V] {C : CollData M₀} (obl : SubproOblG C L γ η w κ) (hL : 0 < L)
     (h2 : 2 / L ≤ L ^ (-γ + η)) {h : HSt V D₀} (hI : InvL M₀ R L γ η w κ h) (hA : AncRel M₀ h.s h.anc)

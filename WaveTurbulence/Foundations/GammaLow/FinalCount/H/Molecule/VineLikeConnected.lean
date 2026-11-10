@@ -34,12 +34,4 @@ theorem isDV_connected {M : Molecule V D} {S : Finset V} {a b : V}
   obtain ⟨-, A,B,hA,hB,_hi,rfl⟩ := h
   exact groupConnected_union M ((Src.IsSomeVine.vconnected hA)) ((Src.IsSomeVine.vconnected hB)) (Src.isBlock_of_isSomeVine hA).2.1 (Src.isBlock_of_isSomeVine hB).2.1
 
-/-- All three classes called vine-like in defvine are connected. -/
-theorem isVineLike_connected {M : Molecule V D} {S : Finset V} {a b : V}
-    (h : Src.IsVineLike Src.γL M S a b) : GroupConnected M S := by
-  rcases h with h | h | h
-  · exact isVC_connected h
-  · exact isHV_connected h
-  · exact isHVC_connected h
-
 end WaveTurbulence.GammaLow.FinalCount.H

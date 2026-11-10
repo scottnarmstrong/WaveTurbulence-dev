@@ -3,7 +3,6 @@ module
 public import WaveTurbulence.Foundations.FinalCount.SubproC2Second
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.SubproC2Disj
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceCanonicalDesignation
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceCountingData
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Api
 /-! **L6-H port of main `WaveTurbulence.Foundations.FinalCount.SubproC2Second`** (sha256 in H/COPIED-SHA256SUMS): only the declarations that
 depend on the vine-family carrier, re-stated over the low family `Src … Src.γL` (and L6-STEP1's

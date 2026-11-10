@@ -2,7 +2,6 @@
 module
 public import WaveTurbulence.Foundations.FinalCount.AtMapGarden
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.AtMapSubpro
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceFinalCountInputs
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Api
 /-! **L6-H port of main `WaveTurbulence.Foundations.FinalCount.AtMapGarden`** (sha256 in H/COPIED-SHA256SUMS): only the declarations that
 depend on the vine-family carrier, re-stated over the low family `Src … Src.γL` (and L6-STEP1's
@@ -103,11 +102,6 @@ theorem numCriticalSG_eq (ι : GBranch G.tree ↪ W) (C : Src.CountingChoices Sr
   congr 1
   ext a
   simp only [Finset.mem_filter, Finset.mem_univ, true_and, Function.comp_apply, critMap_iff]
-
-/-- Requirement (c) of `Admissible` is `SourceLadderGaps` of the molecule (by definition). -/
-theorem ladderGaps_iff_sourceLadderGaps (C : Src.CountingChoices Src.γL G d) (L γ η : ℝ) (base : Mom d)
-    (κ : GardenDart G → (Fin d → ℤ)) :
-    C.LadderGaps L γ η base κ ↔ SourceLadderGaps G.molecule L base C.ladderScale κ := Iff.rfl
 
 /-- ... and so holds for the renamed molecule with the ladder scale `scaleMap ι C.ladderScale`. -/
 theorem ladderGaps_mapAtoms (ι : GBranch G.tree ↪ W) (C : Src.CountingChoices Src.γL G d) (L γ η : ℝ) (base : Mom d)

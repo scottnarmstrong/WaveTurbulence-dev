@@ -8,7 +8,6 @@ public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3Flat
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3HInv
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3HRun
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3NoTriple
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3Prop95
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3Run
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3RunE
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3RunN

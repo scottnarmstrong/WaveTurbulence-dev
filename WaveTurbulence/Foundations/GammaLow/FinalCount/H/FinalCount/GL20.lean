@@ -13,7 +13,6 @@ public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3RunE
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3RunN
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3Steps
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.GL12
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceVineData
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Api
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.TV.VineLocalDartObjects
 /-! **L6-H port of main `WaveTurbulence.Foundations.FinalCount.GL20`** (sha256 in H/COPIED-SHA256SUMS): only the declarations that
@@ -104,14 +103,6 @@ theorem isDV_ofL (hat : M1.atoms = M2.atoms) {a b : V} (h : Src.IsDV Src.γL M2 
   exact hσ
 
 alias _root_.WaveTurbulence.FinalCountG3.GEmb.isDV_ofL := _root_.WaveTurbulence.GammaLow.FinalCount.H.GEmb.isDV_ofL
-theorem isDV_of'L (hat : M1.atoms = M2.atoms) {a b : V} (h : Src.IsDV Src.γL M1 S a b) : Src.IsDV Src.γL M2 S a b := by
-  obtain ⟨hσ, A, B, hA, hB, hAB, rfl⟩ := h
-  have hA' : Src.IsSomeVine Src.γL M1 A a b := hA
-  refine ⟨?_, A, B, ((G.mono (Finset.subset_union_left)).isVine_iffS hat).2 hA,
-    ((G.mono (Finset.subset_union_right)).isVine_iffS hat).2 hB, hAB, rfl⟩
-  rw [sigma_eqL G (Finset.mem_union_left _ hA'.ends.1) (Finset.mem_union_left _ hA'.ends.2.1)]
-  exact hσ
 
-alias _root_.WaveTurbulence.FinalCountG3.GEmb.isDV_of'L := _root_.WaveTurbulence.GammaLow.FinalCount.H.GEmb.isDV_of'L
 end GEmb
 end WaveTurbulence.GammaLow.FinalCount.H

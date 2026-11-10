@@ -16,8 +16,6 @@ public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3RunN
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3Steps
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.GL12
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.GM08
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceVineData
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceVineObjects
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Api
 /-! **L6-H port of main `WaveTurbulence.Foundations.FinalCount.GV06`** (sha256 in H/COPIED-SHA256SUMS): only the declarations that
 depend on the vine-family carrier, re-stated over the low family `Src … Src.γL` (and L6-STEP1's

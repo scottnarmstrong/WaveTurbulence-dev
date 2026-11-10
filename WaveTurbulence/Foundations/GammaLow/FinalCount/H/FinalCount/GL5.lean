@@ -208,7 +208,6 @@ theorem EpsLe.vineStGL {s : St.{u} V D₀} (K : Step1.VineCut Src.γL s.M) : Eps
     .beta (jcls s.M K.C.lower) (by simp) (jcls_ne_eps _ _)
   exact (e1.trans e2).trans (EpsLe.delSt _ _ (VineKeep.closed K))
 
-alias _root_.WaveTurbulence.FinalCountG3.EpsLe.vineStGL := _root_.WaveTurbulence.GammaLow.FinalCount.H.EpsLe.vineStGL
 theorem HStepD1.data {C : CollData M₀} {h h' : HSt V D₀} (hs : HStepD1 C L γ η w κ h h') :
     ∃ K : Step1.VineCut Src.γL h.s.M, h.s.cls K.C.upper = .eps ∧ h.s.cls K.C.lower = .eps ∧
       (h.s.M.deg K.C.upper = 2 ∨ h.s.M.deg K.C.lower = 2) ∧

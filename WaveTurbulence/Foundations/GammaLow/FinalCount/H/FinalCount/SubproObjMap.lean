@@ -28,26 +28,7 @@ theorem InducedIso.isVC_mapL {B0 : Finset V} {a b : V} (h : Src.IsVC Src.γL N B
   ⟨(I.restrict hB0).isBlock h.1, by obtain ⟨n, hn⟩ := h.2; exact ⟨n, I.chain_mapL hn hB0⟩⟩
 
 alias _root_.WaveTurbulence.RedSplice.InducedIso.isVC_mapL := _root_.WaveTurbulence.GammaLow.FinalCount.H.InducedIso.isVC_mapL
-theorem InducedIso.isDV_mapL {S : Finset V} {a b : V} (h : Src.IsDV Src.γL N S a b) (hS : S ⊆ B) :
-    Src.IsDV Src.γL N' (S.image I.π) (I.π a) (I.π b) := by
-  obtain ⟨hσ, A, C, hA, hC, hAC, rfl⟩ := h
-  have hAB : A ⊆ B := fun v hv => hS (mem_union_left _ hv)
-  have hCB : C ⊆ B := fun v hv => hS (mem_union_right _ hv)
-  have hσ' : N'.sigma (I.π a) (I.π b) = 1 := by
-    have hab := Src.IsSomeVine.ends hA
-    show N'.bondsBetween (I.π a) (I.π b) = 1
-    rw [TV.bondsBetween_of_groupBonds_map I.inj I.img.symm I.groupBonds_map a (hAB hab.1) b (hAB hab.2.1)]
-    exact hσ
-  refine ⟨hσ', A.image I.π, C.image I.π, (I.restrict hAB).isVineS hA, (I.restrict hCB).isVineS hC, ?_,
-    Finset.image_union _ _⟩
-  rw [← Finset.image_inter_of_injOn A C (I.inj.mono (by
-    intro v hv
-    rcases hv with hv | hv
-    · exact hAB hv
-    · exact hCB hv)), hAC]
-  simp [Finset.image_insert]
 
-alias _root_.WaveTurbulence.RedSplice.InducedIso.isDV_mapL := _root_.WaveTurbulence.GammaLow.FinalCount.H.InducedIso.isDV_mapL
 /-- Transport of the shape of a vine-like object. -/
 @[expose] noncomputable def InducedIso.mapShapeL {A : Finset V} {a b : V} (sh : Src.VineLikeObject Src.γL N A a b)
     (hA : A ⊆ B) : Src.VineLikeObject Src.γL N' (A.image I.π) (I.π a) (I.π b) :=
@@ -70,15 +51,6 @@ alias _root_.WaveTurbulence.RedSplice.InducedIso.mapObjL := _root_.WaveTurbulenc
 theorem InducedIso.mapObj_atomsL (O : Src.Object Src.γL N) (hO : O.atoms ⊆ B) :
     (I.mapObjL O hO).atoms = O.atoms.image I.π := rfl
 
-alias _root_.WaveTurbulence.RedSplice.InducedIso.mapObj_atomsL := _root_.WaveTurbulence.GammaLow.FinalCount.H.InducedIso.mapObj_atomsL
-theorem InducedIso.mapObj_upperL (O : Src.Object Src.γL N) (hO : O.atoms ⊆ B) :
-    (I.mapObjL O hO).upper = I.π O.upper := rfl
-
-alias _root_.WaveTurbulence.RedSplice.InducedIso.mapObj_upperL := _root_.WaveTurbulence.GammaLow.FinalCount.H.InducedIso.mapObj_upperL
-theorem InducedIso.mapObj_lowerL (O : Src.Object Src.γL N) (hO : O.atoms ⊆ B) :
-    (I.mapObjL O hO).lower = I.π O.lower := rfl
-
-alias _root_.WaveTurbulence.RedSplice.InducedIso.mapObj_lowerL := _root_.WaveTurbulence.GammaLow.FinalCount.H.InducedIso.mapObj_lowerL
 theorem InducedIso.containsDart_mapL (O : Src.Object Src.γL N) (hO : O.atoms ⊆ B) {x : D} (hx : N.InGroup B x) :
     (I.mapObjL O hO).ContainsDart (I.e ⟨x, hx⟩).1 ↔ O.ContainsDart x := by
   obtain ⟨A, a, b, sh⟩ := O

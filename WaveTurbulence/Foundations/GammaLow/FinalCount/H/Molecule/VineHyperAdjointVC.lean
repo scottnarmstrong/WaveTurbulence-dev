@@ -34,15 +34,4 @@ theorem hyperLike_iff_adjoint_VC {M : Molecule V D} {A : Finset V} {x y : V} :
     · have hpos := chain_pos hC
       exact Or.inr ⟨e,he,hB,n,by omega,hC⟩
 
-/-- The adjoint of a three-atom HV/HVC is exactly two concatenated double
-bonds. This uses the source VC witness, not merely a degree-shaped triangle. -/
-theorem hyperLike_three_atom_adjoint {M : Molecule V D} {A : Finset V} {x y : V}
-    (h : Src.IsHV Src.γL M A x y ∨ Src.IsHVC Src.γL M A x y) (hcard : A.card=3) :
-    ∃ e : D,M.ends e=s(x,y) ∧ DoubleChain (Mole.eraseBond M e) A x y 2 := by
-  obtain ⟨e,he,hVC⟩ := hyperLike_iff_adjoint_VC.mp h
-  rcases isVC_doubleChain_of_card_le_three hVC (by omega) with h1 | h2
-  · have hc := doubleChain_card h1
-    omega
-  · exact ⟨e,he,h2⟩
-
 end WaveTurbulence.GammaLow.FinalCount.H

@@ -229,15 +229,6 @@ theorem pair_group_darts {S : Finset V} {a b : V} (hS : M.IsBlock S a b) (hσ : 
   · exact Or.inr (hone a (Or.inl rfl) x (M.mate f) hxa h2 hx hgmf)
   · exact Or.inl (hone b (Or.inr rfl) x f hxb h1 hx hgf)
 
-/-- A removal path lifts along an inclusion of kept darts. -/
-theorem sameComponent_lift {S S' : Finset V} {ps ps' : List (RemovalPiece V D)}
-    (hk : ∀ x, KeepDart M S ps x → KeepDart M S' ps' x) {u v : V}
-    (h : (removeBlocks M S ps).SameComponent u v) : (removeBlocks M S' ps').SameComponent u v := by
-  apply Relation.EqvGen.mono _ u v h
-  intro p q hpq
-  obtain ⟨x, hxp, hxq⟩ := hpq
-  exact ⟨⟨x.1, hk x.1 x.2⟩, hxp, hxq⟩
-
 /-- A removal path avoiding the bond `f` lifts along an inclusion of the kept darts other than `f`. -/
 theorem avoiding_lift {S S' : Finset V} {ps ps' : List (RemovalPiece V D)} {f : D}
     (hk : ∀ x, KeepDart M S ps x → x ≠ f → x ≠ M.mate f → KeepDart M S' ps' x) {u v : V}

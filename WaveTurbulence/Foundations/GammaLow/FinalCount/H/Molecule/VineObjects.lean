@@ -26,10 +26,6 @@ variable {V D : Type*} [DecidableEq V] [Fintype D] [DecidableEq D]
 -- (`IsHVC`: defined by L6 as `Src.IsHVC`)
 -- (`IsDV`: defined by L6 as `Src.IsDV`)
 -- (`IsVineLike`: defined by L6 as `Src.IsVineLike`)
-/-- Every actual vine is a one-ingredient VC (low family: N2 Lemma 5.2). -/
-theorem isVine_isVC {M : Molecule V D} {X : VineType} {S : Finset V} {a b : V}
-    (h : M.IsVine X S a b) : Src.IsVC Src.γL M S a b :=
-  ⟨h.1,1,Src.Chain.single (Src.isSomeVine_of_isVine' h)⟩
 
 /-- Every family member is a one-ingredient VC. -/
 theorem isSomeVine_isVC {M : Molecule V D} {S : Finset V} {a b : V} (h : Src.IsSomeVine Src.γL M S a b) :
@@ -43,17 +39,5 @@ theorem chain_pos {M : Molecule V D} {S : Finset V} {a b : V} {n : ℕ}
   induction h with
   | single => exact le_rfl
   | append _ _ _ _ _ => omega
-
-/-- Hyper-vines are actual hyper-blocks in the half-edge sense. -/
-theorem isHV_isHyperBlock {M : Molecule V D} {S : Finset V} {a b : V}
-    (h : Src.IsHV Src.γL M S a b) : Mole.IsHyperBlock M S a b := by
-  obtain ⟨e,he,hX⟩ := h
-  exact ⟨e,he,hX.block⟩
-
-/-- Hyper-vine-chains are actual hyper-blocks. -/
-theorem isHVC_isHyperBlock {M : Molecule V D} {S : Finset V} {a b : V}
-    (h : Src.IsHVC Src.γL M S a b) : Mole.IsHyperBlock M S a b := by
-  obtain ⟨e,he,hB,_⟩ := h
-  exact ⟨e,he,hB⟩
 
 end WaveTurbulence.GammaLow.FinalCount.H

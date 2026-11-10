@@ -42,11 +42,4 @@ theorem HStep1.anc {L γ η : ℝ} {w : Mom d} {κ : D₀ → (Fin d → ℤ)} {
         · simp [Function.update_of_ne e, e])
     exact h2.delSt _ K.closed
 
-theorem HRun.ancRel {L γ η : ℝ} {w : Mom d} {κ : D₀ → (Fin d → ℤ)} {hf : HSt V D₀}
-    (hr : HRun L γ η w κ (HSt.init M₀) hf) : AncRel M₀ hf.s hf.anc := by
-  obtain ⟨h₁, h₂, h₃, a1, _, a2, _, a3, _, a4, _⟩ := hr
-  have r0 : AncRel M₀ (HSt.init M₀).s (HSt.init M₀).anc := AncRel.init M₀
-  exact rtg_anc (fun _ _ h g => HStep4.anc h g) a4 (rtg_anc (fun _ _ h g => HStep3.anc h g) a3
-    (rtg_anc (fun _ _ h g => HStep2.anc h g) a2 (rtg_anc (fun _ _ h g => HStep1.anc h g) a1 r0)))
-
 end WaveTurbulence.GammaLow.FinalCount.H

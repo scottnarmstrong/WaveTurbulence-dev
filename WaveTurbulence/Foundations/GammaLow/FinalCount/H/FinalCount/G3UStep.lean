@@ -9,7 +9,6 @@ public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3Hist
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3NoTriple
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3Run
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3Steps
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceVineData
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.Step1.Prop94Ops
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.Step1.Prop94Statement
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.Step1.VineBase

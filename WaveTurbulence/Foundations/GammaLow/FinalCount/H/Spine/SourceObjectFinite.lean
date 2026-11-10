@@ -1,9 +1,6 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 public import WaveTurbulence.Foundations.Spine.SourceObjectFinite
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceVineData
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceVineGapObjects
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceVineObjects
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Api
 /-! **L6-H port of main `WaveTurbulence.Foundations.Spine.SourceObjectFinite`** (sha256 in H/COPIED-SHA256SUMS): only the declarations that
 depend on the vine-family carrier, re-stated over the low family `Src … Src.γL` (and L6-STEP1's
@@ -45,7 +42,6 @@ theorem designation_injective {M : Molecule V D} {S : Finset V} {a b : V} :
           subst f
           rfl
 
-alias _root_.WaveTurbulence.GammaLow.FinalCount.Src.VineLikeObject.designation_injective := _root_.WaveTurbulence.GammaLow.FinalCount.H.Src.VineLikeObject.designation_injective
 end Src.VineLikeObject
 
 namespace Src.Object
@@ -54,7 +50,6 @@ open Src.Object
 def finiteCode {M : Molecule V D} (P : Src.Object Src.γL M) : Finset V × V × V × Option D :=
   (P.atoms, P.upper, P.lower, P.shape.designation)
 
-alias _root_.WaveTurbulence.GammaLow.FinalCount.Src.Object.finiteCode := _root_.WaveTurbulence.GammaLow.FinalCount.H.Src.Object.finiteCode
 theorem finiteCode_injective {M : Molecule V D} :
     Function.Injective (@finiteCode V D _ _ _ M) := by
   rintro ⟨S, a, b, P⟩ ⟨T, x, y, Q⟩ he
@@ -64,7 +59,6 @@ theorem finiteCode_injective {M : Molecule V D} :
   cases hPQ
   rfl
 
-alias _root_.WaveTurbulence.GammaLow.FinalCount.Src.Object.finiteCode_injective := _root_.WaveTurbulence.GammaLow.FinalCount.H.Src.Object.finiteCode_injective
 instance [Fintype V] {M : Molecule V D} : Finite (Src.Object Src.γL M) :=
   Finite.of_injective finiteCode finiteCode_injective
 

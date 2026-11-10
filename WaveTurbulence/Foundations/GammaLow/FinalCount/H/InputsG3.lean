@@ -28,10 +28,6 @@ class G3Inputs (V : Type u) (D : Type v) : Prop where
   /-- N3 Theorem 6 (iv): at most 3 disjoint ladders, at most 13 uncovered atoms (owner L3). -/
   ladders : TVine.Struct.LaddersStatement.{u, v}
 
-/-- The class from L3's published statement. -/
-theorem G3Inputs.of (h : TVine.Struct.LaddersStatement.{u, v}) (V : Type u) (D : Type v) : G3Inputs V D :=
-  ⟨h⟩
-
 /-- The field does not depend on the atom or dart type, so the class passes to subtypes of darts (the adjoint molecules
 `Molecule.eraseBond M e`). -/
 instance G3Inputs.subtype {V : Type u} {D : Type v} [h : G3Inputs V D] {p : D → Prop} : G3Inputs V {x : D // p x} :=

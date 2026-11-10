@@ -35,36 +35,6 @@ variable {V : Type*} [DecidableEq V] {D₀ : Type u} [Fintype D₀] [DecidableEq
 variable {L γ η : ℝ} {w : Mom d} {κ : D₀ → (Fin d → ℤ)} {R : ℕ} {Tm : V → Prop}
 variable {M₀ : Molecule V D₀} {hf : HSt V D₀} {a₀ j₁ j₂ : V}
 
-/-- A run from `M_sub` with the collection data of Operation 1 (`C₁` = `C.collection`, `C₂ = C.C2Can Unsel`) and the designated pairs. -/
-def HRunC (L γ η : ℝ) (w : Mom d) (κ : D₀ → (Fin d → ℤ)) (M₀ : Molecule V D₀) (hf : HSt V D₀) (C : CollData M₀)
-    (Unsel : Set (Src.Object Src.γL M₀)) : Prop :=
-  ∃ h₁ h₂ h₃ : HSt V D₀,
-    Relation.ReflTransGen (HStep1 L γ η w κ) (HSt.init M₀) h₁ ∧ NoTripleBond h₁.s.M ∧
-    Relation.ReflTransGen (HStep2 L γ η w κ) h₁ h₂ ∧ NoSGTriangle L γ η w κ h₂.s ∧
-    Relation.ReflTransGen (HStep3 L γ η w κ) h₂ h₃ ∧ NoSGLeft L γ η w κ (HSt.init M₀).s h₃.s ∧
-    Relation.ReflTransGen (HStep4 L w κ) h₃ hf ∧ NoBetaCut L w κ hf.s ∧
-    (∀ U, ((∃ i, U = C.collection i) ∨ U ∈ C.C2Can L γ η w κ Unsel) → ∀ x : h₁.s.D, ¬ U.ContainsDart (h₁.s.down x)) ∧
-    DesRec C hf
-
-theorem HRunC.toHRun {C : CollData M₀} {Unsel : Set (Src.Object Src.γL M₀)} (h : HRunC L γ η w κ M₀ hf C Unsel) :
-    HRun L γ η w κ (HSt.init M₀) hf := by
-  obtain ⟨h₁, h₂, h₃, a1, n1, a2, n2, a3, n3, a4, n4, -, -⟩ := h
-  exact ⟨h₁, h₂, h₃, a1, n1, a2, n2, a3, n3, a4, n4⟩
-
-theorem HRunC.rem {C : CollData M₀} {Unsel : Set (Src.Object Src.γL M₀)} (h : HRunC L γ η w κ M₀ hf C Unsel) :
-    (∀ i, ∀ x : hf.s.D, ¬ (C.collection i).ContainsDart (hf.s.down x)) ∧
-    (∀ U ∈ C.C2Can L γ η w κ Unsel, ∀ x : hf.s.D, ¬ U.ContainsDart (hf.s.down x)) := by
-  obtain ⟨h₁, h₂, h₃, a1, n1, a2, n2, a3, n3, a4, n4, hrem, -⟩ := h
-  have s4 : St.Sub hf.s h₃.s := rtg_sub (fun _ _ h => h.sub) a4
-  have s3 : St.Sub h₃.s h₂.s := rtg_sub (fun _ _ h => h.sub) a3
-  have s2 : St.Sub h₂.s h₁.s := rtg_sub (fun _ _ h => h.sub) a2
-  have key : ∀ U, ((∃ i, U = C.collection i) ∨ U ∈ C.C2Can L γ η w κ Unsel) → ∀ x : hf.s.D,
-      ¬ U.ContainsDart (hf.s.down x) := by
-    intro U hU x hx
-    obtain ⟨x', hx'⟩ := (s4.trans (s3.trans s2)) ⟨x, rfl⟩
-    exact hrem U hU x' (by rw [hx']; exact hx)
-  exact ⟨fun i x => key _ (Or.inl ⟨i, rfl⟩) x, fun U hU x => key U (Or.inr hU) x⟩
-
 /-! ### The double bond and the gap of a joint -/
 
 theorem vine_of_vineOrDouble (hC : Prop95ConclAt L γ η w κ R hf Tm) {a₀ : V} (ha₀ : a₀ ∈ hf.s.M.atoms)

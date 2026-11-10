@@ -17,7 +17,6 @@ public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3Step
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3URun
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3UStep
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3Vine
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceVineData
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.Step1.Prop94Ops
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.Step1.Prop94Statement
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.Step1.VCAdm
@@ -114,13 +113,6 @@ theorem Reach3.toAny {κ} {h : HSt V D₀} (hr : Reach3 C Un Fst L γ η w κ h)
   obtain ⟨h₁, h₂, a, -, c, -, e⟩ := hr
   exact ((Reach1.toAny a).trans (rtg_mono' (p := HAny L γ η w κ) (fun x y hs => Or.inr (Or.inl hs.toHStep2)) c)).trans
     (rtg_mono' (p := HAny L γ η w κ) (fun x y hs => Or.inr (Or.inr (Or.inl hs.toHStep3))) e)
-
-theorem Reach4.toAny {κ} {h : HSt V D₀} (hr : Reach4 C Un Fst L γ η w κ h) :
-    Relation.ReflTransGen (HAny L γ η w κ) (HSt.init M₀) h := by
-  obtain ⟨h₁, h₂, h₃, a, -, c, -, e, -, g⟩ := hr
-  exact (((Reach1.toAny a).trans (rtg_mono' (p := HAny L γ η w κ) (fun x y hs => Or.inr (Or.inl hs.toHStep2)) c)).trans
-    (rtg_mono' (p := HAny L γ η w κ) (fun x y hs => Or.inr (Or.inr (Or.inl hs.toHStep3))) e)).trans
-    (rtg_mono' (p := HAny L γ η w κ) (fun x y hs => Or.inr (Or.inr (Or.inr hs))) g)
 
 /-- The run `HRunNC` from `Reach4` at a state where Step 4 stops. -/
 theorem Reach4.toRunNC {κ} {h : HSt V D₀} (hr : Reach4 C Un Fst L γ η w κ h) (hn : NoBetaCut L w κ h.s) :

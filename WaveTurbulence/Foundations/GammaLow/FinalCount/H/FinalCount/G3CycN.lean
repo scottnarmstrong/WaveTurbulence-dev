@@ -1,7 +1,6 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 public import WaveTurbulence.Foundations.FinalCount.G3CycN
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3CycChain
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3DPInv2
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3RunN
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Api

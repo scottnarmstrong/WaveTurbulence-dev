@@ -101,5 +101,4 @@ theorem Src.Object.noLoop_of_SG {R' : ℕ} {M : Molecule V D} (hS : SubHypL R' M
       have := degIn_le_deg' (M.unloop.eraseBond R.added) S (M.atom y)
       omega
 
-alias _root_.WaveTurbulence.GammaLow.FinalCount.Src.Object.noLoop_of_SG := _root_.WaveTurbulence.GammaLow.FinalCount.H.Src.Object.noLoop_of_SG
 end WaveTurbulence.GammaLow.FinalCount.H

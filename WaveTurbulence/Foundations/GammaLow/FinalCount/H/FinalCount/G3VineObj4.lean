@@ -11,8 +11,6 @@ public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3HRun
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3NoTriple
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3Run
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3Steps
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceVineData
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceVineObjects
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Api
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.TV.G3VineObj2
 /-! **L6-H port of main `WaveTurbulence.Foundations.FinalCount.G3VineObj4`** (sha256 in H/COPIED-SHA256SUMS): only the declarations that

@@ -61,17 +61,4 @@ theorem HStep1.step {h h' : HSt V D₀} (hs : HStep1 L γ η w κ h h') : Step1 
   cases hs with
   | vine K R kp hR hkp hu hl ga gb htwin hι₁ hι₂ hsg h3a h3b => exact Step1.vine h.s K R kp hR hkp hu hl ga gb h3a h3b
 
-/-- **A run with history**. -/
-def HRun (L γ η : ℝ) (w : Mom d) (κ : D₀ → (Fin d → ℤ)) (h₀ hf : HSt V D₀) : Prop :=
-  ∃ h₁ h₂ h₃ : HSt V D₀,
-    Relation.ReflTransGen (HStep1 L γ η w κ) h₀ h₁ ∧ NoTripleBond h₁.s.M ∧
-    Relation.ReflTransGen (HStep2 L γ η w κ) h₁ h₂ ∧ NoSGTriangle L γ η w κ h₂.s ∧
-    Relation.ReflTransGen (HStep3 L γ η w κ) h₂ h₃ ∧ NoSGLeft L γ η w κ h₀.s h₃.s ∧
-    Relation.ReflTransGen (HStep4 L w κ) h₃ hf ∧ NoBetaCut L w κ hf.s
-
-theorem HRun.toRun {h₀ hf : HSt V D₀} (hr : HRun L γ η w κ h₀ hf) : Run L γ η w κ h₀.s hf.s := by
-  obtain ⟨h₁, h₂, h₃, a1, n1, a2, n2, a3, n3, a4, n4⟩ := hr
-  exact ⟨h₁.s, h₂.s, h₃.s, a1.lift HSt.s (fun _ _ h => h.step), n1, a2.lift HSt.s (fun _ _ h => h.step), n2,
-    a3.lift HSt.s (fun _ _ h => h.step), n3, a4.lift HSt.s (fun _ _ h => h.step), n4⟩
-
 end WaveTurbulence.GammaLow.FinalCount.H

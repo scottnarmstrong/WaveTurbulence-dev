@@ -1,7 +1,7 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 public import WaveTurbulence.Foundations.FinalCount.LowChain30
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.LowChain29
+public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.LowChain28
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Api
 /-! **L6-H port of main `WaveTurbulence.Foundations.FinalCount.LowChain30`** (sha256 in H/COPIED-SHA256SUMS): only the declarations that
 depend on the vine-family carrier, re-stated over the low family `Src … Src.γL` (and L6-STEP1's

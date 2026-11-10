@@ -58,24 +58,4 @@ theorem vine_in_terminal_splitS (M : Molecule V D) (hM : M.IsMolecule)
     (fun v hv hvb u hu huv => terminal_block_adj_mem M hM hT hU subset_union_right hv hvb hu huv)
   exact Src.IsSomeVine.erase_connected hA b
 
-/-- TARGET subsetvc's geometric chain step: a single vine contained in
-an actual vine chain lies in a single ingredient. The source block premise
-constructs prefix degrees and all separator closure facts automatically. -/
-theorem vine_in_chain_ingredient (M : Molecule V D) (hM : M.IsMolecule)
-    {A U : Finset V} {x y a b : V} {n : ℕ}
-    (hA : Src.IsSomeVine Src.γL M A x y) (h : Src.Chain Src.γL M U a b n) :
-    M.IsBlock U a b → A ⊆ U →
-      ∃ T p q,ChainIngredient M U a b n T p q ∧ A ⊆ T := by
-  induction h with
-  | single h =>
-    intro _hU hAU
-    exact ⟨_,_,_,ChainIngredient.single h,hAU⟩
-  | @append S T a b c n hS hT hi hne ih =>
-    intro hU hAU
-    have hY := hT
-    rcases vine_in_terminal_splitS M hM hY.block hU (chain_joints_mem hS).2 hA hAU with hAS | hAT
-    · obtain ⟨B,p,q,hB,hAB⟩ := ih (chain_prefix_isBlock M hM hS hY hi hU) hAS
-      exact ⟨B,p,q,ChainIngredient.append_left hB hY hi hne,hAB⟩
-    · exact ⟨T,b,c,ChainIngredient.append_last hS hY hi hne,hAT⟩
-
 end WaveTurbulence.GammaLow.FinalCount.H

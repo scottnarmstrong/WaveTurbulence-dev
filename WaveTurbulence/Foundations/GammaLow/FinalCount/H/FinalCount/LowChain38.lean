@@ -24,8 +24,6 @@ public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.GL12
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.LowChain30
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.LowChain8
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.LowIface3
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceCountingData
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceVineData
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.Step1.Prop94Ops
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.Step1.Prop94Statement
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.Step1.VCAdm

@@ -2,7 +2,6 @@
 module
 public import WaveTurbulence.Foundations.FinalCount.LowGardenLift
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.LowIface
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.LowIface2
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.LowGardenHost
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.AsmGHost2
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.AsmDesig
@@ -168,69 +167,6 @@ theorem pieceKill_liftP (U0 : Src.Object Src.γL M) (p : Src.Object Src.γL M.un
 theorem lift_eq_of_unloop {P' : Src.Object Src.γL M.unloop} (h : LoopFreeSet M P'.atoms) {U : Src.Object Src.γL M} (hU : LoopFreeSet M U.atoms)
     (he : P' = U.unloop hU) : P'.lift h = U := by
   subst he; exact Src.Object.lift_unloop U hU h
-
-/-- **`CnBound` on `M.unloop`** (a molecule with at least one loop: the index `R + k` exceeds `R`, so the equality case is vacuous). -/
-theorem cnBound_unloop {Un : (D → Fin d → ℤ) → Set (Src.Object Src.γL M)} {Fst : Set (Src.Object Src.γL M)}
-    {Un' : (NonLoop M → Fin d → ℤ) → Set (Src.Object Src.γL M.unloop)} {Adm : (D → Fin d → ℤ) → Prop} {L γ η : ℝ}
-    {A0' : Set (NonLoop M → Fin d → ℤ)} {C : CollData M} {R : ℕ}
-    (hk : 0 < M.loopBonds.card) (hFst : ∀ U ∈ Fst, ∃ i, U = C.collection i)
-    (hA0' : ∀ κ' ∈ A0', unloopAdm M Adm κ')
-    (hcn : CnBound M C Un Fst L γ η (0 : Mom d) {κ | Adm κ} R) :
-    CnBound M.unloop C.unloop Un' (unloopSet M Fst) L γ η (0 : Mom d) A0' (R + M.loopBonds.card) := by
-  intro κ' hκ' ps' hps' hpw'
-  obtain ⟨κ, hκ, rfl⟩ := hA0' κ' hκ'
-  have hex : ∀ p ∈ ps', ∃ U ∈ Fst, ∃ hU : LoopFreeSet M U.atoms, p.1 = U.unloop hU := fun p hp => by
-    obtain ⟨U, hU, he⟩ := (hps' p hp).2
-    exact ⟨U, hU, Src.Object.loopFree U, he⟩
-  have hlfp : ∀ p ∈ ps', LoopFreeSet M p.1.atoms := fun p hp => by
-    obtain ⟨U, -, hU, he⟩ := hex p hp
-    rw [he]; exact hU
-  have hne : Nonempty (Src.Object Src.γL M) ∨ ps' = [] := by
-    cases ps' with
-    | nil => exact Or.inr rfl
-    | cons p ps => exact Or.inl ⟨p.1.lift (hlfp p (by simp))⟩
-  have hnc : (remMol M.unloop ps').numComponents ≤ 2 * R := by
-    rcases hne with hU0 | rfl
-    · let U0 : Src.Object Src.γL M := Classical.choice hU0
-      set ps := ps'.map (liftP U0) with hps
-      have hat : ∀ p ∈ ps', (liftP U0 p).1.atoms = p.1.atoms := fun p hp => by rw [liftP_fst U0 p (hlfp p hp)]; rfl
-      have hup : ∀ p ∈ ps', (liftP U0 p).1.upper = p.1.upper := fun p hp => by rw [liftP_fst U0 p (hlfp p hp)]; rfl
-      have hlo : ∀ p ∈ ps', (liftP U0 p).1.lower = p.1.lower := fun p hp => by rw [liftP_fst U0 p (hlfp p hp)]; rfl
-      have hrel : ∀ v, (∀ p ∈ ps, ¬ PieceInt p.1 v) ↔ (∀ p ∈ ps', ¬ PieceInt p.1 v) := by
-        intro v
-        simp only [hps, List.forall_mem_map]
-        refine forall_congr' fun p => forall_congr' fun hp => ?_
-        unfold PieceInt
-        rw [hat p hp, hup p hp, hlo p hp]
-      have hkill : ∀ z : NonLoop M, z.1 ∈ KillS ps ↔ z ∈ KillS ps' := by
-        intro z
-        unfold KillS
-        simp only [hps, List.mem_map, Set.mem_ofPred_eq]
-        constructor
-        · rintro ⟨_, ⟨p, hp, rfl⟩, hz⟩
-          exact ⟨p, hp, (pieceKill_liftP U0 p (hlfp p hp) z).1 hz⟩
-        · rintro ⟨p, hp, hz⟩
-          exact ⟨_, ⟨p, hp, rfl⟩, (pieceKill_liftP U0 p (hlfp p hp) z).2 hz⟩
-      refine (remMol_numComponents_le ps ps' hrel hkill).trans ?_
-      refine (hcn κ hκ ps (fun q hq => ?_) ?_).1
-      · obtain ⟨p, hp, rfl⟩ := List.mem_map.1 hq
-        obtain ⟨U, hU, hUl, he⟩ := hex p hp
-        have hlf := hlfp p hp
-        have h1 : (liftP U0 p).1 = U := by rw [liftP_fst U0 p hlf]; exact lift_eq_of_unloop hlf hUl he
-        obtain ⟨-, hc4, hj, hdist⟩ := (hps' p hp).1
-        refine ⟨⟨Or.inl (by rw [h1]; exact hFst U hU), ?_, ?_, ?_⟩, by rw [h1]; exact hU⟩
-        · rw [liftP_fst U0 p hlf]
-          exact ⟨(Src.Object.lift_containsDart p.1 hlf p.2.1).2 hc4.1, (Src.Object.lift_containsDart p.1 hlf p.2.2.1).2 hc4.2.1,
-            (Src.Object.lift_containsDart p.1 hlf p.2.2.2.1).2 hc4.2.2.1, (Src.Object.lift_containsDart p.1 hlf p.2.2.2.2).2 hc4.2.2.2⟩
-        · rw [liftP_fst U0 p hlf]
-          rcases hj with ⟨a, b⟩ | ⟨a, b⟩
-          · exact Or.inl ⟨a, b⟩
-          · exact Or.inr ⟨a, b⟩
-        · exact ⟨hdist.1, hdist.2.1, fun e => hdist.2.2.1 (Subtype.ext e), fun e => hdist.2.2.2 (Subtype.ext e)⟩
-      · exact List.pairwise_map.2 (hpw'.imp_of_mem fun {a b} ha hb h => by rw [hat a ha, hat b hb]; exact h)
-    · refine (remMol_numComponents_le ([] : List (Src.Object Src.γL M × Quad D)) [] (by simp) (by simp [KillS])).trans ?_
-      exact (hcn κ hκ [] (by simp) List.Pairwise.nil).1
-  refine ⟨by omega, fun h => by omega⟩
 
 end cn
 

@@ -16,8 +16,6 @@ public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3URun
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3UStep
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3Vine
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.FinalCount.G3VineF
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceCountingData
-public import WaveTurbulence.Foundations.GammaLow.FinalCount.H.Spine.SourceVineData
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.Step1.Prop94Ops
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.Step1.Prop94Statement
 public import WaveTurbulence.Foundations.GammaLow.FinalCount.Step1.VCAdm
@@ -100,10 +98,6 @@ theorem vineSt_cls_fb_AsmP1Basic (s : St.{u} V D₀) (K : Step1.VineCut Src.γL 
 theorem fa_mem_vineSt (s : St.{u} V D₀) (K : Step1.VineCut Src.γL s.M) (c : Cls) : K.fa ∈ (vineSt s K c).M.atoms := by
   rw [vineSt_atoms, Finset.mem_filter]
   exact ⟨Finset.mem_insert_of_mem (Finset.mem_insert_self _ _), fun h => K.fa_fresh (Step1.objectAtoms_sub K.C h)⟩
-
-theorem fb_mem_vineSt (s : St.{u} V D₀) (K : Step1.VineCut Src.γL s.M) (c : Cls) : K.fb ∈ (vineSt s K c).M.atoms := by
-  rw [vineSt_atoms, Finset.mem_filter]
-  exact ⟨Finset.mem_insert_self _ _, fun h => K.fb_fresh (Step1.objectAtoms_sub K.C h)⟩
 
 /-- Every atom of the removed object is `ε` (the joints by hypothesis, the interior by degree). -/
 theorem vine_atoms_eps {s : St.{u} V D₀} {R : ℕ} (hI : Inv R s) (K : Step1.VineCut Src.γL s.M) (hu : s.cls K.C.upper = .eps)
