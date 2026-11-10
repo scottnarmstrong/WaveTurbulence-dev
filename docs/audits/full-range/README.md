@@ -26,22 +26,29 @@ earlier, audited proof for 1/2 < γ < 1 ([`../v2-chain/`](../v2-chain/README.md)
 
 ## How the audits work
 
-Two auditors, keys A and B, work separately and never see each other's work. Neither wrote any part of the proof.
-Each audits all five theorems and records a verdict per theorem on every item:
+Two auditors, keys A and B, are separate Claude Opus 5.5 sessions. They work separately and never see each other's
+work, and neither wrote any part of the proof. Each audits all five theorems and records a verdict per theorem on every
+item:
 
 - (a) the frozen statement's bytes: only the proof body changed;
 - (b) the provider: its statement is exactly the frozen one, and it does not depend on its own anchor;
 - (c) the axioms: only `propext`, `Classical.choice` and `Quot.sound`;
 - (d) hidden hypotheses and vacuity;
 - (e) the ABI hashes of the frozen declarations;
-- (f) a full replay of the proof in Lean's kernel;
+- (f) a replay of the proof in Lean's kernel, in quick mode (below);
 - (g) the status fields;
 - (h) a table of every hypothesis, built from the paper's TeX source, which must show **zero excess hypotheses**: none
   beyond the source, the standing assumptions, typing data and approved rulings.
 
-Each auditor replays the joint dependency closure of the five theorems once in the kernel; the replay covers every
-constant each theorem depends on. The two keys are given different primary refutation targets and different methods,
-so that they do not share blind spots. A theorem is recorded as PROVED only if both keys pass it.
+Each auditor replays the joint dependency closure of the five theorems once in the kernel, in quick mode: the 40,618
+certificate theorems of `WaveTurbulenceVineParam` whose proofs use no constant outside that library are checked by
+statement only (their proofs are kernel-checked by every build), and Mathlib and Lean's core library are inserted
+unchecked as the trusted base (KEY-A §1.2, KEY-B §1.3). Both replays adapt the same tool (`Replay.lean`, `replay.sh`)
+and read the same build, and they ran at the same time on the same machine; so they are two runs of one method, not two
+independent checks. Otherwise the two keys are given different primary refutation targets and different methods, so
+that they do not share blind spots. A theorem is recorded as PROVED only if both keys pass it.
+
+*In progress: a full-mode replay, and an independent check of the proof with the NanoDa kernel through the comparator.*
 
 ## Reports
 

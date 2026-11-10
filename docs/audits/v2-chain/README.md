@@ -1,15 +1,17 @@
 # Seal audits: Theorem 1.1 for 1/2 < γ < 1 and its chain
 
 Each frozen theorem below was sealed (its placeholder proof replaced by a one-line reference to the formal proof) and
-then audited by **two independent auditors (keys A and B)**. Each auditor worked separately and did not write the
-proof. They checked:
+then audited by **two auditors (keys A and B)**, separate AI sessions (the reports that name the model give Claude
+Opus 5.5). Each auditor worked separately and did not write the proof. They checked:
 
 - (a) the frozen statement's bytes (only the proof body changed);
 - (b) the provider;
 - (c) the axioms: standard only;
 - (d) hidden hypotheses and vacuity;
 - (e) the ABI hashes;
-- (f) a full replay of the proof in Lean's kernel;
+- (f) a replay of the proof in Lean's kernel, in quick mode: 40,618 certificate theorems of `WaveTurbulenceVineParam`
+  were checked by statement only (their proofs are kernel-checked by every build), with Mathlib and Lean's core library
+  as the trusted base; full mode was not run;
 - (g) the status fields;
 - (h) a five-bin binder table built from the paper's TeX source. It classifies every hypothesis, and **zero EXCESS**
   (no hypothesis beyond the source, standing assumptions, typing and approved rulings) is required.
