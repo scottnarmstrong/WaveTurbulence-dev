@@ -15,13 +15,13 @@ together with the results it relies on from the authors' earlier papers and from
 
 ## At a glance
 
-- 🔒 **Theorem 1.1 for the full range 0 < γ < 1: the Lean proof is complete and sealed; independent audits are under
-  way.** The Lean statement (`WaveTurbulence.main`) is the printed one for 0 < γ < 1 on the square torus. It was
-  frozen on 2026-11-03, before its proof was written, and never changed. The proof was completed and sealed on
-  2026-11-09. It depends only on Lean's standard axioms (`propext`, `Classical.choice`, `Quot.sound`). The result is
-  recorded as proved once both audits pass ([how this works](#how-a-result-counts-as-proved-here)).
-- ✅ **For 1/2 < γ < 1 the result is also proved and fully audited** in an earlier version (`main_v2`, sealed on
-  2026-11-08; two independent audits passed on 2026-11-09, each including a full replay of the proof in Lean's kernel).
+- ✅ **Theorem 1.1 is formally proved for the full range 0 < γ < 1.** The Lean statement (`WaveTurbulence.main`) is
+  the printed one for 0 < γ < 1 on the square torus. It was frozen on 2026-11-03, before its proof was written, and
+  never changed. The proof was sealed on 2026-11-09 and passed two independent audits, each including a full replay of
+  the proof in Lean's kernel ([records](docs/audits/full-range/README.md)). It depends only on Lean's standard axioms
+  (`propext`, `Classical.choice`, `Quot.sound`).
+- ✅ **The earlier version for 1/2 < γ < 1** (`main_v2`; sealed on 2026-11-08, audited on 2026-11-09) is also proved.
+  The full-range proof uses it for γ > 1/2.
 - 🔧 **What it took for γ ≤ 1/2.** There the printed proof has a gap: it relies on a counting proposition (DH23
   Prop 9.6) that is false in that range. The repair enlarges the family of "vines" that the proof splices out,
   re-proves the counting proposition for the enlarged family, and corrects one step of the counting procedure (the
@@ -86,10 +86,10 @@ a smaller γ means a stronger nonlinearity and a shorter kinetic time.
 
 ## Current status
 
-- **Sealed; independent audits under way:** Theorem 1.1 for the full range 0 < γ < 1, `main`, and the four
-  statements it is assembled from: `propansatz`, `fixedpoint`, `layergarden` (all three as printed, for 0 < γ < 1)
-  and the flower estimate `layergardenFlower_v4`. Sealed on 2026-11-09 (decision D17). Audit records:
-  [docs/audits/full-range/](docs/audits/full-range/README.md). How the proof is put together:
+- **Proved (sealed and audited):** Theorem 1.1 for the full range 0 < γ < 1, `main`, and the four statements it is
+  assembled from: `propansatz`, `fixedpoint`, `layergarden` (all three as printed, for 0 < γ < 1) and the flower
+  estimate `layergardenFlower_v4`. Sealed on 2026-11-09 (decision D17); both independent audits passed for all five
+  ([records](docs/audits/full-range/README.md)). How the proof is put together:
   [docs/GAMMA-LE-HALF.md](docs/GAMMA-LE-HALF.md).
 - **Sealed and audited:** Theorem 1.1 for 1/2 < γ < 1, `main_v2`, and the theorems it is assembled from
   (`propansatz_v2`, `fixedpoint_v2`, `layergarden_v2` and the flower estimate `layergardenFlower_v3`). The
@@ -110,7 +110,7 @@ DRAFT_ANCHORS: 2 theorem anchors at DRAFT_SORRY (the superseded flower statement
 UNREGISTERED_SORRIES: 0 (frozen-anchor guard OK)
 DRAFT_IMPORT_VIOLATIONS: 0
 SEALED: 26 theorems + 300 definitions. Full range: main, propansatz, fixedpoint, layergarden, layergardenFlower_v4
-        sealed 2026-11-09 (main 5c19b015), two-key audits under way. 1/2 < γ < 1: main_v2 PROVED (two-key audits).
+        sealed 2026-11-09 (main 5c19b015), PROVED with two-key audits. 1/2 < γ < 1: main_v2 PROVED (two-key audits).
 ```
 </details>
 

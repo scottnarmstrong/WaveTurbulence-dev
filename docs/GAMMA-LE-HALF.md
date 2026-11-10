@@ -1,8 +1,7 @@
 # The range 0 < γ ≤ 1/2: what went wrong, and how it was repaired
 
-*Status: the repaired proof is formalized in Lean. The Lean proof of Theorem 1.1 for the full range 0 < γ < 1, as
-printed, is complete and was sealed on the main branch on 2026-11-09. Two independent audits of the sealed proof are
-under way ([how it was checked](#8-how-it-was-checked)).*
+*Status: complete. Theorem 1.1 is proved in Lean for the full range 0 < γ < 1, as printed. The proof was sealed on
+the main branch on 2026-11-09 and passed two independent audits ([how it was checked](#8-how-it-was-checked)).*
 
 This page is for readers who know the paper and want to know what changed below γ = 1/2. Erratum numbers (E1, E20, …)
 refer to [ERRATA-AND-DEVIATIONS.md](ERRATA-AND-DEVIATIONS.md), decision numbers (D6, …) to
@@ -220,9 +219,9 @@ flower statement (E34, E41, E42; deviations in the errata file).
   proof, and tooling checked that the statement itself did not change. Seal commits on main: `4558dd65`
   (`layergardenFlower_v4`), `2e2c16ef` (`layergarden`), `008e27f9` (`fixedpoint`), `6f4a03d2` (`propansatz`),
   `bfbb5546` (`main`).
-- **Independent audits.** Two auditors who did not write the proof each audit all five statements: statement
+- **Independent audits.** Two auditors who did not write the proof each audited all five statements: statement
   fidelity against the paper's source, hidden hypotheses, axioms, and a full replay of the proof in Lean's kernel.
-  The audits are under way. Their records will be in [`audits/full-range/`](audits/full-range/README.md).
+  Both passed all five. Records: [`audits/full-range/`](audits/full-range/README.md).
 
 **What the formalization caught in our own work** (not errata of the paper):
 - Our research note on the flower count proposed reserving a factor L² for each pending re-cut. The formalization
