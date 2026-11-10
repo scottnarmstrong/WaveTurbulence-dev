@@ -70,9 +70,6 @@ theorem crossBoxG_isOpen (qa qb q2 : ℝ) : IsOpen (crossBoxG qa qb q2) :=
   (isOpen_Ioo.preimage (continuous_apply 0)).inter ((isOpen_Ioo.preimage (continuous_apply 1)).inter
     (isOpen_Ioo.preimage (continuous_apply 2)))
 
-theorem crossBoxG_cl (qa qb q2 : ℝ) : crossBoxG qa qb q2 ⊆ closure (interior (crossBoxG qa qb q2)) := by
-  rw [(crossBoxG_isOpen qa qb q2).interior_eq]; exact subset_closure
-
 theorem crossBoxG_sub_cell (qa qb q2 : ℝ) : crossBoxG qa qb q2 ⊆ cell ![qa, qb, q2] := by
   intro τ hτ i
   fin_cases i

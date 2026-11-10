@@ -62,12 +62,4 @@ theorem sourceCoreLocalInput_factorCoordinate {d : ℕ} (D : SumintDatum d) (b :
   rw [MeasurableEquiv.apply_symm_apply,Pi.single_eq_same] at he
   exact he.symm
 
-/-- Projecting old factor times from an actual grouped vector restores the actual old factor-time function. -/
-theorem sourceCoreOldTimes_grouped {d : ℕ} (D : SumintDatum d) (u : D.S.TVar → ℝ)
-    (b : FactorIdx D.S) (a : {a : FactorIdx D.S // sourceCoreGroup D a = b}) :
-    sourceCoreOldTimes D b (sourceCoreTimeGrouping D u b) a =
-      fun j => u (factorCoordinateTime D.S ⟨a.1,j⟩) := by
-  funext j
-  exact sourceCoreTimeGrouping_apply D u b a.1 a.2 j
-
 end WaveTurbulence.Sumint

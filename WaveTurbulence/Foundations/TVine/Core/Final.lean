@@ -44,8 +44,4 @@ theorem phiType_of_II
 theorem phiType_holds : PhiTypeStatement.{u} :=
   phiType_of_II fun X _ _ _ _ _ _ _ _ _ _ μ hX hR hap haq hbp hbq => vineII_rungDel (X := X) hX hR hap haq hbp hbq μ
 
-/-- **N2 Lemma 1.9(1)** in its statement form. -/
-theorem deleteRung_holds : DeleteRungStatement.{u} :=
-  fun _ _ _ _ _ _ _ _ _ _ _ hT hD μ => isTVineU_rungDel hT hD μ
-
 end WaveTurbulence.TVine.Core

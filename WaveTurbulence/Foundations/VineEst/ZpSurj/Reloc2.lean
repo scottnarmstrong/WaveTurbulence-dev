@@ -194,24 +194,6 @@ theorem cohOn_cpl_map (Q : RegCpl) (a b : Fin w × Path) (ha : P a) (hb : P b) :
     rw [hlay _ h1, hlay _ h2]
     exact h l hl
 
-theorem cohOn_chain_map (X : RegChain) (ζ : ℤˣ) (a : Fin w × Path) (ha : P a) :
-    CohOn H2 (X.linksAt ζ (ρ a)) ↔ CohOn H1 (X.linksAt ζ a) := by
-  rw [chain_links_map P ρ hP hρ X ζ a ha]
-  unfold CohOn
-  simp only [List.mem_map, forall_exists_index, and_imp]
-  have hP' : ∀ l ∈ X.linksAt ζ a, P l.1 ∧ P l.2 := fun l hl =>
-    ⟨chainNodes_P P hP X ζ ha (Finset.mem_union_left _ (mem_pairEndpoints_fst hl)),
-     chainNodes_P P hP X ζ ha (Finset.mem_union_left _ (mem_pairEndpoints_snd hl))⟩
-  constructor
-  · intro h l hl
-    have := h _ l hl rfl
-    rwa [hlay _ (hP' l hl).1, hlay _ (hP' l hl).2] at this
-  · intro h l' l hl e
-    subst e
-    simp only
-    rw [hlay _ (hP' l hl).1, hlay _ (hP' l hl).2]
-    exact h l hl
-
 theorem layerPatternN_map (pa pb : ℕ) (Q : RegCpl) (a b : Fin w × Path) (ha : P a) (hb : P b) :
     LayerPatternN H2 pa pb Q (ρ a) (ρ b) ↔ LayerPatternN H1 pa pb Q a b := by
   have hn : ∀ (Q' : RegCpl) (x y : Fin w × Path), P x → P y →
@@ -241,20 +223,6 @@ theorem layerPatternN_map (pa pb : ℕ) (Q : RegCpl) (a b : Fin w × Path) (ha :
       intro u hu; rw [hlay u (chainNodes_P P hP Xm (-1) hb hu)]
     dsimp only
     rw [hc1, chainPairLayers_map P ρ hP hρ hlay Xp 1 a ha, chainPairLayers_map P ρ hP hρ hlay Xm (-1) b hb, h4, h5]
-
-theorem treePatternN_map (pa : ℕ) (X : RegChain) (ζ : ℤˣ) (a : Fin w × Path) (ha : P a) :
-    TreePatternN H2 pa X ζ (ρ a) ↔ TreePatternN H1 pa X ζ a := by
-  unfold TreePatternN
-  have hxp := fun (u : Fin w' × Path) => mem_chainNodesSet_map P ρ hP hρ X ζ a ha u
-  have hl : layerAt H2 (addrExt (ρ a) X.lonePath) = layerAt H1 (addrExt a X.lonePath) :=
-    layerAt_ext_map P ρ hP hρ hlay ha _
-  have h4 : (∀ z ∈ chainNodesSet X ζ (ρ a), layerAt H2 (addrExt (ρ a) X.lonePath) ≤ layerAt H2 z ∧
-      layerAt H2 z ≤ pa) ↔
-      ∀ z ∈ chainNodesSet X ζ a, layerAt H1 (addrExt a X.lonePath) ≤ layerAt H1 z ∧ layerAt H1 z ≤ pa := by
-    rw [hl]
-    refine ball_map ρ _ _ hxp _ _ ?_
-    intro u hu; rw [hlay u (chainNodes_P P hP X ζ ha hu)]
-  rw [cohOn_chain_map P ρ hP hρ hlay X ζ a ha, chainPairLayers_map P ρ hP hρ hlay X ζ a ha, h4]
 
 end Reloc
 end WaveTurbulence.ZpSurj

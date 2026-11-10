@@ -1,7 +1,9 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 
-public import WaveTurbulence.Foundations.Sumint.LocalPhaseIntegrability
+public import WaveTurbulence.Foundations.Sumint.PhaseMeasurability
+public import WaveTurbulence.Foundations.Sumint.TimeExitMeasurability
+public import WaveTurbulence.Foundations.Sumint.ExponentialBoxMass
 public import WaveTurbulence.Foundations.Sumint.FourierFubini
 
 /-!

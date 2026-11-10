@@ -123,16 +123,6 @@ theorem KTsel_of_weighted_eq_false (h : S.weighted = false) (incoh q : ℕ) (L �
 
 end Kernels
 
-/-- Under the plain selector the selected couple kernel is `KQstar`, by `rfl`. -/
-theorem KQsel_plain {d : ℕ} (incoh q q' : ℕ) (L γ δ : ℝ) (F : ℕ → Mom d → ℝ) (LG : LayeredGarden 2)
-    (t s : ℝ) (k : Mom d) :
-    KQsel (S := RowSel.plain) incoh q q' L γ δ F LG t s k = KQstar L γ δ F LG t s k := rfl
-
-/-- Under the plain selector the selected tree kernel is `KTstar`, by `rfl`. -/
-theorem KTsel_plain {d : ℕ} (incoh q : ℕ) (L γ δ : ℝ) (F : ℕ → Mom d → ℝ) (LG : LayeredGarden 1)
-    (t s : ℝ) (k : Mom d) :
-    KTsel (S := RowSel.plain) incoh q L γ δ F LG t s k = KTstar L γ δ F LG t s k := rfl
-
 section Rows
 variable {u : Unit} [S : RowSel u] {w d : ℕ} {G : Garden w}
 
@@ -152,20 +142,6 @@ def selTreeRow (L γ δ : ℝ) (F : ℕ → Mom d → ℝ) (D : ReconstructionDa
     (k : Mom d) : ℂ :=
   KTsel (Flower.V5W.treeIncoh D hG layer hLayer v) (Flower.V5W.treeRootParent S.p D hG layer hLayer v)
     L γ δ F (nativeChainLayered D hG layer hLayer v) t s k
-
-/-- A coherent couple row (incoherency `0`) is plain, for every selector. -/
-theorem selCoupleRow_of_coherent (L γ δ : ℝ) (F : ℕ → Mom d → ℝ) (D : ReconstructionData G) (hG : G.IsPlain)
-    (layer : GNode (D.forest hG) → ℕ) (hLayer : IsLayering (D.garden hG) layer) (pr : SourcePair G)
-    (h : Flower.V5W.coupleIncoh D hG layer hLayer pr = 0) (t s : ℝ) (k : Mom d) :
-    selCoupleRow L γ δ F D hG layer hLayer pr t s k = KQstar L γ δ F (nativeCoupleLayered D hG layer hLayer pr) t s k :=
-  KQsel_of_incoh_eq_zero h _ _ _ _ _ _ _ _ _ _
-
-/-- A coherent tree row (incoherency `0`) is plain, for every selector. -/
-theorem selTreeRow_of_coherent (L γ δ : ℝ) (F : ℕ → Mom d → ℝ) (D : ReconstructionData G) (hG : G.IsPlain)
-    (layer : GNode (D.forest hG) → ℕ) (hLayer : IsLayering (D.garden hG) layer) (v : GBranch G.tree)
-    (h : Flower.V5W.treeIncoh D hG layer hLayer v = 0) (t s : ℝ) (k : Mom d) :
-    selTreeRow L γ δ F D hG layer hLayer v t s k = KTstar L γ δ F (nativeChainLayered D hG layer hLayer v) t s k :=
-  KTsel_of_incoh_eq_zero h _ _ _ _ _ _ _ _ _
 
 /-- Rows with the same selection data are equal (the transport form used by the rigid and twist invariances). -/
 theorem selCoupleRow_congr (L γ δ : ℝ) (F : ℕ → Mom d → ℝ) {w' : ℕ} {G' : Garden w'}

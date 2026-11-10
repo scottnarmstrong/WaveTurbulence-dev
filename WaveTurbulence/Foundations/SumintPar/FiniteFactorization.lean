@@ -42,11 +42,4 @@ theorem tsum_product_eq_product_tsum {ι : Type*} [Fintype ι] [DecidableEq ι] 
   intro i _
   exact (tsum_eq_sum (hf i)).symm
 
-/-- Factorization is compatible with taking absolute values after each block sum. -/
-theorem norm_tsum_product_eq {ι : Type*} [Fintype ι] [DecidableEq ι] {α : ι → Type*}
-    (s : ∀ i, Finset (α i)) (f : ∀ i, α i → ℂ)
-    (hf : ∀ i x, x ∉ s i → f i x = 0) :
-    ‖∑' x : ∀ i, α i, ∏ i, f i (x i)‖ = ∏ i, ‖∑' x, f i x‖ := by
-  rw [tsum_product_eq_product_tsum s f hf, norm_prod]
-
 end WaveTurbulence.SumintPar

@@ -31,10 +31,4 @@ theorem regular_subcouple_collapse_trace {w : ℕ} (G : Garden w) (hG : G.IsPlai
   have hl := K.label_eq_of_address L hT d d rfl
   exact Sum.inl.inj hl
 
-theorem regular_subcouple_reduces_collapse {w : ℕ} (G : Garden w) (hG : G.IsPlain)
-    {a b : GNode G.tree} (h : Comb.IsSubCouple G a b)
-    (hr : IsRegularCouple (Comb.subCoupleGarden h)) : GardenReduces G (collapseCoupleGarden h) := by
-  obtain ⟨T,_⟩ := regular_subcouple_collapse_trace G hG h hr
-  exact T.reduces
-
 end WaveTurbulence.Reg.Skeleton

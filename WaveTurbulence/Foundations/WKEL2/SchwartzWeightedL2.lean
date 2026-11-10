@@ -66,21 +66,4 @@ theorem norm_weightedToL2CLM (s : ℝ) (f : 𝓢(Mom d, ℝ)) :
     exact (weightedToL2CLM_coeFn s f).trans hmem.coeFn_toLp.symm
   rw [heq, ← weightedL2Norm_eq_norm_toLp s f hmem]
 
-/-- The frozen weighted norm is continuous on Schwartz space for every real exponent. -/
-theorem continuous_weightedL2Norm_schwartz (s : ℝ) :
-    Continuous (fun f : 𝓢(Mom d, ℝ) => weightedL2Norm s f) := by
-  have heq : (fun f : 𝓢(Mom d, ℝ) => weightedL2Norm s f) =
-      fun f => ‖weightedToL2CLM s f‖ := by
-    funext f
-    exact (norm_weightedToL2CLM s f).symm
-  rw [heq]
-  exact (weightedToL2CLM s).continuous.norm
-
-/-- Every frozen Schwartz solution has continuous weighted L² norm on its time interval. -/
-theorem continuousOn_weightedL2Norm_of_isWKESolution (s : ℝ)
-    {f₀ : 𝓢(Mom d, ℝ)} {T : ℝ} {φ : ℝ → 𝓢(Mom d, ℝ)}
-    (hφ : IsWKESolution f₀ T φ) :
-    ContinuousOn (fun t => weightedL2Norm s (φ t)) (Icc 0 T) :=
-  (continuous_weightedL2Norm_schwartz s).comp_continuousOn hφ.1
-
 end WaveTurbulence.WKEL2

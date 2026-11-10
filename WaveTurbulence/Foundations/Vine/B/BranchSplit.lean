@@ -81,12 +81,6 @@ theorem assemble_bijective (hd : Disj blk) : Function.Bijective Φ.assemble := b
 noncomputable def branchSplit (hd : Disj blk) : GBranch S.tree ≃ GBranch Gsb.tree ⊕ (Σ j, ↥(inter blk j)) :=
   (Equiv.ofBijective _ (Φ.assemble_bijective hd)).symm
 
-theorem branchSplit_symm_inl (hd : Disj blk) (c : GBranch Gsb.tree) :
-    (Φ.branchSplit hd).symm (.inl c) = Φ.br c := rfl
-
-theorem branchSplit_symm_inr (hd : Disj blk) (x : Σ j, ↥(inter blk j)) :
-    (Φ.branchSplit hd).symm (.inr x) = x.2.1 := rfl
-
 theorem prod_split (hd : Disj blk) {M : Type*} [CommMonoid M] (f : GBranch S.tree → M) :
     ∏ v, f v = (∏ c : GBranch Gsb.tree, f (Φ.br c)) * ∏ j, ∏ v ∈ inter blk j, f v := by
   rw [← (Φ.branchSplit hd).symm.prod_comp, Fintype.prod_sum_type, Fintype.prod_sigma]

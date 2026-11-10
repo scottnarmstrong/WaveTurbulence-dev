@@ -46,13 +46,4 @@ theorem isASolution_mul_phase {d : ℕ} {L γ δ T : ℝ} {c : (Fin d → ℤ) �
     rw [aNonlin_mul_phase L γ δ t phase hphase]
     exact (ha.2.2 t ht n).const_mul (phase n)
 
-/-- Gauge phases satisfy the required cubic phase relation. -/
-theorem gauge_phase_relation {d : ℕ} (θ : ℝ) (n q₁ q₂ : Fin d → ℤ) :
-    Complex.exp ((θ : ℂ) * Complex.I) *
-        (starRingEnd ℂ) (Complex.exp ((θ : ℂ) * Complex.I)) *
-        Complex.exp ((θ : ℂ) * Complex.I) = Complex.exp ((θ : ℂ) * Complex.I) := by
-  have hn := Complex.norm_exp_ofReal_mul_I θ
-  rw [Complex.mul_conj', hn]
-  simp
-
 end WaveTurbulence.Fixedpt

@@ -46,10 +46,6 @@ theorem half_eq_chain (X : RegChain) : X.size = 2 * (X.size / 2) := by
   obtain ⟨m, hm⟩ := size_even_chain X
   omega
 
-theorem half_eq_cpl (Q : RegCpl) : Q.size = 2 * (Q.size / 2) := by
-  obtain ⟨m, hm⟩ := size_even_cpl Q
-  omega
-
 /-- The decomposition of a labelled couple. -/
 def decC (a q' : ℕ) : (Σ _ : RegCpl, List ℕ) → Σ _ : ℕ × ℕ, (Σ _ : RegChain, List ℕ) × RegCpl
   | ⟨.type2 Xp Xm Qlp, ls⟩ =>

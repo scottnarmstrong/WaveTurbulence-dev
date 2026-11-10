@@ -150,14 +150,6 @@ noncomputable def ofContW (E : ContExp P n W T F cost) (J' : Fin E.m → (Fin 2 
   hi_J _ := rfl
   hi_M _ := rfl
 
-theorem ofContW_m (E : ContExp P n W T F cost) (J' : Fin E.m → (Fin 2 → ℝ) → ℂ) (f : ℝ → ℝ → Mom P.d → ℂ)
-    (V : Set (Fin 2 → ℝ))
-    (hV : ∀ t s : ℝ, ![t, s] ∈ V → ∀ k, f t s k = ∑ i, sepTerm (P.δ ^ n) (J' i) (E.M i) t s k)
-    {Blo Bhi : Set (Fin 2 → ℝ)} {qlo qhi : Fin 2 → ℝ} (hclo : Blo ⊆ cell qlo) (hilo : Blo ⊆ closure (interior Blo))
-    (hchi : Bhi ⊆ cell qhi) (hihi : Bhi ⊆ closure (interior Bhi)) (hC : 1 ≤ P.C₁) (hη : P.η ≤ 1) (hcost : 0 ≤ cost) hlo hhi :
-    (ofContW E J' f V hV hclo hilo hchi hihi hC hη hcost hlo hhi).m ≤ 2 ^ n :=
-  max_le E.hm (Nat.one_le_two_pow)
-
 end OfContW
 
 section SelBound

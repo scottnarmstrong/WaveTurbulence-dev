@@ -70,12 +70,6 @@ theorem inAt_end : (hd (inAt pt u) = u ∧ tl (inAt pt u) ∈ X) ∨ (tl (inAt p
   · rw [if_pos h1]; exact Or.inl ⟨h1, pt.out_tl⟩
   · rw [if_neg (by rw [h1]; exact huw.symm)]; exact Or.inr ⟨h2, pt.inn_hd⟩
 
-theorem inAt_ne : inAt pt u ≠ inAt pt w := by
-  unfold inAt
-  rcases hE with ⟨h1, h2⟩ | ⟨h1, h2⟩
-  · rw [if_pos h1, if_neg (by rw [h1]; exact huw)]; exact pt.ne
-  · rw [if_neg (by rw [h1]; exact huw.symm), if_pos h1]; exact pt.ne.symm
-
 theorem inAt_bits : decide (tl (inAt pt u) = u) ≠ decide (tl (inAt pt w) = w) := by
   unfold inAt
   rcases hE with ⟨h1, h2⟩ | ⟨h1, h2⟩
@@ -101,12 +95,6 @@ theorem outAt_end : (tl (outAt pt u) = u ∧ hd (outAt pt u) ∉ X) ∨ (hd (out
   rcases hE with ⟨h1, h2⟩ | ⟨h1, h2⟩
   · rw [if_pos h1]; exact Or.inl ⟨h1, pt.out_hd⟩
   · rw [if_neg (by rw [h1]; exact huw.symm)]; exact Or.inr ⟨h2, pt.inn_tl⟩
-
-theorem outAt_ne : outAt pt u ≠ outAt pt w := by
-  unfold outAt
-  rcases hE with ⟨h1, h2⟩ | ⟨h1, h2⟩
-  · rw [if_pos h1, if_neg (by rw [h1]; exact huw)]; exact pt.ne
-  · rw [if_neg (by rw [h1]; exact huw.symm), if_pos h1]; exact pt.ne.symm
 
 theorem outAt_bits : decide (tl (outAt pt u) = u) ≠ decide (tl (outAt pt w) = w) := by
   unfold outAt

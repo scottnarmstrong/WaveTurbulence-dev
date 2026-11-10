@@ -5,7 +5,7 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.WKEL2.WeightedL2Model
+public import WaveTurbulence.Foundations.WKEL2.SchwartzWeightInverse
 
 /-!
 # Linear algebra in the exact weighted L² representation
@@ -27,23 +27,11 @@ theorem weightedFunction_add (s : ℝ) (f g : Mom d → ℝ) :
   funext k
   simp only [weightedFunction, Pi.add_apply, mul_add]
 
-theorem weightedFunction_const_mul (s c : ℝ) (f : Mom d → ℝ) :
-    weightedFunction s (fun k => c * f k) = fun k => c * weightedFunction s f k := by
-  funext k
-  dsimp only [weightedFunction]
-  ring
-
 theorem memLp_weighted_add (s : ℝ) {f g : Mom d → ℝ}
     (hf : MemLp (weightedFunction s f) 2) (hg : MemLp (weightedFunction s g) 2) :
     MemLp (weightedFunction s (f + g)) 2 := by
   rw [weightedFunction_add]
   exact hf.add hg
-
-theorem memLp_weighted_const_mul (s c : ℝ) {f : Mom d → ℝ}
-    (hf : MemLp (weightedFunction s f) 2) :
-    MemLp (weightedFunction s (fun k => c * f k)) 2 := by
-  rw [weightedFunction_const_mul]
-  exact hf.const_mul c
 
 /-- The frozen weighted norm satisfies Minkowski on its genuine domain. -/
 theorem weightedL2Norm_add_le (s : ℝ) {f g : Mom d → ℝ}
@@ -60,18 +48,5 @@ theorem weightedL2Norm_add_le (s : ℝ) {f g : Mom d → ℝ}
     (ENNReal.add_lt_top.mpr ⟨hf.eLpNorm_lt_top, hg.eLpNorm_lt_top⟩).ne hineq
   rw [ENNReal.toReal_add hf.eLpNorm_ne_top hg.eLpNorm_ne_top] at hreal
   exact hreal
-
-/-- Scalar multiplication is preserved by the weighted encoding. -/
-theorem weightedL2Encode_const_mul (s c : ℝ) (f : Mom d → ℝ)
-    (hf : MemLp (weightedFunction s f) 2) :
-    weightedL2Encode s (fun k => c * f k) (memLp_weighted_const_mul s c (f := f) hf) =
-      (c • weightedL2Encode s f hf : Lp ℝ 2 (volume : Measure (Mom d))) := by
-  unfold weightedL2Encode
-  have heq : weightedFunction s (fun k => c * f k) =ᵐ[volume] c • weightedFunction s f := by
-    apply Filter.Eventually.of_forall
-    intro k
-    exact congrFun (weightedFunction_const_mul s c f) k
-  exact (MemLp.toLp_congr (memLp_weighted_const_mul s c (f := f) hf) (hf.const_smul c) heq).trans
-    (MemLp.toLp_const_smul c hf)
 
 end WaveTurbulence.WKEL2

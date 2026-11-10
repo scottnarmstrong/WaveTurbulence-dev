@@ -157,18 +157,6 @@ theorem incoherency_eq_zero_of_isCoherentTreeAt_conj {p q q' : ℕ} {X : RegChai
 section Selector
 variable {u : Unit} [S : RowSel u] {d : ℕ}
 
-/-- **The selector is plain on a coherent couple.** -/
-theorem KQsel_of_isCoherentCoupleAt {p q q' : ℕ} {Q : RegCpl} {LG : LayeredGarden 2}
-    (h : IsCoherentCoupleAt p q q' Q LG) (r r' : ℕ) (L γ δ : ℝ) (F : ℕ → Mom d → ℝ) (t s : ℝ) (k : Mom d) :
-    KQsel (LG.incoherency Q.links) r r' L γ δ F LG t s k = KQstar L γ δ F LG t s k :=
-  KQsel_of_incoh_eq_zero (incoherency_eq_zero_of_isCoherentCoupleAt h) _ _ _ _ _ _ _ _ _ _
-
-/-- **The selector is plain on a coherent tree.** -/
-theorem KTsel_of_isCoherentTreeAt {p q q' : ℕ} {X : RegChain} {LG : LayeredGarden 1}
-    (h : IsCoherentTreeAt p q q' X LG) (r : ℕ) (L γ δ : ℝ) (F : ℕ → Mom d → ℝ) (t s : ℝ) (k : Mom d) :
-    KTsel (LG.incoherency (X.treeLinks (LG.garden.sig 0))) r L γ δ F LG t s k = KTstar L γ δ F LG t s k :=
-  KTsel_of_incoh_eq_zero (incoherency_eq_zero_of_isCoherentTreeAt h) _ _ _ _ _ _ _ _ _
-
 end Selector
 
 end WaveTurbulence.VineEst

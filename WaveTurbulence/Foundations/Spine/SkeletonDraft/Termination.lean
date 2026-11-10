@@ -20,22 +20,6 @@ namespace WaveTurbulence.Reg.Skeleton
 theorem Expand.source_valid {w : ℕ} {S R : Raw w} (h : Expand S R) : S.Valid := by
   cases h <;> assumption
 
-/-- The signature is unchanged by either elementary operation. -/
-theorem Expand.sig_eq {w : ℕ} {S R : Raw w} (h : Expand S R) : R.sig = S.sig := by
-  cases h <;> rfl
-
-/-- Finite source reconstruction cannot decrease branching order. -/
-theorem Reconstructs.order_le {w : ℕ} {S R : Raw w} (h : Reconstructs S R) : S.order ≤ R.order := by
-  induction h with
-  | refl => exact Nat.le_refl _
-  | tail _ hstep ih => have ho := hstep.order; omega
-
-/-- An expansion history retains the original root signs. -/
-theorem Reconstructs.sig_eq {w : ℕ} {S R : Raw w} (h : Reconstructs S R) : R.sig = S.sig := by
-  induction h with
-  | refl => rfl
-  | tail _ hstep ih => exact hstep.sig_eq.trans ih
-
 /-- DH21 Proposition 4.13 / DH21-2 Proposition 4.4, existence part:
 every valid source forest has a prime predecessor reached by actual inverse moves. -/
 theorem exists_prime_predecessor {w : ℕ} (R : Raw w) (hR : R.Valid) :

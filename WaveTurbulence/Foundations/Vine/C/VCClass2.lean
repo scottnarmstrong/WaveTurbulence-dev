@@ -168,12 +168,6 @@ theorem classProd_bijOn {A : FamilyReconstruction w ι} (hA : IsPrimeGarden A.sk
     refine ⟨y, (mem_classU hA).mpr hy, funext fun j => ?_⟩
     exact coord_unique hA (classProd_isCoord hy j) ⟨hx' j, fun k => (hs j k).symm⟩
 
-/-- The class-product bijection as an equivalence of the finite sets. -/
-@[expose] noncomputable def classProdEquiv {A : FamilyReconstruction w ι} (hA : IsPrimeGarden A.skeleton)
-    (us : ∀ j, UnitAt A.skeleton A.family (Us.Q j)) :
-    ↥(classU Us p kind A us) ≃ ↥(Fintype.piFinset fun j => canonFinsetK p kind (Us.st A j) (Us.reg us j)) :=
-  (classProd_bijOn hA us).equiv _ |>.trans (Equiv.refl _)
-
 end Coord
 
 section Sum
@@ -192,17 +186,6 @@ theorem sum_classU_prod {A : FamilyReconstruction w ι} (hA : IsPrimeGarden A.sk
   · obtain ⟨y, hy, rfl⟩ := hb.2.2 hx
     exact ⟨y, hy, rfl⟩
   · exact Finset.prod_congr rfl fun j _ => hfg y hy j
-
-/-- **The class product for the weighted unit kernels** (R58 modulation: `W j = modW (λ j)`; `λ = 0` is `clLocalKernel`). -/
-theorem sum_classU_prod_kernelW {A : FamilyReconstruction w ι} (hA : IsPrimeGarden A.skeleton)
-    (us : ∀ j, UnitAt A.skeleton A.family (Us.Q j)) {d : ℕ} (L γ δ : ℝ) (F : J → ℕ → Mom d → ℝ) (base : Mom d)
-    (W : J → ℝ → ℂ) (t0 t1 t2 : J → ℝ) (e f g h : J → Mom d) :
-    ∑ y ∈ classU Us p kind A us, ∏ j, unitKernelW y.1 (y.2 j) L γ δ (F j) base (W j) (t0 j) (t1 j) (t2 j)
-        (e j) (f j) (g j) (h j) =
-      ∏ j, ∑ x ∈ canonFinsetK p kind (Us.st A j) (Us.reg us j),
-        twistedLocalKernelW x.1 x.2 L γ δ (F j) base (W j) (t0 j) (t1 j) (t2 j) (e j) (f j) (g j) (h j) :=
-  sum_classU_prod hA us _ _ fun _ hy j =>
-    unitKernelW_classProd hA ((mem_classU hA).mp hy) j L γ δ (F j) base (W j) (t0 j) (t1 j) (t2 j) (e j) (f j) (g j) (h j)
 
 end Sum
 

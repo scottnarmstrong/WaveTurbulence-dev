@@ -110,9 +110,6 @@ theorem IsRapidDecay.summable_norm {c : (Fin d → ℤ) → ℂ} (hc : IsRapidDe
     Summable fun n => ‖c n‖ :=
   (hc.summable_norm_mul_pow 0).congr fun n => by simp
 
-theorem IsRapidDecay.summable {c : (Fin d → ℤ) → ℂ} (hc : IsRapidDecay c) : Summable c :=
-  Summable.of_norm hc.summable_norm
-
 end Summable
 
 /-! ### Inversion and uniqueness -/
@@ -149,15 +146,6 @@ theorem hasSum_torusFourier_series_of_summable (hL : 0 < L) {f : (Fin d → ℝ)
   simp only [mFourierCoeff_torusLift hL, torusLift_torusChar_apply hL.ne', smul_eq_mul,
     torusLift_torusProj hL.ne' hp] at h
   exact h
-
-/-- Fourier inversion for smooth periodic `f` (TARGET (1.2)): `f` is the sum of its absolutely
-convergent Fourier series. -/
-theorem hasSum_torusFourier_series (hL : 0 < L) {f : (Fin d → ℝ) → ℂ} (hf : ContDiff ℝ ∞ f)
-    (hp : IsTorusPeriodic L f) (x : Fin d → ℝ) :
-    HasSum (fun n => ((L ^ ((d : ℝ) / 2) : ℝ) : ℂ)⁻¹ * torusFourierCoeff L f n * torusChar L n x)
-      (f x) :=
-  hasSum_torusFourier_series_of_summable hL hf.continuous hp
-    (isRapidDecay_torusFourierCoeff hL hf hp).summable x
 
 /-- The coefficients of a smooth periodic function are absolutely summable. -/
 theorem summable_norm_torusFourierCoeff (hL : 0 < L) {f : (Fin d → ℝ) → ℂ} (hf : ContDiff ℝ ∞ f)

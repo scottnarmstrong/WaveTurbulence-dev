@@ -83,12 +83,6 @@ theorem prodDyadicCut_nonneg (hL : 0 < L) (hy : ∀ a ∈ s, 0 ≤ y a) (j : ℕ
   · rw [sub_nonneg]
     exact prodChi_mono s hy (by positivity) (two_pow_pred_le hL j)
 
-theorem prodDyadicCut_le_one (j : ℕ) : prodDyadicCut L j s y ≤ 1 := by
-  rw [prodDyadicCut_def]
-  split_ifs
-  · exact prodChi_le_one s L
-  · linarith [prodChi_le_one s (y := y) (2 ^ j * L), prodChi_nonneg s (y := y) (2 ^ (j - 1) * L)]
-
 theorem sum_prodDyadicCut (J : ℕ) : ∑ j ∈ range (J + 1), prodDyadicCut L j s y = prodChi s y (2 ^ J * L) := by
   induction J with
   | zero => simp [prodDyadicCut_def]

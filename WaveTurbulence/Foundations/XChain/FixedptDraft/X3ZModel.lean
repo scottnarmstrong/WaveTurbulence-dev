@@ -84,12 +84,6 @@ theorem zDecode_zEncode {d p : ℕ} (L Λ : ℝ) (b : ZTime p → (Fin d → ℤ
   change (zWeight L Λ n : ℂ) * b t n / (zWeight L Λ n : ℂ) = b t n
   exact mul_div_cancel_left₀ _ (Complex.ofReal_ne_zero.mpr (zWeight_pos L Λ n).ne')
 
-theorem zEncode_zDecode {d p : ℕ} (L Λ : ℝ) (g : ZModel d p) :
-    zEncode L Λ (zDecode L Λ g) (zDecode_mem_ZSpace L Λ g) = g := by
-  ext n t
-  change (zWeight L Λ n : ℂ) * (g n t / (zWeight L Λ n : ℂ)) = g n t
-  exact mul_div_cancel₀ _ (Complex.ofReal_ne_zero.mpr (zWeight_pos L Λ n).ne')
-
 theorem enorm_zEncode {d p : ℕ} (L Λ : ℝ) (b : ZTime p → (Fin d → ℤ) → ℂ)
     (hb : b ∈ ZSpace L Λ p) : ‖zEncode L Λ b hb‖ₑ = ZNorm L Λ b := by
   rw [← ZNorm_zDecode L Λ (zEncode L Λ b hb), zDecode_zEncode]
@@ -189,21 +183,6 @@ theorem ZNorm_add_le {d p : ℕ} (L Λ : ℝ)
     _ ≤ _ := add_le_add
       (le_iSup_of_le t (le_iSup (fun n => ENNReal.ofReal (zWeight L Λ n * ‖f t n‖)) n))
       (le_iSup_of_le t (le_iSup (fun n => ENNReal.ofReal (zWeight L Λ n * ‖g t n‖)) n))
-
-theorem ZNorm_mono {d p : ℕ} (L : ℝ) {Λ A : ℝ} (hΛ : Λ ≤ A)
-    (f : ZTime p → (Fin d → ℤ) → ℂ) : ZNorm L Λ f ≤ ZNorm L A f := by
-  apply iSup_le fun t => iSup_le fun n => ?_
-  apply le_trans _ (le_iSup_of_le t (le_iSup (fun n => ENNReal.ofReal
-    (jbr (latticePoint L n) ^ A * ‖f t n‖)) n))
-  apply ENNReal.ofReal_le_ofReal
-  apply mul_le_mul_of_nonneg_right _ (norm_nonneg _)
-  apply Real.rpow_le_rpow_of_exponent_le _ hΛ
-  unfold jbr
-  exact (Real.le_sqrt (by norm_num) (by positivity)).mpr (by nlinarith [sq_nonneg ‖latticePoint L n‖])
-
-theorem zSpace_mono {d p : ℕ} {L Λ A : ℝ} (hΛ : Λ ≤ A)
-    {f : ZTime p → (Fin d → ℤ) → ℂ} (hf : f ∈ ZSpace L A p) : f ∈ ZSpace L Λ p :=
-  ⟨hf.1, (ZNorm_mono L hΛ f).trans_lt hf.2⟩
 
 theorem zSpace_add {d p : ℕ} {L Λ : ℝ} {f g : ZTime p → (Fin d → ℤ) → ℂ}
     (hf : f ∈ ZSpace L Λ p) (hg : g ∈ ZSpace L Λ p) : f + g ∈ ZSpace L Λ p :=

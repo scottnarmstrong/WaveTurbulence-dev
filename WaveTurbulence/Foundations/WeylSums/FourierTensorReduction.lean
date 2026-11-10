@@ -74,32 +74,6 @@ theorem fourier_tensor_reduction {m : ℕ} {κ : Fin m → Type*} [∀ i, Fintyp
       ring
     _ = _ := by rw [heq]; ring
 
-/-- Fourier decomposition of an arbitrary smooth joint cutoff, followed by
-tensorization. The auxiliary coordinate cutoffs equal one on its support;
-this is the usual compact cutoff insertion in the standard reduction. -/
-theorem compact_cutoff_tensor_reduction {m : ℕ} {κ : Fin m → Type*} [∀ i, Fintype (κ i)]
-    (χ : EuclideanSpace ℝ (Fin m) → ℂ) (hc : HasCompactSupport χ)
-    (hs : ContDiff ℝ ∞ χ) (θ : ∀ i, κ i → ℂ) (x : ∀ i, κ i → ℝ)
-    (hplateau : ∀ v : ∀ i, κ i,
-      χ (WithLp.toLp 2 (fun i => x i (v i))) ≠ 0 → ∀ i, θ i (v i) = 1) :
-    ∃ F : EuclideanSpace ℝ (Fin m) → ℂ, Integrable F ∧ ∀ s r : Fin m → ℝ,
-      (∑ v : ∀ i, κ i, χ (WithLp.toLp 2 (fun i => x i (v i))) *
-        e (∑ i, (s i * (x i (v i))^2 + r i * x i (v i)))) =
-      ∫ ξ : EuclideanSpace ℝ (Fin m), F ξ *
-        ∏ i, ∑ j, θ i j * e (s i * (x i j)^2 + (r i + ξ i) * x i j) := by
-  obtain ⟨F, hF, hf⟩ := exists_compact_fourier_representation χ hc hs
-  refine ⟨F, hF, ?_⟩
-  intro s r
-  rw [← fourier_tensor_reduction F hF θ x s r]
-  apply sum_congr rfl
-  intro v hv
-  have hrep := hf (WithLp.toLp 2 (fun i => x i (v i)))
-
-  rw [← hrep]
-  by_cases hz : χ (WithLp.toLp 2 (fun i => x i (v i))) = 0
-  · simp only [hz, mul_zero, zero_mul]
-  · simp only [hplateau v hz, prod_const_one, one_mul]
-
 /-- Uniform one-dimensional bounds pass through an arbitrary integrable
 Fourier superposition at the cost of the `L¹` norm of its weight. -/
 theorem norm_fourier_tensor_reduction_le {m : ℕ} {κ : Fin m → Type*} [∀ i, Fintype (κ i)]

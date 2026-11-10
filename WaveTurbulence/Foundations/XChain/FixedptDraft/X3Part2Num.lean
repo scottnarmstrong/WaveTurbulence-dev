@@ -902,8 +902,6 @@ theorem PB.mono {Y f c a a' : ℝ} (hY : 1 ≤ Y) (h : PB Y f c a) (ha : a ≤ a
 theorem PB.add {Y f₁ f₂ c₁ c₂ a : ℝ} (h₁ : PB Y f₁ c₁ a) (h₂ : PB Y f₂ c₂ a) : PB Y (f₁ + f₂) (c₁ + c₂) a :=
   ⟨add_nonneg h₁.1 h₂.1, add_nonneg h₁.2.1 h₂.2.1, by rw [add_mul]; exact add_le_add h₁.2.2 h₂.2.2⟩
 
-theorem PB.const {Y c : ℝ} (hc : 0 ≤ c) : PB Y c c 0 := ⟨hc, hc, by simp⟩
-
 theorem PB.rpow {Y f c a q : ℝ} (hY : 1 ≤ Y) (h : PB Y f c a) (hq : 0 ≤ q) : PB Y (f ^ q) (c ^ q) (a * q) := by
   refine ⟨Real.rpow_nonneg h.1 _, Real.rpow_nonneg h.2.1 _, ?_⟩
   calc f ^ q ≤ (c * Y ^ a) ^ q := Real.rpow_le_rpow h.1 h.2.2 hq

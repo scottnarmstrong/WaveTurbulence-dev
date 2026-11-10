@@ -56,9 +56,6 @@ def CutWeightsOK (cut1 cut2 : Option ℕ) : Prop :=
       ∏ j, treeCut2K L (tops j) (hF j) j₂ (fun a => k (topNodeEmbedding (ftop tops) x.partition
         (fun B => ((x.toData hsign).lowFl B).garden) (singleNodeToForest (ftop tops) j a))))
 
-theorem cutWeightsOK_none : CutWeightsOK L (d := d) hF x hsign none none :=
-  ⟨fun _ h => absurd h (by simp), fun _ h => absurd h (by simp)⟩
-
 /-- **The gate summand of a flower graft.** -/
 theorem gateSummand_flowerGraft (F : ℕ → Mom d → ℝ)
     (hFs : ∀ q, Summable fun m : Fin d → ℤ => |F q (latticePoint L m)|)

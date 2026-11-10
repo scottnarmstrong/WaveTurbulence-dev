@@ -24,25 +24,6 @@ theorem continuous_inputCharacter {d : ℕ} (D : SumintDatum d) (L : ℝ)
   change Continuous (tensorCharacter (fun v => latticePoint L (x v)))
   exact continuous_tensorCharacter _
 
-/-- Joint measurability in the independent input frequencies and input times. -/
-theorem measurable_cutoffPhaseSum_joint {d : ℕ} (D : SumintDatum d) {L : ℝ} (hL : 0 < L)
-    (γ δ η : ℝ) (p : D.S.VIdx → Fin d → ℝ) (r : Mom d) (t : ℝ) :
-    Measurable (fun z : (D.S.VIdx → Mom d) × (D.S.TVar → ℝ) =>
-      cutoffPhaseSum D L γ δ η p z.1 r t z.2) := by
-  have he : (fun z : (D.S.VIdx → Mom d) × (D.S.TVar → ℝ) =>
-      cutoffPhaseSum D L γ δ η p z.1 r t z.2) = fun z =>
-      ∑ x ∈ inputCutoffBox L p,
-        ((∏ v, inputCutoff (p v) (latticePoint L (x v)) : ℝ) : ℂ) *
-          inputCharacter D L z.1 x * D.phase L γ δ η x r t z.2 :=
-    funext (fun z => cutoffPhaseSum_eq_sum D hL γ δ η p z.1 r t z.2)
-  rw [he]
-  apply Finset.measurable_sum
-  intro x _
-  have hm : Measurable (fun z : (D.S.VIdx → Mom d) × (D.S.TVar → ℝ) =>
-      ((∏ v, inputCutoff (p v) (latticePoint L (x v)) : ℝ) : ℂ) * inputCharacter D L z.1 x) :=
-    measurable_const.mul ((continuous_inputCharacter D L x).measurable.comp measurable_fst)
-  exact hm.mul ((measurable_phase D L γ δ η x r t).comp measurable_snd)
-
 /-- The cutoff sum is genuinely integrable on each enlarged input-time box. -/
 theorem integrableOn_cutoffPhaseSum_enlargedBox {d : ℕ} (D : SumintDatum d)
     {L : ℝ} (hL : 0 < L) (γ δ η : ℝ) (hη : η ≤ 1/3)

@@ -29,15 +29,6 @@ namespace WaveTurbulence.SumintPar
     push_cast
     ring
 
-/-- The source phase has unit modulus. -/
-theorem norm_piCharacter (θ : ℝ) : ‖piCharacter θ‖ = 1 := by
-  simp [piCharacter,Complex.norm_exp]
-
-/-- The source phase is continuous. -/
-theorem continuous_piCharacter : Continuous piCharacter := by
-  change Continuous (fun θ : ℝ => Complex.exp ((Real.pi*θ : ℝ)*Complex.I))
-  fun_prop
-
 /-- Exact conversion to the canonical Fourier character. -/
 theorem piCharacter_eq_fourierChar_half (θ : ℝ) :
     piCharacter θ = (Real.fourierChar (θ/2) : ℂ) := by
@@ -62,14 +53,5 @@ theorem piCharacter_sum {ι : Type*} (s : Finset ι) (f : ι → ℝ) :
   | empty => simp
   | @insert i s hi ih =>
     rw [Finset.sum_insert hi,Finset.prod_insert hi,AddChar.map_add_eq_mul,ih]
-
-/-- The independent 2pi input modulation in source pi phase notation. -/
-theorem inputCharacter_eq_piCharacter {d : ℕ} (D : SumintDatum d) (L : ℝ)
-    (ν : D.S.VIdx → Mom d) (x : D.S.VIdx → Fin d → ℤ) :
-    inputCharacter D L ν x = piCharacter (2*∑ v, inner ℝ (ν v) (latticePoint L (x v))) := by
-  unfold inputCharacter
-  rw [prod_fourierChar_eq_sum,piCharacter_eq_fourierChar_half]
-  apply congrArg (fun s : ℝ => (Real.fourierChar s : ℂ))
-  ring
 
 end WaveTurbulence.SumintPar

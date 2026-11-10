@@ -47,22 +47,6 @@ theorem integral_norm_tensor_fourier {ι : Type*} [Fintype ι] {d : ℕ}
   exact integral_fintype_prod_volume_eq_prod (𝕜 := ℝ) (E := fun _ : ι => Mom d)
     (fun i ξ => ‖𝓕 (F i) ξ‖)
 
-/-- The tensor coefficient mass has only an exponential-in-the-number-of-weights loss. -/
-theorem integral_norm_tensor_localized_fourier_le {ι : Type*} [Fintype ι] {d N : ℕ}
-    (hN : N ≠ 0) (hdN : d + 1 ≤ N) (K : ι → ℕ) (F : ι → Mom d → ℂ)
-    (B : ι → ℝ) (hB : ∀ i, 0 ≤ B i)
-    (hF : ∀ i, SNorm N (K i) (F i) ≤ ENNReal.ofReal (B i))
-    (a : ι → Fin d → ℤ) :
-    (∫ ξ : ι → Mom d, ‖∏ i, 𝓕 (localizedWeight (a i) (F i)) (ξ i)‖) ≤
-      cellFourierFactor d ^ Fintype.card ι * ∏ i, B i := by
-  rw [integral_norm_tensor_fourier]
-  calc
-    _ ≤ ∏ i, cellFourierFactor d * B i := by
-      apply Finset.prod_le_prod₀ (fun i _ => integral_nonneg (fun _ => norm_nonneg _))
-      intro i _
-      exact (localizedWeight_fourier_integrable_and_bound hN hdN (hB i) (hF i) (a i)).2
-    _ = _ := by rw [Finset.prod_mul_distrib]; simp
-
 /-- The tensor Fourier coefficient is integrable, so later Fubini arguments have a genuine L1 input. -/
 theorem integrable_tensor_localized_fourier {ι : Type*} [Fintype ι] {d N : ℕ}
     (hN : N ≠ 0) (hdN : d + 1 ≤ N) (K : ι → ℕ) (F : ι → Mom d → ℂ)

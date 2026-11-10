@@ -40,15 +40,4 @@ theorem LabelledGarden.graph_branch_fixed_of_trivial {w : ℕ} {B : Type*} (G : 
     rw [hG.2] at hn
     exact Finset.notMem_empty _ hn
 
-/-- Every branch label of a source regular couple is removed by an actual labelled contraction history. -/
-theorem regularCouple_graph_reduces_deletes_branches {B : Type*} [DecidableEq B]
-    (G : Garden 2) (hG : IsRegularCouple G) (label : GBranch G.tree ↪ B) :
-    ∃ N : PortMatching (Fin 2 ⊕ B), PortMatching.Reduces (LabelledGarden.mk G label).graph N ∧
-      ∀ b : GBranch G.tree, ∀ i : Fin 4, N.mate (.inr (label b),i) = (.inr (label b),i) := by
-  obtain ⟨labelT,hr⟩ := (regularCouple_reduces_trivial hG).lift label
-  let T : LabelledGarden 2 B := ⟨decodedCouple .triv,labelT⟩
-  have ht : IsTrivialGarden (decodedCouple .triv) :=
-    ⟨(decodedCouple_decodes .triv).1.1,by intro j; fin_cases j <;> rfl⟩
-  exact ⟨T.graph,hr,fun b i => T.graph_branch_fixed_of_trivial ht (label b) i⟩
-
 end WaveTurbulence.Reg.Skeleton

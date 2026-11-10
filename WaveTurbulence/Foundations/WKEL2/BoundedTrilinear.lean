@@ -54,11 +54,4 @@ theorem boundedTrilinear_apply (A : V →ₗ[ℝ] V →ₗ[ℝ] V →ₗ[ℝ] F)
     (hb : ∀ x y z, ‖A x y z‖ ≤ C * ‖x‖ * ‖y‖ * ‖z‖) (x y z : V) :
     boundedTrilinear A C hC hb x y z = A x y z := rfl
 
-/-- The trilinear operator norm is at most the proved constant. -/
-theorem norm_boundedTrilinear_le (A : V →ₗ[ℝ] V →ₗ[ℝ] V →ₗ[ℝ] F)
-    (C : ℝ) (hC : 0 ≤ C)
-    (hb : ∀ x y z, ‖A x y z‖ ≤ C * ‖x‖ * ‖y‖ * ‖z‖) :
-    ‖boundedTrilinear A C hC hb‖ ≤ C :=
-  LinearMap.mkContinuous_norm_le _ hC _
-
 end WaveTurbulence.WKEL2

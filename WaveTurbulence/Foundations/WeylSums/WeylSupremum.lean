@@ -1,7 +1,9 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 
-public import WaveTurbulence.Foundations.WeylSums.SmoothArcEnvelope
+public import WaveTurbulence.Foundations.WeylSums.RationalArcCover
+public import WaveTurbulence.Foundations.WeylSums.ArcAlgebra
+public import WaveTurbulence.Foundations.WeylSums.SmoothCutoff
 public import WaveTurbulence.Foundations.Fourier.Chi0
 public import Mathlib.Topology.Semicontinuity.Basic
 public import Mathlib.MeasureTheory.Constructions.BorelSpace.Order
@@ -71,19 +73,6 @@ theorem norm_smoothGaussSum_le_weylSupremum {L : ℝ} (hL : 0 < L)
     (t r : ℝ) (h : ℤ) : ‖smoothGaussSum weylCutoff L t r h‖ ≤ weylSupremum L t := by
   rw [norm_smoothGaussSum_shift]
   exact le_ciSup (weyl_family_bddAbove hL t) _
-
-/-- Equality with the literal two-supremum expression in TARGET (wyel). -/
-theorem weylSupremum_eq_full {L : ℝ} (hL : 0 < L) (t : ℝ) :
-    weylSupremum L t = ⨆ h : ℤ, ⨆ r : ℝ, ‖smoothGaussSum weylCutoff L t r h‖ := by
-  have hb : BddAbove (Set.range fun h : ℤ => ⨆ r : ℝ, ‖smoothGaussSum weylCutoff L t r h‖) := by
-    refine ⟨weylSupremum L t, ?_⟩
-    rintro _ ⟨h, rfl⟩
-    exact ciSup_le (fun r => norm_smoothGaussSum_le_weylSupremum hL t r h)
-  apply le_antisymm
-  · exact le_ciSup_of_le hb (0 : ℤ) le_rfl
-  · apply ciSup_le
-    intro h
-    exact ciSup_le (fun r => norm_smoothGaussSum_le_weylSupremum hL t r h)
 
 theorem weylSupremum_nonneg {L : ℝ} (hL : 0 < L) (t : ℝ) : 0 ≤ weylSupremum L t :=
   (norm_nonneg _).trans (norm_smoothGaussSum_le_weylSupremum hL t 0 0)

@@ -298,18 +298,4 @@ theorem wtprefix_cplSizes : WTPrefix fun P => ∃ C, CplSizes P C := by
     obtain ⟨h1, h2, h3, -⟩ := hst p hp
     exact ⟨h1, h2, h3⟩
 
-/-- **CPL-2** (`ℒ₀` clause of O-X3-CPL). -/
-theorem wtprefix_cplL0 : WTPrefix (OX3CplBodyV.{u} .L0) := by
-  intro d hd γ hγ
-  obtain ⟨η₀, hη₀, H⟩ := wtprefix_cplSizes d hd γ hγ
-  refine ⟨η₀, hη₀, fun η hη φin hφin τstar hτ φ hsol => ?_⟩
-  obtain ⟨C₁, hC₁, ν₀, hν₀, H⟩ := H η hη φin hφin τstar hτ φ hsol
-  refine ⟨C₁, hC₁, ν₀, hν₀, fun ν hν => ?_⟩
-  obtain ⟨δ₀, hδ₀, H⟩ := H ν hν
-  refine ⟨δ₀, hδ₀, fun δ hδ D hD htime => ?_⟩
-  obtain ⟨C₂, hC₂, L₀, hL₀, H⟩ := H δ hδ D hD htime
-  refine ⟨C₂, hC₂, L₀, hL₀, fun L hL => ?_⟩
-  obtain ⟨C, hS⟩ := H L hL
-  exact cplL0_body _ C hS
-
 end WaveTurbulence.Cpl

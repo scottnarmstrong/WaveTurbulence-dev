@@ -3,7 +3,8 @@ module
 
 public import WaveTurbulence.Foundations.SumintPar.SourceFactorTerms
 public import WaveTurbulence.Foundations.SumintPar.CubicPiCutoffRescale
-public import WaveTurbulence.Foundations.SumintPar.LinearShortUnitWindow
+public import Mathlib.MeasureTheory.Integral.IntervalIntegral.Basic
+public import WaveTurbulence.Foundations.LemLin.LinearWindow
 
 /-!
 # Exact identification of every source factor with its landed lattice sum

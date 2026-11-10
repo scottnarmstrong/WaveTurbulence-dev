@@ -55,13 +55,6 @@ structure GOut (G0 G1 : Garden w) (a b : Fin w × Path) : Prop where
   pair : ∀ (ℓ : GLeaf G0.tree) (ℓ' : GLeaf G1.tree), ¬ InRegion a b ℓ.1 → ℓ.1 = ℓ'.1 →
     (G0.pair ℓ).1 = (G1.pair ℓ').1
 
-theorem rel_addrExt {a z : Fin w × Path} (h : Under a z) : z = addrExt a (z.2.drop a.2.length) := by
-  obtain ⟨h1, r, hr⟩ := h
-  rcases z with ⟨j, s⟩
-  simp only at h1 hr
-  subst h1
-  simp only [addrExt, ← hr, List.drop_left]
-
 section Layering
 variable {LB : LayeredGarden w} {M : Garden w} {Q : RegCpl} {LQ : LayeredGarden 2} {a b : Fin w × Path} {p : ℕ}
 

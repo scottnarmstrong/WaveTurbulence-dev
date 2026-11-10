@@ -27,14 +27,6 @@ theorem min_add_le_add_min {u v w : ℝ} (hu : 0 ≤ u) (hv : 0 ≤ v) (hw : 0 �
     · rw [min_eq_right (le_of_not_ge huv), min_eq_right (le_of_not_ge huw)]
       exact min_le_right _ _
 
-theorem min_mul_le_mul_min {u v c : ℝ} (hu : 0 ≤ u) (hc : 1 ≤ c) :
-    min u (c*v) ≤ c*min u v := by
-  by_cases huv : u ≤ v
-  · rw [min_eq_left huv]
-    exact (min_le_left _ _).trans (by nlinarith only [mul_nonneg hu (sub_nonneg.mpr hc)])
-  · rw [min_eq_right (le_of_not_ge huv)]
-    exact min_le_right _ _
-
 /-- The product exponents can be asymmetric; this is used to integrate the
 zero rational arc separately from the nonzero numerator contribution. -/
 theorem min_rpow_le_rpow_mul {u v d a : ℝ} (hu : 0 ≤ u) (hv : 0 ≤ v)

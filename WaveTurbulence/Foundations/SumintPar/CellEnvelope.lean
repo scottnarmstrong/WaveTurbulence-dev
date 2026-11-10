@@ -93,20 +93,6 @@ theorem tsum_lintegral_derivMajorant_le (d K n : ℕ) (hK : d < K) {B : ℝ} (hB
           (localizedDerivativeFactor_nonneg d n)) hB) (inverseSpatialWeight_nonneg K x)))).symm
     _ = _ := by rw [integral_const_mul]
 
-theorem lintegral_fourierEnvelope (d : ℕ) :
-    (∫⁻ ξ : Mom d, ENNReal.ofReal ((2 : ℝ) ^ (d + 1 - 1) * (1 + 2 ^ (d + 1)) *
-        (1 + ‖ξ‖) ^ (-((d + 1 : ℕ) : ℝ)))) =
-      ENNReal.ofReal (Fourier.fourierL1Constant (Mom d) (d + 1)) := by
-  have henv : Integrable (fun ξ : Mom d => (1 + ‖ξ‖) ^ (-((d + 1 : ℕ) : ℝ))) :=
-    integrable_one_add_norm (by simp [Mom])
-  have hnn : ∀ ξ : Mom d, 0 ≤ (2 : ℝ) ^ (d + 1 - 1) * (1 + 2 ^ (d + 1)) *
-      (1 + ‖ξ‖) ^ (-((d + 1 : ℕ) : ℝ)) := fun ξ => by positivity
-  rw [← ofReal_integral_eq_lintegral_ofReal ((henv.const_mul _)) (ae_of_all _ hnn)]
-  congr 1
-  rw [integral_const_mul]
-  unfold Fourier.fourierL1Constant
-  ring
-
 /-- The summed cell constant only improves with the decay order. -/
 theorem summedCellFourierFactor_mono {d K : ℕ} (hK : d + 1 ≤ K) :
     summedCellFourierFactor d K ≤ summedCellFourierFactor d (d + 1) := by

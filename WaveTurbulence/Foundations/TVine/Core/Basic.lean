@@ -35,12 +35,6 @@ variable {V : Type*} [DecidableEq V]
 theorem ext {G H : UMultigraph V} (hv : G.verts = H.verts) (hm : ∀ e, G.mult e = H.mult e) : G = H := by
   cases G; cases H; simp only at hv; subst hv; congr; funext e; exact hm e
 
-theorem ext_iff' {G H : UMultigraph V} : G = H ↔ G.verts = H.verts ∧ ∀ e, G.mult e = H.mult e :=
-  ⟨fun h => h ▸ ⟨rfl, fun _ => rfl⟩, fun h => ext h.1 h.2⟩
-
-theorem mem_verts_of_mult (G : UMultigraph V) {e : Sym2 V} (h : G.mult e ≠ 0) {x : V} (hx : x ∈ e) :
-    x ∈ G.verts := G.supp e h x hx
-
 theorem mult_eq_zero_of_left (G : UMultigraph V) {u : V} (hu : u ∉ G.verts) (w : V) : G.mult s(u, w) = 0 := by
   by_contra h; exact hu (G.supp _ h u (Sym2.mem_mk_left u w))
 
@@ -152,10 +146,6 @@ def IsTVineU (G : UMultigraph V) (j₁ j₂ : V) : Prop :=
     ∃ C : UMultigraph V, IsClosureU G j₁ j₂ C ∧ ReducesToT C
 
 /-! ## Two-edge cuts and pieces -/
-
-/-- `X` is a **2-cut side**: a nonempty proper atom set with exactly two bond copies leaving it (M4 §2.1). -/
-def TwoCutSide (G : UMultigraph V) (X : Finset V) : Prop :=
-  X ⊆ G.verts ∧ X.Nonempty ∧ X ≠ G.verts ∧ cut G X = 2
 
 /-- **Same piece** (U-reading of the pinned `Molecule.SamePiece`): no atom set with at most two bond copies
 leaving it separates `u` and `w`. An equivalence relation by definition. On a block (all degrees even,

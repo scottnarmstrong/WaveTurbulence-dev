@@ -46,17 +46,6 @@ theorem isTorusPeriodic_torusSeries (hL : L ≠ 0) (c : (Fin d → ℤ) → ℂ)
   intro j x
   simp only [torusSeries, isTorusPeriodic_torusChar hL _ j x]
 
-theorem summable_mul_torusChar {c : (Fin d → ℤ) → ℂ} (hc : Summable fun n => ‖c n‖)
-    (x : Fin d → ℝ) : Summable fun n => c n * torusChar L n x :=
-  Summable.of_norm (hc.congr fun n => by simp)
-
-theorem hasSum_torusSeries {c : (Fin d → ℤ) → ℂ} (hc : Summable fun n => ‖c n‖)
-    (x : Fin d → ℝ) :
-    HasSum (fun n => ((L ^ ((d : ℝ) / 2) : ℝ) : ℂ)⁻¹ * c n * torusChar L n x)
-      (torusSeries L c x) := by
-  simp only [mul_assoc]
-  exact (summable_mul_torusChar hc x).hasSum.mul_left _
-
 theorem continuous_torusSeries {c : (Fin d → ℤ) → ℂ} (hc : Summable fun n => ‖c n‖) :
     Continuous (torusSeries L c) :=
   continuous_const.mul (continuous_tsum (fun n => continuous_const.mul (continuous_torusChar L n))
@@ -84,13 +73,6 @@ theorem torusFourierCoeff_torusSeries (hL : 0 < L) {c : (Fin d → ℤ) → ℂ}
   rw [tsum_eq_single n (fun m hm => by simp [hm])]
   simp only [ite_true]
   field_simp
-
-/-- A smooth periodic function is the series of its coefficients. -/
-theorem torusSeries_torusFourierCoeff (hL : 0 < L) {f : (Fin d → ℝ) → ℂ} (hf : ContDiff ℝ ∞ f)
-    (hp : IsTorusPeriodic L f) : torusSeries L (torusFourierCoeff L f) = f := by
-  funext x
-  exact (hasSum_torusSeries (summable_norm_torusFourierCoeff hL hf hp) x).unique
-    (hasSum_torusFourier_series hL hf hp x)
 
 /-! ### Smoothness -/
 

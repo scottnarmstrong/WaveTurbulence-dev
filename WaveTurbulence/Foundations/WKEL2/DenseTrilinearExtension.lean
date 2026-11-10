@@ -52,30 +52,4 @@ theorem denseTrilinearExtension_apply (e : V →ₗᵢ[ℝ] E) (hd : DenseRange 
     ContinuousLinearMap.comp_apply, extendTrilinearLast,
     ContinuousLinearMap.compL_apply]
 
-/-- The dense extension does not increase the trilinear operator norm. -/
-theorem norm_denseTrilinearExtension_le (e : V →ₗᵢ[ℝ] E) (hd : DenseRange e)
-    (T : V →L[ℝ] V →L[ℝ] V →L[ℝ] F) :
-    ‖denseTrilinearExtension e hd T‖ ≤ ‖T‖ := by
-  have hpost : ‖ContinuousLinearMap.compL ℝ V (V →L[ℝ] F) (E →L[ℝ] F)
-      (denseExtensionCLM e hd)‖ ≤ 1 := by
-    apply ContinuousLinearMap.opNorm_le_bound _ zero_le_one
-    intro g
-    rw [one_mul]
-    apply ContinuousLinearMap.opNorm_le_bound _ (norm_nonneg g)
-    intro v
-    change ‖denseExtensionCLM e hd (g v)‖ ≤ ‖g‖ * ‖v‖
-    change ‖denseExtensionLM e hd (g v)‖ ≤ ‖g‖ * ‖v‖
-    exact (norm_denseExtensionLM_le e hd (g v)).trans (g.le_opNorm v)
-  dsimp only [denseTrilinearExtension]
-  apply (norm_denseExtensionCLM_apply_le e hd _).trans
-  calc
-    _ ≤ ‖denseExtensionCLM (F := E →L[ℝ] F) e hd‖ * ‖extendTrilinearLast e hd T‖ :=
-      ContinuousLinearMap.opNorm_comp_le _ _
-    _ ≤ 1 * ‖extendTrilinearLast e hd T‖ :=
-      mul_le_mul_of_nonneg_right (norm_denseExtensionCLM_le_one e hd) (norm_nonneg _)
-    _ ≤ ‖T‖ := by
-      rw [one_mul]
-      exact (ContinuousLinearMap.opNorm_comp_le _ _).trans
-        ((mul_le_mul_of_nonneg_right hpost (norm_nonneg T)).trans_eq (one_mul _))
-
 end WaveTurbulence.WKEL2

@@ -88,9 +88,6 @@ theorem port_at_most_one {X : Finset V} (π : Port2 M S X a b) {w : V} (hwa : w 
   · exact absurd ⟨hfw, hew⟩ (π.distinct w hwa hwb)
   · rfl
 
-/-- The bonds leaving / entering a region. -/
-def Leaves (X : Finset V) (e : Bond M S) : Prop := tl e ∈ X ∧ hd e ∉ X
-
 theorem port_out_unique {X : Finset V} (π : Port2 M S X a b) {e : Bond M S} (he : e ∈ portSet X)
     (hl : tl e ∈ X) : e = π.out := by
   rw [π.set_eq, mem_insert, mem_singleton] at he

@@ -124,9 +124,6 @@ noncomputable def toFullChart (hM : M.IsMolecule) (hB : M.IsBlock S a b) : FullC
     (fun _ _ g r x => Dc.core_second hB g r x)
     (fun _ _ g r x => Dc.core_sum hB g r x)
 
-theorem toFullChart_atom (hM : M.IsMolecule) (hB : M.IsBlock S a b) (i : Fin (nshape Dc.m).n) :
-    ((Dc.toFullChart hM hB).indexing.atom i).1 = ((Dc.indexing hB).atom i).1 := rfl
-
 theorem chartGroups_toFullChart (hM : M.IsMolecule) (hB : M.IsBlock S a b) :
     chartGroups (Dc.toFullChart hM hB) = Dc.cellGroups := by
   unfold chartGroups cellGroups

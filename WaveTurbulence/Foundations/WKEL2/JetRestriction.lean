@@ -37,26 +37,6 @@ local instance restrictionSpaceOp₂ (s : ℝ) (m : ℕ) : NormedSpace ℝ
     (WeightedSobolevSpace d s m →L[ℝ] WeightedSobolevSpace d s m →L[ℝ]
       WeightedSobolevSpace d s m) := inferInstance
 
-/-- Successive restrictions agree with direct restriction. -/
-theorem weightedSobolevForgetCLM_comp (s : ℝ) {m r q : ℕ} (hrm : r ≤ m) (hqr : q ≤ r)
-    (u : WeightedSobolevSpace d s m) :
-    weightedSobolevForgetCLM s r q hqr (weightedSobolevForgetCLM s m r hrm u) =
-      weightedSobolevForgetCLM s m q (hqr.trans hrm) u := by
-  have H := (denseRange_schwartzToWeightedSobolevCLM (d := d) s m).equalizer
-    ((weightedSobolevForgetCLM s r q hqr).continuous.comp
-      (weightedSobolevForgetCLM s m r hrm).continuous)
-    (weightedSobolevForgetCLM s m q (hqr.trans hrm)).continuous
-    (funext fun f => by simp only [Function.comp_def, weightedSobolevForgetCLM_schwartz])
-  exact congrFun H u
-
-/-- Restriction to the same order is the identity. -/
-theorem weightedSobolevForgetCLM_self (s : ℝ) (m : ℕ) (u : WeightedSobolevSpace d s m) :
-    weightedSobolevForgetCLM s m m le_rfl u = u := by
-  have H := (denseRange_schwartzToWeightedSobolevCLM (d := d) s m).equalizer
-    (weightedSobolevForgetCLM s m m le_rfl).continuous continuous_id
-    (funext fun f => weightedSobolevForgetCLM_schwartz s le_rfl f)
-  exact congrFun H u
-
 /-- Collision fields at every order commute with the canonical restrictions. -/
 theorem weightedSobolevForgetCLM_collision (hd : 3 ≤ d) (s : ℝ)
     (hs : (d : ℝ) / 2 - 1 < s) {m r : ℕ} (hrm : r ≤ m)

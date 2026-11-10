@@ -35,9 +35,4 @@ theorem GardenReduces.raw_reconstructs {w : ℕ} {G H : Garden w} (h : GardenRed
   | refl => exact Relation.ReflTransGen.refl
   | tail hr hs ih => exact hs.raw_reconstructs.trans ih
 
-/-- No source-construction or inverse-surgery semantics are lost by the garden carrier bridge. -/
-theorem gardenReduces_iff_reconstructs {w : ℕ} (S G : Garden w) (hS : S.IsPlain) (hG : G.IsPlain) :
-    GardenReduces G S ↔ Reconstructs (rawOfGarden S) (rawOfGarden G) :=
-  ⟨GardenReduces.raw_reconstructs,gardenReduces_of_reconstructs S G hS hG⟩
-
 end WaveTurbulence.Reg.Skeleton

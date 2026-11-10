@@ -33,9 +33,6 @@ theorem integrable_scalarSlice (p : ℝ) (hp : 1 < p) :
     (r := p) (by simpa using hp)
   simpa only [Real.norm_eq_abs, sq_abs] using h
 
-theorem scalarSliceMass_nonneg (p : ℝ) : 0 ≤ scalarSliceMass p :=
-  integral_nonneg fun _ => Real.rpow_nonneg (by positivity) _
-
 /-- Pointwise scaling identity on the scalar slice. -/
 theorem scalarSlice_scale (p t r : ℝ) (hr : 0 < r) :
     (t ^ 2 + r ^ 2) ^ (-p / 2) = r ^ (-p) * (1 + (r⁻¹ * t) ^ 2) ^ (-p / 2) := by

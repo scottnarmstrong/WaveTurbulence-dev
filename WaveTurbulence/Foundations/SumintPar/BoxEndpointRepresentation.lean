@@ -33,11 +33,6 @@ namespace WaveTurbulence.SumintPar
 @[expose] noncomputable def boxEndpointNumerator (a b u : ℝ) (ξ : Fin 3 → ℝ) : ℂ :=
   if a ≤ b then boxEndpointTerm b u ξ-boxEndpointTerm a u ξ else 0
 
-/-- The denominator is nonzero at every frequency. -/
-theorem boxEndpointDenominator_ne_zero (ξ : Fin 3 → ℝ) : boxEndpointDenominator ξ ≠ 0 := by
-  exact mul_ne_zero (mul_ne_zero (exponentialRate_ne_zero (by norm_num) _)
-    (exponentialRate_ne_zero (by norm_num) _)) (exponentialRate_ne_zero (by norm_num) _)
-
 /-- Exact rectangular Fourier endpoint representation, valid also for empty input intersections. -/
 theorem timeFourier_exponentialBox_eq_endpoint_quotient (a b u : ℝ) (ξ : Fin 3 → ℝ) :
     Fourier.timeFourier (exponentialBox a b u) ξ =

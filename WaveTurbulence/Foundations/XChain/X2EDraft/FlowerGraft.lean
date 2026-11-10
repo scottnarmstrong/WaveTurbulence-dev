@@ -125,10 +125,6 @@ theorem flAt_ne (j : Fin (2 * Pm)) : D.flAt j ≠ D.flAt (partner j) := by
 
 theorem card_pairBlock (j : Fin (2 * Pm)) : (D.pairBlock j).card = 2 := card_pair (D.flAt_ne j)
 
-theorem pairBlock_partner (j : Fin (2 * Pm)) : D.pairBlock (partner j) = D.pairBlock j := by
-  unfold pairBlock
-  rw [partner_partner, pair_comm]
-
 /-- A block is a pair block. -/
 def IsPairBlock (B : Finset (GLeaf D.base.top)) : Prop := ∃ j, B = D.pairBlock j
 
@@ -342,12 +338,6 @@ theorem eq_flLeaf_of_marked {x : GLeaf D.flowerGraft.garden.tree} (hx : D.flower
     rfl
   · simp only [h]
     rfl
-
-theorem flLeaf_injective : Function.Injective D.flLeaf := by
-  intro i j h
-  have h1 := congrArg (fun l : GLeaf D.flowerGraft.garden.tree => l.1.1) h
-  simp only [D.flLeaf_val] at h1
-  exact h1
 
 /-- **The flower graft is a flower garden.** -/
 theorem flowerGraft_isFlowerGarden : D.flowerGraft.garden.IsFlowerGarden := by

@@ -157,11 +157,6 @@ theorem mult_filter_ab (es : Edges) (a b u v : ℕ) (hu : u ≠ a) (hu' : u ≠ 
       simp [h, touches, h1, h2, hu, hu', hv, hv']
   · simp [h]
 
-theorem inEnds_of_filter {es : Edges} {p : ℕ × ℕ → Bool} {x : ℕ} (h : InEnds (es.filter p) x) :
-    InEnds es x := by
-  obtain ⟨e, he, h⟩ := h
-  exact ⟨e, (List.mem_filter.mp he).1, h⟩
-
 theorem y2_sound {H : UMultigraph V} {es : Edges} (φ : Iso H es) {a b c d : ℕ}
     (h : y2At es a b = some (c, d)) :
     ∃ H' : UMultigraph V, Y2Step H H' ∧ Nonempty (Iso H' (y2Apply es a b c d)) := by

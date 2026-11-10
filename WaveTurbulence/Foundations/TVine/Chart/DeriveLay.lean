@@ -64,8 +64,6 @@ structure Lay (M : Molecule V D) (S : Finset V) (a b : V) where
           (∃ i, i ≤ r ∧ crossBonds M (Z i) (Z (i + 1)) = 1 ∧
             ((x ∈ Z i ∧ x' ∈ Z (i + 1)) ∨ (x' ∈ Z i ∧ x ∈ Z (i + 1)))))))
 
-theorem extSpine_getD_zero (a b : V) (sp : List (Finset V)) : (extSpine a b sp).getD 0 ∅ = {b} := rfl
-
 theorem extSpine_getD_succ (a b : V) (sp : List (Finset V)) {i : ℕ} (hi : i < sp.length) :
     (extSpine a b sp).getD (i + 1) ∅ = sp[i] := by
   simp [extSpine, List.getElem?_append_left hi, hi]

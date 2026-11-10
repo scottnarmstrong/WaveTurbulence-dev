@@ -63,17 +63,4 @@ theorem chainDecorationBlocks_wf {w : ℕ} (X : RegChain) (hX : X.wf = true) (ζ
     · exact chainDecorationBlocks_wf s hX.2 _ _ e hs
 termination_by structural X
 
-theorem chainDecorationBlocks_size {w : ℕ} (X : RegChain) (ζ : ℤˣ) (a : Fin w × Path) :
-    (eraseChainCouples X).size + ((chainDecorationBlocks X ζ a).map (fun e => e.2.size)).sum = X.size := by
-  cases X with
-  | nil => rfl
-  | pair m r g i s =>
-    have hi := chainDecorationBlocks_size i (slotSign ζ m.c) (addrExt a [m.c])
-    have hs := chainDecorationBlocks_size s (slotSign (slotSign ζ m.c) m.lone)
-      (addrExt a ([m.c] ++ i.lonePath ++ [m.lone]))
-    simp only [eraseChainCouples,RegChain.size,RegCpl.size,chainDecorationBlocks,
-      List.map_append,List.map_cons,List.map_nil,List.sum_append,List.sum_cons,List.sum_nil]
-    omega
-termination_by structural X
-
 end WaveTurbulence.Reg.Skeleton

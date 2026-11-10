@@ -32,20 +32,6 @@ noncomputable def kernelNode {w d : ℕ} (L γ δ : ℝ) (LG : LayeredGarden w)
         phaseIntegral L γ δ LG.garden (kDomain LG up s) s (cosetDecoration LG.garden L k₀ κ.1) *
         ∏ ℓ ∈ inputLeaves LG.garden, (A ℓ.toNode (cosetDecoration LG.garden L k₀ κ.1 ℓ.toNode) : ℂ)
 
-/-- The layer kernel is the node kernel with profile `F (layer ·)`. -/
-theorem kernelNode_layer {w d : ℕ} (L γ δ : ℝ) (F : ℕ → Mom d → ℝ) (LG : LayeredGarden w)
-    (up : GBranch LG.garden.tree → ℝ) (s : ℝ) (k₀ : Mom d)
-    (nroot : Fin w → (Fin d → ℤ)) (nfl : Fin d → ℤ) :
-    kernelNode L γ δ LG (fun a => F (LG.layer a)) up s k₀ nroot nfl =
-      kernelK L γ δ F LG up s k₀ nroot nfl := rfl
-
-/-- The leaf-modified kernel is the node kernel with profile `H (address)`. -/
-theorem kernelNode_leaves {w d : ℕ} (L γ δ : ℝ) (H : LGSpine.LeafProfiles w d) (LG : LayeredGarden w)
-    (up : GBranch LG.garden.tree → ℝ) (s : ℝ) (k₀ : Mom d)
-    (nroot : Fin w → (Fin d → ℤ)) (nfl : Fin d → ℤ) :
-    kernelNode L γ δ LG (fun a => H a.1) up s k₀ nroot nfl =
-      LGSpine.kernelLeaves L γ δ LG H up s k₀ nroot nfl := rfl
-
 /-- The input-leaf majorant of the node kernel. -/
 noncomputable def inputNodeMajorant {w d : ℕ} (L : ℝ) (LG : LayeredGarden w)
     (A : GNode LG.garden.tree → Mom d → ℝ) (k₀ : Mom d)

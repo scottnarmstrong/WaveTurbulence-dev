@@ -96,13 +96,4 @@ theorem measurePreserving_hyperplaneChart {e a : Mom d} (he : ‖e‖ = 1) (ha :
     MeasurePreserving (hyperplaneChart he ha) :=
   (hyperplaneChart he ha).measurePreserving
 
-/-- Nonnegative hyperplane integration in fixed coordinates. -/
-theorem lintegral_hyperplaneChart {e a : Mom d} (he : ‖e‖ = 1) (ha : a ≠ 0)
-    (F : Mom d → ℝ≥0∞) :
-    ∫⁻ w : ↥(ℝ ∙ a)ᗮ, F w =
-      ∫⁻ w : ↥(ℝ ∙ e)ᗮ, F (normalReflection e a w) := by
-  have h := (measurePreserving_hyperplaneChart he ha).lintegral_comp_emb
-    (hyperplaneChart he ha).toMeasurableEquiv.measurableEmbedding (fun w => F w)
-  exact h.symm
-
 end WaveTurbulence.WKEL2

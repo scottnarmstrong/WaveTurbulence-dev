@@ -6,7 +6,6 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.VineEst.K2.GlueMain
-public import WaveTurbulence.Foundations.VineEst.K2.CrossRow
 public import WaveTurbulence.Foundations.VineEst.K2.CrossDisp
 
 /-! # W2-KIND2 EXPORT: the cross-window bound of the two-sided clamp in its consumer form

@@ -95,8 +95,6 @@ theorem gen1_succ (k : ℕ) : gen1 (k + 2) = z1 (gen1 (k + 1)) (4 * k + 3) (4 * 
   simp only [lastPair, Nat.add_one_ne_zero, if_false, Nat.add_sub_cancel]
   congr 1 <;> ring
 
-theorem gen1_one : gen1 1 = z1 tri 0 1 3 4 := rfl
-
 theorem gen1_inEnds_lt {k z : ℕ} (h : InEnds (gen1 k) z) : z < 4 * k + 3 := by
   rcases gen1_ends h with h | ⟨i, hi, h⟩ <;> omega
 

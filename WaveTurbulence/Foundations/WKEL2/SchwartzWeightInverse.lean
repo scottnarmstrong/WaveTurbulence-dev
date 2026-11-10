@@ -61,11 +61,4 @@ theorem weightedToL2CLM_injective (s : ℝ) : Function.Injective (weightedToL2CL
   apply SchwartzMap.injective_toLp 2 (volume : Measure (Mom d))
   exact h
 
-/-- A frozen Schwartz solution gives a continuous curve in the weighted Banach model. -/
-theorem continuousOn_weightedToL2CLM_of_isWKESolution (s : ℝ)
-    {f₀ : 𝓢(Mom d, ℝ)} {T : ℝ} {φ : ℝ → 𝓢(Mom d, ℝ)}
-    (hφ : IsWKESolution f₀ T φ) :
-    ContinuousOn (fun t => weightedToL2CLM s (φ t)) (Set.Icc 0 T) :=
-  (weightedToL2CLM s).continuous.comp_continuousOn hφ.1
-
 end WaveTurbulence.WKEL2

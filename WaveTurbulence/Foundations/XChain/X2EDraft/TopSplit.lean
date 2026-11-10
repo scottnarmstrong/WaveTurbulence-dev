@@ -62,10 +62,6 @@ noncomputable def freeTimeSplit :
     (freeSplitEquiv top fix).symm).symm.trans
     (finiteTimeCurry (fun j => {b : GBranch (single (top j)) // treeFix top fix j b = none}))
 
-theorem freeTimeSplit_apply (τ : {b : GBranch top // fix b = none} → ℝ) (j : Fin w)
-    (b : {b : GBranch (single (top j)) // treeFix top fix j b = none}) :
-    freeTimeSplit top fix τ j b = τ ⟨singleBranchToForest top j b.1, b.2⟩ := rfl
-
 theorem measurePreserving_freeTimeSplit : MeasurePreserving (freeTimeSplit top fix) volume volume :=
   ((measurePreserving_piCongrLeft (fun _ : {b : GBranch top // fix b = none} => (volume : Measure ℝ))
     (freeSplitEquiv top fix).symm).symm).trans

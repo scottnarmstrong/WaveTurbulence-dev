@@ -155,34 +155,6 @@ theorem removeAll_flat (G : UMultigraph V) (Us : List (SubObj V)) (hsub : ∀ U 
       rw [if_pos he₁, remCoreSum, Nat.sub_sub]
     · rfl
 
-/-- At most one member of a disjoint family has a core bond at `e`; the sum is at most `G.mult e`. -/
-theorem remCoreSum_le (G : UMultigraph V) (Us : List (SubObj V))
-    (hdisj : Us.Pairwise fun U W => Disjoint U.atoms W.atoms) (e : Sym2 V) :
-    remCoreSum G Us e ≤ G.mult e := by
-  induction Us with
-  | nil => simp [remCoreSum]
-  | cons U Us ih =>
-    rw [List.pairwise_cons] at hdisj
-    simp only [remCoreSum]
-    by_cases h0 : (U.core G).mult e = 0
-    · rw [h0, zero_add]; exact ih hdisj.2
-    · have hU := core_mult_supp G U h0
-      have hrest : remCoreSum G Us e = 0 := by
-        clear ih
-        induction Us with
-        | nil => rfl
-        | cons W Ws ihW =>
-          simp only [remCoreSum]
-          have hW0 : (W.core G).mult e = 0 := by
-            by_contra hne
-            have h1 := core_mult_supp G W hne
-            obtain ⟨x, hx⟩ : ∃ x, x ∈ e := ⟨e.out.1, Sym2.out_fst_mem e⟩
-            exact Finset.disjoint_left.mp (hdisj.1 W List.mem_cons_self) (Finset.mem_sym2_iff.mp hU x hx)
-              (Finset.mem_sym2_iff.mp h1 x hx)
-          rw [hW0, zero_add]
-          exact ihW ⟨fun W' hW' => hdisj.1 W' (List.mem_cons_of_mem _ hW'), (List.pairwise_cons.mp hdisj.2).2⟩
-      rw [hrest, add_zero]; exact core_mult_le G U e
-
 theorem remCoreSum_eq_zero (G : UMultigraph V) {Us : List (SubObj V)} {x : V} (hx : ∀ U ∈ Us, x ∉ U.atoms)
     {e : Sym2 V} (hxe : x ∈ e) : remCoreSum G Us e = 0 := by
   induction Us with

@@ -166,15 +166,6 @@ noncomputable def decSplit (hS : S.IsPlain) (hd : Disj blk) {L : ℝ} (hL : L �
       rw [Φ.glueDec_val, Φ.glue_support hd hL base z.1 (fun j => (κs j).1) j (κs j).2.2.2 x.2]
       exact clExtendIndices_apply _ _ _ x.2
 
-theorem decSplit_apply_fst (hS : S.IsPlain) (hd : Disj blk) {L : ℝ} (hL : L ≠ 0) (base : Mom d)
-    (roots : Fin w → (Fin d → ℤ)) (κ : GenDecoration S d roots 0) :
-    ((Φ.decSplit hS hd hL base roots κ).1).1 = fun y => κ.1 (Φ.node y) := rfl
-
-theorem decSplit_symm_apply (hS : S.IsPlain) (hd : Disj blk) {L : ℝ} (hL : L ≠ 0) (base : Mom d)
-    (roots : Fin w → (Fin d → ℤ)) (p : Σ z : GenDecoration Gsb d roots 0,
-      ∀ j, CLLocalDecoration (regionOf (blk j)) L base (Φ.bdry L base z.1 j)) :
-    ((Φ.decSplit hS hd hL base roots).symm p).1 = Φ.glueFun p.1.1 (fun j => (p.2 j).1) := rfl
-
 end SpliceShape
 
 end WaveTurbulence.VineB

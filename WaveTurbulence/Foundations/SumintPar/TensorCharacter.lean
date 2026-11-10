@@ -34,13 +34,6 @@ theorem continuous_tensorCharacter {ι : Type*} [Fintype ι] {d : ℕ}
   simp_rw [Real.fourierChar_apply]
   fun_prop
 
-/-- Multiplying by the tensor character preserves integrability. -/
-theorem integrable_tensorCharacter_mul {ι : Type*} [Fintype ι] {d : ℕ}
-    (p : ι → Mom d) {F : (ι → Mom d) → ℂ} (hF : Integrable F) :
-    Integrable (fun ξ => tensorCharacter p ξ*F ξ) :=
-  hF.bdd_mul (continuous_tensorCharacter p).aestronglyMeasurable
-    (ae_of_all _ (fun ξ => (norm_tensorCharacter p ξ).le))
-
 /-- No coefficient mass is lost under the tensor character. -/
 theorem integral_norm_tensorCharacter_mul {ι : Type*} [Fintype ι] {d : ℕ}
     (p : ι → Mom d) (F : (ι → Mom d) → ℂ) :

@@ -5,7 +5,8 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.Spine.SkeletonDraft.BareChainOrdinaryErasure
+public import WaveTurbulence.Foundations.Spine.SkeletonDraft.RawBarePairFactorization
+public import WaveTurbulence.Foundations.Spine.SkeletonDraft.RawChainSubtrees
 public import WaveTurbulence.Foundations.Spine.SkeletonDraft.RawBPredecessorTrace
 
 /-! # Bare-chain erasure with exact transport of every retained original branch -/

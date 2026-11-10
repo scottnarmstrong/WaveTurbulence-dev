@@ -43,17 +43,4 @@ theorem continuous_normalTimeSum {d : ℕ} (D : SumintDatum d) {L : ℝ} (hL : 0
   exact continuous_cubicLatticeSum_parameters (by positivity : 0 < 4*L) _ _ _ _ _ _ _ _ _
     (by fun_prop) (by fun_prop) (by fun_prop) (by fun_prop) (by fun_prop)
 
-/-- The source case-(c) amplitude is continuous in the actual nonnegative-exponent proof range. -/
-theorem continuous_pairGapAmplitude {d : ℕ} (D : SumintDatum d) (η : ℝ)
-    (hη : 0 ≤ 1-3*η) (a : Σ i : Fin D.S.I, Fin (D.S.m i)) :
-    Continuous (pairGapAmplitude D η a) := by
-  classical
-  unfold pairGapAmplitude
-  split_ifs
-  · apply Continuous.rpow_const
-    · fun_prop
-    · intro z
-      exact Or.inr hη
-  · exact continuous_const
-
 end WaveTurbulence.Sumint

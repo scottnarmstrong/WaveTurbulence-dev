@@ -118,18 +118,6 @@ theorem hasSum_torusFourierCoeff_mul (hL : 0 < L) {f g : (Fin d → ℝ) → ℂ
   simp_rw [hF]
   exact hsum.hasSum
 
-/-- `(f ḡ)^(n) = L^{-d/2} ∑ₘ f̂(m) conj ĝ(m - n)`, absolutely convergent. -/
-theorem hasSum_torusFourierCoeff_mul_conj (hL : 0 < L) {f g : (Fin d → ℝ) → ℂ}
-    (hf : Continuous f) (hpf : IsTorusPeriodic L f)
-    (hsf : Summable fun m => ‖torusFourierCoeff L f m‖) (hg : Continuous g) (n : Fin d → ℤ) :
-    HasSum (fun m => ((L ^ ((d : ℝ) / 2) : ℝ) : ℂ)⁻¹ *
-        (torusFourierCoeff L f m * (starRingEnd ℂ) (torusFourierCoeff L g (m - n))))
-      (torusFourierCoeff L (fun x => f x * (starRingEnd ℂ) (g x)) n) := by
-  have h := hasSum_torusFourierCoeff_mul (g := fun x => (starRingEnd ℂ) (g x)) hL hf hpf hsf
-    (continuous_conj.comp hg) n
-  simp only [torusFourierCoeff_conj, neg_sub] at h
-  exact h
-
 /-- The cubic convolution (TARGET L278, L540–L566): for continuous `L`-periodic `f, g` with
 absolutely summable coefficients and continuous `h`,
 `(f ḡ h)^(n) = L^{-d} ∑_{(n₁, n₂)} f̂(n₁) conj ĝ(n₂) ĥ(n - n₁ + n₂)`, absolutely convergent
@@ -199,28 +187,6 @@ theorem hasSum_torusFourierCoeff_mul_conj_mul (hL : 0 < L) {f g h : (Fin d → �
     exact tsum_congr fun n₁ => ((hinner n₁).tsum_eq).symm
   rw [hval]
   exact hFs.hasSum
-
-/-- The cubic convolution as a sum over the resonant set `{(n₁, n₂, n₃) : n₁ - n₂ + n₃ = n}`:
-`(f ḡ h)^(n) = L^{-d} ∑_{n₁ - n₂ + n₃ = n} f̂(n₁) conj ĝ(n₂) ĥ(n₃)` (TARGET L540–L566). -/
-theorem hasSum_torusFourierCoeff_mul_conj_mul_resonant (hL : 0 < L) {f g h : (Fin d → ℝ) → ℂ}
-    (hf : Continuous f) (hpf : IsTorusPeriodic L f)
-    (hsf : Summable fun m => ‖torusFourierCoeff L f m‖)
-    (hg : Continuous g) (hpg : IsTorusPeriodic L g)
-    (hsg : Summable fun m => ‖torusFourierCoeff L g m‖) (hh : Continuous h) (n : Fin d → ℤ) :
-    HasSum (fun p : {p : (Fin d → ℤ) × (Fin d → ℤ) × (Fin d → ℤ) // p.1 - p.2.1 + p.2.2 = n} =>
-        ((L ^ d : ℝ) : ℂ)⁻¹ * (torusFourierCoeff L f p.1.1 *
-          (starRingEnd ℂ) (torusFourierCoeff L g p.1.2.1) * torusFourierCoeff L h p.1.2.2))
-      (torusFourierCoeff L (fun x => f x * (starRingEnd ℂ) (g x) * h x) n) := by
-  let e : (Fin d → ℤ) × (Fin d → ℤ) ≃
-      {p : (Fin d → ℤ) × (Fin d → ℤ) × (Fin d → ℤ) // p.1 - p.2.1 + p.2.2 = n} :=
-    { toFun := fun q => ⟨(q.1, q.2, n - q.1 + q.2), by dsimp only; abel⟩
-      invFun := fun p => (p.1.1, p.1.2.1)
-      left_inv := fun q => rfl
-      right_inv := fun p => by
-        obtain ⟨⟨a, b, c⟩, hp⟩ := p
-        have hc : n - a + b = c := by rw [← hp]; abel
-        exact Subtype.ext (by dsimp only; rw [hc]) }
-  exact e.hasSum_iff.mp (hasSum_torusFourierCoeff_mul_conj_mul hL hf hpf hsf hg hpg hsg hh n)
 
 /-- The coefficients of the NLS nonlinearity `|f|² f` (TARGET L278) for smooth `L`-periodic `f`:
 `(|f|² f)^(n) = L^{-d} ∑_{(n₁, n₂)} f̂(n₁) conj f̂(n₂) f̂(n - n₁ + n₂)`, absolutely convergent. -/

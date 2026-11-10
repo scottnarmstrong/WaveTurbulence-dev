@@ -449,9 +449,6 @@ noncomputable def flowerGraftEquiv (Pm p : ℕ) (ζ : ℤˣ) :
       obtain ⟨C, hC⟩ := exists_base LG hH hfl
       exact ⟨invData C hC, Subtype.ext (invData_flowerGraft C hC)⟩)
 
-theorem flowerGraftEquiv_apply (Pm p : ℕ) (ζ : ℤˣ) (D : FlowerGraftData Pm p ζ) :
-    (flowerGraftEquiv Pm p ζ D).1 = D.flowerGraft := rfl
-
 /-! ## Truncation -/
 
 section Trunc

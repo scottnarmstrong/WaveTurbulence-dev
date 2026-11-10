@@ -64,9 +64,4 @@ theorem selectedCoordinateCharacter_split_symm {ι : Type*} [Fintype ι] {r : �
     (Real.fourierChar (-∑ j, z.1 j*ξ j):ℂ)
   simp_rw [selectedCoordinateSplit_symm_selected]
 
-/-- The selected-coordinate Fourier character has unit norm. -/
-theorem norm_selectedCoordinateCharacter {ι : Type*} {r : ℕ}
-    (v : Fin r → ι) (ξ : Fin r → ℝ) (u : ι → ℝ) : ‖selectedCoordinateCharacter v ξ u‖ = 1 :=
-  Circle.norm_coe _
-
 end WaveTurbulence.SumintPar

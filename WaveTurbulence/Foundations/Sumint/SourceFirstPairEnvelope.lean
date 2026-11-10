@@ -26,13 +26,6 @@ namespace WaveTurbulence.Sumint
     ((16*sourceHalfScale L γ δ)^(-p)*Cs*(4*L)^(2*d)+
       K*Cm*(4*L)^(2*(d:ℝ)-2*((d:ℝ)-1)*(1-γ)+η))
 
-/-- The literal envelope is nonnegative for the source coefficient signs. -/
-theorem firstPairEnvelope_nonneg (d : ℕ) {L δ Cs Cm K : ℝ} (hL : 0 < L) (hδ : 0 < δ)
-    (hCs : 0 ≤ Cs) (hCm : 0 ≤ Cm) (hK : 0 ≤ K) (γ η p : ℝ) :
-    0 ≤ firstPairEnvelope d L γ δ η p Cs Cm K := by
-  unfold firstPairEnvelope sourceHalfScale
-  positivity
-
 /-- Actual distinguished linear mass times the first-pair envelope has a uniform bad-block gain. -/
 theorem exists_source_first_pair_envelope_linear_bound (d : ℕ) (hd : 3 ≤ d) {γ η p : ℝ}
     (hγ : γ ∈ Ioo (0:ℝ) 1) (hη : η ≤ gammaBase γ) (hp : 7/8 ≤ p)

@@ -229,9 +229,4 @@ theorem ox2Exp_body.{u} (Pm : ℕ) (P : WTParams) (C : ℝ) (hS : X2Sizes Pm P C
 theorem oX2Exp.{u} : OX2Exp.{u} :=
   wtprefixP_x2Sizes.mono fun Pm P ⟨C, hS⟩ => ox2Exp_body Pm P C hS
 
-/-- **X3 closed**: B1.3 `fixedpoint` from the gates B1.12, B1.2 and B1.5 alone (O-X2-EXP and O-X3-CPL proved). -/
-theorem fixedpoint_of_closed_gates.{u} (hG : LayergardenFlowerGate) (hL : Gates.LayergardenGate)
-    (hW : Gates.WkeTaylorGate) : Gates.FixedpointGate.{u} :=
-  Fixedpt.fixedpoint_of_gates hG oX2Exp hL hW oX3Cpl
-
 end WaveTurbulence.X2E

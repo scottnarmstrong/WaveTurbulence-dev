@@ -5,7 +5,11 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.WKEL2.LossOneInfrastructure
+public import WaveTurbulence.Foundations.WKEL2.LossOneSpherical
+public import WaveTurbulence.Foundations.WKEL2.SineMassEstimate
+public import WaveTurbulence.Foundations.WKEL2.NonnegativeSquare
+public import WaveTurbulence.Foundations.WKEL2.RaySample
+public import WaveTurbulence.Foundations.WKEL2.ResonantSupport
 public import WaveTurbulence.Foundations.WKEL2.PairSliceBound
 
 /-!

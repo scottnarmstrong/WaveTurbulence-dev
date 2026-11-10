@@ -48,31 +48,10 @@ theorem toNLS (h : IsASolution L γ δ T c a) : NLS.IsAkSolution L γ δ T c a :
 
 theorem ofNLS (h : NLS.IsAkSolution L γ δ T c a) : IsASolution L γ δ T c a := h
 
-theorem initial (h : IsASolution L γ δ T c a) : a 0 = c := h.1
-
-theorem hasDerivWithinAt (h : IsASolution L γ δ T c a) {t : ℝ} (ht : t ∈ Icc 0 T)
-    (n : Fin d → ℤ) :
-    HasDerivWithinAt (fun s => a s n)
-      (aNonlin L γ δ 1 t (a t) (fun m => (starRingEnd ℂ) (a t m)) (a t) n) (Icc 0 T) t :=
-  h.2.2 t ht n
-
-/-- A solution on `[0, T]` is a solution on every `[0, T']`, `T' ≤ T` (glue list, delta-stage-3 O5). -/
-theorem mono (h : IsASolution L γ δ T c a) {T' : ℝ} (hT' : T' ≤ T) : IsASolution L γ δ T' c a := by
-  obtain ⟨h0, ⟨C, hC⟩, hD⟩ := h
-  exact ⟨h0, ⟨C, fun t ht n => hC t ⟨ht.1, ht.2.trans hT'⟩ n⟩,
-    fun t ht n => (hD t ⟨ht.1, ht.2.trans hT'⟩ n).mono (Icc_subset_Icc le_rfl hT')⟩
-
 /-- **Uniqueness** in the class (landed `NLS.IsAkSolution.eq_of_eq`). -/
 theorem unique (hL : 0 < L) {b : ℝ → (Fin d → ℤ) → ℂ} (ha : IsASolution L γ δ T c a)
     (hb : IsASolution L γ δ T c b) : ∀ t ∈ Icc 0 T, a t = b t :=
   NLS.IsAkSolution.eq_of_eq hL ha hb
-
-/-- **The integral form** `a_n(t) = c_n + ∫_0^t 𝒞₊(a, ā, a)_n` (landed `eq_add_integral`). -/
-theorem eq_add_integral (hL : 0 < L) (ha : IsASolution L γ δ T c a) {t : ℝ} (ht : t ∈ Icc 0 T)
-    (n : Fin d → ℤ) :
-    a t n = c n + ∫ s in (0 : ℝ)..t,
-      aNonlin L γ δ 1 s (a s) (fun m => (starRingEnd ℂ) (a s m)) (a s) n :=
-  NLS.IsAkSolution.eq_add_integral hL ha ht n
 
 /-- **Mass conservation** `∑_n |a_n(t)|² = ∑_n |c_n|²` (landed `tsum_normSq_eq`; glue list). -/
 theorem tsum_normSq_eq (hL : 0 < L) (ha : IsASolution L γ δ T c a) {t : ℝ} (ht : t ∈ Icc 0 T) :
@@ -165,51 +144,8 @@ theorem prob_ge (h : AnsatzAt P μ g a Fev R E Et p) :
 theorem isASolution (h : AnsatzAt P μ g a Fev R E Et p) {ω : Ω} (hω : ω ∈ Fev p) :
     IsASolution P.L P.γ P.δ p (initialCoeff P.L P.φin g ω) (a ω) := (h.1.2.2.2.2.1 ω hω).1
 
-theorem eq_of_isASolution (h : AnsatzAt P μ g a Fev R E Et p) {ω : Ω} (hω : ω ∈ Fev p)
-    {b : ℝ → (Fin P.d → ℤ) → ℂ} (hb : IsASolution P.L P.γ P.δ p (initialCoeff P.L P.φin g ω) b) :
-    ∀ t ∈ Icc (0 : ℝ) p, b t = a ω t := (h.1.2.2.2.2.1 ω hω).2 b hb
-
 theorem measurable (h : AnsatzAt P μ g a Fev R E Et p) {t : ℝ} (ht : t ∈ Icc (0 : ℝ) p)
     (n : Fin P.d → ℤ) : Measurable fun ω => a ω t n := h.1.2.2.2.2.2.1 t ht n
-
-theorem integrable_prod (h : AnsatzAt P μ g a Fev R E Et p) (r : ℕ) (t : Fin r → Icc (0 : ℝ) p)
-    (n : Fin r → (Fin P.d → ℤ)) (ζ : Fin r → ℤˣ) :
-    Integrable (fun ω => ∏ j, zpowSign (ζ j) (a ω (t j) (n j))) (μ.restrict (Fev p)) :=
-  h.1.2.2.2.2.2.2 r t n ζ
-
-theorem remainder_bound (h : AnsatzAt P μ g a Fev R E Et p) :
-    SNormR (P.Lambda p) (P.Lambda p) (R p) ≤ ENNReal.ofReal (P.L ^ (-P.theta p)) := h.2.1.1
-
-theorem error_bound (h : AnsatzAt P μ g a Fev R E Et p) (n : Fin P.d → ℤ) :
-    |E p n| ≤ jbr (latticePoint P.L n) ^ (-(P.Lambda p : ℝ)) * Real.exp (-(P.N p : ℝ)) :=
-  h.2.1.2.1 n
-
-theorem two_point (h : AnsatzAt P μ g a Fev R E Et p) (n n' : Fin P.d → ℤ) :
-    ∫ ω in Fev p, a ω p n * (starRingEnd ℂ) (a ω p n') ∂μ =
-      if n = n' then ((P.φ (P.δ * p) (latticePoint P.L n) + R p (latticePoint P.L n) + E p n : ℝ)
-        : ℂ) else 0 := h.2.1.2.2 n n'
-
-theorem two_point_intermediate (h : AnsatzAt P μ g a Fev R E Et p) (hp : 1 ≤ p) {t : ℝ}
-    (ht : t ∈ Icc ((p : ℝ) - 1) p) (n : Fin P.d → ℤ) :
-    |(∫ ω in Fev p, ‖a ω t n‖ ^ 2 ∂μ) - P.φ (P.δ * t) (latticePoint P.L n)| ≤
-      2 * P.L ^ (-P.theta p) := h.2.2.1 hp t ht n
-
-theorem cumulant_expansion (h : AnsatzAt P μ g a Fev R E Et p) {m : ℕ} (hm : 2 ≤ m)
-    (hmR : m ≤ P.R p) {ζ : Fin (2 * m) → ℤˣ} (hζ : ∑ j, ((ζ j : ℤˣ) : ℤ) = 0)
-    (n : Fin (2 * m) → (Fin P.d → ℤ)) :
-    jointCumulant (μ.restrict (Fev p)) (fun j ω => zpowSign (ζ j) (a ω p (n j))) Finset.univ =
-        (∑ N ∈ Finset.range (P.N p + 1), truncSum P (inputsF P R) p N (p : ℝ) ζ n) +
-          Et p m ζ n ∧
-      (∑ j, ((ζ j : ℤˣ) : ℤ) • n j ≠ 0 → Et p m ζ n = 0) ∧
-      ‖Et p m ζ n‖ ≤ (∏ j, jbr (latticePoint P.L (n j))) ^ (-(P.Lambda p : ℝ)) *
-        Real.exp (-(P.N p : ℝ)) := h.2.2.2.1 m hm hmR ζ hζ n
-
-theorem order_bound (h : AnsatzAt P μ g a Fev R E Et p) {m : ℕ} (hm : 2 ≤ m) (hmR : m ≤ P.R p)
-    {ζ : Fin (2 * m) → ℤˣ} (hζ : ∑ j, ((ζ j : ℤˣ) : ℤ) = 0) (n : Fin (2 * m) → (Fin P.d → ℤ))
-    {N : ℕ} (hN : N ≤ P.N p) :
-    ‖truncSum P (inputsF P R) p N (p : ℝ) ζ n‖ ≤
-      (∏ j, jbr (latticePoint P.L (n j))) ^ (-(P.Lambda p : ℝ)) *
-        P.L ^ (-((m : ℝ) - 1) / 6) * P.δ ^ (P.ν * N) := h.2.2.2.2 m hm hmR ζ hζ n N hN
 
 end AnsatzAt
 
@@ -218,58 +154,6 @@ end AnsatzAt
 section Cumulant
 
 variable {Ω ι : Type*} [MeasurableSpace Ω] [DecidableEq ι]
-
-theorem jointCumulant_eq_cumulant (μ : Measure Ω) (X : ι → Ω → ℂ) (s : Finset ι) :
-    jointCumulant μ X s = cumulant μ X s := rfl
-
-theorem jointCumulant_empty (μ : Measure Ω) (X : ι → Ω → ℂ) : jointCumulant μ X ∅ = 1 :=
-  cumulant_empty μ X
-
-theorem jointCumulant_singleton (μ : Measure Ω) (X : ι → Ω → ℂ) (i : ι) :
-    jointCumulant μ X {i} = ∫ ω, X i ω ∂μ := cumulant_singleton μ X i
-
-theorem jointCumulant_mul (μ : Measure Ω) (X : ι → Ω → ℂ) (c : ι → ℂ) (s : Finset ι) :
-    jointCumulant μ (fun j ω => c j * X j ω) s = (∏ j ∈ s, c j) * jointCumulant μ X s :=
-  cumulant_mul μ X c s
-
-/-- **Moment–cumulant inversion** (T (eqncm2)). -/
-theorem integral_prod_eq_sum_jointCumulant (μ : Measure Ω) (X : ι → Ω → ℂ) (s : Finset ι)
-    (hs : s.Nonempty) :
-    (∫ ω, ∏ j ∈ s, X j ω ∂μ) = ∑ P : Finpartition s, ∏ A ∈ P.parts, jointCumulant μ X A :=
-  integral_prod_eq_sum_cumulant μ X s hs
-
-/-- **Gauge vanishing** (cumulants of gauge-covariant variables with nonzero total charge vanish). -/
-theorem jointCumulant_eq_zero_of_gauge_invariant {μ : Measure Ω} {X : ι → Ω → ℂ}
-    (hX : ∀ j, Measurable (X j)) (q : ι → ℝ)
-    (hinv : ∀ θ : ℝ, μ.map (fun ω j => X j ω) =
-      μ.map (fun ω j => Complex.exp (Complex.ofReal (q j * θ) * Complex.I) * X j ω))
-    (s : Finset ι) (hq : (∑ j ∈ s, q j) ≠ 0) : jointCumulant μ X s = 0 :=
-  cumulant_eq_zero_of_gauge_invariant hX q hinv s hq
-
-/-- **Translation vanishing** (momentum conservation in cumulants). -/
-theorem jointCumulant_eq_zero_of_translation_invariant {d : ℕ} {μ : Measure Ω} {X : ι → Ω → ℂ}
-    (hX : ∀ j, Measurable (X j)) (q : ι → Fin d → ℝ)
-    (hinv : ∀ x : Fin d → ℝ, μ.map (fun ω j => X j ω) =
-      μ.map (fun ω j => Complex.exp (Complex.ofReal (∑ l, q j l * x l) * Complex.I) * X j ω))
-    (s : Finset ι) (hq : (∑ j ∈ s, q j) ≠ 0) : jointCumulant μ X s = 0 :=
-  cumulant_eq_zero_of_translation_invariant hX q hinv s hq
-
-/-- Cumulants depend only on the joint law. -/
-theorem jointCumulant_congr_map {Ω' : Type*} [MeasurableSpace Ω'] {μ : Measure Ω}
-    {ν : Measure Ω'} {X : ι → Ω → ℂ} {Y : ι → Ω' → ℂ} (hX : ∀ j, Measurable (X j))
-    (hY : ∀ j, Measurable (Y j)) (hmap : μ.map (fun ω j => X j ω) = ν.map (fun ω j => Y j ω))
-    (s : Finset ι) : jointCumulant μ X s = jointCumulant ν Y s :=
-  cumulant_congr_map hX hY hmap s
-
-open scoped Classical in
-/-- **The products formula** (Leonov–Shiryaev; T Prop `propertycm`). -/
-theorem jointCumulant_prod {J : Type*} [DecidableEq J] (μ : Measure Ω) (X : J → Ω → ℂ)
-    (I : Finset ι) (S : ι → Finset J) (hS : (I : Set ι).PairwiseDisjoint S)
-    (hne : ∀ i ∈ I, (S i).Nonempty) :
-    jointCumulant μ (fun i ω => ∏ j ∈ S i, X j ω) I =
-      ∑ P ∈ (Finset.univ : Finset (Finpartition (I.biUnion S))).filter
-        (IsIrreduciblePartition I S), ∏ B ∈ P.parts, jointCumulant μ X B :=
-  cumulant_prod μ X I S hS hne
 
 end Cumulant
 

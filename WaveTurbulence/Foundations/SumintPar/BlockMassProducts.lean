@@ -48,13 +48,4 @@ theorem prod_block_masses (S : SumintShape)
   rw [Finset.prod_mul_distrib,Finset.prod_mul_distrib,prod_normalMassInBlock]
   rw [Fintype.prod_sigma]
 
-/-- Every source block can be bounded after regrouping; no global conclusion is assumed. -/
-theorem prod_masses_le_block_product (S : SumintShape)
-    (F : Fin S.I → ℝ≥0∞) (P : (Σ i : Fin S.I, Fin (S.m i)) → ℝ≥0∞)
-    (N : {i : Fin S.I // S.nor i = true} → ℝ≥0∞) (B : Fin S.I → ℝ≥0∞)
-    (hB : ∀ i, F i*(∏ j : Fin (S.m i), P ⟨i,j⟩)*normalMassInBlock S N i ≤ B i) :
-    (∏ i, F i)*(∏ a, P a)*(∏ i, N i) ≤ ∏ i, B i := by
-  rw [prod_block_masses]
-  exact Finset.prod_le_prod (fun i _ => hB i)
-
 end WaveTurbulence.SumintPar

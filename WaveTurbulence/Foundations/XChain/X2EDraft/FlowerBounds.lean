@@ -51,15 +51,6 @@ variable (Q : WTParams) {Ω : Type*} [MeasurableSpace Ω] (μ : Measure Ω) [IsP
     {Pm : ℕ} {ζ : ℤˣ} {tops : Fin (2 * Pm) → FTree} (hFl : ∀ j, tops j ≠ FTree.flower)
     (hsign : ∀ j, (tops j).sign = ζ) (hR : (nfLeaves tops).card ≤ 2 * Q.R p)
 
-theorem norm_topCoefK_le (pat : FixPat) (dagger : Option (Fin 3 → Mom Q.d)) (cut1 cut2 : Option ℕ) (t s : ℝ)
-    (hc : |coupling Q.d Q.L Q.γ Q.δ| ≤ 1) (κ : GNode (ftop tops) → (Fin Q.d → ℤ)) :
-    ‖topCoefK Q.L Q.γ Q.δ p pat dagger cut1 cut2 t s tops κ‖ ≤ 1 := by
-  unfold topCoefK
-  rw [norm_prod]
-  refine prod_le_one₀ (fun _ _ => norm_nonneg _) fun j _ => ?_
-  rw [norm_zpowSign]
-  exact norm_fkCoef_le Q.L Q.γ Q.δ p pat dagger cut1 cut2 t s hc _ _
-
 omit [IsProbabilityMeasure μ] in
 include ha hL hδ hsmall' hC hF hFl hsign hR in
 /-- **The order tail at a partition with the pair blocks**, for a coefficient weight `‖c‖ W^{−Λ/2} ≤ K W^{−2b}`. -/

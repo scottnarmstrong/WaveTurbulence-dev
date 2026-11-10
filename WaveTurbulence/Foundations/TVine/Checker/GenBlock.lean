@@ -87,8 +87,6 @@ def placeOne (es : Edges) (X Y J₁ J₂ : ℕ) : Edges := eraseOne es X Y ++ [(
 theorem placeJ_two (es : Edges) (n x₁ y₁ x₂ y₂ : ℕ) :
     placeJ es n (.two x₁ y₁ x₂ y₂) = placeTwo es x₁ y₁ n x₂ y₂ (n + 1) := rfl
 
-theorem placeJ_one (es : Edges) (n x y : ℕ) : placeJ es n (.one x y) = placeOne es x y n (n + 1) := rfl
-
 /-- Indicator of a pair. -/
 def ind (u v x y : ℕ) : ℕ := if s(u, v) = s(x, y) then 1 else 0
 
@@ -127,9 +125,6 @@ theorem mult_placeOne {es : Edges} {X Y J₁ J₂ : ℕ} (h : mult es X Y ≠ 0)
 
 theorem ind_swap (u v x y : ℕ) : ind u v x y = ind u v y x := by
   unfold ind; rw [Sym2.eq_swap (a := x)]
-
-theorem ind_comm (u v x y : ℕ) : ind u v x y = ind v u x y := by
-  unfold ind; rw [Sym2.eq_swap (a := u)]
 
 theorem inEnds_placeTwo {es : Edges} {X₁ Y₁ J₁ X₂ Y₂ J₂ : ℕ} (h : Removable2 es X₁ Y₁ X₂ Y₂) (z : ℕ) :
     InEnds (placeTwo es X₁ Y₁ J₁ X₂ Y₂ J₂) z ↔ InEnds es z ∨ z = J₁ ∨ z = J₂ := by

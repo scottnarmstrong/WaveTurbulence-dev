@@ -39,13 +39,4 @@ theorem two_gammaBase_le_gammaWeight {d : ℕ} (hd : 2 ≤ d) {γ : ℝ}
   have hm := mul_nonneg (sub_nonneg.mpr (show 1 ≤ (d : ℝ) - 1 by linarith)) hp
   nlinarith
 
-/-- A small square-root loss leaves a fixed positive fraction of the basic weight gain. -/
-theorem reserved_weight_gain {d : ℕ} (hd : 2 ≤ d) {γ η : ℝ}
-    (hγ : γ ∈ Set.Ioo (0 : ℝ) 1) (hη : 0 ≤ η)
-    (hs : Real.sqrt η ≤ gammaBase γ / 100) :
-    gammaBase γ / 10 ≤ (gammaWeight d γ - Real.sqrt η) / 10 := by
-  have hm := two_gammaBase_le_gammaWeight hd hγ
-  have hp := gammaBase_pos hγ
-  linarith
-
 end WaveTurbulence.Sumint

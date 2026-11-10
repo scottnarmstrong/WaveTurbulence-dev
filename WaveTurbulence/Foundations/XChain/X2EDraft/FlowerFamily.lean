@@ -187,34 +187,6 @@ theorem integrable_norm_famFlowerTerm_pow (k k' : Fin P.d → ℤ) :
         (fun _ => k) (fun _ => k')
   exact hc.re.congr (ae_of_all _ fun ω => Complex.ofReal_re _)
 
-include hG ha hrapid hL hδ hsmall hC hF hΛ hS hM hcoef hPm hNR in
-/-- **The `2P`-th moment identity of a family of flower terms, under `AnsatzAt`.** -/
-theorem integral_norm_famFlowerTerm_pow_eq (k k' : Fin P.d → ℤ) :
-    (((∫ ω in Fev p, ‖famFlowerTerm S coefOf (a ω p) k k'‖ ^ (2 * Pm) ∂μ : ℝ)) : ℂ) =
-      ∑ tops : Fin (Pm + Pm) → ↥S, ∑ Q : Finpartition (nfLeaves (fun j => (tops j).1)),
-        ((∑' κ : FlowerForestDec (fun j => (tops j).1) P.d (fun _ => k) (fun _ => k'),
-            flowerKerIntegrand P.L P.γ P.δ (inputsF P R) (altSig Pm) (fun j => (tops j).1)
-              (fun j => coefOf (tops j).1) Q p (P.N p) κ) +
-          flowerError (μ.restrict (Fev p)) P.L P.γ P.δ (inputsF P R) (altSig Pm) (fun j => (tops j).1)
-            (fun j => coefOf (tops j).1) Q (fun ω => a ω p) p (P.N p) (fun _ => k) (fun _ => k')) := by
-  have hI (tops : Fin (Pm + Pm) → ↥S) : Integrable (fun ω => ∏ j, zpowSign (altSig Pm j)
-      (flowerTerm (tops j).1 (coefOf (tops j).1) (a ω p) k k')) (μ.restrict (Fev p)) :=
-    integrable_prod_flowerTerms P μ g hG a Fev R E Et p ha hrapid hL hδ hsmall C hC hF hΛ
-      (fun j => (tops j).1) (fun j => coefOf (tops j).1) (fun j => hcoef _) (altSig Pm)
-      (tuple_nfLeaves_nonempty S hS Pm hPm tops) (tuple_nfLeaves_card_le P p S M hM Pm hNR tops)
-      (fun _ => k) (fun _ => k')
-  have h1 : (fun ω => (((‖famFlowerTerm S coefOf (a ω p) k k'‖ ^ (2 * Pm) : ℝ)) : ℂ)) =
-      fun ω => ∑ tops : Fin (Pm + Pm) → ↥S, ∏ j, zpowSign (altSig Pm j)
-        (flowerTerm (tops j).1 (coefOf (tops j).1) (a ω p) k k') :=
-    funext fun ω => norm_famFlowerTerm_pow_eq S coefOf (a ω p) k k' Pm
-  rw [← integral_complex_ofReal, h1, integral_finsetSum _ fun tops _ => hI tops]
-  refine sum_congr rfl fun tops _ => ?_
-  have h := integral_prod_flowerTerms_eq P μ g hG a Fev R E Et p ha hrapid hL hδ hsmall C hC hF hΛ
-    (fun j => (tops j).1) (fun j => coefOf (tops j).1) (fun j => hcoef _) (altSig Pm)
-    (tuple_nfLeaves_nonempty S hS Pm hPm tops) (tuple_nfLeaves_card_le P p S M hM Pm hNR tops)
-    (fun _ => k) (fun _ => k')
-  exact h
-
 end Family
 
 end WaveTurbulence.X2E

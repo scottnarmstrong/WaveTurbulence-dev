@@ -5,7 +5,7 @@ Authors: Scott Armstrong
 -/
 module
 
-public import WaveTurbulence.Foundations.Spine.SkeletonDraft.OpenGraphHistories
+public import WaveTurbulence.Foundations.Spine.SkeletonDraft.OpenGraphEmbedding
 
 /-! # Local component contraction leaves every external ambient port unchanged -/
 

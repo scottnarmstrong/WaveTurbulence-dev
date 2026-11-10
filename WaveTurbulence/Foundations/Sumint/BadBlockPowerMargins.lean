@@ -29,18 +29,6 @@ theorem bad_pair_weyl_reserve {d : ℕ} (hd : 3 ≤ d) {γ : ℝ}
     (show 0 ≤ 1-γ by linarith [hγ.2])
   nlinarith only [hb,hm]
 
-/-- The fractional first-pair stationary term retains half a basic bad-block gain. -/
-theorem case_c_stationary_reserve {γ η : ℝ} (hγ : γ ∈ Set.Ioo (0:ℝ) 1)
-    (hη : η ≤ 1/12) : gammaBase γ / 2 ≤ γ*(1-6*η) := by
-  have hb : gammaBase γ ≤ γ := min_le_left _ _
-  have hm := mul_nonneg hγ.1.le (show 0 ≤ 1/2-6*η by linarith only [hη])
-  nlinarith only [hb,hm]
-
-/-- Comparing a strong bad estimate and the pair incoherence estimate keeps both gains. -/
-theorem bad_incoherence_comparison_reserve (γ β : ℝ) :
-    (9/10:ℝ)*(gammaBase γ/2)+(1/10:ℝ)*(-gammaBase γ+β/2) ≥
-      gammaBase γ/4+β/20+gammaBase γ/10 := by ring_nf; exact le_rfl
-
 /-- The numerical source weight budget pays every case-(d) block and still decays in both counts. -/
 theorem bad_weight_total_reserve {d : ℕ} (hd : 2 ≤ d) {γ η : ℝ}
     (hγ : γ ∈ Set.Ioo (0:ℝ) 1) (hs : Real.sqrt η ≤ gammaBase γ/8)

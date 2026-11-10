@@ -92,18 +92,6 @@ section Zp
 variable {p : ℕ} {kind : Bool} {pstar : ι} {J : Set ι} [Fintype ι] [DecidableEq ι]
   {A : FamilyReconstruction w ι} {sp0 : SplitAt A.skeleton A.family pstar J} {hA : IsPrimeGarden A.skeleton}
 
-/-- The exceptional couple row of every state of `Zp(A)` is plain (`ZpSurj.coherent`). -/
-theorem rowQ_zp {d : ℕ} (hZ : ZpSurj p kind pstar J A sp0 hA) (κ : KPar d) {b : ST w ι pstar J}
-    (hb : b ∈ zpFinset p kind pstar J A sp0 hA) :
-    rowQ κ b.1 pstar = KQstar κ.L κ.γ κ.δ κ.F (sigStar b.1 pstar).2.1 :=
-  rowQ_eq_of_zp κ (hZ.coherent b hb).1
-
-/-- The exceptional tree row of every state of `Zp(A)` is plain (`ZpSurj.coherent`). -/
-theorem rowT_zp {d : ℕ} (hZ : ZpSurj p kind pstar J A sp0 hA) (κ : KPar d) {b : ST w ι pstar J}
-    (hb : b ∈ zpFinset p kind pstar J A sp0 hA) :
-    rowT κ b.1 pstar = KTstar κ.L κ.γ κ.δ κ.F (sigStar b.1 pstar).2.2 :=
-  rowT_eq_of_zp κ (hZ.coherent b hb).2
-
 end Zp
 
 end WaveTurbulence.VineEst

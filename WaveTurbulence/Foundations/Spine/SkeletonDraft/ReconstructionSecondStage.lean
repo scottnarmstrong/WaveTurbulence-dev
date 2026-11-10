@@ -32,11 +32,4 @@ noncomputable def ReconstructionData.secondStage {w : ℕ} {S : Garden w}
   tree_wf := fun _ => rfl
   couple_wf := fun p => D.decorations_wf hS _ (decorationAt_mem _ _ _)
 
-theorem ReconstructionData.secondStage_frame {w : ℕ} {S : Garden w}
-    (D : ReconstructionData S) (hS : S.IsPlain) (p : SourcePair (D.barePart.garden hS)) :
-    let e := decorationAt (D.decorations hS) p.1 (List.mem_toFinset.mp
-      ((D.barePart_pairs_eq_frames hS) ▸ p.2))
-    e.1 = p.1 ∧ e.2 = (D.secondStage hS).couple p :=
-  ⟨decorationAt_frame _ _ _,rfl⟩
-
 end WaveTurbulence.Reg.Skeleton

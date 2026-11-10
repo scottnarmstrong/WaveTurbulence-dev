@@ -84,7 +84,4 @@ theorem ExcDatum.rootB (hD : ExcDatum s ε Q X LQ LX) :
   graftC (exc_embM (s := s) (ε := ε) Q hD.hQ).indep exc_embB (exc_embM Q hD.hQ) (exc_gout Q hD.hQ)
     hD.dQ hD.rootA hD.rootB
 
-theorem midG_garden (hD : ExcDatum s ε Q X LQ LX) :
-    (midG hD).garden = (s.midData ε Q hD.hQ).garden (s.chosen_plain ε) := rfl
-
 end WaveTurbulence.ZpSurj

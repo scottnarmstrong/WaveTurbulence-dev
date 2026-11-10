@@ -68,8 +68,6 @@ theorem eE_add (a b : ℝ) : eE (a + b) = eE a * eE b := by
   rw [AddChar.map_add_eq_mul]
   simp
 
-theorem eE_zero : eE 0 = 1 := by unfold eE; simp
-
 /-- Shift and phase do not change the transform's modulus. -/
 theorem norm_fT_shift {F : ℝ → ℂ} (c : ℝ) {ph : ℂ} (hph : ‖ph‖ = 1) (l : ℝ) :
     ‖fT (fun t => ph * F (t - c)) l‖ = ‖fT F l‖ := by

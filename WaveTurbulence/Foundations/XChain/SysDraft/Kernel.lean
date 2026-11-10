@@ -50,11 +50,6 @@ theorem KG_congr_inputs {F F' : ℕ → Mom d → ℝ} (LG : LayeredGarden w) (t
     KG L γ δ F LG t n = KG L γ δ F' LG t n :=
   kernelK_congr_inputs L γ δ LG _ _ _ _ _ h
 
-theorem KQ_congr_inputs {F F' : ℕ → Mom d → ℝ} (LG : LayeredGarden 2) (t : ℝ) (k : Mom d)
-    (h : ∀ a : GNode LG.garden.tree, F (LG.layer a) = F' (LG.layer a)) :
-    KQ L γ δ F LG t k = KQ L γ δ F' LG t k :=
-  kernelK_congr_inputs L γ δ LG _ _ _ _ _ h
-
 /-- **Locality of `truncSum`:** `𝒦^tr_q` uses only the inputs `F_0, …, F_{q-1}`. -/
 theorem truncSum_congr_inputs (P : WTParams) {F F' : ℕ → Mom P.d → ℝ} (q N : ℕ) {w : ℕ} (t : ℝ)
     (ζ : Fin w → ℤˣ) (n : Fin w → (Fin P.d → ℤ)) (h : ∀ r < q, F r = F' r) :
@@ -66,29 +61,11 @@ theorem truncSum_congr_inputs (P : WTParams) {F F' : ℕ → Mom P.d → ℝ} (q
   · exact KG_congr_inputs _ _ _ LG t n fun a =>
       h _ (Nat.lt_succ_of_le (Canon.layer_le_of_isCanonGC hLG.1 a))
 
-/-- **Locality of `truncSumC`.** -/
-theorem truncSumC_congr_inputs (P : WTParams) {F F' : ℕ → Mom P.d → ℝ} (q N : ℕ) (t : ℝ)
-    (k : Mom P.d) (h : ∀ r < q, F r = F' r) :
-    truncSumC P F q N t k = truncSumC P F' q N t k := by
-  unfold truncSumC
-  refine finsum_congr fun LG => finsum_congr fun hLG => ?_
-  rcases q with _ | p
-  · exact absurd hLG.1 (by simp [IsCanonC])
-  · exact KQ_congr_inputs _ _ _ LG t k fun a =>
-      h _ (Nat.lt_succ_of_le (Canon.layer_le_of_isCanonC hLG.1 a))
-
 /-- `truncSum (inputsF P R) q` depends only on `R_0, …, R_{q-1}`. -/
 theorem truncSum_inputsF_congr (P : WTParams) {R R' : ℕ → Mom P.d → ℝ} (q N : ℕ) {w : ℕ} (t : ℝ)
     (ζ : Fin w → ℤˣ) (n : Fin w → (Fin P.d → ℤ)) (h : ∀ r < q, R r = R' r) :
     truncSum P (inputsF P R) q N t ζ n = truncSum P (inputsF P R') q N t ζ n :=
   truncSum_congr_inputs P q N t ζ n fun r hr => by
-    funext k
-    simp only [inputsF, h r hr]
-
-theorem truncSumC_inputsF_congr (P : WTParams) {R R' : ℕ → Mom P.d → ℝ} (q N : ℕ) (t : ℝ)
-    (k : Mom P.d) (h : ∀ r < q, R r = R' r) :
-    truncSumC P (inputsF P R) q N t k = truncSumC P (inputsF P R') q N t k :=
-  truncSumC_congr_inputs P q N t k fun r hr => by
     funext k
     simp only [inputsF, h r hr]
 
@@ -99,22 +76,6 @@ end Locality
 section Summability
 
 variable (L γ δ : ℝ) {d w : ℕ}
-
-/-- For a plain garden (no marked leaves; every `𝒢^tr_q`, `𝒞^tr_q`), the decoration sum of
-`K_𝒢(t, n⃗)` converges absolutely when the inputs have summable lattice values. -/
-theorem summable_KG_summand (F : ℕ → Mom d → ℝ) (LG : LayeredGarden w)
-    (hplain : LG.garden.IsPlain) (t : ℝ) (n : Fin w → (Fin d → ℤ))
-    (hF : ∀ r, Summable fun m : Fin d → ℤ => |F r (latticePoint L m)|) :
-    Summable fun κ : GenDecoration LG.garden d n 0 =>
-      ‖(epsDec LG.garden κ.1 : ℂ) *
-        phaseIntegral L γ δ LG.garden (kDomain LG (fun _ => t) 0) 0
-          (cosetDecoration LG.garden L 0 κ.1) *
-        ∏ ℓ ∈ inputLeaves LG.garden,
-          (F (LG.layer ℓ.toNode) (cosetDecoration LG.garden L 0 κ.1 ℓ.toNode) : ℂ)‖ := by
-  have hnl : ∀ ℓ, ¬ LG.garden.IsLone ℓ := fun ℓ h => by simp [Garden.IsLone, hplain ℓ] at h
-  refine summable_kernelK_summand L γ δ F LG _ 0 0 n 0 (fun j => ?_) fun ℓ _ => ?_
-  · simp [hnl]
-  · simpa only [zero_add] using hF (LG.layer ℓ.toNode)
 
 end Summability
 
@@ -157,20 +118,6 @@ theorem Garden.sum_sig_eq_zero (G : Garden w) (hG : G.IsPlain) : ∑ j, ((G.sig 
     rw [G.pair_sign ℓ hne, Units.val_neg]
   have h2 : ∑ ℓ : GLeaf G.tree, ((nodeSign G.sig ℓ.1 : ℤˣ) : ℤ) = 0 := by linarith
   rw [Finset.sum_congr rfl fun j _ => hroot j, hpart, h2]
-
-/-- **Gauge vanishing:** `𝒦^tr_q(t; ζ⃗, n⃗) = 0` unless `∑_j ζ_j = 0`. -/
-theorem truncSum_eq_zero_of_sum_sig_ne_zero (P : WTParams) (F : ℕ → Mom P.d → ℝ) (q N : ℕ)
-    (t : ℝ) (ζ : Fin w → ℤˣ) (n : Fin w → (Fin P.d → ℤ)) (hζ : ∑ j, ((ζ j : ℤˣ) : ℤ) ≠ 0) :
-    truncSum P F q N t ζ n = 0 := by
-  classical
-  unfold truncSum
-  refine finsum_eq_zero_of_forall_eq_zero fun LG => ?_
-  rw [finsum_eq_if]
-  split_ifs with hLG
-  · rcases q with _ | p
-    · exact absurd hLG.1 (by simp [IsCanonGC])
-    · exact absurd (hLG.2.2.1 ▸ Garden.sum_sig_eq_zero LG.garden hLG.1.1) hζ
-  · rfl
 
 end Gauge
 

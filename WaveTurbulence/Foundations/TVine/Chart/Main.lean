@@ -6,7 +6,7 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.TVine.Chart.GlueChart
-public import WaveTurbulence.Foundations.TVine.Chart.Family
+public import WaveTurbulenceVineParam.VineParamMain
 
 /-!
 # The generic chart theorem (M4 Theorem C)
@@ -32,9 +32,5 @@ theorem tvineChart_of_decomp (h : DecompExists) : TVineChartStatement := by
   intro V D _ _ _ M hM S a b hT
   obtain ⟨Dc, hg⟩ := h V D M hM S a b hT
   exact ⟨Dc.toFullChart hM hT.1, by rw [Dc.chartGroups_toFullChart hM hT.1, hg]⟩
-
-/-- **The `𝒱_γ` chart contract from the cell decompositions.** -/
-theorem vineGammaChart_of_decomp (h : DecompExists) : VineGammaChartStatement :=
-  vineGammaChart_of_tvine (tvineChart_of_decomp h).exists
 
 end WaveTurbulence.TVine.Chart

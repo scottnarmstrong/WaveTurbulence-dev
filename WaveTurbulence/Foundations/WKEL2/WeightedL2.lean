@@ -38,11 +38,6 @@ theorem weightedL2Norm_sq (s : ℝ) (f : Mom d → ℝ) :
     (weightedL2Norm s f) ^ 2 = ∫ k, (weightedFunction s f k) ^ 2 :=
   Real.sq_sqrt (integral_nonneg fun _ => sq_nonneg _)
 
-/-- The squared integral is genuinely integrable for weighted L² inputs. -/
-theorem integrable_weighted_square (s : ℝ) (f : Mom d → ℝ)
-    (hf : MemLp (weightedFunction s f) 2) : Integrable (fun k => (weightedFunction s f k) ^ 2) :=
-  hf.integrable_sq
-
 /-- Nonnegative lower-integral expression for the frozen norm squared. -/
 theorem ofReal_weightedL2Norm_sq (s : ℝ) (f : Mom d → ℝ)
     (hf : MemLp (weightedFunction s f) 2) :
@@ -57,24 +52,6 @@ theorem measurable_weightedFunction (s : ℝ) {f : Mom d → ℝ} (hf : Measurab
     Measurable (weightedFunction s f) := by
   have hb : Continuous (fun k : Mom d => 1 + ‖k‖ ^ 2) := by fun_prop
   exact (hb.rpow_const (fun _ => Or.inl (by positivity))).measurable.mul hf
-
-/-- Taking absolute values preserves weighted L² membership. -/
-theorem memLp_weighted_abs (s : ℝ) {f : Mom d → ℝ} (hf : MemLp (weightedFunction s f) 2) :
-    MemLp (weightedFunction s (fun k => |f k|)) 2 := by
-  refine MemLp.ae_eq (Filter.Eventually.of_forall fun k => ?_) (MemLp.norm hf)
-  rw [weightedFunction, norm_mul, Real.norm_of_nonneg (Real.rpow_nonneg (by positivity) _),
-    Real.norm_eq_abs]
-  rfl
-
-/-- Absolute values leave the frozen norm unchanged. -/
-theorem weightedL2Norm_abs (s : ℝ) (f : Mom d → ℝ) :
-    weightedL2Norm s (fun k => |f k|) = weightedL2Norm s f := by
-  unfold weightedL2Norm
-  congr 1
-  apply integral_congr_ae
-  exact Filter.Eventually.of_forall fun k => by
-    dsimp only
-    rw [mul_pow, mul_pow, sq_abs]
 
 /-- Generic real L² norm identity, avoiding any project-specific change of norm. -/
 theorem sqrt_integral_sq_eq_norm_toLp {α : Type*} [MeasurableSpace α]

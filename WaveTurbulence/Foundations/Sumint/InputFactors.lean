@@ -45,18 +45,4 @@ abbrev FactorIdx (S : SumintShape) := Fin S.I ⊕ (Σ i : Fin S.I, Fin (S.m i)) 
     (S.VIdx → α) ≃ ((a : FactorIdx S) → FactorInput S α a) :=
   (inputGroupingEquiv S α).trans (factorGroupingEquiv S α)
 
-/-- Linear factor evaluation uses exactly x0. -/
-theorem inputFactorEquiv_linear (S : SumintShape) {α : Type*} (x : S.VIdx → α) (i : Fin S.I) :
-    inputFactorEquiv S α x (.inl i) = x (S.x0Slot i) := rfl
-
-/-- Pair factor evaluation uses exactly the x/y pair. -/
-theorem inputFactorEquiv_pair (S : SumintShape) {α : Type*} (x : S.VIdx → α)
-    (p : Σ i : Fin S.I, Fin (S.m i)) :
-    inputFactorEquiv S α x (.inr (.inl p)) = (x (S.xSlot p.1 p.2),x (S.ySlot p.1 p.2)) := rfl
-
-/-- Cubic factor evaluation uses exactly the normal triple. -/
-theorem inputFactorEquiv_normal (S : SumintShape) {α : Type*} (x : S.VIdx → α)
-    (i : {i : Fin S.I // S.nor i = true}) (j : Fin 3) :
-    inputFactorEquiv S α x (.inr (.inr i)) j = x (S.uSlot i.1 i.2 j) := rfl
-
 end WaveTurbulence.Sumint

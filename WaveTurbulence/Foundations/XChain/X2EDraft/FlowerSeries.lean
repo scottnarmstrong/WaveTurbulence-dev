@@ -132,10 +132,6 @@ noncomputable def flowerForestEquiv (tops : Fin w → FTree) {d : ℕ} (n n' : F
   right_inv a := funext fun j => Subtype.ext (congrFun ((forestDecorationEquiv (ftop tops) n).apply_symm_apply
     (fun j => (a j).1)) j)
 
-theorem flowerForestEquiv_val (tops : Fin w → FTree) {d : ℕ} (n n' : Fin w → (Fin d → ℤ))
-    (κ : FlowerForestDec tops d n n') (j : Fin w) (a : GNode (single (tops j).toTree)) :
-    (flowerForestEquiv tops n n' κ j).1.1 a = κ.1.1 (singleNodeToForest (ftop tops) j a) := rfl
-
 /-- Flower forest decorations are determined by their non-flower leaf labels. -/
 theorem flowerForestDec_eq_of_nf (tops : Fin w → FTree) {d : ℕ} {n n' : Fin w → (Fin d → ℤ)}
     (κ κ' : FlowerForestDec tops d n n') (h : ∀ l ∈ nfLeaves tops, κ.1.1 l.toNode = κ'.1.1 l.toNode) :

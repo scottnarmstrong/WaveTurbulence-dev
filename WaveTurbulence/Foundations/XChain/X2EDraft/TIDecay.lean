@@ -26,8 +26,6 @@ open Finset MeasureTheory Set Induct SysAPI Fixedpt
 
 /-! ## One variable -/
 
-theorem norm_exp_ofReal_mul_I' (x : ℝ) : ‖Complex.exp ((x : ℂ) * Complex.I)‖ = 1 := Complex.norm_exp_ofReal_mul_I x
-
 theorem norm_integral_indicator_exp_le {S : Set ℝ} (hS : S.OrdConnected) (hb : BddBelow S) (ha : BddAbove S)
     {θ : ℝ} (hθ : θ ≠ 0) :
     ‖∫ u, S.indicator (fun u : ℝ => Complex.exp (((θ * u : ℝ) : ℂ) * Complex.I)) u‖ ≤ 2 / |θ| := by

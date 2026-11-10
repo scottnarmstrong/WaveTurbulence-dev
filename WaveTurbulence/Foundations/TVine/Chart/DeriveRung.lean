@@ -60,13 +60,6 @@ theorem inAt_eq_out {X : Finset V} (pt : Port2 M S X a b) {u w : V} (huw : u ≠
     · exact h1 h2
     · exact h h3
 
-theorem inAt_eq_inn {X : Finset V} (pt : Port2 M S X a b) {u w : V} (huw : u ≠ w) (hE : InEnds pt u w)
-    (h : tl (inAt pt u) = u) : inAt pt u = pt.inn := by
-  unfold inAt at *
-  split_ifs at h ⊢ with h1
-  · exfalso; have h2 := pt.out_tl; have h3 := pt.out_hd; rw [h] at h2; rw [h1] at h3; exact h3 h2
-  · rfl
-
 theorem outAt_eq_out {X : Finset V} (pt : Port2 M S X a b) {u w : V} (huw : u ≠ w) (hE : OutEnds pt u w)
     (h : ¬ hd (outAt pt u) = u) : outAt pt u = pt.out := by
   unfold outAt at *

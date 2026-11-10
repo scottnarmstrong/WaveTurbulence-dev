@@ -156,14 +156,6 @@ theorem ext_child_crown (u : CLBlock S) {v : GBranch S.tree} (hv : v ∈ u.atoms
   · exact Or.inr (Or.inl rfl)
   · exact Or.inr (Or.inr rfl)
 
-/-- The children of an atom other than the two joints are in the realization. -/
-theorem interior_child (u : CLBlock S) {v : GBranch S.tree} (hv : v ∈ u.atoms) (ha : v ≠ u.upper)
-    (hb : v ≠ u.lower) (i : Fin 3) : v.child i ∈ clRealizationNodes S u.atoms := by
-  by_contra hx
-  rcases ext_child u hv i hx with ⟨h, -⟩ | ⟨h, -⟩
-  · exact ha h
-  · exact hb h
-
 /-- An external child of an atom other than the upper joint is a child of the lower joint. -/
 theorem ext_child_lower (u : CLBlock S) {v : GBranch S.tree} (hv : v ∈ u.atoms) (ha : v ≠ u.upper) (i : Fin 3)
     (hx : v.child i ∉ clRealizationNodes S u.atoms) :
@@ -187,9 +179,6 @@ theorem crown_desc (u : CLBlock S) {x : GNode S.tree} (hx : x ∈ crownSet u) : 
 theorem crown_ne_upper (u : CLBlock S) {x : GNode S.tree} (hx : x ∈ crownSet u) : x ≠ u.upper.toNode := by
   rintro rfl
   exact crown_not_real u hx (upper_real u)
-
-theorem parent_isDesc (x : GNode S.tree) (hn : x.1.2 ≠ []) : (x.parent hn).toNode.IsDesc x :=
-  ⟨rfl, List.dropLast_prefix _⟩
 
 theorem not_isDesc_parent (x : GNode S.tree) (hn : x.1.2 ≠ []) : ¬ x.IsDesc (x.parent hn).toNode := by
   rintro ⟨-, h⟩

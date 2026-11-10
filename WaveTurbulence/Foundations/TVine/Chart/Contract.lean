@@ -66,8 +66,6 @@ def uSlot (A : Shape bad) (hn : bad = false) (j : Fin 3) : Fin A.n :=
 /-- The de-indexed shape of a drawn shape. -/
 def ofVine {X : VineType} (A : VineParamContract.Shape X) : Shape X.IsBad := ⟨A.m⟩
 
-theorem ofVine_n {X : VineType} (A : VineParamContract.Shape X) : (ofVine A).n = A.n := rfl
-
 end Shape
 
 variable {V D : Type*} [DecidableEq V] [Fintype D]
@@ -162,10 +160,6 @@ def Indexing.ofVine {M : Molecule V D} {X : VineType} {S : Finset V} {a b : V}
   atom := A.atom
   lower := A.lower
 
-theorem nodeResonance_ofVine {d : ℕ} {M : Molecule V D} {X : VineType} {S : Finset V} {a b : V}
-    (A : VineParamContract.Indexing M X S a b) (k : Bond M S → Mom d) (g r : Mom d) (i : Fin A.shape.n) :
-    nodeResonance (Indexing.ofVine A) k g r i = VineParamContract.nodeResonance A k g r i := rfl
-
 /-- **Every drawn-vine chart of main is a de-indexed chart** (`bad := X.IsBad`). -/
 def ofVineChart {M : Molecule V D} {X : VineType} {S : Finset V} {a b : V}
     (F : FullVineChart M X S a b) : FullChart M X.IsBad S a b where
@@ -207,10 +201,6 @@ def ofVineChart {M : Molecule V D} {X : VineType} {S : Finset V} {a b : V}
   core_second_phase := F.core_second_phase
   core_sum_phase := F.core_sum_phase
 
-theorem ofVineChart_atom {M : Molecule V D} {X : VineType} {S : Finset V} {a b : V}
-    (F : FullVineChart M X S a b) (i : Fin F.indexing.shape.n) :
-    ((ofVineChart F).indexing.atom i).1 = (F.indexing.atom i).1 := rfl
-
 /-! ## The chart statements -/
 
 /-- **Theorem C** (M4 §3.2, the piece chart; with the referee's repair R1), with groups: every T-vine, with
@@ -230,13 +220,5 @@ theorem TVineChartStatement.exists (h : TVineChartStatement) : TVineChartExists 
   intro V D _ _ _ M hM S a b hT
   obtain ⟨F, -⟩ := h V D M hM S a b hT
   exact ⟨F⟩
-
-/-- **The family-generic chart contract for `𝒱_γ`** (PLAN §3 row L4): every member of the `γ`-dependent vine
-family has a de-indexed full chart, bad for the bad vines (I), (II) and normal otherwise. -/
-def VineGammaChartStatement : Prop :=
-  ∀ (γ : ℝ) (V D : Type) [DecidableEq V] [Fintype D] [DecidableEq D] (M : Molecule V D), M.IsMolecule →
-    ∀ (S : Finset V) (a b : V), M.IsVineGamma γ S a b →
-      (M.IsBadVine S a b → Nonempty (FullChart M true S a b)) ∧
-        (¬ M.IsBadVine S a b → Nonempty (FullChart M false S a b))
 
 end WaveTurbulence.TVine.Chart

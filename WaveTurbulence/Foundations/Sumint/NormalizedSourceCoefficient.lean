@@ -28,14 +28,6 @@ theorem sourceWeightDecay_pos {d : ℕ} (D : SumintDatum d) {L : ℝ} (hL : 0 < 
     (a b : D.S.VIdx → Fin d → ℤ) (ξ : (D.S.VIdx ⊕ D.S.VIdx) → Mom d) : ℂ :=
   (((sourceWeightDecay D L γ η)⁻¹:ℝ):ℂ)*sourceCoefficient D a b ξ
 
-/-- Restoring the source decay recovers the original spatial Fourier coefficient exactly. -/
-theorem sourceWeightDecay_mul_normalizedSourceCoefficient {d : ℕ} (D : SumintDatum d)
-    {L : ℝ} (hL : 0 < L) (γ η : ℝ) (a b : D.S.VIdx → Fin d → ℤ)
-    (ξ : (D.S.VIdx ⊕ D.S.VIdx) → Mom d) :
-    (sourceWeightDecay D L γ η:ℂ)*normalizedSourceCoefficient D L γ η a b ξ = sourceCoefficient D a b ξ := by
-  unfold normalizedSourceCoefficient
-  rw [← mul_assoc,← Complex.ofReal_mul,mul_inv_cancel₀ (sourceWeightDecay_pos D hL γ η).ne',Complex.ofReal_one,one_mul]
-
 /-- The normalized coefficient is genuinely integrable. -/
 theorem integrable_normalizedSourceCoefficient {d : ℕ} (hd : 1 ≤ d) (D : SumintDatum d)
     {A L γ η : ℝ} {N : ℕ} (hL : 0 < L) (hD : D.Admissible A L γ η N)

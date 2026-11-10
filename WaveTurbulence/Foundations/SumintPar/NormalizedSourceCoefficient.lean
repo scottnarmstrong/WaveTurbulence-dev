@@ -29,44 +29,10 @@ theorem sourceWeightDecay_pos {d : ℕ} (D : SumintDatum d) {L : ℝ} (hL : 0 < 
     (a b : D.S.VIdx → Fin d → ℤ) (r : Mom d) (ξ : (D.S.VIdx ⊕ D.S.VIdx) → Mom d) : ℂ :=
   (((sourceWeightDecay D L γ η)⁻¹:ℝ):ℂ)*sourceCoefficient D a b r ξ
 
-/-- Restoring the source decay recovers the original spatial Fourier coefficient exactly. -/
-theorem sourceWeightDecay_mul_normalizedSourceCoefficient {d : ℕ} (D : SumintDatum d)
-    {L : ℝ} (hL : 0 < L) (γ η : ℝ) (a b : D.S.VIdx → Fin d → ℤ) (r : Mom d)
-    (ξ : (D.S.VIdx ⊕ D.S.VIdx) → Mom d) :
-    (sourceWeightDecay D L γ η:ℂ)*normalizedSourceCoefficient D L γ η a b r ξ = sourceCoefficient D a b r ξ := by
-  unfold normalizedSourceCoefficient
-  rw [← mul_assoc,← Complex.ofReal_mul,mul_inv_cancel₀ (sourceWeightDecay_pos D hL γ η).ne',Complex.ofReal_one,one_mul]
-
 /-- The normalized coefficient is genuinely integrable. -/
 theorem integrable_normalizedSourceCoefficient {d : ℕ} (hd : 1 ≤ d) (D : SumintDatum d)
     {A L γ η : ℝ} {N : ℕ} (hL : 0 < L) (hD : D.Admissible A L γ η N)
     (a b : D.S.VIdx → Fin d → ℤ) (r : Mom d) : Integrable (normalizedSourceCoefficient D L γ η a b r) :=
   (integrable_sourceCoefficient hd D hL hD a b r).const_mul _
-
-/-- Normalization changes the actual absolute coefficient mass by exactly the reciprocal source decay. -/
-theorem integral_norm_normalizedSourceCoefficient {d : ℕ} (D : SumintDatum d)
-    {L : ℝ} (hL : 0 < L) (γ η : ℝ) (a b : D.S.VIdx → Fin d → ℤ) (r : Mom d) :
-    (∫ ξ, ‖normalizedSourceCoefficient D L γ η a b r ξ‖) =
-      (sourceWeightDecay D L γ η)⁻¹*(∫ ξ, ‖sourceCoefficient D a b r ξ‖) := by
-  simp only [normalizedSourceCoefficient,norm_mul,Complex.norm_real,Real.norm_eq_abs,
-    abs_of_pos (inv_pos.mpr (sourceWeightDecay_pos D hL γ η))]
-  exact integral_const_mul _ (fun ξ => ‖sourceCoefficient D a b r ξ‖)
-
-/-- Summing every normalized spatial Fourier coefficient costs only a constant to the actual input count. -/
-theorem tsum_normalizedSourceCoefficient_mass_le {d : ℕ} (hd : 1 ≤ d) (D : SumintDatum d)
-    {A L γ η : ℝ} {N : ℕ} (hA : 1 ≤ A) (hL : 0 < L) (hD : D.Admissible A L γ η N) (r : Mom d) :
-    (∑' a : D.S.VIdx → Fin d → ℤ,
-      ∑ b ∈ sourceAlternativeLabels D hD a,
-        ENNReal.ofReal (∫ ξ, ‖normalizedSourceCoefficient D L γ η a b r ξ‖)) ≤
-      ENNReal.ofReal ((((9:ℝ)^d*A^d)*summedCellFourierFactor d (d+1)*cellFourierFactor d)^D.S.M) := by
-  have hW := sourceWeightDecay_pos D hL γ η
-  simp_rw [integral_norm_normalizedSourceCoefficient D hL γ η _ _ r,
-    ENNReal.ofReal_mul (inv_nonneg.mpr hW.le),← Finset.mul_sum]
-  rw [ENNReal.tsum_mul_left]
-  apply (mul_le_mul' le_rfl (tsum_sourceCoefficient_mass_le hd D hA hL hD r)).trans_eq
-  rw [← ENNReal.ofReal_mul (inv_nonneg.mpr hW.le)]
-  congr 1
-  change (sourceWeightDecay D L γ η)⁻¹*(_*sourceWeightDecay D L γ η) = _
-  rw [mul_left_comm,inv_mul_cancel₀ hW.ne',mul_one]
 
 end WaveTurbulence.SumintPar

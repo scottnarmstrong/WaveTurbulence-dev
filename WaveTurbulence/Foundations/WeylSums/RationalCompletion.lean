@@ -2,7 +2,8 @@
 module
 
 public import WaveTurbulence.Foundations.WeylSums.CompleteGauss
-public import WaveTurbulence.Foundations.WeylSums.Geometric
+public import WaveTurbulence.Foundations.WeylSums.Basic
+public import Mathlib.Analysis.Normed.Group.AddCircle
 
 /-!
 # Rational completion of real quadratic phases
@@ -58,26 +59,5 @@ theorem rational_phase_completion (a x : ℤ) (q : ℕ) [NeZero q] :
     push_cast
     ring
   simpa only [hleft, hright] using h
-
-/-- Finite weighted rational completion. The weight may be complex and is
-unrestricted; no estimate on it is assumed here. -/
-theorem weighted_rational_completion (S : Finset ℤ) (w : ℤ → ℂ)
-    (a : ℤ) (q : ℕ) [NeZero q] (β r : ℝ) :
-    (∑ x ∈ S, w x * e (((a : ℝ) / q + β) * (x : ℝ) ^ 2 + r * x)) =
-      ∑ b : ZMod q, quadraticFourierCoeff (a : ZMod q) b *
-        ∑ x ∈ S, w x * e (β * (x : ℝ) ^ 2 + (r + (b.val : ℝ) / q) * x) := by
-  have hphase (x : ℤ) : ((a : ℝ) / q + β) * (x : ℝ) ^ 2 + r * x =
-      (a : ℝ) / q * (x : ℝ) ^ 2 + (β * (x : ℝ) ^ 2 + r * x) := by ring
-  simp_rw [hphase, e_add, rational_phase_completion]
-  simp only [mul_assoc, sum_mul, mul_sum]
-  rw [sum_comm]
-  apply sum_congr rfl
-  intro b _
-  apply sum_congr rfl
-  intro x _
-  simp only [← e_add]
-  rw [show (b.val : ℝ) / q * (x : ℝ) + (β * (x : ℝ) ^ 2 + r * x) =
-    β * (x : ℝ) ^ 2 + (r + (b.val : ℝ) / q) * x by ring]
-  ring
 
 end WaveTurbulence.WeylSums

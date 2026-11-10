@@ -1,7 +1,8 @@
 /- Copyright (c) 2026 Scott Armstrong. All rights reserved. -/
 module
 
-public import WaveTurbulence.Foundations.WeylSums.Geometric
+public import WaveTurbulence.Foundations.WeylSums.Basic
+public import Mathlib.Analysis.Normed.Group.AddCircle
 public import Mathlib.Analysis.Distribution.SchwartzSpace.Fourier
 public import Mathlib.Analysis.Fourier.Inversion
 

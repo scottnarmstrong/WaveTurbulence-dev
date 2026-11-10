@@ -108,10 +108,6 @@ theorem IsRungOf.swapAB {G : UMultigraph V} {j₁ j₂ a b xm xp ym yp : V} {Km 
     (h : IsRungOf G j₁ j₂ a b xm xp ym yp Km Kp) : IsRungOf G j₁ j₂ b a ym yp xm xp Km Kp :=
   ⟨h.1.swapAB, h.2.2.2.1, h.2.2.2.2, h.2.1, h.2.2.1⟩
 
-theorem IsRungOf.swapPoles {G : UMultigraph V} {j₁ j₂ a b xm xp ym yp : V} {Km Kp : Finset V}
-    (h : IsRungOf G j₁ j₂ a b xm xp ym yp Km Kp) : IsRungOf G j₁ j₂ a b xp xm yp ym Kp Km :=
-  ⟨h.1.swapPoles, h.2⟩
-
 theorem IsBlockU.swap {G : UMultigraph V} {j₁ j₂ : V} (h : IsBlockU G j₁ j₂) : IsBlockU G j₂ j₁ := by
   obtain ⟨h1, h2, h3, h4, h5, h6, h7⟩ := h
   exact ⟨h2, h1, h3.symm, h5, h4, fun v hv a b => h6 v hv b a, h7⟩

@@ -1403,7 +1403,6 @@ public import WaveTurbulence.Foundations.Stage1.Geometry.SubproSupportMK
 public import WaveTurbulence.Foundations.Stage1.Geometry.SurvConnMK
 public import WaveTurbulence.Foundations.Stage1.Producer
 public import WaveTurbulence.Foundations.Sumint.AffineCharacter
-public import WaveTurbulence.Foundations.Sumint.AffineFacts
 public import WaveTurbulence.Foundations.Sumint.AffineModulation
 public import WaveTurbulence.Foundations.Sumint.AffinePredecessor
 public import WaveTurbulence.Foundations.Sumint.AlternativeLabelFamily
@@ -1476,10 +1475,8 @@ public import WaveTurbulence.Foundations.Sumint.CubicTimeKernel
 public import WaveTurbulence.Foundations.Sumint.CubicTimeWindow
 public import WaveTurbulence.Foundations.Sumint.CubicTripleWindow
 public import WaveTurbulence.Foundations.Sumint.CubicWeylBridge
-public import WaveTurbulence.Foundations.Sumint.CutoffKernelAgreement
 public import WaveTurbulence.Foundations.Sumint.CutoffPhaseSum
 public import WaveTurbulence.Foundations.Sumint.CutoffPhaseSumRegularity
-public import WaveTurbulence.Foundations.Sumint.CutoffPhaseTranslation
 public import WaveTurbulence.Foundations.Sumint.CutoffRescale
 public import WaveTurbulence.Foundations.Sumint.DerivativeBounds
 public import WaveTurbulence.Foundations.Sumint.DerivativeSummation
@@ -1542,10 +1539,8 @@ public import WaveTurbulence.Foundations.Sumint.KernelMassBound
 public import WaveTurbulence.Foundations.Sumint.KernelPositiveFrequency
 public import WaveTurbulence.Foundations.Sumint.KernelWeightedMean
 public import WaveTurbulence.Foundations.Sumint.LatticeFacts
-public import WaveTurbulence.Foundations.Sumint.LinearShortUnitWindow
 public import WaveTurbulence.Foundations.Sumint.LinearShortWindow
 public import WaveTurbulence.Foundations.Sumint.LocalPhaseExtension
-public import WaveTurbulence.Foundations.Sumint.LocalPhaseIntegrability
 public import WaveTurbulence.Foundations.Sumint.LocalPowerBudget
 public import WaveTurbulence.Foundations.Sumint.LocalizationBox
 public import WaveTurbulence.Foundations.Sumint.LocalizationProfile
@@ -1770,7 +1765,6 @@ public import WaveTurbulence.Foundations.Sumint.SpatialTail
 public import WaveTurbulence.Foundations.Sumint.StaticMassEnvelopeReduction
 public import WaveTurbulence.Foundations.Sumint.StrictPowerAbsorption
 public import WaveTurbulence.Foundations.Sumint.StripIntegral
-public import WaveTurbulence.Foundations.Sumint.StripMeasure
 public import WaveTurbulence.Foundations.Sumint.StripMoments
 public import WaveTurbulence.Foundations.Sumint.Sumint
 public import WaveTurbulence.Foundations.Sumint.SummedFourierBounds
@@ -1787,7 +1781,6 @@ public import WaveTurbulence.Foundations.Sumint.TimeDomain
 public import WaveTurbulence.Foundations.Sumint.TimeExitMeasurability
 public import WaveTurbulence.Foundations.Sumint.TimeExits
 public import WaveTurbulence.Foundations.Sumint.TimeFactorCoordinates
-public import WaveTurbulence.Foundations.Sumint.TimeFactorFubini
 public import WaveTurbulence.Foundations.Sumint.TimeGaps
 public import WaveTurbulence.Foundations.Sumint.TouchedCoreProductBound
 public import WaveTurbulence.Foundations.Sumint.TranslatedTimeDomain
@@ -1802,7 +1795,6 @@ public import WaveTurbulence.Foundations.Sumint.WeightPartitionIdentity
 public import WaveTurbulence.Foundations.Sumint.WeightedCutoffInput
 public import WaveTurbulence.Foundations.Sumint.WeightedKernelAgreement
 public import WaveTurbulence.Foundations.Sumint.WeightedSourceExtension
-public import WaveTurbulence.Foundations.Sumint.WindowRescale
 public import WaveTurbulence.Foundations.Sumint.WindowRescaleGeneral
 public import WaveTurbulence.Foundations.Sumint.WindowRescaleTwo
 public import WaveTurbulence.Foundations.Sumint.Words
@@ -1996,7 +1988,6 @@ public import WaveTurbulence.Foundations.WKEL2.JetCollisionBanach
 public import WaveTurbulence.Foundations.WKEL2.JetCollisionCore
 public import WaveTurbulence.Foundations.WKEL2.JetDistribution
 public import WaveTurbulence.Foundations.WKEL2.JetDistributionOrder
-public import WaveTurbulence.Foundations.WKEL2.JetEstimates
 public import WaveTurbulence.Foundations.WKEL2.JetGronwallConstant
 public import WaveTurbulence.Foundations.WKEL2.JetIdentity
 public import WaveTurbulence.Foundations.WKEL2.JetIntertwining
@@ -2011,7 +2002,6 @@ public import WaveTurbulence.Foundations.WKEL2.KernelIntegrability
 public import WaveTurbulence.Foundations.WKEL2.L2DualTruncation
 public import WaveTurbulence.Foundations.WKEL2.L2Majorant
 public import WaveTurbulence.Foundations.WKEL2.LossOneBound
-public import WaveTurbulence.Foundations.WKEL2.LossOneInfrastructure
 public import WaveTurbulence.Foundations.WKEL2.LossOneSigned
 public import WaveTurbulence.Foundations.WKEL2.LossOneSpherical
 public import WaveTurbulence.Foundations.WKEL2.LossOneSquared
@@ -2094,7 +2084,6 @@ public import WaveTurbulence.Foundations.WKEL2.WeightedJets
 public import WaveTurbulence.Foundations.WKEL2.WeightedKernelLp
 public import WaveTurbulence.Foundations.WKEL2.WeightedL2
 public import WaveTurbulence.Foundations.WKEL2.WeightedL2Algebra
-public import WaveTurbulence.Foundations.WKEL2.WeightedL2Model
 public import WaveTurbulence.Foundations.WKEL2.WeightedL2Order
 public import WaveTurbulence.Foundations.WKEL2.WeightedMultiplier
 public import WaveTurbulence.Foundations.WKEL2.WeightedSobolevCoordinates
@@ -2121,7 +2110,6 @@ public import WaveTurbulence.Foundations.WeylSums.BilinearPointwise
 public import WaveTurbulence.Foundations.WeylSums.BilinearShape
 public import WaveTurbulence.Foundations.WeylSums.BilinearTensor
 public import WaveTurbulence.Foundations.WeylSums.CompactFourier
-public import WaveTurbulence.Foundations.WeylSums.CompactLatticeReduction
 public import WaveTurbulence.Foundations.WeylSums.CompactLatticeSupport
 public import WaveTurbulence.Foundations.WeylSums.CompleteGauss
 public import WaveTurbulence.Foundations.WeylSums.CoordinateBoxSupport
@@ -2150,7 +2138,6 @@ public import WaveTurbulence.Foundations.WeylSums.CubicYoungWindow
 public import WaveTurbulence.Foundations.WeylSums.CutoffFourier
 public import WaveTurbulence.Foundations.WeylSums.DerivativeContractions
 public import WaveTurbulence.Foundations.WeylSums.DiagonalBilinearSum
-public import WaveTurbulence.Foundations.WeylSums.Dirichlet
 public import WaveTurbulence.Foundations.WeylSums.DoubleParitySeries
 public import WaveTurbulence.Foundations.WeylSums.DyadicTimeIntegral
 public import WaveTurbulence.Foundations.WeylSums.FiniteAmplitudeContinuity
@@ -2159,7 +2146,6 @@ public import WaveTurbulence.Foundations.WeylSums.FiniteMeasureInterpolation
 public import WaveTurbulence.Foundations.WeylSums.FiniteParityBlocks
 public import WaveTurbulence.Foundations.WeylSums.FiniteTensorSeries
 public import WaveTurbulence.Foundations.WeylSums.FourierLatticeBound
-public import WaveTurbulence.Foundations.WeylSums.FourierTails
 public import WaveTurbulence.Foundations.WeylSums.FourierTensorReduction
 public import WaveTurbulence.Foundations.WeylSums.FourierTranslations
 public import WaveTurbulence.Foundations.WeylSums.FrozenBridge
@@ -2169,13 +2155,7 @@ public import WaveTurbulence.Foundations.WeylSums.GaussianDamping
 public import WaveTurbulence.Foundations.WeylSums.GaussianLattice
 public import WaveTurbulence.Foundations.WeylSums.GaussianPoisson
 public import WaveTurbulence.Foundations.WeylSums.GaussianSuperposition
-public import WaveTurbulence.Foundations.WeylSums.Geometric
-public import WaveTurbulence.Foundations.WeylSums.Hua
-public import WaveTurbulence.Foundations.WeylSums.HuaCutoff
-public import WaveTurbulence.Foundations.WeylSums.HuaEnergy
-public import WaveTurbulence.Foundations.WeylSums.HuaMajorization
 public import WaveTurbulence.Foundations.WeylSums.HuaOrthogonality
-public import WaveTurbulence.Foundations.WeylSums.HuaPacket
 public import WaveTurbulence.Foundations.WeylSums.IntegralCoverBound
 public import WaveTurbulence.Foundations.WeylSums.JointFourierFactors
 public import WaveTurbulence.Foundations.WeylSums.LatticeBoxes
@@ -2195,22 +2175,18 @@ public import WaveTurbulence.Foundations.WeylSums.ParityLatticeBound
 public import WaveTurbulence.Foundations.WeylSums.ParityReindex
 public import WaveTurbulence.Foundations.WeylSums.ParitySeries
 public import WaveTurbulence.Foundations.WeylSums.PolynomialTimeWeight
-public import WaveTurbulence.Foundations.WeylSums.PositiveMoments
 public import WaveTurbulence.Foundations.WeylSums.QuadExpSum2
 public import WaveTurbulence.Foundations.WeylSums.QuadExpSum3
 public import WaveTurbulence.Foundations.WeylSums.QuadraticDiagonalization
 public import WaveTurbulence.Foundations.WeylSums.RationalArcCover
 public import WaveTurbulence.Foundations.WeylSums.RationalCompletion
 public import WaveTurbulence.Foundations.WeylSums.RealArcCover
-public import WaveTurbulence.Foundations.WeylSums.Reduction
 public import WaveTurbulence.Foundations.WeylSums.RefinedMomentPowers
 public import WaveTurbulence.Foundations.WeylSums.RefinedMoments
 public import WaveTurbulence.Foundations.WeylSums.ResidueLattice
 public import WaveTurbulence.Foundations.WeylSums.ScalarBilinearBound
 public import WaveTurbulence.Foundations.WeylSums.ScaledSobolevCutoff
-public import WaveTurbulence.Foundations.WeylSums.SmoothArcEnvelope
 public import WaveTurbulence.Foundations.WeylSums.SmoothCutoff
-public import WaveTurbulence.Foundations.WeylSums.SmoothUnitMoments
 public import WaveTurbulence.Foundations.WeylSums.SobolevFourierRepresentation
 public import WaveTurbulence.Foundations.WeylSums.SobolevMultiplication
 public import WaveTurbulence.Foundations.WeylSums.ThreeVectorCount

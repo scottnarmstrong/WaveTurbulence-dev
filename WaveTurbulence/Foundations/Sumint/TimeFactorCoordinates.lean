@@ -66,13 +66,6 @@ instance (S : SumintShape) (a : FactorIdx S) : Fintype (FactorCoordinate S a) :=
   (MeasurableEquiv.piCongrLeft (fun _ => ℝ) (factorCoordinateTimeEquiv S).symm).trans
     (MeasurableEquiv.piCurry (fun (a : FactorIdx S) (_ : FactorCoordinate S a) => ℝ))
 
-/-- The grouping preserves the precise product Lebesgue measure used in the draft. -/
-theorem volume_preserving_timeCoordinateGrouping (S : SumintShape) :
-    MeasurePreserving (timeCoordinateGrouping S) volume volume := by
-  exact (volume_measurePreserving_piCurry (ι := FactorIdx S)
-    (κ := FactorCoordinate S)).comp
-      (volume_measurePreserving_piCongrLeft (fun _ => ℝ) (factorCoordinateTimeEquiv S).symm)
-
 /-- Its linear coordinate is exactly the source distinguished time. -/
 theorem timeCoordinateGrouping_linear (S : SumintShape) (τ : S.TVar → ℝ) (i : Fin S.I) :
     timeCoordinateGrouping S τ (.inl i) 0 = τ (.inl ⟨i,0⟩) := rfl

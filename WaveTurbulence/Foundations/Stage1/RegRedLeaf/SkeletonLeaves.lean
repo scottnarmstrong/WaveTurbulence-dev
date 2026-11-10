@@ -97,45 +97,4 @@ theorem kernelLeaves_skeleton_reduction_sel {w d : ℕ} {S : Garden w} (D : Reco
     exact integral_coreKernelIntegrand_starLeaves D hS L γ δ H layer hLayer tt k₀ κ.1
   · simp only [hκ, ite_false]
 
-open scoped Classical in
-/-- The plain leaf kernel in a fixed lattice coset (no restriction). -/
-theorem kernelLeaves_skeleton_reduction {w d : ℕ} {S : Garden w} (D : ReconstructionData S)
-    (hS : S.IsPlain) (L γ δ : ℝ) (H : LeafProfiles w d)
-    (layer : GNode (D.forest hS) → ℕ) (hLayer : IsLayering (D.garden hS) layer)
-    (tt : Fin w → ℝ) (k₀ : Mom d) (n : Fin w → (Fin d → ℤ)) (nfl : Fin d → ℤ)
-    (hH : ∀ ℓ ∈ inputLeaves (D.garden hS),
-      Summable fun n : Fin d → ℤ => |H ℓ.1 (k₀+latticePoint L n)|) :
-    kernelLeaves L γ δ (layeredReconstruction D hS layer hLayer) H (fun b => tt b.1.1) 0 k₀ n nfl =
-      (coupling d L γ δ : ℂ)^S.order * S.zeta *
-        ∑' κ : GenDecoration S d n nfl, (epsDec S κ.1 : ℂ) * ∫ τ : GBranch S.tree → ℝ,
-          (coreTimeDomainW (fun b => layer (D.coreBranch hS b).toNode) tt).indicator
-            (fun τ => phaseProd L γ δ S (cosetDecoration S L k₀ κ.1) τ *
-              reducedStarProductLeaves D hS L γ δ H layer hLayer tt k₀ κ.1 τ) τ := by
-  have h := kernelLeaves_skeleton_reduction_sel D hS L γ δ H layer hLayer tt k₀ n nfl hH (fun _ => True)
-  have hl : kernelLeaves L γ δ (layeredReconstruction D hS layer hLayer) H (fun b => tt b.1.1) 0 k₀ n nfl =
-      kernelLeavesSel L γ δ (layeredReconstruction D hS layer hLayer) H (fun b => tt b.1.1) 0 k₀ n nfl
-        (fun κ => (fun _ => True) (collapseGenDecoration D hS κ)) := by
-    unfold kernelLeavesSel kernelLeaves kernelLeavesTerm
-    simp only [ite_true]
-  rw [hl, h]
-  simp only [ite_true]
-
-/-- TARGET (redkg) for the leaf-modified garden kernel, tt time `p+1`, lattice base `0`:
-the leafwise form of `RegRed.KG_skeleton_reduction`. -/
-theorem KG_skeleton_reduction_leaves {w d : ℕ} {S : Garden w} (D : ReconstructionData S)
-    (hS : S.IsPlain) (L γ δ : ℝ) (H : LeafProfiles w d)
-    (layer : GNode (D.forest hS) → ℕ) (hLayer : IsLayering (D.garden hS) layer)
-    (tt : Fin w → ℝ) (n : Fin w → (Fin d → ℤ))
-    (hH : ∀ ℓ ∈ inputLeaves (D.garden hS),
-      Summable fun n : Fin d → ℤ => |H ℓ.1 (latticePoint L n)|) :
-    kernelLeaves L γ δ (layeredReconstruction D hS layer hLayer) H (fun b => tt b.1.1) 0 0 n 0 =
-      (coupling d L γ δ : ℂ)^S.order * S.zeta *
-        ∑' κ : GenDecoration S d n 0, (epsDec S κ.1 : ℂ) * ∫ τ : GBranch S.tree → ℝ,
-          (coreTimeDomainW (fun b => layer (D.coreBranch hS b).toNode) tt).indicator
-            (fun τ => phaseProd L γ δ S (cosetDecoration S L 0 κ.1) τ *
-              reducedStarProductLeaves D hS L γ δ H layer hLayer tt 0 κ.1 τ) τ := by
-  apply kernelLeaves_skeleton_reduction D hS L γ δ H layer hLayer tt 0 n 0
-  intro ℓ hℓ
-  simpa only [zero_add] using hH ℓ hℓ
-
 end WaveTurbulence.RegRedLeaf

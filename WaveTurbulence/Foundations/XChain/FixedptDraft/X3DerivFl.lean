@@ -61,11 +61,6 @@ noncomputable def splitAt' (c₀ : J) : (J → ℝ) ≃ᵐ ℝ × ({c : J // c �
   (MeasurableEquiv.piEquivPiSubtypeProd (fun _ : J => ℝ) (· = c₀)).trans
     ((MeasurableEquiv.funUnique {c : J // c = c₀} ℝ).prodCongr (MeasurableEquiv.refl _))
 
-omit [Fintype J] in
-open Classical in
-theorem splitAt'_symm_apply (c₀ : J) (z : ℝ × ({c : J // c ≠ c₀} → ℝ)) :
-    (splitAt' c₀).symm z = glueAt c₀ z.1 z.2 := rfl
-
 open Classical in
 theorem measurePreserving_splitAt' (c₀ : J) :
     MeasurePreserving (splitAt' c₀) volume ((volume : Measure ℝ).prod volume) := by
@@ -512,9 +507,6 @@ end Slices
 section Kernels
 
 variable (L γ δ : ℝ) {d : ℕ}
-
-theorem chi0_mem_Icc (x : ℝ) : chi0 x ∈ Icc (0 : ℝ) 1 :=
-  ⟨Real.smoothTransition.nonneg _, Real.smoothTransition.le_one _⟩
 
 theorem abs_treeWeight_le_one {F : FTree} (hF : F ≠ flower) (dagger : Option (Fin 3 → Mom d))
     (cut1 cut2 : Option ℕ) (κ : GNode (single F.toTree) → (Fin d → ℤ)) :

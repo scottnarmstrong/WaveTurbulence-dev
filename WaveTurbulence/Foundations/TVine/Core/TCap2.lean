@@ -393,14 +393,4 @@ theorem isTVineU_rungDel_cap {X : UMultigraph V} {p q a b xm xp ym yp : V} {Km K
   obtain ⟨C', hC', hRT'⟩ := cap_closure hT hR hap haq hbp hbq hcap μ
   exact ⟨hB', hm2', C', hC', hRT'⟩
 
-/-- **Rung deletion in a T-vine**: any rung (given by rung data, rung atoms not joints) of a T-vine can be deleted,
-with either matching, giving a T-vine with the same joints. -/
-theorem isTVineU_rungDel_any {X : UMultigraph V} {p q a b xm xp ym yp : V} {Km Kp : Finset V}
-    (hT : IsTVineU X p q) (hR : RungCore X a b xm xp ym yp Km Kp)
-    (hap : a ≠ p) (haq : a ≠ q) (hbp : b ≠ p) (hbq : b ≠ q) (μ : Bool) :
-    IsTVineU (rungDel X a b xm xp ym yp μ) p q := by
-  by_cases hcap : IsCapAt p q Km Kp
-  · exact isTVineU_rungDel_cap hT hR hap haq hbp hbq hcap μ
-  · exact isTVineU_rungDel_of_noncap hT hR hap haq hbp hbq hcap μ
-
 end WaveTurbulence.TVine.Core

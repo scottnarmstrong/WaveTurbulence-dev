@@ -55,10 +55,6 @@ structure IsRungAt (G : UMultigraph V) (a b xm xp ym yp : V) (Km Kp : Finset V) 
   a_other : ∀ z, z ≠ b → z ≠ xm → z ≠ xp → G.mult s(a, z) = 0
   b_other : ∀ z, z ≠ a → z ≠ ym → z ≠ yp → G.mult s(b, z) = 0
 
-/-- `{a, b}` is a 2-cut rung of `G` (joints ignored). -/
-def IsTwoCutRung (G : UMultigraph V) (a b : V) : Prop :=
-  ∃ xm xp ym yp : V, ∃ Km Kp : Finset V, IsRungAt G a b xm xp ym yp Km Kp
-
 /-- A 2-cut rung of the block `(G, j₁, j₂)`: both of its atoms are interior. -/
 def IsRungOf (G : UMultigraph V) (j₁ j₂ a b xm xp ym yp : V) (Km Kp : Finset V) : Prop :=
   IsRungAt G a b xm xp ym yp Km Kp ∧ a ≠ j₁ ∧ a ≠ j₂ ∧ b ≠ j₁ ∧ b ≠ j₂

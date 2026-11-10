@@ -106,16 +106,4 @@ theorem exists_jet_solution_uniform_bound_on_subintervals (hd : 3 ≤ d) (s : �
   intro t ht
   simpa only [norm_weightedSobolevLowerJetCLM_self] using H m le_rfl t ht
 
-/-- TARGET (schappend10), in particular on the full specified interval. -/
-theorem exists_jet_solution_uniform_bound (hd : 3 ≤ d) (s : ℝ)
-    (hs : (d : ℝ) / 2 - 1 < s) (m : ℕ) (T A B : ℝ)
-    (hT : 0 ≤ T) (hA : 0 ≤ A) (hB : 0 ≤ B) :
-    ∃ Q : ℝ, 0 ≤ Q ∧ ∀ u : ℝ → WeightedSobolevSpace d s m,
-      (∀ t ∈ Icc 0 T, HasDerivWithinAt u (cubicField (jetCollisionBanach hd s hs m) (u t))
-        (Icc 0 T) t) → ‖u 0‖ ≤ B →
-      (∀ t ∈ Icc 0 T, ‖weightedSobolevToL2CLM s m (u t)‖ ≤ A) →
-      ∀ t ∈ Icc 0 T, ‖u t‖ ≤ Q := by
-  let H := exists_jet_solution_uniform_bound_on_subintervals hd s hs m T A B hT hA hB
-  exact ⟨H.choose, H.choose_spec.1, H.choose_spec.2 T le_rfl⟩
-
 end WaveTurbulence.WKEL2

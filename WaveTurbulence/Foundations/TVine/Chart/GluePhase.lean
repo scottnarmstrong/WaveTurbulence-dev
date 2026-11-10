@@ -42,8 +42,6 @@ def toUnit (z : ℤ) : ℤˣ := if z = 1 then 1 else -1
 theorem toUnit_val {z : ℤ} (h : z = 1 ∨ z = -1) : ((toUnit z : ℤˣ) : ℤ) = z := by
   unfold toUnit; rcases h with rfl | rfl <;> simp
 
-theorem isUnitZ_unitCoeff {z : ℤ} (h : IsUnitZ z) : UnitCoeff z := h
-
 namespace Decomp
 
 variable {V D : Type*} [DecidableEq V] [Fintype D] {M : Molecule V D} {S : Finset V} {a b : V}

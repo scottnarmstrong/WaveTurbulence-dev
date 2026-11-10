@@ -283,24 +283,6 @@ theorem flowerKernelGen_cut1_eq_zero {F : FTree} (aP : (Fin d → ℤ) → ℂ) 
   have h2 : (0 : ℝ) < 2 ^ j * L := by positivity
   nlinarith
 
-include hL in
-/-- **The `M₁` piece of a kind vanishes off `|k/L − ζ k'/L| < ℓ_max 2^{j₁} L`**, when every tree of the kind has
-at most `ℓ_max` leaves. -/
-theorem randFlowerKernel_cut1_eq_zero (Ntr : ℕ) (aP : (Fin d → ℤ) → ℂ) (kind : FlowerKind) (pat : FixPat)
-    (dagger : Option (Fin 3 → Mom d)) (cut2 : Option ℕ) (j : ℕ) (ζ : ℤˣ) (t s : ℝ) {k k' : Fin d → ℤ}
-    {ℓmax : ℕ} (hℓ : ∀ F ∈ kindTrees Ntr kind, Fintype.card (GLeaf (single F.toTree)) ≤ ℓmax)
-    (hk : (ℓmax : ℝ) * (2 ^ j * L) ≤ ‖latticePoint L k - (ζ : ℤ) • latticePoint L k'‖) :
-    randFlowerKernel L γ δ p Ntr aP kind pat dagger (some j) cut2 ζ t s k k' = 0 := by
-  classical
-  unfold randFlowerKernel
-  refine Finset.sum_eq_zero fun F hF => ?_
-  obtain ⟨hFk, hζ, -⟩ := Finset.mem_filter.1 hF
-  refine flowerKernelGen_cut1_eq_zero L γ δ hL p aP pat dagger cut2 j t s ?_
-  rw [hζ]
-  refine le_trans ?_ hk
-  gcongr
-  exact_mod_cast hℓ F hFk
-
 end Support
 
 end WaveTurbulence.Fixedpt

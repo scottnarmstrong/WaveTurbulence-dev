@@ -29,15 +29,6 @@ theorem contDiff_of_SNorm_le {d N K : ℕ} (hN : N ≠ 0) {F : Mom d → ℂ}
   rw [he] at hF
   exact (not_le_of_gt ENNReal.ofReal_lt_top) hF
 
-/-- The zeroth multiindex is the original function. -/
-theorem iterPartial_zero {d : ℕ} (F : Mom d → ℂ) : iterPartial (0 : Fin d → ℕ) F = F := by
-  unfold iterPartial
-  have h (l : List (Fin d)) : l.foldr (fun j G => (partialMom j)^[((0 : Fin d → ℕ) j)] G) F = F := by
-    induction l with
-    | nil => rfl
-    | cons j l ih => simpa only [List.foldr_cons, Pi.zero_apply, Function.iterate_zero, id_eq] using ih
-  exact h _
-
 /-- The draft norm controls every permitted weighted coordinate derivative. -/
 theorem weighted_multiindex_norm_le_of_SNorm_le {d N K : ℕ} {F : Mom d → ℂ} {B : ℝ}
     (hB : 0 ≤ B) (hF : SNorm N K F ≤ ENNReal.ofReal B)
@@ -57,28 +48,10 @@ theorem weighted_multiindex_norm_le_of_SNorm_le {d N K : ℕ} {F : Mom d → ℂ
   have hx := (iSup_le_iff.mp hp) x
   exact (ENNReal.ofReal_le_ofReal_iff hB).mp hx
 
-/-- The zeroth word gives the literal decay of the weight. -/
-theorem weighted_norm_le_of_SNorm_le {d N K : ℕ} {F : Mom d → ℂ} {B : ℝ}
-    (hB : 0 ≤ B) (hF : SNorm N K F ≤ ENNReal.ofReal B) (x : Mom d) :
-    jbr x ^ K * ‖F x‖ ≤ B := by
-  simpa only [iterPartial_zero] using
-    weighted_multiindex_norm_le_of_SNorm_le hB hF (0 : Fin d → ℕ) (by simp) x
-
 /-- The scalar weight is at least one at every momentum. -/
 theorem one_le_jbr {d : ℕ} (x : Mom d) : 1 ≤ jbr x := by
   unfold jbr
   apply Real.le_sqrt_of_sq_le
   nlinarith [sq_nonneg ‖x‖]
-
-/-- Dropping the spatial weight gives a uniform bound on each coordinate derivative. -/
-theorem multiindex_norm_le_of_SNorm_le {d N K : ℕ} {F : Mom d → ℂ} {B : ℝ}
-    (hB : 0 ≤ B) (hF : SNorm N K F ≤ ENNReal.ofReal B)
-    (ρ : Fin d → ℕ) (hρ : ∑ j, ρ j ≤ N) (x : Mom d) :
-    ‖iterPartial ρ F x‖ ≤ B := by
-  have hp : 1 ≤ jbr x ^ K := one_le_pow₀ (one_le_jbr x)
-  have hm := mul_le_mul_of_nonneg_right hp (norm_nonneg (iterPartial ρ F x))
-  calc
-    _ ≤ jbr x ^ K * ‖iterPartial ρ F x‖ := by simpa only [one_mul] using hm
-    _ ≤ B := weighted_multiindex_norm_le_of_SNorm_le hB hF ρ hρ x
 
 end WaveTurbulence.SumintPar

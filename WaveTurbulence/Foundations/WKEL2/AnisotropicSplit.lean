@@ -50,10 +50,6 @@ theorem measurable_anisotropicNear {ℓ : Mom d} (hℓ : ℓ ≠ 0) :
     Measurable (anisotropicNear hℓ) :=
   ((measurable_axisKernel 1).indicator measurableSet_ball).comp (axisSliceEquiv hℓ).symm.measurable
 
-theorem measurable_anisotropicFar {ℓ : Mom d} (hℓ : ℓ ≠ 0) :
-    Measurable (anisotropicFar hℓ) :=
-  ((measurable_axisKernel 1).indicator measurableSet_ball.compl).comp (axisSliceEquiv hℓ).symm.measurable
-
 /-- Near integrability is uniform under rotations of the axis. -/
 theorem integrable_anisotropicNear (hd : 3 ≤ d) {ℓ : Mom d} (hℓ : ℓ ≠ 0) :
     Integrable (anisotropicNear hℓ) := by

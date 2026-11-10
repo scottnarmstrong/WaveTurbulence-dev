@@ -107,15 +107,6 @@ theorem Y2Path.reflTransGen {G G' : UMultigraph V} {ps : List (Sym2 V)} (h : Y2P
   | nil => exact .refl
   | cons hp _ ih => exact .head (y2Step_iff.mpr ⟨_, _, _, _, hp, rfl⟩) ih
 
-theorem Y2Path.append {G₁ G₂ G₃ : UMultigraph V} {ps qs : List (Sym2 V)} (h₁ : Y2Path G₁ ps G₂)
-    (h₂ : Y2Path G₂ qs G₃) : Y2Path G₁ (ps ++ qs) G₃ := by
-  induction h₁ with
-  | nil => exact h₂
-  | cons hp _ ih => exact .cons hp (ih h₂)
-
-theorem Y2Path.single {G : UMultigraph V} {a b c d : V} (hp : IsY2Pair G a b c d) :
-    Y2Path G [s(a, b)] (y2Move G a b c d) := .cons hp (.nil _)
-
 theorem exists_y2Path_of_reflTransGen {G G' : UMultigraph V} (h : Relation.ReflTransGen Y2Step G G') :
     ∃ ps, Y2Path G ps G' := by
   induction h using Relation.ReflTransGen.head_induction_on with
@@ -124,27 +115,6 @@ theorem exists_y2Path_of_reflTransGen {G G' : UMultigraph V} (h : Relation.ReflT
     obtain ⟨ps, hps⟩ := ih
     obtain ⟨a, b, c, d, hp, rfl⟩ := y2Step_iff.mp hs
     exact ⟨s(a, b) :: ps, .cons hp hps⟩
-
-theorem reflTransGen_iff_y2Path {G G' : UMultigraph V} :
-    Relation.ReflTransGen Y2Step G G' ↔ ∃ ps, Y2Path G ps G' :=
-  ⟨exists_y2Path_of_reflTransGen, fun ⟨_, h⟩ => h.reflTransGen⟩
-
-/-- Each move removes two atoms. -/
-theorem Y2Path.card_verts {G G' : UMultigraph V} {ps : List (Sym2 V)} (h : Y2Path G ps G') :
-    G'.verts.card + 2 * ps.length = G.verts.card := by
-  induction h with
-  | nil => simp
-  | @cons G G' a b c d ps hp _ ih =>
-    rw [y2Move_verts hp] at ih
-    have ha := hp.a_mem
-    have hb : b ∈ G.verts.erase a := Finset.mem_erase.mpr ⟨hp.1.symm, hp.b_mem⟩
-    rw [Finset.card_erase_of_mem hb, Finset.card_erase_of_mem ha] at ih
-    have : 2 ≤ G.verts.card := by
-      have := Finset.card_erase_add_one ha
-      have := Finset.card_erase_add_one hb
-      omega
-    simp only [List.length_cons]
-    omega
 
 /-- `C` reaches a doubled triangle along the path `ps`. -/
 def Y2PathToT (C : UMultigraph V) (ps : List (Sym2 V)) : Prop :=

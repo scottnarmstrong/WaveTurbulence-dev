@@ -71,11 +71,6 @@ theorem frame_ncp (Q : RegCpl) {x y : GNode (frameGarden Q).tree} {u v : Fin 2 �
   · exact not_cp_of ⟨u, (frame_outer_leaf Q huv).2⟩ h1 (by rw [frame_outer_pair' Q huv]; exact h2)
       (by rw [frame_outer_pair' Q huv]; exact h3)
 
-theorem frameAddrLayer_outer (LQ : LayeredGarden 2) (p q q' : ℕ) {z : Fin 2 × Path} (hz : ¬ [0, 0] <+: z.2) :
-    frameAddrLayer LQ p q q' z = outerLayer p q q' z := by
-  unfold frameAddrLayer
-  rw [ite_eq_right hz]
-
 section Canon
 
 variable {Q : RegCpl} {LQ : LayeredGarden 2} (hQ : Q.Decodes LQ.garden) {p q q' : ℕ} (hqq : q' ≤ q)

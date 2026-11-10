@@ -509,9 +509,4 @@ theorem tvineChart_of_inputs (hPS : PieceShapeInput) (hL : LayervineInput) (hA :
     TVineChartStatement :=
   tvineChart_of_decomp (decompExists_of_inputs hPS hL hA)
 
-/-- **The `𝒱_γ` chart contract** from the piece structure. -/
-theorem vineGammaChart_of_inputs (hPS : PieceShapeInput) (hL : LayervineInput) (hA : AttachInput) :
-    VineGammaChartStatement :=
-  vineGammaChart_of_decomp (decompExists_of_inputs hPS hL hA)
-
 end WaveTurbulence.TVine.Chart

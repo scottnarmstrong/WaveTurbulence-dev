@@ -18,8 +18,6 @@ variable {kind : Bool}
 open TTree Reg Reg.Skeleton Twist Links RegRed WaveTurbulence.LFTwist WaveTurbulence.VineEstS4
   WaveTurbulence.VineEstS5C WaveTurbulence.VineEstS5B WaveTurbulence.Stage1 WaveTurbulence.LGSpine WaveTurbulence.ConjCoh
 
-theorem conjLayered_order (L : LayeredGarden 1) : (conjLayered L (Equiv.refl (Fin 1))).garden.order = L.garden.order := rfl
-
 variable {w : ℕ} {ι : Type*} {p : ℕ} {pstar : ι}
 variable (A : FamilyReconstruction w ι)
   (hcan : CanonicalObject p kind A.layered)

@@ -195,31 +195,4 @@ theorem part2Body_of_X2 {Pm : ℕ} {P : WTParams} (hX2 : X2Body.{u} Pm P) (hPm :
         _ ≤ ENNReal.ofReal (Real.exp (2 * N)) * ZNorm P.L Λ c := by
             gcongr
 
-/-- **`WTPrefixP X2Body → WTPrefix Part2Body`**: `Pm` is chosen as `max(P₀, 100(d+1)²)`. -/
-theorem part2_of_X2 (h : WTPrefixP X2Body.{u}) : WTPrefix Part2Body.{u} := by
-  intro d hd γ hγ
-  obtain ⟨η₀, hη₀, H⟩ := h d hd γ hγ
-  refine ⟨η₀, hη₀, fun η hη φin hφ τ hτ φ hW => ?_⟩
-  obtain ⟨C₁, hC₁, ν₀, hν₀, H⟩ := H η hη φin hφ τ hτ φ hW
-  refine ⟨C₁, hC₁, ν₀, hν₀, fun ν hν => ?_⟩
-  obtain ⟨P₀, H⟩ := H ν hν
-  set Pm := max P₀ (100 * (d + 1) ^ 2)
-  have hPm : 100 * ((d : ℝ) + 1) ^ 2 ≤ Pm := by
-    have : 100 * (d + 1) ^ 2 ≤ Pm := le_max_right _ _
-    exact_mod_cast this
-  obtain ⟨δ₀, hδ₀, H⟩ := H Pm (le_max_left _ _)
-  refine ⟨δ₀, hδ₀, fun δ hδ D hD hτD => ?_⟩
-  obtain ⟨C₂, hC₂, L₀, hL₀, H⟩ := H δ hδ D hD hτD
-  obtain ⟨L₁, hL₁, H1⟩ := exists_L0_part2 d D Pm (by omega) hPm
-  refine ⟨C₂, hC₂, max L₀ L₁, hL₀.trans (le_max_left _ _), fun L hL => ?_⟩
-  exact part2Body_of_X2 (H L ((le_max_left _ _).trans hL)) hPm hd (hL₁.trans ((le_max_right _ _).trans hL))
-    fun p hp kind => H1 _ rfl rfl ((le_max_right _ _).trans hL) p hp kind
-
-/-- **B1.3 `fixedpoint`** (snapshot 5, T L780–L794), from:
-- B1.12 (snapshot 6), B1.2 `layergarden`, B1.5 `wkeTaylor`;
-- the named obligations O-X2-EXP and O-X3-CPL. -/
-theorem fixedpoint_of_gates (hG : LayergardenFlowerGate) (hE : OX2Exp.{u}) (hL : Gates.LayergardenGate)
-    (hW : Gates.WkeTaylorGate) (hC : OX3Cpl.{u}) : Gates.FixedpointGate.{u} :=
-  fixedpoint_of_gates_part2 hG hL hW hC (part2_of_X2 (flowerest1_of_gates hG hE))
-
 end WaveTurbulence.Fixedpt

@@ -6,7 +6,8 @@ Authors: Scott Armstrong
 module
 
 public import WaveTurbulence.Foundations.WKEL2.JetDistribution
-public import WaveTurbulence.Foundations.WKEL2.JetEstimates
+public import WaveTurbulence.Foundations.WKEL2.WeightedSobolevCoordinates
+public import WaveTurbulence.Foundations.WKEL2.Trilinear
 
 /-!
 # Uniform finite-jet collision bounds

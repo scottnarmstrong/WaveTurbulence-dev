@@ -82,17 +82,6 @@ theorem deg_smooth {G : UMultigraph V} {j n n' : V} (hl : G.mult s(j, j) = 0) (h
     ← Finset.add_sum_erase _ _ hjV, ← hS, Sym2.eq_swap (a := v) (b := j), mult_of_nbrs_eq hnb hvj, ← hind]
   ring
 
-theorem loopless_smooth {G : UMultigraph V} {j n n' : V} (hl : G.Loopless) (hnn : n ≠ n') :
-    (smooth G j n n').Loopless := by
-  intro v
-  rw [smooth_mult, hl, zero_add]
-  split_ifs with h1 h2
-  · rfl
-  · exfalso; rcases Sym2.eq_iff.mp h2 with ⟨h3, h4⟩ | ⟨h3, h4⟩
-    · exact hnn (h3.symm.trans h4)
-    · exact hnn (h4.symm.trans h3)
-  · rfl
-
 theorem loopless_y2Move {H : UMultigraph V} {a b c d : V} (hP : IsY2Pair H a b c d) (hl : H.Loopless) :
     (y2Move H a b c d).Loopless := by
   intro v
