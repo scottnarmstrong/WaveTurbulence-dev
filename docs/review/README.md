@@ -12,4 +12,3 @@ in the git history at the commits cited.
 | [`ESCALATION-F69b.md`](ESCALATION-F69b.md) | how to proceed once DH23 Prop 9.6 was found false for 0 < γ ≤ 1/2 (erratum E1) | D9 |
 | [`GAMMA-HALF-SUCCESSORS.md`](GAMMA-HALF-SUCCESSORS.md) | freeze the versions restricted to 1/2 < γ < 1 | D10 |
 | [`GAMMA-LE-HALF-VINES.md`](GAMMA-LE-HALF-VINES.md) | approve the enlarged vine family (T-vines) for 0 < γ ≤ 1/2 | D11 |
-| [`LETTER-DENG-HANI-DRAFT.md`](LETTER-DENG-HANI-DRAFT.md) | a draft letter to the authors about erratum E1, prepared on 2026-11-04, before the repair existed | D9 |

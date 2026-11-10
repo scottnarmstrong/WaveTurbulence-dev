@@ -486,7 +486,7 @@ When E1 was found, the project owner decided (2026-11-04; `docs/DECISIONS.md` D9
   successors of the frozen statements: `main_v2` and the affected intermediate statements (see Deviations, A and C).
   The full-range originals stayed frozen.
 - **Research the repair** for γ ≤ 1/2 separately.
-- **Write to the authors.** A letter was drafted (`docs/review/LETTER-DENG-HANI-DRAFT.md`).
+- **Contact the authors.** The authors are to be contacted about this erratum.
 
 The restricted chain was proved first (`main_v2`, sealed and audited on 2026-11-09). The repair below then gave the
 full range, and the original statements were proved as printed (D16, D17).

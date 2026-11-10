@@ -459,7 +459,7 @@ So **no route avoids T-blocks**, other than option 6.
 - The B2 `VineType.template` API (YLEM1: 78 of 382 scratch files use it) would need a predicate-based successor.
 - The formal `main` could then be widened from (1/2, 1) back to (0, 1) by a further versioned successor.
 
-**What to ask Deng and Hani.** Draft questions for `docs/review/LETTER-DENG-HANI-DRAFT.md`:
+**What to ask Deng and Hani.** Questions for contacting the authors about erratum E1:
 1. Do you agree that DH23 Def 5.1 / Fig. Vines (and TARGET Def `defvine`) should list all blocks whose closure
    (Y)-reduces to Q or T, which is your L586 description? The list then includes the zero- and one-sequence cases:
    - the 5-atom T-beads (cores (C)/(B)/(D) with the joints attached directly);

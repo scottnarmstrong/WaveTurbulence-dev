@@ -13,7 +13,9 @@ No Lean code from the project's working directories is copied here. Lean checks 
 ## Copied for the errata list (2026-11-07)
 
 Source paths are relative to the project's scratch directory `/home/scott/wt-scratch/`. Each copy is byte-identical
-to its source at copy time (sha256 below).
+to its source at copy time (sha256 below), except one line of `gamma-le-half-repair-1-notes.md` (the heading of "What
+to ask Deng and Hani"), re-worded in November 2026 because it referred to a file that is no longer in the
+repository.
 
 | File | Source | sha256 | Entry |
 |---|---|---|---|
